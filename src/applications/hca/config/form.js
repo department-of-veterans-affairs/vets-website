@@ -18,7 +18,7 @@ import GetFormHelp from '../components/GetFormHelp';
 import ErrorMessage from '../components/ErrorMessage';
 import DowntimeMessage from '../components/DowntimeMessage';
 import IntroductionPage from '../containers/IntroductionPage';
-import { prefillTransformer, transform } from '../helpers';
+import { prefillTransformer, transform, HIGH_DISABILITY } from '../helpers';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { createDependentSchema } from '../definitions/dependent';
 
@@ -73,12 +73,18 @@ const {
   ssn,
 } = fullSchemaHca.definitions;
 
-const notIsHighDisability = formData =>
-  formData.vaCompensationType !== 'highDisability';
-
-const notIsHighDisabilityAndNotIsUserInMvi = formData =>
+// For which page should be shown on short form
+// based on user disability rating >= 50 or user self directed compensation type = high
+const notHighDisability = formData =>
   formData.vaCompensationType !== 'highDisability' &&
-  !formData['view:isUserInMvi'];
+  (!formData['view:totalDisabilityRating'] ||
+    formData['view:totalDisabilityRating'] < HIGH_DISABILITY);
+
+const notHighDisabilityAndNotInMvi = formData =>
+  formData.vaCompensationType !== 'highDisability' &&
+  !formData['view:isUserInMvi'] &&
+  (!formData['view:totalDisabilityRating'] ||
+    formData['view:totalDisabilityRating'] < HIGH_DISABILITY);
 
 const isHighDisability = formData =>
   formData.vaCompensationType === 'highDisability';
@@ -258,6 +264,9 @@ const formConfig = {
         vaBenefits: {
           path: 'va-benefits/basic-information',
           title: 'VA benefits',
+          depends: formData =>
+            !formData['view:totalDisabilityRating'] ||
+            formData['view:totalDisabilityRating'] < HIGH_DISABILITY,
           uiSchema: basicInformation.uiSchema,
           schema: basicInformation.schema,
         },
@@ -289,21 +298,21 @@ const formConfig = {
         serviceInformation: {
           path: 'military-service/service-information',
           title: 'Service periods',
-          depends: notIsHighDisability,
+          depends: notHighDisability,
           uiSchema: serviceInformation.uiSchema,
           schema: serviceInformation.schema,
         },
         additionalInformation: {
           path: 'military-service/additional-information',
           title: 'Service history',
-          depends: notIsHighDisability,
+          depends: notHighDisability,
           uiSchema: additionalInformation.uiSchema,
           schema: additionalInformation.schema,
         },
         documentUpload: {
           title: 'Upload your discharge papers',
           path: 'military-service/documents',
-          depends: notIsHighDisabilityAndNotIsUserInMvi,
+          depends: notHighDisabilityAndNotInMvi,
           editModeOnReviewPage: true,
           uiSchema: documentUpload.uiSchema,
           schema: documentUpload.schema,
@@ -316,14 +325,14 @@ const formConfig = {
         financialDisclosure: {
           path: 'household-information/financial-disclosure',
           title: 'Financial disclosure',
-          depends: notIsHighDisability,
+          depends: notHighDisability,
           uiSchema: financialDisclosure.uiSchema,
           schema: financialDisclosure.schema,
         },
         maritalStatus: {
           path: 'household-information/marital-status',
           title: 'Marital status information',
-          depends: notIsHighDisability,
+          depends: notHighDisability,
           initialData: {},
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
@@ -377,7 +386,7 @@ const formConfig = {
         medicare: {
           path: 'insurance-information/medicare',
           title: 'Medicare coverage',
-          depends: notIsHighDisability,
+          depends: notHighDisability,
           initialData: {},
           uiSchema: medicare.uiSchema,
           schema: medicare.schema,

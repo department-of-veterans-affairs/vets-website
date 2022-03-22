@@ -3,15 +3,34 @@ import merge from 'lodash/merge';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-import { AddressDescription } from '../../../components/ContentComponents';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
 
+import { AddressDescription } from '../../../components/ContentComponents';
+
+import {
+  shortFormMessage,
+  HIGH_DISABILITY,
+  emptyObjectSchema,
+} from '../../../helpers';
+
 export default {
   uiSchema: {
-    'ui:description': PrefillMessage,
+    'view:shortFormMessage': {
+      'ui:description': shortFormMessage,
+      'ui:options': {
+        hideIf: form =>
+          !(
+            form['view:totalDisabilityRating'] &&
+            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
+          ),
+      },
+    },
+    'view:PrefillMessage': {
+      'ui:description': PrefillMessage,
+    },
     veteranAddress: merge({}, addressUI('Mailing address', true), {
       'ui:description': <AddressDescription addressType="mailing" />,
       street: {
@@ -36,6 +55,8 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      'view:shortFormMessage': emptyObjectSchema,
+      'view:PrefillMessage': emptyObjectSchema,
       veteranAddress: merge({}, addressSchema(fullSchemaHca, true), {
         properties: {
           street: {

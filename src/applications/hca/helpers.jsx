@@ -25,6 +25,8 @@ export {
   medicalCenterLabels,
 } from 'platform/utilities/medical-centers/medical-centers';
 
+export const HIGH_DISABILITY = 50;
+
 // clean address so we only get address related properties then return the object
 const cleanAddressObject = address => {
   if (!address) return null;
@@ -610,6 +612,10 @@ export const shortFormAlert = (
     </va-alert>
   </div>
 );
+export const emptyObjectSchema = {
+  type: 'object',
+  properties: {},
+};
 
 export const idFormSchema = {
   type: 'object',

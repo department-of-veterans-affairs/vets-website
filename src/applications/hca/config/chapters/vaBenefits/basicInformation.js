@@ -2,6 +2,7 @@ import React from 'react';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import CustomReviewField from '../../../components/CustomReviewField';
+import { emptyObjectSchema } from '../../../helpers';
 
 const { vaCompensationType } = fullSchemaHca.properties;
 
@@ -63,10 +64,7 @@ export default {
     type: 'object',
     required: ['vaCompensationType'],
     properties: {
-      'view:compDesc': {
-        type: 'object',
-        properties: {},
-      },
+      'view:compDesc': emptyObjectSchema,
       vaCompensationType,
     },
   },

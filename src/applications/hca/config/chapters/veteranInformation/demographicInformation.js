@@ -14,6 +14,12 @@ const {
   hasDemographicNoAnswer,
 } = fullSchemaHca.properties;
 
+import {
+  shortFormMessage,
+  HIGH_DISABILITY,
+  emptyObjectSchema,
+} from '../../../helpers';
+
 const DemographicInfoDescription = props => {
   return (
     <>
@@ -35,7 +41,19 @@ const DemographicInfoDescription = props => {
 
 export default {
   uiSchema: {
-    'ui:description': DemographicInfoDescription,
+    'view:shortFormMessage': {
+      'ui:description': shortFormMessage,
+      'ui:options': {
+        hideIf: form =>
+          !(
+            form['view:totalDisabilityRating'] &&
+            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
+          ),
+      },
+    },
+    'view:PrefillMessage': {
+      'ui:description': DemographicInfoDescription,
+    },
     'view:demographicCategories': {
       'ui:field': DemographicField,
       'ui:title': ' ',
@@ -65,6 +83,8 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      'view:shortFormMessage': emptyObjectSchema,
+      'view:PrefillMessage': emptyObjectSchema,
       'view:demographicCategories': {
         type: 'object',
         required: [],

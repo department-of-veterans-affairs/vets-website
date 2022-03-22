@@ -4,6 +4,12 @@ import React from 'react';
 
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
+import {
+  shortFormMessage,
+  HIGH_DISABILITY,
+  emptyObjectSchema,
+} from '../../../helpers';
+
 const { sigiIsAmericanIndian } = fullSchemaHca.properties;
 
 const Description = props => {
@@ -93,7 +99,19 @@ const Description = props => {
 
 export default {
   uiSchema: {
-    'ui:description': Description,
+    'view:shortFormMessage': {
+      'ui:description': shortFormMessage,
+      'ui:options': {
+        hideIf: form =>
+          !(
+            form['view:totalDisabilityRating'] &&
+            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
+          ),
+      },
+    },
+    'view:PrefillMessage': {
+      'ui:description': Description,
+    },
     sigiIsAmericanIndian: {
       'ui:title':
         'Are you recognized as an American Indian or Alaska Native by any tribal, state, or federal law or regulation?',
@@ -104,6 +122,8 @@ export default {
     type: 'object',
     required: ['sigiIsAmericanIndian'],
     properties: {
+      'view:shortFormMessage': emptyObjectSchema,
+      'view:PrefillMessage': emptyObjectSchema,
       sigiIsAmericanIndian,
     },
   },

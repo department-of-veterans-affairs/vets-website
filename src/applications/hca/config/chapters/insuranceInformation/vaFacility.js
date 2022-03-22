@@ -10,6 +10,8 @@ import {
   medicalCenterLabels,
   medicalCentersByState,
   shortFormMessage,
+  HIGH_DISABILITY,
+  emptyObjectSchema,
 } from '../../../helpers';
 
 const {
@@ -21,10 +23,6 @@ const {
 const stateLabels = createUSAStateLabels(states);
 
 const emptyFacilityList = [];
-const emptyObjectSchema = {
-  type: 'object',
-  properties: {},
-};
 
 export default {
   uiSchema: {
@@ -32,7 +30,12 @@ export default {
     'view:shortFormMessage': {
       'ui:description': shortFormMessage,
       'ui:options': {
-        hideIf: form => form.vaCompensationType !== 'highDisability',
+        hideIf: form =>
+          form.vaCompensationType !== 'highDisability' &&
+          !(
+            form['view:totalDisabilityRating'] &&
+            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
+          ),
       },
     },
     isEssentialAcaCoverage: {

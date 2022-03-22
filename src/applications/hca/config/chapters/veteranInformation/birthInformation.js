@@ -5,12 +5,28 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 
+import {
+  shortFormMessage,
+  HIGH_DISABILITY,
+  emptyObjectSchema,
+} from '../../../helpers';
+
 const { cityOfBirth } = fullSchemaHca.properties;
 
 const stateLabels = createUSAStateLabels(states);
 
 export default {
   uiSchema: {
+    'view:shortFormMessage': {
+      'ui:description': shortFormMessage,
+      'ui:options': {
+        hideIf: form =>
+          !(
+            form['view:totalDisabilityRating'] &&
+            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
+          ),
+      },
+    },
     'view:applicationDescription': {
       'ui:options': {
         hideIf: () => !hasSession(),
@@ -37,12 +53,9 @@ export default {
   },
   schema: {
     type: 'object',
-
     properties: {
-      'view:applicationDescription': {
-        type: 'object',
-        properties: {},
-      },
+      'view:shortFormMessage': emptyObjectSchema,
+      'view:applicationDescription': emptyObjectSchema,
       'view:placeOfBirth': {
         type: 'object',
         properties: {
