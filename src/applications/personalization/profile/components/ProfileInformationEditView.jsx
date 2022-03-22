@@ -2,12 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import recordEvent from '~/platform/monitoring/record-event';
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-import { focusElement } from '~/platform/utilities/ui';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
-import CopyAddressModal from '@@profile/components/contact-information/addresses/CopyAddressModal';
 
 import {
   createTransaction,
@@ -20,7 +16,6 @@ import {
 
 import * as VAP_SERVICE from '@@vap-svc/constants';
 import { ACTIVE_EDIT_VIEWS, FIELD_NAMES, USA } from '@@vap-svc/constants';
-import { areAddressesEqual } from '@@vap-svc/util';
 
 import {
   isFailedTransaction,
@@ -39,57 +34,45 @@ import {
   selectEditViewData,
 } from '@@vap-svc/selectors';
 
-import { profileShowAddressChangeModal } from '@@profile/selectors';
-
 import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
+import { focusElement } from '~/platform/utilities/ui';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import recordEvent from '~/platform/monitoring/record-event';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
+const propTypes = {
+  analyticsSectionName: PropTypes.oneOf(
+    Object.values(VAP_SERVICE.ANALYTICS_FIELD_MAP),
+  ).isRequired,
+  apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
+  clearTransactionRequest: PropTypes.func.isRequired,
+  convertCleanDataToPayload: PropTypes.func.isRequired,
+  createTransaction: PropTypes.func.isRequired,
+  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
+  formSchema: PropTypes.object.isRequired,
+  getInitialFormValues: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
+  refreshTransaction: PropTypes.func.isRequired,
+  uiSchema: PropTypes.object.isRequired,
+  updateFormFieldWithSchema: PropTypes.func.isRequired,
+  validateAddress: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  activeEditView: PropTypes.string,
+  data: PropTypes.object,
+  editViewData: PropTypes.object,
+  field: PropTypes.shape({
+    value: PropTypes.object,
+    validations: PropTypes.object,
+    formSchema: PropTypes.object,
+    uiSchema: PropTypes.object,
+  }),
+  title: PropTypes.string,
+  transaction: PropTypes.object,
+  transactionRequest: PropTypes.object,
+};
+
 export class ProfileInformationEditView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isShowingCopyAddressModal: false,
-    };
-  }
-  static propTypes = {
-    activeEditView: PropTypes.string,
-    analyticsSectionName: PropTypes.oneOf(
-      Object.values(VAP_SERVICE.ANALYTICS_FIELD_MAP),
-    ).isRequired,
-    apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
-    clearTransactionRequest: PropTypes.func.isRequired,
-    convertCleanDataToPayload: PropTypes.func.isRequired,
-    createTransaction: PropTypes.func.isRequired,
-    data: PropTypes.object,
-    editViewData: PropTypes.object,
-    field: PropTypes.shape({
-      value: PropTypes.object,
-      validations: PropTypes.object,
-    }),
-    fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES))
-      .isRequired,
-    formSchema: PropTypes.object.isRequired,
-    getInitialFormValues: PropTypes.func.isRequired,
-    onCancel: PropTypes.func.isRequired,
-    refreshTransaction: PropTypes.func.isRequired,
-    title: PropTypes.string,
-    transaction: PropTypes.object,
-    transactionRequest: PropTypes.object,
-    uiSchema: PropTypes.object.isRequired,
-    updateFormFieldWithSchema: PropTypes.func.isRequired,
-    validateAddress: PropTypes.func.isRequired,
-  };
-
-  focusOnFirstFormElement() {
-    const focusableElement = this.editForm?.querySelector(
-      'button, input, select, a, textarea',
-    );
-    if (focusableElement) {
-      focusableElement.focus();
-    }
-  }
-
   componentDidMount() {
     const { getInitialFormValues } = this.props;
     this.onChangeFormDataAndSchemas(
@@ -157,13 +140,14 @@ export class ProfileInformationEditView extends Component {
     }
   }
 
-  captureEvent(actionName) {
-    recordEvent({
-      event: 'profile-navigation',
-      'profile-action': actionName,
-      'profile-section': this.props.analyticsSectionName,
-    });
-  }
+  copyMailingAddress = mailingAddress => {
+    const newAddressValue = { ...this.props.field.value, ...mailingAddress };
+    this.onChangeFormDataAndSchemas(
+      transformInitialFormValues(newAddressValue),
+      this.props.field.formSchema,
+      this.props.field.uiSchema,
+    );
+  };
 
   refreshTransaction = () => {
     this.props.refreshTransaction(
@@ -241,43 +225,26 @@ export class ProfileInformationEditView extends Component {
     );
   };
 
-  copyMailingAddress = mailingAddress => {
-    const newAddressValue = { ...this.props.field.value, ...mailingAddress };
-    this.onChangeFormDataAndSchemas(
-      transformInitialFormValues(newAddressValue),
-      this.props.field.formSchema,
-      this.props.field.uiSchema,
-    );
-  };
-
-  compareAddresses = data => {
-    const {
-      field,
-      mailingAddress,
-      shouldProfileShowAddressChangeModal,
-    } = this.props;
-
-    if (
-      shouldProfileShowAddressChangeModal &&
-      !areAddressesEqual(mailingAddress, field.value)
-    ) {
-      this.setState({ isShowingCopyAddressModal: true });
-      return;
-    }
-
-    this.onSubmit(data);
-  };
-
-  toggleCopyAddressModal = () => {
-    this.setState({
-      isShowingCopyAddressModal: !this.state.isShowingCopyAddressModal,
+  captureEvent(actionName) {
+    recordEvent({
+      event: 'profile-navigation',
+      'profile-action': actionName,
+      'profile-section': this.props.analyticsSectionName,
     });
-  };
+  }
+
+  focusOnFirstFormElement() {
+    const focusableElement = this.editForm?.querySelector(
+      'button, input, select, a, textarea',
+    );
+    if (focusableElement) {
+      focusableElement.focus();
+    }
+  }
 
   render() {
     const {
       onSubmit,
-      compareAddresses,
       props: {
         analyticsSectionName,
         field,
@@ -286,8 +253,6 @@ export class ProfileInformationEditView extends Component {
         title,
         transaction,
         transactionRequest,
-        shouldProfileShowAddressChangeModal,
-        mailingAddress,
       },
     } = this;
 
@@ -307,19 +272,6 @@ export class ProfileInformationEditView extends Component {
               this.editForm = el;
             }}
           >
-            {shouldProfileShowAddressChangeModal &&
-              isResidentialAddress &&
-              this.state.isShowingCopyAddressModal && (
-                <CopyAddressModal
-                  optionalUpdateAddressType="mailing"
-                  addressToUpdate={mailingAddress}
-                  mainAddress={field.value}
-                  isVisible={this.state.isShowingCopyAddressModal}
-                  onYes={this.toggleCopyAddressModal}
-                  onNo={this.toggleCopyAddressModal}
-                  onClose={this.toggleCopyAddressModal}
-                />
-              )}
             {isResidentialAddress && (
               <CopyMailingAddress
                 copyMailingAddress={this.copyMailingAddress}
@@ -338,11 +290,7 @@ export class ProfileInformationEditView extends Component {
               onChange={event =>
                 this.onInput(event, field.formSchema, field.uiSchema)
               }
-              onSubmit={
-                isResidentialAddress && shouldProfileShowAddressChangeModal
-                  ? compareAddresses
-                  : onSubmit
-              }
+              onSubmit={onSubmit}
             >
               {error && (
                 <div
@@ -390,6 +338,8 @@ export class ProfileInformationEditView extends Component {
   }
 }
 
+ProfileInformationEditView.propTypes = propTypes;
+
 export const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
   const { transaction, transactionRequest } = selectVAPServiceTransaction(
@@ -424,9 +374,7 @@ export const mapStateToProps = (state, ownProps) => {
     transaction,
     transactionRequest,
     editViewData: selectEditViewData(state),
-    shouldProfileShowAddressChangeModal: profileShowAddressChangeModal(state),
     emptyMailingAddress: isEmptyAddress(mailingAddress),
-    mailingAddress,
   };
 };
 
