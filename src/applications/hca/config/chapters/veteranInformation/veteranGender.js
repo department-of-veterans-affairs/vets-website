@@ -12,11 +12,9 @@ import {
 
 const { sigiGenders } = fullSchemaHca.properties;
 
-const SIGIGenderDescription = props => {
+const SIGIGenderDescription = () => {
   return (
     <div className="vads-u-margin-bottom--4">
-      <PrefillMessage {...props} />
-
       <div>
         <p className="vads-u-margin-bottom--1">What is your gender?</p>
 
@@ -56,7 +54,10 @@ export default {
           ),
       },
     },
-    'view:PrefillMessage': {
+    'view:prefillMessage': {
+      'ui:description': PrefillMessage,
+    },
+    'view:sigiDescription': {
       'ui:description': SIGIGenderDescription,
     },
     sigiGenders: {
@@ -81,7 +82,8 @@ export default {
     required: [],
     properties: {
       'view:shortFormMessage': emptyObjectSchema,
-      'view:PrefillMessage': emptyObjectSchema,
+      'view:prefillMessage': emptyObjectSchema,
+      'view:sigiDescription': emptyObjectSchema,
       sigiGenders,
     },
   },

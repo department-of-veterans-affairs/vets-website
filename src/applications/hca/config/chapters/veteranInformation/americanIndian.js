@@ -12,11 +12,9 @@ import {
 
 const { sigiIsAmericanIndian } = fullSchemaHca.properties;
 
-const Description = props => {
+const Description = () => {
   return (
     <>
-      <PrefillMessage {...props} />
-
       <p>
         If you’re recognized as an American Indian or Alaska Native, you may not
         need to pay a copay for care or services.
@@ -109,7 +107,10 @@ export default {
           ),
       },
     },
-    'view:PrefillMessage': {
+    'view:prefillMessage': {
+      'ui:description': PrefillMessage,
+    },
+    'view:aiqDescription': {
       'ui:description': Description,
     },
     sigiIsAmericanIndian: {
@@ -123,7 +124,8 @@ export default {
     required: ['sigiIsAmericanIndian'],
     properties: {
       'view:shortFormMessage': emptyObjectSchema,
-      'view:PrefillMessage': emptyObjectSchema,
+      'view:prefillMessage': emptyObjectSchema,
+      'view:aiqDescription': emptyObjectSchema,
       sigiIsAmericanIndian,
     },
   },

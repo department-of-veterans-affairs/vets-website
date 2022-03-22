@@ -55,7 +55,7 @@ export default {
           ),
       },
     },
-    'view:PrefillMessage': {
+    'view:prefillMessage': {
       'ui:description': PrefillMessage,
     },
     gender: {
@@ -73,7 +73,7 @@ export default {
     required: ['gender'],
     properties: {
       'view:shortFormMessage': emptyObjectSchema,
-      'view:PrefillMessage': emptyObjectSchema,
+      'view:prefillMessage': emptyObjectSchema,
       gender,
     },
   },

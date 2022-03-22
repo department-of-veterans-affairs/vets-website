@@ -25,7 +25,7 @@ export default {
           ),
       },
     },
-    'view:PrefillMessage': {
+    'view:prefillMessage': {
       'ui:description': PrefillMessage,
     },
     'ui:validations': [validateMatch('email', 'view:emailConfirmation')],
@@ -38,7 +38,7 @@ export default {
     type: 'object',
     properties: {
       'view:shortFormMessage': emptyObjectSchema,
-      'view:PrefillMessage': emptyObjectSchema,
+      'view:prefillMessage': emptyObjectSchema,
       email,
       'view:emailConfirmation': email,
       homePhone: phone,

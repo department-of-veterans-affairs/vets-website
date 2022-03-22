@@ -20,11 +20,9 @@ import {
   emptyObjectSchema,
 } from '../../../helpers';
 
-const DemographicInfoDescription = props => {
+const DemographicInfoDescription = () => {
   return (
     <>
-      <PrefillMessage {...props} />
-
       <div>
         <p className="vads-u-margin-bottom--1">
           What is your race, ethnicity, or origin? (Please check all that
@@ -51,7 +49,10 @@ export default {
           ),
       },
     },
-    'view:PrefillMessage': {
+    'view:prefillMessage': {
+      'ui:description': PrefillMessage,
+    },
+    'view:demographicDescription': {
       'ui:description': DemographicInfoDescription,
     },
     'view:demographicCategories': {
@@ -84,7 +85,8 @@ export default {
     type: 'object',
     properties: {
       'view:shortFormMessage': emptyObjectSchema,
-      'view:PrefillMessage': emptyObjectSchema,
+      'view:prefillMessage': emptyObjectSchema,
+      'view:demographicDescription': emptyObjectSchema,
       'view:demographicCategories': {
         type: 'object',
         required: [],

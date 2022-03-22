@@ -28,7 +28,7 @@ export default {
           ),
       },
     },
-    'view:PrefillMessage': {
+    'view:prefillMessage': {
       'ui:description': PrefillMessage,
     },
     veteranHomeAddress: merge({}, addressUI('Home address', true), {
@@ -55,7 +55,7 @@ export default {
     type: 'object',
     properties: {
       'view:shortFormMessage': emptyObjectSchema,
-      'view:PrefillMessage': emptyObjectSchema,
+      'view:prefillMessage': emptyObjectSchema,
       veteranHomeAddress: merge({}, addressSchema(fullSchemaHca, true), {
         properties: {
           street: {
