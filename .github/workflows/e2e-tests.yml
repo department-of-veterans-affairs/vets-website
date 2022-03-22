@@ -456,42 +456,15 @@ jobs:
       # | Publish Cypress E2E Testing Report |
       # --------------------------------------
 
-      - name: Download Cypress E2E Mochawesome test results
+      - name: Download Code Coverage test results
         uses: actions/download-artifact@v3
         with:
-          name: code-coverage-results
+          name: code-coverage-artifacts
           path: testing-tools-team-dashboard-data/src/testing-reports/data
 
-      - name: Create Cypress E2E report and post results to BigQuery
+      - name: Push code coverage results to BigQuery
         run: yarn code-coverage-to-bigquery
         working-directory: testing-tools-team-dashboard-data
-        # env:
-        #   IS_MASTER_BUILD: true
-        #   TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
-        #   TEST_RESULTS_TABLE_NAME: cypress_test_results
-        #   TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
-        #   TEST_RETRIES_TABLE_NAME: cypress_retry_records
-
-      # - name: Upload Cypress E2E test videos to s3
-      #   if: ${{ needs.cypress-tests.result == 'failure' }}
-      #   run: aws s3 cp testing-tools-team-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
-
-      # - name: Upload Cypress E2E test report to s3
-      #   run: aws s3 cp testing-tools-team-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
-
-      # -------------------------
-      # | Cypress Tests Summary |
-      # -------------------------
-
-      - name: Publish Code coverage test results
-        if: ${{ always() }}
-        uses: LouisBrunner/checks-action@v1.2.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: Code Coverage Summary
-          conclusion: ${{ needs.cypress-tests.result }}
-          output: |
-            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
 
   notify-failure:
