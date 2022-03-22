@@ -141,7 +141,12 @@ const responses = {
   },
   // v2
   'GET /check_in/v2/sessions/:uuid': (req, res) => {
-    return res.json(sessions.get.createMockSuccessResponse(req.params));
+    return res.json(
+      sessions.get.createMockSuccessResponse({
+        ...req.params,
+        permissions: 'read.full',
+      }),
+    );
   },
   'POST /check_in/v2/sessions': (req, res) => {
     const { last4, lastName } = req.body?.session || {};

@@ -18,6 +18,10 @@ function BackToHome() {
       <a data-testid="back-to-home-button" href={restartURL}>
         Start again
       </a>
+      |
+      <a href="http://localhost:3001/health-care/appointment-pre-check-in/contact-information?id=46bebc0a-b99c-464f-a5c5-560bc9eae287&title=Home%20phone&key=homePhone&originatingUrl=contact-information&editingPage=demographics#edit--homePhone">
+        Edit test link
+      </a>
     </div>
   );
 }

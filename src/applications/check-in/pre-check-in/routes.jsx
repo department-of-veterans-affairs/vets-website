@@ -14,8 +14,9 @@ import ErrorTest from './pages/ErrorTest';
 import { URLS } from '../utils/navigation';
 
 import withFeatureFlip from '../containers/withFeatureFlip';
-import withAuthorization from '../containers/withAuthorization';
-import withForm from '../containers/withForm';
+// import withAuthorization from '../containers/withAuthorization';
+// import withForm from '../containers/withForm';
+import withSession from '../containers/withSession';
 
 import ErrorBoundary from '../components/errors/ErrorBoundary';
 
@@ -130,13 +131,14 @@ const createRoutesWithStore = () => {
           /* eslint-disable react/jsx-props-no-spreading */
         );
         if (route.permissions) {
-          const { requiresForm, requireAuthorization } = route.permissions;
-          if (requiresForm) {
-            component = withForm(component, options);
-          }
-          if (requireAuthorization) {
-            component = withAuthorization(component, options);
-          }
+          // const { requiresForm, requireAuthorization } = route.permissions;
+          // if (requiresForm) {
+          //   component = withForm(component, options);
+          // }
+          // if (requireAuthorization) {
+          //   component = withAuthorization(component, options);
+          // }
+          component = withSession(component, options);
         }
 
         return (
