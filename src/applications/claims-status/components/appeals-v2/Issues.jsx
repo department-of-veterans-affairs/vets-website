@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CollapsiblePanel from '@department-of-veterans-affairs/component-library/CollapsiblePanel';
 
 const Issues = ({ issues, isAppeal }) => {
   const open = issues.filter(i => i.status === 'open');
@@ -65,13 +64,13 @@ const Issues = ({ issues, isAppeal }) => {
   if (openListItems.length || remandListItems.length) {
     // Active panel should always render as expanded by default (when items present)
     activeItems = (
-      <CollapsiblePanel
-        panelName={`Currently on ${isAppeal ? 'appeal' : 'review'}`}
-        startOpen
-      >
+      <va-accordion-item open>
+        <h2 slot="headline">
+          {`Currently on ${isAppeal ? 'appeal' : 'review'}`}
+        </h2>
         {openSection}
         {remandSection}
-      </CollapsiblePanel>
+      </va-accordion-item>
     );
   }
 
@@ -83,19 +82,22 @@ const Issues = ({ issues, isAppeal }) => {
   ) {
     // Closed panel should render as expanded by default only if no active panel present
     closedItems = (
-      <CollapsiblePanel panelName={'Closed'} startOpen={!activeItems}>
+      <va-accordion-item open={!activeItems}>
+        <h2 slot="headline">Closed</h2>
         {grantedSection}
         {deniedSection}
         {withdrawnSection}
-      </CollapsiblePanel>
+      </va-accordion-item>
     );
   }
 
   return (
     <div className="issues-container">
       <h2>Issues</h2>
-      {activeItems}
-      {closedItems}
+      <va-accordion bordered open-single>
+        {activeItems}
+        {closedItems}
+      </va-accordion>
     </div>
   );
 };
