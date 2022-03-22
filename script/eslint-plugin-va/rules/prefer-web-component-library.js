@@ -210,6 +210,80 @@ const paginationTransformer = (context, node) => {
     ],
   });
 };
+const tableTransformer = (context, node) => {
+  const componentName = node.openingElement.name;
+  const dataNode = getPropNode(node, 'data');
+  const fieldsNode = getPropNode(node, 'fields');
+  const dataValue = dataNode?.value.expression || dataNode?.value;
+  const fieldsValue = fieldsNode?.value.expression || fieldsNode?.value;
+  const sourceCode = context.getSourceCode();
+  const importNode = context
+    .getAncestors()[0]
+    .body.find(
+      node =>
+        node.type === 'ImportDeclaration' &&
+        node.source.value.includes(
+          `@department-of-veterans-affairs/component-library/${
+            componentName.name
+          }`,
+        ),
+    );
+
+  context.report({
+    node,
+    message: MESSAGE,
+    data: {
+      reactComponent: componentName.name,
+      webComponent: 'va-table',
+    },
+    suggest: [
+      {
+        desc: 'Migrate component',
+        fix: fixer => {
+          return [
+            // Import utility function that can easily handle the existing props
+            // for the React version of `<Table>`
+            fixer.replaceText(
+              importNode.specifiers[0].local,
+              `{ generateTableChildren }`,
+            ),
+
+            // Remove Table name from import path
+            fixer.replaceText(
+              importNode.source,
+              `'@department-of-veterans-affairs/component-library'`,
+            ),
+
+            // Rename component tag
+            fixer.replaceText(componentName, 'va-table'),
+
+            // Remove the data prop
+            fixer.remove(dataNode),
+
+            // Remove the fields prop
+            fixer.remove(fieldsNode),
+
+            // Add a closing tag
+            fixer.insertTextAfter(
+              node.openingElement,
+              `{generateTableChildren(${sourceCode.getText(
+                dataValue,
+              )}, ${sourceCode.getText(fieldsValue)})}</va-table>`,
+            ),
+            // Remove self-closing tag slash
+            fixer.removeRange(
+              [
+                node.openingElement.range[1] - 2,
+                node.openingElement.range[1] - 1,
+              ],
+              '',
+            ),
+          ].filter(i => !!i);
+        },
+      },
+    ],
+  });
+};
 
 /**
  * Stores the result of a check that determines if a component is part of
@@ -298,6 +372,9 @@ module.exports = {
             break;
           case 'Pagination':
             paginationTransformer(context, node);
+            break;
+          case 'Table':
+            tableTransformer(context, node);
             break;
           case 'Telephone':
             telephoneTransformer(context, node);
