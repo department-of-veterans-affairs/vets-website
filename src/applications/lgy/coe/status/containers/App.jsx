@@ -8,11 +8,7 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import { isLoggedIn } from 'platform/user/selectors';
 
 import { generateCoe } from '../../shared/actions';
-import {
-  CALLSTATUS,
-  COE_FORM_NUMBER,
-  COE_ELIGIBILITY_STATUS,
-} from '../../shared/constants';
+import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
 import {
   Available,
   Denied,
@@ -29,11 +25,9 @@ const App = ({
     profileIsUpdating,
   },
   getCoe,
-  hasSavedForm,
   loggedIn,
   user,
 }) => {
-  const referenceNumber = 'XXXXXXXX';
   const clickHandler = useCallback(
     () => {
       getCoe('skip');
@@ -43,11 +37,11 @@ const App = ({
 
   useEffect(
     () => {
-      if (!profileIsUpdating && loggedIn && !hasSavedForm && !coe) {
+      if (!profileIsUpdating && loggedIn && !coe) {
         getCoe();
       }
     },
-    [coe, getCoe, hasSavedForm, loggedIn, profileIsUpdating],
+    [coe, getCoe, loggedIn, profileIsUpdating],
   );
 
   let content;
@@ -71,7 +65,7 @@ const App = ({
           <Eligible
             clickHandler={clickHandler}
             downloadUrl={downloadUrl}
-            referenceNumber={referenceNumber}
+            referenceNumber={coe.referenceNumber}
           />
         );
         break;
@@ -79,13 +73,13 @@ const App = ({
         content = <Ineligible />;
         break;
       case COE_ELIGIBILITY_STATUS.denied:
-        content = <Denied referenceNumber={referenceNumber} />;
+        content = <Denied referenceNumber={coe.referenceNumber} />;
         break;
       case COE_ELIGIBILITY_STATUS.pending:
         content = (
           <Pending
             notOnUploadPage
-            referenceNumber={referenceNumber}
+            referenceNumber={coe.referenceNumber}
             requestDate={coe.applicationCreateDate}
             status={coe.status}
           />
@@ -94,7 +88,7 @@ const App = ({
       case COE_ELIGIBILITY_STATUS.pendingUpload:
         content = (
           <Pending
-            referenceNumber={referenceNumber}
+            referenceNumber={coe.referenceNumber}
             requestDate={coe.applicationCreateDate}
             status={coe.status}
             uploadsNeeded
@@ -127,9 +121,6 @@ const mapStateToProps = state => ({
   certificateOfEligibility: state.certificateOfEligibility,
   user: state.user,
   loggedIn: isLoggedIn(state),
-  hasSavedForm: state?.user?.profile?.savedForms.some(
-    form => form.form === COE_FORM_NUMBER,
-  ),
 });
 
 const mapDispatchToProps = {
@@ -139,7 +130,6 @@ const mapDispatchToProps = {
 App.propTypes = {
   certificateOfEligibility: PropTypes.object,
   getCoe: PropTypes.func,
-  hasSavedForm: PropTypes.bool,
   loggedIn: PropTypes.bool,
   user: PropTypes.object,
 };

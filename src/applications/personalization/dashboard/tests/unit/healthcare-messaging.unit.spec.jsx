@@ -1,9 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
+import { wait } from '@@profile/tests/unit-test-helpers';
 import { mockFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 import reducers from '~/applications/personalization/dashboard/reducers';
-import { wait } from '@@profile/tests/unit-test-helpers';
 import HealthCare from '~/applications/personalization/dashboard/components/health-care/HealthCare';
 
 describe('HealthCare component', () => {
@@ -54,9 +54,7 @@ describe('HealthCare component', () => {
         reducers,
       });
       expect(view.queryByRole('progressbar')).not.to.exist;
-      expect(
-        await view.findByRole('link', { name: /you have 3 unread messages/i }),
-      ).to.exist;
+      expect(await view.findByText(/you have 3 unread message/i)).to.exist;
     });
 
     it('should render the unread messages count with 1 message', async () => {
@@ -65,9 +63,7 @@ describe('HealthCare component', () => {
         initialState,
         reducers,
       });
-      expect(
-        await view.findByRole('link', { name: /you have 1 unread message/i }),
-      ).to.exist;
+      expect(await view.findByText(/you have 1 unread message/i)).to.exist;
     });
 
     it('should render the unread messages count with 0 messages', async () => {
@@ -77,7 +73,9 @@ describe('HealthCare component', () => {
         reducers,
       });
       expect(
-        await view.findByRole('link', { name: /you have 0 unread messages/i }),
+        view.queryByRole('link', {
+          name: /send a secure message/i,
+        }),
       ).to.exist;
     });
   });
@@ -123,9 +121,9 @@ describe('HealthCare component', () => {
       });
       expect(
         view.queryByRole('link', {
-          name: /message/i,
+          name: /send a secure message/i,
         }),
-      ).not.to.exist;
+      ).to.exist;
     });
   });
 });

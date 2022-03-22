@@ -5,6 +5,9 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 export const loginGov = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.loginGov];
 
+export const loginGovDisabled = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.loginGovDisabled];
+
 export const loginGovCreateAccount = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.loginGovCreateAccount];
 
@@ -33,3 +36,6 @@ export const isAuthenticatedWithSSOe = state =>
 
 export const ssoeTransactionId = state =>
   selectProfile(state)?.session?.transactionid;
+
+export const transitionMHVAccount = state =>
+  state.user.profile.mhvTransitionEligible ?? false;

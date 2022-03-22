@@ -6,8 +6,15 @@ import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
 
 export const API_VERSION = 'v1';
 
+export const API_SESSION_URL = ({ version = API_VERSION, type = null }) =>
+  `${environment.API_URL}/${version}/sessions/${type}/new`;
+
+export const API_SIGN_IN_SERVICE_URL = ({ type = null }) =>
+  `${environment.API_URL}/sign_in/${type}/authorize`;
+
 export const AUTH_EVENTS = {
   MODAL_LOGIN: 'login-link-clicked-modal',
+  LOGIN: 'login-link-clicked',
   SSO_LOGIN: 'sso-automatic-login',
   SSO_LOGOUT: 'sso-automatic-logout',
   MFA: 'multifactor-link-clicked',
@@ -50,6 +57,25 @@ export const EXTERNAL_APPS = {
   VA_OCC_MOBILE: 'vaoccmobile',
 };
 
+export const MOBILE_APPS = [
+  EXTERNAL_APPS.VA_OCC_MOBILE,
+  EXTERNAL_APPS.VA_FLAGSHIP_MOBILE,
+];
+
+export const OAUTH_ENABLED_APPS = [
+  EXTERNAL_APPS.VA_OCC_MOBILE,
+  EXTERNAL_APPS.VA_FLAGSHIP_MOBILE,
+];
+
+export const OAUTH_ENABLED_POLICIES = [
+  CSP_IDS.MHV,
+  CSP_IDS.DS_LOGON,
+  CSP_IDS.LOGIN_GOV,
+  CSP_IDS.ID_ME,
+];
+
+export const EBenefitsDefaultPath = '/profilepostauth';
+
 export const eAuthURL = `https://${
   eauthEnvironmentPrefixes[environment.BUILDTYPE]
 }eauth.va.gov`;
@@ -77,6 +103,8 @@ export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.VA_OCC_MOBILE]: EXTERNAL_LINKS.VA_OCC_MOBILE,
 };
 
+export const GA_TRACKING_ID_KEY = 'trackingId';
+export const GA_CLIENT_ID_KEY = 'clientId';
 export const VAGOV_TRACKING_IDS = ['UA-50123418-16', 'UA-50123418-17'];
 
 export const POLICY_TYPES = {
@@ -99,9 +127,8 @@ export const CSP_CONTENT = {
   [CSP_IDS.MHV]: { LOGO: <>My HealtheVet</>, COPY: 'My HealtheVet' },
 };
 
+export const AUTH_LEVEL = { FAIL: 'fail', SUCCESS: 'success' };
 export const AUTH_ERROR = {
-  FAIL: 'fail',
-
   USER_DENIED: '001', // User clicked 'Deny' in Authorization
   USER_CLOCK_MISMATCH: '002', // User clock is incorrect
   SERVER_CLOCK_MISMATCH: '003', // Server timing error
@@ -115,4 +142,21 @@ export const AUTH_ERROR = {
   ICN_MISMATCH: '103', // ICN Mismatch
   UUID_MISSING: '104', // UUID Missing (Login.gov or ID.me)
   MULTIPLE_CORPIDS: '106', // Multiple Corp IDs
+};
+
+export const MHV_TRANSITION_DATE = 'MONTH XX, 20XX';
+export const ACCOUNT_TRANSITION_DISMISSED = 'accountTransitionDismissed';
+
+export const LINK_TYPES = {
+  CREATE: 'create',
+  SIGNIN: 'signin',
+};
+
+// Keep these KEYS camel case for ease of destructuring
+export const AUTH_PARAMS = {
+  application: 'application',
+  OAuth: 'oauth',
+  codeChallenge: 'code_challenge',
+  codeChallengeMethod: 'code_challenge_method',
+  to: 'to',
 };

@@ -36,7 +36,7 @@ export const AddPerson = props => {
       return <MissingServices title={props.title} />;
     case MVI_ADD_SUCCEEDED:
       // remove 'add-person' user.profile.services here?
-      return null;
+      return <MissingServices title={props.title} />;
     default:
       return null;
   }

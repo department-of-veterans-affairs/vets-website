@@ -14,6 +14,7 @@ export default function DemographicsDisplay({
   subtitle = 'We can better follow up with you after your appointment when we have your current information.',
   demographics = {},
   isEditEnabled = false,
+  isLoading = false,
   jumpToPage = () => {},
   yesAction = () => {},
   noAction = () => {},
@@ -21,7 +22,7 @@ export default function DemographicsDisplay({
 }) {
   const dispatch = useDispatch();
   const setEditContext = useCallback(
-    data => {
+    (data, url) => {
       dispatch(
         createSetEditContext({
           ...data,
@@ -29,22 +30,45 @@ export default function DemographicsDisplay({
           editingPage: EDITING_PAGE_NAMES.DEMOGRAPHICS,
         }),
       );
-      jumpToPage(URLS.EDIT_EMAIL);
+      jumpToPage(url);
     },
     [dispatch, jumpToPage],
   );
+
   const demographicFields = [
-    { title: 'Mailing address', key: 'mailingAddress' },
-    { title: 'Home address', key: 'homeAddress' },
-    { title: 'Home phone', key: 'homePhone' },
-    { title: 'Mobile phone', key: 'mobilePhone' },
-    { title: 'Work phone', key: 'workPhone' },
+    {
+      title: 'Mailing address',
+      key: 'mailingAddress',
+      editAction: data => {
+        setEditContext(data, URLS.EDIT_ADDRESS);
+      },
+    },
+    {
+      title: 'Home address',
+      key: 'homeAddress',
+      editAction: data => {
+        setEditContext(data, URLS.EDIT_ADDRESS);
+      },
+    },
+    {
+      title: 'Home phone',
+      key: 'homePhone',
+      editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
+    },
+    {
+      title: 'Mobile phone',
+      key: 'mobilePhone',
+      editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
+    },
+    {
+      title: 'Work phone',
+      key: 'workPhone',
+      editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
+    },
     {
       title: 'Email address',
       key: 'emailAddress',
-      editAction: data => {
-        setEditContext(data);
-      },
+      editAction: data => setEditContext(data, URLS.EDIT_EMAIL),
     },
   ];
   return (
@@ -55,6 +79,7 @@ export default function DemographicsDisplay({
         dataFields={demographicFields}
         data={demographics}
         isEditEnabled={isEditEnabled}
+        isLoading={isLoading}
         yesAction={yesAction}
         noAction={noAction}
         Footer={Footer}
@@ -68,6 +93,7 @@ DemographicsDisplay.propTypes = {
   demographics: PropTypes.object,
   header: PropTypes.string,
   isEditEnabled: PropTypes.bool,
+  isLoading: PropTypes.bool,
   jumpToPage: PropTypes.func,
   noAction: PropTypes.func,
   subtitle: PropTypes.string,
