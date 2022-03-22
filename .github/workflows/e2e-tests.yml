@@ -408,7 +408,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
+          ref: qa-standards-dashboard-data/code-coverage-reports
 
       # ------------------------
       # | Upload BigQuery Data |
