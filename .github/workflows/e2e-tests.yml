@@ -1,12 +1,7 @@
 name: E2E Tests
 
-on:
--  push:
--    branches:
--      - '**'
--    tags-ignore:
--      - '**'
--  # WIP - test branch
+on: [push]
+  # WIP - test branch
 
 env:
   NUM_CONTAINERS: '8'
