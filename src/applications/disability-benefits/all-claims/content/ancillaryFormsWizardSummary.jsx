@@ -143,7 +143,7 @@ SummaryDescription.propTypes = {
     'view:aidAndAttendance': PropTypes.bool,
     'view:modifyingCar': PropTypes.bool,
     'view:modifyingHome': PropTypes.bool,
-    'view:unemployabilityUploadChoice': PropTypes.bool,
+    'view:unemployabilityUploadChoice': PropTypes.string,
     'view:unemployable': PropTypes.bool,
   }),
 };
