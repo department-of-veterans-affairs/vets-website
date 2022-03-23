@@ -39,7 +39,17 @@ const useDemographicsFlags = () => {
       nextOfKinUpToDate: nextOfKinUpToDate === 'yes',
     };
 
-  return { demographicsData, demographicsFlagsSent, setDemographicsFlagsSent };
+  const demographicsFlagsEmpty =
+    demographicsUpToDate === undefined &&
+    emergencyContactUpToDate === undefined &&
+    nextOfKinUpToDate === undefined;
+
+  return {
+    demographicsData,
+    demographicsFlagsSent,
+    setDemographicsFlagsSent,
+    demographicsFlagsEmpty,
+  };
 };
 
 export { useDemographicsFlags };
