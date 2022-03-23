@@ -299,10 +299,6 @@ jobs:
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
-      # ------------------------
-      # | Upload BigQuery Data |
-      # ------------------------
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -400,27 +396,6 @@ jobs:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}  
 
     steps: 
-      # - name: Configure AWS credentials
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: us-gov-west-1
-
-      # - name: Get GitHub token
-      #   uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-      #   with:
-      #     ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-      #     env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
-          ## token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          path: testing-tools-team-dashboard-data
-          ref: code-coverage-reports
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -434,9 +409,25 @@ jobs:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      # ------------------------
-      # | Upload BigQuery Data |
-      # ------------------------
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
+          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: testing-tools-team-dashboard-data
+          ref: code-coverage-reports
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Generate new application list
+        run: yarn generate-app-list
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -449,25 +440,6 @@ jobs:
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
-
-      # - name: Get AWS IAM role
-      #   uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-      #   with:
-      #     ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-      #     env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-      # - name: Set UUID for Mochawesome reports
-      #   run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      # - name: Configure AWS Credentials (2)
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: us-gov-west-1
-      #     role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-      #     role-duration-seconds: 900
-      #     role-session-name: vsp-frontendteam-githubaction
 
       # --------------------------------------
       # | Publish Code Coverage Report |
