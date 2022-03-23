@@ -13,14 +13,15 @@ export default function recordEvent(data) {
   // Handle eventCallback when window.google_tag_manager is undefined
   // This ensures that the callback is called when GTM is not loaded
   // This is needed for localhost, and for users utilizng an adblocker
-  if (typeof eventCallback === 'function' && window.google_tag_manager) {
-    eventCallback();
+  if (typeof eventCallback === 'function' && !window.google_tag_manager) {
+    return eventCallback();
   }
 
   // If the data includes an eventCallback, ensure we always add an
   // accompanying eventTimeout, this ensures the eventCallback is fired
   // even if the event stalls
   return (
+    window.google_tag_manager &&
     window.dataLayer &&
     window.dataLayer.push({
       ...data,
