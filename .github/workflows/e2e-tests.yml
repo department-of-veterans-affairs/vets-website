@@ -400,6 +400,12 @@ jobs:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}  
 
     steps: 
+      - name: Get GitHub token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
       - name: Checkout
         uses: actions/checkout@v2
         with:
