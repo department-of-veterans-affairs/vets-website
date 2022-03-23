@@ -21,7 +21,6 @@ const List = ({ documents }) => {
     // This will come from the document payload in the future
     const downloadUrl = '∂';
     const sentDate = formatDate(timestamp);
-    const title = description;
 
     return (
       <ListItem
@@ -29,7 +28,7 @@ const List = ({ documents }) => {
         downloadLinkLabel={downloadLinkLabel}
         downloadUrl={downloadUrl}
         sentDate={sentDate}
-        title={title}
+        title={description}
       />
     );
   });
