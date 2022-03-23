@@ -35,21 +35,6 @@ describe('recordEvent', () => {
     expect(global.window.dataLayer).to.eql([]);
   });
 
-  it('should add eventTimeout if eventCallback exists', () => {
-    const e = {
-      event: 'foo-bar',
-      contextualData: 'text',
-      eventCallback: () => {},
-    };
-    recordEvent(e);
-    expect(global.window.dataLayer).to.eql([
-      {
-        ...e,
-        eventTimeout: 2000,
-      },
-    ]);
-  });
-
   it('should return the eventCallback in the event that google_tag_manager is undefiend', () => {
     // eslint-disable-next-line camelcase
     global.window.google_tag_manager = undefined;

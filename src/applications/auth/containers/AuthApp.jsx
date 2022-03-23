@@ -58,6 +58,7 @@ export class AuthApp extends React.Component {
     recordEvent({
       event: AUTH_EVENTS.ERROR_FORCE_NEEDED,
       eventCallback: this.redirect,
+      eventTimeout: 2000,
     });
   };
 
@@ -113,6 +114,7 @@ export class AuthApp extends React.Component {
       recordEvent({
         event: `login-inbound-redirect-to-${app}`,
         eventCallback: handleRedirect,
+        eventTimeout: 2000,
       });
       return;
     }

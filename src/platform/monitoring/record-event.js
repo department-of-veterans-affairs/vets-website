@@ -8,7 +8,6 @@
 
 export default function recordEvent(data) {
   const { eventCallback } = data;
-  const eventTimeout = eventCallback ? { eventTimeout: 2000 } : {};
 
   // Handle eventCallback when window.google_tag_manager is undefined
   // This ensures that the callback is called when GTM is not loaded
@@ -21,12 +20,7 @@ export default function recordEvent(data) {
   // accompanying eventTimeout, this ensures the eventCallback is fired
   // even if the event stalls
   return (
-    window.google_tag_manager &&
-    window.dataLayer &&
-    window.dataLayer.push({
-      ...data,
-      ...eventTimeout,
-    })
+    window.google_tag_manager && window.dataLayer && window.dataLayer.push(data)
   );
 }
 
