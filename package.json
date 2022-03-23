@@ -204,7 +204,7 @@
     "libxmljs2": "^0.28.0",
     "lint-staged": "^11.1.2",
     "mini-css-extract-plugin": "^2.4.4",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "mocha": "^8.2.1",
     "mocha-junit-reporter": "^2.0.0",
     "mocha-multi-reporters": "^1.5.1",
