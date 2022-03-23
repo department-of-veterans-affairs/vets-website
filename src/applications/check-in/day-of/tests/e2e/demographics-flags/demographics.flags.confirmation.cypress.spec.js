@@ -178,4 +178,66 @@ describe('Check In Experience', () => {
         .should('equal', 400);
     });
   });
+  describe('All confirmation pages skipped', () => {
+    beforeEach(() => {
+      const now = Date.now();
+      const today = new Date(now);
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializeCheckInDataGet,
+        initializeCheckInDataPost,
+        initializeDemographicsPatch,
+      } = ApiInitializer;
+      initializeFeatureToggle.withDayOfDemographicsFlagsEnabled();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
+      initializeCheckInDataGet.withSuccess({
+        numberOfCheckInAbledAppointments: 2,
+        demographicsNeedsUpdate: false,
+        demographicsConfirmedAt: today.toISOString(),
+        nextOfKinNeedsUpdate: false,
+        nextOfKinConfirmedAt: today.toISOString(),
+        emergencyContactNeedsUpdate: false,
+        emergencyContactConfirmedAt: today.toISOString(),
+      });
+      initializeCheckInDataPost.withSuccess();
+      initializeDemographicsPatch.withSuccess();
+
+      const demographicsPatchSpy = cy.spy().as('demographicsPatchSpy');
+      cy.intercept(
+        {
+          method: 'PATCH',
+          url: `/check_in/v2/demographics/*`,
+          middleware: true,
+        },
+        () => {
+          demographicsPatchSpy();
+        },
+      );
+
+      cy.visitWithUUID();
+      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+    });
+    afterEach(() => {
+      cy.window().then(window => {
+        window.sessionStorage.clear();
+      });
+    });
+    it('Do not send demographics confirmations if all confirm pages skipped', () => {
+      Appointments.validatePageLoaded();
+      Appointments.attemptCheckIn(2);
+
+      cy.injectAxeThenAxeCheck();
+      Confirmation.validatePageLoaded();
+
+      // call should not occur if all confirmation pages skipped
+      cy.get('@demographicsPatchSpy').then(spy => {
+        expect(spy).not.to.be.called;
+      });
+    });
+  });
 });
