@@ -61,7 +61,7 @@ class EducationWizard extends React.Component {
   }
 
   answerQuestion = (field, answer) => {
-    const newState = { [field]: answer };
+    const newState = Object.assign({}, { [field]: answer });
 
     if (field === 'newBenefit') {
       recordEvent({

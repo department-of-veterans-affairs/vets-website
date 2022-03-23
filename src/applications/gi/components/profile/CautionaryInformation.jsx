@@ -98,7 +98,7 @@ export function CautionaryInformation({ institution, showModal }) {
       <LearnMoreLabel
         id="typeAccredited-button"
         bold
-        text="All campuses"
+        text={'All campuses'}
         onClick={() => {
           showModal('allCampuses');
         }}

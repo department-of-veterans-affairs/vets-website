@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import _ from 'lodash';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import CompareGrid from '../components/CompareGrid';
 import {
   boolYesNo,
@@ -12,10 +10,12 @@ import {
   schoolSize,
   upperCaseFirstLetterOnly,
 } from '../utils/helpers';
+import _ from 'lodash';
 import { MINIMUM_RATING_COUNT } from '../constants';
 import RatingsStars from '../components/RatingsStars';
 import { showModal } from '../actions';
 import { religiousAffiliations } from '../utils/data/religiousAffiliations';
+import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import {
   AccreditationModalContent,
   GiBillStudentsModalContent,
@@ -61,15 +61,15 @@ const CompareLayout = ({
           <RatingsStars rating={categoryRating.averageRating} /> {stars.display}
         </div>
       );
+    } else {
+      return 'N/A';
     }
-    return 'N/A';
   };
 
   const formatEstimate = ({ qualifier, value }) => {
     if (qualifier === '% of instate tuition') {
       return <span>{value}% in-state</span>;
-    }
-    if (qualifier === null) {
+    } else if (qualifier === null) {
       return value;
     }
     return <span>{formatCurrency(value)}</span>;
@@ -373,9 +373,12 @@ const CompareLayout = ({
                 <div className="vads-u-display--flex">
                   <div className="caution-flag-icon vads-u-flex--1">
                     {!hasFlags && (
-                      <i className="fa fa-check" style={{ display: 'none' }} />
+                      <i
+                        className={`fa fa-check`}
+                        style={{ display: 'none' }}
+                      />
                     )}
-                    {hasFlags && <i className="fa fa-exclamation-triangle" />}
+                    {hasFlags && <i className={`fa fa-exclamation-triangle`} />}
                   </div>
                   <div className="vads-u-flex--4">
                     {!hasFlags && (
