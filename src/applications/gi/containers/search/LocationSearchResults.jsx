@@ -690,6 +690,7 @@ function LocationSearchResults({
   return (
     <div className="location-search vads-u-padding-top--1">
       <div className="usa-width-one-third">
+        &nbsp;
         {inProgress && (
           <va-loading-indicator message="Loading search results..." />
         )}
