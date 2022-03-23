@@ -86,10 +86,18 @@ describe('Medical Copays', () => {
     // on page
     cy.findByTestId('account-summary-head').should('exist');
     cy.findByTestId('account-summary-date').contains('November 15');
-    cy.findByTestId('account-summary-current').contains('$15.00');
-    cy.findByTestId('account-summary-previous').contains('$135.00');
-    cy.findByTestId('account-summary-credits').contains('$135.00');
-    cy.findByTestId('account-summary-new-charges').contains('$15.00');
+    cy.findByTestId('account-summary-current').contains(
+      'Current balance as of $15.00',
+    );
+    cy.findByTestId('account-summary-previous').contains(
+      'Previous balance: $135.00',
+    );
+    cy.findByTestId('account-summary-credits').contains(
+      'Payments received: $135.00',
+    );
+    cy.findByTestId('account-summary-new-charges').contains(
+      'New charges: $15.00',
+    );
     cy.axeCheck();
   });
 });
