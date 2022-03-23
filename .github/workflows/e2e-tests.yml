@@ -417,7 +417,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
-          # token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          ## token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
           path: testing-tools-team-dashboard-data
           ref: code-coverage-reports
 
