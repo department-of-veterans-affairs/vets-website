@@ -44,7 +44,7 @@ describe('pre-check-in experience', () => {
         expect(getByTestId('state')).to.exist;
         expect(getByTestId('zipCode')).to.exist;
       });
-      it.skip('shows international address form with non-US address', () => {
+      it('shows international address form with non-US address', () => {
         const internationalAddressState = {
           checkInData: {
             context: {
@@ -69,7 +69,7 @@ describe('pre-check-in experience', () => {
         expect(getByTestId('stateProvinceRegion')).to.exist;
         expect(getByTestId('internationalPostalCode')).to.exist;
       });
-      it.skip('shows military base address form with military base address', () => {
+      it('shows military base address form with military base address', () => {
         const baseAddressState = {
           checkInData: {
             context: {
