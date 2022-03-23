@@ -75,4 +75,21 @@ describe('Medical Copays', () => {
     );
     cy.axeCheck();
   });
+
+  it('displays account summary - C12580', () => {
+    // get to page
+    cy.findByTestId('overview-page-title').should('exist');
+    cy.findByTestId(`detail-link-${id}`).click();
+    cy.findByTestId('detail-page-title').should('exist');
+    cy.findByTestId(`view-statements`).should('exist');
+    cy.findByTestId(`balance-details-${id}-statement-view`).click();
+    // on page
+    cy.findByTestId('account-summary-head').should('exist');
+    cy.findByTestId('account-summary-date').contains('November 15');
+    cy.findByTestId('account-summary-current').contains('$15.00');
+    cy.findByTestId('account-summary-previous').contains('$135.00');
+    cy.findByTestId('account-summary-credits').contains('$135.00');
+    cy.findByTestId('account-summary-new-charges').contains('$15.00');
+    cy.axeCheck();
+  });
 });
