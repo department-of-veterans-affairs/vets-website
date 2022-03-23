@@ -238,8 +238,23 @@ jobs:
       - name: Create test results folder
         run: mkdir -p test-results
 
+      - name: List changed files
+        id: changed-files
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          else
+            echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+          fi
+
+      - name: Get app folders for changed files
+        id: get-changed-apps
+        run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder)
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+
       - name: Run contract tests
-        run: yarn test:contract
+        run: yarn test:contract ${{ steps.get-changed-apps.outputs.app_folders }}
         env:
           MOCHA_FILE: ./test-results/test-results.xml
 
