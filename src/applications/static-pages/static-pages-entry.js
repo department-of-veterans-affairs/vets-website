@@ -62,6 +62,7 @@ import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 import createResourcesAndSupportSearchWidget from './widget-creators/resources-and-support-search';
+import createShiftedVetsBanner from './shifted-vets-banner';
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
@@ -193,6 +194,7 @@ createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 createCOEAccess(store, widgetTypes.COE_ACCESS);
 createLettersMobileCTA(store, widgetTypes.LETTERS_MOBILE_CTA);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
+createShiftedVetsBanner(store, widgetTypes.SHIFTED_VETS_BANNER);
 
 // Create the My VA Login widget only on the homepage.
 if (location.pathname === '/') {

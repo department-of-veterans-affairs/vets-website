@@ -48,6 +48,7 @@ export default function(state = INITIAL_STATE, action) {
           'FOREIGN',
           'FLIGHT',
           'CORRESPONDENCE',
+          'HIGH SCHOOL',
         ],
       };
 
