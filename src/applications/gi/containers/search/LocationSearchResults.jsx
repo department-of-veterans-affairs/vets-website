@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
+import environment from 'platform/utilities/environment';
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -456,9 +457,15 @@ function LocationSearchResults({
               <FilterYourResults />
             </>
           )}
-          {(smallScreen || landscape) && (
-            <MobileFilterControls className="vads-u-margin-top--2" />
-          )}
+          {environment.isProduction()
+            ? (smallScreen || landscape) && (
+                <MobileFilterControls className="vads-u-margin-top--2" />
+              )
+            : smallScreen &&
+              !landscape &&
+              results.length > 0 && (
+                <MobileFilterControls className="vads-u-margin-top--2" />
+              )}
         </>
       );
     }

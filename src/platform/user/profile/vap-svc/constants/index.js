@@ -183,3 +183,11 @@ export const MISSING_CONTACT_INFO = {
   EMAIL: 'EMAIL',
   MOBILE: 'MOBILE',
 };
+
+export const COPY_ADDRESS_MODAL_STATUS = {
+  CHECKING: 'checking',
+  PROMPT: 'prompt',
+  PENDING: 'pending',
+  SUCCESS: 'success',
+  FAILURE: 'failure',
+};
