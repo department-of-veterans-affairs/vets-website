@@ -85,10 +85,10 @@ describe('Medical Copays', () => {
     cy.findByTestId(`balance-details-${id}-statement-view`).click();
     // on page
     cy.findByTestId('account-summary-head').should('exist');
-    cy.findByTestId('account-summary-date').contains('November 15');
-    cy.findByTestId('account-summary-current').contains(
-      'Current balance as of $15.00',
+    cy.findByTestId('account-summary-date').contains(
+      'Current balance as of November 15',
     );
+    cy.findByTestId('account-summary-current').contains('$15.00');
     cy.findByTestId('account-summary-previous').contains(
       'Previous balance: $135.00',
     );
