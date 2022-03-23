@@ -1,6 +1,6 @@
 import {
   SummaryTitle,
-  summaryDescription,
+  SummaryDescription,
 } from '../content/ancillaryFormsWizardSummary';
 
 export const depends = formData =>
@@ -13,7 +13,7 @@ export const depends = formData =>
 
 export const uiSchema = {
   'ui:title': SummaryTitle,
-  'ui:description': summaryDescription,
+  'ui:description': SummaryDescription,
   'ui:options': {
     forceDivWrapper: true,
   },
