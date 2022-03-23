@@ -1,4 +1,7 @@
-import summaryDescription from '../content/ancillaryFormsWizardSummary';
+import {
+  SummaryTitle,
+  summaryDescription,
+} from '../content/ancillaryFormsWizardSummary';
 
 export const depends = formData =>
   !!(
@@ -9,8 +12,11 @@ export const depends = formData =>
   );
 
 export const uiSchema = {
-  'ui:title': 'Summary of additional benefits',
+  'ui:title': SummaryTitle,
   'ui:description': summaryDescription,
+  'ui:options': {
+    forceDivWrapper: true,
+  },
 };
 
 export const schema = {
