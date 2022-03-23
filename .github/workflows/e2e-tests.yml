@@ -408,7 +408,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: 45a987bc0026a050e056b734206ea7c41d576e0d
+          ref: 3f8b3e528daac309fc6f0657abb13bc1fc8d3cb6
 
       # ------------------------
       # | Upload BigQuery Data |
