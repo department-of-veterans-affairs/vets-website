@@ -8,14 +8,14 @@ const DocumentList = ({ notOnUploadPage }) => {
   const [documents, setDocuments] = useState([]);
 
   useEffect(() => {
-    async function getData() {
+    const getData = async () => {
       const data = await getCoeDocuments();
       if (data.errors) {
         // Will add error handling in the future
       } else {
         setDocuments(data);
       }
-    }
+    };
 
     getData();
   }, []);
