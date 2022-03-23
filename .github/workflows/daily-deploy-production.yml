@@ -29,7 +29,7 @@ jobs:
         id: check-environment
         run: |
           if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
-            echo ::set-output name=env_name::'dev-test'
+            echo ::set-output name=env_name::'production'
           else
             echo ::set-output name=env_name::''
           fi
