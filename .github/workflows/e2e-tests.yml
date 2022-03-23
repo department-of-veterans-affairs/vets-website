@@ -400,6 +400,27 @@ jobs:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}  
 
     steps: 
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-gov-west-1
+
+      # - name: Get GitHub token
+      #   uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+      #   with:
+      #     ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+      #     env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
+          # token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+          path: testing-tools-team-dashboard-data
+          ref: code-coverage-reports
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -412,14 +433,6 @@ jobs:
         with:
           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          repository: department-of-veterans-affairs/testing-tools-team-dashboard-data
-          token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
-          path: testing-tools-team-dashboard-data
-          ref: code-coverage-reports
 
       # ------------------------
       # | Upload BigQuery Data |
@@ -437,27 +450,27 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Get AWS IAM role
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+      # - name: Get AWS IAM role
+      #   uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+      #   with:
+      #     ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+      #     env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
-      - name: Set UUID for Mochawesome reports
-        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+      # - name: Set UUID for Mochawesome reports
+      #   run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
-      - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
+      # - name: Configure AWS Credentials (2)
+      #   uses: aws-actions/configure-aws-credentials@v1
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-gov-west-1
+      #     role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+      #     role-duration-seconds: 900
+      #     role-session-name: vsp-frontendteam-githubaction
 
       # --------------------------------------
-      # | Publish Cypress E2E Testing Report |
+      # | Publish Code Coverage Report |
       # --------------------------------------
 
       - name: Download Code Coverage test results
