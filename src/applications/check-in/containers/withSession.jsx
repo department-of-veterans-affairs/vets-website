@@ -5,13 +5,14 @@ import propTypes from 'prop-types';
 import { createSetSession } from '../actions/authentication';
 import { createInitFormAction } from '../actions/navigation';
 import { setVeteranData, updateFormAction } from '../actions/pre-check-in';
+import { createSetEditContext } from '../actions/edit';
 
 // import { makeSelectForm, makeSelectUserData } from '../selectors';
 
 import { useSessionStorage } from '../hooks/useSessionStorage';
 import { useFormRouting } from '../hooks/useFormRouting';
 
-// import { URLS } from '../utils/navigation';
+import { URLS } from '../utils/navigation';
 
 import { createForm } from '../utils/navigation/pre-check-in';
 
@@ -63,6 +64,18 @@ const withSession = (Component, options = {}) => {
       [dispatch],
     );
 
+    const setEditContext = useCallback(
+      (data, url) => {
+        dispatch(
+          createSetEditContext({
+            ...data,
+          }),
+        );
+        jumpToPage(url);
+      },
+      [dispatch, jumpToPage],
+    );
+
     useEffect(
       () => {
         // console.log('withSession');
@@ -92,9 +105,16 @@ const withSession = (Component, options = {}) => {
                 setLoadingMessage('found your details, restoring form');
                 // insert data in redux
                 dispatchSetVeteranData(data.payload);
-
+                // get value from payload
+                const value = data.payload[params.editingPage][params.key];
                 // redirect to editing page
-                setIsLoading(false);
+                const editingData = {
+                  ...params,
+                  value,
+                };
+                setEditContext(editingData);
+                const url = URLS.EDIT_PHONE_NUMBER;
+                jumpToPage(url);
               });
             });
         } else {
@@ -109,6 +129,7 @@ const withSession = (Component, options = {}) => {
         initForm,
         setSession,
         dispatchSetVeteranData,
+        setEditContext,
       ],
     );
 
