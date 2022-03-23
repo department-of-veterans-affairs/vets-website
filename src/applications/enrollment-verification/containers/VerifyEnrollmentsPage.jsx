@@ -312,8 +312,7 @@ export const VerifyEnrollmentsPage = ({
       >
         If you select “<em>No, this information isn’t correct</em>”{' '}
         <strong>
-          we will pause your monthly housing payment until your information is
-          updated
+          we will pause your monthly payment until your information is updated
         </strong>
         . Work with your School Certifying Official (SCO) to ensure your
         enrollment information is updated with VA.
