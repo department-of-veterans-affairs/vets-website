@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import DownloadLink from '../components/DownloadLink';
 
 export const SummaryTitle = () => <h3>Summary of additional benefits</h3>;
@@ -108,7 +110,7 @@ const individualUnemployabilityContent = (
   </va-accordion-item>
 );
 
-export function summaryDescription({ formData }) {
+export const SummaryDescription = ({ formData }) => {
   // In production, users should see the unemployable content if they indicate
   // that they're unemployable. In other environments, they should see the
   // unemployable content only when indicate unemployability and no selection
@@ -134,4 +136,14 @@ export function summaryDescription({ formData }) {
       </va-accordion>
     </>
   );
-}
+};
+
+SummaryDescription.propTypes = {
+  formData: PropTypes.shape({
+    'view:aidAndAttendance': PropTypes.bool,
+    'view:modifyingCar': PropTypes.bool,
+    'view:modifyingHome': PropTypes.bool,
+    'view:unemployabilityUploadChoice': PropTypes.bool,
+    'view:unemployable': PropTypes.bool,
+  }),
+};

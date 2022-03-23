@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 
-import SummaryDescription from '../../content/ancillaryFormsWizardSummary';
+import { SummaryDescription } from '../../content/ancillaryFormsWizardSummary';
 
 describe('526 All Claims -- Ancillary forms wizard summary content', () => {
   it('should render only the appropriate panels', () => {
@@ -11,6 +11,7 @@ describe('526 All Claims -- Ancillary forms wizard summary content', () => {
       'view:modifyingCar': true,
       'view:aidAndAttendance': true,
       'view:unemployable': true,
+      'view:unemployabilityUploadChoice': false,
     };
     const tree = shallow(<SummaryDescription formData={formData} />);
 
@@ -19,13 +20,13 @@ describe('526 All Claims -- Ancillary forms wizard summary content', () => {
     expect(
       accordion
         .first()
-        .find('h3')
+        .find('h4')
         .text(),
     ).to.equal('Adapted housing assistance');
     expect(
       accordion
         .last()
-        .find('h3')
+        .find('h4')
         .text(),
     ).to.equal('Individual Unemployability');
     tree.unmount();
