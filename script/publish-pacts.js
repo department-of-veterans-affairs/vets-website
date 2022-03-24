@@ -32,4 +32,7 @@ if (fs.existsSync(pactsFolder)) {
       console.error(error);
       process.exit(1);
     });
+} else {
+  console.log(`The directory '${pactsFolder}' does not exist.`);
+  process.exit(0);
 }
