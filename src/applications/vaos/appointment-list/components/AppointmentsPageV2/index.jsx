@@ -67,7 +67,7 @@ function getDropdownValueFromLocation(pathname) {
 
 function handleDropdownChange(history, setHasTypeChanged) {
   return e => {
-    const { value } = e.target;
+    const { value } = e.detail;
     if (value === DROPDOWN_VALUES.upcoming) {
       history.push('/');
     } else if (value === DROPDOWN_VALUES.requested) {
@@ -190,17 +190,12 @@ export default function AppointmentsPageV2() {
           <h2 className="vads-u-margin-y--3">{subHeading}</h2>
           {/* Commenting out for now. See https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/issues/718 */}
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
-          <label
-            htmlFor="type-dropdown"
-            className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2 vaos-hide-for-print"
-          >
-            Show by status
-          </label>
           <Select
             options={options}
             onChange={handleDropdownChange(history, setHasTypeChanged)}
             id="type-dropdown"
             value={dropdownValue}
+            label="Show by status"
           />
         </>
       )}
