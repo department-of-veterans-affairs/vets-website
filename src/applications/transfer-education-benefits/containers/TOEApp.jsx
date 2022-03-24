@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 
@@ -35,15 +36,25 @@ export const TOEApp = ({
 
         if (!sponsors) {
           getSponsors();
-        } else if (!formData.sponsors.availableSponsors) {
+        } else if (!_.isEqual(formData['view:sponsors'], sponsors)) {
           setFormData({
             ...formData,
-            sponsors: {
-              ...formData.sponsors,
-              availableSponsors: sponsors,
+            'view:sponsors': {
+              ...formData['view:sponsors'],
+              ...sponsors,
             },
           });
         }
+
+        // if () {
+        //   setFormData({
+        //     ...formData,
+        //     sponsors: {
+        //       ...formData.sponsors,
+        //       selectedSponsors,
+        //     },
+        //   });
+        // }
       }
     },
     [
@@ -81,7 +92,7 @@ TOEApp.propTypes = {
   formData: PropTypes.object,
   getPersonalInfo: PropTypes.func,
   getSponsors: PropTypes.func,
-  location: PropTypes.string,
+  location: PropTypes.object,
   setFormData: PropTypes.func,
   sponsors: SPONSORS_TYPE,
   user: PropTypes.shape({
@@ -92,10 +103,10 @@ TOEApp.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  sponsors: state.data?.sponsors,
   claimant: state.data?.formData?.data?.attributes?.claimant,
   formData: state.form?.data || {},
   user: state.user,
-  sponsors: state.data?.sponsors,
 });
 
 const mapDispatchToProps = {

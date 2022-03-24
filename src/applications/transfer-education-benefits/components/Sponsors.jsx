@@ -50,7 +50,7 @@ Sponsors.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  sponsors: state.data?.sponsors || [],
+  sponsors: state.data?.sponsors?.sponsors || [],
 });
 
 export default connect(mapStateToProps)(Sponsors);

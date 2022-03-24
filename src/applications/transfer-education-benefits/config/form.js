@@ -66,6 +66,7 @@ import { directDepositDescription } from '../../edu-benefits/1990/helpers';
 import GetHelp from '../components/GetHelp';
 import Sponsors from '../components/Sponsors';
 import DynamicCheckboxGroup from '../components/DynamicCheckboxGroup';
+// import SponsorsView from '../components/SponsorsView';
 
 // import { ELIGIBILITY } from '../actions';
 
@@ -434,8 +435,7 @@ const formConfig = {
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData =>
-                  formData.sponsors?.availableSponsors?.length,
+                hideIf: formData => formData['view:sponsors']?.sponsors?.length,
               },
             },
             // [formFields.viewSelectedSponsor]: {
@@ -478,21 +478,34 @@ const formConfig = {
             //       },
             //   },
             // },
-            sponsors: {
-              selectedSponsors: {
-                'ui:title': 'Selected VA medical center',
+            'view:sponsors': {
+              sponsors: {
+                'ui:title': 'testing',
                 'ui:widget': DynamicCheckboxGroup,
                 'ui:options': {
                   hideLabelText: true,
+                  // setEditState: () => {
+                  //   return true;
+                  // },
+                  // viewField: SponsorsView,
                   // expandUnder: 'FACILITY',
                   // expandUnderCondition: true,
-                  // hideIf: formData => !formData.sponsors?.length,
+                  // hideIf: formData => !formData.sponsors?.sponsors?.length,
+                  // 'ui:reviewWidget': vaLocationReviewWidget,
+                  // 'ui:required': formData =>
+                  //   get('zipCode', formData) !== undefined &&
+                  //   get('zipCode', formData).length >= 5,
                 },
-                // 'ui:reviewWidget': vaLocationReviewWidget,
-                // 'ui:required': formData =>
-                //   get('zipCode', formData) !== undefined &&
-                //   get('zipCode', formData).length >= 5,
               },
+              'ui:validations': [
+                {
+                  validator: (errors, fieldData) => {
+                    if (!fieldData?.selectedSponsors?.length) {
+                      errors.addError('Please select a sponsor');
+                    }
+                  },
+                },
+              ],
             },
             [formFields.sponsorFullName]: {
               ...fullNameUI,
@@ -523,15 +536,13 @@ const formConfig = {
                 'ui:title': "Sponsor's  middle name",
               },
               'ui:options': {
-                hideIf: formData =>
-                  formData.sponsors?.availableSponsors?.length,
+                hideIf: formData => formData['view:sponsors']?.sponsors?.length,
               },
             },
             [formFields.sponsorDateOfBirth]: {
               ...currentOrPastDateUI("Sponsor's date of birth"),
               'ui:options': {
-                hideIf: formData =>
-                  formData.sponsors?.availableSponsors?.length,
+                hideIf: formData => formData['view:sponsors']?.sponsors?.length,
               },
             },
             'view:additionalInfo': {
@@ -550,7 +561,10 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [formFields.sponsorDateOfBirth],
+            required: [
+              formFields.sponsorDateOfBirth,
+              // 'sponsors.selectedSponsors',
+            ],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -566,13 +580,35 @@ const formConfig = {
               //     sponsorNotListed: { type: 'boolean' },
               //   },
               // },
-              sponsors: {
+              'view:sponsors': {
                 type: 'object',
                 properties: {
-                  selectedSponsors: {
+                  sponsors: {
                     type: 'string',
                   },
                 },
+                // type: 'array',
+                // properties: {
+                //   // selectedSponsors: {
+                //   //   type: 'object',
+                //   //   properties: {},
+                //   // },
+                // },
+                //   type: 'object',
+                //   properties: {
+                //     label: {
+                //       type: 'string',
+                //     },
+                //     value: {
+                //       type: 'string',
+                //     },
+                //     selected: {
+                //       type: 'boolean',
+                //     },
+                //   },
+                //   // },
+                //   // },
+                // },
               },
               [formFields.sponsorFullName]: {
                 ...fullName,
