@@ -16,11 +16,11 @@ const getDownloadLinkLabel = (timestamp, documentType) =>
   )} (${getDocumentType(documentType)})`;
 
 const List = ({ documents }) => {
-  return documents.map(({ description, documentType, timestamp }, i) => {
-    const downloadLinkLabel = getDownloadLinkLabel(timestamp, documentType);
+  return documents.map(({ createDate, description, documentType }, i) => {
+    const downloadLinkLabel = getDownloadLinkLabel(createDate, documentType);
     // This will come from the document payload in the future
     const downloadUrl = '∂';
-    const sentDate = formatDate(timestamp);
+    const sentDate = formatDate(createDate);
 
     return (
       <ListItem
