@@ -1,13 +1,13 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { mockApiRequest } from 'platform/testing/unit/helpers';
-import copays from './e2e/fixtures/mocks/copays.json';
-import { transform } from '../utils/helpers';
+import copays from '../e2e/fixtures/mocks/copays.json';
+import { transform } from '../../utils/helpers';
 import {
   getStatements,
   MCP_STATEMENTS_FETCH_INIT,
   MCP_STATEMENTS_FETCH_SUCCESS,
-} from '../actions';
+} from '../../actions';
 
 describe('getStatements', () => {
   it('should render response data', () => {
