@@ -414,8 +414,6 @@ jobs:
 
       - name: Init Dashboard Data Repo
         uses: ./.github/workflows/init-data-repo
-        with:
-          ref: code-coverage-reports
 
       - name: Install dependencies
         uses: ./.github/workflows/install
