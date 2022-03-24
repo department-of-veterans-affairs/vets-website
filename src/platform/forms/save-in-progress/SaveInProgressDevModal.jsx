@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from 'web-components/react-bindings';
 import TextArea from '@department-of-veterans-affairs/component-library/TextArea';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 
@@ -18,11 +18,25 @@ const checkHash = () => {
   }
 };
 
+const getAvailablePaths = (pageList, data) =>
+  getActivePages(pageList, data).map(page => page.path);
+
 const SipsDevModal = props => {
+  const { pageList, form, locationPathname } = props || {};
+  const { formId, version, data, submission } = form || {};
+
   const [isModalVisible, toggleModal] = useState(false);
-  const [sipsData, setSipsData] = useState(null);
+  const [sipsData, setSipsData] = useState(data);
+  const [availablePaths, setAvailablePaths] = useState(null);
   const [sipsUrl, setSipsUrl] = useState(null);
   const [errorMessage, setError] = useState('');
+
+  useEffect(
+    () => {
+      setAvailablePaths(getAvailablePaths(pageList, sipsData));
+    },
+    [pageList, sipsData],
+  );
 
   // Only show SipsDevModal when url hash includes "#dev-(on|off)"
   checkHash();
@@ -31,30 +45,23 @@ const SipsDevModal = props => {
     return null;
   }
 
-  const availablePaths = getActivePages(
-    props?.pageList || [],
-    props.form.data,
-  ).map(page => page.path);
-
   const openSipsModal = () => {
-    setSipsData(JSON.stringify(props.form.data, null, 2));
-    setSipsUrl(props.locationPathname);
+    setSipsUrl(locationPathname);
     toggleModal(true);
+  };
+
+  const getData = unprocessedData => {
+    // maximal-data.json is wrapped in `{ "data": {...} }
+    // lets extract that out to make it easier for users
+    const keys = Object.keys(unprocessedData);
+    return keys.length === 1 && keys[0] === 'data'
+      ? unprocessedData.data
+      : unprocessedData;
   };
 
   const saveData = (event, type) => {
     event.preventDefault();
-    const { formId, version, data, submission } = props.form;
-    const parsedData = JSON.parse(sipsData);
-
-    // maximal-data.json is wrapped in `{ "data": {...} }
-    // lets extract that out to make it easier for users
-    const keys = Object.keys(parsedData);
-    const resultingData =
-      keys.length === 1 && keys[0] === 'data' ? parsedData.data : parsedData;
-
-    const newData =
-      type === 'merge' ? Object.assign({}, data, resultingData) : resultingData;
+    const newData = type === 'merge' ? { ...data, ...sipsData } : sipsData;
     setError('');
     props.saveAndRedirectToReturnUrl(
       formId,
@@ -68,76 +75,60 @@ const SipsDevModal = props => {
 
   const handleChange = value => {
     try {
-      JSON.parse(value);
+      const newData = JSON.parse(value);
+      setSipsData(getData(newData));
       setError('');
     } catch (err) {
       setError(err?.message || err?.name);
     }
-    setSipsData(value);
   };
 
   return (
     <>
-      <Modal
-        title="Save in progress data"
-        id="sip-menu"
-        cssClass=""
-        visible={isModalVisible}
-        onClose={() => toggleModal(false)}
-      >
-        <>
-          <TextArea
-            errorMessage={errorMessage}
-            label="Form data"
-            name="sips_data"
-            additionalClass="resize-y"
-            field={{ value: sipsData }}
-            onValueChange={field => handleChange(field.value)}
-          />
-          <Select
-            label="Return url"
-            name="sips_url"
-            options={availablePaths}
-            value={{ value: sipsUrl }}
-            includeBlankOption={false}
-            onValueChange={value => setSipsUrl(value.value)}
-            additionalClass="additional-class"
-          />
-          <p />
-          <a href={docsPage}>
-            <i aria-hidden="true" className="fas fa-info-circle" role="img" />{' '}
-            How to use this menu
-          </a>
-          <p />
-          <div className="row">
-            <div className="small-6 columns">
-              <button
-                disabled={!!errorMessage}
-                className="usa-button-primary"
-                title="Replace all save-in-progress data"
-                onClick={e => saveData(e, 'replace')}
-              >
-                Replace
-              </button>
-            </div>
-            <div className="small-6 columns end">
-              <button
-                disabled={!!errorMessage}
-                className="usa-button-secondary"
-                title="Merge new data into existing save-in-progress data"
-                onClick={e => saveData(e, 'merge')}
-              >
-                Merge
-              </button>
-            </div>
-          </div>
-        </>
-      </Modal>{' '}
+      {isModalVisible ? (
+        <VaModal
+          modal-title="Save in progress data"
+          id="sip-menu"
+          visible={isModalVisible}
+          onCloseEvent={() => toggleModal(false)}
+          onPrimaryButtonClick={e => saveData(e, 'replace')}
+          onSecondaryButtonClick={e => saveData(e, 'merge')}
+          primaryButtonText="Replace"
+          secondaryButtonText="Merge"
+          disable-analytics
+        >
+          <>
+            <TextArea
+              errorMessage={errorMessage}
+              label="Form data"
+              name="sips_data"
+              additionalClass="resize-y"
+              field={{ value: JSON.stringify(sipsData, null, 2) }}
+              onValueChange={field => handleChange(field.value)}
+            />
+            <Select
+              label="Return url"
+              name="sips_url"
+              options={availablePaths}
+              value={{ value: sipsUrl }}
+              includeBlankOption={false}
+              onValueChange={value => setSipsUrl(value.value)}
+              additionalClass="additional-class"
+            />
+            <p />
+            <a href={docsPage}>
+              <i aria-hidden="true" className="fas fa-info-circle" role="img" />{' '}
+              How to use this menu
+            </a>
+            <p />
+          </>
+        </VaModal>
+      ) : null}{' '}
       <button
         key={showLink}
         type="button"
         className="va-button-link"
-        onClick={openSipsModal}
+        onClick={() => openSipsModal()}
       >
         <i aria-hidden="true" className="fas fa-cog" role="img" /> Open
         save-in-progress menu
@@ -147,6 +138,8 @@ const SipsDevModal = props => {
 };
 
 SipsDevModal.propTypes = {
+  locationPathname: PropTypes.string.isRequired,
+  saveAndRedirectToReturnUrl: PropTypes.func.isRequired,
   form: PropTypes.shape({
     formId: PropTypes.string.isRequired,
     version: PropTypes.number.isRequired,
@@ -157,8 +150,6 @@ SipsDevModal.propTypes = {
       }),
     ),
   }),
-  locationPathname: PropTypes.string.isRequired,
-  saveAndRedirectToReturnUrl: PropTypes.func.isRequired,
 };
 
 export default (environment.isProduction() ? () => null : SipsDevModal);
