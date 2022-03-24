@@ -49,7 +49,7 @@ const PersonalAuthenticatedInformation = ({
         user &&
         user.userFullName.first === 'ERIC' &&
         user.userFullName.last === 'BISHOP' &&
-        user.accountUuid === 'ec622bcc-e7f4-48b2-92b3-a5cb87de0dc4'
+        user.email === 'vets.gov.user+11@gmail.com'
       ) {
         setFormData({
           ...formData,
@@ -59,7 +59,7 @@ const PersonalAuthenticatedInformation = ({
         user &&
         user.userFullName.first === 'MARK' &&
         user.userFullName.last === 'WEBB' &&
-        user.accountUuid === '3a0eeb32-5731-4f3b-9a24-35f0f0b6ea75'
+        user.email === 'vets.gov.user+228@gmail.com'
       ) {
         setFormData({
           ...formData,
