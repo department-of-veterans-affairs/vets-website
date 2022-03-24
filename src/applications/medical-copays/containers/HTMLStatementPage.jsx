@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import Modals from '../components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
+import AccountSummary from '../components/AccountSummary';
 
 const HTMLStatementPage = ({ match }) => {
   const selectedId = match.params.id;
@@ -53,10 +54,14 @@ const HTMLStatementPage = ({ match }) => {
           <strong>Return to facility details</strong>
         </Link>
         <va-on-this-page className="vads-u-margin-top--0" />
-        <StatementAddresses
-          data-testid="statement-addresses"
-          copay={selectedCopay}
+        <AccountSummary
+          currentBalance={selectedCopay.pHNewBalance}
+          newCharges={selectedCopay.pHTotCharges}
+          paymentsReceived={selectedCopay.pHTotCredits}
+          previousBalance={selectedCopay.pHPrevBal}
+          statementDate={statementDate}
         />
+        <StatementAddresses id="statement-addresses" copay={selectedCopay} />
         <h2>What if I have questions about my statement?</h2>
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />
