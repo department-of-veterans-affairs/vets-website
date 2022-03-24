@@ -2671,13 +2671,13 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@department-of-veterans-affairs/component-library@7.4.1":
-  version "7.4.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-7.4.1.tgz#7e037acf5dc4ac875a2e3b616acc31bc56a01319"
-  integrity sha512-MYZh47Jo1W9T7DpyADW5iO5+8+HLe1BvaxhX6/WOQ3NoN+LLnJm85xNShh9Tgx9W4FK2nAjHmr8cYUoJssZWTg==
+"@department-of-veterans-affairs/component-library@^8.2.0":
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-8.2.0.tgz#0b0620358b271d63e6983cb5ca0847fc9d562072"
+  integrity sha512-A8lg84zZPuT4FyINXREqL1X5bOV3e1kt3IVkgUnA0D8JqcB71WaWUQ+/ghqFFZ4mg3a+CR6MsEnFPl5WTysAWw==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "5.0.0"
-    "@department-of-veterans-affairs/web-components" "2.6.1"
+    "@department-of-veterans-affairs/react-components" "6.0.0"
+    "@department-of-veterans-affairs/web-components" "2.8.0"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
@@ -2701,14 +2701,13 @@
     yeoman-generator "^4.11.0"
     yosay "^2.0.1"
 
-"@department-of-veterans-affairs/react-components@5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-5.0.0.tgz#e6acbe585aff5c04335756d18ce4567844d76d1a"
-  integrity sha512-WnKN1MrdDRsxMwUA/G0xhe+J7yoF9H1hS/lnOKr1SPi6pxmxWBsYLtjMETeT68dbE/otvBs6HgZIIsK5GlmHGA==
+"@department-of-veterans-affairs/react-components@6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-6.0.0.tgz#1e3e88a13fc4dbc6cdc89b74dd6fffbf95134a9d"
+  integrity sha512-GqKArB8U27ZNgiK19dfN86hvWK0+QKx+5edsJtIUTiLHFYkma1CFys/HYCEO2IcjGyaD6n7QWQKgFjpeFgJp3A==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
-    react-focus-lock "^2.5.1"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
     react-transition-group "1"
@@ -2733,10 +2732,10 @@
     lodash "^4.17.21"
     react-router-dom "^5.3.0"
 
-"@department-of-veterans-affairs/web-components@2.6.1":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-2.6.1.tgz#e004415d067a74597074c224e0b8d5fbc2ae4f57"
-  integrity sha512-ySdrm90elTmYchuoQrFVW2juZhugK4YSOpJ8WNsSOy1hbsUowbxSEgUsxeneOYQ05il911L+slbh6Z0GaB6QCA==
+"@department-of-veterans-affairs/web-components@2.8.0":
+  version "2.8.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-2.8.0.tgz#057903db61a297403e8e0cf6609250a4691dea60"
+  integrity sha512-ACB7NBTXhNywp5iEZA1wGhLhNHa/wKoYxwPyCWprN9Rs7jjS3d/TWYQ9ackEWSU6qVXS0b7FnQtiq6NMkTEvfg==
   dependencies:
     "@stencil/core" "^2.10.0"
     aria-hidden "^1.1.3"
@@ -16669,7 +16668,7 @@ react-fast-compare@^2.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
-react-focus-lock@^2.5.0, react-focus-lock@^2.5.1:
+react-focus-lock@^2.5.0:
   version "2.5.2"
   resolved "https://registry.yarnpkg.com/react-focus-lock/-/react-focus-lock-2.5.2.tgz#f1e4db5e25cd8789351f2bd5ebe91e9dcb9c2922"
   integrity sha512-WzpdOnEqjf+/A3EH9opMZWauag7gV0BxFl+EY4ElA4qFqYsUsBLnmo2sELbN5OC30S16GAWMy16B9DLPpdJKAQ==
