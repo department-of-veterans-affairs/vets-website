@@ -61,7 +61,7 @@ const StatementAddresses = ({ copay }) => {
           {copay.pHAddress3 && (
             <>
               <span data-testid="recipient-address-three">
-                {copay.pHAddress3 ? copay.pHAddress3 : ''}
+                {copay.pHAddress3}
               </span>
               <br />
             </>
