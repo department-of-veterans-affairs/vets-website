@@ -65,6 +65,11 @@
     "widgetType": "manage-va-debt-cta"
   },
   {
+    "appName": "1095B Download",
+    "rootUrl": "/health-care/download-1095b/",
+    "widgetType": "download-1095b"
+  },
+  {
     "appName": "Pay Your VA Copay Bill",
     "rootUrl": "/health-care/pay-copay-bill",
     "widgetType": "medical-copays-cta"
