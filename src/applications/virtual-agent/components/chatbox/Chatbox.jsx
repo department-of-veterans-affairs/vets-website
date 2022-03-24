@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { connect, useSelector } from 'react-redux';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
@@ -35,8 +35,8 @@ function useWebChat(props) {
 //   return true;
 // }
 
-function showBot(loggedIn, requireAuth, accepted, minute, props) {
-  if (!loggedIn && requireAuth) {
+function showBot(loggedIn, requireAuth, accepted, minute, isAuthTopic, props) {
+  if ((!loggedIn && false) || (!loggedIn && isAuthTopic)) {
     return <ConnectedSignInAlert />;
   }
   if (!accepted) {
@@ -51,6 +51,13 @@ export default function Chatbox(props) {
   const requireAuth = useSelector(
     state => state.featureToggles.virtualAgentAuth,
   );
+  const [isAuthTopic, setIsAuthTopic] = useState(false);
+
+  window.addEventListener('webchat-auth-activity', ({ data }) => {
+    console.log(`Received an activity of type "${data.type}":`);
+    console.log(data);
+    setIsAuthTopic(true);
+  });
 
   const ONE_MINUTE = 60 * 1000;
   return (
@@ -60,7 +67,14 @@ export default function Chatbox(props) {
           VA virtual agent
         </h2>
       </div>
-      {showBot(isLoggedIn, requireAuth, isAccepted, ONE_MINUTE, props)}
+      {showBot(
+        isLoggedIn,
+        requireAuth,
+        isAccepted,
+        ONE_MINUTE,
+        isAuthTopic,
+        props,
+      )}
     </div>
   );
 }

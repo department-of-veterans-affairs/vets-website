@@ -31,6 +31,19 @@ const GreetUser = {
         type: 'DIRECT_LINE/POST_ACTIVITY',
       });
     }
+
+    if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
+      const data = action.payload.activity;
+      if (
+        data.type === 'message' &&
+        data.text.includes('36 months') &&
+        data.from.role === 'bot'
+      ) {
+        const event = new Event('webchat-auth-activity');
+        event.data = action.payload.activity;
+        window.dispatchEvent(event);
+      }
+    }
     return next(action);
   },
 };
