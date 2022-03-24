@@ -1,56 +1,60 @@
-import { PROFILE_PATHS } from '@@profile/constants';
-import mockUser from '@@profile/tests/fixtures/users/user-36.json';
-import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
 import mockProfileShowAddressChangeModalToggle from '@@profile/tests/fixtures/contact-information-feature-toggles.json';
+import { setupHomeAddressModalCheck } from './setup';
+import AddressPage from '../address-validation/page-objects/AddressPage';
+import user36 from '../../fixtures/users/user-36.json';
 
-const setup = (mobile = false) => {
-  if (mobile) {
-    cy.viewport('iphone-4');
-  }
+describe('Home address update modal', () => {
+  describe('when addresses DO match', () => {
+    it('should NOT SHOW update prompt modal', () => {
+      const formFields = {
+        address: '36320 Coronado Dr',
+        city: 'Fremont',
+        state: 'MD',
+        zipCode: '94536',
+      };
+      cy.intercept(
+        'v0/feature_toggles*',
+        mockProfileShowAddressChangeModalToggle,
+      );
 
-  cy.login(mockUser);
+      setupHomeAddressModalCheck('valid-address');
 
-  cy.intercept('v0/feature_toggles*', mockProfileShowAddressChangeModalToggle);
+      const addressPage = new AddressPage();
+      addressPage.fillAddressForm(formFields);
+      addressPage.saveForm();
 
-  mockGETEndpoints([
-    'v0/mhv_account',
-    'v0/profile/full_name',
-    'v0/profile/status',
-    'v0/profile/personal_information',
-    'v0/profile/service_history',
-    'v0/ppiu/payment_information',
-  ]);
+      cy.findByTestId('modal-content').should('not.exist');
 
-  cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-  cy.injectAxe();
-
-  // should show a loading indicator
-  cy.findByRole('progressbar').should('exist');
-  cy.findByText(/loading your information/i).should('exist');
-
-  // and then the loading indicator should be removed
-  cy.findByText(/loading your information/i).should('not.exist');
-  cy.findByRole('progressbar').should('not.exist');
-};
-
-describe('The personal and contact information page', () => {
-  it('should show address update modal dialog when updating home address', () => {
-    setup();
-
-    // Open edit view
-    cy.findByRole('button', {
-      name: new RegExp(`edit home address`, 'i'),
-    }).click({
-      force: true,
+      cy.injectAxeThenAxeCheck();
     });
 
-    cy.findByTestId('save-edit-button')
-      .should('exist')
-      .click();
+    it('should SHOW update prompt modal', () => {
+      const formFields = {
+        address: '36320 Coronado Dr',
+        city: 'Fremont',
+        state: 'MD',
+        zipCode: '94536',
+      };
+      cy.intercept(
+        'v0/feature_toggles*',
+        mockProfileShowAddressChangeModalToggle,
+      );
 
-    cy.findByTestId('modal-content').should('exist');
+      setupHomeAddressModalCheck('valid-address');
 
-    cy.axeCheck();
+      const addressPage = new AddressPage();
+
+      cy.intercept('GET', '/v0/user?*', {
+        statusCode: 200,
+        body: user36,
+      });
+
+      addressPage.fillAddressForm(formFields);
+      addressPage.saveForm();
+
+      cy.findByTestId('modal-content').should('not.exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
   });
 });

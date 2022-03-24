@@ -79,6 +79,7 @@ export default Object.freeze({
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
+  shiftVetsBanner: 'shift_vets_banner',
   show526Wizard: 'show526_wizard',
   showPaymentAndDebtSection: 'show_payment_and_debt_section',
   showContactChatbot: 'show_contact_chatbot',

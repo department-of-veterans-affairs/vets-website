@@ -1,5 +1,4 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -70,68 +69,26 @@ export class IntroductionPage extends React.Component {
                     <li>Bank account direct deposit information</li>
                     <li>Education history</li>
                   </ul>
-                  {environment.isProduction() ? (
-                    <div>
-                      <p>
-                        <strong>
-                          What if I need help filling out my application?
-                        </strong>{' '}
-                        An accredited representative with a Veterans Service
-                        Organization (VSO) can help you fill out your claim.{' '}
-                        <a href="/disability-benefits/apply/help/index.html">
-                          Find an accredited representative
-                        </a>
-                        .
-                      </p>
-                      <h6>Learn about educational programs</h6>
-                      <p>
-                        See what benefits you’ll get at the school you want to
-                        attend.{' '}
-                        <a href="/education/gi-bill-comparison-tool/">
-                          Use the GI Bill Comparison Tool
-                        </a>
-                        .
-                      </p>
-                    </div>
-                  ) : (
-                    <div>
-                      <p>
-                        <strong>
-                          What if I need help filling out my application?
-                        </strong>{' '}
-                      </p>
-                      <p>
-                        The{' '}
-                        <a href="https://veteransbenefitsbanking.org/">
-                          Veterans Benefits Banking Program (VBBP)
-                        </a>{' '}
-                        provides a list of Veteran-friendly banks and credit
-                        unions. They’ll work with you to set up an account, or
-                        help you qualify for an account, so you can use direct
-                        deposit. To get started, call one of the participating
-                        banks or credit unions listed on the VBBP website. Be
-                        sure to mention the Veterans Benefits Banking Program.
-                      </p>
-                      <p>
-                        Note: The Department of the Treasury requires us to make
-                        electronic payments. If you don’t want to use direct
-                        deposit, you’ll need to call the Department of the
-                        Treasury at <a href="tel:8882242950">888-224-2950</a>.
-                        Ask to talk with a representative who handles waiver
-                        requests. They can answer any questions or concerns you
-                        may have.{' '}
-                      </p>
-                      <h6>Learn about educational programs</h6>
-                      <p>
-                        See what benefits you’ll get at the school you want to
-                        attend.{' '}
-                        <a href="/education/gi-bill-comparison-tool/">
-                          Use the GI Bill Comparison Tool
-                        </a>
-                        .
-                      </p>
-                    </div>
-                  )}
+                  <p>
+                    <strong>
+                      What if I need help filling out my application?
+                    </strong>{' '}
+                    An accredited representative with a Veterans Service
+                    Organization (VSO) can help you fill out your claim.{' '}
+                    <a href="/disability-benefits/apply/help/index.html">
+                      Find an accredited representative
+                    </a>
+                    .
+                  </p>
+                  <h6>Learn about educational programs</h6>
+                  <p>
+                    See what benefits you’ll get at the school you want to
+                    attend.{' '}
+                    <a href="/education/gi-bill-comparison-tool/">
+                      Use the GI Bill Comparison Tool
+                    </a>
+                    .
+                  </p>
                 </li>
                 <li className="process-step list-two">
                   <div>
