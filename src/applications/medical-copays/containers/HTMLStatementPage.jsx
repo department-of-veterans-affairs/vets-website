@@ -61,7 +61,10 @@ const HTMLStatementPage = ({ match }) => {
           previousBalance={selectedCopay.pHPrevBal}
           statementDate={statementDate}
         />
-        <StatementAddresses id="statement-addresses" copay={selectedCopay} />
+        <StatementAddresses
+          data-testid="statement-addresses"
+          copay={selectedCopay}
+        />
         <h2>What if I have questions about my statement?</h2>
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />
