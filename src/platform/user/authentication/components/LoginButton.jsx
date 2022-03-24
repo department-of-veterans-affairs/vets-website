@@ -3,7 +3,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import { CSP_CONTENT } from '../constants';
 
-function loginHandler(loginType) {
+export function loginHandler(loginType) {
   recordEvent({ event: `login-attempted-${loginType}` });
   authUtilities.login({
     policy: loginType,
