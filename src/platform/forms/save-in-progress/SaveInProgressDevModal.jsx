@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { VaModal } from 'web-components/react-bindings';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import TextArea from '@department-of-veterans-affairs/component-library/TextArea';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 
@@ -19,13 +19,17 @@ const checkHash = () => {
 };
 
 const getAvailablePaths = (pageList, data) =>
-  getActivePages(pageList, data).map(page => page.path);
+  getActivePages(pageList, data)
+    .map(page => page.path)
+    // remove introduction page (it'll cause an endless loop if selected)
+    .slice(1);
 
 const SipsDevModal = props => {
   const { pageList, form, locationPathname } = props || {};
   const { formId, version, data, submission } = form || {};
 
   const [isModalVisible, toggleModal] = useState(false);
+  const [textData, setTextData] = useState(JSON.stringify(data, null, 2));
   const [sipsData, setSipsData] = useState(data);
   const [availablePaths, setAvailablePaths] = useState(null);
   const [sipsUrl, setSipsUrl] = useState(null);
@@ -38,6 +42,53 @@ const SipsDevModal = props => {
     [pageList, sipsData],
   );
 
+  const handlers = {
+    openSipsModal: () => {
+      setSipsUrl(locationPathname);
+      toggleModal(true);
+    },
+    closeSipsModal: () => {
+      // reset any issues in the textarea
+      setTextData(JSON.stringify(sipsData, null, 2));
+      toggleModal(false);
+    },
+    onChange: value => {
+      let parsedData = null;
+      try {
+        parsedData = JSON.parse(value);
+        setError('');
+      } catch (err) {
+        setError(err?.message || err?.name);
+      }
+      setTextData(value);
+
+      // only update sipsData when valid. This will dynamically update the
+      // return url options
+      if (parsedData && !errorMessage) {
+        // maximal-data.json is wrapped in `{ "data": {...} }
+        // lets extract that out to make it easier for users
+        const keys = Object.keys(parsedData);
+        const newData =
+          keys.length === 1 && keys[0] === 'data'
+            ? parsedData.data
+            : parsedData;
+        setSipsData(newData);
+      }
+    },
+    saveData: (event, type) => {
+      event.preventDefault();
+      setError('');
+      props.saveAndRedirectToReturnUrl(
+        formId,
+        type === 'merge' ? { ...data, ...sipsData } : sipsData,
+        version,
+        sipsUrl,
+        submission,
+      );
+      toggleModal(false);
+    },
+  };
+
   // Only show SipsDevModal when url hash includes "#dev-(on|off)"
   checkHash();
   const showLink = localStorage.getItem('DEV_MODE');
@@ -45,57 +96,15 @@ const SipsDevModal = props => {
     return null;
   }
 
-  const openSipsModal = () => {
-    setSipsUrl(locationPathname);
-    toggleModal(true);
-  };
-
-  const getData = unprocessedData => {
-    // maximal-data.json is wrapped in `{ "data": {...} }
-    // lets extract that out to make it easier for users
-    const keys = Object.keys(unprocessedData);
-    return keys.length === 1 && keys[0] === 'data'
-      ? unprocessedData.data
-      : unprocessedData;
-  };
-
-  const saveData = (event, type) => {
-    event.preventDefault();
-    const newData = type === 'merge' ? { ...data, ...sipsData } : sipsData;
-    setError('');
-    props.saveAndRedirectToReturnUrl(
-      formId,
-      newData,
-      version,
-      sipsUrl,
-      submission,
-    );
-    toggleModal(false);
-  };
-
-  const handleChange = value => {
-    try {
-      const newData = JSON.parse(value);
-      setSipsData(getData(newData));
-      setError('');
-    } catch (err) {
-      setError(err?.message || err?.name);
-    }
-  };
-
   return (
     <>
       {isModalVisible ? (
-        <VaModal
-          modal-title="Save in progress data"
+        <Modal
+          title="Save in progress data"
           id="sip-menu"
+          cssClass=""
           visible={isModalVisible}
-          onCloseEvent={() => toggleModal(false)}
-          onPrimaryButtonClick={e => saveData(e, 'replace')}
-          onSecondaryButtonClick={e => saveData(e, 'merge')}
-          primaryButtonText="Replace"
-          secondaryButtonText="Merge"
-          disable-analytics
+          onClose={handlers.closeSipsModal}
         >
           <>
             <TextArea
@@ -103,8 +112,8 @@ const SipsDevModal = props => {
               label="Form data"
               name="sips_data"
               additionalClass="resize-y"
-              field={{ value: JSON.stringify(sipsData, null, 2) }}
-              onValueChange={field => handleChange(field.value)}
+              field={{ value: textData }}
+              onValueChange={field => handlers.onChange(field.value)}
             />
             <Select
               label="Return url"
@@ -121,14 +130,38 @@ const SipsDevModal = props => {
               How to use this menu
             </a>
             <p />
+            <div className="row">
+              <div className="small-6 columns">
+                <button
+                  type="button"
+                  disabled={!!errorMessage}
+                  className="usa-button-primary"
+                  title="Replace all save-in-progress data"
+                  onClick={e => handlers.saveData(e, 'replace')}
+                >
+                  Replace
+                </button>
+              </div>
+              <div className="small-6 columns end">
+                <button
+                  type="button"
+                  disabled={!!errorMessage}
+                  className="usa-button-secondary"
+                  title="Merge new data into existing save-in-progress data"
+                  onClick={e => handlers.saveData(e, 'merge')}
+                >
+                  Merge
+                </button>
+              </div>
+            </div>
           </>
-        </VaModal>
+        </Modal>
       ) : null}{' '}
       <button
         key={showLink}
         type="button"
-        className="va-button-link"
-        onClick={() => openSipsModal()}
+        className="va-button-link vads-u-margin-left--1"
+        onClick={handlers.openSipsModal}
       >
         <i aria-hidden="true" className="fas fa-cog" role="img" /> Open
         save-in-progress menu
