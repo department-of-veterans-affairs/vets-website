@@ -8,10 +8,6 @@ import prefillAiq from './fixtures/mockPrefillAiq.json';
 import * as dobHelpers from './helpers';
 
 describe('HCA-DOB', () => {
-  before(function beforeCypressTest() {
-    if (Cypress.env('CI')) this.skip();
-  });
-
   beforeEach(() => {
     cy.login(mockUserAiq);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
