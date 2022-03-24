@@ -62,7 +62,7 @@ describe('mcp statement view', () => {
         },
         pHAddress1: '456 Alternate St',
         pHAddress2: 'Apt 2',
-        phAddress3: 'Test Patient Address 3',
+        pHAddress3: 'Test Patient Address 3',
         pHCity: 'Tampa',
         pHState: 'FL',
         pHZipCde: '33333',
