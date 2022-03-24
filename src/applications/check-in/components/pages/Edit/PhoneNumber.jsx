@@ -43,9 +43,9 @@ export default function PhoneNumber(props) {
 
   const isUpdatable = useMemo(
     () => {
-      return !phoneErrorMessage && !extensionErrorMessage;
+      return !phoneErrorMessage && !extensionErrorMessage && phone.number;
     },
-    [phoneErrorMessage, extensionErrorMessage],
+    [phoneErrorMessage, extensionErrorMessage, phone.number],
   );
 
   const dispatch = useDispatch();
@@ -86,7 +86,11 @@ export default function PhoneNumber(props) {
     event => {
       const { value: newPhone } = event.target;
       if (newPhone === '') {
-        setPhoneErrorMessage();
+        setPhoneErrorMessage(
+          `${getLabelForEditField(key, {
+            capitalizeFirstLetter: true,
+          })} is required`,
+        );
       } else if (!isValidPhone(newPhone)) {
         setPhoneErrorMessage('Please enter a valid phone number address.');
       } else {
@@ -94,7 +98,7 @@ export default function PhoneNumber(props) {
       }
       setPhoneNumber(newPhone);
     },
-    [setPhoneNumber],
+    [setPhoneNumber, key],
   );
 
   const onExtensionChange = useCallback(
@@ -119,6 +123,7 @@ export default function PhoneNumber(props) {
         name={key}
         value={formatPhone(phoneNumber)}
         onVaChange={onPhoneNumberChange}
+        required
       />
       <VaTextInput
         error={extensionErrorMessage}
