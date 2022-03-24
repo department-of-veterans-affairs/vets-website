@@ -1,4 +1,5 @@
 import React from 'react';
+// import UserNav from 'platform/site-wide/user-nav/containers/Main';
 
 export default function App() {
   return (
@@ -35,9 +36,8 @@ export default function App() {
             free ID.me account now.
           </div>
           <div>
-            <button type="button" className="usa-button">
-              Sign in or create an account
-            </button>
+            {/* Sign in or create an account button */}
+            {/* <UserNav isHeaderV2 /> */}
           </div>
         </va-alert>
         <a href="https://www.fitbit.com/oauth2/authorize?client_id=<client_id>&response_type=code&code_challenge=<code_challenge>&code_challenge_method=S256&scope=weight%20location%20settings%20profile%20nutrition%20activity%20sleep%20heartrate%20social">

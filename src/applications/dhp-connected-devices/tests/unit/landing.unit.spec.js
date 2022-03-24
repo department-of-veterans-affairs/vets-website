@@ -11,6 +11,19 @@ describe('connect health devices landing page', () => {
 
     expect(dhpContainer.getByText(title)).to.exist;
   });
+
+  xit('App renders sign in or create account button if user NOT logged in', () => {
+    const dhpContainer = render(<DhpApp />);
+    const buttonText = 'Sign in or create an account';
+
+    expect(dhpContainer.queryByTestId('sign-in-button')).to.have.text(
+      buttonText,
+    );
+    //
+    // expect button to exist; search id or test-id
+    // if button exist, should contain buttonText
+    // if button exist, href should exist
+  });
 });
 
 // Page loads with:
