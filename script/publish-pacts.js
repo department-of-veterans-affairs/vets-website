@@ -21,18 +21,18 @@ const pactsFolder = path.resolve(__dirname, '../pacts');
 const commitHash = process.env.GITHUB_SHA;
 const branchName = process.env.GITHUB_REF;
 
-if (fs.existsSync(pactsFolder)) {
-  pactBrokerClient
-    .publishAndTagPacts({
-      pactDir: pactsFolder,
-      version: commitHash,
-      tag: branchName,
-    })
-    .catch(error => {
-      console.error(error);
-      process.exit(1);
-    });
-} else {
-  console.log(`The directory '${pactsFolder}' does not exist.`);
+if (!fs.existsSync(pactsFolder)) {
+  console.log(`No pacts found.`);
   process.exit(0);
 }
+
+pactBrokerClient
+  .publishAndTagPacts({
+    pactDir: pactsFolder,
+    version: commitHash,
+    tag: branchName,
+  })
+  .catch(error => {
+    console.error(error);
+    process.exit(1);
+  });
