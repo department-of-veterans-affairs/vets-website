@@ -48,5 +48,7 @@ describe('loginHandler', () => {
     expect(loginHandlerSpy.called).to.be.true;
     expect(mockAuthLogin.called).to.be.true;
     expect(mockAuthLogin.calledWith({ policy: 'mhv' })).to.be.true;
+
+    mockAuthLogin.restore();
   });
 });
