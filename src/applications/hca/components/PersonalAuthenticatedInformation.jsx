@@ -45,22 +45,12 @@ const PersonalAuthenticatedInformation = ({
   useEffect(
     () => {
       if (!user) return;
-      if (
-        user &&
-        user.userFullName.first === 'ERIC' &&
-        user.userFullName.last === 'BISHOP' &&
-        user.email === 'vets.gov.user+11@gmail.com'
-      ) {
+      if (user && user.email === 'vets.gov.user+11@gmail.com') {
         setFormData({
           ...formData,
           'view:totalDisabilityRating': 40,
         });
-      } else if (
-        user &&
-        user.userFullName.first === 'MARK' &&
-        user.userFullName.last === 'WEBB' &&
-        user.email === 'vets.gov.user+228@gmail.com'
-      ) {
+      } else if (user && user.email === 'vets.gov.user+228@gmail.com') {
         setFormData({
           ...formData,
           'view:totalDisabilityRating': 100,
