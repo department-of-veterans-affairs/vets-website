@@ -22,9 +22,10 @@ export default function JumpLink({ label, jumpToId }) {
       className="jump-link arrow-down-link"
       href={`#${jumpToId}`}
       onClick={handleClick}
+      tabIndex={0}
     >
       <p>
-        <i className={`fa fa-arrow-down`} aria-hidden="true" />
+        <i className="fa fa-arrow-down" aria-hidden="true" />
         <span>{label}</span>
       </p>
     </a>
