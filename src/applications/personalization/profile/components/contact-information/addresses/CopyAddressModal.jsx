@@ -78,6 +78,7 @@ const CopyAddressModal = props => {
   const handlers = {
     onYes() {
       const payload = convertCleanDataToPayload(homeAddress, mailingFieldName);
+      payload.id = mailingAddress?.id;
       const method = payload.id ? 'PUT' : 'POST';
       const analyticsSectionName =
         VAP_SERVICE.ANALYTICS_FIELD_MAP[
