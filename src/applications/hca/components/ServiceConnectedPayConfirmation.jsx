@@ -31,7 +31,7 @@ const ServiceConnectedPayConfirmation = ({ goBack, goForward }) => {
   return (
     <div>
       <div className="hca-id-form-wrapper vads-u-margin-bottom--2 vads-u-margin-x--neg1p5">
-        <div className="vads-u-border-left--10px vads-u-border-color--primary-alt-dark signature-box vads-u-background-color--gray-lightest vads-u-padding-top--1 vads-u-padding-bottom--2p5  vads-u-margin-bottom--3">
+        <div className="vads-u-background-color--primary-alt-lightest vads-u-padding-top--1 vads-u-padding-bottom--2p5  vads-u-margin-bottom--3">
           <div className="vads-u-padding-x--4">
             <p className="vads-u-font-family--serif vads-u-font-size--lg vads-u-font-weight--bold">
               Please confirm that you receive service-connected pay for a 50% or
@@ -46,7 +46,7 @@ const ServiceConnectedPayConfirmation = ({ goBack, goForward }) => {
               <strong>Note:</strong> The VA will confirm all information upon
               application receipt.{' '}
             </p>
-            <div className="vads-u-margin-y--5">
+            <div className="vads-u-margin-y--4">
               <va-additional-info trigger="Why do I need to confirm my disability pay?">
                 We want to make sure that we ask you all the questions we need
                 to make a decision about your application. This helps you get a

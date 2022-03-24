@@ -11,7 +11,7 @@ const DisabilityRatingShortFormConfirmation = ({ goForward, data }) => {
         <div className="vads-u-margin-bottom--9">
           <va-alert
             close-btn-aria-label="Close notification"
-            status="success"
+            status="info"
             visible
           >
             <h3 slot="headline">You can fill out a shorter application</h3>
