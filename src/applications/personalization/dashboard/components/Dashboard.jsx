@@ -183,33 +183,39 @@ const Dashboard = ({
   }, []);
 
   // focus on the name tag or the header when we are done loading
-  useEffect(() => {
-    if (!showLoader) {
-      if (showNameTag) {
-        focusElement('#name-tag');
-      } else {
-        focusElement('#dashboard-title');
+  useEffect(
+    () => {
+      if (!showLoader) {
+        if (showNameTag) {
+          focusElement('#name-tag');
+        } else {
+          focusElement('#dashboard-title');
+        }
       }
-    }
-  }, [showLoader, showNameTag]);
+    },
+    [showLoader, showNameTag],
+  );
 
   // fetch data when we determine they are LOA3
-  useEffect(() => {
-    if (isLOA3) {
-      fetchFullName();
-      fetchMilitaryInformation();
-      fetchTotalDisabilityRating();
-      getDebts();
-      getPayments();
-    }
-  }, [
-    isLOA3,
-    fetchFullName,
-    fetchMilitaryInformation,
-    fetchTotalDisabilityRating,
-    getDebts,
-    getPayments,
-  ]);
+  useEffect(
+    () => {
+      if (isLOA3) {
+        fetchFullName();
+        fetchMilitaryInformation();
+        fetchTotalDisabilityRating();
+        getDebts();
+        getPayments();
+      }
+    },
+    [
+      isLOA3,
+      fetchFullName,
+      fetchMilitaryInformation,
+      fetchTotalDisabilityRating,
+      getDebts,
+      getPayments,
+    ],
+  );
 
   return (
     <RequiredLoginView
@@ -446,4 +452,7 @@ const mapDispatchToProps = {
   getPayments: getAllPayments,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Dashboard);

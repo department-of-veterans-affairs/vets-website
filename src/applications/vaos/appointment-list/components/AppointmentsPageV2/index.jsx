@@ -107,58 +107,68 @@ export default function AppointmentsPageV2() {
 
   const [count, setCount] = useState(0);
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (featureStatusImprovement) {
-      let prefix = 'Your';
-      if (location.pathname.endsWith('pending')) {
-        prefix = 'Pending';
-        pageTitle = `${prefix} appointments`;
-        dispatch(updateBreadcrumb({ title: prefix, path: 'pending' }));
-      } else if (location.pathname.endsWith('past')) {
-        prefix = 'Past';
-        pageTitle = `${prefix} appointments`;
-        dispatch(updateBreadcrumb({ title: prefix, path: 'past' }));
-      } else {
-        pageTitle = 'Your appointments';
-      }
+  useEffect(
+    () => {
+      if (featureStatusImprovement) {
+        let prefix = 'Your';
+        if (location.pathname.endsWith('pending')) {
+          prefix = 'Pending';
+          pageTitle = `${prefix} appointments`;
+          dispatch(updateBreadcrumb({ title: prefix, path: 'pending' }));
+        } else if (location.pathname.endsWith('past')) {
+          prefix = 'Past';
+          pageTitle = `${prefix} appointments`;
+          dispatch(updateBreadcrumb({ title: prefix, path: 'past' }));
+        } else {
+          pageTitle = 'Your appointments';
+        }
 
-      document.title = `${prefix} appointments | VA online scheduling | Veterans Affairs`;
-      scrollAndFocus('h1');
-    } else {
-      document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
-      scrollAndFocus('h1');
-    }
-  }, [subPageTitle, featureStatusImprovement, location.pathname, dispatch]);
+        document.title = `${prefix} appointments | VA online scheduling | Veterans Affairs`;
+        scrollAndFocus('h1');
+      } else {
+        document.title = `${subPageTitle} | ${pageTitle} | Veterans Affairs`;
+        scrollAndFocus('h1');
+      }
+    },
+    [subPageTitle, featureStatusImprovement, location.pathname, dispatch],
+  );
 
   const [documentTitle, setDocumentTitle] = useState();
-  useEffect(() => {
-    function handleBeforePrint(_event) {
-      document.title = `Your appointments | VA online scheduling | Veterans Affairs`;
-    }
+  useEffect(
+    () => {
+      function handleBeforePrint(_event) {
+        document.title = `Your appointments | VA online scheduling | Veterans Affairs`;
+      }
 
-    function handleAfterPrint(_event) {
-      document.title = documentTitle;
-    }
-    setDocumentTitle(document.title);
+      function handleAfterPrint(_event) {
+        document.title = documentTitle;
+      }
+      setDocumentTitle(document.title);
 
-    window.addEventListener('beforeprint', handleBeforePrint);
-    window.addEventListener('afterprint', handleAfterPrint);
-    return () => {
-      window.removeEventListener('beforeprint', handleBeforePrint);
-      window.removeEventListener('afterprint', handleAfterPrint);
-    };
-  }, [documentTitle, subPageTitle]);
+      window.addEventListener('beforeprint', handleBeforePrint);
+      window.addEventListener('afterprint', handleAfterPrint);
+      return () => {
+        window.removeEventListener('beforeprint', handleBeforePrint);
+        window.removeEventListener('afterprint', handleAfterPrint);
+      };
+    },
+    [documentTitle, subPageTitle],
+  );
 
-  useEffect(() => {
-    // Get non cancled appointment requests from store
-    setCount(
-      pendingAppointments
-        ? pendingAppointments.filter(
-            appointment => appointment.status !== APPOINTMENT_STATUS.cancelled,
-          ).length
-        : 0,
-    );
-  }, [pendingAppointments]);
+  useEffect(
+    () => {
+      // Get non cancled appointment requests from store
+      setCount(
+        pendingAppointments
+          ? pendingAppointments.filter(
+              appointment =>
+                appointment.status !== APPOINTMENT_STATUS.cancelled,
+            ).length
+          : 0,
+      );
+    },
+    [pendingAppointments],
+  );
 
   const history = useHistory();
 

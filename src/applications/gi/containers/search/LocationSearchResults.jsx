@@ -83,9 +83,12 @@ function LocationSearchResults({
    * When LocationSearchForm triggers a search it will set the value of changed to false disabling behavior
    * related to "Search this area of the map"
    */
-  useEffect(() => {
-    setMapState(search.query.mapState);
-  }, [search.query.mapState]);
+  useEffect(
+    () => {
+      setMapState(search.query.mapState);
+    },
+    [search.query.mapState],
+  );
 
   /**
    * Initialize map if the element is present
@@ -147,9 +150,12 @@ function LocationSearchResults({
   /**
    * Initialize the map on load and if the mobileTab changes
    */
-  useEffect(() => {
-    setupMap();
-  }, [mobileTab]);
+  useEffect(
+    () => {
+      setupMap();
+    },
+    [mobileTab],
+  );
 
   /**
    * Used to exclude results from appearing in cards or as a marker when using "Search this area of the map" button
@@ -197,16 +203,19 @@ function LocationSearchResults({
    * Using a useEffect since on smallScreen need to switch tabs first before scrolling to search result card
    * Both desktop and mobile will trigger this useEffect
    */
-  useEffect(() => {
-    if (markerClicked && (!smallScreen || mobileTab === LIST_TAB)) {
-      mapMarkerClicked(markerClicked);
-      setMarkerClicked(null);
-      recordEvent({
-        event: 'map-pin-click',
-        'map-location': markerClicked,
-      });
-    }
-  }, [markerClicked]);
+  useEffect(
+    () => {
+      if (markerClicked && (!smallScreen || mobileTab === LIST_TAB)) {
+        mapMarkerClicked(markerClicked);
+        setMarkerClicked(null);
+        recordEvent({
+          event: 'map-pin-click',
+          'map-location': markerClicked,
+        });
+      }
+    },
+    [markerClicked],
+  );
 
   /**
    * Adds a map marker to the map and includes in a LngLatBounds object if provided
@@ -271,67 +280,70 @@ function LocationSearchResults({
    * Takes results and puts them on the map
    * Excludes results that are not visible on the map when using "Search this area of the map"
    */
-  useEffect(() => {
-    if (smallScreen || landscape) {
-      map.current = null;
-    }
-    setupMap();
-    markers.forEach(marker => marker.remove());
-    setActiveMarker(null);
-
-    let visibleResults = [];
-    const mapMarkers = [];
-
-    if (smallScreen || landscape) {
-      visibleResults = results;
-    }
-
-    // reset map if no results found
-    if (map.current && results.length === 0 && !mapState.changed) {
-      map.current.setCenter([
-        MapboxInit.centerInit.longitude,
-        MapboxInit.centerInit.latitude,
-      ]);
-      map.current.zoomTo(MapboxInit.zoomInit, { duration: 300 });
-    }
-
-    // wait for map to initialize or no results are returned
-    if (!map.current || results.length === 0) {
-      setUsedFilters(getFiltersChanged(filters));
-      setCardResults(visibleResults);
-      setMarkers(mapMarkers);
-      return;
-    }
-
-    const locationBounds = !mapState.changed
-      ? new mapboxgl.LngLatBounds()
-      : null;
-
-    visibleResults = results.filter(institution =>
-      markerIsVisible(institution),
-    );
-    visibleResults.forEach((institution, index) =>
-      addMapMarker(institution, index, locationBounds, mapMarkers),
-    );
-
-    if (locationBounds) {
-      if (
-        location &&
-        location !== '' &&
-        streetAddress.searchString &&
-        streetAddress.searchString !== '' &&
-        streetAddress.searchString === location
-      ) {
-        currentLocationMapMarker(locationBounds);
+  useEffect(
+    () => {
+      if (smallScreen || landscape) {
+        map.current = null;
       }
-      map.current.fitBounds(locationBounds, { padding: 20 });
-    }
+      setupMap();
+      markers.forEach(marker => marker.remove());
+      setActiveMarker(null);
 
-    setDataReturned(true);
-    setCardResults(visibleResults);
-    setUsedFilters(getFiltersChanged(filters));
-    setMarkers(mapMarkers);
-  }, [results, smallScreen, landscape, mobileTab]);
+      let visibleResults = [];
+      const mapMarkers = [];
+
+      if (smallScreen || landscape) {
+        visibleResults = results;
+      }
+
+      // reset map if no results found
+      if (map.current && results.length === 0 && !mapState.changed) {
+        map.current.setCenter([
+          MapboxInit.centerInit.longitude,
+          MapboxInit.centerInit.latitude,
+        ]);
+        map.current.zoomTo(MapboxInit.zoomInit, { duration: 300 });
+      }
+
+      // wait for map to initialize or no results are returned
+      if (!map.current || results.length === 0) {
+        setUsedFilters(getFiltersChanged(filters));
+        setCardResults(visibleResults);
+        setMarkers(mapMarkers);
+        return;
+      }
+
+      const locationBounds = !mapState.changed
+        ? new mapboxgl.LngLatBounds()
+        : null;
+
+      visibleResults = results.filter(institution =>
+        markerIsVisible(institution),
+      );
+      visibleResults.forEach((institution, index) =>
+        addMapMarker(institution, index, locationBounds, mapMarkers),
+      );
+
+      if (locationBounds) {
+        if (
+          location &&
+          location !== '' &&
+          streetAddress.searchString &&
+          streetAddress.searchString !== '' &&
+          streetAddress.searchString === location
+        ) {
+          currentLocationMapMarker(locationBounds);
+        }
+        map.current.fitBounds(locationBounds, { padding: 20 });
+      }
+
+      setDataReturned(true);
+      setCardResults(visibleResults);
+      setUsedFilters(getFiltersChanged(filters));
+      setMarkers(mapMarkers);
+    },
+    [results, smallScreen, landscape, mobileTab],
+  );
 
   /**
    * Creates result cards for display
@@ -390,38 +402,44 @@ function LocationSearchResults({
    * Triggers a search for "Search this area of the map" when the "Update results" button in "Filter your results"
    * is clicked
    */
-  useEffect(() => {
-    if (
-      !search.loadFromUrl &&
-      filters.search &&
-      search.tab === TABS.location &&
-      search.query.mapState.changed
-    ) {
-      searchArea(null);
-    }
-  }, [filters.search]);
+  useEffect(
+    () => {
+      if (
+        !search.loadFromUrl &&
+        filters.search &&
+        search.tab === TABS.location &&
+        search.query.mapState.changed
+      ) {
+        searchArea(null);
+      }
+    },
+    [filters.search],
+  );
 
-  useEffect(() => {
-    focusElement('#location-search-results-count');
-    // Avoid blank searches or double events
-    if (location && count !== null) {
-      recordEvent({
-        event: 'view_search_results',
-        'search-page-path': document.location.pathname,
-        'search-query': '[redacted]',
-        'search-results-total-count': count,
-        'search-results-total-pages': undefined,
-        'search-selection': 'GIBCT',
-        'search-typeahead-enabled': false,
-        'search-location': 'Location',
-        'sitewide-search-app-used': false,
-        'type-ahead-option-keyword-selected': undefined,
-        'type-ahead-option-position': undefined,
-        'type-ahead-options-list': undefined,
-        'type-ahead-options-count': undefined,
-      });
-    }
-  }, [results]);
+  useEffect(
+    () => {
+      focusElement('#location-search-results-count');
+      // Avoid blank searches or double events
+      if (location && count !== null) {
+        recordEvent({
+          event: 'view_search_results',
+          'search-page-path': document.location.pathname,
+          'search-query': '[redacted]',
+          'search-results-total-count': count,
+          'search-results-total-pages': undefined,
+          'search-selection': 'GIBCT',
+          'search-typeahead-enabled': false,
+          'search-location': 'Location',
+          'sitewide-search-app-used': false,
+          'type-ahead-option-keyword-selected': undefined,
+          'type-ahead-option-position': undefined,
+          'type-ahead-options-list': undefined,
+          'type-ahead-options-count': undefined,
+        });
+      }
+    },
+    [results],
+  );
 
   /**
    * Renders the Eligibility and Filters accordions/buttons
@@ -604,22 +622,23 @@ function LocationSearchResults({
           className="desktop-map-container"
           role="region"
         >
-          {mapState.changed && !isMobileDevice && (
-            <div
-              id="search-area-control-container"
-              className="mapboxgl-ctrl-top-center"
-            >
-              <button
-                type="button"
-                id="search-area-control"
-                className="usa-button"
-                onClick={searchArea}
-                disabled={!areaSearchWithinBounds}
+          {mapState.changed &&
+            !isMobileDevice && (
+              <div
+                id="search-area-control-container"
+                className="mapboxgl-ctrl-top-center"
               >
-                {areaSearchLabel}
-              </button>
-            </div>
-          )}
+                <button
+                  type="button"
+                  id="search-area-control"
+                  className="usa-button"
+                  onClick={searchArea}
+                  disabled={!areaSearchWithinBounds}
+                >
+                  {areaSearchLabel}
+                </button>
+              </div>
+            )}
         </map>
       </div>
     );

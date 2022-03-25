@@ -57,38 +57,49 @@ export default function RequestedAppointmentDetailsPage() {
     dispatch(fetchRequestDetails(id));
   }, []);
 
-  useEffect(() => {
-    if (appointment) {
-      const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-      const isCC = appointment.vaos.isCommunityCare;
-      const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
+  useEffect(
+    () => {
+      if (appointment) {
+        const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+        const isCC = appointment.vaos.isCommunityCare;
+        const typeOfCareText = lowerCase(
+          appointment?.type?.coding?.[0]?.display,
+        );
 
-      const title = `${isCanceled ? 'Canceled' : 'Pending'} ${
-        isCC ? 'Community care' : 'VA'
-      } ${typeOfCareText} appointment`;
+        const title = `${isCanceled ? 'Canceled' : 'Pending'} ${
+          isCC ? 'Community care' : 'VA'
+        } ${typeOfCareText} appointment`;
 
-      document.title = title;
-    }
-    scrollAndFocus();
-  }, [appointment]);
-
-  useEffect(() => {
-    if (
-      !cancelInfo.showCancelModal &&
-      cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded
-    ) {
+        document.title = title;
+      }
       scrollAndFocus();
-    }
-  }, [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus]);
+    },
+    [appointment],
+  );
 
-  useEffect(() => {
-    if (
-      appointmentDetailsStatus === FETCH_STATUS.failed ||
-      (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
-    ) {
-      scrollAndFocus();
-    }
-  }, [appointmentDetailsStatus]);
+  useEffect(
+    () => {
+      if (
+        !cancelInfo.showCancelModal &&
+        cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
+  );
+
+  useEffect(
+    () => {
+      if (
+        appointmentDetailsStatus === FETCH_STATUS.failed ||
+        (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [appointmentDetailsStatus],
+  );
 
   if (
     appointmentDetailsStatus === FETCH_STATUS.failed ||
@@ -143,13 +154,14 @@ export default function RequestedAppointmentDetailsPage() {
         </h2>
       )}
 
-      {!!facility && !isCC && (
-        <VAFacilityLocation
-          facility={facility}
-          facilityName={facility?.name}
-          facilityId={facilityId}
-        />
-      )}
+      {!!facility &&
+        !isCC && (
+          <VAFacilityLocation
+            facility={facility}
+            facilityName={facility?.name}
+            facilityId={facilityId}
+          />
+        )}
 
       {isCCRequest ? (
         <>
@@ -158,7 +170,8 @@ export default function RequestedAppointmentDetailsPage() {
           </h2>
           {!!provider && (
             <span>
-              {provider.name || provider.providerName || provider.practiceName}
+              {provider.name ||
+                (provider.providerName || provider.practiceName)}
             </span>
           )}
           {!provider && <span>No provider selected</span>}

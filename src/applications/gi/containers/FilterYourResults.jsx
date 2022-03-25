@@ -448,4 +448,7 @@ const mapDispatchToProps = {
   dispatchFilterChange: filterChange,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterYourResults);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(FilterYourResults);

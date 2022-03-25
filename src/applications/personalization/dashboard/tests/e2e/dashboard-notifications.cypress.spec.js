@@ -12,12 +12,12 @@ import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
-import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 import {
   debtsSuccess,
   debtsSuccessEmpty,
 } from '../fixtures/test-debts-response';
 import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
+import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 
 describe('The My VA Dashboard - Notifications', () => {
   describe('when the feature is hidden', () => {

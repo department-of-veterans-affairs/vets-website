@@ -54,10 +54,7 @@ class LocatorApi {
           };
           return res;
         })
-        .then(
-          data => resolve(data),
-          error => reject(error),
-        );
+        .then(data => resolve(data), error => reject(error));
     });
   }
 
@@ -73,10 +70,7 @@ class LocatorApi {
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)
         .then(res => res.json())
-        .then(
-          data => resolve(data),
-          error => reject(error),
-        );
+        .then(data => resolve(data), error => reject(error));
     });
   }
 
@@ -92,10 +86,7 @@ class LocatorApi {
     return new Promise((resolve, reject) => {
       fetch(url, api.settings)
         .then(res => res.json())
-        .then(
-          data => resolve(data),
-          error => reject(error),
-        );
+        .then(data => resolve(data), error => reject(error));
     });
   }
 

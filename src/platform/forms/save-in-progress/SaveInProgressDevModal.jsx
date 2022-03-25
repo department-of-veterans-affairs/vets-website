@@ -35,9 +35,12 @@ const SipsDevModal = props => {
   const [sipsUrl, setSipsUrl] = useState(null);
   const [errorMessage, setError] = useState('');
 
-  useEffect(() => {
-    setAvailablePaths(getAvailablePaths(pageList, sipsData));
-  }, [pageList, sipsData]);
+  useEffect(
+    () => {
+      setAvailablePaths(getAvailablePaths(pageList, sipsData));
+    },
+    [pageList, sipsData],
+  );
 
   const handlers = {
     openSipsModal: () => {
@@ -182,4 +185,4 @@ SipsDevModal.propTypes = {
   }),
 };
 
-export default environment.isProduction() ? () => null : SipsDevModal;
+export default (environment.isProduction() ? () => null : SipsDevModal);

@@ -61,18 +61,20 @@ export const SummaryOfDisabilitiesDescription = ({ formData }) => {
   const ratedDisabilityNames = ratedDisabilities
     ? ratedDisabilities
         .filter(disability => disability['view:selected'])
-        .map(disability =>
-          typeof disability.name === 'string'
-            ? capitalizeEachWord(disability.name)
-            : NULL_CONDITION_STRING,
+        .map(
+          disability =>
+            typeof disability.name === 'string'
+              ? capitalizeEachWord(disability.name)
+              : NULL_CONDITION_STRING,
         )
     : [];
   const newDisabilityNames =
     newDisabilities && isClaimingNew(formData)
-      ? newDisabilities.map(disability =>
-          typeof disability.condition === 'string'
-            ? capitalizeEachWord(disability.condition)
-            : NULL_CONDITION_STRING,
+      ? newDisabilities.map(
+          disability =>
+            typeof disability.condition === 'string'
+              ? capitalizeEachWord(disability.condition)
+              : NULL_CONDITION_STRING,
         )
       : [];
   const selectedDisabilitiesList = ratedDisabilityNames

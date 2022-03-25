@@ -584,33 +584,48 @@ const FacilitiesMap = props => {
     [map, props.currentQuery.searchCoords],
   );
 
-  useEffect(() => {
-    searchCurrentArea();
-  }, [props.currentQuery.searchArea]);
+  useEffect(
+    () => {
+      searchCurrentArea();
+    },
+    [props.currentQuery.searchArea],
+  );
 
   useEffect(() => {
     setMap(setupMap());
     setUpResizeEventListener();
   }, []); // <-- empty array means 'run once'
 
-  useEffect(() => {
-    handleSearchOnQueryChange();
-  }, [props.currentQuery.id]);
+  useEffect(
+    () => {
+      handleSearchOnQueryChange();
+    },
+    [props.currentQuery.id],
+  );
 
-  useEffect(() => {
-    if (!map) return;
-    renderMarkers(props.results);
-  }, [props.results, map]);
+  useEffect(
+    () => {
+      if (!map) return;
+      renderMarkers(props.results);
+    },
+    [props.results, map],
+  );
 
-  useEffect(() => {
-    if (searchResultTitleRef.current && props.resultTime) {
-      setFocus(searchResultTitleRef.current);
-    }
-  }, [props.resultTime]);
+  useEffect(
+    () => {
+      if (searchResultTitleRef.current && props.resultTime) {
+        setFocus(searchResultTitleRef.current);
+      }
+    },
+    [props.resultTime],
+  );
 
-  useEffect(() => {
-    handleMapOnNoResultsFound();
-  }, [props.currentQuery.searchCoords, props.results]);
+  useEffect(
+    () => {
+      handleMapOnNoResultsFound();
+    },
+    [props.currentQuery.searchCoords, props.results],
+  );
 
   return (
     <>
@@ -662,4 +677,7 @@ const mapDispatchToProps = {
   clearSearchText,
   mapMoved,
 };
-export default connect(mapStateToProps, mapDispatchToProps)(FacilitiesMap);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(FacilitiesMap);

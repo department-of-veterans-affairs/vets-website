@@ -50,4 +50,7 @@ const mapStateToProps = state => ({
   show: state?.featureToggles?.shiftVetsBanner,
 });
 
-export default connect(mapStateToProps, null)(App);
+export default connect(
+  mapStateToProps,
+  null,
+)(App);

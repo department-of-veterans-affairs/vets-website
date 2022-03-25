@@ -7,10 +7,8 @@ export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
 
   if (root) {
-    import(
-      /* webpackChunkName: "1095b-download" */
-      './components/App'
-    ).then(module => {
+    import(/* webpackChunkName: "1095b-download" */
+    './components/App').then(module => {
       const App = module.default;
       ReactDOM.render(
         <Provider store={store}>

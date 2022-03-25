@@ -162,7 +162,9 @@ function activateInjectedAssets() {
       }
 
       throw new Error(
-        `vets_headerFooter_error: Failed to fetch header and footer menu data: ${resp.statusText}`,
+        `vets_headerFooter_error: Failed to fetch header and footer menu data: ${
+          resp.statusText
+        }`,
       );
     })
     .then(headerFooterData => {

@@ -43,25 +43,31 @@ const CopyAddressModal = props => {
     convertCleanDataToPayload,
   } = props;
 
-  const checkAddressAndPrompt = useCallback(() => {
-    // TODO: handle home address update with no mailing address and show custom modal content
-    if (!mailingAddress || !homeAddress) {
-      updateCopyAddressModalAction(null);
-      return;
-    }
+  const checkAddressAndPrompt = useCallback(
+    () => {
+      // TODO: handle home address update with no mailing address and show custom modal content
+      if (!mailingAddress || !homeAddress) {
+        updateCopyAddressModalAction(null);
+        return;
+      }
 
-    const modalStatus = areAddressesEqual(mailingAddress, homeAddress)
-      ? null
-      : VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PROMPT;
+      const modalStatus = areAddressesEqual(mailingAddress, homeAddress)
+        ? null
+        : VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PROMPT;
 
-    updateCopyAddressModalAction(modalStatus);
-  }, [mailingAddress, homeAddress, updateCopyAddressModalAction]);
+      updateCopyAddressModalAction(modalStatus);
+    },
+    [mailingAddress, homeAddress, updateCopyAddressModalAction],
+  );
 
-  useEffect(() => {
-    if (copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.CHECKING) {
-      checkAddressAndPrompt();
-    }
-  }, [copyAddressModal, checkAddressAndPrompt]);
+  useEffect(
+    () => {
+      if (copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.CHECKING) {
+        checkAddressAndPrompt();
+      }
+    },
+    [copyAddressModal, checkAddressAndPrompt],
+  );
 
   const isLoading =
     transactionRequest?.isPending || isPendingTransaction(transaction);
@@ -267,4 +273,7 @@ const mapDispatchToProps = {
   createTransactionAction: createTransaction,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CopyAddressModal);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CopyAddressModal);

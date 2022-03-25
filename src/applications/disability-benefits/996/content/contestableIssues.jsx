@@ -147,11 +147,14 @@ export const noneSelected = 'Please select at least one issue';
 export const NoneSelectedAlert = ({ count }) => {
   const wrapAlert = useRef(null);
 
-  useEffect(() => {
-    if (wrapAlert?.current) {
-      scrollAndFocus(wrapAlert.current);
-    }
-  }, [wrapAlert]);
+  useEffect(
+    () => {
+      if (wrapAlert?.current) {
+        scrollAndFocus(wrapAlert.current);
+      }
+    },
+    [wrapAlert],
+  );
   return (
     <div ref={wrapAlert}>
       <va-alert status="error">

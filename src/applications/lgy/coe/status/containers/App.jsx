@@ -28,15 +28,21 @@ const App = ({
   loggedIn,
   user,
 }) => {
-  const clickHandler = useCallback(() => {
-    getCoe('skip');
-  }, [getCoe]);
+  const clickHandler = useCallback(
+    () => {
+      getCoe('skip');
+    },
+    [getCoe],
+  );
 
-  useEffect(() => {
-    if (!profileIsUpdating && loggedIn && !coe) {
-      getCoe();
-    }
-  }, [coe, getCoe, loggedIn, profileIsUpdating]);
+  useEffect(
+    () => {
+      if (!profileIsUpdating && loggedIn && !coe) {
+        getCoe();
+      }
+    },
+    [coe, getCoe, loggedIn, profileIsUpdating],
+  );
 
   let content;
 
@@ -128,6 +134,9 @@ App.propTypes = {
   user: PropTypes.object,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);
 
 export { App };
