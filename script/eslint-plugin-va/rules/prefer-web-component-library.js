@@ -275,7 +275,8 @@ const tableTransformer = (context, node) => {
             currentSortNode &&
               fixer.insertTextBefore(currentSortNode, ' descending'),
 
-            // Add a closing tag
+            // Add a closing tag along with calling the helper
+            // function to generate children
             fixer.insertTextAfter(
               node.openingElement,
               `{generateTableChildren(${sourceCode.getText(
