@@ -40,24 +40,21 @@ export const VerifyEnrollmentsPage = ({
   const dispatch = useDispatch();
   const history = useHistory();
 
-  useEffect(
-    () => {
-      if (hasCheckedKeepAlive && !loggedIn) {
-        history.push('/');
-      }
+  useEffect(() => {
+    if (hasCheckedKeepAlive && !loggedIn) {
+      history.push('/');
+    }
 
-      if (!verificationStatus) {
-        getVerificationStatus();
-      }
-    },
-    [
-      getVerificationStatus,
-      hasCheckedKeepAlive,
-      history,
-      loggedIn,
-      verificationStatus,
-    ],
-  );
+    if (!verificationStatus) {
+      getVerificationStatus();
+    }
+  }, [
+    getVerificationStatus,
+    hasCheckedKeepAlive,
+    history,
+    loggedIn,
+    verificationStatus,
+  ]);
 
   useEffect(() => {
     focusElement('h1');
@@ -101,129 +98,117 @@ export const VerifyEnrollmentsPage = ({
     [setContinueClicked, setMonthInformationCorrect],
   );
 
-  const clearVerificationStatuses = useCallback(
-    () => {
-      dispatch({
-        type: UPDATE_VERIFICATION_STATUS_MONTHS,
-        payload: verificationStatus?.months.map(m => {
+  const clearVerificationStatuses = useCallback(() => {
+    dispatch({
+      type: UPDATE_VERIFICATION_STATUS_MONTHS,
+      payload: verificationStatus?.months.map(m => {
+        return {
+          ...m,
+          verificationStatus: undefined,
+        };
+      }),
+    });
+  }, [dispatch, verificationStatus?.months]);
+
+  const onBackButtonClick = useCallback(() => {
+    // Clicking back from the first month
+    if (currentMonth === 0) {
+      clearVerificationStatuses();
+      history.push(REVIEW_ENROLLMENTS_RELATIVE_URL);
+      return;
+    }
+
+    // Clicking back on the Review page when there is invalid month.
+    // In this scenario, we want to go to the invalid month.
+    if (informationIncorrectMonth && !editing) {
+      editMonth(informationIncorrectMonth);
+      return;
+    }
+
+    setContinueClicked(false);
+    setCurrentMonth(currentMonth - 1);
+    setMonthInformationCorrect(
+      unverifiedMonths[currentMonth - 1].verificationStatus,
+    );
+    focusElement('h1');
+  }, [
+    clearVerificationStatuses,
+    currentMonth,
+    editMonth,
+    editing,
+    history,
+    informationIncorrectMonth,
+    unverifiedMonths,
+  ]);
+
+  const onForwardButtonClick = useCallback(() => {
+    if (!verificationStatus) {
+      return;
+    }
+
+    if (!monthInformationCorrect) {
+      if (!continueClicked) {
+        setContinueClicked(true);
+      }
+
+      return;
+    }
+
+    setCurrentMonth(currentMonth + 1);
+    setMonthInformationCorrect(
+      currentMonth < unverifiedMonths.length - 1
+        ? unverifiedMonths[currentMonth + 1].verificationStatus
+        : undefined,
+    );
+
+    if (
+      editing &&
+      (monthInformationCorrect === VERIFICATION_STATUS_INCORRECT ||
+        currentMonth === unverifiedMonths.length - 1)
+    ) {
+      setEditing(false);
+    }
+
+    dispatch({
+      type: UPDATE_VERIFICATION_STATUS_MONTHS,
+      payload: verificationStatus?.months.map(m => {
+        if (m.month === unverifiedMonths[currentMonth].month) {
+          return {
+            ...m,
+            verificationStatus: monthInformationCorrect,
+          };
+        }
+
+        // If we're editing and a month is marked as having incorrect
+        // information, clear the verification status of the
+        // following months.
+        if (
+          m.month > unverifiedMonths[currentMonth].month &&
+          monthInformationCorrect === VERIFICATION_STATUS_INCORRECT
+        ) {
           return {
             ...m,
             verificationStatus: undefined,
           };
-        }),
-      });
-    },
-    [dispatch, verificationStatus?.months],
-  );
-
-  const onBackButtonClick = useCallback(
-    () => {
-      // Clicking back from the first month
-      if (currentMonth === 0) {
-        clearVerificationStatuses();
-        history.push(REVIEW_ENROLLMENTS_RELATIVE_URL);
-        return;
-      }
-
-      // Clicking back on the Review page when there is invalid month.
-      // In this scenario, we want to go to the invalid month.
-      if (informationIncorrectMonth && !editing) {
-        editMonth(informationIncorrectMonth);
-        return;
-      }
-
-      setContinueClicked(false);
-      setCurrentMonth(currentMonth - 1);
-      setMonthInformationCorrect(
-        unverifiedMonths[currentMonth - 1].verificationStatus,
-      );
-      focusElement('h1');
-    },
-    [
-      clearVerificationStatuses,
-      currentMonth,
-      editMonth,
-      editing,
-      history,
-      informationIncorrectMonth,
-      unverifiedMonths,
-    ],
-  );
-
-  const onForwardButtonClick = useCallback(
-    () => {
-      if (!verificationStatus) {
-        return;
-      }
-
-      if (!monthInformationCorrect) {
-        if (!continueClicked) {
-          setContinueClicked(true);
         }
 
-        return;
-      }
+        return m;
+      }),
+    });
+    focusElement('h1');
+  }, [
+    continueClicked,
+    currentMonth,
+    dispatch,
+    editing,
+    monthInformationCorrect,
+    unverifiedMonths,
+    verificationStatus,
+  ]);
 
-      setCurrentMonth(currentMonth + 1);
-      setMonthInformationCorrect(
-        currentMonth < unverifiedMonths.length - 1
-          ? unverifiedMonths[currentMonth + 1].verificationStatus
-          : undefined,
-      );
-
-      if (
-        editing &&
-        (monthInformationCorrect === VERIFICATION_STATUS_INCORRECT ||
-          currentMonth === unverifiedMonths.length - 1)
-      ) {
-        setEditing(false);
-      }
-
-      dispatch({
-        type: UPDATE_VERIFICATION_STATUS_MONTHS,
-        payload: verificationStatus?.months.map(m => {
-          if (m.month === unverifiedMonths[currentMonth].month) {
-            return {
-              ...m,
-              verificationStatus: monthInformationCorrect,
-            };
-          }
-
-          // If we're editing and a month is marked as having incorrect
-          // information, clear the verification status of the
-          // following months.
-          if (
-            m.month > unverifiedMonths[currentMonth].month &&
-            monthInformationCorrect === VERIFICATION_STATUS_INCORRECT
-          ) {
-            return {
-              ...m,
-              verificationStatus: undefined,
-            };
-          }
-
-          return m;
-        }),
-      });
-      focusElement('h1');
-    },
-    [
-      continueClicked,
-      currentMonth,
-      dispatch,
-      editing,
-      monthInformationCorrect,
-      unverifiedMonths,
-      verificationStatus,
-    ],
-  );
-
-  const onSubmit = useCallback(
-    () => {
-      updateVerificationStatus(verificationStatus);
-    },
-    [verificationStatus],
-  );
+  const onSubmit = useCallback(() => {
+    updateVerificationStatus(verificationStatus);
+  }, [verificationStatus]);
 
   const onFinishVerifyingLater = useCallback(
     event => {
@@ -312,8 +297,7 @@ export const VerifyEnrollmentsPage = ({
       >
         If you select “<em>No, this information isn’t correct</em>”{' '}
         <strong>
-          we will pause your monthly housing payment until your information is
-          updated
+          we will pause your monthly payment until your information is updated
         </strong>
         . Work with your School Certifying Official (SCO) to ensure your
         enrollment information is updated with VA.

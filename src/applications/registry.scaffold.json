@@ -65,6 +65,11 @@
     "widgetType": "manage-va-debt-cta"
   },
   {
+    "appName": "1095B Download",
+    "rootUrl": "/health-care/download-1095b/",
+    "widgetType": "download-1095b"
+  },
+  {
     "appName": "Pay Your VA Copay Bill",
     "rootUrl": "/health-care/pay-copay-bill",
     "widgetType": "medical-copays-cta"
@@ -94,5 +99,10 @@
     "appName": "Mock SIP Form",
     "rootUrl": "/mock-sip-form",
     "entryName": "mock-sip-form"
+  },
+  {
+    "appName": "Connected Devices",
+    "rootUrl": "/health-care/connected-devices",
+    "entryName": "dhp-consent-flow"
   }
 ]

@@ -8,11 +8,7 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import { isLoggedIn } from 'platform/user/selectors';
 
 import { generateCoe } from '../../shared/actions';
-import {
-  CALLSTATUS,
-  COE_FORM_NUMBER,
-  COE_ELIGIBILITY_STATUS,
-} from '../../shared/constants';
+import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
 import {
   Available,
   Denied,
@@ -29,25 +25,18 @@ const App = ({
     profileIsUpdating,
   },
   getCoe,
-  hasSavedForm,
   loggedIn,
   user,
 }) => {
-  const clickHandler = useCallback(
-    () => {
-      getCoe('skip');
-    },
-    [getCoe],
-  );
+  const clickHandler = useCallback(() => {
+    getCoe('skip');
+  }, [getCoe]);
 
-  useEffect(
-    () => {
-      if (!profileIsUpdating && loggedIn && !hasSavedForm && !coe) {
-        getCoe();
-      }
-    },
-    [coe, getCoe, hasSavedForm, loggedIn, profileIsUpdating],
-  );
+  useEffect(() => {
+    if (!profileIsUpdating && loggedIn && !coe) {
+      getCoe();
+    }
+  }, [coe, getCoe, loggedIn, profileIsUpdating]);
 
   let content;
 
@@ -126,9 +115,6 @@ const mapStateToProps = state => ({
   certificateOfEligibility: state.certificateOfEligibility,
   user: state.user,
   loggedIn: isLoggedIn(state),
-  hasSavedForm: state?.user?.profile?.savedForms.some(
-    form => form.form === COE_FORM_NUMBER,
-  ),
 });
 
 const mapDispatchToProps = {
@@ -138,14 +124,10 @@ const mapDispatchToProps = {
 App.propTypes = {
   certificateOfEligibility: PropTypes.object,
   getCoe: PropTypes.func,
-  hasSavedForm: PropTypes.bool,
   loggedIn: PropTypes.bool,
   user: PropTypes.object,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 export { App };

@@ -9,9 +9,9 @@ import LanguagePicker from '../../components/LanguagePicker';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 
 const Error = () => {
+  const { t } = useTranslation();
   const { getValidateAttempts } = useSessionStorage(false);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
-  const { t } = useTranslation();
   const maxValidateMessage = t(
     'were-sorry-we-couldnt-match-your-information-to-our-records-please-ask-a-staff-member-for-help',
   );

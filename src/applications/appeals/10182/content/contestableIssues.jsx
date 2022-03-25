@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from 'web-components/react-bindings';
 
 import { scrollAndFocus } from 'platform/utilities/ui';
 
@@ -60,17 +60,17 @@ export const maxSelectedErrorMessage =
 // Not setting "visible" as a variable since we're controlling rendering at a
 // higher level
 export const MaxSelectionsAlert = ({ closeModal }) => (
-  <Modal
-    title={maxSelectedErrorMessage}
+  <VaModal
+    modalTitle={maxSelectedErrorMessage}
     status="warning"
-    onClose={closeModal}
+    onCloseEvent={closeModal}
     visible
   >
     You are limited to {MAX_LENGTH.SELECTIONS} selected issues for each Notice
     of Disagreement request. If you would like to select more than{' '}
     {MAX_LENGTH.SELECTIONS}, please submit this request and create a new request
     for the remaining issues.
-  </Modal>
+  </VaModal>
 );
 
 export const noneSelected = 'Please select at least one issue';
@@ -91,14 +91,11 @@ export const NotListedInfo = (
 export const NoneSelectedAlert = ({ count }) => {
   const wrapAlert = useRef(null);
 
-  useEffect(
-    () => {
-      if (wrapAlert?.current) {
-        scrollAndFocus(wrapAlert.current);
-      }
-    },
-    [wrapAlert],
-  );
+  useEffect(() => {
+    if (wrapAlert?.current) {
+      scrollAndFocus(wrapAlert.current);
+    }
+  }, [wrapAlert]);
   return (
     <div ref={wrapAlert}>
       <va-alert status="error">

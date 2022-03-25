@@ -1,28 +1,28 @@
 import React, { useEffect } from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
-import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 
-const ErrorMessage = ({
-  header = i18next.t('we-couldnt-check-you-in'),
-  message = (
+const ErrorMessage = ({ header, message, showAlert = true }) => {
+  const { t } = useTranslation();
+  const errorHeader = header ?? t('we-couldnt-check-you-in');
+  const errorMessage = message ?? (
     <p>
-      {i18next.t(
+      {t(
         'were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member',
       )}
     </p>
-  ),
-  showAlert = true,
-}) => {
+  );
   useEffect(() => {
     focusElement('h1');
   }, []);
+
   const body = (
     <>
       <h1 tabIndex="-1" slot="headline">
-        {header}
+        {errorHeader}
       </h1>
-      <div data-testid="error-message">{message}</div>
+      <div data-testid="error-message">{errorMessage}</div>
     </>
   );
   if (showAlert) {

@@ -1,4 +1,5 @@
 import { isEmpty } from 'lodash';
+import environment from 'platform/utilities/environment';
 import { createSelector } from 'reselect';
 
 import {
@@ -368,8 +369,8 @@ const getDerivedValues = createSelector(
       isOJT ||
       oldGiBill ||
       (giBillChapter === 31 && isFlightOrCorrespondence) ||
-      (inputs.calendar === 'semesters' ||
-        (inputs.calendar === 'nontraditional' && numberOfTerms < 3));
+      inputs.calendar === 'semesters' ||
+      (inputs.calendar === 'nontraditional' && numberOfTerms < 3);
 
     if (shouldHaveNoTuitionFeesTerm3) {
       tuitionFeesTerm3 = 0;
@@ -577,6 +578,12 @@ const getDerivedValues = createSelector(
       } else {
         housingAllowTerm1 = ropOjt * (tier * bah + kickerBenefit);
       }
+    } else if (
+      !environment.isProduction() &&
+      onlineClasses === 'yes' &&
+      hasClassesOutsideUS
+    ) {
+      housingAllowTerm1 = 0;
     } else if (onlineClasses === 'yes') {
       housingAllowTerm1 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
@@ -633,6 +640,12 @@ const getDerivedValues = createSelector(
     ) {
       housingAllowTerm2 = rop * kickerBenefit * termLength;
     } else if (isFlightOrCorrespondence) {
+      housingAllowTerm2 = 0;
+    } else if (
+      !environment.isProduction() &&
+      onlineClasses === 'yes' &&
+      hasClassesOutsideUS
+    ) {
       housingAllowTerm2 = 0;
     } else if (onlineClasses === 'yes') {
       housingAllowTerm2 =
@@ -692,6 +705,12 @@ const getDerivedValues = createSelector(
     ) {
       housingAllowTerm3 = rop * kickerBenefit * termLength;
     } else if (isFlightOrCorrespondence) {
+      housingAllowTerm3 = 0;
+    } else if (
+      !environment.isProduction() &&
+      onlineClasses === 'yes' &&
+      hasClassesOutsideUS
+    ) {
       housingAllowTerm3 = 0;
     } else if (onlineClasses === 'yes') {
       housingAllowTerm3 =

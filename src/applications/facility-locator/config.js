@@ -38,7 +38,6 @@ export const resolveParamsWithUrl = ({
   locationType,
   serviceType,
   page,
-  bounds,
   center,
   radius,
   store,
@@ -58,7 +57,7 @@ export const resolveParamsWithUrl = ({
 
   let facility;
   let service;
-  let url = api.url;
+  let { url } = api;
   let roundRadius;
   const perPage = 10;
   let communityServiceType = false;
@@ -112,11 +111,7 @@ export const resolveParamsWithUrl = ({
   // specialties[]=282NW0100X
   if (multiSpecialties) {
     const sNchar = 'specialties[]=';
-    service = `${EMERGENCY_CARE_SERVICES[0]}&${sNchar}${
-      EMERGENCY_CARE_SERVICES[1]
-    }&${sNchar}${EMERGENCY_CARE_SERVICES[2]}&${sNchar}${
-      EMERGENCY_CARE_SERVICES[3]
-    }&${sNchar}${EMERGENCY_CARE_SERVICES[4]}`;
+    service = `${EMERGENCY_CARE_SERVICES[0]}&${sNchar}${EMERGENCY_CARE_SERVICES[1]}&${sNchar}${EMERGENCY_CARE_SERVICES[2]}&${sNchar}${EMERGENCY_CARE_SERVICES[3]}&${sNchar}${EMERGENCY_CARE_SERVICES[4]}`;
   }
 
   let locationParams;
@@ -128,9 +123,8 @@ export const resolveParamsWithUrl = ({
   } else {
     locationParams = [
       address ? `address=${address}` : null,
-      ...bounds.map(c => `bbox[]=${c}`),
-      center && center.length > 0 ? `latitude=${center[0]}` : null,
-      center && center.length > 0 ? `longitude=${center[1]}` : null,
+      center && center.length > 0 ? `lat=${center[0]}` : null,
+      center && center.length > 0 ? `long=${center[1]}` : null,
     ];
   }
 
