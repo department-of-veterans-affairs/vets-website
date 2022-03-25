@@ -1,6 +1,5 @@
 import React from 'react';
 import UserNav from 'platform/site-wide/user-nav/containers/Main';
-// import SignInLink from 'platform/forms/components/SignInLink';
 
 export default function App() {
   return (
