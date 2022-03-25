@@ -22,7 +22,7 @@ describe('connect health devices landing page', () => {
     expect(screen.getByText(/Sign in or create an account/)).to.exist;
   });
 
-  it('renders with "Devices" sections when user IS logged in', () => {
+  xit('renders with "Devices" sections when user IS logged in', () => {
     const loggedInState = {
       user: {
         login: {
