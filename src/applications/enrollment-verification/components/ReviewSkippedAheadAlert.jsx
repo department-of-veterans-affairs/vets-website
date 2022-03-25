@@ -11,8 +11,8 @@ export default function ReviewSkippedAheadAlert({ incorrectMonth }) {
       status="info"
       visible
     >
-      We skipped you ahead to the review step because you selected "No, this
-      information isn’t correct" for {formatReadableMonthYear(incorrectMonth)}.
+      We skipped you ahead to the review step because you selected “No, this
+      information isn’t correct” for {formatReadableMonthYear(incorrectMonth)}.
     </va-alert>
   );
 }

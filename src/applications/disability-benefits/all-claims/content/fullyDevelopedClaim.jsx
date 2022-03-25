@@ -1,7 +1,5 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const FDCDescription = (
   <div>
@@ -66,8 +64,8 @@ export const noFDCWarning = (
           </li>
           <li>
             Call Veterans Benefits Assistance at{' '}
-            <Telephone contact={CONTACTS.VA_BENEFITS} />, Monday through Friday,
-            8:00 a.m. to 9:00 p.m. ET.
+            <va-telephone contact={CONTACTS.VA_BENEFITS} />, Monday through
+            Friday, 8:00 a.m. to 9:00 p.m. ET.
           </li>
           <li>
             Save your application and return to it later when you have your

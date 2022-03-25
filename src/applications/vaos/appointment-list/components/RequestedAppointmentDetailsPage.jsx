@@ -133,9 +133,10 @@ export default function RequestedAppointmentDetailsPage() {
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
   const provider = appointment.preferredCommunityCareProviders?.[0];
   const comment = message || appointment.comment;
-  const apptDetails = comment
-    ? `${appointment.reason}: ${comment}`
-    : appointment.reason;
+  const apptDetails =
+    appointment.reason && comment
+      ? `${appointment.reason}: ${comment}`
+      : comment || (appointment.reason ? appointment.reason : null);
 
   return (
     <PageLayout>

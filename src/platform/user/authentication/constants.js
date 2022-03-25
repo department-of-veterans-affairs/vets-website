@@ -9,6 +9,9 @@ export const API_VERSION = 'v1';
 export const API_SESSION_URL = ({ version = API_VERSION, type = null }) =>
   `${environment.API_URL}/${version}/sessions/${type}/new`;
 
+export const API_SIGN_IN_SERVICE_URL = ({ type = null }) =>
+  `${environment.API_URL}/sign_in/${type}/authorize`;
+
 export const AUTH_EVENTS = {
   MODAL_LOGIN: 'login-link-clicked-modal',
   LOGIN: 'login-link-clicked',
@@ -53,6 +56,23 @@ export const EXTERNAL_APPS = {
   VA_FLAGSHIP_MOBILE: 'vamobile',
   VA_OCC_MOBILE: 'vaoccmobile',
 };
+
+export const MOBILE_APPS = [
+  EXTERNAL_APPS.VA_OCC_MOBILE,
+  EXTERNAL_APPS.VA_FLAGSHIP_MOBILE,
+];
+
+export const OAUTH_ENABLED_APPS = [
+  EXTERNAL_APPS.VA_OCC_MOBILE,
+  EXTERNAL_APPS.VA_FLAGSHIP_MOBILE,
+];
+
+export const OAUTH_ENABLED_POLICIES = [
+  CSP_IDS.MHV,
+  CSP_IDS.DS_LOGON,
+  CSP_IDS.LOGIN_GOV,
+  CSP_IDS.ID_ME,
+];
 
 export const EBenefitsDefaultPath = '/profilepostauth';
 
@@ -130,4 +150,13 @@ export const ACCOUNT_TRANSITION_DISMISSED = 'accountTransitionDismissed';
 export const LINK_TYPES = {
   CREATE: 'create',
   SIGNIN: 'signin',
+};
+
+// Keep these KEYS camel case for ease of destructuring
+export const AUTH_PARAMS = {
+  application: 'application',
+  OAuth: 'oauth',
+  codeChallenge: 'code_challenge',
+  codeChallengeMethod: 'code_challenge_method',
+  to: 'to',
 };

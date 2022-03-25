@@ -452,6 +452,13 @@ class ProfileInformationFieldController extends React.Component {
   }
 }
 
+const shouldShowUpdateSuccessAlert = (state, field) => {
+  const mostRecentSaveField = selectMostRecentlyUpdatedField(state);
+  return Array.isArray(mostRecentSaveField)
+    ? mostRecentSaveField.includes(field)
+    : mostRecentSaveField === field;
+};
+
 export const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
 
@@ -478,6 +485,7 @@ export const mapStateToProps = (state, ownProps) => {
     formSchema,
     title,
   } = getProfileInfoFieldAttributes(fieldName);
+
   return {
     hasUnsavedEdits: state.vapService.hasUnsavedEdits,
     analyticsSectionName: VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName],
@@ -508,7 +516,7 @@ export const mapStateToProps = (state, ownProps) => {
     uiSchema,
     formSchema,
     isEnrolledInVAHealthCare,
-    showUpdateSuccessAlert: selectMostRecentlyUpdatedField(state) === fieldName,
+    showUpdateSuccessAlert: shouldShowUpdateSuccessAlert(state, fieldName),
   };
 };
 

@@ -49,9 +49,23 @@ export default function NextOfKinDisplay({
         setEditContext(data, URLS.EDIT_RELATIONSHIP);
       },
     },
-    { title: 'Address', key: 'address' },
-    { title: 'Phone', key: 'phone' },
-    { title: 'Work phone', key: 'workPhone' },
+    {
+      title: 'Address',
+      key: 'address',
+      editAction: data => {
+        setEditContext(data, URLS.EDIT_ADDRESS);
+      },
+    },
+    {
+      title: 'Phone',
+      key: 'phone',
+      editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
+    },
+    {
+      title: 'Work phone',
+      key: 'workPhone',
+      editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
+    },
   ];
   const loadingMessage = useCallback(() => {
     return (

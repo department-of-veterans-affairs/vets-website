@@ -47,7 +47,12 @@ jobs:
 
       - name: List changed files
         id: changed-files
-        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          else
+            echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+          fi
 
       - name: Get app entries for changed files
         id: get-changed-apps
@@ -79,7 +84,7 @@ jobs:
         run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.buildtype }}.tar.bz2
           path: ${{ matrix.buildtype }}.tar.bz2
@@ -133,7 +138,7 @@ jobs:
 
       - name: Archive unit test results
         if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: unit-test-report
           path: mochawesome-report
@@ -142,7 +147,7 @@ jobs:
         run: node script/app-coverage-report.js > test-results/coverage_report.txt
 
       - name: Upload Coverage Report Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: unit-test-coverage-report
@@ -258,13 +263,13 @@ jobs:
           --fail
 
       - name: Archive contract test results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: contract-test-report
           path: mochawesome-report
 
       - name: Archive contract test log
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
           name: contract-test-log
@@ -398,7 +403,6 @@ jobs:
 
       - name: Get changed apps for header test
         id: get-changed-apps
-        if: ${{ github.ref != 'refs/heads/master' }}
         run: |
           echo ::set-output name=app_urls::$(node script/github-actions/get-changed-apps.js --output-type url)
           echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
@@ -451,8 +455,14 @@ jobs:
       - name: Checkout vets-website
         uses: actions/checkout@v2
 
+      - name: Checkout content-build
+        uses: actions/checkout@v2
+        with:
+          repository: department-of-veterans-affairs/content-build
+          path: content-build
+
       - name: Download production build artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: vagovprod.tar.bz2
 
@@ -485,21 +495,21 @@ jobs:
           APP_URLS: ${{ needs.cypress-tests-prep.outputs.app_urls }}
 
       - name: Archive test videos
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
           name: cypress-video-artifacts
           path: cypress/videos
 
       - name: Archive test screenshots
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ failure() }}
         with:
           name: cypress-screenshot-artifacts
           path: cypress/screenshots
 
       - name: Archive Mochawesome test results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
           name: cypress-mochawesome-test-results
@@ -589,7 +599,7 @@ jobs:
       # ------------------------------------------------------
 
       - name: Download Contract Test Mochawesome test results
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: contract-test-report
           path: testing-tools-team-dashboard-data/src/testing-reports/data
@@ -701,7 +711,7 @@ jobs:
       # --------------------------------------------------
 
       - name: Download Unit Test Mochawesome test results
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: unit-test-report
           path: testing-tools-team-dashboard-data/src/testing-reports/data
@@ -790,7 +800,7 @@ jobs:
       # -------------------------------------
 
       - name: Download Unit Test Coverage Report
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: unit-test-coverage-report
           path: testing-tools-team-dashboard-data/src/testing-reports/data
@@ -870,14 +880,14 @@ jobs:
         # -------------------------------------
 
       - name: Download Cypress E2E Mochawesome test results
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: cypress-mochawesome-test-results
           path: testing-tools-team-dashboard-data/src/testing-reports/data
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: cypress-video-artifacts
           path: testing-tools-team-dashboard-data/videos/${{ env.UUID }}
@@ -954,7 +964,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Download build artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: ${{ matrix.buildtype }}.tar.bz2
 
@@ -1117,7 +1127,12 @@ jobs:
       - name: List changed files
         id: changed-files
         if: env.ALERT_TEAMS == 'true'
-        run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          else
+            echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+          fi
 
       - name: Get app team's Slack group
         id: get-slack-groups

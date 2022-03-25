@@ -53,6 +53,7 @@ const CheckIn = props => {
       <va-loading-indicator message="Loading your appointments for today" />
     );
   }
+
   return (
     <DisplayMultipleAppointments
       router={router}
@@ -65,6 +66,7 @@ const CheckIn = props => {
 
 CheckIn.propTypes = {
   appointments: PropTypes.array,
+  isDayOfDemographicsFlagsEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   router: PropTypes.object,
 };

@@ -44,6 +44,14 @@
   }
 }
 
+// adjusted for copy address modal display issues
+// fixes excess right margin in relation to additional info box
+// reduced padding for close icon / title spacing
+#copy-address-modal .va-modal-body {
+  margin-right: 0px;
+  padding: 1.8rem;
+}
+
 .no-wrap {
   white-space: nowrap;
 }
