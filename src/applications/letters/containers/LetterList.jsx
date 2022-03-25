@@ -49,7 +49,7 @@ export class LetterList extends React.Component {
       }
 
       return (
-        <va-accordion-item key={`collapsiblePanel-${index}`}>
+        <va-accordion-item key={`panel-${index}`}>
           <h3 slot="headline">{letterTitle}</h3>
           <div>{content}</div>
           {conditionalDownloadButton}
