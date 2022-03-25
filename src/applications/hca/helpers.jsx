@@ -583,8 +583,11 @@ export const shortFormMessage = (
   <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-background-color--green-lightest vads-u-margin-y--5 vads-u-padding--2p5 vads-u-padding-bottom--1p5">
     <i className="fa fa-check vads-u-color--green" />
     <div className="vads-u-margin-top--neg1 vads-u-margin-left--2p5">
-      <va-additional-info trigger="You're filling out a shortend application!">
-        <div className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+      <va-additional-info
+        disable-border
+        trigger="You're filling out a shortend application!"
+      >
+        <div>
           Your service-connected disability rating is 50% or higher. This is one
           of our eligibility criteria. This means that we don’t have to ask you
           questions about other criteria like income and military service.{' '}
