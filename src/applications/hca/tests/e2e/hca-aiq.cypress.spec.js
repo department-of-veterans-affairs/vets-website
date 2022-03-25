@@ -139,24 +139,30 @@ describe('HCA-AIQ', () => {
 
     // Check more-info toggle
     // expand
-    cy.get('[data-testid="aiq-addl-info"] va-additional-info')
-      .shadow()
-      .find('[aria-controls=info][aria-expanded=false]')
-      .click({ waitForAnimations: true });
     cy.get('va-additional-info')
       .shadow()
-      .find('#info')
-      .should('be.visible');
-    cy.injectAxeThenAxeCheck('va-additional-info');
-    // collapse
-    cy.get('[data-testid="aiq-addl-info"] va-additional-info')
-      .shadow()
-      .find('[aria-controls=info][aria-expanded=true]')
+      .findByText(/american indian or alaska native/i, {
+        selector: '.additional-info-title',
+      })
       .scrollIntoView()
-      .click({ waitForAnimations: true });
+      .click()
+      .then(ele => {
+        cy.wrap(ele);
+        cy.injectAxe();
+        cy.axeCheck();
+      });
+    // collapse
     cy.get('va-additional-info')
       .shadow()
-      .find('#info')
-      .should('not.be.visible');
+      .findByText(/american indian or alaska native/i, {
+        selector: '.additional-info-title',
+      })
+      .scrollIntoView()
+      .click()
+      .then(ele => {
+        cy.wrap(ele);
+        cy.injectAxe();
+        cy.axeCheck();
+      });
   });
 });
