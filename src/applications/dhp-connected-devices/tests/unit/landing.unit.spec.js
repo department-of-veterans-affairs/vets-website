@@ -11,17 +11,32 @@ describe('connect health devices landing page', () => {
     expect(dhpContainer.getByText(title)).to.exist;
   });
 
+  it('renders with FAQ section', () => {
+    const screen = renderInReduxProvider(<DhpApp />);
+    expect(screen.getByText(/Frequently asked questions/)).to.exist;
+    screen.unmount();
+  });
+
   it("App renders 'Sign in or create account' button if user NOT logged in", () => {
     const screen = renderInReduxProvider(<DhpApp />);
     expect(screen.getByText(/Sign in or create an account/)).to.exist;
   });
-});
 
-// Page loads with:
-// title (done)
-// faq accordians exist
-// Page loads login buttons when user NOT logged in (need to test that the modal comes up, but the button's presence is tested)
-// Page loads with url and "connected devices" when user IS logged in
+  it('renders with Devices you can connect section when user is logged in', () => {
+    const loggedInState = {
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+      },
+    };
+    const screen = renderInReduxProvider(<DhpApp />, {
+      initialState: loggedInState,
+    });
+    expect(screen.getByText(/Your connected devices/)).to.exist;
+    expect(screen.getByText(/Devices you can connect/)).to.exist;
+  });
+});
 
 // [Mock API] Redirect back to dhp page after create AND user logged in
 // [Mock API] Redirect back to dhp page after login  AND user logged in
