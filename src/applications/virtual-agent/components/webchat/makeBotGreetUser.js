@@ -36,7 +36,7 @@ const GreetUser = {
       const data = action.payload.activity;
       if (
         data.type === 'message' &&
-        data.text.includes('36 months') &&
+        data.text.includes('Please wait a moment. Signing you in...') &&
         data.from.role === 'bot'
       ) {
         const event = new Event('webchat-auth-activity');

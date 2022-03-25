@@ -36,7 +36,7 @@ function useWebChat(props) {
 // }
 
 function showBot(loggedIn, requireAuth, accepted, minute, isAuthTopic, props) {
-  if ((!loggedIn && false) || (!loggedIn && isAuthTopic)) {
+  if (!loggedIn && false) {
     return <ConnectedSignInAlert />;
   }
   if (!accepted) {
@@ -54,8 +54,9 @@ export default function Chatbox(props) {
   const [isAuthTopic, setIsAuthTopic] = useState(false);
 
   window.addEventListener('webchat-auth-activity', ({ data }) => {
-    console.log(`Received an activity of type "${data.type}":`);
-    console.log(data);
+    setTimeout(function() {
+      window.location.href = '?next=loginModal';
+    }, 5000);
     setIsAuthTopic(true);
   });
 
