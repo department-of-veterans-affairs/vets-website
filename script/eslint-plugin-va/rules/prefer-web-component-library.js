@@ -212,6 +212,7 @@ const paginationTransformer = (context, node) => {
 };
 const tableTransformer = (context, node) => {
   const componentName = node.openingElement.name;
+  const currentSortNode = getPropNode(node, 'currentSort');
   const dataNode = getPropNode(node, 'data');
   const fieldsNode = getPropNode(node, 'fields');
   const dataValue = dataNode?.value.expression || dataNode?.value;
@@ -262,6 +263,17 @@ const tableTransformer = (context, node) => {
 
             // Remove the fields prop
             fixer.remove(fieldsNode),
+
+            // Remove the currentSort prop
+            currentSortNode && fixer.remove(currentSortNode),
+
+            // Add `sort-column` prop
+            currentSortNode &&
+              fixer.insertTextBefore(currentSortNode, 'sort-column="0"'),
+
+            // Add `descending` prop
+            currentSortNode &&
+              fixer.insertTextBefore(currentSortNode, ' descending'),
 
             // Add a closing tag
             fixer.insertTextAfter(

@@ -339,5 +339,25 @@ ruleTester.run('prefer-web-component-library', rule, {
         },
       ],
     },
+    {
+      code: mockFile(
+        'Table',
+        'const TableSample = () => (<Table data={data} fields={fields} currentSort={currentSort} />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFileComponentLibraryNamedImport(
+                'generateTableChildren',
+                // Extra space before first closing tag is because prettier hasn't run yet
+                'const TableSample = () => (<va-table   sort-column="0" descending >{generateTableChildren(data, fields)}</va-table>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
   ],
 });
