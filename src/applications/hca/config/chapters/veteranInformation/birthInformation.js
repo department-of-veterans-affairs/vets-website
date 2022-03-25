@@ -17,7 +17,11 @@ export default {
     'view:authShortFormAlert': {
       'ui:field': AuthenticatedShortFormAlert,
       'ui:options': {
-        hideIf: form => form['view:totalDisabilityRating'] < HIGH_DISABILITY,
+        hideIf: form =>
+          !(
+            form['view:totalDisabilityRating'] &&
+            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
+          ),
       },
     },
     'view:applicationDescription': {
