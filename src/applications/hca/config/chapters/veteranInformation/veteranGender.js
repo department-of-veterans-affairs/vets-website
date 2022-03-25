@@ -44,7 +44,7 @@ const SIGIGenderDescription = () => {
 
 export default {
   uiSchema: {
-    'view:shortFormMessage': {
+    'view:genderShortFormMessage': {
       'ui:description': shortFormMessage,
       'ui:options': {
         hideIf: form =>
@@ -81,7 +81,7 @@ export default {
     type: 'object',
     required: [],
     properties: {
-      'view:shortFormMessage': emptyObjectSchema,
+      'view:genderShortFormMessage': emptyObjectSchema,
       'view:prefillMessage': emptyObjectSchema,
       'view:sigiDescription': emptyObjectSchema,
       sigiGenders,

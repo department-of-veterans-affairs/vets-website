@@ -15,7 +15,7 @@ const { phone } = fullSchemaHca.definitions;
 
 export default {
   uiSchema: {
-    'view:shortFormMessage': {
+    'view:contactShortFormMessage': {
       'ui:description': shortFormMessage,
       'ui:options': {
         hideIf: form =>
@@ -37,7 +37,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:shortFormMessage': emptyObjectSchema,
+      'view:contactShortFormMessage': emptyObjectSchema,
       'view:prefillMessage': emptyObjectSchema,
       email,
       'view:emailConfirmation': email,

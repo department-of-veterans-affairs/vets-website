@@ -18,7 +18,7 @@ import {
 
 export default {
   uiSchema: {
-    'view:shortFormMessage': {
+    'view:homeAddressShortFormMessage': {
       'ui:description': shortFormMessage,
       'ui:options': {
         hideIf: form =>
@@ -54,7 +54,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:shortFormMessage': emptyObjectSchema,
+      'view:homeAddressShortFormMessage': emptyObjectSchema,
       'view:prefillMessage': emptyObjectSchema,
       veteranHomeAddress: merge({}, addressSchema(fullSchemaHca, true), {
         properties: {

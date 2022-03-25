@@ -97,7 +97,7 @@ const Description = () => {
 
 export default {
   uiSchema: {
-    'view:shortFormMessage': {
+    'view:aiShortFormMessage': {
       'ui:description': shortFormMessage,
       'ui:options': {
         hideIf: form =>
@@ -123,7 +123,7 @@ export default {
     type: 'object',
     required: ['sigiIsAmericanIndian'],
     properties: {
-      'view:shortFormMessage': emptyObjectSchema,
+      'view:aiShortFormMessage': emptyObjectSchema,
       'view:prefillMessage': emptyObjectSchema,
       'view:aiqDescription': emptyObjectSchema,
       sigiIsAmericanIndian,

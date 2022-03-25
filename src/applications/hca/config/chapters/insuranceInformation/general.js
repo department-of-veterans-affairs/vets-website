@@ -18,7 +18,7 @@ const { isCoveredByHealthInsurance } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
-    'view:shortFormMessage': {
+    'view:generalShortFormMessage': {
       'ui:description': shortFormMessage,
       'ui:options': {
         hideIf: form =>
@@ -124,7 +124,7 @@ export default {
     type: 'object',
     required: ['isCoveredByHealthInsurance'],
     properties: {
-      'view:shortFormMessage': emptyObjectSchema,
+      'view:generalShortFormMessage': emptyObjectSchema,
       'view:healthInsuranceDescription': emptyObjectSchema,
       isCoveredByHealthInsurance,
       providers: {

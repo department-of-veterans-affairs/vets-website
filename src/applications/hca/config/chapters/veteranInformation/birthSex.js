@@ -45,7 +45,7 @@ const BirthSexDescription = () => {
 
 export default {
   uiSchema: {
-    'view:shortFormMessage': {
+    'view:birthSexShortFormMessage': {
       'ui:description': shortFormMessage,
       'ui:options': {
         hideIf: form =>
@@ -72,7 +72,7 @@ export default {
     type: 'object',
     required: ['gender'],
     properties: {
-      'view:shortFormMessage': emptyObjectSchema,
+      'view:birthSexShortFormMessage': emptyObjectSchema,
       'view:prefillMessage': emptyObjectSchema,
       gender,
     },

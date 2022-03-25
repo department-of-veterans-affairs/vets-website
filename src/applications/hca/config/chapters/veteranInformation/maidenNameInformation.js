@@ -10,7 +10,7 @@ const { mothersMaidenName } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
-    'view:shortFormMessage': {
+    'view:maidenNameShortFormMessage': {
       'ui:description': shortFormMessage,
       'ui:options': {
         hideIf: form =>
@@ -27,7 +27,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:shortFormMessage': emptyObjectSchema,
+      'view:maidenNameShortFormMessage': emptyObjectSchema,
       mothersMaidenName: set('maxLength', 35, mothersMaidenName),
     },
   },

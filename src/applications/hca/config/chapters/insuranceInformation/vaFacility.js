@@ -27,7 +27,7 @@ const emptyFacilityList = [];
 export default {
   uiSchema: {
     'ui:title': 'VA Facility',
-    'view:shortFormMessage': {
+    'view:facilityShortFormMessage': {
       'ui:description': shortFormMessage,
       'ui:options': {
         hideIf: form =>
@@ -84,7 +84,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:shortFormMessage': emptyObjectSchema,
+      'view:facilityShortFormMessage': emptyObjectSchema,
       isEssentialAcaCoverage,
       'view:preferredFacility': {
         type: 'object',

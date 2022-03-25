@@ -17,7 +17,7 @@ export default {
         hideIf: form => form.vaCompensationType !== 'highDisability',
       },
     },
-    'view:shortFormMessage': {
+    'view:medicaidShortFormMessage': {
       'ui:description': shortFormMessage,
       'ui:options': {
         hideIf: form =>
@@ -40,7 +40,7 @@ export default {
     required: ['isMedicaidEligible'],
     properties: {
       'view:shortFormAlert': emptyObjectSchema,
-      'view:shortFormMessage': emptyObjectSchema,
+      'view:medicaidShortFormMessage': emptyObjectSchema,
       'view:medicaidDescription': emptyObjectSchema,
       isMedicaidEligible,
     },

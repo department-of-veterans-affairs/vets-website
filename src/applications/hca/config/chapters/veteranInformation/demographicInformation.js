@@ -39,7 +39,7 @@ const DemographicInfoDescription = () => {
 
 export default {
   uiSchema: {
-    'view:shortFormMessage': {
+    'view:dmShortFormMessage': {
       'ui:description': shortFormMessage,
       'ui:options': {
         hideIf: form =>
@@ -84,7 +84,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:shortFormMessage': emptyObjectSchema,
+      'view:dmShortFormMessage': emptyObjectSchema,
       'view:prefillMessage': emptyObjectSchema,
       'view:demographicDescription': emptyObjectSchema,
       'view:demographicCategories': {
