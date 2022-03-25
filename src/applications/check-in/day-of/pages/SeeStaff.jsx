@@ -25,6 +25,7 @@ const SeeStaff = props => {
     demographicsData,
     demographicsFlagsSent,
     setDemographicsFlagsSent,
+    demographicsFlagsEmpty,
   } = useDemographicsFlags();
   const { goBack } = router;
   const selectSeeStaffMessage = useMemo(makeSelectSeeStaffMessage, []);
@@ -39,6 +40,7 @@ const SeeStaff = props => {
       if (
         !isDayOfDemographicsFlagsEnabled ||
         demographicsFlagsSent ||
+        demographicsFlagsEmpty ||
         getDemographicsConfirmed(window)
       )
         return;
@@ -55,6 +57,7 @@ const SeeStaff = props => {
     },
     [
       demographicsData,
+      demographicsFlagsEmpty,
       demographicsFlagsSent,
       getDemographicsConfirmed,
       goToErrorPage,

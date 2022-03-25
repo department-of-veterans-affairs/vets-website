@@ -1,4 +1,5 @@
 export default {
+  DOWNLOAD_1095B_CTA: 'download-1095b',
   ASK_VA: 'ask-va',
   BANNER: 'banner',
   BASIC_FACILITY_LOCATIONS_LIST: 'basic-facility-locations-list',
