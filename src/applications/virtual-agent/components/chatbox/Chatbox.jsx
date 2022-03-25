@@ -13,6 +13,7 @@ import {
   ERROR,
   LOADING,
 } from './loadingStatus';
+import SignInModal from 'platform/user/authentication/components/SignInModal';
 
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
@@ -39,6 +40,16 @@ function showBot(loggedIn, requireAuth, accepted, minute, isAuthTopic, props) {
   if (!loggedIn && false) {
     return <ConnectedSignInAlert />;
   }
+  if (!loggedIn && isAuthTopic) {
+    return (
+      <SignInModal
+        visible
+        onClose={() => {
+          console.log('closing modal doesnt work yet')
+        }}
+      />
+    );
+  }
   if (!accepted) {
     return <ChatboxDisclaimer />;
   }
@@ -53,11 +64,13 @@ export default function Chatbox(props) {
   );
   const [isAuthTopic, setIsAuthTopic] = useState(false);
 
-  window.addEventListener('webchat-auth-activity', ({ data }) => {
+  window.addEventListener('webchat-auth-activity', () => {
     setTimeout(function() {
-      window.location.href = '?next=loginModal';
+      //window.location.href = '?next=loginModal';
+      // toggleLoginModal(true);
+      console.log('toggling modal now');
+      setIsAuthTopic(true);
     }, 5000);
-    setIsAuthTopic(true);
   });
 
   const ONE_MINUTE = 60 * 1000;
