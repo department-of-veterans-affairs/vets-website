@@ -131,6 +131,7 @@ describe('VAOS VA request flow', () => {
         .click();
     });
   });
+
   it('should display Cerner how to schedule page if a Cerner facility is chosen', () => {
     initAppointmentListMock();
     initVARequestMock({ cernerFacility: '983' });
@@ -152,7 +153,7 @@ describe('VAOS VA request flow', () => {
     cy.injectAxe();
 
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Social work');

@@ -10,12 +10,8 @@ import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/app
 import { selectUnreadCount } from '~/applications/personalization/dashboard/selectors';
 import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
 
 import {
-  selectCernerAppointmentsFacilities,
-  selectCernerMessagingFacilities,
-  selectCernerRxFacilities,
   selectIsCernerPatient,
   selectAvailableServices,
 } from '~/platform/user/selectors';
@@ -33,7 +29,7 @@ const HealthCare = ({
   shouldFetchUnreadMessages,
   fetchConfirmedFutureAppointments,
   isCernerPatient,
-  facilityNames,
+  facilityLocations,
   fetchUnreadMessages,
   unreadMessagesCount,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
@@ -77,12 +73,12 @@ const HealthCare = ({
     );
   }
 
-  if (isCernerPatient && facilityNames?.length) {
+  if (isCernerPatient && facilityLocations?.length) {
     return (
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
           <CernerWidget
-            facilityNames={facilityNames}
+            facilityLocations={facilityLocations}
             authenticatedWithSSOe={authenticatedWithSSOe}
           />
         </div>
@@ -233,29 +229,10 @@ const HealthCare = ({
 };
 
 const mapStateToProps = state => {
-  const cernerAppointmentFacilities = selectCernerAppointmentsFacilities(state);
-  const cernerMessagingFacilities = selectCernerMessagingFacilities(state);
-  const cernerPrescriptionFacilities = selectCernerRxFacilities(state);
-
-  const appointmentFacilityNames =
-    cernerAppointmentFacilities?.map(facility =>
-      getMedicalCenterNameByID(facility.facilityId),
-    ) || [];
-  const messagingFacilityNames =
-    cernerMessagingFacilities?.map(facility =>
-      getMedicalCenterNameByID(facility.facilityId),
-    ) || [];
-  const prescriptionFacilityNames =
-    cernerPrescriptionFacilities?.map(facility =>
-      getMedicalCenterNameByID(facility.facilityId),
-    ) || [];
-
-  const facilityNames = [
-    ...new Set([
-      ...appointmentFacilityNames,
-      ...messagingFacilityNames,
-      ...prescriptionFacilityNames,
-    ]),
+  const facilityLocations = [
+    'VA Spokane health care',
+    'VA Walla Walla health care',
+    'VA Central Ohio health care',
   ];
 
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
@@ -277,7 +254,7 @@ const mapStateToProps = state => {
   return {
     appointments: state.health?.appointments?.data,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-    facilityNames,
+    facilityLocations,
     hasInboxError: hasUnreadMessagesCountError,
     hasAppointmentsError,
     isCernerPatient: selectIsCernerPatient(state),
@@ -304,7 +281,7 @@ const mapDispatchToProps = {
 HealthCare.propTypes = {
   authenticatedWithSSOe: PropTypes.bool.isRequired,
   isCernerPatient: PropTypes.bool,
-  facilityNames: PropTypes.array.isRequired,
+  facilityLocations: PropTypes.array.isRequired,
   canAccessRx: PropTypes.bool.isRequired,
   unreadMessagesCount: PropTypes.number,
 };

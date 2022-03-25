@@ -61,8 +61,17 @@ const HTMLStatementPage = ({ match }) => {
           previousBalance={selectedCopay.pHPrevBal}
           statementDate={statementDate}
         />
-        <StatementAddresses id="statement-addresses" copay={selectedCopay} />
+        <StatementAddresses
+          data-testid="statement-addresses"
+          copay={selectedCopay}
+        />
         <h2>What if I have questions about my statement?</h2>
+        <p>
+          Contact the VA Health Resource Center at{' '}
+          <va-telephone contact="8664001238" /> (TTY:{' '}
+          <va-telephone contact="711" />
+          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        </p>
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />
         </Modals>
