@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { connect, useSelector } from 'react-redux';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
@@ -36,7 +36,15 @@ function useWebChat(props) {
 //   return true;
 // }
 
-function showBot(loggedIn, requireAuth, accepted, minute, isAuthTopic, props) {
+function showBot(
+  loggedIn,
+  requireAuth,
+  accepted,
+  minute,
+  isAuthTopic,
+  setIsAuthTopic,
+  props,
+) {
   if (!loggedIn && false) {
     return <ConnectedSignInAlert />;
   }
@@ -45,9 +53,10 @@ function showBot(loggedIn, requireAuth, accepted, minute, isAuthTopic, props) {
       <SignInModal
         visible
         onClose={() => {
-          console.log('closing modal doesnt work yet')
+          setIsAuthTopic(false);
         }}
       />
+      // <ConnectedAuthReqTopic />
     );
   }
   if (!accepted) {
@@ -66,10 +75,12 @@ export default function Chatbox(props) {
 
   window.addEventListener('webchat-auth-activity', () => {
     setTimeout(function() {
-      //window.location.href = '?next=loginModal';
+      // window.location.href = '?next=loginModal';
       // toggleLoginModal(true);
       console.log('toggling modal now');
-      setIsAuthTopic(true);
+      if (!isLoggedIn) {
+        setIsAuthTopic(true);
+      }
     }, 5000);
   });
 
@@ -87,6 +98,7 @@ export default function Chatbox(props) {
         isAccepted,
         ONE_MINUTE,
         isAuthTopic,
+        setIsAuthTopic,
         props,
       )}
     </div>
@@ -110,6 +122,14 @@ function SignInAlert({ showLoginModal }) {
   );
 }
 
+// function AuthReqTopic({ showLoginModal }) {
+//   return (
+//     <div onLoad={() => showLoginModal(true)}>
+//       poopoo
+//     </div>
+//   );
+// }
+
 const mapDispatchToProps = {
   showLoginModal: toggleLoginModal,
 };
@@ -118,6 +138,11 @@ const ConnectedSignInAlert = connect(
   null,
   mapDispatchToProps,
 )(SignInAlert);
+
+// const ConnectedAuthReqTopic = connect(
+//   null,
+//   mapDispatchToProps,
+// )(AuthReqTopic);
 
 function App(props) {
   const { token, WebChatFramework, loadingStatus, apiSession } = useWebChat(
