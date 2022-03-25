@@ -108,8 +108,8 @@ describe('Global check in', () => {
         );
         expect(form.find(page => page === URLS.DEMOGRAPHICS)).to.exist;
       });
-      it('should skip a page that has been updated more than 72 hours ago but within three calendar days', () => {
-        MockDate.set('2022-01-04T14:00:00.000-05:00');
+      it('should skip a page that has been updated more than 168 hours ago but within seven calendar days', () => {
+        MockDate.set('2022-01-08T14:00:00.000-05:00');
         const patientDemographicsStatus = {
           demographicsNeedsUpdate: true,
           demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
@@ -127,8 +127,8 @@ describe('Global check in', () => {
         expect(form.find(page => page === URLS.EMERGENCY_CONTACT)).to.be
           .undefined;
       });
-      it('should skip a page that has been updated less than 72 hours ago', () => {
-        MockDate.set('2022-01-04T06:00:00.000-05:00');
+      it('should skip a page that has been updated less than 168 hours ago', () => {
+        MockDate.set('2022-01-08T06:00:00.000-05:00');
         const patientDemographicsStatus = {
           demographicsNeedsUpdate: true,
           demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',

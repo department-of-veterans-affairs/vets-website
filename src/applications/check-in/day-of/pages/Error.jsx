@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 
 import ErrorMessage from '../../components/ErrorMessage';
 import BackToHome from '../../components/BackToHome';
-import LanguagePicker from '../../components/LanguagePicker';
 import Footer from '../../components/Footer';
+import LanguagePicker from '../../components/LanguagePicker';
 
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 

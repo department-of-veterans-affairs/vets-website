@@ -27,15 +27,22 @@ export default function Name(props) {
   const { editing } = useSelector(selectEditContext);
   const { editingPage, key, originatingUrl, value } = editing;
   const [nameValue, setNameValue] = useState(value);
+  const [error, setError] = useState();
 
   const dispatch = useDispatch();
-  const clearEditContext = useCallback(() => {
-    dispatch(createClearEditContext());
-  }, [dispatch]);
+  const clearEditContext = useCallback(
+    () => {
+      dispatch(createClearEditContext());
+    },
+    [dispatch],
+  );
 
-  const handleUpdate = useCallback(() => {
-    dispatch(createSetPendingEditedData({ name: nameValue }, editingPage));
-  }, [dispatch, editingPage, nameValue]);
+  const handleUpdate = useCallback(
+    () => {
+      dispatch(createSetPendingEditedData({ name: nameValue }, editingPage));
+    },
+    [dispatch, editingPage, nameValue],
+  );
 
   useEffect(() => {
     focusElement('h1');
@@ -44,9 +51,14 @@ export default function Name(props) {
 
   const onChange = useCallback(
     event => {
+      if (!event.target.value) {
+        setError('Name is required');
+      } else {
+        setError(null);
+      }
       setNameValue(event.target.value);
     },
-    [setNameValue],
+    [setNameValue, setError],
   );
 
   let title = '';
@@ -64,6 +76,7 @@ export default function Name(props) {
     <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 edit-relationship-page">
       <h1 data-testid="header">{title}</h1>
       <VaTextInput
+        error={error}
         label={t('name')}
         name={key}
         value={nameValue}

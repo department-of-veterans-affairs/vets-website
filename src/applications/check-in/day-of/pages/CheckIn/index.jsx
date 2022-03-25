@@ -57,6 +57,7 @@ const CheckIn = props => {
       />
     );
   }
+
   return (
     <DisplayMultipleAppointments
       router={router}
@@ -69,6 +70,7 @@ const CheckIn = props => {
 
 CheckIn.propTypes = {
   appointments: PropTypes.array,
+  isDayOfDemographicsFlagsEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   router: PropTypes.object,
 };

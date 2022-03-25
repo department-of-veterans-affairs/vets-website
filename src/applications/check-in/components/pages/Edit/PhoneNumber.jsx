@@ -19,7 +19,7 @@ import UpdateButton from './shared/UpdateButton';
 import Header from './shared/Header';
 import Footer from '../../Footer';
 
-import { getLabelForPhone } from '../../../utils/appConstants';
+import { getLabelForEditField } from '../../../utils/appConstants';
 import { formatPhone } from '../../../utils/formatters';
 
 export default function PhoneNumber(props) {
@@ -30,40 +30,54 @@ export default function PhoneNumber(props) {
   const { editing } = useSelector(selectEditContext);
 
   const { editingPage, key, originatingUrl, value } = editing;
-  const phone = useMemo(() => {
-    const data = value.split('x');
-    return { number: data[0], extension: data[1], value };
-  }, [value]);
+  const phone = useMemo(
+    () => {
+      const data = value.split('x');
+      return { number: data[0], extension: data[1], value };
+    },
+    [value],
+  );
 
   const [phoneNumber, setPhoneNumber] = useState(phone.number);
   const [extension, setExtension] = useState(phone.extension);
   const [phoneErrorMessage, setPhoneErrorMessage] = useState();
   const [extensionErrorMessage] = useState();
 
-  const isUpdatable = useMemo(() => {
-    return !phoneErrorMessage && !extensionErrorMessage;
-  }, [phoneErrorMessage, extensionErrorMessage]);
+  const isUpdatable = useMemo(
+    () => {
+      return !phoneErrorMessage && !extensionErrorMessage && phone.number;
+    },
+    [phoneErrorMessage, extensionErrorMessage, phone.number],
+  );
 
   const dispatch = useDispatch();
-  const handleUpdatePhone = useCallback(() => {
-    const newPhoneNumber = `${phoneNumber}${extension ? `x${extension}` : ''}`;
-    if (newPhoneNumber !== value && !phoneErrorMessage) {
-      dispatch(
-        createSetPendingEditedData({ [key]: newPhoneNumber }, editingPage),
-      );
-    }
-  }, [
-    dispatch,
-    editingPage,
-    phoneErrorMessage,
-    extension,
-    key,
-    phoneNumber,
-    value,
-  ]);
-  const clearEditContext = useCallback(() => {
-    dispatch(createClearEditContext());
-  }, [dispatch]);
+  const handleUpdatePhone = useCallback(
+    () => {
+      const newPhoneNumber = `${phoneNumber}${
+        extension ? `x${extension}` : ''
+      }`;
+      if (newPhoneNumber !== value && !phoneErrorMessage) {
+        dispatch(
+          createSetPendingEditedData({ [key]: newPhoneNumber }, editingPage),
+        );
+      }
+    },
+    [
+      dispatch,
+      editingPage,
+      phoneErrorMessage,
+      extension,
+      key,
+      phoneNumber,
+      value,
+    ],
+  );
+  const clearEditContext = useCallback(
+    () => {
+      dispatch(createClearEditContext());
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
     focusElement('h1');
@@ -74,7 +88,11 @@ export default function PhoneNumber(props) {
     event => {
       const { value: newPhone } = event.target;
       if (newPhone === '') {
-        setPhoneErrorMessage();
+        setPhoneErrorMessage(
+          `${getLabelForEditField(key, {
+            capitalizeFirstLetter: true,
+          })} is required`,
+        );
       } else if (!isValidPhone(newPhone)) {
         setPhoneErrorMessage(t('please-enter-valid-phone-number'));
       } else {
@@ -82,7 +100,7 @@ export default function PhoneNumber(props) {
       }
       setPhoneNumber(newPhone);
     },
-    [setPhoneNumber],
+    [setPhoneNumber, key, t],
   );
 
   const onExtensionChange = useCallback(
@@ -96,17 +114,18 @@ export default function PhoneNumber(props) {
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--4  vads-u-padding-right--4 vads-u-padding-left-2 ">
       <Header
-        what={getLabelForPhone(key)}
+        what={getLabelForEditField(key)}
         editingPage={editingPage}
         value={value}
       />
       <VaTextInput
         error={phoneErrorMessage}
-        label={getLabelForPhone(key, { capitalizeFirstLetter: true })}
+        label={getLabelForEditField(key, { capitalizeFirstLetter: true })}
         maxlength={null}
         name={key}
         value={formatPhone(phoneNumber)}
         onVaChange={onPhoneNumberChange}
+        required
       />
       <VaTextInput
         error={extensionErrorMessage}

@@ -9,12 +9,13 @@ import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
 import LanguagePicker from '../../components/LanguagePicker';
 import Footer from '../../components/Footer';
-import { seeStaffMessageUpdated } from '../../actions/day-of';
+import { recordAnswer, seeStaffMessageUpdated } from '../../actions/day-of';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
 import { makeSelectVeteranData } from '../../selectors';
 import { URLS } from '../../utils/navigation';
 
 const NextOfKin = props => {
+  const { isDayOfDemographicsFlagsEnabled } = props;
   const { router } = props;
   const { t } = useTranslation();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
@@ -38,22 +39,40 @@ const NextOfKin = props => {
     [dispatch],
   );
 
-  const yesClick = useCallback(() => {
-    recordEvent({
-      event: 'cta-button-click',
-      'button-click-label': 'yes-to-next-of-kin-information',
-    });
-    goToNextPage();
-  }, [goToNextPage]);
+  const yesClick = useCallback(
+    () => {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': 'yes-to-next-of-kin-information',
+      });
+      if (isDayOfDemographicsFlagsEnabled) {
+        dispatch(recordAnswer({ nextOfKinUpToDate: 'yes' }));
+      }
+      goToNextPage();
+    },
+    [dispatch, goToNextPage, isDayOfDemographicsFlagsEnabled],
+  );
 
-  const noClick = useCallback(() => {
-    recordEvent({
-      event: 'cta-button-click',
-      'button-click-label': 'no-to-next-of-kin-information',
-    });
-    updateSeeStaffMessage(seeStaffMessage);
-    jumpToPage(URLS.SEE_STAFF);
-  }, [updateSeeStaffMessage, jumpToPage]);
+  const noClick = useCallback(
+    () => {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': 'no-to-next-of-kin-information',
+      });
+      if (isDayOfDemographicsFlagsEnabled) {
+        dispatch(recordAnswer({ nextOfKinUpToDate: 'no' }));
+      }
+      updateSeeStaffMessage(seeStaffMessage);
+      jumpToPage(URLS.SEE_STAFF);
+    },
+    [
+      isDayOfDemographicsFlagsEnabled,
+      dispatch,
+      updateSeeStaffMessage,
+      jumpToPage,
+      seeStaffMessage,
+    ],
+  );
 
   if (!nextOfKin) {
     goToErrorPage();
@@ -75,6 +94,7 @@ const NextOfKin = props => {
 };
 
 NextOfKin.propTypes = {
+  isDayOfDemographicsFlagsEnabled: PropTypes.bool,
   router: PropTypes.object,
 };
 

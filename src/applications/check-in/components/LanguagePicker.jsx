@@ -36,10 +36,6 @@ function LanguagePicker() {
           label: 'Español',
           lang: 'es',
         },
-        {
-          label: 'Tagalog',
-          lang: 'tl',
-        },
       ].map((link, i) => (
         <button
           key={i}

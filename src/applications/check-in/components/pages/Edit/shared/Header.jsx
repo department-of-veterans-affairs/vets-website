@@ -29,6 +29,6 @@ export default function Header(props) {
 
 Header.propTypes = {
   editingPage: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
   what: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 };

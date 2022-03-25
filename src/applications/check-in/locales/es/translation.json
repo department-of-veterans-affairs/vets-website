@@ -100,8 +100,8 @@
   "we-make-every-effort-to-keep-your-personal-information-private-and-secure": "Hacemos todo lo posible para mantener su información personal privada y segura.",
   "we-need-some-information-to-verify-your-identity-so-we-can-check-you-in": "Necesitamos cierta información para verificar su identidad y poder registrarlo.",
   "we-need-to-verify-your-identity-so-you-can-start-pre-check-in": "Necesitamos verificar su identidad para que pueda iniciar el registro previo.",
-  "were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member": "Lo lamentamos. \nAlgo salió mal de nuestra parte. \nRegístrese con un miembro del personal.",
-  "were-sorry-we-couldnt-match-your-information-to-our-records-please-ask-a-staff-member-for-help": "Lo lamentamos. \nNo pudimos hacer coincidir su información con nuestros registros. \nPida ayuda a un miembro del personal.",
+  "were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member": "Lo lamentamos. Algo salió mal de nuestra parte. Regístrese con un miembro del personal.",
+  "were-sorry-we-couldnt-match-your-information-to-our-records-please-ask-a-staff-member-for-help": "Lo lamentamos. No pudimos hacer coincidir su información con nuestros registros. Pida ayuda a un miembro del personal.",
   "what-if-i-have-questions-about-my-appointment": "¿Qué pasa si tengo preguntas sobre mi cita?",
   "will-va-protect-my-personal-health-information": "¿VA protegerá mi información médica personal?",
   "work-phone": "Teléfono del trabajo",
@@ -122,5 +122,15 @@
   "youre-checked-in-for-your-appointment": "Está registrado para su cita de {{appointmentTime}}",
   "waiting-room-when-its-time-for-your-appointment-to-start": "cuando sea hora de que comience su cita.",
   "well-come-get-you-from-the": "Iremos a buscarte desde el sala de espera de",
-  "were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again": "Lo lamentamos. \nNo pudimos hacer coincidir su información con nuestros registros. \nInténtalo de nuevo."
+  "were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again": "Lo lamentamos. \nNo pudimos hacer coincidir su información con nuestros registros. \nInténtalo de nuevo.",
+  "united-states": "Estados Unidos",
+  "country": "País",
+  "i-live-on-a-united-states-military-base-outside-of-the-united-states": "Vivo en una base militar de los Estados Unidos fuera de los Estados Unidos.",
+  "zip-code-is-required": "Se requiere código postal",
+  "state-is-required-0": "Se requiere estado",
+  "international-postal-code-is-required": "Se requiere el código postal internacional.",
+  "state-province-region-is-required": "Se requiere estado/provincia/región.",
+  "state-is-required": "Se requiere estado",
+  "city-is-required": "Ciudad es requerida",
+  "is-required": "es requerido"
 }
