@@ -43,8 +43,8 @@ const ServiceConnectedPayConfirmation = ({ goBack, goForward }) => {
               rating is 50% or higher, we can ask you fewer questions.
             </p>
             <p>
-              <strong>Note:</strong> The VA will confirm all information upon
-              application receipt.{' '}
+              <strong>Note:</strong> We’ll confirm your information when we
+              receive your application.{' '}
             </p>
             <div className="vads-u-margin-y--4">
               <va-additional-info trigger="Why do I need to confirm my disability pay?">
