@@ -385,8 +385,8 @@ jobs:
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
-  code-coverage-cypress:
-    name: Code Coverage Reports
+  e2e-code-coverage-cypress:
+    name: E2E Code Coverage Reports
     runs-on: ubuntu-latest
     needs: [set-commit-sha, testing-reports-prep, cypress-tests-prep, cypress-tests]
     continue-on-error: true
@@ -446,8 +446,8 @@ jobs:
           name: code-coverage-artifacts
           path: testing-tools-team-dashboard-data/src/testing-reports/data
 
-      - name: Push code coverage results to BigQuery
-        run: yarn code-coverage-to-bigquery
+      - name: Push E2E Code Coverage Results to BigQuery
+        run: yarn e2e-code-coverage-to-bigquery
         working-directory: testing-tools-team-dashboard-data
 
 
