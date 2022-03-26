@@ -3,11 +3,11 @@ const commandLineArgs = require('command-line-args');
 const glob = require('glob');
 
 const options = commandLineArgs([
-  { name: 'paths', type: String, defaultOption: true, required: true }, // Comma-delimited string of relative paths
-  { name: 'glob', type: String, required: true }, // Glob pattern to search for in paths
+  { name: 'dirs', type: String, defaultOption: true, required: true }, // Comma-delimited string of relative directory paths
+  { name: 'glob', type: String, required: true }, // Glob pattern to search for in directories
 ]);
 
-const folderPaths = options.paths.split(',');
+const folderPaths = options.dirs.split(',');
 
 const filePaths = folderPaths.reduce((fileString, folderPath) => {
   const pattern = `${folderPath}/${options.glob}`;
