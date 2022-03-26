@@ -268,10 +268,10 @@ jobs:
       - name: Get contract tests
         id: get-contract-tests
         run: |
-          if [[ -z ${{ steps.get-changed-apps.outputs.app_folders }} ]]
-            echo ::set-output name=tests::$(node script/github-actions/get-files-from-glob.js src --glob '**/tests/**/*.pact.spec.js')
+          if [[ -z ${{ steps.get-changed-apps.outputs.app_folders }} ]]; then
+            echo ::set-output name=tests::$(node script/github-actions/glob-folders.js src --glob '**/tests/**/*.pact.spec.js')
           else
-            echo ::set-output name=tests::$(node script/github-actions/get-files-from-glob.js ${{ steps.get-changed-apps.outputs.app_folders }} --glob '**/tests/**/*.pact.spec.js')
+            echo ::set-output name=tests::$(node script/github-actions/glob-folders.js ${{ steps.get-changed-apps.outputs.app_folders }} --glob '**/tests/**/*.pact.spec.js')
           fi
 
       - name: Run contract tests
@@ -398,7 +398,7 @@ jobs:
             yarn run stylelint verbose --output-file stylelint-report.json --formatter json src/**/*.scss
           else
             yarn run stylelint verbose --output-file stylelint-report.json --formatter json \
-            $(node script/github-actions/get-files-from-glob.js ${{ steps.get-changed-apps.outputs.app_folders }} --glob '**/*.scss')
+            $(node script/github-actions/glob-folders.js ${{ steps.get-changed-apps.outputs.app_folders }} --glob '**/*.scss')
           fi
 
       - name: Annotate Stylelint results
