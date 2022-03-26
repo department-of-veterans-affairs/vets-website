@@ -202,6 +202,9 @@ jobs:
   contract-tests:
     name: Contract Tests
     runs-on: ubuntu-latest
+    outputs:
+      tests: ${{ steps.get-contract-tests.outputs.tests }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -255,22 +258,41 @@ jobs:
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
+      # - name: Get contract tests
+      #   id: get-contract-tests
+      #   run: |
+      #     echo ${{ steps.get-changed-apps.outputs.app_folders }} | \
+      #     sed -E 's/([^ ]+)/\1\/tests\/**\/*.pact.spec.js/g' | \
+      #     xargs echo ::set-output name=tests::
+      
+      - name: Get contract tests
+        id: get-contract-tests
+        run: |
+          if [[ -z ${{ steps.get-changed-apps.outputs.app_folders }} ]]
+            echo ::set-output name=tests::$(node script/github-actions/get-files-from-glob.js src --glob '**/tests/**/*.pact.spec.js')
+          else
+            echo ::set-output name=tests::$(node script/github-actions/get-files-from-glob.js ${{ steps.get-changed-apps.outputs.app_folders }} --glob '**/tests/**/*.pact.spec.js')
+          fi
+
       - name: Run contract tests
+        if: steps.get-contract-tests.outputs.tests != ''
         run: yarn test:contract ${{ steps.get-changed-apps.outputs.app_folders }}
         env:
           MOCHA_FILE: ./test-results/test-results.xml
 
       - name: Print Pact failures
+        if: steps.get-contract-tests.outputs.tests != '' && failure()
         run: cat test-results/test-results.xml
-        if: ${{ failure() }}
 
       - name: Run Pact publish
+        if: steps.get-contract-tests.outputs.tests != ''
         run: yarn pact:publish
         env:
           PACT_BROKER_BASIC_AUTH_USERNAME: pact-broker
           PACT_BROKER_BASE_URL: https://dev.va.gov/_vfs/pact-broker/
 
       - name: Run Pact verify
+        if: steps.get-contract-tests.outputs.tests != ''
         run: |
           curl -v -X POST \
           -H 'Authorization: token ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' \
@@ -280,6 +302,7 @@ jobs:
           --fail
 
       - name: Archive contract test results
+        if: steps.get-contract-tests.outputs.tests != ''
         uses: actions/upload-artifact@v3
         with:
           name: contract-test-report
@@ -287,7 +310,7 @@ jobs:
 
       - name: Archive contract test log
         uses: actions/upload-artifact@v3
-        if: ${{ failure() }}
+        if: steps.get-contract-tests.outputs.tests != '' && failure()
         with:
           name: contract-test-log
           path: logs/pact.log
@@ -374,7 +397,8 @@ jobs:
           if [[ -z "${{ steps.get-changed-apps.outputs.app_folders }}" ]]; then
             yarn run stylelint verbose --output-file stylelint-report.json --formatter json src/**/*.scss
           else
-            echo "${{ steps.get-changed-apps.outputs.app_folders }}" | sed -E 's/([^ ]+)/\1\/**\/*.scss/g' | xargs yarn run stylelint verbose --output-file stylelint-report.json --formatter json
+            yarn run stylelint verbose --output-file stylelint-report.json --formatter json \
+            $(node script/github-actions/get-files-from-glob.js ${{ steps.get-changed-apps.outputs.app_folders }} --glob '**/*.scss')
           fi
 
       - name: Annotate Stylelint results
@@ -579,7 +603,10 @@ jobs:
     name: Testing Reports - Contract Tests
     runs-on: ubuntu-latest
     needs: [testing-reports-prep, contract-tests]
-    if: ${{ always() && (needs.contract-tests.result == 'success' || needs.contract-tests.result == 'failure') }}
+    if: |
+      always() && 
+      needs.contract-tests.outputs.tests != '' && 
+      (needs.contract-tests.result == 'success' || needs.contract-tests.result == 'failure')
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
