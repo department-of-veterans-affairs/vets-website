@@ -373,7 +373,7 @@ jobs:
 
       - name: Get app folders for changed files
         id: get-changed-apps
-        run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder | tr ',' ' ')
+        run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder)
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
