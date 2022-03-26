@@ -257,13 +257,6 @@ jobs:
         run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder)
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
-
-      # - name: Get contract tests
-      #   id: get-contract-tests
-      #   run: |
-      #     echo ${{ steps.get-changed-apps.outputs.app_folders }} | \
-      #     sed -E 's/([^ ]+)/\1\/tests\/**\/*.pact.spec.js/g' | \
-      #     xargs echo ::set-output name=tests::
       
       - name: Get contract tests
         id: get-contract-tests

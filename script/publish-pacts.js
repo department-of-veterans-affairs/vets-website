@@ -6,7 +6,6 @@
  * Only meant to run in CI.
  */
 
-const fs = require('fs');
 const path = require('path');
 
 const PactBrokerClient = require('../src/platform/testing/contract/client');
@@ -20,11 +19,6 @@ const pactBrokerClient = new PactBrokerClient({
 const pactsFolder = path.resolve(__dirname, '../pacts');
 const commitHash = process.env.GITHUB_SHA;
 const branchName = process.env.GITHUB_REF;
-
-if (!fs.existsSync(pactsFolder)) {
-  console.log(`No pacts found.`);
-  process.exit(0);
-}
 
 pactBrokerClient
   .publishAndTagPacts({
