@@ -481,70 +481,89 @@ const formConfig = {
             'view:sponsors': {
               sponsors: {
                 'ui:title': 'testing',
-                'ui:widget': DynamicCheckboxGroup,
-                'ui:options': {
-                  hideLabelText: true,
-                  // setEditState: () => {
-                  //   return true;
-                  // },
-                  // viewField: SponsorsView,
-                  // expandUnder: 'FACILITY',
-                  // expandUnderCondition: true,
-                  // hideIf: formData => !formData.sponsors?.sponsors?.length,
-                  // 'ui:reviewWidget': vaLocationReviewWidget,
-                  // 'ui:required': formData =>
-                  //   get('zipCode', formData) !== undefined &&
-                  //   get('zipCode', formData).length >= 5,
-                },
+                'ui:field': DynamicCheckboxGroup,
+                // 'ui:options': {
+                //   hideLabelText: true,
+                //   // setEditState: () => {
+                //   //   return true;
+                //   // },
+                //   // viewField: SponsorsView,
+                //   // expandUnder: 'FACILITY',
+                //   // expandUnderCondition: true,
+                //   // hideIf: formData => !formData.sponsors?.sponsors?.length,
+                //   // 'ui:reviewWidget': vaLocationReviewWidget,
+                //   // 'ui:required': formData =>
+                //   //   get('zipCode', formData) !== undefined &&
+                //   //   get('zipCode', formData).length >= 5,
+                // },
+                // 'ui:errorMessages': {
+                //   pattern: 'Please provide a value in the right format',
+                // },
               },
               'ui:validations': [
+                // function(
+                //   errors,
+                //   // fieldData,
+                //   // formData,
+                //   // fieldSchema,
+                //   // errorMessages,
+                // ) {
+                //   errors.addError('My error');
+                //   errors.sponsors?.addError('sponsors error');
+                // },
                 {
                   validator: (errors, fieldData) => {
-                    if (!fieldData?.selectedSponsors?.length) {
-                      errors.addError('Please select a sponsor');
+                    if (
+                      !fieldData?.someoneNotListed &&
+                      !fieldData?.sponsors?.some(sponsor => sponsor.selected)
+                    ) {
+                      errors?.sponsors?.addError('Please select a sponsor');
+                      return false;
                     }
+                    return true;
                   },
+                  options: {},
                 },
               ],
             },
-            [formFields.sponsorFullName]: {
-              ...fullNameUI,
-              first: {
-                ...fullNameUI.first,
-                'ui:title': "Sponsor's first name",
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a first name');
-                    }
-                  },
-                ],
-              },
-              last: {
-                ...fullNameUI.last,
-                'ui:title': "Sponsor's last name",
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a last name');
-                    }
-                  },
-                ],
-              },
-              middle: {
-                ...fullNameUI.middle,
-                'ui:title': "Sponsor's  middle name",
-              },
-              'ui:options': {
-                hideIf: formData => formData['view:sponsors']?.sponsors?.length,
-              },
-            },
-            [formFields.sponsorDateOfBirth]: {
-              ...currentOrPastDateUI("Sponsor's date of birth"),
-              'ui:options': {
-                hideIf: formData => formData['view:sponsors']?.sponsors?.length,
-              },
-            },
+            // [formFields.sponsorFullName]: {
+            //   ...fullNameUI,
+            //   first: {
+            //     ...fullNameUI.first,
+            //     'ui:title': "Sponsor's first name",
+            //     'ui:validations': [
+            //       (errors, field) => {
+            //         if (isOnlyWhitespace(field)) {
+            //           errors.addError('Please enter a first name');
+            //         }
+            //       },
+            //     ],
+            //   },
+            //   last: {
+            //     ...fullNameUI.last,
+            //     'ui:title': "Sponsor's last name",
+            //     'ui:validations': [
+            //       (errors, field) => {
+            //         if (isOnlyWhitespace(field)) {
+            //           errors.addError('Please enter a last name');
+            //         }
+            //       },
+            //     ],
+            //   },
+            //   middle: {
+            //     ...fullNameUI.middle,
+            //     'ui:title': "Sponsor's  middle name",
+            //   },
+            //   'ui:options': {
+            //     hideIf: formData => formData['view:sponsors']?.sponsors?.length,
+            //   },
+            // },
+            // [formFields.sponsorDateOfBirth]: {
+            //   ...currentOrPastDateUI("Sponsor's date of birth"),
+            //   'ui:options': {
+            //     hideIf: formData => formData['view:sponsors']?.sponsors?.length,
+            //   },
+            // },
             'view:additionalInfo': {
               'ui:description': (
                 <va-additional-info trigger="Which sponsor should I choose?">
@@ -562,7 +581,7 @@ const formConfig = {
           schema: {
             type: 'object',
             required: [
-              formFields.sponsorDateOfBirth,
+              // formFields.sponsorDateOfBirth,
               // 'sponsors.selectedSponsors',
             ],
             properties: {
@@ -584,7 +603,26 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   sponsors: {
-                    type: 'string',
+                    type: 'array',
+                    items: {
+                      type: 'object',
+                      minItems: 0,
+                      properties: {
+                        name: {
+                          type: 'string',
+                        },
+                        selected: {
+                          type: 'boolean',
+                        },
+                      },
+                    },
+                    // enum: [],
+                    // enumNames: [],
+                    // properties: {
+                    //   // someoneNotListed: {
+                    //   //   type: 'boolean',
+                    //   // },
+                    // },
                   },
                 },
                 // type: 'array',
@@ -610,17 +648,17 @@ const formConfig = {
                 //   // },
                 // },
               },
-              [formFields.sponsorFullName]: {
-                ...fullName,
-                properties: {
-                  ...fullName.properties,
-                  middle: {
-                    ...fullName.properties.middle,
-                    maxLength: 30,
-                  },
-                },
-              },
-              [formFields.sponsorDateOfBirth]: date,
+              // [formFields.sponsorFullName]: {
+              //   ...fullName,
+              //   properties: {
+              //     ...fullName.properties,
+              //     middle: {
+              //       ...fullName.properties.middle,
+              //       maxLength: 30,
+              //     },
+              //   },
+              // },
+              // [formFields.sponsorDateOfBirth]: date,
               'view:additionalInfo': {
                 type: 'object',
                 properties: {},
