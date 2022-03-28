@@ -7,6 +7,7 @@ import moment from 'moment';
 import Modals from '../components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
+import StatementCharges from '../components/StatementCharges';
 
 const HTMLStatementPage = ({ match }) => {
   const selectedId = match.params.id;
@@ -60,6 +61,10 @@ const HTMLStatementPage = ({ match }) => {
           paymentsReceived={selectedCopay.pHTotCredits}
           previousBalance={selectedCopay.pHPrevBal}
           statementDate={statementDate}
+        />
+        <StatementCharges
+          data-testid="statement-charges"
+          copay={selectedCopay}
         />
         <StatementAddresses
           data-testid="statement-addresses"
