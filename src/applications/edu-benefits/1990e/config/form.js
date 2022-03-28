@@ -5,6 +5,7 @@ import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 import applicantInformation from 'platform/forms/pages/applicantInformation';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import FormFooter from 'platform/forms/components/FormFooter';
 import oldPreSubmitInfo from 'platform/forms/preSubmitInfo';
 import * as address from 'platform/forms/definitions/address';
 import fullNameUISchema from 'platform/forms/definitions/fullName';
@@ -97,10 +98,7 @@ const formConfig = {
     required: true,
     field: 'privacyAgreementAccepted',
   },
-  // preSubmitInfo: environment.isProduction()
-  //   ? oldPreSubmitInfo
-  //   : PreSubmitNotice,
-  // footerContent: FormFooter,
+  footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
   chapters: {
