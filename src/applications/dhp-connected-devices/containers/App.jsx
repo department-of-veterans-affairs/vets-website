@@ -24,26 +24,58 @@ export default function App() {
             your VA care team. If you have concerns about any specific shared
             data, you must contact your care team directly.
           </p>
-          <div className="schemaform-title">
-            <h2>Connected devices</h2>
-          </div>
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="continue"
-            visible
-          >
-            <h3 slot="headline">Please sign in to connect a device</h3>
-            <div>
-              Sign in with your existing ID.me, DS Logon, or My HealtheVet
-              account. If you don't have any of these accounts, you can create a
-              free ID.me account now.
-            </div>
-            <div>
-              <button type="button" className="usa-button">
-                Sign in or create an account
-              </button>
-            </div>
-          </va-alert>
+          {/* Show sign in button if user not logged in */}
+          {!isLoggedIn && (
+            <>
+              <h2>Connected devices</h2>
+              <va-alert
+                close-btn-aria-label="Close notification"
+                status="continue"
+                visible
+              >
+                <h3 slot="headline">Please sign in to connect a device</h3>
+                <div>
+                  Sign in with your existing ID.me, DS Logon, or My HealtheVet
+                  account. If you don't have any of these accounts, you can
+                  create a free ID.me account now.
+                </div>
+                <div className="button">
+                  <UserNav
+                    isHeaderV2
+                    customText="Sign in or create an account"
+                  />
+                </div>
+              </va-alert>
+            </>
+          )}
+          {/* show your devices and Connect device section if user is logged in */}
+          {isLoggedIn && (
+            <>
+              {/* Displays user's connected devices */}
+              <h2>Your connected devices</h2>
+              <div>You do not have any devices connected</div>
+              {/* Displays devices that users have not connected to */}
+              <h2>Devices you can connect</h2>
+              <div>
+                Choose a device type below to connect. You will be directed to
+                an external website and asked to enter your sign in information
+                for that device. When complete, you will return to this page on
+                VA.gov.
+              </div>
+              <div className="connected-devices-section">
+                <div className="connect-device">
+                  <p>
+                    <h3>Fitbit</h3>
+                  </p>
+                  <p>
+                    <a href="https://www.fitbit.com/oauth2/authorize?client_id=<client_id>&response_type=code&code_challenge=<code_challenge>&code_challenge_method=S256&scope=weight%20location%20settings%20profile%20nutrition%20activity%20sleep%20heartrate%20social">
+                      Connect
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </>
+          )}
           <div className="schemaform-title">
             <h2>Frequently asked questions</h2>
           </div>
@@ -62,88 +94,6 @@ export default function App() {
             <va-accordion-item header="Question 3" id="third" />
           </va-accordion>
         </article>
-        <div className="schemaform-title">
-          <h1>Connect your health devices</h1>
-        </div>
-        <div className="va-introtext">
-          <p>
-            Connecting a device will share your health data with VA. Connected
-            devices can share data including activity, blood glucose, blood
-            pressure, weight, and more. By connecting a device, this data is
-            automatically shared with your care team.
-          </p>
-        </div>
-        <p>
-          <strong>Note:</strong> Your shared data will not be monitored by your
-          VA care team. If you have concerns about any specific shared data, you
-          must contact your care team directly.
-        </p>
-        {/* Show sign in button if user not logged in */}
-        {!isLoggedIn && (
-          <>
-            <h2>Connected devices</h2>
-            <va-alert
-              close-btn-aria-label="Close notification"
-              status="continue"
-              visible
-            >
-              <h3 slot="headline">Please sign in to connect a device</h3>
-              <div>
-                Sign in with your existing ID.me, DS Logon, or My HealtheVet
-                account. If you don't have any of these accounts, you can create
-                a free ID.me account now.
-              </div>
-              <div className="button">
-                <UserNav isHeaderV2 customText="Sign in or create an account" />
-              </div>
-            </va-alert>
-          </>
-        )}
-        {/* show your devices and Connect device section if user is logged in */}
-        {isLoggedIn && (
-          <>
-            {/* Displays user's connected devices */}
-            <h2>Your connected devices</h2>
-            <div>You do not have any devices connected</div>
-            {/* Displays devices that users have not connected to */}
-            <h2>Devices you can connect</h2>
-            <div>
-              Choose a device type below to connect. You will be directed to an
-              external website and asked to enter your sign in information for
-              that device. When complete, you will return to this page on
-              VA.gov.
-            </div>
-            <div className="connected-devices-section">
-              <div className="connect-device">
-                <p>
-                  <h3>Fitbit</h3>
-                </p>
-                <p>
-                  <a href="https://www.fitbit.com/oauth2/authorize?client_id=<client_id>&response_type=code&code_challenge=<code_challenge>&code_challenge_method=S256&scope=weight%20location%20settings%20profile%20nutrition%20activity%20sleep%20heartrate%20social">
-                    Connect
-                  </a>
-                </p>
-              </div>
-            </div>
-          </>
-        )}
-        <div className="schemaform-title">
-          <h2>Frequently asked questions</h2>
-        </div>
-        <va-accordion
-          disable-analytics={{
-            value: 'false',
-          }}
-          section-heading={{
-            value: 'null',
-          }}
-        >
-          <va-accordion-item id="first">
-            <h6 slot="headline">Question 1</h6>
-          </va-accordion-item>
-          <va-accordion-item header="Question 2" id="second" />
-          <va-accordion-item header="Question 3" id="third" />
-        </va-accordion>
       </div>
     </div>
   );
