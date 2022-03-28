@@ -34,7 +34,7 @@ describe('VAOS community care flow', () => {
       .and('contain', 'Your appointments');
 
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
 
     cy.injectAxe();
     // Select primary care
@@ -252,7 +252,7 @@ describe('VAOS community care flow', () => {
       .and('contain', 'Your appointments');
 
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
 
     cy.injectAxe();
     // Select primary care
@@ -478,7 +478,7 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.injectAxe();
 
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
   });
 
   it('should submit request successfully', () => {

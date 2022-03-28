@@ -44,7 +44,7 @@ const checkPersonalInfoFields = () => {
 
   cy.findByLabelText(nameEditButtonLabel)
     .should('exist')
-    .click();
+    .click({ waitForAnimations: true });
 
   cy.findByText(nameEditInputLabel).should('exist');
 
