@@ -262,9 +262,9 @@ jobs:
         id: get-tests
         run: |
           if [[ -z "${{ steps.get-changed-apps.outputs.app_folders }}" ]]; then
-            echo ::set-output name=tests::$(find src -name "*.pact.spec.js") | tr ',' ' '
+            echo ::set-output name=tests::$(find src -name "*.pact.spec.js")
           else
-            echo ::set-output name=tests::$(find ${{ steps.get-changed-apps.outputs.app_folders }} -name "*.pact.spec.js") | tr ',' ' '
+            echo ::set-output name=tests::$(find ${{ steps.get-changed-apps.outputs.app_folders }} -name "*.pact.spec.js")
           fi
 
       - name: Run contract tests
