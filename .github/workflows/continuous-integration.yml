@@ -382,7 +382,7 @@ jobs:
           if [[ -z "${{ steps.get-changed-apps.outputs.app_folders }}" ]]; then
             yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js .
           else
-            yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js {{ steps.get-changed-apps.outputs.app_folders }}
+            yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-changed-apps.outputs.app_folders }}
           fi
 
       - name: Run Stylelint
