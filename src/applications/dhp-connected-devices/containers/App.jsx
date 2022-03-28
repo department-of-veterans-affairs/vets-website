@@ -1,7 +1,10 @@
 import React from 'react';
 import UserNav from 'platform/site-wide/user-nav/containers/Main';
+import { useSelector } from 'react-redux';
 
 export default function App() {
+  const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
+
   return (
     <div className="usa-grid-full margin">
       <div className="usa-width-three-fourths">
@@ -21,27 +24,54 @@ export default function App() {
           VA care team. If you have concerns about any specific shared data, you
           must contact your care team directly.
         </p>
-        <div className="schemaform-title">
-          <h2>Connected devices</h2>
-        </div>
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="continue"
-          visible
-        >
-          <h3 slot="headline">Please sign in to connect a device</h3>
-          <div>
-            Sign in with your existing ID.me, DS Logon, or My HealtheVet
-            account. If you don't have any of these accounts, you can create a
-            free ID.me account now.
-          </div>
-          <div className="button">
-            <UserNav isHeaderV2 customText="Sign in or create an account" />
-          </div>
-        </va-alert>
-        <a href="https://www.fitbit.com/oauth2/authorize?client_id=<client_id>&response_type=code&code_challenge=<code_challenge>&code_challenge_method=S256&scope=weight%20location%20settings%20profile%20nutrition%20activity%20sleep%20heartrate%20social">
-          Connect
-        </a>
+        {/* Show sign in button if user not logged in */}
+        {!isLoggedIn && (
+          <>
+            <h2>Connected devices</h2>
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="continue"
+              visible
+            >
+              <h3 slot="headline">Please sign in to connect a device</h3>
+              <div>
+                Sign in with your existing ID.me, DS Logon, or My HealtheVet
+                account. If you don't have any of these accounts, you can create
+                a free ID.me account now.
+              </div>
+              <div className="button">
+                <UserNav isHeaderV2 customText="Sign in or create an account" />
+              </div>
+            </va-alert>
+          </>
+        )}
+        {/* show your devices and Connect device section if user is logged in */}
+        {isLoggedIn && (
+          <>
+            {/* Displays user's connected devices */}
+            <h2>Your connected devices</h2>
+            <div>You do not have any devices connected</div>
+            {/* Displays devices that users have not connected to */}
+            <h2>Devices you can connect</h2>
+            <div>
+              Choose a device type below to connect. You will be directed to an
+              external website and asked to enter your sign in information for
+              that device. When complete, you will return to this page on
+              VA.gov.
+            </div>
+            <div className="connected-devices-section">
+              <div className="connect-device">
+                <h3 slot="headline">Fitbit</h3>
+                <div>
+                  <br />
+                  <a href="https://www.fitbit.com/oauth2/authorize?client_id=<client_id>&response_type=code&code_challenge=<code_challenge>&code_challenge_method=S256&scope=weight%20location%20settings%20profile%20nutrition%20activity%20sleep%20heartrate%20social">
+                    Connect
+                  </a>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
         <div className="schemaform-title">
           <h2>Frequently asked questions</h2>
         </div>
