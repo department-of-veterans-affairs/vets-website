@@ -373,7 +373,7 @@ jobs:
 
       - name: Get app folders for changed files
         id: get-changed-apps
-        run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder)
+        run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder) | tr ',' ' '
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
@@ -382,8 +382,7 @@ jobs:
           if [[ -z "${{ steps.get-changed-apps.outputs.app_folders }}" ]]; then
             yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js .
           else
-            yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js \
-            $(echo ${{ steps.get-changed-apps.outputs.app_folders }} | tr ',' ' ')
+            yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js {{ steps.get-changed-apps.outputs.app_folders }}
           fi
 
       - name: Run Stylelint
@@ -392,7 +391,7 @@ jobs:
             yarn run stylelint verbose --output-file stylelint-report.json --formatter json src/**/*.scss
           else
             yarn run stylelint verbose --output-file stylelint-report.json --formatter json \
-            $(node script/github-actions/glob-folders.js "${{ steps.get-changed-apps.outputs.app_folders }}" --glob '**/*.scss')
+            $(find ${{ steps.get-changed-apps.outputs.app_folders }} -name "*.scss")
           fi
 
       - name: Annotate Stylelint results
