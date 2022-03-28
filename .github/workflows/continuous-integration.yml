@@ -269,7 +269,7 @@ jobs:
 
       - name: Run contract tests
         if: steps.get-tests.outputs.tests != ''
-        run: yarn test:contract ${{ steps.get-tests.outputs.tests }}
+        run: yarn test:unit-pact-config ${{ steps.get-tests.outputs.tests }}
         env:
           MOCHA_FILE: ./test-results/test-results.xml
 
