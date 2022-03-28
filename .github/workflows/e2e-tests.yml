@@ -1,7 +1,15 @@
 name: E2E Tests
 
-on: [push]
-  # WIP - test branch
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Run the full E2E test suite on a specific commit
+        required: true
+  workflow_run:
+    workflows: [Continuous Integration]
+    types: [completed]
+    branches: [master]
 
 env:
   NUM_CONTAINERS: '8'
@@ -300,6 +308,10 @@ jobs:
         with:
           ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
+      # ------------------------
+      # | Upload BigQuery Data |
+      # ------------------------
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -450,7 +462,6 @@ jobs:
       - name: Push E2E Code Coverage Results to BigQuery
         run: yarn e2e-code-coverage-to-bigquery
         working-directory: testing-tools-team-dashboard-data
-
 
   notify-failure:
     name: Notify Failure
