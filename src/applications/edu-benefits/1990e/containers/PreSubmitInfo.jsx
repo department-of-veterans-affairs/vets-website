@@ -1,35 +1,34 @@
 import React from 'react';
-import PreSubmitInfo from '../../containers/PreSubmitInfo';
-import formConfig from '../config/form';
 
-function PreSubmitNotice({
-  formData,
-  showError,
-  onSectionComplete,
-  setPreSubmit,
-}) {
-  let ariaDescribedBy = null;
-  if (formConfig?.ariaDescribedBySubmit !== null) {
-    ariaDescribedBy = formConfig?.ariaDescribedBySubmit;
-  } else {
-    ariaDescribedBy = null;
-  }
-
-  return (
+export default {
+  required: true,
+  notice: (
     <>
-      <div id={ariaDescribedBy} className="vads-u-margin-bottom--3">
+      <div className="vads-u-margin-bottom--3">
         <strong>By submitting this form</strong> you certify that all statements
         in this application are true and correct to the best of your knowledge
         and belief.
       </div>
-      <PreSubmitInfo
-        formData={formData}
-        showError={showError}
-        onSectionComplete={onSectionComplete}
-        setPreSubmit={setPreSubmit}
-      />
+      <div>
+        <strong>Note:</strong> According to federal law, there are criminal
+        penalties, including a fine and/or imprisonment for up to 5 years, for
+        withholding information or for providing incorrect information. (See 18
+        U.S.C. 1001)
+      </div>
     </>
-  );
-}
-
-export default PreSubmitNotice;
+  ),
+  field: 'privacyAgreementAccepted',
+  label: (
+    <span>
+      I have read and accept the{' '}
+      <a
+        aria-label="Privacy policy, will open in new tab"
+        target="_blank"
+        href="/privacy-policy/"
+      >
+        privacy policy
+      </a>
+    </span>
+  ),
+  error: 'You must accept the privacy policy before continuing.',
+};

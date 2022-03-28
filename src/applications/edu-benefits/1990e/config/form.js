@@ -14,7 +14,7 @@ import * as personId from 'platform/forms/definitions/personId';
 import additionalBenefits from '../../pages/additionalBenefits';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
-import PreSubmitNotice from '../containers/PreSubmitInfo';
+import newPreSubmitInfo from '../containers/PreSubmitInfo';
 
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage, {
@@ -54,6 +54,10 @@ const {
   usaPhone,
 } = fullSchema1990e.definitions;
 
+const preSubmitInfo = environment.isProduction()
+  ? oldPreSubmitInfo
+  : newPreSubmitInfo;
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -91,13 +95,7 @@ const formConfig = {
   },
   title: 'Apply to use transferred education benefits',
   subTitle: 'Form 22-1990E',
-  preSubmitInfo: {
-    CustomComponent: environment.isProduction()
-      ? oldPreSubmitInfo
-      : PreSubmitNotice,
-    required: true,
-    field: 'privacyAgreementAccepted',
-  },
+  preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
