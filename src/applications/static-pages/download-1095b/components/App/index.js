@@ -12,7 +12,7 @@ import ServiceProvidersText, {
 
 export const App = ({ loggedIn, toggleLoginModal }) => {
   const getPdf = () => {
-    return apiRequest('/form1095_bs/2021')
+    return apiRequest('/form1095_bs/download/2021')
       .then(response => response.blob())
       .then(blob => {
         return window.URL.createObjectURL(blob);
@@ -105,14 +105,14 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
       </h3>
       <div>
         Sign in with your existing <ServiceProvidersText isBold /> account.{' '}
-        <ServiceProvidersTextCreateAcct hasExtraTodo />
+        <ServiceProvidersTextCreateAcct />
       </div>
       <button
         type="button"
         onClick={() => toggleLoginModal(true)}
         className="usa-button-primary va-button-primary vads-u-margin-top--2"
       >
-        Sign in or create account
+        Sign in or create an account
       </button>
     </va-alert>
   );
