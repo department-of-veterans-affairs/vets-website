@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import Modals from '../components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
+import AccountSummary from '../components/AccountSummary';
 
 const HTMLStatementPage = ({ match }) => {
   const selectedId = match.params.id;
@@ -53,8 +54,24 @@ const HTMLStatementPage = ({ match }) => {
           <strong>Return to facility details</strong>
         </Link>
         <va-on-this-page className="vads-u-margin-top--0" />
-        <StatementAddresses id="statement-addresses" copay={selectedCopay} />
+        <AccountSummary
+          currentBalance={selectedCopay.pHNewBalance}
+          newCharges={selectedCopay.pHTotCharges}
+          paymentsReceived={selectedCopay.pHTotCredits}
+          previousBalance={selectedCopay.pHPrevBal}
+          statementDate={statementDate}
+        />
+        <StatementAddresses
+          data-testid="statement-addresses"
+          copay={selectedCopay}
+        />
         <h2>What if I have questions about my statement?</h2>
+        <p>
+          Contact the VA Health Resource Center at{' '}
+          <va-telephone contact="8664001238" /> (TTY:{' '}
+          <va-telephone contact="711" />
+          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        </p>
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />
         </Modals>

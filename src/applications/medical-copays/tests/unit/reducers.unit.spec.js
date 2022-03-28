@@ -1,11 +1,11 @@
 import { expect } from 'chai';
-import { medicalCopaysReducer as reducer } from '../reducers';
-import copays from './e2e/fixtures/mocks/copays.json';
+import { medicalCopaysReducer as reducer } from '../../reducers';
+import copays from '../e2e/fixtures/mocks/copays.json';
 import {
   MCP_STATEMENTS_FETCH_INIT,
   MCP_STATEMENTS_FETCH_SUCCESS,
   MCP_STATEMENTS_FETCH_FAILURE,
-} from '../actions';
+} from '../../actions';
 
 describe('Medical Copays Reducer', () => {
   it('MCP_STATEMENTS_FETCH_INIT', () => {

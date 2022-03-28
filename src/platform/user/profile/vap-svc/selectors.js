@@ -75,7 +75,7 @@ export function selectVAPServicePendingCategoryTransactions(state, type) {
   } = state;
 
   const existsWithinFieldTransactionMap = transaction => {
-    const transactionId = transaction.data.attributes.transactionId;
+    const { transactionId } = transaction.data.attributes;
 
     return Object.keys(fieldTransactionMap).some(fieldName => {
       const transactionRequest = fieldTransactionMap[fieldName];
@@ -153,3 +153,7 @@ export function selectVAPServiceInitializationStatus(state) {
     transactionRequest,
   };
 }
+
+export const selectCopyAddressModal = state => {
+  return state.vapService?.copyAddressModal;
+};
