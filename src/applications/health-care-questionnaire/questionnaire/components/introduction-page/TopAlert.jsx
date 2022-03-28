@@ -26,6 +26,7 @@ export default function TopAlert({ toggleLoginModal }) {
           onClick={() => {
             toggleLoginModal(true, 'cta-form');
           }}
+          type="button"
         >
           Sign in to answer questions
         </button>

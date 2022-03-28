@@ -5,12 +5,12 @@ import withOnlyOnLocal from '../containers/withOnlyOnLocal';
 function BackToHome() {
   const preCheckInUrl = useMemo(
     () =>
-      '/health-care/appointment-pre-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287',
+      '/health-care/appointment-pre-check-in/?id=8312cf60-69e1-4d41-a45a-19092e031778',
     [],
   );
   const checkInUrl = useMemo(
     () =>
-      '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287',
+      '/health-care/appointment-check-in/?id=8312cf60-69e1-4d41-a45a-19092e031778',
     [],
   );
 
@@ -24,7 +24,7 @@ function BackToHome() {
         Start Check in
       </a>
       |
-      <a href="http://localhost:3001/health-care/appointment-pre-check-in/contact-information?id=46bebc0a-b99c-464f-a5c5-560bc9eae287&title=Home%20phone&key=homePhone&originatingUrl=contact-information&editingPage=demographics#edit--homePhone">
+      <a href="http://localhost:3001/health-care/appointment-pre-check-in/contact-information?id=8312cf60-69e1-4d41-a45a-19092e031778&title=Home%20phone&key=homePhone&originatingUrl=contact-information&editingPage=demographics#edit--homePhone">
         Edit test link
       </a>
     </div>

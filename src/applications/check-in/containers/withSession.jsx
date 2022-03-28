@@ -7,8 +7,6 @@ import { createInitFormAction } from '../actions/navigation';
 import { setVeteranData, updateFormAction } from '../actions/pre-check-in';
 import { createSetEditContext } from '../actions/edit';
 
-// import { makeSelectForm, makeSelectUserData } from '../selectors';
-
 import { useSessionStorage } from '../hooks/useSessionStorage';
 import { useFormRouting } from '../hooks/useFormRouting';
 
@@ -25,13 +23,6 @@ const withSession = (Component, options = {}) => {
     const { isPreCheckIn } = options;
     const { router } = props;
     const dispatch = useDispatch();
-    // const selectForm = useMemo(makeSelectForm, []);
-    // const form = useSelector(selectForm);
-
-    // const selectUserData = useMemo(makeSelectUserData, []);
-    // const { login } = useSelector(selectUserData);
-    // const { currentlyLoggedIn } = login || {};
-    // console.log('data', { currentlyLoggedIn });
 
     const { jumpToPage, goToErrorPage } = useFormRouting(router);
     const { getCurrentToken } = useSessionStorage(isPreCheckIn);
@@ -114,6 +105,7 @@ const withSession = (Component, options = {}) => {
                 };
                 setEditContext(editingData);
                 const url = URLS.EDIT_PHONE_NUMBER;
+                // console.log({ url });
                 jumpToPage(url);
               });
             });

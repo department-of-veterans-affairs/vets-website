@@ -1,10 +1,15 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+
 import { useDispatch, useSelector } from 'react-redux';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
+import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
 import DemographicItem from '../../DemographicItem';
 import EditLinkText from '../Edit/shared/EditLinkText';
 
@@ -42,9 +47,10 @@ const ConfirmablePage = ({
           editingPage: dataToEdit.editingPage,
         });
 
+        getBackendStatuses();
         browserHistory.push(params);
         // add some URL params of what we are edit,
-        dispatch(toggleLoginModal(true, 'cta-login'));
+        dispatch(toggleLoginModal(true, 'cta-edit'));
       }
     },
     [currentlyLoggedIn, dispatch, token],
@@ -72,7 +78,6 @@ const ConfirmablePage = ({
                   field.editAction && (
                     <div>
                       <a
-                        href={`#edit--${field.key}`}
                         // eslint-disable-next-line react/jsx-no-bind
                         onClick={() =>
                           editHandler({ ...field, value: data[field.key] })

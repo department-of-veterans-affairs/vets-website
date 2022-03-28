@@ -18,17 +18,17 @@ const QuestionnaireApp = props => {
         <LoadingIndicator />
       </>
     );
-  } else if (!isQuestionnaireEnabled) {
+  }
+  if (!isQuestionnaireEnabled) {
     window.location.replace('/');
     return <></>;
-  } else {
-    return (
-      <div className="questionnaire-app">
-        <meta name="robots" content="noindex" />
-        <Home />
-      </div>
-    );
   }
+  return (
+    <div className="questionnaire-app">
+      <meta name="robots" content="noindex" />
+      <Home />
+    </div>
+  );
 };
 
 const mapStateToProps = state => ({
