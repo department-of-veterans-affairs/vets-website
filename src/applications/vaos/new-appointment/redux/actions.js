@@ -68,6 +68,7 @@ import {
   captureError,
   getErrorCodes,
   has400LevelError,
+  has409LevelError,
 } from '../../utils/error';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -317,7 +318,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
         initialState,
       );
-      const newAppointment = initialState.newAppointment;
+      const { newAppointment } = initialState;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
       if (typeOfCareId) {
@@ -784,6 +785,7 @@ export function submitAppointmentOrRequest(history) {
         dispatch({
           type: FORM_SUBMIT_FAILED,
           isVaos400Error: has400LevelError(error),
+          isVaos409Error: has409LevelError(error),
         });
 
         dispatch(fetchFacilityDetails(newAppointment.data.vaFacility));
@@ -933,10 +935,10 @@ export function requestProvidersList(address) {
         getState(),
       );
       let location = address;
-      const newAppointment = getState().newAppointment;
-      const communityCareProviders = newAppointment.communityCareProviders;
+      const { newAppointment } = getState();
+      const { communityCareProviders } = newAppointment;
       const sortMethod = newAppointment.ccProviderPageSortMethod;
-      let selectedCCFacility = newAppointment.selectedCCFacility;
+      let { selectedCCFacility } = newAppointment;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       let ccProviderCacheKey = `${sortMethod}_${typeOfCare.ccId}`;
       if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {
