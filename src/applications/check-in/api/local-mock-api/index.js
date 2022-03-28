@@ -18,135 +18,9 @@ const responses = {
     preCheckInEnabled: true,
     checkInExperienceUpdateInformationPageEnabled: false,
   }),
-  'GET /v0/backend_statuses': (req, res) => {
-    res.json({
-      data: {
-        id: '',
-        type: 'pagerduty_external_services_responses',
-        attributes: {
-          reportedAt: '2022-03-17T14:44:27.000+00:00',
-          statuses: [
-            {
-              service: 'Appeals',
-              serviceId: 'caseflow',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-            {
-              service: 'ArcGIS',
-              serviceId: 'arcgis',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-            {
-              service: 'CARMA',
-              serviceId: 'carma',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-            {
-              service: 'DMC',
-              serviceId: 'dmc',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-            {
-              service: 'DS Logon',
-              serviceId: 'dslogon',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-            {
-              service: 'eMIS',
-              serviceId: 'emis',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-            {
-              service: 'ES',
-              serviceId: 'es',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-            {
-              service: 'EVSS',
-              serviceId: 'evss',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-            {
-              service: 'ID.me',
-              serviceId: 'idme',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-            {
-              service: 'MHV',
-              serviceId: 'mhv',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-            {
-              service: 'MVI',
-              serviceId: 'mvi',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-            {
-              service: 'SSOe',
-              serviceId: 'ssoe',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-            {
-              service: 'SSOe OAuth',
-              serviceId: 'ssoe_oauth',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-            {
-              service: 'TIMS',
-              serviceId: 'tims',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-            {
-              service: 'Vet360',
-              serviceId: 'vet360',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-            {
-              service: 'Veteran Readiness and Employment',
-              serviceId: 'vre',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-            {
-              service: 'VEText Vaccine Registry',
-              serviceId: 'vetext_vaccine',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-            {
-              service: 'VIC',
-              serviceId: 'vic',
-              status: 'active',
-              lastIncidentTimestamp: null,
-            },
-          ],
-        },
-      },
-    });
-  },
   // v2
   'GET /check_in/v2/sessions/:uuid': (req, res) => {
-    return res.json(
-      sessions.get.createMockSuccessResponse({
-        ...req.params,
-        permissions: 'read.full',
-      }),
-    );
+    return res.json(sessions.get.createMockSuccessResponse(req.params));
   },
   'POST /check_in/v2/sessions': (req, res) => {
     const { last4, lastName } = req.body?.session || {};
@@ -193,6 +67,13 @@ const responses = {
   },
   'POST /check_in/v2/edit_demographics/': (req, res) => {
     return res.json(checkInData.post.createMockEditSuccessResponse({}));
+  },
+  'PATCH /check_in/v2/demographics/:uuid': (req, res) => {
+    const { uuid } = req.params;
+    if (!uuid) {
+      return res.status(400).json(checkInData.patch.createMockFailedResponse());
+    }
+    return res.json(checkInData.post.createMockSuccessResponse({}));
   },
 };
 

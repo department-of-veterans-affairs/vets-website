@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-import { useHistory } from 'react-router-dom';
 import { recordAnswer } from '../../../actions/pre-check-in';
 
 import BackButton from '../../../components/BackButton';
@@ -24,7 +23,6 @@ import { api } from '../../../api';
 
 const EmergencyContact = props => {
   const { router } = props;
-  const history = useHistory();
 
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
@@ -101,7 +99,6 @@ const EmergencyContact = props => {
         Footer={Footer}
         isEditEnabled={isEditingPreCheckInEnabled}
         jumpToPage={jumpToPage}
-        history={history}
       />
       <BackToHome />
     </>
