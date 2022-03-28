@@ -25,7 +25,9 @@ import employmentHistoryPage from '../../pages/employmentHistory';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
 
 import IntroductionPage from '../containers/IntroductionPage';
+import NewIntroductionPage from '../containers/NewIntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import NewGetHelp from '../components/NewGetHelp';
 
 import {
   transform,
@@ -52,6 +54,8 @@ const {
   postHighSchoolTrainings,
   usaPhone,
 } = fullSchema1990e.definitions;
+
+const newToeAppEnabled = false;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -80,7 +84,7 @@ const formConfig = {
       'Please sign in again to resume your application for transferred education benefits.',
   },
   transformForSubmit: transform,
-  introduction: IntroductionPage,
+  introduction: newToeAppEnabled ? NewIntroductionPage : IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
     date,
@@ -92,7 +96,7 @@ const formConfig = {
   subTitle: 'Form 22-1990E',
   preSubmitInfo,
   footerContent: FormFooter,
-  getHelp: GetFormHelp,
+  getHelp: newToeAppEnabled ? NewGetHelp : GetFormHelp,
   errorText: ErrorText,
   chapters: {
     applicantInformation: {
