@@ -2,14 +2,16 @@ import merge from 'lodash/merge';
 
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 
-import additionalBenefits from '../../pages/additionalBenefits';
 import applicantInformation from 'platform/forms/pages/applicantInformation';
 import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import GetFormHelp from '../../components/GetFormHelp';
-import ErrorText from '../../components/ErrorText';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import * as address from 'platform/forms/definitions/address';
+import fullNameUISchema from 'platform/forms/definitions/fullName';
+import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
+import * as personId from 'platform/forms/definitions/personId';
+import ErrorText from '../../components/ErrorText';
 
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage, {
@@ -18,14 +20,14 @@ import createSchoolSelectionPage, {
 import createDirectDepositPage from '../../pages/directDeposit';
 import employmentHistoryPage from '../../pages/employmentHistory';
 
-import * as address from 'platform/forms/definitions/address';
-import fullNameUISchema from 'platform/forms/definitions/fullName';
-import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
-import * as personId from 'platform/forms/definitions/personId';
+import additionalBenefits from '../../pages/additionalBenefits';
+import GetFormHelp from '../../components/GetFormHelp';
 
 import IntroductionPage from '../containers/IntroductionPage';
+import NewIntroductionPage from '../containers/NewIntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import NewGetHelp from '../components/NewGetHelp';
 
 import {
   transform,
@@ -52,6 +54,8 @@ const {
   postHighSchoolTrainings,
   usaPhone,
 } = fullSchema1990e.definitions;
+
+const newToeAppEnabled = false;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -80,7 +84,7 @@ const formConfig = {
       'Please sign in again to resume your application for transferred education benefits.',
   },
   transformForSubmit: transform,
-  introduction: IntroductionPage,
+  introduction: newToeAppEnabled ? NewIntroductionPage : IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
     date,
@@ -92,7 +96,7 @@ const formConfig = {
   subTitle: 'Form 22-1990E',
   preSubmitInfo,
   footerContent: FormFooter,
-  getHelp: GetFormHelp,
+  getHelp: newToeAppEnabled ? NewGetHelp : GetFormHelp,
   errorText: ErrorText,
   chapters: {
     applicantInformation: {
