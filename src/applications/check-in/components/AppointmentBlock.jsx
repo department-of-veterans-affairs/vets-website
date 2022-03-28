@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Trans, useTranslation } from 'react-i18next';
-import format from 'date-fns/format';
+import { useTranslation } from 'react-i18next';
 
 const AppointmentBlock = props => {
   const { appointments } = props;
   const { t } = useTranslation();
 
   const appointmentsDateTime = new Date(appointments[0].startTime);
-  const appointmentsDay = format(appointmentsDateTime, 'MMMM dd, Y');
   const appointmentFacility = appointments[0].facility;
 
   return (
@@ -17,13 +15,10 @@ const AppointmentBlock = props => {
         className="vads-u-font-family--serif"
         data-testid="appointment-day-location"
       >
-        <Trans
-          i18nKey="your-appointments-on-day-facility"
-          count={appointments.length}
-        >
-          Your appointment is on {{ day: appointmentsDay }} at{' '}
-          {{ facility: appointmentFacility }}.
-        </Trans>
+        {t('your-appointments-on-day-facility', {
+          day: appointmentsDateTime,
+          facility: appointmentFacility,
+        })}
       </p>
       <ol
         className="vads-u-border-top--1px vads-u-margin-bottom--4 pre-check-in--appointment-list"
@@ -48,7 +43,7 @@ const AppointmentBlock = props => {
                   className="pre-check-in--value"
                   data-testid="appointment-time"
                 >
-                  {format(appointmentDateTime, 'h:mm aaaa')}
+                  {t('{{date, time}}', { date: appointmentDateTime })}
                 </dd>
                 <dt className="pre-check-in--label vads-u-margin-right--1">
                   {t('clinic')}:

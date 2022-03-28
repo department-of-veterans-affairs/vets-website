@@ -1,6 +1,5 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import format from 'date-fns/format';
 import { useTranslation } from 'react-i18next';
 
 import { VaAlert } from 'web-components/react-bindings';
@@ -19,7 +18,6 @@ const MultipleAppointments = props => {
 
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
-  const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
   const focusOnLoad = useCallback(() => {
     focusElement('h1');
   }, []);
@@ -34,7 +32,9 @@ const MultipleAppointments = props => {
           aria-label={t('thank-you-for-checking-in')}
           slot="headline"
         >
-          {t('youre-checked-in-for-your-appointment', { appointmentTime })}
+          {t('youre-checked-in-for-your-appointment', {
+            date: appointmentDateTime,
+          })}
         </h1>
         <p>
           {t('well-come-get-you-from-the', {})}{' '}

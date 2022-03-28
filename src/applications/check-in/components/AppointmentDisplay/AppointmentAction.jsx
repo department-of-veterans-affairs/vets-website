@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import recordEvent from 'platform/monitoring/record-event';
-import format from 'date-fns/format';
 import { api } from '../../api';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
@@ -67,10 +66,11 @@ const AppointmentAction = props => {
     if (areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_TOO_EARLY)) {
       if (appointment.checkInWindowStart) {
         const appointmentDateTime = new Date(appointment.checkInWindowStart);
-        const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
         return (
           <p data-testid="too-early-message">
-            {t('you-can-check-in-starting-at-this-time')}: {appointmentTime}
+            {t('you-can-check-in-starting-at-this-time', {
+              date: appointmentDateTime,
+            })}
           </p>
         );
       }
@@ -119,10 +119,9 @@ const AppointmentAction = props => {
             </p>
           );
         }
-        const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
         return (
           <p data-testid="already-checked-in-message">
-            {t('you-checked-in-at')} {appointmentTime}
+            {t('you-checked-in-at', { date: appointmentDateTime })}
           </p>
         );
       }

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import format from 'date-fns/format';
 import { useTranslation } from 'react-i18next';
 import AppointmentLocation from './AppointmentLocation';
 
@@ -9,7 +8,6 @@ import AppointmentAction from './AppointmentAction';
 const AppointmentListItem = props => {
   const { appointment, token, router } = props;
   const appointmentDateTime = new Date(appointment.startTime);
-  const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
   const { t } = useTranslation();
   return (
     <li className="appointment-item vads-u-padding--2">
@@ -18,7 +16,7 @@ const AppointmentListItem = props => {
           className="appointment-time vads-u-font-family--serif vads-u-font-weight--bold vads-u-margin-bottom--1 "
           data-testid="appointment-time"
         >
-          {appointmentTime}
+          {t('{{date, time}}', { date: appointmentDateTime })}
         </dd>
         <dt className="facility-label vads-u-margin--0 vads-u-margin-right--1 vads-u-font-family--serif vads-u-font-weight--bold ">
           {t('facility')}:{' '}

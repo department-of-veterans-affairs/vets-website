@@ -1,9 +1,8 @@
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import format from 'date-fns/format';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 
 import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import BackButton from '../../../components/BackButton';
@@ -23,18 +22,20 @@ const DisplayMultipleAppointments = props => {
     focusElement('h1');
   }, []);
 
-  const handleClick = useCallback(() => {
-    recordEvent({
-      event: createAnalyticsSlug('refresh-appointments-button-clicked'),
-    });
+  const handleClick = useCallback(
+    () => {
+      recordEvent({
+        event: createAnalyticsSlug('refresh-appointments-button-clicked'),
+      });
 
-    getMultipleAppointments();
-    focusElement('h1');
-  }, [getMultipleAppointments]);
+      getMultipleAppointments();
+      focusElement('h1');
+    },
+    [getMultipleAppointments],
+  );
   const { goToPreviousPage } = useFormRouting(router);
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
-  const today = format(new Date(), 'MMMM dd, yyyy');
   return (
     <>
       <BackButton router={router} action={goToPreviousPage} />
@@ -43,7 +44,7 @@ const DisplayMultipleAppointments = props => {
           {t('your-appointments')}
         </h1>
         <p data-testid="date-text">
-          {t('here-are-your-appointments-for-today')}: {today}
+          {t('here-are-your-appointments-for-today', { date: new Date() })}
         </p>
         {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
         <ol
@@ -62,9 +63,9 @@ const DisplayMultipleAppointments = props => {
           })}
         </ol>
         <p data-testid="update-text">
-          <strong>{t('latest-update')}:</strong>{' '}
-          {format(new Date(), 'MMMM d, yyyy')} at{' '}
-          {format(new Date(), 'h:mm aaaa')}
+          <Trans i18nKey="latest-update" values={{ date: new Date() }}>
+            <strong>Latest update:</strong> date
+          </Trans>
         </p>
         <p data-testid="refresh-link">
           <button
