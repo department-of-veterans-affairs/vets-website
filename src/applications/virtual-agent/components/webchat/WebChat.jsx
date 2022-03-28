@@ -15,6 +15,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     _.upperFirst(_.toLower(state.user.profile.userFullName.first)),
   );
 
+  const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
   const store = useMemo(
     () =>
       createStore(
@@ -25,17 +26,27 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
           environment.API_URL,
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
+          isLoggedIn,
         ),
       ),
     [createStore],
   );
 
+  let conversationId = '';
+  let watermark = '';
+  if (localStorage.getItem('counter') >= 2) {
+    conversationId = localStorage.getItem('conversationId');
+    watermark = '000000';
+  }
+
   const directLine = useMemo(
     () =>
       createDirectLine({
-        token,
+        token: localStorage.getItem('token'),
         domain:
           'https://northamerica.directline.botframework.com/v3/directline',
+        conversationId,
+        watermark,
       }),
     [token, createDirectLine],
   );

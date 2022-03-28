@@ -78,6 +78,7 @@ export default function Chatbox(props) {
       // window.location.href = '?next=loginModal';
       // toggleLoginModal(true);
       console.log('toggling modal now');
+      localStorage.setItem('loggedInFlow', 'true');
       if (!isLoggedIn) {
         setIsAuthTopic(true);
       }

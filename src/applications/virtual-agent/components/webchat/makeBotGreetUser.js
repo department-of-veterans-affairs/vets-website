@@ -1,3 +1,5 @@
+import {useSelector} from "react-redux";
+
 const GreetUser = {
   makeBotGreetUser: (
     csrfToken,
@@ -5,6 +7,7 @@ const GreetUser = {
     apiURL,
     baseURL,
     userFirstName,
+    isLoggedIn,
   ) => ({ dispatch }) => next => action => {
     if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
       dispatch({
@@ -31,7 +34,7 @@ const GreetUser = {
         type: 'DIRECT_LINE/POST_ACTIVITY',
       });
     }
-
+    // If the bot sends a message activity trying to authenticate the user
     if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
       const data = action.payload.activity;
       if (
@@ -43,6 +46,12 @@ const GreetUser = {
         event.data = action.payload.activity;
         window.dispatchEvent(event);
       }
+    }
+
+    if (localStorage.getItem('loggedInFlow') === 'true' && isLoggedIn) {
+      console.log(
+        'user logged in and reloaded the bot. Placeholder for sending message to re-trigger flow',
+      );
     }
     return next(action);
   },
