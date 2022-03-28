@@ -254,7 +254,7 @@ jobs:
 
       - name: Get app folders for changed files
         id: get-changed-apps
-        run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder)
+        run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder) | tr ',' ' '
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
       
@@ -262,9 +262,9 @@ jobs:
         id: get-tests
         run: |
           if [[ -z ${{ steps.get-changed-apps.outputs.app_folders }} ]]; then
-            echo ::set-output name=tests::$(node script/github-actions/glob-folders.js src --glob '**/tests/**/*.pact.spec.js')
+            echo ::set-output name=tests::$(find src -name "*.pact.spec.js")
           else
-            echo ::set-output name=tests::$(node script/github-actions/glob-folders.js "${{ steps.get-changed-apps.outputs.app_folders }}" --glob '**/tests/**/*.pact.spec.js')
+            echo ::set-output name=tests::$(find ${{ steps.get-changed-apps.outputs.app_folders }} -name "*.pact.spec.js")
           fi
 
       - name: Run contract tests
