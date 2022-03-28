@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { render } from '@testing-library/react';
 import AccountSummary from '../../components/AccountSummary';
+import StatementAddresses from '../../components/StatementAddresses';
 
 describe('mcp statement view', () => {
   describe('statement account summary component', () => {
@@ -43,6 +44,76 @@ describe('mcp statement view', () => {
       expect(summary.getByTestId('account-summary-new-charges')).to.exist;
       expect(summary.getByTestId('account-summary-new-charges')).to.have.text(
         'New charges: $10.00',
+      );
+    });
+  });
+
+  describe('statement addresses component', () => {
+    it('should render statement addresses', () => {
+      const selectedCopay = {
+        station: {
+          facilityName: 'Test Facility',
+          staTAddress1: '123 Main St',
+          staTAddress2: 'Apt 1',
+          staTAddress3: 'Address 3',
+          city: 'New York',
+          state: 'NY',
+          ziPCde: '10001',
+        },
+        pHAddress1: '456 Alternate St',
+        pHAddress2: 'Apt 2',
+        pHAddress3: 'Test Patient Address 3',
+        pHCity: 'Tampa',
+        pHState: 'FL',
+        pHZipCde: '33333',
+      };
+
+      const addresses = render(<StatementAddresses copay={selectedCopay} />);
+      expect(addresses.getByTestId('statement-address-head')).to.exist;
+      expect(addresses.getByTestId('sender-address-head')).to.exist;
+
+      expect(addresses.getByTestId('sender-facility-name')).to.exist;
+      expect(addresses.getByTestId('sender-facility-name')).to.have.text(
+        'Test Facility',
+      );
+
+      expect(addresses.getByTestId('sender-address-one')).to.exist;
+      expect(addresses.getByTestId('sender-address-one')).to.have.text(
+        '123 Main St',
+      );
+
+      expect(addresses.getByTestId('sender-address-two')).to.exist;
+      expect(addresses.getByTestId('sender-address-two')).to.have.text('Apt 1');
+
+      expect(addresses.getByTestId('sender-address-three')).to.exist;
+      expect(addresses.getByTestId('sender-address-three')).to.have.text(
+        'Address 3',
+      );
+
+      expect(addresses.getByTestId('sender-city-state-zip')).to.exist;
+      expect(addresses.getByTestId('sender-city-state-zip')).to.have.text(
+        'New York, NY 10001',
+      );
+
+      expect(addresses.getByTestId('recipient-address-head')).to.exist;
+      expect(addresses.getByTestId('recipient-address-one')).to.exist;
+      expect(addresses.getByTestId('recipient-address-one')).to.have.text(
+        '456 Alternate St',
+      );
+
+      expect(addresses.getByTestId('recipient-address-two')).to.exist;
+      expect(addresses.getByTestId('recipient-address-two')).to.have.text(
+        'Apt 2',
+      );
+
+      expect(addresses.getByTestId('recipient-address-three')).to.exist;
+      expect(addresses.getByTestId('recipient-address-three')).to.have.text(
+        'Test Patient Address 3',
+      );
+
+      expect(addresses.getByTestId('recipient-city-state-zip')).to.exist;
+      expect(addresses.getByTestId('recipient-city-state-zip')).to.have.text(
+        'Tampa, FL 33333',
       );
     });
   });
