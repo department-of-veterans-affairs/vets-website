@@ -1,5 +1,5 @@
 // Node modules.
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
 import { connect } from 'react-redux';
@@ -11,12 +11,30 @@ import ServiceProvidersText, {
 } from 'platform/user/authentication/components/ServiceProvidersText';
 
 export const App = ({ loggedIn, toggleLoginModal }) => {
+  const [lastUpdated, updateLastUpdated] = useState('');
+  const [year, updateYear] = useState(0);
+
   const getPdf = () => {
-    return apiRequest('/form1095_bs/download/2021')
+    return apiRequest(`/form1095_bs/download/${year}`)
       .then(response => response.blob())
       .then(blob => {
         return window.URL.createObjectURL(blob);
       });
+  };
+
+  // for new endpoint
+  const getLastUpdatedOn = () => {
+    return apiRequest('/form1095_bs/available_forms’').then(response =>
+      response.json(),
+    );
+  };
+
+  const callLastUpdated = () => {
+    getLastUpdatedOn().then(result => {
+      // check if year and last updated exist?
+      updateLastUpdated(result.last_updated);
+      updateYear(result.year);
+    });
   };
 
   const callGetPDF = () => {
@@ -31,24 +49,34 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
       })
       .catch(() => {
         // TODO: display error
+        // status !== 200 , display errorComponent
       });
   };
 
-  // TODO error handling views
-  // const notFoundComponent = (
-  //   <va-alert close-btn-aria-label="Close notification" status="warning" visible>
-  //     <h3 slot="headline">No previous year health coverage found</h3>
-  //     <div>
-  //       <p>
-  //       At this time, you do not have a 1095-B available for download. If you have recently enrolled in VA benefits, this may be why.  1095-B forms are  processed in early January and based on coverage that you had during the previous year.
-  //     </p>
-  //     <p>
-  //       If you feel that you are receiving this notice in error, please contact the Enrollment Center at 1-877-222-VETS (8387).
-  //       </p>
+  callLastUpdated();
 
-  //     </div>
-  //   </va-alert>
-  // );
+  // TODO error handling views
+  const notFoundComponent = (
+    <va-alert
+      close-btn-aria-label="Close notification"
+      status="warning"
+      visible
+    >
+      <h3 slot="headline">No previous year health coverage found</h3>
+      <div>
+        <p>
+          At this time, you do not have a 1095-B available for download. If you
+          have recently enrolled in VA benefits, this may be why. 1095-B forms
+          are processed in early January and based on coverage that you had
+          during the previous year.
+        </p>
+        <p>
+          If you feel that you are receiving this notice in error, please
+          contact the Enrollment Center at 1-877-222-VETS (8387).
+        </p>
+      </div>
+    </va-alert>
+  );
 
   // const errorComponent = (
   //   <va-alert close-btn-aria-label="Close notification" status="warning" visible>
@@ -79,6 +107,9 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
         <p>
           <span className="vads-u-line-height--3 vads-u-display--block">
             <strong>Related to:</strong> Health care
+          </span>
+          <span className="vads-u-line-height--3 vads-u-display--block">
+            <strong>Last updated on:</strong> {lastUpdated}
           </span>
         </p>
         <button
@@ -116,7 +147,14 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
       </button>
     </va-alert>
   );
-  return <>{loggedIn ? loggedInComponent : loggedOutComponent}</>;
+  // will this work? needs testing
+  if (loggedIn && lastUpdated) {
+    return loggedInComponent;
+  }
+  if (loggedIn && !lastUpdated) {
+    return notFoundComponent;
+  }
+  return loggedOutComponent;
 };
 
 App.propTypes = {
