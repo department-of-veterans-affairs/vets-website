@@ -53,6 +53,19 @@ export const ACCOUNT_TYPES_OPTIONS = {
 // 554: Denver
 // 637: Asheville
 // 983: test-only facility ID, used by user 36 among others
-export const RX_TRACKING_SUPPORTING_FACILITIES = new Set(['554', '637', '983']);
+export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
+  '517',
+  '554',
+  '581',
+  '598',
+  '608',
+  '613',
+  '637',
+  '658',
+  '659',
+  '663',
+  '688',
+  '983',
+]);
 
 export const NOT_SET_TEXT = 'This information is not available right now.';
