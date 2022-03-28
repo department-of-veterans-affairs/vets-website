@@ -14,7 +14,6 @@ import {
   SPACE_BAR,
 } from '../../../utils/constants';
 import { updateBreadcrumb } from '../../redux/actions';
-import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 
 // Trigger single app build
 function VideoAppointmentDescription({ appointment }) {
