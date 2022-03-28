@@ -386,6 +386,7 @@ jobs:
           fi
 
       - name: Run Stylelint
+        if: ${{ always() }}
         run: |
           if [[ -z "${{ steps.get-changed-apps.outputs.app_folders }}" ]]; then
             yarn run stylelint verbose --output-file stylelint-report.json --formatter json src/**/*.scss
