@@ -1,5 +1,5 @@
 // Node modules.
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
 import { connect } from 'react-redux';
@@ -13,97 +13,152 @@ import ServiceProvidersText, {
 export const App = ({ loggedIn, toggleLoginModal }) => {
   const [lastUpdated, updateLastUpdated] = useState('');
   const [year, updateYear] = useState(0);
-  // const [formDownloaded, updateFormDownloaded] = useState(false);
+  const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
+  const [formDownloaded, updateFormDownloaded] = useState({
+    downloaded: false,
+    timeStamp: '',
+  });
 
   const getPdf = () => {
     return apiRequest(`/form1095_bs/download/${year}`)
       .then(response => response.blob())
       .then(blob => {
         return window.URL.createObjectURL(blob);
-      });
+      })
+      .catch(updateFormError({ error: true, type: 'download error' }));
   };
 
   // for new endpoint
   const getLastUpdatedOn = () => {
-    return apiRequest('/form1095_bs/available_forms').then(response => {
-      // is it [0] or .length-1 for most recent year?
-      return response.availableForms[0];
-    });
+    return apiRequest('/form1095_bs/available_forms')
+      .then(response => {
+        if (response.errors) {
+          updateFormError({ error: true, type: 'not found' });
+        }
+
+        return response.availableForms[0];
+      })
+      .catch(
+        // console.log("error?", error);
+        updateFormError({ error: true, type: 'not found' }),
+      );
   };
 
   const callLastUpdated = () => {
     getLastUpdatedOn().then(result => {
-      // check if year and last updated exist?
-      const date = new Date(result.lastUpdated);
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      // expected output (varies according to local timezone and default locale): Thursday, December 20, 2012
-      updateLastUpdated(date.toLocaleDateString(undefined, options));
-      updateYear(result.year);
+      if (result.lastUpdated && result.year) {
+        const date = new Date(result.lastUpdated);
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        // expected output (varies according to local timezone and default locale): December 20, 2012
+        updateLastUpdated(date.toLocaleDateString(undefined, options));
+        updateYear(result.year);
+      } else {
+        updateFormError({ error: true, type: 'not found' });
+      }
     });
   };
 
   const callGetPDF = () => {
-    getPdf()
-      .then(result => {
-        const a = document.createElement('a');
-        a.href = result;
-        a.target = '_blank';
-        document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
-        a.click();
-        a.remove(); // removes element from the DOM
-      })
-      .catch(() => {
-        // TODO: display error
-        // status !== 200 , display errorComponent
+    getPdf().then(result => {
+      const a = document.createElement('a');
+      a.href = result;
+      a.target = '_blank';
+      document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+      a.click();
+      a.remove(); // removes element from the DOM
+      const date = new Date();
+      const options = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+      };
+      updateFormDownloaded({
+        downloaded: true,
+        timeStamp: date.toLocaleDateString(undefined, options),
       });
+    });
   };
 
-  callLastUpdated();
+  useEffect(() => {
+    callLastUpdated();
+  }, []);
 
-  // TODO error handling views
-  const notFoundComponent = (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="warning"
-      visible
+  const downloadButton = (
+    <button
+      className="usa-button-primary va-button-primary"
+      onClick={function() {
+        // event.preventDefault(); only needed if we decide to use a link tag here (unlikely)
+        callGetPDF();
+      }}
+      id="download-url"
     >
-      <h3 slot="headline">No previous year health coverage found</h3>
+      Download your 1095-B tax form (PDF){' '}
+    </button>
+  );
+
+  const notFoundComponent = (
+    <va-alert close-btn-aria-label="Close notification" status="info" visible>
+      <h3 slot="headline">
+        You don’t have a 1095-B tax form available right now
+      </h3>
       <div>
         <p>
-          At this time, you do not have a 1095-B available for download. If you
-          have recently enrolled in VA benefits, this may be why. 1095-B forms
-          are processed in early January and based on coverage that you had
-          during the previous year.
+          If you recently enrolled in VA health care, you may not have a 1095-B
+          form yet. We process 1095-B forms in early January each year, based on
+          your enrollment in VA health care during the past year.
         </p>
         <p>
-          If you feel that you are receiving this notice in error, please
-          contact the Enrollment Center at 1-877-222-VETS (8387).
+          If you think you should have a 1095-B form, call us at{' '}
+          <a href="tel:+18772228387">1-877-222-8387 (TTY: 711)</a>. We’re here
+          Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </div>
     </va-alert>
   );
 
-  // const errorComponent = (
-  //   <va-alert close-btn-aria-label="Close notification" status="warning" visible>
-  //     <h3 slot="headline">Error</h3>
-  //     <div>
-  //       <p>
-  //       We’re sorry. Something went wrong on our end and we were unable to download your 1095-B tax form. Please try again.  If you continue to experience this error, please call the VA.gov Help Desk at 1-8555-574-7286, TTY: 1-800-877-8339. We’re here Monday - Friday, 8:00 a.m. - 8:00 p.m.
-  //     </p>
-  //     </div>
-  //   </va-alert>
-  // );
+  const errorComponent = (
+    <>
+      <va-alert
+        close-btn-aria-label="Close notification"
+        status="warning"
+        visible
+      >
+        <h3 slot="headline">We couldn’t download your form</h3>
+        <div>
+          <p>
+            We’re sorry. Something went wrong when we tried to download your
+            form. Please try again. If your form still doesn’t download, call us
+            at <a href="tel:+18772228387">800-698-2411 (TTY: 711)</a>. We’re
+            here 24/7.
+          </p>
+        </div>
+      </va-alert>
+      <p>{downloadButton}</p>
+    </>
+  );
 
-  // const successComponent = (
-  //   <va-alert close-btn-aria-label="Close notification" status="success" visible>
-  //     <h3 slot="headline">Download Complete</h3>
-  //     <div>
-  //       <p>
-  //       Your 1095-B form has been successfully downloaded. 4/1/2022 6:35 p.m.
-  //     </p>
-  //     </div>
-  //   </va-alert>
-  // );
+  const successComponent = (
+    <>
+      <va-alert
+        close-btn-aria-label="Close notification"
+        status="success"
+        visible
+      >
+        <h3 slot="headline">Download Complete</h3>
+        <div>
+          <p>
+            You successfully downloaded your 1095-B tax form. Please check your
+            files.
+            {formDownloaded.timeStamp}
+          </p>
+        </div>
+      </va-alert>
+      <p>{downloadButton}</p>
+    </>
+  );
 
   const loggedInComponent = (
     <>
@@ -117,16 +172,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
             <strong>Last updated on:</strong> {lastUpdated}
           </span>
         </p>
-        <button
-          className="usa-button-primary va-button-primary"
-          onClick={function() {
-            // event.preventDefault(); only needed if we decide to use a link tag here (unlikely)
-            callGetPDF();
-          }}
-          id="download-url"
-        >
-          Download your 1095-B tax form (PDF){' '}
-        </button>
+        <p>{downloadButton}</p>
       </div>
     </>
   );
@@ -153,11 +199,18 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     </va-alert>
   );
   // will this work? needs testing
-  if (loggedIn && lastUpdated) {
+  if (loggedIn) {
+    if (formError.error) {
+      if (formError.type === 'not found') {
+        return notFoundComponent;
+      }
+      if (formError.type === 'download error') {
+        return errorComponent;
+      }
+    } else if (formDownloaded.downloaded) {
+      return successComponent;
+    }
     return loggedInComponent;
-  }
-  if (loggedIn && !lastUpdated) {
-    return notFoundComponent;
   }
   return loggedOutComponent;
 };
