@@ -16,7 +16,6 @@ export default function EmergencyContactDisplay({
   isLoading,
   isEditEnabled = false,
   Footer,
-  history,
 }) {
   const dispatch = useDispatch();
   const setEditContext = useCallback(
@@ -47,7 +46,13 @@ export default function EmergencyContactDisplay({
         setEditContext(data, URLS.EDIT_RELATIONSHIP);
       },
     },
-    { title: 'Address', key: 'address' },
+    {
+      title: 'Address',
+      key: 'address',
+      editAction: data => {
+        setEditContext(data, URLS.EDIT_ADDRESS);
+      },
+    },
     {
       title: 'Phone',
       key: 'phone',
@@ -70,7 +75,6 @@ export default function EmergencyContactDisplay({
         Footer={Footer}
         isLoading={isLoading}
         isEditEnabled={isEditEnabled}
-        history={history}
       />
     </>
   );

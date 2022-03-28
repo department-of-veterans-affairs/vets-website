@@ -80,17 +80,6 @@ const selectPendingEdits = createSelector(
 
 const makeSelectPendingEdits = () => selectPendingEdits;
 
-const selectUserData = createSelector(
-  state => {
-    return {
-      user: state.user,
-    };
-  },
-  user => user,
-);
-
-const makeSelectUserData = () => selectUserData;
-
 export {
   makeSelectCurrentContext,
   makeSelectEditContext,
@@ -100,5 +89,4 @@ export {
   makeSelectSeeStaffMessage,
   makeSelectApp,
   makeSelectPendingEdits,
-  makeSelectUserData,
 };

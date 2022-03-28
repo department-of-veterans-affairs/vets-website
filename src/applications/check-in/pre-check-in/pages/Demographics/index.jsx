@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo, useState } from 'react';
-// import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
@@ -24,9 +23,6 @@ import { api } from '../../../api';
 const Demographics = props => {
   const dispatch = useDispatch();
   const { router } = props;
-  // const history = useHistory();
-  // console.log(history);
-
   const { goToNextPage, goToPreviousPage, jumpToPage } = useFormRouting(router);
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
