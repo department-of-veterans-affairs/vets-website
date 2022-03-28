@@ -17,7 +17,7 @@ const createMockSuccessResponse = (
         emergencyContact: {
           name: 'Bugs Bunny',
           workPhone: '',
-          relationship: 'Estranged Uncle',
+          relationship: 'EXTENDED FAMILY MEMBER',
           phone: '5558675309',
           address: {
             zip: '87102',
