@@ -64,23 +64,26 @@ export default function Relationship(props) {
     [setRelationshipValue],
   );
 
-  const relationshipOptions = useMemo(() => ({
-    WIFE: 'Wife',
-    HUSBAND: 'Husband',
-    DAUGHTER: 'Daughter',
-    SON: 'Son',
-    STEPCHILD: 'Stepchild',
-    MOTHER: 'Mother',
-    FATHER: 'Father',
-    BROTHER: 'Brother',
-    SISTER: 'Sister',
-    GRANDCHILD: 'Grandchild',
-    'NIECE/NEPHEW': 'Niece/Nephew',
-    'CHILD-IN-LAW': 'Child in-law',
-    'EXTENDED FAMILY MEMBER': 'Extended family member',
-    'UNRELATED FRIEND': 'Unrelated Friend',
-    WARD: 'Ward',
-  }));
+  const relationshipOptions = useMemo(
+    () => ({
+      WIFE: 'Wife',
+      HUSBAND: 'Husband',
+      DAUGHTER: 'Daughter',
+      SON: 'Son',
+      STEPCHILD: 'Stepchild',
+      MOTHER: 'Mother',
+      FATHER: 'Father',
+      BROTHER: 'Brother',
+      SISTER: 'Sister',
+      GRANDCHILD: 'Grandchild',
+      'NIECE/NEPHEW': 'Niece/Nephew',
+      'CHILD-IN-LAW': 'Child in-law',
+      'EXTENDED FAMILY MEMBER': 'Extended family member',
+      'UNRELATED FRIEND': 'Unrelated Friend',
+      WARD: 'Ward',
+    }),
+    [],
+  );
 
   const isUpdatable = useMemo(
     () => {
@@ -105,7 +108,7 @@ export default function Relationship(props) {
         value={relationshipValue}
         className="vads-u-margin-bottom--2"
       >
-        <option value="" />
+        <option value=""> </option>
         {Object.keys(relationshipOptions).map(optionValue => (
           <option key={optionValue} value={optionValue}>
             {relationshipOptions[optionValue]}
