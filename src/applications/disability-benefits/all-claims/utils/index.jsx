@@ -16,16 +16,12 @@ import { focusElement } from 'platform/utilities/ui';
 
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
-import {
-  validateMilitaryCity,
-  validateMilitaryState,
-  validateZIP,
-} from '../validations';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import AddressViewField from 'platform/forms-system/src/js/components/AddressViewField';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
 
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   DATA_PATHS,
   DISABILITY_526_V2_ROOT_URL,
@@ -52,7 +48,11 @@ import {
   PDF_SIZE_FEATURE,
   CHAR_LIMITS,
 } from '../constants';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import {
+  validateMilitaryCity,
+  validateMilitaryState,
+  validateZIP,
+} from '../validations';
 
 /**
  * Returns an object where all the fields are prefixed with `view:` if they aren't already
@@ -425,9 +425,11 @@ export const addressUISchema = (
     },
     country: {
       'ui:title': 'Country',
+      'ui:autocomplete': 'country',
     },
     addressLine1: {
       'ui:title': 'Street address',
+      'ui:autocomplete': 'address-line1',
       'ui:errorMessages': {
         pattern: 'Please enter a valid street address',
         required: 'Please enter a street address',
@@ -435,18 +437,21 @@ export const addressUISchema = (
     },
     addressLine2: {
       'ui:title': 'Street address line 2',
+      'ui:autocomplete': 'address-line2',
       'ui:errorMessages': {
         pattern: 'Please enter a valid street address',
       },
     },
     addressLine3: {
       'ui:title': 'Street address line 3',
+      'ui:autocomplete': 'address-line3',
       'ui:errorMessages': {
         pattern: 'Please enter a valid street address',
       },
     },
     city: {
       'ui:title': 'City',
+      'ui:autocomplete': 'address-level2',
       'ui:validations': [
         {
           options: { addressPath },
@@ -461,6 +466,7 @@ export const addressUISchema = (
     },
     state: {
       'ui:title': 'State',
+      'ui:autocomplete': 'address-level1',
       'ui:required': (formData, index) =>
         fieldsAreRequired &&
         _.get(`${pathWithIndex(addressPath, index)}.country`, formData, '') ===
@@ -488,6 +494,7 @@ export const addressUISchema = (
     },
     zipCode: {
       'ui:title': 'Postal code',
+      'ui:autocomplete': 'postal-code',
       'ui:validations': [validateZIP],
       'ui:required': (formData, index) =>
         fieldsAreRequired &&

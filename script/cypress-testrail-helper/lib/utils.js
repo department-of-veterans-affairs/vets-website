@@ -25,21 +25,31 @@ module.exports = {
       }
     });
   },
-  async findSpecFiles() {
-    let input, filename, specGlob;
-    const answers = await inquirer.askSpecFilename();
+  async findSpecFiles(prevSpec) {
+    let answers, input, filename, specGlob;
 
-    // clean input & set filename
-    input = answers.specFilename;
-    if (input.includes('/')) {
-      // remove path in from of filename
-      input = input.substr(input.lastIndexOf('/') + 1);
+    if (!prevSpec) {
+      // If no prevSpec provided, prompt for filename.
+      answers = await inquirer.askSpecFilename();
+
+      // clean input & set filename
+      input = answers.specFilename;
+      if (input.includes('/')) {
+        // remove path in from of filename
+        input = input.substr(input.lastIndexOf('/') + 1);
+      }
+      if (input.includes('.cypress.')) {
+        // remove dot-extensions
+        input = input.substring(0, input.indexOf('.cypress'));
+      }
+      filename = input;
+    } else {
+      // If prevSpec provided, set filename directly.
+      filename = prevSpec.substring(
+        prevSpec.lastIndexOf('/') + 1,
+        prevSpec.indexOf('.cypress'),
+      );
     }
-    if (input.includes('.cypress.')) {
-      // remove dot-extensions
-      input = input.substring(0, input.indexOf('.cypress'));
-    }
-    filename = input;
 
     return new Promise((myResolve, myReject) => {
       try {
@@ -122,9 +132,7 @@ module.exports = {
     });
   },
   async getSetCyRunConfig(myConfig, trInfo) {
-    let newCyConfig;
-
-    newCyConfig = Object.assign(cyConfig, {
+    const runConfig = Object.assign(cyConfig, {
       reporterOptions: {
         ...cyConfig.reporterOptions,
         username: myConfig.trUsername,
@@ -143,13 +151,13 @@ module.exports = {
       try {
         fs.writeFileSync(
           './config/my-cypress-testrail.json',
-          JSON.stringify(newCyConfig),
+          JSON.stringify(runConfig),
         );
         console.log(
           'Your Run-specific Cypress config:',
-          Object.assign(newCyConfig, {
+          Object.assign(runConfig, {
             reporterOptions: {
-              ...newCyConfig.reporterOptions,
+              ...runConfig.reporterOptions,
               password: '[---obfuscated---]',
             },
           }),
@@ -179,10 +187,21 @@ module.exports = {
         console.log(chalk.red(`stderr: ${stderr}`));
         return;
       }
+
       spinner.stop(true);
       console.log('\n');
       console.log(chalk.green(`RUN COMPLETED!  stdout:\n${stdout}`));
     });
+  },
+  saveSpecFile(myConfig, myConfigPath, specFile) {
+    try {
+      fs.writeFileSync(
+        myConfigPath,
+        JSON.stringify(Object.assign(myConfig, { previousSpec: specFile })),
+      );
+    } catch (e) {
+      console.error('[saveSpecFile] fs.writeFileSync failed!');
+    }
   },
 };
 

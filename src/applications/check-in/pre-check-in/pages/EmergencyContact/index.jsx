@@ -12,36 +12,67 @@ import Footer from '../../../components/Footer';
 import EmergencyContactDisplay from '../../../components/pages/emergencyContact/EmergencyContactDisplay';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
+import {
+  makeSelectVeteranData,
+  makeSelectPendingEdits,
+  makeSelectCurrentContext,
+} from '../../../selectors';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
-import { makeSelectVeteranData } from '../../../selectors';
+import { api } from '../../../api';
 
 const EmergencyContact = props => {
   const { router } = props;
 
-  const [isSendingData, setIsSendingData] = useState(false);
-
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const { emergencyContact } = demographics;
+
+  const selectPendingEdits = useMemo(makeSelectPendingEdits, []);
+  const { pendingEdits } = useSelector(selectPendingEdits);
+  const { emergencyContact: newInformation } = pendingEdits || {};
+
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isEditingPreCheckInEnabled } = useSelector(selectFeatureToggles);
+
   const dispatch = useDispatch();
 
-  const { goToNextPage, goToPreviousPage } = useFormRouting(router);
+  const { goToNextPage, goToPreviousPage, jumpToPage } = useFormRouting(router);
+  const selectContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectContext);
+
+  const [isLoading, setIsLoading] = useState();
 
   const buttonClick = useCallback(
     async answer => {
-      setIsSendingData(true);
+      setIsLoading(true);
       recordEvent({
         event: 'cta-button-click',
         'button-click-label': `${answer}-to-emergency-contact`,
       });
-      dispatch(recordAnswer({ emergencyContactUpToDate: `${answer}` }));
 
-      // select the answers from state
-      // send to API
-
-      goToNextPage();
+      if (isEditingPreCheckInEnabled) {
+        setIsLoading(true);
+        if (newInformation) {
+          await api.v2.postDemographicsData({
+            demographics: {
+              emergencyContact: newInformation,
+            },
+            token,
+          });
+        }
+        await api.v2.postPreCheckInData({
+          uuid: token,
+          emergencyContactUpToDate: true,
+        });
+        dispatch(recordAnswer({ emergencyContactUpToDate: `${answer}` }));
+        goToNextPage();
+      } else {
+        dispatch(recordAnswer({ emergencyContactUpToDate: `${answer}` }));
+        goToNextPage();
+      }
     },
-    [dispatch, goToNextPage],
+    [dispatch, goToNextPage, isEditingPreCheckInEnabled, newInformation, token],
   );
 
   const yesClick = useCallback(
@@ -61,11 +92,13 @@ const EmergencyContact = props => {
     <>
       <BackButton action={goToPreviousPage} router={router} />
       <EmergencyContactDisplay
-        data={emergencyContact}
+        emergencyContact={newInformation || emergencyContact}
         yesAction={yesClick}
         noAction={noClick}
-        isLoading={isSendingData}
+        isLoading={isLoading}
         Footer={Footer}
+        isEditEnabled={isEditingPreCheckInEnabled}
+        jumpToPage={jumpToPage}
       />
       <BackToHome />
     </>

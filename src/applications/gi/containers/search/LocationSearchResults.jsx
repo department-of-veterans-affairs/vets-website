@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
+import environment from 'platform/utilities/environment';
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -36,6 +37,7 @@ function LocationSearchResults({
   dispatchFetchSearchByLocationCoords,
   filtersChanged,
   smallScreen,
+  landscape,
   dispatchMapChanged,
 }) {
   const { inProgress } = search;
@@ -46,6 +48,7 @@ function LocationSearchResults({
   const [mapState, setMapState] = useState({ changed: false, distance: null });
   const [usedFilters, setUsedFilters] = useState(filtersChanged);
   const [cardResults, setCardResults] = useState(null);
+  const [dataReturned, setDataReturned] = useState(null);
   const [mobileTab, setMobileTab] = useState(LIST_TAB);
   const [markerClicked, setMarkerClicked] = useState(null);
   const [activeMarker, setActiveMarker] = useState(null);
@@ -163,9 +166,9 @@ function LocationSearchResults({
   const markerIsVisible = institution => {
     const { latitude, longitude } = institution;
     const lngLat = new mapboxgl.LngLat(longitude, latitude);
-
     return (
       smallScreen ||
+      landscape ||
       !mapState.changed ||
       map.current.getBounds().contains(lngLat)
     );
@@ -232,7 +235,7 @@ function LocationSearchResults({
 
     const popup = new mapboxgl.Popup();
     popup.on('open', () => {
-      if (smallScreen) {
+      if (smallScreen || landscape) {
         setMobileTab(LIST_TAB);
       }
       setMarkerClicked(name);
@@ -279,7 +282,7 @@ function LocationSearchResults({
    */
   useEffect(
     () => {
-      if (smallScreen) {
+      if (smallScreen || landscape) {
         map.current = null;
       }
       setupMap();
@@ -289,7 +292,7 @@ function LocationSearchResults({
       let visibleResults = [];
       const mapMarkers = [];
 
-      if (smallScreen) {
+      if (smallScreen || landscape) {
         visibleResults = results;
       }
 
@@ -334,11 +337,12 @@ function LocationSearchResults({
         map.current.fitBounds(locationBounds, { padding: 20 });
       }
 
+      setDataReturned(true);
       setCardResults(visibleResults);
       setUsedFilters(getFiltersChanged(filters));
       setMarkers(mapMarkers);
     },
-    [results, smallScreen, mobileTab],
+    [results, smallScreen, landscape, mobileTab],
   );
 
   /**
@@ -453,9 +457,15 @@ function LocationSearchResults({
               <FilterYourResults />
             </>
           )}
-          {smallScreen && (
-            <MobileFilterControls className="vads-u-margin-top--2" />
-          )}
+          {environment.isProduction()
+            ? (smallScreen || landscape) && (
+                <MobileFilterControls className="vads-u-margin-top--2" />
+              )
+            : smallScreen &&
+              !landscape &&
+              results.length > 0 && (
+                <MobileFilterControls className="vads-u-margin-top--2" />
+              )}
         </>
       );
     }
@@ -602,6 +612,7 @@ function LocationSearchResults({
     const containerClassNames = classNames({
       'vads-u-display--none': !visible,
     });
+    const isMobileDevice = smallScreen || landscape;
     return (
       <div className={containerClassNames}>
         <map
@@ -612,7 +623,7 @@ function LocationSearchResults({
           role="region"
         >
           {mapState.changed &&
-            !smallScreen && (
+            !isMobileDevice && (
               <div
                 id="search-area-control-container"
                 className="mapboxgl-ctrl-top-center"
@@ -639,7 +650,7 @@ function LocationSearchResults({
   const smallScreenCount = search.location.count;
 
   // returns content ordered and setup for smallScreens
-  if (smallScreen) {
+  if (smallScreen || landscape) {
     return (
       <div className="location-search vads-u-padding--1">
         {inProgress && (
@@ -673,12 +684,13 @@ function LocationSearchResults({
 
   // Only needed on desktop as can do "Search this area of the map" which causes differences in count between what is
   // returned and what is visible
-  const desktopCount = !cardResults ? null : cardResults.length;
+  const desktopCount = dataReturned ? cardResults.length : 0;
 
   // Returns content setup for desktop screens
   return (
     <div className="location-search vads-u-padding-top--1">
       <div className="usa-width-one-third">
+        &nbsp;
         {inProgress && (
           <va-loading-indicator message="Loading search results..." />
         )}
@@ -692,7 +704,7 @@ function LocationSearchResults({
             )}
             {hasSearchLatLong && (
               <>
-                {searchResultsShowing(desktopCount)}
+                {dataReturned && searchResultsShowing(desktopCount)}
                 {eligibilityAndFilters(desktopCount)}
                 {searchResults(desktopCount)}
                 {noResultsFound(desktopCount)}

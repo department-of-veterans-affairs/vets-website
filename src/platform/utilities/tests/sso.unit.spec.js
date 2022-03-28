@@ -29,6 +29,7 @@ const defaultKeepAliveOpts = {
   [AUTHN_HEADERS.CSP]: undefined,
   [AUTHN_HEADERS.AUTHN_CONTEXT]: 'NOT_FOUND',
   [AUTHN_HEADERS.IAL]: null,
+  [AUTHN_HEADERS.CSP_METHOD]: '',
 };
 
 export function generateMockKeepAliveResponse(
@@ -430,7 +431,7 @@ describe('keepAlive', () => {
   });
 
   it('should return ttl 0 when not alive', async () => {
-    const { ALIVE, TIMEOUT, TRANSACTIONID, CSP } = AUTHN_HEADERS;
+    const { ALIVE, TIMEOUT, TRANSACTIONID, CSP, CSP_METHOD } = AUTHN_HEADERS;
     stubFetch.resolves(
       generateMockKeepAliveResponse({
         headers: {
@@ -438,6 +439,7 @@ describe('keepAlive', () => {
           [TIMEOUT]: 900,
           [TRANSACTIONID]: 'g',
           [CSP]: 'idme',
+          [CSP_METHOD]: 'IDME_DSL',
         },
         status: 200,
       }),
@@ -448,17 +450,19 @@ describe('keepAlive', () => {
       transactionid: null,
       authn: 'NOT_FOUND',
       [AUTHN_KEYS.CSP_TYPE]: 'idme',
+      [AUTHN_KEYS.CSP_METHOD]: 'IDME_DSL',
     });
   });
 
   it('should return active dslogon session', async () => {
-    const { ALIVE, CSP, TRANSACTION_ID } = AUTHN_HEADERS;
+    const { ALIVE, CSP, TRANSACTION_ID, CSP_METHOD } = AUTHN_HEADERS;
     stubFetch.resolves(
       generateMockKeepAliveResponse({
         headers: {
           [ALIVE]: 'true',
           [TRANSACTION_ID]: 'x',
           [CSP]: 'DSLogon',
+          [CSP_METHOD]: 'IDME_DSL',
         },
         status: 200,
       }),
@@ -470,17 +474,19 @@ describe('keepAlive', () => {
       transactionid: 'x',
       authn: CSP_AUTHN.DS_LOGON,
       [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.DSLOGON.toLowerCase(),
+      [AUTHN_KEYS.CSP_METHOD]: 'IDME_DSL',
     });
   });
 
   it('should return active mhv session', async () => {
-    const { ALIVE, CSP, TRANSACTION_ID } = AUTHN_HEADERS;
+    const { ALIVE, CSP, TRANSACTION_ID, CSP_METHOD } = AUTHN_HEADERS;
     stubFetch.resolves(
       generateMockKeepAliveResponse({
         headers: {
           [ALIVE]: 'true',
           [TRANSACTION_ID]: 'q',
           [CSP]: 'mhv',
+          [CSP_METHOD]: 'IDME_MHV',
         },
         status: 200,
       }),
@@ -492,6 +498,7 @@ describe('keepAlive', () => {
       transactionid: 'q',
       authn: CSP_AUTHN.MHV,
       [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.MHV,
+      [AUTHN_KEYS.CSP_METHOD]: 'IDME_MHV',
     });
   });
 
@@ -500,6 +507,7 @@ describe('keepAlive', () => {
       ALIVE,
       AUTHN_CONTEXT,
       CSP,
+      CSP_METHOD,
       TIMEOUT,
       TRANSACTION_ID,
     } = AUTHN_HEADERS;
@@ -512,6 +520,7 @@ describe('keepAlive', () => {
           [TRANSACTION_ID]: 'IDME_WORKS',
           [CSP]: CSP_IDS.ID_ME,
           [AUTHN_CONTEXT]: '/loa1',
+          [CSP_METHOD]: 'IDME_LOA1',
         },
         status: 200,
       }),
@@ -524,6 +533,7 @@ describe('keepAlive', () => {
       transactionid: 'IDME_WORKS',
       authn: '/loa1',
       [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.IDME,
+      [AUTHN_KEYS.CSP_METHOD]: 'IDME_LOA1',
     });
   });
 
@@ -531,6 +541,7 @@ describe('keepAlive', () => {
     const {
       ALIVE,
       CSP,
+      CSP_METHOD,
       TRANSACTION_ID,
       TIMEOUT,
       AUTHN_CONTEXT,
@@ -547,6 +558,7 @@ describe('keepAlive', () => {
           [CSP]: 'LOGINGOV',
           [AUTHN_CONTEXT]: '/ial2',
           [IAL]: ial,
+          [CSP_METHOD]: 'LGV_IAL2',
         },
         status: 200,
       }),
@@ -559,6 +571,7 @@ describe('keepAlive', () => {
       transactionid: 'login_gov',
       [AUTHN_KEYS.CSP_TYPE]: CSP_KEYS.LOGINGOV.toLowerCase(),
       ial,
+      [AUTHN_KEYS.CSP_METHOD]: 'LGV_IAL2',
     });
   });
 });
@@ -598,6 +611,7 @@ describe('generateAuthnContext', () => {
         const {
           ALIVE,
           CSP,
+          CSP_METHOD,
           TRANSACTION_ID,
           TIMEOUT,
           AUTHN_CONTEXT,
@@ -613,6 +627,7 @@ describe('generateAuthnContext', () => {
             [TIMEOUT]: 500,
             [TRANSACTION_ID]: `tx-${csp}`,
             [CSP]: csp,
+            [CSP_METHOD]: `${csp}_auth_method`,
             [IAL]: ial,
             ...(csp === 'idme' && {
               [AUTHN_CONTEXT]: 'idme-test?skip_dupe=mhv',
@@ -627,6 +642,7 @@ describe('generateAuthnContext', () => {
           }),
         ).to.eql({
           [AUTHN_KEYS.CSP_TYPE]: csp.toLowerCase(),
+          [AUTHN_KEYS.CSP_METHOD]: `${csp}_auth_method`,
           ...(csp !== CSP_KEYS.LOGINGOV
             ? {
                 authn: {

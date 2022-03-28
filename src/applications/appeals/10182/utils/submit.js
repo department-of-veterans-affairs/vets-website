@@ -1,11 +1,7 @@
 import moment from 'moment';
 
-import {
-  SELECTED,
-  MAX_ISSUE_NAME_LENGTH,
-  MAX_DISAGREEMENT_REASON_LENGTH,
-  SUBMITTED_DISAGREEMENTS,
-} from '../constants';
+import { SELECTED, MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../constants';
+import { replaceSubmittedData } from './replace';
 
 /**
  * @typedef FormData
@@ -94,14 +90,15 @@ export const createIssueName = ({ attributes } = {}) => {
     ratingIssuePercentNumber,
     description,
   } = attributes;
-  return [
+  const result = [
     ratingIssueSubjectText,
     `${ratingIssuePercentNumber || '0'}%`,
     description,
   ]
     .filter(part => part)
     .join(' - ')
-    .substring(0, MAX_ISSUE_NAME_LENGTH);
+    .substring(0, MAX_LENGTH.ISSUE_NAME);
+  return replaceSubmittedData(result);
 };
 
 /**
@@ -196,7 +193,7 @@ export const addIncludedIssues = formData => {
         issuesToAdd.push({
           type: 'contestableIssue',
           attributes: {
-            issue: issue.issue,
+            issue: replaceSubmittedData(issue.issue),
             decisionDate: issue.decisionDate,
           },
         });
@@ -224,13 +221,15 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
       .map(([key, value]) => value && keywords[key](entry))
       .concat((entry?.otherEntry || '').trim())
       .filter(Boolean);
+    const disagreementArea = replaceSubmittedData(
+      // max length in schema
+      reasons.join(',').substring(0, MAX_LENGTH.DISAGREEMENT_REASON),
+    );
     return {
       ...issue,
       attributes: {
         ...issue.attributes,
-        disagreementArea: reasons
-          .join(',')
-          .substring(0, MAX_DISAGREEMENT_REASON_LENGTH), // max length in schema
+        disagreementArea,
       },
     };
   });
@@ -265,7 +264,7 @@ export const addUploads = formData =>
   formData.boardReviewOption === 'evidence_submission' &&
   formData['view:additionalEvidence']
     ? formData.evidence.map(({ name, confirmationCode }) => ({
-        name,
+        name: replaceSubmittedData(name),
         confirmationCode,
       }))
     : [];
@@ -313,30 +312,40 @@ export const removeEmptyEntries = object =>
  * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable address
  */
-export const getAddress = ({ veteran = {} } = {}) =>
-  removeEmptyEntries({
-    addressLine1: veteran.address?.addressLine1 || '',
-    addressLine2: veteran.address?.addressLine2 || '',
-    addressLine3: veteran.address?.addressLine3 || '',
-    city: veteran.address?.city || '',
+export const getAddress = ({ veteran = {} } = {}) => {
+  const truncate = (value, max) =>
+    replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
+  return removeEmptyEntries({
+    addressLine1: truncate('addressLine1', MAX_LENGTH.ADDRESS_LINE1),
+    addressLine2: truncate('addressLine2', MAX_LENGTH.ADDRESS_LINE2),
+    addressLine3: truncate('addressLine3', MAX_LENGTH.ADDRESS_LINE3),
+    city: truncate('city', MAX_LENGTH.CITY),
     stateCode: veteran.address?.stateCode || '',
-    zipCode5: veteran.address?.zipCode || '',
+    zipCode5: truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
     countryName: veteran.address?.countryName || '',
-    internationalPostalCode: veteran.address?.internationalPostalCode || '',
+    // countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.COUNTRY), // v2
+    internationalPostalCode: truncate(
+      'internationalPostalCode',
+      MAX_LENGTH.POSTAL_CODE,
+    ),
   });
+};
 
 /**
  * Strip out extra profile phone data
  * @param {Veteran} veteran - Veteran formData object
  * @returns {Object} submittable address
  */
-export const getPhone = ({ veteran = {} } = {}) =>
-  removeEmptyEntries({
-    countryCode: veteran.phone?.countryCode || '',
-    areaCode: veteran.phone?.areaCode || '',
-    phoneNumber: veteran.phone?.phoneNumber || '',
-    phoneNumberExt: veteran.phone?.phoneNumberExt || '',
+export const getPhone = ({ veteran = {} } = {}) => {
+  const truncate = (value, max) =>
+    replaceSubmittedData(veteran.phone?.[value] || '').substring(0, max);
+  return removeEmptyEntries({
+    countryCode: truncate('countryCode', MAX_LENGTH.COUNTRY_CODE),
+    areaCode: truncate('areaCode', MAX_LENGTH.AREA_CODE),
+    phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
+    phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
   });
+};
 
 /**
  * Get user's current time zone

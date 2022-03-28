@@ -202,7 +202,7 @@ KeywordSearch.propTypes = {
   label: PropTypes.string,
   labelAdditional: PropTypes.object,
   required: PropTypes.any,
-  suggestions: PropTypes.object,
+  suggestions: PropTypes.array,
   validateSearchTerm: PropTypes.func,
   version: PropTypes.string,
   onFetchAutocompleteSuggestions: PropTypes.func,

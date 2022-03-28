@@ -41,7 +41,7 @@ const renderInnerTag = (link, captureEvent) => (
         {link.title}
       </a>
     ) : (
-      <span className="va-footer-link-text">{link.title}</span>
+      <span className="vads-u-color--white">{link.title}</span>
     )}
   </>
 );

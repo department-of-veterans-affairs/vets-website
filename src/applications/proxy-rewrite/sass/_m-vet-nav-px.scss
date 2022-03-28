@@ -375,18 +375,6 @@ body.va-pos-fixed {
   }
 }
 
-@include media($medium-large-screen) {
-  #vetnav-explore {
-    height: 415px;
-    padding-top: 8px;
-    width: 540px;
-  }
-
-  #vetnav-benefits {
-    width: 276.47px;
-  }
-}
-
 .vet-toolbar {
   align-items: center;
   flex: 1 1 100%;

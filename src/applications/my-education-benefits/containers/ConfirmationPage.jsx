@@ -13,7 +13,7 @@ import {
 import ConfirmationApproved from '../components/confirmation/ConfirmationApproved';
 import ConfirmationDenied from '../components/confirmation/ConfirmationDenied';
 import ConfirmationError from '../components/confirmation/ConfirmationError';
-import ConfirmationLoading from '../components/confirmation/ConfirmationLoading';
+import LoadingIndicator from '../components/LoadingIndicator';
 import ConfirmationPending from '../components/confirmation/ConfirmationPending';
 
 import { formatReadableDate } from '../helpers';
@@ -75,7 +75,12 @@ export const ConfirmationPage = ({
       return <ConfirmationError />;
     }
     default: {
-      return <ConfirmationLoading />;
+      return (
+        <LoadingIndicator
+          className="meb-confirmation-page meb-confirmation-page_loading vads-u-margin-bottom--6"
+          message="Loading your results"
+        />
+      );
     }
   }
 };

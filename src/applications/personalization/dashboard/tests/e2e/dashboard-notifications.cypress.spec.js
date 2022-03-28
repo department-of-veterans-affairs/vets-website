@@ -84,7 +84,7 @@ describe('The My VA Dashboard - Notifications', () => {
       cy.injectAxe();
       cy.axeCheck();
     });
-    it('and they have a debt - C13025', () => {
+    it.skip('and they have a debt - C13025', () => {
       cy.intercept('/v0/debts', debtsSuccess());
       cy.findByTestId('dashboard-notifications').should('exist');
 

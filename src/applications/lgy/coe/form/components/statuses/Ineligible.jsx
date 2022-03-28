@@ -10,9 +10,6 @@ const Ineligible = () => (
       without your lender’s assistance, please continue to start the request
       process.
     </p>
-    <h2 className="vads-u-margin-top--5">
-      Follow these steps to request a VA home loan COE
-    </h2>
   </>
 );
 

@@ -1,18 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { AUTH_ERROR, AUTH_LEVEL } from 'platform/user/authentication/constants';
 import Helpdesk from './HelpdeskContact';
-import { AUTH_ERROR } from 'platform/user/authentication/constants';
 
 export default function RenderErrorContainer({
   code = AUTH_ERROR.DEFAULT,
-  auth = AUTH_ERROR.FAIL,
+  auth = AUTH_LEVEL.FAIL,
   recordEvent = () => ({}),
-  loginGovEnabled = false,
+  loginGovOff = false,
   openLoginModal = () => ({}),
 }) {
   let alertContent;
   let troubleshootingContent;
 
-  if (auth === AUTH_ERROR.FAIL) {
+  if (auth === AUTH_LEVEL.FAIL) {
     recordEvent({
       event: code ? `login-error-code-${code}` : `login-error-no-code`,
     });
@@ -37,11 +38,13 @@ export default function RenderErrorContainer({
             Please try again, and this time, select <strong>“Accept”</strong> on
             the final page of the identity verification process. Or, if you
             don’t want to verify your identity with{' '}
-            {loginGovEnabled && `Login.gov or `}
+            {!loginGovOff && `Login.gov or `}
             ID.me, you can try signing in with your premium DS Logon or premium
             My HealtheVet username and password.
           </p>
-          <button onClick={openLoginModal}>Try signing in again</button>
+          <button type="button" onClick={openLoginModal}>
+            Try signing in again
+          </button>
         </>
       );
       break;
@@ -79,7 +82,9 @@ export default function RenderErrorContainer({
         <>
           <h3>What you can do:</h3>
           <Helpdesk />
-          <button onClick={openLoginModal}>Try signing in again</button>
+          <button type="button" onClick={openLoginModal}>
+            Try signing in again
+          </button>
         </>
       );
       break;
@@ -97,7 +102,9 @@ export default function RenderErrorContainer({
         <>
           <h3>What you can do:</h3>
           <p>Please sign in again.</p>
-          <button onClick={openLoginModal}>Sign in</button>
+          <button type="button" onClick={openLoginModal}>
+            Sign in
+          </button>
         </>
       );
       break;
@@ -135,7 +142,9 @@ export default function RenderErrorContainer({
           <Helpdesk>
             If you’ve taken the steps above and still can’t sign in,
           </Helpdesk>
-          <button onClick={openLoginModal}>Try signing in again</button>
+          <button type="button" onClick={openLoginModal}>
+            Try signing in again
+          </button>
         </>
       );
       break;
@@ -336,3 +345,11 @@ export default function RenderErrorContainer({
     </div>
   );
 }
+
+RenderErrorContainer.propTypes = {
+  auth: PropTypes.oneOf(Object.keys(AUTH_LEVEL)),
+  code: PropTypes.oneOf(Object.keys(AUTH_ERROR)),
+  loginGovOff: PropTypes.bool,
+  openLoginModal: PropTypes.func,
+  recordEvent: PropTypes.func,
+};

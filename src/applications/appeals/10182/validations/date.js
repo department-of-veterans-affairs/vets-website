@@ -4,7 +4,6 @@ import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
 
 import { FORMAT_YMD } from '../constants';
-import { $ } from '../utils/ui';
 
 import { issueErrorMessages } from '../content/addIssue';
 
@@ -12,7 +11,7 @@ const minDate = moment()
   .subtract(1, 'year')
   .startOf('day');
 
-const maxDate = moment().endOf('day');
+const maxDate = moment().startOf('day');
 
 export const validateDate = (errors, dateString) => {
   const { day, month, year } = parseISODate(dateString);
@@ -25,17 +24,11 @@ export const validateDate = (errors, dateString) => {
     errors.addError(
       issueErrorMessages.invalidDateRange(minDate.year(), maxDate.year()),
     );
-  } else if (date.isAfter(maxDate)) {
+  } else if (date.isSameOrAfter(maxDate)) {
+    // Lighthouse won't accept same day (as submission) decision date
     errors.addError(issueErrorMessages.pastDate);
   } else if (date.isBefore(minDate)) {
     errors.addError(issueErrorMessages.newerDate);
-  }
-  if ($('body.modal-open')) {
-    // prevent contact page modal "update" button from acting like the
-    // page "continue" button
-    errors.addError(
-      'Please finish editing your contact info before continuing',
-    );
   }
 };
 

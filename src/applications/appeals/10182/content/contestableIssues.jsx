@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from 'web-components/react-bindings';
 
 import { scrollAndFocus } from 'platform/utilities/ui';
 
-import { MAX_SELECTIONS } from '../constants';
+import { MAX_LENGTH } from '../constants';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
@@ -60,17 +60,17 @@ export const maxSelectedErrorMessage =
 // Not setting "visible" as a variable since we're controlling rendering at a
 // higher level
 export const MaxSelectionsAlert = ({ closeModal }) => (
-  <Modal
-    title={maxSelectedErrorMessage}
+  <VaModal
+    modalTitle={maxSelectedErrorMessage}
     status="warning"
-    onClose={closeModal}
+    onCloseEvent={closeModal}
     visible
   >
-    You are limited to {MAX_SELECTIONS} selected issues for each Notice of
-    Disagreement request. If you would like to select more than
-    {MAX_SELECTIONS}, please submit this request and create a new request for
-    the remaining issues.
-  </Modal>
+    You are limited to {MAX_LENGTH.SELECTIONS} selected issues for each Notice
+    of Disagreement request. If you would like to select more than{' '}
+    {MAX_LENGTH.SELECTIONS}, please submit this request and create a new request
+    for the remaining issues.
+  </VaModal>
 );
 
 export const noneSelected = 'Please select at least one issue';
