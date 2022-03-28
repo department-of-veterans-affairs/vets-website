@@ -46,6 +46,3 @@ describe('connect health devices landing page', () => {
     expect(screen.getByText(/Devices you can connect/)).to.exist;
   });
 });
-
-// [Mock API] Redirect back to dhp page after create AND user logged in
-// [Mock API] Redirect back to dhp page after login  AND user logged in

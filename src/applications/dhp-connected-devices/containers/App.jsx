@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 export default function App() {
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
   return (
-    <div className="usa-grid-full margin">
+    <div className="usa-grid-full margin landing-page">
       <div className="usa-width-three-fourths">
         <div className="schemaform-title">
           <h1>Connect your health devices</h1>
