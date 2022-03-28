@@ -13,6 +13,7 @@ import ServiceProvidersText, {
 export const App = ({ loggedIn, toggleLoginModal }) => {
   const [lastUpdated, updateLastUpdated] = useState('');
   const [year, updateYear] = useState(0);
+  // const [formDownloaded, updateFormDownloaded] = useState(false);
 
   const getPdf = () => {
     return apiRequest(`/form1095_bs/download/${year}`)
@@ -24,15 +25,19 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
 
   // for new endpoint
   const getLastUpdatedOn = () => {
-    return apiRequest('/form1095_bs/available_forms’').then(response =>
-      response.json(),
-    );
+    return apiRequest('/form1095_bs/available_forms').then(response => {
+      // is it [0] or .length-1 for most recent year?
+      return response.availableForms[0];
+    });
   };
 
   const callLastUpdated = () => {
     getLastUpdatedOn().then(result => {
       // check if year and last updated exist?
-      updateLastUpdated(result.last_updated);
+      const date = new Date(result.lastUpdated);
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      // expected output (varies according to local timezone and default locale): Thursday, December 20, 2012
+      updateLastUpdated(date.toLocaleDateString(undefined, options));
       updateYear(result.year);
     });
   };
