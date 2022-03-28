@@ -157,6 +157,7 @@ export function transformVAOSAppointment(appt) {
     };
   }
 
+  // TODO: verfy in RI
   let facilityData;
   if (appt.location && appt.location.attributes) {
     facilityData = transformFacilityV2(appt.location.attributes);
