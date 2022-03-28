@@ -11,7 +11,7 @@ const CernerAlertBox = ({
   primaryCtaButtonUrl,
   secondaryCtaButtonText,
   secondaryCtaButtonUrl,
-  facilityNames,
+  facilityLocations,
   level = 2,
 }) => {
   // Helper component that takes an array of facility names and a separator string and returns some JSX to style the list of facility names.
@@ -50,7 +50,7 @@ const CernerAlertBox = ({
         portal based on the facility for your appointment:
       </p>
       <p className="vads-u-font-family--sans" data-testid="facilities">
-        For <FacilityList facilities={facilityNames} separator=" or " />:{' '}
+        For <FacilityList facilities={facilityLocations} separator=" or " />:{' '}
         <a href={primaryCtaButtonUrl} rel="noopener noreferrer" target="_blank">
           Use My VA Health (opens in new tab)
         </a>
@@ -71,10 +71,10 @@ const CernerAlertBox = ({
   );
 };
 
-export const CernerWidget = ({ facilityNames, authenticatedWithSSOe }) => (
+export const CernerWidget = ({ facilityLocations, authenticatedWithSSOe }) => (
   <div data-testid="cerner-widget">
     <CernerAlertBox
-      facilityNames={facilityNames}
+      facilityLocations={facilityLocations}
       primaryCtaButtonUrl={getCernerURL('')}
       secondaryCtaButtonText="Use My HealtheVet"
       secondaryCtaButtonUrl={mhvUrl(authenticatedWithSSOe, 'home')}

@@ -4,7 +4,6 @@ import { parseISODate } from 'platform/forms-system/src/js/helpers';
 import { isValidYear } from 'platform/forms-system/src/js/utilities/validations';
 
 import { FORMAT_YMD } from '../constants';
-import { $ } from '../utils/ui';
 
 import { issueErrorMessages } from '../content/addIssue';
 
@@ -30,13 +29,6 @@ export const validateDate = (errors, dateString) => {
     errors.addError(issueErrorMessages.pastDate);
   } else if (date.isBefore(minDate)) {
     errors.addError(issueErrorMessages.newerDate);
-  }
-  if ($('body.modal-open')) {
-    // prevent contact page modal "update" button from acting like the
-    // page "continue" button
-    errors.addError(
-      'Please finish editing your contact info before continuing',
-    );
   }
 };
 

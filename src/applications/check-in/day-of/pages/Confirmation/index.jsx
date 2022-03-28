@@ -27,6 +27,7 @@ const Confirmation = props => {
     demographicsData,
     demographicsFlagsSent,
     setDemographicsFlagsSent,
+    demographicsFlagsEmpty,
   } = useDemographicsFlags();
   const refreshAppointments = useCallback(
     () => {
@@ -45,6 +46,7 @@ const Confirmation = props => {
       if (
         !isDayOfDemographicsFlagsEnabled ||
         demographicsFlagsSent ||
+        demographicsFlagsEmpty ||
         getDemographicsConfirmed(window)
       )
         return;
@@ -62,6 +64,7 @@ const Confirmation = props => {
     },
     [
       demographicsData,
+      demographicsFlagsEmpty,
       demographicsFlagsSent,
       getDemographicsConfirmed,
       goToErrorPage,
