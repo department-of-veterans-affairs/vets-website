@@ -18,11 +18,20 @@ describe('connect health devices landing page', () => {
   });
 
   it("App renders 'Sign in or create account' button if user NOT logged in", () => {
-    const screen = renderInReduxProvider(<DhpApp />);
+    const loggedInState = {
+      user: {
+        login: {
+          currentlyLoggedIn: false,
+        },
+      },
+    };
+    const screen = renderInReduxProvider(<DhpApp />, {
+      initialState: loggedInState,
+    });
     expect(screen.getByText(/Sign in or create an account/)).to.exist;
   });
 
-  xit('renders with "Devices" sections when user IS logged in', () => {
+  it('renders with "Devices" sections when user IS logged in', () => {
     const loggedInState = {
       user: {
         login: {

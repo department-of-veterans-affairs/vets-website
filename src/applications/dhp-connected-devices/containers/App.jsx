@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 
 export default function App() {
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
-
   return (
     <div className="usa-grid-full margin">
       <div className="usa-width-three-fourths">
@@ -61,13 +60,14 @@ export default function App() {
             </div>
             <div className="connected-devices-section">
               <div className="connect-device">
-                <h3 slot="headline">Fitbit</h3>
-                <div>
-                  <br />
+                <p>
+                  <h3>Fitbit</h3>
+                </p>
+                <p>
                   <a href="https://www.fitbit.com/oauth2/authorize?client_id=<client_id>&response_type=code&code_challenge=<code_challenge>&code_challenge_method=S256&scope=weight%20location%20settings%20profile%20nutrition%20activity%20sleep%20heartrate%20social">
                     Connect
                   </a>
-                </div>
+                </p>
               </div>
             </div>
           </>
