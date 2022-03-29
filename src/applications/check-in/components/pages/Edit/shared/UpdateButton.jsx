@@ -5,11 +5,14 @@ import { useTranslation } from 'react-i18next';
 export default function UpdateButton(props) {
   const { jumpToPage, backPage, clearData, handleUpdate, isUpdatable } = props;
   const { t } = useTranslation();
-  const onClick = useCallback(() => {
-    handleUpdate();
-    clearData();
-    jumpToPage(backPage);
-  }, [handleUpdate, clearData, jumpToPage, backPage]);
+  const onClick = useCallback(
+    () => {
+      handleUpdate();
+      clearData();
+      jumpToPage(backPage);
+    },
+    [handleUpdate, clearData, jumpToPage, backPage],
+  );
   return (
     <button
       onClick={onClick}

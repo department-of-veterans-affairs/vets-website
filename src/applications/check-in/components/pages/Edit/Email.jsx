@@ -30,21 +30,30 @@ export default function Email(props) {
   const [email, setEmail] = useState(value);
   const [errorMessage, setErrorMessage] = useState();
 
-  const isUpdatable = useMemo(() => {
-    return !errorMessage;
-  }, [errorMessage]);
+  const isUpdatable = useMemo(
+    () => {
+      return !errorMessage;
+    },
+    [errorMessage],
+  );
 
   const dispatch = useDispatch();
-  const handleUpdateEmail = useCallback(() => {
-    if (email !== value && !errorMessage) {
-      dispatch(
-        createSetPendingEditedData({ emailAddress: email }, editingPage),
-      );
-    }
-  }, [dispatch, editingPage, email, errorMessage, value]);
-  const clearEditContext = useCallback(() => {
-    dispatch(createClearEditContext());
-  }, [dispatch]);
+  const handleUpdateEmail = useCallback(
+    () => {
+      if (email !== value && !errorMessage) {
+        dispatch(
+          createSetPendingEditedData({ emailAddress: email }, editingPage),
+        );
+      }
+    },
+    [dispatch, editingPage, email, errorMessage, value],
+  );
+  const clearEditContext = useCallback(
+    () => {
+      dispatch(createClearEditContext());
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
     focusElement('h1');
@@ -63,7 +72,7 @@ export default function Email(props) {
       }
       setEmail(newEmail);
     },
-    [setEmail],
+    [setEmail, t],
   );
 
   return (
