@@ -114,7 +114,7 @@ export default function Address(props) {
         [fieldName]: newValue,
       }));
     },
-    [setAddressValue, setAddressError],
+    [setAddressValue, setAddressError, t],
   );
   const onChange = useCallback(
     (event, extraValidation = false) => {
