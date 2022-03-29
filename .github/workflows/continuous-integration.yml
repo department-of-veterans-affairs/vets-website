@@ -1183,7 +1183,7 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
     needs: deploy
     env:
-      ALERT_TEAMS: ${{ false }} # Alerts teams for single/grouped app builds when set to true
+      ALERT_TEAMS: true # Alerts teams for single/grouped app builds when set to true
       DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
       VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
@@ -1207,12 +1207,7 @@ jobs:
       - name: List changed files
         id: changed-files
         if: env.ALERT_TEAMS == 'true'
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
-            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-          else
-            echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
-          fi
+        run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
 
       - name: Get app team's Slack group
         id: get-slack-groups
