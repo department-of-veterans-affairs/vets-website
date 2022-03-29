@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import AppointmentBlock from './AppointmentBlock';
 import BackToHome from './BackToHome';
 import LanguagePicker from './LanguagePicker';
@@ -65,7 +64,7 @@ const PreCheckinConfirmation = props => {
           return (
             <p key={index}>
               {appointment.clinicFriendlyName || appointment.clinicName} at{' '}
-              <Telephone contact={appointment.clinicPhoneNumber} />
+              <va-telephone contact={appointment.clinicPhoneNumber} />
             </p>
           );
         })}

@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { format, subDays } from 'date-fns';
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -101,10 +100,10 @@ const IntroductionDisplay = props => {
             'if-you-need-to-talk-to-someone-right-away-or-need-emergency-care',
           )}
         </span>{' '}
-        call <Telephone contact="911" />,{' '}
+        call <va-telephone contact="911" />,{' '}
         <span className="vads-u-font-weight--bold">or</span>{' '}
         {t('call-the-veterans-crisis-hotline-at')}{' '}
-        <Telephone contact="8002738255" /> {t('and-select-1')}
+        <va-telephone contact="8002738255" /> {t('and-select-1')}
       </p>
     </>
   );
