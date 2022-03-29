@@ -1,13 +1,16 @@
-# todo
+# TODO
 
-- test faclity result list
-- screen reader
-- test for screen reader
+## results
 
-Facility details page:
+e2e
+white space
+
+## Facility details
 
 - alert box change
 - screen reader
 - tests
+  - unit
+  - e2e
 
 - remove todo list

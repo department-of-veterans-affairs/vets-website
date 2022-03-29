@@ -3,8 +3,16 @@ import React from 'react';
 
 export default function LimitedHours() {
   return (
-    <va-alert background-only show-icon status="warning" visible>
-      <div tabIndex={0}>Limited services and hours</div>
+    <va-alert
+      background-only
+      show-icon
+      status="warning"
+      visible
+      data-testid="limited-message"
+    >
+      <div tabIndex={0} id="message">
+        Limited services and hours
+      </div>
     </va-alert>
   );
 }
