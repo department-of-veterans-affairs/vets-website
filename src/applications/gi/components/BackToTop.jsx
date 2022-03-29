@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
+import { focusElement } from 'platform/utilities/ui';
 
 /**
  * This thing has a hack in it to make sure the when the element is floating at bottom of page it is on the right side
@@ -130,6 +132,12 @@ export default function BackToTop({
                   'button-click-label': 'Back to top',
                   'button-type': 'default',
                 });
+                if (!environment.isProduction()) {
+                  const h1 = document.querySelector(
+                    `#${profilePageHeaderId} h1`,
+                  );
+                  if (h1) focusElement(h1);
+                }
               }}
             >
               <span>
