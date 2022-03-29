@@ -119,6 +119,7 @@ export const Events = ({ rawEvents }) => {
         page={page}
         perPage={perPage}
         query={selectedOption?.label}
+        queryId={selectedOption?.value}
         results={results}
         totalResults={events?.length || 0}
       />
