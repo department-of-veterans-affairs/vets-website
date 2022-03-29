@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import Layout from '../components/Layout';
 import { fetchUser } from '../../my-education-benefits/selectors/userDispatch';
 
@@ -12,23 +12,6 @@ const App = ({ toggleLoginModal, user }) => {
     e.preventDefault();
     toggleLoginModal(true, 'cta-form');
   }
-
-  const notLoggedInUI = (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="continue"
-      visible
-    >
-      <h3 slot="headline">Please sign in to check your VA education inbox</h3>
-      <div>
-        Sign in with your existing <b>ID.me</b> account. If you don’t have an
-        account, you can create a free <b>ID.me</b> account now.
-      </div>
-      <button className="va-button-primary" type="button" onClick={toggleLogin}>
-        Sign in or create an account
-      </button>
-    </va-alert>
-  );
 
   function renderUI() {
     if (!user?.login?.currentlyLoggedIn && !user?.login?.hasCheckedKeepAlive) {
@@ -43,37 +26,47 @@ const App = ({ toggleLoginModal, user }) => {
       );
     }
     if (user?.login?.currentlyLoggedIn) {
-      return (
-        <Link
-          className="usa-button-primary va-button-primary"
-          type="button"
-          to="/preview"
-        >
-          Check your VA education inbox
-        </Link>
-      );
+      return <Redirect to="/education/education-inbox/preview" />;
     }
-    return notLoggedInUI;
+
+    return (
+      <va-alert
+        close-btn-aria-label="Close notification"
+        status="continue"
+        visible
+      >
+        <h3 slot="headline">
+          Please sign in to check your VA education letters
+        </h3>
+        <div>
+          Sign in with your existing <b>ID.me</b> account. If you don’t have an
+          account, you can create a free <b>ID.me</b> account now.
+        </div>
+        <button className="va-button" type="button" onClick={toggleLogin}>
+          Sign in or create an account
+        </button>
+      </va-alert>
+    );
   }
 
   return (
     <>
       <Layout clsName="introduction-page">
-        <FormTitle title="Check your VA education inbox" />
+        <FormTitle title="Download your VA education letters" />
 
         <p className="va-introtext">
-          Download important documents about your education benefits here,
-          including your decision letter. Find out if you can use this tool and
-          how to sign in.
+          If you’re a Veteran and you recently received your VA education
+          decision letters, you can download them now.
         </p>
 
         {renderUI()}
 
         <div>
-          <h2>Can I use this tool?</h2>
+          <h2>Who can download VA education letters?</h2>
           <p>
-            You can use this tool if you meet all of the requirements listed
-            below.
+            You can download your education letters if you’re a Veteran and you
+            meet both of the requirements listed here. At this time, family
+            members and dependents can’t get their education letters online.
           </p>
           <p>
             <b>Both of these must be true. You:</b>
@@ -88,39 +81,32 @@ const App = ({ toggleLoginModal, user }) => {
             </li>
           </ul>
           <p>
-            <b>Note:</b> At this time, the VA education inbox isn’t available
-            online to family members and dependents.
+            <b>Note:</b> If you have an older decision letter—or you’re a family
+            member or dependent—you can contact us through Ask VA to request a
+            copy of your letter.
+            <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
+              Request your VA education letter through Ask VA.
+            </a>
           </p>
         </div>
 
-        <div style={{ marginBottom: '6.4rem' }}>
-          <h2>What information will I be able to see?</h2>
+        <div style={{ marginTop: '3rem', marginBottom: '6.4rem' }}>
           <va-alert
-            background-only
             close-btn-aria-label="Close notification"
             show-icon
             status="info"
             visible
           >
+            <h3 slot="headline">
+              You’ll have access to other types of education letters here in the
+              future
+            </h3>
             <div>
-              At this time, we’re only able to show decision letters that you
-              received after <b>Month Day, 2022</b>. If you’re looking for an
-              older decision letter,{' '}
-              <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
-                contact us using Ask VA
-              </a>
-              .
+              Right now you can only download your education decision letters.
+              But we’re working to make other types of education letters
+              available too.
             </div>
           </va-alert>
-          <p>
-            <b>In your VA education inbox, you’ll find:</b>
-          </p>
-          <ul>
-            <li>
-              Important VA documents, including your Certificate of Eligibility
-              or Denial Letter if you’ve applied for the Post-9/11 GI Bill
-            </li>
-          </ul>
         </div>
       </Layout>
     </>
