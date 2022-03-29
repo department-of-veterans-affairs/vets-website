@@ -1,9 +1,5 @@
 # TODO
 
-## results
-
-e2e
-white space
 
 ## Facility details
 

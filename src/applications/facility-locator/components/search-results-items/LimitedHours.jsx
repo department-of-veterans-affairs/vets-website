@@ -9,6 +9,7 @@ export default function LimitedHours() {
       status="warning"
       visible
       data-testid="limited-message"
+      class="vads-u-margin-y--2"
     >
       <div tabIndex={0} id="message">
         Limited services and hours
