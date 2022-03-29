@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import { RenderError } from '../../../shared/components/errors/RenderError';
 import { COE_ELIGIBILITY_STATUS } from '../../../shared/constants';
 import {
   Available,
@@ -51,11 +51,11 @@ const COEIntroPageBox = ({
           />
         );
       default:
-        return <></>;
+        return <RenderError errors={status} />;
     }
   }
 
-  return <></>;
+  return <RenderError errors={status} />;
 };
 
 COEIntroPageBox.propTypes = {

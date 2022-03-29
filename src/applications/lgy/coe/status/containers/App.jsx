@@ -6,6 +6,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { isLoggedIn } from 'platform/user/selectors';
+import { RenderError } from '../../shared/components/errors/RenderError';
 
 import { generateCoe } from '../../shared/actions';
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
@@ -23,6 +24,7 @@ const App = ({
     downloadUrl,
     generateAutoCoeStatus,
     profileIsUpdating,
+    errors,
   },
   getCoe,
   loggedIn,
@@ -96,10 +98,10 @@ const App = ({
         );
         break;
       default:
-        content = <Ineligible />;
+        content = <RenderError errors={errors} />;
     }
   } else {
-    content = <Ineligible />;
+    content = <RenderError errors={errors} />;
   }
 
   return (

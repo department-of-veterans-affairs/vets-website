@@ -1,17 +1,23 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-
+import { RenderError } from '../../shared/components/errors/RenderError';
 import { notLoggedInContent } from './introduction-content/notLoggedInContent';
 import COEIntroPageBox from './introduction-content/COEIntroPageBox';
 import LoggedInContent from './introduction-content/loggedInContent';
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
 
-const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
+const IntroductionPage = ({
+  coe,
+  downloadUrl,
+  loggedIn,
+  route,
+  status,
+  errors,
+}) => {
   let content;
 
   useEffect(() => {
@@ -21,11 +27,12 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
   content = <va-loading-indicator message="Loading your application..." />;
 
   // Once the coe call is done, render the rest of the content
-  const coeCallEnded = [CALLSTATUS.failed, CALLSTATUS.success, CALLSTATUS.skip];
+  const coeCallEnded = [CALLSTATUS.success, CALLSTATUS.skip];
 
-  if (!loggedIn && coeCallEnded.includes(status)) {
+  if (!loggedIn) {
     content = notLoggedInContent(route);
   }
+
   if (loggedIn && coeCallEnded.includes(status)) {
     content = (
       <>
@@ -38,6 +45,14 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
         {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
           <LoggedInContent route={route} status={coe.status} />
         )}
+      </>
+    );
+  }
+
+  if (loggedIn && !coeCallEnded.includes(status)) {
+    content = (
+      <>
+        <RenderError errors={errors} introPage />
       </>
     );
   }
@@ -55,6 +70,7 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
 
 const mapStateToProps = state => ({
   coe: state.certificateOfEligibility.coe,
+  errors: state.certificateOfEligibility.errors,
   downloadUrl: state.certificateOfEligibility.downloadUrl,
   loggedIn: isLoggedIn(state),
   status: state.certificateOfEligibility.generateAutoCoeStatus,
