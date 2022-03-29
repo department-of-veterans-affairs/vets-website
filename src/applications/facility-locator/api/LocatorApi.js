@@ -1,5 +1,5 @@
-import { getAPI, resolveParamsWithUrl } from '../config';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import { getAPI, resolveParamsWithUrl } from '../config';
 
 class LocatorApi {
   /**
@@ -9,7 +9,6 @@ class LocatorApi {
    * Allows for filtering on location types and services provided.
    *
    * @param {string=} address The address associated with the bounding box's center
-   * @param {number[]} bounds Array defining the bounding box of the search area
    * @param {string} locationType What kind of location? (i.e. facilityType or Provider)
    * @param {string} serviceType What services should the location provide?
    * @param {number} page Which page of results to start with?
@@ -17,7 +16,6 @@ class LocatorApi {
    */
   static searchWithBounds(
     address = null,
-    bounds,
     locationType,
     serviceType,
     page,
@@ -31,7 +29,6 @@ class LocatorApi {
       locationType,
       serviceType,
       page,
-      bounds,
       center,
       radius,
       allUrgentCare,
