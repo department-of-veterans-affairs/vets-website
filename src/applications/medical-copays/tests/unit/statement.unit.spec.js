@@ -3,6 +3,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import AccountSummary from '../../components/AccountSummary';
 import StatementAddresses from '../../components/StatementAddresses';
+import StatementCharges from '../../components/StatementCharges';
 
 describe('mcp statement view', () => {
   describe('statement account summary component', () => {
@@ -115,6 +116,24 @@ describe('mcp statement view', () => {
       expect(addresses.getByTestId('recipient-city-state-zip')).to.have.text(
         'Tampa, FL 33333',
       );
+    });
+  });
+
+  describe('statement charges component', () => {
+    it('should render statement charges', () => {
+      const selectedCopay = {
+        details: [
+          {
+            pDTransDescOutput: 'Test Output',
+            pDRefNo: '123-BILLREF',
+            pDTransAmtOutput: '350.00',
+          },
+        ],
+      };
+
+      const charges = render(<StatementCharges copay={selectedCopay} />);
+      expect(charges.getByTestId('statement-charges-head')).to.exist;
+      expect(charges.getByRole('table')).to.exist;
     });
   });
 });
