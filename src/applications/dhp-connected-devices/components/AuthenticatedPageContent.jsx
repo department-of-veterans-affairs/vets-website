@@ -19,6 +19,10 @@ export const AuthenticatedPageContent = () => {
           vendor="Fitbit"
           authUrl="https://www.fitbit.com/oauth2/authorize?client_id=<client_id>&response_type=code&code_challenge=<code_challenge>&code_challenge_method=S256&scope=weight%20location%20settings%20profile%20nutrition%20activity%20sleep%20heartrate%20social"
         />
+        <DeviceConnectionCard
+          vendor="Freestyle Libre"
+          authUrl="www.google.com"
+        />
       </div>
     </>
   );
