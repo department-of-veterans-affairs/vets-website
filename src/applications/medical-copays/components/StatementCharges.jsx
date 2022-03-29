@@ -32,7 +32,7 @@ const StatementCharges = ({ copay }) => {
       <Table
         data={tableData}
         fields={fields}
-        data-testid="statement-charges-table"
+        className="statement-charges-table"
       />
     </>
   );
