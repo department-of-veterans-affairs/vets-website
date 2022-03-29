@@ -7,14 +7,14 @@ const LocationOperationStatus = ({ operatingStatus }) => {
   let classNameAlert;
   let iconType;
 
-  if (operatingStatus.code === OperatingStatus.NOTICE) {
-    infoMsg = 'Facility notice';
-    classNameAlert = 'usa-alert-info';
-    iconType = 'info';
+  if (operatingStatus.code === OperatingStatus.LIMITED) {
+    // limited display moved to a new location per ticket
+    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/35479
+    return <></>;
   }
 
-  if (operatingStatus.code === OperatingStatus.LIMITED) {
-    infoMsg = 'Limited services and hours';
+  if (operatingStatus.code === OperatingStatus.NOTICE) {
+    infoMsg = 'Facility notice';
     classNameAlert = 'usa-alert-info';
     iconType = 'info';
   }
