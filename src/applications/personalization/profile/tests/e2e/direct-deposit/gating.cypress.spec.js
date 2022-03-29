@@ -54,7 +54,7 @@ function confirmDirectDepositIsBlocked() {
     cy.findByRole('link', { name: /personal.*info/i }).should('exist');
   });
 
-  // the DD item should not exist in the sub nav
+  // the DD item should not exist
   cy.findByRole('link', { name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT }).should(
     'not.exist',
   );
