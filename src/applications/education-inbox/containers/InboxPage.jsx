@@ -37,55 +37,82 @@ const InboxPage = () => {
 
   const HasLetters = (
     <>
-      <va-on-this-page />
-      <h2 id="your-edu-benf-letter">Your education benefit letters</h2>
+      <FormTitle title="Your VA education letters" />
+      <p className="va-introtext">
+        Download your VA education decision letters.
+      </p>
+      <h2>Letters available for you to download</h2>
       <div className="edu-certi-eligibility">
-        <span className="usa-label">New</span>
-        <h3 style={{ marginTop: '1rem' }}>
-          Education Certificate of Eligibility
-        </h3>
+        <h3 style={{ marginTop: '1rem' }}>Education decision letter</h3>
         <p>
           This letter is proof of your eligibility for VA education benefits. It
-          includes details of our decision, including benefit program, amount,
-          and level.
+          shows details like which program you’re getting benefits through, the
+          percentage of benefits you’re entitled to, and the time limit for
+          using your benefits.
         </p>
-        <div className="vads-u-display--flex vads-u-align-items--center">
+        <div>
           <a
             className="vads-u-flex--1"
             download
             href="http://localhost:3000/meb_api/v0/claim_letter"
           >
             <i className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1" />
-            Post-9/11 GI Bill Certificate of Eligibility (PDF)
+            Download Post-9/11 GI Bill decision letter (PDF)
           </a>
-          <p className="vads-u-flex--auto">
-            You applied for this on {receivedDate}
-          </p>
+          <p>You applied for this on {receivedDate}</p>
         </div>
       </div>
-      <h2 id="how-do-i-download-letter">How do I download a letter?</h2>
+
+      <h2 id="letter-isnt-listed">How do I download and open a letter?</h2>
       <p>
-        To download a letter, you’ll need to have Adobe Acrobat Reader installed
-        on your computer. You can then download or save the letter to your
-        device. Open Acrobat Reader, and from the file menu, choose Open. Select
-        the PDF.
-      </p>{' '}
-      <p>
-        If you‘re still having trouble opening the letter, you may have an older
-        version of Adobe Acrobat Reader. You’ll need to{' '}
-        <a href="/">download the latest version</a>. It’s free.
+        First, you’ll need to make sure you have the latest version of Adobe
+        Acrobat Reader installed on your computer.{' '}
+        <a href="/">Download the latest version</a>. It’s free to download.
       </p>
+      <p>
+        <strong>
+          Then, follow these steps to download and open a PDF letter:
+        </strong>
+      </p>
+      <va-process-list>
+        <li>
+          <h3>
+            Click on the link on this page for the letter you want to download.
+          </h3>
+          <p>
+            The PDF will download to your Downloads folder. You can save it to a
+            different folder if you’d like.
+          </p>
+          <p>
+            <strong>Note: </strong>
+            If the PDF form opens in your browser automatically or if you get a
+            “Please wait” error message, you’ll need to take one more step to
+            download the PDF: Click on the download icon in your browser. Save
+            the PDF to your device.
+          </p>
+        </li>
+        <li>
+          <h3>Open Adobe Acrobat Reader.</h3>
+        </li>
+        <li>
+          <h3>From the File menu, chose Open.</h3>
+        </li>
+        <li>
+          <h3>
+            Go to your Downloads folder or the location on your device where you
+            saved the PDF. Select the PDF and your letter will open.
+          </h3>
+        </li>
+      </va-process-list>
+
       <h2 id="letter-isnt-listed">What if I my letter isn’t listed here?</h2>
       <p>
-        At this time, we’re only able to show Post-9/11 GI Bill decision letters
-        that you received after <b>Month Day, 2022</b>.
-      </p>{' '}
-      <p>
-        If you have questions about your education benefits, call our Education
-        Call Center at{' '}
-        <a href="tel:+18884424551;ext=711">1-888-442-4551 (711)</a>. We’re here
-        Monday through Friday, 8:00 a.m. to 7:00 p.m. ET. If you’re outside the
-        U.S., call us at <a href="tel:001-918-781-5678">001-918-781-5678</a>.
+        At this time, we only have letters available here that you received a
+        decision on after Month Day, Year. To request a copy of an older letter,
+        you can contact us through Ask VA.{' '}
+        <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
+          Request your VA education letter through Ask VA.
+        </a>
       </p>
     </>
   );
