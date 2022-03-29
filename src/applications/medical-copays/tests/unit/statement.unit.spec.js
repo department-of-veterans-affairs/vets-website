@@ -133,6 +133,7 @@ describe('mcp statement view', () => {
 
       const charges = render(<StatementCharges copay={selectedCopay} />);
       expect(charges.getByTestId('statement-charges-head')).to.exist;
+      expect(charges.getByTestId('statement-charges-table')).to.exist;
     });
   });
 });

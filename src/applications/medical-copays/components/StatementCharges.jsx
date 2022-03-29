@@ -29,7 +29,11 @@ const StatementCharges = ({ copay }) => {
         This statement shows charges you received between{' '}
         {previousCopaysStartDate} and {today}
       </p>
-      <Table data={tableData} fields={fields} />
+      <Table
+        data={tableData}
+        fields={fields}
+        data-testid="statement-charges-table"
+      />
     </>
   );
 };
