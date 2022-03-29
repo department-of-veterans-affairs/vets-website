@@ -20,7 +20,7 @@ describe('VAOS VA request flow', () => {
     cy.injectAxe();
 
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Social work');
@@ -189,7 +189,7 @@ describe('VAOS VA request flow using VAOS service', () => {
     cy.injectAxe();
 
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
   });
 
   it('should submit request successfully', () => {

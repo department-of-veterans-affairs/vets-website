@@ -68,6 +68,7 @@ import {
   captureError,
   getErrorCodes,
   has400LevelError,
+  has409LevelError,
 } from '../../utils/error';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -804,6 +805,7 @@ export function submitAppointmentOrRequest(history) {
         dispatch({
           type: FORM_SUBMIT_FAILED,
           isVaos400Error: has400LevelError(error),
+          isVaos409Error: has409LevelError(error),
         });
 
         dispatch(fetchFacilityDetails(newAppointment.data.vaFacility));
