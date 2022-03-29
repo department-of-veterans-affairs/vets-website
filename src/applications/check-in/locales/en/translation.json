@@ -51,7 +51,7 @@
   "is-this-your-current-next-of-kin-information": "Is this your current next of kin information?",
   "is-this-your-current-next-of-kin": "Is this your current next of kin?",
   "last-4-digits-of-your-social-security-number": "Last 4 digits of your Social Security number",
-  "latest-update": "<strong>Latest update:</strong> {{ date, longAtTime }}",
+  "latest-update": "<bold>Latest update:</bold> {{ date, longAtTime }}",
   "loading-your-appointment-details": "Loading your appointment details",
   "loading-your-appointments-for-today": "Loading your appointments for today",
   "loading-your-check-in-experience": "Loading your check in experience",

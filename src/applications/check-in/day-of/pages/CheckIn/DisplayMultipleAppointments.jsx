@@ -62,9 +62,11 @@ const DisplayMultipleAppointments = props => {
           })}
         </ol>
         <p data-testid="update-text">
-          <Trans i18nKey="latest-update" values={{ date: new Date() }}>
-            <strong>Latest update:</strong> date
-          </Trans>
+          <Trans
+            i18nKey="latest-update"
+            components={{ bold: <strong /> }}
+            values={{ date: new Date() }}
+          />
         </p>
         <p data-testid="refresh-link">
           <button

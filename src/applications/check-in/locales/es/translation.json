@@ -51,7 +51,7 @@
   "is-this-your-current-next-of-kin-information": "¿Es esta la información actual de su pariente más cercano?",
   "is-this-your-current-next-of-kin": "¿Es este su pariente más cercano actual?",
   "last-4-digits-of-your-social-security-number": "Últimos 4 dígitos de su número de Seguro Social",
-  "latest-update": "<strong>Última actualización:</strong> {{ date, longAtTime }}",
+  "latest-update": "<bold>Última actualización:</bold> {{ date, longAtTime }}",
   "loading-your-appointment-details": "Cargando los detalles de su cita",
   "loading-your-appointments-for-today": "Cargando sus citas para hoy",
   "loading-your-check-in-experience": "Cargando tu experiencia de check-in",
