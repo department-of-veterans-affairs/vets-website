@@ -14,6 +14,7 @@ import {
 } from '../../../actions/edit';
 import CancelButton from './shared/CancelButton';
 import UpdateButton from './shared/UpdateButton';
+import Header from './shared/Header';
 import Footer from '../../Footer';
 import BackToHome from '../../BackToHome';
 
@@ -24,6 +25,7 @@ export default function Relationship(props) {
   const { editing } = useSelector(selectEditContext);
   const { editingPage, key, originatingUrl, value } = editing;
   const [relationshipValue, setRelationshipValue] = useState(value);
+  const [relationshipErrorMessage, setRelationshipErrorMessage] = useState();
 
   const dispatch = useDispatch();
   const clearEditContext = useCallback(
@@ -52,6 +54,11 @@ export default function Relationship(props) {
 
   const onChange = useCallback(
     event => {
+      if (!event.detail.value) {
+        setRelationshipErrorMessage('Relationship is required');
+      } else {
+        setRelationshipErrorMessage();
+      }
       setRelationshipValue(event.detail.value);
     },
     [setRelationshipValue],
@@ -59,39 +66,49 @@ export default function Relationship(props) {
 
   const relationshipOptions = useMemo(
     () => ({
-      SPOUSE: 'Spouse',
-      CHILD: 'Child',
-      BROTHER: 'Brother',
-      SISTER: 'Sister',
+      WIFE: 'Wife',
+      HUSBAND: 'Husband',
+      DAUGHTER: 'Daughter',
+      SON: 'Son',
+      STEPCHILD: 'Stepchild',
       MOTHER: 'Mother',
       FATHER: 'Father',
+      BROTHER: 'Brother',
+      SISTER: 'Sister',
+      GRANDCHILD: 'Grandchild',
+      'NIECE/NEPHEW': 'Niece/Nephew',
+      'CHILD-IN-LAW': 'Child in-law',
+      'EXTENDED FAMILY MEMBER': 'Extended family member',
+      'UNRELATED FRIEND': 'Unrelated Friend',
+      WARD: 'Ward',
     }),
     [],
   );
 
-  let title = '';
-  switch (editingPage) {
-    case 'nextOfKin':
-      title = "Edit next of kin's relationship to you";
-      break;
-    case 'emergencyContact':
-      title = "Edit your contact's relationship to you";
-      break;
-    default:
-      title = 'Edit relationship';
-  }
+  const isUpdatable = useMemo(
+    () => {
+      return !relationshipErrorMessage && relationshipValue;
+    },
+    [relationshipErrorMessage, relationshipValue],
+  );
+
   return (
-    <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 edit-relationship-page">
-      <h1 data-testid="header">{title}</h1>
+    <div className="vads-l-grid-container vads-u-padding-bottom--3 vads-u-padding-top--4 edit-relationship-page">
+      <Header
+        what="relationship to you"
+        editingPage={editingPage}
+        value={value}
+      />
       <VaSelect
-        error={null}
+        error={relationshipErrorMessage}
         label="Relationship"
         name={key}
         required
         onVaSelect={onChange}
         value={relationshipValue}
-        className="vads-u-margin-bottom--3"
+        className="vads-u-margin-bottom--2"
       >
+        <option value=""> </option>
         {Object.keys(relationshipOptions).map(optionValue => (
           <option key={optionValue} value={optionValue}>
             {relationshipOptions[optionValue]}
@@ -103,6 +120,7 @@ export default function Relationship(props) {
         backPage={originatingUrl}
         clearData={clearEditContext}
         handleUpdate={handleUpdate}
+        isUpdatable={isUpdatable}
       />
       <CancelButton
         jumpToPage={jumpToPage}

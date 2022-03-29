@@ -16,6 +16,7 @@ export const Results = ({
   page,
   perPage,
   query,
+  queryId,
   results,
   totalResults,
 }) => {
@@ -23,7 +24,16 @@ export const Results = ({
   if (!results?.length) {
     return (
       <p className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1">
-        No results found for <strong>{query}</strong>.
+        {queryId === 'custom-date-range' ? (
+          <span>
+            No events listed because filters are applied that exclude events
+            from view
+          </span>
+        ) : (
+          <span>
+            No results found for <strong>{query}</strong>
+          </span>
+        )}
       </p>
     );
   }
@@ -157,6 +167,7 @@ Results.propTypes = {
   page: PropTypes.number.isRequired,
   perPage: PropTypes.number.isRequired,
   query: PropTypes.string.isRequired,
+  queryId: PropTypes.string,
   results: PropTypes.arrayOf(
     PropTypes.shape({
       entityUrl: PropTypes.object.isRequired,

@@ -28,7 +28,7 @@ class EmergencyContact {
   validateDemographicData = ({
     address = '123 fake streetAlbuquerque, New Mexico 87102',
     phone = '555-867-5309',
-    relationship = 'Estranged Uncle',
+    relationship = 'EXTENDED FAMILY MEMBER',
     workPhone = 'Not available',
     name = 'Bugs Bunny',
   } = {}) => {
