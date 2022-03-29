@@ -7,7 +7,6 @@ import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
-import LanguagePicker from '../../components/LanguagePicker';
 import Footer from '../../components/Footer';
 import { recordAnswer, seeStaffMessageUpdated } from '../../actions/day-of';
 import EmergencyContactDisplay from '../../components/pages/emergencyContact/EmergencyContactDisplay';
@@ -89,7 +88,6 @@ const EmergencyContact = props => {
         Footer={Footer}
       />
       <BackToHome />
-      <LanguagePicker />
     </>
   );
 };

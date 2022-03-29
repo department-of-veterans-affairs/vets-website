@@ -18,7 +18,6 @@ import UpdateButton from './shared/UpdateButton';
 import Header from './shared/Header';
 import Footer from '../../Footer';
 import BackToHome from '../../BackToHome';
-import LanguagePicker from '../../LanguagePicker';
 
 export default function Relationship(props) {
   const { router } = props;
@@ -132,7 +131,6 @@ export default function Relationship(props) {
       />
       <Footer />
       <BackToHome />
-      <LanguagePicker />
     </div>
   );
 }

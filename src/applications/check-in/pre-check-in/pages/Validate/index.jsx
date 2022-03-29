@@ -10,7 +10,6 @@ import { api } from '../../../api';
 import { createSetSession } from '../../../actions/authentication';
 
 import BackToHome from '../../../components/BackToHome';
-import LanguagePicker from '../../../components/LanguagePicker';
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
 import Footer from '../../../components/Footer';
 
@@ -50,59 +49,62 @@ const Index = ({ router }) => {
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
 
-  const validateHandler = useCallback(async () => {
-    setLastNameErrorMessage();
-    setLast4ErrorMessage();
-    if (!lastName || !last4Ssn) {
-      if (!lastName) {
-        setLastNameErrorMessage(t('please-enter-your-last-name'));
-      }
-      if (!last4Ssn) {
-        setLast4ErrorMessage(
-          t('please-enter-the-last-4-digits-of-your-social-security-number'),
-        );
-      }
-    } else {
-      setIsLoading(true);
-      try {
-        const resp = await api.v2.postSession({
-          token,
-          last4: last4Ssn,
-          lastName,
-          checkInType: app,
-        });
-        if (resp.errors || resp.error) {
-          setIsLoading(false);
-          goToErrorPage();
-        } else {
-          setSession(token, resp.permissions);
-          goToNextPage();
+  const validateHandler = useCallback(
+    async () => {
+      setLastNameErrorMessage();
+      setLast4ErrorMessage();
+      if (!lastName || !last4Ssn) {
+        if (!lastName) {
+          setLastNameErrorMessage(t('please-enter-your-last-name'));
         }
-      } catch (e) {
-        setIsLoading(false);
-        if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
-          goToErrorPage();
-        } else {
-          if (!showValidateError) {
-            setShowValidateError(true);
+        if (!last4Ssn) {
+          setLast4ErrorMessage(
+            t('please-enter-the-last-4-digits-of-your-social-security-number'),
+          );
+        }
+      } else {
+        setIsLoading(true);
+        try {
+          const resp = await api.v2.postSession({
+            token,
+            last4: last4Ssn,
+            lastName,
+            checkInType: app,
+          });
+          if (resp.errors || resp.error) {
+            setIsLoading(false);
+            goToErrorPage();
+          } else {
+            setSession(token, resp.permissions);
+            goToNextPage();
           }
-          incrementValidateAttempts(window);
+        } catch (e) {
+          setIsLoading(false);
+          if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
+            goToErrorPage();
+          } else {
+            if (!showValidateError) {
+              setShowValidateError(true);
+            }
+            incrementValidateAttempts(window);
+          }
         }
       }
-    }
-  }, [
-    app,
-    goToErrorPage,
-    goToNextPage,
-    incrementValidateAttempts,
-    isMaxValidateAttempts,
-    last4Ssn,
-    lastName,
-    setSession,
-    token,
-    showValidateError,
-    t,
-  ]);
+    },
+    [
+      app,
+      goToErrorPage,
+      goToNextPage,
+      incrementValidateAttempts,
+      isMaxValidateAttempts,
+      last4Ssn,
+      lastName,
+      setSession,
+      token,
+      showValidateError,
+      t,
+    ],
+  );
 
   useEffect(() => {
     focusElement('h1');
@@ -133,7 +135,6 @@ const Index = ({ router }) => {
         )}
       />
       <BackToHome />
-      <LanguagePicker />
     </>
   );
 };

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackToHome from '../../components/BackToHome';
-import LanguagePicker from '../../components/LanguagePicker';
 import Footer from '../../components/Footer';
 import { recordAnswer, seeStaffMessageUpdated } from '../../actions/day-of';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
@@ -87,7 +86,6 @@ const Demographics = props => {
         Footer={Footer}
       />
       <BackToHome />
-      <LanguagePicker />
     </>
   );
 };

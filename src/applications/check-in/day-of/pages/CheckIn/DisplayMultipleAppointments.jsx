@@ -7,7 +7,6 @@ import { useTranslation, Trans } from 'react-i18next';
 import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import BackButton from '../../../components/BackButton';
 import BackToHome from '../../../components/BackToHome';
-import LanguagePicker from '../../../components/LanguagePicker';
 import Footer from '../../../components/Footer';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
@@ -79,7 +78,6 @@ const DisplayMultipleAppointments = props => {
         </p>
         <Footer />
         <BackToHome />
-        <LanguagePicker />
       </div>
     </>
   );

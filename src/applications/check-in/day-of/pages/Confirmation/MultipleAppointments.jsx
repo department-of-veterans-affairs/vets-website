@@ -6,7 +6,6 @@ import { VaAlert } from 'web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 
 import BackToHome from '../../../components/BackToHome';
-import LanguagePicker from '../../../components/LanguagePicker';
 import BackToAppointments from '../../../components/BackToAppointments';
 import Footer from '../../../components/Footer';
 import AppointmentLocation from '../../../components/AppointmentDisplay/AppointmentLocation';
@@ -49,7 +48,6 @@ const MultipleAppointments = props => {
       />
       <Footer />
       <BackToHome />
-      <LanguagePicker />
     </div>
   );
 };

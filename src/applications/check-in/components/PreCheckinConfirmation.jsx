@@ -68,8 +68,8 @@ const PreCheckinConfirmation = props => {
             </p>
           );
         })}
-        <BackToHome />
         <LanguagePicker />
+        <BackToHome />
       </div>
     );
   };

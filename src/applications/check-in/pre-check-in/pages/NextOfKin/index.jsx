@@ -9,7 +9,6 @@ import { recordAnswer } from '../../../actions/pre-check-in';
 
 import BackButton from '../../../components/BackButton';
 import BackToHome from '../../../components/BackToHome';
-import LanguagePicker from '../../../components/LanguagePicker';
 import Footer from '../../../components/Footer';
 import NextOfKinDisplay from '../../../components/pages/nextOfKin/NextOfKinDisplay';
 
@@ -79,12 +78,18 @@ const NextOfKin = props => {
     [dispatch, goToNextPage, isEditingPreCheckInEnabled, newInformation, token],
   );
 
-  const yesClick = useCallback(() => {
-    buttonClick('yes');
-  }, [buttonClick]);
-  const noClick = useCallback(() => {
-    buttonClick('no');
-  }, [buttonClick]);
+  const yesClick = useCallback(
+    () => {
+      buttonClick('yes');
+    },
+    [buttonClick],
+  );
+  const noClick = useCallback(
+    () => {
+      buttonClick('no');
+    },
+    [buttonClick],
+  );
   const header = t('is-this-your-current-next-of-kin');
   const subtitle = t(
     'this-helps-us-keep-information-about-your-next-of-kin-up-to-date',
@@ -105,7 +110,6 @@ const NextOfKin = props => {
         jumpToPage={jumpToPage}
       />
       <BackToHome />
-      <LanguagePicker />
     </>
   );
 };

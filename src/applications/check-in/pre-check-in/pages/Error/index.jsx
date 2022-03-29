@@ -6,7 +6,6 @@ import { subDays } from 'date-fns';
 
 import ErrorMessage from '../../../components/ErrorMessage';
 import BackToHome from '../../../components/BackToHome';
-import LanguagePicker from '../../../components/LanguagePicker';
 import Footer from '../../../components/Footer';
 
 import { makeSelectVeteranData } from '../../../selectors';
@@ -60,7 +59,6 @@ const Error = () => {
       />
       <Footer />
       <BackToHome />
-      <LanguagePicker />
     </div>
   );
 };

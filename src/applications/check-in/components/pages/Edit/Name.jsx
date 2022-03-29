@@ -17,7 +17,6 @@ import CancelButton from './shared/CancelButton';
 import UpdateButton from './shared/UpdateButton';
 import Footer from '../../Footer';
 import BackToHome from '../../BackToHome';
-import LanguagePicker from '../../LanguagePicker';
 
 export default function Name(props) {
   const { router } = props;
@@ -97,7 +96,6 @@ export default function Name(props) {
       />
       <Footer />
       <BackToHome />
-      <LanguagePicker />
     </div>
   );
 }

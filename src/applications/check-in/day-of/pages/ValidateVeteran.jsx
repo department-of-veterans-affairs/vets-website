@@ -11,7 +11,6 @@ import { createSetSession } from '../../actions/authentication';
 import { useFormRouting } from '../../hooks/useFormRouting';
 
 import BackToHome from '../../components/BackToHome';
-import LanguagePicker from '../../components/LanguagePicker';
 import Footer from '../../components/Footer';
 import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 
@@ -49,58 +48,61 @@ const ValidateVeteran = props => {
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
 
-  const onClick = useCallback(async () => {
-    setLastNameErrorMessage();
-    setLast4ErrorMessage();
-    if (!lastName || !last4Ssn) {
-      if (!lastName) {
-        setLastNameErrorMessage(t('please-enter-your-last-name'));
-      }
-      if (!last4Ssn) {
-        setLast4ErrorMessage(
-          t('please-enter-the-last-4-digits-of-your-social-security-number'),
-        );
-      }
-    } else {
-      // API call
-      setIsLoading(true);
-      try {
-        const resp = await api.v2.postSession({
-          token,
-          last4: last4Ssn,
-          lastName,
-        });
-        if (resp.errors || resp.error) {
-          setIsLoading(false);
-          goToErrorPage();
-        } else {
-          setSession(token, resp.permissions);
-          goToNextPage();
+  const onClick = useCallback(
+    async () => {
+      setLastNameErrorMessage();
+      setLast4ErrorMessage();
+      if (!lastName || !last4Ssn) {
+        if (!lastName) {
+          setLastNameErrorMessage(t('please-enter-your-last-name'));
         }
-      } catch (e) {
-        setIsLoading(false);
-        if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
-          goToErrorPage();
-        } else {
-          if (!showValidateError) {
-            setShowValidateError(true);
+        if (!last4Ssn) {
+          setLast4ErrorMessage(
+            t('please-enter-the-last-4-digits-of-your-social-security-number'),
+          );
+        }
+      } else {
+        // API call
+        setIsLoading(true);
+        try {
+          const resp = await api.v2.postSession({
+            token,
+            last4: last4Ssn,
+            lastName,
+          });
+          if (resp.errors || resp.error) {
+            setIsLoading(false);
+            goToErrorPage();
+          } else {
+            setSession(token, resp.permissions);
+            goToNextPage();
           }
-          incrementValidateAttempts(window);
+        } catch (e) {
+          setIsLoading(false);
+          if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
+            goToErrorPage();
+          } else {
+            if (!showValidateError) {
+              setShowValidateError(true);
+            }
+            incrementValidateAttempts(window);
+          }
         }
       }
-    }
-  }, [
-    goToErrorPage,
-    goToNextPage,
-    last4Ssn,
-    lastName,
-    setSession,
-    token,
-    incrementValidateAttempts,
-    isMaxValidateAttempts,
-    showValidateError,
-    t,
-  ]);
+    },
+    [
+      goToErrorPage,
+      goToNextPage,
+      last4Ssn,
+      lastName,
+      setSession,
+      token,
+      incrementValidateAttempts,
+      isMaxValidateAttempts,
+      showValidateError,
+      t,
+    ],
+  );
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -130,7 +132,6 @@ const ValidateVeteran = props => {
         )}
       />
       <BackToHome />
-      <LanguagePicker />
     </>
   );
 };

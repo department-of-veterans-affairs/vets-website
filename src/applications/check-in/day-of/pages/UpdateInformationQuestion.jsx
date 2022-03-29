@@ -6,7 +6,6 @@ import { focusElement } from 'platform/utilities/ui';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackToHome from '../../components/BackToHome';
-import LanguagePicker from '../../components/LanguagePicker';
 import Footer from '../../components/Footer';
 import { URLS } from '../../utils/navigation';
 
@@ -17,21 +16,27 @@ const UpdateInformationQuestion = props => {
   const { router } = props;
   const { jumpToPage, goToNextPage } = useFormRouting(router);
 
-  const noButtonClicked = useCallback(() => {
-    recordEvent({
-      event: 'cta-button-click',
-      'button-click-label': 'no-to-update-information',
-    });
-    goToNextPage();
-  }, [goToNextPage]);
+  const noButtonClicked = useCallback(
+    () => {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': 'no-to-update-information',
+      });
+      goToNextPage();
+    },
+    [goToNextPage],
+  );
 
-  const yesButtonClicked = useCallback(() => {
-    recordEvent({
-      event: 'cta-button-click',
-      'button-click-label': 'yes-to-update-information',
-    });
-    jumpToPage(URLS.SEE_STAFF);
-  }, [jumpToPage]);
+  const yesButtonClicked = useCallback(
+    () => {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': 'yes-to-update-information',
+      });
+      jumpToPage(URLS.SEE_STAFF);
+    },
+    [jumpToPage],
+  );
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 update-information">
@@ -63,7 +68,6 @@ const UpdateInformationQuestion = props => {
 
       <Footer />
       <BackToHome />
-      <LanguagePicker />
     </div>
   );
 };

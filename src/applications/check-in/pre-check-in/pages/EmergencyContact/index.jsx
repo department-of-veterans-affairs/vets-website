@@ -8,7 +8,6 @@ import { recordAnswer } from '../../../actions/pre-check-in';
 
 import BackButton from '../../../components/BackButton';
 import BackToHome from '../../../components/BackToHome';
-import LanguagePicker from '../../../components/LanguagePicker';
 import Footer from '../../../components/Footer';
 import EmergencyContactDisplay from '../../../components/pages/emergencyContact/EmergencyContactDisplay';
 
@@ -76,12 +75,18 @@ const EmergencyContact = props => {
     [dispatch, goToNextPage, isEditingPreCheckInEnabled, newInformation, token],
   );
 
-  const yesClick = useCallback(() => {
-    buttonClick('yes');
-  }, [buttonClick]);
-  const noClick = useCallback(() => {
-    buttonClick('no');
-  }, [buttonClick]);
+  const yesClick = useCallback(
+    () => {
+      buttonClick('yes');
+    },
+    [buttonClick],
+  );
+  const noClick = useCallback(
+    () => {
+      buttonClick('no');
+    },
+    [buttonClick],
+  );
 
   return (
     <>
@@ -96,7 +101,6 @@ const EmergencyContact = props => {
         jumpToPage={jumpToPage}
       />
       <BackToHome />
-      <LanguagePicker />
     </>
   );
 };

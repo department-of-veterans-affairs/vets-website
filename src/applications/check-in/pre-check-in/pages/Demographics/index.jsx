@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
 import BackToHome from '../../../components/BackToHome';
-import LanguagePicker from '../../../components/LanguagePicker';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import Footer from '../../../components/Footer';
 import BackButton from '../../../components/BackButton';
@@ -43,54 +42,54 @@ const Demographics = props => {
 
   const [isLoading, setIsLoading] = useState();
 
-  const yesClick = useCallback(async () => {
-    recordEvent({
-      event: 'cta-button-click',
-      'button-click-label': 'yes-to-demographic-information',
-    });
-    if (isEditingPreCheckInEnabled) {
-      setIsLoading(true);
-      if (newInformation) {
-        await api.v2.postDemographicsData({
-          demographics: newInformation,
-          token,
+  const yesClick = useCallback(
+    async () => {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': 'yes-to-demographic-information',
+      });
+      if (isEditingPreCheckInEnabled) {
+        setIsLoading(true);
+        if (newInformation) {
+          await api.v2.postDemographicsData({
+            demographics: newInformation,
+            token,
+          });
+        }
+        await api.v2.postPreCheckInData({
+          uuid: token,
+          demographicsUpToDate: 'yes',
         });
+        dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
+        goToNextPage();
+      } else {
+        dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
+        goToNextPage();
       }
-      await api.v2.postPreCheckInData({
-        uuid: token,
-        demographicsUpToDate: 'yes',
+    },
+    [isEditingPreCheckInEnabled, newInformation, token, dispatch, goToNextPage],
+  );
+  const noClick = useCallback(
+    async () => {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': 'no-to-demographic-information',
       });
-      dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
-      goToNextPage();
-    } else {
-      dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
-      goToNextPage();
-    }
-  }, [
-    isEditingPreCheckInEnabled,
-    newInformation,
-    token,
-    dispatch,
-    goToNextPage,
-  ]);
-  const noClick = useCallback(async () => {
-    recordEvent({
-      event: 'cta-button-click',
-      'button-click-label': 'no-to-demographic-information',
-    });
-    if (isEditingPreCheckInEnabled) {
-      setIsLoading(true);
-      await api.v2.postPreCheckInData({
-        uuid: token,
-        demographicsUpToDate: 'no',
-      });
-      dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
-      goToNextPage();
-    } else {
-      dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
-      goToNextPage();
-    }
-  }, [isEditingPreCheckInEnabled, token, dispatch, goToNextPage]);
+      if (isEditingPreCheckInEnabled) {
+        setIsLoading(true);
+        await api.v2.postPreCheckInData({
+          uuid: token,
+          demographicsUpToDate: 'no',
+        });
+        dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
+        goToNextPage();
+      } else {
+        dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
+        goToNextPage();
+      }
+    },
+    [isEditingPreCheckInEnabled, token, dispatch, goToNextPage],
+  );
   const subtitle = t(
     'if-you-need-to-make-changes-please-talk-to-a-staff-member-when-you-check-in',
   );
@@ -109,7 +108,6 @@ const Demographics = props => {
         isLoading={isLoading}
       />
       <BackToHome />
-      <LanguagePicker />
     </>
   );
 };
