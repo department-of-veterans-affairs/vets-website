@@ -46,34 +46,36 @@ const ConfirmablePage = ({
                 ) : (
                   t('not-available')
                 )}
-                {isEditEnabled && field.editAction && (
-                  <div>
-                    <a
-                      href={`#edit-${field.key}`}
-                      // eslint-disable-next-line react/jsx-no-bind
-                      onClick={() =>
-                        editHandler({ ...field, value: data[field.key] })
-                      }
-                      data-testid="edit-button"
-                    >
-                      {t('edit')}
-                    </a>
-                  </div>
-                )}
-                {isEditEnabled && field.editAction && (
-                  <div>
-                    <a
-                      href={`#edit-${field.key}`}
-                      // eslint-disable-next-line react/jsx-no-bind
-                      onClick={() =>
-                        editHandler({ ...field, value: data[field.key] })
-                      }
-                      data-testid="edit-button"
-                    >
-                      <EditLinkText value={data[field.key]} />
-                    </a>
-                  </div>
-                )}
+                {isEditEnabled &&
+                  field.editAction && (
+                    <div>
+                      <a
+                        href={`#edit-${field.key}`}
+                        // eslint-disable-next-line react/jsx-no-bind
+                        onClick={() =>
+                          editHandler({ ...field, value: data[field.key] })
+                        }
+                        data-testid="edit-button"
+                      >
+                        {t('edit')}
+                      </a>
+                    </div>
+                  )}
+                {isEditEnabled &&
+                  field.editAction && (
+                    <div>
+                      <a
+                        href={`#edit-${field.key}`}
+                        // eslint-disable-next-line react/jsx-no-bind
+                        onClick={() =>
+                          editHandler({ ...field, value: data[field.key] })
+                        }
+                        data-testid="edit-button"
+                      >
+                        <EditLinkText value={data[field.key]} />
+                      </a>
+                    </div>
+                  )}
               </dd>
             </React.Fragment>
           ))}
