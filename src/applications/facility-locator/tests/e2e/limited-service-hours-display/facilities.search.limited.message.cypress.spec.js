@@ -1,4 +1,4 @@
-import data from './mock/limited.services.mocks.json';
+import data from './mock/search.limited.services.mocks.json';
 
 describe('Facility VA search', () => {
   beforeEach(() => {
