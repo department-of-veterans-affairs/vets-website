@@ -1,13 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Layout = ({ children, clsName = '' }) => {
+const Layout = ({ children, clsName = '', breadCrumbs = {} }) => {
   const classNa = `main ${clsName}`;
+
+  const renderBreadCrumbs = () => {
+    const { text, href } = breadCrumbs;
+    if (text) return <a href={href}>{text}</a>;
+    return false;
+  };
+
   return (
     <>
       <va-breadcrumbs>
         <a href="/">Home</a>
         <a href="/education/">Eduction and training</a>
-        <a href="/education/education-inbox">Check your VA education inbox</a>
+        {renderBreadCrumbs()}
       </va-breadcrumbs>
       <main id="main" className={classNa}>
         <div className="usa-grid usa-grid-full">
@@ -20,6 +28,12 @@ const Layout = ({ children, clsName = '' }) => {
       </main>
     </>
   );
+};
+
+Layout.propTypes = {
+  clsName: PropTypes.string,
+  children: PropTypes.object,
+  breadCrumbs: PropTypes.object,
 };
 
 export default Layout;
