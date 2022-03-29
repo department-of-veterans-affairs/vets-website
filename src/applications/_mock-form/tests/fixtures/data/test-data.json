@@ -1,57 +1,55 @@
 {
+  "viewNoDirectDeposit": false,
+  "bankAccount": {
+    "accountType": "checking",
+    "routingNumber": "876543210",
+    "accountNumber": "87654321"
+  },
+  "address": {
+    "street": "123 Main St",
+    "street2": "Apt 101",
+    "city": "Big City",
+    "country": "USA",
+    "state": "AK",
+    "postalCode": "90210"
+  },
+  "email": "me@me.com",
+  "altEmail": "me2@me.com",
+  "phoneNumber": "8005551212",
   "toursOfDuty": [
     {
       "dateRange": {
         "from": "2000-01-01",
-        "to": "2010-01-02"
+        "to": "2010-01-01"
       },
       "serviceBranch": "Army",
       "serviceStatus": "Active duty",
       "applyPeriodToSelected": true
-    },
-    {
-      "dateRange": {
-        "from": "2010-01-10",
-        "to": "2015-01-11"
-      },
-      "serviceBranch": "Army Reserve",
-      "serviceStatus": "Inactive",
-      "applyPeriodToSelected": true
     }
   ],
-  "bankAccount": {
-    "accountType": "checking",
-    "routingNumber": "456789000",
-    "accountNumber": "33345678"
-  },
-  "address": {
-    "street": "123 Main Street",
-    "street2": "Line 2",
-    "city": "Big City",
-    "country": "USA",
-    "state": "AL",
-    "postalCode": "87654"
-  },
-  "email": "home@home.com",
-  "altEmail": "work@work.com",
-  "phoneNumber": "2345678900",
   "fullName": {
     "first": "First",
-    "middle": "Middle",
     "last": "Last",
-    "suffix": "III"
+    "suffix": "Jr."
   },
   "ssn": "987654321",
-  "view:booksRead": {
-    "hasReadPrideAndPrejudice": true,
+  "checkboxGroupObjectPattern": {
+    "hasReadPrideAndPrejudice": false,
     "hasReadJaneEyre": true,
-    "hasReadGreatGatsby": true,
-    "hasReadBuddenbrooks": false
+    "hasReadGreatGatsby": false,
+    "hasReadBuddenbrooks": true
   },
+  "checkboxGroupWidget": "Jane Eyre by Charlotte Brontë,Buddenbrooks by Thomas Mann",
+  "optionalCheckbox": true,
+  "requiredCheckbox": true,
+  "checkboxGroupPatternExample": {
+    "hasReadPrideAndPrejudice": true,
+    "hasReadGreatGatsby": true
+  },
+  "radioButtonGroupExample": "octopus",
+  "conditionallyHiddenPageExample": true,
+  "conditionallyHiddenFieldExample": true,
+  "conditionalhiddenField": "More stuff",
   "expandUnderExample": true,
-  "conditionalExpandUnderField": "Conditional expand under input value",
-  "favoriteAnimal": "octopus",
-  "conditionalPageExample": true,
-  "conditionalFieldExample": true,
-  "conditionalhiddenField": "Conditionally hidden field input value",
+  "conditionalExpandUnderField": "Stuff"
 }
