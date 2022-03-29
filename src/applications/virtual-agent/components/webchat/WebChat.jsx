@@ -32,11 +32,24 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     [createStore],
   );
 
+  if (localStorage.getItem('loggedInFlow') === 'true' && isLoggedIn) {
+    console.log(
+      'user logged in after being prompted by the bot. Placeholder for sending message to re-trigger flow',
+    );
+    store.dispatch({
+      type: 'WEB_CHAT/SEND_MESSAGE',
+      // message to resend is hardcoded at the moment
+      payload: { text: 'mangosteen' },
+    });
+    localStorage.setItem('loggedInFlow', 'false');
+  }
+
   let conversationId = '';
   let watermark = '';
   if (localStorage.getItem('counter') >= 2) {
     conversationId = localStorage.getItem('conversationId');
-    watermark = '000000';
+    //
+    watermark = '0000005';
   }
 
   const directLine = useMemo(

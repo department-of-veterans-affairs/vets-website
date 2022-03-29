@@ -1,4 +1,4 @@
-import {useSelector} from "react-redux";
+
 
 const GreetUser = {
   makeBotGreetUser: (
@@ -7,7 +7,6 @@ const GreetUser = {
     apiURL,
     baseURL,
     userFirstName,
-    isLoggedIn,
   ) => ({ dispatch }) => next => action => {
     if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
       dispatch({
@@ -48,11 +47,6 @@ const GreetUser = {
       }
     }
 
-    if (localStorage.getItem('loggedInFlow') === 'true' && isLoggedIn) {
-      console.log(
-        'user logged in and reloaded the bot. Placeholder for sending message to re-trigger flow',
-      );
-    }
     return next(action);
   },
 };

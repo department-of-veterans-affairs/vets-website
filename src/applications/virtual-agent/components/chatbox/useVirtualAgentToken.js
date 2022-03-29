@@ -54,16 +54,16 @@ export default function useVirtualAgentToken(props) {
             localStorage.setItem('conversationId', response.conversationId);
             localStorage.setItem('token', response.token);
             localStorage.setItem('counter', 0);
-            localStorage.setItem('loggedInFlow', 'false');
+            // localStorage.setItem('loggedInFlow', 'false');
           }
 
-          console.log('hello');
+          // console.log('hello');
           console.log(localStorage.getItem('conversationId'));
           console.log(localStorage.getItem('token'));
 
           const counter = localStorage.getItem('counter');
           localStorage.setItem('counter', parseInt(counter) + 1);
-          console.log('counter is: ', localStorage.getItem('counter'));
+          // console.log('counter is: ', localStorage.getItem('counter'));
 
           setToken(response.token);
           setApiSession(response.apiSession);
