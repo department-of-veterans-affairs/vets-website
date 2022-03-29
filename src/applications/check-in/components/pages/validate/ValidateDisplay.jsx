@@ -85,7 +85,7 @@ export default function ValidateDisplay({
       >
         {' '}
         {isLoading ? (
-          <span role="status">Loading...</span>
+          <span role="status">{t('loading')}</span>
         ) : (
           <>{t('continue')}</>
         )}
