@@ -90,29 +90,37 @@ const InboxPage = () => {
     </>
   );
 
+  const NoLetters = (
+    <>
+      <FormTitle title="VA education inbox" />
+      <p className="va-introtext">
+        Download important documents about your education benefits here,
+        including your decision letters.{' '}
+      </p>
+      <va-alert full-width status="info">
+        <h3 slot="headline">
+          We don’t have any letters available to you through this tool
+        </h3>
+        <div>
+          <p>
+            At this time, we only have letters available here that you received
+            a decision on after Month Day, Year. To request a copy of an older
+            letter, you can contact us through Ask VA.{' '}
+            <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
+              Request your VA education letter through Ask VA.
+            </a>
+          </p>
+        </div>
+      </va-alert>
+    </>
+  );
+
   const renderInbox = () => {
     if (!isLoading) {
       if (claimantId) {
         return HasLetters;
       }
-      return (
-        <va-alert full-width status="info">
-          <h3 slot="headline">
-            We don’t have any letters on file for you at this time
-          </h3>
-          <div>
-            <p>
-              At this time, we’re only able to show decision letters that you
-              received after <b>Month Day, 2022</b>.
-            </p>
-            If you’re looking for an older decision letter,
-            <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
-              contact us using Ask VA
-            </a>
-            .
-          </div>
-        </va-alert>
-      );
+      return NoLetters;
     }
     return (
       <div className="vads-u-margin-y--5">
@@ -126,12 +134,13 @@ const InboxPage = () => {
   };
 
   return (
-    <Layout clsName="inbox-page">
-      <FormTitle title="VA education inbox" />
-      <p className="va-introtext">
-        Download important documents about your education benefits here,
-        including your decision letter.
-      </p>
+    <Layout
+      clsName="inbox-page"
+      breadCrumbs={{
+        href: '/education/education-inbox/preview',
+        text: 'Your VA education letters',
+      }}
+    >
       <article>{renderInbox()}</article>
     </Layout>
   );
