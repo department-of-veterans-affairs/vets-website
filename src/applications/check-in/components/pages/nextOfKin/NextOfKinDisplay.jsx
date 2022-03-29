@@ -93,7 +93,7 @@ export default function NextOfKinDisplay({
         yesAction={yesAction}
         noAction={noAction}
         isLoading={isLoading}
-        LoadingMessage={loadingMessage}
+        loadingMessageOverride={loadingMessage}
         Footer={Footer}
         isEditEnabled={isEditEnabled}
       />

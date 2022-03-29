@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { focusElement } from 'platform/utilities/ui';
-import i18next from 'i18next';
 import PropTypes from 'prop-types';
 import DemographicItem from '../../DemographicItem';
 import EditLinkText from '../Edit/shared/EditLinkText';
@@ -15,15 +14,17 @@ const ConfirmablePage = ({
   noAction = () => {},
   isLoading = false,
   isEditEnabled = false,
-  LoadingMessage = () => (
-    <va-loading-indicator message={i18next.t('loading')} />
-  ),
+  loadingMessageOverride = null,
   Footer,
 }) => {
   useEffect(() => {
     focusElement('h1');
   }, []);
   const { t } = useTranslation();
+  const defaultLoadingMessage = () => (
+    <va-loading-indicator message={t('loading')} />
+  );
+  const LoadingMessage = loadingMessageOverride ?? defaultLoadingMessage;
   const editHandler = useCallback(dataToEdit => {
     dataToEdit.editAction(dataToEdit);
   }, []);
@@ -121,9 +122,9 @@ ConfirmablePage.propTypes = {
   noAction: PropTypes.func.isRequired,
   yesAction: PropTypes.func.isRequired,
   Footer: PropTypes.func,
-  LoadingMessage: PropTypes.func,
   isEditEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
+  loadingMessageOverride: PropTypes.func,
   subtitle: PropTypes.string,
 };
 export default ConfirmablePage;
