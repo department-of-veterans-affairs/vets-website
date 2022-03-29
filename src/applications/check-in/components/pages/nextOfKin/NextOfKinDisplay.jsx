@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import i18next from 'i18next';
 
 import propTypes from 'prop-types';
 import ConfirmablePage from '../ConfirmablePage';
@@ -12,7 +11,7 @@ import { URLS } from '../../../utils/navigation';
 import { EDITING_PAGE_NAMES } from '../../../utils/appConstants';
 
 export default function NextOfKinDisplay({
-  header = i18next.t('is-this-your-current-next-of-kin-information'),
+  header = '',
   subtitle = '',
   nextOfKin = {},
   yesAction = () => {},
@@ -86,7 +85,7 @@ export default function NextOfKinDisplay({
   return (
     <>
       <ConfirmablePage
-        header={header}
+        header={header || t('is-this-your-current-next-of-kin-information')}
         subtitle={subtitle}
         dataFields={nextOfKinFields}
         data={nextOfKin}

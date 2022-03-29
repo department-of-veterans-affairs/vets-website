@@ -1,7 +1,8 @@
 import React from 'react';
-import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 function TravelPayReimbursementLink() {
+  const { t } = useTranslation();
   return (
     <div className="vads-u-margin-top--3">
       <a
@@ -9,7 +10,7 @@ function TravelPayReimbursementLink() {
         hrefLang="en"
         data-testid="btsss-link"
       >
-        {i18next.t('find-out-how-to-request-travel-pay-reimbursement')}
+        {t('find-out-how-to-request-travel-pay-reimbursement')}
       </a>
     </div>
   );

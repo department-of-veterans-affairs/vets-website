@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 import { APP_NAMES } from '../utils/appConstants';
 import { makeSelectApp } from '../selectors';
@@ -24,11 +24,12 @@ const withFeatureFlip = (Component, options) => {
       isTranslationPreCheckInEnabled,
     } = featureToggles;
     const appEnabled = isPreCheckIn ? isPreCheckInEnabled : isCheckInEnabled;
+    const { t } = useTranslation();
     if (isLoadingFeatureFlags) {
       return (
         <>
           <va-loading-indicator
-            message={i18next.t('loading-your-check-in-experience')}
+            message={t('loading-your-check-in-experience')}
           />
         </>
       );

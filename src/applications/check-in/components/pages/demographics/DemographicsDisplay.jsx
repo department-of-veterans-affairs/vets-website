@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 import PropTypes from 'prop-types';
 import ConfirmablePage from '../ConfirmablePage';
@@ -11,10 +11,8 @@ import { URLS } from '../../../utils/navigation';
 import { EDITING_PAGE_NAMES } from '../../../utils/appConstants';
 
 export default function DemographicsDisplay({
-  header = i18next.t('is-this-your-current-contact-information'),
-  subtitle = i18next.t(
-    'we-can-better-follow-up-with-you-after-your-appointment-when-we-have-your-current-information',
-  ),
+  header = '',
+  subtitle = '',
   demographics = {},
   isEditEnabled = false,
   isLoading = false,
@@ -24,6 +22,7 @@ export default function DemographicsDisplay({
   Footer,
 }) {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const setEditContext = useCallback(
     (data, url) => {
       dispatch(
@@ -40,36 +39,36 @@ export default function DemographicsDisplay({
 
   const demographicFields = [
     {
-      title: i18next.t('mailing-address'),
+      title: t('mailing-address'),
       key: 'mailingAddress',
       editAction: data => {
         setEditContext(data, URLS.EDIT_ADDRESS);
       },
     },
     {
-      title: i18next.t('home-address'),
+      title: t('home-address'),
       key: 'homeAddress',
       editAction: data => {
         setEditContext(data, URLS.EDIT_ADDRESS);
       },
     },
     {
-      title: i18next.t('home-phone'),
+      title: t('home-phone'),
       key: 'homePhone',
       editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
     },
     {
-      title: i18next.t('mobile-phone'),
+      title: t('mobile-phone'),
       key: 'mobilePhone',
       editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
     },
     {
-      title: i18next.t('work-phone'),
+      title: t('work-phone'),
       key: 'workPhone',
       editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
     },
     {
-      title: i18next.t('email-address'),
+      title: t('email-address'),
       key: 'emailAddress',
       editAction: data => setEditContext(data, URLS.EDIT_EMAIL),
     },
@@ -77,8 +76,13 @@ export default function DemographicsDisplay({
   return (
     <>
       <ConfirmablePage
-        header={header}
-        subtitle={subtitle}
+        header={header || t('is-this-your-current-contact-information')}
+        subtitle={
+          subtitle ||
+          t(
+            'we-can-better-follow-up-with-you-after-your-appointment-when-we-have-your-current-information',
+          )
+        }
         dataFields={demographicFields}
         data={demographics}
         isEditEnabled={isEditEnabled}
