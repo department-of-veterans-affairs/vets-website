@@ -25,10 +25,9 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
       .then(blob => {
         return window.URL.createObjectURL(blob);
       })
-      .catch(updateFormError({ error: true, type: 'download error' }));
+      .catch(() => updateFormError({ error: true, type: 'download error' }));
   };
 
-  // for new endpoint
   const getLastUpdatedOn = () => {
     return apiRequest('/form1095_bs/available_forms')
       .then(response => {
@@ -38,10 +37,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
 
         return response.availableForms[0];
       })
-      .catch(
-        // console.log("error?", error);
-        updateFormError({ error: true, type: 'not found' }),
-      );
+      .catch(() => updateFormError({ error: true, type: 'not found' }));
   };
 
   const callLastUpdated = () => {
@@ -56,6 +52,14 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
         updateFormError({ error: true, type: 'not found' });
       }
     });
+  };
+
+  // VA content time formatting - should be lowercase with periods
+  const formatTimeString = string => {
+    if (string.includes('AM')) {
+      return string.replace('AM', 'a.m.');
+    }
+    return string.replace('PM', 'p.m.');
   };
 
   const callGetPDF = () => {
@@ -75,28 +79,46 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
         minute: 'numeric',
         hour12: true,
       };
+      updateFormError({ error: false, type: '' });
       updateFormDownloaded({
         downloaded: true,
-        timeStamp: date.toLocaleDateString(undefined, options),
+        timeStamp: formatTimeString(
+          date.toLocaleDateString(undefined, options),
+        ),
       });
     });
   };
 
-  useEffect(() => {
-    callLastUpdated();
-  }, []);
+  useEffect(
+    () => {
+      callLastUpdated();
+    },
+    [loggedIn],
+  );
+
+  const lastUpdatedComponent = (
+    <p>
+      <span className="vads-u-line-height--3 vads-u-display--block">
+        <strong>Related to:</strong> Health care
+      </span>
+      <span className="vads-u-line-height--3 vads-u-display--block">
+        <strong>Document last updated:</strong> {lastUpdated}
+      </span>
+    </p>
+  );
 
   const downloadButton = (
-    <button
-      className="usa-button-primary va-button-primary"
-      onClick={function() {
-        // event.preventDefault(); only needed if we decide to use a link tag here (unlikely)
-        callGetPDF();
-      }}
-      id="download-url"
-    >
-      Download your 1095-B tax form (PDF){' '}
-    </button>
+    <p>
+      <button
+        className="usa-button-primary va-button-primary"
+        onClick={function() {
+          callGetPDF();
+        }}
+        id="download-url"
+      >
+        Download your 1095-B tax form (PDF){' '}
+      </button>
+    </p>
   );
 
   const notFoundComponent = (
@@ -121,6 +143,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
 
   const errorComponent = (
     <>
+      {lastUpdatedComponent}
       <va-alert
         close-btn-aria-label="Close notification"
         status="warning"
@@ -136,12 +159,13 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
           </p>
         </div>
       </va-alert>
-      <p>{downloadButton}</p>
+      {downloadButton}
     </>
   );
 
   const successComponent = (
     <>
+      {lastUpdatedComponent}
       <va-alert
         close-btn-aria-label="Close notification"
         status="success"
@@ -151,31 +175,22 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
         <div>
           <p>
             You successfully downloaded your 1095-B tax form. Please check your
-            files.
+            files. &nbsp;
             {formDownloaded.timeStamp}
           </p>
         </div>
       </va-alert>
-      <p>{downloadButton}</p>
+      {downloadButton}
     </>
   );
 
   const loggedInComponent = (
     <>
-      <h3 slot="headline">Download your 1095-B</h3>
-      <div>
-        <p>
-          <span className="vads-u-line-height--3 vads-u-display--block">
-            <strong>Related to:</strong> Health care
-          </span>
-          <span className="vads-u-line-height--3 vads-u-display--block">
-            <strong>Last updated on:</strong> {lastUpdated}
-          </span>
-        </p>
-        <p>{downloadButton}</p>
-      </div>
+      {lastUpdatedComponent}
+      {downloadButton}
     </>
   );
+
   const loggedOutComponent = (
     <va-alert
       close-btn-aria-label="Close notification"
@@ -198,7 +213,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
       </button>
     </va-alert>
   );
-  // will this work? needs testing
+
   if (loggedIn) {
     if (formError.error) {
       if (formError.type === 'not found') {
