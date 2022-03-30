@@ -66,9 +66,9 @@ export function DynamicRadioWidget(props) {
           <p className="vads-u-padding-left--4 vads-u-margin-top--neg3">
             {location.attributes.name}
           </p>
-          <p className="vads-u-padding-left--4 vads-u-margin-top--neg2">{`${
-            location.attributes.city
-          } ${location.attributes.state}`}</p>
+          <p className="vads-u-padding-left--4 vads-u-margin-top--neg2">
+            {`${location.attributes.city} ${location.attributes.state}`}
+          </p>
         </>
       ),
       value: `${location.attributes.name}|${location.id}`,
@@ -78,7 +78,6 @@ export function DynamicRadioWidget(props) {
       <RadioButtons
         options={optionsList}
         label="Select your medical center"
-        required
         value={selected}
         onValueChange={value => {
           onChange(value.value);
