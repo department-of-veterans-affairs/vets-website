@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router';
 import Layout from '../components/Layout';
 import { fetchUser } from '../../my-education-benefits/selectors/userDispatch';
 
@@ -26,7 +25,7 @@ const App = ({ toggleLoginModal, user }) => {
       );
     }
     if (user?.login?.currentlyLoggedIn) {
-      return <Redirect to="/education/education-inbox/preview" />;
+      window.location.href = '/education/education-inbox/preview';
     }
 
     return (
