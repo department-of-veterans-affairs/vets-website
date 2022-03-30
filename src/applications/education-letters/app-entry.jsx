@@ -1,5 +1,5 @@
 import 'platform/polyfills';
-import './sass/education-inbox.scss';
+import './sass/education-letters.scss';
 
 import startApp from 'platform/startup/router';
 import routes from './routes';

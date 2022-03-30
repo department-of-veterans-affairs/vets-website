@@ -26,7 +26,7 @@ const InboxPage = () => {
             return response?.data?.attributes?.claimantId;
           })
           .catch(err => {
-            window.location.href = '/education/education-inbox/';
+            window.location.href = '/education/education-letters/';
             return err;
           });
 
@@ -164,7 +164,7 @@ const InboxPage = () => {
     <Layout
       clsName="inbox-page"
       breadCrumbs={{
-        href: '/education/education-inbox/preview',
+        href: '/education/education-letters/preview',
         text: 'Your VA education letters',
       }}
     >
