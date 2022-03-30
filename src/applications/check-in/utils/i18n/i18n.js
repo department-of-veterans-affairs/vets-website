@@ -36,7 +36,19 @@ i18n
             return formatDate(value, 'MMMM dd, yyyy', { locale });
           }
           if (format === 'longAtTime') {
-            return formatDate(value, 'PPPp', { locale });
+            let dateString = formatDate(value, 'PPPppp', { locale });
+
+            // Remove date suffixes. (1st/2nd/etc.)
+            dateString = dateString.replace(
+              /([0-9]{1,2})([a-z]{2})(, )/,
+              '$1$3',
+            );
+
+            // Adjust am/pm formatting.
+            dateString = dateString.replace(/:[0-9]{2} AM .*$/, ' a.m.');
+            dateString = dateString.replace(/:[0-9]{2} PM .*$/, ' p.m.');
+
+            return dateString;
           }
           if (format === 'mdY') {
             return formatDate(value, 'MM/dd/Y');
