@@ -128,7 +128,7 @@ const ValidateVeteran = props => {
         Footer={Footer}
         showValidateError={showValidateError}
         validateErrorMessage={t(
-          'sorry-we-couldnt-find-an-account-that-matches-that-last-name-or-ssn-please-try-again',
+          'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
         )}
       />
       <BackToHome />
