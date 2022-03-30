@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 // import environment from 'platform/utilities/environment';
 // import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -18,11 +18,12 @@ import {
 
 function DynamicCheckboxGroup({
   dispatchSelectedSponsorsChange,
+  errorMessage = 'Please select at least one sponsor',
   getSponsors,
   sponsors,
   form,
 }) {
-  // const [loading, setLoading] = useState(true); // app starts in a loading state
+  const [dirty, setDirty] = useState(false);
 
   useEffect(
     () => {
@@ -62,6 +63,7 @@ function DynamicCheckboxGroup({
       _sponsors.sponsors[sponsorIndex].selected = checked;
     }
 
+    setDirty(true);
     dispatchSelectedSponsorsChange(_sponsors);
   };
 
@@ -80,8 +82,18 @@ function DynamicCheckboxGroup({
 
   return (
     <CheckboxGroup
-      errorMessage={valid ? null : 'checkbox error'}
-      label="Checkbox Group"
+      additionalLegendClass="toe-sponsors-checkboxes_legend"
+      errorMessage={!valid && dirty && errorMessage}
+      label={
+        <>
+          <span className="toe-sponsors-checkboxes_legend--main">
+            Which sponsor's benefits would you like to use?
+          </span>
+          <span className="toe-sponsors-checkboxes_legend--secondary">
+            Select all sponsors whose benefits you would like to apply for
+          </span>
+        </>
+      }
       onValueChange={onValueChange}
       options={options}
       required

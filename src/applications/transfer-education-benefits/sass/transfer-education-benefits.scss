@@ -37,9 +37,28 @@ va-alert ul {
 	margin-left: 1em;
 }
 
-// Sponsors
+// Sponsors List
 .toe-sponsors {
 	list-style-type: none;
+}
+
+// Sponsors Checkboxes
+.toe-sponsors-checkboxes_legend {
+	display: flex;
+	flex-flow: row wrap;
+}
+.toe-sponsors-checkboxes_legend--main {
+	flex: 0 1 auto;
+	order: 0;
+}
+.toe-sponsors-checkboxes_legend--secondary {
+	color: $color-gray;
+	flex: 1 1 100%;
+	order: 2;
+}
+.toe-sponsors-checkboxes_legend .form-required-span {
+	flex: 0 1 auto;
+	order: 1;
 }
 
 // Review Page
