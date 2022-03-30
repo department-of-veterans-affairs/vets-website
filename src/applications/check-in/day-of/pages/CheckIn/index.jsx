@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../../../api';
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -14,6 +15,7 @@ import {
 
 const CheckIn = props => {
   const { router } = props;
+  const { t } = useTranslation();
   const { goToErrorPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
@@ -50,7 +52,9 @@ const CheckIn = props => {
 
   if (!appointment) {
     return (
-      <va-loading-indicator message="Loading your appointments for today" />
+      <va-loading-indicator
+        message={t('loading-your-appointments-for-today')}
+      />
     );
   }
 
