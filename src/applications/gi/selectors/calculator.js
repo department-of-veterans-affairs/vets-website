@@ -532,6 +532,11 @@ const getDerivedValues = createSelector(
         !useBeneficiaryLocationRate) ||
       inputs.classesOutsideUS;
 
+    const isUSSchool = facilityCode => {
+      const digits = parseInt(facilityCode[5] + facilityCode[6], 10);
+      return digits < 52 || (digits > 60 && digits < 67);
+    };
+
     // Calculate Housing Allowance for Term #1 - getHousingAllowTerm1
     if (
       isOJT &&
@@ -581,7 +586,7 @@ const getDerivedValues = createSelector(
     } else if (
       !environment.isProduction() &&
       onlineClasses === 'yes' &&
-      hasClassesOutsideUS
+      !isUSSchool(institution.facilityCode)
     ) {
       housingAllowTerm1 = 0;
     } else if (onlineClasses === 'yes') {
@@ -644,7 +649,7 @@ const getDerivedValues = createSelector(
     } else if (
       !environment.isProduction() &&
       onlineClasses === 'yes' &&
-      hasClassesOutsideUS
+      !isUSSchool(institution.facilityCode)
     ) {
       housingAllowTerm2 = 0;
     } else if (onlineClasses === 'yes') {
@@ -709,7 +714,7 @@ const getDerivedValues = createSelector(
     } else if (
       !environment.isProduction() &&
       onlineClasses === 'yes' &&
-      hasClassesOutsideUS
+      !isUSSchool(institution.facilityCode)
     ) {
       housingAllowTerm3 = 0;
     } else if (onlineClasses === 'yes') {
