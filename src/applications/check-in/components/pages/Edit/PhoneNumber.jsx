@@ -18,7 +18,7 @@ import UpdateButton from './shared/UpdateButton';
 import Header from './shared/Header';
 import Footer from '../../Footer';
 
-import { getLabelForPhone } from '../../../utils/appConstants';
+import { getLabelForEditField } from '../../../utils/appConstants';
 import { formatPhone } from '../../../utils/formatters';
 
 export default function PhoneNumber(props) {
@@ -43,9 +43,9 @@ export default function PhoneNumber(props) {
 
   const isUpdatable = useMemo(
     () => {
-      return !phoneErrorMessage && !extensionErrorMessage;
+      return !phoneErrorMessage && !extensionErrorMessage && phone.number;
     },
-    [phoneErrorMessage, extensionErrorMessage],
+    [phoneErrorMessage, extensionErrorMessage, phone.number],
   );
 
   const dispatch = useDispatch();
@@ -86,7 +86,11 @@ export default function PhoneNumber(props) {
     event => {
       const { value: newPhone } = event.target;
       if (newPhone === '') {
-        setPhoneErrorMessage();
+        setPhoneErrorMessage(
+          `${getLabelForEditField(key, {
+            capitalizeFirstLetter: true,
+          })} is required`,
+        );
       } else if (!isValidPhone(newPhone)) {
         setPhoneErrorMessage('Please enter a valid phone number address.');
       } else {
@@ -94,7 +98,7 @@ export default function PhoneNumber(props) {
       }
       setPhoneNumber(newPhone);
     },
-    [setPhoneNumber],
+    [setPhoneNumber, key],
   );
 
   const onExtensionChange = useCallback(
@@ -108,17 +112,18 @@ export default function PhoneNumber(props) {
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--4  vads-u-padding-right--4 vads-u-padding-left-2 ">
       <Header
-        what={getLabelForPhone(key)}
+        what={getLabelForEditField(key)}
         editingPage={editingPage}
         value={value}
       />
       <VaTextInput
         error={phoneErrorMessage}
-        label={getLabelForPhone(key, { capitalizeFirstLetter: true })}
+        label={getLabelForEditField(key, { capitalizeFirstLetter: true })}
         maxlength={null}
         name={key}
         value={formatPhone(phoneNumber)}
         onVaChange={onPhoneNumberChange}
+        required
       />
       <VaTextInput
         error={extensionErrorMessage}

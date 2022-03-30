@@ -7,9 +7,9 @@ export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
 
   if (root) {
-    import(/* webpackChunkName: "home-loan-coe-login-widget" */
+    import(/* webpackChunkName: "shifted-vets-banner" */
     './components/App').then(module => {
-      const { App } = module;
+      const App = module.default;
       ReactDOM.render(
         <Provider store={store}>
           <App />

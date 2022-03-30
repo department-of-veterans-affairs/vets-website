@@ -28,8 +28,8 @@ function ClaimsDecision({ completedDate }) {
       <p>If you agree with your rating, you don’t need to do anything else.</p>
       <p>
         If we decided that an issue you claimed wasn’t service connected, and
-        you have new evidence that you haven’t submitted yet, you can ask VA
-        to reopen your claim.{' '}
+        you have new evidence that you haven’t submitted yet, you can ask VA to
+        reopen your claim.{' '}
         <a href="/disability/how-to-file-claim/when-to-file/" target="_blank">
           Find out how to reopen your claim
         </a>

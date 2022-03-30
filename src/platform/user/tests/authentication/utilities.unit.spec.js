@@ -90,7 +90,7 @@ describe('Authentication Utilities', () => {
     const application = 'application';
     const to = 'to';
 
-    it('should return application and to params when present', () => {
+    it('should return any AUTH_PARAMS params when present', () => {
       setup({ path: usipPathWithParams(mhvUsipParams) });
       const searchParams = new URLSearchParams(global.window.location.search);
       expect(authUtilities.getQueryParams()).to.deep.equal({
@@ -99,7 +99,7 @@ describe('Authentication Utilities', () => {
       });
     });
 
-    it('should not return params other than application and to', () => {
+    it('should not return params other than defined AUTH_PARAMS', () => {
       setup({ path: usipPathWithParams(`${mhvUsipParams}&useless=useless`) });
       const searchParams = new URLSearchParams(global.window.location.search);
       expect(authUtilities.getQueryParams()).to.deep.equal({
@@ -108,12 +108,9 @@ describe('Authentication Utilities', () => {
       });
     });
 
-    it('should return null for application and to params when not present', () => {
+    it('should return empty object when no valid AUTH_PARAMS are found', () => {
       setup({ path: usipPath });
-      expect(authUtilities.getQueryParams()).to.deep.equal({
-        [application]: null,
-        [to]: null,
-      });
+      expect(authUtilities.getQueryParams()).to.deep.equal({});
     });
   });
 

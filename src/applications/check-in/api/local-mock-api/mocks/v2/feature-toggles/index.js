@@ -5,9 +5,9 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceUpdateInformationPageEnabled = false,
     checkInExperienceEditingDayOfEnabled = false,
     checkInExperienceEditingPreCheckInEnabled = true,
-    checkInExperienceTranslationDayOfEnabled = false,
-    checkInExperienceTranslationPreCheckInEnabled = false,
-    checkInExperienceDayOfDemographicsFlagsEnabled = false,
+    checkInExperienceTranslationDayOfEnabled = true,
+    checkInExperienceTranslationPreCheckInEnabled = true,
+    checkInExperienceDayOfDemographicsFlagsEnabled = true,
   } = toggles;
 
   return {

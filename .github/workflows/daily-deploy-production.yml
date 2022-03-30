@@ -20,6 +20,19 @@ env:
   BUILD_ENV: vagovprod
 
 jobs:
+  get-workflow-environment:
+    runs-on: ubuntu-latest
+    outputs:
+      environment_name: ${{ steps.check-environment.outputs.env_name }}
+    steps:
+      - name: Check environment
+        id: check-environment
+        run: |
+          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+            echo ::set-output name=env_name::'production'
+          else
+            echo ::set-output name=env_name::''
+          fi
   set-env:
     name: Set Env Variables
     runs-on: ubuntu-latest
@@ -238,7 +251,8 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    needs: [set-env, create-release]
+    needs: [set-env, create-release, get-workflow-environment]
+    environment: ${{ needs.get-workflow-environment.outputs.environment_name }}
 
     env:
       DEPLOY_BUCKET: www.va.gov

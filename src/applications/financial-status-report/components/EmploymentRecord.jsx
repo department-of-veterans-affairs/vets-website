@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -27,6 +27,8 @@ const EmploymentRecord = ({
   employmentHistory,
   formContext,
 }) => {
+  const [validation, setValidation] = useState([]);
+
   const index = Number(idSchema.$id.slice(-1));
   const { userType, userArray } = uiSchema['ui:options'];
   const { employmentRecords } = employmentHistory[`${userType}`];
@@ -72,12 +74,38 @@ const EmploymentRecord = ({
     updateFormData(updated);
   };
 
+  const validateYear = year => {
+    const todayYear = new Date().getFullYear();
+
+    if (
+      !!year &&
+      (parseInt(year.value, 10) > todayYear || parseInt(year.value, 10) < 1900)
+    ) {
+      setValidation([
+        {
+          valid: false,
+          message: `Please enter a year between 1900 and ${todayYear}`,
+        },
+      ]);
+    } else {
+      setValidation([
+        {
+          valid: true,
+        },
+      ]);
+    }
+  };
+
   const handleDateChange = (key, value) => {
     const { month, year } = value;
     const dateString = `${year.value}-${month.value}-XX`;
+
+    validateYear(year);
+
     const updated = employment.map((item, i) => {
       return i === index ? { ...item, [key]: dateString } : item;
     });
+
     updateFormData(updated);
   };
 
@@ -99,14 +127,21 @@ const EmploymentRecord = ({
       <div className="vads-u-margin-top--3">
         <MonthYear
           date={{
-            month: { value: fromMonth, dirty: submitted },
-            year: { value: fromYear, dirty: submitted },
+            month: {
+              value: fromMonth,
+              dirty: submitted,
+            },
+            year: {
+              value: fromYear,
+              dirty: submitted,
+            },
           }}
           label="Date you started work at this job?"
           name="from"
           onValueChange={value => handleDateChange('from', value)}
           required
           requiredMessage={submitted && startError}
+          validation={validation}
         />
       </div>
       <div
