@@ -3,10 +3,10 @@ import React from 'react';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import currentOrPastMonthYearUI from 'platform/forms-system/src/js/definitions/currentOrPastMonthYear';
 import MonthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
+import get from 'platform/utilities/data/get';
 import CustomReviewField from '../containers/CustomReviewField';
 import CustomReviewRadio from '../containers/customReviewRadio';
 import CustomReviewYesNo from '../containers/customReviewYesNo';
-import get from 'platform/utilities/data/get';
 // import { facilityUiSchema } from '../config/va-location/va-location';
 import DynamicRadioWidget from '../config/va-location/DynamicRadioWidget.jsx';
 
@@ -611,14 +611,13 @@ export const uiSchema = {
   zipCode: {
     'ui:title': 'Zip code where you primarily receive VA care',
     'ui:errorMessages': {
-      required: 'Please enter a zip code',
-      pattern: 'Please enter a valid 5- or 9-digit zip code (dashes allowed)',
+      pattern:
+        'Please enter a valid 5- or 9-digit zip code if known (dashes allowed)',
     },
     'ui:options': {
       classNames: 'input-width',
       expandUnder: 'FACILITY',
     },
-    'ui:required': formData => formData.FACILITY,
   },
   vaLocation: {
     preferredFacility: {
@@ -633,9 +632,6 @@ export const uiSchema = {
           get('zipCode', formData).length < 5,
       },
       'ui:reviewWidget': vaLocationReviewWidget,
-      'ui:required': formData =>
-        get('zipCode', formData) !== undefined &&
-        get('zipCode', formData).length >= 5,
     },
   },
   'ui:validations': [conditionalValidateBooleanGroup],
