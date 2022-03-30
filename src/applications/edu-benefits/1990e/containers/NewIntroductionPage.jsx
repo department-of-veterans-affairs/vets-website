@@ -105,6 +105,12 @@ export const NewIntroductionPage = ({ user, route }) => {
         startText="Start your application"
       />
 
+      {!user?.login?.currentlyLoggedIn && (
+        <a href="/education/apply-for-education-benefits/application/1990E/applicant/information">
+          Start your application without signing in
+        </a>
+      )}
+
       <div
         className={`omb-info--container vads-u-padding--0 vads-u-margin-top--${
           user?.login?.currentlyLoggedIn ? '4' : '2p5'
