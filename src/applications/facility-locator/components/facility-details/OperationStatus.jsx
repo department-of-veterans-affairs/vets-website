@@ -47,7 +47,10 @@ export default function OperationStatus(props) {
 
   return (
     <va-alert close-btn-aria-label="" status={alertClass} visible>
-      <h2 slot="headline">{operationStatusTitle}</h2>
+      {/* eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
+      <h2 slot="headline" tabIndex={0} role="alert">
+        {operationStatusTitle}
+      </h2>
       <div data-testid="status-description">
         {operatingStatus.additionalInfo && (
           <p>{operatingStatus.additionalInfo} </p>
