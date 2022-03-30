@@ -100,9 +100,11 @@ export const questions = [
             <li>Headache</li>
           </ul>
           <p>
-            <strong>Note:</strong> Answer “yes” if you have any symptoms—even if
-            you think they’re caused by allergies or another health issue other
-            than COVID-19.
+            <strong>Note:</strong>{' '}
+            <span className="notbold">
+              Answer “yes” if you have any symptoms—even if you think they’re
+              caused by allergies or another health issue other than COVID-19.
+            </span>
           </p>
         </div>
       ),
@@ -118,9 +120,11 @@ export const questions = [
             <li>Dolor de cabeza</li>
           </ul>
           <p>
-            <strong>Note:</strong> Answer “yes” if you have any symptoms—even if
-            you think they’re caused by allergies or another health issue other
-            than COVID-19.
+            <strong>Note:</strong>{' '}
+            <span className="notbold">
+              Answer “yes” if you have any symptoms—even if you think they’re
+              caused by allergies or another health issue other than COVID-19.
+            </span>
           </p>
         </div>
       ),
@@ -141,9 +145,11 @@ export const questions = [
             <li>Diarrhea</li>
           </ul>
           <p>
-            <strong>Note:</strong> Answer “yes” if you have any symptoms—even if
-            you think they’re caused by allergies or another health issue other
-            than COVID-19.
+            <strong>Note:</strong>{' '}
+            <span className="notbold">
+              Answer “yes” if you have any symptoms—even if you think they’re
+              caused by allergies or another health issue other than COVID-19.
+            </span>
           </p>
         </div>
       ),
@@ -158,9 +164,11 @@ export const questions = [
             <li>Diarrea</li>
           </ul>
           <p>
-            <strong>Note:</strong> Answer “yes” if you have any symptoms—even if
-            you think they’re caused by allergies or another health issue other
-            than COVID-19.
+            <strong>Note:</strong>{' '}
+            <span className="notbold">
+              Answer “yes” if you have any symptoms—even if you think they’re
+              caused by allergies or another health issue other than COVID-19.
+            </span>
           </p>
         </div>
       ),
@@ -181,9 +189,11 @@ export const questions = [
             </li>
             <li>They had any symptoms of COVID-19</li>
           </ul>
-          <strong>Note:</strong>
-          Close physical contact means being within 6 feet of someone for a
-          total of 15 minutes or more within 24 hours.
+          <strong>Note:</strong>{' '}
+          <span className="notbold">
+            Close physical contact means being within 6 feet of someone for a
+            total of 15 minutes or more within 24 hours.
+          </span>
         </div>
       ),
       es: (
@@ -197,11 +207,13 @@ export const questions = [
             </li>
             <li>Tuvieron algún síntoma de COVID-19</li>
           </ul>
-          <strong>Nota:</strong>
-          Un contacto cercano es una persona que estuvo a menos de 6 pies de
-          alguien infectado (con infección confirmada en laboratorio o
-          diagnóstico clínico) por un total acumulado de 15 minutos o más en un
-          periodo de 24 horas.
+          <strong>Nota:</strong>{' '}
+          <span className="notbold">
+            Un contacto cercano es una persona que estuvo a menos de 6 pies de
+            alguien infectado (con infección confirmada en laboratorio o
+            diagnóstico clínico) por un total acumulado de 15 minutos o más en
+            un periodo de 24 horas.
+          </span>
         </div>
       ),
     },
