@@ -16,6 +16,7 @@ const AppointmentBlock = props => {
         data-testid="appointment-day-location"
       >
         {t('your-appointments-on-day-facility', {
+          count: appointments.length,
           day: appointmentsDateTime,
           facility: appointmentFacility,
         })}
