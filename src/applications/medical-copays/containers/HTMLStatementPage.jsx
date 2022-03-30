@@ -70,7 +70,9 @@ const HTMLStatementPage = ({ match }) => {
           data-testid="statement-addresses"
           copay={selectedCopay}
         />
-        <h2>What if I have questions about my statement?</h2>
+        <h2 id="if-i-have-questions">
+          What if I have questions about my statement?
+        </h2>
         <p>
           Contact the VA Health Resource Center at{' '}
           <va-telephone contact="8664001238" /> (TTY:{' '}

@@ -24,7 +24,9 @@ const StatementCharges = ({ copay }) => {
 
   return (
     <>
-      <h2 data-testid="statement-charges-head">Statement Charges</h2>
+      <h2 data-testid="statement-charges-head" id="statement-charges">
+        Statement Charges
+      </h2>
       <p>
         This statement shows charges you received between{' '}
         {previousCopaysStartDate} and {today}
