@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 const StatementAddresses = ({ copay }) => {
   return (
     <>
-      <h2 data-testid="statement-address-head">Statement Addresses</h2>
+      <h2 data-testid="statement-address-head" id="statement-addresses">
+        Statement Addresses
+      </h2>
       <dl>
         <dt
           className="vads-u-font-weight--bold"

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import recordEvent from 'platform/monitoring/record-event';
 import { api } from '../../api';
 import {
@@ -23,8 +24,9 @@ import { APP_NAMES } from '../../utils/appConstants';
 const Landing = props => {
   const { isUpdatePageEnabled, location, router } = props;
   const { jumpToPage, goToErrorPage } = useFormRouting(router);
+  const { t } = useTranslation();
 
-  const [loadMessage] = useState('Finding your appointment information');
+  const [loadMessage] = useState(t('finding-your-appointment-information'));
   const { clearCurrentSession, setCurrentToken } = useSessionStorage(false);
   const dispatch = useDispatch();
 

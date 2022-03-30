@@ -1,8 +1,10 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 export default function CancelButton(props) {
   const { jumpToPage, backPage, clearData } = props;
+  const { t } = useTranslation();
   const onClick = useCallback(
     () => {
       clearData();
@@ -17,7 +19,7 @@ export default function CancelButton(props) {
       data-testid="cancel-button"
       type="button"
     >
-      Cancel
+      {t('cancel')}
     </button>
   );
 }
