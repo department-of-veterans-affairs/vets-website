@@ -6,6 +6,7 @@ import {
   fetchAndUpdateSessionExpiration as fetch,
   apiRequest,
 } from 'platform/utilities/api';
+import * as Sentry from '@sentry/browser';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import { DEBTS_FETCH_SUCCESS } from '../../debt-letters/actions';
 import { debtMockResponse } from '../../debt-letters/utils/mockResponses';
@@ -40,6 +41,11 @@ export const fetchFormStatus = () => async dispatch => {
     .then(response => response.json())
     .then(response => {
       if (response.errors) {
+        const [error] = response.errors;
+        Sentry.withScope(scope => {
+          scope.setExtra('error', error);
+          Sentry.captureMessage(`FSR fetchFormStatus failed: ${error.detail}`);
+        });
         dispatch({
           type: FSR_API_ERROR,
           error: response,
@@ -87,6 +93,10 @@ export const fetchDebts = () => async (dispatch, getState) => {
       debts: filteredResponse,
     });
   } catch (error) {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage(`FSR fetchDebts failed: ${error.detail}`);
+    });
     dispatch({
       type: FSR_API_ERROR,
       error,
