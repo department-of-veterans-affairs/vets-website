@@ -146,7 +146,7 @@ export default class ClaimPhase extends React.Component {
               <button
                 type="button"
                 className="claim-older-updates usa-button-secondary"
-                aria-controls="older-updates"
+                aria-controls={`older-updates-${phase}`}
                 aria-expanded={showOlder}
                 onClick={this.showOlderActivity}
               >
@@ -155,7 +155,7 @@ export default class ClaimPhase extends React.Component {
             </>
           ) : null}
           {showOlder && hasMoreActivity ? (
-            <ol id="older-updates" className="claims-evidence-list">
+            <ol id={`older-updates-${phase}`} className="claims-evidence-list">
               {activityList.slice(1).map((event, index) => (
                 <li key={index}>
                   <div className="claims-evidence">

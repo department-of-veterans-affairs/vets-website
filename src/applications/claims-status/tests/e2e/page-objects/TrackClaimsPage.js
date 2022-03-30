@@ -160,9 +160,11 @@ class TrackClaimsPage {
         cy.get('li.list-one .claims-evidence', {
           timeout: Timeouts.slow,
         }).should('be.visible');
-        cy.get(
-          '.claims-evidence-list li:nth-child(3) .claims-evidence-item',
-        ).should('contain', 'Your claim is closed');
+        cy.get('.claim-older-updates').click();
+        cy.get('#older-updates-1 li:nth-child(2) .claims-evidence-item').should(
+          'contain',
+          'Your claim is closed',
+        );
         cy.get('.claim-older-updates').should('exist');
       });
     cy.get('li.list-one .claims-evidence', {
