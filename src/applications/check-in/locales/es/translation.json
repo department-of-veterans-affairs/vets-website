@@ -38,7 +38,7 @@
   "get-tips-for-protecting-your-personal-health-information": "Obtenga consejos para proteger su información personal de salud",
   "go-to-another-appointment": "Ir a otra cita",
   "go-to-your-appointment": "Ir a tu cita",
-  "here-are-your-appointments-for-today": "Aquí están sus citas para hoy: {{ date, long }}",
+  "here-are-your-appointments-for-today": "Aquí están sus citas para hoy: {{ date, long }}.",
   "home-address": "Direccion de casa",
   "home-phone": "Teléfono de casa",
   "if-you-dont-live-at-a-fixed-address-right-now-well-help-you-find-the-best-way-to-stay-connected-with-us": "Si no vive en una dirección fija en este momento, lo ayudaremos a encontrar la mejor manera de mantenerse conectado con nosotros.",
