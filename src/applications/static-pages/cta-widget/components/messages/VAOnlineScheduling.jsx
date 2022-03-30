@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CallToActionAlert from '../CallToActionAlert';
 
 const alertText = (
@@ -23,13 +24,25 @@ const VAOnlineScheduling = ({ isCommunityCareEnabled }) => {
     alertText: isCommunityCareEnabled ? alertText : noCCAlertText,
     primaryButtonText: 'Go to your VA appointments',
     primaryButtonHandler: () => {
-      window.location =
-        '/health-care/schedule-view-va-appointments/appointments/';
+      window.location.assign(
+        '/health-care/schedule-view-va-appointments/appointments?redirect=false',
+      );
     },
     status: 'info',
   };
 
+  // Change the address bar to the VAOS homepage url
+  window.history.pushState(
+    {},
+    '',
+    '/health-care/schedule-view-va-appointments',
+  );
+
   return <CallToActionAlert {...content} />;
+};
+
+VAOnlineScheduling.propTypes = {
+  isCommunityCareEnabled: PropTypes.bool.isRequired,
 };
 
 export default VAOnlineScheduling;

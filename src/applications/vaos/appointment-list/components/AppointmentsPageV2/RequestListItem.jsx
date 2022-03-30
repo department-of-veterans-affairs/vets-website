@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import moment from 'moment';
 import { focusElement } from 'platform/utilities/ui';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { sentenceCase } from '../../../utils/formatters';
 import { getPreferredCommunityCareProviderName } from '../../../services/appointment';
 import { APPOINTMENT_STATUS, SPACE_BAR } from '../../../utils/constants';
@@ -12,6 +13,7 @@ import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 function handleClick({
   dispatch,
   history,
+  match,
   link,
   idClickable,
   featureStatusImprovement,
@@ -22,7 +24,7 @@ function handleClick({
       history.push(link);
 
       if (featureStatusImprovement) {
-        dispatch(updateBreadcrumb({ title: 'Pending', path: '/pending' }));
+        dispatch(updateBreadcrumb({ title: 'Pending', path: `${match.url}` }));
       }
     }
   };
@@ -31,6 +33,7 @@ function handleClick({
 function handleKeyDown({
   dispatch,
   history,
+  match,
   link,
   idClickable,
   featureStatusImprovement,
@@ -41,17 +44,17 @@ function handleKeyDown({
       history.push(link);
 
       if (featureStatusImprovement) {
-        dispatch(updateBreadcrumb({ title: 'Pending', path: '/pending' }));
+        dispatch(updateBreadcrumb({ title: 'Pending', path: `${match.path}` }));
       }
     }
   };
 }
 
-function handleLinkClicked(featureStatusImprovement, dispatch) {
+function handleLinkClicked(featureStatusImprovement, dispatch, match) {
   return e => {
     e.preventDefault();
     if (featureStatusImprovement) {
-      dispatch(updateBreadcrumb({ title: 'Pending', path: '/pending' }));
+      dispatch(updateBreadcrumb({ title: 'Pending', path: `${match.path}` }));
     }
   };
 }
@@ -68,6 +71,7 @@ export default function RequestListItem({ appointment, facility }) {
   const link = `requests/${appointment.id}`;
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
   const dispatch = useDispatch();
+  const match = useRouteMatch();
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
@@ -87,6 +91,7 @@ export default function RequestListItem({ appointment, facility }) {
         onClick={handleClick({
           dispatch,
           history,
+          match,
           link,
           idClickable,
           featureStatusImprovement,
@@ -94,6 +99,7 @@ export default function RequestListItem({ appointment, facility }) {
         onKeyDown={handleKeyDown({
           dispatch,
           history,
+          match,
           link,
           idClickable,
           featureStatusImprovement,
@@ -118,7 +124,11 @@ export default function RequestListItem({ appointment, facility }) {
               canceled ? 'canceled ' : ''
             }${typeOfCareText}request for ${preferredDate}`}
             to={link}
-            onClick={handleLinkClicked(featureStatusImprovement, dispatch)}
+            onClick={handleLinkClicked(
+              featureStatusImprovement,
+              dispatch,
+              match,
+            )}
           >
             Details
           </Link>
@@ -131,3 +141,8 @@ export default function RequestListItem({ appointment, facility }) {
     </li>
   );
 }
+
+RequestListItem.propTypes = {
+  appointment: PropTypes.object,
+  facility: PropTypes.object,
+};

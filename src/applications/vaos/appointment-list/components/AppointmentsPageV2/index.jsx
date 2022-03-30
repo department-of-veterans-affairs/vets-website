@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
+import {
+  Switch,
+  Route,
+  useHistory,
+  useLocation,
+  useRouteMatch,
+} from 'react-router-dom';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
@@ -107,6 +113,9 @@ export default function AppointmentsPageV2() {
 
   const [count, setCount] = useState(0);
   const dispatch = useDispatch();
+  const history = useHistory();
+  const match = useRouteMatch();
+
   useEffect(
     () => {
       if (featureStatusImprovement) {
@@ -170,8 +179,6 @@ export default function AppointmentsPageV2() {
     [pendingAppointments],
   );
 
-  const history = useHistory();
-
   return (
     <PageLayout showBreadcrumbs showNeedHelp>
       <h1 className="vads-u-flex--1 vads-u-margin-bottom--1p5 vaos-hide-for-print">
@@ -205,10 +212,16 @@ export default function AppointmentsPageV2() {
         </>
       )}
       <Switch>
-        <Route exact path="/">
+        <Route exact path={match.path}>
           <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />
         </Route>
-        <Route path={featureStatusImprovement ? '/pending' : '/requested'}>
+        <Route
+          path={
+            featureStatusImprovement
+              ? `${match.path}/pending`
+              : `${match.path}/requested`
+          }
+        >
           {featureStatusImprovement && (
             <RequestedAppointmentsListGroup hasTypeChanged={hasTypeChanged} />
           )}
@@ -216,7 +229,7 @@ export default function AppointmentsPageV2() {
             <RequestedAppointmentsList hasTypeChanged={hasTypeChanged} />
           )}
         </Route>
-        <Route path="/past">
+        <Route path={`${match.path}/past`}>
           <PastAppointmentsListV2 hasTypeChanged={hasTypeChanged} />
         </Route>
         <Route path="/canceled">

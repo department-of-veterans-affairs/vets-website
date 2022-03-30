@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import moment from '../../../lib/moment-tz';
 import {
   getAppointmentTimezone,
@@ -34,6 +35,9 @@ function VideoAppointmentDescription({ appointment }) {
     </>
   );
 }
+VideoAppointmentDescription.propTypes = {
+  appointment: PropTypes.object,
+};
 
 function CommunityCareProvider({ appointment }) {
   return (
@@ -44,6 +48,9 @@ function CommunityCareProvider({ appointment }) {
     </>
   );
 }
+CommunityCareProvider.propTypes = {
+  appointment: PropTypes.object,
+};
 
 function VAFacilityName({ facility }) {
   if (facility) {
@@ -52,10 +59,14 @@ function VAFacilityName({ facility }) {
 
   return 'VA appointment';
 }
+VAFacilityName.propTypes = {
+  facility: PropTypes.object,
+};
 
 function handleClick({
   history,
   dispatch,
+  match,
   link,
   idClickable,
   isPastAppointment,
@@ -67,7 +78,7 @@ function handleClick({
       history.push(link);
 
       if (featureStatusImprovement && isPastAppointment) {
-        dispatch(updateBreadcrumb({ title: 'Past', path: '/past' }));
+        dispatch(updateBreadcrumb({ title: 'Past', path: `${match.url}` }));
       }
     }
   };
@@ -76,6 +87,7 @@ function handleClick({
 function handleKeyDown({
   history,
   dispatch,
+  match,
   link,
   idClickable,
   isPastAppointment,
@@ -87,7 +99,7 @@ function handleKeyDown({
       history.push(link);
 
       if (featureStatusImprovement && isPastAppointment) {
-        dispatch(updateBreadcrumb({ title: 'Past', path: '/past' }));
+        dispatch(updateBreadcrumb({ title: 'Past', path: `${match.url}` }));
       }
     }
   };
@@ -97,11 +109,12 @@ function handleLinkClicked(
   featureStatusImprovement,
   isPastAppointment,
   dispatch,
+  match,
 ) {
   return e => {
     e.preventDefault();
     if (featureStatusImprovement && isPastAppointment) {
-      dispatch(updateBreadcrumb({ title: 'Past', path: '/past' }));
+      dispatch(updateBreadcrumb({ title: 'Past', path: `${match.url}` }));
     }
   };
 }
@@ -114,13 +127,15 @@ export default function AppointmentListItem({ appointment, facility }) {
   const isPhone = isVAPhoneAppointment(appointment);
   const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const link = isCommunityCare
-    ? `cc/${appointment.id}`
-    : `va/${appointment.id}`;
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
   const { abbreviation, description } = getAppointmentTimezone(appointment);
   const { isPastAppointment } = appointment.vaos;
   const dispatch = useDispatch();
+  const match = useRouteMatch();
+  const link = isCommunityCare
+    ? `${match.url}cc/${appointment.id}`
+    : `${match.url}va/${appointment.id}`;
+
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
@@ -140,6 +155,7 @@ export default function AppointmentListItem({ appointment, facility }) {
         onClick={handleClick({
           history,
           dispatch,
+          match,
           link,
           idClickable,
           isPastAppointment,
@@ -148,6 +164,7 @@ export default function AppointmentListItem({ appointment, facility }) {
         onKeyDown={handleKeyDown({
           history,
           dispatch,
+          match,
           link,
           idClickable,
           isPastAppointment,
@@ -193,6 +210,7 @@ export default function AppointmentListItem({ appointment, facility }) {
               featureStatusImprovement,
               isPastAppointment,
               dispatch,
+              match,
             )}
           >
             Details
@@ -206,3 +224,8 @@ export default function AppointmentListItem({ appointment, facility }) {
     </li>
   );
 }
+
+AppointmentListItem.propTypes = {
+  appointment: PropTypes.object,
+  facility: PropTypes.object,
+};

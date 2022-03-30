@@ -33,7 +33,7 @@ export default function VAOSBreadcrumbs({ children }) {
       )}
       {featureStatusImprovement && (
         <Link
-          to="/"
+          to="/appointments?redirect=false"
           key="vaos-home"
           onClick={() => dispatch(updateBreadcrumb())}
         >

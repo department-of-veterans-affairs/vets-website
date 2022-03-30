@@ -1,19 +1,50 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation, useRouteMatch } from 'react-router-dom';
+import UrlSearchParams from 'url-search-params';
 import AppointmentsPageV2 from './components/AppointmentsPageV2/index';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
 import CommunityCareAppointmentDetailsPage from './components/CommunityCareAppointmentDetailsPage';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
+import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
 
 function AppointmentListSection() {
   useManualScrollRestoration();
+  const location = useLocation();
+  const match = useRouteMatch();
+
+  const shouldRedirectToStart = useFormRedirectToStart({
+    shouldRedirect: () => {
+      const isRedirect = new UrlSearchParams(location.search).get('redirect');
+      return !isRedirect || isRedirect === 'true';
+    },
+  });
+
+  if (shouldRedirectToStart) {
+    const path = window.location.pathname.replace('/appointments/', '/');
+    window.location.replace(path);
+  }
+
   return (
     <Switch>
-      <Route path="/cc/:id" component={CommunityCareAppointmentDetailsPage} />
-      <Route path="/va/:id" component={ConfirmedAppointmentDetailsPage} />
-      <Route path="/requests/:id" component={RequestedAppointmentDetailsPage} />
-      <Route path="/" component={AppointmentsPageV2} />
+      <Route
+        path={`${match.path}/cc/:id`}
+        component={CommunityCareAppointmentDetailsPage}
+      />
+      <Route
+        path={`${match.path}/va/:id`}
+        component={ConfirmedAppointmentDetailsPage}
+      />
+      <Route
+        path={`${match.path}/requests/:id`}
+        component={RequestedAppointmentDetailsPage}
+      />
+      <Route
+        path={`${match.path}`}
+        render={() => {
+          return <AppointmentsPageV2 />;
+        }}
+      />
     </Switch>
   );
 }

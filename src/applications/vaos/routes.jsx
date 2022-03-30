@@ -20,10 +20,9 @@ function handleLoadError(err) {
         <ErrorMessage />
       </FullWidthLayout>
     );
-  } else {
-    window.location.replace(`${window.location.pathname}?retry=1`);
-    return () => <va-loading-indicator message="Reloading page" />;
   }
+  window.location.replace(`${window.location.pathname}?retry=1`);
+  return () => <va-loading-indicator message="Reloading page" />;
 }
 
 export default function createRoutesWithStore(store) {
@@ -68,7 +67,7 @@ export default function createRoutesWithStore(store) {
             from="/new-covid-19-vaccine-booking"
             to="/new-appointment"
           />
-          <EnrolledRoute path="/" component={AppointmentList} />
+          <EnrolledRoute path="/appointments" component={AppointmentList} />
         </Switch>
       </VAOSApp>
     </ErrorBoundary>
