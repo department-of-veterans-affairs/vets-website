@@ -18,11 +18,11 @@ export const NewIntroductionPage = ({ user, route }) => {
       <va-alert close-btn-aria-label="Close notification" status="info" visible>
         <h3 slot="headline">
           This application is only for Transfer of Entitlement for Post-9/11 GI
-          Bill
+          Bill®
         </h3>
         <p className="vads-u-margin-bottom--0">
           <a href="https://www.va.gov/education/transfer-post-9-11-gi-bill-benefits/">
-            Learn more about the Transfer of Entitlement for Post-9/11 GI Bill ®
+            Learn more about the Transfer of Entitlement for Post-9/11 GI Bill®
             (Chapter 33).
           </a>
         </p>
@@ -101,15 +101,8 @@ export const NewIntroductionPage = ({ user, route }) => {
         prefillEnabled={route.formConfig.prefillEnabled}
         messages={route.formConfig.savedFormMessages}
         pageList={route.pageList}
-        hideUnauthedStartLink
         startText="Start your application"
       />
-
-      {!user?.login?.currentlyLoggedIn && (
-        <a href="/education/apply-for-education-benefits/application/1990E/applicant/information">
-          Start your application without signing in
-        </a>
-      )}
 
       <div
         className={`omb-info--container vads-u-padding--0 vads-u-margin-top--${
