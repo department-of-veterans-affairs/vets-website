@@ -76,6 +76,7 @@ export default Object.freeze({
   profileShowAddressChangeModal: 'profile_show_address_change_modal',
   profileShowFaxNumber: 'profile_show_fax_number',
   profileShowGender: 'profile_show_gender',
+  profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',

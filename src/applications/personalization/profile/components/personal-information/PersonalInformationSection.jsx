@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-import { profileShowGender } from '@@profile/selectors';
+import {
+  profileShowGender,
+  profileShowPronounsAndSexualOrientation,
+} from '@@profile/selectors';
 
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
@@ -17,6 +20,7 @@ const PersonalInformationSection = ({
   gender,
   dob,
   shouldProfileShowGender,
+  shouldShowProfileAndSexualOrientation,
 }) => {
   const tableFields = [
     { title: 'Date of birth', value: renderDOB(dob) },
@@ -43,26 +47,30 @@ const PersonalInformationSection = ({
     ...(shouldProfileShowGender
       ? [{ title: 'Sex assigned at birth', value: renderGender(gender) }]
       : []),
-    {
-      title: 'Gender identity',
-      id: FIELD_IDS[FIELD_NAMES.GENDER_IDENTITY],
-      value: (
-        <ProfileInformationFieldController
-          fieldName={FIELD_NAMES.GENDER_IDENTITY}
-          isDeleteDisabled
-        />
-      ),
-    },
-    {
-      title: 'Sexual orientation',
-      id: FIELD_IDS[FIELD_NAMES.SEXUAL_ORIENTATION],
-      value: (
-        <ProfileInformationFieldController
-          fieldName={FIELD_NAMES.SEXUAL_ORIENTATION}
-          isDeleteDisabled
-        />
-      ),
-    },
+    ...(shouldShowProfileAndSexualOrientation
+      ? [
+          {
+            title: 'Gender identity',
+            id: FIELD_IDS[FIELD_NAMES.GENDER_IDENTITY],
+            value: (
+              <ProfileInformationFieldController
+                fieldName={FIELD_NAMES.GENDER_IDENTITY}
+                isDeleteDisabled
+              />
+            ),
+          },
+          {
+            title: 'Sexual orientation',
+            id: FIELD_IDS[FIELD_NAMES.SEXUAL_ORIENTATION],
+            value: (
+              <ProfileInformationFieldController
+                fieldName={FIELD_NAMES.SEXUAL_ORIENTATION}
+                isDeleteDisabled
+              />
+            ),
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -121,6 +129,7 @@ const PersonalInformationSection = ({
 PersonalInformationSection.propTypes = {
   dob: PropTypes.string.isRequired,
   shouldProfileShowGender: PropTypes.bool.isRequired,
+  shouldShowProfileAndSexualOrientation: PropTypes.bool.isRequired,
   gender: PropTypes.string,
 };
 
@@ -132,6 +141,9 @@ const mapStateToProps = state => ({
   genderIdentity: state.vaProfile?.personalInformation?.genderIdentity,
   sexualOrientation: state.vaProfile?.personalInformation?.sexualOrientation,
   shouldProfileShowGender: profileShowGender(state),
+  shouldShowProfileAndSexualOrientation: profileShowPronounsAndSexualOrientation(
+    state,
+  ),
 });
 
 export default connect(mapStateToProps)(PersonalInformationSection);
