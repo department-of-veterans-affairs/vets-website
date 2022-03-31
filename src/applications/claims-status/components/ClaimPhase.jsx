@@ -138,7 +138,7 @@ export default class ClaimPhase extends React.Component {
           {hasMoreActivity ? (
             <>
               <h5 className="vads-u-margin-top--2p5">
-                {`Older updates (${activityList.length - 1})`}
+                {`Past updates (${activityList.length - 1})`}
               </h5>
               <button
                 type="button"
@@ -147,7 +147,7 @@ export default class ClaimPhase extends React.Component {
                 aria-expanded={showOlder}
                 onClick={this.showOlderActivity}
               >
-                {`${showOlder ? 'Hide' : 'Show'} older updates`}
+                {`${showOlder ? 'Hide' : 'Show'} past updates`}
               </button>
             </>
           ) : null}
