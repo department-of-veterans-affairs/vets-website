@@ -430,7 +430,7 @@ module.exports = async (env = {}) => {
 
       new Dotenv({
         systemvars: true,
-      }), // 03-14
+      }),
     ],
     devServer: generateWebpackDevConfig(buildOptions),
   };
