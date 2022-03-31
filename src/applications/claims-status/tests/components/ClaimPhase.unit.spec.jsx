@@ -181,7 +181,9 @@ describe('<ClaimPhase>', () => {
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('You or others submitted Request 1.');
+      expect(descTree.text()).to.equal(
+        'You or someone else submitted Request 1.',
+      );
     });
     it('should show received from others reviewed description', () => {
       const output = instance.getEventDescription({
@@ -207,7 +209,9 @@ describe('<ClaimPhase>', () => {
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('You or others submitted Request 1.');
+      expect(descTree.text()).to.equal(
+        'You or someone else submitted Request 1.',
+      );
     });
     it('should show still need from you not reviewed description', () => {
       const output = instance.getEventDescription({
@@ -231,7 +235,9 @@ describe('<ClaimPhase>', () => {
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('You or others submitted Request 1.');
+      expect(descTree.text()).to.equal(
+        'You or someone else submitted Request 1.',
+      );
     });
     it('should show still need from others reviewed description', () => {
       const output = instance.getEventDescription({
@@ -243,7 +249,9 @@ describe('<ClaimPhase>', () => {
 
       const descTree = SkinDeep.shallowRender(output);
 
-      expect(descTree.text()).to.equal('You or others submitted Request 1.');
+      expect(descTree.text()).to.equal(
+        'You or someone else submitted Request 1.',
+      );
     });
     it('should show still need from others not reviewed description', () => {
       const output = instance.getEventDescription({
