@@ -56,8 +56,8 @@ export function DynamicRadioWidget(props) {
   } else if (locations.length > 0 && loading === false) {
     upperContent = (
       <>
-        These are the VA medical centers closest to the zipcode you provided.
-        Select the medical center you primarly receive care at.
+        These are the VA medical centers closest to the Zip code you entered.
+        Select the medical center you mainly go to for care.
       </>
     );
     const optionsList = locations.map(location => ({
