@@ -38,8 +38,8 @@ export default function ClaimsTimeline(props) {
           id={id}
         >
           <p>
-            Your claim has been assigned to a reviewer who is determining if
-            additional information is needed.
+            We assigned your claim to a reviewer. The reviewer will determine if
+            we need any more information from you.
           </p>
         </ClaimPhase>
         <ClaimPhase
