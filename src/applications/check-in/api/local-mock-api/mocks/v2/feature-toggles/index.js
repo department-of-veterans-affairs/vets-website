@@ -8,6 +8,7 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceTranslationDayOfEnabled = true,
     checkInExperienceTranslationPreCheckInEnabled = true,
     checkInExperienceDayOfDemographicsFlagsEnabled = true,
+    checkInExperienceLorotaSecurityUpdatesEnabled = false,
   } = toggles;
 
   return {
@@ -45,6 +46,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_day_of_demographics_flags_enabled',
           value: checkInExperienceDayOfDemographicsFlagsEnabled,
+        },
+        {
+          name: 'check_in_experience_lorota_security_updates_enabled',
+          value: checkInExperienceLorotaSecurityUpdatesEnabled,
         },
       ],
     },

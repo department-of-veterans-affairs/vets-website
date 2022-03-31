@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
@@ -20,6 +21,7 @@ import Header from './shared/Header';
 
 export default function Email(props) {
   const { router } = props;
+  const { t } = useTranslation();
   const { jumpToPage } = useFormRouting(router);
   const selectEditContext = useMemo(makeSelectEditContext, []);
   const { editing } = useSelector(selectEditContext);
@@ -62,15 +64,15 @@ export default function Email(props) {
     event => {
       const { value: newEmail } = event.target;
       if (!newEmail) {
-        setErrorMessage('Please enter an email address.');
+        setErrorMessage(t('please-enter-an-email-address'));
       } else if (!isValidEmail(newEmail)) {
-        setErrorMessage('Please enter a valid email address.');
+        setErrorMessage(t('please-enter-a-valid-email-address'));
       } else {
         setErrorMessage();
       }
       setEmail(newEmail);
     },
-    [setEmail],
+    [setEmail, t],
   );
 
   return (
@@ -79,7 +81,7 @@ export default function Email(props) {
 
       <VaTextInput
         error={errorMessage}
-        label="Email Address"
+        label={t('email-address')}
         maxlength={null}
         name={key}
         value={email}

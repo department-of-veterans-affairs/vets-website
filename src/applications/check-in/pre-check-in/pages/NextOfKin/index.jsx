@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
@@ -24,6 +25,7 @@ import { api } from '../../../api';
 
 const NextOfKin = props => {
   const { router } = props;
+  const { t } = useTranslation();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -88,9 +90,10 @@ const NextOfKin = props => {
     },
     [buttonClick],
   );
-  const header = 'Is this your current next of kin?';
-  const subtitle =
-    'This helps us keep information about your next of kin up to date.';
+  const header = t('is-this-your-current-next-of-kin');
+  const subtitle = t(
+    'this-helps-us-keep-information-about-your-next-of-kin-up-to-date',
+  );
 
   return (
     <>

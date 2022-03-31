@@ -68,6 +68,7 @@ import {
   captureError,
   getErrorCodes,
   has400LevelError,
+  has409LevelError,
 } from '../../utils/error';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -766,6 +767,17 @@ export function submitAppointmentOrRequest(history) {
           appointment = await createAppointment({
             appointment: transformFormToVAOSAppointment(getState()),
           });
+
+          // BG 3/29/2022: This logic is to resolve issue:
+          // https://app.zenhub.com/workspaces/vaos-team-603fdef281af6500110a1691/issues/department-of-veterans-affairs/va.gov-team/39301
+          // This will need to be removed once var resources is sunset.
+          try {
+            await buildPreferencesDataAndUpdate(data.email);
+          } catch (error) {
+            // These are ancillary updates, the request went through if the first submit
+            // succeeded
+            captureError(error);
+          }
         } else {
           const appointmentBody = transformFormToAppointment(getState());
           await submitAppointment(appointmentBody);
@@ -804,6 +816,7 @@ export function submitAppointmentOrRequest(history) {
         dispatch({
           type: FORM_SUBMIT_FAILED,
           isVaos400Error: has400LevelError(error),
+          isVaos409Error: has409LevelError(error),
         });
 
         dispatch(fetchFacilityDetails(newAppointment.data.vaFacility));

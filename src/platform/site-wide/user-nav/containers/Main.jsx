@@ -215,6 +215,7 @@ export class Main extends Component {
           onSignInSignUp={this.signInSignUp}
           toggleMenu={this.props.toggleSearchHelpUserMenu}
           userGreeting={this.props.userGreeting}
+          customText={this.props.customText}
         />
         <FormSignInModal
           onClose={this.closeFormSignInModal}
@@ -310,4 +311,5 @@ Main.propTypes = {
   showLoginModal: PropTypes.bool,
   userGreeting: PropTypes.array,
   utilitiesMenuIsOpen: PropTypes.object,
+  customText: PropTypes.string,
 };
