@@ -56,7 +56,10 @@ const InboxPage = () => {
             download
             href="http://localhost:3000/meb_api/v0/claim_letter"
           >
-            <i className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1" />
+            <i
+              className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1"
+              aria-hidden="true"
+            />
             Download Post-9/11 GI Bill decision letter (PDF)
           </a>
           <p>You applied for this on {receivedDate}</p>
