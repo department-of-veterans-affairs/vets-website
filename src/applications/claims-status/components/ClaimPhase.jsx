@@ -69,8 +69,7 @@ export default class ClaimPhase extends React.Component {
         if (event.uploaded || event.status === 'SUBMITTED_AWAITING_REVIEW') {
           return (
             <div className="claims-evidence-item">
-              You or others submitted {event.displayName}. We will notify you
-              when we have reviewed it.
+              You or someone else submitted {event.displayName}.
             </div>
           );
         }
@@ -86,8 +85,7 @@ export default class ClaimPhase extends React.Component {
         if (event.status === 'SUBMITTED_AWAITING_REVIEW') {
           return (
             <div className="claims-evidence-item">
-              You or others submitted {event.displayName}. We will notify you
-              when we have reviewed it.
+              You or someone else submitted {event.displayName}.
             </div>
           );
         }
@@ -108,8 +106,7 @@ export default class ClaimPhase extends React.Component {
       case 'other_documents_list':
         return (
           <div className="claims-evidence-item">
-            You or others submitted {file ? `"${file}"` : 'a file'}. We will
-            notify you when we’ve reviewed it.
+            You or someone else submitted {file ? `"${file}"` : 'a file'}.
           </div>
         );
 
