@@ -1,13 +1,13 @@
 name: Yarn publish
 
-on:
-  release:
-    types: [published]
+# on:
+#   release:
+#     types: [published]
 
-# on: 
-#   push:
-#     branches: 
-#       - master
+on: 
+  push:
+    branches: 
+      - master
 
 jobs:
   publish:

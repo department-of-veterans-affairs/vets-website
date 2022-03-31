@@ -3,7 +3,7 @@ import { useField, FieldHookConfig } from 'formik';
 
 import { FieldProps } from './types';
 import { chainValidations, required } from '../utils/validation';
-import { VaTextInput } from 'web-components/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const TextField = (props: FieldProps<string>): JSX.Element => {
   const withValidation = {
