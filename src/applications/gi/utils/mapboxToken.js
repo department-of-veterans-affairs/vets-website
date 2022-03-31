@@ -1,3 +1,3 @@
-import { mapboxTokenPlatform } from 'platform/utilities/mapboxTokenPlatform';
+import mapboxTokenPlatform from 'platform/utilities/mapboxTokenPlatform';
 
 export const mapboxToken = mapboxTokenPlatform;

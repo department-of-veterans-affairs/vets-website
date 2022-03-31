@@ -6,6 +6,7 @@ const fs = require('fs');
 const fetch = require('node-fetch');
 const path = require('path');
 const webpack = require('webpack');
+const Dotenv = require('dotenv-webpack'); // 03-14
 
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlPlugin = require('html-webpack-plugin');
@@ -426,6 +427,10 @@ module.exports = async (env = {}) => {
       }),
 
       new WebpackBar(),
+
+      new Dotenv({
+        systemvars: true,
+      }), // 03-14
     ],
     devServer: generateWebpackDevConfig(buildOptions),
   };
