@@ -131,7 +131,7 @@ export default function BackToTop({
                   'button-click-label': 'Back to top',
                   'button-type': 'default',
                 });
-
+                
                 const h1 = document.querySelector(`#${profilePageHeaderId} h1`);
                 if (h1) focusElement(h1);
               }}

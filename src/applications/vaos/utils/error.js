@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
-import { recordVaosError } from './events';
 import environment from 'platform/utilities/environment';
+import { recordVaosError } from './events';
 
 export function captureError(
   err,
@@ -74,4 +74,8 @@ export function getErrorCodes(error) {
 
 export function has400LevelError(error) {
   return getErrorCodes(error).some(code => code.startsWith('VAOS_4'));
+}
+
+export function has409LevelError(error) {
+  return getErrorCodes(error).some(code => code.startsWith('VAOS_409'));
 }

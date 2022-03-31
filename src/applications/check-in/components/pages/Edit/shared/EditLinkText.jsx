@@ -1,9 +1,11 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 export default function EditLinkText(props) {
   const { value } = props;
-  return <>{value ? 'Edit' : 'Add'}</>;
+  const { t } = useTranslation();
+  return <>{value ? t('edit') : t('add')}</>;
 }
 
 EditLinkText.propTypes = {
