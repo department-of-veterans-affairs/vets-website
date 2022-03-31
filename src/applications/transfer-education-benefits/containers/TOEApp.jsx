@@ -14,6 +14,8 @@ import { SPONSORS_TYPE } from '../constants';
 export const TOEApp = ({
   children,
   claimantInfo,
+  fetchedSponsors,
+  fetchedSponsorsComplete,
   formData,
   getPersonalInfo,
   getSponsors,
@@ -34,27 +36,25 @@ export const TOEApp = ({
           });
         }
 
-        if (!sponsors) {
+        if (!fetchedSponsors && !sponsors) {
           getSponsors();
-        } else if (!_.isEqual(formData['view:sponsors'], sponsors)) {
+        }
+
+        // Update
+        if (
+          (formData.fetchedSponsorsComplete === undefined &&
+            fetchedSponsorsComplete !== undefined) ||
+          (sponsors && !_.isEqual(formData['view:sponsors'], sponsors))
+        ) {
           setFormData({
             ...formData,
+            fetchedSponsorsComplete,
             'view:sponsors': {
               ...formData['view:sponsors'],
               ...sponsors,
             },
           });
         }
-
-        // if () {
-        //   setFormData({
-        //     ...formData,
-        //     sponsors: {
-        //       ...formData.sponsors,
-        //       selectedSponsors,
-        //     },
-        //   });
-        // }
       }
     },
     [
@@ -103,9 +103,11 @@ TOEApp.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  sponsors: state.data?.sponsors,
   claimant: state.data?.formData?.data?.attributes?.claimant,
+  fetchedSponsors: state.data?.fetchedSponsors,
+  fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
   formData: state.form?.data || {},
+  sponsors: state.data?.sponsors,
   user: state.user,
 });
 

@@ -435,83 +435,30 @@ const formConfig = {
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData => formData['view:sponsors']?.sponsors?.length,
+                hideIf: formData =>
+                  !formData.fetchedSponsorsComplete ||
+                  formData['view:sponsors']?.sponsors?.length,
               },
             },
-            // [formFields.viewSelectedSponsor]: {
-            //   'ui:title': 'Which sponsor’s benefits would you like to use?',
-            //   'ui:description': 'You may check more than one.',
-            //   sponsorNotListed: {
-            //     'ui:title': 'Someone not listed here',
-            //   },
-            //   'ui:options': {
-            //     updateSchema: () =>
-            //       // formData,
-            //       // schema,
-            //       // uiSchema,
-            //       // index,
-            //       // pathToCurrentData,
-            //       {
-            //         return {
-            //           type: 'object',
-            //           properties: {
-            //             test: { type: 'boolean' },
-            //             sponsorNotListed: { type: 'boolean' },
-            //           },
-            //         };
-            //         // const filterSponsors = createSelector(
-            //         //   state => state.data?.sponsors,
-            //         //   sponsors => {
-            //         //     return {
-            //         //       type: 'object',
-            //         //       properties: {
-            //         //         ...sponsors?.map((sponsor, index) => {
-            //         //           return { [`sponsor${index}`]: { type: 'boolean' } };
-            //         //         }),
-            //         //         sponsorNotListed: { type: 'boolean' },
-            //         //       },
-            //         //     };
-            //         //   },
-            //         // );
-            //         // return (form, state, schema, uiSchema) =>
-            //         //   filterSponsors(form, state, schema, uiSchema);
-            //       },
-            //   },
-            // },
+            'view:sponsorsLoadingIndicator': {
+              'ui:description': (
+                <va-loading-indicator message="Loading your sponsors..." />
+              ),
+              'ui:options': {
+                hideIf: formData => formData.fetchedSponsorsComplete,
+              },
+            },
             'view:sponsors': {
               sponsors: {
                 'ui:title': 'testing',
                 'ui:field': DynamicCheckboxGroup,
-                // 'ui:options': {
-                //   hideLabelText: true,
-                //   // setEditState: () => {
-                //   //   return true;
-                //   // },
-                //   // viewField: SponsorsView,
-                //   // expandUnder: 'FACILITY',
-                //   // expandUnderCondition: true,
-                //   // hideIf: formData => !formData.sponsors?.sponsors?.length,
-                //   // 'ui:reviewWidget': vaLocationReviewWidget,
-                //   // 'ui:required': formData =>
-                //   //   get('zipCode', formData) !== undefined &&
-                //   //   get('zipCode', formData).length >= 5,
-                // },
-                // 'ui:errorMessages': {
-                //   pattern: 'Please provide a value in the right format',
-                // },
               },
               'ui:validations': [
-                // function(
-                //   errors,
-                //   // fieldData,
-                //   // formData,
-                //   // fieldSchema,
-                //   // errorMessages,
-                // ) {
-                //   errors.addError('My error');
-                //   errors.sponsors?.addError('sponsors error');
-                // },
                 {
+                  // A little messy, but we're returning a boolean from
+                  // this function in addition to adding an error
+                  // with addError so this function can be reused from
+                  // the ui:field.
                   validator: (errors, fieldData) => {
                     if (
                       !fieldData?.someoneNotListed &&
@@ -525,49 +472,61 @@ const formConfig = {
                   options: {},
                 },
               ],
+              'ui:options': {
+                hideIf: formData =>
+                  formData.fetchedSponsorsComplete &&
+                  !formData['view:sponsors']?.sponsors?.length,
+              },
             },
-            // [formFields.sponsorFullName]: {
-            //   ...fullNameUI,
-            //   first: {
-            //     ...fullNameUI.first,
-            //     'ui:title': "Sponsor's first name",
-            //     'ui:validations': [
-            //       (errors, field) => {
-            //         if (isOnlyWhitespace(field)) {
-            //           errors.addError('Please enter a first name');
-            //         }
-            //       },
-            //     ],
-            //   },
-            //   last: {
-            //     ...fullNameUI.last,
-            //     'ui:title': "Sponsor's last name",
-            //     'ui:validations': [
-            //       (errors, field) => {
-            //         if (isOnlyWhitespace(field)) {
-            //           errors.addError('Please enter a last name');
-            //         }
-            //       },
-            //     ],
-            //   },
-            //   middle: {
-            //     ...fullNameUI.middle,
-            //     'ui:title': "Sponsor's  middle name",
-            //   },
-            //   'ui:options': {
-            //     hideIf: formData => formData['view:sponsors']?.sponsors?.length,
-            //   },
-            // },
-            // [formFields.sponsorDateOfBirth]: {
-            //   ...currentOrPastDateUI("Sponsor's date of birth"),
-            //   'ui:options': {
-            //     hideIf: formData => formData['view:sponsors']?.sponsors?.length,
-            //   },
-            // },
+            [formFields.sponsorFullName]: {
+              ...fullNameUI,
+              first: {
+                ...fullNameUI.first,
+                'ui:title': "Sponsor's first name",
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isOnlyWhitespace(field)) {
+                      errors.addError('Please enter a first name');
+                    }
+                  },
+                ],
+              },
+              last: {
+                ...fullNameUI.last,
+                'ui:title': "Sponsor's last name",
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isOnlyWhitespace(field)) {
+                      errors.addError('Please enter a last name');
+                    }
+                  },
+                ],
+              },
+              middle: {
+                ...fullNameUI.middle,
+                'ui:title': "Sponsor's  middle name",
+              },
+              'ui:options': {
+                hideIf: formData =>
+                  !formData.fetchedSponsorsComplete ||
+                  formData['view:sponsors']?.sponsors?.length,
+              },
+            },
+            [formFields.sponsorDateOfBirth]: {
+              ...currentOrPastDateUI("Sponsor's date of birth"),
+              'ui:options': {
+                hideIf: formData =>
+                  !formData.fetchedSponsorsComplete ||
+                  formData['view:sponsors']?.sponsors?.length,
+              },
+            },
             'view:additionalInfo': {
               'ui:description': (
-                <va-additional-info trigger="Which sponsor should I choose?">
-                  <p>
+                <va-additional-info
+                  trigger="Which sponsor should I choose?"
+                  class="vads-u-margin-bottom--4"
+                >
+                  <p className="vads-u-margin-y--0">
                     You can only choose one sponsor for this application. If you
                     have multiple sponsors, you can talk to them to determine
                     which benefits are right for you. You can also submit
@@ -576,14 +535,15 @@ const formConfig = {
                   </p>
                 </va-additional-info>
               ),
+              'ui:options': {
+                hideIf: formData =>
+                  !formData.fetchedSponsorsComplete ||
+                  !formData['view:sponsors']?.sponsors?.length,
+              },
             },
           },
           schema: {
             type: 'object',
-            required: [
-              // formFields.sponsorDateOfBirth,
-              // 'sponsors.selectedSponsors',
-            ],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -593,12 +553,6 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              // [formFields.viewSelectedSponsor]: {
-              //   type: 'object',
-              //   properties: {
-              //     sponsorNotListed: { type: 'boolean' },
-              //   },
-              // },
               'view:sponsors': {
                 type: 'object',
                 properties: {
@@ -616,49 +570,9 @@ const formConfig = {
                         },
                       },
                     },
-                    // enum: [],
-                    // enumNames: [],
-                    // properties: {
-                    //   // someoneNotListed: {
-                    //   //   type: 'boolean',
-                    //   // },
-                    // },
                   },
                 },
-                // type: 'array',
-                // properties: {
-                //   // selectedSponsors: {
-                //   //   type: 'object',
-                //   //   properties: {},
-                //   // },
-                // },
-                //   type: 'object',
-                //   properties: {
-                //     label: {
-                //       type: 'string',
-                //     },
-                //     value: {
-                //       type: 'string',
-                //     },
-                //     selected: {
-                //       type: 'boolean',
-                //     },
-                //   },
-                //   // },
-                //   // },
-                // },
               },
-              // [formFields.sponsorFullName]: {
-              //   ...fullName,
-              //   properties: {
-              //     ...fullName.properties,
-              //     middle: {
-              //       ...fullName.properties.middle,
-              //       maxLength: 30,
-              //     },
-              //   },
-              // },
-              // [formFields.sponsorDateOfBirth]: date,
               'view:additionalInfo': {
                 type: 'object',
                 properties: {},

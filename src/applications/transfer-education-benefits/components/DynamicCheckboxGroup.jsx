@@ -19,7 +19,10 @@ import {
 function DynamicCheckboxGroup({
   dispatchSelectedSponsorsChange,
   errorMessage = 'Please select at least one sponsor',
+  fetchedSponsors,
+  fetchedSponsorsComplete,
   getSponsors,
+  loadingMessage = 'Loading your sponsors...',
   sponsors,
   form,
 }) {
@@ -27,26 +30,19 @@ function DynamicCheckboxGroup({
 
   useEffect(
     () => {
-      if (!sponsors?.sponsors) {
+      if (!sponsors?.sponsors && !fetchedSponsors) {
         getSponsors();
       }
     },
     [getSponsors, sponsors],
   );
 
-  if (!sponsors.sponsors || !sponsors.sponsors.length) {
-    return <h1>Alert: you don't have any sponsors</h1>;
+  if (!fetchedSponsorsComplete) {
+    return <va-loading-indicator message={loadingMessage} />;
   }
-
-  const options =
-    sponsors?.sponsors?.map((sponsor, index) => ({
-      label: sponsor.name,
-      value: index,
-    })) || [];
-  options.push({
-    label: SPONSOR_NOT_LISTED_LABEL,
-    value: SPONSOR_NOT_LISTED_VALUE,
-  });
+  if (!sponsors?.sponsors.length) {
+    return <></>;
+  }
 
   const onValueChange = ({ value }, checked) => {
     const _sponsors = cloneDeep(sponsors);
@@ -67,9 +63,15 @@ function DynamicCheckboxGroup({
     dispatchSelectedSponsorsChange(_sponsors);
   };
 
-  // if (loading) {
-  //   return <va-loading-indicator message="Loading your sponsors..." />;
-  // }
+  const options =
+    sponsors?.sponsors?.map((sponsor, index) => ({
+      label: sponsor.name,
+      value: index,
+    })) || [];
+  options.push({
+    label: SPONSOR_NOT_LISTED_LABEL,
+    value: SPONSOR_NOT_LISTED_VALUE,
+  });
 
   let valid;
   try {
@@ -82,9 +84,12 @@ function DynamicCheckboxGroup({
 
   return (
     <CheckboxGroup
-      additionalLegendClass="toe-sponsors-checkboxes_legend"
+      additionalFieldsetClass="vads-u-margin-top--0"
+      additionalLegendClass="toe-sponsors-checkboxes_legend vads-u-margin-top--0"
       errorMessage={!valid && dirty && errorMessage}
       label={
+        // I'm getting conflicting linting issues here.
+        // eslint-disable-next-line react/jsx-wrap-multilines
         <>
           <span className="toe-sponsors-checkboxes_legend--main">
             Which sponsor's benefits would you like to use?
@@ -121,8 +126,10 @@ const mapSponsors = state => {
 };
 
 const mapStateToProps = state => ({
-  sponsors: mapSponsors(state),
+  fetchedSponsors: state.data?.fetchedSponsors,
+  fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
   form: state.form,
+  sponsors: mapSponsors(state),
 });
 
 const mapDispatchToProps = {

@@ -1,5 +1,6 @@
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import {
+  FETCH_SPONSORS,
   FETCH_SPONSORS_FAILED,
   FETCH_SPONSORS_SUCCESS,
   UPDATE_SELECTED_SPONSORS,
@@ -18,10 +19,16 @@ export default {
   form: createSaveInProgressFormReducer(formConfig),
   data: (state = initialState, action) => {
     switch (action.type) {
+      case FETCH_SPONSORS:
+        return {
+          ...state,
+          fetchedSponsors: true,
+        };
       case FETCH_SPONSORS_SUCCESS:
       case FETCH_SPONSORS_FAILED:
         return {
           ...state,
+          fetchedSponsorsComplete: true,
           sponsors: {
             sponsors: [
               {
