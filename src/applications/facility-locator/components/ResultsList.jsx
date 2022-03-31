@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
+import DelayedRender from 'platform/utilities/ui/DelayedRender';
 import { facilityTypes } from '../config';
 import {
   MARKER_LETTERS,
@@ -20,7 +21,6 @@ import { setFocus } from '../utils/helpers';
 import { recordSearchResultsEvents } from '../utils/analytics';
 import { updateSearchQuery, searchWithBounds } from '../actions';
 
-import DelayedRender from 'platform/utilities/ui/DelayedRender';
 import VaFacilityResult from './search-results-items/VaFacilityResult';
 import CCProviderResult from './search-results-items/CCProviderResult';
 import PharmacyResult from './search-results-items/PharmacyResult';
@@ -50,6 +50,23 @@ export class ResultsList extends Component {
     }
   }
 
+  visNEightNumber(result, query, facilityLocatorShowHealthConnectNumber) {
+    if (
+      result?.attributes?.visn === '8' &&
+      query?.facilityType === 'health' &&
+      facilityLocatorShowHealthConnectNumber
+    ) {
+      return facilityLocatorShowHealthConnectNumber;
+    }
+    if (result?.attributes?.visn === '2' && query?.facilityType === 'health') {
+      return '800-877-6976';
+    }
+    if (result?.attributes?.visn === '17' && query?.facilityType === 'health') {
+      return '833-284-7212';
+    }
+    return '';
+  }
+
   /**
    * Returns Result items by type
    * @param query object
@@ -64,10 +81,11 @@ export class ResultsList extends Component {
         ? services[0]?.walkInsAccepted
         : 'false';
 
-      const showHealthConnectNumber =
-        result?.attributes?.visn === '8' &&
-        query?.facilityType === 'health' &&
-        this.props.facilityLocatorShowHealthConnectNumber;
+      const showHealthConnectNumber = this.visNEightNumber(
+        result,
+        query,
+        this.props.facilityLocatorShowHealthConnectNumber,
+      );
 
       switch (query.facilityType) {
         case 'health':
@@ -242,7 +260,8 @@ export class ResultsList extends Component {
           resultRef={this.searchResultTitle}
         />
       );
-    } else if (!facilityTypeName || !currentQuery.facilityType) {
+    }
+    if (!facilityTypeName || !currentQuery.facilityType) {
       return <SearchResultMessage />;
     }
 
