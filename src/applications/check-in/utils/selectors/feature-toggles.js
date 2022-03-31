@@ -30,8 +30,8 @@ const selectFeatureToggles = createSelector(
     isDayOfDemographicsFlagsEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceDayOfDemographicsFlagsEnabled
     ],
-    isLarotaSecurityUpdatesEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceLarotaSecurityUpdatesEnabled
+    isLorotaSecurityUpdatesEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceLorotaSecurityUpdatesEnabled
     ],
   }),
   toggles => toggles,

@@ -95,7 +95,7 @@ Though we have the HOC, its now considered best practice to query redux using th
   - when to sunset: once we have successfully tested this feature in production with users
 - `check_in_experience_translation_pre_check_in_enabled` : Enables or disables translation
   - when to sunset: once we have successfully tested this feature in production with users
-- `check_in_experience_larota_security_updates_enabled` : Enables or disables DOB log in instead of last 4 of SSN
+- `check_in_experience_lorota_security_updates_enabled` : Enables or disables DOB log in instead of last 4 of SSN
   - when to sunset: once we have successfully tested this feature in production with users and the backend has full switched over
   - 
 ### How to test this?
