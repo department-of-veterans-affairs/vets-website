@@ -1,15 +1,14 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-// import resourcesToBackend from 'i18next-resources-to-backend';
+import resourcesToBackend from 'i18next-resources-to-backend';
 import { format as formatDate, isDate } from 'date-fns';
 import { enUS as en, es } from 'date-fns/locale';
 import enTranslation from '../../locales/en/translation.json';
 
-const locales = { en, es };
+const dateLocales = { en, es };
 
 i18n
-  /*
   .use(
     resourcesToBackend((language, namespace, callback) => {
       import(`../../locales/${language}/${namespace}.json`)
@@ -21,16 +20,18 @@ i18n
         });
     }),
   )
-  */
   .use(initReactI18next)
   .use(LanguageDetector)
   .init({
     fallbackLng: 'en',
     debug: true,
+    react: {
+      useSuspense: false,
+    },
     interpolation: {
       format: (value, format, lng) => {
         if (isDate(value)) {
-          const locale = locales[lng];
+          const locale = dateLocales[lng];
 
           if (format === 'long') {
             return formatDate(value, 'MMMM dd, yyyy', { locale });
@@ -45,8 +46,8 @@ i18n
             );
 
             // Adjust am/pm formatting.
-            dateString = dateString.replace(/:[0-9]{2} AM .*$/, ' a.m.');
-            dateString = dateString.replace(/:[0-9]{2} PM .*$/, ' p.m.');
+            dateString = dateString.replace(/:[0-9]{2} AM.*$/, ' a.m.');
+            dateString = dateString.replace(/:[0-9]{2} PM.*$/, ' p.m.');
 
             return dateString;
           }
@@ -65,9 +66,9 @@ i18n
     // Load only the english translation.
     // TODO: use resourcesToBackend to dynamically load all translations
     // once translations have been rolled out in production.
-    resources: {
-      en: { translation: enTranslation },
-    },
+    //resources: {
+      //en: { translation: enTranslation },
+    //},
   });
 
 i18n.on('languageChanged', language => {

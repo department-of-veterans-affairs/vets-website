@@ -41,6 +41,7 @@ const withFeatureFlip = (Component, options) => {
 
     // TODO: this is only needed until translations are enabled in prod and the main
     // i18n.js file is updated to load all available translations.
+    /*
     if (
       ((app === APP_NAMES.PRE_CHECK_IN && isTranslationPreCheckInEnabled) ||
         isTranslationDayOfEnabled) &&
@@ -49,6 +50,7 @@ const withFeatureFlip = (Component, options) => {
       i18n.addResourceBundle('es', 'translation', es);
       i18n.reloadResources();
     }
+    */
 
     return (
       <>
