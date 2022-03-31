@@ -207,7 +207,7 @@ export const transactionSucceeded = [
     return res(
       ctx.json({
         data: {
-          id: '',
+          id: 173917,
           type: 'async_transaction_va_profile_email_transactions',
           attributes: {
             transactionId,
