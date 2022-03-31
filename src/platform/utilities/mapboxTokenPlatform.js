@@ -45,7 +45,7 @@ const getParam = param => {
   });
 };
 
-const mapboxTokenPlatform = await getParam(mapboxParam)
+const mapboxTokenPlatform = getParam(mapboxParam)
   .then(data => tokenSuccess(data))
   .catch(err => tokenFail(err));
 
