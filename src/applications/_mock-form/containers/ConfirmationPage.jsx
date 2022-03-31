@@ -5,7 +5,7 @@ import Scroll from 'react-scroll';
 
 import { focusElement } from 'platform/utilities/ui';
 
-const scroller = Scroll.scroller;
+const { scroller } = Scroll;
 const scrollToTop = () => {
   scroller.scrollTo('topScrollElement', {
     duration: 500,
@@ -51,7 +51,7 @@ export class ConfirmationPage extends React.Component {
               <li>
                 <strong>Date received</strong>
                 <br />
-                <span>{moment(response.timestamp).format('MMM D, YYYY')}</span>
+                <span>{moment(response.timestamp).format('MMMM D, YYYY')}</span>
               </li>
             </ul>
           ) : null}

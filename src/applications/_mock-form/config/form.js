@@ -12,17 +12,23 @@ import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import applicantInformationChapter from '../chapters/applicantInformationChapter';
-import serviceHistoryChapter from '../chapters/serviceHistoryChapter';
-import additionalInformationChapter from '../chapters/additionalInformationChapter';
-import intermediateTutorialChapter from '../chapters/intermediateTutorialChapter';
-import availableFeaturesAndUsageChapter from '../chapters/availableFeaturesAndUsageChapter';
+import applicantInformation from '../pages/applicantInformation';
+import serviceHistory from '../pages/serviceHistory';
+import contactInformation from '../pages/contactInformation';
+import directDeposit from '../pages/directDeposit';
+import expandUnder from '../pages/expandUnder';
+import conditionalFields from '../pages/conditionalFields';
+import conditionalPages from '../pages/conditionalPages';
+import radioButtonGroup from '../pages/radioButtonGroup';
+import checkboxGroupPattern from '../pages/checkboxGroupPattern';
 
 import singleCheckbox from '../pages/singleCheckbox';
-import groupCheckbox from '../pages/groupCheckbox';
+import groupCheckbox from '../pages/checkboxGroupValidation';
 
 // const { } = fullSchema.properties;
 // const { } = fullSchema.definitions;
+
+import initialData from '../tests/fixtures/data/test-data.json';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -44,7 +50,7 @@ const formConfig = {
     // },
   },
   version: 0,
-  prefillEnabled: true,
+  prefillEnabled: false,
   savedFormMessages: {
     notFound: 'Please start over to apply for Mock form.',
     noAuth: 'Please sign in again to continue your application for Mock form.',
@@ -59,15 +65,80 @@ const formConfig = {
   },
   chapters: {
     // ** Complex Form
-    applicantInformationChapter,
-    serviceHistoryChapter,
-    additionalInformationChapter,
-    // ** Intermediate tutorial examples
-    intermediateTutorialChapter,
+    applicantInformationChapter: {
+      title: 'Chapter Title: Applicant Information (Basic Form elements)',
+      pages: {
+        applicantInformation: {
+          path: 'applicant-information',
+          title: 'Section Title: Applicant Information',
+          uiSchema: applicantInformation.uiSchema,
+          schema: applicantInformation.schema,
+          initialData, // Add prefill data to form
+        },
+      },
+    },
+    serviceHistoryChapter: {
+      title: 'Chapter Title: Service History (Simple array loop)',
+      pages: {
+        serviceHistory: {
+          path: 'service-history',
+          title: 'Section Title: Service History',
+          uiSchema: serviceHistory.uiSchema,
+          schema: serviceHistory.schema,
+        },
+      },
+    },
+    additionalInformationChapter: {
+      title: 'Chapter Title: Additional Information (manual method)',
+      pages: {
+        contactInformation: {
+          path: 'contact-information',
+          title: 'Section Title: Contact Information',
+          uiSchema: contactInformation.uiSchema,
+          schema: contactInformation.schema,
+        },
+        directDeposit: {
+          path: 'direct-deposit',
+          title: 'Section Title: Direct Deposit',
+          uiSchema: directDeposit.uiSchema,
+          schema: directDeposit.schema,
+        },
+      },
+    },
+    // // ** Intermediate tutorial examples
+    intermediateTutorialChapter: {
+      title: 'Chapter Title: Intermediate tutorial examples',
+      pages: {
+        expandUnder: {
+          path: 'expand-under',
+          title: 'Section Title: Expand under', // ignored?
+          uiSchema: expandUnder.uiSchema,
+          schema: expandUnder.schema,
+        },
+        conditionalFields: {
+          path: 'conditionally-hidden',
+          title: 'Section Title: Conditionally hidden',
+          uiSchema: conditionalFields.uiSchema,
+          schema: conditionalFields.schema,
+        },
+        conditionalPages: {
+          title: 'Section Title: Conditional page',
+          path: 'conditional-page',
+          uiSchema: conditionalPages.uiSchema,
+          schema: conditionalPages.schema,
+        },
+      },
+    },
     // https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/forms/available-features-and-usage-guidelines/
-    availableFeaturesAndUsageChapter,
+    availableFeaturesAndUsage: {
+      title: 'Chapter Title: Available features and usage guidelines examples',
+      pages: {
+        radioButtonGroup,
+        checkboxGroupPattern,
+      },
+    },
 
-    workarounds: {
+    workaroundsChapter: {
       title: 'Chapter Title: Workarounds for form widget problems',
       pages: {
         singleCheckbox,
