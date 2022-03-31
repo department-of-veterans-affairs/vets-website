@@ -75,6 +75,7 @@ export default function ClaimEstimate({
 }
 
 ClaimEstimate.propTypes = {
-  maxDate: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  maxDate: PropTypes.string.isRequired,
+  showCovidMessage: PropTypes.bool,
 };
