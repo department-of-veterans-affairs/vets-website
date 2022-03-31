@@ -43,7 +43,7 @@ const InboxPage = () => {
       </p>
       <h2>Letters available for you to download</h2>
       <div className="edu-certi-eligibility">
-        <h3 style={{ marginTop: '1rem' }}>Education decision letter</h3>
+        <h3 className="vads-u-margin-top--2">Education decision letter</h3>
         <p>
           This letter is proof of your eligibility for VA education benefits. It
           shows details like which program you’re getting benefits through, the

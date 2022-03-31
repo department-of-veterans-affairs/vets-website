@@ -95,7 +95,7 @@ const App = ({ toggleLoginModal, user }) => {
           </p>
         </div>
 
-        <div style={{ marginTop: '3rem', marginBottom: '6.4rem' }}>
+        <div className="vads-u-margin-top--7 vads-u-margin-bottom--9">
           <va-alert
             close-btn-aria-label="Close notification"
             show-icon
