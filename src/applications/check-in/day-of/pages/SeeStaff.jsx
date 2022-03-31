@@ -21,7 +21,7 @@ const SeeStaff = props => {
   const featureToggles = useSelector(selectFeatureToggles);
   const { isDayOfDemographicsFlagsEnabled } = featureToggles;
   const { goToErrorPage, jumpToPage } = useFormRouting(router);
-  const { getDemographicsConfirmed } = useSessionStorage(false);
+  const { getShouldSendDemographicsFlags } = useSessionStorage(false);
   const {
     demographicsData,
     demographicsFlagsSent,
@@ -43,7 +43,7 @@ const SeeStaff = props => {
         !isDayOfDemographicsFlagsEnabled ||
         demographicsFlagsSent ||
         demographicsFlagsEmpty ||
-        getDemographicsConfirmed(window)
+        getShouldSendDemographicsFlags(window)
       )
         return;
       api.v2
@@ -61,7 +61,7 @@ const SeeStaff = props => {
       demographicsData,
       demographicsFlagsEmpty,
       demographicsFlagsSent,
-      getDemographicsConfirmed,
+      getShouldSendDemographicsFlags,
       goToErrorPage,
       isDayOfDemographicsFlagsEnabled,
       jumpToPage,
