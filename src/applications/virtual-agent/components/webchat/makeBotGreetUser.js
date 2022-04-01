@@ -1,3 +1,5 @@
+import piiReplace from './piiReplace';
+
 const GreetUser = {
   makeBotGreetUser: (
     csrfToken,
@@ -30,6 +32,11 @@ const GreetUser = {
         },
         type: 'DIRECT_LINE/POST_ACTIVITY',
       });
+    }
+
+    if (action.type === 'WEB_CHAT/SEND_MESSAGE') {
+      // eslint-disable-next-line no-param-reassign
+      action.payload.text = piiReplace(action.payload.text);
     }
     return next(action);
   },
