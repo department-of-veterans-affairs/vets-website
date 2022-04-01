@@ -113,7 +113,6 @@ const CheckIn = props => {
 
 CheckIn.propTypes = {
   appointments: PropTypes.array,
-  isDayOfDemographicsFlagsEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   router: PropTypes.object,
 };
