@@ -1,5 +1,6 @@
 import React from 'react';
-import moment from 'moment';
+import PropTypes from 'prop-types';
+import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 
@@ -16,50 +17,84 @@ const scrollToTop = () => {
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('.schemaform-title > h1');
+    focusElement('h2');
     scrollToTop();
   }
 
   render() {
-    const { submission, data } = this.props.form;
-    const { response } = submission;
-    const name = data.veteranFullName;
+    const { form } = this.props;
+    const { submission, formId, data } = form;
+
+    const { fullName } = data;
+
+    const submitDate = new Date(submission?.timestamp);
 
     return (
       <div>
-        <h3 className="confirmation-page-title">Claim received</h3>
+        <div className="print-only">
+          <img
+            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
+            alt="VA logo"
+            width="300"
+          />
+          <h2>Application for Mock Form</h2>
+        </div>
+        <h2 className="vads-u-font-size--h3">
+          Your application has been submitted
+        </h2>
         <p>
           We usually process claims within <strong>a week</strong>.
         </p>
-        <p>
-          We may contact you for more information or documents.
-          <br />
-          <i>Please print this page for your records.</i>
-        </p>
+        <p>We may contact you for more information or documents.</p>
+        <p className="screen-only">Please print this page for your records.</p>
         <div className="inset">
-          <h4>
-            Mock Form Claim <span className="additional">(Form 00-1234)</span>
-          </h4>
-          {name ? (
+          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
+            Application for Mock Form Claim{' '}
+            <span className="vads-u-font-weight--normal">(Form {formId})</span>
+          </h3>
+          {fullName ? (
             <span>
-              for {name.first} {name.middle} {name.last} {name.suffix}
+              for {fullName.first} {fullName.middle} {fullName.last}
+              {fullName.suffix ? `, ${fullName.suffix}` : null}
             </span>
           ) : null}
-
-          {response ? (
-            <ul className="claim-list">
-              <li>
-                <strong>Date received</strong>
-                <br />
-                <span>{moment(response.timestamp).format('MMMM D, YYYY')}</span>
-              </li>
-            </ul>
+          {isValid(submitDate) ? (
+            <p>
+              <strong>Date submitted</strong>
+              <br />
+              <span>{format(submitDate, 'MMMM d, yyyy')}</span>
+            </p>
           ) : null}
+          <button
+            type="button"
+            className="usa-button screen-only"
+            onClick={window.print}
+          >
+            Print this for your records
+          </button>
         </div>
       </div>
     );
   }
 }
+
+ConfirmationPage.propTypes = {
+  form: PropTypes.shape({
+    data: PropTypes.shape({
+      fullName: {
+        first: PropTypes.string,
+        middle: PropTypes.string,
+        last: PropTypes.string,
+        suffix: PropTypes.string,
+      },
+    }),
+    formId: PropTypes.string,
+    submission: PropTypes.shape({
+      timestamp: PropTypes.string,
+    }),
+  }),
+  name: PropTypes.string,
+};
 
 function mapStateToProps(state) {
   return {
