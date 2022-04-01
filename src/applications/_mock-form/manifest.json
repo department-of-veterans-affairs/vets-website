@@ -2,5 +2,6 @@
   "appName": "Mock Form",
   "entryFile": "./app-entry.jsx",
   "entryName": "mock-form",
-  "rootUrl": "/mock-form"
+  "rootUrl": "/mock-form",
+  "production": false
 }
