@@ -10,7 +10,6 @@ import LocationAddress from './common/LocationAddress';
 import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationDistance from './common/LocationDistance';
 import Covid19Alert from './common/Covid19Alert';
-import LimitedHours from './LimitedHours';
 
 const VaFacilityResult = ({
   location,
@@ -47,9 +46,10 @@ const VaFacilityResult = ({
             </h3>
           )}
         </span>
-        {operatingStatus?.code === OperatingStatus.LIMITED && (
-          <LimitedHours operatingStatus={operatingStatus} />
-        )}
+        {operatingStatus &&
+          operatingStatus.code !== OperatingStatus.NORMAL && (
+            <LocationOperationStatus operatingStatus={operatingStatus} />
+          )}
         <LocationAddress location={location} />
         <LocationDirectionsLink location={location} from="SearchResult" />
         {isCovid19Search && <Covid19Alert />}
@@ -60,10 +60,6 @@ const VaFacilityResult = ({
           showHealthConnectNumber={showHealthConnectNumber}
         />
       </>
-      {operatingStatus &&
-        operatingStatus.code !== OperatingStatus.NORMAL && (
-          <LocationOperationStatus operatingStatus={operatingStatus} />
-        )}
     </div>
   );
 };
