@@ -6,7 +6,6 @@ import { FETCH_CLAIM_STATUS } from '../actions';
 import Layout from '../components/Layout';
 
 const InboxPage = () => {
-  const [claimantId, setClaimantId] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [receivedDate, setReceivedDate] = useState(null);
 
@@ -15,7 +14,6 @@ const InboxPage = () => {
       const checkIfClaimantHasLetters = async () =>
         apiRequest(FETCH_CLAIM_STATUS)
           .then(response => {
-            setClaimantId(response?.data?.attributes?.claimantId);
             setReceivedDate(
               format(
                 new Date(response?.data?.attributes?.receivedDate),
@@ -32,7 +30,7 @@ const InboxPage = () => {
 
       checkIfClaimantHasLetters().then(r => r);
     },
-    [claimantId],
+    [receivedDate],
   );
 
   const HasLetters = (
@@ -147,7 +145,7 @@ const InboxPage = () => {
 
   const renderInbox = () => {
     if (!isLoading) {
-      if (claimantId) {
+      if (receivedDate) {
         return HasLetters;
       }
       return NoLetters;
