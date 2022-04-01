@@ -52,6 +52,7 @@ export const uiSchema = {
     },
     items: {
       'ui:options': {
+        classNames: 'column',
         itemName: 'VA-backed loan',
       },
       dateRange: {
@@ -123,7 +124,9 @@ export const uiSchema = {
           },
         },
       },
-      vaLoanNumber: {},
+      vaLoanNumber: {
+        'ui:options': { widgetClassNames: 'usa-input-medium' },
+      },
       propertyOwned: {
         'ui:title': 'Do you still own this property?',
         'ui:widget': 'yesNo',

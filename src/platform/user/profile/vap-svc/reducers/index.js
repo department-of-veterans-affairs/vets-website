@@ -2,6 +2,8 @@ import * as VAP_SERVICE from '@@vap-svc/constants';
 
 import { isEmpty, isEqual, pickBy } from 'lodash';
 
+import { COPY_ADDRESS_MODAL_STATUS } from '@@vap-svc/constants';
+
 import { isFailedTransaction } from '../util/transactions';
 
 import {
@@ -76,7 +78,7 @@ export default function vapService(state = initialState, action) {
       };
     }
 
-    case VAP_SERVICE_TRANSACTION_REQUESTED:
+    case VAP_SERVICE_TRANSACTION_REQUESTED: {
       return {
         ...state,
         fieldTransactionMap: {
@@ -84,7 +86,7 @@ export default function vapService(state = initialState, action) {
           [action.fieldName]: { isPending: true, method: action.method },
         },
       };
-
+    }
     case VAP_SERVICE_TRANSACTION_REQUEST_FAILED: {
       let copyAddressModal = null;
       if (
@@ -111,6 +113,8 @@ export default function vapService(state = initialState, action) {
     }
 
     case VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED: {
+      // console.log('VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED');
+      // console.log(JSON.stringify({ state, action }, null, 2));
       return {
         ...state,
         transactions: state.transactions.concat(action.transaction),
@@ -143,9 +147,14 @@ export default function vapService(state = initialState, action) {
         transactionId: updatedTransactionId,
       } = transaction.data.attributes;
 
+      let copyAddressModal = null;
+
       const metadata = { ...state.metadata };
       if (isFailedTransaction(transaction)) {
         metadata.mostRecentErroredTransactionId = updatedTransactionId;
+        if (state.copyAddressModal === COPY_ADDRESS_MODAL_STATUS.PENDING) {
+          copyAddressModal = COPY_ADDRESS_MODAL_STATUS.FAILURE;
+        }
       }
 
       return {
@@ -160,6 +169,7 @@ export default function vapService(state = initialState, action) {
               ? transaction
               : t,
         ),
+        copyAddressModal,
       };
     }
 

@@ -21,6 +21,7 @@ export default Object.freeze({
   checkInExperienceTranslationDayOfEnabled: 'check_in_experience_translation_day_of_enabled',
   checkInExperienceTranslationPreCheckInEnabled:'check_in_experience_translation_pre_check_in_enabled',
   checkInExperienceDayOfDemographicsFlagsEnabled: 'check_in_experience_day_of_demographics_flags_enabled',
+  checkInExperienceLorotaSecurityUpdatesEnabled: 'check_in_experience_lorota_security_updates_enabled',
   coeAccess: 'coe_access',
   combinedDebtPortalAccess: 'combined_debt_portal_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
