@@ -1,4 +1,5 @@
 import piiReplace from './piiReplace';
+import * as _ from 'lodash';
 
 const GreetUser = {
   makeBotGreetUser: (
@@ -35,8 +36,7 @@ const GreetUser = {
     }
 
     if (action.type === 'WEB_CHAT/SEND_MESSAGE') {
-      // eslint-disable-next-line no-param-reassign
-      action.payload.text = piiReplace(action.payload.text);
+      _.assign(action.payload, { text: piiReplace(action.payload.text) });
     }
     return next(action);
   },
