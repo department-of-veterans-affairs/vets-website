@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { VaCheckboxGroup } from 'web-components/react-bindings';
+import { VaCheckboxGroup } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 /**
  * Using a custom checkbox widget because the built-in checkbox will duplicate
@@ -51,7 +51,7 @@ const GroupCheckboxWidget = props => {
       required
     >
       {labels.map((label, index) => (
-        <va-Checkbox
+        <va-checkbox
           key={label}
           data-index={index}
           label={label}
@@ -66,7 +66,6 @@ GroupCheckboxWidget.propTypes = {
   formContext: PropTypes.shape({
     submitted: PropTypes.bool,
   }),
-  value: PropTypes.string,
   options: PropTypes.shape({
     labels: PropTypes.arrayOf([
       PropTypes.shape({
@@ -74,6 +73,7 @@ GroupCheckboxWidget.propTypes = {
       }),
     ]),
   }),
+  value: PropTypes.string,
   onChange: PropTypes.func,
 };
 
