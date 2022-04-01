@@ -68,7 +68,7 @@ const CheckIn = props => {
         !isDayOfDemographicsFlagsEnabled ||
         demographicsFlagsSent ||
         demographicsFlagsEmpty ||
-        getShouldSendDemographicsFlags(window)
+        !getShouldSendDemographicsFlags(window)
       )
         return;
       api.v2

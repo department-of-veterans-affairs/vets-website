@@ -98,7 +98,7 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
         getSessionKey(
           window,
           SESSION_STORAGE_KEYS.SHOULD_SEND_DEMOGRAPHICS_FLAGS,
-        ) ?? false
+        ) ?? true
       );
     },
     [SESSION_STORAGE_KEYS],

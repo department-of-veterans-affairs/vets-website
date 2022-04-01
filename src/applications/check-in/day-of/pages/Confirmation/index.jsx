@@ -29,7 +29,7 @@ const Confirmation = () => {
   useEffect(
     () => {
       if (!getShouldSendDemographicsFlags(window))
-        setShouldSendDemographicsFlags(window, true);
+        setShouldSendDemographicsFlags(window, false);
     },
     [getShouldSendDemographicsFlags, setShouldSendDemographicsFlags],
   );

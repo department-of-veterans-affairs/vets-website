@@ -43,7 +43,7 @@ const SeeStaff = props => {
         !isDayOfDemographicsFlagsEnabled ||
         demographicsFlagsSent ||
         demographicsFlagsEmpty ||
-        getShouldSendDemographicsFlags(window)
+        !getShouldSendDemographicsFlags(window)
       )
         return;
       api.v2
