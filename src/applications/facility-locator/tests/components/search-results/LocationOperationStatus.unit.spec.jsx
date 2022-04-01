@@ -32,6 +32,14 @@ describe('facility-locator', () => {
       const { container } = render(<LocationOperationStatus />);
       expect(container.firstChild).to.be.null;
     });
+    it('should render nothing operation status for bad status', () => {
+      const operatingStatus = { code: 'DOES NOT EXIST' };
+
+      const { container } = render(
+        <LocationOperationStatus operatingStatus={operatingStatus} />,
+      );
+      expect(container.firstChild).to.be.null;
+    });
     it('should render nothing for status LIMITED', () => {
       const operatingStatus = { code: 'LIMITED' };
       const { getByText } = render(
