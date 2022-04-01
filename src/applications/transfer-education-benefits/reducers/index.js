@@ -52,7 +52,7 @@ export default {
         };
       case UPDATE_SELECTED_SPONSORS:
         return {
-          state,
+          ...state,
           sponsors: action.payload,
         };
       default:

@@ -464,6 +464,9 @@ const formConfig = {
                       !fieldData?.someoneNotListed &&
                       !fieldData?.sponsors?.some(sponsor => sponsor.selected)
                     ) {
+                      errors?.addError('dennis');
+                      // errors['view:sponsors']?.addError('foo');
+                      // errors['view:sponsors'].sponsor?.addError('bar');
                       errors?.sponsors?.addError('Please select a sponsor');
                       return false;
                     }

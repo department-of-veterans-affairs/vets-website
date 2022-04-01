@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 // import environment from 'platform/utilities/environment';
 // import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -27,6 +27,8 @@ function DynamicCheckboxGroup({
   form,
 }) {
   const [dirty, setDirty] = useState(false);
+  const renderCounter = useRef(0);
+  renderCounter.current += 1;
 
   useEffect(
     () => {
@@ -86,7 +88,9 @@ function DynamicCheckboxGroup({
     <CheckboxGroup
       additionalFieldsetClass="vads-u-margin-top--0"
       additionalLegendClass="toe-sponsors-checkboxes_legend vads-u-margin-top--0"
-      errorMessage={!valid && dirty && errorMessage}
+      errorMessage={
+        !valid && (dirty || renderCounter.current > 1) && errorMessage
+      }
       label={
         // I'm getting conflicting linting issues here.
         // eslint-disable-next-line react/jsx-wrap-multilines
@@ -130,6 +134,7 @@ const mapStateToProps = state => ({
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
   form: state.form,
   sponsors: mapSponsors(state),
+  state,
 });
 
 const mapDispatchToProps = {
