@@ -1,10 +1,12 @@
-// In a real app this would not be imported directly; instead the schema you
-// imported above would import and use these common definitions:
+// In a real app this would not be imported directly; instead the schema that
+// is imported from vets-json-schema should include these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import * as address from 'platform/forms-system/src/js/definitions/address';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 
+// once the form schema is added to vets-json-schema, import this from there
+// and remove this duplicate
 import fullSchema from '../00-1234-schema.json';
 
 const { usaPhone } = commonDefinitions;
