@@ -26,6 +26,15 @@
       "serviceBranch": "Army",
       "serviceStatus": "Active duty",
       "applyPeriodToSelected": true
+    },
+    {
+      "dateRange": {
+        "from": "2010-01-02",
+        "to": "2015-01-02"
+      },
+      "serviceBranch": "Army Reserves",
+      "serviceStatus": "Inactive Reserves",
+      "applyPeriodToSelected": true
     }
   ],
   "fullName": {
