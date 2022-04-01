@@ -31,7 +31,7 @@ const VaFacilityResult = ({
         />
         <span
           role="button"
-          tabIndex="-1"
+          tabIndex="0"
           onClick={() => {
             recordResultClickEvents(location, index);
           }}
