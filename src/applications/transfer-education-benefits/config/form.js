@@ -338,18 +338,10 @@ const formConfig = {
                 },
               },
             },
-            // [formFields.relationshipToServiceMember]: {
-            //   'ui:title':
-            //     'What’s your relationship to the service member whose benefit has been transferred to you?',
-            //   'ui:widget': 'radio',
-            // },
           },
           schema: {
             type: 'object',
-            required: [
-              formFields.dateOfBirth,
-              // formFields.relationshipToServiceMember,
-            ],
+            required: [formFields.dateOfBirth],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -370,10 +362,6 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              // [formFields.relationshipToServiceMember]: {
-              //   type: 'string',
-              //   enum: ['Spouse', 'Child'],
-              // },
             },
           },
         },
@@ -445,7 +433,7 @@ const formConfig = {
                 <va-loading-indicator message="Loading your sponsors..." />
               ),
               'ui:options': {
-                hideIf: formData => formData.fetchedSponsorsComplete,
+                hideIf: formData => !!formData.fetchedSponsorsComplete,
               },
             },
             'view:sponsors': {
@@ -453,32 +441,39 @@ const formConfig = {
                 'ui:title': 'testing',
                 'ui:field': DynamicCheckboxGroup,
               },
+              // 'ui:required': formData =>
+              //   formData['view:sponsors']?.sponsors?.length,
               'ui:validations': [
-                {
-                  // A little messy, but we're returning a boolean from
-                  // this function in addition to adding an error
-                  // with addError so this function can be reused from
-                  // the ui:field.
-                  validator: (errors, fieldData) => {
-                    if (
-                      !fieldData?.someoneNotListed &&
-                      !fieldData?.sponsors?.some(sponsor => sponsor.selected)
-                    ) {
-                      errors?.addError('dennis');
-                      // errors['view:sponsors']?.addError('foo');
-                      // errors['view:sponsors'].sponsor?.addError('bar');
-                      errors?.sponsors?.addError('Please select a sponsor');
-                      return false;
-                    }
-                    return true;
-                  },
-                  options: {},
+                // A little messy, but we're returning a boolean from
+                // this function in addition to adding an error
+                // with addError so this function can be reused from
+                // the ui:field.
+                (errors, fieldData) => {
+                  if (
+                    fieldData.sponsors?.length &&
+                    !fieldData?.someoneNotListed &&
+                    !fieldData?.sponsors?.some(sponsor => sponsor.selected)
+                  ) {
+                    errors?.sponsors?.addError('Please select a sponsor');
+                    return false;
+                  }
+                  return true;
                 },
               ],
               'ui:options': {
                 hideIf: formData =>
                   formData.fetchedSponsorsComplete &&
                   !formData['view:sponsors']?.sponsors?.length,
+              },
+            },
+            [formFields.relationshipToServiceMember]: {
+              'ui:title':
+                'What’s your relationship to the service member whose benefit has been transferred to you?',
+              'ui:widget': 'radio',
+              'ui:options': {
+                hideIf: formData =>
+                  !formData.fetchedSponsorsComplete ||
+                  formData['view:sponsors']?.sponsors?.length,
               },
             },
             [formFields.sponsorFullName]: {
@@ -522,6 +517,8 @@ const formConfig = {
                   !formData.fetchedSponsorsComplete ||
                   formData['view:sponsors']?.sponsors?.length,
               },
+              // 'ui:required': formData =>
+              //   !!formData['view:sponsors']?.sponsors?.length,
             },
             'view:additionalInfo': {
               'ui:description': (
@@ -547,6 +544,11 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: [
+              // formFields.sponsorDateOfBirth,
+              // formFields.relationshipToServiceMember,
+              // formFields.sponsorFullName,
+            ],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -576,6 +578,21 @@ const formConfig = {
                   },
                 },
               },
+              // [formFields.relationshipToServiceMember]: {
+              //   type: 'string',
+              //   enum: ['Spouse', 'Child'],
+              // },
+              // [formFields.sponsorFullName]: {
+              //   ...fullName,
+              //   properties: {
+              //     ...fullName.properties,
+              //     middle: {
+              //       ...fullName.properties.middle,
+              //       maxLength: 30,
+              //     },
+              //   },
+              // },
+              [formFields.sponsorDateOfBirth]: date,
               'view:additionalInfo': {
                 type: 'object',
                 properties: {},

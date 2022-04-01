@@ -44,13 +44,13 @@ export const TOEApp = ({
         if (
           (formData.fetchedSponsorsComplete === undefined &&
             fetchedSponsorsComplete !== undefined) ||
-          (sponsors && !_.isEqual(formData['view:sponsors'], sponsors))
+          (sponsors?.sponsors?.length &&
+            !_.isEqual(formData['view:sponsors'], sponsors))
         ) {
           setFormData({
             ...formData,
             fetchedSponsorsComplete,
             'view:sponsors': {
-              ...formData['view:sponsors'],
               ...sponsors,
             },
           });

@@ -79,7 +79,7 @@ function DynamicCheckboxGroup({
   try {
     valid = form?.pages?.sponsorInformation?.uiSchema['view:sponsors'][
       'ui:validations'
-    ][0].validator(null, form.data['view:sponsors']);
+    ][0](null, form.data['view:sponsors']);
   } catch (e) {
     valid = true;
   }
