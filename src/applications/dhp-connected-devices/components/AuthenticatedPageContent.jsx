@@ -2,6 +2,10 @@ import React from 'react';
 import { DeviceConnectionCard } from './DeviceConnectionCard';
 
 export const AuthenticatedPageContent = () => {
+  async function fitbitAuth() {
+    const response = await fetch('vets-api/path/to/connect/to/fitbit/connect');
+    return response.json();
+  }
   return (
     <>
       {/* Displays user's connected devices */}
@@ -15,10 +19,7 @@ export const AuthenticatedPageContent = () => {
         device. When complete, you will return to this page on VA.gov.
       </div>
       <div className="connected-devices-section">
-        <DeviceConnectionCard
-          vendor="Fitbit"
-          authUrl="https://www.fitbit.com/oauth2/authorize?client_id=<client_id>&response_type=code&code_challenge=<code_challenge>&code_challenge_method=S256&scope=weight%20location%20settings%20profile%20nutrition%20activity%20sleep%20heartrate%20social"
-        />
+        <DeviceConnectionCard vendor="Fitbit" handleOnClick={fitbitAuth} />
       </div>
     </>
   );

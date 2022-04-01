@@ -25,3 +25,18 @@ describe(manifest.appName, () => {
     cy.get('.login').should('be.visible');
   });
 });
+
+describe('Fitbit registration', () => {
+  it('is accessible', () => {
+    cy.visit(manifest.rootUrl)
+      .injectAxe()
+      .axeCheck();
+  });
+  it('displays successful alert when fitbit registration is successful', () => {
+    cy.visit(manifest.rootUrl);
+    cy.login();
+    cy.visit(manifest.rootUrl);
+    // cy.intercept('vets-api/path/to/connect/to/fitbit/connect', 'success');
+    cy.findByTestId('fitbitConnectLink'); // .click();
+  });
+});
