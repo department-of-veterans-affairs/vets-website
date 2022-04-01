@@ -38,9 +38,12 @@ const formConfig = {
   transformForSubmit: customCOEsubmit,
   trackingPrefix: '26-1880-',
   customText: {
+    appAction: 'your COE request',
     appSavedSuccessfullyMessage: 'Your request has been saved.',
     appType: 'request',
+    continueAppButtonText: 'Continue your request',
     finishAppLaterMessage: 'Finish this request later',
+    startNewAppButtonText: 'Start a new request',
     reviewPageTitle: 'Review your request',
   },
   introduction: IntroductionPage,
