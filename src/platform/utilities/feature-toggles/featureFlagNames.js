@@ -99,7 +99,7 @@ export default Object.freeze({
   showFormI18n: 'show_form_i18n',
   showEventsV2: 'show_events_v2',
   showMebMockEndpoints: 'show_meb_mock_endpoints',
-  showToeApp: 'show_toe_app',
+  showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
   showHealthcareExperienceQuestionnaire:
     'show_healthcare_experience_questionnaire',
