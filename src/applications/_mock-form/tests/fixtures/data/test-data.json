@@ -1,9 +1,10 @@
 {
   "viewNoDirectDeposit": false,
   "bankAccount": {
+    "bankName": "First Bank of Form Mocks",
     "accountType": "checking",
-    "routingNumber": "876543210",
-    "accountNumber": "87654321"
+    "routingNumber": "000000000",
+    "accountNumber": "11111111111"
   },
   "address": {
     "street": "123 Main St",
