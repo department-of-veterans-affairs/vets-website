@@ -55,6 +55,7 @@ const LocationPhoneLink = ({
   from,
   query,
   showHealthConnectNumber = false,
+  healthConnectNumber,
 }) => {
   const isProvider = location.type === LocationType.CC_PROVIDER;
   const { phone } = location.attributes;
@@ -77,7 +78,7 @@ const LocationPhoneLink = ({
         renderPhoneNumber(
           'VA health connect',
           null,
-          '877-741-3400',
+          healthConnectNumber,
           from,
           location,
         )}
@@ -94,8 +95,9 @@ const LocationPhoneLink = ({
 };
 
 LocationPhoneLink.propTypes = {
-  location: PropTypes.object,
   from: PropTypes.string,
+  healthConnectNumber: PropTypes.string,
+  location: PropTypes.object,
   query: PropTypes.object,
   showHealthConnectNumber: PropTypes.string,
 };

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 import LocationPhoneLink from './common/LocationPhoneLink';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import { isVADomain } from '../../utils/helpers';
 import { recordResultClickEvents } from '../../utils/analytics';
-import { Link } from 'react-router';
 import { LocationType, OperatingStatus, Covid19Vaccine } from '../../constants';
 import LocationAddress from './common/LocationAddress';
 import LocationOperationStatus from './common/LocationOperationStatus';
@@ -16,6 +16,7 @@ const VaFacilityResult = ({
   query,
   index,
   showHealthConnectNumber,
+  healthConnectNumber,
 }) => {
   const { name, website, operatingStatus } = location.attributes;
   const isCovid19Search =
@@ -29,6 +30,7 @@ const VaFacilityResult = ({
           markerText={location.markerText}
         />
         <span
+          aria-hidden="true"
           onClick={() => {
             recordResultClickEvents(location, index);
           }}
@@ -44,13 +46,14 @@ const VaFacilityResult = ({
           )}
         </span>
         <LocationAddress location={location} />
-        <LocationDirectionsLink location={location} from={'SearchResult'} />
+        <LocationDirectionsLink location={location} from="SearchResult" />
         {isCovid19Search && <Covid19Alert />}
         <LocationPhoneLink
           location={location}
-          from={'SearchResult'}
+          from="SearchResult"
           query={query}
           showHealthConnectNumber={showHealthConnectNumber}
+          healthConnectNumber={healthConnectNumber}
         />
       </>
       {operatingStatus &&
@@ -62,9 +65,10 @@ const VaFacilityResult = ({
 };
 
 VaFacilityResult.propTypes = {
+  healthConnectNumber: PropTypes.string,
+  index: PropTypes.number,
   location: PropTypes.object,
   query: PropTypes.object,
-  index: PropTypes.number,
   showHealthConnectNumber: PropTypes.string,
 };
 

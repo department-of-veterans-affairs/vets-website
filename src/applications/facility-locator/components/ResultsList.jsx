@@ -50,13 +50,35 @@ export class ResultsList extends Component {
     }
   }
 
+  visNEightIsShowNumber(result, query, facilityLocatorShowHealthConnectNumber) {
+    let final = false;
+    if (
+      result?.attributes?.visn === '8' &&
+      query?.facilityType === 'health' &&
+      facilityLocatorShowHealthConnectNumber
+    ) {
+      final = facilityLocatorShowHealthConnectNumber;
+    } else if (
+      result?.attributes?.visn === '2' &&
+      query?.facilityType === 'health'
+    ) {
+      final = true;
+    } else if (
+      result?.attributes?.visn === '17' &&
+      query?.facilityType === 'health'
+    ) {
+      final = true;
+    }
+    return final;
+  }
+
   visNEightNumber(result, query, facilityLocatorShowHealthConnectNumber) {
     if (
       result?.attributes?.visn === '8' &&
       query?.facilityType === 'health' &&
       facilityLocatorShowHealthConnectNumber
     ) {
-      return facilityLocatorShowHealthConnectNumber;
+      return '877-741-3400';
     }
     if (result?.attributes?.visn === '2' && query?.facilityType === 'health') {
       return '800-877-6976';
@@ -81,7 +103,13 @@ export class ResultsList extends Component {
         ? services[0]?.walkInsAccepted
         : 'false';
 
-      const showHealthConnectNumber = this.visNEightNumber(
+      const showHealthConnectNumber = this.visNEightIsShowNumber(
+        result,
+        query,
+        this.props.facilityLocatorShowHealthConnectNumber,
+      );
+
+      const healthConnectNumber = this.visNEightNumber(
         result,
         query,
         this.props.facilityLocatorShowHealthConnectNumber,
@@ -112,6 +140,7 @@ export class ResultsList extends Component {
                 key={result.id}
                 index={index}
                 showHealthConnectNumber={showHealthConnectNumber}
+                healthConnectNumber={healthConnectNumber}
               />
             );
           break;
