@@ -109,6 +109,7 @@ const Landing = props => {
       goToErrorPage,
       initForm,
       setSession,
+      setShouldSendDemographicsFlags,
     ],
   );
   return (
