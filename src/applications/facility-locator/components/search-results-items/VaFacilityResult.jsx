@@ -30,8 +30,12 @@ const VaFacilityResult = ({
           markerText={location.markerText}
         />
         <span
-          aria-hidden="true"
+          role="button"
+          tabIndex="-1"
           onClick={() => {
+            recordResultClickEvents(location, index);
+          }}
+          onKeyDown={() => {
             recordResultClickEvents(location, index);
           }}
         >
