@@ -15,7 +15,7 @@ function handleClick(history, dispatch) {
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push(`/new-appointment`);
+    history.push('new-appointment');
   };
 }
 

@@ -775,7 +775,7 @@ export function submitAppointmentOrRequest(history) {
             `/appointments/va/${appointment.id}?confirmMsg=true&redirect=false`,
           );
         } else {
-          history.push('/new-appointment/confirmation');
+          history.push('/appointments/new-appointment/confirmation');
         }
       } catch (error) {
         const extraData = {
@@ -889,7 +889,11 @@ export function submitAppointmentOrRequest(history) {
           ...additionalEventData,
         });
         resetDataLayer();
-        history.push(`/requests/${requestData.id}?confirmMsg=true`);
+        history.push(
+          `/appointments/requests/${
+            requestData.id
+          }?confirmMsg=true&redirect=false`,
+        );
       } catch (error) {
         let extraData = null;
         if (requestBody) {

@@ -1,11 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mockFetch } from 'platform/testing/unit/helpers';
-import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { fireEvent, waitFor } from '@testing-library/dom';
-import TypeOfFacilityPage from '../../../new-appointment/components/TypeOfFacilityPage';
 import { Route } from 'react-router-dom';
 import { cleanup } from '@testing-library/react';
+import TypeOfFacilityPage from '../../../new-appointment/components/TypeOfFacilityPage';
+import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 
 const initialState = {
   featureToggles: {
@@ -67,7 +67,7 @@ describe('VAOS <TypeOfFacilityPage>', () => {
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/request-date',
+        '/appointments/new-appointment/request-date',
       ),
     );
 
@@ -78,7 +78,7 @@ describe('VAOS <TypeOfFacilityPage>', () => {
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/request-date',
+        '/appointments/new-appointment/request-date',
       ),
     );
   });

@@ -2,19 +2,19 @@ import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import {
   createTestStore,
   renderWithStoreAndRouter,
   setTypeOfCare,
   setVAFacility,
 } from '../../mocks/setup';
-import userEvent from '@testing-library/user-event';
 
 import ClinicChoicePage from '../../../new-appointment/components/ClinicChoicePage';
 import { mockEligibilityFetches } from '../../mocks/helpers';
 import { getClinicMock } from '../../mocks/v0';
 import { createMockCheyenneFacilityByVersion } from '../../mocks/data';
-import { mockFetch } from 'platform/testing/unit/helpers';
 import { mockFacilityFetchByVersion } from '../../mocks/fetch';
 
 const initialState = {
@@ -161,7 +161,7 @@ describe('VAOS <ClinicChoicePage>', () => {
 
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-appointment/preferred-date',
+        '/appointments/new-appointment/preferred-date',
       ),
     );
 
@@ -176,7 +176,7 @@ describe('VAOS <ClinicChoicePage>', () => {
 
     await waitFor(() =>
       expect(screen.history.push.secondCall.args[0]).to.equal(
-        '/new-appointment/request-date',
+        '/appointments/new-appointment/request-date',
       ),
     );
   });
@@ -320,7 +320,7 @@ describe('VAOS <ClinicChoicePage>', () => {
     userEvent.click(screen.getByText(/continue/i));
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-appointment/preferred-date',
+        '/appointments/new-appointment/preferred-date',
       ),
     );
 
@@ -331,7 +331,7 @@ describe('VAOS <ClinicChoicePage>', () => {
     userEvent.click(screen.getByText(/continue/i));
     await waitFor(() =>
       expect(screen.history.push.secondCall.args[0]).to.equal(
-        '/new-appointment/request-date',
+        '/appointments/new-appointment/request-date',
       ),
     );
   });

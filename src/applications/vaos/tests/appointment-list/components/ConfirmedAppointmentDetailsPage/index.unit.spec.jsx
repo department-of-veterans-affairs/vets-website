@@ -149,8 +149,15 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     expect(screen.getByText(/Nutrition and food/i)).to.be.ok;
     expect(screen.getByText(/Print/)).to.be.ok;
     expect(screen.getByText(/Cancel appointment/)).to.be.ok;
+    userEvent.click(
+      screen.getByRole('link', { name: /VA online scheduling/i }),
+    );
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/appointments?redirect=false',
+      ),
+    );
 
-    userEvent.click(screen.getByText(/VA online scheduling/i));
     const detailLinks = await screen.findAllByRole('link', {
       name: /Detail/i,
     });

@@ -1,3 +1,4 @@
+import recordEvent from 'platform/monitoring/record-event';
 import {
   selectHasVAPResidentialAddress,
   selectRegisteredCernerFacilityIds,
@@ -30,7 +31,6 @@ import {
   updateFacilityType,
   checkCommunityCareEligibility,
 } from './redux/actions';
-import recordEvent from 'platform/monitoring/record-event';
 import { startNewVaccineFlow } from '../appointment-list/redux/actions';
 
 const AUDIOLOGY = '203';
@@ -116,7 +116,7 @@ export default {
     url: '/',
   },
   typeOfAppointment: {
-    url: '/new-appointment',
+    url: '/appointments/new-appointment',
     // Temporary stub for typeOfAppointment which will eventually be first step
     // Next will direct to type of care or provider once both flows are complete
     next: 'typeOfFacility',
@@ -125,7 +125,7 @@ export default {
     url: '/new-covid-19-vaccine-appointment',
   },
   typeOfCare: {
-    url: '/new-appointment',
+    url: '/appointments/new-appointment',
     async next(state, dispatch) {
       if (isCovidVaccine(state)) {
         recordEvent({
@@ -133,12 +133,15 @@ export default {
         });
         dispatch(startNewVaccineFlow());
         return 'vaccineFlow';
-      } else if (isSleepCare(state)) {
+      }
+      if (isSleepCare(state)) {
         dispatch(updateFacilityType(FACILITY_TYPES.VAMC));
         return 'typeOfSleepCare';
-      } else if (isEyeCare(state)) {
+      }
+      if (isEyeCare(state)) {
         return 'typeOfEyeCare';
-      } else if (isCommunityCare(state)) {
+      }
+      if (isCommunityCare(state)) {
         const isEligible = await dispatch(checkCommunityCareEligibility());
 
         if (isEligible && isPodiatry(state)) {
@@ -146,9 +149,11 @@ export default {
           dispatch(updateFacilityType(FACILITY_TYPES.COMMUNITY_CARE));
           dispatch(startRequestAppointmentFlow(true));
           return 'requestDateTime';
-        } else if (isEligible) {
+        }
+        if (isEligible) {
           return 'typeOfFacility';
-        } else if (isPodiatry(state)) {
+        }
+        if (isPodiatry(state)) {
           // If no CC enabled systems and toc is podiatry, show modal
           dispatch(showPodiatryAppointmentUnavailableModal());
           return 'typeOfCare';
@@ -160,7 +165,7 @@ export default {
     },
   },
   typeOfFacility: {
-    url: '/new-appointment/choose-facility-type',
+    url: '/appointments/new-appointment/choose-facility-type',
     next(state, dispatch) {
       if (isCCAudiology(state)) {
         return 'audiologyCareType';
@@ -175,11 +180,11 @@ export default {
     },
   },
   typeOfSleepCare: {
-    url: '/new-appointment/choose-sleep-care',
+    url: '/appointments/new-appointment/choose-sleep-care',
     next: VA_FACILITY_V2_KEY,
   },
   typeOfEyeCare: {
-    url: '/new-appointment/choose-eye-care',
+    url: '/appointments/new-appointment/choose-eye-care',
     async next(state, dispatch) {
       const data = getFormData(state);
 
@@ -197,14 +202,14 @@ export default {
     },
   },
   audiologyCareType: {
-    url: '/new-appointment/audiology',
+    url: '/appointments/new-appointment/audiology',
     next(state, dispatch) {
       dispatch(startRequestAppointmentFlow(true));
       return 'requestDateTime';
     },
   },
   ccPreferences: {
-    url: '/new-appointment/community-care-preferences',
+    url: '/appointments/new-appointment/community-care-preferences',
     next(state) {
       if (selectHasVAPResidentialAddress(state)) {
         return 'ccLanguage';
@@ -214,26 +219,26 @@ export default {
     },
   },
   ccLanguage: {
-    url: '/new-appointment/community-care-language',
+    url: '/appointments/new-appointment/community-care-language',
     next: 'reasonForAppointment',
   },
   ccClosestCity: {
-    url: '/new-appointment/choose-closest-city',
+    url: '/appointments/new-appointment/choose-closest-city',
     next: 'ccPreferences',
   },
   vaFacility: {
-    url: '/new-appointment/va-facility',
+    url: '/appointments/new-appointment/va-facility',
     next: vaFacilityNext,
   },
   vaFacilityV2: {
-    url: '/new-appointment/va-facility-2',
+    url: '/appointments/new-appointment/va-facility-2',
     next: vaFacilityNext,
   },
   scheduleCerner: {
-    url: '/new-appointment/how-to-schedule',
+    url: '/appointments/new-appointment/how-to-schedule',
   },
   clinicChoice: {
-    url: '/new-appointment/clinics',
+    url: '/appointments/new-appointment/clinics',
     next(state, dispatch) {
       if (getFormData(state).clinicId === 'NONE') {
         dispatch(startRequestAppointmentFlow());
@@ -246,20 +251,21 @@ export default {
     },
   },
   preferredDate: {
-    url: '/new-appointment/preferred-date',
+    url: '/appointments/new-appointment/preferred-date',
     next: 'selectDateTime',
   },
   selectDateTime: {
-    url: '/new-appointment/select-date',
+    url: '/appointments/new-appointment/select-date',
     next: 'reasonForAppointment',
   },
   requestDateTime: {
-    url: '/new-appointment/request-date',
+    url: '/appointments/new-appointment/request-date',
     next(state) {
       const supportedSites = selectCommunityCareSupportedSites(state);
       if (isCCFacility(state) && supportedSites.length > 1) {
         return 'ccClosestCity';
-      } else if (isCCFacility(state)) {
+      }
+      if (isCCFacility(state)) {
         return 'ccPreferences';
       }
 
@@ -267,7 +273,7 @@ export default {
     },
   },
   reasonForAppointment: {
-    url: '/new-appointment/reason-appointment',
+    url: '/appointments/new-appointment/reason-appointment',
     next(state) {
       if (
         isCCFacility(state) ||
@@ -280,18 +286,18 @@ export default {
     },
   },
   visitType: {
-    url: '/new-appointment/choose-visit-type',
+    url: '/appointments/new-appointment/choose-visit-type',
     next: 'contactInfo',
   },
   appointmentTime: {
-    url: '/new-appointment/appointment-time',
+    url: '/appointments/new-appointment/appointment-time',
     next: 'contactInfo',
   },
   contactInfo: {
-    url: '/new-appointment/contact-info',
+    url: '/appointments/new-appointment/contact-info',
     next: 'review',
   },
   review: {
-    url: '/new-appointment/review',
+    url: '/appointments/new-appointment/review',
   },
 };

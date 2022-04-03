@@ -7,6 +7,7 @@ import moment from 'moment';
 import { waitFor, waitForElementToBeRemoved } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import userEvent from '@testing-library/user-event';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -15,7 +16,6 @@ import {
   setClinic,
   setPreferredDate,
 } from '../../../mocks/setup';
-import userEvent from '@testing-library/user-event';
 
 import DateTimeSelectPage from '../../../../new-appointment/components/DateTimeSelectPage';
 import { FETCH_STATUS } from '../../../../utils/constants';
@@ -598,7 +598,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
 
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/new-appointment/request-date',
+        '/appointments/new-appointment/request-date',
       ),
     );
   });

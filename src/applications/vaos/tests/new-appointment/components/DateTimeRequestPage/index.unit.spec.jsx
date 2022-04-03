@@ -2,18 +2,18 @@ import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
+import userEvent from '@testing-library/user-event';
+
+import { waitFor, within } from '@testing-library/dom';
+import { Route } from 'react-router-dom';
+import { mockFetch } from 'platform/testing/unit/helpers';
+import { FETCH_STATUS } from '../../../../utils/constants';
+import DateTimeRequestPage from '../../../../new-appointment/components/DateTimeRequestPage';
 import {
   createTestStore,
   renderWithStoreAndRouter,
   setCommunityCareFlow,
 } from '../../../mocks/setup';
-import userEvent from '@testing-library/user-event';
-
-import DateTimeRequestPage from '../../../../new-appointment/components/DateTimeRequestPage';
-import { FETCH_STATUS } from '../../../../utils/constants';
-import { waitFor, within } from '@testing-library/dom';
-import { Route } from 'react-router-dom';
-import { mockFetch } from 'platform/testing/unit/helpers';
 
 async function chooseMorningRequestSlot(screen) {
   const currentMonth = moment()
@@ -499,7 +499,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       // Then they're sent to the closest city selection page
       await waitFor(() => {
         expect(screen.history.push.lastCall.args[0]).to.equal(
-          '/new-appointment/choose-closest-city',
+          '/appointments/new-appointment/choose-closest-city',
         );
       });
     });
@@ -535,7 +535,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       // Then they're sent to the preferences page
       await waitFor(() => {
         expect(screen.history.push.lastCall.args[0]).to.equal(
-          '/new-appointment/community-care-preferences',
+          '/appointments/new-appointment/community-care-preferences',
         );
       });
     });

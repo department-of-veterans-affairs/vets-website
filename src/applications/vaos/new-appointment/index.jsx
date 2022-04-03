@@ -129,7 +129,7 @@ export function NewAppointment() {
           path={`${match.url}/confirmation`}
           component={ConfirmationPage}
         />
-        <Route exact path="/new-appointment" component={TypeOfCarePage} />
+        <Route exact path={match.path} component={TypeOfCarePage} />
       </Switch>
     </FormLayout>
   );

@@ -116,7 +116,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
     fireEvent.change(dropdown, { target: { value: 'upcoming' } });
 
     await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('/'),
+      expect(screen.history.push.lastCall.args[0]).to.equal('/?redirect=false'),
     );
 
     expect(
@@ -178,7 +178,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
     );
 
     await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('/new-appointment'),
+      expect(screen.history.push.lastCall.args[0]).to.equal('new-appointment'),
     );
   });
 

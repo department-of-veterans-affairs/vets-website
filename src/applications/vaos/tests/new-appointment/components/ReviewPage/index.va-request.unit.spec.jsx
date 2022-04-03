@@ -261,7 +261,7 @@ describe('VAOS <ReviewPage> VA request', () => {
     userEvent.click(screen.getByText(/Request appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/requests/fake_id?confirmMsg=true',
+        '/appointments/requests/fake_id?confirmMsg=true&redirect=false',
       );
     });
     expect(window.dataLayer[1]).to.deep.equal({
@@ -337,7 +337,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     userEvent.click(screen.getByText(/Request appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/requests/fake_id?confirmMsg=true',
+        '/appointments/requests/fake_id?confirmMsg=true&redirect=false',
       );
     });
 
@@ -403,7 +403,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     userEvent.click(screen.getByText(/Request appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/requests/fake_id?confirmMsg=true',
+        '/appointments/requests/fake_id?confirmMsg=true&redirect=false',
       );
     });
 

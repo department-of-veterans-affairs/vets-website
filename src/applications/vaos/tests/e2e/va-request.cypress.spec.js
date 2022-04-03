@@ -1,4 +1,5 @@
 import moment from 'moment';
+import Timeouts from 'platform/testing/e2e/timeouts';
 import {
   initAppointmentListMock,
   initVARequestMock,
@@ -16,7 +17,17 @@ import requests from '../../services/mocks/v2/requests.json';
 
 describe('VAOS VA request flow', () => {
   function fillOutForm(facilitySelection) {
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit('health-care/schedule-view-va-appointments/');
+
+    cy.get('h3', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and(
+        'contain',
+        'Go to the VA appointments tool to view, schedule, or cancel your appointment online',
+      );
+
+    cy.findByRole('button', { name: 'Go to your VA appointments' }).click();
+
     cy.injectAxe();
 
     // Start flow
@@ -148,7 +159,9 @@ describe('VAOS VA request flow', () => {
         data: facilities983.data.filter(f => f.id === '983GB'),
       },
     });
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit(
+      'health-care/schedule-view-va-appointments/appointments?redirect=false',
+    );
     cy.injectAxe();
 
     // Start flow
@@ -184,7 +197,17 @@ describe('VAOS VA request flow using VAOS service', () => {
       url: /.*\/v0\/appointments?.*$/,
       response: { data: [] },
     });
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit('health-care/schedule-view-va-appointments/');
+
+    cy.get('h3', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and(
+        'contain',
+        'Go to the VA appointments tool to view, schedule, or cancel your appointment online',
+      );
+
+    cy.findByRole('button', { name: 'Go to your VA appointments' }).click();
+
     cy.injectAxe();
 
     // Start flow

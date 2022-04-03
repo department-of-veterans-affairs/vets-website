@@ -133,8 +133,8 @@ export default function AppointmentListItem({ appointment, facility }) {
   const dispatch = useDispatch();
   const match = useRouteMatch();
   const link = isCommunityCare
-    ? `${match.url}cc/${appointment.id}`
-    : `${match.url}va/${appointment.id}`;
+    ? `cc/${appointment.id}`
+    : `va/${appointment.id}`;
 
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),

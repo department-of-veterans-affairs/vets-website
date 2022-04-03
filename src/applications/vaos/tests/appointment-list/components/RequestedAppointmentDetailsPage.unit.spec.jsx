@@ -215,7 +215,9 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       .ok;
 
     fireEvent.click(screen.getByText('VA online scheduling'));
-    expect(screen.history.push.lastCall.args[0]).to.equal('/');
+    expect(screen.history.push.lastCall.args[0]).to.equal(
+      '/appointments?redirect=false',
+    );
   });
 
   it('should render CC request details', async () => {

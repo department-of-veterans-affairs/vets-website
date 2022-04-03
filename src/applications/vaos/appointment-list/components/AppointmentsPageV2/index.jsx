@@ -71,17 +71,27 @@ function getDropdownValueFromLocation(pathname) {
   };
 }
 
-function handleDropdownChange(history, setHasTypeChanged) {
+function handleDropdownChange(history, match, setHasTypeChanged) {
   return e => {
     const { value } = e.target;
     if (value === DROPDOWN_VALUES.upcoming) {
-      history.push('/');
+      history.push(`${match.url}?redirect=false`);
     } else if (value === DROPDOWN_VALUES.requested) {
-      history.push('/requested');
+      history.push(
+        `${
+          match.url.endsWith('/') ? match.url.slice(0, -1) : match.url
+        }/requested`,
+      );
     } else if (value === DROPDOWN_VALUES.past) {
-      history.push('/past');
+      history.push(
+        `${match.url.endsWith('/') ? match.url.slice(0, -1) : match.url}/past`,
+      );
     } else if (value === DROPDOWN_VALUES.canceled) {
-      history.push('/canceled');
+      history.push(
+        `${
+          match.url.endsWith('/') ? match.url.slice(0, -1) : match.url
+        }/canceled`,
+      );
     }
     setHasTypeChanged(true);
   };
@@ -205,21 +215,26 @@ export default function AppointmentsPageV2() {
           </label>
           <Select
             options={options}
-            onChange={handleDropdownChange(history, setHasTypeChanged)}
+            onChange={handleDropdownChange(history, match, setHasTypeChanged)}
             id="type-dropdown"
             value={dropdownValue}
           />
         </>
       )}
       <Switch>
-        <Route exact path={match.path}>
-          <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />
-        </Route>
         <Route
           path={
             featureStatusImprovement
-              ? `${match.path}/pending`
-              : `${match.path}/requested`
+              ? `${
+                  match.path.endsWith('/')
+                    ? match.path.slice(0, -1)
+                    : match.path
+                }/pending`
+              : `${
+                  match.path.endsWith('/')
+                    ? match.path.slice(0, -1)
+                    : match.path
+                }/requested`
           }
         >
           {featureStatusImprovement && (
@@ -229,11 +244,22 @@ export default function AppointmentsPageV2() {
             <RequestedAppointmentsList hasTypeChanged={hasTypeChanged} />
           )}
         </Route>
-        <Route path={`${match.path}/past`}>
+        <Route
+          path={`${
+            match.path.endsWith('/') ? match.path.slice(0, -1) : match.path
+          }/past`}
+        >
           <PastAppointmentsListV2 hasTypeChanged={hasTypeChanged} />
         </Route>
-        <Route path="/canceled">
+        <Route
+          path={`${
+            match.path.endsWith('/') ? match.path.slice(0, -1) : match.path
+          }/canceled`}
+        >
           <CanceledAppointmentsList hasTypeChanged={hasTypeChanged} />
+        </Route>
+        <Route path={match.path}>
+          <UpcomingAppointmentsList hasTypeChanged={hasTypeChanged} />
         </Route>
       </Switch>
     </PageLayout>

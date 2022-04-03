@@ -30,7 +30,9 @@ describe('VAOS <TypeOfSleepCarePage>', () => {
   it('should show page and validation', async () => {
     const store = createTestStore(initialState);
     const nextPage = await setTypeOfCare(store, /sleep/i);
-    expect(nextPage).to.equal('/new-appointment/choose-sleep-care');
+    expect(nextPage).to.equal(
+      '/appointments/new-appointment/choose-sleep-care',
+    );
 
     const screen = renderWithStoreAndRouter(
       <Route component={TypeOfSleepCarePage} />,
@@ -49,7 +51,7 @@ describe('VAOS <TypeOfSleepCarePage>', () => {
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/va-facility-2',
+        '/appointments/new-appointment/va-facility-2',
       ),
     );
   });

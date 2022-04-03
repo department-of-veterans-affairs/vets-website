@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { selectFeatureStatusImprovement } from '../redux/selectors';
 import { updateBreadcrumb } from '../appointment-list/redux/actions';
 
@@ -11,6 +12,7 @@ export default function VAOSBreadcrumbs({ children }) {
   );
   const dispatch = useDispatch();
   const breadcrumbs = useSelector(state => state.appointments.breadcrumbs);
+  const match = useRouteMatch();
 
   return (
     <Breadcrumbs className="medium-screen:vads-u-padding-x--0 vaos-appts__breadcrumbs">
@@ -27,13 +29,15 @@ export default function VAOSBreadcrumbs({ children }) {
         Schedule and manage health appointments
       </a>
       {!featureStatusImprovement && (
-        <Link to="/" key="vaos-home">
+        <Link to="/appointments?redirect=false" key="vaos-home">
           VA online scheduling
         </Link>
       )}
       {featureStatusImprovement && (
         <Link
-          to="/appointments?redirect=false"
+          to={`${
+            match.url.endsWith('/') ? match.url.slice(0, 1) : match.url
+          }/appointments?redirect=false`}
           key="vaos-home"
           onClick={() => dispatch(updateBreadcrumb())}
         >
@@ -52,3 +56,7 @@ export default function VAOSBreadcrumbs({ children }) {
     </Breadcrumbs>
   );
 }
+
+VAOSBreadcrumbs.propTypes = {
+  children: PropTypes.node,
+};

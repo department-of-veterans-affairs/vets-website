@@ -1,15 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mockFetch } from 'platform/testing/unit/helpers';
+import { fireEvent, waitFor } from '@testing-library/dom';
+import { Route } from 'react-router-dom';
+import { cleanup } from '@testing-library/react';
+import ReasonForAppointmentPage from '../../../new-appointment/components/ReasonForAppointmentPage';
 import {
   createTestStore,
   renderWithStoreAndRouter,
   setTypeOfFacility,
 } from '../../mocks/setup';
-import { fireEvent, waitFor } from '@testing-library/dom';
-import ReasonForAppointmentPage from '../../../new-appointment/components/ReasonForAppointmentPage';
-import { Route } from 'react-router-dom';
-import { cleanup } from '@testing-library/react';
 import { startDirectScheduleFlow } from '../../../new-appointment/redux/actions';
 
 const initialState = {
@@ -178,7 +178,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/choose-visit-type',
+        '/appointments/new-appointment/choose-visit-type',
       ),
     );
   });
@@ -205,7 +205,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/contact-info',
+        '/appointments/new-appointment/contact-info',
       ),
     );
   });

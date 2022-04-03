@@ -1,10 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import { mockFetch } from 'platform/testing/unit/helpers';
-import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { fireEvent, waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
 import { Route } from 'react-router-dom';
+import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 
 import TypeOfVisitPage from '../../../new-appointment/components/TypeOfVisitPage';
 
@@ -87,7 +87,7 @@ describe('VAOS <TypeOfVisitPage> ', () => {
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/new-appointment/contact-info',
+        '/appointments/new-appointment/contact-info',
       ),
     );
   });

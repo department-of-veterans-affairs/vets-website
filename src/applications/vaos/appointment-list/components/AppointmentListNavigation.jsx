@@ -10,7 +10,11 @@ import { GA_PREFIX } from '../../utils/constants';
 function handleClick({ history, dispatch, match, callback }) {
   return event => {
     if (event.target.id === 'pending') {
-      history.push(`${match.url}/pending`);
+      history.push(
+        `${
+          match.url.endsWith('/') ? match.url.slice(0, -1) : match.url
+        }/pending`,
+      );
       callback(true);
       dispatch(updateBreadcrumb({ title: 'Pending', path: 'pending' }));
       recordEvent({
@@ -21,7 +25,9 @@ function handleClick({ history, dispatch, match, callback }) {
       recordEvent({
         event: `${GA_PREFIX}-status-past-link-clicked`,
       });
-      history.push(`${match.url}/past`);
+      history.push(
+        `${match.url.endsWith('/') ? match.url.slice(0, -1) : match.url}/past`,
+      );
       callback(true);
       dispatch(updateBreadcrumb({ title: 'Past', path: 'past' }));
     }
