@@ -35,6 +35,7 @@ export default {
   HIGHER_LEVEL_REVIEW_APP_STATUS: 'higher-level-review-status',
   HOME_LOAN_COE_LOGIN_WIDGET: 'home-loan-coe-login-widget',
   HOMEPAGE_BANNER: 'homepage-banner',
+  HOMEPAGE_HERO_RANDOMIZER: 'homepage-hero-randomizer',
   I_18_SELECT: 'i18-select',
   LETTERS_MOBILE_CTA: 'letters-mobile-cta',
   MAINTENANCE_BANNER: 'maintenance-banner',

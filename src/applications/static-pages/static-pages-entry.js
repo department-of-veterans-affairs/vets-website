@@ -73,6 +73,7 @@ import {
   createScoEventsWidget,
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
+import createHomepageHeroRandomizer from './homepage-hero-randomizer/createHomepageHeroRandomizer';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -195,6 +196,7 @@ createCOEAccess(store, widgetTypes.COE_ACCESS);
 createHomeLoanCOELoginWidget(store, widgetTypes.HOME_LOAN_COE_LOGIN_WIDGET);
 createLettersMobileCTA(store, widgetTypes.LETTERS_MOBILE_CTA);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
+createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER);
 
 // Create the My VA Login widget only on the homepage.
 if (location.pathname === '/') {
