@@ -11,6 +11,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: sterlingwes/gh-pages-deploy-action@v1.1
         with:
-          access-token: ${{ secrets.ACCESS_TOKEN }}
+          access-token: ${{ secrets.VAFSC_TOKEN }}
           source-directory: docs
+          deploy-branch: master
           build-command: yarn docs:build
