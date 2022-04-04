@@ -175,6 +175,12 @@ const analyticsEvents = {
       prefix: 'segmented-progress-bar',
     },
   ],
+  'va-on-this-page': [
+    {
+      action: 'click',
+      event: 'nav-jumplink-click',
+    },
+  ],
 };
 
 export function subscribeComponentAnalyticsEvents(
