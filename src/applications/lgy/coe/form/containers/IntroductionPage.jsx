@@ -17,6 +17,7 @@ const IntroductionPage = ({
   route,
   status,
   errors,
+  isLoading,
 }) => {
   let content;
 
@@ -29,7 +30,7 @@ const IntroductionPage = ({
   // Once the coe call is done, render the rest of the content
   const coeCallEnded = [CALLSTATUS.success, CALLSTATUS.skip];
 
-  if (!loggedIn) {
+  if (!loggedIn && !isLoading) {
     content = notLoggedInContent(route);
   }
 
@@ -40,7 +41,8 @@ const IntroductionPage = ({
           downloadUrl={downloadUrl}
           referenceNumber={coe.referenceNumber}
           requestDate={coe.applicationCreateDate}
-          status={coe.status}
+          status={coe}
+          isLoading={isLoading}
         />
         {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
           <LoggedInContent route={route} status={coe.status} />
@@ -52,7 +54,7 @@ const IntroductionPage = ({
   if (loggedIn && !coeCallEnded.includes(status)) {
     content = (
       <>
-        <RenderError errors={errors} introPage />
+        <RenderError error={errors.coe[0].code} introPage />
       </>
     );
   }
@@ -74,6 +76,7 @@ const mapStateToProps = state => ({
   downloadUrl: state.certificateOfEligibility.downloadUrl,
   loggedIn: isLoggedIn(state),
   status: state.certificateOfEligibility.generateAutoCoeStatus,
+  isLoading: state.certificateOfEligibility.isLoading,
 });
 
 IntroductionPage.propTypes = {

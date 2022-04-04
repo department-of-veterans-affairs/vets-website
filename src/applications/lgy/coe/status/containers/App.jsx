@@ -58,7 +58,7 @@ const App = ({
     generateAutoCoeStatus === CALLSTATUS.success ||
     (generateAutoCoeStatus === CALLSTATUS.skip && coe)
   ) {
-    switch (coe.status) {
+    switch (coe) {
       case COE_ELIGIBILITY_STATUS.available:
         content = <Available downloadUrl={downloadUrl} />;
         break;
@@ -98,10 +98,10 @@ const App = ({
         );
         break;
       default:
-        content = <RenderError errors={errors} />;
+        content = <RenderError error={coe.status} />;
     }
   } else {
-    content = <RenderError errors={errors} />;
+    content = <RenderError error={errors.coe[0].code} />;
   }
 
   return (

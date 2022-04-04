@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
+import { RenderError } from '../../../shared/components/errors/RenderError';
 import { getCoeDocuments } from './api';
 import List from './List';
 
 const DocumentList = ({ notOnUploadPage }) => {
   const [documents, setDocuments] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const getData = async () => {
       const data = await getCoeDocuments();
       if (data.errors) {
-        // Will add error handling in the future
+        setError(data.errors);
       } else {
         setDocuments(data);
       }
@@ -19,6 +20,15 @@ const DocumentList = ({ notOnUploadPage }) => {
 
     getData();
   }, []);
+
+  // If there is an error, let's send that into the RenderError component
+  if (error) {
+    return (
+      <>
+        <RenderError error={error[0].code} />
+      </>
+    );
+  }
 
   if (documents.length > 0) {
     return (

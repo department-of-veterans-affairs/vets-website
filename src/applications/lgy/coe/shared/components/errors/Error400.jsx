@@ -1,6 +1,10 @@
 import React from 'react';
 
-export const Error400 = ({ introPage }) => {
+export const Error400 = () => {
+  // If this is not on the introduciton page, we need to render the "what if I have more quesitons" content.
+  // Lets check the URL to see if we are on the introduction page
+  const locationArray = window.location.pathname.split('/');
+
   return (
     <div className="row vads-u-margin-bottom--8">
       <va-alert
@@ -21,7 +25,7 @@ export const Error400 = ({ introPage }) => {
           Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
         </p>
       </va-alert>
-      {introPage ? (
+      {locationArray[4] === 'introduction' ? null : (
         <>
           <h2>What if I have more questions?</h2>
           <p>
@@ -34,7 +38,7 @@ export const Error400 = ({ introPage }) => {
             Find your regional loan center
           </a>
         </>
-      ) : null}
+      )}
     </div>
   );
 };
