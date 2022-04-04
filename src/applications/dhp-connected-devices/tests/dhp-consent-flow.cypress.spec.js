@@ -36,7 +36,9 @@ describe('Fitbit registration', () => {
     cy.visit(manifest.rootUrl);
     cy.login();
     cy.visit(manifest.rootUrl);
-    // cy.intercept('vets-api/path/to/connect/to/fitbit/connect', 'success');
-    cy.findByTestId('fitbitConnectLink'); // .click();
+    cy.intercept('vets-api/path/to/connect/to/fitbit/connect', 'success');
+    cy.findByTestId('fitbitConnectLink').click();
+    cy.visit(manifest.rootUrl);
+    cy.findByText(/Device connected/).should('exist');
   });
 });

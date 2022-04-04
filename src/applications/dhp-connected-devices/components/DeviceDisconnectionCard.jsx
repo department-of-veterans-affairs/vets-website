@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const DeviceConnectionCard = ({ vendor, onClickHandler }) => {
+export const DeviceDisconnectionCard = ({ vendor, onClickHandler }) => {
   return (
     <div className="connect-device">
       <p>
@@ -12,16 +12,16 @@ export const DeviceConnectionCard = ({ vendor, onClickHandler }) => {
           onClick={onClickHandler}
           data-testid="fitbitConnectLink"
           onKeyDown={onClickHandler}
-          className="connect-button"
+          className="usa-button-secondary"
         >
-          Connect
+          Disconnect
         </button>
       </p>
     </div>
   );
 };
 
-DeviceConnectionCard.propTypes = {
+DeviceDisconnectionCard.propTypes = {
   vendor: PropTypes.string.isRequired,
   onClickHandler: PropTypes.func.isRequired,
 };

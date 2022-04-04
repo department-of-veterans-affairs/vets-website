@@ -5,6 +5,7 @@ export const DeviceConnectionSucceededAlert = () => {
     <va-alert
       close-btn-aria-label="Close notification"
       status="success"
+      data-testId="success-alert"
       visible
     >
       <h3 slot="headline">Device Connected</h3>
