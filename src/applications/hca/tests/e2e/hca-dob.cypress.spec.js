@@ -38,13 +38,9 @@ describe('HCA-DOB', () => {
       '/veteran-information/profile-information-dob',
     );
 
-    cy.get('#root_veteranDateOfBirthMonth').select('1');
-
-    cy.get('#root_veteranDateOfBirthDay').select('1');
-
-    cy.get('#root_veteranDateOfBirthYear')
-      .clear()
-      .type('1899');
+    cy.findByLabelText(/month/i).select('1');
+    cy.findByLabelText(/day/i).select('1');
+    cy.findByLabelText(/year/i).type('1899');
 
     dobHelpers.goToNextPage();
     cy.get('#root_veteranDateOfBirth-error-message').should('be.visible');
@@ -61,14 +57,11 @@ describe('HCA-DOB', () => {
       '/veteran-information/profile-information-dob',
     );
 
-    cy.get('#root_veteranDateOfBirthMonth').select('1');
-
-    cy.get('#root_veteranDateOfBirthDay').select('1');
-
     const nextYear = new Date().getFullYear() + 1;
-    cy.get('#root_veteranDateOfBirthYear')
-      .clear()
-      .type(nextYear);
+
+    cy.findByLabelText(/month/i).select('1');
+    cy.findByLabelText(/day/i).select('1');
+    cy.findByLabelText(/year/i).type(nextYear);
 
     dobHelpers.goToNextPage();
     cy.get('#root_veteranDateOfBirth-error-message').should('be.visible');
