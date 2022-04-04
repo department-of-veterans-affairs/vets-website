@@ -85,24 +85,33 @@ export const ConnectedDevicesSection = ({
   successAlert,
   failureAlert,
 }) => {
+  const areDevicesConnected = () => {
+    return connectedDevices.some(device => device.connected);
+  };
+
+  const connectedDevicesMapped = () => {
+    return connectedDevices.map(device => {
+      if (device.connected) {
+        return (
+          <DeviceDisconnectionCard
+            key={device.vendor}
+            vendor={device.vendor}
+            onClickHandler={() => {
+              // console.log('Disconnect');
+            }}
+          />
+        );
+      }
+      return <></>;
+    });
+  };
+
   return (
     <>
       {successAlert ? <DeviceConnectionSucceededAlert /> : ''}
       {failureAlert ? <DeviceConnectionFailedAlert /> : ''}
-      {connectedDevices.map(device => {
-        if (device.connected) {
-          return (
-            <DeviceDisconnectionCard
-              vendor={device.vendor}
-              onClickHandler={() => {
-                // console.log('Disconnect');
-              }}
-            />
-          );
-        }
-        return <></>;
-      })}
-      <div>You do not have any devices connected</div>
+      {!areDevicesConnected() && <p>You do not have any devices connected</p>}
+      {areDevicesConnected() && connectedDevicesMapped()}
     </>
   );
 };
@@ -123,6 +132,7 @@ export const DevicesToConnectSection = ({
         if (!device.connected) {
           return (
             <DeviceConnectionCard
+              key={device.vendor}
               vendor={device.vendor}
               onClickHandler={() => onClickHandler(device)}
             />

@@ -15,6 +15,7 @@ describe('Connect Devices Container', () => {
       connectedDevicesContainer.findByTestId('Freestyle Libre-connect-link'),
     ).to.exist;
   });
+
   it('should render fitbit in connected devices section when connected', () => {
     const initialState = {
       connectedDevices: [
@@ -37,6 +38,31 @@ describe('Connect Devices Container', () => {
     expect(connectedDevicesContainer.findByTestId('Fitbit-disconnect-link')).to
       .exist;
   });
+
+  it('should render "You do not have any devices connected" when no devices are connected', () => {
+    const noDevicesConnectedState = {
+      connectedDevices: [
+        {
+          vendor: 'Fitbit',
+          authUrl: 'path/to/vetsapi/fitbit/connect/method',
+          disconnectUrl: 'placeholder',
+          connected: false,
+        },
+      ],
+    };
+
+    const connectedDevicesContainer = renderInReduxProvider(
+      <ConnectedDevicesContainer />,
+      { noDevicesConnectedState },
+    );
+
+    expect(
+      connectedDevicesContainer.findByText(
+        'You do not have any devices connected',
+      ),
+    ).to.exist;
+  });
+
   it('should render success alert when successAlert is set to true', () => {
     const initialState = {
       connectedDevices: [
@@ -57,6 +83,7 @@ describe('Connect Devices Container', () => {
     );
     expect(connectedDevicesContainer.findByTestId('success-alert')).to.exist;
   });
+
   it('should render failure alert when failureAlert is set to true', () => {
     const initialState = {
       connectedDevices: [
