@@ -2,14 +2,14 @@ import moment from 'moment';
 
 import manifest from '../../manifest.json';
 import featureToggles from './fixtures/feature-toggles-aiq.json';
-import mockUserAiq from './fixtures/mockUserAiq';
 import enrollmentStatus from './fixtures/mockEnrollmentStatus.json';
-import prefillAiq from './fixtures/mockPrefillAiq.json';
 import * as dobHelpers from './helpers';
+import maxTestData from './fixtures/schema/maximal-test.json';
+
+const testData = maxTestData.data;
 
 describe('HCA-DOB', () => {
   beforeEach(() => {
-    cy.login(mockUserAiq);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
       'mockFeatures',
     );
@@ -17,10 +17,6 @@ describe('HCA-DOB', () => {
       statusCode: 404,
       body: enrollmentStatus,
     }).as('mockEnrollmentStatus');
-    cy.intercept('/v0/in_progress_forms/1010ez', {
-      statusCode: 200,
-      body: prefillAiq,
-    }).as('mockSip');
     cy.intercept('POST', '/v0/health_care_applications', {
       statusCode: 200,
       body: {
@@ -31,7 +27,28 @@ describe('HCA-DOB', () => {
   });
 
   it('displays error message with dob less than 1900', () => {
-    cy.visit(`${manifest.rootUrl}/veteran-information/profile-information-dob`);
+    cy.visit(manifest.rootUrl);
+
+    cy.findAllByText(/start.+without signing in/i, { selector: 'button' })
+      .first()
+      .click();
+
+    cy.findByLabelText(/first name/i).type(testData.veteranFullName.first);
+    cy.findByLabelText(/last name/i).type(testData.veteranFullName.last);
+
+    const [year, month, day] = testData.veteranDateOfBirth
+      .split('-')
+      .map(dateComponent => parseInt(dateComponent, 10).toString());
+    cy.findByLabelText(/month/i).select(month);
+    cy.findByLabelText(/day/i).select(day);
+    cy.findByLabelText(/year/i).type(year);
+
+    cy.findByLabelText(/social security/i).type(
+      testData.veteranSocialSecurityNumber,
+    );
+    dobHelpers.goToNextPage('veteran-information/profile-information');
+    dobHelpers.goToNextPage('veteran-information/profile-information-ssn');
+    dobHelpers.goToNextPage('veteran-information/profile-information-dob');
 
     cy.location('pathname').should(
       'include',
@@ -50,7 +67,28 @@ describe('HCA-DOB', () => {
   });
 
   it('displays error message with dob greater than current year', () => {
-    cy.visit(`${manifest.rootUrl}/veteran-information/profile-information-dob`);
+    cy.visit(manifest.rootUrl);
+
+    cy.findAllByText(/start.+without signing in/i, { selector: 'button' })
+      .first()
+      .click();
+
+    cy.findByLabelText(/first name/i).type(testData.veteranFullName.first);
+    cy.findByLabelText(/last name/i).type(testData.veteranFullName.last);
+
+    const [year, month, day] = testData.veteranDateOfBirth
+      .split('-')
+      .map(dateComponent => parseInt(dateComponent, 10).toString());
+    cy.findByLabelText(/month/i).select(month);
+    cy.findByLabelText(/day/i).select(day);
+    cy.findByLabelText(/year/i).type(year);
+
+    cy.findByLabelText(/social security/i).type(
+      testData.veteranSocialSecurityNumber,
+    );
+    dobHelpers.goToNextPage('veteran-information/profile-information');
+    dobHelpers.goToNextPage('veteran-information/profile-information-ssn');
+    dobHelpers.goToNextPage('veteran-information/profile-information-dob');
 
     cy.location('pathname').should(
       'include',
