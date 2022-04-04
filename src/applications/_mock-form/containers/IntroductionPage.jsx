@@ -29,6 +29,22 @@ class IntroductionPage extends React.Component {
           Please complete the 00-1234 form to apply for Mock form.
         </SaveInProgressIntro>
         <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+          What’s a mock form?
+        </h2>
+        <p>
+          This mock form was{' '}
+          <a href="https://department-of-veterans-affairs.github.io/veteran-facing-services-tools/forms/form-tutorial-basic">
+            built using the form generator
+          </a>{' '}
+          and includes examples from the intermediate and advanced tutorials.
+          Additional examples, not from the tutorial, have also been included.
+        </p>
+        <p>
+          It is meant to show alternative patterns and best practices, and
+          should help with onboarding engineers, and be a showcase for
+          implementation of newer patterns and workarounds for issues.
+        </p>
+        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
           Follow the steps below to apply for Mock form.
         </h2>
         <va-process-list>
