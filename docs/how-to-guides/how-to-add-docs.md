@@ -1,12 +1,12 @@
 ---
 layout: page
 title: How To Add Docs
-parent: Tutorials
+parent: How-to guides
 ---
 
 # How to add documentation to VAFSC
 
-To add documentation all you need to do is create a file inside of:
+To add documentation all you need to do is create a markdown file inside of:
 
 - how-to-guides
 - tutorials
