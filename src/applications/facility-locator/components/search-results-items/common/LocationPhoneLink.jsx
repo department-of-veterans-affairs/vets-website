@@ -5,6 +5,29 @@ import { LocationType } from '../../../constants';
 import { parsePhoneNumber } from '../../../utils/phoneNumbers';
 import CCProviderPhoneLink from './CCProviderPhoneLink';
 
+// Hard Coded Phone Number will be removed
+// when we can get phone number from an API
+const visNEightNumber = (
+  result,
+  query,
+  facilityLocatorShowHealthConnectNumber,
+) => {
+  if (
+    result?.attributes?.visn === '8' &&
+    query?.facilityType === 'health' &&
+    facilityLocatorShowHealthConnectNumber
+  ) {
+    return '877-741-3400';
+  }
+  if (result?.attributes?.visn === '2' && query?.facilityType === 'health') {
+    return '800-877-6976';
+  }
+  if (result?.attributes?.visn === '17' && query?.facilityType === 'health') {
+    return '833-284-7212';
+  }
+  return '';
+};
+
 export const renderPhoneNumber = (
   title,
   subTitle = null,
@@ -58,6 +81,11 @@ const LocationPhoneLink = ({
 }) => {
   const isProvider = location.type === LocationType.CC_PROVIDER;
   const { phone } = location.attributes;
+  const healthConnectNumber = visNEightNumber(
+    location,
+    query,
+    showHealthConnectNumber,
+  );
 
   if (isProvider) {
     return (
@@ -77,7 +105,7 @@ const LocationPhoneLink = ({
         renderPhoneNumber(
           'VA health connect',
           null,
-          '877-741-3400',
+          healthConnectNumber,
           from,
           location,
         )}

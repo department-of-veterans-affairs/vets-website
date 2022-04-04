@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { withRouter } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 import PropTypes from 'prop-types';
 
@@ -12,6 +13,7 @@ import { URLS } from '../utils/navigation';
 
 const BackToAppointments = ({ router, triggerRefresh }) => {
   const { jumpToPage } = useFormRouting(router);
+  const { t } = useTranslation();
   const handleClick = useCallback(
     e => {
       e.preventDefault();
@@ -34,7 +36,7 @@ const BackToAppointments = ({ router, triggerRefresh }) => {
           href="#appointments"
           data-testid="go-to-appointments-button"
         >
-          Go to another appointment
+          {t('go-to-another-appointment')}
         </a>
       </nav>
     </>

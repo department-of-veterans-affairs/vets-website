@@ -17,7 +17,9 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.injectAxe();
 
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling', { waitForAnimations: true }).click({
+      waitForAnimations: true,
+    });
 
     // Select COVID-19 vaccine appointment type
     cy.get('input[value="covid"]')
@@ -31,6 +33,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.url().should('include', '/new-covid-19-vaccine-appointment');
     cy.axeCheckBestPractice();
     cy.contains('button', 'Continue')
+      .should('not.be.disabled')
       .focus()
       .click();
 
@@ -61,6 +64,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.url().should('include', '/select-date');
     cy.findByText(/Finding appointment availability.../i).should('not.exist');
     cy.contains('button', 'Next')
+      .should('not.be.disabled')
       .focus()
       .click();
     cy.get(
@@ -122,7 +126,9 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     );
     cy.injectAxe();
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling', { waitForAnimations: true }).click({
+      waitForAnimations: true,
+    });
 
     // Select COVID-19 vaccine appointment type
     cy.get('input[value="covid"]')
@@ -136,6 +142,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.url().should('include', '/new-covid-19-vaccine-appointment');
     cy.axeCheckBestPractice();
     cy.contains('button', 'Continue')
+      .should('not.be.disabled')
       .focus()
       .click();
 
@@ -162,7 +169,9 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     );
     cy.injectAxe();
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling', { waitForAnimations: true }).click({
+      waitForAnimations: true,
+    });
 
     // Select COVID-19 vaccine appointment type
     cy.get('input[value="covid"]')

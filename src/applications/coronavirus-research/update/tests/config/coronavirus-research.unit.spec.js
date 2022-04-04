@@ -75,9 +75,9 @@ describe('Coronavirus Research Volunteer Form Update', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(1);
+    expect(form.find('.usa-input-error').length).to.equal(0);
     expect(form.find('.input-error-date').length).to.equal(0);
-    expect(onSubmit.called).to.be.false;
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 
@@ -117,7 +117,7 @@ describe('Coronavirus Research Volunteer Form Update', () => {
       ).length,
     ).to.equal(1);
     // expect(form.find('.input-error-date').length).to.equal(0);
-    expect(onSubmit.called).to.be.false;
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 
@@ -157,7 +157,7 @@ describe('Coronavirus Research Volunteer Form Update', () => {
       ).length,
     ).to.equal(0);
     // expect(form.find('.input-error-date').length).to.equal(0);
-    expect(onSubmit.called).to.be.false;
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 
@@ -177,7 +177,7 @@ describe('Coronavirus Research Volunteer Form Update', () => {
 
     form.find('form').simulate('submit');
     expect(form.find('input[id="root_VACCINATED_PLAN_0"]').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 
@@ -197,7 +197,7 @@ describe('Coronavirus Research Volunteer Form Update', () => {
 
     form.find('form').simulate('submit');
     expect(form.find('input#root_zipCode').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 

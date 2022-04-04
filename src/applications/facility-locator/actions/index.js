@@ -1,3 +1,4 @@
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import mapboxClient from '../components/MapboxClient';
 import {
   reverseGeocodeBox,
@@ -29,7 +30,6 @@ import {
   CountriesList,
 } from '../constants';
 
-import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import { distBetween, radiusFromBoundingBox } from '../utils/facilityDistance';
 
 const mbxClient = mbxGeo(mapboxClient);
@@ -113,11 +113,10 @@ export const fetchProviderDetail = id => async dispatch => {
  * @returns {Object} An Object response (locations/providers)
  */
 const returnAllCare = async params => {
-  const { address, bounds, locationType, page, center, radius } = params;
+  const { address, locationType, page, center, radius } = params;
   const isUrgentCare = locationType === LocationType.URGENT_CARE;
   const vaData = await LocatorApi.searchWithBounds(
     address,
-    bounds,
     locationType,
     isUrgentCare ? 'UrgentCare' : 'EmergencyCare',
     page,
@@ -128,7 +127,6 @@ const returnAllCare = async params => {
 
   const nonVaData = await LocatorApi.searchWithBounds(
     address,
-    bounds,
     locationType,
     isUrgentCare ? 'NonVAUrgentCare' : 'NonVAEmergencyCare',
     page,
@@ -211,7 +209,6 @@ export const fetchLocations = async (
     } else {
       const dataList = await LocatorApi.searchWithBounds(
         address,
-        bounds,
         locationType,
         serviceType,
         page,

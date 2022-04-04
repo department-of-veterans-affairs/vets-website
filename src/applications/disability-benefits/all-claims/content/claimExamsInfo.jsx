@@ -1,7 +1,5 @@
 import React from 'react';
 
-import CollapsiblePanel from '@department-of-veterans-affairs/component-library/CollapsiblePanel';
-
 export const claimExamsDescription = (
   <div>
     <p>
@@ -34,26 +32,30 @@ export const claimExamsDescription = (
 export const claimExamsFAQ = (
   <>
     <h3 className="vads-u-font-size--h4">More information about claim exams</h3>
-    <CollapsiblePanel panelName="What happens if I miss a phone call?">
-      <p>
-        If we can’t reach you by phone, we’ll schedule an appointment for you.
-        We’ll send you a letter with the date and time of your exam.
-      </p>
-      <p>
-        Please call the number on your appointment letter to confirm your exam
-        time and location.
-      </p>
-      <p>
-        If you can’t make your appointment, let us know right away. You can most
-        likely reschedule, but this may delay your claim.
-      </p>
-    </CollapsiblePanel>
-    <CollapsiblePanel panelName="Why do I need a claim exam?">
-      <p>
-        Not everyone who files a disability claim will need an exam. We’ll ask
-        you to have an exam only if we need more information to decide your
-        claim and to help us rate your disability.
-      </p>
-    </CollapsiblePanel>
+    <va-accordion bordered>
+      <va-accordion-item>
+        <h4 slot="headline">What happens if I miss a phone call?</h4>
+        <p>
+          If we can’t reach you by phone, we’ll schedule an appointment for you.
+          We’ll send you a letter with the date and time of your exam.
+        </p>
+        <p>
+          Please call the number on your appointment letter to confirm your exam
+          time and location.
+        </p>
+        <p>
+          If you can’t make your appointment, let us know right away. You can
+          most likely reschedule, but this may delay your claim.
+        </p>
+      </va-accordion-item>
+      <va-accordion-item>
+        <h4 slot="headline">Why do I need a claim exam?</h4>
+        <p>
+          Not everyone who files a disability claim will need an exam. We’ll ask
+          you to have an exam only if we need more information to decide your
+          claim and to help us rate your disability.
+        </p>
+      </va-accordion-item>
+    </va-accordion>
   </>
 );

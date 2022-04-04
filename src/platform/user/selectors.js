@@ -82,6 +82,8 @@ export const selectVAPHomePhoneString = state =>
   createPhoneNumberStringFromData(selectVAPHomePhone(state));
 export const selectVAPResidentialAddress = state =>
   selectVAPContactInfo(state)?.residentialAddress;
+export const selectVAPMailingAddress = state =>
+  selectVAPContactInfo(state)?.mailingAddress;
 
 export function createIsServiceAvailableSelector(service) {
   return state => selectAvailableServices(state).includes(service);

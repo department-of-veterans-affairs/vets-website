@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
@@ -23,6 +24,7 @@ import { formatPhone } from '../../../utils/formatters';
 
 export default function PhoneNumber(props) {
   const { router } = props;
+  const { t } = useTranslation();
   const { jumpToPage } = useFormRouting(router);
   const selectEditContext = useMemo(makeSelectEditContext, []);
   const { editing } = useSelector(selectEditContext);
@@ -43,9 +45,9 @@ export default function PhoneNumber(props) {
 
   const isUpdatable = useMemo(
     () => {
-      return !phoneErrorMessage && !extensionErrorMessage;
+      return !phoneErrorMessage && !extensionErrorMessage && phone.number;
     },
-    [phoneErrorMessage, extensionErrorMessage],
+    [phoneErrorMessage, extensionErrorMessage, phone.number],
   );
 
   const dispatch = useDispatch();
@@ -86,15 +88,19 @@ export default function PhoneNumber(props) {
     event => {
       const { value: newPhone } = event.target;
       if (newPhone === '') {
-        setPhoneErrorMessage();
+        setPhoneErrorMessage(
+          `${getLabelForEditField(key, {
+            capitalizeFirstLetter: true,
+          })} is required`,
+        );
       } else if (!isValidPhone(newPhone)) {
-        setPhoneErrorMessage('Please enter a valid phone number address.');
+        setPhoneErrorMessage(t('please-enter-valid-phone-number'));
       } else {
         setPhoneErrorMessage();
       }
       setPhoneNumber(newPhone);
     },
-    [setPhoneNumber],
+    [setPhoneNumber, key, t],
   );
 
   const onExtensionChange = useCallback(
@@ -119,6 +125,7 @@ export default function PhoneNumber(props) {
         name={key}
         value={formatPhone(phoneNumber)}
         onVaChange={onPhoneNumberChange}
+        required
       />
       <VaTextInput
         error={extensionErrorMessage}

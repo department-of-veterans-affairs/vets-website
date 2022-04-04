@@ -202,10 +202,14 @@ export const redirectWithGAClientId = redirectUrl => {
 export function redirect(redirectUrl, clickedEvent) {
   const { application } = getQueryParams();
   const externalRedirect = isExternalRedirect();
+  const existingReturnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL);
 
   // Keep track of the URL to return to after auth operation.
   // If the user is coming via the standalone sign-in, redirect to the home page.
-  createAndStoreReturnUrl();
+  // Do not overwite an existing returnUrl for VERIFY attempts
+  if (!(existingReturnUrl && clickedEvent === AUTH_EVENTS.VERIFY)) {
+    createAndStoreReturnUrl();
+  }
 
   recordEvent({ event: clickedEvent });
 
