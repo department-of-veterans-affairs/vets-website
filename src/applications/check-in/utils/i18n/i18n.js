@@ -28,6 +28,7 @@ i18n
     fallbackLng: 'en',
     debug: true,
     interpolation: {
+      escapeValue: false,
       format: (value, format, lng) => {
         if (isDate(value)) {
           const locale = locales[lng];
