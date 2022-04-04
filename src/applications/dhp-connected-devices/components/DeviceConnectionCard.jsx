@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 export const DeviceConnectionCard = ({ vendor, onClickHandler }) => {
   return (
     <div className="connect-device">
-      <p>
-        <h3>{vendor}</h3>
+      <h3 className="vads-u-margin-y--0">{vendor}</h3>
+      <p className="vads-u-margin-y--0">
         <button
           onClick={onClickHandler}
           data-testid={`${vendor}-connect-link`}
