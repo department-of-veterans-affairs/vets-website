@@ -73,6 +73,7 @@ function handleClick({
   };
 }
 
+// do not merge this
 function handleKeyDown({
   history,
   dispatch,
