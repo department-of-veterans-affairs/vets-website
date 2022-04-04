@@ -66,7 +66,7 @@ const App = ({ toggleLoginModal, user }) => {
 
         {renderUI()}
 
-        <div>
+        <div className="vads-u-margin-bottom--6">
           <h2>Who can download VA education letters?</h2>
           <va-alert
             close-btn-aria-label="Close notification"
@@ -110,10 +110,6 @@ const App = ({ toggleLoginModal, user }) => {
             </a>
           </p>
         </div>
-
-        {/* <div className="vads-u-margin-top--7 vads-u-margin-bottom--9"> */}
-        {/* Comment */}
-        {/* </div> */}
       </Layout>
     </>
   );
