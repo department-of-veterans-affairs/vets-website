@@ -5,6 +5,7 @@ export function isVAProfileServiceConfigured() {
   return (
     // using the existence of VetsGov.pollTimeout as an indicator that we are
     // running unit tests and therefore _do_ want the FE to make real API calls
+    // also allowing api calls in review instances (hits staging api)
     window.VetsGov.pollTimeout ||
     window.Cypress ||
     [
@@ -13,7 +14,8 @@ export function isVAProfileServiceConfigured() {
       'staging.va.gov',
       'va.gov',
       'www.va.gov',
-    ].includes(document.location.hostname)
+    ].includes(document.location.hostname) ||
+    document.hostname.includes('review.vetsgov-internal')
   );
 }
 
