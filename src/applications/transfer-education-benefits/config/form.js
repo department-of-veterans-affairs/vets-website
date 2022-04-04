@@ -475,6 +475,9 @@ const formConfig = {
                   !formData.fetchedSponsorsComplete ||
                   formData['view:sponsors']?.sponsors?.length,
               },
+              'ui:required': formData =>
+                formData.fetchedSponsorsComplete &&
+                !formData['view:sponsors']?.sponsors?.length,
             },
             [formFields.sponsorFullName]: {
               ...fullNameUI,
@@ -488,6 +491,9 @@ const formConfig = {
                     }
                   },
                 ],
+                'ui:required': formData =>
+                  formData.fetchedSponsorsComplete &&
+                  !formData['view:sponsors']?.sponsors?.length,
               },
               last: {
                 ...fullNameUI.last,
@@ -499,6 +505,9 @@ const formConfig = {
                     }
                   },
                 ],
+                'ui:required': formData =>
+                  formData.fetchedSponsorsComplete &&
+                  !formData['view:sponsors']?.sponsors?.length,
               },
               middle: {
                 ...fullNameUI.middle,
@@ -517,8 +526,9 @@ const formConfig = {
                   !formData.fetchedSponsorsComplete ||
                   formData['view:sponsors']?.sponsors?.length,
               },
-              // 'ui:required': formData =>
-              //   !!formData['view:sponsors']?.sponsors?.length,
+              'ui:required': formData =>
+                formData.fetchedSponsorsComplete &&
+                !formData['view:sponsors']?.sponsors?.length,
             },
             'view:additionalInfo': {
               'ui:description': (
@@ -544,11 +554,6 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [
-              // formFields.sponsorDateOfBirth,
-              // formFields.relationshipToServiceMember,
-              // formFields.sponsorFullName,
-            ],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -578,20 +583,20 @@ const formConfig = {
                   },
                 },
               },
-              // [formFields.relationshipToServiceMember]: {
-              //   type: 'string',
-              //   enum: ['Spouse', 'Child'],
-              // },
-              // [formFields.sponsorFullName]: {
-              //   ...fullName,
-              //   properties: {
-              //     ...fullName.properties,
-              //     middle: {
-              //       ...fullName.properties.middle,
-              //       maxLength: 30,
-              //     },
-              //   },
-              // },
+              [formFields.relationshipToServiceMember]: {
+                type: 'string',
+                enum: ['Spouse', 'Child'],
+              },
+              [formFields.sponsorFullName]: {
+                ...fullName,
+                properties: {
+                  ...fullName.properties,
+                  middle: {
+                    ...fullName.properties.middle,
+                    maxLength: 30,
+                  },
+                },
+              },
               [formFields.sponsorDateOfBirth]: date,
               'view:additionalInfo': {
                 type: 'object',
