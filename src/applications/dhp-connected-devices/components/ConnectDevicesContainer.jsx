@@ -16,7 +16,7 @@ export const ConnectedDevicesContainer = () => {
       connected: false,
     },
     {
-      vendor: 'FreestyleLibre',
+      vendor: 'Freestyle Libre',
       authUrl: 'path/to/vetsapi/freestyle/connect/method',
       disconnectUrl: 'placeholder',
       connected: false,

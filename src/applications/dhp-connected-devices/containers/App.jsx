@@ -27,9 +27,9 @@ export default function App() {
             data, you must contact your care team directly.
           </p>
           {/* Show sign in button if user not logged in */}
-          {isLoggedIn && <UnauthenticatedPageContent />}
+          {!isLoggedIn && <UnauthenticatedPageContent />}
           {/* show your devices and Connect device section if user is logged in */}
-          {!isLoggedIn && <AuthenticatedPageContent />}
+          {isLoggedIn && <AuthenticatedPageContent />}
           <FrequentlyAskedQuestions />
         </article>
       </div>
