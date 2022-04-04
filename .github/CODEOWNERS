@@ -8,6 +8,7 @@
 
 # VSP
 *       @department-of-veterans-affairs/frontend-review-group
+src/application/_mock-form @department-of-veterans-affairs/vsp-design-system-fe
 src/platform/forms        @department-of-veterans-affairs/vsp-design-system-fe
 src/platform/forms-system @department-of-veterans-affairs/vsp-design-system-fe
 script/component-migration @department-of-veterans-affairs/vsp-design-system-fe
