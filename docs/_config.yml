@@ -14,3 +14,5 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 remote_theme: pmarsceill/just-the-docs # This is specific to GitHub Pages
 plugins:
   - jekyll-remote-theme
+
+theme: jekyll-theme-midnight
