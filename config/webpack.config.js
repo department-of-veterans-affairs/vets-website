@@ -263,13 +263,6 @@ module.exports = async (env = {}) => {
   const envBucketUrl = BUCKETS[buildtype];
   const sourceMapSlug = envBucketUrl || '';
 
-  // enable css sourcemaps for all non-localhost builds
-  // or if build options include local-css-sourcemaps or entry
-  const enableCSSSourcemaps =
-    buildtype !== LOCALHOST ||
-    buildOptions['local-css-sourcemaps'] ||
-    !!buildOptions.entry;
-
   const buildPath = path.resolve(
     __dirname,
     '../',
@@ -310,7 +303,7 @@ module.exports = async (env = {}) => {
             {
               loader: 'css-loader',
               options: {
-                sourceMap: enableCSSSourcemaps,
+                sourceMap: true,
               },
             },
             {
@@ -430,6 +423,15 @@ module.exports = async (env = {}) => {
         contextRegExp: /moment$/,
       }),
 
+      new CopyPlugin({
+        patterns: [
+          {
+            from: 'src/site/assets',
+            to: buildPath,
+          },
+        ],
+      }),
+
       new WebpackBar(),
     ],
     devServer: generateWebpackDevConfig(buildOptions),
@@ -443,18 +445,6 @@ module.exports = async (env = {}) => {
       }),
     );
   }
-
-  // Copy over image assets for when metalsmith is removed
-  baseConfig.plugins.push(
-    new CopyPlugin({
-      patterns: [
-        {
-          from: 'src/site/assets',
-          to: buildPath,
-        },
-      ],
-    }),
-  );
 
   // Optionally generate mocked HTML pages for apps without running content build.
   if (buildOptions.scaffold) {
