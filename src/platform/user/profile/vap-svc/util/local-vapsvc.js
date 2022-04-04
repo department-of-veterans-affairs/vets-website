@@ -15,7 +15,7 @@ export function isVAProfileServiceConfigured() {
       'va.gov',
       'www.va.gov',
     ].includes(document.location.hostname) ||
-    document.hostname.includes('review.vetsgov-internal')
+    document.location.hostname.includes('review.vetsgov-internal')
   );
 }
 
