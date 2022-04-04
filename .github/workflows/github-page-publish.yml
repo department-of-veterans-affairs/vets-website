@@ -1,0 +1,16 @@
+name: Github Pages Publish
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: sterlingwes/gh-pages-deploy-action@v1.1
+        with:
+          access-token: ${{ secrets.ACCESS_TOKEN }}
+          source-directory: docs
+          build-command: yarn docs:build
