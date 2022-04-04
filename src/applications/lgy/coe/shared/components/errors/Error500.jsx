@@ -1,6 +1,7 @@
 import React from 'react';
 
 export const Error500 = () => {
+  const locationArray = window.location.pathname.split('/');
   return (
     <div className="row vads-u-margin-bottom--8">
       <va-alert
@@ -19,15 +20,20 @@ export const Error500 = () => {
           ET.
         </p>
       </va-alert>
-      <h2>What if I have more questions?</h2>
-      <p>
-        If you have any questions that your lender can’t answer, please call
-        your VA regional loan center at  <va-telephone contact="8778273702" />.
-        We’re here Monday through Friday, 8:00 a.m. to 6:00 p.m. ET.
-      </p>
-      <a className="" href="/find-locations/">
-        Find your regional loan center
-      </a>
+      {locationArray[4] === 'introduction' ? null : (
+        <>
+          <h2>What if I have more questions?</h2>
+          <p>
+            If you have any questions that your lender can’t answer, please call
+            your VA regional loan center at &nbsp;
+            <va-telephone contact="8778273702" />. We’re here Monday through
+            Friday, 8:00 a.m. to 6:00 p.m. ET.
+          </p>
+          <a className="" href="/find-locations/">
+            Find your regional loan center
+          </a>
+        </>
+      )}
     </div>
   );
 };

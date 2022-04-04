@@ -14,7 +14,6 @@ export const RenderError = ({ error, introPage }) => {
     return (
       <>
         <Error500 />
-        {subwayMap}
       </>
     );
   }
