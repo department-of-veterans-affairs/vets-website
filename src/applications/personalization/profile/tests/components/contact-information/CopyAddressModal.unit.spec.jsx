@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import chai, { expect } from 'chai';
 import chaiDom from 'chai-dom';
 import { setupServer } from 'msw/node';
+import { COPY_ADDRESS_MODAL_STATUS } from '@@vap-svc/constants';
 
 import * as mocks from '@@profile/msw-mocks';
 import CopyAddressModal from '@@profile/components/contact-information/addresses/CopyAddressModal';
@@ -25,7 +26,10 @@ const ui = (
 
 describe('Copy Address Modal', () => {
   before(() => {
-    server = setupServer(...mocks.transactionPending);
+    server = setupServer(
+      ...mocks.transactionSucceeded,
+      ...mocks.editAddressSuccess,
+    );
     server.listen();
   });
   beforeEach(() => {
@@ -44,7 +48,7 @@ describe('Copy Address Modal', () => {
       ...{
         vapService: {
           fieldTransactionMap: { mailingAddress: { transactionRequest: null } },
-          copyAddressModal: 'prompt',
+          copyAddressModal: COPY_ADDRESS_MODAL_STATUS.PROMPT,
         },
       },
       ...{
@@ -75,7 +79,7 @@ describe('Copy Address Modal', () => {
       ...{
         vapService: {
           fieldTransactionMap: { mailingAddress: { transactionRequest: null } },
-          copyAddressModal: 'success',
+          copyAddressModal: COPY_ADDRESS_MODAL_STATUS.SUCCESS,
         },
       },
       ...{
@@ -121,7 +125,7 @@ describe('Copy Address Modal', () => {
       ...{
         vapService: {
           fieldTransactionMap: { mailingAddress: { transactionRequest: null } },
-          copyAddressModal: 'failure',
+          copyAddressModal: COPY_ADDRESS_MODAL_STATUS.FAILURE,
         },
       },
       ...{
