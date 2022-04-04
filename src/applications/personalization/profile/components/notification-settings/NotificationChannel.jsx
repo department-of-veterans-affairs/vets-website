@@ -162,7 +162,7 @@ const mapStateToProps = (state, ownProps) => {
   });
   const radioButtonDescription =
     ownProps.channelId === 'channel4-1' && !allFacilitiesSupportRxTracking
-      ? 'Only available at some Asheville and Denver VA health facilities. Check with your facility first.'
+      ? 'Only available at some VA health facilities. Check with your VA pharmacy first.'
       : null;
   return {
     apiStatus: uiState.updateStatus,
