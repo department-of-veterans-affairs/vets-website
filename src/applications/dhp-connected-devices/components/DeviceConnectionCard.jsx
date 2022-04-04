@@ -10,7 +10,8 @@ export const DeviceConnectionCard = ({ vendor, onClickHandler }) => {
       <p>
         <button
           onClick={onClickHandler}
-          data-testid="fitbitConnectLink"
+          data-testid={`${vendor}-connect-link`}
+          id={`${vendor}-connect-link`}
           onKeyDown={onClickHandler}
           className="connect-button"
         >

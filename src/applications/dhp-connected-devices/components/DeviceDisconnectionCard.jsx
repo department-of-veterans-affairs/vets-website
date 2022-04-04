@@ -10,7 +10,8 @@ export const DeviceDisconnectionCard = ({ vendor, onClickHandler }) => {
       <p>
         <button
           onClick={onClickHandler}
-          data-testid="fitbitConnectLink"
+          data-testid={`${vendor}-disconnect-link`}
+          id={`${vendor}-disconnect-link`}
           onKeyDown={onClickHandler}
           className="usa-button-secondary"
         >

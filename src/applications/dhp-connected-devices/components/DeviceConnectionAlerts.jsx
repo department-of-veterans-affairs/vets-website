@@ -16,7 +16,12 @@ export const DeviceConnectionSucceededAlert = () => {
 
 export const DeviceConnectionFailedAlert = () => {
   return (
-    <va-alert close-btn-aria-label="Close notification" status="error" visible>
+    <va-alert
+      close-btn-aria-label="Close notification"
+      status="error"
+      data-testId="failure-alert"
+      visible
+    >
       <h3 slot="headline">We couldn’t connect your device</h3>
       <div>
         We were not able to connect to your device now. Please try again.
