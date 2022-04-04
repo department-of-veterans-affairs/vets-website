@@ -2683,13 +2683,13 @@
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/component-library@^8.2.0":
-  version "8.2.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-8.2.0.tgz#0b0620358b271d63e6983cb5ca0847fc9d562072"
-  integrity sha512-A8lg84zZPuT4FyINXREqL1X5bOV3e1kt3IVkgUnA0D8JqcB71WaWUQ+/ghqFFZ4mg3a+CR6MsEnFPl5WTysAWw==
+"@department-of-veterans-affairs/component-library@^8.3.0":
+  version "8.3.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-8.3.0.tgz#7a9431d077ae7874615f1fb7c7ce29a2de926a84"
+  integrity sha512-O5TRipQp/Qu7b82XbTUKl5CFydWL8nz2JaD7+ipymACMbv+zXs5sgCAATv9j/f2uIAZXTWsHFH647AHr6i+ZYw==
   dependencies:
     "@department-of-veterans-affairs/react-components" "6.0.0"
-    "@department-of-veterans-affairs/web-components" "2.8.0"
+    "@department-of-veterans-affairs/web-components" "2.9.0"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
@@ -2772,10 +2772,10 @@
     intersection-observer "^0.12.0"
     postcss-url "^10.1.1"
 
-"@department-of-veterans-affairs/web-components@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-2.8.0.tgz#057903db61a297403e8e0cf6609250a4691dea60"
-  integrity sha512-ACB7NBTXhNywp5iEZA1wGhLhNHa/wKoYxwPyCWprN9Rs7jjS3d/TWYQ9ackEWSU6qVXS0b7FnQtiq6NMkTEvfg==
+"@department-of-veterans-affairs/web-components@2.9.0":
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-2.9.0.tgz#5976cbb6b417adb93be09016ec9510c986425823"
+  integrity sha512-cJs6tTjRlLamSN0Tc0E0tYq1EVxg238uqhqfu7mgoJfvo12jlk5Tmnjlnqt7Rc1odTnxpcGhhI8HeDUe681Eow==
   dependencies:
     "@stencil/core" "^2.10.0"
     aria-hidden "^1.1.3"
