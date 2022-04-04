@@ -5,7 +5,6 @@
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import set from 'lodash/set';
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
@@ -20,6 +19,7 @@ import {
   selectCopyAddressModal,
   selectVAPContactInfoField,
   selectVAPServiceTransaction,
+  selectAddressValidation,
 } from '@@vap-svc/selectors';
 
 import { profileShowAddressChangeModal } from '@@profile/selectors';
@@ -42,6 +42,7 @@ const CopyAddressModal = props => {
     mailingFieldName,
     apiRoute,
     convertCleanDataToPayload,
+    addressValidation,
   } = props;
 
   const checkAddressAndPrompt = useCallback(
@@ -73,18 +74,30 @@ const CopyAddressModal = props => {
   const isLoading =
     transactionRequest?.isPending || isPendingTransaction(transaction);
 
-  // const error =
-  //   transactionRequest?.error || (isFailedTransaction(transaction) ? {} : null);
+  // utility to convert data specifically needed for this transaction case
+  // makes sure to include the mailingAddress.id and addressValidation.validationKey
+  // so that transaction doesn't fail and isn't rejected due to validation errors
+  const convertAddressDataForTransaction = (address, fieldName) => {
+    const cleanDataPayload = convertCleanDataToPayload(address, fieldName);
+
+    const { validationKey } = addressValidation;
+    const { id } = address;
+
+    return {
+      ...cleanDataPayload,
+      ...(validationKey && { validationKey }),
+      ...(id && { id }),
+    };
+  };
 
   const handlers = {
     onYes() {
-      const payload = convertCleanDataToPayload(homeAddress, mailingFieldName);
+      const payload = convertAddressDataForTransaction(
+        homeAddress,
+        mailingFieldName,
+      );
 
-      const payloadWithUpdatedId = mailingAddress?.id
-        ? set(payload, 'id', mailingAddress.id)
-        : payload;
-
-      const method = payloadWithUpdatedId.id ? 'PUT' : 'POST';
+      const method = payload.id ? 'PUT' : 'POST';
 
       const analyticsSectionName =
         VAP_SERVICE.ANALYTICS_FIELD_MAP[
@@ -99,7 +112,7 @@ const CopyAddressModal = props => {
         apiRoute,
         method,
         mailingFieldName,
-        payloadWithUpdatedId,
+        payload,
         analyticsSectionName,
       );
     },
@@ -232,6 +245,7 @@ CopyAddressModal.propTypes = {
   homeAddress: PropTypes.object.isRequired,
   mailingFieldName: PropTypes.string.isRequired,
   updateCopyAddressModalAction: PropTypes.func.isRequired,
+  addressValidation: PropTypes.object,
   copyAddressModal: PropTypes.string,
   mailingAddress: PropTypes.object,
   shouldProfileShowAddressChangeModal: PropTypes.bool,
@@ -268,6 +282,7 @@ export const mapStateToProps = state => {
       state,
       VAP_SERVICE.FIELD_NAMES.RESIDENTIAL_ADDRESS,
     ),
+    addressValidation: selectAddressValidation(state),
     shouldProfileShowAddressChangeModal: profileShowAddressChangeModal(state),
     copyAddressModal: selectCopyAddressModal(state),
     transaction,
