@@ -81,7 +81,7 @@ const CopyAddressModal = props => {
     const cleanDataPayload = convertCleanDataToPayload(address, fieldName);
 
     const { validationKey } = addressValidation;
-    const { id } = address;
+    const { id } = mailingAddress;
 
     return {
       ...cleanDataPayload,

@@ -66,7 +66,7 @@ const responses = {
         _.set(
           address.mailingAddressUpdateReceived.response,
           'data.attributes.transactionId',
-          'borked',
+          'error',
         ),
       );
     }
@@ -84,7 +84,7 @@ const responses = {
     return res.json(address.homeAddressUpdateReceived.response);
   },
   'GET /v0/profile/status/:id': (req, res) => {
-    if (req?.params?.id === 'borked') {
+    if (req?.params?.id === 'error') {
       return res.json(
         _.set(status.failure, 'data.attributes.transactionId', req.params.id),
       );
