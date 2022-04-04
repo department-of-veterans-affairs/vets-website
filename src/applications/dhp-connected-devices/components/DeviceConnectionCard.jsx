@@ -6,8 +6,6 @@ export const DeviceConnectionCard = ({ vendor, onClickHandler }) => {
     <div className="connect-device">
       <p>
         <h3>{vendor}</h3>
-      </p>
-      <p>
         <button
           onClick={onClickHandler}
           data-testid={`${vendor}-connect-link`}
