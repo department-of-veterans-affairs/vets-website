@@ -108,9 +108,13 @@ export const ConnectedDevicesSection = ({
 
   return (
     <>
-      {successAlert ? <DeviceConnectionSucceededAlert /> : ''}
-      {failureAlert ? <DeviceConnectionFailedAlert /> : ''}
-      {!areDevicesConnected() && <p>You do not have any devices connected</p>}
+      {successAlert && <DeviceConnectionSucceededAlert />}
+      {failureAlert && <DeviceConnectionFailedAlert />}
+      {!areDevicesConnected() && (
+        <p data-testId="no-devices-connected-alert">
+          You do not have any devices connected
+        </p>
+      )}
       {areDevicesConnected() && connectedDevicesMapped()}
     </>
   );
@@ -126,20 +130,32 @@ export const DevicesToConnectSection = ({
   connectedDevices,
   onClickHandler,
 }) => {
+  const areAllDevicesConnected = () => {
+    return connectedDevices.every(device => device.connected);
+  };
+  const devicesToConnectMapped = () => {
+    return connectedDevices.map(device => {
+      if (!device.connected) {
+        return (
+          <DeviceConnectionCard
+            key={device.vendor}
+            vendor={device.vendor}
+            onClickHandler={() => onClickHandler(device)}
+          />
+        );
+      }
+      return <></>;
+    });
+  };
+
   return (
     <>
-      {connectedDevices.map(device => {
-        if (!device.connected) {
-          return (
-            <DeviceConnectionCard
-              key={device.vendor}
-              vendor={device.vendor}
-              onClickHandler={() => onClickHandler(device)}
-            />
-          );
-        }
-        return <></>;
-      })}
+      {areAllDevicesConnected() && (
+        <p data-testId="all-devices-connected-alert">
+          You have connected all supported devices
+        </p>
+      )}
+      {!areAllDevicesConnected() && devicesToConnectMapped()}
     </>
   );
 };

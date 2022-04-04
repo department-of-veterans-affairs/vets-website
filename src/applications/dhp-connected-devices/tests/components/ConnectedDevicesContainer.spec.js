@@ -51,16 +51,64 @@ describe('Connect Devices Container', () => {
       ],
     };
 
-    const connectedDevicesContainer = renderInReduxProvider(
+    const noConnectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
       { noDevicesConnectedState },
     );
 
     expect(
-      connectedDevicesContainer.findByText(
+      noConnectedDevicesContainer.findByText(
         'You do not have any devices connected',
       ),
     ).to.exist;
+  });
+
+  it('should render "You have connected all supported devices" when all supported devices are connected', () => {
+    const allDevicesConnectedState = {
+      connectedDevices: [
+        {
+          vendor: 'Fitbit',
+          authUrl: 'path/to/vetsapi/fitbit/connect/method',
+          disconnectUrl: 'placeholder',
+          connected: true,
+        },
+      ],
+    };
+
+    const allConnectedDevicesContainer = renderInReduxProvider(
+      <ConnectedDevicesContainer />,
+      { allDevicesConnectedState },
+    );
+
+    expect(
+      allConnectedDevicesContainer.findByTestId('no-devices-connected-alert'),
+    ).to.exist;
+
+    const oneDeviceConnectedState = {
+      connectedDevices: [
+        {
+          vendor: 'Fitbit',
+          authUrl: 'path/to/vetsapi/fitbit/connect/method',
+          disconnectUrl: 'placeholder',
+          connected: true,
+        },
+        {
+          vendor: 'Fitbit2',
+          authUrl: 'path/to/vetsapi/fitbit/connect/method',
+          disconnectUrl: 'placeholder',
+          connected: false,
+        },
+      ],
+    };
+
+    const oneConnectedDeviceContainer = renderInReduxProvider(
+      <ConnectedDevicesContainer />,
+      { oneDeviceConnectedState },
+    );
+
+    expect(
+      oneConnectedDeviceContainer.findByTestId('all-devices-connected-alert'),
+    ).to.be.empty;
   });
 
   it('should render success alert when successAlert is set to true', () => {
