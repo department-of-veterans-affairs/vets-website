@@ -4,12 +4,16 @@ import {
   FETCH_SPONSORS_FAILED,
   FETCH_SPONSORS_SUCCESS,
   UPDATE_SELECTED_SPONSORS,
+  UPDATE_SPONSORS,
 } from '../actions';
 import formConfig from '../config/form';
 import { SPONSOR_RELATIONSHIP } from '../constants';
 
 const initialState = {
-  formData: {},
+  formData: {
+    selectedSponsors: [],
+    sponsors: {},
+  },
   form: {
     data: {},
   },
@@ -32,16 +36,19 @@ export default {
           sponsors: {
             sponsors: [
               {
+                id: '1',
                 name: 'Hector Stanley',
                 dateOfBirth: '1978-07-18',
                 relationship: SPONSOR_RELATIONSHIP.CHILD,
               },
               {
+                id: '2',
                 name: 'Nancy Stanley',
                 dateOfBirth: '1979-10-11',
                 relationship: SPONSOR_RELATIONSHIP.CHILD,
               },
               {
+                id: '3',
                 name: 'Jane Doe',
                 dateOfBirth: '1996-07-18',
                 relationship: SPONSOR_RELATIONSHIP.SPOUSE,
@@ -51,6 +58,11 @@ export default {
           },
         };
       case UPDATE_SELECTED_SPONSORS:
+        return {
+          ...state,
+          selectedSponsors: action.payload,
+        };
+      case UPDATE_SPONSORS:
         return {
           ...state,
           sponsors: action.payload,

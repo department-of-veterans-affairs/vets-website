@@ -21,6 +21,7 @@ export const TOEApp = ({
   getSponsors,
   location,
   setFormData,
+  selectedSponsors,
   sponsors,
   user,
 }) => {
@@ -45,7 +46,9 @@ export const TOEApp = ({
           (formData.fetchedSponsorsComplete === undefined &&
             fetchedSponsorsComplete !== undefined) ||
           (sponsors?.sponsors?.length &&
-            !_.isEqual(formData['view:sponsors'], sponsors))
+            !_.isEqual(formData['view:sponsors'], sponsors)) ||
+          (selectedSponsors?.length &&
+            !_.isEqual(formData.selectedSponsors, selectedSponsors))
         ) {
           setFormData({
             ...formData,
@@ -53,6 +56,7 @@ export const TOEApp = ({
             'view:sponsors': {
               ...sponsors,
             },
+            selectedSponsors,
           });
         }
       }
@@ -66,6 +70,9 @@ export const TOEApp = ({
       user,
       sponsors,
       getSponsors,
+      fetchedSponsors,
+      fetchedSponsorsComplete,
+      selectedSponsors,
     ],
   );
 
@@ -107,6 +114,7 @@ const mapStateToProps = state => ({
   fetchedSponsors: state.data?.fetchedSponsors,
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
   formData: state.form?.data || {},
+  selectedSponsors: state.data?.selectedSponsors,
   sponsors: state.data?.sponsors,
   user: state.user,
 });

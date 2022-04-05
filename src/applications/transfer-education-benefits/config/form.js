@@ -111,6 +111,7 @@ const formFields = {
   // selectedReserveKicker: 'selectedReserveKicker',
   // seniorRotcCommission: 'seniorRotcCommission',
   serviceHistoryIncorrect: 'serviceHistoryIncorrect',
+  selectedSponsors: 'selectedSponsors',
   sponsorDateOfBirth: 'sponsorDateOfBirth',
   sponsorFullName: 'sponsorFullName',
   ssn: 'ssn',
@@ -438,34 +439,66 @@ const formConfig = {
                 hideIf: formData => !!formData.fetchedSponsorsComplete,
               },
             },
-            'view:sponsors': {
-              sponsors: {
-                'ui:field': DynamicCheckboxGroup,
-              },
-              // 'ui:required': formData =>
-              //   formData['view:sponsors']?.sponsors?.length,
-              'ui:validations': [
-                // A little messy, but we're returning a boolean from
-                // this function in addition to adding an error
-                // with addError so this function can be reused from
-                // the ui:field.
-                (errors, fieldData) => {
-                  if (
-                    fieldData.sponsors?.length &&
-                    !fieldData?.someoneNotListed &&
-                    !fieldData?.sponsors?.some(sponsor => sponsor.selected)
-                  ) {
-                    errors?.sponsors?.addError('Please select a sponsor');
-                    return false;
-                  }
-                  return true;
-                },
-              ],
+            // 'view:sponsors': {
+            //   sponsors: {
+            //     'ui:field': DynamicCheckboxGroup,
+            //   },
+            //   // 'ui:required': formData =>
+            //   //   formData['view:sponsors']?.sponsors?.length,
+            //   'ui:validations': [
+            //     // A little messy, but we're returning a boolean from
+            //     // this function in addition to adding an error
+            //     // with addError so this function can be reused from
+            //     // the ui:field.
+            //     (errors, fieldData) => {
+            //       if (
+            //         fieldData.sponsors?.length &&
+            //         !fieldData?.someoneNotListed &&
+            //         !fieldData?.sponsors?.some(sponsor => sponsor.selected)
+            //       ) {
+            //         errors?.sponsors?.addError('Please select a sponsor');
+            //         return false;
+            //       }
+            //       return true;
+            //     },
+            //   ],
+            //   'ui:options': {
+            //     hideIf: formData =>
+            //       formData.fetchedSponsorsComplete &&
+            //       !formData['view:sponsors']?.sponsors?.length,
+            //   },
+            // },
+            [formFields.selectedSponsors]: {
+              // 'ui:title': '',
+              'ui:field': DynamicCheckboxGroup,
+              'ui:required': formData =>
+                !!formData['view:sponsors']?.sponsors?.length,
               'ui:options': {
                 hideIf: formData =>
                   formData.fetchedSponsorsComplete &&
                   !formData['view:sponsors']?.sponsors?.length,
+                // hideLabelText: true,
               },
+              // 'ui:validations': [
+              //   // A little messy, but we're returning a boolean from
+              //   // this function in addition to adding an error
+              //   // with addError so this function can be reused from
+              //   // the ui:field.
+              //   // (errors, fieldData, formData) => {
+              //   //   if (
+              //   //     formData.sponsors?.sponsors?.length &&
+              //   //     !formData.sponsors?.someoneNotListed &&
+              //   //     !fieldData.length
+              //   //   ) {
+              //   //     errors?.addError('Please select a sponsor');
+              //   //   }
+              //   // },
+              //   (errors, fieldData) => {
+              //     if (!fieldData.length) {
+              //       errors?.addError('Please select a sponsor');
+              //     }
+              //   },
+              // ],
             },
             [formFields.relationshipToServiceMember]: {
               'ui:title':
@@ -564,24 +597,11 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              'view:sponsors': {
-                type: 'object',
-                properties: {
-                  sponsors: {
-                    type: 'array',
-                    items: {
-                      type: 'object',
-                      minItems: 0,
-                      properties: {
-                        name: {
-                          type: 'string',
-                        },
-                        selected: {
-                          type: 'boolean',
-                        },
-                      },
-                    },
-                  },
+              [formFields.selectedSponsors]: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'string',
                 },
               },
               [formFields.relationshipToServiceMember]: {

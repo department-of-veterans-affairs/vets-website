@@ -21,6 +21,7 @@ export const SPONSORS_ENDPOINT = `${environment.API_URL}/meb_api/v0/sponsors`;
 export const FETCH_SPONSORS = 'FETCH_SPONSORS';
 export const FETCH_SPONSORS_SUCCESS = 'FETCH_SPONSORS_SUCCESS';
 export const FETCH_SPONSORS_FAILED = 'FETCH_SPONSORS_FAILED';
+export const UPDATE_SPONSORS = 'UPDATE_SPONSORS';
 export const UPDATE_SELECTED_SPONSORS = 'UPDATE_SELECTED_SPONSORS';
 
 // export const FETCH_CLAIM_STATUS = 'FETCH_CLAIM_STATUS';
@@ -84,6 +85,9 @@ export function fetchSponsors() {
   };
 }
 
+export function updateSponsors(sponsors) {
+  return { type: UPDATE_SPONSORS, payload: sponsors };
+}
 export function updateSelectedSponsors(selectedSponsors) {
   return { type: UPDATE_SELECTED_SPONSORS, payload: selectedSponsors };
 }

@@ -1,30 +1,28 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
-// import environment from 'platform/utilities/environment';
-// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-// import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-// import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import CheckboxGroup from '@department-of-veterans-affairs/component-library/CheckboxGroup';
 import { isArray, cloneDeep } from 'lodash';
-import { fetchSponsors, updateSelectedSponsors } from '../actions';
+import {
+  fetchSponsors,
+  updateSelectedSponsors,
+  updateSponsors,
+} from '../actions';
 import {
   SPONSOR_NOT_LISTED_LABEL,
   SPONSOR_NOT_LISTED_VALUE,
 } from '../constants';
 
-// import { apiRequest } from 'platform/utilities/api';
-
-// const apiUrl = `${environment.API_URL}/covid_vaccine/v0/facilities/`;
-
 function DynamicCheckboxGroup({
   dispatchSelectedSponsorsChange,
+  dispatchSponsorsChange,
   errorMessage = 'Please select at least one sponsor',
   fetchedSponsors,
   fetchedSponsorsComplete,
+  formContext,
   getSponsors,
   loadingMessage = 'Loading your sponsors...',
+  selectedSponsors,
   sponsors,
-  form,
 }) {
   const [dirty, setDirty] = useState(false);
   const renderCounter = useRef(0);
@@ -49,47 +47,47 @@ function DynamicCheckboxGroup({
   const onValueChange = ({ value }, checked) => {
     const _sponsors = cloneDeep(sponsors);
 
-    if (value === SPONSOR_NOT_LISTED_VALUE) {
+    if (value === `sponsor-${SPONSOR_NOT_LISTED_VALUE}`) {
       _sponsors.someoneNotListed = checked;
     }
 
-    const sponsorIndex = Number.parseInt(value, 10);
-    if (
-      !Number.isNaN(sponsorIndex) &&
-      sponsorIndex < sponsors?.sponsors?.length
-    ) {
+    const sponsorIndex = _sponsors.sponsors.findIndex(
+      sponsor => `sponsor-${sponsor.id}` === value,
+    );
+    if (sponsorIndex > -1) {
       _sponsors.sponsors[sponsorIndex].selected = checked;
     }
 
+    const _selectedSponsors = _sponsors.sponsors?.flatMap(
+      sponsor => (sponsor.selected ? [sponsor.id] : []),
+    );
+    if (_sponsors.someoneNotListed) {
+      _selectedSponsors.push(SPONSOR_NOT_LISTED_VALUE);
+    }
+
     setDirty(true);
-    dispatchSelectedSponsorsChange(_sponsors);
+    dispatchSelectedSponsorsChange(_selectedSponsors);
+    dispatchSponsorsChange(_sponsors);
   };
 
   const options =
-    sponsors?.sponsors?.map((sponsor, index) => ({
+    sponsors?.sponsors?.map(sponsor => ({
       label: sponsor.name,
-      value: index,
+      value: `sponsor-${sponsor.id}`,
     })) || [];
   options.push({
     label: SPONSOR_NOT_LISTED_LABEL,
-    value: SPONSOR_NOT_LISTED_VALUE,
+    value: `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
   });
-
-  let valid;
-  try {
-    valid = form?.pages?.sponsorInformation?.uiSchema['view:sponsors'][
-      'ui:validations'
-    ][0](null, form.data['view:sponsors']);
-  } catch (e) {
-    valid = true;
-  }
 
   return (
     <CheckboxGroup
       additionalFieldsetClass="vads-u-margin-top--0"
       additionalLegendClass="toe-sponsors-checkboxes_legend vads-u-margin-top--0"
       errorMessage={
-        !valid && (dirty || renderCounter.current > 1) && errorMessage
+        !selectedSponsors?.length &&
+        (dirty || formContext?.submitted) &&
+        errorMessage
       }
       label={
         // I'm getting conflicting linting issues here.
@@ -106,18 +104,12 @@ function DynamicCheckboxGroup({
       onValueChange={onValueChange}
       options={options}
       required
-      values={{
-        key: 0,
-      }}
+      values={Object.fromEntries(
+        new Map(selectedSponsors?.map(id => [`sponsor-${id}`, true])),
+      )}
     />
   );
 }
-
-// values={
-//   new Map(
-//     sponsors?.sponsors?.map(sponsor => [sponsor.value, sponsor.selected]),
-//   )
-// }
 
 const mapSponsors = state => {
   if (isArray(state.form.data['view:sponsors']?.sponsors)) {
@@ -136,7 +128,7 @@ const mapSponsors = state => {
 const mapStateToProps = state => ({
   fetchedSponsors: state.data?.fetchedSponsors,
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
-  form: state.form,
+  selectedSponsors: state.data?.selectedSponsors,
   sponsors: mapSponsors(state),
   state,
 });
@@ -144,6 +136,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   getSponsors: fetchSponsors,
   dispatchSelectedSponsorsChange: updateSelectedSponsors,
+  dispatchSponsorsChange: updateSponsors,
 };
 
 export default connect(
