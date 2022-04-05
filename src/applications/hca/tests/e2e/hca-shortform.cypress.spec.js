@@ -98,55 +98,38 @@ describe('HCA-Shortform-Authenticated', () => {
     cy.axeCheck();
 
     aiqHelpers.goToNextPage('/veteran-information/maiden-name-information');
-    cy.get('va-additional-info')
-      .shadow()
-      .findByText(/You're filling out a shortend application!/i, {
-        selector: '.additional-info-title',
-      })
-      .first()
-      .should('exist');
+    aiqHelpers.shortFormAdditionalHelpAssertion();
 
     aiqHelpers.goToNextPage('/veteran-information/birth-sex');
-    cy.get('va-additional-info')
-      .shadow()
-      .findByText(/You're filling out a shortend application!/i, {
-        selector: '.additional-info-title',
-      })
-      .first()
-      .should('exist');
+    aiqHelpers.shortFormAdditionalHelpAssertion();
 
     aiqHelpers.goToNextPage('/veteran-information/demographic-information');
-    cy.get('va-additional-info')
-      .shadow()
-      .findByText(/You're filling out a shortend application!/i, {
-        selector: '.additional-info-title',
-      })
-      .first()
-      .should('exist');
+    aiqHelpers.shortFormAdditionalHelpAssertion();
 
     aiqHelpers.goToNextPage('/veteran-information/american-indian');
-    cy.get('va-additional-info')
-      .shadow()
-      .findByText(/You're filling out a shortend application!/i, {
-        selector: '.additional-info-title',
-      })
-      .first()
-      .should('exist');
+    aiqHelpers.shortFormAdditionalHelpAssertion();
     cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
+
     aiqHelpers.goToNextPage('/veteran-information/veteran-address');
-    cy.get('[type=radio]')
-      .first()
-      .scrollIntoView()
-      .check('Y');
+    aiqHelpers.shortFormAdditionalHelpAssertion();
+    cy.get('[type=radio]').check('N');
+
+    aiqHelpers.goToNextPage('/veteran-information/veteran-home-address');
+    aiqHelpers.shortFormAdditionalHelpAssertion();
+    cy.get('#root_veteranHomeAddress_street').type(
+      testData.veteranAddress.street,
+    );
+    cy.get('#root_veteranHomeAddress_city').type(testData.veteranAddress.city);
+    cy.get('#root_veteranHomeAddress_state').select(
+      testData.veteranAddress.state,
+    );
+    cy.get('#root_veteranHomeAddress_postalCode').type(
+      testData.veteranAddress.postalCode,
+    );
 
     aiqHelpers.goToNextPage('/veteran-information/contact-information');
-    cy.get('va-additional-info')
-      .shadow()
-      .findByText(/You're filling out a shortend application!/i, {
-        selector: '.additional-info-title',
-      })
-      .first()
-      .should('exist');
+    aiqHelpers.shortFormAdditionalHelpAssertion();
+
     cy.wait('@mockSip');
     cy.get('[name*="emailConfirmation"]')
       .scrollIntoView()
@@ -154,13 +137,7 @@ describe('HCA-Shortform-Authenticated', () => {
 
     // medicaid
     aiqHelpers.goToNextPage('/insurance-information/medicaid');
-    cy.get('va-additional-info')
-      .shadow()
-      .findByText(/You're filling out a shortend application!/i, {
-        selector: '.additional-info-title',
-      })
-      .first()
-      .should('exist');
+    aiqHelpers.shortFormAdditionalHelpAssertion();
     cy.get('[type=radio]#root_isMedicaidEligibleNo')
       .first()
       .scrollIntoView()
@@ -168,26 +145,15 @@ describe('HCA-Shortform-Authenticated', () => {
 
     // general insurance
     aiqHelpers.goToNextPage('/insurance-information/general');
-    cy.get('va-additional-info')
-      .shadow()
-      .findByText(/You're filling out a shortend application!/i, {
-        selector: '.additional-info-title',
-      })
-      .first()
-      .should('exist');
+    aiqHelpers.shortFormAdditionalHelpAssertion();
+
     cy.get('[type=radio]#root_isCoveredByHealthInsuranceNo')
       .first()
       .scrollIntoView()
       .check('N');
 
     aiqHelpers.goToNextPage('/insurance-information/va-facility');
-    cy.get('va-additional-info')
-      .shadow()
-      .findByText(/You're filling out a shortend application!/i, {
-        selector: '.additional-info-title',
-      })
-      .first()
-      .should('exist');
+    aiqHelpers.shortFormAdditionalHelpAssertion();
     cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
       testData['view:preferredFacility']['view:facilityState'],
     );
@@ -195,6 +161,7 @@ describe('HCA-Shortform-Authenticated', () => {
     cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]').select(
       testData['view:preferredFacility'].vaMedicalFacility,
     );
+
     aiqHelpers.goToNextPage('review-and-submit');
 
     cy.get('[name="privacyAgreementAccepted"]')

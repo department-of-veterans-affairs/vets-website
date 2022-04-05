@@ -108,6 +108,16 @@ export const advanceToServiceInfoPage = () => {
   goToNextPage('/military-service/service-information');
 };
 
+export const shortFormAdditionalHelpAssertion = () => {
+  cy.get('va-additional-info')
+    .shadow()
+    .findByText(/you’re filling out a shortened application!/i, {
+      selector: '.additional-info-title',
+    })
+    .first()
+    .should('exist');
+};
+
 export const shortFormSelfDisclosureToSubmit = () => {
   goToNextPage('/va-benefits/basic-information');
   cy.get('[type=radio]#root_vaCompensationType_1')
@@ -141,14 +151,7 @@ export const shortFormSelfDisclosureToSubmit = () => {
 
   // general insurance
   goToNextPage('/insurance-information/general');
-
-  cy.get('va-additional-info')
-    .shadow()
-    .findByText(/You're filling out a shortend application!/i, {
-      selector: '.additional-info-title',
-    })
-    .first()
-    .should('exist');
+  shortFormAdditionalHelpAssertion();
 
   cy.get('[type=radio]#root_isCoveredByHealthInsuranceNo')
     .first()
@@ -157,14 +160,7 @@ export const shortFormSelfDisclosureToSubmit = () => {
 
   // va facility
   goToNextPage('/insurance-information/va-facility');
-
-  cy.get('va-additional-info')
-    .shadow()
-    .findByText(/You're filling out a shortend application!/i, {
-      selector: '.additional-info-title',
-    })
-    .first()
-    .should('exist');
+  shortFormAdditionalHelpAssertion();
 
   cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
     testData['view:preferredFacility']['view:facilityState'],

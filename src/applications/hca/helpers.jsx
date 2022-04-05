@@ -585,7 +585,7 @@ export const shortFormMessage = (
     <div className="vads-u-margin-top--neg1 vads-u-margin-left--2p5">
       <va-additional-info
         disable-border
-        trigger="You're filling out a shortend application!"
+        trigger="You’re filling out a shortened application!"
       >
         <div>
           Your service-connected disability rating is 50% or higher. This is one
