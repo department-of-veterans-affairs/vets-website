@@ -31,21 +31,7 @@ describe('TransitionAccountPage', () => {
     wrapper.unmount();
   });
 
-  it('should render additional question div if `canTransition` is false', () => {
-    const { mockStore } = createStore();
-    const wrapper = mount(
-      <Provider store={mockStore}>
-        <TransitionAccountPage />
-      </Provider>,
-    );
-
-    const h2Tag = wrapper.find('[data-testid="cant-transition"]');
-
-    expect(h2Tag.exists()).to.be.true;
-    wrapper.unmount();
-  });
-
-  it('should NOT render additional question div if `canTransition` is true', () => {
+  it('should render `canTransition` is true', () => {
     const { mockStore } = createStore(true);
     const wrapper = mount(
       <Provider store={mockStore}>
@@ -53,13 +39,16 @@ describe('TransitionAccountPage', () => {
       </Provider>,
     );
 
-    const h2Tag = wrapper.find('[data-testid="cant-transition"]');
+    const buttonTag = wrapper.find('button');
+    const h3Tags = wrapper.find('h3');
 
-    expect(h2Tag.exists()).to.be.false;
+    expect(buttonTag.exists()).to.be.true;
+    expect(buttonTag.text()).to.eql('Transfer my account to Login.gov');
+    expect(h3Tags.length).to.eql(3);
     wrapper.unmount();
   });
 
-  it('should render a CTA', () => {
+  it('should render `canTransition` is false', () => {
     const { mockStore } = createStore();
     const wrapper = mount(
       <Provider store={mockStore}>
@@ -67,9 +56,22 @@ describe('TransitionAccountPage', () => {
       </Provider>,
     );
 
-    const accountCTA = wrapper.find('TransitionAccountCTA');
+    const h3Tags = wrapper.find('h3');
+    expect(h3Tags.length).to.eql(5);
+    wrapper.unmount();
+  });
 
-    expect(accountCTA.exists()).to.be.true;
+  it('should render a TranstionAccountSteps component', () => {
+    const { mockStore } = createStore();
+    const wrapper = mount(
+      <Provider store={mockStore}>
+        <TransitionAccountPage />
+      </Provider>,
+    );
+
+    const accountSteps = wrapper.find('TransitionAccountSteps');
+
+    expect(accountSteps.exists()).to.be.true;
     wrapper.unmount();
   });
 });

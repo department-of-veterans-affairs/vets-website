@@ -104,5 +104,10 @@
     "appName": "Connected Devices",
     "rootUrl": "/health-care/connected-devices",
     "entryName": "dhp-consent-flow"
+  },
+  {
+    "appName": "Transfer Account",
+    "rootUrl": "/transfer-account",
+    "entryName": "mhv-inherited-proofing"
   }
 ]
