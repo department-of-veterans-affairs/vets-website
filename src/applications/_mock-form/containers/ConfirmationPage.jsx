@@ -2,18 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
-import Scroll from 'react-scroll';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import { focusElement } from 'platform/utilities/ui';
-
-const { scroller } = Scroll;
-const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
