@@ -1,0 +1,16 @@
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
+
+# Site settings
+title: VA Forms System Core Docs
+description: >- # this means to ignore newlines until "baseurl:"
+  This site contains documentation for "va-forms-system-core" - the forms library
+  for the Department of Veterans Affairs.
+baseurl: "/va-forms-system-core" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+
+# Build settings
+# theme: just-the-docs
+remote_theme: pmarsceill/just-the-docs # This is specific to GitHub Pages
+plugins:
+  - jekyll-remote-theme
