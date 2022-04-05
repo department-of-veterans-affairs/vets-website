@@ -1,4 +1,4 @@
-name: Deploy Docs
+name: Build and Deploy
 
 on:
   workflow_run:
@@ -19,8 +19,11 @@ jobs:
           yarn build
           yarn docs:build
 
-      - name: Jekyll Build
-        uses: actions/jekyll-build-pages@v1
-
-      - name: Deploy 🚀
-        uses: actions/pages-deploy@v1
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          publish_branch: master
+          enable_jekyll: true
+          keep_files: true
