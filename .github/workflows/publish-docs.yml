@@ -19,8 +19,8 @@ jobs:
           yarn build
           yarn docs:build
 
+      - name: Jekyll Build
+        uses: actions/jekyll-build-pages@v1
+
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.3.0
-        with:
-          branch: master
-          folder: docs
+        uses: actions/pages-deploy@v1
