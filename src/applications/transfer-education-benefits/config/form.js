@@ -66,6 +66,7 @@ import { directDepositDescription } from '../../edu-benefits/1990/helpers';
 import GetHelp from '../components/GetHelp';
 import Sponsors from '../components/Sponsors';
 import DynamicCheckboxGroup from '../components/DynamicCheckboxGroup';
+import DynamicRadioGroup from '../components/DynamicRadioGroup';
 // import SponsorsView from '../components/SponsorsView';
 
 // import { ELIGIBILITY } from '../actions';
@@ -134,6 +135,7 @@ const formPages = {
   directDeposit: 'directDeposit',
   sponsorInformation: 'sponsorInformation',
   sponsorHighSchool: 'sponsorHighSchool',
+  sponsorSelection: 'sponsorSelection',
   verifyHighSchool: 'verifyHighSchool',
 };
 
@@ -438,7 +440,6 @@ const formConfig = {
             },
             'view:sponsors': {
               sponsors: {
-                'ui:title': 'testing',
                 'ui:field': DynamicCheckboxGroup,
               },
               // 'ui:required': formData =>
@@ -601,6 +602,65 @@ const formConfig = {
               'view:additionalInfo': {
                 type: 'object',
                 properties: {},
+              },
+            },
+          },
+        },
+        [formPages.sponsorSelection]: {
+          title: 'Sponsor information',
+          path: 'sponsor/select-sponsor',
+          depends: formData =>
+            formData['view:sponsors']?.sponsors?.filter(
+              sponsor => sponsor.selected,
+            ).length > 1,
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Choose your first sponsor</h3>
+                  <p>
+                    You can only use one sponsor’s benefits at a time. Because
+                    you selected more than one sponsor, you must choose which
+                    benefits to use first.
+                  </p>
+                </>
+              ),
+            },
+            sponsor: {
+              'ui:widget': DynamicRadioGroup,
+            },
+            // 'ui:validations': [
+            //   // A little messy, but we're returning a boolean from
+            //   // this function in addition to adding an error
+            //   // with addError so this function can be reused from
+            //   // the ui:field.
+            //   (errors, fieldData) => {
+            //     if (
+            //       fieldData.sponsors?.length &&
+            //       !fieldData?.someoneNotListed &&
+            //       !fieldData?.sponsors?.some(sponsor => sponsor.selected)
+            //     ) {
+            //       errors?.sponsors?.addError('Please select a sponsor');
+            //       return false;
+            //     }
+            //     return true;
+            //   },
+            // ],
+            // 'ui:options': {
+            //   hideIf: formData =>
+            //     formData.fetchedSponsorsComplete &&
+            //     !formData['view:sponsors']?.sponsors?.length,
+            // },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              sponsor: {
+                type: 'string',
               },
             },
           },

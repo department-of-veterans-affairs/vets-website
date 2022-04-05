@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 // import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 // import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 // import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
-import CheckboxGroup from '@department-of-veterans-affairs/component-library/CheckboxGroup';
-import { isArray, cloneDeep } from 'lodash';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
+import { isArray } from 'lodash';
 import { fetchSponsors, updateSelectedSponsors } from '../actions';
 import {
   SPONSOR_NOT_LISTED_LABEL,
@@ -16,7 +16,7 @@ import {
 
 // const apiUrl = `${environment.API_URL}/covid_vaccine/v0/facilities/`;
 
-function DynamicCheckboxGroup({
+function DynamicRadioGroup({
   dispatchSelectedSponsorsChange,
   errorMessage = 'Please select at least one sponsor',
   fetchedSponsors,
@@ -46,34 +46,43 @@ function DynamicCheckboxGroup({
     return <></>;
   }
 
-  const onValueChange = ({ value }, checked) => {
-    const _sponsors = cloneDeep(sponsors);
-
-    if (value === SPONSOR_NOT_LISTED_VALUE) {
-      _sponsors.someoneNotListed = checked;
-    }
-
+  const onValueChange = ({ value } /* , checked */) => {
     const sponsorIndex = Number.parseInt(value, 10);
-    if (
-      !Number.isNaN(sponsorIndex) &&
-      sponsorIndex < sponsors?.sponsors?.length
-    ) {
-      _sponsors.sponsors[sponsorIndex].selected = checked;
-    }
-
+    const _sponsors = {
+      ...sponsors,
+      someoneNotListedFirstSponsor: value === SPONSOR_NOT_LISTED_VALUE,
+      sponsors: sponsors.sponsors.map((sponsor, index) => ({
+        ...sponsor,
+        firstSponsor: sponsorIndex === index,
+      })),
+    };
     setDirty(true);
     dispatchSelectedSponsorsChange(_sponsors);
   };
 
-  const options =
-    sponsors?.sponsors?.map((sponsor, index) => ({
-      label: sponsor.name,
-      value: index,
-    })) || [];
-  options.push({
-    label: SPONSOR_NOT_LISTED_LABEL,
-    value: SPONSOR_NOT_LISTED_VALUE,
-  });
+  const options = sponsors?.sponsors?.flatMap(
+    (sponsor, index) =>
+      sponsor.selected
+        ? [
+            {
+              label: sponsor.name,
+              value: `${index} `,
+              firstSponsor: sponsor.firstSponsor,
+            },
+          ]
+        : [],
+  );
+  if (sponsors.someoneNotListed) {
+    options.push({
+      label: SPONSOR_NOT_LISTED_LABEL,
+      value: SPONSOR_NOT_LISTED_VALUE,
+    });
+  }
+  const selectedOption = {
+    value: sponsors?.someoneNotListedFirstSponsor
+      ? SPONSOR_NOT_LISTED_VALUE
+      : options?.find(option => option.firstSponsor)?.value,
+  };
 
   let valid;
   try {
@@ -85,7 +94,7 @@ function DynamicCheckboxGroup({
   }
 
   return (
-    <CheckboxGroup
+    <RadioButtons
       additionalFieldsetClass="vads-u-margin-top--0"
       additionalLegendClass="toe-sponsors-checkboxes_legend vads-u-margin-top--0"
       errorMessage={
@@ -106,18 +115,10 @@ function DynamicCheckboxGroup({
       onValueChange={onValueChange}
       options={options}
       required
-      values={{
-        key: 0,
-      }}
+      values={selectedOption}
     />
   );
 }
-
-// values={
-//   new Map(
-//     sponsors?.sponsors?.map(sponsor => [sponsor.value, sponsor.selected]),
-//   )
-// }
 
 const mapSponsors = state => {
   if (isArray(state.form.data['view:sponsors']?.sponsors)) {
@@ -149,4 +150,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DynamicCheckboxGroup);
+)(DynamicRadioGroup);
