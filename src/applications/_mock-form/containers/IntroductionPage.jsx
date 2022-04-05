@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -12,6 +13,8 @@ class IntroductionPage extends React.Component {
   }
 
   render() {
+    const { route } = this.props;
+    const { formConfig, pageList } = route;
     return (
       <article className="schemaform-intro">
         <FormTitle
@@ -20,10 +23,10 @@ class IntroductionPage extends React.Component {
         />
         <SaveInProgressIntro
           headingLevel={2}
-          prefillEnabled={this.props.route.formConfig.prefillEnabled}
+          prefillEnabled
           verifyRequiredPrefill={false}
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
+          messages={formConfig.savedFormMessages}
+          pageList={pageList}
           startText="Start the Application"
         >
           Please complete the 00-1234 form to apply for Mock form.
@@ -89,9 +92,10 @@ class IntroductionPage extends React.Component {
         </va-process-list>
         <SaveInProgressIntro
           buttonOnly
+          prefillEnabled
           verifyRequiredPrefill={false}
-          messages={this.props.route.formConfig.savedFormMessages}
-          pageList={this.props.route.pageList}
+          messages={formConfig.savedFormMessages}
+          pageList={pageList}
           startText="Start the Application"
         />
         <p />
@@ -100,5 +104,14 @@ class IntroductionPage extends React.Component {
     );
   }
 }
+
+IntroductionPage.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({
+      savedFormMessages: PropTypes.shape({}),
+    }),
+    pageList: PropTypes.array,
+  }),
+};
 
 export default IntroductionPage;
