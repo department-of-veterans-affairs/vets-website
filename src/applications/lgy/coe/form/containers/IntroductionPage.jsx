@@ -44,7 +44,7 @@ const IntroductionPage = ({
         />
       );
     } else {
-      header = <RenderError error={errors.coe[0].code} />;
+      header = <RenderError error={errors.coe[0].code} introPage />;
     }
 
     content = (

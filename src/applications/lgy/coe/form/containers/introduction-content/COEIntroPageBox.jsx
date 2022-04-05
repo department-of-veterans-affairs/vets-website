@@ -51,11 +51,11 @@ const COEIntroPageBox = ({
           />
         );
       default:
-        return <RenderError error={500} />;
+        return <RenderError error={500} introPage />;
     }
   }
 
-  return <RenderError error={500} />;
+  return <RenderError error={500} introPage />;
 };
 
 COEIntroPageBox.propTypes = {
