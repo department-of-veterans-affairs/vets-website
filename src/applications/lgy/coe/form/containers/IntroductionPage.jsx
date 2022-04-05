@@ -80,6 +80,8 @@ const mapStateToProps = state => ({
 IntroductionPage.propTypes = {
   coe: PropTypes.object,
   downloadUrl: PropTypes.string,
+  errors: PropTypes.object,
+  isLoading: PropTypes.bool,
   loggedIn: PropTypes.bool,
   route: PropTypes.object,
   status: PropTypes.string,
