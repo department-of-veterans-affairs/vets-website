@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { transitionMHVAccount } from 'platform/user/authentication/selectors';
+import { MHV_TRANSITION_DATE } from 'platform/user/authentication/constants';
 import TransitionAccountSteps from './TransitionAccountSteps';
 
 export default function TransitionAccount() {
@@ -13,12 +14,12 @@ export default function TransitionAccount() {
         <h1>Transfer to using a verified account to sign in to VA.gov</h1>
         <div className="va-introtext">
           <p>
-            Starting on <strong>Month XX, 20XX</strong>, you’ll no longer be
-            able to use your My HealtheVet username and password to sign in to
-            VA.gov. You’ll need to use a verified <strong>Login.gov</strong> or
-            <strong>ID.me</strong> account that meets our new, stronger security
-            requirements. Read this page to learn how to transfer to a free,
-            verified account now.
+            Starting on <strong>{MHV_TRANSITION_DATE}</strong>, you’ll no longer
+            be able to use your My HealtheVet username and password to sign in
+            to VA.gov. You’ll need to use a verified <strong>Login.gov</strong>{' '}
+            or <strong>ID.me</strong> account that meets our new, stronger
+            security requirements. Read this page to learn how to transfer to a
+            free, verified account now.
           </p>
         </div>
         <TransitionAccountSteps
@@ -45,24 +46,27 @@ export default function TransitionAccount() {
               </li>
             </ul>
             <p>
-              Here’s the difference between these 2 accounts: Login.gov is an
-              account created, maintained, and secured by the U.S. government.
-              It encrypts your stored information at 2 levels. Encryption
-              translates your data into code that only you can access as the
-              account holder. This means only you can access and change your
-              information. ID.me is an account created, maintained, and secured
-              by a trusted technology partner. It uses bank-grade encryption to
-              keep your personal information safe. It gives you control over
-              which services can share your information.
+              Here’s the difference between these 2 accounts:
+              <br />
+              Login.gov is an account created, maintained, and secured by the
+              U.S. government. It encrypts your stored information at 2 levels.
+              Encryption translates your data into code that only you can access
+              as the account holder. This means only you can access and change
+              your information.
+              <br />
+              ID.me is an account created, maintained, and secured by a trusted
+              technology partner. It uses bank-grade encryption to keep your
+              personal information safe. It gives you control over which
+              services can share your information.
             </p>
           </div>
           <div>
             <h3>When do I need to start using a verified account?</h3>
             <p>
-              You need to start using a verified account by Month XX, 20XX.
-              After this date, you’ll no longer be able to use your My
-              HealtheVet username and password to sign in to My HealtheVet or
-              VA.gov.
+              You need to start using a verified account by{' '}
+              {MHV_TRANSITION_DATE}. After this date, you’ll no longer be able
+              to use your My HealtheVet username and password to sign in to My
+              HealtheVet or VA.gov.
             </p>
           </div>
           <div>
@@ -91,12 +95,20 @@ export default function TransitionAccount() {
                 hacker.
               </li>
             </ul>
-            <ul>
-              <li>
-                Get answers to more questions about verifying your identity
-              </li>
-              <li>Play our video on multifactor authentication (YouTube)</li>
-            </ul>
+            <a
+              href="/resources/verifying-your-identity-on-vagov/"
+              className="vads-u-display--block"
+            >
+              Get answers to more questions about verifying your identity
+            </a>
+            <a
+              href="https://www.youtube.com/watch?v=t85bt7Pmlvg"
+              className="vads-u-display--block"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Play our video on multifactor authentication (YouTube)
+            </a>
           </div>
         </section>
       </div>

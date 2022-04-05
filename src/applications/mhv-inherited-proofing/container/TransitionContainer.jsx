@@ -1,5 +1,5 @@
 import React from 'react';
 
 export default function TransitionContainer({ children }) {
-  return <>{children}</>;
+  return <div className="transfer-account">{children}</div>;
 }

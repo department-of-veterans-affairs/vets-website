@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import IDmeSVG from 'platform/user/authentication/components/IDMeSVG';
-import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
-
+import LoginButton from 'platform/user/authentication/components/LoginButton';
 import { ACCOUNT_TRANSITION } from '../constants';
 
 export default function TransitionAccountSteps({ canTransition }) {
@@ -16,7 +14,7 @@ export default function TransitionAccountSteps({ canTransition }) {
       <p data-testid="subheader">{subheader}</p>
       {canTransition ? (
         <div>
-          <p>You'll need access to these items to complete the process:</p>
+          <p>You’ll need access to these items to complete the process:</p>
           <ul>
             <li>
               Your email account, <strong>and</strong>
@@ -47,14 +45,7 @@ export default function TransitionAccountSteps({ canTransition }) {
               </li>
               <li>A phone number on a phone plan that’s in your name</li>
             </ul>
-            <button
-              type="button"
-              onClick={() => ({})}
-              className="usa-button logingov-button vads-u-margin-y--1p5 vads-u-padding-y--2"
-              aria-label="Create a Login.gov account"
-            >
-              Create a <LoginGovSVG /> account
-            </button>
+            <LoginButton csp="logingov" />
           </div>
           <div>
             <h3>Create an ID.me account</h3>
@@ -74,9 +65,7 @@ export default function TransitionAccountSteps({ canTransition }) {
                 and public data (like your credit report) to prove you’re you.
               </li>
             </ul>
-            <button type="button" onClick={() => ({})}>
-              Create an <IDmeSVG /> account
-            </button>
+            <LoginButton csp="idme" />
           </div>
         </>
       )}
