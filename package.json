@@ -6,7 +6,7 @@
   "module": "dist/va-forms-system-core.cjs.production.min.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "tsdx build",
+    "build": "tsdx build && yarn docs:build",
     "docs:extract": "api-extractor run --local --verbose",
     "docs:generate": "api-documenter markdown --input-folder ./doc-extraction --output-folder ./docs/reference",
     "docs:build": "yarn docs:extract && yarn docs:generate",
