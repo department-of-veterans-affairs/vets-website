@@ -30,28 +30,30 @@ export const fetchFormStatus = () => async dispatch => {
     });
   }
 
-  fetch(`${environment.API_URL}/v0/in_progress_forms/5655`, {
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Key-Inflection': 'camel',
-      'Source-App-Name': window.appName,
-    },
-  })
-    .then(response => response.json())
-    .then(response => {
-      if (response.errors) {
-        const [error] = response.errors;
-        Sentry.withScope(scope => {
-          scope.setExtra('error', error);
-          Sentry.captureMessage(`FSR fetchFormStatus failed: ${error.detail}`);
-        });
-        dispatch({
-          type: FSR_API_ERROR,
-          error: response,
-        });
-      }
+  try {
+    fetch(`${environment.API_URL}/v0/in_progress_forms/5655`, {
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
+      },
+    })
+      .then(response => response.json())
+      .then(response => {
+        if (response.errors) {
+          dispatch({
+            type: FSR_API_ERROR,
+            error: response,
+          });
+        }
+      });
+  } catch (error) {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage(`FSR fetchDebts failed: ${error.detail}`);
     });
+  }
   return dispatch({
     type: FSR_RESET_ERRORS,
   });
