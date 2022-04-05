@@ -88,14 +88,13 @@ export const personalInformationFormSchemas = {
   genderIdentity: {
     type: 'object',
     properties: {
-      genderIndentity: {
+      genderIdentity: {
         type: 'string',
         enum: genderOptions,
       },
     },
     required: [],
   },
-
   sexualOrientation: {
     type: 'object',
     properties: {
@@ -135,10 +134,11 @@ export const personalInformationUiSchemas = {
   },
   genderIdentity: {
     genderIdentity: {
-      'ui:field': RadioWidget,
-      'ui:description': `Select your gender identity`,
+      'ui:widget': RadioWidget,
+      'ui:title': `Select your gender identity`,
       'ui:options': {
         labels: genderLabels,
+        enumOptions: genderOptions,
       },
     },
   },
@@ -160,6 +160,8 @@ export const formatIndividualLabel = (key, label) => {
   }
   return label;
 };
+
+export const formatGenderIdentity = genderKey => genderLabels?.[genderKey];
 
 export const formatMultiSelectAndText = (data, fieldName) => {
   const notListedTextKey = `${fieldName}NotListedText`;
