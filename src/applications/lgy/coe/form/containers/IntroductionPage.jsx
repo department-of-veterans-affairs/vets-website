@@ -19,13 +19,12 @@ const IntroductionPage = ({
   errors,
   isLoading,
 }) => {
-  let content;
-
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   });
   // Set the content to be the loading indicator
-  content = <va-loading-indicator message="Loading your application..." />;
+  let content = <va-loading-indicator message="Loading your application..." />;
+  let header = null;
 
   // Once the coe call is done, render the rest of the content
   const coeCallEnded = [CALLSTATUS.success, CALLSTATUS.skip];
@@ -34,27 +33,26 @@ const IntroductionPage = ({
     content = notLoggedInContent(route);
   }
 
-  if (loggedIn && coeCallEnded.includes(status)) {
-    content = (
-      <>
+  if (loggedIn) {
+    if (coeCallEnded.includes(status)) {
+      header = (
         <COEIntroPageBox
           downloadUrl={downloadUrl}
           referenceNumber={coe.referenceNumber}
           requestDate={coe.applicationCreateDate}
-          status={coe}
-          isLoading={isLoading}
+          status={coe.status}
         />
+      );
+    } else {
+      header = <RenderError error={errors.coe[0].code} />;
+    }
+
+    content = (
+      <>
+        {header}
         {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
           <LoggedInContent route={route} status={coe.status} />
         )}
-      </>
-    );
-  }
-
-  if (loggedIn && !coeCallEnded.includes(status)) {
-    content = (
-      <>
-        <RenderError error={errors.coe[0].code} introPage />
       </>
     );
   }

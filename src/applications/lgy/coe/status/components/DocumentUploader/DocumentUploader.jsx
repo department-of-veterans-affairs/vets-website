@@ -20,7 +20,7 @@ const DocumentUploader = () => {
     reader: new FileReader(),
   });
 
-  const errorMsgClass = null;
+  const errorMsgClass = '';
   const disabledOnEmptyDescClass = null;
 
   const onSelectChange = e => {
@@ -112,14 +112,14 @@ const DocumentUploader = () => {
       <FileInput
         additionalClass={`${errorMsgClass} ${disabledOnEmptyDescClass}`}
         additionalErrorClass="vads-u-margin-bottom--1"
-        buttonText="Upload your document"
+        buttonText="Upload this document"
         onChange={onUploadFile}
         name="fileUpload"
         accept={FILE_TYPES.map(type => `.${type}`).join(',')}
         errorMessage={state.errorMessage}
       />
       <button type="button" onClick={onSubmit}>
-        Submit files
+        Submit uploaded documents
       </button>
       <p>
         <strong>Note:</strong> After you upload documents, it will take up to 5

@@ -6,8 +6,8 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import { isLoggedIn } from 'platform/user/selectors';
-import { RenderError } from '../../shared/components/errors/RenderError';
 
+import { RenderError } from '../../shared/components/errors/RenderError';
 import { generateCoe } from '../../shared/actions';
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
 import {
@@ -17,6 +17,7 @@ import {
   Ineligible,
   Pending,
 } from '../components/statuses';
+import { MoreQuestions } from '../components/MoreQuestions';
 
 const App = ({
   certificateOfEligibility: {
@@ -98,10 +99,20 @@ const App = ({
         );
         break;
       default:
-        content = <RenderError error={coe.status} />;
+        content = (
+          <>
+            <RenderError error={coe.status} />
+            <MoreQuestions />
+          </>
+        );
     }
   } else {
-    content = <RenderError error={errors.coe[0].code} />;
+    content = (
+      <>
+        <RenderError error={errors.coe[0].code} />
+        <MoreQuestions />
+      </>
+    );
   }
 
   return (

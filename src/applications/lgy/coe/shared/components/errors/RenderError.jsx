@@ -1,29 +1,18 @@
 import React from 'react';
-import { Error500 } from './Error500';
+import PropTypes from 'prop-types';
+
 import { Error400 } from './Error400';
-import SubwayMap from '../../../form/components/SubwayMap';
+import { Error500 } from './Error500';
 
-export const RenderError = ({ error, introPage }) => {
-  const regExFor500 = /^[5][0-9][0-9]$/;
-  let subwayMap = null;
-  if (introPage) {
-    subwayMap = <SubwayMap />;
-  }
-
-  if (error && regExFor500.test(error)) {
-    return (
-      <>
-        <Error500 />
-        {subwayMap}
-      </>
-    );
+export const RenderError = ({ error }) => {
+  if (error && error >= 500) {
+    return <Error500 />;
   }
 
   // If it is any other kind of error
-  return (
-    <>
-      <Error400 />
-      {subwayMap}
-    </>
-  );
+  return <Error400 />;
+};
+
+RenderError.propTypes = {
+  error: PropTypes.number,
 };
