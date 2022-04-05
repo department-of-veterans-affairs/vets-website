@@ -18,6 +18,8 @@ import * as aiqHelpers from './helpers';
 const mockUserAttrs = mockUserAiq.data.attributes;
 const testData = minTestData.data;
 
+const disabilityRating = 90;
+
 describe('HCA-Shortform-Authenticated', () => {
   beforeEach(() => {
     cy.login(mockUserAiq);
@@ -38,7 +40,7 @@ describe('HCA-Shortform-Authenticated', () => {
         data: {
           id: '',
           type: 'evss_disability_compensation_form_rating_info_responses',
-          attributes: { userPercentOfDisability: 100 },
+          attributes: { userPercentOfDisability: disabilityRating },
         },
       },
     }).as('mockDisabilityRating');
@@ -86,6 +88,10 @@ describe('HCA-Shortform-Authenticated', () => {
       selector: 'h3',
     })
       .first()
+      .should('exist');
+
+    cy.get('va-alert')
+      .contains(disabilityRating)
       .should('exist');
 
     cy.injectAxe();
