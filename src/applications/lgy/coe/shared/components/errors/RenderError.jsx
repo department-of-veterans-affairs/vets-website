@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 import { Error400 } from './Error400';
 import { Error500 } from './Error500';
 
-export const RenderError = ({ error, introPage }) => {
+export const RenderError = ({ error, origin }) => {
   let content = null;
 
   if (error && error >= 500) {
     content = <Error500 />;
   } else {
     // If it is any other kind of error
-    content = <Error400 introPage={introPage} />;
+    content = <Error400 origin={origin} />;
   }
 
   return content ? (
@@ -21,5 +21,5 @@ export const RenderError = ({ error, introPage }) => {
 
 RenderError.propTypes = {
   error: PropTypes.number,
-  introPage: PropTypes.bool,
+  origin: PropTypes.string,
 };

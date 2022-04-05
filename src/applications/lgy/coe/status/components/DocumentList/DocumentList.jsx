@@ -25,7 +25,7 @@ const DocumentList = ({ notOnUploadPage }) => {
   if (error) {
     return (
       <>
-        <RenderError error={error[0].code} />
+        <RenderError error={error[0].code} origin="documents" />
       </>
     );
   }

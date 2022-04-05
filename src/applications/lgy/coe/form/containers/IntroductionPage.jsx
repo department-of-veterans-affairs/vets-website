@@ -52,7 +52,7 @@ const IntroductionPage = ({
     } else {
       content = (
         <>
-          <RenderError error={errors.coe[0].code} introPage />
+          <RenderError error={errors.coe[0].code} origin="form" />
           <LoggedInContent route={route} status="ineligible" />
         </>
       );
