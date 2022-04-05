@@ -348,7 +348,7 @@ jobs:
 
   linting:
     name: Linting (All)
-    if: ${{ github.ref == 'refs/heads/master' }}
+    # if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -368,7 +368,8 @@ jobs:
 
       - name: List changed files
         id: changed-files
-        run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+        # run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+        run: echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
 
       - name: Get app folders for changed files
         id: get-changed-apps
