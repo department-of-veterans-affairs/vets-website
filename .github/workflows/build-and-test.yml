@@ -23,9 +23,6 @@ jobs:
       
       - name: Build service for testing
         run: yarn build
-
-      - name: Build document references
-        run: yarn docs:build
       
       - name: Run Tests
         run: yarn test

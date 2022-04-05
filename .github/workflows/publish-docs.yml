@@ -1,0 +1,26 @@
+name: Deploy Docs
+
+on:
+  workflow_run:
+    workflows: [Build and Test]
+    types: [completed]
+    branches: [master]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Install and Build 🔧 
+        run: |
+          yarn install
+          yarn build
+          yarn docs:build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4.3.0
+        with:
+          branch: master
+          folder: docs
