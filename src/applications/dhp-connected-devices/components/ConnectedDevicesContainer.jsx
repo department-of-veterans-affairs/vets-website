@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { DeviceConnectionCard } from './DeviceConnectionCard';
-import { DeviceDisconnectionCard } from './DeviceDisconnectionCard';
-import {
-  DeviceConnectionFailedAlert,
-  DeviceConnectionSucceededAlert,
-} from './DeviceConnectionAlerts';
+import environment from 'platform/utilities/environment';
+import { DevicesToConnectSection } from './DevicesToConnectSection';
+import { ConnectedDevicesSection } from './ConnectedDevicesSection';
 
 export const ConnectedDevicesContainer = () => {
   const [connectedDevices, setConnectedDevices] = useState([
     {
       vendor: 'Fitbit',
-      authUrl: 'path/to/vetsapi/fitbit/connect/method',
+      authUrl: `${environment.API_URL}/dhp_connected_devices/fitbit`,
       disconnectUrl: 'placeholder',
       connected: false,
     },
@@ -64,6 +60,7 @@ export const ConnectedDevicesContainer = () => {
         connectedDevices={connectedDevices}
         successAlert={successAlert}
         failureAlert={failureAlert}
+        data-testId="connected-devices-section"
       />
       <h2>Devices you can connect</h2>
       <div>
@@ -75,92 +72,8 @@ export const ConnectedDevicesContainer = () => {
       <DevicesToConnectSection
         connectedDevices={connectedDevices}
         onClickHandler={authorizeDevice}
+        data-testId="devices-to-connect-section"
       />
     </>
   );
-};
-
-export const ConnectedDevicesSection = ({
-  connectedDevices,
-  successAlert,
-  failureAlert,
-}) => {
-  const areDevicesConnected = () => {
-    return connectedDevices.some(device => device.connected);
-  };
-
-  const connectedDevicesMapped = () => {
-    return connectedDevices.map(device => {
-      if (device.connected) {
-        return (
-          <DeviceDisconnectionCard
-            key={device.vendor}
-            vendor={device.vendor}
-            onClickHandler={() => {
-              // console.log('Disconnect');
-            }}
-          />
-        );
-      }
-      return <></>;
-    });
-  };
-
-  return (
-    <>
-      {successAlert && <DeviceConnectionSucceededAlert />}
-      {failureAlert && <DeviceConnectionFailedAlert />}
-      {!areDevicesConnected() && (
-        <p data-testId="no-devices-connected-alert">
-          You do not have any devices connected
-        </p>
-      )}
-      {areDevicesConnected() && connectedDevicesMapped()}
-    </>
-  );
-};
-
-ConnectedDevicesSection.propTypes = {
-  connectedDevices: PropTypes.array.isRequired,
-  failureAlert: PropTypes.bool.isRequired,
-  successAlert: PropTypes.bool.isRequired,
-};
-
-export const DevicesToConnectSection = ({
-  connectedDevices,
-  onClickHandler,
-}) => {
-  const areAllDevicesConnected = () => {
-    return connectedDevices.every(device => device.connected);
-  };
-  const devicesToConnectMapped = () => {
-    return connectedDevices.map(device => {
-      if (!device.connected) {
-        return (
-          <DeviceConnectionCard
-            key={device.vendor}
-            vendor={device.vendor}
-            onClickHandler={() => onClickHandler(device)}
-          />
-        );
-      }
-      return <></>;
-    });
-  };
-
-  return (
-    <>
-      {areAllDevicesConnected() && (
-        <p data-testId="all-devices-connected-alert">
-          You have connected all supported devices
-        </p>
-      )}
-      {!areAllDevicesConnected() && devicesToConnectMapped()}
-    </>
-  );
-};
-
-DevicesToConnectSection.propTypes = {
-  connectedDevices: PropTypes.array.isRequired,
-  onClickHandler: PropTypes.func.isRequired,
 };

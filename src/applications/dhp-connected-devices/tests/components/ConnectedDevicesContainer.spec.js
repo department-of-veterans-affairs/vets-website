@@ -5,10 +5,14 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import { ConnectedDevicesContainer } from '../../components/ConnectedDevicesContainer';
 
 describe('Connect Devices Container', () => {
-  it('should render fitbit and freestyle in devices to connect section when they are not connected', () => {
+  it('should render DeviceConnectionSection and DeviceConnectionCards when devices are not connected', () => {
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
     );
+    expect(connectedDevicesContainer.findByTestId('connected-devices-section'))
+      .exist;
+    expect(connectedDevicesContainer.findByTestId('devices-to-connect-section'))
+      .to.exist;
     expect(connectedDevicesContainer.findByTestId('Fitbit-connect-link')).to
       .exist;
     expect(
@@ -17,7 +21,7 @@ describe('Connect Devices Container', () => {
   });
 
   it('should render fitbit in connected devices section when connected', () => {
-    const initialState = {
+    const oneSupportedDevice = {
       connectedDevices: [
         {
           vendor: 'Fitbit',
@@ -30,7 +34,7 @@ describe('Connect Devices Container', () => {
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
       {
-        initialState,
+        oneSupportedDevice,
       },
     );
     expect(connectedDevicesContainer.findByTestId('Fitbit-connect-link')).to.be
@@ -152,6 +156,7 @@ describe('Connect Devices Container', () => {
     );
     expect(connectedDevicesContainer.findByTestId('failure-alert')).to.exist;
   });
+
   it('should render success alert when device is connected', () => {
     const { getByTestId } = render(<ConnectedDevicesContainer />);
     fireEvent.click(getByTestId('Fitbit-connect-link'));
