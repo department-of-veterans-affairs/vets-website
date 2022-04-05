@@ -22,6 +22,7 @@ export default Object.freeze({
   checkInExperienceTranslationPreCheckInEnabled:'check_in_experience_translation_pre_check_in_enabled',
   checkInExperienceDayOfDemographicsFlagsEnabled: 'check_in_experience_day_of_demographics_flags_enabled',
   checkInExperienceLorotaSecurityUpdatesEnabled: 'check_in_experience_lorota_security_updates_enabled',
+  checkInExperienceEditMessagingEnabled: 'check_in_experience_edit_messaging_enabled',
   coeAccess: 'coe_access',
   combinedDebtPortalAccess: 'combined_debt_portal_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
@@ -99,6 +100,7 @@ export default Object.freeze({
   showFormI18n: 'show_form_i18n',
   showEventsV2: 'show_events_v2',
   showMebMockEndpoints: 'show_meb_mock_endpoints',
+  showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
   showHealthcareExperienceQuestionnaire:
     'show_healthcare_experience_questionnaire',
