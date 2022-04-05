@@ -84,6 +84,8 @@ IntroductionPage.propTypes = {
   loggedIn: PropTypes.bool,
   route: PropTypes.object,
   status: PropTypes.string,
+  errors: PropTypes.string,
+  isLoading: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(IntroductionPage);
