@@ -84,7 +84,7 @@ const singleCheckbox = {
   },
   schema: {
     type: 'object',
-    required: ['optionalCheckbox'],
+    required: ['requiredCheckbox'],
     properties: {
       exampleSeparator: {
         type: 'object',

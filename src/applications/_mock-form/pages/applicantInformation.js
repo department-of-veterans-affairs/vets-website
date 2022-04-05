@@ -14,7 +14,7 @@ const applicantInformation = {
   },
   schema: {
     type: 'object',
-    required: fullName,
+    required: ['fullName'],
     properties: {
       fullName,
       ssn,
