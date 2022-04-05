@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
 import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+
 import { RenderError } from '../../shared/components/errors/RenderError';
+import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
 import { notLoggedInContent } from './introduction-content/notLoggedInContent';
 import COEIntroPageBox from './introduction-content/COEIntroPageBox';
 import LoggedInContent from './introduction-content/loggedInContent';
-import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
 
 const IntroductionPage = ({
   coe,
@@ -24,7 +26,6 @@ const IntroductionPage = ({
   });
   // Set the content to be the loading indicator
   let content = <va-loading-indicator message="Loading your application..." />;
-  let header = null;
 
   // Once the coe call is done, render the rest of the content
   const coeCallEnded = [CALLSTATUS.success, CALLSTATUS.skip];
@@ -35,26 +36,27 @@ const IntroductionPage = ({
 
   if (loggedIn) {
     if (coeCallEnded.includes(status)) {
-      header = (
-        <COEIntroPageBox
-          downloadUrl={downloadUrl}
-          referenceNumber={coe.referenceNumber}
-          requestDate={coe.applicationCreateDate}
-          status={coe.status}
-        />
+      content = (
+        <>
+          <COEIntroPageBox
+            downloadUrl={downloadUrl}
+            referenceNumber={coe.referenceNumber}
+            requestDate={coe.applicationCreateDate}
+            status={coe.status}
+          />
+          {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
+            <LoggedInContent route={route} status={coe.status} />
+          )}
+        </>
       );
     } else {
-      header = <RenderError error={errors.coe[0].code} introPage />;
+      content = (
+        <>
+          <RenderError error={errors.coe[0].code} introPage />
+          <LoggedInContent route={route} status="ineligible" />
+        </>
+      );
     }
-
-    content = (
-      <>
-        {header}
-        {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
-          <LoggedInContent route={route} status={coe.status} />
-        )}
-      </>
-    );
   }
 
   return (
