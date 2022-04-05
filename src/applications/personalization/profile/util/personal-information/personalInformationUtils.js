@@ -1,6 +1,7 @@
 import { mapValues } from 'lodash';
 import moment from 'moment';
 
+import RadioWidget from 'platform/forms-system/src/js/widgets/RadioWidget';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import OtherTextField from '@@profile/components/personal-information/OtherTextField';
 import { NOT_SET_TEXT } from '../../constants';
@@ -37,9 +38,12 @@ const genderLabels = {
   transgenderWoman: 'Transgender woman',
   transgenderMan: 'Transgender man',
   nonBinary: 'Non-binary',
-  preferNotToAnswer: 'Prefer not to answer (un-checks other options)',
+  preferNotToAnswer: 'Prefer not to answer',
   genderNotListed: 'A gender not listed here',
 };
+
+// use the keys from the genderLabels object as the option values
+const genderOptions = Object.keys(genderLabels);
 
 const sexualOrientationLabels = {
   lesbianGayHomosexual: 'Lesbian, gay, or homosexual',
@@ -84,7 +88,10 @@ export const personalInformationFormSchemas = {
   genderIdentity: {
     type: 'object',
     properties: {
-      ...createBooleanSchemaPropertiesFromOptions(genderLabels),
+      genderIndentity: {
+        type: 'string',
+        enum: genderOptions,
+      },
     },
     required: [],
   },
@@ -127,9 +134,13 @@ export const personalInformationUiSchemas = {
     },
   },
   genderIdentity: {
-    'ui:field': DeselectableObjectField,
-    'ui:description': `Select your gender identity`,
-    ...createUiTitlePropertiesFromOptions(genderLabels),
+    genderIdentity: {
+      'ui:field': RadioWidget,
+      'ui:description': `Select your gender identity`,
+      'ui:options': {
+        labels: genderLabels,
+      },
+    },
   },
   sexualOrientation: {
     'ui:field': DeselectableObjectField,
