@@ -102,6 +102,7 @@ const ProfileInformationView = props => {
 ProfileInformationView.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
   data: PropTypes.object,
+  title: PropTypes.string,
 };
 
 export default ProfileInformationView;
