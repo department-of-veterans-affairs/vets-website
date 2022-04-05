@@ -59,7 +59,7 @@ const App = ({
     generateAutoCoeStatus === CALLSTATUS.success ||
     (generateAutoCoeStatus === CALLSTATUS.skip && coe)
   ) {
-    switch (coe) {
+    switch (coe.status) {
       case COE_ELIGIBILITY_STATUS.available:
         content = <Available downloadUrl={downloadUrl} />;
         break;

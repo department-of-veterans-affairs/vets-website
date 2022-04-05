@@ -2,12 +2,20 @@ import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import PropTypes from 'prop-types';
 
+const getHeader = origin => {
+  const base = 'We can’t find you VA home loan COE';
+  const type = origin === 'documents' ? 'letters' : 'status';
+
+  return `${base} ${type}`;
+};
+
 const getIntroSentence = origin =>
   origin === 'documents'
     ? 'You may have received letters from us about your VA home loan Certificate of Eligibility, but we can’t find that information'
     : 'You may already have a VA Home loan Certificate of Eligibility but we can’t find the information';
 
 export const Error400 = ({ origin }) => {
+  const header = getHeader(origin);
   const introSentence = getIntroSentence(origin);
 
   return (
@@ -16,7 +24,7 @@ export const Error400 = ({ origin }) => {
       status="warning"
       visible
     >
-      <h3 slot="headline">We can’t find your VA home loan COE status</h3>
+      <h3 slot="headline">{header}</h3>
       <p>
         {introSentence}. Please refresh this page or check back later. You can
         also sign out of VA.gov and try signing back into this page.
@@ -30,7 +38,7 @@ export const Error400 = ({ origin }) => {
       {origin === 'form' && (
         <p>
           <strong>If you would like to continue</strong> and submit an online
-          request for you COE, please continue to start the request process
+          request for your COE, please continue to start the request process
         </p>
       )}
     </va-alert>

@@ -14,9 +14,7 @@ export const RenderError = ({ error, origin }) => {
     content = <Error400 origin={origin} />;
   }
 
-  return content ? (
-    <div className="vads-u-margin-bottom--5">{content}</div>
-  ) : null;
+  return content && <div className="vads-u-margin-bottom--5">{content}</div>;
 };
 
 RenderError.propTypes = {
