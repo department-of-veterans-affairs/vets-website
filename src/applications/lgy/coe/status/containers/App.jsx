@@ -100,18 +100,22 @@ const App = ({
         break;
       default:
         content = (
-          <>
-            <RenderError error={coe.status} />
-            <MoreQuestions />
-          </>
+          <div className="row vads-u-margin-bottom--7">
+            <div className="medium-8 columns">
+              <RenderError error={coe.status} />
+              <MoreQuestions />
+            </div>
+          </div>
         );
     }
   } else {
     content = (
-      <>
-        <RenderError error={errors.coe[0].code} />
-        <MoreQuestions />
-      </>
+      <div className="row vads-u-margin-bottom--7">
+        <div className="medium-8 columns">
+          <RenderError error={errors.coe[0].code} />
+          <MoreQuestions />
+        </div>
+      </div>
     );
   }
 
