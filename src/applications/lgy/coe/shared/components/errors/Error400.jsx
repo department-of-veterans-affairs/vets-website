@@ -1,4 +1,5 @@
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 export const Error400 = () => {
   return (
@@ -15,9 +16,10 @@ export const Error400 = () => {
         page.
       </p>
       <p>
-        If you get this error again, please call the VA.gov help desk at
-        <va-telephone contact="8446982311" /> (TTY: 711). We’re here
-        Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
+        If you get this error again, please call the VA.gov help desk at{' '}
+        <va-telephone contact="8446982311" /> (TTY:{' '}
+        <va-telephone contact={CONTACTS['711']} />
+        ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
       </p>
     </va-alert>
   );

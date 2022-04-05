@@ -5,12 +5,18 @@ import { Error400 } from './Error400';
 import { Error500 } from './Error500';
 
 export const RenderError = ({ error }) => {
+  let content = null;
+
   if (error && error >= 500) {
-    return <Error500 />;
+    content = <Error500 />;
+  } else {
+    // If it is any other kind of error
+    content = <Error400 />;
   }
 
-  // If it is any other kind of error
-  return <Error400 />;
+  return content ? (
+    <div className="vads-u-margin-bottom--5">{content}</div>
+  ) : null;
 };
 
 RenderError.propTypes = {
