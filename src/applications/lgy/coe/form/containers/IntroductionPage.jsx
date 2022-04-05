@@ -41,8 +41,7 @@ const IntroductionPage = ({
           downloadUrl={downloadUrl}
           referenceNumber={coe.referenceNumber}
           requestDate={coe.applicationCreateDate}
-          status={coe}
-          isLoading={isLoading}
+          status={coe.status}
         />
         {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
           <LoggedInContent route={route} status={coe.status} />
