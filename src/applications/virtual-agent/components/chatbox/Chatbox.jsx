@@ -41,7 +41,7 @@ function showBot(loggedIn, requireAuth, accepted, minute, props) {
   }
   if (
     !accepted &&
-    !(localStorage.getItem('loggedInFlow') === 'true' && loggedIn)
+    !(sessionStorage.getItem('loggedInFlow') === 'true' && loggedIn)
   ) {
     return <ChatboxDisclaimer />;
   }

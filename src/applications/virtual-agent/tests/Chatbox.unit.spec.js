@@ -710,7 +710,7 @@ describe('App', () => {
         },
       };
 
-      localStorage.setItem('loggedInFlow', 'true');
+      sessionStorage.setItem('loggedInFlow', 'true');
 
       loadWebChat();
       mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
