@@ -162,4 +162,13 @@ describe('Connect Devices Container', () => {
     fireEvent.click(getByTestId('Fitbit-connect-link'));
     expect(getByTestId('success-alert')).to.exist;
   });
+
+  // it('should render with a default connectedDevices state that contains a valid url to the fitbit endpoint', () => {
+  // const connectDevicesContainer = render(<ConnectedDevicesContainer />);
+  // const fitbitState = connectDevicesContainer.;
+  // expect(fitbitState.authUrl).to.include('/dhp_connected_devices/fitbit');
+  // test /dhp_connected_devices/fitbit exists in url
+
+  // switch to different env (staging, dev, prod) to confirm ${environment.API_URL}
+  // });
 });

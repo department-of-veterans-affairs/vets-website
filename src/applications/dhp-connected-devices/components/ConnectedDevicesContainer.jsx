@@ -3,11 +3,12 @@ import environment from 'platform/utilities/environment';
 import { DevicesToConnectSection } from './DevicesToConnectSection';
 import { ConnectedDevicesSection } from './ConnectedDevicesSection';
 
+export const fitbitUrl = `${environment.API_URL}/dhp_connected_devices/fitbit`;
 export const ConnectedDevicesContainer = () => {
   const [connectedDevices, setConnectedDevices] = useState([
     {
       vendor: 'Fitbit',
-      authUrl: `${environment.API_URL}/dhp_connected_devices/fitbit`,
+      authUrl: fitbitUrl,
       disconnectUrl: 'placeholder',
       connected: false,
     },
