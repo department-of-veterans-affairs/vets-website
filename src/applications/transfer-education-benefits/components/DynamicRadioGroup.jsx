@@ -4,6 +4,8 @@ import RadioButtons from '@department-of-veterans-affairs/component-library/Radi
 import { isArray } from 'lodash';
 import { fetchSponsors, updateFirstSponsor, updateSponsors } from '../actions';
 import {
+  IM_NOT_SURE_LABEL,
+  IM_NOT_SURE_VALUE,
   SPONSOR_NOT_LISTED_LABEL,
   SPONSOR_NOT_LISTED_VALUE,
 } from '../constants';
@@ -20,12 +22,7 @@ function DynamicRadioGroup({
   const onValueChange = ({ value }) => {
     const _sponsors = {
       ...sponsors,
-      someoneNotListedFirstSponsor:
-        value === `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
-      sponsors: sponsors.sponsors.map(sponsor => ({
-        ...sponsor,
-        firstSponsor: `sponsor-${sponsor.id}` === value,
-      })),
+      firstSponsor: value.replace('sponsor-', ''),
     };
 
     setDirty(true);
@@ -34,12 +31,11 @@ function DynamicRadioGroup({
   };
 
   const options = sponsors?.sponsors?.flatMap(
-    sponsor =>
+    (sponsor, index) =>
       sponsor.selected
         ? [
             {
-              firstSponsor: sponsor.firstSponsor,
-              label: sponsor.name,
+              label: `Sponsor ${index + 1}: ${sponsor.name}`,
               value: `sponsor-${sponsor.id}`,
             },
           ]
@@ -51,18 +47,18 @@ function DynamicRadioGroup({
       value: `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
     });
   }
-  const selectedOptionValue = {
-    value: sponsors?.someoneNotListedFirstSponsor
-      ? SPONSOR_NOT_LISTED_VALUE
-      : options?.find(option => option.firstSponsor)?.value,
-  };
+  options.push({
+    label: IM_NOT_SURE_LABEL,
+    value: `sponsor-${IM_NOT_SURE_VALUE}`,
+  });
+  const selectedValue = `sponsor-${sponsors?.firstSponsor}`;
 
   return (
     <RadioButtons
       additionalFieldsetClass="vads-u-margin-top--0"
       additionalLegendClass="toe-sponsors-checkboxes_legend vads-u-margin-top--0"
       errorMessage={
-        !selectedOptionValue &&
+        !sponsors?.firstSponsor &&
         (dirty || formContext?.submitted) &&
         errorMessage
       }
@@ -81,7 +77,7 @@ function DynamicRadioGroup({
       onValueChange={onValueChange}
       options={options}
       required
-      value={selectedOptionValue}
+      value={{ value: selectedValue }}
     />
   );
 }

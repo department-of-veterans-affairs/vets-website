@@ -6,6 +6,8 @@ export const SPONSOR_RELATIONSHIP = {
 };
 export const SPONSOR_NOT_LISTED_LABEL = 'Someone not listed here';
 export const SPONSOR_NOT_LISTED_VALUE = 'SPONSOR_NOT_LISTED';
+export const IM_NOT_SURE_LABEL = 'I’m not sure';
+export const IM_NOT_SURE_VALUE = 'IM_NOT_SURE';
 export const SPONSORS_TYPE = PropTypes.shape({
   sponsors: PropTypes.arrayOf(
     PropTypes.shape({

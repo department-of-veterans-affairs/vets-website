@@ -69,8 +69,8 @@ function DynamicCheckboxGroup({
   };
 
   const options =
-    sponsors?.sponsors?.map(sponsor => ({
-      label: sponsor.name,
+    sponsors?.sponsors?.map((sponsor, index) => ({
+      label: `Sponsor ${index + 1}: ${sponsor.name}`,
       value: `sponsor-${sponsor.id}`,
     })) || [];
   options.push({
