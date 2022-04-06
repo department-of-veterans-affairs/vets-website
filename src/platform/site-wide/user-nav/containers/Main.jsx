@@ -57,7 +57,7 @@ export class Main extends Component {
 
   componentDidUpdate() {
     const { currentlyLoggedIn, user } = this.props;
-    const { mhvTransitionComplete } = user || {};
+    const { mhvTransitionEligible, mhvTransitionComplete } = user || {};
     const accountTransitionPreviouslyDismissed = localStorage.getItem(
       ACCOUNT_TRANSITION_DISMISSED,
     );
@@ -68,6 +68,7 @@ export class Main extends Component {
 
       if (
         this.props.signInServiceName === 'mhv' &&
+        mhvTransitionEligible &&
         !mhvTransitionComplete &&
         !accountTransitionPreviouslyDismissed
       ) {
