@@ -2,8 +2,12 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import recordEvent from 'platform/monitoring/record-event';
+import { useSelector } from 'react-redux';
+import { signInServiceName } from '~/platform/user/authentication/selectors';
+import { SERVICE_PROVIDERS } from '../../constants';
 
 export default function TransitionSucessModal({ visible, onClose }) {
+  const TRANSFERED_CSP = SERVICE_PROVIDERS[useSelector(signInServiceName)];
   const primaryButton = {
     action: () => {
       recordEvent({ event: `login-account-transition-success-modal-dismiss` });
@@ -31,19 +35,20 @@ export default function TransitionSucessModal({ visible, onClose }) {
       id="account-transition-success-modal"
       primaryButton={primaryButton}
       status="success"
-      title="You're using a Login.gov account"
+      title={`You're using a ${TRANSFERED_CSP} account`}
     >
       <div className="container">
         <div className="row">
           <p>
-            Congratulations! You have sucessfully signed in with your newly
-            created <strong>Login.gov</strong> account. This account will give
-            you acess to the same benefits and services you would normally use
-            on VA.gov or My HealtheVet.
+            You have sucessfully transferred your My HealtheVet account to{' '}
+            <strong>{TRANSFERED_CSP}</strong>. Your credentials and information
+            are now associated with this new account. You have access to all of
+            the same benefits and services you would normally use on My
+            HealtheVet and VA.gov.
           </p>
           <p>
-            It is recommended that you continue to use this account as your
-            preferred credential.
+            As you continue to use VA services, please ensure that you use this
+            account to sign in.
           </p>
         </div>
       </div>

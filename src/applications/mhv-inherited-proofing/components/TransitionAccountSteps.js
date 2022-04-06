@@ -3,15 +3,21 @@ import PropTypes from 'prop-types';
 import LoginButton from 'platform/user/authentication/components/LoginButton';
 import { ACCOUNT_TRANSITION } from '../constants';
 
-export default function TransitionAccountSteps({ canTransition }) {
-  const { header, subheader } = canTransition
-    ? ACCOUNT_TRANSITION.eligible
-    : ACCOUNT_TRANSITION.ineligible;
+export default function TransitionAccountSteps({ canTransition = false }) {
+  const {
+    headline,
+    subheader,
+    signUpIDme,
+    signUpLoginGov,
+    startTransition,
+  } = ACCOUNT_TRANSITION;
 
   return (
     <div>
-      <h2>{header}</h2>
-      <p data-testid="subheader">{subheader}</p>
+      <h2>{canTransition ? headline.eligible : headline.ineligible}</h2>
+      <p data-testid="subheader">
+        {canTransition ? subheader.eligible : subheader.ineligible}
+      </p>
       {canTransition ? (
         <div>
           <p>You’ll need access to these items to complete the process:</p>
@@ -21,7 +27,13 @@ export default function TransitionAccountSteps({ canTransition }) {
             </li>
             <li>Your phone to transfer</li>
           </ul>
-          <button onClick={() => ({})}>Transfer my account to Login.gov</button>
+          <button
+            type="button"
+            onClick={startTransition}
+            className="usa-button button-primary"
+          >
+            Transfer my account to Login.gov
+          </button>
           <p>
             <strong>Note:</strong> You can also choose to use a verified{' '}
             <strong>ID.me</strong> account instead. Read the next section to
@@ -45,7 +57,7 @@ export default function TransitionAccountSteps({ canTransition }) {
               </li>
               <li>A phone number on a phone plan that’s in your name</li>
             </ul>
-            <LoginButton csp="logingov" />
+            <LoginButton csp="logingov" onClick={signUpLoginGov} />
           </div>
           <div>
             <h3>Create an ID.me account</h3>
@@ -65,7 +77,7 @@ export default function TransitionAccountSteps({ canTransition }) {
                 and public data (like your credit report) to prove you’re you.
               </li>
             </ul>
-            <LoginButton csp="idme" />
+            <LoginButton csp="idme" onClick={signUpIDme} />
           </div>
         </>
       )}
