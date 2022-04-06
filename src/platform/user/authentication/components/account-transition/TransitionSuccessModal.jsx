@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import recordEvent from 'platform/monitoring/record-event';
 import { useSelector } from 'react-redux';
-import { signInServiceName } from '~/platform/user/authentication/selectors';
+import { signInServiceName } from 'platform/user/authentication/selectors';
 import { SERVICE_PROVIDERS } from '../../constants';
 
 export default function TransitionSucessModal({ visible, onClose }) {
-  const TRANSFERED_CSP = SERVICE_PROVIDERS[useSelector(signInServiceName)];
+  const signInService = useSelector(signInServiceName);
+  const TRANSFERED_CSP = SERVICE_PROVIDERS[signInService];
   const primaryButton = {
     action: () => {
       recordEvent({ event: `login-account-transition-success-modal-dismiss` });
@@ -35,7 +36,7 @@ export default function TransitionSucessModal({ visible, onClose }) {
       id="account-transition-success-modal"
       primaryButton={primaryButton}
       status="success"
-      title={`You're using a ${TRANSFERED_CSP} account`}
+      title="Account transfer is complete"
     >
       <div className="container">
         <div className="row">
