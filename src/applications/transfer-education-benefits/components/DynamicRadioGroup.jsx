@@ -84,8 +84,8 @@ function DynamicRadioGroup({
 }
 
 const mapSponsors = state => {
-  if (isArray(state.form.data['view:sponsors']?.sponsors)) {
-    return state.form.data['view:sponsors'];
+  if (isArray(state.form.data.sponsors?.sponsors)) {
+    return state.form.data.sponsors;
   }
 
   if (isArray(state.data?.sponsors?.sponsors)) {

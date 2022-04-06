@@ -67,7 +67,7 @@ import GetHelp from '../components/GetHelp';
 import Sponsors from '../components/Sponsors';
 import DynamicCheckboxGroup from '../components/DynamicCheckboxGroup';
 import DynamicRadioGroup from '../components/DynamicRadioGroup';
-import { SPONSOR_NOT_LISTED_VALUE } from '../constants';
+import { SPONSOR_NOT_LISTED_VALUE, SPONSOR_RELATIONSHIP } from '../constants';
 // import SponsorsView from '../components/SponsorsView';
 
 // import { ELIGIBILITY } from '../actions';
@@ -381,7 +381,7 @@ const formConfig = {
           path: 'sponsor/select-sponsor',
           depends: formData =>
             !formData.fetchedSponsorsComplete ||
-            formData['view:sponsors']?.sponsors?.length,
+            formData.sponsors?.sponsors?.length,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -414,12 +414,11 @@ const formConfig = {
             },
             [formFields.selectedSponsors]: {
               'ui:field': DynamicCheckboxGroup,
-              'ui:required': formData =>
-                !!formData['view:sponsors']?.sponsors?.length,
+              'ui:required': formData => !!formData.sponsors?.sponsors?.length,
               'ui:options': {
                 hideIf: formData =>
                   formData.fetchedSponsorsComplete &&
-                  !formData['view:sponsors']?.sponsors?.length,
+                  !formData.sponsors?.sponsors?.length,
               },
             },
             'view:additionalInfo': {
@@ -440,7 +439,7 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   !formData.fetchedSponsorsComplete ||
-                  !formData['view:sponsors']?.sponsors?.length,
+                  !formData.sponsors?.sponsors?.length,
               },
             },
           },
@@ -515,9 +514,8 @@ const formConfig = {
           title: 'Phone numbers and email address',
           path: 'sponsor/information',
           depends: formData =>
-            !formData['view:sponsors']?.sponsors?.length ||
-            formData['view:sponsors']?.firstSponsor ===
-              SPONSOR_NOT_LISTED_VALUE,
+            !formData.sponsors?.sponsors?.length ||
+            formData.sponsors?.firstSponsor === SPONSOR_NOT_LISTED_VALUE,
           uiSchema: {
             'view:noSponsorWarning': {
               'ui:description': (
@@ -544,7 +542,7 @@ const formConfig = {
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData => formData['view:sponsors']?.sponsors?.length,
+                hideIf: formData => formData.sponsors?.sponsors?.length,
               },
             },
             'view:sponsorNotOnFileWarning': {
@@ -571,8 +569,7 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  formData['view:sponsors']?.firstSponsor !==
-                  SPONSOR_NOT_LISTED_VALUE,
+                  formData.sponsors?.firstSponsor !== SPONSOR_NOT_LISTED_VALUE,
               },
             },
             [formFields.relationshipToServiceMember]: {
@@ -630,7 +627,7 @@ const formConfig = {
               },
               [formFields.relationshipToServiceMember]: {
                 type: 'string',
-                enum: ['Spouse', 'Child'],
+                enum: [SPONSOR_RELATIONSHIP.SPOUSE, SPONSOR_RELATIONSHIP.CHILD],
               },
               [formFields.sponsorFullName]: {
                 ...fullName,
@@ -647,10 +644,21 @@ const formConfig = {
             },
           },
         },
-
         [formPages.verifyHighSchool]: {
           title: 'Verify your high school education',
           path: 'child/high-school-education',
+          depends: formData =>
+            // Only show this page if the user is a child of the sponsor.
+            (!formData.firstSponsor &&
+              formData.sponsors?.sponsors?.find(sponsor => sponsor.selected)
+                ?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
+            (formData.sponsors?.firstSponsor &&
+              formData.sponsors?.sponsors?.find(
+                sponsor => sponsor.id === formData.sponsors?.firstSponsor,
+              )?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
+            (!formData.sponsors?.sponsors?.length &&
+              formData?.relationshipToServiceMember ===
+                SPONSOR_RELATIONSHIP.CHILD),
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (

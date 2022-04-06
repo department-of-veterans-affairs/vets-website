@@ -47,7 +47,7 @@ export const TOEApp = ({
           (formData.fetchedSponsorsComplete === undefined &&
             fetchedSponsorsComplete !== undefined) ||
           (sponsors?.sponsors?.length &&
-            !_.isEqual(formData['view:sponsors'], sponsors)) ||
+            !_.isEqual(formData.sponsors, sponsors)) ||
           (selectedSponsors?.length &&
             !_.isEqual(formData.selectedSponsors, selectedSponsors)) ||
           (firstSponsor && formData.firstSponsor !== firstSponsor)
@@ -55,9 +55,7 @@ export const TOEApp = ({
           setFormData({
             ...formData,
             fetchedSponsorsComplete,
-            'view:sponsors': {
-              ...sponsors,
-            },
+            sponsors,
             selectedSponsors,
             firstSponsor,
           });

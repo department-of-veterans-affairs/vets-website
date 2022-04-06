@@ -12,7 +12,9 @@ import { SPONSOR_RELATIONSHIP } from '../constants';
 
 const initialState = {
   formData: {
+    firstSponsor: undefined,
     selectedSponsors: [],
+    someoneNotListed: undefined,
     sponsors: {},
   },
   form: {
