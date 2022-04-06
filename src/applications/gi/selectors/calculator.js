@@ -1,5 +1,4 @@
 import { isEmpty } from 'lodash';
-import environment from 'platform/utilities/environment';
 import { createSelector } from 'reselect';
 
 import {
@@ -584,7 +583,6 @@ const getDerivedValues = createSelector(
         housingAllowTerm1 = ropOjt * (tier * bah + kickerBenefit);
       }
     } else if (
-      !environment.isProduction() &&
       onlineClasses === 'yes' &&
       !isUSSchool(institution.facilityCode)
     ) {
@@ -647,7 +645,6 @@ const getDerivedValues = createSelector(
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm2 = 0;
     } else if (
-      !environment.isProduction() &&
       onlineClasses === 'yes' &&
       !isUSSchool(institution.facilityCode)
     ) {
@@ -712,7 +709,6 @@ const getDerivedValues = createSelector(
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm3 = 0;
     } else if (
-      !environment.isProduction() &&
       onlineClasses === 'yes' &&
       !isUSSchool(institution.facilityCode)
     ) {

@@ -11,7 +11,10 @@ import {
   personalInformation,
 } from '@@profile/util/getProfileInfoFieldAttributes';
 
-import { formatMultiSelectAndText } from '@@profile/util/personal-information/personalInformationUtils';
+import {
+  formatMultiSelectAndText,
+  formatGenderIdentity,
+} from '@@profile/util/personal-information/personalInformationUtils';
 import { formatAddress } from '~/platform/forms/address/helpers';
 
 const ProfileInformationView = props => {
@@ -84,7 +87,11 @@ const ProfileInformationView = props => {
 
   // handle personal information field data and format accordingly for display
   if (fieldName in data && personalInformation.includes(fieldName)) {
-    if (fieldName === 'preferredName') return data[fieldName];
+    if (fieldName === FIELD_NAMES.PREFERRED_NAME) return data[fieldName];
+
+    if (fieldName === FIELD_NAMES.GENDER_IDENTITY) {
+      return formatGenderIdentity(data[fieldName]);
+    }
 
     return formatMultiSelectAndText(data, fieldName) || unsetFieldTitleSpan;
   }
@@ -93,8 +100,9 @@ const ProfileInformationView = props => {
 };
 
 ProfileInformationView.propTypes = {
-  data: PropTypes.object,
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
+  data: PropTypes.object,
+  title: PropTypes.string,
 };
 
 export default ProfileInformationView;
