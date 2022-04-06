@@ -14,9 +14,8 @@ $vaos-loading-overlay: rgba($color-white, 0.9);
   text-transform: uppercase;
 }
 
-// test
 h1:focus {
-  outline
+  outline: none !important;
 }
 
 .vaos-u-word-break--break-word {
