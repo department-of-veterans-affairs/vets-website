@@ -392,8 +392,8 @@ jobs:
           if [[ -z "${{ steps.get-changed-apps.outputs.app_folders }}" ]]; then
             yarn run stylelint verbose --output-file stylelint-report.json --formatter json src/**/*.scss
           else
-            yarn run stylelint verbose --output-file stylelint-report.json --formatter json \
-            $(find ${{ steps.get-changed-apps.outputs.app_folders }} -name "*.scss")
+            files=$(find ${{ steps.get-changed-apps.outputs.app_folders }} -name "*.scss")
+            [[ -n "$files" ]] && yarn run stylelint verbose --output-file stylelint-report.json --formatter json $(echo $files)
           fi
 
       - name: Annotate Stylelint results
