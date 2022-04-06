@@ -30,6 +30,11 @@ describe('check-in', () => {
           },
           form: {
             pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+            data: {
+              demographicsUpToDate: 'yes',
+              emergencyContactUpToDate: 'yes',
+              nextOfKinUpToDate: 'yes',
+            },
           },
           appointments: [
             {
