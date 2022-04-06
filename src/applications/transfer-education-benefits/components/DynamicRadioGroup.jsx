@@ -51,7 +51,6 @@ function DynamicRadioGroup({
     label: IM_NOT_SURE_LABEL,
     value: `sponsor-${IM_NOT_SURE_VALUE}`,
   });
-  const selectedValue = `sponsor-${sponsors?.firstSponsor}`;
 
   return (
     <RadioButtons
@@ -77,7 +76,9 @@ function DynamicRadioGroup({
       onValueChange={onValueChange}
       options={options}
       required
-      value={{ value: selectedValue }}
+      value={
+        sponsors?.firstSponsor && { value: `sponsor-${sponsors?.firstSponsor}` }
+      }
     />
   );
 }

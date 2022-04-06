@@ -67,6 +67,7 @@ import GetHelp from '../components/GetHelp';
 import Sponsors from '../components/Sponsors';
 import DynamicCheckboxGroup from '../components/DynamicCheckboxGroup';
 import DynamicRadioGroup from '../components/DynamicRadioGroup';
+import { SPONSOR_NOT_LISTED_VALUE } from '../constants';
 // import SponsorsView from '../components/SponsorsView';
 
 // import { ELIGIBILITY } from '../actions';
@@ -135,6 +136,7 @@ const formPages = {
   serviceHistory: 'serviceHistory',
   benefitSelection: 'benefitSelection',
   directDeposit: 'directDeposit',
+  firstSponsorSelection: 'firstSponsorSelection',
   sponsorInformation: 'sponsorInformation',
   sponsorHighSchool: 'sponsorHighSchool',
   sponsorSelection: 'sponsorSelection',
@@ -374,9 +376,12 @@ const formConfig = {
     sponsorInformationChapter: {
       title: 'Sponsor information',
       pages: {
-        [formPages.sponsorInformation]: {
+        [formPages.sponsorSelection]: {
           title: 'Phone numbers and email address',
-          path: 'sponsor/information',
+          path: 'sponsor/select-sponsor',
+          depends: formData =>
+            !formData.fetchedSponsorsComplete ||
+            formData['view:sponsors']?.sponsors?.length,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -398,39 +403,6 @@ const formConfig = {
                   <Sponsors />
                 </>
               ),
-              'ui:options': {
-                hideIf: formData => !formData,
-              },
-            },
-            'view:sponsorWarning': {
-              'ui:description': (
-                <va-alert
-                  close-btn-aria-label="Close notification"
-                  status="warning"
-                  visible
-                >
-                  <h3 slot="headline">
-                    We do not have any sponsor information on file
-                  </h3>
-                  <p>
-                    If you think this is incorrect, reach out to your sponsor so
-                    they can{' '}
-                    <a href="/">
-                      update this information on the DoD milConnect website
-                    </a>
-                    .
-                  </p>
-                  <p>
-                    You may still continue this application and enter your
-                    sponsor information manually.
-                  </p>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData =>
-                  !formData.fetchedSponsorsComplete ||
-                  formData['view:sponsors']?.sponsors?.length,
-              },
             },
             'view:sponsorsLoadingIndicator': {
               'ui:description': (
@@ -440,37 +412,7 @@ const formConfig = {
                 hideIf: formData => !!formData.fetchedSponsorsComplete,
               },
             },
-            // 'view:sponsors': {
-            //   sponsors: {
-            //     'ui:field': DynamicCheckboxGroup,
-            //   },
-            //   // 'ui:required': formData =>
-            //   //   formData['view:sponsors']?.sponsors?.length,
-            //   'ui:validations': [
-            //     // A little messy, but we're returning a boolean from
-            //     // this function in addition to adding an error
-            //     // with addError so this function can be reused from
-            //     // the ui:field.
-            //     (errors, fieldData) => {
-            //       if (
-            //         fieldData.sponsors?.length &&
-            //         !fieldData?.someoneNotListed &&
-            //         !fieldData?.sponsors?.some(sponsor => sponsor.selected)
-            //       ) {
-            //         errors?.sponsors?.addError('Please select a sponsor');
-            //         return false;
-            //       }
-            //       return true;
-            //     },
-            //   ],
-            //   'ui:options': {
-            //     hideIf: formData =>
-            //       formData.fetchedSponsorsComplete &&
-            //       !formData['view:sponsors']?.sponsors?.length,
-            //   },
-            // },
             [formFields.selectedSponsors]: {
-              // 'ui:title': '',
               'ui:field': DynamicCheckboxGroup,
               'ui:required': formData =>
                 !!formData['view:sponsors']?.sponsors?.length,
@@ -478,92 +420,7 @@ const formConfig = {
                 hideIf: formData =>
                   formData.fetchedSponsorsComplete &&
                   !formData['view:sponsors']?.sponsors?.length,
-                // hideLabelText: true,
               },
-              // 'ui:validations': [
-              //   // A little messy, but we're returning a boolean from
-              //   // this function in addition to adding an error
-              //   // with addError so this function can be reused from
-              //   // the ui:field.
-              //   // (errors, fieldData, formData) => {
-              //   //   if (
-              //   //     formData.sponsors?.sponsors?.length &&
-              //   //     !formData.sponsors?.someoneNotListed &&
-              //   //     !fieldData.length
-              //   //   ) {
-              //   //     errors?.addError('Please select a sponsor');
-              //   //   }
-              //   // },
-              //   (errors, fieldData) => {
-              //     if (!fieldData.length) {
-              //       errors?.addError('Please select a sponsor');
-              //     }
-              //   },
-              // ],
-            },
-            [formFields.relationshipToServiceMember]: {
-              'ui:title':
-                'What’s your relationship to the service member whose benefit has been transferred to you?',
-              'ui:widget': 'radio',
-              'ui:options': {
-                hideIf: formData =>
-                  !formData.fetchedSponsorsComplete ||
-                  formData['view:sponsors']?.sponsors?.length,
-              },
-              'ui:required': formData =>
-                formData.fetchedSponsorsComplete &&
-                !formData['view:sponsors']?.sponsors?.length,
-            },
-            [formFields.sponsorFullName]: {
-              ...fullNameUI,
-              first: {
-                ...fullNameUI.first,
-                'ui:title': "Sponsor's first name",
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a first name');
-                    }
-                  },
-                ],
-                'ui:required': formData =>
-                  formData.fetchedSponsorsComplete &&
-                  !formData['view:sponsors']?.sponsors?.length,
-              },
-              last: {
-                ...fullNameUI.last,
-                'ui:title': "Sponsor's last name",
-                'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a last name');
-                    }
-                  },
-                ],
-                'ui:required': formData =>
-                  formData.fetchedSponsorsComplete &&
-                  !formData['view:sponsors']?.sponsors?.length,
-              },
-              middle: {
-                ...fullNameUI.middle,
-                'ui:title': "Sponsor's  middle name",
-              },
-              'ui:options': {
-                hideIf: formData =>
-                  !formData.fetchedSponsorsComplete ||
-                  formData['view:sponsors']?.sponsors?.length,
-              },
-            },
-            [formFields.sponsorDateOfBirth]: {
-              ...currentOrPastDateUI("Sponsor's date of birth"),
-              'ui:options': {
-                hideIf: formData =>
-                  !formData.fetchedSponsorsComplete ||
-                  formData['view:sponsors']?.sponsors?.length,
-              },
-              'ui:required': formData =>
-                formData.fetchedSponsorsComplete &&
-                !formData['view:sponsors']?.sponsors?.length,
             },
             'view:additionalInfo': {
               'ui:description': (
@@ -594,10 +451,6 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              'view:sponsorWarning': {
-                type: 'object',
-                properties: {},
-              },
               [formFields.selectedSponsors]: {
                 type: 'array',
                 minItems: 1,
@@ -605,32 +458,13 @@ const formConfig = {
                   type: 'string',
                 },
               },
-              [formFields.relationshipToServiceMember]: {
-                type: 'string',
-                enum: ['Spouse', 'Child'],
-              },
-              [formFields.sponsorFullName]: {
-                ...fullName,
-                properties: {
-                  ...fullName.properties,
-                  middle: {
-                    ...fullName.properties.middle,
-                    maxLength: 30,
-                  },
-                },
-              },
-              [formFields.sponsorDateOfBirth]: date,
-              'view:additionalInfo': {
-                type: 'object',
-                properties: {},
-              },
             },
           },
         },
-        [formPages.sponsorSelection]: {
+        [formPages.firstSponsorSelection]: {
           title: 'Sponsor information',
-          path: 'sponsor/select-sponsor',
-          depends: formData => formData.selectedSponsors?.length,
+          path: 'sponsor/select-first-sponsor',
+          depends: formData => formData.selectedSponsors?.length > 1,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -662,28 +496,6 @@ const formConfig = {
                 showFieldLabel: false,
               },
             },
-            // 'ui:validations': [
-            //   // A little messy, but we're returning a boolean from
-            //   // this function in addition to adding an error
-            //   // with addError so this function can be reused from
-            //   // the ui:field.
-            //   (errors, fieldData) => {
-            //     if (
-            //       fieldData.sponsors?.length &&
-            //       !fieldData?.someoneNotListed &&
-            //       !fieldData?.sponsors?.some(sponsor => sponsor.selected)
-            //     ) {
-            //       errors?.sponsors?.addError('Please select a sponsor');
-            //       return false;
-            //     }
-            //     return true;
-            //   },
-            // ],
-            // 'ui:options': {
-            //   hideIf: formData =>
-            //     formData.fetchedSponsorsComplete &&
-            //     !formData['view:sponsors']?.sponsors?.length,
-            // },
           },
           schema: {
             type: 'object',
@@ -699,6 +511,143 @@ const formConfig = {
             },
           },
         },
+        [formPages.sponsorInformation]: {
+          title: 'Phone numbers and email address',
+          path: 'sponsor/information',
+          depends: formData =>
+            !formData['view:sponsors']?.sponsors?.length ||
+            formData['view:sponsors']?.firstSponsor ===
+              SPONSOR_NOT_LISTED_VALUE,
+          uiSchema: {
+            'view:noSponsorWarning': {
+              'ui:description': (
+                <va-alert
+                  close-btn-aria-label="Close notification"
+                  status="warning"
+                  visible
+                >
+                  <h3 slot="headline">
+                    We do not have any sponsor information on file
+                  </h3>
+                  <p>
+                    If you think this is incorrect, reach out to your sponsor so
+                    they can{' '}
+                    <a href="/">
+                      update this information on the DoD milConnect website
+                    </a>
+                    .
+                  </p>
+                  <p>
+                    You may still continue this application and enter your
+                    sponsor information manually.
+                  </p>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => formData['view:sponsors']?.sponsors?.length,
+              },
+            },
+            'view:sponsorNotOnFileWarning': {
+              'ui:description': (
+                <va-alert
+                  close-btn-aria-label="Close notification"
+                  status="warning"
+                  visible
+                >
+                  <h3 slot="headline">Your selected sponsor is not on file</h3>
+                  <p>
+                    If you think this is incorrect, reach out to your sponsor so
+                    they can{' '}
+                    <a href="/">
+                      update this information on the DoD milConnect website
+                    </a>
+                    .
+                  </p>
+                  <p>
+                    You may still continue this application and enter your
+                    sponsor information manually.
+                  </p>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData =>
+                  formData['view:sponsors']?.firstSponsor !==
+                  SPONSOR_NOT_LISTED_VALUE,
+              },
+            },
+            [formFields.relationshipToServiceMember]: {
+              'ui:title':
+                'What’s your relationship to the service member whose benefit has been transferred to you?',
+              'ui:widget': 'radio',
+            },
+            [formFields.sponsorFullName]: {
+              ...fullNameUI,
+              first: {
+                ...fullNameUI.first,
+                'ui:title': "Sponsor's first name",
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isOnlyWhitespace(field)) {
+                      errors.addError('Please enter a first name');
+                    }
+                  },
+                ],
+              },
+              last: {
+                ...fullNameUI.last,
+                'ui:title': "Sponsor's last name",
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isOnlyWhitespace(field)) {
+                      errors.addError('Please enter a last name');
+                    }
+                  },
+                ],
+              },
+              middle: {
+                ...fullNameUI.middle,
+                'ui:title': "Sponsor's  middle name",
+              },
+            },
+            [formFields.sponsorDateOfBirth]: {
+              ...currentOrPastDateUI("Sponsor's date of birth"),
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [
+              formFields.relationshipToServiceMember,
+              formFields.sponsorDateOfBirth,
+            ],
+            properties: {
+              'view:noSponsorWarning': {
+                type: 'object',
+                properties: {},
+              },
+              'view:sponsorNotOnFileWarning': {
+                type: 'object',
+                properties: {},
+              },
+              [formFields.relationshipToServiceMember]: {
+                type: 'string',
+                enum: ['Spouse', 'Child'],
+              },
+              [formFields.sponsorFullName]: {
+                ...fullName,
+                required: ['first', 'last'],
+                properties: {
+                  ...fullName.properties,
+                  middle: {
+                    ...fullName.properties.middle,
+                    maxLength: 30,
+                  },
+                },
+              },
+              [formFields.sponsorDateOfBirth]: date,
+            },
+          },
+        },
+
         [formPages.verifyHighSchool]: {
           title: 'Verify your high school education',
           path: 'child/high-school-education',
