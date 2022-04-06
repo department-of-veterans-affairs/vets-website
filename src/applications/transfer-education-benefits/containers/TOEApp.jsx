@@ -16,6 +16,7 @@ export const TOEApp = ({
   claimantInfo,
   fetchedSponsors,
   fetchedSponsorsComplete,
+  firstSponsor,
   formData,
   getPersonalInfo,
   getSponsors,
@@ -48,7 +49,8 @@ export const TOEApp = ({
           (sponsors?.sponsors?.length &&
             !_.isEqual(formData['view:sponsors'], sponsors)) ||
           (selectedSponsors?.length &&
-            !_.isEqual(formData.selectedSponsors, selectedSponsors))
+            !_.isEqual(formData.selectedSponsors, selectedSponsors)) ||
+          (firstSponsor && formData.firstSponsor !== firstSponsor)
         ) {
           setFormData({
             ...formData,
@@ -57,6 +59,7 @@ export const TOEApp = ({
               ...sponsors,
             },
             selectedSponsors,
+            firstSponsor,
           });
         }
       }
@@ -111,6 +114,7 @@ TOEApp.propTypes = {
 
 const mapStateToProps = state => ({
   claimant: state.data?.formData?.data?.attributes?.claimant,
+  firstSponsor: state.data?.firstSponsor,
   fetchedSponsors: state.data?.fetchedSponsors,
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
   formData: state.form?.data || {},

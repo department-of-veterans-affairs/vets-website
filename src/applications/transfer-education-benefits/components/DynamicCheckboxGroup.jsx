@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import CheckboxGroup from '@department-of-veterans-affairs/component-library/CheckboxGroup';
 import { isArray, cloneDeep } from 'lodash';
@@ -25,8 +25,6 @@ function DynamicCheckboxGroup({
   sponsors,
 }) {
   const [dirty, setDirty] = useState(false);
-  const renderCounter = useRef(0);
-  renderCounter.current += 1;
 
   useEffect(
     () => {
@@ -49,13 +47,13 @@ function DynamicCheckboxGroup({
 
     if (value === `sponsor-${SPONSOR_NOT_LISTED_VALUE}`) {
       _sponsors.someoneNotListed = checked;
-    }
-
-    const sponsorIndex = _sponsors.sponsors.findIndex(
-      sponsor => `sponsor-${sponsor.id}` === value,
-    );
-    if (sponsorIndex > -1) {
-      _sponsors.sponsors[sponsorIndex].selected = checked;
+    } else {
+      const sponsorIndex = _sponsors.sponsors.findIndex(
+        sponsor => `sponsor-${sponsor.id}` === value,
+      );
+      if (sponsorIndex > -1) {
+        _sponsors.sponsors[sponsorIndex].selected = checked;
+      }
     }
 
     const _selectedSponsors = _sponsors.sponsors?.flatMap(

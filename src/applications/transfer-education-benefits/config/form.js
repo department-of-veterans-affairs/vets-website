@@ -95,6 +95,7 @@ const formFields = {
   dateOfBirth: 'dateOfBirth',
   email: 'email',
   federallySponsoredAcademy: 'federallySponsoredAcademy',
+  firstSponsor: 'firstSponsor',
   fullName: 'fullName',
   hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
   highSchoolDiploma: 'highSchoolDiploma',
@@ -629,10 +630,7 @@ const formConfig = {
         [formPages.sponsorSelection]: {
           title: 'Sponsor information',
           path: 'sponsor/select-sponsor',
-          depends: formData =>
-            formData['view:sponsors']?.sponsors?.filter(
-              sponsor => sponsor.selected,
-            ).length > 1,
+          depends: formData => formData.selectedSponsors?.length,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -646,8 +644,23 @@ const formConfig = {
                 </>
               ),
             },
-            sponsor: {
+            [formFields.firstSponsor]: {
+              'ui:title': (
+                <>
+                  <span className="toe-sponsors-checkboxes_legend--main">
+                    Which sponsor’s benefits would you like to use?
+                  </span>
+                  <span className="toe-sponsors-checkboxes_legend--secondary">
+                    Select all sponsors whose benefits you would like to apply
+                    for
+                  </span>
+                </>
+              ),
               'ui:widget': DynamicRadioGroup,
+              'ui:options': {
+                hideLabelText: true,
+                showFieldLabel: false,
+              },
             },
             // 'ui:validations': [
             //   // A little messy, but we're returning a boolean from
@@ -674,12 +687,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
+            required: [formFields.firstSponsor],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              sponsor: {
+              [formFields.firstSponsor]: {
                 type: 'string',
               },
             },

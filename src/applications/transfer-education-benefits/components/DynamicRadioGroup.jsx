@@ -1,73 +1,46 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-// import environment from 'platform/utilities/environment';
-// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-// import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-// import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { isArray } from 'lodash';
-import { fetchSponsors, updateSelectedSponsors } from '../actions';
+import { fetchSponsors, updateFirstSponsor, updateSponsors } from '../actions';
 import {
   SPONSOR_NOT_LISTED_LABEL,
   SPONSOR_NOT_LISTED_VALUE,
 } from '../constants';
 
-// import { apiRequest } from 'platform/utilities/api';
-
-// const apiUrl = `${environment.API_URL}/covid_vaccine/v0/facilities/`;
-
 function DynamicRadioGroup({
-  dispatchSelectedSponsorsChange,
+  dispatchFirstSponsorChange,
+  dispatchSponsorsChange,
   errorMessage = 'Please select at least one sponsor',
-  fetchedSponsors,
-  fetchedSponsorsComplete,
-  getSponsors,
-  loadingMessage = 'Loading your sponsors...',
   sponsors,
-  form,
+  formContext,
 }) {
   const [dirty, setDirty] = useState(false);
-  const renderCounter = useRef(0);
-  renderCounter.current += 1;
 
-  useEffect(
-    () => {
-      if (!sponsors?.sponsors && !fetchedSponsors) {
-        getSponsors();
-      }
-    },
-    [getSponsors, sponsors],
-  );
-
-  if (!fetchedSponsorsComplete) {
-    return <va-loading-indicator message={loadingMessage} />;
-  }
-  if (!sponsors?.sponsors.length) {
-    return <></>;
-  }
-
-  const onValueChange = ({ value } /* , checked */) => {
-    const sponsorIndex = Number.parseInt(value, 10);
+  const onValueChange = ({ value }) => {
     const _sponsors = {
       ...sponsors,
-      someoneNotListedFirstSponsor: value === SPONSOR_NOT_LISTED_VALUE,
-      sponsors: sponsors.sponsors.map((sponsor, index) => ({
+      someoneNotListedFirstSponsor:
+        value === `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
+      sponsors: sponsors.sponsors.map(sponsor => ({
         ...sponsor,
-        firstSponsor: sponsorIndex === index,
+        firstSponsor: `sponsor-${sponsor.id}` === value,
       })),
     };
+
     setDirty(true);
-    dispatchSelectedSponsorsChange(_sponsors);
+    dispatchFirstSponsorChange(value);
+    dispatchSponsorsChange(_sponsors);
   };
 
   const options = sponsors?.sponsors?.flatMap(
-    (sponsor, index) =>
+    sponsor =>
       sponsor.selected
         ? [
             {
-              label: sponsor.name,
-              value: `${index} `,
               firstSponsor: sponsor.firstSponsor,
+              label: sponsor.name,
+              value: `sponsor-${sponsor.id}`,
             },
           ]
         : [],
@@ -75,30 +48,23 @@ function DynamicRadioGroup({
   if (sponsors.someoneNotListed) {
     options.push({
       label: SPONSOR_NOT_LISTED_LABEL,
-      value: SPONSOR_NOT_LISTED_VALUE,
+      value: `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
     });
   }
-  const selectedOption = {
+  const selectedOptionValue = {
     value: sponsors?.someoneNotListedFirstSponsor
       ? SPONSOR_NOT_LISTED_VALUE
       : options?.find(option => option.firstSponsor)?.value,
   };
-
-  let valid;
-  try {
-    valid = form?.pages?.sponsorInformation?.uiSchema['view:sponsors'][
-      'ui:validations'
-    ][0](null, form.data['view:sponsors']);
-  } catch (e) {
-    valid = true;
-  }
 
   return (
     <RadioButtons
       additionalFieldsetClass="vads-u-margin-top--0"
       additionalLegendClass="toe-sponsors-checkboxes_legend vads-u-margin-top--0"
       errorMessage={
-        !valid && (dirty || renderCounter.current > 1) && errorMessage
+        !selectedOptionValue &&
+        (dirty || formContext?.submitted) &&
+        errorMessage
       }
       label={
         // I'm getting conflicting linting issues here.
@@ -108,14 +74,14 @@ function DynamicRadioGroup({
             Which sponsor's benefits would you like to use?
           </span>
           <span className="toe-sponsors-checkboxes_legend--secondary">
-            Select all sponsors whose benefits you would like to apply for
+            Select one sponsor
           </span>
         </>
       }
       onValueChange={onValueChange}
       options={options}
       required
-      values={selectedOption}
+      value={selectedOptionValue}
     />
   );
 }
@@ -137,6 +103,7 @@ const mapSponsors = state => {
 const mapStateToProps = state => ({
   fetchedSponsors: state.data?.fetchedSponsors,
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
+  firstSponsor: state.data?.firstSponsor,
   form: state.form,
   sponsors: mapSponsors(state),
   state,
@@ -144,7 +111,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getSponsors: fetchSponsors,
-  dispatchSelectedSponsorsChange: updateSelectedSponsors,
+  dispatchFirstSponsorChange: updateFirstSponsor,
+  dispatchSponsorsChange: updateSponsors,
 };
 
 export default connect(
