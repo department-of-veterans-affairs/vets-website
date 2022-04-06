@@ -690,5 +690,44 @@ describe('App', () => {
           ).to.exist,
       );
     });
+
+    it('does not display disclaimer when user has logged in via the bot and has returned to the page', async () => {
+      const loggedInUser = {
+        navigation: {
+          showLoginModal: false,
+          utilitiesMenuIsOpen: { search: false },
+        },
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+        },
+        virtualAgentData: {
+          termsAccepted: false,
+        },
+        featureToggles: {
+          virtualAgentAuth: false,
+        },
+      };
+
+      localStorage.setItem('loggedInFlow', 'true');
+
+      loadWebChat();
+      mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+
+      const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
+        initialState: loggedInUser,
+        reducers: virtualAgentReducer,
+      });
+
+      await waitFor(
+        () =>
+          expect(
+            wrapper.queryByText(
+              'Our virtual agent can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.',
+            ),
+          ).to.not.exist,
+      );
+    });
   });
 });

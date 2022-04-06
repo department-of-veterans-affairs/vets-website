@@ -39,7 +39,10 @@ function showBot(loggedIn, requireAuth, accepted, minute, props) {
   if (!loggedIn && requireAuth) {
     return <ConnectedSignInAlert />;
   }
-  if (!accepted) {
+  if (
+    !accepted &&
+    !(localStorage.getItem('loggedInFlow') === 'true' && loggedIn)
+  ) {
     return <ChatboxDisclaimer />;
   }
   return <App timeout={props.timeout || minute} />;
