@@ -56,7 +56,6 @@ jobs:
 
       - name: Get app entries for changed files
         id: get-changed-apps
-        if: ${{ github.ref != 'refs/heads/master' || matrix.buildtype != 'vagovprod' }}
         run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
@@ -1033,7 +1032,7 @@ jobs:
       ]
 
     env:
-      IS_SINGLE_APP_BUILD: ${{ matrix.buildtype != 'vagovprod' && needs.build.outputs.app_entries != '' }}
+      IS_SINGLE_APP_BUILD: ${{ needs.build.outputs.app_entries != '' }}
 
     # Archive should still run even when linting is skipped (as in PRs).
     # This if overrides the dependency on linting success to include skipped.
