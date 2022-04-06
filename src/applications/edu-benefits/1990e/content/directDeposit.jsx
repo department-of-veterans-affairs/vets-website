@@ -1,13 +1,5 @@
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import React from 'react';
-import merge from 'lodash/merge';
 import { isValidRoutingNumber } from 'platform/forms/validations';
-// import bankAccountUI from 'platform/forms/definitions/bankAccount';
-// import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
-
-// const { bankAccount } = fullSchema1990e.properties;
-
-// const newItemName = 'account information';
 
 const gaBankInfoHelpText = () => {
   window.dataLayer.push({
@@ -29,8 +21,8 @@ const bankInfoNote = (
 );
 
 const bankInfoHelpText = (
-  <AdditionalInfo
-    triggerText="What if I don’t have a bank account?"
+  <va-additional-info
+    trigger="What if I don’t have a bank account?"
     onClick={gaBankInfoHelpText}
   >
     <span>
@@ -56,7 +48,7 @@ const bankInfoHelpText = (
         can answer any questions or concerns you may have.
       </p>
     </span>
-  </AdditionalInfo>
+  </va-additional-info>
 );
 
 const directDepositDescription = () => {
@@ -88,7 +80,13 @@ function validateRoutingNumber(
 }
 
 const uiSchema = {
-  'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
+  'ui:order': [
+    'accountType',
+    'accountNumber',
+    'routingNumber',
+    'view:bankInfoNote',
+    'view:bankInfoHelpText',
+  ],
   accountType: {
     'ui:title': 'Account type',
     'ui:widget': 'radio',
@@ -112,7 +110,6 @@ const uiSchema = {
       pattern: 'Please enter a valid nine digit routing number',
       required: 'Please enter a routing number',
     },
-    'ui:description': 'Hello World',
   },
   'view:bankInfoNote': {
     'ui:description': bankInfoNote,
@@ -122,14 +119,32 @@ const uiSchema = {
   },
 };
 
-const defaults = {
-  required: [],
-};
-
-export default function createDirectDepositPage(schema, options) {
-  const mergedOptions = { ...defaults, ...options };
-  const { required } = mergedOptions;
-  const { bankAccount } = schema.definitions;
+export default function createDirectDepositPage() {
+  const bankAccountProperties = {
+    type: 'object',
+    properties: {
+      accountType: {
+        type: 'string',
+        enum: ['checking', 'savings'],
+      },
+      routingNumber: {
+        type: 'string',
+        pattern: '^\\d{9}$',
+      },
+      accountNumber: {
+        type: 'string',
+      },
+      'view:bankInfoNote': {
+        type: 'object',
+        properties: {},
+      },
+      'view:bankInfoHelpText': {
+        type: 'object',
+        properties: {},
+      },
+    },
+    required: [],
+  };
 
   return {
     title: 'Direct deposit',
@@ -143,21 +158,7 @@ export default function createDirectDepositPage(schema, options) {
     schema: {
       type: 'object',
       properties: {
-        // bankAccount: merge({}, bankAccount, {
-        //   required,
-        // }),
-        'view:bankAccount': {
-          type: 'object',
-          properties: { bankAccount },
-        },
-        'view:bankInfoNote': {
-          type: 'object',
-          properties: {},
-        },
-        'view:bankInfoHelpText': {
-          type: 'object',
-          properties: {},
-        },
+        bankAccount: bankAccountProperties,
       },
     },
   };

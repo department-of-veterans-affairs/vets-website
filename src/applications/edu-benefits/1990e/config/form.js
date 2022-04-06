@@ -20,8 +20,8 @@ import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage, {
   schoolSelectionOptionsFor,
 } from '../../pages/schoolSelection';
-import createDirectDepositPage from '../../pages/directDeposit';
-import newCreateDirectDepositPage from '../content/directDeposit';
+import oldCreateDirectDepositPage from '../../pages/directDeposit';
+import createDirectDepositPage from '../content/directDeposit';
 import employmentHistoryPage from '../../pages/employmentHistory';
 
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
@@ -238,8 +238,8 @@ const formConfig = {
           'relativeAddress',
         ),
         directDeposit: environment.isProduction()
-          ? createDirectDepositPage(fullSchema1990e)
-          : newCreateDirectDepositPage(fullSchema1990e),
+          ? oldCreateDirectDepositPage(fullSchema1990e)
+          : createDirectDepositPage(),
       },
     },
   },
