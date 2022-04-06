@@ -33,6 +33,9 @@ const selectFeatureToggles = createSelector(
     isLorotaSecurityUpdatesEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceLorotaSecurityUpdatesEnabled
     ],
+    isEditMessagingEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceEditMessagingEnabled
+    ],
   }),
   toggles => toggles,
 );
