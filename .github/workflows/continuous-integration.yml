@@ -105,12 +105,12 @@ jobs:
       - name: Install dependencies
         uses: ./.github/workflows/install
         timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
+      #  with:
+      #    key: ${{ hashFiles('yarn.lock') }}
+      #    yarn_cache_folder: .cache/yarn
+      #    path: |
+      #      .cache/yarn
+      #      node_modules
 
       - name: Create test results folder
         run: mkdir -p test-results
@@ -131,7 +131,8 @@ jobs:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
  
       - name: Install dd-trace
-        run: yarn add --save-dev dd-trace
+        run: yarn add dd-trace --dev
+
       - name: Run unit tests
         run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
