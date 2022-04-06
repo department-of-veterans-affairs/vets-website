@@ -2,6 +2,8 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import sinon from 'sinon';
+import environment from 'platform/utilities/environment';
 import { ConnectedDevicesContainer } from '../../components/ConnectedDevicesContainer';
 
 describe('Connect Devices Container', () => {
@@ -158,6 +160,11 @@ describe('Connect Devices Container', () => {
   });
 
   it('should render success alert when device is connected', () => {
+    sinon
+      .stub(ConnectedDevicesContainer, 'authorizeWithVendor')
+      .callsFake(() => {
+        `${environment.API_URL}/health-care/connected-devices?fitbit=success`;
+      });
     const { getByTestId } = render(<ConnectedDevicesContainer />);
     fireEvent.click(getByTestId('Fitbit-connect-link'));
     expect(getByTestId('success-alert')).to.exist;

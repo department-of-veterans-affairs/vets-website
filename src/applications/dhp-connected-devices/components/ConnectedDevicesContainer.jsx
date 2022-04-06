@@ -40,9 +40,15 @@ export const ConnectedDevicesContainer = () => {
     setFailureAlert(true);
   }
 
-  async function authorizeDevice(device) {
-    // const response = await fetch(authUrl);
-    const response = 'success';
+  function authorizeWithVendor(authUrl) {
+    return fetch(authUrl).then(response => response.json());
+  }
+
+  function authorizeDevice(device) {
+    // const response = await fetch(device.authUrl);
+    const response = authorizeWithVendor(device.authUrl);
+    // console.log(response);
+    // const response = 'success';
     // console.log(device.authUrl);
     // console.log(response);
     if (response === 'success') {
