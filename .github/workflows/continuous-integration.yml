@@ -1069,8 +1069,8 @@ jobs:
         if: env.IS_SINGLE_APP_BUILD == 'true'
         run: ./script/github-actions/remove-global-assets.sh
         env:
-          ENTRY_NAMES: $(echo ${{ needs.build.outputs.app_entries }} | tr ',' ' ')
-          APP_DIRS: $(echo ${{ needs.unit-tests.outputs.app_folders }} | tr ',' ' ')
+          ENTRY_NAMES: echo $(${{ needs.build.outputs.app_entries }} | tr ',' ' ')
+          APP_DIRS: echo $(${{ needs.unit-tests.outputs.app_folders }} | tr ',' ' ')
           BUILD_DIR: build/${{ matrix.buildtype }}
 
       - name: Compress and archive single/grouped app build
