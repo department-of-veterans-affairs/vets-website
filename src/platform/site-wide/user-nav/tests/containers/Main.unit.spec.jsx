@@ -151,6 +151,7 @@ describe('<Main>', () => {
         ...props,
         currentlyLoggedIn: true,
         user: {
+          mhvTransitionEligible: true,
           mhvTransitionComplete: false,
         },
         signInServiceName: 'mhv',
