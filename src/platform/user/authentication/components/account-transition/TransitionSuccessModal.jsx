@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { signInServiceName } from 'platform/user/authentication/selectors';
 import { SERVICE_PROVIDERS } from '../../constants';
 
-export default function TransitionSucessModal({ visible, onClose }) {
+export default function TransitionSuccessModal({ visible, onClose }) {
   const signInService = useSelector(signInServiceName);
   const TRANSFERED_CSP = SERVICE_PROVIDERS[signInService];
   const primaryButton = {
@@ -57,7 +57,7 @@ export default function TransitionSucessModal({ visible, onClose }) {
   );
 }
 
-TransitionSucessModal.propTypes = {
+TransitionSuccessModal.propTypes = {
   visible: PropTypes.bool,
   onClose: PropTypes.func,
 };
