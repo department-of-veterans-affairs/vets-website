@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import LoginButton from 'platform/user/authentication/components/LoginButton';
 import { ACCOUNT_TRANSITION } from '../constants';
 
-export default function TransitionAccountSteps({ canTransition = false }) {
+export default function TransitionAccountSteps({ canTransition }) {
   const {
     headline,
     subheader,
@@ -28,6 +28,7 @@ export default function TransitionAccountSteps({ canTransition = false }) {
             <li>Your phone to transfer</li>
           </ul>
           <button
+            data-testid="transition-btn"
             type="button"
             onClick={startTransition}
             className="usa-button button-primary"

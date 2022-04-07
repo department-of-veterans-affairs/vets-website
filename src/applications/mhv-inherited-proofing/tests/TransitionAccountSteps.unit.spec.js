@@ -24,10 +24,10 @@ describe('TransitionAccountSteps', () => {
     const wrapper = shallow(<TransitionAccountSteps canTransition={false} />);
 
     expect(wrapper.find('h2').text()).to.eql(
-      ACCOUNT_TRANSITION.ineligible.header,
+      ACCOUNT_TRANSITION.headline.ineligible,
     );
     expect(wrapper.find('[data-testid="subheader"]').text()).to.eql(
-      ACCOUNT_TRANSITION.ineligible.subheader,
+      ACCOUNT_TRANSITION.subheader.ineligible,
     );
     wrapper.unmount();
   });
@@ -39,10 +39,10 @@ describe('TransitionAccountSteps', () => {
     );
 
     expect(wrapper.find('h2').text()).to.eql(
-      ACCOUNT_TRANSITION.eligible.header,
+      ACCOUNT_TRANSITION.headline.eligible,
     );
     expect(wrapper.find('[data-testid="subheader"]').text()).to.eql(
-      ACCOUNT_TRANSITION.eligible.subheader,
+      ACCOUNT_TRANSITION.subheader.eligible,
     );
     expect(wrapper.find('button').text()).to.eql(
       'Transfer my account to Login.gov',

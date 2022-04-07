@@ -49,6 +49,7 @@ const initialState = {
   loading: true,
   services: [],
   session: {},
+  mhvTransitionEligible: false,
 };
 
 const updateMhvAccountState = (state, mhvAccount) =>
@@ -67,7 +68,7 @@ function profileInformation(state = initialState, action) {
   switch (action.type) {
     case UPDATE_PROFILE_FIELDS: {
       const newState = mapRawUserDataToState(action.payload);
-      return Object.assign({}, state, newState);
+      return { ...state, ...newState };
     }
 
     case PROFILE_LOADING_FINISHED:
@@ -119,7 +120,7 @@ function profileInformation(state = initialState, action) {
     case UPGRADE_MHV_ACCOUNT_SUCCESS: {
       const newState = !action.userProfile
         ? state
-        : Object.assign({}, state, mapRawUserDataToState(action.userProfile));
+        : { ...state, ...mapRawUserDataToState(action.userProfile) };
       return updateMhvAccountState(newState, action.mhvAccount.data.attributes);
     }
 
