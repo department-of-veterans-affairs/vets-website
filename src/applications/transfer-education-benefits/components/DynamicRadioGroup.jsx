@@ -30,17 +30,19 @@ function DynamicRadioGroup({
     dispatchSponsorsChange(_sponsors);
   };
 
-  const options = sponsors?.sponsors?.flatMap(
-    (sponsor, index) =>
-      sponsor.selected
-        ? [
-            {
-              label: `Sponsor ${index + 1}: ${sponsor.name}`,
-              value: `sponsor-${sponsor.id}`,
-            },
-          ]
-        : [],
-  );
+  const options = sponsors?.sponsors.length
+    ? sponsors?.sponsors?.flatMap(
+        (sponsor, index) =>
+          sponsor.selected
+            ? [
+                {
+                  label: `Sponsor ${index + 1}: ${sponsor.name}`,
+                  value: `sponsor-${sponsor.id}`,
+                },
+              ]
+            : [],
+      )
+    : [];
   if (sponsors.someoneNotListed) {
     options.push({
       label: SPONSOR_NOT_LISTED_LABEL,

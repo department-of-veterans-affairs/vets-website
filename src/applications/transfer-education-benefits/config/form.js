@@ -460,7 +460,7 @@ const formConfig = {
         [formPages.firstSponsorSelection]: {
           title: 'Sponsor information',
           path: 'sponsor/select-first-sponsor',
-          depends: formData => formData.selectedSponsors?.length > 1,
+          // depends: formData => formData.selectedSponsors?.length > 1,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
