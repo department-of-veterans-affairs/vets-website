@@ -492,6 +492,26 @@ const formConfig = {
                 showFieldLabel: false,
               },
             },
+            'view:additionalInfo': {
+              'ui:description': (
+                <va-additional-info
+                  trigger="Which sponsor should I use first?"
+                  class="vads-u-margin-bottom--4"
+                >
+                  <p className="vads-u-margin-top--0">
+                    Though unlikely, you may need to consider differences in the
+                    amount of benefits each sponsor offers and when they expire.
+                    Benefits from other sponsors can be used after your first
+                    sponsor’s benefits expire.
+                  </p>
+                  <p className="vads-u-margin-bottom--0">
+                    If you choose “I’m not sure,” or if there are additional
+                    things to consider regarding your sponsors, a VA
+                    representative will reach out to help you decide.
+                  </p>
+                </va-additional-info>
+              ),
+            },
           },
           schema: {
             type: 'object',
@@ -503,6 +523,10 @@ const formConfig = {
               },
               [formFields.firstSponsor]: {
                 type: 'string',
+              },
+              'view:additionalInfo': {
+                type: 'object',
+                properties: {},
               },
             },
           },
@@ -705,6 +729,23 @@ const formConfig = {
         [formPages.sponsorHighSchool]: {
           title: 'Verify your high school education',
           path: 'sponsor/high-school-education',
+          depends: formData =>
+            formData[formFields.highSchoolDiploma] === 'Yes' &&
+            // TODO Use helpers for the sub-logic below (shared with the previous page)
+            ((!formData.firstSponsor &&
+              formData.sponsors?.sponsors?.find(sponsor => sponsor.selected)
+                ?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
+              (formData.sponsors?.firstSponsor &&
+                formData.sponsors?.sponsors?.find(
+                  sponsor => sponsor.id === formData.sponsors?.firstSponsor,
+                )?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
+              (!formData.sponsors?.sponsors?.length &&
+                formData?.relationshipToServiceMember ===
+                  SPONSOR_RELATIONSHIP.CHILD) ||
+              (formData[formFields.selectedSponsors]?.length === 1 &&
+                formData.sponsors?.someoneNotListed &&
+                formData?.relationshipToServiceMember ===
+                  SPONSOR_RELATIONSHIP.CHILD)),
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -745,7 +786,6 @@ const formConfig = {
               [formFields.highSchoolDiplomaDate]: date,
             },
           },
-          depends: formData => formData[formFields.highSchoolDiploma] === 'Yes',
         },
       },
     },
