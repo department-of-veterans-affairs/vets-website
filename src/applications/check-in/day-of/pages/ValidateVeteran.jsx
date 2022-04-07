@@ -1,6 +1,7 @@
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -19,6 +20,7 @@ import { useSessionStorage } from '../../hooks/useSessionStorage';
 
 const ValidateVeteran = props => {
   const { router } = props;
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const setSession = useCallback(
@@ -52,11 +54,11 @@ const ValidateVeteran = props => {
       setLast4ErrorMessage();
       if (!lastName || !last4Ssn) {
         if (!lastName) {
-          setLastNameErrorMessage('Please enter your last name.');
+          setLastNameErrorMessage(t('please-enter-your-last-name'));
         }
         if (!last4Ssn) {
           setLast4ErrorMessage(
-            'Please enter the last 4 digits of your Social Security number.',
+            t('please-enter-the-last-4-digits-of-your-social-security-number'),
           );
         }
       } else {
@@ -98,6 +100,7 @@ const ValidateVeteran = props => {
       incrementValidateAttempts,
       isMaxValidateAttempts,
       showValidateError,
+      t,
     ],
   );
   useEffect(() => {
@@ -106,8 +109,10 @@ const ValidateVeteran = props => {
   return (
     <>
       <ValidateDisplay
-        header="Check in at VA"
-        subTitle="We need some information to verify your identity so we can check you in."
+        header={t('check-in-at-va')}
+        subTitle={t(
+          'we-need-some-information-to-verify-your-identity-so-we-can-check-you-in',
+        )}
         last4Input={{
           last4ErrorMessage,
           setLast4Ssn,
@@ -122,7 +127,9 @@ const ValidateVeteran = props => {
         validateHandler={onClick}
         Footer={Footer}
         showValidateError={showValidateError}
-        validateErrorMessage="We're sorry. We couldn't match your information to our records. Please try again."
+        validateErrorMessage={t(
+          'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
+        )}
       />
       <BackToHome />
     </>

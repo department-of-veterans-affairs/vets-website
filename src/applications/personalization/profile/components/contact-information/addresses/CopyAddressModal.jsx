@@ -5,6 +5,7 @@
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import set from 'lodash/set';
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
@@ -78,7 +79,13 @@ const CopyAddressModal = props => {
   const handlers = {
     onYes() {
       const payload = convertCleanDataToPayload(homeAddress, mailingFieldName);
-      const method = payload.id ? 'PUT' : 'POST';
+
+      const payloadWithUpdatedId = mailingAddress?.id
+        ? set(payload, 'id', mailingAddress.id)
+        : payload;
+
+      const method = payloadWithUpdatedId.id ? 'PUT' : 'POST';
+
       const analyticsSectionName =
         VAP_SERVICE.ANALYTICS_FIELD_MAP[
           VAP_SERVICE.FIELD_NAMES.MAILING_ADDRESS
@@ -92,7 +99,7 @@ const CopyAddressModal = props => {
         apiRoute,
         method,
         mailingFieldName,
-        payload,
+        payloadWithUpdatedId,
         analyticsSectionName,
       );
     },

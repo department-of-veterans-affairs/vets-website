@@ -21,7 +21,10 @@ export default Object.freeze({
   checkInExperienceTranslationDayOfEnabled: 'check_in_experience_translation_day_of_enabled',
   checkInExperienceTranslationPreCheckInEnabled:'check_in_experience_translation_pre_check_in_enabled',
   checkInExperienceDayOfDemographicsFlagsEnabled: 'check_in_experience_day_of_demographics_flags_enabled',
+  checkInExperienceLorotaSecurityUpdatesEnabled: 'check_in_experience_lorota_security_updates_enabled',
+  checkInExperienceEditMessagingEnabled: 'check_in_experience_edit_messaging_enabled',
   coeAccess: 'coe_access',
+  combinedDebtPortalAccess: 'combined_debt_portal_access',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
   covidVaccineUpdatesDisableAuth:
@@ -69,6 +72,8 @@ export default Object.freeze({
   manageDependents: 'dependents_management',
   megaMenuMobileV2: 'mega_menu_mobile_v2',
   medicalCopaysHtmlMedicalStatementsViewEnabled:'medical_copays_html_medical_statements_view_enabled',
+  mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
+  mhvToLogingovAccountTransitionModal: 'mhv_to_logingov_account_transition_modal',
   omniChannelLink: 'omni_channel_link',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileNotificationSettings: 'profile_notification_settings',
@@ -97,6 +102,7 @@ export default Object.freeze({
   showFormI18n: 'show_form_i18n',
   showEventsV2: 'show_events_v2',
   showMebMockEndpoints: 'show_meb_mock_endpoints',
+  showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
   showHealthcareExperienceQuestionnaire:
     'show_healthcare_experience_questionnaire',

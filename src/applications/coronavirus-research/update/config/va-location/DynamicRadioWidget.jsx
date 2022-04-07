@@ -56,8 +56,8 @@ export function DynamicRadioWidget(props) {
   } else if (locations.length > 0 && loading === false) {
     upperContent = (
       <>
-        These are the VA medical centers closest to the zipcode you provided.
-        Select the medical center you primarly receive care at.
+        These are the VA medical centers closest to the Zip code you entered.
+        Select the medical center you mainly go to for care.
       </>
     );
     const optionsList = locations.map(location => ({
@@ -66,9 +66,9 @@ export function DynamicRadioWidget(props) {
           <p className="vads-u-padding-left--4 vads-u-margin-top--neg3">
             {location.attributes.name}
           </p>
-          <p className="vads-u-padding-left--4 vads-u-margin-top--neg2">{`${
-            location.attributes.city
-          } ${location.attributes.state}`}</p>
+          <p className="vads-u-padding-left--4 vads-u-margin-top--neg2">
+            {`${location.attributes.city} ${location.attributes.state}`}
+          </p>
         </>
       ),
       value: `${location.attributes.name}|${location.id}`,
@@ -78,7 +78,6 @@ export function DynamicRadioWidget(props) {
       <RadioButtons
         options={optionsList}
         label="Select your medical center"
-        required
         value={selected}
         onValueChange={value => {
           onChange(value.value);

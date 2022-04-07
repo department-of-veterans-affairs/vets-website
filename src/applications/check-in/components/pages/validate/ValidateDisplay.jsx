@@ -1,11 +1,11 @@
 import React, { useCallback } from 'react';
 import propTypes from 'prop-types';
-
+import { useTranslation } from 'react-i18next';
 import { VaTextInput } from 'web-components/react-bindings';
 
 export default function ValidateDisplay({
-  header = 'Check in at VA',
-  subtitle = 'We need some information to verify your identity so we can check you in.',
+  header = '',
+  subtitle = '',
   validateHandler,
   isLoading,
   lastNameInput: { lastNameErrorMessage, setLastName, lastName } = {},
@@ -14,6 +14,7 @@ export default function ValidateDisplay({
   showValidateError,
   validateErrorMessage,
 }) {
+  const { t } = useTranslation();
   const updateField = useCallback(
     event => {
       switch (event.target.name) {
@@ -31,8 +32,13 @@ export default function ValidateDisplay({
   );
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
-      <h1>{header}</h1>
-      <p>{subtitle}</p>
+      <h1>{header || t('check-in-at-va')}</h1>
+      <p>
+        {subtitle ||
+          t(
+            'we-need-some-information-to-verify-your-identity-so-we-can-check-you-in',
+          )}
+      </p>
       {showValidateError ? (
         <va-alert
           background-only
@@ -49,7 +55,7 @@ export default function ValidateDisplay({
         <VaTextInput
           autoCorrect="false"
           error={lastNameErrorMessage}
-          label="Your last name"
+          label={t('your-last-name')}
           name="last-name"
           onVaChange={updateField}
           required
@@ -60,7 +66,7 @@ export default function ValidateDisplay({
         <VaTextInput
           error={last4ErrorMessage}
           inputmode="numeric"
-          label="Last 4 digits of your Social Security number"
+          label={t('last-4-digits-of-your-social-security-number')}
           maxlength="4"
           onVaChange={updateField}
           name="last-4-ssn"
@@ -75,10 +81,14 @@ export default function ValidateDisplay({
         className="usa-button usa-button-big"
         data-testid="check-in-button"
         disabled={isLoading}
-        aria-label="Check in now for your appointment"
+        aria-label={t('check-in-now-for-your-appointment')}
       >
         {' '}
-        {isLoading ? <span role="status">Loading...</span> : <>Continue</>}
+        {isLoading ? (
+          <span role="status">{t('loading')}</span>
+        ) : (
+          <>{t('continue')}</>
+        )}
       </button>
       {Footer && <Footer />}
     </div>
