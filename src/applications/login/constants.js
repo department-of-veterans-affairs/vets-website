@@ -1,5 +1,16 @@
 import { signup } from 'platform/user/authentication/utilities';
 import { CSP_IDS } from 'platform/user/authentication/constants';
+import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
+
+export const TRANSITION_ENDPOINT = `${
+  environment.API_URL
+}/inherited_proofing/auth`;
+
+export const EVENTS = {
+  TRANSITION_STARTED: 'login-transition-started-mhv-to-logingov',
+  TRANSITION_PAGE_DISMISSED: 'login-transition-page-dismissed',
+};
 
 export const IDENTITY_WIZARD_QUESTIONS = [
   {
@@ -63,5 +74,26 @@ export const ACCOUNT_TRANSITION = {
   },
   signUpIDme() {
     signup({ csp: CSP_IDS.ID_ME });
+  },
+  startTransition() {
+    const redirect = () => {
+      window.location = TRANSITION_ENDPOINT;
+    };
+    recordEvent({
+      event: EVENTS.TRANSITION_STARTED,
+      eventCallback: redirect,
+      eventTimeout: 2000,
+    });
+  },
+  dismiss() {
+    const redirect = () => {
+      // TODO: Implement logic to return users to previous page
+      window.location = '/';
+    };
+    recordEvent({
+      event: EVENTS.TRANSITION_PAGE_DISMISSED,
+      eventCallback: redirect,
+      eventTimeout: 2000,
+    });
   },
 };

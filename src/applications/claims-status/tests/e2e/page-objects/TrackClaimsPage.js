@@ -124,7 +124,7 @@ class TrackClaimsPage {
     // Disabled until COVID-19 message removed
     // cy.get('.claim-completion-desc').should('contain', 'We estimated your claim would be completed by now');
     if (inProgress) {
-      cy.get('va-alert').should('contain', 'COVID-19 has had on');
+      cy.get('va-alert').should('contain', 'because of COVID-19');
     }
   }
 
@@ -160,9 +160,11 @@ class TrackClaimsPage {
         cy.get('li.list-one .claims-evidence', {
           timeout: Timeouts.slow,
         }).should('be.visible');
-        cy.get(
-          '.claims-evidence-list li:nth-child(3) .claims-evidence-item',
-        ).should('contain', 'Your claim is closed');
+        cy.get('.claim-older-updates').click();
+        cy.get('#older-updates-1 li:nth-child(2) .claims-evidence-item').should(
+          'contain',
+          'Your claim is closed',
+        );
         cy.get('.claim-older-updates').should('exist');
       });
     cy.get('li.list-one .claims-evidence', {

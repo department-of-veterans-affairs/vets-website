@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import CommunicationChannelModel from '@@profile/models/CommunicationChannel';
@@ -140,6 +141,19 @@ const NotificationChannel = ({
   );
 };
 
+NotificationChannel.propTypes = {
+  saveSetting: PropTypes.func.isRequired,
+  apiStatus: PropTypes.string,
+  channelId: PropTypes.string,
+  channelType: PropTypes.number,
+  isMissingContactInfo: PropTypes.bool,
+  isOptedIn: PropTypes.bool,
+  itemId: PropTypes.string,
+  itemName: PropTypes.string,
+  permissionId: PropTypes.number,
+  radioButtonDescription: PropTypes.string,
+};
+
 const mapStateToProps = (state, ownProps) => {
   const communicationPreferencesState = selectCommunicationPreferences(state);
   const channel = selectChannelById(
@@ -162,7 +176,7 @@ const mapStateToProps = (state, ownProps) => {
   });
   const radioButtonDescription =
     ownProps.channelId === 'channel4-1' && !allFacilitiesSupportRxTracking
-      ? 'Only available at some Asheville and Denver VA health facilities. Check with your facility first.'
+      ? 'Only available at some VA health facilities. Check with your VA pharmacy first.'
       : null;
   return {
     apiStatus: uiState.updateStatus,

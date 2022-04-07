@@ -373,6 +373,7 @@ export function selectReviewPage(state) {
     parentFacility: getChosenCCSystemById(state),
     submitStatus: state.newAppointment.submitStatus,
     submitStatusVaos400: state.newAppointment.submitStatusVaos400,
+    submitStatusVaos409: state.newAppointment.submitStatusVaos409,
     systemId: getSiteIdForChosenFacility(state),
     hasResidentialAddress: selectHasVAPResidentialAddress(state),
     vaCityState: getChosenVACityState(state),

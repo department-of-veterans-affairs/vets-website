@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import recordEvent from 'platform/monitoring/record-event';
 import { api } from '../../api';
 import {
@@ -23,9 +24,14 @@ import { APP_NAMES } from '../../utils/appConstants';
 const Landing = props => {
   const { isUpdatePageEnabled, location, router } = props;
   const { jumpToPage, goToErrorPage } = useFormRouting(router);
+  const { t } = useTranslation();
 
-  const [loadMessage] = useState('Finding your appointment information');
-  const { clearCurrentSession, setCurrentToken } = useSessionStorage(false);
+  const [loadMessage] = useState(t('finding-your-appointment-information'));
+  const {
+    clearCurrentSession,
+    setShouldSendDemographicsFlags,
+    setCurrentToken,
+  } = useSessionStorage(false);
   const dispatch = useDispatch();
 
   const initForm = useCallback(
@@ -74,6 +80,7 @@ const Landing = props => {
               goToErrorPage();
             } else {
               // if session with read.full exists, go to check in page
+              setShouldSendDemographicsFlags(window, true);
               setCurrentToken(window, token);
               const pages = createForm();
               const firstPage = pages[0];
@@ -102,6 +109,7 @@ const Landing = props => {
       goToErrorPage,
       initForm,
       setSession,
+      setShouldSendDemographicsFlags,
     ],
   );
   return (

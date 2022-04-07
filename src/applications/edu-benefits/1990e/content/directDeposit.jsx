@@ -1,6 +1,5 @@
 import React from 'react';
 import { isValidRoutingNumber } from 'platform/forms/validations';
-import environment from 'platform/utilities/environment';
 
 const gaBankInfoHelpText = () => {
   window.dataLayer.push({
@@ -80,6 +79,7 @@ function validateRoutingNumber(
   }
 }
 
+
 const usingDirectDeposit = formData => !formData?.bankAccount.declineDirectDeposit;
 
 const uiSchema = {
@@ -105,6 +105,7 @@ const uiSchema = {
       required: 'Please choose an account type',
     },
     'ui:required': formData => usingDirectDeposit(formData),
+    },
   },
   accountNumber: {
     'ui:title': 'Bank account number',
@@ -135,6 +136,7 @@ const uiSchema = {
         widgetClassNames: 'vads-u-margin-top--4',
       },
     },
+  },
   'view:bankInfoNote': {
     'ui:description': bankInfoNote,
   },
@@ -158,6 +160,7 @@ export default function createDirectDepositPage() {
       accountNumber: {
         type: 'string',
       },
+
       declineDirectDeposit: {
         type: 'boolean',
         properties: {},

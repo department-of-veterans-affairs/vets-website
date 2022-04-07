@@ -8,7 +8,7 @@ import {
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
 
-import { AddFilesForm } from '../../components/AddFilesForm';
+import AddFilesForm from '../../components/AddFilesForm';
 import {
   MAX_FILE_SIZE_BYTES,
   MAX_FILE_SIZE_MB,
@@ -276,7 +276,6 @@ describe('<AddFilesForm>', () => {
         onFieldChange={onFieldChange}
         onCancel={onCancel}
         onDirtyFields={onDirtyFields}
-        pdfSizeFeature
       />,
     );
     tree.getMountedInstance().add([
@@ -396,7 +395,6 @@ describe('<AddFilesForm>', () => {
         onCancel={onCancel}
         onDirtyFields={onDirtyFields}
         mockReadAndCheckFile={mockReadAndCheckFile}
-        pdfSizeFeature
       />,
     );
     tree.getMountedInstance().add([
@@ -439,7 +437,6 @@ describe('<AddFilesForm>', () => {
         onCancel={onCancel}
         onDirtyFields={onDirtyFields}
         mockReadAndCheckFile={mockReadAndCheckFile}
-        pdfSizeFeature
       />,
     );
     tree.getMountedInstance().add([
@@ -520,7 +517,6 @@ describe('<AddFilesForm>', () => {
         onFieldChange={onFieldChange}
         onCancel={onCancel}
         onDirtyFields={onDirtyFields}
-        requestLockedPdfPassword
       />,
     );
     expect(tree.getMountedInstance().state.errorMessage).to.be.null;

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
@@ -23,6 +24,7 @@ import { formatPhone } from '../../../utils/formatters';
 
 export default function PhoneNumber(props) {
   const { router } = props;
+  const { t } = useTranslation();
   const { jumpToPage } = useFormRouting(router);
   const selectEditContext = useMemo(makeSelectEditContext, []);
   const { editing } = useSelector(selectEditContext);
@@ -92,13 +94,13 @@ export default function PhoneNumber(props) {
           })} is required`,
         );
       } else if (!isValidPhone(newPhone)) {
-        setPhoneErrorMessage('Please enter a valid phone number address.');
+        setPhoneErrorMessage(t('please-enter-valid-phone-number'));
       } else {
         setPhoneErrorMessage();
       }
       setPhoneNumber(newPhone);
     },
-    [setPhoneNumber, key],
+    [setPhoneNumber, key, t],
   );
 
   const onExtensionChange = useCallback(

@@ -11,7 +11,9 @@ const AccountSummary = ({
 }) => {
   return (
     <div className="vads-u-padding--0">
-      <h2 data-testid="account-summary-head">Account summary</h2>
+      <h2 data-testid="account-summary-head" id="account-summary">
+        Account summary
+      </h2>
       <h3
         className="vads-u-margin-bottom--0"
         data-testid="account-summary-date"

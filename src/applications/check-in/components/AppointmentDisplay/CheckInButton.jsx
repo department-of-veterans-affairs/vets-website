@@ -1,8 +1,10 @@
 import React, { useState, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 const CheckInButton = ({ onClick }) => {
   const [isCheckingIn, setIsCheckingIn] = useState(false);
+  const { t } = useTranslation();
   const handleClick = useCallback(
     () => {
       setIsCheckingIn(true);
@@ -17,9 +19,13 @@ const CheckInButton = ({ onClick }) => {
       onClick={handleClick}
       data-testid="check-in-button"
       disabled={isCheckingIn}
-      aria-label="Check in now for your appointment"
+      aria-label={t('check-in-now-for-your-appointment')}
     >
-      {isCheckingIn ? <span role="status">Loading...</span> : <>Check in now</>}
+      {isCheckingIn ? (
+        <span role="status">{t('loading')}</span>
+      ) : (
+        <>{t('check-in-now')}</>
+      )}
     </button>
   );
 };
