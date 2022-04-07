@@ -23,7 +23,7 @@ import Appointments from './Appointments';
 import IconCTALink from '../IconCTALink';
 import CTALink from '../CTALink';
 
-const HealthcareCTA = ({
+const HealthCareCTA = ({
   hasInboxError,
   unreadMessagesCount,
   authenticatedWithSSOe,
@@ -118,6 +118,15 @@ const HealthcareCTA = ({
       />
     </>
   );
+};
+
+HealthCareCTA.propTypes = {
+  authenticatedWithSSOe: PropTypes.bool,
+  hasAppointmentsError: PropTypes.bool,
+  hasInboxError: PropTypes.bool,
+  hasUpcomingAppointment: PropTypes.bool,
+  shouldShowPrescriptions: PropTypes.bool,
+  unreadMessagesCount: PropTypes.number,
 };
 
 const HealthCare = ({
@@ -241,7 +250,7 @@ const HealthCare = ({
               </p>
             )}
           {shouldShowOnOneColumn ? (
-            <HealthcareCTA
+            <HealthCareCTA
               hasAppointmentsError={hasAppointmentsError}
               hasInboxError={hasInboxError}
               authenticatedWithSSOe={authenticatedWithSSOe}
@@ -253,7 +262,7 @@ const HealthCare = ({
         </DashboardWidgetWrapper>
         {!shouldShowOnOneColumn ? (
           <DashboardWidgetWrapper>
-            <HealthcareCTA
+            <HealthCareCTA
               hasAppointmentsError={hasAppointmentsError}
               hasInboxError={hasInboxError}
               authenticatedWithSSOe={authenticatedWithSSOe}
@@ -319,10 +328,31 @@ const mapDispatchToProps = {
 };
 
 HealthCare.propTypes = {
+  appointments: PropTypes.arrayOf(
+    PropTypes.shape({
+      additionalInfo: PropTypes.string,
+      facility: PropTypes.object,
+      id: PropTypes.string.isRequired,
+      isVideo: PropTypes.bool.isRequired,
+      providerName: PropTypes.string,
+      startsAt: PropTypes.string.isRequired,
+      timeZone: PropTypes.string,
+      type: PropTypes.string.isRequired,
+    }),
+  ),
   authenticatedWithSSOe: PropTypes.bool.isRequired,
-  isCernerPatient: PropTypes.bool,
-  facilityLocations: PropTypes.array.isRequired,
   canAccessRx: PropTypes.bool.isRequired,
+  dataLoadingDisabled: PropTypes.bool,
+  facilityLocations: PropTypes.arrayOf(PropTypes.string),
+  fetchConfirmedFutureAppointments: PropTypes.bool,
+  fetchUnreadMessages: PropTypes.bool,
+  hasAppointmentsError: PropTypes.bool,
+  hasInboxError: PropTypes.bool,
+  isCernerPatient: PropTypes.bool,
+  shouldFetchUnreadMessages: PropTypes.bool,
+  // TODO: possibly remove this prop in favor of mocking the API in our unit tests
+  shouldShowLoadingIndicator: PropTypes.bool,
+  shouldShowPrescriptions: PropTypes.bool,
   unreadMessagesCount: PropTypes.number,
 };
 
