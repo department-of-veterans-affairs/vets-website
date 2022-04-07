@@ -10,7 +10,7 @@ const gaBankInfoHelpText = () => {
 };
 
 const bankInfoNote = (
-  <div>
+  <div className="vads-u-margin-top--4">
     <p>
       <strong>Note: </strong>
       Any updates you make here to your bank account information will apply to
@@ -80,7 +80,7 @@ function validateRoutingNumber(
   }
 }
 
-const usingDirectDeposit = formData => !formData?.declineDirectDeposit;
+const usingDirectDeposit = formData => !formData?.bankAccount.declineDirectDeposit;
 
 const uiSchema = {
   'ui:order': [
@@ -104,14 +104,14 @@ const uiSchema = {
     'ui:errorMessages': {
       required: 'Please choose an account type',
     },
-    'ui:required': () => true,
+    'ui:required': formData => usingDirectDeposit(formData),
   },
   accountNumber: {
     'ui:title': 'Bank account number',
     'ui:errorMessages': {
       required: 'Please enter a bank account number',
     },
-    'ui:required': () => true,
+    'ui:required': formData => usingDirectDeposit(formData),
     'ui:options': {
       hideIf: formData => !usingDirectDeposit(formData),
     },
@@ -123,7 +123,7 @@ const uiSchema = {
       pattern: 'Please enter a valid nine digit routing number',
       required: 'Please enter a routing number',
     },
-    'ui:required': () => true,
+    'ui:required': formData => usingDirectDeposit(formData),
     'ui:options': {
       hideIf: formData => !usingDirectDeposit(formData),
     },
