@@ -79,8 +79,8 @@ function validateRoutingNumber(
   }
 }
 
-
-const usingDirectDeposit = formData => !formData?.bankAccount.declineDirectDeposit;
+const usingDirectDeposit = formData =>
+  !formData?.bankAccount.declineDirectDeposit;
 
 const uiSchema = {
   'ui:order': [
@@ -105,7 +105,6 @@ const uiSchema = {
       required: 'Please choose an account type',
     },
     'ui:required': formData => usingDirectDeposit(formData),
-    },
   },
   accountNumber: {
     'ui:title': 'Bank account number',
@@ -130,11 +129,10 @@ const uiSchema = {
     },
   },
   declineDirectDeposit: {
-      'ui:title': 'I don’t want to use direct deposit',
-      'ui:options': {
-        hideOnReviewIfFalse: true,
-        widgetClassNames: 'vads-u-margin-top--4',
-      },
+    'ui:title': 'I don’t want to use direct deposit',
+    'ui:options': {
+      hideOnReviewIfFalse: true,
+      widgetClassNames: 'vads-u-margin-top--4',
     },
   },
   'view:bankInfoNote': {
