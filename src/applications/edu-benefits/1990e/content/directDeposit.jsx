@@ -84,7 +84,6 @@ const uiSchema = {
     'accountType',
     'accountNumber',
     'routingNumber',
-    'declineDirectDeposit',
     'view:bankInfoNote',
     'view:bankInfoHelpText',
   ],
@@ -101,7 +100,6 @@ const uiSchema = {
   accountNumber: {
     'ui:title': 'Bank account number',
     'ui:errorMessages': {
-      pattern: 'Please enter a valid account number',
       required: 'Please enter a bank account number',
     },
   },
@@ -109,18 +107,8 @@ const uiSchema = {
     'ui:title': 'Bank routing number',
     'ui:validations': [validateRoutingNumber],
     'ui:errorMessages': {
-      pattern: 'Please enter a valid 9 digit routing number',
+      pattern: 'Please enter a valid nine digit routing number',
       required: 'Please enter a routing number',
-    },
-    'ui:options': {
-      hideIf: form => form?.declineDirectDeposit,
-    },
-  },
-  declineDirectDeposit: {
-    'ui:title': "I don't want to use direct deposit",
-    'ui:options': {
-      hideOnReviewIfFalse: true,
-      hideIf: form => form?.declineDirectDeposit,
     },
   },
   'view:bankInfoNote': {
@@ -152,10 +140,6 @@ export default function createDirectDepositPage() {
       },
       'view:bankInfoHelpText': {
         type: 'object',
-        properties: {},
-      },
-      declineDirectDeposit: {
-        type: 'boolean',
         properties: {},
       },
     },
