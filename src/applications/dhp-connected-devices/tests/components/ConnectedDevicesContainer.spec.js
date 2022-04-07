@@ -4,7 +4,9 @@ import { expect } from 'chai';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import sinon from 'sinon';
 import environment from 'platform/utilities/environment';
+import * as HelpersModule from '../../helpers';
 import { ConnectedDevicesContainer } from '../../components/ConnectedDevicesContainer';
+import * as AlertsModule from '../../components/DeviceConnectionAlerts';
 
 describe('Connect Devices Container', () => {
   it('should render DeviceConnectionSection and DeviceConnectionCards when devices are not connected', () => {
@@ -161,21 +163,17 @@ describe('Connect Devices Container', () => {
 
   it('should render success alert when device is connected', () => {
     sinon
-      .stub(ConnectedDevicesContainer, 'authorizeWithVendor')
-      .callsFake(() => {
-        `${environment.API_URL}/health-care/connected-devices?fitbit=success`;
-      });
+      .stub(AlertsModule, 'DeviceConnectionSucceededAlert')
+      .returns(<div data-testid="success-alert">Success</div>);
+    sinon
+      .stub(AlertsModule, 'DeviceConnectionFailedAlert')
+      .returns(<div data-testid="failure-alert">Failure</div>);
+    const url = {
+      url: `${environment.API_URL}/dhp_connected_devices/?fitbit=success#_=_`,
+    };
+    sinon.stub(HelpersModule, 'authorizeWithVendor').returns(url);
     const { getByTestId } = render(<ConnectedDevicesContainer />);
     fireEvent.click(getByTestId('Fitbit-connect-link'));
     expect(getByTestId('success-alert')).to.exist;
   });
-
-  // it('should render with a default connectedDevices state that contains a valid url to the fitbit endpoint', () => {
-  // const connectDevicesContainer = render(<ConnectedDevicesContainer />);
-  // const fitbitState = connectDevicesContainer.;
-  // expect(fitbitState.authUrl).to.include('/dhp_connected_devices/fitbit');
-  // test /dhp_connected_devices/fitbit exists in url
-
-  // switch to different env (staging, dev, prod) to confirm ${environment.API_URL}
-  // });
 });

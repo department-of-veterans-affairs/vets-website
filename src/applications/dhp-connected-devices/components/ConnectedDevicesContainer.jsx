@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import environment from 'platform/utilities/environment';
 import { DevicesToConnectSection } from './DevicesToConnectSection';
 import { ConnectedDevicesSection } from './ConnectedDevicesSection';
+import { authorizeWithVendor } from '../helpers';
 
-export const fitbitUrl = `${environment.API_URL}/dhp_connected_devices/fitbit`;
 export const ConnectedDevicesContainer = () => {
   const [connectedDevices, setConnectedDevices] = useState([
     {
       vendor: 'Fitbit',
-      authUrl: fitbitUrl,
+      authUrl: `${environment.API_URL}/dhp_connected_devices/fitbit`,
       disconnectUrl: 'placeholder',
       connected: false,
     },
@@ -40,23 +40,27 @@ export const ConnectedDevicesContainer = () => {
     setFailureAlert(true);
   }
 
-  function authorizeWithVendor(authUrl) {
-    return fetch(authUrl).then(response => response.json());
+  function handleResponse(response, device) {
+    try {
+      const resUrl = new URL(response.url);
+      const deviceWasAbleToConnect = resUrl.searchParams.get(
+        device.vendor.toLowerCase(),
+      );
+
+      if (deviceWasAbleToConnect === 'success') {
+        updateConnectedDevices(device.vendor);
+        showSuccessAlert();
+      }
+      showFailureAlert();
+    } catch {
+      showFailureAlert();
+      // console.error('Something went wrong :(');
+    }
   }
 
-  function authorizeDevice(device) {
-    // const response = await fetch(device.authUrl);
-    const response = authorizeWithVendor(device.authUrl);
-    // console.log(response);
-    // const response = 'success';
-    // console.log(device.authUrl);
-    // console.log(response);
-    if (response === 'success') {
-      updateConnectedDevices(device.vendor);
-      showSuccessAlert();
-      return response;
-    }
-    showFailureAlert();
+  async function authorizeDevice(device) {
+    const response = await authorizeWithVendor(device.authUrl);
+    handleResponse(response, device);
     return response;
   }
 
