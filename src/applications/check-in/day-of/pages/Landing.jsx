@@ -27,7 +27,11 @@ const Landing = props => {
   const { t } = useTranslation();
 
   const [loadMessage] = useState(t('finding-your-appointment-information'));
-  const { clearCurrentSession, setCurrentToken } = useSessionStorage(false);
+  const {
+    clearCurrentSession,
+    setShouldSendDemographicsFlags,
+    setCurrentToken,
+  } = useSessionStorage(false);
   const dispatch = useDispatch();
 
   const initForm = useCallback(
@@ -76,6 +80,7 @@ const Landing = props => {
               goToErrorPage();
             } else {
               // if session with read.full exists, go to check in page
+              setShouldSendDemographicsFlags(window, true);
               setCurrentToken(window, token);
               const pages = createForm();
               const firstPage = pages[0];
@@ -104,6 +109,7 @@ const Landing = props => {
       goToErrorPage,
       initForm,
       setSession,
+      setShouldSendDemographicsFlags,
     ],
   );
   return (
