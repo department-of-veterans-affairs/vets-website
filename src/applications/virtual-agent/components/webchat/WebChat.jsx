@@ -15,6 +15,13 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     _.upperFirst(_.toLower(state.user.profile.userFullName.first)),
   );
 
+  const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
+
+  if(sessionStorage.getItem('loggedInFlow') === 'true' && isLoggedIn){
+    sessionStorage.setItem('inAuthExperience', 'true');
+    sessionStorage.setItem('loggedInFlow', 'false');
+  }
+
   const store = useMemo(
     () =>
       createStore(

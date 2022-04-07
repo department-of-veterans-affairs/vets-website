@@ -36,13 +36,14 @@ function useWebChat(props) {
 // }
 
 function showBot(loggedIn, requireAuth, accepted, minute, props) {
-  if (!loggedIn && requireAuth) {
+  if (false) {
     return <ConnectedSignInAlert />;
   }
-  if (
-    !accepted &&
-    !(sessionStorage.getItem('loggedInFlow') === 'true' && loggedIn)
-  ) {
+  console.log('loggedIn: ', loggedIn);
+  console.log('loggedInFlow: ', sessionStorage.getItem('loggedInFlow'));
+  console.log('inAuthExperience: ', sessionStorage.getItem('inAuthExperience'));
+
+  if (!accepted && !sessionStorage.getItem('inAuthExperience')) {
     return <ChatboxDisclaimer />;
   }
   return <App timeout={props.timeout || minute} />;
