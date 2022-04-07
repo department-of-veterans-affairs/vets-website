@@ -80,9 +80,7 @@ function validateRoutingNumber(
   }
 }
 
-const usingDirectDeposit = formData => {
-  return !formData?.bankAccount?.declineDirectDeposit;
-};
+const usingDirectDeposit = formData => !formData?.declineDirectDeposit;
 
 const uiSchema = {
   'ui:order': [
