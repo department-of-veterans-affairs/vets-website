@@ -16,6 +16,7 @@ import {
 import { updateBreadcrumb } from '../../redux/actions';
 import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 
+// Trigger single app build
 function VideoAppointmentDescription({ appointment }) {
   const { isAtlas } = appointment.videoData;
   const videoKind = appointment.videoData.kind;
