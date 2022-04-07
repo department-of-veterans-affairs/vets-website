@@ -110,8 +110,6 @@ const formFields = {
   relationshipToServiceMember: 'relationshipToServiceMember',
   receiveTextMessages: 'receiveTextMessages',
   routingNumber: 'routingNumber',
-  // selectedReserveKicker: 'selectedReserveKicker',
-  // seniorRotcCommission: 'seniorRotcCommission',
   serviceHistoryIncorrect: 'serviceHistoryIncorrect',
   selectedSponsors: 'selectedSponsors',
   sponsorDateOfBirth: 'sponsorDateOfBirth',
@@ -436,11 +434,6 @@ const formConfig = {
                   </p>
                 </va-additional-info>
               ),
-              'ui:options': {
-                hideIf: formData =>
-                  !formData.fetchedSponsorsComplete ||
-                  !formData.sponsors?.sponsors?.length,
-              },
             },
           },
           schema: {
@@ -456,6 +449,10 @@ const formConfig = {
                 items: {
                   type: 'string',
                 },
+              },
+              'view:additionalInfo': {
+                type: 'object',
+                properties: {},
               },
             },
           },
@@ -515,7 +512,9 @@ const formConfig = {
           path: 'sponsor/information',
           depends: formData =>
             !formData.sponsors?.sponsors?.length ||
-            formData.sponsors?.firstSponsor === SPONSOR_NOT_LISTED_VALUE,
+            formData.sponsors?.firstSponsor === SPONSOR_NOT_LISTED_VALUE ||
+            (formData[formFields.selectedSponsors]?.length === 1 &&
+              formData.sponsors?.someoneNotListed),
           uiSchema: {
             'view:noSponsorWarning': {
               'ui:description': (
@@ -568,8 +567,7 @@ const formConfig = {
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData =>
-                  formData.sponsors?.firstSponsor !== SPONSOR_NOT_LISTED_VALUE,
+                hideIf: formData => !formData.sponsors?.sponsors?.length,
               },
             },
             [formFields.relationshipToServiceMember]: {
@@ -657,6 +655,10 @@ const formConfig = {
                 sponsor => sponsor.id === formData.sponsors?.firstSponsor,
               )?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
             (!formData.sponsors?.sponsors?.length &&
+              formData?.relationshipToServiceMember ===
+                SPONSOR_RELATIONSHIP.CHILD) ||
+            (formData[formFields.selectedSponsors]?.length === 1 &&
+              formData.sponsors?.someoneNotListed &&
               formData?.relationshipToServiceMember ===
                 SPONSOR_RELATIONSHIP.CHILD),
           uiSchema: {
