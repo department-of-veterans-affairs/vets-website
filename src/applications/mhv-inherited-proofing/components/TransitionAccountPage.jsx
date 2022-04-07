@@ -9,6 +9,7 @@ export default function TransitionAccount() {
   // TODO: wait for BE team to add to User model
   const transitionEnabled = useSelector(mhvTransitionEnabled);
   const mhvTransitionEligible = useSelector(transitionMHVAccount);
+
   const [transitionPage, setTransitionPage] = useState({
     loading: true,
     canTransition: null,

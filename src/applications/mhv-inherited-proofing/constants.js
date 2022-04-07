@@ -1,5 +1,8 @@
 import { signup } from 'platform/user/authentication/utilities';
-import { CSP_IDS } from 'platform/user/authentication/constants';
+import {
+  CSP_IDS,
+  MHV_TRANSITION_TIME,
+} from 'platform/user/authentication/constants';
 import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
 
@@ -18,7 +21,7 @@ export const ACCOUNT_TRANSITION = {
     ineligible: 'Create your new account',
   },
   subheader: {
-    eligible: 'This process should take about [X] minutes.',
+    eligible: `This process should take about ${MHV_TRANSITION_TIME} minutes.`,
     ineligible:
       'You can create either a verified Login.gov or ID.me account.  Both accounts are free.  Login.gov is an account created, maintained, and secured by the U.S. government.',
   },

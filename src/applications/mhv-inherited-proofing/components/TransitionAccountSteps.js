@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import LoginButton from 'platform/user/authentication/components/LoginButton';
 import { ACCOUNT_TRANSITION } from '../constants';
 
 export default function TransitionAccountSteps({ canTransition }) {
@@ -58,7 +57,9 @@ export default function TransitionAccountSteps({ canTransition }) {
               </li>
               <li>A phone number on a phone plan that’s in your name</li>
             </ul>
-            <LoginButton csp="logingov" onClick={signUpLoginGov} />
+            <button type="button" onClick={signUpLoginGov}>
+              Create a Login.gov account
+            </button>
           </div>
           <div>
             <h3>Create an ID.me account</h3>
@@ -78,7 +79,9 @@ export default function TransitionAccountSteps({ canTransition }) {
                 and public data (like your credit report) to prove you’re you.
               </li>
             </ul>
-            <LoginButton csp="idme" onClick={signUpIDme} />
+            <button type="button" onClick={signUpIDme}>
+              Create an ID.me account
+            </button>
           </div>
         </>
       )}
