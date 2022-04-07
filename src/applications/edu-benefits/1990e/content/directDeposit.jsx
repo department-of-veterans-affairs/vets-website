@@ -1,5 +1,6 @@
 import React from 'react';
 import { isValidRoutingNumber } from 'platform/forms/validations';
+import environment from 'platform/utilities/environment';
 
 const gaBankInfoHelpText = () => {
   window.dataLayer.push({
@@ -79,11 +80,16 @@ function validateRoutingNumber(
   }
 }
 
+const usingDirectDeposit = formData => {
+  return !formData?.bankAccount?.declineDirectDeposit;
+};
+
 const uiSchema = {
   'ui:order': [
     'accountType',
     'accountNumber',
     'routingNumber',
+    'declineDirectDeposit',
     'view:bankInfoNote',
     'view:bankInfoHelpText',
   ],
@@ -95,12 +101,21 @@ const uiSchema = {
         checking: 'Checking',
         savings: 'Savings',
       },
+      hideIf: formData => !usingDirectDeposit(formData),
     },
+    'ui:errorMessages': {
+      required: 'Please choose an account type',
+    },
+    'ui:required': () => true,
   },
   accountNumber: {
     'ui:title': 'Bank account number',
     'ui:errorMessages': {
       required: 'Please enter a bank account number',
+    },
+    'ui:required': () => true,
+    'ui:options': {
+      hideIf: formData => !usingDirectDeposit(formData),
     },
   },
   routingNumber: {
@@ -110,7 +125,18 @@ const uiSchema = {
       pattern: 'Please enter a valid nine digit routing number',
       required: 'Please enter a routing number',
     },
+    'ui:required': () => true,
+    'ui:options': {
+      hideIf: formData => !usingDirectDeposit(formData),
+    },
   },
+  declineDirectDeposit: {
+      'ui:title': 'I don’t want to use direct deposit',
+      'ui:options': {
+        hideOnReviewIfFalse: true,
+        widgetClassNames: 'vads-u-margin-top--4',
+      },
+    },
   'view:bankInfoNote': {
     'ui:description': bankInfoNote,
   },
@@ -133,6 +159,10 @@ export default function createDirectDepositPage() {
       },
       accountNumber: {
         type: 'string',
+      },
+      declineDirectDeposit: {
+        type: 'boolean',
+        properties: {},
       },
       'view:bankInfoNote': {
         type: 'object',
