@@ -1,5 +1,7 @@
 import React from 'react';
 import { isValidRoutingNumber } from 'platform/forms/validations';
+import merge from 'lodash/merge';
+import full1990eSchema from 'vets-json-schema/dist/22-1990E-schema.json';
 
 const gaBankInfoHelpText = () => {
   window.dataLayer.push({
@@ -51,21 +53,19 @@ const bankInfoHelpText = (
   </va-additional-info>
 );
 
-const directDepositDescription = () => {
-  return (
-    <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
-      <p>
-        We make payments only through direct deposit, also called electronic
-        funds transfer (EFT). Please provide your direct deposit information
-        below. We’ll send your housing payment to this account.
-      </p>
-      <img
-        src="/img/direct-deposit-check-guide.svg"
-        alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
-      />
-    </div>
-  );
-};
+const directDepositDescription = (
+  <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
+    <p>
+      We make payments only through direct deposit, also called electronic funds
+      transfer (EFT). Please provide your direct deposit information below.
+      We’ll send your housing payment to this account.
+    </p>
+    <img
+      src="/img/direct-deposit-check-guide.svg"
+      alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
+    />
+  </div>
+);
 
 function validateRoutingNumber(
   errors,
@@ -137,13 +137,19 @@ const uiSchema = {
   },
   'view:bankInfoNote': {
     'ui:description': bankInfoNote,
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
   'view:bankInfoHelpText': {
     'ui:description': bankInfoHelpText,
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };
 
-export function createDirectDepositPage() {
+export default function createDirectDepositPage() {
   const bankAccountProperties = {
     type: 'object',
     properties: {
@@ -181,8 +187,65 @@ export function createDirectDepositPage() {
     initialData: {},
     uiSchema: {
       'ui:title': 'Direct deposit',
-      'ui:description': directDepositDescription(),
-      bankAccount: uiSchema,
+      'ui:description': directDepositDescription,
+      bankAccount: merge({}, full1990eSchema, {
+        accountType: {
+          'ui:title': 'Account type',
+          'ui:widget': 'radio',
+          'ui:options': {
+            labels: {
+              checking: 'Checking',
+              savings: 'Savings',
+            },
+            hideIf: formData => !usingDirectDeposit(formData),
+          },
+          'ui:errorMessages': {
+            required: 'Please choose an account type',
+          },
+          'ui:required': formData => usingDirectDeposit(formData),
+        },
+        accountNumber: {
+          'ui:title': 'Bank account number',
+          'ui:errorMessages': {
+            required: 'Please enter a bank account number',
+          },
+          'ui:required': formData => usingDirectDeposit(formData),
+          'ui:options': {
+            hideIf: formData => !usingDirectDeposit(formData),
+          },
+        },
+        routingNumber: {
+          'ui:title': 'Bank routing number',
+          'ui:validations': [validateRoutingNumber],
+          'ui:errorMessages': {
+            pattern: 'Please enter a valid nine digit routing number',
+            required: 'Please enter a routing number',
+          },
+          'ui:required': formData => usingDirectDeposit(formData),
+          'ui:options': {
+            hideIf: formData => !usingDirectDeposit(formData),
+          },
+        },
+        declineDirectDeposit: {
+          'ui:title': 'I don’t want to use direct deposit',
+          'ui:options': {
+            hideOnReviewIfFalse: true,
+            widgetClassNames: 'vads-u-margin-top--4',
+          },
+        },
+        'view:bankInfoNote': {
+          'ui:description': bankInfoNote,
+          'ui:options': {
+            hideOnReview: true,
+          },
+        },
+        'view:bankInfoHelpText': {
+          'ui:description': bankInfoHelpText,
+          'ui:options': {
+            hideOnReview: true,
+          },
+        },
+      }),
     },
     schema: {
       type: 'object',
