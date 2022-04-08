@@ -101,7 +101,7 @@ class Appointments {
   attemptCheckIn = (appointmentNumber = 1) => {
     cy.get(
       `:nth-child(${appointmentNumber}) > [data-testid=check-in-button]`,
-    ).click();
+    ).click({ waitForAnimations: true });
   };
 }
 
