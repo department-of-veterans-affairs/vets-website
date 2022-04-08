@@ -71,7 +71,7 @@ export const WaitTimeAlert = ({
   const today = moment();
   const momentPreferredDate = moment(preferredDate);
   let momentNextAvailableDate;
-  if (nextAvailableApptDate?._i?.includes('Z')) {
+  if (nextAvailableApptDate?.includes('Z')) {
     momentNextAvailableDate = moment(nextAvailableApptDate).tz(
       getTimezoneByFacilityId(facilityId),
     );
