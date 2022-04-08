@@ -130,9 +130,6 @@ jobs:
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
  
-      - name: Install dd-trace
-        run: yarn add dd-trace --dev
-
       - name: Run unit tests
         run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
