@@ -625,7 +625,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
             }
             return slot;
           })
-          .sort((a, b) => a.start.localeCompare(b.start));
+          .sort((a, b) => a.start.valueOf() - b.start.valueOf());
         dispatch({
           type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
           availableSlots: sortedSlots,
