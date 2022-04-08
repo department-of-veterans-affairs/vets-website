@@ -11,9 +11,11 @@ fi
 
 # Generate arrays for entry names, chunk ids, and lazy loaded Webpack chunk names.
 # Chunk ids follow the convention of the 'named' option that's set in the Webpack config.
-entryNames=($ENTRY_NAMES)
-chunkIds=($(echo $APP_DIRS | tr '/' '_'))
+entryNames=(${ENTRY_NAMES//,/ })
+chunkIds=($(echo ${APP_DIRS//,/ } | tr '/' '_'))
 webpackChunkNames=($(grep -r 'webpackChunkName:' $APP_DIRS | grep -o '"[^"]\+"' | tr -d \"))
+
+echo ${#webpackChunkNames[@]}
 
 # Generate array of file patterns to sync
 filesToSync=("${entryNames[@]/%/.*}" "${chunkIds[@]/%/*}" "${webpackChunkNames[@]/%/.*}")
