@@ -22,7 +22,7 @@ export const ConnectedDevicesContainer = () => {
   const [successAlert, setSuccessAlert] = useState(false);
   const [failureAlert, setFailureAlert] = useState(false);
 
-  function updateConnectedDevices(vendor) {
+  const updateConnectedDevices = vendor => {
     const connectedDevicesCopy = [...connectedDevices];
     const device =
       connectedDevicesCopy[
@@ -30,17 +30,17 @@ export const ConnectedDevicesContainer = () => {
       ];
     device.connected = true;
     setConnectedDevices(connectedDevicesCopy);
-  }
+  };
 
-  function showSuccessAlert() {
+  const showSuccessAlert = () => {
     setSuccessAlert(true);
-  }
+  };
 
-  function showFailureAlert() {
+  const showFailureAlert = () => {
     setFailureAlert(true);
-  }
+  };
 
-  function handleResponse(response, device) {
+  const handleResponse = (response, device) => {
     try {
       const resUrl = new URL(response.url);
       const deviceWasAbleToConnect = resUrl.searchParams.get(
@@ -54,15 +54,14 @@ export const ConnectedDevicesContainer = () => {
       showFailureAlert();
     } catch {
       showFailureAlert();
-      // console.error('Something went wrong :(');
     }
-  }
+  };
 
-  async function authorizeDevice(device) {
+  const authorizeDevice = async device => {
     const response = await authorizeWithVendor(device.authUrl);
     handleResponse(response, device);
     return response;
-  }
+  };
 
   return (
     <>

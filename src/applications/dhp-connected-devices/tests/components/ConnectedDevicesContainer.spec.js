@@ -4,11 +4,24 @@ import { expect } from 'chai';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import sinon from 'sinon';
 import environment from 'platform/utilities/environment';
+import { act } from 'react-dom/test-utils';
 import * as HelpersModule from '../../helpers';
 import { ConnectedDevicesContainer } from '../../components/ConnectedDevicesContainer';
-import * as AlertsModule from '../../components/DeviceConnectionAlerts';
 
 describe('Connect Devices Container', () => {
+  const successUrl = {
+    url: `${environment.API_URL}/dhp_connected_devices/?fitbit=success#_=_`,
+    //  this needs to be /health-care/connected-devices/?fitbit...
+  };
+  const failureURl = {
+    url: `${environment.API_URL}/dhp_connected_devices/?fitbit=error#_=_`,
+  };
+  beforeEach(() => {
+    sinon.stub(HelpersModule, 'authorizeWithVendor');
+  });
+  afterEach(() => {
+    HelpersModule.authorizeWithVendor.restore();
+  });
   it('should render DeviceConnectionSection and DeviceConnectionCards when devices are not connected', () => {
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
@@ -161,19 +174,21 @@ describe('Connect Devices Container', () => {
     expect(connectedDevicesContainer.findByTestId('failure-alert')).to.exist;
   });
 
-  it('should render success alert when device is connected', () => {
-    sinon
-      .stub(AlertsModule, 'DeviceConnectionSucceededAlert')
-      .returns(<div data-testid="success-alert">Success</div>);
-    sinon
-      .stub(AlertsModule, 'DeviceConnectionFailedAlert')
-      .returns(<div data-testid="failure-alert">Failure</div>);
-    const url = {
-      url: `${environment.API_URL}/dhp_connected_devices/?fitbit=success#_=_`,
-    };
-    sinon.stub(HelpersModule, 'authorizeWithVendor').returns(url);
+  it('should render success alert when device is connected', async () => {
+    HelpersModule.authorizeWithVendor.returns(successUrl);
     const { getByTestId } = render(<ConnectedDevicesContainer />);
-    fireEvent.click(getByTestId('Fitbit-connect-link'));
+    await act(async () => {
+      fireEvent.click(getByTestId('Fitbit-connect-link'));
+    });
     expect(getByTestId('success-alert')).to.exist;
+  });
+
+  it('should render failure alert when device fails to connect', async () => {
+    HelpersModule.authorizeWithVendor.returns(failureURl);
+    const { getByTestId } = render(<ConnectedDevicesContainer />);
+    await act(async () => {
+      fireEvent.click(getByTestId('Fitbit-connect-link'));
+    });
+    expect(getByTestId('failure-alert')).to.exist;
   });
 });
