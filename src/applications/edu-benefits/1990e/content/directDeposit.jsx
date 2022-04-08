@@ -131,16 +131,10 @@ export default function createDirectDepositPage() {
             },
             hideIf: formData => !usingDirectDeposit(formData),
           },
-          'ui:errorMessages': {
-            required: 'Please choose an account type',
-          },
           'ui:required': formData => usingDirectDeposit(formData),
         },
         accountNumber: {
           'ui:title': 'Bank account number',
-          'ui:errorMessages': {
-            required: 'Please enter a bank account number',
-          },
           'ui:required': formData => usingDirectDeposit(formData),
           'ui:options': {
             hideIf: formData => !usingDirectDeposit(formData),
@@ -151,7 +145,6 @@ export default function createDirectDepositPage() {
           'ui:validations': [validateRoutingNumber],
           'ui:errorMessages': {
             pattern: 'Please enter a valid nine digit routing number',
-            required: 'Please enter a routing number',
           },
           'ui:required': formData => usingDirectDeposit(formData),
           'ui:options': {
