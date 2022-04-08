@@ -19,16 +19,19 @@ webpackChunkNames=($(grep -r 'webpackChunkName:' ${APP_DIRS//,/ } | grep -o '"[^
 filesToSync=("${entryNames[@]/%/.*}" "${chunkIds[@]/%/*}" "${webpackChunkNames[@]/%/.*}")
 
 if [ -z "$chunkIds" ] || [ -z "$webpackChunkNames" ]; then echo "No lazy loaded app chunks found."; fi
-echo "Files to sync:" && printf "%s\n" "${filesToSync[@]}"
+echo "Files to sync:" && printf "%s\n" "${filesToSync[@]}" | sort
 
 # Make temp directory for storing filtered app assets
 tempdir=$(mktemp -d) && mkdir -p $tempdir/generated
 
-# Move app assets and BUILD.txt to temp directory
-for filename in ${filesToSync[@]} ; do find $BUILD_DIR/generated/ -name "$filename" -exec cp {} $tempdir/generated/ \;; done
+# Copy app assets and BUILD.txt into temp directory
 cp $BUILD_DIR/BUILD.txt $tempdir
+for filename in ${filesToSync[@]}
+do 
+    find $BUILD_DIR/generated/ -name "$filename" -exec cp {} $tempdir/generated/ \;;
+done
 
-# Sync temp directory into build directory and delete global assets
+# Sync build directory with temp directory and remove global assets
 rsync -a --delete --remove-source-files $tempdir/ $BUILD_DIR/
 
 # Clean up
