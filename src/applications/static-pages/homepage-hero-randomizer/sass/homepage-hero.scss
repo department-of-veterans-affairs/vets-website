@@ -1,0 +1,14 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.homepage-hero {
+  &__container {
+    display: flex;
+  }
+
+  &__image {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    object-position: 30% bottom;
+  }
+}
