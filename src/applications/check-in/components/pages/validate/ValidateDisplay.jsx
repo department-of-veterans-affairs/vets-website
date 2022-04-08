@@ -79,17 +79,19 @@ export default function ValidateDisplay({
           data-testid="last-name-input"
         />
         {isLorotaSecurityUpdatesEnabled ? (
-          <Date
-            label={t('date-of-birth')}
-            onValueChange={updateDob}
-            name="date-of-birth"
-            date={dob}
-            required
-            validation={{
-              valid: !dobErrorMessage,
-              message: dobErrorMessage,
-            }}
-          />
+          <div data-testid="dob-input" className="vads-u-margin-top--3">
+            <Date
+              label={t('date-of-birth')}
+              onValueChange={updateDob}
+              name="date-of-birth"
+              date={dob}
+              required
+              validation={{
+                valid: !dobErrorMessage,
+                message: dobErrorMessage,
+              }}
+            />
+          </div>
         ) : (
           <VaTextInput
             error={last4ErrorMessage}
@@ -125,8 +127,8 @@ export default function ValidateDisplay({
 }
 
 ValidateDisplay.propTypes = {
-  dpbInput: propTypes.object,
   Footer: propTypes.elementType,
+  dobInput: propTypes.object,
   header: propTypes.string,
   isLoading: propTypes.bool,
   last4Input: propTypes.object,
