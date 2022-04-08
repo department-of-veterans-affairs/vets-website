@@ -28,7 +28,7 @@ tempdir=$(mktemp -d) && mkdir -p $tempdir/generated
 cp $BUILD_DIR/BUILD.txt $tempdir
 for filename in ${filesToSync[@]}
 do 
-    find $BUILD_DIR/generated/ -name "$filename" -exec cp {} $tempdir/generated/ \;;
+    find $BUILD_DIR/generated/ -name "$filename" -exec cp {} $tempdir/generated/ \;
 done
 
 # Sync build directory with temp directory and remove global assets
