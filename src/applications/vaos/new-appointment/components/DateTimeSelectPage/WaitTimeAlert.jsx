@@ -71,7 +71,7 @@ export const WaitTimeAlert = ({
   const today = moment();
   const momentPreferredDate = moment(preferredDate);
   let momentNextAvailableDate;
-  if (nextAvailableApptDate?.includes('Z')) {
+  if (nextAvailableApptDate?._i?.includes('Z')) {
     momentNextAvailableDate = moment(nextAvailableApptDate).tz(
       getTimezoneByFacilityId(facilityId),
     );
@@ -119,7 +119,8 @@ export const WaitTimeAlert = ({
           </>
         </InfoAlert>
       );
-    } else if (!hasNextAvailableApptDate) {
+    }
+    if (!hasNextAvailableApptDate) {
       return (
         <InfoAlert
           headline="We couldn’t find an appointment for your selected date"
