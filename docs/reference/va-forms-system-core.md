@@ -27,6 +27,5 @@
 |  [DateField](./va-forms-system-core.datefield.md) | Field value format: M-D-YYYY<!-- -->TODO: Convert the Date component into a web component and use it here. |
 |  [DebuggerView](./va-forms-system-core.debuggerview.md) | Display the Formik state |
 |  [SelectField](./va-forms-system-core.selectfield.md) |  |
-|  [TestField](./va-forms-system-core.testfield.md) | This is a test field that will return a nice message |
 |  [TextField](./va-forms-system-core.textfield.md) |  |
 

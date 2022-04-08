@@ -69,7 +69,7 @@ We have documentation in `/docs` that is [hosted using GitHub Pages](https://dep
 To update the document references run:
 
 ```shell
-yarn docs:build
+yarn build
 ```
 
 To run the Jekyll site locally, run the following commands:
@@ -78,19 +78,6 @@ To run the Jekyll site locally, run the following commands:
 cd docs
 bundle install
 bundle exec jekyll serve
-```
-
-## Contributing
-
-To use the `npm link`ed version of this library in a separate repo, we have to
-do some `npm link`ing of the dependencies. Otherwise, the parent project _using_
-the library will see multiple versions of these dependencies and stuff will just
-sorta break.
-
-Replace `../<project>` with the path to the project using VA Forms System Core:
-
-```sh
-npm link ../<project>/node_modules/formik ../<project>/node_modules/react
 ```
 
 ## Continuous Integration
