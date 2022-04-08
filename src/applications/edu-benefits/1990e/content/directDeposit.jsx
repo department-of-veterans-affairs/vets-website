@@ -111,7 +111,6 @@ export default function createDirectDepositPage() {
         properties: {},
       },
     },
-    required: [],
   };
 
   return {
