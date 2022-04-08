@@ -20,7 +20,6 @@ export const FETCH_SPONSORS = 'FETCH_SPONSORS';
 export const FETCH_SPONSORS_SUCCESS = 'FETCH_SPONSORS_SUCCESS';
 export const FETCH_SPONSORS_FAILED = 'FETCH_SPONSORS_FAILED';
 export const UPDATE_SPONSORS = 'UPDATE_SPONSORS';
-export const UPDATE_SELECTED_SPONSORS = 'UPDATE_SELECTED_SPONSORS';
 
 export function fetchPersonalInformation() {
   return async dispatch => {
@@ -62,7 +61,4 @@ export function fetchSponsors() {
 
 export function updateSponsors(sponsors) {
   return { type: UPDATE_SPONSORS, payload: sponsors };
-}
-export function updateSelectedSponsors(selectedSponsors) {
-  return { type: UPDATE_SELECTED_SPONSORS, payload: selectedSponsors };
 }

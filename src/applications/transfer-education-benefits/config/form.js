@@ -460,7 +460,7 @@ const formConfig = {
         [formPages.firstSponsorSelection]: {
           title: 'Sponsor information',
           path: 'sponsor/select-first-sponsor',
-          // depends: formData => formData.selectedSponsors?.length > 1,
+          depends: formData => formData.selectedSponsors?.length > 1,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -477,19 +477,18 @@ const formConfig = {
             [formFields.firstSponsor]: {
               'ui:title': (
                 <>
-                  <span className="toe-sponsors-checkboxes_legend--main">
+                  <span className="toe-sponsors-labels_label--main">
                     Which sponsor’s benefits would you like to use?
                   </span>
-                  <span className="toe-sponsors-checkboxes_legend--secondary">
+                  <span className="toe-sponsors-labels_label--secondary">
                     Select all sponsors whose benefits you would like to apply
                     for
                   </span>
                 </>
               ),
               'ui:widget': DynamicRadioGroup,
-              'ui:options': {
-                hideLabelText: true,
-                showFieldLabel: false,
+              'ui:errorMessages': {
+                required: 'Please select at least one sponsor',
               },
             },
             'view:firstSponsorAdditionalInfo': {

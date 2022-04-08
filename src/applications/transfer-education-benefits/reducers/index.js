@@ -3,7 +3,6 @@ import {
   FETCH_SPONSORS,
   FETCH_SPONSORS_FAILED,
   FETCH_SPONSORS_SUCCESS,
-  UPDATE_SELECTED_SPONSORS,
   UPDATE_SPONSORS,
 } from '../actions';
 import formConfig from '../config/form';
@@ -58,11 +57,6 @@ export default {
             ],
             someoneNotListed: false,
           },
-        };
-      case UPDATE_SELECTED_SPONSORS:
-        return {
-          ...state,
-          selectedSponsors: action.payload,
         };
       case UPDATE_SPONSORS:
         return {

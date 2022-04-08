@@ -9,7 +9,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 
 import { fetchPersonalInformation, fetchSponsors } from '../actions';
-import { SPONSORS_TYPE } from '../constants';
+import { SPONSORS_TYPE, SPONSOR_NOT_LISTED_VALUE } from '../constants';
 
 export const TOEApp = ({
   children,
@@ -21,7 +21,6 @@ export const TOEApp = ({
   getSponsors,
   location,
   setFormData,
-  selectedSponsors,
   sponsors,
   user,
 }) => {
@@ -46,10 +45,15 @@ export const TOEApp = ({
           (formData.fetchedSponsorsComplete === undefined &&
             fetchedSponsorsComplete !== undefined) ||
           (sponsors?.sponsors?.length &&
-            !_.isEqual(formData.sponsors, sponsors)) ||
-          (selectedSponsors?.length &&
-            !_.isEqual(formData.selectedSponsors, selectedSponsors))
+            !_.isEqual(formData.sponsors, sponsors))
         ) {
+          const selectedSponsors = sponsors.sponsors?.flatMap(
+            sponsor => (sponsor.selected ? [sponsor.id] : []),
+          );
+          if (sponsors.someoneNotListed) {
+            selectedSponsors.push(SPONSOR_NOT_LISTED_VALUE);
+          }
+
           setFormData({
             ...formData,
             fetchedSponsorsComplete,
@@ -71,7 +75,6 @@ export const TOEApp = ({
       getSponsors,
       fetchedSponsors,
       fetchedSponsorsComplete,
-      selectedSponsors,
     ],
   );
 
@@ -113,7 +116,6 @@ const mapStateToProps = state => ({
   fetchedSponsors: state.data?.fetchedSponsors,
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
   formData: state.form?.data || {},
-  selectedSponsors: state.data?.selectedSponsors,
   sponsors: state.data?.sponsors,
   user: state.user,
 });

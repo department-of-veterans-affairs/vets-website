@@ -2,18 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import CheckboxGroup from '@department-of-veterans-affairs/component-library/CheckboxGroup';
 import { isArray, cloneDeep } from 'lodash';
-import {
-  fetchSponsors,
-  updateSelectedSponsors,
-  updateSponsors,
-} from '../actions';
+import { fetchSponsors, updateSponsors } from '../actions';
 import {
   SPONSOR_NOT_LISTED_LABEL,
   SPONSOR_NOT_LISTED_VALUE,
 } from '../constants';
 
 function DynamicCheckboxGroup({
-  dispatchSelectedSponsorsChange,
   dispatchSponsorsChange,
   errorMessage = 'Please select at least one sponsor',
   fetchedSponsors,
@@ -21,7 +16,6 @@ function DynamicCheckboxGroup({
   formContext,
   getSponsors,
   loadingMessage = 'Loading your sponsors...',
-  selectedSponsors,
   sponsors,
 }) {
   const [dirty, setDirty] = useState(false);
@@ -56,21 +50,17 @@ function DynamicCheckboxGroup({
       }
     }
 
-    const _selectedSponsors = _sponsors.sponsors?.flatMap(
-      sponsor => (sponsor.selected ? [sponsor.id] : []),
-    );
-    if (_sponsors.someoneNotListed) {
-      _selectedSponsors.push(SPONSOR_NOT_LISTED_VALUE);
-    }
-
     // Check to make sure that a previously-selected first sponsor hasn't
     // been removed from the list of selected sponsors.
-    if (!checked && value === `sponsor-${sponsors?.firstSponsor}`) {
+    if (
+      !checked &&
+      (value === `sponsor-${sponsors?.firstSponsor}` ||
+        _sponsors.sponsors?.filter(s => s.selected)?.length < 2)
+    ) {
       _sponsors.firstSponsor = null;
     }
 
     setDirty(true);
-    dispatchSelectedSponsorsChange(_selectedSponsors);
     dispatchSponsorsChange(_sponsors);
   };
 
@@ -82,19 +72,20 @@ function DynamicCheckboxGroup({
     })) || [];
   options.push({
     label: SPONSOR_NOT_LISTED_LABEL,
+    selected: sponsors?.someoneNotListed,
     value: `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
   });
 
-  const selectedValues = Object.fromEntries(
+  const values = Object.fromEntries(
     new Map(options?.map(option => [option.value, !!option.selected])),
   );
 
   return (
     <CheckboxGroup
       additionalFieldsetClass="vads-u-margin-top--0"
-      additionalLegendClass="toe-sponsors-checkboxes_legend vads-u-margin-top--0"
+      additionalLegendClass="toe-sponsors_legend vads-u-margin-top--0"
       errorMessage={
-        !selectedSponsors?.length &&
+        !options?.filter(o => o.selected)?.length &&
         (dirty || formContext?.submitted) &&
         errorMessage
       }
@@ -102,10 +93,10 @@ function DynamicCheckboxGroup({
         // I'm getting conflicting linting issues here.
         // eslint-disable-next-line react/jsx-wrap-multilines
         <>
-          <span className="toe-sponsors-checkboxes_legend--main">
+          <span className="toe-sponsors-labels_label--main">
             Which sponsor's benefits would you like to use?
           </span>
-          <span className="toe-sponsors-checkboxes_legend--secondary">
+          <span className="toe-sponsors-labels_label--secondary">
             Select all sponsors whose benefits you would like to apply for
           </span>
         </>
@@ -113,7 +104,7 @@ function DynamicCheckboxGroup({
       onValueChange={onValueChange}
       options={options}
       required
-      values={selectedValues}
+      values={values}
     />
   );
 }
@@ -135,14 +126,12 @@ const mapSponsors = state => {
 const mapStateToProps = state => ({
   fetchedSponsors: state.data?.fetchedSponsors,
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
-  selectedSponsors: state.data?.selectedSponsors,
   sponsors: mapSponsors(state),
   state,
 });
 
 const mapDispatchToProps = {
   getSponsors: fetchSponsors,
-  dispatchSelectedSponsorsChange: updateSelectedSponsors,
   dispatchSponsorsChange: updateSponsors,
 };
 

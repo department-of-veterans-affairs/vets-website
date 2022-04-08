@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { isArray } from 'lodash';
-import { fetchSponsors, updateSponsors } from '../actions';
+import { updateSponsors } from '../actions';
 import {
   IM_NOT_SURE_LABEL,
   IM_NOT_SURE_VALUE,
@@ -10,16 +10,8 @@ import {
   SPONSOR_NOT_LISTED_VALUE,
 } from '../constants';
 
-function DynamicRadioGroup({
-  dispatchSponsorsChange,
-  errorMessage = 'Please select at least one sponsor',
-  sponsors,
-  formContext,
-}) {
-  const [dirty, setDirty] = useState(false);
-
+function DynamicRadioGroup({ dispatchSponsorsChange, sponsors }) {
   const onValueChange = ({ value }) => {
-    setDirty(true);
     dispatchSponsorsChange({
       ...sponsors,
       firstSponsor: value.replace('sponsor-', ''),
@@ -54,26 +46,8 @@ function DynamicRadioGroup({
     <RadioButtons
       additionalFieldsetClass="vads-u-margin-top--0"
       additionalLegendClass="toe-sponsors-checkboxes_legend vads-u-margin-top--0"
-      errorMessage={
-        !sponsors?.firstSponsor &&
-        (dirty || formContext?.submitted) &&
-        errorMessage
-      }
-      label={
-        // I'm getting conflicting linting issues here.
-        // eslint-disable-next-line react/jsx-wrap-multilines
-        <>
-          <span className="toe-sponsors-checkboxes_legend--main">
-            Which sponsor's benefits would you like to use?
-          </span>
-          <span className="toe-sponsors-checkboxes_legend--secondary">
-            Select one sponsor
-          </span>
-        </>
-      }
       onValueChange={onValueChange}
       options={options}
-      required
       value={
         sponsors?.firstSponsor && { value: `sponsor-${sponsors?.firstSponsor}` }
       }
@@ -96,16 +70,10 @@ const mapSponsors = state => {
 };
 
 const mapStateToProps = state => ({
-  fetchedSponsors: state.data?.fetchedSponsors,
-  fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
-  firstSponsor: state.data?.firstSponsor,
-  form: state.form,
   sponsors: mapSponsors(state),
-  state,
 });
 
 const mapDispatchToProps = {
-  getSponsors: fetchSponsors,
   dispatchSponsorsChange: updateSponsors,
 };
 
