@@ -452,7 +452,7 @@
   {
     "domain": "www.benefits.va.gov",
     "src": "/homeloans/purchaseco_certificate.asp",
-    "dest": "/housing-assistance/home-loans/how-to-apply/"
+    "dest": "/housing-assistance/home-loans/how-to-request-coe/"
   },
   {
     "domain": "www.benefits.va.gov",
@@ -1221,5 +1221,10 @@
     "domain": "www.beckley.va.gov",
     "src": "/locations/princeton_vet_center.asp",
     "dest": "/princeton-vet-center/"
+  },
+  {
+    "domain": "www.fayettevillenc.va.gov",
+    "src": "/locations/FayettevilleVetCenter.asp",
+    "dest": "/fayetteville-nc-vet-center/"
   }
 ]

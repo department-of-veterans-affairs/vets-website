@@ -1,8 +1,8 @@
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import formConfig from '../config/form';
-// import set from 'platform/utilities/data/set';
 
 import {
+  FETCH_PERSONAL_INFORMATION,
   FETCH_PERSONAL_INFORMATION_SUCCESS,
   FETCH_PERSONAL_INFORMATION_FAILED,
   FETCH_CLAIM_STATUS_SUCCESS,
@@ -23,12 +23,17 @@ export default {
   form: createSaveInProgressFormReducer(formConfig),
   data: (state = initialState, action) => {
     switch (action.type) {
+      case FETCH_PERSONAL_INFORMATION:
+        return {
+          ...state,
+          personalInfoFetchInProgress: true,
+        };
       case FETCH_PERSONAL_INFORMATION_SUCCESS:
       case FETCH_PERSONAL_INFORMATION_FAILED:
         return {
           ...state,
+          personalInfoFetchInProgress: false,
           formData: action?.response || {},
-          // errors: action?.response?.errors || {},
         };
       case FETCH_CLAIM_STATUS_SUCCESS:
       case FETCH_CLAIM_STATUS_FAILURE:
@@ -44,7 +49,8 @@ export default {
             action?.response?.data?.attributes?.eligibility
               ?.filter(
                 benefit =>
-                  benefit.veteran_is_eligible &&
+                  (benefit.veteranIsEligible === true ||
+                    benefit.veteranIsEligible === null) &&
                   benefit.chapter !== ELIGIBILITY.CHAPTER33,
               )
               .map(benefit => benefit.chapter) || [],

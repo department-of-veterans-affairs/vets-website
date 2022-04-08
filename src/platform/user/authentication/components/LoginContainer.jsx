@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import {
   ssoe,
-  loginGov,
+  loginGovDisabled,
   loginGovCreateAccount,
   loginGovMyVAHealth,
   loginGovMHV,
@@ -16,14 +16,14 @@ import {
 import environment from 'platform/utilities/environment';
 
 const vaGovFullDomain = environment.BASE_URL;
-const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
+export const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 
 export const LoginContainer = props => {
   const {
     externalApplication,
     isUnifiedSignIn,
     loggedOut,
-    loginGovEnabled,
+    loginGovOff,
     loginGovCreateAccountEnabled,
     loginGovMHVEnabled,
     loginGovMyVAHealthEnabled,
@@ -45,7 +45,7 @@ export const LoginContainer = props => {
           <LoginHeader loggedOut={loggedOut} />
           <LoginActions
             externalApplication={externalApplication}
-            loginGovEnabled={loginGovEnabled}
+            loginGovOff={loginGovOff}
             loginGovMHVEnabled={loginGovMHVEnabled}
             loginGovMyVAHealthEnabled={loginGovMyVAHealthEnabled}
             loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
@@ -60,7 +60,7 @@ export const LoginContainer = props => {
 function mapStateToProps(state) {
   return {
     useSSOe: ssoe(state),
-    loginGovEnabled: loginGov(state),
+    loginGovOff: loginGovDisabled(state),
     loginGovMHVEnabled: loginGovMHV(state),
     loginGovMyVAHealthEnabled: loginGovMyVAHealth(state),
     loginGovCreateAccountEnabled: loginGovCreateAccount(state),

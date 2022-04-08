@@ -13,6 +13,19 @@ export const questions = [
     startQuestion: true,
   },
   {
+    id: 'scheduled-appointment-hi',
+    text: {
+      en: 'Do you have a scheduled appointment today?',
+      es: '¿Tiene una cita programada para hoy?',
+    },
+    customId: ['459', '459GE', '459GF', '459GH'],
+    passValues: ['yes'],
+    dependsOn: {
+      id: 'isStaff',
+      value: 'no',
+    },
+  },
+  {
     id: 'test-results-hi',
     text: {
       en: 'Are you waiting for COVID-19 test results?',
@@ -26,6 +39,7 @@ export const questions = [
       en: 'In the past 24 hours, have you had a fever?',
       es: 'En las últimas 24 horas, ¿ha tenido fiebre?',
     },
+    customIdExcluded: ['459', '459GE', '459GF', '459GH'],
   },
   {
     id: 'cough',
@@ -35,6 +49,7 @@ export const questions = [
       es:
         'En los últimos 7 días, ¿ha tenido tos, le ha faltado el aire o ha experimentado dificultad para respirar (malestar nuevo o que ha empeorado)?',
     },
+    customIdExcluded: ['459', '459GE', '459GF', '459GH'],
   },
   {
     id: 'flu',
@@ -68,6 +83,149 @@ export const questions = [
         </div>
       ),
     },
+    customIdExcluded: ['459', '459GE', '459GF', '459GH'],
+  },
+  {
+    id: 'flu-hi-first',
+    text: {
+      en: (
+        <div>
+          Have you had any of these symptoms in the past 48 hours?
+          <ul>
+            <li>Fever or chills</li>
+            <li>Cough</li>
+            <li>Shortness of breath or difficulty breathing</li>
+            <li>Fatigue (feeling very tired)</li>
+            <li>Muscle or body aches</li>
+            <li>Headache</li>
+          </ul>
+          <p>
+            <strong>Note:</strong>{' '}
+            <span className="notbold">
+              Answer “yes” if you have any symptoms—even if you think they’re
+              caused by allergies or another health issue other than COVID-19.
+            </span>
+          </p>
+        </div>
+      ),
+      es: (
+        <div>
+          ¿Ha tenido alguno de estos síntomas en las últimas 48 horas?
+          <ul>
+            <li>Fiebre o escalofríos</li>
+            <li>Tos</li>
+            <li>Falta de aire o dificultad para respirar</li>
+            <li>Fatiga (sensación de mucho cansancio)</li>
+            <li>Dolores musculares o corporales</li>
+            <li>Dolor de cabeza</li>
+          </ul>
+          <p>
+            <strong>Note:</strong>{' '}
+            <span className="notbold">
+              Answer “yes” if you have any symptoms—even if you think they’re
+              caused by allergies or another health issue other than COVID-19.
+            </span>
+          </p>
+        </div>
+      ),
+    },
+    customId: ['459', '459GE', '459GF', '459GH'],
+  },
+  {
+    id: 'flu-hi-second',
+    text: {
+      en: (
+        <div>
+          Have you had any of these symptoms in the past 48 hours?
+          <ul>
+            <li>New loss of taste or smell</li>
+            <li>Sore throat</li>
+            <li>Congestion or runny nose</li>
+            <li>Nausea or vomiting</li>
+            <li>Diarrhea</li>
+          </ul>
+          <p>
+            <strong>Note:</strong>{' '}
+            <span className="notbold">
+              Answer “yes” if you have any symptoms—even if you think they’re
+              caused by allergies or another health issue other than COVID-19.
+            </span>
+          </p>
+        </div>
+      ),
+      es: (
+        <div>
+          ¿Ha tenido alguno de estos síntomas en las últimas 48 horas?
+          <ul>
+            <li>Pérdida nueva del gusto o del olfato</li>
+            <li>Dolor de garganta</li>
+            <li>Congestión o secreción nasal</li>
+            <li>Náuseas o vómitos</li>
+            <li>Diarrea</li>
+          </ul>
+          <p>
+            <strong>Note:</strong>{' '}
+            <span className="notbold">
+              Answer “yes” if you have any symptoms—even if you think they’re
+              caused by allergies or another health issue other than COVID-19.
+            </span>
+          </p>
+        </div>
+      ),
+    },
+    customId: ['459', '459GE', '459GF', '459GH'],
+  },
+  {
+    id: 'close-contact-hi',
+    text: {
+      en: (
+        <div>
+          In the past 14 days, have you been in close physical contact with
+          anyone who fits either of these descriptions?
+          <ul>
+            <li>
+              They had COVID-19 (confirmed with a positive COVID-19 test),{' '}
+              <strong>or</strong>
+            </li>
+            <li>They had any symptoms of COVID-19</li>
+          </ul>
+          <strong>Note:</strong>{' '}
+          <span className="notbold">
+            Close physical contact means being within 6 feet of someone for a
+            total of 15 minutes or more within 24 hours.
+          </span>
+        </div>
+      ),
+      es: (
+        <div>
+          En los últimos 14 días, ¿ha estado en contacto físico estrecho con
+          alguien que se ajuste a alguna de estas descripciones?
+          <ul>
+            <li>
+              Tenían COVID-19 (confirmado con una prueba positiva de COVID-19),
+              o
+            </li>
+            <li>Tuvieron algún síntoma de COVID-19</li>
+          </ul>
+          <strong>Nota:</strong>{' '}
+          <span className="notbold">
+            Un contacto cercano es una persona que estuvo a menos de 6 pies de
+            alguien infectado (con infección confirmada en laboratorio o
+            diagnóstico clínico) por un total acumulado de 15 minutos o más en
+            un periodo de 24 horas.
+          </span>
+        </div>
+      ),
+    },
+    customId: ['459', '459GE', '459GF', '459GH'],
+  },
+  {
+    id: 'have-covid-concern-hi',
+    text: {
+      en: 'Are you concerned you may have COVID-19 now?',
+      es: '¿Le preocupa que pueda tener COVID-19 ahora?',
+    },
+    customId: ['459', '459GE', '459GF', '459GH'],
   },
   {
     id: 'household-exposure-526',
@@ -87,6 +245,7 @@ export const questions = [
       es:
         '¿Tienes actualmente una secreción nasal o congestión que es nueva y no está relacionada con alergias?',
     },
+    customIdExcluded: ['459', '459GE', '459GF', '459GH'],
   },
   {
     id: 'exposure',
@@ -100,6 +259,7 @@ export const questions = [
       id: 'isStaff',
       value: 'no',
     },
+    customIdExcluded: ['459', '459GE', '459GF', '459GH'],
   },
   {
     id: 'exposure-staff',
@@ -113,6 +273,7 @@ export const questions = [
       id: 'isStaff',
       value: 'yes',
     },
+    customIdExcluded: ['459', '459GE', '459GF', '459GH'],
   },
   {
     id: 'travel-463',
@@ -121,38 +282,6 @@ export const questions = [
       es: 'En los últimos 14 días, ¿ha viajado fuera de Alaska?',
     },
     customId: ['463'],
-  },
-  {
-    id: 'travel-459',
-    text: {
-      en: 'In the past 14 days, have you traveled off island?',
-      es: 'En los últimos 14 días, ¿ha viajado fuera de la isla?',
-    },
-    customId: ['459'],
-  },
-  {
-    id: 'travel-459GE',
-    text: {
-      en: 'In the past 14 days, have you traveled off island?',
-      es: 'En los últimos 14 días, ¿ha viajado fuera de la isla?',
-    },
-    customId: ['459GE'],
-  },
-  {
-    id: 'travel-459GF',
-    text: {
-      en: 'In the past 14 days, have you traveled off island?',
-      es: 'En los últimos 14 días, ¿ha viajado fuera de la isla?',
-    },
-    customId: ['459GF'],
-  },
-  {
-    id: 'travel-459GH',
-    text: {
-      en: 'In the past 14 days, have you traveled off island?',
-      es: 'En los últimos 14 días, ¿ha viajado fuera de la isla?',
-    },
-    customId: ['459GH'],
   },
   {
     id: 'travel-new-england-ma-ct-ri',

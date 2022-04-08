@@ -20,10 +20,9 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 
 export const recordsNotFound = (
   <div id="records-not-found">
-    <header>
-      <h1>We couldn’t find your VA letters or documents</h1>
-    </header>
+    <p />
     <va-alert status="warning">
+      <h2 slot="headline">We couldn’t find your VA letters or documents</h2>
       <p>
         <EbenefitsLink path="ebenefits/download-letters">
           If you’re a dependent, please go to eBenefits to look for your

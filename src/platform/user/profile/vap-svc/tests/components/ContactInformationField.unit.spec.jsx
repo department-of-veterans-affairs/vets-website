@@ -143,7 +143,7 @@ describe('<ProfileInformationFieldController/>', () => {
     const data = {
       ...props,
       forceEditView: true,
-      transactionRequest: {},
+      transactionRequest: { isPending: true },
       successCallback: successCallbackSpy,
     };
     component = enzyme.shallow(<ProfileInformationFieldController {...data} />);

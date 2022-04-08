@@ -36,26 +36,34 @@ export const ELIGIBILITY = {
   CHAPTER1606: 'Chapter1606',
 };
 
-const ONE_MINUTE_IN_THE_FUTURE = new Date(new Date().getTime() + 60000);
 const FIVE_SECONDS = 5000;
+const ONE_MINUTE_IN_THE_FUTURE = () => {
+  return new Date(new Date().getTime() + 60000);
+};
 
 export function fetchPersonalInformation() {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFORMATION });
-
     return apiRequest(CLAIMANT_INFO_ENDPOINT)
-      .then(response =>
-        dispatch({
-          type: FETCH_PERSONAL_INFORMATION_SUCCESS,
-          response,
-        }),
-      )
-      .catch(errors =>
+      .then(response => {
+        if (!response?.data?.attributes?.claimant) {
+          window.location.href =
+            '/education/apply-for-education-benefits/application/1990/';
+        } else {
+          dispatch({
+            type: FETCH_PERSONAL_INFORMATION_SUCCESS,
+            response,
+          });
+        }
+      })
+      .catch(errors => {
         dispatch({
           type: FETCH_PERSONAL_INFORMATION_FAILED,
           errors,
-        }),
-      );
+        });
+        window.location.href =
+          '/education/apply-for-education-benefits/application/1990/';
+      });
   };
 }
 
@@ -63,7 +71,7 @@ const poll = ({
   endpoint,
   validate = response => response && response.data,
   interval = FIVE_SECONDS,
-  endTime = ONE_MINUTE_IN_THE_FUTURE,
+  endTime = ONE_MINUTE_IN_THE_FUTURE(),
   dispatch,
   timeoutResponse,
   successDispatchType,
@@ -98,18 +106,26 @@ const poll = ({
     });
 };
 
+function getNowDate() {
+  const date = new Date();
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+}
+
 export function fetchClaimStatus() {
   return async dispatch => {
     dispatch({ type: FETCH_CLAIM_STATUS });
     const timeoutResponse = {
-      claimStatus: CLAIM_STATUS_RESPONSE_IN_PROGRESS,
-      receivedDate: Date.now(),
+      attributes: {
+        claimStatus: CLAIM_STATUS_RESPONSE_IN_PROGRESS,
+        receivedDate: getNowDate(),
+      },
     };
 
     poll({
       endpoint: CLAIM_STATUS_ENDPOINT,
       validate: response =>
         response.data.attributes &&
+        response.data.attributes.claimStatus &&
         response.data.attributes.claimStatus !==
           CLAIM_STATUS_RESPONSE_IN_PROGRESS,
       dispatch,

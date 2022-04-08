@@ -1,5 +1,6 @@
 import MarkdownIt from 'markdown-it';
 import markdownitLinkAttributes from 'markdown-it-link-attributes';
+import recordEvent from 'platform/monitoring/record-event';
 import makePhoneNumberAriaLabel from './makePhoneNumberAriaLabel';
 
 const markdownRenderer = MarkdownIt({
@@ -10,6 +11,44 @@ const markdownRenderer = MarkdownIt({
     target: '_blank',
     rel: 'noopener',
   },
+});
+
+document.addEventListener('click', e => {
+  const { target } = e;
+
+  if (target.closest('a')) {
+    const origin = target.closest('a');
+    if (origin.id && origin.id === 'chatbotLink') {
+      recordEvent({
+        event: 'chatbot-resource-link-click',
+        link: origin.href,
+        linkText: origin.text,
+        time: new Date(),
+      });
+    }
+  } else if (target.closest('span')) {
+    const origin = target.closest('span');
+    if (origin.innerText === 'Speak with an agent') {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-type': 'default',
+        'button-click-label': origin.innerText,
+        'button-background-color': 'blue',
+        time: new Date(),
+      });
+    }
+  } else if (target.closest('button')) {
+    const origin = target.closest('button');
+    if (origin.innerText === 'Speak with an agent') {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-type': 'default',
+        'button-click-label': origin.innerText,
+        'button-background-color': 'blue',
+        time: new Date(),
+      });
+    }
+  }
 });
 
 // Remember old renderer, if overridden, or proxy to default renderer
@@ -35,6 +74,8 @@ markdownRenderer.renderer.rules[linkOpen] = function(
 
     tokens[idx].attrPush(['aria-label', ariaLabel]); // add new attribute
   }
+
+  tokens[idx].attrPush(['id', 'chatbotLink']);
 
   // pass token to default renderer.
   return defaultRender(tokens, idx, options, env, self);

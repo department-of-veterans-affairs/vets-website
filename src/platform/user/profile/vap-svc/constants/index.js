@@ -1,7 +1,6 @@
 import constants from 'vets-json-schema/dist/constants.json';
-import countries from './countries.json';
-
 import ADDRESS_DATA from 'platform/forms/address/data';
+import countries from './countries.json';
 
 export const MILITARY_STATES = new Set(ADDRESS_DATA.militaryStates);
 
@@ -109,6 +108,14 @@ export const FIELD_TITLES = {
   [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'Home address',
 };
 
+// optional 'hint text' to display below field titles
+export const FIELD_TITLE_DESCRIPTIONS = {
+  [FIELD_NAMES.EMAIL]: 'We use this email to send you information.',
+  [FIELD_NAMES.MAILING_ADDRESS]:
+    'We send your VA letters, bills, and prescriptions to this address.',
+  [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'This is where you currently live.',
+};
+
 // These are intended to be used as values for HTML element id attributes
 export const FIELD_IDS = {
   [FIELD_NAMES.PREFERRED_NAME]: 'preferred-name',
@@ -175,4 +182,12 @@ export const MISSING_CONTACT_INFO = {
   ALL: 'ALL',
   EMAIL: 'EMAIL',
   MOBILE: 'MOBILE',
+};
+
+export const COPY_ADDRESS_MODAL_STATUS = {
+  CHECKING: 'checking',
+  PROMPT: 'prompt',
+  PENDING: 'pending',
+  SUCCESS: 'success',
+  FAILURE: 'failure',
 };

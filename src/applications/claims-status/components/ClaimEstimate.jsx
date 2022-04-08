@@ -12,16 +12,16 @@ export default function ClaimEstimate({
   if (showCovidMessage) {
     return (
       <va-alert status="warning">
-        <h3 slot="headline">
-          Claim completion dates aren’t available right now
-        </h3>
+        <h5 slot="headline">
+          We don’t know yet when we’ll be able to make a decision on your claim
+        </h5>
         <p className="vads-u-font-size--base">
-          We can’t provide an estimated date on when your claim will be complete
-          due to the affect that COVID-19 has had on scheduling in-person claim
-          exams. We’re starting to schedule in-person exams again in many
-          locations. To see the status of claim exams in your area, you can{' '}
+          To decide your claim, we need to complete your in-person claim exam.
+          But we don’t know yet when we’ll be able to schedule your exam. We
+          stopped scheduling in-person claim exams because of COVID-19. Now
+          we’re starting to schedule these exams again in many locations.{' '}
           <a href="https://benefits.va.gov/compensation/claimexam.asp">
-            review locations where we’re now offering in-person exams
+            Find out where we offer in-person exams now
           </a>
           .
         </p>
@@ -29,7 +29,7 @@ export default function ClaimEstimate({
     );
   }
 
-  const estimatedDate = moment(maxDate);
+  const estimatedDate = moment(maxDate || null);
   const today = moment().startOf('day');
 
   if (
@@ -75,6 +75,7 @@ export default function ClaimEstimate({
 }
 
 ClaimEstimate.propTypes = {
-  maxDate: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
+  maxDate: PropTypes.string.isRequired,
+  showCovidMessage: PropTypes.bool,
 };

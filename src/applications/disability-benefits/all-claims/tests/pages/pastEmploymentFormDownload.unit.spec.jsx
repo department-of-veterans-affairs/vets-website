@@ -3,8 +3,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+
+import formConfig from '../../config/form';
+import { VA_FORM4192_URL } from '../../constants';
 
 describe('Disability benefits 4192 Download', () => {
   const {
@@ -27,8 +29,11 @@ describe('Disability benefits 4192 Download', () => {
         uiSchema={uiSchema}
       />,
     );
-
-    expect(form.find('a').length).to.equal(2);
+    const { href } = form
+      .find('a')
+      .first()
+      .props();
+    expect(href).to.equal(VA_FORM4192_URL);
     form.unmount();
   });
 });

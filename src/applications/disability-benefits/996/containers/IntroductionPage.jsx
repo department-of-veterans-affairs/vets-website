@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -32,6 +30,7 @@ import {
   showContestableIssueError,
   showHasEmptyAddress,
 } from '../content/contestableIssueAlerts';
+import NeedsToVerify from '../components/NeedsToVerify';
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -42,11 +41,17 @@ export class IntroductionPage extends React.Component {
   getCallToActionContent = ({ last } = {}) => {
     const {
       loggedIn,
+      isVerified,
       route,
       contestableIssues,
       delay = 250,
       hlrV2,
+      location,
     } = this.props;
+
+    if (loggedIn && !isVerified) {
+      return <NeedsToVerify pathname={location.basename} />;
+    }
 
     if (contestableIssues?.error) {
       return showContestableIssueError(contestableIssues, delay);
@@ -177,7 +182,7 @@ export class IntroductionPage extends React.Component {
                 If you need help requesting a Higher-Level Review, you can
                 contact a VA regional office and ask to speak to a
                 representative. To find the nearest regional office, please call{' '}
-                <Telephone contact={CONTACTS.VA_BENEFITS} />
+                <va-telephone contact={CONTACTS.VA_BENEFITS} />
                 {' or '}
                 <a href={FACILITY_LOCATOR_URL}>
                   visit our facility locator tool
@@ -240,6 +245,10 @@ IntroductionPage.propTypes = {
   delay: PropTypes.number,
   hasEmptyAddress: PropTypes.bool,
   hlrV2: PropTypes.bool,
+  isVerified: PropTypes.bool,
+  location: PropTypes.shape({
+    basename: PropTypes.string,
+  }),
   loggedIn: PropTypes.bool,
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
@@ -254,10 +263,12 @@ IntroductionPage.propTypes = {
 
 function mapStateToProps(state) {
   const { form, contestableIssues } = state;
+  const profile = selectProfile(state);
   return {
     form,
     loggedIn: isLoggedIn(state),
-    savedForms: selectProfile(state).savedForms,
+    savedForms: profile.savedForms,
+    isVerified: profile.verified,
     contestableIssues,
     hasEmptyAddress: isEmptyAddress(
       selectVAPContactInfoField(state, FIELD_NAMES.MAILING_ADDRESS),

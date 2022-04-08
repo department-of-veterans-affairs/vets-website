@@ -1,21 +1,28 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { PAYMENT_STATUS } from '../actions';
 import EnrollmentVerificationMonthInfo from './EnrollmentVerificationMonthInfo';
 import VerifyYourEnrollments from './VerifyYourEnrollments';
-import { formatReadableMonthYear } from '../helpers';
+import { formatReadableMonthYear, MONTH_PROP_TYPE } from '../helpers';
 
 const verifiedMonthStatusMessage = (
   <p className="ev-enrollment-month_message">
-    <i className="fa fa-check-circle vads-u-color--green" /> You verified this
-    month
+    <i
+      className="fa fa-check-circle vads-u-color--green vads-u-margin-right--1"
+      aria-hidden="true"
+    />{' '}
+    You verified this month
   </p>
 );
 const notVerifiedMonthStatusMessage = (
   <>
     <p className="ev-enrollment-month_message">
-      <i className="fas fa-exclamation-triangle" /> You haven’t verified this
-      month
+      <i
+        className="fas fa-exclamation-triangle vads-u-margin-right--1"
+        aria-hidden="true"
+      />{' '}
+      You haven’t verified this month
     </p>
     <VerifyYourEnrollments />
   </>
@@ -23,7 +30,10 @@ const notVerifiedMonthStatusMessage = (
 const needToVerifyMonthStatusMessage = (
   <>
     <p className="ev-enrollment-month_message">
-      <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
+      <i
+        className="fas fa-exclamation-circle vads-u-color--secondary-dark vads-u-margin-right--1"
+        aria-hidden="true"
+      />{' '}
       You need to verify this month
     </p>
     <VerifyYourEnrollments />
@@ -31,8 +41,13 @@ const needToVerifyMonthStatusMessage = (
 );
 const contactScoMonthStatusMessage = (
   <p className="ev-enrollment-month_message">
-    <i className="fas fa-exclamation-circle vads-u-color--secondary-dark" />{' '}
-    Contact your School Certifying Official to update enrollment information
+    <i
+      className="fas fa-exclamation-circle vads-u-color--secondary-dark vads-u-margin-right--1"
+      aria-hidden="true"
+    />{' '}
+    <strong>
+      Contact your School Certifying Official to update enrollment information
+    </strong>
   </p>
 );
 
@@ -53,7 +68,7 @@ export default function EnrollmentVerificationMonth({ month, paymentStatus }) {
   const monthStatusMessage = getMonthStatusMessage(month, paymentStatus);
 
   return (
-    <div className="ev-enrollment-month">
+    <div className="ev-enrollment-month vads-u-margin-y--3">
       <h4>{formatReadableMonthYear(month.month)}</h4>
       {monthStatusMessage}
 
@@ -63,3 +78,12 @@ export default function EnrollmentVerificationMonth({ month, paymentStatus }) {
     </div>
   );
 }
+
+EnrollmentVerificationMonth.propTypes = {
+  month: MONTH_PROP_TYPE.isRequired,
+  paymentStatus: PropTypes.oneOf([
+    PAYMENT_STATUS.ONGOING,
+    PAYMENT_STATUS.PAUSED,
+    PAYMENT_STATUS.SCO_PAUSED,
+  ]),
+};

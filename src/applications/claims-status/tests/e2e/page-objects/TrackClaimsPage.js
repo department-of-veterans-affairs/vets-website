@@ -1,5 +1,6 @@
 const Timeouts = require('platform/testing/e2e/timeouts.js');
 
+/* eslint-disable class-methods-use-this */
 class TrackClaimsPage {
   loadPage(claimsList, mock = null, submitForm = false) {
     if (submitForm) {
@@ -13,7 +14,10 @@ class TrackClaimsPage {
     cy.intercept('GET', '/v0/evss_claims_async', claimsList);
     cy.login();
     cy.visit('/track-claims');
-    cy.title().should('eq', 'Track Claims: VA.gov');
+    cy.title().should(
+      'eq',
+      'Check your claim or appeal status | Veterans Affairs',
+    );
     if (claimsList.data.length) {
       cy.get('.claim-list-item-container', { timeout: Timeouts.slow }).should(
         'be.visible',
@@ -68,21 +72,6 @@ class TrackClaimsPage {
     );
   }
 
-  checkConsolidatedClaimsModal() {
-    cy.get('button.claims-combined').click();
-    cy.get('.claims-status-upload-header').should('be.visible');
-    cy.injectAxeThenAxeCheck();
-    cy.get('.claims-status-upload-header').should(
-      'contain',
-      'A note about consolidated claims',
-    );
-    cy.get('.va-modal-close')
-      .first()
-      .click();
-    cy.get('.claims-status.upload-header').should('not.exist');
-    cy.axeCheck();
-  }
-
   checkClaimsContent() {
     cy.get('.claims-container-title').should(
       'contain',
@@ -135,7 +124,7 @@ class TrackClaimsPage {
     // Disabled until COVID-19 message removed
     // cy.get('.claim-completion-desc').should('contain', 'We estimated your claim would be completed by now');
     if (inProgress) {
-      cy.get('va-alert').should('contain', 'COVID-19 has had on');
+      cy.get('va-alert').should('contain', 'because of COVID-19');
     }
   }
 
@@ -171,7 +160,8 @@ class TrackClaimsPage {
         cy.get('li.list-one .claims-evidence', {
           timeout: Timeouts.slow,
         }).should('be.visible');
-        cy.get('.claims-evidence:nth-child(3) .claims-evidence-item').should(
+        cy.get('.claim-older-updates').click();
+        cy.get('#older-updates-1 li:nth-child(2) .claims-evidence-item').should(
           'contain',
           'Your claim is closed',
         );
@@ -213,7 +203,7 @@ class TrackClaimsPage {
   }
 
   verifyClaimEvidence(claimId, claimStatus) {
-    cy.get('.submit-additional-evidence .usa-alert').should('be.visible');
+    cy.get('.submit-additional-evidence va-alert').should('be.visible');
     cy.get(
       `.submitted-file-list-item:nth-child(${claimId}) .submission-status`,
     ).should('contain', `${claimStatus}`);
@@ -300,3 +290,4 @@ class TrackClaimsPage {
 }
 
 export default TrackClaimsPage;
+/* eslint-enable class-methods-use-this */

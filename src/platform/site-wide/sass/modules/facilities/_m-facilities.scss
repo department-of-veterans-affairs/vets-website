@@ -1,14 +1,5 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
 // Facilities Hub
-.vads-facility-main-cta {
-  border-left: 4px solid $color-link-default;
-  background-color: $color-primary-alt-lightest;
-  min-height: 40px;
-  padding: 8px 14px;
-  a {
-    text-decoration: none;
-  }
-}
 .vads-facility-hub-cta {
   border-top: 1px solid $color-primary-alt-light;
   height: 73px;

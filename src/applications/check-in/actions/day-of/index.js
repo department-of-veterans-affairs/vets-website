@@ -1,5 +1,14 @@
 import { updateForm } from '../../utils/navigation/day-of';
 
+export const RECORD_ANSWER = 'RECORD_ANSWER';
+
+export const recordAnswer = answer => {
+  return {
+    type: RECORD_ANSWER,
+    payload: answer,
+  };
+};
+
 export const RECEIVED_APPOINTMENT_DETAILS = 'RECEIVED_APPOINTMENT_DETAILS';
 
 export const receivedMultipleAppointmentDetails = payload => {

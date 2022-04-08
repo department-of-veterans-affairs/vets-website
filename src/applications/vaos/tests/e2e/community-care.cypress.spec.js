@@ -19,17 +19,26 @@ describe('VAOS community care flow', () => {
       'health-care/schedule-view-va-appointments/appointments/new-appointment/',
     );
 
+    // Wait until the app has been bootstraped. Could have used 'cy.wait' but
+    // this is considered an 'anti-pattern'. Tried to wait for the loading
+    // indicator but multiple indicators are displayed. So, we are waiting for
+    // the appointment cards to be displayed.
+    cy.findAllByRole('link', {
+      name: /Details for appointment/,
+      timeout: 6000,
+    }).should('exist');
+
     // we should re-direct to home page
     cy.get('h2', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('contain', 'Your appointments');
 
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
 
     cy.injectAxe();
     // Select primary care
-    cy.get('input[value="323"]')
+    cy.get('input[value="323"]', { timeout: Timeouts.slow })
       .should('exist')
       .then(checkbox => {
         cy.wrap(checkbox)
@@ -228,13 +237,22 @@ describe('VAOS community care flow', () => {
       'health-care/schedule-view-va-appointments/appointments/new-appointment/',
     );
 
+    // Wait until the app has been bootstraped. Could have used 'cy.wait' but
+    // this is considered an 'anti-pattern'. Tried to wait for the loading
+    // indicator but multiple indicators are displayed. So, we are waiting for
+    // the appointment cards to be displayed.
+    cy.findAllByRole('link', {
+      name: /Details for appointment/,
+      timeout: 6000,
+    }).should('exist');
+
     // we should re-direct to home page
     cy.get('h2', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('contain', 'Your appointments');
 
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
 
     cy.injectAxe();
     // Select primary care
@@ -460,7 +478,7 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.injectAxe();
 
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
   });
 
   it('should submit request successfully', () => {
@@ -694,6 +712,12 @@ describe('VAOS community care flow using VAOS service', () => {
       expect(request.requestedPeriods[0].start).to.equal(date);
       expect(request.practitioners).to.deep.eq([
         {
+          address: {
+            city: 'WASHINGTON',
+            line: ['1012 14TH ST NW STE 700'],
+            postalCode: '20005-3477',
+            state: 'DC',
+          },
           identifier: [
             {
               system: 'http://hl7.org/fhir/sid/us-npi',

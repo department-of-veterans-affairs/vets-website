@@ -109,7 +109,7 @@ export function CompareDrawer({
 
     setHeaderLabel(
       <>
-        Compare Institutions ({loaded.length} of 3)
+        Compare institutions ({loaded.length} of 3)
         <span className="sr-only" aria-live="polite" aria-atomic="true">
           {srActionMessage}
         </span>
@@ -257,7 +257,13 @@ export function CompareDrawer({
               onCancel={() => setPromptingFacilityCode(null)}
             />
           )}
-          <div className={compareHeaderClasses} onClick={expandOnClick}>
+          <div
+            className={compareHeaderClasses}
+            role="button"
+            tabIndex={0}
+            onClick={expandOnClick}
+            onKeyDown={expandOnClick}
+          >
             <button
               aria-expanded={open}
               aria-controls="compare-body"

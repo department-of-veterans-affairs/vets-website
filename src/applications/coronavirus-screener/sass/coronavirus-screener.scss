@@ -1,7 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .covid-screener {
-  *:not(.fas) {
+  ​ *:not(.fas) {
     font-family: Source Sans Pro, Helvetica Neue, Helvetica, Roboto, Arial,
       sans-serif;
     h1 {
@@ -23,6 +23,10 @@
     .covid-screener-500 {
       font-size: 500%;
     }
+  }
+  .notbold {
+    font-size: 0.8em;
+    font-weight: normal;
   }
   .covid-screener-results {
     h3 {

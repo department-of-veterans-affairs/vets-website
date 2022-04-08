@@ -1,9 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { VaModal } from 'web-components/react-bindings';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { scrollAndFocus } from 'platform/utilities/ui';
 
@@ -11,7 +9,7 @@ import {
   BOARD_APPEALS_URL,
   COVID_FAQ_URL,
   DECISION_REVIEWS_URL,
-  MAX_SELECTIONS,
+  MAX_LENGTH,
 } from '../constants';
 import DownloadLink from './DownloadLink';
 
@@ -100,7 +98,7 @@ const disabilitiesList = (
       To learn more about decision review options, please visit our{' '}
       <a href={DECISION_REVIEWS_URL}>decision reviews and appeals</a>{' '}
       information page. You can call us at{' '}
-      <Telephone contact={CONTACTS.VA_BENEFITS} /> or work with an accredited
+      <va-telephone contact={CONTACTS.VA_BENEFITS} /> or work with an accredited
       representative to{' '}
       <a href="/disability/get-help-filing-claim/">get help with your claim</a>.
     </p>
@@ -128,17 +126,17 @@ export const maxSelectedErrorMessage =
 // Not setting "visible" as a variable since we're controlling rendering at a
 // higher level
 export const MaxSelectionsAlert = ({ closeModal }) => (
-  <Modal
-    title={maxSelectedErrorMessage}
+  <VaModal
+    modalTitle={maxSelectedErrorMessage}
     status="warning"
-    onClose={closeModal}
+    onCloseEvent={closeModal}
     visible
   >
-    You are limited to {MAX_SELECTIONS} selected issues for each Higher-Level
-    Review request. If you would like to select more than {MAX_SELECTIONS},
-    please submit this request and create a new request for the remaining
-    issues.
-  </Modal>
+    You are limited to {MAX_LENGTH.SELECTIONS} selected issues for each
+    Higher-Level Review request. If you would like to select more than{' '}
+    {MAX_LENGTH.SELECTIONS}, please submit this request and create a new request
+    for the remaining issues.
+  </VaModal>
 );
 
 export const noneSelected = 'Please select at least one issue';

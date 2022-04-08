@@ -22,6 +22,10 @@ import {
   UNKNOWN_STATUS,
 } from '../utils/appeals-v2-helpers';
 
+// Uncomment this import out, along with the code in `getClaimDetail`, then load
+// http://localhost:3001/track-claims/your-claims/600219085/status
+// import mockDetails from '../tests/e2e/fixtures/mocks/claim-detail.json';
+
 // -------------------- v2 and v1 -------------
 export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
 // -------------------- v1 --------------------
@@ -318,8 +322,8 @@ export function getClaimDetail(id, router, poll = pollRequest) {
         /* * /
         return dispatch({
           type: SET_CLAIM_DETAIL,
-          claim: response.data,
-          meta: response.meta,
+          claim: mockDetails.data,
+          meta: mockDetails.meta,
         });
         /* */
         if (response.status !== 404 || !router) {
@@ -573,7 +577,7 @@ export function updateField(path, field) {
 
 export function cancelUpload() {
   return (dispatch, getState) => {
-    const uploader = getState().disability.status.uploads.uploader;
+    const { uploader } = getState().disability.status.uploads;
     recordEvent({
       event: 'claims-upload-cancel',
     });

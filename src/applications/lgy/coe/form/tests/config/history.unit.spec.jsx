@@ -67,7 +67,7 @@ describe('COE applicant service history', () => {
           data={{
             periodsOfService: [
               {
-                militaryBranch: 'Air Force',
+                serviceBranch: 'Air Force',
                 dateRange: {
                   from: '2017-02-02',
                   to: '2019-03-03',

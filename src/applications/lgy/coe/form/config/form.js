@@ -1,6 +1,8 @@
 import fullSchema from 'vets-json-schema/dist/26-1880-schema.json';
-import environment from 'platform/utilities/environment';
+
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -35,12 +37,22 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/v0/coe/submit_coe_claim`,
   transformForSubmit: customCOEsubmit,
   trackingPrefix: '26-1880-',
+  customText: {
+    appAction: 'your COE request',
+    appSavedSuccessfullyMessage: 'Your request has been saved.',
+    appType: 'request',
+    continueAppButtonText: 'Continue your request',
+    finishAppLaterMessage: 'Finish this request later',
+    startNewAppButtonText: 'Start a new request',
+    reviewPageTitle: 'Review your request',
+  },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '26-1880',
   version: 0,
   prefillEnabled: true,
   footerContent: FormFooter,
+  preSubmitInfo,
   getHelp: GetFormHelp,
   savedFormMessages: {
     notFound: 'Please start over to request benefits.',

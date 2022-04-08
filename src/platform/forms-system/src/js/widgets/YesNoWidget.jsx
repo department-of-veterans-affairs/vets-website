@@ -29,6 +29,7 @@ export default function YesNoWidget({
       <input
         type="radio"
         checked={value === values.Y}
+        autoComplete="off"
         id={`${id}Yes`}
         name={`${id}`}
         value="Y"
@@ -40,6 +41,7 @@ export default function YesNoWidget({
       <input
         type="radio"
         checked={value === values.N}
+        autoComplete="off"
         id={`${id}No`}
         name={`${id}`}
         value="N"

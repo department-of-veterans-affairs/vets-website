@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import { AddIssue } from '../../components/AddIssue';
 import { issueErrorMessages } from '../../content/addIssue';
-import { MAX_ISSUE_NAME_LENGTH, LAST_HLR_ITEM } from '../../constants';
+import { MAX_LENGTH, LAST_HLR_ITEM } from '../../constants';
 import { getDate } from '../../utils/dates';
 import { $, $$ } from '../../utils/ui';
 
@@ -77,7 +77,7 @@ describe('<AddIssue>', () => {
   });
 
   it('should show error when issue name is too long', () => {
-    const issue = 'abcdef '.repeat(MAX_ISSUE_NAME_LENGTH / 6);
+    const issue = 'abcdef '.repeat(MAX_LENGTH.ISSUE_NAME / 6);
     const { container } = render(
       setup({
         data: { contestedIssues, additionalIssues: [{ issue }] },

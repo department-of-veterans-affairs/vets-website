@@ -1,10 +1,9 @@
 import React from 'react';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import {
   BASE_URL,
   REVIEW_ENROLLMENTS_URL,
   REVIEW_ENROLLMENTS_URL_SEGMENT,
-  VERIFY_ENROLLMENTS_URL,
+  VERIFY_ENROLLMENTS_RELATIVE_URL,
   VERIFY_ENROLLMENTS_URL_SEGMENT,
 } from '../constants';
 
@@ -41,11 +40,11 @@ export default function EnrollmentVerificationBreadcrumbs() {
 
   if (page === VERIFY_ENROLLMENTS_URL_SEGMENT) {
     breadcrumbs.push(
-      <a href={VERIFY_ENROLLMENTS_URL} key="verify-enrollments">
+      <a href={VERIFY_ENROLLMENTS_RELATIVE_URL} key="verify-enrollments">
         Verify your enrollments
       </a>,
     );
   }
 
-  return <Breadcrumbs>{breadcrumbs}</Breadcrumbs>;
+  return <va-breadcrumbs>{breadcrumbs}</va-breadcrumbs>;
 }

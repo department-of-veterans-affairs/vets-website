@@ -10,12 +10,8 @@ import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/app
 import { selectUnreadCount } from '~/applications/personalization/dashboard/selectors';
 import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import { getMedicalCenterNameByID } from '~/platform/utilities/medical-centers/medical-centers';
 
 import {
-  selectCernerAppointmentsFacilities,
-  selectCernerMessagingFacilities,
-  selectCernerRxFacilities,
   selectIsCernerPatient,
   selectAvailableServices,
 } from '~/platform/user/selectors';
@@ -25,6 +21,113 @@ import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import Appointments from './Appointments';
 import IconCTALink from '../IconCTALink';
+import CTALink from '../CTALink';
+
+const HealthCareCTA = ({
+  hasInboxError,
+  unreadMessagesCount,
+  authenticatedWithSSOe,
+  hasUpcomingAppointment,
+  hasAppointmentsError,
+  shouldShowPrescriptions,
+}) => {
+  return (
+    <>
+      <h3 className="sr-only">Popular actions for Health Care</h3>
+      {hasInboxError ||
+        (unreadMessagesCount === 0 && (
+          <IconCTALink
+            text="Send a secure message to your health care team"
+            icon="comments"
+            newTab
+            href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+            onClick={() =>
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'View your messages',
+                'links-list-section-header': 'Health care',
+              })
+            }
+          />
+        ))}
+      {!hasUpcomingAppointment &&
+        !hasAppointmentsError && (
+          <IconCTALink
+            href="/health-care/schedule-view-va-appointments/appointments"
+            icon="calendar-check"
+            newTab
+            text="Schedule and manage your appointments"
+            onClick={() => {
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'Schedule and view your appointments',
+                'links-list-section-header': 'Health care',
+              });
+            }}
+          />
+        )}
+
+      {/* Prescriptions */}
+      {shouldShowPrescriptions ? (
+        <IconCTALink
+          href={mhvUrl(
+            authenticatedWithSSOe,
+            'web/myhealthevet/refill-prescriptions',
+          )}
+          icon="prescription-bottle"
+          newTab
+          text="Refill and track your prescriptions"
+          onClick={() => {
+            recordEvent({
+              event: 'nav-linkslist',
+              'links-list-header': 'Refill and track your prescriptions',
+              'links-list-section-header': 'Health care',
+            });
+          }}
+        />
+      ) : null}
+
+      {/* Request travel reimbursement */}
+      <IconCTALink
+        href="/health-care/get-reimbursed-for-travel-pay/"
+        icon="suitcase"
+        newTab
+        text="Request travel reimbursement"
+        onClick={() => {
+          recordEvent({
+            event: 'nav-linkslist',
+            'links-list-header': 'Request travel reimbursement"',
+            'links-list-section-header': 'Health care',
+          });
+        }}
+      />
+
+      {/* VA Medical records */}
+      <IconCTALink
+        href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
+        icon="file-medical"
+        newTab
+        text="Get your VA medical records"
+        onClick={() => {
+          recordEvent({
+            event: 'nav-linkslist',
+            'links-list-header': 'Get your VA medical records',
+            'links-list-section-header': 'Health care',
+          });
+        }}
+      />
+    </>
+  );
+};
+
+HealthCareCTA.propTypes = {
+  authenticatedWithSSOe: PropTypes.bool,
+  hasAppointmentsError: PropTypes.bool,
+  hasInboxError: PropTypes.bool,
+  hasUpcomingAppointment: PropTypes.bool,
+  shouldShowPrescriptions: PropTypes.bool,
+  unreadMessagesCount: PropTypes.number,
+};
 
 const HealthCare = ({
   appointments,
@@ -32,7 +135,7 @@ const HealthCare = ({
   shouldFetchUnreadMessages,
   fetchConfirmedFutureAppointments,
   isCernerPatient,
-  facilityNames,
+  facilityLocations,
   fetchUnreadMessages,
   unreadMessagesCount,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
@@ -46,7 +149,6 @@ const HealthCare = ({
   const start = new Date(nextAppointment?.startsAt);
   const today = new Date();
   const hasUpcomingAppointment = differenceInDays(start, today) < 30;
-  const hasFutureAppointments = Boolean(appointments?.length);
 
   useEffect(
     () => {
@@ -77,12 +179,12 @@ const HealthCare = ({
     );
   }
 
-  if (isCernerPatient && facilityNames?.length) {
+  if (isCernerPatient && facilityLocations?.length) {
     return (
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
           <CernerWidget
-            facilityNames={facilityNames}
+            facilityLocations={facilityLocations}
             authenticatedWithSSOe={authenticatedWithSSOe}
           />
         </div>
@@ -90,12 +192,13 @@ const HealthCare = ({
     );
   }
 
-  const messagesText =
-    shouldFetchUnreadMessages && !hasInboxError
-      ? `You have ${unreadMessagesCount} unread message${
-          unreadMessagesCount === 1 ? '' : 's'
-        }`
-      : 'Send a secure message to your health care team';
+  const shouldShowUnreadMessageAlert =
+    shouldFetchUnreadMessages && !hasInboxError && unreadMessagesCount > 0;
+
+  const shouldShowOnOneColumn =
+    !shouldShowUnreadMessageAlert &&
+    !hasUpcomingAppointment &&
+    !hasAppointmentsError;
 
   return (
     <div
@@ -105,138 +208,80 @@ const HealthCare = ({
       <h2>Health care</h2>
 
       <div className="vads-l-row">
-        {(hasUpcomingAppointment || hasAppointmentsError) && (
-          /* Appointments */
-          <DashboardWidgetWrapper>
+        <DashboardWidgetWrapper>
+          {/* Messages */}
+          {shouldShowUnreadMessageAlert ? (
+            <div
+              className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
+              data-testid="unread-messages-alert"
+            >
+              <va-alert status="warning" show-icon>
+                <div className="vads-u-margin-top--0">
+                  {`You have ${unreadMessagesCount} unread message${
+                    unreadMessagesCount === 1 ? '' : 's'
+                  }. `}
+                  <CTALink
+                    text="View your messages"
+                    newTab
+                    href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+                    onClick={() =>
+                      recordEvent({
+                        event: 'nav-linkslist',
+                        'links-list-header': 'View your messages',
+                        'links-list-section-header': 'Health care',
+                      })
+                    }
+                  />
+                </div>
+              </va-alert>
+            </div>
+          ) : null}
+          {(hasUpcomingAppointment || hasAppointmentsError) && (
+            /* Appointments */
             <Appointments
               appointments={appointments}
               hasError={hasAppointmentsError}
             />
-          </DashboardWidgetWrapper>
-        )}
-
-        <DashboardWidgetWrapper>
-          {!hasUpcomingAppointment &&
-            !hasAppointmentsError &&
-            hasFutureAppointments && (
-              <p>You have no appointments scheduled in the next 30 days.</p>
-            )}
-
-          <span className="sr-only">Health Care Links</span>
+          )}
           {!hasUpcomingAppointment &&
             !hasAppointmentsError && (
-              <IconCTALink
-                href="/health-care/schedule-view-va-appointments/appointments"
-                icon="calendar-check"
-                newTab
-                text="Schedule and manage your appointments"
-                onClick={() => {
-                  recordEvent({
-                    event: 'nav-linkslist',
-                    'links-list-header': 'Schedule and view your appointments',
-                    'links-list-section-header': 'Health care',
-                  });
-                }}
-              />
+              <p data-testid="no-appointment-message">
+                You have no appointments scheduled in the next 30 days.
+              </p>
             )}
-
-          {/* Messages */}
-          {shouldFetchUnreadMessages ? (
-            <IconCTALink
-              boldText={unreadMessagesCount > 0}
-              href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
-              icon="comments"
-              newTab
-              text={messagesText}
-              onClick={() => {
-                recordEvent({
-                  event: 'nav-linkslist',
-                  'links-list-header': 'You have n unread messages',
-                  'links-list-section-header': 'Health care',
-                });
-              }}
+          {shouldShowOnOneColumn ? (
+            <HealthCareCTA
+              hasAppointmentsError={hasAppointmentsError}
+              hasInboxError={hasInboxError}
+              authenticatedWithSSOe={authenticatedWithSSOe}
+              hasUpcomingAppointment={hasUpcomingAppointment}
+              shouldShowPrescriptions={shouldShowPrescriptions}
+              unreadMessagesCount={unreadMessagesCount}
             />
           ) : null}
-
-          {/* Prescriptions */}
-          {shouldShowPrescriptions ? (
-            <IconCTALink
-              href={mhvUrl(
-                authenticatedWithSSOe,
-                'web/myhealthevet/refill-prescriptions',
-              )}
-              icon="prescription-bottle"
-              newTab
-              text="Refill and track your prescriptions"
-              onClick={() => {
-                recordEvent({
-                  event: 'nav-linkslist',
-                  'links-list-header': 'Refill and track your prescriptions',
-                  'links-list-section-header': 'Health care',
-                });
-              }}
-            />
-          ) : null}
-
-          {/* Request travel reimbursement */}
-          <IconCTALink
-            href="/health-care/get-reimbursed-for-travel-pay/"
-            icon="suitcase"
-            newTab
-            text="Request travel reimbursement"
-            onClick={() => {
-              recordEvent({
-                event: 'nav-linkslist',
-                'links-list-header': 'Request travel reimbursement"',
-                'links-list-section-header': 'Health care',
-              });
-            }}
-          />
-
-          {/* VA Medical records */}
-          <IconCTALink
-            href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
-            icon="file-medical"
-            newTab
-            text="Get your VA medical records"
-            onClick={() => {
-              recordEvent({
-                event: 'nav-linkslist',
-                'links-list-header': 'Get your VA medical records',
-                'links-list-section-header': 'Health care',
-              });
-            }}
-          />
         </DashboardWidgetWrapper>
+        {!shouldShowOnOneColumn ? (
+          <DashboardWidgetWrapper>
+            <HealthCareCTA
+              hasAppointmentsError={hasAppointmentsError}
+              hasInboxError={hasInboxError}
+              authenticatedWithSSOe={authenticatedWithSSOe}
+              hasUpcomingAppointment={hasUpcomingAppointment}
+              shouldShowPrescriptions={shouldShowPrescriptions}
+              unreadMessagesCount={unreadMessagesCount}
+            />
+          </DashboardWidgetWrapper>
+        ) : null}
       </div>
     </div>
   );
 };
 
 const mapStateToProps = state => {
-  const cernerAppointmentFacilities = selectCernerAppointmentsFacilities(state);
-  const cernerMessagingFacilities = selectCernerMessagingFacilities(state);
-  const cernerPrescriptionFacilities = selectCernerRxFacilities(state);
-
-  const appointmentFacilityNames =
-    cernerAppointmentFacilities?.map(facility =>
-      getMedicalCenterNameByID(facility.facilityId),
-    ) || [];
-  const messagingFacilityNames =
-    cernerMessagingFacilities?.map(facility =>
-      getMedicalCenterNameByID(facility.facilityId),
-    ) || [];
-  const prescriptionFacilityNames =
-    cernerPrescriptionFacilities?.map(facility =>
-      getMedicalCenterNameByID(facility.facilityId),
-    ) || [];
-
-  const facilityNames = [
-    ...new Set([
-      ...appointmentFacilityNames,
-      ...messagingFacilityNames,
-      ...prescriptionFacilityNames,
-    ]),
+  const facilityLocations = [
+    'VA Spokane health care',
+    'VA Walla Walla health care',
+    'VA Central Ohio health care',
   ];
 
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
@@ -258,7 +303,7 @@ const mapStateToProps = state => {
   return {
     appointments: state.health?.appointments?.data,
     authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-    facilityNames,
+    facilityLocations,
     hasInboxError: hasUnreadMessagesCountError,
     hasAppointmentsError,
     isCernerPatient: selectIsCernerPatient(state),
@@ -273,7 +318,7 @@ const mapStateToProps = state => {
     // API requests have started.
     shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
     shouldShowPrescriptions,
-    unreadMessagesCount: selectUnreadCount(state).count,
+    unreadMessagesCount: selectUnreadCount(state).count || 0,
   };
 };
 
@@ -283,10 +328,31 @@ const mapDispatchToProps = {
 };
 
 HealthCare.propTypes = {
+  appointments: PropTypes.arrayOf(
+    PropTypes.shape({
+      additionalInfo: PropTypes.string,
+      facility: PropTypes.object,
+      id: PropTypes.string.isRequired,
+      isVideo: PropTypes.bool.isRequired,
+      providerName: PropTypes.string,
+      startsAt: PropTypes.string.isRequired,
+      timeZone: PropTypes.string,
+      type: PropTypes.string.isRequired,
+    }),
+  ),
   authenticatedWithSSOe: PropTypes.bool.isRequired,
-  isCernerPatient: PropTypes.bool,
-  facilityNames: PropTypes.array.isRequired,
   canAccessRx: PropTypes.bool.isRequired,
+  dataLoadingDisabled: PropTypes.bool,
+  facilityLocations: PropTypes.arrayOf(PropTypes.string),
+  fetchConfirmedFutureAppointments: PropTypes.bool,
+  fetchUnreadMessages: PropTypes.bool,
+  hasAppointmentsError: PropTypes.bool,
+  hasInboxError: PropTypes.bool,
+  isCernerPatient: PropTypes.bool,
+  shouldFetchUnreadMessages: PropTypes.bool,
+  // TODO: possibly remove this prop in favor of mocking the API in our unit tests
+  shouldShowLoadingIndicator: PropTypes.bool,
+  shouldShowPrescriptions: PropTypes.bool,
   unreadMessagesCount: PropTypes.number,
 };
 

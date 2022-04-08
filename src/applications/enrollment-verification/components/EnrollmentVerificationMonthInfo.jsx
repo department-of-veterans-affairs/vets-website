@@ -1,16 +1,18 @@
 import React from 'react';
+import { ENROLLMENTS_TYPE, formatNumericalDate } from '../helpers';
 
 export default function EnrollmentVerificationMonthInfo({ enrollments }) {
   const enrollmentInstitutions = enrollments?.map((enrollment, index) => {
     return (
       <li className="ev-month-info-institutions_institution" key={index}>
-        <p>
+        <p className="vads-u-margin-y--0">
           <strong>
-            {enrollment.startDate} &ndash; {enrollment.endDate}
+            {formatNumericalDate(enrollment.startDate)} &ndash;{' '}
+            {formatNumericalDate(enrollment.endDate)}
           </strong>{' '}
           at {enrollment.institution}
         </p>
-        <p>
+        <p className="vads-u-margin-y--0">
           <strong>Total credit hours:</strong> {enrollment.creditHours}
         </p>
       </li>
@@ -18,6 +20,12 @@ export default function EnrollmentVerificationMonthInfo({ enrollments }) {
   });
 
   return (
-    <ul className="ev-month-info-institutions">{enrollmentInstitutions}</ul>
+    <ul className="ev-month-info-institutions vads-u-margin-y--0 vads-u-padding-left--0">
+      {enrollmentInstitutions}
+    </ul>
   );
 }
+
+EnrollmentVerificationMonthInfo.propTypes = {
+  enrollments: ENROLLMENTS_TYPE,
+};

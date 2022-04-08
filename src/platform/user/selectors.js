@@ -1,3 +1,5 @@
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   CERNER_APPOINTMENTS_BLOCKLIST,
   CERNER_FACILITY_IDS,
@@ -82,6 +84,8 @@ export const selectVAPHomePhoneString = state =>
   createPhoneNumberStringFromData(selectVAPHomePhone(state));
 export const selectVAPResidentialAddress = state =>
   selectVAPContactInfo(state)?.residentialAddress;
+export const selectVAPMailingAddress = state =>
+  selectVAPContactInfo(state)?.mailingAddress;
 
 export function createIsServiceAvailableSelector(service) {
   return state => selectAvailableServices(state).includes(service);
@@ -124,3 +128,9 @@ export const selectCernerTestResultsFacilities = state =>
   selectPatientFacilities(state)?.filter(
     f => f.isCerner && f.usesCernerTestResults,
   );
+
+export const mhvTransitionEnabled = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.mhvToLogingovAccountTransition];
+
+export const mhvTransitionModalEnabled = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.mhvToLogingovAccountTransitionModal];

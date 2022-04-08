@@ -6,9 +6,7 @@ import { expect } from 'chai';
 import { waitFor, screen, fireEvent, act } from '@testing-library/react';
 import sinon from 'sinon';
 import * as Sentry from '@sentry/browser';
-import virtualAgentReducer from '../reducers/index';
 
-import Chatbox from '../components/chatbox/Chatbox';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { commonReducer } from 'platform/startup/store';
 import {
@@ -17,6 +15,8 @@ import {
 } from 'platform/testing/unit/helpers';
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
 import Main from 'platform/site-wide/user-nav/containers/Main';
+import Chatbox from '../components/chatbox/Chatbox';
+import virtualAgentReducer from '../reducers/index';
 import GreetUser from '../components/webchat/makeBotGreetUser';
 
 export const CHATBOT_ERROR_MESSAGE = /We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk/i;
@@ -218,7 +218,7 @@ describe('App', () => {
           () =>
             expect(
               wrapper.getByText(
-                'This virtual agent is still in development and cannot help with personal, medical or mental health emergencies. Thank you for understanding.',
+                'Our virtual agent can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.',
               ),
             ).to.exist,
         );
@@ -227,7 +227,7 @@ describe('App', () => {
           () =>
             expect(
               wrapper.getByText(
-                'We ask that you do not enter personal information that can be used to identify you.',
+                'Please don’t type any personal information such as your name, address, or anything else that can be used to identify you.',
               ),
             ).to.exist,
         );
@@ -685,7 +685,7 @@ describe('App', () => {
         () =>
           expect(
             wrapper.getByText(
-              'This virtual agent is still in development and cannot help with personal, medical or mental health emergencies. Thank you for understanding.',
+              'Our virtual agent can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.',
             ),
           ).to.exist,
       );

@@ -1,318 +1,325 @@
-/* eslint-disable react/prop-types */
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useCallback, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
+import { focusElement } from 'platform/utilities/ui';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
 import {
   fetchVerificationStatus,
+  updateVerificationStatus,
+  UPDATE_VERIFICATION_STATUS_MONTHS,
   VERIFICATION_STATUS_CORRECT,
   VERIFICATION_STATUS_INCORRECT,
 } from '../actions';
+
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
-import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 import ReviewEnrollmentVerifications from '../components/ReviewEnrollmentVerifications';
 import MonthReviewCard from '../components/MonthReviewCard';
-import { REVIEW_ENROLLMENTS_URL } from '../constants';
+import { REVIEW_ENROLLMENTS_RELATIVE_URL } from '../constants';
+import {
+  ENROLLMENT_VERIFICATION_TYPE,
+  formatReadableMonthYear,
+} from '../helpers';
+import ReviewSkippedAheadAlert from '../components/ReviewSkippedAheadAlert';
+import ReviewPausedInfo from '../components/ReviewPausedInfo';
+import VerifyEnrollments from '../components/VerifyEnrollments';
 
-export class VerifyEnrollmentsPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      continueClicked: false,
-      currentMonth: 0,
-      informationIncorrectMonth: undefined,
-      monthInformationCorrect: undefined,
-      unverifiedMonths: undefined,
-    };
-  }
+export const VerifyEnrollmentsPage = ({
+  editMonthVerification,
+  getVerificationStatus,
+  hasCheckedKeepAlive,
+  loggedIn,
+  verificationStatus,
+}) => {
+  const [continueClicked, setContinueClicked] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(0);
+  const [monthInformationCorrect, setMonthInformationCorrect] = useState();
+  const [editing, setEditing] = useState(false);
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  componentDidMount() {
-    const {
-      getVerificationStatus,
-      hasCheckedKeepAlive,
-      loggedIn,
-      verificationStatus,
-    } = this.props;
-    if (hasCheckedKeepAlive && !loggedIn) {
-      window.location.href = '/enrollment-history/';
-    }
-
-    if (!verificationStatus) {
-      getVerificationStatus();
-    }
-  }
-
-  // TODO
-  // if (!unverifiedMonths || !unverifiedMonths.length) {
-  // window.location.html = '';
-  // }
-
-  onEditMonth = m => {
-    const { unverifiedMonths } = this.state;
-
-    window.console.log('edit month');
-    const cm = unverifiedMonths.findIndex(um => um.month === m.month);
-    this.setState({ currentMonth: cm });
-  };
-
-  updateMonthInformationCorrect = event => {
-    this.setState({
-      continueClicked: false,
-      monthInformationCorrect: event.value,
-    });
-  };
-
-  onBackButtonClick = () => {
-    const { currentMonth } = this.state;
-
-    if (currentMonth === 0) {
-      window.location.href = REVIEW_ENROLLMENTS_URL;
-    }
-  };
-
-  onForwardButtonClick = () => {
-    const {
-      monthInformationCorrect,
-      unverifiedMonths,
-      currentMonth,
-    } = this.state;
-
-    if (!monthInformationCorrect) {
-      this.setState({ continueClicked: true });
-      return;
-    }
-
-    this.setState({
-      unverifiedMonths: unverifiedMonths.map(
-        (m, i) =>
-          i === currentMonth
-            ? {
-                ...m,
-                verificationStatus: monthInformationCorrect,
-              }
-            : m,
-      ),
-    });
-
-    if (monthInformationCorrect === VERIFICATION_STATUS_INCORRECT) {
-      this.setState({
-        informationIncorrectMonth: unverifiedMonths[currentMonth].month,
-      });
-    }
-
-    this.setState({
-      currentMonth: currentMonth + 1,
-      monthInformationCorrect: undefined,
-    });
-
-    // if () {
-    //   window.location.href = REVIEW_ENROLLMENTS_URL;
-    // }
-  };
-
-  render() {
-    const {
-      editMonthVerification,
-      // getVerificationStatus,
-      // hasCheckedKeepAlive,
-      // loggedIn,
-      verificationStatus,
-    } = this.props;
-
-    const {
-      continueClicked,
-      currentMonth,
-      informationIncorrectMonth,
-      monthInformationCorrect,
-      unverifiedMonths,
-    } = this.state;
-
-    let month;
-
-    if (unverifiedMonths) {
-      const editMonthIndex = editMonthVerification
-        ? unverifiedMonths.findIndex(
-            m => m.month === editMonthVerification.month,
-          )
-        : -1;
-
-      month =
-        editMonthIndex > -1
-          ? unverifiedMonths[editMonthIndex]
-          : unverifiedMonths[currentMonth];
-    } else if (verificationStatus?.months?.length && !unverifiedMonths) {
-      const _unverifiedMonths = verificationStatus.months
-        .filter(m => !m.verified)
-        .reverse();
-
-      const _informationIncorrectMonth = _unverifiedMonths.find(
-        m => m.verificationStatus === VERIFICATION_STATUS_INCORRECT,
-      );
-
-      let firstUnverifiedMonthIndex;
-      if (!_informationIncorrectMonth) {
-        firstUnverifiedMonthIndex = _unverifiedMonths.findIndex(
-          m => !m.verified,
-        );
-        month = _unverifiedMonths[firstUnverifiedMonthIndex];
+  useEffect(
+    () => {
+      if (hasCheckedKeepAlive && !loggedIn) {
+        history.push('/');
       }
 
-      this.setState({
-        currentMonth: firstUnverifiedMonthIndex || currentMonth,
-        unverifiedMonths: _unverifiedMonths,
-        informationIncorrectMonth: _informationIncorrectMonth,
+      if (!verificationStatus) {
+        getVerificationStatus();
+      }
+    },
+    [
+      getVerificationStatus,
+      hasCheckedKeepAlive,
+      history,
+      loggedIn,
+      verificationStatus,
+    ],
+  );
+
+  useEffect(() => {
+    focusElement('h1');
+  }, []);
+
+  const unverifiedMonths =
+    verificationStatus?.months &&
+    verificationStatus?.months.filter(m => !m.verified).reverse();
+  const month = unverifiedMonths && unverifiedMonths[currentMonth];
+  const informationIncorrectMonth = unverifiedMonths?.find(
+    m => m.verificationStatus === VERIFICATION_STATUS_INCORRECT,
+  );
+
+  if (editMonthVerification && verificationStatus?.months) {
+    setCurrentMonth(editMonthVerification);
+  }
+
+  const editMonth = useCallback(
+    m => {
+      const cm = unverifiedMonths.findIndex(um => um.month === m.month);
+      setEditing(true);
+      setCurrentMonth(cm);
+      setMonthInformationCorrect(unverifiedMonths[cm].verificationStatus);
+    },
+    [unverifiedMonths],
+  );
+
+  const onEditMonth = useCallback(
+    m => {
+      editMonth(m);
+      focusElement('h1');
+    },
+    [editMonth],
+  );
+
+  const updateMonthInformationCorrect = useCallback(
+    event => {
+      setContinueClicked(false);
+      setMonthInformationCorrect(event.value);
+    },
+    [setContinueClicked, setMonthInformationCorrect],
+  );
+
+  const clearVerificationStatuses = useCallback(
+    () => {
+      dispatch({
+        type: UPDATE_VERIFICATION_STATUS_MONTHS,
+        payload: verificationStatus?.months.map(m => {
+          return {
+            ...m,
+            verificationStatus: undefined,
+          };
+        }),
       });
-    }
+    },
+    [dispatch, verificationStatus?.months],
+  );
 
-    if (!verificationStatus || !unverifiedMonths) {
-      return <EnrollmentVerificationLoadingIndicator />;
-    }
+  const onBackButtonClick = useCallback(
+    () => {
+      // Clicking back from the first month
+      if (currentMonth === 0) {
+        clearVerificationStatuses();
+        history.push(REVIEW_ENROLLMENTS_RELATIVE_URL);
+        return;
+      }
 
-    if (informationIncorrectMonth || currentMonth === unverifiedMonths.length) {
-      return (
-        <EnrollmentVerificationPageWrapper>
-          <h1>Verify your enrollments</h1>
+      // Clicking back on the Review page when there is invalid month.
+      // In this scenario, we want to go to the invalid month.
+      if (informationIncorrectMonth && !editing) {
+        editMonth(informationIncorrectMonth);
+        return;
+      }
 
-          <va-segmented-progress-bar
-            current={currentMonth + 1}
-            total={unverifiedMonths.length + 1}
-          />
-
-          <h2>
-            Step {currentMonth + 1} of {unverifiedMonths.length + 1}: Review
-            verifications
-          </h2>
-
-          <ReviewEnrollmentVerifications
-            months={unverifiedMonths}
-            informationIncorrectMonth={informationIncorrectMonth}
-            onEditMonth={this.onEditMonth}
-          />
-        </EnrollmentVerificationPageWrapper>
+      setContinueClicked(false);
+      setCurrentMonth(currentMonth - 1);
+      setMonthInformationCorrect(
+        unverifiedMonths[currentMonth - 1].verificationStatus,
       );
-    }
+      focusElement('h1');
+    },
+    [
+      clearVerificationStatuses,
+      currentMonth,
+      editMonth,
+      editing,
+      history,
+      informationIncorrectMonth,
+      unverifiedMonths,
+    ],
+  );
 
+  const onForwardButtonClick = useCallback(
+    () => {
+      if (!verificationStatus) {
+        return;
+      }
+
+      if (!monthInformationCorrect) {
+        if (!continueClicked) {
+          setContinueClicked(true);
+        }
+
+        return;
+      }
+
+      setCurrentMonth(currentMonth + 1);
+      setMonthInformationCorrect(
+        currentMonth < unverifiedMonths.length - 1
+          ? unverifiedMonths[currentMonth + 1].verificationStatus
+          : undefined,
+      );
+
+      if (
+        editing &&
+        (monthInformationCorrect === VERIFICATION_STATUS_INCORRECT ||
+          currentMonth === unverifiedMonths.length - 1)
+      ) {
+        setEditing(false);
+      }
+
+      dispatch({
+        type: UPDATE_VERIFICATION_STATUS_MONTHS,
+        payload: verificationStatus?.months.map(m => {
+          if (m.month === unverifiedMonths[currentMonth].month) {
+            return {
+              ...m,
+              verificationStatus: monthInformationCorrect,
+            };
+          }
+
+          // If we're editing and a month is marked as having incorrect
+          // information, clear the verification status of the
+          // following months.
+          if (
+            m.month > unverifiedMonths[currentMonth].month &&
+            monthInformationCorrect === VERIFICATION_STATUS_INCORRECT
+          ) {
+            return {
+              ...m,
+              verificationStatus: undefined,
+            };
+          }
+
+          return m;
+        }),
+      });
+      focusElement('h1');
+    },
+    [
+      continueClicked,
+      currentMonth,
+      dispatch,
+      editing,
+      monthInformationCorrect,
+      unverifiedMonths,
+      verificationStatus,
+    ],
+  );
+
+  const onSubmit = useCallback(
+    () => {
+      updateVerificationStatus(verificationStatus);
+    },
+    [verificationStatus],
+  );
+
+  const onFinishVerifyingLater = useCallback(
+    event => {
+      event.preventDefault();
+      clearVerificationStatuses();
+      history.push(REVIEW_ENROLLMENTS_RELATIVE_URL);
+    },
+    [clearVerificationStatuses, history],
+  );
+
+  if (!verificationStatus || !unverifiedMonths) {
+    return <EnrollmentVerificationLoadingIndicator />;
+  }
+
+  if (
+    !editing &&
+    (informationIncorrectMonth || currentMonth === unverifiedMonths.length)
+  ) {
     return (
-      <EnrollmentVerificationPageWrapper>
-        <h1>Verify your enrollments</h1>
+      <VerifyEnrollments
+        currentProgressBarSegment={unverifiedMonths.length + 1}
+        forwardButtonText="Submit verification"
+        onBackButtonClick={onBackButtonClick}
+        onFinishVerifyingLater={onFinishVerifyingLater}
+        onForwardButtonClick={onSubmit}
+        progressTitlePostfix="Review verifications"
+        totalProgressBarSegments={unverifiedMonths.length + 1}
+      >
+        {informationIncorrectMonth &&
+        currentMonth !== unverifiedMonths.length ? (
+          <ReviewSkippedAheadAlert
+            incorrectMonth={informationIncorrectMonth.month}
+          />
+        ) : (
+          <></>
+        )}
+        {informationIncorrectMonth ? (
+          <ReviewPausedInfo onFinishVerifyingLater={onFinishVerifyingLater} />
+        ) : (
+          <></>
+        )}
 
-        <va-segmented-progress-bar
-          current={currentMonth + 1}
-          total={unverifiedMonths.length + 1}
+        <ReviewEnrollmentVerifications
+          months={unverifiedMonths}
+          informationIncorrectMonth={informationIncorrectMonth}
+          onEditMonth={onEditMonth}
         />
-
-        <h2>
-          Step {currentMonth + 1} of {unverifiedMonths.length + 1}: Verify{' '}
-          {month.month}
-        </h2>
-
-        {/* <va-alert
-          background-only
-          close-btn-aria-label="Close notification"
-          status="info"
-          visible
-        >
-          We skipped you ahead to the review step because you selected "No, this
-          information isn’t correct" for September 2021.
-        </va-alert> */}
-        {/* 
-        <br />
-
-        <va-alert
-          background-only
-          close-btn-aria-label="Close notification"
-          show-icon
-          status="warning"
-          visible
-        >
-          <va-additional-info trigger="If you submit this verification, we'll pause your monthly education payments">
-            <p>
-              If you submit this verification, we will pause your monthly payments
-              until your enrollment information is corrected.
-            </p>
-            <p>
-              You can update your enrollment information before you submit your
-              verification:
-            </p>
-            <ul>
-              <li>
-                Work with your School Certifying Official (SCO) to make sure they
-                have the correct enrollment information and can update the
-                information on file.
-              </li>
-              <li>
-                After your information is corrected, verify the corrected
-                information.
-              </li>
-            </ul>
-          </va-additional-info>
-        </va-alert> */}
-
-        <br />
-
-        <MonthReviewCard month={month} />
-
-        <RadioButtons
-          errorMessage={continueClicked ? 'Please select an option' : ''}
-          label="To the best of your knowledge, is this enrollment information correct?"
-          // onKeyDown={function noRefCheck() {}}
-          // onMouseDown={function noRefCheck() {}}
-          onValueChange={this.updateMonthInformationCorrect}
-          options={[
-            {
-              value: VERIFICATION_STATUS_CORRECT,
-              label: 'Yes, this information is correct',
-            },
-            {
-              value: VERIFICATION_STATUS_INCORRECT,
-              label: "No, this information isn't correct",
-            },
-          ]}
-          required
-          value={{ value: monthInformationCorrect }}
-        />
-
-        <va-alert
-          close-btn-aria-label="Close notification"
-          status="warning"
-          visible
-        >
-          If you select, "No this information isn’t correct,"{' '}
-          <strong>
-            we’ll pause your monthly payments until you update your enrollment
-            information.
-          </strong>{' '}
-          You also won’t be able to verify any future enrollments until you
-          update your information.
-        </va-alert>
-
-        <button
-          type="button"
-          className="usa-button-secondary"
-          id="1-continueButton"
-          onClick={this.onBackButtonClick}
-        >
-          <span className="button-icon" aria-hidden="true">
-            «&nbsp;
-          </span>
-          Back
-        </button>
-        <button
-          type="submit"
-          className="usa-button-primary"
-          id="2-continueButton"
-          onClick={this.onForwardButtonClick}
-        >
-          Continue
-          <span className="button-icon" aria-hidden="true">
-            &nbsp;»
-          </span>
-        </button>
-      </EnrollmentVerificationPageWrapper>
+      </VerifyEnrollments>
     );
   }
-}
+
+  return (
+    <VerifyEnrollments
+      currentProgressBarSegment={currentMonth + 1}
+      onBackButtonClick={onBackButtonClick}
+      onFinishVerifyingLater={onFinishVerifyingLater}
+      onForwardButtonClick={onForwardButtonClick}
+      progressTitlePostfix={`Verify ${formatReadableMonthYear(month.month)}`}
+      totalProgressBarSegments={unverifiedMonths.length + 1}
+    >
+      <MonthReviewCard month={month} />
+
+      <RadioButtons
+        errorMessage={continueClicked ? 'Please select an option' : ''}
+        label="To the best of your knowledge, is this enrollment information correct?"
+        onValueChange={updateMonthInformationCorrect}
+        options={[
+          {
+            value: VERIFICATION_STATUS_CORRECT,
+            label: 'Yes, this information is correct',
+          },
+          {
+            value: VERIFICATION_STATUS_INCORRECT,
+            label: 'No, this information isn’t correct',
+          },
+        ]}
+        required
+        value={{ value: monthInformationCorrect }}
+      />
+
+      <va-alert
+        class="vads-u-margin-top--2"
+        close-btn-aria-label="Close notification"
+        status="warning"
+        visible
+      >
+        If you select “<em>No, this information isn’t correct</em>”{' '}
+        <strong>
+          we will pause your monthly payment until your information is updated
+        </strong>
+        . Work with your School Certifying Official (SCO) to ensure your
+        enrollment information is updated with VA.
+      </va-alert>
+    </VerifyEnrollments>
+  );
+};
 
 const mapStateToProps = state => ({
   editMonthVerification: state?.data?.editMonthVerification,
@@ -329,3 +336,11 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(VerifyEnrollmentsPage);
+
+VerifyEnrollmentsPage.propTypes = {
+  editMonthVerification: PropTypes.number,
+  getVerificationStatus: PropTypes.func,
+  hasCheckedKeepAlive: PropTypes.bool,
+  loggedIn: PropTypes.bool,
+  verificationStatus: ENROLLMENT_VERIFICATION_TYPE,
+};

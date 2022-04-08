@@ -1,9 +1,10 @@
 import React, { useMemo } from 'react';
-import MarkdownRenderer from './markdownRenderer';
-import GreetUser from './makeBotGreetUser';
 import environment from 'platform/utilities/environment';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
+import recordEvent from 'platform/monitoring/record-event';
+import GreetUser from './makeBotGreetUser';
+import MarkdownRenderer from './markdownRenderer';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
@@ -62,13 +63,28 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     suggestedActionBorderWidth: 0,
   };
 
+  const handleTelemetry = event => {
+    const { name } = event;
+
+    if (name === 'submitSendBox') {
+      recordEvent({
+        event: 'cta-button-click',
+        'button-type': 'default',
+        'button-click-label': 'submitSendBox',
+        'button-background-color': 'gray',
+        time: new Date(),
+      });
+    }
+  };
+
   return (
-    <div data-testid={'webchat'} style={{ height: '550px', width: '100%' }}>
+    <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
         styleOptions={styleOptions}
         directLine={directLine}
         store={store}
         renderMarkdown={renderMarkdown}
+        onTelemetry={handleTelemetry}
       />
     </div>
   );

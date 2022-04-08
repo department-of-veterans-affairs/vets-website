@@ -39,8 +39,12 @@ You only need to follow these steps once:
 1. **Stop** your local **vets-api** app if it's running.
 1. In a **separate Terminal/shell** window, **navigate** to your **vets-website** project-root [if your're not there already], then **Launch** the app:
    `yarn run cy:my-testrail-helper`
-   NOTE: If this is your first launch, provide your TestRail Username, TestRail API Key when prompted.
-1. **Provide** your Cypress spec's **filename** when prompted.
+
+   - **If this is your first launch**, provide your TestRail Username, TestRail API Key when prompted.
+   - **If you've used this app before**, you can optionally rerun your previous spec by appending the **--rerun** command-flag:
+     `yarn run cy:my-testrail-helper --rerun`
+
+1. **Provide** your Cypress spec's **filename** if prompted.
    [No need to include path or cypress-extensions (`.cypress...`); just input the filename.]
 1. CTH will execute a child process to run your Cypress spec.
 
@@ -52,7 +56,10 @@ You only need to follow these steps once:
 
 For any questions about this app, contact VSA QA Engineer Tze-chiu Lei (Slack: @Tze Lei).
 
-IF this app's not working, [open a Bug in va.gov-team GitHub repo][va-gov-team-new-bug] and assign to Tze-chiu Lei (GitHub @tlei123).
+IF this app's not working, [open a Bug in va.gov-team GitHub repo][va-gov-team-new-bug]:
+
+- assign to Tze-chiu Lei (GitHub @tlei123).
+- add **vsa-qa** label.
 
 ---
 

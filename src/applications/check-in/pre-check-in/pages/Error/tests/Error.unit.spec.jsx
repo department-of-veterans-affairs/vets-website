@@ -4,6 +4,7 @@ import configureStore from 'redux-mock-store';
 
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { within } from '@testing-library/dom';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import Error from '../index';
 
@@ -42,7 +43,13 @@ describe('check-in', () => {
             <Error />
           </Provider>,
         );
-        expect(component.getByTestId('date-message')).to.exist;
+        const dateMessage = component.getByTestId('date-message');
+        expect(dateMessage).to.exist;
+        expect(
+          within(dateMessage).getByText(
+            'You can pre-check in online until 01/02/2022.',
+          ),
+        ).to.exist;
       });
     });
     describe('empty redux store', () => {
@@ -59,6 +66,14 @@ describe('check-in', () => {
         store = mockStore(initState);
       });
       it('renders error page', () => {
+        const component = render(
+          <Provider store={store}>
+            <Error />
+          </Provider>,
+        );
+        expect(component.getByTestId('error-message')).to.exist;
+      });
+      it('correctly renders pre-check-in expiration date', () => {
         const component = render(
           <Provider store={store}>
             <Error />

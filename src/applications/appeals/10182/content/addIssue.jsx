@@ -1,11 +1,13 @@
 import React from 'react';
 
-import { MAX_ISSUE_NAME_LENGTH } from '../constants';
+import { MAX_LENGTH } from '../constants';
 
 export const issueErrorMessages = {
   missingIssue: 'Please add the name of an issue',
   uniqueIssue: 'Please enter a unique condition name',
-  maxLength: `Please enter less than ${MAX_ISSUE_NAME_LENGTH} characters for this issue name`,
+  maxLength: `Please enter less than ${
+    MAX_LENGTH.ISSUE_NAME
+  } characters for this issue name`,
 
   invalidDate: 'Please provide a valid date',
   missingDecisionDate: 'Please enter a decision date',
@@ -30,11 +32,11 @@ export const issueNameLabel = (
 
 export const dateOfDecisionLabel = (
   <>
-    <strong>Date of decision</strong>
+    <strong>Date of notification of the decision</strong>
     <span className="form-required-span">(*Required)</span>
     <p className="vads-u-font-weight--normal label-description">
-      You can find the decision date on your decision notice (the letter you got
-      in the mail from us).
+      You can find the decision date on your decision notice (the letter you
+      received physically in the mail from us).
     </p>
   </>
 );

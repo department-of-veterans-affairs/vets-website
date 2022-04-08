@@ -65,9 +65,19 @@
     "widgetType": "manage-va-debt-cta"
   },
   {
+    "appName": "1095B Download",
+    "rootUrl": "/health-care/download-1095b/",
+    "widgetType": "download-1095b"
+  },
+  {
     "appName": "Pay Your VA Copay Bill",
     "rootUrl": "/health-care/pay-copay-bill",
     "widgetType": "medical-copays-cta"
+  },
+  {
+    "appName": "Download VA benefit letters",
+    "rootUrl": "/records/download-va-letters",
+    "widgetType": "letters-mobile-cta"
   },
   {
     "appName": "Post-9/11 GI Bill Statement Of Benefits",
@@ -89,5 +99,10 @@
     "appName": "Mock SIP Form",
     "rootUrl": "/mock-sip-form",
     "entryName": "mock-sip-form"
+  },
+  {
+    "appName": "Connected Devices",
+    "rootUrl": "/health-care/connected-devices",
+    "entryName": "dhp-consent-flow"
   }
 ]

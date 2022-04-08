@@ -5,46 +5,41 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import URLSearchParams from 'url-search-params';
 // Relative imports.
-import AutoSSO from './AutoSSO';
+import localStorage from 'platform/utilities/storage/localStorage';
 import FormSignInModal from 'platform/forms/save-in-progress/FormSignInModal';
-import SearchHelpSignIn from '../components/SearchHelpSignIn';
 import SessionTimeoutModal from 'platform/user/authentication/components/SessionTimeoutModal';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
+import AccountTransitionModal from 'platform/user/authentication/components/account-transition/TransitionModal';
+import AccountTransitionSuccessModal from 'platform/user/authentication/components/account-transition/TransitionSuccessModal';
 import { SAVE_STATUSES } from 'platform/forms/save-in-progress/actions';
 import { getBackendStatuses } from 'platform/monitoring/external-services/actions';
 import { hasSession } from 'platform/user/profile/utilities';
 import { initializeProfile } from 'platform/user/profile/actions';
 import { isInProgressPath } from 'platform/forms/helpers';
-import { isLoggedIn, isProfileLoading, isLOA3 } from 'platform/user/selectors';
-import { selectUserGreeting } from '../selectors';
+import { signInServiceName as signInServiceNameSelector } from 'platform/user/authentication/selectors';
+import {
+  isLoggedIn,
+  isProfileLoading,
+  isLOA3,
+  selectUser,
+  mhvTransitionEnabled,
+  mhvTransitionModalEnabled,
+} from 'platform/user/selectors';
 import {
   toggleFormSignInModal,
   toggleLoginModal,
+  toggleAccountTransitionModal,
+  toggleAccountTransitionSuccessModal,
   toggleSearchHelpUserMenu,
 } from 'platform/site-wide/user-nav/actions';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
+import { loginAppUrlRE } from 'platform/user/authentication/utilities';
+import { ACCOUNT_TRANSITION_DISMISSED } from 'platform/user/authentication/constants';
+import SearchHelpSignIn from '../components/SearchHelpSignIn';
+import AutoSSO from './AutoSSO';
+import { selectUserGreeting } from '../selectors';
 
 export class Main extends Component {
-  static propTypes = {
-    isHeaderV2: PropTypes.bool,
-    // From mapStateToProps.
-    currentlyLoggedIn: PropTypes.bool,
-    isLOA3: PropTypes.bool,
-    isProfileLoading: PropTypes.bool,
-    shouldConfirmLeavingForm: PropTypes.bool,
-    showFormSignInModal: PropTypes.bool,
-    showLoginModal: PropTypes.bool,
-    userGreeting: PropTypes.array,
-    utilitiesMenuIsOpen: PropTypes.object,
-    // From mapDispatchToProps.
-    getBackendStatuses: PropTypes.func.isRequired,
-    initializeProfile: PropTypes.func.isRequired,
-    toggleFormSignInModal: PropTypes.func.isRequired,
-    toggleLoginModal: PropTypes.func.isRequired,
-    toggleSearchHelpUserMenu: PropTypes.func.isRequired,
-    updateLoggedInStatus: PropTypes.func.isRequired,
-  };
-
   componentDidMount() {
     // Close any open modals when navigating to different routes within an app.
     window.addEventListener('popstate', this.closeModals);
@@ -60,9 +55,26 @@ export class Main extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.currentlyLoggedIn) {
+    const { currentlyLoggedIn, user } = this.props;
+    const { mhvTransitionEligible, mhvTransitionComplete } = user || {};
+    const accountTransitionPreviouslyDismissed = localStorage.getItem(
+      ACCOUNT_TRANSITION_DISMISSED,
+    );
+
+    if (currentlyLoggedIn) {
       this.executeRedirect();
       this.closeModals();
+
+      if (mhvTransitionEligible && !accountTransitionPreviouslyDismissed) {
+        this.props.toggleAccountTransitionModal(true);
+      }
+
+      if (
+        this.props.signInServiceName === 'logingov' &&
+        mhvTransitionComplete
+      ) {
+        this.props.toggleAccountTransitionSuccessModal(true);
+      }
     }
   }
 
@@ -157,6 +169,15 @@ export class Main extends Component {
     this.props.toggleLoginModal(false);
   };
 
+  closeAccountTransitionModal = () => {
+    this.props.toggleAccountTransitionModal(false);
+    localStorage.setItem(ACCOUNT_TRANSITION_DISMISSED, true);
+  };
+
+  closeAccountTransitionSuccessModal = () => {
+    this.props.toggleAccountTransitionSuccessModal(false);
+  };
+
   closeModals = () => {
     if (this.props.showFormSignInModal) this.closeFormSignInModal();
     if (this.props.showLoginModal) this.closeLoginModal();
@@ -181,6 +202,11 @@ export class Main extends Component {
   };
 
   render() {
+    const { mhvTransition, mhvTransitionModal } = this.props;
+    // checks if on Unified Sign in Page
+    if (loginAppUrlRE.test(window.location.pathname)) {
+      return null;
+    }
     return (
       <div className="profile-nav-container">
         <SearchHelpSignIn
@@ -192,6 +218,7 @@ export class Main extends Component {
           onSignInSignUp={this.signInSignUp}
           toggleMenu={this.props.toggleSearchHelpUserMenu}
           userGreeting={this.props.userGreeting}
+          customText={this.props.customText}
         />
         <FormSignInModal
           onClose={this.closeFormSignInModal}
@@ -201,6 +228,18 @@ export class Main extends Component {
         <SignInModal
           onClose={this.closeLoginModal}
           visible={this.props.showLoginModal}
+        />
+        {mhvTransition &&
+          mhvTransitionModal && (
+            <AccountTransitionModal
+              onClose={this.closeAccountTransitionModal}
+              visible={this.props.showAccountTransitionModal}
+              history={history}
+            />
+          )}
+        <AccountTransitionSuccessModal
+          onClose={this.closeAccountTransitionSuccessModal}
+          visible={this.props.showAccountTransitionSuccessModal}
         />
         <SessionTimeoutModal
           isLoggedIn={this.props.currentlyLoggedIn}
@@ -232,7 +271,11 @@ export const mapStateToProps = state => {
     currentlyLoggedIn: isLoggedIn(state),
     isLOA3: isLOA3(state),
     isProfileLoading: isProfileLoading(state),
+    mhvTransition: mhvTransitionEnabled(state),
+    mhvTransitionModal: mhvTransitionModalEnabled(state),
+    signInServiceName: signInServiceNameSelector(state),
     shouldConfirmLeavingForm,
+    user: selectUser(state),
     userGreeting: selectUserGreeting(state),
     ...state.navigation,
   };
@@ -243,6 +286,8 @@ const mapDispatchToProps = {
   initializeProfile,
   toggleFormSignInModal,
   toggleLoginModal,
+  toggleAccountTransitionModal,
+  toggleAccountTransitionSuccessModal,
   toggleSearchHelpUserMenu,
   updateLoggedInStatus,
 };
@@ -251,3 +296,30 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(Main);
+
+Main.propTypes = {
+  // From mapDispatchToProps.
+  getBackendStatuses: PropTypes.func.isRequired,
+  initializeProfile: PropTypes.func.isRequired,
+  toggleAccountTransitionModal: PropTypes.func.isRequired,
+  toggleAccountTransitionSuccessModal: PropTypes.func.isRequired,
+  toggleFormSignInModal: PropTypes.func.isRequired,
+  toggleLoginModal: PropTypes.func.isRequired,
+  toggleSearchHelpUserMenu: PropTypes.func.isRequired,
+  updateLoggedInStatus: PropTypes.func.isRequired,
+  // From mapStateToProps.
+  currentlyLoggedIn: PropTypes.bool,
+  isHeaderV2: PropTypes.bool,
+  isLOA3: PropTypes.bool,
+  isProfileLoading: PropTypes.bool,
+  mhvTransition: PropTypes.bool,
+  mhvTransitionModal: PropTypes.bool,
+  shouldConfirmLeavingForm: PropTypes.bool,
+  showAccountTransitionModal: PropTypes.bool,
+  showAccountTransitionSuccessModal: PropTypes.bool,
+  showFormSignInModal: PropTypes.bool,
+  showLoginModal: PropTypes.bool,
+  userGreeting: PropTypes.array,
+  utilitiesMenuIsOpen: PropTypes.object,
+  customText: PropTypes.string,
+};

@@ -9,6 +9,7 @@
     - [Project URLS](#project-urls)
     - [What version of the api are we using?](#what-version-of-the-api-are-we-using)
     - [How to run locally](#how-to-run-locally)
+    - [Enable local type checking with jsconfig (Optional)](#enable-local-type-checking-with-jsconfig-optional)
     - [Run locally for a BE developer](#run-locally-for-a-be-developer)
       - [Useful Commands](#useful-commands)
       - [Current Feature toggles to enable](#current-feature-toggles-to-enable)
@@ -141,6 +142,14 @@ Though we have the HOC, its now considered best practice to query redux using th
   - when to sunset: when we expand to multiple facilities and address the edge cases around it
 - `check_in_experience_editing_day_of_enabled` : Enables or disabled editing the demographics information for the day of
   - when to sunset: once we have successfully tested this feature in production with users
+- `check_in_experience_translation_day_of_enabled` : Enables or disables translation to Spanish
+  - when to sunset: once we have successfully tested this feature in production with users
+- `check_in_experience_day_of_demographics_flags_enabled` : Enables the capture of user responses to demographics up-to-date questions (demographics, emergency contact, and next of kin)
+  - when to sunset: once we have successfully tested this feature in production with users
+- `check_in_experience_lorota_security_updates_enabled` : Enables or disables DOB log in instead of last 4 of SSN
+  - when to sunset: once we have successfully tested this feature in production with users and the backend has fully switched over
+- `check_in_experience_edit_messaging_enabled` : Enables or disables edit messaging.
+  - when to sunset: once we have successfully tested this feature in production with users and the backend has fully switched over
 
 ### How to test this?
 

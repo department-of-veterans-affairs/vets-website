@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import propTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { api } from '../../../api';
@@ -25,11 +26,16 @@ import { APP_NAMES } from '../../../utils/appConstants';
 
 const Index = props => {
   const { router } = props;
+  const { t } = useTranslation();
 
   const { goToErrorPage, jumpToPage } = useFormRouting(router);
-  const { clearCurrentSession, setCurrentToken } = useSessionStorage();
+  const {
+    clearCurrentSession,
+    setPreCheckinComplete,
+    setCurrentToken,
+  } = useSessionStorage();
 
-  const [loadMessage] = useState('Finding your appointment information');
+  const [loadMessage] = useState(t('finding-your-appointment-information'));
 
   const dispatch = useDispatch();
   const initForm = useCallback(
@@ -83,6 +89,7 @@ const Index = props => {
               goToErrorPage();
             } else {
               setCurrentToken(window, token);
+              setPreCheckinComplete(window, false);
               const pages = createForm();
               const firstPage = pages[0];
               initForm(pages, firstPage);
@@ -109,6 +116,7 @@ const Index = props => {
       jumpToPage,
       router,
       setCurrentToken,
+      setPreCheckinComplete,
       setSession,
     ],
   );

@@ -548,7 +548,7 @@ export function Modals({ hideModal, modals, profile }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            "About this Tool"
+            "About this tool"
           </a>{' '}
           page.
         </p>
@@ -627,7 +627,7 @@ export function Modals({ hideModal, modals, profile }) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              About This Tool
+              About this tool
             </a>
             " page.
           </p>
@@ -980,7 +980,7 @@ export function Modals({ hideModal, modals, profile }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            visit the About this Tool page
+            visit the About this tool page
           </a>
           .
         </p>

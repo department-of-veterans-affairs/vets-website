@@ -531,6 +531,11 @@ const getDerivedValues = createSelector(
         !useBeneficiaryLocationRate) ||
       inputs.classesOutsideUS;
 
+    const isUSSchool = facilityCode => {
+      const digits = parseInt(facilityCode[5] + facilityCode[6], 10);
+      return digits < 52 || (digits > 60 && digits < 67);
+    };
+
     // Calculate Housing Allowance for Term #1 - getHousingAllowTerm1
     if (
       isOJT &&
@@ -577,6 +582,11 @@ const getDerivedValues = createSelector(
       } else {
         housingAllowTerm1 = ropOjt * (tier * bah + kickerBenefit);
       }
+    } else if (
+      onlineClasses === 'yes' &&
+      !isUSSchool(institution.facilityCode)
+    ) {
+      housingAllowTerm1 = 0;
     } else if (onlineClasses === 'yes') {
       housingAllowTerm1 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
@@ -633,6 +643,11 @@ const getDerivedValues = createSelector(
     ) {
       housingAllowTerm2 = rop * kickerBenefit * termLength;
     } else if (isFlightOrCorrespondence) {
+      housingAllowTerm2 = 0;
+    } else if (
+      onlineClasses === 'yes' &&
+      !isUSSchool(institution.facilityCode)
+    ) {
       housingAllowTerm2 = 0;
     } else if (onlineClasses === 'yes') {
       housingAllowTerm2 =
@@ -692,6 +707,11 @@ const getDerivedValues = createSelector(
     ) {
       housingAllowTerm3 = rop * kickerBenefit * termLength;
     } else if (isFlightOrCorrespondence) {
+      housingAllowTerm3 = 0;
+    } else if (
+      onlineClasses === 'yes' &&
+      !isUSSchool(institution.facilityCode)
+    ) {
       housingAllowTerm3 = 0;
     } else if (onlineClasses === 'yes') {
       housingAllowTerm3 =
