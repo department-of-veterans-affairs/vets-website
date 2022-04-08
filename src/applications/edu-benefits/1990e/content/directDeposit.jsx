@@ -160,7 +160,7 @@ export default function createDirectDepositPage() {
             'ui:title': 'I don’t want to use direct deposit',
             'ui:options': {
               hideOnReviewIfFalse: true,
-              classNames: 'vads-u-margin-top--2',
+              widgetClassNames: 'vads-u-margin-top--4',
             },
           },
           'view:bankInfoNote': {
