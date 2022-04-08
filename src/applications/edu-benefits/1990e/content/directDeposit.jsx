@@ -145,7 +145,7 @@ export default function createDirectDepositPage() {
             },
           },
           routingNumber: {
-            'ui:title': 'Bank routing number',
+            'ui:title': "Bank's 9-digit routing number",
             'ui:validations': [validateRoutingNumber],
             'ui:errorMessages': {
               pattern: 'Please enter a valid 9 digit routing number',
