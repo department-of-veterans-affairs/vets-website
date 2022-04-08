@@ -192,4 +192,13 @@ describe('Connect Devices Container', () => {
     });
     expect(getByTestId('failure-alert')).to.exist;
   });
+
+  it('should display a failure alert when an error occurs with api', async () => {
+    HelpersModule.authorizeWithVendor.returns('');
+    const { getByTestId } = render(<ConnectedDevicesContainer />);
+    await act(async () => {
+      fireEvent.click(getByTestId('Fitbit-connect-link'));
+    });
+    expect(getByTestId('failure-alert')).to.exist;
+  });
 });
