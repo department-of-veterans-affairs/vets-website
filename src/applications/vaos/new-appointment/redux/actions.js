@@ -610,7 +610,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           // for the correct day.
           .map(slot => {
             if (featureVAOSServiceVAAppointments) {
-              let time = moment(slot.start);
+              let time = moment(slot.start).format('YYYY-MM-DDTHH:mm:ss');
               if (slot.start.endsWith('Z') && timezone) {
                 // The moment.tz() function will parse a given time with offset
                 // and convert it to the time zone provided.
