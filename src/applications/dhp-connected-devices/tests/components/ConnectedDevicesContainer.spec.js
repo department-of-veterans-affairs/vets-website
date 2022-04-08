@@ -10,11 +10,15 @@ import { ConnectedDevicesContainer } from '../../components/ConnectedDevicesCont
 
 describe('Connect Devices Container', () => {
   const successUrl = {
-    url: `${environment.API_URL}/dhp_connected_devices/?fitbit=success#_=_`,
+    url: `${
+      environment.BASE_URL
+    }/health-care/connected-devices/?fitbit=success#_=_`,
     //  this needs to be /health-care/connected-devices/?fitbit...
   };
   const failureURl = {
-    url: `${environment.API_URL}/dhp_connected_devices/?fitbit=error#_=_`,
+    url: `${
+      environment.BASE_URL
+    }/health-care/connected-devices/?fitbit=error#_=_`,
   };
   beforeEach(() => {
     sinon.stub(HelpersModule, 'authorizeWithVendor');
