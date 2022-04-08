@@ -9,7 +9,11 @@ const sessions = require('./mocks/v2/sessions/index');
 const featureToggles = require('./mocks/v2/feature-toggles/index');
 
 let hasBeenValidated = false;
-const mockUser = Object.freeze({ lastName: 'Smith', last4: '1234' });
+const mockUser = Object.freeze({
+  lastName: 'Smith',
+  last4: '1234',
+  dob: '1/1/1976',
+});
 
 const responses = {
   ...commonResponses,
@@ -17,6 +21,7 @@ const responses = {
     checkInExperienceEnabled: true,
     preCheckInEnabled: true,
     checkInExperienceUpdateInformationPageEnabled: false,
+    checkInExperienceLorotaSecurityUpdatesEnabled: true,
   }),
   // v2
   'GET /check_in/v2/sessions/:uuid': (req, res) => {
@@ -74,6 +79,20 @@ const responses = {
       return res.status(400).json(checkInData.patch.createMockFailedResponse());
     }
     return res.json(checkInData.post.createMockSuccessResponse({}));
+  },
+  // v3
+  'POST /check_in/v3/sessions': (req, res) => {
+    const { lastName, dob } = req.body?.session || {};
+    if (!lastName) {
+      return res.status(400).json(sessions.post.createMockFailedResponse());
+    }
+    if (dob !== mockUser.dob || lastName !== mockUser.lastName) {
+      return res
+        .status(400)
+        .json(sessions.post.createMockValidateErrorResponse());
+    }
+    hasBeenValidated = true;
+    return res.json(sessions.post.createMockSuccessResponse(req.body));
   },
 };
 
