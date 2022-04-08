@@ -143,7 +143,7 @@ const uiSchema = {
   },
 };
 
-export default function createDirectDepositPage() {
+export function createDirectDepositPage() {
   const bankAccountProperties = {
     type: 'object',
     properties: {
