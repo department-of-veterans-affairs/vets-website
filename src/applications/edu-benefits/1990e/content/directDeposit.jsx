@@ -79,8 +79,11 @@ function validateRoutingNumber(
   }
 }
 
-const usingDirectDeposit = formData =>
-  !formData?.bankAccount.declineDirectDeposit;
+const usingDirectDeposit = formData => {
+  const isDeclining = formData?.bankAccount?.declineDirectDeposit;
+  if (isDeclining === undefined || isDeclining === null) return true;
+  return !isDeclining;
+};
 
 export default function createDirectDepositPage() {
   const bankAccountProperties = {
@@ -120,57 +123,60 @@ export default function createDirectDepositPage() {
     uiSchema: {
       'ui:title': 'Direct deposit',
       'ui:description': directDepositDescription,
-      bankAccount: merge({}, full1990eSchema, {
-        accountType: {
-          'ui:title': 'Account type',
-          'ui:widget': 'radio',
-          'ui:options': {
-            labels: {
-              checking: 'Checking',
-              savings: 'Savings',
+      bankAccount: merge(
+        {},
+        {
+          accountType: {
+            'ui:title': 'Account type',
+            'ui:widget': 'radio',
+            'ui:options': {
+              labels: {
+                checking: 'Checking',
+                savings: 'Savings',
+              },
+              hideIf: formData => !usingDirectDeposit(formData),
             },
-            hideIf: formData => !usingDirectDeposit(formData),
+            'ui:required': formData => usingDirectDeposit(formData),
           },
-          'ui:required': formData => usingDirectDeposit(formData),
+          accountNumber: {
+            'ui:title': 'Bank account number',
+            'ui:required': formData => usingDirectDeposit(formData),
+            'ui:options': {
+              hideIf: formData => !usingDirectDeposit(formData),
+            },
+          },
+          routingNumber: {
+            'ui:title': 'Bank routing number',
+            'ui:validations': [validateRoutingNumber],
+            'ui:errorMessages': {
+              pattern: 'Please enter a valid 9 digit routing number',
+            },
+            'ui:required': formData => usingDirectDeposit(formData),
+            'ui:options': {
+              hideIf: formData => !usingDirectDeposit(formData),
+            },
+          },
+          declineDirectDeposit: {
+            'ui:title': 'I don’t want to use direct deposit',
+            'ui:options': {
+              hideOnReviewIfFalse: true,
+              classNames: 'vads-u-margin-top--2',
+            },
+          },
+          'view:bankInfoNote': {
+            'ui:description': bankInfoNote,
+            'ui:options': {
+              hideOnReview: true,
+            },
+          },
+          'view:bankInfoHelpText': {
+            'ui:description': bankInfoHelpText,
+            'ui:options': {
+              hideOnReview: true,
+            },
+          },
         },
-        accountNumber: {
-          'ui:title': 'Bank account number',
-          'ui:required': formData => usingDirectDeposit(formData),
-          'ui:options': {
-            hideIf: formData => !usingDirectDeposit(formData),
-          },
-        },
-        routingNumber: {
-          'ui:title': 'Bank routing number',
-          'ui:validations': [validateRoutingNumber],
-          'ui:errorMessages': {
-            pattern: 'Please enter a valid nine digit routing number',
-          },
-          'ui:required': formData => usingDirectDeposit(formData),
-          'ui:options': {
-            hideIf: formData => !usingDirectDeposit(formData),
-          },
-        },
-        declineDirectDeposit: {
-          'ui:title': 'I don’t want to use direct deposit',
-          'ui:options': {
-            hideOnReviewIfFalse: true,
-            classNames: 'vads-u-margin-top--4',
-          },
-        },
-        'view:bankInfoNote': {
-          'ui:description': bankInfoNote,
-          'ui:options': {
-            hideOnReview: true,
-          },
-        },
-        'view:bankInfoHelpText': {
-          'ui:description': bankInfoHelpText,
-          'ui:options': {
-            hideOnReview: true,
-          },
-        },
-      }),
+      ),
     },
     schema: {
       type: 'object',
