@@ -1,7 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { VaTextInput } from 'web-components/react-bindings';
+import Date from '@department-of-veterans-affairs/component-library/Date';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 export default function ValidateDisplay({
   header = '',
@@ -10,11 +13,16 @@ export default function ValidateDisplay({
   isLoading,
   lastNameInput: { lastNameErrorMessage, setLastName, lastName } = {},
   last4Input: { last4ErrorMessage, setLast4Ssn, last4Ssn } = {},
+  dobInput: { dobErrorMessage, setDob, dob } = {},
   Footer,
   showValidateError,
   validateErrorMessage,
 }) {
   const { t } = useTranslation();
+
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+
   const updateField = useCallback(
     event => {
       switch (event.target.name) {
@@ -30,6 +38,13 @@ export default function ValidateDisplay({
     },
     [setLastName, setLast4Ssn],
   );
+  const updateDob = useCallback(
+    event => {
+      setDob(event);
+    },
+    [setDob],
+  );
+
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
       <h1>{header || t('check-in-at-va')}</h1>
@@ -63,17 +78,31 @@ export default function ValidateDisplay({
           value={lastName}
           data-testid="last-name-input"
         />
-        <VaTextInput
-          error={last4ErrorMessage}
-          inputmode="numeric"
-          label={t('last-4-digits-of-your-social-security-number')}
-          maxlength="4"
-          onInput={updateField}
-          name="last-4-ssn"
-          required
-          value={last4Ssn}
-          data-testid="last-4-input"
-        />
+        {isLorotaSecurityUpdatesEnabled ? (
+          <Date
+            label={t('date-of-birth')}
+            onValueChange={updateDob}
+            name="date-of-birth"
+            date={dob}
+            required
+            validation={{
+              valid: !dobErrorMessage,
+              message: dobErrorMessage,
+            }}
+          />
+        ) : (
+          <VaTextInput
+            error={last4ErrorMessage}
+            inputmode="numeric"
+            label={t('last-4-digits-of-your-social-security-number')}
+            maxlength="4"
+            onInput={updateField}
+            name="last-4-ssn"
+            required
+            value={last4Ssn}
+            data-testid="last-4-input"
+          />
+        )}
       </form>
       <button
         onClick={validateHandler}
@@ -96,6 +125,7 @@ export default function ValidateDisplay({
 }
 
 ValidateDisplay.propTypes = {
+  dpbInput: propTypes.object,
   Footer: propTypes.elementType,
   header: propTypes.string,
   isLoading: propTypes.bool,

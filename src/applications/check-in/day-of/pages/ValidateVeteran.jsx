@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { focusElement } from 'platform/utilities/ui';
+import isAfter from 'date-fns/isAfter';
 
 import { api } from '../../api';
 import { createSetSession } from '../../actions/authentication';
@@ -17,6 +18,7 @@ import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 import { makeSelectCurrentContext } from '../../selectors';
 
 import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 
 const ValidateVeteran = props => {
   const { router } = props;
@@ -36,11 +38,31 @@ const ValidateVeteran = props => {
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
 
+  const defaultDob = Object.freeze({
+    day: {
+      value: 1,
+      dirty: false,
+    },
+    month: {
+      value: 1,
+      dirty: false,
+    },
+    year: {
+      value: '1976',
+      dirty: false,
+    },
+  });
+  const [dob, setDob] = useState(defaultDob);
+
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
+  const [dobErrorMessage, setDobErrorMessage] = useState();
 
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
+
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
 
   const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
     false,
@@ -48,11 +70,59 @@ const ValidateVeteran = props => {
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
 
+  const validateRequest = async (postBody, apiVersion) => {
+    setIsLoading(true);
+    try {
+      const resp = await api[apiVersion].postSession(postBody);
+      if (resp.errors || resp.error) {
+        setIsLoading(false);
+        goToErrorPage();
+      } else {
+        setSession(token, resp.permissions);
+        goToNextPage();
+      }
+    } catch (e) {
+      setIsLoading(false);
+      if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
+        goToErrorPage();
+      } else {
+        if (!showValidateError) {
+          setShowValidateError(true);
+        }
+        incrementValidateAttempts(window);
+      }
+    }
+  };
+
   const onClick = useCallback(
     async () => {
       setLastNameErrorMessage();
       setLast4ErrorMessage();
-      if (!lastName || !last4Ssn) {
+      setDobErrorMessage();
+      if (isLorotaSecurityUpdatesEnabled) {
+        if (!lastName || isAfter(new Date(dob.year.value), new Date())) {
+          if (!lastName) {
+            setLastNameErrorMessage(t('please-enter-your-last-name'));
+          }
+          if (isAfter(new Date(dob.year.value), new Date())) {
+            setDobErrorMessage(
+              t('your-date-of-birth-can-not-be-in-the-future'),
+            );
+            setDob(prevState => ({
+              year: { ...prevState.year, dirty: true },
+              day: { ...prevState.day, dirty: true },
+              month: { ...prevState.month, dirty: true },
+            }));
+          }
+        } else {
+          const postBody = {
+            token,
+            dob: `${dob.month.value}/${dob.day.value}/${dob.year.value}`,
+            lastName,
+          };
+          validateRequest(postBody, 'v3');
+        }
+      } else if (!lastName || !last4Ssn) {
         if (!lastName) {
           setLastNameErrorMessage(t('please-enter-your-last-name'));
         }
@@ -63,31 +133,12 @@ const ValidateVeteran = props => {
         }
       } else {
         // API call
-        setIsLoading(true);
-        try {
-          const resp = await api.v2.postSession({
-            token,
-            last4: last4Ssn,
-            lastName,
-          });
-          if (resp.errors || resp.error) {
-            setIsLoading(false);
-            goToErrorPage();
-          } else {
-            setSession(token, resp.permissions);
-            goToNextPage();
-          }
-        } catch (e) {
-          setIsLoading(false);
-          if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
-            goToErrorPage();
-          } else {
-            if (!showValidateError) {
-              setShowValidateError(true);
-            }
-            incrementValidateAttempts(window);
-          }
-        }
+        const postBody = {
+          token,
+          last4: last4Ssn,
+          lastName,
+        };
+        validateRequest(postBody, 'v2');
       }
     },
     [
@@ -95,11 +146,14 @@ const ValidateVeteran = props => {
       goToNextPage,
       last4Ssn,
       lastName,
+      dob,
       setSession,
       token,
       incrementValidateAttempts,
       isMaxValidateAttempts,
       showValidateError,
+      isLorotaSecurityUpdatesEnabled,
+      validateRequest,
       t,
     ],
   );
@@ -122,6 +176,11 @@ const ValidateVeteran = props => {
           lastNameErrorMessage,
           setLastName,
           lastName,
+        }}
+        dobInput={{
+          dobErrorMessage,
+          setDob,
+          dob,
         }}
         isLoading={isLoading}
         validateHandler={onClick}

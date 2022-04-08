@@ -147,5 +147,7 @@
   "wife": "Wife",
   "relationship-is-required": "Relationship is required",
   "niece-nephew": "Niece/Nephew",
-  "add": "Add"
+  "add": "Add",
+  "date-of-birth": "Date of birth",
+  "your-date-of-birth-can-not-be-in-the-future": "Your date of birth can not be in the future"
 }

@@ -147,5 +147,7 @@
   "unrelated-friend": "Amigo no relacionado",
   "ward": "pabellón",
   "wife": "Esposa",
-  "add": "Agregar"
+  "add": "Agregar",
+  "date-of-birth": "Fecha de nacimiento",
+  "your-date-of-birth-can-not-be-in-the-future": "Su fecha de nacimiento no puede ser en el futuro"
 }

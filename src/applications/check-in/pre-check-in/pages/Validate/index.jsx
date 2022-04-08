@@ -4,6 +4,7 @@ import propTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
 import { focusElement } from 'platform/utilities/ui';
+import isAfter from 'date-fns/isAfter';
 
 import { api } from '../../../api';
 
@@ -18,6 +19,7 @@ import { useFormRouting } from '../../../hooks/useFormRouting';
 import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 const Index = ({ router }) => {
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
@@ -36,12 +38,31 @@ const Index = ({ router }) => {
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
 
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
+  const defaultDob = Object.freeze({
+    day: {
+      value: 1,
+      dirty: false,
+    },
+    month: {
+      value: 1,
+      dirty: false,
+    },
+    year: {
+      value: '1976',
+      dirty: false,
+    },
+  });
+  const [dob, setDob] = useState(defaultDob);
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
+  const [dobErrorMessage, setDobErrorMessage] = useState();
 
   const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
     true,
@@ -49,11 +70,60 @@ const Index = ({ router }) => {
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
 
+  const validateRequest = async (postBody, apiVersion) => {
+    setIsLoading(true);
+    try {
+      const resp = await api[apiVersion].postSession(postBody);
+      if (resp.errors || resp.error) {
+        setIsLoading(false);
+        goToErrorPage();
+      } else {
+        setSession(token, resp.permissions);
+        goToNextPage();
+      }
+    } catch (e) {
+      setIsLoading(false);
+      if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
+        goToErrorPage();
+      } else {
+        if (!showValidateError) {
+          setShowValidateError(true);
+        }
+        incrementValidateAttempts(window);
+      }
+    }
+  };
+
   const validateHandler = useCallback(
     async () => {
       setLastNameErrorMessage();
       setLast4ErrorMessage();
-      if (!lastName || !last4Ssn) {
+      setDobErrorMessage();
+      if (isLorotaSecurityUpdatesEnabled) {
+        if (!lastName || isAfter(new Date(dob.year.value), new Date())) {
+          if (!lastName) {
+            setLastNameErrorMessage(t('please-enter-your-last-name'));
+          }
+          if (isAfter(new Date(dob.year.value), new Date())) {
+            setDobErrorMessage(
+              t('your-date-of-birth-can-not-be-in-the-future'),
+            );
+            setDob(prevState => ({
+              year: { ...prevState.year, dirty: true },
+              day: { ...prevState.day, dirty: true },
+              month: { ...prevState.month, dirty: true },
+            }));
+          }
+        } else {
+          const postBody = {
+            token,
+            dob: `${dob.month.value}/${dob.day.value}/${dob.year.value}`,
+            lastName,
+            checkInType: app,
+          };
+          validateRequest(postBody, 'v3');
+        }
+      } else if (!lastName || !last4Ssn) {
         if (!lastName) {
           setLastNameErrorMessage(t('please-enter-your-last-name'));
         }
@@ -63,46 +133,24 @@ const Index = ({ router }) => {
           );
         }
       } else {
-        setIsLoading(true);
-        try {
-          const resp = await api.v2.postSession({
-            token,
-            last4: last4Ssn,
-            lastName,
-            checkInType: app,
-          });
-          if (resp.errors || resp.error) {
-            setIsLoading(false);
-            goToErrorPage();
-          } else {
-            setSession(token, resp.permissions);
-            goToNextPage();
-          }
-        } catch (e) {
-          setIsLoading(false);
-          if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
-            goToErrorPage();
-          } else {
-            if (!showValidateError) {
-              setShowValidateError(true);
-            }
-            incrementValidateAttempts(window);
-          }
-        }
+        const postBody = {
+          token,
+          last4: last4Ssn,
+          lastName,
+          checkInType: app,
+        };
+        validateRequest(postBody, 'v2');
       }
     },
     [
       app,
-      goToErrorPage,
-      goToNextPage,
-      incrementValidateAttempts,
-      isMaxValidateAttempts,
       last4Ssn,
       lastName,
-      setSession,
+      dob,
       token,
-      showValidateError,
       t,
+      isLorotaSecurityUpdatesEnabled,
+      validateRequest,
     ],
   );
 
@@ -127,6 +175,11 @@ const Index = ({ router }) => {
           lastNameErrorMessage,
           setLastName,
           lastName,
+        }}
+        dobInput={{
+          dobErrorMessage,
+          setDob,
+          dob,
         }}
         Footer={Footer}
         showValidateError={showValidateError}
