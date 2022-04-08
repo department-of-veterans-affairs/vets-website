@@ -492,7 +492,7 @@ const formConfig = {
                 showFieldLabel: false,
               },
             },
-            'view:additionalInfo': {
+            'view:firstSponsorAdditionalInfo': {
               'ui:description': (
                 <va-additional-info
                   trigger="Which sponsor should I use first?"
@@ -524,7 +524,7 @@ const formConfig = {
               [formFields.firstSponsor]: {
                 type: 'string',
               },
-              'view:additionalInfo': {
+              'view:firstSponsorAdditionalInfo': {
                 type: 'object',
                 properties: {},
               },

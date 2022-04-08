@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import { isArray } from 'lodash';
-import { fetchSponsors, updateFirstSponsor, updateSponsors } from '../actions';
+import { fetchSponsors, updateSponsors } from '../actions';
 import {
   IM_NOT_SURE_LABEL,
   IM_NOT_SURE_VALUE,
@@ -11,7 +11,6 @@ import {
 } from '../constants';
 
 function DynamicRadioGroup({
-  dispatchFirstSponsorChange,
   dispatchSponsorsChange,
   errorMessage = 'Please select at least one sponsor',
   sponsors,
@@ -20,14 +19,11 @@ function DynamicRadioGroup({
   const [dirty, setDirty] = useState(false);
 
   const onValueChange = ({ value }) => {
-    const _sponsors = {
+    setDirty(true);
+    dispatchSponsorsChange({
       ...sponsors,
       firstSponsor: value.replace('sponsor-', ''),
-    };
-
-    setDirty(true);
-    dispatchFirstSponsorChange(value);
-    dispatchSponsorsChange(_sponsors);
+    });
   };
 
   const options = sponsors?.sponsors.length
@@ -110,7 +106,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getSponsors: fetchSponsors,
-  dispatchFirstSponsorChange: updateFirstSponsor,
   dispatchSponsorsChange: updateSponsors,
 };
 

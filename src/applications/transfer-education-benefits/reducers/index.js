@@ -3,7 +3,6 @@ import {
   FETCH_SPONSORS,
   FETCH_SPONSORS_FAILED,
   FETCH_SPONSORS_SUCCESS,
-  UPDATE_FIRST_SPONSOR,
   UPDATE_SELECTED_SPONSORS,
   UPDATE_SPONSORS,
 } from '../actions';
@@ -69,11 +68,6 @@ export default {
         return {
           ...state,
           sponsors: action.payload,
-        };
-      case UPDATE_FIRST_SPONSOR:
-        return {
-          ...state,
-          firstSponsor: action.payload,
         };
       default:
         return state;

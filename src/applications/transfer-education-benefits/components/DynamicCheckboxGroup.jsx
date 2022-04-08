@@ -63,6 +63,12 @@ function DynamicCheckboxGroup({
       _selectedSponsors.push(SPONSOR_NOT_LISTED_VALUE);
     }
 
+    // Check to make sure that a previously-selected first sponsor hasn't
+    // been removed from the list of selected sponsors.
+    if (!checked && value === `sponsor-${sponsors?.firstSponsor}`) {
+      _sponsors.firstSponsor = null;
+    }
+
     setDirty(true);
     dispatchSelectedSponsorsChange(_selectedSponsors);
     dispatchSponsorsChange(_sponsors);
@@ -71,12 +77,17 @@ function DynamicCheckboxGroup({
   const options =
     sponsors?.sponsors?.map((sponsor, index) => ({
       label: `Sponsor ${index + 1}: ${sponsor.name}`,
+      selected: sponsor.selected,
       value: `sponsor-${sponsor.id}`,
     })) || [];
   options.push({
     label: SPONSOR_NOT_LISTED_LABEL,
     value: `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
   });
+
+  const selectedValues = Object.fromEntries(
+    new Map(options?.map(option => [option.value, !!option.selected])),
+  );
 
   return (
     <CheckboxGroup
@@ -102,9 +113,7 @@ function DynamicCheckboxGroup({
       onValueChange={onValueChange}
       options={options}
       required
-      values={Object.fromEntries(
-        new Map(selectedSponsors?.map(id => [`sponsor-${id}`, true])),
-      )}
+      values={selectedValues}
     />
   );
 }
