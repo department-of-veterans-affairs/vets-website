@@ -92,7 +92,7 @@ jobs:
 
   unit-tests:
     name: Unit Tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.app_folders }}
 
@@ -129,7 +129,6 @@ jobs:
         run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder)
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
-
       - name: Run unit tests
         run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
