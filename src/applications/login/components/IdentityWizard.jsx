@@ -3,7 +3,6 @@ import { VaRadio } from '@department-of-veterans-affairs/component-library/dist/
 import { IDENTITY_WIZARD_QUESTIONS } from '../constants';
 import { generateWizardAnswers } from '../utilities';
 
-// Test single app build
 /*
   The identity Wizard feature might not be
   implemented
