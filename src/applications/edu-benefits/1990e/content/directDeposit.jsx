@@ -1,7 +1,6 @@
 import React from 'react';
 import { isValidRoutingNumber } from 'platform/forms/validations';
 import merge from 'lodash/merge';
-import full1990eSchema from 'vets-json-schema/dist/22-1990E-schema.json';
 
 const gaBankInfoHelpText = () => {
   window.dataLayer.push({
