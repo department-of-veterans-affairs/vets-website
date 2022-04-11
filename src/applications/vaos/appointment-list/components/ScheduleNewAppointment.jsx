@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { GA_PREFIX } from 'applications/vaos/utils/constants';
 import { startNewAppointmentFlow } from '../redux/actions';
@@ -9,19 +9,24 @@ import {
   selectFeatureStatusImprovement,
 } from '../../redux/selectors';
 
-function handleClick(history, dispatch) {
+function handleClick(history, dispatch, match) {
   return () => {
     recordEvent({
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push('new-appointment');
+    history.push(
+      `${
+        match.url.endsWith('/') ? match.url.slice(0, -1) : match.url
+      }/new-appointment`,
+    );
   };
 }
 
 function ScheduleNewAppointmentButton() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const match = useRouteMatch();
 
   return (
     <button
@@ -29,7 +34,7 @@ function ScheduleNewAppointmentButton() {
       className="vaos-hide-for-print"
       aria-label="Start scheduling an appointment"
       id="schedule-button"
-      onClick={handleClick(history, dispatch)}
+      onClick={handleClick(history, dispatch, match)}
     >
       Start scheduling
     </button>
