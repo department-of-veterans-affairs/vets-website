@@ -691,7 +691,7 @@ describe('App', () => {
       );
     });
 
-    it('does not display disclaimer when user has logged in via the bot and has returned to the page', async () => {
+    it('does not display disclaimer when user has logged in via the bot and has returned to the page, and refreshes', async () => {
       const loggedInUser = {
         navigation: {
           showLoginModal: false,
@@ -719,6 +719,17 @@ describe('App', () => {
         initialState: loggedInUser,
         reducers: virtualAgentReducer,
       });
+
+      await waitFor(
+        () =>
+          expect(
+            wrapper.queryByText(
+              'Our virtual agent can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.',
+            ),
+          ).to.not.exist,
+      );
+
+      location.reload();
 
       await waitFor(
         () =>

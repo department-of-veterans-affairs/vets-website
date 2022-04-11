@@ -31,17 +31,10 @@ function useWebChat(props) {
   };
 }
 
-// function handleDisclaimerAcceptedOnClick() {
-//   return true;
-// }
-
 function showBot(loggedIn, requireAuth, accepted, minute, props) {
-  if (false) {
+  if (!loggedIn && requireAuth) {
     return <ConnectedSignInAlert />;
   }
-  console.log('loggedIn: ', loggedIn);
-  console.log('loggedInFlow: ', sessionStorage.getItem('loggedInFlow'));
-  console.log('inAuthExperience: ', sessionStorage.getItem('inAuthExperience'));
 
   if (!accepted && !sessionStorage.getItem('inAuthExperience')) {
     return <ChatboxDisclaimer />;
@@ -55,6 +48,11 @@ export default function Chatbox(props) {
   const requireAuth = useSelector(
     state => state.featureToggles.virtualAgentAuth,
   );
+
+  if (sessionStorage.getItem('loggedInFlow') === 'true' && isLoggedIn) {
+    sessionStorage.setItem('inAuthExperience', 'true');
+    sessionStorage.setItem('loggedInFlow', 'false');
+  }
 
   const ONE_MINUTE = 60 * 1000;
   return (
