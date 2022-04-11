@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import environment from 'platform/utilities/environment';
 import { DevicesToConnectSection } from './DevicesToConnectSection';
 import { ConnectedDevicesSection } from './ConnectedDevicesSection';
 import { authorizeWithVendor } from '../helpers';
@@ -8,13 +7,8 @@ export const ConnectedDevicesContainer = () => {
   const [connectedDevices, setConnectedDevices] = useState([
     {
       vendor: 'Fitbit',
-      authUrl: `${environment.API_URL}/dhp_connected_devices/fitbit`,
-      disconnectUrl: 'placeholder',
-      connected: false,
-    },
-    {
-      vendor: 'Freestyle Libre',
-      authUrl: 'path/to/vetsapi/freestyle/connect/method',
+      key: 'fitbit',
+      authUrl: `/fitbit`,
       disconnectUrl: 'placeholder',
       connected: false,
     },
@@ -40,27 +34,30 @@ export const ConnectedDevicesContainer = () => {
     setFailureAlert(true);
   };
 
-  const handleResponse = (response, device) => {
-    try {
-      const resUrl = new URL(response.url);
-      const deviceWasAbleToConnect = resUrl.searchParams.get(
-        device.vendor.toLowerCase(),
-      );
-
-      if (deviceWasAbleToConnect === 'success') {
-        updateConnectedDevices(device.vendor);
-        showSuccessAlert();
-      }
-      showFailureAlert();
-    } catch {
+  const showConnectionAlert = (vendor, status) => {
+    if (status === 'success') {
+      updateConnectedDevices(vendor);
+      showSuccessAlert();
+    } else if (status === 'error') {
       showFailureAlert();
     }
   };
 
+  const handleRedirectQueryParams = () => {
+    const resUrl = new URL(window.location);
+    // console.log(`location:${window.location}`);
+    resUrl.searchParams.forEach((vendor, status) =>
+      showConnectionAlert(vendor, status),
+    );
+  };
+
   const authorizeDevice = async device => {
-    const response = await authorizeWithVendor(device.authUrl);
-    handleResponse(response, device);
-    return response;
+    try {
+      await authorizeWithVendor(device.authUrl);
+      handleRedirectQueryParams();
+    } catch (error) {
+      showFailureAlert();
+    }
   };
 
   return (
