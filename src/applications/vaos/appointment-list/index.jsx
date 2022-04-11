@@ -1,26 +1,19 @@
 import React from 'react';
 import { Switch, Route, useLocation, useRouteMatch } from 'react-router-dom';
 import UrlSearchParams from 'url-search-params';
-import { useSelector } from 'react-redux';
 import AppointmentsPageV2 from './components/AppointmentsPageV2/index';
 import RequestedAppointmentDetailsPage from './components/RequestedAppointmentDetailsPage';
 import ConfirmedAppointmentDetailsPage from './components/ConfirmedAppointmentDetailsPage';
 import CommunityCareAppointmentDetailsPage from './components/CommunityCareAppointmentDetailsPage';
 import useManualScrollRestoration from '../hooks/useManualScrollRestoration';
 import useFormRedirectToStart from '../hooks/useFormRedirectToStart';
-import { selectFeatureStatusImprovement } from '../redux/selectors';
 
 function AppointmentListSection() {
   useManualScrollRestoration();
   const location = useLocation();
   const match = useRouteMatch();
-  const featureStatusImprovement = useSelector(state =>
-    selectFeatureStatusImprovement(state),
-  );
-
   const shouldRedirectToStart = useFormRedirectToStart({
     shouldRedirect: () => {
-      if (featureStatusImprovement) return false;
       const isRedirect = new UrlSearchParams(location.search).get('redirect');
       return !isRedirect || isRedirect === 'true';
     },
@@ -51,12 +44,7 @@ function AppointmentListSection() {
         }/requests/:id`}
         component={RequestedAppointmentDetailsPage}
       />
-      <Route
-        path={`${match.path}`}
-        render={() => {
-          return <AppointmentsPageV2 />;
-        }}
-      />
+      <Route path={match.path} component={AppointmentsPageV2} />
     </Switch>
   );
 }

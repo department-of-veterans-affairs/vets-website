@@ -68,6 +68,14 @@ export default function createRoutesWithStore(store) {
             to="/new-appointment"
           />
           <EnrolledRoute path="/appointments" component={AppointmentList} />
+          <Route
+            path="*"
+            render={() => {
+              window.location.replace(
+                '/health-care/schedule-view-va-appointments',
+              );
+            }}
+          />
         </Switch>
       </VAOSApp>
     </ErrorBoundary>
