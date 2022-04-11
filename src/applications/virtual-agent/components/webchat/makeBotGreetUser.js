@@ -1,6 +1,3 @@
-import piiReplace from './piiReplace';
-import * as _ from 'lodash';
-
 const GreetUser = {
   makeBotGreetUser: (
     csrfToken,
@@ -35,8 +32,17 @@ const GreetUser = {
       });
     }
 
-    if (action.type === 'WEB_CHAT/SEND_MESSAGE') {
-      _.assign(action.payload, { text: piiReplace(action.payload.text) });
+    if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
+      const data = action.payload.activity;
+      if (
+        data.type === 'message' &&
+        data.text.includes('Please wait a moment. Sending you to sign in...') &&
+        data.from.role === 'bot'
+      ) {
+        const event = new Event('webchat-auth-activity');
+        event.data = action.payload.activity;
+        window.dispatchEvent(event);
+      }
     }
     return next(action);
   },
