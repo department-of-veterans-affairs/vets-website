@@ -15,7 +15,7 @@ import {
 } from 'platform/testing/unit/helpers';
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
 import Main from 'platform/site-wide/user-nav/containers/Main';
-import Chatbox from '../components/chatbox/Chatbox';
+import Chatbox, { LOGGED_IN_FLOW } from '../components/chatbox/Chatbox';
 import virtualAgentReducer from '../reducers/index';
 import GreetUser from '../components/webchat/makeBotGreetUser';
 
@@ -710,7 +710,7 @@ describe('App', () => {
         },
       };
 
-      sessionStorage.setItem('loggedInFlow', 'true');
+      sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
 
       loadWebChat();
       mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
