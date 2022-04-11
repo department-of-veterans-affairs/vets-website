@@ -1,0 +1,37 @@
+import '../../../../tests/e2e/commands';
+
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import Demographics from '../../../../tests/e2e/pages/Demographics';
+
+describe('Check In Experience ', () => {
+  beforeEach(() => {
+    const {
+      initializeFeatureToggle,
+      initializeSessionGet,
+      initializeSessionPost,
+      initializePreCheckInDataPost,
+    } = ApiInitializer;
+    initializeFeatureToggle.withLorotaSecurityUpdate();
+    initializeSessionGet.withSuccessfulNewSession();
+
+    initializeSessionPost.withSuccess();
+
+    initializePreCheckInDataPost.withSuccess();
+  });
+  afterEach(() => {
+    cy.window().then(window => {
+      window.sessionStorage.clear();
+    });
+  });
+  it('Validate with DOB', () => {
+    cy.visitWithUUID();
+    // page: Validate
+    ValidateVeteran.validatePageLoaded('Check in at VA');
+    ValidateVeteran.validateVeteranDob();
+    cy.injectAxeThenAxeCheck();
+    ValidateVeteran.attemptToGoToNextPage();
+    // page: Demographics
+    Demographics.validatePageLoaded();
+  });
+});

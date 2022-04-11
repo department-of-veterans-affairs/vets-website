@@ -23,6 +23,20 @@ class ValidateVeteran {
     this.typeLast4(last4);
   };
 
+  validateVeteranDob = (
+    lastName = 'Smith',
+    year = '1976',
+    month = '1',
+    day = '31',
+  ) => {
+    this.clearLastName();
+    this.typeLastName(lastName);
+    this.clearYear();
+    this.typeYear(year);
+    this.selectMonth(month);
+    this.selectDay(day);
+  };
+
   getLastNameInput = () => {
     return cy
       .get('[label="Your last name"]')
@@ -37,6 +51,18 @@ class ValidateVeteran {
       .find('input');
   };
 
+  getMonthSelect = () => {
+    return cy.get('[name="date-of-birthMonth"]');
+  };
+
+  getDaySelect = () => {
+    return cy.get('[name="date-of-birthDay"]');
+  };
+
+  getYearInput = () => {
+    return cy.get('[name="date-of-birthYear"]');
+  };
+
   typeLastName = (lastName = 'Smith') => {
     this.getLastNameInput().type(lastName);
   };
@@ -45,12 +71,28 @@ class ValidateVeteran {
     this.getLast4Input().type(last4);
   };
 
+  typeYear = (year = '1976') => {
+    this.getYearInput().type(year);
+  };
+
+  selectMonth = (month = '1') => {
+    this.getMonthSelect().select(month);
+  };
+
+  selectDay = (day = '31') => {
+    this.getDaySelect().select(day);
+  };
+
   clearLastName() {
     this.getLastNameInput().invoke('val', '');
   }
 
   clearLast4() {
     this.getLast4Input().invoke('val', '');
+  }
+
+  clearYear() {
+    this.getYearInput().invoke('val', '');
   }
 
   attemptToGoToNextPage = () => {
