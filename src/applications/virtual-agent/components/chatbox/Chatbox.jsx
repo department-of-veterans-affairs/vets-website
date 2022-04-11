@@ -15,7 +15,8 @@ import {
   LOADING,
 } from './loadingStatus';
 
-const LOGGED_IN_FLOW = 'loggedInFlow';
+export const LOGGED_IN_FLOW = 'loggedInFlow';
+export const IN_AUTH_EXP = 'inAuthExperience';
 
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
@@ -47,6 +48,10 @@ function showBot(
     return <ConnectedSignInAlert />;
   }
 
+  if (!accepted && !sessionStorage.getItem(IN_AUTH_EXP)) {
+    return <ChatboxDisclaimer />;
+  }
+
   if (!loggedIn && isAuthTopic) {
     return (
       <SignInModal
@@ -58,9 +63,7 @@ function showBot(
       />
     );
   }
-  if (!accepted) {
-    return <ChatboxDisclaimer />;
-  }
+
   return <App timeout={props.timeout || minute} />;
 }
 
@@ -80,6 +83,11 @@ export default function Chatbox(props) {
       }
     }, 2000);
   });
+
+  if (sessionStorage.getItem(LOGGED_IN_FLOW) === 'true' && isLoggedIn) {
+    sessionStorage.setItem(IN_AUTH_EXP, 'true');
+    sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
+  }
 
   const ONE_MINUTE = 60 * 1000;
   return (
