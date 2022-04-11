@@ -195,49 +195,49 @@ describe('Authentication Utilities', () => {
 
     it('should return session url with _verified appended to type for OCC logins', () => {
       setup({ path: usipPathWithParams(occUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type })).to.equal(
+      expect(authUtilities.sessionTypeUrl({ type })).to.include(
         appendQuery(API_SESSION_URL({ type: typeVerified })),
       );
     });
 
     it('should return session url with _verified appended to type for Flagship logins', () => {
       setup({ path: usipPathWithParams(flagshipUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type })).to.equal(
+      expect(authUtilities.sessionTypeUrl({ type })).to.include(
         appendQuery(API_SESSION_URL({ type: typeVerified })),
       );
     });
 
     it('should return session url with _verified appended to type for OCC signups', () => {
       setup({ path: usipPathWithParams(occUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type: signupType })).to.equal(
+      expect(authUtilities.sessionTypeUrl({ type: signupType })).to.include(
         appendQuery(API_SESSION_URL({ type: signupTypeVerified })),
       );
     });
 
     it('should return session url with _verified appended to type for Flagship signups', () => {
       setup({ path: usipPathWithParams(flagshipUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type: signupType })).to.equal(
+      expect(authUtilities.sessionTypeUrl({ type: signupType })).to.include(
         appendQuery(API_SESSION_URL({ type: signupTypeVerified })),
       );
     });
 
     it('should NOT return session url with _verified appended to type for types other than login/signup', () => {
       setup({ path: usipPathWithParams(flagshipUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type: 'other' })).to.equal(
+      expect(authUtilities.sessionTypeUrl({ type: 'other' })).to.include(
         appendQuery(API_SESSION_URL({ type: 'other' })),
       );
     });
 
     it('should NOT return session url with _verified appended to type when not on USiP', () => {
       setup({ path: flagshipUsipParams });
-      expect(authUtilities.sessionTypeUrl({ type })).to.equal(
+      expect(authUtilities.sessionTypeUrl({ type })).to.include(
         appendQuery(API_SESSION_URL({ type })),
       );
     });
 
     it('should NOT return session url with _verified appended for external applications other than OCC/Flagship', () => {
       setup({ path: usipPathWithParams(mhvUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type })).to.not.contain(
+      expect(authUtilities.sessionTypeUrl({ type })).to.not.include(
         '_verified',
       );
     });
@@ -511,7 +511,7 @@ describe('Authentication Utilities', () => {
     it('should redirect to the ID.me signup session url by default', () => {
       setup({ path: nonUsipPath });
       authUtilities.signup();
-      expect(global.window.location).to.contain(
+      expect(global.window.location).to.include(
         API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }),
       );
     });
@@ -536,7 +536,7 @@ describe('Authentication Utilities', () => {
 
   describe('signupUrl', () => {
     it('should generate an ID.me session signup url by default', () => {
-      expect(authUtilities.signupUrl()).to.contain(
+      expect(authUtilities.signupUrl()).to.include(
         API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }),
       );
     });
@@ -549,13 +549,13 @@ describe('Authentication Utilities', () => {
     });
 
     it('should generate a session signup url for the given type', () => {
-      expect(authUtilities.signupUrl(CSP_IDS.LOGIN_GOV)).to.contain(
+      expect(authUtilities.signupUrl(CSP_IDS.LOGIN_GOV)).to.include(
         API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.LOGIN_GOV] }),
       );
     });
 
     it('should generate an ID.me session signup url if the given type is not valid', () => {
-      expect(authUtilities.signupUrl('test')).to.contain(
+      expect(authUtilities.signupUrl('test')).to.include(
         API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }),
       );
     });
