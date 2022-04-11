@@ -374,6 +374,7 @@ module.exports = async (env = {}) => {
       symlinks: false,
     },
     optimization: {
+      chunkIds: 'named',
       minimizer: [
         new TerserPlugin({
           terserOptions: {

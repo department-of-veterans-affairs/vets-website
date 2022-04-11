@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { connect, useSelector } from 'react-redux';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import SignInModal from 'platform/user/authentication/components/SignInModal';
 import ChatbotError from '../chatbot-error/ChatbotError';
 import useWebChatFramework from './useWebChatFramework';
 import useVirtualAgentToken from './useVirtualAgentToken';
@@ -13,6 +14,8 @@ import {
   ERROR,
   LOADING,
 } from './loadingStatus';
+
+const LOGGED_IN_FLOW = 'loggedInFlow';
 
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
@@ -31,14 +34,35 @@ function useWebChat(props) {
   };
 }
 
-function showBot(loggedIn, requireAuth, accepted, minute, props) {
+function showBot(
+  loggedIn,
+  requireAuth,
+  accepted,
+  minute,
+  isAuthTopic,
+  setIsAuthTopic,
+  props,
+) {
   if (!loggedIn && requireAuth) {
     return <ConnectedSignInAlert />;
   }
 
   if (!accepted && !sessionStorage.getItem('inAuthExperience')) {
-    return <ChatboxDisclaimer />;
+        return <ChatboxDisclaimer />
   }
+        
+  if (!loggedIn && isAuthTopic) {
+    return (
+      <SignInModal
+        visible
+        onClose={() => {
+          setIsAuthTopic(false);
+          sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
+        }}
+      />
+    );
+  }
+    
   return <App timeout={props.timeout || minute} />;
 }
 
@@ -48,6 +72,16 @@ export default function Chatbox(props) {
   const requireAuth = useSelector(
     state => state.featureToggles.virtualAgentAuth,
   );
+  const [isAuthTopic, setIsAuthTopic] = useState(false);
+
+  window.addEventListener('webchat-auth-activity', () => {
+    setTimeout(function() {
+      if (!isLoggedIn) {
+        sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
+        setIsAuthTopic(true);
+      }
+    }, 2000);
+  });
 
   if (sessionStorage.getItem('loggedInFlow') === 'true' && isLoggedIn) {
     sessionStorage.setItem('inAuthExperience', 'true');
@@ -62,7 +96,15 @@ export default function Chatbox(props) {
           VA virtual agent
         </h2>
       </div>
-      {showBot(isLoggedIn, requireAuth, isAccepted, ONE_MINUTE, props)}
+      {showBot(
+        isLoggedIn,
+        requireAuth,
+        isAccepted,
+        ONE_MINUTE,
+        isAuthTopic,
+        setIsAuthTopic,
+        props,
+      )}
     </div>
   );
 }
