@@ -1,8 +1,7 @@
-/// <reference types="cypress" />
-
 context('Keyboard Navigation', () => {
   it('navigate', () => {
     cy.visit('education/submit-school-feedback/introduction');
+    cy.injectAxeThenAxeCheck();
 
     cy.tabToElem('.no-wrap');
 
@@ -22,7 +21,7 @@ context('Keyboard Navigation', () => {
     /* */
     cy.tabToElem('#root_fullName_prefix');
 
-    cy.chooseSelectOption('Mr.');
+    cy.chooseSelectOptionByTyping('Mrs.');
 
     cy.tabToElem('#root_fullName_first');
 
@@ -38,11 +37,11 @@ context('Keyboard Navigation', () => {
 
     cy.tabToElem('#root_fullName_suffix');
 
-    cy.chooseSelectOption('Sr.');
+    cy.chooseSelectOptionByTyping('Sr.');
 
     cy.tabToElem('#root_serviceAffiliation');
 
-    cy.chooseSelectOption('Servicemember');
+    cy.chooseSelectOptionByTyping('Servicemember');
 
     cy.tabToElem('#2-continueButton');
 
@@ -51,15 +50,15 @@ context('Keyboard Navigation', () => {
     /* */
     cy.tabToElem('#root_serviceBranch');
 
-    cy.chooseSelectOption('Air Force');
+    cy.chooseSelectOptionByTyping('Air Force');
 
     cy.tabToElem('#root_serviceDateRange_fromMonth');
 
-    cy.chooseSelectOption('3');
+    cy.chooseSelectOptionByTyping('March');
 
     cy.tabToElem('#root_serviceDateRange_fromDay');
 
-    cy.chooseSelectOption('2');
+    cy.chooseSelectOptionByTyping('1');
 
     cy.tabToElem('#root_serviceDateRange_fromYear');
 
@@ -67,11 +66,11 @@ context('Keyboard Navigation', () => {
 
     cy.tabToElem('#root_serviceDateRange_toMonth');
 
-    cy.chooseSelectOption('5');
+    cy.chooseSelectOptionByTyping('May');
 
     cy.tabToElem('#root_serviceDateRange_toDay');
 
-    cy.chooseSelectOption('4');
+    cy.chooseSelectOptionByTyping('4');
 
     cy.tabToElem('#root_serviceDateRange_toYear');
 
@@ -84,7 +83,7 @@ context('Keyboard Navigation', () => {
     /* */
     cy.tabToElem('#root_address_country');
 
-    cy.chooseSelectOption('US');
+    cy.chooseSelectOptionByTyping('United States');
 
     cy.tabToElem('#root_address_street');
 
@@ -100,7 +99,7 @@ context('Keyboard Navigation', () => {
 
     cy.tabToElem('#root_address_state');
 
-    cy.chooseSelectOption('CA');
+    cy.chooseSelectOptionByTyping('California');
 
     cy.tabToElem('#root_address_postalCode');
 

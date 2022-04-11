@@ -29,7 +29,7 @@ import 'cypress-real-events';
 // This is the timeout duration between each event. You can overwrite this in your test if you
 // want it to move faster or slower
 // eslint-disable-next-line prefer-const
-let timeoutDuration = 100;
+let timeoutDuration = 0;
 
 // This Command is used by other commands to select form values.
 // You can call this yourself if you want to move focus to a specific radio or select value
@@ -39,6 +39,18 @@ Cypress.Commands.add('findOption', value => {
     if ($el.val() !== value) {
       cy.realPress('ArrowDown', { pressDelay: timeoutDuration });
       cy.findOption(value);
+    }
+  });
+});
+
+Cypress.Commands.add('findSelectOptionByTyping', value => {
+  cy.get(':focus :selected').then($el => {
+    if ($el.text() !== value) {
+      for (const character of value) {
+        cy.realPress(character);
+      }
+
+      cy.findSelectOptionByTyping(value);
     }
   });
 });
@@ -60,14 +72,20 @@ Cypress.Commands.add('chooseRadio', value => {
 
 // This Command is used to select a specific select option when a select box is focused.
 // The value is the value of the input
-Cypress.Commands.add('chooseSelectOption', value => {
+Cypress.Commands.add('chooseSelectOptionByTyping', value => {
   if (typeof value === 'undefined') {
     return;
   }
 
-  cy.get(':focus').find(`option[value="${value}"]`);
-  cy.findOption(value);
-  cy.realPress('Enter');
+  cy.findSelectOptionByTyping(value);
+});
+
+Cypress.Commands.add('chooseSelectOptionByArrow', value => {
+  if (typeof value === 'undefined') {
+    return;
+  }
+
+  cy.findSelectOption(value);
 });
 
 // This Command types in the focused input or textarea
