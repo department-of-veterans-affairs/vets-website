@@ -16,7 +16,6 @@ import {
 } from './loadingStatus';
 
 const LOGGED_IN_FLOW = 'loggedInFlow';
-// sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
 
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
@@ -34,10 +33,6 @@ function useWebChat(props) {
     apiSession: token.apiSession,
   };
 }
-
-// function handleDisclaimerAcceptedOnClick() {
-//   return true;
-// }
 
 function showBot(
   loggedIn,
@@ -61,7 +56,6 @@ function showBot(
           sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
         }}
       />
-      // <ConnectedAuthReqTopic />
     );
   }
   if (!accepted) {
@@ -80,8 +74,6 @@ export default function Chatbox(props) {
 
   window.addEventListener('webchat-auth-activity', () => {
     setTimeout(function() {
-      // window.location.href = '?next=loginModal';
-      // toggleLoginModal(true);
       if (!isLoggedIn) {
         sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
         setIsAuthTopic(true);
@@ -90,7 +82,6 @@ export default function Chatbox(props) {
   });
 
   const ONE_MINUTE = 60 * 1000;
-  // const loggedInFlow = sessionStorage.getItem(LOGGED_IN_FLOW);
   return (
     <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
       <div className="vads-u-background-color--primary-darkest vads-u-padding--1p5">
@@ -128,14 +119,6 @@ function SignInAlert({ showLoginModal }) {
   );
 }
 
-// function AuthReqTopic({ showLoginModal }) {
-//   return (
-//     <div onLoad={() => showLoginModal(true)}>
-//       poopoo
-//     </div>
-//   );
-// }
-
 const mapDispatchToProps = {
   showLoginModal: toggleLoginModal,
 };
@@ -144,11 +127,6 @@ const ConnectedSignInAlert = connect(
   null,
   mapDispatchToProps,
 )(SignInAlert);
-
-// const ConnectedAuthReqTopic = connect(
-//   null,
-//   mapDispatchToProps,
-// )(AuthReqTopic);
 
 function App(props) {
   const { token, WebChatFramework, loadingStatus, apiSession } = useWebChat(
