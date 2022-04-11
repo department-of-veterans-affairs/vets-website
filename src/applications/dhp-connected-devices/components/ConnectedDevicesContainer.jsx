@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DevicesToConnectSection } from './DevicesToConnectSection';
 import { ConnectedDevicesSection } from './ConnectedDevicesSection';
 import { authorizeWithVendor } from '../helpers';
@@ -19,17 +19,13 @@ export const ConnectedDevicesContainer = () => {
   const updateConnectedDevices = vendor => {
     const connectedDevicesCopy = [...connectedDevices];
     const device =
-      connectedDevicesCopy[
-        connectedDevices.findIndex(d => d.vendor === vendor)
-      ];
+      connectedDevicesCopy[connectedDevices.findIndex(d => d.key === vendor)];
     device.connected = true;
     setConnectedDevices(connectedDevicesCopy);
   };
-
   const showSuccessAlert = () => {
     setSuccessAlert(true);
   };
-
   const showFailureAlert = () => {
     setFailureAlert(true);
   };
@@ -45,16 +41,21 @@ export const ConnectedDevicesContainer = () => {
 
   const handleRedirectQueryParams = () => {
     const resUrl = new URL(window.location);
-    // console.log(`location:${window.location}`);
-    resUrl.searchParams.forEach((vendor, status) =>
-      showConnectionAlert(vendor, status),
-    );
+    resUrl.searchParams.forEach((status, vendor) => {
+      showConnectionAlert(vendor, status);
+    });
   };
+
+  useEffect(
+    () => {
+      handleRedirectQueryParams();
+    },
+    [successAlert, failureAlert],
+  );
 
   const authorizeDevice = async device => {
     try {
       await authorizeWithVendor(device.authUrl);
-      handleRedirectQueryParams();
     } catch (error) {
       showFailureAlert();
     }
