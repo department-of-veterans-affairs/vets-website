@@ -17,7 +17,7 @@ Mission: Make it easier for Veterans and Caregivers to apply for, track, and man
 
 - [UX Pin](https://preview.uxpin.com/3bf6496017f55041a94c2cfc8009c35dad5a79f2#/pages/137666459/simulate/sitemap?mode=i)
 - [Sketch](https://www.sketch.com/s/5a676881-7aa8-4054-9b6e-34d86ced43d8)
-- [Content Source or Truth](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/caregivers/1010cg-mvp/10-10CG-application-copy.md)
+- [Content Source of Truth](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/caregivers/1010cg-mvp/10-10CG-application-copy.md)
 - [Project Documents](https://github.com/department-of-veterans-affairs/va.gov-team/tree/master/products/caregivers)
 - [Product Outline](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/teams/caregiver/product-outline.md)
 - [Product Guide](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/teams/vsa/teams/caregiver/Online-10-10CG-Product-Guide-Updated-05.26.2021.docx)
