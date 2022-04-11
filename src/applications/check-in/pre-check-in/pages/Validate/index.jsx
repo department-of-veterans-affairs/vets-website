@@ -20,6 +20,7 @@ import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+import { formatDateObjectTo8601 } from '../../../utils/formatters';
 
 const Index = ({ router }) => {
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
@@ -117,7 +118,7 @@ const Index = ({ router }) => {
         } else {
           const postBody = {
             token,
-            dob: `${dob.month.value}/${dob.day.value}/${dob.year.value}`,
+            dob: formatDateObjectTo8601(dob),
             lastName,
             checkInType: app,
           };
