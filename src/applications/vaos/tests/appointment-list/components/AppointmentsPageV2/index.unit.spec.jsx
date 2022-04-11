@@ -187,7 +187,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
     );
 
     await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal('new-appointment'),
+      expect(screen.history.push.lastCall.args[0]).to.equal('/new-appointment'),
     );
   });
 

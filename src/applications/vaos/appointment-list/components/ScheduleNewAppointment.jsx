@@ -45,6 +45,7 @@ export default function ScheduleNewAppointment() {
   const history = useHistory();
   const dispatch = useDispatch();
   const location = useLocation();
+  const match = useRouteMatch();
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
@@ -75,7 +76,7 @@ export default function ScheduleNewAppointment() {
         className="vaos-hide-for-print"
         aria-label="Start scheduling an appointment"
         id="schedule-button"
-        onClick={handleClick(history, dispatch)}
+        onClick={handleClick(history, dispatch, match)}
       >
         Start scheduling
       </button>

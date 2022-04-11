@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -12,7 +12,6 @@ export default function VAOSBreadcrumbs({ children }) {
   );
   const dispatch = useDispatch();
   const breadcrumbs = useSelector(state => state.appointments.breadcrumbs);
-  const match = useRouteMatch();
 
   return (
     <Breadcrumbs className="medium-screen:vads-u-padding-x--0 vaos-appts__breadcrumbs">
@@ -35,9 +34,7 @@ export default function VAOSBreadcrumbs({ children }) {
       )}
       {featureStatusImprovement && (
         <Link
-          to={`${
-            match.url.endsWith('/') ? match.url.slice(0, 1) : match.url
-          }/appointments?redirect=false`}
+          to="/appointments?redirect=false"
           key="vaos-home"
           onClick={() => dispatch(updateBreadcrumb())}
         >
