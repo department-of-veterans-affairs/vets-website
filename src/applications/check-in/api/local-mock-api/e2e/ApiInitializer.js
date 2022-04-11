@@ -125,8 +125,8 @@ class ApiInitializer {
   };
 
   initializeSessionPost = {
-    withSuccess: extraValidation => {
-      cy.intercept('POST', '/check_in/v2/sessions', req => {
+    withSuccess: (extraValidation, version = 'v2') => {
+      cy.intercept('POST', `/check_in/${version}/sessions`, req => {
         if (extraValidation) {
           extraValidation(req);
         }

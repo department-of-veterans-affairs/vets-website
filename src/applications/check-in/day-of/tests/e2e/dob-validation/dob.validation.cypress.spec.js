@@ -10,14 +10,17 @@ describe('Check In Experience ', () => {
       initializeFeatureToggle,
       initializeSessionGet,
       initializeSessionPost,
-      initializePreCheckInDataPost,
+      initializeCheckInDataPost,
+      initializeCheckInDataGet,
     } = ApiInitializer;
     initializeFeatureToggle.withLorotaSecurityUpdate();
     initializeSessionGet.withSuccessfulNewSession();
+    initializeCheckInDataGet.withSuccess({
+      numberOfCheckInAbledAppointments: 1,
+    });
+    initializeSessionPost.withSuccess(false, 'v3');
 
-    initializeSessionPost.withSuccess();
-
-    initializePreCheckInDataPost.withSuccess();
+    initializeCheckInDataPost.withSuccess();
   });
   afterEach(() => {
     cy.window().then(window => {
