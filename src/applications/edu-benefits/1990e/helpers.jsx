@@ -16,6 +16,14 @@ export const relationshipLabels = {
   child: 'Child',
 };
 
+export function isOnlyWhitespace(str) {
+  return str && !str.trim().length;
+}
+
+export function titleCase(str) {
+  return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+
 export function eligibilityDescription() {
   return (
     <div className="usa-alert usa-alert-warning usa-content edu-benefits-alert">
@@ -42,4 +50,46 @@ export function eligibilityDescription() {
 export const benefitsLabels = {
   chapter33: <p>Post-9/11 GI Bill (Chapter 33)</p>,
   chapter30: <p>Montgomery GI Bill (MGIB-AD, Chapter 30)</p>,
+};
+
+/**
+ * Formats a date in human-readable form. For example:
+ * January 1, 2000.
+ *
+ * @param {*} rawDate A date in the form '01-01-2000'
+ * @returns A human-readable date string.
+ */
+export const formatReadableDate = rawDate => {
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  let dateParts;
+  let date;
+
+  if (rawDate) {
+    dateParts = rawDate.split('-');
+    date = new Date(
+      Number.parseInt(dateParts[0], 10),
+      Number.parseInt(dateParts[1], 10) - 1,
+      Number.parseInt(dateParts[2], 10),
+    );
+  }
+
+  if (!date) {
+    return '';
+  }
+
+  return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 };
