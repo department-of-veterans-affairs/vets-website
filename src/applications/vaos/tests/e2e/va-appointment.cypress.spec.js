@@ -15,7 +15,7 @@ describe('VAOS direct schedule flow', () => {
     cy.injectAxe();
 
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Primary care');
@@ -81,7 +81,7 @@ describe('VAOS direct schedule flow', () => {
     cy.injectAxe();
 
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Eye care');
@@ -149,7 +149,7 @@ describe('VAOS direct schedule flow', () => {
     cy.injectAxe();
 
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Sleep medicine');

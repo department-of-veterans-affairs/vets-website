@@ -1,11 +1,9 @@
 import React from 'react';
-
 import { useTranslation } from 'react-i18next';
 
 import ErrorMessage from '../../components/ErrorMessage';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/Footer';
-import LanguagePicker from '../../components/LanguagePicker';
 
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 
@@ -25,7 +23,6 @@ const Error = () => {
       )}
       <Footer />
       <BackToHome />
-      <LanguagePicker />
     </div>
   );
 };

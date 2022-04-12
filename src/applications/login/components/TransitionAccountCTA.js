@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ACCOUNT_TRANSITION } from '../constants';
 
-function dismiss() {
-  // TODO: trackEvent for dismissing
-  window.location = '/';
-}
-
 export default function TransitionAccountCTA({ canTransition }) {
-  const { headline, signUpIDme, signUpLoginGov } = ACCOUNT_TRANSITION;
+  const {
+    headline,
+    signUpIDme,
+    signUpLoginGov,
+    startTransition,
+    dismiss,
+  } = ACCOUNT_TRANSITION;
 
   return (
     <va-featured-content>
@@ -41,7 +42,10 @@ export default function TransitionAccountCTA({ canTransition }) {
           )}
         </ul>
         <div>
-          <button type="button" onClick={signUpLoginGov}>
+          <button
+            type="button"
+            onClick={canTransition ? startTransition : signUpLoginGov}
+          >
             {canTransition ? `Start transition now` : `Login.gov`}
           </button>
           {!canTransition && (

@@ -1,12 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { transitionMHVAccount } from 'platform/user/authentication/selectors';
+import { mhvTransitionEnabled } from 'platform/user/selectors';
 import TransitionAccountCTA from './TransitionAccountCTA';
 import IdentityWizard from './IdentityWizard';
 
 export default function TransitionAccount() {
   // TODO: wait for BE team to add to User model
   const canTransition = useSelector(transitionMHVAccount);
+  const transitionEnabled = useSelector(mhvTransitionEnabled);
 
   return (
     <main className="usa-grid usa-grid-full">
@@ -22,7 +24,7 @@ export default function TransitionAccount() {
         </div>
         <TransitionAccountCTA
           data-testid="can-transition"
-          canTransition={canTransition}
+          canTransition={Boolean(canTransition && transitionEnabled)}
         />
         {!canTransition && (
           <div data-testid="cant-transition">

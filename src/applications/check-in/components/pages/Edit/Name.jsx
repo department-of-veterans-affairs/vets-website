@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -19,11 +20,13 @@ import BackToHome from '../../BackToHome';
 
 export default function Name(props) {
   const { router } = props;
+  const { t } = useTranslation();
   const { jumpToPage } = useFormRouting(router);
   const selectEditContext = useMemo(makeSelectEditContext, []);
   const { editing } = useSelector(selectEditContext);
   const { editingPage, key, originatingUrl, value } = editing;
   const [nameValue, setNameValue] = useState(value);
+  const [error, setError] = useState();
 
   const dispatch = useDispatch();
   const clearEditContext = useCallback(
@@ -47,27 +50,33 @@ export default function Name(props) {
 
   const onChange = useCallback(
     event => {
+      if (!event.target.value) {
+        setError('Name is required');
+      } else {
+        setError(null);
+      }
       setNameValue(event.target.value);
     },
-    [setNameValue],
+    [setNameValue, setError],
   );
 
   let title = '';
   switch (editingPage) {
     case 'nextOfKin':
-      title = "Edit next of kin's name";
+      title = t('edit-next-of-kins-name');
       break;
     case 'emergencyContact':
-      title = "Edit your contact's name";
+      title = t('edit-your-contacts-name');
       break;
     default:
-      title = 'Edit name';
+      title = t('edit-name');
   }
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 edit-relationship-page">
       <h1 data-testid="header">{title}</h1>
       <VaTextInput
-        label="Name"
+        error={error}
+        label={t('name')}
         name={key}
         value={nameValue}
         required

@@ -89,16 +89,17 @@ export const getInitialFormValues = options => {
   }
 
   if (personalInformation.includes(fieldName)) {
-    if (fieldName === 'preferredName') return transformInitialFormValues(data);
-
-    if (fieldName === 'genderIdentity') {
-      return transformInitialFormValues(
-        transformBooleanArrayToFormValues(data?.[fieldName]),
-      );
+    // handle a single string type of field value
+    if (
+      fieldName === FIELD_NAMES.PREFERRED_NAME ||
+      fieldName === FIELD_NAMES.GENDER_IDENTITY
+    ) {
+      return transformInitialFormValues(data);
     }
 
     const notListedTextKey = createNotListedTextKey(fieldName);
 
+    // handle multi-select values plus additional 'write in' value if present
     return transformInitialFormValues({
       ...transformBooleanArrayToFormValues(data?.[fieldName]),
       ...(data?.[notListedTextKey] &&

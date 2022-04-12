@@ -56,6 +56,7 @@ class AddressPage {
     } else {
       cy.findByTestId('save-edit-button').click({
         force: true,
+        waitForAnimations: true,
       });
     }
   }

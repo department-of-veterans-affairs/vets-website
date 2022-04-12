@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 import LocationPhoneLink from './common/LocationPhoneLink';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import { isVADomain } from '../../utils/helpers';
 import { recordResultClickEvents } from '../../utils/analytics';
-import { Link } from 'react-router';
 import { LocationType, OperatingStatus, Covid19Vaccine } from '../../constants';
 import LocationAddress from './common/LocationAddress';
 import LocationOperationStatus from './common/LocationOperationStatus';
@@ -21,6 +21,12 @@ const VaFacilityResult = ({
   const isCovid19Search =
     query.facilityType === LocationType.HEALTH &&
     query.serviceType === Covid19Vaccine;
+  const clickHandler = useCallback(
+    () => {
+      recordResultClickEvents(location, index);
+    },
+    [index, location],
+  );
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <>
@@ -28,11 +34,8 @@ const VaFacilityResult = ({
           distance={location.distance}
           markerText={location.markerText}
         />
-        <span
-          onClick={() => {
-            recordResultClickEvents(location, index);
-          }}
-        >
+        {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus */}
+        <span onClick={clickHandler} onKeyUp={clickHandler} role="link">
           {isVADomain(website) ? (
             <h3 className="vads-u-font-size--h5 no-marg-top">
               <a href={website}>{name}</a>
@@ -43,29 +46,32 @@ const VaFacilityResult = ({
             </h3>
           )}
         </span>
+        {operatingStatus &&
+          operatingStatus.code !== OperatingStatus.NORMAL && (
+            <LocationOperationStatus operatingStatus={operatingStatus} />
+          )}
         <LocationAddress location={location} />
-        <LocationDirectionsLink location={location} from={'SearchResult'} />
+        <LocationDirectionsLink location={location} from="SearchResult" />
         {isCovid19Search && <Covid19Alert />}
         <LocationPhoneLink
           location={location}
-          from={'SearchResult'}
+          from="SearchResult"
           query={query}
           showHealthConnectNumber={showHealthConnectNumber}
         />
       </>
-      {operatingStatus &&
-        operatingStatus.code !== OperatingStatus.NORMAL && (
-          <LocationOperationStatus operatingStatus={operatingStatus} />
-        )}
     </div>
   );
 };
 
 VaFacilityResult.propTypes = {
+  index: PropTypes.number,
   location: PropTypes.object,
   query: PropTypes.object,
-  index: PropTypes.number,
-  showHealthConnectNumber: PropTypes.string,
+  showHealthConnectNumber: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]),
 };
 
 export default VaFacilityResult;

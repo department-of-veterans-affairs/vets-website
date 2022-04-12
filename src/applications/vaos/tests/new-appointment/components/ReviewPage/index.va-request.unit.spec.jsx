@@ -378,6 +378,72 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     });
   });
 
+  it('should submit successfully - with Other reason code', async () => {
+    store = createTestStore({
+      ...defaultState,
+      newAppointment: {
+        ...defaultState.newAppointment,
+        data: {
+          ...defaultState.newAppointment.data,
+          reasonForAppointment: 'other',
+          reasonAdditionalInfo: 'I need an appt',
+        },
+      },
+    });
+    mockAppointmentSubmitV2({
+      id: 'fake_id',
+    });
+
+    const screen = renderWithStoreAndRouter(<ReviewPage />, {
+      store,
+    });
+
+    await screen.findByText(/requesting a primary care appointment/i);
+
+    userEvent.click(screen.getByText(/Request appointment/i));
+    await waitFor(() => {
+      expect(screen.history.push.lastCall.args[0]).to.equal(
+        '/requests/fake_id?confirmMsg=true',
+      );
+    });
+
+    const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);
+    expect(submitData).to.deep.equal({
+      kind: 'telehealth',
+      status: 'proposed',
+      locationId: '983',
+      serviceType: 'primaryCare',
+      comment: 'I need an appt',
+      reasonCode: {
+        coding: [],
+        text: 'I need an appt',
+      },
+      contact: {
+        telecom: [
+          {
+            type: 'phone',
+            value: '1234567890',
+          },
+          {
+            type: 'email',
+            value: 'joeblow@gmail.com',
+          },
+        ],
+      },
+      requestedPeriods: [
+        {
+          start: '2020-05-25T00:00:00Z',
+          end: '2020-05-25T11:59:00Z',
+        },
+        {
+          start: '2020-05-26T12:00:00Z',
+          end: '2020-05-26T23:59:00Z',
+        },
+      ],
+      preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
+    });
+  });
+
   it('should record GA tracking event', async () => {
     const tomorrow = moment().add(1, 'days');
     store = createTestStore({
@@ -393,6 +459,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     mockAppointmentSubmitV2({
       id: 'fake_id',
     });
+    mockPreferences(null);
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,

@@ -64,3 +64,48 @@ Each feature should have unit tests and e2e tests. Since this is an unauthentica
 ### Useful acronym and terms
 
 - CARMA (Caregiver Record Management Application).
+
+### Instructions to upload a document, running va.gov locally
+* change the following rails file - app/uploaders/form1010cg/poa_uploader.rb
+* restart vets-api
+* file will be uploaded to public directory under vets-api source code
+
+```
+diff --git a/app/uploaders/form1010cg/poa_uploader.rb b/app/uploaders/form1010cg/poa_uploader.rb
+index 28ce0a625..c3d81d8f4 100644
+--- a/app/uploaders/form1010cg/poa_uploader.rb
++++ b/app/uploaders/form1010cg/poa_uploader.rb
+@@ -2,23 +2,23 @@
+ 
+ module Form1010cg
+   class PoaUploader < CarrierWave::Uploader::Base
+-    include SetAWSConfig
++    # include SetAWSConfig
+     include LogMetrics
+     include UploaderVirusScan
+ 
+-    storage :aws
++    # storage :aws
+ 
+     attr_reader :store_dir
+ 
+     def initialize(form_attachment_guid)
+       super
+ 
+-      set_aws_config(
+-        Settings.form_10_10cg.poa.s3.aws_access_key_id,
+-        Settings.form_10_10cg.poa.s3.aws_secret_access_key,
+-        Settings.form_10_10cg.poa.s3.region,
+-        Settings.form_10_10cg.poa.s3.bucket
+-      )
++      # set_aws_config(
++      #   Settings.form_10_10cg.poa.s3.aws_access_key_id,
++      #   Settings.form_10_10cg.poa.s3.aws_secret_access_key,
++      #   Settings.form_10_10cg.poa.s3.region,
++      #   Settings.form_10_10cg.poa.s3.bucket
++      # )
+ 
+       @store_dir = form_attachment_guid
+     end 
+```
+

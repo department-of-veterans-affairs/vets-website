@@ -5,9 +5,7 @@
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import AddressView from '@@vap-svc/components/AddressField/AddressView';
+import set from 'lodash/set';
 
 import { updateCopyAddressModal, createTransaction } from '@@vap-svc/actions';
 
@@ -26,7 +24,9 @@ import { getProfileInfoFieldAttributes } from '@@profile/util/getProfileInfoFiel
 
 import { isPendingTransaction } from '@@vap-svc/util/transactions';
 
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import CopyAddressModalPrompt from './CopyAddressModalPrompt';
+import CopyAddressModalSuccess from './CopyAddressModalSuccess';
+import CopyAddressModalFailure from './CopyAddressModalFailure';
 
 const CopyAddressModal = props => {
   const {
@@ -45,8 +45,7 @@ const CopyAddressModal = props => {
 
   const checkAddressAndPrompt = useCallback(
     () => {
-      // TODO: handle home address update with no mailing address and show custom modal content
-      if (!mailingAddress || !homeAddress) {
+      if (!homeAddress) {
         updateCopyAddressModalAction(null);
         return;
       }
@@ -72,13 +71,15 @@ const CopyAddressModal = props => {
   const isLoading =
     transactionRequest?.isPending || isPendingTransaction(transaction);
 
-  // const error =
-  //   transactionRequest?.error || (isFailedTransaction(transaction) ? {} : null);
-
   const handlers = {
     onYes() {
       const payload = convertCleanDataToPayload(homeAddress, mailingFieldName);
-      const method = payload.id ? 'PUT' : 'POST';
+
+      // make sure we are sending correct id in payload, or empty string if no mailing address for user
+      const payloadWithUpdatedId = set(payload, 'id', mailingAddress?.id || '');
+
+      const method = payloadWithUpdatedId.id ? 'PUT' : 'POST';
+
       const analyticsSectionName =
         VAP_SERVICE.ANALYTICS_FIELD_MAP[
           VAP_SERVICE.FIELD_NAMES.MAILING_ADDRESS
@@ -92,7 +93,7 @@ const CopyAddressModal = props => {
         apiRoute,
         method,
         mailingFieldName,
-        payload,
+        payloadWithUpdatedId,
         analyticsSectionName,
       );
     },
@@ -101,119 +102,32 @@ const CopyAddressModal = props => {
     },
   };
 
-  const CopyAddressMainModal = () => (
-    <Modal
-      title="We've updated your home address"
-      visible={
-        copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PROMPT ||
-        copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PENDING
-      }
-      onClose={handlers.onCloseModal}
-      id="copy-address-modal"
-    >
-      <>
-        <p data-testid="modal-content">
-          Your updated home address:
-          <span className="vads-u-font-weight--bold vads-u-display--block vads-u-margin-y--1p5">
-            <AddressView data={homeAddress} />
-          </span>
-        </p>
-        <va-featured-content>
-          We have this mailing address on file for you:
-          <span className="vads-u-font-weight--bold vads-u-display--block vads-u-margin-y--1p5">
-            <AddressView data={mailingAddress} />
-          </span>
-          Do you want to update your mailing address to match this home address?
-          <span className="vads-u-font-weight--bold vads-u-display--block vads-u-margin-y--1p5">
-            <AddressView data={homeAddress} />
-          </span>
-        </va-featured-content>
-
-        <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
-          <LoadingButton
-            data-action="save-edit"
-            data-testid="save-edit-button"
-            isLoading={isLoading}
-            loadingText="Saving changes"
-            className="vads-u-margin-top--0"
-            onClick={handlers.onYes}
-          >
-            Yes
-          </LoadingButton>
-
-          {!isLoading && (
-            <button
-              data-testid="cancel-edit-button"
-              type="button"
-              className="usa-button-secondary small-screen:vads-u-margin-top--0"
-              onClick={handlers.onCloseModal}
-            >
-              No
-            </button>
-          )}
-        </div>
-      </>
-    </Modal>
-  );
-
-  const UpdateErrorModal = () => (
-    <Modal
-      title="We can't update your mailing address"
-      visible={
-        copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.FAILURE
-      }
-      onClose={handlers.onCloseModal}
-      status="error"
-      primaryButton={{
-        action: () => {
-          handlers.onCloseModal();
-        },
-        text: 'Close',
-      }}
-    >
-      <>
-        <p data-testid="modal-content">
-          We’re sorry. We can’t update your information right now. We’re working
-          to fix this problem. Please check back later.
-        </p>
-      </>
-    </Modal>
-  );
-
-  const UpdateSuccessModal = () => (
-    <Modal
-      title="We've updated your mailing address"
-      visible={
-        copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.SUCCESS
-      }
-      onClose={handlers.onCloseModal}
-      primaryButton={{
-        action: () => {
-          handlers.onCloseModal();
-        },
-        text: 'Close',
-      }}
-    >
-      <>
-        <p data-testid="modal-content">
-          We’ve updated your mailing address to match your home address.
-          <span className="vads-u-font-weight--bold vads-u-display--block vads-u-margin-y--1p5">
-            <AddressView data={homeAddress} />
-          </span>
-        </p>
-      </>
-    </Modal>
-  );
-
   return (
     <>
       {(copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PROMPT ||
         copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PENDING) &&
-        shouldProfileShowAddressChangeModal && <CopyAddressMainModal />}
+        shouldProfileShowAddressChangeModal && (
+          <CopyAddressModalPrompt
+            isLoading={isLoading}
+            homeAddress={homeAddress}
+            mailingAddress={mailingAddress}
+            onClose={handlers.onCloseModal}
+            onYes={handlers.onYes}
+            visible
+          />
+        )}
       {copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.SUCCESS &&
-        shouldProfileShowAddressChangeModal && <UpdateSuccessModal />}
+        shouldProfileShowAddressChangeModal && (
+          <CopyAddressModalSuccess
+            address={homeAddress}
+            onClose={handlers.onCloseModal}
+            visible
+          />
+        )}
       {copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.FAILURE &&
-        shouldProfileShowAddressChangeModal && <UpdateErrorModal />}
+        shouldProfileShowAddressChangeModal && (
+          <CopyAddressModalFailure onClose={handlers.onCloseModal} visible />
+        )}
     </>
   );
 };
