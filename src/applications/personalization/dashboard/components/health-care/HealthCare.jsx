@@ -23,6 +23,112 @@ import Appointments from './Appointments';
 import IconCTALink from '../IconCTALink';
 import CTALink from '../CTALink';
 
+const HealthCareCTA = ({
+  hasInboxError,
+  unreadMessagesCount,
+  authenticatedWithSSOe,
+  hasUpcomingAppointment,
+  hasAppointmentsError,
+  shouldShowPrescriptions,
+}) => {
+  return (
+    <>
+      <h3 className="sr-only">Popular actions for Health Care</h3>
+      {hasInboxError ||
+        (unreadMessagesCount === 0 && (
+          <IconCTALink
+            text="Send a secure message to your health care team"
+            icon="comments"
+            newTab
+            href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+            onClick={() =>
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'View your messages',
+                'links-list-section-header': 'Health care',
+              })
+            }
+          />
+        ))}
+      {!hasUpcomingAppointment &&
+        !hasAppointmentsError && (
+          <IconCTALink
+            href="/health-care/schedule-view-va-appointments/appointments"
+            icon="calendar-check"
+            newTab
+            text="Schedule and manage your appointments"
+            onClick={() => {
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'Schedule and view your appointments',
+                'links-list-section-header': 'Health care',
+              });
+            }}
+          />
+        )}
+
+      {/* Prescriptions */}
+      {shouldShowPrescriptions ? (
+        <IconCTALink
+          href={mhvUrl(
+            authenticatedWithSSOe,
+            'web/myhealthevet/refill-prescriptions',
+          )}
+          icon="prescription-bottle"
+          newTab
+          text="Refill and track your prescriptions"
+          onClick={() => {
+            recordEvent({
+              event: 'nav-linkslist',
+              'links-list-header': 'Refill and track your prescriptions',
+              'links-list-section-header': 'Health care',
+            });
+          }}
+        />
+      ) : null}
+
+      {/* Request travel reimbursement */}
+      <IconCTALink
+        href="/health-care/get-reimbursed-for-travel-pay/"
+        icon="suitcase"
+        newTab
+        text="Request travel reimbursement"
+        onClick={() => {
+          recordEvent({
+            event: 'nav-linkslist',
+            'links-list-header': 'Request travel reimbursement"',
+            'links-list-section-header': 'Health care',
+          });
+        }}
+      />
+
+      {/* VA Medical records */}
+      <IconCTALink
+        href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
+        icon="file-medical"
+        newTab
+        text="Get your VA medical records"
+        onClick={() => {
+          recordEvent({
+            event: 'nav-linkslist',
+            'links-list-header': 'Get your VA medical records',
+            'links-list-section-header': 'Health care',
+          });
+        }}
+      />
+    </>
+  );
+};
+
+HealthCareCTA.propTypes = {
+  authenticatedWithSSOe: PropTypes.bool,
+  hasAppointmentsError: PropTypes.bool,
+  hasInboxError: PropTypes.bool,
+  hasUpcomingAppointment: PropTypes.bool,
+  shouldShowPrescriptions: PropTypes.bool,
+  unreadMessagesCount: PropTypes.number,
+};
+
 const HealthCare = ({
   appointments,
   authenticatedWithSSOe,
@@ -86,6 +192,14 @@ const HealthCare = ({
     );
   }
 
+  const shouldShowUnreadMessageAlert =
+    shouldFetchUnreadMessages && !hasInboxError && unreadMessagesCount > 0;
+
+  const shouldShowOnOneColumn =
+    !shouldShowUnreadMessageAlert &&
+    !hasUpcomingAppointment &&
+    !hasAppointmentsError;
+
   return (
     <div
       className="health-care-wrapper vads-u-margin-y--6"
@@ -96,9 +210,7 @@ const HealthCare = ({
       <div className="vads-l-row">
         <DashboardWidgetWrapper>
           {/* Messages */}
-          {shouldFetchUnreadMessages &&
-          !hasInboxError &&
-          unreadMessagesCount > 0 ? (
+          {shouldShowUnreadMessageAlert ? (
             <div
               className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
               data-testid="unread-messages-alert"
@@ -137,92 +249,29 @@ const HealthCare = ({
                 You have no appointments scheduled in the next 30 days.
               </p>
             )}
-        </DashboardWidgetWrapper>
-        <DashboardWidgetWrapper>
-          <h3 className="sr-only">Popular actions for Health Care</h3>
-          {hasInboxError ||
-            (unreadMessagesCount === 0 && (
-              <IconCTALink
-                text="Send a secure message to your health care team"
-                icon="comments"
-                newTab
-                href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
-                onClick={() =>
-                  recordEvent({
-                    event: 'nav-linkslist',
-                    'links-list-header': 'View your messages',
-                    'links-list-section-header': 'Health care',
-                  })
-                }
-              />
-            ))}
-          {!hasUpcomingAppointment &&
-            !hasAppointmentsError && (
-              <IconCTALink
-                href="/health-care/schedule-view-va-appointments/appointments"
-                icon="calendar-check"
-                newTab
-                text="Schedule and manage your appointments"
-                onClick={() => {
-                  recordEvent({
-                    event: 'nav-linkslist',
-                    'links-list-header': 'Schedule and view your appointments',
-                    'links-list-section-header': 'Health care',
-                  });
-                }}
-              />
-            )}
-
-          {/* Prescriptions */}
-          {shouldShowPrescriptions ? (
-            <IconCTALink
-              href={mhvUrl(
-                authenticatedWithSSOe,
-                'web/myhealthevet/refill-prescriptions',
-              )}
-              icon="prescription-bottle"
-              newTab
-              text="Refill and track your prescriptions"
-              onClick={() => {
-                recordEvent({
-                  event: 'nav-linkslist',
-                  'links-list-header': 'Refill and track your prescriptions',
-                  'links-list-section-header': 'Health care',
-                });
-              }}
+          {shouldShowOnOneColumn ? (
+            <HealthCareCTA
+              hasAppointmentsError={hasAppointmentsError}
+              hasInboxError={hasInboxError}
+              authenticatedWithSSOe={authenticatedWithSSOe}
+              hasUpcomingAppointment={hasUpcomingAppointment}
+              shouldShowPrescriptions={shouldShowPrescriptions}
+              unreadMessagesCount={unreadMessagesCount}
             />
           ) : null}
-
-          {/* Request travel reimbursement */}
-          <IconCTALink
-            href="/health-care/get-reimbursed-for-travel-pay/"
-            icon="suitcase"
-            newTab
-            text="Request travel reimbursement"
-            onClick={() => {
-              recordEvent({
-                event: 'nav-linkslist',
-                'links-list-header': 'Request travel reimbursement"',
-                'links-list-section-header': 'Health care',
-              });
-            }}
-          />
-
-          {/* VA Medical records */}
-          <IconCTALink
-            href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
-            icon="file-medical"
-            newTab
-            text="Get your VA medical records"
-            onClick={() => {
-              recordEvent({
-                event: 'nav-linkslist',
-                'links-list-header': 'Get your VA medical records',
-                'links-list-section-header': 'Health care',
-              });
-            }}
-          />
         </DashboardWidgetWrapper>
+        {!shouldShowOnOneColumn ? (
+          <DashboardWidgetWrapper>
+            <HealthCareCTA
+              hasAppointmentsError={hasAppointmentsError}
+              hasInboxError={hasInboxError}
+              authenticatedWithSSOe={authenticatedWithSSOe}
+              hasUpcomingAppointment={hasUpcomingAppointment}
+              shouldShowPrescriptions={shouldShowPrescriptions}
+              unreadMessagesCount={unreadMessagesCount}
+            />
+          </DashboardWidgetWrapper>
+        ) : null}
       </div>
     </div>
   );
@@ -279,10 +328,31 @@ const mapDispatchToProps = {
 };
 
 HealthCare.propTypes = {
+  appointments: PropTypes.arrayOf(
+    PropTypes.shape({
+      additionalInfo: PropTypes.string,
+      facility: PropTypes.object,
+      id: PropTypes.string.isRequired,
+      isVideo: PropTypes.bool.isRequired,
+      providerName: PropTypes.string,
+      startsAt: PropTypes.string.isRequired,
+      timeZone: PropTypes.string,
+      type: PropTypes.string.isRequired,
+    }),
+  ),
   authenticatedWithSSOe: PropTypes.bool.isRequired,
-  isCernerPatient: PropTypes.bool,
-  facilityLocations: PropTypes.array.isRequired,
   canAccessRx: PropTypes.bool.isRequired,
+  dataLoadingDisabled: PropTypes.bool,
+  facilityLocations: PropTypes.arrayOf(PropTypes.string),
+  fetchConfirmedFutureAppointments: PropTypes.bool,
+  fetchUnreadMessages: PropTypes.bool,
+  hasAppointmentsError: PropTypes.bool,
+  hasInboxError: PropTypes.bool,
+  isCernerPatient: PropTypes.bool,
+  shouldFetchUnreadMessages: PropTypes.bool,
+  // TODO: possibly remove this prop in favor of mocking the API in our unit tests
+  shouldShowLoadingIndicator: PropTypes.bool,
+  shouldShowPrescriptions: PropTypes.bool,
   unreadMessagesCount: PropTypes.number,
 };
 

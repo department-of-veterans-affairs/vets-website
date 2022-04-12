@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
-import take from 'lodash/take';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { getUserPhaseDescription } from '../utils/helpers';
@@ -16,7 +15,6 @@ const stepClasses = {
 };
 
 const COMPLETE_PHASE = 5;
-const INITIAL_ACTIVITY_ROWS = 5;
 
 function getClasses(phase, current) {
   const processClass = 'process-step';
@@ -34,10 +32,10 @@ function getClasses(phase, current) {
 export default class ClaimPhase extends React.Component {
   constructor(props) {
     super();
-    this.state = { open: props.current === props.phase, showAll: false };
+    this.state = { open: props.current === props.phase, showOlder: false };
     this.expandCollapse = this.expandCollapse.bind(this);
     this.displayActivity = this.displayActivity.bind(this);
-    this.showAllActivity = this.showAllActivity.bind(this);
+    this.showOlderActivity = this.showOlderActivity.bind(this);
     this.getEventDescription = this.getEventDescription.bind(this);
   }
 
@@ -46,6 +44,7 @@ export default class ClaimPhase extends React.Component {
     const filesPath = `your-claims/${id}/document-request/${
       event.trackedItemId
     }`;
+    const file = event.filename || event.fileType || '';
 
     switch (event.type) {
       case 'phase_entered':
@@ -70,8 +69,7 @@ export default class ClaimPhase extends React.Component {
         if (event.uploaded || event.status === 'SUBMITTED_AWAITING_REVIEW') {
           return (
             <div className="claims-evidence-item">
-              You or others submitted {event.displayName}. We will notify you
-              when we have reviewed it.
+              You or someone else submitted {event.displayName}.
             </div>
           );
         }
@@ -87,8 +85,7 @@ export default class ClaimPhase extends React.Component {
         if (event.status === 'SUBMITTED_AWAITING_REVIEW') {
           return (
             <div className="claims-evidence-item">
-              You or others submitted {event.displayName}. We will notify you
-              when we have reviewed it.
+              You or someone else submitted {event.displayName}.
             </div>
           );
         }
@@ -109,8 +106,7 @@ export default class ClaimPhase extends React.Component {
       case 'other_documents_list':
         return (
           <div className="claims-evidence-item">
-            You or others submitted {event.fileType}. We will notify you when
-            we’ve reviewed it.
+            You or someone else submitted {file ? `"${file}"` : 'a file'}.
           </div>
         );
 
@@ -121,55 +117,64 @@ export default class ClaimPhase extends React.Component {
 
   displayActivity() {
     const { activity, phase } = this.props;
-    const { showAll } = this.state;
-    const activityList = activity[phase];
+    const { showOlder } = this.state;
+    const activityList = activity[phase] || [];
+    const hasMoreActivity = activityList.length > 1;
 
-    if (activityList) {
-      const limitedList =
-        showAll || activityList.length <= INITIAL_ACTIVITY_ROWS
-          ? activityList
-          : take(activityList, INITIAL_ACTIVITY_ROWS);
-
-      const activityListContent = (
-        <ol className="claims-evidence-list">
-          {limitedList.map((singleActivity, index) => (
-            <li key={index}>
-              <div className="claims-evidence">
+    if (activityList.length) {
+      return (
+        <>
+          <h5 className="vads-u-margin-bottom--1">Latest update</h5>
+          <ol className="claims-evidence-list">
+            <li>
+              <div className="claims-evidence vads-u-padding--0">
                 <div className="claims-evidence-date">
-                  {moment(singleActivity.date).format('MMM D, YYYY')}
+                  {moment(activityList[0].date).format('MMMM D, YYYY')}
                 </div>
-                {this.getEventDescription(singleActivity)}
+                {this.getEventDescription(activityList[0])}
               </div>
             </li>
-          ))}
-        </ol>
+          </ol>
+          {hasMoreActivity ? (
+            <>
+              <h5 className="vads-u-margin-top--2p5">
+                {`Past updates (${activityList.length - 1})`}
+              </h5>
+              <button
+                type="button"
+                className="claim-older-updates usa-button-secondary"
+                aria-controls={`older-updates-${phase}`}
+                aria-expanded={showOlder}
+                onClick={this.showOlderActivity}
+              >
+                {`${showOlder ? 'Hide' : 'Show'} past updates`}
+              </button>
+            </>
+          ) : null}
+          {showOlder && hasMoreActivity ? (
+            <ol id={`older-updates-${phase}`} className="claims-evidence-list">
+              {activityList.slice(1).map((event, index) => (
+                <li key={index}>
+                  <div className="claims-evidence">
+                    <div className="claims-evidence-date">
+                      {moment(event.date).format('MMMM D, YYYY')}
+                    </div>
+                    {this.getEventDescription(event)}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          ) : null}
+        </>
       );
-
-      if (!showAll && activityList.length > INITIAL_ACTIVITY_ROWS) {
-        return (
-          <>
-            {activityListContent}
-            <button
-              type="button"
-              className="claim-older-updates usa-button-secondary"
-              onClick={this.showAllActivity}
-            >
-              See older updates&nbsp;
-              <i className="fa fa-chevron-down" />
-            </button>
-          </>
-        );
-      }
-
-      return activityListContent;
     }
 
     return null;
   }
 
-  showAllActivity(event) {
-    this.setState({ showAll: true });
+  showOlderActivity(event) {
     event.stopPropagation();
+    this.setState(prev => ({ showOlder: !prev.showOlder }));
   }
 
   expandCollapse() {

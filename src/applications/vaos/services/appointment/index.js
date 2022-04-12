@@ -5,6 +5,7 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   getCancelReasons,
   getConfirmedAppointment,
@@ -38,7 +39,6 @@ import {
   transformVAOSAppointment,
   transformVAOSAppointments,
 } from './transformers.v2';
-import recordEvent from 'platform/monitoring/record-event';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
 import {
@@ -104,6 +104,11 @@ function hasPartialResults(response) {
     (environment.isProduction() ||
       response.errors.some(err => !BAD_STAGING_SITES.has(err.source)))
   );
+}
+
+// Sort the requested appointments, latest appointments appear at the top of the list.
+function apptRequestSort(a, b) {
+  return new Date(b.created).getTime() - new Date(a.created).getTime();
 }
 
 /**
@@ -179,7 +184,8 @@ export async function fetchAppointments({
       );
 
       return appointments;
-    } else if (!useV2VA) {
+    }
+    if (!useV2VA) {
       const confirmedVAAppointments = await getConfirmedAppointments(
         'va',
         moment(startDate).toISOString(),
@@ -240,6 +246,8 @@ export async function getAppointmentRequests({
       const requestsWithoutAppointments = appointments.filter(
         appt => !!appt.requestedPeriods,
       );
+
+      requestsWithoutAppointments.sort(apptRequestSort);
 
       return transformVAOSAppointments(requestsWithoutAppointments);
     }
@@ -881,11 +889,11 @@ export async function cancelAppointment({ appointment, useV2 = false }) {
 
   if (useV2) {
     return cancelV2Appointment(appointment);
-  } else if (isConfirmedAppointment) {
-    return cancelBookedAppointment(appointment);
-  } else {
-    return cancelRequestedAppointment(appointment);
   }
+  if (isConfirmedAppointment) {
+    return cancelBookedAppointment(appointment);
+  }
+  return cancelRequestedAppointment(appointment);
 }
 
 /**

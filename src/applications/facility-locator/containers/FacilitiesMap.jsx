@@ -98,6 +98,7 @@ const FacilitiesMap = props => {
       latitude: props.currentQuery.position?.latitude,
       longitude: props.currentQuery.position?.longitude,
       radius: props.currentQuery.radius && props.currentQuery.radius.toFixed(),
+      bounds: props.currentQuery.bounds,
       ...params,
     };
 
@@ -546,6 +547,7 @@ const FacilitiesMap = props => {
 
       if (!props.searchBoundsInProgress) {
         props.searchWithBounds({
+          bounds: props.currentQuery.bounds,
           facilityType: props.currentQuery.facilityType,
           serviceType: props.currentQuery.serviceType,
           page: resultsPage,

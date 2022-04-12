@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import {
@@ -17,6 +18,7 @@ import { api } from '../../../api';
 
 const LoadingPage = props => {
   const { isSessionLoading, router, isUpdatePageEnabled } = props;
+  const { t } = useTranslation();
 
   const { goToErrorPage, goToNextPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
@@ -90,7 +92,9 @@ const LoadingPage = props => {
     [updatedData, goToNextPage],
   );
 
-  return <va-loading-indicator message="Loading your appointments for today" />;
+  return (
+    <va-loading-indicator message={t('loading-your-appointments-for-today')} />
+  );
 };
 
 LoadingPage.propTypes = {
