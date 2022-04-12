@@ -29,9 +29,9 @@ export default function LoginHeader({ loggedOut, isIOS = isIOSDevice }) {
                   You may have trouble signing in right now
                 </h2>
                 <p>
-                  We’re sorry. You may have trouble signing in with certain
-                  browsers or devices right now. We’re working to fix this
-                  problem as fast as we can.
+                  We’re sorry. If you're using the Safari browser or an Apple
+                  mobile device, you may have trouble signing in right now.
+                  We’re working to fix this problem as fast as we can.
                 </p>
                 <va-additional-info
                   id="ios-bug"
