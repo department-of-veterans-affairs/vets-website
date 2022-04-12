@@ -7,6 +7,7 @@ export const DeviceConnectionCard = ({ vendor, onClickHandler }) => {
       <h3 className="vads-u-margin-y--0">{vendor}</h3>
       <p className="vads-u-margin-y--0">
         <button
+          type="button"
           onClick={onClickHandler}
           data-testId={`${vendor}-connect-link`}
           id={`${vendor}-connect-link`}
