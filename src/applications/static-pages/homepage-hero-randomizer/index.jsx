@@ -36,6 +36,8 @@ const HeroRandom = () => {
     { id: 8, name: 'singleton' },
   ];
 
+  const gradientValues = ['#105f9f', '#144e84', '#143e6a'];
+
   const [randomized, setRandomized] = useState([]);
 
   // randomize order of images on pageload
@@ -43,14 +45,12 @@ const HeroRandom = () => {
     setRandomized(randomizeOrder(imagePaths));
   }, []);
 
-  return randomized.map(image => {
+  return randomized.map((image, index) => {
     return (
-      <div
-        className="vads-u-background-color--primary vads-l-col"
-        key={image.id}
-      >
+      <div className="vads-l-col" key={image.id}>
         <img
           className="homepage-hero__image"
+          style={{ backgroundColor: gradientValues[index] }}
           src={`/img/portraits/${image.name}.png`}
           alt={`Headshot of ${image.name}`}
         />
