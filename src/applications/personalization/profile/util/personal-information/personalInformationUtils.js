@@ -33,11 +33,11 @@ const pronounsLabels = {
 };
 
 const genderLabels = {
-  woman: 'Woman',
   man: 'Man',
-  transgenderWoman: 'Transgender woman',
-  transgenderMan: 'Transgender man',
   nonBinary: 'Non-binary',
+  transgenderMan: 'Transgender man',
+  transgenderWoman: 'Transgender woman',
+  woman: 'Woman',
   preferNotToAnswer: 'Prefer not to answer',
   genderNotListed: 'A gender not listed here',
 };
@@ -71,7 +71,7 @@ export const personalInformationFormSchemas = {
         maxLength: 25,
       },
     },
-    required: [],
+    required: ['preferredName'],
   },
   pronouns: {
     type: 'object',
@@ -93,7 +93,7 @@ export const personalInformationFormSchemas = {
         enum: genderOptions,
       },
     },
-    required: [],
+    required: ['genderIdentity'],
   },
   sexualOrientation: {
     type: 'object',
