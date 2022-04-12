@@ -151,9 +151,19 @@ export function sessionTypeUrl({
   // Append extra params for external MHV login attempts
   if (externalRedirect && isLogin && application === EXTERNAL_APPS.MHV) {
     // eslint-disable-next-line camelcase
-    appendParams.skip_dupe = application;
+    appendParams.skip_dupe = true;
     appendParams.redirect = createExternalApplicationUrl();
     appendParams.postLogin = true;
+  }
+
+  // Append extra params for external CERNER login attempts
+  if (
+    externalRedirect &&
+    isLogin &&
+    application === EXTERNAL_APPS.MY_VA_HEALTH
+  ) {
+    // eslint-disable-next-line camelcase
+    appendParams.skip_dupe = true;
   }
 
   // Append extra params for mobile sign in service authentication
@@ -166,7 +176,7 @@ export function sessionTypeUrl({
     useOAuth
       ? API_SIGN_IN_SERVICE_URL({ type })
       : API_SESSION_URL({ version, type: `${type}${requireVerification}` }),
-    { ...queryParams, ...appendParams },
+    { ...queryParams, ...appendParams, application },
   );
 }
 

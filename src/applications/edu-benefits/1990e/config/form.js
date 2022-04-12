@@ -2,27 +2,29 @@ import merge from 'lodash/merge';
 
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 
-import additionalBenefits from '../../pages/additionalBenefits';
 import applicantInformation from 'platform/forms/pages/applicantInformation';
-import FormFooter from 'platform/forms/components/FormFooter';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import FormFooter from 'platform/forms/components/FormFooter';
+import oldPreSubmitInfo from 'platform/forms/preSubmitInfo';
+import * as address from 'platform/forms/definitions/address';
+import fullNameUISchema from 'platform/forms/definitions/fullName';
+import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
+import * as personId from 'platform/forms/definitions/personId';
+import additionalBenefits from '../../pages/additionalBenefits';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import newPreSubmitInfo from '../containers/PreSubmitInfo';
 
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage, {
   schoolSelectionOptionsFor,
 } from '../../pages/schoolSelection';
-import createDirectDepositPage from '../../pages/directDeposit';
+import oldCreateDirectDepositPage from '../../pages/directDeposit';
+import createDirectDepositPage from '../content/directDeposit';
 import employmentHistoryPage from '../../pages/employmentHistory';
 
-import * as address from 'platform/forms/definitions/address';
-import fullNameUISchema from 'platform/forms/definitions/fullName';
-import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
-import * as personId from 'platform/forms/definitions/personId';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -52,6 +54,10 @@ const {
   postHighSchoolTrainings,
   usaPhone,
 } = fullSchema1990e.definitions;
+
+const preSubmitInfo = environment.isProduction()
+  ? oldPreSubmitInfo
+  : newPreSubmitInfo;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -231,7 +237,9 @@ const formConfig = {
           fullSchema1990e,
           'relativeAddress',
         ),
-        directDeposit: createDirectDepositPage(fullSchema1990e),
+        directDeposit: environment.isProduction()
+          ? oldCreateDirectDepositPage(fullSchema1990e)
+          : createDirectDepositPage(),
       },
     },
   },
