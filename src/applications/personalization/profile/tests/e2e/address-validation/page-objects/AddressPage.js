@@ -73,10 +73,9 @@ class AddressPage {
         .should('contain', `${fields.address}`)
         .and('contain', `${fields.city}, ${fields.state} ${fields.zipCode}`);
     fields.country &&
-      cy
-        .findByTestId('mailingAddress')
-        .should('contain', `${fields.address}`)
-        .and('contain', `${fields.zipCodeInt}`);
+      cy.findByTestId('mailingAddress').should('contain', `${fields.address}`);
+    fields.zipCodeInt &&
+      cy.findByTestId('mailingAddress').and('contain', `${fields.zipCodeInt}`);
     additionalFields.forEach(field => {
       cy.findByTestId('mailingAddress').should('contain', field);
     });
