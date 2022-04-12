@@ -4,11 +4,28 @@ import LogoutAlert from 'platform/user/authentication/components/LogoutAlert';
 import DowntimeBanners from 'platform/user/authentication/components/DowntimeBanner';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
-const isIOSDevice = () =>
-  /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-  (navigator.userAgent.indexOf('Safari') !== -1 &&
-    navigator.userAgent.indexOf('Chrome') === -1);
-export default function LoginHeader({ loggedOut, isIOS = isIOSDevice }) {
+function checkWebkit() {
+  const ua = navigator.userAgent.toLowerCase();
+
+  if (
+    ua.indexOf('chrome') === ua.indexOf('android') &&
+    ua.indexOf('safari') !== -1
+  ) {
+    // accessed via a WebKit-based browser
+    return true;
+  }
+
+  if (ua.includes('crios') || ua.includes('fxios')) {
+    return true;
+  }
+  // check if accessed via a WebKit-based webview
+  return (
+    ua.indexOf('ipad') !== -1 ||
+    ua.indexOf('iphone') !== -1 ||
+    ua.indexOf('ipod') !== -1
+  );
+}
+export default function LoginHeader({ loggedOut, isIOS = checkWebkit }) {
   return (
     <>
       <div className="row">
