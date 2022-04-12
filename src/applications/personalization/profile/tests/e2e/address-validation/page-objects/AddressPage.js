@@ -2,11 +2,11 @@
 import { setUp } from '@@profile/tests/e2e/address-validation/setup';
 
 class AddressPage {
-  loadPage(config) {
+  loadPage = config => {
     setUp(config);
-  }
+  };
 
-  fillAddressForm(fields) {
+  fillAddressForm = fields => {
     fields.country && cy.findByLabelText(/Country/i).select(fields.country);
     fields.military &&
       cy
@@ -46,9 +46,9 @@ class AddressPage {
         .findByLabelText(/International postal code/i)
         .clear()
         .type(fields.zipCodeInt);
-  }
+  };
 
-  saveForm(confirm = false) {
+  saveForm = (confirm = false) => {
     if (confirm) {
       cy.findByTestId('confirm-address-button').click({
         force: true,
@@ -59,14 +59,14 @@ class AddressPage {
         waitForAnimations: true,
       });
     }
-  }
+  };
 
-  validateSavedForm(
+  validateSavedForm = (
     fields,
     saved = true,
     altText = null,
     additionalFields = [],
-  ) {
+  ) => {
     !fields.country &&
       cy
         .findByTestId('mailingAddress')
@@ -88,14 +88,14 @@ class AddressPage {
         .invoke('text')
         .should('match', /update saved/i);
     altText && cy.findByText(altText).should('exist');
-  }
+  };
 
-  confirmAddress(
+  confirmAddress = (
     fields,
     alternateSuggestions = [],
     secondSave = false,
     missingUnit = false,
-  ) {
+  ) => {
     cy.findByTestId('mailingAddress').should('contain', `${fields.address}`);
     !secondSave &&
       cy
@@ -111,25 +111,25 @@ class AddressPage {
     cy.findByTestId('confirm-address-button').click({
       force: true,
     });
-  }
+  };
 
-  confirmAddressFields(labels, fields) {
+  confirmAddressFields = (labels, fields) => {
     labels.forEach((label, i) => {
       cy.findByLabelText(label).should('have.value', fields[i]);
       cy.findAllByLabelText(label).should('have.value', fields[i]);
     });
-  }
+  };
 
-  editAddress(labels, fields) {
+  editAddress = (labels, fields) => {
     cy.findByRole('button', { name: /edit your address/i }).click();
     this.confirmAddressFields(labels, fields);
     cy.findByRole('button', { name: /^Update$/i }).click({ force: true });
     cy.findByRole('button', { name: /^use this address$/i }).click({
       force: true,
     });
-  }
+  };
 
-  updateWithoutChanges() {
+  updateWithoutChanges = () => {
     cy.findByRole('button', { name: /^update$/i }).should(
       'not.have.attr',
       'disabled',
@@ -140,11 +140,11 @@ class AddressPage {
     cy.findByRole('button', { name: /^update$/i, timeout: 10 }).should(
       'not.exist',
     );
-  }
+  };
 
-  validateFocusedElement(element) {
+  validateFocusedElement = element => {
     cy.findByRole(element.tag, { name: element.name }).should('be.focused');
-  }
+  };
 }
 
 export default AddressPage;
