@@ -28,6 +28,20 @@ const responses = {
     return res.json(sessions.get.createMockSuccessResponse(req.params));
   },
   'POST /check_in/v2/sessions': (req, res) => {
+    if (req.body?.session.dob) {
+      const { lastName, dob } = req.body?.session || {};
+      if (!lastName) {
+        return res.status(400).json(sessions.post.createMockFailedResponse());
+      }
+      if (dob !== mockUser.dob || lastName !== mockUser.lastName) {
+        return res
+          .status(400)
+          .json(sessions.post.createMockValidateErrorResponse());
+      }
+      hasBeenValidated = true;
+      return res.json(sessions.post.createMockSuccessResponse(req.body));
+    }
+
     const { last4, lastName } = req.body?.session || {};
     if (!last4 || !lastName) {
       return res.status(400).json(sessions.post.createMockFailedResponse());
@@ -81,19 +95,19 @@ const responses = {
     return res.json(checkInData.post.createMockSuccessResponse({}));
   },
   // v3
-  'POST /check_in/v3/sessions': (req, res) => {
-    const { lastName, dob } = req.body?.session || {};
-    if (!lastName) {
-      return res.status(400).json(sessions.post.createMockFailedResponse());
-    }
-    if (dob !== mockUser.dob || lastName !== mockUser.lastName) {
-      return res
-        .status(400)
-        .json(sessions.post.createMockValidateErrorResponse());
-    }
-    hasBeenValidated = true;
-    return res.json(sessions.post.createMockSuccessResponse(req.body));
-  },
+  // 'POST /check_in/v3/sessions': (req, res) => {
+  //   const { lastName, dob } = req.body?.session || {};
+  //   if (!lastName) {
+  //     return res.status(400).json(sessions.post.createMockFailedResponse());
+  //   }
+  //   if (dob !== mockUser.dob || lastName !== mockUser.lastName) {
+  //     return res
+  //       .status(400)
+  //       .json(sessions.post.createMockValidateErrorResponse());
+  //   }
+  //   hasBeenValidated = true;
+  //   return res.json(sessions.post.createMockSuccessResponse(req.body));
+  // },
 };
 
 module.exports = delay(responses, 2000);

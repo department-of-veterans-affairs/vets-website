@@ -71,30 +71,6 @@ const Index = ({ router }) => {
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
 
-  const validateRequest = async (postBody, apiVersion) => {
-    setIsLoading(true);
-    try {
-      const resp = await api[apiVersion].postSession(postBody);
-      if (resp.errors || resp.error) {
-        setIsLoading(false);
-        goToErrorPage();
-      } else {
-        setSession(token, resp.permissions);
-        goToNextPage();
-      }
-    } catch (e) {
-      setIsLoading(false);
-      if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
-        goToErrorPage();
-      } else {
-        if (!showValidateError) {
-          setShowValidateError(true);
-        }
-        incrementValidateAttempts(window);
-      }
-    }
-  };
-
   const validateHandler = useCallback(
     async () => {
       setLastNameErrorMessage();
@@ -116,13 +92,32 @@ const Index = ({ router }) => {
             }));
           }
         } else {
-          const postBody = {
-            token,
-            dob: formatDateObjectTo8601(dob),
-            lastName,
-            checkInType: app,
-          };
-          validateRequest(postBody, 'v3');
+          setIsLoading(true);
+          try {
+            const resp = await api.v2.postSessionDOB({
+              token,
+              dob: formatDateObjectTo8601(dob),
+              lastName,
+              checkInType: app,
+            });
+            if (resp.errors || resp.error) {
+              setIsLoading(false);
+              goToErrorPage();
+            } else {
+              setSession(token, resp.permissions);
+              goToNextPage();
+            }
+          } catch (e) {
+            setIsLoading(false);
+            if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
+              goToErrorPage();
+            } else {
+              if (!showValidateError) {
+                setShowValidateError(true);
+              }
+              incrementValidateAttempts(window);
+            }
+          }
         }
       } else if (!lastName || !last4Ssn) {
         if (!lastName) {
@@ -134,24 +129,48 @@ const Index = ({ router }) => {
           );
         }
       } else {
-        const postBody = {
-          token,
-          last4: last4Ssn,
-          lastName,
-          checkInType: app,
-        };
-        validateRequest(postBody, 'v2');
+        setIsLoading(true);
+        try {
+          const resp = await api.v2.postSession({
+            token,
+            last4: last4Ssn,
+            lastName,
+            checkInType: app,
+          });
+          if (resp.errors || resp.error) {
+            setIsLoading(false);
+            goToErrorPage();
+          } else {
+            setSession(token, resp.permissions);
+            goToNextPage();
+          }
+        } catch (e) {
+          setIsLoading(false);
+          if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
+            goToErrorPage();
+          } else {
+            if (!showValidateError) {
+              setShowValidateError(true);
+            }
+            incrementValidateAttempts(window);
+          }
+        }
       }
     },
     [
       app,
+      goToErrorPage,
+      goToNextPage,
+      incrementValidateAttempts,
+      isMaxValidateAttempts,
       last4Ssn,
       lastName,
       dob,
+      setSession,
+      showValidateError,
       token,
       t,
       isLorotaSecurityUpdatesEnabled,
-      validateRequest,
     ],
   );
 

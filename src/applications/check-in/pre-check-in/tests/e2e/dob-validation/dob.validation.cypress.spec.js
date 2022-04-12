@@ -17,7 +17,7 @@ describe('Pre-Check In Experience ', () => {
     initializeSessionGet.withSuccessfulNewSession();
     initializePreCheckInDataGet.withSuccess();
 
-    initializeSessionPost.withSuccess(false, 'v3');
+    initializeSessionPost.withSuccess();
 
     initializePreCheckInDataPost.withSuccess();
   });

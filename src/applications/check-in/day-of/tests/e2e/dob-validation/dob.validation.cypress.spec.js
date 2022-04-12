@@ -18,7 +18,7 @@ describe('Check In Experience ', () => {
     initializeCheckInDataGet.withSuccess({
       numberOfCheckInAbledAppointments: 1,
     });
-    initializeSessionPost.withSuccess(false, 'v3');
+    initializeSessionPost.withSuccess();
 
     initializeCheckInDataPost.withSuccess();
   });

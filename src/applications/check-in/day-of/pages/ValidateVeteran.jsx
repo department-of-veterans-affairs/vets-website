@@ -71,30 +71,6 @@ const ValidateVeteran = props => {
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
 
-  const validateRequest = async (postBody, apiVersion) => {
-    setIsLoading(true);
-    try {
-      const resp = await api[apiVersion].postSession(postBody);
-      if (resp.errors || resp.error) {
-        setIsLoading(false);
-        goToErrorPage();
-      } else {
-        setSession(token, resp.permissions);
-        goToNextPage();
-      }
-    } catch (e) {
-      setIsLoading(false);
-      if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
-        goToErrorPage();
-      } else {
-        if (!showValidateError) {
-          setShowValidateError(true);
-        }
-        incrementValidateAttempts(window);
-      }
-    }
-  };
-
   const onClick = useCallback(
     async () => {
       setLastNameErrorMessage();
@@ -116,12 +92,31 @@ const ValidateVeteran = props => {
             }));
           }
         } else {
-          const postBody = {
-            token,
-            dob: formatDateObjectTo8601(dob),
-            lastName,
-          };
-          validateRequest(postBody, 'v3');
+          setIsLoading(true);
+          try {
+            const resp = await api.v2.postSessionDOB({
+              token,
+              dob: formatDateObjectTo8601(dob),
+              lastName,
+            });
+            if (resp.errors || resp.error) {
+              setIsLoading(false);
+              goToErrorPage();
+            } else {
+              setSession(token, resp.permissions);
+              goToNextPage();
+            }
+          } catch (e) {
+            setIsLoading(false);
+            if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
+              goToErrorPage();
+            } else {
+              if (!showValidateError) {
+                setShowValidateError(true);
+              }
+              incrementValidateAttempts(window);
+            }
+          }
         }
       } else if (!lastName || !last4Ssn) {
         if (!lastName) {
@@ -134,12 +129,31 @@ const ValidateVeteran = props => {
         }
       } else {
         // API call
-        const postBody = {
-          token,
-          last4: last4Ssn,
-          lastName,
-        };
-        validateRequest(postBody, 'v2');
+        setIsLoading(true);
+        try {
+          const resp = await api.v2.postSession({
+            token,
+            last4: last4Ssn,
+            lastName,
+          });
+          if (resp.errors || resp.error) {
+            setIsLoading(false);
+            goToErrorPage();
+          } else {
+            setSession(token, resp.permissions);
+            goToNextPage();
+          }
+        } catch (e) {
+          setIsLoading(false);
+          if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
+            goToErrorPage();
+          } else {
+            if (!showValidateError) {
+              setShowValidateError(true);
+            }
+            incrementValidateAttempts(window);
+          }
+        }
       }
     },
     [
@@ -154,7 +168,6 @@ const ValidateVeteran = props => {
       isMaxValidateAttempts,
       showValidateError,
       isLorotaSecurityUpdatesEnabled,
-      validateRequest,
       t,
     ],
   );
