@@ -161,7 +161,7 @@
     "cssnano": "^5.0.8",
     "cy-mobile-commands": "^0.3.0",
     "cy-tr-reporter": "^1.2.5",
-    "cypress": "^9.5.3",
+    "cypress": "^9.5.4",
     "cypress-axe": "^0.14.0",
     "cypress-multi-reporters": "^1.5.0",
     "cypress-plugin-tab": "^1.0.5",
@@ -303,7 +303,7 @@
     "markdown-it": "^12.3.2",
     "markdown-it-link-attributes": "^4.0.0",
     "moment": "^2.19.3",
-    "moment-timezone": "^0.5.33",
+    "moment-timezone": "^0.5.34",
     "prop-types": "^15.6.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -372,6 +372,7 @@
     "**/yargs-parser": "13.1.2",
     "@babel/runtime": "^7.15.4",
     "punycode": "1.4.1",
-    "**/cached-path-relative": "1.1.0"
+    "**/cached-path-relative": "1.1.0",
+    "**/moment": "^2.29.2"
   }
 }

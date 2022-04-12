@@ -45,15 +45,20 @@ describe('Home address update modal', () => {
     addressPage.fillAddressForm(formFields);
     addressPage.saveForm();
 
-    cy.findByTestId('modal-content').should('exist');
+    cy.findByTestId('copy-address-prompt')
+      .shadow()
+      .findByText(`We've updated your home address`)
+      .should('exist');
 
     cy.findByTestId('save-edit-button').click({
       force: true,
+      waitForAnimations: true,
     });
 
-    cy.findByTestId('modal-content').should('exist');
-
-    cy.findByText(`We've updated your mailing address`).should('exist');
+    cy.findByTestId('copy-address-success')
+      .shadow()
+      .findByText(`We've updated your mailing address`)
+      .should('exist');
 
     cy.injectAxeThenAxeCheck();
   });
@@ -78,15 +83,19 @@ describe('Home address update modal', () => {
     addressPage.fillAddressForm(formFields);
     addressPage.saveForm();
 
-    cy.findByTestId('modal-content').should('exist');
+    cy.findByTestId('copy-address-prompt')
+      .shadow()
+      .findByText(`We've updated your home address`)
+      .should('exist');
 
     cy.findByTestId('save-edit-button').click({
       force: true,
     });
 
-    cy.findByTestId('modal-content').should('exist');
-
-    cy.findByText(`We can't update your mailing address`).should('exist');
+    cy.findByTestId('copy-address-failure')
+      .shadow()
+      .findByText(`We can't update your mailing address`)
+      .should('exist');
 
     cy.injectAxeThenAxeCheck();
   });

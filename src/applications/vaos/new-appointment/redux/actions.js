@@ -610,7 +610,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           // for the correct day.
           .map(slot => {
             if (featureVAOSServiceVAAppointments) {
-              let time = moment(slot.start);
+              let time = moment(slot.start).format('YYYY-MM-DDTHH:mm:ss');
               if (slot.start.endsWith('Z') && timezone) {
                 // The moment.tz() function will parse a given time with offset
                 // and convert it to the time zone provided.
@@ -767,28 +767,20 @@ export function submitAppointmentOrRequest(history) {
           appointment = await createAppointment({
             appointment: transformFormToVAOSAppointment(getState()),
           });
-
-          // BG 3/29/2022: This logic is to resolve issue:
-          // https://app.zenhub.com/workspaces/vaos-team-603fdef281af6500110a1691/issues/department-of-veterans-affairs/va.gov-team/39301
-          // This will need to be removed once var resources is sunset.
-          try {
-            await buildPreferencesDataAndUpdate(data.email);
-          } catch (error) {
-            // These are ancillary updates, the request went through if the first submit
-            // succeeded
-            captureError(error);
-          }
         } else {
           const appointmentBody = transformFormToAppointment(getState());
           await submitAppointment(appointmentBody);
+        }
 
-          try {
-            await buildPreferencesDataAndUpdate(data.email);
-          } catch (error) {
-            // These are ancillary updates, the request went through if the first submit
-            // succeeded
-            captureError(error);
-          }
+        // BG 3/29/2022: This logic is to resolve issue:
+        // https://app.zenhub.com/workspaces/vaos-team-603fdef281af6500110a1691/issues/department-of-veterans-affairs/va.gov-team/39301
+        // This will need to be removed once var resources is sunset.
+        try {
+          await buildPreferencesDataAndUpdate(data.email);
+        } catch (error) {
+          // These are ancillary updates, the request went through if the first submit
+          // succeeded
+          captureError(error);
         }
 
         dispatch({
@@ -907,6 +899,17 @@ export function submitAppointmentOrRequest(history) {
                 '\n',
               ),
             });
+          }
+        } else {
+          // // BG 3/29/2022: This logic is to resolve issue:
+          // // https://app.zenhub.com/workspaces/vaos-team-603fdef281af6500110a1691/issues/department-of-veterans-affairs/va.gov-team/39301
+          // // This will need to be removed once var resources is sunset.
+          try {
+            await buildPreferencesDataAndUpdate(data.email);
+          } catch (error) {
+            // These are ancillary updates, the request went through if the first submit
+            // succeeded
+            captureError(error);
           }
         }
 
