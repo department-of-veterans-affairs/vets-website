@@ -13,7 +13,6 @@ describe('Connect Devices Container', () => {
     url: `${
       environment.BASE_URL
     }/health-care/connected-devices/?fitbit=success#_=_`,
-    //  this needs to be /health-care/connected-devices/?fitbit...
   };
   const failureURl = {
     url: `${
@@ -179,13 +178,17 @@ describe('Connect Devices Container', () => {
     expect(connectedDevicesContainer.findByTestId('failure-alert')).to.exist;
   });
 
-  it('should render success alert when device is connected', async () => {
-    HelpersModule.authorizeWithVendor.returns(successUrl);
-    const { getByTestId } = render(<ConnectedDevicesContainer />);
-    await act(async () => {
-      fireEvent.click(getByTestId('Fitbit-connect-link'));
+  it('should render success alert when url params contain a success message', async () => {
+    Object.defineProperty(window, 'location', {
+      value: {
+        href: successUrl,
+      },
     });
-    expect(getByTestId('success-alert')).to.exist;
+    const connectedDevicesContainer = renderInReduxProvider(
+      <ConnectedDevicesContainer />,
+    );
+    expect(await connectedDevicesContainer.findByTestId('success-alert')).to
+      .exist;
   });
 
   it('should render failure alert when device fails to connect', async () => {
