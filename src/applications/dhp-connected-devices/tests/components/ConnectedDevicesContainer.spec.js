@@ -22,19 +22,20 @@ describe('Connect Devices Container', () => {
   afterEach(() => {
     HelpersModule.authorizeWithVendor.restore();
   });
-  it('should render DeviceConnectionSection and DeviceConnectionCards when devices are not connected', () => {
+  it('should render DeviceConnectionSection and DeviceConnectionCards when devices are not connected', async () => {
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
     );
-    expect(connectedDevicesContainer.findByTestId('connected-devices-section'))
-      .exist;
-    expect(connectedDevicesContainer.findByTestId('devices-to-connect-section'))
-      .to.exist;
-    expect(connectedDevicesContainer.findByTestId('Fitbit-connect-link')).to
-      .exist;
     expect(
-      connectedDevicesContainer.findByTestId('Freestyle Libre-connect-link'),
+      await connectedDevicesContainer.findByTestId('connected-devices-section'),
     ).to.exist;
+    expect(
+      await connectedDevicesContainer.findByTestId(
+        'devices-to-connect-section',
+      ),
+    ).to.exist;
+    expect(await connectedDevicesContainer.findByTestId('Fitbit-connect-link'))
+      .to.exist;
   });
 
   it('should render fitbit in connected devices section when connected', () => {

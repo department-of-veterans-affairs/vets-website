@@ -23,9 +23,11 @@ export const ConnectedDevicesContainer = () => {
     device.connected = true;
     setConnectedDevices(connectedDevicesCopy);
   };
+
   const showSuccessAlert = () => {
     setSuccessAlert(true);
   };
+
   const showFailureAlert = () => {
     setFailureAlert(true);
   };
@@ -64,12 +66,13 @@ export const ConnectedDevicesContainer = () => {
   return (
     <>
       <h2>Your connected devices</h2>
-      <ConnectedDevicesSection
-        connectedDevices={connectedDevices}
-        successAlert={successAlert}
-        failureAlert={failureAlert}
-        data-testId="connected-devices-section"
-      />
+      <div data-testId="connected-devices-section">
+        <ConnectedDevicesSection
+          connectedDevices={connectedDevices}
+          successAlert={successAlert}
+          failureAlert={failureAlert}
+        />
+      </div>
       <h2>Devices you can connect</h2>
       <div>
         Choose a device type below to connect. You will be directed to an
@@ -77,11 +80,12 @@ export const ConnectedDevicesContainer = () => {
         device. When complete, you will return to this page on VA.gov.
       </div>
 
-      <DevicesToConnectSection
-        connectedDevices={connectedDevices}
-        onClickHandler={authorizeDevice}
-        data-testId="devices-to-connect-section"
-      />
+      <div data-testId="devices-to-connect-section">
+        <DevicesToConnectSection
+          connectedDevices={connectedDevices}
+          onClickHandler={authorizeDevice}
+        />
+      </div>
     </>
   );
 };
