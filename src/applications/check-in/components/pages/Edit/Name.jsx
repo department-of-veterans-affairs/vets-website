@@ -48,7 +48,7 @@ export default function Name(props) {
     scrollToTop('topScrollElement');
   }, []);
 
-  const onChange = useCallback(
+  const onInput = useCallback(
     event => {
       if (!event.target.value) {
         setError('Name is required');
@@ -80,7 +80,7 @@ export default function Name(props) {
         name={key}
         value={nameValue}
         required
-        onVaChange={onChange}
+        onInput={onInput}
         className="vads-u-margin-bottom--3"
       />
       <UpdateButton
