@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import sinon from 'sinon';
@@ -9,16 +9,6 @@ import * as HelpersModule from '../../helpers';
 import { ConnectedDevicesContainer } from '../../components/ConnectedDevicesContainer';
 
 describe('Connect Devices Container', () => {
-  const successUrl = {
-    url: `${
-      environment.BASE_URL
-    }/health-care/connected-devices/?fitbit=success#_=_`,
-  };
-  const failureURl = {
-    url: `${
-      environment.BASE_URL
-    }/health-care/connected-devices/?fitbit=error#_=_`,
-  };
   beforeEach(() => {
     sinon.stub(HelpersModule, 'authorizeWithVendor');
   });
@@ -178,11 +168,41 @@ describe('Connect Devices Container', () => {
     expect(connectedDevicesContainer.findByTestId('failure-alert')).to.exist;
   });
 
+  it('should display a failure alert when an error occurs with api', async () => {
+    HelpersModule.authorizeWithVendor.throws(Error('something went wrong'));
+    const connectedDevicesContainer = renderInReduxProvider(
+      <ConnectedDevicesContainer />,
+    );
+    await act(async () => {
+      fireEvent.click(
+        await connectedDevicesContainer.findByTestId('Fitbit-connect-link'),
+      );
+    });
+    expect(await connectedDevicesContainer.findByTestId('failure-alert')).to
+      .exist;
+  });
+});
+
+describe('Device connection url parameters', () => {
+  const successUrl = `${
+    environment.BASE_URL
+  }/health-care/connected-devices/?fitbit=success#_=_`;
+  const failureUrl = `${
+    environment.BASE_URL
+  }/health-care/connected-devices/?fitbit=error#_=_`;
+  const savedLocation = window.location;
+
+  beforeEach(() => {
+    delete window.location;
+  });
+  afterEach(() => {
+    window.location = savedLocation;
+  });
+
   it('should render success alert when url params contain a success message', async () => {
-    Object.defineProperty(window, 'location', {
-      value: {
-        href: successUrl,
-      },
+    window.location = Object.assign(new URL(successUrl), {
+      ancestorOrigins: '',
+      assign: sinon.spy(),
     });
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
@@ -191,21 +211,15 @@ describe('Connect Devices Container', () => {
       .exist;
   });
 
-  it('should render failure alert when device fails to connect', async () => {
-    HelpersModule.authorizeWithVendor.returns(failureURl);
-    const { getByTestId } = render(<ConnectedDevicesContainer />);
-    await act(async () => {
-      fireEvent.click(getByTestId('Fitbit-connect-link'));
+  it('should render failure alert when url params contain a error message', async () => {
+    window.location = Object.assign(new URL(failureUrl), {
+      ancestorOrigins: '',
+      assign: sinon.spy(),
     });
-    expect(getByTestId('failure-alert')).to.exist;
-  });
-
-  it('should display a failure alert when an error occurs with api', async () => {
-    HelpersModule.authorizeWithVendor.returns('');
-    const { getByTestId } = render(<ConnectedDevicesContainer />);
-    await act(async () => {
-      fireEvent.click(getByTestId('Fitbit-connect-link'));
-    });
-    expect(getByTestId('failure-alert')).to.exist;
+    const connectedDevicesContainer = renderInReduxProvider(
+      <ConnectedDevicesContainer />,
+    );
+    expect(await connectedDevicesContainer.findByTestId('failure-alert')).to
+      .exist;
   });
 });
