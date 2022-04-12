@@ -399,7 +399,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     userEvent.click(screen.getByText(/yes, cancel this appointment/i));
 
     // Then it should display appointment is canceled
-    await screen.findByText(/your appointment has been canceled/i);
+    await screen.findByTestId('cancel-appointment-SuccessModal');
 
     const cancelData = JSON.parse(
       global.fetch
@@ -1631,6 +1631,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     userEvent.click(screen.getByText(/yes, cancel this appointment/i));
 
     // Then it should display the appointment is canceled
-    await screen.findByText(/your appointment has been canceled/i);
+    await screen.findByTestId('cancel-appointment-SuccessModal');
   });
 });

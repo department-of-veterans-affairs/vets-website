@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from 'web-components/react-bindings';
 import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 import { dismissDowntimeWarning } from 'platform/monitoring/DowntimeNotification/actions';
 import FullWidthLayout from '../FullWidthLayout';
@@ -43,9 +43,9 @@ export default function DowntimeMessage({
   return (
     <>
       {status === externalServiceStatus.downtimeApproaching && (
-        <Modal
+        <VaModal
           id="downtime-approaching-modal"
-          onClose={close}
+          onCloseEvent={close}
           visible={!isDowntimeWarningDismissed}
         >
           <h3>VA online scheduling will be down for maintenance</h3>
@@ -64,7 +64,7 @@ export default function DowntimeMessage({
           >
             Dismiss
           </button>
-        </Modal>
+        </VaModal>
       )}
       {children}
     </>

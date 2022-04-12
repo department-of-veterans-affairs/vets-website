@@ -513,18 +513,10 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
     fireEvent.click(screen.getByText(/Continue/));
-    await screen.findByText(
-      /We’re sorry. We couldn’t find any available slots for your appointment./i,
-    );
-    const closeButton = screen.container.querySelector('.va-modal-close');
-    fireEvent.click(closeButton);
-    expect(screen.baseElement).not.to.contain.text(
-      /We’re sorry. We couldn’t find any available slots for your appointment./i,
-    );
+    await screen.findByTestId('eligibilityModal');
+    expect(screen.findByTestId('eligibilityModal')).to.exist;
     fireEvent.click(screen.getByText(/Continue/));
-    await screen.findByText(
-      /We’re sorry. We couldn’t find any available slots for your appointment./i,
-    );
+    await screen.findByTestId('eligibilityModal');
   });
 
   it('should display an error message when eligibility calls fail', async () => {
@@ -749,7 +741,7 @@ describe('VAOS vaccine flow: <VAFacilityPage>', () => {
 
     fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
     fireEvent.click(screen.getByText(/Continue/));
-    await screen.findByText(/We’re sorry. We’ve run into a problem/i);
+    await screen.findByTestId('eligibilityModal');
     expect(
       within(screen.getByRole('alertdialog')).getByText(
         /Something went wrong/i,

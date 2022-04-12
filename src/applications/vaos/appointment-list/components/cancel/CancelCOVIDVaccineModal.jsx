@@ -1,16 +1,16 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from 'web-components/react-bindings';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 export default function CancelCOVIDVaccineModal({ onClose, facility }) {
   const phone = facility?.telecom?.find(tele => tele.system === 'phone').value;
   return (
-    <Modal
+    <VaModal
       id="cancelAppt"
       status="warning"
       visible
-      onClose={onClose}
-      title="You need to call your VA medical center to cancel this appointment"
+      onCloseEvent={onClose}
+      modalTitle="You need to call your VA medical center to cancel this appointment"
     >
       COVID-19 vaccine appointments can’t be canceled online. Please call the
       below VA facility to cancel your appointment.
@@ -31,6 +31,6 @@ export default function CancelCOVIDVaccineModal({ onClose, facility }) {
         )}
       </p>
       <button onClick={onClose}>OK</button>
-    </Modal>
+    </VaModal>
   );
 }

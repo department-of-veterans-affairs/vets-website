@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from 'web-components/react-bindings';
 
 import FacilityAddress from '../../../components/FacilityAddress';
 import NewTabAnchor from '../../../components/NewTabAnchor';
@@ -12,12 +12,14 @@ export default function CancelAppointmentFailedModal({
 }) {
   const typeText = isConfirmed ? 'appointment' : 'request';
   return (
-    <Modal
+    <VaModal
       id="cancelAppt"
       status="error"
       visible
-      onClose={onClose}
-      title={`We couldn’t cancel your ${typeText}`}
+      onCloseEvent={onClose}
+      modalTitle={`We couldn’t cancel your ${typeText}`}
+      data-testid={`cancel-${typeText}-SuccessModal`}
+      role="alertdialog"
     >
       {isBadRequest ? (
         <p>
@@ -47,6 +49,6 @@ export default function CancelAppointmentFailedModal({
           </>
         )}
       </p>
-    </Modal>
+    </VaModal>
   );
 }

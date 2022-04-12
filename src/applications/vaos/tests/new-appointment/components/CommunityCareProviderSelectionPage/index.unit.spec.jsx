@@ -281,11 +281,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Remove Provider
     userEvent.click(await screen.findByRole('button', { name: /remove/i }));
-    userEvent.click(
-      await screen.findByText(
-        /Are you sure you want to remove this provider\?/i,
-      ),
-    );
+    expect(await screen.findByTestId('removeProviderModal')).to.exist;
     userEvent.click(
       await screen.findByRole('button', { name: /Yes, remove provider/i }),
     );
@@ -375,11 +371,7 @@ describe('VAOS <CommunityCareProviderSelectionPage>', () => {
 
     // Remove Provider
     userEvent.click(await screen.findByRole('button', { name: /remove/i }));
-    userEvent.click(
-      await screen.findByText(
-        /Are you sure you want to remove this provider\?/i,
-      ),
-    );
+    expect(await screen.findByTestId('removeProviderModal')).to.exist;
     userEvent.click(
       await screen.findByRole('button', { name: /Yes, remove provider/i }),
     );

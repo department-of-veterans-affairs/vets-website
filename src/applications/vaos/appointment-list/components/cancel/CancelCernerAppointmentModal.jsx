@@ -1,16 +1,17 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import { FETCH_STATUS } from '../../../utils/constants';
+import { VaModal } from 'web-components/react-bindings';
 import { getCernerURL } from 'platform/utilities/cerner';
+import { FETCH_STATUS } from '../../../utils/constants';
 
 export default function CancelCernerAppointmentModal({ onClose, status }) {
   return (
-    <Modal
+    <VaModal
       id="cancelCernerAppt"
       status="warning"
       visible
-      onClose={onClose}
-      title="You can’t cancel this appointment on the VA appointments tool."
+      onCloseEvent={onClose}
+      modalTitle="You can’t cancel this appointment on the VA appointments tool."
+      role="alertdialog"
     >
       To cancel this appointment, please go to My VA Health.
       <p className="vads-u-margin-top--2">
@@ -30,6 +31,6 @@ export default function CancelCernerAppointmentModal({ onClose, status }) {
           Go back to VA appointments
         </button>
       </p>
-    </Modal>
+    </VaModal>
   );
 }

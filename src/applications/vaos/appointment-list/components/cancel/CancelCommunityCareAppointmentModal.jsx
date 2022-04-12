@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from 'web-components/react-bindings';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import FacilityPhone from '../../../components/FacilityPhone';
 
@@ -9,19 +9,19 @@ export default function CancelCommunityCareAppointmentModal({
 }) {
   const provider = appointment.communityCareProvider;
   const phone = provider.telecom?.find(item => item.system === 'phone')?.value;
-  const address = provider.address;
+  const { address } = provider;
 
   const title = provider.address
     ? 'You need to call your community care provider to cancel this appointment'
     : 'You need to call your community care staff at your local VA facility to cancel this appointment';
 
   return (
-    <Modal
+    <VaModal
       id="cancelAppt"
       status="warning"
       visible
-      onClose={onClose}
-      title={title}
+      onCloseEvent={onClose}
+      modalTitle={title}
     >
       Community care appointments can’t be canceled online.{' '}
       {!address && (
@@ -53,6 +53,6 @@ export default function CancelCommunityCareAppointmentModal({
         )}
       </div>
       <button onClick={onClose}>OK</button>
-    </Modal>
+    </VaModal>
   );
 }
