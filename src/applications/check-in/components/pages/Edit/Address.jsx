@@ -216,7 +216,7 @@ export default function Address(props) {
                 name={addressField.name}
                 key={addressField.name}
                 value={addressValue[addressField.name]}
-                onVaBlur={
+                onBlur={
                   addressField.options?.extraValidation
                     ? event =>
                         onBlur(event, addressField.options.extraValidation)
