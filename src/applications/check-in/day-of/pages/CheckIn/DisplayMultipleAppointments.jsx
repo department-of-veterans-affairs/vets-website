@@ -8,6 +8,7 @@ import AppointmentListItem from '../../../components/AppointmentDisplay/Appointm
 import BackButton from '../../../components/BackButton';
 import BackToHome from '../../../components/BackToHome';
 import Footer from '../../../components/Footer';
+import LanguagePicker from '../../../components/LanguagePicker';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
@@ -37,8 +38,9 @@ const DisplayMultipleAppointments = props => {
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
   return (
     <>
-      <BackButton router={router} action={goToPreviousPage} />
       <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
+        <LanguagePicker />
+        <BackButton router={router} action={goToPreviousPage} />
         <h1 tabIndex="-1" className="vads-u-margin-top--2">
           {t('your-appointments')}
         </h1>
