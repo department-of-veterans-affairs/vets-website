@@ -5,7 +5,7 @@ import LoginHeader from 'platform/user/authentication/components/LoginHeader';
 
 describe('LoginHeader', () => {
   let wrapper;
-  const props = { loggedOut: false };
+  const props = { loggedOut: false, isIOS: () => false };
 
   beforeEach(() => {
     wrapper = shallow(<LoginHeader {...props} />);
@@ -26,5 +26,11 @@ describe('LoginHeader', () => {
   });
   it('should render `DowntimeBanners`', () => {
     expect(wrapper.find('DowntimeBanners').exists()).to.be.true;
+  });
+  it('should display an informational alert for iOS users', () => {
+    const mutatedProps = { loggedOut: false, isIOS: () => true };
+    wrapper = shallow(<LoginHeader {...mutatedProps} />);
+    expect(wrapper.find('#ios-bug').exists()).to.be.true;
+    wrapper.unmount();
   });
 });
