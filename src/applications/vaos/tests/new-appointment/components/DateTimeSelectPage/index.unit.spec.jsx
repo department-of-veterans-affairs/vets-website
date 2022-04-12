@@ -598,7 +598,7 @@ describe('VAOS <DateTimeSelectPage>', () => {
 
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/appointments/new-appointment/request-date',
+        '/new-appointment/request-date',
       ),
     );
   });

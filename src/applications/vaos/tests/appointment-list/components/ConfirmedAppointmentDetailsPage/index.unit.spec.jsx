@@ -153,9 +153,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
       screen.getByRole('link', { name: /VA online scheduling/i }),
     );
     await waitFor(() =>
-      expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/appointments?redirect=false',
-      ),
+      expect(screen.history.push.lastCall.args[0]).to.equal('/'),
     );
 
     const detailLinks = await screen.findAllByRole('link', {

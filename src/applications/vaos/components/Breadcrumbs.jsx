@@ -28,13 +28,13 @@ export default function VAOSBreadcrumbs({ children }) {
         Schedule and manage health appointments
       </a>
       {!featureStatusImprovement && (
-        <Link to="/appointments?redirect=false" key="vaos-home">
+        <Link to="/" key="vaos-home">
           VA online scheduling
         </Link>
       )}
       {featureStatusImprovement && (
         <Link
-          to="/appointments?redirect=false"
+          to="/"
           key="vaos-home"
           onClick={() => dispatch(updateBreadcrumb())}
         >

@@ -803,11 +803,9 @@ export function submitAppointmentOrRequest(history) {
         resetDataLayer();
 
         if (featureVAOSServiceVAAppointments) {
-          history.push(
-            `/appointments/va/${appointment.id}?confirmMsg=true&redirect=false`,
-          );
+          history.push(`/va/${appointment.id}?confirmMsg=true&redirect=false`);
         } else {
-          history.push('/appointments/new-appointment/confirmation');
+          history.push('/new-appointment/confirmation');
         }
       } catch (error) {
         const extraData = {
@@ -923,9 +921,7 @@ export function submitAppointmentOrRequest(history) {
         });
         resetDataLayer();
         history.push(
-          `/appointments/requests/${
-            requestData.id
-          }?confirmMsg=true&redirect=false`,
+          `/requests/${requestData.id}?confirmMsg=true&redirect=false`,
         );
       } catch (error) {
         let extraData = null;

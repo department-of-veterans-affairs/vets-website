@@ -67,7 +67,7 @@ describe('VAOS <TypeOfFacilityPage>', () => {
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/appointments/new-appointment/request-date',
+        '/new-appointment/request-date',
       ),
     );
 
@@ -78,7 +78,7 @@ describe('VAOS <TypeOfFacilityPage>', () => {
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/appointments/new-appointment/request-date',
+        '/new-appointment/request-date',
       ),
     );
   });

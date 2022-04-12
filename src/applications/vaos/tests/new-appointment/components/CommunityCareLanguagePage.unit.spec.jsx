@@ -67,7 +67,7 @@ describe('VAOS <CommunityCareLanguagePage>', () => {
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/appointments/new-appointment/reason-appointment',
+        '/new-appointment/reason-appointment',
       ),
     );
   });

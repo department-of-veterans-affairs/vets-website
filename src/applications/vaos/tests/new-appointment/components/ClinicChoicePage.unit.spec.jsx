@@ -161,7 +161,7 @@ describe('VAOS <ClinicChoicePage>', () => {
 
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/appointments/new-appointment/preferred-date',
+        '/new-appointment/preferred-date',
       ),
     );
 
@@ -176,7 +176,7 @@ describe('VAOS <ClinicChoicePage>', () => {
 
     await waitFor(() =>
       expect(screen.history.push.secondCall.args[0]).to.equal(
-        '/appointments/new-appointment/request-date',
+        '/new-appointment/request-date',
       ),
     );
   });
@@ -320,7 +320,7 @@ describe('VAOS <ClinicChoicePage>', () => {
     userEvent.click(screen.getByText(/continue/i));
     await waitFor(() =>
       expect(screen.history.push.firstCall.args[0]).to.equal(
-        '/appointments/new-appointment/preferred-date',
+        '/new-appointment/preferred-date',
       ),
     );
 
@@ -331,7 +331,7 @@ describe('VAOS <ClinicChoicePage>', () => {
     userEvent.click(screen.getByText(/continue/i));
     await waitFor(() =>
       expect(screen.history.push.secondCall.args[0]).to.equal(
-        '/appointments/new-appointment/request-date',
+        '/new-appointment/request-date',
       ),
     );
   });

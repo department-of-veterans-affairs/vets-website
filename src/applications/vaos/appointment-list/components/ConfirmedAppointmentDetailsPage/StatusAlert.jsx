@@ -54,7 +54,7 @@ export default function StatusAlert({ appointment, facility }) {
         <strong>We’ve scheduled and confirmed your appointment.</strong>
         <br />
         <div className="vads-u-margin-y--1">
-          <Link to="/appointments" onClick={handleClick()}>
+          <Link to="/" onClick={handleClick()}>
             Review your appointments
           </Link>
         </div>

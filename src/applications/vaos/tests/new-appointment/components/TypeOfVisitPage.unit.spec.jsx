@@ -87,7 +87,7 @@ describe('VAOS <TypeOfVisitPage> ', () => {
 
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/appointments/new-appointment/contact-info',
+        '/new-appointment/contact-info',
       ),
     );
   });

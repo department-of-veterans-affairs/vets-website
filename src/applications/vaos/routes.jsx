@@ -31,7 +31,7 @@ export default function createRoutesWithStore(store) {
       <VAOSApp>
         <Switch>
           <EnrolledRoute
-            path="/appointments/new-appointment"
+            path="/new-appointment"
             component={asyncLoader(() =>
               import(/* webpackChunkName: "vaos-form" */ './new-appointment')
                 .then(({ NewAppointment, reducer }) => {
@@ -67,7 +67,7 @@ export default function createRoutesWithStore(store) {
             from="/new-covid-19-vaccine-booking"
             to="/new-appointment"
           />
-          <EnrolledRoute path="/appointments" component={AppointmentList} />
+          <EnrolledRoute path="" component={AppointmentList} />
           <Route
             path="*"
             render={() => {

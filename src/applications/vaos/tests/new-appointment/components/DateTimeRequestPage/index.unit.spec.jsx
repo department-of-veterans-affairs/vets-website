@@ -499,7 +499,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       // Then they're sent to the closest city selection page
       await waitFor(() => {
         expect(screen.history.push.lastCall.args[0]).to.equal(
-          '/appointments/new-appointment/choose-closest-city',
+          '/new-appointment/choose-closest-city',
         );
       });
     });
@@ -535,7 +535,7 @@ describe('VAOS <DateTimeRequestPage>', () => {
       // Then they're sent to the preferences page
       await waitFor(() => {
         expect(screen.history.push.lastCall.args[0]).to.equal(
-          '/appointments/new-appointment/community-care-preferences',
+          '/new-appointment/community-care-preferences',
         );
       });
     });

@@ -124,7 +124,7 @@ describe('VAOS <ConfirmationDirectScheduleInfoV2>', () => {
     const screen = renderWithStoreAndRouter(<ConfirmationPage />, { store });
     expect(screen.getByText(/Review your appointments/i)).to.have.attribute(
       'href',
-      '/appointments',
+      '/',
     );
   });
 

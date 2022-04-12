@@ -94,7 +94,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/appointments/new-appointment/va-facility-2',
+        '/new-appointment/va-facility-2',
       ),
     );
   });
@@ -117,7 +117,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/appointments/new-appointment/va-facility-2',
+        '/new-appointment/va-facility-2',
       ),
     );
     await cleanup();
@@ -205,7 +205,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/appointments/new-appointment/choose-facility-type',
+        '/new-appointment/choose-facility-type',
       ),
     );
   });
@@ -221,7 +221,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/appointments/new-appointment/choose-eye-care',
+        '/new-appointment/choose-eye-care',
       ),
     );
   });
@@ -237,7 +237,7 @@ describe('VAOS <TypeOfCarePage>', () => {
     fireEvent.click(screen.getByText(/Continue/));
     await waitFor(() =>
       expect(screen.history.push.lastCall?.args[0]).to.equal(
-        '/appointments/new-appointment/choose-sleep-care',
+        '/new-appointment/choose-sleep-care',
       ),
     );
   });
@@ -441,7 +441,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       fireEvent.click(screen.getByText(/Continue/));
       await waitFor(() =>
         expect(screen.history.push.lastCall?.args[0]).to.equal(
-          '/appointments/new-appointment/choose-facility-type',
+          '/new-appointment/choose-facility-type',
         ),
       );
     });
@@ -473,7 +473,7 @@ describe('VAOS <TypeOfCarePage>', () => {
       fireEvent.click(screen.getByText(/Continue/));
       await waitFor(() =>
         expect(screen.history.push.lastCall?.args[0]).to.equal(
-          '/appointments/new-appointment/va-facility-2',
+          '/new-appointment/va-facility-2',
         ),
       );
     });
