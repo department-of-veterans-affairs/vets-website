@@ -1,59 +1,39 @@
 import React from 'react';
-import merge from 'lodash/merge';
 import { createSelector } from 'reselect';
 
-import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
+// Example of an imported schema:
+// import fullSchema from '../22-1990-schema.json';
+// eslint-disable-next-line no-unused-vars
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import emailUI from 'platform/forms-system/src/js/definitions/email';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import * as address from 'platform/forms-system/src/js/definitions/address';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from 'platform/utilities/environment';
+import bankAccountUI from 'platform/forms/definitions/bankAccount';
+import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 
 import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
 
-import * as address from 'platform/forms/definitions/address';
-import * as personId from 'platform/forms/definitions/personId';
-import FormFooter from 'platform/forms/components/FormFooter';
-import applicantInformation from 'platform/forms/pages/applicantInformation';
-import bankAccountUI from 'platform/forms/definitions/bankAccount';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
-import environment from 'platform/utilities/environment';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import fullNameUISchema from 'platform/forms/definitions/fullName';
-import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
-import oldPreSubmitInfo from 'platform/forms/preSubmitInfo';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import { VA_FORM_IDS } from 'platform/forms/constants';
-import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
+// TODO Update this when we get the correct schema.
+import fullSchema from '../../../my-education-benefits/22-1990-schema.json';
 
-import { directDepositDescription } from '../../1990/helpers';
+import manifest from '../manifest.json';
 
-import ErrorText from '../../components/ErrorText';
-import GetFormHelp from '../../components/GetFormHelp';
-import NewGetHelp from '../components/NewGetHelp';
-import NewIntroductionPage from '../containers/NewIntroductionPage';
-import additionalBenefits from '../../pages/additionalBenefits';
-import newPreSubmitInfo from '../containers/PreSubmitInfo';
-
-import createContactInformationPage from '../../pages/contactInformation';
-import createSchoolSelectionPage, {
-  schoolSelectionOptionsFor,
-} from '../../pages/schoolSelection';
-import oldCreateDirectDepositPage from '../../pages/directDeposit';
-import createDirectDepositPage from '../content/directDeposit';
-import employmentHistoryPage from '../../pages/employmentHistory';
-
-import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
-
-import EmailReviewField from '../components/EmailReviewField';
-import EmailViewField from '../components/EmailViewField';
+import TOEIntroductionPage from '../containers/TOEIntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import DynamicCheckboxGroup from '../components/DynamicCheckboxGroup';
-import DynamicRadioGroup from '../components/DynamicRadioGroup';
-import IntroductionPage from '../containers/IntroductionPage';
-import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
-import MailingAddressViewField from '../components/MailingAddressViewField';
-import PhoneReviewField from '../components/PhoneReviewField';
+import EmailViewField from '../components/EmailViewField';
 import PhoneViewField from '../components/PhoneViewField';
-import Sponsors from '../components/Sponsors';
+import MailingAddressViewField from '../components/MailingAddressViewField';
 import YesNoReviewField from '../components/YesNoReviewField';
+import PhoneReviewField from '../components/PhoneReviewField';
+import EmailReviewField from '../components/EmailReviewField';
+
+import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 
 import {
   isValidPhone,
@@ -61,42 +41,59 @@ import {
   validateEmail,
 } from '../utils/validation';
 
+import { directDepositDescription } from '../../1990/helpers';
+import GetHelp from '../components/GetHelp';
+import Sponsors from '../components/Sponsors';
+import DynamicCheckboxGroup from '../components/DynamicCheckboxGroup';
+import DynamicRadioGroup from '../components/DynamicRadioGroup';
 import { SPONSOR_NOT_LISTED_VALUE, SPONSOR_RELATIONSHIP } from '../constants';
 
-import {
-  transform,
-  eligibilityDescription,
-  benefitsLabels,
-  relationshipLabels,
-  isOnlyWhitespace,
-  titleCase,
-} from '../helpers';
+const { fullName, date, dateRange, usaPhone, email } = commonDefinitions;
 
-import { urlMigration } from '../../config/migrations';
+// Define all the fields in the form to aid reuse
+const formFields = {
+  accountNumber: 'accountNumber',
+  accountType: 'accountType',
+  activeDutyKicker: 'activeDutyKicker',
+  additionalConsiderationsNote: 'additionalConsiderationsNote',
+  address: 'address',
+  bankAccount: 'bankAccount',
+  benefitEffectiveDate: 'benefitEffectiveDate',
+  benefitRelinquished: 'benefitRelinquished',
+  contactMethod: 'contactMethod',
+  dateOfBirth: 'dateOfBirth',
+  email: 'email',
+  federallySponsoredAcademy: 'federallySponsoredAcademy',
+  firstSponsor: 'firstSponsor',
+  fullName: 'fullName',
+  hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
+  highSchoolDiploma: 'highSchoolDiploma',
+  highSchoolDiplomaDate: 'highSchoolDiplomaDate',
+  incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
+  loanPayment: 'loanPayment',
+  mobilePhoneNumber: 'mobilePhoneNumber',
+  mobilePhoneNumberInternational: 'mobilePhoneNumberInternational',
+  phoneNumber: 'phoneNumber',
+  phoneNumberInternational: 'phoneNumberInternational',
+  relationshipToServiceMember: 'relationshipToServiceMember',
+  receiveTextMessages: 'receiveTextMessages',
+  routingNumber: 'routingNumber',
+  serviceHistoryIncorrect: 'serviceHistoryIncorrect',
+  selectedSponsors: 'selectedSponsors',
+  sponsorDateOfBirth: 'sponsorDateOfBirth',
+  sponsorFullName: 'sponsorFullName',
+  ssn: 'ssn',
+  toursOfDuty: 'toursOfDuty',
+  userFullName: 'userFullName',
+  viewBenefitSelection: 'view:benefitSelection',
+  viewNoDirectDeposit: 'view:noDirectDeposit',
+  viewPhoneNumbers: 'view:phoneNumbers',
+  viewSelectedSponsor: 'view:selectedSponsor',
+  viewStopWarning: 'view:stopWarning',
+};
 
-import manifest from '../manifest.json';
-
-const {
-  benefit,
-  faaFlightCertificatesInformation,
-  serviceBranch,
-} = fullSchema1990e.properties;
-
-const {
-  // date,
-  // dateRange,
-  educationType,
-  // fullName,
-  postHighSchoolTrainings,
-  // usaPhone,
-} = fullSchema1990e.definitions;
-
-const newToeAppEnabled = false;
-const preSubmitInfo = environment.isProduction()
-  ? oldPreSubmitInfo
-  : newPreSubmitInfo;
-
-const newFormPages = {
+// Define all the form pages to help ensure uniqueness across all form chapters
+const formPages = {
   newApplicantInformation: 'newApplicantInformation',
   newContactInformation: {
     newContactInformation: 'newContactInformation',
@@ -112,53 +109,15 @@ const newFormPages = {
   newVerifyHighSchool: 'newVerifyHighSchool',
 };
 
-const newFormFields = {
-  newAccountNumber: 'newAccountNumber',
-  newAccountType: 'newAccountType',
-  newActiveDutyKicker: 'newActiveDutyKicker',
-  newAdditionalConsiderationsNote: 'newAdditionalConsiderationsNote',
-  newAddress: 'newAddress',
-  newBankAccount: 'newBankAccount',
-  newBenefitEffectiveDate: 'newBenefitEffectiveDate',
-  newBenefitRelinquished: 'newBenefitRelinquished',
-  newContactMethod: 'newContactMethod',
-  newDateOfBirth: 'newDateOfBirth',
-  newEmail: 'newEmail',
-  newFederallySponsoredAcademy: 'newFederallySponsoredAcademy',
-  newFirstSponsor: 'newFirstSponsor',
-  newFullName: 'newFullName',
-  newHasDoDLoanPaymentPeriod: 'newHasDoDLoanPaymentPeriod',
-  newHighSchoolDiploma: 'newHighSchoolDiploma',
-  newHighSchoolDiplomaDate: 'newHighSchoolDiplomaDate',
-  newIncorrectServiceHistoryExplanation:
-    'newIncorrectServiceHistoryExplanation',
-  newLoanPayment: 'newLoanPayment',
-  newMobilePhoneNumber: 'newMobilePhoneNumber',
-  newMobilePhoneNumberInternational: 'newMobilePhoneNumberInternational',
-  newPhoneNumber: 'newPhoneNumber',
-  newPhoneNumberInternational: 'newPhoneNumberInternational',
-  newRelationshipToServiceMember: 'newRelationshipToServiceMember',
-  newReceiveTextMessages: 'newReceiveTextMessages',
-  newRoutingNumber: 'newRoutingNumber',
-  newServiceHistoryIncorrect: 'newServiceHistoryIncorrect',
-  newSelectedSponsors: 'newSelectedSponsors',
-  newSponsorDateOfBirth: 'newSponsorDateOfBirth',
-  newSponsorFullName: 'newSponsorFullName',
-  newSsn: 'newSsn',
-  newToursOfDuty: 'newToursOfDuty',
-  newUserFullName: 'newUserFullName',
-  newViewBenefitSelection: 'view:newBenefitSelection',
-  newViewNoDirectDeposit: 'view:newNoDirectDeposit',
-  newViewPhoneNumbers: 'view:newPhoneNumbers',
-  newViewSelectedSponsor: 'view:newSelectedSponsor',
-  newViewStopWarning: 'view:newStopWarning',
-};
-
-const { fullName, date, dateRange, usaPhone, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
-const checkImageSrc = environment.isStaging()
-  ? `${VAGOVSTAGING}/img/check-sample.png`
-  : `${vagovprod}/img/check-sample.png`;
+
+function isOnlyWhitespace(str) {
+  return str && !str.trim().length;
+}
+
+function titleCase(str) {
+  return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
 
 function phoneUISchema(category, parent, international) {
   return {
@@ -197,227 +156,57 @@ function phoneSchema() {
   };
 }
 
+// function transform(metaData, form) {
+//   const submission = createSubmissionForm(form.data);
+//   return JSON.stringify(submission);
+// }
+
+const checkImageSrc = environment.isStaging()
+  ? `${VAGOVSTAGING}/img/check-sample.png`
+  : `${vagovprod}/img/check-sample.png`;
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990e`,
-  trackingPrefix: 'edu-1990e-',
-  formId: VA_FORM_IDS.FORM_22_1990E,
+  submitUrl: `${environment.API_URL}/meb_api/v0/submit_claim`,
+  // transformForSubmit: transform,
+  trackingPrefix: 'my-education-benefits-',
+  introduction: TOEIntroductionPage,
+  confirmation: ConfirmationPage,
+  formId: VA_FORM_IDS.FORM_22_1990EZ,
   saveInProgress: {
     messages: {
-      messages: {
-        inProgress:
-          'Your education benefits application (22-1990E) is in progress.',
-        expired:
-          'Your saved education benefits application (22-1990E) has expired. If you want to apply for education benefits, please start a new application.',
-        saved: 'Your education benefits application has been saved.',
-      },
+      inProgress:
+        'Your my education benefits application (22-1990) is in progress.',
+      expired:
+        'Your saved my education benefits application (22-1990) has expired. If you want to apply for my education benefits, please start a new application.',
+      saved: 'Your my education benefits application has been saved.',
     },
   },
-  version: 1,
-  migrations: [urlMigration('/1990e')],
+  version: 0,
   prefillEnabled: true,
   savedFormMessages: {
-    notFound:
-      'Please start over to apply to use transferred education benefits.',
+    notFound: 'Please start over to apply for my education benefits.',
     noAuth:
-      'Please sign in again to resume your application for transferred education benefits.',
+      'Please sign in again to continue your application for my education benefits.',
   },
-  transformForSubmit: transform,
-  introduction: newToeAppEnabled ? NewIntroductionPage : IntroductionPage,
-  confirmation: ConfirmationPage,
+  title: 'Apply for VA education benefits',
+  subTitle: 'Equal to VA Form 22-1990 (Application for VA Education Benefits)',
   defaultDefinitions: {
+    fullName,
+    // ssn,
     date,
     dateRange,
-    educationType,
     usaPhone,
   },
-  title: 'Apply to use transferred education benefits',
-  subTitle: 'Form 22-1990E',
-  preSubmitInfo,
   footerContent: FormFooter,
-  getHelp: newToeAppEnabled ? NewGetHelp : GetFormHelp,
-  errorText: ErrorText,
+  getHelp: GetHelp,
+  preSubmitInfo,
   chapters: {
-    // OLD FORM CONFIG
-    // ---------------
-    // The following form config is the old 1990e form. It should be
-    // displayed by default.
-    applicantInformation: {
-      title: 'Applicant information',
-      pages: {
-        applicantInformation: {
-          ...applicantInformation(fullSchema1990e, {
-            labels: { relationship: relationshipLabels },
-          }),
-          depends: formData => !formData.showUpdatedToeApp,
-        },
-        additionalBenefits: {
-          ...additionalBenefits(fullSchema1990e),
-          depends: formData => !formData.showUpdatedToeApp,
-        },
-      },
-    },
-    benefitEligibility: {
-      title: 'Benefits eligibility',
-      pages: {
-        benefitEligibility: {
-          path: 'benefits/eligibility',
-          title: 'Benefits eligibility',
-          depends: formData => !formData.showUpdatedToeApp,
-          uiSchema: {
-            'ui:description': eligibilityDescription,
-            benefit: {
-              'ui:widget': 'radio',
-              'ui:title':
-                'Select the benefit that has been transferred to you.',
-              'ui:options': {
-                labels: benefitsLabels,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              benefit,
-            },
-          },
-        },
-      },
-    },
-    sponsorVeteran: {
-      title: 'Sponsor information',
-      pages: {
-        sponsorVeteran: {
-          title: 'Sponsor information',
-          path: 'sponsor/information',
-          depends: formData => !formData.showUpdatedToeApp,
-          uiSchema: {
-            veteranFullName: merge({}, fullNameUISchema, {
-              first: {
-                'ui:title': "Sponsor's first name",
-              },
-              last: {
-                'ui:title': "Sponsor's last name",
-              },
-              middle: {
-                'ui:title': "Sponsor's middle name",
-              },
-              suffix: {
-                'ui:title': "Sponsor's suffix",
-              },
-            }),
-            'view:veteranId': merge({}, personId.uiSchema(), {
-              veteranSocialSecurityNumber: {
-                'ui:title': "Sponsor's Social Security number",
-              },
-              'view:noSSN': {
-                'ui:title': 'I don’t know my sponsor’s Social Security number',
-              },
-              vaFileNumber: {
-                'ui:title': "Sponsor's VA file number",
-              },
-            }),
-            veteranAddress: address.uiSchema("Sponsor's address"),
-            serviceBranch: {
-              'ui:title': "Sponsor's branch of service",
-            },
-          },
-          schema: {
-            type: 'object',
-            required: ['veteranFullName'],
-            properties: {
-              veteranFullName: fullName,
-              'view:veteranId': personId.schema(fullSchema1990e),
-              veteranAddress: address.schema(fullSchema1990e),
-              serviceBranch,
-            },
-          },
-        },
-      },
-    },
-    educationHistory: {
-      title: 'Education history',
-      pages: {
-        educationHistory: {
-          path: 'education/history',
-          title: 'Education history',
-          initialData: {},
-          depends: formData => !formData.showUpdatedToeApp,
-          uiSchema: {
-            highSchoolOrGedCompletionDate: monthYearUI(
-              'When did you earn your high school diploma or equivalency certificate?',
-            ),
-            postHighSchoolTrainings: postHighSchoolTrainingsUi,
-            faaFlightCertificatesInformation: {
-              'ui:title':
-                'If you have any FAA flight certificates, please list them here.',
-              'ui:widget': 'textarea',
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              highSchoolOrGedCompletionDate: date,
-              postHighSchoolTrainings,
-              faaFlightCertificatesInformation,
-            },
-          },
-        },
-      },
-    },
-    employmentHistory: {
-      title: 'Employment history',
-      pages: {
-        employmentHistory: {
-          ...employmentHistoryPage(fullSchema1990e, false),
-          depends: formData => !formData.showUpdatedToeApp,
-        },
-      },
-    },
-    schoolSelection: {
-      title: 'School selection',
-      pages: {
-        schoolSelection: {
-          ...createSchoolSelectionPage(
-            fullSchema1990e,
-            schoolSelectionOptionsFor['1990e'],
-          ),
-          depends: formData => !formData.showUpdatedToeApp,
-        },
-      },
-    },
-    personalInformation: {
-      title: 'Personal information',
-      pages: {
-        contactInformation: {
-          ...createContactInformationPage(fullSchema1990e, 'relativeAddress'),
-          depends: formData => !formData.showUpdatedToeApp,
-        },
-        directDeposit: environment.isProduction()
-          ? {
-              ...oldCreateDirectDepositPage(fullSchema1990e),
-              depends: formData => !formData.showUpdatedToeApp,
-            }
-          : {
-              ...createDirectDepositPage(),
-              depends: formData => !formData.showUpdatedToeApp,
-            },
-      },
-    },
-    // ---------------------
-    // END -- OLD FORM CONIG
-    // ---------------------
-
-    // NEW FORM CONIG
-    // --------------
-    // The following is the NEW form config. It should be hidden by
-    // default.
-    newApplicantInformationChapter: {
+    applicantInformationChapter: {
       title: 'Your information',
       pages: {
-        [newFormPages.newApplicantInformation]: {
-          depends: formData => formData.showUpdatedToeApp,
+        [formPages.newApplicantInformation]: {
           title: 'Your information',
           path: 'applicant-information/personal-information',
           subTitle: 'Your information',
@@ -447,7 +236,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newUserFullName]: {
+            [formFields.userFullName]: {
               ...fullNameUI,
               first: {
                 ...fullNameUI.first,
@@ -476,7 +265,7 @@ const formConfig = {
                 'ui:title': 'Your middle name',
               },
             },
-            [newFormFields.newDateOfBirth]: {
+            [formFields.dateOfBirth]: {
               ...currentOrPastDateUI('Date of birth'),
             },
             'view:dateOfBirthUnder18Alert': {
@@ -490,13 +279,12 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData => {
-                  if (!formData || !formData[newFormFields.newDateOfBirth]) {
+                  if (!formData || !formData[formFields.dateOfBirth]) {
                     return true;
                   }
 
                   const dateParts =
-                    formData &&
-                    formData[newFormFields.newDateOfBirth].split('-');
+                    formData && formData[formFields.dateOfBirth].split('-');
 
                   if (!dateParts || dateParts.length !== 3) {
                     return true;
@@ -525,13 +313,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [newFormFields.newDateOfBirth],
+            required: [formFields.dateOfBirth],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newUsevFullName]: {
+              [formFields.userFullName]: {
                 ...fullName,
                 properties: {
                   ...fullName.properties,
@@ -541,7 +329,7 @@ const formConfig = {
                   },
                 },
               },
-              [newFormFields.newDateOfBirth]: date,
+              [formFields.dateOfBirth]: date,
               'view:dateOfBirthUnder18Alert': {
                 type: 'object',
                 properties: {},
@@ -554,13 +342,12 @@ const formConfig = {
     sponsorInformationChapter: {
       title: 'Sponsor information',
       pages: {
-        [newFormPages.newSponsorSelection]: {
+        [formPages.newSponsorSelection]: {
           title: 'Phone numbers and email address',
           path: 'sponsor/select-sponsor',
           depends: formData =>
-            formData.showUpdatedToeApp &&
-            (!formData.fetchedSponsorsComplete ||
-              formData.sponsors?.sponsors?.length),
+            !formData.fetchedSponsorsComplete ||
+            formData.sponsors?.sponsors?.length,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -591,7 +378,7 @@ const formConfig = {
                 hideIf: formData => !!formData.fetchedSponsorsComplete,
               },
             },
-            [newFormFields.newSelectedSponsors]: {
+            [formFields.selectedSponsors]: {
               'ui:field': DynamicCheckboxGroup,
               'ui:required': formData => !!formData.sponsors?.sponsors?.length,
               'ui:options': {
@@ -624,7 +411,7 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newSelectedSponsors]: {
+              [formFields.selectedSponsors]: {
                 type: 'array',
                 minItems: 1,
                 items: {
@@ -638,11 +425,10 @@ const formConfig = {
             },
           },
         },
-        [newFormPages.newFirstSponsorSelection]: {
+        [formPages.newFirstSponsorSelection]: {
           title: 'Sponsor information',
           path: 'sponsor/select-first-sponsor',
-          depends: formData =>
-            formData.showUpdatedToeApp && formData.selectedSponsors?.length > 1,
+          depends: formData => formData.selectedSponsors?.length > 1,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -656,7 +442,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newFirstSponsor]: {
+            [formFields.firstSponsor]: {
               'ui:title': (
                 <>
                   <span className="toe-sponsors-labels_label--main">
@@ -696,13 +482,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [newFormFields.newFirstSponsor],
+            required: [formFields.firstSponsor],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newFirstSponsor]: {
+              [formFields.firstSponsor]: {
                 type: 'string',
               },
               'view:firstSponsorAdditionalInfo': {
@@ -712,15 +498,14 @@ const formConfig = {
             },
           },
         },
-        [newFormPages.newSponsorInformation]: {
+        [formPages.newSponsorInformation]: {
           title: 'Phone numbers and email address',
           path: 'sponsor/information',
           depends: formData =>
-            formData.showUpdatedToeApp &&
-            (!formData.sponsors?.sponsors?.length ||
-              formData.sponsors?.firstSponsor === SPONSOR_NOT_LISTED_VALUE ||
-              (formData[newFormFields.newSelectedSponsors]?.length === 1 &&
-                formData.sponsors?.someoneNotListed)),
+            !formData.sponsors?.sponsors?.length ||
+            formData.sponsors?.firstSponsor === SPONSOR_NOT_LISTED_VALUE ||
+            (formData[formFields.selectedSponsors]?.length === 1 &&
+              formData.sponsors?.someoneNotListed),
           uiSchema: {
             'view:noSponsorWarning': {
               'ui:description': (
@@ -776,12 +561,12 @@ const formConfig = {
                 hideIf: formData => !formData.sponsors?.sponsors?.length,
               },
             },
-            [newFormFields.newRelationshipToServiceMember]: {
+            [formFields.relationshipToServiceMember]: {
               'ui:title':
                 'What’s your relationship to the service member whose benefit has been transferred to you?',
               'ui:widget': 'radio',
             },
-            [newFormFields.newSponsorFullName]: {
+            [formFields.sponsorFullName]: {
               ...fullNameUI,
               first: {
                 ...fullNameUI.first,
@@ -810,15 +595,15 @@ const formConfig = {
                 'ui:title': "Sponsor's  middle name",
               },
             },
-            [newFormFields.newSponsorDateOfBirth]: {
+            [formFields.sponsorDateOfBirth]: {
               ...currentOrPastDateUI("Sponsor's date of birth"),
             },
           },
           schema: {
             type: 'object',
             required: [
-              newFormFields.newRelationshipToServiceMember,
-              newFormFields.newSponsorDateOfBirth,
+              formFields.relationshipToServiceMember,
+              formFields.sponsorDateOfBirth,
             ],
             properties: {
               'view:noSponsorWarning': {
@@ -829,11 +614,11 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newRelationshipToServiceMember]: {
+              [formFields.relationshipToServiceMember]: {
                 type: 'string',
                 enum: [SPONSOR_RELATIONSHIP.SPOUSE, SPONSOR_RELATIONSHIP.CHILD],
               },
-              [newFormFields.newSponsorFullName]: {
+              [formFields.sponsorFullName]: {
                 ...fullName,
                 required: ['first', 'last'],
                 properties: {
@@ -844,16 +629,76 @@ const formConfig = {
                   },
                 },
               },
-              [newFormFields.newSponsorDateOfBirth]: date,
+              [formFields.sponsorDateOfBirth]: date,
             },
           },
         },
-        [newFormPages.newVerifyHighSchool]: {
+        [formPages.newVerifyHighSchool]: {
           title: 'Verify your high school education',
           path: 'child/high-school-education',
           depends: formData =>
-            formData.showUpdatedToeApp &&
             // Only show this page if the user is a child of the sponsor.
+            (!formData.firstSponsor &&
+              formData.sponsors?.sponsors?.find(sponsor => sponsor.selected)
+                ?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
+            (formData.sponsors?.firstSponsor &&
+              formData.sponsors?.sponsors?.find(
+                sponsor => sponsor.id === formData.sponsors?.firstSponsor,
+              )?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
+            (!formData.sponsors?.sponsors?.length &&
+              formData?.relationshipToServiceMember ===
+                SPONSOR_RELATIONSHIP.CHILD) ||
+            (formData[formFields.selectedSponsors]?.length === 1 &&
+              formData.sponsors?.someoneNotListed &&
+              formData?.relationshipToServiceMember ===
+                SPONSOR_RELATIONSHIP.CHILD),
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Verify your high school education</h3>
+                  <va-alert
+                    close-btn-aria-label="Close notification"
+                    status="info"
+                    visible
+                  >
+                    <h3 slot="headline">We need additional information</h3>
+                    <div>
+                      Since you indicated that you are the child of your
+                      sponsor, please include information about your high school
+                      education.
+                    </div>
+                  </va-alert>
+                </>
+              ),
+            },
+            [formFields.highSchoolDiploma]: {
+              'ui:title':
+                'Did you earn a high school diploma or equivalency certificate?',
+              'ui:widget': 'radio',
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [formFields.highSchoolDiploma],
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              [formFields.highSchoolDiploma]: {
+                type: 'string',
+                enum: ['Yes', 'No'],
+              },
+            },
+          },
+        },
+        [formPages.newSponsorHighSchool]: {
+          title: 'Verify your high school education',
+          path: 'sponsor/high-school-education',
+          depends: formData =>
+            formData[formFields.highSchoolDiploma] === 'Yes' &&
+            // TODO Use helpers for the sub-logic below (shared with the previous page)
             ((!formData.firstSponsor &&
               formData.sponsors?.sponsors?.find(sponsor => sponsor.selected)
                 ?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
@@ -864,7 +709,7 @@ const formConfig = {
               (!formData.sponsors?.sponsors?.length &&
                 formData?.relationshipToServiceMember ===
                   SPONSOR_RELATIONSHIP.CHILD) ||
-              (formData[newFormFields.newSelectedSponsors]?.length === 1 &&
+              (formData[formFields.selectedSponsors]?.length === 1 &&
                 formData.sponsors?.someoneNotListed &&
                 formData?.relationshipToServiceMember ===
                   SPONSOR_RELATIONSHIP.CHILD)),
@@ -888,69 +733,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newHighSchoolDiploma]: {
-              'ui:title':
-                'Did you earn a high school diploma or equivalency certificate?',
-              'ui:widget': 'radio',
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [newFormFields.newHighSchoolDiploma],
-            properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              [newFormFields.newHighSchoolDiploma]: {
-                type: 'string',
-                enum: ['Yes', 'No'],
-              },
-            },
-          },
-        },
-        [newFormPages.newSponsorHighSchool]: {
-          title: 'Verify your high school education',
-          path: 'sponsor/high-school-education',
-          depends: formData =>
-            formData.showUpdatedToeApp &&
-            (formData[newFormFields.newHighSchoolDiploma] === 'Yes' &&
-              // TODO Use helpers for the sub-logic below (shared with the previous page)
-              ((!formData.firstSponsor &&
-                formData.sponsors?.sponsors?.find(sponsor => sponsor.selected)
-                  ?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
-                (formData.sponsors?.firstSponsor &&
-                  formData.sponsors?.sponsors?.find(
-                    sponsor => sponsor.id === formData.sponsors?.firstSponsor,
-                  )?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
-                (!formData.sponsors?.sponsors?.length &&
-                  formData?.relationshipToServiceMember ===
-                    SPONSOR_RELATIONSHIP.CHILD) ||
-                (formData[newFormFields.newSelectedSponsors]?.length === 1 &&
-                  formData.sponsors?.someoneNotListed &&
-                  formData?.relationshipToServiceMember ===
-                    SPONSOR_RELATIONSHIP.CHILD))),
-          uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Verify your high school education</h3>
-                  <va-alert
-                    close-btn-aria-label="Close notification"
-                    status="info"
-                    visible
-                  >
-                    <h3 slot="headline">We need additional information</h3>
-                    <div>
-                      Since you indicated that you are the child of your
-                      sponsor, please include information about your high school
-                      education.
-                    </div>
-                  </va-alert>
-                </>
-              ),
-            },
-            [newFormFields.newHighSchoolDiplomaDate]: {
+            [formFields.highSchoolDiplomaDate]: {
               ...currentOrPastDateUI(
                 'When did you earn your high school diploma or equivalency certificate?',
               ),
@@ -961,13 +744,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [newFormFields.newHighSchoolDiplomaDate],
+            required: [formFields.highSchoolDiplomaDate],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newHighSchoolDiplomaDate]: date,
+              [formFields.highSchoolDiplomaDate]: date,
             },
           },
         },
@@ -976,8 +759,7 @@ const formConfig = {
     newContactInformationChapter: {
       title: 'Contact information',
       pages: {
-        [newFormPages.newContactInformation.contactInformation]: {
-          depends: formData => formData.showUpdatedToeApp,
+        [formPages.newContactInformation.contactInformation]: {
           title: 'Phone numbers and email address',
           path: 'contact-information/email-phone',
           uiSchema: {
@@ -1013,7 +795,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newViewPhoneNumbers]: {
+            [formFields.viewPhoneNumbers]: {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 toe-review-page-only">
@@ -1027,16 +809,16 @@ const formConfig = {
               ),
               ...phoneUISchema(
                 'mobile',
-                newFormFields.newMobilePhoneNumber,
-                newFormFields.newMobilePhoneNumberInternational,
+                formFields.mobilePhoneNumber,
+                formFields.mobilePhoneNumberInternational,
               ),
               ...phoneUISchema(
                 'home',
-                newFormFields.newPhoneNumber,
-                newFormFields.newPhoneNumberInternational,
+                formFields.phoneNumber,
+                formFields.phoneNumberInternational,
               ),
             },
-            [newFormFields.newEmail]: {
+            [formFields.email]: {
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
@@ -1072,22 +854,22 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newViewPhoneNumbers]: {
+              [formFields.viewPhoneNumbers]: {
                 type: 'object',
                 properties: {
-                  [newFormFields.newMobilePhoneNumber]: phoneSchema(),
-                  [newFormFields.newMobilePhoneNumberInternational]: {
+                  [formFields.mobilePhoneNumber]: phoneSchema(),
+                  [formFields.mobilePhoneNumberInternational]: {
                     type: 'boolean',
                   },
-                  [newFormFields.newPhoneNumber]: phoneSchema(),
-                  [newFormFields.newPhoneNumberInternational]: {
+                  [formFields.phoneNumber]: phoneSchema(),
+                  [formFields.phoneNumberInternational]: {
                     type: 'boolean',
                   },
                 },
               },
-              [newFormFields.newEmail]: {
+              [formFields.email]: {
                 type: 'object',
-                required: [newFormFields.newEmail, 'confirmEmail'],
+                required: [formFields.email, 'confirmEmail'],
                 properties: {
                   email,
                   confirmEmail: email,
@@ -1096,8 +878,7 @@ const formConfig = {
             },
           },
         },
-        [newFormPages.newContactInformation.mailingAddress]: {
-          depends: formData => formData.showUpdatedToeApp,
+        [formPages.newContactInformation.mailingAddress]: {
           title: 'Mailing address',
           path: 'contact-information/mailing-address',
           uiSchema: {
@@ -1152,7 +933,7 @@ const formConfig = {
               livesOnMilitaryBaseInfo: {
                 'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
               },
-              [newFormFields.newAddress]: {
+              [formFields.address]: {
                 ...address.uiSchema(''),
                 street: {
                   'ui:title': 'Street address',
@@ -1219,16 +1000,15 @@ const formConfig = {
                     type: 'object',
                     properties: {},
                   },
-                  [newFormFields.newAddress]: {
-                    ...address.schema(fullSchema1990e, true),
+                  [formFields.address]: {
+                    ...address.schema(fullSchema, true),
                   },
                 },
               },
             },
           },
         },
-        [newFormPages.newContactInformation.preferredContactMethod]: {
-          depends: formData => formData.showUpdatedToeApp,
+        [formPages.newContactInformation.preferredContactMethod]: {
           title: 'Contact preferences',
           path: 'contact-information/contact-preferences',
           uiSchema: {
@@ -1241,7 +1021,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newContactMethod]: {
+            [formFields.contactMethod]: {
               'ui:title':
                 'How should we contact you if we have questions about your application?',
               'ui:widget': 'radio',
@@ -1251,9 +1031,8 @@ const formConfig = {
               'ui:options': {
                 updateSchema: (() => {
                   const filterContactMethods = createSelector(
-                    form =>
-                      form['view:newPhoneNumbers']?.mobilePhoneNumber?.phone,
-                    form => form['view:newPhoneNumbers']?.phoneNumber?.phone,
+                    form => form['view:phoneNumbers'].mobilePhoneNumber.phone,
+                    form => form['view:phoneNumbers'].phoneNumber.phone,
                     (mobilePhoneNumber, homePhoneNumber) => {
                       const invalidContactMethods = [];
                       if (!mobilePhoneNumber) {
@@ -1289,17 +1068,17 @@ const formConfig = {
                   </div>
                 </>
               ),
-              [newFormFields.newReceiveTextMessages]: {
+              [formFields.receiveTextMessages]: {
                 'ui:title':
                   'Would you like to receive text message notifications on your education benefits?',
                 'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {
                     const isYes = field.slice(0, 4).includes('Yes');
-                    const phoneExist = !!formData['view:newPhoneNumbers']
+                    const phoneExist = !!formData['view:phoneNumbers']
                       .mobilePhoneNumber.phone;
                     const { isInternational } = formData[
-                      'view:newPhoneNumbers'
+                      'view:phoneNumbers'
                     ].mobilePhoneNumber;
 
                     if (isYes) {
@@ -1348,22 +1127,14 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  (formData[newFormFields.newViewPhoneNumbers] &&
-                    formData[newFormFields.newViewPhoneNumbers][
-                      newFormFields.newMobilePhoneNumber
-                    ] &&
-                    !isValidPhone(
-                      formData[newFormFields.newViewPhoneNumbers][
-                        newFormFields.newMobilePhoneNumber
-                      ].phone,
-                    )) ||
-                  (formData[newFormFields.newViewPhoneNumbers] &&
-                    formData[newFormFields.newViewPhoneNumbers][
-                      newFormFields.newMobilePhoneNumber
-                    ] &&
-                    formData[newFormFields.newViewPhoneNumbers][
-                      newFormFields.newMobilePhoneNumber
-                    ].isInternational),
+                  !isValidPhone(
+                    formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
+                    ].phone,
+                  ) ||
+                  formData[formFields.viewPhoneNumbers][
+                    formFields.mobilePhoneNumber
+                  ].isInternational,
               },
             },
             'view:noMobilePhoneAlert': {
@@ -1377,22 +1148,14 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  (formData[newFormFields.newViewPhoneNumbers] &&
-                    formData[newFormFields.newViewPhoneNumbers][
-                      newFormFields.newMobilePhoneNumber
-                    ] &&
-                    isValidPhone(
-                      formData[newFormFields.newViewPhoneNumbers][
-                        newFormFields.newMobilePhoneNumber
-                      ].phone,
-                    )) ||
-                  (formData[newFormFields.newViewPhoneNumbers] &&
-                    formData[newFormFields.newViewPhoneNumbers][
-                      newFormFields.newMobilePhoneNumber
-                    ] &&
-                    formData[newFormFields.newViewPhoneNumbers][
-                      newFormFields.newMobilePhoneNumber
-                    ].isInternational),
+                  isValidPhone(
+                    formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
+                    ].phone,
+                  ) ||
+                  formData[formFields.viewPhoneNumbers][
+                    formFields.mobilePhoneNumber
+                  ].isInternational,
               },
             },
             'view:internationalTextMessageAlert': {
@@ -1408,12 +1171,8 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  !formData[newFormFields.newViewPhoneNumbers] ||
-                  !formData[newFormFields.newViewPhoneNumbers][
-                    newFormFields.newMobilePhoneNumber
-                  ] ||
-                  !formData[newFormFields.newViewPhoneNumbers][
-                    newFormFields.newMobilePhoneNumber
+                  !formData[formFields.viewPhoneNumbers][
+                    formFields.mobilePhoneNumber
                   ].isInternational,
               },
             },
@@ -1425,15 +1184,15 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newContactMethod]: {
+              [formFields.contactMethod]: {
                 type: 'string',
                 enum: contactMethods,
               },
               'view:receiveTextMessages': {
                 type: 'object',
-                required: [newFormFields.newReceiveTextMessages],
+                required: [formFields.receiveTextMessages],
                 properties: {
-                  [newFormFields.newReceiveTextMessages]: {
+                  [formFields.receiveTextMessages]: {
                     type: 'string',
                     enum: [
                       'Yes, send me text message notifications',
@@ -1455,7 +1214,7 @@ const formConfig = {
                 properties: {},
               },
             },
-            required: [newFormFields.newContactMethod],
+            required: [formFields.contactMethod],
           },
         },
       },
@@ -1463,8 +1222,7 @@ const formConfig = {
     bankAccountInfoChapter: {
       title: 'Direct deposit',
       pages: {
-        [newFormPages.newDirectDeposit]: {
-          depends: formData => formData.showUpdatedToeApp,
+        [formPages.newDirectDeposit]: {
           path: 'direct-deposit',
           uiSchema: {
             'ui:description': directDepositDescription,
@@ -1518,10 +1276,6 @@ const formConfig = {
         },
       },
     },
-
-    // ---------------------
-    // END -- NEW FORM CONIG
-    // ---------------------
   },
 };
 
