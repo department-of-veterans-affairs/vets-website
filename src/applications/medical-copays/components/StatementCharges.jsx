@@ -19,7 +19,11 @@ const StatementCharges = ({ copay }) => {
   const tableData = copay.details.map(item => ({
     desc: item.pDTransDescOutput,
     billref: item.pDRefNo,
-    amount: <div>${item.pDTransAmtOutput.replace(/[^\d.-]/g, '')}</div>,
+    amount: (
+      <div>
+        ${item.pDTransAmtOutput.replace('-', '').replace(/[^\d.-]/g, '')}
+      </div>
+    ),
   }));
 
   return (

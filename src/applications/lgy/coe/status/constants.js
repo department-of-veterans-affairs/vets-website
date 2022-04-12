@@ -1,7 +1,7 @@
 export const DOCUMENT_TYPES = [
   'Discharge or separation papers (DD214)',
   'Statement of service',
-  'Report of separation and Record of Service',
+  'Report of Separation and Record of Service (NGB Form 22)',
   'Retirement Points Statement (NGB Form 23)',
   'Proof of honorable service',
   'Annual retirement points',

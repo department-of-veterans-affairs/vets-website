@@ -22,6 +22,8 @@ import {
   isProfileLoading,
   isLOA3,
   selectUser,
+  mhvTransitionEnabled,
+  mhvTransitionModalEnabled,
 } from 'platform/user/selectors';
 import {
   toggleFormSignInModal,
@@ -200,6 +202,7 @@ export class Main extends Component {
   };
 
   render() {
+    const { mhvTransition, mhvTransitionModal } = this.props;
     // checks if on Unified Sign in Page
     if (loginAppUrlRE.test(window.location.pathname)) {
       return null;
@@ -226,11 +229,14 @@ export class Main extends Component {
           onClose={this.closeLoginModal}
           visible={this.props.showLoginModal}
         />
-        <AccountTransitionModal
-          onClose={this.closeAccountTransitionModal}
-          visible={this.props.showAccountTransitionModal}
-          history={history}
-        />
+        {mhvTransition &&
+          mhvTransitionModal && (
+            <AccountTransitionModal
+              onClose={this.closeAccountTransitionModal}
+              visible={this.props.showAccountTransitionModal}
+              history={history}
+            />
+          )}
         <AccountTransitionSuccessModal
           onClose={this.closeAccountTransitionSuccessModal}
           visible={this.props.showAccountTransitionSuccessModal}
@@ -265,9 +271,11 @@ export const mapStateToProps = state => {
     currentlyLoggedIn: isLoggedIn(state),
     isLOA3: isLOA3(state),
     isProfileLoading: isProfileLoading(state),
-    user: selectUser(state),
+    mhvTransition: mhvTransitionEnabled(state),
+    mhvTransitionModal: mhvTransitionModalEnabled(state),
     signInServiceName: signInServiceNameSelector(state),
     shouldConfirmLeavingForm,
+    user: selectUser(state),
     userGreeting: selectUserGreeting(state),
     ...state.navigation,
   };
@@ -304,6 +312,8 @@ Main.propTypes = {
   isHeaderV2: PropTypes.bool,
   isLOA3: PropTypes.bool,
   isProfileLoading: PropTypes.bool,
+  mhvTransition: PropTypes.bool,
+  mhvTransitionModal: PropTypes.bool,
   shouldConfirmLeavingForm: PropTypes.bool,
   showAccountTransitionModal: PropTypes.bool,
   showAccountTransitionSuccessModal: PropTypes.bool,

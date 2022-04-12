@@ -20,7 +20,7 @@ const PersonalInformationSection = ({
   gender,
   dob,
   shouldProfileShowGender,
-  shouldShowProfileAndSexualOrientation,
+  shouldShowPronounsAndSexualOrientation,
 }) => {
   const tableFields = [
     { title: 'Date of birth', value: renderDOB(dob) },
@@ -34,31 +34,35 @@ const PersonalInformationSection = ({
         />
       ),
     },
-    {
-      title: 'Pronouns',
-      id: FIELD_IDS[FIELD_NAMES.PRONOUNS],
-      value: (
-        <ProfileInformationFieldController
-          fieldName={FIELD_NAMES.PRONOUNS}
-          isDeleteDisabled
-        />
-      ),
-    },
-    ...(shouldProfileShowGender
-      ? [{ title: 'Sex assigned at birth', value: renderGender(gender) }]
-      : []),
-    ...(shouldShowProfileAndSexualOrientation
+    ...(shouldShowPronounsAndSexualOrientation
       ? [
           {
-            title: 'Gender identity',
-            id: FIELD_IDS[FIELD_NAMES.GENDER_IDENTITY],
+            title: 'Pronouns',
+            id: FIELD_IDS[FIELD_NAMES.PRONOUNS],
             value: (
               <ProfileInformationFieldController
-                fieldName={FIELD_NAMES.GENDER_IDENTITY}
+                fieldName={FIELD_NAMES.PRONOUNS}
                 isDeleteDisabled
               />
             ),
           },
+        ]
+      : []),
+    ...(shouldProfileShowGender
+      ? [{ title: 'Sex assigned at birth', value: renderGender(gender) }]
+      : []),
+    {
+      title: 'Gender identity',
+      id: FIELD_IDS[FIELD_NAMES.GENDER_IDENTITY],
+      value: (
+        <ProfileInformationFieldController
+          fieldName={FIELD_NAMES.GENDER_IDENTITY}
+          isDeleteDisabled
+        />
+      ),
+    },
+    ...(shouldShowPronounsAndSexualOrientation
+      ? [
           {
             title: 'Sexual orientation',
             id: FIELD_IDS[FIELD_NAMES.SEXUAL_ORIENTATION],
@@ -129,7 +133,7 @@ const PersonalInformationSection = ({
 PersonalInformationSection.propTypes = {
   dob: PropTypes.string.isRequired,
   shouldProfileShowGender: PropTypes.bool.isRequired,
-  shouldShowProfileAndSexualOrientation: PropTypes.bool.isRequired,
+  shouldShowPronounsAndSexualOrientation: PropTypes.bool.isRequired,
   gender: PropTypes.string,
 };
 
@@ -141,7 +145,7 @@ const mapStateToProps = state => ({
   genderIdentity: state.vaProfile?.personalInformation?.genderIdentity,
   sexualOrientation: state.vaProfile?.personalInformation?.sexualOrientation,
   shouldProfileShowGender: profileShowGender(state),
-  shouldShowProfileAndSexualOrientation: profileShowPronounsAndSexualOrientation(
+  shouldShowPronounsAndSexualOrientation: profileShowPronounsAndSexualOrientation(
     state,
   ),
 });
