@@ -6,7 +6,8 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/Tele
 
 const isIOSDevice = () =>
   /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-  navigator.userAgentData.platform.includes('macOS');
+  (navigator.userAgent.indexOf('Safari') !== -1 &&
+    navigator.userAgent.indexOf('Chrome') === -1);
 export default function LoginHeader({ loggedOut, isIOS = isIOSDevice }) {
   return (
     <>
@@ -19,7 +20,7 @@ export default function LoginHeader({ loggedOut, isIOS = isIOSDevice }) {
         </div>
       </div>
       <DowntimeBanners />
-      {isIOS && (
+      {isIOS() && (
         <div className="downtime-notification row">
           <div className="columns small-12">
             <div className="form-warning-banner">
