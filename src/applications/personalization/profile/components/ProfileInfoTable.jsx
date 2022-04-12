@@ -135,12 +135,12 @@ const ProfileInfoTable = ({
 };
 
 ProfileInfoTable.propTypes = {
-  title: PropTypes.string,
   data: PropTypes.array.isRequired,
-  dataTransformer: PropTypes.func,
   className: PropTypes.string,
-  namedAnchor: PropTypes.string,
+  dataTransformer: PropTypes.func,
   level: numberBetween(1, 6),
+  namedAnchor: PropTypes.string,
+  title: PropTypes.string,
 };
 
 export default ProfileInfoTable;
