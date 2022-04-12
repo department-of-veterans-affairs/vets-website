@@ -41,15 +41,14 @@ export const ConnectedDevicesContainer = () => {
     }
   };
 
-  const handleRedirectQueryParams = () => {
-    const resUrl = new URL(window.location);
-    resUrl.searchParams.forEach((status, vendor) => {
-      showConnectionAlert(vendor, status);
-    });
-  };
-
   useEffect(
     () => {
+      const handleRedirectQueryParams = () => {
+        const resUrl = new URL(window.location);
+        resUrl.searchParams.forEach((status, vendor) => {
+          showConnectionAlert(vendor, status);
+        });
+      };
       handleRedirectQueryParams();
     },
     [successAlert, failureAlert],
