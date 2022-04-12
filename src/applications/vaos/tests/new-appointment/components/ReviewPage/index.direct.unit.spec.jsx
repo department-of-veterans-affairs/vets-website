@@ -181,7 +181,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
     userEvent.click(screen.getByText(/Confirm appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/appointments/new-appointment/confirmation',
+        '/new-appointment/confirmation',
       );
     });
     const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);
@@ -472,7 +472,7 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
     userEvent.click(screen.getByText(/Confirm appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/appointments/va/fake_id?confirmMsg=true&redirect=false',
+        '/va/fake_id?confirmMsg=true&redirect=false',
       );
     });
 

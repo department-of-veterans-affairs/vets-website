@@ -131,7 +131,7 @@ describe('VAOS <ReviewPage> CC request', () => {
     userEvent.click(screen.getByText(/Request appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/appointments/requests/fake_id?confirmMsg=true&redirect=false',
+        '/requests/fake_id?confirmMsg=true&redirect=false',
       );
     });
   });
@@ -404,7 +404,7 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
     userEvent.click(screen.getByText(/Request appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/appointments/requests/fake_id?confirmMsg=true&redirect=false',
+        '/requests/fake_id?confirmMsg=true&redirect=false',
       );
     });
     const submitData = JSON.parse(global.fetch.getCall(0).args[1].body);
@@ -572,7 +572,7 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
     userEvent.click(screen.getByText(/Request appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/appointments/requests/fake_id?confirmMsg=true&redirect=false',
+        '/requests/fake_id?confirmMsg=true&redirect=false',
       );
     });
 
@@ -658,7 +658,7 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
     userEvent.click(screen.getByText(/Request appointment/i));
     await waitFor(() => {
       expect(screen.history.push.lastCall.args[0]).to.equal(
-        '/appointments/requests/fake_id?confirmMsg=true&redirect=false',
+        '/requests/fake_id?confirmMsg=true&redirect=false',
       );
     });
 
