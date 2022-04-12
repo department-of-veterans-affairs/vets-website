@@ -4,11 +4,10 @@ import LogoutAlert from 'platform/user/authentication/components/LogoutAlert';
 import DowntimeBanners from 'platform/user/authentication/components/DowntimeBanner';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
-export default function LoginHeader({ loggedOut }) {
-  const isIOS =
-    /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-    navigator.userAgentData.platform.includes('macOS');
-
+const isIOSDevice = () =>
+  /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+  navigator.userAgentData.platform.includes('macOS');
+export default function LoginHeader({ loggedOut, isIOS = isIOSDevice }) {
   return (
     <>
       <div className="row">
@@ -69,5 +68,6 @@ export default function LoginHeader({ loggedOut }) {
 }
 
 LoginHeader.propTypes = {
+  isIOS: PropTypes.bool,
   loggedOut: PropTypes.bool,
 };
