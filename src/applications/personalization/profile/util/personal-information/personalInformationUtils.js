@@ -71,7 +71,6 @@ export const personalInformationFormSchemas = {
         maxLength: 25,
       },
     },
-    required: ['preferredName'],
   },
   pronouns: {
     type: 'object',
@@ -93,7 +92,6 @@ export const personalInformationFormSchemas = {
         enum: genderOptions,
       },
     },
-    required: ['genderIdentity'],
   },
   sexualOrientation: {
     type: 'object',
