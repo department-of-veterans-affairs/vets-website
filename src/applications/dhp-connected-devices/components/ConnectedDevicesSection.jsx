@@ -37,7 +37,7 @@ export const ConnectedDevicesSection = ({
       {successAlert && <DeviceConnectionSucceededAlert />}
       {failureAlert && <DeviceConnectionFailedAlert />}
       {!areDevicesConnected() && (
-        <p data-testId="no-devices-connected-alert">
+        <p data-testid="no-devices-connected-alert">
           You do not have any devices connected
         </p>
       )}

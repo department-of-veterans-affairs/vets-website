@@ -65,7 +65,7 @@ export const ConnectedDevicesContainer = () => {
   return (
     <>
       <h2>Your connected devices</h2>
-      <div data-testId="connected-devices-section">
+      <div data-testid="connected-devices-section">
         <ConnectedDevicesSection
           connectedDevices={connectedDevices}
           successAlert={successAlert}
@@ -79,7 +79,7 @@ export const ConnectedDevicesContainer = () => {
         device. When complete, you will return to this page on VA.gov.
       </div>
 
-      <div data-testId="devices-to-connect-section">
+      <div data-testid="devices-to-connect-section">
         <DevicesToConnectSection
           connectedDevices={connectedDevices}
           onClickHandler={authorizeDevice}

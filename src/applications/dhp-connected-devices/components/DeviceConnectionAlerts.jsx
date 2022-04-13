@@ -2,7 +2,7 @@ import React from 'react';
 
 export const DeviceConnectionSucceededAlert = () => {
   return (
-    <div data-testId="success-alert">
+    <div data-testid="success-alert">
       <va-alert
         close-btn-aria-label="Close notification"
         status="success"
@@ -17,7 +17,7 @@ export const DeviceConnectionSucceededAlert = () => {
 
 export const DeviceConnectionFailedAlert = () => {
   return (
-    <div data-testId="failure-alert">
+    <div data-testid="failure-alert">
       <va-alert
         close-btn-aria-label="Close notification"
         status="error"

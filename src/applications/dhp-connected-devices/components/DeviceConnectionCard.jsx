@@ -9,7 +9,7 @@ export const DeviceConnectionCard = ({ vendor, onClickHandler }) => {
         <button
           type="button"
           onClick={onClickHandler}
-          data-testId={`${vendor}-connect-link`}
+          data-testid={`${vendor}-connect-link`}
           id={`${vendor}-connect-link`}
           onKeyDown={onClickHandler}
           className="connect-button"
