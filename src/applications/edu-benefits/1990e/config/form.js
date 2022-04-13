@@ -250,7 +250,8 @@ const formConfig = {
           ...applicantInformation(fullSchema1990e, {
             labels: { relationship: relationshipLabels },
           }),
-          depends: formData => !formData.showUpdatedToeApp,
+          // TODO Uncomment after Forms System bug is fixed.
+          // depends: formData => !formData.showUpdatedToeApp,
         },
         additionalBenefits: {
           ...additionalBenefits(fullSchema1990e),
@@ -531,7 +532,7 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newUsevFullName]: {
+              [newFormFields.newUserFullName]: {
                 ...fullName,
                 properties: {
                   ...fullName.properties,
