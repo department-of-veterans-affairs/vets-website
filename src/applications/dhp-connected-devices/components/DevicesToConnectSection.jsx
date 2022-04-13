@@ -18,7 +18,7 @@ export const DevicesToConnectSection = ({ connectedDevices }) => {
   return (
     <>
       {areAllDevicesConnected() && (
-        <p data-testid="all-devices-connected-alert">
+        <p data-testId="all-devices-connected-alert">
           You have connected all supported devices
         </p>
       )}
