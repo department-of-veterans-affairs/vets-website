@@ -6,6 +6,7 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import Balances from '../components/Balances';
 import BalanceQuestions from '../components/BalanceQuestions';
 import { sortStatementsByDate } from '../utils/helpers';
+import OtherVADebts from '../components/OtherVADebts';
 
 const OverviewPage = () => {
   const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
@@ -32,6 +33,7 @@ const OverviewPage = () => {
         help.
       </p>
       <Balances statements={statementsByUniqueFacility} />
+      <OtherVADebts isInMedicalCopays="true" />
       <BalanceQuestions />
     </>
   );
