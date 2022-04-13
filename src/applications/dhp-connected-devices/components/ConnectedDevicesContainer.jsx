@@ -56,7 +56,7 @@ export const ConnectedDevicesContainer = () => {
   return (
     <>
       <h2>Your connected devices</h2>
-      <div data-testId="connected-devices-section">
+      <div data-testid="connected-devices-section">
         <ConnectedDevicesSection
           connectedDevices={connectedDevices}
           successAlert={successAlert}
