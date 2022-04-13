@@ -250,13 +250,13 @@ jobs:
 
       - name: Filter files
         id: get-lint-files
-        run: node ./script/github-actions/filter-files-changed.js ${{ steps.get-files-changed.outputs.files_modified }}
+        run: node ./script/github-actions/filter-files-changed.js ${{ steps.get-files-changed.outputs.files }}
 
       - name: Annotate ESLint results
         run: yarn run eslint -c ./.eslintrc.changed.js --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.JSFILES }}
 
       - name: Run Stylelint
-        if: ${{ steps.get-lint-files.outputs.SCSSFILES != '' }}
+        if: ${{ always() && steps.get-lint-files.outputs.SCSSFILES != '' }}
         run: yarn run stylelint verbose --output-file stylelint-report.json --formatter json ${{ steps.get-lint-files.outputs.SCSSFILES }}
 
       - name: Annotate Stylelint results

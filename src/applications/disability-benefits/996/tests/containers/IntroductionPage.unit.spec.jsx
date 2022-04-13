@@ -14,6 +14,7 @@ import { setHlrWizardStatus, removeHlrWizardStatus } from '../../wizard/utils';
 const defaultProps = {
   getContestableIssues: () => {},
   allowHlr: true,
+  isVerified: true,
   user: {
     profile: {
       // need to have a saved form or else form will redirect to v2
@@ -135,6 +136,22 @@ describe('IntroductionPage', () => {
     expect(recordedEvent['alert-box-heading']).to.include(errorMessage);
     tree.unmount();
   });
+  it('should show verify your account alert', () => {
+    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
+    const props = {
+      ...defaultProps,
+      isVerified: false,
+      loggedIn: true,
+    };
+    const tree = shallow(<IntroductionPage {...props} />);
+    const verifyAlert = tree
+      .find('NeedsToVerify')
+      .first()
+      .html();
+    expect(verifyAlert).to.contain('/verify?');
+    tree.unmount();
+  });
+
   it('should render start button', () => {
     setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const props = {

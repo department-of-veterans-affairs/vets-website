@@ -52,20 +52,7 @@ export const uiSchema = {
       classNames: 'schemaform-block-override',
     },
   },
-  fileType: {
-    'ui:title': 'Select a document to upload?',
-    'ui:required': () => true,
-  },
-  fileDescription: {
-    'ui:title': 'Document description',
-    'ui:required': formData => formData.fileType === 'Other',
-    'ui:options': {
-      expandUnder: 'fileType',
-      expandUnderCondition: 'Other',
-    },
-  },
   files: {
-    'ui:required': () => true,
     ...fileUploadUI('Your uploaded documents', {
       buttonText: 'Upload this document',
       hideLabelText: true,

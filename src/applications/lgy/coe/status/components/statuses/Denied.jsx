@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import StatusAlert from '../../../shared/components/StatusAlert';
-import { CoeDocumentList } from '../CoeDocumentList';
+import DocumentList from '../DocumentList';
 
 export const Denied = ({ referenceNumber, requestDate }) => {
   return (
@@ -32,7 +32,7 @@ export const Denied = ({ referenceNumber, requestDate }) => {
           <br />
           <a href="/track-claims">Check your VA claim or appeal status</a>
         </p>
-        <CoeDocumentList />
+        <DocumentList />
         <h2>What if I have more questions?</h2>
         <p>
           Get answers to frequently asked questions about decision reviews.

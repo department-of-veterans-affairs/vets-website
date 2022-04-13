@@ -50,9 +50,9 @@ import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
 import BenefitPaymentsAndDebt from './benefit-payments-and-debts/BenefitPaymentsAndDebt';
-import DebtNotification from './notifications/DebtNotification';
 import DashboardWidgetWrapper from './DashboardWidgetWrapper';
 import { getAllPayments } from '../actions/payments';
+import Notifications from './notifications/Notifications';
 
 const renderWidgetDowntimeNotification = (downtime, children) => {
   if (downtime.status === externalServiceStatus.down) {
@@ -118,28 +118,18 @@ const DashboardHeader = ({
         </DashboardWidgetWrapper>
       )}
       {showNotifications && (
-        <div data-testid="dashboard-notifications">
-          <DebtNotification debts={debts} hasError={debtsError} />
-        </div>
+        <Notifications debtsError={debtsError} debts={debts} />
       )}
     </div>
   );
 };
 
 DashboardHeader.propTypes = {
-  showNotifications: PropTypes.bool,
   debts: PropTypes.arrayOf(
     PropTypes.shape({
-      fileNumber: PropTypes.string.isRequired,
-      payeeNumber: PropTypes.string.isRequired,
-      personEntitled: PropTypes.string.isRequired,
-      deductionCode: PropTypes.string.isRequired,
-      benefitType: PropTypes.string.isRequired,
-      diaryCode: PropTypes.string.isRequired,
-      diaryCodeDescription: PropTypes.string,
       amountOverpaid: PropTypes.number.isRequired,
       amountWithheld: PropTypes.number.isRequired,
-      originalAr: PropTypes.number.isRequired,
+      benefitType: PropTypes.string.isRequired,
       currentAr: PropTypes.number.isRequired,
       debtHistory: PropTypes.arrayOf(
         PropTypes.shape({
@@ -148,10 +138,18 @@ DashboardHeader.propTypes = {
           description: PropTypes.string.isRequired,
         }),
       ),
+      deductionCode: PropTypes.string.isRequired,
+      diaryCode: PropTypes.string.isRequired,
+      diaryCodeDescription: PropTypes.string,
+      fileNumber: PropTypes.string.isRequired,
+      originalAr: PropTypes.number.isRequired,
+      payeeNumber: PropTypes.string.isRequired,
+      personEntitled: PropTypes.string.isRequired,
     }),
   ),
   debtsError: PropTypes.bool,
   paymentsError: PropTypes.bool,
+  showNotifications: PropTypes.bool,
 };
 
 const Dashboard = ({
@@ -359,9 +357,13 @@ const mapStateToProps = state => {
     FEATURE_FLAG_NAMES.showPaymentAndDebtSection
   ];
 
-  const showNotifications = toggleValues(state)[
+  const hasNotificationFeature = toggleValues(state)[
     FEATURE_FLAG_NAMES.showDashboardNotifications
   ];
+
+  const debts = state.fsr.debts || [];
+
+  const showNotifications = !!hasNotificationFeature && debts.length > 0;
 
   return {
     isLOA3,
@@ -378,7 +380,7 @@ const mapStateToProps = state => {
     showNotInMPIError,
     showBenefitPaymentsAndDebt,
     showNotifications,
-    debts: state.fsr.debts || [],
+    debts,
     debtsError: state.fsr.isError || false,
     payments: state.allPayments.payments?.payments || [],
     paymentsError: state.allPayments.error,
@@ -386,31 +388,11 @@ const mapStateToProps = state => {
 };
 
 Dashboard.propTypes = {
-  fetchFullName: PropTypes.func,
-  fetchMilitaryInformation: PropTypes.func,
-  fetchTotalDisabilityRating: PropTypes.func,
-  getDebts: PropTypes.func,
-  getPayments: PropTypes.func,
-  isLOA3: PropTypes.bool,
-  showLoader: PropTypes.bool,
-  showMPIConnectionError: PropTypes.bool,
-  showNameTag: PropTypes.bool,
-  showNotInMPIError: PropTypes.bool,
-  showBenefitPaymentsAndDebt: PropTypes.bool,
-  showNotifications: PropTypes.bool,
-  debtsError: PropTypes.bool,
   debts: PropTypes.arrayOf(
     PropTypes.shape({
-      fileNumber: PropTypes.string.isRequired,
-      payeeNumber: PropTypes.string.isRequired,
-      personEntitled: PropTypes.string.isRequired,
-      deductionCode: PropTypes.string.isRequired,
-      benefitType: PropTypes.string.isRequired,
-      diaryCode: PropTypes.string.isRequired,
-      diaryCodeDescription: PropTypes.string,
       amountOverpaid: PropTypes.number.isRequired,
       amountWithheld: PropTypes.number.isRequired,
-      originalAr: PropTypes.number.isRequired,
+      benefitType: PropTypes.string.isRequired,
       currentAr: PropTypes.number.isRequired,
       debtHistory: PropTypes.arrayOf(
         PropTypes.shape({
@@ -419,9 +401,22 @@ Dashboard.propTypes = {
           description: PropTypes.string.isRequired,
         }),
       ),
+      deductionCode: PropTypes.string.isRequired,
+      diaryCode: PropTypes.string.isRequired,
+      diaryCodeDescription: PropTypes.string,
+      fileNumber: PropTypes.string.isRequired,
+      originalAr: PropTypes.number.isRequired,
+      payeeNumber: PropTypes.string.isRequired,
+      personEntitled: PropTypes.string.isRequired,
     }),
   ),
-  paymentsError: PropTypes.bool,
+  debtsError: PropTypes.bool,
+  fetchFullName: PropTypes.func,
+  fetchMilitaryInformation: PropTypes.func,
+  fetchTotalDisabilityRating: PropTypes.func,
+  getDebts: PropTypes.func,
+  getPayments: PropTypes.func,
+  isLOA3: PropTypes.bool,
   payments: PropTypes.arrayOf(
     PropTypes.shape({
       payCheckAmount: PropTypes.string.isRequired,
@@ -434,6 +429,19 @@ Dashboard.propTypes = {
       accountNumber: PropTypes.string.isRequired,
     }),
   ),
+  paymentsError: PropTypes.bool,
+  showBenefitPaymentsAndDebt: PropTypes.bool,
+  showClaimsAndAppeals: PropTypes.bool,
+  showHealthCare: PropTypes.bool,
+  showLoader: PropTypes.bool,
+  showMPIConnectionError: PropTypes.bool,
+  showNameTag: PropTypes.bool,
+  showNotInMPIError: PropTypes.bool,
+  showNotifications: PropTypes.bool,
+  showValidateIdentityAlert: PropTypes.bool,
+  totalDisabilityRating: PropTypes.number,
+  totalDisabilityRatingServerError: PropTypes.bool,
+  user: PropTypes.object,
 };
 
 const mapDispatchToProps = {

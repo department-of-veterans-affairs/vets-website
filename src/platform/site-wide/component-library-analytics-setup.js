@@ -175,6 +175,12 @@ const analyticsEvents = {
       prefix: 'segmented-progress-bar',
     },
   ],
+  'va-on-this-page': [
+    {
+      action: 'click',
+      event: 'nav-jumplink-click',
+    },
+  ],
 };
 
 export function subscribeComponentAnalyticsEvents(
@@ -198,7 +204,7 @@ export function subscribeComponentAnalyticsEvents(
       // If the event included additional details / context...
       if (e.detail.details) {
         for (const key of Object.keys(e.detail.details)) {
-          const newKey = `${action.prefix}-${key}`;
+          const newKey = action.prefix ? `${action.prefix}-${key}` : key;
 
           dataLayer[newKey] = e.detail.details[key];
         }

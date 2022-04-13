@@ -161,6 +161,143 @@ const modalTransformer = (context, node) => {
   });
 };
 
+const paginationTransformer = (context, node) => {
+  const componentName = node.openingElement.name;
+  const importNode = context
+    .getAncestors()[0]
+    .body.find(
+      node =>
+        node.type === 'ImportDeclaration' &&
+        node.source.value.includes(
+          `@department-of-veterans-affairs/component-library/${
+            componentName.name
+          }`,
+        ),
+    );
+
+  context.report({
+    node,
+    message:
+      MESSAGE +
+      `\nBEWARE: onPageSelect has been updated to be an event. This means the handler for onPageSelect has to be updated to retrieve the page from event.detail.page`,
+    data: {
+      reactComponent: componentName.name,
+      webComponent: 'VaPagination',
+    },
+    suggest: [
+      {
+        desc: 'Migrate component',
+        fix: fixer => {
+          return [
+            // Replace import name with bindings
+            fixer.replaceText(
+              importNode.specifiers[0].local,
+              `{ VaPagination }`,
+            ),
+
+            // Update import path to react-bindings
+            fixer.replaceText(
+              importNode.source,
+              `'web-components/react-bindings'`,
+            ),
+
+            // Rename component name Pagination to VaPagination
+            // We are using bindings because onPageSelect is an event
+            fixer.replaceText(componentName, 'VaPagination'),
+          ].filter(i => !!i);
+        },
+      },
+    ],
+  });
+};
+const tableTransformer = (context, node) => {
+  const componentName = node.openingElement.name;
+  const currentSortNode = getPropNode(node, 'currentSort');
+  const dataNode = getPropNode(node, 'data');
+  const fieldsNode = getPropNode(node, 'fields');
+  const dataValue = dataNode?.value.expression || dataNode?.value;
+  const fieldsValue = fieldsNode?.value.expression || fieldsNode?.value;
+  const sourceCode = context.getSourceCode();
+  const importNode = context
+    .getAncestors()[0]
+    .body.find(
+      node =>
+        node.type === 'ImportDeclaration' &&
+        node.source.value.includes(
+          `@department-of-veterans-affairs/component-library/${
+            componentName.name
+          }`,
+        ),
+    );
+
+  context.report({
+    node,
+    message: MESSAGE,
+    data: {
+      reactComponent: componentName.name,
+      webComponent: 'va-table',
+    },
+    suggest: [
+      {
+        desc: 'Migrate component',
+        fix: fixer => {
+          return [
+            // Import utility function that can easily handle the existing props
+            // for the React version of `<Table>`
+            fixer.replaceText(
+              importNode.specifiers[0].local,
+              `{ generateTableChildren }`,
+            ),
+
+            // Remove Table name from import path
+            fixer.replaceText(
+              importNode.source,
+              `'@department-of-veterans-affairs/component-library'`,
+            ),
+
+            // Rename component tag
+            fixer.replaceText(componentName, 'va-table'),
+
+            // Remove the data prop
+            fixer.remove(dataNode),
+
+            // Remove the fields prop
+            fixer.remove(fieldsNode),
+
+            // Remove the currentSort prop
+            currentSortNode && fixer.remove(currentSortNode),
+
+            // Add `sort-column` prop
+            currentSortNode &&
+              fixer.insertTextBefore(currentSortNode, 'sort-column="0"'),
+
+            // Add `descending` prop
+            currentSortNode &&
+              fixer.insertTextBefore(currentSortNode, ' descending'),
+
+            // Add a closing tag along with calling the helper
+            // function to generate children
+            fixer.insertTextAfter(
+              node.openingElement,
+              `{generateTableChildren(${sourceCode.getText(
+                dataValue,
+              )}, ${sourceCode.getText(fieldsValue)})}</va-table>`,
+            ),
+            // Remove self-closing tag slash
+            fixer.removeRange(
+              [
+                node.openingElement.range[1] - 2,
+                node.openingElement.range[1] - 1,
+              ],
+              '',
+            ),
+          ].filter(i => !!i);
+        },
+      },
+    ],
+  });
+};
+
 /**
  * Stores the result of a check that determines if a component is part of
  * the Design System component-library.
@@ -245,6 +382,12 @@ module.exports = {
             break;
           case 'Modal':
             modalTransformer(context, node);
+            break;
+          case 'Pagination':
+            paginationTransformer(context, node);
+            break;
+          case 'Table':
+            tableTransformer(context, node);
             break;
           case 'Telephone':
             telephoneTransformer(context, node);

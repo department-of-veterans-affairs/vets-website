@@ -24,6 +24,7 @@ export const CTA_WIDGET_TYPES = {
   HEALTH_RECORDS: 'health-records',
   HEARING_AID_SUPPLIES: 'hearing-aid-supplies',
   HIGHER_LEVEL_REVIEW: 'higher-level-review',
+  HOME_LOAN_COE_STATUS: 'home-loan-coe-status',
   LAB_AND_TEST_RESULTS: 'lab-and-test-results',
   LETTERS: 'letters',
   MANAGE_VA_DEBT: 'manage-va-debt',
@@ -158,6 +159,18 @@ export const ctaWidgetsLookup = {
     mhvToolName: null,
     requiredServices: null,
     serviceDescription: 'request a Higher-Level Review',
+  },
+  [CTA_WIDGET_TYPES.HOME_LOAN_COE_STATUS]: {
+    id: CTA_WIDGET_TYPES.HOME_LOAN_COE_STATUS,
+    deriveToolUrlDetails: () => ({
+      url: '/housing-assistance/home-loans/check-coe-status/your-coe/',
+      redirect: true,
+    }),
+    hasRequiredMhvAccount: () => false,
+    isHealthTool: false,
+    mhvToolName: null,
+    requiredServices: null,
+    serviceDescription: 'check the status of your COE',
   },
   [CTA_WIDGET_TYPES.LAB_AND_TEST_RESULTS]: {
     id: CTA_WIDGET_TYPES.LAB_AND_TEST_RESULTS,

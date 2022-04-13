@@ -15,7 +15,9 @@ const SubwayMap = () => (
           </li>
           <li>Meet the minimum service requirement based on when you served</li>
         </ul>
-        <a href="/">Eligibility requirements for VA home loan programs</a>
+        <a href="/housing-assistance/home-loans/eligibility">
+          Eligibility requirements for VA home loan programs
+        </a>
       </li>
       <li className="process-step list-two">
         <h3>Gather your information</h3>
@@ -71,7 +73,19 @@ const SubwayMap = () => (
           </li>
         </ul>
         <va-additional-info trigger="What’s a statement of service?">
-          <p>hey</p>
+          <p>
+            A statement of service—signed by your commander, adjutant, or
+            personnel officer—is a letter showing this information:
+          </p>
+          <ul id="sos-info-list">
+            <li>Your full name</li>
+            <li>Your Social Security number</li>
+            <li>Your date of birth</li>
+            <li>The date you entered duty</li>
+            <li>Your total number of creditable years of service</li>
+            <li>The duration of any lost time</li>
+            <li>The name of the command providing the information</li>
+          </ul>
         </va-additional-info>
       </li>
       <li className="process-step list-three">
@@ -81,7 +95,16 @@ const SubwayMap = () => (
           Eligibility. It should take about 15 minutes.
         </p>
         <va-additional-info trigger="What happens after I request a COE?">
-          <p>hey</p>
+          <p className="vads-u-margin-bottom--0p5">
+            After submitting your request, you’ll get a confirmation message. It
+            will include details about your next steps. We may contact you if we
+            have questions or need more information.
+            <br />
+            <br />
+            We process requests in the order we receive them. If you qualify for
+            a Certificate of Eligibility, we’ll notify you by email about how
+            you can get your COE document.
+          </p>
         </va-additional-info>
       </li>
     </ol>

@@ -20,6 +20,18 @@ const mockFile = (componentName, snippet) => {
   `;
 };
 
+const mockFileBindingsImport = (componentName, snippet) => {
+  return `import { ${componentName} } from 'web-components/react-bindings';
+  ${snippet}
+  `;
+};
+
+const mockFileComponentLibraryNamedImport = (name, snippet) => {
+  return `import { ${name} } from '@department-of-veterans-affairs/component-library';
+  ${snippet}
+  `;
+};
+
 ruleTester.run('prefer-web-component-library', rule, {
   // This rule should not trigger on application components, only React components
   // from the `component-library`
@@ -115,6 +127,7 @@ ruleTester.run('prefer-web-component-library', rule, {
         },
       ],
     },
+
     {
       code: mockFile(
         'Telephone',
@@ -281,6 +294,65 @@ ruleTester.run('prefer-web-component-library', rule, {
               output: mockFile(
                 'Modal',
                 'const SampleModal = () => (<VaModal modalTitle="test" onCloseEvent={closeModal} primaryButton={primaryButton} secondaryButton={secondaryButton} >HELLO</VaModal>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Pagination',
+        'const PaginationSample = () => (<Pagination onPageSelect={handlePageSelect} page="3" pages="50" />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFileBindingsImport(
+                'VaPagination',
+                'const PaginationSample = () => (<VaPagination onPageSelect={handlePageSelect} page="3" pages="50" />)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Table',
+        'const TableSample = () => (<Table data={data} fields={fields} />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFileComponentLibraryNamedImport(
+                'generateTableChildren',
+                // Extra space before first closing tag is because prettier hasn't run yet
+                'const TableSample = () => (<va-table   >{generateTableChildren(data, fields)}</va-table>)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
+    {
+      code: mockFile(
+        'Table',
+        'const TableSample = () => (<Table data={data} fields={fields} currentSort={currentSort} />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFileComponentLibraryNamedImport(
+                'generateTableChildren',
+                // Extra space before first closing tag is because prettier hasn't run yet
+                'const TableSample = () => (<va-table   sort-column="0" descending >{generateTableChildren(data, fields)}</va-table>)',
               ),
             },
           ],

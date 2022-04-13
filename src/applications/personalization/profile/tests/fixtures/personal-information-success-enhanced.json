@@ -8,7 +8,7 @@
       "preferredName": "Wes",
       "pronouns": ["heHimHis", "theyThemTheirs"],
       "pronounsNotListedText": "Other/pronouns/here",
-      "genderIdentity": ["man"],
+      "genderIdentity": "man",
       "sexualOrientation": ["straightOrHeterosexual"],
       "sexualOrientationNotListedText": "Some other orientation"
     }

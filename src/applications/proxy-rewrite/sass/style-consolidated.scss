@@ -119,6 +119,7 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
 
   @import "../../../platform/site-wide/user-nav/sass/user-nav";
 
+  @import "../../../platform/site-wide/sass/modules/m-header";
   @import "../../../platform/site-wide/sass/modules/m-footer";
   @import "../../../platform/site-wide/sass/modules/m-crisis-line";
   @import "../../../platform/site-wide/sass/modules/m-downtime-notification";

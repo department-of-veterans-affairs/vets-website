@@ -50,9 +50,31 @@ export const ACCOUNT_TYPES_OPTIONS = {
   savings: 'Savings',
 };
 
-// 554: Denver
-// 637: Asheville
+// 517	Beckley VA Medical Center (Beckley, WV)
+// 554	VA Eastern Colorado Health Care System(ECHCS) (Denver, CO)
+// 581	Huntington VA Medical Center (Huntington, WV)
+// 598	Central Arkansas Veterans Healthcare System John L. McClellan Memorial Veterans Hospital (Little Rock, AR)
+// 608	Manchester VA Medical Center (Manchester, NH)
+// 613	Martinsburg VA Medical Center (Martinsburg, WV)
+// 637	Asheville VA Medical Center (Asheville, NC)
+// 658	Salem VA Medical Center (Salem, VA)
+// 659	Salisbury - W.G. (Bill) Hefner VA Medical Center (Salisbury, NC)
+// 663	VA Puget Sound Health Care System - Seattle Division (Seattle, WA)
+// 688	Washington DC VA Medical Center (Washington, DC)
 // 983: test-only facility ID, used by user 36 among others
-export const RX_TRACKING_SUPPORTING_FACILITIES = new Set(['554', '637', '983']);
+export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
+  '517',
+  '554',
+  '581',
+  '598',
+  '608',
+  '613',
+  '637',
+  '658',
+  '659',
+  '663',
+  '688',
+  '983',
+]);
 
 export const NOT_SET_TEXT = 'This information is not available right now.';

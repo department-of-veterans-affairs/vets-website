@@ -1,56 +1,102 @@
-import { PROFILE_PATHS } from '@@profile/constants';
-import mockUser from '@@profile/tests/fixtures/users/user-36.json';
-import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
-import mockProfileShowAddressChangeModalToggle from '@@profile/tests/fixtures/contact-information-feature-toggles.json';
+import {
+  setupHomeAddressModalUpdateSuccess,
+  setupHomeAddressModalUpdateFailure,
+} from './setupHomeAddressModalTests';
+import AddressPage from '../address-validation/page-objects/AddressPage';
+import user36 from '../../fixtures/users/user-36.json';
 
-const setup = (mobile = false) => {
-  if (mobile) {
-    cy.viewport('iphone-4');
-  }
+describe('Home address update modal', () => {
+  it('should NOT SHOW update prompt modal', () => {
+    const formFields = {
+      address: '36320 Coronado Dr',
+      city: 'Fremont',
+      state: 'MD',
+      zipCode: '94536',
+    };
 
-  cy.login(mockUser);
+    setupHomeAddressModalUpdateSuccess('valid-address');
 
-  cy.intercept('v0/feature_toggles*', mockProfileShowAddressChangeModalToggle);
+    const addressPage = new AddressPage();
+    addressPage.fillAddressForm(formFields);
+    addressPage.saveForm();
 
-  mockGETEndpoints([
-    'v0/mhv_account',
-    'v0/profile/full_name',
-    'v0/profile/status',
-    'v0/profile/personal_information',
-    'v0/profile/service_history',
-    'v0/ppiu/payment_information',
-  ]);
+    cy.findByTestId('modal-content').should('not.exist');
 
-  cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+    cy.injectAxeThenAxeCheck();
+  });
 
-  cy.injectAxe();
+  it('should show update prompt modal and save successfully', () => {
+    const formFields = {
+      address: '36320 Coronado Dr',
+      city: 'Fremont',
+      state: 'MD',
+      zipCode: '94536',
+    };
 
-  // should show a loading indicator
-  cy.findByRole('progressbar').should('exist');
-  cy.findByText(/loading your information/i).should('exist');
+    setupHomeAddressModalUpdateSuccess('valid-address');
 
-  // and then the loading indicator should be removed
-  cy.findByText(/loading your information/i).should('not.exist');
-  cy.findByRole('progressbar').should('not.exist');
-};
+    const addressPage = new AddressPage();
 
-describe('The personal and contact information page', () => {
-  it('should show address update modal dialog when updating home address', () => {
-    setup();
+    cy.intercept('GET', '/v0/user?*', {
+      statusCode: 200,
+      body: user36,
+    });
 
-    // Open edit view
-    cy.findByRole('button', {
-      name: new RegExp(`edit home address`, 'i'),
-    }).click({
+    addressPage.fillAddressForm(formFields);
+    addressPage.saveForm();
+
+    cy.findByTestId('copy-address-prompt')
+      .shadow()
+      .findByText(`We've updated your home address`)
+      .should('exist');
+
+    cy.findByTestId('save-edit-button').click({
+      force: true,
+      waitForAnimations: true,
+    });
+
+    cy.findByTestId('copy-address-success')
+      .shadow()
+      .findByText(`We've updated your mailing address`)
+      .should('exist');
+
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('should show update prompt modal and show error when updating fails', () => {
+    const formFields = {
+      address: '36320 Coronado Dr',
+      city: 'Fremont',
+      state: 'MD',
+      zipCode: '94536',
+    };
+
+    setupHomeAddressModalUpdateFailure('valid-address');
+
+    const addressPage = new AddressPage();
+
+    cy.intercept('GET', '/v0/user?*', {
+      statusCode: 200,
+      body: user36,
+    });
+
+    addressPage.fillAddressForm(formFields);
+    addressPage.saveForm();
+
+    cy.findByTestId('copy-address-prompt')
+      .shadow()
+      .findByText(`We've updated your home address`)
+      .should('exist');
+
+    cy.findByTestId('save-edit-button').click({
       force: true,
     });
 
-    cy.findByTestId('save-edit-button')
-      .should('exist')
-      .click();
+    cy.findByTestId('copy-address-failure')
+      .shadow()
+      .findByText(`We can't update your mailing address`)
+      .should('exist');
 
-    cy.findByTestId('modal-content').should('exist');
-
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 });

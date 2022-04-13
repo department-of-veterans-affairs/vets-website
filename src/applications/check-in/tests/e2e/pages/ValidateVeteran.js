@@ -108,7 +108,7 @@ class ValidateVeteran {
       .should('be.visible')
       .and(
         'have.text',
-        "Sorry, we couldn't find an account that matches that last name or SSN. Please try again.",
+        "We're sorry. We couldn't match your information to our records. Please try again.",
       );
   };
 }

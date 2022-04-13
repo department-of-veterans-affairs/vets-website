@@ -361,6 +361,7 @@ export async function getCommunityProvidersByTypeOfCare({
  * @returns {Object<Location>} A FHIR Location resources
  */
 
+// Possibly no longer needed - the facilities call isn't needed in cc appointments flow
 export async function getCommunityProvider(id) {
   try {
     const facility = await getCommunityCareFacility(id);

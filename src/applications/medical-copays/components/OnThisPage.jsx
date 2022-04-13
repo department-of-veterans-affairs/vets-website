@@ -4,7 +4,7 @@ export const OnThisPage = () => (
   <>
     <h2>On this page</h2>
     <div className="vads-u-font-family--sans vads-u-display--flex vads-u-flex-direction--column">
-      <a href="#download-statements" className="vads-u-margin-y--1">
+      <a href="#statement-list" className="vads-u-margin-y--1">
         <i
           aria-hidden="true"
           role="img"

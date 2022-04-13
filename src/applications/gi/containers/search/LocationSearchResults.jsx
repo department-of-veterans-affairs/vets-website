@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
+import environment from 'platform/utilities/environment';
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -47,6 +48,7 @@ function LocationSearchResults({
   const [mapState, setMapState] = useState({ changed: false, distance: null });
   const [usedFilters, setUsedFilters] = useState(filtersChanged);
   const [cardResults, setCardResults] = useState(null);
+  const [dataReturned, setDataReturned] = useState(null);
   const [mobileTab, setMobileTab] = useState(LIST_TAB);
   const [markerClicked, setMarkerClicked] = useState(null);
   const [activeMarker, setActiveMarker] = useState(null);
@@ -335,6 +337,7 @@ function LocationSearchResults({
         map.current.fitBounds(locationBounds, { padding: 20 });
       }
 
+      setDataReturned(true);
       setCardResults(visibleResults);
       setUsedFilters(getFiltersChanged(filters));
       setMarkers(mapMarkers);
@@ -454,9 +457,15 @@ function LocationSearchResults({
               <FilterYourResults />
             </>
           )}
-          {(smallScreen || landscape) && (
-            <MobileFilterControls className="vads-u-margin-top--2" />
-          )}
+          {environment.isProduction()
+            ? (smallScreen || landscape) && (
+                <MobileFilterControls className="vads-u-margin-top--2" />
+              )
+            : smallScreen &&
+              !landscape &&
+              results.length > 0 && (
+                <MobileFilterControls className="vads-u-margin-top--2" />
+              )}
         </>
       );
     }
@@ -675,12 +684,13 @@ function LocationSearchResults({
 
   // Only needed on desktop as can do "Search this area of the map" which causes differences in count between what is
   // returned and what is visible
-  const desktopCount = !cardResults ? null : cardResults.length;
+  const desktopCount = dataReturned ? cardResults.length : 0;
 
   // Returns content setup for desktop screens
   return (
     <div className="location-search vads-u-padding-top--1">
       <div className="usa-width-one-third">
+        &nbsp;
         {inProgress && (
           <va-loading-indicator message="Loading search results..." />
         )}
@@ -694,7 +704,7 @@ function LocationSearchResults({
             )}
             {hasSearchLatLong && (
               <>
-                {searchResultsShowing(desktopCount)}
+                {dataReturned && searchResultsShowing(desktopCount)}
                 {eligibilityAndFilters(desktopCount)}
                 {searchResults(desktopCount)}
                 {noResultsFound(desktopCount)}

@@ -3,14 +3,14 @@ import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import WizardContainer from '../../wizard/containers/WizardContainer';
 import { connect } from 'react-redux';
-import { showEduBenefits1990EWizard } from '../../selectors/educationWizard';
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
   WIZARD_STATUS_COMPLETE,
 } from 'applications/static-pages/wizard';
+import WizardContainer from '../../wizard/containers/WizardContainer';
+import { showEduBenefits1990EWizard } from '../../selectors/educationWizard';
 
 export class IntroductionPage extends React.Component {
   state = {

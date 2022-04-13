@@ -19,7 +19,6 @@ import {
 import { getRequestMessages } from '../../services/var';
 
 import {
-  getCommunityProvider,
   getLocation,
   getLocations,
   getLocationSettings,
@@ -513,13 +512,6 @@ export function fetchRequestDetails(id) {
         } catch (e) {
           captureError(e);
         }
-      }
-      if (featureVAOSServiceRequests && request.practitioners?.length) {
-        request.preferredCommunityCareProviders = [
-          await getCommunityProvider(
-            request.practitioners[0].identifier[0].value,
-          ),
-        ];
       }
 
       dispatch({

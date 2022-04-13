@@ -2,11 +2,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
+import recordEvent from 'platform/monitoring/record-event';
+import { hasSession } from 'platform/user/profile/utilities';
 import SearchMenu from './SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
 import isVATeamSiteSubdomain from '../../../utilities/environment/va-subdomain';
-import recordEvent from 'platform/monitoring/record-event';
-import { hasSession } from 'platform/user/profile/utilities';
 
 class SearchHelpSignIn extends Component {
   static propTypes = {
@@ -17,11 +17,13 @@ class SearchHelpSignIn extends Component {
     isProfileLoading: PropTypes.bool.isRequired,
     onSignInSignUp: PropTypes.func.isRequired,
     toggleMenu: PropTypes.func.isRequired,
+    customText: PropTypes.string,
     userGreeting: PropTypes.oneOfType([
       PropTypes.node,
       PropTypes.arrayOf(PropTypes.node),
     ]),
   };
+
   handleSignInSignUp = e => {
     e.preventDefault();
     this.props.onSignInSignUp();
@@ -35,6 +37,7 @@ class SearchHelpSignIn extends Component {
   };
 
   handleSearchMenuClick = this.handleMenuClick('search');
+
   handleAccountMenuClick = this.handleMenuClick('account');
 
   renderSignInContent = () => {
@@ -62,16 +65,16 @@ class SearchHelpSignIn extends Component {
       <div className="sign-in-links">
         {!isSubdomain && (
           <button className="sign-in-link" onClick={this.handleSignInSignUp}>
-            Sign in
+            {this.props.customText ? this.props.customText : 'Sign in'}
           </button>
         )}
         {isSubdomain && (
           <a
             className="usa-button sign-in-link"
-            href={`https://www.va.gov/my-va`}
+            href="https://www.va.gov/my-va"
             onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
           >
-            Sign in
+            {this.props.customText ? this.props.customText : 'Sign in'}
           </a>
         )}
       </div>

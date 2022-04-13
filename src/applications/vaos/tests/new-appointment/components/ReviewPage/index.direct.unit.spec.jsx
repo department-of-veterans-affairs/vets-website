@@ -191,7 +191,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
     expect(submitData.dateTime).to.equal(`${start.format()}+00:00`);
   });
 
-  it('should show appropriate message on bad request submit error', async () => {
+  it('should show appropriate message on bad 400 request submit error', async () => {
     mockFacilityFetchByVersion({
       facility: createMockCheyenneFacilityByVersion({
         version: 0,
@@ -221,6 +221,96 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
 
     expect(screen.baseElement).contain.text(
       'Something went wrong when we tried to submit your appointment. Call your VA medical center to schedule this appointment.',
+    );
+
+    await screen.findByText('307-778-7550');
+
+    // Not sure of a better way to search for test just within the alert
+    const alert = screen.baseElement.querySelector('va-alert');
+    expect(alert).contain.text('Cheyenne VA Medical Center');
+    expect(alert).contain.text('2360 East Pershing Boulevard');
+    expect(alert).contain.text('Cheyenne, WyomingWY 82001-5356');
+    expect(screen.history.push.called).to.be.false;
+    waitFor(() => {
+      expect(document.activeElement).to.be(alert);
+    });
+  });
+
+  it('should show appropriate message on overbooked 409 error', async () => {
+    mockFacilityFetchByVersion({
+      facility: createMockCheyenneFacilityByVersion({
+        version: 0,
+      }),
+      version: 0,
+    });
+    setFetchJSONFailure(
+      global.fetch.withArgs(`${environment.API_URL}/vaos/v0/appointments`),
+      {
+        errors: [
+          {
+            code: 'VAOS_409',
+          },
+        ],
+      },
+    );
+
+    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
+      store,
+    });
+
+    await screen.findByText(/scheduling a primary care appointment/i);
+
+    userEvent.click(screen.getByText(/Confirm appointment/i));
+
+    await screen.findByText('We couldn’t schedule this appointment');
+
+    expect(screen.baseElement).contain.text(
+      'You already have an overlapping booked appointment. Please schedule for a different day.',
+    );
+
+    await screen.findByText('307-778-7550');
+
+    // Not sure of a better way to search for test just within the alert
+    const alert = screen.baseElement.querySelector('va-alert');
+    expect(alert).contain.text('Cheyenne VA Medical Center');
+    expect(alert).contain.text('2360 East Pershing Boulevard');
+    expect(alert).contain.text('Cheyenne, WyomingWY 82001-5356');
+    expect(screen.history.push.called).to.be.false;
+    waitFor(() => {
+      expect(document.activeElement).to.be(alert);
+    });
+  });
+
+  it('should show appropriate message on bad 500 request submit error', async () => {
+    mockFacilityFetchByVersion({
+      facility: createMockCheyenneFacilityByVersion({
+        version: 0,
+      }),
+      version: 0,
+    });
+    setFetchJSONFailure(
+      global.fetch.withArgs(`${environment.API_URL}/vaos/v0/appointments`),
+      {
+        errors: [
+          {
+            code: '500',
+          },
+        ],
+      },
+    );
+
+    const screen = renderWithStoreAndRouter(<Route component={ReviewPage} />, {
+      store,
+    });
+
+    await screen.findByText(/scheduling a primary care appointment/i);
+
+    userEvent.click(screen.getByText(/Confirm appointment/i));
+
+    await screen.findByText('We couldn’t schedule this appointment');
+
+    expect(screen.baseElement).contain.text(
+      `Something went wrong when we tried to submit your appointment. You can try again later, or call your VA medical center to help with your appointment`,
     );
 
     await screen.findByText('307-778-7550');

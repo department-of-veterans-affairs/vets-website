@@ -1,8 +1,8 @@
 import React from 'react';
 
-export const FilingDeadlinesDescription = (
+// Needed for Introduction page
+export const filingDeadlineContent = (
   <>
-    <h3>Filing deadlines</h3>
     <p>
       You can submit this online form (VA Form 10182) to appeal a VA decision
       dated on or after February 19, 2019. The Board must receive your completed
@@ -15,7 +15,7 @@ export const FilingDeadlinesDescription = (
       your decision notice. A contested claim is when a favorable claim decision
       for one person results in denial or reduced benefits for another person.
     </p>
-    <p className="vads-u-margin-left--4">
+    <div className="vads-u-margin-left--4">
       <strong>If you have a Statement of the Case (SOC)</strong> or a{' '}
       <strong>
         Supplemental Statement of the Case (SSOC) from the old appeals system
@@ -32,7 +32,14 @@ export const FilingDeadlinesDescription = (
           jurisdiction
         </li>
       </ul>
-    </p>
+    </div>
+  </>
+);
+
+export const FilingDeadlinesDescription = (
+  <>
+    <h3>Filing deadlines</h3>
+    {filingDeadlineContent}
     <p>
       Please understand that by listing any issues currently pending in the old
       system, you are specifically opting those issues into the new decision

@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import recordEvent from 'platform/monitoring/record-event';
-import format from 'date-fns/format';
 import { api } from '../../api';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
@@ -14,6 +14,7 @@ import { CheckInButton } from './CheckInButton';
 
 const AppointmentAction = props => {
   const { appointment, router, token } = props;
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
   const setSelectedAppointment = useCallback(
@@ -23,8 +24,9 @@ const AppointmentAction = props => {
     [dispatch],
   );
 
-  const defaultMessage =
-    'Online check-in isn’t available for this appointment. Check in with a staff member.';
+  const defaultMessage = t(
+    'online-check-in-isnt-available-for-this-appointment-check-in-with-a-staff-member',
+  );
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
   const onClick = useCallback(
     async () => {
@@ -64,25 +66,28 @@ const AppointmentAction = props => {
     if (areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_TOO_EARLY)) {
       if (appointment.checkInWindowStart) {
         const appointmentDateTime = new Date(appointment.checkInWindowStart);
-        const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
         return (
           <p data-testid="too-early-message">
-            You can check in starting at this time: {appointmentTime}
+            {t('you-can-check-in-starting-at-this-time', {
+              date: appointmentDateTime,
+            })}
           </p>
         );
       }
       return (
         <p data-testid="no-time-too-early-reason-message">
-          This appointment isn’t eligible for online check-in. Check-in with a
-          staff member.
+          {t(
+            'this-appointment-isnt-eligible-for-online-check-in-check-in-with-a-staff-member',
+          )}
         </p>
       );
     }
     if (areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_TOO_LATE)) {
       return (
         <p data-testid="too-late-message">
-          Your appointment started more than 15 minutes ago. We can’t check you
-          in online. Ask a staff member for help.
+          {t(
+            'your-appointment-started-more-than-15-minutes-ago-we-cant-check-you-in-online-ask-a-staff-member-for-help',
+          )}
         </p>
       );
     }
@@ -110,20 +115,19 @@ const AppointmentAction = props => {
         if (Number.isNaN(appointmentDateTime.getTime())) {
           return (
             <p data-testid="already-checked-in-no-time-message">
-              You are already checked in.
+              {t('you-are-already-checked-in')}
             </p>
           );
         }
-        const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
         return (
           <p data-testid="already-checked-in-message">
-            You checked in at {appointmentTime}
+            {t('you-checked-in-at', { date: appointmentDateTime })}
           </p>
         );
       }
       return (
         <p data-testid="already-checked-in-no-time-message">
-          You are already checked in.
+          {t('you-are-already-checked-in')}
         </p>
       );
     }

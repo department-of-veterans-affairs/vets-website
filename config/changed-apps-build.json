@@ -53,6 +53,10 @@
       {
         "rootFolder": "check-in",
         "slackGroup": "@check-in-fe"
+      },
+      {
+        "rootFolder": "lgy",
+        "slackGroup": "@benefits-app-builds"
       }
     ]
   }

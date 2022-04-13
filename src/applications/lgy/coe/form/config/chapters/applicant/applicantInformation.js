@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { validateWhiteSpace } from 'platform/forms/validations';
+import fullNameUI from 'platform/forms/definitions/fullName';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import { personalInformation } from '../../schemaImports';
@@ -21,39 +21,10 @@ const description = () => (
   </>
 );
 
-const validateName = (errors, pageData) => {
-  const { firstName, lastName } = pageData;
-  validateWhiteSpace(errors.firstName, firstName);
-  validateWhiteSpace(errors.lastName, lastName);
-};
-
 export const schema = personalInformation;
 
 export const uiSchema = {
   'ui:description': description,
-  fullName: {
-    'ui:validations': [validateName],
-    firstName: {
-      'ui:title': 'Your first name',
-      'ui:errorMessages': {
-        required: 'Please enter a first name',
-      },
-    },
-    middleName: {
-      'ui:title': 'Your middle name',
-    },
-    lastName: {
-      'ui:title': 'Your last name',
-      'ui:errorMessages': {
-        required: 'Please enter a last name',
-      },
-    },
-    suffixName: {
-      'ui:title': 'Suffix',
-      'ui:options': {
-        widgetClassNames: 'form-select-medium',
-      },
-    },
-  },
+  fullName: fullNameUI,
   dateOfBirth: currentOrPastDateUI('Date of birth'),
 };

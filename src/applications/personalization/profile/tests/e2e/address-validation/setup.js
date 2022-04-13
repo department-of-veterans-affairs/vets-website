@@ -1,12 +1,12 @@
-import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { PROFILE_PATHS } from '@@profile/constants';
-import { createUserResponse } from './user';
-import { createAddressValidationResponse } from './addressValidation';
 
 import mockUser from '@@profile/tests/fixtures/users/user-36.json';
 import receivedTransaction from '@@profile/tests/fixtures/transactions/received-transaction.json';
 import finishedTransaction from '@@profile/tests/fixtures/transactions/finished-transaction.json';
 import noChangesTransaction from '@@profile/tests/fixtures/transactions/no-changes-transaction.json';
+import { createAddressValidationResponse } from './addressValidation';
+import { createUserResponse } from './user';
+import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 
 export const setUp = type => {
   disableFTUXModals();

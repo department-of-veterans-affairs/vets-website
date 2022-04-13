@@ -9,7 +9,7 @@ import { focusElement } from 'platform/utilities/ui';
 
 import { MoreQuestions } from '../../status/components/MoreQuestions';
 
-const printPage = () => window.print;
+const printPage = () => window.print();
 
 const statusUrl = getAppUrl('coe-status');
 
@@ -44,8 +44,7 @@ const ConfirmationPage = ({ form }) => {
 
         {name && (
           <span>
-            For: {name.firstName} {name.middleName} {name.lastName}{' '}
-            {name.suffixName}
+            For: {name.first} {name.middle} {name.last} {name.suffix}
           </span>
         )}
 

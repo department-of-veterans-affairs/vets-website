@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import DemographicItem from '../../DemographicItem';
+import EditLinkText from '../Edit/shared/EditLinkText';
 
 const ConfirmablePage = ({
   header,
@@ -12,12 +14,17 @@ const ConfirmablePage = ({
   noAction = () => {},
   isLoading = false,
   isEditEnabled = false,
-  LoadingMessage = () => <va-loading-indicator message="Loading..." />,
+  loadingMessageOverride = null,
   Footer,
 }) => {
   useEffect(() => {
     focusElement('h1');
   }, []);
+  const { t } = useTranslation();
+  const defaultLoadingMessage = () => (
+    <va-loading-indicator message={t('loading')} />
+  );
+  const LoadingMessage = loadingMessageOverride ?? defaultLoadingMessage;
   const editHandler = useCallback(dataToEdit => {
     dataToEdit.editAction(dataToEdit);
   }, []);
@@ -38,7 +45,7 @@ const ConfirmablePage = ({
                 {field.key in data && data[field.key] ? (
                   <DemographicItem demographic={data[field.key]} />
                 ) : (
-                  'Not available'
+                  t('not-available')
                 )}
                 {isEditEnabled &&
                   field.editAction && (
@@ -51,7 +58,7 @@ const ConfirmablePage = ({
                         }
                         data-testid="edit-button"
                       >
-                        Edit
+                        <EditLinkText value={data[field.key]} />
                       </a>
                     </div>
                   )}
@@ -72,7 +79,7 @@ const ConfirmablePage = ({
             data-testid="yes-button"
             type="button"
           >
-            Yes
+            {t('yes')}
           </button>
           <button
             onClick={noAction}
@@ -80,7 +87,7 @@ const ConfirmablePage = ({
             data-testid="no-button"
             type="button"
           >
-            No
+            {t('no')}
           </button>
         </>
       )}
@@ -100,9 +107,9 @@ ConfirmablePage.propTypes = {
   noAction: PropTypes.func.isRequired,
   yesAction: PropTypes.func.isRequired,
   Footer: PropTypes.func,
-  LoadingMessage: PropTypes.func,
   isEditEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
+  loadingMessageOverride: PropTypes.func,
   subtitle: PropTypes.string,
 };
 export default ConfirmablePage;

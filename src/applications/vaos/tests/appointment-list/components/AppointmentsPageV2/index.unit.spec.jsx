@@ -2,7 +2,7 @@ import React from 'react';
 import MockDate from 'mockdate';
 import { expect } from 'chai';
 import moment from 'moment';
-import { fireEvent, waitFor, within } from '@testing-library/dom';
+import { waitFor, within } from '@testing-library/dom';
 import environment from 'platform/utilities/environment';
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import userEvent from '@testing-library/user-event';
@@ -59,8 +59,11 @@ describe('VAOS <AppointmentsPageV2>', () => {
       initialState: defaultState,
     });
 
-    const dropdown = screen.getByLabelText('Show by status');
-    fireEvent.change(dropdown, { target: { value: 'requested' } });
+    const dropdown = await screen.findByTestId('vaosSelect');
+
+    dropdown.__events.vaSelect({
+      detail: { value: 'requested' },
+    });
 
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal('/requested'),
@@ -79,7 +82,9 @@ describe('VAOS <AppointmentsPageV2>', () => {
       );
     });
 
-    fireEvent.change(dropdown, { target: { value: 'past' } });
+    dropdown.__events.vaSelect({
+      detail: { value: 'past' },
+    });
 
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal('/past'),
@@ -96,7 +101,9 @@ describe('VAOS <AppointmentsPageV2>', () => {
       );
     });
 
-    fireEvent.change(dropdown, { target: { value: 'canceled' } });
+    dropdown.__events.vaSelect({
+      detail: { value: 'canceled' },
+    });
 
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal('/canceled'),
@@ -113,7 +120,9 @@ describe('VAOS <AppointmentsPageV2>', () => {
       );
     });
 
-    fireEvent.change(dropdown, { target: { value: 'upcoming' } });
+    dropdown.__events.vaSelect({
+      detail: { value: 'upcoming' },
+    });
 
     await waitFor(() =>
       expect(screen.history.push.lastCall.args[0]).to.equal('/'),
@@ -377,8 +386,10 @@ describe('VAOS <AppointmentsPageV2>', () => {
         .be.ok;
       expect(within(navigation).queryByRole('link', { name: 'Past' })).to.exist;
 
+      const dropdown = await screen.findByTestId('vaosSelect');
+
       // and date range dropdown should be displayed
-      expect(screen.getByText('Select a date range')).to.be.ok;
+      expect(dropdown).to.have.attribute('label', 'Select a date range');
 
       // and scheduling button should not be displayed
       expect(

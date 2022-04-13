@@ -5,12 +5,14 @@ import {
   TOGGLE_LOGIN_MODAL,
   UPDATE_SEARCH_HELP_USER_MENU,
   TOGGLE_ACCOUNT_TRANSITION_MODAL,
+  TOGGLE_ACCOUNT_TRANSITION_SUCCESS_MODAL,
 } from '../actions';
 
 const initialState = {
   showFormSignInModal: false,
   showLoginModal: false,
   showAccountTransitionModal: false,
+  showAccountTransitionSuccessModal: false,
   utilitiesMenuIsOpen: {
     search: false,
     help: false,
@@ -40,6 +42,9 @@ export default function userNavReducer(state = initialState, action) {
 
     case TOGGLE_ACCOUNT_TRANSITION_MODAL:
       return set('showAccountTransitionModal', action.isOpen, state);
+
+    case TOGGLE_ACCOUNT_TRANSITION_SUCCESS_MODAL:
+      return set('showAccountTransitionSuccessModal', action.isOpen, state);
 
     default:
       return state;

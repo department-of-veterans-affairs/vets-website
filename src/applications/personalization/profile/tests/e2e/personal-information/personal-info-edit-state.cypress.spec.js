@@ -44,7 +44,7 @@ const checkPersonalInfoFields = () => {
 
   cy.findByLabelText(nameEditButtonLabel)
     .should('exist')
-    .click();
+    .click({ waitForAnimations: true });
 
   cy.findByText(nameEditInputLabel).should('exist');
 
@@ -102,9 +102,7 @@ const checkPersonalInfoFields = () => {
   cy.findByText('Transgender woman').should('exist');
   cy.findByText('Transgender man').should('exist');
   cy.findByText('Non-binary').should('exist');
-  cy.findByText('Prefer not to answer (un-checks other options)').should(
-    'exist',
-  );
+  cy.findByText('Prefer not to answer').should('exist');
   cy.findByText('A gender not listed here').should('exist');
 
   cy.findAllByTestId('cancel-edit-button')

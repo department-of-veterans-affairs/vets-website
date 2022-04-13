@@ -52,7 +52,6 @@ import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-forms/createFindVaForms';
 import createFindVaFormsPDFDownloadHelper from '../find-forms/widgets/createFindVaFormsPDFDownloadHelper';
-import createHomeLoanCOELoginWidget from './home-loan-coe-widget';
 import createLettersMobileCTA from './letters-mobile-cta';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
@@ -63,6 +62,7 @@ import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
 } from '../post-911-gib-status/createPost911GiBillStatusWidget';
 import createResourcesAndSupportSearchWidget from './widget-creators/resources-and-support-search';
+import createShiftedVetsBanner from './shifted-vets-banner';
 import createThirdPartyApps, {
   thirdPartyAppsReducer,
 } from '../third-party-app-directory/createThirdPartyApps';
@@ -74,6 +74,7 @@ import {
   createScoAnnouncementsWidget,
 } from './school-resources/SchoolResources';
 import createHomepageHeroRandomizer from './homepage-hero-randomizer/createHomepageHeroRandomizer';
+import create1095BDownloadCTA from './download-1095b';
 
 // Set the app name header when using the apiRequest helper
 window.appName = 'static-pages';
@@ -193,10 +194,11 @@ createViewPaymentHistoryCTA(store, widgetTypes.VIEW_PAYMENT_HISTORY);
 createI18Select(store, widgetTypes.I_18_SELECT);
 createDependencyVerification(store, widgetTypes.DEPENDENCY_VERIFICATION);
 createCOEAccess(store, widgetTypes.COE_ACCESS);
-createHomeLoanCOELoginWidget(store, widgetTypes.HOME_LOAN_COE_LOGIN_WIDGET);
 createLettersMobileCTA(store, widgetTypes.LETTERS_MOBILE_CTA);
 createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER);
+create1095BDownloadCTA(store, widgetTypes.DOWNLOAD_1095B_CTA);
+createShiftedVetsBanner(store, widgetTypes.SHIFTED_VETS_BANNER);
 
 // Create the My VA Login widget only on the homepage.
 if (location.pathname === '/') {

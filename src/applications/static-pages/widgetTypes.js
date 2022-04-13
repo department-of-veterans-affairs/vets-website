@@ -1,4 +1,5 @@
 export default {
+  DOWNLOAD_1095B_CTA: 'download-1095b',
   ASK_VA: 'ask-va',
   BANNER: 'banner',
   BASIC_FACILITY_LOCATIONS_LIST: 'basic-facility-locations-list',
@@ -33,7 +34,6 @@ export default {
   GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
   HEALTH_CARE_APP_STATUS: 'health-care-app-status',
   HIGHER_LEVEL_REVIEW_APP_STATUS: 'higher-level-review-status',
-  HOME_LOAN_COE_LOGIN_WIDGET: 'home-loan-coe-login-widget',
   HOMEPAGE_BANNER: 'homepage-banner',
   HOMEPAGE_HERO_RANDOMIZER: 'homepage-hero-randomizer',
   I_18_SELECT: 'i18-select',
@@ -51,6 +51,7 @@ export default {
   SCO_ANNOUNCEMENTS: 'sco-announcements',
   SCO_EVENTS: 'sco-events',
   SECURE_MESSAGING_PAGE: 'secure-messaging-page',
+  SHIFTED_VETS_BANNER: 'shifted-vets-banner',
   SIDE_NAV: 'side-nav',
   THIRD_PARTY_APP_DIRECTORY: 'third-party-app-directory',
   VET_CENTER_HOURS: 'vet-center-hours',

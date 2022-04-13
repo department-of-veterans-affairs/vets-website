@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import propTypes from 'prop-types';
 import ConfirmablePage from '../ConfirmablePage';
@@ -10,7 +11,7 @@ import { URLS } from '../../../utils/navigation';
 import { EDITING_PAGE_NAMES } from '../../../utils/appConstants';
 
 export default function NextOfKinDisplay({
-  header = 'Is this your current next of kin information?',
+  header = '',
   subtitle = '',
   nextOfKin = {},
   yesAction = () => {},
@@ -21,6 +22,7 @@ export default function NextOfKinDisplay({
   Footer,
 }) {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const setEditContext = useCallback(
     (data, url) => {
       dispatch(
@@ -36,52 +38,61 @@ export default function NextOfKinDisplay({
   );
   const nextOfKinFields = [
     {
-      title: 'Name',
+      title: t('name'),
       key: 'name',
       editAction: data => {
         setEditContext(data, URLS.EDIT_NAME);
       },
     },
     {
-      title: 'Relationship',
+      title: t('relationship'),
       key: 'relationship',
       editAction: data => {
         setEditContext(data, URLS.EDIT_RELATIONSHIP);
       },
     },
-    { title: 'Address', key: 'address' },
     {
-      title: 'Phone',
+      title: t('address'),
+      key: 'address',
+      editAction: data => {
+        setEditContext(data, URLS.EDIT_ADDRESS);
+      },
+    },
+    {
+      title: t('phone'),
       key: 'phone',
       editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
     },
     {
-      title: 'Work phone',
+      title: t('work-phone'),
       key: 'workPhone',
       editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
     },
   ];
-  const loadingMessage = useCallback(() => {
-    return (
-      <>
-        <va-loading-indicator
-          data-testid="loading-message"
-          message="Saving your responses..."
-        />
-      </>
-    );
-  }, []);
+  const loadingMessage = useCallback(
+    () => {
+      return (
+        <>
+          <va-loading-indicator
+            data-testid="loading-message"
+            message={t('saving-your-responses')}
+          />
+        </>
+      );
+    },
+    [t],
+  );
   return (
     <>
       <ConfirmablePage
-        header={header}
+        header={header || t('is-this-your-current-next-of-kin-information')}
         subtitle={subtitle}
         dataFields={nextOfKinFields}
         data={nextOfKin}
         yesAction={yesAction}
         noAction={noAction}
         isLoading={isLoading}
-        LoadingMessage={loadingMessage}
+        loadingMessageOverride={loadingMessage}
         Footer={Footer}
         isEditEnabled={isEditEnabled}
       />

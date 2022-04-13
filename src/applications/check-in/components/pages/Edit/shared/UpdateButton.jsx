@@ -1,8 +1,10 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 export default function UpdateButton(props) {
   const { jumpToPage, backPage, clearData, handleUpdate, isUpdatable } = props;
+  const { t } = useTranslation();
   const onClick = useCallback(
     () => {
       handleUpdate();
@@ -19,7 +21,7 @@ export default function UpdateButton(props) {
       type="button"
       disabled={!isUpdatable}
     >
-      Update
+      {t('update')}
     </button>
   );
 }

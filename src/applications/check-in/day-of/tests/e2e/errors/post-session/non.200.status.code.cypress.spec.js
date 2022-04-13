@@ -7,15 +7,9 @@ import Error from '../../pages/Error';
 describe('Check In Experience ', () => {
   describe('Error handling - POST /check_in/v2/session/ - Non 200 status code', () => {
     beforeEach(() => {
-      const {
-        initializeFeatureToggle,
-        initializeSessionGet,
-        initializeSessionPost,
-      } = ApiInitializer;
+      const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
-
-      initializeSessionPost.withFailure(400);
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -23,6 +17,21 @@ describe('Check In Experience ', () => {
       });
     });
     it('bad status code (400)', () => {
+      const { initializeSessionPost } = ApiInitializer;
+      initializeSessionPost.withFailure(400);
+      cy.visitWithUUID();
+      // page: Validate
+      ValidateVeteran.validatePage.dayOf();
+      ValidateVeteran.validateVeteran();
+      cy.injectAxeThenAxeCheck();
+
+      ValidateVeteran.attemptToGoToNextPage();
+
+      Error.validatePageLoaded();
+    });
+    it('bad status code (401)', () => {
+      const { initializeSessionPost } = ApiInitializer;
+      initializeSessionPost.withFailure(401);
       cy.visitWithUUID();
       // page: Validate
       ValidateVeteran.validatePage.dayOf();

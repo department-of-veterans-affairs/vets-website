@@ -35,8 +35,14 @@ const mocks = {
     },
     createMockValidateErrorResponse: () => {
       return {
-        error: true,
-        message: 'Invalid last4 or last name!',
+        errors: [
+          {
+            title: 'Authentication Error',
+            detail: 'Authentication Error',
+            code: 'LOROTA-MAPPED-API_401',
+            status: '401',
+          },
+        ],
       };
     },
     createMockFailedResponse,

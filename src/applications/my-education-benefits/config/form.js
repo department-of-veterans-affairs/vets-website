@@ -16,7 +16,8 @@ import * as address from 'platform/forms-system/src/js/definitions/address';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
-import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
+import * as ENVIRONMENTS from 'site/constants/environments';
+import * as BUCKETS from 'site/constants/buckets';
 import fullSchema from '../22-1990-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
@@ -345,9 +346,13 @@ function transform(metaData, form) {
   return JSON.stringify(submission);
 }
 
-const checkImageSrc = environment.isStaging()
-  ? `${VAGOVSTAGING}/img/check-sample.png`
-  : `${vagovprod}/img/check-sample.png`;
+const checkImageSrc = (() => {
+  const bucket = environment.isProduction()
+    ? BUCKETS[ENVIRONMENTS.VAGOVPROD]
+    : BUCKETS[ENVIRONMENTS.VAGOVSTAGING];
+
+  return `${bucket}/img/check-sample.png`;
+})();
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -556,7 +561,7 @@ const formConfig = {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
-                    Phone numbers and email addresss
+                    Phone numbers and email addresses
                   </h4>
                   <p className="meb-review-page-only">
                     If you’d like to update your phone numbers and email

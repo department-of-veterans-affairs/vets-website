@@ -34,8 +34,8 @@ export default {
                   {
                     institution: 'Wake Forest University School of Business',
                     creditHours: 15,
-                    startDate: '2022-01-01',
-                    endDate: '2022-01-31',
+                    startDate: '2022-02-01',
+                    endDate: '2022-02-28',
                   },
                 ],
               },

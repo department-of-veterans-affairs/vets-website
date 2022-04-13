@@ -18,16 +18,16 @@ describe('<Main>', () => {
     userGreeting: null,
     showFormSignInModal: false,
     showLoginModal: false,
-    utilitiesMenuIsOpen: {
-      search: false,
-      help: false,
-      account: false,
-    },
+    showTransitionSuccessModal: false,
+    showTransitionModal: false,
+    utilitiesMenuIsOpen: { search: false, help: false, account: false },
     getBackendStatuses: sinon.spy(),
     toggleFormSignInModal: sinon.spy(),
     toggleLoginModal: sinon.spy(),
     toggleAccountTransitionModal: sinon.spy(),
     closeAccountTransitionModal: sinon.spy(),
+    toggleAccountTransitionSuccessModal: sinon.spy(),
+    closeAccountTransitionSuccessModal: sinon.spy(),
     toggleSearchHelpUserMenu: sinon.spy(),
     updateLoggedInStatus: sinon.spy(),
     initializeProfile: sinon.spy(),
@@ -54,6 +54,8 @@ describe('<Main>', () => {
     props.toggleLoginModal.reset();
     props.toggleAccountTransitionModal.reset();
     props.closeAccountTransitionModal.reset();
+    props.toggleAccountTransitionSuccessModal.reset();
+    props.closeAccountTransitionSuccessModal.reset();
     props.toggleSearchHelpUserMenu.reset();
     props.updateLoggedInStatus.reset();
     props.initializeProfile.reset();
@@ -176,6 +178,21 @@ describe('<Main>', () => {
       expect(props.toggleAccountTransitionModal.notCalled).to.be.true;
       wrapper.unmount();
     });
+  });
+
+  it('should open the `TransitionSuccessModal` when `mhvTransitionComplete` is true and `signIn.serviceName` is `logingov`', () => {
+    const mutatedProps = {
+      ...props,
+      currentlyLoggedIn: true,
+      user: { mhvTransitionComplete: true },
+      signInServiceName: 'logingov',
+    };
+    const wrapper = shallow(<Main {...props} />);
+    global.window.simulate('load');
+    wrapper.setProps(mutatedProps);
+    expect(props.toggleAccountTransitionSuccessModal.calledWith(true)).to.be
+      .true;
+    wrapper.unmount();
   });
 
   it('should ignore any storage changes if the user is already logged out', () => {

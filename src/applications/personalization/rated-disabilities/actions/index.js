@@ -49,7 +49,8 @@ function getResponseError(response) {
   if (response.errors?.length) {
     const { code, detail } = response.errors[0];
     return { code, detail };
-  } else if (response.error) {
+  }
+  if (response.error) {
     return {
       code: response.status,
       detail: response.error,
@@ -72,11 +73,15 @@ export function fetchTotalDisabilityRating() {
         recordEvent({
           event: `${DISABILITY_PREFIX}-combined-load-failed`,
           'error-key': `${errorCode} internal error`,
+          'api-name': 'GET disability rating',
+          'api-status': 'failed',
         });
       } else if (isClientError(errorCode)) {
         recordEvent({
           event: `${DISABILITY_PREFIX}-combined-load-failed`,
           'error-key': `${errorCode} no combined rating found`,
+          'api-name': 'GET disability rating',
+          'api-status': 'failed',
         });
       }
       dispatch({
@@ -84,7 +89,11 @@ export function fetchTotalDisabilityRating() {
         error,
       });
     } else {
-      recordEvent({ event: `${DISABILITY_PREFIX}-combined-load-success` });
+      recordEvent({
+        event: `${DISABILITY_PREFIX}-combined-load-success`,
+        'api-name': 'GET disability rating',
+        'api-status': 'successful',
+      });
       dispatch({
         type: FETCH_TOTAL_RATING_SUCCEEDED,
         response,

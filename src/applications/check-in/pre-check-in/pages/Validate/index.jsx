@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import propTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
 import { focusElement } from 'platform/utilities/ui';
 
 import { api } from '../../../api';
@@ -20,6 +21,7 @@ import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
 const Index = ({ router }) => {
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const setSession = useCallback(
     (token, permissions) => {
@@ -53,11 +55,11 @@ const Index = ({ router }) => {
       setLast4ErrorMessage();
       if (!lastName || !last4Ssn) {
         if (!lastName) {
-          setLastNameErrorMessage('Please enter your last name.');
+          setLastNameErrorMessage(t('please-enter-your-last-name'));
         }
         if (!last4Ssn) {
           setLast4ErrorMessage(
-            'Please enter the last 4 digits of your Social Security number.',
+            t('please-enter-the-last-4-digits-of-your-social-security-number'),
           );
         }
       } else {
@@ -78,10 +80,7 @@ const Index = ({ router }) => {
           }
         } catch (e) {
           setIsLoading(false);
-          if (
-            e?.message !== 'Invalid last4 or last name!' ||
-            isMaxValidateAttempts
-          ) {
+          if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
             goToErrorPage();
           } else {
             if (!showValidateError) {
@@ -103,6 +102,7 @@ const Index = ({ router }) => {
       setSession,
       token,
       showValidateError,
+      t,
     ],
   );
 
@@ -112,8 +112,10 @@ const Index = ({ router }) => {
   return (
     <>
       <ValidateDisplay
-        header="Start pre-check-in"
-        subtitle="We need to verify your identity so you can start pre-check-in."
+        header={t('start-pre-check-in')}
+        subtitle={t(
+          'we-need-to-verify-your-identity-so-you-can-start-pre-check-in',
+        )}
         validateHandler={validateHandler}
         isLoading={isLoading}
         last4Input={{
@@ -128,7 +130,9 @@ const Index = ({ router }) => {
         }}
         Footer={Footer}
         showValidateError={showValidateError}
-        validateErrorMessage="Sorry, we couldn't find an account that matches that last name or SSN. Please try again."
+        validateErrorMessage={t(
+          'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
+        )}
       />
       <BackToHome />
     </>

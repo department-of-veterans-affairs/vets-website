@@ -1,14 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import format from 'date-fns/format';
+import { useTranslation } from 'react-i18next';
 
 const AppointmentBlock = props => {
   const { appointments } = props;
+  const { t } = useTranslation();
 
-  const appointmentString =
-    appointments.length > 1 ? 'appointments are' : 'appointment is';
   const appointmentsDateTime = new Date(appointments[0].startTime);
-  const appointmentsDay = format(appointmentsDateTime, 'MMMM dd, Y');
   const appointmentFacility = appointments[0].facility;
 
   return (
@@ -17,7 +15,11 @@ const AppointmentBlock = props => {
         className="vads-u-font-family--serif"
         data-testid="appointment-day-location"
       >
-        {`Your ${appointmentString} on ${appointmentsDay} at ${appointmentFacility}.`}
+        {t('your-appointments-on-day-facility', {
+          count: appointments.length,
+          day: appointmentsDateTime,
+          facility: appointmentFacility,
+        })}
       </p>
       <ol
         className="vads-u-border-top--1px vads-u-margin-bottom--4 pre-check-in--appointment-list"
@@ -36,16 +38,16 @@ const AppointmentBlock = props => {
             >
               <dl className="pre-check-in--appointment-summary">
                 <dt className="pre-check-in--label vads-u-margin-right--1">
-                  Time:
+                  {t('time')}:
                 </dt>
                 <dd
                   className="pre-check-in--value"
                   data-testid="appointment-time"
                 >
-                  {format(appointmentDateTime, 'h:mm aaaa')}
+                  {t('{{date, time}}', { date: appointmentDateTime })}
                 </dd>
                 <dt className="pre-check-in--label vads-u-margin-right--1">
-                  Clinic:
+                  {t('clinic')}:
                 </dt>
                 <dd
                   className="pre-check-in--value"

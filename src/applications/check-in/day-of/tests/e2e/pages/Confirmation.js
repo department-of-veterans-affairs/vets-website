@@ -24,6 +24,10 @@ class Confirmation {
       .invoke('attr', 'href')
       .should('contain', '/health-care/get-reimbursed-for-travel-pay/');
   };
+
+  attemptGoBackToAppointments = () => {
+    cy.get('[data-testid=go-to-appointments-button]').click();
+  };
 }
 
 export default new Confirmation();

@@ -159,7 +159,7 @@ module.exports = {
     'sonarjs/no-same-line-conditional': 2,
     'sonarjs/no-useless-catch': 2,
     'sonarjs/prefer-object-literal': 2,
-    'sonarjs/prefer-single-boolean-return': 2,
+    'sonarjs/prefer-single-boolean-return': 1,
     'sonarjs/prefer-while': 2,
     'sonarjs/no-extra-arguments': 2,
     'sonarjs/no-identical-expressions': 2,

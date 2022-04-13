@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import ReviewAndDownload from '../../../shared/components/ReviewAndDownload';
-import { CoeDocumentList } from '../CoeDocumentList';
+import DocumentList from '../DocumentList';
 import { MoreQuestions } from '../MoreQuestions';
 
 const coeUrl = getAppUrl('coe');
@@ -29,7 +29,7 @@ export const Available = ({ downloadUrl }) => (
       <a href={introUrl}>
         Make changes to your COE online by filling out VA Form 26-1880
       </a>
-      <CoeDocumentList />
+      <DocumentList />
       <MoreQuestions />
     </div>
   </div>

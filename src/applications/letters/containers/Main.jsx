@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { systemDownMessage } from 'platform/static-data/error-messages';
 import { selectVAPContactInfo } from 'platform/user/selectors';
 import { AVAILABILITY_STATUSES } from '../utils/constants';
 import { recordsNotFound, isAddressEmpty } from '../utils/helpers';
 import noAddressBanner from '../components/NoAddressBanner';
+import systemDownMessage from '../components/systemDownMessage';
 
 import {
   getLetterListAndBSLOptions,
@@ -30,43 +31,38 @@ export class Main extends React.Component {
     return this.props.profileHasEmptyAddress();
   }
 
-  appAvailability(lettersAvailability) {
-    if (lettersAvailability === awaitingResponse) {
-      return awaitingResponse;
-    }
-
-    return lettersAvailability;
-  }
-
   render() {
-    let appContent;
-
-    switch (this.appAvailability(this.props.lettersAvailability)) {
+    const { lettersAvailability } = this.props;
+    const status =
+      lettersAvailability === awaitingResponse
+        ? awaitingResponse
+        : lettersAvailability;
+    switch (status) {
       case available:
-        appContent = this.props.children;
-        break;
+        return this.props.children;
       case awaitingResponse:
-        appContent = <va-loading-indicator message="Loading your letters..." />;
-        break;
+        return <va-loading-indicator message="Loading your letters..." />;
       case backendAuthenticationError:
-        appContent = recordsNotFound;
-        break;
+        return recordsNotFound;
       case letterEligibilityError:
-        appContent = this.props.children;
-        break;
+        return this.props.children;
       case hasEmptyAddress:
-        appContent = noAddressBanner;
-        break;
+        return noAddressBanner;
       case unavailable: // fall-through to default
       case backendServiceError: // fall-through to default
       default:
-        appContent = systemDownMessage;
-        break;
+        return systemDownMessage;
     }
-
-    return <main>{appContent}</main>;
   }
 }
+
+Main.propTypes = {
+  children: PropTypes.any,
+  emptyAddress: PropTypes.bool,
+  getLetterListAndBSLOptions: PropTypes.func,
+  lettersAvailability: PropTypes.string,
+  profileHasEmptyAddress: PropTypes.func,
+};
 
 function mapStateToProps(state) {
   const letterState = state.letters;

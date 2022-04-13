@@ -1,4 +1,5 @@
 import { replace, uniq } from 'lodash';
+import recordEvent from 'platform/monitoring/record-event';
 
 import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
@@ -162,6 +163,12 @@ export function fetchConfirmedFutureAppointments() {
               ...(ccAppointmentsResponse.meta?.errors || []),
             ],
           });
+          recordEvent({
+            event: `get-appointments-failed`,
+            'error-key': `server error`,
+            'api-name': 'GET appointments',
+            'api-status': 'failed',
+          });
           return;
         }
 
@@ -196,7 +203,19 @@ export function fetchConfirmedFutureAppointments() {
         },
         {},
       );
+      recordEvent({
+        event: `get-appointments-successful`,
+        'error-key': `internal error`,
+        'api-name': 'GET appointments',
+        'api-status': 'successful',
+      });
     } catch (error) {
+      recordEvent({
+        event: `get-appointments-failed`,
+        'error-key': `internal error`,
+        'api-name': 'GET appointments',
+        'api-status': 'failed',
+      });
       const errors = error.errors ?? [error];
       dispatch({
         type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,

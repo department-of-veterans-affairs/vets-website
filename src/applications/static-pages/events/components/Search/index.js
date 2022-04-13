@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
+import recordEvent from 'platform/monitoring/record-event';
 import {
   dayOptions,
   deriveDefaultSelectedOption,
@@ -64,29 +65,57 @@ export const Search = ({ onSearch }) => {
   const onSubmitHandler = event => {
     event.preventDefault();
 
+    let filterList;
+
     // Escape early with error if we are missing a required field.
-    if (
-      selectedOption?.value === 'specific-date' &&
-      (!startDateMonth || !startDateDay)
-    ) {
-      setStartDateMonthError(!startDateMonth);
-      setStartDateDayError(!startDateDay);
-      return;
+    if (selectedOption?.value === 'specific-date') {
+      filterList = {
+        startDateMonth,
+        startDateDay,
+      };
+
+      if (!startDateMonth || !startDateDay) {
+        recordEvent({
+          event: 'events-apply-filter-failed',
+          'filter-by': selectedOption?.value,
+          'filters-list': filterList,
+        });
+        setStartDateMonthError(!startDateMonth);
+        setStartDateDayError(!startDateDay);
+        return;
+      }
     }
 
     // Escape early with error if we are missing a required field.
-    if (
-      selectedOption?.value === 'custom-date-range' &&
-      (!startDateMonth || !startDateDay || !endDateMonth || !endDateDay)
-    ) {
-      setStartDateMonthError(!startDateMonth);
-      setStartDateDayError(!startDateDay);
-      setEndDateMonthError(!endDateMonth);
-      setEndDateDayError(!endDateDay);
-      return;
+    if (selectedOption?.value === 'custom-date-range') {
+      filterList = {
+        startDateMonth,
+        startDateDay,
+        endDateMonth,
+        endDateDay,
+      };
+
+      if (!startDateMonth || !startDateDay || !endDateMonth || !endDateDay) {
+        recordEvent({
+          event: 'events-apply-filter-failed',
+          'filter-by': selectedOption?.value,
+          'filters-list': filterList,
+        });
+        setStartDateMonthError(!startDateMonth);
+        setStartDateDayError(!startDateDay);
+        setEndDateMonthError(!endDateMonth);
+        setEndDateDayError(!endDateDay);
+        return;
+      }
     }
 
     // Allow the event to be submitted and clear errors.
+    recordEvent({
+      event: 'events-apply-filter-click',
+      'filter-by': selectedOption?.value,
+      'filters-list': filterList,
+    });
+
     onSearch(event);
     setStartDateMonthError(false);
     setStartDateDayError(false);
