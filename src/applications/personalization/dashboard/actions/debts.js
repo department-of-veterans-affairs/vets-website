@@ -46,7 +46,6 @@ export const fetchDebts = () => async dispatch => {
       .map((debt, index) => ({ ...debt, id: index }));
     recordEvent({
       event: `api_call`,
-      'error-key': `server error`,
       'api-name': 'GET debts',
       'api-status': 'successful',
     });

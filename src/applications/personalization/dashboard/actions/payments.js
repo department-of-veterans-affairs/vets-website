@@ -28,14 +28,14 @@ export const getAllPayments = () => async dispatch => {
     if (isServerError(error.status)) {
       recordEvent({
         event: `api_call`,
-        'error-key': `${error.status}_server_error`,
+        'error-key': `${error.status} server error`,
         'api-name': 'GET payment history',
         'api-status': 'failed',
       });
     } else if (isClientError(error.status)) {
       recordEvent({
         event: `api_call`,
-        'error-key': `${error.status}_client_error`,
+        'error-key': `${error.status} client error`,
         'api-name': 'GET payment history',
         'api-status': 'failed',
       });
