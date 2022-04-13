@@ -11,7 +11,7 @@ export default function App() {
       <div className="usa-width-three-fourths">
         <article className="usa-content">
           <div className="schemaform-title">
-            <h1>Connect your health devices</h1>
+            <h1>Connect your health devices to share data</h1>
           </div>
           <div className="va-introtext">
             <p>
