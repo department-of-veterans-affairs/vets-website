@@ -6,7 +6,7 @@ import applicantInformation from 'platform/forms/pages/applicantInformation';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
-import oldPreSubmitInfo from 'platform/forms/preSubmitInfo';
+import legacyPreSubmitInfo from 'platform/forms/preSubmitInfo';
 import * as address from 'platform/forms/definitions/address';
 import fullNameUISchema from 'platform/forms/definitions/fullName';
 import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
@@ -56,7 +56,7 @@ const {
 } = fullSchema1990e.definitions;
 
 const preSubmitInfo = environment.isProduction()
-  ? oldPreSubmitInfo
+  ? legacyPreSubmitInfo
   : newPreSubmitInfo;
 
 const formConfig = {
