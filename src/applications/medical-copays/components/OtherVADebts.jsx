@@ -13,9 +13,9 @@ const OtherVADebts = ({ module }) => {
         {module === 'MCP' ? (
           <span>
             VA benefit debt. You can&nbsp;
-            <Link to="/balance-details/">
+            <a href="/manage-va-debt/your-debt">
               check the details of your current debt
-            </Link>
+            </a>
             <span>
               , find out how to pay your debt, and learn how to request
               financial assistance.
@@ -24,9 +24,9 @@ const OtherVADebts = ({ module }) => {
         ) : (
           <span>
             a VA health care copay bill. You can&nbsp;
-            <Link to="/balance-details/">
+            <a href="/health-care/pay-copay-bill/your-current-balances">
               check the details of your copay balance
-            </Link>
+            </a>
             <span>
               , find out how to pay your balance, and learn how to request
               financial assistance.
@@ -51,7 +51,7 @@ const OtherVADebts = ({ module }) => {
 };
 
 OtherVADebts.propTypes = {
-  copay: PropTypes.object,
+  module: PropTypes.object,
 };
 
 export default OtherVADebts;
