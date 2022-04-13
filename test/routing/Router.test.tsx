@@ -15,9 +15,8 @@ describe('Routing - Router', () => {
           <div>Me too!</div>
         </Page>
 
-        <Page path="/">
-          <h1>Intro page</h1>
-          <Link to="my-page">Go to my page</Link>
+        <Page path="/" title="Intro page">
+          <Link to="/my-page">Go to my page</Link>
         </Page>
       </Router>
     );

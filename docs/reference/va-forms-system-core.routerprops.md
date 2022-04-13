@@ -4,11 +4,6 @@
 
 ## RouterProps interface
 
-> This API is provided as a preview for developers and may change based on feedback that we receive. Do not use this API in a production environment.
-> 
-
-The properties for the Router React component
-
 <b>Signature:</b>
 
 ```typescript
@@ -19,6 +14,6 @@ export interface RouterProps
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [basename](./va-forms-system-core.routerprops.basename.md) | string | <b><i>(BETA)</i></b> |
-|  [children](./va-forms-system-core.routerprops.children.md) | [Routable](./va-forms-system-core.routable.md) \| Array&lt;[Routable](./va-forms-system-core.routable.md)<!-- -->&gt; | <b><i>(BETA)</i></b> |
+|  [basename](./va-forms-system-core.routerprops.basename.md) | string |  |
+|  [children](./va-forms-system-core.routerprops.children.md) | [Routable](./va-forms-system-core.routable.md) \| Array&lt;[Routable](./va-forms-system-core.routable.md)<!-- -->&gt; |  |
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Formik, Form } from 'formik';
+import { Form, Formik } from 'formik';
 import {
-  TextField,
   CheckboxField,
   DateField,
   DebuggerView,
+  TextField,
 } from '@department-of-veterans-affairs/va-forms-system-core';
 
 import '@department-of-veterans-affairs/component-library/dist/main.css';

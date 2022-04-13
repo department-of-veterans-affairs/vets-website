@@ -3,6 +3,8 @@
  *
  * @beta
  */
+import { Page } from './index';
+
 export interface RouterProps {
   children: Routable | Array<Routable>;
   basename: string;
@@ -25,6 +27,17 @@ export interface Routable {
  */
 export interface PageProps {
   children: JSX.Element[];
+  title: string;
+  path: string;
+}
+
+/**
+ * The properties for the Chapter React component
+ *
+ * @beta
+ */
+export interface ChapterProps {
+  children: typeof Page[];
   title: string;
   path: string;
 }

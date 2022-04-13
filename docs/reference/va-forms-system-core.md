@@ -15,9 +15,10 @@
 
 |  Interface | Description |
 |  --- | --- |
+|  [ChapterProps](./va-forms-system-core.chapterprops.md) | <b><i>(BETA)</i></b> The properties for the Chapter React component |
 |  [PageProps](./va-forms-system-core.pageprops.md) | <b><i>(BETA)</i></b> The properties for the Page React component |
 |  [Routable](./va-forms-system-core.routable.md) | <b><i>(BETA)</i></b> Indicates if a component can be routed using <code>react-router-dom</code>. The <code>path</code> prop must be present. |
-|  [RouterProps](./va-forms-system-core.routerprops.md) | <b><i>(BETA)</i></b> The properties for the Router React component |
+|  [RouterProps](./va-forms-system-core.routerprops.md) |  |
 
 ## Variables
 
