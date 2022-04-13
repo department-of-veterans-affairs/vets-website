@@ -69,7 +69,7 @@ const BenefitPaymentsAndDebt = ({ payments, debts, debtsError }) => {
                     'links-list-header': 'View your payment history',
                     'links-list-section-header': 'Benefit payments and debts',
                   });
-                }}
+                }} //
                 /* eslint-enable react/jsx-no-bind */
                 testId="view-payment-history-link"
               />
