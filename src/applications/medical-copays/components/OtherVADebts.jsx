@@ -2,16 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-const OtherVADebts = isInMedicalCopays => {
+const OtherVADebts = ({ module, statements }) => {
   return (
     <>
       <h2 data-testid="statement-charges-head" id="statement-charges">
-        Your other VA {isInMedicalCopays ? 'debt' : 'bills'}
+        Your other VA {module === 'MCP' ? 'debt' : 'bills'}
       </h2>
       <p>
         Our records show you have{' '}
-        {isInMedicalCopays ? 'VA benefit debt' : 'bills'}. You can{' '}
-        <a href="#top">check the details of your current debt</a>
+        {module === 'MCP' ? 'VA benefit debt' : 'bills'}. You can{' '}
+        <Link to={`/balance-details/${statements[0].id}`}>
+          check the details of your current debt
+        </Link>
         <span>
           , find out how to pay your debt, and learn how to request financial
           assistance.

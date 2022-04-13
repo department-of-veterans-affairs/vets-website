@@ -33,7 +33,7 @@ const OverviewPage = () => {
         help.
       </p>
       <Balances statements={statementsByUniqueFacility} />
-      <OtherVADebts isInMedicalCopays="true" />
+      <OtherVADebts module="MCP" statements={statementsByUniqueFacility} />
       <BalanceQuestions />
     </>
   );
