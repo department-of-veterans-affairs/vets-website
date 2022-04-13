@@ -8,8 +8,8 @@ export const DeviceConnectionCard = ({ device }) => {
       <h3 className="vads-u-margin-y--0">{device.vendor}</h3>
       <p className="vads-u-margin-y--0">
         <a
-          data-testid={`${device.vendor}-connect-link`}
-          id={`${device.vendor}-connect-link`}
+          data-testid={`${device.key}-connect-link`}
+          id={`${device.key}-connect-link`}
           className="connect-button"
           href={`${environment.API_URL}/dhp_connected_devices${device.authUrl}`}
         >

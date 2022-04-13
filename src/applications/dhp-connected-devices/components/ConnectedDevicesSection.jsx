@@ -20,8 +20,7 @@ export const ConnectedDevicesSection = ({
       if (device.connected) {
         return (
           <DeviceDisconnectionCard
-            key={device.vendor}
-            vendor={device.vendor}
+            device={device}
             onClickHandler={() => {
               // console.log('Disconnect');
             }}

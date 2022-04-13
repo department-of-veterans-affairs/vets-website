@@ -18,31 +18,16 @@ describe('Connect Devices Container', () => {
         'devices-to-connect-section',
       ),
     ).to.exist;
-    expect(await connectedDevicesContainer.findByTestId('Fitbit-connect-link'))
+    expect(await connectedDevicesContainer.findByTestId('fitbit-connect-link'))
       .to.exist;
   });
 
-  it('should render fitbit in connected devices section when connected', () => {
-    const oneSupportedDevice = {
-      connectedDevices: [
-        {
-          vendor: 'Fitbit',
-          authUrl: 'path/to/vetsapi/fitbit/connect/method',
-          disconnectUrl: 'placeholder',
-          connected: true,
-        },
-      ],
-    };
+  it('should render apple watch in connected devices section when connected', async () => {
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
-      {
-        oneSupportedDevice,
-      },
     );
-    expect(connectedDevicesContainer.findByTestId('Fitbit-connect-link')).to.be
-      .empty;
-    expect(connectedDevicesContainer.findByTestId('Fitbit-disconnect-link')).to
-      .exist;
+    expect(await connectedDevicesContainer.findByTestId('fitbit-connect-link'))
+      .to.exist;
   });
 
   it('should render "You do not have any devices connected" when no devices are connected', () => {
