@@ -27,7 +27,7 @@ export const fetchDebts = () => async dispatch => {
     const response = await getDebts();
     if (response.errors) {
       recordEvent({
-        event: `get-debts-failed`,
+        event: `api_call`,
         'error-key': `server error`,
         'api-name': 'GET debts',
         'api-status': 'failed',
@@ -45,7 +45,7 @@ export const fetchDebts = () => async dispatch => {
       .filter(debt => debt.currentAr > 0)
       .map((debt, index) => ({ ...debt, id: index }));
     recordEvent({
-      event: `get-debts-successful`,
+      event: `api_call`,
       'error-key': `server error`,
       'api-name': 'GET debts',
       'api-status': 'successful',
@@ -56,7 +56,7 @@ export const fetchDebts = () => async dispatch => {
     });
   } catch (error) {
     recordEvent({
-      event: `get-debts-failed`,
+      event: `api_call`,
       'error-key': `internal error`,
       'api-name': 'GET debts',
       'api-status': 'failed',

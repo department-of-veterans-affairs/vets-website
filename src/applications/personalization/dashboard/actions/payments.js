@@ -27,14 +27,14 @@ export const getAllPayments = () => async dispatch => {
     const error = response.errors[0];
     if (isServerError(error.status)) {
       recordEvent({
-        event: `view-payment-history-failed`,
+        event: `api_call`,
         'error-key': `${error.status}_server_error`,
         'api-name': 'GET payment history',
         'api-status': 'failed',
       });
     } else if (isClientError(error.status)) {
       recordEvent({
-        event: `view-payment-history-failed`,
+        event: `api_call`,
         'error-key': `${error.status}_client_error`,
         'api-name': 'GET payment history',
         'api-status': 'failed',
@@ -43,7 +43,7 @@ export const getAllPayments = () => async dispatch => {
     dispatch({ type: PAYMENTS_RECEIVED_FAILED, response: error });
   } else {
     recordEvent({
-      event: `view-payment-history-successful`,
+      event: `api_call`,
       'api-name': 'GET payment history',
       'api-status': 'successful',
     });
