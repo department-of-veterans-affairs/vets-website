@@ -2,11 +2,10 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import chai, { expect } from 'chai';
 import chaiDom from 'chai-dom';
-import { setupServer } from 'msw/node';
+import set from 'lodash/set';
 import { COPY_ADDRESS_MODAL_STATUS } from '@@vap-svc/constants';
 
-import * as mocks from '@@profile/msw-mocks';
-import CopyAddressModal from '@@profile/components/contact-information/addresses/CopyAddressModal';
+import CopyAddressModal from '@@profile/components/contact-information/addresses/CopyAddressModalController';
 
 import {
   createBasicInitialState,
@@ -16,7 +15,6 @@ import {
 chai.use(chaiDom);
 
 let view;
-let server;
 
 const ui = (
   <MemoryRouter>
@@ -25,23 +23,6 @@ const ui = (
 );
 
 describe('Copy Address Modal', () => {
-  before(() => {
-    server = setupServer(
-      ...mocks.transactionSucceeded,
-      ...mocks.editAddressSuccess,
-    );
-    server.listen();
-  });
-  beforeEach(() => {
-    window.VetsGov = { pollTimeout: 5000 };
-  });
-  afterEach(() => {
-    server.resetHandlers();
-  });
-  after(() => {
-    server.close();
-  });
-
   it('should render the prompt with address information', async () => {
     const initialState = {
       ...createBasicInitialState(),
@@ -64,13 +45,55 @@ describe('Copy Address Modal', () => {
       initialState,
     });
 
-    expect(view.getByRole('heading')).to.have.text(
-      "We've updated your home address",
+    const updateMessage = await view.findByText(
+      new RegExp('Your updated home address:', 'i'),
     );
+
+    expect(updateMessage).to.exist;
+
+    const updatePrompt = await view.findByText(
+      new RegExp(
+        'Do you want to update your mailing address to match this home address?',
+        'i',
+      ),
+    );
+
+    expect(updatePrompt).to.exist;
 
     const yesButton = await view.findByTestId('save-edit-button');
 
     expect(yesButton).to.have.text('Yes');
+  });
+
+  it('should render the prompt with different content when mailing address is missing', async () => {
+    const basicState = createBasicInitialState();
+
+    const initialState = {
+      ...set(basicState, 'user.profile.vapContactInfo.mailingAddress', null),
+      ...{
+        vapService: {
+          fieldTransactionMap: { mailingAddress: { transactionRequest: null } },
+          copyAddressModal: COPY_ADDRESS_MODAL_STATUS.PROMPT,
+        },
+      },
+      ...{
+        featureToggles: {
+          profileShowAddressChangeModal: true,
+          // eslint-disable-next-line camelcase
+          profile_show_address_change_modal: true,
+        },
+      },
+    };
+
+    view = renderWithProfileReducers(ui, {
+      initialState,
+    });
+
+    const noMailingAddressText = await view.findByText(
+      new RegExp(`We don’t have a mailing address on file for you.`, 'i'),
+    );
+
+    expect(noMailingAddressText).to.exist;
   });
 
   it('should render the prompt with success', async () => {
@@ -94,10 +117,6 @@ describe('Copy Address Modal', () => {
     view = renderWithProfileReducers(ui, {
       initialState,
     });
-
-    expect(view.getByRole('heading')).to.have.text(
-      "We've updated your mailing address",
-    );
 
     // should show the newly updated mailing address messaging
     const updateMessage = await view.findByText(
@@ -140,10 +159,6 @@ describe('Copy Address Modal', () => {
     view = renderWithProfileReducers(ui, {
       initialState,
     });
-
-    expect(view.getByRole('heading')).to.have.text(
-      "We can't update your mailing address",
-    );
 
     // should show generic error message
     const errorMessage = await view.findByText(

@@ -9,13 +9,13 @@ import {
 } from '@@vap-svc/constants';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 
-import CopyAddressModal from './CopyAddressModal';
+import CopyAddressModalController from './CopyAddressModalController';
 
 import ProfileInfoTable from '../../ProfileInfoTable';
 
 const AddressesTable = ({ className }) => (
   <>
-    <CopyAddressModal />
+    <CopyAddressModalController />
     <ProfileInfoTable
       title="Addresses"
       level={2}

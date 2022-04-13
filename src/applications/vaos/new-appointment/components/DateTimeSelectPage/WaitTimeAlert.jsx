@@ -119,7 +119,8 @@ export const WaitTimeAlert = ({
           </>
         </InfoAlert>
       );
-    } else if (!hasNextAvailableApptDate) {
+    }
+    if (!hasNextAvailableApptDate) {
       return (
         <InfoAlert
           headline="We couldn’t find an appointment for your selected date"

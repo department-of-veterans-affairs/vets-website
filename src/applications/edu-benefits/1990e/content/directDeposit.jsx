@@ -1,5 +1,6 @@
 import React from 'react';
 import { isValidRoutingNumber } from 'platform/forms/validations';
+import merge from 'lodash/merge';
 
 const gaBankInfoHelpText = () => {
   window.dataLayer.push({
@@ -9,7 +10,7 @@ const gaBankInfoHelpText = () => {
 };
 
 const bankInfoNote = (
-  <div>
+  <div className="vads-u-margin-top--4">
     <p>
       <strong>Note: </strong>
       Any updates you make here to your bank account information will apply to
@@ -51,21 +52,19 @@ const bankInfoHelpText = (
   </va-additional-info>
 );
 
-const directDepositDescription = () => {
-  return (
-    <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
-      <p>
-        We make payments only through direct deposit, also called electronic
-        funds transfer (EFT). Please provide your direct deposit information
-        below. We’ll send your housing payment to this account.
-      </p>
-      <img
-        src="/img/direct-deposit-check-guide.svg"
-        alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
-      />
-    </div>
-  );
-};
+const directDepositDescription = (
+  <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
+    <p>
+      We make payments only through direct deposit, also called electronic funds
+      transfer (EFT). Please provide your direct deposit information below.
+      We’ll send your housing payment to this account.
+    </p>
+    <img
+      src="/img/direct-deposit-check-guide.svg"
+      alt="On a personal check, find your bank’s 9-digit routing number listed along the bottom-left edge, and your account number listed beside that."
+    />
+  </div>
+);
 
 function validateRoutingNumber(
   errors,
@@ -79,44 +78,10 @@ function validateRoutingNumber(
   }
 }
 
-const uiSchema = {
-  'ui:order': [
-    'accountType',
-    'accountNumber',
-    'routingNumber',
-    'view:bankInfoNote',
-    'view:bankInfoHelpText',
-  ],
-  accountType: {
-    'ui:title': 'Account type',
-    'ui:widget': 'radio',
-    'ui:options': {
-      labels: {
-        checking: 'Checking',
-        savings: 'Savings',
-      },
-    },
-  },
-  accountNumber: {
-    'ui:title': 'Bank account number',
-    'ui:errorMessages': {
-      required: 'Please enter a bank account number',
-    },
-  },
-  routingNumber: {
-    'ui:title': 'Bank routing number',
-    'ui:validations': [validateRoutingNumber],
-    'ui:errorMessages': {
-      pattern: 'Please enter a valid nine digit routing number',
-      required: 'Please enter a routing number',
-    },
-  },
-  'view:bankInfoNote': {
-    'ui:description': bankInfoNote,
-  },
-  'view:bankInfoHelpText': {
-    'ui:description': bankInfoHelpText,
-  },
+const usingDirectDeposit = formData => {
+  const isDeclining = formData?.bankAccount?.declineDirectDeposit;
+  if (isDeclining === undefined || isDeclining === null) return true;
+  return !isDeclining;
 };
 
 export default function createDirectDepositPage() {
@@ -134,6 +99,11 @@ export default function createDirectDepositPage() {
       accountNumber: {
         type: 'string',
       },
+
+      declineDirectDeposit: {
+        type: 'boolean',
+        properties: {},
+      },
       'view:bankInfoNote': {
         type: 'object',
         properties: {},
@@ -143,7 +113,6 @@ export default function createDirectDepositPage() {
         properties: {},
       },
     },
-    required: [],
   };
 
   return {
@@ -152,8 +121,61 @@ export default function createDirectDepositPage() {
     initialData: {},
     uiSchema: {
       'ui:title': 'Direct deposit',
-      'ui:description': directDepositDescription(),
-      bankAccount: uiSchema,
+      'ui:description': directDepositDescription,
+      bankAccount: merge(
+        {},
+        {
+          accountType: {
+            'ui:title': 'Account type',
+            'ui:widget': 'radio',
+            'ui:options': {
+              labels: {
+                checking: 'Checking',
+                savings: 'Savings',
+              },
+              hideIf: formData => !usingDirectDeposit(formData),
+            },
+            'ui:required': formData => usingDirectDeposit(formData),
+          },
+          accountNumber: {
+            'ui:title': 'Bank account number',
+            'ui:required': formData => usingDirectDeposit(formData),
+            'ui:options': {
+              hideIf: formData => !usingDirectDeposit(formData),
+            },
+          },
+          routingNumber: {
+            'ui:title': "Bank's 9-digit routing number",
+            'ui:validations': [validateRoutingNumber],
+            'ui:errorMessages': {
+              pattern: 'Please enter a valid 9 digit routing number',
+            },
+            'ui:required': formData => usingDirectDeposit(formData),
+            'ui:options': {
+              hideIf: formData => !usingDirectDeposit(formData),
+            },
+          },
+          declineDirectDeposit: {
+            'ui:title': 'I don’t want to use direct deposit',
+            'ui:options': {
+              hideOnReviewIfFalse: true,
+              widgetClassNames: 'vads-u-margin-top--4',
+            },
+          },
+          'view:bankInfoNote': {
+            'ui:description': bankInfoNote,
+            'ui:options': {
+              hideOnReview: true,
+            },
+          },
+          'view:bankInfoHelpText': {
+            'ui:description': bankInfoHelpText,
+            'ui:options': {
+              hideOnReview: true,
+            },
+          },
+        },
+      ),
     },
     schema: {
       type: 'object',
