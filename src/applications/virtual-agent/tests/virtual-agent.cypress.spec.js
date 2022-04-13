@@ -1,9 +1,6 @@
 import manifest from '../manifest.json';
 
 describe(manifest.appName, () => {
-  // Skip tests in CI until the app is released.
-  // Remove this block when the app has a content page in production.
-
   it('check if user is able to see the chat bot', () => {
     cy.visit(manifest.rootUrl)
       .injectAxe()
