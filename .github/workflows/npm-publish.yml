@@ -23,8 +23,21 @@ jobs:
     
     - name: Build package NPM package
       run: yarn build
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-gov-west-1
+
+    - name: Get NPM Token password
+      uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+      with:
+        ssm_parameter: /devops/VA_VSP_BOT_NPM_TOKEN
+        env_variable_name: VA_VSP_BOT_NPM_TOKEN
     
     - name: Publish build artifacts to NPM
       run: yarn npm publish --access public --tolerate-republish
       env:
-        YARN_NPM_AUTH_TOKEN: ${{ secrets.YARN_NPM_AUTH_TOKEN }}
+        YARN_NPM_AUTH_TOKEN: ${{ env.VA_VSP_BOT_NPM_TOKEN }}
