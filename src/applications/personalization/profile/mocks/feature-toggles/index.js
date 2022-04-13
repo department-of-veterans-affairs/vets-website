@@ -8,6 +8,7 @@ const generateFeatureToggles = (toggles = {}) => {
     profileShowDemographics = false,
     profileShowFaxNumber = false,
     profileShowGender = false,
+    profileShowProfile2 = false,
     profileShowPronounsAndSexualOrientation = false,
     profileShowReceiveTextNotifications = true,
   } = toggles;
@@ -33,6 +34,7 @@ const generateFeatureToggles = (toggles = {}) => {
         { name: 'profile_show_demographics', value: profileShowDemographics },
         { name: 'profile_show_fax_number', value: profileShowFaxNumber },
         { name: 'profile_show_gender', value: profileShowGender },
+        { name: 'profile_show_profile_2.0', value: profileShowProfile2 },
         {
           name: 'profile_show_pronouns_and_sexual_orientation',
           value: profileShowPronounsAndSexualOrientation,
