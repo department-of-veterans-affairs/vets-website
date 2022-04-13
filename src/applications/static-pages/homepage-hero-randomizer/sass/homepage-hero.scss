@@ -22,6 +22,23 @@
     display: flex;
   }
 
+  // these styles overwrite USWDS button styles and are specific to the homepage hero
+  &__button {
+    color: $color-primary;
+    background-color: $color-white;
+
+    &:hover, &:active {
+      background-color: $color-primary-darker;
+      outline-offset: 2px;
+    }
+
+    &:hover, &:focus, &:visited {
+      color: $color-white;
+      text-decoration: none;
+      outline-offset: 2px;
+    }
+  }
+
   &__image {
     height: 100%;
     width: auto;
