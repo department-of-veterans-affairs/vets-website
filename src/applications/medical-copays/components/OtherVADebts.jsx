@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const OtherVADebts = ({ module }) => {
   return (
     <>
-      <h2 data-testid="statement-charges-head" id="statement-charges">
+      <h2 data-testid="other-va-debts-head" id="other-va-debts">
         Your other VA {module === 'MCP' ? 'debt' : 'bills'}
       </h2>
       <p>
@@ -37,7 +37,7 @@ const OtherVADebts = ({ module }) => {
       <Link
         className="vads-u-font-size--sm vads-u-font-weight--bold"
         aria-label="View all your VA debt and bills"
-        to="/combined-debt/"
+        to="/debt-and-bills"
         data-testid="other-va-debts-link"
       >
         <span>View all your VA debt and bills</span>
