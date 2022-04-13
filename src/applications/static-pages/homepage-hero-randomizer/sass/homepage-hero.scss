@@ -40,7 +40,7 @@
   }
 
   &__image {
-    height: 100%;
+    min-height: 100%;
     width: auto;
     object-fit: cover;
     object-position: center bottom;
