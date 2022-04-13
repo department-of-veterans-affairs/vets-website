@@ -31,6 +31,7 @@ module.exports = {
       { name: 'profile_show_gender', value: false },
       { name: 'profile_show_fax_number', value: false },
       { name: 'profile_enhancements', value: true },
+      { name: 'profile_do_not_require_international_zip_code', value: true },
     ],
   },
 };

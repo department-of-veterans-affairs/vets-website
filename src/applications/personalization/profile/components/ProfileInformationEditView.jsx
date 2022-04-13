@@ -35,6 +35,8 @@ import {
 } from '@@vap-svc/selectors';
 
 import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
+import { profileDoNotRequireInternationalZipCode } from '@@profile/selectors';
+
 import { focusElement } from '~/platform/utilities/ui';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -222,6 +224,10 @@ export class ProfileInformationEditView extends Component {
       value,
       schema,
       uiSchema,
+      {
+        doNotRequireInternationalPostalCode: this.props
+          .doNotRequireInternationalPostalCode,
+      },
     );
   };
 
@@ -375,6 +381,9 @@ export const mapStateToProps = (state, ownProps) => {
     transactionRequest,
     editViewData: selectEditViewData(state),
     emptyMailingAddress: isEmptyAddress(mailingAddress),
+    doNotRequireInternationalPostalCode: profileDoNotRequireInternationalZipCode(
+      state,
+    ),
   };
 };
 
