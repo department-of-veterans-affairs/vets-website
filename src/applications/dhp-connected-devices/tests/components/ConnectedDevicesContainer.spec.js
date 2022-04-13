@@ -1,20 +1,11 @@
 import React from 'react';
-import { fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import sinon from 'sinon';
 import environment from 'platform/utilities/environment';
-import { act } from 'react-dom/test-utils';
-import * as HelpersModule from '../../helpers';
 import { ConnectedDevicesContainer } from '../../components/ConnectedDevicesContainer';
 
 describe('Connect Devices Container', () => {
-  beforeEach(() => {
-    sinon.stub(HelpersModule, 'authorizeWithVendor');
-  });
-  afterEach(() => {
-    HelpersModule.authorizeWithVendor.restore();
-  });
   it('should render DeviceConnectionSection and DeviceConnectionCards when devices are not connected', async () => {
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
@@ -166,20 +157,6 @@ describe('Connect Devices Container', () => {
       },
     );
     expect(connectedDevicesContainer.findByTestId('failure-alert')).to.exist;
-  });
-
-  it('should display a failure alert when an error occurs with api', async () => {
-    HelpersModule.authorizeWithVendor.throws(Error('something went wrong'));
-    const connectedDevicesContainer = renderInReduxProvider(
-      <ConnectedDevicesContainer />,
-    );
-    await act(async () => {
-      fireEvent.click(
-        await connectedDevicesContainer.findByTestId('Fitbit-connect-link'),
-      );
-    });
-    expect(await connectedDevicesContainer.findByTestId('failure-alert')).to
-      .exist;
   });
 });
 

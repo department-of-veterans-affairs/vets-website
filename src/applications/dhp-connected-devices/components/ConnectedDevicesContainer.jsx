@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { DevicesToConnectSection } from './DevicesToConnectSection';
 import { ConnectedDevicesSection } from './ConnectedDevicesSection';
-import { authorizeWithVendor } from '../helpers';
 
 export const ConnectedDevicesContainer = () => {
   const [connectedDevices, setConnectedDevices] = useState([
@@ -54,14 +53,6 @@ export const ConnectedDevicesContainer = () => {
     [successAlert, failureAlert],
   );
 
-  const authorizeDevice = async device => {
-    try {
-      await authorizeWithVendor(device.authUrl);
-    } catch (error) {
-      showFailureAlert();
-    }
-  };
-
   return (
     <>
       <h2>Your connected devices</h2>
@@ -80,10 +71,7 @@ export const ConnectedDevicesContainer = () => {
       </div>
 
       <div data-testid="devices-to-connect-section">
-        <DevicesToConnectSection
-          connectedDevices={connectedDevices}
-          onClickHandler={authorizeDevice}
-        />
+        <DevicesToConnectSection connectedDevices={connectedDevices} />
       </div>
     </>
   );

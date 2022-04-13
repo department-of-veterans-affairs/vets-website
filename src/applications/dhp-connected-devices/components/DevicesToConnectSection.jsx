@@ -2,23 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { DeviceConnectionCard } from './DeviceConnectionCard';
 
-export const DevicesToConnectSection = ({
-  connectedDevices,
-  onClickHandler,
-}) => {
+export const DevicesToConnectSection = ({ connectedDevices }) => {
   const areAllDevicesConnected = () => {
     return connectedDevices.every(device => device.connected);
   };
   const devicesToConnectMapped = () => {
     return connectedDevices.map(device => {
       if (!device.connected) {
-        return (
-          <DeviceConnectionCard
-            key={device.vendor}
-            vendor={device.vendor}
-            onClickHandler={() => onClickHandler(device)}
-          />
-        );
+        return <DeviceConnectionCard key={device.vendor} device={device} />;
       }
       return <></>;
     });
@@ -38,5 +29,4 @@ export const DevicesToConnectSection = ({
 
 DevicesToConnectSection.propTypes = {
   connectedDevices: PropTypes.array.isRequired,
-  onClickHandler: PropTypes.func.isRequired,
 };

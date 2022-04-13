@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import environment from 'platform/utilities/environment';
 
-export const DeviceConnectionCard = ({ vendor, onClickHandler }) => {
+export const DeviceConnectionCard = ({ device }) => {
   return (
     <div className="connect-device">
-      <h3 className="vads-u-margin-y--0">{vendor}</h3>
+      <h3 className="vads-u-margin-y--0">{device.vendor}</h3>
       <p className="vads-u-margin-y--0">
         <a
-          onClick={onClickHandler}
-          data-testid={`${vendor}-connect-link`}
-          id={`${vendor}-connect-link`}
-          onKeyDown={onClickHandler}
+          data-testid={`${device.vendor}-connect-link`}
+          id={`${device.vendor}-connect-link`}
           className="connect-button"
-          href="http://localhost:3000/dhp_connected_devices/fitbit"
+          href={`${environment.API_URL}/dhp_connected_devices${device.authUrl}`}
         >
           Connect
         </a>
@@ -22,6 +21,5 @@ export const DeviceConnectionCard = ({ vendor, onClickHandler }) => {
 };
 
 DeviceConnectionCard.propTypes = {
-  vendor: PropTypes.string.isRequired,
-  onClickHandler: PropTypes.func.isRequired,
+  device: PropTypes.object.isRequired,
 };
