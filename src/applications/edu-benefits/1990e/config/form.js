@@ -6,6 +6,7 @@ import applicantInformation from 'platform/forms/pages/applicantInformation';
 import environment from 'platform/utilities/environment';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
+import oldPreSubmitInfo from 'platform/forms/preSubmitInfo';
 import * as address from 'platform/forms/definitions/address';
 import fullNameUISchema from 'platform/forms/definitions/fullName';
 import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
@@ -19,6 +20,7 @@ import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage, {
   schoolSelectionOptionsFor,
 } from '../../pages/schoolSelection';
+import oldCreateDirectDepositPage from '../../pages/directDeposit';
 import createDirectDepositPage from '../content/directDeposit';
 import employmentHistoryPage from '../../pages/employmentHistory';
 
@@ -53,7 +55,9 @@ const {
   usaPhone,
 } = fullSchema1990e.definitions;
 
-const preSubmitInfo = newPreSubmitInfo;
+const preSubmitInfo = environment.isProduction()
+  ? oldPreSubmitInfo
+  : newPreSubmitInfo;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -233,7 +237,9 @@ const formConfig = {
           fullSchema1990e,
           'relativeAddress',
         ),
-        directDeposit: createDirectDepositPage(),
+        directDeposit: environment.isProduction()
+          ? oldCreateDirectDepositPage(fullSchema1990e)
+          : createDirectDepositPage(),
       },
     },
   },
