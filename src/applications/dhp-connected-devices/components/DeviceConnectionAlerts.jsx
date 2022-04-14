@@ -8,7 +8,7 @@ export const DeviceConnectionSucceededAlert = () => {
         status="success"
         visible
       >
-        <h3 slot="headline">Device Connected</h3>
+        <h3 slot="headline">Device connected</h3>
         <div>Your device is now connected.</div>
       </va-alert>
     </div>
@@ -25,7 +25,8 @@ export const DeviceConnectionFailedAlert = () => {
       >
         <h3 slot="headline">We couldn’t connect your device</h3>
         <div>
-          We were not able to connect to your device now. Please try again.
+          We were not able to connect to your device right now. Please try
+          again.
         </div>
       </va-alert>
     </div>

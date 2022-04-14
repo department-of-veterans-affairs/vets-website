@@ -15,10 +15,8 @@ export default function App() {
           </div>
           <div className="va-introtext">
             <p>
-              Connecting a device will share your health data with VA. Connected
-              devices can share data including activity, blood glucose, blood
-              pressure, weight, and more. By connecting a device, this data is
-              automatically shared with your care team.
+              Connecting a device will share your device health data with VA.
+              This data is automatically shared with your care team.
             </p>
           </div>
           <p>

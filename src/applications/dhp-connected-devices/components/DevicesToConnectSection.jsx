@@ -19,7 +19,7 @@ export const DevicesToConnectSection = ({ connectedDevices }) => {
     <>
       {areAllDevicesConnected() && (
         <p data-testid="all-devices-connected-alert">
-          You have connected all supported devices
+          There are no devices available to connect.
         </p>
       )}
       {!areAllDevicesConnected() && devicesToConnectMapped()}
