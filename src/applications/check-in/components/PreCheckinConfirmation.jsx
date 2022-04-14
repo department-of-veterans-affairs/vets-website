@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import AppointmentBlock from './AppointmentBlock';
 import BackToHome from './BackToHome';
 import LanguagePicker from './LanguagePicker';
+import LinkTranslation from './LinkTranslation';
 
 const PreCheckinConfirmation = props => {
   const { appointments, hasUpdates, isLoading } = props;
@@ -46,12 +47,12 @@ const PreCheckinConfirmation = props => {
           <></>
         )}
         <p className={hasUpdates ? `vads-u-padding-left--2` : ``}>
-          <a
+          <LinkTranslation
             href="https://va.gov/health-care/schedule-view-va-appointments/appointments/"
             hrefLang="en"
           >
             {t('go-to-your-appointment')}
-          </a>
+          </LinkTranslation>
         </p>
         <p className={hasUpdates ? `vads-u-padding-left--2` : ``}>
           {t('please-bring-your-insurance-cards-with-you-to-your-appointment')}
