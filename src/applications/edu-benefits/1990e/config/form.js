@@ -95,6 +95,7 @@ const newFormPages = {
   newApplicantInformation: 'newApplicantInformation',
   newContactInformation: {
     newContactInformation: 'newContactInformation',
+    newMailingAddress: 'newMailingAddress',
     newPreferredContactMethod: 'newPreferredContactMethod',
   },
   newServiceHistory: 'newServiceHistory',
@@ -117,10 +118,11 @@ const newFormFields = {
   newBenefitEffectiveDate: 'newBenefitEffectiveDate',
   newBenefitRelinquished: 'newBenefitRelinquished',
   newContactMethod: 'newContactMethod',
+  newConfirmEmail: 'newConfirmEmail',
   newDateOfBirth: 'newDateOfBirth',
   newEmail: 'newEmail',
   newFederallySponsoredAcademy: 'newFederallySponsoredAcademy',
-  newFirstSponsor: 'newFirstSponsor',
+  firstSponsor: 'firstSponsor',
   newFullName: 'newFullName',
   newHasDoDLoanPaymentPeriod: 'newHasDoDLoanPaymentPeriod',
   newHighSchoolDiploma: 'newHighSchoolDiploma',
@@ -136,7 +138,7 @@ const newFormFields = {
   newReceiveTextMessages: 'newReceiveTextMessages',
   newRoutingNumber: 'newRoutingNumber',
   newServiceHistoryIncorrect: 'newServiceHistoryIncorrect',
-  newSelectedSponsors: 'newSelectedSponsors',
+  selectedSponsors: 'selectedSponsors',
   newSponsorDateOfBirth: 'newSponsorDateOfBirth',
   newSponsorFullName: 'newSponsorFullName',
   newSsn: 'newSsn',
@@ -407,7 +409,7 @@ const formConfig = {
         [newFormPages.newApplicantInformation]: {
           depends: formData => formData.showUpdatedToeApp,
           title: 'Your information',
-          path: 'applicant-information/personal-information',
+          path: 'new/applicant-information/personal-information',
           subTitle: 'Your information',
           instructions:
             'This is the personal information we have on file for you.',
@@ -544,7 +546,7 @@ const formConfig = {
       pages: {
         [newFormPages.newSponsorSelection]: {
           title: 'Phone numbers and email address',
-          path: 'sponsor/select-sponsor',
+          path: 'new/sponsor/select-sponsor',
           depends: formData =>
             formData.showUpdatedToeApp &&
             (!formData.fetchedSponsorsComplete ||
@@ -579,7 +581,7 @@ const formConfig = {
                 hideIf: formData => !!formData.fetchedSponsorsComplete,
               },
             },
-            [newFormFields.newSelectedSponsors]: {
+            [newFormFields.selectedSponsors]: {
               'ui:field': DynamicCheckboxGroup,
               'ui:required': formData => !!formData.sponsors?.sponsors?.length,
               'ui:options': {
@@ -612,7 +614,7 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newSelectedSponsors]: {
+              [newFormFields.selectedSponsors]: {
                 type: 'array',
                 minItems: 1,
                 items: {
@@ -628,7 +630,7 @@ const formConfig = {
         },
         [newFormPages.newFirstSponsorSelection]: {
           title: 'Sponsor information',
-          path: 'sponsor/select-first-sponsor',
+          path: 'new/sponsor/select-first-sponsor',
           depends: formData =>
             formData.showUpdatedToeApp && formData.selectedSponsors?.length > 1,
           uiSchema: {
@@ -644,7 +646,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newFirstSponsor]: {
+            [newFormFields.firstSponsor]: {
               'ui:title': (
                 <>
                   <span className="toe-sponsors-labels_label--main">
@@ -684,13 +686,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [newFormFields.newFirstSponsor],
+            required: [newFormFields.firstSponsor],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newFirstSponsor]: {
+              [newFormFields.firstSponsor]: {
                 type: 'string',
               },
               'view:firstSponsorAdditionalInfo': {
@@ -702,12 +704,12 @@ const formConfig = {
         },
         [newFormPages.newSponsorInformation]: {
           title: 'Phone numbers and email address',
-          path: 'sponsor/information',
+          path: 'new/sponsor/information',
           depends: formData =>
             formData.showUpdatedToeApp &&
             (!formData.sponsors?.sponsors?.length ||
               formData.sponsors?.firstSponsor === SPONSOR_NOT_LISTED_VALUE ||
-              (formData[newFormFields.newSelectedSponsors]?.length === 1 &&
+              (formData[newFormFields.selectedSponsors]?.length === 1 &&
                 formData.sponsors?.someoneNotListed)),
           uiSchema: {
             'view:noSponsorWarning': {
@@ -838,23 +840,25 @@ const formConfig = {
         },
         [newFormPages.newVerifyHighSchool]: {
           title: 'Verify your high school education',
-          path: 'child/high-school-education',
+          path: 'new/child/high-school-education',
           depends: formData =>
             formData.showUpdatedToeApp &&
             // Only show this page if the user is a child of the sponsor.
-            ((!formData.firstSponsor &&
+            ((!formData.sponsors?.firstSponsor &&
               formData.sponsors?.sponsors?.find(sponsor => sponsor.selected)
                 ?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
-              (formData.sponsors?.firstSponsor &&
+              ((formData.sponsors?.firstSponsor &&
                 formData.sponsors?.sponsors?.find(
                   sponsor => sponsor.id === formData.sponsors?.firstSponsor,
                 )?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
-              (!formData.sponsors?.sponsors?.length &&
-                formData?.relationshipToServiceMember ===
+                formData[newFormFields.newRelationshipToServiceMember] ===
                   SPONSOR_RELATIONSHIP.CHILD) ||
-              (formData[newFormFields.newSelectedSponsors]?.length === 1 &&
+              (!formData.sponsors?.sponsors?.length &&
+                formData[newFormFields.newRelationshipToServiceMember] ===
+                  SPONSOR_RELATIONSHIP.CHILD) ||
+              (formData[newFormFields.selectedSponsors]?.length === 1 &&
                 formData.sponsors?.someoneNotListed &&
-                formData?.relationshipToServiceMember ===
+                formData[newFormFields.newRelationshipToServiceMember] ===
                   SPONSOR_RELATIONSHIP.CHILD)),
           uiSchema: {
             'view:subHeadings': {
@@ -899,7 +903,7 @@ const formConfig = {
         },
         [newFormPages.newSponsorHighSchool]: {
           title: 'Verify your high school education',
-          path: 'sponsor/high-school-education',
+          path: 'new/sponsor/high-school-education',
           depends: formData =>
             formData.showUpdatedToeApp &&
             (formData[newFormFields.newHighSchoolDiploma] === 'Yes' &&
@@ -914,7 +918,7 @@ const formConfig = {
                 (!formData.sponsors?.sponsors?.length &&
                   formData?.relationshipToServiceMember ===
                     SPONSOR_RELATIONSHIP.CHILD) ||
-                (formData[newFormFields.newSelectedSponsors]?.length === 1 &&
+                (formData[newFormFields.selectedSponsors]?.length === 1 &&
                   formData.sponsors?.someoneNotListed &&
                   formData?.relationshipToServiceMember ===
                     SPONSOR_RELATIONSHIP.CHILD))),
@@ -964,10 +968,10 @@ const formConfig = {
     newContactInformationChapter: {
       title: 'Contact information',
       pages: {
-        [newFormPages.newContactInformation.contactInformation]: {
+        [newFormPages.newContactInformation.newContactInformation]: {
           depends: formData => formData.showUpdatedToeApp,
           title: 'Phone numbers and email address',
-          path: 'contact-information/email-phone',
+          path: 'new/contact-information/email-phone',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -1030,12 +1034,12 @@ const formConfig = {
                 showFieldLabel: false,
                 viewComponent: EmailViewField,
               },
-              email: {
+              [newFormFields.newEmail]: {
                 ...emailUI('Email address'),
                 'ui:validations': [validateEmail],
                 'ui:reviewField': EmailReviewField,
               },
-              confirmEmail: {
+              [newFormFields.newConfirmEmail]: {
                 ...emailUI('Confirm email address'),
                 'ui:options': {
                   ...emailUI()['ui:options'],
@@ -1044,8 +1048,11 @@ const formConfig = {
               },
               'ui:validations': [
                 (errors, field) => {
-                  if (field.email !== field.confirmEmail) {
-                    errors.confirmEmail.addError(
+                  if (
+                    field[newFormFields.newEmail] !==
+                    field[newFormFields.newConfirmEmail]
+                  ) {
+                    errors[newFormFields.newConfirmEmail].addError(
                       'Sorry, your emails must match',
                     );
                   }
@@ -1075,19 +1082,22 @@ const formConfig = {
               },
               [newFormFields.newEmail]: {
                 type: 'object',
-                required: [newFormFields.newEmail, 'confirmEmail'],
+                required: [
+                  newFormFields.newEmail,
+                  newFormFields.newConfirmEmail,
+                ],
                 properties: {
-                  email,
-                  confirmEmail: email,
+                  [newFormFields.newEmail]: email,
+                  [newFormFields.newConfirmEmail]: email,
                 },
               },
             },
           },
         },
-        [newFormPages.newContactInformation.mailingAddress]: {
+        [newFormPages.newContactInformation.newMailingAddress]: {
           depends: formData => formData.showUpdatedToeApp,
           title: 'Mailing address',
-          path: 'contact-information/mailing-address',
+          path: 'new/contact-information/mailing-address',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -1215,10 +1225,10 @@ const formConfig = {
             },
           },
         },
-        [newFormPages.newContactInformation.preferredContactMethod]: {
+        [newFormPages.newContactInformation.newPreferredContactMethod]: {
           depends: formData => formData.showUpdatedToeApp,
           title: 'Contact preferences',
-          path: 'contact-information/contact-preferences',
+          path: 'new/contact-information/contact-preferences',
           uiSchema: {
             'view:contactMethodIntro': {
               'ui:description': (
@@ -1284,14 +1294,15 @@ const formConfig = {
                 'ui:validations': [
                   (errors, field, formData) => {
                     const isYes = field.slice(0, 4).includes('Yes');
-                    const phoneExist = !!formData['view:newPhoneNumbers']
-                      .mobilePhoneNumber.phone;
+                    const phoneExists = !!formData[
+                      newFormFields.newViewPhoneNumbers
+                    ][newFormFields.newMobilePhoneNumber].phone;
                     const { isInternational } = formData[
-                      'view:newPhoneNumbers'
-                    ].mobilePhoneNumber;
+                      newFormFields.newViewPhoneNumbers
+                    ][newFormFields.newMobilePhoneNumber];
 
                     if (isYes) {
-                      if (!phoneExist) {
+                      if (!phoneExists) {
                         errors.addError(
                           "You can't select that response because we don't have a mobile phone number on file for you.",
                         );
@@ -1453,7 +1464,7 @@ const formConfig = {
       pages: {
         [newFormPages.newDirectDeposit]: {
           depends: formData => formData.showUpdatedToeApp,
-          path: 'direct-deposit',
+          path: 'new/direct-deposit',
           uiSchema: {
             'ui:description': directDepositDescription,
             bankAccount: {
