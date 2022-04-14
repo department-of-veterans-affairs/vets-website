@@ -20,7 +20,7 @@ import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage, {
   schoolSelectionOptionsFor,
 } from '../../pages/schoolSelection';
-import oldCreateDirectDepositPage from '../../pages/directDeposit';
+// import oldCreateDirectDepositPage from '../../pages/directDeposit';
 import createDirectDepositPage from '../content/directDeposit';
 import employmentHistoryPage from '../../pages/employmentHistory';
 
@@ -237,9 +237,7 @@ const formConfig = {
           fullSchema1990e,
           'relativeAddress',
         ),
-        directDeposit: environment.isProduction()
-          ? oldCreateDirectDepositPage(fullSchema1990e)
-          : createDirectDepositPage(),
+        directDeposit: createDirectDepositPage(),
       },
     },
   },
