@@ -1,3 +1,6 @@
+import * as _ from 'lodash';
+import piiReplace from './piiReplace';
+
 const GreetUser = {
   makeBotGreetUser: (
     csrfToken,
@@ -44,6 +47,10 @@ const GreetUser = {
         event.data = action.payload.activity;
         window.dispatchEvent(event);
       }
+    }
+
+    if (action.type === 'WEB_CHAT/SEND_MESSAGE') {
+      _.assign(action.payload, { text: piiReplace(action.payload.text) });
     }
     return next(action);
   },
