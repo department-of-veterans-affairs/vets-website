@@ -34,7 +34,7 @@ export default function EligibilityModal({
     </VaModal>
   );
 }
-EligibilityModal.propType = {
+EligibilityModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   eligibility: PropTypes.object,
   facilityDetails: PropTypes.object,
