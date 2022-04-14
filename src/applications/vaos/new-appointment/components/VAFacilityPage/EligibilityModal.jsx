@@ -1,5 +1,6 @@
 import React from 'react';
 import { VaModal } from 'web-components/react-bindings';
+import PropTypes from 'prop-types';
 import { FETCH_STATUS } from '../../../utils/constants';
 import getEligibilityMessage from './getEligibilityMessage';
 
@@ -33,3 +34,9 @@ export default function EligibilityModal({
     </VaModal>
   );
 }
+EligibilityModal.propType = {
+  onClose: PropTypes.func.isRequired,
+  eligibility: PropTypes.object,
+  facilityDetails: PropTypes.object,
+  typeOfCare: PropTypes.object,
+};
