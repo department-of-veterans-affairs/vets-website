@@ -36,6 +36,7 @@ const GreetUser = {
       const data = action.payload.activity;
       if (
         data.type === 'message' &&
+        data.text &&
         data.text.includes('Please wait a moment. Sending you to sign in...') &&
         data.from.role === 'bot'
       ) {
