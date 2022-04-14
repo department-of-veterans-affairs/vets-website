@@ -16,7 +16,10 @@ import { getBackendStatuses } from 'platform/monitoring/external-services/action
 import { hasSession } from 'platform/user/profile/utilities';
 import { initializeProfile } from 'platform/user/profile/actions';
 import { isInProgressPath } from 'platform/forms/helpers';
-import { signInServiceName as signInServiceNameSelector } from 'platform/user/authentication/selectors';
+import {
+  signInServiceName as signInServiceNameSelector,
+  transitionMHVAccount,
+} from 'platform/user/authentication/selectors';
 import {
   isLoggedIn,
   isProfileLoading,
@@ -65,7 +68,12 @@ export class Main extends Component {
       this.executeRedirect();
       this.closeModals();
 
-      if (mhvTransitionEligible && !accountTransitionPreviouslyDismissed) {
+      if (
+        this.props.signInServiceName === 'mhv' &&
+        mhvTransitionEligible &&
+        !mhvTransitionComplete &&
+        !accountTransitionPreviouslyDismissed
+      ) {
         this.props.toggleAccountTransitionModal(true);
       }
 
@@ -234,6 +242,7 @@ export class Main extends Component {
             <AccountTransitionModal
               onClose={this.closeAccountTransitionModal}
               visible={this.props.showAccountTransitionModal}
+              canTransferMHVAccount={this.props.canTransferMHVAccount}
               history={history}
             />
           )}
@@ -277,6 +286,7 @@ export const mapStateToProps = state => {
     shouldConfirmLeavingForm,
     user: selectUser(state),
     userGreeting: selectUserGreeting(state),
+    canTransferMHVAccount: transitionMHVAccount(state),
     ...state.navigation,
   };
 };
@@ -308,6 +318,7 @@ Main.propTypes = {
   toggleSearchHelpUserMenu: PropTypes.func.isRequired,
   updateLoggedInStatus: PropTypes.func.isRequired,
   // From mapStateToProps.
+  canTransferMHVAccount: PropTypes.bool,
   currentlyLoggedIn: PropTypes.bool,
   isHeaderV2: PropTypes.bool,
   isLOA3: PropTypes.bool,

@@ -38,4 +38,4 @@ export const ssoeTransactionId = state =>
   selectProfile(state)?.session?.transactionid;
 
 export const transitionMHVAccount = state =>
-  state.user.profile.mhvTransitionEligible ?? false;
+  selectProfile(state)?.mhvTransitionEligible;
