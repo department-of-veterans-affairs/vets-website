@@ -10,8 +10,6 @@ export const FETCH_TOTAL_RATING_STARTED = 'FETCH_TOTAL_RATING_STARTED';
 export const FETCH_TOTAL_RATING_SUCCEEDED = 'FETCH_TOTAL_RATING_SUCCEEDED';
 export const FETCH_TOTAL_RATING_FAILED = 'FETCH_TOTAL_RATING_FAILED';
 
-const DISABILITY_PREFIX = 'disability-ratings';
-
 export function fetchRatedDisabilities() {
   return async dispatch => {
     const response = await getData(
@@ -22,13 +20,17 @@ export function fetchRatedDisabilities() {
       const errorCode = response.errors[0].code;
       if (isServerError(errorCode)) {
         recordEvent({
-          event: `${DISABILITY_PREFIX}-list-load-failed`,
-          'error-key': `${errorCode} internal error`,
+          event: `api_call`,
+          'error-key': `${errorCode} server error`,
+          'api-name': 'GET rated disabilities',
+          'api-status': 'failed',
         });
       } else if (isClientError(errorCode)) {
         recordEvent({
-          event: `${DISABILITY_PREFIX}-list-load-failed`,
-          'error-key': `${errorCode} no disabilities found`,
+          event: `api_call`,
+          'error-key': `${errorCode} client error`,
+          'api-name': 'GET rated disabilities',
+          'api-status': 'failed',
         });
       }
       dispatch({
@@ -36,7 +38,11 @@ export function fetchRatedDisabilities() {
         response,
       });
     } else {
-      recordEvent({ event: `${DISABILITY_PREFIX}-list-load-success` });
+      recordEvent({
+        event: `api_call`,
+        'api-name': 'GET rated disabilities',
+        'api-status': 'successful',
+      });
       dispatch({
         type: FETCH_RATED_DISABILITIES_SUCCESS,
         response,
@@ -71,14 +77,14 @@ export function fetchTotalDisabilityRating() {
       const errorCode = error.code;
       if (isServerError(errorCode)) {
         recordEvent({
-          event: `${DISABILITY_PREFIX}-combined-load-failed`,
+          event: `api_call`,
           'error-key': `${errorCode} internal error`,
           'api-name': 'GET disability rating',
           'api-status': 'failed',
         });
       } else if (isClientError(errorCode)) {
         recordEvent({
-          event: `${DISABILITY_PREFIX}-combined-load-failed`,
+          event: `api_call`,
           'error-key': `${errorCode} no combined rating found`,
           'api-name': 'GET disability rating',
           'api-status': 'failed',
@@ -90,7 +96,7 @@ export function fetchTotalDisabilityRating() {
       });
     } else {
       recordEvent({
-        event: `${DISABILITY_PREFIX}-combined-load-success`,
+        event: `api_call`,
         'api-name': 'GET disability rating',
         'api-status': 'successful',
       });
