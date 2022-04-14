@@ -3,13 +3,18 @@ context('Keyboard Navigation', () => {
     cy.visit('education/submit-school-feedback/introduction');
     cy.injectAxeThenAxeCheck();
 
+    /**
+     * On GI Bill School Feedback Tool tab to start application without signing in, then proceed.
+     */
     cy.tabToElement('.no-wrap');
 
     cy.tabToElement('.va-button-link.schemaform-start-button', false);
 
     cy.realPress('Space');
 
-    /* */
+    /**
+     * Complete initial page of Step 1 of 5: Applicant Information.
+     */
     cy.tabToElement('[name="root_onBehalfOf"]');
 
     cy.chooseRadio('Myself');
@@ -18,14 +23,16 @@ context('Keyboard Navigation', () => {
 
     cy.realPress('Space');
 
-    /* */
+    /**
+     * Complete next page of Step 1 of 5: Applicant Information.
+     */
     cy.tabToElement('#root_fullName_prefix');
 
-    cy.chooseSelectOptionByTyping('Mrs.');
+    cy.chooseSelectOptionByTyping('Mr.');
 
     cy.tabToElement('#root_fullName_first');
 
-    cy.typeInFocused('Noah');
+    cy.typeInFocused('John');
 
     cy.tabToElement('#root_fullName_middle');
 
@@ -33,7 +40,7 @@ context('Keyboard Navigation', () => {
 
     cy.tabToElement('#root_fullName_last');
 
-    cy.typeInFocused('Gelman');
+    cy.typeInFocused('Smith');
 
     cy.tabToElement('#root_fullName_suffix');
 
@@ -47,7 +54,9 @@ context('Keyboard Navigation', () => {
 
     cy.realPress('Space');
 
-    /* */
+    /**
+     * Complete next page of Step 1 of 5: Applicant Information.
+     */
     cy.tabToElement('#root_serviceBranch');
 
     cy.chooseSelectOptionByTyping('Air Force');
@@ -80,7 +89,9 @@ context('Keyboard Navigation', () => {
 
     cy.realPress('Space');
 
-    /* */
+    /**
+     * Complete next page of Step 1 of 5: Applicant Information.
+     */
     cy.tabToElement('#root_address_country');
 
     cy.chooseSelectOptionByTyping('United States');
@@ -107,11 +118,11 @@ context('Keyboard Navigation', () => {
 
     cy.tabToElement('#root_applicantEmail');
 
-    cy.typeInFocused('noahIsCool@gmail.com');
+    cy.typeInFocused('jsmith98223@gmail.com');
 
     cy.tabToElement('[type="email"]');
 
-    cy.typeInFocused('noahIsCool@gmail.com');
+    cy.typeInFocused('jsmith98223@gmail.com');
 
     cy.tabToElement('#root_phone');
 
@@ -121,7 +132,9 @@ context('Keyboard Navigation', () => {
 
     cy.realPress('Space');
 
-    /* */
+    /**
+     * Complete Step 2 of 5: Education Benefits.
+     */
     cy.tabToElement('#root_educationDetails_programs_chapter35');
 
     cy.realPress('Space');
