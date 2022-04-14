@@ -94,20 +94,6 @@ const responses = {
     }
     return res.json(checkInData.post.createMockSuccessResponse({}));
   },
-  // v3
-  // 'POST /check_in/v3/sessions': (req, res) => {
-  //   const { lastName, dob } = req.body?.session || {};
-  //   if (!lastName) {
-  //     return res.status(400).json(sessions.post.createMockFailedResponse());
-  //   }
-  //   if (dob !== mockUser.dob || lastName !== mockUser.lastName) {
-  //     return res
-  //       .status(400)
-  //       .json(sessions.post.createMockValidateErrorResponse());
-  //   }
-  //   hasBeenValidated = true;
-  //   return res.json(sessions.post.createMockSuccessResponse(req.body));
-  // },
 };
 
 module.exports = delay(responses, 2000);
