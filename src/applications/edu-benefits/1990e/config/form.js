@@ -480,7 +480,7 @@ const formConfig = {
               },
             },
             [newFormFields.newDateOfBirth]: {
-              ...currentOrPastDateUI('Date of birth'),
+              ...currentOrPastDateUI('Your date of birth'),
             },
             'view:dateOfBirthUnder18Alert': {
               'ui:description': (
@@ -788,7 +788,7 @@ const formConfig = {
               ...fullNameUI,
               first: {
                 ...fullNameUI.first,
-                'ui:title': "Sponsor's first name",
+                'ui:title': 'Your sponsor’s first name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isOnlyWhitespace(field)) {
@@ -799,7 +799,7 @@ const formConfig = {
               },
               last: {
                 ...fullNameUI.last,
-                'ui:title': "Sponsor's last name",
+                'ui:title': 'Your sponsor’s last name',
                 'ui:validations': [
                   (errors, field) => {
                     if (isOnlyWhitespace(field)) {
@@ -810,11 +810,11 @@ const formConfig = {
               },
               middle: {
                 ...fullNameUI.middle,
-                'ui:title': "Sponsor's  middle name",
+                'ui:title': 'Your sponsor’s middle name',
               },
             },
             [newFormFields.newSponsorDateOfBirth]: {
-              ...currentOrPastDateUI("Sponsor's date of birth"),
+              ...currentOrPastDateUI('Your sponsor’s date of birth'),
             },
           },
           schema: {
