@@ -230,7 +230,9 @@ const formConfig = {
     usaPhone,
   },
   title: 'Apply to use transferred education benefits',
-  subTitle: 'Form 22-1990E',
+  subTitle: newToeAppEnabled
+    ? 'Equal to VA Form 22-1990e (Application for Family Member to Use Transferred Benefits)'
+    : 'Form 22-1990E',
   preSubmitInfo,
   footerContent: FormFooter,
   getHelp: newToeAppEnabled ? NewGetHelp : GetFormHelp,
@@ -471,7 +473,13 @@ const formConfig = {
             },
             'view:dateOfBirthUnder18Alert': {
               'ui:description': (
-                <va-alert status="warning">
+                <va-alert
+                  background-only
+                  close-btn-aria-label="Close notification"
+                  show-icon
+                  status="warning"
+                  visible
+                >
                   <>
                     Since you’re under 18 years old, a parent or guardian will
                     have to sign this application when you submit it.

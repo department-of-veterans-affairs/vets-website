@@ -25,7 +25,7 @@ function Form1990eEntry({
 }) {
   useEffect(
     () => {
-      if (!user.login.currentlyLoggedIn) {
+      if (!showUpdatedToeApp || !user.login.currentlyLoggedIn) {
         return;
       }
 
