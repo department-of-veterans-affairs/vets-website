@@ -618,11 +618,11 @@ const formConfig = {
                   class="vads-u-margin-bottom--4"
                 >
                   <p className="vads-u-margin-y--0">
-                    You can only choose one sponsor for this application. If you
-                    have multiple sponsors, you can talk to them to determine
-                    which benefits are right for you. You can also submit
-                    another application for Transfer of Entitlement education
-                    benefits if you would like to choose another sponsor.
+                    You will only receive a decision for the sponsor(s) you
+                    select. VA will review your eligibility for each selection.
+                    For any sponsors you do not select, you may impact your
+                    ability to use those benefits in the future. You can reapply
+                    for those sponsors using this application.
                   </p>
                 </va-additional-info>
               ),
