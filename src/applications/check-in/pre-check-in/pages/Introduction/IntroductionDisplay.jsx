@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { format, subDays } from 'date-fns';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import VaModal from '@department-of-veterans-affairs/component-library/Modal';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -165,7 +165,7 @@ const IntroductionDisplay = props => {
       </div>
       <Footer message={additionalFooterInfo} />
       <BackToHome />
-      <Modal
+      <VaModal
         onClose={useCallback(() => setPrivacyActModalOpen(false), [
           setPrivacyActModalOpen,
         ])}
