@@ -1,6 +1,7 @@
 import React from 'react';
 import { VaModal } from 'web-components/react-bindings';
 
+import PropTypes from 'prop-types';
 import FacilityAddress from '../../../components/FacilityAddress';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 
@@ -52,3 +53,9 @@ export default function CancelAppointmentFailedModal({
     </VaModal>
   );
 }
+CancelAppointmentFailedModal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  facility: PropTypes.string,
+  isBadRequest: PropTypes.bool,
+  isConfirmed: PropTypes.bool,
+};

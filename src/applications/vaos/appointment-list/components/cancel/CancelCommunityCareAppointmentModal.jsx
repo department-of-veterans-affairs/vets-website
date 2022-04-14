@@ -1,5 +1,6 @@
 import React from 'react';
 import { VaModal } from 'web-components/react-bindings';
+import PropTypes from 'prop-types';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 import FacilityPhone from '../../../components/FacilityPhone';
 
@@ -22,6 +23,7 @@ export default function CancelCommunityCareAppointmentModal({
       visible
       onCloseEvent={onClose}
       modalTitle={title}
+      role="alertdialog"
     >
       Community care appointments can’t be canceled online.{' '}
       {!address && (
@@ -52,7 +54,13 @@ export default function CancelCommunityCareAppointmentModal({
           </>
         )}
       </div>
-      <button onClick={onClose}>OK</button>
+      <button type="button" onClick={onClose}>
+        OK
+      </button>
     </VaModal>
   );
 }
+CancelCommunityCareAppointmentModal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  appointment: PropTypes.object,
+};

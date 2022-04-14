@@ -1,6 +1,7 @@
 import React from 'react';
 import { VaModal } from 'web-components/react-bindings';
 import { getCernerURL } from 'platform/utilities/cerner';
+import PropTypes from 'prop-types';
 import { FETCH_STATUS } from '../../../utils/constants';
 
 export default function CancelCernerAppointmentModal({ onClose, status }) {
@@ -16,6 +17,7 @@ export default function CancelCernerAppointmentModal({ onClose, status }) {
       To cancel this appointment, please go to My VA Health.
       <p className="vads-u-margin-top--2">
         <button
+          type="button"
           onClick={() => {
             window.open(getCernerURL('/pages/scheduling/upcoming'));
             onClose();
@@ -24,6 +26,7 @@ export default function CancelCernerAppointmentModal({ onClose, status }) {
           Go to My VA Health
         </button>
         <button
+          type="button"
           className="usa-button-secondary"
           onClick={onClose}
           disabled={status === FETCH_STATUS.loading}
@@ -34,3 +37,7 @@ export default function CancelCernerAppointmentModal({ onClose, status }) {
     </VaModal>
   );
 }
+CancelCernerAppointmentModal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  status: PropTypes.string,
+};

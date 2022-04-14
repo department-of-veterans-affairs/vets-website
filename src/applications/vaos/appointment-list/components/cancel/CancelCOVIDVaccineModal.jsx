@@ -1,6 +1,7 @@
 import React from 'react';
 import { VaModal } from 'web-components/react-bindings';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import PropTypes from 'prop-types';
 
 export default function CancelCOVIDVaccineModal({ onClose, facility }) {
   const phone = facility?.telecom?.find(tele => tele.system === 'phone').value;
@@ -11,6 +12,7 @@ export default function CancelCOVIDVaccineModal({ onClose, facility }) {
       visible
       onCloseEvent={onClose}
       modalTitle="You need to call your VA medical center to cancel this appointment"
+      role="alertdialog"
     >
       COVID-19 vaccine appointments can’t be canceled online. Please call the
       below VA facility to cancel your appointment.
@@ -30,7 +32,13 @@ export default function CancelCOVIDVaccineModal({ onClose, facility }) {
           </>
         )}
       </p>
-      <button onClick={onClose}>OK</button>
+      <button type="button" onClick={onClose}>
+        OK
+      </button>
     </VaModal>
   );
 }
+CancelCOVIDVaccineModal.propTypes = {
+  facility: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
+};

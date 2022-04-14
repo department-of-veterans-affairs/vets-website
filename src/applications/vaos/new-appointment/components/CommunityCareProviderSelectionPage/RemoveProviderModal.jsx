@@ -1,5 +1,6 @@
 import React from 'react';
 import { VaModal } from 'web-components/react-bindings';
+import PropTypes from 'prop-types';
 
 export default function RemoveProviderModal({ onClose, provider }) {
   const title = 'Are you sure you want to remove this provider?';
@@ -34,8 +35,14 @@ export default function RemoveProviderModal({ onClose, provider }) {
       onCloseEvent={onClose}
       modalTitle={title}
       data-testid="removeProviderModal"
+      status="warning"
+      role="alertdialog"
     >
       {content}
     </VaModal>
   );
 }
+RemoveProviderModal.propTypes = {
+  provider: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
+};

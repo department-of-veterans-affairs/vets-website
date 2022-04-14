@@ -1,6 +1,7 @@
 import React from 'react';
 import { VaModal } from 'web-components/react-bindings';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import PropTypes from 'prop-types';
 
 export default function CancelVideoAppointmentModal({ onClose, facility }) {
   const phone = facility?.telecom?.find(tele => tele.system === 'phone').value;
@@ -11,6 +12,7 @@ export default function CancelVideoAppointmentModal({ onClose, facility }) {
       visible
       onCloseEvent={onClose}
       modalTitle="You need to call your VA medical center to cancel this appointment"
+      role="alertdialog"
     >
       VA Video Connect appointments can’t be canceled online.{' '}
       {!facility &&
@@ -34,9 +36,15 @@ export default function CancelVideoAppointmentModal({ onClose, facility }) {
               </>
             )}
           </p>
-          <button onClick={onClose}>OK</button>
+          <button type="button" onClick={onClose}>
+            OK
+          </button>
         </>
       )}
     </VaModal>
   );
 }
+CancelVideoAppointmentModal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  facility: PropTypes.object,
+};
