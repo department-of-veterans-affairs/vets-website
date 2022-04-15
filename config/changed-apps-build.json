@@ -18,7 +18,7 @@
         "slackGroup": "@cto-health-products"
       },
       {
-        "entryName": "education-inbox",
+        "entryName": "education-letters",
         "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
       },
       {
@@ -31,6 +31,10 @@
       },
       {
         "entryName": "login-page",
+        "slackGroup": "@vsp-identity-group"
+      },
+      {
+        "entryName": "mhv-inherited-proofing",
         "slackGroup": "@vsp-identity-group"
       },
       {

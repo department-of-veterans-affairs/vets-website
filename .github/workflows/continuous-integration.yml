@@ -96,6 +96,9 @@ jobs:
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.app_folders }}
 
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -1133,7 +1136,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: ${{ always() && github.ref == 'refs/heads/master' && needs.get-latest-run-number.result == 'success' && needs.get-latest-run-number.outputs.latest_run_number == github.run_number}}
+    if: ${{ always() && github.ref == 'refs/heads/master' && needs.get-latest-run-number.result == 'success' }}
     needs: [build, get-latest-run-number]
 
     strategy:
