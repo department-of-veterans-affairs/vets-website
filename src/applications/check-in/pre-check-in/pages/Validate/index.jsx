@@ -20,7 +20,7 @@ import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
-import { formatDateObjectTo8601 } from '../../../utils/formatters';
+import { extractDateFromVaDateComponent } from '../../../utils/formatters';
 
 const Index = ({ router }) => {
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
@@ -115,7 +115,7 @@ const Index = ({ router }) => {
           const resp = await api.v2.postSession({
             token,
             last4: last4Ssn,
-            dob: formatDateObjectTo8601(dob),
+            dob: extractDateFromVaDateComponent(dob),
             lastName,
             checkInType: app,
             isLorotaSecurityUpdatesEnabled,

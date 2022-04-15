@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import {
   formatPhone,
   formatDemographicString,
-  formatDateObjectTo8601,
+  extractDateFromVaDateComponent,
 } from './index';
 
 describe('check in', () => {
@@ -52,7 +52,7 @@ describe('check in', () => {
             dirty: false,
           },
         };
-        const formatted = formatDateObjectTo8601(testDateObject);
+        const formatted = extractDateFromVaDateComponent(testDateObject);
         expect(formatted).to.equal('1999-05-20');
       });
     });

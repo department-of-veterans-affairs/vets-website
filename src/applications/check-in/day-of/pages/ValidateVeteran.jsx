@@ -19,7 +19,7 @@ import { makeSelectCurrentContext } from '../../selectors';
 
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
-import { formatDateObjectTo8601 } from '../../utils/formatters';
+import { extractDateFromVaDateComponent } from '../../utils/formatters';
 
 const ValidateVeteran = props => {
   const { router } = props;
@@ -114,7 +114,7 @@ const ValidateVeteran = props => {
           const resp = await api.v2.postSession({
             token,
             last4: last4Ssn,
-            dob: formatDateObjectTo8601(dob),
+            dob: extractDateFromVaDateComponent(dob),
             lastName,
             checkInType: '',
             isLorotaSecurityUpdatesEnabled,
