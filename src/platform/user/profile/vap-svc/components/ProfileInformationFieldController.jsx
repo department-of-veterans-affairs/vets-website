@@ -286,6 +286,31 @@ class ProfileInformationFieldController extends React.Component {
     this.openRemoveModal();
   };
 
+  // When a personal information field contains initial field data from the api
+  // we need to require that field, bc there are no deletes available at this time, and only updates
+  requirePersonalInfoFieldBasedOnInitialValue = formSchema => {
+    // TODO: handle multi-select values for when sexual orientation and pronouns are released
+    const newFormSchema = { ...formSchema };
+    const { fieldName, data, editViewData } = this.props;
+
+    // only check field value if field is one of personal info fields
+    if (
+      Object.values(VAP_SERVICE.PERSONAL_INFO_FIELD_NAMES).includes(fieldName)
+    ) {
+      const initialValues = getInitialFormValues({
+        fieldName,
+        data,
+        modalData: editViewData,
+      });
+
+      // only make the field required if there is an initial value for the field
+      if (initialValues?.[fieldName]) {
+        newFormSchema.required = [fieldName];
+      }
+    }
+    return newFormSchema;
+  };
+
   render() {
     const {
       activeEditView,
@@ -393,7 +418,9 @@ class ProfileInformationFieldController extends React.Component {
           apiRoute={this.props.apiRoute}
           convertCleanDataToPayload={this.props.convertCleanDataToPayload}
           uiSchema={this.props.uiSchema}
-          formSchema={this.props.formSchema}
+          formSchema={this.requirePersonalInfoFieldBasedOnInitialValue(
+            this.props.formSchema,
+          )}
           title={title}
         />
       );
