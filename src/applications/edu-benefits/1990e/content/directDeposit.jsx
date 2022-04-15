@@ -99,7 +99,6 @@ export default function createDirectDepositPage() {
       accountNumber: {
         type: 'string',
       },
-
       declineDirectDeposit: {
         type: 'boolean',
         properties: {},
