@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { connect, useSelector } from 'react-redux';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
@@ -48,6 +48,18 @@ function showBot(
 ) {
   if (!loggedIn && requireAuth) {
     return <ConnectedSignInAlert />;
+  }
+
+  if (!loggedIn && isAuthTopic) {
+    return (
+      <SignInModal
+        visible
+        onClose={() => {
+          setIsAuthTopic(false);
+        }}
+      />
+      // <ConnectedAuthReqTopic />
+    );
   }
 
   if (!accepted && !sessionStorage.getItem(IN_AUTH_EXP)) {

@@ -46,9 +46,27 @@ export default function useVirtualAgentToken(props) {
         });
       }
 
+      const CONVERSATION_ID_KEY = 'conversationId';
+      const TOKEN_KEY = 'token';
+      const COUNTER_KEY = 'counter';
+
       async function getToken() {
         try {
           const response = await retryOnce(callVirtualAgentTokenApi);
+
+          if (!sessionStorage.getItem(CONVERSATION_ID_KEY)) {
+            sessionStorage.setItem(CONVERSATION_ID_KEY, response.conversationId);
+            sessionStorage.setItem(TOKEN_KEY, response.token);
+            sessionStorage.setItem(COUNTER_KEY, 0);
+            // localStorage.setItem('loggedInFlow', 'false');
+          }
+
+          // console.log(sessionStorage.getItem(CONVERSATION_ID_KEY));
+          // console.log(sessionStorage.getItem(TOKEN_KEY));
+
+          const counter = sessionStorage.getItem(COUNTER_KEY);
+          sessionStorage.setItem('counter', parseInt(counter) + 1);
+          // console.log('counter is: ', localStorage.getItem('counter'));
 
           setToken(response.token);
           setApiSession(response.apiSession);
