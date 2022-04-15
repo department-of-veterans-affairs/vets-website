@@ -40,7 +40,7 @@ describe('Check In Experience ', () => {
   it('only allows current and past years', () => {
     cy.visitWithUUID();
     // page: Validate
-    ValidateVeteran.validatePageLoaded();
+    ValidateVeteran.validatePageLoaded('Check in at VA');
     ValidateVeteran.validateVeteranDobInvalidYear();
     ValidateVeteran.attemptToGoToNextPage();
     ValidateVeteran.getDobError();
