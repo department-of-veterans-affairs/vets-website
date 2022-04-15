@@ -134,8 +134,11 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
         </p>
         <p>
           If you think you should have a 1095-B form, call us at{' '}
-          <a href="tel:+18772228387">1-877-222-8387 (TTY: 711)</a>. We’re here
-          Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          <a href="tel:+18772228387">1-877-222-8387</a>{' '}
+          <a href="tel:711" aria-label="TTY. 7 1 1">
+            (TTY: 711)
+          </a>
+          . We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </div>
     </va-alert>
@@ -154,8 +157,11 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
           <p>
             We’re sorry. Something went wrong when we tried to download your
             form. Please try again. If your form still doesn’t download, call us
-            at <a href="tel:+18772228387">800-698-2411 (TTY: 711)</a>. We’re
-            here 24/7.
+            at <a href="tel:+18006982411">800-698-2411</a>{' '}
+            <a href="tel:711" aria-label="TTY. 7 1 1">
+              (TTY: 711)
+            </a>
+            . We’re here 24/7.
           </p>
         </div>
       </va-alert>
