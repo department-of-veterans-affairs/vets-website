@@ -37,6 +37,20 @@ class ValidateVeteran {
     this.selectDay(day);
   };
 
+  validateVeteranDobInvalidYear = (
+    lastName = 'Smith',
+    year = '2050',
+    month = '1',
+    day = '31',
+  ) => {
+    this.clearLastName();
+    this.typeLastName(lastName);
+    this.selectMonth(month);
+    this.selectDay(day);
+    this.clearYear();
+    this.typeYear(year);
+  };
+
   getLastNameInput = () => {
     return cy
       .get('[label="Your last name"]')
@@ -119,6 +133,12 @@ class ValidateVeteran {
       .contains(
         'Please enter the last 4 digits of your Social Security number',
       );
+  };
+
+  getDobError = () => {
+    cy.get('[data-testid="dob-input"]')
+      .find('.usa-input-error-message')
+      .contains('Your date of birth can not be in the future');
   };
 
   validateTypedLast4 = (typed = '1234') => {

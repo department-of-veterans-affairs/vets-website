@@ -37,4 +37,13 @@ describe('Check In Experience ', () => {
     // page: Demographics
     Demographics.validatePageLoaded();
   });
+  it('only allows current and past years', () => {
+    cy.visitWithUUID();
+    // page: Validate
+    ValidateVeteran.validatePageLoaded();
+    ValidateVeteran.validateVeteranDobInvalidYear();
+    ValidateVeteran.attemptToGoToNextPage();
+    ValidateVeteran.getDobError();
+    cy.injectAxeThenAxeCheck();
+  });
 });

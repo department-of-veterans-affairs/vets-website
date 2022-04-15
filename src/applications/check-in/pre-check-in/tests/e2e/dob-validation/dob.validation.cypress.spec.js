@@ -36,4 +36,13 @@ describe('Pre-Check In Experience ', () => {
     // page: Introduction
     Introduction.validatePageLoaded();
   });
+  it('only allows current and past years', () => {
+    cy.visitPreCheckInWithUUID();
+    // page: Validate
+    ValidateVeteran.validatePageLoaded();
+    ValidateVeteran.validateVeteranDobInvalidYear();
+    ValidateVeteran.attemptToGoToNextPage();
+    ValidateVeteran.getDobError();
+    cy.injectAxeThenAxeCheck();
+  });
 });
