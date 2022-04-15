@@ -15,9 +15,10 @@ import {
 } from 'platform/testing/unit/helpers';
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
 import Main from 'platform/site-wide/user-nav/containers/Main';
-import Chatbox, { LOGGED_IN_FLOW } from '../components/chatbox/Chatbox';
+import Chatbox from '../components/chatbox/Chatbox';
 import virtualAgentReducer from '../reducers/index';
 import GreetUser from '../components/webchat/makeBotGreetUser';
+import { LOGGED_IN_FLOW } from '../components/chatbox/utils';
 
 export const CHATBOT_ERROR_MESSAGE = /We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk/i;
 
