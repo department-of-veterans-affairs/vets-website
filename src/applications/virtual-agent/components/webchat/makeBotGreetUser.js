@@ -39,15 +39,21 @@ const GreetUser = {
 
     if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
       const data = action.payload.activity;
-      if (
-        data.type === 'message' &&
-        data.text &&
-        data.text.includes('Please wait a moment. Sending you to sign in...') &&
-        data.from.role === 'bot'
-      ) {
-        const event = new Event('webchat-auth-activity');
-        event.data = action.payload.activity;
-        window.dispatchEvent(event);
+      if (data.type === 'message' && data.text) {
+        if (
+          data.text.includes(
+            'Please wait a moment. Sending you to sign in...',
+          ) &&
+          data.from.role === 'bot'
+        ) {
+          const authEvent = new Event('webchat-auth-activity');
+          authEvent.data = action.payload.activity;
+          window.dispatchEvent(authEvent);
+        } else {
+          const chatEvent = new Event('webchat-message-activity');
+          chatEvent.data = action.payload.activity;
+          window.dispatchEvent(chatEvent);
+        }
       }
     }
 

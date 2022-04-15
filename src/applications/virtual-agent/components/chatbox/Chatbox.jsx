@@ -17,6 +17,8 @@ import {
 
 export const LOGGED_IN_FLOW = 'loggedInFlow';
 export const IN_AUTH_EXP = 'inAuthExperience';
+export const RECENT_UTTERANCES = 'recentUtterances';
+export const INITIAL_UTTERANCES = ['', ''];
 
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
@@ -74,6 +76,7 @@ export default function Chatbox(props) {
     state => state.featureToggles.virtualAgentAuth,
   );
   const [isAuthTopic, setIsAuthTopic] = useState(false);
+  const [utteranceArray, setUtteranceArray] = useState([]);
 
   window.addEventListener('webchat-auth-activity', () => {
     setTimeout(function() {
@@ -82,6 +85,35 @@ export default function Chatbox(props) {
         setIsAuthTopic(true);
       }
     }, 2000);
+  });
+
+  // blindly store the last two user utterances for later use
+  // if user is prompted to login. empty string means no utterance
+  // for that array element. (means no null checks later)
+  window.addEventListener('webchat-message-activity', event => {
+    if (
+      event &&
+      event.type === 'message' &&
+      event.text &&
+      event.text.length > 0 &&
+      event.role !== 'bot'
+    ) {
+      // prefer to pull from state, then storage, then initialize if not found
+      let utterances =
+        utteranceArray ||
+        sessionStorage.get(RECENT_UTTERANCES) ||
+        [].push(INITIAL_UTTERANCES);
+
+      // start with clean data, not executed after we get some text in there.
+      if (!utterances || !Array.isArray(utterances) || utterances.length < 2) {
+        utterances = [].push(INITIAL_UTTERANCES);
+      }
+
+      utterances.push(event.text);
+      utterances.shift();
+      sessionStorage.setItem(RECENT_UTTERANCES, utterances);
+      setUtteranceArray(utterances);
+    }
   });
 
   if (sessionStorage.getItem(LOGGED_IN_FLOW) === 'true' && isLoggedIn) {
