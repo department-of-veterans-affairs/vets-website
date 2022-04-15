@@ -14,11 +14,7 @@ import {
   ERROR,
   LOADING,
 } from './loadingStatus';
-
-export const LOGGED_IN_FLOW = 'loggedInFlow';
-export const IN_AUTH_EXP = 'inAuthExperience';
-export const RECENT_UTTERANCES = 'recentUtterances';
-export const INITIAL_UTTERANCES = ['', ''];
+import { storeUtterances, LOGGED_IN_FLOW, IN_AUTH_EXP } from './utils';
 
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
@@ -88,7 +84,6 @@ export default function Chatbox(props) {
     state => state.featureToggles.virtualAgentAuth,
   );
   const [isAuthTopic, setIsAuthTopic] = useState(false);
-  const [utteranceArray, setUtteranceArray] = useState([]);
 
   window.addEventListener('webchat-auth-activity', () => {
     setTimeout(function() {
@@ -99,33 +94,14 @@ export default function Chatbox(props) {
     }, 2000);
   });
 
-  // blindly store the last two user utterances for later use
-  // if user is prompted to login. empty string means no utterance
-  // for that array element. (means no null checks later)
-  window.addEventListener('webchat-message-activity', event => {
-    if (
-      event &&
-      event.type === 'message' &&
-      event.text &&
-      event.text.length > 0 &&
-      event.role !== 'bot'
-    ) {
-      // prefer to pull from state, then storage, then initialize if not found
-      let utterances =
-        utteranceArray ||
-        sessionStorage.get(RECENT_UTTERANCES) ||
-        [].push(INITIAL_UTTERANCES);
+  useEffect(() => {
+    // initiate the event handler
+    window.addEventListener('webchat-message-activity', storeUtterances);
 
-      // start with clean data, not executed after we get some text in there.
-      if (!utterances || !Array.isArray(utterances) || utterances.length < 2) {
-        utterances = [].push(INITIAL_UTTERANCES);
-      }
-
-      utterances.push(event.text);
-      utterances.shift();
-      sessionStorage.setItem(RECENT_UTTERANCES, utterances);
-      setUtteranceArray(utterances);
-    }
+    // this will clean up the event every time the component is re-rendered
+    return function cleanup() {
+      window.removeEventListener('webchat-message-activity', storeUtterances);
+    };
   });
 
   if (sessionStorage.getItem(LOGGED_IN_FLOW) === 'true' && isLoggedIn) {

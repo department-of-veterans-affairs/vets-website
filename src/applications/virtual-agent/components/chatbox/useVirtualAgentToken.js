@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { apiRequest } from 'platform/utilities/api';
-import retryOnce from './retryOnce';
 import { useSelector } from 'react-redux';
 import * as Sentry from '@sentry/browser';
+import retryOnce from './retryOnce';
 import { COMPLETE, ERROR, LOADING } from './loadingStatus';
 
 function useWaitForCsrfToken(props) {
@@ -55,17 +55,19 @@ export default function useVirtualAgentToken(props) {
           const response = await retryOnce(callVirtualAgentTokenApi);
 
           if (!sessionStorage.getItem(CONVERSATION_ID_KEY)) {
-            sessionStorage.setItem(CONVERSATION_ID_KEY, response.conversationId);
+            sessionStorage.setItem(
+              CONVERSATION_ID_KEY,
+              response.conversationId,
+            );
             sessionStorage.setItem(TOKEN_KEY, response.token);
             sessionStorage.setItem(COUNTER_KEY, 0);
-            // localStorage.setItem('loggedInFlow', 'false');
           }
 
           // console.log(sessionStorage.getItem(CONVERSATION_ID_KEY));
           // console.log(sessionStorage.getItem(TOKEN_KEY));
 
           const counter = sessionStorage.getItem(COUNTER_KEY);
-          sessionStorage.setItem('counter', parseInt(counter) + 1);
+          sessionStorage.setItem('counter', parseInt(counter, 10) + 1);
           // console.log('counter is: ', localStorage.getItem('counter'));
 
           setToken(response.token);
