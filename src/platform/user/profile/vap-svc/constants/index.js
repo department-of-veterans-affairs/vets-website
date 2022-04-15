@@ -78,11 +78,15 @@ export const TRANSACTION_STATUS = {
 
 export const INIT_VAP_SERVICE_ID = 'initializeVAProfileServiceID';
 
-export const FIELD_NAMES = {
+export const PERSONAL_INFO_FIELD_NAMES = {
   PREFERRED_NAME: 'preferredName',
   PRONOUNS: 'pronouns',
   GENDER_IDENTITY: 'genderIdentity',
   SEXUAL_ORIENTATION: 'sexualOrientation',
+};
+
+export const FIELD_NAMES = {
+  ...PERSONAL_INFO_FIELD_NAMES,
   HOME_PHONE: 'homePhone',
   MOBILE_PHONE: 'mobilePhone',
   WORK_PHONE: 'workPhone',
