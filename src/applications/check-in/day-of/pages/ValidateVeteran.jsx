@@ -71,70 +71,53 @@ const ValidateVeteran = props => {
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
 
+  const validateFields = () => {
+    let valid = true;
+    if (!isLorotaSecurityUpdatesEnabled) {
+      if (!lastName) {
+        setLastNameErrorMessage(t('please-enter-your-last-name'));
+        valid = false;
+      }
+      if (!last4Ssn) {
+        setLast4ErrorMessage(
+          t('please-enter-the-last-4-digits-of-your-social-security-number'),
+        );
+        valid = false;
+      }
+    } else {
+      if (!lastName) {
+        setLastNameErrorMessage(t('please-enter-your-last-name'));
+        valid = false;
+      }
+      if (isAfter(new Date(dob.year.value), new Date())) {
+        setDobErrorMessage(t('your-date-of-birth-can-not-be-in-the-future'));
+        setDob(prevState => ({
+          year: { ...prevState.year, dirty: true },
+          day: { ...prevState.day, dirty: true },
+          month: { ...prevState.month, dirty: true },
+        }));
+        valid = false;
+      }
+    }
+    return valid;
+  };
+
   const onClick = useCallback(
     async () => {
       setLastNameErrorMessage();
       setLast4ErrorMessage();
       setDobErrorMessage();
-      if (isLorotaSecurityUpdatesEnabled) {
-        if (!lastName || isAfter(new Date(dob.year.value), new Date())) {
-          if (!lastName) {
-            setLastNameErrorMessage(t('please-enter-your-last-name'));
-          }
-          if (isAfter(new Date(dob.year.value), new Date())) {
-            setDobErrorMessage(
-              t('your-date-of-birth-can-not-be-in-the-future'),
-            );
-            setDob(prevState => ({
-              year: { ...prevState.year, dirty: true },
-              day: { ...prevState.day, dirty: true },
-              month: { ...prevState.month, dirty: true },
-            }));
-          }
-        } else {
-          setIsLoading(true);
-          try {
-            const resp = await api.v2.postSessionDOB({
-              token,
-              dob: formatDateObjectTo8601(dob),
-              lastName,
-            });
-            if (resp.errors || resp.error) {
-              setIsLoading(false);
-              goToErrorPage();
-            } else {
-              setSession(token, resp.permissions);
-              goToNextPage();
-            }
-          } catch (e) {
-            setIsLoading(false);
-            if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
-              goToErrorPage();
-            } else {
-              if (!showValidateError) {
-                setShowValidateError(true);
-              }
-              incrementValidateAttempts(window);
-            }
-          }
-        }
-      } else if (!lastName || !last4Ssn) {
-        if (!lastName) {
-          setLastNameErrorMessage(t('please-enter-your-last-name'));
-        }
-        if (!last4Ssn) {
-          setLast4ErrorMessage(
-            t('please-enter-the-last-4-digits-of-your-social-security-number'),
-          );
-        }
-      } else {
-        // API call
+      const valid = validateFields();
+      if (valid) {
         setIsLoading(true);
         try {
           const resp = await api.v2.postSession({
             token,
             last4: last4Ssn,
+            dob: formatDateObjectTo8601(dob),
             lastName,
+            checkInType: '',
+            isLorotaSecurityUpdatesEnabled,
           });
           if (resp.errors || resp.error) {
             setIsLoading(false);
@@ -165,10 +148,10 @@ const ValidateVeteran = props => {
       setSession,
       token,
       incrementValidateAttempts,
+      isLorotaSecurityUpdatesEnabled,
       isMaxValidateAttempts,
       showValidateError,
-      isLorotaSecurityUpdatesEnabled,
-      t,
+      validateFields,
     ],
   );
   useEffect(() => {
