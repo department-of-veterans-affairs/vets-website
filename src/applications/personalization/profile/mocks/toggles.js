@@ -30,6 +30,7 @@ module.exports = {
       { name: 'profile_show_address_change_modal', value: true },
       { name: 'profile_show_gender', value: false },
       { name: 'profile_show_fax_number', value: false },
+      { name: 'profile_enhancements', value: true },
     ],
   },
 };

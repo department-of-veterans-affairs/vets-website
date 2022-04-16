@@ -19,10 +19,10 @@ export default function ValidateDisplay({
     event => {
       switch (event.target.name) {
         case 'last-name':
-          setLastName(event.detail.value);
+          setLastName(event.target.value);
           break;
         case 'last-4-ssn':
-          setLast4Ssn(event.detail.value);
+          setLast4Ssn(event.target.value);
           break;
         default:
           break;
@@ -57,7 +57,7 @@ export default function ValidateDisplay({
           error={lastNameErrorMessage}
           label={t('your-last-name')}
           name="last-name"
-          onVaChange={updateField}
+          onInput={updateField}
           required
           spellCheck="false"
           value={lastName}
@@ -68,7 +68,7 @@ export default function ValidateDisplay({
           inputmode="numeric"
           label={t('last-4-digits-of-your-social-security-number')}
           maxlength="4"
-          onVaChange={updateField}
+          onInput={updateField}
           name="last-4-ssn"
           required
           value={last4Ssn}
