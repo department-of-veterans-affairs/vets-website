@@ -51,6 +51,7 @@ const propTypes = {
   clearTransactionRequest: PropTypes.func.isRequired,
   convertCleanDataToPayload: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
+  doNotRequireInternationalPostalCode: PropTypes.bool.isRequired,
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
   formSchema: PropTypes.object.isRequired,
   getInitialFormValues: PropTypes.func.isRequired,
