@@ -24,7 +24,6 @@ import {
 } from '@@vap-svc/util/transactions';
 import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
-import { getEditButtonId } from '@@vap-svc/components/ProfileInformationFieldController';
 
 import {
   selectCurrentlyOpenEditModal,
@@ -36,6 +35,7 @@ import {
 
 import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
 import { profileDoNotRequireInternationalZipCode } from '@@profile/selectors';
+import { getEditButtonId } from '@@vap-svc/util/id-factory';
 
 import { focusElement } from '~/platform/utilities/ui';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';

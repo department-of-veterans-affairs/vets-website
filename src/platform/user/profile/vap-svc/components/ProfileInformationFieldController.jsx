@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { kebabCase } from 'lodash';
 
 import * as VAP_SERVICE from '@@vap-svc/constants';
 
@@ -54,9 +53,7 @@ import UpdateSuccessAlert from './ContactInformationFieldInfo/ContactInformation
 //
 // Given a valid entry from the vap-svc/constants FIELD
 // NAMES, it will return a string like `#edit-mobile-phone-number`
-export const getEditButtonId = fieldName => {
-  return `edit-${kebabCase(VAP_SERVICE.FIELD_TITLES[fieldName])}`;
-};
+import { getEditButtonId } from '../util/id-factory';
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
