@@ -147,7 +147,9 @@ Though we have the HOC, its now considered best practice to query redux using th
 - `check_in_experience_day_of_demographics_flags_enabled` : Enables the capture of user responses to demographics up-to-date questions (demographics, emergency contact, and next of kin)
   - when to sunset: once we have successfully tested this feature in production with users
 - `check_in_experience_lorota_security_updates_enabled` : Enables or disables DOB log in instead of last 4 of SSN
-  - when to sunset: once we have successfully tested this feature in production with users and the backend has full switched over
+  - when to sunset: once we have successfully tested this feature in production with users and the backend has fully switched over
+- `check_in_experience_edit_messaging_enabled` : Enables or disables edit messaging.
+  - when to sunset: once we have successfully tested this feature in production with users and the backend has fully switched over
 
 ### How to test this?
 

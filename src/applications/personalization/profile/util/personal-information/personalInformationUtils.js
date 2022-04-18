@@ -1,6 +1,7 @@
 import { mapValues } from 'lodash';
 import moment from 'moment';
 
+import RadioWidget from 'platform/forms-system/src/js/widgets/RadioWidget';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import OtherTextField from '@@profile/components/personal-information/OtherTextField';
 import { NOT_SET_TEXT } from '../../constants';
@@ -32,14 +33,17 @@ const pronounsLabels = {
 };
 
 const genderLabels = {
-  woman: 'Woman',
   man: 'Man',
-  transgenderWoman: 'Transgender woman',
-  transgenderMan: 'Transgender man',
   nonBinary: 'Non-binary',
-  preferNotToAnswer: 'Prefer not to answer (un-checks other options)',
+  transgenderMan: 'Transgender man',
+  transgenderWoman: 'Transgender woman',
+  woman: 'Woman',
+  preferNotToAnswer: 'Prefer not to answer',
   genderNotListed: 'A gender not listed here',
 };
+
+// use the keys from the genderLabels object as the option values
+const genderOptions = Object.keys(genderLabels);
 
 const sexualOrientationLabels = {
   lesbianGayHomosexual: 'Lesbian, gay, or homosexual',
@@ -67,7 +71,6 @@ export const personalInformationFormSchemas = {
         maxLength: 25,
       },
     },
-    required: [],
   },
   pronouns: {
     type: 'object',
@@ -84,11 +87,12 @@ export const personalInformationFormSchemas = {
   genderIdentity: {
     type: 'object',
     properties: {
-      ...createBooleanSchemaPropertiesFromOptions(genderLabels),
+      genderIdentity: {
+        type: 'string',
+        enum: genderOptions,
+      },
     },
-    required: [],
   },
-
   sexualOrientation: {
     type: 'object',
     properties: {
@@ -127,9 +131,14 @@ export const personalInformationUiSchemas = {
     },
   },
   genderIdentity: {
-    'ui:field': DeselectableObjectField,
-    'ui:description': `Select your gender identity`,
-    ...createUiTitlePropertiesFromOptions(genderLabels),
+    genderIdentity: {
+      'ui:widget': RadioWidget,
+      'ui:title': `Select your gender identity`,
+      'ui:options': {
+        labels: genderLabels,
+        enumOptions: genderOptions,
+      },
+    },
   },
   sexualOrientation: {
     'ui:field': DeselectableObjectField,
@@ -149,6 +158,8 @@ export const formatIndividualLabel = (key, label) => {
   }
   return label;
 };
+
+export const formatGenderIdentity = genderKey => genderLabels?.[genderKey];
 
 export const formatMultiSelectAndText = (data, fieldName) => {
   const notListedTextKey = `${fieldName}NotListedText`;

@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../../../api';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { receivedMultipleAppointmentDetails } from '../../../actions/day-of';
-
 import DisplayMultipleAppointments from './DisplayMultipleAppointments';
+import useSendDemographicsFlags from '../../../hooks/useSendDemographicsFlags';
 
 import {
   makeSelectVeteranData,
@@ -21,6 +21,7 @@ const CheckIn = props => {
   const { appointments } = useSelector(selectVeteranData);
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const context = useSelector(selectCurrentContext);
+  useSendDemographicsFlags();
 
   const appointment = appointments ? appointments[0] : {};
 
@@ -70,7 +71,6 @@ const CheckIn = props => {
 
 CheckIn.propTypes = {
   appointments: PropTypes.array,
-  isDayOfDemographicsFlagsEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   router: PropTypes.object,
 };

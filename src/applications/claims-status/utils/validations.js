@@ -20,9 +20,8 @@ export function validateIfDirty(field, validator) {
 
 export const isPdf = file => file.name?.toLowerCase().endsWith('pdf') || false;
 
-export function isValidFileSize(file, pdfSizeFeature) {
-  const maxSize =
-    isPdf(file) && pdfSizeFeature ? MAX_PDF_SIZE_BYTES : MAX_FILE_SIZE_BYTES;
+export function isValidFileSize(file) {
+  const maxSize = isPdf(file) ? MAX_PDF_SIZE_BYTES : MAX_FILE_SIZE_BYTES;
   return file.size < maxSize;
 }
 
@@ -34,10 +33,10 @@ export function isValidFileType(file) {
   return FILE_TYPES.some(type => file.name.toLowerCase().endsWith(type));
 }
 
-export function isValidFile(file, pdfSizeFeature) {
+export function isValidFile(file) {
   return (
     !!file &&
-    isValidFileSize(file, pdfSizeFeature) &&
+    isValidFileSize(file) &&
     !isEmptyFileSize(file) &&
     isValidFileType(file)
   );

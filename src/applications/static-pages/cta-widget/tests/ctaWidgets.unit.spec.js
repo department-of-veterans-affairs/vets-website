@@ -69,7 +69,7 @@ describe('CTA widgets', () => {
       ).to.equal(
         `https://${
           eauthEnvironmentPrefixes[environment.BUILDTYPE]
-        }eauth.va.gov/mhv-portal-web/web/myhealthevet/labs-tests`,
+        }eauth.va.gov/mhv-portal-web/eauth?deeplinking=labs-tests`,
       );
     });
   });

@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 import SearchTabs from '../components/search/SearchTabs';
 import { TABS } from '../constants';
 import NameSearchResults from './search/NameSearchResults';
@@ -28,18 +27,12 @@ export function SearchPage({
   filters,
 }) {
   const isLandscape = () => {
-    if (!environment.isProduction()) {
-      const islandscape = matchMedia('(orientation: landscape)');
-      const mobileDevice = matchMedia(
-        '(min-device-width: 320px) and (max-device-width: 844px) and (-webkit-min-device-pixel-ratio: 2)',
-      );
-      if (islandscape.matches === true && mobileDevice.matches === true)
-        return true;
-      return false;
-    }
-    const islandscape = window.innerHeight < window.innerWidth;
-    const mobileDevice = !!navigator.maxTouchPoints;
-    if (islandscape && mobileDevice) return true;
+    const islandscape = matchMedia('(orientation: landscape)');
+    const mobileDevice = matchMedia(
+      '(min-device-width: 320px) and (max-device-width: 844px) and (-webkit-min-device-pixel-ratio: 2)',
+    );
+    if (islandscape.matches === true && mobileDevice.matches === true)
+      return true;
     return false;
   };
   const history = useHistory();
