@@ -54,6 +54,7 @@ export default function AccordionItem({
             className="usa-accordion-button"
             aria-expanded={displayExpanded}
             aria-controls={id}
+            type="button"
           >
             <span className="vads-u-font-family--sans vads-u-color--gray-dark">
               {button}
