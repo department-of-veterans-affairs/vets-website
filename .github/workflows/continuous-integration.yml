@@ -92,9 +92,12 @@ jobs:
 
   unit-tests:
     name: Unit Tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.app_folders }}
+
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
     steps:
       - name: Checkout
@@ -129,7 +132,6 @@ jobs:
         run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder)
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
-
       - name: Run unit tests
         run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
@@ -391,8 +393,8 @@ jobs:
           if [[ -z "${{ steps.get-changed-apps.outputs.app_folders }}" ]]; then
             yarn run stylelint verbose --output-file stylelint-report.json --formatter json src/**/*.scss
           else
-            yarn run stylelint verbose --output-file stylelint-report.json --formatter json \
-            $(find ${{ steps.get-changed-apps.outputs.app_folders }} -name "*.scss")
+            files=$(find ${{ steps.get-changed-apps.outputs.app_folders }} -name "*.scss")
+            if [[ -n "$files" ]]; then yarn run stylelint verbose --output-file stylelint-report.json --formatter json $(echo $files); fi
           fi
 
       - name: Annotate Stylelint results
@@ -1134,7 +1136,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: ${{ always() && github.ref == 'refs/heads/master' && needs.get-latest-run-number.result == 'success' && needs.get-latest-run-number.outputs.latest_run_number == github.run_number}}
+    if: ${{ always() && github.ref == 'refs/heads/master' && needs.get-latest-run-number.result == 'success' }}
     needs: [build, get-latest-run-number]
 
     strategy:

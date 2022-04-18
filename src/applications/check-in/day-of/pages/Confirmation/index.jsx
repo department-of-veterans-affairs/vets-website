@@ -2,33 +2,13 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { api } from '../../../api';
 import MultipleAppointment from './MultipleAppointments';
 import { triggerRefresh } from '../../../actions/day-of';
 import { makeSelectConfirmationData } from '../../../selectors';
-import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
-
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
-import { useDemographicsFlags } from '../../../hooks/useDemographicsFlags';
-import { useFormRouting } from '../../../hooks/useFormRouting';
 
-const Confirmation = props => {
-  const { router } = props;
+const Confirmation = () => {
   const dispatch = useDispatch();
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const featureToggles = useSelector(selectFeatureToggles);
-  const { isDayOfDemographicsFlagsEnabled } = featureToggles;
-  const { goToErrorPage } = useFormRouting(router);
-  const {
-    getDemographicsConfirmed,
-    setDemographicsConfirmed,
-  } = useSessionStorage(false);
-  const {
-    demographicsData,
-    demographicsFlagsSent,
-    setDemographicsFlagsSent,
-    demographicsFlagsEmpty,
-  } = useDemographicsFlags();
   const refreshAppointments = useCallback(
     () => {
       dispatch(triggerRefresh());
@@ -41,37 +21,17 @@ const Confirmation = props => {
     selectConfirmationData,
   );
 
+  const {
+    getShouldSendDemographicsFlags,
+    setShouldSendDemographicsFlags,
+  } = useSessionStorage(false);
+
   useEffect(
     () => {
-      if (
-        !isDayOfDemographicsFlagsEnabled ||
-        demographicsFlagsSent ||
-        demographicsFlagsEmpty ||
-        getDemographicsConfirmed(window)
-      )
-        return;
-      api.v2
-        .patchDayOfDemographicsData(demographicsData)
-        .then(resp => {
-          if (resp.data.error || resp.data.errors) {
-            throw new Error();
-          } else {
-            setDemographicsFlagsSent(true);
-            setDemographicsConfirmed(window, true);
-          }
-        })
-        .catch(() => {});
+      if (getShouldSendDemographicsFlags(window))
+        setShouldSendDemographicsFlags(window, false);
     },
-    [
-      demographicsData,
-      demographicsFlagsEmpty,
-      demographicsFlagsSent,
-      getDemographicsConfirmed,
-      goToErrorPage,
-      isDayOfDemographicsFlagsEnabled,
-      setDemographicsConfirmed,
-      setDemographicsFlagsSent,
-    ],
+    [getShouldSendDemographicsFlags, setShouldSendDemographicsFlags],
   );
 
   return (

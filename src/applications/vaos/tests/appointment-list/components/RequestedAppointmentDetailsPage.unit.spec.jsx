@@ -371,7 +371,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     fireEvent.click(screen.getByText(/yes, cancel this request/i));
 
     // Then it should display request is canceled
-    await screen.findByText(/your request has been canceled/i);
+    await screen.findByTestId('cancel-request-SuccessModal');
 
     const cancelData = JSON.parse(
       global.fetch
@@ -617,8 +617,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     fireEvent.click(screen.getByText(/yes, cancel this request/i));
 
-    await screen.findByText(/We couldn’t cancel your request/i);
-
+    await screen.findByRole('alertdialog');
     expect(screen.baseElement).not.to.contain.text('Canceled');
   });
 });
@@ -959,7 +958,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     fireEvent.click(screen.getByText(/yes, cancel this request/i));
 
     // Then is should display request is canceled
-    await screen.findByText(/your request has been canceled/i);
+    await screen.findByTestId('cancel-request-SuccessModal');
     const cancelData = JSON.parse(
       global.fetch
         .getCalls()
@@ -1025,7 +1024,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     await screen.findByRole('alertdialog');
 
     fireEvent.click(screen.getByText(/yes, cancel this request/i));
-    await screen.findByText(/We couldn’t cancel your request/i);
+    await screen.findByTestId('cancel-request-SuccessModal');
 
     expect(screen.baseElement).not.to.contain.text('Canceled');
   });

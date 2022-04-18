@@ -17,7 +17,7 @@ export const UnauthenticatedPageContent = () => {
           account now.
         </div>
         <div className="button">
-          <UserNav isHeaderV2 customText="Sign in or create an account" />
+          <UserNav isHeaderV2 />
         </div>
       </va-alert>
     </>

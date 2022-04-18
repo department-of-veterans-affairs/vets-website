@@ -164,7 +164,7 @@ export function fetchConfirmedFutureAppointments() {
             ],
           });
           recordEvent({
-            event: `get-appointments-failed`,
+            event: `api_call`,
             'error-key': `server error`,
             'api-name': 'GET appointments',
             'api-status': 'failed',
@@ -204,14 +204,14 @@ export function fetchConfirmedFutureAppointments() {
         {},
       );
       recordEvent({
-        event: `get-appointments-successful`,
+        event: `api_call`,
         'error-key': `internal error`,
         'api-name': 'GET appointments',
         'api-status': 'successful',
       });
     } catch (error) {
       recordEvent({
-        event: `get-appointments-failed`,
+        event: `api_call`,
         'error-key': `internal error`,
         'api-name': 'GET appointments',
         'api-status': 'failed',

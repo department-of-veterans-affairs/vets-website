@@ -31,17 +31,4 @@ describe('as an authenticated user, landing page', () => {
     });
     expect(screen.getByText(/Fitbit/)).to.exist;
   });
-  it("renders 'Freestyle Libre'", () => {
-    const loggedInState = {
-      user: {
-        login: {
-          currentlyLoggedIn: true,
-        },
-      },
-    };
-    const screen = renderInReduxProvider(<AuthenticatedPageContent />, {
-      initialState: loggedInState,
-    });
-    expect(screen.getByText(/Freestyle Libre/)).to.exist;
-  });
 });
