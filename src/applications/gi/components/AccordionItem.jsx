@@ -38,7 +38,6 @@ export default function AccordionItem({
           aria-controls={id}
           onClick={toggle}
           className="usa-accordion-button vads-u-margin--0"
-          type="button"
         >
           <span className="section-button-span">{button}</span>
         </button>
@@ -55,7 +54,6 @@ export default function AccordionItem({
             className="usa-accordion-button"
             aria-expanded={displayExpanded}
             aria-controls={id}
-            type="button"
           >
             <span className="vads-u-font-family--sans vads-u-color--gray-dark">
               {button}
