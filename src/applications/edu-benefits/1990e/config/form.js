@@ -163,7 +163,6 @@ function phoneUISchema(category, parent, international) {
       'ui:options': {
         hideLabelText: true,
         showFieldLabel: false,
-        // startInEdit: formData => startPhoneEditValidation(formData),
         viewComponent: PhoneViewField,
       },
       'ui:objectViewField': PhoneReviewField,
@@ -177,6 +176,10 @@ function phoneUISchema(category, parent, international) {
       'ui:reviewField': YesNoReviewField,
       'ui:options': {
         expandUnder: parent,
+        hideIf: formData =>
+          !isValidPhone(
+            formData[newFormFields.newViewPhoneNumbers][parent].phone,
+          ),
       },
     },
   };
@@ -256,6 +259,9 @@ const formConfig = {
           ...additionalBenefits(fullSchema1990e),
           depends: formData => !formData.showUpdatedToeApp,
         },
+        // 'ui:options': {
+        //   hideIf: formData => formData.showUpdatedToeApp,
+        // },
       },
     },
     benefitEligibility: {
@@ -572,7 +578,7 @@ const formConfig = {
                     <strong>Note:</strong> If you notice something wrong with
                     your sponsor’s information or don’t see them listed, let
                     your sponsor know. Your sponsor can{' '}
-                    <a href="/">
+                    <a href="https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1">
                       update this information on the DoD milConnect website
                     </a>
                     .
@@ -759,7 +765,7 @@ const formConfig = {
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
                     they can{' '}
-                    <a href="/">
+                    <a href="https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1">
                       update this information on the DoD milConnect website
                     </a>
                     .
@@ -1258,8 +1264,11 @@ const formConfig = {
                 updateSchema: (() => {
                   const filterContactMethods = createSelector(
                     form =>
-                      form['view:newPhoneNumbers']?.mobilePhoneNumber?.phone,
-                    form => form['view:newPhoneNumbers']?.phoneNumber?.phone,
+                      form[newFormFields.newViewPhoneNumbers]?.mobilePhoneNumber
+                        ?.phone,
+                    form =>
+                      form[newFormFields.newViewPhoneNumbers]?.phoneNumber
+                        ?.phone,
                     (mobilePhoneNumber, homePhoneNumber) => {
                       const invalidContactMethods = [];
                       if (!mobilePhoneNumber) {
