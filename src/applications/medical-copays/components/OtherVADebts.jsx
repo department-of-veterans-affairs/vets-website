@@ -51,7 +51,7 @@ const OtherVADebts = ({ module }) => {
 };
 
 OtherVADebts.propTypes = {
-  module: PropTypes.object,
+  module: PropTypes.string,
 };
 
 export default OtherVADebts;
