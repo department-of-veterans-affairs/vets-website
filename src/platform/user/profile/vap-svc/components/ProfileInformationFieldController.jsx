@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { kebabCase } from 'lodash';
 
 import * as VAP_SERVICE from '@@vap-svc/constants';
 
@@ -54,9 +53,7 @@ import UpdateSuccessAlert from './ContactInformationFieldInfo/ContactInformation
 //
 // Given a valid entry from the vap-svc/constants FIELD
 // NAMES, it will return a string like `#edit-mobile-phone-number`
-export const getEditButtonId = fieldName => {
-  return `edit-${kebabCase(VAP_SERVICE.FIELD_TITLES[fieldName])}`;
-};
+import { getEditButtonId } from '../util/id-factory';
 
 const wrapperClasses = prefixUtilityClasses([
   'display--flex',
@@ -72,50 +69,15 @@ const classes = {
 };
 
 class ProfileInformationFieldController extends React.Component {
-  static propTypes = {
-    activeEditView: PropTypes.string,
-    analyticsSectionName: PropTypes.oneOf(
-      Object.values(VAP_SERVICE.ANALYTICS_FIELD_MAP),
-    ).isRequired,
-    apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
-    blockEditMode: PropTypes.bool.isRequired,
-    cancelCallback: PropTypes.func,
-    clearTransactionRequest: PropTypes.func.isRequired,
-    convertCleanDataToPayload: PropTypes.func.isRequired,
-    createTransaction: PropTypes.func.isRequired,
-    data: PropTypes.object,
-    editViewData: PropTypes.object,
-    fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES))
-      .isRequired,
-    forceEditView: PropTypes.bool,
-    formSchema: PropTypes.object.isRequired,
-    hasUnsavedEdits: PropTypes.bool.isRequired,
-    isEmpty: PropTypes.bool.isRequired,
-    isEnrolledInVAHealthCare: PropTypes.bool.isRequired,
-    openModal: PropTypes.func.isRequired,
-    refreshTransactionRequest: PropTypes.func,
-    showEditView: PropTypes.bool.isRequired,
-    isDeleteDisabled: PropTypes.bool,
-    showValidationView: PropTypes.bool.isRequired,
-    successCallback: PropTypes.func,
-    title: PropTypes.string,
-    transaction: PropTypes.object,
-    transactionRequest: PropTypes.object,
-    uiSchema: PropTypes.object.isRequired,
-  };
-
-  static defaultProps = {
-    fieldName: '',
-    hasUnsavedEdits: false,
-    isDeleteDisabled: false,
-  };
-
-  state = {
-    showCannotEditModal: false,
-    showConfirmCancelModal: false,
-  };
-
   closeModalTimeoutID = null;
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      showCannotEditModal: false,
+      showConfirmCancelModal: false,
+    };
+  }
 
   componentDidUpdate(prevProps) {
     const { fieldName, forceEditView, successCallback } = this.props;
@@ -223,22 +185,22 @@ class ProfileInformationFieldController extends React.Component {
     this.openEditModal();
   };
 
-  justClosedModal(prevProps, props) {
+  justClosedModal = (prevProps, props) => {
     return (
       (prevProps.showEditView && !props.showEditView) ||
       (prevProps.showRemoveModal && !props.showRemoveModal) ||
       (prevProps.showValidationView && !props.showValidationView)
     );
-  }
+  };
 
-  transactionJustFailed(prevProps, props) {
+  transactionJustFailed = (prevProps, props) => {
     const previousTransaction = prevProps.transaction;
     const currentTransaction = props.transaction;
     return (
       !isFailedTransaction(previousTransaction) &&
       isFailedTransaction(currentTransaction)
     );
-  }
+  };
 
   closeModal = () => {
     this.props.openModal(null);
@@ -267,13 +229,13 @@ class ProfileInformationFieldController extends React.Component {
     );
   };
 
-  captureEvent(actionName) {
+  captureEvent = actionName => {
     recordEvent({
       event: 'profile-navigation',
       'profile-action': actionName,
       'profile-section': this.props.analyticsSectionName,
     });
-  }
+  };
 
   isEditLinkVisible = () => !isPendingTransaction(this.props.transaction);
 
@@ -484,6 +446,44 @@ const shouldShowUpdateSuccessAlert = (state, field) => {
   return Array.isArray(mostRecentSaveField)
     ? mostRecentSaveField.includes(field)
     : mostRecentSaveField === field;
+};
+
+ProfileInformationFieldController.defaultProps = {
+  isDeleteDisabled: false,
+};
+
+ProfileInformationFieldController.propTypes = {
+  analyticsSectionName: PropTypes.oneOf(
+    Object.values(VAP_SERVICE.ANALYTICS_FIELD_MAP),
+  ).isRequired,
+  apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
+  blockEditMode: PropTypes.bool.isRequired,
+  clearTransactionRequest: PropTypes.func.isRequired,
+  convertCleanDataToPayload: PropTypes.func.isRequired,
+  createTransaction: PropTypes.func.isRequired,
+  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
+  formSchema: PropTypes.object.isRequired,
+  hasUnsavedEdits: PropTypes.bool.isRequired,
+  isEmpty: PropTypes.bool.isRequired,
+  isEnrolledInVAHealthCare: PropTypes.bool.isRequired,
+  openModal: PropTypes.func.isRequired,
+  showEditView: PropTypes.bool.isRequired,
+  showValidationView: PropTypes.bool.isRequired,
+  uiSchema: PropTypes.object.isRequired,
+  activeEditView: PropTypes.string,
+  cancelCallback: PropTypes.func,
+  data: PropTypes.object,
+  editViewData: PropTypes.object,
+  forceEditView: PropTypes.bool,
+  isDeleteDisabled: PropTypes.bool,
+  refreshTransaction: PropTypes.func,
+  refreshTransactionRequest: PropTypes.func,
+  showRemoveModal: PropTypes.bool,
+  showUpdateSuccessAlert: PropTypes.bool,
+  successCallback: PropTypes.func,
+  title: PropTypes.string,
+  transaction: PropTypes.object,
+  transactionRequest: PropTypes.object,
 };
 
 export const mapStateToProps = (state, ownProps) => {
