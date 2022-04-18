@@ -60,7 +60,7 @@ export default function Email(props) {
     scrollToTop('topScrollElement');
   }, []);
 
-  const onChange = useCallback(
+  const onInput = useCallback(
     event => {
       const { value: newEmail } = event.target;
       if (!newEmail) {
@@ -86,7 +86,7 @@ export default function Email(props) {
         name={key}
         value={email}
         required
-        onVaChange={onChange}
+        onInput={onInput}
         class="vads-u-padding-bottom--4"
       />
       <UpdateButton

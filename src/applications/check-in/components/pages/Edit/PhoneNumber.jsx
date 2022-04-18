@@ -84,7 +84,7 @@ export default function PhoneNumber(props) {
     scrollToTop('topScrollElement');
   }, []);
 
-  const onPhoneNumberChange = useCallback(
+  const onPhoneNumberInput = useCallback(
     event => {
       const { value: newPhone } = event.target;
       if (newPhone === '') {
@@ -103,7 +103,7 @@ export default function PhoneNumber(props) {
     [setPhoneNumber, key, t],
   );
 
-  const onExtensionChange = useCallback(
+  const onExtensionInput = useCallback(
     event => {
       const { value: newExtension } = event.target;
       setExtension(newExtension);
@@ -124,7 +124,7 @@ export default function PhoneNumber(props) {
         maxlength={null}
         name={key}
         value={formatPhone(phoneNumber)}
-        onVaChange={onPhoneNumberChange}
+        onInput={onPhoneNumberInput}
         required
       />
       <VaTextInput
@@ -133,7 +133,7 @@ export default function PhoneNumber(props) {
         maxlength={null}
         name={`${key}-extension`}
         value={extension}
-        onVaChange={onExtensionChange}
+        onInput={onExtensionInput}
         class="vads-u-padding-bottom--6"
       />
       <UpdateButton
