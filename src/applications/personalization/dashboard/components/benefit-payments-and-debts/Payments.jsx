@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import CTALink from '../CTALink';
+import recordEvent from '~/platform/monitoring/record-event';
 
 export const Payments = ({ lastPayment }) => {
   return (
@@ -22,6 +23,13 @@ export const Payments = ({ lastPayment }) => {
           text="View your payment history"
           href="/va-payment-history/payments/"
           testId="payment-card-view-history-link"
+          onClick={() => {
+            recordEvent({
+              event: 'nav-linkslist',
+              'links-list-header': 'View your payment history',
+              'links-list-section-header': 'Benefit payments and debts',
+            });
+          }}
         />
       </div>
     </div>
