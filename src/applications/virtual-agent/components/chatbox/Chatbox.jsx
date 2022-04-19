@@ -42,7 +42,7 @@ function showBot(
   setIsAuthTopic,
   props,
 ) {
-  if (!loggedIn && requireAuth) {
+  if (!loggedIn && requireAuth && false) {
     return <ConnectedSignInAlert />;
   }
 
@@ -106,7 +106,7 @@ export default function Chatbox(props) {
 
   if (sessionStorage.getItem(LOGGED_IN_FLOW) === 'true' && isLoggedIn) {
     sessionStorage.setItem(IN_AUTH_EXP, 'true');
-    sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
+    // sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
   }
 
   const ONE_MINUTE = 60 * 1000;

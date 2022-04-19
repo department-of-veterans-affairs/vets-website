@@ -1,6 +1,11 @@
 export const LOGGED_IN_FLOW = 'loggedInFlow';
 export const IN_AUTH_EXP = 'inAuthExperience';
 export const RECENT_UTTERANCES = 'recentUtterances';
+export const CONVERSATION_ID_KEY = 'conversationId';
+export const TOKEN_KEY = 'token';
+export const COUNTER_KEY = 'counter';
+
+
 
 export function storeUtterances(event) {
   // blindly store the last two user utterances for later use

@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import retryOnce from './retryOnce';
 import { COMPLETE, ERROR, LOADING } from './loadingStatus';
+import { CONVERSATION_ID_KEY, TOKEN_KEY, COUNTER_KEY } from './utils';
 
 function useWaitForCsrfToken(props) {
   // Once the feature toggles have loaded, the csrf token updates
@@ -46,21 +47,28 @@ export default function useVirtualAgentToken(props) {
         });
       }
 
-      const CONVERSATION_ID_KEY = 'conversationId';
-      const TOKEN_KEY = 'token';
-      const COUNTER_KEY = 'counter';
+      // const CONVERSATION_ID_KEY = 'conversationId';
+      // const TOKEN_KEY = 'token';
+      // const COUNTER_KEY = 'counter';
 
       async function getToken() {
         try {
           const response = await retryOnce(callVirtualAgentTokenApi);
 
+          console.log('=== before if');
           if (!sessionStorage.getItem(CONVERSATION_ID_KEY)) {
+
+            console.log('=== setting conversationId to ', response.conversationId);
             sessionStorage.setItem(
               CONVERSATION_ID_KEY,
               response.conversationId,
             );
+            console.log('=== value in session is ', sessionStorage.getItem(CONVERSATION_ID_KEY));
+            console.log('=== value of token is ', response.token);
+
             sessionStorage.setItem(TOKEN_KEY, response.token);
             sessionStorage.setItem(COUNTER_KEY, 0);
+            console.log('=== value in session is ', sessionStorage.getItem(TOKEN_KEY));
           }
 
           // console.log(sessionStorage.getItem(CONVERSATION_ID_KEY));
