@@ -50,7 +50,10 @@ const DebtCardsList = ({ debts, errors }) => {
 
       {!error?.status &&
         debts.length < 1 && (
-          <section className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3">
+          <section
+            className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-top--3"
+            data-testid="debt-list-no-items"
+          >
             <h3 className="vads-u-font-family--serif vads-u-margin-top--0 vads-u-font-size--h4">
               Our records show that you don’t have any current debts
             </h3>
@@ -79,7 +82,7 @@ const DebtCardsList = ({ debts, errors }) => {
       {!error?.status &&
         debts.length > 0 && (
           <>
-            <div className="vads-u-margin-top--3">
+            <div className="vads-u-margin-top--3" data-testid="debt-list">
               {debts.map((debt, index) => (
                 <DebtLetterCard
                   key={`${index}-${debt.fileNumber}`}
