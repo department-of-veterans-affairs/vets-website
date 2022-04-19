@@ -1,0 +1,6 @@
+{
+  "appName": "Find a VA Form",
+  "entryFile": "./FindVaForms.jsx",
+  "entryName": "find-forms",
+  "rootUrl": "/find-forms/"
+}
