@@ -6,8 +6,8 @@ const OtherVADebts = ({ module }) => {
   return (
     <>
       <h2 data-testid="other-va-debts-head" id="other-va-debts">
-        Your other VA {module === 'MCP' && <span>'debt'</span>}
-        {module === 'LTR' && <span>'bills'</span>}
+        Your other VA {module === 'MCP' && <span>debt</span>}
+        {module === 'LTR' && <span>bills</span>}
       </h2>
       <p>
         Our records show you have&nbsp;
