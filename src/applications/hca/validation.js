@@ -53,11 +53,11 @@ export function validateServiceDates(
   }
 }
 
-function logMarriageError(errorMessage, spouceDOB, vetDOB, marriage) {
+function logMarriageError(errorMessage, spouseDOB, vetDOB, marriage) {
   Sentry.withScope(scope => {
     const message = `hca_1010ez_dob_marrige_error`;
     scope.setContext(message, {
-      spouceDOB,
+      spouseDOB,
       vetDOB,
       marriage,
       errorMessage,
