@@ -195,7 +195,7 @@ describe('Mega Menu', () => {
       }
     });
 
-    it.skip('looks as expected authenticated - C12294', () => {
+    it('looks as expected authenticated - C12294', () => {
       // Login as the mock user.
       cy.login(mockUser);
 
