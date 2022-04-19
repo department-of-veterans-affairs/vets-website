@@ -1,6 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import { Provider } from 'react-redux';
 import DebtLettersSummary from '../components/DebtLettersSummary';
 
 describe('DebtLettersSummary', () => {
@@ -25,7 +26,11 @@ describe('DebtLettersSummary', () => {
       subscribe: () => {},
       dispatch: () => {},
     };
-    const wrapper = shallow(<DebtLettersSummary store={fakeStore} />);
+    const wrapper = shallow(
+      <Provider store={fakeStore}>
+        <DebtLettersSummary />
+      </Provider>,
+    );
     expect(wrapper.length).to.equal(1);
     wrapper.unmount();
   });
