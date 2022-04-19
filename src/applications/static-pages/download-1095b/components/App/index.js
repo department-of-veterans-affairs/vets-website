@@ -25,7 +25,10 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
       .then(blob => {
         return window.URL.createObjectURL(blob);
       })
-      .catch(() => updateFormError({ error: true, type: 'download error' }));
+      .catch(() => {
+        updateFormError({ error: true, type: 'download error' });
+        return false;
+      });
   };
 
   const getLastUpdatedOn = () => {
@@ -64,28 +67,30 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
 
   const callGetPDF = () => {
     getPdf().then(result => {
-      const a = document.createElement('a');
-      a.href = result;
-      a.target = '_blank';
-      document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
-      a.click();
-      a.remove(); // removes element from the DOM
-      const date = new Date();
-      const options = {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: true,
-      };
-      updateFormError({ error: false, type: '' });
-      updateFormDownloaded({
-        downloaded: true,
-        timeStamp: formatTimeString(
-          date.toLocaleDateString(undefined, options),
-        ),
-      });
+      if (result) {
+        const a = document.createElement('a');
+        a.href = result;
+        a.target = '_blank';
+        document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+        a.click();
+        a.remove(); // removes element from the DOM
+        const date = new Date();
+        const options = {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true,
+        };
+        updateFormError({ error: false, type: '' });
+        updateFormDownloaded({
+          downloaded: true,
+          timeStamp: formatTimeString(
+            date.toLocaleDateString(undefined, options),
+          ),
+        });
+      }
     });
   };
 
@@ -134,8 +139,14 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
         </p>
         <p>
           If you think you should have a 1095-B form, call us at{' '}
-          <a href="tel:+18772228387">1-877-222-8387 (TTY: 711)</a>. We’re here
-          Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          <a href="tel:+18772228387" aria-label="1 8 7 7 2 2 2 8 3 8 7">
+            1-877-222-8387
+          </a>{' '}
+          (
+          <a href="tel:711" aria-label="TTY. 7 1 1">
+            TTY: 711
+          </a>
+          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </div>
     </va-alert>
@@ -154,8 +165,15 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
           <p>
             We’re sorry. Something went wrong when we tried to download your
             form. Please try again. If your form still doesn’t download, call us
-            at <a href="tel:+18772228387">800-698-2411 (TTY: 711)</a>. We’re
-            here 24/7.
+            at{' '}
+            <a href="tel:+18006982411" aria-label="1 8 0 0 6 9 8 2 4 1 1">
+              1-800-698-2411
+            </a>{' '}
+            (
+            <a href="tel:711" aria-label="TTY. 7 1 1">
+              TTY: 711
+            </a>
+            ). We’re here 24/7.
           </p>
         </div>
       </va-alert>

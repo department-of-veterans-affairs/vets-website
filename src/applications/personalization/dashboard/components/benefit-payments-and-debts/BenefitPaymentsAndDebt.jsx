@@ -67,7 +67,7 @@ const BenefitPaymentsAndDebt = ({ payments, debts, debtsError }) => {
                   recordEvent({
                     event: 'nav-linkslist',
                     'links-list-header': 'View your payment history',
-                    'links-list-section-header': 'Benefit payments and debts',
+                    'links-list-section-header': 'Payments',
                   });
                 }}
                 /* eslint-enable react/jsx-no-bind */
