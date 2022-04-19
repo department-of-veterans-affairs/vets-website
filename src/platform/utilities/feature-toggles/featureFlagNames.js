@@ -77,6 +77,7 @@ export default Object.freeze({
   omniChannelLink: 'omni_channel_link',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileNotificationSettings: 'profile_notification_settings',
+  profileDoNotRequireInternationalZipCode:'profile_do_not_require_international_zip_code',
   profileEnhancements: 'profile_enhancements',
   profileShowAddressChangeModal: 'profile_show_address_change_modal',
   profileShowFaxNumber: 'profile_show_fax_number',

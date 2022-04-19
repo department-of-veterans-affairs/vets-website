@@ -117,10 +117,8 @@ function mountReactComponents(headerFooterData, commonStore) {
   startHeader(commonStore, headerFooterData.megaMenuData);
 
   // Start Veteran Crisis Line modal functionality.
-  document.addEventListener('DOMContentLoaded', () => {
-    addFocusBehaviorToCrisisLineModal();
-    addOverlayTriggers();
-  });
+  addFocusBehaviorToCrisisLineModal();
+  addOverlayTriggers();
 }
 
 function getContentHostName() {
