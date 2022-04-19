@@ -11,7 +11,7 @@ import { cdpAccessToggle } from '../../medical-copays/utils/helpers';
 
 const fetchCopaysResponseAsync = async () => {
   return apiRequest('/medical_copays')
-    .then(({ response }) => {
+    .then(response => {
       return response.data.length > 0;
     })
     .catch(err => {

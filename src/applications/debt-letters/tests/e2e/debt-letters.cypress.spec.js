@@ -22,11 +22,6 @@ describe('Debt Letters', () => {
     cy.wait(['@features', '@debts']);
   });
 
-  it('displays other va debts', () => {
-    cy.findByTestId('other-va-debts-ltr-body').should('exist');
-    cy.axeCheck();
-  });
-
   it('displays the current debts section and navigates to debt details - C1226', () => {
     cy.findByTestId('debts-jumplink').click({ waitForAnimations: true });
     cy.get('[data-testclass="debt-details-button"]')
@@ -36,8 +31,14 @@ describe('Debt Letters', () => {
     cy.injectAxeThenAxeCheck();
   });
 
+  it('displays other va debts', () => {
+    cy.findByTestId('other-va-debts-ltr-body').should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
+
   /* eslint-disable va/axe-check-required */
   // Same display-states below as test above which already had AXE-check.
+
   it('displays download debt letters - C1227', () => {
     cy.findByTestId('download-jumplink').click({ waitForAnimations: true });
     cy.findByTestId('download-letters-link').click();
