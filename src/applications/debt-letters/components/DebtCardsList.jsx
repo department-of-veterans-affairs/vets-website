@@ -1,12 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PATTERNS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { apiRequest } from 'platform/utilities/api';
 import DebtLetterCard from './DebtLetterCard';
 import { ErrorMessage, DowntimeMessage } from './Alerts';
+import OtherVADebts from '../../medical-copays/components/OtherVADebts';
+import { cdpAccessToggle } from '../../medical-copays/utils/helpers';
+
+const fetchCopaysResponseAsync = async () => {
+  return apiRequest('/medical_copays')
+    .then(({ response }) => {
+      return response.data.length > 0;
+    })
+    .catch(err => {
+      return !err;
+    });
+};
 
 const DebtCardsList = ({ debts, errors }) => {
+  const [hasCopays, setHasCopays] = useState(false);
+  const showCDPComponents = useSelector(state => cdpAccessToggle(state));
   const error = errors.length ? errors[0] : [];
 
   const renderError = () => {
@@ -15,6 +30,12 @@ const DebtCardsList = ({ debts, errors }) => {
     }
     return <ErrorMessage />;
   };
+
+  useEffect(() => {
+    fetchCopaysResponseAsync().then(hasCopaysResponse =>
+      setHasCopays(hasCopaysResponse),
+    );
+  }, []);
 
   return (
     <>
@@ -98,6 +119,9 @@ const DebtCardsList = ({ debts, errors }) => {
           </a>
           to learn about your payment options.
         </p>
+
+        {showCDPComponents && hasCopays && <OtherVADebts module="LTR" />}
+
         <h3
           id="downloadDebtLetters"
           className="vads-u-margin-top--4 vads-u-font-size--h2"

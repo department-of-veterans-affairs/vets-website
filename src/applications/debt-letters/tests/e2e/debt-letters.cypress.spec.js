@@ -8,6 +8,7 @@
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockDebts from './fixtures/mocks/debts.json';
 import mockUser from './fixtures/mocks/mock-user.json';
+import mockCopays from '../../../medical-copays/tests/e2e/fixtures/mocks/copays.json';
 
 describe('Debt Letters', () => {
   beforeEach(() => {
@@ -16,8 +17,14 @@ describe('Debt Letters', () => {
       'features',
     );
     cy.intercept('GET', '/v0/debts', mockDebts).as('debts');
+    cy.intercept('GET', '/v0/medical_copays', mockCopays);
     cy.visit('/manage-va-debt/your-debt/');
     cy.wait(['@features', '@debts']);
+  });
+
+  it('displays other va debts', () => {
+    cy.findByTestId('other-va-debts-ltr-body').should('exist');
+    cy.axeCheck();
   });
 
   it('displays the current debts section and navigates to debt details - C1226', () => {
