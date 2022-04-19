@@ -6,12 +6,13 @@ const OtherVADebts = ({ module }) => {
   return (
     <>
       <h2 data-testid="other-va-debts-head" id="other-va-debts">
-        Your other VA {module === 'MCP' ? 'debt' : 'bills'}
+        Your other VA {module === 'MCP' && <span>'debt'</span>}
+        {module === 'LTR' && <span>'bills'</span>}
       </h2>
       <p>
         Our records show you have&nbsp;
-        {module === 'MCP' ? (
-          <span>
+        {module === 'MCP' && (
+          <span data-testid="other-va-debts-mcp-body">
             VA benefit debt. You can&nbsp;
             <a href="/manage-va-debt/your-debt">
               check the details of your current debt
@@ -21,8 +22,9 @@ const OtherVADebts = ({ module }) => {
               financial assistance.
             </span>
           </span>
-        ) : (
-          <span>
+        )}{' '}
+        {module === 'LTR' && (
+          <span data-testid="other-va-debts-ltr-body">
             a VA health care copay bill. You can&nbsp;
             <a href="/health-care/pay-copay-bill/your-current-balances">
               check the details of your copay balance
