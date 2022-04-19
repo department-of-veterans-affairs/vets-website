@@ -155,7 +155,7 @@ class ProfileInformationFieldController extends React.Component {
       clearTimeout(this.closeModalTimeoutID);
       if (this.props.transaction) {
         focusElement(`div#${fieldName}-transaction-status`);
-      } else if (this.props.showUpdateSuccessAlert) {
+      } else if (showUpdateSuccessAlert) {
         focusElement('[data-testid=update-success-alert]');
         // Success check after confirming suggested address
         if (forceEditView && typeof successCallback === 'function') {

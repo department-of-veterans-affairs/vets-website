@@ -75,7 +75,8 @@ describe('Home address update modal', () => {
 
     cy.findByTestId('residentialAddress')
       .findByTestId('update-success-alert')
-      .should('exist');
+      .should('exist')
+      .should('be.focused');
 
     cy.injectAxeThenAxeCheck();
   });
@@ -113,6 +114,18 @@ describe('Home address update modal', () => {
       .shadow()
       .findByText(`We can't update your mailing address`)
       .should('exist');
+
+    cy.findByTestId('copy-address-failure')
+      .shadow()
+      .findByText('Close')
+      .click({
+        force: true,
+      });
+
+    cy.findByTestId('mailingAddress')
+      .get('.usa-input-error-message')
+      .should('exist')
+      .should('be.focused');
 
     cy.injectAxeThenAxeCheck();
   });
