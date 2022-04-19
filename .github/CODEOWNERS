@@ -99,12 +99,8 @@ src/applications/enrollment-verification @department-of-veterans-affairs/my-educ
 src/applications/education-letters @department-of-veterans-affairs/my-education-benefits
 
 # Other
-src/applications/ask-a-question @department-of-veterans-affairs/orchid
-src/applications/messages @department-of-veterans-affairs/orchid
-src/applications/virtual-agent @department-of-veterans-affairs/orchid
 src/applications/coronavirus-chatbot @department-of-veterans-affairs/chatbot-admin
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe
-src/applications/third-party-app-directory @department-of-veterans-affairs/lighthouse-bilby
 src/applications/dhp-connected-devices @department-of-veterans-affairs/digital-health-platform
 
 
