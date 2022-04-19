@@ -1,6 +1,6 @@
 {
   "appName": "Find a VA Form",
-  "entryFile": "./find-va-forms-entry.jsx",
+  "entryFile": "./find-va-forms-entry.js",
   "entryName": "find-forms",
   "rootUrl": "/find-forms/",
   "productId": 200
