@@ -47,7 +47,7 @@ describe('TransitionAccountPage', () => {
     wrapper.unmount();
   });
 
-  it('should render `canTransition` is true', () => {
+  it.skip('should render `canTransition` is true', () => {
     initialState = generateState(true, true);
     store = mockStore(initialState);
     wrapper = mount(
@@ -64,7 +64,7 @@ describe('TransitionAccountPage', () => {
     wrapper.unmount();
   });
 
-  it('should render `canTransition` is false', () => {
+  it.skip('should render `canTransition` is false', () => {
     initialState = generateState(false, true);
     store = mockStore(initialState);
     wrapper = mount(
@@ -77,7 +77,7 @@ describe('TransitionAccountPage', () => {
     wrapper.unmount();
   });
 
-  it('should render a TranstionAccountSteps component', () => {
+  it.skip('should render a TranstionAccountSteps component', () => {
     initialState = generateState(false, true);
     store = mockStore(initialState);
     wrapper = mount(
