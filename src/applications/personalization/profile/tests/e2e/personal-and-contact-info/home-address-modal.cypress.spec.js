@@ -60,6 +60,23 @@ describe('Home address update modal', () => {
       .findByText(`We've updated your mailing address`)
       .should('exist');
 
+    cy.findByTestId('copy-address-success')
+      .shadow()
+      .findByText(`Close`)
+      .should('exist')
+      .click({
+        force: true,
+        waitForAnimations: true,
+      });
+
+    cy.findByTestId('mailingAddress')
+      .findByTestId('update-success-alert')
+      .should('exist');
+
+    cy.findByTestId('residentialAddress')
+      .findByTestId('update-success-alert')
+      .should('exist');
+
     cy.injectAxeThenAxeCheck();
   });
 
