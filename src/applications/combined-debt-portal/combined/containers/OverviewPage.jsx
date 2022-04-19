@@ -1,16 +1,7 @@
 import React, { useEffect } from 'react';
-// import { useSelector } from 'react-redux';
-// import { uniqBy } from 'lodash';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 const OverviewPage = () => {
-  // Copays (bills)
-  // const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
-  // const sortedStatements = sortStatementsByDate(statements);
-  // const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
-  // Debts
-  // TODO: add debt selectors here for display section
-
   const title = 'Your VA debt and bill';
 
   useEffect(() => {
@@ -21,7 +12,7 @@ const OverviewPage = () => {
     <>
       <va-breadcrumbs className="vads-u-font-family--sans no-wrap">
         <a href="/">Home</a>
-        <a href="/debt-and-bills">Your debt and bills</a>
+        <a href="/debt-and-bills">Your VA debt and bills</a>
       </va-breadcrumbs>
       <h1 data-testid="overview-page-title">{title}</h1>
       <p className="vads-u-font-size--lg vads-u-font-family--serif">
