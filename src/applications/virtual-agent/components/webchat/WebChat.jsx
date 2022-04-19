@@ -5,7 +5,7 @@ import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import GreetUser from './makeBotGreetUser';
 import MarkdownRenderer from './markdownRenderer';
-import { LOGGED_IN_FLOW, CONVERSATION_ID_KEY, TOKEN_KEY, COUNTER_KEY } from '../chatbox/utils';
+import { LOGGED_IN_FLOW, CONVERSATION_ID_KEY, TOKEN_KEY } from '../chatbox/utils';
 
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
@@ -18,16 +18,6 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   );
   const userUuid = useSelector(state => state.user.profile.accountUuid);
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
-
-  let directLineToken = token;
-  console.log('=== directLineToken is', directLineToken);
-  let conversationId = '';
-  if (sessionStorage.getItem(LOGGED_IN_FLOW) === 'true' && isLoggedIn) {
-    directLineToken = sessionStorage.getItem(TOKEN_KEY);
-    conversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
-    console.log('--->', conversationId);
-  }
-  console.log('=== directLineToken in session is', sessionStorage.getItem(TOKEN_KEY));
 
   const store = useMemo(
     () =>
@@ -45,6 +35,16 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
       ),
     [createStore],
   );
+
+  let directLineToken = token;
+  // console.log('=== directLineToken is', directLineToken);
+  let conversationId = '';
+  if (sessionStorage.getItem(LOGGED_IN_FLOW) === 'true' && isLoggedIn) {
+    directLineToken = sessionStorage.getItem(TOKEN_KEY);
+    conversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
+    // console.log('--->', conversationId);
+  }
+  // console.log('=== directLineToken in session is', sessionStorage.getItem(TOKEN_KEY));
 
   const directLine = useMemo(
     () =>

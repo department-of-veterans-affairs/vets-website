@@ -1,5 +1,7 @@
 import * as _ from 'lodash';
 import piiReplace from './piiReplace';
+import { IN_AUTH_EXP, LOGGED_IN_FLOW, RECENT_UTTERANCES, COUNTER_KEY } from '../chatbox/utils';
+// import { useEffect } from 'react';
 
 const GreetUser = {
   makeBotGreetUser: (
@@ -54,6 +56,40 @@ const GreetUser = {
           chatEvent.data = action.payload.activity;
           window.dispatchEvent(chatEvent);
         }
+      }
+    }
+
+    if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
+      dispatch({
+        type: 'WEB_CHAT/SEND_EVENT',
+        payload: {
+          name: 'webchat/join',
+          value: {
+            language: window.navigator.language,
+          },
+        },
+      });
+
+      if (
+        sessionStorage.getItem(IN_AUTH_EXP) === 'true' &&
+        sessionStorage.getItem(LOGGED_IN_FLOW) === 'true'
+      ) {
+        let utterance = 'unknownUtterance';
+        const utterances = JSON.parse(
+          sessionStorage.getItem(RECENT_UTTERANCES));
+        if (utterances && utterances.length === 2) {
+          utterance = utterances[0];
+        }
+        dispatch({
+          type: 'WEB_CHAT/SEND_MESSAGE',
+          payload: {
+            type: 'message',
+            text: utterance,
+          },
+        });
+        sessionStorage.setItem(IN_AUTH_EXP, 'false');
+        sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
+        sessionStorage.setItem(COUNTER_KEY, 2);
       }
     }
 
