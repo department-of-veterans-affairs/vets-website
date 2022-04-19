@@ -1,4 +1,5 @@
 import moment from 'moment';
+import * as Sentry from '@sentry/browser';
 import get from 'platform/utilities/data/get';
 
 import {
@@ -52,6 +53,19 @@ export function validateServiceDates(
   }
 }
 
+function logMarriageError(errorMessage, spouceDOB, vetDOB, marriage) {
+  Sentry.withScope(scope => {
+    const message = `hca_1010ez_dob_marrige_error`;
+    scope.setContext(message, {
+      spouceDOB,
+      vetDOB,
+      marriage,
+      errorMessage,
+    });
+    Sentry.captureMessage(message);
+  });
+}
+
 export function validateMarriageDate(
   errors,
   marriageDate,
@@ -60,13 +74,39 @@ export function validateMarriageDate(
   const vetDOB = moment(veteranDateOfBirth);
   const spouseDOB = moment(spouseDateOfBirth);
   const marriage = moment(marriageDate);
-
   if (
     discloseFinancialInformation &&
-    (vetDOB.isAfter(marriage) || spouseDOB.isAfter(marriage))
+    spouseDOB.isAfter(marriage) &&
+    vetDOB.isAfter(marriage)
   ) {
     errors.addError(
       'Date of marriage cannot be before the Veteran’s or the spouse’s date of birth',
+    );
+    logMarriageError(
+      'Date of marriage cannot be before the Veteran’s or the spouse’s date of birth',
+      spouseDOB,
+      vetDOB,
+      marriage,
+    );
+  } else if (discloseFinancialInformation && spouseDOB.isAfter(marriage)) {
+    errors.addError(
+      'Date of marriage cannot be before the spouse’s date of birth',
+    );
+    logMarriageError(
+      'Date of marriage cannot be before the spouse’s date of birth',
+      spouseDOB,
+      vetDOB,
+      marriage,
+    );
+  } else if (discloseFinancialInformation && vetDOB.isAfter(marriage)) {
+    errors.addError(
+      'Date of marriage cannot be before the Veteran’s date of birth',
+    );
+    logMarriageError(
+      'Date of marriage cannot be before the Veteran’s date of birth',
+      spouseDOB,
+      vetDOB,
+      marriage,
     );
   }
   validateCurrentOrPastDate(errors, marriageDate);
