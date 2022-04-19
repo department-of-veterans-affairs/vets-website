@@ -3,3 +3,6 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 export const combinedPortalAccess = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
+
+export const selectLoadingFeatureFlags = state =>
+  state?.featureToggles?.loading;
