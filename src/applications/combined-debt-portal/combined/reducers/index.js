@@ -14,10 +14,7 @@ import {
   DEBT_LETTERS_FETCH_INITIATED,
 } from '../actions';
 
-const initialState = {
-  pending: false,
-  error: null,
-  statements: null,
+const debtInitialState = {
   isProfileUpdating: true,
   isPending: false,
   isPendingVBMS: false,
@@ -30,7 +27,13 @@ const initialState = {
   hasDependentDebts: false,
 };
 
-export const medicalCopaysReducer = (state = initialState, action) => {
+const mcpInitialState = {
+  pending: false,
+  error: null,
+  statements: null,
+};
+
+export const medicalCopaysReducer = (state = mcpInitialState, action) => {
   switch (action.type) {
     case MCP_STATEMENTS_FETCH_INIT:
       return {
@@ -54,7 +57,7 @@ export const medicalCopaysReducer = (state = initialState, action) => {
   }
 };
 
-export const debtsReducer = (state = initialState, action) => {
+export const debtsReducer = (state = debtInitialState, action) => {
   switch (action.type) {
     case DEBTS_FETCH_INITIATED:
       return {
