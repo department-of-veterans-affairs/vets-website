@@ -120,6 +120,7 @@ describe('Home address update modal', () => {
       .findByText('Close')
       .click({
         force: true,
+        waitForAnimations: true,
       });
 
     cy.findByTestId('mailingAddress')
