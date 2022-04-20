@@ -1,15 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
-import LinkTranslation from '../LinkTranslation';
+import ExternalLink from '../ExternalLink';
 
 describe('check-in', () => {
-  describe('LinkTranslation component - en', () => {
+  describe('ExternalLink component - en', () => {
     it('renders link component - en', () => {
       const screen = render(
-        <LinkTranslation hrefLang="en" href="/">
+        <ExternalLink hrefLang="en" href="/">
           LinkText
-        </LinkTranslation>,
+        </ExternalLink>,
       );
       const link = screen.getByText(/LinkText/i);
       expect(link.getAttribute('href')).to.equal('/');
@@ -17,12 +17,12 @@ describe('check-in', () => {
     });
     it('renders link component - es', () => {
       const screen = render(
-        <LinkTranslation hrefLang="es" href="/">
+        <ExternalLink hrefLang="es" href="/">
           LinkText
-        </LinkTranslation>,
+        </ExternalLink>,
       );
       const link = screen.getByRole('link');
-      expect(link.textContent).to.equal('LinkText (in spanish)');
+      expect(link.textContent).to.equal('LinkText (in-es)');
       expect(link.getAttribute('href')).to.equal('/');
       expect(link.getAttribute('hrefLang')).to.equal('es');
     });

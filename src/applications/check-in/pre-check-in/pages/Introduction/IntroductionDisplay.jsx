@@ -15,7 +15,7 @@ import BackToHome from '../../../components/BackToHome';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectVeteranData } from '../../../selectors';
-import LinkTranslation from '../../../components/LinkTranslation';
+import ExternalLink from '../../../components/ExternalLink';
 
 const IntroductionDisplay = props => {
   useEffect(() => {
@@ -50,12 +50,12 @@ const IntroductionDisplay = props => {
             )}
           </p>
           <p>
-            <LinkTranslation
+            <ExternalLink
               href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information"
               hrefLang="en"
             >
               {t('get-tips-for-protecting-your-personal-health-information')}
-            </LinkTranslation>
+            </ExternalLink>
           </p>
         </>
       ),
