@@ -72,7 +72,7 @@ i18n
   });
 
 i18n.on('languageChanged', language => {
-  document.getElementById('content').setAttribute('lang', language);
+  document.getElementById('content')?.setAttribute('lang', language);
 });
 
 export default i18n;

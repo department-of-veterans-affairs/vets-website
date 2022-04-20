@@ -25,7 +25,7 @@ describe('Home address update modal', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it('should show update prompt modal and save successfully', () => {
+  it.skip('should show update prompt modal and save successfully', () => {
     const formFields = {
       address: '36320 Coronado Dr',
       city: 'Fremont',
@@ -60,10 +60,31 @@ describe('Home address update modal', () => {
       .findByText(`We've updated your mailing address`)
       .should('exist');
 
+    cy.findByTestId('copy-address-success')
+      .shadow()
+      .findByText(`Close`)
+      .should('exist')
+      .click({
+        force: true,
+        waitForAnimations: true,
+      });
+
+    cy.findByTestId('mailingAddress')
+      .findByTestId('update-success-alert')
+      .should('exist');
+
+    cy.findByTestId('residentialAddress')
+      .findByTestId('update-success-alert')
+      .should('exist');
+
+    cy.focused()
+      .should('have.attr', 'data-testid')
+      .and('eq', 'update-success-alert');
+
     cy.injectAxeThenAxeCheck();
   });
 
-  it('should show update prompt modal and show error when updating fails', () => {
+  it.skip('should show update prompt modal and show error when updating fails', () => {
     const formFields = {
       address: '36320 Coronado Dr',
       city: 'Fremont',
@@ -96,6 +117,23 @@ describe('Home address update modal', () => {
       .shadow()
       .findByText(`We can't update your mailing address`)
       .should('exist');
+
+    cy.findByTestId('copy-address-failure')
+      .shadow()
+      .findByText('Close')
+      .click({
+        force: true,
+        waitForAnimations: true,
+      });
+
+    cy.findByTestId('mailingAddress')
+      .get('.usa-input-error-message')
+      .should('exist')
+      .should('be.focused');
+
+    cy.focused()
+      .should('have.attr', 'class')
+      .and('eq', 'usa-input-error-message');
 
     cy.injectAxeThenAxeCheck();
   });

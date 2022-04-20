@@ -2724,21 +2724,21 @@
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/component-library@^8.3.0":
-  version "8.3.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-8.3.0.tgz#7a9431d077ae7874615f1fb7c7ce29a2de926a84"
-  integrity sha512-O5TRipQp/Qu7b82XbTUKl5CFydWL8nz2JaD7+ipymACMbv+zXs5sgCAATv9j/f2uIAZXTWsHFH647AHr6i+ZYw==
+"@department-of-veterans-affairs/component-library@^8.5.0":
+  version "8.5.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-8.5.0.tgz#9794dfbc20c7e96226e3e689c4fc856c951edf8a"
+  integrity sha512-favEJCcMcy/aTDWC/MfX7go92DnrarU4Dz0Hfbf58YuE6IDWAyiXOYgbn2MZWohndLjAjYd40XrwRSQqeU0qbQ==
   dependencies:
     "@department-of-veterans-affairs/react-components" "6.0.0"
-    "@department-of-veterans-affairs/web-components" "2.9.0"
+    "@department-of-veterans-affairs/web-components" "2.11.0"
     react-focus-on "^3.5.1"
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/formation@7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.0.tgz#02246372198dcf50ffd98e7dcf075e6a0ebe0db3"
-  integrity sha512-ektA7Li9mAekw3ZxaIhv2Z/nT22YfcGuFcDDLAVn7enUEKwqTLzLiwQNgVxH3x/gm5CNHHP1IAWhGz54N7fznw==
+"@department-of-veterans-affairs/formation@^7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.1.tgz#641641475148816960b0312f717157b9f1c94486"
+  integrity sha512-gX74Tfgoi5z6hCIwQnnXWRwmZVl08Vs2RLM4+CS1RIEVG47BPoBqc3MoHHX+QUbSN0vOmLqY69XKxf8y2jyC9A==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -2813,10 +2813,10 @@
     intersection-observer "^0.12.0"
     postcss-url "^10.1.1"
 
-"@department-of-veterans-affairs/web-components@2.9.0":
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-2.9.0.tgz#5976cbb6b417adb93be09016ec9510c986425823"
-  integrity sha512-cJs6tTjRlLamSN0Tc0E0tYq1EVxg238uqhqfu7mgoJfvo12jlk5Tmnjlnqt7Rc1odTnxpcGhhI8HeDUe681Eow==
+"@department-of-veterans-affairs/web-components@2.11.0":
+  version "2.11.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-2.11.0.tgz#1bad02f271f2e82b46eb694654ea1fc4825350e5"
+  integrity sha512-zXZlG9auf281smp9is6tI5OreravUGj1g2MdfzEpVssRUCRA8i2Dk1I0YMckC3n+sTrSJTC759B/jwzhM0Nvqw==
   dependencies:
     "@stencil/core" "^2.10.0"
     aria-hidden "^1.1.3"
@@ -12277,7 +12277,7 @@ joycon@^2.2.5:
   resolved "https://registry.yarnpkg.com/joycon/-/joycon-2.2.5.tgz#8d4cf4cbb2544d7b7583c216fcdfec19f6be1615"
   integrity sha512-YqvUxoOcVPnCp0VU1/56f+iKSdvIRJYPznH22BdXV3xMk75SFXhWeJkZ8C9XxUWt1b5x2X1SxuFygW1U0FmkEQ==
 
-jpeg-js@0.2.0, jpeg-js@^0.4.0:
+jpeg-js@0.2.0, jpeg-js@^0.4.3:
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/jpeg-js/-/jpeg-js-0.4.3.tgz#6158e09f1983ad773813704be80680550eff977b"
   integrity sha512-ru1HWKek8octvUHFHvE5ZzQ1yAsJmIvRdGWvSoKV52XKyuyYA437QWDttXT8eZXDSbuMpHlLzPDZUPd6idIz+Q==
