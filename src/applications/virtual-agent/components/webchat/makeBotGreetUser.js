@@ -69,28 +69,28 @@ const GreetUser = {
           },
         },
       });
+    }
 
-      if (
-        sessionStorage.getItem(IN_AUTH_EXP) === 'true' &&
-        sessionStorage.getItem(LOGGED_IN_FLOW) === 'true'
-      ) {
-        let utterance = 'unknownUtterance';
-        const utterances = JSON.parse(
-          sessionStorage.getItem(RECENT_UTTERANCES));
-        if (utterances && utterances.length === 2) {
-          utterance = utterances[0];
-        }
-        dispatch({
-          type: 'WEB_CHAT/SEND_MESSAGE',
-          payload: {
-            type: 'message',
-            text: utterance,
-          },
-        });
-        sessionStorage.setItem(IN_AUTH_EXP, 'false');
-        sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
-        sessionStorage.setItem(COUNTER_KEY, 2);
+    if (
+      action.type === 'DIRECT_LINE/CONNECT_FULFILLED' &&
+      sessionStorage.getItem(IN_AUTH_EXP) === 'true' &&
+      sessionStorage.getItem(LOGGED_IN_FLOW) === 'true'
+    ) {
+      let utterance = 'unknownUtterance';
+      const utterances = JSON.parse(sessionStorage.getItem(RECENT_UTTERANCES));
+      if (utterances && utterances.length === 2) {
+        utterance = utterances[0];
       }
+      dispatch({
+        type: 'WEB_CHAT/SEND_MESSAGE',
+        payload: {
+          type: 'message',
+          text: utterance,
+        },
+      });
+      sessionStorage.setItem(IN_AUTH_EXP, 'false');
+      sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
+      // sessionStorage.setItem(COUNTER_KEY, 2);
     }
 
     if (action.type === 'WEB_CHAT/SEND_MESSAGE') {
