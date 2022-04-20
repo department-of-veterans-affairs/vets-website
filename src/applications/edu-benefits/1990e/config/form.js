@@ -75,6 +75,7 @@ import {
 import { urlMigration } from '../../config/migrations';
 
 import manifest from '../manifest.json';
+import SelectedSponsorsReviewField from '../components/SelectedSponsorsReviewField';
 
 const {
   benefit,
@@ -572,8 +573,10 @@ const formConfig = {
       title: 'Sponsor information',
       pages: {
         [newFormPages.newSponsorSelection]: {
-          title: 'Phone numbers and email address',
+          title: 'Choose your sponsor',
           path: 'new/sponsor/select-sponsor',
+          CustomPage: DynamicCheckboxGroup,
+          CustomPageReview: SelectedSponsorsReviewField,
           depends: formData =>
             formData.showUpdatedToeApp &&
             (!formData.fetchedSponsorsComplete ||
@@ -610,12 +613,29 @@ const formConfig = {
             },
             [newFormFields.selectedSponsors]: {
               'ui:field': DynamicCheckboxGroup,
+              // 'ui:widget': DynamicCheckboxGroup,
+              // 'ui:reviewField': SelectedSponsorsReviewField,
+              // 'ui:reviewWidget': SelectedSponsorsReviewField,
               'ui:required': formData => !!formData.sponsors?.sponsors?.length,
+              // 'ui:objectViewField': SelectedSponsorsReviewField,
               'ui:options': {
                 hideIf: formData =>
                   formData.fetchedSponsorsComplete &&
                   !formData.sponsors?.sponsors?.length,
+                // hideOnReview: false,
+                // viewComponent: SelectedSponsorsReviewField,
+                // viewField: SelectedSponsorsReviewField,
               },
+              // items: {
+              //   // 'ui:field': DynamicCheckboxGroup,
+              //   // 'ui:reviewField': SelectedSponsorsReviewField,
+              //   // 'ui:reviewWidget': SelectedSponsorsReviewField,
+              //   // 'ui:objectViewField': SelectedSponsorsReviewField,
+              //   'ui:options': {
+              //     // viewComponent: SelectedSponsorsReviewField,
+              //     viewField: SelectedSponsorsReviewField,
+              //   },
+              // },
             },
             'view:additionalInfo': {
               'ui:description': (
