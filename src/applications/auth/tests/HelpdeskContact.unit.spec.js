@@ -1,7 +1,3 @@
-/*
-* 1. Validate conditional rendering of startSentence
-*/
-
 import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
