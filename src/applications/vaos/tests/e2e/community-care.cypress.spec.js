@@ -233,7 +233,9 @@ describe('VAOS community care flow', () => {
 
   it('should submit form with provider chosen from list and submit request', () => {
     initCommunityCareMock();
-    cy.visit('health-care/schedule-view-va-appointments/appointments');
+    cy.visit(
+      'health-care/schedule-view-va-appointments/appointments?redirect=false',
+    );
 
     // Wait until the app has been bootstraped. Could have used 'cy.wait' but
     // this is considered an 'anti-pattern'. Tried to wait for the loading
@@ -472,7 +474,9 @@ describe('VAOS community care flow using VAOS service', () => {
       url: /.*\/v0\/appointments?.*$/,
       response: { data: [] },
     });
-    cy.visit('health-care/schedule-view-va-appointments/appointments');
+    cy.visit(
+      'health-care/schedule-view-va-appointments/appointments?redirect=false',
+    );
     cy.injectAxe();
 
     // Start flow
