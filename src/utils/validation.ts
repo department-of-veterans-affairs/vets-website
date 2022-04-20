@@ -5,7 +5,9 @@ export type ValidationFunctionResult<T> =
   | void
   | undefined
   | string
-  | Promise<any>;
+  | Promise<unknown>
+  | T;
+
 export type ValidationFunction<T> = (
   value: T,
   props: FieldProps<T>
@@ -43,10 +45,20 @@ export const required = <T>(
   return props.validate ? props.validate(value) : undefined;
 };
 
-export const isValidEmail = (emailString = ''): boolean => {
+export const isValidEmail = <T>(
+  emailString: T,
+  props: FieldProps<T>
+): ValidationFunctionResult<T> => {
+  if (typeof emailString !== 'string') {
+    console.log(props);
+    return 'Error: Email is not the correct type'; // This shouldn't happen
+  }
+
   // Comes from StackOverflow: http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
-  // eslint-disable-next-line no-useless-escape
-  return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-    emailString
-  );
+  const isValid =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+      emailString
+    );
+
+  return isValid ? '' : 'Error validating your email';
 };

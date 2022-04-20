@@ -30,6 +30,11 @@ export const DateField: (props: DateProps) => JSX.Element;
 // @public
 export const DebuggerView: () => JSX.Element;
 
+// Warning: (ae-forgotten-export) The symbol "EmailProps" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export const EmailField: (props: EmailProps) => JSX.Element;
+
 // @beta
 export function Page(props: PageProps): JSX.Element;
 

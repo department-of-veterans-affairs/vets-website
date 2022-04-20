@@ -27,6 +27,7 @@
 |  [CheckboxField](./va-forms-system-core.checkboxfield.md) |  |
 |  [DateField](./va-forms-system-core.datefield.md) | Field value format: M-D-YYYY<!-- -->TODO: Convert the Date component into a web component and use it here. |
 |  [DebuggerView](./va-forms-system-core.debuggerview.md) | Display the Formik state |
+|  [EmailField](./va-forms-system-core.emailfield.md) |  |
 |  [SelectField](./va-forms-system-core.selectfield.md) |  |
 |  [TextField](./va-forms-system-core.textfield.md) |  |
 
