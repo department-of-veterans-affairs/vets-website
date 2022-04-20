@@ -76,6 +76,9 @@ const GreetUser = {
       sessionStorage.getItem(IN_AUTH_EXP) === 'true' &&
       sessionStorage.getItem(LOGGED_IN_FLOW) === 'true'
     ) {
+      sessionStorage.setItem(IN_AUTH_EXP, 'false');
+      sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
+      // sessionStorage.setItem(COUNTER_KEY, 2);
       let utterance = 'unknownUtterance';
       const utterances = JSON.parse(sessionStorage.getItem(RECENT_UTTERANCES));
       if (utterances && utterances.length === 2) {
@@ -88,9 +91,6 @@ const GreetUser = {
           text: utterance,
         },
       });
-      sessionStorage.setItem(IN_AUTH_EXP, 'false');
-      sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
-      // sessionStorage.setItem(COUNTER_KEY, 2);
     }
 
     if (action.type === 'WEB_CHAT/SEND_MESSAGE') {
