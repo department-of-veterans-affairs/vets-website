@@ -68,7 +68,7 @@ export function CompareGrid({
         >
           {displayDiff && (
             <div className="label-diff">
-              <i className="fas fa-asterisk" />
+              <i className="fas fa-asterisk" aria-hidden="true" />
             </div>
           )}
           {field.label}
