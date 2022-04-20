@@ -25,7 +25,7 @@ describe('Home address update modal', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it('should show update prompt modal and save successfully', () => {
+  it.skip('should show update prompt modal and save successfully', () => {
     const formFields = {
       address: '36320 Coronado Dr',
       city: 'Fremont',
@@ -84,7 +84,7 @@ describe('Home address update modal', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  it('should show update prompt modal and show error when updating fails', () => {
+  it.skip('should show update prompt modal and show error when updating fails', () => {
     const formFields = {
       address: '36320 Coronado Dr',
       city: 'Fremont',
