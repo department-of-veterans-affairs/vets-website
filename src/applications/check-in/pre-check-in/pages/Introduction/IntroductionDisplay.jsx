@@ -40,9 +40,9 @@ const IntroductionDisplay = props => {
             )}
           </p>
           <p>
-            <a href="/privacy-policy/">
+            <ExternalLink href="/privacy-policy/" hrefLang="en">
               {t('read-more-about-privacy-and-security-on-va-gov')}
-            </a>
+            </ExternalLink>
           </p>
           <p>
             {t(
