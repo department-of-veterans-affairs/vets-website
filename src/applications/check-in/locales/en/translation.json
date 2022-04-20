@@ -148,5 +148,8 @@
   "relationship-is-required": "Relationship is required",
   "niece-nephew": "Niece/Nephew",
   "add": "Add",
-  "in-en": "in english"
+  "in-en": "in english",
+  "date-of-birth": "Date of birth",
+  "your-date-of-birth-can-not-be-in-the-future": "Your date of birth can not be in the future",
+  "please-provide-a-response": "Please provide a response"
 }

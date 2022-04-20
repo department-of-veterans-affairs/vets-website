@@ -148,5 +148,8 @@
   "ward": "pabellón",
   "wife": "Esposa",
   "add": "Agregar",
-  "in-en": "en inglés"
+  "in-en": "en inglés",
+  "date-of-birth": "Fecha de nacimiento",
+  "your-date-of-birth-can-not-be-in-the-future": "Su fecha de nacimiento no puede ser en el futuro",
+  "please-provide-a-response": "Por favor proporcione una respuesta"
 }

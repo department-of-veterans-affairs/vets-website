@@ -1,28 +1,25 @@
-/* eslint-disable va/prefer-web-component-library */
-// having issues with the VaModal throwing errors
-// TODO: use VaModal web-component
-
 import React, { useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import set from 'lodash/set';
 
+// vap-svc deps
 import { updateCopyAddressModal, createTransaction } from '@@vap-svc/actions';
-
 import * as VAP_SERVICE from '@@vap-svc/constants';
-
 import { areAddressesEqual } from '@@vap-svc/util';
-
 import {
   selectCopyAddressModal,
   selectVAPContactInfoField,
   selectVAPServiceTransaction,
 } from '@@vap-svc/selectors';
+import { isPendingTransaction } from '@@vap-svc/util/transactions';
 
+// profile deps
 import { profileShowAddressChangeModal } from '@@profile/selectors';
 import { getProfileInfoFieldAttributes } from '@@profile/util/getProfileInfoFieldAttributes';
 
-import { isPendingTransaction } from '@@vap-svc/util/transactions';
+// platform deps
+import { focusElement } from '~/platform/utilities/ui';
 
 import CopyAddressModalPrompt from './CopyAddressModalPrompt';
 import CopyAddressModalSuccess from './CopyAddressModalSuccess';
@@ -100,6 +97,14 @@ const CopyAddressModal = props => {
     onCloseModal() {
       updateCopyAddressModalAction(null);
     },
+    onCloseSuccessModal() {
+      handlers.onCloseModal();
+      focusElement('#mailing-address [data-testid=update-success-alert]');
+    },
+    onCloseFailureModal() {
+      handlers.onCloseModal();
+      focusElement('#mailing-address .usa-input-error-message');
+    },
   };
 
   return (
@@ -120,13 +125,16 @@ const CopyAddressModal = props => {
         shouldProfileShowAddressChangeModal && (
           <CopyAddressModalSuccess
             address={homeAddress}
-            onClose={handlers.onCloseModal}
+            onClose={handlers.onCloseSuccessModal}
             visible
           />
         )}
       {copyAddressModal === VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.FAILURE &&
         shouldProfileShowAddressChangeModal && (
-          <CopyAddressModalFailure onClose={handlers.onCloseModal} visible />
+          <CopyAddressModalFailure
+            onClose={handlers.onCloseFailureModal}
+            visible
+          />
         )}
     </>
   );
