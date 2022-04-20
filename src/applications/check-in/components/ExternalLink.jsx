@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-function LinkTranslation({ children, href, hrefLang }) {
+function ExternalLink({ children, href, hrefLang }) {
   const { t, i18n } = useTranslation();
   return (
     <a {...{ href, hrefLang }}>
@@ -12,10 +12,10 @@ function LinkTranslation({ children, href, hrefLang }) {
   );
 }
 
-LinkTranslation.propTypes = {
+ExternalLink.propTypes = {
   children: PropTypes.node,
   href: PropTypes.string,
   hrefLang: PropTypes.string,
 };
 
-export default LinkTranslation;
+export default ExternalLink;
