@@ -42,3 +42,11 @@ export const required = <T>(
 
   return props.validate ? props.validate(value) : undefined;
 };
+
+export const isValidEmail = (emailString = ''): boolean => {
+  // Comes from StackOverflow: http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
+  // eslint-disable-next-line no-useless-escape
+  return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+    emailString
+  );
+};
