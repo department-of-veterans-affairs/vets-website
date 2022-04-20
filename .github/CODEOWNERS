@@ -8,11 +8,11 @@
 
 # VSP
 *       @department-of-veterans-affairs/frontend-review-group
-src/application/_mock-form @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/vsp-design-system-fe
-src/platform/forms        @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/vsp-design-system-fe
-src/platform/forms-system @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/vsp-design-system-fe
-script/component-migration @department-of-veterans-affairs/vsp-design-system-fe
-script/eslint-plugin-va/rules/prefer-web-component-library.js @department-of-veterans-affairs/vsp-design-system-fe
+src/application/_mock-form @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
+src/platform/forms        @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
+src/platform/forms-system @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
+script/component-migration @department-of-veterans-affairs/platform-design-system-fe
+script/eslint-plugin-va/rules/prefer-web-component-library.js @department-of-veterans-affairs/platform-design-system-fe
 
 # VSP-Identity authentication
 src/applications/auth @department-of-veterans-affairs/vsp-identity
