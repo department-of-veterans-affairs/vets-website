@@ -50,6 +50,7 @@ const validateLogin = async (
   setDobErrorMessage();
 
   let valid = true;
+  const { year, month, day } = dob;
   if (!isLorotaSecurityUpdatesEnabled) {
     if (!lastName) {
       setLastNameErrorMessage(i18next.t('please-enter-your-last-name'));
@@ -68,7 +69,15 @@ const validateLogin = async (
       setLastNameErrorMessage(i18next.t('please-enter-your-last-name'));
       valid = false;
     }
-    if (isAfter(new Date(dob.year.value), new Date())) {
+    if (!year.value || !month.value || !day.value) {
+      setDobErrorMessage(i18next.t('please-provide-a-response'));
+      setDob(prevState => ({
+        year: { ...prevState.year, dirty: true },
+        day: { ...prevState.day, dirty: true },
+        month: { ...prevState.month, dirty: true },
+      }));
+      valid = false;
+    } else if (isAfter(new Date(year.value), new Date())) {
       setDobErrorMessage(
         i18next.t('your-date-of-birth-can-not-be-in-the-future'),
       );
