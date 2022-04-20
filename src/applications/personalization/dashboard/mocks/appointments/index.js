@@ -1,4 +1,4 @@
-const { MOCK_VA_APPOINTMENTS } = require('./MOCK_CC_APPOINTMENTS');
+const { MOCK_VA_APPOINTMENTS } = require('./MOCK_VA_APPOINTMENTS');
 const { MOCK_CC_APPOINTMENTS } = require('./MOCK_CC_APPOINTMENTS');
 
 const createAppointmentSuccess = type => {

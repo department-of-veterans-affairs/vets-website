@@ -7,7 +7,10 @@ import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
-import { selectUnreadCount } from '~/applications/personalization/dashboard/selectors';
+import {
+  selectUnreadCount,
+  selectUseVaosV2APi,
+} from '~/applications/personalization/dashboard/selectors';
 import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
@@ -144,6 +147,7 @@ const HealthCare = ({
   shouldShowPrescriptions,
   hasInboxError,
   hasAppointmentsError,
+  useVaosV2Api,
 }) => {
   const nextAppointment = appointments?.[0];
   const start = new Date(nextAppointment?.startsAt);
@@ -153,10 +157,10 @@ const HealthCare = ({
   useEffect(
     () => {
       if (!dataLoadingDisabled) {
-        fetchConfirmedFutureAppointments();
+        fetchConfirmedFutureAppointments({ useV2: useVaosV2Api });
       }
     },
-    [fetchConfirmedFutureAppointments, dataLoadingDisabled],
+    [fetchConfirmedFutureAppointments, dataLoadingDisabled, useVaosV2Api],
   );
 
   useEffect(
@@ -319,6 +323,7 @@ const mapStateToProps = state => {
     shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
     shouldShowPrescriptions,
     unreadMessagesCount: selectUnreadCount(state).count || 0,
+    useVaosV2Api: selectUseVaosV2APi(state),
   };
 };
 
@@ -328,6 +333,7 @@ const mapDispatchToProps = {
 };
 
 HealthCare.propTypes = {
+  authenticatedWithSSOe: PropTypes.bool.isRequired,
   appointments: PropTypes.arrayOf(
     PropTypes.shape({
       additionalInfo: PropTypes.string,
@@ -340,11 +346,10 @@ HealthCare.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ),
-  authenticatedWithSSOe: PropTypes.bool.isRequired,
   canAccessRx: PropTypes.bool.isRequired,
   dataLoadingDisabled: PropTypes.bool,
   facilityLocations: PropTypes.arrayOf(PropTypes.string),
-  fetchConfirmedFutureAppointments: PropTypes.bool,
+  fetchConfirmedFutureAppointments: PropTypes.func,
   fetchUnreadMessages: PropTypes.bool,
   hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
@@ -354,6 +359,7 @@ HealthCare.propTypes = {
   shouldShowLoadingIndicator: PropTypes.bool,
   shouldShowPrescriptions: PropTypes.bool,
   unreadMessagesCount: PropTypes.number,
+  useVaosV2Api: PropTypes.bool,
 };
 
 export default connect(

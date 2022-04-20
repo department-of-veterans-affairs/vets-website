@@ -18,8 +18,6 @@ import {
   VIDEO_TYPES,
 } from '~/applications/personalization/dashboard/constants';
 import MOCK_FACILITIES from '~/applications/personalization/dashboard/utils/mocks/appointments/MOCK_FACILITIES.json';
-import MOCK_VA_APPOINTMENTS from '~/applications/personalization/dashboard/utils/mocks/appointments/MOCK_VA_APPOINTMENTS';
-import MOCK_CC_APPOINTMENTS from '~/applications/personalization/dashboard/utils/mocks/appointments/MOCK_CC_APPOINTMENTS';
 
 const CANCELLED_APPOINTMENT_SET = new Set([
   'CANCELLED BY CLINIC & AUTO RE-BOOK',
@@ -114,18 +112,17 @@ function getStagingID(facilityID) {
   return facilityID;
 }
 
-export function fetchConfirmedFutureAppointments() {
+export function fetchConfirmedFutureAppointments(_options) {
   return async dispatch => {
     dispatch({
       type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
     });
+    // const { useV2 } = options;
 
     let facilitiesLookup = {};
     let facilitiesResponse;
     let vaAppointments = [];
     let ccAppointments = [];
-    let vaAppointmentsResponse;
-    let ccAppointmentsResponse;
 
     const startOfToday = moment()
       .startOf('day')
@@ -138,43 +135,38 @@ export function fetchConfirmedFutureAppointments() {
       .toISOString();
 
     try {
-      if (environment.isLocalhost() && !window.Cypress) {
-        vaAppointments = MOCK_VA_APPOINTMENTS.data;
-        ccAppointments = MOCK_CC_APPOINTMENTS.data;
-      } else {
-        vaAppointmentsResponse = await apiRequest(
-          `/appointments?start_date=${startOfToday}&end_date=${endDate}&type=va`,
-          { apiVersion: 'vaos/v0' },
-        );
-        ccAppointmentsResponse = await apiRequest(
-          `/appointments?start_date=${startOfToday}&end_date=${endDate}&type=cc`,
-          { apiVersion: 'vaos/v0' },
-        );
+      const vaAppointmentsResponse = await apiRequest(
+        `/appointments?start_date=${startOfToday}&end_date=${endDate}&type=va`,
+        { apiVersion: 'vaos/v0' },
+      );
+      const ccAppointmentsResponse = await apiRequest(
+        `/appointments?start_date=${startOfToday}&end_date=${endDate}&type=cc`,
+        { apiVersion: 'vaos/v0' },
+      );
 
-        // This catches partial errors on the meta object
-        if (
-          vaAppointmentsResponse.meta?.errors?.length > 0 ||
-          ccAppointmentsResponse.meta?.errors?.length > 0
-        ) {
-          dispatch({
-            type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
-            errors: [
-              ...(vaAppointmentsResponse.meta?.errors || []),
-              ...(ccAppointmentsResponse.meta?.errors || []),
-            ],
-          });
-          recordEvent({
-            event: `api_call`,
-            'error-key': `server error`,
-            'api-name': 'GET appointments',
-            'api-status': 'failed',
-          });
-          return;
-        }
-
-        vaAppointments = vaAppointmentsResponse.data;
-        ccAppointments = ccAppointmentsResponse.data;
+      // This catches partial errors on the meta object
+      if (
+        vaAppointmentsResponse.meta?.errors?.length > 0 ||
+        ccAppointmentsResponse.meta?.errors?.length > 0
+      ) {
+        dispatch({
+          type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
+          errors: [
+            ...(vaAppointmentsResponse.meta?.errors || []),
+            ...(ccAppointmentsResponse.meta?.errors || []),
+          ],
+        });
+        recordEvent({
+          event: `api_call`,
+          'error-key': `server error`,
+          'api-name': 'GET appointments',
+          'api-status': 'failed',
+        });
+        return;
       }
+
+      vaAppointments = vaAppointmentsResponse.data;
+      ccAppointments = ccAppointmentsResponse.data;
 
       const facilityIDs = uniq(
         vaAppointments?.map(

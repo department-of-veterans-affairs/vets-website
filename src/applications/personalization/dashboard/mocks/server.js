@@ -9,7 +9,9 @@ const { createAppointmentSuccess } = require('./appointments');
 
 /* eslint-disable camelcase */
 const responses = {
-  'GET /v0/feature_toggles': generateFeatureToggles(),
+  'GET /v0/feature_toggles': generateFeatureToggles({
+    profileUseVaosV2Api: true,
+  }),
   'GET /v0/user': simpleUser,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
@@ -51,7 +53,8 @@ const responses = {
     const { type } = query;
 
     if (type === 'va' || type === 'cc') {
-      return res.json(createAppointmentSuccess(type));
+      const rv = createAppointmentSuccess(type);
+      return res.status(200).json(rv);
     }
     return res.status(400).json({ bad: 'type' });
   },
