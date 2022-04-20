@@ -1,70 +1,84 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
 import * as Sentry from '@sentry/browser';
 
 const DownloadFormPDF = () => {
-  const handlePDFDownload = async () => {
-    const options = {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Key-Inflection': 'camel',
-        'Source-App-Name': window.appName,
-      },
-    };
-    try {
-      const pdf = await fetch(
-        encodeURI(
-          `${environment.API_URL}/v0/financial_status_reports/download_pdf`,
-        ),
-        options,
-      );
+  const [pdfBlob, setPdfBlob] = useState(null);
 
-      if (!pdf.ok) {
-        Sentry.withScope(scope => {
-          scope.setExtra(`FSR Download failed fetch status: ${pdf.status}`);
-          Sentry.captureMessage(`debt-fsr-pdf-download-fail`);
-        });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${environment.API_URL}/v0/financial_status_reports/download_pdf`,
+          {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-Key-Inflection': 'camel',
+              'Source-App-Name': window.appName,
+            },
+          },
+        );
+
+        // only set the blob if the response is successful
+        // otherwise just log to sentry & leave blob null
+        if (response.ok) {
+          setPdfBlob(await response.blob());
+        } else {
+          Sentry.withScope(scope => {
+            scope.setExtra(
+              `FSR Download failed fetch status: ${response.status}`,
+            );
+            Sentry.captureMessage(`debt-fsr-pdf-download-fail`);
+          });
+        }
+
         return recordEvent({
           event: 'debt-fsr-pdf-download',
         });
+      } catch (error) {
+        Sentry.withScope(scope => {
+          scope.setExtra(`Error: ${error}`);
+          Sentry.captureMessage(`debt-fsr-pdf-download-fail`);
+        });
+
+        return recordEvent({
+          event: 'debt-fsr-pdf-download-fail',
+        });
       }
+    };
+    fetchData();
+  }, []);
 
-      const pdfBlob = await pdf.blob();
-      const pdfURL = URL.createObjectURL(pdfBlob);
+  const handlePdfDownload = () => {
+    const url = window.URL.createObjectURL(pdfBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'VA Form 5655 - Submitted.pdf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 
-      const anchor = document.createElement('a');
-      anchor.href = pdfURL;
-      anchor.download = 'VA Form 5655 - Submitted';
-
-      document.body.appendChild(anchor);
-      anchor.click();
-      document.body.removeChild(anchor);
-
-      URL.revokeObjectURL(pdfURL);
-    } catch (error) {
-      Sentry.withScope(scope => {
-        scope.setExtra(`Error: ${error}`);
-        Sentry.captureMessage(`debt-fsr-pdf-download-fail`);
-      });
-    }
-
-    return recordEvent({
-      event: 'debt-fsr-pdf-download',
+    recordEvent({
+      event: 'download-financial-status-report',
+      'financial-status-report-download-type': 'pdf',
     });
   };
 
   return (
     <>
-      <button
-        onClick={handlePDFDownload}
-        type="button"
-        className="usa-button button"
-      >
-        Download completed form
-      </button>
+      {pdfBlob && (
+        <button
+          onClick={handlePdfDownload}
+          type="button"
+          className="usa-button button"
+        >
+          Download completed form
+        </button>
+      )}
     </>
   );
 };
