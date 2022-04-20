@@ -17,7 +17,7 @@ function AppointmentListSection() {
       // Check search params to see if redirect is specified. If not, check
       // state.
       let isRedirect = new UrlSearchParams(location.search).get('redirect');
-      if (isRedirect === null) isRedirect = location.state.redirect;
+      if (isRedirect === null) isRedirect = location.state?.redirect;
       return (
         isRedirect === null || isRedirect === undefined || isRedirect === 'true'
       );
