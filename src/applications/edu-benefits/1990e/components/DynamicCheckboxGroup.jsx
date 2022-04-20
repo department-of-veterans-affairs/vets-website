@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import CheckboxGroup from '@department-of-veterans-affairs/component-library/CheckboxGroup';
 import { isArray, cloneDeep } from 'lodash';
+import { Formik } from 'formik';
+import CheckboxGroup from '@department-of-veterans-affairs/component-library/CheckboxGroup';
+
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import Form from '~/platform/forms/formulate-integration/Form';
+
 import { fetchSponsors, updateSponsors } from '../actions';
 import {
   SPONSOR_NOT_LISTED_LABEL,
@@ -9,14 +14,19 @@ import {
 } from '../constants';
 
 function DynamicCheckboxGroup({
+  data,
   dispatchSponsorsChange,
   errorMessage = 'Please select at least one sponsor',
   fetchedSponsors,
   fetchedSponsorsComplete,
   formContext,
   getSponsors,
+  goBack,
+  goForward,
   loadingMessage = 'Loading your sponsors...',
+  onReviewPage,
   sponsors,
+  updatePage,
 }) {
   const [dirty, setDirty] = useState(false);
 
@@ -35,6 +45,19 @@ function DynamicCheckboxGroup({
   if (!sponsors?.sponsors.length) {
     return <></>;
   }
+
+  const options =
+    sponsors?.sponsors?.map((sponsor, index) => ({
+      label: `Sponsor ${index + 1}: ${sponsor.name}`,
+      selected: sponsor.selected,
+      value: `sponsor-${sponsor.id}`,
+    })) || [];
+  options.push({
+    label: SPONSOR_NOT_LISTED_LABEL,
+    selected: sponsors?.someoneNotListed,
+    value: `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
+  });
+  const selectedOptions = !!options?.filter(o => o.selected)?.length;
 
   const onValueChange = ({ value }, checked) => {
     const _sponsors = cloneDeep(sponsors);
@@ -64,48 +87,54 @@ function DynamicCheckboxGroup({
     dispatchSponsorsChange(_sponsors);
   };
 
-  const options =
-    sponsors?.sponsors?.map((sponsor, index) => ({
-      label: `Sponsor ${index + 1}: ${sponsor.name}`,
-      selected: sponsor.selected,
-      value: `sponsor-${sponsor.id}`,
-    })) || [];
-  options.push({
-    label: SPONSOR_NOT_LISTED_LABEL,
-    selected: sponsors?.someoneNotListed,
-    value: `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
-  });
+  const onSubmit = (formData, formsSystem) => {
+    if (!selectedOptions) {
+      setDirty(true);
+      return false;
+    }
+    return onReviewPage
+      ? updatePage(formData, formsSystem)
+      : goForward(formData, formsSystem);
+  };
 
   const values = Object.fromEntries(
     new Map(options?.map(option => [option.value, !!option.selected])),
   );
 
+  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
+  const updateButton = <button type="submit">Review update button</button>;
+
   return (
-    <CheckboxGroup
-      additionalFieldsetClass="vads-u-margin-top--0"
-      additionalLegendClass="toe-sponsors_legend vads-u-margin-top--0"
-      errorMessage={
-        !options?.filter(o => o.selected)?.length &&
-        (dirty || formContext?.submitted) &&
-        errorMessage
-      }
-      label={
-        // I'm getting conflicting linting issues here.
-        // eslint-disable-next-line react/jsx-wrap-multilines
-        <>
-          <span className="toe-sponsors-labels_label--main">
-            Which sponsor's benefits would you like to use?
-          </span>
-          <span className="toe-sponsors-labels_label--secondary">
-            Select all sponsors whose benefits you would like to apply for
-          </span>
-        </>
-      }
-      onValueChange={onValueChange}
-      options={options}
-      required
-      values={values}
-    />
+    <Formik initialValues={data} onSubmit={onSubmit}>
+      <Form>
+        <CheckboxGroup
+          additionalFieldsetClass="vads-u-margin-top--0"
+          additionalLegendClass="toe-sponsors_legend vads-u-margin-top--0"
+          errorMessage={
+            !selectedOptions &&
+            (dirty || formContext?.submitted) &&
+            errorMessage
+          }
+          label={
+            // I'm getting conflicting linting issues here.
+            // eslint-disable-next-line react/jsx-wrap-multilines
+            <>
+              <span className="toe-sponsors-labels_label--main">
+                Which sponsor's benefits would you like to use?
+              </span>
+              <span className="toe-sponsors-labels_label--secondary">
+                Select all sponsors whose benefits you would like to apply for
+              </span>
+            </>
+          }
+          onValueChange={onValueChange}
+          options={options}
+          required
+          values={values}
+        />
+        {onReviewPage ? updateButton : navButtons}
+      </Form>
+    </Formik>
   );
 }
 
