@@ -49,7 +49,7 @@ const simpleUser = {
         givenNames: ['Mitchell', 'G'],
         isCernerPatient: false,
         facilities: [],
-        vaPatient: false,
+        vaPatient: true,
         mhvAccountState: 'NONE',
       },
       veteranStatus: {

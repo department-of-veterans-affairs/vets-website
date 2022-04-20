@@ -5,6 +5,8 @@ const { createAppealsSuccess } = require('./appeals-success');
 const { createDebtsSuccess } = require('./debts');
 const { createClaimsSuccess } = require('./evss-claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
+const { createAppointmentSuccess } = require('./appointments');
+
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/feature_toggles': generateFeatureToggles(),
@@ -43,6 +45,15 @@ const responses = {
         userPercentOfDisability: 40,
       },
     },
+  },
+  'GET /vaos/v0/appointments': (req, res) => {
+    const { query } = req;
+    const { type } = query;
+
+    if (type === 'va' || type === 'cc') {
+      return res.json(createAppointmentSuccess(type));
+    }
+    return res.status(400).json({ bad: 'type' });
   },
 };
 
