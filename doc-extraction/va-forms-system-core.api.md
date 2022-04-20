@@ -5,6 +5,7 @@
 ```ts
 /// <reference types="react" />
 
+import { Context } from 'react';
 import { FieldHookConfig } from 'formik';
 
 // @beta
@@ -29,6 +30,25 @@ export const DateField: (props: DateProps) => JSX.Element;
 
 // @public
 export const DebuggerView: () => JSX.Element;
+
+// Warning: (ae-incompatible-release-tags) The symbol "FormContext" is marked as @public, but its signature references "IFormContextType" which is marked as @beta
+//
+// @public (undocumented)
+export const FormContext: Context<IFormContextType>;
+
+// @beta
+export interface IFormContextType {
+  // (undocumented)
+  formData: IFormData;
+  // (undocumented)
+  handleUpdate?: (data: Record<string, unknown>) => void;
+}
+
+// @beta
+export interface IFormData {
+  // (undocumented)
+  [prop: string]: unknown;
+}
 
 // @beta
 export function Page(props: PageProps): JSX.Element;
@@ -60,6 +80,8 @@ export interface RouterProps {
   //
   // (undocumented)
   children: Routable | Array<Routable>;
+  // (undocumented)
+  optionalHandleUpdate?: () => void;
 }
 
 // Warning: (ae-forgotten-export) The symbol "SelectProps" needs to be exported by the entry point index.d.ts

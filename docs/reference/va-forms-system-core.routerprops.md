@@ -16,4 +16,5 @@ export interface RouterProps
 |  --- | --- | --- |
 |  [basename](./va-forms-system-core.routerprops.basename.md) | string |  |
 |  [children](./va-forms-system-core.routerprops.children.md) | [Routable](./va-forms-system-core.routable.md) \| Array&lt;[Routable](./va-forms-system-core.routable.md)<!-- -->&gt; |  |
+|  [optionalHandleUpdate?](./va-forms-system-core.routerprops.optionalhandleupdate.md) | () =&gt; void | <i>(Optional)</i> |
 
