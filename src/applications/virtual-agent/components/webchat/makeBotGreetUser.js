@@ -60,15 +60,17 @@ const GreetUser = {
     }
 
     if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
-      dispatch({
-        type: 'WEB_CHAT/SEND_EVENT',
-        payload: {
-          name: 'webchat/join',
-          value: {
-            language: window.navigator.language,
+      setTimeout(function() {
+        dispatch({
+          type: 'WEB_CHAT/SEND_EVENT',
+          payload: {
+            name: 'webchat/join',
+            value: {
+              language: window.navigator.language,
+            },
           },
-        },
-      });
+        });
+      }, 1000);
     }
 
     if (
@@ -84,13 +86,15 @@ const GreetUser = {
       if (utterances && utterances.length === 2) {
         utterance = utterances[0];
       }
-      dispatch({
-        type: 'WEB_CHAT/SEND_MESSAGE',
-        payload: {
-          type: 'message',
-          text: utterance,
-        },
-      });
+      setTimeout(function() {
+        dispatch({
+          type: 'WEB_CHAT/SEND_MESSAGE',
+          payload: {
+            type: 'message',
+            text: utterance,
+          },
+        });
+      }, 2000);
     }
 
     if (action.type === 'WEB_CHAT/SEND_MESSAGE') {
