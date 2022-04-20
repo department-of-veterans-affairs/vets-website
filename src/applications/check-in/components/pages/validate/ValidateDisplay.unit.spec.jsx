@@ -168,15 +168,15 @@ describe('check-in experience', () => {
                   dobInput={{
                     dob: {
                       day: {
-                        value: 1,
+                        value: 15,
                         dirty: false,
                       },
                       month: {
-                        value: 1,
+                        value: 3,
                         dirty: false,
                       },
                       year: {
-                        value: '1976',
+                        value: '1989',
                         dirty: false,
                       },
                     },
@@ -187,7 +187,7 @@ describe('check-in experience', () => {
           );
           expect(
             getByTestId('dob-input').querySelector('input').value,
-          ).to.equal('1976');
+          ).to.equal('1989');
         });
       });
       describe('validate Error message', () => {

@@ -12,7 +12,7 @@ let hasBeenValidated = false;
 const mockUser = Object.freeze({
   lastName: 'Smith',
   last4: '1234',
-  dob: '1976-01-31',
+  dob: '1989-03-15',
 });
 
 const responses = {

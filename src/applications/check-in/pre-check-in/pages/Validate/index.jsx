@@ -44,15 +44,15 @@ const Index = ({ router }) => {
   const [last4Ssn, setLast4Ssn] = useState('');
   const defaultDob = Object.freeze({
     day: {
-      value: 1,
+      value: '',
       dirty: false,
     },
     month: {
-      value: 1,
+      value: '',
       dirty: false,
     },
     year: {
-      value: '1976',
+      value: '',
       dirty: false,
     },
   });

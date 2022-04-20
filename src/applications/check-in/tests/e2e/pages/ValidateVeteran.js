@@ -25,9 +25,9 @@ class ValidateVeteran {
 
   validateVeteranDob = (
     lastName = 'Smith',
-    year = '1976',
-    month = '1',
-    day = '31',
+    year = '1989',
+    month = '3',
+    day = '15',
   ) => {
     this.clearLastName();
     this.typeLastName(lastName);
@@ -85,15 +85,15 @@ class ValidateVeteran {
     this.getLast4Input().type(last4);
   };
 
-  typeYear = (year = '1976') => {
+  typeYear = (year = '1989') => {
     this.getYearInput().type(year);
   };
 
-  selectMonth = (month = '1') => {
+  selectMonth = (month = '3') => {
     this.getMonthSelect().select(month);
   };
 
-  selectDay = (day = '31') => {
+  selectDay = (day = '15') => {
     this.getDaySelect().select(day);
   };
 

@@ -37,15 +37,15 @@ const ValidateVeteran = props => {
 
   const defaultDob = Object.freeze({
     day: {
-      value: 1,
+      value: '',
       dirty: false,
     },
     month: {
-      value: 1,
+      value: '',
       dirty: false,
     },
     year: {
-      value: '1976',
+      value: '',
       dirty: false,
     },
   });
