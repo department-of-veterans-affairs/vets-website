@@ -1,0 +1,31 @@
+.homepage-common-tasks {
+  &__wrapper {
+    background: linear-gradient(to right, $color-gray-lightest, $color-white);
+  }
+
+  &__list {
+    list-style: none;
+    padding-left: 0;
+
+    li {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+  }
+
+  &__search {
+    input[type="search"] {
+      display: inline-block;
+      height: 37px;
+      padding: 0;
+      width: 76%;
+      border: 2px solid $color-gray-dark;
+    }
+
+    button {
+      display: inline-block;
+      width: 20%;
+      border-radius: 0 5px ;
+    }
+  }
+}
