@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const PercentageCalloutBox = (isPercentage, label, value) => {
+const PercentageCalloutBox = ({ isPercentage, label, value }) => {
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-border-top--2px vads-u-text-align--center medium-screen:vads-u-text-align--right">
       <p className="vads-u-padding-right--1p5 vads-u-padding-top--1p5 vads-u-margin--0 total-label">

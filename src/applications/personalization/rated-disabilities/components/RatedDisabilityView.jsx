@@ -40,7 +40,7 @@ const renderMVIError = () => {
   );
 };
 
-const RatedDisabilityView = (
+const RatedDisabilityView = ({
   error,
   fetchRatedDisabilities,
   fetchTotalDisabilityRating,
@@ -48,10 +48,10 @@ const RatedDisabilityView = (
   ratedDisabilities,
   totalDisabilityRating,
   user,
-) => {
+}) => {
   useEffect(() => {
     fetchTotalDisabilityRating();
-  });
+  }, []);
 
   let content;
   let onThisPageHeader = '';

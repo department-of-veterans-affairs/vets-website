@@ -74,7 +74,7 @@ const noDisabilityRatingContent = errorCode => {
 const RatedDisabilityList = props => {
   useEffect(() => {
     props.fetchRatedDisabilities();
-  });
+  }, []);
 
   if (!props.ratedDisabilities) {
     return <va-loading-indicator message="Loading your information..." />;

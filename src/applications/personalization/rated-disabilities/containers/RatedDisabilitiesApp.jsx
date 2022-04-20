@@ -13,6 +13,7 @@ import RatedDisabilityView from '../components/RatedDisabilityView';
 
 const RatedDisabilitiesApp = props => {
   const { ratedDisabilities } = props.ratedDisabilities;
+
   return (
     <>
       <div className="medium-screen:vads-u-padding-left--1p5 large-screen:vads-u-padding-left--6">

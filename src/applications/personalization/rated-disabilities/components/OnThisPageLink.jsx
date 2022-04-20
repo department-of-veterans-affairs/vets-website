@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const OnThisPageLink = (link, text) => {
+export const OnThisPageLink = ({ link, text }) => {
   return (
     <a className="arrow-down-link" href={link}>
       <p>
