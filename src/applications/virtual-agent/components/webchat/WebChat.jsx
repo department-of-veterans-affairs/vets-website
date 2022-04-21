@@ -5,8 +5,7 @@ import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import GreetUser from './makeBotGreetUser';
 import MarkdownRenderer from './markdownRenderer';
-import { LOGGED_IN_FLOW, CONVERSATION_ID_KEY, TOKEN_KEY } from '../chatbox/utils';
-
+import { LOGGED_IN_FLOW, CONVERSATION_ID_KEY, TOKEN_KEY, IN_AUTH_EXP } from '../chatbox/utils';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
@@ -18,6 +17,10 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   );
   const userUuid = useSelector(state => state.user.profile.accountUuid);
   const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
+
+  // // clean up sessionStorage variables for auth flow
+  // sessionStorage.setItem(IN_AUTH_EXP, 'false');
+  // sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
 
   const store = useMemo(
     () =>

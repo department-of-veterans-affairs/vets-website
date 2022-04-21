@@ -47,10 +47,6 @@ export default function useVirtualAgentToken(props) {
         });
       }
 
-      // const CONVERSATION_ID_KEY = 'conversationId';
-      // const TOKEN_KEY = 'token';
-      // const COUNTER_KEY = 'counter';
-
       async function getToken() {
         try {
           const response = await retryOnce(callVirtualAgentTokenApi);
@@ -75,7 +71,7 @@ export default function useVirtualAgentToken(props) {
           // console.log(sessionStorage.getItem(TOKEN_KEY));
 
           const counter = sessionStorage.getItem(COUNTER_KEY);
-          sessionStorage.setItem('counter', parseInt(counter, 10) + 1);
+          sessionStorage.setItem(COUNTER_KEY, parseInt(counter, 10) + 1);
           // console.log('counter is: ', localStorage.getItem('counter'));
 
           setToken(response.token);

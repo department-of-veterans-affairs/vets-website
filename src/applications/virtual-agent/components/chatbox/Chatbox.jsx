@@ -86,12 +86,12 @@ export default function Chatbox(props) {
   const [isAuthTopic, setIsAuthTopic] = useState(false);
 
   window.addEventListener('webchat-auth-activity', () => {
-    setTimeout(function() {
+    // setTimeout(function() {
       if (!isLoggedIn) {
         sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
         setIsAuthTopic(true);
       }
-    }, 2000);
+    // }, 2000);
   });
 
   useEffect(() => {
@@ -106,7 +106,7 @@ export default function Chatbox(props) {
 
   if (sessionStorage.getItem(LOGGED_IN_FLOW) === 'true' && isLoggedIn) {
     sessionStorage.setItem(IN_AUTH_EXP, 'true');
-    // sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
+    sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
   }
 
   const ONE_MINUTE = 60 * 1000;

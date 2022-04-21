@@ -12,7 +12,15 @@ const GreetUser = {
     userFirstName,
     userUuid,
   ) => ({ dispatch }) => next => action => {
-    if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
+    console.log(sessionStorage.getItem(COUNTER_KEY));
+    // if(sessionStorage.getItem('InWebchatJoin') === null) sessionStorage.setItem('InWebchatJoin', 'false');
+    // if(sessionStorage.getItem('InResendUtterance') === null) sessionStorage.setItem('InResendUtterance', 'false');
+
+    if (
+      action.type === 'DIRECT_LINE/CONNECT_FULFILLED' &&
+      // sessionStorage.getItem(IN_AUTH_EXP) !== 'true' // &&
+      sessionStorage.getItem(LOGGED_IN_FLOW) !== 'true'
+    ) {
       dispatch({
         meta: {
           method: 'keyboard',
@@ -70,31 +78,37 @@ const GreetUser = {
             },
           },
         });
+        sessionStorage.setItem('InWebchatJoin', 'true');
       }, 1000);
     }
 
     if (
       action.type === 'DIRECT_LINE/CONNECT_FULFILLED' &&
-      sessionStorage.getItem(IN_AUTH_EXP) === 'true' &&
-      sessionStorage.getItem(LOGGED_IN_FLOW) === 'true'
+      sessionStorage.getItem(IN_AUTH_EXP) === 'true' // &&
+      // sessionStorage.getItem(LOGGED_IN_FLOW) === 'true'
     ) {
-      sessionStorage.setItem(IN_AUTH_EXP, 'false');
-      sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
-      // sessionStorage.setItem(COUNTER_KEY, 2);
-      let utterance = 'unknownUtterance';
+      const UNKNOWN_UTTERANCE = 'unknownUtterance';
+      let utterance = UNKNOWN_UTTERANCE;
       const utterances = JSON.parse(sessionStorage.getItem(RECENT_UTTERANCES));
-      if (utterances && utterances.length === 2) {
+      if (utterances && utterances.length > 0) {
         utterance = utterances[0];
       }
-      setTimeout(function() {
-        dispatch({
-          type: 'WEB_CHAT/SEND_MESSAGE',
-          payload: {
-            type: 'message',
-            text: utterance,
-          },
-        });
-      }, 2000);
+      if (utterance !== UNKNOWN_UTTERANCE) {
+        sessionStorage.setItem(IN_AUTH_EXP, 'false');
+        setTimeout(function() {
+          // sessionStorage.setItem(IN_AUTH_EXP, 'false');
+          // sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
+          // sessionStorage.setItem(COUNTER_KEY, 2);
+          dispatch({
+            type: 'WEB_CHAT/SEND_MESSAGE',
+            payload: {
+              type: 'message',
+              text: utterance,
+            },
+          });
+          sessionStorage.setItem('InResendUtterance', 'true');
+        }, 2000);
+      }
     }
 
     if (action.type === 'WEB_CHAT/SEND_MESSAGE') {
