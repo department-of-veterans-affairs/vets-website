@@ -8,7 +8,7 @@
 
 .homepage-common-tasks {
   &__wrapper {
-    background: linear-gradient(to right, $color-gray-lightest, $color-white);
+    background: linear-gradient(to right, $color-gray-lightest 0 50%, $color-white 50% 100%);
   }
 
   &__list {
@@ -26,19 +26,29 @@
       display: inline-block;
       height: 37px;
       padding: 0;
-      width: 76%;
-      border: 2px solid $color-gray-dark;
+      border: 1px solid $color-gray-dark;
+
+      @include media($small-desktop-screen) {
+        width: 75%;
+      }
     }
 
     button {
       display: inline-block;
-      width: 20%;
-      border-radius: 0 5px ;
+      border-radius: 0 0.3rem 0.3rem 0;
+      margin-left: -3px;
+      height: 39px;
+
+      @include media($small-desktop-screen) {
+        width: 20%;
+      }
     }
   }
 
   &__search-tools {
     ul {
+      list-style: none;
+      padding-left: 0;
       columns: 2;
       -webkit-columns: 2;
       -moz-columns: 2;
