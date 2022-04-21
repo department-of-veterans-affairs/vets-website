@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import './sass/homepage-hero.scss';
 
+/*
+    Hero component with veteran portraits that are in a random order on page load
+*/
+
 // shuffle array using Fisher-Yates shuffle
 const randomizeOrder = imageArray => {
   const tempArray = imageArray;
-  let currentIndex = Object.keys(tempArray).length;
+  let currentIndex = tempArray.length;
   let randomIndex;
 
   // While there remain elements to shuffle...
@@ -24,6 +28,7 @@ const randomizeOrder = imageArray => {
   return tempArray.slice(0, 3);
 };
 
+// these files live in content-build
 const imagePaths = [
   'babu',
   'britton',
@@ -36,11 +41,12 @@ const imagePaths = [
 ];
 
 const HeroRandom = () => {
+  // these hex values are not in the design system, using this implementation for usability testing only
   const gradientValues = ['#105f9f', '#144e84', '#143e6a'];
 
   const [randomized, setRandomized] = useState([]);
 
-  // randomize order of images on pageload
+  // randomize order of images on first render only
   useEffect(() => {
     setRandomized(randomizeOrder(imagePaths));
   }, []);
