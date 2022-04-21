@@ -1,3 +1,11 @@
+/*
+  Search and Common tasks hub on home page
+
+  Homepage iteration
+  Date: April 2022
+  Author: allison@cityfriends.tech
+*/
+
 .homepage-common-tasks {
   &__wrapper {
     background: linear-gradient(to right, $color-gray-lightest, $color-white);
@@ -8,7 +16,7 @@
     padding-left: 0;
 
     li {
-      font-size: 20px;
+      // font-size: 20px;
       margin-bottom: 20px;
     }
   }
@@ -26,6 +34,14 @@
       display: inline-block;
       width: 20%;
       border-radius: 0 5px ;
+    }
+  }
+
+  &__search-tools {
+    ul {
+      columns: 2;
+      -webkit-columns: 2;
+      -moz-columns: 2;
     }
   }
 }
