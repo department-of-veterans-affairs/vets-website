@@ -14,6 +14,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   const userFirstName = useSelector(state =>
     _.upperFirst(_.toLower(state.user.profile.userFullName.first)),
   );
+  const userUuid = useSelector(state => state.user.profile.accountUuid);
 
   const store = useMemo(
     () =>
@@ -25,6 +26,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
           environment.API_URL,
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
+          userUuid === null ? 'null' : userUuid, // Because PVA cannot support empty strings or null pass in 'null' if user is not logged in
         ),
       ),
     [createStore],
