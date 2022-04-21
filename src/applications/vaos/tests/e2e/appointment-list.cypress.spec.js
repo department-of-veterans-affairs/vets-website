@@ -9,7 +9,9 @@ describe('VAOS appointment list', () => {
   beforeEach(() => {
     initAppointmentListMock();
     mockFeatureToggles();
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit(
+      'health-care/schedule-view-va-appointments/appointments?redirect=false',
+    );
     cy.injectAxe();
   });
 
