@@ -1,6 +1,8 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import DebtLettersSummary from '../components/DebtLettersSummary';
 
 describe('DebtLettersSummary', () => {
@@ -25,8 +27,14 @@ describe('DebtLettersSummary', () => {
       subscribe: () => {},
       dispatch: () => {},
     };
-    const wrapper = shallow(<DebtLettersSummary store={fakeStore} />);
-    expect(wrapper.length).to.equal(1);
+    const wrapper = render(
+      <Provider store={fakeStore}>
+        <BrowserRouter>
+          <DebtLettersSummary />
+        </BrowserRouter>
+      </Provider>,
+    );
+    expect(wrapper.getByTestId('current-va-debt')).to.exist;
     wrapper.unmount();
   });
 });

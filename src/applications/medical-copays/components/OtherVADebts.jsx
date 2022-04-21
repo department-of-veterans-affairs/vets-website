@@ -9,11 +9,11 @@ const OtherVADebts = ({ module }) => {
         Your other VA {module === 'MCP' && <span>debt</span>}
         {module === 'LTR' && <span>bills</span>}
       </h2>
-      <p>
-        Our records show you have&nbsp;
+      <p className="vads-u-font-family--sans">
+        Our records show you have
         {module === 'MCP' && (
           <span data-testid="other-va-debts-mcp-body">
-            VA benefit debt. You can&nbsp;
+            &nbsp;VA benefit debt. You can&nbsp;
             <a href="/manage-va-debt/your-debt">
               check the details of your current debt
             </a>

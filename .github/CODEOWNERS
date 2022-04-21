@@ -8,11 +8,11 @@
 
 # VSP
 *       @department-of-veterans-affairs/frontend-review-group
-src/application/_mock-form @department-of-veterans-affairs/vsp-design-system-fe
-src/platform/forms        @department-of-veterans-affairs/vsp-design-system-fe
-src/platform/forms-system @department-of-veterans-affairs/vsp-design-system-fe
-script/component-migration @department-of-veterans-affairs/vsp-design-system-fe
-script/eslint-plugin-va/rules/prefer-web-component-library.js @department-of-veterans-affairs/vsp-design-system-fe
+src/application/_mock-form @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
+src/platform/forms        @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
+src/platform/forms-system @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
+script/component-migration @department-of-veterans-affairs/platform-design-system-fe
+script/eslint-plugin-va/rules/prefer-web-component-library.js @department-of-veterans-affairs/platform-design-system-fe
 
 # VSP-Identity authentication
 src/applications/auth @department-of-veterans-affairs/vsp-identity
@@ -47,6 +47,7 @@ src/applications/debt-letters @department-of-veterans-affairs/vsa-debt-frontend 
 src/applications/burials @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
 src/applications/financial-status-report @department-of-veterans-affairs/vsa-debt-frontend
 src/applications/medical-copays @department-of-veterans-affairs/vsa-debt-frontend
+src/applications/combined-debt-portal @department-of-veterans-affairs/vsa-debt-frontend
 
 # eBenefits
 src/applications/vre @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-bam-1-frontend

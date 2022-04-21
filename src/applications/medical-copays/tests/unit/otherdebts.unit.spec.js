@@ -15,6 +15,16 @@ describe('other va debts component', () => {
     );
     expect(otherDebts.getByTestId('other-va-debts-mcp-body')).to.exist;
   });
+  it('should exist', () => {
+    const moduleName = 'LTR';
+
+    const otherDebts = render(
+      <BrowserRouter>
+        <OtherVADebts module={moduleName} />
+      </BrowserRouter>,
+    );
+    expect(otherDebts.getByTestId('other-va-debts-ltr-body')).to.exist;
+  });
   it('should not exist', () => {
     const moduleName = 'NO-MATCH';
 
