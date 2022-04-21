@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { format, subDays } from 'date-fns';
 
-import VaModal from '@department-of-veterans-affairs/component-library/Modal';
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import { focusElement } from 'platform/utilities/ui';
 
@@ -15,7 +15,6 @@ import BackToHome from '../../../components/BackToHome';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectVeteranData } from '../../../selectors';
-import ExternalLink from '../../../components/ExternalLink';
 
 const IntroductionDisplay = props => {
   useEffect(() => {
@@ -40,9 +39,9 @@ const IntroductionDisplay = props => {
             )}
           </p>
           <p>
-            <ExternalLink href="/privacy-policy/" hrefLang="en">
+            <a href="/privacy-policy/">
               {t('read-more-about-privacy-and-security-on-va-gov')}
-            </ExternalLink>
+            </a>
           </p>
           <p>
             {t(
@@ -50,12 +49,9 @@ const IntroductionDisplay = props => {
             )}
           </p>
           <p>
-            <ExternalLink
-              href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information"
-              hrefLang="en"
-            >
+            <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information">
               {t('get-tips-for-protecting-your-personal-health-information')}
-            </ExternalLink>
+            </a>
           </p>
         </>
       ),
@@ -165,7 +161,7 @@ const IntroductionDisplay = props => {
       </div>
       <Footer message={additionalFooterInfo} />
       <BackToHome />
-      <VaModal
+      <Modal
         onClose={useCallback(() => setPrivacyActModalOpen(false), [
           setPrivacyActModalOpen,
         ])}

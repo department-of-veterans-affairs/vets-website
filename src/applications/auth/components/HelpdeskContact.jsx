@@ -1,8 +1,5 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 export default function Helpdesk({ children }) {
   const startSentence = !children?.length;
@@ -11,8 +8,8 @@ export default function Helpdesk({ children }) {
     <p>
       {children}
       {startSentence ? 'Please' : ' please'} call our MyVA411 main information
-      line for help at <Telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
-      <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+      line for help at <va-telephone contact={CONTACTS.HELP_DESK} /> (TTY:
+      <va-telephone contact={CONTACTS['711']} />
       ).
     </p>
   );
