@@ -25,21 +25,23 @@ const SeeStaff = props => {
   }, []);
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-top--3 vads-u-padding-bottom--3">
-      <LanguagePicker />
+    <>
       <BackButton router={router} action={goBack} />
-      <h1 tabIndex="-1" className="vads-u-margin-top--2">
-        {t('check-in-with-a-staff-member')}
-      </h1>
-      {message ? (
-        <span>{message}</span>
-      ) : (
-        <p>{t('our-staff-can-help-you-update-your-contact-information')}</p>
-      )}
-      <TravelPayReimbursementLink />
-      <Footer />
-      <BackToHome />
-    </div>
+      <div className="vads-l-grid-container vads-u-padding-top--3 vads-u-padding-bottom--3">
+        <LanguagePicker />
+        <h1 tabIndex="-1" className="vads-u-margin-top--2">
+          {t('check-in-with-a-staff-member')}
+        </h1>
+        {message ? (
+          <span>{message}</span>
+        ) : (
+          <p>{t('our-staff-can-help-you-update-your-contact-information')}</p>
+        )}
+        <TravelPayReimbursementLink />
+        <Footer />
+        <BackToHome />
+      </div>
+    </>
   );
 };
 
