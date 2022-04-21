@@ -1,5 +1,7 @@
 import React from 'react';
+import environment from 'platform/utilities/environment';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 export function CompareGrid({
@@ -11,7 +13,13 @@ export function CompareGrid({
   smallScreen,
   subSectionLabel,
 }) {
-  const sectionLabelId = `sectionLabel${sectionLabel}`;
+  // const sectionLabelArr = ;
+  const sectionLabelId = `sectionLabel-${sectionLabel
+    ?.split(' ')
+    .map(word => `${word}-`)
+    ?.join('')
+    .slice(0, -1)}`;
+  const sectionLabelIdOld = `sectionLabel${sectionLabel}`;
   const empties = [];
 
   for (let i = 0; i < 3 - institutions.length; i++) {
@@ -60,7 +68,7 @@ export function CompareGrid({
         >
           {displayDiff && (
             <div className="label-diff">
-              <i className={`fas fa-asterisk`} />
+              <i className="fas fa-asterisk" aria-hidden="true" />
             </div>
           )}
           {field.label}
@@ -111,7 +119,10 @@ export function CompareGrid({
     <div className={classNames('compare-grid', className)}>
       {sectionLabel && (
         <div className="compare-header-section non-scroll-parent">
-          <div className="non-scroll-label" id={sectionLabelId}>
+          <div
+            className="non-scroll-label"
+            id={environment.isProduction() ? sectionLabelIdOld : sectionLabelId}
+          >
             <h2>{sectionLabel}</h2>
           </div>{' '}
         </div>
@@ -199,5 +210,15 @@ export function CompareGrid({
     </div>
   );
 }
+
+CompareGrid.propTypes = {
+  className: PropTypes.string || undefined,
+  fieldData: PropTypes.array,
+  institutions: PropTypes.array,
+  sectionLabel: PropTypes.string,
+  showDifferences: PropTypes.bool,
+  smallScreen: PropTypes.bool,
+  subSectionLabel: PropTypes.string || undefined,
+};
 
 export default CompareGrid;
