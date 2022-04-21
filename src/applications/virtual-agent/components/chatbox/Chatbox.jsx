@@ -40,18 +40,6 @@ function showBot(
   setIsAuthTopic,
   props,
 ) {
-  if (!loggedIn && isAuthTopic) {
-    return (
-      <SignInModal
-        visible
-        onClose={() => {
-          setIsAuthTopic(false);
-        }}
-      />
-      // <ConnectedAuthReqTopic />
-    );
-  }
-
   if (!accepted && !sessionStorage.getItem(IN_AUTH_EXP)) {
     return <ChatboxDisclaimer />;
   }
