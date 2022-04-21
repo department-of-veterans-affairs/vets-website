@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import LanguagePicker from './LanguagePicker';
 import { APP_NAMES } from '../utils/appConstants';
 import { makeSelectApp } from '../selectors';
-import ExternalLink from './ExternalLink';
 
 const Footer = ({ header, message }) => {
   const selectApp = useMemo(makeSelectApp, []);
@@ -31,10 +30,7 @@ const Footer = ({ header, message }) => {
             </span>{' '}
             {t('call-your-va-provider')}
             <br />
-            <ExternalLink href="/find-locations/" hrefLang="en">
-              {t('contact-your-va-provider')}
-            </ExternalLink>
-            .
+            <a href="/find-locations/">{t('contact-your-va-provider')}</a>.
           </p>
           <p>
             <span className="vads-u-font-weight--bold">
