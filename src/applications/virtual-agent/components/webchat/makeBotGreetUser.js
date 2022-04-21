@@ -67,7 +67,7 @@ const GreetUser = {
           authEvent.data = action.payload.activity;
           window.dispatchEvent(authEvent);
         } else if (
-          data.text.includes('Welcome') &&
+          data.text.includes('To get started') &&
           data.from.role === 'bot' &&
           sessionStorage.getItem(IN_AUTH_EXP) === 'true'
         ) {
