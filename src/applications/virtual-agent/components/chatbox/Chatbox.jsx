@@ -42,7 +42,7 @@ function showBot(
   setIsAuthTopic,
   props,
 ) {
-  if (!loggedIn && requireAuth && false) {
+  if (!loggedIn && requireAuth) {
     return <ConnectedSignInAlert />;
   }
 
@@ -86,12 +86,10 @@ export default function Chatbox(props) {
   const [isAuthTopic, setIsAuthTopic] = useState(false);
 
   window.addEventListener('webchat-auth-activity', () => {
-    // setTimeout(function() {
-      if (!isLoggedIn) {
-        sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
-        setIsAuthTopic(true);
-      }
-    // }, 2000);
+    if (!isLoggedIn) {
+      sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
+      setIsAuthTopic(true);
+    }
   });
 
   useEffect(() => {

@@ -3,9 +3,6 @@ export const IN_AUTH_EXP = 'inAuthExperience';
 export const RECENT_UTTERANCES = 'recentUtterances';
 export const CONVERSATION_ID_KEY = 'conversationId';
 export const TOKEN_KEY = 'token';
-export const COUNTER_KEY = 'counter';
-
-
 
 export function storeUtterances(event) {
   // blindly store the last two user utterances for later use
@@ -21,16 +18,13 @@ export function storeUtterances(event) {
   ) {
     let utterances;
     if (sessionStorage.getItem(RECENT_UTTERANCES) == null) {
-      // console.log('session storage null');
       utterances = ['', ''];
     } else {
-      // console.log('session storage has something');
       utterances = JSON.parse(sessionStorage.getItem(RECENT_UTTERANCES));
     }
 
     utterances.push(data.text);
     utterances.shift();
     sessionStorage.setItem(RECENT_UTTERANCES, JSON.stringify(utterances));
-    // console.log('updated storage :', sessionStorage.getItem(RECENT_UTTERANCES));
   }
 }
