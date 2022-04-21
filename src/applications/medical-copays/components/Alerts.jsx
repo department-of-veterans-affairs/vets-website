@@ -22,7 +22,7 @@ Alert.Error = () => (
       We’re sorry. Something went wrong on our end. You won’t be able to access
       information about your copay balances at this time.
     </p>
-    <h4>What you can do</h4>
+    <h2 className="vads-u-font-size--h4">What you can do</h2>
     <p>
       <strong className="vads-u-margin-right--0p5">
         For questions about your payment or relief options,
