@@ -13,7 +13,7 @@ import { apiRequest } from '../../letters/utils/helpers';
 
 const App = ({ user }) => {
   const [claimStatus, setClaimStatus] = useState(null);
-  const [isLoading, setLoading] = useState(true);
+  // const [isLoading, setLoading] = useState(true);
   const [dateReceived, setDateReceived] = useState('September 8, 2021');
 
   useEffect(
@@ -28,7 +28,7 @@ const App = ({ user }) => {
                 'MMMM d, yyyy',
               ),
             );
-            setLoading(false);
+            // setLoading(false);
             return response?.data?.attributes?.claimantId;
           })
           .catch(err => {
@@ -79,16 +79,16 @@ const App = ({ user }) => {
           Transferred Benefits)
         </p>
         {renderUI()}
-        {!isLoading && (
-          <>
-            <div className="vads-u-margin-bottom--3">
-              <a className="vads-c-action-link--green " href="/demo">
-                Go to your My VA dashboard
-              </a>
-            </div>
-            <FormFooter />
-          </>
-        )}
+        {/* {!isLoading && ( */}
+        <>
+          <div className="vads-u-margin-bottom--3">
+            <a className="vads-c-action-link--green " href="/demo">
+              Go to your My VA dashboard
+            </a>
+          </div>
+          <FormFooter />
+        </>
+        {/* )} */}
       </Layout>
     </>
   );

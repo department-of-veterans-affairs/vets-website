@@ -59,7 +59,11 @@ export default function DeniedUI({ user, dateReceived }) {
               <strong>Date received</strong>
               {dateReceived}
             </div>
-            <button type="button" className="usa-button vads-u-margin-top--3">
+            <button
+              type="button"
+              onClick={() => window.print()}
+              className="usa-button vads-u-margin-top--3"
+            >
               Print this page
             </button>
           </div>
