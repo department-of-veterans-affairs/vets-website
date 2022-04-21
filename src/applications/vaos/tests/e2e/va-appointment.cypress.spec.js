@@ -11,8 +11,10 @@ describe('VAOS direct schedule flow', () => {
     initAppointmentListMock();
     initVAAppointmentMock();
     mockFeatureToggles();
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
-    cy.injectAxe();
+    cy.visit(
+      'health-care/schedule-view-va-appointments/appointments?redirect=false',
+    );
+    cy.injectAxeThenAxeCheck();
 
     // Start flow
     cy.findByText('Start scheduling').click({ waitForAnimations: true });
@@ -77,7 +79,9 @@ describe('VAOS direct schedule flow', () => {
   it('should submit form with an eye care type of care', () => {
     initAppointmentListMock();
     initVAAppointmentMock();
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit(
+      'health-care/schedule-view-va-appointments/appointments?redirect=false',
+    );
     cy.injectAxe();
 
     // Start flow
@@ -145,7 +149,9 @@ describe('VAOS direct schedule flow', () => {
   it('should submit form with a sleep care type of care', () => {
     initAppointmentListMock();
     initVAAppointmentMock();
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit(
+      'health-care/schedule-view-va-appointments/appointments?redirect=false',
+    );
     cy.injectAxe();
 
     // Start flow

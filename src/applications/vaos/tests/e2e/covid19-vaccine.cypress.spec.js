@@ -11,7 +11,9 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     initAppointmentListMock();
     initVaccineAppointmentMock();
     mockFeatureToggles();
-    cy.visit('health-care/schedule-view-va-appointments/appointments');
+    cy.visit(
+      'health-care/schedule-view-va-appointments/appointments?redirect=false',
+    );
     cy.injectAxe();
 
     // Start flow
@@ -119,7 +121,9 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
   it('should show facility contact page on second dose selection', () => {
     initAppointmentListMock();
     initVaccineAppointmentMock();
-    cy.visit('health-care/schedule-view-va-appointments/appointments');
+    cy.visit(
+      'health-care/schedule-view-va-appointments/appointments?redirect=false',
+    );
     cy.injectAxe();
     // Start flow
     cy.findByText('Start scheduling', { waitForAnimations: true }).click({
@@ -160,7 +164,9 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     initAppointmentListMock();
     initVaccineAppointmentMock({ unableToScheduleCovid: true });
 
-    cy.visit('health-care/schedule-view-va-appointments/appointments');
+    cy.visit(
+      'health-care/schedule-view-va-appointments/appointments?redirect=false',
+    );
     cy.injectAxe();
     // Start flow
     cy.findByText('Start scheduling', { waitForAnimations: true }).click({

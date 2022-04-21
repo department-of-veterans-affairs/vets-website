@@ -16,7 +16,9 @@ import requests from '../../services/mocks/v2/requests.json';
 
 describe('VAOS VA request flow', () => {
   function fillOutForm(facilitySelection) {
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit(
+      'health-care/schedule-view-va-appointments/appointments?redirect=false',
+    );
     cy.injectAxe();
 
     // Start flow
@@ -149,7 +151,9 @@ describe('VAOS VA request flow', () => {
         data: facilities983.data.filter(f => f.id === '983GB'),
       },
     });
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit(
+      'health-care/schedule-view-va-appointments/appointments?redirect=false',
+    );
     cy.injectAxe();
 
     // Start flow
@@ -185,7 +189,9 @@ describe('VAOS VA request flow using VAOS service', () => {
       url: /.*\/v0\/appointments?.*$/,
       response: { data: [] },
     });
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit(
+      'health-care/schedule-view-va-appointments/appointments?redirect=false',
+    );
     cy.injectAxe();
 
     // Start flow
