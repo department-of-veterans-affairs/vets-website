@@ -12,8 +12,11 @@ import {
   SPONSOR_NOT_LISTED_LABEL,
   SPONSOR_NOT_LISTED_VALUE,
 } from '../constants';
+import SponsorsSelectionHeadings from '../components/SponsorsSelectionHeadings';
+import { Sponsors } from '../components/Sponsors';
+// import SaveFormLink from '../../../../platform/forms/save-in-progress/SaveFormLink';
 
-function DynamicCheckboxGroup({
+function SponsorSelectionPage({
   data,
   dispatchSponsorsChange,
   errorMessage = 'Please select at least one sponsor',
@@ -101,12 +104,29 @@ function DynamicCheckboxGroup({
     new Map(options?.map(option => [option.value, !!option.selected])),
   );
 
-  const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  const updateButton = <button type="submit">Review update button</button>;
+  const saveAndNavButtons = (
+    <>
+      {/* <SaveFormLink
+        locationPathname={this.props.location.pathname}
+        form={form}
+        formConfig={formConfig}
+        route={route}
+        pageList={route.pageList}
+        user={user}
+        showLoginModal={this.props.showLoginModal}
+        saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
+        toggleLoginModal={this.props.toggleLoginModal}
+      /> */}
+      <FormNavButtons goBack={goBack} submitToContinue />
+    </>
+  );
+  const updateButton = <button type="submit">Update page</button>;
 
   return (
     <Formik initialValues={data} onSubmit={onSubmit}>
       <Form>
+        <SponsorsSelectionHeadings />
+        <Sponsors />
         <CheckboxGroup
           additionalFieldsetClass="vads-u-margin-top--0"
           additionalLegendClass="toe-sponsors_legend vads-u-margin-top--0"
@@ -132,7 +152,7 @@ function DynamicCheckboxGroup({
           required
           values={values}
         />
-        {onReviewPage ? updateButton : navButtons}
+        {onReviewPage ? updateButton : saveAndNavButtons}
       </Form>
     </Formik>
   );
@@ -167,4 +187,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DynamicCheckboxGroup);
+)(SponsorSelectionPage);

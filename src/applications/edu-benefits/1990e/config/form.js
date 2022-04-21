@@ -43,14 +43,13 @@ import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings
 import EmailReviewField from '../components/EmailReviewField';
 import EmailViewField from '../components/EmailViewField';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import DynamicCheckboxGroup from '../components/DynamicCheckboxGroup';
+import SponsorSelectionPage from '../containers/SponsorsSelectionPage';
 import DynamicRadioGroup from '../components/DynamicRadioGroup';
 import IntroductionPage from '../containers/IntroductionPage';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import PhoneReviewField from '../components/PhoneReviewField';
 import PhoneViewField from '../components/PhoneViewField';
-import Sponsors from '../components/Sponsors';
 import YesNoReviewField from '../components/YesNoReviewField';
 
 import {
@@ -562,34 +561,20 @@ const formConfig = {
         [newFormPages.newSponsorSelection]: {
           title: 'Choose your sponsor',
           path: 'new/sponsor/select-sponsor',
-          CustomPage: DynamicCheckboxGroup,
+          CustomPage: SponsorSelectionPage,
           CustomPageReview: SelectedSponsorsReviewField,
           depends: formData =>
             formData.showUpdatedToeApp &&
             (!formData.fetchedSponsorsComplete ||
               formData.sponsors?.sponsors?.length),
           uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Choose your sponsor</h3>
-                  <p>
-                    Based on Department of Defense (DoD) records, this is the
-                    sponsor information we have on file for you.
-                  </p>
-                  <p>
-                    <strong>Note:</strong> If you notice something wrong with
-                    your sponsor’s information or don’t see them listed, let
-                    your sponsor know. Your sponsor can{' '}
-                    <a href="https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1">
-                      update this information on the DoD milConnect website
-                    </a>
-                    .
-                  </p>
-                  <Sponsors />
-                </>
-              ),
-            },
+            // 'view:subHeadings': {
+            //   'ui:description': (
+            //     <>
+            //       <Sponsors />
+            //     </>
+            //   ),
+            // },
             'view:sponsorsLoadingIndicator': {
               'ui:description': (
                 <va-loading-indicator message="Loading your sponsors..." />
@@ -599,7 +584,7 @@ const formConfig = {
               },
             },
             [newFormFields.selectedSponsors]: {
-              'ui:field': DynamicCheckboxGroup,
+              'ui:field': SponsorSelectionPage,
               // 'ui:widget': DynamicCheckboxGroup,
               // 'ui:reviewField': SelectedSponsorsReviewField,
               // 'ui:reviewWidget': SelectedSponsorsReviewField,
@@ -644,10 +629,10 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
+              // 'view:subHeadings': {
+              //   type: 'object',
+              //   properties: {},
+              // },
               [newFormFields.selectedSponsors]: {
                 type: 'array',
                 minItems: 1,
