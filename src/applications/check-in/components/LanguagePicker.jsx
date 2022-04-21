@@ -11,7 +11,10 @@ function LanguagePicker() {
     i18n.changeLanguage(e.target.getAttribute('lang'));
   }
   return (
-    <div className="vads-u-display--inline-block vads-u-margin-bottom--3 vads-u-margin-top--4 vads-u-border--0 vads-u-border-bottom--1px vads-u-border-style--solid vads-u-border-color--gray">
+    <div
+      className="vads-u-display--inline-block vads-u-margin-bottom--3 vads-u-margin-top--4 vads-u-border--0 vads-u-border-bottom--1px vads-u-border-style--solid vads-u-border-color--gray"
+      data-testid="language-picker"
+    >
       {[
         {
           label: 'English',
@@ -28,7 +31,12 @@ function LanguagePicker() {
       ].map((link, i, links) => (
         <Fragment key={i}>
           {language === link.lang ? (
-            <span className="vads-u-font-weight--bold">{link.label}</span>
+            <span
+              className="vads-u-font-weight--bold"
+              data-testid={`translate-button-${link.lang}`}
+            >
+              {link.label}
+            </span>
           ) : (
             <a
               onClick={changeLanguage}
