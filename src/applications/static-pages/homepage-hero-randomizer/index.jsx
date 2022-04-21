@@ -11,7 +11,7 @@ const randomizeOrder = imageArray => {
   while (currentIndex !== 0) {
     // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+    currentIndex -= 1;
 
     // And swap it with the current element.
     [tempArray[currentIndex], tempArray[randomIndex]] = [
@@ -24,18 +24,18 @@ const randomizeOrder = imageArray => {
   return tempArray.slice(0, 3);
 };
 
-const HeroRandom = () => {
-  const imagePaths = [
-    { id: 1, name: 'babu' },
-    { id: 2, name: 'britton' },
-    { id: 3, name: 'clark' },
-    { id: 4, name: 'cogswell' },
-    { id: 5, name: 'dinh' },
-    { id: 6, name: 'henline' },
-    { id: 7, name: 'pickard-locke' },
-    { id: 8, name: 'singleton' },
-  ];
+const imagePaths = [
+  'babu',
+  'britton',
+  'clark',
+  'cogswell',
+  'dinh',
+  'henline',
+  'pickard-locke',
+  'singleton',
+];
 
+const HeroRandom = () => {
   const gradientValues = ['#105f9f', '#144e84', '#143e6a'];
 
   const [randomized, setRandomized] = useState([]);
@@ -47,12 +47,12 @@ const HeroRandom = () => {
 
   return randomized.map((image, index) => {
     return (
-      <div className="vads-l-col" key={image.id}>
+      <div className="vads-l-col" key={image}>
         <img
           className="homepage-hero__image"
           style={{ backgroundColor: gradientValues[index] }}
-          src={`/img/portraits/${image.name}.png`}
-          alt={`Headshot of ${image.name}`}
+          src={`/img/portraits/${image}.png`}
+          alt={`Headshot of ${image}`}
         />
       </div>
     );
