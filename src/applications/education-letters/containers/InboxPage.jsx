@@ -9,6 +9,7 @@ const InboxPage = () => {
   const [claimStatus, setClaimStatus] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [receivedDate, setReceivedDate] = useState(null);
+  const [LTSIsDown, setLTSIsDown] = useState(false);
 
   useEffect(
     () => {
@@ -26,13 +27,13 @@ const InboxPage = () => {
             return response?.data?.attributes?.claimantId;
           })
           .catch(err => {
-            window.location.href = '/education/education-letters/';
+            setLTSIsDown(true);
             return err;
           });
 
       checkIfClaimantHasLetters().then(r => r);
     },
-    [claimStatus],
+    [claimStatus, LTSIsDown],
   );
 
   const HasLetters = (
@@ -146,6 +147,18 @@ const InboxPage = () => {
   );
 
   const renderInbox = () => {
+    if (LTSIsDown) {
+      return (
+        <va-banner
+          headline="There was an error in accessing your decision letters"
+          type="error"
+          visible
+        >
+          We’re sorry we couldn’t display your letters. Please try again later
+        </va-banner>
+      );
+    }
+
     if (!isLoading) {
       if (claimStatus === 'ELIGIBLE') {
         return HasLetters;
