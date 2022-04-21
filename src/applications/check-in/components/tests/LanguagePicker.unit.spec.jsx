@@ -6,6 +6,7 @@ import configureStore from 'redux-mock-store';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
+import i18next from 'i18next';
 import i18n from '../../utils/i18n/i18n';
 
 import LanguagePicker from '../LanguagePicker';
@@ -28,6 +29,9 @@ describe('check-in', () => {
     };
     beforeEach(() => {
       store = mockStore(initState);
+    });
+    afterEach(() => {
+      i18next.changeLanguage('en');
     });
     it('Renders', () => {
       const screen = render(
@@ -61,7 +65,7 @@ describe('check-in', () => {
         'li',
       );
     });
-    it('changes language attr on Main', () => {
+    it('changes language', () => {
       const screen = render(
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
