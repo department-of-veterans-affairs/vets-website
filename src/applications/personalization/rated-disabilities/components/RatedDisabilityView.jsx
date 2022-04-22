@@ -148,7 +148,7 @@ RatedDisabilityView.propTypes = {
   ratedDisabilities: PropTypes.shape({
     ratedDisabilities: PropTypes.array,
   }),
-  totalDisabilityRating: PropTypes.object,
+  totalDisabilityRating: PropTypes.number,
   user: PropTypes.object,
 };
 

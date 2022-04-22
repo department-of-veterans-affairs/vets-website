@@ -1,26 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import { isServerError } from '../util';
 import RatedDisabilityListItem from './RatedDisabilityListItem';
+import SortSelect from './SortSelect';
 
 // Need to transform date string into a meaningful format and extract any special issues.
 const formalizeData = data => {
   return data.map(d => {
-    const effectiveDate = {
-      effectiveDate: d.effectiveDate
-        ? moment(d.effectiveDate).format('DD/MM/YYYY')
-        : null,
-    };
-    return { ...d, ...effectiveDate };
+    const effectiveDate = d.effectiveDate
+      ? moment(d.effectiveDate).format('DD/MM/YYYY')
+      : null;
+
+    return { ...d, effectiveDate };
   });
 };
 
 const noDisabilityRatingContent = errorCode => {
-  let status;
   let content;
+  let status;
 
   if (isServerError(errorCode)) {
     status = 'error';
@@ -71,10 +71,33 @@ const noDisabilityRatingContent = errorCode => {
   );
 };
 
+const sortDate = (a, b, dir) => {
+  if (dir === 'asc') return new Date(a) - new Date(b);
+
+  return new Date(b) - new Date(a);
+};
+
+const sortNumber = (a, b, dir) => {
+  if (dir === 'asc') return a - b;
+
+  return b - a;
+};
+
 const RatedDisabilityList = props => {
+  const [sortBy, setSortBy] = useState('effectiveDate.desc');
+
   useEffect(() => {
     props.fetchRatedDisabilities();
   }, []);
+
+  const sortFunc = (a, b) => {
+    const [sortKey, direction] = sortBy.split('.');
+
+    if (sortKey === 'effectiveDate')
+      return sortDate(a[sortKey], b[sortKey], direction);
+
+    return sortNumber(a[sortKey], b[sortKey], direction);
+  };
 
   if (!props.ratedDisabilities) {
     return <va-loading-indicator message="Loading your information..." />;
@@ -96,13 +119,17 @@ const RatedDisabilityList = props => {
 
   const formattedDisabilities = formalizeData(
     props?.ratedDisabilities?.ratedDisabilities,
-  );
+  ).sort(sortFunc);
 
   return (
-    <div className="vads-l-row">
+    <div>
       <h2 id="individual-ratings" className="vads-u-margin-y--1p5">
         Your individual ratings
       </h2>
+      {sortBy}
+      <div id="ratings-sort-select-ab" className="vads-u-margin-bottom--2">
+        <SortSelect onSelect={setSortBy} sortBy={sortBy} />
+      </div>
       <div className="vads-l-row">
         {formattedDisabilities.map((disability, index) => (
           <RatedDisabilityListItem ratedDisability={disability} key={index} />
