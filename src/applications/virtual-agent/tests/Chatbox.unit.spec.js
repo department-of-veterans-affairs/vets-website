@@ -185,6 +185,10 @@ describe('App', () => {
         );
       });
 
+      // describe(user is initially logged in)
+
+      // describe( user is not logged in)
+
       it('presents disclaimer text when user has not acknowledged the disclaimer.', async () => {
         loadWebChat();
         mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
@@ -617,6 +621,8 @@ describe('App', () => {
             token: 'FAKETOKEN',
             domain:
               'https://northamerica.directline.botframework.com/v3/directline',
+            conversationId: '',
+            watermark: '',
           }),
         ).to.be.true;
       });
