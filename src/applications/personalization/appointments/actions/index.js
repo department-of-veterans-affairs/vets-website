@@ -112,15 +112,91 @@ function getStagingID(facilityID) {
   return facilityID;
 }
 
-export function fetchConfirmedFutureAppointments(_options) {
+export function fetchConfirmedFutureAppointmentsV2() {
+  return async dispatch => {
+    // console.log('loading v2', { dispatch });
+    const startOfToday = moment()
+      .startOf('day')
+      .toISOString();
+
+    // Maximum number of days you can schedule an appointment in advance in VAOS
+    const endDate = moment()
+      .add(395, 'days')
+      .startOf('day')
+      .toISOString();
+
+    // const facilitiesLookup = {};
+
+    const appointmentResponse = await apiRequest(
+      `/appointments?start=${startOfToday}&end=${endDate}`,
+      { apiVersion: 'vaos/v2' },
+    );
+
+    // catch errors
+    if (appointmentResponse?.errors) {
+      dispatch({
+        type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
+        errors: [...(appointmentResponse?.errors || [])],
+      });
+      recordEvent({
+        event: `api_call`,
+        'error-key': `server error`,
+        'api-name': 'GET appointments',
+        'api-status': 'failed',
+      });
+    }
+
+    const { data: appointments } = appointmentResponse;
+
+    // get facility data
+
+    // convert to appointment structure
+    const formatted = appointments.map(appointment => {
+      const isVideo = appointment.attributes?.kind === 'telehealth';
+      const facilityStagingId = getStagingID(appointment.attributes.locationId);
+      const timezone = getTimezoneBySystemId(facilityStagingId)?.timezone;
+      const date = appointment.attributes.start;
+      const startsAt = (timezone
+        ? moment(date).tz(timezone)
+        : moment(date)
+      ).format();
+      return {
+        ...appointment.attributes,
+        id: appointment.id,
+        isVideo,
+        startsAt,
+        type: '',
+        timeZone: getVATimeZone(facilityStagingId),
+        // additionalInfo: getAdditionalInfo(appointment),
+        // facility,
+        // providerName: facility?.attributes?.name,
+        // startsAt: getLocalAppointmentDate(
+        //   'va',
+        //   appointment.attributes,
+        // ).format(),
+        // type: 'va',
+      };
+    });
+    // sort by date
+    const sorted = formatted.sort((a, b) => {
+      return moment(a.start).diff(b.start);
+    });
+    // update redux
+    dispatch({
+      type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
+      appointments: sorted,
+    });
+  };
+}
+export function fetchConfirmedFutureAppointments() {
   return async dispatch => {
     dispatch({
       type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
     });
-    // const { useV2 } = options;
 
     let facilitiesLookup = {};
     let facilitiesResponse;
+
     let vaAppointments = [];
     let ccAppointments = [];
 
