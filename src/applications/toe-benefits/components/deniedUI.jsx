@@ -26,7 +26,7 @@ export default function DeniedUI({ user, dateReceived }) {
           </div>
           <div>
             <a
-              className="vads-u-flex--1 vads-u-margin-bottom--6"
+              className="vads-u-font-weight--bold vads-u-flex--1 vads-u-margin-bottom--6"
               download
               href="/demo"
             >
@@ -51,10 +51,6 @@ export default function DeniedUI({ user, dateReceived }) {
               Application for VA education benefits (Form 22-1990e)
             </h3>
             For {user.fullName}
-            <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-y--2">
-              <strong>Confirmation number</strong>
-              {user.confirmationNumber}
-            </div>
             <div className="vads-u-display--flex vads-u-flex-direction--column">
               <strong>Date received</strong>
               {dateReceived}
@@ -62,7 +58,7 @@ export default function DeniedUI({ user, dateReceived }) {
             <button
               type="button"
               onClick={() => window.print()}
-              className="usa-button vads-u-margin-top--3"
+              className="usa-button vads-u-margin-top--3 vads-u-width--auto"
             >
               Print this page
             </button>
