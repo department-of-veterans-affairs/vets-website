@@ -174,6 +174,7 @@ export function createTransaction(
 
       // If the request does not hit the server, apiRequest which is using fetch - will throw an error
       // it will not return back a transaction with errors on it
+      // TODO: use mock server locally instead of isVAProfileServiceConfigured
       const transaction = isVAProfileServiceConfigured()
         ? await apiRequest(route, options)
         : await localVAProfileService.createTransaction();
@@ -200,7 +201,13 @@ export function createTransaction(
         fieldName,
         transaction,
       });
+
+      // TODO: if personal-information style request, then immediately fire off VAP_SERVICE_TRANSACTION_UPDATED with success metadata
+      // update transaction data to support transactions and immediate result style sync calls
     } catch (error) {
+      // TODO: handle unique errors for personal information requests
+      // dispatch VAP_SERVICE_TRANSACTION_UPDATE_FAILED with appropriate data
+
       const [firstError = {}] = error.errors ?? [];
       const { code = 'code', title = 'title', detail = 'detail' } = firstError;
       const profileSection = analyticsSectionName || 'unknown-profile-section';
