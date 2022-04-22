@@ -38,7 +38,7 @@ const InboxPage = () => {
 
   const HasLetters = (
     <>
-      <FormTitle title="Your VA education letters" />
+      <FormTitle title="Your VA education letter" />
       <p className="va-introtext">
         Download your VA education decision letters.
       </p>
@@ -181,7 +181,7 @@ const InboxPage = () => {
       clsName="inbox-page"
       breadCrumbs={{
         href: '/education/education-letters/preview',
-        text: 'Your VA education letters',
+        text: 'Your VA education letter',
       }}
     >
       <article>{renderInbox()}</article>

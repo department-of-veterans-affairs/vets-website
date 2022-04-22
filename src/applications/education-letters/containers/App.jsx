@@ -35,7 +35,7 @@ const App = ({ toggleLoginModal, user }) => {
         visible
       >
         <h3 slot="headline">
-          Please sign in to check your VA education letters
+          Please sign in to check your VA education letter
         </h3>
         <div>
           Sign in with your existing <b>ID.me</b> account. If you don’t have an
@@ -54,10 +54,10 @@ const App = ({ toggleLoginModal, user }) => {
         clsName="introduction-page"
         breadCrumbs={{
           href: '/education/education-letters',
-          text: 'Download your VA education letters',
+          text: 'Download your VA education letter',
         }}
       >
-        <FormTitle title="Download your VA education letters" />
+        <FormTitle title="Download your VA education letter" />
 
         <p className="va-introtext">
           If you’re a Veteran and you recently received your VA education
@@ -85,7 +85,7 @@ const App = ({ toggleLoginModal, user }) => {
             </div>
           </va-alert>
           <p>
-            You can download your education letters if you’re a Veteran and you
+            You can download your education letter if you’re a Veteran and you
             meet both of the requirements listed here. At this time, family
             members and dependents can’t get their education letters online.
           </p>
@@ -132,3 +132,14 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(App);
+
+// note is old
+// Both of these typo,
+
+// Most recent
+
+// Maybe not independant
+
+// Side bar for VA alert
+
+// Add line break for NO letters > Va alert > Break line between REQUEST YOUR VA education letters
