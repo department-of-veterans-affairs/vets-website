@@ -167,7 +167,12 @@ const HealthCare = ({
         }
       }
     },
-    [fetchConfirmedFutureAppointments, dataLoadingDisabled, useVaosV2Api],
+    [
+      fetchConfirmedFutureAppointments,
+      dataLoadingDisabled,
+      useVaosV2Api,
+      fetchConfirmedFutureAppointmentsV2,
+    ],
   );
 
   useEffect(
@@ -185,7 +190,10 @@ const HealthCare = ({
         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
           Health care
         </h2>
-        <va-loading-indicator message="Loading health care..." />
+        <va-loading-indicator
+          message="Loading health care..."
+          role="progressbar"
+        />
       </div>
     );
   }
