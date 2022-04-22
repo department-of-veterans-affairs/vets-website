@@ -4,19 +4,19 @@ import { VaSelect } from 'web-components/react-bindings';
 
 const sortOptions = [
   {
-    label: 'Disability Rating Ascending',
+    label: 'Disability rating ascending',
     value: 'ratingPercentage.asc',
   },
   {
-    label: 'Disability Rating Descending',
+    label: 'Disability rating descending',
     value: 'ratingPercentage.desc',
   },
   {
-    label: 'Effective Date Ascending',
+    label: 'Effective date ascending',
     value: 'effectiveDate.asc',
   },
   {
-    label: 'Effective Date Descending',
+    label: 'Effective date descending',
     value: 'effectiveDate.desc',
   },
 ];

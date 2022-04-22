@@ -11,7 +11,7 @@ import SortSelect from './SortSelect';
 const formalizeData = data => {
   return data.map(d => {
     const effectiveDate = d.effectiveDate
-      ? moment(d.effectiveDate).format('DD/MM/YYYY')
+      ? moment(d.effectiveDate, 'YYYY-DD-MMThh:mm:ss.SSSZ')
       : null;
 
     return { ...d, effectiveDate };
@@ -71,18 +71,6 @@ const noDisabilityRatingContent = errorCode => {
   );
 };
 
-const sortDate = (a, b, dir) => {
-  if (dir === 'asc') return new Date(a) - new Date(b);
-
-  return new Date(b) - new Date(a);
-};
-
-const sortNumber = (a, b, dir) => {
-  if (dir === 'asc') return a - b;
-
-  return b - a;
-};
-
 const RatedDisabilityList = props => {
   const [sortBy, setSortBy] = useState('effectiveDate.desc');
 
@@ -93,10 +81,9 @@ const RatedDisabilityList = props => {
   const sortFunc = (a, b) => {
     const [sortKey, direction] = sortBy.split('.');
 
-    if (sortKey === 'effectiveDate')
-      return sortDate(a[sortKey], b[sortKey], direction);
-
-    return sortNumber(a[sortKey], b[sortKey], direction);
+    return direction === 'asc'
+      ? a[sortKey] - b[sortKey]
+      : b[sortKey] - a[sortKey];
   };
 
   if (!props.ratedDisabilities) {
@@ -117,6 +104,14 @@ const RatedDisabilityList = props => {
     );
   }
 
+  // props.ratedDisabilities.ratedDisabilities[0].effectiveDate = moment('01/11/2009');
+  // props.ratedDisabilities.ratedDisabilities[1].effectiveDate = moment('01/12/2010');
+
+  // TODO: This runs everytime that the sortKey gets changed
+  // Obviously the .sort part should happen everytime sortKey
+  // is changed, but formalizeDate() only really needs to happen one time.
+  // It might be a good idea to do the formalizeData part in RatedDisabilityView
+  // instead of inside this component
   const formattedDisabilities = formalizeData(
     props?.ratedDisabilities?.ratedDisabilities,
   ).sort(sortFunc);
