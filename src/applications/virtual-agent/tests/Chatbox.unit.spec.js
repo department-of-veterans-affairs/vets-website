@@ -17,7 +17,7 @@ import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggle
 import Chatbox from '../components/chatbox/Chatbox';
 import virtualAgentReducer from '../reducers/index';
 import GreetUser from '../components/webchat/makeBotGreetUser';
-import { LOGGED_IN_FLOW } from '../components/chatbox/utils';
+import { LOGGED_IN_FLOW, RECENT_UTTERANCES } from '../components/chatbox/utils';
 
 export const CHATBOT_ERROR_MESSAGE = /We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk/i;
 
@@ -635,8 +635,141 @@ describe('App', () => {
     });
   });
 
-  xdescribe('virtualAgentAuth is toggled true', () => {
-    it('does not display disclaimer when user has logged in via the bot and has returned to the page, and refreshes', async () => {
+  describe('virtualAgentAuth is toggled false', () => {
+    // const notLoggedInUser = {
+    //   navigation: {
+    //     showLoginModal: false,
+    //     utilitiesMenuIsOpen: { search: false },
+    //   },
+    //   user: {
+    //     login: {
+    //       currentlyLoggedIn: false,
+    //     },
+    //   },
+    //   virtualAgentData: {
+    //     termsAccepted: true,
+    //   },
+    //   featureToggles: {
+    //     virtualAgentAuth: false,
+    //   },
+    // };
+
+    xit('todo: makebotgreetuser test for firing message activity', () => {});
+
+    xit('todo: makebotgreetuser test for firing auth activity', () => {});
+  });
+
+  describe('virtualAgentAuth is toggled true', () => {
+    const notLoggedInUser = {
+      navigation: {
+        showLoginModal: false,
+        utilitiesMenuIsOpen: { search: false },
+      },
+      user: {
+        login: {
+          currentlyLoggedIn: false,
+        },
+      },
+      virtualAgentData: {
+        termsAccepted: true,
+      },
+      featureToggles: {
+        virtualAgentAuth: true,
+      },
+    };
+
+    it('when message activity is fired, then utterances should be stored in sessionStorage', () => {
+      loadWebChat();
+      mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+
+      const messageActivityHandlerSpy = sinon.spy();
+      window.addEventListener(
+        'webchat-message-activity',
+        messageActivityHandlerSpy,
+      );
+
+      renderInReduxProvider(<Chatbox {...defaultProps} />, {
+        initialState: notLoggedInUser,
+        reducers: virtualAgentReducer,
+      });
+
+      const event = new Event('webchat-message-activity');
+      event.data = {
+        type: 'message',
+        text: 'utterance',
+        from: { role: 'user' },
+      };
+      window.dispatchEvent(event);
+
+      expect(messageActivityHandlerSpy.callCount).to.be.greaterThan(0);
+      expect(sessionStorage.getItem(RECENT_UTTERANCES)).to.not.be.null;
+    });
+
+    describe('when user is not logged in initially', () => {
+      it('when auth activity event is fired, then loggedInFlow is set to true', () => {
+        loadWebChat();
+        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+
+        const authActivityHandlerSpy = sinon.spy();
+        window.addEventListener(
+          'webchat-auth-activity',
+          authActivityHandlerSpy,
+        );
+
+        renderInReduxProvider(<Chatbox {...defaultProps} />, {
+          initialState: notLoggedInUser,
+          reducers: virtualAgentReducer,
+        });
+
+        window.dispatchEvent(new Event('webchat-auth-activity'));
+
+        expect(authActivityHandlerSpy.callCount).to.be.greaterThan(0);
+        expect(sessionStorage.getItem(LOGGED_IN_FLOW)).to.equal('true');
+      });
+    });
+
+    describe('when user is logged in initially', () => {
+      const loggedInUser = {
+        navigation: {
+          showLoginModal: false,
+          utilitiesMenuIsOpen: { search: false },
+        },
+        user: {
+          login: {
+            currentlyLoggedIn: true,
+          },
+        },
+        virtualAgentData: {
+          termsAccepted: true,
+        },
+        featureToggles: {
+          virtualAgentAuth: true,
+        },
+      };
+
+      it('when auth activity event is fired then no changes occur to state', () => {
+        loadWebChat();
+        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+
+        const authActivityHandlerSpy = sinon.spy();
+        window.addEventListener(
+          'webchat-auth-activity',
+          authActivityHandlerSpy,
+        );
+
+        renderInReduxProvider(<Chatbox {...defaultProps} />, {
+          initialState: loggedInUser,
+          reducers: virtualAgentReducer,
+        });
+
+        window.dispatchEvent(new Event('webchat-auth-activity'));
+
+        expect(authActivityHandlerSpy.callCount).to.be.greaterThan(0);
+        expect(sessionStorage.getItem(LOGGED_IN_FLOW)).to.not.equal('true');
+      });
+    });
+
+    xit('does not display disclaimer when user has logged in via the bot and has returned to the page, and refreshes', async () => {
       const loggedInUser = {
         navigation: {
           showLoginModal: false,
