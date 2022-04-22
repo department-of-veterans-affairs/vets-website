@@ -89,6 +89,7 @@ describe('App', () => {
             userFullName: {
               first: 'MARK',
             },
+            accountUuid: 'fake_uuid',
           },
         },
       },
@@ -140,6 +141,7 @@ describe('App', () => {
           'https://dev-api.va.gov',
           'https://dev.va.gov',
           'Mark',
+          'fake_uuid',
         );
       });
 
@@ -165,6 +167,7 @@ describe('App', () => {
                   userFullName: {
                     first: null,
                   },
+                  accountUuid: 'fake_uuid',
                 },
               },
             },
@@ -181,6 +184,7 @@ describe('App', () => {
           'https://dev-api.va.gov',
           'https://dev.va.gov',
           'noFirstNameFound',
+          'fake_uuid',
         );
       });
 

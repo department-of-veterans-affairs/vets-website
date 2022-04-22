@@ -79,7 +79,7 @@ export const ContactInfoDescription = ({ formContext, profile, homeless }) => {
       <h3 className="vads-u-margin-top--0">Contact Information</h3>
       <p>
         This is the contact information we have on file for you. We’ll send any
-        updates or information about your Higher-Level Review to this address.
+        updates or information about your appeal to this address.
       </p>
       <p>
         <strong>Note:</strong> Any updates you make here will be reflected in

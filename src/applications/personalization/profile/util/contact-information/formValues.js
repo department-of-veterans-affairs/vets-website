@@ -90,11 +90,13 @@ export const getInitialFormValues = options => {
 
   if (personalInformation.includes(fieldName)) {
     // handle a single string type of field value
-    if (
-      fieldName === FIELD_NAMES.PREFERRED_NAME ||
-      fieldName === FIELD_NAMES.GENDER_IDENTITY
-    ) {
+    if (fieldName === FIELD_NAMES.PREFERRED_NAME) {
       return transformInitialFormValues(data);
+    }
+
+    // return object with gender code for radio group field value
+    if (fieldName === FIELD_NAMES.GENDER_IDENTITY) {
+      return set({}, fieldName, data?.[fieldName]?.code);
     }
 
     const notListedTextKey = createNotListedTextKey(fieldName);

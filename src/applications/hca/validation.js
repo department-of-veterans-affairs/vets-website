@@ -53,13 +53,24 @@ export function validateServiceDates(
   }
 }
 
-function logMarriageError(errorMessage, spouseDOB, vetDOB, marriage) {
+function logMarriageError(
+  errorMessage,
+  spouseDateOfBirth,
+  veteranDateOfBirth,
+  marriageDate,
+  momentSpouseDOB,
+  momentVetDOB,
+  momentMarriage,
+) {
   Sentry.withScope(scope => {
     const message = `hca_1010ez_dob_marrige_error`;
     scope.setContext(message, {
-      spouseDOB,
-      vetDOB,
-      marriage,
+      spouseDateOfBirth,
+      veteranDateOfBirth,
+      marriageDate,
+      momentSpouseDOB,
+      momentVetDOB,
+      momentMarriage,
       errorMessage,
     });
     Sentry.captureMessage(message);
@@ -71,9 +82,9 @@ export function validateMarriageDate(
   marriageDate,
   { spouseDateOfBirth, veteranDateOfBirth, discloseFinancialInformation },
 ) {
-  const vetDOB = moment(veteranDateOfBirth);
-  const spouseDOB = moment(spouseDateOfBirth);
-  const marriage = moment(marriageDate);
+  const vetDOB = moment(veteranDateOfBirth, 'YYYY-MM-DD');
+  const spouseDOB = moment(spouseDateOfBirth, 'YYYY-MM-DD');
+  const marriage = moment(marriageDate, 'YYYY-MM-DD');
   if (
     discloseFinancialInformation &&
     spouseDOB.isAfter(marriage) &&
@@ -84,6 +95,9 @@ export function validateMarriageDate(
     );
     logMarriageError(
       'Date of marriage cannot be before the Veteran’s or the spouse’s date of birth',
+      spouseDateOfBirth,
+      veteranDateOfBirth,
+      marriageDate,
       spouseDOB,
       vetDOB,
       marriage,
@@ -94,6 +108,9 @@ export function validateMarriageDate(
     );
     logMarriageError(
       'Date of marriage cannot be before the spouse’s date of birth',
+      spouseDateOfBirth,
+      veteranDateOfBirth,
+      marriageDate,
       spouseDOB,
       vetDOB,
       marriage,
@@ -104,6 +121,9 @@ export function validateMarriageDate(
     );
     logMarriageError(
       'Date of marriage cannot be before the Veteran’s date of birth',
+      spouseDateOfBirth,
+      veteranDateOfBirth,
+      marriageDate,
       spouseDOB,
       vetDOB,
       marriage,
