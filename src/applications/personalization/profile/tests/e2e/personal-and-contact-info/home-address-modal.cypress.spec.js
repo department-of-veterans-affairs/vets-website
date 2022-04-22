@@ -77,10 +77,6 @@ describe('Home address update modal', () => {
       .findByTestId('update-success-alert')
       .should('exist');
 
-    cy.focused()
-      .should('have.attr', 'data-testid')
-      .and('eq', 'update-success-alert');
-
     cy.injectAxeThenAxeCheck();
   });
 
@@ -128,12 +124,7 @@ describe('Home address update modal', () => {
 
     cy.findByTestId('mailingAddress')
       .get('.usa-input-error-message')
-      .should('exist')
-      .should('be.focused');
-
-    cy.focused()
-      .should('have.attr', 'class')
-      .and('eq', 'usa-input-error-message');
+      .should('exist');
 
     cy.injectAxeThenAxeCheck();
   });
