@@ -1,11 +1,9 @@
 import React from 'react';
 import { useField, FieldHookConfig } from 'formik';
 
-import { FieldProps } from './types';
 import { chainValidations, required } from '../utils/validation';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-
-type CheckboxProps = FieldProps<string> & { checked: boolean };
+import { CheckboxProps } from './types';
 
 const CheckboxField = (props: CheckboxProps): JSX.Element => {
   const withValidation = {
@@ -23,6 +21,7 @@ const CheckboxField = (props: CheckboxProps): JSX.Element => {
       label={props.label}
       required={!!props.required}
       {...field}
+      name={props.name}
       checked={field.value}
       onVaChange={(e: CustomEvent) => {
         helpers.setValue((e?.target as HTMLInputElement).checked);

@@ -48,7 +48,7 @@ export interface IFormData {
  */
 export interface IFormContextType {
   formData: IFormData;
-  handleUpdate?: (data:Record<string, unknown>) => void;
+  handleUpdate?: (data: Record<string, unknown>) => void;
 }
 
 /**

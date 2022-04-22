@@ -23,6 +23,11 @@ export interface ChapterProps {
 // @public (undocumented)
 export const CheckboxField: (props: CheckboxProps) => JSX.Element;
 
+// Warning: (ae-forgotten-export) The symbol "CheckboxGroupProps" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export const CheckboxFieldGroup: (props: CheckboxGroupProps) => JSX.Element;
+
 // Warning: (ae-forgotten-export) The symbol "DateProps" needs to be exported by the entry point index.d.ts
 //
 // @public

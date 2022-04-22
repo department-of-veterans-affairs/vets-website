@@ -44,7 +44,7 @@ export const buildRenderForm = (
 };
 
 export const changeValue = async (
-  el: HTMLInputElement | HTMLVaSelectElement,
+  el: HTMLInputElement | HTMLVaTextInputElement | HTMLVaSelectElement,
   value: string | boolean,
   eventName = 'vaChange'
 ): Promise<void> => {

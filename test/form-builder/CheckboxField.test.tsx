@@ -6,8 +6,8 @@ import { buildRenderForm, changeValue } from '../utils';
 
 const renderForm = buildRenderForm({ thing: false });
 
-const getInput = (container: HTMLElement): HTMLVaCheckboxElement => {
-  const input = container.querySelector('va-checkbox') as HTMLVaCheckboxElement;
+const getInput = (container: HTMLElement): HTMLElement => {
+  const input = container.querySelector('va-checkbox') as HTMLElement;
   if (!input) throw new Error('No va-checkbox found');
   return input;
 };
@@ -76,6 +76,7 @@ describe('Form Builder - CheckboxField', () => {
     );
     const input = getInput(container);
     await changeValue(input, true);
+    const getFormPrps = getFormProps();
     expect(getFormProps().values).toEqual({ thing: true });
   });
 });
