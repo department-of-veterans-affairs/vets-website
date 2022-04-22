@@ -1,6 +1,9 @@
 import { FieldProps } from '../form-builder/types';
 import { getMessage } from './i18n';
 
+export const emailRegex =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 export type ValidationFunctionResult<T> =
   | void
   | undefined
@@ -45,20 +48,31 @@ export const required = <T>(
   return props.validate ? props.validate(value) : undefined;
 };
 
+/**
+ * This function is used to validate an email address, while returning error messages if an email
+ * is invalid. The logic is as follows:
+ *
+ *  1. Ensure the email address is a string. If it's not, return an error message
+ *  2. Ensure that one of the following is true, else output an error message:
+ *    2a. The field is not required -AND- the field has no entered value
+ *    2b. The value in the field matches an email validation regular expression
+ *
+ * @param emailString
+ * @param props
+ */
 export const isValidEmail = <T>(
   emailString: T,
   props: FieldProps<T>
 ): ValidationFunctionResult<T> => {
   if (typeof emailString !== 'string') {
-    console.log(props);
     return 'Error: Email is not the correct type'; // This shouldn't happen
   }
 
   // Comes from StackOverflow: http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
   const isValid =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-      emailString
-    );
+    (!props.required && !emailString) || emailRegex.test(emailString);
 
-  return isValid ? '' : 'Error validating your email';
+  return isValid
+    ? ''
+    : 'Please enter an email address using this format: X@X.com';
 };

@@ -8,9 +8,9 @@ import TextField from './TextField';
 export type EmailProps = FieldProps<string>;
 
 /**
+ * Renders the EmailField component
  *
- *
- *
+ * @beta
  */
 const EmailField = (props: EmailProps): JSX.Element => {
   const withValidation = {
