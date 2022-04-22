@@ -8,6 +8,7 @@ const GreetUser = {
     apiURL,
     baseURL,
     userFirstName,
+    userUuid,
   ) => ({ dispatch }) => next => action => {
     if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
       dispatch({
@@ -28,6 +29,7 @@ const GreetUser = {
               apiURL,
               baseURL,
               userFirstName,
+              userUuid,
             },
           },
         },
