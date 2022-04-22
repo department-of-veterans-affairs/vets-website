@@ -141,6 +141,117 @@ describe('App', () => {
           'https://dev-api.va.gov',
           'https://dev.va.gov',
           'Mark',
+        );
+      });
+
+      it('passes blank string when user is signed in but doesnt have a name', async () => {
+        loadWebChat();
+        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+
+        const { getByTestId } = renderInReduxProvider(
+          <Chatbox {...defaultProps} />,
+          {
+            initialState: {
+              featureToggles: {
+                loading: false,
+              },
+              virtualAgentData: {
+                termsAccepted: true,
+              },
+              user: {
+                login: {
+                  currentlyLoggedIn: true,
+                },
+                profile: {
+                  userFullName: {
+                    first: null,
+                  },
+                },
+              },
+            },
+            reducers: virtualAgentReducer,
+          },
+        );
+
+        await waitFor(() => expect(getByTestId('webchat')).to.exist);
+
+        sinon.assert.calledWithExactly(
+          GreetUser.makeBotGreetUser,
+          'FAKECSRF',
+          'FAKEAPISESSION',
+          'https://dev-api.va.gov',
+          'https://dev.va.gov',
+          'noFirstNameFound',
+        );
+      });
+
+      it('presents disclaimer text when user has not acknowledged the disclaimer.', async () => {
+        loadWebChat();
+        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+        const unacknowledgedUserStore = {
+          initialState: {
+            featureToggles: {
+              loading: false,
+            },
+            virtualAgentData: {
+              termsAccepted: false,
+            },
+            user: {
+              login: {
+                currentlyLoggedIn: true,
+              },
+              profile: {
+                userFullName: {
+                  first: 'Steve',
+                },
+              },
+            },
+          },
+          reducers: virtualAgentReducer,
+        };
+
+        const wrapper = renderInReduxProvider(
+          <Chatbox {...defaultProps} />,
+          unacknowledgedUserStore,
+        );
+
+        await waitFor(
+          () =>
+            expect(
+              wrapper.getByText(
+                'Our virtual agent can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.',
+              ),
+            ).to.exist,
+        );
+
+        await waitFor(
+          () =>
+            expect(
+              wrapper.getByText(
+                'Please don’t type any personal information such as your name, address, or anything else that can be used to identify you.',
+              ),
+            ).to.exist,
+        );
+      });
+
+      it('passes CSRF Token, Api Session, Api Url, and Base Url to greet user', async () => {
+        loadWebChat();
+        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+
+        const { getByTestId } = renderInReduxProvider(
+          <Chatbox {...defaultProps} />,
+          providerObject,
+        );
+
+        await waitFor(() => expect(getByTestId('webchat')).to.exist);
+
+        sinon.assert.calledWithExactly(
+          GreetUser.makeBotGreetUser,
+          'FAKECSRF',
+          'FAKEAPISESSION',
+          'https://dev-api.va.gov',
+          'https://dev.va.gov',
+          'Mark',
           'fake_uuid',
         );
       });
@@ -286,7 +397,6 @@ describe('App', () => {
 
         expect(store.getState().virtualAgentData.termsAccepted).to.be.true;
       });
-
     });
 
     describe('web chat script has not loaded', () => {
