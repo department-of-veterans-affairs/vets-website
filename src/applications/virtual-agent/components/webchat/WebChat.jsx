@@ -41,6 +41,8 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   let directLineToken = token;
   let conversationId = '';
   if (sessionStorage.getItem(LOGGED_IN_FLOW) === 'true' && isLoggedIn) {
+    //why is this not being printed in the test?
+    console.log('user finished logging in, so use prexisting direct line keys');
     directLineToken = sessionStorage.getItem(TOKEN_KEY);
     conversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
   }

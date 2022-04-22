@@ -17,7 +17,12 @@ import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggle
 import Chatbox from '../components/chatbox/Chatbox';
 import virtualAgentReducer from '../reducers/index';
 import GreetUser from '../components/webchat/makeBotGreetUser';
-import { LOGGED_IN_FLOW, RECENT_UTTERANCES } from '../components/chatbox/utils';
+import {
+  LOGGED_IN_FLOW,
+  CONVERSATION_ID_KEY,
+  TOKEN_KEY,
+  RECENT_UTTERANCES,
+} from '../components/chatbox/utils';
 
 export const CHATBOT_ERROR_MESSAGE = /We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk/i;
 
@@ -678,6 +683,24 @@ describe('App', () => {
       },
     };
 
+    const loggedInUser = {
+      navigation: {
+        showLoginModal: false,
+        utilitiesMenuIsOpen: { search: false },
+      },
+      user: {
+        login: {
+          currentlyLoggedIn: true,
+        },
+      },
+      virtualAgentData: {
+        termsAccepted: true,
+      },
+      featureToggles: {
+        virtualAgentAuth: true,
+      },
+    };
+
     it('when message activity is fired, then utterances should be stored in sessionStorage', () => {
       loadWebChat();
       mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
@@ -729,23 +752,6 @@ describe('App', () => {
     });
 
     describe('when user is logged in initially', () => {
-      const loggedInUser = {
-        navigation: {
-          showLoginModal: false,
-          utilitiesMenuIsOpen: { search: false },
-        },
-        user: {
-          login: {
-            currentlyLoggedIn: true,
-          },
-        },
-        virtualAgentData: {
-          termsAccepted: true,
-        },
-        featureToggles: {
-          virtualAgentAuth: true,
-        },
-      };
 
       it('when auth activity event is fired then no changes occur to state', () => {
         loadWebChat();
@@ -769,8 +775,42 @@ describe('App', () => {
       });
     });
 
+    describe('when user is prompted to sign in by the bot and has finished signing in', () => {
+      it.only('should render webchat with pre-existing conversation id and token', async () => {
+
+        //TEST SETUP
+        // logged in flow should be set to true
+        // user should be logged in
+        // this test should not test the code on chatbox. should bypass that code and test the webchat component in isolation
+
+        loadWebChat();
+        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION', conversationId: 'FAKECONVOID' });
+        sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
+        console.log( sessionStorage.getItem(LOGGED_IN_FLOW))
+        console.log(sessionStorage);
+
+        const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
+          initialState: loggedInUser,
+          reducers: virtualAgentReducer,
+        });
+
+        await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
+
+        expect(directLineSpy.called).to.be.true;
+        expect(
+          directLineSpy.calledWith({
+            token: 'FAKETOKEN',
+            domain:
+              'https://northamerica.directline.botframework.com/v3/directline',
+            conversationId: 'FAKECONVOID',
+            watermark: '',
+          }),
+        ).to.be.true;
+      });
+    });
+
     xit('does not display disclaimer when user has logged in via the bot and has returned to the page, and refreshes', async () => {
-      const loggedInUser = {
+      var loggedInUser = {
         navigation: {
           showLoginModal: false,
           utilitiesMenuIsOpen: { search: false },
