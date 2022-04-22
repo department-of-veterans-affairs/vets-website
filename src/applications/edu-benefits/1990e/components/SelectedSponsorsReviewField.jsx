@@ -1,9 +1,14 @@
 import React from 'react';
+import { SPONSOR_NOT_LISTED_LABEL } from '../constants';
 
 export default function SelectedSponsorsReviewField({ data, editPage, title }) {
-  const selectedSponsors = data.sponsors?.sponsors
-    .filter(s => s.selected)
-    .map((s, index) => `Sponsor ${index + 1}: ${s.name}`);
+  const selectedSponsors = data?.sponsors?.sponsors?.flatMap(
+    (sponsor, index) =>
+      sponsor.selected ? [`Sponsor ${index + 1}: ${sponsor.name}`] : [],
+  );
+  if (data?.sponsors?.someoneNotListed) {
+    selectedSponsors.push(SPONSOR_NOT_LISTED_LABEL);
+  }
 
   return (
     <>
