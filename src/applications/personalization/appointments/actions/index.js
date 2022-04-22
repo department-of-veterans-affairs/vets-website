@@ -167,14 +167,9 @@ export function fetchConfirmedFutureAppointmentsV2() {
         startsAt,
         type: '',
         timeZone: getVATimeZone(facilityStagingId),
-        // additionalInfo: getAdditionalInfo(appointment),
-        // facility,
-        // providerName: facility?.attributes?.name,
-        // startsAt: getLocalAppointmentDate(
-        //   'va',
-        //   appointment.attributes,
-        // ).format(),
-        // type: 'va',
+        additionalInfo: getAdditionalInfo(appointment),
+        facility: { ...appointment.attributes.location.attributes },
+        providerName: appointment.attributes.location?.attributes?.name,
       };
     });
     // sort by date
