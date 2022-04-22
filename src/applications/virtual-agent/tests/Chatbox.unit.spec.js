@@ -72,7 +72,7 @@ describe('App', () => {
     });
   }
 
-  describe('user lands on chatbot page', () => {
+  describe('user lands on chatbot page (default behaviors)', () => {
     const providerObject = {
       initialState: {
         featureToggles: {
@@ -635,44 +635,7 @@ describe('App', () => {
     });
   });
 
-  describe('virtualAgentAuth is toggled false', () => {
-    const initialStateAuthNotRequired = {
-      navigation: {
-        showLoginModal: false,
-        utilitiesMenuIsOpen: { search: false },
-      },
-      user: {
-        login: {
-          currentlyLoggedIn: false,
-        },
-      },
-      virtualAgentData: {
-        termsAccepted: false,
-      },
-      featureToggles: {
-        virtualAgentAuth: false,
-      },
-    };
-
-    it('displays disclaimer', async () => {
-      loadWebChat();
-      mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
-
-      const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
-        initialState: initialStateAuthNotRequired,
-        reducers: virtualAgentReducer,
-      });
-
-      await waitFor(
-        () =>
-          expect(
-            wrapper.getByText(
-              'Our virtual agent can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.',
-            ),
-          ).to.exist,
-      );
-    });
-
+  xdescribe('virtualAgentAuth is toggled true', () => {
     it('does not display disclaimer when user has logged in via the bot and has returned to the page, and refreshes', async () => {
       const loggedInUser = {
         navigation: {
