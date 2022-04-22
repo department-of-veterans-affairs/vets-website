@@ -1,6 +1,15 @@
 # TODO
 
 - Update team with status
+  - bigger than expected
+  - tons of questions that need answered
+  - merging in mocks and toggles
+- fixed/create tests
+  - unit tests
+  - e2e
+- get PR in
+  
+
 - Organize questions into tech/business logic
 - figure out logic around displaying the appointment and edge cases
 - unit tests
