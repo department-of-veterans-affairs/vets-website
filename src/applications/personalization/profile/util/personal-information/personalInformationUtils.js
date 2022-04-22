@@ -163,7 +163,7 @@ export const formatGenderIdentity = genderData => {
   if (genderData?.code) {
     return genderLabels?.[genderData.code];
   }
-  return '';
+  return null;
 };
 
 export const formatMultiSelectAndText = (data, fieldName) => {
