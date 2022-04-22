@@ -33,13 +33,13 @@ const pronounsLabels = {
 };
 
 const genderLabels = {
-  man: 'Man',
-  nonBinary: 'Non-binary',
-  transgenderMan: 'Transgender man',
-  transgenderWoman: 'Transgender woman',
-  woman: 'Woman',
-  preferNotToAnswer: 'Prefer not to answer',
-  genderNotListed: 'A gender not listed here',
+  M: 'Man',
+  B: 'Non-binary',
+  TM: 'Transgender man',
+  TW: 'Transgender woman',
+  W: 'Woman',
+  N: 'Prefer not to answer',
+  O: 'A gender not listed here',
 };
 
 // use the keys from the genderLabels object as the option values
@@ -159,7 +159,12 @@ export const formatIndividualLabel = (key, label) => {
   return label;
 };
 
-export const formatGenderIdentity = genderKey => genderLabels?.[genderKey];
+export const formatGenderIdentity = genderData => {
+  if (genderData?.code) {
+    return genderLabels?.[genderData.code];
+  }
+  return '';
+};
 
 export const formatMultiSelectAndText = (data, fieldName) => {
   const notListedTextKey = `${fieldName}NotListedText`;
