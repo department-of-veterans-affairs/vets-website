@@ -32,7 +32,9 @@ const App = ({ user }) => {
             return response?.data?.attributes?.claimantId;
           })
           .catch(err => {
-            // window.location.href = '/';
+            if (user) {
+              // window.location.href = '/';
+            }
             return err;
           });
 
@@ -51,7 +53,7 @@ const App = ({ user }) => {
     // if (!isLoading) {
     if (claimStatus === true)
       return <ApprovedUI dateReceived={dateReceived} user={user2} />;
-    return <DeniedUI dateReceived={dateReceived} user={user} />;
+    return <DeniedUI dateReceived={dateReceived} user={user2} />;
     // }
     // return (
     //   <div className="vads-u-margin-y--5">
