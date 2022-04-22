@@ -26,7 +26,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
           environment.API_URL,
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
-          userUuid === null ? 'null' : userUuid, // Because PVA cannot support empty strings or null pass in 'null' if user is not logged in
+          userUuid === null ? 'noUserUuid' : userUuid, // Because PVA cannot support empty strings or null pass in 'null' if user is not logged in
         ),
       ),
     [createStore],
