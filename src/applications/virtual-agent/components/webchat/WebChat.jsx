@@ -32,7 +32,6 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
           environment.API_URL,
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
-          isLoggedIn,
           userUuid === null ? 'noUserUuid' : userUuid, // Because PVA cannot support empty strings or null pass in 'null' if user is not logged in
         ),
       ),
