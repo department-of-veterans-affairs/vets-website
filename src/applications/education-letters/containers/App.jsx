@@ -68,6 +68,31 @@ const App = ({ toggleLoginModal, user }) => {
 
         <div className="vads-u-margin-bottom--6">
           <h2>Who can download VA education letters?</h2>
+          <p>
+            You can download your education letter if you’re a Veteran and you
+            meet both of the requirements listed here. At this time, family
+            members and dependents can’t get their education letters online.
+          </p>
+          <p>
+            <b>Both of these must be true:</b>
+          </p>
+          <ul>
+            <li>
+              You applied for Post-9/11 GI Bill benefits, <b>and</b>
+            </li>
+            <li>
+              You received a decision from us about your application after Month
+              Day, Year
+            </li>
+          </ul>
+          <p>
+            <b>Note:</b> If you have an older decision letter—or you’re a family
+            member or dependent—you can contact us through Ask VA to request a
+            copy of your letter.
+            <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
+              Request your VA education letter through Ask VA.
+            </a>
+          </p>
           <va-alert
             close-btn-aria-label="Close notification"
             show-icon
@@ -84,31 +109,6 @@ const App = ({ toggleLoginModal, user }) => {
               available too.
             </div>
           </va-alert>
-          <p>
-            You can download your education letter if you’re a Veteran and you
-            meet both of the requirements listed here. At this time, family
-            members and dependents can’t get their education letters online.
-          </p>
-          <p>
-            <b>Both of these must be true. You:</b>
-          </p>
-          <ul>
-            <li>
-              You applied for Post-9/11 GI Bill benefits, <b>and</b>
-            </li>
-            <li>
-              You received a decision from us about your application after Month
-              Day, Year
-            </li>
-          </ul>
-          <p>
-            <b>Note:</b> If you have an older COE or denial letter—or you’re a
-            family member or dependent—you can contact us through Ask VA to
-            request a copy of your letter.{' '}
-            <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
-              Request your VA education letter through Ask VA.
-            </a>
-          </p>
         </div>
       </Layout>
     </>
@@ -132,14 +132,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(App);
-
-// note is old
-// Both of these typo,
-
-// Most recent
-
-// Maybe not independant
-
-// Side bar for VA alert
-
-// Add line break for NO letters > Va alert > Break line between REQUEST YOUR VA education letters
