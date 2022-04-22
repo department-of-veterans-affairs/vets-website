@@ -14,7 +14,6 @@ import {
   mockMultipleApiRequests,
 } from 'platform/testing/unit/helpers';
 import { FETCH_TOGGLE_VALUES_SUCCEEDED } from 'platform/site-wide/feature-toggles/actionTypes';
-import Main from 'platform/site-wide/user-nav/containers/Main';
 import Chatbox from '../components/chatbox/Chatbox';
 import virtualAgentReducer from '../reducers/index';
 import GreetUser from '../components/webchat/makeBotGreetUser';
@@ -73,7 +72,7 @@ describe('App', () => {
     });
   }
 
-  describe('user is logged in', () => {
+  describe('user is logged in or not logged in (default behavior)', () => {
     const providerObject = {
       initialState: {
         featureToggles: {
@@ -287,6 +286,7 @@ describe('App', () => {
 
         expect(store.getState().virtualAgentData.termsAccepted).to.be.true;
       });
+
     });
 
     describe('web chat script has not loaded', () => {
@@ -585,80 +585,8 @@ describe('App', () => {
       });
     });
   });
-  describe('when user is not logged in', () => {
-    const initialStateNotLoggedIn = {
-      navigation: {
-        showLoginModal: false,
-        utilitiesMenuIsOpen: { search: false },
-      },
-      user: {
-        login: {
-          currentlyLoggedIn: false,
-        },
-      },
-      virtualAgentData: {
-        termsAccepted: true,
-      },
-      featureToggles: {
-        virtualAgentAuth: true,
-      },
-    };
 
-    it('displays a login widget', async () => {
-      const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
-        initialState: initialStateNotLoggedIn,
-        reducers: virtualAgentReducer,
-      });
-
-      await waitFor(
-        () =>
-          expect(wrapper.getByText('Please sign in to access the chatbot')).to
-            .exist,
-      );
-    });
-
-    it('displays sign in modal when user clicks sign in button', async () => {
-      const store = createTestStore(
-        initialStateNotLoggedIn,
-        virtualAgentReducer,
-      );
-
-      const wrapper = renderInReduxProvider(
-        <>
-          <Chatbox {...defaultProps} />
-          <Main />
-        </>,
-        {
-          store,
-        },
-      );
-      const button = wrapper.getByText('Sign in to VA.gov');
-
-      expect(wrapper.queryByRole('dialog')).to.not.exist;
-
-      await act(async () => {
-        fireEvent.click(button);
-      });
-
-      expect(store.getState().navigation.showLoginModal).to.be.true;
-      expect(wrapper.getByRole('dialog')).to.exist;
-    });
-
-    it('does not display chatbot', async () => {
-      const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
-        initialState: {
-          initialStateNotLoggedIn,
-        },
-        reducers: virtualAgentReducer,
-      });
-
-      const alertText = wrapper.queryByText('Loading Virtual Agent');
-
-      expect(alertText).to.not.exist;
-    });
-  });
-
-  describe('virtualAgentAuth is toggled false', () => {
+  describe.todo('virtualAgentAuth is toggled true', () => {
     const initialStateAuthNotRequired = {
       navigation: {
         showLoginModal: false,
@@ -673,77 +601,60 @@ describe('App', () => {
         termsAccepted: false,
       },
       featureToggles: {
-        virtualAgentAuth: false,
+        virtualAgentAuth: true,
       },
     };
 
-    it('displays disclaimer', async () => {
-      loadWebChat();
-      mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
-
-      const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
-        initialState: initialStateAuthNotRequired,
-        reducers: virtualAgentReducer,
-      });
-
-      await waitFor(
-        () =>
-          expect(
-            wrapper.getByText(
-              'Our virtual agent can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.',
-            ),
-          ).to.exist,
-      );
-    });
-
-    it('does not display disclaimer when user has logged in via the bot and has returned to the page, and refreshes', async () => {
-      const loggedInUser = {
-        navigation: {
-          showLoginModal: false,
-          utilitiesMenuIsOpen: { search: false },
-        },
-        user: {
-          login: {
-            currentlyLoggedIn: true,
+    describe('when user has logged in via the bot and has returned to the page, and refreshes', () => {
+      it('does not display disclaimer ', async () => {
+        const loggedInUser = {
+          navigation: {
+            showLoginModal: false,
+            utilitiesMenuIsOpen: { search: false },
           },
-        },
-        virtualAgentData: {
-          termsAccepted: false,
-        },
-        featureToggles: {
-          virtualAgentAuth: false,
-        },
-      };
+          user: {
+            login: {
+              currentlyLoggedIn: true,
+            },
+          },
+          virtualAgentData: {
+            termsAccepted: false,
+          },
+          featureToggles: {
+            virtualAgentAuth: false,
+          },
+        };
 
-      sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
+        sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
 
-      loadWebChat();
-      mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+        loadWebChat();
+        mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
 
-      const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
-        initialState: loggedInUser,
-        reducers: virtualAgentReducer,
+        const wrapper = renderInReduxProvider(<Chatbox {...defaultProps} />, {
+          initialState: loggedInUser,
+          reducers: virtualAgentReducer,
+        });
+
+        await waitFor(
+          () =>
+            expect(
+              wrapper.queryByText(
+                'Our virtual agent can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.',
+              ),
+            ).to.not.exist,
+        );
+
+        location.reload();
+
+        await waitFor(
+          () =>
+            expect(
+              wrapper.queryByText(
+                'Our virtual agent can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.',
+              ),
+            ).to.not.exist,
+        );
       });
-
-      await waitFor(
-        () =>
-          expect(
-            wrapper.queryByText(
-              'Our virtual agent can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.',
-            ),
-          ).to.not.exist,
-      );
-
-      location.reload();
-
-      await waitFor(
-        () =>
-          expect(
-            wrapper.queryByText(
-              'Our virtual agent can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.',
-            ),
-          ).to.not.exist,
-      );
     });
   });
 });
