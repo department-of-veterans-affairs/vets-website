@@ -107,8 +107,8 @@ const RatedDisabilityList = props => {
   // TODO: This runs everytime that the sortKey gets changed
   // Obviously the .sort part should happen everytime sortKey
   // is changed, but formalizeDate() only really needs to happen one time.
-  // It might be a good idea to do the formalizeData part in RatedDisabilityView
-  // instead of inside this component
+  // It might be a good idea to do the 'formalizeData' part in RatedDisabilityView
+  // or the 'ratedDisabilities' reducer instead of inside this component
   const formattedDisabilities = formalizeData(
     props?.ratedDisabilities?.ratedDisabilities,
   ).sort(sortFunc);
