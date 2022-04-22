@@ -104,9 +104,6 @@ const RatedDisabilityList = props => {
     );
   }
 
-  // props.ratedDisabilities.ratedDisabilities[0].effectiveDate = moment('01/11/2009');
-  // props.ratedDisabilities.ratedDisabilities[1].effectiveDate = moment('01/12/2010');
-
   // TODO: This runs everytime that the sortKey gets changed
   // Obviously the .sort part should happen everytime sortKey
   // is changed, but formalizeDate() only really needs to happen one time.
@@ -121,7 +118,6 @@ const RatedDisabilityList = props => {
       <h2 id="individual-ratings" className="vads-u-margin-y--1p5">
         Your individual ratings
       </h2>
-      {sortBy}
       <div id="ratings-sort-select-ab" className="vads-u-margin-bottom--2">
         <SortSelect onSelect={setSortBy} sortBy={sortBy} />
       </div>
