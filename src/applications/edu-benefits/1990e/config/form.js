@@ -44,7 +44,7 @@ import EmailReviewField from '../components/EmailReviewField';
 import EmailViewField from '../components/EmailViewField';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SponsorSelectionPage from '../containers/SponsorsSelectionPage';
-import DynamicRadioGroup from '../components/DynamicRadioGroup';
+import FirstSponsorRadioGroup from '../components/FirstSponsorRadioGroup';
 import IntroductionPage from '../containers/IntroductionPage';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 import MailingAddressViewField from '../components/MailingAddressViewField';
@@ -73,6 +73,7 @@ import { urlMigration } from '../../config/migrations';
 
 import manifest from '../manifest.json';
 import SelectedSponsorsReviewField from '../components/SelectedSponsorsReviewField';
+import FirstSponsorReviewField from '../components/FirstSponsorReviewField';
 
 const {
   benefit,
@@ -677,7 +678,8 @@ const formConfig = {
                   </span>
                 </>
               ),
-              'ui:widget': DynamicRadioGroup,
+              'ui:widget': FirstSponsorRadioGroup,
+              'ui:reviewWidget': FirstSponsorReviewField,
               'ui:errorMessages': {
                 required: 'Please select at least one sponsor',
               },

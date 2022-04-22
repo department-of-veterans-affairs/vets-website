@@ -10,7 +10,7 @@ import {
   SPONSOR_NOT_LISTED_VALUE,
 } from '../constants';
 
-function DynamicRadioGroup({ dispatchSponsorsChange, sponsors }) {
+function FirstSponsorRadioGroup({ dispatchSponsorsChange, sponsors }) {
   const onValueChange = ({ value }) => {
     dispatchSponsorsChange({
       ...sponsors,
@@ -80,4 +80,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(DynamicRadioGroup);
+)(FirstSponsorRadioGroup);
