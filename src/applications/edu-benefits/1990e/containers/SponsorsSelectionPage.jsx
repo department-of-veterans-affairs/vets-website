@@ -4,8 +4,11 @@ import { isArray, cloneDeep } from 'lodash';
 import { Formik } from 'formik';
 import CheckboxGroup from '@department-of-veterans-affairs/component-library/CheckboxGroup';
 
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { saveAndRedirectToReturnUrl } from 'platform/forms/save-in-progress/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import Form from '~/platform/forms/formulate-integration/Form';
+import SaveFormLink from '~/platform/forms/save-in-progress/SaveFormLink';
 
 import { fetchSponsors, updateSponsors } from '../actions';
 import {
@@ -14,7 +17,6 @@ import {
 } from '../constants';
 import SponsorsSelectionHeadings from '../components/SponsorsSelectionHeadings';
 import { Sponsors } from '../components/Sponsors';
-// import SaveFormLink from '../../../../platform/forms/save-in-progress/SaveFormLink';
 
 function SponsorSelectionPage({
   data,
@@ -29,6 +31,7 @@ function SponsorSelectionPage({
   loadingMessage = 'Loading your sponsors...',
   onReviewPage,
   sponsors,
+  state,
   updatePage,
 }) {
   const [dirty, setDirty] = useState(false);
@@ -106,17 +109,13 @@ function SponsorSelectionPage({
 
   const saveAndNavButtons = (
     <>
-      {/* <SaveFormLink
-        locationPathname={this.props.location.pathname}
-        form={form}
-        formConfig={formConfig}
-        route={route}
-        pageList={route.pageList}
-        user={user}
-        showLoginModal={this.props.showLoginModal}
-        saveAndRedirectToReturnUrl={this.props.saveAndRedirectToReturnUrl}
-        toggleLoginModal={this.props.toggleLoginModal}
-      /> */}
+      <SaveFormLink
+        locationPathname={window.location.pathname}
+        form={state.form}
+        user={state.user}
+        saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
+        toggleLoginModal={toggleLoginModal}
+      />
       <FormNavButtons goBack={goBack} submitToContinue />
     </>
   );
