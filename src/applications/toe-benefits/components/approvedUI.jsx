@@ -83,6 +83,10 @@ export default function ApprovedUI({ user, dateReceived }) {
             Learn more about VA benefits and programs through the Building Your
             Future with the GI Bill Series.
           </li>
+          <li>
+            If you have more than one sponsor, you can{' '}
+            <a href="/">submit another application for education benefits.</a>
+          </li>
         </ul>
       </div>
       <div className="vads-u-margin-bottom--3">
