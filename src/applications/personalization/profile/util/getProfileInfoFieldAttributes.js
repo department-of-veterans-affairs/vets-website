@@ -117,7 +117,7 @@ export const getProfileInfoFieldAttributes = fieldName => {
       case FIELD_NAMES.SEXUAL_ORIENTATION:
         // TODO: update when api route is avail
         apiRoute = '/';
-        title = FIELD_TITLES[FIELD_NAMES.GENDER_IDENTITY];
+        title = FIELD_TITLES[FIELD_NAMES.SEXUAL_ORIENTATION];
         break;
       case FIELD_NAMES.PRONOUNS:
         // TODO: update when api route is avail
