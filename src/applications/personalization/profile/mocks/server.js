@@ -18,7 +18,8 @@ const responses = {
   'GET /v0/ppiu/payment_information': paymentHistory,
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount,
-  'GET /v0/profile/personal_information': personalInfo,
+  'GET /v0/profile/personal_information': personalInfo.getBasicUserPersonalInfo,
+  ...personalInfo.putPreferredName,
   'GET /v0/profile/full_name': {
     id: '',
     type: 'hashes',
