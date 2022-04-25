@@ -1188,8 +1188,8 @@ jobs:
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
-    needs: deploy
+    # if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
+    # needs: deploy
     env:
       ALERT_TEAMS: true # Alerts teams for single/grouped app builds when set to true
       DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
