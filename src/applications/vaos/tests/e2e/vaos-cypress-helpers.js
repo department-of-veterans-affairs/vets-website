@@ -1089,21 +1089,10 @@ export function vaosSetup() {
     // Using custom momentjs wrapper functions 'addBusinessDay' and 'addBusinessMonth'. These functions
     // will check to see if adding 5 days to the current date falls on a Sat or Sun. If so, add 1 or 2
     // days to get to Mon since appointment request are only available Mon thru Fri.
-    //
-    // NOTE: This can result in date shifting to the next month. When this happens add 2 months to the date:
-    //
-    // 1 month to account for the shift due to adding 5 days
-    // 1 month to account for the test clicking the 'next' button
-    //
-    // For all other use cases, add 1 month to account for the test clicking the 'next' button.
     let testDate = moment().addBusinessDay(5, 'd');
 
-    // Did the date flip to the next month?
-    if (testDate.isSame(moment(), 'month')) {
-      testDate.addBusinessMonth(1);
-    } else {
-      testDate.addBusinessMonth(2);
-    }
+    // Add 1 month to account for the test clicking the 'next' button.
+    testDate.addBusinessMonth(1);
 
     // Convert date timezone to that of the facility for scheduled appointment
     if (timezone) {
