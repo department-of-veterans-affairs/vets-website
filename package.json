@@ -258,6 +258,10 @@
     "yarn": ">=1.21.1"
   },
   "private": true,
+  "workspaces": [
+    "src/applications/facility-locator",
+    "src/applications/vaos"
+  ],
   "dependencies": {
     "@babel/runtime": "^7.17.7",
     "@department-of-veterans-affairs/component-library": "^8.5.0",
@@ -268,7 +272,6 @@
     "@formatjs/intl-getcanonicallocales": "^1.7.3",
     "@formatjs/intl-locale": "^2.4.37",
     "@fortawesome/fontawesome-free": "^5.15.4",
-    "@mapbox/mapbox-sdk": "^0.13.2",
     "blob-polyfill": "^5.0.20210201",
     "camelcase-keys-recursive": "^1.0.0",
     "classlist-polyfill": "^1.2.0",
@@ -298,7 +301,6 @@
     "leaflet": "^1.7.1",
     "local-storage-fallback": "^4.1.2",
     "lodash": "^4.17.21",
-    "mapbox-gl": "^1.12.0",
     "markdown-it": "^12.3.2",
     "markdown-it-link-attributes": "^4.0.0",
     "moment": "^2.19.3",

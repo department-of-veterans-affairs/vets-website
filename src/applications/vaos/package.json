@@ -1,0 +1,10 @@
+{
+  "name": "vaos",
+  "version": "0.0.1",
+  "dependencies": {
+    "@barebones/keycodes": "^1.0.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
+}
