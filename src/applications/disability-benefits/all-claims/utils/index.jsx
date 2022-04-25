@@ -139,7 +139,7 @@ export const isActiveITF = currentITF => {
 };
 
 export const hasGuardOrReservePeriod = formData => {
-  const serviceHistory = formData.servicePeriods;
+  const serviceHistory = formData?.servicePeriods;
   if (!serviceHistory || !Array.isArray(serviceHistory)) {
     return false;
   }
@@ -159,7 +159,7 @@ export const hasGuardOrReservePeriod = formData => {
 };
 
 export const ReservesGuardDescription = ({ formData }) => {
-  const { servicePeriods } = formData;
+  const { servicePeriods } = formData || {};
   if (
     !servicePeriods ||
     !Array.isArray(servicePeriods) ||
