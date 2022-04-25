@@ -7,7 +7,9 @@ function ExternalLink({ children, href, hrefLang }) {
   return (
     <a {...{ href, hrefLang }}>
       {children}{' '}
-      {hrefLang !== i18n.language ? <>({t(`in-${hrefLang}`)})</> : null}
+      {hrefLang !== i18n?.resolvedLanguage ? (
+        <>({t(`in-${hrefLang}`)})</>
+      ) : null}
     </a>
   );
 }

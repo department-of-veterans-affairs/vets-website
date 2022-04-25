@@ -14,6 +14,9 @@ describe('check-in', () => {
       const link = screen.getByText(/LinkText/i);
       expect(link.getAttribute('href')).to.equal('/');
       expect(link.getAttribute('hrefLang')).to.equal('en');
+
+      const inEnglish = screen.queryByText('(in english)');
+      expect(inEnglish).to.be.null;
     });
     it('renders link component - es', () => {
       const screen = render(
