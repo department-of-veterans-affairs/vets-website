@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: vets-website
+  description: This is the front end for VA.gov.
+  annotations:
+    github.com/project-slug: department-of-veterans-affairs/vets-website
+  tags:
+    - javascript
+    - sass
+spec:
+  type: website
+  owner: platform-release-tools
+  lifecycle: production
