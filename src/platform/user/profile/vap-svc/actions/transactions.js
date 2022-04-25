@@ -179,8 +179,6 @@ export function createTransaction(
         ? await apiRequest(route, options)
         : await localVAProfileService.createTransaction();
 
-      // const transaction = await apiRequest(route, options);
-
       if (transaction?.errors) {
         const error = new Error('There was a transaction error');
         error.errors = transaction?.errors;
@@ -201,13 +199,7 @@ export function createTransaction(
         fieldName,
         transaction,
       });
-
-      // TODO: if personal-information style request, then immediately fire off VAP_SERVICE_TRANSACTION_UPDATED with success metadata
-      // update transaction data to support transactions and immediate result style sync calls
     } catch (error) {
-      // TODO: handle unique errors for personal information requests
-      // dispatch VAP_SERVICE_TRANSACTION_UPDATE_FAILED with appropriate data
-
       const [firstError = {}] = error.errors ?? [];
       const { code = 'code', title = 'title', detail = 'detail' } = firstError;
       const profileSection = analyticsSectionName || 'unknown-profile-section';
