@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { differenceInDays } from 'date-fns';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import moment from 'moment';
 import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
@@ -192,7 +191,7 @@ const HealthCare = ({
         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
           Health care
         </h2>
-        <LoadingIndicator message="Loading health care..." />
+        <va-loading-indicator message="Loading health care..." />
       </div>
     );
   }
