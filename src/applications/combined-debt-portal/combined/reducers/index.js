@@ -12,7 +12,7 @@ import {
   DEBT_LETTERS_FETCH_SUCCESS,
   DEBT_LETTERS_FETCH_FAILURE,
   DEBT_LETTERS_FETCH_INITIATED,
-} from '../actions';
+} from '../actions/debts';
 
 const debtInitialState = {
   isProfileUpdating: true,
