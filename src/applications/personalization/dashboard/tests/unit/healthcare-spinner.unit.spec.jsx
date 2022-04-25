@@ -17,7 +17,7 @@ describe('HealthCare component', () => {
           },
         },
         health: {
-          appointments: {},
+          appointments: { fetching: true },
           msg: {
             folders: {
               data: {
@@ -38,8 +38,7 @@ describe('HealthCare component', () => {
         initialState,
         reducers,
       });
-      expect(await view.findByRole('progressbar', { label: /health care/i })).to
-        .exist;
+      expect(view.findByText('Loading health care...')).to.exist;
       expect(
         view.queryByRole('link', {
           name: /Refill and track your prescriptions/i,
