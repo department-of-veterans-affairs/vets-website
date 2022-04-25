@@ -30,6 +30,23 @@ const getBasicUserPersonalInfo = (req, res) => {
   return res.json(response);
 };
 
+const getUnsetUserPersonalInfo = {
+  data: {
+    id: '',
+    type: 'mvi_models_mvi_profiles',
+    attributes: {
+      gender: 'M',
+      birthDate: '1986-05-06',
+      preferredName: null,
+      pronouns: null,
+      pronounsNotListedText: null,
+      genderIdentity: { code: null, name: null },
+      sexualOrientation: null,
+      sexualOrientationNotListedText: null,
+    },
+  },
+};
+
 const putPreferredName = {
   'PUT /v0/profile/preferred_names': (req, res) => {
     // for testing if you submit a preferred name update with the text value of 'error' we can trigger the error response
@@ -57,5 +74,6 @@ const putPreferredName = {
 
 module.exports = {
   getBasicUserPersonalInfo,
+  getUnsetUserPersonalInfo,
   putPreferredName,
 };
