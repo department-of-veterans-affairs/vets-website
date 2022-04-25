@@ -340,7 +340,7 @@ export function transformCommunityProvider(provider) {
       `${provider.firstName || ''} ${provider.lastName || ''}`,
     practiceName: provider.practiceName,
 
-    // TODO: Refactor!!!!
+    // TODO: Refactor!!!!!
     name: provider.name || provider.practiceName,
 
     position: { longitude: provider.long, latitude: provider.lat },
