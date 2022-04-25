@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { differenceInDays } from 'date-fns';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import moment from 'moment';
 import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
@@ -283,6 +284,10 @@ const mapStateToProps = state => {
     'VA Walla Walla health care',
     'VA Central Ohio health care',
   ];
+
+  if (moment().isSameOrAfter('2022-04-30')) {
+    facilityLocations.push('VA Columbus Ohio health care');
+  }
 
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,
