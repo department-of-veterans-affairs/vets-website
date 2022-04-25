@@ -1,14 +1,10 @@
 import { getData } from '../util';
 
+export * from './personalInfomation';
+
 export const FETCH_HERO = 'FETCH_HERO';
 export const FETCH_HERO_SUCCESS = 'FETCH_HERO_SUCCESS';
 export const FETCH_HERO_FAILED = 'FETCH_HERO_FAILED';
-
-export const FETCH_PERSONAL_INFORMATION = 'FETCH_PERSONAL_INFORMATION';
-export const FETCH_PERSONAL_INFORMATION_SUCCESS =
-  'FETCH_PERSONAL_INFORMATION_SUCCESS';
-export const FETCH_PERSONAL_INFORMATION_FAILED =
-  'FETCH_PERSONAL_INFORMATION_FAILED';
 
 export const FETCH_MILITARY_INFORMATION = 'FETCH_MILITARY_INFORMATION';
 export const FETCH_MILITARY_INFORMATION_SUCCESS =
@@ -30,26 +26,6 @@ export function fetchHero() {
     }
 
     dispatch({ type: FETCH_HERO_SUCCESS, hero: { userFullName: response } });
-  };
-}
-
-export function fetchPersonalInformation() {
-  return async dispatch => {
-    dispatch({ type: FETCH_PERSONAL_INFORMATION });
-
-    const response = await getData('/profile/personal_information');
-
-    if (response.errors || response.error) {
-      dispatch({
-        type: FETCH_PERSONAL_INFORMATION_FAILED,
-        personalInformation: { errors: response },
-      });
-      return;
-    }
-    dispatch({
-      type: FETCH_PERSONAL_INFORMATION_SUCCESS,
-      personalInformation: response,
-    });
   };
 }
 
