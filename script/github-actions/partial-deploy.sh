@@ -135,16 +135,16 @@ aws s3 sync --only-show-errors \
     --acl public-read \
     --cache-control "public, no-cache" \
     --exclude '*' \
-    --include '*.js' \
-    --include '*.css' \
+    --include '*.js*' \
+    --include '*.css*' \
     . "$DEST"
 
 # Compress assets
 say "INFO: Compressing assets"
 find . \
     \( \
-    -name '*.js' -o \
-    -name '*.css' -o \
+    -name '*.js*' -o \
+    -name '*.css*' -o \
     -name '*.txt' \
     \) \
     -exec gzip -n {} \; -exec mv {}.gz {} \;
@@ -156,8 +156,8 @@ aws s3 sync --only-show-errors \
     --content-encoding gzip \
     --cache-control "public, no-cache" \
     --exclude '*' \
-    --include '*.js' \
-    --include '*.css' \
+    --include '*.js*' \
+    --include '*.css*' \
     --include '*.txt' \
     . "$ASSET_DEST"
 
