@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { Form, Formik } from 'formik';
 import {
   CheckboxField,
+  RadioGroup,
   DateField,
   DebuggerView,
   TextField,
@@ -72,6 +73,17 @@ const App = () => (
     >
       <Form>
         <CheckboxField name="bar" label="Do you have pets?" required />
+        <RadioGroup 
+          label='Label' 
+          name='radioTest'
+          required
+          options={
+            [
+              {label: 'yes', name: 'yes', value: 'yes', key: 1}, 
+              {label: 'No', name: 'no', value: 'no', key: 2}
+            ]
+          } >
+        </RadioGroup>
         <TextField name="foo" label="Example" required />
         {/* <DateField name="baz" required /> */}
         <CheckboxFieldGroup {...checkboxProps} />

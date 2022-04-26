@@ -35,7 +35,7 @@ export function RadioGroup(props: RadioGroupProps): JSX.Element {
       onRadioOptionSelected={handleRadioSelected}
     >
       {options.map((option: ReactElement<RadioItemProps>, index: number) => {
-           <VaRadioOption {...option} key={`${field.name}-${index}`} />
+           return <VaRadioOption {...option} key={`${field.name}-${index}`} />
       })}
     </VaRadio>
   );
