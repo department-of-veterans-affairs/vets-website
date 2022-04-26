@@ -70,10 +70,12 @@ export default function Chatbox(props) {
   // this toggle is redundant but better to be as failsafe as possible
   if (requireAuth) {
     window.addEventListener('webchat-auth-activity', () => {
-      if (!isLoggedIn) {
-        sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
-        setIsAuthTopic(true);
-      }
+      setTimeout(function() {
+        if (!isLoggedIn) {
+          sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
+          setIsAuthTopic(true);
+        }
+      }, 2000);
     });
   }
 
