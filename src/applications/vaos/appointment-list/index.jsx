@@ -25,7 +25,10 @@ function AppointmentListSection() {
   });
 
   if (shouldRedirectToStart) {
-    const path = window.location.pathname.replace('/appointments/', '/');
+    const path = window.location.pathname.replace(
+      /(\/appointments\/|\/appointments)/,
+      '/',
+    );
     window.location.replace(path);
   }
 

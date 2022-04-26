@@ -36,7 +36,10 @@ export const updateFormFieldWithSchema = (
     true,
   );
 
-  if (options.doNotRequireInternationalPostalCode) {
+  if (
+    options?.doNotRequireInternationalPostalCode &&
+    newUiSchema?.internationalPostalCode
+  ) {
     newUiSchema.internationalPostalCode['ui:required'] = false;
   }
 
