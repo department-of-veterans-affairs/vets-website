@@ -342,7 +342,7 @@ describe('App', () => {
             'https://dev.va.gov',
             'noFirstNameFound',
             'noUserUuid',
-            undefined, // requireAuth toggle
+            false, // requireAuth toggle
           );
         });
       });
