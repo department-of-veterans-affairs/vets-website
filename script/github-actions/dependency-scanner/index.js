@@ -18,9 +18,7 @@ manifestPaths.forEach(path => {
   }
 });
 
-Object.keys(productMeta).forEach(id => {
-  const product = productMeta[id];
-
+Object.values(productMeta).forEach(product => {
   const imports = findImports(`${product.path}/**/*.{js,jsx}`, {
     absoluteImports: false,
     relativeImports: false,
