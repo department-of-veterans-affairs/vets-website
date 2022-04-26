@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { apiRequest } from 'platform/utilities/api';
-import retryOnce from './retryOnce';
 import { useSelector } from 'react-redux';
 import * as Sentry from '@sentry/browser';
+import retryOnce from './retryOnce';
 import { COMPLETE, ERROR, LOADING } from './loadingStatus';
+import { CONVERSATION_ID_KEY, TOKEN_KEY } from './utils';
 
 function useWaitForCsrfToken(props) {
   // Once the feature toggles have loaded, the csrf token updates
@@ -49,6 +50,15 @@ export default function useVirtualAgentToken(props) {
       async function getToken() {
         try {
           const response = await retryOnce(callVirtualAgentTokenApi);
+
+          if (!sessionStorage.getItem(CONVERSATION_ID_KEY)) {
+            sessionStorage.setItem(
+              CONVERSATION_ID_KEY,
+              response.conversationId,
+            );
+
+            sessionStorage.setItem(TOKEN_KEY, response.token);
+          }
 
           setToken(response.token);
           setApiSession(response.apiSession);
