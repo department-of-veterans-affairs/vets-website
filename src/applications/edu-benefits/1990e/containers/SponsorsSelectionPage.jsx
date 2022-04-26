@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { isArray, cloneDeep } from 'lodash';
 import { Formik } from 'formik';
 import CheckboxGroup from '@department-of-veterans-affairs/component-library/CheckboxGroup';
 
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { saveAndRedirectToReturnUrl } from 'platform/forms/save-in-progress/actions';
+// import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+// import { saveAndRedirectToReturnUrl } from 'platform/forms/save-in-progress/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import Form from '~/platform/forms/formulate-integration/Form';
-import SaveFormLink from '~/platform/forms/save-in-progress/SaveFormLink';
+// import SaveFormLink from '~/platform/forms/save-in-progress/SaveFormLink';
 
 import { fetchSponsors, updateSponsors } from '../actions';
 import {
@@ -31,7 +32,7 @@ function SponsorSelectionPage({
   loadingMessage = 'Loading your sponsors...',
   onReviewPage,
   sponsors,
-  state,
+  // state,
   updatePage,
 }) {
   const [dirty, setDirty] = useState(false);
@@ -109,13 +110,13 @@ function SponsorSelectionPage({
 
   const saveAndNavButtons = (
     <>
-      <SaveFormLink
+      {/* <SaveFormLink
         locationPathname={window.location.pathname}
         form={state.form}
         user={state.user}
         saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
         toggleLoginModal={toggleLoginModal}
-      />
+      /> */}
       <FormNavButtons goBack={goBack} submitToContinue />
     </>
   );
@@ -183,7 +184,9 @@ const mapDispatchToProps = {
   dispatchSponsorsChange: updateSponsors,
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(SponsorSelectionPage);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SponsorSelectionPage),
+);
