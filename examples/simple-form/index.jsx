@@ -57,9 +57,7 @@ const checkboxProps = {
 void defineCustomElements();
 
 const App = () => (
-  <div
-    style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
-  >
+  <div className='vads-u-display--flex vads-u-align-items--center vads-u-flex-direction--column'>
     <h1>Example form</h1>
     <Formik
       initialValues={{

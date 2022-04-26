@@ -9,6 +9,7 @@
 |  Function | Description |
 |  --- | --- |
 |  [Page(props)](./va-forms-system-core.page.md) | <b><i>(BETA)</i></b> Renders the page contents |
+|  [RadioGroup(props)](./va-forms-system-core.radiogroup.md) |  |
 |  [Router(props)](./va-forms-system-core.router.md) | <b><i>(BETA)</i></b> Manages form pages as routes |
 
 ## Interfaces

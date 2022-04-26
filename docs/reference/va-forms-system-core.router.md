@@ -12,14 +12,14 @@ Manages form pages as routes
 <b>Signature:</b>
 
 ```typescript
-export default function Router(props: RouterProps): JSX.Element;
+export default function Router(props: RouterAndSwitchProps): JSX.Element;
 ```
 
 ## Parameters
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  props | [RouterProps](./va-forms-system-core.routerprops.md) |  |
+|  props | RouterAndSwitchProps |  |
 
 <b>Returns:</b>
 
