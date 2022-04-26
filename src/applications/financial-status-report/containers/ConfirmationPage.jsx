@@ -86,7 +86,6 @@ RequestDetailsCard.propTypes = {
 const ConfirmationPage = ({ form, download }) => {
   const { response } = form.submission;
   const { data } = form;
-  data.personalData.emailAddress = 'test@test.com';
 
   useEffect(() => {
     focusElement('.schemaform-title > h1');
