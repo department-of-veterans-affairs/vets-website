@@ -104,11 +104,6 @@ const RatedDisabilityList = props => {
     );
   }
 
-  // TODO: This runs everytime that the sortKey gets changed
-  // Obviously the .sort part should happen everytime sortKey
-  // is changed, but formalizeDate() only really needs to happen one time.
-  // It might be a good idea to do the 'formalizeData' part in RatedDisabilityView
-  // or the 'ratedDisabilities' reducer instead of inside this component
   const formattedDisabilities = formalizeData(
     props?.ratedDisabilities?.ratedDisabilities,
   ).sort(sortFunc);
@@ -118,9 +113,11 @@ const RatedDisabilityList = props => {
       <h2 id="individual-ratings" className="vads-u-margin-y--1p5">
         Your individual ratings
       </h2>
-      <div id="ratings-sort-select-ab" className="vads-u-margin-bottom--2">
-        <SortSelect onSelect={setSortBy} sortBy={sortBy} />
-      </div>
+      {props.sortToggle && (
+        <div id="ratings-sort-select-ab" className="vads-u-margin-bottom--2">
+          <SortSelect onSelect={setSortBy} sortBy={sortBy} />
+        </div>
+      )}
       <div className="vads-l-row">
         {formattedDisabilities.map((disability, index) => (
           <RatedDisabilityListItem ratedDisability={disability} key={index} />
@@ -135,6 +132,7 @@ RatedDisabilityList.propTypes = {
   ratedDisabilities: PropTypes.shape({
     ratedDisabilities: PropTypes.array,
   }),
+  sortToggle: PropTypes.bool,
 };
 
 export default RatedDisabilityList;

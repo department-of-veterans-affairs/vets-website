@@ -46,6 +46,7 @@ const RatedDisabilityView = ({
   fetchTotalDisabilityRating,
   loading,
   ratedDisabilities,
+  sortToggle,
   totalDisabilityRating,
   user,
 }) => {
@@ -105,6 +106,7 @@ const RatedDisabilityView = ({
           <RatedDisabilityList
             fetchRatedDisabilities={fetchRatedDisabilities}
             ratedDisabilities={ratedDisabilities}
+            sortToggle={sortToggle}
           />
           <h3
             id="learn"
@@ -148,6 +150,7 @@ RatedDisabilityView.propTypes = {
   ratedDisabilities: PropTypes.shape({
     ratedDisabilities: PropTypes.array,
   }),
+  sortToggle: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
   user: PropTypes.object,
 };
