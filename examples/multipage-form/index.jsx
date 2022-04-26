@@ -7,6 +7,7 @@ import {
   Page,
   Router,
   TextField,
+  EmailField,
 } from '@department-of-veterans-affairs/va-forms-system-core';
 
 import { Link, Switch } from 'react-router-dom';
@@ -41,6 +42,7 @@ const App = () => (
         <Chapter title="Chapter One" path="/chapter-one">
           <Page title="Page One" path="/page-one">
             <TextField name="foo" label="Example" required />
+            <EmailField label="Email" name="email" />
             <DebuggerView />
             <Link to="/chapter-one/page-two">Chapter 1 - Page 2</Link>
           </Page>
