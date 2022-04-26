@@ -703,7 +703,7 @@ export const showSubform8940And4192 = state =>
 
 export const wrapWithBreadcrumb = (title, component) => (
   <>
-    <va-breadcrumbs>
+    <va-breadcrumbs label="breadcrumbs">
       <a href="/">Home</a>
       <a href="/disability">Disability Benefits</a>
       <span className="vads-u-color--black">
