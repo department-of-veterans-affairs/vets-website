@@ -1229,7 +1229,7 @@ jobs:
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-slack-groups.outputs.slack_groups}} `vets-website` master branch CI failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}> \\n See the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> for troubleshooting failed workflows"}}]}]}'
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-slack-groups.outputs.slack_groups}} `master` branch in `vets-website` failed CI: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>. See the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> for troubleshooting failed workflows"}}]}]}'
           channel_id: ${{ env.TEST_SINGLE_APP_BUILDS }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
