@@ -6,9 +6,9 @@ function ExternalLink({ children, href, hrefLang }) {
   const { t, i18n } = useTranslation();
   return (
     <a {...{ href, hrefLang }}>
-      {children}{' '}
+      {children}
       {hrefLang !== i18n?.resolvedLanguage ? (
-        <>({t(`in-${hrefLang}`)})</>
+        <> ({t(`in-${hrefLang}`)})</>
       ) : null}
     </a>
   );
