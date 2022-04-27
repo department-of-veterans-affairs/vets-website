@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import Balances from '../components/Balances';
 
 const OverviewPage = () => {
   const title = 'Your VA debt and bill';
@@ -22,9 +23,7 @@ const OverviewPage = () => {
         request financial help.
       </p>
       <h2>Debt and bill overview</h2>
-      <p>
-        <strong>Picture some cool debt and bill cards here</strong>
-      </p>
+      <Balances />
       <h2>What to do if you have questions about your debt and bills</h2>
       <h3>Questions about benefit debt</h3>
       <p>
