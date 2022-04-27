@@ -17,22 +17,11 @@ const ServiceProviders = React.memo(({ isBold }) => {
     [!loginGovOff],
   );
 
-  return serviceProviders.map((csp, i) => {
-    const totalProviders = serviceProviders.length;
-    const last = i === totalProviders - 1;
-    const comma = !last && totalProviders > 2;
-    const or = totalProviders >= 2 && last;
-    const renderCSP = isBold ? <strong>{csp}</strong> : csp;
-
-    return (
-      <React.Fragment key={i}>
-        {or && 'or '}
-        {renderCSP}
-        {comma && ','}
-        {!last && ' '}
-      </React.Fragment>
-    );
-  });
+  return new Intl.ListFormat('en', { style: 'long', type: 'disjunction' })
+    .formatToParts(serviceProviders)
+    .map(({ type, value }) => {
+      return type === 'element' && isBold ? <strong>{value}</strong> : value;
+    });
 });
 
 export const ServiceProvidersTextCreateAcct = React.memo(

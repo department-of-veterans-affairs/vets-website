@@ -140,5 +140,3 @@ export const fetchDebtLetters = async dispatch => {
     return dispatch(fetchDebtLettersFailure(error.errors));
   }
 };
-
-export const getStatements = () => {};
