@@ -8,7 +8,7 @@ import sinon from 'sinon';
 
 chai.use(chaiAsPromised);
 
-const expect = chai.expect;
+const { expect } = chai;
 
 /**
  * Wraps the given children with a new component with context from
@@ -123,8 +123,20 @@ export function mockFetch(returnVal, shouldResolve = true) {
 
 export function setFetchJSONResponse(stub, data = null) {
   const response = new Response();
-  response.ok = true;
-  response.url = 'https://dev-api.va.gov';
+  // response.ok = true;
+  // response.url = 'https://dev-api.va.gov';
+  Object.defineProperty(
+    response,
+    'url',
+    {
+      value: 'foobar',
+    },
+    'ok',
+    {
+      value: true,
+    },
+  );
+
   if (data) {
     response.headers.set('Content-Type', 'application/json');
     response.json = () => Promise.resolve(data);
