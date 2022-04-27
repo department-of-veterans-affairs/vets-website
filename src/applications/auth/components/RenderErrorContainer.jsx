@@ -33,7 +33,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>What you can do:</h3>
+          <h2>What you can do:</h2>
           <p>
             Please try again, and this time, select <strong>“Accept”</strong> on
             the final page of the identity verification process. Or, if you
@@ -60,7 +60,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>What you can do:</h3>
+          <h2>What you can do:</h2>
           <p>
             Please update your computer’s settings to the current date and time,
             and then try again.
@@ -80,7 +80,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>What you can do:</h3>
+          <h2>What you can do:</h2>
           <Helpdesk />
           <button type="button" onClick={openLoginModal}>
             Try signing in again
@@ -100,7 +100,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>What you can do:</h3>
+          <h2>What you can do:</h2>
           <p>Please sign in again.</p>
           <button type="button" onClick={openLoginModal}>
             Sign in
@@ -119,7 +119,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>What you can do:</h3>
+          <h2>What you can do:</h2>
           <p />
           <p>
             For problems with your Login.gov account, please review{' '}
@@ -159,7 +159,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>How can I fix this issue?</h3>
+          <h2>How can I fix this issue?</h2>
           <ul>
             <li>
               <strong>Call the My HealtheVet help desk</strong>
@@ -214,7 +214,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>What you can do:</h3>
+          <h2>What you can do:</h2>
           <Helpdesk />
         </>
       );
@@ -231,7 +231,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>To fix this issue:</h3>
+          <h2>To fix this issue:</h2>
           <Helpdesk />
         </>
       );
@@ -247,7 +247,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>To fix this issue:</h3>
+          <h2>To fix this issue:</h2>
           <Helpdesk />
         </>
       );
@@ -263,7 +263,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>To fix this issue:</h3>
+          <h2>To fix this issue:</h2>
           <Helpdesk />
         </>
       );
@@ -279,7 +279,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>What you can do:</h3>
+          <h2>What you can do:</h2>
           <p>
             <strong>Try taking these steps to fix the problem:</strong>
           </p>
