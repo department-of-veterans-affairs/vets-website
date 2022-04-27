@@ -12,7 +12,8 @@ import { makeSelectVeteranData } from '../../../selectors';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
-const Error = () => {
+const Error = props => {
+  const { expired } = props.location.query;
   const { getValidateAttempts } = useSessionStorage(true);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   // try get date of appointment
@@ -54,8 +55,17 @@ const Error = () => {
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 ">
       <ErrorMessage
-        header={t('we-couldnt-complete-pre-check-in')}
-        message={combinedMessage}
+        header={
+          expired
+            ? t('sorry-we-cant-complete-pre-check-in')
+            : t('we-couldnt-complete-pre-check-in')
+        }
+        message={
+          expired
+            ? t('you-can-still-check-in-once-you-arrive')
+            : combinedMessage
+        }
+        showAlert={!expired}
       />
       <Footer />
       <BackToHome />

@@ -1,4 +1,5 @@
 const defaultUUID = '0429dda5-4165-46be-9ed1-1e652a8dfd83';
+const errorUUID = '354d5b3a-b7b7-4e5c-99e4-8d563f15c521';
 
 const createMockSuccessResponse = (
   token,
@@ -9,7 +10,10 @@ const createMockSuccessResponse = (
   emergencyContactNeedsUpdate = false,
   emergencyContactConfirmedAt = null,
 ) => {
-  const mockTime = new Date();
+  const mockTime =
+    token === errorUUID
+      ? new Date()
+      : new Date().setDate(new Date().getDate() + 1);
   return {
     id: token || defaultUUID,
     payload: {
@@ -78,8 +82,10 @@ const createMockSuccessResponse = (
           startTime: mockTime,
           eligibility: 'ELIGIBLE',
           facilityId: 'some-facility',
-          checkInWindowStart: mockTime,
-          checkInWindowEnd: mockTime,
+          checkInWindowStart: new Date().setDate(
+            new Date(mockTime).getDate() - 30,
+          ),
+          checkInWindowEnd: new Date(mockTime).setHours(0, 0, 0, 0),
           checkedInTime: '',
         },
         {
@@ -91,8 +97,10 @@ const createMockSuccessResponse = (
           startTime: mockTime,
           eligibility: 'ELIGIBLE',
           facilityId: 'some-facility',
-          checkInWindowStart: mockTime,
-          checkInWindowEnd: mockTime,
+          checkInWindowStart: new Date().setDate(
+            new Date(mockTime).getDate() - 30,
+          ),
+          checkInWindowEnd: new Date(mockTime).setHours(0, 0, 0, 0),
           checkedInTime: '',
         },
       ],

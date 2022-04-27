@@ -47,8 +47,26 @@ const Introduction = props => {
         .then(json => {
           if (json.error) {
             goToErrorPage();
+            return; // stops the rest of the code from executing and causing a state update on an unmounted component
           }
           const { payload } = json;
+          if (payload.appointments && payload.appointments.length > 0) {
+            const today = new Date();
+            // if any appointments are tomorrow or later, the link is not expired
+            let pceExpired = !Object.values(payload.appointments).some(appt => {
+              const checkInExpiry = new Date(appt.checkInWindowEnd);
+              if (today.getTime() < checkInExpiry.getTime()) {
+                pceExpired = false;
+                return true; // break the loop as soon as we have a valid appointment
+              }
+              return false;
+            });
+            if (pceExpired) {
+              goToErrorPage('?expired=true');
+              return;
+            }
+          }
+
           //  set data to state
           dispatchSetVeteranData(payload);
           // hide loading screen
