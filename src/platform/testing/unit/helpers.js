@@ -129,7 +129,7 @@ export function setFetchJSONResponse(stub, data = null) {
     response,
     'url',
     {
-      value: 'foobar',
+      value: 'https://dev-api.va.gov',
     },
     'ok',
     {
@@ -145,11 +145,22 @@ export function setFetchJSONResponse(stub, data = null) {
 }
 
 export function setFetchJSONFailure(stub, data) {
-  const response = new Response(null, {
-    headers: { 'content-type': ['application/json'] },
-  });
-  response.ok = false;
-  response.url = 'https://dev-api.va.gov';
+  const response = new Response();
+
+  Object.defineProperty(
+    response,
+    'url',
+    {
+      value: 'https://dev-api.va.gov',
+    },
+    'ok',
+    {
+      value: false,
+    },
+  );
+
+  response.headers.set('Content-Type', 'application/json');
+
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
