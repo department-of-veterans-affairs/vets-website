@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 import { subDays } from 'date-fns';
 
@@ -12,8 +13,8 @@ import { makeSelectVeteranData } from '../../../selectors';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
-const Error = props => {
-  const { expired } = props.location.query;
+const Error = ({ location }) => {
+  const { expired } = location.query;
   const { getValidateAttempts } = useSessionStorage(true);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   // try get date of appointment
@@ -71,6 +72,14 @@ const Error = props => {
       <BackToHome />
     </div>
   );
+};
+
+Error.propTypes = {
+  location: PropTypes.shape({
+    query: PropTypes.shape({
+      expired: PropTypes.string,
+    }),
+  }),
 };
 
 export default Error;
