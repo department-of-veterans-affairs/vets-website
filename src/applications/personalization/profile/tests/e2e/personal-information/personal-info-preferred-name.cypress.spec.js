@@ -3,7 +3,7 @@ import {
   basicUserPersonalInfoResponse,
   putPreferredNameFailureResponse,
   makePutPreferredNameSuccessResponse,
-} from '@@profile/mocks/personalInfo';
+} from '@@profile/mocks/personalInformation';
 import set from 'lodash/set';
 
 describe('Preferred name field tests on the personal information page', () => {

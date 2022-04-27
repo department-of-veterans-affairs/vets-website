@@ -94,12 +94,14 @@ export const getProfileInfoFieldAttributes = fieldName => {
   }
 
   if (personalInformation.includes(fieldName)) {
+    // dont manipulate the payload by default and rely on the
+    // conversion to happen within the switch statement below
+    // for each fields specific data transformation needs
     convertCleanDataToPayload = payload => {
-      // console.log(payload);
-      // TODO: this function will need to be changed so it can be used for the Data transformation for the API call. See https://github.com/department-of-veterans-affairs/vets-website/blob/Profile-31685-newpersonalinfosection/src/applications/personalization/profile/components/ProfileInformationEditView.jsx#L180
       return payload;
     };
 
+    // TODO: update convertCleanDataToPayload when other field api endpoints are ready
     switch (fieldName) {
       case FIELD_NAMES.PREFERRED_NAME:
         apiRoute = API_ROUTES.PREFERRED_NAME;
