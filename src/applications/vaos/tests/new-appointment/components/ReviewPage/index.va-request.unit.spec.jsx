@@ -459,6 +459,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     mockAppointmentSubmitV2({
       id: 'fake_id',
     });
+    mockPreferences(null);
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
       store,

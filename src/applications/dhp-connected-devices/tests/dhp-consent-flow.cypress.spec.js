@@ -11,8 +11,9 @@ describe(manifest.appName, () => {
     );
   });
 
-  it("displays login modal after clicking 'Sign in or create an account' for veteran NOT logged in", () => {
-    cy.findByText('Sign in or create an account').click({
+  it("displays login modal after clicking 'Sign in' for veteran NOT logged in", () => {
+    cy.findAllByText('Sign in').click({
+      multiple: true,
       force: true,
       waitForAnimations: true,
     });

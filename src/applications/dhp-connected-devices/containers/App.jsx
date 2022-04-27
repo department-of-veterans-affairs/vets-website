@@ -11,14 +11,12 @@ export default function App() {
       <div className="usa-width-three-fourths">
         <article className="usa-content">
           <div className="schemaform-title">
-            <h1>Connect your health devices</h1>
+            <h1>Connect your health devices to share data</h1>
           </div>
           <div className="va-introtext">
             <p>
-              Connecting a device will share your health data with VA. Connected
-              devices can share data including activity, blood glucose, blood
-              pressure, weight, and more. By connecting a device, this data is
-              automatically shared with your care team.
+              Connecting a device will share your device health data with VA.
+              This data is automatically shared with your care team.
             </p>
           </div>
           <p>

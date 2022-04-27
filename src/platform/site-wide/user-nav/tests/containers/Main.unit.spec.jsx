@@ -135,7 +135,9 @@ describe('<Main>', () => {
         currentlyLoggedIn: true,
         user: {
           mhvTransitionEligible: true,
+          mhvTransitionComplete: false,
         },
+        signInServiceName: 'mhv',
       };
       const wrapper = shallow(<Main {...props} />);
       global.window.simulate('load');
@@ -150,7 +152,9 @@ describe('<Main>', () => {
         currentlyLoggedIn: true,
         user: {
           mhvTransitionEligible: true,
+          mhvTransitionComplete: false,
         },
+        signInServiceName: 'mhv',
       };
       const wrapper = shallow(<Main {...props} />);
       global.window.simulate('load');
@@ -169,8 +173,9 @@ describe('<Main>', () => {
         ...props,
         currentlyLoggedIn: true,
         user: {
-          mhvTransitionEligible: true,
+          mhvTransitionComplete: false,
         },
+        signInServiceName: 'mhv',
       };
       const wrapper = shallow(<Main {...props} />);
       global.window.simulate('load');

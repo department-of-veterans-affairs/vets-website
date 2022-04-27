@@ -1,10 +1,12 @@
 const _ = require('lodash');
 const user = require('./user');
-const toggles = require('./toggles');
 const paymentHistory = require('./paymentHistory');
 const mhvAcccount = require('./mhvAccount');
 const address = require('./address');
 const status = require('./status');
+const personalInfo = require('./personalInfo');
+
+const { generateFeatureToggles } = require('./feature-toggles');
 
 /* eslint-disable camelcase */
 const responses = {
@@ -12,10 +14,11 @@ const responses = {
   'GET /v0/profile/status': status,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
-  'GET /v0/feature_toggles': toggles,
+  'GET /v0/feature_toggles': generateFeatureToggles(),
   'GET /v0/ppiu/payment_information': paymentHistory,
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount,
+  'GET /v0/profile/personal_information': personalInfo,
   'GET /v0/profile/full_name': {
     id: '',
     type: 'hashes',

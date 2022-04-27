@@ -24,7 +24,7 @@ const VAOnlineScheduling = ({ isCommunityCareEnabled }) => {
     primaryButtonText: 'Go to your VA appointments',
     primaryButtonHandler: () => {
       window.location =
-        '/health-care/schedule-view-va-appointments/appointments/';
+        '/health-care/schedule-view-va-appointments/appointments?redirect=false';
     },
     status: 'info',
   };

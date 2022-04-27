@@ -1,14 +1,19 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { differenceInDays } from 'date-fns';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { differenceInDays, isAfter } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
-import { selectUnreadCount } from '~/applications/personalization/dashboard/selectors';
-import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
+import {
+  selectUnreadCount,
+  selectUseVaosV2APi,
+} from '~/applications/personalization/dashboard/selectors';
+import {
+  fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction,
+  fetchConfirmedFutureAppointmentsV2 as fetchConfirmedFutureAppointmentsV2Action,
+} from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 import {
@@ -23,11 +28,118 @@ import Appointments from './Appointments';
 import IconCTALink from '../IconCTALink';
 import CTALink from '../CTALink';
 
+const HealthCareCTA = ({
+  hasInboxError,
+  unreadMessagesCount,
+  authenticatedWithSSOe,
+  hasUpcomingAppointment,
+  hasAppointmentsError,
+  shouldShowPrescriptions,
+}) => {
+  return (
+    <>
+      <h3 className="sr-only">Popular actions for Health Care</h3>
+      {hasInboxError ||
+        (unreadMessagesCount === 0 && (
+          <IconCTALink
+            text="Send a secure message to your health care team"
+            icon="comments"
+            newTab
+            href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+            onClick={() =>
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'View your messages',
+                'links-list-section-header': 'Health care',
+              })
+            }
+          />
+        ))}
+      {!hasUpcomingAppointment &&
+        !hasAppointmentsError && (
+          <IconCTALink
+            href="/health-care/schedule-view-va-appointments/appointments"
+            icon="calendar-check"
+            newTab
+            text="Schedule and manage your appointments"
+            onClick={() => {
+              recordEvent({
+                event: 'nav-linkslist',
+                'links-list-header': 'Schedule and view your appointments',
+                'links-list-section-header': 'Health care',
+              });
+            }}
+          />
+        )}
+
+      {/* Prescriptions */}
+      {shouldShowPrescriptions ? (
+        <IconCTALink
+          href={mhvUrl(
+            authenticatedWithSSOe,
+            'web/myhealthevet/refill-prescriptions',
+          )}
+          icon="prescription-bottle"
+          newTab
+          text="Refill and track your prescriptions"
+          onClick={() => {
+            recordEvent({
+              event: 'nav-linkslist',
+              'links-list-header': 'Refill and track your prescriptions',
+              'links-list-section-header': 'Health care',
+            });
+          }}
+        />
+      ) : null}
+
+      {/* Request travel reimbursement */}
+      <IconCTALink
+        href="/health-care/get-reimbursed-for-travel-pay/"
+        icon="suitcase"
+        newTab
+        text="Request travel reimbursement"
+        onClick={() => {
+          recordEvent({
+            event: 'nav-linkslist',
+            'links-list-header': 'Request travel reimbursement"',
+            'links-list-section-header': 'Health care',
+          });
+        }}
+      />
+
+      {/* VA Medical records */}
+      <IconCTALink
+        href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
+        icon="file-medical"
+        newTab
+        text="Get your VA medical records"
+        onClick={() => {
+          recordEvent({
+            event: 'nav-linkslist',
+            'links-list-header': 'Get your VA medical records',
+            'links-list-section-header': 'Health care',
+          });
+        }}
+      />
+    </>
+  );
+};
+
+HealthCareCTA.propTypes = {
+  authenticatedWithSSOe: PropTypes.bool,
+  hasAppointmentsError: PropTypes.bool,
+  hasInboxError: PropTypes.bool,
+  hasUpcomingAppointment: PropTypes.bool,
+  shouldShowPrescriptions: PropTypes.bool,
+  unreadMessagesCount: PropTypes.number,
+};
+
 const HealthCare = ({
   appointments,
   authenticatedWithSSOe,
   shouldFetchUnreadMessages,
   fetchConfirmedFutureAppointments,
+  fetchConfirmedFutureAppointmentsV2,
   isCernerPatient,
   facilityLocations,
   fetchUnreadMessages,
@@ -38,6 +150,7 @@ const HealthCare = ({
   shouldShowPrescriptions,
   hasInboxError,
   hasAppointmentsError,
+  useVaosV2Api,
 }) => {
   const nextAppointment = appointments?.[0];
   const start = new Date(nextAppointment?.startsAt);
@@ -47,10 +160,19 @@ const HealthCare = ({
   useEffect(
     () => {
       if (!dataLoadingDisabled) {
-        fetchConfirmedFutureAppointments();
+        if (useVaosV2Api) {
+          fetchConfirmedFutureAppointmentsV2();
+        } else {
+          fetchConfirmedFutureAppointments();
+        }
       }
     },
-    [fetchConfirmedFutureAppointments, dataLoadingDisabled],
+    [
+      fetchConfirmedFutureAppointments,
+      dataLoadingDisabled,
+      useVaosV2Api,
+      fetchConfirmedFutureAppointmentsV2,
+    ],
   );
 
   useEffect(
@@ -68,7 +190,7 @@ const HealthCare = ({
         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
           Health care
         </h2>
-        <LoadingIndicator message="Loading health care..." />
+        <va-loading-indicator message="Loading health care..." />
       </div>
     );
   }
@@ -86,6 +208,14 @@ const HealthCare = ({
     );
   }
 
+  const shouldShowUnreadMessageAlert =
+    shouldFetchUnreadMessages && !hasInboxError && unreadMessagesCount > 0;
+
+  const shouldShowOnOneColumn =
+    !shouldShowUnreadMessageAlert &&
+    !hasUpcomingAppointment &&
+    !hasAppointmentsError;
+
   return (
     <div
       className="health-care-wrapper vads-u-margin-y--6"
@@ -96,9 +226,7 @@ const HealthCare = ({
       <div className="vads-l-row">
         <DashboardWidgetWrapper>
           {/* Messages */}
-          {shouldFetchUnreadMessages &&
-          !hasInboxError &&
-          unreadMessagesCount > 0 ? (
+          {shouldShowUnreadMessageAlert ? (
             <div
               className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
               data-testid="unread-messages-alert"
@@ -137,92 +265,29 @@ const HealthCare = ({
                 You have no appointments scheduled in the next 30 days.
               </p>
             )}
-        </DashboardWidgetWrapper>
-        <DashboardWidgetWrapper>
-          <h3 className="sr-only">Popular actions for Health Care</h3>
-          {hasInboxError ||
-            (unreadMessagesCount === 0 && (
-              <IconCTALink
-                text="Send a secure message to your health care team"
-                icon="comments"
-                newTab
-                href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
-                onClick={() =>
-                  recordEvent({
-                    event: 'nav-linkslist',
-                    'links-list-header': 'View your messages',
-                    'links-list-section-header': 'Health care',
-                  })
-                }
-              />
-            ))}
-          {!hasUpcomingAppointment &&
-            !hasAppointmentsError && (
-              <IconCTALink
-                href="/health-care/schedule-view-va-appointments/appointments"
-                icon="calendar-check"
-                newTab
-                text="Schedule and manage your appointments"
-                onClick={() => {
-                  recordEvent({
-                    event: 'nav-linkslist',
-                    'links-list-header': 'Schedule and view your appointments',
-                    'links-list-section-header': 'Health care',
-                  });
-                }}
-              />
-            )}
-
-          {/* Prescriptions */}
-          {shouldShowPrescriptions ? (
-            <IconCTALink
-              href={mhvUrl(
-                authenticatedWithSSOe,
-                'web/myhealthevet/refill-prescriptions',
-              )}
-              icon="prescription-bottle"
-              newTab
-              text="Refill and track your prescriptions"
-              onClick={() => {
-                recordEvent({
-                  event: 'nav-linkslist',
-                  'links-list-header': 'Refill and track your prescriptions',
-                  'links-list-section-header': 'Health care',
-                });
-              }}
+          {shouldShowOnOneColumn ? (
+            <HealthCareCTA
+              hasAppointmentsError={hasAppointmentsError}
+              hasInboxError={hasInboxError}
+              authenticatedWithSSOe={authenticatedWithSSOe}
+              hasUpcomingAppointment={hasUpcomingAppointment}
+              shouldShowPrescriptions={shouldShowPrescriptions}
+              unreadMessagesCount={unreadMessagesCount}
             />
           ) : null}
-
-          {/* Request travel reimbursement */}
-          <IconCTALink
-            href="/health-care/get-reimbursed-for-travel-pay/"
-            icon="suitcase"
-            newTab
-            text="Request travel reimbursement"
-            onClick={() => {
-              recordEvent({
-                event: 'nav-linkslist',
-                'links-list-header': 'Request travel reimbursement"',
-                'links-list-section-header': 'Health care',
-              });
-            }}
-          />
-
-          {/* VA Medical records */}
-          <IconCTALink
-            href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
-            icon="file-medical"
-            newTab
-            text="Get your VA medical records"
-            onClick={() => {
-              recordEvent({
-                event: 'nav-linkslist',
-                'links-list-header': 'Get your VA medical records',
-                'links-list-section-header': 'Health care',
-              });
-            }}
-          />
         </DashboardWidgetWrapper>
+        {!shouldShowOnOneColumn ? (
+          <DashboardWidgetWrapper>
+            <HealthCareCTA
+              hasAppointmentsError={hasAppointmentsError}
+              hasInboxError={hasInboxError}
+              authenticatedWithSSOe={authenticatedWithSSOe}
+              hasUpcomingAppointment={hasUpcomingAppointment}
+              shouldShowPrescriptions={shouldShowPrescriptions}
+              unreadMessagesCount={unreadMessagesCount}
+            />
+          </DashboardWidgetWrapper>
+        ) : null}
       </div>
     </div>
   );
@@ -234,6 +299,13 @@ const mapStateToProps = state => {
     'VA Walla Walla health care',
     'VA Central Ohio health care',
   ];
+
+  const columbusStartAfterDate = new Date('2022-04-29');
+  columbusStartAfterDate.setUTCHours(23, 59, 59, 999);
+
+  if (isAfter(new Date(), columbusStartAfterDate)) {
+    facilityLocations.push('VA Columbus Ohio health care');
+  }
 
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,
@@ -270,20 +342,45 @@ const mapStateToProps = state => {
     shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
     shouldShowPrescriptions,
     unreadMessagesCount: selectUnreadCount(state).count || 0,
+    useVaosV2Api: selectUseVaosV2APi(state),
   };
 };
 
 const mapDispatchToProps = {
   fetchUnreadMessages: fetchUnreadMessageCountAction,
   fetchConfirmedFutureAppointments: fetchConfirmedFutureAppointmentsAction,
+  fetchConfirmedFutureAppointmentsV2: fetchConfirmedFutureAppointmentsV2Action,
 };
 
 HealthCare.propTypes = {
   authenticatedWithSSOe: PropTypes.bool.isRequired,
-  isCernerPatient: PropTypes.bool,
-  facilityLocations: PropTypes.array.isRequired,
   canAccessRx: PropTypes.bool.isRequired,
+  appointments: PropTypes.arrayOf(
+    PropTypes.shape({
+      additionalInfo: PropTypes.string,
+      facility: PropTypes.object,
+      id: PropTypes.string.isRequired,
+      isVideo: PropTypes.bool.isRequired,
+      providerName: PropTypes.string,
+      startsAt: PropTypes.string.isRequired,
+      timeZone: PropTypes.string,
+      type: PropTypes.string.isRequired,
+    }),
+  ),
+  dataLoadingDisabled: PropTypes.bool,
+  facilityLocations: PropTypes.arrayOf(PropTypes.string),
+  fetchConfirmedFutureAppointments: PropTypes.func,
+  fetchConfirmedFutureAppointmentsV2: PropTypes.func,
+  fetchUnreadMessages: PropTypes.bool,
+  hasAppointmentsError: PropTypes.bool,
+  hasInboxError: PropTypes.bool,
+  isCernerPatient: PropTypes.bool,
+  shouldFetchUnreadMessages: PropTypes.bool,
+  // TODO: possibly remove this prop in favor of mocking the API in our unit tests
+  shouldShowLoadingIndicator: PropTypes.bool,
+  shouldShowPrescriptions: PropTypes.bool,
   unreadMessagesCount: PropTypes.number,
+  useVaosV2Api: PropTypes.bool,
 };
 
 export default connect(

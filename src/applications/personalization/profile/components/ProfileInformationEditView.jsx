@@ -24,7 +24,6 @@ import {
 } from '@@vap-svc/util/transactions';
 import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
-import { getEditButtonId } from '@@vap-svc/components/ProfileInformationFieldController';
 
 import {
   selectCurrentlyOpenEditModal,
@@ -35,6 +34,9 @@ import {
 } from '@@vap-svc/selectors';
 
 import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
+import { profileDoNotRequireInternationalZipCode } from '@@profile/selectors';
+import { getEditButtonId } from '@@vap-svc/util/id-factory';
+
 import { focusElement } from '~/platform/utilities/ui';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -49,6 +51,7 @@ const propTypes = {
   clearTransactionRequest: PropTypes.func.isRequired,
   convertCleanDataToPayload: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
+  doNotRequireInternationalPostalCode: PropTypes.bool.isRequired,
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
   formSchema: PropTypes.object.isRequired,
   getInitialFormValues: PropTypes.func.isRequired,
@@ -222,6 +225,10 @@ export class ProfileInformationEditView extends Component {
       value,
       schema,
       uiSchema,
+      {
+        doNotRequireInternationalPostalCode: this.props
+          .doNotRequireInternationalPostalCode,
+      },
     );
   };
 
@@ -375,6 +382,9 @@ export const mapStateToProps = (state, ownProps) => {
     transactionRequest,
     editViewData: selectEditViewData(state),
     emptyMailingAddress: isEmptyAddress(mailingAddress),
+    doNotRequireInternationalPostalCode: profileDoNotRequireInternationalZipCode(
+      state,
+    ),
   };
 };
 

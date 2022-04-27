@@ -9,7 +9,9 @@ describe('VAOS appointment list', () => {
   beforeEach(() => {
     initAppointmentListMock();
     mockFeatureToggles();
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.visit(
+      'health-care/schedule-view-va-appointments/appointments?redirect=false',
+    );
     cy.injectAxe();
   });
 
@@ -117,7 +119,7 @@ describe('VAOS appointment list', () => {
       cy.findByText(/Appointment detail/i).should('exist');
       cy.findByText(/Cancel appointment/i).click();
       cy.findByText(/Yes, cancel this appointment/i).click();
-      cy.get('.usa-alert-success').should('exist');
+      cy.findByTestId('cancel-appointment-SuccessModal').should('exist');
       cy.findByText(/Continue/i).click();
       cy.get('#cancelAppt').should('not.exist');
       cy.get('.usa-alert-success').should('not.exist');

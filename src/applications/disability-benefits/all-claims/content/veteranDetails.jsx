@@ -13,7 +13,9 @@ const unconnectedVetInfoView = profile => {
 
   return (
     <div>
-      <p>This is the personal information we have on file for you.</p>
+      <p className="vads-u-margin-top--0">
+        This is the personal information we have on file for you.
+      </p>
       <div className="blue-bar-block">
         <strong>
           {`${first || ''} ${middle || ''} ${last || ''}`}

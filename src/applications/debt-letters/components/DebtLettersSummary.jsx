@@ -70,7 +70,10 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
         <a href="/manage-va-debt/your-debt">Your VA debt</a>
       </Breadcrumbs>
 
-      <section className="vads-l-row vads-u-margin-x--neg2p5">
+      <section
+        className="vads-l-row vads-u-margin-x--neg2p5"
+        data-testid="current-va-debt"
+      >
         <h1 className="vads-u-padding-x--2p5 vads-u-margin-bottom--2">
           Current VA debt
         </h1>

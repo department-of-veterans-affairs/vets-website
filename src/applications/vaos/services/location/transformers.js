@@ -279,11 +279,11 @@ export function transformATLASLocation(tasInfo) {
  * @returns {Location} A Location resource
  */
 export function setSupportedSchedulingMethods({ location, settings } = {}) {
-  const id = location.id;
+  const { id } = location;
 
   const facilitySettings = settings.find(f => f.id === id);
 
-  const identifier = location.identifier;
+  const { identifier } = location;
   const vhaIdentifier = location.identifier.find(i => i.system === VHA_FHIR_ID);
 
   if (!vhaIdentifier) {
@@ -340,7 +340,7 @@ export function transformCommunityProvider(provider) {
       `${provider.firstName || ''} ${provider.lastName || ''}`,
     practiceName: provider.practiceName,
 
-    // TODO: Refactor!!!
+    // TODO: Refactor!!!!
     name: provider.name || provider.practiceName,
 
     position: { longitude: provider.long, latitude: provider.lat },

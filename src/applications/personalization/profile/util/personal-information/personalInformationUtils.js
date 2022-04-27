@@ -33,13 +33,13 @@ const pronounsLabels = {
 };
 
 const genderLabels = {
-  woman: 'Woman',
-  man: 'Man',
-  transgenderWoman: 'Transgender woman',
-  transgenderMan: 'Transgender man',
-  nonBinary: 'Non-binary',
-  preferNotToAnswer: 'Prefer not to answer',
-  genderNotListed: 'A gender not listed here',
+  M: 'Man',
+  B: 'Non-binary',
+  TM: 'Transgender man',
+  TW: 'Transgender woman',
+  W: 'Woman',
+  N: 'Prefer not to answer',
+  O: 'A gender not listed here',
 };
 
 // use the keys from the genderLabels object as the option values
@@ -71,7 +71,6 @@ export const personalInformationFormSchemas = {
         maxLength: 25,
       },
     },
-    required: [],
   },
   pronouns: {
     type: 'object',
@@ -93,7 +92,6 @@ export const personalInformationFormSchemas = {
         enum: genderOptions,
       },
     },
-    required: [],
   },
   sexualOrientation: {
     type: 'object',
@@ -161,7 +159,12 @@ export const formatIndividualLabel = (key, label) => {
   return label;
 };
 
-export const formatGenderIdentity = genderKey => genderLabels?.[genderKey];
+export const formatGenderIdentity = genderData => {
+  if (genderData?.code) {
+    return genderLabels?.[genderData.code];
+  }
+  return null;
+};
 
 export const formatMultiSelectAndText = (data, fieldName) => {
   const notListedTextKey = `${fieldName}NotListedText`;
