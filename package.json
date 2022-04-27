@@ -372,6 +372,7 @@
     "@babel/runtime": "^7.15.4",
     "punycode": "1.4.1",
     "**/cached-path-relative": "1.1.0",
-    "**/moment": "^2.29.2"
+    "**/moment": "^2.29.2",
+    "**/minimist": "^1.2.6"
   }
 }
