@@ -70,6 +70,7 @@ import {
   isOnlyWhitespace,
   titleCase,
   hideUnder18Field,
+  addWhitespaceOnlyError,
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
@@ -550,6 +551,17 @@ const formConfig = {
               },
               'ui:required': formData =>
                 !hideUnder18Field(formData, newFormFields.newDateOfBirth),
+              'ui:validations': [
+                (errors, field) =>
+                  addWhitespaceOnlyError(
+                    field,
+                    errors,
+                    'Please enter a parent/guardian signature',
+                  ),
+              ],
+              'ui:errorMessages': {
+                required: 'Please enter a parent/guardian signature',
+              },
             },
           },
           schema: {
@@ -589,7 +601,7 @@ const formConfig = {
         [newFormPages.newSponsorSelection]: {
           title: 'Choose your sponsor',
           path: 'new/sponsor/select-sponsor',
-          CustomPage: SponsorSelectionPage,
+          // CustomPage: SponsorSelectionPage,
           CustomPageReview: SelectedSponsorsReviewField,
           depends: formData =>
             formData.showUpdatedToeApp &&
@@ -825,22 +837,24 @@ const formConfig = {
                 ...fullNameUI.first,
                 'ui:title': 'Your sponsor’s first name',
                 'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a first name');
-                    }
-                  },
+                  (errors, field) =>
+                    addWhitespaceOnlyError(
+                      field,
+                      errors,
+                      'Please enter a first name',
+                    ),
                 ],
               },
               last: {
                 ...fullNameUI.last,
                 'ui:title': 'Your sponsor’s last name',
                 'ui:validations': [
-                  (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a last name');
-                    }
-                  },
+                  (errors, field) =>
+                    addWhitespaceOnlyError(
+                      field,
+                      errors,
+                      'Please enter a last name',
+                    ),
                 ],
               },
               middle: {
