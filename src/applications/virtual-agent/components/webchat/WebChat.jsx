@@ -5,6 +5,11 @@ import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
 import GreetUser from './makeBotGreetUser';
 import MarkdownRenderer from './markdownRenderer';
+import {
+  LOGGED_IN_FLOW,
+  CONVERSATION_ID_KEY,
+  TOKEN_KEY,
+} from '../chatbox/utils';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
 
@@ -15,6 +20,10 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     _.upperFirst(_.toLower(state.user.profile.userFullName.first)),
   );
   const userUuid = useSelector(state => state.user.profile.accountUuid);
+  const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
+  const requireAuth = useSelector(
+    state => state.featureToggles.virtualAgentAuth,
+  );
 
   const store = useMemo(
     () =>
@@ -27,20 +36,49 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
           userUuid === null ? 'noUserUuid' : userUuid, // Because PVA cannot support empty strings or null pass in 'null' if user is not logged in
+          requireAuth,
         ),
       ),
     [createStore],
   );
 
-  const directLine = useMemo(
-    () =>
-      createDirectLine({
-        token,
-        domain:
-          'https://northamerica.directline.botframework.com/v3/directline',
-      }),
-    [token, createDirectLine],
-  );
+  let directLineToken = token;
+  let conversationId = '';
+  let directLine = {};
+
+  // eslint-disable-next-line sonarjs/no-collapsible-if
+  if (requireAuth) {
+    if (sessionStorage.getItem(LOGGED_IN_FLOW) === 'true' && isLoggedIn) {
+      directLineToken = sessionStorage.getItem(TOKEN_KEY);
+      conversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
+    }
+  }
+
+  if (requireAuth) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    directLine = useMemo(
+      () =>
+        createDirectLine({
+          token: directLineToken,
+          domain:
+            'https://northamerica.directline.botframework.com/v3/directline',
+          conversationId,
+          watermark: '',
+        }),
+      [createDirectLine],
+    );
+  } else {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    directLine = useMemo(
+      () =>
+        createDirectLine({
+          token,
+          domain:
+            'https://northamerica.directline.botframework.com/v3/directline',
+        }),
+      [createDirectLine, token],
+    );
+  }
 
   const styleOptions = {
     hideUploadButton: true,

@@ -98,7 +98,14 @@ const ConfirmationPage = ({ form, download }) => {
         <strong>Please print this page for your records.</strong>
       </p>
 
-      <h3 className="confirmation-page-title">We’ve received your request</h3>
+      <va-alert status="success">
+        <h3 className="confirmation-page-title">We’ve received your request</h3>
+        <p>
+          We’ll send you an email confirming your request to{' '}
+          <strong>{data.personalData.emailAddress}.</strong>
+        </p>
+      </va-alert>
+
       <p>
         We’ll send you a letter with our decision and any next steps. If you
         experience changes that may affect our decision (like a job loss or a

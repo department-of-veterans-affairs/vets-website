@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { differenceInDays } from 'date-fns';
+import { differenceInDays, isAfter } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
@@ -299,6 +299,13 @@ const mapStateToProps = state => {
     'VA Walla Walla health care',
     'VA Central Ohio health care',
   ];
+
+  const columbusStartAfterDate = new Date('2022-04-29');
+  columbusStartAfterDate.setUTCHours(23, 59, 59, 999);
+
+  if (isAfter(new Date(), columbusStartAfterDate)) {
+    facilityLocations.push('VA Columbus Ohio health care');
+  }
 
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,

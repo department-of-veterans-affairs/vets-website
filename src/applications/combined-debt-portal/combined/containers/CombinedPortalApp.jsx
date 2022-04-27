@@ -1,10 +1,12 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
+import { fetchDebtLetters } from '../actions/debts';
+import { getStatements } from '../actions/copays';
 import {
   combinedPortalAccess,
   selectLoadingFeatureFlags,
@@ -12,6 +14,16 @@ import {
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const CombinedPortalApp = ({ children }) => {
+  const dispatch = useDispatch();
+
+  useEffect(
+    () => {
+      fetchDebtLetters(dispatch);
+      getStatements(dispatch);
+    },
+    [dispatch],
+  );
+
   const isCombinedPortalActive = useSelector(state =>
     combinedPortalAccess(state),
   );
