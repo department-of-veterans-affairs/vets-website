@@ -168,5 +168,3 @@ Object.values(productMeta).forEach(product => {
 });
 
 crossProductDependencyGraph({ productPaths: Object.keys(productMeta) });
-
-// console.log(productMeta);
