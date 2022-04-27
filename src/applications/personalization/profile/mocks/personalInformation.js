@@ -4,7 +4,7 @@
 const set = require('lodash/set');
 
 // v0/personal_information route basic user response
-export const basicUserPersonalInfoResponse = {
+const basicUserPersonalInfoResponse = {
   data: {
     id: '',
     type: 'mvi_models_mvi_profiles',
@@ -22,7 +22,7 @@ export const basicUserPersonalInfoResponse = {
 };
 
 // v0/personal_information with none of the new demographics data set
-export const unsetUserPersonalInfoResponse = {
+const unsetUserPersonalInfoResponse = {
   data: {
     id: '',
     type: 'mvi_models_mvi_profiles',
@@ -40,7 +40,7 @@ export const unsetUserPersonalInfoResponse = {
 };
 
 // example of api error from vets-api for PUT request
-export const putPreferredNameFailureResponse = {
+const putPreferredNameFailureResponse = {
   errors: [
     {
       title: 'Bad Request',
@@ -53,7 +53,7 @@ export const putPreferredNameFailureResponse = {
   ],
 };
 
-export const makePutPreferredNameSuccessResponse = name => {
+const makePutPreferredNameSuccessResponse = name => {
   return {
     text: name,
     source_system_user: '123498767V234859',
