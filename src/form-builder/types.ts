@@ -35,3 +35,12 @@ export type RadioItemProps = {
 export type CheckboxGroupProps = FieldProps<string> & {
   options: CheckboxProps[];
 };
+
+export type FullNameProps = FieldProps<string> & {
+  /**
+   * @defaultValue
+   * The default is `fullName` unless {@link FullNameProps.fieldName}
+   * is passed with custom name.
+   */
+  fieldName?: string | undefined;
+}

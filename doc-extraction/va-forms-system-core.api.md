@@ -48,6 +48,11 @@ export const EmailField: (props: EmailProps) => JSX.Element;
 // @public (undocumented)
 export const FormContext: Context<IFormContextType>;
 
+// Warning: (ae-forgotten-export) The symbol "FullNameProps" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export const FullNameField: (props: FullNameProps) => JSX.Element;
+
 // @beta
 export interface IFormContextType {
     // (undocumented)

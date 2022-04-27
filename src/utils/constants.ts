@@ -1,0 +1,1 @@
+export const Suffixes = ['', 'Jr.', 'Sr.', 'II', 'III', 'IV']

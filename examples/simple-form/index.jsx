@@ -8,6 +8,7 @@ import {
   DateField,
   DebuggerView,
   TextField,
+  FullNameField
 } from '@department-of-veterans-affairs/va-forms-system-core';
 
 import CheckboxFieldGroup from '../../src/form-builder/CheckboxFieldGroup';
@@ -87,11 +88,11 @@ const App = () => (
         <TextField name="foo" label="Example" required />
         {/* <DateField name="baz" required /> */}
         <CheckboxFieldGroup {...checkboxProps} />
+        <FullNameField />
         <button type="submit" className="btn">
           {' '}
           submit
         </button>
-
         <DebuggerView />
       </Form>
     </Formik>
