@@ -1,0 +1,43 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+
+const ZeroBalanceCard = ({ isDebt }) => {
+  const cardTitle = isDebt
+    ? `You don't have any current VA debt`
+    : `You haven't received a copay bill in the past 6 months`;
+
+  return (
+    <div
+      className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
+      data-testid={`balance-card-${isDebt ? 'debt' : 'copay'}`}
+    >
+      <h3
+        className="card-balance vads-u-margin-top--0"
+        data-testid="card-title"
+      >
+        {cardTitle}
+      </h3>
+      {isDebt ? (
+        <p>
+          If you think this is incorrect, call lthe Debt Management Center (DMC){' '}
+          at <va-telephone contact="800-827-0648" /> (TTY:{' '}
+          <va-telephone contact="711" />. We’re here Monday through Friday, 7:30{' '}
+          a.m. to 7:00 p.m. ET.
+        </p>
+      ) : (
+        <p>
+          If you think this is incorrect, contact the VA Health Resource Center
+          at <va-telephone contact="866-400-1238" /> (TTY:{' '}
+          <va-telephone contact="711" />. We’re here Monday through Friday, 8:00{' '}
+          a.m. to 8:00 p.m. ET.
+        </p>
+      )}
+    </div>
+  );
+};
+
+ZeroBalanceCard.propTypes = {
+  isDebt: PropTypes.bool,
+};
+
+export default ZeroBalanceCard;
