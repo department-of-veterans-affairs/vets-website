@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Alerts = ({ isDebt }) => {
+const AlertCard = ({ isDebt }) => {
   return (
     <>
       <va-alert
@@ -27,8 +27,8 @@ const Alerts = ({ isDebt }) => {
     </>
   );
 };
-Alerts.propTypes = {
+AlertCard.propTypes = {
   isDebt: PropTypes.bool,
 };
 
-export default Alerts;
+export default AlertCard;
