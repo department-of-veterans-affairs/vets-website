@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 
-import { createPersonalInfoUpdate } from '@@profile/actions/personalInfomation';
+import { createPersonalInfoUpdate } from '@@profile/actions/personalInformation';
 
 import {
   createTransaction,

@@ -93,4 +93,8 @@ const putPreferredName = {
 module.exports = {
   getBasicUserPersonalInfo,
   putPreferredName,
+  basicUserPersonalInfoResponse,
+  unsetUserPersonalInfoResponse,
+  makePutPreferredNameSuccessResponse,
+  putPreferredNameFailureResponse,
 };

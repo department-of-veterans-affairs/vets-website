@@ -4,7 +4,7 @@ const paymentHistory = require('./paymentHistory');
 const mhvAcccount = require('./mhvAccount');
 const address = require('./address');
 const status = require('./status');
-const personalInfo = require('./personalInfo');
+const personalInformation = require('./personalInformation');
 
 const { generateFeatureToggles } = require('./feature-toggles');
 
@@ -18,8 +18,9 @@ const responses = {
   'GET /v0/ppiu/payment_information': paymentHistory,
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount,
-  'GET /v0/profile/personal_information': personalInfo.getBasicUserPersonalInfo,
-  ...personalInfo.putPreferredName,
+  'GET /v0/profile/personal_information':
+    personalInformation.getBasicUserPersonalInfo,
+  ...personalInformation.putPreferredName,
   'GET /v0/profile/full_name': {
     id: '',
     type: 'hashes',

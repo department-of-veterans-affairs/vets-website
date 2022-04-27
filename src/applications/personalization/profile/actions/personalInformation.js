@@ -68,6 +68,7 @@ export function createPersonalInfoUpdate(
   fieldName,
   payload,
   analyticsSectionName,
+  recordAnalyticsEvent = recordEvent,
 ) {
   return async dispatch => {
     const options = {
@@ -127,13 +128,14 @@ export function createPersonalInfoUpdate(
       const [firstError = {}] = error.errors ?? [];
       const { code = 'code', title = 'title', detail = 'detail' } = firstError;
       const profileSection = analyticsSectionName || 'unknown-profile-section';
-      recordEvent({
+
+      recordAnalyticsEvent({
         event: 'profile-edit-failure',
         'profile-action': 'save-failure',
         'profile-section': profileSection,
         'error-key': `tx-creation-error-${profileSection}-${code}-${title}-${detail}`,
       });
-      recordEvent({
+      recordAnalyticsEvent({
         'error-key': undefined,
       });
       dispatch({
