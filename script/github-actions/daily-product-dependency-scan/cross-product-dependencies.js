@@ -1,118 +1,146 @@
-// /* eslint-disable no-param-reassign */
-// const findImports = require('find-imports');
+/* eslint-disable class-methods-use-this */
+const findImports = require('find-imports');
 
-// function getImports(filePath) {
-//   return findImports(filePath, {
-//     absoluteImports: true,
-//     relativeImports: true,
-//     packageImports: false,
-//   });
-// }
+class CrossProductDependencies {
+  constructor({ products }) {
+    this.products = products;
+  }
 
-// function getAppNameFromFilePath(filePath) {
-//   return filePath.split('/')[2];
-// }
+  setDependencies() {
+    Object.keys(this.products).forEach(productPath => {
+      const imports = findImports(`${productPath}/**/*.*`, {
+        absoluteImports: true,
+        relativeImports: true,
+        packageImports: false,
+      });
 
-// function getImportPath(filePathAsArray, importRef) {
-//   if (importRef.startsWith('applications/')) {
-//     return `src/${importRef}`;
-//   }
-//   if (importRef.startsWith('../')) {
-//     const numDirsUp = importRef.split('/').filter(str => str === '..').length;
+      Object.keys(imports).forEach(importerFilePath => {
+        imports[importerFilePath].forEach(importRef => {
+          const importeeFilePath = this.getImportPath(
+            importerFilePath,
+            importRef,
+          );
 
-//     return importRef.replace(
-//       '../'.repeat(numDirsUp),
-//       `${filePathAsArray
-//         .slice(0, filePathAsArray.length - 1 - numDirsUp)
-//         .join('/')}/`,
-//     );
-//   }
+          if (
+            importeeFilePath.startsWith('src/platform') ||
+            importeeFilePath.startsWith('src/site')
+          )
+            return;
 
-//   return importRef;
-// }
+          const importProductPath = this.getProductPathFromFilePath(
+            importeeFilePath,
+          );
 
-// function importIsFromOtherApplication(appName, importPath) {
-//   return (
-//     importPath.startsWith('src/applications') &&
-//     !importPath.startsWith(`src/applications/${appName}`)
-//   );
-// }
+          if (
+            importProductPath &&
+            this.importIsFromOtherProduct(productPath, importeeFilePath)
+          ) {
+            this.updateGraph(
+              productPath,
+              importProductPath,
+              importerFilePath,
+              importeeFilePath,
+            );
+          }
+        });
+      });
+    });
+  }
 
-// function updateGraph(graph, appName, importerFilePath, importeeFilePath) {
-//   const importAppName = getAppNameFromFilePath(importeeFilePath);
+  getImportPath(importerFilePath, importRef) {
+    const filePathAsArray = importerFilePath.split('/');
 
-//   if (!graph[importAppName]) {
-//     graph[importAppName] = {
-//       appsToTest: [importAppName],
-//       appsThatThisAppImportsFrom: {},
-//       appsThatImportFromThisApp: {},
-//     };
-//   }
+    if (importRef === '.') {
+      return `${importerFilePath.slice(
+        0,
+        importerFilePath.lastIndexOf('/'),
+      )}/index.js`;
+    }
 
-//   graph[importAppName].appsToTest.push(appName);
+    if (importRef.startsWith('./')) {
+      return (
+        importerFilePath.slice(0, importerFilePath.lastIndexOf('/')) +
+        importRef.slice(1)
+      );
+    }
 
-//   if (!graph[appName].appsThatThisAppImportsFrom[importAppName]) {
-//     graph[appName].appsThatThisAppImportsFrom[importAppName] = {
-//       filesImported: [],
-//     };
-//   }
+    if (importRef.startsWith('../')) {
+      const numDirsUp = importRef.split('/').filter(str => str === '..').length;
 
-//   graph[appName].appsThatThisAppImportsFrom[importAppName].filesImported.push({
-//     importer: importerFilePath,
-//     importee: importeeFilePath,
-//   });
+      return importRef.replace(
+        '../'.repeat(numDirsUp),
+        `${filePathAsArray
+          .slice(0, filePathAsArray.length - 1 - numDirsUp)
+          .join('/')}/`,
+      );
+    }
 
-//   if (!graph[importAppName].appsThatImportFromThisApp[appName]) {
-//     graph[importAppName].appsThatImportFromThisApp[appName] = {
-//       filesImported: [],
-//     };
-//   }
+    return importRef;
+  }
 
-//   graph[importAppName].appsThatImportFromThisApp[appName].filesImported.push({
-//     importer: importerFilePath,
-//     importee: importeeFilePath,
-//   });
-// }
+  importIsFromOtherProduct(productPath, importPath) {
+    return !importPath.startsWith(productPath);
+  }
 
-// function buildGraph() {
-//   const graph = {};
-//   const files = ['src/applications/**/*.*', '!src/applications/*.*'];
-//   const imports = getImports(files);
+  getProductPathFromFilePath(importeeFilePath) {
+    let path = importeeFilePath;
+    let noPathMatch = true;
 
-//   Object.keys(imports).forEach(importerFilePath => {
-//     const appName = getAppNameFromFilePath(importerFilePath);
-//     const filePathAsArray = importerFilePath.split('/');
+    while (path.includes('/') && noPathMatch) {
+      path = path.slice(0, path.lastIndexOf('/'));
 
-//     if (!graph[appName]) {
-//       graph[appName] = {
-//         appsToTest: [appName],
-//         appsThatThisAppImportsFrom: {},
-//         appsThatImportFromThisApp: {},
-//       };
-//     }
+      if (this.products[path]) {
+        noPathMatch = false;
+      }
+    }
 
-//     imports[importerFilePath].forEach(importRef => {
-//       const importeeFilePath = getImportPath(filePathAsArray, importRef);
+    return noPathMatch ? null : path;
+  }
 
-//       if (importIsFromOtherApplication(appName, importeeFilePath)) {
-//         updateGraph(graph, appName, importerFilePath, importeeFilePath);
-//       }
-//     });
-//   });
+  updateGraph(
+    productPath,
+    importProductPath,
+    importerFilePath,
+    importeeFilePath,
+  ) {
+    if (
+      !this.products[productPath].productsThatThisProductImportsFrom[
+        importProductPath
+      ]
+    ) {
+      this.products[productPath].productsThatThisProductImportsFrom[
+        importProductPath
+      ] = {
+        filesImported: new Set(),
+      };
+    }
 
-//   return graph;
-// }
+    this.products[productPath].productsThatThisProductImportsFrom[
+      importProductPath
+    ].filesImported.add({
+      importer: importerFilePath,
+      importee: importeeFilePath,
+    });
 
-// function dedupeGraph(graph) {
-//   Object.keys(graph).forEach(app => {
-//     graph[app].appsToTest = [...new Set(graph[app].appsToTest)];
-//   });
+    if (
+      !this.products[importProductPath].productsThatImportFromThisProduct[
+        productPath
+      ]
+    ) {
+      this.products[importProductPath].productsThatImportFromThisProduct[
+        productPath
+      ] = {
+        filesImported: new Set(),
+      };
+    }
 
-//   return graph;
-// }
+    this.products[importProductPath].productsThatImportFromThisProduct[
+      productPath
+    ].filesImported.add({
+      importer: importerFilePath,
+      importee: importeeFilePath,
+    });
+  }
+}
 
-// function run() {
-//   dedupeGraph(buildGraph());
-// }
-
-// run();
+module.exports = CrossProductDependencies;
