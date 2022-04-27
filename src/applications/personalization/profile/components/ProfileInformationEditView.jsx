@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
 
+import { createPersonalInfoUpdate } from '@@profile/actions/personalInformation';
+
 import {
   createTransaction,
   refreshTransaction,
@@ -15,7 +17,12 @@ import {
 } from '@@vap-svc/actions';
 
 import * as VAP_SERVICE from '@@vap-svc/constants';
-import { ACTIVE_EDIT_VIEWS, FIELD_NAMES, USA } from '@@vap-svc/constants';
+import {
+  ACTIVE_EDIT_VIEWS,
+  FIELD_NAMES,
+  USA,
+  PERSONAL_INFO_FIELD_NAMES,
+} from '@@vap-svc/constants';
 
 import {
   isFailedTransaction,
@@ -50,6 +57,7 @@ const propTypes = {
   apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
   clearTransactionRequest: PropTypes.func.isRequired,
   convertCleanDataToPayload: PropTypes.func.isRequired,
+  createPersonalInfoUpdate: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
   doNotRequireInternationalPostalCode: PropTypes.bool.isRequired,
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
@@ -178,7 +186,19 @@ export class ProfileInformationEditView extends Component {
       payload = convertCleanDataToPayload(payload, fieldName);
     }
 
-    const method = payload.id ? 'PUT' : 'POST';
+    // for personal info fields we are using a different request flow
+    if (Object.values(PERSONAL_INFO_FIELD_NAMES).includes(fieldName)) {
+      this.props.createPersonalInfoUpdate(
+        apiRoute,
+        'PUT',
+        fieldName,
+        payload,
+        analyticsSectionName,
+      );
+      return;
+    }
+
+    const method = payload?.id ? 'PUT' : 'POST';
 
     if (isAddressField) {
       this.props.validateAddress(
@@ -395,6 +415,7 @@ const mapDispatchToProps = {
   updateFormFieldWithSchema,
   validateAddress,
   refreshTransaction,
+  createPersonalInfoUpdate,
 };
 
 export default connect(
