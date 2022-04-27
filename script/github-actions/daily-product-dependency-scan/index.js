@@ -5,45 +5,23 @@ const glob = require('glob');
 const manifestPaths = glob.sync('src/applications/**/*manifest.json');
 const productMeta = {};
 
-manifestPaths.forEach(path => {
-  const manifest = JSON.parse(fs.readFileSync(path));
-  const { productId } = manifest;
-
-  if (productId) {
-    const productPath = path.slice(0, path.lastIndexOf('/'));
-
-    productMeta[productPath] = {
-      productId,
-      productPath,
-      packageDependencies: new Set(),
-      productsThatThisProductImportsFrom: new Set(),
-      productsThatImportFromThisProduct: new Set(),
-    };
-  }
-});
-
-Object.values(productMeta).forEach(product => {
-  const imports = findImports(`${product.productPath}/**/*.{js,jsx}`, {
-    absoluteImports: false,
-    relativeImports: false,
-    packageImports: true,
-  });
-
-  Object.values(imports).forEach(dependancies => {
-    if (dependancies.length === 0) return;
-
-    dependancies.forEach(dependency => {
-      product.packageDependencies.add(dependency);
-    });
-  });
-});
-
 function getImportPath(importerFilePath, importRef) {
   const filePathAsArray = importerFilePath.split('/');
 
-  if (importRef.startsWith('applications/')) {
-    return `src/${importRef}`;
+  if (importRef === '.') {
+    return `${importerFilePath.slice(
+      0,
+      importerFilePath.lastIndexOf('/'),
+    )}/index.js`;
   }
+
+  if (importRef.startsWith('./')) {
+    return (
+      importerFilePath.slice(0, importerFilePath.lastIndexOf('/')) +
+      importRef.slice(1)
+    );
+  }
+
   if (importRef.startsWith('../')) {
     const numDirsUp = importRef.split('/').filter(str => str === '..').length;
 
@@ -63,60 +41,68 @@ function importIsFromOtherProduct(productPath, importPath) {
 }
 
 function getProductPathFromFilePath(importeeFilePath) {
-  let path = null;
+  let path = importeeFilePath;
   let noPathMatch = true;
 
-  while (noPathMatch) {
-    const productPath = importeeFilePath.slice(
-      0,
-      importeeFilePath.lastIndexOf('/'),
-    );
+  while (path.includes('/') && noPathMatch) {
+    path = path.slice(0, path.lastIndexOf('/'));
 
-    if (productMeta[productPath]) {
-      path = productPath;
+    if (productMeta[path]) {
       noPathMatch = false;
     }
   }
 
-  return path;
+  return noPathMatch ? null : path;
 }
 
-function updateGraph(productPath, importerFilePath, importeeFilePath) {
-  const importProductPath = getProductPathFromFilePath(importeeFilePath);
-
-  if (!productMeta[productPath].appsThatThisAppImportsFrom[importProductPath]) {
-    productMeta[productPath].appsThatThisAppImportsFrom[importProductPath] = {
-      filesImported: [],
+function updateGraph(
+  productPath,
+  importProductPath,
+  importerFilePath,
+  importeeFilePath,
+) {
+  if (
+    !productMeta[productPath].productsThatThisProductImportsFrom[
+      importProductPath
+    ]
+  ) {
+    productMeta[productPath].productsThatThisProductImportsFrom[
+      importProductPath
+    ] = {
+      filesImported: new Set(),
     };
   }
 
-  productMeta[productPath].appsThatThisAppImportsFrom[
+  productMeta[productPath].productsThatThisProductImportsFrom[
     importProductPath
   ].filesImported.add({
     importer: importerFilePath,
     importee: importeeFilePath,
   });
 
-  if (!productMeta[importProductPath].appsThatImportFromThisApp[productPath]) {
-    productMeta[importProductPath].appsThatImportFromThisApp[productPath] = {
-      filesImported: [],
+  if (
+    !productMeta[importProductPath].productsThatImportFromThisProduct[
+      productPath
+    ]
+  ) {
+    productMeta[importProductPath].productsThatImportFromThisProduct[
+      productPath
+    ] = {
+      filesImported: new Set(),
     };
   }
 
-  productMeta[importProductPath].appsThatImportFromThisApp[
+  productMeta[importProductPath].productsThatImportFromThisProduct[
     productPath
   ].filesImported.add({
     importer: importerFilePath,
     importee: importeeFilePath,
   });
-
-  // console.log('importer', productMeta[productPath]);
-  // console.log('importee', productMeta[importProductPath]);
 }
 
 function crossProductDependencyGraph({ productPaths }) {
   productPaths.forEach(productPath => {
-    const imports = findImports(`${productPath}/**/*.{js,jsx}`, {
+    const imports = findImports(`${productPath}/**/*.*`, {
       absoluteImports: true,
       relativeImports: true,
       packageImports: false,
@@ -126,12 +112,61 @@ function crossProductDependencyGraph({ productPaths }) {
       imports[importerFilePath].forEach(importRef => {
         const importeeFilePath = getImportPath(importerFilePath, importRef);
 
-        if (importIsFromOtherProduct(productPath, importeeFilePath)) {
-          updateGraph(productPath, importerFilePath, importeeFilePath);
+        if (
+          importeeFilePath.startsWith('src/platform') ||
+          importeeFilePath.startsWith('src/site')
+        )
+          return;
+
+        const importProductPath = getProductPathFromFilePath(importeeFilePath);
+
+        if (
+          importProductPath &&
+          importIsFromOtherProduct(productPath, importeeFilePath)
+        ) {
+          updateGraph(
+            productPath,
+            importProductPath,
+            importerFilePath,
+            importeeFilePath,
+          );
         }
       });
     });
   });
 }
 
+manifestPaths.forEach(path => {
+  const manifest = JSON.parse(fs.readFileSync(path));
+  const productId = manifest.productId || null;
+
+  const productPath = path.slice(0, path.lastIndexOf('/'));
+
+  productMeta[productPath] = {
+    productId,
+    productPath,
+    packageDependencies: new Set(),
+    productsThatThisProductImportsFrom: new Set(),
+    productsThatImportFromThisProduct: new Set(),
+  };
+});
+
+Object.values(productMeta).forEach(product => {
+  const imports = findImports(`${product.productPath}/**/*.{js,jsx}`, {
+    absoluteImports: false,
+    relativeImports: false,
+    packageImports: true,
+  });
+
+  Object.values(imports).forEach(dependancies => {
+    if (dependancies.length === 0) return;
+
+    dependancies.forEach(dependency => {
+      product.packageDependencies.add(dependency);
+    });
+  });
+});
+
 crossProductDependencyGraph({ productPaths: Object.keys(productMeta) });
+
+// console.log(productMeta);
