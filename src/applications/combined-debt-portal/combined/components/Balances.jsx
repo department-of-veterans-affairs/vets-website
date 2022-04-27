@@ -5,7 +5,8 @@ import BalanceCard from './BalanceCard';
 import mockDebt from '../../../debt-letters/tests/e2e/fixtures/mocks/debts.json';
 import mockBill from '../../../medical-copays/utils/mock-users/tony-stark.json';
 import ZeroBalanceCard from './ZeroBalanceCard';
-import Alerts from './Alerts';
+import AlertCard from './AlertCard';
+import ComboAlerts from './ComboAlerts';
 
 export const IS_DEBT = true;
 
@@ -60,16 +61,10 @@ const Balances = () => {
   // const debtErrors = useSelector(({ debtLetters }) => debtLetters.error);
   // const debtError = debtErrors.length ? debtErrors[0] : [];
 
-  // if (mcpError && debtError?.status) {
-  //   return <div>Errors Card</div>;
-  // }
-
-  // if (zeroBalanceDebt && zeroBalanceBill) {
-  //   return <div>No Balances Card</div>;
-  // }
-
   return (
     <>
+      <ComboAlerts type="zero-balances" />
+      <ComboAlerts type="error" />
       <BalanceCard
         amount={calculateTotalDebts(mockDebt.debts)}
         count={mockDebt.debts.length}
@@ -84,8 +79,8 @@ const Balances = () => {
       />
       <ZeroBalanceCard isDebt={!IS_DEBT} />
       <ZeroBalanceCard isDebt={IS_DEBT} />
-      <Alerts isDebt={!IS_DEBT} />
-      <Alerts isDebt={IS_DEBT} />
+      <AlertCard isDebt={!IS_DEBT} />
+      <AlertCard isDebt={IS_DEBT} />
     </>
   );
 };
