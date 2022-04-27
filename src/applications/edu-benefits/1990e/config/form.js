@@ -69,6 +69,7 @@ import {
   relationshipLabels,
   isOnlyWhitespace,
   titleCase,
+  hideUnder18Field,
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
@@ -138,6 +139,7 @@ const newFormFields = {
   newLoanPayment: 'newLoanPayment',
   newMobilePhoneNumber: 'newMobilePhoneNumber',
   newMobilePhoneNumberInternational: 'newMobilePhoneNumberInternational',
+  newParentGuardianSponsor: 'newParentGuardianSponsor',
   newPhoneNumber: 'newPhoneNumber',
   newPhoneNumberInternational: 'newPhoneNumberInternational',
   newRelationshipToServiceMember: 'newRelationshipToServiceMember',
@@ -540,6 +542,15 @@ const formConfig = {
                 },
               },
             },
+            [newFormFields.newParentGuardianSponsor]: {
+              'ui:title': 'Parent / Guardian signature',
+              'ui:options': {
+                hideIf: formData =>
+                  hideUnder18Field(formData, newFormFields.newDateOfBirth),
+              },
+              'ui:required': formData =>
+                !hideUnder18Field(formData, newFormFields.newDateOfBirth),
+            },
           },
           schema: {
             type: 'object',
@@ -563,6 +574,9 @@ const formConfig = {
               'view:dateOfBirthUnder18Alert': {
                 type: 'object',
                 properties: {},
+              },
+              [newFormFields.newParentGuardianSponsor]: {
+                type: 'string',
               },
             },
           },
