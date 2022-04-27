@@ -7,11 +7,14 @@ const productMeta = {};
 
 manifestPaths.forEach(path => {
   const manifest = JSON.parse(fs.readFileSync(path));
+  const { productId } = manifest;
 
-  // only include manifests with product ids for now
-  if (manifest.productId) {
-    productMeta[manifest.productId] = {
-      path: path.slice(0, path.lastIndexOf('/')),
+  if (productId) {
+    const productPath = path.slice(0, path.lastIndexOf('/'));
+
+    productMeta[productPath] = {
+      productId,
+      productPath,
       dependancies: new Set(),
       crossProductImports: new Set(),
     };
@@ -19,7 +22,7 @@ manifestPaths.forEach(path => {
 });
 
 Object.values(productMeta).forEach(product => {
-  const imports = findImports(`${product.path}/**/*.{js,jsx}`, {
+  const imports = findImports(`${product.productPath}/**/*.{js,jsx}`, {
     absoluteImports: false,
     relativeImports: false,
     packageImports: true,
