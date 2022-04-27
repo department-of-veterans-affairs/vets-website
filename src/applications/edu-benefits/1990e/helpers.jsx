@@ -120,3 +120,9 @@ export const hideUnder18Field = (formData, fieldName) => {
     birthday.getTime() <= today18YearsAgo.getTime()
   );
 };
+
+export const addWhitespaceOnlyError = (field, errors, errorMessage) => {
+  if (isOnlyWhitespace(field)) {
+    errors.addError(errorMessage);
+  }
+};
