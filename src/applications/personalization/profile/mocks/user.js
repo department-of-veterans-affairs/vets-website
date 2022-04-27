@@ -49,7 +49,20 @@ module.exports = {
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
           isCernerPatient: false,
-          facilities: [],
+          facilities: [
+            {
+              facilityId: '989',
+              isCerner: false,
+            },
+            {
+              facilityId: '987',
+              isCerner: false,
+            },
+            {
+              facilityId: '983',
+              isCerner: false,
+            },
+          ],
           vaPatient: false,
           mhvAccountState: 'NONE',
         },
