@@ -5,6 +5,7 @@ const mhvAcccount = require('./mhvAccount');
 const address = require('./address');
 const status = require('./status');
 const personalInfo = require('./personalInfo');
+const { createNotificationSuccess } = require('./notifications');
 
 const { generateFeatureToggles } = require('./feature-toggles');
 
@@ -96,6 +97,9 @@ const responses = {
     return res.json(
       _.set(status.success, 'data.attributes.transactionId', req.params.id),
     );
+  },
+  'GET /v0/profile/communication_preferences': (_req, res) => {
+    return res.json(createNotificationSuccess());
   },
 };
 
