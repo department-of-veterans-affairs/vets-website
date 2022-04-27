@@ -11,10 +11,7 @@ const ZeroBalanceCard = ({ isDebt }) => {
       className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
       data-testid={`balance-card-${isDebt ? 'debt' : 'copay'}`}
     >
-      <h3
-        className="card-balance vads-u-margin-top--0"
-        data-testid="card-title"
-      >
+      <h3 className="vads-u-margin-top--0" data-testid="card-title">
         {cardTitle}
       </h3>
       {isDebt ? (
