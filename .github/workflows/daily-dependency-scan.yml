@@ -1,0 +1,28 @@
+on:
+  schedule:
+    - cron: '0 12 * * 1-5'
+
+name: Daily Dependency Scan
+
+jobs:
+  daily-dependency-scan:
+    name: Daily Dependency Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get Node version
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Use Node.js version 14.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+          cache: 'yarn'
+
+      - name: Install modules
+        run: yarn
+
+      - name: Run Unit Tests
+        run: yarn daily-dependency-scan
