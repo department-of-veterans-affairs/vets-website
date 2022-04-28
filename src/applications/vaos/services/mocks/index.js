@@ -194,7 +194,6 @@ const responses = {
       attributes: {
         ...req.body,
         start: req.body.slot ? req.body.slot.start : null,
-        cancellable: req.body.status === 'proposed',
       },
     };
     currentMockId++;
@@ -214,7 +213,6 @@ const responses = {
         attributes: {
           ...appt.attributes,
           cancelationReason: { coding: [{ code: 'pat' }] },
-          cancellable: false,
         },
       };
     }
