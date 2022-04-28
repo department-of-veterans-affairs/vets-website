@@ -6,17 +6,17 @@ export const CONVERSATION_ID_KEY = `${BOT_SESSION_PREFIX}conversationId`;
 export const TOKEN_KEY = `${BOT_SESSION_PREFIX}token`;
 
 export function clearBotSessionStorage(forceClear) {
-  const keys = Object.keys(sessionStorage);
+  const botSessionKeys = Object.keys(sessionStorage);
   const loggedInFlow = sessionStorage.getItem(LOGGED_IN_FLOW);
   const inAuthExp = sessionStorage.getItem(IN_AUTH_EXP);
   const expectToClear = loggedInFlow !== 'true' && inAuthExp !== 'true';
 
   if (forceClear || expectToClear) {
-    for (let i = 0; i < keys.length; i++) {
-      if (keys[i].includes(BOT_SESSION_PREFIX)) {
-        sessionStorage.removeItem(keys[i]);
+    botSessionKeys.forEach(sessionKey => {
+      if (sessionKey.includes(BOT_SESSION_PREFIX)) {
+        sessionStorage.removeItem(sessionKey);
       }
-    }
+    });
   }
 }
 
