@@ -1,5 +1,6 @@
 const glob = require('glob');
 const fs = require('fs');
+const _ = require('lodash');
 
 const Products = require('./products');
 const PackageDependencies = require('./package-dependencies');
@@ -47,24 +48,34 @@ async function main() {
     const productId = fields[0];
 
     if (products.all[productId]) {
-      // this comparison will fail
-      if (
-        fields[productDirectory.headings.packageDependencyIndex] !==
-        products.all[productId].packageDependencies
-      ) {
+      // compare package dependencies
+      const { packageDependencyIndex } = productDirectory.headings;
+      const csvPackageDependencies = fields[packageDependencyIndex].split(',');
+      const scannedPackageDependencies = Array.from(
+        products.all[productId].packageDependencies,
+      );
+
+      if (!_.isEqual(csvPackageDependencies, scannedPackageDependencies)) {
         dependenciesChanged = true;
-        fields[productDirectory.headings.packageDependencyIndex] =
-          products.all[productId].packageDependencies;
+        fields[packageDependencyIndex] = scannedPackageDependencies.join(',');
       }
 
-      // this comparison will fail
+      // compare cross product imports
+      const { crossProductDependencyIndex } = productDirectory.headings;
+      const csvCrossProductDependencies = fields[
+        crossProductDependencyIndex
+      ].split(',');
+      const scannedCrossProductDependencies = Array.from(
+        products.all[productId].crossProductDependencies,
+      );
+
       if (
-        fields[productDirectory.headings.crossProductDependencyIndex] !==
-        products.all[productId].crossProductDependencies
+        !_.isEqual(csvCrossProductDependencies, scannedCrossProductDependencies)
       ) {
         dependenciesChanged = true;
-        fields[productDirectory.headings.crossProductDependencyIndex] =
-          products.all[productId].crossProductDependencies;
+        fields[
+          crossProductDependencyIndex
+        ] = scannedCrossProductDependencies.join(',');
       }
     }
 
