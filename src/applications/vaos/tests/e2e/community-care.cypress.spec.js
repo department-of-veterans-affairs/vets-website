@@ -16,7 +16,7 @@ describe('VAOS community care flow', () => {
   it('should fill out community care form and submit request', () => {
     initCommunityCareMock({ withoutAddress: true });
     cy.visit(
-      'health-care/schedule-view-va-appointments/appointments?redirect=false',
+      'health-care/schedule-view-va-appointments/appointments/new-appointment/',
     );
 
     // Wait until the app has been bootstraped. Could have used 'cy.wait' but
@@ -234,7 +234,7 @@ describe('VAOS community care flow', () => {
   it('should submit form with provider chosen from list and submit request', () => {
     initCommunityCareMock();
     cy.visit(
-      'health-care/schedule-view-va-appointments/appointments?redirect=false',
+      'health-care/schedule-view-va-appointments/appointments/new-appointment/',
     );
 
     // Wait until the app has been bootstraped. Could have used 'cy.wait' but
@@ -474,9 +474,7 @@ describe('VAOS community care flow using VAOS service', () => {
       url: /.*\/v0\/appointments?.*$/,
       response: { data: [] },
     });
-    cy.visit(
-      'health-care/schedule-view-va-appointments/appointments?redirect=false',
-    );
+    cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
 
     // Start flow
