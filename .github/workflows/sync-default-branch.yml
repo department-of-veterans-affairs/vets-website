@@ -1,0 +1,49 @@
+# name: Sync main and master branches
+
+# on:
+#   push:
+#     branches: [ main, master ]
+
+# jobs:
+#   sync-branches:
+#     runs-on: ubuntu-latest
+#     name: Sync changes from main to master
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@v2
+#         with:
+#           fetch-depth: 0
+
+#       - name: Set up Node
+#         uses: actions/setup-node@v1
+#         with:
+#           node-version: 12
+
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v1
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: us-gov-west-1
+
+#       - name: Get va-vsp-bot token
+#         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+#         with:
+#           ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+#           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+#       - name: Open pull request to sync master branch
+#         if: github.ref == 'refs/heads/main'
+#         uses: tretuna/sync-branches@1.2.0
+#         with:
+#           GITHUB_TOKEN: ${{env.VA_VSP_BOT_GITHUB_TOKEN}}
+#           FROM_BRANCH: 'main'
+#           TO_BRANCH: 'master'
+
+#       - name: Open pull request to sync main branch
+#         if: github.ref == 'refs/heads/master'
+#         uses: tretuna/sync-branches@1.2.0
+#         with:
+#           GITHUB_TOKEN: ${{env.VA_VSP_BOT_GITHUB_TOKEN}}
+#           FROM_BRANCH: 'master'
+#           TO_BRANCH: 'main'
