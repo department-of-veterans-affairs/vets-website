@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import LanguagePicker from './LanguagePicker';
 import { APP_NAMES } from '../utils/appConstants';
 import { makeSelectApp } from '../selectors';
 import ExternalLink from './ExternalLink';
@@ -55,8 +54,6 @@ const Footer = ({ header, message }) => {
         <p>{t('ask-a-staff-member')}</p>
       )}
       {message}
-
-      <LanguagePicker />
     </footer>
   );
 };

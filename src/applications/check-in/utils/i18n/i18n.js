@@ -71,8 +71,9 @@ i18n
     },
   });
 
+// Sets lang attribute on main element, this is what the DS components use to detect the active language.
 i18n.on('languageChanged', language => {
-  document.getElementById('content')?.setAttribute('lang', language);
+  document.getElementById('main')?.setAttribute('lang', language);
 });
 
 export default i18n;
