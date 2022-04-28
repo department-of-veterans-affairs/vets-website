@@ -16,6 +16,21 @@ class Products {
       this.all[productPath] = new Product({ productId, productPath });
     });
   }
+
+  swapKeys() {
+    this.all.forEach(product => {
+      if (product.productId) {
+        const { packageDependencies, crossProductDependencies } = product;
+
+        this.all[product.productId] = {
+          packageDependencies,
+          crossProductDependencies,
+        };
+      }
+
+      delete this.all[product.productPath];
+    });
+  }
 }
 
 module.exports = Products;
