@@ -155,13 +155,9 @@ jobs:
           name: unit-test-coverage-report
           path: coverage/test-coverage-report.json
 
-      - name: Configure AWS credentials (1)
+      - name: Configure AWS credentials
         if: ${{ github.ref == 'refs/heads/master' }}
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
+        uses: ./.github/workflows/awscreds
 
       - name: Get AWS IAM role
         if: ${{ github.ref == 'refs/heads/master' }}
@@ -213,12 +209,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
+      - name: Configure AWS credentials
+        uses: ./.github/workflows/awscreds
 
       - name: Get Pact Broker password
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -426,11 +418,7 @@ jobs:
       # exports app list and assigns to environmental variable at this step
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
+        uses: ./.github/workflows/awscreds
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -525,11 +513,7 @@ jobs:
 
     steps:
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
+        uses: ./.github/workflows/awscreds
 
       - name: Checkout vets-website
         uses: actions/checkout@v2
@@ -649,11 +633,7 @@ jobs:
       # ------------------------
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
+        uses: ./.github/workflows/awscreds
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -761,11 +741,7 @@ jobs:
       # ------------------------
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
+        uses: ./.github/workflows/awscreds
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -850,11 +826,8 @@ jobs:
       # ------------------------
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
+        uses: ./.github/workflows/awscreds
+
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -930,11 +903,7 @@ jobs:
         # ------------------------
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
+        uses: ./.github/workflows/awscreds
 
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
