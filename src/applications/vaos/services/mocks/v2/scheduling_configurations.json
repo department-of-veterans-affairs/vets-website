@@ -947,7 +947,7 @@
               "canCancel": true,
               "enabled": true
             },
-            "request": { "enabled": false }
+            "request": { "enabled": true }
           },
           {
             "id": "411",

@@ -1,16 +1,18 @@
 import moment from 'moment';
-
 import Timeouts from 'platform/testing/e2e/timeouts';
+import { initCommunityCareMock, vaosSetup } from './vaos-cypress-helpers';
 import {
-  initCommunityCareMock,
-  mockFeatureToggles,
-  vaosSetup,
-  mockUser,
-} from './vaos-cypress-helpers';
-import facilityData from '../../services/mocks/var/facility_data.json';
-import requests from '../../services/mocks/v2/requests.json';
-import facilitiesV2 from '../../services/mocks/v2/facilities.json';
-import configurations from '../../services/mocks/v2/scheduling_configurations_cc.json';
+  mockAppointmentsApi,
+  mockCCPrimaryCareEligibility,
+  mockCCProviderApi,
+  mockClinicApi,
+  mockEligibilityApi,
+  mockFacilityApi,
+  mockFeatureToggleApi,
+  mockGetSchedulingConfiguration,
+  mockLoginApi,
+  mockPreferencesApi,
+} from './vaos-cypress-routes';
 
 describe('VAOS community care flow', () => {
   it('should fill out community care form and submit request', () => {
@@ -161,7 +163,7 @@ describe('VAOS community care flow', () => {
     cy.get('.usa-button').click();
 
     // Check form requestBody is as expected
-    cy.wait('@appointmentRequests').should(xhr => {
+    cy.wait('@v0:create:request').should(xhr => {
       let date = moment()
         .add(5, 'days')
         .add(1, 'months')
@@ -176,21 +178,21 @@ describe('VAOS community care flow', () => {
         date = date.format('MM/DD/YYYY');
       }
 
-      expect(xhr.status).to.eq(200);
-      expect(xhr.url, 'post url').to.contain(
+      expect(xhr.response.statusCode).to.eq(200);
+      expect(xhr.response.url, 'post url').to.contain(
         '/vaos/v0/appointment_requests?type=cc',
       );
-      const request = xhr.requestBody;
-      expect(request)
+      const { body } = xhr.request;
+      expect(body)
         .to.have.property('optionDate1')
         .to.equal(date);
-      expect(request)
+      expect(body)
         .to.have.property('optionDate2')
         .to.equal('No Date Selected');
-      expect(request)
+      expect(body)
         .to.have.property('optionDate3')
         .to.equal('No Date Selected');
-      expect(Cypress._.values(request.preferredProviders)).to.deep.eq([
+      expect(Cypress._.values(body.preferredProviders)).to.deep.eq([
         {
           address: {
             city: 'WASHINGTON',
@@ -198,27 +200,27 @@ describe('VAOS community care flow', () => {
             street: '1012 14TH ST NW STE 700',
             zipCode: '20005-3477',
           },
-          practiceName: 'Doe, Jane',
+          practiceName: 'CAMPBELL, WILLIAM',
         },
       ]);
-      expect(request).to.have.property(
+      expect(body).to.have.property(
         'newMessage',
         'This is a very good reason.',
       );
-      expect(request.facility.facilityCode).to.eq('983');
-      expect(request.facility.parentSiteCode).to.eq('983');
-      expect(request).to.have.property('typeOfCareId', 'CCPRMYRTNE');
-      expect(request).to.have.property('optionTime1', 'AM');
-      expect(request).to.have.property('optionTime2', 'No Time Selected');
-      expect(request).to.have.property('optionTime3', 'No Time Selected');
-      expect(request).to.have.property('email', 'veteran@gmail.com');
-      expect(request).to.have.property('phoneNumber', '5035551234');
+      expect(body.facility.facilityCode).to.eq('983');
+      expect(body.facility.parentSiteCode).to.eq('983');
+      expect(body).to.have.property('typeOfCareId', 'CCPRMYRTNE');
+      expect(body).to.have.property('optionTime1', 'AM');
+      expect(body).to.have.property('optionTime2', 'No Time Selected');
+      expect(body).to.have.property('optionTime3', 'No Time Selected');
+      expect(body).to.have.property('email', 'veteran@gmail.com');
+      expect(body).to.have.property('phoneNumber', '5035551234');
     });
 
     // Check messages requestBody is as expected
-    cy.wait('@requestMessages').should(xhr => {
-      const request = xhr.requestBody;
-      expect(request).to.have.property(
+    cy.wait('@v0:create:request-message').should(xhr => {
+      const { body } = xhr.request;
+      expect(body).to.have.property(
         'messageText',
         'This is a very good reason.',
       );
@@ -322,11 +324,11 @@ describe('VAOS community care flow', () => {
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-preferences',
     );
     cy.axeCheckBestPractice();
-    cy.findByText(/Choose a provider/).click();
+    cy.findByText(/Choose a provider/).click({ waitForAnimations: true });
 
-    cy.findByLabelText(/doe, jane/i).click();
+    cy.findByLabelText(/campbell, william/i).click();
     cy.axeCheckBestPractice();
-    cy.findByText(/Choose provider/i).click();
+    cy.findByText(/Choose provider/i).click({ waitForAnimations: true });
     cy.findByText(/remove/i).click();
     cy.axeCheckBestPractice();
     cy.findByText(/cancel/i).click();
@@ -390,7 +392,7 @@ describe('VAOS community care flow', () => {
     cy.get('.usa-button').click();
 
     // Check form requestBody is as expected
-    cy.wait('@appointmentRequests').should(xhr => {
+    cy.wait('@v0:create:request').should(xhr => {
       let date = moment()
         .add(5, 'days')
         .add(1, 'months')
@@ -405,21 +407,21 @@ describe('VAOS community care flow', () => {
         date = date.format('MM/DD/YYYY');
       }
 
-      expect(xhr.status).to.eq(200);
-      expect(xhr.url, 'post url').to.contain(
+      expect(xhr.response.statusCode).to.eq(200);
+      expect(xhr.response.url, 'post url').to.contain(
         '/vaos/v0/appointment_requests?type=cc',
       );
-      const request = xhr.requestBody;
-      expect(request)
+      const { body } = xhr.request;
+      expect(body)
         .to.have.property('optionDate1')
         .to.equal(date);
-      expect(request)
+      expect(body)
         .to.have.property('optionDate2')
         .to.equal('No Date Selected');
-      expect(request)
+      expect(body)
         .to.have.property('optionDate3')
         .to.equal('No Date Selected');
-      expect(Cypress._.values(request.preferredProviders)).to.deep.eq([
+      expect(Cypress._.values(body.preferredProviders)).to.deep.eq([
         {
           address: {
             city: 'WASHINGTON',
@@ -427,27 +429,27 @@ describe('VAOS community care flow', () => {
             street: '1012 14TH ST NW STE 700',
             zipCode: '20005-3477',
           },
-          practiceName: 'Doe, Jane',
+          practiceName: 'CAMPBELL, WILLIAM',
         },
       ]);
-      expect(request).to.have.property(
+      expect(body).to.have.property(
         'newMessage',
         'This is a very good reason.',
       );
-      expect(request.facility.facilityCode).to.eq('983');
-      expect(request.facility.parentSiteCode).to.eq('983');
-      expect(request).to.have.property('typeOfCareId', 'CCPRMYRTNE');
-      expect(request).to.have.property('optionTime1', 'AM');
-      expect(request).to.have.property('optionTime2', 'No Time Selected');
-      expect(request).to.have.property('optionTime3', 'No Time Selected');
-      expect(request).to.have.property('email', 'veteran@gmail.com');
-      expect(request).to.have.property('phoneNumber', '5035551234');
+      expect(body.facility.facilityCode).to.eq('983');
+      expect(body.facility.parentSiteCode).to.eq('983');
+      expect(body).to.have.property('typeOfCareId', 'CCPRMYRTNE');
+      expect(body).to.have.property('optionTime1', 'AM');
+      expect(body).to.have.property('optionTime2', 'No Time Selected');
+      expect(body).to.have.property('optionTime3', 'No Time Selected');
+      expect(body).to.have.property('email', 'veteran@gmail.com');
+      expect(body).to.have.property('phoneNumber', '5035551234');
     });
 
     // Check messages requestBody is as expected
-    cy.wait('@requestMessages').should(xhr => {
-      const request = xhr.requestBody;
-      expect(request).to.have.property(
+    cy.wait('@v0:create:request-message').should(xhr => {
+      const { body } = xhr.request;
+      expect(body).to.have.property(
         'messageText',
         'This is a very good reason.',
       );
@@ -464,99 +466,26 @@ describe('VAOS community care flow', () => {
 describe('VAOS community care flow using VAOS service', () => {
   beforeEach(() => {
     vaosSetup();
-    mockFeatureToggles({
-      v2Requests: true,
-      v2Facilities: true,
-    });
-    cy.login(mockUser);
-    cy.route({
-      method: 'GET',
-      url: /.*\/v0\/appointments?.*$/,
-      response: { data: [] },
-    });
+  });
+
+  it('should submit request successfully', () => {
+    mockAppointmentsApi({ id: '983', apiVersion: 0 });
+    mockAppointmentsApi({ id: '983', apiVersion: 2 });
+    mockCCPrimaryCareEligibility();
+    mockCCProviderApi();
+    mockClinicApi({ locations: ['983', '983GC'], apiVersion: 2 });
+    mockEligibilityApi();
+    mockFacilityApi({ id: '983', apiVersion: 2 });
+    mockFeatureToggleApi();
+    mockGetSchedulingConfiguration();
+    mockLoginApi();
+    mockPreferencesApi();
+
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
 
     // Start flow
     cy.findByText('Start scheduling').click({ waitForAnimations: true });
-  });
-
-  it('should submit request successfully', () => {
-    const provider = {
-      id: '1497723753',
-      type: 'provider',
-      attributes: {
-        address: {
-          street: '1012 14TH ST NW STE 700',
-          city: 'WASHINGTON',
-          state: 'DC',
-          zip: '20005-3477',
-        },
-        caresitePhone: '202-638-0750',
-        lat: 38.903195,
-        long: -77.032382,
-        name: 'Doe, Jane',
-        phone: null,
-        uniqueId: '1497723753',
-      },
-    };
-    cy.route({
-      method: 'GET',
-      url: '/facilities_api/v1/ccp/provider?*',
-      response: {
-        data: [provider],
-      },
-    });
-    cy.route({
-      method: 'GET',
-      url: '/v1/facilities/ccp/*',
-      response: {
-        data: provider,
-      },
-    });
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v2/facilities*',
-      response: facilitiesV2,
-    });
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v2/scheduling/configurations*',
-      response: configurations,
-    });
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v0/community_care/eligibility/PrimaryCare',
-      response: {
-        data: {
-          id: 'PrimaryCare',
-          type: 'cc_eligibility',
-          attributes: { eligible: true },
-        },
-      },
-    });
-    cy.route({
-      method: 'POST',
-      url: '/vaos/v2/appointments',
-      response: {
-        data: {
-          id: '25956',
-          attributes: {},
-        },
-      },
-    }).as('appointmentRequests');
-    cy.route({
-      method: 'GET',
-      url: '/vaos/v2/appointments/25956*',
-      response: {
-        data: requests.data.find(r => r.id === '25956'),
-      },
-    });
-    cy.route({
-      method: 'GET',
-      url: '/v1/facilities/va/vha_442',
-      response: facilityData.data.find(f => f.id === 'vha_442'),
-    });
 
     // Select primary care
     cy.get('input[value="323"]')
@@ -623,9 +552,9 @@ describe('VAOS community care flow using VAOS service', () => {
       '/health-care/schedule-view-va-appointments/appointments/new-appointment/community-care-preferences',
     );
     cy.axeCheckBestPractice();
-    cy.findByText(/Choose a provider/).click();
+    cy.findByText(/Choose a provider/).click({ waitForAnimations: true });
 
-    cy.findByLabelText(/doe, jane/i).click();
+    cy.findByLabelText(/oh, janice/i).click();
     cy.axeCheckBestPractice();
     cy.findByText(/Choose provider/i).click();
     cy.findByText(/remove/i).click();
@@ -691,7 +620,7 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.get('.usa-button').click();
 
     // Check form requestBody is as expected
-    cy.wait('@appointmentRequests').should(xhr => {
+    cy.wait('@v2:create:appointment').should(xhr => {
       let date = moment()
         .add(5, 'days')
         .add(1, 'months')
@@ -706,34 +635,34 @@ describe('VAOS community care flow using VAOS service', () => {
         date = date.format('YYYY-MM-DD[T]HH:mm:ss[Z]');
       }
 
-      expect(xhr.status).to.eq(200);
-      expect(xhr.url, 'post url').to.contain('/vaos/v2/appointments');
-      const request = xhr.requestBody;
-      expect(request.requestedPeriods[0].start).to.equal(date);
-      expect(request.practitioners).to.deep.eq([
+      expect(xhr.response.statusCode).to.eq(200);
+      expect(xhr.response.url, 'post url').to.contain('/vaos/v2/appointments');
+      const { body } = xhr.request;
+      expect(body.requestedPeriods[0].start).to.equal(date);
+      expect(body.practitioners).to.deep.eq([
         {
           address: {
-            city: 'WASHINGTON',
-            line: ['1012 14TH ST NW STE 700'],
-            postalCode: '20005-3477',
-            state: 'DC',
+            city: 'ANNANDALE',
+            line: ['7700 LITTLE RIVER TPKE STE 102'],
+            postalCode: '22003-2400',
+            state: 'VA',
           },
           identifier: [
             {
               system: 'http://hl7.org/fhir/sid/us-npi',
-              value: '1497723753',
+              value: '1952935777',
             },
           ],
         },
       ]);
 
-      expect(request.locationId).to.eq('983');
-      expect(request).to.have.property('serviceType', 'primaryCare');
-      expect(request).to.have.property('kind', 'cc');
-      expect(request.contact.telecom[1].value).to.equal('veteran@gmail.com');
-      expect(request.contact.telecom[0].value).to.equal('5035551234');
+      expect(body.locationId).to.eq('983');
+      expect(body).to.have.property('serviceType', 'primaryCare');
+      expect(body).to.have.property('kind', 'cc');
+      expect(body.contact.telecom[1].value).to.equal('veteran@gmail.com');
+      expect(body.contact.telecom[0].value).to.equal('5035551234');
     });
-    cy.url().should('include', '/requests/25956');
+    cy.url().should('include', '/requests/mock1');
     cy.findByText('Preferred community care provider');
   });
 });

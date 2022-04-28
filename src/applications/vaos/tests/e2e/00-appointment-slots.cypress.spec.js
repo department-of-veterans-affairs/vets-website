@@ -1,36 +1,40 @@
 import moment from 'moment';
+import { vaosSetup } from './vaos-cypress-helpers';
 import {
-  mockUser,
-  setupPlatform,
-  setupVaos,
-  mockGetAppointmentSlots,
-  mockGetAppointments,
+  // mockGetAppointmentSlots,
+  mockAppointmentsApi,
   mockGetSchedulingConfiguration,
-  mockGetFacilities,
-  mockGetEligibilityCC,
-  mockGetEligibility,
-  mockGetClinics,
-} from './vaos-cypress-v2-helpers';
-import * as newApptTests from './vaos-cypress-schedule-appointment-v2-helpers';
+  mockFacilityApi,
+  mockClinicApi,
+  mockDirectScheduleSlots,
+  mockLoginApi,
+  mockEligibilityApi,
+  mockFeatureToggleApi,
+  mockCCPrimaryCareEligibility,
+} from './vaos-cypress-routes';
+import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
 
 describe('Direct schedule appointment slots', () => {
   beforeEach(() => {
-    setupPlatform();
-    setupVaos();
+    vaosSetup();
 
-    mockGetAppointments();
-    mockGetAppointments({ version: 2 });
+    mockAppointmentsApi({ id: '983GC', apiVersion: 0 });
+    mockAppointmentsApi({ id: '983GC', apiVersion: 2 });
+    mockEligibilityApi();
+    mockFacilityApi({ apiVersion: 2 });
+    mockFeatureToggleApi();
     mockGetSchedulingConfiguration();
-    mockGetFacilities();
-    mockGetEligibilityCC();
-    mockGetEligibility();
-    mockGetClinics(['983', '984']);
-
-    cy.login(mockUser);
+    mockLoginApi();
+    mockCCPrimaryCareEligibility();
   });
 
   it('should display open slots for the correct date for mountain timezone conversions', () => {
-    const today = moment();
+    // NOTE: Same as choosePreferredDateTest test
+    const today = moment()
+      .add(1, 'month')
+      .startOf('month')
+      .add(4, 'days');
+
     const start = moment(today)
       // Set moment to 'utc' mode so formatting will contain 'Z' like api call
       .utc()
@@ -41,24 +45,19 @@ describe('Direct schedule appointment slots', () => {
       .startOf('day');
     const end = moment(start).utc();
 
-    mockGetAppointmentSlots({
-      start: start.format(),
-      end: end.format(),
+    mockClinicApi({
+      clinicId: '308',
+      locations: ['983', '983GC'],
+      apiVersion: 2,
     });
+    mockDirectScheduleSlots({ clinicId: '308', start, end, apiVersion: 2 });
 
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
-    cy.wait(['@appointments-V2']);
-
-    cy.get('h1')
-      .should('be.visible')
-      .and('contain', 'Your appointments');
+    cy.wait('@mockUser');
+    cy.injectAxeThenAxeCheck();
 
     // Start flow
-    cy.injectAxeThenAxeCheck();
-    cy.injectAxe();
-
-    cy.findByText('Start scheduling');
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Primary care');
@@ -67,10 +66,10 @@ describe('Direct schedule appointment slots', () => {
     newApptTests.chooseFacilityTypeTest(/VA medical center/);
 
     // Choose VA Flat Facility
-    newApptTests.chooseVAFacilityTest();
+    newApptTests.chooseVAFacilityTest(/Cheyenne VA Medical Center/);
 
     // Choose Clinic
-    newApptTests.chooseClinicTest();
+    newApptTests.chooseClinicTest({ apiVersion: 2 });
 
     // Choose preferred date
     newApptTests.choosePreferredDateTest();
@@ -83,7 +82,11 @@ describe('Direct schedule appointment slots', () => {
   });
 
   it('should display open slots for the correct date for eastern timezone conversions', () => {
-    const today = moment();
+    const today = moment()
+      .add(1, 'month')
+      .startOf('month')
+      .add(4, 'days');
+
     const start = moment(today)
       // Set moment to 'utc' mode so formatting will contain 'Z' like api call
       .utc()
@@ -94,24 +97,24 @@ describe('Direct schedule appointment slots', () => {
       .startOf('day');
     const end = moment(start).utc();
 
-    mockGetAppointmentSlots({
+    mockClinicApi({
+      clinicId: '308',
+      locations: ['984', '984GC'],
+      apiVersion: 2,
+    });
+    mockDirectScheduleSlots({
       locationId: '984',
-      start: start.format(),
-      end: end.format(),
+      clinicId: '308',
+      start,
+      end,
+      apiVersion: 2,
     });
 
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
-    cy.wait(['@appointments-V2']);
-
-    cy.get('h1')
-      .should('be.visible')
-      .and('contain', 'Your appointments');
+    cy.wait('@mockUser');
+    cy.injectAxeThenAxeCheck();
 
     // Start flow
-    cy.injectAxeThenAxeCheck();
-    cy.injectAxe();
-
-    cy.findByText('Start scheduling');
     cy.findByText('Start scheduling').click();
 
     // Choose Type of Care
@@ -121,10 +124,10 @@ describe('Direct schedule appointment slots', () => {
     newApptTests.chooseFacilityTypeTest(/VA medical center/);
 
     // Choose VA Flat Facility
-    newApptTests.chooseVAFacilityTest('984');
+    newApptTests.chooseVAFacilityTest(/Dayton VA Medical Center/);
 
     // Choose Clinic
-    newApptTests.chooseClinicTest();
+    newApptTests.chooseClinicTest({ apiVersion: 2 });
 
     // Choose preferred date
     newApptTests.choosePreferredDateTest();

@@ -3,14 +3,12 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import {
   initAppointmentListMock,
   initVaccineAppointmentMock,
-  mockFeatureToggles,
 } from './vaos-cypress-helpers';
 
 describe('VAOS COVID-19 vaccine appointment flow', () => {
   it('should submit form', () => {
     initAppointmentListMock();
     initVaccineAppointmentMock();
-    mockFeatureToggles();
     cy.visit('health-care/schedule-view-va-appointments/appointments');
     cy.injectAxe();
 

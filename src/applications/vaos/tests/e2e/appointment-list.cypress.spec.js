@@ -2,13 +2,11 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 import {
   initAppointmentListMock,
   createPastVAAppointments,
-  mockFeatureToggles,
 } from './vaos-cypress-helpers';
 
 describe('VAOS appointment list', () => {
   beforeEach(() => {
     initAppointmentListMock();
-    mockFeatureToggles();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
   });
