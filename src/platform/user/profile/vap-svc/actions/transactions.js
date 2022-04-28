@@ -174,11 +174,10 @@ export function createTransaction(
 
       // If the request does not hit the server, apiRequest which is using fetch - will throw an error
       // it will not return back a transaction with errors on it
+      // TODO: use mock server locally instead of isVAProfileServiceConfigured
       const transaction = isVAProfileServiceConfigured()
         ? await apiRequest(route, options)
         : await localVAProfileService.createTransaction();
-
-      // const transaction = await apiRequest(route, options);
 
       if (transaction?.errors) {
         const error = new Error('There was a transaction error');
