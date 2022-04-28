@@ -386,6 +386,9 @@ jobs:
             ${{ steps.get-changed-apps.outputs.app_folders }}
           fi
 
+      - name: Set up stylelint matcher
+        uses: xt0rted/stylelint-problem-matcher@v1
+
       - name: Run Stylelint
         if: ${{ always() }}
         run: |
@@ -399,9 +402,6 @@ jobs:
       - name: Annotate Stylelint results
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
-
-      - name: Set up stylelint matcher
-        uses: xt0rted/stylelint-problem-matcher@v1
 
   testing-reports-prep:
     name: Testing Reports Prep

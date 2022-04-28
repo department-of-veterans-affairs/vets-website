@@ -255,6 +255,9 @@ jobs:
       - name: Annotate ESLint results
         run: yarn run eslint -c ./.eslintrc.changed.js --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.JSFILES }}
 
+      - name: Set up stylelint matcher
+        uses: xt0rted/stylelint-problem-matcher@v1
+
       - name: Run Stylelint
         if: ${{ always() && steps.get-lint-files.outputs.SCSSFILES != '' }}
         run: yarn run stylelint verbose --output-file stylelint-report.json --formatter json ${{ steps.get-lint-files.outputs.SCSSFILES }}
@@ -262,6 +265,3 @@ jobs:
       - name: Annotate Stylelint results
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
-
-      - name: Set up stylelint matcher
-      uses: xt0rted/stylelint-problem-matcher@v1
