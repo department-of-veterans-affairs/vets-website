@@ -1,8 +1,24 @@
-export const LOGGED_IN_FLOW = 'loggedInFlow';
-export const IN_AUTH_EXP = 'inAuthExperience';
-export const RECENT_UTTERANCES = 'recentUtterances';
-export const CONVERSATION_ID_KEY = 'conversationId';
-export const TOKEN_KEY = 'token';
+const BOT_SESSION_PREFIX = 'va-bot.';
+export const LOGGED_IN_FLOW = `${BOT_SESSION_PREFIX}loggedInFlow`;
+export const IN_AUTH_EXP = `${BOT_SESSION_PREFIX}inAuthExperience`;
+export const RECENT_UTTERANCES = `${BOT_SESSION_PREFIX}recentUtterances`;
+export const CONVERSATION_ID_KEY = `${BOT_SESSION_PREFIX}conversationId`;
+export const TOKEN_KEY = `${BOT_SESSION_PREFIX}token`;
+
+export function clearBotSessionStorage(forceClear) {
+  const keys = Object.keys(sessionStorage);
+  const loggedInFlow = sessionStorage.getItem(LOGGED_IN_FLOW);
+  const inAuthExp = sessionStorage.getItem(IN_AUTH_EXP);
+  const expectToClear = loggedInFlow !== 'true' && inAuthExp !== 'true';
+
+  if (forceClear || expectToClear) {
+    for (let i = 0; i < keys.length; i++) {
+      if (keys[i].includes(BOT_SESSION_PREFIX)) {
+        sessionStorage.removeItem(keys[i]);
+      }
+    }
+  }
+}
 
 export function storeUtterances(event) {
   // blindly store the last two user utterances for later use

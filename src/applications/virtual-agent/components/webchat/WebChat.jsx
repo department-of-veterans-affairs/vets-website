@@ -9,6 +9,7 @@ import {
   LOGGED_IN_FLOW,
   CONVERSATION_ID_KEY,
   TOKEN_KEY,
+  clearBotSessionStorage,
 } from '../chatbox/utils';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
@@ -32,7 +33,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
         GreetUser.makeBotGreetUser(
           csrfToken,
           apiSession,
-          environment.API_URL,
+          'http://00cd-70-249-45-159.ngrok.io',
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
           userUuid === null ? 'noUserUuid' : userUuid, // Because PVA cannot support empty strings or null pass in 'null' if user is not logged in
@@ -55,6 +56,21 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   }
 
   if (requireAuth) {
+    addEventListener('beforeunload', () => {
+      clearBotSessionStorage();
+    });
+
+    // TODO: may be an issue with the selector. verify we're getting a valid DOM object.
+    const links = document.querySelectorAll('div#account-menu ul li a');
+    if (links && links.length) {
+      const link = links[links.length - 1];
+      if (link.innerText === 'Sign Out') {
+        link.addEventListener('click', () => {
+          clearBotSessionStorage(true);
+        });
+      }
+    }
+
     // eslint-disable-next-line react-hooks/rules-of-hooks
     directLine = useMemo(
       () =>
