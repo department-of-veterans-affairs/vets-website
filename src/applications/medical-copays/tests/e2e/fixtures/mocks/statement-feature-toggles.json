@@ -9,6 +9,10 @@
       { 
         "name": "medical_copays_html_medical_statements_view_enabled", 
         "value": true 
+      },
+      { 
+        "name": "combined_debt_portal_access", 
+        "value": true 
       }
     ]
   }

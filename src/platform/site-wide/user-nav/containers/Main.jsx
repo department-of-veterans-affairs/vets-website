@@ -16,12 +16,17 @@ import { getBackendStatuses } from 'platform/monitoring/external-services/action
 import { hasSession } from 'platform/user/profile/utilities';
 import { initializeProfile } from 'platform/user/profile/actions';
 import { isInProgressPath } from 'platform/forms/helpers';
-import { signInServiceName as signInServiceNameSelector } from 'platform/user/authentication/selectors';
+import {
+  signInServiceName as signInServiceNameSelector,
+  transitionMHVAccount,
+} from 'platform/user/authentication/selectors';
 import {
   isLoggedIn,
   isProfileLoading,
   isLOA3,
   selectUser,
+  mhvTransitionEnabled,
+  mhvTransitionModalEnabled,
 } from 'platform/user/selectors';
 import {
   toggleFormSignInModal,
@@ -63,7 +68,12 @@ export class Main extends Component {
       this.executeRedirect();
       this.closeModals();
 
-      if (mhvTransitionEligible && !accountTransitionPreviouslyDismissed) {
+      if (
+        this.props.signInServiceName === 'mhv' &&
+        mhvTransitionEligible &&
+        !mhvTransitionComplete &&
+        !accountTransitionPreviouslyDismissed
+      ) {
         this.props.toggleAccountTransitionModal(true);
       }
 
@@ -200,6 +210,7 @@ export class Main extends Component {
   };
 
   render() {
+    const { mhvTransition, mhvTransitionModal } = this.props;
     // checks if on Unified Sign in Page
     if (loginAppUrlRE.test(window.location.pathname)) {
       return null;
@@ -225,11 +236,15 @@ export class Main extends Component {
           onClose={this.closeLoginModal}
           visible={this.props.showLoginModal}
         />
-        <AccountTransitionModal
-          onClose={this.closeAccountTransitionModal}
-          visible={this.props.showAccountTransitionModal}
-          history={history}
-        />
+        {mhvTransition &&
+          mhvTransitionModal && (
+            <AccountTransitionModal
+              onClose={this.closeAccountTransitionModal}
+              visible={this.props.showAccountTransitionModal}
+              canTransferMHVAccount={this.props.canTransferMHVAccount}
+              history={history}
+            />
+          )}
         <AccountTransitionSuccessModal
           onClose={this.closeAccountTransitionSuccessModal}
           visible={this.props.showAccountTransitionSuccessModal}
@@ -264,10 +279,13 @@ export const mapStateToProps = state => {
     currentlyLoggedIn: isLoggedIn(state),
     isLOA3: isLOA3(state),
     isProfileLoading: isProfileLoading(state),
-    user: selectUser(state),
+    mhvTransition: mhvTransitionEnabled(state),
+    mhvTransitionModal: mhvTransitionModalEnabled(state),
     signInServiceName: signInServiceNameSelector(state),
     shouldConfirmLeavingForm,
+    user: selectUser(state),
     userGreeting: selectUserGreeting(state),
+    canTransferMHVAccount: transitionMHVAccount(state),
     ...state.navigation,
   };
 };
@@ -299,10 +317,13 @@ Main.propTypes = {
   toggleSearchHelpUserMenu: PropTypes.func.isRequired,
   updateLoggedInStatus: PropTypes.func.isRequired,
   // From mapStateToProps.
+  canTransferMHVAccount: PropTypes.bool,
   currentlyLoggedIn: PropTypes.bool,
   isHeaderV2: PropTypes.bool,
   isLOA3: PropTypes.bool,
   isProfileLoading: PropTypes.bool,
+  mhvTransition: PropTypes.bool,
+  mhvTransitionModal: PropTypes.bool,
   shouldConfirmLeavingForm: PropTypes.bool,
   showAccountTransitionModal: PropTypes.bool,
   showAccountTransitionSuccessModal: PropTypes.bool,

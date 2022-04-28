@@ -5,10 +5,10 @@
     "attributes": {
       "gender": "M",
       "birthDate": "1986-05-06",
-      "preferredName": "Wes",
+      "preferredName": "WES",
       "pronouns": ["heHimHis", "theyThemTheirs"],
       "pronounsNotListedText": "Other/pronouns/here",
-      "genderIdentity": ["man"],
+      "genderIdentity": {"code": "M", "name": "Male"},
       "sexualOrientation": ["straightOrHeterosexual"],
       "sexualOrientationNotListedText": "Some other orientation"
     }

@@ -11,15 +11,26 @@ import {
   personalInformation,
 } from '@@profile/util/getProfileInfoFieldAttributes';
 
-import { formatMultiSelectAndText } from '@@profile/util/personal-information/personalInformationUtils';
+import {
+  formatMultiSelectAndText,
+  formatGenderIdentity,
+} from '@@profile/util/personal-information/personalInformationUtils';
 import { formatAddress } from '~/platform/forms/address/helpers';
+
+const shouldShowUnsetFieldTitleSpan = (data, fieldName) => {
+  // show if there is no data or a gender identity code is not present in data object
+  return (
+    !data ||
+    (fieldName === FIELD_NAMES.GENDER_IDENTITY && !data?.[fieldName]?.code)
+  );
+};
 
 const ProfileInformationView = props => {
   const { data, fieldName, title } = props;
 
   const titleLower = title.toLowerCase();
 
-  // decide whether to use 'a', or nothing
+  // decide whether to use 'a', or nothing in title string
   const titleFormatted =
     fieldName !== FIELD_NAMES.PRONOUNS ? `a ${titleLower}` : titleLower;
 
@@ -27,7 +38,7 @@ const ProfileInformationView = props => {
     <span>Edit your profile to add {titleFormatted}.</span>
   );
 
-  if (!data) {
+  if (shouldShowUnsetFieldTitleSpan(data, fieldName)) {
     return unsetFieldTitleSpan;
   }
 
@@ -84,7 +95,11 @@ const ProfileInformationView = props => {
 
   // handle personal information field data and format accordingly for display
   if (fieldName in data && personalInformation.includes(fieldName)) {
-    if (fieldName === 'preferredName') return data[fieldName];
+    if (fieldName === FIELD_NAMES.PREFERRED_NAME) return data[fieldName];
+
+    if (fieldName === FIELD_NAMES.GENDER_IDENTITY) {
+      return formatGenderIdentity(data[fieldName]);
+    }
 
     return formatMultiSelectAndText(data, fieldName) || unsetFieldTitleSpan;
   }
@@ -93,8 +108,9 @@ const ProfileInformationView = props => {
 };
 
 ProfileInformationView.propTypes = {
-  data: PropTypes.object,
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
+  data: PropTypes.object,
+  title: PropTypes.string,
 };
 
 export default ProfileInformationView;

@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+
 import IntroductionDisplay from './IntroductionDisplay';
 
 import { api } from '../../../api';
@@ -16,6 +18,7 @@ import { makeSelectCurrentContext } from '../../../selectors';
 
 const Introduction = props => {
   const { router } = props;
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
 
   const { goToErrorPage } = useFormRouting(router);
@@ -58,7 +61,9 @@ const Introduction = props => {
     [dispatchSetVeteranData, goToErrorPage, token],
   );
   if (isLoading) {
-    return <va-loading-indicator message="Loading your appointment details" />;
+    return (
+      <va-loading-indicator message={t('loading-your-appointment-details')} />
+    );
   }
   return <IntroductionDisplay router={router} />;
 };

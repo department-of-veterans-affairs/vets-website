@@ -23,11 +23,11 @@ class SeeStaff {
   };
 
   validateBTSSSLink = () => {
-    cy.get('a[data-testid="btsss-link"]').should(
+    cy.get('div[data-testid="btsss-link"] a:first').should(
       'have.text',
       'Find out how to request travel pay reimbursement',
     );
-    cy.get('a[data-testid="btsss-link"]')
+    cy.get('div[data-testid="btsss-link"] a:first')
       .invoke('attr', 'href')
       .should('contain', '/health-care/get-reimbursed-for-travel-pay/');
   };

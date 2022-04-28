@@ -1,5 +1,5 @@
 // Node modules.
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
 import { connect } from 'react-redux';
@@ -11,89 +11,204 @@ import ServiceProvidersText, {
 } from 'platform/user/authentication/components/ServiceProvidersText';
 
 export const App = ({ loggedIn, toggleLoginModal }) => {
+  const [lastUpdated, updateLastUpdated] = useState('');
+  const [year, updateYear] = useState(0);
+  const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
+  const [formDownloaded, updateFormDownloaded] = useState({
+    downloaded: false,
+    timeStamp: '',
+  });
+
   const getPdf = () => {
-    return apiRequest('/form1095_bs/download/2021')
+    return apiRequest(`/form1095_bs/download/${year}`)
       .then(response => response.blob())
       .then(blob => {
         return window.URL.createObjectURL(blob);
+      })
+      .catch(() => {
+        updateFormError({ error: true, type: 'download error' });
+        return false;
       });
   };
 
+  const getLastUpdatedOn = () => {
+    return apiRequest('/form1095_bs/available_forms')
+      .then(response => {
+        if (response.errors) {
+          updateFormError({ error: true, type: 'not found' });
+        }
+
+        return response.availableForms[0];
+      })
+      .catch(() => updateFormError({ error: true, type: 'not found' }));
+  };
+
+  const callLastUpdated = () => {
+    getLastUpdatedOn().then(result => {
+      if (result.lastUpdated && result.year) {
+        const date = new Date(result.lastUpdated);
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        // expected output (varies according to local timezone and default locale): December 20, 2012
+        updateLastUpdated(date.toLocaleDateString(undefined, options));
+        updateYear(result.year);
+      } else {
+        updateFormError({ error: true, type: 'not found' });
+      }
+    });
+  };
+
+  // VA content time formatting - should be lowercase with periods
+  const formatTimeString = string => {
+    if (string.includes('AM')) {
+      return string.replace('AM', 'a.m.');
+    }
+    return string.replace('PM', 'p.m.');
+  };
+
   const callGetPDF = () => {
-    getPdf()
-      .then(result => {
+    getPdf().then(result => {
+      if (result) {
         const a = document.createElement('a');
         a.href = result;
         a.target = '_blank';
         document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
         a.click();
         a.remove(); // removes element from the DOM
-      })
-      .catch(() => {
-        // TODO: display error
-      });
+        const date = new Date();
+        const options = {
+          year: 'numeric',
+          month: 'numeric',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true,
+        };
+        updateFormError({ error: false, type: '' });
+        updateFormDownloaded({
+          downloaded: true,
+          timeStamp: formatTimeString(
+            date.toLocaleDateString(undefined, options),
+          ),
+        });
+      }
+    });
   };
 
-  // TODO error handling views
-  // const notFoundComponent = (
-  //   <va-alert close-btn-aria-label="Close notification" status="warning" visible>
-  //     <h3 slot="headline">No previous year health coverage found</h3>
-  //     <div>
-  //       <p>
-  //       At this time, you do not have a 1095-B available for download. If you have recently enrolled in VA benefits, this may be why.  1095-B forms are  processed in early January and based on coverage that you had during the previous year.
-  //     </p>
-  //     <p>
-  //       If you feel that you are receiving this notice in error, please contact the Enrollment Center at 1-877-222-VETS (8387).
-  //       </p>
+  useEffect(
+    () => {
+      callLastUpdated();
+    },
+    [loggedIn],
+  );
 
-  //     </div>
-  //   </va-alert>
-  // );
+  const lastUpdatedComponent = (
+    <p>
+      <span className="vads-u-line-height--3 vads-u-display--block">
+        <strong>Related to:</strong> Health care
+      </span>
+      <span className="vads-u-line-height--3 vads-u-display--block">
+        <strong>Document last updated:</strong> {lastUpdated}
+      </span>
+    </p>
+  );
 
-  // const errorComponent = (
-  //   <va-alert close-btn-aria-label="Close notification" status="warning" visible>
-  //     <h3 slot="headline">Error</h3>
-  //     <div>
-  //       <p>
-  //       We’re sorry. Something went wrong on our end and we were unable to download your 1095-B tax form. Please try again.  If you continue to experience this error, please call the VA.gov Help Desk at 1-8555-574-7286, TTY: 1-800-877-8339. We’re here Monday - Friday, 8:00 a.m. - 8:00 p.m.
-  //     </p>
-  //     </div>
-  //   </va-alert>
-  // );
+  const downloadButton = (
+    <p>
+      <button
+        className="usa-button-primary va-button-primary"
+        onClick={function() {
+          callGetPDF();
+        }}
+        id="download-url"
+      >
+        Download your 1095-B tax form (PDF){' '}
+      </button>
+    </p>
+  );
 
-  // const successComponent = (
-  //   <va-alert close-btn-aria-label="Close notification" status="success" visible>
-  //     <h3 slot="headline">Download Complete</h3>
-  //     <div>
-  //       <p>
-  //       Your 1095-B form has been successfully downloaded. 4/1/2022 6:35 p.m.
-  //     </p>
-  //     </div>
-  //   </va-alert>
-  // );
+  const notFoundComponent = (
+    <va-alert close-btn-aria-label="Close notification" status="info" visible>
+      <h3 slot="headline">
+        You don’t have a 1095-B tax form available right now
+      </h3>
+      <div>
+        <p>
+          If you recently enrolled in VA health care, you may not have a 1095-B
+          form yet. We process 1095-B forms in early January each year, based on
+          your enrollment in VA health care during the past year.
+        </p>
+        <p>
+          If you think you should have a 1095-B form, call us at{' '}
+          <a href="tel:+18772228387" aria-label="1 8 7 7 2 2 2 8 3 8 7">
+            1-877-222-8387
+          </a>{' '}
+          (
+          <a href="tel:711" aria-label="TTY. 7 1 1">
+            TTY: 711
+          </a>
+          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+        </p>
+      </div>
+    </va-alert>
+  );
+
+  const errorComponent = (
+    <>
+      {lastUpdatedComponent}
+      <va-alert
+        close-btn-aria-label="Close notification"
+        status="warning"
+        visible
+      >
+        <h3 slot="headline">We couldn’t download your form</h3>
+        <div>
+          <p>
+            We’re sorry. Something went wrong when we tried to download your
+            form. Please try again. If your form still doesn’t download, call us
+            at{' '}
+            <a href="tel:+18006982411" aria-label="1 8 0 0 6 9 8 2 4 1 1">
+              1-800-698-2411
+            </a>{' '}
+            (
+            <a href="tel:711" aria-label="TTY. 7 1 1">
+              TTY: 711
+            </a>
+            ). We’re here 24/7.
+          </p>
+        </div>
+      </va-alert>
+      {downloadButton}
+    </>
+  );
+
+  const successComponent = (
+    <>
+      {lastUpdatedComponent}
+      <va-alert
+        close-btn-aria-label="Close notification"
+        status="success"
+        visible
+      >
+        <h3 slot="headline">Download Complete</h3>
+        <div>
+          <p>
+            You successfully downloaded your 1095-B tax form. Please check your
+            files. &nbsp;
+            {formDownloaded.timeStamp}
+          </p>
+        </div>
+      </va-alert>
+      {downloadButton}
+    </>
+  );
 
   const loggedInComponent = (
     <>
-      <h3 slot="headline">Download your 1095-B</h3>
-      <div>
-        <p>
-          <span className="vads-u-line-height--3 vads-u-display--block">
-            <strong>Related to:</strong> Health care
-          </span>
-        </p>
-        <button
-          className="usa-button-primary va-button-primary"
-          onClick={function() {
-            // event.preventDefault(); only needed if we decide to use a link tag here (unlikely)
-            callGetPDF();
-          }}
-          id="download-url"
-        >
-          Download your 1095-B tax form (PDF){' '}
-        </button>
-      </div>
+      {lastUpdatedComponent}
+      {downloadButton}
     </>
   );
+
   const loggedOutComponent = (
     <va-alert
       close-btn-aria-label="Close notification"
@@ -116,7 +231,21 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
       </button>
     </va-alert>
   );
-  return <>{loggedIn ? loggedInComponent : loggedOutComponent}</>;
+
+  if (loggedIn) {
+    if (formError.error) {
+      if (formError.type === 'not found') {
+        return notFoundComponent;
+      }
+      if (formError.type === 'download error') {
+        return errorComponent;
+      }
+    } else if (formDownloaded.downloaded) {
+      return successComponent;
+    }
+    return loggedInComponent;
+  }
+  return loggedOutComponent;
 };
 
 App.propTypes = {

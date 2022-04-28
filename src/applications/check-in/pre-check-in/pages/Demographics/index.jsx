@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -24,6 +25,7 @@ const Demographics = props => {
   const dispatch = useDispatch();
   const { router } = props;
   const { goToNextPage, goToPreviousPage, jumpToPage } = useFormRouting(router);
+  const { t } = useTranslation();
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isEditingPreCheckInEnabled } = useSelector(selectFeatureToggles);
@@ -88,8 +90,9 @@ const Demographics = props => {
     },
     [isEditingPreCheckInEnabled, token, dispatch, goToNextPage],
   );
-  const subtitle =
-    'If you need to make changes, please talk to a staff member when you check in.';
+  const subtitle = t(
+    'if-you-need-to-make-changes-please-talk-to-a-staff-member-when-you-check-in',
+  );
 
   return (
     <>

@@ -2,9 +2,8 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import propTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
 import { focusElement } from 'platform/utilities/ui';
-
-import { api } from '../../../api';
 
 import { createSetSession } from '../../../actions/authentication';
 
@@ -17,9 +16,12 @@ import { useFormRouting } from '../../../hooks/useFormRouting';
 import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+import { validateLogin } from '../../../utils/validateVeteran';
 
 const Index = ({ router }) => {
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const setSession = useCallback(
     (token, permissions) => {
@@ -34,12 +36,31 @@ const Index = ({ router }) => {
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
 
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
+  const defaultDob = Object.freeze({
+    day: {
+      value: '',
+      dirty: false,
+    },
+    month: {
+      value: '',
+      dirty: false,
+    },
+    year: {
+      value: '',
+      dirty: false,
+    },
+  });
+  const [dob, setDob] = useState(defaultDob);
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
+  const [dobErrorMessage, setDobErrorMessage] = useState();
 
   const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
     true,
@@ -48,46 +69,27 @@ const Index = ({ router }) => {
   const [showValidateError, setShowValidateError] = useState(false);
 
   const validateHandler = useCallback(
-    async () => {
-      setLastNameErrorMessage();
-      setLast4ErrorMessage();
-      if (!lastName || !last4Ssn) {
-        if (!lastName) {
-          setLastNameErrorMessage('Please enter your last name.');
-        }
-        if (!last4Ssn) {
-          setLast4ErrorMessage(
-            'Please enter the last 4 digits of your Social Security number.',
-          );
-        }
-      } else {
-        setIsLoading(true);
-        try {
-          const resp = await api.v2.postSession({
-            token,
-            last4: last4Ssn,
-            lastName,
-            checkInType: app,
-          });
-          if (resp.errors || resp.error) {
-            setIsLoading(false);
-            goToErrorPage();
-          } else {
-            setSession(token, resp.permissions);
-            goToNextPage();
-          }
-        } catch (e) {
-          setIsLoading(false);
-          if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
-            goToErrorPage();
-          } else {
-            if (!showValidateError) {
-              setShowValidateError(true);
-            }
-            incrementValidateAttempts(window);
-          }
-        }
-      }
+    () => {
+      validateLogin(
+        last4Ssn,
+        lastName,
+        dob,
+        showValidateError,
+        setLastNameErrorMessage,
+        setLast4ErrorMessage,
+        setDobErrorMessage,
+        setDob,
+        setIsLoading,
+        setShowValidateError,
+        isLorotaSecurityUpdatesEnabled,
+        goToErrorPage,
+        goToNextPage,
+        incrementValidateAttempts,
+        isMaxValidateAttempts,
+        token,
+        setSession,
+        app,
+      );
     },
     [
       app,
@@ -97,9 +99,11 @@ const Index = ({ router }) => {
       isMaxValidateAttempts,
       last4Ssn,
       lastName,
+      dob,
       setSession,
-      token,
       showValidateError,
+      token,
+      isLorotaSecurityUpdatesEnabled,
     ],
   );
 
@@ -109,8 +113,10 @@ const Index = ({ router }) => {
   return (
     <>
       <ValidateDisplay
-        header="Start pre-check-in"
-        subtitle="We need to verify your identity so you can start pre-check-in."
+        header={t('start-pre-check-in')}
+        subtitle={t(
+          'we-need-to-verify-your-identity-so-you-can-start-pre-check-in',
+        )}
         validateHandler={validateHandler}
         isLoading={isLoading}
         last4Input={{
@@ -123,9 +129,16 @@ const Index = ({ router }) => {
           setLastName,
           lastName,
         }}
+        dobInput={{
+          dobErrorMessage,
+          setDob,
+          dob,
+        }}
         Footer={Footer}
         showValidateError={showValidateError}
-        validateErrorMessage="We're sorry. We couldn't match your information to our records. Please try again."
+        validateErrorMessage={t(
+          'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
+        )}
       />
       <BackToHome />
     </>

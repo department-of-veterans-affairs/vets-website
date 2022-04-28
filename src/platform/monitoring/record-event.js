@@ -3,10 +3,27 @@
  * @module platform/monitoring/record-event
  * @see https://developers.google.com/tag-manager/devguide
  * @param {object} data - The event data that will be sent to GA.
+ * @param {function} data.eventCallback - The function that will trigger on event completion
  */
 
 export default function recordEvent(data) {
-  return window.dataLayer && window.dataLayer.push(data);
+  const { eventCallback } = data;
+  const pushEvent = () => {
+    return window.dataLayer && window.dataLayer.push(data);
+  };
+
+  // Handle eventCallback when window.google_tag_manager is undefined
+  // This ensures that the callback is called when GTM is not loaded
+  // This is needed for localhost, and for users utilizng an adblocker
+  if (typeof eventCallback === 'function' && !window.google_tag_manager) {
+    pushEvent();
+    return eventCallback();
+  }
+
+  // If the data includes an eventCallback, ensure we always add an
+  // accompanying eventTimeout, this ensures the eventCallback is fired
+  // even if the event stalls
+  return pushEvent();
 }
 
 /**

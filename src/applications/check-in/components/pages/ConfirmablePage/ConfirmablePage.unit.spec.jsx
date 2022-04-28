@@ -30,7 +30,10 @@ describe('pre-check-in experience', () => {
       it('renders custom loading message when loading', () => {
         const { getByText } = render(
           // eslint-disable-next-line react/jsx-no-bind
-          <ConfirmablePage isLoading LoadingMessage={() => <div>foo</div>} />,
+          <ConfirmablePage
+            isLoading
+            loadingMessageOverride={() => <div>foo</div>}
+          />,
         );
         expect(getByText('foo')).to.exist;
       });

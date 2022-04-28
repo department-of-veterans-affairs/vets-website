@@ -2,9 +2,11 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { makeSelectApp } from '../selectors';
 
+import LanguagePicker from './LanguagePicker';
 import { APP_NAMES } from '../utils/appConstants';
+import { makeSelectApp } from '../selectors';
+import ExternalLink from './ExternalLink';
 
 const Footer = ({ header, message }) => {
   const selectApp = useMemo(makeSelectApp, []);
@@ -29,7 +31,10 @@ const Footer = ({ header, message }) => {
             </span>{' '}
             {t('call-your-va-provider')}
             <br />
-            <a href="/find-locations/">{t('contact-your-va-provider')}</a>.
+            <ExternalLink href="/find-locations/" hrefLang="en">
+              {t('contact-your-va-provider')}
+            </ExternalLink>
+            .
           </p>
           <p>
             <span className="vads-u-font-weight--bold">
@@ -50,6 +55,8 @@ const Footer = ({ header, message }) => {
         <p>{t('ask-a-staff-member')}</p>
       )}
       {message}
+
+      <LanguagePicker />
     </footer>
   );
 };

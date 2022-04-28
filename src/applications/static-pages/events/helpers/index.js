@@ -228,13 +228,13 @@ export const filterEvents = (
 
       return events?.filter(
         event =>
-          moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isBetween(
-            options?.startsAtUnix * 1000,
-            options?.endsAtUnix * 1000,
+          moment(event?.fieldDatetimeRangeTimezone?.value).isBetween(
+            options?.startsAtUnix,
+            options?.endsAtUnix,
           ) ||
-          moment(event?.fieldDatetimeRangeTimezone?.endValue * 1000).isBetween(
-            options?.startsAtUnix * 1000,
-            options?.endsAtUnix * 1000,
+          moment(event?.fieldDatetimeRangeTimezone?.endValue).isBetween(
+            options?.startsAtUnix,
+            options?.endsAtUnix,
           ),
       );
 
@@ -260,7 +260,7 @@ export const deriveStartsAtUnix = (startDateMonth, startDateDay) => {
 
   // If the startsAt is in the past, we need to increase it by a year (since there are only month/day fields).
   if (startsAt.isBefore(moment())) {
-    startsAt.add(1, 'year').unix();
+    // startsAt.add(1, 'year').unix();
   }
 
   return startsAt.unix();
@@ -273,7 +273,7 @@ export const deriveEndsAtUnix = (startsAtUnix, endDateMonth, endDateDay) => {
   }
 
   // Set a default value for endsAt.
-  let endsAt = undefined;
+  let endsAt;
 
   // Make the endsAt the end of the day if there is a start value.
   if (startsAtUnix) {
@@ -289,12 +289,12 @@ export const deriveEndsAtUnix = (startsAtUnix, endDateMonth, endDateDay) => {
 
   // If the endsAt is in the past, we need to increase it by a year (since there are only month/day fields).
   if (endsAt.isBefore(moment())) {
-    endsAt.add(1, 'year').unix();
+    // endsAt.add(1, 'year').unix();
   }
 
   // If the endsAt is before the startsAt, we need to increase it by another year (since there are only month/day fields).
   if (endsAt.isBefore(startsAtUnix * 1000)) {
-    endsAt.add(1, 'year').unix();
+    // endsAt.add(1, 'year').unix();
   }
 
   return endsAt.unix();

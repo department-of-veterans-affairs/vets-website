@@ -1,33 +1,65 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-import LocationOperationStatus from '../../../components/search-results-items/common/LocationOperationStatus';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
+import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import LocationOperationStatus from '../../../components/search-results-items/common/LocationOperationStatus';
 
-describe('LocationOperationStatus', () => {
-  it('should render the operation status - LIMITED', () => {
-    const operationStatus = { code: 'LIMITED' };
-    const wrapper = shallow(
-      <LocationOperationStatus operatingStatus={operationStatus} />,
-    );
-    expect(wrapper.type()).to.not.equal(null);
-    wrapper.unmount();
-  });
+describe('facility-locator', () => {
+  describe('LocationOperationStatus', () => {
+    it('should have tabIndex on the div', () => {
+      const operatingStatus = { code: 'CLOSED' };
+      const { container } = render(
+        <LocationOperationStatus operatingStatus={operatingStatus} />,
+      );
+      expect(container.querySelector('div').getAttribute('tabindex')).to.equal(
+        '0',
+      );
+    });
 
-  it('should render the operation status - CLOSED', () => {
-    const operationStatus = { code: 'CLOSED' };
-    const wrapper = shallow(
-      <LocationOperationStatus operatingStatus={operationStatus} />,
-    );
-    expect(wrapper.type()).to.not.equal(null);
-    wrapper.unmount();
-  });
+    it('check in button passes axeCheck', () => {
+      const operatingStatus = { code: 'CLOSED' };
+      axeCheck(<LocationOperationStatus operatingStatus={operatingStatus} />);
+    });
 
-  it('should render the operation status - NOTICE', () => {
-    const operationStatus = { code: 'NOTICE' };
-    const wrapper = shallow(
-      <LocationOperationStatus operatingStatus={operationStatus} />,
-    );
-    expect(wrapper.type()).to.not.equal(null);
-    wrapper.unmount();
+    it('should render nothing operation status for  NORMAL', () => {
+      const operatingStatus = { code: 'NORMAL' };
+      const { container } = render(
+        <LocationOperationStatus operatingStatus={operatingStatus} />,
+      );
+      expect(container.firstChild).to.be.null;
+    });
+    it('should render nothing operation status for no status', () => {
+      const { container } = render(<LocationOperationStatus />);
+      expect(container.firstChild).to.be.null;
+    });
+    it('should render nothing operation status for bad status', () => {
+      const operatingStatus = { code: 'DOES NOT EXIST' };
+
+      const { container } = render(
+        <LocationOperationStatus operatingStatus={operatingStatus} />,
+      );
+      expect(container.firstChild).to.be.null;
+    });
+    it('should render nothing for status LIMITED', () => {
+      const operatingStatus = { code: 'LIMITED' };
+      const { getByText } = render(
+        <LocationOperationStatus operatingStatus={operatingStatus} />,
+      );
+      expect(getByText('Limited services and hours')).to.be.ok;
+    });
+    it('should render the operation status for  CLOSED', () => {
+      const operatingStatus = { code: 'CLOSED' };
+      const { getByText } = render(
+        <LocationOperationStatus operatingStatus={operatingStatus} />,
+      );
+      expect(getByText('Facility Closed')).to.be.ok;
+    });
+    it('should render the operation status for NOTICE', () => {
+      const operatingStatus = { code: 'NOTICE' };
+      const { getByText } = render(
+        <LocationOperationStatus operatingStatus={operatingStatus} />,
+      );
+      expect(getByText('Facility notice')).to.be.ok;
+    });
   });
 });

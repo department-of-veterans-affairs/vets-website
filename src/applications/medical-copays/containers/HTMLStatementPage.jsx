@@ -7,16 +7,22 @@ import moment from 'moment';
 import Modals from '../components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
+import StatementCharges from '../components/StatementCharges';
+import DownloadStatement from '../components/DownloadStatement';
 
 const HTMLStatementPage = ({ match }) => {
   const selectedId = match.params.id;
   const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
+  const userFullName = useSelector(({ user }) => user.profile.userFullName);
   const [selectedCopay] = statements.filter(({ id }) => id === selectedId);
   const statementDate = moment(selectedCopay.pSStatementDate, 'MM-DD').format(
     'MMMM D',
   );
   const title = `${statementDate} statement`;
   const prevPage = `Copay bill for ${selectedCopay.station.facilityName}`;
+  const fullName = userFullName.middle
+    ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
+    : `${userFullName.first} ${userFullName.last}`;
 
   useEffect(() => {
     scrollToTop();
@@ -61,11 +67,25 @@ const HTMLStatementPage = ({ match }) => {
           previousBalance={selectedCopay.pHPrevBal}
           statementDate={statementDate}
         />
+        <StatementCharges
+          data-testid="statement-charges"
+          copay={selectedCopay}
+        />
+        <div className="vads-u-margin-top--3">
+          <DownloadStatement
+            key={selectedId}
+            statementId={selectedId}
+            statementDate={selectedCopay.pSStatementDate}
+            fullName={fullName}
+          />
+        </div>
         <StatementAddresses
           data-testid="statement-addresses"
           copay={selectedCopay}
         />
-        <h2>What if I have questions about my statement?</h2>
+        <h2 id="if-i-have-questions">
+          What if I have questions about my statement?
+        </h2>
         <p>
           Contact the VA Health Resource Center at{' '}
           <va-telephone contact="8664001238" /> (TTY:{' '}

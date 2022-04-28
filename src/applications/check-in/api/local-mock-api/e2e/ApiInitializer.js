@@ -80,6 +80,20 @@ class ApiInitializer {
         }),
       );
     },
+    withLorotaSecurityUpdate: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          checkInExperienceUpdateInformationPageEnabled: false,
+          emergencyContactEnabled: true,
+          checkInExperienceEditingPreCheckInEnabled: false,
+          checkInExperienceLorotaSecurityUpdatesEnabled: true,
+        }),
+      );
+    },
   };
 
   initializeSessionGet = {
@@ -112,7 +126,7 @@ class ApiInitializer {
 
   initializeSessionPost = {
     withSuccess: extraValidation => {
-      cy.intercept('POST', '/check_in/v2/sessions', req => {
+      cy.intercept('POST', `/check_in/v2/sessions`, req => {
         if (extraValidation) {
           extraValidation(req);
         }
