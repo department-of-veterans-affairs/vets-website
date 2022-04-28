@@ -33,8 +33,9 @@
     "scss/dollar-variable-pattern": "^[a-z]+([a-z0-9-]+[a-z0-9]+)?$",
     "scss/percent-placeholder-pattern": "^[a-z]+([a-z0-9-]+[a-z0-9]+)?$",
     "string-quotes": "double",
-    "declaration-property-value-disallowed-list": {
-      "display": ["block", "inline", "inline-block", "flex", "none"]
-    }
+    "declaration-property-value-disallowed-list": [
+      { "display": ["block", "inline", "inline-block", "flex", "none"] },
+      { "severity": "warning" }
+    ]
   }
 }
