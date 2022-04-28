@@ -15,6 +15,7 @@ import {
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectCurrentContext } from '../../../selectors';
+import { preCheckinExpired } from '../../../utils/appointment';
 
 const Introduction = props => {
   const { router } = props;
@@ -50,21 +51,14 @@ const Introduction = props => {
             return; // stops the rest of the code from executing and causing a state update on an unmounted component
           }
           const { payload } = json;
-          if (payload.appointments && payload.appointments.length > 0) {
-            const today = new Date();
-            // if any appointments are tomorrow or later, the link is not expired
-            let pceExpired = !Object.values(payload.appointments).some(appt => {
-              const checkInExpiry = new Date(appt.checkInWindowEnd);
-              if (today.getTime() < checkInExpiry.getTime()) {
-                pceExpired = false;
-                return true; // break the loop as soon as we have a valid appointment
-              }
-              return false;
-            });
-            if (pceExpired) {
-              goToErrorPage('?expired=true');
-              return;
-            }
+          // if any appointments are tomorrow or later, the link is not expired
+          if (
+            payload.appointments &&
+            payload.appointments.length > 0 &&
+            preCheckinExpired(payload.appointments)
+          ) {
+            goToErrorPage('?expired=true');
+            return;
           }
 
           //  set data to state

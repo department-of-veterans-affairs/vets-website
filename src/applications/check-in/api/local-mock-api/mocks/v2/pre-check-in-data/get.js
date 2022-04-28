@@ -82,10 +82,8 @@ const createMockSuccessResponse = (
           startTime: mockTime,
           eligibility: 'ELIGIBLE',
           facilityId: 'some-facility',
-          checkInWindowStart: new Date().setDate(
-            new Date(mockTime).getDate() - 30,
-          ),
-          checkInWindowEnd: new Date(mockTime).setHours(0, 0, 0, 0),
+          checkInWindowStart: mockTime,
+          checkInWindowEnd: mockTime,
           checkedInTime: '',
         },
         {
@@ -97,10 +95,8 @@ const createMockSuccessResponse = (
           startTime: mockTime,
           eligibility: 'ELIGIBLE',
           facilityId: 'some-facility',
-          checkInWindowStart: new Date().setDate(
-            new Date(mockTime).getDate() - 30,
-          ),
-          checkInWindowEnd: new Date(mockTime).setHours(0, 0, 0, 0),
+          checkInWindowStart: mockTime,
+          checkInWindowEnd: mockTime,
           checkedInTime: '',
         },
       ],

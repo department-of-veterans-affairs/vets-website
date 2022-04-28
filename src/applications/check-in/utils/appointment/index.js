@@ -72,8 +72,18 @@ const removeTimeZone = payload => {
 
   return updatedPayload;
 };
+
+const preCheckinExpired = appointments => {
+  return !Object.values(appointments).some(appt => {
+    const today = new Date();
+    const checkInExpiry = new Date(appt.startTime).setHours(0, 0, 0, 0);
+    return today.getTime() < checkInExpiry;
+  });
+};
+
 export {
   hasMoreAppointmentsToCheckInto,
   sortAppointmentsByStartTime,
   removeTimeZone,
+  preCheckinExpired,
 };
