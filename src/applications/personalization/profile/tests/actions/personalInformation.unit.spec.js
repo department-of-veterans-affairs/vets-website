@@ -74,14 +74,15 @@ describe('actions/personalInformation', () => {
           mockPersonalInfo.makePutPreferredNameSuccessResponse('George'),
         );
 
-        actionCreator = personalInformationActions.createPersonalInfoUpdate(
-          'v0/profile/preferred_names',
-          'PUT',
-          'preferredName',
-          { text: 'George' },
-          'personal-information-preferred-name',
-          recordEventSpy,
-        );
+        actionCreator = personalInformationActions.createPersonalInfoUpdate({
+          route: 'v0/profile/preferred_names',
+          method: 'PUT',
+          fieldName: 'preferredName',
+          payload: { text: 'George' },
+          analyticsSectionName: 'personal-information-preferred-name',
+          value: { preferredName: 'George' },
+          recordAnalyticsEvent: recordEventSpy,
+        });
         dispatch = sinon.spy();
       });
 
@@ -117,6 +118,20 @@ describe('actions/personalInformation', () => {
         expect(dispatch.secondCall.args[0].fieldName).to.equal('preferredName');
       });
 
+      it('dispatches UPDATE_PERSONAL_INFORMATION_FIELD and passes fieldName and value', async () => {
+        await actionCreator(dispatch);
+
+        expect(dispatch.thirdCall.args[0].type).to.equal(
+          personalInformationActions.UPDATE_PERSONAL_INFORMATION_FIELD,
+        );
+
+        expect(dispatch.thirdCall.args[0].fieldName).to.equal(`preferredName`);
+
+        expect(dispatch.thirdCall.args[0].value).to.deep.equal({
+          preferredName: 'George',
+        });
+      });
+
       it('dispatches VAP_SERVICE_TRANSACTION_CLEARED and passes transaction with created transactionId', async () => {
         await actionCreator(dispatch);
 
@@ -124,12 +139,12 @@ describe('actions/personalInformation', () => {
           'George',
         );
 
-        expect(dispatch.thirdCall.args[0].type).to.equal(
+        expect(dispatch.lastCall.args[0].type).to.equal(
           vapSvcActions.VAP_SERVICE_TRANSACTION_CLEARED,
         );
 
         expect(
-          dispatch.thirdCall.args[0].transaction.data.attributes.transactionId,
+          dispatch.lastCall.args[0].transaction.data.attributes.transactionId,
         ).to.equal(`preferredName_${expected.source_date}`);
       });
 
@@ -147,14 +162,15 @@ describe('actions/personalInformation', () => {
           mockPersonalInfo.putPreferredNameFailureResponse,
         );
 
-        actionCreator = personalInformationActions.createPersonalInfoUpdate(
-          'v0/profile/preferred_names',
-          'PUT',
-          'preferredName',
-          { text: 'George' },
-          'personal-information-preferred-name',
-          recordEventSpy,
-        );
+        actionCreator = personalInformationActions.createPersonalInfoUpdate({
+          route: 'v0/profile/preferred_names',
+          method: 'PUT',
+          fieldName: 'preferredName',
+          payload: { text: 'George' },
+          analyticsSectionName: 'personal-information-preferred-name',
+          value: { preferredName: 'George' },
+          recordAnalyticsEvent: recordEventSpy,
+        });
         dispatch = sinon.spy();
       });
 

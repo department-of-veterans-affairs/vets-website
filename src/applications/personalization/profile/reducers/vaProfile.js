@@ -1,5 +1,8 @@
 import set from 'platform/utilities/data/set';
 
+import { PERSONAL_INFO_FIELD_NAMES } from '@@vap-svc/constants';
+
+import { capitalize } from 'lodash';
 import {
   FETCH_HERO_SUCCESS,
   FETCH_HERO_FAILED,
@@ -54,11 +57,13 @@ function vaProfile(state = initialState, action) {
       return set('personalInformation', action.personalInformation, state);
 
     case UPDATE_PERSONAL_INFORMATION_FIELD: {
-      return set(
-        `personalInformation.${action.fieldName}`,
-        action.value[action.fieldName],
-        state,
-      );
+      // capitalize the preferred name if needed
+      const fieldValue =
+        action.fieldName === PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME
+          ? capitalize(action.value[action.fieldName])
+          : action.value[action.fieldName];
+
+      return set(`personalInformation.${action.fieldName}`, fieldValue, state);
     }
 
     case FETCH_MILITARY_INFORMATION_SUCCESS:
