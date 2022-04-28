@@ -258,7 +258,7 @@ jobs:
         run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder | tr ',' ' ')
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
-      
+
       - name: Get contract tests
         id: get-tests
         run: |
@@ -399,6 +399,9 @@ jobs:
       - name: Annotate Stylelint results
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
+
+      - name: Set up stylelint matcher
+        uses: xt0rted/stylelint-problem-matcher@v1
 
   testing-reports-prep:
     name: Testing Reports Prep
