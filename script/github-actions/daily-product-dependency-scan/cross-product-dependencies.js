@@ -35,7 +35,7 @@ class CrossProductDependencies {
             importProductPath &&
             this.importIsFromOtherProduct(productPath, importeeFilePath)
           ) {
-            this.updateGraph(
+            this.setDependency(
               productPath,
               importProductPath,
               importerFilePath,
@@ -97,7 +97,7 @@ class CrossProductDependencies {
     return noPathMatch ? null : path;
   }
 
-  updateGraph(
+  setDependency(
     productPath,
     importProductPath,
     importerFilePath,
