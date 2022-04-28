@@ -16,10 +16,10 @@ class CrossProductDependencies {
 
       Object.keys(imports).forEach(importerFilePath => {
         imports[importerFilePath].forEach(importRef => {
-          const importeeFilePath = this.getImportPath(
+          const importeeFilePath = this.getImportPath({
             importerFilePath,
             importRef,
-          );
+          });
 
           if (
             importeeFilePath.startsWith('src/platform') ||
@@ -27,27 +27,27 @@ class CrossProductDependencies {
           )
             return;
 
-          const importProductPath = this.getProductPathFromFilePath(
+          const importProductPath = this.getImportProductPathFromFilePath({
             importeeFilePath,
-          );
+          });
 
           if (
             importProductPath &&
-            this.importIsFromOtherProduct(productPath, importeeFilePath)
+            this.importIsFromOtherProduct({ productPath, importeeFilePath })
           ) {
-            this.setDependency(
+            this.setDependency({
               productPath,
               importProductPath,
               importerFilePath,
               importeeFilePath,
-            );
+            });
           }
         });
       });
     });
   }
 
-  getImportPath(importerFilePath, importRef) {
+  getImportPath({ importerFilePath, importRef }) {
     const filePathAsArray = importerFilePath.split('/');
 
     if (importRef === '.') {
@@ -78,11 +78,11 @@ class CrossProductDependencies {
     return importRef;
   }
 
-  importIsFromOtherProduct(productPath, importPath) {
-    return !importPath.startsWith(productPath);
+  importIsFromOtherProduct({ productPath, importeeFilePath }) {
+    return !importeeFilePath.startsWith(productPath);
   }
 
-  getProductPathFromFilePath(importeeFilePath) {
+  getImportProductPathFromFilePath({ importeeFilePath }) {
     let path = importeeFilePath;
     let noPathMatch = true;
 
@@ -97,12 +97,12 @@ class CrossProductDependencies {
     return noPathMatch ? null : path;
   }
 
-  setDependency(
+  setDependency({
     productPath,
     importProductPath,
     importerFilePath,
     importeeFilePath,
-  ) {
+  }) {
     if (
       !this.products[productPath].productsThatThisProductImportsFrom[
         importProductPath
