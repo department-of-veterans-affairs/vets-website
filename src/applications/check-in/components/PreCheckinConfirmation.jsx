@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import AppointmentBlock from './AppointmentBlock';
 import BackToHome from './BackToHome';
 import LanguagePicker from './LanguagePicker';
+import ExternalLink from './ExternalLink';
 
 const PreCheckinConfirmation = props => {
   const { appointments, hasUpdates, isLoading } = props;
@@ -25,6 +26,7 @@ const PreCheckinConfirmation = props => {
         className="vads-l-grid-container vads-u-padding-bottom--3 vads-u-padding-top--3"
         data-testid="confirmation-wrapper"
       >
+        <LanguagePicker />
         <h1 tabIndex="-1" className="vads-u-margin-top--2">
           {t('youve-completed-pre-check-in')}
         </h1>
@@ -46,12 +48,12 @@ const PreCheckinConfirmation = props => {
           <></>
         )}
         <p className={hasUpdates ? `vads-u-padding-left--2` : ``}>
-          <a
+          <ExternalLink
             href="https://va.gov/health-care/schedule-view-va-appointments/appointments/"
             hrefLang="en"
           >
             {t('go-to-your-appointment')}
-          </a>
+          </ExternalLink>
         </p>
         <p className={hasUpdates ? `vads-u-padding-left--2` : ``}>
           {t('please-bring-your-insurance-cards-with-you-to-your-appointment')}
@@ -68,7 +70,6 @@ const PreCheckinConfirmation = props => {
             </p>
           );
         })}
-        <LanguagePicker />
         <BackToHome />
       </div>
     );

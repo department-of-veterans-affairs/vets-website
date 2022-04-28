@@ -1,6 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 import { expect } from 'chai';
+import { shallow } from 'enzyme';
+import moment from 'moment';
 
 import RatedDisabilityListItem from '../../components/RatedDisabilityListItem';
 
@@ -10,7 +11,7 @@ describe('<RatedDisabilityListItem />', () => {
     ratedDisability = {
       decisionText: 'Service Connected',
       diagnosticCode: 5238,
-      effectiveDate: '05/06/1999',
+      effectiveDate: moment('05/06/1999'),
       relatedTo: 'Personal Trauma PTSD',
       name: 'Diabetes mellitus0',
       ratingPercentage: 100,

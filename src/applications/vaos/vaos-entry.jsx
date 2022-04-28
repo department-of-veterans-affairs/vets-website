@@ -7,7 +7,7 @@ import manifest from './manifest.json';
 import reducer from './redux/reducer';
 
 startApp({
-  url: `${manifest.rootUrl}/appointments`,
+  url: manifest.rootUrl,
   createRoutesWithStore,
   reducer,
   entryName: manifest.entryName,

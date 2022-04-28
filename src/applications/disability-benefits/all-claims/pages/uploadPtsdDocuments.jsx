@@ -1,7 +1,7 @@
 import React from 'react';
 import { UploadDescription } from '../content/fileUploadDescriptions';
 import { ptsd781NameTitle } from '../content/ptsdClassification';
-import { ancillaryFormUploadUi, getAttachmentsSchema } from '../utils';
+import { ancillaryFormUploadUi, getAttachmentsSchema } from '../utils/schemas';
 
 const PTSD_781_ATTACHMENT_ID = 'L228';
 

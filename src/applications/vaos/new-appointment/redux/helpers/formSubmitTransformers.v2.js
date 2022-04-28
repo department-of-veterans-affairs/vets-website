@@ -113,7 +113,7 @@ export function transformFormToVAOSVARequest(state) {
       code === 'Other'
         ? {
             coding: [],
-            text: data.reasonAdditionalInfo,
+            text: data.reasonAdditionalInfo.slice(0, 100),
           }
         : {
             coding: [
