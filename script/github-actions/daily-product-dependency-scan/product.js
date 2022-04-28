@@ -3,8 +3,7 @@ class Product {
     this.productId = productId;
     this.productPath = productPath;
     this.packageDependencies = new Set();
-    this.productsThatThisProductImportsFrom = new Set();
-    this.productsThatImportFromThisProduct = new Set();
+    this.crossProductDependencies = new Set();
   }
 }
 

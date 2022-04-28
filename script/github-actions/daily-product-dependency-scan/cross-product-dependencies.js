@@ -104,38 +104,15 @@ class CrossProductDependencies {
     importeeFilePath,
   }) {
     if (
-      !this.products[productPath].productsThatThisProductImportsFrom[
-        importProductPath
-      ]
+      !this.products[productPath].crossProductDependencies[importProductPath]
     ) {
-      this.products[productPath].productsThatThisProductImportsFrom[
-        importProductPath
-      ] = {
+      this.products[productPath].crossProductDependencies[importProductPath] = {
         filesImported: new Set(),
       };
     }
 
-    this.products[productPath].productsThatThisProductImportsFrom[
+    this.products[productPath].crossProductDependencies[
       importProductPath
-    ].filesImported.add({
-      importer: importerFilePath,
-      importee: importeeFilePath,
-    });
-
-    if (
-      !this.products[importProductPath].productsThatImportFromThisProduct[
-        productPath
-      ]
-    ) {
-      this.products[importProductPath].productsThatImportFromThisProduct[
-        productPath
-      ] = {
-        filesImported: new Set(),
-      };
-    }
-
-    this.products[importProductPath].productsThatImportFromThisProduct[
-      productPath
     ].filesImported.add({
       importer: importerFilePath,
       importee: importeeFilePath,
