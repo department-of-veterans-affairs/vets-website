@@ -40,6 +40,9 @@ const Introduction = props => {
 
   useEffect(
     () => {
+      const setDataToState = async data => {
+        await dispatchSetVeteranData(data);
+      };
       // show loading screen
       setIsLoading(true);
       //  call get data from API
@@ -48,21 +51,19 @@ const Introduction = props => {
         .then(json => {
           if (json.error) {
             goToErrorPage();
-            return; // stops the rest of the code from executing and causing a state update on an unmounted component
+            return; // prevent a react no-op on an unmounted component
           }
           const { payload } = json;
+          //  set data to state
+          setDataToState(payload);
           // if any appointments are tomorrow or later, the link is not expired
           if (
             payload.appointments &&
             payload.appointments.length > 0 &&
             preCheckinExpired(payload.appointments)
           ) {
-            goToErrorPage('?expired=true');
-            return;
+            goToErrorPage('?type=expired');
           }
-
-          //  set data to state
-          dispatchSetVeteranData(payload);
           // hide loading screen
           setIsLoading(false);
         })

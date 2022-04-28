@@ -14,7 +14,7 @@ import { makeSelectVeteranData } from '../../../selectors';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
 const Error = ({ location }) => {
-  const { expired } = location.query;
+  const { type } = location.query;
   const { getValidateAttempts } = useSessionStorage(true);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   // try get date of appointment
@@ -53,21 +53,22 @@ const Error = ({ location }) => {
     </>
   );
 
+  // use type param to set unique error messages
+  const getErrorMessagePropsByType = () => {
+    if (type && type === 'expired')
+      return [
+        t('sorry-we-cant-complete-pre-check-in'),
+        t('you-can-still-check-in-once-you-arrive'),
+        false,
+      ];
+    return [t('we-couldnt-complete-pre-check-in'), combinedMessage, true];
+  };
+
+  const [header, message, showAlert] = getErrorMessagePropsByType();
+
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 ">
-      <ErrorMessage
-        header={
-          expired
-            ? t('sorry-we-cant-complete-pre-check-in')
-            : t('we-couldnt-complete-pre-check-in')
-        }
-        message={
-          expired
-            ? t('you-can-still-check-in-once-you-arrive')
-            : combinedMessage
-        }
-        showAlert={!expired}
-      />
+      <ErrorMessage header={header} message={message} showAlert={showAlert} />
       <Footer />
       <BackToHome />
     </div>
@@ -77,7 +78,7 @@ const Error = ({ location }) => {
 Error.propTypes = {
   location: PropTypes.shape({
     query: PropTypes.shape({
-      expired: PropTypes.string,
+      type: PropTypes.string,
     }),
   }),
 };
