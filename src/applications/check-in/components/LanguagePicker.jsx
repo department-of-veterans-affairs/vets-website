@@ -49,9 +49,7 @@ function LanguagePicker() {
             </a>
           )}
 
-          {i + 1 === links.length ? (
-            ''
-          ) : (
+          {i + 1 !== links.length && (
             <span className="vads-u-margin-left--0p5 vads-u-margin-right--0p5 vads-u-color--gray vads-u-height--20">
               |
             </span>
