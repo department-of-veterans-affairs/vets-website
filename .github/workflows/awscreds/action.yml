@@ -1,7 +1,7 @@
 name: Run common aws actions
 description: run common aws actions
 
- runs:
+runs:
   using: composite
   steps:    
       - name: Configure AWS credentials
