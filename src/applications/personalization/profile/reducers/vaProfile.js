@@ -7,6 +7,7 @@ import {
   FETCH_PERSONAL_INFORMATION_FAILED,
   FETCH_MILITARY_INFORMATION_SUCCESS,
   FETCH_MILITARY_INFORMATION_FAILED,
+  UPDATE_PERSONAL_INFORMATION_FIELD,
 } from '../actions';
 
 import {
@@ -51,6 +52,14 @@ function vaProfile(state = initialState, action) {
     case FETCH_PERSONAL_INFORMATION_SUCCESS:
     case FETCH_PERSONAL_INFORMATION_FAILED:
       return set('personalInformation', action.personalInformation, state);
+
+    case UPDATE_PERSONAL_INFORMATION_FIELD: {
+      return set(
+        `personalInformation.${action.fieldName}`,
+        action.value[action.fieldName],
+        state,
+      );
+    }
 
     case FETCH_MILITARY_INFORMATION_SUCCESS:
     case FETCH_MILITARY_INFORMATION_FAILED:

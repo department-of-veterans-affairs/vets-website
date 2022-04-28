@@ -188,13 +188,14 @@ export class ProfileInformationEditView extends Component {
 
     // for personal info fields we are using a different request flow
     if (Object.values(PERSONAL_INFO_FIELD_NAMES).includes(fieldName)) {
-      this.props.createPersonalInfoUpdate(
-        apiRoute,
-        'PUT',
+      this.props.createPersonalInfoUpdate({
+        route: apiRoute,
+        method: 'PUT',
         fieldName,
         payload,
         analyticsSectionName,
-      );
+        value: field.value,
+      });
       return;
     }
 
