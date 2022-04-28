@@ -5,8 +5,10 @@ import { connect } from 'react-redux';
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import { fetchRatedDisabilities, fetchTotalDisabilityRating } from '../actions';
 import RatedDisabilityView from '../components/RatedDisabilityView';
@@ -62,6 +64,7 @@ const RatedDisabilitiesApp = props => {
             fetchTotalDisabilityRating={props.fetchTotalDisabilityRating}
             loading={props.loading}
             ratedDisabilities={ratedDisabilities}
+            sortToggle={props.sortToggle}
             totalDisabilityRating={props.totalDisabilityRating}
             user={props.user}
           />
@@ -77,6 +80,7 @@ RatedDisabilitiesApp.propTypes = {
   fetchTotalDisabilityRating: PropTypes.func,
   loading: PropTypes.bool,
   ratedDisabilities: PropTypes.object,
+  sortToggle: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
   user: PropTypes.object,
 };
@@ -85,6 +89,9 @@ const mapStateToProps = state => ({
   error: state.totalRating.error,
   loading: state.totalRating.loading,
   ratedDisabilities: state.ratedDisabilities,
+  sortToggle: toggleValues(state)[
+    FEATURE_FLAG_NAMES.ratedDisabilitiesSortAbTest
+  ],
   totalDisabilityRating: state.totalRating.totalDisabilityRating,
   user: state.user,
 });
