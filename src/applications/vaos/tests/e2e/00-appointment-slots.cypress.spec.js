@@ -46,9 +46,7 @@ describe('Direct schedule appointment slots', () => {
       end: end.format(),
     });
 
-    cy.visit(
-      'health-care/schedule-view-va-appointments/appointments?redirect=false',
-    );
+    cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.wait(['@appointments-V2']);
 
     cy.get('h1')
@@ -102,9 +100,7 @@ describe('Direct schedule appointment slots', () => {
       end: end.format(),
     });
 
-    cy.visit(
-      'health-care/schedule-view-va-appointments/appointments?redirect=false',
-    );
+    cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.wait(['@appointments-V2']);
 
     cy.get('h1')

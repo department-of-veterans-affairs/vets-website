@@ -30,6 +30,7 @@ export default {
     'facility-patient-satisfaction-scores-satellite-locations',
   FIND_VA_FORMS: 'find-va-forms',
   FIND_VA_FORMS_INVALID_PDF_ALERT: 'find-va-forms-pdf-download-helper',
+  FORM_10182_CTA: 'form-10182-cta',
   FORM_686_CTA: 'form-686-CTA',
   GET_MEDICAL_RECORDS_PAGE: 'get-medical-records-page',
   HEALTH_CARE_APP_STATUS: 'health-care-app-status',

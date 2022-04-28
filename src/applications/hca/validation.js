@@ -62,12 +62,9 @@ function logMarriageError(
 ) {
   Sentry.withScope(scope => {
     const message = `hca_1010ez_error_${messageType}`;
-    const momentVetDOB = moment(veteranDateOfBirth, 'YYYY-MM-DD');
-    const momentSpouseDOB = moment(spouseDateOfBirth, 'YYYY-MM-DD');
-    const momentMarriage = moment(marriageDate, 'YYYY-MM-DD');
-    const momentNoFormatVetDOB = moment(veteranDateOfBirth);
-    const momentNoFormatSpouseDOB = moment(spouseDateOfBirth);
-    const momentNoFormatMarriage = moment(marriageDate);
+    const momentVetDOB = moment(veteranDateOfBirth);
+    const momentSpouseDOB = moment(spouseDateOfBirth);
+    const momentMarriage = moment(marriageDate);
     scope.setContext(message, {
       spouseDateOfBirth,
       veteranDateOfBirth,
@@ -75,9 +72,6 @@ function logMarriageError(
       momentSpouseDOB,
       momentVetDOB,
       momentMarriage,
-      momentNoFormatVetDOB,
-      momentNoFormatSpouseDOB,
-      momentNoFormatMarriage,
       errorMessage,
     });
     Sentry.captureMessage(message);

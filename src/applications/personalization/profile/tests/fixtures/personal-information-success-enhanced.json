@@ -5,7 +5,7 @@
     "attributes": {
       "gender": "M",
       "birthDate": "1986-05-06",
-      "preferredName": "Wes",
+      "preferredName": "WES",
       "pronouns": ["heHimHis", "theyThemTheirs"],
       "pronounsNotListedText": "Other/pronouns/here",
       "genderIdentity": {"code": "M", "name": "Male"},

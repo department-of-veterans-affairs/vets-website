@@ -130,14 +130,6 @@ export function NewAppointment() {
           component={ConfirmationPage}
         />
         <Route path="/" component={TypeOfCarePage} />
-        <Route
-          path="*"
-          render={() => {
-            window.location.replace(
-              '/health-care/schedule-view-va-appointments',
-            );
-          }}
-        />
       </Switch>
     </FormLayout>
   );
