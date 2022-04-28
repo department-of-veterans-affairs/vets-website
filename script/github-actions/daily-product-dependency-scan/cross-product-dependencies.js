@@ -7,7 +7,8 @@ class CrossProductDependencies {
   }
 
   setDependencies() {
-    Object.keys(this.products).forEach(productPath => {
+    Object.keys(this.products).forEach(productId => {
+      const { productPath } = this.products[productId];
       const imports = findImports(`${productPath}/**/*.*`, {
         absoluteImports: true,
         relativeImports: true,
@@ -36,7 +37,7 @@ class CrossProductDependencies {
             this.importIsFromOtherProduct({ productPath, importeeFilePath })
           ) {
             this.setDependency({
-              productPath,
+              productId,
               importProductPath,
               importerFilePath,
               importeeFilePath,
@@ -88,9 +89,13 @@ class CrossProductDependencies {
 
     while (path.includes('/') && noPathMatch) {
       path = path.slice(0, path.lastIndexOf('/'));
+      const productIds = Object.keys(this.products);
 
-      if (this.products[path]) {
-        noPathMatch = false;
+      for (let i = 0; i < productIds.length; i += 1) {
+        if (this.products[productIds[i]].productPath === path) {
+          noPathMatch = false;
+          break;
+        }
       }
     }
 
@@ -98,20 +103,18 @@ class CrossProductDependencies {
   }
 
   setDependency({
-    productPath,
+    productId,
     importProductPath,
     importerFilePath,
     importeeFilePath,
   }) {
-    if (
-      !this.products[productPath].crossProductDependencies[importProductPath]
-    ) {
-      this.products[productPath].crossProductDependencies[importProductPath] = {
+    if (!this.products[productId].crossProductDependencies[importProductPath]) {
+      this.products[productId].crossProductDependencies[importProductPath] = {
         filesImported: new Set(),
       };
     }
 
-    this.products[productPath].crossProductDependencies[
+    this.products[productId].crossProductDependencies[
       importProductPath
     ].filesImported.add({
       importer: importerFilePath,

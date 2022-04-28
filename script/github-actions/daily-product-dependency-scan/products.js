@@ -10,25 +10,12 @@ class Products {
   addProducts({ manifestPaths }) {
     manifestPaths.forEach(path => {
       const manifest = JSON.parse(fs.readFileSync(path));
-      const productId = manifest.productId || null;
-      const productPath = path.slice(0, path.lastIndexOf('/'));
 
-      this.all[productPath] = new Product({ productId, productPath });
-    });
-  }
-
-  swapKeys() {
-    this.all.forEach(product => {
-      if (product.productId) {
-        const { packageDependencies, crossProductDependencies } = product;
-
-        this.all[product.productId] = {
-          packageDependencies,
-          crossProductDependencies,
-        };
+      if (manifest.productId) {
+        const productId = manifest.productId || null;
+        const productPath = path.slice(0, path.lastIndexOf('/'));
+        this.all[productId] = new Product({ productPath });
       }
-
-      delete this.all[product.productPath];
     });
   }
 }

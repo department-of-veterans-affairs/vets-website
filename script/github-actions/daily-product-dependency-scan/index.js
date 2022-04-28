@@ -27,8 +27,6 @@ async function main() {
   });
   crossProductDependencies.setDependencies();
 
-  products.swapKeys();
-
   // refactor the following after the code runs
   const csv = await fs.promises.readFile(
     `${process.env.PWD}/product-directory.csv`,

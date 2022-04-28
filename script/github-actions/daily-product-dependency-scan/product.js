@@ -1,6 +1,5 @@
 class Product {
-  constructor({ productId, productPath }) {
-    this.productId = productId;
+  constructor({ productPath }) {
     this.productPath = productPath;
     this.packageDependencies = new Set();
     this.crossProductDependencies = new Set();
