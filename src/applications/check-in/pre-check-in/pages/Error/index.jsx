@@ -14,7 +14,10 @@ import { makeSelectVeteranData } from '../../../selectors';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
 const Error = ({ location }) => {
-  const { type } = location.query;
+  const type =
+    location && location.query && location.query.type
+      ? location.query.type
+      : undefined;
   const { getValidateAttempts } = useSessionStorage(true);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   // try get date of appointment
