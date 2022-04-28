@@ -22,6 +22,9 @@ export const FETCH_PERSONAL_INFORMATION_SUCCESS =
 export const FETCH_PERSONAL_INFORMATION_FAILED =
   'FETCH_PERSONAL_INFORMATION_FAILED';
 
+export const UPDATE_PERSONAL_INFORMATION_FIELD =
+  'UPDATE_PERSONAL_INFORMATION_FIELD';
+
 export function fetchPersonalInformation(forceCacheClear = false) {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFORMATION });
@@ -62,14 +65,15 @@ export function fetchPersonalInformation(forceCacheClear = false) {
 // since the personal information api requests do no fall into a transactional life cylce
 // we need to treat them differently than contact information, but also still fall within
 // the state update paradigm so that the UI reacts correctly
-export function createPersonalInfoUpdate(
+export function createPersonalInfoUpdate({
   route,
   method = 'PUT',
   fieldName,
   payload,
   analyticsSectionName,
+  value,
   recordAnalyticsEvent = recordEvent,
-) {
+}) {
   return async dispatch => {
     const options = {
       body: JSON.stringify(payload),
@@ -93,9 +97,7 @@ export function createPersonalInfoUpdate(
         throw error;
       }
 
-      // creating a unique id using field name and timestamp
-      // because a transactionId is needed by transaction flow logic
-      // clearTransaction uses the id in a lookup to remove it
+      // clearTransaction uses this transactionId in a lookup to remove it
       set(
         transaction,
         'data.attributes.transactionId',
@@ -108,22 +110,14 @@ export function createPersonalInfoUpdate(
         transaction,
       });
 
-      // We don't think these are needed within this sync style of api call, but they may be needed
-      // to make sure that the state is updated correctly, mostly for the sake of the UI
-      // dispatch({
-      //   type: VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED,
-      //   transaction,
-      // });
-
-      // dispatch({
-      //   type: VAP_SERVICE_TRANSACTION_UPDATED,
-      //   transaction,
-      // });
+      // optimistic UI update to show saved field value
+      dispatch({
+        type: UPDATE_PERSONAL_INFORMATION_FIELD,
+        fieldName,
+        value,
+      });
 
       dispatch(clearTransaction(transaction));
-
-      // once the update has gone through, we should fetch fresh field data
-      dispatch(fetchPersonalInformation('now'));
     } catch (error) {
       const [firstError = {}] = error.errors ?? [];
       const { code = 'code', title = 'title', detail = 'detail' } = firstError;
