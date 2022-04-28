@@ -262,3 +262,6 @@ jobs:
       - name: Annotate Stylelint results
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
+
+      - name: Set up stylelint matcher
+      uses: xt0rted/stylelint-problem-matcher@v1
