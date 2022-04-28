@@ -57,7 +57,7 @@ import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
 import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
 import createNearByVetCenters from './facilities/vet-center/createNearByVetCenters';
-import createNodCTA from './nod-cta/createNodCTA';
+import createNodCTA from './nod-cta';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,

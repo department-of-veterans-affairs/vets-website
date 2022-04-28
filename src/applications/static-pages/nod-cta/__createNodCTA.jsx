@@ -11,7 +11,7 @@ export default async function createNoticeOfDisagreementWidget(store) {
   );
 
   if (root) {
-    await import(/* webpackChunkName: "form-10182-cta" */ './NodCTA').then(
+    await import(/* webpackChunkName: "form-10182-cta" */ './__NodCTA').then(
       module => {
         const { NodCTA } = module.default;
         connectFeatureToggle(store.dispatch);
