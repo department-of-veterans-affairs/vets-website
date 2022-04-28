@@ -105,7 +105,8 @@ dl.review {
 /* IE11 hack to fix edit button placement, see
  * https://github.com/department-of-veterans-affairs/va.gov-team/issues/25108
  */
- _:-ms-fullscreen, :root dl.review dd.widget-content.widget-edit .widget-content-wrap {
+_:-ms-fullscreen,
+:root dl.review dd.widget-content.widget-edit .widget-content-wrap {
   width: calc(100% - 175px); /* 175px ~= width of the edit button x2.5 */
 }
 /* IE11 fix legend not wrapping on small screens */
@@ -173,7 +174,9 @@ article[data-location="add-issue"] {
 }
 
 article[data-location^="area-of-disagreement"],
-article[data-location="review-and-submit"] div[name="areaOfDisagreementFollowUp0ScrollElement"] + form {
+article[data-location="review-and-submit"]
+  div[name="areaOfDisagreementFollowUp0ScrollElement"]
+  + form {
   .schemaform-block-header,
   .schemaform-block-header + .usa-input-error {
     margin-top: 0;
@@ -234,7 +237,8 @@ article[data-location$="/upload"] {
 
 article[data-location="review-and-submit"] {
   /* hide when reviewing content. Shows when editing */
-  dt .hide-on-review, dd .hide-on-review {
+  dt .hide-on-review,
+  dd .hide-on-review {
     display: none;
   }
   dt strong.opt-in-title {
@@ -243,4 +247,8 @@ article[data-location="review-and-submit"] {
   dd {
     word-break: break-all;
   }
+}
+
+.testing-rule {
+  display: block;
 }
