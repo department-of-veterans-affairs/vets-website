@@ -8,11 +8,12 @@ inputs:
 
 runs:
   using: composite
+  runs-on: ubuntu-latest
   
   steps:
     - name: Install dependencies
       uses: ./.github/workflows/install
-      timeout-minutes: 30
+#      timeout-minutes: 30
       with:
         key: ${{ hashFiles('yarn.lock') }}
         yarn_cache_folder: .cache/yarn
