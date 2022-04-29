@@ -17,23 +17,23 @@ class CrossProductDependencies {
 
       Object.keys(imports).forEach(importerFilePath => {
         imports[importerFilePath].forEach(importRef => {
-          const importeeFilePath = this.getImportPath({
+          const importedFilePath = this.getImportPath({
             importerFilePath,
             importRef,
           });
 
           if (
-            importeeFilePath.startsWith('src/platform') ||
-            importeeFilePath.startsWith('src/site')
+            importedFilePath.startsWith('src/platform') ||
+            importedFilePath.startsWith('src/site')
           )
             return;
 
           if (
-            this.importIsFromOtherProduct({ productPath, importeeFilePath })
+            this.importIsFromOtherProduct({ productPath, importedFilePath })
           ) {
             this.setDependency({
               productId,
-              importeeFilePath,
+              importedFilePath,
             });
           }
         });
@@ -72,20 +72,20 @@ class CrossProductDependencies {
     return importRef;
   }
 
-  importIsFromOtherProduct({ productPath, importeeFilePath }) {
-    const parentDirectory = importeeFilePath
+  importIsFromOtherProduct({ productPath, importedFilePath }) {
+    const parentDirectory = importedFilePath
       .split('/')
       .slice(0, 3)
       .join('/');
 
     return !(
-      importeeFilePath.startsWith(parentDirectory) ||
-      importeeFilePath.startsWith(productPath)
+      importedFilePath.startsWith(parentDirectory) ||
+      importedFilePath.startsWith(productPath)
     );
   }
 
-  setDependency({ productId, importeeFilePath }) {
-    this.products[productId].crossProductDependencies.add(importeeFilePath);
+  setDependency({ productId, importedFilePath }) {
+    this.products[productId].crossProductDependencies.add(importedFilePath);
   }
 }
 
