@@ -27,6 +27,10 @@ ul.claim-list {
 
 .help-footer-box {
   @include media($medium-large-screen) {
-    padding-top: 3.0rem;
+    padding-top: 3rem;
   }
+}
+
+.test-stylelint {
+  color: #000000;
 }
