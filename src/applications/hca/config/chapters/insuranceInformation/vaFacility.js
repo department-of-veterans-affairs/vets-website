@@ -26,7 +26,6 @@ const emptyFacilityList = [];
 
 export default {
   uiSchema: {
-    'ui:title': 'VA Facility',
     'view:facilityShortFormMessage': {
       'ui:description': shortFormMessage,
       'ui:options': {
@@ -37,6 +36,9 @@ export default {
             form['view:totalDisabilityRating'] >= HIGH_DISABILITY
           ),
       },
+    },
+    'view:vaFacilityTitle': {
+      'ui:title': 'VA Facility',
     },
     isEssentialAcaCoverage: {
       'ui:title':
@@ -89,6 +91,7 @@ export default {
     type: 'object',
     properties: {
       'view:facilityShortFormMessage': emptyObjectSchema,
+      'view:vaFacilityTitle': emptyObjectSchema,
       isEssentialAcaCoverage,
       'view:isEssentialCoverageDesc': emptyObjectSchema,
       'view:preferredFacility': {
