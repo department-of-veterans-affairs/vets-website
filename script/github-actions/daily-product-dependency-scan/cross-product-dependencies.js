@@ -78,10 +78,7 @@ class CrossProductDependencies {
       .slice(0, 3)
       .join('/');
 
-    return !(
-      importedFilePath.startsWith(parentDirectory) ||
-      importedFilePath.startsWith(productPath)
-    );
+    return !importedFilePath.startsWith(parentDirectory);
   }
 
   setDependency({ productId, importedFilePath }) {
