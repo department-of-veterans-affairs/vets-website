@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { connect } from 'react-redux';
+import { useSelector, connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
@@ -11,6 +11,7 @@ import ServiceProvidersText, {
 import GetFormHelp from '../components/GetFormHelp';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import DownloadFormPDF from '../components/DownloadFormPDF';
+import { fsrConfirmationEmailToggle } from '../utils/helpers';
 
 const { scroller } = Scroll;
 const scrollToTop = () => {
@@ -84,6 +85,8 @@ RequestDetailsCard.propTypes = {
 };
 
 const ConfirmationPage = ({ form, download }) => {
+  const showFSREmail = useSelector(state => fsrConfirmationEmailToggle(state));
+
   const { response } = form.submission;
   const { data } = form;
 
@@ -98,7 +101,18 @@ const ConfirmationPage = ({ form, download }) => {
         <strong>Please print this page for your records.</strong>
       </p>
 
-      <h3 className="confirmation-page-title">We’ve received your request</h3>
+      {showFSREmail && (
+        <va-alert status="success">
+          <h3 className="confirmation-page-title">
+            We’ve received your request
+          </h3>
+          <p>
+            We’ll send you an email confirming your request to{' '}
+            <strong>{data.personalData.emailAddress}.</strong>
+          </p>
+        </va-alert>
+      )}
+
       <p>
         We’ll send you a letter with our decision and any next steps. If you
         experience changes that may affect our decision (like a job loss or a

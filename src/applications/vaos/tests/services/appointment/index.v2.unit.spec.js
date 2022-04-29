@@ -838,6 +838,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['description'] },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['reason'], value: undefined },
         ],
         'Transformers for v0 and v2 appointment request data are out of sync',
       );
@@ -934,6 +935,8 @@ describe('VAOS Appointment service', () => {
         [
           { op: 'remove', path: ['description'] },
           { op: 'remove', path: ['practitioners'] },
+          { op: 'replace', path: ['reason'], value: undefined },
+
           {
             op: 'replace',
             path: ['type', 'coding', 0, 'code'],
@@ -1039,6 +1042,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['description'] },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['reason'], value: undefined },
         ],
         'Transformers for v0 and v2 appointment request data are out of sync',
       );

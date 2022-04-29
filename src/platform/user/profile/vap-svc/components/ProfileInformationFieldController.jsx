@@ -80,7 +80,12 @@ class ProfileInformationFieldController extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { fieldName, forceEditView, successCallback } = this.props;
+    const {
+      fieldName,
+      forceEditView,
+      successCallback,
+      showUpdateSuccessAlert,
+    } = this.props;
     // Exit the edit view if it takes more than 5 seconds for the update/save
     // transaction to resolve. If the transaction has not resolved after 5
     // seconds we will show a "we're saving your new information..." message on
@@ -97,6 +102,13 @@ class ProfileInformationFieldController extends React.Component {
       );
     }
 
+    // component should clear timeout if the showUpdateSuccessAlert is set to true
+    // this is used to prevent the alerts from disappearing when a user directly updates
+    // their mailing address from the home address flow
+    if (showUpdateSuccessAlert) {
+      clearTimeout(this.closeModalTimeoutID);
+    }
+
     // Do not auto-exit edit view if the transaction failed
     if (this.transactionJustFailed(prevProps, this.props)) {
       clearTimeout(this.closeModalTimeoutID);
@@ -105,7 +117,7 @@ class ProfileInformationFieldController extends React.Component {
       clearTimeout(this.closeModalTimeoutID);
       if (this.props.transaction) {
         focusElement(`div#${fieldName}-transaction-status`);
-      } else if (this.props.showUpdateSuccessAlert) {
+      } else if (showUpdateSuccessAlert) {
         focusElement('[data-testid=update-success-alert]');
         // Success check after confirming suggested address
         if (forceEditView && typeof successCallback === 'function') {
