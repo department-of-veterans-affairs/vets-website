@@ -7,9 +7,7 @@ inputs:
     default: ''
 
 runs:
-  using: composite
-  runs-on: ubuntu-latest
-  
+  using: composite  
   steps:
     - name: Install dependencies
       uses: ./.github/workflows/install
@@ -23,6 +21,7 @@ runs:
 
     - name: List changed files
       id: changed-files
+      shell: bash
       run: |
         if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
           echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
@@ -32,10 +31,12 @@ runs:
 
     - name: Get app entries for changed files
       id: get-changed-apps
+      shell: bash
       run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
       env:
         CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
     - name: Audit dependencies
       if: steps.get-changed-apps.outputs.app_entries == ''
+      shell: bash
       run: yarn security-check
