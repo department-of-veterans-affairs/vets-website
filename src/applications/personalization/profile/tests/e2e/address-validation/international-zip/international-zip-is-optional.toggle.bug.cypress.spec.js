@@ -1,10 +1,12 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 import receivedTransaction from '@@profile/tests/fixtures/transactions/received-transaction.json';
+import finishedTransaction from '@@profile/tests/fixtures/transactions/finished-transaction.json';
 import mockUser from './mocks/international-user.json';
 import AddressPage from '../page-objects/AddressPage';
 import { generateFeatureToggles } from '../../../../mocks/feature-toggles';
 import disableFTUXModals from '~/platform/user/tests/disableFTUXModals';
 import { createUserResponse } from '../user';
+import { createAddressValidationResponse } from '../addressValidation';
 
 describe('Personal and contact information', () => {
   describe('when entering an international address', () => {
@@ -26,11 +28,23 @@ describe('Personal and contact information', () => {
       cy.findByRole('button', { name: /edit mailing address/i }).click({
         force: true,
       });
-
+      cy.intercept('POST', '/v0/profile/address_validation', {
+        statusCode: 200,
+        body: createAddressValidationResponse('international'),
+      });
       cy.intercept('PUT', '/v0/profile/addresses', {
         statusCode: 200,
         body: receivedTransaction,
       });
+
+      cy.intercept(
+        'GET',
+        '/v0/profile/status/bfedd909-9dc4-4b27-abc2-a6cccaece35d',
+        {
+          statusCode: 200,
+          body: finishedTransaction,
+        },
+      );
 
       cy.intercept('GET', '/v0/user?*', {
         statusCode: 200,
