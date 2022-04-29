@@ -155,7 +155,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  show: state?.featureToggles?.form1018Nod,
+  show: state?.featureToggles?.form10182Nod,
 });
 
 export default connect(mapStateToProps)(App);
