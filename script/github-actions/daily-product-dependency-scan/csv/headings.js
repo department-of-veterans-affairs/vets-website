@@ -2,7 +2,7 @@ const constants = require('./constants');
 
 class Headings {
   constructor({ csvLine }) {
-    this.headings = csvLine.split(';');
+    this.all = csvLine.split(';');
     [
       this.packageDependencyIndex,
       this.crossProductDependencyIndex,
@@ -13,7 +13,7 @@ class Headings {
     let packageDependencyIndex;
     let crossProductDependencyIndex;
 
-    this.headings.forEach((heading, index) => {
+    this.all.forEach((heading, index) => {
       if (heading === constants.PACKAGE_DEPENDENCIES) {
         packageDependencyIndex = index;
       } else if (heading === constants.CROSS_PRODUCT_DEPENDENCIES) {

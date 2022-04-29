@@ -29,42 +29,60 @@ async function main() {
 
   // refactor the following after the code runs
   const csv = await fs.promises.readFile(
-    `${process.env.PWD}/product-directory.csv`,
+    `${
+      process.env.PWD
+    }/script/github-actions/daily-product-dependency-scan/product-directory.csv`,
     'utf8',
   );
 
   const csvLines = removeCarriageReturn(transformCsvToScsv(csv).split('\n'));
 
   const productDirectory = new Csv({
-    headings: new Headings({ csvLine: csvLines.slice(0, 1) }),
+    headings: new Headings({ csvLine: csvLines.slice(0, 1)[0] }),
     rows: new Rows({ csvLines: csvLines.slice(1) }),
   });
 
-  const newCsv = [];
+  const newCsv = [`${productDirectory.headings.all.join(',')}`];
   let dependenciesChanged = false;
 
-  productDirectory.rows.forEach(row => {
+  productDirectory.rows.all.forEach(row => {
     const fields = row.split(';');
     const productId = fields[0];
 
     if (products.all[productId]) {
       // compare package dependencies
       const { packageDependencyIndex } = productDirectory.headings;
-      const csvPackageDependencies = fields[packageDependencyIndex].split(',');
+      const csvPackageDependencies = fields[packageDependencyIndex]
+        .replace(/"/g, '')
+        .split(',');
       const scannedPackageDependencies = Array.from(
         products.all[productId].packageDependencies,
       );
 
       if (!_.isEqual(csvPackageDependencies, scannedPackageDependencies)) {
         dependenciesChanged = true;
-        fields[packageDependencyIndex] = scannedPackageDependencies.join(',');
+
+        if (scannedPackageDependencies.length > 0) {
+          fields[packageDependencyIndex] = `"${scannedPackageDependencies.join(
+            ',',
+          )}"`;
+        } else {
+          fields[packageDependencyIndex] = '';
+        }
       }
 
       // compare cross product imports
       const { crossProductDependencyIndex } = productDirectory.headings;
-      const csvCrossProductDependencies = fields[
-        crossProductDependencyIndex
-      ].split(',');
+      let csvCrossProductDependencies = fields[crossProductDependencyIndex]
+        .replace(/"/g, '')
+        .split(',');
+
+      csvCrossProductDependencies =
+        Array.isArray(csvCrossProductDependencies) &&
+        csvCrossProductDependencies[0] === ''
+          ? []
+          : csvCrossProductDependencies;
+
       const scannedCrossProductDependencies = Array.from(
         products.all[productId].crossProductDependencies,
       );
@@ -73,20 +91,37 @@ async function main() {
         !_.isEqual(csvCrossProductDependencies, scannedCrossProductDependencies)
       ) {
         dependenciesChanged = true;
-        fields[
-          crossProductDependencyIndex
-        ] = scannedCrossProductDependencies.join(',');
+
+        if (scannedCrossProductDependencies.length > 0) {
+          fields[
+            crossProductDependencyIndex
+          ] = `"${scannedCrossProductDependencies.join(',')}"`;
+        } else {
+          fields[crossProductDependencyIndex] = '';
+        }
       }
     }
 
-    const updatedRow = `${fields.join(',')}\n\r`;
+    const updatedRow = fields.join(',');
     newCsv.push(updatedRow);
   });
 
   if (dependenciesChanged) {
-    // eslint-disable-next-line no-console
-    console.log(newCsv);
     // submit pr
+
+    // delete the following before submitting pr
+    // eslint-disable-next-line func-names
+    fs.writeFileSync(
+      'updated-product-directory.csv',
+      newCsv.join('\n'),
+      // eslint-disable-next-line func-names
+      function(err) {
+        if (err) {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        }
+      },
+    );
   }
 }
 

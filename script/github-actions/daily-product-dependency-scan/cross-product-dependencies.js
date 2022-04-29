@@ -104,22 +104,11 @@ class CrossProductDependencies {
 
   setDependency({
     productId,
-    importProductPath,
-    importerFilePath,
+    // importProductPath,
+    // importerFilePath,
     importeeFilePath,
   }) {
-    if (!this.products[productId].crossProductDependencies[importProductPath]) {
-      this.products[productId].crossProductDependencies[importProductPath] = {
-        filesImported: new Set(),
-      };
-    }
-
-    this.products[productId].crossProductDependencies[
-      importProductPath
-    ].filesImported.add({
-      importer: importerFilePath,
-      importee: importeeFilePath,
-    });
+    this.products[productId].crossProductDependencies.add(importeeFilePath);
   }
 }
 

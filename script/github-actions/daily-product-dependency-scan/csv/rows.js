@@ -1,6 +1,6 @@
 class Rows {
   constructor({ csvLines }) {
-    this.rows = csvLines;
+    this.all = csvLines;
   }
 }
 
