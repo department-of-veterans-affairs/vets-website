@@ -39,7 +39,11 @@ export default {
       },
     },
     isEssentialAcaCoverage: {
-      'ui:title': isEssentialAcaCoverageDescription,
+      'ui:title':
+        'I’m enrolling to get minimum essential coverage under the Affordable Care Act.',
+    },
+    'view:isEssentialCoverageDesc': {
+      'ui:description': isEssentialAcaCoverageDescription,
     },
     'view:preferredFacility': {
       'ui:title': 'Select your preferred VA medical facility',
@@ -86,6 +90,7 @@ export default {
     properties: {
       'view:facilityShortFormMessage': emptyObjectSchema,
       isEssentialAcaCoverage,
+      'view:isEssentialCoverageDesc': emptyObjectSchema,
       'view:preferredFacility': {
         type: 'object',
         required: ['view:facilityState', 'vaMedicalFacility'],
