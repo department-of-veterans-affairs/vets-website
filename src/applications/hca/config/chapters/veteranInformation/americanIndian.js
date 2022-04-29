@@ -4,17 +4,13 @@ import React from 'react';
 
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
-import {
-  shortFormMessage,
-  HIGH_DISABILITY,
-  emptyObjectSchema,
-} from '../../../helpers';
-
 const { sigiIsAmericanIndian } = fullSchemaHca.properties;
 
-const Description = () => {
+const Description = props => {
   return (
     <>
+      <PrefillMessage {...props} />
+
       <p>
         If you’re recognized as an American Indian or Alaska Native, you may not
         need to pay a copay for care or services.
@@ -97,22 +93,7 @@ const Description = () => {
 
 export default {
   uiSchema: {
-    'view:aiShortFormMessage': {
-      'ui:description': shortFormMessage,
-      'ui:options': {
-        hideIf: form =>
-          !(
-            form['view:totalDisabilityRating'] &&
-            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-          ),
-      },
-    },
-    'view:prefillMessage': {
-      'ui:description': PrefillMessage,
-    },
-    'view:aiqDescription': {
-      'ui:description': Description,
-    },
+    'ui:description': Description,
     sigiIsAmericanIndian: {
       'ui:title':
         'Are you recognized as an American Indian or Alaska Native by any tribal, state, or federal law or regulation?',
@@ -123,9 +104,6 @@ export default {
     type: 'object',
     required: ['sigiIsAmericanIndian'],
     properties: {
-      'view:aiShortFormMessage': emptyObjectSchema,
-      'view:prefillMessage': emptyObjectSchema,
-      'view:aiqDescription': emptyObjectSchema,
       sigiIsAmericanIndian,
     },
   },

@@ -107,7 +107,7 @@ describe('HCA-Shortform-Authenticated', () => {
     aiqHelpers.shortFormAdditionalHelpAssertion();
 
     aiqHelpers.goToNextPage('/veteran-information/american-indian');
-    aiqHelpers.shortFormAdditionalHelpAssertion();
+    // aiqHelpers.shortFormAdditionalHelpAssertion();
     cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
 
     aiqHelpers.goToNextPage('/veteran-information/veteran-address');
