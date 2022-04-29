@@ -52,9 +52,13 @@ async function main() {
     if (products.all[productId]) {
       // compare package dependencies
       const { packageDependencyIndex } = productDirectory.headings;
-      const csvPackageDependencies = fields[packageDependencyIndex]
+
+      let csvPackageDependencies = fields[packageDependencyIndex]
         .replace(/"/g, '')
         .split(',');
+      csvPackageDependencies =
+        csvPackageDependencies[0] === '' ? [] : csvPackageDependencies;
+
       const scannedPackageDependencies = Array.from(
         products.all[productId].packageDependencies,
       );
@@ -73,12 +77,11 @@ async function main() {
 
       // compare cross product imports
       const { crossProductDependencyIndex } = productDirectory.headings;
+
       let csvCrossProductDependencies = fields[crossProductDependencyIndex]
         .replace(/"/g, '')
         .split(',');
-
       csvCrossProductDependencies =
-        Array.isArray(csvCrossProductDependencies) &&
         csvCrossProductDependencies[0] === ''
           ? []
           : csvCrossProductDependencies;
