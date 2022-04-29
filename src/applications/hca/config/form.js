@@ -164,7 +164,7 @@ const formConfig = {
         },
         veteranInformation: {
           path: 'veteran-information/profile-information',
-          title: 'Veteran information',
+          title: 'Veteran name',
           initialData: {},
           depends: () => !hasSession(),
           uiSchema: veteranInformation.uiSchema,
@@ -172,7 +172,7 @@ const formConfig = {
         },
         ssnInformation: {
           path: 'veteran-information/profile-information-ssn',
-          title: 'Veteran information',
+          title: 'Social Security number',
           initialData: {},
           depends: () => !hasSession(),
           uiSchema: personalInformationSsn.uiSchema,
@@ -180,7 +180,7 @@ const formConfig = {
         },
         dobInformation: {
           path: 'veteran-information/profile-information-dob',
-          title: 'Veteran information',
+          title: 'Date of birth',
           initialData: {},
           depends: () => !hasSession(),
           uiSchema: personalInformationDOB.uiSchema,
@@ -188,28 +188,28 @@ const formConfig = {
         },
         birthInformation: {
           path: 'veteran-information/birth-information',
-          title: 'Veteran information',
+          title: 'Place of birth',
           initialData: {},
           uiSchema: birthInformation.uiSchema,
           schema: birthInformation.schema,
         },
         maidenNameInformation: {
           path: 'veteran-information/maiden-name-information',
-          title: 'Veteran information',
+          title: "Mother's maiden name",
           initialData: {},
           uiSchema: maidenNameInformation.uiSchema,
           schema: maidenNameInformation.schema,
         },
         birthSex: {
           path: 'veteran-information/birth-sex',
-          title: 'Veteran information',
+          title: 'Sex assigned at birth',
           initialData: {},
           uiSchema: birthSex.uiSchema,
           schema: birthSex.schema,
         },
         veteranGender: {
           path: 'veteran-information/veteran-gender',
-          title: 'Veteran information',
+          title: 'Gender',
           initialData: {},
           depends: formData => formData['view:caregiverSIGIEnabled'],
           uiSchema: veteranGender.uiSchema,
@@ -217,7 +217,7 @@ const formConfig = {
         },
         demographicInformation: {
           path: 'veteran-information/demographic-information',
-          title: 'Veteran information',
+          title: 'Race, ethnicity, origin',
           initialData: {
             'view:demographicCategories': {
               isSpanishHispanicLatino: false,
@@ -228,7 +228,7 @@ const formConfig = {
         },
         americanIndian: {
           path: 'veteran-information/american-indian',
-          title: 'Veteran information',
+          title: 'Tribal affiliation',
           initialData: {},
           depends: formData => formData['view:hcaAmericanIndianEnabled'],
           uiSchema: americanIndian.uiSchema,
