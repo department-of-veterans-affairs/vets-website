@@ -26,6 +26,7 @@ async function main() {
     products: products.all,
   });
   crossProductDependencies.setDependencies();
+  // crossProductDependencies.writePathsToFile();
 
   // refactor the following after the code runs
   const csv = await fs.promises.readFile(
@@ -42,7 +43,12 @@ async function main() {
     rows: new Rows({ csvLines: csvLines.slice(1) }),
   });
 
-  const newCsv = [`${productDirectory.headings.all.join(',')}`];
+  const updatedProductDirectory = new Csv({
+    headings: new Headings({ csvLine: csvLines.slice(0, 1)[0] }),
+    rows: new Rows({ csvLines: [] }),
+  });
+
+  // const newCsv = [`${productDirectory.headings.all.join(',')}`];
   let dependenciesChanged = false;
 
   productDirectory.rows.all.forEach(row => {
@@ -106,7 +112,7 @@ async function main() {
     }
 
     const updatedRow = fields.join(',');
-    newCsv.push(updatedRow);
+    updatedProductDirectory.rows.all.push(updatedRow);
   });
 
   // eslint-disable-next-line no-console
@@ -119,7 +125,10 @@ async function main() {
     // eslint-disable-next-line func-names
     fs.writeFileSync(
       'updated-product-directory.csv',
-      newCsv.join('\n'),
+      [
+        updatedProductDirectory.headings.all.join(','),
+        ...updatedProductDirectory.rows.all,
+      ].join('\n'),
       // eslint-disable-next-line func-names
       function(err) {
         if (err) {

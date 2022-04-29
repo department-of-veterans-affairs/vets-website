@@ -1,9 +1,11 @@
 /* eslint-disable class-methods-use-this */
 const findImports = require('find-imports');
+// const fs = require('fs');
 
 class CrossProductDependencies {
   constructor({ products }) {
     this.products = products;
+    this.paths = '';
   }
 
   setDependencies() {
@@ -73,10 +75,15 @@ class CrossProductDependencies {
   }
 
   importIsFromOtherProduct({ productPath, importedFilePath }) {
-    const parentDirectory = importedFilePath
+    const parentDirectory = productPath
       .split('/')
       .slice(0, 3)
       .join('/');
+
+    // this.paths += `productPath: ${productPath}\n`;
+    // this.paths += `importedFilePath: ${importedFilePath}\n`;
+    // this.paths += `parentDirectory: ${parentDirectory}\n`;
+    // this.paths += '\n';
 
     return !(
       importedFilePath.startsWith(parentDirectory) ||
@@ -87,6 +94,22 @@ class CrossProductDependencies {
   setDependency({ productId, importedFilePath }) {
     this.products[productId].crossProductDependencies.add(importedFilePath);
   }
+
+  // writePathsToFile() {
+  //   // delete the following before submitting pr
+  //   // eslint-disable-next-line func-names
+  //   fs.writeFileSync(
+  //     'paths.txt',
+  //     this.paths,
+  //     // eslint-disable-next-line func-names
+  //     function(err) {
+  //       if (err) {
+  //         // eslint-disable-next-line no-console
+  //         console.log(err);
+  //       }
+  //     },
+  //   );
+  // }
 }
 
 module.exports = CrossProductDependencies;
