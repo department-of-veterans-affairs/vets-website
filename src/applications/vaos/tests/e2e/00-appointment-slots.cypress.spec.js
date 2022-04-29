@@ -13,7 +13,7 @@ import {
 } from './vaos-cypress-v2-helpers';
 import * as newApptTests from './vaos-cypress-schedule-appointment-v2-helpers';
 
-describe('Direct schedule appointment slots', () => {
+describe.skip('Direct schedule appointment slots', () => {
   beforeEach(() => {
     setupPlatform();
     setupVaos();
