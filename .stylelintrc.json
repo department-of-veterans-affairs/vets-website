@@ -37,7 +37,7 @@
       { "display": ["block", "inline", "inline-block", "flex", "none"] },
       {
         "severity": "warning",
-        "message": "Do not set your own display property. Please use the corresponding utility class from https://design.va.gov/foundation/utilities/display"
+        "message": "Do not set your own display property.\nPlease use the corresponding utility class from https://design.va.gov/foundation/utilities/display"
       }
     ]
   }
