@@ -28,18 +28,11 @@ class CrossProductDependencies {
           )
             return;
 
-          const importProductPath = this.getImportProductPathFromFilePath({
-            importeeFilePath,
-          });
-
           if (
-            importProductPath &&
             this.importIsFromOtherProduct({ productPath, importeeFilePath })
           ) {
             this.setDependency({
               productId,
-              importProductPath,
-              importerFilePath,
               importeeFilePath,
             });
           }
@@ -80,34 +73,18 @@ class CrossProductDependencies {
   }
 
   importIsFromOtherProduct({ productPath, importeeFilePath }) {
-    return !importeeFilePath.startsWith(productPath);
+    const parentDirectory = importeeFilePath
+      .split('/')
+      .slice(0, 3)
+      .join('/');
+
+    return !(
+      importeeFilePath.startsWith(parentDirectory) ||
+      importeeFilePath.startsWith(productPath)
+    );
   }
 
-  getImportProductPathFromFilePath({ importeeFilePath }) {
-    let path = importeeFilePath;
-    let noPathMatch = true;
-
-    while (path.includes('/') && noPathMatch) {
-      path = path.slice(0, path.lastIndexOf('/'));
-      const productIds = Object.keys(this.products);
-
-      for (let i = 0; i < productIds.length; i += 1) {
-        if (this.products[productIds[i]].productPath === path) {
-          noPathMatch = false;
-          break;
-        }
-      }
-    }
-
-    return noPathMatch ? null : path;
-  }
-
-  setDependency({
-    productId,
-    // importProductPath,
-    // importerFilePath,
-    importeeFilePath,
-  }) {
+  setDependency({ productId, importeeFilePath }) {
     this.products[productId].crossProductDependencies.add(importeeFilePath);
   }
 }

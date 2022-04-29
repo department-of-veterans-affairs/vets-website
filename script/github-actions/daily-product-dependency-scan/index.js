@@ -109,6 +109,9 @@ async function main() {
     newCsv.push(updatedRow);
   });
 
+  // eslint-disable-next-line no-console
+  console.log('dependenciesChanged: ', dependenciesChanged);
+
   if (dependenciesChanged) {
     // submit pr
 
