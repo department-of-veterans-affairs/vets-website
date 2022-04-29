@@ -3,6 +3,11 @@ import { connect } from 'react-redux';
 import appendQuery from 'append-query';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { browserHistory } from 'react-router';
+import vaDebounce from 'platform/utilities/data/debounce';
+import { isEmpty } from 'lodash';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
+import recordEvent from 'platform/monitoring/record-event';
 import { mapboxToken } from '../utils/mapboxToken';
 import {
   clearSearchText,
@@ -27,8 +32,6 @@ import ResultsList from '../components/ResultsList';
 import PaginationWrapper from '../components/PaginationWrapper';
 import SearchControls from '../components/SearchControls';
 import SearchResultsHeader from '../components/SearchResultsHeader';
-import { browserHistory } from 'react-router';
-import vaDebounce from 'platform/utilities/data/debounce';
 
 import { setFocus, buildMarker, resetMapElements } from '../utils/helpers';
 import {
@@ -40,13 +43,10 @@ import {
   MAX_SEARCH_AREA,
 } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
-import { isEmpty } from 'lodash';
-import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import SearchResult from '../components/SearchResult';
 import { recordZoomEvent, recordPanEvent } from '../utils/analytics';
 import { otherToolsLink, coronavirusUpdate } from '../utils/mapLinks';
 import SearchAreaControl from '../components/SearchAreaControl';
-import recordEvent from 'platform/monitoring/record-event';
 import Covid19Result from '../components/search-results-items/Covid19Result';
 import Alert from '../components/Alert';
 
@@ -79,10 +79,17 @@ const FacilitiesMap = props => {
     }
 
     if (location.query.address) {
-      props.genBBoxFromAddress({
-        searchString: location.query.address,
-        context: location.query.context,
-      });
+      const expandedRadius =
+        location.query.facilityType === 'benefits' &&
+        !location.query.serviceType;
+
+      props.genBBoxFromAddress(
+        {
+          searchString: location.query.address,
+          context: location.query.context,
+        },
+        expandedRadius,
+      );
       setIsSearching(true);
     }
   };
@@ -157,15 +164,20 @@ const FacilitiesMap = props => {
   const handleSearch = async () => {
     resetMapElements();
     const { currentQuery } = props;
+    const { facilityType, serviceType, searchString } = currentQuery;
+    const expandedRadius = facilityType === 'benefits' && !serviceType;
     lastZoom = null;
 
     updateUrlParams({
-      address: currentQuery.searchString,
+      address: searchString,
     });
 
-    props.genBBoxFromAddress({
-      ...currentQuery,
-    });
+    props.genBBoxFromAddress(
+      {
+        ...currentQuery,
+      },
+      expandedRadius,
+    );
 
     setIsSearching(true);
   };
@@ -206,7 +218,7 @@ const FacilitiesMap = props => {
     resetMapElements();
     const { currentQuery } = props;
     const coords = currentQuery.position;
-    const radius = currentQuery.radius;
+    const { radius } = currentQuery;
     const center = [coords.latitude, coords.longitude];
     props.searchWithBounds({
       bounds: currentQuery.bounds,
@@ -366,9 +378,7 @@ const FacilitiesMap = props => {
 
     const currentPage = pagination ? pagination.currentPage : 1;
     const totalPages = pagination ? pagination.totalPages : 1;
-
-    const facilityType = currentQuery.facilityType;
-    const serviceType = currentQuery.serviceType;
+    const { facilityType, serviceType } = currentQuery;
     const queryContext = currentQuery.context;
     const isEmergencyCareType = facilityType === LocationType.EMERGENCY_CARE;
     const isCppEmergencyCareTypes = EMERGENCY_CARE_SERVICES.includes(
@@ -501,7 +511,7 @@ const FacilitiesMap = props => {
     const { currentQuery } = props;
     const { searchArea, context, searchString } = currentQuery;
     const coords = currentQuery.position;
-    const radius = currentQuery.radius;
+    const { radius } = currentQuery;
     const center = [coords.latitude, coords.longitude];
     if (searchArea) {
       updateUrlParams({
@@ -541,7 +551,7 @@ const FacilitiesMap = props => {
       });
       const { currentQuery } = props;
       const coords = currentQuery.position;
-      const radius = currentQuery.radius;
+      const { radius } = currentQuery;
       const center = [coords.latitude, coords.longitude];
       const resultsPage = currentQuery.currentPage;
 
