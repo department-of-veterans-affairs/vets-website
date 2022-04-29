@@ -313,39 +313,8 @@ jobs:
     name: Security Audit
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
-
-      - name: List changed files
-        id: changed-files
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
-            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-          else
-            echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
-          fi
-
-      - name: Get app entries for changed files
-        id: get-changed-apps
-        run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
-        env:
-          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
-
-      - name: Audit dependencies
-        if: steps.get-changed-apps.outputs.app_entries == ''
-        run: yarn security-check
+      - name: Security Audit
+        uses: ./.github/workflows/security-audit
 
   linting:
     name: Linting (All)
