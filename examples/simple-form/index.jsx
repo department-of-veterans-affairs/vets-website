@@ -88,7 +88,7 @@ const App = () => (
         <TextField name="foo" label="Example" required />
         {/* <DateField name="baz" required /> */}
         <CheckboxFieldGroup {...checkboxProps} />
-        <FullNameField />
+        <FullNameField name="fullName" label="fullName"/>
         <button type="submit" className="btn">
           {' '}
           submit

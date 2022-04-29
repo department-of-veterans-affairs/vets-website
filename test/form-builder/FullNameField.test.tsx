@@ -7,8 +7,8 @@ import { buildRenderForm, changeValue } from '../utils';
 import { FullNameField } from '../../src';
 
 const renderForm = buildRenderForm({});
-const testData = {
-  fullName: {
+const veteranTestData = {
+  veteranFullName: {
     firstName: 'Mark',
     middleName: 'W',
     lastName: 'Webb',
@@ -18,16 +18,16 @@ const testData = {
 
 const getInputs = (container: HTMLElement) => {
   return ({
-    firstNameInput: container.querySelector('#firstName') as HTMLElement,
-    middleNameInput: container.querySelector('#middleName') as HTMLElement,
-    lastNameInput: container.querySelector('#lastName') as HTMLElement,
-    suffixSelect: container.querySelector('#suffix') as HTMLElement
+    firstNameInput: container.querySelector('#veteranFullNameFirstName') as HTMLElement,
+    middleNameInput: container.querySelector('#veteranFullNameMiddleName') as HTMLElement,
+    lastNameInput: container.querySelector('#veteranFullNameLastName') as HTMLElement,
+    suffixSelect: container.querySelector('#veteranFullNameSuffix') as HTMLElement
   })
 } 
 
 describe('Form Builder - FullNameField', () => {
   test('renders', () => {
-    const { container } = renderForm(<FullNameField name={''} label={''} />)
+    const { container } = renderForm(<FullNameField name="veteranFullName" label="" />)
     const { firstNameInput, middleNameInput, lastNameInput, suffixSelect } = getInputs(container);
 
     expect(firstNameInput.getAttribute('label')).toEqual('Your first Name');
@@ -37,8 +37,8 @@ describe('Form Builder - FullNameField', () => {
   });
 
   test('renders initial value', () => {
-    const rf = buildRenderForm(testData);
-    const { container } = rf(<FullNameField name='' label='' />)
+    const rf = buildRenderForm(veteranTestData);
+    const { container } = rf(<FullNameField name="veteranFullName" label="" />)
     const { firstNameInput, middleNameInput, lastNameInput, suffixSelect } = getInputs(container);
 
     expect(firstNameInput.getAttribute('value')).toEqual('Mark')
@@ -48,12 +48,12 @@ describe('Form Builder - FullNameField', () => {
   });
 
   test('renders the default "required" validation error message', async () => {
-    const { container, getFormProps } = renderForm(<FullNameField name='' label='' />);
+    const { container, getFormProps } = renderForm(<FullNameField name="veteranFullName" label="" />);
     const { firstNameInput, lastNameInput } = getInputs(container);
 
     await waitFor(() => {
-      getFormProps().setFieldTouched('fullName.firstName');
-      getFormProps().setFieldTouched('fullName.lastName');
+      getFormProps().setFieldTouched('veteranFullName.firstName');
+      getFormProps().setFieldTouched('veteranFullName.lastName');
     });
 
     expect(firstNameInput.getAttribute('error')).toContain('provide a response')
@@ -61,16 +61,8 @@ describe('Form Builder - FullNameField', () => {
   });
 
   test('updates the formik state', async () => {
-    const veteranTestData = {
-      veteranFullName: {
-        firstName: 'Mark',
-        middleName: 'W',
-        lastName: 'Webb',
-        suffix: 'Sr'
-      }
-    }
     const rf = buildRenderForm(veteranTestData);
-    const { container, getFormProps } = rf(<FullNameField name='' label='' fieldName='veteranFullName'/>);
+    const { container, getFormProps } = rf(<FullNameField name="veteranFullName" label="" />);
     const { firstNameInput, middleNameInput, lastNameInput, suffixSelect } = getInputs(container);
 
     await changeValue(firstNameInput, 'Tony')

@@ -6,26 +6,26 @@ import SelectField from './SelectField';
 import TextField from './TextField';
 
 const FullNameField = (props: FullNameProps): JSX.Element => {
-  const fieldName = props.fieldName ? props.fieldName : 'fullName';
+  const fieldName = props.name;
 
   return (
     <>
       <TextField
-        id="firstName"
+        id={`${fieldName}FirstName`}
         name={`${fieldName}.firstName`}
         label="Your first Name"
         required />
       <TextField
-        id="middleName"
+        id={`${fieldName}MiddleName`}
         name={`${fieldName}.middleName`}
         label="Your middle Name"/>
       <TextField
-        id="lastName"
+        id={`${fieldName}LastName`}
         name={`${fieldName}.lastName`}
         label="Your last Name"
         required />
       <SelectField
-        id="suffix"
+        id={`${fieldName}Suffix`}
         name={`${fieldName}.suffix`}
         label="Suffix">
           {Suffixes.map((suffix, idx) => <option key={`${idx}-${suffix}`}>{suffix}</option>)}
