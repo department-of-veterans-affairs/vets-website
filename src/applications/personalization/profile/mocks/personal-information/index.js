@@ -158,6 +158,7 @@ module.exports = {
   basicUserPersonalInfo,
   unsetUserPersonalInfo,
   createPutPreferredNameSuccess,
+  createPutGenderIdentitySuccess,
   putBadRequestFailure400,
   putBadRequestFailure422,
 };
