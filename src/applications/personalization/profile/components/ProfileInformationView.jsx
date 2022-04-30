@@ -20,8 +20,7 @@ import { formatAddress } from '~/platform/forms/address/helpers';
 const shouldShowUnsetFieldTitleSpan = (data, fieldName) => {
   // show if there is no data or a gender identity code is not present in data object
   return (
-    !data ||
-    (fieldName === FIELD_NAMES.GENDER_IDENTITY && !data?.[fieldName]?.code)
+    !data || (fieldName === FIELD_NAMES.GENDER_IDENTITY && !data?.[fieldName])
   );
 };
 

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import * as mockPersonalInfo from '@@profile/mocks/personalInformation';
+import * as mockPersonalInfo from '@@profile/mocks/personal-information';
 import * as vapSvcActions from '@@vap-svc/actions';
 
 import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
@@ -21,7 +21,7 @@ describe('actions/personalInformation', () => {
 
       setFetchJSONResponse(
         global.fetch.onFirstCall(),
-        mockPersonalInfo.basicUserPersonalInfoResponse,
+        mockPersonalInfo.basicUserPersonalInfo,
       );
       actionCreator = personalInformationActions.fetchPersonalInformation(
         false,
@@ -57,7 +57,7 @@ describe('actions/personalInformation', () => {
       );
 
       expect(dispatch.secondCall.args[0].personalInformation).to.deep.equal(
-        mockPersonalInfo.basicUserPersonalInfoResponse.data.attributes,
+        mockPersonalInfo.basicUserPersonalInfo.data.attributes,
       );
     });
   });
@@ -71,7 +71,7 @@ describe('actions/personalInformation', () => {
 
         setFetchJSONResponse(
           global.fetch.onFirstCall(),
-          mockPersonalInfo.makePutPreferredNameSuccessResponse('George'),
+          mockPersonalInfo.createPutPreferredNameSuccess('George'),
         );
 
         actionCreator = personalInformationActions.createPersonalInfoUpdate({
@@ -135,7 +135,7 @@ describe('actions/personalInformation', () => {
       it('dispatches VAP_SERVICE_TRANSACTION_CLEARED and passes transaction with created transactionId', async () => {
         await actionCreator(dispatch);
 
-        const expected = mockPersonalInfo.makePutPreferredNameSuccessResponse(
+        const expected = mockPersonalInfo.createPutPreferredNameSuccess(
           'George',
         );
 
@@ -159,7 +159,7 @@ describe('actions/personalInformation', () => {
 
         setFetchJSONResponse(
           global.fetch.onFirstCall(),
-          mockPersonalInfo.putPreferredNameFailureResponse,
+          mockPersonalInfo.putBadRequestFailure400,
         );
 
         actionCreator = personalInformationActions.createPersonalInfoUpdate({
@@ -204,7 +204,7 @@ describe('actions/personalInformation', () => {
         );
 
         expect(dispatch.secondCall.args[0].error.errors).to.deep.equal(
-          mockPersonalInfo.putPreferredNameFailureResponse.errors,
+          mockPersonalInfo.putBadRequestFailure400.errors,
         );
 
         expect(dispatch.secondCall.args[0].fieldName).to.equal('preferredName');
