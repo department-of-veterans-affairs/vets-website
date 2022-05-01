@@ -145,7 +145,9 @@ describe('actions/personalInformation', () => {
 
         expect(
           dispatch.lastCall.args[0].transaction.data.attributes.transactionId,
-        ).to.equal(`preferredName_${expected.source_date}`);
+        ).to.equal(
+          `preferredName_${expected.attributes.preferredName.sourceDate}`,
+        );
       });
 
       // TODO: add test for the dispatching fetchPersonalInformation at end of PUT success
