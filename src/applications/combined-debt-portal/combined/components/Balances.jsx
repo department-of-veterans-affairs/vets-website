@@ -25,7 +25,9 @@ export const getLatestDebt = debts => {
           if (!acc) {
             return mostRecentHistory.date;
           }
-          return moment(acc).isAfter(moment(mostRecentHistory.date))
+          return moment(acc, 'MM/DD/YYYY').isAfter(
+            moment(mostRecentHistory.date, 'MM/DD/YYYY'),
+          )
             ? acc
             : mostRecentHistory.date;
         }
@@ -44,14 +46,16 @@ export const calculateTotalBills = bills => {
 
 export const getLatestBills = bills => {
   return bills
-    ? bills.reduce((acc, currDebt) => {
-        if (currDebt.pSStatementDate) {
+    ? bills.reduce((acc, currBill) => {
+        if (currBill.pSStatementDateOutput) {
           if (!acc) {
-            return currDebt.pSStatementDate;
+            return currBill.pSStatementDateOutput;
           }
-          return moment(acc).isAfter(moment(currDebt.pSStatementDate))
+          return moment(acc, 'MM/DD/YYYY').isAfter(
+            moment(currBill.pSStatementDateOutput, 'MM/DD/YYYY'),
+          )
             ? acc
-            : currDebt.pSStatementDate;
+            : currBill.pSStatementDateOutput;
         }
         return acc;
       }, null)
