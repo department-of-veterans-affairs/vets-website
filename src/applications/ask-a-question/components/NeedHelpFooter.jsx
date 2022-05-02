@@ -10,7 +10,7 @@ const NeedHelpFooter = () => {
         Having trouble with the form? Call our toll-free number:
       </p>
       <p>
-        <Telephone contact={CONTACTS['222_VETS']} />
+        <Telephone contact={CONTACTS['222_VETS']} style={{ margin: 0 }} />
         <br />
         TTY:
         <Telephone
