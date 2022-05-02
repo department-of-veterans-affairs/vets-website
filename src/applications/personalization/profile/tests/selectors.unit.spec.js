@@ -527,7 +527,7 @@ describe('selectVAProfilePersonalInformation selector', () => {
     expect(
       selectors.selectVAProfilePersonalInformation(state, 'preferredName'),
     ).to.deep.equal({
-      preferredName: 'Wes',
+      preferredName: 'WES',
     });
   });
 

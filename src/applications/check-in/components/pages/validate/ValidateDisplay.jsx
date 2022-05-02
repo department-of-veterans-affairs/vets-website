@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { VaTextInput } from 'web-components/react-bindings';
 import Date from '@department-of-veterans-affairs/component-library/Date';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+import LanguagePicker from '../../LanguagePicker';
 
 export default function ValidateDisplay({
   header = '',
@@ -47,6 +48,7 @@ export default function ValidateDisplay({
 
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
+      <LanguagePicker />
       <h1>{header || t('check-in-at-va')}</h1>
       <p>
         {subtitle ||

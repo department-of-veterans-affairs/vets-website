@@ -4,7 +4,11 @@ import { useSelector } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 import retryOnce from './retryOnce';
 import { COMPLETE, ERROR, LOADING } from './loadingStatus';
-import { CONVERSATION_ID_KEY, TOKEN_KEY } from './utils';
+import {
+  clearBotSessionStorage,
+  CONVERSATION_ID_KEY,
+  TOKEN_KEY,
+} from './utils';
 
 function useWaitForCsrfToken(props) {
   // Once the feature toggles have loaded, the csrf token updates
@@ -33,6 +37,9 @@ export default function useVirtualAgentToken(props) {
   const [apiSession, setApiSession] = useState('');
   const [csrfTokenLoading, csrfTokenLoadingError] = useWaitForCsrfToken(props);
   const [loadingStatus, setLoadingStatus] = useState(LOADING);
+  const requireAuth = useSelector(
+    state => state.featureToggles.virtualAgentAuth,
+  );
 
   useEffect(
     () => {
@@ -45,6 +52,10 @@ export default function useVirtualAgentToken(props) {
         return apiRequest('/virtual_agent_token', {
           method: 'POST',
         });
+      }
+
+      if (requireAuth) {
+        clearBotSessionStorage();
       }
 
       async function getToken() {

@@ -11,6 +11,7 @@ import { focusElement } from 'platform/utilities/ui';
 import AppointmentBlock from '../../../components/AppointmentBlock';
 import Footer from '../../../components/Footer';
 import BackToHome from '../../../components/BackToHome';
+import LanguagePicker from '../../../components/LanguagePicker';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
@@ -115,6 +116,7 @@ const IntroductionDisplay = props => {
       className="vads-l-grid-container vads-u-padding-top--3 vads-u-padding-bottom--3"
       data-testid="intro-wrapper"
     >
+      <LanguagePicker />
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
         {t('answer-pre-check-in-questions')}
       </h1>

@@ -37,7 +37,7 @@ export function directDepositDescription() {
   return (
     <div>
       <p>
-        VA makes payments only through direct deposit, also called electronic
+        VA makes payments through only direct deposit, also called electronic
         funds transfer (EFT). The only exception is for participants in the
         Post-Vietnam Era Veterans’ Educational Assistance Program (VEAP).
       </p>
