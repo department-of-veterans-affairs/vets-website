@@ -12,16 +12,19 @@ import {
   updateFormAction,
 } from '../../../actions/pre-check-in';
 
-import { useFormRouting } from '../../../hooks/useFormRouting';
-
 import { makeSelectCurrentContext } from '../../../selectors';
+import { preCheckinAlreadyCompleted } from '../../../utils/appointment';
+import { URLS } from '../../../utils/navigation';
+import { useFormRouting } from '../../../hooks/useFormRouting';
+import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
 const Introduction = props => {
   const { router } = props;
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
+  const { goToErrorPage, jumpToPage } = useFormRouting(router);
+  const { setPreCheckinComplete } = useSessionStorage();
 
-  const { goToErrorPage } = useFormRouting(router);
   // select token from redux store
   const dispatch = useDispatch();
   const dispatchSetVeteranData = useCallback(
@@ -51,6 +54,12 @@ const Introduction = props => {
           const { payload } = json;
           //  set data to state
           dispatchSetVeteranData(payload);
+
+          if (preCheckinAlreadyCompleted(payload.appointments)) {
+            setPreCheckinComplete(window, true);
+            jumpToPage(URLS.COMPLETE);
+          }
+
           // hide loading screen
           setIsLoading(false);
         })
@@ -58,7 +67,13 @@ const Introduction = props => {
           goToErrorPage();
         });
     },
-    [dispatchSetVeteranData, goToErrorPage, token],
+    [
+      dispatchSetVeteranData,
+      goToErrorPage,
+      jumpToPage,
+      setPreCheckinComplete,
+      token,
+    ],
   );
   if (isLoading) {
     return (

@@ -28,6 +28,21 @@ const hasMoreAppointmentsToCheckInto = (appointments, currentAppointment) => {
 };
 
 /**
+ * Check if all appointments have completed pre-check-in.
+ *
+ * @param {Array<Appointment>} appointments
+ */
+const preCheckinAlreadyCompleted = appointments => {
+  // FIXME define checkinstep IENs at a higher level.
+  const hasPreCheckinCompleteStep = checkInStep => checkInStep.ien === 2;
+
+  const preCheckinCompleted = appointment =>
+    appointment.checkInSteps.some(hasPreCheckinCompleteStep);
+
+  return appointments.length && appointments.every(preCheckinCompleted);
+};
+
+/**
  * @param {Array<Appointment>} appointments
  */
 const sortAppointmentsByStartTime = appointments => {
@@ -43,7 +58,7 @@ const sortAppointmentsByStartTime = appointments => {
 };
 
 const removeTimeZone = payload => {
-  // Grabing the appointment payload and stripping out timezone here.
+  // Grabbing the appointment payload and stripping out timezone here.
   // Chip should be handling this but currently isn't, this code may be refactored out.
   const updatedPayload = { ...payload };
   // These fields have a potential to include a time stamp.
@@ -75,5 +90,6 @@ const removeTimeZone = payload => {
 export {
   hasMoreAppointmentsToCheckInto,
   sortAppointmentsByStartTime,
+  preCheckinAlreadyCompleted,
   removeTimeZone,
 };
