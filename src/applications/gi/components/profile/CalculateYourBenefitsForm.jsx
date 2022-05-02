@@ -7,6 +7,8 @@ import ExpandingGroup from '@department-of-veterans-affairs/component-library/Ex
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import recordEvent from 'platform/monitoring/record-event';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
+import environment from 'platform/utilities/environment';
 import AlertBox from '../AlertBox';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
@@ -24,7 +26,6 @@ import { ariaLabels } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
 import LearnMoreLabel from '../LearnMoreLabel';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
 function CalculateYourBenefitsForm({
   calculatorInputChange,
@@ -51,7 +52,7 @@ function CalculateYourBenefitsForm({
   const displayExtensionBeneficiaryZipcode = !inputs.classesoutsideus;
 
   const getExtensions = () => {
-    const facilityMap = profile.attributes.facilityMap;
+    const { facilityMap } = profile.attributes;
     const profileFacilityCode = profile.attributes.facilityCode;
     let extensions;
     if (profileFacilityCode === facilityMap.main.institution.facilityCode) {
@@ -194,7 +195,7 @@ function CalculateYourBenefitsForm({
 
   const updateEligibility = e => {
     const field = e.target.name;
-    const value = e.target.value;
+    const { value } = e.target;
     recordEvent({
       event: 'gibct-form-change',
       'gibct-form-field': field,
@@ -213,7 +214,7 @@ function CalculateYourBenefitsForm({
   };
 
   const handleExtensionChange = event => {
-    const value = event.target.value;
+    const { value } = event.target;
     const zipCode = value.slice(value.indexOf('-') + 1);
 
     if (!event.dirty) {
@@ -463,7 +464,7 @@ function CalculateYourBenefitsForm({
           />
           <Dropdown
             label="Division or school"
-            name={'yellowRibbonDivision'}
+            name="yellowRibbonDivision"
             alt="Division or school"
             disabled={yellowRibbonDivisionOptions.length <= 1}
             hideArrows={yellowRibbonDivisionOptions.length <= 1}
@@ -843,7 +844,7 @@ function CalculateYourBenefitsForm({
           }
           onChange={handleHasClassesOutsideUSChange}
           checked={inputs.classesoutsideus}
-          name={'classesOutsideUS'}
+          name="classesOutsideUS"
         />
       );
     }
@@ -1046,6 +1047,7 @@ function CalculateYourBenefitsForm({
             giBillChapterOpen={[displayedInputs?.giBillBenefit]}
           >
             {renderGbBenefit()}
+            {!environment.isProduction() && renderOnlineClasses()}
           </BenefitsForm>
         </div>
         {renderUpdateBenefitsButton(name)}
@@ -1114,7 +1116,7 @@ function CalculateYourBenefitsForm({
         }
       >
         <div className="calculator-form">
-          {renderOnlineClasses()}
+          {environment.isProduction() && renderOnlineClasses()}
           {renderExtensionBeneficiaryZIP()}
           {renderWorking()}
         </div>
