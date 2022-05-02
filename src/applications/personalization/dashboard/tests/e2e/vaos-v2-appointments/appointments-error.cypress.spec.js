@@ -1,6 +1,7 @@
 import { mockUser } from '@@profile/tests/fixtures/users/user';
 
 import { v2 } from '../../../mocks/appointments';
+import { generateFeatureToggles } from '../../../mocks/feature-toggles';
 
 import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 
@@ -12,6 +13,12 @@ describe('MyVA Dashboard - Appointments - v2', () => {
   beforeEach(() => {
     mockLocalStorage();
     cy.login(mockUser);
+    cy.intercept(
+      '/v0/feature_toggles*',
+      generateFeatureToggles({
+        profileUseVaosV2Api: true,
+      }),
+    );
   });
   context('when there is a 500 error fetching  appointments', () => {
     it('should show the appointments error alert and never call the facilities API - C15725', () => {
