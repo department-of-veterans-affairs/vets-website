@@ -14,8 +14,8 @@ const typeOptions = { delay: 0 };
 const fillAdditionalSources = ({ additionalSources }) => {
   const { name, amount } = additionalSources[0];
   cy.findByText(/add another/i).click();
-  cy.findByLabelText(/source/i).type(name);
-  cy.findByLabelText(/amount/i).type(amount);
+  cy.findByLabelText(/source/i).type(name, typeOptions);
+  cy.findByLabelText(/amount/i).type(amount, typeOptions);
   cy.findByText(/^Save$/).click();
 };
 
