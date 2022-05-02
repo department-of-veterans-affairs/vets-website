@@ -12,8 +12,6 @@ if (!fs.existsSync(styleLintReport)) {
 const styleLintData = JSON.parse(fs.readFileSync(styleLintReport));
 
 styleLintData.forEach(fileMessages => {
-  // if (!fileMessages.errored) return;
-
   for (const [key, value] of Object.entries(fileMessages)) {
     if (key !== 'source' && key !== 'errored' && value.length) {
       fileMessages[key].forEach(fileMessage => {
