@@ -12,13 +12,11 @@ import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-li
 const mockStore = configureMockStore();
 const generateState = ({
   loginGovOff = false,
-  loginGovMHV = false,
   loginGovCerner = false,
   loginGovCreateAccount = false,
 }) => ({
   featureToggles: {
     login_gov_disabled: loginGovOff,
-    login_gov_mhv: loginGovMHV,
     login_gov_myvahealth: loginGovCerner,
     login_gov_create_account: loginGovCreateAccount,
   },
@@ -122,7 +120,6 @@ describe('LoginContainer - mapStateToProps', () => {
       loggedOut: true,
       loginGovOff: false,
       loginGovCreateAccountEnabled: false,
-      loginGovMHVEnabled: false,
       loginGovMyVAHealthEnabled: false,
     });
   });
@@ -130,7 +127,6 @@ describe('LoginContainer - mapStateToProps', () => {
   it('matches the updated state and props', () => {
     initialState = generateState({
       loginGovOff: true,
-      loginGovMHV: false,
       loginGovCerner: true,
       loginGovCreateAccount: true,
     });
@@ -150,7 +146,6 @@ describe('LoginContainer - mapStateToProps', () => {
       loggedOut: false,
       loginGovOff: true,
       loginGovCreateAccountEnabled: true,
-      loginGovMHVEnabled: false,
       loginGovMyVAHealthEnabled: true,
     });
     wrapper.unmount();

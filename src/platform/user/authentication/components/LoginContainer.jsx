@@ -5,7 +5,6 @@ import {
   loginGovDisabled,
   loginGovCreateAccount,
   loginGovMyVAHealth,
-  loginGovMHV,
 } from 'platform/user/authentication/selectors';
 import {
   LoginHeader,
@@ -24,7 +23,6 @@ export const LoginContainer = props => {
     loggedOut,
     loginGovOff,
     loginGovCreateAccountEnabled,
-    loginGovMHVEnabled,
     loginGovMyVAHealthEnabled,
   } = props;
 
@@ -45,7 +43,6 @@ export const LoginContainer = props => {
           <LoginActions
             externalApplication={externalApplication}
             loginGovOff={loginGovOff}
-            loginGovMHVEnabled={loginGovMHVEnabled}
             loginGovMyVAHealthEnabled={loginGovMyVAHealthEnabled}
             loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
           />
@@ -59,7 +56,6 @@ export const LoginContainer = props => {
 function mapStateToProps(state) {
   return {
     loginGovOff: loginGovDisabled(state),
-    loginGovMHVEnabled: loginGovMHV(state),
     loginGovMyVAHealthEnabled: loginGovMyVAHealth(state),
     loginGovCreateAccountEnabled: loginGovCreateAccount(state),
   };
