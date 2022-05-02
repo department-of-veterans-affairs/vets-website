@@ -7,6 +7,8 @@ import get from 'platform/utilities/data/get';
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
+const typeOptions = { delay: 0 };
+
 // Array item autofill gets triggered and fails on additional sources fields, so
 // we script specific steps in page hooks to fill out the pages that have them.
 const fillAdditionalSources = ({ additionalSources }) => {
@@ -21,24 +23,24 @@ const fillNetWorth = data => {
   const { bank, interestBank, ira, stocks, realProperty } = data;
 
   cy.findByLabelText(/cash/i)
-    .clear()
-    .type(bank);
+    .clear(typeOptions)
+    .type(bank, typeOptions);
 
   cy.findByLabelText(/^interest bearing/i)
-    .clear()
-    .type(interestBank);
+    .clear(typeOptions)
+    .type(interestBank, typeOptions);
 
   cy.findByLabelText(/iras/i)
-    .clear()
-    .type(ira);
+    .clear(typeOptions)
+    .type(ira, typeOptions);
 
   cy.findByLabelText(/stocks/i)
-    .clear()
-    .type(stocks);
+    .clear(typeOptions)
+    .type(stocks, typeOptions);
 
   cy.findByLabelText(/real property/i)
-    .clear()
-    .type(realProperty);
+    .clear(typeOptions)
+    .type(realProperty, typeOptions);
 
   fillAdditionalSources(data);
 };
@@ -54,28 +56,28 @@ const fillMonthlyIncome = data => {
   } = data;
 
   cy.findByLabelText(/social security/i)
-    .clear()
-    .type(socialSecurity);
+    .clear(typeOptions)
+    .type(socialSecurity, typeOptions);
 
   cy.findByLabelText(/civil service/i)
-    .clear()
-    .type(civilService);
+    .clear(typeOptions)
+    .type(civilService, typeOptions);
 
   cy.findByLabelText(/railroad/i)
-    .clear()
-    .type(railroad);
+    .clear(typeOptions)
+    .type(railroad, typeOptions);
 
   cy.findByLabelText(/black lung/i)
-    .clear()
-    .type(blackLung);
+    .clear(typeOptions)
+    .type(blackLung, typeOptions);
 
   cy.findByLabelText(/service retirement/i)
-    .clear()
-    .type(serviceRetirement);
+    .clear(typeOptions)
+    .type(serviceRetirement, typeOptions);
 
   cy.findByLabelText(/supplemental security/i)
-    .clear()
-    .type(ssi);
+    .clear(typeOptions)
+    .type(ssi, typeOptions);
 
   fillAdditionalSources(data);
 };
@@ -84,12 +86,12 @@ const fillExpectedIncome = data => {
   const { salary, interest } = data;
 
   cy.findByLabelText(/salary/i)
-    .clear()
-    .type(salary);
+    .clear(typeOptions)
+    .type(salary, typeOptions);
 
   cy.findByLabelText(/interest/i)
-    .clear()
-    .type(interest);
+    .clear(typeOptions)
+    .type(interest, typeOptions);
 
   fillAdditionalSources(data);
 };
@@ -171,7 +173,10 @@ const testConfig = createTestConfig(
         cy.fillPage();
 
         cy.get('@testData').then(data => {
-          cy.findByLabelText(/how many times/i).type(data.marriages.length);
+          cy.findByLabelText(/how many times/i).type(
+            data.marriages.length,
+            typeOptions,
+          );
         });
       },
 
