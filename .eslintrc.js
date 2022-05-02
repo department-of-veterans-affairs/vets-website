@@ -229,6 +229,17 @@ module.exports = {
         ],
       },
     ],
+    'react/forbid-dom-props': [
+      1,
+      {
+        forbid: [
+          {
+            propName: 'style',
+            message: 'Custom message about not using style prop goes here',
+          },
+        ],
+      },
+    ],
   },
   overrides: [
     {
