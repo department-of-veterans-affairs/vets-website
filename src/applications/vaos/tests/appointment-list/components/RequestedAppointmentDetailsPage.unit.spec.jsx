@@ -146,7 +146,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       'Cheyenne, WyomingWY 82001-5356',
     );
     expect(screen.baseElement).to.contain.text('Main phone:');
-    expect(screen.baseElement).to.contain.text('307-778-7550');
+    expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Preferred date and time');
     expect(screen.baseElement).to.contain.text(
       `${moment(appointment.attributes.optionDate1).format(
@@ -183,7 +183,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).to.contain.text('New issue');
     expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
     expect(screen.baseElement).to.contain.text('patient.test@va.gov');
-    expect(screen.baseElement).to.contain.text('703-652-0000');
+    expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Call morning');
   });
 
@@ -718,7 +718,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       'Cheyenne, WyomingWY 82001-5356',
     );
     expect(screen.baseElement).to.contain.text('Main phone:');
-    expect(screen.baseElement).to.contain.text('307-778-7550');
+    expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Preferred type of appointment');
     expect(screen.baseElement).to.contain.text('Office visit');
     expect(screen.baseElement).to.contain.text('Preferred date and time');
@@ -763,7 +763,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
 
     expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
     expect(screen.baseElement).to.contain.text('veteranemailtest@va.gov');
-    expect(screen.baseElement).to.contain.text('212-555-1212');
+    expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Call morning');
   });
 
