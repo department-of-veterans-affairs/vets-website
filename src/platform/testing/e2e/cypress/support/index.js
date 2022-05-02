@@ -33,11 +33,13 @@ Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
   if (options?.delay) {
     newOptions = options;
   } else {
+    // This removes the default 10 ms delay in cy.type().
     newOptions = { ...options, delay: 0 };
   }
   return originalFn(element, text, newOptions);
 });
 
+// This removes the default 10 ms delay in cy.clear().
 Cypress.Commands.overwrite('clear', (originalFn, element) => {
   return originalFn(element, { delay: 0 });
 });
