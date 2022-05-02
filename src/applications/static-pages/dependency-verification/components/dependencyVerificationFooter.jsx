@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const DependencyVerificationFooter = ({ handleCloseAndUpdateDiaries }) => {
   return (
@@ -8,6 +9,7 @@ const DependencyVerificationFooter = ({ handleCloseAndUpdateDiaries }) => {
         onClick={() => {
           handleCloseAndUpdateDiaries(true);
         }}
+        type="button"
       >
         This is correct
       </button>
@@ -15,11 +17,16 @@ const DependencyVerificationFooter = ({ handleCloseAndUpdateDiaries }) => {
         onClick={() => {
           handleCloseAndUpdateDiaries(false);
         }}
+        type="button"
       >
         Change dependents
       </button>
     </div>
   );
+};
+
+DependencyVerificationFooter.propTypes = {
+  handleCloseAndUpdateDiaries: PropTypes.func,
 };
 
 export default DependencyVerificationFooter;
