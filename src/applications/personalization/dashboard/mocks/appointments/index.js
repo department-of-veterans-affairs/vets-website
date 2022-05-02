@@ -1,7 +1,7 @@
 const { MOCK_VA_APPOINTMENTS } = require('./MOCK_VA_APPOINTMENTS');
 const { MOCK_CC_APPOINTMENTS } = require('./MOCK_CC_APPOINTMENTS');
 
-const { createVaosAppointment } = require('./vaos-v2');
+const { createVaosAppointment, createVaosError } = require('./vaos-v2');
 
 const createAppointmentSuccess = type => {
   if (type === 'va') {
@@ -26,5 +26,5 @@ const createV2AppointmentSuccess = () => {
 
 module.exports = {
   v0: { createAppointmentSuccess },
-  v2: { createV2AppointmentSuccess },
+  v2: { createAppointmentSuccess: createV2AppointmentSuccess, createVaosError },
 };

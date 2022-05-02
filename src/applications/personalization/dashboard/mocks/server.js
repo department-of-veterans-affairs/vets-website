@@ -59,7 +59,7 @@ const responses = {
     return res.status(400).json({ bad: 'type' });
   },
   'GET /vaos/v2/appointments': (_req, res) => {
-    const rv = v2.createV2AppointmentSuccess();
+    const rv = v2.createAppointmentSuccess();
     return res.status(200).json(rv);
   },
 };
