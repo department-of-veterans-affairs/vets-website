@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 const ErrorMessage = ({ header, message, showAlert = true }) => {
   const { t } = useTranslation();
-  const errorHeader = header ?? t('we-couldnt-check-you-in');
+  const errorHeader = header ?? t('sorry-we-cant-complete-pre-check-in');
   const errorMessage = message ?? (
     <p>
       {t(

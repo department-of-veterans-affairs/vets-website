@@ -7,7 +7,7 @@ class Error {
       : 'We’re sorry. Something went wrong on our end. Please try again.';
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', "We couldn't complete pre-check-in");
+      .and('have.text', 'Sorry, we can’t complete pre-check-in');
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
       .contains(messageText);
