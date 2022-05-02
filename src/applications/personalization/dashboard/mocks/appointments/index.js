@@ -14,13 +14,11 @@ const createAppointmentSuccess = type => {
   return {};
 };
 
-const createV2AppointmentSuccess = () => {
+const createV2AppointmentSuccess = ({
+  startsInDays = [1, 10, 30, 50],
+} = {}) => {
   return {
-    data: [
-      createVaosAppointment({ startsInDays: 1 }),
-      createVaosAppointment({ startsInDays: 10 }),
-      createVaosAppointment({ startsInDays: 30 }),
-    ],
+    data: [...startsInDays.map(days => createVaosAppointment(days))],
   };
 };
 
