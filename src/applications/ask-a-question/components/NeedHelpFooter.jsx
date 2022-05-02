@@ -6,7 +6,9 @@ import Telephone, {
 const NeedHelpFooter = () => {
   return (
     <footer>
-      <p>Having trouble with the form? Call our toll-free number:</p>
+      <p style={{ margin: 0 }}>
+        Having trouble with the form? Call our toll-free number:
+      </p>
       <p>
         <Telephone contact={CONTACTS['222_VETS']} />
         <br />
