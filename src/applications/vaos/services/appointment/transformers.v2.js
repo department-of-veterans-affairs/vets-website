@@ -133,12 +133,16 @@ export function transformVAOSAppointment(appt) {
         'YYYY-MM-DDTHH:mm:ss',
       )}.999`,
     }));
+    const hasReasonCode = appt.reasonCode?.coding?.length > 0;
+    const reason = hasReasonCode
+      ? PURPOSE_TEXT.find(
+          purpose => purpose.serviceName === appt.reasonCode?.coding?.[0].code,
+        )?.short
+      : null;
     requestFields = {
       requestedPeriod: reqPeriods,
       created,
-      reason: PURPOSE_TEXT.find(
-        purpose => purpose.serviceName === appt.reasonCode?.coding?.[0].code,
-      )?.short,
+      reason,
       preferredTimesForPhoneCall: appt.preferredTimesForPhoneCall,
       requestVisitType: getTypeOfVisit(appt.kind),
       type: {

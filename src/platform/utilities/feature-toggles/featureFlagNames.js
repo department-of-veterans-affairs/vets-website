@@ -59,6 +59,7 @@ export default Object.freeze({
   findFormsShowPdfModal: 'find_forms_show_pdf_modal',
   fileUploadShortWorkflowEnabled: 'file_upload_short_workflow_enabled',
   form10182Nod: 'form10182_nod',
+  fsrConfirmationEmail: 'fsr_confirmation_email',
   gibctEybBottomSheet: 'gibct_eyb_bottom_sheet',
   gibctSchoolRatings: 'gibct_school_ratings',
   giSandboxComparisonToolToggle: 'gi_sandbox_comparision_tool_toggle',

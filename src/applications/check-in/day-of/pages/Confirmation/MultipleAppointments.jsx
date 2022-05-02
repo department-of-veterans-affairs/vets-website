@@ -10,6 +10,7 @@ import BackToAppointments from '../../../components/BackToAppointments';
 import Footer from '../../../components/Footer';
 import AppointmentLocation from '../../../components/AppointmentDisplay/AppointmentLocation';
 import TravelPayReimbursementLink from '../../../components/TravelPayReimbursementLink';
+import LanguagePicker from '../../../components/LanguagePicker';
 
 const MultipleAppointments = props => {
   const { appointments, selectedAppointment, triggerRefresh } = props;
@@ -25,6 +26,7 @@ const MultipleAppointments = props => {
       className="vads-l-grid-container vads-u-padding-y--5"
       data-testid="multiple-appointments-confirm"
     >
+      <LanguagePicker />
       <VaAlert status="success" onVa-component-did-load={focusOnLoad}>
         <h1
           tabIndex="-1"
