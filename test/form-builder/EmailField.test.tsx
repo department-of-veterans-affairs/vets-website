@@ -8,7 +8,6 @@ import EmailField from '../../src/form-builder/EmailField';
 const renderForm = buildRenderForm({});
 
 const getInput = (container: HTMLElement): JSX.Element => {
-  console.log(container);
   const input = container.querySelector('va-text-input') as JSX.Element;
   if (!input) throw new Error('No va-email-input found');
   return input;

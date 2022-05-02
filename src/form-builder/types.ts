@@ -29,7 +29,7 @@ export type RadioItemProps = {
   label: string;
   name: string;
   value: string;
-  radioOptionSelected: () => void;
+  onRadioOptionSelected: () => void;
 };
 
 export type CheckboxGroupProps = FieldProps<string> & {

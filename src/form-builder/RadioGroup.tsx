@@ -31,9 +31,15 @@ export function RadioGroup(props: RadioGroupProps): JSX.Element {
       {...field}
       error={(meta.touched && meta.error) || undefined}
       onRadioOptionSelected={handleRadioSelected}
+      onVaValueChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+        // Typed this as an event when passing into the function for safety, but event does not have property 'detail' on it.
+        const e: any = event;
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        helpers.setValue(e.detail.value);
+      }}
     >
       {options.map((option: ReactElement<RadioItemProps>, index: number) => {
-        return <VaRadioOption {...option} key={`${field.name}-${index}`} />;
+           return <VaRadioOption data-testid={`${field.name}-${index}`} {...option} key={`${field.name}-${index}`} />
       })}
     </VaRadio>
   );

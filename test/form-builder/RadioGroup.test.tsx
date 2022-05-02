@@ -1,6 +1,5 @@
 import React from 'react';
-import { waitFor } from '@testing-library/react';
-
+import { fireEvent, getByTestId, waitFor } from '@testing-library/react';
 import { RadioGroup } from '../../src/form-builder/RadioGroup';
 import { buildRenderForm } from '../utils';
 
@@ -16,11 +15,11 @@ const getInput = (container: HTMLElement) => {
     <RadioGroup 
       name="radio-test"
       class="radio-test-class"
-      label="Radio Button"
+      label="Radio Group"
       options={
         [
-          {label: "Yes", name: "yes", value: "yes", key: 1}, 
-          {label: "No", name: "no", value: "no", key: 2}
+          {label: "Yes", name: "yes", value: "yes", key: 1, checked: true}, 
+          {label: "No", name: "no", value: "no", key: 2, checked: false}
         ]
       }
       required
@@ -30,7 +29,7 @@ const getInput = (container: HTMLElement) => {
   const testComponentErrorMessage = (
     <RadioGroup 
       name="radio-test"
-      label="Radio Button"
+      label="Radio Group"
       options={
         [
           {label: "Yes", name: "yes", value: "yes", key: 1}, 
@@ -45,7 +44,7 @@ describe('Form Builder - RadioGroup', () => {
   test('renders', () => {
     const { container } = renderForm(testComponent);
     const input = getInput(container);
-    expect(input.getAttribute('label')).toEqual('Radio Button');
+    expect(input.getAttribute('label')).toEqual('Radio Group');
     expect(input.getAttribute('name')).toEqual('radio-test');
   });
 
@@ -74,4 +73,20 @@ describe('Form Builder - RadioGroup', () => {
     const vaRadioGroup = container.querySelector('va-radio') as HTMLElement;
     expect(vaRadioGroup?.getAttribute('value')).toBe("false");
   });
+
+  //This test renders a checked value and checks that value, but we cannot test on the click event. 
+  //Due to web component's use of the shadow DOM, React Testing Library cannot find the select event on the VaSelect component
+  //Recommend to update this test at a later date when these issues are resolved
+  //https://github.com/testing-library/dom-testing-library/issues/413
+  //https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/671
+  test('checks for available options and checks intitial selected option', async () => {
+    const renderForm = buildRenderForm({ "radio-test": false }); 
+    const {container} = renderForm(testComponent);
+    await waitFor(() => {
+      const el = getByTestId(container, 'radio-test-0');
+      el.focus();
+      fireEvent.click(el);
+      expect(el.getAttribute('checked')).toBeTruthy();
+    });
+  })
 });
