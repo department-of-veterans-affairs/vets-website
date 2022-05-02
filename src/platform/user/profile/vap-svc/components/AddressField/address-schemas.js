@@ -237,6 +237,10 @@ const uiSchema = {
       widgetClassNames: 'usa-input-medium',
       hideIf: formData => formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
     },
+    'ui:required': formData => {
+      // TODO: remove this after validation has occurred
+      return formData.countryCodeIso3 !== USA.COUNTRY_ISO3_CODE;
+    },
   },
 };
 
