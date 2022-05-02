@@ -52,6 +52,7 @@ async function main() {
     if (true) {
       const { status } = await octokit.createRef();
       if (status === 201) {
+        // grab newly created ref from response
         // commit file
         // submit pr
       }

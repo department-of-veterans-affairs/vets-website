@@ -1,8 +1,9 @@
 const { Octokit } = require('octokit');
 const { createAppAuth } = require('@octokit/auth-app');
 
-const constants = require('./constants');
 const githubAppCredentials = require('./github-app-credentials');
+const constants = require('./constants');
+const { getDateTime } = require('./helpers');
 
 class GitHub {
   constructor() {
@@ -38,15 +39,18 @@ class GitHub {
       const response = await this.octokit.rest.repos.getBranch({
         owner: constants.owner,
         repo: constants.repo,
+        branch: constants.branch,
         path: constants.repo.path,
-        branch: 'main',
       });
+
+      const ref = `${constants.ref}_${getDateTime()}`;
+      const { sha } = response.data.commit;
 
       return this.octokit.rest.git.createRef({
         owner: constants.owner,
         repo: constants.repo,
-        ref: constants.ref,
-        sha: response.data.commit.sha,
+        ref,
+        sha,
       });
     } catch (e) {
       return e;
