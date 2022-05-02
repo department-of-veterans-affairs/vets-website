@@ -13,7 +13,7 @@ const styleLintData = JSON.parse(fs.readFileSync(styleLintReport));
 
 styleLintData.forEach(fileMessages => {
   for (const [key, value] of Object.entries(fileMessages)) {
-    if (key !== 'source' && value.length) {
+    if (key !== 'source' && key !== 'errored' && value.length) {
       fileMessages[key].forEach(fileMessage => {
         const { severity, column, line, text } = fileMessage;
         const filePath = fileMessages.source;
