@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { VaTelephone } from 'web-components/react-bindings';
 import { Link } from 'react-router-dom';
 import { getRealFacilityId } from '../../../utils/appointment';
 import newAppointmentFlow from '../../newAppointmentFlow';
@@ -19,12 +17,15 @@ function UrgentCareMessage() {
       </p>
       <ul>
         <li>
-          Call <Telephone contact="911" />,{' '}
+          Call <VaTelephone contact="911" />,{' '}
           <span className="vads-u-font-weight--bold">or</span>
         </li>
         <li>
           Call the Veterans Crisis hotline at{' '}
-          <Telephone contact={CONTACTS.CRISIS_LINE} /> and select 1,{' '}
+          <VaTelephone
+            contact="800-273-8255"
+            data-testid="crisis-hotline-telephone"
+          />{' '}
           <span className="vads-u-font-weight--bold">or</span>
         </li>
         <li>Go to your nearest emergency room or VA medical center</li>
@@ -152,10 +153,11 @@ export const WaitTimeAlert = ({
 };
 
 WaitTimeAlert.propTypes = {
+  facilityId: PropTypes.string.isRequired,
   preferredDate: PropTypes.string.isRequired,
+  eligibleForRequests: PropTypes.bool,
   nextAvailableApptDate: PropTypes.string,
   typeOfCareId: PropTypes.string,
-  eligibleForRequests: PropTypes.bool,
   onClickRequest: PropTypes.func,
 };
 
