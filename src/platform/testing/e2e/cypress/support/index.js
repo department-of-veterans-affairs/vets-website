@@ -38,6 +38,10 @@ Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
   return originalFn(element, text, newOptions);
 });
 
+Cypress.Commands.overwrite('clear', (originalFn, element) => {
+  return originalFn(element, { delay: 0 });
+});
+
 Cypress.on('uncaught:exception', () => {
   return false;
 });
