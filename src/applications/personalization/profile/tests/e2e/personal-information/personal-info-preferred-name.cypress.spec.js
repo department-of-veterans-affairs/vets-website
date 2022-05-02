@@ -1,9 +1,9 @@
 import { setup } from '@@profile/tests/e2e/personal-information/setup';
 import {
-  basicUserPersonalInfoResponse,
-  putPreferredNameFailureResponse,
-  makePutPreferredNameSuccessResponse,
-} from '@@profile/mocks/personalInformation';
+  basicUserPersonalInfo,
+  putBadRequestFailure,
+  createPutPreferredNameSuccess,
+} from '@@profile/mocks/personal-information';
 import set from 'lodash/set';
 
 describe('Preferred name field tests on the personal information page', () => {
@@ -53,16 +53,16 @@ describe('Preferred name field tests on the personal information page', () => {
     cy.intercept(
       'PUT',
       'v0/profile/preferred_names',
-      makePutPreferredNameSuccessResponse(updatedName.toUpperCase()),
+      createPutPreferredNameSuccess(updatedName),
     );
 
     cy.intercept('GET', 'v0/profile/personal_information*', req => {
       if (req?.query?.now) {
         req.reply(
           set(
-            { ...basicUserPersonalInfoResponse },
+            { ...basicUserPersonalInfo },
             'data.attributes.preferredName',
-            updatedName.toUpperCase(),
+            updatedName,
           ),
         );
       }
@@ -93,11 +93,7 @@ describe('Preferred name field tests on the personal information page', () => {
 
     const updatedName = 'George';
 
-    cy.intercept(
-      'PUT',
-      'v0/profile/preferred_names',
-      putPreferredNameFailureResponse,
-    );
+    cy.intercept('PUT', 'v0/profile/preferred_names', putBadRequestFailure);
 
     const nameEditButtonLabel = 'Edit Preferred name';
     const nameEditInputField = 'input[name="root_preferredName"]';

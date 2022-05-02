@@ -101,7 +101,7 @@ export function createPersonalInfoUpdate({
       set(
         transaction,
         'data.attributes.transactionId',
-        `${fieldName}_${transaction.source_date}`,
+        `${fieldName}_${transaction?.attributes?.[fieldName]?.sourceDate}`,
       );
 
       dispatch({
