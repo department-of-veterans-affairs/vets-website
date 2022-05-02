@@ -66,7 +66,7 @@ export const personalInformationFormSchemas = {
     properties: {
       preferredName: {
         type: 'string',
-        pattern: '^[A-Za-z\\s]+$',
+        pattern: '^[A-Za-z]+$',
         minLength: 1,
         maxLength: 25,
       },
@@ -113,7 +113,7 @@ export const personalInformationUiSchemas = {
       'ui:widget': TextWidget,
       'ui:title': `Provide your preferred name (25 characters maximum)`,
       'ui:errorMessages': {
-        pattern: 'Preferred name required',
+        pattern: 'This field accepts alphabetic characters only',
       },
     },
   },

@@ -859,10 +859,10 @@ const formConfig = {
                 <va-alert status="info">
                   <>
                     If you choose to get text message notifications from VA’s GI
-                    Bill program, message and data rates may apply. Two messages
-                    per month. At this time, we can only send text messages to
-                    U.S. mobile phone numbers. Text STOP to opt out or HELP for
-                    help.{' '}
+                    Bill program, message and data rates may apply. Students
+                    will receive an average of two messages per month. At this
+                    time, we can only send text messages to U.S. mobile phone
+                    numbers. Text STOP to opt out or HELP for help.{' '}
                     <a
                       href="https://benefits.va.gov/gibill/isaksonroe/verification_of_enrollment.asp"
                       rel="noopener noreferrer"

@@ -12,6 +12,9 @@ export const fsrFeatureToggle = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.showFinancialStatusReport];
 };
 
+export const fsrConfirmationEmailToggle = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.fsrConfirmationEmail];
+
 export const allEqual = arr => arr.every(val => val === arr[0]);
 
 export const dateFormatter = date => {

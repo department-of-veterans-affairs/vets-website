@@ -114,7 +114,7 @@ const PersonalInformationSection = ({
             personal information.
           </p>
 
-          <a href="/find-locations/">Find you nearest VA medical center</a>
+          <a href="/find-locations/">Find your nearest VA medical center</a>
 
           <p className="vads-u-margin-bottom--0">
             <span className="vads-u-font-weight--bold vads-u-display--block">

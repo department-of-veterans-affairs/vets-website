@@ -9,6 +9,7 @@ import mockProfileEnhancementsToggles from '@@profile/tests/fixtures/personal-in
 export const setup = (options = { personalInfo: null, isEnhanced: false }) => {
   cy.login(mockUser);
   cy.intercept(
+    'GET',
     'v0/profile/personal_information',
     options.personalInfo ||
       (options.isEnhanced
