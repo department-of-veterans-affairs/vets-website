@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
-  ssoe,
   loginGovDisabled,
   loginGovCreateAccount,
   loginGovMyVAHealth,
@@ -59,7 +58,6 @@ export const LoginContainer = props => {
 
 function mapStateToProps(state) {
   return {
-    useSSOe: ssoe(state),
     loginGovOff: loginGovDisabled(state),
     loginGovMHVEnabled: loginGovMHV(state),
     loginGovMyVAHealthEnabled: loginGovMyVAHealth(state),

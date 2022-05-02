@@ -17,7 +17,6 @@ const generateState = ({
   loginGovCreateAccount = false,
 }) => ({
   featureToggles: {
-    ssoe: true,
     login_gov_disabled: loginGovOff,
     login_gov_mhv: loginGovMHV,
     login_gov_myvahealth: loginGovCerner,
