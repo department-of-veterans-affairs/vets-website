@@ -1,6 +1,6 @@
 const glob = require('glob');
-const fs = require('fs');
 
+const GitHub = require('./github');
 const Products = require('./products');
 const PackageDependencies = require('./package-dependencies');
 const CrossProductDependencies = require('./cross-product-dependencies');
@@ -27,50 +27,37 @@ async function main() {
   });
   crossProductDependencies.setDependencies();
 
-  const csv = await fs.promises.readFile(
-    `${
-      process.env.PWD
-    }/script/github-actions/daily-product-dependency-scan/product-directory.csv`,
-    'utf8',
-  );
+  const octokit = new GitHub();
+  const response = await octokit.getProductDirectory();
 
-  const csvLines = removeCarriageReturn(transformCsvToScsv(csv).split('\n'));
+  if (response.status === 200) {
+    const csv = response.data;
+    const csvLines = removeCarriageReturn(transformCsvToScsv(csv).split('\n'));
 
-  const dependencyDiffer = new DependencyDiffer({
-    emptyProductDirectory: new Csv({
+    const emptyProductDirectory = new Csv({
       headings: new Headings({ csvLine: csvLines.slice(0, 1)[0] }),
       rows: new Rows({ csvLines: [] }),
-    }),
-  });
+    });
 
-  dependencyDiffer.diff({
-    products,
-    productDirectory: new Csv({
+    const productDirectory = new Csv({
       headings: new Headings({ csvLine: csvLines.slice(0, 1)[0] }),
       rows: new Rows({ csvLines: csvLines.slice(1) }),
-    }),
-  });
+    });
 
-  // eslint-disable-next-line no-console
-  console.log('dependenciesChanged: ', dependencyDiffer.dependenciesChanged);
+    const dependencyDiffer = new DependencyDiffer({ emptyProductDirectory });
+    dependencyDiffer.diff({ productDirectory });
 
-  if (dependencyDiffer.dependenciesChanged) {
-    // submit pr
-
-    // delete the following before submitting pr
-    // eslint-disable-next-line func-names
-    fs.writeFileSync(
-      'updated-product-directory.csv',
-      dependencyDiffer.updatedProductDirectory.generateOutput(),
-
-      // eslint-disable-next-line func-names
-      function(err) {
-        if (err) {
-          // eslint-disable-next-line no-console
-          console.log(err);
-        }
-      },
-    );
+    // if (dependencyDiffer.dependenciesChanged) {
+    // eslint-disable-next-line no-constant-condition
+    if (true) {
+      const { status } = await octokit.createRef();
+      if (status === 201) {
+        // commit file
+        // submit pr
+      }
+    }
+  } else {
+    // fail
   }
 }
 

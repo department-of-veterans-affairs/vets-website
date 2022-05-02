@@ -16,7 +16,6 @@ class DependencyDiffer {
         Compare package dependencies for given product
         */
         const { packageDependencyIndex } = productDirectory.headings;
-
         let csvPackageDependencies = fields[packageDependencyIndex]
           .replace(/"/g, '')
           .split(',');
