@@ -61,7 +61,7 @@ const App = ({ toggleLoginModal, user }) => {
 
         <p className="va-introtext">
           If you’re a Veteran and you recently received your VA education
-          decision letters, you can download them now.
+          decision letter, you can download it now.
         </p>
 
         {renderUI()}
