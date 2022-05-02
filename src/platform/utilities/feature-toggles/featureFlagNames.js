@@ -118,7 +118,6 @@ export default Object.freeze({
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
   ssoe: 'ssoe',
   ssoeEbenefitsLinks: 'ssoe_ebenefits_links',
-  ssoeInbound: 'ssoe_inbound',
   stemAutomatedDecision: 'stem_automated_decision',
   stemSCOEmail: 'stem_sco_email',
   subform89404192: 'subform_8940_4192',

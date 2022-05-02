@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 
 import { checkKeepAlive } from 'platform/user/authentication/actions';
 import {
-  ssoeInbound,
   hasCheckedKeepAlive,
   ssoeTransactionId,
 } from 'platform/user/authentication/selectors';
@@ -16,7 +15,6 @@ import { removeLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 
 function AutoSSO(props) {
   const {
-    useInboundSSOe,
     hasCalledKeepAlive,
     transactionId,
     loggedIn,
@@ -36,7 +34,6 @@ function AutoSSO(props) {
   if (
     // avoid race condition where hasSession hasn't been set
     isValidPath &&
-    useInboundSSOe &&
     !profileLoading &&
     !hasCalledKeepAlive
   ) {
@@ -54,7 +51,6 @@ const mapStateToProps = state => ({
   hasCalledKeepAlive: hasCheckedKeepAlive(state),
   profileLoading: isProfileLoading(state),
   loggedIn: isLoggedIn(state),
-  useInboundSSOe: ssoeInbound(state),
 });
 
 const mapDispatchToProps = {
