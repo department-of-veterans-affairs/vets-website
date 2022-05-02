@@ -19,9 +19,6 @@ export const loginGovMyVAHealth = state =>
 
 export const ssoe = state => toggleValues(state)[FEATURE_FLAG_NAMES.ssoe];
 
-export const ssoeEbenefitsLinks = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.ssoeEbenefitsLinks];
-
 export const hasCheckedKeepAlive = state =>
   state.user.login.hasCheckedKeepAlive;
 
