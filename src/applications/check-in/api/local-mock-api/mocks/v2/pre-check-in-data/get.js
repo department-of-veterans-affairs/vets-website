@@ -1,4 +1,7 @@
+const format = require('date-fns/format');
+
 const defaultUUID = '0429dda5-4165-46be-9ed1-1e652a8dfd83';
+const alreadyPreCheckedInUUID = '4d523464-c450-49dc-9a18-c04b3f1642ee';
 
 const createMockSuccessResponse = (
   token,
@@ -10,6 +13,34 @@ const createMockSuccessResponse = (
   emergencyContactConfirmedAt = null,
 ) => {
   const mockTime = new Date();
+  let checkInSteps = [];
+  if (token === alreadyPreCheckedInUUID) {
+    const dateFormat = "yyyy-LL-dd'T'HH:mm:ss";
+    // 35 minutes ago.
+    const preCheckinStarted = format(
+      new Date(mockTime.getTime() - 2100000),
+      dateFormat,
+    );
+    // 30 minutes ago.
+    const preCheckinCompleted = format(
+      new Date(mockTime.getTime() - 1800000),
+      dateFormat,
+    );
+
+    checkInSteps = [
+      {
+        status: 'PRE-CHECK-IN STARTED',
+        dateTime: preCheckinStarted,
+        ien: 1,
+      },
+      {
+        status: 'PRE-CHECK-IN COMPLETE',
+        dateTime: preCheckinCompleted,
+        ien: 2,
+      },
+    ];
+  }
+
   return {
     id: token || defaultUUID,
     payload: {
@@ -71,6 +102,7 @@ const createMockSuccessResponse = (
       appointments: [
         {
           facility: 'LOMA LINDA VA CLINIC',
+          checkInSteps,
           clinicPhoneNumber: '5551234567',
           clinicFriendlyName: 'TEST CLINIC',
           clinicName: 'LOM ACC CLINIC TEST',
@@ -84,6 +116,7 @@ const createMockSuccessResponse = (
         },
         {
           facility: 'LOMA LINDA VA CLINIC',
+          checkInSteps,
           clinicPhoneNumber: '5551234567',
           clinicFriendlyName: 'TEST CLINIC',
           clinicName: 'LOM ACC CLINIC TEST',
