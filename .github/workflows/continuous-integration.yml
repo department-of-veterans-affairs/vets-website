@@ -549,16 +549,6 @@ jobs:
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
-      - name: Get Node version
-        id: get-node-version
-        shell: bash
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-
       - name: Install dependencies
         uses: ./.github/workflows/install
         timeout-minutes: 30
