@@ -219,8 +219,10 @@ module.exports = {
     'import/no-named-as-default': 0,
     'import/prefer-default-export': 0,
     'react/forbid-component-props': [
+      // 0 = disabled, 1 = warn, 2 = error,
       1,
       {
+        // array of props that will trigger a warning
         forbid: [
           {
             propName: 'style',
