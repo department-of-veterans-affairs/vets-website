@@ -9,7 +9,7 @@ const ZeroBalanceCard = ({ isDebt }) => {
   return (
     <div
       className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
-      data-testid={`balance-card-${isDebt ? 'debt' : 'copay'}`}
+      data-testid={`zero-balance-card-${isDebt ? 'debt' : 'copay'}`}
     >
       <h3 className="vads-u-margin-top--0" data-testid="card-title">
         {cardTitle}
