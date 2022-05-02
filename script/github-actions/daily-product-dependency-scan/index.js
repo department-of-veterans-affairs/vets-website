@@ -17,21 +17,19 @@ async function main() {
     manifestPaths: glob.sync('src/applications/**/*manifest.json'),
   });
 
-  const packageDependencies = new PackageDependencies({
+  new PackageDependencies({
     products: products.all,
-  });
-  packageDependencies.setDependencies();
+  }).setDependencies();
 
-  const crossProductDependencies = new CrossProductDependencies({
+  new CrossProductDependencies({
     products: products.all,
-  });
-  crossProductDependencies.setDependencies();
+  }).setDependencies();
 
   const octokit = new GitHub();
-  const response = await octokit.getProductDirectory();
+  let response = await octokit.getProductDirectory();
 
   if (response.status === 200) {
-    const csv = response.data;
+    const { data: csv } = response;
     const csvLines = removeCarriageReturn(transformCsvToScsv(csv).split('\n'));
 
     const emptyProductDirectory = new Csv({
@@ -45,21 +43,42 @@ async function main() {
     });
 
     const dependencyDiffer = new DependencyDiffer({ emptyProductDirectory });
-    dependencyDiffer.diff({ productDirectory });
+    dependencyDiffer.diff({ products, productDirectory });
 
     // if (dependencyDiffer.dependenciesChanged) {
     // eslint-disable-next-line no-constant-condition
     if (true) {
-      const { status } = await octokit.createRef();
-      if (status === 201) {
-        // grab newly created ref from response
-        // commit file
-        // submit pr
+      response = await octokit.setLastCommitSha();
+
+      if (response.status === 200) {
+        response = await octokit.createCsvBlob({
+          content: emptyProductDirectory.generateOutput(),
+        });
+
+        if (response.status === 201) {
+          response = await octokit.createTree();
+
+          if (response.status === 201) {
+            response = await octokit.createCommit();
+
+            //   console.log('createCommit() response', response);
+
+            //   if (response.status === 201) {
+            //     // response = await octokit.createRef();
+
+            //     if (response.status === 201) {
+            //       // grab newly created ref from response
+            //       // commit file
+            //       // submit pr
+            //     }
+            //   }
+          }
+        }
       }
     }
-  } else {
-    // fail
   }
+
+  // fail
 }
 
 main();

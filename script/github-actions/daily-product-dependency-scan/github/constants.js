@@ -1,8 +1,8 @@
 const constants = {
   owner: 'holdenhinkle',
   repo: 'product-directory',
-  branch: 'main',
   path: 'product-directory.csv',
+  branch: 'main',
   ref: 'refs/heads/update_depenencies',
 };
 

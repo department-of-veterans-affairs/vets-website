@@ -27,14 +27,14 @@ class GitHub {
         },
         owner: constants.owner,
         repo: constants.repo,
-        path: constants.repo.path,
+        path: constants.path,
       });
     } catch (e) {
       return e;
     }
   }
 
-  async createRef() {
+  async setLastCommitSha() {
     try {
       const response = await this.octokit.rest.repos.getBranch({
         owner: constants.owner,
@@ -43,15 +43,84 @@ class GitHub {
         path: constants.repo.path,
       });
 
-      const ref = `${constants.ref}_${getDateTime()}`;
-      const { sha } = response.data.commit;
+      this.lastCommitSha = response.data.commit.sha;
 
-      return this.octokit.rest.git.createRef({
+      return response;
+    } catch (e) {
+      return e;
+    }
+  }
+
+  async createCsvBlob({ content }) {
+    try {
+      const response = await this.octokit.rest.git.createBlob({
+        owner: constants.owner,
+        repo: constants.repo,
+        content,
+        encoding: 'utf-8',
+      });
+
+      this.utfBlobSha = response.data.sha;
+
+      return response;
+    } catch (e) {
+      return e;
+    }
+  }
+
+  async createTree() {
+    try {
+      const response = await this.octokit.rest.git.createTree({
+        owner: constants.owner,
+        repo: constants.repo,
+        // eslint-disable-next-line camelcase
+        base_tree: this.lastCommitSha,
+        tree: [
+          {
+            path: constants.path,
+            mode: '100644',
+            type: 'blob',
+            sha: this.utfBlobSha,
+          },
+        ],
+      });
+
+      this.treeSha = response.data.sha;
+
+      return response;
+    } catch (e) {
+      return e;
+    }
+  }
+
+  async createRef() {
+    try {
+      const ref = `${constants.ref}_${getDateTime()}`;
+
+      return await this.octokit.rest.git.createRef({
         owner: constants.owner,
         repo: constants.repo,
         ref,
-        sha,
+        sha: this.lastCommitSha,
       });
+    } catch (e) {
+      return e;
+    }
+  }
+
+  async createCommit() {
+    try {
+      const response = await this.octokit.rest.git.createCommit({
+        owner: constants.owner,
+        repo: constants.repo,
+        message: 'Update dependencies in Product Directory',
+        parents: [this.lastCommitSha],
+        tree: this.treeSha,
+      });
+
+      this.newCommitSha = response.data.sha;
+
+      return response;
     } catch (e) {
       return e;
     }
