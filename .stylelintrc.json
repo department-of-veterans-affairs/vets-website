@@ -39,6 +39,13 @@
         "severity": "warning",
         "message": "Please use the corresponding utility class from https://design.va.gov/foundation/utilities/display"
       }
+    ],
+    "selector-class-pattern": [
+      "^(?!vads-)[a-zA-Z]+",
+      {
+        "severity": "warning",
+        "message": "Please do not override Design System utility classes"
+      }
     ]
   }
 }
