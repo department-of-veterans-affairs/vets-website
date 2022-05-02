@@ -9,7 +9,8 @@ describe('check-in', () => {
   describe('ErrorMessage', () => {
     it('Renders default error message', () => {
       const component = render(<ErrorMessage />);
-      expect(component.getByText('We couldn’t check you in')).to.exist;
+      expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
+        .exist;
 
       expect(component.getByTestId('error-message')).to.exist;
       expect(component.getByTestId('error-message')).to.have.text(
