@@ -1,20 +1,13 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import { Form, Formik } from 'formik';
 import {
   CheckboxField,
-  RadioGroup,
-  DateField,
   DebuggerView,
   TextField,
+  CheckboxFieldGroup,
   FullNameField
 } from '@department-of-veterans-affairs/va-forms-system-core';
-
-import CheckboxFieldGroup from '../../src/form-builder/CheckboxFieldGroup';
-
-import '@department-of-veterans-affairs/component-library/dist/main.css';
-import { defineCustomElements } from '@department-of-veterans-affairs/component-library';
 
 const checkboxProps = {
   label: 'What breakfast?',
@@ -55,10 +48,7 @@ const checkboxProps = {
   ],
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-void defineCustomElements();
-
-const App = () => (
+const SimpleApp = () => (
   <div className='vads-u-display--flex vads-u-align-items--center vads-u-flex-direction--column'>
     <h1>Example form</h1>
     <Formik
@@ -74,19 +64,7 @@ const App = () => (
     >
       <Form>
         <CheckboxField name="bar" label="Do you have pets?" required />
-        <RadioGroup 
-          label='Label' 
-          name='radioTest'
-          required
-          options={
-            [
-              {label: 'yes', name: 'yes', value: 'yes', key: 1}, 
-              {label: 'No', name: 'no', value: 'no', key: 2}
-            ]
-          } >
-        </RadioGroup>
         <TextField name="foo" label="Example" required />
-        {/* <DateField name="baz" required /> */}
         <CheckboxFieldGroup {...checkboxProps} />
         <FullNameField name="fullName" label="fullName"/>
         <button type="submit" className="btn">
@@ -99,4 +77,4 @@ const App = () => (
   </div>
 );
 
-ReactDOM.render(<App />, document.getElementById('root'));
+export default SimpleApp;

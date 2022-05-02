@@ -1,33 +1,28 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { BrowserRouter, Routes } from 'react-router-dom';
+import { Formik } from 'formik';
 import { RouterProps } from './types';
-import { BrowserRouter, Switch, SwitchProps } from 'react-router-dom';
-import { FormContext } from './FormContext';
-
-export type RouterAndSwitchProps = RouterProps & SwitchProps;
 
 /**
  * Manages form pages as routes
- *
+ * Parent formik insance is rendered here
  * @beta
  */
-export default function Router(props: RouterAndSwitchProps): JSX.Element {
-  const [formData, handleUpdate] = useState({});
-
-  const updateFormData = (data: Record<string, unknown>) => {
-    const updatedData = { ...formData, ...data };
-    handleUpdate(updatedData);
-  };
+export default function FormRouter(props: RouterProps): JSX.Element {
+  const initialValues = props.formData;
 
   return (
-    <FormContext.Provider
-      value={{
-        formData,
-        handleUpdate: updateFormData,
-      }}
-    >
-      <BrowserRouter basename={props.basename}>
-        <Switch>{props.children}</Switch>
-      </BrowserRouter>
-    </FormContext.Provider>
+    <BrowserRouter basename={props.basename}>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={(values, actions) => {
+          // Here we leverage formik actions to perform validations, submit data, etc.
+          // Also a good candidate for extracting data out of form apps
+          actions.setSubmitting(true);
+        }}
+      >
+        <Routes>{props.children}</Routes>
+      </Formik>
+    </BrowserRouter>
   );
 }

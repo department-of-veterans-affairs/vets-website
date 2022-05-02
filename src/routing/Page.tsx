@@ -1,11 +1,7 @@
 import React from 'react';
-
-import { Form, Formik } from 'formik';
-import { Route, useRouteMatch } from 'react-router-dom';
-import { PageProps } from './types';
-import { buildRelativePath } from '../utils/helpers';
-
-import { FormContext } from './FormContext';
+import { useFormikContext, Form } from 'formik';
+import { useNavigate } from 'react-router-dom';
+import { PageProps, IFormData } from './types';
 
 /**
  * Renders the page contents
@@ -13,30 +9,28 @@ import { FormContext } from './FormContext';
  * @beta
  */
 export default function Page(props: PageProps): JSX.Element {
-  const { path } = useRouteMatch();
-  const combinedPath = buildRelativePath(path, props.path);
+  const { values, submitForm } = useFormikContext();
+  const formValues = values as IFormData;
+
+  let navigate = useNavigate();
 
   return (
-    <Route path={combinedPath}>
-      <FormContext.Consumer>
-        {(value) => (
-          <div className="vads-u-display--flex vads-u-align-items--center vads-u-flex-direction--column">
-            <h1>{props.title}</h1>
-            <Formik
-              initialValues={value.formData}
-              onSubmit={(values) => {
-                value.handleUpdate
-                  ? value.handleUpdate(
-                      values?.formData as Record<string, unknown>
-                    )
-                  : null;
-              }}
-            >
-              <Form>{props.children}</Form>
-            </Formik>
-          </div>
-        )}
-      </FormContext.Consumer>
-    </Route>
+    <div>
+      <h2>{props.title}</h2>
+      <Form>
+        {props.children}
+        <button
+          className="btn"
+          onClick={(event) => {
+            event.preventDefault();
+            submitForm();
+            navigate(`${props.nextPage}`);
+          }}
+        >
+          {' '}
+          Next
+        </button>
+      </Form>
+    </div>
   );
 }

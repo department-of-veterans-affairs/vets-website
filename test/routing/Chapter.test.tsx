@@ -7,7 +7,7 @@ import Page from '../../src/routing/Page';
 import Chapter from '../../src/routing/Chapter';
 import { createMemoryHistory } from 'history';
 
-describe('Routing - Chapter', () => {
+describe.skip('Routing - Chapter', () => {
   test('it can navigate Chapters and Pages', () => {
     const history = createMemoryHistory({
       initialEntries: ['/chapter-one/page-one'],

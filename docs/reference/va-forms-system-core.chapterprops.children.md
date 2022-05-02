@@ -10,5 +10,5 @@
 <b>Signature:</b>
 
 ```typescript
-children: typeof Page[];
+children: Array<any>;
 ```

@@ -8,12 +8,14 @@
 
 import { Context } from 'react';
 import { FieldHookConfig } from 'formik';
-import { SwitchProps } from 'react-router-dom';
+
+// @beta
+export function Chapter(props: ChapterProps): JSX.Element;
 
 // @beta
 export interface ChapterProps {
     // (undocumented)
-    children: typeof Page[];
+    children: Array<any>;
     // (undocumented)
     path: string;
     // (undocumented)
@@ -91,21 +93,15 @@ export interface Routable {
     path: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RouterAndSwitchProps" needs to be exported by the entry point index.d.ts
-//
 // @beta
-export function Router(props: RouterAndSwitchProps): JSX.Element;
+export function Router(props: RouterProps): JSX.Element;
 
-// @public (undocumented)
+// @beta
 export interface RouterProps {
     // (undocumented)
     basename: string;
-    // Warning: (ae-incompatible-release-tags) The symbol "children" is marked as @public, but its signature references "Routable" which is marked as @beta
-    //
     // (undocumented)
     children: Routable | Array<Routable>;
-    // (undocumented)
-    optionalHandleUpdate?: () => void;
 }
 
 // Warning: (ae-forgotten-export) The symbol "SelectProps" needs to be exported by the entry point index.d.ts
