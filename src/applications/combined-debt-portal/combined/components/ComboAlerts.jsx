@@ -34,7 +34,7 @@ ComboAlert.Zero = () => {
     <va-alert
       class="row vads-u-margin-bottom--5"
       status="info"
-      data-testid="debt-and-copay-alert-message"
+      data-testid="debt-and-copay-zero-alert-message"
     >
       <h2 slot="headline" className="vads-u-font-size--h3">
         You don’t have any current VA debt or copay bills

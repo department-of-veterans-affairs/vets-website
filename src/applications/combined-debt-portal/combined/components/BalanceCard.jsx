@@ -5,8 +5,8 @@ import { currency, formatDate } from '../utils/helpers';
 
 const BalanceCard = ({ amount, count, date, isDebt }) => {
   const cardHeader = isDebt
-    ? `for ${count} outstanding debts`
-    : `for ${count} copay bills`;
+    ? `for ${count} outstanding debt${count > 1 ? 's' : ''}`
+    : `for ${count} copay bill${count > 1 ? 's' : ''}`;
 
   const linkText = isDebt
     ? 'Check the status and resolve your debt'
