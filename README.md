@@ -267,7 +267,6 @@ for doing very specific things.
 | load the analyzer tool on a stats file                                                                      | `yarn analyze`                                                                                                                                                                                                                            |
 | add a new React app                                                                                         | `yarn new:app` (make sure you have [`vagov-content`](https://github.com/department-of-veterans-affairs/vagov-content/) and [`content-build`](https://github.com/department-of-veterans-affairs/content-build/) sibling to `vets-website`) |
 
-
 ## Supported Browsers
 
 | Browser                   | Minimum version | Note                                   |
