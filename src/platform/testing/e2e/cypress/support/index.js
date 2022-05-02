@@ -29,8 +29,13 @@ Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
     // Use 0 because it's expected to pass most validations.
     return originalFn(element, '0{backspace}', options);
   }
-
-  return originalFn(element, text, options);
+  let newOptions;
+  if (options?.delay) {
+    newOptions = options;
+  } else {
+    newOptions = { ...options, delay: 0 };
+  }
+  return originalFn(element, text, newOptions);
 });
 
 Cypress.on('uncaught:exception', () => {
