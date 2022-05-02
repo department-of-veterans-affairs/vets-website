@@ -2,46 +2,34 @@
 const { Octokit } = require('octokit');
 const { createAppAuth } = require('@octokit/auth-app');
 
+const githubAppCredentials = require('./github-app-credentials');
+
 class GitHub {
   constructor() {
-    this.createClient();
-    this.authenticate();
+    this.createOctokitClient();
   }
 
-  createClient() {
-    this.client = new Octokit({
+  createOctokitClient() {
+    this.octokit = new Octokit({
       authStrategy: createAppAuth,
       auth: {
-        appId: process.env.PRODUCT_DIRECTORY_APP_ID,
-        privateKey: process.env.PRODUCT_DIRECTORY_PRIVATE_KEY.replace(
-          /\\n/gm,
-          '\n',
-        ),
-        installationId: 123,
+        ...githubAppCredentials,
       },
     });
   }
 
-  async authenticate() {
-    try {
-      await this.client.rest.apps.getAuthenticated();
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   async getProductDirectory() {
     try {
-      const response = await this.client.rest.repos.getContent({
+      return await this.octokit.rest.repos.getContent({
+        mediaType: {
+          format: 'raw',
+        },
         owner: 'holdenhinkle',
         repo: 'product-directory',
-        path:
-          'https://github.com/holdenhinkle/product-directory/blob/main/product-directory.csv',
+        path: 'product-directory.csv',
       });
-
-      console.log(response);
     } catch (e) {
-      console.log(e);
+      return e;
     }
   }
 }
@@ -49,4 +37,4 @@ class GitHub {
 const gitHubService = new GitHub();
 gitHubService.getProductDirectory();
 
-// module.exports = GitHub;
+module.exports = GitHub;
