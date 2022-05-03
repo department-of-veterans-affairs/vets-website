@@ -60,6 +60,4 @@ describe('MyVA Dashboard - Appointments - v2', () => {
     // make the a11y check
     cy.injectAxeThenAxeCheck();
   });
-  it('has telehealth apppointments', () => {});
-  it('has atlascenter appointments', () => {});
 });
