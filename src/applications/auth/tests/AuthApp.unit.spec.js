@@ -51,7 +51,7 @@ describe('AuthApp', () => {
     localStorage.removeItem('hasSession');
     wrapper.unmount();
   });
-  it('should not fire validateSession', () => {
+  it.skip('should not fire validateSession', () => {
     const wrapper = shallow(<AuthApp {...props} />);
     const instance = wrapper.instance();
     const spy = sinon.spy(instance, 'validateSession');
