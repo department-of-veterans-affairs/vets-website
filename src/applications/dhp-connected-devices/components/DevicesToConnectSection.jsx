@@ -4,15 +4,27 @@ import { DeviceConnectionCard } from './DeviceConnectionCard';
 
 export const DevicesToConnectSection = ({ connectedDevices }) => {
   const areAllDevicesConnected = () => {
-    return connectedDevices.every(device => device.connected);
+    try {
+      return connectedDevices.every(device => device.connected);
+    } catch (err) {
+      return false;
+    }
   };
   const devicesToConnectMapped = () => {
-    return connectedDevices.map(device => {
-      if (!device.connected) {
-        return <DeviceConnectionCard key={device.vendor} device={device} />;
-      }
-      return <></>;
-    });
+    try {
+      return connectedDevices.map(device => {
+        if (!device.connected) {
+          return <DeviceConnectionCard key={device.vendor} device={device} />;
+        }
+        return <></>;
+      });
+    } catch (err) {
+      return (
+        <p data-testid="all-devices-connected-alert">
+          There are no devices available to connect.
+        </p>
+      );
+    }
   };
 
   return (
@@ -28,5 +40,5 @@ export const DevicesToConnectSection = ({ connectedDevices }) => {
 };
 
 DevicesToConnectSection.propTypes = {
-  connectedDevices: PropTypes.array.isRequired,
+  connectedDevices: PropTypes.array,
 };
