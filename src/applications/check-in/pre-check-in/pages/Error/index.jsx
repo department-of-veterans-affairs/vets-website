@@ -64,7 +64,7 @@ const Error = ({ location }) => {
         t('you-can-still-check-in-once-you-arrive'),
         false,
       ];
-    return [t('we-couldnt-complete-pre-check-in'), combinedMessage, true];
+    return [t('sorry-we-cant-complete-pre-check-in'), combinedMessage, false];
   };
 
   const [header, message, showAlert] = getErrorMessagePropsByType();
