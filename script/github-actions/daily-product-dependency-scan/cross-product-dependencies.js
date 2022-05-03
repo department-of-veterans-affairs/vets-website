@@ -22,11 +22,7 @@ class CrossProductDependencies {
             importRef,
           });
 
-          if (
-            importedFilePath.startsWith('src/platform') ||
-            importedFilePath.startsWith('src/site')
-          )
-            return;
+          if (!importedFilePath.startsWith('src/applications')) return;
 
           if (
             this.importIsFromOtherProduct({ productPath, importedFilePath })
