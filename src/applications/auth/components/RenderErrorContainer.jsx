@@ -7,7 +7,6 @@ export default function RenderErrorContainer({
   code = AUTH_ERROR.DEFAULT,
   auth = AUTH_LEVEL.FAIL,
   recordEvent = () => ({}),
-  loginGovOff = false,
   openLoginModal = () => ({}),
 }) {
   let alertContent;
@@ -37,10 +36,9 @@ export default function RenderErrorContainer({
           <p>
             Please try again, and this time, select <strong>“Accept”</strong> on
             the final page of the identity verification process. Or, if you
-            don’t want to verify your identity with{' '}
-            {!loginGovOff && `Login.gov or `}
-            ID.me, you can try signing in with your premium DS Logon or premium
-            My HealtheVet username and password.
+            don’t want to verify your identity with Login.gov or ID.me, you can
+            try signing in with your premium DS Logon or premium My HealtheVet
+            username and password.
           </p>
           <button type="button" onClick={openLoginModal}>
             Try signing in again
@@ -349,7 +347,6 @@ export default function RenderErrorContainer({
 RenderErrorContainer.propTypes = {
   auth: PropTypes.oneOf(Object.keys(AUTH_LEVEL)),
   code: PropTypes.oneOf(Object.keys(AUTH_ERROR)),
-  loginGovOff: PropTypes.bool,
   openLoginModal: PropTypes.func,
   recordEvent: PropTypes.func,
 };

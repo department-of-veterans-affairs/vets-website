@@ -64,8 +64,6 @@ export default Object.freeze({
   gibctSchoolRatings: 'gibct_school_ratings',
   giSandboxComparisonToolToggle: 'gi_sandbox_comparision_tool_toggle',
   hlrv2: 'hlr_v2',
-  loginGov: 'login_gov',
-  loginGovDisabled: 'login_gov_disabled',
   loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
   megaMenuMobileV2: 'mega_menu_mobile_v2',

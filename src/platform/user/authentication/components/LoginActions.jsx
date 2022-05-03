@@ -3,20 +3,16 @@ import { CSP_IDS, EXTERNAL_APPS } from '../constants';
 import LoginButton from './LoginButton';
 import AccountLink from './AccountLink';
 
-export default ({ externalApplication, loginGovOff }) => {
+export default ({ externalApplication }) => {
   const externalLoginGovSupport = {
     [EXTERNAL_APPS.MHV]: true,
     [EXTERNAL_APPS.MY_VA_HEALTH]: true,
-    [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: !loginGovOff,
-    [EXTERNAL_APPS.VA_OCC_MOBILE]: !loginGovOff,
-    [EXTERNAL_APPS.EBENEFITS]: !loginGovOff,
+    [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: true,
+    [EXTERNAL_APPS.VA_OCC_MOBILE]: true,
+    [EXTERNAL_APPS.EBENEFITS]: true,
   };
 
   const showLoginGov = () => {
-    if (loginGovOff) {
-      return false;
-    }
-
     if (!Object.keys(externalLoginGovSupport).includes(externalApplication)) {
       return true;
     }

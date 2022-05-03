@@ -1,7 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-import { loginGovDisabled } from 'platform/user/authentication/selectors';
 import {
   LoginHeader,
   LoginActions,
@@ -13,12 +11,7 @@ const vaGovFullDomain = environment.BASE_URL;
 export const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 
 export const LoginContainer = props => {
-  const {
-    externalApplication,
-    isUnifiedSignIn,
-    loggedOut,
-    loginGovOff,
-  } = props;
+  const { externalApplication, isUnifiedSignIn, loggedOut } = props;
 
   return (
     <section className="login">
@@ -34,10 +27,7 @@ export const LoginContainer = props => {
         )}
         <div className="container">
           <LoginHeader loggedOut={loggedOut} />
-          <LoginActions
-            externalApplication={externalApplication}
-            loginGovOff={loginGovOff}
-          />
+          <LoginActions externalApplication={externalApplication} />
           <LoginInfo />
         </div>
       </div>
@@ -45,10 +35,4 @@ export const LoginContainer = props => {
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    loginGovOff: loginGovDisabled(state),
-  };
-}
-
-export default connect(mapStateToProps)(LoginContainer);
+export default LoginContainer;
