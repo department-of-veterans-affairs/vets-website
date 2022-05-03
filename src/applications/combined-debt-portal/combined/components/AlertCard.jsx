@@ -7,7 +7,7 @@ const AlertCard = ({ isDebt }) => {
       <va-alert
         class="row vads-u-margin-bottom--5"
         status="error"
-        data-testid={`${isDebt ? 'debt' : 'copay'}-alert-message`}
+        data-testid={`balance-card-alert-${isDebt ? 'debt' : 'copay'}`}
       >
         <h2 slot="headline" className="vads-u-font-size--h3">
           We can’t access your {`${isDebt ? 'debt' : 'copay'}`} records right
