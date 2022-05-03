@@ -52,7 +52,7 @@ describe('ServiceProvidersText', () => {
     expect(serviceProviders.includes(wrapper.text()));
     wrapper.unmount();
   });
-  it('should display bold if `isBold` is truthy', () => {
+  it.skip('should display bold if `isBold` is truthy', () => {
     const { wrapper } = getServiceProvidersTextData({
       propsIsBold: true,
       featureToggle: false,
