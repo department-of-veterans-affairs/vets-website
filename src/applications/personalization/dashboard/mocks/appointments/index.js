@@ -1,7 +1,7 @@
 const { MOCK_VA_APPOINTMENTS } = require('./MOCK_VA_APPOINTMENTS');
 const { MOCK_CC_APPOINTMENTS } = require('./MOCK_CC_APPOINTMENTS');
 
-const { createVaosAppointment } = require('./vaos-v2');
+const { createVaosAppointment, createVaosError } = require('./vaos-v2');
 
 const createAppointmentSuccess = type => {
   if (type === 'va') {
@@ -14,17 +14,15 @@ const createAppointmentSuccess = type => {
   return {};
 };
 
-const createV2AppointmentSuccess = () => {
+const createV2AppointmentSuccess = ({
+  startsInDays = [1, 10, 30, 50],
+} = {}) => {
   return {
-    data: [
-      createVaosAppointment({ startsInDays: 1 }),
-      createVaosAppointment({ startsInDays: 10 }),
-      createVaosAppointment({ startsInDays: 30 }),
-    ],
+    data: [...startsInDays.map(days => createVaosAppointment(days))],
   };
 };
 
 module.exports = {
   v0: { createAppointmentSuccess },
-  v2: { createV2AppointmentSuccess },
+  v2: { createAppointmentSuccess: createV2AppointmentSuccess, createVaosError },
 };
