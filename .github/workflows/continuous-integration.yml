@@ -319,7 +319,7 @@ jobs:
           fetch-depth: 0
       - name: Security Audit
         timeout-minutes: 30
-        uses: ./.github/workflows/security-audit
+        uses: actions/vsp-release-tools-actions@v1
 
   linting:
     name: Linting (All)
