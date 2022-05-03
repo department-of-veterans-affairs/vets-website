@@ -120,7 +120,6 @@ describe('LoginContainer - mapStateToProps', () => {
       loggedOut: true,
       loginGovOff: false,
       loginGovCreateAccountEnabled: false,
-      loginGovMyVAHealthEnabled: false,
     });
   });
 
@@ -146,7 +145,6 @@ describe('LoginContainer - mapStateToProps', () => {
       loggedOut: false,
       loginGovOff: true,
       loginGovCreateAccountEnabled: true,
-      loginGovMyVAHealthEnabled: true,
     });
     wrapper.unmount();
   });

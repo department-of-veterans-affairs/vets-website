@@ -11,9 +11,6 @@ export const loginGovDisabled = state =>
 export const loginGovCreateAccount = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.loginGovCreateAccount];
 
-export const loginGovMyVAHealth = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.loginGovMyVAHealth];
-
 export const hasCheckedKeepAlive = state =>
   state.user.login.hasCheckedKeepAlive;
 

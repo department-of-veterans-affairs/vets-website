@@ -7,11 +7,10 @@ export default ({
   externalApplication,
   loginGovOff,
   loginGovCreateAccountEnabled,
-  loginGovMyVAHealthEnabled,
 }) => {
   const externalLoginGovSupport = {
     [EXTERNAL_APPS.MHV]: true,
-    [EXTERNAL_APPS.MY_VA_HEALTH]: loginGovMyVAHealthEnabled,
+    [EXTERNAL_APPS.MY_VA_HEALTH]: true,
     [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: !loginGovOff,
     [EXTERNAL_APPS.VA_OCC_MOBILE]: !loginGovOff,
     [EXTERNAL_APPS.EBENEFITS]: !loginGovOff,

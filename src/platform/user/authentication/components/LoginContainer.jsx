@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import {
   loginGovDisabled,
   loginGovCreateAccount,
-  loginGovMyVAHealth,
 } from 'platform/user/authentication/selectors';
 import {
   LoginHeader,
@@ -23,7 +22,6 @@ export const LoginContainer = props => {
     loggedOut,
     loginGovOff,
     loginGovCreateAccountEnabled,
-    loginGovMyVAHealthEnabled,
   } = props;
 
   return (
@@ -43,7 +41,6 @@ export const LoginContainer = props => {
           <LoginActions
             externalApplication={externalApplication}
             loginGovOff={loginGovOff}
-            loginGovMyVAHealthEnabled={loginGovMyVAHealthEnabled}
             loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
           />
           <LoginInfo />
@@ -56,7 +53,6 @@ export const LoginContainer = props => {
 function mapStateToProps(state) {
   return {
     loginGovOff: loginGovDisabled(state),
-    loginGovMyVAHealthEnabled: loginGovMyVAHealth(state),
     loginGovCreateAccountEnabled: loginGovCreateAccount(state),
   };
 }
