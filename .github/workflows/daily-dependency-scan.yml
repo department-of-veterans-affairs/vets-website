@@ -35,7 +35,7 @@ jobs:
           ssm_parameter: /dsva-vagov/testing-team/product-directory/PRODUCT_DIRECTORY_APP_ID
           env_variable_name: PRODUCT_DIRECTORY_APP_ID
 
-      - name: Set GitHub Product Private Key
+      - name: Set GitHub Product Directory Private Key
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /dsva-vagov/testing-team/product-directory/PRODUCT_DIRECTORY_PRIVATE_KEY
@@ -44,5 +44,5 @@ jobs:
       - name: Install modules
         run: yarn
 
-      - name: Run Unit Tests
+      - name: Run Dependency Scan & Update Product Directory
         run: yarn daily-dependency-scan
