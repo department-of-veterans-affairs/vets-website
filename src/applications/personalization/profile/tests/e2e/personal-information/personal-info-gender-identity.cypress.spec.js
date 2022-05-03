@@ -2,13 +2,13 @@ import { setup } from '@@profile/tests/e2e/personal-information/setup';
 import {
   putBadRequestFailure,
   createPutGenderIdentitySuccess,
+  unsetUserPersonalInfo,
 } from '@@profile/mocks/personal-information';
 
 describe('Gender identity field tests on the personal information page', () => {
   it('when api data is available, should render gender identity field and alert when cancel is attempted with unsaved edits', () => {
     setup({ isEnhanced: true });
 
-    // preferred name field
     const genderEditButtonLabel = 'Edit Gender identity';
     const genderEditInputLabel = 'Select your gender identity';
     const nameEditInputField = 'input[name="root_genderIdentity"]';
@@ -41,6 +41,16 @@ describe('Gender identity field tests on the personal information page', () => {
     cy.get(nameEditInputField).should('not.exist');
 
     cy.findByTestId('genderIdentity').contains('Man');
+
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('when api data is empty, should render gender identity field and placeholder content', () => {
+    setup({ isEnhanced: true, personalInfo: unsetUserPersonalInfo });
+
+    cy.findByTestId('genderIdentity')
+      .contains('Edit your profile to add a gender identity.')
+      .should('exist');
 
     cy.injectAxeThenAxeCheck();
   });
