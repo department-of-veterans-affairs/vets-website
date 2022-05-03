@@ -636,7 +636,6 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
-      cancellable: true,
       comment: 'A message from the patient',
       contact: {
         telecom: [
@@ -771,7 +770,6 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     const ccAppointmentRequest = getVAOSRequestMock();
     ccAppointmentRequest.id = '1234';
     ccAppointmentRequest.attributes = {
-      cancellable: true,
       comment: 'A message from the patient',
       contact: {
         telecom: [
@@ -905,7 +903,6 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
-      cancellable: true,
       comment: 'A message from the patient',
       contact: {
         telecom: [
@@ -979,7 +976,6 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
-      cancellable: true,
       comment: 'A message from the patient',
       contact: {
         telecom: [
