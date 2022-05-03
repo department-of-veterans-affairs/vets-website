@@ -57,11 +57,20 @@ function vaProfile(state = initialState, action) {
       return set('personalInformation', action.personalInformation, state);
 
     case UPDATE_PERSONAL_INFORMATION_FIELD: {
-      // capitalize the preferred name if needed
-      const fieldValue =
-        action.fieldName === PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME
-          ? capitalize(action.value[action.fieldName])
-          : action.value[action.fieldName];
+      let fieldValue;
+      switch (action.fieldName) {
+        case PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME: {
+          fieldValue = capitalize(action.value[action.fieldName]);
+          break;
+        }
+        case PERSONAL_INFO_FIELD_NAMES.GENDER_IDENTITY: {
+          fieldValue = { code: action.value[action.fieldName] };
+          break;
+        }
+        default:
+          fieldValue = action.value[action.fieldName];
+          break;
+      }
 
       return set(`personalInformation.${action.fieldName}`, fieldValue, state);
     }

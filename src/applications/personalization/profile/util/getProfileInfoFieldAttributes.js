@@ -116,6 +116,11 @@ export const getProfileInfoFieldAttributes = fieldName => {
       case FIELD_NAMES.GENDER_IDENTITY:
         apiRoute = API_ROUTES.GENDER_IDENTITY;
         title = FIELD_TITLES[FIELD_NAMES.GENDER_IDENTITY];
+        convertCleanDataToPayload = payload => {
+          return {
+            code: payload?.[FIELD_NAMES.GENDER_IDENTITY],
+          };
+        };
         break;
 
       case FIELD_NAMES.SEXUAL_ORIENTATION:
