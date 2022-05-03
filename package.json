@@ -101,7 +101,7 @@
     "path": "path-browserify"
   },
   "devDependencies": {
-    "@actions/core": "^1.6.0",
+    "@actions/core": "^1.7.0",
     "@babel/core": "^7.17.7",
     "@babel/parser": "^7.17.7",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
@@ -305,6 +305,7 @@
     "moment": "^2.19.3",
     "moment-timezone": "^0.5.34",
     "octokit": "^1.7.1",
+    "octokit-plugin-create-pull-request": "^3.11.0",
     "prop-types": "^15.6.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
