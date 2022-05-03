@@ -9,7 +9,7 @@ ComboAlert.Error = () => {
     <va-alert
       class="row vads-u-margin-bottom--5"
       status="error"
-      data-testid="debt-and-copay-alert-message"
+      data-testid="balance-card-combo-alert-error"
     >
       <h2 slot="headline" className="vads-u-font-size--h3">
         We can’t access your debt and copay records right now
@@ -34,7 +34,7 @@ ComboAlert.Zero = () => {
     <va-alert
       class="row vads-u-margin-bottom--5"
       status="info"
-      data-testid="debt-and-copay-zero-alert-message"
+      data-testid="balance-card-combo-alert-zero"
     >
       <h2 slot="headline" className="vads-u-font-size--h3">
         You don’t have any current VA debt or copay bills
@@ -48,20 +48,16 @@ ComboAlert.Zero = () => {
       </h3>
       <ul>
         <li>
-          <p>
-            <strong>For benefit debts</strong>, call the Debt Management Center
-            (DMC) at <va-telephone contact="800-827-0648" /> (TTY:{' '}
-            <va-telephone contact="711" />
-            ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. •
-          </p>
+          <strong>For benefit debts</strong>, call the Debt Management Center
+          (DMC) at <va-telephone contact="800-827-0648" /> (TTY:{' '}
+          <va-telephone contact="711" />
+          ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
         </li>
         <li>
-          <p>
-            <strong>For medical copay bills</strong>, call the VA Health
-            Resource Center at <va-telephone contact="866-400-1238" /> (TTY:{' '}
-            <va-telephone contact="711" />
-            ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-          </p>
+          <strong>For medical copay bills</strong>, call the VA Health Resource
+          Center at <va-telephone contact="866-400-1238" /> (TTY:{' '}
+          <va-telephone contact="711" />
+          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </li>
       </ul>
     </va-alert>
