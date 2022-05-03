@@ -20,6 +20,7 @@ export interface PageProps
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [children](./va-forms-system-core.pageprops.children.md) | JSX.Element\[\] | <b><i>(BETA)</i></b> |
+|  [nextPage](./va-forms-system-core.pageprops.nextpage.md) | string | <b><i>(BETA)</i></b> |
 |  [path](./va-forms-system-core.pageprops.path.md) | string | <b><i>(BETA)</i></b> |
 |  [title](./va-forms-system-core.pageprops.title.md) | string | <b><i>(BETA)</i></b> |
 

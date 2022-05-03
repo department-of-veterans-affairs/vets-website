@@ -21,4 +21,7 @@ export interface RouterProps
 |  --- | --- | --- |
 |  [basename](./va-forms-system-core.routerprops.basename.md) | string | <b><i>(BETA)</i></b> |
 |  [children](./va-forms-system-core.routerprops.children.md) | [Routable](./va-forms-system-core.routable.md) \| Array&lt;[Routable](./va-forms-system-core.routable.md)<!-- -->&gt; | <b><i>(BETA)</i></b> |
+|  [formData](./va-forms-system-core.routerprops.formdata.md) | [IFormData](./va-forms-system-core.iformdata.md) | <b><i>(BETA)</i></b> |
+|  [subtitle?](./va-forms-system-core.routerprops.subtitle.md) | string | <b><i>(BETA)</i></b> <i>(Optional)</i> |
+|  [title](./va-forms-system-core.routerprops.title.md) | string | <b><i>(BETA)</i></b> |
 

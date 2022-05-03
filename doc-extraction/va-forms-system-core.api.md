@@ -6,7 +6,6 @@
 
 /// <reference types="react" />
 
-import { Context } from 'react';
 import { FieldHookConfig } from 'formik';
 
 // @beta
@@ -45,23 +44,13 @@ export const DebuggerView: () => JSX.Element;
 // @beta
 export const EmailField: (props: EmailProps) => JSX.Element;
 
-// Warning: (ae-incompatible-release-tags) The symbol "FormContext" is marked as @public, but its signature references "IFormContextType" which is marked as @beta
-//
-// @public (undocumented)
-export const FormContext: Context<IFormContextType>;
+// @beta
+export function FormRouter(props: RouterProps): JSX.Element;
 
 // Warning: (ae-forgotten-export) The symbol "FullNameProps" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
 export const FullNameField: (props: FullNameProps) => JSX.Element;
-
-// @beta
-export interface IFormContextType {
-    // (undocumented)
-    formData: IFormData;
-    // (undocumented)
-    handleUpdate?: (data: Record<string, unknown>) => void;
-}
 
 // @beta
 export interface IFormData {
@@ -76,6 +65,8 @@ export function Page(props: PageProps): JSX.Element;
 export interface PageProps {
     // (undocumented)
     children: JSX.Element[];
+    // (undocumented)
+    nextPage: string;
     // (undocumented)
     path: string;
     // (undocumented)
@@ -94,14 +85,17 @@ export interface Routable {
 }
 
 // @beta
-export function Router(props: RouterProps): JSX.Element;
-
-// @beta
 export interface RouterProps {
     // (undocumented)
     basename: string;
     // (undocumented)
     children: Routable | Array<Routable>;
+    // (undocumented)
+    formData: IFormData;
+    // (undocumented)
+    subtitle?: string;
+    // (undocumented)
+    title: string;
 }
 
 // Warning: (ae-forgotten-export) The symbol "SelectProps" needs to be exported by the entry point index.d.ts

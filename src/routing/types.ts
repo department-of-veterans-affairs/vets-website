@@ -6,6 +6,8 @@
 export interface RouterProps {
   children: Routable | Array<Routable>;
   basename: string;
+  title: string;
+  subtitle?: string;
   formData: IFormData;
 }
 

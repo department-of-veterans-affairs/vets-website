@@ -50,6 +50,6 @@ export type CheckboxGroupProps = FieldProps<string> & {
  *    }
  * }
  * ```
- * 
-*/
-export type FullNameProps = FieldProps<string>
+ *
+ */
+export type FullNameProps = FieldProps<string>;

@@ -3,6 +3,9 @@ import { BrowserRouter, Routes } from 'react-router-dom';
 import { Formik } from 'formik';
 import { RouterProps } from './types';
 
+import FormTitle from './FormTitle';
+import FormFooter from './FormFooter';
+
 /**
  * Manages form pages as routes
  * Parent formik insance is rendered here
@@ -13,6 +16,9 @@ export default function FormRouter(props: RouterProps): JSX.Element {
 
   return (
     <BrowserRouter basename={props.basename}>
+      {props?.title && (
+        <FormTitle title={props.title} subTitle={props?.subtitle} />
+      )}
       <Formik
         initialValues={initialValues}
         onSubmit={(values, actions) => {
@@ -23,6 +29,7 @@ export default function FormRouter(props: RouterProps): JSX.Element {
       >
         <Routes>{props.children}</Routes>
       </Formik>
+      <FormFooter />
     </BrowserRouter>
   );
 }
