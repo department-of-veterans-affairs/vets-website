@@ -3,6 +3,7 @@ import {
   hasMoreAppointmentsToCheckInto,
   sortAppointmentsByStartTime,
   removeTimeZone,
+  preCheckinExpired,
 } from './index';
 
 import { get } from '../../api/local-mock-api/mocks/v2/check-in-data';
@@ -184,6 +185,22 @@ describe('check in', () => {
         expect(updatedPayloadWithoutTZ.appointments[0].startTime).to.equal(
           '2018-01-01T00:00:00',
         );
+      });
+    });
+    describe('preCheckinExpired', () => {
+      it('identifies an expired pre-check-in appointment list', () => {
+        const appointments = [
+          createAppointment(null, null, null, null, false),
+          createAppointment(null, null, null, null, false),
+        ];
+        expect(preCheckinExpired(appointments)).to.be.true;
+      });
+      it('identifies a valid pre-check-in appointment list', () => {
+        const appointments = [
+          createAppointment(null, null, null, null, true),
+          createAppointment(null, null, null, null, true),
+        ];
+        expect(preCheckinExpired(appointments)).to.be.false;
       });
     });
   });

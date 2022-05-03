@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 import { subDays } from 'date-fns';
 
@@ -12,7 +13,11 @@ import { makeSelectVeteranData } from '../../../selectors';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
-const Error = () => {
+const Error = ({ location }) => {
+  const type =
+    location && location.query && location.query.type
+      ? location.query.type
+      : undefined;
   const { getValidateAttempts } = useSessionStorage(true);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   // try get date of appointment
@@ -51,16 +56,34 @@ const Error = () => {
     </>
   );
 
+  // use type param to set unique error messages
+  const getErrorMessagePropsByType = () => {
+    if (type && type === 'expired')
+      return [
+        t('sorry-we-cant-complete-pre-check-in'),
+        t('you-can-still-check-in-once-you-arrive'),
+        false,
+      ];
+    return [t('we-couldnt-complete-pre-check-in'), combinedMessage, true];
+  };
+
+  const [header, message, showAlert] = getErrorMessagePropsByType();
+
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 ">
-      <ErrorMessage
-        header={t('we-couldnt-complete-pre-check-in')}
-        message={combinedMessage}
-      />
+      <ErrorMessage header={header} message={message} showAlert={showAlert} />
       <Footer />
       <BackToHome />
     </div>
   );
+};
+
+Error.propTypes = {
+  location: PropTypes.shape({
+    query: PropTypes.shape({
+      type: PropTypes.string,
+    }),
+  }),
 };
 
 export default Error;
