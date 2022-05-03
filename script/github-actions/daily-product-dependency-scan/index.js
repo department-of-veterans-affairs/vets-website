@@ -4,9 +4,9 @@ const core = require('@actions/core');
 
 const GitHub = require('./github');
 const Products = require('./products');
-const PackageDependencies = require('./package-dependencies');
-const CrossProductDependencies = require('./cross-product-dependencies');
-const DependencyDiffer = require('./dependency-differ');
+const PackageDependencies = require('./products/package-dependencies');
+const CrossProductDependencies = require('./products/cross-product-dependencies');
+const DependencyDiffer = require('./products/dependency-differ');
 const Csv = require('./csv');
 const Headings = require('./csv/headings');
 const Rows = require('./csv/rows');
