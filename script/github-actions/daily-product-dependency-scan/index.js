@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const glob = require('glob');
+const core = require('@actions/core');
 
 const GitHub = require('./github');
 const Products = require('./products');
@@ -10,6 +11,18 @@ const Csv = require('./csv');
 const Headings = require('./csv/headings');
 const Rows = require('./csv/rows');
 const { removeCarriageReturn, transformCsvToScsv } = require('./csv/helpers');
+
+function handleFailure({ response }) {
+  if (response.status) {
+    console.log(`GitHub API response:\n${response}`);
+  } else {
+    console.log(`Error:\n${response}`);
+  }
+
+  core.setFailed(
+    'Product dependencies have changed but there was an error when trying to submit a PR to update the Product Directory.',
+  );
+}
 
 async function main() {
   const products = new Products();
@@ -32,7 +45,6 @@ async function main() {
   if (response.status === 200) {
     const { data: csv } = response;
     const csvLines = removeCarriageReturn(transformCsvToScsv(csv).split('\n'));
-
     const emptyProductDirectory = new Csv({
       headings: new Headings({ csvLine: csvLines.slice(0, 1)[0] }),
       rows: new Rows({ csvLines: [] }),
@@ -47,38 +59,21 @@ async function main() {
     dependencyDiffer.diff({ products, productDirectory });
 
     if (dependencyDiffer.dependenciesChanged) {
-      console.log('Dependencies have changed.');
-      response = await octokit.getBranch();
+      response = await octokit.createPull({
+        content: emptyProductDirectory.generateOutput(),
+      });
 
-      if (response.status === 200) {
-        response = await octokit.createBlob({
-          content: emptyProductDirectory.generateOutput(),
-        });
-
-        if (response.status === 201) {
-          response = await octokit.createRef();
-
-          if (response.status === 201) {
-            response = await octokit.createTree();
-
-            if (response.status === 201) {
-              response = await octokit.createCommit();
-
-              if (response.status === 201) {
-                response = await octokit.createPull();
-
-                if (response.status === 201) {
-                  console.log('Pull request successully submitted.');
-                }
-              }
-            }
-          }
-        }
+      if (response.status === 201) {
+        console.log(
+          'Product dependencies have changed. A PR to update the Product Directory has been submitted.',
+        );
+      } else {
+        handleFailure(response);
       }
     }
+  } else {
+    handleFailure(response);
   }
-
-  // fail
 }
 
 main();
