@@ -42,15 +42,15 @@ const oneDeviceConnectedState = [
 
 const twoDevicesConnectedState = [
   {
-    vendor: 'vendor-1',
-    key: 'vendor1',
+    vendor: 'vendor 1',
+    key: 'vendor-1',
     authUrl: 'path/to/vetsapi/vendor-1/connect/method',
     disconnectUrl: 'path/to/vetsapi/vendor-1/disconnect/method',
     connected: true,
   },
   {
-    vendor: 'vendor-2',
-    key: 'vendor2',
+    vendor: 'vendor 2',
+    key: 'vendor-2',
     authUrl: 'path/to/vetsapi/vendor-2/connect/method',
     disconnectUrl: 'path/to/vetsapi/vendor-2/disconnect/method',
     connected: true,
@@ -72,8 +72,9 @@ describe('Connect Devices Container', () => {
         'devices-to-connect-section',
       ),
     ).to.exist;
-    expect(await connectedDevicesContainer.findByTestId('fitbit-connect-link'))
-      .to.exist;
+    expect(
+      await connectedDevicesContainer.findByTestId('vendor-1-connect-link'),
+    ).to.exist;
   });
 
   it('should render apple watch in connected devices section when connected', async () => {
@@ -82,8 +83,9 @@ describe('Connect Devices Container', () => {
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
     );
-    expect(await connectedDevicesContainer.findByTestId('vendor1-connect-link'))
-      .to.exist;
+    expect(
+      await connectedDevicesContainer.findByTestId('vendor-1-connect-link'),
+    ).to.exist;
   });
 
   it('should render "You do not have any devices connected" when no devices are connected', () => {
@@ -102,22 +104,12 @@ describe('Connect Devices Container', () => {
 
   it('should render "You have connected all supported devices" when all supported devices are connected', () => {
     mockApiRequest(twoDevicesConnectedState);
-
-    const twoConnectedDevicesContainer = renderInReduxProvider(
+    const twoDevicesConnectedContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
     );
 
     expect(
-      twoConnectedDevicesContainer.findByTestId('no-devices-connected-alert'),
-    ).to.exist;
-
-    mockApiRequest(oneDeviceConnectedState);
-    const oneConnectedDeviceContainer = renderInReduxProvider(
-      <ConnectedDevicesContainer />,
-    );
-
-    expect(
-      oneConnectedDeviceContainer.findByTestId('all-devices-connected-alert'),
+      twoDevicesConnectedContainer.findByTestId('all-devices-connected-alert'),
     ).to.be.empty;
   });
 
