@@ -126,61 +126,76 @@ export function fetchConfirmedFutureAppointmentsV2() {
       .toISOString();
 
     // const facilitiesLookup = {};
+    try {
+      const appointmentResponse = await apiRequest(
+        `/appointments?start=${startOfToday}&end=${endDate}&_include=facilities&status=booked`,
+        { apiVersion: 'vaos/v2' },
+      );
 
-    const appointmentResponse = await apiRequest(
-      `/appointments?start=${startOfToday}&end=${endDate}`,
-      { apiVersion: 'vaos/v2' },
-    );
+      // catch errors
+      if (appointmentResponse?.errors) {
+        dispatch({
+          type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
+          errors: [...(appointmentResponse?.errors || [])],
+        });
+        recordEvent({
+          event: `api_call`,
+          'error-key': `server error`,
+          'api-name': 'GET v2/appointments ',
+          'api-status': 'failed',
+        });
+      }
 
-    // catch errors
-    if (appointmentResponse?.errors) {
-      dispatch({
-        type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
-        errors: [...(appointmentResponse?.errors || [])],
+      const { data: appointments } = appointmentResponse;
+
+      // get facility data
+
+      // convert to appointment structure
+      const formatted = appointments.map(appointment => {
+        const isVideo = appointment.attributes?.kind === 'telehealth';
+        const facilityStagingId = getStagingID(
+          appointment.attributes.locationId,
+        );
+        const timezone = getTimezoneBySystemId(facilityStagingId)?.timezone;
+        const date = appointment.attributes.start;
+        const startsAt = (timezone
+          ? moment(date).tz(timezone)
+          : moment(date)
+        ).format();
+        return {
+          ...appointment.attributes,
+          id: appointment.id,
+          isVideo,
+          startsAt,
+          type: '',
+          timeZone: getVATimeZone(facilityStagingId),
+          additionalInfo: getAdditionalInfo(appointment),
+          facility: { ...appointment.attributes.location.attributes },
+          providerName: appointment.attributes.location?.attributes?.name,
+        };
       });
+      // sort by date
+      const sorted = formatted.sort((a, b) => {
+        return moment(a.start).diff(b.start);
+      });
+      // update redux
+      dispatch({
+        type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
+        appointments: sorted,
+      });
+    } catch (error) {
       recordEvent({
         event: `api_call`,
-        'error-key': `server error`,
-        'api-name': 'GET appointments',
+        'error-key': `internal error`,
+        'api-name': 'GET v2/appointments',
         'api-status': 'failed',
       });
+      const errors = error.errors ?? [error];
+      dispatch({
+        type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_FAILED,
+        errors,
+      });
     }
-
-    const { data: appointments } = appointmentResponse;
-
-    // get facility data
-
-    // convert to appointment structure
-    const formatted = appointments.map(appointment => {
-      const isVideo = appointment.attributes?.kind === 'telehealth';
-      const facilityStagingId = getStagingID(appointment.attributes.locationId);
-      const timezone = getTimezoneBySystemId(facilityStagingId)?.timezone;
-      const date = appointment.attributes.start;
-      const startsAt = (timezone
-        ? moment(date).tz(timezone)
-        : moment(date)
-      ).format();
-      return {
-        ...appointment.attributes,
-        id: appointment.id,
-        isVideo,
-        startsAt,
-        type: '',
-        timeZone: getVATimeZone(facilityStagingId),
-        additionalInfo: getAdditionalInfo(appointment),
-        facility: { ...appointment.attributes.location.attributes },
-        providerName: appointment.attributes.location?.attributes?.name,
-      };
-    });
-    // sort by date
-    const sorted = formatted.sort((a, b) => {
-      return moment(a.start).diff(b.start);
-    });
-    // update redux
-    dispatch({
-      type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
-      appointments: sorted,
-    });
   };
 }
 export function fetchConfirmedFutureAppointments() {

@@ -8,7 +8,9 @@ class Introduction {
       .and('have.text', 'Answer pre-check-in questions');
   };
 
-  validateMultipleAppointmentIntroText = (appointmentDate = new Date()) => {
+  validateMultipleAppointmentIntroText = (
+    appointmentDate = new Date().setDate(new Date().getDate() + 1),
+  ) => {
     cy.get('p[data-testid="appointment-day-location"]').contains(
       `Your appointments are on ${format(
         appointmentDate,

@@ -15,6 +15,7 @@ import {
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectCurrentContext } from '../../../selectors';
+import { preCheckinExpired } from '../../../utils/appointment';
 
 const Introduction = props => {
   const { router } = props;
@@ -39,6 +40,9 @@ const Introduction = props => {
 
   useEffect(
     () => {
+      const setDataToState = async data => {
+        await dispatchSetVeteranData(data);
+      };
       // show loading screen
       setIsLoading(true);
       //  call get data from API
@@ -47,10 +51,19 @@ const Introduction = props => {
         .then(json => {
           if (json.error) {
             goToErrorPage();
+            return; // prevent a react no-op on an unmounted component
           }
           const { payload } = json;
           //  set data to state
-          dispatchSetVeteranData(payload);
+          setDataToState(payload);
+          // if any appointments are tomorrow or later, the link is not expired
+          if (
+            payload.appointments &&
+            payload.appointments.length > 0 &&
+            preCheckinExpired(payload.appointments)
+          ) {
+            goToErrorPage('?type=expired');
+          }
           // hide loading screen
           setIsLoading(false);
         })

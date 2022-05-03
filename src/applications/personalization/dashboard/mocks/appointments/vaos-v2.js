@@ -1,7 +1,7 @@
 const format = require('date-fns/format');
 const add = require('date-fns/add');
 
-const createVaosAppointment = ({ startsInDays = 1 }) => {
+const createVaosAppointment = ({ startsInDays = 1, status = 'booked' }) => {
   const now = add(new Date(), { days: startsInDays });
 
   const appointment = {
@@ -37,7 +37,7 @@ const createVaosAppointment = ({ startsInDays = 1 }) => {
   appointment.attributes = {
     ...appointment.attributes,
     kind: 'clinic',
-    status: 'booked',
+    status,
     locationId: '983',
     location: {
       id: '983',
@@ -63,6 +63,25 @@ const createVaosAppointment = ({ startsInDays = 1 }) => {
   return appointment;
 };
 
+const createVaosError = ({ status, title, customErrors = [] }) => {
+  if (customErrors.length !== 0) {
+    return {
+      errors: customErrors,
+    };
+  }
+  return {
+    errors: [
+      {
+        status,
+        code: status,
+        title,
+        detail: title,
+      },
+    ],
+  };
+};
+
 module.exports = {
   createVaosAppointment,
+  createVaosError,
 };
