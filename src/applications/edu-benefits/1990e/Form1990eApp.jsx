@@ -21,20 +21,23 @@ function Form1990eEntry({
   setFormData,
   showUpdatedToeApp,
   sponsors,
-  user,
+  // user,
 }) {
   useEffect(
     () => {
-      if (!showUpdatedToeApp || !user.login.currentlyLoggedIn) {
-        return;
-      }
-
       if (showUpdatedToeApp !== formData.showUpdatedToeApp) {
         setFormData({
           ...formData,
           showUpdatedToeApp,
         });
       }
+
+      // TODO Not sure why, but currentlyLoggedIn is false in some
+      // cases, even when a user is logged in.
+      // if (!user.login.currentlyLoggedIn) {
+      //   return;
+      // }
+
       if (!fetchedSponsors && !sponsors) {
         getSponsors();
       }

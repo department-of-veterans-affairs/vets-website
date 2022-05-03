@@ -2,38 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { isArray, cloneDeep } from 'lodash';
-import { Formik } from 'formik';
 import CheckboxGroup from '@department-of-veterans-affairs/component-library/CheckboxGroup';
-
-// import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-// import { saveAndRedirectToReturnUrl } from 'platform/forms/save-in-progress/actions';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import Form from '~/platform/forms/formulate-integration/Form';
-// import SaveFormLink from '~/platform/forms/save-in-progress/SaveFormLink';
 
 import { fetchSponsors, updateSponsors } from '../actions';
 import {
   SPONSOR_NOT_LISTED_LABEL,
   SPONSOR_NOT_LISTED_VALUE,
 } from '../constants';
-import SponsorsSelectionHeadings from '../components/SponsorsSelectionHeadings';
-import { Sponsors } from '../components/Sponsors';
 
 function SponsorSelectionPage({
-  data,
   dispatchSponsorsChange,
   errorMessage = 'Please select at least one sponsor',
   fetchedSponsors,
   fetchedSponsorsComplete,
   formContext,
   getSponsors,
-  goBack,
-  goForward,
   loadingMessage = 'Loading your sponsors...',
-  onReviewPage,
   sponsors,
-  // state,
-  updatePage,
 }) {
   const [dirty, setDirty] = useState(false);
 
@@ -43,7 +28,7 @@ function SponsorSelectionPage({
         getSponsors();
       }
     },
-    [getSponsors, sponsors],
+    [fetchedSponsors, getSponsors, sponsors],
   );
 
   if (!fetchedSponsorsComplete) {
@@ -94,71 +79,42 @@ function SponsorSelectionPage({
     dispatchSponsorsChange(_sponsors);
   };
 
-  const onSubmit = (formData, formsSystem) => {
-    if (!selectedOptions) {
-      setDirty(true);
-      return false;
-    }
-    return onReviewPage
-      ? updatePage(formData, formsSystem)
-      : goForward(formData, formsSystem);
-  };
-
   const values = Object.fromEntries(
     new Map(options?.map(option => [option.value, !!option.selected])),
   );
 
-  const saveAndNavButtons = (
-    <>
-      {/* <SaveFormLink
-        locationPathname={window.location.pathname}
-        form={state.form}
-        user={state.user}
-        saveAndRedirectToReturnUrl={saveAndRedirectToReturnUrl}
-        toggleLoginModal={toggleLoginModal}
-      /> */}
-      <FormNavButtons goBack={goBack} submitToContinue />
-    </>
-  );
-  const updateButton = <button type="submit">Update page</button>;
-
   return (
-    <Formik initialValues={data} onSubmit={onSubmit}>
-      <Form>
-        <SponsorsSelectionHeadings />
-        <Sponsors />
-        <CheckboxGroup
-          additionalFieldsetClass="vads-u-margin-top--0"
-          additionalLegendClass="toe-sponsors_legend vads-u-margin-top--0"
-          errorMessage={
-            !selectedOptions &&
-            (dirty || formContext?.submitted) &&
-            errorMessage
-          }
-          label={
-            // I'm getting conflicting linting issues here.
-            // eslint-disable-next-line react/jsx-wrap-multilines
-            <>
-              <span className="toe-sponsors-labels_label--main">
-                Which sponsor's benefits would you like to use?
-              </span>
-              <span className="toe-sponsors-labels_label--secondary">
-                Select all sponsors whose benefits you would like to apply for
-              </span>
-            </>
-          }
-          onValueChange={onValueChange}
-          options={options}
-          required
-          values={values}
-        />
-        {onReviewPage ? updateButton : saveAndNavButtons}
-      </Form>
-    </Formik>
+    <CheckboxGroup
+      additionalFieldsetClass="vads-u-margin-top--0"
+      additionalLegendClass="toe-sponsors_legend vads-u-margin-top--0"
+      errorMessage={
+        !selectedOptions && (dirty || formContext?.submitted) && errorMessage
+      }
+      label={
+        // I'm getting conflicting linting issues here.
+        // eslint-disable-next-line react/jsx-wrap-multilines
+        <>
+          <span className="toe-sponsors-labels_label--main">
+            Which sponsor's benefits would you like to use?
+          </span>
+          <span className="toe-sponsors-labels_label--secondary">
+            Select all sponsors whose benefits you would like to apply for
+          </span>
+        </>
+      }
+      onValueChange={onValueChange}
+      options={options}
+      required
+      values={values}
+    />
   );
 }
 
 const mapSponsors = state => {
+  if (isArray(state.form.loadedData?.formData?.sponsors?.sponsors)) {
+    return state.form.loadedData.formData.sponsors;
+  }
+
   if (isArray(state.form.data.sponsors?.sponsors)) {
     return state.form.data.sponsors;
   }
