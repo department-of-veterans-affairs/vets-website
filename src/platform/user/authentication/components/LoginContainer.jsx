@@ -1,10 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {
-  loginGovDisabled,
-  loginGovCreateAccount,
-} from 'platform/user/authentication/selectors';
+import { loginGovDisabled } from 'platform/user/authentication/selectors';
 import {
   LoginHeader,
   LoginActions,
@@ -21,7 +18,6 @@ export const LoginContainer = props => {
     isUnifiedSignIn,
     loggedOut,
     loginGovOff,
-    loginGovCreateAccountEnabled,
   } = props;
 
   return (
@@ -41,7 +37,6 @@ export const LoginContainer = props => {
           <LoginActions
             externalApplication={externalApplication}
             loginGovOff={loginGovOff}
-            loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
           />
           <LoginInfo />
         </div>
@@ -53,7 +48,6 @@ export const LoginContainer = props => {
 function mapStateToProps(state) {
   return {
     loginGovOff: loginGovDisabled(state),
-    loginGovCreateAccountEnabled: loginGovCreateAccount(state),
   };
 }
 

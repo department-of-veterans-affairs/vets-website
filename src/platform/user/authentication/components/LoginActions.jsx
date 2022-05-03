@@ -3,11 +3,7 @@ import { CSP_IDS, EXTERNAL_APPS } from '../constants';
 import LoginButton from './LoginButton';
 import AccountLink from './AccountLink';
 
-export default ({
-  externalApplication,
-  loginGovOff,
-  loginGovCreateAccountEnabled,
-}) => {
+export default ({ externalApplication, loginGovOff }) => {
   const externalLoginGovSupport = {
     [EXTERNAL_APPS.MHV]: true,
     [EXTERNAL_APPS.MY_VA_HEALTH]: true,
@@ -38,10 +34,7 @@ export default ({
         <div id="create-account">
           <h2 className="vads-u-margin-top--3">Or create an account</h2>
           <div className="vads-u-display--flex vads-u-flex-direction--column">
-            {showLoginGov() &&
-              loginGovCreateAccountEnabled && (
-                <AccountLink csp={CSP_IDS.LOGIN_GOV} />
-              )}
+            {showLoginGov() && <AccountLink csp={CSP_IDS.LOGIN_GOV} />}
             <AccountLink csp={CSP_IDS.ID_ME} />
           </div>
         </div>

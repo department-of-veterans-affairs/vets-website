@@ -10,15 +10,10 @@ import ConnectedLoginContainer, {
 import { renderWithStoreAndRouter } from 'platform/testing/unit/react-testing-library-helpers';
 
 const mockStore = configureMockStore();
-const generateState = ({
-  loginGovOff = false,
-  loginGovCerner = false,
-  loginGovCreateAccount = false,
-}) => ({
+const generateState = ({ loginGovOff = false, loginGovCerner = false }) => ({
   featureToggles: {
     login_gov_disabled: loginGovOff,
     login_gov_myvahealth: loginGovCerner,
-    login_gov_create_account: loginGovCreateAccount,
   },
   user: { login: { currentlyLoggedIn: true } },
 });
@@ -119,7 +114,6 @@ describe('LoginContainer - mapStateToProps', () => {
       isUnifiedSignIn: true,
       loggedOut: true,
       loginGovOff: false,
-      loginGovCreateAccountEnabled: false,
     });
   });
 
@@ -127,7 +121,6 @@ describe('LoginContainer - mapStateToProps', () => {
     initialState = generateState({
       loginGovOff: true,
       loginGovCerner: true,
-      loginGovCreateAccount: true,
     });
 
     store = mockStore(initialState);
@@ -144,7 +137,6 @@ describe('LoginContainer - mapStateToProps', () => {
       isUnifiedSignIn: false,
       loggedOut: false,
       loginGovOff: true,
-      loginGovCreateAccountEnabled: true,
     });
     wrapper.unmount();
   });

@@ -8,9 +8,6 @@ export const loginGov = state =>
 export const loginGovDisabled = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.loginGovDisabled];
 
-export const loginGovCreateAccount = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.loginGovCreateAccount];
-
 export const hasCheckedKeepAlive = state =>
   state.user.login.hasCheckedKeepAlive;
 
