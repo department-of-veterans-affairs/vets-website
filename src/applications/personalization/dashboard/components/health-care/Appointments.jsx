@@ -58,7 +58,7 @@ export const Appointments = ({ appointments, hasError }) => {
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--1">
           {`Time: ${start.format('h:mm a')} ${nextAppointment?.timeZone}`}
         </p>
-        <p className="vads-u-margin-top--1">{locationName}</p>
+        {locationName && <p className="vads-u-margin-top--1">{locationName}</p>}
         <CTALink
           text="Schedule and manage your appointments"
           href="/health-care/schedule-view-va-appointments/appointments"
@@ -69,7 +69,6 @@ export const Appointments = ({ appointments, hasError }) => {
 };
 
 Appointments.propTypes = {
-  hasError: PropTypes.bool,
   appointments: PropTypes.arrayOf(
     PropTypes.shape({
       additionalInfo: PropTypes.string,
@@ -82,6 +81,7 @@ Appointments.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ),
+  hasError: PropTypes.bool,
 };
 
 export default Appointments;
