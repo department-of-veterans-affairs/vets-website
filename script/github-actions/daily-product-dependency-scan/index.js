@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const glob = require('glob');
 
 const GitHub = require('./github');
@@ -45,33 +46,32 @@ async function main() {
     const dependencyDiffer = new DependencyDiffer({ emptyProductDirectory });
     dependencyDiffer.diff({ products, productDirectory });
 
-    // if (dependencyDiffer.dependenciesChanged) {
-    // eslint-disable-next-line no-constant-condition
-    if (true) {
-      response = await octokit.setLastCommitSha();
+    if (dependencyDiffer.dependenciesChanged) {
+      console.log('Dependencies have changed.');
+      response = await octokit.getBranch();
 
       if (response.status === 200) {
-        response = await octokit.createCsvBlob({
+        response = await octokit.createBlob({
           content: emptyProductDirectory.generateOutput(),
         });
 
         if (response.status === 201) {
-          response = await octokit.createTree();
+          response = await octokit.createRef();
 
           if (response.status === 201) {
-            response = await octokit.createCommit();
+            response = await octokit.createTree();
 
-            //   console.log('createCommit() response', response);
+            if (response.status === 201) {
+              response = await octokit.createCommit();
 
-            //   if (response.status === 201) {
-            //     // response = await octokit.createRef();
+              if (response.status === 201) {
+                response = await octokit.createPull();
 
-            //     if (response.status === 201) {
-            //       // grab newly created ref from response
-            //       // commit file
-            //       // submit pr
-            //     }
-            //   }
+                if (response.status === 201) {
+                  console.log('Pull request successully submitted.');
+                }
+              }
+            }
           }
         }
       }
