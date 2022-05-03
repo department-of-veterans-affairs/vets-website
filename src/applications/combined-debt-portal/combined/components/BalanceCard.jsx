@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { currency, formatDate } from '../utils/helpers';
 
@@ -12,6 +11,8 @@ const BalanceCard = ({ amount, count, date, isDebt }) => {
     ? 'Check the status and resolve your debt'
     : 'Check your balance and resolve your bill';
 
+  // Linking to existing applications
+  // TODO: update a tag with Link component after merge
   const linkDestination = isDebt
     ? `/manage-va-debt/your-debt/`
     : `/health-care/pay-copay-bill/your-current-balances/`;
@@ -40,9 +41,9 @@ const BalanceCard = ({ amount, count, date, isDebt }) => {
           <span className="vads-u-margin-x--0p5">{formatDate(date)}</span>
         </p>
       )}
-      <Link
+      <a
         className="vads-u-font-size--sm vads-u-font-weight--bold"
-        to={linkDestination}
+        href={linkDestination}
         data-testid="card-link"
         aria-label={linkText}
       >
@@ -51,7 +52,7 @@ const BalanceCard = ({ amount, count, date, isDebt }) => {
           className="fa fa-chevron-right vads-u-margin-left--1"
           aria-hidden="true"
         />
-      </Link>
+      </a>
     </div>
   );
 };
