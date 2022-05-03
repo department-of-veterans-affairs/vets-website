@@ -78,6 +78,7 @@ import { urlMigration } from '../../config/migrations';
 import manifest from '../manifest.json';
 import SelectedSponsorsReviewField from '../components/SelectedSponsorsReviewField';
 import FirstSponsorReviewField from '../components/FirstSponsorReviewField';
+import { Sponsors } from '../components/Sponsors';
 
 const {
   benefit,
@@ -184,7 +185,7 @@ function phoneUISchema(category, parent, international) {
       'ui:title': `This ${category} phone number is international`,
       'ui:reviewField': YesNoReviewField,
       'ui:options': {
-        expandUnder: parent,
+        // expandUnder: parent,
         hideIf: formData =>
           !isValidPhone(
             formData[newFormFields.newViewPhoneNumbers][parent].phone,
@@ -608,13 +609,9 @@ const formConfig = {
             (!formData.fetchedSponsorsComplete ||
               formData.sponsors?.sponsors?.length),
           uiSchema: {
-            // 'view:subHeadings': {
-            //   'ui:description': (
-            //     <>
-            //       <Sponsors />
-            //     </>
-            //   ),
-            // },
+            'view:subHeadings': {
+              'ui:description': <Sponsors />,
+            },
             'view:sponsorsLoadingIndicator': {
               'ui:description': (
                 <va-loading-indicator message="Loading your sponsors..." />
