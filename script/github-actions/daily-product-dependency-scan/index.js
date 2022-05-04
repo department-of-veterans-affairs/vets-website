@@ -12,13 +12,18 @@ const Headings = require('./csv/headings');
 const Rows = require('./csv/rows');
 const { removeCarriageReturn, transformCsvToScsv } = require('./csv/helpers');
 
+function logResponse({ response }) {
+  console.error(JSON.stringify(response, null, 2));
+}
+
 function handleFailure({ response }) {
   if (response?.status) {
-    console.log(`GitHub API response:\n${response}`);
+    console.log('GitHub API response:\n');
   } else {
-    console.log(`Error:\n${response}`);
+    console.log('Error:\n');
   }
 
+  logResponse({ response });
   core.setFailed(
     'Product dependencies have changed but there was an error running this job. Please see the logs for more information.',
   );
