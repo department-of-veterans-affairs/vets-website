@@ -130,7 +130,7 @@ export default function ReasonForAppointmentPage() {
                 <li>
                   Call the Veterans Crisis hotline at{' '}
                   <VaTelephone
-                    contact="800-273-8255"
+                    contact="8002738255"
                     data-testid="crisis-hotline-telephone"
                   />{' '}
                   and select 1,{' '}

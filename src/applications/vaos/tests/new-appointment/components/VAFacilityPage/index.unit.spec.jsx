@@ -888,7 +888,7 @@ describe('VAOS <VAFacilityPage>', () => {
 
       userEvent.click(screen.getByText(/Why isn.t my facility listed/i));
       await waitFor(() => {
-        expect(screen.getByText(/Vista facility/i)).to.be.ok;
+        expect(screen.getByText(/Vista facility/i));
       });
 
       // Make sure Cerner facilities show up only once

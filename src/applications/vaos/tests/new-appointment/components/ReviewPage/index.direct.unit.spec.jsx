@@ -223,8 +223,6 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
       'Something went wrong when we tried to submit your appointment. Call your VA medical center to schedule this appointment.',
     );
 
-    // await screen.findByText('307-778-7550');
-
     // Not sure of a better way to search for test just within the alert
     const alert = screen.baseElement.querySelector('va-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
@@ -315,7 +313,6 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
       `Something went wrong when we tried to submit your appointment. You can try again later, or call your VA medical center to help with your appointment`,
     );
 
-    // await screen.getByTestId('307-778-7550');
     expect(screen.getByTestId('facility-telephone')).to.exist;
 
     // Not sure of a better way to search for test just within the alert

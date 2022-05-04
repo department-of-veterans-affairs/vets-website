@@ -23,7 +23,7 @@ function UrgentCareMessage() {
         <li>
           Call the Veterans Crisis hotline at{' '}
           <VaTelephone
-            contact="800-273-8255"
+            contact="8002738255"
             data-testid="crisis-hotline-telephone"
           />{' '}
           <span className="vads-u-font-weight--bold">or</span>
