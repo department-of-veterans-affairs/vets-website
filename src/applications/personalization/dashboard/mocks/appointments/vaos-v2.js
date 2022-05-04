@@ -1,7 +1,11 @@
 const format = require('date-fns/format');
 const add = require('date-fns/add');
 
-const createVaosAppointment = ({ startsInDays = 1, status = 'booked' }) => {
+const createVaosAppointment = ({
+  startsInDays = 1,
+  status = 'booked',
+  kind = 'clinic',
+} = {}) => {
   const now = add(new Date(), { days: startsInDays });
 
   const appointment = {
@@ -36,7 +40,7 @@ const createVaosAppointment = ({ startsInDays = 1, status = 'booked' }) => {
   appointment.id = '123';
   appointment.attributes = {
     ...appointment.attributes,
-    kind: 'clinic',
+    kind,
     status,
     locationId: '983',
     location: {

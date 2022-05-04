@@ -5,6 +5,8 @@ import { generateFeatureToggles } from '../../../mocks/feature-toggles';
 
 import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 
+import moment from '~/applications/personalization/dashboard/lib/moment-tz';
+
 describe('MyVA Dashboard - Appointments - v2', () => {
   beforeEach(() => {
     mockLocalStorage();
@@ -18,7 +20,20 @@ describe('MyVA Dashboard - Appointments - v2', () => {
   });
   it('Has an appointment in the next 30 days', () => {
     cy.intercept('GET', '/vaos/v2/appointments*', req => {
-      // TODO: check for incoming params
+      expect(req.query.start).to.equal(
+        moment()
+          .startOf('day')
+          .toISOString(),
+      );
+      // and the end to be 395 days from today
+      expect(req.query.end).to.equal(
+        moment()
+          .add(395, 'days')
+          .startOf('day')
+          .toISOString(),
+      );
+      expect(req.query._include).to.include('facilities');
+      expect(req.query.status).to.include('booked');
       const rv = v2.createAppointmentSuccess();
       req.reply(rv);
     });

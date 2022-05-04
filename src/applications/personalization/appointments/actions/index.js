@@ -19,6 +19,8 @@ import {
 } from '~/applications/personalization/dashboard/constants';
 import MOCK_FACILITIES from '~/applications/personalization/dashboard/utils/mocks/appointments/MOCK_FACILITIES.json';
 
+import { vaosV2Helpers, getStagingID } from './utils';
+
 const CANCELLED_APPOINTMENT_SET = new Set([
   'CANCELLED BY CLINIC & AUTO RE-BOOK',
   'CANCELLED BY CLINIC',
@@ -92,29 +94,8 @@ function getAdditionalInfo(appointment) {
   return null;
 }
 
-function getStagingID(facilityID) {
-  if (!facilityID) {
-    return facilityID;
-  }
-
-  if (environment.isProduction()) {
-    return facilityID;
-  }
-
-  if (facilityID.startsWith('983')) {
-    return facilityID.replace('983', '442');
-  }
-
-  if (facilityID.startsWith('984')) {
-    return facilityID.replace('984', '552');
-  }
-
-  return facilityID;
-}
-
 export function fetchConfirmedFutureAppointmentsV2() {
   return async dispatch => {
-    // console.log('loading v2', { dispatch });
     const startOfToday = moment()
       .startOf('day')
       .toISOString();
@@ -125,7 +106,6 @@ export function fetchConfirmedFutureAppointmentsV2() {
       .startOf('day')
       .toISOString();
 
-    // const facilitiesLookup = {};
     try {
       const appointmentResponse = await apiRequest(
         `/appointments?start=${startOfToday}&end=${endDate}&_include=facilities&status=booked`,
@@ -152,32 +132,10 @@ export function fetchConfirmedFutureAppointmentsV2() {
 
       // convert to appointment structure
       const formatted = appointments.map(appointment => {
-        const isVideo = appointment.attributes?.kind === 'telehealth';
-        const facilityStagingId = getStagingID(
-          appointment.attributes.locationId,
-        );
-        const timezone = getTimezoneBySystemId(facilityStagingId)?.timezone;
-        const date = appointment.attributes.start;
-        const startsAt = (timezone
-          ? moment(date).tz(timezone)
-          : moment(date)
-        ).format();
-        return {
-          ...appointment.attributes,
-          id: appointment.id,
-          isVideo,
-          startsAt,
-          type: '',
-          timeZone: getVATimeZone(facilityStagingId),
-          additionalInfo: getAdditionalInfo(appointment),
-          facility: { ...appointment.attributes.location.attributes },
-          providerName: appointment.attributes.location?.attributes?.name,
-        };
+        return vaosV2Helpers.transformAppointment(appointment);
       });
       // sort by date
-      const sorted = formatted.sort((a, b) => {
-        return moment(a.start).diff(b.start);
-      });
+      const sorted = vaosV2Helpers.sortAppointments(formatted);
       // update redux
       dispatch({
         type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS_SUCCEEDED,
