@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
+import { ALERT_TYPES } from '../utils/helpers';
 
 const ComboAlert = ({ children }) => children;
 
@@ -64,20 +65,22 @@ ComboAlert.Zero = () => {
   );
 };
 
-const ComboAlerts = ({ type }) => {
-  if (type === 'zero-balances') {
-    return <ComboAlert.Zero />;
+const ComboAlerts = ({ alertType }) => {
+  switch (alertType) {
+    case ALERT_TYPES.ZERO:
+      return <ComboAlert.Zero />;
+    case ALERT_TYPES.ERROR:
+    default:
+      recordEvent({
+        event: 'cdp-alert-card-error',
+        'cdp-alert-card-error': 'true',
+      });
+      return <ComboAlert.Error />;
   }
-
-  recordEvent({
-    event: 'alert-card-error',
-    'alert-card-error': 'true',
-  });
-  return <ComboAlert.Error />;
 };
 
 ComboAlerts.propTypes = {
-  type: PropTypes.string,
+  alertType: PropTypes.string,
 };
 
 export default ComboAlerts;
