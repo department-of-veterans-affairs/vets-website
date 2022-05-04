@@ -31,9 +31,13 @@ function handleFailure({ response }) {
 
 async function main() {
   const products = new Products();
+  const manifestGlobPathForTests =
+    'script/github-actions/daily-product-dependency-scan/tests/mocks/applications/**/*manifest.json';
+  const manifestGlobPath =
+    process.env.MANIFEST_GLOB_PATH || manifestGlobPathForTests;
 
   products.addProducts({
-    manifestPaths: glob.sync('src/applications/**/*manifest.json'),
+    manifestPaths: glob.sync(manifestGlobPath),
   });
 
   new PackageDependencies({

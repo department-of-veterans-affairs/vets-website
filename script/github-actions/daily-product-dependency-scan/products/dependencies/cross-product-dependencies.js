@@ -24,7 +24,9 @@ class CrossProductDependencies extends Dependencies {
             importRef,
           });
 
-          if (!importedFilePath.startsWith('src/applications')) return;
+          if (this.importIsNotFromAnyProductDirectory({ importedFilePath })) {
+            return;
+          }
 
           if (
             this.importIsFromOtherProduct({ productPath, importedFilePath })
@@ -70,7 +72,29 @@ class CrossProductDependencies extends Dependencies {
     return importRef;
   }
 
+  // TODO: refactor this function
+  importIsNotFromAnyProductDirectory({ importedFilePath }) {
+    const productDirectory = '/src/applications/';
+    const testProductDirectory =
+      'script/github-actions/daily-product-dependency-scan/tests/mocks/applications/';
+
+    return !(
+      importedFilePath.startsWith(productDirectory) ||
+      importedFilePath.startsWith(testProductDirectory)
+    );
+  }
+
+  // TODO: fix this function
   importIsFromOtherProduct({ productPath, importedFilePath }) {
+    // console.log('compare productPath with importedFilePath');
+    // console.log(productPath);
+    // console.log(importedFilePath);
+    // console.log('');
+
+    // handle the following paths which cause this function to incorrectly return true:
+    // script/github-actions/daily-product-dependency-scan/tests/mocks/applications/app-2/app-2a
+    // /src/applications/vre/28-1900/components/PreSubmitInfo
+
     const parentDirectory = productPath
       .split('/')
       .slice(0, 3)
