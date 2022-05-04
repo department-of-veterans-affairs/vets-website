@@ -12,10 +12,35 @@ describe('My VA Dashboard', () => {
         );
         expect(transformedAppointment.isVideo).to.be.true;
       });
-      it('should set timezone for an appointment', () => {});
-      it('should set additional information for an appointment', () => {});
-      it('should set facility for an appointment', () => {});
-      it('should set start for an appointment, as a date', () => {});
+      it('should set timezone for an appointment', () => {
+        const appointment = createVaosAppointment();
+        const transformedAppointment = vaosV2Helpers.transformAppointment(
+          appointment,
+        );
+        expect(transformedAppointment.timeZone).to.a.string;
+        expect(transformedAppointment.timeZone).to.equal('MT');
+      });
+      it('should set additional information for an appointment', () => {
+        // TOOD: fill in
+      });
+      it('should set facility for an appointment', () => {
+        const appointment = createVaosAppointment();
+        const transformedAppointment = vaosV2Helpers.transformAppointment(
+          appointment,
+        );
+        expect(transformedAppointment.facility).to.be.an('object');
+        expect(transformedAppointment.providerName).to.be.an('string');
+      });
+      it('should set start for an appointment, as a date', () => {
+        const appointment = createVaosAppointment();
+        const transformedAppointment = vaosV2Helpers.transformAppointment(
+          appointment,
+        );
+        expect(transformedAppointment.startsAt).to.be.a('string');
+        expect(new Date(transformedAppointment.startsAt).getDay()).to.equal(
+          new Date(appointment.attributes.start).getDay(),
+        );
+      });
     });
     describe('sortAppointments', () => {
       it('sorts appointments by startAt time, descending order', () => {

@@ -5,7 +5,7 @@ const createVaosAppointment = ({
   startsInDays = 1,
   status = 'booked',
   kind = 'clinic',
-}) => {
+} = {}) => {
   const now = add(new Date(), { days: startsInDays });
 
   const appointment = {
