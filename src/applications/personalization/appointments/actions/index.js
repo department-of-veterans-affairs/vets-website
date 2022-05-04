@@ -106,7 +106,6 @@ export function fetchConfirmedFutureAppointmentsV2() {
       .startOf('day')
       .toISOString();
 
-    // const facilitiesLookup = {};
     try {
       const appointmentResponse = await apiRequest(
         `/appointments?start=${startOfToday}&end=${endDate}&_include=facilities&status=booked`,
