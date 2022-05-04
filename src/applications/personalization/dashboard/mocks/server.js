@@ -1,3 +1,4 @@
+const delay = require('mocker-api/lib/delay');
 const { generateFeatureToggles } = require('./feature-toggles');
 const { simpleUser } = require('./users');
 const { createSuccessPayment } = require('./payment-history');
@@ -59,9 +60,9 @@ const responses = {
     return res.status(400).json({ bad: 'type' });
   },
   'GET /vaos/v2/appointments': (_req, res) => {
-    const rv = v2.createAppointmentSuccess();
+    const rv = v2.createAppointmentSuccess({ startsInDays: [31] });
     return res.status(200).json(rv);
   },
 };
 
-module.exports = responses;
+module.exports = delay(responses, 2000);

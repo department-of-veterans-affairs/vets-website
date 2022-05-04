@@ -18,7 +18,11 @@ const createV2AppointmentSuccess = ({
   startsInDays = [1, 10, 30, 50],
 } = {}) => {
   return {
-    data: [...startsInDays.map(days => createVaosAppointment(days))],
+    data: [
+      ...startsInDays.map(days =>
+        createVaosAppointment({ startsInDays: days }),
+      ),
+    ],
   };
 };
 
