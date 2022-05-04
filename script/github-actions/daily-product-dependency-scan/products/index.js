@@ -12,7 +12,7 @@ class Products {
       const manifest = JSON.parse(fs.readFileSync(path));
 
       if (manifest.productId) {
-        const productId = manifest.productId || null;
+        const { productId } = manifest;
         const productPath = path.slice(0, path.lastIndexOf('/'));
         this.all[productId] = new Product({ productPath });
       }
