@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import {
   hasMoreAppointmentsToCheckInto,
+  preCheckinAlreadyCompleted,
   sortAppointmentsByStartTime,
   removeTimeZone,
 } from './index';
@@ -112,6 +113,25 @@ describe('check in', () => {
         expect(
           hasMoreAppointmentsToCheckInto(appointments, selectedAppointment),
         ).to.equal(false);
+      });
+    });
+    describe('preCheckinAlreadyCompleted', () => {
+      const earliest = createAppointment();
+      earliest.startTime = '2018-01-01T00:00:00.000Z';
+      const midday = createAppointment();
+      midday.startTime = '2018-01-01T12:00:00.000Z';
+      const latest = createAppointment();
+      latest.startTime = '2018-01-01T23:59:59.000Z';
+
+      it('returns false when there are no appointments', () => {
+        expect(preCheckinAlreadyCompleted([])).to.deep.equal(false);
+      });
+      it('returns false when checkInSteps are undefined', () => {
+        delete earliest.checkInSteps;
+        delete midday.checkInSteps;
+        delete latest.checkInSteps;
+        const appointments = [latest, earliest, midday];
+        expect(preCheckinAlreadyCompleted(appointments)).to.deep.equal([]);
       });
     });
     describe('sortAppointmentsByStartTime', () => {
