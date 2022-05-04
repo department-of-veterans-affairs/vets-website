@@ -3,8 +3,8 @@ import {
   calculateTotalDebts,
   getLatestDebt,
   calculateTotalBills,
-  getLatestBills,
-} from '../../components/Balances';
+  getLatestBill,
+} from '../../utils/balance-helpers';
 // TODO: Update referece after refactoring
 import mockDebt from '../../../../debt-letters/tests/e2e/fixtures/mocks/debts.json';
 import mockBill from '../../utils/mock-users/mockStatements.json';
@@ -40,13 +40,13 @@ describe('combined debt portal helpers', () => {
     });
   });
 
-  describe('getLatestBills helper: ', () => {
+  describe('getLatestBill helper: ', () => {
     it('should return latest bills', () => {
-      expect(getLatestBills(mockBill)).to.equal('12/05/2021');
+      expect(getLatestBill(mockBill)).to.equal('12/05/2021');
     });
 
     it('should return latest bills', () => {
-      expect(getLatestBills(null)).to.equal(null);
+      expect(getLatestBill(null)).to.equal(null);
     });
   });
 });
