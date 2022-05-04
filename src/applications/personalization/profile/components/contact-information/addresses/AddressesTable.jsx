@@ -9,6 +9,8 @@ import {
 } from '@@vap-svc/constants';
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 
+import { formatAddressTitle } from '@@profile/util/contact-information/addressUtils';
+
 import CopyAddressModalController from './CopyAddressModalController';
 
 import ProfileInfoTable from '../../ProfileInfoTable';
@@ -22,7 +24,7 @@ const AddressesTable = ({ className }) => (
       namedAnchor="addresses"
       data={[
         {
-          title: FIELD_TITLES[FIELD_NAMES.MAILING_ADDRESS],
+          title: formatAddressTitle(FIELD_TITLES[FIELD_NAMES.MAILING_ADDRESS]),
           description: FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.MAILING_ADDRESS],
           id: FIELD_IDS[FIELD_NAMES.MAILING_ADDRESS],
           value: (
@@ -32,7 +34,9 @@ const AddressesTable = ({ className }) => (
           ),
         },
         {
-          title: FIELD_TITLES[FIELD_NAMES.RESIDENTIAL_ADDRESS],
+          title: formatAddressTitle(
+            FIELD_TITLES[FIELD_NAMES.RESIDENTIAL_ADDRESS],
+          ),
           description:
             FIELD_TITLE_DESCRIPTIONS[FIELD_NAMES.RESIDENTIAL_ADDRESS],
           id: FIELD_IDS[FIELD_NAMES.RESIDENTIAL_ADDRESS],
