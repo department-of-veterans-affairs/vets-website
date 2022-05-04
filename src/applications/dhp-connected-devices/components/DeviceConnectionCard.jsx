@@ -5,7 +5,7 @@ import environment from 'platform/utilities/environment';
 export const DeviceConnectionCard = ({ device }) => {
   return (
     <div className="connect-device">
-      <h3 className="vads-u-margin-y--0">{device.vendor}</h3>
+      <h3 className="vads-u-margin-y--0">{device.name}</h3>
       <p className="vads-u-margin-y--0">
         <a
           data-testid={`${device.key}-connect-link`}
