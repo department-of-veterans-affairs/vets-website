@@ -18,8 +18,7 @@ const DebtLettersWrapper = ({
   useEffect(
     () => {
       if (showDebtLetters) {
-        const generateGetDebtLetters = () => fetchDebtLetters(dispatch);
-        dispatch(generateGetDebtLetters);
+        dispatch(fetchDebtLetters);
       }
     },
     [dispatch, showDebtLetters],
