@@ -19,16 +19,33 @@ function SponsorSelectionPage({
   getSponsors,
   loadingMessage = 'Loading your sponsors...',
   sponsors,
+  sponsorsSavedState,
 }) {
   const [dirty, setDirty] = useState(false);
 
   useEffect(
     () => {
-      if (!sponsors?.sponsors && !fetchedSponsors) {
-        getSponsors();
+      // if (!sponsors?.sponsors && !fetchedSponsors) {
+      //   getSponsors();
+      // }
+
+      if (
+        !sponsors?.loadedFromSavedState &&
+        isArray(sponsorsSavedState?.sponsors)
+      ) {
+        dispatchSponsorsChange({
+          ...sponsorsSavedState,
+          loadedFromSavedState: true,
+        });
       }
     },
-    [fetchedSponsors, getSponsors, sponsors],
+    [
+      dispatchSponsorsChange,
+      fetchedSponsors,
+      getSponsors,
+      sponsors,
+      sponsorsSavedState,
+    ],
   );
 
   if (!fetchedSponsorsComplete) {
@@ -111,18 +128,12 @@ function SponsorSelectionPage({
 }
 
 const mapSponsors = state => {
-  if (isArray(state.form.loadedData?.formData?.sponsors?.sponsors)) {
-    return state.form.loadedData.formData.sponsors;
-  }
-
-  if (isArray(state.form.data.sponsors?.sponsors)) {
-    return state.form.data.sponsors;
-  }
+  // if (isArray(state.form.data.sponsors?.sponsors)) {
+  //   return state.form.data.sponsors;
+  // }
 
   if (isArray(state.data?.sponsors?.sponsors)) {
-    return {
-      sponsors: state.data.sponsors,
-    };
+    return state.data.sponsors;
   }
 
   return {};
@@ -132,7 +143,7 @@ const mapStateToProps = state => ({
   fetchedSponsors: state.data?.fetchedSponsors,
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
   sponsors: mapSponsors(state),
-  state,
+  sponsorsSavedState: state.form.loadedData?.formData?.sponsors,
 });
 
 const mapDispatchToProps = {
