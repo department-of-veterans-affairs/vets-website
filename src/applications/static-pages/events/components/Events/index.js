@@ -100,16 +100,6 @@ export const Events = ({ rawEvents }) => {
 
   return (
     <div className="events usa-width-three-fourths vads-u-display--flex vads-u-flex-direction--column vads-u-padding-x--1p5 medium-screen:vads-u-padding-x--0 vads-u-padding-bottom--2">
-      {/* Title */}
-      <h1 className="vads-u-margin--0 vads-">Outreach events</h1>
-
-      {/* Description */}
-      <p className="va-introtext">
-        VA benefits can help Veterans and their families buy homes, earn
-        degrees, start careers, stay healthy, and more. Join an event for
-        conversation and information.
-      </p>
-
       {/* Search */}
       <Search onSearch={onSearch} />
 

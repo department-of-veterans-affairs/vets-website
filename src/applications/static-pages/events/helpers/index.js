@@ -166,7 +166,7 @@ export const filterEvents = (
     // Upcoming events.
     case 'upcoming': {
       return events?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isAfter(
+        moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isAfter(
           now.clone(),
         ),
       );
@@ -175,7 +175,7 @@ export const filterEvents = (
     // Next week.
     case 'next-week': {
       return events?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isBetween(
+        moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isBetween(
           now
             .clone()
             .add('7', 'days')
@@ -191,7 +191,7 @@ export const filterEvents = (
     // Next month.
     case 'next-month': {
       return events?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isBetween(
+        moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isBetween(
           now
             .clone()
             .add('1', 'month')
@@ -209,12 +209,12 @@ export const filterEvents = (
       // Sort events inversely. @WARNING that `.sort` is mutative, so we need to clone the array.
       const sortedEvents = [...events]?.sort(
         (event1, event2) =>
-          event2?.fieldDatetimeRangeTimezone?.value -
-          event1?.fieldDatetimeRangeTimezone?.value,
+          event2?.fieldDatetimeRangeTimezone[0]?.value -
+          event1?.fieldDatetimeRangeTimezone[0]?.value,
       );
 
       return sortedEvents?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone?.endValue * 1000).isBefore(
+        moment(event?.fieldDatetimeRangeTimezone[0].endValue * 1000).isBefore(
           now.clone(),
         ),
       );
@@ -228,11 +228,11 @@ export const filterEvents = (
 
       return events?.filter(
         event =>
-          moment(event?.fieldDatetimeRangeTimezone?.value).isBetween(
+          moment(event?.fieldDatetimeRangeTimezone[0]?.value).isBetween(
             options?.startsAtUnix,
             options?.endsAtUnix,
           ) ||
-          moment(event?.fieldDatetimeRangeTimezone?.endValue).isBetween(
+          moment(event?.fieldDatetimeRangeTimezone[0]?.endValue).isBetween(
             options?.startsAtUnix,
             options?.endsAtUnix,
           ),
@@ -337,12 +337,16 @@ export const deriveEventLocations = event => {
 export const hideLegacyEvents = () => {
   // Derive the legacy events page.
   const legacyEvents = document.querySelector('div[id="events-v1"]');
-
+  // Show the new header.
+  const eventsv2Header = document.querySelector('.events-v2');
+  eventsv2Header?.classList.remove('vads-u-display--none');
+  if (!eventsv2Header?.classList.contains('vads-u-display--flex')) {
+    eventsv2Header?.classList.add('vads-u-display--flex');
+  }
   // Escape early if the legacy events page doesn't exist.
   if (!legacyEvents) {
     return;
   }
-
   // Add `vads-u-display--none` to the legacy events page if it doesn't already have it.
   if (!legacyEvents.classList.contains('vads-u-display--none')) {
     legacyEvents.classList.add('vads-u-display--none');
@@ -352,6 +356,12 @@ export const hideLegacyEvents = () => {
 export const showLegacyEvents = () => {
   // Derive the legacy events page.
   const legacyEvents = document.querySelector('div[id="events-v1"]');
+  // Hide the new header.
+  const eventsv2Header = document.querySelector('.events-v2');
+  eventsv2Header?.classList.remove('vads-u-display--flex');
+  if (!eventsv2Header?.classList.contains('vads-u-display--none')) {
+    eventsv2Header?.classList.add('vads-u-display--none');
+  }
 
   // Escape early if the legacy events page doesn't exist.
   if (!legacyEvents) {

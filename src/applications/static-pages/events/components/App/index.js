@@ -15,10 +15,8 @@ export const App = ({ rawEvents, showEventsV2 }) => {
     // Escape early and do not render.
     return null;
   }
-
   // Ensure the legacy liquid page has display: none.
   hideLegacyEvents();
-
   // Show the events listing page v2.
   return <Events rawEvents={rawEvents} />;
 };

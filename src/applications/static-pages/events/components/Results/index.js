@@ -68,7 +68,7 @@ export const Results = ({
 
             // Derive the most recent date.
             const mostRecentDate = deriveMostRecentDate(
-              event?.fieldDatetimeRangeTimezone,
+              event?.fieldDatetimeRangeTimezone[0],
             );
             const startsAtUnix = mostRecentDate?.value;
             const endsAtUnix = mostRecentDate?.endValue;
@@ -116,7 +116,7 @@ export const Results = ({
                     </p>
 
                     {/* Repeats */}
-                    {event?.fieldDatetimeRangeTimezone?.length > 1 && (
+                    {event?.fieldDatetimeRangeTimezone[0]?.length > 1 && (
                       <p className="vads-u-margin--0">
                         <i
                           className="fa fa-sync vads-u-font-size--sm vads-u-margin-right--0p5"
