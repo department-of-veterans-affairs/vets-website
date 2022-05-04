@@ -32,8 +32,6 @@ export default {
   mhv: 'mhv',
   // Search.gov API
   search: 'search',
-  // SSOe
-  ssoe: 'ssoe',
   // The Image Management System (education forms)
   tims: 'tims',
   // Online appointment scheduling
