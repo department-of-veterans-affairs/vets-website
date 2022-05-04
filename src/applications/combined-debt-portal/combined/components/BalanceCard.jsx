@@ -1,26 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { currency, formatDate } from '../utils/helpers';
+import { APP_TYPES, currency, formatDate } from '../utils/helpers';
 
-const BalanceCard = ({ amount, count, date, isDebt }) => {
-  const cardHeader = isDebt
-    ? `for ${count} outstanding debt${count > 1 ? 's' : ''}`
-    : `for ${count} copay bill${count > 1 ? 's' : ''}`;
+const BalanceCard = ({ amount, count, date, appType }) => {
+  const cardHeader =
+    appType === APP_TYPES.DEBT
+      ? `for ${count} outstanding debt${count > 1 ? 's' : ''}`
+      : `for ${count} copay bill${count > 1 ? 's' : ''}`;
 
-  const linkText = isDebt
-    ? 'Check the status and resolve your debt'
-    : 'Check your balance and resolve your bill';
+  const linkText =
+    appType === APP_TYPES.DEBT
+      ? 'Check the status and resolve your debt'
+      : 'Check your balance and resolve your bill';
 
   // Linking to existing applications
   // TODO: update a tag with Link component after merge
-  const linkDestination = isDebt
-    ? `/manage-va-debt/your-debt/`
-    : `/health-care/pay-copay-bill/your-current-balances/`;
+  const linkDestination =
+    appType === APP_TYPES.DEBT
+      ? `/manage-va-debt/your-debt/`
+      : `/health-care/pay-copay-bill/your-current-balances/`;
 
   return (
     <div
       className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
-      data-testid={`balance-card-${isDebt ? 'debt' : 'copay'}`}
+      data-testid={`balance-card-${
+        appType === APP_TYPES.DEBT ? 'debt' : 'copay'
+      }`}
     >
       {/* aria-describedby={`copay-balance-${id}`} */}
       <h3
@@ -59,9 +64,9 @@ const BalanceCard = ({ amount, count, date, isDebt }) => {
 
 BalanceCard.propTypes = {
   amount: PropTypes.number,
+  appType: PropTypes.string,
   count: PropTypes.number,
   date: PropTypes.string,
-  isDebt: PropTypes.bool,
 };
 
 export default BalanceCard;
