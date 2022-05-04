@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
-import Table from '@department-of-veterans-affairs/component-library/Table';
-import { clientServerErrorContent } from '../helpers';
+import { generateTableChildren } from '@department-of-veterans-affairs/component-library';
 import { chunk } from 'lodash';
+import PropTypes from 'prop-types';
+import { VaPagination } from 'web-components/react-bindings';
+
+import { clientServerErrorContent } from '../helpers';
 
 const MAX_PAGE_LIST_LENGTH = 10;
 class Payments extends Component {
@@ -75,16 +77,19 @@ class Payments extends Component {
             Displaying {this.state.fromNumber} - {this.state.toNumber} of{' '}
             {this.props.data.length}
           </p>
-          <Table
+          <va-table
             ariaLabelledBy={tableAriaLabelldBy}
             className="va-table"
-            fields={this.props.fields}
-            data={this.state.currentlyShowingData}
-            maxRows={10}
-          />
-          <Pagination
+            maxRows={this.state.maxRows}
+          >
+            {generateTableChildren(
+              this.state.currentlyShowingData,
+              this.props.fields,
+            )}
+          </va-table>
+          <VaPagination
             className="vads-u-border-top--0"
-            onPageSelect={page => this.handleDataPagination(page)}
+            onPageSelect={e => this.handleDataPagination(e.detail.page)}
             page={this.state.page}
             pages={this.state.numberOfPages}
             maxPageListLength={MAX_PAGE_LIST_LENGTH}
@@ -102,5 +107,12 @@ class Payments extends Component {
     return <>{tableContent}</>;
   }
 }
+
+Payments.propTypes = {
+  tableVersion: PropTypes.string.isRequired,
+  data: PropTypes.array,
+  fields: PropTypes.array,
+  textContext: PropTypes.string,
+};
 
 export default Payments;
