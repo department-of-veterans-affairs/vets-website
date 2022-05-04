@@ -1,3 +1,4 @@
+const delay = require('mocker-api/lib/delay');
 const { generateFeatureToggles } = require('./feature-toggles');
 const { simpleUser } = require('./users');
 const { createSuccessPayment } = require('./payment-history');
@@ -64,4 +65,4 @@ const responses = {
   },
 };
 
-module.exports = responses;
+module.exports = delay(responses, 2000);

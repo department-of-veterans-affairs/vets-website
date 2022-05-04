@@ -96,6 +96,10 @@ function getAdditionalInfo(appointment) {
 
 export function fetchConfirmedFutureAppointmentsV2() {
   return async dispatch => {
+    dispatch({
+      type: FETCH_CONFIRMED_FUTURE_APPOINTMENTS,
+    });
+
     const startOfToday = moment()
       .startOf('day')
       .toISOString();
