@@ -384,7 +384,7 @@ export const incomeDescription = (
 
 export const disclosureWarning = (
   <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">
+    <div className="usa-alert-body" aria-live="polite">
       <span>
         If you don’t provide your financial information and you don’t have
         another qualifying eligibility factor, VA can’t enroll you.
