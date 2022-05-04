@@ -6,10 +6,6 @@ import { connect } from 'react-redux';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 
-import ServiceProvidersText, {
-  ServiceProvidersTextCreateAcct,
-} from 'platform/user/authentication/components/ServiceProvidersText';
-
 import { hasSession } from 'platform/user/profile/utilities';
 
 export class ConfirmationPage extends React.Component {
@@ -105,50 +101,6 @@ export class ConfirmationPage extends React.Component {
             at <va-telephone contact="877-222-8387" />. We’re here Monday
             through Friday, 8:00 am to 8:00 pm ET.
           </p>
-          <h4 className="confirmation-guidance-heading">
-            How can I check the status of my application?
-          </h4>
-          <ol className="process-steps">
-            <li className="process-step list-one">
-              <p>
-                <strong>Sign in to VA.gov</strong>
-              </p>
-              <p>
-                You can sign in with your existing <ServiceProvidersText />
-                account. <ServiceProvidersTextCreateAcct />
-              </p>
-            </li>
-            <li className="process-step list-two">
-              <p>
-                <strong>
-                  If you haven’t yet verified your identity, complete this
-                  process when prompted
-                </strong>
-              </p>
-              <p>
-                This helps keep you information safe, and prevents fraud and
-                identity theft. If you’ve already verified your identity with
-                us, you won’t need to do this again.
-              </p>
-            </li>
-            <li className="process-step list-three">
-              <p>
-                <strong>Go to your personalized My VA homepage</strong>
-              </p>
-              <p>
-                Once you’re signed in, you can go to your homepage by clicking
-                on the <strong>My VA</strong> link near the top right of any
-                VA.gov page. You’ll find your application status information in
-                the <strong>Your Applications</strong> section of you homepage.
-              </p>
-              <p>
-                <strong>Please note: </strong>
-                Your application status may take some time to appear on our
-                homepage. If you don’t see it there right away, please check
-                back later.
-              </p>
-            </li>
-          </ol>
           <h4 className="confirmation-guidance-heading">
             How will I know if I’m enrolled in VA health care?
           </h4>
