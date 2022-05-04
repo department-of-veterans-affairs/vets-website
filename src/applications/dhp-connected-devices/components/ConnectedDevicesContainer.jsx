@@ -4,23 +4,6 @@ import { DevicesToConnectSection } from './DevicesToConnectSection';
 import { ConnectedDevicesSection } from './ConnectedDevicesSection';
 import { FETCH_CONNECTED_DEVICES } from '../actions/api';
 
-// const devices = [
-//   {
-//     vendor: 'vendor-1',
-//     key: 'vendor1',
-//     authUrl: 'path/to/vetsapi/vendor-1/connect/method',
-//     disconnectUrl: 'path/to/vetsapi/vendor-1/disconnect/method',
-//     connected: true,
-//   },
-//   {
-//     vendor: 'vendor-2',
-//     key: 'vendor2',
-//     authUrl: 'path/to/vetsapi/vendor-2/connect/method',
-//     disconnectUrl: 'path/to/vetsapi/vendor-2/disconnect/method',
-//     connected: false,
-//   },
-// ];
-
 export const ConnectedDevicesContainer = () => {
   const [connectedDevices, setConnectedDevices] = useState([]);
   const [successAlert, setSuccessAlert] = useState(false);
