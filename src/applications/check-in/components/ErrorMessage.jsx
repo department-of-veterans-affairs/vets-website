@@ -3,7 +3,12 @@ import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-const ErrorMessage = ({ header, message, showAlert = true }) => {
+const ErrorMessage = ({
+  header,
+  message,
+  showAlert = true,
+  messageBox = false,
+}) => {
   const { t } = useTranslation();
   const errorHeader = header ?? t('we-couldnt-check-you-in');
   const errorMessage = message ?? (
@@ -17,12 +22,20 @@ const ErrorMessage = ({ header, message, showAlert = true }) => {
     focusElement('h1');
   }, []);
 
+  const messageElement = messageBox ? (
+    <va-alert background-only show-icon data-testid="error-message">
+      {errorMessage}
+    </va-alert>
+  ) : (
+    <div data-testid="error-message">{errorMessage}</div>
+  );
+
   const body = (
     <>
       <h1 tabIndex="-1" slot="headline">
         {errorHeader}
       </h1>
-      <div data-testid="error-message">{errorMessage}</div>
+      {messageElement}
     </>
   );
 
@@ -32,6 +45,7 @@ const ErrorMessage = ({ header, message, showAlert = true }) => {
 ErrorMessage.propTypes = {
   header: PropTypes.string,
   message: PropTypes.node,
+  messageBox: PropTypes.bool,
   showAlert: PropTypes.bool,
 };
 

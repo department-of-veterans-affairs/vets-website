@@ -16,7 +16,7 @@ class Error {
   validateExpiredPageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Sorry, we can’t complete pre-check-in');
+      .and('have.text', 'Sorry, pre-check-in is no longer available');
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
       .contains(

@@ -153,5 +153,6 @@
   "your-date-of-birth-can-not-be-in-the-future": "Your date of birth can not be in the future",
   "please-provide-a-response": "Please provide a response",
   "in-en": "in english",
-  "sorry-we-cant-complete-pre-check-in": "Sorry, we can’t complete pre-check-in"
+  "sorry-we-cant-complete-pre-check-in": "Sorry, we can’t complete pre-check-in",
+  "sorry-pre-check-in-is-no-longer-available": "Sorry, pre-check-in is no longer available"
 }

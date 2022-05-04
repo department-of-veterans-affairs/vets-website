@@ -60,18 +60,29 @@ const Error = ({ location }) => {
   const getErrorMessagePropsByType = () => {
     if (type && type === 'expired')
       return [
-        t('sorry-we-cant-complete-pre-check-in'),
+        t('sorry-pre-check-in-is-no-longer-available'),
         t('you-can-still-check-in-once-you-arrive'),
         false,
+        true,
       ];
-    return [t('sorry-we-cant-complete-pre-check-in'), combinedMessage, false];
+    return [
+      t('sorry-we-cant-complete-pre-check-in'),
+      combinedMessage,
+      false,
+      false,
+    ];
   };
 
-  const [header, message, showAlert] = getErrorMessagePropsByType();
+  const [header, message, showAlert, messageBox] = getErrorMessagePropsByType();
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 ">
-      <ErrorMessage header={header} message={message} showAlert={showAlert} />
+      <ErrorMessage
+        header={header}
+        message={message}
+        showAlert={showAlert}
+        messageBox={messageBox}
+      />
       <Footer />
       <BackToHome />
     </div>
