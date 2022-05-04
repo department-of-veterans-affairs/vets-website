@@ -12,7 +12,7 @@ const defaultProps = {
   signOut: sinon.spy(),
 };
 
-describe('SignInModal', () => {
+describe('SessionTimeoutModal', () => {
   it('should render Modal', () => {
     const component = shallow(<SessionTimeoutModal {...defaultProps} />);
     expect(component.exists(Modal)).to.be.true;
