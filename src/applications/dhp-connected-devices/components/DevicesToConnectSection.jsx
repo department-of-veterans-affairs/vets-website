@@ -12,16 +12,15 @@ export const DevicesToConnectSection = ({ connectedDevices }) => {
   };
   const devicesToConnectMapped = () => {
     try {
-      return connectedDevices.map(device => {
-        if (!device.connected) {
-          return <DeviceConnectionCard key={device.vendor} device={device} />;
-        }
-        return <></>;
-      });
+      return connectedDevices
+        .filter(device => !device.connected)
+        .map(device => {
+          return <DeviceConnectionCard key={device.key} device={device} />;
+        });
     } catch (err) {
       return (
         <p data-testid="all-devices-connected-alert">
-          There are no devices available to connect.
+          There are no devices available to connect. ghvjbkn
         </p>
       );
     }
