@@ -3,6 +3,7 @@ import {
   basicUserPersonalInfo,
   putBadRequestFailure,
   createPutPreferredNameSuccess,
+  unsetUserPersonalInfo,
 } from '@@profile/mocks/personal-information';
 import set from 'lodash/set';
 
@@ -41,6 +42,16 @@ describe('Preferred name field tests on the personal information page', () => {
     cy.get(nameEditInputField).should('not.exist');
 
     cy.findByTestId('preferredName').contains('Wes');
+
+    cy.injectAxeThenAxeCheck();
+  });
+
+  it('when api data is empty, should render preferred name field and placeholder content', () => {
+    setup({ isEnhanced: true, personalInfo: unsetUserPersonalInfo });
+
+    cy.findByTestId('preferredName')
+      .contains('Edit your profile to add a preferred name.')
+      .should('exist');
 
     cy.injectAxeThenAxeCheck();
   });

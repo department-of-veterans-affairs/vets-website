@@ -61,7 +61,7 @@ const App = ({ toggleLoginModal, user }) => {
 
         <p className="va-introtext">
           If you’re a Veteran and you recently received your VA education
-          decision letters, you can download them now.
+          decision letter, you can download it now.
         </p>
 
         {renderUI()}
@@ -104,9 +104,7 @@ const App = ({ toggleLoginModal, user }) => {
               future
             </h3>
             <div>
-              Right now you can only download your education decision letters.
-              But we’re working to make other types of education letters
-              available too.
+              Right now you can only download your education decision letter.
             </div>
           </va-alert>
         </div>

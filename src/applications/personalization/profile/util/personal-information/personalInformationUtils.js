@@ -36,8 +36,8 @@ const genderLabels = {
   M: 'Man',
   B: 'Non-binary',
   TM: 'Transgender man',
-  TW: 'Transgender woman',
-  W: 'Woman',
+  TF: 'Transgender woman',
+  F: 'Woman',
   N: 'Prefer not to answer',
   O: 'A gender not listed here',
 };

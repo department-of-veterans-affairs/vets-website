@@ -190,6 +190,15 @@ class ApiInitializer {
         emergencyContactConfirmedAt,
       );
     },
+    withExpired: () => {
+      const data = preCheckInData.get.createMockSuccessResponse(
+        preCheckInData.get.expiredUUID,
+      );
+      cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
+        req.reply(data);
+      });
+      return data;
+    },
     withBadData: ({
       extraValidation = null,
       demographicsNeedsUpdate = true,

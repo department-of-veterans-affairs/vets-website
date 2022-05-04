@@ -1,4 +1,7 @@
+const addDays = require('date-fns/addDays');
+
 const defaultUUID = '0429dda5-4165-46be-9ed1-1e652a8dfd83';
+const expiredUUID = '354d5b3a-b7b7-4e5c-99e4-8d563f15c521';
 
 const createMockSuccessResponse = (
   token,
@@ -9,7 +12,7 @@ const createMockSuccessResponse = (
   emergencyContactNeedsUpdate = false,
   emergencyContactConfirmedAt = null,
 ) => {
-  const mockTime = new Date();
+  const mockTime = token === expiredUUID ? new Date() : addDays(new Date(), 1);
   return {
     id: token || defaultUUID,
     payload: {
@@ -118,4 +121,5 @@ module.exports = {
   createMockSuccessResponse,
   createMockFailedResponse,
   defaultUUID,
+  expiredUUID,
 };
