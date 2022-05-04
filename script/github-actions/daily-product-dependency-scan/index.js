@@ -42,7 +42,7 @@ async function main() {
   const octokit = new GitHub();
   let response = await octokit.getProductDirectory();
 
-  if (response.status === 200) {
+  if (response.status !== 200) {
     const { data: csv } = response;
     const csvLines = removeCarriageReturn(transformCsvToScsv(csv).split('\n'));
     const emptyProductDirectory = new Csv({
