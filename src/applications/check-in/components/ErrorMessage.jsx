@@ -25,10 +25,8 @@ const ErrorMessage = ({ header, message, showAlert = true }) => {
       <div data-testid="error-message">{errorMessage}</div>
     </>
   );
-  if (showAlert) {
-    return <va-alert status="error">{body}</va-alert>;
-  }
-  return { body };
+
+  return showAlert ? <va-alert status="error">{body}</va-alert> : body;
 };
 
 ErrorMessage.propTypes = {

@@ -95,9 +95,7 @@ const GreetUser = {
 
         if (data.type === 'message' && data.text) {
           if (
-            data.text.includes(
-              'Please wait a moment. Sending you to sign in...',
-            ) &&
+            data.text.includes('Alright. Sending you to the sign in page...') &&
             data.from.role === 'bot'
           ) {
             const authEvent = new Event('webchat-auth-activity');

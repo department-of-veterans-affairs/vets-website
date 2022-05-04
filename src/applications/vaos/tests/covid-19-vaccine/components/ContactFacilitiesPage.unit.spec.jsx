@@ -154,7 +154,7 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
     ).to.be.ok;
     expect(screen.baseElement).to.contain.text('Bozeman, MontanaMT');
     expect(screen.getByText(/80\.4 miles/i)).to.be.ok;
-    expect(screen.getByText(/555-555-5555, ext\. 1234/i)).to.be.ok;
+    expect(screen.getAllByTestId('facility-telephone')).to.exist;
 
     expect(
       await screen.findByRole('link', {
@@ -163,18 +163,11 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
     ).to.be.ok;
     expect(screen.baseElement).to.contain.text('Belgrade, MontanaMT');
     expect(screen.getByText(/85\.8 miles/i)).to.be.ok;
-    expect(screen.getByText(/555-555-5556, ext\. 1234/i)).to.be.ok;
-
+    expect(screen.getAllByTestId('facility-telephone')).to.exist;
+    expect(screen.getAllByTestId('tty-telephone')).to.exist;
     expect(screen.queryByText(/Facility that is furthest away/i)).not.to.be.ok;
     expect(screen.getAllByRole('link').map(el => el.textContent)).to.deep.equal(
-      [
-        'Facility that is enabled',
-        '555-555-5555, ext. 1234',
-        '711',
-        'Facility that is also enabled',
-        '555-555-5556, ext. 1234',
-        '711',
-      ],
+      ['Facility that is enabled', 'Facility that is also enabled'],
     );
   });
 
@@ -284,19 +277,9 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
     });
     expect(await screen.findByRole('link', { name: /A facility/i })).to.be.ok;
     expect(screen.getAllByRole('link').map(el => el.textContent)).to.deep.equal(
-      [
-        'A facility',
-        '711',
-        'B facility',
-        '711',
-        'C facility',
-        '711',
-        'D facility',
-        '711',
-        'E facility',
-        '711',
-      ],
+      ['A facility', 'B facility', 'C facility', 'D facility', 'E facility'],
     );
+    expect(screen.getAllByTestId('tty-telephone')).to.exist;
   });
   it('should show error message', async () => {
     const store = createTestStore(initialState);
@@ -376,10 +359,10 @@ describe('VAOS COVID-19 Vaccine: <ContactFacilitiesPage>', () => {
     expect(screen.getAllByRole('link').map(el => el.textContent)).to.deep.equal(
       [
         'Facility that is enabled',
-        '711',
         'Find VA facilities near you that offer COVID-19 vaccines',
       ],
     );
+    expect(screen.getByTestId('tty-telephone')).to.exist;
     expect(screen.getByText(/Find a vaccine walk-in clinic near you/i)).to.be
       .ok;
     expect(

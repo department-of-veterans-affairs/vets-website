@@ -1,9 +1,10 @@
 import { setup } from '@@profile/tests/e2e/personal-information/setup';
 import {
-  basicUserPersonalInfoResponse,
-  putPreferredNameFailureResponse,
-  makePutPreferredNameSuccessResponse,
-} from '@@profile/mocks/personalInformation';
+  basicUserPersonalInfo,
+  putBadRequestFailure,
+  createPutPreferredNameSuccess,
+  unsetUserPersonalInfo,
+} from '@@profile/mocks/personal-information';
 import set from 'lodash/set';
 
 describe('Preferred name field tests on the personal information page', () => {
@@ -45,6 +46,16 @@ describe('Preferred name field tests on the personal information page', () => {
     cy.injectAxeThenAxeCheck();
   });
 
+  it('when api data is empty, should render preferred name field and placeholder content', () => {
+    setup({ isEnhanced: true, personalInfo: unsetUserPersonalInfo });
+
+    cy.findByTestId('preferredName')
+      .contains('Edit your profile to add a preferred name.')
+      .should('exist');
+
+    cy.injectAxeThenAxeCheck();
+  });
+
   it('when updating preferred name is successful, should show success alert and the updated name', () => {
     setup({ isEnhanced: true });
 
@@ -53,16 +64,16 @@ describe('Preferred name field tests on the personal information page', () => {
     cy.intercept(
       'PUT',
       'v0/profile/preferred_names',
-      makePutPreferredNameSuccessResponse(updatedName.toUpperCase()),
+      createPutPreferredNameSuccess(updatedName),
     );
 
     cy.intercept('GET', 'v0/profile/personal_information*', req => {
       if (req?.query?.now) {
         req.reply(
           set(
-            { ...basicUserPersonalInfoResponse },
+            { ...basicUserPersonalInfo },
             'data.attributes.preferredName',
-            updatedName.toUpperCase(),
+            updatedName,
           ),
         );
       }
@@ -93,11 +104,7 @@ describe('Preferred name field tests on the personal information page', () => {
 
     const updatedName = 'George';
 
-    cy.intercept(
-      'PUT',
-      'v0/profile/preferred_names',
-      putPreferredNameFailureResponse,
-    );
+    cy.intercept('PUT', 'v0/profile/preferred_names', putBadRequestFailure);
 
     const nameEditButtonLabel = 'Edit Preferred name';
     const nameEditInputField = 'input[name="root_preferredName"]';

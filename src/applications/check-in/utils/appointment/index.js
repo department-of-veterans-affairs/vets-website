@@ -1,3 +1,4 @@
+import { startOfDay } from 'date-fns';
 import { ELIGIBILITY } from './eligibility';
 
 /**
@@ -72,8 +73,18 @@ const removeTimeZone = payload => {
 
   return updatedPayload;
 };
+
+const preCheckinExpired = appointments => {
+  return !Object.values(appointments).some(appt => {
+    const today = new Date();
+    const checkInExpiry = startOfDay(new Date(appt.startTime));
+    return today.getTime() < checkInExpiry.getTime();
+  });
+};
+
 export {
   hasMoreAppointmentsToCheckInto,
   sortAppointmentsByStartTime,
   removeTimeZone,
+  preCheckinExpired,
 };

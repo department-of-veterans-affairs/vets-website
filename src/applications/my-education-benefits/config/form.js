@@ -478,7 +478,7 @@ const formConfig = {
               },
             },
             [formFields.dateOfBirth]: {
-              ...currentOrPastDateUI('Date of birth'),
+              ...currentOrPastDateUI('Your date of birth'),
               'ui:reviewField': CustomReviewDOBField,
             },
           },
