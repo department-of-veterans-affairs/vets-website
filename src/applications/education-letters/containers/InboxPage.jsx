@@ -40,9 +40,9 @@ const InboxPage = () => {
     <>
       <FormTitle title="Your VA education letter" />
       <p className="va-introtext">
-        Download your VA education decision letters.
+        Download your VA education decision letter.
       </p>
-      <h2>Letters available for you to download</h2>
+      <h2>Letter available for you to download</h2>
       <div className="edu-certi-eligibility">
         <h3 className="vads-u-margin-top--2">Education decision letter</h3>
         <p>
