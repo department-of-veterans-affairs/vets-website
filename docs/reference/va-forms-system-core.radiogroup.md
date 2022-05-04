@@ -14,7 +14,7 @@ export declare function RadioGroup(props: RadioGroupProps): JSX.Element;
 
 |  Parameter | Type | Description |
 |  --- | --- | --- |
-|  props | RadioGroupProps |  |
+|  props | [RadioGroupProps](./va-forms-system-core.radiogroupprops.md) |  |
 
 <b>Returns:</b>
 

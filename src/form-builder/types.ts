@@ -37,6 +37,24 @@ export type CheckboxGroupProps = FieldProps<string> & {
 };
 
 /**
+ * OMBInfo properties
+ *
+ * @example
+ * ```
+ * {
+ *    expDate: 'My Example Title' required
+ *    resBurden: 1
+ *    ombNumber: '123-ABC'
+ * }
+ * ```
+ */
+export interface OMBInfoProps {
+  resBurden?: number;
+  ombNumber?: string;
+  expDate: string;
+}
+
+/**
  *
  * @remarks
  * The `name` prop must be passed in FullNameField component as it is used as object name.

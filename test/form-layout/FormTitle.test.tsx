@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 
 import FormRouter from '../../src/routing/Router';
-import FormTitle from '../../src/routing/FormTitle';
+import FormTitle from '../../src/form-layout/FormTitle';
 
 describe('FormTitle', () => {
 

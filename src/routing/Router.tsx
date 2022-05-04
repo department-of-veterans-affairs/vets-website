@@ -3,8 +3,8 @@ import { BrowserRouter, Routes } from 'react-router-dom';
 import { Formik } from 'formik';
 import { RouterProps } from './types';
 
-import FormTitle from './FormTitle';
-import FormFooter from './FormFooter';
+import FormTitle from '../form-layout/FormTitle';
+import FormFooter from '../form-layout/FormFooter';
 
 /**
  * Manages form pages as routes

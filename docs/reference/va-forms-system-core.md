@@ -9,6 +9,7 @@
 |  Function | Description |
 |  --- | --- |
 |  [Chapter(props)](./va-forms-system-core.chapter.md) | <b><i>(BETA)</i></b> Renders the chapter contents |
+|  [FormFooter()](./va-forms-system-core.formfooter.md) |  |
 |  [FormRouter(props)](./va-forms-system-core.formrouter.md) | <b><i>(BETA)</i></b> Manages form pages as routes Parent formik insance is rendered here |
 |  [Page(props)](./va-forms-system-core.page.md) | <b><i>(BETA)</i></b> Renders the page contents |
 |  [RadioGroup(props)](./va-forms-system-core.radiogroup.md) |  |
@@ -18,7 +19,9 @@
 |  Interface | Description |
 |  --- | --- |
 |  [ChapterProps](./va-forms-system-core.chapterprops.md) | <b><i>(BETA)</i></b> The properties for the Chapter React component |
+|  [FormTitleProps](./va-forms-system-core.formtitleprops.md) | FormTitle properties |
 |  [IFormData](./va-forms-system-core.iformdata.md) | <b><i>(BETA)</i></b> The type for the FormData to define the flexible data object |
+|  [OMBInfoProps](./va-forms-system-core.ombinfoprops.md) | OMBInfo properties |
 |  [PageProps](./va-forms-system-core.pageprops.md) | <b><i>(BETA)</i></b> The properties for the Page React component |
 |  [Routable](./va-forms-system-core.routable.md) | <b><i>(BETA)</i></b> Indicates if a component can be routed using <code>react-router-dom</code>. The <code>path</code> prop must be present. |
 |  [RouterProps](./va-forms-system-core.routerprops.md) | <b><i>(BETA)</i></b> The properties for the Router React component |
@@ -32,7 +35,21 @@
 |  [DateField](./va-forms-system-core.datefield.md) | Field value format: M-D-YYYY<!-- -->TODO: Convert the Date component into a web component and use it here. |
 |  [DebuggerView](./va-forms-system-core.debuggerview.md) | Display the Formik state |
 |  [EmailField](./va-forms-system-core.emailfield.md) | <b><i>(BETA)</i></b> Renders the EmailField component |
+|  [FormTitle](./va-forms-system-core.formtitle.md) | Form Title component is a simple wrapper around a Form Title and subTitle using VA styles |
 |  [FullNameField](./va-forms-system-core.fullnamefield.md) |  |
+|  [IntroductionPage](./va-forms-system-core.introductionpage.md) | IntroductionPage component current copy of the original Burials introduction page this will need to be updated to be more dynamic after demo. |
+|  [OMBInfo](./va-forms-system-core.ombinfo.md) | OMBInfo component is a simple form building component that displays the VA OMB number from your form, expDate, and resBurden. |
 |  [SelectField](./va-forms-system-core.selectfield.md) |  |
 |  [TextField](./va-forms-system-core.textfield.md) |  |
+
+## Type Aliases
+
+|  Type Alias | Description |
+|  --- | --- |
+|  [CheckboxGroupProps](./va-forms-system-core.checkboxgroupprops.md) |  |
+|  [CheckboxProps](./va-forms-system-core.checkboxprops.md) |  |
+|  [FieldProps](./va-forms-system-core.fieldprops.md) |  |
+|  [FullNameProps](./va-forms-system-core.fullnameprops.md) |  |
+|  [RadioGroupProps](./va-forms-system-core.radiogroupprops.md) |  |
+|  [RadioItemProps](./va-forms-system-core.radioitemprops.md) |  |
 

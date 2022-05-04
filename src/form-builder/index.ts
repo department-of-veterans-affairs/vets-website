@@ -4,5 +4,8 @@ export { default as CheckboxFieldGroup } from './CheckboxFieldGroup';
 export { default as SelectField } from './SelectField';
 export { default as DateField } from './DateField';
 export { default as EmailField } from './EmailField';
+export { default as FormTitle } from '../form-layout/FormTitle';
+export { default as OMBInfo } from './OMBInfo';
 export { RadioGroup } from './RadioGroup';
 export { default as FullNameField } from './FullNameField';
+export * from './types';

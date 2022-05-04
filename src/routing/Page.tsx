@@ -1,6 +1,6 @@
 import React from 'react';
 import { useFormikContext, Form } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { PageProps, IFormData } from './types';
 
 /**
@@ -24,7 +24,7 @@ export default function Page(props: PageProps): JSX.Element {
           onClick={(event) => {
             event.preventDefault();
             submitForm();
-            navigate(`${props.nextPage}`);
+            navigate(`/${props.nextPage}`);
           }}
         >
           {' '}

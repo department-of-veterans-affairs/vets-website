@@ -1,10 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { Route } from 'react-router-dom'
 
 import FormRouter from '../../src/routing/Router';
-import FormFooter from '../../src/routing/FormFooter';
-import { Page, TextField } from '../../src';
+import FormFooter from '../../src/form-layout/FormFooter';
 
 
 describe('FormFooter', () => {
