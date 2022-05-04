@@ -10,9 +10,9 @@ class Products {
   addProducts({ manifestPaths }) {
     manifestPaths.forEach(path => {
       const manifest = JSON.parse(fs.readFileSync(path));
+      const { productId } = manifest;
 
-      if (manifest.productId) {
-        const { productId } = manifest;
+      if (productId) {
         const productPath = path.slice(0, path.lastIndexOf('/'));
         this.all[productId] = new Product({ productPath });
       }
