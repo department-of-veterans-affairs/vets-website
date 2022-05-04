@@ -1,0 +1,6 @@
+{
+  "appName": "App 3",
+  "entryFile": "./index.js",
+  "entryName": "app-3",
+  "rootUrl": "/app-3"
+}
