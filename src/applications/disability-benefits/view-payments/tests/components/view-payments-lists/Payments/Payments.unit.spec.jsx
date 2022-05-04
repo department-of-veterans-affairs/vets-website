@@ -15,6 +15,7 @@ describe('<Payments />', () => {
       <Payments
         fields={paymentsReceivedFields}
         data={payments.payments}
+        tableVersion="received"
         textContent={paymentsReceivedContent}
       />,
     );
@@ -29,9 +30,9 @@ describe('<Payments />', () => {
     const mockEmptyPayments = [];
     const screen = render(
       <Payments
-        tableVersion="received"
-        fields={paymentsReceivedFields}
         data={mockEmptyPayments}
+        fields={paymentsReceivedFields}
+        tableVersion="received"
         textContent={paymentsReceivedContent}
       />,
     );
@@ -42,8 +43,9 @@ describe('<Payments />', () => {
   it('should update the display numbers when paginating', async () => {
     const screen = render(
       <Payments
-        fields={paymentsReceivedFields}
         data={payments.payments}
+        fields={paymentsReceivedFields}
+        tableVersion="received"
         textContent={paymentsReceivedContent}
       />,
     );

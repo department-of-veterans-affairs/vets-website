@@ -34,7 +34,7 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
   useEffect(() => {
     paginatedData.current = paginateData(data);
 
-    setCurrentData(paginatedData.current[currentPage]);
+    setCurrentData(paginatedData.current[currentPage - 1]);
     numPages.current = paginatedData.current.length;
   }, []);
 
@@ -46,7 +46,7 @@ const Payments = ({ data, fields, tableVersion, textContent }) => {
   const tableAriaLabelledBy = getAriaLabelledBy(tableVersion);
   const fromToNums = getFromToNums(currentPage, data.length);
 
-  if (currentData.length > 0) {
+  if (currentData) {
     return (
       <>
         {textContent}
@@ -80,7 +80,7 @@ Payments.propTypes = {
   tableVersion: PropTypes.oneOf(['received', 'returned']).isRequired,
   data: PropTypes.array,
   fields: PropTypes.array,
-  textContent: PropTypes.string,
+  textContent: PropTypes.element,
 };
 
 export default Payments;

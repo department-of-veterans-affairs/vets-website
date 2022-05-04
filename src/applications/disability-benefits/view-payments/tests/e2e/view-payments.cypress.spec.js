@@ -28,7 +28,10 @@ const testPagination = () => {
   // check a11y
   testAxe();
   // Paginate to next set of data points
-  cy.findByText(/Next/i).click();
+  cy.get('va-pagination')
+    .shadow()
+    .findByText(/Next/i)
+    .click();
   cy.findByText(/Displaying 7 - 9 of 9/i).should('exist');
 };
 
