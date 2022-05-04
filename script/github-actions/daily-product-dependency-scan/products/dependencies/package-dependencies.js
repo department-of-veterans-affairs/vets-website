@@ -1,8 +1,10 @@
 const findImports = require('find-imports');
 
-class PackageDependencies {
+const Dependencies = require('.');
+
+class PackageDependencies extends Dependencies {
   constructor({ products }) {
-    this.products = products;
+    super({ products });
   }
 
   setDependencies() {

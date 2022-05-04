@@ -1,9 +1,11 @@
 /* eslint-disable class-methods-use-this */
 const findImports = require('find-imports');
 
-class CrossProductDependencies {
+const Dependencies = require('.');
+
+class CrossProductDependencies extends Dependencies {
   constructor({ products }) {
-    this.products = products;
+    super({ products });
   }
 
   setDependencies() {
