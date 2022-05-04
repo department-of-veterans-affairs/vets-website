@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import { isArray, isEqual } from 'lodash';
 
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
@@ -9,10 +9,15 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 import formConfig from './config/form';
 import { SPONSOR_NOT_LISTED_VALUE } from './constants';
-import { fetchPersonalInformation, fetchSponsors } from './actions';
+import {
+  fetchPersonalInformation,
+  fetchSponsors,
+  updateSponsors,
+} from './actions';
 
 function Form1990eEntry({
   children,
+  dispatchSponsorsChange,
   fetchedSponsors,
   fetchedSponsorsComplete,
   formData,
@@ -21,6 +26,7 @@ function Form1990eEntry({
   setFormData,
   showUpdatedToeApp,
   sponsors,
+  sponsorsSavedState,
   // user,
 }) {
   useEffect(
@@ -38,15 +44,31 @@ function Form1990eEntry({
       //   return;
       // }
 
-      if (!fetchedSponsors && !sponsors) {
+      if (!fetchedSponsors) {
         getSponsors();
       }
 
       // Update
       if (
+        !sponsors?.loadedFromSavedState &&
+        isArray(sponsorsSavedState?.sponsors)
+      ) {
+        dispatchSponsorsChange({
+          ...sponsorsSavedState,
+          loadedFromSavedState: true,
+        });
+        setFormData({
+          ...formData,
+          fetchedSponsorsComplete,
+          sponsors: {
+            ...sponsorsSavedState,
+            loadedFromSavedState: true,
+          },
+        });
+      } else if (
         (formData.fetchedSponsorsComplete === undefined &&
           fetchedSponsorsComplete !== undefined) ||
-        (sponsors?.sponsors?.length && !_.isEqual(formData.sponsors, sponsors))
+        (sponsors?.sponsors?.length && !isEqual(formData.sponsors, sponsors))
       ) {
         const selectedSponsors = sponsors.sponsors?.flatMap(
           sponsor => (sponsor.selected ? [sponsor.id] : []),
@@ -65,6 +87,7 @@ function Form1990eEntry({
       }
     },
     [
+      dispatchSponsorsChange,
       fetchedSponsors,
       fetchedSponsorsComplete,
       formData,
@@ -73,6 +96,7 @@ function Form1990eEntry({
       setFormData,
       showUpdatedToeApp,
       sponsors,
+      sponsorsSavedState,
     ],
   );
 
@@ -83,20 +107,34 @@ function Form1990eEntry({
   );
 }
 
+const mapSponsors = state => {
+  if (isArray(state.form.data.sponsors?.sponsors)) {
+    return state.form.data.sponsors;
+  }
+
+  if (isArray(state.data?.sponsors?.sponsors)) {
+    return state.data.sponsors;
+  }
+
+  return {};
+};
+
 const mapStateToProps = state => ({
   formData: state.form?.data || {},
   showUpdatedToeApp: toggleValues(state)[FEATURE_FLAG_NAMES.showUpdatedToeApp],
   claimant: state.data?.formData?.data?.attributes?.claimant,
   fetchedSponsors: state.data?.fetchedSponsors,
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
-  sponsors: state.data?.sponsors,
+  sponsors: mapSponsors(state),
+  sponsorsSavedState: state.form.loadedData?.formData?.sponsors,
   user: state.user,
 });
 
 const mapDispatchToProps = {
-  setFormData: setData,
+  dispatchSponsorsChange: updateSponsors,
   getPersonalInfo: fetchPersonalInformation,
   getSponsors: fetchSponsors,
+  setFormData: setData,
 };
 
 export default connect(
