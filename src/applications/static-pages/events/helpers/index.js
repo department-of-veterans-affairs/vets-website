@@ -408,3 +408,12 @@ export const deriveFilteredEvents = ({
     endsAtUnix,
   });
 };
+
+export const getDisabledEndDateOptions = (options, limit) => {
+  return options.map(option => {
+    return {
+      ...option,
+      disabled: parseInt(option.value, 10) < limit,
+    };
+  });
+};
