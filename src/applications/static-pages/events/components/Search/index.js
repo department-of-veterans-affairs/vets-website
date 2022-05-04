@@ -1,5 +1,5 @@
 // Node modules.
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
@@ -8,6 +8,7 @@ import {
   deriveDefaultSelectedOption,
   filterByOptions,
   monthOptions,
+  getDisabledEndDateOptions,
 } from '../../helpers';
 
 export const Search = ({ onSearch }) => {
@@ -32,11 +33,88 @@ export const Search = ({ onSearch }) => {
     queryParams.get('endDateDay') || '',
   );
 
+  const [endDateMonthOptions, setEndDateMonthOptions] = useState(
+    getDisabledEndDateOptions(monthOptions, startDateMonth),
+  );
+  const [endDateDayOptions, setEndDateDayOptions] = useState(
+    startDateMonth === endDateMonth
+      ? getDisabledEndDateOptions(dayOptions, startDateDay)
+      : dayOptions,
+  );
+
   // Derive errors state.
   const [startDateMonthError, setStartDateMonthError] = useState(false);
   const [startDateDayError, setStartDateDayError] = useState(false);
   const [endDateMonthError, setEndDateMonthError] = useState(false);
   const [endDateDayError, setEndDateDayError] = useState(false);
+
+  useEffect(() => {
+    if (startDateMonth > endDateMonth) {
+      setEndDateMonth(startDateMonth);
+    }
+
+    if (startDateMonth === endDateMonth && startDateDay > endDateDay) {
+      setEndDateDay(startDateDay);
+    }
+  }, []);
+
+  useEffect(
+    () => {
+      // If the end month is too early
+      if (startDateMonth > endDateMonth) {
+        setEndDateMonth(startDateMonth);
+        setEndDateDay(startDateDay > endDateDay ? startDateDay : endDateDay);
+      } else if (startDateMonth === endDateMonth) {
+        // If the start and end months are the same
+        setEndDateDay(startDateDay > endDateDay ? startDateDay : endDateDay);
+        setEndDateDayOptions(
+          getDisabledEndDateOptions(dayOptions, startDateDay),
+        );
+      } else {
+        // If the end month is after the start month
+        setEndDateDayOptions(dayOptions);
+      }
+
+      setEndDateMonthOptions(
+        getDisabledEndDateOptions(monthOptions, startDateMonth),
+      );
+    },
+    [startDateMonth],
+  );
+
+  useEffect(
+    () => {
+      if (startDateMonth === endDateMonth) {
+        if (startDateDay > endDateDay) {
+          setEndDateDay(startDateDay);
+        }
+
+        setEndDateDayOptions(
+          getDisabledEndDateOptions(dayOptions, startDateDay),
+        );
+      } else {
+        setEndDateDayOptions(dayOptions);
+      }
+    },
+    [startDateDay],
+  );
+
+  useEffect(
+    () => {
+      if (startDateMonth === endDateMonth) {
+        if (startDateDay > endDateDay) {
+          setEndDateDay(startDateDay);
+        }
+
+        setEndDateDayOptions(
+          getDisabledEndDateOptions(dayOptions, startDateDay),
+        );
+      } else {
+        setEndDateDayOptions(dayOptions);
+      }
+    },
+    [endDateMonth],
+  );
 
   const onFilterByChange = event => {
     const filterByOption = filterByOptions?.find(
@@ -374,8 +452,12 @@ export const Search = ({ onSearch }) => {
                   onChange={event => setEndDateMonth(event.target.value)}
                   value={endDateMonth}
                 >
-                  {monthOptions?.map(option => (
-                    <option key={option?.value} value={option?.value}>
+                  {endDateMonthOptions?.map(option => (
+                    <option
+                      disabled={option?.disabled}
+                      key={option?.value}
+                      value={option?.value}
+                    >
                       {option?.label}
                     </option>
                   ))}
@@ -403,8 +485,12 @@ export const Search = ({ onSearch }) => {
                   onChange={event => setEndDateDay(event.target.value)}
                   value={endDateDay}
                 >
-                  {dayOptions?.map(option => (
-                    <option key={option?.value} value={option?.value}>
+                  {endDateDayOptions?.map(option => (
+                    <option
+                      disabled={option?.disabled}
+                      key={option?.value}
+                      value={option?.value}
+                    >
                       {option?.label}
                     </option>
                   ))}
