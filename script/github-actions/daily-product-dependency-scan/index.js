@@ -13,14 +13,14 @@ const Rows = require('./csv/rows');
 const { removeCarriageReturn, transformCsvToScsv } = require('./csv/helpers');
 
 function handleFailure({ response }) {
-  if (response.status) {
+  if (response?.status) {
     console.log(`GitHub API response:\n${response}`);
   } else {
     console.log(`Error:\n${response}`);
   }
 
   core.setFailed(
-    'Product dependencies have changed but there was an error when trying to submit a PR to update the Product Directory.',
+    'Product dependencies have changed but there was an error running this job. Please see the logs for more information.',
   );
 }
 
@@ -42,7 +42,7 @@ async function main() {
   const octokit = new GitHub();
   let response = await octokit.getProductDirectory();
 
-  if (response.status !== 200) {
+  if (response?.status === 200) {
     const { data: csv } = response;
     const csvLines = removeCarriageReturn(transformCsvToScsv(csv).split('\n'));
     const emptyProductDirectory = new Csv({
@@ -63,16 +63,16 @@ async function main() {
         content: emptyProductDirectory.generateOutput(),
       });
 
-      if (response.status === 201) {
+      if (response?.status === 201) {
         console.log(
           'Product dependencies have changed. A PR to update the Product Directory has been submitted.',
         );
       } else {
-        handleFailure(response);
+        handleFailure({ response });
       }
     }
   } else {
-    handleFailure(response);
+    handleFailure({ response });
   }
 }
 
