@@ -25,7 +25,7 @@ const getFromToNums = (page, total) => {
   return [from, to];
 };
 
-const Payments = ({ data, fields, textContext, tableVersion }) => {
+const Payments = ({ data, fields, tableVersion, textContent }) => {
   const [currentData, setCurrentData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const numPages = useRef(0);
@@ -49,7 +49,7 @@ const Payments = ({ data, fields, textContext, tableVersion }) => {
   if (currentData.length > 0) {
     return (
       <>
-        {textContext}
+        {textContent}
         <p className="vads-u-font-size--lg vads-u-font-family--serif">
           Displaying {fromToNums[0]} - {fromToNums[1]} of {data.length}
         </p>
@@ -80,7 +80,7 @@ Payments.propTypes = {
   tableVersion: PropTypes.oneOf(['received', 'returned']).isRequired,
   data: PropTypes.array,
   fields: PropTypes.array,
-  textContext: PropTypes.string,
+  textContent: PropTypes.string,
 };
 
 export default Payments;
