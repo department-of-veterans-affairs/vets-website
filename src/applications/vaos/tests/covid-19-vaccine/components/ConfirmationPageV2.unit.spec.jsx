@@ -90,7 +90,7 @@ describe('VAOS vaccine flow <ConfirmationPageV2>', () => {
       'href',
       'https://maps.google.com?saddr=Current+Location&daddr=2360 East Pershing Boulevard, Cheyenne, WY 82001-5356',
     );
-    expect(screen.baseElement).to.contain.text('Main phone: 307-778-7580');
+    expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(screen.getByText(/add to calendar/i)).to.have.tagName('a');
   });
 
