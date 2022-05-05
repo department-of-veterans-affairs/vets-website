@@ -42,7 +42,7 @@ const preCheckinAlreadyCompleted = appointments => {
     appointment.checkInSteps.some(hasPreCheckinCompleteStep);
 
   return (
-    typeof appointments !== 'undefined' &&
+    Array.isArray(appointments) &&
     appointments.length > 0 &&
     appointments.every(preCheckinCompleted)
   );
