@@ -9,7 +9,7 @@ on:
   workflow_run:
     workflows: [Continuous Integration]
     types: [completed]
-    branches: [master]
+    branches: [main]
 
 env:
   NUM_CONTAINERS: '8'
