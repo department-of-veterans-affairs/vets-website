@@ -69,7 +69,7 @@ import {
   titleCase,
   hideUnder18Field,
   addWhitespaceOnlyError,
-  prefillTransformer,
+  // prefillTransformer,
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
@@ -223,7 +223,7 @@ const formConfig = {
   version: 1,
   migrations: [urlMigration('/1990e')],
   prefillEnabled: true,
-  prefillTransformer,
+  // prefillTransformer,
   savedFormMessages: {
     notFound:
       'Please start over to apply to use transferred education benefits.',
