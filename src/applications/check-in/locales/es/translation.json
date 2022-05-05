@@ -153,5 +153,15 @@
   "your-date-of-birth-can-not-be-in-the-future": "Su fecha de nacimiento no puede ser en el futuro",
   "please-provide-a-response": "Por favor proporcione una respuesta",
   "in-en": "en inglés",
-  "sorry-we-cant-complete-pre-check-in": "Sorry, we can’t complete pre-check-in"
+  "sorry-we-cant-complete-pre-check-in": "Sorry, we can’t complete pre-check-in",
+  "contact-information": "Contact Information",
+  "a-staff-member-will-help-you-on-the-day-of-your-appointment": "A staff member will help you on the day of your appointment.",
+  "a-staff-member-will-help-you-on-the-day-of-your-appointment-or-you-can-login-to-your-va-account-to-update-your-contact-information-online": "A staff member will help you on the day of your appointment. Or you can {{link}} to your VA account to update your contact information online.",
+  "login": "login",
+  "emergency-and-next-of-kin-information": "Emergency and next of kin information",
+  "emergency-information": "Emergency information",
+  "next-of-kin": "Next of kin",
+  "why-do-i-need-to-make-sure-my-information-is-up-to-date": "Why do I need to make sure my information is up to date?",
+  "we-can-better-prepare-for-your-appointment-and-contact-you-more-easily": "We can better prepare for your appointment and contact you more easily.",
+  "how-can-i-update-my-information": "How can I update my information?"
 }
