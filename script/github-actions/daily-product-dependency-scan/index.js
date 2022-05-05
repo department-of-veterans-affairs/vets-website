@@ -12,24 +12,33 @@ const Headings = require('./csv/headings');
 const Rows = require('./csv/rows');
 const { removeCarriageReturn, transformCsvToScsv } = require('./csv/helpers');
 
-function logResponse({ response }) {
-  console.error(JSON.stringify(response, null, 2));
+function stringifyReturnData({ response }) {
+  return JSON.stringify(response, null, 2);
 }
 
 function handleFailure({ response }) {
-  if (response?.status) {
-    console.log('GitHub API response:\n');
-  } else {
-    console.log('Error:\n');
-  }
-
-  logResponse({ response });
   core.setFailed(
     'Product dependencies have changed but there was an error running this job. Please see the logs for more information.',
   );
+
+  return {
+    status: 'Failure',
+    message: response?.status
+      ? 'There was an error with GitHub'
+      : 'An unkown error occured',
+    data: stringifyReturnData({ response }),
+  };
 }
 
-async function main() {
+function handleSuccess({ message, data }) {
+  return {
+    status: 'Success',
+    message,
+    data,
+  };
+}
+
+async function main({ octokit }) {
   const products = new Products();
   const manifestGlobPathForTests =
     'script/github-actions/daily-product-dependency-scan/tests/mocks/applications/**/*manifest.json';
@@ -48,41 +57,51 @@ async function main() {
     products: products.all,
   }).setDependencies();
 
-  const octokit = new GitHub();
   let response = await octokit.getProductDirectory();
 
-  if (response?.status === 200) {
-    const { data: csv } = response;
-    const csvLines = removeCarriageReturn(transformCsvToScsv(csv).split('\n'));
-    const emptyProductDirectory = new Csv({
-      headings: new Headings({ csvLine: csvLines.slice(0, 1)[0] }),
-      rows: new Rows({ csvLines: [] }),
-    });
-
-    const productDirectory = new Csv({
-      headings: new Headings({ csvLine: csvLines.slice(0, 1)[0] }),
-      rows: new Rows({ csvLines: csvLines.slice(1) }),
-    });
-
-    const dependencyDiffer = new DependencyDiffer({ emptyProductDirectory });
-    dependencyDiffer.diff({ products, productDirectory });
-
-    if (dependencyDiffer.dependenciesChanged) {
-      response = await octokit.createPull({
-        content: emptyProductDirectory.generateOutput(),
-      });
-
-      if (response?.status === 201) {
-        console.log(
-          'Product dependencies have changed. A PR to update the Product Directory has been submitted.',
-        );
-      } else {
-        handleFailure({ response });
-      }
-    }
-  } else {
-    handleFailure({ response });
+  if (response?.status !== 200) {
+    return handleFailure({ response });
   }
+
+  const { data: csv } = response;
+  const csvLines = removeCarriageReturn(transformCsvToScsv(csv).split('\n'));
+  const emptyProductDirectory = new Csv({
+    headings: new Headings({ csvLine: csvLines.slice(0, 1)[0] }),
+    rows: new Rows({ csvLines: [] }),
+  });
+  const productDirectory = new Csv({
+    headings: new Headings({ csvLine: csvLines.slice(0, 1)[0] }),
+    rows: new Rows({ csvLines: csvLines.slice(1) }),
+  });
+  const dependencyDiffer = new DependencyDiffer({ emptyProductDirectory });
+  dependencyDiffer.diff({ products, productDirectory });
+
+  const updatedCsv = emptyProductDirectory.generateOutput();
+
+  if (!dependencyDiffer.dependenciesChanged) {
+    const message =
+      'No dependency changes were detected. Data includes in the unchanged CSV.';
+    return handleSuccess({ message, data: updatedCsv });
+  }
+
+  response = await octokit.createPull({
+    content: updatedCsv,
+  });
+
+  if (response?.status !== 201) {
+    return handleFailure({ response });
+  }
+
+  console.log(
+    'Product dependencies have changed. A PR to update the Product Directory has been submitted.',
+  );
+
+  return handleSuccess({
+    message: 'Dependency changes were detected. Data includes the updated CSV.',
+    data: updatedCsv,
+  });
 }
 
-main();
+if (process.env.MANIFEST_GLOB_PATH) main({ octokit: new GitHub() });
+
+module.exports = main;
