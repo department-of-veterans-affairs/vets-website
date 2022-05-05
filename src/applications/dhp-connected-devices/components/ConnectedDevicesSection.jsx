@@ -38,7 +38,7 @@ export const ConnectedDevicesSection = ({
     } catch (err) {
       return (
         <p data-testid="no-devices-connected-alert">
-          You do not have any devices connected
+          You do not have any devices connected.
         </p>
       );
     }

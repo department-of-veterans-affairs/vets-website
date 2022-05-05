@@ -6,55 +6,62 @@ import environment from 'platform/utilities/environment';
 import { mockApiRequest } from 'platform/testing/unit/helpers';
 import { ConnectedDevicesContainer } from '../../components/ConnectedDevicesContainer';
 
-const noDevicesConnectedState = [
-  {
-    vendor: 'vendor-1',
-    key: 'vendor1',
-    authUrl: 'path/to/vetsapi/vendor-1/connect/method',
-    disconnectUrl: 'path/to/vetsapi/vendor-1/disconnect/method',
-    connected: false,
-  },
-  {
-    vendor: 'vendor-2',
-    key: 'vendor2',
-    authUrl: 'path/to/vetsapi/vendor-2/connect/method',
-    disconnectUrl: 'path/to/vetsapi/vendor-2/disconnect/method',
-    connected: false,
-  },
-];
-const oneDeviceConnectedState = [
-  {
-    vendor: 'vendor-1',
-    key: 'vendor1',
-    authUrl: 'path/to/vetsapi/vendor-1/connect/method',
-    disconnectUrl: 'path/to/vetsapi/vendor-1/disconnect/method',
-    connected: true,
-  },
-  {
-    vendor: 'vendor-2',
-    key: 'vendor2',
-    authUrl: 'path/to/vetsapi/vendor-2/connect/method',
-    disconnectUrl: 'path/to/vetsapi/vendor-2/disconnect/method',
-    connected: false,
-  },
-];
+const noDevicesConnectedState = {
+  devices: [
+    {
+      name: 'Vendor 1',
+      key: 'vendor-1',
+      authUrl: 'path/to/vetsapi/vendor-1/connect/method',
+      disconnectUrl: 'path/to/vetsapi/vendor-1/disconnect/method',
+      connected: false,
+    },
+    {
+      name: 'Vendor 2',
+      key: 'vendor-2',
+      authUrl: 'path/to/vetsapi/vendor-2/connect/method',
+      disconnectUrl: 'path/to/vetsapi/vendor-2/disconnect/method',
+      connected: false,
+    },
+  ],
+};
 
-const twoDevicesConnectedState = [
-  {
-    vendor: 'vendor 1',
-    key: 'vendor-1',
-    authUrl: 'path/to/vetsapi/vendor-1/connect/method',
-    disconnectUrl: 'path/to/vetsapi/vendor-1/disconnect/method',
-    connected: true,
-  },
-  {
-    vendor: 'vendor 2',
-    key: 'vendor-2',
-    authUrl: 'path/to/vetsapi/vendor-2/connect/method',
-    disconnectUrl: 'path/to/vetsapi/vendor-2/disconnect/method',
-    connected: true,
-  },
-];
+const oneDeviceConnectedState = {
+  devices: [
+    {
+      name: 'Vendor 1',
+      key: 'vendor-1',
+      authUrl: 'path/to/vetsapi/vendor-1/connect/method',
+      disconnectUrl: 'path/to/vetsapi/vendor-1/disconnect/method',
+      connected: true,
+    },
+    {
+      name: 'Vendor 2',
+      key: 'vendor-2',
+      authUrl: 'path/to/vetsapi/vendor-2/connect/method',
+      disconnectUrl: 'path/to/vetsapi/vendor-2/disconnect/method',
+      connected: false,
+    },
+  ],
+};
+
+const twoDevicesConnectedState = {
+  devices: [
+    {
+      name: 'Vendor 1',
+      key: 'vendor-1',
+      authUrl: 'path/to/vetsapi/vendor-1/connect/method',
+      disconnectUrl: 'path/to/vetsapi/vendor-1/disconnect/method',
+      connected: true,
+    },
+    {
+      name: 'Vendor 2',
+      key: 'vendor-2',
+      authUrl: 'path/to/vetsapi/vendor-2/connect/method',
+      disconnectUrl: 'path/to/vetsapi/vendor-2/disconnect/method',
+      connected: true,
+    },
+  ],
+};
 
 describe('Connect Devices Container', () => {
   it('should render DeviceConnectionSection and DeviceConnectionCards when devices are not connected', async () => {
@@ -82,8 +89,13 @@ describe('Connect Devices Container', () => {
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
     );
+
+    const vendorKey = oneDeviceConnectedState.devices[0].key;
+
     expect(
-      await connectedDevicesContainer.findByTestId('vendor-1-connect-link'),
+      await connectedDevicesContainer.findByTestId(
+        `${vendorKey}-disconnect-link`,
+      ),
     ).to.exist;
   });
 
@@ -96,7 +108,7 @@ describe('Connect Devices Container', () => {
 
     expect(
       noConnectedDevicesContainer.findByText(
-        'You do not have any devices connected',
+        'You do not have any devices connected.',
       ),
     ).to.exist;
   });
@@ -109,7 +121,7 @@ describe('Connect Devices Container', () => {
 
     expect(
       twoDevicesConnectedContainer.findByTestId('all-devices-connected-alert'),
-    ).to.be.empty;
+    ).to.exist;
   });
 
   it('should render success alert when successAlert is set to true', () => {
