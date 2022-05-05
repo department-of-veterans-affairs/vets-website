@@ -14,7 +14,7 @@ const recordMyVaEvent = recordNavUserEvent('my-va');
 const recordMyHealthEvent = recordNavUserEvent('my-health');
 const recordProfileEvent = recordNavUserEvent('profile');
 
-function PersonalizationDropdown(props) {
+export function PersonalizationDropdown(props) {
   const { authenticatedWithSSOe } = props;
   return (
     <ul>
