@@ -29,13 +29,13 @@ const BalanceCard = ({ amount, count, date, appType }) => {
     >
       {/* aria-describedby={`copay-balance-${id}`} */}
       <h3
-        className="card-balance vads-u-margin-top--0"
+        className="vads-u-font-size--h3 vads-u-font-family--serif vads-u-margin-top--0"
         data-testid="card-amount"
       >
         {currency(amount)}
       </h3>
       <p
-        className="card-heading vads-u-margin-top--0"
+        className="vads-u-font-family--serif vads-u-font-size--h4 vads-u-margin-top--0"
         data-testid="card-header"
       >
         {cardHeader}
