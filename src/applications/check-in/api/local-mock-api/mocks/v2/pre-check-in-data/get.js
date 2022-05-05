@@ -151,6 +151,7 @@ const createMockFailedResponse = _data => {
 };
 
 module.exports = {
+  alreadyPreCheckedInUUID,
   createMockSuccessResponse,
   createMockFailedResponse,
   defaultUUID,
