@@ -75,7 +75,6 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       >
         {facility} - {city}
       </p>
-      <span className="sr-only">Alert</span>
 
       <div className="card-content">
         <i
