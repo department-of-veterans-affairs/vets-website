@@ -1,8 +1,8 @@
-import '../../../../../tests/e2e/commands';
+import '../../../../tests/e2e/commands';
 
-import ApiInitializer from '../../../../../api/local-mock-api/e2e/ApiInitializer';
-import ValidateVeteran from '../../../../../tests/e2e/pages/ValidateVeteran';
-import Confirmation from '../../pages/Confirmation';
+import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
+import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
+import Confirmation from '../pages/Confirmation';
 
 describe('Pre-Check In Experience ', () => {
   beforeEach(() => {
@@ -14,9 +14,7 @@ describe('Pre-Check In Experience ', () => {
     } = ApiInitializer;
     initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
-
     initializeSessionPost.withSuccess();
-
     initializePreCheckInDataGet.withAlreadyCompleted();
   });
   afterEach(() => {
@@ -24,15 +22,16 @@ describe('Pre-Check In Experience ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('Render Error is caught', () => {
+  it('Pre-checkin skipped when already completed', () => {
     cy.visitPreCheckInWithUUID();
+
     // page: Validate
     ValidateVeteran.validatePageLoaded();
     ValidateVeteran.validateVeteran();
     cy.injectAxeThenAxeCheck();
     ValidateVeteran.attemptToGoToNextPage();
 
-    // Expired UUID should navigate to an error
+    // Already completed UUID should navigate to the "pre-checkin complete" page
     Confirmation.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
   });
