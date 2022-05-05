@@ -321,7 +321,7 @@ jobs:
 
       - name: Security Audit
         timeout-minutes: 30
-        uses: actions/platform-release-tools-actions
+        uses: ./.github/actions/platform-release-tools-actions
 
   linting:
     name: Linting (All)
