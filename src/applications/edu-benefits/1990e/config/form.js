@@ -79,7 +79,7 @@ import { urlMigration } from '../../config/migrations';
 import manifest from '../manifest.json';
 import SelectedSponsorsReviewField from '../components/SelectedSponsorsReviewField';
 import FirstSponsorReviewField from '../components/FirstSponsorReviewField';
-import { Sponsors } from '../components/Sponsors';
+import Sponsors from '../components/Sponsors';
 
 const {
   benefit,
@@ -96,7 +96,7 @@ const {
   // usaPhone,
 } = fullSchema1990e.definitions;
 
-const newToeAppEnabled = true;
+const newToeAppEnabled = false;
 const preSubmitInfo = environment.isProduction()
   ? oldPreSubmitInfo
   : newPreSubmitInfo;
@@ -611,43 +611,17 @@ const formConfig = {
             (!formData.fetchedSponsorsComplete ||
               formData.sponsors?.sponsors?.length),
           uiSchema: {
-            'view:subHeadings': {
+            'view:listOfSponsors': {
               'ui:description': <Sponsors />,
-            },
-            'view:sponsorsLoadingIndicator': {
-              'ui:description': (
-                <h1>LOADING</h1>
-                // <va-loading-indicator message="Loading your sponsors..." />
-              ),
-              'ui:options': {
-                hideIf: formData => !!formData.fetchedSponsorsComplete,
-              },
             },
             [newFormFields.selectedSponsors]: {
               'ui:field': SponsorCheckboxGroup,
-              // 'ui:widget': DynamicCheckboxGroup,
-              // 'ui:reviewField': SelectedSponsorsReviewField,
-              // 'ui:reviewWidget': SelectedSponsorsReviewField,
               'ui:required': formData => !!formData.sponsors?.sponsors?.length,
-              // 'ui:objectViewField': SelectedSponsorsReviewField,
               'ui:options': {
                 hideIf: formData =>
                   formData.fetchedSponsorsComplete &&
                   !formData.sponsors?.sponsors?.length,
-                // hideOnReview: false,
-                // viewComponent: SelectedSponsorsReviewField,
-                // viewField: SelectedSponsorsReviewField,
               },
-              // items: {
-              //   // 'ui:field': DynamicCheckboxGroup,
-              //   // 'ui:reviewField': SelectedSponsorsReviewField,
-              //   // 'ui:reviewWidget': SelectedSponsorsReviewField,
-              //   // 'ui:objectViewField': SelectedSponsorsReviewField,
-              //   'ui:options': {
-              //     // viewComponent: SelectedSponsorsReviewField,
-              //     viewField: SelectedSponsorsReviewField,
-              //   },
-              // },
             },
             'view:additionalInfo': {
               'ui:description': (
@@ -669,10 +643,10 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              // 'view:subHeadings': {
-              //   type: 'object',
-              //   properties: {},
-              // },
+              'view:listOfSponsors': {
+                type: 'object',
+                properties: {},
+              },
               [newFormFields.selectedSponsors]: {
                 type: 'array',
                 minItems: 1,

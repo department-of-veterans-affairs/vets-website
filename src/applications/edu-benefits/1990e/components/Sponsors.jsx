@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { formatReadableDate } from '../helpers';
 
-export function Sponsors({ sponsors }) {
+function Sponsors({ sponsors }) {
   const sponsorsList = sponsors?.map((sponsor, index) => {
     return (
       <li
@@ -50,7 +50,7 @@ Sponsors.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  sponsors: state.data?.sponsors?.sponsors || [],
+  sponsors: state.form?.data?.sponsors?.sponsors || [],
 });
 
 export default connect(mapStateToProps)(Sponsors);
