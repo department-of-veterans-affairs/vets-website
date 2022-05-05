@@ -1,5 +1,6 @@
 import { startOfDay } from 'date-fns';
 import { ELIGIBILITY } from './eligibility';
+import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
 
 /**
  * @typedef {Object} Appointment
@@ -34,12 +35,12 @@ const hasMoreAppointmentsToCheckInto = (appointments, currentAppointment) => {
  * @param {Array<Appointment>} appointments
  */
 const preCheckinAlreadyCompleted = appointments => {
-  // FIXME define checkinstep IENs at a higher level.
-  const hasPreCheckinCompleteStep = checkInStep => checkInStep.ien === 2;
+  const isPreCheckinCompleteStep = checkInStep =>
+    checkInStep.ien === VISTA_CHECK_IN_STATUS_IENS.PRE_CHECK_IN_COMPLETE;
 
   const preCheckinCompleted = appointment =>
     appointment.checkInSteps?.length &&
-    appointment.checkInSteps.some(hasPreCheckinCompleteStep);
+    appointment.checkInSteps.some(isPreCheckinCompleteStep);
 
   return (
     Array.isArray(appointments) &&
