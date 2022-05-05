@@ -3,9 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-
-import { selectProfile } from '~/platform/user/selectors';
-
 import {
   cnpDirectDepositLoadError,
   eduDirectDepositLoadError,
@@ -13,6 +10,10 @@ import {
   militaryInformationLoadError,
   personalInformationLoadError,
 } from '@@profile/selectors';
+
+import ProfileAccessibleHeader from './ProfileAccessibleHeader';
+
+import { selectProfile } from '~/platform/user/selectors';
 
 import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
 
@@ -54,6 +55,8 @@ const ProfileWrapper = ({
           totalDisabilityRatingServerError={totalDisabilityRatingServerError}
         />
       )}
+
+      <ProfileAccessibleHeader routes={routes} />
 
       <div className="medium-screen:vads-u-display--none">
         <ProfileMobileSubNav
