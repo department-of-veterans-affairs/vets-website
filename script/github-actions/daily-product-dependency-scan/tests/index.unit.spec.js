@@ -35,78 +35,72 @@ describe('daily-product-dependency-scan', () => {
       );
     });
 
-    it('', () => {
-      const originalCsvLines = removeCarriageReturn(
-        transformCsvToScsv(
-          octokitResponses.outdatedProductDirectory.data,
-        ).split('\n'),
-      );
+    context('dependency updates', () => {
+      let originalProductDirectory;
+      let updatedProductDirectory;
+      let originalProductDirectoryByProductId;
+      let updatedProductDirectoryByProductId;
 
-      const originalProductDirectory = new Csv({
-        headings: new Headings({ csvLine: originalCsvLines.slice(0, 1)[0] }),
-        rows: new Rows({ csvLines: originalCsvLines.slice(1) }),
-      });
-
-      const updatedCsvLines = removeCarriageReturn(
-        transformCsvToScsv(data).split('\n'),
-      );
-
-      const updatedProductDirectory = new Csv({
-        headings: new Headings({ csvLine: updatedCsvLines.slice(0, 1)[0] }),
-        rows: new Rows({ csvLines: updatedCsvLines.slice(1) }),
-      });
-
-      const originalProductDirectoryByProductId = {};
-      originalProductDirectory.rows.all.forEach(row => {
-        const fields = row.split(';');
-        originalProductDirectoryByProductId[fields[0]] = fields;
-      });
-
-      const updatedProductDirectoryByProductId = {};
-      updatedProductDirectory.rows.all.forEach(row => {
-        const fields = row.split(';');
-        updatedProductDirectoryByProductId[fields[0]] = fields;
-      });
-
-      Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
-        // compare package dependencies
-        expect(
-          originalProductDirectoryByProductId[uuid][
-            originalProductDirectory.headings.packageDependencyIndex
-          ],
-        ).not.to.equal(
-          updatedProductDirectoryByProductId[uuid][
-            updatedProductDirectory.headings.packageDependencyIndex
-          ],
+      before(() => {
+        const originalCsvLines = removeCarriageReturn(
+          transformCsvToScsv(
+            octokitResponses.outdatedProductDirectory.data,
+          ).split('\n'),
         );
 
-        // compare cross product dependencies
-        expect(
-          originalProductDirectoryByProductId[uuid][
-            originalProductDirectory.headings.crossProductDependencyIndex
-          ],
-        ).not.to.equal(
-          updatedProductDirectoryByProductId[uuid][
-            updatedProductDirectory.headings.crossProductDependencyIndex
-          ],
+        const updatedCsvLines = removeCarriageReturn(
+          transformCsvToScsv(data).split('\n'),
         );
 
-        // TODO: delete the following
-        // console.log(
-        //   'originalProductDirectoryByProductId[uuid][originalProductDirectory.headings.packageDependencyIndex]',
-        //   originalProductDirectoryByProductId[uuid][
-        //     originalProductDirectory.headings.packageDependencyIndex
-        //   ],
-        // );
+        originalProductDirectory = new Csv({
+          headings: new Headings({ csvLine: originalCsvLines.slice(0, 1)[0] }),
+          rows: new Rows({ csvLines: originalCsvLines.slice(1) }),
+        });
 
-        // console.log(
-        //   'updatedProductDirectoryByProductId[uuid][updatedProductDirectory.headings.packageDependencyIndex]',
-        //   updatedProductDirectoryByProductId[uuid][
-        //     updatedProductDirectory.headings.packageDependencyIndex
-        //   ],
-        // );
+        updatedProductDirectory = new Csv({
+          headings: new Headings({ csvLine: updatedCsvLines.slice(0, 1)[0] }),
+          rows: new Rows({ csvLines: updatedCsvLines.slice(1) }),
+        });
 
-        // console.log('');
+        originalProductDirectoryByProductId = {};
+        originalProductDirectory.rows.all.forEach(row => {
+          const fields = row.split(';');
+          originalProductDirectoryByProductId[fields[0]] = fields;
+        });
+
+        updatedProductDirectoryByProductId = {};
+        updatedProductDirectory.rows.all.forEach(row => {
+          const fields = row.split(';');
+          updatedProductDirectoryByProductId[fields[0]] = fields;
+        });
+      });
+
+      it('updates the package dependency values correctly', () => {
+        Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
+          expect(
+            originalProductDirectoryByProductId[uuid][
+              originalProductDirectory.headings.packageDependencyIndex
+            ],
+          ).not.to.equal(
+            updatedProductDirectoryByProductId[uuid][
+              updatedProductDirectory.headings.packageDependencyIndex
+            ],
+          );
+        });
+      });
+
+      it('updates the cross product dependency values correctly', () => {
+        Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
+          expect(
+            originalProductDirectoryByProductId[uuid][
+              originalProductDirectory.headings.crossProductDependencyIndex
+            ],
+          ).not.to.equal(
+            updatedProductDirectoryByProductId[uuid][
+              updatedProductDirectory.headings.crossProductDependencyIndex
+            ],
+          );
+        });
       });
     });
   });
