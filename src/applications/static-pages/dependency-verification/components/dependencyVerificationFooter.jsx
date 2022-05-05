@@ -19,7 +19,7 @@ const DependencyVerificationFooter = ({ handleCloseAndUpdateDiaries }) => {
         }}
         type="button"
       >
-        Change dependents
+        Add or remove dependents
       </button>
     </div>
   );
