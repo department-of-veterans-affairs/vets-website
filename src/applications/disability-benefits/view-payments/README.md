@@ -218,4 +218,4 @@ def payment_history(person)
     end
 ```
 NOTE: The above will return an array of payments, but it will not include any returned payments, so
-when viewing the page at `/va-payment-history/payments`, you will only see the `Payments you received`.
+when viewing the page at `/va-payment-history/payments`, you will only see the `Payments you received` table.
