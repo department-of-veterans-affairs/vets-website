@@ -11,8 +11,8 @@ describe('VAOS <NeedHelp>', () => {
     expect(screen.getByRole('heading', { level: 2, name: /need help/i })).to
       .exist;
 
-    expect(screen.getByText(/877-470-5947/i)).to.have.attribute('href');
-    expect(screen.getByText(/866-651-3180/i)).to.have.attribute('href');
+    expect(screen.getByTestId('technical-issue-telephone')).to.exist;
+    expect(screen.getByTestId('video-question-telephone')).to.exist;
     expect(
       screen.getByRole('link', { name: /find your health facility/i }),
     ).to.have.attribute('href', '/find-locations');

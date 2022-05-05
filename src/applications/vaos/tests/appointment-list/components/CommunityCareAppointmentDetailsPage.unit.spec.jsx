@@ -102,8 +102,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(screen.getByText(/Community care/)).to.be.ok;
     expect(screen.getByText(/123/)).to.be.ok;
     expect(screen.getByText(/Burke,/)).to.be.ok;
-    expect(screen.getByRole('link', { name: /7 0 3. 5 5 5. 1 2 6 4./ })).to.be
-      .ok;
+    expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(
       screen.getByRole('heading', {
         level: 2,

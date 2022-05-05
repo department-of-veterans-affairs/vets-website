@@ -26,7 +26,6 @@ export const updateFormFieldWithSchema = (
   value,
   schema = null,
   uiSchema = null,
-  options = {},
 ) => {
   const newUiSchema = updateUiSchema(uiSchema, value);
   const { data, schema: newSchema } = updateSchemaAndData(
@@ -35,13 +34,6 @@ export const updateFormFieldWithSchema = (
     value,
     true,
   );
-
-  if (
-    options?.doNotRequireInternationalPostalCode &&
-    newUiSchema?.internationalPostalCode
-  ) {
-    newUiSchema.internationalPostalCode['ui:required'] = false;
-  }
 
   return {
     type: UPDATE_PROFILE_FORM_FIELD,

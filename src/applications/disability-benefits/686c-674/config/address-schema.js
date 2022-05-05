@@ -155,7 +155,7 @@ export const addressUISchema = (
       },
       addressLine1: {
         'ui:required': callback,
-        'ui:title': 'Street',
+        'ui:title': 'Street address',
         'ui:errorMessages': {
           required: 'Street address is required',
           pattern: 'Street address must be under 100 characters',

@@ -1,3 +1,5 @@
+const addDays = require('date-fns/addDays');
+
 const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
 
 const createMockSuccessResponse = (
@@ -64,8 +66,9 @@ const createAppointment = (
   facilityId = 'some-facility',
   appointmentIen = 'some-ien',
   clinicFriendlyName = 'TEST CLINIC',
+  preCheckInValid = false,
 ) => {
-  const startTime = new Date();
+  const startTime = preCheckInValid ? addDays(new Date(), 1) : new Date();
   const checkInWindowStart = new Date();
   const checkInWindowEnd = new Date();
 
