@@ -13,7 +13,7 @@ import {
 } from '../constants';
 import { mapFormSponsors, mapSelectedSponsors } from '../helpers';
 
-function SponsorSelectionPage({
+function SponsorCheckboxGroup({
   errorMessage = 'Please select at least one sponsor',
   fetchedSponsorsComplete,
   firstSponsor,
@@ -124,5 +124,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps,
-  )(SponsorSelectionPage),
+  )(SponsorCheckboxGroup),
 );
