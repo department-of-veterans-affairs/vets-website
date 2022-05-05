@@ -752,7 +752,7 @@ const formConfig = {
           depends: formData =>
             formData.showUpdatedToeApp &&
             (!formData.sponsors?.sponsors?.length ||
-              formData.sponsors?.firstSponsor === SPONSOR_NOT_LISTED_VALUE ||
+              formData.firstSponsor === SPONSOR_NOT_LISTED_VALUE ||
               (formData[newFormFields.selectedSponsors]?.length === 1 &&
                 formData.sponsors?.someoneNotListed)),
           uiSchema: {
@@ -890,12 +890,12 @@ const formConfig = {
           depends: formData =>
             formData.showUpdatedToeApp &&
             // Only show this page if the user is a child of the sponsor.
-            ((!formData.sponsors?.firstSponsor &&
+            ((!formData.firstSponsor &&
               formData.sponsors?.sponsors?.find(sponsor => sponsor.selected)
                 ?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
-              ((formData.sponsors?.firstSponsor &&
+              ((formData.firstSponsor &&
                 formData.sponsors?.sponsors?.find(
-                  sponsor => sponsor.id === formData.sponsors?.firstSponsor,
+                  sponsor => sponsor.id === formData.firstSponsor,
                 )?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
                 formData[newFormFields.newRelationshipToServiceMember] ===
                   SPONSOR_RELATIONSHIP.CHILD) ||
@@ -957,9 +957,9 @@ const formConfig = {
               ((!formData.firstSponsor &&
                 formData.sponsors?.sponsors?.find(sponsor => sponsor.selected)
                   ?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
-                (formData.sponsors?.firstSponsor &&
+                (formData.firstSponsor &&
                   formData.sponsors?.sponsors?.find(
-                    sponsor => sponsor.id === formData.sponsors?.firstSponsor,
+                    sponsor => sponsor.id === formData.firstSponsor,
                   )?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
                 (!formData.sponsors?.sponsors?.length &&
                   formData?.relationshipToServiceMember ===
