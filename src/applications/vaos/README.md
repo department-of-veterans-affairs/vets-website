@@ -12,6 +12,7 @@ It is a React/Redux application that makes heavy use of MomentJS. Tests are writ
 4. Open http://localhost:3001 and type `localStorage.setItem('hasSession', true)` into the dev console
 5. Open http://localhost:3001/health-care/schedule-view-va-appointments/appointments/
 
+
 ## Frontend Documentation
 
 Documentation for the frontend of the VAOS application is generated using [JSDoc](https://jsdoc.app/).
