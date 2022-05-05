@@ -1,7 +1,7 @@
 // Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import VaPagination from '@department-of-veterans-affairs/component-library/Pagination';
 import moment from 'moment-timezone';
 // Relative imports.
 import {
@@ -151,7 +151,7 @@ export const Results = ({
       )}
 
       {/* Pagination bar */}
-      <Pagination
+      <VaPagination
         className="vads-u-border-top--0"
         onPageSelect={onPageSelect}
         page={page}
@@ -167,21 +167,23 @@ Results.propTypes = {
   page: PropTypes.number.isRequired,
   perPage: PropTypes.number.isRequired,
   query: PropTypes.string.isRequired,
-  queryId: PropTypes.string,
   results: PropTypes.arrayOf(
     PropTypes.shape({
       entityUrl: PropTypes.object.isRequired,
-      fieldDatetimeRangeTimezone: PropTypes.shape({
-        endValue: PropTypes.number.isRequired,
-        timezone: PropTypes.string,
-        value: PropTypes.number.isRequired,
-      }).isRequired,
+      fieldDatetimeRangeTimezone: PropTypes.arrayOf(
+        PropTypes.shape({
+          endValue: PropTypes.number.isRequired,
+          timezone: PropTypes.string,
+          value: PropTypes.number.isRequired,
+        }),
+      ).isRequired,
       fieldDescription: PropTypes.string,
       title: PropTypes.string.isRequired,
     }),
   ).isRequired,
   totalResults: PropTypes.number.isRequired,
   onPageSelect: PropTypes.func.isRequired,
+  queryId: PropTypes.string,
 };
 
 export default Results;

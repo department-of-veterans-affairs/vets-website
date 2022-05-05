@@ -27,11 +27,13 @@ App.propTypes = {
       entityUrl: PropTypes.shape({
         path: PropTypes.string,
       }),
-      fieldDatetimeRangeTimezone: PropTypes.shape({
-        value: PropTypes.number,
-        endValue: PropTypes.number,
-        timezone: PropTypes.string,
-      }),
+      fieldDatetimeRangeTimezone: PropTypes.arrayOf(
+        PropTypes.shape({
+          value: PropTypes.number,
+          endValue: PropTypes.number,
+          timezone: PropTypes.string,
+        }),
+      ).isRequired,
       fieldDescription: PropTypes.string,
       fieldFacilityLocation: PropTypes.object,
       fieldFeatured: PropTypes.bool,
