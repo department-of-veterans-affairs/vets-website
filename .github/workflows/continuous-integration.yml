@@ -316,10 +316,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          repository: department-of-veterans-affairs/platform-release-tools-actions
+          ref: refs/heads/main
+          path: ./.github/actions/platform-release-tools-actions
+
       - name: Security Audit
         timeout-minutes: 30
-        uses: actions/vsp-release-tools-actions@v1
+        uses: actions/platform-release-tools-actions@v1
 
   linting:
     name: Linting (All)
