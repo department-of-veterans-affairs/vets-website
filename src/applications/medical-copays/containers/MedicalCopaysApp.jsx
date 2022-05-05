@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { mcpFeatureToggle } from '../utils/helpers';
 import AlertView from '../components/AlertView';
-import { getStatements } from '../actions';
+import { getStatements } from '../../combined-debt-portal/combined/actions/copays';
 
 const MedicalCopaysApp = ({ children }) => {
   const showMCP = useSelector(state => mcpFeatureToggle(state));
@@ -27,7 +27,7 @@ const MedicalCopaysApp = ({ children }) => {
   useEffect(
     () => {
       if (userLoggedIn) {
-        dispatch(getStatements());
+        dispatch(getStatements);
       }
     },
     [dispatch, userLoggedIn],
