@@ -2,6 +2,7 @@ import React from 'react';
 
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
+import { SPONSOR_NOT_LISTED_VALUE } from './constants';
 
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
@@ -126,3 +127,82 @@ export const addWhitespaceOnlyError = (field, errors, errorMessage) => {
     errors.addError(errorMessage);
   }
 };
+
+export function prefillTransformer(pages, formData, metadata, state) {
+  const claimant = state.data?.formData?.data?.attributes?.claimant || {};
+  // const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
+  const contactInfo = claimant?.contactInfo || {};
+  const sponsors = state.data?.formData?.attributes?.sponsors;
+  // if (isArray(state.form.data.sponsors?.sponsors)) {
+  //   return state.form.data.sponsors;
+  // }
+
+  // if (isArray(state.data?.sponsors?.sponsors)) {
+  //   return {
+  //     sponsors: state.data.sponsors,
+  //   };
+  // }
+
+  const newData = {
+    ...formData,
+    sponsors,
+    formId: state.data?.formData?.data?.id,
+    claimantId: claimant.claimantId,
+    'view:userFullName': {
+      userFullName: {
+        first: claimant.firstName || undefined,
+        middle: claimant.middleName || undefined,
+        last: claimant.lastName || undefined,
+      },
+    },
+    dateOfBirth: claimant.dateOfBirth,
+    email: {
+      email: contactInfo.emailAddress,
+      confirmEmail: contactInfo.emailAddress,
+    },
+    'view:phoneNumbers': {
+      mobilePhoneNumber: {
+        phone: contactInfo?.mobilePhoneNumber || undefined,
+      },
+      phoneNumber: {
+        phone: contactInfo?.homePhoneNumber || undefined,
+      },
+    },
+  };
+
+  if (claimant?.suffix) {
+    newData['view:userFullName'].userFullName.suffix = claimant?.suffix;
+  }
+
+  return {
+    metadata,
+    formData: newData,
+    pages,
+    state,
+  };
+}
+
+export function mapSelectedSponsors(sponsors) {
+  const selectedSponsors = sponsors.sponsors?.flatMap(
+    sponsor => (sponsor.selected ? [sponsor.id] : []),
+  );
+  if (sponsors.someoneNotListed) {
+    selectedSponsors.push(SPONSOR_NOT_LISTED_VALUE);
+  }
+
+  return selectedSponsors;
+}
+
+export function mapFormSponsors(formData, sponsors, fetchedSponsorsComplete) {
+  return {
+    ...formData,
+    fetchedSponsorsComplete:
+      fetchedSponsorsComplete || formData.fetchedSponsorsComplete,
+    sponsors: {
+      ...sponsors,
+      loadedFromSavedState: true,
+    },
+    selectedSponsors: mapSelectedSponsors(sponsors),
+    firstSponsor: sponsors.firstSponsor,
+  };
+}

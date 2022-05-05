@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+
+import { setData } from 'platform/forms-system/src/js/actions';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
-import { isArray } from 'lodash';
-import { updateSponsors } from '../actions';
+
 import {
   IM_NOT_SURE_LABEL,
   IM_NOT_SURE_VALUE,
@@ -10,10 +11,15 @@ import {
   SPONSOR_NOT_LISTED_VALUE,
 } from '../constants';
 
-function FirstSponsorRadioGroup({ dispatchSponsorsChange, sponsors }) {
+function FirstSponsorRadioGroup({
+  firstSponsor,
+  formData,
+  setFormData,
+  sponsors,
+}) {
   const onValueChange = ({ value }) => {
-    dispatchSponsorsChange({
-      ...sponsors,
+    setFormData({
+      ...formData,
       firstSponsor: value.replace('sponsor-', ''),
     });
   };
@@ -48,33 +54,19 @@ function FirstSponsorRadioGroup({ dispatchSponsorsChange, sponsors }) {
       additionalLegendClass="toe-sponsors-checkboxes_legend vads-u-margin-top--0"
       onValueChange={onValueChange}
       options={options}
-      value={
-        sponsors?.firstSponsor && { value: `sponsor-${sponsors?.firstSponsor}` }
-      }
+      value={{ value: `sponsor-${firstSponsor}` }}
     />
   );
 }
 
-const mapSponsors = state => {
-  if (isArray(state.form.data.sponsors?.sponsors)) {
-    return state.form.data.sponsors;
-  }
-
-  if (isArray(state.data?.sponsors?.sponsors)) {
-    return {
-      sponsors: state.data.sponsors,
-    };
-  }
-
-  return {};
-};
-
 const mapStateToProps = state => ({
-  sponsors: mapSponsors(state),
+  firstSponsor: state.form?.data?.firstSponsor,
+  formData: state.form?.data || {},
+  sponsors: state.form?.data?.sponsors,
 });
 
 const mapDispatchToProps = {
-  dispatchSponsorsChange: updateSponsors,
+  setFormData: setData,
 };
 
 export default connect(
