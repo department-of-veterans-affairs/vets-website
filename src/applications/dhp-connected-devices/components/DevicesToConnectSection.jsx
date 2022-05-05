@@ -20,7 +20,7 @@ export const DevicesToConnectSection = ({ connectedDevices }) => {
     } catch (err) {
       return (
         <p data-testid="all-devices-connected-alert">
-          There are no devices available to connect. ghvjbkn
+          There are no devices available to connect.
         </p>
       );
     }

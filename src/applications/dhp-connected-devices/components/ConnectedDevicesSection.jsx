@@ -50,7 +50,7 @@ export const ConnectedDevicesSection = ({
       {failureAlert && <DeviceConnectionFailedAlert />}
       {!areDevicesConnected() && (
         <p data-testid="no-devices-connected-alert">
-          You do not have any devices connected
+          You do not have any devices connected.
         </p>
       )}
       {areDevicesConnected() && connectedDevicesMapped()}
@@ -59,7 +59,7 @@ export const ConnectedDevicesSection = ({
 };
 
 ConnectedDevicesSection.propTypes = {
+  connectedDevices: PropTypes.array.isRequired,
   failureAlert: PropTypes.bool.isRequired,
   successAlert: PropTypes.bool.isRequired,
-  connectedDevices: PropTypes.array,
 };

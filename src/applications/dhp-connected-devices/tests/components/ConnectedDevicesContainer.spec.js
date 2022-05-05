@@ -6,7 +6,6 @@ import environment from 'platform/utilities/environment';
 import { mockApiRequest } from 'platform/testing/unit/helpers';
 import { ConnectedDevicesContainer } from '../../components/ConnectedDevicesContainer';
 
-// mockApiRequest(mockData);
 const noDevicesConnectedState = [
   {
     vendor: 'vendor-1',
@@ -77,7 +76,7 @@ describe('Connect Devices Container', () => {
     ).to.exist;
   });
 
-  it('should render apple watch in connected devices section when connected', async () => {
+  it('should render Vendor 1 in connected devices section when connected', async () => {
     mockApiRequest(oneDeviceConnectedState);
 
     const connectedDevicesContainer = renderInReduxProvider(
