@@ -38,9 +38,14 @@ const preCheckinAlreadyCompleted = appointments => {
   const hasPreCheckinCompleteStep = checkInStep => checkInStep.ien === 2;
 
   const preCheckinCompleted = appointment =>
+    appointment.checkInSteps?.length &&
     appointment.checkInSteps.some(hasPreCheckinCompleteStep);
 
-  return appointments.length && appointments.every(preCheckinCompleted);
+  return (
+    typeof appointments !== 'undefined' &&
+    appointments.length > 0 &&
+    appointments.every(preCheckinCompleted)
+  );
 };
 
 /**

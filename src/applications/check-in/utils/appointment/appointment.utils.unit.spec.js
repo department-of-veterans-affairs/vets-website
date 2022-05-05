@@ -117,22 +117,49 @@ describe('check in', () => {
       });
     });
     describe('preCheckinAlreadyCompleted', () => {
+      const checkInSteps = [
+        {
+          status: 'PRE-CHECK-IN STARTED',
+          dateTime: '2017-12-31T00:00:00.000',
+          ien: 1,
+        },
+        {
+          status: 'PRE-CHECK-IN COMPLETE',
+          dateTime: '2017-12-31T00:05:00.000',
+          ien: 2,
+        },
+      ];
+
       const earliest = createAppointment();
       earliest.startTime = '2018-01-01T00:00:00.000Z';
+      earliest.checkInSteps = checkInSteps;
       const midday = createAppointment();
       midday.startTime = '2018-01-01T12:00:00.000Z';
+      midday.checkInSteps = checkInSteps;
       const latest = createAppointment();
       latest.startTime = '2018-01-01T23:59:59.000Z';
+      latest.checkInSteps = checkInSteps;
 
+      it('returns true when pre-check-in is completed for all appointments', () => {
+        const appointments = [latest, earliest, midday];
+        expect(preCheckinAlreadyCompleted(appointments)).to.deep.equal(true);
+      });
+      it('returns false when appointments are undefined', () => {
+        expect(preCheckinAlreadyCompleted([])).to.deep.equal(false);
+      });
       it('returns false when there are no appointments', () => {
         expect(preCheckinAlreadyCompleted([])).to.deep.equal(false);
       });
-      it('returns false when checkInSteps are undefined', () => {
+      it('returns false when any appointment has not completed pre-checkin', () => {
         delete earliest.checkInSteps;
+        const appointments = [latest, earliest, midday];
+        expect(preCheckinAlreadyCompleted(appointments)).to.deep.equal(false);
+      });
+      it('returns false when checkInSteps are undefined', () => {
         delete midday.checkInSteps;
         delete latest.checkInSteps;
         const appointments = [latest, earliest, midday];
-        expect(preCheckinAlreadyCompleted(appointments)).to.deep.equal([]);
+        expect(preCheckinAlreadyCompleted(appointments)).to.deep.equal(false);
       });
     });
     describe('sortAppointmentsByStartTime', () => {
