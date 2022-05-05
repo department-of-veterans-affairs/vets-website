@@ -101,6 +101,7 @@ export const IntroductionPage = ({ firstName, eligibility, user, route }) => {
           messages={route.formConfig.savedFormMessages}
           pageList={route.pageList}
           hideUnauthedStartLink
+          headingLevel={2}
           startText="Start your application"
         />
       ) : (

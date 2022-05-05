@@ -120,7 +120,7 @@ class SaveInProgressIntro extends React.Component {
           alert = (
             <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
               <div className="schemaform-sip-alert-title">
-                <H className="usa-alert-heading vads-u-font-size--h2">
+                <H className="usa-alert-heading vads-u-font-size--h3">
                   {inProgressMessage} {savedAt && 'and was last saved on '}
                   {lastSavedDateTime}
                 </H>
