@@ -53,6 +53,23 @@ export const dayOptions = [
   { value: '31', label: '31' },
 ];
 
+export const dayOptionsForMonth = month => {
+  let numberOfDays;
+  const monthsWithDays = {
+    28: ['02'],
+    30: ['04', '06', '09', '11'],
+    31: ['01', '03', '05', '07', '08', '10', '12'],
+  };
+
+  for (const [dayCount, months] of Object.entries(monthsWithDays)) {
+    if (months.includes(month)) {
+      numberOfDays = parseInt(dayCount, 10);
+    }
+  }
+
+  return dayOptions.slice(0, numberOfDays + 1);
+};
+
 export const filterByOptions = [
   {
     label: 'All upcoming',
