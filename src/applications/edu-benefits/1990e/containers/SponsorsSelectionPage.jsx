@@ -1,52 +1,59 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { isArray, cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash';
+
+import { setData } from 'platform/forms-system/src/js/actions';
 import CheckboxGroup from '@department-of-veterans-affairs/component-library/CheckboxGroup';
 
-import { fetchSponsors, updateSponsors } from '../actions';
+import { fetchSponsors } from '../actions';
 import {
   SPONSOR_NOT_LISTED_LABEL,
   SPONSOR_NOT_LISTED_VALUE,
 } from '../constants';
+import { mapFormSponsors, mapSelectedSponsors } from '../helpers';
 
 function SponsorSelectionPage({
-  dispatchSponsorsChange,
   errorMessage = 'Please select at least one sponsor',
-  fetchedSponsors,
   fetchedSponsorsComplete,
+  firstSponsor,
   formContext,
-  getSponsors,
+  formData,
   loadingMessage = 'Loading your sponsors...',
+  setFormData,
   sponsors,
-  sponsorsSavedState,
 }) {
   const [dirty, setDirty] = useState(false);
 
-  useEffect(
-    () => {
-      // if (!sponsors?.sponsors && !fetchedSponsors) {
-      //   getSponsors();
-      // }
+  const onValueChange = ({ value }, checked) => {
+    const _sponsors = cloneDeep(sponsors);
 
-      if (
-        !sponsors?.loadedFromSavedState &&
-        isArray(sponsorsSavedState?.sponsors)
-      ) {
-        dispatchSponsorsChange({
-          ...sponsorsSavedState,
-          loadedFromSavedState: true,
-        });
+    if (value === `sponsor-${SPONSOR_NOT_LISTED_VALUE}`) {
+      _sponsors.someoneNotListed = checked;
+    } else {
+      const sponsorIndex = _sponsors.sponsors.findIndex(
+        sponsor => `sponsor-${sponsor.id}` === value,
+      );
+      if (sponsorIndex > -1) {
+        _sponsors.sponsors[sponsorIndex].selected = checked;
       }
-    },
-    [
-      dispatchSponsorsChange,
-      fetchedSponsors,
-      getSponsors,
-      sponsors,
-      sponsorsSavedState,
-    ],
-  );
+    }
+
+    // Check to make sure that a previously-selected first sponsor hasn't
+    // been removed from the list of selected sponsors.
+    if (
+      !checked &&
+      (value === `sponsor-${firstSponsor}` ||
+        _sponsors.sponsors?.filter(s => s.selected)?.length < 2)
+    ) {
+      _sponsors.firstSponsor = null;
+    }
+
+    _sponsors.selectedSponsors = mapSelectedSponsors(_sponsors);
+
+    setDirty(true);
+    setFormData(mapFormSponsors(formData, _sponsors));
+  };
 
   if (!fetchedSponsorsComplete) {
     return <va-loading-indicator message={loadingMessage} />;
@@ -67,34 +74,6 @@ function SponsorSelectionPage({
     value: `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
   });
   const selectedOptions = !!options?.filter(o => o.selected)?.length;
-
-  const onValueChange = ({ value }, checked) => {
-    const _sponsors = cloneDeep(sponsors);
-
-    if (value === `sponsor-${SPONSOR_NOT_LISTED_VALUE}`) {
-      _sponsors.someoneNotListed = checked;
-    } else {
-      const sponsorIndex = _sponsors.sponsors.findIndex(
-        sponsor => `sponsor-${sponsor.id}` === value,
-      );
-      if (sponsorIndex > -1) {
-        _sponsors.sponsors[sponsorIndex].selected = checked;
-      }
-    }
-
-    // Check to make sure that a previously-selected first sponsor hasn't
-    // been removed from the list of selected sponsors.
-    if (
-      !checked &&
-      (value === `sponsor-${sponsors?.firstSponsor}` ||
-        _sponsors.sponsors?.filter(s => s.selected)?.length < 2)
-    ) {
-      _sponsors.firstSponsor = null;
-    }
-
-    setDirty(true);
-    dispatchSponsorsChange(_sponsors);
-  };
 
   const values = Object.fromEntries(
     new Map(options?.map(option => [option.value, !!option.selected])),
@@ -127,28 +106,18 @@ function SponsorSelectionPage({
   );
 }
 
-const mapSponsors = state => {
-  // if (isArray(state.form.data.sponsors?.sponsors)) {
-  //   return state.form.data.sponsors;
-  // }
-
-  if (isArray(state.data?.sponsors?.sponsors)) {
-    return state.data.sponsors;
-  }
-
-  return {};
-};
-
 const mapStateToProps = state => ({
   fetchedSponsors: state.data?.fetchedSponsors,
   fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
-  sponsors: mapSponsors(state),
+  firstSponsor: state.form?.data?.firstSponsor,
+  formData: state.form?.data || {},
+  sponsors: state.form?.data?.sponsors,
   sponsorsSavedState: state.form.loadedData?.formData?.sponsors,
 });
 
 const mapDispatchToProps = {
   getSponsors: fetchSponsors,
-  dispatchSponsorsChange: updateSponsors,
+  setFormData: setData,
 };
 
 export default withRouter(
