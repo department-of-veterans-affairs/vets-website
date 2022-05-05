@@ -30,9 +30,9 @@ When we render payments for the Veteran we do it using the `<Payments />` compon
 ## The back end code
 When the front end calls [/profile/payment_history](https://github.com/department-of-veterans-affairs/vets-api/blob/be3a39e6054afd8c6a2cbb61cfd215421a8a718a/app/controllers/v0/profile/payment_history_controller.rb#L1) in the back end we call the `new` method from the BGS People Service and assign the result, which is the Veteran's VA file number, to a new variable called `person`. We then use that `person` variable to call the `new` method from the BGS Payment Service and assign the result, a list of payments for the Veteran, to a new array of objects called `response`. We then send that response back to the front end using the `VetPaymentHistorySerializer`.
 
-## Mocking the `profile/payment_history` endpoint
-When developing locally, vets-api is not able to properly access BGS to retreive payment data.
-In order to retreive view payments locally, we can create mock data for vets-api to return by
+## Mocking the `profile/payment_history` endpoint in vets-api
+When developing locally, vets-api is not able to properly access BGS to retrieve payment data.
+In order to retrieve view payments locally, we can create mock data for vets-api to return by
 replacing the `payment_history` method in `/app/services/bgs/payment_service.rb` with the following:
 ```ruby
 def payment_history(person)
@@ -217,4 +217,5 @@ def payment_history(person)
         empty_response if e.message.include?('No Data Found')
     end
 ```
-NOTE: The above will return an array of payments, it will not include any returned payments
+NOTE: The above will return an array of payments, but it will not include any returned payments, so
+when viewing the page at `/va-payment-history/payments`, you will only see the `Payments you received`.
