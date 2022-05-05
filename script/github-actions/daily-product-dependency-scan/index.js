@@ -24,8 +24,8 @@ function handleFailure({ response }) {
   return {
     status: 'Failure',
     message: response?.status
-      ? 'There was an error with GitHub'
-      : 'An unkown error occured',
+      ? 'There was an error with GitHub.'
+      : 'An unkown error occured.',
     data: stringifyReturnData({ response }),
   };
 }
@@ -80,7 +80,7 @@ async function main({ octokit }) {
 
   if (!dependencyDiffer.dependenciesChanged) {
     const message =
-      'No dependency changes were detected. Data includes in the unchanged CSV.';
+      'No dependency changes were detected. The data prop includes the unchanged CSV.';
     return handleSuccess({ message, data: updatedCsv });
   }
 
@@ -97,7 +97,8 @@ async function main({ octokit }) {
   );
 
   return handleSuccess({
-    message: 'Dependency changes were detected. Data includes the updated CSV.',
+    message:
+      'Dependency changes were detected. The data prop includes the updated CSV.',
     data: updatedCsv,
   });
 }

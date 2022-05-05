@@ -46,6 +46,8 @@ jobs:
 
       - name: Run Dependency Scan & Update Product Directory
         run: yarn daily-dependency-scan
+        env:
+          MANIFEST_GLOB_PATH: src/applications/**/*manifest.json
 
       - name: Notify Slack that a PR in the Product Directory repo has been submitted
         if: ${{ success() }}
