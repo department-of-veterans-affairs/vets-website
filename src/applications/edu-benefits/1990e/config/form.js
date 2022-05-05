@@ -45,7 +45,7 @@ import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings
 import EmailReviewField from '../components/EmailReviewField';
 import EmailViewField from '../components/EmailViewField';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import SponsorSelectionPage from '../containers/SponsorsSelectionPage';
+import SponsorCheckboxGroup from '../components/SponsorsCheckboxGroup';
 import FirstSponsorRadioGroup from '../components/FirstSponsorRadioGroup';
 import IntroductionPage from '../containers/IntroductionPage';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
@@ -71,6 +71,7 @@ import {
   titleCase,
   hideUnder18Field,
   addWhitespaceOnlyError,
+  prefillTransformer,
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
@@ -95,7 +96,7 @@ const {
   // usaPhone,
 } = fullSchema1990e.definitions;
 
-const newToeAppEnabled = false;
+const newToeAppEnabled = true;
 const preSubmitInfo = environment.isProduction()
   ? oldPreSubmitInfo
   : newPreSubmitInfo;
@@ -227,6 +228,7 @@ const formConfig = {
   version: 1,
   migrations: [urlMigration('/1990e')],
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound:
       'Please start over to apply to use transferred education benefits.',
@@ -614,14 +616,15 @@ const formConfig = {
             },
             'view:sponsorsLoadingIndicator': {
               'ui:description': (
-                <va-loading-indicator message="Loading your sponsors..." />
+                <h1>LOADING</h1>
+                // <va-loading-indicator message="Loading your sponsors..." />
               ),
               'ui:options': {
                 hideIf: formData => !!formData.fetchedSponsorsComplete,
               },
             },
             [newFormFields.selectedSponsors]: {
-              'ui:field': SponsorSelectionPage,
+              'ui:field': SponsorCheckboxGroup,
               // 'ui:widget': DynamicCheckboxGroup,
               // 'ui:reviewField': SelectedSponsorsReviewField,
               // 'ui:reviewWidget': SelectedSponsorsReviewField,
