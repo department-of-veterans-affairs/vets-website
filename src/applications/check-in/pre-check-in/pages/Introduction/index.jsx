@@ -62,7 +62,11 @@ const Introduction = props => {
           //  set data to state
           setDataToState(payload);
 
-          // if any appointments are tomorrow or later, the link is not expired
+          // We do this check before pre-checkin already completed so we don't
+          // show a success message on the day of the appointment that could lead
+          // the Veteran to believe they completed day-of check-in.
+          //
+          // If any appointments are tomorrow or later, the link is not expired.
           if (
             payload.appointments &&
             payload.appointments.length > 0 &&
