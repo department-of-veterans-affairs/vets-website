@@ -1,20 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { loginGovDisabled } from 'platform/user/authentication/selectors';
+import { CTA_WIDGET_TYPES } from 'applications/static-pages/cta-widget/ctaWidgets';
 
 const initialCSPState = ['ID.me', 'DS Logon', 'My HealtheVet'];
 
-const ServiceProviders = React.memo(({ isBold }) => {
+const ServiceProviders = React.memo(({ isBold, appId }) => {
   const [serviceProviders, setCSPs] = useState(initialCSPState);
   const loginGovOff = useSelector(state => loginGovDisabled(state));
 
   useEffect(
     () => {
+      let providers = [...initialCSPState];
       if (!loginGovOff) {
-        setCSPs(['Login.gov', ...initialCSPState]);
+        providers = ['Login.gov', ...providers];
       }
+      if (appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT) {
+        providers = providers.filter(
+          csp => csp !== 'DS Logon' && csp !== 'My HealtheVet',
+        );
+      }
+      setCSPs(providers);
     },
-    [!loginGovOff],
+    [appId, loginGovOff],
   );
 
   return new Intl.ListFormat('en', { style: 'long', type: 'disjunction' })

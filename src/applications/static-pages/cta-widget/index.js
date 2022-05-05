@@ -6,11 +6,22 @@ import appendQuery from 'append-query';
 import classNames from 'classnames';
 import { connect } from 'react-redux';
 // Relative imports.
+import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import recordEvent from 'platform/monitoring/record-event';
+import {
+  createAndUpgradeMHVAccount,
+  fetchMHVAccount,
+  upgradeMHVAccount,
+} from 'platform/user/profile/actions';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
+import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import { logout, verify, mfa } from 'platform/user/authentication/utilities';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 import ChangeAddress from './components/messages/ChangeAddress';
 import DeactivatedMHVIds from './components/messages/DeactivatedMHVIds';
 import DirectDeposit from './components/messages/DirectDeposit';
 import HealthToolsDown from './components/messages/HealthToolsDown';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import MFA from './components/messages/MFA';
 import MultipleIds from './components/messages/MultipleIds';
 import NeedsSSNResolution from './components/messages/NeedsSSNResolution';
@@ -24,19 +35,8 @@ import UpgradeAccount from './components/messages/UpgradeAccount';
 import UpgradeFailed from './components/messages/UpgradeFailed';
 import VAOnlineScheduling from './components/messages/VAOnlineScheduling';
 import Verify from './components/messages/Verify';
-import recordEvent from 'platform/monitoring/record-event';
 import { ACCOUNT_STATES, ACCOUNT_STATES_SET } from './constants';
-import {
-  createAndUpgradeMHVAccount,
-  fetchMHVAccount,
-  upgradeMHVAccount,
-} from 'platform/user/profile/actions';
 import { ctaWidgetsLookup, CTA_WIDGET_TYPES } from './ctaWidgets';
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
-import { isLoggedIn, selectProfile } from 'platform/user/selectors';
-import { logout, verify, mfa } from 'platform/user/authentication/utilities';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 
 export class CallToActionWidget extends Component {
   static propTypes = {
@@ -141,6 +141,7 @@ export class CallToActionWidget extends Component {
           headerLevel={this.props.headerLevel}
           ariaLabel={this.props.ariaLabel}
           ariaDescribedby={this.props.ariaDescribedby}
+          appId={this.props.appId}
         />
       );
     }
@@ -273,7 +274,8 @@ export class CallToActionWidget extends Component {
           primaryButtonHandler={this.verifyHandler}
         />
       );
-    } else if (mhvAccountIdState === 'DEACTIVATED') {
+    }
+    if (mhvAccountIdState === 'DEACTIVATED') {
       recordEvent({ event: `${this._gaPrefix}-error-has-deactivated-mhv-ids` });
       return <DeactivatedMHVIds />;
     }
@@ -414,7 +416,8 @@ export class CallToActionWidget extends Component {
       const ctaWidget = ctaWidgetsLookup?.[appId];
 
       return ctaWidget?.hasRequiredMhvAccount(mhvAccount.accountLevel);
-    } else if (this.props.appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT) {
+    }
+    if (this.props.appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT) {
       // Direct Deposit requires multifactor
       return this.props.profile.verified && this.props.profile.multifactor;
     }

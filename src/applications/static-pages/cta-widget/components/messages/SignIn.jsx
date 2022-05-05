@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CallToActionAlert from '../CallToActionAlert';
-
 import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
+import CallToActionAlert from '../CallToActionAlert';
 
 const SignIn = ({
   serviceDescription,
@@ -12,14 +11,15 @@ const SignIn = ({
   headerLevel,
   ariaLabel = null,
   ariaDescribedby = null,
+  appId = null,
 }) => {
   const content = {
     heading: `Please sign in to ${serviceDescription}`,
     headerLevel,
     alertText: (
       <p>
-        Sign in with your existing <ServiceProvidersText isBold /> account.{' '}
-        <ServiceProvidersTextCreateAcct />
+        Sign in with your existing <ServiceProvidersText isBold appId={appId} />{' '}
+        account. <ServiceProvidersTextCreateAcct />
       </p>
     ),
     primaryButtonText: 'Sign in or create an account',
