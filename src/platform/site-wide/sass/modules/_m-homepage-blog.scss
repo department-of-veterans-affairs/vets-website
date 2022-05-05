@@ -14,14 +14,4 @@
       }
     }
   }
-
-  .va-h-ruled--white {
-    border-bottom: 1px solid $color-white;
-    padding: 1rem 0 1rem 0;
-    width: 210px;
-
-    @media (min-width: $small-screen) {
-      width: 296px;
-    }
-  }
 }
