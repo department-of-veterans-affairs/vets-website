@@ -17,11 +17,11 @@ export const IntroductionPage = ({ firstName, eligibility, user, route }) => {
       <FormTitle title="Apply for VA education benefits" />
       <p>Equal to VA Form 22-1990 (Application for VA Education Benefits)</p>
       <HowToApplyPost911GiBill />
-      <h3>Follow these steps to get started</h3>
+      <h2>Follow these steps to get started</h2>
       <div className="process schemaform-process">
         <ol>
           <li className="process-step list-one">
-            <h4>Check your eligibility</h4>
+            <h3>Check your eligibility</h3>
             <p>
               Make sure you meet our eligibility requirements before you apply.
             </p>
@@ -51,7 +51,7 @@ export const IntroductionPage = ({ firstName, eligibility, user, route }) => {
             </va-additional-info>
           </li>
           <li className="process-step list-two">
-            <h4>Gather your information</h4>
+            <h3>Gather your information</h3>
             <p>
               <strong>Here’s what you’ll need to apply</strong>:
             </p>
@@ -61,7 +61,7 @@ export const IntroductionPage = ({ firstName, eligibility, user, route }) => {
             </ul>
           </li>
           <li className="process-step list-three">
-            <h4>Start your application</h4>
+            <h3>Start your application</h3>
             <p>
               We’ll take you through each step of the process. It should take
               about 15 minutes.

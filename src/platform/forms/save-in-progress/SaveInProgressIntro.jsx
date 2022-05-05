@@ -14,12 +14,12 @@ import {
 import recordEvent from 'platform/monitoring/record-event';
 
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { fetchInProgressForm, removeInProgressForm } from './actions';
-import FormStartControls from './FormStartControls';
-import { getIntroState } from './selectors';
 import DowntimeNotification, {
   externalServiceStatus,
 } from 'platform/monitoring/DowntimeNotification';
+import { fetchInProgressForm, removeInProgressForm } from './actions';
+import FormStartControls from './FormStartControls';
+import { getIntroState } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
 import {
   APP_TYPE_DEFAULT,
@@ -120,7 +120,7 @@ class SaveInProgressIntro extends React.Component {
           alert = (
             <div className="usa-alert usa-alert-info background-color-only schemaform-sip-alert">
               <div className="schemaform-sip-alert-title">
-                <H className="usa-alert-heading vads-u-font-size--h3">
+                <H className="usa-alert-heading vads-u-font-size--h2">
                   {inProgressMessage} {savedAt && 'and was last saved on '}
                   {lastSavedDateTime}
                 </H>
