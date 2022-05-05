@@ -22,18 +22,15 @@ const PreCheckInAccordionBlock = ({
         </p>
         <p>
           {t(
-            'a-staff-member-will-help-you-on-the-day-of-your-appointment-or-you-can-login-to-your-va-account-to-update-your-contact-information-online',
-            {
-              link: (
-                <ExternalLink
-                  href="https://www.va.gov/profile/personal-information"
-                  hrefLang="en"
-                >
-                  {t('login')}
-                </ExternalLink>
-              ),
-            },
+            'a-staff-member-will-help-you-on-the-day-of-your-appointment-or-you-can-',
           )}
+          <ExternalLink
+            href="https://www.va.gov/profile/personal-information"
+            hrefLang="en"
+          >
+            {t('login')}
+          </ExternalLink>
+          {t('to-your-va-account-to-update-your-contact-information-online')}
         </p>
       </>
     );
