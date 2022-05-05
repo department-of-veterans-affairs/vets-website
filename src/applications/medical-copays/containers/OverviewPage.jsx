@@ -10,7 +10,7 @@ import BalanceQuestions from '../components/BalanceQuestions';
 import { sortStatementsByDate, cdpAccessToggle } from '../utils/helpers';
 import OtherVADebts from '../components/OtherVADebts';
 import environment from '~/platform/utilities/environment';
-import { debtMockResponse } from '../../debt-letters/utils/mockResponses';
+import { debtMockResponse } from '../utils/mocks/mockDebtResponses';
 
 const fetchDebtResponseAsync = async () => {
   const options = {

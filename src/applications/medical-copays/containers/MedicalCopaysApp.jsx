@@ -27,7 +27,8 @@ const MedicalCopaysApp = ({ children }) => {
   useEffect(
     () => {
       if (userLoggedIn) {
-        dispatch(getStatements);
+        const generateGetStatements = () => getStatements(dispatch);
+        dispatch(generateGetStatements);
       }
     },
     [dispatch, userLoggedIn],
