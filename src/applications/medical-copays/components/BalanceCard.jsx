@@ -75,13 +75,14 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       >
         {facility} - {city}
       </p>
+      <span className="sr-only">Alert</span>
+
       <div className="card-content">
         <i
           aria-hidden="true"
           role="img"
           className="fa fa-exclamation-triangle"
         />
-        <span className="sr-only">Alert</span>
         {isCurrentBalance ? (
           <CurrentContent id={id} date={date} />
         ) : (
