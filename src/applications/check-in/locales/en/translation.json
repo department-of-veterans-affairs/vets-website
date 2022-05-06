@@ -1,5 +1,4 @@
 {
-  "a-staff-member-will-help-you-on-the-day-of-your-appointment-to-update-your-information": "A staff member will help you on the day of your appointment to update your information.",
   "address": "Address",
   "and-select-0-were-here-24-7": "and select 0. We’re here 24/7.",
   "and-select-1": "and select 1",
@@ -37,7 +36,6 @@
   "for-questions-about-your-appointment-or-if-you-have-a-health-related-concern": "For questions about your appointment or if you have a health-related concern,",
   "get-tips-for-protecting-your-personal-health-information": "Get tips for protecting your personal health information",
   "go-to-another-appointment": "Go to another appointment",
-  "go-to-your-appointment": "Go to your appointment",
   "here-are-your-appointments-for-today": "Here are your appointments for today: {{ date, long }}.",
   "home-address": "Home address",
   "home-phone": "Home phone",
@@ -134,6 +132,7 @@
   "you-can-pre-check-in-online-until-date": "You can pre-check in online until {{date, mdY}}.",
   "were-sorry-something-went-wrong-on-our-end-please-try-again": "We’re sorry. Something went wrong on our end. Please try again.",
   "were-sorry-we-couldnt-match-your-information-to-our-records-please-call-us-at-800-698-2411-tty-711-for-help-signing-in": "We're sorry. We couldn't match your information to our records. Please call us at 800-698-2411 (TTY:711) for help signing in.",
+  "you-can-still-check-in-once-you-arrive": "You can still check-in with your phone once you arrive at your appointment.",
   "relationship-to-you": "relationship to you",
   "ward": "Ward",
   "unrelated-friend": "Unrelated Friend",
@@ -151,5 +150,19 @@
   "date-of-birth": "Date of birth",
   "your-date-of-birth-can-not-be-in-the-future": "Your date of birth can not be in the future",
   "please-provide-a-response": "Please provide a response",
-  "in-en": "in english"
+  "in-en": "in english",
+  "sorry-we-cant-complete-pre-check-in": "Sorry, we can’t complete pre-check-in",
+  "date-time": "{{date, time}}",
+  "contact-information": "Contact Information",
+  "a-staff-member-will-help-you-on-the-day-of-your-appointment": "A staff member will help you on the day of your appointment.",
+  "a-staff-member-will-help-you-on-the-day-of-your-appointment-or-you-can-": "A staff member will help you on the day of your appointment. Or you can ",
+  "to-your-va-account-to-update-your-contact-information-online": " to your VA account to update your contact information online.",
+  "login": "login",
+  "emergency-and-next-of-kin-information": "Emergency and next of kin information",
+  "emergency-information": "Emergency information",
+  "next-of-kin": "Next of kin",
+  "why-do-i-need-to-make-sure-my-information-is-up-to-date": "Why do I need to make sure my information is up to date?",
+  "we-can-better-prepare-for-your-appointment-and-contact-you-more-easily": "We can better prepare for your appointment and contact you more easily.",
+  "how-can-i-update-my-information": "How can I update my information?",
+  "go-to-your-appointment-details": "Go to your appointment details"
 }

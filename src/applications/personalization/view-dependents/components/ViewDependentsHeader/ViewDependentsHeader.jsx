@@ -83,13 +83,15 @@ function ViewDependentsHeader(props) {
           dependent.
         </p>
         {props.dependentsToggle && (
-          <a
-            href={form686Url}
-            className="usa-button-primary va-button-primary"
-            onClick={handleClick}
-          >
-            Add or remove a dependent
-          </a>
+          <p>
+            <a
+              href={form686Url}
+              className="vads-c-action-link--green"
+              onClick={handleClick}
+            >
+              Add or remove a dependent
+            </a>
+          </p>
         )}
       </div>
     </div>

@@ -848,7 +848,6 @@ describe('VAOS Appointment service', () => {
       // Given CC appointment request
       const data = {
         id: '1234',
-        cancellable: true,
         email: 'test@va.gov',
         phone: '2125551212',
         kind: 'cc',
