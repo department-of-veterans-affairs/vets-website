@@ -122,6 +122,52 @@ export function logValidateMarriageDate(
   }
 }
 
+export function logValidateMarriageDateVaFacilityPage(
+  errors,
+  marriageDate,
+  {
+    dateOfMarriage,
+    spouseDateOfBirth,
+    veteranDateOfBirth,
+    discloseFinancialInformation,
+  },
+) {
+  if (!dateOfMarriage) return;
+
+  const vetDOB = moment(veteranDateOfBirth);
+  const spouseDOB = moment(spouseDateOfBirth);
+  const marriage = moment(dateOfMarriage);
+  if (
+    discloseFinancialInformation &&
+    spouseDOB.isAfter(marriage) &&
+    vetDOB.isAfter(marriage)
+  ) {
+    logMarriageError(
+      'marriage_date_VaFacilityPage',
+      'Date of marriage cannot be before the Veteran’s or the spouse’s date of birth',
+      spouseDateOfBirth,
+      veteranDateOfBirth,
+      dateOfMarriage,
+    );
+  } else if (discloseFinancialInformation && spouseDOB.isAfter(marriage)) {
+    logMarriageError(
+      'spouse_dob_VaFacilityPage',
+      'Date of marriage cannot be before the spouse’s date of birth',
+      spouseDateOfBirth,
+      veteranDateOfBirth,
+      dateOfMarriage,
+    );
+  } else if (discloseFinancialInformation && vetDOB.isAfter(marriage)) {
+    logMarriageError(
+      'veteran_dob_VaFacilityPage',
+      'Date of marriage cannot be before the Veteran’s date of birth',
+      spouseDateOfBirth,
+      veteranDateOfBirth,
+      dateOfMarriage,
+    );
+  }
+}
+
 // export function validateMarriageDate(
 //   errors,
 //   marriageDate,
