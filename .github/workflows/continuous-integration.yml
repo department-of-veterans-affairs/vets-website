@@ -318,8 +318,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - run: |
-             cd ./.github/workflows/platform-release-tools-actions; ls -l
       - name: Security Audit
         timeout-minutes: 30
         uses: department-of-veterans-affairs/platform-release-tools-actions@master
