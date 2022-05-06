@@ -16,7 +16,7 @@ First, make sure there exists a `headerFooter.json` file in `vets-website/build/
 Now, start up `vets-website`:
 
 ```
-yarn watch --env local-proxy-rewrite
+yarn watch local-proxy-rewrite
 ```
 
 Next, navigate to localhost, but passing a VA.gov domain via a `target` query parameter -
