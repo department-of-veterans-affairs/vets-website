@@ -324,7 +324,7 @@ jobs:
              cd ./.github/workflows/platform-release-tools-actions; ls -l
       - name: Security Audit
         timeout-minutes: 30
-        uses: ./.github/workflows/platform-release-tools-actions
+        uses: department-of-veterans-affairs/platform-release-tools-actions@v1
 
   linting:
     name: Linting (All)
