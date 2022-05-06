@@ -59,7 +59,7 @@ describe('Medical Copays', () => {
     cy.axeCheck();
   });
 
-  it('displays view statements section - C12578', () => {
+  it.skip('displays view statements section - C12578', () => {
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
