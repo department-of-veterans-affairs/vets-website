@@ -35,7 +35,7 @@ export const UPDATE_VERIFICATION_STATUS_MONTHS = 'UPDATE_VERIFICATION_STATUS';
 export function fetchPost911GiBillEligibility() {
   const POST_911_GI_BILL_ELIGIBILITY_ENDPOINT = `${
     environment.API_URL
-  }/eligibility/post-911-gi-bill`;
+  }/meb_api/v0/enrollment`;
 
   return async dispatch => {
     dispatch({ type: FETCH_POST_911_GI_BILL_ELIGIBILITY });
