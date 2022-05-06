@@ -5,7 +5,7 @@ import LoadingIndicator from '@department-of-veterans-affairs/component-library/
 const SubmitLoadingIndicator = ({ submission }) => {
   const [isLoading, setLoading] = useState(false);
 
-  const hasAttemptedSubmit = submission.hasAttemptedSubmit;
+  const { hasAttemptedSubmit } = submission;
   const isSubmitPending = submission.status === 'submitPending';
 
   // set loading to true if user has attempted to submit and submit is pending
