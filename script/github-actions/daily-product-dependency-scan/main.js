@@ -2,8 +2,6 @@
 const glob = require('glob');
 const core = require('@actions/core');
 
-// eslint-disable-next-line no-unused-vars
-const GitHub = require('./github');
 const Products = require('./products');
 const PackageDependencies = require('./products/dependencies/package-dependencies');
 const CrossProductDependencies = require('./products/dependencies/cross-product-dependencies');
