@@ -56,19 +56,6 @@ module.exports = {
   overrides: [
     {
       files: [
-        'src/platform/**/*.js',
-        'src/platform/**/*.jsx',
-        'src/applications/site-wide/**/*.js',
-        'src/applications/site-wide/**/*.jsx',
-        'src/applications/static-pages/**/*.js',
-        'src/applications/static-pages/**/*.jsx',
-      ],
-      rules: {
-        'no-restricted-imports': ['error', 'raven', 'lodash/fp'],
-      },
-    },
-    {
-      files: [
         '**/*.spec.jsx',
         '**/*.spec.js',
         'src/platform/testing/**/*.js',
