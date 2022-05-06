@@ -15,7 +15,7 @@ const messages = {
   },
   couldntCheckIn: {
     en: 'We couldn’t check you in',
-    es: 'No pudimos registrarte',
+    es: 'No pudimos completar el registro.',
   },
 };
 class Error {
