@@ -1,6 +1,10 @@
 import { API_ROUTES, FIELD_TITLES, FIELD_NAMES } from '@@vap-svc/constants';
 
 import {
+  getFormSchema as addressFormSchema,
+  getUiSchema as addressUiSchema,
+} from '@@vap-svc/components/AddressField/address-schemas';
+import {
   emailConvertCleanDataToPayload,
   emailUiSchema,
   emailFormSchema,
@@ -11,11 +15,6 @@ import {
   phoneFormSchema,
 } from './contact-information/phoneUtils';
 import { addressConvertCleanDataToPayload } from './contact-information/addressUtils';
-
-import {
-  getFormSchema as addressFormSchema,
-  getUiSchema as addressUiSchema,
-} from '@@vap-svc/components/AddressField/address-schemas';
 
 import {
   personalInformationFormSchemas,
@@ -95,29 +94,55 @@ export const getProfileInfoFieldAttributes = fieldName => {
   }
 
   if (personalInformation.includes(fieldName)) {
-    apiRoute = '/'; // TODO: DUMMY API ROUTE
+    // dont manipulate the payload by default and rely on the
+    // conversion to happen within the switch statement below
+    // for each fields specific data transformation needs
     convertCleanDataToPayload = payload => {
-      // console.log(payload);
-      // TODO: this function will need to be changed so it can be used for the Data transformation for the API call. See https://github.com/department-of-veterans-affairs/vets-website/blob/Profile-31685-newpersonalinfosection/src/applications/personalization/profile/components/ProfileInformationEditView.jsx#L180
       return payload;
     };
+
+    // TODO: update convertCleanDataToPayload when other field api endpoints are ready
+    switch (fieldName) {
+      case FIELD_NAMES.PREFERRED_NAME:
+        apiRoute = API_ROUTES.PREFERRED_NAME;
+        title = FIELD_TITLES[FIELD_NAMES.PREFERRED_NAME];
+        convertCleanDataToPayload = payload => {
+          return {
+            text: payload?.[FIELD_NAMES.PREFERRED_NAME],
+          };
+        };
+        break;
+
+      case FIELD_NAMES.GENDER_IDENTITY:
+        apiRoute = API_ROUTES.GENDER_IDENTITY;
+        title = FIELD_TITLES[FIELD_NAMES.GENDER_IDENTITY];
+        convertCleanDataToPayload = payload => {
+          return {
+            code: payload?.[FIELD_NAMES.GENDER_IDENTITY],
+          };
+        };
+        break;
+
+      case FIELD_NAMES.SEXUAL_ORIENTATION:
+        // TODO: update when api route is avail
+        apiRoute = '/';
+        title = FIELD_TITLES[FIELD_NAMES.SEXUAL_ORIENTATION];
+        break;
+
+      case FIELD_NAMES.PRONOUNS:
+        // TODO: update when api route is avail
+        apiRoute = '/';
+        title = FIELD_TITLES[FIELD_NAMES.PRONOUNS];
+        break;
+
+      default:
+        apiRoute = '/';
+        title = 'Title Not Set';
+        break;
+    }
+
     uiSchema = personalInformationUiSchemas[fieldName];
     formSchema = personalInformationFormSchemas[fieldName];
-
-    // console.log(fieldName, ' uiSchema => ', uiSchema);
-    // console.log(fieldName, ' formSchema => ', formSchema);
-    if (fieldName === FIELD_NAMES.PREFERRED_NAME) {
-      title = FIELD_TITLES[FIELD_NAMES.PREFERRED_NAME];
-    }
-    if (fieldName === FIELD_NAMES.PRONOUNS) {
-      title = FIELD_TITLES[FIELD_NAMES.PRONOUNS];
-    }
-    if (fieldName === FIELD_NAMES.GENDER_IDENTITY) {
-      title = FIELD_TITLES[FIELD_NAMES.GENDER_IDENTITY];
-    }
-    if (fieldName === FIELD_NAMES.SEXUAL_ORIENTATION) {
-      title = FIELD_TITLES[FIELD_NAMES.SEXUAL_ORIENTATION];
-    }
   }
 
   return {

@@ -5,7 +5,7 @@
  * @testrailinfo groupId 3090
  * @testrailinfo runName MCP-e2e-Statements
  */
-import mockDebt from '../../../debt-letters/tests/e2e/fixtures/mocks/debts.json';
+import mockDebt from '../../utils/mocks/debts.json';
 import mockFeatureToggles from './fixtures/mocks/statement-feature-toggles.json';
 import mockCopays from './fixtures/mocks/copays.json';
 import mockUser from './fixtures/mocks/mock-user.json';

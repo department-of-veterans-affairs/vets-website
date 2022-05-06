@@ -2,19 +2,19 @@ import React from 'react';
 import { expect } from 'chai';
 import { waitFor } from '@testing-library/dom';
 import { cleanup } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import {
   createTestStore,
   renderWithStoreAndRouter,
   setTypeOfCare,
   setVAFacility,
 } from '../../mocks/setup';
-import userEvent from '@testing-library/user-event';
 
 import ClinicChoicePage from '../../../new-appointment/components/ClinicChoicePage';
 import { mockEligibilityFetches } from '../../mocks/helpers';
 import { getClinicMock } from '../../mocks/v0';
 import { createMockCheyenneFacilityByVersion } from '../../mocks/data';
-import { mockFetch } from 'platform/testing/unit/helpers';
 import { mockFacilityFetchByVersion } from '../../mocks/fetch';
 
 const initialState = {
@@ -298,7 +298,7 @@ describe('VAOS <ClinicChoicePage>', () => {
     expect(screen.baseElement).to.contain.text(
       'Cheyenne, WyomingWY 82001-5356',
     );
-    expect(screen.baseElement).to.contain.text('307-778-7550');
+    expect(screen.getByTestId('facility-telephone')).to.exist;
 
     expect(screen.baseElement).to.contain.text(
       'Would you like to make an appointment at Green team clinic',

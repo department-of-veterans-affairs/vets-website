@@ -81,6 +81,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
           role="img"
           className="fa fa-exclamation-triangle"
         />
+        <span className="sr-only">Alert</span>
         {isCurrentBalance ? (
           <CurrentContent id={id} date={date} />
         ) : (

@@ -1,13 +1,13 @@
 # These owners will be the default owners for everything in
 # the repo. Unless a later match takes precedence,
-#  @department-of-veterans-affairs/frontend-review-group will be requested for
+#  @department-of-veterans-affairs/platform-release-tools will be requested for
 # review when someone opens a pull request.
 #
 # Review the CODEOWNERS guide before editing:
 # https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/engineering/codeowners.md
 
 # VSP
-*       @department-of-veterans-affairs/frontend-review-group
+*       @department-of-veterans-affairs/platform-release-tools
 src/application/_mock-form @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
 src/platform/forms        @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
 src/platform/forms-system @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
@@ -55,9 +55,9 @@ src/applications/lgy @department-of-veterans-affairs/vsa-ebenefits-frontend @dep
 src/applications/sah @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
 
 # Public Websites
-src/applications/proxy-rewrite @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/frontend-review-group
-src/platform/site-wide @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/frontend-review-group
-src/applications/static-pages @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/frontend-review-group
+src/applications/proxy-rewrite @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/platform-release-tools
+src/platform/site-wide @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/platform-release-tools
+src/applications/static-pages @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/platform-release-tools
 src/applications/find-forms @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/yellow-ribbon @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/discharge-wizard @department-of-veterans-affairs/vsa-public-websites-frontend
@@ -103,5 +103,4 @@ src/applications/education-letters @department-of-veterans-affairs/my-education-
 src/applications/coronavirus-chatbot @department-of-veterans-affairs/chatbot-admin
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe
 src/applications/dhp-connected-devices @department-of-veterans-affairs/digital-health-platform
-
-
+src/applications/virtual-agent @department-of-veterans-affairs/orchid

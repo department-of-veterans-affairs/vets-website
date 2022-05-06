@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const PercentageCalloutBox = props => {
-  const { value, isPercentage, label } = props;
+const PercentageCalloutBox = ({ isPercentage, label, value }) => {
   return (
     <div className="vads-u-background-color--gray-lightest vads-u-border-top--2px vads-u-text-align--center medium-screen:vads-u-text-align--right">
       <p className="vads-u-padding-right--1p5 vads-u-padding-top--1p5 vads-u-margin--0 total-label">
@@ -17,9 +16,9 @@ const PercentageCalloutBox = props => {
 };
 
 PercentageCalloutBox.propTypes = {
-  value: PropTypes.string,
   isPercentage: PropTypes.bool,
   label: PropTypes.string,
+  value: PropTypes.string,
 };
 
 export default PercentageCalloutBox;

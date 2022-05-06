@@ -1,6 +1,5 @@
 import React from 'react';
-import { VaModal } from 'web-components/react-bindings';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import { VaModal, VaTelephone } from 'web-components/react-bindings';
 import PropTypes from 'prop-types';
 
 export default function CancelCOVIDVaccineModal({ onClose, facility }) {
@@ -28,7 +27,7 @@ export default function CancelCOVIDVaccineModal({ onClose, facility }) {
             <h4 className="vaos-appts__block-label vads-u-display--inline">
               Main phone:
             </h4>{' '}
-            <Telephone contact={phone} />
+            <VaTelephone contact={phone} data-testid="facility-telephone" />
           </>
         )}
       </p>

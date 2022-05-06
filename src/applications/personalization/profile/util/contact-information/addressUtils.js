@@ -81,3 +81,5 @@ export const addressConvertCleanDataToPayload = (data, fieldName) => {
     e => !!e,
   );
 };
+
+export const formatAddressTitle = title => title.replace('address', '').trim();

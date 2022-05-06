@@ -13,7 +13,7 @@ import {
 } from './vaos-cypress-v2-helpers';
 import * as newApptTests from './vaos-cypress-schedule-appointment-v2-helpers';
 
-describe('Direct schedule appointment slots', () => {
+describe.skip('Direct schedule appointment slots', () => {
   beforeEach(() => {
     setupPlatform();
     setupVaos();
@@ -46,9 +46,7 @@ describe('Direct schedule appointment slots', () => {
       end: end.format(),
     });
 
-    cy.visit(
-      'health-care/schedule-view-va-appointments/appointments?redirect=false',
-    );
+    cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.wait(['@appointments-V2']);
 
     cy.get('h1')
@@ -102,9 +100,7 @@ describe('Direct schedule appointment slots', () => {
       end: end.format(),
     });
 
-    cy.visit(
-      'health-care/schedule-view-va-appointments/appointments?redirect=false',
-    );
+    cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.wait(['@appointments-V2']);
 
     cy.get('h1')

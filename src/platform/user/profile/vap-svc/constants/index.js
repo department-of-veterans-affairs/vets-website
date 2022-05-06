@@ -169,6 +169,8 @@ export const API_ROUTES = {
   TELEPHONES: '/profile/telephones',
   EMAILS: '/profile/email_addresses',
   ADDRESSES: '/profile/addresses',
+  PREFERRED_NAME: '/profile/preferred_names',
+  GENDER_IDENTITY: '/profile/gender_identities',
 };
 
 export const VAP_SERVICE_INITIALIZATION_STATUS = {

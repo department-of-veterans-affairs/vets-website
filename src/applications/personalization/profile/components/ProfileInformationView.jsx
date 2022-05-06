@@ -17,12 +17,20 @@ import {
 } from '@@profile/util/personal-information/personalInformationUtils';
 import { formatAddress } from '~/platform/forms/address/helpers';
 
+const shouldShowUnsetFieldTitleSpan = (data, fieldName) => {
+  // show if there is no data or a gender identity code is not present in data object
+  return (
+    !data ||
+    (fieldName === FIELD_NAMES.GENDER_IDENTITY && !data?.[fieldName]?.code)
+  );
+};
+
 const ProfileInformationView = props => {
   const { data, fieldName, title } = props;
 
   const titleLower = title.toLowerCase();
 
-  // decide whether to use 'a', or nothing
+  // decide whether to use 'a', or nothing in title string
   const titleFormatted =
     fieldName !== FIELD_NAMES.PRONOUNS ? `a ${titleLower}` : titleLower;
 
@@ -30,7 +38,7 @@ const ProfileInformationView = props => {
     <span>Edit your profile to add {titleFormatted}.</span>
   );
 
-  if (!data) {
+  if (shouldShowUnsetFieldTitleSpan(data, fieldName)) {
     return unsetFieldTitleSpan;
   }
 

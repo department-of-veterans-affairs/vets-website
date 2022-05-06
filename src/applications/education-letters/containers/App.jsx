@@ -35,7 +35,7 @@ const App = ({ toggleLoginModal, user }) => {
         visible
       >
         <h3 slot="headline">
-          Please sign in to check your VA education letters
+          Please sign in to check your VA education letter
         </h3>
         <div>
           Sign in with your existing <b>ID.me</b> account. If you don’t have an
@@ -54,43 +54,27 @@ const App = ({ toggleLoginModal, user }) => {
         clsName="introduction-page"
         breadCrumbs={{
           href: '/education/education-letters',
-          text: 'Download your VA education letters',
+          text: 'Download your VA education letter',
         }}
       >
-        <FormTitle title="Download your VA education letters" />
+        <FormTitle title="Download your VA education letter" />
 
         <p className="va-introtext">
           If you’re a Veteran and you recently received your VA education
-          decision letters, you can download them now.
+          decision letter, you can download it now.
         </p>
 
         {renderUI()}
 
         <div className="vads-u-margin-bottom--6">
           <h2>Who can download VA education letters?</h2>
-          <va-alert
-            close-btn-aria-label="Close notification"
-            show-icon
-            status="info"
-            visible
-          >
-            <h3 slot="headline">
-              You’ll have access to other types of education letters here in the
-              future
-            </h3>
-            <div>
-              Right now you can only download your education decision letters.
-              But we’re working to make other types of education letters
-              available too.
-            </div>
-          </va-alert>
           <p>
-            You can download your education letters if you’re a Veteran and you
+            You can download your education letter if you’re a Veteran and you
             meet both of the requirements listed here. At this time, family
             members and dependents can’t get their education letters online.
           </p>
           <p>
-            <b>Both of these must be true. You:</b>
+            <b>Both of these must be true:</b>
           </p>
           <ul>
             <li>
@@ -102,13 +86,27 @@ const App = ({ toggleLoginModal, user }) => {
             </li>
           </ul>
           <p>
-            <b>Note:</b> If you have an older COE or denial letter—or you’re a
-            family member or dependent—you can contact us through Ask VA to
-            request a copy of your letter.{' '}
+            <b>Note:</b> If you have an older decision letter—or you’re a family
+            member or dependent—you can contact us through Ask VA to request a
+            copy of your letter.
             <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
               Request your VA education letter through Ask VA.
             </a>
           </p>
+          <va-alert
+            close-btn-aria-label="Close notification"
+            show-icon
+            status="info"
+            visible
+          >
+            <h3 slot="headline">
+              You’ll have access to other types of education letters here in the
+              future
+            </h3>
+            <div>
+              Right now you can only download your education decision letter.
+            </div>
+          </va-alert>
         </div>
       </Layout>
     </>
