@@ -18,3 +18,5 @@ export const SPONSORS_TYPE = PropTypes.shape({
   ),
   someoneNotListed: PropTypes.bool,
 });
+
+export const YOUR_PROFILE_URL = '/profile';
