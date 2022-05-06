@@ -19,8 +19,6 @@
     input[type="search"] {
       display: inline-block;
       height: 37px;
-      padding: 0;
-      // border: 1px solid $color-gray-dark;
 
       @include media($small-desktop-screen) {
         width: 75%;
