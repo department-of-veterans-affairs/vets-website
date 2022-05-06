@@ -72,7 +72,6 @@ class CrossProductDependencies extends Dependencies {
     return importRef;
   }
 
-  // TODO: refactor this function
   importIsNotFromAnyProductDirectory({ importedFilePath }) {
     const productDirectory = '/src/applications/';
     const testProductDirectory =
@@ -100,7 +99,8 @@ class CrossProductDependencies extends Dependencies {
       .slice(0, 3)
       .join('/');
 
-    return !importedFilePath.startsWith(parentDirectory);
+    // return !importedFilePath.startsWith(parentDirectory);
+    return !importedFilePath.includes(parentDirectory);
   }
 
   setDependency({ productId, importedFilePath }) {
