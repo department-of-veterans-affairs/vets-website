@@ -4,7 +4,7 @@ import React from 'react';
 export const hearingTypeContent = {
   virtual_hearing: (
     <>
-      <strong>A tele-hearing online</strong>
+      <strong>A virtual tele-hearing online</strong>
       <p className="hide-on-review">
         You can attend your hearing on a computer, mobile phone, or tablet from
         a location you choose. You just need to be somewhere that has a Wi-Fi

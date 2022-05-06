@@ -76,7 +76,6 @@ describe('<CallToActionWidget>', () => {
         mviStatus={{}}
         featureToggles={{
           loading: false,
-          loginGov: false,
         }}
       />,
     );
@@ -322,7 +321,7 @@ describe('<CallToActionWidget>', () => {
           <CallToActionWidget
             appId={CTA_WIDGET_TYPES.RX}
             {...props}
-            featureToggles={{ loading: false, loginGov: false }}
+            featureToggles={{ loading: false }}
           />
           ,
         </Provider>,
@@ -335,7 +334,7 @@ describe('<CallToActionWidget>', () => {
               appId={CTA_WIDGET_TYPES.RX}
               {...props}
               isLoggedIn
-              featureToggles={{ loading: false, loginGov: false }}
+              featureToggles={{ loading: false }}
             />
             ,
           </Provider>

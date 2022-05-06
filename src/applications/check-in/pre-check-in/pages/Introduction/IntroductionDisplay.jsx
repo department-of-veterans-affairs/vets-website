@@ -4,17 +4,19 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { format, subDays } from 'date-fns';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import VaModal from '@department-of-veterans-affairs/component-library/Modal';
 
 import { focusElement } from 'platform/utilities/ui';
 
 import AppointmentBlock from '../../../components/AppointmentBlock';
 import Footer from '../../../components/Footer';
 import BackToHome from '../../../components/BackToHome';
+import LanguagePicker from '../../../components/LanguagePicker';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectVeteranData } from '../../../selectors';
+import ExternalLink from '../../../components/ExternalLink';
 
 const IntroductionDisplay = props => {
   useEffect(() => {
@@ -39,9 +41,9 @@ const IntroductionDisplay = props => {
             )}
           </p>
           <p>
-            <a href="/privacy-policy/">
+            <ExternalLink href="/privacy-policy/" hrefLang="en">
               {t('read-more-about-privacy-and-security-on-va-gov')}
-            </a>
+            </ExternalLink>
           </p>
           <p>
             {t(
@@ -49,9 +51,12 @@ const IntroductionDisplay = props => {
             )}
           </p>
           <p>
-            <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information">
+            <ExternalLink
+              href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/protecting-your-personal-health-information"
+              hrefLang="en"
+            >
               {t('get-tips-for-protecting-your-personal-health-information')}
-            </a>
+            </ExternalLink>
           </p>
         </>
       ),
@@ -111,6 +116,7 @@ const IntroductionDisplay = props => {
       className="vads-l-grid-container vads-u-padding-top--3 vads-u-padding-bottom--3"
       data-testid="intro-wrapper"
     >
+      <LanguagePicker />
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
         {t('answer-pre-check-in-questions')}
       </h1>
@@ -161,7 +167,7 @@ const IntroductionDisplay = props => {
       </div>
       <Footer message={additionalFooterInfo} />
       <BackToHome />
-      <Modal
+      <VaModal
         onClose={useCallback(() => setPrivacyActModalOpen(false), [
           setPrivacyActModalOpen,
         ])}

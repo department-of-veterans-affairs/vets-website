@@ -7,9 +7,11 @@ import formConfig from '../config/form';
 
 function App({ location, children, isLoggedIn, isLoading, vaFileNumber }) {
   const content = (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    <article id="form-686c" data-location={`${location?.pathname?.slice(1)}`}>
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    </article>
   );
 
   // If on intro page, just return

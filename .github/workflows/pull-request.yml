@@ -15,7 +15,7 @@ jobs:
     if: ${{ github.event.pull_request.draft == false }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Node version
         id: get-node-version
@@ -80,7 +80,7 @@ jobs:
     if: ${{ github.event.pull_request.draft == false }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Node version
         id: get-node-version
@@ -146,7 +146,7 @@ jobs:
     if: ${{ github.event.pull_request.draft == false }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Node version
         id: get-node-version
@@ -211,7 +211,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Node version
         id: get-node-version

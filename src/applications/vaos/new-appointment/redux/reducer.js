@@ -513,6 +513,15 @@ export default function formReducer(state = initialState, action) {
         };
       }
 
+      // if past appointments exists in state continue to keep it in state
+      let { pastAppointments } = state;
+      const hasPastAppts = !!state.pastAppointments;
+      if (hasPastAppts) {
+        pastAppointments = [...state.pastAppointments];
+      } else {
+        pastAppointments = action.pastAppointments;
+      }
+
       return {
         ...state,
         clinics,
@@ -521,7 +530,7 @@ export default function formReducer(state = initialState, action) {
           [`${facilityId}_${action.typeOfCare?.id}`]: action.eligibility,
         },
         eligibilityStatus: FETCH_STATUS.succeeded,
-        pastAppointments: action.pastAppointments,
+        pastAppointments,
         showEligibilityModal:
           action.showModal &&
           !action.eligibility.direct &&

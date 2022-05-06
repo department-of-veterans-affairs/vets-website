@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -56,7 +56,6 @@ jobs:
 
       - name: Get app entries for changed files
         id: get-changed-apps
-        if: ${{ github.ref != 'refs/heads/master' || matrix.buildtype != 'vagovprod' }}
         run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
@@ -101,7 +100,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -209,7 +208,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -315,7 +314,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -354,7 +353,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -409,7 +408,7 @@ jobs:
       app_list: ${{ env.APPLICATION_LIST }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -457,7 +456,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -532,10 +531,10 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Checkout vets-website
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Checkout content-build
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: department-of-veterans-affairs/content-build
           path: content-build
@@ -549,16 +548,6 @@ jobs:
         run: |
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
-
-      - name: Get Node version
-        id: get-node-version
-        shell: bash
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -626,7 +615,7 @@ jobs:
           fi
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # ----------------
       # | Notify Slack |
@@ -738,7 +727,7 @@ jobs:
               echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
           fi
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # ----------------
       # | Notify Slack |
@@ -843,7 +832,7 @@ jobs:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # ------------------------
       # | Upload BigQuery Data |
@@ -911,7 +900,7 @@ jobs:
     continue-on-error: true
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Notify Slack about Cypress test failures
         if: ${{ github.ref == 'refs/heads/master' && needs.cypress-tests.result == 'failure' }}
@@ -1035,7 +1024,7 @@ jobs:
       ]
 
     env:
-      IS_SINGLE_APP_BUILD: ${{ matrix.buildtype != 'vagovprod' && needs.build.outputs.app_entries != '' }}
+      IS_SINGLE_APP_BUILD: ${{ needs.build.outputs.app_entries != '' }}
 
     # Archive should still run even when linting is skipped (as in PRs).
     # This if overrides the dependency on linting success to include skipped.
@@ -1053,7 +1042,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Download build artifact
         uses: actions/download-artifact@v3
@@ -1115,7 +1104,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -1136,7 +1125,7 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: ${{ always() && github.ref == 'refs/heads/master' && needs.get-latest-run-number.result == 'success' }}
+    if: ${{ always() && github.ref == 'refs/heads/master' && needs.get-latest-run-number.result == 'success' && needs.get-latest-run-number.outputs.latest_run_number == github.run_number}}
     needs: [build, get-latest-run-number]
 
     strategy:
@@ -1151,7 +1140,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
@@ -1200,7 +1189,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -1220,18 +1209,29 @@ jobs:
         if: env.ALERT_TEAMS == 'true'
         run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
 
-      - name: Get app team's Slack group
+      - name: Get application team's Slack group
         id: get-slack-groups
         if: env.ALERT_TEAMS == 'true'
         run: echo ::set-output name=slack_groups::$(node script/github-actions/get-changed-apps.js --output-type slack-group | tr ',' ' ')
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
-      - name: Notify Slack
+      - name: Notify application team in Slack
+        if: env.ALERT_TEAMS == 'true' && steps.get-slack-groups.outputs.slack_groups != ''
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-slack-groups.outputs.slack_groups}} vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-slack-groups.outputs.slack_groups}} CI for your application failed on the `master` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> on failed workflow runs."}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Notify Slack
+        if: steps.get-slack-groups.outputs.slack_groups == ''
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "`master` branch CI in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

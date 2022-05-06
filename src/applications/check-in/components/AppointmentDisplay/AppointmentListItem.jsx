@@ -16,7 +16,7 @@ const AppointmentListItem = props => {
           className="appointment-time vads-u-font-family--serif vads-u-font-weight--bold vads-u-margin-bottom--1 "
           data-testid="appointment-time"
         >
-          {t('{{date, time}}', { date: appointmentDateTime })}
+          {t('date-time', { date: appointmentDateTime })}
         </dd>
         <dt className="facility-label vads-u-margin--0 vads-u-margin-right--1 vads-u-font-family--serif vads-u-font-weight--bold ">
           {t('facility')}:{' '}

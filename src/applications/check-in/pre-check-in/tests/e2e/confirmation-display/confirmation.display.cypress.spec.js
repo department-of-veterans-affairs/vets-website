@@ -32,9 +32,6 @@ describe('Pre-Check In Experience', () => {
       Introduction.validatePageLoaded();
       Introduction.attemptToGoToNextPage();
       Demographics.validatePageLoaded();
-      Demographics.attemptToGoToNextPage();
-
-      EmergencyContact.validatePageLoaded();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -42,24 +39,66 @@ describe('Pre-Check In Experience', () => {
       });
     });
     it('Confirmation page content loads', () => {
+      Demographics.attemptToGoToNextPage();
+      EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
       NextOfKin.validatePageLoaded();
       NextOfKin.attemptToGoToNextPage();
       Confirmation.validatePageContent();
       cy.injectAxeThenAxeCheck();
     });
-    it('Staff update alert message is not visible', () => {
+    it('How can I update me information accordion is not visible', () => {
+      Demographics.attemptToGoToNextPage();
+      EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
       NextOfKin.validatePageLoaded();
       NextOfKin.attemptToGoToNextPage();
       Confirmation.validateConfirmNoUpdates();
       cy.injectAxeThenAxeCheck();
     });
-    it('Staff update alert message is visible', () => {
+    it('How can I update me information accordion is visible', () => {
+      Demographics.attemptToGoToNextPage();
+      EmergencyContact.validatePageLoaded();
       EmergencyContact.attemptToGoToNextPage();
       NextOfKin.validatePageLoaded();
       NextOfKin.attemptToGoToNextPage('no');
       Confirmation.validateConfirmWithUpdates();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('Demographics needs update message is visible', () => {
+      Demographics.attemptToGoToNextPage('no');
+      EmergencyContact.validatePageLoaded();
+      EmergencyContact.attemptToGoToNextPage();
+      NextOfKin.validatePageLoaded();
+      NextOfKin.attemptToGoToNextPage();
+      Confirmation.validateDemographicsMessage();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('Emergency contact needs update message is visible', () => {
+      Demographics.attemptToGoToNextPage();
+      EmergencyContact.validatePageLoaded();
+      EmergencyContact.attemptToGoToNextPage('no');
+      NextOfKin.validatePageLoaded();
+      NextOfKin.attemptToGoToNextPage();
+      Confirmation.validateEmergencyContactMessage();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('Next of kin contact needs update message is visible', () => {
+      Demographics.attemptToGoToNextPage();
+      EmergencyContact.validatePageLoaded();
+      EmergencyContact.attemptToGoToNextPage();
+      NextOfKin.validatePageLoaded();
+      NextOfKin.attemptToGoToNextPage('no');
+      Confirmation.validateNextOfKinMessage();
+      cy.injectAxeThenAxeCheck();
+    });
+    it('Emergency contact & next of kin contact needs update message is visible', () => {
+      Demographics.attemptToGoToNextPage();
+      EmergencyContact.validatePageLoaded();
+      EmergencyContact.attemptToGoToNextPage('no');
+      NextOfKin.validatePageLoaded();
+      NextOfKin.attemptToGoToNextPage('no');
+      Confirmation.validateEmergencyContactAndNextOfKinMessage();
       cy.injectAxeThenAxeCheck();
     });
   });

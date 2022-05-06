@@ -9,6 +9,7 @@ const InboxPage = () => {
   const [claimStatus, setClaimStatus] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [receivedDate, setReceivedDate] = useState(null);
+  const [LTSIsDown, setLTSIsDown] = useState(false);
 
   useEffect(
     () => {
@@ -26,22 +27,22 @@ const InboxPage = () => {
             return response?.data?.attributes?.claimantId;
           })
           .catch(err => {
-            window.location.href = '/education/education-letters/';
+            setLTSIsDown(true);
             return err;
           });
 
       checkIfClaimantHasLetters().then(r => r);
     },
-    [claimStatus],
+    [claimStatus, LTSIsDown],
   );
 
   const HasLetters = (
     <>
-      <FormTitle title="Your VA education letters" />
+      <FormTitle title="Your VA education letter" />
       <p className="va-introtext">
-        Download your VA education decision letters.
+        Download your VA education decision letter.
       </p>
-      <h2>Letters available for you to download</h2>
+      <h2>Letter available for you to download</h2>
       <div className="edu-certi-eligibility">
         <h3 className="vads-u-margin-top--2">Education decision letter</h3>
         <p>
@@ -127,7 +128,7 @@ const InboxPage = () => {
         Download important documents about your education benefits here,
         including your decision letters.{' '}
       </p>
-      <va-alert full-width status="info">
+      <va-alert close-btn-aria-label="Close notification" status="info" visible>
         <h3 slot="headline">
           We don’t have any letters available to you through this tool
         </h3>
@@ -135,17 +136,29 @@ const InboxPage = () => {
           <p>
             At this time, we only have letters available here that you received
             a decision on after Month Day, Year. To request a copy of an older
-            letter, you can contact us through Ask VA.{' '}
-            <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
-              Request your VA education letter through Ask VA.
-            </a>
+            letter, you can contact us through Ask VA.
           </p>
+          <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
+            Request your VA education letter through Ask VA.
+          </a>
         </div>
       </va-alert>
     </>
   );
 
   const renderInbox = () => {
+    if (LTSIsDown) {
+      return (
+        <va-banner
+          headline="There was an error in accessing your decision letters"
+          type="error"
+          visible
+        >
+          We’re sorry we couldn’t display your letters. Please try again later
+        </va-banner>
+      );
+    }
+
     if (!isLoading) {
       if (claimStatus === 'ELIGIBLE') {
         return HasLetters;
@@ -168,7 +181,7 @@ const InboxPage = () => {
       clsName="inbox-page"
       breadCrumbs={{
         href: '/education/education-letters/preview',
-        text: 'Your VA education letters',
+        text: 'Your VA education letter',
       }}
     >
       <article>{renderInbox()}</article>

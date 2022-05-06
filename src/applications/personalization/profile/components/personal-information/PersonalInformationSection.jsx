@@ -27,7 +27,7 @@ const PersonalInformationSection = ({
     {
       title: 'Preferred name',
       description:
-        "Share this information if you'd like us to use a first name that's different from your legal name when you come in to the VA.",
+        "Share this information if you'd like us to use a first name that's different from your legal name when you come in to VA.",
       id: FIELD_IDS[FIELD_NAMES.PREFERRED_NAME],
       value: (
         <ProfileInformationFieldController
@@ -84,22 +84,24 @@ const PersonalInformationSection = ({
     <div className="vads-u-margin-bottom--6">
       <div className="vads-u-margin-bottom--3">
         <va-additional-info trigger="How to update your legal name">
-          <p className="vads-u-margin-y--1">
-            If you’ve changed you legal name, you’ll need to tell us so we can
+          <p className="vads-u-margin-top--0">
+            If you’ve changed your legal name, you’ll need to tell us so we can
             change your name in our records.
           </p>
-          <a href="/resources/how-to-change-your-legal-name-on-file-with-va">
-            Learn how to change your legal name on file with VA
-          </a>
+          <p className="vads-u-margin-bottom--0">
+            <a href="/resources/how-to-change-your-legal-name-on-file-with-va">
+              Learn how to change your legal name on file with VA
+            </a>
+          </p>
         </va-additional-info>
       </div>
       <div className="vads-u-margin-bottom--3">
         <va-additional-info trigger="How to fix an error in your name or date of birth">
-          <p>
+          <p className="vads-u-margin-top--0">
             If our records have a misspelling or other error in your name or
             date of birth, you can request a correction. We’ll ask for a current
             photo ID that shows proof of the correct information. We’ll accept a
-            governement-issued photo ID, driver’s license, or passport as proof.
+            government-issued photo ID, driver’s license, or passport as proof.
           </p>
 
           <p>Here’s how to request a correction:</p>
@@ -112,9 +114,9 @@ const PersonalInformationSection = ({
             personal information.
           </p>
 
-          <a href="/find-locations/">Find you nearest VA medical center</a>
+          <a href="/find-locations/">Find your nearest VA medical center</a>
 
-          <p>
+          <p className="vads-u-margin-bottom--0">
             <span className="vads-u-font-weight--bold vads-u-display--block">
               If you receive VA benefits, but aren’t enrolled in VA health care
             </span>
