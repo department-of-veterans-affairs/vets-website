@@ -13,12 +13,6 @@
 
   &__list {
     list-style: none;
-    padding-left: 0;
-
-    li {
-      // font-size: 20px;
-      margin-bottom: 20px;
-    }
   }
 
   &__search {
@@ -26,7 +20,7 @@
       display: inline-block;
       height: 37px;
       padding: 0;
-      border: 1px solid $color-gray-dark;
+      // border: 1px solid $color-gray-dark;
 
       @include media($small-desktop-screen) {
         width: 75%;
@@ -36,7 +30,6 @@
     button {
       display: inline-block;
       border-radius: 0 0.3rem 0.3rem 0;
-      margin-left: -3px;
       height: 39px;
 
       @include media($small-desktop-screen) {
@@ -48,7 +41,6 @@
   &__search-tools {
     ul {
       list-style: none;
-      padding-left: 0;
       columns: 2;
       -webkit-columns: 2;
       -moz-columns: 2;
