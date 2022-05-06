@@ -20,11 +20,8 @@ import {
 
 // import { isInFuture } from '../validations';
 
-import {
-  // hasForwardingAddress,
-  // forwardingCountryIsUSA,
-  addressUISchema,
-} from '../utils';
+// import { hasForwardingAddress, forwardingCountryIsUSA } from '../utils';
+import { addressUISchema } from '../utils/schemas';
 
 import {
   ADDRESS_PATHS,

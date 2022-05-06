@@ -4,6 +4,7 @@ import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import DemographicItem from '../../DemographicItem';
 import EditLinkText from '../Edit/shared/EditLinkText';
+import LanguagePicker from '../../LanguagePicker';
 
 const ConfirmablePage = ({
   header,
@@ -30,6 +31,7 @@ const ConfirmablePage = ({
   }, []);
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 confirmable-page">
+      <LanguagePicker />
       <h1 data-testid="header">{header}</h1>
       {subtitle && (
         <p data-testid="subtitle" className="vads-u-font-family--serif">

@@ -1,14 +1,19 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { differenceInDays } from 'date-fns';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { differenceInDays, isAfter } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
-import { selectUnreadCount } from '~/applications/personalization/dashboard/selectors';
-import { fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction } from '~/applications/personalization/appointments/actions';
+import {
+  selectUnreadCount,
+  selectUseVaosV2APi,
+} from '~/applications/personalization/dashboard/selectors';
+import {
+  fetchConfirmedFutureAppointments as fetchConfirmedFutureAppointmentsAction,
+  fetchConfirmedFutureAppointmentsV2 as fetchConfirmedFutureAppointmentsV2Action,
+} from '~/applications/personalization/appointments/actions';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 import {
@@ -134,6 +139,7 @@ const HealthCare = ({
   authenticatedWithSSOe,
   shouldFetchUnreadMessages,
   fetchConfirmedFutureAppointments,
+  fetchConfirmedFutureAppointmentsV2,
   isCernerPatient,
   facilityLocations,
   fetchUnreadMessages,
@@ -144,6 +150,7 @@ const HealthCare = ({
   shouldShowPrescriptions,
   hasInboxError,
   hasAppointmentsError,
+  useVaosV2Api,
 }) => {
   const nextAppointment = appointments?.[0];
   const start = new Date(nextAppointment?.startsAt);
@@ -153,10 +160,19 @@ const HealthCare = ({
   useEffect(
     () => {
       if (!dataLoadingDisabled) {
-        fetchConfirmedFutureAppointments();
+        if (useVaosV2Api) {
+          fetchConfirmedFutureAppointmentsV2();
+        } else {
+          fetchConfirmedFutureAppointments();
+        }
       }
     },
-    [fetchConfirmedFutureAppointments, dataLoadingDisabled],
+    [
+      fetchConfirmedFutureAppointments,
+      dataLoadingDisabled,
+      useVaosV2Api,
+      fetchConfirmedFutureAppointmentsV2,
+    ],
   );
 
   useEffect(
@@ -174,7 +190,7 @@ const HealthCare = ({
         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
           Health care
         </h2>
-        <LoadingIndicator message="Loading health care..." />
+        <va-loading-indicator message="Loading health care..." />
       </div>
     );
   }
@@ -284,6 +300,13 @@ const mapStateToProps = state => {
     'VA Central Ohio health care',
   ];
 
+  const columbusStartAfterDate = new Date('2022-04-29');
+  columbusStartAfterDate.setUTCHours(23, 59, 59, 999);
+
+  if (isAfter(new Date(), columbusStartAfterDate)) {
+    facilityLocations.push('VA Columbus Ohio health care');
+  }
+
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,
   );
@@ -319,15 +342,19 @@ const mapStateToProps = state => {
     shouldShowLoadingIndicator: fetchingAppointments || fetchingUnreadMessages,
     shouldShowPrescriptions,
     unreadMessagesCount: selectUnreadCount(state).count || 0,
+    useVaosV2Api: selectUseVaosV2APi(state),
   };
 };
 
 const mapDispatchToProps = {
   fetchUnreadMessages: fetchUnreadMessageCountAction,
   fetchConfirmedFutureAppointments: fetchConfirmedFutureAppointmentsAction,
+  fetchConfirmedFutureAppointmentsV2: fetchConfirmedFutureAppointmentsV2Action,
 };
 
 HealthCare.propTypes = {
+  authenticatedWithSSOe: PropTypes.bool.isRequired,
+  canAccessRx: PropTypes.bool.isRequired,
   appointments: PropTypes.arrayOf(
     PropTypes.shape({
       additionalInfo: PropTypes.string,
@@ -340,11 +367,10 @@ HealthCare.propTypes = {
       type: PropTypes.string.isRequired,
     }),
   ),
-  authenticatedWithSSOe: PropTypes.bool.isRequired,
-  canAccessRx: PropTypes.bool.isRequired,
   dataLoadingDisabled: PropTypes.bool,
   facilityLocations: PropTypes.arrayOf(PropTypes.string),
-  fetchConfirmedFutureAppointments: PropTypes.bool,
+  fetchConfirmedFutureAppointments: PropTypes.func,
+  fetchConfirmedFutureAppointmentsV2: PropTypes.func,
   fetchUnreadMessages: PropTypes.bool,
   hasAppointmentsError: PropTypes.bool,
   hasInboxError: PropTypes.bool,
@@ -354,6 +380,7 @@ HealthCare.propTypes = {
   shouldShowLoadingIndicator: PropTypes.bool,
   shouldShowPrescriptions: PropTypes.bool,
   unreadMessagesCount: PropTypes.number,
+  useVaosV2Api: PropTypes.bool,
 };
 
 export default connect(

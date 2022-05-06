@@ -75,7 +75,6 @@ module.exports = async (on, config) => {
   };
 
   const bundler = createBundler({
-    entryPoints: ['src/**/*.cypress.spec.js*'],
     loader: { '.js': 'jsx' },
     format: 'cjs',
     external: [

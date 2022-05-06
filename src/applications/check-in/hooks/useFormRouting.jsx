@@ -11,8 +11,8 @@ const useFormRouting = (router = {}) => {
   const { pages } = useSelector(selectForm);
 
   const goToErrorPage = useCallback(
-    () => {
-      router.push(URLS.ERROR);
+    (params = '') => {
+      router.push(URLS.ERROR + params);
     },
     [router],
   );
