@@ -6,7 +6,7 @@ import {
   getLatestBill,
 } from '../../utils/balance-helpers';
 // TODO: Update referece after refactoring
-import mockDebt from '../../../../debt-letters/tests/e2e/fixtures/mocks/debts.json';
+import mockDebt from '../../utils/mock-users/mockDebts.json';
 import mockBill from '../../utils/mock-users/mockStatements.json';
 
 describe('combined debt portal helpers', () => {
