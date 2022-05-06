@@ -87,13 +87,12 @@ const Confirmation = props => {
   const { appointments } = useSelector(selectVeteranData);
   const selectFormData = useMemo(makeSelectForm, []);
   const { data: formData } = useSelector(selectFormData);
-  const hasUpdates = Object.values(formData).includes('no');
 
   return (
     <PreCheckinConfirmation
       appointments={appointments}
-      hasUpdates={hasUpdates}
       isLoading={isLoading}
+      formData={formData}
     />
   );
 };

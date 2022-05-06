@@ -56,8 +56,9 @@ describe('pre-check-in', () => {
           </Provider>,
         );
         const testInstance = testRenderer.root;
-        expect(testInstance.findByType(PreCheckinConfirmation).props.hasUpdates)
-          .to.be.false;
+        expect(
+          testInstance.findByType(PreCheckinConfirmation).props.formData,
+        ).to.equal(initState.checkInData.form.data);
         expect(
           testInstance.findByType(PreCheckinConfirmation).props.appointments,
         ).to.equal(initState.checkInData.appointments);
@@ -127,19 +128,6 @@ describe('pre-check-in', () => {
         const middleware = [];
         const mockStore = configureStore(middleware);
         store = mockStore(initState);
-      });
-      it('passes the correct props with hasUpdates to the pre-checkin confirmation component', () => {
-        const testRenderer = TestRenderer.create(
-          <Provider store={store}>
-            <Confirmation router={createMockRouter()} />
-          </Provider>,
-        );
-        const testInstance = testRenderer.root;
-        expect(testInstance.findByType(PreCheckinConfirmation).props.hasUpdates)
-          .to.be.true;
-        expect(
-          testInstance.findByType(PreCheckinConfirmation).props.appointments,
-        ).to.equal(initState.checkInData.appointments);
       });
       it('page passes axeCheck', () => {
         axeCheck(
