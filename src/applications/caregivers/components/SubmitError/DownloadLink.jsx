@@ -16,7 +16,7 @@ const DownLoadLink = ({ form }) => {
   const [isLoading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
   const getFormData = submitTransform(formConfig, form);
-  const veteranFullName = form.data.veteranFullName;
+  const { veteranFullName } = form.data;
   const pageList = createFormPageList(formConfig);
   const isFormValid = isValidForm(form, pageList);
 
@@ -99,6 +99,7 @@ const DownLoadLink = ({ form }) => {
       <div className="vads-u-margin-top--2 vads-u-color--secondary-dark pdf-download-link--error">
         <a
           aria-label="Error downloading 1010-CG PDF"
+          href={() => false}
           className="vads-u-color--gray-medium"
         >
           <i
