@@ -80,7 +80,7 @@ function logMarriageError(
 
 export function logValidateMarriageDate(
   errors,
-  marriageDate,
+  formfield,
   {
     dateOfMarriage,
     spouseDateOfBirth,
@@ -124,7 +124,7 @@ export function logValidateMarriageDate(
 
 export function logValidateMarriageDateVaFacilityPage(
   errors,
-  marriageDate,
+  formField,
   {
     dateOfMarriage,
     spouseDateOfBirth,
