@@ -150,9 +150,8 @@ export const isSSNUnique = formData => {
   const checkIfPartyIsPresent = (comparator, data) => {
     if (comparator(formData)) {
       return data;
-    } else {
-      return undefined;
     }
+    return undefined;
   };
 
   const presentPrimarySsn = checkIfPartyIsPresent(

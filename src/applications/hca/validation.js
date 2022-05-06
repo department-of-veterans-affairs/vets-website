@@ -1,4 +1,5 @@
 import moment from 'moment';
+import * as Sentry from '@sentry/browser';
 import get from 'platform/utilities/data/get';
 
 import {
@@ -52,6 +53,31 @@ export function validateServiceDates(
   }
 }
 
+function logMarriageError(
+  messageType,
+  errorMessage,
+  spouseDateOfBirth,
+  veteranDateOfBirth,
+  marriageDate,
+) {
+  Sentry.withScope(scope => {
+    const message = `hca_1010ez_error_${messageType}`;
+    const momentVetDOB = moment(veteranDateOfBirth);
+    const momentSpouseDOB = moment(spouseDateOfBirth);
+    const momentMarriage = moment(marriageDate);
+    scope.setContext(message, {
+      spouseDateOfBirth,
+      veteranDateOfBirth,
+      marriageDate,
+      momentSpouseDOB,
+      momentVetDOB,
+      momentMarriage,
+      errorMessage,
+    });
+    Sentry.captureMessage(message);
+  });
+}
+
 export function validateMarriageDate(
   errors,
   marriageDate,
@@ -60,13 +86,42 @@ export function validateMarriageDate(
   const vetDOB = moment(veteranDateOfBirth);
   const spouseDOB = moment(spouseDateOfBirth);
   const marriage = moment(marriageDate);
-
   if (
     discloseFinancialInformation &&
-    (vetDOB.isAfter(marriage) || spouseDOB.isAfter(marriage))
+    spouseDOB.isAfter(marriage) &&
+    vetDOB.isAfter(marriage)
   ) {
-    errors.addError(
+    // errors.addError(
+    //   'Date of marriage cannot be before the Veteran’s or the spouse’s date of birth',
+    // );
+    logMarriageError(
+      'marriage_date',
       'Date of marriage cannot be before the Veteran’s or the spouse’s date of birth',
+      spouseDateOfBirth,
+      veteranDateOfBirth,
+      marriageDate,
+    );
+  } else if (discloseFinancialInformation && spouseDOB.isAfter(marriage)) {
+    // errors.addError(
+    //   'Date of marriage cannot be before the spouse’s date of birth',
+    // );
+    logMarriageError(
+      'spouse_dob',
+      'Date of marriage cannot be before the spouse’s date of birth',
+      spouseDateOfBirth,
+      veteranDateOfBirth,
+      marriageDate,
+    );
+  } else if (discloseFinancialInformation && vetDOB.isAfter(marriage)) {
+    // errors.addError(
+    //   'Date of marriage cannot be before the Veteran’s date of birth',
+    // );
+    logMarriageError(
+      'veteran_dob',
+      'Date of marriage cannot be before the Veteran’s date of birth',
+      spouseDateOfBirth,
+      veteranDateOfBirth,
+      marriageDate,
     );
   }
   validateCurrentOrPastDate(errors, marriageDate);

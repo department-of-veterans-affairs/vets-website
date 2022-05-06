@@ -24,4 +24,15 @@ const formatDemographicString = demographicString => {
   return demographicString;
 };
 
-export { formatPhone, formatDemographicString };
+/**
+ * @param {object} dateObject
+ * This is a helper to extract a date string from the object that the Date component uses.
+ */
+const extractDateFromVaDateComponent = dateObject => {
+  return `${dateObject.year.value}-${String(dateObject.month.value).padStart(
+    2,
+    '0',
+  )}-${String(dateObject.day.value).padStart(2, '0')}`;
+};
+
+export { formatPhone, formatDemographicString, extractDateFromVaDateComponent };

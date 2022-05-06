@@ -18,7 +18,6 @@ import environment from 'platform/utilities/environment';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import fullNameUISchema from 'platform/forms/definitions/fullName';
 import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
-import oldPreSubmitInfo from 'platform/forms/preSubmitInfo';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
@@ -30,13 +29,12 @@ import GetFormHelp from '../../components/GetFormHelp';
 import NewGetHelp from '../components/NewGetHelp';
 import NewIntroductionPage from '../containers/NewIntroductionPage';
 import additionalBenefits from '../../pages/additionalBenefits';
-import newPreSubmitInfo from '../containers/PreSubmitInfo';
+import preSubmitInfo from '../containers/PreSubmitInfo';
 
 import createContactInformationPage from '../../pages/contactInformation';
 import createSchoolSelectionPage, {
   schoolSelectionOptionsFor,
 } from '../../pages/schoolSelection';
-import oldCreateDirectDepositPage from '../../pages/directDeposit';
 import createDirectDepositPage from '../content/directDeposit';
 import employmentHistoryPage from '../../pages/employmentHistory';
 
@@ -97,9 +95,9 @@ const {
 } = fullSchema1990e.definitions;
 
 const newToeAppEnabled = false;
-const preSubmitInfo = environment.isProduction()
-  ? oldPreSubmitInfo
-  : newPreSubmitInfo;
+// const preSubmitInfo = environment.isProduction()
+//   ? oldPreSubmitInfo
+//   : newPreSubmitInfo;
 
 const newFormPages = {
   newApplicantInformation: 'newApplicantInformation',
@@ -408,19 +406,11 @@ const formConfig = {
     personalInformation: {
       title: 'Personal information',
       pages: {
-        contactInformation: {
-          ...createContactInformationPage(fullSchema1990e, 'relativeAddress'),
-          depends: formData => !formData.showUpdatedToeApp,
-        },
-        directDeposit: environment.isProduction()
-          ? {
-              ...oldCreateDirectDepositPage(fullSchema1990e),
-              depends: formData => !formData.showUpdatedToeApp,
-            }
-          : {
-              ...createDirectDepositPage(),
-              depends: formData => !formData.showUpdatedToeApp,
-            },
+        contactInformation: createContactInformationPage(
+          fullSchema1990e,
+          'relativeAddress',
+        ),
+        directDeposit: createDirectDepositPage(),
       },
     },
     // ---------------------

@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import { connect, useSelector } from 'react-redux';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { useSelector } from 'react-redux';
 import SignInModal from 'platform/user/authentication/components/SignInModal';
 import ChatbotError from '../chatbot-error/ChatbotError';
 import useWebChatFramework from './useWebChatFramework';
@@ -14,9 +13,7 @@ import {
   ERROR,
   LOADING,
 } from './loadingStatus';
-
-const LOGGED_IN_FLOW = 'loggedInFlow';
-// sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
+import { storeUtterances, LOGGED_IN_FLOW, IN_AUTH_EXP } from './utils';
 
 function useWebChat(props) {
   const webchatFramework = useWebChatFramework(props);
@@ -35,21 +32,16 @@ function useWebChat(props) {
   };
 }
 
-// function handleDisclaimerAcceptedOnClick() {
-//   return true;
-// }
-
 function showBot(
   loggedIn,
-  requireAuth,
   accepted,
   minute,
   isAuthTopic,
   setIsAuthTopic,
   props,
 ) {
-  if (!loggedIn && requireAuth) {
-    return <ConnectedSignInAlert />;
+  if (!accepted && !sessionStorage.getItem(IN_AUTH_EXP)) {
+    return <ChatboxDisclaimer />;
   }
 
   if (!loggedIn && isAuthTopic) {
@@ -61,12 +53,9 @@ function showBot(
           sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
         }}
       />
-      // <ConnectedAuthReqTopic />
     );
   }
-  if (!accepted) {
-    return <ChatboxDisclaimer />;
-  }
+
   return <App timeout={props.timeout || minute} />;
 }
 
@@ -78,19 +67,38 @@ export default function Chatbox(props) {
   );
   const [isAuthTopic, setIsAuthTopic] = useState(false);
 
-  window.addEventListener('webchat-auth-activity', () => {
-    setTimeout(function() {
-      // window.location.href = '?next=loginModal';
-      // toggleLoginModal(true);
-      if (!isLoggedIn) {
-        sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
-        setIsAuthTopic(true);
-      }
-    }, 2000);
+  // this toggle is redundant but better to be as failsafe as possible
+  if (requireAuth) {
+    window.addEventListener('webchat-auth-activity', () => {
+      setTimeout(function() {
+        if (!isLoggedIn) {
+          sessionStorage.setItem(LOGGED_IN_FLOW, 'true');
+          setIsAuthTopic(true);
+        }
+      }, 2000);
+    });
+  }
+
+  useEffect(() => {
+    // this toggle is redundant but better to be as failsafe as possible
+    if (requireAuth) {
+      // initiate the event handler
+      window.addEventListener('webchat-message-activity', storeUtterances);
+
+      // this will clean up the event every time the component is re-rendered
+      return function cleanup() {
+        window.removeEventListener('webchat-message-activity', storeUtterances);
+      };
+    }
+    return () => {};
   });
 
+  if (sessionStorage.getItem(LOGGED_IN_FLOW) === 'true' && isLoggedIn) {
+    sessionStorage.setItem(IN_AUTH_EXP, 'true');
+    sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
+  }
+
   const ONE_MINUTE = 60 * 1000;
-  // const loggedInFlow = sessionStorage.getItem(LOGGED_IN_FLOW);
   return (
     <div className="vads-u-padding--1p5 vads-u-background-color--gray-lightest">
       <div className="vads-u-background-color--primary-darkest vads-u-padding--1p5">
@@ -100,7 +108,6 @@ export default function Chatbox(props) {
       </div>
       {showBot(
         isLoggedIn,
-        requireAuth,
         isAccepted,
         ONE_MINUTE,
         isAuthTopic,
@@ -110,45 +117,6 @@ export default function Chatbox(props) {
     </div>
   );
 }
-
-function SignInAlert({ showLoginModal }) {
-  return (
-    <va-alert status="continue">
-      <h2 slot="headline" className="vads-u-margin-y--0 vads-u-font-size--h3">
-        Please sign in to access the chatbot
-      </h2>
-      <br />
-      <button
-        className="usa-button-primary"
-        onClick={() => showLoginModal(true)}
-      >
-        Sign in to VA.gov
-      </button>
-    </va-alert>
-  );
-}
-
-// function AuthReqTopic({ showLoginModal }) {
-//   return (
-//     <div onLoad={() => showLoginModal(true)}>
-//       poopoo
-//     </div>
-//   );
-// }
-
-const mapDispatchToProps = {
-  showLoginModal: toggleLoginModal,
-};
-
-const ConnectedSignInAlert = connect(
-  null,
-  mapDispatchToProps,
-)(SignInAlert);
-
-// const ConnectedAuthReqTopic = connect(
-//   null,
-//   mapDispatchToProps,
-// )(AuthReqTopic);
 
 function App(props) {
   const { token, WebChatFramework, loadingStatus, apiSession } = useWebChat(

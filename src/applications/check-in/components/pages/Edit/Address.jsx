@@ -116,10 +116,10 @@ export default function Address(props) {
     },
     [setAddressValue, setAddressError, t],
   );
-  const onChange = useCallback(
+  const onInput = useCallback(
     (event, extraValidation = false) => {
       const fieldName = event.target.name;
-      const newValue = event.detail.value;
+      const newValue = event.target?.value;
       if (!isUpdatable) {
         if (extraValidation && newValue) {
           const validate = extraValidation(newValue);
@@ -216,17 +216,17 @@ export default function Address(props) {
                 name={addressField.name}
                 key={addressField.name}
                 value={addressValue[addressField.name]}
-                onVaBlur={
+                onBlur={
                   addressField.options?.extraValidation
                     ? event =>
                         onBlur(event, addressField.options.extraValidation)
                     : onBlur
                 }
-                onVaChange={
+                onInput={
                   addressField.options?.extraValidation
                     ? event =>
-                        onChange(event, addressField.options.extraValidation)
-                    : onChange
+                        onInput(event, addressField.options.extraValidation)
+                    : onInput
                 }
                 required={addressField.options?.required}
                 inputmode={addressField.options?.inputMode || 'text'}

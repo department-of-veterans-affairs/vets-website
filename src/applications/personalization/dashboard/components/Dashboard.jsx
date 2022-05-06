@@ -353,9 +353,11 @@ const mapStateToProps = state => {
     hasClaimsOrAppealsService;
   const showHealthCare =
     !showMPIConnectionError && !showNotInMPIError && isLOA3 && isVAPatient;
-  const showBenefitPaymentsAndDebt = toggleValues(state)[
-    FEATURE_FLAG_NAMES.showPaymentAndDebtSection
-  ];
+  const showBenefitPaymentsAndDebt =
+    toggleValues(state)[FEATURE_FLAG_NAMES.showPaymentAndDebtSection] &&
+    !showMPIConnectionError &&
+    !showNotInMPIError &&
+    isLOA3;
 
   const hasNotificationFeature = toggleValues(state)[
     FEATURE_FLAG_NAMES.showDashboardNotifications

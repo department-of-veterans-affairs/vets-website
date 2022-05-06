@@ -33,13 +33,13 @@ const pronounsLabels = {
 };
 
 const genderLabels = {
-  woman: 'Woman',
-  man: 'Man',
-  transgenderWoman: 'Transgender woman',
-  transgenderMan: 'Transgender man',
-  nonBinary: 'Non-binary',
-  preferNotToAnswer: 'Prefer not to answer',
-  genderNotListed: 'A gender not listed here',
+  M: 'Man',
+  B: 'Non-binary',
+  TM: 'Transgender man',
+  TF: 'Transgender woman',
+  F: 'Woman',
+  N: 'Prefer not to answer',
+  O: 'A gender not listed here',
 };
 
 // use the keys from the genderLabels object as the option values
@@ -66,12 +66,11 @@ export const personalInformationFormSchemas = {
     properties: {
       preferredName: {
         type: 'string',
-        pattern: '^[A-Za-z\\s]+$',
+        pattern: '^[A-Za-z]+$',
         minLength: 1,
         maxLength: 25,
       },
     },
-    required: [],
   },
   pronouns: {
     type: 'object',
@@ -93,7 +92,6 @@ export const personalInformationFormSchemas = {
         enum: genderOptions,
       },
     },
-    required: [],
   },
   sexualOrientation: {
     type: 'object',
@@ -115,7 +113,7 @@ export const personalInformationUiSchemas = {
       'ui:widget': TextWidget,
       'ui:title': `Provide your preferred name (25 characters maximum)`,
       'ui:errorMessages': {
-        pattern: 'Preferred name required',
+        pattern: 'This field accepts alphabetic characters only',
       },
     },
   },
@@ -161,7 +159,12 @@ export const formatIndividualLabel = (key, label) => {
   return label;
 };
 
-export const formatGenderIdentity = genderKey => genderLabels?.[genderKey];
+export const formatGenderIdentity = genderData => {
+  if (genderData?.code) {
+    return genderLabels?.[genderData.code];
+  }
+  return null;
+};
 
 export const formatMultiSelectAndText = (data, fieldName) => {
   const notListedTextKey = `${fieldName}NotListedText`;

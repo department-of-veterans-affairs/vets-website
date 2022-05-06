@@ -1,6 +1,8 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import DebtCardsList from '../components/DebtCardsList';
 
 describe('DebtLettersSummary', () => {
@@ -162,19 +164,15 @@ describe('DebtLettersSummary', () => {
     dispatch: () => {},
   };
 
-  it('mounts wrapper component', () => {
-    const wrapper = shallow(<DebtCardsList store={fakeStore} />);
-    expect(wrapper.length).to.equal(1);
-    wrapper.unmount();
-  });
   it('renders correct number of debt cards', () => {
-    const wrapper = shallow(<DebtCardsList store={fakeStore} />);
-    expect(
-      wrapper
-        .dive()
-        .dive()
-        .find(`Connect(DebtLetterCard)`).length,
-    ).to.equal(4);
+    const wrapper = render(
+      <Provider store={fakeStore}>
+        <BrowserRouter>
+          <DebtCardsList />
+        </BrowserRouter>
+      </Provider>,
+    );
+    expect(wrapper.getAllByTestId('debt-list-item')).to.have.lengthOf(4);
     wrapper.unmount();
   });
   it('renders correct empty state', () => {
@@ -196,16 +194,14 @@ describe('DebtLettersSummary', () => {
       subscribe: () => {},
       dispatch: () => {},
     };
-    const wrapper = shallow(<DebtCardsList store={fakeStoreEmptyState} />);
-    expect(wrapper.dive().find(`Connect(DebtLetterCard)`).length).to.equal(0);
-    expect(
-      wrapper
-        .dive()
-        .dive()
-        .find('h3')
-        .at(0)
-        .text(),
-    ).to.equal('Our records show that you don’t have any current debts');
+    const wrapper = render(
+      <Provider store={fakeStoreEmptyState}>
+        <BrowserRouter>
+          <DebtCardsList />
+        </BrowserRouter>
+      </Provider>,
+    );
+    expect(wrapper.getByTestId('debt-list-no-items')).to.exist;
     wrapper.unmount();
   });
 });

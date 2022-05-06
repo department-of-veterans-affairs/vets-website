@@ -79,10 +79,17 @@ const FacilitiesMap = props => {
     }
 
     if (location.query.address) {
-      props.genBBoxFromAddress({
-        searchString: location.query.address,
-        context: location.query.context,
-      });
+      const expandedRadius =
+        location.query.facilityType === 'benefits' &&
+        !location.query.serviceType;
+
+      props.genBBoxFromAddress(
+        {
+          searchString: location.query.address,
+          context: location.query.context,
+        },
+        expandedRadius,
+      );
       setIsSearching(true);
     }
   };
@@ -157,15 +164,20 @@ const FacilitiesMap = props => {
   const handleSearch = async () => {
     resetMapElements();
     const { currentQuery } = props;
+    const { facilityType, serviceType, searchString } = currentQuery;
+    const expandedRadius = facilityType === 'benefits' && !serviceType;
     lastZoom = null;
 
     updateUrlParams({
-      address: currentQuery.searchString,
+      address: searchString,
     });
 
-    props.genBBoxFromAddress({
-      ...currentQuery,
-    });
+    props.genBBoxFromAddress(
+      {
+        ...currentQuery,
+      },
+      expandedRadius,
+    );
 
     setIsSearching(true);
   };
@@ -366,9 +378,7 @@ const FacilitiesMap = props => {
 
     const currentPage = pagination ? pagination.currentPage : 1;
     const totalPages = pagination ? pagination.totalPages : 1;
-
-    const { facilityType } = currentQuery;
-    const { serviceType } = currentQuery;
+    const { facilityType, serviceType } = currentQuery;
     const queryContext = currentQuery.context;
     const isEmergencyCareType = facilityType === LocationType.EMERGENCY_CARE;
     const isCppEmergencyCareTypes = EMERGENCY_CARE_SERVICES.includes(

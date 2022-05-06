@@ -22,7 +22,7 @@ const varSlots = require('./var/slots.json');
 const cancelReasons = require('./var/cancel_reasons.json');
 const requestEligibilityCriteria = require('./var/request_eligibility_criteria.json');
 const directBookingEligibilityCriteria = require('./var/direct_booking_eligibility_criteria.json');
-const generateMockSlots = require('./var/slots.js');
+const generateMockSlots = require('./var/slots');
 
 // v2
 const requestsV2 = require('./v2/requests.json');
@@ -194,7 +194,6 @@ const responses = {
       attributes: {
         ...req.body,
         start: req.body.slot ? req.body.slot.start : null,
-        cancellable: req.body.status === 'proposed',
       },
     };
     currentMockId++;
@@ -214,7 +213,6 @@ const responses = {
         attributes: {
           ...appt.attributes,
           cancelationReason: { coding: [{ code: 'pat' }] },
-          cancellable: false,
         },
       };
     }

@@ -60,6 +60,23 @@ describe('Home address update modal', () => {
       .findByText(`We've updated your mailing address`)
       .should('exist');
 
+    cy.findByTestId('copy-address-success')
+      .shadow()
+      .findByText(`Close`)
+      .should('exist')
+      .click({
+        force: true,
+        waitForAnimations: true,
+      });
+
+    cy.findByTestId('mailingAddress')
+      .findByTestId('update-success-alert')
+      .should('exist');
+
+    cy.findByTestId('residentialAddress')
+      .findByTestId('update-success-alert')
+      .should('exist');
+
     cy.injectAxeThenAxeCheck();
   });
 
@@ -95,6 +112,18 @@ describe('Home address update modal', () => {
     cy.findByTestId('copy-address-failure')
       .shadow()
       .findByText(`We can't update your mailing address`)
+      .should('exist');
+
+    cy.findByTestId('copy-address-failure')
+      .shadow()
+      .findByText('Close')
+      .click({
+        force: true,
+        waitForAnimations: true,
+      });
+
+    cy.findByTestId('mailingAddress')
+      .get('.usa-input-error-message')
       .should('exist');
 
     cy.injectAxeThenAxeCheck();

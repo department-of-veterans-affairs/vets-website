@@ -16,8 +16,8 @@ export const UnauthenticatedPageContent = () => {
           If you don’t have any of these accounts, you can create a free ID.me
           account now.
         </div>
-        <div className="button">
-          <UserNav isHeaderV2 customText="Sign in or create an account" />
+        <div className="dhp-login-button">
+          <UserNav isHeaderV2 />
         </div>
       </va-alert>
     </>

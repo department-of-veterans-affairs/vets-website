@@ -146,7 +146,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
       'Cheyenne, WyomingWY 82001-5356',
     );
     expect(screen.baseElement).to.contain.text('Main phone:');
-    expect(screen.baseElement).to.contain.text('307-778-7550');
+    expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Preferred date and time');
     expect(screen.baseElement).to.contain.text(
       `${moment(appointment.attributes.optionDate1).format(
@@ -183,7 +183,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     expect(screen.baseElement).to.contain.text('New issue');
     expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
     expect(screen.baseElement).to.contain.text('patient.test@va.gov');
-    expect(screen.baseElement).to.contain.text('703-652-0000');
+    expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Call morning');
   });
 
@@ -371,7 +371,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
     fireEvent.click(screen.getByText(/yes, cancel this request/i));
 
     // Then it should display request is canceled
-    await screen.findByText(/your request has been canceled/i);
+    await screen.findByTestId('cancel-request-SuccessModal');
 
     const cancelData = JSON.parse(
       global.fetch
@@ -617,8 +617,7 @@ describe('VAOS <RequestedAppointmentDetailsPage>', () => {
 
     fireEvent.click(screen.getByText(/yes, cancel this request/i));
 
-    await screen.findByText(/We couldn’t cancel your request/i);
-
+    await screen.findByRole('alertdialog');
     expect(screen.baseElement).not.to.contain.text('Canceled');
   });
 });
@@ -637,7 +636,6 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
-      cancellable: true,
       comment: 'A message from the patient',
       contact: {
         telecom: [
@@ -719,7 +717,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       'Cheyenne, WyomingWY 82001-5356',
     );
     expect(screen.baseElement).to.contain.text('Main phone:');
-    expect(screen.baseElement).to.contain.text('307-778-7550');
+    expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Preferred type of appointment');
     expect(screen.baseElement).to.contain.text('Office visit');
     expect(screen.baseElement).to.contain.text('Preferred date and time');
@@ -764,7 +762,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
 
     expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
     expect(screen.baseElement).to.contain.text('veteranemailtest@va.gov');
-    expect(screen.baseElement).to.contain.text('212-555-1212');
+    expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Call morning');
   });
 
@@ -772,7 +770,6 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     const ccAppointmentRequest = getVAOSRequestMock();
     ccAppointmentRequest.id = '1234';
     ccAppointmentRequest.attributes = {
-      cancellable: true,
       comment: 'A message from the patient',
       contact: {
         telecom: [
@@ -906,7 +903,6 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
-      cancellable: true,
       comment: 'A message from the patient',
       contact: {
         telecom: [
@@ -959,7 +955,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     fireEvent.click(screen.getByText(/yes, cancel this request/i));
 
     // Then is should display request is canceled
-    await screen.findByText(/your request has been canceled/i);
+    await screen.findByTestId('cancel-request-SuccessModal');
     const cancelData = JSON.parse(
       global.fetch
         .getCalls()
@@ -980,7 +976,6 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     const appointment = getVAOSRequestMock();
     appointment.id = '1234';
     appointment.attributes = {
-      cancellable: true,
       comment: 'A message from the patient',
       contact: {
         telecom: [
@@ -1025,7 +1020,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     await screen.findByRole('alertdialog');
 
     fireEvent.click(screen.getByText(/yes, cancel this request/i));
-    await screen.findByText(/We couldn’t cancel your request/i);
+    await screen.findByTestId('cancel-request-SuccessModal');
 
     expect(screen.baseElement).not.to.contain.text('Canceled');
   });
