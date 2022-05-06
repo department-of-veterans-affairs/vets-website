@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import {
   hasMoreAppointmentsToCheckInto,
+  preCheckinAlreadyCompleted,
   sortAppointmentsByStartTime,
   removeTimeZone,
   preCheckinExpired,
@@ -113,6 +114,57 @@ describe('check in', () => {
         expect(
           hasMoreAppointmentsToCheckInto(appointments, selectedAppointment),
         ).to.equal(false);
+      });
+    });
+    describe('preCheckinAlreadyCompleted', () => {
+      const generateAppointments = () => {
+        const checkInSteps = [
+          {
+            status: 'PRE-CHECK-IN STARTED',
+            dateTime: '2017-12-31T00:00:00.000',
+            ien: 1,
+          },
+          {
+            status: 'PRE-CHECK-IN COMPLETE',
+            dateTime: '2017-12-31T00:05:00.000',
+            ien: 2,
+          },
+        ];
+
+        const earliest = createAppointment();
+        earliest.startTime = '2018-01-01T00:00:00.000Z';
+        earliest.checkInSteps = checkInSteps;
+        const midday = createAppointment();
+        midday.startTime = '2018-01-01T12:00:00.000Z';
+        midday.checkInSteps = checkInSteps;
+        const latest = createAppointment();
+        latest.startTime = '2018-01-01T23:59:59.000Z';
+        latest.checkInSteps = checkInSteps;
+
+        return [latest, earliest, midday];
+      };
+
+      it('returns true when pre-check-in is completed for all appointments', () => {
+        const appointments = generateAppointments();
+        expect(preCheckinAlreadyCompleted(appointments)).to.deep.equal(true);
+      });
+      it('returns false when appointments are not set', () => {
+        expect(preCheckinAlreadyCompleted(null)).to.deep.equal(false);
+      });
+      it('returns false when there are no appointments', () => {
+        expect(preCheckinAlreadyCompleted([])).to.deep.equal(false);
+      });
+      it('returns false when any appointment has not completed pre-checkin', () => {
+        const appointments = generateAppointments();
+        appointments[0].checkInSteps = [];
+        expect(preCheckinAlreadyCompleted(appointments)).to.deep.equal(false);
+      });
+      it('returns false when checkInSteps are undefined', () => {
+        const appointments = generateAppointments();
+        appointments.forEach((appt, idx) => {
+          delete appointments[idx].checkInSteps;
+        });
+        expect(preCheckinAlreadyCompleted(appointments)).to.deep.equal(false);
       });
     });
     describe('sortAppointmentsByStartTime', () => {

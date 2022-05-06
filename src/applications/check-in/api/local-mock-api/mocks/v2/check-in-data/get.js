@@ -83,6 +83,7 @@ const createAppointment = (
   checkInWindowEnd.getMinutes(startTime.getMinutes() + 10);
   return {
     facility: 'LOMA LINDA VA CLINIC',
+    checkInSteps: [],
     clinicPhoneNumber: '5551234567',
     clinicFriendlyName,
     clinicName: 'LOM ACC CLINIC TEST',
