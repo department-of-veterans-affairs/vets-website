@@ -78,6 +78,7 @@ import manifest from '../manifest.json';
 import SelectedSponsorsReviewField from '../components/SelectedSponsorsReviewField';
 import FirstSponsorReviewField from '../components/FirstSponsorReviewField';
 import Sponsors from '../components/Sponsors';
+import GoToYourProfileLink from '../components/GoToYourProfileLink';
 
 const {
   benefit,
@@ -448,9 +449,7 @@ const formConfig = {
                     profile.
                   </p>
                   <p className="vads-u-margin-bottom--3">
-                    <a href="/profile/personal-information">
-                      Go to your profile
-                    </a>
+                    <GoToYourProfileLink />
                   </p>
                 </>
               ),
@@ -1024,9 +1023,7 @@ const formConfig = {
                     profile.
                   </p>
                   <p>
-                    <a href="/profile/personal-information">
-                      Go to your profile
-                    </a>
+                    <GoToYourProfileLink />
                   </p>
                 </>
               ),
@@ -1145,9 +1142,7 @@ const formConfig = {
                     profile.
                   </p>
                   <p className="vads-u-margin-bottom--4">
-                    <a href="/profile/personal-information">
-                      Go to your profile
-                    </a>
+                    <GoToYourProfileLink />
                   </p>
                 </>
               ),
