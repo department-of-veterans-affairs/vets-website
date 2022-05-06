@@ -1,8 +1,5 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+
 import { links } from 'applications/caregivers/definitions/content';
 
 const NeedHelpFooter = () => {
@@ -10,8 +7,8 @@ const NeedHelpFooter = () => {
     <>
       <p>
         You can call the VA Caregiver Support Line at
-        <Telephone
-          contact={CONTACTS.CAREGIVER}
+        <va-telephone
+          contact="8552603274"
           className="vads-u-margin-left--0p5"
         />
         . We’re here Monday through Friday, 8:00 a.m. to 10:00 p.m. ET, and
@@ -20,10 +17,7 @@ const NeedHelpFooter = () => {
 
       <p>
         You can also call
-        <Telephone
-          contact={CONTACTS.HEALTHCARE_ELIGIBILITY_CENTER}
-          className="vads-u-margin-x--0p5"
-        />
+        <va-telephone contact="8554888440" className="vads-u-margin-x--0p5" />
         if you have questions about completing your application, or contact your
         local Caregiver Support Coordinator.
       </p>
@@ -40,20 +34,15 @@ const NeedHelpFooter = () => {
       </span>
 
       <p>
-        If this form isn't working right for you, please call us at
-        <Telephone
-          contact={CONTACTS.HELP_DESK}
+        If this form isn’t working right for you, please call us at
+        <va-telephone
+          contact="8006982411"
           className="vads-u-margin-left--0p5"
         />
         .<br />
         <span>
           If you have hearing loss, call TTY:
-          <Telephone
-            className="vads-u-margin-left--0p5"
-            contact={CONTACTS['711']}
-            pattern={PATTERNS['911']}
-          />
-          .
+          <va-telephone contact="711" className="vads-u-margin-left--0p5" />.
         </span>
       </p>
     </>

@@ -3,10 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
-
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { links } from 'applications/caregivers/definitions/content';
@@ -128,8 +124,8 @@ const ConfirmationPage = props => {
             or if you are interested in learning more about the supports and
             services available to support Veterans and caregivers, you may
             contact the VA Caregiver Support Line at
-            <Telephone
-              contact={CONTACTS.CAREGIVER}
+            <va-telephone
+              contact="8552603274"
               className="vads-u-margin-x--0p5"
             />
             or visit
