@@ -1,14 +1,15 @@
-// import { expect } from 'chai';
-// import sinon from 'sinon';
+/* eslint-disable no-unused-vars */
+import { expect } from 'chai';
+import sinon from 'sinon';
 
-// // eslint-disable-next-line import/no-useless-path-segments
-// const main = require('../../daily-product-dependency-scan');
-// const GitHub = require('../github');
-// const octokitResponses = require('./mocks/octokit-responses');
-// const Csv = require('../csv');
-// const Headings = require('../csv/headings');
-// const Rows = require('../csv/rows');
-// const { removeCarriageReturn, transformCsvToScsv } = require('../csv/helpers');
+// eslint-disable-next-line import/no-useless-path-segments
+const main = require('../../daily-product-dependency-scan');
+const GitHub = require('../github');
+const octokitResponses = require('./mocks/octokit-responses');
+const Csv = require('../csv');
+const Headings = require('../csv/headings');
+const Rows = require('../csv/rows');
+const { removeCarriageReturn, transformCsvToScsv } = require('../csv/helpers');
 
 // describe('daily-product-dependency-scan', () => {
 //   context('success, dependency changes ARE detected', () => {
