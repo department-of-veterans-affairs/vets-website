@@ -75,12 +75,7 @@ const renderWidgetDowntimeNotification = (downtime, children) => {
   return children;
 };
 
-const DashboardHeader = ({
-  showNotifications,
-  debts,
-  debtsError,
-  paymentsError,
-}) => {
+const DashboardHeader = ({ showNotifications, paymentsError }) => {
   return (
     <div>
       <h1
@@ -117,9 +112,7 @@ const DashboardHeader = ({
           </div>
         </DashboardWidgetWrapper>
       )}
-      {showNotifications && (
-        <Notifications debtsError={debtsError} debts={debts} />
-      )}
+      {showNotifications && <Notifications />}
     </div>
   );
 };

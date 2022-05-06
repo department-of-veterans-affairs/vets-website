@@ -5,8 +5,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import '../../sass/user-profile.scss';
 
-export const DebtNotification = ({ debts, hasError }) => {
-  const debtsCount = debts?.length || 0;
+export const DebtNotification = ({ debtsCount, hasError }) => {
   const [dismissed, setDismissed] = React.useState(false);
   if (debtsCount < 1 || dismissed) {
     return null;
@@ -61,29 +60,8 @@ export const DebtNotification = ({ debts, hasError }) => {
 };
 
 DebtNotification.propTypes = {
+  debtsCount: PropTypes.number,
   hasError: PropTypes.bool,
-  debts: PropTypes.arrayOf(
-    PropTypes.shape({
-      fileNumber: PropTypes.string.isRequired,
-      payeeNumber: PropTypes.string.isRequired,
-      personEntitled: PropTypes.string.isRequired,
-      deductionCode: PropTypes.string.isRequired,
-      benefitType: PropTypes.string.isRequired,
-      diaryCode: PropTypes.string.isRequired,
-      diaryCodeDescription: PropTypes.string,
-      amountOverpaid: PropTypes.number.isRequired,
-      amountWithheld: PropTypes.number.isRequired,
-      originalAr: PropTypes.number.isRequired,
-      currentAr: PropTypes.number.isRequired,
-      debtHistory: PropTypes.arrayOf(
-        PropTypes.shape({
-          date: PropTypes.string.isRequired,
-          letterCode: PropTypes.string.isRequired,
-          description: PropTypes.string.isRequired,
-        }),
-      ),
-    }),
-  ),
 };
 
 export default DebtNotification;
