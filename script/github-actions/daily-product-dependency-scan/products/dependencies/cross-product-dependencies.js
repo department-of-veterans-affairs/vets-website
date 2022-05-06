@@ -73,13 +73,13 @@ class CrossProductDependencies extends Dependencies {
   }
 
   importIsNotFromAnyProductDirectory({ importedFilePath }) {
-    const productDirectory = '/src/applications/';
+    const productDirectory = 'src/applications/';
     const testProductDirectory =
       'script/github-actions/daily-product-dependency-scan/tests/mocks/applications/';
 
     return !(
-      importedFilePath.startsWith(productDirectory) ||
-      importedFilePath.startsWith(testProductDirectory)
+      importedFilePath.includes(productDirectory) ||
+      importedFilePath.includes(testProductDirectory)
     );
   }
 
