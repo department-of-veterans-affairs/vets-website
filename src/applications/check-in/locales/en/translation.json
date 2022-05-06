@@ -154,5 +154,6 @@
   "please-provide-a-response": "Please provide a response",
   "in-en": "in english",
   "sorry-we-cant-complete-pre-check-in": "Sorry, we can’t complete pre-check-in",
-  "sorry-pre-check-in-is-no-longer-available": "Sorry, pre-check-in is no longer available"
+  "sorry-pre-check-in-is-no-longer-available": "Sorry, pre-check-in is no longer available",
+  "date-time": "{{date, time}}"
 }
