@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 // eslint-disable-next-line import/no-useless-path-segments
-// const main = require('../../daily-product-dependency-scan');
+const main = require('../../daily-product-dependency-scan');
 // const GitHub = require('../github');
 // const octokitResponses = require('./mocks/octokit-responses');
 // const Csv = require('../csv');
