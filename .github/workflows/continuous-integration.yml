@@ -349,7 +349,7 @@ jobs:
 
   linting:
     name: Linting (All)
-    if: ${{ github.ref == 'refs/heads/master' }}
+    # if: ${{ github.ref == 'refs/heads/master' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
