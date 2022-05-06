@@ -318,7 +318,6 @@ jobs:
         with:
           repository: department-of-veterans-affairs/platform-release-tools-actions
           path: ./.github/workflows/platform-release-tools-actions
-          ref: sri/common-actions1
 
       - run: |
              cd ./.github/workflows/platform-release-tools-actions; ls -l
