@@ -2,14 +2,13 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-// eslint-disable-next-line import/no-useless-path-segments
 const main = require('../main');
 const GitHub = require('../github');
-const octokitResponses = require('./mocks/octokit-responses');
 const Csv = require('../csv');
 const Headings = require('../csv/headings');
 const Rows = require('../csv/rows');
 const { removeCarriageReturn, transformCsvToScsv } = require('../csv/helpers');
+const octokitResponses = require('./mocks/octokit-responses');
 
 describe('daily-product-dependency-scan', () => {
   context('success, dependency changes ARE detected', () => {
