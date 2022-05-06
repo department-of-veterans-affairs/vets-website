@@ -103,6 +103,13 @@ async function main({ octokit }) {
   });
 }
 
-if (process.env.MANIFEST_GLOB_PATH) main({ octokit: new GitHub() });
+if (process.env.MANIFEST_GLOB_PATH) {
+  (async () => {
+    const { status, message, data } = await main({ octokit: new GitHub() });
+    console.log(`status: ${status}`);
+    console.log(`message: ${message}`);
+    console.log(`data: ${data}`);
+  })();
+}
 
 module.exports = main;
