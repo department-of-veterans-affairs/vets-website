@@ -18,9 +18,6 @@ const PreCheckInAccordionBlock = ({
       <>
         <strong>{t('contact-information')}</strong>
         <p>
-          {t('a-staff-member-will-help-you-on-the-day-of-your-appointment')}
-        </p>
-        <p>
           {t(
             'a-staff-member-will-help-you-on-the-day-of-your-appointment-or-you-can-',
           )}
@@ -106,7 +103,6 @@ const PreCheckInAccordionBlock = ({
           </va-accordion-item>
         );
       })}
-      ;
     </va-accordion>
   );
 };
