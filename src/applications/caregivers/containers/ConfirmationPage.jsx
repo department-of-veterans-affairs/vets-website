@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import { links } from 'applications/caregivers/definitions/content';
 import Telephone, {
   CONTACTS,
@@ -69,12 +68,13 @@ const ConfirmationPage = props => {
 
   return (
     <section className="caregiver-confirmation vads-u-margin-bottom--2p5">
-      <AlertBox
-        level={2}
-        headline="You’ve successfully submitted your application."
-        content="Once we’ve reviewed your application, a Caregiver Support Coordinator will contact you to discuss next steps."
-        status="success"
-      />
+      <va-alert status="success">
+        <h2 slot="headline">You’ve successfully submitted your application.</h2>
+        <div>
+          Once we’ve reviewed your application, a Caregiver Support Coordinator
+          will contact you to discuss next steps.
+        </div>
+      </va-alert>
       <div className="inset vads-u-margin-top--4">
         <h3 className="insert-title vads-u-font-size--h4">
           Application for the Program of Comprehensive Assistance for Family

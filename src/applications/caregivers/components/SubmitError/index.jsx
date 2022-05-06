@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -12,12 +11,13 @@ const SubmitError = ({ form }) => {
     focusElement('.caregivers-error-message');
   }, []);
 
-  const ErrorBody = () => {
-    return (
-      <section>
+  return (
+    <va-alert status="error" className="caregivers-error-message">
+      <h3 slot="headline">We didn’t receive your online application</h3>
+      <div>
         <p>
           We’re sorry. Something went wrong when you tried to submit your
-          application. You won't be able to resubmit the form online.
+          application. You won’t be able to resubmit the form online.
         </p>
 
         <div>
@@ -54,17 +54,8 @@ const SubmitError = ({ form }) => {
         </div>
 
         <DownLoadLink form={form} />
-      </section>
-    );
-  };
-
-  return (
-    <AlertBox
-      className="caregivers-error-message"
-      headline="We didn't receive your online application"
-      content={ErrorBody()}
-      status="error"
-    />
+      </div>
+    </va-alert>
   );
 };
 
