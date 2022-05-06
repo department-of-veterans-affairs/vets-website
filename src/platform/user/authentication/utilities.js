@@ -42,6 +42,12 @@ export const getQueryParams = () => {
   return paramsObj;
 };
 
+export const reduceAllowedProviders = obj =>
+  Object.entries(obj).reduce((acc, [key, value]) => {
+    if (value) acc.push(key);
+    return acc;
+  }, []);
+
 export const isExternalRedirect = () => {
   const { application } = getQueryParams();
   return (

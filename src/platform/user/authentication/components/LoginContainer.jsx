@@ -19,15 +19,7 @@ const vaGovFullDomain = environment.BASE_URL;
 export const logoSrc = `${vaGovFullDomain}/img/design/logo/va-logo.png`;
 
 export const LoginContainer = props => {
-  const {
-    externalApplication,
-    isUnifiedSignIn,
-    loggedOut,
-    loginGovOff,
-    loginGovCreateAccountEnabled,
-    loginGovMHVEnabled,
-    loginGovMyVAHealthEnabled,
-  } = props;
+  const { externalApplication, isUnifiedSignIn, loggedOut } = props;
 
   return (
     <section className="login">
@@ -43,13 +35,7 @@ export const LoginContainer = props => {
         )}
         <div className="container">
           <LoginHeader loggedOut={loggedOut} />
-          <LoginActions
-            externalApplication={externalApplication}
-            loginGovOff={loginGovOff}
-            loginGovMHVEnabled={loginGovMHVEnabled}
-            loginGovMyVAHealthEnabled={loginGovMyVAHealthEnabled}
-            loginGovCreateAccountEnabled={loginGovCreateAccountEnabled}
-          />
+          <LoginActions externalApplication={externalApplication} />
           <LoginInfo />
         </div>
       </div>
