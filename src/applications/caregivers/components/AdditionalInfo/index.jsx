@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
-
 import { links } from 'applications/caregivers/definitions/content';
 
 export const VeteranSSNInfo = () => (
@@ -28,6 +27,7 @@ export const VetInfo = ({ pageTitle, headerInfo }) => (
 );
 
 VetInfo.propTypes = {
+  headerInfo: PropTypes.bool,
   pageTitle: PropTypes.string,
 };
 
@@ -77,8 +77,8 @@ export const PrimaryCaregiverInfo = ({
 
 PrimaryCaregiverInfo.propTypes = {
   additionalInfo: PropTypes.bool,
-  pageTitle: PropTypes.string,
   headerInfo: PropTypes.bool,
+  pageTitle: PropTypes.string,
 };
 
 PrimaryCaregiverInfo.defaultProps = {
@@ -128,8 +128,8 @@ export const SecondaryCaregiverInfo = ({
 
 SecondaryCaregiverInfo.propTypes = {
   additionalInfo: PropTypes.bool,
-  pageTitle: PropTypes.string,
   headerInfo: PropTypes.string,
+  pageTitle: PropTypes.string,
 };
 
 export const FacilityInfo = () => (
@@ -164,6 +164,10 @@ export const CaregiverSupportInfo = () => (
 export const PrimaryHealthCoverage = ({ pageTitle }) => (
   <>{pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}</>
 );
+
+PrimaryHealthCoverage.propTypes = {
+  pageTitle: PropTypes.string,
+};
 
 export const whyAskHealthCareCoverage = () => (
   <div className="vads-u-margin-y--2p5">
