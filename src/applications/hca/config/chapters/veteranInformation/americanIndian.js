@@ -2,7 +2,6 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
 import React from 'react';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
 const { sigiIsAmericanIndian } = fullSchemaHca.properties;
@@ -17,8 +16,11 @@ const Description = props => {
         need to pay a copay for care or services.
       </p>
 
-      <div className="vads-u-margin-top--3 vads-u-margin-bottom--7">
-        <AdditionalInfo triggerText="What it means to be recognized as an American Indian or Alaska Native">
+      <div
+        className="vads-u-margin-top--3 vads-u-margin-bottom--7"
+        data-testid="aiq-addl-info"
+      >
+        <va-additional-info trigger="What it means to be recognized as an American Indian or Alaska Native">
           <div>
             For the purposes of this application, we consider this to mean that
             one of these descriptions is true for you:
@@ -83,7 +85,7 @@ const Description = props => {
           >
             Learn more about the IHCIA on the Indian Health Service website
           </a>
-        </AdditionalInfo>
+        </va-additional-info>
       </div>
     </>
   );

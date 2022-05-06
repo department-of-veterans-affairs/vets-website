@@ -57,6 +57,7 @@ import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
 import createMyVALoginWidget from './widget-creators/createMyVALoginWidget';
 import createNearByVetCenters from './facilities/vet-center/createNearByVetCenters';
+import createNodCTA from './nod-cta';
 import createOptOutApplicationStatus from '../edu-benefits/components/createOptOutApplicationStatus';
 import createPost911GiBillStatusWidget, {
   post911GIBillStatusReducer,
@@ -199,6 +200,7 @@ createManageVADebtCTA(store, widgetTypes.MANAGE_VA_DEBT_CTA);
 createHomepageHeroRandomizer(store, widgetTypes.HOMEPAGE_HERO_RANDOMIZER);
 create1095BDownloadCTA(store, widgetTypes.DOWNLOAD_1095B_CTA);
 createShiftedVetsBanner(store, widgetTypes.SHIFTED_VETS_BANNER);
+createNodCTA(store, widgetTypes.FORM_10182_CTA);
 
 // Create the My VA Login widget only on the homepage.
 if (location.pathname === '/') {

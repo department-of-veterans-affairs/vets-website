@@ -51,6 +51,20 @@ describe('check-in', () => {
           ),
         ).to.exist;
       });
+      it('renders correct error message when pre-checkin is expired', () => {
+        const component = render(
+          <Provider store={store}>
+            <Error location={{ query: { type: 'expired' } }} />
+          </Provider>,
+        );
+        const expiredMessage = component.getByTestId('error-message');
+        expect(expiredMessage).to.exist;
+        expect(
+          within(expiredMessage).getByText(
+            'You can still check-in with your phone once you arrive at your appointment.',
+          ),
+        ).to.exist;
+      });
     });
     describe('empty redux store', () => {
       let store;

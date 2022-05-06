@@ -1,25 +1,25 @@
 import React, { useState, useCallback } from 'react';
-
+import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
-
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import EnrollmentVerificationMonth from './EnrollmentVerificationMonth';
-import { ENROLLMENT_VERIFICATION_TYPE } from '../helpers';
 
 const MONTHS_PER_PAGE = 6;
 
-function EnrollmentVerificationMonths({ status }) {
+function EnrollmentVerificationMonths({ enrollmentData }) {
   // We assume that months come sorted.  If that assumption is
   // incorrect, sort here.
-  const months = status.months.map((month, index) => {
-    return (
-      <EnrollmentVerificationMonth
-        key={index}
-        month={month}
-        paymentStatus={status.paymentStatus}
-      />
-    );
-  });
+  const months = enrollmentData?.enrollmentVerifications?.map(
+    (month, index) => {
+      return (
+        <EnrollmentVerificationMonth
+          key={index}
+          month={month}
+          paymentStatus={enrollmentData.paymentStatus}
+        />
+      );
+    },
+  );
 
   const [currentPage, setCurrentPage] = useState(1);
   const onPageSelect = useCallback(
@@ -68,7 +68,7 @@ function EnrollmentVerificationMonths({ status }) {
 
       {months?.slice(minMonth, maxMonth)}
 
-      <Pagination
+      <VaPagination
         onPageSelect={onPageSelect}
         page={currentPage}
         pages={numPages}
@@ -80,5 +80,5 @@ function EnrollmentVerificationMonths({ status }) {
 export default EnrollmentVerificationMonths;
 
 EnrollmentVerificationMonths.propTypes = {
-  status: ENROLLMENT_VERIFICATION_TYPE.isRequired,
+  enrollmentData: PropTypes.object,
 };

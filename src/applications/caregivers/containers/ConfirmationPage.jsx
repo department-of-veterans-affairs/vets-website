@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import moment from 'moment';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import { links } from 'applications/caregivers/definitions/content';
+
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
-import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { links } from 'applications/caregivers/definitions/content';
 
 const ConfirmationPage = props => {
   useEffect(() => {
@@ -69,12 +70,13 @@ const ConfirmationPage = props => {
 
   return (
     <section className="caregiver-confirmation vads-u-margin-bottom--2p5">
-      <AlertBox
-        level={2}
-        headline="You’ve successfully submitted your application."
-        content="Once we’ve reviewed your application, a Caregiver Support Coordinator will contact you to discuss next steps."
-        status="success"
-      />
+      <va-alert status="success">
+        <h2 slot="headline">You’ve successfully submitted your application.</h2>
+        <div>
+          Once we’ve reviewed your application, a Caregiver Support Coordinator
+          will contact you to discuss next steps.
+        </div>
+      </va-alert>
       <div className="inset vads-u-margin-top--4">
         <h3 className="insert-title vads-u-font-size--h4">
           Application for the Program of Comprehensive Assistance for Family
@@ -95,7 +97,11 @@ const ConfirmationPage = props => {
           </ul>
         )}
 
-        <button className="usa-button button" onClick={() => window.print()}>
+        <button
+          type="button"
+          className="usa-button button"
+          onClick={() => window.print()}
+        >
           Print this page
         </button>
       </div>
@@ -150,6 +156,10 @@ const ConfirmationPage = props => {
       <PrintDetails />
     </section>
   );
+};
+
+ConfirmationPage.propTypes = {
+  form: PropTypes.object,
 };
 
 const mapStateToProps = state => ({

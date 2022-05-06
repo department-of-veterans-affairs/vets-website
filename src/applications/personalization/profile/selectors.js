@@ -99,6 +99,11 @@ export const profileShowPronounsAndSexualOrientation = state =>
     FEATURE_FLAG_NAMES.profileShowPronounsAndSexualOrientation
   ];
 
+export const profileDoNotRequireInternationalZipCode = state =>
+  toggleValues(state)?.[
+    FEATURE_FLAG_NAMES.profileDoNotRequireInternationalZipCode
+  ];
+
 export function selectVAProfilePersonalInformation(state, fieldName) {
   const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
 

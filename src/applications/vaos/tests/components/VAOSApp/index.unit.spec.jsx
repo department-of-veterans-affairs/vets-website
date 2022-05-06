@@ -5,9 +5,9 @@ import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import environment from 'platform/utilities/environment';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
+import moment from 'moment';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import VAOSApp from '../../../components/VAOSApp';
-import moment from 'moment';
 
 const initialState = {
   featureToggles: {
@@ -120,7 +120,7 @@ describe('VAOS <VAOSApp>', () => {
       store,
     });
 
-    expect(await screen.findByText(/will be down for maintenance/)).to.exist;
+    expect(await screen.findByTestId('downtime-approaching-modal')).to.exist;
     expect(screen.getByText('Child content')).to.exist;
     fireEvent.click(screen.getByText('Dismiss'));
     await waitFor(

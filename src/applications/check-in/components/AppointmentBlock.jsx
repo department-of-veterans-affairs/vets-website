@@ -44,7 +44,7 @@ const AppointmentBlock = props => {
                   className="pre-check-in--value"
                   data-testid="appointment-time"
                 >
-                  {t('{{date, time}}', { date: appointmentDateTime })}
+                  {t('date-time', { date: appointmentDateTime })}
                 </dd>
                 <dt className="pre-check-in--label vads-u-margin-right--1">
                   {t('clinic')}:

@@ -61,7 +61,7 @@ class EducationWizard extends React.Component {
   }
 
   answerQuestion = (field, answer) => {
-    const newState = Object.assign({}, { [field]: answer });
+    const newState = { [field]: answer };
 
     if (field === 'newBenefit') {
       recordEvent({
@@ -355,7 +355,7 @@ class EducationWizard extends React.Component {
                     this.answerQuestion('post911GIBill', value)
                   }
                   value={{ value: post911GIBill }}
-                  label="Are you applying for the post- 9/11 GI Bill?"
+                  label="Are you applying for the Post-9/11 Gi Bill?"
                 />
               )}
             {newBenefit === 'yes' &&
