@@ -2,6 +2,7 @@
 const glob = require('glob');
 const core = require('@actions/core');
 
+// eslint-disable-next-line no-unused-vars
 const GitHub = require('./github');
 const Products = require('./products');
 const PackageDependencies = require('./products/dependencies/package-dependencies');
@@ -103,13 +104,13 @@ async function main({ octokit }) {
   });
 }
 
-if (process.env.MANIFEST_GLOB_PATH) {
-  (async () => {
-    const { status, message, data } = await main({ octokit: new GitHub() });
-    console.log(`status: ${status}`);
-    console.log(`message: ${message}`);
-    console.log(`data: ${data}`);
-  })();
-}
+// if (process.env.MANIFEST_GLOB_PATH) {
+//   (async () => {
+//     const { status, message, data } = await main({ octokit: new GitHub() });
+//     console.log(`status: ${status}`);
+//     console.log(`message: ${message}`);
+//     console.log(`data: ${data}`);
+//   })();
+// }
 
 module.exports = main;
