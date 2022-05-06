@@ -1,9 +1,8 @@
 const constants = {
-  owner: 'holdenhinkle',
+  owner: 'department-of-veterans-affairs',
   repo: 'product-directory',
   path: 'product-directory.csv',
   branch: 'main',
-  ref: 'refs/heads/update_depenencies',
 };
 
 module.exports = constants;

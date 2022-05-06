@@ -45,7 +45,7 @@ class GitHub {
         title: 'Update dependencies in Product Directory',
         body:
           'This is an automatic update.\n\nDependency changes were detected in one or more products listed in the Product Directory thus requiring it to be updated.',
-        base: 'main',
+        base: constants.branch,
         head: `update_dependencies_${getDateTime()}`,
         forceFork: false,
         changes: [
