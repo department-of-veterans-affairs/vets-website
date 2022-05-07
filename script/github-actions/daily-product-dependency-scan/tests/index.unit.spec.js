@@ -1,18 +1,14 @@
 /* eslint-disable no-unused-vars */
-import { expect } from 'chai';
-// import sinon from 'sinon';
+const { expect } = require('chai');
+const sinon = require('sinon');
 
-it('works', () => {
-  expect(2).to.equal(2);
-});
-
-// const main = require('../main');
-// const GitHub = require('../github');
-// const Csv = require('../csv');
-// const Headings = require('../csv/headings');
-// const Rows = require('../csv/rows');
-// const { removeCarriageReturn, transformCsvToScsv } = require('../csv/helpers');
-// const octokitResponses = require('./mocks/octokit-responses');
+const main = require('../main');
+const GitHub = require('../github');
+const Csv = require('../csv');
+const Headings = require('../csv/headings');
+const Rows = require('../csv/rows');
+const { removeCarriageReturn, transformCsvToScsv } = require('../csv/helpers');
+const octokitResponses = require('./mocks/octokit-responses');
 
 // describe('daily-product-dependency-scan', () => {
 //   context('success, dependency changes ARE detected', () => {
