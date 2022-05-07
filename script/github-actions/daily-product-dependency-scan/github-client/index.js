@@ -7,7 +7,7 @@ const githubAppCredentials = require('./github-app-credentials');
 const constants = require('./constants');
 const { getDateTime } = require('./helpers');
 
-class GitHub {
+class GitHubClient {
   constructor() {
     this.createOctokitClient();
   }
@@ -63,4 +63,4 @@ class GitHub {
   }
 }
 
-module.exports = GitHub;
+module.exports = GitHubClient;

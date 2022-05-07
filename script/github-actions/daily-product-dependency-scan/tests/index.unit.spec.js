@@ -3,12 +3,16 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 
 const main = require('../main');
-const GH = require('../github');
+const GitHubClient = require('../github-client');
 const Csv = require('../csv');
 const Headings = require('../csv/headings');
 const Rows = require('../csv/rows');
 const { removeCarriageReturn, transformCsvToScsv } = require('../csv/helpers');
 const octokitResponses = require('./mocks/octokit-responses');
+
+it('works', () => {
+  expect(1).to.equal(1);
+});
 
 describe('daily-product-dependency-scan', () => {
   context('success, dependency changes ARE detected', () => {
@@ -17,7 +21,7 @@ describe('daily-product-dependency-scan', () => {
     let data;
 
     before(async () => {
-      const octokit = sinon.createStubInstance(GH);
+      const octokit = sinon.createStubInstance(GitHubClient);
       octokit.getProductDirectory.returns(
         octokitResponses.outdatedProductDirectory,
       );
@@ -111,7 +115,7 @@ describe('daily-product-dependency-scan', () => {
     let data;
 
     before(async () => {
-      const octokit = sinon.createStubInstance(GH);
+      const octokit = sinon.createStubInstance(GitHubClient);
       octokit.getProductDirectory.returns(octokitResponses.productDirectory);
       octokit.createPull.returns(octokitResponses.createPull);
       ({ status, message, data } = await main({ octokit }));
@@ -205,7 +209,7 @@ describe('daily-product-dependency-scan', () => {
       let data;
 
       before(async () => {
-        const octokit = sinon.createStubInstance(GH);
+        const octokit = sinon.createStubInstance(GitHubClient);
         octokit.getProductDirectory.returns(
           octokitResponses.productDirectoryForbidden,
         );
@@ -236,7 +240,7 @@ describe('daily-product-dependency-scan', () => {
       let data;
 
       before(async () => {
-        const octokit = sinon.createStubInstance(GH);
+        const octokit = sinon.createStubInstance(GitHubClient);
         octokit.getProductDirectory.returns(
           octokitResponses.productDirectoryResourceNotFound,
         );
