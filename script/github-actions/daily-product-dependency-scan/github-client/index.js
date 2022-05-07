@@ -4,7 +4,7 @@
 // const { createAppAuth } = require('@octokit/auth-app');
 // const { createPullRequest } = require('octokit-plugin-create-pull-request');
 
-const githubAppCredentials = require('./github-app-credentials');
+// const githubAppCredentials = require('./github-app-credentials');
 const constants = require('./constants');
 const { getDateTime } = require('./helpers');
 
