@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 // /* eslint-disable no-console */
-const { Octokit } = require('octokit');
-const { createAppAuth } = require('@octokit/auth-app');
-const { createPullRequest } = require('octokit-plugin-create-pull-request');
+// const { Octokit } = require('octokit');
+// const { createAppAuth } = require('@octokit/auth-app');
+// const { createPullRequest } = require('octokit-plugin-create-pull-request');
 
 const githubAppCredentials = require('./github-app-credentials');
 const constants = require('./constants');
