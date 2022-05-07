@@ -2,8 +2,8 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 
-// const main = require('../main');
-const GitHub = require('../github');
+const main = require('../main');
+// const GitHub = require('../github');
 const Csv = require('../csv');
 const Headings = require('../csv/headings');
 const Rows = require('../csv/rows');
