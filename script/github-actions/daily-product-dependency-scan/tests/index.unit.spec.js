@@ -3,7 +3,7 @@ const { expect } = require('chai');
 const sinon = require('sinon');
 
 const main = require('../main');
-// const GitHubClient = require('../github-client');
+const GitHubClient = require('../github-client');
 const Csv = require('../csv');
 const Headings = require('../csv/headings');
 const Rows = require('../csv/rows');
