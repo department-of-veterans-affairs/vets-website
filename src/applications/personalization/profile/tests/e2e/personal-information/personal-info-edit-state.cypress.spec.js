@@ -13,11 +13,13 @@ const checkPersonalInfoFields = () => {
 
   cy.findByText(nameEditInputLabel).should('exist');
 
-  cy.get(nameEditInputField).should('exist');
-
-  cy.findAllByTestId('cancel-edit-button')
+  cy.get(nameEditInputField)
     .should('exist')
-    .click();
+    .blur();
+
+  cy.findByTestId('cancel-edit-button')
+    .should('exist')
+    .click({ waitForAnimations: true });
 
   cy.findByText(nameEditInputLabel).should('not.exist');
 
