@@ -73,7 +73,7 @@ function ViewDependentsHeader(props) {
   return (
     <div className="vads-l-row">
       <div className="vads-l-col--12">
-        <h1>Your VA Dependents</h1>
+        <h1>Your VA dependents</h1>
         {alertProps && (
           <va-alert status={alertProps.status}>{alertProps.content}</va-alert>
         )}
@@ -83,13 +83,15 @@ function ViewDependentsHeader(props) {
           dependent.
         </p>
         {props.dependentsToggle && (
-          <a
-            href={form686Url}
-            className="usa-button-primary va-button-primary"
-            onClick={handleClick}
-          >
-            Add or remove a dependent
-          </a>
+          <p>
+            <a
+              href={form686Url}
+              className="vads-c-action-link--green"
+              onClick={handleClick}
+            >
+              Add or remove a dependent
+            </a>
+          </p>
         )}
       </div>
     </div>

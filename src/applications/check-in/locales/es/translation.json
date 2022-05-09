@@ -1,5 +1,4 @@
 {
-  "a-staff-member-will-help-you-on-the-day-of-your-appointment-to-update-your-information": "Un miembro del personal lo ayudará el día de su cita para actualizar su información.",
   "address": "Habla a",
   "and-select-0-were-here-24-7": "y seleccione 0. Estamos aquí 24/7.",
   "and-select-1": "y seleccione 1",
@@ -37,7 +36,6 @@
   "for-questions-about-your-appointment-or-if-you-have-a-health-related-concern": "Si tiene preguntas sobre su cita o si tiene alguna inquietud relacionada con la salud,",
   "get-tips-for-protecting-your-personal-health-information": "Obtenga consejos para proteger su información personal de salud",
   "go-to-another-appointment": "Ir a otra cita",
-  "go-to-your-appointment": "Ir a tu cita",
   "here-are-your-appointments-for-today": "Aquí están sus citas para hoy: {{ date, long }}.",
   "home-address": "Direccion de casa",
   "home-phone": "Teléfono de casa",
@@ -153,5 +151,18 @@
   "your-date-of-birth-can-not-be-in-the-future": "Su fecha de nacimiento no puede ser en el futuro",
   "please-provide-a-response": "Por favor proporcione una respuesta",
   "in-en": "en inglés",
-  "sorry-we-cant-complete-pre-check-in": "Sorry, we can’t complete pre-check-in"
+  "sorry-we-cant-complete-pre-check-in": "Sorry, we can’t complete pre-check-in",
+  "contact-information": "Contact Information",
+  "a-staff-member-will-help-you-on-the-day-of-your-appointment": "A staff member will help you on the day of your appointment.",
+  "a-staff-member-will-help-you-on-the-day-of-your-appointment-or-you-can-login-to-your-va-account-to-update-your-contact-information-online": "A staff member will help you on the day of your appointment. Or you can {{link}} to your VA account to update your contact information online.",
+  "login": "login",
+  "emergency-and-next-of-kin-information": "Emergency and next of kin information",
+  "emergency-information": "Emergency information",
+  "next-of-kin": "Next of kin",
+  "why-do-i-need-to-make-sure-my-information-is-up-to-date": "Why do I need to make sure my information is up to date?",
+  "we-can-better-prepare-for-your-appointment-and-contact-you-more-easily": "We can better prepare for your appointment and contact you more easily.",
+  "how-can-i-update-my-information": "How can I update my information?",
+  "go-to-your-appointment-details": "Go to your appointment details",
+  "a-staff-member-will-help-you-on-the-day-of-your-appointment-or-you-can-": "A staff member will help you on the day of your appointment. Or you can ",
+  "to-your-va-account-to-update-your-contact-information-online": " to your VA account to update your contact information online."
 }

@@ -8,7 +8,7 @@ import {
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
 
-import { validateMarriageDate } from '../../../validation';
+import { logValidateMarriageDate } from '../../../validation';
 
 const {
   cohabitedLastYear,
@@ -54,7 +54,7 @@ export default {
     spouseDateOfBirth: currentOrPastDateUI('Spouse\u2019s date of birth'),
     dateOfMarriage: {
       ...currentOrPastDateUI('Date of marriage'),
-      'ui:validations': [validateMarriageDate],
+      // 'ui:validations': [validateMarriageDate],
     },
     cohabitedLastYear: {
       'ui:title': 'Did your spouse live with you last year?',
@@ -72,6 +72,7 @@ export default {
     sameAddress: {
       'ui:title': 'Do you have the same address as your spouse?',
       'ui:widget': 'yesNo',
+      'ui:validations': [logValidateMarriageDate],
     },
     'view:spouseContactInformation': {
       'ui:title': 'Spouse\u2019s address and telephone number',
