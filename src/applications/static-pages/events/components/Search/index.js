@@ -1,10 +1,10 @@
 // Node modules.
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
 import {
-  dayOptions,
+  dayOptionsForMonth,
   deriveDefaultSelectedOption,
   filterByOptions,
   monthOptions,
@@ -32,11 +32,32 @@ export const Search = ({ onSearch }) => {
     queryParams.get('endDateDay') || '',
   );
 
+  const [startDateDayOptions, setStartDateDayOptions] = useState(
+    dayOptionsForMonth(startDateMonth),
+  );
+  const [endDateDayOptions, setEndDateDayOptions] = useState(
+    dayOptionsForMonth(endDateMonth),
+  );
+
   // Derive errors state.
   const [startDateMonthError, setStartDateMonthError] = useState(false);
   const [startDateDayError, setStartDateDayError] = useState(false);
   const [endDateMonthError, setEndDateMonthError] = useState(false);
   const [endDateDayError, setEndDateDayError] = useState(false);
+
+  useEffect(
+    () => {
+      setStartDateDayOptions(dayOptionsForMonth(startDateMonth));
+    },
+    [startDateMonth],
+  );
+
+  useEffect(
+    () => {
+      setEndDateDayOptions(dayOptionsForMonth(endDateMonth));
+    },
+    [endDateMonth],
+  );
 
   const onFilterByChange = event => {
     const filterByOption = filterByOptions?.find(
@@ -231,7 +252,7 @@ export const Search = ({ onSearch }) => {
                   onChange={event => setStartDateDay(event.target.value)}
                   value={startDateDay}
                 >
-                  {dayOptions?.map(option => (
+                  {startDateDayOptions?.map(option => (
                     <option key={option?.value} value={option?.value}>
                       {option?.label}
                     </option>
@@ -324,7 +345,7 @@ export const Search = ({ onSearch }) => {
                   onChange={event => setStartDateDay(event.target.value)}
                   value={startDateDay}
                 >
-                  {dayOptions?.map(option => (
+                  {startDateDayOptions?.map(option => (
                     <option key={option?.value} value={option?.value}>
                       {option?.label}
                     </option>
@@ -403,7 +424,7 @@ export const Search = ({ onSearch }) => {
                   onChange={event => setEndDateDay(event.target.value)}
                   value={endDateDay}
                 >
-                  {dayOptions?.map(option => (
+                  {endDateDayOptions?.map(option => (
                     <option key={option?.value} value={option?.value}>
                       {option?.label}
                     </option>
