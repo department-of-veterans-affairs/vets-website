@@ -15,7 +15,7 @@ const otherAppsText =
   'What other third-party apps can I connect to my profile?';
 const loadingAppsText = 'Loading your connected apps...';
 const goToAppDirectoryText = 'Go to app directory';
-const title = 'Connected apps';
+const title = 'Connected apps section';
 
 describe('<ConnectedApps>', () => {
   it('renders correctly with apps', () => {
