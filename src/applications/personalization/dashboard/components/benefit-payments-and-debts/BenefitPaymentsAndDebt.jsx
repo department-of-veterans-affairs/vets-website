@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Payments } from './Payments';
@@ -19,13 +20,29 @@ const NoRecentPaymentText = () => {
   );
 };
 
-const BenefitPaymentsAndDebt = ({ payments, debts, debtsError }) => {
+const BenefitPaymentsAndDebt = ({
+  payments,
+  debts,
+  debtsError,
+  shouldShowLoadingIndicator,
+}) => {
   const lastPayment =
     payments
       ?.filter(p => moment(p.payCheckDt) > moment().subtract(31, 'days'))
       .sort((a, b) => moment(b.payCheckDt) - moment(a.payCheckDt))[0] ?? null;
 
   const debtsCount = debts?.length || 0;
+
+  if (shouldShowLoadingIndicator) {
+    return (
+      <div className="vads-u-margin-y--6">
+        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+          Benefit payments and debts
+        </h2>
+        <va-loading-indicator message="Loading benefit payments and debt..." />
+      </div>
+    );
+  }
 
   return (
     payments &&
@@ -150,6 +167,18 @@ BenefitPaymentsAndDebt.propTypes = {
       accountNumber: PropTypes.string.isRequired,
     }),
   ),
+  shouldShowLoadingIndicator: PropTypes.bool,
 };
 
-export default BenefitPaymentsAndDebt;
+const mapStateToProps = state => {
+  const debtsIsLoading = state.allDebts.isLoading;
+  const paymentsIsLoading = state.allPayments.isLoading;
+  return {
+    shouldShowLoadingIndicator: debtsIsLoading || paymentsIsLoading,
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  {},
+)(BenefitPaymentsAndDebt);
