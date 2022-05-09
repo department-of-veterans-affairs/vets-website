@@ -22,7 +22,7 @@ describe('Debt Letters', () => {
     cy.wait(['@features', '@debts']);
   });
 
-  it('displays the current debts section and navigates to debt details - C1226', () => {
+  it.skip('displays the current debts section and navigates to debt details - C1226', () => {
     cy.findByTestId('debts-jumplink').click({ waitForAnimations: true });
     cy.get('[data-testclass="debt-details-button"]')
       .first()
