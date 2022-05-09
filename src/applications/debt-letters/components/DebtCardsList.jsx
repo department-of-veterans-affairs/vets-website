@@ -4,10 +4,14 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { PATTERNS } from '@department-of-veterans-affairs/component-library/Telephone';
 import { apiRequest } from 'platform/utilities/api';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import DebtLetterCard from './DebtLetterCard';
 import { ErrorMessage, DowntimeMessage } from './Alerts';
 import OtherVADebts from './OtherVADebts';
-import { cdpAccessToggle } from '../../medical-copays/utils/helpers';
+
+const cdpAccessToggle = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
 
 const fetchCopaysResponseAsync = async () => {
   return apiRequest('/medical_copays')
