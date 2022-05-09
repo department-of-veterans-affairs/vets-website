@@ -10,10 +10,6 @@ const Rows = require('../csv/rows');
 const { removeCarriageReturn, transformCsvToScsv } = require('../csv/helpers');
 const octokitResponses = require('./mocks/octokit-responses');
 
-// it('works', () => {
-//   expect(1).to.equal(1);
-// });
-
 describe('daily-product-dependency-scan', () => {
   context('success, dependency changes ARE detected', () => {
     let status;

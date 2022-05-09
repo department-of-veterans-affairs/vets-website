@@ -1,5 +1,5 @@
 const constants = {
-  owner: 'department-of-veterans-affairs',
+  owner: 'holdehinkle',
   repo: 'product-directory',
   path: 'product-directory.csv',
   branch: 'main',

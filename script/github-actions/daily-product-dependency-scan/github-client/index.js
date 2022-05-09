@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 // /* eslint-disable no-console */
 const { Octokit } = require('octokit');
 const { createAppAuth } = require('@octokit/auth-app');
@@ -63,7 +62,5 @@ class GitHubClient {
     }
   }
 }
-
-// class GitHubClient {}
 
 module.exports = GitHubClient;
