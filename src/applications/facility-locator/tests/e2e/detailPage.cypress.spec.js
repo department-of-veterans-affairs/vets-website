@@ -1,5 +1,6 @@
 import mockFacilityDataV1 from '../../constants/mock-facility-v1.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
+import mapboxToken from '../../utils/mapboxToken';
 
 describe('Detail Page', () => {
   beforeEach(() => {
@@ -12,6 +13,8 @@ describe('Detail Page', () => {
   });
 
   it('renders static map images on detail page', () => {
+    // eslint-disable-next-line no-console
+    console.log('MAPBOX TOKEN: ', mapboxToken);
     // from https://stackoverflow.com/questions/51246606/test-loading-of-image-in-cypress
     cy.visit('/find-locations/facility/vha_688GA');
     cy.get('[alt="Static map"]')
