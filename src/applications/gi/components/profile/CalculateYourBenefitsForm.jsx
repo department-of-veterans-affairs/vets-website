@@ -236,6 +236,7 @@ function CalculateYourBenefitsForm({
     const { name: field, checked: value } = e.target;
     setInputUpdated(true);
     calculatorInputChange({ field, value });
+
     if (!environment.isProduction()) updateEstimatedBenefits();
   };
 
