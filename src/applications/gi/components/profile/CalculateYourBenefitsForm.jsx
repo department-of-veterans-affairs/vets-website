@@ -99,7 +99,7 @@ function CalculateYourBenefitsForm({
       setInvalidZip('');
       setInputUpdated(true);
 
-      if(!environment.isProduction()) updateEstimatedBenefits();
+      !environment.isProduction() && updateEstimatedBenefits();
     } else if (inputs.beneficiaryZIP.length < 5) {
       setInvalidZip('Postal code must be a 5-digit number');
     }
@@ -110,7 +110,7 @@ function CalculateYourBenefitsForm({
     setInputUpdated(true);
     calculatorInputChange({ field, value });
 
-    if(!environment.isProduction()) updateEstimatedBenefits();
+    !environment.isProduction() && updateEstimatedBenefits();
 
     if (field === 'beneficiaryLocationQuestion' || field === 'extension') {
       if (value === 'extension' || value === profile.attributes.name) {
@@ -207,7 +207,7 @@ function CalculateYourBenefitsForm({
     });
     eligibilityChange({ [field]: value });
     setInputUpdated(true);
-    if(!environment.isProduction()) updateEstimatedBenefits();
+    !environment.isProduction() && updateEstimatedBenefits();
   };
 
   const handleExtensionBlur = event => {
@@ -236,7 +236,7 @@ function CalculateYourBenefitsForm({
     const { name: field, checked: value } = e.target;
     setInputUpdated(true);
     calculatorInputChange({ field, value });
-    if(!environment.isProduction()) updateEstimatedBenefits();
+    !environment.isProduction() && updateEstimatedBenefits();
   };
 
   const handleHasClassesOutsideUSChange = e => {
@@ -273,7 +273,7 @@ function CalculateYourBenefitsForm({
         field: 'buyUpAmount',
         value: 600,
       });
-      if(!environment.isProduction()) updateEstimatedBenefits();
+      !environment.isProduction() && updateEstimatedBenefits();
     }
   };
 
@@ -1057,7 +1057,7 @@ function CalculateYourBenefitsForm({
             {renderOnlineClasses()}
           </BenefitsForm>
         </div>
-        {environment.isProduction() && (renderUpdateBenefitsButton(name))}
+        {environment.isProduction() && renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
@@ -1101,7 +1101,7 @@ function CalculateYourBenefitsForm({
           {renderCalendar()}
           {renderEnrolled()}
         </div>
-        {environment.isProduction() && (renderUpdateBenefitsButton(name))}
+        {environment.isProduction() && renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
@@ -1126,7 +1126,7 @@ function CalculateYourBenefitsForm({
           {renderExtensionBeneficiaryZIP()}
           {renderWorking()}
         </div>
-        {environment.isProduction() && (renderUpdateBenefitsButton(name))}
+        {environment.isProduction() && renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
@@ -1163,7 +1163,7 @@ function CalculateYourBenefitsForm({
           {renderBuyUp()}
           {renderScholarships()}
         </div>
-        {environment.isProduction() && (renderUpdateBenefitsButton(name))}
+        {environment.isProduction() && renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
