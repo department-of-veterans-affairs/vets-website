@@ -6,7 +6,7 @@ import { PATTERNS } from '@department-of-veterans-affairs/component-library/Tele
 import { apiRequest } from 'platform/utilities/api';
 import DebtLetterCard from './DebtLetterCard';
 import { ErrorMessage, DowntimeMessage } from './Alerts';
-import OtherVADebts from '../../medical-copays/components/OtherVADebts';
+import OtherVADebts from './OtherVADebts';
 import { cdpAccessToggle } from '../../medical-copays/utils/helpers';
 
 const fetchCopaysResponseAsync = async () => {
