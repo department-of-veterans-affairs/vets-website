@@ -1,6 +1,6 @@
 import mockFacilityDataV1 from '../../constants/mock-facility-v1.json';
 import mockGeocodingData from '../../constants/mock-geocoding-data.json';
-import mapboxToken from '../../utils/mapboxToken';
+import { mapboxToken } from '../../utils/mapboxToken';
 
 describe('Detail Page', () => {
   beforeEach(() => {
