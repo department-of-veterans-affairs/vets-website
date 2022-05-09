@@ -247,8 +247,8 @@ describe('VAOS direct schedule flow using VAOS service', () => {
   it('should submit form', () => {
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.wait('@mockUser');
-    cy.axeCheckBestPractice();
     cy.injectAxe();
+    cy.axeCheckBestPractice();
 
     // Start flow
     cy.findByText('Start scheduling').click({ waitForAnimations: true });
