@@ -1,6 +1,6 @@
 {
   "a-staff-member-will-help-you-on-the-day-of-your-appointment": "A staff member will help you on the day of your appointment.",
-  "a-staff-member-will-help-you-on-the-day-of-your-appointment-or-you-can-": "A staff member will help you on the day of your appointment. Or you can ",
+  "a-staff-member-will-help-you-on-the-day-of-your-appointment-or-you-can-": "A staff member will help you on the day of your appointment. Or you can <0>{{link}}</0> to your VA account to update your contact information online.",
   "add": "Add",
   "address": "Address",
   "and-select-0-were-here-24-7": "and select 0. We’re here 24/7.",
@@ -115,7 +115,6 @@
   "this-appointment-isnt-eligible-for-online-check-in-check-in-with-a-staff-member": "This appointment isn’t eligible for online check-in. Check-in with a staff member.",
   "this-helps-us-keep-information-about-your-next-of-kin-up-to-date": "This helps us keep information about your next of kin up to date.",
   "time": "Time",
-  "to-your-va-account-to-update-your-contact-information-online": " to your VA account to update your contact information online.",
   "tty-711": "TTY: 711",
   "united-states": "United States",
   "unrelated-friend": "Unrelated Friend",
