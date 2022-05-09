@@ -20,7 +20,12 @@ const defaultOptions = {
   mviStatus: {},
 };
 
-const getData = ({ profile = {}, mhvAccount = {}, mviStatus = {} } = {}) => ({
+const getData = ({
+  profile = {},
+  mhvAccount = {},
+  mviStatus = {},
+  featureToggles = {},
+} = {}) => ({
   props: {
     profile: {
       ...defaultOptions.profile,
@@ -40,6 +45,7 @@ const getData = ({ profile = {}, mhvAccount = {}, mviStatus = {} } = {}) => ({
     getState: () => ({
       featureToggles: {
         loading: false,
+        ...featureToggles,
       },
       user: {
         profile: {
@@ -124,6 +130,51 @@ describe('<CallToActionWidget>', () => {
     expect(signIn.prop('ariaDescribedby')).to.eq('test-id');
     tree.unmount();
   });
+  it('should show general sign in state when the direct deposit toggle if false', () => {
+    const { props, mockStore } = getData();
+    const tree = mount(
+      <Provider store={mockStore}>
+        <CallToActionWidget
+          {...props}
+          featureToggles={{
+            loading: false,
+            profileShowNewDirectDepositCtaMessage: false,
+          }}
+          appId={CTA_WIDGET_TYPES.DIRECT_DEPOSIT}
+          ariaLabel="test aria-label"
+          ariaDescribedby="test-id"
+        />
+      </Provider>,
+    );
+
+    const signIn = tree.find('SignIn');
+    expect(tree.find('LoadingIndicator').exists()).to.be.false;
+    expect(signIn.exists()).to.be.true;
+    expect(signIn.prop('ariaLabel')).to.eq('test aria-label');
+    expect(signIn.prop('ariaDescribedby')).to.eq('test-id');
+    tree.unmount();
+  });
+  it('should show direct deposit sign in state when the direct deposit toggle if true', () => {
+    const { props, mockStore } = getData();
+    const tree = mount(
+      <Provider store={mockStore}>
+        <CallToActionWidget
+          {...props}
+          featureToggles={{
+            loading: false,
+            profileShowNewDirectDepositCtaMessage: true,
+          }}
+          appId={CTA_WIDGET_TYPES.DIRECT_DEPOSIT}
+          ariaLabel="test aria-label"
+          ariaDescribedby="test-id"
+        />
+      </Provider>,
+    );
+    expect(tree.find('Unauthed').exists()).to.be.true;
+
+    tree.unmount();
+  });
+
   it('should show verify link', () => {
     const tree = mount(
       <CallToActionWidget
@@ -454,7 +505,7 @@ describe('<CallToActionWidget>', () => {
       tree.unmount();
     });
 
-    it('should show multifactor message for direct deposit', () => {
+    it('should show multifactor message for direct deposit and toggle is disabled', () => {
       const tree = mount(
         <CallToActionWidget
           fetchMHVAccount={d => d}
@@ -473,11 +524,42 @@ describe('<CallToActionWidget>', () => {
           mviStatus="GOOD"
           featureToggles={{
             loading: false,
+            profileShowNewDirectDepositCtaMessage: false,
           }}
         />,
       );
 
       expect(tree.find('MFA').exists()).to.be.true;
+      expect(tree.find('[data-testid="direct-deposit-mfa-message"]').exists())
+        .to.be.false;
+      tree.unmount();
+    });
+
+    it('should show revised multifactor message for direct deposit and toggle is disabled', () => {
+      const tree = mount(
+        <CallToActionWidget
+          fetchMHVAccount={d => d}
+          isLoggedIn
+          appId={CTA_WIDGET_TYPES.DIRECT_DEPOSIT}
+          profile={{
+            loading: false,
+            verified: true,
+            multifactor: false,
+          }}
+          mhvAccount={{
+            loading: false,
+            accountState: 'good',
+            accountLevel: 'Premium',
+          }}
+          mviStatus="GOOD"
+          featureToggles={{
+            loading: false,
+            profileShowNewDirectDepositCtaMessage: true,
+          }}
+        />,
+      );
+      expect(tree.find('[data-testid="direct-deposit-mfa-message"]').exists())
+        .to.be.true;
       tree.unmount();
     });
 
@@ -500,6 +582,7 @@ describe('<CallToActionWidget>', () => {
           mviStatus="GOOD"
           featureToggles={{
             loading: false,
+            profileShowNewDirectDepositCtaMessage: false,
           }}
         />,
       );
@@ -507,6 +590,7 @@ describe('<CallToActionWidget>', () => {
       expect(tree.find('DirectDeposit').exists()).to.be.true;
       tree.unmount();
     });
+
     describe('account state errors', () => {
       const defaultProps = {
         fetchMHVAccount: d => d,
