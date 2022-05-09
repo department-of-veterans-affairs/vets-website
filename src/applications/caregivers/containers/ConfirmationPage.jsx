@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { CONTACTS } from '@department-of-veterans-affairs/component-library';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { links } from 'applications/caregivers/definitions/content';

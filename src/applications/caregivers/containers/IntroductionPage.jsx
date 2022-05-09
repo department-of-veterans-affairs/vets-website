@@ -2,10 +2,8 @@ import React, { useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import {
-  CONTACTS,
-  OMBInfo,
-} from '@department-of-veterans-affairs/component-library';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
