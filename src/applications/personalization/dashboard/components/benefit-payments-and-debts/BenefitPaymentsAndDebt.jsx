@@ -39,7 +39,7 @@ const BenefitPaymentsAndDebt = ({
         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
           Benefit payments and debts
         </h2>
-        <va-loading-indicator message="Loading benefit payments and debt..." />
+        <va-loading-indicator message="Loading benefit payments and debts..." />
       </div>
     );
   }
