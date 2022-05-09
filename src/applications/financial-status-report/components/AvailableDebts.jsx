@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import Telephone from '@department-of-veterans-affairs/component-library';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import Telephone, {
+  CONTACTS,
+} from '@department-of-veterans-affairs/component-library/Telephone';
 import PropTypes from 'prop-types';
 import { ErrorAlert } from './Alerts';
 import { fetchDebts } from '../actions';
