@@ -55,7 +55,7 @@ describe('Personal information', () => {
         personalData: set(
           mockPersonalInformationEnhanced,
           'data.attributes.genderIdentity',
-          { code: '', name: null },
+          { code: null, name: null },
         ),
       });
 
