@@ -22,7 +22,7 @@ describe('Debt Letters', () => {
     cy.wait(['@features', '@debts']);
   });
 
-  it('displays the current debts section and navigates to debt details - C1226', () => {
+  it.skip('displays the current debts section and navigates to debt details - C1226', () => {
     cy.findByTestId('debts-jumplink').click({ waitForAnimations: true });
     cy.get('[data-testclass="debt-details-button"]')
       .first()
@@ -39,7 +39,7 @@ describe('Debt Letters', () => {
   /* eslint-disable va/axe-check-required */
   // Same display-states below as test above which already had AXE-check.
 
-  it('displays download debt letters - C1227', () => {
+  it.skip('displays download debt letters - C1227', () => {
     cy.findByTestId('download-jumplink').click({ waitForAnimations: true });
     cy.findByTestId('download-letters-link').click();
     cy.get('#downloadDebtLetters').should('be.visible');
