@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
@@ -57,6 +59,10 @@ const SubmitError = ({ form }) => {
       </div>
     </va-alert>
   );
+};
+
+SubmitError.propTypes = {
+  form: PropTypes.object,
 };
 
 export default SubmitError;

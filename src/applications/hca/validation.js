@@ -78,54 +78,77 @@ function logMarriageError(
   });
 }
 
-export function validateMarriageDate(
+export function logValidateMarriageDate(
   errors,
   marriageDate,
-  { spouseDateOfBirth, veteranDateOfBirth, discloseFinancialInformation },
+  {
+    dateOfMarriage,
+    spouseDateOfBirth,
+    veteranDateOfBirth,
+    discloseFinancialInformation,
+  },
 ) {
   const vetDOB = moment(veteranDateOfBirth);
   const spouseDOB = moment(spouseDateOfBirth);
-  const marriage = moment(marriageDate);
+  const marriage = moment(dateOfMarriage);
   if (
     discloseFinancialInformation &&
     spouseDOB.isAfter(marriage) &&
     vetDOB.isAfter(marriage)
   ) {
-    // errors.addError(
-    //   'Date of marriage cannot be before the Veteran’s or the spouse’s date of birth',
-    // );
     logMarriageError(
       'marriage_date',
       'Date of marriage cannot be before the Veteran’s or the spouse’s date of birth',
       spouseDateOfBirth,
       veteranDateOfBirth,
-      marriageDate,
+      dateOfMarriage,
     );
   } else if (discloseFinancialInformation && spouseDOB.isAfter(marriage)) {
-    // errors.addError(
-    //   'Date of marriage cannot be before the spouse’s date of birth',
-    // );
     logMarriageError(
       'spouse_dob',
       'Date of marriage cannot be before the spouse’s date of birth',
       spouseDateOfBirth,
       veteranDateOfBirth,
-      marriageDate,
+      dateOfMarriage,
     );
   } else if (discloseFinancialInformation && vetDOB.isAfter(marriage)) {
-    // errors.addError(
-    //   'Date of marriage cannot be before the Veteran’s date of birth',
-    // );
     logMarriageError(
       'veteran_dob',
       'Date of marriage cannot be before the Veteran’s date of birth',
       spouseDateOfBirth,
       veteranDateOfBirth,
-      marriageDate,
+      dateOfMarriage,
     );
   }
-  validateCurrentOrPastDate(errors, marriageDate);
 }
+
+// export function validateMarriageDate(
+//   errors,
+//   marriageDate,
+//   { spouseDateOfBirth, veteranDateOfBirth, discloseFinancialInformation },
+// ) {
+//   const vetDOB = moment(veteranDateOfBirth);
+//   const spouseDOB = moment(spouseDateOfBirth);
+//   const marriage = moment(marriageDate);
+//   if (
+//     discloseFinancialInformation &&
+//     spouseDOB.isAfter(marriage) &&
+//     vetDOB.isAfter(marriage)
+//   ) {
+//     errors.addError(
+//       'Date of marriage cannot be before the Veteran’s or the spouse’s date of birth',
+//     );
+//   } else if (discloseFinancialInformation && spouseDOB.isAfter(marriage)) {
+//     errors.addError(
+//       'Date of marriage cannot be before the spouse’s date of birth',
+//     );
+//   } else if (discloseFinancialInformation && vetDOB.isAfter(marriage)) {
+//     errors.addError(
+//       'Date of marriage cannot be before the Veteran’s date of birth',
+//     );
+//   }
+//   validateCurrentOrPastDate(errors, marriageDate);
+// }
 
 export function validateDependentDate(
   errors,
