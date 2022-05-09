@@ -27,9 +27,19 @@ const testPagination = () => {
   cy.findByText(/Payments you received/i).should('exist');
   // check a11y
   testAxe();
-  // Paginate to next set of data points
-  cy.findByText(/Next/i).click();
+
+  // Paginate to next set of payments
+  cy.get('va-pagination')
+    .shadow()
+    .findByText(/Next/i)
+    .click();
   cy.findByText(/Displaying 7 - 9 of 9/i).should('exist');
+  // Paginate back to the previous set of payments
+  cy.get('va-pagination')
+    .shadow()
+    .findByText(/Prev/i)
+    .click();
+  cy.findByText(/Displaying 1 - 6 of 9/i).should('exist');
 };
 
 const testNoPayments = () => {
@@ -101,7 +111,7 @@ describe('View payment history', () => {
     disableFTUXModals();
     cy.login(mockUser);
   });
-  it('C3916 - Should pass an aXe scan and paginate through payment data', () => {
+  it('C3916 - Should pass an aXe scan and paginate forwards and backwards through payment data', () => {
     testPagination();
   });
   it('C3917 - Should display an alert when a user has no payment data on file', () => {

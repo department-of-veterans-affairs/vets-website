@@ -11,18 +11,11 @@ import ServiceProvidersText, {
 const serviceProviders = ['Login.gov', 'ID.me', 'DS Logon', 'My HealtheVet'];
 const mockStore = configureMockStore();
 
-const getServiceProvidersTextData = ({
-  propsIsBold = false,
-  featureToggle = true,
-}) => {
+const getServiceProvidersTextData = ({ propsIsBold = false }) => {
   const props = {
     isBold: propsIsBold,
   };
-  const store = mockStore({
-    featureToggles: {
-      login_gov_disabled: featureToggle,
-    },
-  });
+  const store = mockStore({});
   const wrapper = mount(
     <Provider store={store}>
       <ServiceProvidersText {...props} />
@@ -36,26 +29,14 @@ const getServiceProvidersTextData = ({
 };
 
 describe('ServiceProvidersText', () => {
-  it('should display 3 CSPS if loginGovDisabled flag is enabled', () => {
-    const { wrapper } = getServiceProvidersTextData({});
-    expect(
-      serviceProviders
-        .filter(csp => csp !== 'Login.gov')
-        .includes(wrapper.text()),
-    );
-    wrapper.unmount();
-  });
   it('should display 4 CSPS if loginGovDisabled flag is disabled', () => {
-    const { wrapper } = getServiceProvidersTextData({
-      featureToggle: false,
-    });
+    const { wrapper } = getServiceProvidersTextData({});
     expect(serviceProviders.includes(wrapper.text()));
     wrapper.unmount();
   });
   it.skip('should display bold if `isBold` is truthy', () => {
     const { wrapper } = getServiceProvidersTextData({
       propsIsBold: true,
-      featureToggle: false,
     });
     expect(wrapper.find('strong').length).to.eql(4);
     wrapper.unmount();
@@ -72,17 +53,12 @@ describe('ServiceProvidersText', () => {
 const getServiceProvidersTextCreateAcctData = ({
   propsIsFormBased = false,
   propsHasExtraTodo = false,
-  featureToggle = true,
 }) => {
   const props = {
     isFormBased: propsIsFormBased,
     hasExtraTodo: propsHasExtraTodo,
   };
-  const store = mockStore({
-    featureToggles: {
-      login_gov_disabled: featureToggle,
-    },
-  });
+  const store = mockStore({});
   const wrapper = mount(
     <Provider store={store}>
       <ServiceProvidersTextCreateAcct {...props} />
@@ -110,20 +86,6 @@ describe('ServiceProvidersTextCreateAcct', () => {
     expect(wrapper.text()).to.not.include(
       'completed this form without signing in, and you',
     );
-    wrapper.unmount();
-  });
-  it('should NOT render Login.gov if feature flag is enabled', () => {
-    const { wrapper } = getServiceProvidersTextCreateAcctData({
-      featureToggle: true,
-    });
-    expect(wrapper.text()).to.not.include('Login.gov');
-    wrapper.unmount();
-  });
-  it('should render Login.gov if feature flag is disabled', () => {
-    const { wrapper } = getServiceProvidersTextCreateAcctData({
-      featureToggle: false,
-    });
-    expect(wrapper.text()).to.include('Login.gov');
     wrapper.unmount();
   });
   it('should render string if `hasExtraTodo` prop is truthy', () => {

@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
@@ -133,11 +133,10 @@ export const IntroductionPage = ({
               <ul className="process-lists">
                 <li>
                   Call us at
-                  <span className="vads-u-margin-x--0p5">
-                    <va-telephone
-                      contact={CONTACTS.HEALTHCARE_ELIGIBILITY_CENTER}
-                    />
-                  </span>
+                  <va-telephone
+                    contact={CONTACTS.HEALTHCARE_ELIGIBILITY_CENTER}
+                    className="vads-u-margin-x--0p5"
+                  />
                   and ask for help filling out the form
                 </li>
                 <li>
@@ -154,9 +153,10 @@ export const IntroductionPage = ({
                 </li>
                 <li>
                   Contact the VA National Caregiver Support Line by calling
-                  <span className="vads-u-margin-left--0p5">
-                    <va-telephone contact={CONTACTS.CAREGIVER} />
-                  </span>
+                  <va-telephone
+                    contact={CONTACTS.CAREGIVER}
+                    className="vads-u-margin-left--0p5"
+                  />
                 </li>
               </ul>
 
@@ -217,9 +217,10 @@ export const IntroductionPage = ({
               You may also be eligible for the Program of General Caregiver
               Support Services (PGCSS). To find out more, call the VA Caregiver
               Support Line at
-              <span className="vads-u-margin-left--0p5">
-                <va-telephone contact={CONTACTS.CAREGIVER} />
-              </span>
+              <va-telephone
+                contact={CONTACTS.CAREGIVER}
+                className="vads-u-margin-left--0p5"
+              />
               , visit
               <a
                 target="_blank"

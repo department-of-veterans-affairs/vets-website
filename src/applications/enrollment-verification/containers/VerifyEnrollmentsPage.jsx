@@ -12,6 +12,7 @@ import {
   UPDATE_VERIFICATION_STATUS_MONTHS,
   VERIFICATION_STATUS_CORRECT,
   VERIFICATION_STATUS_INCORRECT,
+  fetchPost911GiBillEligibility,
 } from '../actions';
 
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
@@ -29,6 +30,8 @@ import VerifyEnrollments from '../components/VerifyEnrollments';
 export const VerifyEnrollmentsPage = ({
   editMonthVerification,
   getVerificationStatus,
+  getPost911GiBillEligibility,
+  post911GiBillEligibility,
   hasCheckedKeepAlive,
   loggedIn,
   verificationStatus,
@@ -46,11 +49,17 @@ export const VerifyEnrollmentsPage = ({
         history.push('/');
       }
 
-      if (!verificationStatus) {
-        getVerificationStatus();
+      if (post911GiBillEligibility === undefined) {
+        getPost911GiBillEligibility();
       }
+
+      // if (!verificationStatus) {
+      //   getVerificationStatus();
+      // }
     },
     [
+      getPost911GiBillEligibility,
+      post911GiBillEligibility,
       getVerificationStatus,
       hasCheckedKeepAlive,
       history,
@@ -326,10 +335,12 @@ const mapStateToProps = state => ({
   hasCheckedKeepAlive: state?.user?.login?.hasCheckedKeepAlive || false,
   loggedIn: state?.user?.login?.currentlyLoggedIn || false,
   verificationStatus: state?.data?.verificationStatus,
+  post911GiBillEligibility: state?.data?.post911GiBillEligibility,
 });
 
 const mapDispatchToProps = {
   getVerificationStatus: fetchVerificationStatus,
+  getPost911GiBillEligibility: fetchPost911GiBillEligibility,
 };
 
 export default connect(
@@ -340,7 +351,9 @@ export default connect(
 VerifyEnrollmentsPage.propTypes = {
   editMonthVerification: PropTypes.number,
   getVerificationStatus: PropTypes.func,
+  getPost911GiBillEligibility: PropTypes.func,
   hasCheckedKeepAlive: PropTypes.bool,
   loggedIn: PropTypes.bool,
   verificationStatus: ENROLLMENT_VERIFICATION_TYPE,
+  post911GiBillEligibility: ENROLLMENT_VERIFICATION_TYPE,
 };
