@@ -15,10 +15,10 @@ class PackageDependencies extends Dependencies {
         packageImports: true,
       });
 
-      Object.values(imports).forEach(dependancies => {
-        if (dependancies.length === 0) return;
+      Object.values(imports).forEach(dependencies => {
+        if (dependencies.length === 0) return;
 
-        dependancies.forEach(dependency => {
+        dependencies.forEach(dependency => {
           product.packageDependencies.add(dependency);
         });
       });
