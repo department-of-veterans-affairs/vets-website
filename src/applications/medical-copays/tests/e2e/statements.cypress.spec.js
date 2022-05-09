@@ -68,7 +68,7 @@ describe('Medical Copays', () => {
     cy.axeCheck();
   });
 
-  it('navigates to view statements page - C12579', () => {
+  it.skip('navigates to view statements page - C12579', () => {
     // get to page
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
@@ -83,7 +83,7 @@ describe('Medical Copays', () => {
     cy.axeCheck();
   });
 
-  it('displays account summary - C12580', () => {
+  it.skip('displays account summary - C12580', () => {
     // get to page
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
