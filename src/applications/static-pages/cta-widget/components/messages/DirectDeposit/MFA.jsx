@@ -7,7 +7,7 @@ const MFA = ({ primaryButtonHandler }) => {
     heading: `Verify your identity with Login.gov or ID.me to change your direct deposit information online`,
     alertText: (
       <>
-        <p>
+        <p data-testid="direct-deposit-mfa-message">
           Before we give you access to change your direct deposit information,
           we need to make sure you’re you—and not someone pretending to be you.
           This helps us protect your bank account and prevent fraud.
