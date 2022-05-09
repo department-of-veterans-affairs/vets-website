@@ -17,7 +17,7 @@ function stringifyReturnData({ response }) {
 
 function handleFailure({ response }) {
   core.setFailed(
-    'Product dependencies have changed but there was an error running this job. Please see the logs for more information.',
+    'There was an error running this job. Please see the logs for more information.',
   );
 
   return {

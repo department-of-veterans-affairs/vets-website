@@ -1,4 +1,3 @@
-// /* eslint-disable no-console */
 const { Octokit } = require('octokit');
 const { createAppAuth } = require('@octokit/auth-app');
 const { createPullRequest } = require('octokit-plugin-create-pull-request');
