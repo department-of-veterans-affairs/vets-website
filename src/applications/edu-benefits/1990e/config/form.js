@@ -408,7 +408,10 @@ const formConfig = {
           ...createContactInformationPage(fullSchema1990e, 'relativeAddress'),
           depends: formData => !formData.showUpdatedToeApp,
         },
-        directDeposit: createDirectDepositPage(),
+        directDeposit: {
+          ...createDirectDepositPage(),
+          depends: formData => !formData.showUpdatedToeApp,
+        },
       },
     },
     // ---------------------
