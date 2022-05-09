@@ -11,7 +11,13 @@ const ProfileAccessibleHeader = ({ routes }) => {
 
   return (
     <>
-      <h1 className="vads-u-visibility--screen-reader">{currentRoute?.name}</h1>
+      <h1
+        tabIndex="-1"
+        className="vads-u-visibility--screen-reader"
+        data-focus-target
+      >
+        {currentRoute?.name}
+      </h1>
     </>
   );
 };
