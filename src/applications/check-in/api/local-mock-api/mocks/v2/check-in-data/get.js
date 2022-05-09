@@ -1,6 +1,9 @@
-const addDays = require('date-fns/addDays');
+const dateFns = require('date-fns');
 
 const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
+
+const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
+const isoDateWithOffsetFormat = "yyyy-LL-dd'T'HH:mm:ssxxx";
 
 const createMockSuccessResponse = (
   data,
@@ -68,10 +71,9 @@ const createAppointment = (
   clinicFriendlyName = 'TEST CLINIC',
   preCheckInValid = false,
 ) => {
-  const startTime = preCheckInValid ? addDays(new Date(), 1) : new Date();
-  const checkInWindowStart = new Date();
-  const checkInWindowEnd = new Date();
-
+  const startTime = preCheckInValid
+    ? dateFns.addDays(new Date(), 1)
+    : new Date();
   if (eligibility === 'INELIGIBLE_TOO_LATE') {
     startTime.setHours(startTime.getHours() - 1);
   } else if (eligibility === 'INELIGIBLE_TOO_EARLY') {
@@ -79,8 +81,25 @@ const createAppointment = (
   } else {
     startTime.setMinutes(startTime.getMinutes() + 15);
   }
-  checkInWindowStart.setHours(startTime.getHours() - 1);
-  checkInWindowEnd.getMinutes(startTime.getMinutes() + 10);
+  const formattedStartTime = dateFns.format(
+    startTime,
+    isoDateWithoutTimezoneFormat,
+  );
+
+  // C.f. CHECKIN_MINUTES_BEFORE in {chip repo}/infra/template.yml
+  const checkInWindowStart = dateFns.subMinutes(new Date(startTime), 30);
+  const formattedCheckInWindowStart = dateFns.format(
+    checkInWindowStart,
+    isoDateWithOffsetFormat,
+  );
+
+  // C.f. CHECKIN_MINUTES_AFTER in {chip repo}/infra/template.yml
+  const checkInWindowEnd = dateFns.addMinutes(new Date(startTime), 15);
+  const formattedCheckInWindowEnd = dateFns.format(
+    checkInWindowEnd,
+    isoDateWithOffsetFormat,
+  );
+
   return {
     facility: 'LOMA LINDA VA CLINIC',
     checkInSteps: [],
@@ -88,11 +107,11 @@ const createAppointment = (
     clinicFriendlyName,
     clinicName: 'LOM ACC CLINIC TEST',
     appointmentIen,
-    startTime,
+    startTime: formattedStartTime,
     eligibility,
     facilityId,
-    checkInWindowStart,
-    checkInWindowEnd,
+    checkInWindowStart: formattedCheckInWindowStart,
+    checkInWindowEnd: formattedCheckInWindowEnd,
     checkedInTime: '',
   };
 };

@@ -10,7 +10,7 @@ import mockDebts from './fixtures/mocks/debts.json';
 import mockUser from './fixtures/mocks/mock-user.json';
 import mockCopays from '../../../medical-copays/tests/e2e/fixtures/mocks/copays.json';
 
-describe('Debt Letters', () => {
+describe.skip('Debt Letters', () => {
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
