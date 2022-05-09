@@ -10,7 +10,7 @@ import mockDebts from './fixtures/mocks/debts.json';
 import mockUser from './fixtures/mocks/mock-user.json';
 import mockCopays from '../../../medical-copays/tests/e2e/fixtures/mocks/copays.json';
 
-describe('Debt Letters', () => {
+describe.skip('Debt Letters', () => {
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
@@ -22,7 +22,7 @@ describe('Debt Letters', () => {
     cy.wait(['@features', '@debts']);
   });
 
-  it.skip('displays the current debts section and navigates to debt details - C1226', () => {
+  it('displays the current debts section and navigates to debt details - C1226', () => {
     cy.findByTestId('debts-jumplink').click({ waitForAnimations: true });
     cy.get('[data-testclass="debt-details-button"]')
       .first()
@@ -39,7 +39,7 @@ describe('Debt Letters', () => {
   /* eslint-disable va/axe-check-required */
   // Same display-states below as test above which already had AXE-check.
 
-  it.skip('displays download debt letters - C1227', () => {
+  it('displays download debt letters - C1227', () => {
     cy.findByTestId('download-jumplink').click({ waitForAnimations: true });
     cy.findByTestId('download-letters-link').click();
     cy.get('#downloadDebtLetters').should('be.visible');
