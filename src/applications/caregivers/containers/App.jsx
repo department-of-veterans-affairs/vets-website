@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import recordEvent from 'platform/monitoring/record-event';
 import formConfig from '../config/form';
