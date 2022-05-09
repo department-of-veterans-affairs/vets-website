@@ -19,7 +19,7 @@ const ProfileAccessibleHeader = ({ routes }) => {
 ProfileAccessibleHeader.propTypes = {
   routes: PropTypes.arrayOf(
     PropTypes.shape({
-      component: PropTypes.func.isRequired,
+      component: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
       name: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
       requiresLOA3: PropTypes.bool.isRequired,

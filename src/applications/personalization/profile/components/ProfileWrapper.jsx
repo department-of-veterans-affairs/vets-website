@@ -104,11 +104,9 @@ const mapStateToProps = (state, ownProps) => {
 
 ProfileWrapper.propTypes = {
   children: PropTypes.node.isRequired,
-  location: PropTypes.object,
-  hero: PropTypes.object,
   routes: PropTypes.arrayOf(
     PropTypes.shape({
-      component: PropTypes.func.isRequired,
+      component: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
       name: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
       requiresLOA3: PropTypes.bool.isRequired,
@@ -116,6 +114,8 @@ ProfileWrapper.propTypes = {
     }),
   ).isRequired,
   showNotAllDataAvailableError: PropTypes.bool.isRequired,
+  hero: PropTypes.object,
+  location: PropTypes.object,
 };
 
 export default connect(mapStateToProps)(ProfileWrapper);
