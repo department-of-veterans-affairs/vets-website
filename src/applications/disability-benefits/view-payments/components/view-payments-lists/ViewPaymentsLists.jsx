@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
 import { isLOA3 as isLOA3Selector } from 'platform/user/selectors';
-import Payments from './payments/Payments.jsx';
-import ViewPaymentsHeader from '../view-payments-header/ViewPaymentsHeader.jsx';
+
+import { getAllPayments } from '../../actions';
+import {
+  isClientError,
+  ServerErrorAlertContent,
+  NoPaymentsContent,
+} from '../../utils';
 import IdentityNotVerified from '../IdentityNotVerified';
+import ViewPaymentsHeader from '../view-payments-header/ViewPaymentsHeader';
 import {
   paymentsReturnedFields,
   paymentsReceivedFields,
@@ -14,12 +22,7 @@ import {
   reformatReturnPaymentDates,
   reformatPaymentDates,
 } from './helpers';
-import { getAllPayments } from '../../actions';
-import {
-  isClientError,
-  ServerErrorAlertContent,
-  NoPaymentsContent,
-} from '../../utils';
+import Payments from './payments/Payments';
 
 class ViewPaymentsLists extends Component {
   componentDidMount() {
@@ -220,6 +223,14 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   getAllPayments,
+};
+
+ViewPaymentsLists.propTypes = {
+  error: PropTypes.object,
+  getAllPayments: PropTypes.func,
+  isIdentityVerified: PropTypes.bool,
+  isLoading: PropTypes.bool,
+  payments: PropTypes.object,
 };
 
 export default connect(
