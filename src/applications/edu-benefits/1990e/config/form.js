@@ -407,11 +407,14 @@ const formConfig = {
     personalInformation: {
       title: 'Personal information',
       pages: {
-        contactInformation: createContactInformationPage(
-          fullSchema1990e,
-          'relativeAddress',
-        ),
-        directDeposit: createDirectDepositPage(),
+        contactInformation: {
+          ...createContactInformationPage(fullSchema1990e, 'relativeAddress'),
+          depends: formData => !formData.showUpdatedToeApp,
+        },
+        directDeposit: {
+          ...createDirectDepositPage(),
+          depends: formData => !formData.showUpdatedToeApp,
+        },
       },
     },
     // ---------------------
