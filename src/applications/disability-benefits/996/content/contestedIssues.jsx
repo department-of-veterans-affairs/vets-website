@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 

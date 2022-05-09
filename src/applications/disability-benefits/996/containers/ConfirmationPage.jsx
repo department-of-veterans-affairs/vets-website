@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import { selectProfile } from 'platform/user/selectors';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 
 import { SAVED_CLAIM_TYPE, WIZARD_STATUS, FORMAT_READABLE } from '../constants';
 import { getSelected, getIssueName } from '../utils/helpers';
