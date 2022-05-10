@@ -56,7 +56,11 @@ import {
   validateEmail,
 } from '../utils/validation';
 
-import { SPONSOR_NOT_LISTED_VALUE, SPONSOR_RELATIONSHIP } from '../constants';
+import {
+  IM_NOT_SURE_VALUE,
+  SPONSOR_NOT_LISTED_VALUE,
+  SPONSOR_RELATIONSHIP,
+} from '../constants';
 
 import {
   transform,
@@ -77,6 +81,7 @@ import SelectedSponsorsReviewField from '../components/SelectedSponsorsReviewFie
 import FirstSponsorReviewField from '../components/FirstSponsorReviewField';
 import Sponsors from '../components/Sponsors';
 import GoToYourProfileLink from '../components/GoToYourProfileLink';
+// import SponsorsSelectionPage from '../containers/SponsorsSelectionPage';
 
 const {
   benefit,
@@ -109,6 +114,7 @@ const newFormPages = {
   newSponsorInformation: 'newSponsorInformation',
   newSponsorHighSchool: 'newSponsorHighSchool',
   newSponsorSelection: 'newSponsorSelection',
+  newSponsorSelectionReview: 'newSponsorSelectionReview',
   newVerifyHighSchool: 'newVerifyHighSchool',
 };
 
@@ -589,7 +595,8 @@ const formConfig = {
         [newFormPages.newSponsorSelection]: {
           title: 'Choose your sponsor',
           path: 'new/sponsor/select-sponsor',
-          // CustomPage: SponsorSelectionPage,
+          // hideOnReview: true,
+          // CustomPage: SponsorsSelectionPage,
           CustomPageReview: SelectedSponsorsReviewField,
           depends: formData =>
             formData.showUpdatedToeApp &&
@@ -606,6 +613,10 @@ const formConfig = {
                 hideIf: formData =>
                   formData.fetchedSponsorsComplete &&
                   !formData.sponsors?.sponsors?.length,
+                keepInPageOnReview: true,
+              },
+              items: {
+                'ui:title': 'sponsor items',
               },
             },
             'view:additionalInfo': {
@@ -646,8 +657,22 @@ const formConfig = {
             },
           },
         },
+        // [newFormPages.newSponsorSelectionReview]: {
+        //   title: 'Choose your sponsors',
+        //   path: 'new/sponsor/select-sponsor/review-page-only',
+        //   CustomPage: SponsorsSelectionPage,
+        //   CustomPageReview: SelectedSponsorsReviewField,
+        //   depends: formData =>
+        //     formData.showUpdatedToeApp &&
+        //     (!formData.fetchedSponsorsComplete ||
+        //       formData.sponsors?.sponsors?.length),
+        //   schema: {
+        //     type: 'object',
+        //     properties: {},
+        //   },
+        // },
         [newFormPages.newFirstSponsorSelection]: {
-          title: 'Sponsor information',
+          title: 'Choose your first sponsor',
           path: 'new/sponsor/select-first-sponsor',
           depends: formData =>
             formData.showUpdatedToeApp && formData.selectedSponsors?.length > 1,
@@ -665,17 +690,8 @@ const formConfig = {
               ),
             },
             [newFormFields.firstSponsor]: {
-              'ui:title': (
-                <>
-                  <span className="toe-sponsors-labels_label--main">
-                    Which sponsor’s benefits would you like to use?
-                  </span>
-                  <span className="toe-sponsors-labels_label--secondary">
-                    Select all sponsors whose benefits you would like to apply
-                    for
-                  </span>
-                </>
-              ),
+              'ui:title':
+                'Which sponsor’s benefits would you like to use first?',
               'ui:widget': FirstSponsorRadioGroup,
               'ui:reviewWidget': FirstSponsorReviewField,
               'ui:errorMessages': {
@@ -722,7 +738,7 @@ const formConfig = {
           },
         },
         [newFormPages.newSponsorInformation]: {
-          title: 'Phone numbers and email address',
+          title: 'Enter your sponsor’s info',
           path: 'new/sponsor/information',
           depends: formData =>
             formData.showUpdatedToeApp &&
@@ -865,15 +881,19 @@ const formConfig = {
           depends: formData =>
             formData.showUpdatedToeApp &&
             // Only show this page if the user is a child of the sponsor.
-            ((!formData.firstSponsor &&
+            ((formData[newFormFields.selectedSponsors]?.length === 1 &&
               formData.sponsors?.sponsors?.find(sponsor => sponsor.selected)
                 ?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
-              ((formData.firstSponsor &&
-                formData.sponsors?.sponsors?.find(
-                  sponsor => sponsor.id === formData.firstSponsor,
-                )?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
-                formData[newFormFields.newRelationshipToServiceMember] ===
-                  SPONSOR_RELATIONSHIP.CHILD) ||
+              (formData[newFormFields.selectedSponsors]?.length > 1 &&
+                ((![SPONSOR_NOT_LISTED_VALUE, IM_NOT_SURE_VALUE].includes(
+                  formData.firstSponsor,
+                ) &&
+                  formData.sponsors?.sponsors?.find(
+                    sponsor => sponsor.id === formData.firstSponsor,
+                  )?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
+                  (formData.firstSponsor === SPONSOR_NOT_LISTED_VALUE &&
+                    formData[newFormFields.newRelationshipToServiceMember] ===
+                      SPONSOR_RELATIONSHIP.CHILD))) ||
               (!formData.sponsors?.sponsors?.length &&
                 formData[newFormFields.newRelationshipToServiceMember] ===
                   SPONSOR_RELATIONSHIP.CHILD) ||
@@ -932,16 +952,18 @@ const formConfig = {
               ((!formData.firstSponsor &&
                 formData.sponsors?.sponsors?.find(sponsor => sponsor.selected)
                   ?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
-                (formData.firstSponsor &&
+                ((formData.firstSponsor &&
                   formData.sponsors?.sponsors?.find(
                     sponsor => sponsor.id === formData.firstSponsor,
                   )?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
+                  formData[newFormFields.newRelationshipToServiceMember] ===
+                    SPONSOR_RELATIONSHIP.CHILD) ||
                 (!formData.sponsors?.sponsors?.length &&
-                  formData?.relationshipToServiceMember ===
+                  formData[newFormFields.newRelationshipToServiceMember] ===
                     SPONSOR_RELATIONSHIP.CHILD) ||
                 (formData[newFormFields.selectedSponsors]?.length === 1 &&
                   formData.sponsors?.someoneNotListed &&
-                  formData?.relationshipToServiceMember ===
+                  formData[newFormFields.newRelationshipToServiceMember] ===
                     SPONSOR_RELATIONSHIP.CHILD))),
           uiSchema: {
             'view:subHeadings': {
