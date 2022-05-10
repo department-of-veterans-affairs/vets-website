@@ -22,8 +22,6 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 
-import { directDepositDescription } from '../../1990/helpers';
-
 import ErrorText from '../../components/ErrorText';
 import GetFormHelp from '../../components/GetFormHelp';
 import NewGetHelp from '../components/NewGetHelp';
@@ -124,8 +122,6 @@ const newFormFields = {
   newAdditionalConsiderationsNote: 'newAdditionalConsiderationsNote',
   newAddress: 'newAddress',
   newBankAccount: 'newBankAccount',
-  newBenefitEffectiveDate: 'newBenefitEffectiveDate',
-  newBenefitRelinquished: 'newBenefitRelinquished',
   newContactMethod: 'newContactMethod',
   newConfirmEmail: 'newConfirmEmail',
   newDateOfBirth: 'newDateOfBirth',
@@ -1350,11 +1346,11 @@ const formConfig = {
                     if (isYes) {
                       if (!phoneExists) {
                         errors.addError(
-                          "You can't select that response because we don't have a mobile phone number on file for you.",
+                          'You can’t select that response because we don’t have a mobile phone number on file for you.',
                         );
                       } else if (isInternational) {
                         errors.addError(
-                          "You can't select that response because you have an international mobile phone number",
+                          'You can’t select that response because you have an international mobile phone number',
                         );
                       }
                     }
@@ -1462,12 +1458,23 @@ const formConfig = {
           depends: formData => formData.showUpdatedToeApp,
           path: 'new/direct-deposit',
           uiSchema: {
-            'ui:description': directDepositDescription,
-            bankAccount: {
+            'ui:description': (
+              <p className="vads-u-margin-bottom--4">
+                <strong>Note</strong>: VA makes payments only through direct
+                deposit, also called electronic funds transfer (EFT).
+              </p>
+            ),
+            [newFormFields.newBankAccount]: {
               ...bankAccountUI,
               'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
+              accountType: {
+                ...bankAccountUI.accountType,
+                'ui:errorMessages': {
+                  required: 'Please enter an account type',
+                },
+              },
             },
-            'view:learnMore': {
+            'view:directDepositLearnMore': {
               'ui:description': (
                 <va-additional-info trigger="Where can I find these numbers?">
                   <img
@@ -1488,8 +1495,9 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              bankAccount: {
+              [newFormFields.newBankAccount]: {
                 type: 'object',
+                required: ['accountType', 'routingNumber', 'accountNumber'],
                 properties: {
                   accountType: {
                     type: 'string',
@@ -1504,7 +1512,7 @@ const formConfig = {
                   },
                 },
               },
-              'view:learnMore': {
+              'view:directDepositLearnMore': {
                 type: 'object',
                 properties: {},
               },
