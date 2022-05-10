@@ -92,6 +92,25 @@ export const isValidEmail = <T>(
     : 'Please enter an email address using this format: X@X.com';
 };
 
+export const isValidPhone = <T>(
+  phoneString: T,
+  props: FieldProps<T>
+): ValidationFunctionResult<T> => {
+  if (typeof phoneString !== 'string') {
+    return 'Error: Phone is not the correct type'; // This shouldn't happen
+  }
+  function validPhone(value: string) {
+    // Strip spaces, dashes, and parens
+    const stripped = value.replace(/[^\d]/g,'');
+    // Count number of digits
+    return /^\d{10}$/.test(stripped);
+  }
+  const isValid =
+    (!props.required && !phoneString) || validPhone(phoneString);
+  return isValid
+    ? ''
+    : 'Please enter a 10-digit phone number (with or without dashes)';
+}
 /**
  * Conditions for valid SSN from the original 1010ez pdf form:
  * '123456789' is not a valid SSN

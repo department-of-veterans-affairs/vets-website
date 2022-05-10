@@ -15,6 +15,7 @@ const initialValues = {
   streetThree: '', 
   state: '', 
   zipcode: '',
+  phone: '',
   ssn: ''
 };
 

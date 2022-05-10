@@ -7,5 +7,6 @@ export { default as EmailField } from './EmailField';
 export { default as OMBInfo } from './OMBInfo';
 export { default as SSNField } from './SSNField';
 export { default as FullNameField } from './FullNameField';
+export { default as PhoneField } from './PhoneField';
 export { RadioGroup } from './RadioGroup';
 export * from './types';

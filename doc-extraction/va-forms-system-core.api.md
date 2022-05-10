@@ -120,6 +120,11 @@ export interface PageProps {
     title: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "PhoneProps" needs to be exported by the entry point index.d.ts
+//
+// @beta
+export const PhoneField: (props: PhoneProps) => JSX.Element;
+
 // @public (undocumented)
 export function RadioGroup(props: RadioGroupProps): JSX.Element;
 
