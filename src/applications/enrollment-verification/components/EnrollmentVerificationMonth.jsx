@@ -1,10 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import { PAYMENT_STATUS } from '../actions';
 import EnrollmentVerificationMonthInfo from './EnrollmentVerificationMonthInfo';
 import VerifyYourEnrollments from './VerifyYourEnrollments';
-import { formatReadableMonthYear, MONTH_PROP_TYPE } from '../helpers';
+import { STATUS, VERIFICATION_RESPONSE } from '../constants';
+import { MONTH_PROP_TYPE, STATUS_PROP_TYPE } from '../helpers';
 
 const verifiedMonthStatusMessage = (
   <p className="ev-enrollment-month_message">
@@ -51,25 +50,29 @@ const contactScoMonthStatusMessage = (
   </p>
 );
 
-function getMonthStatusMessage(month, paymentStatus) {
-  if (month.verified) {
+function getMonthStatusMessage(month, status) {
+  if (month.verificationResponse === VERIFICATION_RESPONSE.CORRECT) {
     return verifiedMonthStatusMessage;
   }
-  if (paymentStatus === PAYMENT_STATUS.ONGOING) {
-    return notVerifiedMonthStatusMessage;
-  }
 
-  return paymentStatus === PAYMENT_STATUS.PAUSED
-    ? needToVerifyMonthStatusMessage
-    : contactScoMonthStatusMessage;
+  switch (status) {
+    case STATUS.MISSING_VERIFICATION:
+      return notVerifiedMonthStatusMessage;
+    case STATUS.PAYMENT_PAUSED:
+      return needToVerifyMonthStatusMessage;
+    case STATUS.SCO_PAUSED:
+      return contactScoMonthStatusMessage;
+    default:
+      return <></>;
+  }
 }
 
-export default function EnrollmentVerificationMonth({ month, paymentStatus }) {
-  const monthStatusMessage = getMonthStatusMessage(month, paymentStatus);
+export default function EnrollmentVerificationMonth({ month, status }) {
+  const monthStatusMessage = getMonthStatusMessage(month, status);
 
   return (
     <div className="ev-enrollment-month vads-u-margin-y--3">
-      <h4>{formatReadableMonthYear(month.month)}</h4>
+      <h4>{month.vericationMonth}</h4>
       {monthStatusMessage}
 
       <va-additional-info trigger="More information">
@@ -81,9 +84,5 @@ export default function EnrollmentVerificationMonth({ month, paymentStatus }) {
 
 EnrollmentVerificationMonth.propTypes = {
   month: MONTH_PROP_TYPE.isRequired,
-  paymentStatus: PropTypes.oneOf([
-    PAYMENT_STATUS.ONGOING,
-    PAYMENT_STATUS.PAUSED,
-    PAYMENT_STATUS.SCO_PAUSED,
-  ]),
+  status: STATUS_PROP_TYPE.isRequired,
 };

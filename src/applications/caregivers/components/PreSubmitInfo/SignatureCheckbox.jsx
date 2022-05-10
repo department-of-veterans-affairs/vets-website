@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
-import SignatureInput from './SignatureInput';
 import recordEvent from 'platform/monitoring/record-event';
+import SignatureInput from './SignatureInput';
 
 const SignatureCheckbox = ({
   children,
@@ -89,8 +89,8 @@ SignatureCheckbox.propTypes = {
   setSignatures: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
   submission: PropTypes.object.isRequired,
-  isRequired: PropTypes.bool,
   isRepresentative: PropTypes.bool,
+  isRequired: PropTypes.bool,
 };
 
 export default SignatureCheckbox;

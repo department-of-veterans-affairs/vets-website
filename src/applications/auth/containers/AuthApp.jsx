@@ -6,7 +6,6 @@ import * as Sentry from '@sentry/browser';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { loginGovDisabled } from 'platform/user/authentication/selectors';
 import {
   AUTHN_SETTINGS,
   EXTERNAL_APPS,
@@ -138,7 +137,6 @@ export class AuthApp extends React.Component {
       code: this.props.location.query.code,
       auth: this.props.location.query.auth,
       recordEvent,
-      loginGovOff: this.props.loginGovOff,
       openLoginModal: this.props.openLoginModal,
     };
     const view = this.state.error ? (
@@ -155,11 +153,7 @@ const mapDispatchToProps = dispatch => ({
   openLoginModal: () => dispatch(toggleLoginModal(true)),
 });
 
-const mapStateToProps = state => ({
-  loginGovOff: loginGovDisabled(state),
-});
-
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(AuthApp);
