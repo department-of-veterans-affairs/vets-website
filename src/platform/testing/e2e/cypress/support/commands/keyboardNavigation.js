@@ -2,7 +2,7 @@ import 'cypress-real-events';
 
 // This is the timeout duration between each event. You can overwrite this in your test if you want it to move faster or slower.
 // eslint-disable-next-line prefer-const
-let timeoutDuration = 0;
+let timeoutDuration = 1;
 
 /**
  * This command is used by other commands to select form values. You can call this yourself if you want to move focus to a specific radio value while the radio field is focused. The value is the value of the input/option.
