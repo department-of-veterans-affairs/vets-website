@@ -130,8 +130,74 @@ export function logValidateMarriageDateVaFacilityPage(
     spouseDateOfBirth,
     veteranDateOfBirth,
     discloseFinancialInformation,
+    veteranFullName,
+    veteranSocialSecurityNumber,
   },
 ) {
+  // log if name, ssn or dob does not have a value
+  if (!veteranFullName && !veteranSocialSecurityNumber && !veteranDateOfBirth) {
+    const message = 'hca_1010ez_error_name_ssn_dob';
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranFullName,
+        veteranSocialSecurityNumber,
+        veteranDateOfBirth,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranFullName && !veteranSocialSecurityNumber) {
+    const message = 'hca_1010ez_error_name_ssn';
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranFullName,
+        veteranSocialSecurityNumber,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranFullName && !veteranDateOfBirth) {
+    const message = 'hca_1010ez_error_name_dob';
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranFullName,
+        veteranDateOfBirth,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranSocialSecurityNumber && !veteranDateOfBirth) {
+    const message = 'hca_1010ez_error_ssn_dob';
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranSocialSecurityNumber,
+        veteranDateOfBirth,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranFullName) {
+    const message = 'hca_1010ez_error_name';
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranFullName,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranSocialSecurityNumber) {
+    const message = 'hca_1010ez_error_ssn';
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranSocialSecurityNumber,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranDateOfBirth) {
+    const message = 'hca_1010ez_error_dob';
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranDateOfBirth,
+      });
+      Sentry.captureMessage(message);
+    });
+  }
+
   if (!dateOfMarriage) return;
 
   const vetDOB = moment(veteranDateOfBirth);
