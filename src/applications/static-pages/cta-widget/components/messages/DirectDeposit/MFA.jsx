@@ -30,12 +30,17 @@ const MFA = ({ primaryButtonHandler }) => {
           <a
             href="#create-login.gov-account"
             onClick={() => signUp(CSP_IDS.LOGIN_GOV)}
+            data-testid="direct-deposit-login-gov-sign-up-link"
           >
             Create a Login.gov account
           </a>
         </p>
         <p>
-          <a href="#create-id.me-account" onClick={() => signUp(CSP_IDS.ID_ME)}>
+          <a
+            href="#create-id.me-account"
+            onClick={() => signUp(CSP_IDS.ID_ME)}
+            data-testid="direct-deposit-id-me-sign-up-link"
+          >
             Create an ID.me account
           </a>
         </p>
