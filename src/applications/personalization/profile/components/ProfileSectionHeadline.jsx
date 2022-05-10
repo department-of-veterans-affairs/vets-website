@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const ProfileSectionHeadline = ({ children }) => {
   return (
@@ -7,6 +8,13 @@ const ProfileSectionHeadline = ({ children }) => {
       <span className="sr-only"> section</span>
     </h2>
   );
+};
+
+ProfileSectionHeadline.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };
 
 export default ProfileSectionHeadline;
