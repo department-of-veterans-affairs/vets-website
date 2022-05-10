@@ -47,7 +47,7 @@ function handleSuccess({ changesDetected, message, data }) {
 async function main({ octokit }) {
   const products = new Products();
   const manifestGlobPathForTests =
-    'script/github-actions/daily-product-dependency-scan/tests/mocks/applications/**/*manifest.json';
+    'script/github-actions/daily-product-scan/tests/mocks/applications/**/*manifest.json';
   const manifestGlobPath =
     process.env.MANIFEST_GLOB_PATH || manifestGlobPathForTests;
 
