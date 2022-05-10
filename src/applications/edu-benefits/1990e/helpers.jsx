@@ -1,8 +1,12 @@
 import React from 'react';
+import { cloneDeep } from 'lodash';
 
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
-import { SPONSOR_NOT_LISTED_VALUE } from './constants';
+import {
+  SPONSOR_NOT_LISTED_LABEL,
+  SPONSOR_NOT_LISTED_VALUE,
+} from './constants';
 
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form);
@@ -130,19 +134,8 @@ export const addWhitespaceOnlyError = (field, errors, errorMessage) => {
 
 export function prefillTransformer(pages, formData, metadata, state) {
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
-  // const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
   const contactInfo = claimant?.contactInfo || {};
   const sponsors = state.data?.formData?.attributes?.sponsors;
-  // if (isArray(state.form.data.sponsors?.sponsors)) {
-  //   return state.form.data.sponsors;
-  // }
-
-  // if (isArray(state.data?.sponsors?.sponsors)) {
-  //   return {
-  //     sponsors: state.data.sponsors,
-  //   };
-  // }
-
   const newData = {
     ...formData,
     sponsors,
@@ -204,5 +197,64 @@ export function mapFormSponsors(formData, sponsors, fetchedSponsorsComplete) {
     },
     selectedSponsors: mapSelectedSponsors(sponsors),
     firstSponsor: sponsors.firstSponsor,
+  };
+}
+
+export function updateSponsorsOnValueChange(
+  sponsors,
+  firstSponsor,
+  value,
+  checked,
+) {
+  const _sponsors = cloneDeep(sponsors);
+
+  if (value === `sponsor-${SPONSOR_NOT_LISTED_VALUE}`) {
+    _sponsors.someoneNotListed = checked;
+  } else {
+    const sponsorIndex = _sponsors.sponsors.findIndex(
+      sponsor => `sponsor-${sponsor.id}` === value,
+    );
+    if (sponsorIndex > -1) {
+      _sponsors.sponsors[sponsorIndex].selected = checked;
+    }
+  }
+
+  _sponsors.selectedSponsors = mapSelectedSponsors(_sponsors);
+
+  // Check to make sure that a previously-selected first sponsor hasn't
+  // been removed from the list of selected sponsors.
+  if (
+    _sponsors.selectedSponsors.length <= 1 ||
+    (!checked &&
+      (value === `sponsor-${firstSponsor}` ||
+        _sponsors.sponsors?.filter(s => s.selected)?.length < 2))
+  ) {
+    _sponsors.firstSponsor = null;
+  }
+
+  return _sponsors;
+}
+
+export function mapSponsorsToCheckboxOptions(sponsors) {
+  const options =
+    sponsors?.sponsors?.map((sponsor, index) => ({
+      label: `Sponsor ${index + 1}: ${sponsor.name}`,
+      selected: sponsor.selected,
+      value: `sponsor-${sponsor.id}`,
+    })) || [];
+  options.push({
+    label: SPONSOR_NOT_LISTED_LABEL,
+    selected: sponsors?.someoneNotListed,
+    value: `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
+  });
+  const anySelectedOptions = !!options?.filter(o => o.selected)?.length;
+  const values = Object.fromEntries(
+    new Map(options?.map(option => [option.value, !!option.selected])),
+  );
+
+  return {
+    anySelectedOptions,
+    options,
+    values,
   };
 }

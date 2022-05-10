@@ -11,7 +11,7 @@ export default function SelectedSponsorsReviewField({ data, editPage, title }) {
   }
 
   return (
-    <>
+    <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
           {title}
@@ -39,6 +39,6 @@ export default function SelectedSponsorsReviewField({ data, editPage, title }) {
           </dd>
         </div>
       </dl>
-    </>
+    </div>
   );
 }
