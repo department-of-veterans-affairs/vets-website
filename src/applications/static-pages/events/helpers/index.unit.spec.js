@@ -135,72 +135,80 @@ describe('filterEvents', () => {
 
   const upcomingEvent = {
     id: 'upcoming',
-    fieldDatetimeRangeTimezone: {
-      endValue: now
-        .clone()
-        .add(1, 'seconds')
-        .add(2, 'hours')
-        .unix(),
-      value: now
-        .clone()
-        .add(1, 'hours')
-        .unix(),
-      timezone: 'America/New_York',
-    },
+    fieldDatetimeRangeTimezone: [
+      {
+        endValue: now
+          .clone()
+          .add(1, 'seconds')
+          .add(2, 'hours')
+          .unix(),
+        value: now
+          .clone()
+          .add(1, 'hours')
+          .unix(),
+        timezone: 'America/New_York',
+      },
+    ],
   };
 
   const nextWeekEvent = {
     id: 'next-week',
-    fieldDatetimeRangeTimezone: {
-      endValue: now
-        .clone()
-        .add(7, 'days')
-        .startOf('week')
-        .add(2, 'hours')
-        .unix(),
-      value: now
-        .clone()
-        .add(7, 'days')
-        .startOf('week')
-        .add(1, 'hours')
-        .unix(),
-      timezone: 'America/New_York',
-    },
+    fieldDatetimeRangeTimezone: [
+      {
+        endValue: now
+          .clone()
+          .add(7, 'days')
+          .startOf('week')
+          .add(2, 'hours')
+          .unix(),
+        value: now
+          .clone()
+          .add(7, 'days')
+          .startOf('week')
+          .add(1, 'hours')
+          .unix(),
+        timezone: 'America/New_York',
+      },
+    ],
   };
 
   const nextMonthEvent = {
     id: 'next-month',
-    fieldDatetimeRangeTimezone: {
-      endValue: now
-        .clone()
-        .add(1, 'month')
-        .startOf('month')
-        .add(2, 'hours')
-        .unix(),
-      value: now
-        .clone()
-        .add(1, 'month')
-        .startOf('month')
-        .add(1, 'hours')
-        .unix(),
-      timezone: 'America/New_York',
-    },
+    fieldDatetimeRangeTimezone: [
+      {
+        endValue: now
+          .clone()
+          .add(1, 'month')
+          .startOf('month')
+          .add(2, 'hours')
+          .unix(),
+        value: now
+          .clone()
+          .add(1, 'month')
+          .startOf('month')
+          .add(1, 'hours')
+          .unix(),
+        timezone: 'America/New_York',
+      },
+    ],
   };
 
   const pastEvent = {
     id: 'past',
-    fieldDatetimeRangeTimezone: {
-      endValue: now
-        .clone()
-        .subtract(2, 'days')
-        .add(1, 'hours')
-        .unix(),
-      value: now
-        .clone()
-        .subtract(2, 'days')
-        .unix(),
-      timezone: 'America/New_York',
-    },
+    fieldDatetimeRangeTimezone: [
+      {
+        endValue: now
+          .clone()
+          .subtract(2, 'days')
+          .add(1, 'hours')
+          .unix(),
+        value: now
+          .clone()
+          .subtract(2, 'days')
+          .unix(),
+        timezone: 'America/New_York',
+      },
+    ],
   };
 
   const events = [upcomingEvent, nextWeekEvent, nextMonthEvent, pastEvent];
