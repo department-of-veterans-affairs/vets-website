@@ -1,6 +1,9 @@
 const addDays = require('date-fns/addDays');
+const format = require('date-fns/format');
 
 const defaultUUID = '0429dda5-4165-46be-9ed1-1e652a8dfd83';
+const alreadyPreCheckedInUUID = '4d523464-c450-49dc-9a18-c04b3f1642ee';
+const canceledAppointmentUUID = '9d7b7c15-d539-4624-8d15-b740b84e8548';
 const expiredUUID = '354d5b3a-b7b7-4e5c-99e4-8d563f15c521';
 
 const createMockSuccessResponse = (
@@ -13,6 +16,39 @@ const createMockSuccessResponse = (
   emergencyContactConfirmedAt = null,
 ) => {
   const mockTime = token === expiredUUID ? new Date() : addDays(new Date(), 1);
+
+  let checkInSteps = [];
+  let status = '';
+
+  if (token === alreadyPreCheckedInUUID) {
+    const dateFormat = "yyyy-LL-dd'T'HH:mm:ss";
+    // 35 minutes ago.
+    const preCheckinStarted = format(
+      new Date(mockTime.getTime() - 2100000),
+      dateFormat,
+    );
+    // 30 minutes ago.
+    const preCheckinCompleted = format(
+      new Date(mockTime.getTime() - 1800000),
+      dateFormat,
+    );
+
+    checkInSteps = [
+      {
+        status: 'PRE-CHECK-IN STARTED',
+        dateTime: preCheckinStarted,
+        ien: 1,
+      },
+      {
+        status: 'PRE-CHECK-IN COMPLETE',
+        dateTime: preCheckinCompleted,
+        ien: 2,
+      },
+    ];
+  } else if (token === canceledAppointmentUUID) {
+    status = 'CANCELLED BY CLINIC';
+  }
+
   return {
     id: token || defaultUUID,
     payload: {
@@ -74,6 +110,7 @@ const createMockSuccessResponse = (
       appointments: [
         {
           facility: 'LOMA LINDA VA CLINIC',
+          checkInSteps,
           clinicPhoneNumber: '5551234567',
           clinicFriendlyName: 'TEST CLINIC',
           clinicName: 'LOM ACC CLINIC TEST',
@@ -84,9 +121,11 @@ const createMockSuccessResponse = (
           checkInWindowStart: mockTime,
           checkInWindowEnd: mockTime,
           checkedInTime: '',
+          status,
         },
         {
           facility: 'LOMA LINDA VA CLINIC',
+          checkInSteps,
           clinicPhoneNumber: '5551234567',
           clinicFriendlyName: 'TEST CLINIC',
           clinicName: 'LOM ACC CLINIC TEST',
@@ -97,6 +136,7 @@ const createMockSuccessResponse = (
           checkInWindowStart: mockTime,
           checkInWindowEnd: mockTime,
           checkedInTime: '',
+          status,
         },
       ],
       patientDemographicsStatus: {
@@ -118,6 +158,8 @@ const createMockFailedResponse = _data => {
 };
 
 module.exports = {
+  alreadyPreCheckedInUUID,
+  canceledAppointmentUUID,
   createMockSuccessResponse,
   createMockFailedResponse,
   defaultUUID,

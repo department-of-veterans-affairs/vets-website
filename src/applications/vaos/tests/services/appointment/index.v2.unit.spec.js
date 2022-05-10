@@ -298,8 +298,10 @@ describe('VAOS Appointment service', () => {
         },
         practitioners: [
           {
-            firstName: 'Meg',
-            lastName: 'Doe',
+            name: {
+              family: 'Doe',
+              given: ['Meg'],
+            },
           },
         ],
       };
@@ -332,9 +334,24 @@ describe('VAOS Appointment service', () => {
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
-          { op: 'replace', path: ['description'], value: 'FUTURE' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['description'], value: 'FUTURE' },
+          {
+            op: 'replace',
+            path: ['videoData', 'providers', 0, 'name', 'firstName'],
+            value: undefined,
+          },
+          {
+            op: 'replace',
+            path: ['videoData', 'providers', 0, 'name', 'lastName'],
+            value: undefined,
+          },
+          {
+            op: 'replace',
+            path: ['videoData', 'providers', 0, 'display'],
+            value: 'undefined undefined',
+          },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -370,8 +387,10 @@ describe('VAOS Appointment service', () => {
         },
         practitioners: [
           {
-            firstName: 'Meg',
-            lastName: 'Doe',
+            name: {
+              family: 'Doe',
+              given: ['Meg'],
+            },
           },
         ],
       };
@@ -404,9 +423,24 @@ describe('VAOS Appointment service', () => {
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
-          { op: 'replace', path: ['description'], value: 'FUTURE' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['description'], value: 'FUTURE' },
+          {
+            op: 'replace',
+            path: ['videoData', 'providers', 0, 'name', 'firstName'],
+            value: undefined,
+          },
+          {
+            op: 'replace',
+            path: ['videoData', 'providers', 0, 'name', 'lastName'],
+            value: undefined,
+          },
+          {
+            op: 'replace',
+            path: ['videoData', 'providers', 0, 'display'],
+            value: 'undefined undefined',
+          },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );

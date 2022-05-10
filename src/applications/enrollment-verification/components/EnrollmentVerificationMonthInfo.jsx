@@ -7,13 +7,13 @@ export default function EnrollmentVerificationMonthInfo({ enrollments }) {
       <li className="ev-month-info-institutions_institution" key={index}>
         <p className="vads-u-margin-y--0">
           <strong>
-            {formatNumericalDate(enrollment.startDate)} &ndash;{' '}
+            {formatNumericalDate(enrollment.beginDate)} &ndash;{' '}
             {formatNumericalDate(enrollment.endDate)}
           </strong>{' '}
-          at {enrollment.institution}
+          at {enrollment.facilityName}
         </p>
         <p className="vads-u-margin-y--0">
-          <strong>Total credit hours:</strong> {enrollment.creditHours}
+          <strong>Total credit hours:</strong> {enrollment.totalCreditHours}
         </p>
       </li>
     );

@@ -14,12 +14,12 @@ import {
 import recordEvent from 'platform/monitoring/record-event';
 
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { fetchInProgressForm, removeInProgressForm } from './actions';
-import FormStartControls from './FormStartControls';
-import { getIntroState } from './selectors';
 import DowntimeNotification, {
   externalServiceStatus,
 } from 'platform/monitoring/DowntimeNotification';
+import { fetchInProgressForm, removeInProgressForm } from './actions';
+import FormStartControls from './FormStartControls';
+import { getIntroState } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
 import {
   APP_TYPE_DEFAULT,

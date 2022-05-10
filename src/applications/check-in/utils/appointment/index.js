@@ -1,5 +1,6 @@
 import { startOfDay } from 'date-fns';
 import { ELIGIBILITY } from './eligibility';
+import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
 
 /**
  * @typedef {Object} Appointment
@@ -29,6 +30,38 @@ const hasMoreAppointmentsToCheckInto = (appointments, currentAppointment) => {
 };
 
 /**
+ * Check if any appointment was canceled.
+ *
+ * @param {Array<Appointment>} appointments
+ */
+const appointmentWasCanceled = appointments => {
+  const statusIsCanceled = appointment =>
+    appointment.status?.startsWith('CANCELLED');
+
+  return Array.isArray(appointments) && appointments.some(statusIsCanceled);
+};
+
+/**
+ * Check if all appointments have completed pre-check-in.
+ *
+ * @param {Array<Appointment>} appointments
+ */
+const preCheckinAlreadyCompleted = appointments => {
+  const isPreCheckinCompleteStep = checkInStep =>
+    checkInStep.ien === VISTA_CHECK_IN_STATUS_IENS.PRE_CHECK_IN_COMPLETE;
+
+  const preCheckinCompleted = appointment =>
+    appointment.checkInSteps?.length &&
+    appointment.checkInSteps.some(isPreCheckinCompleteStep);
+
+  return (
+    Array.isArray(appointments) &&
+    appointments.length > 0 &&
+    appointments.every(preCheckinCompleted)
+  );
+};
+
+/**
  * @param {Array<Appointment>} appointments
  */
 const sortAppointmentsByStartTime = appointments => {
@@ -44,7 +77,7 @@ const sortAppointmentsByStartTime = appointments => {
 };
 
 const removeTimeZone = payload => {
-  // Grabing the appointment payload and stripping out timezone here.
+  // Grabbing the appointment payload and stripping out timezone here.
   // Chip should be handling this but currently isn't, this code may be refactored out.
   const updatedPayload = { ...payload };
   // These fields have a potential to include a time stamp.
@@ -83,8 +116,10 @@ const preCheckinExpired = appointments => {
 };
 
 export {
+  appointmentWasCanceled,
   hasMoreAppointmentsToCheckInto,
   sortAppointmentsByStartTime,
+  preCheckinAlreadyCompleted,
   removeTimeZone,
   preCheckinExpired,
 };

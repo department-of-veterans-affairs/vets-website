@@ -1413,8 +1413,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
         status: 'booked',
         practitioners: [
           {
-            firstName: 'Meg',
-            lastName: 'lastname',
+            name: {
+              family: 'lastname',
+              given: ['Meg'],
+            },
           },
         ],
       };
