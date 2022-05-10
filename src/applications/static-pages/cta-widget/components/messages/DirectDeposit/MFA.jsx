@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { signup } from 'platform/user/authentication/utilities';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 import CallToActionAlert from '../../CallToActionAlert';
 
 const MFA = ({ primaryButtonHandler }) => {
+  const signUp = useCallback(csp => {
+    signup({ csp });
+  }, []);
+
   const content = {
     heading: `Verify your identity with Login.gov or ID.me to change your direct deposit information online`,
     alertText: (
@@ -20,8 +26,19 @@ const MFA = ({ primaryButtonHandler }) => {
           <strong>If you don’t have one of these accounts</strong>, you can
           create one and verify your identity now.
         </p>
-        <p>Create a Login.gov account</p>
-        <p>Create an ID.me account</p>
+        <p>
+          <a
+            href="#create-login.gov-account"
+            onClick={() => signUp(CSP_IDS.LOGIN_GOV)}
+          >
+            Create a Login.gov account
+          </a>
+        </p>
+        <p>
+          <a href="#create-id.me-account" onClick={() => signUp(CSP_IDS.ID_ME)}>
+            Create an ID.me account
+          </a>
+        </p>
         <p>
           <strong>Note:</strong> If you need help updating your direct deposit
           information, call us at <va-telephone contact="800-827-1000" />
