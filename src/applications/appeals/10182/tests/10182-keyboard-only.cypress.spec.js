@@ -16,7 +16,7 @@ Cypress.Commands.add('tabToInputWithLabel', text => {
     });
 });
 
-describe('Notice of Disagreement keyboard only navigation', () => {
+describe.skip('Notice of Disagreement keyboard only navigation', () => {
   it('navigates through a maximal form', () => {
     cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
     cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);
