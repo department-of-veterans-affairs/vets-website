@@ -11,10 +11,6 @@ const Headings = require('./csv/headings');
 const Rows = require('./csv/rows');
 const { removeCarriageReturn, transformCsvToScsv } = require('./csv/helpers');
 
-function stringifyReturnData({ response }) {
-  return JSON.stringify(response, null, 2);
-}
-
 function handleFailure({ response }) {
   core.setFailed(
     'There was an error running this job. Please see the logs for more information.',
@@ -25,7 +21,7 @@ function handleFailure({ response }) {
     message: response?.status
       ? 'There was an error with GitHub.'
       : 'An unkown error occured.',
-    data: stringifyReturnData({ response }),
+    data: JSON.stringify(response, null, 2),
   };
 }
 
