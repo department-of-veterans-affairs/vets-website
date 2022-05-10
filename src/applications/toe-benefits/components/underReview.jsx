@@ -60,53 +60,71 @@ export default function UnderReview({ user, dateReceived }) {
           visible
         >
           <div>
-            <h3
-              slot="headline"
-              className="vads-u-margin-top--2 vads-u-margin-bottom--4"
-            >
-              Alert headline
-            </h3>
-            This is an alert
+            <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--4">
+              In 1 month
+            </h2>
+            If more than a month has passed since you gave us your application
+            and you haven’t heard back, please don’t apply again. Call our
+            toll-free Education Call Center at{' '}
+            <a href="tel:888-442-4551">1-888-442-4551</a> or{' '}
+            <a href="tel:001-918-781-5678">001-918-781-5678</a> if you are
+            outside the U.S.
           </div>
         </va-alert>
       </div>
       <div className="vads-u-margin-bottom--4">
         <h2>What happens next?</h2>
         <ul>
-          <li>Download a copy of your decision letter.</li>
           <li>
-            Use our <a href="/demo">GI Bill Comparison Tool</a> to help you
-            decide which education program and school is best for you.
+            We will review your eligibility for the Transfer of Entitlement
+            Post-9/11 GI Bill.
           </li>
+          <li>We may reach out with questions about your application.</li>
           <li>
-            Once you’ve selected a school or program, you may bring your
-            decision letter to your School Certifying Official to provide proof
-            of eligibility.
+            You will be notified if you are eligible for VA education benefits.
           </li>
-          <li>
-            Review and/or update your direct deposit information on your VA.gov
-            profile.
-          </li>
-          <li>
-            Learn more about VA benefits and programs through the Building Your
-            Future with the GI Bill Series.
-          </li>
-          <li>
-            If you have more than one sponsor, you can{' '}
-            <a href="/">submit another application for education benefits.</a>
-          </li>
+          <li>There is no further action required by you at this time.</li>
         </ul>
       </div>
-      <div className="vads-u-margin-bottom--3">
-        <va-additional-info trigger="What is a decision letter?">
-          <div>
-            A decision letter is an official document from the U.S. Department
-            of Veterans Affairs that details your GI Bill benefit status. If you
-            are approved to receive benefits, you may provide this official
-            document to your educational institution to prove your eligibility
-            status.
-          </div>
-        </va-additional-info>
+      <div className="vads-u-margin-bottom--4">
+        <h2>What can I do while I wait?</h2>
+        <ul>
+          <li>
+            If you need to submit documentation to VA, such as service records,
+            please send this through our{' '}
+            <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
+              Ask VA feature
+            </a>
+            .
+          </li>
+          <li>
+            Review and/or update your direct deposit information on your{' '}
+            <a href="/profile">VA.gov profile</a> .
+          </li>
+          <li>
+            Use our{' '}
+            <a href="/education/gi-bill-comparison-tool/">
+              GI Bill Comparison Tool
+            </a>{' '}
+            to help you decide which education program and school is best for
+            you.
+          </li>
+          <li>
+            Learn more about VA benefits and programs through the{' '}
+            <a href="https://blogs.va.gov/VAntage/78073/new-guide-series-provides-gi-bill-benefits-information/">
+              Building Your Future with the GI Bill Series
+            </a>
+            .
+          </li>
+          <li>
+            Measure your interests and skill levels and help figure out your
+            career path with{' '}
+            <a href="https://www.benefits.va.gov/gibill/careerscope.asp">
+              CareerScope®
+            </a>
+            .
+          </li>
+        </ul>
       </div>
     </>
   );
