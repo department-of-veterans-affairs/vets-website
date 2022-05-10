@@ -115,7 +115,12 @@ ProfileWrapper.propTypes = {
   ).isRequired,
   showNotAllDataAvailableError: PropTypes.bool.isRequired,
   hero: PropTypes.object,
+  isInMVI: PropTypes.bool,
+  isLOA3: PropTypes.bool,
   location: PropTypes.object,
+  showNameTag: PropTypes.bool,
+  totalDisabilityRating: PropTypes.number,
+  totalDisabilityRatingServerError: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(ProfileWrapper);
