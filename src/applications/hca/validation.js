@@ -80,7 +80,7 @@ function logMarriageError(
 
 export function logValidateMarriageDate(
   errors,
-  marriageDate,
+  formfield,
   {
     dateOfMarriage,
     spouseDateOfBirth,
@@ -114,6 +114,52 @@ export function logValidateMarriageDate(
   } else if (discloseFinancialInformation && vetDOB.isAfter(marriage)) {
     logMarriageError(
       'veteran_dob',
+      'Date of marriage cannot be before the Veteran’s date of birth',
+      spouseDateOfBirth,
+      veteranDateOfBirth,
+      dateOfMarriage,
+    );
+  }
+}
+
+export function logValidateMarriageDateVaFacilityPage(
+  errors,
+  formField,
+  {
+    dateOfMarriage,
+    spouseDateOfBirth,
+    veteranDateOfBirth,
+    discloseFinancialInformation,
+  },
+) {
+  if (!dateOfMarriage) return;
+
+  const vetDOB = moment(veteranDateOfBirth);
+  const spouseDOB = moment(spouseDateOfBirth);
+  const marriage = moment(dateOfMarriage);
+  if (
+    discloseFinancialInformation &&
+    spouseDOB.isAfter(marriage) &&
+    vetDOB.isAfter(marriage)
+  ) {
+    logMarriageError(
+      'marriage_date_VaFacilityPage',
+      'Date of marriage cannot be before the Veteran’s or the spouse’s date of birth',
+      spouseDateOfBirth,
+      veteranDateOfBirth,
+      dateOfMarriage,
+    );
+  } else if (discloseFinancialInformation && spouseDOB.isAfter(marriage)) {
+    logMarriageError(
+      'spouse_dob_VaFacilityPage',
+      'Date of marriage cannot be before the spouse’s date of birth',
+      spouseDateOfBirth,
+      veteranDateOfBirth,
+      dateOfMarriage,
+    );
+  } else if (discloseFinancialInformation && vetDOB.isAfter(marriage)) {
+    logMarriageError(
+      'veteran_dob_VaFacilityPage',
       'Date of marriage cannot be before the Veteran’s date of birth',
       spouseDateOfBirth,
       veteranDateOfBirth,

@@ -79,6 +79,7 @@ export default Object.freeze({
   profileShowFaxNumber: 'profile_show_fax_number',
   profileShowGender: 'profile_show_gender',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
+  profileShowNewDirectDepositCTAMessage: 'profile_show_new_direct_deposit_cta_message',
   profileUseVaosV2Api:'profile_use_vaos_v2_api',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
