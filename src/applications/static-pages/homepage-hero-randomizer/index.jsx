@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import './sass/homepage-hero.scss';
-
 /*
-    Hero component with veteran portraits that are in a random order on page load
+  Hero component with veteran portraits that are in a random order on page load
 */
+
+import React, { useEffect, useState } from 'react';
 
 // shuffle array using Fisher-Yates shuffle
 const randomizeOrder = imageArray => {
