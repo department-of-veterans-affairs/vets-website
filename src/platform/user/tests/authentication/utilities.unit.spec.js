@@ -18,9 +18,10 @@ import {
   GA_TRACKING_ID_KEY,
   VAGOV_TRACKING_IDS,
   GA_CLIENT_ID_KEY,
-  EBenefitsDefaultPath,
+  EBENEFITS_DEFAULT_PATH,
   POLICY_TYPES,
   AUTH_EVENTS,
+  AUTH_PARAMS,
 } from '../../authentication/constants';
 
 const originalLocation = global.window.location;
@@ -115,19 +116,29 @@ describe('Authentication Utilities', () => {
     });
   });
 
-  describe('fixUrl', () => {
+  describe('sanitizeUrl', () => {
     const CRLFString = '\r\n';
 
     it('should return null if not given a url', () => {
-      expect(authUtilities.fixUrl()).to.be.null;
+      expect(authUtilities.sanitizeUrl()).to.be.null;
     });
 
     it('should remove trailing slash from urls', () => {
-      expect(authUtilities.fixUrl(`${base}/`)).to.equal(base);
+      expect(authUtilities.sanitizeUrl(`${base}/`)).to.equal(base);
     });
 
     it('should remove potential CRLF injection sequences', () => {
-      expect(authUtilities.fixUrl(`${base}${CRLFString}`)).to.equal(base);
+      expect(authUtilities.sanitizeUrl(`${base}${CRLFString}`)).to.equal(base);
+    });
+  });
+
+  describe('sanitizePath', () => {
+    it('should return an empty string if to is undefined or null', () => {
+      expect(authUtilities.sanitizePath()).to.eql('');
+    });
+    it('should format to add forward slashes if necessary', () => {
+      expect(authUtilities.sanitizePath('/hello')).to.eql('/hello');
+      expect(authUtilities.sanitizePath('hello')).to.eql('/hello');
     });
   });
 
@@ -149,6 +160,62 @@ describe('Authentication Utilities', () => {
     it('should return false on non USiP even with valid params', () => {
       setup({ path: mhvUsipParams });
       expect(authUtilities.isExternalRedirect()).to.be.false;
+    });
+  });
+
+  describe('generateConfigQueryParams', () => {
+    it('should generate the appropriate config', () => {
+      const config = {
+        queryParams: {
+          allowSkipDupe: false,
+          allowCodeChallenge: true,
+          allowCodeChallengeMethod: true,
+          allowOAuth: true,
+          allowPostLogin: false,
+        },
+      };
+
+      const expected = authUtilities.generateConfigQueryParams({
+        config: config.queryParams,
+        params: {
+          codeChallenge: 'bob',
+          codeChallengeMethod: '256S',
+          oauth: 'true',
+        },
+      });
+
+      expect(expected).to.contains({
+        [AUTH_PARAMS.codeChallenge]: 'bob',
+        [AUTH_PARAMS.codeChallengeMethod]: '256S',
+        oauth: 'true',
+      });
+    });
+
+    it('should generate the appropriate config', () => {
+      const config = {
+        queryParams: {
+          allowSkipDupe: false,
+          allowCodeChallenge: true,
+          allowCodeChallengeMethod: true,
+          allowOAuth: false,
+          allowPostLogin: false,
+        },
+      };
+
+      const expected = authUtilities.generateConfigQueryParams({
+        config: config.queryParams,
+        params: {
+          codeChallenge: 'bob',
+          codeChallengeMethod: '256S',
+          oauth: 'true',
+        },
+      });
+
+      expect(expected).to.contains({
+        [AUTH_PARAMS.codeChallenge]: 'bob',
+        [AUTH_PARAMS.codeChallengeMethod]: '256S',
+        oauth: 'true',
+      });
     });
   });
 
@@ -284,31 +351,6 @@ describe('Authentication Utilities', () => {
     });
   });
 
-  describe('generatePath', () => {
-    it('should default to an empty string if `to` is null/undefined', () => {
-      expect(authUtilities.generatePath('mhv')).to.eql('');
-      expect(authUtilities.generatePath('myvahealth')).to.eql('');
-    });
-    it('should default to `/profilepostauth` for eBenefits', () => {
-      expect(authUtilities.generatePath('ebenefits')).to.eql(
-        '/profilepostauth',
-      );
-    });
-    it('should default to having a `/` regardless if `to` query params has it for (eBenefits or Cerner)', () => {
-      expect(
-        authUtilities.generatePath('myvahealth', 'secure_messaging'),
-      ).to.eql('/secure_messaging');
-      expect(
-        authUtilities.generatePath('ebenefits', '/profile_dashboard'),
-      ).to.eql('/profile_dashboard');
-    });
-    it('should create deeplinking query param for mhv if `to` provided', () => {
-      expect(authUtilities.generatePath('mhv', 'some_random_link')).to.eql(
-        '?deeplinking=some_random_link',
-      );
-    });
-  });
-
   describe('createExternalApplicationUrl', () => {
     it('should return correct url or null for the parsed application param', () => {
       Object.values(EXTERNAL_APPS).forEach(application => {
@@ -317,7 +359,7 @@ describe('Authentication Utilities', () => {
         const pathAppend = () => {
           switch (application) {
             case EXTERNAL_APPS.EBENEFITS:
-              return EBenefitsDefaultPath;
+              return EBENEFITS_DEFAULT_PATH;
             case EXTERNAL_APPS.VA_FLAGSHIP_MOBILE:
             case EXTERNAL_APPS.VA_OCC_MOBILE:
               return `${global.window.location.search}`;

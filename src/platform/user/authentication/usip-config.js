@@ -1,17 +1,32 @@
-import { EXTERNAL_APPS, EXTERNAL_LINKS } from './constants';
+import { EXTERNAL_APPS, EXTERNAL_REDIRECTS } from './constants';
+
+const defaultSignInProviders = {
+  logingov: true,
+  idme: true,
+  mhv: true,
+  dslogon: true,
+};
+
+const defaultSignUpProviders = {
+  logingov: true,
+  idme: true,
+};
+
+const defaultMobileQueryParams = {
+  queryParams: {
+    allowSkipDupe: false,
+    allowCodeChallenge: true,
+    allowCodeChallengeMethod: true,
+    allowOAuth: true,
+    allowPostLogin: false,
+  },
+};
 
 export const externalApplicationsConfig = {
   default: {
-    allowedSignInProviders: {
-      logingov: true,
-      idme: true,
-      mhv: false,
-      dslogon: false,
-    },
-    allowedSignUpProviders: {
-      logingov: true,
-      idme: true,
-    },
+    allowedSignInProviders: { ...defaultSignInProviders },
+    allowedSignUpProviders: { ...defaultSignUpProviders },
+    isMobile: false,
     queryParams: {
       allowSkipDupe: false,
       allowCodeChallenge: false,
@@ -19,18 +34,12 @@ export const externalApplicationsConfig = {
       allowOAuth: false,
       allowPostLogin: true,
     },
+    requiresVerification: false,
   },
   [EXTERNAL_APPS.MHV]: {
-    allowedSignInProviders: {
-      logingov: true,
-      idme: true,
-      mhv: true,
-      dslogon: true,
-    },
-    allowedSignUpProviders: {
-      logingov: true,
-      idme: true,
-    },
+    allowedSignInProviders: { ...defaultSignInProviders },
+    allowedSignUpProviders: { ...defaultSignUpProviders },
+    isMobile: false,
     queryParams: {
       allowSkipDupe: true,
       allowCodeChallenge: false,
@@ -38,19 +47,13 @@ export const externalApplicationsConfig = {
       allowOAuth: false,
       allowPostLogin: true,
     },
-    externalLinks: EXTERNAL_LINKS.MHV,
+    requiresVerification: false,
+    externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV],
   },
   [EXTERNAL_APPS.MY_VA_HEALTH]: {
-    allowedSignInProviders: {
-      logingov: true,
-      idme: true,
-      mhv: true,
-      dslogon: true,
-    },
-    allowedSignUpProviders: {
-      logingov: true,
-      idme: true,
-    },
+    allowedSignInProviders: { ...defaultSignInProviders },
+    allowedSignUpProviders: { ...defaultSignUpProviders },
+    isMobile: false,
     queryParams: {
       allowSkipDupe: true,
       allowCodeChallenge: false,
@@ -58,22 +61,13 @@ export const externalApplicationsConfig = {
       allowOAuth: false,
       allowPostLogin: false,
     },
-    externalLinks: {
-      staging: 'https://staging-patientportal.myhealth.va.gov',
-      prod: 'https://patientportal.myhealth.va.gov',
-    },
+    requiresVerification: false,
+    externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH],
   },
   [EXTERNAL_APPS.EBENEFITS]: {
-    allowedSignInProviders: {
-      logingov: true,
-      idme: true,
-      mhv: true,
-      dslogon: true,
-    },
-    allowedSignUpProviders: {
-      logingov: true,
-      idme: true,
-    },
+    allowedSignInProviders: { ...defaultSignInProviders },
+    allowedSignUpProviders: { ...defaultSignUpProviders },
+    isMobile: false,
     queryParams: {
       allowSkipDupe: false,
       allowCodeChallenge: false,
@@ -81,46 +75,25 @@ export const externalApplicationsConfig = {
       allowOAuth: false,
       allowPostLogin: false,
     },
-    externalLinks: EXTERNAL_LINKS.EBENEFITS,
+    requiresVerification: false,
+    externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.EBENEFITS],
   },
   [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: {
-    allowedSignInProviders: {
-      logingov: true,
-      idme: true,
-      mhv: true,
-      dslogon: true,
-    },
-    allowedSignUpProviders: {
-      logingov: true,
-      idme: true,
-    },
-    queryParams: {
-      allowSkipDupe: false,
-      allowCodeChallenge: true,
-      allowCodeChallengeMethod: true,
-      allowOAuth: true,
-      allowPostLogin: false,
-    },
-    externalLinks: EXTERNAL_LINKS.VA_FLAGSHIP_MOBILE,
+    allowedSignInProviders: { ...defaultSignInProviders },
+    allowedSignUpProviders: { ...defaultSignUpProviders },
+    isMobile: true,
+    queryParams: { ...defaultMobileQueryParams },
+    OAuthAllowed: true,
+    requiresVerification: true,
+    externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_FLAGSHIP_MOBILE],
   },
   [EXTERNAL_APPS.VA_OCC_MOBILE]: {
-    allowedSignInProviders: {
-      logingov: true,
-      idme: true,
-      mhv: true,
-      dslogon: true,
-    },
-    allowedSignUpProviders: {
-      logingov: true,
-      idme: true,
-    },
-    queryParams: {
-      allowSkipDupe: false,
-      allowCodeChallenge: true,
-      allowCodeChallengeMethod: true,
-      allowOAuth: true,
-      allowPostLogin: false,
-    },
-    externalLinks: EXTERNAL_LINKS.VA_OCC_MOBILE,
+    allowedSignInProviders: { ...defaultSignInProviders },
+    allowedSignUpProviders: { ...defaultSignUpProviders },
+    isMobile: true,
+    queryParams: { ...defaultMobileQueryParams },
+    OAuthAllowed: true,
+    requiresVerification: true,
+    externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_OCC_MOBILE],
   },
 };

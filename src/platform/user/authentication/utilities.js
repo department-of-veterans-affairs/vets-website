@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/browser';
 import 'url-search-params-polyfill';
 
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
+import { externalApplicationsConfig } from './usip-config';
 import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
@@ -16,12 +17,9 @@ import {
   SIGNUP_TYPES,
   API_SESSION_URL,
   GA_CLIENT_ID_KEY,
-  EBenefitsDefaultPath,
+  EBENEFITS_DEFAULT_PATH,
   API_SIGN_IN_SERVICE_URL,
   AUTH_PARAMS,
-  MOBILE_APPS,
-  OAUTH_ENABLED_APPS,
-  OAUTH_ENABLED_POLICIES,
 } from './constants';
 import recordEvent from '../../monitoring/record-event';
 
@@ -31,15 +29,12 @@ import recordEvent from '../../monitoring/record-event';
 export const loginAppUrlRE = new RegExp('^/sign-in(/.*)?$');
 
 export const getQueryParams = () => {
-  const searchParams = new URLSearchParams(window.location.search);
-  const paramsObj = {};
-
-  Object.keys(AUTH_PARAMS).forEach(paramKey => {
-    const paramValue = searchParams.get(AUTH_PARAMS[paramKey]);
-    if (paramValue) paramsObj[paramKey] = paramValue;
-  });
-
-  return paramsObj;
+  return Object.keys(AUTH_PARAMS).reduce((paramsObj, paramKey) => {
+    const paramValue = new URLSearchParams(window.location.search).get(
+      AUTH_PARAMS[paramKey],
+    );
+    return { ...paramsObj, ...(paramValue && { [paramKey]: paramValue }) };
+  }, {});
 };
 
 export const reduceAllowedProviders = obj =>
@@ -56,42 +51,52 @@ export const isExternalRedirect = () => {
   );
 };
 
-export const fixUrl = (url, path = '') => {
+export const sanitizeUrl = (url, path = '') => {
   if (!url) return null;
   const updatedUrl = url.endsWith('/') ? url.slice(0, -1) : url;
-  return `${updatedUrl}${path}`.replace('\r\n', ''); // Prevent CRLF injection.
+  const updatedPath = path ?? '';
+  return `${updatedUrl}${updatedPath}`.replace('\r\n', ''); // Prevent CRLF injection.
 };
 
-export const generatePath = (app, to) => {
-  function generateDefaultTo() {
-    return app === EXTERNAL_APPS.EBENEFITS ? EBenefitsDefaultPath : '';
+export const sanitizePath = to => {
+  if (!to) {
+    return '';
   }
-
-  function generateTo() {
-    if (app === EXTERNAL_APPS.MHV) {
-      return `?deeplinking=${to}`;
-    }
-    return to.startsWith('/') ? to : `/${to}`;
-  }
-
-  return !to ? generateDefaultTo() : generateTo();
+  return to.startsWith('/') ? to : `/${to}`;
 };
 
 export const createExternalApplicationUrl = () => {
   const { application, to } = getQueryParams();
-
-  const externalRedirectUrl = EXTERNAL_REDIRECTS[application] ?? null;
-
-  if (
-    [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE, EXTERNAL_APPS.VA_OCC_MOBILE].includes(
-      application,
-    ) &&
-    externalRedirectUrl
-  ) {
-    return fixUrl(`${externalRedirectUrl}${window.location.search}`);
+  if (!application) {
+    return null;
   }
+  const { externalRedirectUrl } = externalApplicationsConfig[application];
+  let URL = '';
 
-  return fixUrl(externalRedirectUrl, generatePath(application, to));
+  switch (application) {
+    case EXTERNAL_APPS.VA_FLAGSHIP_MOBILE:
+    case EXTERNAL_APPS.VA_OCC_MOBILE:
+      URL = sanitizeUrl(`${externalRedirectUrl}${window.location.search}`);
+      break;
+    case EXTERNAL_APPS.EBENEFITS:
+      URL = sanitizeUrl(
+        `${externalRedirectUrl}`,
+        `${!to ? EBENEFITS_DEFAULT_PATH : sanitizePath(to)}`,
+      );
+      break;
+    case EXTERNAL_APPS.MHV:
+      URL = sanitizeUrl(
+        `${externalRedirectUrl}`,
+        `${!to ? '' : `?deeplinking=${to}`}`,
+      );
+      break;
+    case EXTERNAL_APPS.MY_VA_HEALTH:
+      URL = sanitizeUrl(`${externalRedirectUrl}`, sanitizePath(to));
+      break;
+    default:
+      break;
+  }
+  return URL;
 };
 
 // Return URL is where a user will be forwarded post successful authentication
@@ -113,6 +118,19 @@ export const createAndStoreReturnUrl = () => {
   return returnUrl;
 };
 
+export const generateConfigQueryParams = ({ config, params }) => ({
+  ...(config.allowCodeChallenge &&
+    config.allowOAuth && { [AUTH_PARAMS.codeChallenge]: params.codeChallenge }),
+  ...(config.allowCodeChallengeMethod &&
+    config.allowOAuth && {
+      [AUTH_PARAMS.codeChallengeMethod]: params.codeChallengeMethod,
+    }),
+  ...(config.allowOAuth && { oauth: params.oauth }),
+  ...(config.allowPostLogin && { postLogin: true }),
+  ...(config.allowRedirect && { redirect: createExternalApplicationUrl() }),
+  ...(config.allowSkipDupe && { [AUTH_PARAMS.skipDupe]: true }),
+});
+
 export function sessionTypeUrl({
   type = '',
   queryParams = {},
@@ -131,57 +149,39 @@ export function sessionTypeUrl({
   } = getQueryParams();
 
   const externalRedirect = isExternalRedirect();
-  const isMobileApplication = MOBILE_APPS.includes(application);
   const isSignup = Object.values(SIGNUP_TYPES).includes(type);
   const isLogin = Object.values(CSP_IDS).includes(type);
-  const appendParams = {};
+  const config = externalApplicationsConfig[application];
 
   // We should use OAuth when the following are true:
-  // OAuth param is true
-  // Application has OAuth enabled
-  // The policy type has OAuth enabled
-  const useOAuth =
-    OAuth === 'true' &&
-    OAUTH_ENABLED_APPS.includes(application) &&
-    OAUTH_ENABLED_POLICIES.includes(type);
+  // OAuth param is 'true'
+  // config.OAuthAllowed is true
+  const useOAuth = OAuth === 'true' && config.OAuthAllowed;
 
   // Only require verification when all of the following are true:
   // 1. On the USiP (Unified Sign In Page)
   // 2. The outbound application is one of the mobile apps
   // 3. The generated link type is for signup, and login only
   const requireVerification =
-    externalRedirect && (isLogin || isSignup) && isMobileApplication
+    externalRedirect && (isLogin || isSignup) && config.requiresVerification
       ? '_verified'
       : '';
 
-  // Append extra params for external MHV login attempts
-  if (externalRedirect && isLogin && application === EXTERNAL_APPS.MHV) {
-    // eslint-disable-next-line camelcase
-    appendParams.skip_dupe = true;
-    appendParams.redirect = createExternalApplicationUrl();
-    appendParams.postLogin = true;
-  }
-
-  // Append extra params for external CERNER login attempts
-  if (
-    externalRedirect &&
-    isLogin &&
-    application === EXTERNAL_APPS.MY_VA_HEALTH
-  ) {
-    // eslint-disable-next-line camelcase
-    appendParams.skip_dupe = true;
-  }
-
-  // Append extra params for mobile sign in service authentication
-  if (useOAuth) {
-    appendParams[AUTH_PARAMS.codeChallenge] = codeChallenge;
-    appendParams[AUTH_PARAMS.codeChallengeMethod] = codeChallengeMethod;
-  }
+  const appendParams =
+    externalRedirect && isLogin
+      ? generateConfigQueryParams({
+          config: config.queryParams,
+          params: { codeChallenge, codeChallengeMethod, oauth: OAuth },
+        })
+      : {};
 
   return appendQuery(
     useOAuth
       ? API_SIGN_IN_SERVICE_URL({ type })
-      : API_SESSION_URL({ version, type: `${type}${requireVerification}` }),
+      : API_SESSION_URL({
+          version,
+          type: `${type}${requireVerification}`,
+        }),
     { ...queryParams, ...appendParams, application },
   );
 }
