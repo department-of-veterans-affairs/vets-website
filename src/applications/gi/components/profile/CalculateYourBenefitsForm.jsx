@@ -99,7 +99,9 @@ function CalculateYourBenefitsForm({
       setInvalidZip('');
       setInputUpdated(true);
 
-      !environment.isProduction() && updateEstimatedBenefits();
+      if(!environment.isProduction()) {
+        updateEstimatedBenefits();
+      }
     } else if (inputs.beneficiaryZIP.length < 5) {
       setInvalidZip('Postal code must be a 5-digit number');
     }
@@ -110,7 +112,9 @@ function CalculateYourBenefitsForm({
     setInputUpdated(true);
     calculatorInputChange({ field, value });
 
-    !environment.isProduction() && updateEstimatedBenefits();
+    if(!environment.isProduction()) {
+      updateEstimatedBenefits();
+    }
 
     if (field === 'beneficiaryLocationQuestion' || field === 'extension') {
       if (value === 'extension' || value === profile.attributes.name) {
@@ -207,7 +211,9 @@ function CalculateYourBenefitsForm({
     });
     eligibilityChange({ [field]: value });
     setInputUpdated(true);
-    !environment.isProduction() && updateEstimatedBenefits();
+    if(!environment.isProduction()) {
+      updateEstimatedBenefits();
+    }
   };
 
   const handleExtensionBlur = event => {
@@ -236,7 +242,9 @@ function CalculateYourBenefitsForm({
     const { name: field, checked: value } = e.target;
     setInputUpdated(true);
     calculatorInputChange({ field, value });
-    !environment.isProduction() && updateEstimatedBenefits();
+    if(!environment.isProduction()) {
+      updateEstimatedBenefits();
+    }
   };
 
   const handleHasClassesOutsideUSChange = e => {
@@ -273,7 +281,9 @@ function CalculateYourBenefitsForm({
         field: 'buyUpAmount',
         value: 600,
       });
-      !environment.isProduction() && updateEstimatedBenefits();
+      if(!environment.isProduction()) {
+        updateEstimatedBenefits();
+      }
     }
   };
 
