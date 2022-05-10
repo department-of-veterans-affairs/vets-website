@@ -157,10 +157,10 @@ describe('Connect Devices Container', () => {
 describe('Device connection url parameters', () => {
   const successUrl = `${
     environment.BASE_URL
-  }/health-care/connected-devices/?vendor1=success#_=_`;
+  }/health-care/connected-devices/?vendor-1=success#_=_`;
   const failureUrl = `${
     environment.BASE_URL
-  }/health-care/connected-devices/?vendor1=error#_=_`;
+  }/health-care/connected-devices/?vendor-1=error#_=_`;
   const savedLocation = window.location;
 
   beforeEach(() => {
@@ -171,6 +171,7 @@ describe('Device connection url parameters', () => {
   });
 
   it('should render success alert when url params contain a success message', async () => {
+    mockApiRequest(oneDeviceConnectedState);
     window.location = Object.assign(new URL(successUrl), {
       ancestorOrigins: '',
       assign: sinon.spy(),
