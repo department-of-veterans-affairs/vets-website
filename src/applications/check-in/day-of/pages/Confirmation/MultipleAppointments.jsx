@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import BackToHome from '../../../components/BackToHome';
 import BackToAppointments from '../../../components/BackToAppointments';
@@ -15,6 +17,11 @@ const MultipleAppointments = props => {
 
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
+
+  useEffect(() => {
+    focusElement('h1');
+    scrollToTop('topScrollElement');
+  }, []);
 
   return (
     <div
