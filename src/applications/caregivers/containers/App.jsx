@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import recordEvent from 'platform/monitoring/record-event';
@@ -31,7 +29,7 @@ const App = ({ loading, location, children }) => {
   );
 
   return loading ? (
-    <LoadingIndicator />
+    <va-loading-indicator />
   ) : (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}
