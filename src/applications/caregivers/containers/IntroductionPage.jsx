@@ -135,7 +135,7 @@ export const IntroductionPage = ({
                   Call us at
                   <va-telephone
                     contact={CONTACTS.HEALTHCARE_ELIGIBILITY_CENTER}
-                    className="vads-u-margin-x--0p5"
+                    class="vads-u-margin-x--0p5"
                   />
                   and ask for help filling out the form
                 </li>
@@ -155,7 +155,7 @@ export const IntroductionPage = ({
                   Contact the VA National Caregiver Support Line by calling
                   <va-telephone
                     contact={CONTACTS.CAREGIVER}
-                    className="vads-u-margin-left--0p5"
+                    class="vads-u-margin-left--0p5"
                   />
                 </li>
               </ul>
@@ -219,7 +219,7 @@ export const IntroductionPage = ({
               Support Line at
               <va-telephone
                 contact={CONTACTS.CAREGIVER}
-                className="vads-u-margin-left--0p5"
+                class="vads-u-margin-left--0p5"
               />
               , visit
               <a

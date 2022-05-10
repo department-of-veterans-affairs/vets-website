@@ -127,7 +127,7 @@ const ConfirmationPage = props => {
             contact the VA Caregiver Support Line at
             <va-telephone
               contact={CONTACTS.CAREGIVER}
-              className="vads-u-margin-x--0p5"
+              class="vads-u-margin-x--0p5"
             />
             or visit
             <a
