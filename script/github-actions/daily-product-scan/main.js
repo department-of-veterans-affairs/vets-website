@@ -25,9 +25,20 @@ function handleFailure({ response }) {
   };
 }
 
-function handleSuccess({ message, data }) {
+function handleSuccess({ changesDetected, message, data }) {
+  if (changesDetected) {
+    console.log(
+      'Product dependencies have changed. A PR to update the Product Directory has been submitted.',
+    );
+  } else {
+    console.log('No dependency changes were detected.');
+  }
+
+  core.exportVariable('CHANGES_DETECTED', changesDetected);
+
   return {
     status: 'Success',
+    changesDetected,
     message,
     data,
   };
@@ -74,9 +85,12 @@ async function main({ octokit }) {
   const updatedCsv = emptyProductDirectory.generateOutput();
 
   if (!dependencyDiffer.dependenciesChanged) {
-    const message =
-      'No dependency changes were detected. The data prop includes the unchanged CSV.';
-    return handleSuccess({ message, data: updatedCsv });
+    return handleSuccess({
+      changesDetected: false,
+      message:
+        'No dependency changes were detected. The data prop includes the unchanged CSV.',
+      data: updatedCsv,
+    });
   }
 
   response = await octokit.createPull({
@@ -87,11 +101,8 @@ async function main({ octokit }) {
     return handleFailure({ response });
   }
 
-  console.log(
-    'Product dependencies have changed. A PR to update the Product Directory has been submitted.',
-  );
-
   return handleSuccess({
+    changesDetected: true,
     message:
       'Dependency changes were detected. The data prop includes the updated CSV.',
     data: updatedCsv,
