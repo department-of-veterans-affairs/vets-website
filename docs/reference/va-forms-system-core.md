@@ -40,6 +40,7 @@
 |  [IntroductionPage](./va-forms-system-core.introductionpage.md) | IntroductionPage component current copy of the original Burials introduction page this will need to be updated to be more dynamic after demo. |
 |  [OMBInfo](./va-forms-system-core.ombinfo.md) | OMBInfo component is a simple form building component that displays the VA OMB number from your form, expDate, and resBurden. |
 |  [SelectField](./va-forms-system-core.selectfield.md) |  |
+|  [SSNField](./va-forms-system-core.ssnfield.md) | <b><i>(BETA)</i></b> Renders the SSNField component |
 |  [TextField](./va-forms-system-core.textfield.md) |  |
 
 ## Type Aliases

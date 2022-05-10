@@ -165,6 +165,11 @@ export interface RouterProps {
 // @public (undocumented)
 export const SelectField: (props: SelectProps) => JSX.Element;
 
+// Warning: (ae-forgotten-export) The symbol "SSNProps" needs to be exported by the entry point index.d.ts
+//
+// @beta
+export const SSNField: (props: SSNProps) => JSX.Element;
+
 // @public (undocumented)
 export const TextField: (props: FieldProps<string>) => JSX.Element;
 

@@ -6,13 +6,13 @@ import { OMBInfoProps } from './types';
  * VA OMB number from your form, expDate, and resBurden.
  *
  * @param {OMBInfoProps} props
- * 
+ *
  * @example
  * Here's a simple example:
  * ```typescript
  * <OMBInfo ombNumber="123-ABC" expDate="01/01/1001" resBurden={1} />
  * ```
- * 
+ *
  * @returns React.Component
  */
 const OMBInfo = (props: OMBInfoProps): JSX.Element => {
