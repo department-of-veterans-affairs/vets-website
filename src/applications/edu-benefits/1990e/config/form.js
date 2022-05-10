@@ -1271,11 +1271,13 @@ const formConfig = {
                 updateSchema: (() => {
                   const filterContactMethods = createSelector(
                     form =>
-                      form[newFormFields.newViewPhoneNumbers]?.mobilePhoneNumber
-                        ?.phone,
+                      form[newFormFields.newViewPhoneNumbers][
+                        newFormFields.newMobilePhoneNumber
+                      ]?.phone,
                     form =>
-                      form[newFormFields.newViewPhoneNumbers]?.phoneNumber
-                        ?.phone,
+                      form[newFormFields.newViewPhoneNumbers][
+                        newFormFields.newPhoneNumber
+                      ]?.phone,
                     (mobilePhoneNumber, homePhoneNumber) => {
                       const invalidContactMethods = [];
                       if (!mobilePhoneNumber) {
@@ -1308,6 +1310,22 @@ const formConfig = {
                       your education payments. This is an easy way to verify
                       your monthly enrollment.
                     </p>
+                    <va-alert status="info">
+                      <>
+                        If you choose to get text message notifications from
+                        VA’s GI Bill program, message and data rates may apply.
+                        Two messages per month. At this time, we can only send
+                        text messages to U.S. mobile phone numbers. Text STOP to
+                        opt out or HELP for help.{' '}
+                        <a
+                          href="https://benefits.va.gov/gibill/isaksonroe/verification_of_enrollment.asp"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          View Terms and Conditions and Privacy Policy.
+                        </a>
+                      </>
+                    </va-alert>
                   </div>
                 </>
               ),
@@ -1321,9 +1339,10 @@ const formConfig = {
                     const phoneExists = !!formData[
                       newFormFields.newViewPhoneNumbers
                     ][newFormFields.newMobilePhoneNumber].phone;
-                    const { isInternational } = formData[
-                      newFormFields.newViewPhoneNumbers
-                    ][newFormFields.newMobilePhoneNumber];
+                    const isInternational =
+                      formData[newFormFields.newViewPhoneNumbers][
+                        newFormFields.newMobilePhoneNumberInternational
+                      ];
 
                     if (isYes) {
                       if (!phoneExists) {
@@ -1350,45 +1369,6 @@ const formConfig = {
                 },
               },
             },
-            'view:textMessagesAlert': {
-              'ui:description': (
-                <va-alert status="info">
-                  <>
-                    If you choose to get text message notifications from VA’s GI
-                    Bill program, message and data rates may apply. Two messages
-                    per month. At this time, we can only send text messages to
-                    U.S. mobile phone numbers. Text STOP to opt out or HELP for
-                    help.{' '}
-                    <a
-                      href="https://benefits.va.gov/gibill/isaksonroe/verification_of_enrollment.asp"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      View Terms and Conditions and Privacy Policy.
-                    </a>
-                  </>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData =>
-                  (formData[newFormFields.newViewPhoneNumbers] &&
-                    formData[newFormFields.newViewPhoneNumbers][
-                      newFormFields.newMobilePhoneNumber
-                    ] &&
-                    !isValidPhone(
-                      formData[newFormFields.newViewPhoneNumbers][
-                        newFormFields.newMobilePhoneNumber
-                      ].phone,
-                    )) ||
-                  (formData[newFormFields.newViewPhoneNumbers] &&
-                    formData[newFormFields.newViewPhoneNumbers][
-                      newFormFields.newMobilePhoneNumber
-                    ] &&
-                    formData[newFormFields.newViewPhoneNumbers][
-                      newFormFields.newMobilePhoneNumber
-                    ].isInternational),
-              },
-            },
             'view:noMobilePhoneAlert': {
               'ui:description': (
                 <va-alert status="warning">
@@ -1400,22 +1380,14 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  (formData[newFormFields.newViewPhoneNumbers] &&
+                  isValidPhone(
                     formData[newFormFields.newViewPhoneNumbers][
                       newFormFields.newMobilePhoneNumber
-                    ] &&
-                    isValidPhone(
-                      formData[newFormFields.newViewPhoneNumbers][
-                        newFormFields.newMobilePhoneNumber
-                      ].phone,
-                    )) ||
-                  (formData[newFormFields.newViewPhoneNumbers] &&
-                    formData[newFormFields.newViewPhoneNumbers][
-                      newFormFields.newMobilePhoneNumber
-                    ] &&
-                    formData[newFormFields.newViewPhoneNumbers][
-                      newFormFields.newMobilePhoneNumber
-                    ].isInternational),
+                    ].phone,
+                  ) ||
+                  formData[newFormFields.newViewPhoneNumbers][
+                    newFormFields.newMobilePhoneNumberInternational
+                  ],
               },
             },
             'view:internationalTextMessageAlert': {
@@ -1431,13 +1403,14 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  !formData[newFormFields.newViewPhoneNumbers] ||
+                  !isValidPhone(
+                    formData[newFormFields.newViewPhoneNumbers][
+                      newFormFields.newMobilePhoneNumber
+                    ].phone,
+                  ) ||
                   !formData[newFormFields.newViewPhoneNumbers][
-                    newFormFields.newMobilePhoneNumber
-                  ] ||
-                  !formData[newFormFields.newViewPhoneNumbers][
-                    newFormFields.newMobilePhoneNumber
-                  ].isInternational,
+                    newFormFields.newMobilePhoneNumberInternational
+                  ],
               },
             },
           },
@@ -1464,10 +1437,6 @@ const formConfig = {
                     ],
                   },
                 },
-              },
-              'view:textMessagesAlert': {
-                type: 'object',
-                properties: {},
               },
               'view:noMobilePhoneAlert': {
                 type: 'object',
