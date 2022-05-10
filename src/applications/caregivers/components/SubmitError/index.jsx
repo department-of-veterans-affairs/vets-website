@@ -48,7 +48,7 @@ const SubmitError = ({ form }) => {
           <a className="vads-u-margin-x--0p5" href="https://www.va.gov/">
             VA.gov
           </a>
-          help desk at <va-telephone contact={CONTACTS.HELP_DESK} /> (TTY: 711).{' '}
+          help desk at <va-telephone contact={CONTACTS.HELP_DESK} /> (TTY: 711).
           We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </div>
 
