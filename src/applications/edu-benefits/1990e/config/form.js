@@ -970,9 +970,6 @@ const formConfig = {
               ...currentOrPastDateUI(
                 'When did you earn your high school diploma or equivalency certificate?',
               ),
-              'ui:options': {
-                monthYear: true,
-              },
             },
           },
           schema: {
