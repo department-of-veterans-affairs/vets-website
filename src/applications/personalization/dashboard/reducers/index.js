@@ -6,14 +6,14 @@ import recipients from './recipients';
 import folders from './folders';
 import unreadCount from './unreadCount';
 import appointments from '~/applications/personalization/appointments/reducers';
-import { debtsReducer } from '~/applications/debt-letters/reducers';
-import payments from '~/applications/disability-benefits/view-payments/reducers';
+import debts from './debts';
+import payments from './payments';
 
 export default {
   ...claimsAppeals,
   ...profile,
-  allPayments: payments.allPayments,
-  fsr: debtsReducer,
+  allPayments: payments,
+  allDebts: debts,
   health: combineReducers({
     appointments,
     rx: combineReducers({

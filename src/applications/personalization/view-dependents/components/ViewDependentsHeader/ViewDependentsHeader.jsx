@@ -73,7 +73,7 @@ function ViewDependentsHeader(props) {
   return (
     <div className="vads-l-row">
       <div className="vads-l-col--12">
-        <h1>Your VA Dependents</h1>
+        <h1>Your VA dependents</h1>
         {alertProps && (
           <va-alert status={alertProps.status}>{alertProps.content}</va-alert>
         )}

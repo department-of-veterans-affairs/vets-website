@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
-import moment from 'moment';
-import { links } from 'applications/caregivers/definitions/content';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { links } from 'applications/caregivers/definitions/content';
 
 const ConfirmationPage = props => {
   useEffect(() => {
@@ -95,7 +94,11 @@ const ConfirmationPage = props => {
           </ul>
         )}
 
-        <button className="usa-button button" onClick={() => window.print()}>
+        <button
+          type="button"
+          className="usa-button button"
+          onClick={() => window.print()}
+        >
           Print this page
         </button>
       </div>
@@ -121,12 +124,8 @@ const ConfirmationPage = props => {
             If you have questions about your application, what to expect next,
             or if you are interested in learning more about the supports and
             services available to support Veterans and caregivers, you may
-            contact the VA Caregiver Support Line at
-            <Telephone
-              contact={CONTACTS.CAREGIVER}
-              className="vads-u-margin-x--0p5"
-            />
-            or visit
+            contact the VA Caregiver Support Line at{' '}
+            <va-telephone contact={CONTACTS.CAREGIVER} /> or visit
             <a
               className="vads-u-margin-left--0p5"
               href={links.caregiverHelpPage.link}
@@ -150,6 +149,10 @@ const ConfirmationPage = props => {
       <PrintDetails />
     </section>
   );
+};
+
+ConfirmationPage.propTypes = {
+  form: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
