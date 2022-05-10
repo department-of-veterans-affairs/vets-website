@@ -45,7 +45,7 @@ jobs:
         run: yarn
 
       - name: Run Product Scan & Update Product Directory
-        run: yarn daily-dependency-scan
+        run: yarn daily-product-scan
         env:
           MANIFEST_GLOB_PATH: src/applications/**/*manifest.json
 
