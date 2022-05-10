@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import {
   cnpDirectDepositLoadError,
   eduDirectDepositLoadError,
@@ -23,17 +22,16 @@ import ProfileMobileSubNav from './ProfileMobileSubNav';
 
 const NotAllDataAvailableError = () => (
   <div data-testid="not-all-data-available-error">
-    <AlertBox
-      level={2}
+    <va-alert
       status="warning"
-      headline="We can’t load all the information in your profile"
-      className="vads-u-margin-bottom--4"
+      class="vads-u-margin-bottom--4 vads-u-margin-top--3"
     >
-      <p>
+      <h2 slot="headline">We can’t load all the information in your profile</h2>
+      <p className="vads-u-margin-bottom--0">
         We’re sorry. Something went wrong on our end. We can’t display all the
         information in your profile. Please refresh the page or try again later.
       </p>
-    </AlertBox>
+    </va-alert>
   </div>
 );
 
