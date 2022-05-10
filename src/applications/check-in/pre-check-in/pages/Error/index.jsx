@@ -60,7 +60,7 @@ const Error = ({ location }) => {
   const getErrorMessagePropsByType = () => {
     if (type && type === 'expired')
       return [
-        t('sorry-pre-check-in-is-no-longer-available'),
+        t('sorry-we-cant-complete-pre-check-in'),
         t('you-can-still-check-in-once-you-arrive'),
         false,
         true,
