@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { focusElement } from 'platform/utilities/ui';
-
 import DownLoadLink from './DownloadLink';
 
 const SubmitError = ({ form }) => {
@@ -51,7 +48,7 @@ const SubmitError = ({ form }) => {
           <a className="vads-u-margin-x--0p5" href="https://www.va.gov/">
             VA.gov
           </a>
-          help desk at <Telephone contact={CONTACTS.HELP_DESK} /> (TTY: 711).
+          help desk at <va-telephone contact={CONTACTS.HELP_DESK} /> (TTY: 711).
           We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </div>
 
