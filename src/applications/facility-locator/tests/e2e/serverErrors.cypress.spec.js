@@ -1,3 +1,5 @@
+import { mapboxToken } from '../../utils/mapboxToken';
+
 describe('Facility Locator error handling', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles?*', []);
@@ -12,7 +14,7 @@ describe('Facility Locator error handling', () => {
     cy.visit('/find-locations');
   });
 
-  it('should show an error if the API returns a non-200 response', () => {
+  it(`MAPBOX TOKEN: ${mapboxToken}  ------  should show an error if the API returns a non-200 response`, () => {
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select('VA health');
     cy.get('#service-type-dropdown').select('Primary care');
