@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
+
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
@@ -40,9 +41,16 @@ const MultipleAppointments = props => {
           })}
         </h1>
         <p>
-          {t('well-come-get-you-from-the', {})}{' '}
-          <AppointmentLocation appointment={appointment} bold />{' '}
-          {t('waiting-room-when-its-time-for-your-appointment-to-start')}
+          <Trans
+            i18nKey="well-come-get-you-from-the-waiting-room-when-its-time-for-your-appointment-to-start"
+            components={[
+              <AppointmentLocation
+                key="location"
+                appointment={appointment}
+                bold
+              />,
+            ]}
+          />
         </p>
       </div>
       <TravelPayReimbursementLink />
