@@ -166,8 +166,6 @@ describe('Authentication Utilities', () => {
   describe('generateConfigQueryParams', () => {
     const defaultConfig = {
       allowSkipDupe: false,
-      allowCodeChallenge: true,
-      allowCodeChallengeMethod: true,
       allowOAuth: true,
       allowPostLogin: false,
     };
@@ -178,36 +176,38 @@ describe('Authentication Utilities', () => {
       oauth: 'true',
     };
 
-    it('should generate the appropriate config', () => {
+    it('should generate OAuth config', () => {
       const config = {
         queryParams: {
           ...defaultConfig,
         },
+        OAuthEnabled: true,
       };
 
       const expected = authUtilities.generateConfigQueryParams({
-        config: config.queryParams,
+        config,
         params,
       });
 
       expect(expected).to.contains({
         [AUTH_PARAMS.codeChallenge]: 'bob',
         [AUTH_PARAMS.codeChallengeMethod]: '256S',
-        oauth: 'true',
+        oauth: true,
       });
     });
 
-    it('should not generate codeChallenge[Method] if oauth config is false', () => {
+    it('should not generate OAuth config', () => {
       const config = {
         queryParams: {
           ...defaultConfig,
           allowOAuth: false,
           allowPostLogin: true,
         },
+        OAuthEnabled: true,
       };
 
       const expected = authUtilities.generateConfigQueryParams({
-        config: config.queryParams,
+        config,
         params,
       });
 

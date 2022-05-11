@@ -118,18 +118,23 @@ export const createAndStoreReturnUrl = () => {
   return returnUrl;
 };
 
-export const generateConfigQueryParams = ({ config, params }) => ({
-  ...(config.allowCodeChallenge &&
-    config.allowOAuth && { [AUTH_PARAMS.codeChallenge]: params.codeChallenge }),
-  ...(config.allowCodeChallengeMethod &&
-    config.allowOAuth && {
+export const generateConfigQueryParams = ({ config, params }) => {
+  const { queryParams, OAuthEnabled } = config;
+  const isOauthEnabled =
+    OAuthEnabled && queryParams.allowOAuth && params.oauth === 'true';
+  return {
+    ...(isOauthEnabled && {
+      [AUTH_PARAMS.codeChallenge]: params.codeChallenge,
       [AUTH_PARAMS.codeChallengeMethod]: params.codeChallengeMethod,
+      oauth: true,
     }),
-  ...(config.allowOAuth && { oauth: params.oauth }),
-  ...(config.allowPostLogin && { postLogin: true }),
-  ...(config.allowRedirect && { redirect: createExternalApplicationUrl() }),
-  ...(config.allowSkipDupe && { [AUTH_PARAMS.skipDupe]: true }),
-});
+    ...(queryParams.allowPostLogin && { postLogin: true }),
+    ...(queryParams.allowRedirect && {
+      redirect: createExternalApplicationUrl(),
+    }),
+    ...(queryParams.allowSkipDupe && { [AUTH_PARAMS.skipDupe]: true }),
+  };
+};
 
 export function sessionTypeUrl({
   type = '',
@@ -170,7 +175,7 @@ export function sessionTypeUrl({
   const appendParams =
     externalRedirect && isLogin
       ? generateConfigQueryParams({
-          config: config.queryParams,
+          config,
           params: { codeChallenge, codeChallengeMethod, oauth: OAuth },
         })
       : {};
