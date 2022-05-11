@@ -946,21 +946,25 @@ const formConfig = {
           },
         },
         [newFormPages.newSponsorHighSchool]: {
-          title: 'Verify your high school education',
+          title: 'Verify your high school graduation date',
           path: 'new/sponsor/high-school-education',
           depends: formData =>
             formData.showUpdatedToeApp &&
             (formData[newFormFields.newHighSchoolDiploma] === 'Yes' &&
               // TODO Use helpers for the sub-logic below (shared with the previous page)
-              ((!formData.firstSponsor &&
+              ((formData[newFormFields.selectedSponsors]?.length === 1 &&
                 formData.sponsors?.sponsors?.find(sponsor => sponsor.selected)
                   ?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
-                ((formData.firstSponsor &&
-                  formData.sponsors?.sponsors?.find(
-                    sponsor => sponsor.id === formData.firstSponsor,
-                  )?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
-                  formData[newFormFields.newRelationshipToServiceMember] ===
-                    SPONSOR_RELATIONSHIP.CHILD) ||
+                (formData[newFormFields.selectedSponsors]?.length > 1 &&
+                  ((![SPONSOR_NOT_LISTED_VALUE, IM_NOT_SURE_VALUE].includes(
+                    formData.firstSponsor,
+                  ) &&
+                    formData.sponsors?.sponsors?.find(
+                      sponsor => sponsor.id === formData.firstSponsor,
+                    )?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
+                    (formData.firstSponsor === SPONSOR_NOT_LISTED_VALUE &&
+                      formData[newFormFields.newRelationshipToServiceMember] ===
+                        SPONSOR_RELATIONSHIP.CHILD))) ||
                 (!formData.sponsors?.sponsors?.length &&
                   formData[newFormFields.newRelationshipToServiceMember] ===
                     SPONSOR_RELATIONSHIP.CHILD) ||
