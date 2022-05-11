@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatReadableMonthYear } from '../helpers';
 
 export default function ReviewSkippedAheadAlert({ incorrectMonth }) {
   return (
@@ -12,7 +11,7 @@ export default function ReviewSkippedAheadAlert({ incorrectMonth }) {
       visible
     >
       We skipped you ahead to the review step because you selected “No, this
-      information isn’t correct” for {formatReadableMonthYear(incorrectMonth)}.
+      information isn’t correct” for {incorrectMonth}.
     </va-alert>
   );
 }
