@@ -7,6 +7,8 @@ import 'platform/polyfills';
 import startSitewideComponents from 'platform/site-wide';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import createCommonStore from 'platform/startup/store';
+import createHigherLevelReviewApplicationStatus from 'applications/disability-benefits/996/components/createHLRApplicationStatus';
+import createVaAlertExpandable from 'platform/site-wide/alerts/components/va-alert-expandable/createVaAlertExpandable';
 import alertsBuildShow from './widget-creators/alerts-dismiss-view';
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import icsCreate from './widget-creators/ics-generator';
@@ -51,7 +53,6 @@ import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-forms/createFindVaForms';
 import createFindVaFormsPDFDownloadHelper from '../find-forms/widgets/createFindVaFormsPDFDownloadHelper';
-import createHigherLevelReviewApplicationStatus from '../appeals/996/components/createHLRApplicationStatus';
 import createLettersMobileCTA from './letters-mobile-cta';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
@@ -148,6 +149,7 @@ createResourcesAndSupportSearchWidget(
 createVetCentersHours(store);
 createVetCentersSatelliteLocationHours(store);
 createExpandableOperatingStatus(store);
+createVaAlertExpandable(store);
 createNearByVetCenters(store);
 createFacilityListWidget();
 createOtherFacilityListWidget();
