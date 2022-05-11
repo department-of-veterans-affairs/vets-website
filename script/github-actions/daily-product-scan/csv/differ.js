@@ -1,4 +1,4 @@
-/* eslint-disable class-methods-use-this */
+/* eslint-disable no-param-reassign */
 const _ = require('lodash');
 
 class Differ {
@@ -11,68 +11,101 @@ class Differ {
     productCsv.rows.all.forEach(row => {
       const fields = row.split(';');
       const productId = fields[0];
+      const product = products.all[productId];
 
-      if (products.all[productId]) {
-        // TODO break the following out into different compare functions (see below)
-        // TODO add compare functions for test types and product path (see below)
+      if (product) {
+        this.compareAttribute({
+          attribute: product.productPath,
+          index: productCsv.headings.pathToCodeIndex,
+          fields,
+        });
+
+        this.compareAttribute({
+          attribute: product.hasUnitTests,
+          index: productCsv.headings.hasUnitTestsIndex,
+          fields,
+        });
+
+        this.compareAttribute({
+          attribute: product.hasE2eTests,
+          index: productCsv.headings.hasE2eTestsIndex,
+          fields,
+        });
+
+        this.compareAttribute({
+          attribute: product.hasContractTests,
+          index: productCsv.headings.hasContractTestsIndex,
+          fields,
+        });
+
         /*
         Compare package dependencies for given product
         */
-        const { packageDependencyIndex } = productCsv.headings;
-        let csvPackageDependencies = fields[packageDependencyIndex]
-          .replace(/"/g, '')
-          .split(',');
-        csvPackageDependencies =
-          csvPackageDependencies[0] === '' ? [] : csvPackageDependencies;
+        this.comparePackageDependencies({
+          attribute: product.packageDependencies,
+          index: productCsv.headings.packageDependencyIndex,
+          fields,
+        });
+        // const { packageDependencyIndex } = productCsv.headings;
+        // let csvPackageDependencies = fields[packageDependencyIndex]
+        //   .replace(/"/g, '')
+        //   .split(',');
+        // csvPackageDependencies =
+        //   csvPackageDependencies[0] === '' ? [] : csvPackageDependencies;
 
-        const scannedPackageDependencies = Array.from(
-          products.all[productId].packageDependencies,
-        );
+        // const scannedPackageDependencies = Array.from(
+        //   product.packageDependencies,
+        // );
 
-        if (!_.isEqual(csvPackageDependencies, scannedPackageDependencies)) {
-          this.changeDetected = true;
+        // if (!_.isEqual(csvPackageDependencies, scannedPackageDependencies)) {
+        //   this.changeDetected = true;
 
-          if (scannedPackageDependencies.length > 0) {
-            fields[
-              packageDependencyIndex
-            ] = `"${scannedPackageDependencies.join(',')}"`;
-          } else {
-            fields[packageDependencyIndex] = '';
-          }
-        }
+        //   if (scannedPackageDependencies.length > 0) {
+        //     fields[
+        //       packageDependencyIndex
+        //     ] = `"${scannedPackageDependencies.join(',')}"`;
+        //   } else {
+        //     fields[packageDependencyIndex] = '';
+        //   }
+        // }
         /*
         Compare cross product dependencies for given product
         */
-        const { crossProductDependencyIndex } = productCsv.headings;
+        this.compareCrossProductDependencies({
+          attribute: product.crossProductDependencies,
+          index: productCsv.headings.crossProductDependenciesIndex,
+          fields,
+        });
+        //   const { crossProductDependencyIndex } = productCsv.headings;
 
-        let csvCrossProductDependencies = fields[crossProductDependencyIndex]
-          .replace(/"/g, '')
-          .split(',');
-        csvCrossProductDependencies =
-          csvCrossProductDependencies[0] === ''
-            ? []
-            : csvCrossProductDependencies;
+        //   let csvCrossProductDependencies = fields[crossProductDependencyIndex]
+        //     .replace(/"/g, '')
+        //     .split(',');
+        //   csvCrossProductDependencies =
+        //     csvCrossProductDependencies[0] === ''
+        //       ? []
+        //       : csvCrossProductDependencies;
 
-        const scannedCrossProductDependencies = Array.from(
-          products.all[productId].crossProductDependencies,
-        );
+        //   const scannedCrossProductDependencies = Array.from(
+        //     product.crossProductDependencies,
+        //   );
 
-        if (
-          !_.isEqual(
-            csvCrossProductDependencies,
-            scannedCrossProductDependencies,
-          )
-        ) {
-          this.changeDetected = true;
+        //   if (
+        //     !_.isEqual(
+        //       csvCrossProductDependencies,
+        //       scannedCrossProductDependencies,
+        //     )
+        //   ) {
+        //     this.changeDetected = true;
 
-          if (scannedCrossProductDependencies.length > 0) {
-            fields[
-              crossProductDependencyIndex
-            ] = `"${scannedCrossProductDependencies.join(',')}"`;
-          } else {
-            fields[crossProductDependencyIndex] = '';
-          }
-        }
+        //     if (scannedCrossProductDependencies.length > 0) {
+        //       fields[
+        //         crossProductDependencyIndex
+        //       ] = `"${scannedCrossProductDependencies.join(',')}"`;
+        //     } else {
+        //       fields[crossProductDependencyIndex] = '';
+        //     }
+        //   }
       }
 
       const updatedRow = fields.join(',');
@@ -80,28 +113,51 @@ class Differ {
     });
   }
 
-  compareProductPath() {
-    // TODO implement
+  compareAttribute({ attribute, index, fields }) {
+    if (fields[index] !== attribute) {
+      this.changeDetected = true;
+      fields[index] = attribute;
+    }
   }
 
-  comparePackageDependencies() {
-    // TODO implement
+  comparePackageDependencies({ attribute, index, fields }) {
+    let csvPackageDependencies = fields[index].replace(/"/g, '').split(',');
+    csvPackageDependencies =
+      csvPackageDependencies[0] === '' ? [] : csvPackageDependencies;
+
+    const scannedPackageDependencies = Array.from(attribute);
+
+    if (!_.isEqual(csvPackageDependencies, scannedPackageDependencies)) {
+      this.changeDetected = true;
+
+      if (scannedPackageDependencies.length > 0) {
+        fields[index] = `"${scannedPackageDependencies.join(',')}"`;
+      } else {
+        fields[index] = '';
+      }
+    }
   }
 
-  compareCrossProductDependencies() {
-    // TODO implement
-  }
+  compareCrossProductDependencies({ attribute, index, fields }) {
+    let csvCrossProductDependencies = fields[index]
+      .replace(/"/g, '')
+      .split(',');
+    csvCrossProductDependencies =
+      csvCrossProductDependencies[0] === '' ? [] : csvCrossProductDependencies;
 
-  compareHasUnitTests() {
-    // TODO implement
-  }
+    const scannedCrossProductDependencies = Array.from(attribute);
 
-  compareHasE2eTests() {
-    // TODO implement
-  }
+    if (
+      !_.isEqual(csvCrossProductDependencies, scannedCrossProductDependencies)
+    ) {
+      this.changeDetected = true;
 
-  compareHasContractTests() {
-    // TODO implement
+      if (scannedCrossProductDependencies.length > 0) {
+        fields[index] = `"${scannedCrossProductDependencies.join(',')}"`;
+      } else {
+        fields[index] = '';
+      }
+    }
   }
 }
 
