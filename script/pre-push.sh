@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Temporary check due to check master -> main branch switch. Remove after 2022
+# Temporary check due to master -> main branch switch. Remove after 2022
 if [[ `git rev-parse --abbrev-ref origin/HEAD` != 'origin/main' ]]; then
   echo "ERROR: The vets-website default branch has changed from 'master' to 'main'."
   echo "Please run the following commands to make the switch locally:"
