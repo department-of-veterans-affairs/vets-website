@@ -60,9 +60,8 @@ export default function UnderReview({ user, dateReceived }) {
           visible
         >
           <div>
-            <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--4">
-              In 1 month
-            </h2>
+            <h2 className="vads-u-margin-y--0">In 1 month</h2>
+            <hr className="meb-hr" />
             If more than a month has passed since you gave us your application
             and you haven’t heard back, please don’t apply again. Call our
             toll-free Education Call Center at{' '}
