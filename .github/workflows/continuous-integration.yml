@@ -261,7 +261,7 @@ jobs:
         run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder | tr ',' ' ')
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
-      
+
       - name: Get contract tests
         id: get-tests
         run: |
@@ -515,7 +515,7 @@ jobs:
       needs.cypress-tests-prep.result == 'success' &&
       needs.cypress-tests-prep.outputs.tests != '[]'
     container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
+      image: public.ecr.aws/cypress-io/cypress/browsers:node14.17.6-chrome100-ff98
       options: -u 1001:1001 -v /usr/local/share:/share
 
     strategy:
