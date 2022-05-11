@@ -164,24 +164,30 @@ describe('Authentication Utilities', () => {
   });
 
   describe('generateConfigQueryParams', () => {
+    const defaultConfig = {
+      allowSkipDupe: false,
+      allowCodeChallenge: true,
+      allowCodeChallengeMethod: true,
+      allowOAuth: true,
+      allowPostLogin: false,
+    };
+
+    const params = {
+      codeChallenge: 'bob',
+      codeChallengeMethod: '256S',
+      oauth: 'true',
+    };
+
     it('should generate the appropriate config', () => {
       const config = {
         queryParams: {
-          allowSkipDupe: false,
-          allowCodeChallenge: true,
-          allowCodeChallengeMethod: true,
-          allowOAuth: true,
-          allowPostLogin: false,
+          ...defaultConfig,
         },
       };
 
       const expected = authUtilities.generateConfigQueryParams({
         config: config.queryParams,
-        params: {
-          codeChallenge: 'bob',
-          codeChallengeMethod: '256S',
-          oauth: 'true',
-        },
+        params,
       });
 
       expect(expected).to.contains({
@@ -191,30 +197,22 @@ describe('Authentication Utilities', () => {
       });
     });
 
-    it('should generate the appropriate config', () => {
+    it('should not generate codeChallenge[Method] if oauth config is false', () => {
       const config = {
         queryParams: {
-          allowSkipDupe: false,
-          allowCodeChallenge: true,
-          allowCodeChallengeMethod: true,
+          ...defaultConfig,
           allowOAuth: false,
-          allowPostLogin: false,
+          allowPostLogin: true,
         },
       };
 
       const expected = authUtilities.generateConfigQueryParams({
         config: config.queryParams,
-        params: {
-          codeChallenge: 'bob',
-          codeChallengeMethod: '256S',
-          oauth: 'true',
-        },
+        params,
       });
 
       expect(expected).to.contains({
-        [AUTH_PARAMS.codeChallenge]: 'bob',
-        [AUTH_PARAMS.codeChallengeMethod]: '256S',
-        oauth: 'true',
+        postLogin: true,
       });
     });
   });
