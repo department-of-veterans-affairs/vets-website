@@ -33,7 +33,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
         GreetUser.makeBotGreetUser(
           csrfToken,
           apiSession,
-          'https://7bdd-70-249-45-159.ngrok.io',
+          environment.API_URL,
           environment.BASE_URL,
           userFirstName === '' ? 'noFirstNameFound' : userFirstName,
           userUuid === null ? 'noUserUuid' : userUuid, // Because PVA cannot support empty strings or null pass in 'null' if user is not logged in
