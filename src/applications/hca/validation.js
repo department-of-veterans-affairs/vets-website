@@ -1,6 +1,7 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import get from 'platform/utilities/data/get';
+import { hasSession } from 'platform/user/profile/utilities';
 
 import {
   convertToDateField,
@@ -130,8 +131,81 @@ export function logValidateMarriageDateVaFacilityPage(
     spouseDateOfBirth,
     veteranDateOfBirth,
     discloseFinancialInformation,
+    veteranFullName,
+    veteranSocialSecurityNumber,
   },
 ) {
+  // log if name, ssn or dob does not have a value
+  if (!veteranFullName && !veteranSocialSecurityNumber && !veteranDateOfBirth) {
+    const message = 'hca_1010ez_error_name_ssn_dob';
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranFullName,
+        veteranSocialSecurityNumber,
+        veteranDateOfBirth,
+        hasSession: hasSession(),
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranFullName && !veteranSocialSecurityNumber) {
+    const message = 'hca_1010ez_error_name_ssn';
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranFullName,
+        veteranSocialSecurityNumber,
+        hasSession: hasSession(),
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranFullName && !veteranDateOfBirth) {
+    const message = 'hca_1010ez_error_name_dob';
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranFullName,
+        veteranDateOfBirth,
+        hasSession: hasSession(),
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranSocialSecurityNumber && !veteranDateOfBirth) {
+    const message = 'hca_1010ez_error_ssn_dob';
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranSocialSecurityNumber,
+        veteranDateOfBirth,
+        hasSession: hasSession(),
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranFullName) {
+    const message = 'hca_1010ez_error_name';
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranFullName,
+        hasSession: hasSession(),
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranSocialSecurityNumber) {
+    const message = 'hca_1010ez_error_ssn';
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranSocialSecurityNumber,
+        hasSession: hasSession(),
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranDateOfBirth) {
+    const message = 'hca_1010ez_error_dob';
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranDateOfBirth,
+        hasSession: hasSession(),
+      });
+      Sentry.captureMessage(message);
+    });
+  }
+
   if (!dateOfMarriage) return;
 
   const vetDOB = moment(veteranDateOfBirth);
