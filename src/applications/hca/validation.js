@@ -1,6 +1,7 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import get from 'platform/utilities/data/get';
+import { hasSession } from 'platform/user/profile/utilities';
 
 import {
   convertToDateField,
@@ -142,6 +143,7 @@ export function logValidateMarriageDateVaFacilityPage(
         veteranFullName,
         veteranSocialSecurityNumber,
         veteranDateOfBirth,
+        hasSession: hasSession(),
       });
       Sentry.captureMessage(message);
     });
@@ -151,6 +153,7 @@ export function logValidateMarriageDateVaFacilityPage(
       scope.setContext(message, {
         veteranFullName,
         veteranSocialSecurityNumber,
+        hasSession: hasSession(),
       });
       Sentry.captureMessage(message);
     });
@@ -160,6 +163,7 @@ export function logValidateMarriageDateVaFacilityPage(
       scope.setContext(message, {
         veteranFullName,
         veteranDateOfBirth,
+        hasSession: hasSession(),
       });
       Sentry.captureMessage(message);
     });
@@ -169,6 +173,7 @@ export function logValidateMarriageDateVaFacilityPage(
       scope.setContext(message, {
         veteranSocialSecurityNumber,
         veteranDateOfBirth,
+        hasSession: hasSession(),
       });
       Sentry.captureMessage(message);
     });
@@ -177,6 +182,7 @@ export function logValidateMarriageDateVaFacilityPage(
     Sentry.withScope(scope => {
       scope.setContext(message, {
         veteranFullName,
+        hasSession: hasSession(),
       });
       Sentry.captureMessage(message);
     });
@@ -185,6 +191,7 @@ export function logValidateMarriageDateVaFacilityPage(
     Sentry.withScope(scope => {
       scope.setContext(message, {
         veteranSocialSecurityNumber,
+        hasSession: hasSession(),
       });
       Sentry.captureMessage(message);
     });
@@ -193,6 +200,7 @@ export function logValidateMarriageDateVaFacilityPage(
     Sentry.withScope(scope => {
       scope.setContext(message, {
         veteranDateOfBirth,
+        hasSession: hasSession(),
       });
       Sentry.captureMessage(message);
     });
