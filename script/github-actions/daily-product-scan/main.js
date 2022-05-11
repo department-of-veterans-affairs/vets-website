@@ -65,7 +65,7 @@ async function main({ octokit }) {
   }).setDependencies();
 
   const testTypes = new TestTypes();
-  testTypes.checkExistance({ products });
+  testTypes.checkExistance({ products: products.all });
 
   let response = await octokit.getProductDirectory();
 
