@@ -193,13 +193,19 @@ export const directDepositWarning = (
           <b>or</b>
         </li>
         <li>
-          Call <a href="tel:8003331795">800-333-1795</a>
+          Call{' '}
+          <a href="tel:8003331795" aria-label="8 0 0. 3 3 3. 1 7 9 5.">
+            800-333-1795
+          </a>
         </li>
       </ul>
       If you choose not to enroll, you’ll need to call the Department of the
-      Treasury at <a href="tel:8882242950">888-224-2950</a> and speak to a
-      representative handling waiver requests. They’ll encourage you to
-      participate in EFT and address any questions or concerns you have.
+      Treasury at{' '}
+      <a href="tel:8882242950" aria-label="8 8 8. 2 2 4. 2 9 5 0.">
+        888-224-2950
+      </a>
+      and speak to a representative handling waiver requests. They’ll encourage
+      you to participate in EFT and address any questions or concerns you have.
     </p>
   </div>
 );
