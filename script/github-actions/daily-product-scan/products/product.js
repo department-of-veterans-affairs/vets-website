@@ -3,9 +3,9 @@ class Product {
     this.productPath = productPath;
     this.packageDependencies = new Set();
     this.crossProductDependencies = new Set();
-    this.hasUnitTests = false;
-    this.hasE2eTests = false;
-    this.hasContractTests = false;
+    this.hasUnitTests = null;
+    this.hasE2eTests = null;
+    this.hasContractTests = null;
   }
 }
 
