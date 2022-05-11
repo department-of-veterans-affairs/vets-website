@@ -1,23 +1,25 @@
 import fullSchema from 'vets-json-schema/dist/26-1880-schema.json';
 
+const { definitions, properties } = fullSchema;
 const {
-  personalInformation,
   contactInformation,
-  serviceStatus,
-  serviceHistory,
-  hasExistingLoan,
-  loanIntent,
-  loanHistory,
   documentUpload,
-} = fullSchema.properties;
+  hasExistingLoan,
+  loanHistory,
+  loanIntent,
+  personalInformation,
+  serviceHistory,
+  serviceStatus,
+} = properties;
 
 export {
-  personalInformation,
   contactInformation,
-  serviceStatus,
-  serviceHistory,
-  hasExistingLoan,
-  loanIntent,
-  loanHistory,
+  definitions,
   documentUpload,
+  hasExistingLoan,
+  loanHistory,
+  loanIntent,
+  personalInformation,
+  serviceHistory,
+  serviceStatus,
 };

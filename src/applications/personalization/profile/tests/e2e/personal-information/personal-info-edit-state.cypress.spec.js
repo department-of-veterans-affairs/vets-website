@@ -13,7 +13,9 @@ const checkPersonalInfoFields = () => {
 
   cy.findByText(nameEditInputLabel).should('exist');
 
-  cy.get(nameEditInputField).should('exist');
+  cy.get(nameEditInputField)
+    .should('exist')
+    .blur();
 
   cy.findAllByTestId('cancel-edit-button')
     .should('exist')
