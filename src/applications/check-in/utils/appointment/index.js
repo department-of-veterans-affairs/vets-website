@@ -30,6 +30,18 @@ const hasMoreAppointmentsToCheckInto = (appointments, currentAppointment) => {
 };
 
 /**
+ * Check if any appointment was canceled.
+ *
+ * @param {Array<Appointment>} appointments
+ */
+const appointmentWasCanceled = appointments => {
+  const statusIsCanceled = appointment =>
+    appointment.status?.startsWith('CANCELLED');
+
+  return Array.isArray(appointments) && appointments.some(statusIsCanceled);
+};
+
+/**
  * Check if all appointments have completed pre-check-in.
  *
  * @param {Array<Appointment>} appointments
@@ -104,6 +116,7 @@ const preCheckinExpired = appointments => {
 };
 
 export {
+  appointmentWasCanceled,
   hasMoreAppointmentsToCheckInto,
   sortAppointmentsByStartTime,
   preCheckinAlreadyCompleted,

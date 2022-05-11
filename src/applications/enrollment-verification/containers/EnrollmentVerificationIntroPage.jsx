@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
@@ -20,11 +20,16 @@ export function EnrollmentVerificationIntroPage({
   post911GiBillEligibility,
 }) {
   const history = useHistory();
+  const [post911Eligibility, setPost911Eligibility] = useState({});
 
   useEffect(
     () => {
       if (post911GiBillEligibility === undefined) {
-        getPost911GiBillEligibility();
+        getPost911GiBillEligibility().then(r =>
+          setPost911Eligibility(
+            r?.response?.data?.attributes?.enrollmentVerifications,
+          ),
+        );
       }
     },
     [getPost911GiBillEligibility, post911GiBillEligibility],
@@ -86,8 +91,8 @@ export function EnrollmentVerificationIntroPage({
       </p>
 
       {!loggedIn ? <EnrollmentVerificationLogin /> : <></>}
-      {loggedIn && post911GiBillEligibility ? verifyEnrollmentsButton : <></>}
-      {loggedIn && !post911GiBillEligibility ? noPost911GiBillAlert : <></>}
+      {loggedIn && post911Eligibility ? verifyEnrollmentsButton : <></>}
+      {loggedIn && !post911Eligibility ? noPost911GiBillAlert : <></>}
 
       <h2>For Montgomery GI Bill benefits:</h2>
       <p>
