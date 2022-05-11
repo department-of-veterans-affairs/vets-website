@@ -8,6 +8,7 @@ import TextInput from '@department-of-veterans-affairs/component-library/TextInp
 import recordEvent from 'platform/monitoring/record-event';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+import environment from 'platform/utilities/environment';
 import AlertBox from '../AlertBox';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
@@ -97,6 +98,8 @@ function CalculateYourBenefitsForm({
       }
       setInvalidZip('');
       setInputUpdated(true);
+
+      if (!environment.isProduction()) updateEstimatedBenefits();
     } else if (inputs.beneficiaryZIP.length < 5) {
       setInvalidZip('Postal code must be a 5-digit number');
     }
@@ -106,6 +109,8 @@ function CalculateYourBenefitsForm({
     const { name: field, value } = event.target;
     setInputUpdated(true);
     calculatorInputChange({ field, value });
+
+    if (!environment.isProduction()) updateEstimatedBenefits();
 
     if (field === 'beneficiaryLocationQuestion' || field === 'extension') {
       if (value === 'extension' || value === profile.attributes.name) {
@@ -202,6 +207,7 @@ function CalculateYourBenefitsForm({
     });
     eligibilityChange({ [field]: value });
     setInputUpdated(true);
+    if (!environment.isProduction()) updateEstimatedBenefits();
   };
 
   const handleExtensionBlur = event => {
@@ -230,6 +236,7 @@ function CalculateYourBenefitsForm({
     const { name: field, checked: value } = e.target;
     setInputUpdated(true);
     calculatorInputChange({ field, value });
+    if (!environment.isProduction()) updateEstimatedBenefits();
   };
 
   const handleHasClassesOutsideUSChange = e => {
@@ -266,6 +273,7 @@ function CalculateYourBenefitsForm({
         field: 'buyUpAmount',
         value: 600,
       });
+      if (!environment.isProduction()) updateEstimatedBenefits();
     }
   };
 
@@ -1049,7 +1057,7 @@ function CalculateYourBenefitsForm({
             {renderOnlineClasses()}
           </BenefitsForm>
         </div>
-        {renderUpdateBenefitsButton(name)}
+        {environment.isProduction() && renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
@@ -1093,7 +1101,7 @@ function CalculateYourBenefitsForm({
           {renderCalendar()}
           {renderEnrolled()}
         </div>
-        {renderUpdateBenefitsButton(name)}
+        {environment.isProduction() && renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
@@ -1118,7 +1126,7 @@ function CalculateYourBenefitsForm({
           {renderExtensionBeneficiaryZIP()}
           {renderWorking()}
         </div>
-        {renderUpdateBenefitsButton(name)}
+        {environment.isProduction() && renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
@@ -1155,7 +1163,7 @@ function CalculateYourBenefitsForm({
           {renderBuyUp()}
           {renderScholarships()}
         </div>
-        {renderUpdateBenefitsButton(name)}
+        {environment.isProduction() && renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
