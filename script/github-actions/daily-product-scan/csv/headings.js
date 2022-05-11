@@ -16,13 +16,16 @@ class Headings {
           this.crossProductDependencyIndex = index;
           break;
         case constants.HAS_UNIT_TESTS:
-          this.hasUnitTests = index;
+          this.hasUnitTestsIndex = index;
           break;
         case constants.HAS_E2E_TESTS:
-          this.hasE2eTests = index;
+          this.hasE2eTestsIndex = index;
           break;
         case constants.HAS_CONTRACT_TESTS:
-          this.hasContractTests = index;
+          this.hasContractTestsIndex = index;
+          break;
+        case constants.PATH_TO_CODE:
+          this.pathToCodeIndex = index;
           break;
         default:
       }
