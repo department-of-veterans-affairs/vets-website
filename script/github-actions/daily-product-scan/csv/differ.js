@@ -38,74 +38,17 @@ class Differ {
           fields,
         });
 
-        /*
-        Compare package dependencies for given product
-        */
         this.comparePackageDependencies({
           attribute: product.packageDependencies,
           index: productCsv.headings.packageDependencyIndex,
           fields,
         });
-        // const { packageDependencyIndex } = productCsv.headings;
-        // let csvPackageDependencies = fields[packageDependencyIndex]
-        //   .replace(/"/g, '')
-        //   .split(',');
-        // csvPackageDependencies =
-        //   csvPackageDependencies[0] === '' ? [] : csvPackageDependencies;
 
-        // const scannedPackageDependencies = Array.from(
-        //   product.packageDependencies,
-        // );
-
-        // if (!_.isEqual(csvPackageDependencies, scannedPackageDependencies)) {
-        //   this.changeDetected = true;
-
-        //   if (scannedPackageDependencies.length > 0) {
-        //     fields[
-        //       packageDependencyIndex
-        //     ] = `"${scannedPackageDependencies.join(',')}"`;
-        //   } else {
-        //     fields[packageDependencyIndex] = '';
-        //   }
-        // }
-        /*
-        Compare cross product dependencies for given product
-        */
         this.compareCrossProductDependencies({
           attribute: product.crossProductDependencies,
           index: productCsv.headings.crossProductDependenciesIndex,
           fields,
         });
-        //   const { crossProductDependencyIndex } = productCsv.headings;
-
-        //   let csvCrossProductDependencies = fields[crossProductDependencyIndex]
-        //     .replace(/"/g, '')
-        //     .split(',');
-        //   csvCrossProductDependencies =
-        //     csvCrossProductDependencies[0] === ''
-        //       ? []
-        //       : csvCrossProductDependencies;
-
-        //   const scannedCrossProductDependencies = Array.from(
-        //     product.crossProductDependencies,
-        //   );
-
-        //   if (
-        //     !_.isEqual(
-        //       csvCrossProductDependencies,
-        //       scannedCrossProductDependencies,
-        //     )
-        //   ) {
-        //     this.changeDetected = true;
-
-        //     if (scannedCrossProductDependencies.length > 0) {
-        //       fields[
-        //         crossProductDependencyIndex
-        //       ] = `"${scannedCrossProductDependencies.join(',')}"`;
-        //     } else {
-        //       fields[crossProductDependencyIndex] = '';
-        //     }
-        //   }
       }
 
       const updatedRow = fields.join(',');
