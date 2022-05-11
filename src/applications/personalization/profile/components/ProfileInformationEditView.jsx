@@ -235,6 +235,16 @@ export class ProfileInformationEditView extends Component {
     if (newFieldValue['view:livesOnMilitaryBase']) {
       newFieldValue.countryCodeIso3 = USA.COUNTRY_ISO3_CODE;
     }
+
+    // doing this to trigger a blur when the field is cleared so that validation runs
+    // otherwise there didn't seem to be a way to show validation appropriately
+    if (
+      this.props.fieldName === FIELD_NAMES.PREFERRED_NAME &&
+      !newFieldValue[FIELD_NAMES.PREFERRED_NAME]
+    ) {
+      document.getElementById('root_preferredName').blur();
+    }
+
     this.onChangeFormDataAndSchemas(newFieldValue, schema, uiSchema);
   };
 
