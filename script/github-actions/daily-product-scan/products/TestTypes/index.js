@@ -17,7 +17,7 @@ class TestTypes {
       Object.keys(this.types).forEach(type => {
         const globPattern = this.types[type];
 
-        product[`has${type}Tests`] = this.check({
+        product[`has${type}Tests`] = this.doesExist({
           product,
           globPattern,
         });
@@ -25,7 +25,7 @@ class TestTypes {
     });
   }
 
-  check({ product, globPattern }) {
+  doesExist({ product, globPattern }) {
     const paths = glob.sync(`${product.productPath}/${globPattern}`);
     return paths.length > 0;
   }
