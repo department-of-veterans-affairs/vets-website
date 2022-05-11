@@ -1,3 +1,4 @@
+require('dotenv').config();
 const fs = require('fs');
 const { table } = require('table');
 const path = require('path');
