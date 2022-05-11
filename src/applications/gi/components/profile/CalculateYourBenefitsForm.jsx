@@ -8,7 +8,6 @@ import TextInput from '@department-of-veterans-affairs/component-library/TextInp
 import recordEvent from 'platform/monitoring/record-event';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import environment from 'platform/utilities/environment';
 import AlertBox from '../AlertBox';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
@@ -26,6 +25,7 @@ import { ariaLabels } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
 import LearnMoreLabel from '../LearnMoreLabel';
+import environment from 'platform/utilities/environment';
 
 function CalculateYourBenefitsForm({
   calculatorInputChange,
