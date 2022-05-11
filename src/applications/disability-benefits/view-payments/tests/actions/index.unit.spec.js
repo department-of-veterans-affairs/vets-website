@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+
 import { mockFetch } from 'platform/testing/unit/helpers';
 
 import {
@@ -7,7 +8,6 @@ import {
   PAYMENTS_RECEIVED_FAILED,
   getAllPayments,
 } from '../../actions';
-
 import { payments } from '../helpers';
 
 describe('View Payments actions: getAllPayments', () => {

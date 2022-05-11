@@ -46,13 +46,18 @@ export function fetchPersonalInformation(forceCacheClear = false) {
     }
 
     // preferred name returns as ALL CAPS, so it needs to be capitalized appropriately for display
-    // TODO: see if we could get case sensitive updates to downstream service / VAProfile
     if (response?.[PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME]) {
       set(
         response,
         PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME,
         capitalize(response?.[PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME]),
       );
+    }
+
+    // a null code for gender identity needs to instead be set to an empty string or else
+    // validation message will be incorrectly set to 'is not of a type(s) string'
+    if (!response?.[PERSONAL_INFO_FIELD_NAMES.GENDER_IDENTITY]?.code) {
+      set(response, `${PERSONAL_INFO_FIELD_NAMES.GENDER_IDENTITY}.code`, '');
     }
 
     dispatch({

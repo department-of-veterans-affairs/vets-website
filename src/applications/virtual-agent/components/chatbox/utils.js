@@ -10,11 +10,25 @@ export function clearBotSessionStorage(forceClear) {
   const loggedInFlow = sessionStorage.getItem(LOGGED_IN_FLOW);
   const inAuthExp = sessionStorage.getItem(IN_AUTH_EXP);
   const expectToClear = loggedInFlow !== 'true' && inAuthExp !== 'true';
+  const excludeClear = [];
 
-  if (forceClear || expectToClear) {
+  // capture the canceled login scenarios [issue #479]
+  if (!forceClear && loggedInFlow === 'true' && inAuthExp !== 'true') {
+    excludeClear.push(LOGGED_IN_FLOW);
+    excludeClear.push(RECENT_UTTERANCES);
+    // in most scenarios, these will be reset anyway,
+    // but preserved here for edge cases.
+    excludeClear.push(CONVERSATION_ID_KEY);
+    excludeClear.push(TOKEN_KEY);
+  }
+
+  if (forceClear || expectToClear || !!excludeClear.length) {
     botSessionKeys.forEach(sessionKey => {
+      // eslint-disable-next-line sonarjs/no-collapsible-if
       if (sessionKey.includes(BOT_SESSION_PREFIX)) {
-        sessionStorage.removeItem(sessionKey);
+        if (!excludeClear.includes(sessionKey)) {
+          sessionStorage.removeItem(sessionKey);
+        }
       }
     });
   }

@@ -40,6 +40,6 @@ describe('allPayments reducer', () => {
     });
     expect(state.isLoading).to.be.false;
     expect(state.payments).to.equal(null);
-    expect(state.errorr).to.not.equal(null);
+    expect(state.error).to.not.equal(null);
   });
 });

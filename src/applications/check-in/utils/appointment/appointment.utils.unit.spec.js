@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import {
+  appointmentWasCanceled,
   hasMoreAppointmentsToCheckInto,
   preCheckinAlreadyCompleted,
   sortAppointmentsByStartTime,
@@ -114,6 +115,48 @@ describe('check in', () => {
         expect(
           hasMoreAppointmentsToCheckInto(appointments, selectedAppointment),
         ).to.equal(false);
+      });
+    });
+    describe('appointmentWasCanceled', () => {
+      const generateAppointments = () => {
+        const earliest = createAppointment();
+        earliest.startTime = '2018-01-01T00:00:00.000Z';
+        const midday = createAppointment();
+        midday.startTime = '2018-01-01T12:00:00.000Z';
+        const latest = createAppointment();
+        latest.startTime = '2018-01-01T23:59:59.000Z';
+
+        return [latest, earliest, midday];
+      };
+
+      it('returns false when no appointment was canceled', () => {
+        const appointments = generateAppointments();
+        expect(appointmentWasCanceled(appointments)).to.deep.equal(false);
+      });
+      it('returns false when appointments are not set', () => {
+        expect(appointmentWasCanceled(null)).to.deep.equal(false);
+      });
+      it('returns false when there are no appointments', () => {
+        expect(appointmentWasCanceled([])).to.deep.equal(false);
+      });
+      it('returns true when any appointment has been canceled', () => {
+        const appointments = generateAppointments();
+        appointments[0].status = 'CANCELLED BY CLINIC';
+        expect(appointmentWasCanceled(appointments)).to.deep.equal(true);
+      });
+      it('returns false when status is undefined', () => {
+        const appointments = generateAppointments();
+        appointments.forEach((appt, idx) => {
+          delete appointments[idx].status;
+        });
+        expect(appointmentWasCanceled(appointments)).to.deep.equal(false);
+      });
+      it('returns true when all appointments have been canceled', () => {
+        const appointments = generateAppointments();
+        appointments[0].status = 'CANCELLED BY CLINIC';
+        appointments[1].status = 'CANCELLED BY PATIENT';
+        appointments[0].status = 'CANCELLED BY CLINIC';
+        expect(appointmentWasCanceled(appointments)).to.deep.equal(true);
       });
     });
     describe('preCheckinAlreadyCompleted', () => {

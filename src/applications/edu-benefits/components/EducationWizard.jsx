@@ -259,7 +259,7 @@ class EducationWizard extends React.Component {
                 label={
                   <span>
                     Are you claiming a <strong>National Call to Service</strong>{' '}
-                    education benefit? (This is uncommon)
+                    education benefit? (This is uncommon.)
                   </span>
                 }
               />

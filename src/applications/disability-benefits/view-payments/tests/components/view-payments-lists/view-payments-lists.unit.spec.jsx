@@ -1,11 +1,13 @@
 import React from 'react';
+import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { expect } from 'chai';
-import allPayments from '../../../reducers/index';
 import environment from 'platform/utilities/environment';
-import ViewPaymentsLists from '../../../components/view-payments-lists/ViewPaymentsLists.jsx';
+
+import allPayments from '../../../reducers/index';
+import ViewPaymentsLists from '../../../components/view-payments-lists/ViewPaymentsLists';
 import {
   payments,
   emptyPaymentsReturned,
