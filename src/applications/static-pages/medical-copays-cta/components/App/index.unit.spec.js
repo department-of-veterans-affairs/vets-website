@@ -15,11 +15,7 @@ describe('Medical Copays CTA <App>', () => {
 
   it('renders what we expect when unauthenticated', () => {
     const mockStore = {
-      getState: () => ({
-        featureToggles: {
-          loginGov: false,
-        },
-      }),
+      getState: () => ({}),
       dispatch: () => {},
       subscribe: () => {},
     };

@@ -5,9 +5,15 @@ import AppointmentBlock from './AppointmentBlock';
 import BackToHome from './BackToHome';
 import LanguagePicker from './LanguagePicker';
 import ExternalLink from './ExternalLink';
+import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
 
 const PreCheckinConfirmation = props => {
-  const { appointments, hasUpdates, isLoading } = props;
+  const { appointments, isLoading, formData } = props;
+  const {
+    demographicsUpToDate,
+    emergencyContactUpToDate,
+    nextOfKinUpToDate,
+  } = formData;
   const { t } = useTranslation();
 
   if (appointments.length === 0) {
@@ -31,45 +37,33 @@ const PreCheckinConfirmation = props => {
           {t('youve-completed-pre-check-in')}
         </h1>
         <AppointmentBlock appointments={appointments} />
-        {hasUpdates ? (
-          <va-alert
-            background-only
-            status="info"
-            show-icon
-            data-testid="confirmation-update-alert"
-          >
-            <div>
-              {t(
-                'a-staff-member-will-help-you-on-the-day-of-your-appointment-to-update-your-information',
-              )}
-            </div>
-          </va-alert>
-        ) : (
-          <></>
-        )}
-        <p className={hasUpdates ? `vads-u-padding-left--2` : ``}>
+        <p className="vads-u-margin-bottom--4">
           <ExternalLink
             href="https://va.gov/health-care/schedule-view-va-appointments/appointments/"
             hrefLang="en"
           >
-            {t('go-to-your-appointment')}
+            {t('go-to-your-appointment-details')}
           </ExternalLink>
         </p>
-        <p className={hasUpdates ? `vads-u-padding-left--2` : ``}>
-          {t('please-bring-your-insurance-cards-with-you-to-your-appointment')}
-        </p>
-        <h3 data-testid="appointment-questions">
-          {t('what-if-i-have-questions-about-my-appointment')}
-        </h3>
-        <p>{t('call-your-va-health-care-team')}:</p>
-        {appointments.map((appointment, index) => {
-          return (
-            <p key={index}>
-              {appointment.clinicFriendlyName || appointment.clinicName} at{' '}
-              <va-telephone contact={appointment.clinicPhoneNumber} />
-            </p>
-          );
-        })}
+        <va-alert
+          background-only
+          status="info"
+          show-icon
+          data-testid="confirmation-update-alert"
+          class="vads-u-margin-bottom--3"
+        >
+          <div>
+            {t(
+              'please-bring-your-insurance-cards-with-you-to-your-appointment',
+            )}
+          </div>
+        </va-alert>
+        <PreCheckInAccordionBlock
+          demographicsUpToDate={demographicsUpToDate}
+          emergencyContactUpToDate={emergencyContactUpToDate}
+          nextOfKinUpToDate={nextOfKinUpToDate}
+          appointments={appointments}
+        />
         <BackToHome />
       </div>
     );
@@ -80,6 +74,7 @@ const PreCheckinConfirmation = props => {
 
 PreCheckinConfirmation.propTypes = {
   appointments: PropTypes.array,
+  formData: PropTypes.object,
   hasUpdates: PropTypes.bool,
   isLoading: PropTypes.bool,
 };

@@ -85,6 +85,20 @@ describe('readAndCheckFile', () => {
         done();
       });
     });
+    it('should return true for name with extra periods (pdf)', done => {
+      const file = { name: 'some.file.test.pdf', ...setup('pdf') };
+      readAndCheckFile(file, checks).then(result => {
+        expect(result.checkTypeAndExtensionMatches).to.be.true;
+        done();
+      });
+    });
+    it('should return true for string with only an extension (pdf)', done => {
+      const file = { name: '.pdf', ...setup('pdf') };
+      readAndCheckFile(file, checks).then(result => {
+        expect(result.checkTypeAndExtensionMatches).to.be.true;
+        done();
+      });
+    });
     it('should return true for array signature checks (doc)', done => {
       const file = setup('doc');
       readAndCheckFile(file, checks).then(result => {

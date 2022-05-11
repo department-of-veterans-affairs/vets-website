@@ -1,13 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-import {
-  ssoe,
-  loginGovDisabled,
-  loginGovCreateAccount,
-  loginGovMyVAHealth,
-  loginGovMHV,
-} from 'platform/user/authentication/selectors';
 import {
   LoginHeader,
   LoginActions,
@@ -43,14 +35,4 @@ export const LoginContainer = props => {
   );
 };
 
-function mapStateToProps(state) {
-  return {
-    useSSOe: ssoe(state),
-    loginGovOff: loginGovDisabled(state),
-    loginGovMHVEnabled: loginGovMHV(state),
-    loginGovMyVAHealthEnabled: loginGovMyVAHealth(state),
-    loginGovCreateAccountEnabled: loginGovCreateAccount(state),
-  };
-}
-
-export default connect(mapStateToProps)(LoginContainer);
+export default LoginContainer;

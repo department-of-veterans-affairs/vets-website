@@ -13,7 +13,7 @@ const testHappyPath = () => {
   cy.intercept('GET', DEPENDENTS_ENDPOINT, mockDependents).as('mockDependents');
   cy.visit(manifest.rootUrl);
   testAxe();
-  cy.findByRole('heading', { name: /Your VA Dependents/i }).should('exist');
+  cy.findByRole('heading', { name: /Your VA dependents/i }).should('exist');
   cy.get('dt').should('have.length', 12);
   testAxe();
 };
