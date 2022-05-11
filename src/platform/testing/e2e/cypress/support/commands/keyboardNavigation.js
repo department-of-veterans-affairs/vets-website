@@ -95,3 +95,115 @@ Cypress.Commands.add(
     });
   },
 );
+
+/**
+ * @callback tabToInputWithLabel
+ * @param {String} - Text within a label associated with an input you want to focus
+ */
+
+/**
+ * This command allows you to search for an input using the label text. The focus will be moved to that element, if the label text is found. Modified from Cypress docs: https://glebbahmutov.com/cypress-examples/6.5.0/recipes/form-input-by-label.html#reusable-function
+ * @param {String} name - Name of the new command
+ * @param {tabToInputWithLabel} callbackFunction - The callback finds the label text and then focuses on the associated input
+ */
+Cypress.Commands.add('tabToInputWithLabel', text => {
+  cy.contains('label', text)
+    .invoke('attr', 'for')
+    .then(id => {
+      cy.tabToElement(`#${id}`);
+    });
+});
+
+/**
+ * @callback typeInIfDataExists
+ * @param {String} selector - The CSS element selector
+ * @param {String} text - Text to type into focused element
+ */
+/**
+ * This command will check if the data value is truthy, before tabbing to the element. If found, it will then type in the focused element
+ * @param {String} name - Name of the new command
+ * @param {typeInIfDataExists} callbackFunction - The callback that handles moving the focus to an element and then typing in the text
+ */
+Cypress.Commands.add('typeInIfDataExists', (selector, text) => {
+  if (text) {
+    cy.tabToElement(selector);
+    cy.typeInFocused(text);
+  }
+});
+
+/**
+ * FullName
+ * @typedef {Object}
+ * @property {String} prefix - Prefix
+ * @property {String} first - First name
+ * @property {String} middle - Middle name
+ * @property {String} last - Last name
+ * @property {String} suffix - Suffix
+ */
+/**
+ * @callback typeInFullName
+ * @param {String} fieldName - The group of elements ID prefix
+ * @param {FullName} data - Full name object
+ */
+/**
+ * This command will check if the data portion of the value is truthy, before tabbing to the name part. If found, it will then select or type in the name part
+ * @param {String} name - Name of the new command
+ * @param {typeInFullName} callbackFunction - The callback that handles moving the focus to an element and then select or type in the text
+ */
+Cypress.Commands.add('typeInFullName', (fieldName, data) => {
+  if (data.prefix) {
+    cy.tabToElement(`#${fieldName}prefix`);
+    cy.chooseSelectOptionByTyping(data.prefix);
+  }
+  cy.typeInIfDataExists(`#${fieldName}first`, data.first);
+  cy.typeInIfDataExists(`#${fieldName}middle`, data.middle);
+  cy.typeInIfDataExists(`#${fieldName}last`, data.last);
+  if (data.suffix) {
+    cy.tabToElement(`#${fieldName}suffix`);
+    cy.chooseSelectOptionByTyping(data.suffix);
+  }
+});
+
+/**
+ * @callback chooseSelectOptionUsingArrow
+ * @param {String} value - The option value to search for
+ * @param {Number} iteration - The current count of the number of cycles, setting this limit prevents an endless loop if the option value isn't found
+ * @param {Number} maxIterations=20 - The maximum number of iterations before stopping
+ */
+/**
+ * This command will target the focused select and then find and select the option value (not text, like `chooseSelectOptionByTyping`) that matches, and then selects it
+ * @param {String} name - Name of the new command
+ * @param {typeInFullName} callbackFunction - The callback that handles moving the focus to the matching option, and then selecting it
+ */
+Cypress.Commands.add(
+  'chooseSelectOptionUsingArrow',
+  (value, iteration = 0, maxIterations = 20) => {
+    cy.get(':focus :selected').then($el => {
+      if (value === $el[0].value) {
+        cy.realPress('Space');
+      } else if (iteration < maxIterations) {
+        cy.realPress('ArrowDown', { pressDelay: timeoutDuration });
+        cy.chooseSelectOptionUsingArrow(value, iteration + 1);
+      }
+    });
+  },
+);
+
+/**
+ * @callback typeInDate
+ * @param {String} fieldName - The group of elements ID prefix
+ * @param {String} dateString - Date string in "YYYY-MM-DD" format
+ */
+/**
+ * This command will select the date in a month & day select and then type in the year into a text input
+ * @param {String} name - Name of the new command
+ * @param {typeInFullName} callbackFunction - The callback that handles making the month & day selections and typing in the year
+ */
+Cypress.Commands.add('typeInDate', (fieldName, dateString) => {
+  // Remove leading zeros
+  const date = dateString.split('-').map(v => parseInt(v, 10).toString());
+  cy.tabToElement(`#${fieldName}Month`);
+  cy.chooseSelectOptionUsingArrow(date[1], 12);
+  cy.tabToElement(`#${fieldName}Day`).chooseSelectOptionUsingArrow(date[2], 31);
+  cy.tabToElement(`input[name="${fieldName}Year"]`).typeInFocused(date[0]);
+});
