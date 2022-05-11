@@ -2712,12 +2712,12 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@department-of-veterans-affairs/component-library@^10.1.0":
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-10.1.0.tgz#52bc9a36f029499cca82cc6239ef5ccd35814420"
-  integrity sha512-LtyUyTsjBUJUtYHSULTJaR4YMhyB4TubanZR9VDsqazgdr4p14GUx1d4fqXFRg5XQ8N8tvUgyS4h20nY2wdHpA==
+"@department-of-veterans-affairs/component-library@^10.2.0":
+  version "10.2.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-10.2.0.tgz#2913fbfd245a9c5ed023096ac4244867f4a3b2e7"
+  integrity sha512-G61DVul82RyGyr/pr/ziVNBUJ0UHBFmz2in1aakSTZHirBcR83p+4VMLs2kMCSbe8tgnEvg1G8s7rumL+fgnrg==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "6.0.0"
+    "@department-of-veterans-affairs/react-components" "6.1.0"
     "@department-of-veterans-affairs/web-components" "4.1.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
@@ -2776,10 +2776,10 @@
     react-transition-group "1"
     recast "^0.14.4"
 
-"@department-of-veterans-affairs/react-components@6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-6.0.0.tgz#1e3e88a13fc4dbc6cdc89b74dd6fffbf95134a9d"
-  integrity sha512-GqKArB8U27ZNgiK19dfN86hvWK0+QKx+5edsJtIUTiLHFYkma1CFys/HYCEO2IcjGyaD6n7QWQKgFjpeFgJp3A==
+"@department-of-veterans-affairs/react-components@6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-6.1.0.tgz#7e953cb8ca883d7761b01491a4bc738a4f4a674b"
+  integrity sha512-vBVeSpph1hFJiVr1mSSx6GdD4hW/vnhk61mwJLFlkGPUieB9OQ8XPM1mtYg7JflV613fl6IKIBmdJ2STTlWgMw==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
