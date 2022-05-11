@@ -48,9 +48,9 @@ const Error = ({ location }) => {
     <>
       {messages.map((message, index) => {
         return (
-          <p key={index} data-testid={message.testId}>
+          <div key={index} data-testid={message.testId}>
             {message.text}
-          </p>
+          </div>
         );
       })}
     </>
@@ -62,16 +62,15 @@ const Error = ({ location }) => {
       return [
         t('sorry-we-cant-complete-pre-check-in'),
         t('you-can-still-check-in-once-you-arrive'),
-        true,
       ];
-    return [t('sorry-we-cant-complete-pre-check-in'), combinedMessage, false];
+    return [t('sorry-we-cant-complete-pre-check-in'), combinedMessage];
   };
 
-  const [header, message, messageBox] = getErrorMessagePropsByType();
+  const [header, message] = getErrorMessagePropsByType();
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 ">
-      <ErrorMessage header={header} message={message} messageBox={messageBox} />
+      <ErrorMessage header={header} message={message} />
       <Footer />
       <BackToHome />
     </div>
