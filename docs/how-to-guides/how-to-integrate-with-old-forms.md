@@ -62,10 +62,10 @@ There are a couple things going on here:
 
 ### Form
 
-The [`Form` component](https://github.com/department-of-veterans-affairs/vets-website/blob/master/src/platform/forms/va-forms-system-core-integration/Form.jsx) is the integration layer between VA Forms System Core and the shema-based forms library. It ensures the Redux context used to store the form data from every other page is updated when data is entered on this VA Forms System Core page. It should be a pass-through that you can mostly ignore. Just make sure it's there.
+The [`Form` component](https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/platform/forms/va-forms-system-core-integration/Form.jsx) is the integration layer between VA Forms System Core and the shema-based forms library. It ensures the Redux context used to store the form data from every other page is updated when data is entered on this VA Forms System Core page. It should be a pass-through that you can mostly ignore. Just make sure it's there.
 
 ### TextField
 
-The [`TextField` component](https://github.com/department-of-veterans-affairs/va-forms-system-core/blob/master/src/form-builder/TextField.tsx) is the first component from VA Forms System Core itself. It's a simple text field which uses the VA.gov design system's [`<va-text-input>` web component](https://design.va.gov/storybook/?path=/docs/components-va-text-input--default) and hooks it into the Formik context.
+The [`TextField` component](https://github.com/department-of-veterans-affairs/va-forms-system-core/blob/main/src/form-builder/TextField.tsx) is the first component from VA Forms System Core itself. It's a simple text field which uses the VA.gov design system's [`<va-text-input>` web component](https://design.va.gov/storybook/?path=/docs/components-va-text-input--default) and hooks it into the Formik context.
 
 See the [generated documentation](/va-forms-system-core/reference/va-forms-system-core.textfield.html) for more details on how to use it.
