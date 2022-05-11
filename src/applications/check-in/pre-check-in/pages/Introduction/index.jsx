@@ -14,6 +14,7 @@ import {
 
 import { makeSelectCurrentContext } from '../../../selectors';
 import {
+  appointmentWasCanceled,
   preCheckinAlreadyCompleted,
   preCheckinExpired,
 } from '../../../utils/appointment';
@@ -73,6 +74,10 @@ const Introduction = props => {
             preCheckinExpired(payload.appointments)
           ) {
             goToErrorPage('?type=expired');
+          }
+
+          if (appointmentWasCanceled(payload.appointments)) {
+            goToErrorPage();
           }
 
           if (preCheckinAlreadyCompleted(payload.appointments)) {

@@ -321,8 +321,12 @@
               "system": null,
               "value": "1801312053"
             }],
-            "firstName": "Meg",
-            "lastName": "Smith",
+            "name":{
+              "family": "Smith",
+              "given": [
+                "Megan"
+              ]
+            },
             "practiceName": null
           },
           {
@@ -330,8 +334,12 @@
               "system": null,
               "value": "1801312053"
             }],
-            "firstName": "Salvador",
-            "lastName": "Dali",
+            "name":{
+              "family": "Dali",
+              "given": [
+                "Salvador"
+              ]
+            },
             "practiceName": null
           }
         ],

@@ -1,29 +1,21 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { links } from 'applications/caregivers/definitions/content';
 
 const NeedHelpFooter = () => {
   return (
     <>
       <p>
-        You can call the VA Caregiver Support Line at
-        <Telephone
-          contact={CONTACTS.CAREGIVER}
-          className="vads-u-margin-left--0p5"
-        />
-        . We’re here Monday through Friday, 8:00 a.m. to 10:00 p.m. ET, and
-        Saturday, 8:00 a.m. to 5:00 p.m. ET.
+        You can call the VA Caregiver Support Line at{' '}
+        <va-telephone contact={CONTACTS.CAREGIVER} />. We’re here Monday through
+        Friday, 8:00 a.m. to 10:00 p.m. ET, and Saturday, 8:00 a.m. to 5:00 p.m.
+        ET.
       </p>
 
       <p>
-        You can also call
-        <Telephone
-          contact={CONTACTS.HEALTHCARE_ELIGIBILITY_CENTER}
-          className="vads-u-margin-x--0p5"
-        />
+        You can also call{' '}
+        <va-telephone contact={CONTACTS.HEALTHCARE_ELIGIBILITY_CENTER} /> if you
         if you have questions about completing your application, or contact your
         local Caregiver Support Coordinator.
       </p>
@@ -40,20 +32,11 @@ const NeedHelpFooter = () => {
       </span>
 
       <p>
-        If this form isn't working right for you, please call us at
-        <Telephone
-          contact={CONTACTS.HELP_DESK}
-          className="vads-u-margin-left--0p5"
-        />
-        .<br />
+        If this form isn’t working right for you, please call us at{' '}
+        <va-telephone contact={CONTACTS.HELP_DESK} />.<br />
         <span>
-          If you have hearing loss, call TTY:
-          <Telephone
-            className="vads-u-margin-left--0p5"
-            contact={CONTACTS['711']}
-            pattern={PATTERNS['911']}
-          />
-          .
+          If you have hearing loss, call TTY:{' '}
+          <va-telephone contact={CONTACTS['711']} />.
         </span>
       </p>
     </>

@@ -2,6 +2,7 @@ import get from 'platform/utilities/data/get';
 import { states } from 'platform/forms/address';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
+import { logValidateMarriageDateVaFacilityPage } from '../../../validation';
 
 import {
   facilityHelp,
@@ -37,6 +38,7 @@ export default {
         'ui:options': {
           labels: stateLabels,
         },
+        'ui:validations': [logValidateMarriageDateVaFacilityPage],
       },
       vaMedicalFacility: {
         'ui:title': 'Center or clinic',
