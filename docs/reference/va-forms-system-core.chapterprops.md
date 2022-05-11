@@ -19,7 +19,6 @@ export interface ChapterProps
 
 |  Property | Type | Description |
 |  --- | --- | --- |
-|  [children](./va-forms-system-core.chapterprops.children.md) | Array&lt;any&gt; | <b><i>(BETA)</i></b> |
-|  [path](./va-forms-system-core.chapterprops.path.md) | string | <b><i>(BETA)</i></b> |
-|  [title](./va-forms-system-core.chapterprops.title.md) | string | <b><i>(BETA)</i></b> |
+|  [children](./va-forms-system-core.chapterprops.children.md) | Array&lt;any&gt; \| any | <b><i>(BETA)</i></b> |
+|  [title?](./va-forms-system-core.chapterprops.title.md) | string | <b><i>(BETA)</i></b> <i>(Optional)</i> |
 

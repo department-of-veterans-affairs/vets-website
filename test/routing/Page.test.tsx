@@ -1,67 +1,78 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, waitFor } from '@testing-library/react';
 
-import { Link, Route, Router } from 'react-router-dom';
+import { Link, MemoryRouter, Route, Router, Routes } from 'react-router-dom';
+import { RouterProps } from '../../src/routing/types';
 import Page from '../../src/routing/Page';
 import Chapter from '../../src/routing/Chapter';
-import { createMemoryHistory } from 'history';
+import { act } from 'react-dom/test-utils';
+import { FormFooter, FormTitle } from '../../src';
+import { Formik } from 'formik';
 
-describe.skip('Routing - Page', () => {
-  test('is navigable without Chapter components', () => {
-    const history = createMemoryHistory({
-      initialEntries: ['/'],
-    });
-    const { queryByText } = render(
-      <Router history={history}>
-        <Page path="/my-page" title="My page">
-          <div>I am a child!</div>
-          <div>Me too!</div>
-        </Page>
+const FormRouterInternal = (props: RouterProps): JSX.Element => (
+  <>
+    {props?.title && (
+      <FormTitle title={props.title} subTitle={props?.subtitle} />
+    )}
+    <Formik
+      initialValues={props.formData}
+      onSubmit={(values, actions) => {
+        // Here we leverage formik actions to perform validations, submit data, etc.
+        // Also a good candidate for extracting data out of form apps
+        actions.setSubmitting(true);
+      }}
+    >
+      <Routes>{props.children}</Routes>
+    </Formik>
+    <FormFooter />
+  </>
+);
 
-        <Route exact path="/">
-          <h1>Intro page</h1>
-          <Link to="my-page">Go to my page</Link>
-        </Route>
-      </Router>
+const PageOne = () => (
+  <Page 
+    nextPage="/page-two"
+    title="page one">
+    <p>page one</p>
+  </Page>
+);
+
+const PageTwo = () => (
+  <Page 
+    nextPage="/"
+    title="page two"
+    >
+    <p>page two</p>
+  </Page>
+);
+
+const initialValues = {
+  firstName: '', 
+  lastName: '', 
+  email: '', 
+  street: '', 
+  streetTwo: '', 
+  streetThree: '', 
+  state: '', 
+  zipcode: ''
+};
+
+describe('Routing - Page', () => {
+
+  test('switches page content', async() => {
+    const { container } = render(
+      <MemoryRouter initialEntries={["/", "/page-two"]} initialIndex={0}>
+        <FormRouterInternal basename="/" formData={initialValues} title="Page Test">
+          <Route index element={<PageOne />} />
+          <Route path="/page-two" element={<PageTwo />} />
+        </FormRouterInternal>
+      </MemoryRouter>
     );
-    expect(queryByText(/Intro page/i)).not.toBeNull();
-    expect(queryByText('My page')).toBeNull();
-    expect(history.entries[0].pathname).toEqual('/');
+    act(() => {
+      const goLink = container.querySelector('button');
+      goLink?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    });
 
-    userEvent.click(queryByText('Go to my page'));
-
-    expect(queryByText('My page')).not.toBeNull();
-    expect(queryByText('Intro page')).toBeNull();
-    expect(history.entries[1].pathname).toEqual('/my-page');
+    await waitFor(() => expect(container.querySelector('h3')?.innerHTML).toContain('page two'));
   });
 
-  test('it can navigate between Pages within a Chapter', () => {
-    const history = createMemoryHistory({
-      initialEntries: ['/chapter-one/page-one'],
-    });
-    const { queryByText } = render(
-      <Router history={history}>
-        <Chapter title="Chapter One" path="/chapter-one">
-          <Page title="First Page" path="/page-one">
-            <div>Page 1</div>
-            <Link to="/chapter-one/page-two">Page two link</Link>
-          </Page>
-          <Page title="Second Page" path="/page-two">
-            <div>Page 2</div>
-          </Page>
-        </Chapter>
-      </Router>
-    );
-
-    expect(queryByText('Page 1')).not.toBeNull();
-    expect(queryByText('Page 2')).toBeNull();
-    expect(history.entries[0].pathname).toEqual('/chapter-one/page-one');
-
-    userEvent.click(queryByText('Page two link'));
-
-    expect(queryByText('Page 1')).toBeNull();
-    expect(queryByText('Page 2')).not.toBeNull();
-    expect(history.entries[1].pathname).toEqual('/chapter-one/page-two');
-  });
 });

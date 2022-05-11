@@ -10,5 +10,5 @@
 <b>Signature:</b>
 
 ```typescript
-children: Routable | Array<Routable>;
+children: ReactElement<any, any> | ReactElement<any, any>[];
 ```

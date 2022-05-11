@@ -33,8 +33,8 @@ const SSNField = (props: SSNProps): JSX.Element => {
     setSSN(valueWithoutDashes);
   };
 
-  const onBlur = (event: any) => {
-    const { value } = event.target;
+  const onBlur = (event: Event) => {
+    const { value } = event.target as HTMLTextAreaElement;
     const ssnString: string = value.replaceAll('-', '');
     helpers.setValue(ssnString);
     helpers.setTouched(true);

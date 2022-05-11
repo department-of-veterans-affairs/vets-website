@@ -10,5 +10,5 @@
 <b>Signature:</b>
 
 ```typescript
-title: string;
+title?: string;
 ```

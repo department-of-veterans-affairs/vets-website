@@ -12,19 +12,20 @@ export default function Page(props: PageProps): JSX.Element {
   const { values, submitForm } = useFormikContext();
   const formValues = values as IFormData;
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <div>
-      <h2>{props.title}</h2>
+      <h3>{props.title}</h3>
       <Form>
         {props.children}
         <button
           className="btn"
           onClick={(event) => {
             event.preventDefault();
-            submitForm();
-            navigate(`/${props.nextPage}`);
+            void submitForm();
+            // then submit form has succeeded - add better promise validation here
+            navigate(`${props.nextPage}`);
           }}
         >
           {' '}

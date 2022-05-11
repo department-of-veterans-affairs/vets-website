@@ -17,13 +17,15 @@ const PhoneField = (props: PhoneProps): JSX.Element => {
     ...props,
     validate: chainValidations(props, [required, isValidPhone]),
   };
-  const [field, meta, helpers] = useField(withValidation as FieldHookConfig<string>);
+  const [field, meta, helpers] = useField(
+    withValidation as FieldHookConfig<string>
+  );
   const id = props.id || props.name;
   const value = field.value;
 
   return (
     <TextField
-      type='tel'
+      type="tel"
       id={id}
       {...props}
       onChange={field.onChange}

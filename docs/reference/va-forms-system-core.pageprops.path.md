@@ -10,5 +10,5 @@
 <b>Signature:</b>
 
 ```typescript
-path: string;
+path?: string;
 ```

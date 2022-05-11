@@ -10,5 +10,5 @@
 <b>Signature:</b>
 
 ```typescript
-children: Array<any>;
+children: Array<any> | any;
 ```

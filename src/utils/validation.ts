@@ -101,16 +101,15 @@ export const isValidPhone = <T>(
   }
   function validPhone(value: string) {
     // Strip spaces, dashes, and parens
-    const stripped = value.replace(/[^\d]/g,'');
+    const stripped = value.replace(/[^\d]/g, '');
     // Count number of digits
     return /^\d{10}$/.test(stripped);
   }
-  const isValid =
-    (!props.required && !phoneString) || validPhone(phoneString);
+  const isValid = (!props.required && !phoneString) || validPhone(phoneString);
   return isValid
     ? ''
     : 'Please enter a 10-digit phone number (with or without dashes)';
-}
+};
 /**
  * Conditions for valid SSN from the original 1010ez pdf form:
  * '123456789' is not a valid SSN
