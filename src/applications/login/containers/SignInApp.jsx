@@ -10,11 +10,11 @@ import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors'
 import { selectProfile } from 'platform/user/selectors';
 import { EXTERNAL_APPS } from 'platform/user/authentication/constants';
 
-class SignInPage extends React.Component {
+export class SignInPage extends React.Component {
   componentDidUpdate() {
     const { router, location, authenticatedWithSSOe, profile } = this.props;
     const { query } = location;
-    const application = query.application;
+    const { application } = query;
     if (
       authenticatedWithSSOe &&
       !profile.verified &&

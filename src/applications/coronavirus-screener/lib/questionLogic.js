@@ -11,12 +11,19 @@ export function updateEnabledQuestions({ questionState, customId }) {
     // check if enabled by customId
     const customIdEnabled = question.customId?.includes(customId) ?? true;
 
+    // check if excluded by customIdExclusion
+    const customIdExcluded =
+      question.customIdExcluded?.includes(customId) ?? false;
+
     // check if enabled by dependsOn
     const dependsOnEnabled =
       questionState.find(el => el.id === question.dependsOn?.id)?.value ===
       question.dependsOn?.value;
 
-    return { ...question, enabled: customIdEnabled && dependsOnEnabled };
+    return {
+      ...question,
+      enabled: customIdEnabled && dependsOnEnabled && !customIdExcluded,
+    };
   });
 }
 

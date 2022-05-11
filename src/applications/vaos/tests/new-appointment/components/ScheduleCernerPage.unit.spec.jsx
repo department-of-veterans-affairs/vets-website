@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import { mockFetch } from 'platform/testing/unit/helpers';
 import {
   createTestStore,
   renderWithStoreAndRouter,
@@ -8,7 +9,6 @@ import {
 } from '../../mocks/setup';
 
 import { createMockCheyenneFacilityByVersion } from '../../mocks/data';
-import { mockFetch } from 'platform/testing/unit/helpers';
 import ScheduleCernerPage from '../../../new-appointment/components/ScheduleCernerPage';
 
 const initialState = {
@@ -51,7 +51,7 @@ describe('VAOS <ScheduleCernerPage>', () => {
       screen.getByRole('link', { name: 'My VA Health' }).getAttribute('href'),
     ).to.contain('pages%2Fscheduling%2Fupcoming');
 
-    expect(screen.baseElement).to.contain.text('307-778-7550');
+    expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(screen.getByRole('button', { name: /Continue/ })).to.have.attribute(
       'disabled',
     );

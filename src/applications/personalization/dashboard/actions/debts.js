@@ -1,13 +1,14 @@
+import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
 import environment from '~/platform/utilities/environment';
 import { deductionCodes } from '~/applications/debt-letters/const/deduction-codes';
-import {
-  DEBTS_FETCH_SUCCESS,
-  DEBTS_FETCH_FAILURE,
-} from '~/applications/debt-letters/actions';
-import { FSR_API_ERROR } from '~/applications/financial-status-report/constants/actionTypes';
+
+export const DEBTS_FETCH_SUCCESS = 'DEBTS_FETCH_SUCCESS';
+export const DEBTS_FETCH_FAILURE = 'DEBTS_FETCH_FAILURE';
+export const DEBTS_FETCH_INITIATED = 'DEBTS_FETCH_INITIATED';
 
 export const fetchDebts = () => async dispatch => {
+  dispatch({ type: DEBTS_FETCH_INITIATED });
   const getDebts = () => {
     const options = {
       method: 'GET',
@@ -25,6 +26,12 @@ export const fetchDebts = () => async dispatch => {
   try {
     const response = await getDebts();
     if (response.errors) {
+      recordEvent({
+        event: `api_call`,
+        'error-key': `server error`,
+        'api-name': 'GET debts',
+        'api-status': 'failed',
+      });
       return dispatch({
         type: DEBTS_FETCH_FAILURE,
         error: response,
@@ -37,14 +44,24 @@ export const fetchDebts = () => async dispatch => {
       .filter(debt => approvedDeductionCodes.includes(debt.deductionCode))
       .filter(debt => debt.currentAr > 0)
       .map((debt, index) => ({ ...debt, id: index }));
-
+    recordEvent({
+      event: `api_call`,
+      'api-name': 'GET debts',
+      'api-status': 'successful',
+    });
     return dispatch({
       type: DEBTS_FETCH_SUCCESS,
       debts: filteredResponse,
     });
   } catch (error) {
+    recordEvent({
+      event: `api_call`,
+      'error-key': `internal error`,
+      'api-name': 'GET debts',
+      'api-status': 'failed',
+    });
     dispatch({
-      type: FSR_API_ERROR,
+      type: DEBTS_FETCH_FAILURE,
       error,
     });
     throw new Error(error);

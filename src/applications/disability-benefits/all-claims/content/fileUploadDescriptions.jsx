@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { MAX_FILE_SIZE_MB, MAX_PDF_FILE_SIZE_MB } from '../constants';
-import { getPdfSizeFeature } from '../utils';
+import { getPdfSizeFeature } from '../utils/schemas';
 
 /**
  * Generic description added to file upload pages

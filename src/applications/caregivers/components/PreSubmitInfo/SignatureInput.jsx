@@ -130,13 +130,13 @@ const SignatureInput = ({
 
 SignatureInput.propTypes = {
   fullName: PropTypes.object.isRequired,
-  label: PropTypes.string.isRequired,
-  isChecked: PropTypes.bool.isRequired,
-  showError: PropTypes.bool.isRequired,
   hasSubmittedForm: PropTypes.bool.isRequired,
+  isChecked: PropTypes.bool.isRequired,
+  label: PropTypes.string.isRequired,
   setSignatures: PropTypes.func.isRequired,
-  isRepresentative: PropTypes.bool,
+  showError: PropTypes.bool.isRequired,
   ariaDescribedBy: PropTypes.string,
+  isRepresentative: PropTypes.bool,
   required: PropTypes.bool,
 };
 

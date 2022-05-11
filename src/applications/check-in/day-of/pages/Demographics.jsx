@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
@@ -15,6 +16,7 @@ const Demographics = props => {
   const { isDayOfDemographicsFlagsEnabled } = props;
   const dispatch = useDispatch();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { t } = useTranslation();
   const { demographics } = useSelector(selectVeteranData);
   const { router } = props;
   const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting(router);
@@ -51,10 +53,11 @@ const Demographics = props => {
       }
       const seeStaffMessage = (
         <>
-          <p>Our staff can help you update your contact information.</p>
+          <p>{t('our-staff-can-help-you-update-your-contact-information')}</p>
           <p className="vads-u-margin-bottom--0">
-            If you don’t live at a fixed address right now, we’ll help you find
-            the best way to stay connected with us.
+            {t(
+              'if-you-dont-live-at-a-fixed-address-right-now-well-help-you-find-the-best-way-to-stay-connected-with-us',
+            )}
           </p>
         </>
       );
@@ -66,6 +69,7 @@ const Demographics = props => {
       jumpToPage,
       isDayOfDemographicsFlagsEnabled,
       dispatch,
+      t,
     ],
   );
 

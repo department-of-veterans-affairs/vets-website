@@ -26,6 +26,7 @@ import LocatorApi from '../api';
 import {
   LocationType,
   BOUNDING_RADIUS,
+  EXPANDED_BOUNDING_RADIUS,
   MAPBOX_QUERY_TYPES,
   CountriesList,
 } from '../constants';
@@ -113,10 +114,11 @@ export const fetchProviderDetail = id => async dispatch => {
  * @returns {Object} An Object response (locations/providers)
  */
 const returnAllCare = async params => {
-  const { address, locationType, page, center, radius } = params;
+  const { address, bounds, locationType, page, center, radius } = params;
   const isUrgentCare = locationType === LocationType.URGENT_CARE;
   const vaData = await LocatorApi.searchWithBounds(
     address,
+    bounds,
     locationType,
     isUrgentCare ? 'UrgentCare' : 'EmergencyCare',
     page,
@@ -127,6 +129,7 @@ const returnAllCare = async params => {
 
   const nonVaData = await LocatorApi.searchWithBounds(
     address,
+    bounds,
     locationType,
     isUrgentCare ? 'NonVAUrgentCare' : 'NonVAEmergencyCare',
     page,
@@ -209,6 +212,7 @@ export const fetchLocations = async (
     } else {
       const dataList = await LocatorApi.searchWithBounds(
         address,
+        bounds,
         locationType,
         serviceType,
         page,
@@ -319,7 +323,7 @@ export const searchWithBounds = ({
  * @param {Object<T>} query Current searchQuery state (`searchQuery.searchString` at a minimum)
  * @returns {Function<T>} A thunk for Redux to process OR a failure action object on bad input
  */
-export const genBBoxFromAddress = query => {
+export const genBBoxFromAddress = (query, expandedRadius = false) => {
   // Prevent empty search request to Mapbox, which would result in error, and
   // clear results list to respond with message of no facilities found.
   if (!query.searchString) {
@@ -368,19 +372,23 @@ export const genBBoxFromAddress = query => {
             : [],
         });
 
+        const searchBoundingRadius = expandedRadius
+          ? EXPANDED_BOUNDING_RADIUS
+          : BOUNDING_RADIUS;
+
         let minBounds = [
-          coordinates[0] - BOUNDING_RADIUS,
-          coordinates[1] - BOUNDING_RADIUS,
-          coordinates[0] + BOUNDING_RADIUS,
-          coordinates[1] + BOUNDING_RADIUS,
+          coordinates[0] - searchBoundingRadius,
+          coordinates[1] - searchBoundingRadius,
+          coordinates[0] + searchBoundingRadius,
+          coordinates[1] + searchBoundingRadius,
         ];
 
         if (featureBox) {
           minBounds = [
-            Math.min(featureBox[0], coordinates[0] - BOUNDING_RADIUS),
-            Math.min(featureBox[1], coordinates[1] - BOUNDING_RADIUS),
-            Math.max(featureBox[2], coordinates[0] + BOUNDING_RADIUS),
-            Math.max(featureBox[3], coordinates[1] + BOUNDING_RADIUS),
+            Math.min(featureBox[0], coordinates[0] - searchBoundingRadius),
+            Math.min(featureBox[1], coordinates[1] - searchBoundingRadius),
+            Math.max(featureBox[2], coordinates[0] + searchBoundingRadius),
+            Math.max(featureBox[3], coordinates[1] + searchBoundingRadius),
           ];
         }
 

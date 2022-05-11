@@ -70,7 +70,7 @@ describe('<ConfirmationPage>', () => {
     expect(tree.everySubTree('p')[1].text()).to.contain(
       'We may contact you for more information or documents.',
     );
-    expect(tree.everySubTree('p')[8].text()).to.contain('VA Regional Office');
+    expect(tree.everySubTree('p')[5].text()).to.contain('VA Regional Office');
   });
   it('should render', () => {
     const form = {

@@ -8,14 +8,16 @@
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockDebts from './fixtures/mocks/debts.json';
 import mockUser from './fixtures/mocks/mock-user.json';
+import mockCopays from '../../../medical-copays/tests/e2e/fixtures/mocks/copays.json';
 
-describe('Debt Letters', () => {
+describe.skip('Debt Letters', () => {
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
       'features',
     );
     cy.intercept('GET', '/v0/debts', mockDebts).as('debts');
+    cy.intercept('GET', '/v0/medical_copays', mockCopays);
     cy.visit('/manage-va-debt/your-debt/');
     cy.wait(['@features', '@debts']);
   });
@@ -29,8 +31,14 @@ describe('Debt Letters', () => {
     cy.injectAxeThenAxeCheck();
   });
 
+  it('displays other va debts', () => {
+    cy.findByTestId('other-va-debts-ltr-body').should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
+
   /* eslint-disable va/axe-check-required */
   // Same display-states below as test above which already had AXE-check.
+
   it('displays download debt letters - C1227', () => {
     cy.findByTestId('download-jumplink').click({ waitForAnimations: true });
     cy.findByTestId('download-letters-link').click();

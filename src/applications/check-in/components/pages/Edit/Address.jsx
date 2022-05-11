@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import _ from 'lodash';
 
 import { focusElement } from 'platform/utilities/ui';
@@ -33,6 +34,7 @@ import { countryList } from '../../../utils/appConstants/countryList';
 export default function Address(props) {
   const { router } = props;
   const { jumpToPage } = useFormRouting(router);
+  const { t } = useTranslation();
   const selectEditContext = useMemo(makeSelectEditContext, []);
   const { editing } = useSelector(selectEditContext);
   const { editingPage, originatingUrl, value, key } = editing;
@@ -90,7 +92,7 @@ export default function Address(props) {
         if (!newValue) {
           setAddressError(prevState => ({
             ...prevState,
-            [fieldName]: `${event.target.label} is required`,
+            [fieldName]: `${event.target.label} ${t('is-required')}`,
           }));
         } else if (newValue && extraValidation) {
           const validate = extraValidation(newValue);
@@ -112,12 +114,12 @@ export default function Address(props) {
         [fieldName]: newValue,
       }));
     },
-    [setAddressValue, setAddressError],
+    [setAddressValue, setAddressError, t],
   );
-  const onChange = useCallback(
+  const onInput = useCallback(
     (event, extraValidation = false) => {
       const fieldName = event.target.name;
-      const newValue = event.detail.value;
+      const newValue = event.target?.value;
       if (!isUpdatable) {
         if (extraValidation && newValue) {
           const validate = extraValidation(newValue);
@@ -139,7 +141,7 @@ export default function Address(props) {
         [fieldName]: newValue,
       }));
     },
-    [setAddressValue, setAddressError, addressError, isUpdatable],
+    [setAddressValue, setAddressError, isUpdatable],
   );
   const handleMilitaryBase = useCallback(
     event => {
@@ -157,11 +159,11 @@ export default function Address(props) {
       }));
       setAddressError(prevState => ({
         ...prevState,
-        city: 'City is required',
-        state: 'State is required',
+        city: t('city-is-required'),
+        state: t('state-is-required'),
       }));
     },
-    [setAddressValue, setAddressError],
+    [setAddressValue, setAddressError, t],
   );
 
   const handleCountryChange = useCallback(
@@ -178,8 +180,8 @@ export default function Address(props) {
           ...prevState,
           state: null,
           zip: null,
-          province: 'State/Province/Region is required.',
-          internationalPostalCode: 'International postal code is required.',
+          province: t('state-province-region-is-required'),
+          internationalPostalCode: t('international-postal-code-is-required'),
         }));
       } else {
         setAddressFields(addressFormFields.US);
@@ -194,12 +196,12 @@ export default function Address(props) {
           country: event.detail.value,
           province: null,
           internationalPostalCode: null,
-          state: 'State is required',
-          zip: 'Zip code is required',
+          state: t('state-is-required'),
+          zip: t('zip-code-is-required'),
         }));
       }
     },
-    [setAddressValue, setAddressError],
+    [setAddressValue, setAddressError, t],
   );
 
   const renderedFields = (
@@ -214,17 +216,17 @@ export default function Address(props) {
                 name={addressField.name}
                 key={addressField.name}
                 value={addressValue[addressField.name]}
-                onVaBlur={
+                onBlur={
                   addressField.options?.extraValidation
                     ? event =>
                         onBlur(event, addressField.options.extraValidation)
                     : onBlur
                 }
-                onVaChange={
+                onInput={
                   addressField.options?.extraValidation
                     ? event =>
-                        onChange(event, addressField.options.extraValidation)
-                    : onChange
+                        onInput(event, addressField.options.extraValidation)
+                    : onInput
                 }
                 required={addressField.options?.required}
                 inputmode={addressField.options?.inputMode || 'text'}
@@ -274,14 +276,16 @@ export default function Address(props) {
         value={Object.values(value).some(x => x !== null && x !== '')}
       />
       <VaCheckbox
-        label="I live on a United States military base outside of the United States."
+        label={t(
+          'i-live-on-a-united-states-military-base-outside-of-the-united-states',
+        )}
         onVaChange={handleMilitaryBase}
         className="vads-u-margin-left--neg3"
         checked={outsideBase}
       />
       <VaSelect
         error={null}
-        label="Country"
+        label={t('country')}
         name="country"
         required
         onVaSelect={handleCountryChange}
@@ -289,7 +293,7 @@ export default function Address(props) {
       >
         {outsideBase ? (
           <option key="usa" value="USA">
-            United States
+            {t('united-states')}
           </option>
         ) : (
           countryList.map(country => (

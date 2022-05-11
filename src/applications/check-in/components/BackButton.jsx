@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -13,6 +14,7 @@ const BackButton = props => {
     getCurrentPageFromRouter,
     getPreviousPageFromRouter,
   } = useFormRouting(router);
+  const { t } = useTranslation();
 
   const currentPage = getCurrentPageFromRouter();
   const previousPage = getPreviousPageFromRouter();
@@ -35,14 +37,14 @@ const BackButton = props => {
   return (
     <>
       <nav
-        aria-label="Breadcrumb"
+        aria-label={t('breadcrumb')}
         aria-live="polite"
         className="va-nav-breadcrumbs va-nav-breadcrumbs--mobile"
       >
         <ul className="row va-nav-breadcrumbs-list columns">
           <li>
             <a onClick={handleClick} href="#back" data-testid="back-button">
-              Back to last screen
+              {t('back-to-last-screen')}
             </a>
           </li>
         </ul>

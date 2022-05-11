@@ -2,11 +2,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
+import recordEvent from 'platform/monitoring/record-event';
+import { hasSession } from 'platform/user/profile/utilities';
 import SearchMenu from './SearchMenu';
 import SignInProfileMenu from './SignInProfileMenu';
 import isVATeamSiteSubdomain from '../../../utilities/environment/va-subdomain';
-import recordEvent from 'platform/monitoring/record-event';
-import { hasSession } from 'platform/user/profile/utilities';
 
 class SearchHelpSignIn extends Component {
   static propTypes = {
@@ -22,6 +22,7 @@ class SearchHelpSignIn extends Component {
       PropTypes.arrayOf(PropTypes.node),
     ]),
   };
+
   handleSignInSignUp = e => {
     e.preventDefault();
     this.props.onSignInSignUp();
@@ -35,6 +36,7 @@ class SearchHelpSignIn extends Component {
   };
 
   handleSearchMenuClick = this.handleMenuClick('search');
+
   handleAccountMenuClick = this.handleMenuClick('account');
 
   renderSignInContent = () => {
@@ -68,7 +70,7 @@ class SearchHelpSignIn extends Component {
         {isSubdomain && (
           <a
             className="usa-button sign-in-link"
-            href={`https://www.va.gov/my-va`}
+            href="https://www.va.gov/my-va"
             onClick={() => recordEvent({ event: 'nav-jumplink-click' })}
           >
             Sign in

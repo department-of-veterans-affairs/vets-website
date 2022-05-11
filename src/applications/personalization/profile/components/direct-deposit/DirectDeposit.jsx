@@ -5,6 +5,12 @@ import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
 
+import {
+  cnpDirectDepositUiState,
+  eduDirectDepositUiState,
+} from '@@profile/selectors';
+import { Prompt } from 'react-router-dom';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
@@ -12,17 +18,9 @@ import {
   isLOA3 as isLOA3Selector,
   isMultifactorEnabled,
 } from '~/platform/user/selectors';
-import {
-  loginGov,
-  signInServiceName as signInServiceNameSelector,
-} from '~/platform/user/authentication/selectors';
+import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 import { usePrevious } from '~/platform/utilities/react-hooks';
-
-import {
-  cnpDirectDepositUiState,
-  eduDirectDepositUiState,
-} from '@@profile/selectors';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import UnsupportedAccountAlert from '../alerts/UnsupportedAccountAlert';
@@ -33,8 +31,6 @@ import FraudVictimAlert from './FraudVictimAlert';
 import PaymentHistory from './PaymentHistory';
 import BankInfo from './BankInfo';
 import { benefitTypes } from '~/applications/personalization/common/constants';
-import { Prompt } from 'react-router-dom';
-import { CSP_IDS } from 'platform/user/authentication/constants';
 
 const SuccessMessage = ({ benefit }) => {
   let content = null;
@@ -65,12 +61,7 @@ const SuccessMessage = ({ benefit }) => {
   return content;
 };
 
-const DirectDeposit = ({
-  cnpUiState,
-  eduUiState,
-  isLoginGovSupported,
-  isVerifiedUser,
-}) => {
+const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
   const [
     recentlySavedBankInfo,
     setRecentlySavedBankInfoForBenefit,
@@ -201,7 +192,7 @@ const DirectDeposit = ({
           />
         </DowntimeNotification>
       ) : (
-        <UnsupportedAccountAlert isLoginGovSupported={isLoginGovSupported} />
+        <UnsupportedAccountAlert />
       )}
       <FraudVictimAlert status={ALERT_TYPE.INFO} />
       {showBankInformation ? (
@@ -226,7 +217,6 @@ const mapStateToProps = state => {
     signInServiceName,
   );
   return {
-    isLoginGovSupported: loginGov(state),
     isVerifiedUser: isLOA3 && isUsingEligibleSignInService && is2faEnabled,
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),

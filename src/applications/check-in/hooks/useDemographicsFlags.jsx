@@ -4,7 +4,6 @@ import { makeSelectCurrentContext, makeSelectForm } from '../selectors';
 
 const useDemographicsFlags = () => {
   const [demographicsFlagsSent, setDemographicsFlagsSent] = useState(false);
-
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const context = useSelector(selectCurrentContext);
   const { token } = context;

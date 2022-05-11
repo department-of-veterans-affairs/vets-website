@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 import moment from 'moment';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import { VaTelephone } from 'web-components/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   APPOINTMENT_STATUS,
@@ -216,9 +216,10 @@ export default function RequestedAppointmentDetailsPage() {
         <h3 className="vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base">
           Phone number:{' '}
         </h3>
-        <Telephone
+        <VaTelephone
           notClickable
           contact={getPatientTelecom(appointment, 'phone')}
+          data-testid="patient-telephone"
         />
         <br />
         <ListBestTimeToCall

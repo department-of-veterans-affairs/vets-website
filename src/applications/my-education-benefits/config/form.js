@@ -16,7 +16,8 @@ import * as address from 'platform/forms-system/src/js/definitions/address';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
-import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
+import * as ENVIRONMENTS from 'site/constants/environments';
+import * as BUCKETS from 'site/constants/buckets';
 import fullSchema from '../22-1990-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
@@ -345,9 +346,13 @@ function transform(metaData, form) {
   return JSON.stringify(submission);
 }
 
-const checkImageSrc = environment.isStaging()
-  ? `${VAGOVSTAGING}/img/check-sample.png`
-  : `${vagovprod}/img/check-sample.png`;
+const checkImageSrc = (() => {
+  const bucket = environment.isProduction()
+    ? BUCKETS[ENVIRONMENTS.VAGOVPROD]
+    : BUCKETS[ENVIRONMENTS.VAGOVSTAGING];
+
+  return `${bucket}/img/check-sample.png`;
+})();
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -473,7 +478,7 @@ const formConfig = {
               },
             },
             [formFields.dateOfBirth]: {
-              ...currentOrPastDateUI('Date of birth'),
+              ...currentOrPastDateUI('Your date of birth'),
               'ui:reviewField': CustomReviewDOBField,
             },
           },
@@ -854,10 +859,10 @@ const formConfig = {
                 <va-alert status="info">
                   <>
                     If you choose to get text message notifications from VA’s GI
-                    Bill program, message and data rates may apply. Two messages
-                    per month. At this time, we can only send text messages to
-                    U.S. mobile phone numbers. Text STOP to opt out or HELP for
-                    help.{' '}
+                    Bill program, message and data rates may apply. Students
+                    will receive an average of two messages per month. At this
+                    time, we can only send text messages to U.S. mobile phone
+                    numbers. Text STOP to opt out or HELP for help.{' '}
                     <a
                       href="https://benefits.va.gov/gibill/isaksonroe/verification_of_enrollment.asp"
                       rel="noopener noreferrer"

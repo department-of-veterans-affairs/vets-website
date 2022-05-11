@@ -353,15 +353,17 @@ const mapStateToProps = state => {
     hasClaimsOrAppealsService;
   const showHealthCare =
     !showMPIConnectionError && !showNotInMPIError && isLOA3 && isVAPatient;
-  const showBenefitPaymentsAndDebt = toggleValues(state)[
-    FEATURE_FLAG_NAMES.showPaymentAndDebtSection
-  ];
+  const showBenefitPaymentsAndDebt =
+    toggleValues(state)[FEATURE_FLAG_NAMES.showPaymentAndDebtSection] &&
+    !showMPIConnectionError &&
+    !showNotInMPIError &&
+    isLOA3;
 
   const hasNotificationFeature = toggleValues(state)[
     FEATURE_FLAG_NAMES.showDashboardNotifications
   ];
 
-  const debts = state.fsr.debts || [];
+  const debts = state.allDebts.debts || [];
 
   const showNotifications = !!hasNotificationFeature && debts.length > 0;
 
@@ -381,7 +383,7 @@ const mapStateToProps = state => {
     showBenefitPaymentsAndDebt,
     showNotifications,
     debts,
-    debtsError: state.fsr.isError || false,
+    debtsError: state.allDebts.isError || false,
     payments: state.allPayments.payments?.payments || [],
     paymentsError: state.allPayments.error,
   };

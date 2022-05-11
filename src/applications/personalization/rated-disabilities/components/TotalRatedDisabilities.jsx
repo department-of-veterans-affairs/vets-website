@@ -8,9 +8,8 @@ import {
 } from './TotalRatingStates';
 import { isServerError, isClientError } from '../util';
 
-const TotalRatedDisabilities = props => {
-  const { loading, totalDisabilityRating } = props;
-  const errorCode = props.error ? props.error.code : null;
+const TotalRatedDisabilities = ({ error, loading, totalDisabilityRating }) => {
+  const errorCode = error ? error.code : null;
   let content;
   // If the data from the parent is loading ( loading prop ), show a loading indicator
   // If there is an error, display an error message,
@@ -31,12 +30,12 @@ const TotalRatedDisabilities = props => {
     content = totalRatingMessage(totalDisabilityRating);
   }
 
-  return <>{content}</>;
+  return content;
 };
 
 TotalRatedDisabilities.propTypes = {
-  loading: PropTypes.bool,
   error: PropTypes.object,
+  loading: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
 };
 
