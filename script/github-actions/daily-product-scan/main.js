@@ -5,7 +5,8 @@ const core = require('@actions/core');
 const Products = require('./products');
 const PackageDependencies = require('./products/dependencies/package-dependencies');
 const CrossProductDependencies = require('./products/dependencies/cross-product-dependencies');
-const DependencyDiffer = require('./products/dependencies/dependency-differ');
+const TestTypes = require('./products/test-types');
+const Differ = require('./csv/differ');
 const Csv = require('./csv');
 const Headings = require('./csv/headings');
 const Rows = require('./csv/rows');
@@ -25,8 +26,8 @@ function handleFailure({ response }) {
   };
 }
 
-function handleSuccess({ changesDetected, message, data }) {
-  if (changesDetected) {
+function handleSuccess({ changeDetected, message, data }) {
+  if (changeDetected) {
     console.log(
       'Product dependencies have changed. A PR to update the Product Directory has been submitted.',
     );
@@ -34,11 +35,11 @@ function handleSuccess({ changesDetected, message, data }) {
     console.log('No dependency changes were detected.');
   }
 
-  core.exportVariable('CHANGES_DETECTED', changesDetected);
+  core.exportVariable('CHANGE_DETECTED', changeDetected);
 
   return {
     status: 'Success',
-    changesDetected,
+    changeDetected,
     message,
     data,
   };
@@ -63,6 +64,9 @@ async function main({ octokit }) {
     products: products.all,
   }).setDependencies();
 
+  const testTypes = new TestTypes();
+  testTypes.checkExistance({ products });
+
   let response = await octokit.getProductDirectory();
 
   if (response?.status !== 200) {
@@ -71,22 +75,23 @@ async function main({ octokit }) {
 
   const { data: csv } = response;
   const csvLines = removeCarriageReturn(transformCsvToScsv(csv).split('\n'));
-  const emptyProductDirectory = new Csv({
+  const emptyProductCsv = new Csv({
     headings: new Headings({ csvLine: csvLines.slice(0, 1)[0] }),
     rows: new Rows({ csvLines: [] }),
   });
-  const productDirectory = new Csv({
+  const productCsv = new Csv({
     headings: new Headings({ csvLine: csvLines.slice(0, 1)[0] }),
     rows: new Rows({ csvLines: csvLines.slice(1) }),
   });
-  const dependencyDiffer = new DependencyDiffer({ emptyProductDirectory });
-  dependencyDiffer.diff({ products, productDirectory });
+  const differ = new Differ({ emptyProductCsv });
+  differ.diff({ products, productCsv });
 
-  const updatedCsv = emptyProductDirectory.generateOutput();
+  const updatedCsv = emptyProductCsv.generateOutput();
+  const { changeDetected } = differ;
 
-  if (!dependencyDiffer.dependenciesChanged) {
+  if (!changeDetected) {
     return handleSuccess({
-      changesDetected: false,
+      changeDetected,
       message:
         'No dependency changes were detected. The data prop includes the unchanged CSV.',
       data: updatedCsv,
@@ -102,7 +107,7 @@ async function main({ octokit }) {
   }
 
   return handleSuccess({
-    changesDetected: true,
+    changeDetected,
     message:
       'Dependency changes were detected. The data prop includes the updated CSV.',
     data: updatedCsv,

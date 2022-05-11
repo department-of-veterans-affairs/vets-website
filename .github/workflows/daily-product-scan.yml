@@ -49,7 +49,7 @@ jobs:
           MANIFEST_GLOB_PATH: src/applications/**/*manifest.json
 
       - name: Notify Slack that a PR in the Product Directory repo has been submitted
-        if: ${{ success() && env.CHANGES_DETECTED == true }}
+        if: ${{ success() && env.CHANGE_DETECTED == true }}
         uses: ./.github/workflows/slack-notify
         env:
           SSL_CERT_DIR: /etc/ssl/certs

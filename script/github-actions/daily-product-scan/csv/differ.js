@@ -1,21 +1,24 @@
+/* eslint-disable class-methods-use-this */
 const _ = require('lodash');
 
-class DependencyDiffer {
-  constructor({ emptyProductDirectory }) {
-    this.updatedProductDirectory = emptyProductDirectory;
-    this.dependenciesChanged = false;
+class Differ {
+  constructor({ emptyProductCsv }) {
+    this.updatedProductDirectory = emptyProductCsv;
+    this.changeDetected = false;
   }
 
-  diff({ products, productDirectory }) {
-    productDirectory.rows.all.forEach(row => {
+  diff({ products, productCsv }) {
+    productCsv.rows.all.forEach(row => {
       const fields = row.split(';');
       const productId = fields[0];
 
       if (products.all[productId]) {
+        // TODO break the following out into different compare functions (see below)
+        // TODO add compare functions for test types and product path (see below)
         /*
         Compare package dependencies for given product
         */
-        const { packageDependencyIndex } = productDirectory.headings;
+        const { packageDependencyIndex } = productCsv.headings;
         let csvPackageDependencies = fields[packageDependencyIndex]
           .replace(/"/g, '')
           .split(',');
@@ -27,7 +30,7 @@ class DependencyDiffer {
         );
 
         if (!_.isEqual(csvPackageDependencies, scannedPackageDependencies)) {
-          this.dependenciesChanged = true;
+          this.changeDetected = true;
 
           if (scannedPackageDependencies.length > 0) {
             fields[
@@ -40,7 +43,7 @@ class DependencyDiffer {
         /*
         Compare cross product dependencies for given product
         */
-        const { crossProductDependencyIndex } = productDirectory.headings;
+        const { crossProductDependencyIndex } = productCsv.headings;
 
         let csvCrossProductDependencies = fields[crossProductDependencyIndex]
           .replace(/"/g, '')
@@ -60,7 +63,7 @@ class DependencyDiffer {
             scannedCrossProductDependencies,
           )
         ) {
-          this.dependenciesChanged = true;
+          this.changeDetected = true;
 
           if (scannedCrossProductDependencies.length > 0) {
             fields[
@@ -76,6 +79,30 @@ class DependencyDiffer {
       this.updatedProductDirectory.rows.all.push(updatedRow);
     });
   }
+
+  compareProductPath() {
+    // TODO implement
+  }
+
+  comparePackageDependencies() {
+    // TODO implement
+  }
+
+  compareCrossProductDependencies() {
+    // TODO implement
+  }
+
+  compareHasUnitTests() {
+    // TODO implement
+  }
+
+  compareHasE2eTests() {
+    // TODO implement
+  }
+
+  compareHasContractTests() {
+    // TODO implement
+  }
 }
 
-module.exports = DependencyDiffer;
+module.exports = Differ;
