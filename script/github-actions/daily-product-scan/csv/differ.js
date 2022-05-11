@@ -3,7 +3,7 @@ const _ = require('lodash');
 
 class Differ {
   constructor({ emptyProductCsv }) {
-    this.updatedProductDirectory = emptyProductCsv;
+    this.updatedProductCsv = emptyProductCsv;
     this.changeDetected = false;
   }
 
@@ -14,6 +14,9 @@ class Differ {
       const product = products.all[productId];
 
       if (product) {
+        // TODO iterate through an array of attributes and call compareAttribute()
+        // with an object (like the ones below) with dynamic values derived from the array
+        // using string interpolation to DRY up this code
         this.compareAttribute({
           attribute: product.productPath,
           index: productCsv.headings.pathToCodeIndex,
@@ -52,7 +55,7 @@ class Differ {
       }
 
       const updatedRow = fields.join(',');
-      this.updatedProductDirectory.rows.all.push(updatedRow);
+      this.updatedProductCsv.rows.all.push(updatedRow);
     });
   }
 
