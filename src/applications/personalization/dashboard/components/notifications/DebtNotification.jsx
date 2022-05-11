@@ -5,28 +5,10 @@ import recordEvent from '~/platform/monitoring/record-event';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import '../../sass/user-profile.scss';
 
-export const DebtNotification = ({ debtsCount, hasError }) => {
+export const DebtNotification = ({ notification }) => {
   const [dismissed, setDismissed] = React.useState(false);
-  if (debtsCount < 1 || dismissed) {
+  if (dismissed) {
     return null;
-  }
-  if (hasError) {
-    return (
-      <DashboardWidgetWrapper>
-        <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5">
-          <va-alert
-            status="error"
-            show-icon
-            className="vads-u-margin-top--0"
-            closeable
-          >
-            We’re sorry. Something went wrong on our end, and we can’t access
-            your debt information. Please try again later or go to the debts
-            tool.
-          </va-alert>
-        </div>
-      </DashboardWidgetWrapper>
-    );
   }
 
   return (
@@ -40,7 +22,7 @@ export const DebtNotification = ({ debtsCount, hasError }) => {
           closeable
         >
           <div className="vads-u-margin-top--0">
-            You have new debt.{' '}
+            You have new debt as of {notification.attributes.createdAt}.{' '}
             <CTALink
               text="Manage your VA debt"
               href="/manage-va-debt/your-debt"
@@ -60,8 +42,17 @@ export const DebtNotification = ({ debtsCount, hasError }) => {
 };
 
 DebtNotification.propTypes = {
-  debtsCount: PropTypes.number,
-  hasError: PropTypes.bool,
+  notification: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    attributes: PropTypes.shape({
+      createdAt: PropTypes.string.isRequired,
+      dismissed: PropTypes.bool.isRequired,
+      templateId: PropTypes.string.isRequired,
+      updatedAt: PropTypes.string,
+      vaProfileId: PropTypes.string.isRequired,
+    }),
+  }),
 };
 
 export default DebtNotification;
