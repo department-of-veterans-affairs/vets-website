@@ -3,7 +3,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/Tele
 
 export const Error500 = () => {
   return (
-    <va-alert close-btn-aria-label="Close notification" status="error" visible>
+    <va-alert status="error">
       <h3 slot="headline">We’re sorry. Something went wrong on our end</h3>
       <p>
         Please refresh this page or check back later. You can also sign out of

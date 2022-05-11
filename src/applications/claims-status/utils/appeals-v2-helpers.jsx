@@ -2168,7 +2168,8 @@ export function sortByLastUpdated(item1, item2) {
 
   if (moment(lastUpdatedDate1).isAfter(lastUpdatedDate2)) {
     return -1;
-  } else if (moment(lastUpdatedDate1).isBefore(lastUpdatedDate2)) {
+  }
+  if (moment(lastUpdatedDate1).isBefore(lastUpdatedDate2)) {
     return 1;
   }
   return 0;
@@ -2181,6 +2182,3 @@ export function getVisibleRows(list, currentPage) {
   }
   return list.slice(currentIndex, currentIndex + ROWS_PER_PAGE);
 }
-
-export const uploadPdfLimitFeature = state =>
-  state.featureToggles?.['evss_upload_limit_150mb'];

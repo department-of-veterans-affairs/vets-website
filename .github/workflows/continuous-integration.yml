@@ -31,7 +31,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -56,7 +56,6 @@ jobs:
 
       - name: Get app entries for changed files
         id: get-changed-apps
-        if: ${{ github.ref != 'refs/heads/master' || matrix.buildtype == 'vagovdev' }}
         run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
@@ -92,13 +91,16 @@ jobs:
 
   unit-tests:
     name: Unit Tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.app_folders }}
 
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -111,6 +113,9 @@ jobs:
           path: |
             .cache/yarn
             node_modules
+
+      - name: Update browserslist
+        run: npx browserslist@latest --update-db
 
       - name: Create test results folder
         run: mkdir -p test-results
@@ -129,7 +134,6 @@ jobs:
         run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder)
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
-
       - name: Run unit tests
         run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
@@ -202,9 +206,14 @@ jobs:
   contract-tests:
     name: Contract Tests
     runs-on: ubuntu-latest
+    outputs:
+      tests: ${{ steps.get-tests.outputs.tests }}
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -238,22 +247,49 @@ jobs:
       - name: Create test results folder
         run: mkdir -p test-results
 
+      - name: List changed files
+        id: changed-files
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          else
+            echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+          fi
+
+      - name: Get app folders for changed files
+        id: get-changed-apps
+        run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder | tr ',' ' ')
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+
+      - name: Get contract tests
+        id: get-tests
+        run: |
+          if [[ -z "${{ steps.get-changed-apps.outputs.app_folders }}" ]]; then
+            echo ::set-output name=tests::$(find src -name "*.pact.spec.js")
+          else
+            echo ::set-output name=tests::$(find ${{ steps.get-changed-apps.outputs.app_folders }} -name "*.pact.spec.js")
+          fi
+
       - name: Run contract tests
-        run: yarn test:contract
+        if: steps.get-tests.outputs.tests != ''
+        run: yarn test:unit-pact-config ${{ steps.get-tests.outputs.tests }}
         env:
           MOCHA_FILE: ./test-results/test-results.xml
 
       - name: Print Pact failures
+        if: steps.get-tests.outputs.tests != '' && failure()
         run: cat test-results/test-results.xml
-        if: ${{ failure() }}
 
       - name: Run Pact publish
+        if: steps.get-tests.outputs.tests != ''
         run: yarn pact:publish
         env:
           PACT_BROKER_BASIC_AUTH_USERNAME: pact-broker
           PACT_BROKER_BASE_URL: https://dev.va.gov/_vfs/pact-broker/
 
       - name: Run Pact verify
+        if: steps.get-tests.outputs.tests != ''
         run: |
           curl -v -X POST \
           -H 'Authorization: token ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}' \
@@ -263,6 +299,7 @@ jobs:
           --fail
 
       - name: Archive contract test results
+        if: steps.get-tests.outputs.tests != ''
         uses: actions/upload-artifact@v3
         with:
           name: contract-test-report
@@ -270,7 +307,7 @@ jobs:
 
       - name: Archive contract test log
         uses: actions/upload-artifact@v3
-        if: ${{ failure() }}
+        if: steps.get-tests.outputs.tests != '' && failure()
         with:
           name: contract-test-log
           path: logs/pact.log
@@ -280,18 +317,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-      - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/checkout@v3
         with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: List changed files
+        id: changed-files
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          else
+            echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
+          fi
+
+      - name: Get app entries for changed files
+        id: get-changed-apps
+        run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
       - name: Audit dependencies
+        if: steps.get-changed-apps.outputs.app_entries == ''
         run: yarn security-check
 
   linting:
@@ -300,7 +356,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -312,62 +370,88 @@ jobs:
             .cache/yarn
             node_modules
 
+      - name: Update browserslist
+        run: npx browserslist@latest --update-db
+
+      - name: List changed files
+        id: changed-files
+        run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+
+      - name: Get app folders for changed files
+        id: get-changed-apps
+        run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder | tr ',' ' ')
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+
       - name: Annotate ESLint results
-        run: yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js .
+        run: |
+          if [[ -z "${{ steps.get-changed-apps.outputs.app_folders }}" ]]; then
+            yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js .
+          else
+            yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js \
+            ${{ steps.get-changed-apps.outputs.app_folders }}
+          fi
 
       - name: Run Stylelint
-        run: yarn run stylelint verbose --output-file stylelint-report.json --formatter json src/**/*.scss
+        if: ${{ always() }}
+        run: |
+          if [[ -z "${{ steps.get-changed-apps.outputs.app_folders }}" ]]; then
+            yarn run stylelint verbose --output-file stylelint-report.json --formatter json src/**/*.scss
+          else
+            files=$(find ${{ steps.get-changed-apps.outputs.app_folders }} -name "*.scss")
+            if [[ -n "$files" ]]; then yarn run stylelint verbose --output-file stylelint-report.json --formatter json $(echo $files); fi
+          fi
 
       - name: Annotate Stylelint results
         if: ${{ always() }}
         run: node ./script/github-actions/stylelint-annotation-format.js
 
-  testing-reports-prep:
-    name: Testing Reports Prep
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    outputs:
-      app_list: ${{ env.APPLICATION_LIST }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  # testing-reports-prep:
+  #   name: Testing Reports Prep
+  #   runs-on: ubuntu-latest
+  #   continue-on-error: true
+  #   outputs:
+  #     app_list: ${{ env.APPLICATION_LIST }}
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
+  #     - name: Install dependencies
+  #       uses: ./.github/workflows/install
+  #       timeout-minutes: 30
+  #       with:
+  #         key: ${{ hashFiles('yarn.lock') }}
+  #         yarn_cache_folder: .cache/yarn
+  #         path: |
+  #           .cache/yarn
+  #           node_modules
 
-      - name: Generate new application list
-        run: yarn generate-app-list
-      # exports app list and assigns to environmental variable at this step
+  #     - name: Generate new application list
+  #       run: yarn generate-app-list
+  #     # exports app list and assigns to environmental variable at this step
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-gov-west-1
 
-      - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+  #     - name: Get va-vsp-bot token
+  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+  #       with:
+  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-      - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+  #     - name: Init Dashboard Data Repo
+  #       uses: ./.github/workflows/init-data-repo
 
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
+  #     - name: Set Up BigQuery Creds
+  #       uses: ./.github/workflows/configure-bigquery
 
-      - name: Upload app list to BigQuery
-        run: yarn generate-app-list
-        working-directory: testing-tools-team-dashboard-data
+  #     - name: Upload app list to BigQuery
+  #       run: yarn generate-app-list
+  #       working-directory: testing-tools-team-dashboard-data
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
@@ -378,7 +462,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -431,7 +515,7 @@ jobs:
       needs.cypress-tests-prep.result == 'success' &&
       needs.cypress-tests-prep.outputs.tests != '[]'
     container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node14.16.0-chrome90-ff88
+      image: public.ecr.aws/cypress-io/cypress/browsers:node14.17.6-chrome100-ff98
       options: -u 1001:1001 -v /usr/local/share:/share
 
     strategy:
@@ -453,10 +537,10 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Checkout vets-website
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Checkout content-build
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: department-of-veterans-affairs/content-build
           path: content-build
@@ -516,413 +600,416 @@ jobs:
           path: cypress/results
           retention-days: 1
 
-  testing-reports-contract-tests:
-    name: Testing Reports - Contract Tests
-    runs-on: ubuntu-latest
-    needs: [testing-reports-prep, contract-tests]
-    if: ${{ always() && (needs.contract-tests.result == 'success' || needs.contract-tests.result == 'failure') }}
-    continue-on-error: true
-    env:
-      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
-    steps:
-      - name: Set IS_MASTER_BUILD
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
-              echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
-          else
-              echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
-          fi
-
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      # ----------------
-      # | Notify Slack |
-      # ----------------
-
-      - name: Notify Slack about Contract test failures
-        if: ${{ github.ref == 'refs/heads/master' && needs.contract-tests.result == 'failure' }}
-        uses: ./.github/workflows/slack-notify
-        continue-on-error: true
-        env:
-          SSL_CERT_DIR: /etc/ssl/certs
-        with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> Contract tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
-          channel_id: C026PD47Z19 #gha-test-status
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-      # ------------------------
-      # | Upload BigQuery Data |
-      # ------------------------
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-
-      - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
-
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
-
-      - name: Get AWS IAM role
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-      - name: Set UUID for Mochawesome reports
-        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-
-      # ------------------------------------------------------
-      # | Publish Contract Test Report and Upload to BigQuery |
-      # ------------------------------------------------------
-
-      - name: Download Contract Test Mochawesome test results
-        uses: actions/download-artifact@v3
-        with:
-          name: contract-test-report
-          path: testing-tools-team-dashboard-data/src/testing-reports/data
-
-      - name: Create Contract Test report and post results to BigQuery
-        run: yarn contract-mochawesome-to-bigquery
-        working-directory: testing-tools-team-dashboard-data
-        env:
-          TEST_EXECUTIONS_TABLE_NAME: vets_website_contract_test_suite_executions
-          TEST_RESULTS_TABLE_NAME: vets_website_contract_test_results
-          TEST_REPORTS_FOLDER_NAME: vets-website-contract-test-reports
-
-      - name: Upload Contract Test report to s3
-        run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-contract-test-reports --acl public-read --region us-gov-west-1 --recursive
-
-      # -------------------------
-      # | Contract Tests Summary |
-      # -------------------------
-
-      - name: Publish Contract test results
-        if: ${{ always() }}
-        uses: LouisBrunner/checks-action@v1.2.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: Contract Tests Summary
-          conclusion: ${{ needs.contract-tests.result }}
-          output: |
-            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
-
-  testing-reports-unit-tests:
-    name: Testing Reports - Unit Tests
-    runs-on: ubuntu-latest
-    needs: [testing-reports-prep, unit-tests]
-    if: ${{ always() }}
-    continue-on-error: true
-    env:
-      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
-    steps:
-      - name: Set IS_MASTER_BUILD
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
-              echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
-          else
-              echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
-          fi
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      # ----------------
-      # | Notify Slack |
-      # ----------------
-
-      - name: Notify Slack about Unit test failures
-        if: ${{ github.ref == 'refs/heads/master' && needs.unit-tests.result == 'failure' }}
-        uses: ./.github/workflows/slack-notify
-        continue-on-error: true
-        env:
-          SSL_CERT_DIR: /etc/ssl/certs
-        with:
-          attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> Unit tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
-          channel_id: C026PD47Z19 #gha-test-status
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-      # ------------------------
-      # | Upload BigQuery Data |
-      # ------------------------
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-
-      - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
-
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
-
-      - name: Get AWS IAM role
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-      - name: Set UUID for Mochawesome reports
-        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-
-      # --------------------------------------------------
-      # | Publish Unit Test Report and Upload to BigQuery |
-      # --------------------------------------------------
-
-      - name: Download Unit Test Mochawesome test results
-        uses: actions/download-artifact@v3
-        with:
-          name: unit-test-report
-          path: testing-tools-team-dashboard-data/src/testing-reports/data
-
-      - name: Create Unit Test report and post results to BigQuery
-        run: yarn unit-mochawesome-to-bigquery
-        working-directory: testing-tools-team-dashboard-data
-        env:
-          UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
-          UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
-          TEST_REPORTS_FOLDER_NAME: vets-website-unit-test-reports
-
-      - name: Upload Unit Test report to s3
-        run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
-
-      # -------------------------
-      # | Unit Tests Summary |
-      # -------------------------
-
-      - name: Unit test results
-        if: ${{ always() }}
-        uses: LouisBrunner/checks-action@v1.1.1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: Unit Tests Summary
-          conclusion: ${{ needs.unit-tests.result }}
-          output: |
-            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
-
-  testing-reports-unit-tests-coverage:
-    name: Testing Reports - Unit Tests Coverage
-    runs-on: ubuntu-latest
-    needs: [testing-reports-prep, unit-tests]
-    if: ${{ always() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
-    continue-on-error: true
-    env:
-      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      # ------------------------
-      # | Upload BigQuery Data |
-      # ------------------------
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-
-      - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
-
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
-
-      - name: Get AWS IAM role
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-      - name: Set UUID for Mochawesome reports
-        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-
-      # --------------------------------------
-      # | Publish Unit Test Coverage Report       |
-      # -------------------------------------
-
-      - name: Download Unit Test Coverage Report
-        uses: actions/download-artifact@v3
-        with:
-          name: unit-test-coverage-report
-          path: testing-tools-team-dashboard-data/src/testing-reports/data
-
-      - name: Process Coverage Report and post results to BigQuery
-        run: yarn unit-coverage-to-bigquery
-        working-directory: testing-tools-team-dashboard-data
-
-  testing-reports-cypress:
-    name: Testing Reports - Cypress E2E Tests
-    runs-on: ubuntu-latest
-    needs: [testing-reports-prep, cypress-tests-prep, cypress-tests]
-    if: ${{ always() && needs.cypress-tests-prep.outputs.tests != '[]' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
-    env:
-      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
-    continue-on-error: true
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Notify Slack about Cypress test failures
-        if: ${{ github.ref == 'refs/heads/master' && needs.cypress-tests.result == 'failure' }}
-        uses: ./.github/workflows/slack-notify
-        continue-on-error: true
-        env:
-          SSL_CERT_DIR: /etc/ssl/certs
-        with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> E2E tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
-          channel_id: C026PD47Z19 #gha-test-status
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-        # ------------------------
-        # | Upload BigQuery Data |
-        # ------------------------
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-
-      - name: Get va-vsp-bot token
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
-
-      - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
-
-      - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
-
-      - name: Get AWS IAM role
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
-
-      - name: Set UUID for Mochawesome reports
-        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
-      - name: Configure AWS Credentials (2)
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-          role-duration-seconds: 900
-          role-session-name: vsp-frontendteam-githubaction
-
-        # --------------------------------------
-        # | Publish Cypress E2E Testing Report |
-        # -------------------------------------
-
-      - name: Download Cypress E2E Mochawesome test results
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-mochawesome-test-results
-          path: testing-tools-team-dashboard-data/src/testing-reports/data
-
-      - name: Download Cypress E2E video artifacts
-        if: ${{ needs.cypress-tests.result == 'failure' }}
-        uses: actions/download-artifact@v3
-        with:
-          name: cypress-video-artifacts
-          path: testing-tools-team-dashboard-data/videos/${{ env.UUID }}
-
-      - name: Create Cypress E2E report and post results to BigQuery
-        run: yarn cypress-mochawesome-to-bigquery
-        working-directory: testing-tools-team-dashboard-data
-        env:
-          IS_MASTER_BUILD: false
-          TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
-          TEST_RESULTS_TABLE_NAME: cypress_test_results
-          TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
-          TEST_RETRIES_TABLE_NAME: cypress_retry_records
-          # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
-
-      - name: Upload Cypress E2E test videos to s3
-        if: ${{ needs.cypress-tests.result == 'failure' }}
-        run: aws s3 cp testing-tools-team-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
-
-      - name: Upload Cypress E2E test report to s3
-        run: aws s3 cp testing-tools-team-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
-
-        # -------------------------
-        # | Cypress Tests Summary |
-        # -------------------------
-
-      - name: Publish Cypress test results
-        if: ${{ always() }}
-        uses: LouisBrunner/checks-action@v1.2.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          name: Cypress Tests Summary
-          conclusion: ${{ needs.cypress-tests.result }}
-          output: |
-            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+  # testing-reports-contract-tests:
+  #   name: Testing Reports - Contract Tests
+  #   runs-on: ubuntu-latest
+  #   needs: [testing-reports-prep, contract-tests]
+  #   if: |
+  #     always() &&
+  #     needs.contract-tests.outputs.tests != '' &&
+  #     (needs.contract-tests.result == 'success' || needs.contract-tests.result == 'failure')
+  #   continue-on-error: true
+  #   env:
+  #     APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+  #   steps:
+  #     - name: Set IS_MASTER_BUILD
+  #       run: |
+  #         if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+  #             echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
+  #         else
+  #             echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
+  #         fi
+
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     # ----------------
+  #     # | Notify Slack |
+  #     # ----------------
+
+  #     - name: Notify Slack about Contract test failures
+  #       if: ${{ github.ref == 'refs/heads/master' && needs.contract-tests.result == 'failure' }}
+  #       uses: ./.github/workflows/slack-notify
+  #       continue-on-error: true
+  #       env:
+  #         SSL_CERT_DIR: /etc/ssl/certs
+  #       with:
+  #         payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> Contract tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
+  #         channel_id: C026PD47Z19 #gha-test-status
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  #     # ------------------------
+  #     # | Upload BigQuery Data |
+  #     # ------------------------
+
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-gov-west-1
+
+  #     - name: Get va-vsp-bot token
+  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+  #       with:
+  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+  #     - name: Init Dashboard Data Repo
+  #       uses: ./.github/workflows/init-data-repo
+
+  #     - name: Set Up BigQuery Creds
+  #       uses: ./.github/workflows/configure-bigquery
+
+  #     - name: Get AWS IAM role
+  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+  #       with:
+  #         ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+  #         env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+  #     - name: Set UUID for Mochawesome reports
+  #       run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
+  #     - name: Configure AWS Credentials (2)
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-gov-west-1
+  #         role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+  #         role-duration-seconds: 900
+  #         role-session-name: vsp-frontendteam-githubaction
+
+  #     # ------------------------------------------------------
+  #     # | Publish Contract Test Report and Upload to BigQuery |
+  #     # ------------------------------------------------------
+
+  #     - name: Download Contract Test Mochawesome test results
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: contract-test-report
+  #         path: testing-tools-team-dashboard-data/src/testing-reports/data
+
+  #     - name: Create Contract Test report and post results to BigQuery
+  #       run: yarn contract-mochawesome-to-bigquery
+  #       working-directory: testing-tools-team-dashboard-data
+  #       env:
+  #         TEST_EXECUTIONS_TABLE_NAME: vets_website_contract_test_suite_executions
+  #         TEST_RESULTS_TABLE_NAME: vets_website_contract_test_results
+  #         TEST_REPORTS_FOLDER_NAME: vets-website-contract-test-reports
+
+  #     - name: Upload Contract Test report to s3
+  #       run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-contract-test-reports --acl public-read --region us-gov-west-1 --recursive
+
+  #     # -------------------------
+  #     # | Contract Tests Summary |
+  #     # -------------------------
+
+  #     - name: Publish Contract test results
+  #       if: ${{ always() }}
+  #       uses: LouisBrunner/checks-action@v1.2.0
+  #       with:
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         name: Contract Tests Summary
+  #         conclusion: ${{ needs.contract-tests.result }}
+  #         output: |
+  #           {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+
+  # testing-reports-unit-tests:
+  #   name: Testing Reports - Unit Tests
+  #   runs-on: ubuntu-latest
+  #   needs: [testing-reports-prep, unit-tests]
+  #   if: ${{ always() }}
+  #   continue-on-error: true
+  #   env:
+  #     APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+  #   steps:
+  #     - name: Set IS_MASTER_BUILD
+  #       run: |
+  #         if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+  #             echo "IS_MASTER_BUILD=true" >> $GITHUB_ENV
+  #         else
+  #             echo "IS_MASTER_BUILD=false" >> $GITHUB_ENV
+  #         fi
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     # ----------------
+  #     # | Notify Slack |
+  #     # ----------------
+
+  #     - name: Notify Slack about Unit test failures
+  #       if: ${{ github.ref == 'refs/heads/master' && needs.unit-tests.result == 'failure' }}
+  #       uses: ./.github/workflows/slack-notify
+  #       continue-on-error: true
+  #       env:
+  #         SSL_CERT_DIR: /etc/ssl/certs
+  #       with:
+  #         attachments: '[{"mrkdwn_in": ["text"], "color": "danger", "text": "<!here> Unit tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}]'
+  #         channel_id: C026PD47Z19 #gha-test-status
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  #     # ------------------------
+  #     # | Upload BigQuery Data |
+  #     # ------------------------
+
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-gov-west-1
+
+  #     - name: Get va-vsp-bot token
+  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+  #       with:
+  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+  #     - name: Init Dashboard Data Repo
+  #       uses: ./.github/workflows/init-data-repo
+
+  #     - name: Set Up BigQuery Creds
+  #       uses: ./.github/workflows/configure-bigquery
+
+  #     - name: Get AWS IAM role
+  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+  #       with:
+  #         ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+  #         env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+  #     - name: Set UUID for Mochawesome reports
+  #       run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
+  #     - name: Configure AWS Credentials (2)
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-gov-west-1
+  #         role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+  #         role-duration-seconds: 900
+  #         role-session-name: vsp-frontendteam-githubaction
+
+  #     # --------------------------------------------------
+  #     # | Publish Unit Test Report and Upload to BigQuery |
+  #     # --------------------------------------------------
+
+  #     - name: Download Unit Test Mochawesome test results
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: unit-test-report
+  #         path: testing-tools-team-dashboard-data/src/testing-reports/data
+
+  #     - name: Create Unit Test report and post results to BigQuery
+  #       run: yarn unit-mochawesome-to-bigquery
+  #       working-directory: testing-tools-team-dashboard-data
+  #       env:
+  #         UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
+  #         UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
+  #         TEST_REPORTS_FOLDER_NAME: vets-website-unit-test-reports
+
+  #     - name: Upload Unit Test report to s3
+  #       run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
+
+  #     # -------------------------
+  #     # | Unit Tests Summary |
+  #     # -------------------------
+
+  #     - name: Unit test results
+  #       if: ${{ always() }}
+  #       uses: LouisBrunner/checks-action@v1.1.1
+  #       with:
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         name: Unit Tests Summary
+  #         conclusion: ${{ needs.unit-tests.result }}
+  #         output: |
+  #           {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+
+  # testing-reports-unit-tests-coverage:
+  #   name: Testing Reports - Unit Tests Coverage
+  #   runs-on: ubuntu-latest
+  #   needs: [testing-reports-prep, unit-tests]
+  #   if: ${{ always() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
+  #   continue-on-error: true
+  #   env:
+  #     APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     # ------------------------
+  #     # | Upload BigQuery Data |
+  #     # ------------------------
+
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-gov-west-1
+
+  #     - name: Get va-vsp-bot token
+  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+  #       with:
+  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+  #     - name: Init Dashboard Data Repo
+  #       uses: ./.github/workflows/init-data-repo
+
+  #     - name: Set Up BigQuery Creds
+  #       uses: ./.github/workflows/configure-bigquery
+
+  #     - name: Get AWS IAM role
+  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+  #       with:
+  #         ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+  #         env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+  #     - name: Set UUID for Mochawesome reports
+  #       run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
+  #     - name: Configure AWS Credentials (2)
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-gov-west-1
+  #         role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+  #         role-duration-seconds: 900
+  #         role-session-name: vsp-frontendteam-githubaction
+
+  #     # --------------------------------------
+  #     # | Publish Unit Test Coverage Report       |
+  #     # -------------------------------------
+
+  #     - name: Download Unit Test Coverage Report
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: unit-test-coverage-report
+  #         path: testing-tools-team-dashboard-data/src/testing-reports/data
+
+  #     - name: Process Coverage Report and post results to BigQuery
+  #       run: yarn unit-coverage-to-bigquery
+  #       working-directory: testing-tools-team-dashboard-data
+
+  # testing-reports-cypress:
+  #   name: Testing Reports - Cypress E2E Tests
+  #   runs-on: ubuntu-latest
+  #   needs: [testing-reports-prep, cypress-tests-prep, cypress-tests]
+  #   if: ${{ always() && needs.cypress-tests-prep.outputs.tests != '[]' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
+  #   env:
+  #     APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+  #   continue-on-error: true
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
+
+  #     - name: Notify Slack about Cypress test failures
+  #       if: ${{ github.ref == 'refs/heads/master' && needs.cypress-tests.result == 'failure' }}
+  #       uses: ./.github/workflows/slack-notify
+  #       continue-on-error: true
+  #       env:
+  #         SSL_CERT_DIR: /etc/ssl/certs
+  #       with:
+  #         payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> E2E tests in `vets-website` have failed on the `master` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
+  #         channel_id: C026PD47Z19 #gha-test-status
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  #       # ------------------------
+  #       # | Upload BigQuery Data |
+  #       # ------------------------
+
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-gov-west-1
+
+  #     - name: Get va-vsp-bot token
+  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+  #       with:
+  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+  #     - name: Init Dashboard Data Repo
+  #       uses: ./.github/workflows/init-data-repo
+
+  #     - name: Set Up BigQuery Creds
+  #       uses: ./.github/workflows/configure-bigquery
+
+  #     - name: Get AWS IAM role
+  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+  #       with:
+  #         ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+  #         env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+  #     - name: Set UUID for Mochawesome reports
+  #       run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
+  #     - name: Configure AWS Credentials (2)
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-gov-west-1
+  #         role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+  #         role-duration-seconds: 900
+  #         role-session-name: vsp-frontendteam-githubaction
+
+  #       # --------------------------------------
+  #       # | Publish Cypress E2E Testing Report |
+  #       # -------------------------------------
+
+  #     - name: Download Cypress E2E Mochawesome test results
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: cypress-mochawesome-test-results
+  #         path: testing-tools-team-dashboard-data/src/testing-reports/data
+
+  #     - name: Download Cypress E2E video artifacts
+  #       if: ${{ needs.cypress-tests.result == 'failure' }}
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: cypress-video-artifacts
+  #         path: testing-tools-team-dashboard-data/videos/${{ env.UUID }}
+
+  #     - name: Create Cypress E2E report and post results to BigQuery
+  #       run: yarn cypress-mochawesome-to-bigquery
+  #       working-directory: testing-tools-team-dashboard-data
+  #       env:
+  #         IS_MASTER_BUILD: false
+  #         TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
+  #         TEST_RESULTS_TABLE_NAME: cypress_test_results
+  #         TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
+  #         TEST_RETRIES_TABLE_NAME: cypress_retry_records
+  #         # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
+
+  #     - name: Upload Cypress E2E test videos to s3
+  #       if: ${{ needs.cypress-tests.result == 'failure' }}
+  #       run: aws s3 cp testing-tools-team-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
+
+  #     - name: Upload Cypress E2E test report to s3
+  #       run: aws s3 cp testing-tools-team-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
+
+  #       # -------------------------
+  #       # | Cypress Tests Summary |
+  #       # -------------------------
+
+  #     - name: Publish Cypress test results
+  #       if: ${{ always() }}
+  #       uses: LouisBrunner/checks-action@v1.2.0
+  #       with:
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         name: Cypress Tests Summary
+  #         conclusion: ${{ needs.cypress-tests.result }}
+  #         output: |
+  #           {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
   archive:
     name: Archive
@@ -943,7 +1030,7 @@ jobs:
       ]
 
     env:
-      IS_SINGLE_APP_BUILD: ${{ matrix.buildtype == 'vagovdev' && needs.build.outputs.app_entries != '' }}
+      IS_SINGLE_APP_BUILD: ${{ needs.build.outputs.app_entries != '' }}
 
     # Archive should still run even when linting is skipped (as in PRs).
     # This if overrides the dependency on linting success to include skipped.
@@ -961,7 +1048,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Download build artifact
         uses: actions/download-artifact@v3
@@ -1023,7 +1110,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -1059,7 +1146,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
@@ -1086,12 +1173,11 @@ jobs:
 
       - name: Deploy
         run: |
-          if [[ ${{ matrix.environment }} == 'vagovdev' ]] && [[ -n "${{ needs.build.outputs.app_entries }}" ]]; then
+          if [[ -n "${{ needs.build.outputs.app_entries }}" ]]; then
             ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
           else
             ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
           fi
-
         env:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
           DEST: s3://${{ matrix.deploy-bucket }}
@@ -1103,13 +1189,13 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' && (failure() || cancelled()) }}
     needs: deploy
     env:
-      ALERT_TEAMS: ${{ false }} # Alerts teams for single/grouped app builds when set to true
+      ALERT_TEAMS: true # Alerts teams for single/grouped app builds when set to true
       DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
       VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -1127,25 +1213,31 @@ jobs:
       - name: List changed files
         id: changed-files
         if: env.ALERT_TEAMS == 'true'
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
-            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-          else
-            echo ::set-output name=all_changed_files::$(git diff --name-only origin/master...)
-          fi
+        run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
 
-      - name: Get app team's Slack group
+      - name: Get application team's Slack group
         id: get-slack-groups
         if: env.ALERT_TEAMS == 'true'
         run: echo ::set-output name=slack_groups::$(node script/github-actions/get-changed-apps.js --output-type slack-group | tr ',' ' ')
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
-      - name: Notify Slack
+      - name: Notify application team in Slack
+        if: env.ALERT_TEAMS == 'true' && steps.get-slack-groups.outputs.slack_groups != ''
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-slack-groups.outputs.slack_groups}} vets-website master branch CI failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-slack-groups.outputs.slack_groups}} CI for your application failed on the `master` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> on failed workflow runs."}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Notify Slack
+        if: steps.get-slack-groups.outputs.slack_groups == ''
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "`master` branch CI in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

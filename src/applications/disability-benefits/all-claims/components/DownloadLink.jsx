@@ -33,7 +33,7 @@ const DownloadLink = ({ url = '', content, size }) => {
 };
 
 DownloadLink.propTypes = {
-  content: PropTypes.oneOf([PropTypes.string, PropTypes.element]),
+  content: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   size: PropTypes.string,
   url: PropTypes.string,
 };

@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -20,6 +21,7 @@ import BackToHome from '../../BackToHome';
 
 export default function Relationship(props) {
   const { router } = props;
+  const { t } = useTranslation();
   const { jumpToPage } = useFormRouting(router);
   const selectEditContext = useMemo(makeSelectEditContext, []);
   const { editing } = useSelector(selectEditContext);
@@ -55,34 +57,34 @@ export default function Relationship(props) {
   const onChange = useCallback(
     event => {
       if (!event.detail.value) {
-        setRelationshipErrorMessage('Relationship is required');
+        setRelationshipErrorMessage(t('relationship-is-required'));
       } else {
         setRelationshipErrorMessage();
       }
       setRelationshipValue(event.detail.value);
     },
-    [setRelationshipValue],
+    [setRelationshipValue, t],
   );
 
   const relationshipOptions = useMemo(
     () => ({
-      WIFE: 'Wife',
-      HUSBAND: 'Husband',
-      DAUGHTER: 'Daughter',
-      SON: 'Son',
-      STEPCHILD: 'Stepchild',
-      MOTHER: 'Mother',
-      FATHER: 'Father',
-      BROTHER: 'Brother',
-      SISTER: 'Sister',
-      GRANDCHILD: 'Grandchild',
-      'NIECE/NEPHEW': 'Niece/Nephew',
-      'CHILD-IN-LAW': 'Child in-law',
-      'EXTENDED FAMILY MEMBER': 'Extended family member',
-      'UNRELATED FRIEND': 'Unrelated Friend',
-      WARD: 'Ward',
+      WIFE: t('wife'),
+      HUSBAND: t('husband'),
+      DAUGHTER: t('daughter'),
+      SON: t('son'),
+      STEPCHILD: t('stepchild'),
+      MOTHER: t('mother'),
+      FATHER: t('father'),
+      BROTHER: t('brother'),
+      SISTER: t('sister'),
+      GRANDCHILD: t('grandchild'),
+      'NIECE/NEPHEW': t('niece-nephew'),
+      'CHILD-IN-LAW': t('child-in-law'),
+      EXTENDED_FAMILY_MEMBER: t('extended-family-member'),
+      'UNRELATED-FRIEND': t('unrelated-friend'),
+      WARD: t('ward'),
     }),
-    [],
+    [t],
   );
 
   const isUpdatable = useMemo(
@@ -95,13 +97,13 @@ export default function Relationship(props) {
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--3 vads-u-padding-top--4 edit-relationship-page">
       <Header
-        what="relationship to you"
+        what={t('relationship-to-you')}
         editingPage={editingPage}
         value={value}
       />
       <VaSelect
         error={relationshipErrorMessage}
-        label="Relationship"
+        label={t('relationship')}
         name={key}
         required
         onVaSelect={onChange}

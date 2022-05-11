@@ -182,7 +182,7 @@ describe('<ClaimPhase>', () => {
       const descTree = SkinDeep.shallowRender(output);
 
       expect(descTree.text()).to.equal(
-        'You or others submitted Request 1. We will notify you when we have reviewed it.',
+        'You or someone else submitted Request 1.',
       );
     });
     it('should show received from others reviewed description', () => {
@@ -210,7 +210,7 @@ describe('<ClaimPhase>', () => {
       const descTree = SkinDeep.shallowRender(output);
 
       expect(descTree.text()).to.equal(
-        'You or others submitted Request 1. We will notify you when we have reviewed it.',
+        'You or someone else submitted Request 1.',
       );
     });
     it('should show still need from you not reviewed description', () => {
@@ -236,7 +236,7 @@ describe('<ClaimPhase>', () => {
       const descTree = SkinDeep.shallowRender(output);
 
       expect(descTree.text()).to.equal(
-        'You or others submitted Request 1. We will notify you when we have reviewed it.',
+        'You or someone else submitted Request 1.',
       );
     });
     it('should show still need from others reviewed description', () => {
@@ -250,7 +250,7 @@ describe('<ClaimPhase>', () => {
       const descTree = SkinDeep.shallowRender(output);
 
       expect(descTree.text()).to.equal(
-        'You or others submitted Request 1. We will notify you when we have reviewed it.',
+        'You or someone else submitted Request 1.',
       );
     });
     it('should show still need from others not reviewed description', () => {

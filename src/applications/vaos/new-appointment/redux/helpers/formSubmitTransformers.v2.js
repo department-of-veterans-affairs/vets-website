@@ -1,7 +1,7 @@
 import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
-import { LANGUAGES, PURPOSE_TEXT } from '../../../utils/constants';
+import { LANGUAGES, PURPOSE_TEXT_V2 } from '../../../utils/constants';
 import {
   getTypeOfCare,
   getFormData,
@@ -99,7 +99,7 @@ export function transformFormToVAOSCCRequest(state) {
 export function transformFormToVAOSVARequest(state) {
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
-  const code = PURPOSE_TEXT.find(
+  const code = PURPOSE_TEXT_V2.find(
     purpose => purpose.id === data.reasonForAppointment,
   )?.serviceName;
 
@@ -109,14 +109,20 @@ export function transformFormToVAOSVARequest(state) {
     locationId: data.vaFacility,
     // This may need to change when we get the new service type ids
     serviceType: typeOfCare.idV2,
-    reasonCode: {
-      coding: [
-        {
-          code,
-        },
-      ],
-      text: code,
-    },
+    reasonCode:
+      code === 'Other'
+        ? {
+            coding: [],
+            text: data.reasonAdditionalInfo.slice(0, 100),
+          }
+        : {
+            coding: [
+              {
+                code,
+              },
+            ],
+            text: code,
+          },
     comment: data.reasonAdditionalInfo,
     contact: {
       telecom: [

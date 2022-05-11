@@ -8,11 +8,8 @@ function signupHandler(loginType, eventBase) {
   recordEvent({ event: `${eventBase}-${loginType}` });
 }
 
-export default function AccountLink({
-  csp,
-  isDisabled,
-  type = LINK_TYPES.CREATE,
-}) {
+export default function AccountLink({ csp, type = LINK_TYPES.CREATE }) {
+  if (!csp) return null;
   const { href, children, eventBase } = {
     href:
       type !== LINK_TYPES.CREATE
@@ -30,7 +27,7 @@ export default function AccountLink({
     <a
       href={href}
       className={`vads-c-action-link--blue vads-u-padding-y--2p5 vads-u-width--full ${csp}`}
-      disabled={isDisabled}
+      data-csp={csp}
       onClick={() => signupHandler(csp, eventBase)}
     >
       {children}

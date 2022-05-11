@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
@@ -23,6 +24,7 @@ import { formatPhone } from '../../../utils/formatters';
 
 export default function PhoneNumber(props) {
   const { router } = props;
+  const { t } = useTranslation();
   const { jumpToPage } = useFormRouting(router);
   const selectEditContext = useMemo(makeSelectEditContext, []);
   const { editing } = useSelector(selectEditContext);
@@ -82,7 +84,7 @@ export default function PhoneNumber(props) {
     scrollToTop('topScrollElement');
   }, []);
 
-  const onPhoneNumberChange = useCallback(
+  const onPhoneNumberInput = useCallback(
     event => {
       const { value: newPhone } = event.target;
       if (newPhone === '') {
@@ -92,16 +94,16 @@ export default function PhoneNumber(props) {
           })} is required`,
         );
       } else if (!isValidPhone(newPhone)) {
-        setPhoneErrorMessage('Please enter a valid phone number address.');
+        setPhoneErrorMessage(t('please-enter-valid-phone-number'));
       } else {
         setPhoneErrorMessage();
       }
       setPhoneNumber(newPhone);
     },
-    [setPhoneNumber, key],
+    [setPhoneNumber, key, t],
   );
 
-  const onExtensionChange = useCallback(
+  const onExtensionInput = useCallback(
     event => {
       const { value: newExtension } = event.target;
       setExtension(newExtension);
@@ -122,7 +124,7 @@ export default function PhoneNumber(props) {
         maxlength={null}
         name={key}
         value={formatPhone(phoneNumber)}
-        onVaChange={onPhoneNumberChange}
+        onInput={onPhoneNumberInput}
         required
       />
       <VaTextInput
@@ -131,7 +133,7 @@ export default function PhoneNumber(props) {
         maxlength={null}
         name={`${key}-extension`}
         value={extension}
-        onVaChange={onExtensionChange}
+        onInput={onExtensionInput}
         class="vads-u-padding-bottom--6"
       />
       <UpdateButton

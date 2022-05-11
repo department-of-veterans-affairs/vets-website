@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
 
 /**
@@ -132,12 +131,9 @@ export default function BackToTop({
                   'button-click-label': 'Back to top',
                   'button-type': 'default',
                 });
-                if (!environment.isProduction()) {
-                  const h1 = document.querySelector(
-                    `#${profilePageHeaderId} h1`,
-                  );
-                  if (h1) focusElement(h1);
-                }
+
+                const h1 = document.querySelector(`#${profilePageHeaderId} h1`);
+                if (h1) focusElement(h1);
               }}
             >
               <span>

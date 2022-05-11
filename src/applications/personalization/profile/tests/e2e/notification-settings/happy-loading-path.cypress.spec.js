@@ -8,8 +8,8 @@
 
 import { PROFILE_PATHS } from '@@profile/constants';
 
-import { makeUserObject } from '~/applications/personalization/common/helpers';
 import mockCommunicationPreferences from '@@profile/tests/fixtures/communication-preferences/get-200-maximal.json';
+import { makeUserObject } from '~/applications/personalization/common/helpers';
 
 import {
   mockNotificationSettingsAPIs,
@@ -60,7 +60,7 @@ describe('Notification Settings', () => {
           .should('match', /prescription.*shipment/i)
           .should('match', /prescription.*tracking/i);
         cy.findAllByText(/^select an option/i).should('have.length', 1);
-        cy.findAllByText(/check with your facility first/i).should(
+        cy.findAllByText(/check with your VA pharmacy first/i).should(
           'have.length',
           1,
         );
@@ -101,7 +101,9 @@ describe('Notification Settings', () => {
           .should('match', /prescription.*shipment/i)
           .should('match', /prescription.*tracking/i);
         cy.findAllByText(/^select an option/i).should('have.length', 1);
-        cy.findAllByText(/check with your facility first/i).should('not.exist');
+        cy.findAllByText(/check with your VA pharmacy first/i).should(
+          'not.exist',
+        );
       });
     },
   );
@@ -138,7 +140,9 @@ describe('Notification Settings', () => {
           .should('not.match', /prescription.*shipment/i)
           .should('not.match', /prescription.*tracking/i);
         cy.findAllByText(/^select an option/i).should('have.length', 1);
-        cy.findAllByText(/check with your facility first/i).should('not.exist');
+        cy.findAllByText(/check with your VA pharmacy first/i).should(
+          'not.exist',
+        );
       });
     },
   );

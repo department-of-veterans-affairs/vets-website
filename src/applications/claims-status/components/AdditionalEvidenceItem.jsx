@@ -17,7 +17,7 @@ export default function AdditionalEvidenceItem({ item }) {
         <span className="claim-item-label">Type:</span> {item.fileType}
       </p>
       <div>
-        <strong className="submission-status">Submitted</strong>
+        <strong className="submission-status">Submitted:</strong>
         {!!itemDate && (
           <span className="submission-date">
             {moment(itemDate).format('MMM D, YYYY')}

@@ -59,6 +59,7 @@ export const LOCATION_OPTIONS = [
  * Defines the ± change in bounding box size for the map when changing zoom
  */
 export const BOUNDING_RADIUS = 0.75;
+export const EXPANDED_BOUNDING_RADIUS = 1.4;
 
 /**
  *Defines the marker letter list

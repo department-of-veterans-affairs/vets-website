@@ -5,7 +5,7 @@ import moment from 'moment';
 import {
   validateServiceDates,
   validateDependentDate,
-  validateMarriageDate,
+  // validateMarriageDate,
   validateCurrency,
 } from '../validation';
 
@@ -85,44 +85,44 @@ describe('hca validation', () => {
       expect(errors.lastEntryDate.addError.callCount).to.equal(1);
     });
   });
-  describe('validateMarriageDate', () => {
-    it('should set message if marriage date is after spouse dob', () => {
-      const errors = {
-        addError: sinon.spy(),
-      };
-      validateMarriageDate(errors, '2010-01-01', {
-        spouseDateOfBirth: '2011-01-01',
-        veteranDateOfBirth: '1980-01-01',
-        discloseFinancialInformation: true,
-      });
+  // describe('validateMarriageDate', () => {
+  //   it('should set message if marriage date is after spouse dob', () => {
+  //     const errors = {
+  //       addError: sinon.spy(),
+  //     };
+  //     validateMarriageDate(errors, '2010-01-01', {
+  //       spouseDateOfBirth: '2011-01-01',
+  //       veteranDateOfBirth: '1980-01-01',
+  //       discloseFinancialInformation: true,
+  //     });
 
-      expect(errors.addError.callCount).to.equal(1);
-    });
-    it('should set message if marriage date is after veteran dob', () => {
-      const errors = {
-        addError: sinon.spy(),
-      };
-      validateMarriageDate(errors, '2010-01-01', {
-        veteranDateOfBirth: '2011-01-01',
-        spouseDateOfBirth: '1980-01-01',
-        discloseFinancialInformation: true,
-      });
+  //     expect(errors.addError.callCount).to.equal(1);
+  //   });
+  //   it('should set message if marriage date is after veteran dob', () => {
+  //     const errors = {
+  //       addError: sinon.spy(),
+  //     };
+  //     validateMarriageDate(errors, '2010-01-01', {
+  //       veteranDateOfBirth: '2011-01-01',
+  //       spouseDateOfBirth: '1980-01-01',
+  //       discloseFinancialInformation: true,
+  //     });
 
-      expect(errors.addError.callCount).to.equal(1);
-    });
-    it('should not set message if not disclosing financials', () => {
-      const errors = {
-        addError: sinon.spy(),
-      };
-      validateMarriageDate(errors, '2010-01-01', {
-        veteranDateOfBirth: '2011-01-01',
-        spouseDateOfBirth: '2011-01-01',
-        discloseFinancialInformation: false,
-      });
+  //     expect(errors.addError.callCount).to.equal(1);
+  //   });
+  //   it('should not set message if not disclosing financials', () => {
+  //     const errors = {
+  //       addError: sinon.spy(),
+  //     };
+  //     validateMarriageDate(errors, '2010-01-01', {
+  //       veteranDateOfBirth: '2011-01-01',
+  //       spouseDateOfBirth: '2011-01-01',
+  //       discloseFinancialInformation: false,
+  //     });
 
-      expect(errors.addError.callCount).to.equal(0);
-    });
-  });
+  //     expect(errors.addError.callCount).to.equal(0);
+  //   });
+  // });
   describe('validateDependentDate', () => {
     it('should set message if birth date is after dependent date', () => {
       const errors = {

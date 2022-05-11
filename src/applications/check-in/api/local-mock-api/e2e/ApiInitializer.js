@@ -80,6 +80,20 @@ class ApiInitializer {
         }),
       );
     },
+    withLorotaSecurityUpdate: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          checkInExperienceUpdateInformationPageEnabled: false,
+          emergencyContactEnabled: true,
+          checkInExperienceEditingPreCheckInEnabled: false,
+          checkInExperienceLorotaSecurityUpdatesEnabled: true,
+        }),
+      );
+    },
   };
 
   initializeSessionGet = {
@@ -112,7 +126,7 @@ class ApiInitializer {
 
   initializeSessionPost = {
     withSuccess: extraValidation => {
-      cy.intercept('POST', '/check_in/v2/sessions', req => {
+      cy.intercept('POST', `/check_in/v2/sessions`, req => {
         if (extraValidation) {
           extraValidation(req);
         }
@@ -175,6 +189,33 @@ class ApiInitializer {
         emergencyContactNeedsUpdate,
         emergencyContactConfirmedAt,
       );
+    },
+    withAlreadyCompleted: () => {
+      const data = preCheckInData.get.createMockSuccessResponse(
+        preCheckInData.get.alreadyPreCheckedInUUID,
+      );
+      cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
+        req.reply(data);
+      });
+      return data;
+    },
+    withCanceledAppointment: () => {
+      const data = preCheckInData.get.createMockSuccessResponse(
+        preCheckInData.get.canceledAppointmentUUID,
+      );
+      cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
+        req.reply(data);
+      });
+      return data;
+    },
+    withExpired: () => {
+      const data = preCheckInData.get.createMockSuccessResponse(
+        preCheckInData.get.expiredUUID,
+      );
+      cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
+        req.reply(data);
+      });
+      return data;
     },
     withBadData: ({
       extraValidation = null,

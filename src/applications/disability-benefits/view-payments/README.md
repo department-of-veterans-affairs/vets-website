@@ -29,3 +29,193 @@ When we render payments for the Veteran we do it using the `<Payments />` compon
 
 ## The back end code
 When the front end calls [/profile/payment_history](https://github.com/department-of-veterans-affairs/vets-api/blob/be3a39e6054afd8c6a2cbb61cfd215421a8a718a/app/controllers/v0/profile/payment_history_controller.rb#L1) in the back end we call the `new` method from the BGS People Service and assign the result, which is the Veteran's VA file number, to a new variable called `person`. We then use that `person` variable to call the `new` method from the BGS Payment Service and assign the result, a list of payments for the Veteran, to a new array of objects called `response`. We then send that response back to the front end using the `VetPaymentHistorySerializer`.
+
+## Mocking the `profile/payment_history` endpoint in vets-api
+When developing locally, vets-api is not able to properly access BGS to retrieve payment data.
+In order to retrieve view payments locally, we can create mock data for vets-api to return by
+replacing the `payment_history` method in `/app/services/bgs/payment_service.rb` with the following:
+```ruby
+def payment_history(person)
+    response = {
+        :payments => {
+            :payment => [
+                {
+                    :payment_amount => 3261.10,
+                    :payment_date => '04/01/2019',
+                    :payment_type => 'Compensation & Pension - Recurring',
+                    :payment_method => ' Direct Deposit',
+                    :address_eft => {
+                        :account_number => '123456',
+                        :account_type => 'Checking',
+                        :bank_name => 'BANK OF AMERICA, N.A.',
+                        :routing_number => '111000025',
+                    },
+                    :account_number => '****1234'
+                },
+                {
+                    :payment_amount => 3261.10,
+                    :payment_date => '04/02/2019',
+                    :payment_type => 'Compensation & Pension - Recurring',
+                    :payment_method => ' Direct Deposit',
+                    :address_eft => {
+                        :account_number => '123456',
+                        :account_type => 'Checking',
+                        :bank_name => 'BANK OF AMERICA, N.A.',
+                        :routing_number => '111000025',
+                    },
+                    :account_number => '****1234'
+                },
+                {
+                    :payment_amount => 3261.10,
+                    :payment_date => '04/03/2019',
+                    :payment_type => 'Compensation & Pension - Recurring',
+                    :payment_method => ' Direct Deposit',
+                    :address_eft => {
+                        :account_number => '123456',
+                        :account_type => 'Checking',
+                        :bank_name => 'BANK OF AMERICA, N.A.',
+                        :routing_number => '111000025',
+                    },
+                    :account_number => '****1234'
+                },
+                {
+                    :payment_amount => 3261.10,
+                    :payment_date => '04/04/2019',
+                    :payment_type => 'Compensation & Pension - Recurring',
+                    :payment_method => ' Direct Deposit',
+                    :address_eft => {
+                        :account_number => '123456',
+                        :account_type => 'Checking',
+                        :bank_name => 'BANK OF AMERICA, N.A.',
+                        :routing_number => '111000025',
+                    },
+                    :account_number => '****1234'
+                },
+                {
+                    :payment_amount => 3261.10,
+                    :payment_date => '04/05/2019',
+                    :payment_type => 'Compensation & Pension - Recurring',
+                    :payment_method => ' Direct Deposit',
+                    :address_eft => {
+                        :account_number => '123456',
+                        :account_type => 'Checking',
+                        :bank_name => 'BANK OF AMERICA, N.A.',
+                        :routing_number => '111000025',
+                    },
+                    :account_number => '****1234'
+                },
+                {
+                    :payment_amount => 3261.10,
+                    :payment_date => '04/06/2019',
+                    :payment_type => 'Compensation & Pension - Recurring',
+                    :payment_method => ' Direct Deposit',
+                    :address_eft => {
+                        :account_number => '123456',
+                        :account_type => 'Checking',
+                        :bank_name => 'BANK OF AMERICA, N.A.',
+                        :routing_number => '111000025',
+                    },
+                    :account_number => '****1234'
+                },
+                {
+                    :payment_amount => 3261.10,
+                    :payment_date => '04/07/2019',
+                    :payment_type => 'Compensation & Pension - Recurring',
+                    :payment_method => ' Direct Deposit',
+                    :address_eft => {
+                        :account_number => '123456',
+                        :account_type => 'Checking',
+                        :bank_name => 'BANK OF AMERICA, N.A.',
+                        :routing_number => '111000025',
+                    },
+                    :account_number => '****1234'
+                },
+                {
+                    :payment_amount => 3261.10,
+                    :payment_date => '04/08/2019',
+                    :payment_type => 'Compensation & Pension - Recurring',
+                    :payment_method => ' Direct Deposit',
+                    :address_eft => {
+                        :account_number => '123456',
+                        :account_type => 'Checking',
+                        :bank_name => 'BANK OF AMERICA, N.A.',
+                        :routing_number => '111000025',
+                    },
+                    :account_number => '****1234'
+                },
+                {
+                    :payment_amount => 3261.10,
+                    :payment_date => '04/09/2019',
+                    :payment_type => 'Compensation & Pension - Recurring',
+                    :payment_method => ' Direct Deposit',
+                    :address_eft => {
+                        :account_number => '123456',
+                        :account_type => 'Checking',
+                        :bank_name => 'BANK OF AMERICA, N.A.',
+                        :routing_number => '111000025',
+                    },
+                    :account_number => '****1234'
+                },
+                {
+                    :payment_amount => 3261.10,
+                    :payment_date => '04/10/2019',
+                    :payment_type => 'Compensation & Pension - Recurring',
+                    :payment_method => ' Direct Deposit',
+                    :address_eft => {
+                        :account_number => '123456',
+                        :account_type => 'Checking',
+                        :bank_name => 'BANK OF AMERICA, N.A.',
+                        :routing_number => '111000025',
+                    },
+                    :account_number => '****1234'
+                },
+                {
+                    :payment_amount => 3261.10,
+                    :payment_date => '04/11/2019',
+                    :payment_type => 'Compensation & Pension - Recurring',
+                    :payment_method => ' Direct Deposit',
+                    :address_eft => {
+                        :account_number => '123456',
+                        :account_type => 'Checking',
+                        :bank_name => 'BANK OF AMERICA, N.A.',
+                        :routing_number => '111000025',
+                    },
+                    :account_number => '****1234'
+                },
+                {
+                    :payment_amount => 3261.10,
+                    :payment_date => '04/12/2019',
+                    :payment_type => 'Compensation & Pension - Recurring',
+                    :payment_method => ' Direct Deposit',
+                    :address_eft => {
+                        :account_number => '123456',
+                        :account_type => 'Checking',
+                        :bank_name => 'BANK OF AMERICA, N.A.',
+                        :routing_number => '111000025',
+                    },
+                    :account_number => '****1234'
+                },
+                {
+                    :payment_amount => 3261.10,
+                    :payment_date => '04/13/2019',
+                    :payment_type => 'Compensation & Pension - Recurring',
+                    :payment_method => ' Direct Deposit',
+                    :address_eft => {
+                        :account_number => '123456',
+                        :account_type => 'Checking',
+                        :bank_name => 'BANK OF AMERICA, N.A.',
+                        :routing_number => '111000025',
+                    },
+                    :account_number => '****1234'
+                },
+            ]
+        }
+    }
+
+    rescue => e
+        report_error(e)
+        empty_response if e.message.include?('No Data Found')
+    end
+```
+NOTE: The above will return an array of payments, but it will not include any returned payments, so
+when viewing the page at `/va-payment-history/payments`, you will only see the `Payments you received` table.

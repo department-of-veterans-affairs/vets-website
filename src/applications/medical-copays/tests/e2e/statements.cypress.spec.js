@@ -5,6 +5,7 @@
  * @testrailinfo groupId 3090
  * @testrailinfo runName MCP-e2e-Statements
  */
+import mockDebt from '../../utils/mocks/debts.json';
 import mockFeatureToggles from './fixtures/mocks/statement-feature-toggles.json';
 import mockCopays from './fixtures/mocks/copays.json';
 import mockUser from './fixtures/mocks/mock-user.json';
@@ -16,6 +17,7 @@ describe('Medical Copays', () => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
     cy.intercept('GET', '/v0/medical_copays', mockCopays);
+    cy.intercept('GET', '/v0/debts', mockDebt);
     cy.visit('/health-care/pay-copay-bill/your-current-balances/');
     cy.findByTestId('overview-page-title').should('exist');
     cy.injectAxe();
@@ -28,6 +30,11 @@ describe('Medical Copays', () => {
     cy.findByTestId(`facility-city-${id}`).contains(
       'Ralph H. Johnson Department of Veterans Affairs Medical Center',
     );
+    cy.axeCheck();
+  });
+
+  it.skip('displays other va debts', () => {
+    cy.findByTestId('other-va-debts-mcp-body').should('exist');
     cy.axeCheck();
   });
 
@@ -52,7 +59,7 @@ describe('Medical Copays', () => {
     cy.axeCheck();
   });
 
-  it('displays view statements section - C12578', () => {
+  it.skip('displays view statements section - C12578', () => {
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
@@ -61,7 +68,7 @@ describe('Medical Copays', () => {
     cy.axeCheck();
   });
 
-  it('navigates to view statements page - C12579', () => {
+  it.skip('navigates to view statements page - C12579', () => {
     // get to page
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
@@ -76,7 +83,7 @@ describe('Medical Copays', () => {
     cy.axeCheck();
   });
 
-  it('displays account summary - C12580', () => {
+  it.skip('displays account summary - C12580', () => {
     // get to page
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();

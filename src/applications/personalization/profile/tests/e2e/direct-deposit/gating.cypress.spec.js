@@ -14,8 +14,8 @@ import mockDD4CNPFiduciary from '@@profile/tests/fixtures/dd4cnp/dd4cnp-fiduciar
 import mockDD4EDUEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-enrolled.json';
 import mockDD4EDUNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-enrolled.json';
 
-import { makeUserObject } from '~/applications/personalization/common/helpers';
 import { CSP_IDS } from 'platform/user/authentication/constants';
+import { makeUserObject } from '~/applications/personalization/common/helpers';
 
 function confirmDDBlockedAlertIsNotShown() {
   cy.findByRole('heading', { name: /^Profile menu$/ });
@@ -48,15 +48,16 @@ function confirmDirectDepositIsAvailable() {
 }
 
 function confirmDirectDepositIsBlocked() {
-  // the DD item should not exist in the sub nav
   cy.findByRole('navigation', { name: /profile/i }).within(() => {
     // Just a test to make sure we can access items in the sub nav to ensure
     // the following test isn't a false negative
     cy.findByRole('link', { name: /personal.*info/i }).should('exist');
-    cy.findByRole('link', { name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT }).should(
-      'not.exist',
-    );
   });
+
+  // the DD item should not exist
+  cy.findByRole('link', { name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT }).should(
+    'not.exist',
+  );
 
   // going directly to DD should redirect to the personal info page
   cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);

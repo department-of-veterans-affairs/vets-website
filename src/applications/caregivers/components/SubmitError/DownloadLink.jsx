@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import formConfig from 'applications/caregivers/config/form';
 import environment from 'platform/utilities/environment';
@@ -16,7 +15,7 @@ const DownLoadLink = ({ form }) => {
   const [isLoading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
   const getFormData = submitTransform(formConfig, form);
-  const veteranFullName = form.data.veteranFullName;
+  const { veteranFullName } = form.data;
   const pageList = createFormPageList(formConfig);
   const isFormValid = isValidForm(form, pageList);
 
@@ -99,6 +98,7 @@ const DownLoadLink = ({ form }) => {
       <div className="vads-u-margin-top--2 vads-u-color--secondary-dark pdf-download-link--error">
         <a
           aria-label="Error downloading 1010-CG PDF"
+          href={() => false}
           className="vads-u-color--gray-medium"
         >
           <i
@@ -128,7 +128,7 @@ const DownLoadLink = ({ form }) => {
   const renderLoadingIndicator = () => {
     return (
       <div className="pdf-download-link--loading">
-        <LoadingIndicator message="Downloading PDF..." />
+        <va-loading-indicator message="Downloading PDF..." />
       </div>
     );
   };
