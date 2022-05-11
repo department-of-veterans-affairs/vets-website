@@ -62,16 +62,15 @@ const Error = ({ location }) => {
       return [
         t('sorry-we-cant-complete-pre-check-in'),
         t('you-can-still-check-in-once-you-arrive'),
-        false,
       ];
-    return [t('sorry-we-cant-complete-pre-check-in'), combinedMessage, false];
+    return [t('sorry-we-cant-complete-pre-check-in'), combinedMessage];
   };
 
-  const [header, message, showAlert] = getErrorMessagePropsByType();
+  const [header, message] = getErrorMessagePropsByType();
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 ">
-      <ErrorMessage header={header} message={message} showAlert={showAlert} />
+      <ErrorMessage header={header} message={message} />
       <Footer />
       <BackToHome />
     </div>
