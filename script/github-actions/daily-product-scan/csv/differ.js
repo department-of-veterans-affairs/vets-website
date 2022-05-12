@@ -1,6 +1,8 @@
 /* eslint-disable no-param-reassign */
 const _ = require('lodash');
 
+const headingNames = require('./heading-names');
+
 class Differ {
   constructor({ emptyProductCsv }) {
     this.updatedProductCsv = emptyProductCsv;
@@ -14,32 +16,15 @@ class Differ {
       const product = products.all[productId];
 
       if (product) {
-        // TODO iterate through an array of attributes and call compareAttribute()
-        // with an object (like the ones below) with dynamic values derived from the array
-        // using string interpolation to DRY up this code
-        this.compareAttribute({
-          attribute: product.pathToCode,
-          index: productCsv.headings.pathToCodeIndex,
-          fields,
-        });
-
-        this.compareAttribute({
-          attribute: product.hasUnitTests,
-          index: productCsv.headings.hasUnitTestsIndex,
-          fields,
-        });
-
-        this.compareAttribute({
-          attribute: product.hasE2eTests,
-          index: productCsv.headings.hasE2eTestsIndex,
-          fields,
-        });
-
-        this.compareAttribute({
-          attribute: product.hasContractTests,
-          index: productCsv.headings.hasContractTestsIndex,
-          fields,
-        });
+        Object.values(headingNames)
+          .map(name => _.snakeCase(name))
+          .forEach(name => {
+            this.compareAttribute({
+              attribute: product[name],
+              index: productCsv.headings[`${name}Index`],
+              fields,
+            });
+          });
 
         this.comparePackageDependencies({
           attribute: product.packageDependencies,
