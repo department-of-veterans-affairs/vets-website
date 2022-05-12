@@ -27,13 +27,15 @@ const responses = {
   'PUT /v0/profile/preferred_names': handlePutPreferredNameRoute,
   'PUT /v0/profile/gender_identities': handlePutGenderIdentitiesRoute,
   'GET /v0/profile/full_name': {
-    id: '',
-    type: 'hashes',
-    attributes: {
-      first: 'Mitchell',
-      middle: 'G',
-      last: 'Jenkins',
-      suffix: null,
+    data: {
+      id: '',
+      type: 'hashes',
+      attributes: {
+        first: 'Mitchell',
+        middle: 'G',
+        last: 'Jenkins',
+        suffix: null,
+      },
     },
   },
   'GET /v0/profile/ch33_bank_accounts': {
