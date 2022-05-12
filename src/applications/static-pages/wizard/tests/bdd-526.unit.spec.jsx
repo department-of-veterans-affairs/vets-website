@@ -130,8 +130,10 @@ describe('Form 526 Wizard', () => {
     });
 
     expect(wrapper.find('.input-error-date')).to.exist;
+    // This is a key for an i18next translation value - real text will be used
+    // in a non-testing environment
     expect(wrapper.find('.usa-input-error-message').text()).to.contain(
-      'year between',
+      'year-range',
     );
     // make sure we're not rendering the start BDD button
     expect(wrapper.find('a[href$="introduction"]')).to.be.empty;
