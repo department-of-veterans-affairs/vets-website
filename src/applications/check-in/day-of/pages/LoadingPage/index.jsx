@@ -17,7 +17,7 @@ const LoadingPage = props => {
   const { goToErrorPage, goToNextPage } = useFormRouting(router);
 
   try {
-    useGetCheckInData(isUpdatePageEnabled, false);
+    useGetCheckInData(true, isUpdatePageEnabled, false);
   } catch (e) {
     goToErrorPage();
   }

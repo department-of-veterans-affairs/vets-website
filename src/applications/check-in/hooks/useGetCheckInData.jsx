@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import { api } from '../api';
-import { makeSelectCurrentContext, makeSelectVeteranData } from '../selectors';
+import { makeSelectCurrentContext } from '../selectors';
 
 import {
   receivedDemographicsData,
@@ -11,11 +11,10 @@ import {
 } from '../actions/day-of';
 
 const useGetCheckInData = (
+  shouldRefresh,
   isUpdatePageEnabled = false,
   appointmentsOnly = false,
 ) => {
-  const selectVeteranData = useMemo(makeSelectVeteranData, []);
-  const { appointments } = useSelector(selectVeteranData);
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
   const dispatch = useDispatch();
@@ -47,8 +46,7 @@ const useGetCheckInData = (
 
   useEffect(
     () => {
-      // check if appointments is empty or if a refresh is staged
-      if (appointments.length === 0) {
+      if (shouldRefresh) {
         api.v2
           .getCheckInData(token)
           .then(json => {
@@ -59,7 +57,7 @@ const useGetCheckInData = (
           });
       }
     },
-    [appointments, setSessionData, token],
+    [setSessionData, shouldRefresh, token],
   );
 };
 
