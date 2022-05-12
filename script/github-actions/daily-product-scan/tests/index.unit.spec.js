@@ -16,7 +16,7 @@ describe('daily-product-dependency-scan', () => {
     let message;
     let data;
 
-    before(async () => {
+    beforeEach(async () => {
       const octokit = sinon.createStubInstance(GitHubClient);
       octokit.getProductDirectory.returns(
         octokitResponses.outdatedProductDirectory,
@@ -110,7 +110,7 @@ describe('daily-product-dependency-scan', () => {
     let message;
     let data;
 
-    before(async () => {
+    beforeEach(async () => {
       const octokit = sinon.createStubInstance(GitHubClient);
       octokit.getProductDirectory.returns(octokitResponses.productDirectory);
       octokit.createPull.returns(octokitResponses.createPull);
@@ -204,7 +204,7 @@ describe('daily-product-dependency-scan', () => {
       let message;
       let data;
 
-      before(async () => {
+      beforeEach(async () => {
         const octokit = sinon.createStubInstance(GitHubClient);
         octokit.getProductDirectory.returns(
           octokitResponses.productDirectoryForbidden,
@@ -235,7 +235,7 @@ describe('daily-product-dependency-scan', () => {
       let message;
       let data;
 
-      before(async () => {
+      beforeEach(async () => {
         const octokit = sinon.createStubInstance(GitHubClient);
         octokit.getProductDirectory.returns(
           octokitResponses.productDirectoryResourceNotFound,
