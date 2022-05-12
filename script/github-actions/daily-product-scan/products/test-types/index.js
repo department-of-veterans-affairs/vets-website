@@ -26,7 +26,7 @@ class TestTypes {
   }
 
   doesExist({ product, globPattern }) {
-    const paths = glob.sync(`${product.productPath}/${globPattern}`);
+    const paths = glob.sync(`${product.pathToCode}/${globPattern}`);
     return paths.length > 0;
   }
 }
@@ -65,7 +65,7 @@ module.exports = TestTypes;
 //   }
 
 //   check({ product, globPattern }) {
-//     const paths = glob.sync(`${product.productPath}/${globPattern}`);
+//     const paths = glob.sync(`${product.pathToCode}/${globPattern}`);
 //     return paths.length > 0;
 //   }
 // }

@@ -18,7 +18,7 @@ class Differ {
         // with an object (like the ones below) with dynamic values derived from the array
         // using string interpolation to DRY up this code
         this.compareAttribute({
-          attribute: product.productPath,
+          attribute: product.pathToCode,
           index: productCsv.headings.pathToCodeIndex,
           fields,
         });
