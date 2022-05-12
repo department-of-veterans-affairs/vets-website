@@ -15,24 +15,29 @@ import {
 
 export function EnrollmentVerificationIntroPage({
   loggedIn,
-  hascheckedkeepalive,
+  enrollmentVerification,
+  hasCheckedKeepAlive,
   getPost911GiBillEligibility,
   post911GiBillEligibility,
 }) {
   const history = useHistory();
-  const [post911Eligibility, setPost911Eligibility] = useState({});
+  const [
+    calledGetPost911GiBillEligibility,
+    setCalledGetPost911GiBillEligibility,
+  ] = useState(false);
 
   useEffect(
     () => {
-      if (post911GiBillEligibility === undefined) {
-        getPost911GiBillEligibility().then(r =>
-          setPost911Eligibility(
-            r?.response?.data?.attributes?.enrollmentVerifications,
-          ),
-        );
+      if (!calledGetPost911GiBillEligibility) {
+        setCalledGetPost911GiBillEligibility(true);
+        getPost911GiBillEligibility();
       }
     },
-    [getPost911GiBillEligibility, post911GiBillEligibility],
+    [
+      calledGetPost911GiBillEligibility,
+      getPost911GiBillEligibility,
+      post911GiBillEligibility,
+    ],
   );
 
   const onVerifyEnrollmentsClick = useCallback(
@@ -67,7 +72,7 @@ export function EnrollmentVerificationIntroPage({
     </va-alert>
   );
 
-  if (!loggedIn && !hascheckedkeepalive) {
+  if (!loggedIn && !hasCheckedKeepAlive) {
     return <EnrollmentVerificationLoadingIndicator />;
   }
 
@@ -91,8 +96,8 @@ export function EnrollmentVerificationIntroPage({
       </p>
 
       {!loggedIn ? <EnrollmentVerificationLogin /> : <></>}
-      {loggedIn && post911Eligibility ? verifyEnrollmentsButton : <></>}
-      {loggedIn && !post911Eligibility ? noPost911GiBillAlert : <></>}
+      {loggedIn && enrollmentVerification ? verifyEnrollmentsButton : <></>}
+      {loggedIn && !enrollmentVerification ? noPost911GiBillAlert : <></>}
 
       <h2>For Montgomery GI Bill benefits:</h2>
       <p>
@@ -186,9 +191,8 @@ export function EnrollmentVerificationIntroPage({
 
 const mapStateToProps = state => ({
   loggedIn: state?.user?.login?.currentlyLoggedIn,
-  hascheckedkeepalive: state?.user?.login?.hasCheckedKeepAlive,
-  post911GiBillEligibility: state?.data?.post911GiBillEligibility,
-  verificationStatus: state?.data?.verificationStatus,
+  hasCheckedKeepAlive: state?.user?.login?.hasCheckedKeepAlive,
+  enrollmentVerification: state?.data?.enrollmentVerification,
 });
 
 const mapDispatchToProps = {
