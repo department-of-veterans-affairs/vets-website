@@ -8,8 +8,8 @@ const GitHubClient = require('./github-client');
   });
 
   if (process.env.MANIFEST_GLOB_PATH) {
-    console.log(`change detected: ${changeDetected}`);
     console.log(`status: ${status}`);
+    console.log(`change detected: ${changeDetected}`);
     console.log(`message: ${message}`);
     console.log(`data: ${data}`);
   }

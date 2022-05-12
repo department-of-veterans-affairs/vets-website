@@ -27,14 +27,6 @@ function handleFailure({ response }) {
 }
 
 function handleSuccess({ changeDetected, message, data }) {
-  if (changeDetected) {
-    console.log(
-      'Product dependencies have changed. A PR to update the Product Directory has been submitted.',
-    );
-  } else {
-    console.log('No dependency changes were detected.');
-  }
-
   core.exportVariable('CHANGE_DETECTED', changeDetected);
 
   return {
