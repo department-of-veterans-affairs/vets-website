@@ -10,10 +10,10 @@ class Headings {
     this.all.forEach((heading, index) => {
       switch (heading) {
         case headingNames.PACKAGE_DEPENDENCIES:
-          this.packageDependencyIndex = index;
+          this.packageDependenciesIndex = index;
           break;
         case headingNames.CROSS_PRODUCT_DEPENDENCIES:
-          this.crossProductDependencyIndex = index;
+          this.crossProductDependenciesIndex = index;
           break;
         case headingNames.HAS_UNIT_TESTS:
           this.hasUnitTestsIndex = index;

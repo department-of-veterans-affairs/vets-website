@@ -14,33 +14,31 @@ class Differ {
       const product = products.all[productId];
 
       if (product) {
+        this.comparePathToCode({
+          path: product.pathToCode,
+          fieldIndex: productCsv.headings.pathToCodeIndex,
+          fields,
+        });
+
         ['hasUnitTests', 'hasE2eTests', 'hasContractTests'].forEach(
           attribute => {
             this.compareBooleanAttribute({
               boolean: product[attribute],
-              index: productCsv.headings[`${attribute}Index`],
+              fieldIndex: productCsv.headings[`${attribute}Index`],
               fields,
             });
           },
         );
 
-        this.comparePathToCode({
-          path: product.pathToCode,
-          index: productCsv.headings.pathToCodeIndex,
-          fields,
-        });
-
-        this.comparePackageDependencies({
-          attribute: product.packageDependencies,
-          index: productCsv.headings.packageDependencyIndex,
-          fields,
-        });
-
-        this.compareCrossProductDependencies({
-          attribute: product.crossProductDependencies,
-          index: productCsv.headings.crossProductDependencyIndex,
-          fields,
-        });
+        ['packageDependencies', 'crossProductDependencies'].forEach(
+          attribute => {
+            this.compareDependencies({
+              dependencies: product[attribute],
+              fieldIndex: productCsv.headings[`${attribute}Index`],
+              fields,
+            });
+          },
+        );
       }
 
       const updatedRow = fields.join(',');
@@ -48,65 +46,82 @@ class Differ {
     });
   }
 
-  compareBooleanAttribute({ boolean, index, fields }) {
+  comparePathToCode({ path, fieldIndex, fields }) {
+    if (fields[fieldIndex] !== path) {
+      this.changeDetected = true;
+      fields[fieldIndex] = path;
+    }
+  }
+
+  compareBooleanAttribute({ boolean, fieldIndex, fields }) {
     const lowerCaseBoolean = boolean.toString();
     const upperCaseBoolean = lowerCaseBoolean.toUpperCase();
 
     if (
-      fields[index] !== lowerCaseBoolean ||
-      fields[index] !== upperCaseBoolean
+      fields[fieldIndex] !== lowerCaseBoolean ||
+      fields[fieldIndex] !== upperCaseBoolean
     ) {
       this.changeDetected = true;
-      fields[index] = boolean;
+      fields[fieldIndex] = boolean;
     }
   }
 
-  comparePathToCode({ path, index, fields }) {
-    if (fields[index] !== path) {
-      this.changeDetected = true;
-      fields[index] = path;
-    }
-  }
+  compareDependencies({ dependencies, fieldIndex, fields }) {
+    let csvDependencies = fields[fieldIndex].replace(/"/g, '').split(',');
+    csvDependencies = csvDependencies[0] === '' ? [] : csvDependencies;
 
-  comparePackageDependencies({ attribute, index, fields }) {
-    let csvPackageDependencies = fields[index].replace(/"/g, '').split(',');
-    csvPackageDependencies =
-      csvPackageDependencies[0] === '' ? [] : csvPackageDependencies;
+    const scannedDependencies = Array.from(dependencies);
 
-    const scannedPackageDependencies = Array.from(attribute);
-
-    if (!_.isEqual(csvPackageDependencies, scannedPackageDependencies)) {
+    if (!_.isEqual(csvDependencies, scannedDependencies)) {
       this.changeDetected = true;
 
-      if (scannedPackageDependencies.length > 0) {
-        fields[index] = `"${scannedPackageDependencies.join(',')}"`;
+      if (scannedDependencies.length > 0) {
+        fields[fieldIndex] = `"${scannedDependencies.join(',')}"`;
       } else {
-        fields[index] = '';
+        fields[fieldIndex] = '';
       }
     }
   }
 
-  compareCrossProductDependencies({ attribute, index, fields }) {
-    let csvCrossProductDependencies = fields[index]
-      .replace(/"/g, '')
-      .split(',');
-    csvCrossProductDependencies =
-      csvCrossProductDependencies[0] === '' ? [] : csvCrossProductDependencies;
+  // comparePackageDependencies({ attribute, index, fields }) {
+  //   let csvPackageDependencies = fields[index].replace(/"/g, '').split(',');
+  //   csvPackageDependencies =
+  //     csvPackageDependencies[0] === '' ? [] : csvPackageDependencies;
 
-    const scannedCrossProductDependencies = Array.from(attribute);
+  //   const scannedPackageDependencies = Array.from(attribute);
 
-    if (
-      !_.isEqual(csvCrossProductDependencies, scannedCrossProductDependencies)
-    ) {
-      this.changeDetected = true;
+  //   if (!_.isEqual(csvPackageDependencies, scannedPackageDependencies)) {
+  //     this.changeDetected = true;
 
-      if (scannedCrossProductDependencies.length > 0) {
-        fields[index] = `"${scannedCrossProductDependencies.join(',')}"`;
-      } else {
-        fields[index] = '';
-      }
-    }
-  }
+  //     if (scannedPackageDependencies.length > 0) {
+  //       fields[index] = `"${scannedPackageDependencies.join(',')}"`;
+  //     } else {
+  //       fields[index] = '';
+  //     }
+  //   }
+  // }
+
+  // compareCrossProductDependencies({ attribute, index, fields }) {
+  //   let csvCrossProductDependencies = fields[index]
+  //     .replace(/"/g, '')
+  //     .split(',');
+  //   csvCrossProductDependencies =
+  //     csvCrossProductDependencies[0] === '' ? [] : csvCrossProductDependencies;
+
+  //   const scannedCrossProductDependencies = Array.from(attribute);
+
+  //   if (
+  //     !_.isEqual(csvCrossProductDependencies, scannedCrossProductDependencies)
+  //   ) {
+  //     this.changeDetected = true;
+
+  //     if (scannedCrossProductDependencies.length > 0) {
+  //       fields[index] = `"${scannedCrossProductDependencies.join(',')}"`;
+  //     } else {
+  //       fields[index] = '';
+  //     }
+  //   }
+  // }
 }
 
 module.exports = Differ;

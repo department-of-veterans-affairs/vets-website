@@ -79,11 +79,11 @@ describe('daily-product-dependency-scan', () => {
         Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
           expect(
             originalProductDirectoryByProductId[uuid][
-              originalProductDirectory.headings.packageDependencyIndex
+              originalProductDirectory.headings.packageDependenciesIndex
             ],
           ).not.to.equal(
             updatedProductDirectoryByProductId[uuid][
-              updatedProductDirectory.headings.packageDependencyIndex
+              updatedProductDirectory.headings.packageDependenciesIndex
             ],
           );
         });
@@ -93,11 +93,11 @@ describe('daily-product-dependency-scan', () => {
         Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
           expect(
             originalProductDirectoryByProductId[uuid][
-              originalProductDirectory.headings.crossProductDependencyIndex
+              originalProductDirectory.headings.crossProductDependenciesIndex
             ],
           ).not.to.equal(
             updatedProductDirectoryByProductId[uuid][
-              updatedProductDirectory.headings.crossProductDependencyIndex
+              updatedProductDirectory.headings.crossProductDependenciesIndex
             ],
           );
         });
@@ -171,11 +171,11 @@ describe('daily-product-dependency-scan', () => {
         Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
           expect(
             originalProductDirectoryByProductId[uuid][
-              originalProductDirectory.headings.packageDependencyIndex
+              originalProductDirectory.headings.packageDependenciesIndex
             ],
           ).to.equal(
             updatedProductDirectoryByProductId[uuid][
-              updatedProductDirectory.headings.packageDependencyIndex
+              updatedProductDirectory.headings.packageDependenciesIndex
             ],
           );
         });
@@ -185,11 +185,11 @@ describe('daily-product-dependency-scan', () => {
         Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
           expect(
             originalProductDirectoryByProductId[uuid][
-              originalProductDirectory.headings.crossProductDependencyIndex
+              originalProductDirectory.headings.crossProductDependenciesIndex
             ],
           ).to.equal(
             updatedProductDirectoryByProductId[uuid][
-              updatedProductDirectory.headings.crossProductDependencyIndex
+              updatedProductDirectory.headings.crossProductDependenciesIndex
             ],
           );
         });
