@@ -49,8 +49,10 @@ jobs:
         env:
           MANIFEST_GLOB_PATH: src/applications/**/*manifest.json
 
-      - name: Notify Slack that a PR in the Product Directory repo has been submitted
+      - name: Echo CHANGE_DETECTED
         run: echo ${{ env.CHANGE_DETECTED }}
+
+      - name: Notify Slack that a PR in the Product Directory repo has been submitted
         if: ${{ success() }}
         uses: ./.github/workflows/slack-notify
         env:
