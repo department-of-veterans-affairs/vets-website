@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import AlertBox, {
@@ -81,10 +82,13 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
   const eduSaveError = eduUiState.responseError;
   const showBankInformation = isVerifiedUser;
 
-  const bankInfoUpdatedAlertSettings = {
-    FADE_SPEED: window.Cypress ? 1 : 500,
-    TIMEOUT: window.Cypress ? 500 : 6000,
-  };
+  const bankInfoUpdatedAlertSettings = useMemo(
+    () => ({
+      FADE_SPEED: window.Cypress ? 1 : 500,
+      TIMEOUT: window.Cypress ? 500 : 6000,
+    }),
+    [],
+  );
 
   const removeBankInfoUpdatedAlert = React.useCallback(
     () => {
@@ -206,6 +210,18 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
       ) : null}
     </>
   );
+};
+
+DirectDeposit.propTypes = {
+  cnpUiState: PropTypes.shape({
+    isSaving: PropTypes.bool.isRequired,
+    responseError: PropTypes.object,
+  }).isRequired,
+  eduUiState: PropTypes.shape({
+    isSaving: PropTypes.bool.isRequired,
+    responseError: PropTypes.object,
+  }).isRequired,
+  isVerifiedUser: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => {
