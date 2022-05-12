@@ -39,10 +39,10 @@ class GitHubClient {
   async createPull({ content }) {
     const title = 'Automatic Product Directory CSV Update';
     const body = `This is an automatic update.
-
+    
     Changes were detected in one or more products listed in the Product Directory CSV thus requiring it to be updated.
 
-    This PR was made by the Product Directory Updater bot. It scans \`vets-website\` once a day for changes to the following fields for each product:
+    This PR was made by the Product Directory Updater bot. It scans vets-website once a day for changes to the following fields for each product:
     - package_dependencies
     - cross_product_dependencies
     - has_unit_tests
