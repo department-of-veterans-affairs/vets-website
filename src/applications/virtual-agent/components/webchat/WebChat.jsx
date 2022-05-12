@@ -57,7 +57,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
 
   if (requireAuth) {
     addEventListener('beforeunload', () => {
-      clearBotSessionStorage();
+      clearBotSessionStorage(false, isLoggedIn);
     });
 
     const links = document.querySelectorAll('div#account-menu ul li a');
