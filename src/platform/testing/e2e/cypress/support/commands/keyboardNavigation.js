@@ -4,6 +4,10 @@ import 'cypress-real-events';
 // eslint-disable-next-line prefer-const
 let timeoutDuration = 0;
 
+// Utility to remove ID selector (in case it's included)
+const leadingHashRegex = /^#/;
+const removeLeadingHash = name => name.replace(leadingHashRegex, '');
+
 /**
  * This command is used by other commands to select form values. You can call this yourself if you want to move focus to a specific radio value while the radio field is focused. The value is the value of the input/option.
  */
@@ -29,6 +33,25 @@ Cypress.Commands.add('findSelectOptionByTyping', text => {
       cy.findSelectOptionByTyping(text);
     }
   });
+});
+
+/**
+ * @callback chooseSelectOptionUsingValue
+ * @param {String} value - The option value to search for
+ */
+/**
+ * This command will target the focused select and then find and select the option value (not text, like `chooseSelectOptionByTyping`) that matches, and then selects it
+ * @param {String} name - Name of the new command
+ * @param {chooseSelectOptionUsingValue} callbackFunction - The callback that uses the value to find the matching option, and then selects it by typing (because Arrow down does not work on Mac)
+ */
+Cypress.Commands.add('chooseSelectOptionUsingValue', value => {
+  cy.get(':focus')
+    .find('option')
+    .each($option => {
+      if (value === $option[0].value) {
+        cy.findSelectOptionByTyping($option.text());
+      }
+    });
 });
 
 /**
@@ -96,11 +119,23 @@ Cypress.Commands.add(
   },
 );
 
+// Target & use the "Continue" button on a form page
+Cypress.Commands.add('tabToContinueForm', () => {
+  cy.tabToElement('button[type="submit"]');
+  cy.realPress('Space');
+});
+
+// Target & use the "Submit" form button on the review & submit page
+Cypress.Commands.add('tabToSubmitForm', () => {
+  // Form submit button is a button type?
+  cy.tabToElement('button[id$="continueButton"].usa-button-primary');
+  cy.realPress('Space');
+});
+
 /**
  * @callback tabToInputWithLabel
  * @param {String} - Text within a label associated with an input you want to focus
  */
-
 /**
  * This command allows you to search for an input using the label text. The focus will be moved to that element, if the label text is found. Modified from Cypress docs: https://glebbahmutov.com/cypress-examples/6.5.0/recipes/form-input-by-label.html#reusable-function
  * @param {String} name - Name of the new command
@@ -132,6 +167,24 @@ Cypress.Commands.add('typeInIfDataExists', (selector, text) => {
 });
 
 /**
+ * @callback setCheckboxFromData
+ * @param {String} selector - The CSS element selector
+ * @param {Boolean} isChecked=false - checkbox state
+ */
+/**
+ * This command will find and check a checkbox if the data is true
+ * @param {String} name - Name of the new command
+ * @param {setCheckboxFromData} callbackFunction - The callback that handles focusing & checking or unchecking a checkbox based on the checkbox state
+ */
+Cypress.Commands.add('setCheckboxFromData', (selector, isChecked = false) => {
+  cy.tabToElement(selector).then($el => {
+    if ($el[0].checked !== isChecked) {
+      cy.realPress('Space');
+    }
+  });
+});
+
+/**
  * FullName
  * @typedef {Object}
  * @property {String} prefix - Prefix
@@ -151,43 +204,19 @@ Cypress.Commands.add('typeInIfDataExists', (selector, text) => {
  * @param {typeInFullName} callbackFunction - The callback that handles moving the focus to an element and then select or type in the text
  */
 Cypress.Commands.add('typeInFullName', (fieldName, data) => {
+  const name = removeLeadingHash(fieldName);
   if (data.prefix) {
-    cy.tabToElement(`#${fieldName}prefix`);
+    cy.tabToElement(`#${name}prefix`);
     cy.chooseSelectOptionByTyping(data.prefix);
   }
-  cy.typeInIfDataExists(`#${fieldName}first`, data.first);
-  cy.typeInIfDataExists(`#${fieldName}middle`, data.middle);
-  cy.typeInIfDataExists(`#${fieldName}last`, data.last);
+  cy.typeInIfDataExists(`#${name}first`, data.first);
+  cy.typeInIfDataExists(`#${name}middle`, data.middle);
+  cy.typeInIfDataExists(`#${name}last`, data.last);
   if (data.suffix) {
-    cy.tabToElement(`#${fieldName}suffix`);
+    cy.tabToElement(`#${name}suffix`);
     cy.chooseSelectOptionByTyping(data.suffix);
   }
 });
-
-/**
- * @callback chooseSelectOptionUsingArrow
- * @param {String} value - The option value to search for
- * @param {Number} iteration - The current count of the number of cycles, setting this limit prevents an endless loop if the option value isn't found
- * @param {Number} maxIterations=20 - The maximum number of iterations before stopping
- */
-/**
- * This command will target the focused select and then find and select the option value (not text, like `chooseSelectOptionByTyping`) that matches, and then selects it
- * @param {String} name - Name of the new command
- * @param {typeInFullName} callbackFunction - The callback that handles moving the focus to the matching option, and then selecting it
- */
-Cypress.Commands.add(
-  'chooseSelectOptionUsingArrow',
-  (value, iteration = 0, maxIterations = 20) => {
-    cy.get(':focus :selected').then($el => {
-      if (value === $el[0].value) {
-        cy.realPress('Space');
-      } else if (iteration < maxIterations) {
-        cy.realPress('ArrowDown', { pressDelay: timeoutDuration });
-        cy.chooseSelectOptionUsingArrow(value, iteration + 1);
-      }
-    });
-  },
-);
 
 /**
  * @callback typeInDate
@@ -197,13 +226,16 @@ Cypress.Commands.add(
 /**
  * This command will select the date in a month & day select and then type in the year into a text input
  * @param {String} name - Name of the new command
- * @param {typeInFullName} callbackFunction - The callback that handles making the month & day selections and typing in the year
+ * @param {typeInDate} callbackFunction - The callback that handles making the month & day selections and typing in the year
  */
 Cypress.Commands.add('typeInDate', (fieldName, dateString) => {
   // Remove leading zeros
   const date = dateString.split('-').map(v => parseInt(v, 10).toString());
-  cy.tabToElement(`#${fieldName}Month`);
-  cy.chooseSelectOptionUsingArrow(date[1], 12);
-  cy.tabToElement(`#${fieldName}Day`).chooseSelectOptionUsingArrow(date[2], 31);
-  cy.tabToElement(`input[name="${fieldName}Year"]`).typeInFocused(date[0]);
+  const name = removeLeadingHash(fieldName);
+  cy.tabToElement(`#${name}Month`);
+  cy.chooseSelectOptionUsingValue(date[1]);
+  cy.tabToElement(`#${name}Day`);
+  cy.chooseSelectOptionUsingValue(date[2]);
+  cy.tabToElement(`input[name="${name}Year"]`);
+  cy.typeInFocused(date[0]);
 });
