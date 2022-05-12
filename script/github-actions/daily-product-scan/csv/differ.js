@@ -1,8 +1,6 @@
 /* eslint-disable no-param-reassign */
 const _ = require('lodash');
 
-const headingNames = require('./heading-names');
-
 class Differ {
   constructor({ emptyProductCsv }) {
     this.updatedProductCsv = emptyProductCsv;
@@ -16,15 +14,21 @@ class Differ {
       const product = products.all[productId];
 
       if (product) {
-        Object.values(headingNames)
-          .map(name => _.snakeCase(name))
-          .forEach(name => {
-            this.compareAttribute({
-              attribute: product[name],
-              index: productCsv.headings[`${name}Index`],
+        ['hasUnitTests', 'hasE2eTests', 'hasContractTests'].forEach(
+          attribute => {
+            this.compareBooleanAttribute({
+              boolean: product[attribute],
+              index: productCsv.headings[`${attribute}Index`],
               fields,
             });
-          });
+          },
+        );
+
+        this.comparePathToCode({
+          path: product.pathToCode,
+          index: productCsv.headings.pathToCodeIndex,
+          fields,
+        });
 
         this.comparePackageDependencies({
           attribute: product.packageDependencies,
@@ -34,7 +38,7 @@ class Differ {
 
         this.compareCrossProductDependencies({
           attribute: product.crossProductDependencies,
-          index: productCsv.headings.crossProductDependenciesIndex,
+          index: productCsv.headings.crossProductDependencyIndex,
           fields,
         });
       }
@@ -44,10 +48,23 @@ class Differ {
     });
   }
 
-  compareAttribute({ attribute, index, fields }) {
-    if (fields[index] !== attribute) {
+  compareBooleanAttribute({ boolean, index, fields }) {
+    const lowerCaseBoolean = boolean.toString();
+    const upperCaseBoolean = lowerCaseBoolean.toUpperCase();
+
+    if (
+      fields[index] !== lowerCaseBoolean ||
+      fields[index] !== upperCaseBoolean
+    ) {
       this.changeDetected = true;
-      fields[index] = attribute;
+      fields[index] = boolean;
+    }
+  }
+
+  comparePathToCode({ path, index, fields }) {
+    if (fields[index] !== path) {
+      this.changeDetected = true;
+      fields[index] = path;
     }
   }
 
