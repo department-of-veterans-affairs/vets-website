@@ -192,7 +192,7 @@ export const directDepositWarning = (
           </a>{' '}
           <b>or</b>
         </li>
-        <li>{`Call ${<va-telephone contact="8003331795" />}`}</li>
+        <li>{`Call ${<va-telephone contact="8003331795" />}`}</li>)
       </ul>
       {`If you choose not to enroll, you’ll need to call the Department of the
       Treasury at ${<va-telephone contact="8882242950" />}
