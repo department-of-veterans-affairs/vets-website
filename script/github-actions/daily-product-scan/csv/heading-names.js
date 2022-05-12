@@ -1,4 +1,4 @@
-const constants = {
+const headingNames = {
   PACKAGE_DEPENDENCIES: 'package_dependencies',
   CROSS_PRODUCT_DEPENDENCIES: 'cross_product_dependencies',
   HAS_UNIT_TESTS: 'has_unit_tests',
@@ -7,4 +7,4 @@ const constants = {
   PATH_TO_CODE: 'path_to_code',
 };
 
-module.exports = constants;
+module.exports = headingNames;

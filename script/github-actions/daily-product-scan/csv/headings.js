@@ -1,4 +1,4 @@
-const constants = require('./constants');
+const headingNames = require('./heading-names');
 
 class Headings {
   constructor({ csvLine }) {
@@ -9,22 +9,22 @@ class Headings {
   setFieldHeadingIndices() {
     this.all.forEach((heading, index) => {
       switch (heading) {
-        case constants.PACKAGE_DEPENDENCIES:
+        case headingNames.PACKAGE_DEPENDENCIES:
           this.packageDependencyIndex = index;
           break;
-        case constants.CROSS_PRODUCT_DEPENDENCIES:
+        case headingNames.CROSS_PRODUCT_DEPENDENCIES:
           this.crossProductDependencyIndex = index;
           break;
-        case constants.HAS_UNIT_TESTS:
+        case headingNames.HAS_UNIT_TESTS:
           this.hasUnitTestsIndex = index;
           break;
-        case constants.HAS_E2E_TESTS:
+        case headingNames.HAS_E2E_TESTS:
           this.hasE2eTestsIndex = index;
           break;
-        case constants.HAS_CONTRACT_TESTS:
+        case headingNames.HAS_CONTRACT_TESTS:
           this.hasContractTestsIndex = index;
           break;
-        case constants.PATH_TO_CODE:
+        case headingNames.PATH_TO_CODE:
           this.pathToCodeIndex = index;
           break;
         default:
