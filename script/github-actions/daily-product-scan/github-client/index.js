@@ -21,7 +21,7 @@ class GitHubClient {
     });
   }
 
-  async getProductDirectory() {
+  async getProductCsv() {
     try {
       return await this.octokit.rest.repos.getContent({
         mediaType: {
@@ -41,9 +41,9 @@ class GitHubClient {
       return await this.octokit.createPullRequest({
         owner: constants.owner,
         repo: constants.repo,
-        title: 'Update dependencies in Product Directory',
+        title: 'Update dependencies in the Product Directory CSV',
         body:
-          'This is an automatic update.\n\nDependency changes were detected in one or more products listed in the Product Directory thus requiring it to be updated.',
+          'This is an automatic update.\n\nDependency changes were detected in one or more products listed in the Product Directory CSV thus requiring it to be updated.',
         base: constants.branch,
         head: `update_dependencies_${getDateTime()}`,
         forceFork: false,
@@ -52,7 +52,7 @@ class GitHubClient {
             files: {
               [constants.path]: content,
             },
-            commit: 'Update dependencies in Product Directory',
+            commit: 'Update dependencies in the Product Directory CSV',
           },
         ],
       });

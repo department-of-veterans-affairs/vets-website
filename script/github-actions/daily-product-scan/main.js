@@ -67,7 +67,7 @@ async function main({ octokit }) {
   const testTypes = new TestTypes();
   testTypes.checkExistance({ products: products.all });
 
-  let response = await octokit.getProductDirectory();
+  let response = await octokit.getProductCsv();
 
   if (response?.status !== 200) {
     return handleFailure({ response });
