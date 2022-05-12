@@ -193,15 +193,11 @@ export const directDepositWarning = (
           <b>or</b>
         </li>
         <li>
-          Call{' '}
-          <va-telephone contact="8003331795"></va-telephone>
+          Call <va-telephone contact="8003331795" />
         </li>
       </ul>
       If you choose not to enroll, you’ll need to call the Department of the
-      Treasury at{' '}
-      <a href="tel:8882242950" aria-label="8 8 8. 2 2 4. 2 9 5 0.">
-        888-224-2950
-      </a>
+      Treasury at <va-telephone contact="8882242950" />
       and speak to a representative handling waiver requests. They’ll encourage
       you to participate in EFT and address any questions or concerns you have.
     </p>
