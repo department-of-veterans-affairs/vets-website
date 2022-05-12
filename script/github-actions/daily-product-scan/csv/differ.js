@@ -82,46 +82,6 @@ class Differ {
       }
     }
   }
-
-  // comparePackageDependencies({ attribute, index, fields }) {
-  //   let csvPackageDependencies = fields[index].replace(/"/g, '').split(',');
-  //   csvPackageDependencies =
-  //     csvPackageDependencies[0] === '' ? [] : csvPackageDependencies;
-
-  //   const scannedPackageDependencies = Array.from(attribute);
-
-  //   if (!_.isEqual(csvPackageDependencies, scannedPackageDependencies)) {
-  //     this.changeDetected = true;
-
-  //     if (scannedPackageDependencies.length > 0) {
-  //       fields[index] = `"${scannedPackageDependencies.join(',')}"`;
-  //     } else {
-  //       fields[index] = '';
-  //     }
-  //   }
-  // }
-
-  // compareCrossProductDependencies({ attribute, index, fields }) {
-  //   let csvCrossProductDependencies = fields[index]
-  //     .replace(/"/g, '')
-  //     .split(',');
-  //   csvCrossProductDependencies =
-  //     csvCrossProductDependencies[0] === '' ? [] : csvCrossProductDependencies;
-
-  //   const scannedCrossProductDependencies = Array.from(attribute);
-
-  //   if (
-  //     !_.isEqual(csvCrossProductDependencies, scannedCrossProductDependencies)
-  //   ) {
-  //     this.changeDetected = true;
-
-  //     if (scannedCrossProductDependencies.length > 0) {
-  //       fields[index] = `"${scannedCrossProductDependencies.join(',')}"`;
-  //     } else {
-  //       fields[index] = '';
-  //     }
-  //   }
-  // }
 }
 
 module.exports = Differ;
