@@ -26,6 +26,11 @@ export function isOnlyWhitespace(str) {
   return str && !str.trim().length;
 }
 
+export function isAlphaNumeric(str) {
+  const alphaNumericRegEx = new RegExp(/^[a-z0-9]+$/i);
+  return alphaNumericRegEx.test(str);
+}
+
 export function titleCase(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }

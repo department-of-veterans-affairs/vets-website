@@ -71,6 +71,7 @@ import {
   titleCase,
   hideUnder18Field,
   addWhitespaceOnlyError,
+  isAlphaNumeric,
   // prefillTransformer,
 } from '../helpers';
 
@@ -1495,6 +1496,16 @@ const formConfig = {
                 'ui:errorMessages': {
                   required: 'Please enter an account type',
                 },
+              },
+              accountNumber: {
+                ...bankAccountUI.accountNumber,
+                'ui:validations': [
+                  (errors, field) => {
+                    if (!isAlphaNumeric(field)) {
+                      errors.addError('Please enter a valid account number');
+                    }
+                  },
+                ],
               },
             },
             'view:directDepositLearnMore': {
