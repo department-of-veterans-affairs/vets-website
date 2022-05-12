@@ -31,11 +31,10 @@ function handleSuccess({ changeDetected, message, data }) {
     console.log(
       'Product dependencies have changed. A PR to update the Product Directory has been submitted.',
     );
+    core.exportVariable('CHANGE_DETECTED', true);
   } else {
     console.log('No dependency changes were detected.');
   }
-
-  core.exportVariable('CHANGE_DETECTED', changeDetected);
 
   return {
     status: 'Success',
