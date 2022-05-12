@@ -8,11 +8,11 @@ export default function VerifyIdentiy() {
   }, []);
   return (
     <va-alert status="continue" visible>
-      <h2 slot="headline">
+      <h2 slot="headline" data-testid="direct-deposit-mfa-message">
         Verify your identity with Login.gov or ID.me to change your direct
         deposit information online
       </h2>
-      <p data-testid="direct-deposit-mfa-message">
+      <p>
         Before we give you access to change your direct deposit information, we
         need to make sure you’re you—and not someone pretending to be you. This
         helps us protect your bank account and prevent fraud.

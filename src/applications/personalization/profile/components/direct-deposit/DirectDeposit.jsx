@@ -24,7 +24,7 @@ import { focusElement } from '~/platform/utilities/ui';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
-import UnsupportedAccountAlert from '../alerts/UnsupportedAccountAlert';
+import VerifyIdentiy from './alerts/VerifyIdentiy';
 
 import Headline from '../ProfileSectionHeadline';
 
@@ -199,7 +199,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
             />
           </DowntimeNotification>
         ) : (
-          <UnsupportedAccountAlert />
+          <VerifyIdentiy />
         )}
         <FraudVictimAlert status={ALERT_TYPE.INFO} />
         {showBankInformation ? (
