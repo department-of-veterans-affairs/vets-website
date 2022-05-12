@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
@@ -33,6 +33,8 @@ import PaymentHistory from './PaymentHistory';
 import BankInfo from './BankInfo';
 import { benefitTypes } from '~/applications/personalization/common/constants';
 
+import DirectDepositWrapper from './DirectDepositWrapper';
+
 const SuccessMessage = ({ benefit }) => {
   let content = null;
   switch (benefit) {
@@ -63,14 +65,15 @@ const SuccessMessage = ({ benefit }) => {
 };
 
 const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
-  const [
-    recentlySavedBankInfo,
-    setRecentlySavedBankInfoForBenefit,
-  ] = React.useState('');
+  const [recentlySavedBankInfo, setRecentlySavedBankInfoForBenefit] = useState(
+    '',
+  );
 
-  const [cnpFormIsDirty, setCnpFormIsDirty] = React.useState(false);
+  const [cnpFormIsDirty, setCnpFormIsDirty] = useState(false);
 
-  const [eduFormIsDirty, setEduFormIsDirty] = React.useState(false);
+  const [eduFormIsDirty, setEduFormIsDirty] = useState(false);
+
+  const [viewingIsRestricted, setViewingIsRestricted] = useState(false);
 
   const allFormsAreEmpty = eduFormIsDirty && cnpFormIsDirty;
 
@@ -90,7 +93,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
     [],
   );
 
-  const removeBankInfoUpdatedAlert = React.useCallback(
+  const removeBankInfoUpdatedAlert = useCallback(
     () => {
       setTimeout(() => {
         setRecentlySavedBankInfoForBenefit('');
@@ -99,13 +102,13 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
     [bankInfoUpdatedAlertSettings],
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     focusElement('[data-focus-target]');
     document.title = `Direct Deposit Information | Veterans Affairs`;
   }, []);
 
   // show the user a success alert after their CNP bank info has saved
-  React.useEffect(
+  useEffect(
     () => {
       if (wasSavingCNPBankInfo && !isSavingCNPBankInfo && !cnpSaveError) {
         setRecentlySavedBankInfoForBenefit(benefitTypes.CNP);
@@ -121,7 +124,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
   );
 
   // show the user a success alert after their EDU bank info has saved
-  React.useEffect(
+  useEffect(
     () => {
       if (wasSavingEDUBankInfo && !isSavingEDUBankInfo && !eduSaveError) {
         setRecentlySavedBankInfoForBenefit(benefitTypes.EDU);
@@ -139,75 +142,76 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
   useEffect(
     () => {
       // Show alert when navigating away
-      if (!allFormsAreEmpty) {
+      if (!allFormsAreEmpty && !viewingIsRestricted) {
         window.onbeforeunload = () => true;
         return;
       }
-
       window.onbeforeunload = undefined;
     },
-    [allFormsAreEmpty],
+    [allFormsAreEmpty, viewingIsRestricted],
   );
 
   return (
     <>
       <Headline>Direct deposit information</Headline>
-      <div id="success" role="alert" aria-atomic="true">
-        <TransitionGroup>
-          {!!recentlySavedBankInfo && (
-            <CSSTransition
-              classNames="form-expanding-group-inner"
-              appear
-              timeout={{
-                appear: bankInfoUpdatedAlertSettings.FADE_SPEED,
-                enter: bankInfoUpdatedAlertSettings.FADE_SPEED,
-                exit: bankInfoUpdatedAlertSettings.FADE_SPEED,
-              }}
-            >
-              <div data-testid="bankInfoUpdateSuccessAlert">
-                <AlertBox
-                  status={ALERT_TYPE.SUCCESS}
-                  backgroundOnly
-                  className="vads-u-margin-top--0 vads-u-margin-bottom--2"
-                  scrollOnShow
-                >
-                  <SuccessMessage benefit={recentlySavedBankInfo} />
-                </AlertBox>
-              </div>
-            </CSSTransition>
-          )}
-        </TransitionGroup>
-      </div>
-      <Prompt
-        message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
-        when={!allFormsAreEmpty}
-      />
-      {showBankInformation ? (
-        <DowntimeNotification
-          appTitle="direct deposit"
-          render={handleDowntimeForSection(
-            'direct deposit for compensation and pension',
-          )}
-          dependencies={[externalServices.evss]}
-        >
-          <BankInfo
-            type={benefitTypes.CNP}
-            setFormIsDirty={setCnpFormIsDirty}
-          />
-        </DowntimeNotification>
-      ) : (
-        <UnsupportedAccountAlert />
-      )}
-      <FraudVictimAlert status={ALERT_TYPE.INFO} />
-      {showBankInformation ? (
-        <>
-          <BankInfo
-            type={benefitTypes.EDU}
-            setFormIsDirty={setEduFormIsDirty}
-          />
-          <PaymentHistory />
-        </>
-      ) : null}
+      <DirectDepositWrapper setViewingIsRestricted={setViewingIsRestricted}>
+        <div id="success" role="alert" aria-atomic="true">
+          <TransitionGroup>
+            {!!recentlySavedBankInfo && (
+              <CSSTransition
+                classNames="form-expanding-group-inner"
+                appear
+                timeout={{
+                  appear: bankInfoUpdatedAlertSettings.FADE_SPEED,
+                  enter: bankInfoUpdatedAlertSettings.FADE_SPEED,
+                  exit: bankInfoUpdatedAlertSettings.FADE_SPEED,
+                }}
+              >
+                <div data-testid="bankInfoUpdateSuccessAlert">
+                  <AlertBox
+                    status={ALERT_TYPE.SUCCESS}
+                    backgroundOnly
+                    className="vads-u-margin-top--0 vads-u-margin-bottom--2"
+                    scrollOnShow
+                  >
+                    <SuccessMessage benefit={recentlySavedBankInfo} />
+                  </AlertBox>
+                </div>
+              </CSSTransition>
+            )}
+          </TransitionGroup>
+        </div>
+        <Prompt
+          message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
+          when={!allFormsAreEmpty}
+        />
+        {showBankInformation ? (
+          <DowntimeNotification
+            appTitle="direct deposit"
+            render={handleDowntimeForSection(
+              'direct deposit for compensation and pension',
+            )}
+            dependencies={[externalServices.evss]}
+          >
+            <BankInfo
+              type={benefitTypes.CNP}
+              setFormIsDirty={setCnpFormIsDirty}
+            />
+          </DowntimeNotification>
+        ) : (
+          <UnsupportedAccountAlert />
+        )}
+        <FraudVictimAlert status={ALERT_TYPE.INFO} />
+        {showBankInformation ? (
+          <>
+            <BankInfo
+              type={benefitTypes.EDU}
+              setFormIsDirty={setEduFormIsDirty}
+            />
+            <PaymentHistory />
+          </>
+        ) : null}
+      </DirectDepositWrapper>
     </>
   );
 };
