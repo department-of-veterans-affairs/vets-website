@@ -10,6 +10,7 @@ export const eauthEnvironmentPrefixes = {
 };
 
 export const cernerEnvPrefixes = {
+  [ENVIRONMENTS.LOCALHOST]: 'staging-',
   [ENVIRONMENTS.VAGOVDEV]: 'staging-',
   [ENVIRONMENTS.VAGOVSTAGING]: 'staging-',
   [ENVIRONMENTS.VAGOVPROD]: '',

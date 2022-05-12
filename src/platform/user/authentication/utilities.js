@@ -119,6 +119,7 @@ export const createAndStoreReturnUrl = () => {
 };
 
 export const generateConfigQueryParams = ({ config, params }) => {
+  // console.log(config.OAuthEnabled);
   const { queryParams, OAuthEnabled } = config;
   const isOauthEnabled =
     OAuthEnabled && queryParams.allowOAuth && params.oauth === 'true';
@@ -126,7 +127,7 @@ export const generateConfigQueryParams = ({ config, params }) => {
     ...(isOauthEnabled && {
       [AUTH_PARAMS.codeChallenge]: params.codeChallenge,
       [AUTH_PARAMS.codeChallengeMethod]: params.codeChallengeMethod,
-      oauth: true,
+      oauth: params.oauth,
     }),
     ...(queryParams.allowPostLogin && { postLogin: true }),
     ...(queryParams.allowRedirect && {
@@ -160,8 +161,8 @@ export function sessionTypeUrl({
 
   // We should use OAuth when the following are true:
   // OAuth param is 'true'
-  // config.OAuthAllowed is true
-  const useOAuth = OAuth === 'true' && config.OAuthAllowed;
+  // config.OAuthEnabled is true
+  const useOAuth = config?.OAuthEnabled && OAuth === 'true';
 
   // Only require verification when all of the following are true:
   // 1. On the USiP (Unified Sign In Page)
@@ -176,7 +177,11 @@ export function sessionTypeUrl({
     externalRedirect && isLogin
       ? generateConfigQueryParams({
           config,
-          params: { codeChallenge, codeChallengeMethod, oauth: OAuth },
+          params: {
+            codeChallenge,
+            codeChallengeMethod,
+            ...(useOAuth && { oauth: OAuth }),
+          },
         })
       : {};
 

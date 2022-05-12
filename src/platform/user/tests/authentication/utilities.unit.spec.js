@@ -14,6 +14,7 @@ import {
   EXTERNAL_REDIRECTS,
   API_VERSION,
   API_SESSION_URL,
+  API_SIGN_IN_SERVICE_URL,
   SIGNUP_TYPES,
   GA_TRACKING_ID_KEY,
   VAGOV_TRACKING_IDS,
@@ -190,9 +191,9 @@ describe('Authentication Utilities', () => {
       });
 
       expect(expected).to.contains({
+        oauth: 'true',
         [AUTH_PARAMS.codeChallenge]: 'bob',
         [AUTH_PARAMS.codeChallengeMethod]: '256S',
-        oauth: true,
       });
     });
 
@@ -288,8 +289,8 @@ describe('Authentication Utilities', () => {
 
     it('should NOT return session url with _verified appended to type for types other than login/signup', () => {
       setup({ path: usipPathWithParams(flagshipUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type: 'other' })).to.include(
-        appendQuery(API_SESSION_URL({ type: 'other' })),
+      expect(authUtilities.sessionTypeUrl({ type: 'mfa' })).to.include(
+        appendQuery(API_SESSION_URL({ type: 'mfa' })),
       );
     });
 
@@ -304,6 +305,34 @@ describe('Authentication Utilities', () => {
       setup({ path: usipPathWithParams(mhvUsipParams) });
       expect(authUtilities.sessionTypeUrl({ type })).to.not.include(
         '_verified',
+      );
+    });
+
+    it('should use `API_SIGN_IN_SERVICE_URL` when `useOAuth` is true', () => {
+      setup({
+        path: usipPathWithParams(
+          `${flagshipUsipParams}&oauth=true&code_challenge=hello&code_challenge_method=S256`,
+        ),
+      });
+      expect(
+        authUtilities.sessionTypeUrl({
+          type,
+        }),
+      ).to.include(appendQuery(API_SIGN_IN_SERVICE_URL({ type })));
+    });
+    it('should use API_SESSION_URL when OAuth is disabled', () => {
+      const params = { application: 'vamobile' };
+      setup({
+        path: usipPathWithParams(
+          `${flagshipUsipParams}&oauth=false&code_challenge=hello&code_challenge_method=S256`,
+        ),
+      });
+      expect(
+        authUtilities.sessionTypeUrl({
+          type,
+        }),
+      ).to.include(
+        appendQuery(API_SESSION_URL({ type: typeVerified }), params),
       );
     });
   });
