@@ -126,6 +126,16 @@ const analyticsEvents = {
       prefix: 'alert-box',
     },
   ],
+  'va-alert-expandable': [
+    {
+      action: 'expand',
+      event: 'int-alert-expandable-expand',
+    },
+    {
+      action: 'collapse',
+      event: 'int-alert-expandable-collapse',
+    },
+  ],
   'va-breadcrumbs': [
     {
       action: 'linkClick',
