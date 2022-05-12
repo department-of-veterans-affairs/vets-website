@@ -1,10 +1,10 @@
 # Default Branch Rename
 
 ## What’s happening?
-Currently, the default branch in this repository is named `master`. We want to update the name of the default branch to be `main`.
+Currently, the default branch in this repository is named `master`. We are updating the name of the default branch to `main`.
 
 ## Why is this important?
-Words matter. We are changing the name of the default branch to appropriately and accurately represent the function of the branch. The newly named `main` branch represents exactly what it is - the single source of truth, that is, all the code that works, is tested and ready to be pushed to production.
+Words matter. We are changing the name of the default branch to appropriately and accurately represent the function of the branch. The newly named `main` branch represents exactly what it is - the single source of truth, that is, all the code that works, is tested, and ready to be pushed to production.
 
 We are not alone in this effort. To view information on other companies making the change, including GitHub, [click here](https://github.com/github/renaming).
 
@@ -37,4 +37,4 @@ Verify your default branch is now `main` by running the following command:
 $ git rev-parse --abbrev-ref origin/HEAD
 ```
 
-After the default branch has been updated, you must pull and merge the latest changes from `main` into existing branches you are working on. Continuous integration will fail for existing branches until so.
+After the default branch has been updated, you must pull and merge the latest changes from `main` into existing branches you are working on. Continuous integration will fail for existing branches until they are up-to-date.
