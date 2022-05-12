@@ -51,7 +51,7 @@ jobs:
 
       - name: Notify Slack that a PR in the Product Directory repo has been submitted
         run: echo ${{ env.CHANGE_DETECTED }}
-        if: ${{ success() && env.CHANGE_DETECTED == true }}
+        if: ${{ success() }}
         uses: ./.github/workflows/slack-notify
         env:
           SSL_CERT_DIR: /etc/ssl/certs
