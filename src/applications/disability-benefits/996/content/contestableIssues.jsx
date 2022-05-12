@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 
 import { VaModal } from 'web-components/react-bindings';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { scrollAndFocus } from 'platform/utilities/ui';
 

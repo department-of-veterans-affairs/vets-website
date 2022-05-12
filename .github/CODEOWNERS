@@ -104,3 +104,4 @@ src/applications/coronavirus-chatbot @department-of-veterans-affairs/chatbot-adm
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe
 src/applications/dhp-connected-devices @department-of-veterans-affairs/digital-health-platform
 src/applications/virtual-agent @department-of-veterans-affairs/orchid
+src/applications/**/manifest.json @department-of-veterans-affairs/qa-standards

@@ -11,15 +11,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Get Node version
-        id: get-node-version
-        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
-
-      - name: Use Node.js version 14.x
-        uses: actions/setup-node@v3
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
         with:
-          node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
-          cache: 'yarn'
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1

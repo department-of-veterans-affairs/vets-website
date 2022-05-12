@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Trans, useTranslation } from 'react-i18next';
 
-import { VaAlert } from 'web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import BackToHome from '../../../components/BackToHome';
 import BackToAppointments from '../../../components/BackToAppointments';
@@ -18,16 +18,19 @@ const MultipleAppointments = props => {
 
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
-  const focusOnLoad = useCallback(() => {
+
+  useEffect(() => {
     focusElement('h1');
+    scrollToTop('topScrollElement');
   }, []);
+
   return (
     <div
       className="vads-l-grid-container vads-u-padding-y--5"
       data-testid="multiple-appointments-confirm"
     >
       <LanguagePicker />
-      <VaAlert status="success" onVa-component-did-load={focusOnLoad}>
+      <div>
         <h1
           tabIndex="-1"
           aria-label={t('thank-you-for-checking-in')}
@@ -49,7 +52,7 @@ const MultipleAppointments = props => {
             ]}
           />
         </p>
-      </VaAlert>
+      </div>
       <TravelPayReimbursementLink />
       <BackToAppointments
         appointments={appointments}
