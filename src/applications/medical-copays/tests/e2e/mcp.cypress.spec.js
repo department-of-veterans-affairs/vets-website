@@ -31,7 +31,7 @@ describe('Medical Copays', () => {
     cy.axeCheck();
   });
 
-  it('navigates to the detail page - C12577', () => {
+  it.skip('navigates to the detail page - C12577', () => {
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
