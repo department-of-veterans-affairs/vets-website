@@ -119,7 +119,6 @@ export const createAndStoreReturnUrl = () => {
 };
 
 export const generateConfigQueryParams = ({ config, params }) => {
-  // console.log(config.OAuthEnabled);
   const { queryParams, OAuthEnabled } = config;
   const isOauthEnabled =
     OAuthEnabled && queryParams.allowOAuth && params.oauth === 'true';
