@@ -4,6 +4,7 @@ const { table } = require('table');
 const path = require('path');
 const fetch = require('node-fetch');
 const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
+const webpackPreprocessor = require('@cypress/webpack-preprocessor');
 
 const tableConfig = {
   columns: {
@@ -13,6 +14,14 @@ const tableConfig = {
 };
 
 module.exports = async (on, config) => {
+  on(
+    'file:preprocessor',
+    webpackPreprocessor({
+      webpackOptions: require('../../../../../../config/webpack.config'),
+      watchOptions: {},
+    }),
+  );
+
   if (process.env.CODE_COVERAGE === 'true') {
     require('@cypress/code-coverage/task')(on, config);
     on('file:preprocessor', require('@cypress/code-coverage/use-babelrc'));
