@@ -194,9 +194,7 @@ export const directDepositWarning = (
         </li>
         <li>
           Call{' '}
-          <a href="tel:8003331795" aria-label="8 0 0. 3 3 3. 1 7 9 5.">
-            800-333-1795
-          </a>
+          <va-telephone contact="8003331795"></va-telephone>
         </li>
       </ul>
       If you choose not to enroll, you’ll need to call the Department of the
