@@ -93,6 +93,8 @@ describe('Facility VA search', () => {
     cy.visit('/find-locations');
     cy.get('.mapbox-token').should('exist');
     cy.get('.mapbox-token').then($el => cy.task('log', $el.text()));
+    cy.get('.test123').should('exist');
+    cy.get('.test123').then($el => cy.task('log', $el.text()));
   });
 
   it('does a simple search and finds a result on the list', () => {
