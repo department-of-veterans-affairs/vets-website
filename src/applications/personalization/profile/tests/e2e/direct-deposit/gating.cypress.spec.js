@@ -16,6 +16,7 @@ import mockDD4EDUNotEnrolled from '@@profile/tests/fixtures/dd4edu/dd4edu-not-en
 
 import { CSP_IDS } from 'platform/user/authentication/constants';
 import { makeUserObject } from '~/applications/personalization/common/helpers';
+import DirectDeposit from './DirectDeposit';
 
 function confirmDDBlockedAlertIsNotShown() {
   cy.findByRole('heading', { name: /^Profile menu$/ });
@@ -29,22 +30,6 @@ function confirmDDBlockedAlertIsShown() {
     .should('exist')
     .closest('.usa-alert-error')
     .should('exist');
-}
-
-function confirmDirectDepositIsAvailable() {
-  // the DD item should exist in the sub nav
-  cy.findByRole('navigation', { name: /profile/i }).within(() => {
-    cy.findByRole('link', { name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT }).should(
-      'exist',
-    );
-  });
-
-  // going directly to DD should work
-  cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
-  cy.url().should(
-    'eq',
-    `${Cypress.config().baseUrl}${PROFILE_PATHS.DIRECT_DEPOSIT}`,
-  );
 }
 
 function confirmDirectDepositIsBlocked() {
@@ -101,6 +86,7 @@ describe('Direct Deposit section', () => {
     cy.should(() => {
       expect(getPaymentInfoStub).not.to.be.called;
     });
+    cy.injectAxeThenAxeCheck();
   });
   it('should not be blocked if the user is not in EVSS but they are signed up for DD4EDU', () => {
     cy.intercept('GET', 'v0/user', mockUserNotInEVSS);
@@ -109,8 +95,8 @@ describe('Direct Deposit section', () => {
       getPaymentInfoStub();
     });
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-    confirmDirectDepositIsAvailable();
+    cy.injectAxeThenAxeCheck();
+    DirectDeposit.confirmDirectDepositIsAvailable();
     confirmDDBlockedAlertIsNotShown();
     cy.should(() => {
       expect(getPaymentInfoStub).not.to.be.called;
@@ -121,7 +107,7 @@ describe('Direct Deposit section', () => {
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEligible);
     cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
+    cy.injectAxeThenAxeCheck();
     confirmDirectDepositIsBlocked();
     confirmDDBlockedAlertIsNotShown();
   });
@@ -134,7 +120,7 @@ describe('Direct Deposit section', () => {
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEligible);
     cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
+    cy.injectAxeThenAxeCheck();
     confirmDirectDepositIsBlocked();
     confirmDDBlockedAlertIsNotShown();
   });
@@ -145,7 +131,7 @@ describe('Direct Deposit section', () => {
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPIncompetent);
     cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
+    cy.injectAxeThenAxeCheck();
     confirmDirectDepositIsBlocked();
     confirmDDBlockedAlertIsShown();
   });
@@ -154,7 +140,7 @@ describe('Direct Deposit section', () => {
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPDeceased);
     cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
+    cy.injectAxeThenAxeCheck();
     confirmDirectDepositIsBlocked();
     confirmDDBlockedAlertIsShown();
   });
@@ -163,14 +149,14 @@ describe('Direct Deposit section', () => {
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPFiduciary);
     cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
+    cy.injectAxeThenAxeCheck();
     confirmDirectDepositIsBlocked();
     confirmDDBlockedAlertIsShown();
   });
   it('should be blocked if both the `GET payment_information` and `GET ch33_bank_accounts` endpoints fail', () => {
     cy.intercept('GET', 'v0/user', mockUserInEVSS);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
+    cy.injectAxeThenAxeCheck();
     confirmDirectDepositIsBlocked();
     confirmDDBlockedAlertIsNotShown();
 
@@ -180,8 +166,8 @@ describe('Direct Deposit section', () => {
     cy.intercept('GET', 'v0/user', mockUserInEVSS);
     cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUEnrolled);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-    confirmDirectDepositIsAvailable();
+    cy.injectAxeThenAxeCheck();
+    DirectDeposit.confirmDirectDepositIsAvailable();
     confirmDDBlockedAlertIsNotShown();
 
     cy.findByTestId('not-all-data-available-error').should('exist');
@@ -202,8 +188,8 @@ describe('Direct Deposit section', () => {
     cy.intercept('GET', 'v0/user', mockUserInEVSS);
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPEnrolled);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-    confirmDirectDepositIsAvailable();
+    cy.injectAxeThenAxeCheck();
+    DirectDeposit.confirmDirectDepositIsAvailable();
     confirmDDBlockedAlertIsNotShown();
 
     cy.findByTestId('not-all-data-available-error').should('exist');
@@ -226,8 +212,8 @@ describe('Direct Deposit section', () => {
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPNotEnrolled);
     cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-    confirmDirectDepositIsAvailable();
+    cy.injectAxeThenAxeCheck();
+    DirectDeposit.confirmDirectDepositIsAvailable();
     confirmDDBlockedAlertIsNotShown();
     cy.findByText(
       /You’ll need to verify your identity.*to update.*your direct deposit information online/i,
@@ -238,8 +224,8 @@ describe('Direct Deposit section', () => {
     cy.intercept('GET', 'v0/ppiu/payment_information', mockDD4CNPEnrolled);
     cy.intercept('GET', 'v0/profile/ch33_bank_accounts', mockDD4EDUNotEnrolled);
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-    confirmDirectDepositIsAvailable();
+    cy.injectAxeThenAxeCheck();
+    DirectDeposit.confirmDirectDepositIsAvailable();
     confirmDDBlockedAlertIsNotShown();
   });
   it('should not be blocked if the ch33 bank account endpoint is delayed', () => {
@@ -250,8 +236,8 @@ describe('Direct Deposit section', () => {
       delay: 180000,
     });
     cy.visit(PROFILE_PATHS.PROFILE_ROOT);
-
-    confirmDirectDepositIsAvailable();
+    cy.injectAxeThenAxeCheck();
+    DirectDeposit.confirmDirectDepositIsAvailable();
     confirmDDBlockedAlertIsNotShown();
   });
 });

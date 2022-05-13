@@ -139,15 +139,14 @@ export const IntroductionPage = ({
                   and ask for help filling out the form
                 </li>
                 <li>
-                  Use the online
+                  Use the online{' '}
                   <a
                     href={links.caregiverSupportCoordinators.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="vads-u-margin-x--0p5"
                   >
                     Caregiver Support Coordinator locator
-                  </a>
+                  </a>{' '}
                   to find a coordinator at your nearest VA health care facility
                 </li>
                 <li>
@@ -180,15 +179,14 @@ export const IntroductionPage = ({
             <p>
               <strong>Note:</strong> If the Veteran isn’t enrolled in VA health
               care or is currently on active duty with a medical discharge,
-              they’ll need to fill out an
+              they’ll need to fill out an{' '}
               <a
                 rel="noopener noreferrer"
                 target="_blank"
                 href={links.applyVAHealthCare.link}
-                className="vads-u-margin-x--0p5"
               >
                 {links.applyVAHealthCare.label}
-              </a>
+              </a>{' '}
               (VA Form 10-10EZ).
             </p>
           </li>
@@ -213,12 +211,11 @@ export const IntroductionPage = ({
               You may also be eligible for the Program of General Caregiver
               Support Services (PGCSS). To find out more, call the VA Caregiver
               Support Line at <va-telephone contact={CONTACTS.CAREGIVER} />,
-              visit
+              visit{' '}
               <a
                 target="_blank"
                 rel="noopener noreferrer"
                 href={links.caregiverHelpPage.link}
-                className="vads-u-margin-left--0p5"
               >
                 {links.caregiverHelpPage.label}
               </a>

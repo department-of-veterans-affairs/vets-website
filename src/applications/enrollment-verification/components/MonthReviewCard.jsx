@@ -95,7 +95,7 @@ export default function MonthReviewCard({
         {reviewPage ? reviewStatusText : infoText(month.verificationMonth)}
 
         <div className="ev-info-block vads-u-margin-y--1">
-          <EnrollmentVerificationMonthInfo enrollments={month} />
+          <EnrollmentVerificationMonthInfo month={month} />
         </div>
 
         {reviewPage && month.verificationStatus ? editVerificationLink : <></>}

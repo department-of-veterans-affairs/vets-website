@@ -1,6 +1,5 @@
 const _ = require('lodash');
 const user = require('./user');
-const paymentHistory = require('./paymentHistory');
 const mhvAcccount = require('./mhvAccount');
 const address = require('./address');
 const status = require('./status');
@@ -13,6 +12,7 @@ const { createNotificationSuccess } = require('./notifications');
 
 const { generateFeatureToggles } = require('./feature-toggles');
 
+const { paymentHistory } = require('./payment-history');
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/user': user.getUser72Success,
@@ -20,7 +20,7 @@ const responses = {
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/feature_toggles': generateFeatureToggles(),
-  'GET /v0/ppiu/payment_information': paymentHistory,
+  'GET /v0/ppiu/payment_information': paymentHistory.simplePaymentHistory,
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount,
   'GET /v0/profile/personal_information': handleGetPersonalInformationRoute,

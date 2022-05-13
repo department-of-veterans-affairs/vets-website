@@ -150,7 +150,7 @@ describe('check-in experience', () => {
         });
       });
       describe('dobInput', () => {
-        it('displays the value', () => {
+        it.skip('displays the value', () => {
           const updatedStore = {
             checkInData: {
               context: {
