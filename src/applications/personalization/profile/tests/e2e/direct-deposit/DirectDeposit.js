@@ -28,6 +28,10 @@ class DirectDepositPage {
     // the DD item should exist in the sub nav
     cy.findByText(this.LINK_TEXT).should('not.exist');
   };
+
+  checkVerifyMessageIsShowing = () => {
+    cy.findAllByTestId('direct-deposit-mfa-message').should('exist');
+  };
 }
 
 export default new DirectDepositPage();
