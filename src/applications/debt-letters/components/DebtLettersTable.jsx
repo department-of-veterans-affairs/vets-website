@@ -36,7 +36,7 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
   return (
     <>
       <h3>Latest debt letters</h3>
-      <ul className="no-bullets">
+      <ul className="no-bullets" data-testId="debt-letters-table">
         {[first, second].map(debt => {
           const recvDate = moment(debt.receivedAt, 'YYYY-MM-DD').format(
             'MMM D, YYYY',
