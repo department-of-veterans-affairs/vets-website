@@ -5,6 +5,10 @@
   white-space: nowrap;
 }
 
+.no-bullets {
+  list-style: none;
+}
+
 .right-heading {
   font-family: "Bitter";
   border-bottom: 3px solid $color-blue;
