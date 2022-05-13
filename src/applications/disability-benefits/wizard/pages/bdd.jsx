@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import Date from '@department-of-veterans-affairs/component-library/Date';
+import { Date } from '@department-of-veterans-affairs/component-library';
 
 import recordEvent from 'platform/monitoring/record-event';
 

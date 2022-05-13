@@ -7,8 +7,7 @@ import { focusElement } from 'platform/utilities/ui';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
 import {
-  fetchVerificationStatus,
-  updateVerificationStatus,
+  updateEnrollmentVerifications,
   UPDATE_VERIFICATION_STATUS_MONTHS,
   VERIFICATION_STATUS_CORRECT,
   VERIFICATION_STATUS_INCORRECT,
@@ -22,7 +21,10 @@ import {
   REVIEW_ENROLLMENTS_RELATIVE_URL,
   VERIFICATION_RESPONSE,
 } from '../constants';
-import { ENROLLMENT_VERIFICATION_TYPE } from '../helpers';
+import {
+  ENROLLMENT_VERIFICATION_TYPE,
+  mapEnrollmentVerificationsForSubmission,
+} from '../helpers';
 import ReviewSkippedAheadAlert from '../components/ReviewSkippedAheadAlert';
 import ReviewPausedInfo from '../components/ReviewPausedInfo';
 import VerifyEnrollments from '../components/VerifyEnrollments';
@@ -238,7 +240,9 @@ export const VerifyEnrollmentsPage = ({
 
   const onSubmit = useCallback(
     () => {
-      updateVerificationStatus(enrollmentVerification);
+      updateEnrollmentVerifications(
+        mapEnrollmentVerificationsForSubmission(enrollmentVerification),
+      );
     },
     [enrollmentVerification],
   );
@@ -355,7 +359,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getVerificationStatus: fetchVerificationStatus,
   getPost911GiBillEligibility: fetchPost911GiBillEligibility,
 };
 
