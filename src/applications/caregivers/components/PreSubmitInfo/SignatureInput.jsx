@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { VaTextInput } from 'web-components/react-bindings';
+
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const SignatureInput = ({
   fullName,
@@ -126,7 +127,7 @@ const SignatureInput = ({
   return (
     <VaTextInput
       aria-describedby={ariaDescribedBy}
-      class="signature-input"
+      data-testid="signature-input"
       label={createInputLabel(label)}
       required={required}
       value={signature.value}
