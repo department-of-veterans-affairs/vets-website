@@ -644,6 +644,7 @@ const FacilitiesMap = props => {
       <div>
         <div className="title-section">
           <h1>Find VA locations</h1>
+          <h2 className="mapbox-token">{mapboxToken}</h2>
         </div>
         <div className="facility-introtext">
           <p>

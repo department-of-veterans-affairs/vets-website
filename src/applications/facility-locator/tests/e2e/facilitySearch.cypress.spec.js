@@ -89,6 +89,12 @@ describe('Facility VA search', () => {
     );
   });
 
+  it('CHECKS MAPBOX TOKEN', () => {
+    cy.visit('/find-locations');
+    cy.get('.mapbox-token').should('exist');
+    cy.get('.mapbox-token').then($el => cy.task('log', $el.text()));
+  });
+
   it('does a simple search and finds a result on the list', () => {
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
 
