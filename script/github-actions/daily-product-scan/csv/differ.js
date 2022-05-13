@@ -54,16 +54,13 @@ class Differ {
   }
 
   compareBooleanAttribute({ boolean, fieldIndex, fields }) {
-    const lowerCaseBoolean = boolean.toString();
-    const upperCaseBoolean = lowerCaseBoolean.toUpperCase();
+    const fieldValueAsBoolean =
+      fields[fieldIndex] === 'true' || fields[fieldIndex] === 'TRUE';
 
-    if (
-      fields[fieldIndex] !== lowerCaseBoolean ||
-      fields[fieldIndex] !== upperCaseBoolean
-    ) {
-      this.changeDetected = true;
-      fields[fieldIndex] = boolean;
-    }
+    if (fieldValueAsBoolean === boolean) return;
+
+    this.changeDetected = true;
+    fields[fieldIndex] = boolean;
   }
 
   compareDependencies({ dependencies, fieldIndex, fields }) {

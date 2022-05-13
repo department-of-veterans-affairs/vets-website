@@ -10,17 +10,15 @@ const Rows = require('../csv/rows');
 const { removeCarriageReturn, transformCsvToScsv } = require('../csv/helpers');
 const octokitResponses = require('./mocks/octokit-responses');
 
-describe('daily-product-dependency-scan', () => {
-  context('success, dependency changes ARE detected', () => {
+describe('daily-product-scan', () => {
+  context('success, changes ARE detected', () => {
     let status;
     let message;
     let data;
 
     beforeEach(async () => {
       const octokit = sinon.createStubInstance(GitHubClient);
-      octokit.getProductDirectory.returns(
-        octokitResponses.outdatedProductDirectory,
-      );
+      octokit.getProductCsv.returns(octokitResponses.outdatedProductDirectory);
       octokit.createPull.returns(octokitResponses.createPull);
       ({ status, message, data } = await main({ octokit }));
     });
@@ -31,11 +29,11 @@ describe('daily-product-dependency-scan', () => {
 
     it('sets the message return prop to the correct value', () => {
       expect(message).to.equal(
-        'Dependency changes were detected. The data prop includes the updated CSV.',
+        'Changes were detected. The data prop includes the updated CSV.',
       );
     });
 
-    context('dependency updates', () => {
+    context('field updates', () => {
       let originalProductDirectory;
       let updatedProductDirectory;
       let originalProductDirectoryByProductId;
@@ -75,7 +73,7 @@ describe('daily-product-dependency-scan', () => {
         });
       });
 
-      it('updates the package dependency values correctly', () => {
+      it('successfully compares package_dependencies values when they are not equal', () => {
         Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
           expect(
             originalProductDirectoryByProductId[uuid][
@@ -89,7 +87,7 @@ describe('daily-product-dependency-scan', () => {
         });
       });
 
-      it('updates the cross product dependency values correctly', () => {
+      it('successfully compares cross_product_dependencies values when they are not equal', () => {
         Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
           expect(
             originalProductDirectoryByProductId[uuid][
@@ -102,17 +100,73 @@ describe('daily-product-dependency-scan', () => {
           );
         });
       });
+
+      it('successfully compares path_to_code values when they are not equal', () => {
+        Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
+          expect(
+            originalProductDirectoryByProductId[uuid][
+              originalProductDirectory.headings.pathToCodeIndex
+            ],
+          ).not.to.equal(
+            updatedProductDirectoryByProductId[uuid][
+              updatedProductDirectory.headings.pathToCodeIndex
+            ],
+          );
+        });
+      });
+
+      it('successfully compares has_unit_tests values when they are not equal', () => {
+        Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
+          expect(
+            originalProductDirectoryByProductId[uuid][
+              originalProductDirectory.headings.hasUnitTestsIndex
+            ],
+          ).not.to.equal(
+            updatedProductDirectoryByProductId[uuid][
+              updatedProductDirectory.headings.hasUnitTestsIndex
+            ],
+          );
+        });
+      });
+
+      it('successfully compares has_e2e_tests values when they are not equal', () => {
+        Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
+          expect(
+            originalProductDirectoryByProductId[uuid][
+              originalProductDirectory.headings.hasE2eTestsIndex
+            ],
+          ).not.to.equal(
+            updatedProductDirectoryByProductId[uuid][
+              updatedProductDirectory.headings.hasE2eTestsIndex
+            ],
+          );
+        });
+      });
+
+      it('successfully compares has_contract_tests values when they are not equal', () => {
+        Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
+          expect(
+            originalProductDirectoryByProductId[uuid][
+              originalProductDirectory.headings.hasContractTestsIndex
+            ],
+          ).not.to.equal(
+            updatedProductDirectoryByProductId[uuid][
+              updatedProductDirectory.headings.hasContractTestsIndex
+            ],
+          );
+        });
+      });
     });
   });
 
-  context('success, but dependency changes ARE NOT detected', () => {
+  context('success, but changes ARE NOT detected', () => {
     let status;
     let message;
     let data;
 
     beforeEach(async () => {
       const octokit = sinon.createStubInstance(GitHubClient);
-      octokit.getProductDirectory.returns(octokitResponses.productDirectory);
+      octokit.getProductCsv.returns(octokitResponses.productDirectory);
       octokit.createPull.returns(octokitResponses.createPull);
       ({ status, message, data } = await main({ octokit }));
     });
@@ -123,11 +177,11 @@ describe('daily-product-dependency-scan', () => {
 
     it('sets the message return prop to the correct value', () => {
       expect(message).to.equal(
-        'No dependency changes were detected. The data prop includes the unchanged CSV.',
+        'No changes were detected. The data prop includes the unchanged CSV.',
       );
     });
 
-    context('dependency updates', () => {
+    context('field updates', () => {
       let originalProductDirectory;
       let updatedProductDirectory;
       let originalProductDirectoryByProductId;
@@ -167,7 +221,7 @@ describe('daily-product-dependency-scan', () => {
         });
       });
 
-      it('updates the package dependency values correctly', () => {
+      it('successfully compares package_dependencies values when they are equal', () => {
         Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
           expect(
             originalProductDirectoryByProductId[uuid][
@@ -181,7 +235,7 @@ describe('daily-product-dependency-scan', () => {
         });
       });
 
-      it('updates the cross product dependency values correctly', () => {
+      it('successfully compares cross_product_dependencies values when they are equal', () => {
         Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
           expect(
             originalProductDirectoryByProductId[uuid][
@@ -190,6 +244,62 @@ describe('daily-product-dependency-scan', () => {
           ).to.equal(
             updatedProductDirectoryByProductId[uuid][
               updatedProductDirectory.headings.crossProductDependenciesIndex
+            ],
+          );
+        });
+      });
+
+      it('successfully compares path_to_code values when they are equal', () => {
+        Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
+          expect(
+            originalProductDirectoryByProductId[uuid][
+              originalProductDirectory.headings.pathToCodeIndex
+            ],
+          ).to.equal(
+            updatedProductDirectoryByProductId[uuid][
+              updatedProductDirectory.headings.pathToCodeIndex
+            ],
+          );
+        });
+      });
+
+      it('successfully compares has_unit_tests values when they are equal', () => {
+        Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
+          expect(
+            originalProductDirectoryByProductId[uuid][
+              originalProductDirectory.headings.hasUnitTestsIndex
+            ],
+          ).to.equal(
+            updatedProductDirectoryByProductId[uuid][
+              updatedProductDirectory.headings.hasUnitTestsIndex
+            ],
+          );
+        });
+      });
+
+      it('successfully compares has_e2e_tests values when they are equal', () => {
+        Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
+          expect(
+            originalProductDirectoryByProductId[uuid][
+              originalProductDirectory.headings.hasE2eTestsIndex
+            ],
+          ).to.equal(
+            updatedProductDirectoryByProductId[uuid][
+              updatedProductDirectory.headings.hasE2eTestsIndex
+            ],
+          );
+        });
+      });
+
+      it('successfully compares has_contract_tests values when they are equal', () => {
+        Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
+          expect(
+            originalProductDirectoryByProductId[uuid][
+              originalProductDirectory.headings.hasContractTestsIndex
+            ],
+          ).to.equal(
+            updatedProductDirectoryByProductId[uuid][
+              updatedProductDirectory.headings.hasContractTestsIndex
             ],
           );
         });
@@ -206,7 +316,7 @@ describe('daily-product-dependency-scan', () => {
 
       beforeEach(async () => {
         const octokit = sinon.createStubInstance(GitHubClient);
-        octokit.getProductDirectory.returns(
+        octokit.getProductCsv.returns(
           octokitResponses.productDirectoryForbidden,
         );
         octokit.createPull.returns(octokitResponses.createPull);
@@ -237,7 +347,7 @@ describe('daily-product-dependency-scan', () => {
 
       beforeEach(async () => {
         const octokit = sinon.createStubInstance(GitHubClient);
-        octokit.getProductDirectory.returns(
+        octokit.getProductCsv.returns(
           octokitResponses.productDirectoryResourceNotFound,
         );
         octokit.createPull.returns(octokitResponses.createPull);
