@@ -12,7 +12,7 @@ import AppointmentLocation from '../../../components/AppointmentDisplay/Appointm
 import TravelPayReimbursementLink from '../../../components/TravelPayReimbursementLink';
 import LanguagePicker from '../../../components/LanguagePicker';
 
-const MultipleAppointments = props => {
+const CheckInConfirmation = props => {
   const { appointments, selectedAppointment, triggerRefresh } = props;
   const { t } = useTranslation();
 
@@ -64,10 +64,10 @@ const MultipleAppointments = props => {
   );
 };
 
-MultipleAppointments.propTypes = {
+CheckInConfirmation.propTypes = {
   appointments: PropTypes.array,
   selectedAppointment: PropTypes.object,
   triggerRefresh: PropTypes.func,
 };
 
-export default MultipleAppointments;
+export default CheckInConfirmation;
