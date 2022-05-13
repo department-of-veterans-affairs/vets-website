@@ -26,6 +26,7 @@ export const ConnectedDevicesSection = ({
           return (
             <DeviceDisconnectionCard
               device={device}
+              key={device.key}
               onClickHandler={() => {
                 // console.log('Disconnect');
               }}

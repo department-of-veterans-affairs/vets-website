@@ -24,7 +24,7 @@ describe('as an authenticated user, landing page', () => {
     ],
   };
 
-  before(() => {
+  beforeEach(() => {
     mockApiRequest(connectedDevicesList);
   });
 

@@ -9,14 +9,6 @@ export const ConnectedDevicesContainer = () => {
   const [successAlert, setSuccessAlert] = useState(false);
   const [failureAlert, setFailureAlert] = useState(false);
 
-  const updateConnectedDevices = vendor => {
-    const connectedDevicesCopy = [...connectedDevices];
-    const device =
-      connectedDevicesCopy[connectedDevices.findIndex(d => d.key === vendor)];
-    device.connected = true;
-    setConnectedDevices(connectedDevicesCopy);
-  };
-
   const showSuccessAlert = () => {
     setSuccessAlert(true);
   };
@@ -27,7 +19,6 @@ export const ConnectedDevicesContainer = () => {
 
   const showConnectionAlert = (vendor, status) => {
     if (status === 'success') {
-      updateConnectedDevices(vendor);
       showSuccessAlert();
     } else if (status === 'error') {
       showFailureAlert();

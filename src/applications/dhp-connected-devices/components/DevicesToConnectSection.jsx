@@ -39,5 +39,5 @@ export const DevicesToConnectSection = ({ connectedDevices }) => {
 };
 
 DevicesToConnectSection.propTypes = {
-  connectedDevices: PropTypes.array,
+  connectedDevices: PropTypes.array.isRequired,
 };
