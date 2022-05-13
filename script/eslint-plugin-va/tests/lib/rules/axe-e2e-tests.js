@@ -1,6 +1,6 @@
 'use strict';
 
-const rule = require('../../../rules/axe-e2e-tests');
+const rule = require('../../../lib/rules/axe-e2e-tests');
 const RuleTester = require('eslint').RuleTester;
 
 const ruleTester = new RuleTester();

@@ -1,6 +1,6 @@
 'use strict';
 
-const rule = require('../../../rules/prefer-web-component-library');
+const rule = require('../../../lib/rules/prefer-web-component-library');
 const RuleTester = require('eslint').RuleTester;
 
 const parserOptions = {
