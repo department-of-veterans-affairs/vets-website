@@ -4,7 +4,6 @@ import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import { ErrorAlert, DependentDebt, NoDebtLinks } from './Alerts';
-import mockDebtLinks from '../utils/mockDebtLinks.json';
 
 const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
   const hasDebtLinks = !!debtLinks.length;
@@ -22,10 +21,9 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
     return moment(date, 'YYYY-MM-DD').format('MMM D, YYYY');
   };
 
-  const fullDebtLength = mockDebtLinks.debtLinks.length;
-  const hasMoreThanOneDebt = fullDebtLength > 1;
+  const hasMoreThanOneDebt = debtLinks.length > 1;
 
-  const debtLinksDescending = mockDebtLinks.debtLinks.sort(
+  const debtLinksDescending = debtLinks.sort(
     (d1, d2) => new Date(d2.date).getTime() - new Date(d1.date).getTime(),
   );
 
@@ -81,7 +79,7 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
       {hasMoreThanOneDebt ? (
         <>
           <h5 className="vads-u-margin-top--2p5">
-            {`Older letters (${fullDebtLength - 2})`}
+            {`Older letters (${debtLinks.length - 2})`}
           </h5>
           <button
             type="button"
