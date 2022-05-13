@@ -1,6 +1,6 @@
 import DirectDeposit from '../DirectDeposit';
 import { paymentHistory } from '../../../../mocks/payment-history';
-import { getUser72Success, loa1User } from '../../../../mocks/user';
+import { user72Success, loa1User } from '../../../../mocks/user';
 
 import { generateFeatureToggles } from '../../../../mocks/feature-toggles';
 
@@ -14,7 +14,7 @@ describe('Direct Deposit Consistently', () => {
   });
 
   it('should display the menu item for a standard user -- happy path', () => {
-    cy.login(getUser72Success);
+    cy.login(user72Success);
     cy.intercept(
       'GET',
       'v0/ppiu/payment_information',
@@ -32,7 +32,7 @@ describe('Direct Deposit Consistently', () => {
     DirectDeposit.confirmDirectDepositIsNotAvailable();
   });
   it('should show the menu for deceased veteran', () => {
-    cy.login(getUser72Success);
+    cy.login(user72Success);
     cy.intercept(
       'GET',
       'v0/ppiu/payment_information',
@@ -44,7 +44,7 @@ describe('Direct Deposit Consistently', () => {
     DirectDeposit.confirmDirectDepositIsAvailable({ visitPage: false });
   });
   it('should show the menu for an is not competent veteran', () => {
-    cy.login(getUser72Success);
+    cy.login(user72Success);
     cy.intercept(
       'GET',
       'v0/ppiu/payment_information',
@@ -56,7 +56,7 @@ describe('Direct Deposit Consistently', () => {
     DirectDeposit.confirmDirectDepositIsAvailable({ visitPage: false });
   });
   it('should show the menu for a has fiduciary veteran', () => {
-    cy.login(getUser72Success);
+    cy.login(user72Success);
     cy.intercept(
       'GET',
       'v0/ppiu/payment_information',
