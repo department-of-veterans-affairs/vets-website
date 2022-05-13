@@ -16,7 +16,12 @@ const DirectDepositWrapper = props => {
   const {
     signIn: { serviceName },
   } = profile;
-  if (serviceName === CSP_IDS.DS_LOGON || serviceName === CSP_IDS.MHV) {
+
+  if (
+    !serviceName ||
+    serviceName === CSP_IDS.DS_LOGON ||
+    serviceName === CSP_IDS.MHV
+  ) {
     setViewingIsRestricted(true);
     return (
       <>
