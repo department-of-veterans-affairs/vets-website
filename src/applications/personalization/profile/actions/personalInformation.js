@@ -97,7 +97,7 @@ export function createPersonalInfoUpdate({
       const transaction = await apiRequest(route, options);
 
       if (transaction?.errors) {
-        const error = new Error('There was a transaction error');
+        const error = new Error('There was an api error');
         error.errors = transaction?.errors;
         throw error;
       }
@@ -125,18 +125,21 @@ export function createPersonalInfoUpdate({
       dispatch(clearTransaction(transaction));
     } catch (error) {
       const [firstError = {}] = error.errors ?? [];
-      const { code = 'code', title = 'title', detail = 'detail' } = firstError;
+      const {
+        code = 'code-unknown',
+        title = 'title-unknown',
+        detail = 'detail-unknown',
+      } = firstError;
+
       const profileSection = analyticsSectionName || 'unknown-profile-section';
 
       recordAnalyticsEvent({
-        event: 'profile-edit-failure',
-        'profile-action': 'save-failure',
-        'profile-section': profileSection,
-        'error-key': `tx-creation-error-${profileSection}-${code}-${title}-${detail}`,
+        event: 'api_call',
+        'api-name': `${method} ${route}`,
+        'api-status': 'failed',
+        'error-key': `${profileSection}-${code}-${title}-${detail}`,
       });
-      recordAnalyticsEvent({
-        'error-key': undefined,
-      });
+
       dispatch({
         type: VAP_SERVICE_TRANSACTION_REQUEST_FAILED,
         error,
