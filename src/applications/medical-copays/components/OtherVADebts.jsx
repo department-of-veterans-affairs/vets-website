@@ -5,10 +5,14 @@ import { Link } from 'react-router-dom';
 const OtherVADebts = ({ module }) => {
   return (
     <>
-      <h2 data-testid="other-va-debts-head" id="other-va-debts">
+      <h3
+        className="vads-u-font-size--h4"
+        data-testid="other-va-debts-head"
+        id="other-va-debts"
+      >
         Your other VA {module === 'MCP' && <span>debt</span>}
         {module === 'LTR' && <span>bills</span>}
-      </h2>
+      </h3>
       <p className="vads-u-font-family--sans">
         Our records show you have
         {module === 'MCP' && (
@@ -42,7 +46,9 @@ const OtherVADebts = ({ module }) => {
         to="/debt-and-bills"
         data-testid="other-va-debts-link"
       >
-        <span>View all your VA debt and bills</span>
+        <span className="vads-u-font-family--sans">
+          View all your VA debt and bills
+        </span>
         <i
           className="fa fa-chevron-right vads-u-margin-left--1"
           aria-hidden="true"

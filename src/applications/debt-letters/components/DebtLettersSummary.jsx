@@ -1,13 +1,21 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { apiRequest } from 'platform/utilities/api';
 import HowDoIPay from './HowDoIPay';
 import NeedHelp from './NeedHelp';
 import DebtCardsList from './DebtCardsList';
 import OnThisPageLinks from './OnThisPageLinks';
+import OtherVADebts from '../../medical-copays/components/OtherVADebts';
+import { cdpAccessToggle } from '../../medical-copays/utils/helpers';
+import alertMessage from '../../combined-debt-portal/combined/utils/alert-messages';
+import {
+  ALERT_TYPES,
+  APP_TYPES,
+} from '../../combined-debt-portal/combined/utils/helpers';
 
 const ErrorAlert = () => (
   <section
@@ -53,9 +61,45 @@ const EmptyItemsAlert = () => (
   </section>
 );
 
+const renderAlert = (alertType, hasCopays) => {
+  const alertInfo = alertMessage(alertType, APP_TYPES.DEBT);
+  const showOther = hasCopays === 1;
+  return (
+    <va-alert status={alertInfo.alertStatus}>
+      <h2 className="vads-u-font-size--h3" slot="headline">
+        {alertInfo.header}
+      </h2>
+      {alertInfo.body}
+      {showOther && <OtherVADebts module="LTR" />}
+      {alertType === ALERT_TYPES.ALL_ERROR && (
+        <>
+          <h3 className="vads-u-font-size--h4">{alertInfo.secondHeader}</h3>
+          {alertInfo.secondBody}
+        </>
+      )}
+    </va-alert>
+  );
+};
+
+const fetchCopaysResponseAsync = async () => {
+  return apiRequest('/medical_copays')
+    .then(response => {
+      return response.data.length > 0 ? 1 : 0;
+    })
+    .catch(() => {
+      return -1;
+    });
+};
+
 const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
+  const showCDPComponents = useSelector(state => cdpAccessToggle(state));
+  const [hasCopays, setHasCopays] = useState(null);
+
   useEffect(() => {
     scrollToTop();
+    fetchCopaysResponseAsync().then(hasCopaysResponse =>
+      setHasCopays(hasCopaysResponse),
+    );
   }, []);
 
   const allDebtsFetchFailure = isVBMSError && isError;
@@ -86,22 +130,36 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
               how to pay your debt and what to do if you need financial
               assistance.
             </p>
-
-            {allDebtsFetchFailure && <ErrorAlert />}
-
-            {allDebtsEmpty && <EmptyItemsAlert />}
-
-            {!allDebtsFetchFailure && (
+            {showCDPComponents && (isError || debts.length === 0) ? (
               <>
-                <OnThisPageLinks />
+                {isError
+                  ? renderAlert(
+                      hasCopays > -1
+                        ? ALERT_TYPES.ERROR
+                        : ALERT_TYPES.ALL_ERROR,
+                      hasCopays,
+                    )
+                  : renderAlert(ALERT_TYPES.ZERO, hasCopays)}
+              </>
+            ) : (
+              <>
+                {allDebtsFetchFailure && <ErrorAlert />}
 
-                <DebtCardsList />
+                {allDebtsEmpty && <EmptyItemsAlert />}
+
+                {!allDebtsFetchFailure && (
+                  <>
+                    <OnThisPageLinks />
+
+                    <DebtCardsList hasCopays={hasCopays} />
+                  </>
+                )}
+
+                <HowDoIPay />
+
+                <NeedHelp />
               </>
             )}
-
-            <HowDoIPay />
-
-            <NeedHelp />
           </div>
         </div>
       </section>
