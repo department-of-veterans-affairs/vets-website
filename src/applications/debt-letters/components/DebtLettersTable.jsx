@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { isAfter } from 'date-fns';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
@@ -8,8 +9,8 @@ import mockDebtLinks from '../utils/mockDebtLinks.json';
 
 const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
   const hasDebtLinks = !!debtLinks.length;
+  const [showOlder, toggleShowOlderLetters] = useState(false);
 
-  let showOlder = false;
   const handleDownload = (type, date) => {
     return recordEvent({
       event: 'bam-debt-letter-download',
@@ -18,15 +19,18 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
     });
   };
 
-  const toggleShowOlderLetters = () => {
-    showOlder = !showOlder;
-  };
-
   const formatDate = date => {
     return moment(date, 'YYYY-MM-DD').format('MMM D, YYYY');
   };
 
-  const hasMoreDebts = mockDebtLinks.debtLinks.length > 1;
+  const fullDebtLength = mockDebtLinks.debtLinks.length;
+  const hasMoreDebts = fullDebtLength > 1;
+
+  mockDebtLinks.debtLinks.sort((a, b) => {
+    return isAfter(new Date(a.date), new Date(b.date));
+  });
+
+  const [first, second, ...rest] = mockDebtLinks.debtLinks;
 
   if (isError) return <ErrorAlert />;
   if (hasDependentDebts) return <DependentDebt />;
@@ -36,7 +40,7 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
     <>
       <h3>Latest debt letters</h3>
       <ul className="no-bullets">
-        {mockDebtLinks.debtLinks.map(debt => {
+        {[first, second].map(debt => {
           const recvDate = moment(debt.receivedAt, 'YYYY-MM-DD').format(
             'MMM D, YYYY',
           );
@@ -78,14 +82,14 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
       {hasMoreDebts ? (
         <>
           <h5 className="vads-u-margin-top--2p5">
-            {`Older letters (${mockDebtLinks.debtLinks.length - 2})`}
+            {`Older letters (${fullDebtLength - 2})`}
           </h5>
           <button
             type="button"
             className="debt-older-letters usa-button-secondary"
             aria-controls="older-letters-button"
             aria-expanded={showOlder}
-            onClick={toggleShowOlderLetters}
+            onClick={() => toggleShowOlderLetters(!showOlder)}
           >
             {`${showOlder ? 'Hide' : 'Show'} older letters`}
           </button>
@@ -94,7 +98,7 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
 
       {showOlder && hasMoreDebts ? (
         <ol id="older-letters-list" className="no-bullets">
-          {mockDebtLinks.debtLinks.slice(2).map((debt, index) => (
+          {rest.map((debt, index) => (
             <li key={index}>
               <div>
                 <a

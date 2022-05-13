@@ -19,7 +19,7 @@
         "documentId": "{70236BDC-1EBB-4FDD-B233-D8192ACCC739}",
         "docType": "194",
         "typeDescription": "First Demand Letter",
-        "receivedAt": "2020-12-10",
+        "receivedAt": "2020-12-11",
         "date": "2020-12-11T00:00:00.000Z"
       },
       {
@@ -33,7 +33,7 @@
         "documentId": "{358692DF-7AE5-43A7-99AB-D5F4F98E3F3A}",
         "docType": "1215",
         "typeDescription": "Debt Increase Letter 2",
-        "receivedAt": "2020-05-28",
+        "receivedAt": "2020-05-31",
         "date": "2020-05-31T00:00:00.000Z"
       }
     ]
