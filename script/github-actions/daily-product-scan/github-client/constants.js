@@ -2,7 +2,7 @@ const constants = {
   owner: 'department-of-veterans-affairs',
   repo: 'product-directory',
   path: 'product-directory.csv',
-  branch: 'master',
+  branch: 'main',
 };
 
 module.exports = constants;
