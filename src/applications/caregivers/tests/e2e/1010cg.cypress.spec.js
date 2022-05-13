@@ -52,6 +52,8 @@ const checkContent = (partyLabel, content, mockContent) => {
 
 const signAsParty = (partyLabel, signature) => {
   cy.findByTestId(partyLabel)
+    .find('.signature-input')
+    .shadow()
     .find('input')
     .first()
     .type(signature);
@@ -79,7 +81,6 @@ const testSecondaryTwo = createTestConfig(
     },
 
     setupPerTest: () => {
-      cy.server();
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', 'v0/form1010cg/attachments', mockUpload);
     },
@@ -209,19 +210,15 @@ const testSecondaryTwo = createTestConfig(
         });
         // sign signature as veteran
 
-        cy.route({
-          method: 'POST',
-          url: '/v0/caregivers_assistance_claims',
-          status: 200,
-          response: {
-            body: {
-              data: {
-                id: '',
-                type: 'form1010cg_submissions',
-                attributes: {
-                  confirmationNumber: 'aB935000000F3VnCAK',
-                  submittedAt: '2020-08-06T19:18:11+00:00',
-                },
+        cy.intercept('POST', '/v0/caregivers_assistance_claims', {
+          statusCode: 200,
+          body: {
+            data: {
+              id: '',
+              type: 'form1010cg_submissions',
+              attributes: {
+                confirmationNumber: 'aB935000000F3VnCAK',
+                submittedAt: '2020-08-06T19:18:11+00:00',
               },
             },
           },

@@ -21,7 +21,7 @@ class GitHubClient {
     });
   }
 
-  async getProductDirectory() {
+  async getProductCsv() {
     try {
       return await this.octokit.rest.repos.getContent({
         mediaType: {
@@ -37,22 +37,40 @@ class GitHubClient {
   }
 
   async createPull({ content }) {
+    const title = 'Update product-directory.csv';
+    const body = [
+      'This is an automatic update.',
+      '',
+      'Changes were detected in one or more products listed in `product-directory.csv`.',
+      '',
+      'This PR was made by the Product Directory Updater bot. It scans `vets-website` once a day for changes to the following fields for each product:',
+      '- `package_dependencies`',
+      '- `cross_product_dependencies`',
+      '- `has_unit_tests`',
+      '- `has_e2e_tests`',
+      '- `has_contract_tests`',
+      '- `path_to_code`',
+      '',
+      'The bot runs weekdays at 12am.',
+    ].join('\n');
+    const head = `update_dependencies_${getDateTime()}`;
+    const commit = 'Update fields in the Product Directory CSV';
+
     try {
       return await this.octokit.createPullRequest({
         owner: constants.owner,
         repo: constants.repo,
-        title: 'Update dependencies in Product Directory',
-        body:
-          'This is an automatic update.\n\nDependency changes were detected in one or more products listed in the Product Directory thus requiring it to be updated.',
+        title,
+        body,
         base: constants.branch,
-        head: `update_dependencies_${getDateTime()}`,
+        head,
         forceFork: false,
         changes: [
           {
             files: {
               [constants.path]: content,
             },
-            commit: 'Update dependencies in Product Directory',
+            commit,
           },
         ],
       });
