@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { isAfter } from 'date-fns';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
@@ -24,13 +23,13 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
   };
 
   const fullDebtLength = mockDebtLinks.debtLinks.length;
-  const hasMoreDebts = fullDebtLength > 1;
+  const hasMoreThanOneDebt = fullDebtLength > 1;
 
-  mockDebtLinks.debtLinks.sort((a, b) => {
-    return isAfter(new Date(a.date), new Date(b.date));
-  });
+  const debtLinksDescending = mockDebtLinks.debtLinks.sort(
+    (d1, d2) => new Date(d2.date).getTime() - new Date(d1.date).getTime(),
+  );
 
-  const [first, second, ...rest] = mockDebtLinks.debtLinks;
+  const [first, second, ...rest] = debtLinksDescending;
 
   if (isError) return <ErrorAlert />;
   if (hasDependentDebts) return <DependentDebt />;
@@ -79,7 +78,7 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
         })}
       </ul>
 
-      {hasMoreDebts ? (
+      {hasMoreThanOneDebt ? (
         <>
           <h5 className="vads-u-margin-top--2p5">
             {`Older letters (${fullDebtLength - 2})`}
@@ -96,7 +95,7 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
         </>
       ) : null}
 
-      {showOlder && hasMoreDebts ? (
+      {showOlder && hasMoreThanOneDebt ? (
         <ol id="older-letters-list" className="no-bullets">
           {rest.map((debt, index) => (
             <li key={index}>
