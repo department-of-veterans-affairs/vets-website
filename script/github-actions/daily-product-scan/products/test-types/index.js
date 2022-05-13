@@ -2,7 +2,8 @@
 const glob = require('glob');
 
 class TestTypes {
-  constructor() {
+  constructor({ products }) {
+    this.products = products;
     this.types = {
       Unit: '**/*unit.spec.js',
       E2e: '**/*cypress.spec.js',
@@ -10,9 +11,9 @@ class TestTypes {
     };
   }
 
-  checkExistance({ products }) {
-    Object.keys(products).forEach(uuid => {
-      const product = products[uuid];
+  checkExistance() {
+    Object.keys(this.products).forEach(uuid => {
+      const product = this.products[uuid];
 
       Object.keys(this.types).forEach(type => {
         const globPattern = this.types[type];

@@ -6,10 +6,10 @@ const Products = require('./products');
 const PackageDependencies = require('./products/dependencies/package-dependencies');
 const CrossProductDependencies = require('./products/dependencies/cross-product-dependencies');
 const TestTypes = require('./products/test-types');
-const Differ = require('./csv/differ');
 const Csv = require('./csv');
 const Headings = require('./csv/headings');
 const Rows = require('./csv/rows');
+const Differ = require('./csv/differ');
 const { removeCarriageReturn, transformCsvToScsv } = require('./csv/helpers');
 
 function handleFailure({ response }) {
@@ -56,8 +56,8 @@ async function main({ octokit }) {
     products: products.all,
   }).setDependencies();
 
-  const testTypes = new TestTypes();
-  testTypes.checkExistance({ products: products.all });
+  const testTypes = new TestTypes({ products: products.all });
+  testTypes.checkExistance();
 
   let response = await octokit.getProductCsv();
 
