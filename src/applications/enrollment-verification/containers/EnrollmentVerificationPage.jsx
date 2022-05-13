@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import {
-  fetchPost911GiBillEligibility,
-  fetchVerificationStatus,
-} from '../actions';
+import { fetchPost911GiBillEligibility } from '../actions';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
 import EnrollmentVerificationAlert from '../components/EnrollmentVerificationAlert';
@@ -96,7 +93,6 @@ export const EnrollmentVerificationPage = ({
 EnrollmentVerificationPage.propTypes = {
   enrollmentVerification: ENROLLMENT_VERIFICATION_TYPE,
   getPost911GiBillEligibility: PropTypes.func,
-  getVerificationStatus: PropTypes.func,
   hasCheckedKeepAlive: PropTypes.bool,
   loggedIn: PropTypes.bool,
   post911GiBillEligibility: PropTypes.object,
@@ -110,7 +106,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getVerificationStatus: fetchVerificationStatus,
   getPost911GiBillEligibility: fetchPost911GiBillEligibility,
 };
 
