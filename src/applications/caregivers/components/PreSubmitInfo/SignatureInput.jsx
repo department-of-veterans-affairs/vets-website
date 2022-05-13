@@ -127,7 +127,7 @@ const SignatureInput = ({
   return (
     <VaTextInput
       aria-describedby={ariaDescribedBy}
-      data-testid="signature-input"
+      class="signature-input"
       label={createInputLabel(label)}
       required={required}
       value={signature.value}
