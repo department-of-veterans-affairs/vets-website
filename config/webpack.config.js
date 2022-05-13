@@ -409,6 +409,7 @@ module.exports = async (env = {}) => {
           process.env.MAPBOX_TOKEN || '',
         ),
         'process.env.TEST123': JSON.stringify('test123'),
+        'process.env.API_URL_TEST': JSON.stringify(process.env.API_URL || ''),
       }),
 
       new webpack.DefinePlugin({

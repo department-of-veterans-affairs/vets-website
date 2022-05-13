@@ -645,7 +645,12 @@ const FacilitiesMap = props => {
         <div className="title-section">
           <h1>Find VA locations</h1>
           <h2 className="mapbox-token">{mapboxToken}</h2>
-          <h3 className="test123">{process.env.TEST123 || 'not set'}</h3>
+          <h3 className="test123">
+            {process.env.TEST123 || 'test123 not set'}
+          </h3>
+          <h3 className="api-url">
+            {process.env.API_URL_TEST || 'api url not set'}
+          </h3>
         </div>
         <div className="facility-introtext">
           <p>
