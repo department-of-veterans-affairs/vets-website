@@ -130,10 +130,12 @@ const analyticsEvents = {
     {
       action: 'expand',
       event: 'int-alert-expandable-expand',
+      prefix: 'alert-expandable',
     },
     {
       action: 'collapse',
       event: 'int-alert-expandable-collapse',
+      prefix: 'alert-expandable',
     },
   ],
   'va-breadcrumbs': [
