@@ -2,7 +2,8 @@
 
 require('core-js/stable');
 require('regenerator-runtime/runtime');
-require('dotenv').config();
+// require('dotenv').config();
+require('dotenv').config({ path: '/vets-website/.env' });
 const fs = require('fs');
 const fetch = require('node-fetch');
 const path = require('path');
