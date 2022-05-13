@@ -1,32 +1,15 @@
 module.exports = {
   rules: {
-    'proptypes-camel-cased': require('./rules/proptypes-camel-cased'),
-    'enzyme-unmount': require('./rules/enzyme-unmount.js'),
-    'use-resolved-path': require('./rules/use-resolved-path.js'),
-    'resolved-path-on-required': require('./rules/resolved-path-on-required.js'),
-    'axe-check-required': require('./rules/axe-e2e-tests.js'),
-    'correct-apostrophe': require('./rules/correct-apostrophe'),
-    'cypress-viewport-deprecated': require('./rules/cypress-viewport-deprecated.js'),
-    'prefer-web-component-library': require('./rules/prefer-web-component-library'),
+    'proptypes-camel-cased': require('./lib/rules/proptypes-camel-cased'),
+    'enzyme-unmount': require('./lib/rules/enzyme-unmount'),
+    'use-resolved-path': require('./lib/rules/use-resolved-path'),
+    'resolved-path-on-required': require('./lib/rules/resolved-path-on-required'),
+    'axe-check-required': require('./lib/rules/axe-e2e-tests'),
+    'correct-apostrophe': require('./lib/rules/correct-apostrophe'),
+    'cypress-viewport-deprecated': require('./lib/rules/cypress-viewport-deprecated'),
+    'prefer-web-component-library': require('./lib/rules/prefer-web-component-library'),
   },
-  rulesConfig: {
-    'proptypes-camel-cased': 2,
-    'enzyme-unmount': 2,
-    'use-resolved-path': [
-      2,
-      {
-        aliases: ['applications', 'platform', 'site'],
-      },
-    ],
-    'resolved-path-on-required': [
-      1,
-      {
-        aliases: ['applications', 'platform', 'site'],
-      },
-    ],
-    'axe-check-required': 1,
-    'correct-apostrophe': 1,
-    'cypress-viewport-deprecated': 1,
-    'prefer-web-component-library': 1,
+  configs: {
+    recommended: require('./lib/config/recommended'),
   },
 };

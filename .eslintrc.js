@@ -6,7 +6,10 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['va'],
-  extends: ['@department-of-veterans-affairs/eslint-config-vagov'],
+  extends: [
+    '@department-of-veterans-affairs/eslint-config-vagov',
+    'plugin:va/recommended',
+  ],
   globals: {
     __BUILDTYPE__: true,
     __API__: true,
