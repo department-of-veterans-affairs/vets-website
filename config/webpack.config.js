@@ -20,14 +20,51 @@ fs.readFile('.env', 'utf8', (err, data) => {
   console.log(data);
 });
 
-fs.readFile('/vets-website/vets-website/.env', 'utf8', (err, data) => {
+fs.readFile('../.env', 'utf8', (err, data) => {
   if (err) {
     console.error(err);
     return;
   }
-  console.log('CONTENTS: /vets-website/vets-website/.env');
+  console.log('CONTENTS: ../.env');
   console.log(data);
 });
+
+fs.readFile('../../.env', 'utf8', (err, data) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log('CONTENTS: ../../.env');
+  console.log(data);
+});
+
+fs.readFile(
+  '/home/runner/runner1/_work/vets-website/vets-website/.env',
+  'utf8',
+  (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    console.log(
+      'CONTENTS: /home/runner/runner1/_work/vets-website/vets-website/.env',
+    );
+    console.log(data);
+  },
+);
+
+fs.readFile(
+  '/home/runner/runner1/_work/vets-website/.env',
+  'utf8',
+  (err, data) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    console.log('CONTENTS: /home/runner/runner1/_work/vets-website/.env');
+    console.log(data);
+  },
+);
 
 // const fs = require('fs');
 const fetch = require('node-fetch');
