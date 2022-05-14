@@ -651,6 +651,7 @@ const FacilitiesMap = props => {
           <h3 className="api-url">
             {process.env.API_URL_TEST || 'api url not set'}
           </h3>
+          <h3 className="window-url">{window.location.href}</h3>
         </div>
         <div className="facility-introtext">
           <p>

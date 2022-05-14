@@ -100,6 +100,9 @@ describe('Facility VA search', () => {
 
     cy.get('.api-url').should('exist');
     cy.get('.api-url').then($el => cy.task('log', $el.text()));
+
+    cy.get('.window-url').should('exist');
+    cy.get('.window-url').then($el => cy.task('log', $el.text()));
   });
 
   it('does a simple search and finds a result on the list', () => {
