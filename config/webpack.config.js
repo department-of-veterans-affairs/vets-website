@@ -2,9 +2,32 @@
 
 require('core-js/stable');
 require('regenerator-runtime/runtime');
+
 // require('dotenv').config();
 require('dotenv').config({ debug: true });
+
+console.log('webpack.config EXECUTION');
 const fs = require('fs');
+
+fs.readFile('.env', 'utf8', (err, data) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log('CONTENTS: .env');
+  console.log(data);
+});
+
+fs.readFile('/vets-website/.env', 'utf8', (err, data) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log('CONTENTS: .env');
+  console.log(data);
+});
+
+// const fs = require('fs');
 const fetch = require('node-fetch');
 const path = require('path');
 const webpack = require('webpack');
