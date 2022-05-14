@@ -9,6 +9,8 @@ require('dotenv').config({ debug: true });
 console.log('webpack.config EXECUTION');
 const fs = require('fs');
 
+console.log('__dirname: ', __dirname);
+
 fs.readFile('.env', 'utf8', (err, data) => {
   if (err) {
     console.error(err);
