@@ -42,17 +42,31 @@ const alertMessage = (alertType, appType) => {
         } records right now`,
         body: (
           <>
-            <p className="vads-u-font-size--base vads-u-font-family--sans">
-              We’re sorry. Information about{' '}
-              {`${appType === APP_TYPES.DEBT ? 'debts' : 'copays'}`} you might
-              have is unavailable because something went wrong on our end.
-              Please check back soon.
-            </p>
-            <p className="vads-u-font-family--sans">
-              If you continue having trouble viewing information about your{' '}
-              {`${appType === APP_TYPES.DEBT ? 'debts' : 'copays'}`}, email us
-              at <a href="mailto:dmcops.vbaspl@va.gov">dmcops.vbaspl@va.gov</a>.
-            </p>
+            {appType === APP_TYPES.DEBT ? (
+              <>
+                <p className="vads-u-font-size--base vads-u-font-family--sans">
+                  We’re sorry. Information about{' '}
+                  {`${appType === APP_TYPES.DEBT ? 'debts' : 'copays'}`} you
+                  might have is unavailable because something went wrong on our
+                  end. Please check back soon.
+                </p>
+                <p className="vads-u-font-family--sans">
+                  If you continue having trouble viewing information about your{' '}
+                  {`${appType === APP_TYPES.DEBT ? 'debts' : 'copays'}`}, email
+                  us at{' '}
+                  <a href="mailto:dmcops.vbaspl@va.gov">dmcops.vbaspl@va.gov</a>
+                  .
+                </p>
+              </>
+            ) : (
+              <p className="vads-u-font-family--sans">
+                Please check back soon. If you continue having trouble viewing
+                information about your copays, call the VA Health Resource
+                Center at <va-telephone contact="866-400-1238" /> (TTY:{' '}
+                <va-telephone contact="711" />
+                ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+              </p>
+            )}
           </>
         ),
       };
