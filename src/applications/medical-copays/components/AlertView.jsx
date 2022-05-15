@@ -2,8 +2,38 @@ import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import PropTypes from 'prop-types';
 import Alert from './Alerts';
+import alertMessage from '../../combined-debt-portal/combined/utils/alert-messages';
+import OtherVADebts from './OtherVADebts';
+import {
+  ALERT_TYPES,
+  APP_TYPES,
+} from '../../combined-debt-portal/combined/utils/helpers';
 
-const AlertView = ({ pathname, alertType, error }) => {
+const renderAlert = (alertType, hasDebts) => {
+  const adjustedAlertType =
+    alertType === ALERT_TYPES.ERROR && hasDebts < 0
+      ? ALERT_TYPES.ALL_ERROR
+      : alertType;
+  const alertInfo = alertMessage(adjustedAlertType, APP_TYPES.COPAY);
+  const showOther = hasDebts === 1;
+  return (
+    <va-alert status={alertInfo.alertStatus}>
+      <h2 className="vads-u-font-size--h3" slot="headline">
+        {alertInfo.header}
+      </h2>
+      {alertInfo.body}
+      {showOther && <OtherVADebts module="MCP" />}
+      {adjustedAlertType === ALERT_TYPES.ALL_ERROR && (
+        <>
+          <h3 className="vads-u-font-size--h4">{alertInfo.secondHeader}</h3>
+          {alertInfo.secondBody}
+        </>
+      )}
+    </va-alert>
+  );
+};
+
+const AlertView = ({ pathname, alertType, error, cdpToggle, hasDebts }) => {
   const overviewPage = 'Current copay balances';
   const detailsPage = 'Copay bill details';
   const title = pathname === '/' ? overviewPage : detailsPage;
@@ -17,14 +47,25 @@ const AlertView = ({ pathname, alertType, error }) => {
         <a href="/health-care/pay-copay-bill/your-current-balances">{title}</a>
       </Breadcrumbs>
       <h1>{title}</h1>
-      <Alert type={alertType} error={error} />
+      {cdpToggle ? (
+        renderAlert(alertType, hasDebts)
+      ) : (
+        <Alert
+          type={alertType}
+          error={error}
+          cdpToggle={cdpToggle}
+          hasDebts={hasDebts}
+        />
+      )}
     </>
   );
 };
 
 AlertView.propTypes = {
   alertType: PropTypes.string,
+  cdpToggle: PropTypes.bool,
   error: PropTypes.object,
+  hasDebts: PropTypes.number,
   pathname: PropTypes.string,
 };
 
