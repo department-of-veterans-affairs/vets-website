@@ -7,6 +7,11 @@ import DebtLetterCard from './DebtLetterCard';
 import { ErrorMessage, DowntimeMessage } from './Alerts';
 import OtherVADebts from '../../medical-copays/components/OtherVADebts';
 import { cdpAccessToggle } from '../../medical-copays/utils/helpers';
+import alertMessage from '../../combined-debt-portal/combined/utils/alert-messages';
+import {
+  ALERT_TYPES,
+  APP_TYPES,
+} from '../../combined-debt-portal/combined/utils/helpers';
 
 const DebtCardsList = ({ debts, errors, hasCopays }) => {
   const showCDPComponents = useSelector(state => cdpAccessToggle(state));
@@ -17,6 +22,27 @@ const DebtCardsList = ({ debts, errors, hasCopays }) => {
       return <DowntimeMessage />;
     }
     return <ErrorMessage />;
+  };
+
+  const renderOtherVA = () => {
+    const alertInfo = alertMessage(ALERT_TYPES.ERROR, APP_TYPES.COPAY);
+    if (hasCopays > 0) {
+      return <OtherVADebts module={APP_TYPES.COPAY} />;
+    }
+    if (hasCopays < 0) {
+      return (
+        <>
+          <h3>Your other VA bills</h3>
+          <va-alert status={alertInfo.alertStatus}>
+            <h4 slot="headline" className="vads-u-font-size--h3">
+              {alertInfo.header}
+            </h4>
+            {alertInfo.body}
+          </va-alert>
+        </>
+      );
+    }
+    return <></>;
   };
 
   return (
@@ -105,7 +131,7 @@ const DebtCardsList = ({ debts, errors, hasCopays }) => {
           to learn about your payment options.
         </p>
 
-        {showCDPComponents && hasCopays > 0 && <OtherVADebts module="LTR" />}
+        {showCDPComponents && renderOtherVA()}
 
         <h3
           id="downloadDebtLetters"

@@ -70,7 +70,7 @@ const renderAlert = (alertType, hasCopays) => {
         {alertInfo.header}
       </h2>
       {alertInfo.body}
-      {showOther && <OtherVADebts module="LTR" />}
+      {showOther && <OtherVADebts module={APP_TYPES.COPAY} subHeading />}
       {alertType === ALERT_TYPES.ALL_ERROR && (
         <>
           <h3 className="vads-u-font-size--h4">{alertInfo.secondHeader}</h3>

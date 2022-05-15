@@ -22,7 +22,7 @@ const renderAlert = (alertType, hasDebts) => {
         {alertInfo.header}
       </h2>
       {alertInfo.body}
-      {showOther && <OtherVADebts module="MCP" />}
+      {showOther && <OtherVADebts module={APP_TYPES.DEBT} subHeading />}
       {adjustedAlertType === ALERT_TYPES.ALL_ERROR && (
         <>
           <h3 className="vads-u-font-size--h4">{alertInfo.secondHeader}</h3>

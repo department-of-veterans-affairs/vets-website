@@ -11,6 +11,11 @@ import { sortStatementsByDate, cdpAccessToggle } from '../utils/helpers';
 import OtherVADebts from '../components/OtherVADebts';
 import environment from '~/platform/utilities/environment';
 import { debtMockResponse } from '../utils/mocks/mockDebtResponses';
+import {
+  ALERT_TYPES,
+  APP_TYPES,
+} from '../../combined-debt-portal/combined/utils/helpers';
+import alertMessage from '../../combined-debt-portal/combined/utils/alert-messages';
 
 const fetchDebtResponseAsync = async () => {
   const options = {
@@ -27,7 +32,11 @@ const fetchDebtResponseAsync = async () => {
     ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
     : await debtMockResponse();
 
-  return response.debts.length > 0;
+  if (Object.keys(response).includes('errors')) {
+    return -1;
+  }
+
+  return response.debts.length > 0 ? 1 : 0;
 };
 
 const OverviewPage = () => {
@@ -38,6 +47,27 @@ const OverviewPage = () => {
   const sortedStatements = sortStatementsByDate(statements);
   const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
   const title = 'Current copay balances';
+
+  const renderOtherVA = () => {
+    const alertInfo = alertMessage(ALERT_TYPES.ERROR, APP_TYPES.DEBT);
+    if (hasDebts > 0) {
+      return <OtherVADebts module={APP_TYPES.DEBT} />;
+    }
+    if (hasDebts < 0) {
+      return (
+        <>
+          <h3>Your other VA debts</h3>
+          <va-alert status={alertInfo.alertStatus}>
+            <h4 slot="headline" className="vads-u-font-size--h3">
+              {alertInfo.header}
+            </h4>
+            {alertInfo.body}
+          </va-alert>
+        </>
+      );
+    }
+    return <></>;
+  };
 
   useEffect(() => {
     scrollToTop();
@@ -61,7 +91,7 @@ const OverviewPage = () => {
         help.
       </p>
       <Balances statements={statementsByUniqueFacility} />
-      {showCDPComponents && hasDebts && <OtherVADebts module="MCP" />}
+      {showCDPComponents && renderOtherVA()}
       <BalanceQuestions />
     </>
   );

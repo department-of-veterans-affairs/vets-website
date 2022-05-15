@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { APP_TYPES } from '../../combined-debt-portal/combined/utils/helpers';
 
-const OtherVADebts = ({ module }) => {
+const OtherVADebts = ({ module, subHeading }) => {
   return (
     <>
       <h3
-        className="vads-u-font-size--h4"
+        className={subHeading ? 'vads-u-font-size--h4' : ''}
         data-testid="other-va-debts-head"
         id="other-va-debts"
       >
-        Your other VA {module === 'MCP' && <span>debt</span>}
-        {module === 'LTR' && <span>bills</span>}
+        Your other VA {`${module === APP_TYPES.DEBT ? `debt` : 'bills'}`}
       </h3>
       <p className="vads-u-font-family--sans">
         Our records show you have
-        {module === 'MCP' && (
+        {module === APP_TYPES.DEBT && (
           <span data-testid="other-va-debts-mcp-body">
             &nbsp;VA benefit debt. You can&nbsp;
             <a href="/manage-va-debt/your-debt">
@@ -27,7 +27,7 @@ const OtherVADebts = ({ module }) => {
             </span>
           </span>
         )}{' '}
-        {module === 'LTR' && (
+        {module === APP_TYPES.COPAY && (
           <span data-testid="other-va-debts-ltr-body">
             a VA health care copay bill. You can&nbsp;
             <a href="/health-care/pay-copay-bill/your-current-balances">
@@ -60,6 +60,7 @@ const OtherVADebts = ({ module }) => {
 
 OtherVADebts.propTypes = {
   module: PropTypes.string,
+  subHeading: PropTypes.bool,
 };
 
 export default OtherVADebts;
