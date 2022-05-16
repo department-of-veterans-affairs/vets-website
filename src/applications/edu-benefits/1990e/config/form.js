@@ -1491,7 +1491,7 @@ const formConfig = {
               accountType: {
                 ...bankAccountUI.accountType,
                 'ui:errorMessages': {
-                  required: 'Please enter an account type',
+                  required: 'Please select an account type',
                 },
               },
               accountNumber: {
