@@ -232,5 +232,32 @@ describe('check-in', () => {
         'Next of kin',
       );
     });
+    it('Error page messages render', () => {
+      const screen = render(
+        <I18nextProvider i18n={i18n}>
+          <PreCheckInAccordionBlock errorPage />
+        </I18nextProvider>,
+      );
+      expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
+        'Contact Information',
+      );
+      expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
+        'Emergency and next of kin information',
+      );
+      // Confirmation accordions are not present.
+      expect(screen.getByTestId('pre-check-in-accordions')).to.not.contain.text(
+        'We can better prepare for your appointment and contact you more easily.',
+      );
+      expect(screen.getByTestId('pre-check-in-accordions')).to.not.contain.text(
+        'Call your VA health care team:',
+      );
+      // Error accordions are present.
+      expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
+        "During pre-check-in, you can review your personal, emergency contact, and next of kin information and confirm it's up to date. This helps us better prepare for your appointment.",
+      );
+      expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
+        'You can pre-check-in online before midnight of the day of your appointment.',
+      );
+    });
   });
 });
