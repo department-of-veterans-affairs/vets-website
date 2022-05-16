@@ -14,7 +14,11 @@ export default {
     'view:shortFormAlert': {
       'ui:description': shortFormAlert,
       'ui:options': {
-        hideIf: form => form.vaCompensationType !== 'highDisability',
+        hideIf: form =>
+          !(
+            form['view:hcaShortFormEnabled'] &&
+            form.vaCompensationType === 'highDisability'
+          ),
       },
     },
     'view:medicaidShortFormMessage': {
@@ -22,6 +26,7 @@ export default {
       'ui:options': {
         hideIf: form =>
           !(
+            form['view:hcaShortFormEnabled'] &&
             form['view:totalDisabilityRating'] &&
             form['view:totalDisabilityRating'] >= HIGH_DISABILITY
           ),

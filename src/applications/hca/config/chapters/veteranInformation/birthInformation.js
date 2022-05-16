@@ -19,6 +19,7 @@ export default {
       'ui:options': {
         hideIf: form =>
           !(
+            form['view:hcaShortFormEnabled'] &&
             form['view:totalDisabilityRating'] &&
             form['view:totalDisabilityRating'] >= HIGH_DISABILITY
           ),

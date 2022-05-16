@@ -30,11 +30,12 @@ export default {
       'ui:description': shortFormMessage,
       'ui:options': {
         hideIf: form =>
-          form.vaCompensationType !== 'highDisability' &&
-          !(
-            form['view:totalDisabilityRating'] &&
-            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-          ),
+          !form['view:hcaShortFormEnabled'] ||
+          (form.vaCompensationType !== 'highDisability' &&
+            !(
+              form['view:totalDisabilityRating'] &&
+              form['view:totalDisabilityRating'] >= HIGH_DISABILITY
+            )),
       },
     },
     'view:vaFacilityTitle': {

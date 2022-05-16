@@ -76,17 +76,20 @@ const {
 // For which page should be shown on short form
 // based on user disability rating >= 50 or user self directed compensation type = high
 const notHighDisability = formData =>
-  formData.vaCompensationType !== 'highDisability' &&
-  (!formData['view:totalDisabilityRating'] ||
-    formData['view:totalDisabilityRating'] < HIGH_DISABILITY);
+  !formData['view:hcaShortFormEnabled'] ||
+  (formData.vaCompensationType !== 'highDisability' &&
+    (!formData['view:totalDisabilityRating'] ||
+      formData['view:totalDisabilityRating'] < HIGH_DISABILITY));
 
 const notHighDisabilityAndNotInMvi = formData =>
-  formData.vaCompensationType !== 'highDisability' &&
-  !formData['view:isUserInMvi'] &&
-  (!formData['view:totalDisabilityRating'] ||
-    formData['view:totalDisabilityRating'] < HIGH_DISABILITY);
+  !formData['view:hcaShortFormEnabled'] ||
+  (formData.vaCompensationType !== 'highDisability' &&
+    !formData['view:isUserInMvi'] &&
+    (!formData['view:totalDisabilityRating'] ||
+      formData['view:totalDisabilityRating'] < HIGH_DISABILITY));
 
 const isHighDisability = formData =>
+  formData['view:hcaShortFormEnabled'] &&
   formData.vaCompensationType === 'highDisability';
 
 // For which page needs prefill-message, check
