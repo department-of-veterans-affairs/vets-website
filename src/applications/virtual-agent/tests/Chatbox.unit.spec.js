@@ -24,9 +24,9 @@ import {
   LOGGED_IN_FLOW,
   CONVERSATION_ID_KEY,
   TOKEN_KEY,
-  RECENT_UTTERANCES, IN_AUTH_EXP,
+  RECENT_UTTERANCES,
+  IN_AUTH_EXP,
 } from '../components/chatbox/utils';
-import makeBotGreetUser from '../components/webchat/makeBotGreetUser';
 
 export const CHATBOT_ERROR_MESSAGE = /We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk/i;
 
@@ -745,14 +745,11 @@ describe('App', () => {
         'webchat-message-activity',
         messageActivityHandlerSpy,
       );
-      window.addEventListener(
-        'webchat-auth-activity',
-        authActivityHandlerSpy,
-      );
+      window.addEventListener('webchat-auth-activity', authActivityHandlerSpy);
     });
 
     beforeEach(() => {
-      store = { ...storeClean};
+      store = { ...storeClean };
       authActivityHandlerSpy.reset();
       messageActivityHandlerSpy.reset();
       sessionStorage.removeItem(IN_AUTH_EXP);
@@ -814,7 +811,6 @@ describe('App', () => {
     // // TODO: conditions to resend latest utterance (I think this is covered in the other test(s))
 
     it('makebotgreetuser test for firing auth activity', done => {
-
       sessionStorage.setItem(IN_AUTH_EXP, 'false');
 
       window.addEventListener('webchat-auth-activity', authActivityHandlerSpy);
@@ -837,7 +833,9 @@ describe('App', () => {
       const actions = store.getActions();
       expect(actions.length).to.equal(1);
       // console.log(JSON.stringify(actions));
-      expect(actions[0].payload.activity).to.own.include({ text: 'Alright. Sending you to the sign in page...' });
+      expect(actions[0].payload.activity).to.own.include({
+        text: 'Alright. Sending you to the sign in page...',
+      });
       expect(authActivityHandlerSpy.callCount).to.equal(1);
       expect(sessionStorage.getItem(IN_AUTH_EXP)).to.equal('false');
     });
