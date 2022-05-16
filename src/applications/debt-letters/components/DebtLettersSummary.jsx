@@ -15,6 +15,7 @@ import alertMessage from '../../combined-debt-portal/combined/utils/alert-messag
 import {
   ALERT_TYPES,
   APP_TYPES,
+  API_RESPONSES,
 } from '../../combined-debt-portal/combined/utils/helpers';
 
 const ErrorAlert = () => (
@@ -63,7 +64,7 @@ const EmptyItemsAlert = () => (
 
 const renderAlert = (alertType, hasCopays) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.DEBT);
-  const showOther = hasCopays === 1;
+  const showOther = hasCopays > 0;
   return (
     <va-alert status={alertInfo.alertStatus}>
       <h2 className="vads-u-font-size--h3" slot="headline">
@@ -84,10 +85,10 @@ const renderAlert = (alertType, hasCopays) => {
 const fetchCopaysResponseAsync = async () => {
   return apiRequest('/medical_copays')
     .then(response => {
-      return response.data.length > 0 ? 1 : 0;
+      return response.data.length;
     })
     .catch(() => {
-      return -1;
+      return API_RESPONSES.ERROR;
     });
 };
 
@@ -134,9 +135,9 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
               <>
                 {isError
                   ? renderAlert(
-                      hasCopays > -1
-                        ? ALERT_TYPES.ERROR
-                        : ALERT_TYPES.ALL_ERROR,
+                      hasCopays === API_RESPONSES.ERROR
+                        ? ALERT_TYPES.ALL_ERROR
+                        : ALERT_TYPES.ERROR,
                       hasCopays,
                     )
                   : renderAlert(ALERT_TYPES.ZERO, hasCopays)}

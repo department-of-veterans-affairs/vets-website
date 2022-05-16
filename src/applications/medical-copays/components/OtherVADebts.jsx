@@ -16,7 +16,7 @@ const OtherVADebts = ({ module, subHeading }) => {
       <p className="vads-u-font-family--sans">
         Our records show you have
         {module === APP_TYPES.DEBT && (
-          <span data-testid="other-va-debts-mcp-body">
+          <span data-testid="other-va-debt-body">
             &nbsp;VA benefit debt. You can&nbsp;
             <a href="/manage-va-debt/your-debt">
               check the details of your current debt
@@ -28,7 +28,7 @@ const OtherVADebts = ({ module, subHeading }) => {
           </span>
         )}{' '}
         {module === APP_TYPES.COPAY && (
-          <span data-testid="other-va-debts-ltr-body">
+          <span data-testid="other-va-copay-body">
             a VA health care copay bill. You can&nbsp;
             <a href="/health-care/pay-copay-bill/your-current-balances">
               check the details of your copay balance

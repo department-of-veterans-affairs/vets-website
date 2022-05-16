@@ -7,17 +7,18 @@ import OtherVADebts from './OtherVADebts';
 import {
   ALERT_TYPES,
   APP_TYPES,
+  API_RESPONSES,
 } from '../../combined-debt-portal/combined/utils/helpers';
 
 const renderAlert = (alertType, hasDebts) => {
   const adjustedAlertType =
-    alertType === ALERT_TYPES.ERROR && hasDebts < 0
+    alertType === ALERT_TYPES.ERROR && hasDebts === API_RESPONSES.ERROR
       ? ALERT_TYPES.ALL_ERROR
       : alertType;
   const alertInfo = alertMessage(adjustedAlertType, APP_TYPES.COPAY);
-  const showOther = hasDebts === 1;
+  const showOther = hasDebts > 0;
   return (
-    <va-alert status={alertInfo.alertStatus}>
+    <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
       <h2 className="vads-u-font-size--h3" slot="headline">
         {alertInfo.header}
       </h2>
@@ -46,16 +47,11 @@ const AlertView = ({ pathname, alertType, error, cdpToggle, hasDebts }) => {
         <a href="/health-care/pay-copay-bill">Pay your VA copay bill</a>
         <a href="/health-care/pay-copay-bill/your-current-balances">{title}</a>
       </Breadcrumbs>
-      <h1>{title}</h1>
+      <h1 data-testid="overview-page-title">{title}</h1>
       {cdpToggle ? (
         renderAlert(alertType, hasDebts)
       ) : (
-        <Alert
-          type={alertType}
-          error={error}
-          cdpToggle={cdpToggle}
-          hasDebts={hasDebts}
-        />
+        <Alert type={alertType} error={error} />
       )}
     </>
   );

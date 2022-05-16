@@ -14,6 +14,10 @@ export const ALERT_TYPES = Object.freeze({
   ZERO: 'ZERO',
 });
 
+export const API_RESPONSES = Object.freeze({
+  ERROR: -1,
+});
+
 export const combinedPortalAccess = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
 

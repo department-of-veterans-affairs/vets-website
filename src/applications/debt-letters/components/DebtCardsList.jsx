@@ -11,6 +11,7 @@ import alertMessage from '../../combined-debt-portal/combined/utils/alert-messag
 import {
   ALERT_TYPES,
   APP_TYPES,
+  API_RESPONSES,
 } from '../../combined-debt-portal/combined/utils/helpers';
 
 const DebtCardsList = ({ debts, errors, hasCopays }) => {
@@ -29,7 +30,7 @@ const DebtCardsList = ({ debts, errors, hasCopays }) => {
     if (hasCopays > 0) {
       return <OtherVADebts module={APP_TYPES.COPAY} />;
     }
-    if (hasCopays < 0) {
+    if (hasCopays === API_RESPONSES.ERROR) {
       return (
         <>
           <h3>Your other VA bills</h3>

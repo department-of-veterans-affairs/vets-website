@@ -6,6 +6,7 @@ const alertMessage = (alertType, appType) => {
     case ALERT_TYPES.ALL_ZERO:
       return {
         alertStatus: 'info',
+        testID: 'all-zero-alert',
         header: `You don’t have any current VA debt or copay bills`,
         body: (
           <>
@@ -36,6 +37,7 @@ const alertMessage = (alertType, appType) => {
     case ALERT_TYPES.ERROR:
       return {
         alertStatus: 'error',
+        testID: `error-${appType === APP_TYPES.DEBT ? 'debt' : 'copay'}-alert`,
         appType,
         header: `We can’t access your ${
           appType === APP_TYPES.DEBT ? 'debt' : 'copay'
@@ -73,6 +75,7 @@ const alertMessage = (alertType, appType) => {
     case ALERT_TYPES.ZERO:
       return {
         alertStatus: 'info',
+        testID: `zero-${appType === APP_TYPES.DEBT ? 'debt' : 'copay'}-alert`,
         appType,
         header:
           appType === APP_TYPES.DEBT
@@ -100,6 +103,7 @@ const alertMessage = (alertType, appType) => {
     case ALERT_TYPES.ALL_ERROR:
       return {
         alertStatus: 'error',
+        testID: 'all-error-alert',
         header: `We can’t access your debt and copay records right now`,
         body: (
           <>

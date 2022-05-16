@@ -14,11 +14,14 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { mcpFeatureToggle, cdpAccessToggle } from '../utils/helpers';
 import AlertView from '../components/AlertView';
 import { getStatements } from '../../combined-debt-portal/combined/actions/copays';
-import { ALERT_TYPES } from '../../combined-debt-portal/combined/utils/helpers';
+import {
+  ALERT_TYPES,
+  API_RESPONSES,
+} from '../../combined-debt-portal/combined/utils/helpers';
 import { debtMockResponse } from '../utils/mocks/mockDebtResponses';
 import environment from '~/platform/utilities/environment';
 
-const fetchDebtResponseAsync = async () => {
+export const fetchDebtResponseAsync = async () => {
   const options = {
     method: 'GET',
     credentials: 'include',
@@ -28,15 +31,18 @@ const fetchDebtResponseAsync = async () => {
       'Source-App-Name': window.appName,
     },
   };
+  try {
+    const response = isVAProfileServiceConfigured()
+      ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
+      : await debtMockResponse();
 
-  const response = isVAProfileServiceConfigured()
-    ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
-    : await debtMockResponse();
-
-  if (Object.keys(response).includes('errors')) {
-    return -1;
+    if (response.errors) {
+      return API_RESPONSES.ERROR;
+    }
+    return response.debts.length;
+  } catch {
+    return API_RESPONSES.ERROR;
   }
-  return response.debts.length > 0 ? 1 : 0;
 };
 
 const MedicalCopaysApp = ({ children }) => {
