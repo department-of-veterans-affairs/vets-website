@@ -8,6 +8,7 @@ import { subDays } from 'date-fns';
 import ErrorMessage from '../../../components/ErrorMessage';
 import BackToHome from '../../../components/BackToHome';
 import Footer from '../../../components/Footer';
+import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
 
 import { makeSelectVeteranData } from '../../../selectors';
 import {
@@ -56,21 +57,28 @@ const Error = () => {
     </>
   );
 
-  const getErrorMessage = () => {
+  const getErrorMessages = () => {
     if (appointments && appointments.length) {
       // don't show sub message if we are 15 minutes past appointment start time
       if (appointmentStartTimePast15(appointments)) return '';
       if (preCheckinExpired(appointments))
-        return t('you-can-still-check-in-once-you-arrive');
+        return [
+          t('you-can-still-check-in-once-you-arrive'), 
+          <PreCheckInAccordionBlock key="accordion" errorPage={true} />
+        ];
     }
-    return combinedMessage;
+    return [combinedMessage, null];
   };
   const header = t('sorry-we-cant-complete-pre-check-in');
-  const message = getErrorMessage();
+  const [message, additionalDetails] = getErrorMessages();
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 ">
-      <ErrorMessage header={header} message={message} />
+      <ErrorMessage
+        header={header}
+        message={message}
+        additionalDetails={additionalDetails}
+      />
       <Footer />
       <BackToHome />
     </div>
