@@ -1,16 +1,17 @@
 // import recordEvent from 'platform/monitoring/record-event';
 // import { apiRequest } from 'platform/utilities/api';
+import mockData from '../tests/fixtures/messages-response.json';
 
 export const MESSAGES_RETREIVE_STARTED = 'MESSAGES_RETREIVE_STARTED';
-export const MESSAGES_RETREIVE_SUCCEEDED = 'MESSAGES_RETREIVE_STARTED';
-export const MESSAGES_RETREIVE_FAILED = 'MESSAGES_RETREIVE_STARTED';
+export const MESSAGES_RETREIVE_SUCCEEDED = 'MESSAGES_RETREIVE_SUCCEEDED';
+export const MESSAGES_RETREIVE_FAILED = 'MESSAGES_RETREIVE_FAILED';
 
 // const SECURE_MESSAGES_URI = '/mhv/messages';
 
 const mockMessages = () => {
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve({ data: {} });
+      resolve(mockData);
     }, 1500);
   });
 };
@@ -18,8 +19,7 @@ const mockMessages = () => {
 const retrieveMessages = async () => {
   try {
     // replace with apiRequest when endpoint is ready
-    const response = await mockMessages();
-    return response.data;
+    return await mockMessages();
   } catch (error) {
     return error;
   }
@@ -41,7 +41,7 @@ export const getAllMessages = () => async dispatch => {
     // dispatch success action and GA event
     dispatch({
       type: MESSAGES_RETREIVE_SUCCEEDED,
-      response: response.data,
+      response,
     });
   }
 };
