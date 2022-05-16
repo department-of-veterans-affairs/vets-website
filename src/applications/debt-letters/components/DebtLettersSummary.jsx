@@ -66,7 +66,7 @@ const renderAlert = (alertType, hasCopays) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.DEBT);
   const showOther = hasCopays > 0;
   return (
-    <va-alert status={alertInfo.alertStatus}>
+    <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
       <h2 className="vads-u-font-size--h3" slot="headline">
         {alertInfo.header}
       </h2>
@@ -119,7 +119,10 @@ const DebtLettersSummary = ({ isError, isVBMSError, debts, debtLinks }) => {
         className="vads-l-row vads-u-margin-x--neg2p5"
         data-testid="current-va-debt"
       >
-        <h1 className="vads-u-padding-x--2p5 vads-u-margin-bottom--2">
+        <h1
+          data-testid="summary-page-title"
+          className="vads-u-padding-x--2p5 vads-u-margin-bottom--2"
+        >
           Current VA debt
         </h1>
 

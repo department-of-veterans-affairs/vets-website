@@ -30,6 +30,27 @@ describe('Medical Copays - CDP Alerts', () => {
     cy.axeCheck();
   });
 
+  // Has VHA and VBA 404
+  it('should display valid copay balances & other VA debt information', () => {
+    cy.login(mockUser);
+    cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
+    cy.intercept('GET', '/v0/medical_copays', mockCopays);
+    cy.intercept('GET', '/v0/debts', req => {
+      req.reply(404, { errors: ['error'] });
+    });
+    cy.visit('/health-care/pay-copay-bill/your-current-balances/');
+    cy.findByTestId('overview-page-title').should('exist');
+    cy.injectAxe();
+    cy.findByTestId(`balance-card-${id}`).should('exist');
+    cy.findByTestId(`amount-${id}`).contains('$15.00');
+    cy.findByTestId(`facility-city-${id}`).contains(
+      'Ralph H. Johnson Department of Veterans Affairs Medical Center',
+    );
+    cy.findByTestId('other-va-debt-body').should('not.exist');
+    cy.findByTestId('error-debt-alert').should('exist');
+    cy.axeCheck();
+  });
+
   // VHA && VBA 404
   it('should display alert error message for VBA & VHA 404 responses', () => {
     cy.login(mockUser);
