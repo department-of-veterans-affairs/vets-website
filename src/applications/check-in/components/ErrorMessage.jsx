@@ -3,7 +3,7 @@ import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-const ErrorMessage = ({ header, message }) => {
+const ErrorMessage = ({ header, message, additionalDetails }) => {
   const { t } = useTranslation();
   const errorHeader = header ?? t('we-couldnt-check-you-in');
   const errorMessage =
@@ -30,11 +30,15 @@ const ErrorMessage = ({ header, message }) => {
         {errorHeader}
       </h1>
       {subMessage}
+      {additionalDetails && (
+        <div className="vads-u-margin-top--3">{additionalDetails}</div>
+      )}
     </>
   );
 };
 
 ErrorMessage.propTypes = {
+  additionalDetails: PropTypes.node,
   header: PropTypes.string,
   message: PropTypes.node,
 };
