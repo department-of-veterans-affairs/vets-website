@@ -29,9 +29,11 @@ const HealthCareEntry = ({
         setFormData({
           ...formData,
           'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
+          'view:hcaShortFormEnabled': false,
         });
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [caregiverSIGIEnabled, hcaAmericanIndianEnabled],
   );
 
@@ -66,9 +68,9 @@ const mapDispatchToProps = {
 
 HealthCareEntry.propTypes = {
   caregiverSIGIEnabled: PropTypes.bool,
+  formData: PropTypes.object,
   hcaAmericanIndianEnabled: PropTypes.bool,
   setFormData: PropTypes.func,
-  formData: PropTypes.object,
 };
 
 export default connect(
