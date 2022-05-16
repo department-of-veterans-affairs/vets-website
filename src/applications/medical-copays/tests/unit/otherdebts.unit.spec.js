@@ -3,10 +3,11 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import OtherVADebts from '../../components/OtherVADebts';
+import { APP_TYPES } from '../../../combined-debt-portal/combined/utils/helpers';
 
 describe('other va debts component', () => {
   it('should exist', () => {
-    const moduleName = 'MCP';
+    const moduleName = APP_TYPES.DEBT;
 
     const otherDebts = render(
       <BrowserRouter>
@@ -16,7 +17,7 @@ describe('other va debts component', () => {
     expect(otherDebts.getByTestId('other-va-debts-mcp-body')).to.exist;
   });
   it('should exist', () => {
-    const moduleName = 'LTR';
+    const moduleName = APP_TYPES.COPAY;
 
     const otherDebts = render(
       <BrowserRouter>
