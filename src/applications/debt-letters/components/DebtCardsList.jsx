@@ -99,17 +99,17 @@ const DebtCardsList = ({ debts, errors }) => {
         </h3>
         <p className="vads-u-font-family--sans">
           If you received a letter about a VA benefit debt that isn’t listed
-          here, call us at
+          here, call us at{' '}
           <va-telephone
             contact="800-827-0648"
             className="vads-u-margin-x--0p5"
-          />
-          (or
+          />{' '}
+          (or{' '}
           <va-telephone
             contact="1-612-713-6415"
             pattern={PATTERNS.OUTSIDE_US}
             className="vads-u-margin-x--0p5"
-          />
+          />{' '}
           from overseas).
         </p>
         <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
@@ -141,7 +141,7 @@ const DebtCardsList = ({ debts, errors }) => {
           className="vads-u-margin-top--1 vads-u-font-family--sans"
           data-testid="download-letters-link"
         >
-          Download letters related to your va debt
+          Download letters related to your VA debt
         </Link>
       </section>
     </>

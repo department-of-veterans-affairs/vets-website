@@ -5,7 +5,7 @@ import {
   VERIFICATION_STATUS_INCORRECT,
 } from '../actions';
 import { VERIFY_ENROLLMENTS_URL } from '../constants';
-import { formatReadableMonthYear, MONTH_PROP_TYPE } from '../helpers';
+import { MONTH_PROP_TYPE } from '../helpers';
 
 import EnrollmentVerificationMonthInfo from './EnrollmentVerificationMonthInfo';
 
@@ -38,7 +38,7 @@ const cantVerifyText = informationIncorrectMonth => {
       />{' '}
       You can’t verify our enrollment for this month until your School
       Certifying Official corrects your information for{' '}
-      {formatReadableMonthYear(informationIncorrectMonth?.month)}
+      {informationIncorrectMonth?.verificationMonth}
     </p>
   );
 };
@@ -46,8 +46,7 @@ const cantVerifyText = informationIncorrectMonth => {
 const infoText = month => {
   return (
     <p className="vads-u-margin-bottom--3 vads-u-margin-top--1">
-      This is the enrollment information we have on file for you for{' '}
-      {formatReadableMonthYear(month)}.
+      This is the enrollment information we have on file for you for {month}.
     </p>
   );
 };
@@ -81,7 +80,7 @@ export default function MonthReviewCard({
       href={VERIFY_ENROLLMENTS_URL}
       onClick={editMonthVerification}
     >
-      Edit verification for {formatReadableMonthYear(month.month)}
+      Edit verification for {month.verificationMonth}
     </a>
   );
 
@@ -89,14 +88,14 @@ export default function MonthReviewCard({
     <div className="ev-highlighted-content-container vads-u-margin-top--1">
       <header className="ev-highlighted-content-container_header">
         <h1 className="ev-highlighted-content-container_title vads-u-font-size--h3">
-          {formatReadableMonthYear(month.month)}
+          {month.verificationMonth}
         </h1>
       </header>
       <div className="ev-highlighted-content-container_content">
-        {reviewPage ? reviewStatusText : infoText(month.month)}
+        {reviewPage ? reviewStatusText : infoText(month.verificationMonth)}
 
         <div className="ev-info-block vads-u-margin-y--1">
-          <EnrollmentVerificationMonthInfo enrollments={month.enrollments} />
+          <EnrollmentVerificationMonthInfo month={month} />
         </div>
 
         {reviewPage && month.verificationStatus ? editVerificationLink : <></>}

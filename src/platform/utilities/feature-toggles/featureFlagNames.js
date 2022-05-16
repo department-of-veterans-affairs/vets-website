@@ -72,6 +72,7 @@ export default Object.freeze({
   mhvToLogingovAccountTransitionModal: 'mhv_to_logingov_account_transition_modal',
   omniChannelLink: 'omni_channel_link',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
+  profileAlwaysShowDirectDepositDisplay: 'profile_always_show_direct_deposit_display',
   profileNotificationSettings: 'profile_notification_settings',
   profileDoNotRequireInternationalZipCode:'profile_do_not_require_international_zip_code',
   profileEnhancements: 'profile_enhancements',
@@ -144,6 +145,7 @@ export default Object.freeze({
   showEduBenefits1990EZWizard: 'show_edu_benefits_1990EZ_Wizard',
   caregiverSIGIEnabled: 'caregiver_sigi_enabled',
   hcaAmericanIndianEnabled: 'hca_american_indian_enabled',
+  hcaShortFormEnabled: 'hca_short_form_enabled',
   checkVAInboxEnabled: 'check_va_inbox_enabled',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test'
 

@@ -560,6 +560,14 @@ describe('<CallToActionWidget>', () => {
       );
       expect(tree.find('[data-testid="direct-deposit-mfa-message"]').exists())
         .to.be.true;
+      expect(
+        tree
+          .find('[data-testid="direct-deposit-login-gov-sign-up-link"]')
+          .exists(),
+      ).to.be.true;
+      expect(
+        tree.find('[data-testid="direct-deposit-id-me-sign-up-link"]').exists(),
+      ).to.be.true;
       tree.unmount();
     });
 

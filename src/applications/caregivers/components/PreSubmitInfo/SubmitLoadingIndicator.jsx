@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 const SubmitLoadingIndicator = ({ submission }) => {
   const [isLoading, setLoading] = useState(false);
@@ -27,11 +26,7 @@ const SubmitLoadingIndicator = ({ submission }) => {
       {isLoading && (
         <div className="loading-container">
           <div className="vads-u-margin-y--4">
-            <LoadingIndicator />
-            <p>
-              We’re processing your application. This may take up to 1 minute.
-              Please don’t refresh your browser.
-            </p>
+            <va-loading-indicator message="We’re processing your application. This may take up to 1 minute. Please don’t refresh your browser." />
           </div>
         </div>
       )}

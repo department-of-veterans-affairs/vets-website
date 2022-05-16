@@ -110,6 +110,8 @@ function CalculateYourBenefitsForm({
     setInputUpdated(true);
     calculatorInputChange({ field, value });
 
+    if (!environment.isProduction()) updateEstimatedBenefits();
+
     if (field === 'beneficiaryLocationQuestion' || field === 'extension') {
       if (value === 'extension' || value === profile.attributes.name) {
         recordEvent({
@@ -207,6 +209,7 @@ function CalculateYourBenefitsForm({
     });
     eligibilityChange({ [field]: value });
     setInputUpdated(true);
+    
     if (!environment.isProduction()) recalculateBenefits();
   };
 
@@ -236,6 +239,7 @@ function CalculateYourBenefitsForm({
     const { name: field, checked: value } = e.target;
     setInputUpdated(true);
     calculatorInputChange({ field, value });
+
     if (!environment.isProduction()) recalculateBenefits();
   };
 
@@ -273,6 +277,7 @@ function CalculateYourBenefitsForm({
         field: 'buyUpAmount',
         value: 600,
       });
+
       if (!environment.isProduction()) recalculateBenefits();
     }
   };

@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
-import { VaAlert } from 'web-components/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import BackToHome from '../../../components/BackToHome';
 import BackToAppointments from '../../../components/BackToAppointments';
@@ -12,22 +12,25 @@ import AppointmentLocation from '../../../components/AppointmentDisplay/Appointm
 import TravelPayReimbursementLink from '../../../components/TravelPayReimbursementLink';
 import LanguagePicker from '../../../components/LanguagePicker';
 
-const MultipleAppointments = props => {
+const CheckInConfirmation = props => {
   const { appointments, selectedAppointment, triggerRefresh } = props;
   const { t } = useTranslation();
 
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
-  const focusOnLoad = useCallback(() => {
+
+  useEffect(() => {
     focusElement('h1');
+    scrollToTop('topScrollElement');
   }, []);
+
   return (
     <div
       className="vads-l-grid-container vads-u-padding-y--5"
       data-testid="multiple-appointments-confirm"
     >
       <LanguagePicker />
-      <VaAlert status="success" onVa-component-did-load={focusOnLoad}>
+      <div>
         <h1
           tabIndex="-1"
           aria-label={t('thank-you-for-checking-in')}
@@ -38,11 +41,18 @@ const MultipleAppointments = props => {
           })}
         </h1>
         <p>
-          {t('well-come-get-you-from-the', {})}{' '}
-          <AppointmentLocation appointment={appointment} bold />{' '}
-          {t('waiting-room-when-its-time-for-your-appointment-to-start')}
+          <Trans
+            i18nKey="well-come-get-you-from-the-waiting-room-when-its-time-for-your-appointment-to-start"
+            components={[
+              <AppointmentLocation
+                key="location"
+                appointment={appointment}
+                bold
+              />,
+            ]}
+          />
         </p>
-      </VaAlert>
+      </div>
       <TravelPayReimbursementLink />
       <BackToAppointments
         appointments={appointments}
@@ -54,10 +64,10 @@ const MultipleAppointments = props => {
   );
 };
 
-MultipleAppointments.propTypes = {
+CheckInConfirmation.propTypes = {
   appointments: PropTypes.array,
   selectedAppointment: PropTypes.object,
   triggerRefresh: PropTypes.func,
 };
 
-export default MultipleAppointments;
+export default CheckInConfirmation;

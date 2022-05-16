@@ -1,27 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import {
-  fetchPost911GiBillEligibility,
-  fetchVerificationStatus,
-} from '../actions';
+import { fetchPost911GiBillEligibility } from '../actions';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
-// import EnrollmentVerificationAlert from '../components/EnrollmentVerificationAlert';
+import EnrollmentVerificationAlert from '../components/EnrollmentVerificationAlert';
 import EnrollmentVerificationMonths from '../components/EnrollmentVerificationMonths';
-import { ENROLLMENT_VERIFICATION_TYPE } from '../helpers';
+import {
+  ENROLLMENT_VERIFICATION_TYPE,
+  getEnrollmentVerificationStatus,
+} from '../helpers';
 
 export const EnrollmentVerificationPage = ({
+  enrollmentVerification,
+  getPost911GiBillEligibility,
   hasCheckedKeepAlive,
   loggedIn,
-  getPost911GiBillEligibility,
   post911GiBillEligibility,
 }) => {
   const history = useHistory();
-
-  const [enrollmentList, setEnrollmentList] = useState({});
 
   useEffect(
     () => {
@@ -29,25 +28,25 @@ export const EnrollmentVerificationPage = ({
         history.push('/');
       }
 
-      if (post911GiBillEligibility === undefined) {
+      if (!enrollmentVerification) {
         getPost911GiBillEligibility();
       }
-
-      setEnrollmentList(post911GiBillEligibility);
     },
     [
       hasCheckedKeepAlive,
       history,
       loggedIn,
-      enrollmentList,
       post911GiBillEligibility,
       getPost911GiBillEligibility,
+      enrollmentVerification,
     ],
   );
 
-  if (!enrollmentList) {
+  if (!enrollmentVerification) {
     return <EnrollmentVerificationLoadingIndicator />;
   }
+
+  const status = getEnrollmentVerificationStatus(enrollmentVerification);
 
   return (
     <EnrollmentVerificationPageWrapper>
@@ -61,10 +60,11 @@ export const EnrollmentVerificationPage = ({
         education payments.
       </p>
 
-      {/* <EnrollmentVerificationAlert status={verificationStatus} /> */}
+      <EnrollmentVerificationAlert status={status} />
 
       <EnrollmentVerificationMonths
-        enrollmentData={enrollmentList?.data?.attributes}
+        status={status}
+        enrollmentVerification={enrollmentVerification}
       />
 
       <div className="ev-highlighted-content-container">
@@ -90,15 +90,22 @@ export const EnrollmentVerificationPage = ({
   );
 };
 
+EnrollmentVerificationPage.propTypes = {
+  enrollmentVerification: ENROLLMENT_VERIFICATION_TYPE,
+  getPost911GiBillEligibility: PropTypes.func,
+  hasCheckedKeepAlive: PropTypes.bool,
+  loggedIn: PropTypes.bool,
+  post911GiBillEligibility: PropTypes.object,
+};
+
 const mapStateToProps = state => ({
   hasCheckedKeepAlive: state?.user?.login?.hasCheckedKeepAlive || false,
   loggedIn: state?.user?.login?.currentlyLoggedIn || false,
-  verificationStatus: state?.data?.verificationStatus,
+  enrollmentVerification: state?.data?.enrollmentVerification,
   post911GiBillEligibility: state?.data?.post911GiBillEligibility,
 });
 
 const mapDispatchToProps = {
-  getVerificationStatus: fetchVerificationStatus,
   getPost911GiBillEligibility: fetchPost911GiBillEligibility,
 };
 
@@ -106,12 +113,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(EnrollmentVerificationPage);
-
-EnrollmentVerificationPage.propTypes = {
-  getVerificationStatus: PropTypes.func,
-  getPost911GiBillEligibility: PropTypes.func,
-  hasCheckedKeepAlive: PropTypes.bool,
-  loggedIn: PropTypes.bool,
-  post911GiBillEligibility: PropTypes.object,
-  verificationStatus: ENROLLMENT_VERIFICATION_TYPE,
-};
