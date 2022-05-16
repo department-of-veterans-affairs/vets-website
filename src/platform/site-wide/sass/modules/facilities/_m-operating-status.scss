@@ -120,5 +120,13 @@
 .vamc-facility-expandable-alert {
   display: inline-block;
   margin-left: 0;
+  margin-right: 0;
+}
+
+.operating-status-info,
+.operating-status-flag {
+  i.fa {
+    padding-right: 7px;
+  }
 }
 
