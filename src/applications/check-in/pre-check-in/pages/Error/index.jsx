@@ -58,14 +58,12 @@ const Error = () => {
   );
 
   const getErrorMessages = () => {
+    const accordions = <PreCheckInAccordionBlock key="accordion" errorPage />;
     if (appointments && appointments.length) {
       // don't show sub message if we are 15 minutes past appointment start time
-      if (appointmentStartTimePast15(appointments)) return ['', null];
+      if (appointmentStartTimePast15(appointments)) return ['', accordions];
       if (preCheckinExpired(appointments))
-        return [
-          t('you-can-still-check-in-once-you-arrive'),
-          <PreCheckInAccordionBlock key="accordion" errorPage />,
-        ];
+        return [t('you-can-still-check-in-once-you-arrive'), accordions];
     }
     return [combinedMessage, null];
   };

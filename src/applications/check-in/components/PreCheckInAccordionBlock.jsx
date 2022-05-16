@@ -30,7 +30,7 @@ const PreCheckInAccordionBlock = ({
                 link
               </ExternalLink>,
             ]}
-            values={{ link: t('login') }}
+            values={{ link: t('sign-in') }}
           />
         </p>
       </>
@@ -102,11 +102,28 @@ const PreCheckInAccordionBlock = ({
     accordions.unshift({
       header: t('what-is-pre-check-in'),
       body: (
-        <p>
-          {t(
-            'during-pre-check-in-you-can-review-your-personal-emergency-contact-and-next-of-kin-information-and-confirm-its-up-to-date-this-helps-us-better-prepare-for-your-appointment',
-          )}
-        </p>
+        <>
+          <p>
+            {t(
+              'during-pre-check-in-you-can-review-your-personal-emergency-contact-and-next-of-kin-information-and-confirm-its-up-to-date-this-helps-us-better-prepare-for-your-appointment',
+            )}
+          </p>
+          <p>
+            <Trans
+              i18nKey="you-can-also-sign-in-to-your-va-account-to-review-your-information"
+              components={[
+                <ExternalLink
+                  key="link"
+                  href="https://www.va.gov/profile/personal-information"
+                  hrefLang="en"
+                >
+                  link
+                </ExternalLink>,
+              ]}
+              values={{ link: t('sign-in') }}
+            />
+          </p>
+        </>
       ),
       open: false,
     });
