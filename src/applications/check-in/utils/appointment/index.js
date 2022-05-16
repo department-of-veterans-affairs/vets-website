@@ -110,12 +110,21 @@ const removeTimeZone = payload => {
 const preCheckinExpired = appointments => {
   return !Object.values(appointments).some(appt => {
     const today = new Date();
-    const checkInExpiry = startOfDay(new Date(appt.startTime));
-    return today.getTime() < checkInExpiry.getTime();
+    const preCheckInExpiry = startOfDay(new Date(appt.startTime));
+    return today.getTime() < preCheckInExpiry.getTime();
+  });
+};
+
+const appointmentStartTimePast15 = appointments => {
+  return !Object.values(appointments).some(appt => {
+    const today = new Date();
+    const deadline = appt.checkInWindowEnd;
+    return today.getTime() < new Date(deadline).getTime();
   });
 };
 
 export {
+  appointmentStartTimePast15,
   appointmentWasCanceled,
   hasMoreAppointmentsToCheckInto,
   sortAppointmentsByStartTime,

@@ -10,14 +10,14 @@ import BackToHome from '../../../components/BackToHome';
 import Footer from '../../../components/Footer';
 
 import { makeSelectVeteranData } from '../../../selectors';
+import {
+  preCheckinExpired,
+  appointmentStartTimePast15,
+} from '../../../utils/appointment';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
-const Error = ({ location }) => {
-  const type =
-    location && location.query && location.query.type
-      ? location.query.type
-      : undefined;
+const Error = () => {
   const { getValidateAttempts } = useSessionStorage(true);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   // try get date of appointment
@@ -56,17 +56,17 @@ const Error = ({ location }) => {
     </>
   );
 
-  // use type param to set unique error messages
-  const getErrorMessagePropsByType = () => {
-    if (type && type === 'expired')
-      return [
-        t('sorry-we-cant-complete-pre-check-in'),
-        t('you-can-still-check-in-once-you-arrive'),
-      ];
-    return [t('sorry-we-cant-complete-pre-check-in'), combinedMessage];
+  const getErrorMessage = () => {
+    if (appointments && appointments.length) {
+      // don't show sub message if we are 15 minutes past appointment start time
+      if (appointmentStartTimePast15(appointments)) return '';
+      if (preCheckinExpired(appointments))
+        return t('you-can-still-check-in-once-you-arrive');
+    }
+    return combinedMessage;
   };
-
-  const [header, message] = getErrorMessagePropsByType();
+  const header = t('sorry-we-cant-complete-pre-check-in');
+  const message = getErrorMessage();
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 ">
