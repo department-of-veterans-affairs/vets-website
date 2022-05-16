@@ -33,6 +33,24 @@ class Error {
   validateURL = () => {
     cy.url().should('match', /error/);
   };
+
+  validateAccordionBlocks = () => {
+    cy.get("[header='What is pre-check-in?']")
+      .shadow()
+      .find('button')
+      .contains('What is pre-check-in?')
+      .should('be.visible');
+    cy.get("[header='How can I update my information?'][open='true']")
+      .shadow()
+      .find('button')
+      .contains('How can I update my information?')
+      .should('be.visible');
+    cy.get('[header="Why can\'t I pre-check-in?"]')
+      .shadow()
+      .find('button')
+      .contains("Why can't I pre-check-in?")
+      .should('be.visible');
+  };
 }
 
 export default new Error();
