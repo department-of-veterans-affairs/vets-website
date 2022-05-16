@@ -6,6 +6,7 @@ import { add, sub } from 'date-fns';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { within } from '@testing-library/dom';
+import MockDate from 'mockdate';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import Error from '../index';
 
@@ -25,20 +26,24 @@ describe('check-in', () => {
                 clinicFriendlyName: 'TEST CLINIC',
                 clinicName: 'LOM ACC CLINIC TEST',
                 appointmentIen: 'some-ien',
-                startTime: add(new Date(), { days: 6 }),
+                startTime: '2022-01-03T14:56:04.788Z',
                 eligibility: 'ELIGIBLE',
                 facilityId: 'some-facility',
-                checkInWindowStart: add(new Date(), { days: 6 }),
-                checkInWindowEnd: add(new Date(), { days: 6 }),
+                checkInWindowStart: '2022-01-03T14:56:04.788Z',
+                checkInWindowEnd: '2022-01-03T14:56:04.788Z',
                 checkedInTime: '',
               },
             ],
             veteranData: {},
           },
         };
+        afterEach(() => {
+          MockDate.reset();
+        });
         store = mockStore(initState);
       });
       it('renders appointments date', () => {
+        MockDate.set('2022-01-01T14:00:00.000-05:00');
         const component = render(
           <Provider store={store}>
             <Error />
@@ -47,7 +52,7 @@ describe('check-in', () => {
         const dateMessage = component.getByTestId('date-message');
         expect(dateMessage).to.exist;
         expect(dateMessage).to.contain.text(
-          'You can pre-check in online until',
+          'You can pre-check in online until 01/02/2022.',
         );
       });
     });
