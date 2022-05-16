@@ -1,4 +1,4 @@
-import { startOfDay, add } from 'date-fns';
+import { startOfDay } from 'date-fns';
 import { ELIGIBILITY } from './eligibility';
 import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
 
@@ -118,8 +118,8 @@ const preCheckinExpired = appointments => {
 const appointmentStartTimePast15 = appointments => {
   return !Object.values(appointments).some(appt => {
     const today = new Date();
-    const deadline = add(new Date(appt.startTime), { minutes: 15 });
-    return today.getTime() < deadline.getTime();
+    const deadline = appt.checkInWindowEnd;
+    return today.getTime() < new Date(deadline).getTime();
   });
 };
 

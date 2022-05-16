@@ -51,7 +51,7 @@ describe('check-in', () => {
         );
       });
     });
-    describe('store with expired appointment', () => {
+    describe('store with expired appointment (between midnight and 15 min after appt start time)', () => {
       let store;
       beforeEach(() => {
         const middleware = [];
@@ -69,7 +69,7 @@ describe('check-in', () => {
                 eligibility: 'ELIGIBLE',
                 facilityId: 'some-facility',
                 checkInWindowStart: new Date(),
-                checkInWindowEnd: new Date(),
+                checkInWindowEnd: add(new Date(), { minutes: 16 }),
                 checkedInTime: '',
               },
             ],
