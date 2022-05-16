@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ExternalLink from './ExternalLink';
 
@@ -18,16 +18,19 @@ const PreCheckInAccordionBlock = ({
       <>
         <strong>{t('contact-information')}</strong>
         <p>
-          {t(
-            'a-staff-member-will-help-you-on-the-day-of-your-appointment-or-you-can-',
-          )}
-          <ExternalLink
-            href="https://www.va.gov/profile/personal-information"
-            hrefLang="en"
-          >
-            {t('login')}
-          </ExternalLink>
-          {t('to-your-va-account-to-update-your-contact-information-online')}
+          <Trans
+            i18nKey="a-staff-member-will-help-you-on-the-day-of-your-appointment-or-you-can-login-to-your-va-account-to-update-your-contact-information-online"
+            components={[
+              <ExternalLink
+                key="link"
+                href="https://www.va.gov/profile/personal-information"
+                hrefLang="en"
+              >
+                link
+              </ExternalLink>,
+            ]}
+            values={{ link: t('login') }}
+          />
         </p>
       </>
     );

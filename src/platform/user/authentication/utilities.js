@@ -308,3 +308,7 @@ export const signupUrl = type => {
 
   return sessionTypeUrl(opts);
 };
+
+export const logoutUrl = () => {
+  return sessionTypeUrl({ type: POLICY_TYPES.SLO, version: API_VERSION });
+};
