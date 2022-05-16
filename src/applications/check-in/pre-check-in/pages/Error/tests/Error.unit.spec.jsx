@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { add } from 'date-fns';
+import { add, sub } from 'date-fns';
 
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
@@ -91,6 +91,42 @@ describe('check-in', () => {
             'You can still check-in with your phone once you arrive at your appointment.',
           ),
         ).to.exist;
+      });
+    });
+    describe('store with appointment more than 15 minutes past its start time', () => {
+      let store;
+      beforeEach(() => {
+        const middleware = [];
+        const mockStore = configureStore(middleware);
+        const initState = {
+          checkInData: {
+            appointments: [
+              {
+                facility: 'LOMA LINDA VA CLINIC',
+                clinicPhoneNumber: '5551234567',
+                clinicFriendlyName: 'TEST CLINIC',
+                clinicName: 'LOM ACC CLINIC TEST',
+                appointmentIen: 'some-ien',
+                startTime: sub(new Date(), { minutes: 16 }),
+                eligibility: 'INELIGIBLE_TOO_LATE',
+                facilityId: 'some-facility',
+                checkInWindowStart: sub(new Date(), { minutes: 16 }),
+                checkInWindowEnd: sub(new Date(), { minutes: 16 }),
+                checkedInTime: '',
+              },
+            ],
+            veteranData: {},
+          },
+        };
+        store = mockStore(initState);
+      });
+      it('renders no sub message when appointment started more than 15 minutes ago', () => {
+        const component = render(
+          <Provider store={store}>
+            <Error />
+          </Provider>,
+        );
+        expect(component.queryByTestId('error-message')).to.be.null;
       });
     });
     describe('empty redux store', () => {
