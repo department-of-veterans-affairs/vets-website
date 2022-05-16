@@ -1,4 +1,5 @@
 const addDays = require('date-fns/addDays');
+const addMinutes = require('date-fns/addDays');
 const format = require('date-fns/format');
 
 const defaultUUID = '0429dda5-4165-46be-9ed1-1e652a8dfd83';
@@ -120,7 +121,7 @@ const createMockSuccessResponse = (
           eligibility: 'ELIGIBLE',
           facilityId: 'some-facility',
           checkInWindowStart: mockTime,
-          checkInWindowEnd: mockTime,
+          checkInWindowEnd: addMinutes(new Date(mockTime), 15),
           checkedInTime: '',
           status,
         },
@@ -135,7 +136,7 @@ const createMockSuccessResponse = (
           eligibility: 'ELIGIBLE',
           facilityId: 'some-facility',
           checkInWindowStart: mockTime,
-          checkInWindowEnd: mockTime,
+          checkInWindowEnd: addMinutes(new Date(mockTime), 15),
           checkedInTime: '',
           status,
         },

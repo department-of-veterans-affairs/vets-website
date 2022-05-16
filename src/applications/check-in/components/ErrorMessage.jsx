@@ -15,14 +15,21 @@ const ErrorMessage = ({ header, message }) => {
     focusElement('h1');
   }, []);
 
+  const subMessage =
+    errorMessage.length === 0 ? (
+      ''
+    ) : (
+      <va-alert background-only show-icon data-testid="error-message">
+        <div>{errorMessage}</div>
+      </va-alert>
+    );
+
   return (
     <>
       <h1 tabIndex="-1" slot="headline">
         {errorHeader}
       </h1>
-      <va-alert background-only show-icon data-testid="error-message">
-        <div>{errorMessage}</div>
-      </va-alert>
+      {subMessage}
     </>
   );
 };
