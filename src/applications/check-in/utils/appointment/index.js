@@ -1,4 +1,4 @@
-import { startOfDay } from 'date-fns';
+import { startOfDay, add } from 'date-fns';
 import { ELIGIBILITY } from './eligibility';
 import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
 
@@ -110,12 +110,21 @@ const removeTimeZone = payload => {
 const preCheckinExpired = appointments => {
   return !Object.values(appointments).some(appt => {
     const today = new Date();
-    const checkInExpiry = startOfDay(new Date(appt.startTime));
-    return today.getTime() < checkInExpiry.getTime();
+    const preCheckInExpiry = startOfDay(new Date(appt.startTime));
+    return today.getTime() < preCheckInExpiry.getTime();
+  });
+};
+
+const appointmentStartTimePast15 = appointments => {
+  return !Object.values(appointments).some(appt => {
+    const today = new Date();
+    const deadline = add(new Date(appt.startTime), { minutes: 15 });
+    return today.getTime() < deadline.getTime();
   });
 };
 
 export {
+  appointmentStartTimePast15,
   appointmentWasCanceled,
   hasMoreAppointmentsToCheckInto,
   sortAppointmentsByStartTime,

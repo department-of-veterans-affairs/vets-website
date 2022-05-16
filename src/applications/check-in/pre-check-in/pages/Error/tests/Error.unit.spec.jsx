@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import { add } from 'date-fns';
 
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
@@ -24,11 +25,11 @@ describe('check-in', () => {
                 clinicFriendlyName: 'TEST CLINIC',
                 clinicName: 'LOM ACC CLINIC TEST',
                 appointmentIen: 'some-ien',
-                startTime: '2022-01-03T14:56:04.788Z',
+                startTime: add(new Date(), { days: 6 }),
                 eligibility: 'ELIGIBLE',
                 facilityId: 'some-facility',
-                checkInWindowStart: '2022-01-03T14:56:04.788Z',
-                checkInWindowEnd: '2022-01-03T14:56:04.788Z',
+                checkInWindowStart: add(new Date(), { days: 6 }),
+                checkInWindowEnd: add(new Date(), { days: 6 }),
                 checkedInTime: '',
               },
             ],
@@ -45,16 +46,42 @@ describe('check-in', () => {
         );
         const dateMessage = component.getByTestId('date-message');
         expect(dateMessage).to.exist;
-        expect(
-          within(dateMessage).getByText(
-            'You can pre-check in online until 01/02/2022.',
-          ),
-        ).to.exist;
+        expect(dateMessage).to.contain.text(
+          'You can pre-check in online until',
+        );
+      });
+    });
+    describe('store with expired appointment', () => {
+      let store;
+      beforeEach(() => {
+        const middleware = [];
+        const mockStore = configureStore(middleware);
+        const initState = {
+          checkInData: {
+            appointments: [
+              {
+                facility: 'LOMA LINDA VA CLINIC',
+                clinicPhoneNumber: '5551234567',
+                clinicFriendlyName: 'TEST CLINIC',
+                clinicName: 'LOM ACC CLINIC TEST',
+                appointmentIen: 'some-ien',
+                startTime: new Date(),
+                eligibility: 'ELIGIBLE',
+                facilityId: 'some-facility',
+                checkInWindowStart: new Date(),
+                checkInWindowEnd: new Date(),
+                checkedInTime: '',
+              },
+            ],
+            veteranData: {},
+          },
+        };
+        store = mockStore(initState);
       });
       it('renders correct error message when pre-checkin is expired', () => {
         const component = render(
           <Provider store={store}>
-            <Error location={{ query: { type: 'expired' } }} />
+            <Error />
           </Provider>,
         );
         const expiredMessage = component.getByTestId('error-message');
