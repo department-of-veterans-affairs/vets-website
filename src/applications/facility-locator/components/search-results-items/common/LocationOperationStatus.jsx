@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import createCommonStore from 'platform/startup/store';
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
@@ -12,28 +12,24 @@ const store = createCommonStore({
 });
 
 const LocationOperationStatus = ({ operatingStatus }) => {
-  connectFeatureToggle(store.dispatch);
-  store.subscribe(() => {
-    const flags = toggleValues(store.getState());
-    if (
-      flags?.showExpandableVamcAlert === 'undefined' ||
-      flags?.showExpandableVamcAlert === false
-    ) {
-      const expandableAlerts = document.querySelectorAll(
-        // whatever the class / target is named
-        '.va-alert-expandable',
-      );
-      expandableAlerts.forEach(element => {
-        element.classList.add('vads-u-display--none');
-      });
-    }
-  });
+  const [showVamcAlert, setShowVamcAlert] = useState(true);
+
+  useEffect(() => {
+    connectFeatureToggle(store.dispatch);
+    store.subscribe(() => {
+      const flags = toggleValues(store.getState());
+      if (
+        flags?.showExpandableVamcAlert === 'undefined' ||
+        flags?.showExpandableVamcAlert === false
+      ) {
+        setShowVamcAlert(false);
+      }
+    });
+  }, []);
 
   if (!operatingStatus || operatingStatus.code === 'NORMAL') {
     return <></>;
   }
-
-  const showExpandableVamcAlert = true;
 
   const display = {
     [OperatingStatus.CLOSED]: {
@@ -49,6 +45,7 @@ const LocationOperationStatus = ({ operatingStatus }) => {
       alertClass: 'info',
     },
   };
+
   if (!display[operatingStatus.code]) {
     return <></>;
   }
@@ -72,7 +69,7 @@ const LocationOperationStatus = ({ operatingStatus }) => {
       </va-alert>
 
       {operatingStatus.supplementalStatus.map(status => {
-        if (status.id.includes('COVID') && showExpandableVamcAlert) {
+        if (status.id.includes('COVID') && showVamcAlert) {
           return (
             <va-alert
               background-only
