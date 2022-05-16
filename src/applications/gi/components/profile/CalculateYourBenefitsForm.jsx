@@ -99,7 +99,7 @@ function CalculateYourBenefitsForm({
       setInvalidZip('');
       setInputUpdated(true);
 
-      if (!environment.isProduction()) updateEstimatedBenefits();
+      if (!environment.isProduction()) recalculateBenefits();
     } else if (inputs.beneficiaryZIP.length < 5) {
       setInvalidZip('Postal code must be a 5-digit number');
     }
@@ -109,8 +109,6 @@ function CalculateYourBenefitsForm({
     const { name: field, value } = event.target;
     setInputUpdated(true);
     calculatorInputChange({ field, value });
-
-    if (!environment.isProduction()) updateEstimatedBenefits();
 
     if (field === 'beneficiaryLocationQuestion' || field === 'extension') {
       if (value === 'extension' || value === profile.attributes.name) {
@@ -144,6 +142,8 @@ function CalculateYourBenefitsForm({
         'gibct-form-value': value,
       });
     }
+
+    if (!environment.isProduction()) recalculateBenefits();
   };
 
   const toggleExpanded = (expandedName, isExpanded) => {
@@ -167,7 +167,7 @@ function CalculateYourBenefitsForm({
     );
   };
 
-  const handleCalculateBenefitsClick = childSection => {
+  const recalculateBenefits = childSection => {
     const accordionButtonId = `${createId(childSection)}-accordion-button`;
     const { beneficiaryZIPError, beneficiaryZIP } = inputs;
 
@@ -207,7 +207,7 @@ function CalculateYourBenefitsForm({
     });
     eligibilityChange({ [field]: value });
     setInputUpdated(true);
-    if (!environment.isProduction()) updateEstimatedBenefits();
+    if (!environment.isProduction()) recalculateBenefits();
   };
 
   const handleExtensionBlur = event => {
@@ -236,7 +236,7 @@ function CalculateYourBenefitsForm({
     const { name: field, checked: value } = e.target;
     setInputUpdated(true);
     calculatorInputChange({ field, value });
-    if (!environment.isProduction()) updateEstimatedBenefits();
+    if (!environment.isProduction()) recalculateBenefits();
   };
 
   const handleHasClassesOutsideUSChange = e => {
@@ -273,7 +273,7 @@ function CalculateYourBenefitsForm({
         field: 'buyUpAmount',
         value: 600,
       });
-      if (!environment.isProduction()) updateEstimatedBenefits();
+      if (!environment.isProduction()) recalculateBenefits();
     }
   };
 
@@ -1025,7 +1025,7 @@ function CalculateYourBenefitsForm({
     <button
       id={`update-${createId(name)}-button`}
       className="calculate-button"
-      onClick={() => handleCalculateBenefitsClick(name)}
+      onClick={() => recalculateBenefits(name)}
       disabled={!inputUpdated}
     >
       Update benefits
