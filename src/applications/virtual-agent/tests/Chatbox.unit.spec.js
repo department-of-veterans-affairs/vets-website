@@ -7,6 +7,9 @@ import { waitFor, screen, fireEvent, act } from '@testing-library/react';
 import sinon from 'sinon';
 import * as Sentry from '@sentry/browser';
 
+import configureMockStore from 'redux-mock-store';
+// import thunk from 'redux-thunk';
+
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { commonReducer } from 'platform/startup/store';
 import {
@@ -21,8 +24,9 @@ import {
   LOGGED_IN_FLOW,
   CONVERSATION_ID_KEY,
   TOKEN_KEY,
-  RECENT_UTTERANCES,
+  RECENT_UTTERANCES, IN_AUTH_EXP,
 } from '../components/chatbox/utils';
+import makeBotGreetUser from '../components/webchat/makeBotGreetUser';
 
 export const CHATBOT_ERROR_MESSAGE = /We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk/i;
 
@@ -617,7 +621,7 @@ describe('App', () => {
     });
 
     describe('when chatbox is rendered', () => {
-      it.skip('loads the webchat framework via script tag', () => {
+      it('loads the webchat framework via script tag', () => {
         const notLoggedInUser = {
           navigation: {
             showLoginModal: false,
@@ -636,9 +640,10 @@ describe('App', () => {
           },
         };
 
-        // TODO: try to check for the (non)existence of the webchat-framework-script before render is called
-        // console.log('--> ', screen.queryByTestId('webchat-framework-script'));
-        // expect(screen.queryByTestId('webchat-framework-script')).to.not.exist;
+        waitFor(
+          () =>
+            expect(screen.getByTestId('webchat-framework-script')).to.not.exist,
+        );
 
         loadWebChat();
         mockApiRequest({ token: 'FAKETOKEN' });
@@ -649,7 +654,10 @@ describe('App', () => {
           reducers: virtualAgentReducer,
         });
 
-        expect(wrapper.getByTestId('webchat-framework-script')).to.exist;
+        waitFor(
+          () =>
+            expect(wrapper.getByTestId('webchat-framework-script')).to.exist,
+        );
       });
 
       it('loads the webchat framework only once', async () => {
@@ -688,21 +696,79 @@ describe('App', () => {
         loadWebChat();
         mockApiRequest({ token: 'FAKETOKEN' });
 
-        expect(window.React).to.not.exist;
-        expect(window.ReactDOM).to.not.exist;
+        waitFor(() => {
+          expect(window.React).to.not.exist;
+          expect(window.ReactDOM).to.not.exist;
+        });
 
         renderInReduxProvider(<Chatbox {...defaultProps} />, {
           initialState: notLoggedInUser,
           reducers: virtualAgentReducer,
         });
 
-        expect(window.React).to.eql(React);
-        expect(window.ReactDOM).to.eql(ReactDOM);
+        waitFor(() => {
+          expect(window.React).to.eql(React);
+          expect(window.ReactDOM).to.eql(ReactDOM);
+        });
       });
     });
   });
 
   describe('virtualAgentAuth is toggled false', () => {
+    const middlewares = [thunk];
+    const mockStore = configureMockStore(middlewares);
+    const mockServiceCreator = (body, succeeds = true) => () =>
+      new Promise((resolve, reject) => {
+        setTimeout(() => (succeeds ? resolve(body) : reject(body)), 10);
+      });
+
+    let store;
+    const storeClean = mockStore(
+      {},
+      GreetUser.makeBotGreetUser(
+        'fakeCsrfToken',
+        'fakeApiSession',
+        'http://apiURL',
+        'http://baseURL',
+        'noFirstNameFound',
+        'fakeUserUuid',
+        true, // requireAuth,
+      ),
+      mockServiceCreator(screen, true),
+    );
+
+    const authActivityHandlerSpy = sinon.spy();
+    const messageActivityHandlerSpy = sinon.spy();
+
+    before(() => {
+      window.addEventListener(
+        'webchat-message-activity',
+        messageActivityHandlerSpy,
+      );
+      window.addEventListener(
+        'webchat-auth-activity',
+        authActivityHandlerSpy,
+      );
+    });
+
+    beforeEach(() => {
+      store = { ...storeClean};
+      authActivityHandlerSpy.reset();
+      messageActivityHandlerSpy.reset();
+      sessionStorage.removeItem(IN_AUTH_EXP);
+      sessionStorage.removeItem(LOGGED_IN_FLOW);
+    });
+
+    after(() => {
+      window.removeEventListener(
+        'webchat-message-activity',
+        authActivityHandlerSpy,
+      );
+      window.removeEventListener(
+        'webchat-auth-activity',
+        authActivityHandlerSpy,
+      );
+    });
     // const notLoggedInUser = {
     //   navigation: {
     //     showLoginModal: false,
@@ -721,61 +787,60 @@ describe('App', () => {
     //   },
     // };
 
-    it.skip('todo: makebotgreetuser test for firing message activity', () => {
-      //
-      // loadWebChat();
-      // mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
-      //
-      // // const { getByTestId } = renderInReduxProvider(
-      // //   <Chatbox {...defaultProps} />,
-      // //   providerObject,
-      // // );
-      //
-      // const { getByTestId } = renderInReduxProvider(
-      //   <Chatbox {...defaultProps} />,
-      //   {
-      //     initialState: initialStateNotLoggedIn,
-      //     reducers: virtualAgentReducer,
-      //   },
-      // );
-      //
-      // // await waitFor(() => expect(getByTestId('webchat')).to.exist);
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      // sessionStorage.setItem(LOGGED_IN_FLOW, 'false');
-      //
-      // GreetUser.makeBotGreetUser(
-      //   'FAKECSRFTOKEN',
-      //   'FAKEAPISESSION',
-      //   'FAKEAPIURL',
-      //   'FAKEBASEURL',
-      //   'Mark',
-      //   'fake_uuid',
-      //   undefined, // requireAuth toggle
-      // );
-      //
-      // sinon.assert.calledWithExactly(
-      //   GreetUser.makeBotGreetUser,
-      //   'FAKECSRFTOkEN',
-      //   'FAKEAPISESSION',
-      //   'FAKEAPIURL',
-      //   'FAKEBASEURL',
-      //   'Mark',
-      //   'fake_uuid',
-      //   undefined, // requireAuth toggle
-      //
-      //   expect(authActivityHandlerSpy.callCount).to.equal(1);
-      //   expect(sessionStorage.getItem(LOGGED_IN_FLOW)).to.equal('true');
+    it('makebotgreetuser test for firing message activity', done => {
+      window.addEventListener(
+        'webchat-message-activity',
+        messageActivityHandlerSpy,
+      );
 
+      store.dispatch({
+        payload: {
+          activity: {
+            type: 'message',
+            text: 'Hello, world!',
+          },
+        },
+        type: 'DIRECT_LINE/INCOMING_ACTIVITY',
+      });
+
+      done();
+
+      const actions = store.getActions();
+      expect(actions.length).to.equal(1);
+      expect(actions[0].payload.activity).to.own.include({ text: 'Hello, world!' });
+      expect(messageActivityHandlerSpy.callCount).to.equal(1);
     });
 
-    it.skip('todo: makebotgreetuser test for firing auth activity', () => {});
+    // // TODO: conditions to resend latest utterance (I think this is covered in the other test(s))
+
+    it('makebotgreetuser test for firing auth activity', done => {
+
+      sessionStorage.setItem(IN_AUTH_EXP, 'false');
+
+      window.addEventListener('webchat-auth-activity', authActivityHandlerSpy);
+
+      store.dispatch({
+        payload: {
+          activity: {
+            type: 'message',
+            text: 'Alright. Sending you to the sign in page...',
+            from: {
+              role: 'bot',
+            },
+          },
+        },
+        type: 'DIRECT_LINE/INCOMING_ACTIVITY',
+      });
+
+      done();
+
+      const actions = store.getActions();
+      expect(actions.length).to.equal(1);
+      // console.log(JSON.stringify(actions));
+      expect(actions[0].payload.activity).to.own.include({ text: 'Alright. Sending you to the sign in page...' });
+      expect(authActivityHandlerSpy.callCount).to.equal(1);
+      expect(sessionStorage.getItem(IN_AUTH_EXP)).to.equal('false');
+    });
   });
 
   describe('virtualAgentAuth is toggled true', () => {
