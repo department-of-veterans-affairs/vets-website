@@ -27,14 +27,13 @@ describe('Medical Copays', () => {
     cy.intercept('GET', '/v0/medical_copays', mockCopays);
     cy.visit('/health-care/pay-copay-bill/your-current-balances/');
     cy.findByTestId('overview-page-title').should('exist');
-    cy.injectAxe();
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`balance-card-${id}`).should('exist');
     cy.findByTestId(`amount-${id}`).contains('$15.00');
     cy.findByTestId(`facility-city-${id}`).contains(
       'Ralph H. Johnson Department of Veterans Affairs Medical Center',
     );
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('navigates to the detail page - C12577', () => {
@@ -43,7 +42,6 @@ describe('Medical Copays', () => {
     cy.intercept('GET', '/v0/medical_copays', mockCopays);
     cy.visit('/health-care/pay-copay-bill/your-current-balances/');
     cy.findByTestId('overview-page-title').should('exist');
-    cy.injectAxe();
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
@@ -61,21 +59,22 @@ describe('Medical Copays', () => {
     cy.findByTestId(`balance-questions`).contains(
       'What to do if you have questions about your balance',
     );
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('displays download statements - C12578', () => {
     cy.login(mockUser);
-    cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
-    cy.intercept('GET', '/v0/medical_copays', mockCopays);
+    cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
+      'features',
+    );
+    cy.intercept('GET', '/v0/medical_copays', mockCopays).as('copays');
     cy.visit('/health-care/pay-copay-bill/your-current-balances/');
     cy.findByTestId('overview-page-title').should('exist');
-    cy.injectAxe();
-    cy.findByTestId('overview-page-title').should('exist');
-    cy.findByTestId(`detail-link-${id}`).click();
+    cy.wait(['@features', '@copays']);
+    cy.findByTestId(`detail-link-${id}`).click({ waitForAnimations: true });
     cy.findByTestId('detail-page-title').should('exist');
     cy.findByTestId(`download-statements`).should('exist');
     cy.findAllByText(/November 15, 2019/i).should('exist');
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 });
