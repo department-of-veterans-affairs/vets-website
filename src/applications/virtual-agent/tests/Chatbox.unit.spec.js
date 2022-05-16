@@ -804,7 +804,9 @@ describe('App', () => {
 
       const actions = store.getActions();
       expect(actions.length).to.equal(1);
-      expect(actions[0].payload.activity).to.own.include({ text: 'Hello, world!' });
+      expect(actions[0].payload.activity).to.own.include({
+        text: 'Hello, world!',
+      });
       expect(messageActivityHandlerSpy.callCount).to.equal(1);
     });
 
