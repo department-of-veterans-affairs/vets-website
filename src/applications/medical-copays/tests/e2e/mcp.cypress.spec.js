@@ -12,16 +12,22 @@ import mockUser from './fixtures/mocks/mock-user.json';
 describe('Medical Copays', () => {
   const id = 'f4385298-08a6-42f8-a86f-50e97033fb85';
 
-  beforeEach(() => {
+  // beforeEach(() => {
+  //   cy.login(mockUser);
+  //   cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
+  //   cy.intercept('GET', '/v0/medical_copays', mockCopays);
+  //   cy.visit('/health-care/pay-copay-bill/your-current-balances/');
+  //   cy.findByTestId('overview-page-title').should('exist');
+  //   cy.injectAxe();
+  // });
+
+  it('displays copay balances - C12576', () => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
     cy.intercept('GET', '/v0/medical_copays', mockCopays);
     cy.visit('/health-care/pay-copay-bill/your-current-balances/');
     cy.findByTestId('overview-page-title').should('exist');
     cy.injectAxe();
-  });
-
-  it('displays copay balances - C12576', () => {
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`balance-card-${id}`).should('exist');
     cy.findByTestId(`amount-${id}`).contains('$15.00');
@@ -32,6 +38,12 @@ describe('Medical Copays', () => {
   });
 
   it('navigates to the detail page - C12577', () => {
+    cy.login(mockUser);
+    cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
+    cy.intercept('GET', '/v0/medical_copays', mockCopays);
+    cy.visit('/health-care/pay-copay-bill/your-current-balances/');
+    cy.findByTestId('overview-page-title').should('exist');
+    cy.injectAxe();
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
@@ -52,7 +64,13 @@ describe('Medical Copays', () => {
     cy.axeCheck();
   });
 
-  it.skip('displays download statements - C12578', () => {
+  it('displays download statements - C12578', () => {
+    cy.login(mockUser);
+    cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
+    cy.intercept('GET', '/v0/medical_copays', mockCopays);
+    cy.visit('/health-care/pay-copay-bill/your-current-balances/');
+    cy.findByTestId('overview-page-title').should('exist');
+    cy.injectAxe();
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
