@@ -14,7 +14,7 @@ describe('other va debts component', () => {
         <OtherVADebts module={moduleName} />
       </BrowserRouter>,
     );
-    expect(otherDebts.getByTestId('other-va-debts-mcp-body')).to.exist;
+    expect(otherDebts.getByTestId('other-va-debt-body')).to.exist;
   });
   it('should exist', () => {
     const moduleName = APP_TYPES.COPAY;
@@ -24,7 +24,7 @@ describe('other va debts component', () => {
         <OtherVADebts module={moduleName} />
       </BrowserRouter>,
     );
-    expect(otherDebts.getByTestId('other-va-debts-ltr-body')).to.exist;
+    expect(otherDebts.getByTestId('other-va-copay-body')).to.exist;
   });
   it('should not exist', () => {
     const moduleName = 'NO-MATCH';
@@ -34,6 +34,6 @@ describe('other va debts component', () => {
         <OtherVADebts module={moduleName} />
       </BrowserRouter>,
     );
-    expect(otherDebts.queryByTestId('other-va-debts-ltr-body')).to.not.exist;
+    expect(otherDebts.queryByTestId('other-va-copay-body')).to.not.exist;
   });
 });
