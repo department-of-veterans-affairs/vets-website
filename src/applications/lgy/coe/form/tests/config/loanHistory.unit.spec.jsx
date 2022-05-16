@@ -1,14 +1,16 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import sinon from 'sinon';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
+import sinon from 'sinon';
+
+import createCommonStore from 'platform/startup/store';
 import {
   DefinitionTester,
   getFormDOM,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import createCommonStore from 'platform/startup/store';
-import formConfig from '../../config/form.js';
+} from 'platform/testing/unit/schemaform-utils';
+
+import formConfig from '../../config/form';
 
 const defaultStore = createCommonStore();
 
@@ -32,7 +34,7 @@ describe('COE applicant loan history', () => {
     const formDOM = getFormDOM(form);
 
     expect(formDOM.querySelectorAll('input').length).to.equal(11);
-    expect(formDOM.querySelectorAll('select').length).to.equal(5);
+    expect(formDOM.querySelectorAll('select').length).to.equal(3);
   });
 
   it('Should not submit without required fields', () => {
@@ -68,7 +70,7 @@ describe('COE applicant loan history', () => {
             relevantPriorLoans: [
               {
                 dateRange: {
-                  startDate: '2019-02-03',
+                  from: '2019-02-XX',
                 },
                 propertyAddress: {
                   propertyAddress1: '412 Crooks Road',

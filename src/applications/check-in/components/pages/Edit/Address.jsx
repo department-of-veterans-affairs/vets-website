@@ -196,7 +196,7 @@ export default function Address(props) {
           country: event.detail.value,
           province: null,
           internationalPostalCode: null,
-          state: t('state-is-required-0'),
+          state: t('state-is-required'),
           zip: t('zip-code-is-required'),
         }));
       }

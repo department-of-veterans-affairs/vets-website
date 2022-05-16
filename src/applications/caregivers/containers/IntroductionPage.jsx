@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
@@ -132,31 +132,26 @@ export const IntroductionPage = ({
 
               <ul className="process-lists">
                 <li>
-                  Call us at
-                  <span className="vads-u-margin-x--0p5">
-                    <va-telephone
-                      contact={CONTACTS.HEALTHCARE_ELIGIBILITY_CENTER}
-                    />
-                  </span>
+                  Call us at{' '}
+                  <va-telephone
+                    contact={CONTACTS.HEALTHCARE_ELIGIBILITY_CENTER}
+                  />{' '}
                   and ask for help filling out the form
                 </li>
                 <li>
-                  Use the online
+                  Use the online{' '}
                   <a
                     href={links.caregiverSupportCoordinators.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="vads-u-margin-x--0p5"
                   >
                     Caregiver Support Coordinator locator
-                  </a>
+                  </a>{' '}
                   to find a coordinator at your nearest VA health care facility
                 </li>
                 <li>
-                  Contact the VA National Caregiver Support Line by calling
-                  <span className="vads-u-margin-left--0p5">
-                    <va-telephone contact={CONTACTS.CAREGIVER} />
-                  </span>
+                  Contact the VA National Caregiver Support Line by calling{' '}
+                  <va-telephone contact={CONTACTS.CAREGIVER} />
                 </li>
               </ul>
 
@@ -184,15 +179,14 @@ export const IntroductionPage = ({
             <p>
               <strong>Note:</strong> If the Veteran isn’t enrolled in VA health
               care or is currently on active duty with a medical discharge,
-              they’ll need to fill out an
+              they’ll need to fill out an{' '}
               <a
                 rel="noopener noreferrer"
                 target="_blank"
                 href={links.applyVAHealthCare.link}
-                className="vads-u-margin-x--0p5"
               >
                 {links.applyVAHealthCare.label}
-              </a>
+              </a>{' '}
               (VA Form 10-10EZ).
             </p>
           </li>
@@ -216,16 +210,12 @@ export const IntroductionPage = ({
             <p>
               You may also be eligible for the Program of General Caregiver
               Support Services (PGCSS). To find out more, call the VA Caregiver
-              Support Line at
-              <span className="vads-u-margin-left--0p5">
-                <va-telephone contact={CONTACTS.CAREGIVER} />
-              </span>
-              , visit
+              Support Line at <va-telephone contact={CONTACTS.CAREGIVER} />,
+              visit{' '}
               <a
                 target="_blank"
                 rel="noopener noreferrer"
                 href={links.caregiverHelpPage.link}
-                className="vads-u-margin-left--0p5"
               >
                 {links.caregiverHelpPage.label}
               </a>

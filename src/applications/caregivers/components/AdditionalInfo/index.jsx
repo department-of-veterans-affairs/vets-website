@@ -207,8 +207,8 @@ export const PleaseSelectVAFacility = () => (
     <h3 className="vads-u-font-size--h4">VA health care services</h3>
 
     <p>
-      Please select the VA medical center or clinic where the
-      <strong className="vads-u-margin-left--0p5">
+      Please select the VA medical center or clinic where the{' '}
+      <strong>
         Veteran receives or plans to receive health care services.
       </strong>
     </p>
@@ -232,7 +232,7 @@ export const AdditionalCaregiverInfo = () => (
 
 export const SecondaryRequiredAlert = () => {
   return (
-    <va-alert status="error" isVisible>
+    <va-alert status="error">
       <h3 slot="headline">We need you to add a Family Caregiver</h3>
       <p className="vads-u-font-size--base">
         We can’t process your application unless you add a Family Caregiver.
@@ -295,8 +295,7 @@ export const RepresentativeAdditionalInfo = () => {
         <p className="vads-u-margin-top--4">We accept these documents:</p>
         <ul>
           <li>
-            Veteran guardianship,
-            <strong className="vads-u-margin-left--0p5">or</strong>
+            Veteran guardianship, <strong>or</strong>
           </li>
           <li>Veteran-related court order</li>
         </ul>
@@ -307,8 +306,7 @@ export const RepresentativeAdditionalInfo = () => {
         </p>
         <ul>
           <li>
-            Power of attorney for the Veteran,
-            <strong className="vads-u-margin-left--0p5">or</strong>
+            Power of attorney for the Veteran, <strong>or</strong>
           </li>
           <li>Health care power of attorney for the Veteran</li>
         </ul>

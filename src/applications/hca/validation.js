@@ -1,6 +1,7 @@
 import moment from 'moment';
 import * as Sentry from '@sentry/browser';
 import get from 'platform/utilities/data/get';
+import { hasSession } from 'platform/user/profile/utilities';
 
 import {
   convertToDateField,
@@ -122,48 +123,105 @@ export function logValidateMarriageDate(
   }
 }
 
+export function logVeteranNameSsnDob(
+  messageType,
+  veteranFullName,
+  veteranSocialSecurityNumber,
+  veteranDateOfBirth,
+  veteranHasSession,
+) {
+  // log if name, ssn or dob does not have a value
+  if (!veteranFullName && !veteranSocialSecurityNumber && !veteranDateOfBirth) {
+    const message = `hca_1010ez_error_name_ssn_dob${messageType}`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranFullName,
+        veteranSocialSecurityNumber,
+        veteranDateOfBirth,
+        hasSession: veteranHasSession,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranFullName && !veteranSocialSecurityNumber) {
+    const message = `hca_1010ez_error_name_ssn${messageType}`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranFullName,
+        veteranSocialSecurityNumber,
+        hasSession: veteranHasSession,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranFullName && !veteranDateOfBirth) {
+    const message = `hca_1010ez_error_name_dob${messageType}`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranFullName,
+        veteranDateOfBirth,
+        hasSession: veteranHasSession,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranSocialSecurityNumber && !veteranDateOfBirth) {
+    const message = `hca_1010ez_error_ssn_dob${messageType}`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranSocialSecurityNumber,
+        veteranDateOfBirth,
+        hasSession: veteranHasSession,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranFullName) {
+    const message = `hca_1010ez_error_name${messageType}`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranFullName,
+        hasSession: veteranHasSession,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranSocialSecurityNumber) {
+    const message = `hca_1010ez_error_ssn${messageType}`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranSocialSecurityNumber,
+        hasSession: veteranHasSession,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranDateOfBirth) {
+    const message = `hca_1010ez_error_dob${messageType}`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranDateOfBirth,
+        hasSession: veteranHasSession,
+      });
+      Sentry.captureMessage(message);
+    });
+  }
+}
+
 export function logValidateMarriageDateVaFacilityPage(
   errors,
   formField,
-  {
-    dateOfMarriage,
-    spouseDateOfBirth,
-    veteranDateOfBirth,
-    discloseFinancialInformation,
-  },
+  { veteranDateOfBirth, veteranFullName, veteranSocialSecurityNumber },
 ) {
-  if (!dateOfMarriage) return;
-
-  const vetDOB = moment(veteranDateOfBirth);
-  const spouseDOB = moment(spouseDateOfBirth);
-  const marriage = moment(dateOfMarriage);
-  if (
-    discloseFinancialInformation &&
-    spouseDOB.isAfter(marriage) &&
-    vetDOB.isAfter(marriage)
-  ) {
-    logMarriageError(
-      'marriage_date_VaFacilityPage',
-      'Date of marriage cannot be before the Veteran’s or the spouse’s date of birth',
-      spouseDateOfBirth,
+  if (hasSession()) {
+    logVeteranNameSsnDob(
+      '_form_hasSession',
+      veteranFullName,
+      veteranSocialSecurityNumber,
       veteranDateOfBirth,
-      dateOfMarriage,
+      true,
     );
-  } else if (discloseFinancialInformation && spouseDOB.isAfter(marriage)) {
-    logMarriageError(
-      'spouse_dob_VaFacilityPage',
-      'Date of marriage cannot be before the spouse’s date of birth',
-      spouseDateOfBirth,
+  } else {
+    logVeteranNameSsnDob(
+      '_form_notHasSession',
+      veteranFullName,
+      veteranSocialSecurityNumber,
       veteranDateOfBirth,
-      dateOfMarriage,
-    );
-  } else if (discloseFinancialInformation && vetDOB.isAfter(marriage)) {
-    logMarriageError(
-      'veteran_dob_VaFacilityPage',
-      'Date of marriage cannot be before the Veteran’s date of birth',
-      spouseDateOfBirth,
-      veteranDateOfBirth,
-      dateOfMarriage,
+      false,
     );
   }
 }

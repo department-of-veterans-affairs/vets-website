@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { ACCEPTED } from '../../actions';
+import { clearBotSessionStorage } from './utils';
 
 export const ChatboxDisclaimer = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,10 @@ export const ChatboxDisclaimer = () => {
           id="btnAcceptDisclaimer"
           data-testid="btnAcceptDisclaimer"
           className="usa-button-primary"
-          onClick={() => dispatch({ type: ACCEPTED })}
+          onClick={() => {
+            clearBotSessionStorage(true);
+            dispatch({ type: ACCEPTED });
+          }}
         >
           Start chat
         </button>

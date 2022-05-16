@@ -1,0 +1,37 @@
+import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
+
+class DirectDepositPage {
+  LINK_TEXT = 'Direct Deposit Information';
+
+  visitPage = () => {
+    cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
+  };
+
+  confirmDirectDepositIsAvailable = ({ visitPage = true } = {}) => {
+    // the DD item should exist in the sub nav
+    cy.findByRole('navigation', { name: /profile/i }).within(() => {
+      cy.findByRole('link', { name: PROFILE_PATH_NAMES.DIRECT_DEPOSIT }).should(
+        'exist',
+      );
+    });
+    if (visitPage) {
+      // going directly to DD should work
+      cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
+      cy.url().should(
+        'eq',
+        `${Cypress.config().baseUrl}${PROFILE_PATHS.DIRECT_DEPOSIT}`,
+      );
+    }
+  };
+
+  confirmDirectDepositIsNotAvailable = () => {
+    // the DD item should exist in the sub nav
+    cy.findByText(this.LINK_TEXT).should('not.exist');
+  };
+
+  checkVerifyMessageIsShowing = () => {
+    cy.findAllByTestId('direct-deposit-mfa-message').should('exist');
+  };
+}
+
+export default new DirectDepositPage();

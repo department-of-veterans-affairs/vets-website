@@ -2,5 +2,6 @@
   "appName": "Veteran Rapid Retraining Assistance Program",
   "entryFile": "./app-entry.jsx",
   "entryName": "1990s-edu-benefits",
-  "rootUrl": "/education/other-va-education-benefits/veteran-rapid-retraining-assistance/apply-for-vrrap-form-22-1990s"
+  "rootUrl": "/education/other-va-education-benefits/veteran-rapid-retraining-assistance/apply-for-vrrap-form-22-1990s",
+  "productId": "b2080fb8-aab8-47e2-92d2-e77e663bf4c9"
 }
