@@ -473,6 +473,9 @@ module.exports = async (env = {}) => {
         ),
         'process.env.TEST123': JSON.stringify('test123'),
         'process.env.API_URL_TEST': JSON.stringify(process.env.API_URL || ''),
+        'process.env.NODE_EXTRA_CA_CERTS': JSON.stringify(
+          process.env.NODE_EXTRA_CA_CERTS || '',
+        ),
       }),
 
       new webpack.DefinePlugin({

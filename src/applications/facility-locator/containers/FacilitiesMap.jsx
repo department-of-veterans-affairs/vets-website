@@ -652,6 +652,9 @@ const FacilitiesMap = props => {
             {process.env.API_URL_TEST || 'api url not set'}
           </h3>
           <h3 className="window-url">{window.location.href}</h3>
+          <h3 className="extra-ca-certs">
+            {process.env.NODE_EXTRA_CA_CERTS || 'ca certs not set'}
+          </h3>
         </div>
         <div className="facility-introtext">
           <p>

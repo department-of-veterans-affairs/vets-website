@@ -103,6 +103,9 @@ describe('Facility VA search', () => {
 
     cy.get('.window-url').should('exist');
     cy.get('.window-url').then($el => cy.task('log', $el.text()));
+
+    cy.get('.extra-ca-certs').should('exist');
+    cy.get('.extra-ca-certs').then($el => cy.task('log', $el.text()));
   });
 
   it('does a simple search and finds a result on the list', () => {
