@@ -1,4 +1,4 @@
-import mockDebt from './mock-users/mockDebts.json';
+import mockDebt from './mockDebts.json';
 
 const asyncReturn = (returnValue, delay = 300) =>
   new Promise(resolve => {
