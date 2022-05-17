@@ -1,3 +1,10 @@
+/*
+Redux action that handles API calls. Currently mocked, but the imports needed are 
+below whenever sandbox environments for local dev are set up. 
+
+This is also where GA events may be fired for successful / unsuccessful api calls
+*/
+
 // import recordEvent from 'platform/monitoring/record-event';
 // import { apiRequest } from 'platform/utilities/api';
 import mockData from '../tests/fixtures/messages-response.json';
