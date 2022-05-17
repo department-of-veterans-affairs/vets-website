@@ -4,7 +4,7 @@ import { mount, shallow } from 'enzyme';
 import sinon from 'sinon';
 import TransitionModal from 'platform/user/authentication/components/account-transition/TransitionModal';
 
-describe('', () => {
+describe('TransitionModal', () => {
   const props = {
     visible: false,
     onClose: sinon.spy(),
