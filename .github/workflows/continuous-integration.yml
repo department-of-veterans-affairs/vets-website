@@ -400,13 +400,11 @@ jobs:
       # exports app list and assigns to environmental variable at this step
 
       - name: Configure AWS credentials
-        # uses: aws-actions/configure-aws-credentials@v1
-        # with:
-        #   aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        #   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        #   aws-region: us-gov-west-1
-        uses: department-of-veterans-affairs/platform-release-tools-actions@awsCredential
-
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
         
       - name: Get va-vsp-bot token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -415,10 +413,10 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@ver1
 
       - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
+        uses: department-of-veterans-affairs/platform-release-tools-actions/configure-bigquery@ver1
 
       - name: Upload app list to BigQuery
         run: yarn generate-app-list
@@ -610,7 +608,7 @@ jobs:
 
       - name: Notify Slack about Contract test failures
         if: ${{ github.ref == 'refs/heads/master' && needs.contract-tests.result == 'failure' }}
-        uses: ./.github/workflows/slack-notify
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@ver1
         continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
@@ -638,10 +636,10 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@ver1
 
       - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
+        uses: department-of-veterans-affairs/platform-release-tools-actions/configure-bigquery@ver1
 
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -722,7 +720,7 @@ jobs:
 
       - name: Notify Slack about Unit test failures
         if: ${{ github.ref == 'refs/heads/master' && needs.unit-tests.result == 'failure' }}
-        uses: ./.github/workflows/slack-notify
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@ver1
         continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
@@ -750,10 +748,10 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@ver1
 
       - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
+        uses: department-of-veterans-affairs/platform-release-tools-actions/configure-bigquery@ver1
 
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -839,10 +837,10 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@ver1
 
       - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
+        uses: department-of-veterans-affairs/platform-release-tools-actions/configure-bigquery@ver1
 
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -891,7 +889,7 @@ jobs:
 
       - name: Notify Slack about Cypress test failures
         if: ${{ github.ref == 'refs/heads/master' && needs.cypress-tests.result == 'failure' }}
-        uses: ./.github/workflows/slack-notify
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@ver1
         continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
@@ -919,10 +917,10 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@ver1
 
       - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
+        uses: department-of-veterans-affairs/platform-release-tools-actions/configure-bigquery@ver1
 
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -1205,7 +1203,7 @@ jobs:
 
       - name: Notify application team in Slack
         if: env.ALERT_TEAMS == 'true' && steps.get-slack-groups.outputs.slack_groups != ''
-        uses: ./.github/workflows/slack-notify
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@ver1
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-slack-groups.outputs.slack_groups}} CI for your application failed on the `master` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> on failed workflow runs."}}]}]}'
@@ -1215,7 +1213,7 @@ jobs:
 
       - name: Notify Slack
         if: steps.get-slack-groups.outputs.slack_groups == ''
-        uses: ./.github/workflows/slack-notify
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@ver1
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "`master` branch CI in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
