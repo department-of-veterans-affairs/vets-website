@@ -192,7 +192,7 @@ export class CallToActionWidget extends Component {
     if (this.props.appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT) {
       if (!this.props.profile.multifactor) {
         if (this.props.featureToggles.profileShowNewDirectDepositCtaMessage) {
-          return <MFAV2 primaryButtonHandler={this.mfaHandler} />;
+          return <MFAV2 />;
         }
         return <MFA primaryButtonHandler={this.mfaHandler} />;
       }

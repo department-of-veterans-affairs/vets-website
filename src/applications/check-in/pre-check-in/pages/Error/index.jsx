@@ -48,9 +48,9 @@ const Error = ({ location }) => {
     <>
       {messages.map((message, index) => {
         return (
-          <p key={index} data-testid={message.testId}>
+          <div key={index} data-testid={message.testId}>
             {message.text}
-          </p>
+          </div>
         );
       })}
     </>

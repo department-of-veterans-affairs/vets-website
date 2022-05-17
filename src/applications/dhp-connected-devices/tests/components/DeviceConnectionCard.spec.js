@@ -7,7 +7,7 @@ describe('Device connection card', () => {
   it('Renders vendors name', () => {
     const card = renderInReduxProvider(
       <DeviceConnectionCard
-        device={{ vendor: 'Test Vendor' }}
+        device={{ name: 'Test Vendor' }}
         authUrl="www.google.com"
       />,
     );
