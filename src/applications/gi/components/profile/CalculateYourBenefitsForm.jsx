@@ -86,6 +86,36 @@ function CalculateYourBenefitsForm({
     };
   };
 
+  const recalculateBenefits = childSection => {
+    const accordionButtonId = `${createId(childSection)}-accordion-button`;
+    const { beneficiaryZIPError, beneficiaryZIP } = inputs;
+
+    if (
+      eligibility.giBillChapter === '33' &&
+      displayExtensionBeneficiaryInternationalCheckbox() &&
+      displayExtensionBeneficiaryZipcode &&
+      (beneficiaryZIPError || beneficiaryZIP.length !== 5)
+    ) {
+      toggleExpanded('learningFormatAndSchedule', true);
+      setTimeout(() => {
+        scrollTo('beneficiary-zip-question', getScrollOptions());
+        focusElement('input[name=beneficiaryZIPCode]');
+      }, 50);
+    } else {
+      setInputUpdated(false);
+      updateEstimatedBenefits();
+      setTimeout(() => {
+        focusElement(`#${accordionButtonId}`);
+      }, 50);
+    }
+
+    recordEvent({
+      event: 'cta-default-button-click',
+      'gibct-parent-accordion-section': 'Estimate your benefits',
+      'gibct-child-accordion-section': childSection,
+    });
+  };
+
   const handleBeneficiaryZIPCodeChanged = event => {
     if (!event.dirty) {
       onBeneficiaryZIPCodeChanged(event.value);
@@ -165,36 +195,6 @@ function CalculateYourBenefitsForm({
       beneficiaryLocationQuestion === 'other' ||
       (beneficiaryLocationQuestion === 'extension' && extension === 'other')
     );
-  };
-
-  const recalculateBenefits = childSection => {
-    const accordionButtonId = `${createId(childSection)}-accordion-button`;
-    const { beneficiaryZIPError, beneficiaryZIP } = inputs;
-
-    if (
-      eligibility.giBillChapter === '33' &&
-      displayExtensionBeneficiaryInternationalCheckbox() &&
-      displayExtensionBeneficiaryZipcode &&
-      (beneficiaryZIPError || beneficiaryZIP.length !== 5)
-    ) {
-      toggleExpanded('learningFormatAndSchedule', true);
-      setTimeout(() => {
-        scrollTo('beneficiary-zip-question', getScrollOptions());
-        focusElement('input[name=beneficiaryZIPCode]');
-      }, 50);
-    } else {
-      setInputUpdated(false);
-      updateEstimatedBenefits();
-      setTimeout(() => {
-        focusElement(`#${accordionButtonId}`);
-      }, 50);
-    }
-
-    recordEvent({
-      event: 'cta-default-button-click',
-      'gibct-parent-accordion-section': 'Estimate your benefits',
-      'gibct-child-accordion-section': childSection,
-    });
   };
 
   const updateEligibility = e => {
