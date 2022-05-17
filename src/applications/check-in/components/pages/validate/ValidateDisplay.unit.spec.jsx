@@ -133,7 +133,10 @@ describe('check-in experience', () => {
             </Provider>,
           );
 
-          expect(getByTestId('last-name-input').value).to.equal('foo');
+          expect(getByTestId('last-name-input')).to.have.attribute(
+            'value',
+            'foo',
+          );
         });
       });
       describe('last4Input', () => {
@@ -146,7 +149,7 @@ describe('check-in experience', () => {
             </Provider>,
           );
 
-          expect(getByTestId('last-4-input').value).to.equal('foo');
+          expect(getByTestId('last-4-input')).to.have.attribute('value', 'foo');
         });
       });
       describe('dobInput', () => {
