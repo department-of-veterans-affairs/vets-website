@@ -8,6 +8,7 @@ module.exports = {
     'correct-apostrophe': require('./rules/correct-apostrophe'),
     'cypress-viewport-deprecated': require('./rules/cypress-viewport-deprecated.js'),
     'prefer-web-component-library': require('./rules/prefer-web-component-library'),
+    'no-cross-app-imports': require('./rules/no-cross-app-imports'),
   },
   rulesConfig: {
     'proptypes-camel-cased': 2,
@@ -28,5 +29,6 @@ module.exports = {
     'correct-apostrophe': 1,
     'cypress-viewport-deprecated': 1,
     'prefer-web-component-library': 1,
+    'no-cross-app-imports': 2,
   },
 };
