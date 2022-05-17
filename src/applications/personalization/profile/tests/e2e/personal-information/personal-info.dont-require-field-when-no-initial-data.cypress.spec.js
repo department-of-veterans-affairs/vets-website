@@ -9,35 +9,28 @@ describe('Personal information', () => {
         isEnhanced: true,
         personalData: set(
           mockPersonalInformationEnhanced,
-          'data.attributes.preferredName',
-          '',
+          'data.attributes.genderIdentity',
+          { code: null, name: null },
         ),
       });
     });
 
-    it('should show the preferred name field as not required and allow cancel', () => {
-      cy.findByLabelText('Edit Preferred name')
+    it('should show the Gender Identity field as not required and allow cancel', () => {
+      cy.findByLabelText('Edit Gender identity')
         .should('exist')
         .click({ waitForAnimations: true });
 
-      cy.findByText(
-        'Provide your preferred name (25 characters maximum)',
-      ).should('exist');
+      cy.findByText('Select your gender identity').should('exist');
 
       cy.findByText(`(*Required)`).should('not.exist');
-
-      // if we clear the field and attempt to update the error should appear
-      cy.get('input[name="root_preferredName"]')
-        .should('exist')
-        .clear();
 
       cy.findByTestId('cancel-edit-button')
         .should('exist')
         .click({ waitForAnimations: true });
 
-      cy.get('#root_preferredName-error-message').should('not.exist');
+      cy.get('#root_genderIdentity-error-message').should('not.exist');
 
-      cy.get('input[name="root_preferredName"]').should('not.exist');
+      cy.get('#root_genderIdentity-label').should('not.exist');
 
       cy.injectAxeThenAxeCheck();
     });

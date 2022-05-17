@@ -1,8 +1,9 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 import { useTranslation, Trans } from 'react-i18next';
+import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 
 import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import BackButton from '../../../components/BackButton';
@@ -15,12 +16,20 @@ import { createAnalyticsSlug } from '../../../utils/analytics';
 import { sortAppointmentsByStartTime } from '../../../utils/appointment';
 
 const DisplayMultipleAppointments = props => {
-  const { appointments, getMultipleAppointments, router, token } = props;
+  const { appointments, router, token } = props;
   const { t } = useTranslation();
+  const [shouldRefresh, setShouldRefresh] = useState(false);
+  const { goToErrorPage } = useFormRouting(router);
 
   useEffect(() => {
     focusElement('h1');
   }, []);
+
+  try {
+    useGetCheckInData(shouldRefresh, false, true);
+  } catch (e) {
+    goToErrorPage();
+  }
 
   const handleClick = useCallback(
     () => {
@@ -28,11 +37,12 @@ const DisplayMultipleAppointments = props => {
         event: createAnalyticsSlug('refresh-appointments-button-clicked'),
       });
 
-      getMultipleAppointments();
+      setShouldRefresh(true);
       focusElement('h1');
     },
-    [getMultipleAppointments],
+    [setShouldRefresh],
   );
+
   const { goToPreviousPage } = useFormRouting(router);
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);

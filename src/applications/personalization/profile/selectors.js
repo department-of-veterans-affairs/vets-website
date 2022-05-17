@@ -74,7 +74,10 @@ export const fullNameLoadError = state => {
 };
 
 export const personalInformationLoadError = state => {
-  return state.vaProfile?.personalInformation?.errors;
+  return (
+    state.vaProfile?.personalInformation?.errors ||
+    state.vaProfile?.personalInformation?.error
+  );
 };
 
 export const militaryInformationLoadError = state => {

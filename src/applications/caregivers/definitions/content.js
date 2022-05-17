@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const links = {
   findLocations: {
@@ -95,4 +96,8 @@ export const SecondaryCaregiverCopy = ({ label }) => {
       <PrivacyPolicy />
     </div>
   );
+};
+
+SecondaryCaregiverCopy.propTypes = {
+  label: PropTypes.string,
 };
