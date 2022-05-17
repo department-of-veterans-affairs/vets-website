@@ -77,6 +77,11 @@ const {
 // based on user disability rating >= 50 or user self directed compensation type = high
 const notHighDisability = formData =>
   !formData['view:hcaShortFormEnabled'] ||
+  (!formData['view:totalDisabilityRating'] ||
+    formData['view:totalDisabilityRating'] < HIGH_DISABILITY);
+
+const notHighDisabilityNotSelfDisclosure = formData =>
+  !formData['view:hcaShortFormEnabled'] ||
   (formData.vaCompensationType !== 'highDisability' &&
     (!formData['view:totalDisabilityRating'] ||
       formData['view:totalDisabilityRating'] < HIGH_DISABILITY));
@@ -267,9 +272,7 @@ const formConfig = {
         vaBenefits: {
           path: 'va-benefits/basic-information',
           title: 'VA benefits',
-          depends: formData =>
-            !formData['view:totalDisabilityRating'] ||
-            formData['view:totalDisabilityRating'] < HIGH_DISABILITY,
+          depends: notHighDisability,
           uiSchema: basicInformation.uiSchema,
           schema: basicInformation.schema,
         },
@@ -301,14 +304,14 @@ const formConfig = {
         serviceInformation: {
           path: 'military-service/service-information',
           title: 'Service periods',
-          depends: notHighDisability,
+          depends: notHighDisabilityNotSelfDisclosure,
           uiSchema: serviceInformation.uiSchema,
           schema: serviceInformation.schema,
         },
         additionalInformation: {
           path: 'military-service/additional-information',
           title: 'Service history',
-          depends: notHighDisability,
+          depends: notHighDisabilityNotSelfDisclosure,
           uiSchema: additionalInformation.uiSchema,
           schema: additionalInformation.schema,
         },
@@ -328,14 +331,14 @@ const formConfig = {
         financialDisclosure: {
           path: 'household-information/financial-disclosure',
           title: 'Financial disclosure',
-          depends: notHighDisability,
+          depends: notHighDisabilityNotSelfDisclosure,
           uiSchema: financialDisclosure.uiSchema,
           schema: financialDisclosure.schema,
         },
         maritalStatus: {
           path: 'household-information/marital-status',
           title: 'Marital status information',
-          depends: notHighDisability,
+          depends: notHighDisabilityNotSelfDisclosure,
           initialData: {},
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
@@ -389,7 +392,7 @@ const formConfig = {
         medicare: {
           path: 'insurance-information/medicare',
           title: 'Medicare coverage',
-          depends: notHighDisability,
+          depends: notHighDisabilityNotSelfDisclosure,
           initialData: {},
           uiSchema: medicare.uiSchema,
           schema: medicare.schema,

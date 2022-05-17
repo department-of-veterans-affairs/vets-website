@@ -53,7 +53,7 @@ const PersonalAuthenticatedInformation = ({
         });
       } else if (
         (user && user.email === 'vets.gov.user+228@gmail.com') ||
-        user.email === 'vets.gov.user+229@gmail.com'
+        user.email === 'vets.gov.user+226@gmail.com'
       ) {
         setFormData({
           ...formData,
