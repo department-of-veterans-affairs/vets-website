@@ -45,6 +45,8 @@ import ProfileInfoTable from '../ProfileInfoTable';
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import { benefitTypes } from '~/applications/personalization/common/constants';
 
+import NotEligible from './alerts/NotEligible';
+
 export const BankInfo = ({
   isLOA3,
   isDirectDepositSetUp,
@@ -259,50 +261,6 @@ export const BankInfo = ({
     </>
   );
 
-  const notEligibleContentV2 = (
-    <>
-      <p className="vads-u-margin-top--0">
-        Our records show that you don’t receive VA disability compensation or
-        pension payments.
-      </p>
-      <p className="vads-u-margin-top--0">
-        If you think this is an error, call us at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} /> (
-        <a href="tel:711" aria-label="TTY: 7 1 1.">
-          TTY: 711
-        </a>
-        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
-      </p>
-      <p>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href={`https://www.va.gov/${benefitTypeShort}/eligibility/`}
-          onClick={() => {
-            recordEvent({
-              event: 'profile-navigation',
-              'profile-action': 'view-link',
-              'profile-section': `${benefitTypeShort}-benefits`,
-            });
-          }}
-        >
-          Learn more about disability eligibility
-        </a>
-      </p>
-      {typeIsCNP && (
-        <p className="vads-u-margin-bottom--0">
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://www.va.gov/pension/eligibility/"
-          >
-            Learn more about VA pension eligibility
-          </a>
-        </p>
-      )}
-    </>
-  );
-
   // When editing/setting up direct deposit, we'll show a form that accepts bank
   // account information
   const editingBankInfoContent = (
@@ -404,7 +362,9 @@ export const BankInfo = ({
       return notSetUpContent;
     }
     if (useAlwaysShowDirectDepositDisplay) {
-      return notEligibleContentV2;
+      return (
+        <NotEligible benefitType={benefitTypeShort} typeIsCNP={typeIsCNP} />
+      );
     }
     return notEligibleContent;
   };
