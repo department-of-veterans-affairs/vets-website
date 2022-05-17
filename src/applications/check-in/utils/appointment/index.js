@@ -1,4 +1,4 @@
-import { startOfDay } from 'date-fns';
+import { parseISO, startOfDay } from 'date-fns';
 import { ELIGIBILITY } from './eligibility';
 import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
 
@@ -20,6 +20,8 @@ import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
 /**
  * @param {Array<Appointment>} appointments
  * @param {Appointment} currentAppointment
+ *
+ * @returns {boolean}
  */
 const hasMoreAppointmentsToCheckInto = (appointments, currentAppointment) => {
   return (
@@ -33,12 +35,49 @@ const hasMoreAppointmentsToCheckInto = (appointments, currentAppointment) => {
  * Check if any appointment was canceled.
  *
  * @param {Array<Appointment>} appointments
+ *
+ * @returns {boolean}
  */
 const appointmentWasCanceled = appointments => {
   const statusIsCanceled = appointment =>
     appointment.status?.startsWith('CANCELLED');
 
   return Array.isArray(appointments) && appointments.some(statusIsCanceled);
+};
+
+/**
+ * Get the interval from now until the end of the next check-in window.
+ *
+ * @param {Array<Appointment>} appointments
+ *
+ * @returns {number} ms until the end of the next check-in window. (0 if no appointments are eligible for check-in)
+ */
+const intervalUntilNextAppointmentIneligibleForCheckin = appointments => {
+  let interval = 0;
+
+  const eligibleAppointments = appointments.filter(
+    appointment => appointment.eligibility === ELIGIBILITY.ELIGIBLE,
+  );
+
+  let checkInWindowEnds = eligibleAppointments.map(
+    appointment => appointment.checkInWindowEnd,
+  );
+
+  // @ts-ignore
+  checkInWindowEnds.sort((a, b) => {
+    // @ts-ignore
+    return parseISO(a) > parseISO(b);
+  });
+
+  checkInWindowEnds = checkInWindowEnds.filter(
+    checkInWindowEnd => parseISO(checkInWindowEnd) > Date.now(),
+  );
+
+  if (checkInWindowEnds[0]) {
+    interval = Math.round(parseISO(checkInWindowEnds[0]) - Date.now());
+  }
+
+  return interval;
 };
 
 /**
@@ -118,6 +157,7 @@ const preCheckinExpired = appointments => {
 export {
   appointmentWasCanceled,
   hasMoreAppointmentsToCheckInto,
+  intervalUntilNextAppointmentIneligibleForCheckin,
   sortAppointmentsByStartTime,
   preCheckinAlreadyCompleted,
   removeTimeZone,

@@ -14,7 +14,10 @@ import LanguagePicker from '../../../components/LanguagePicker';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { sortAppointmentsByStartTime } from '../../../utils/appointment';
+import {
+  intervalUntilNextAppointmentIneligibleForCheckin,
+  sortAppointmentsByStartTime,
+} from '../../../utils/appointment';
 
 import { makeSelectCurrentContext } from '../../../selectors';
 
@@ -37,11 +40,19 @@ const DisplayMultipleAppointments = props => {
     () => {
       focusElement('h1');
 
+      const refreshInterval = intervalUntilNextAppointmentIneligibleForCheckin(
+        appointments,
+      );
+      if (refreshInterval) {
+        // Refresh the page 5 seconds before the checkIn window expires.
+        setInterval(() => refreshCheckInData(), refreshInterval - 5000);
+      }
+
       if (checkInDataError) {
         goToErrorPage();
       }
     },
-    [checkInDataError, goToErrorPage, refreshCheckInData],
+    [appointments, checkInDataError, goToErrorPage, refreshCheckInData],
   );
 
   const handleClick = useCallback(
