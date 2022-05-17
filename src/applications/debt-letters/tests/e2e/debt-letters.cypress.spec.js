@@ -32,7 +32,7 @@ describe.skip('Debt Letters', () => {
   });
 
   it('displays other va debts', () => {
-    cy.findByTestId('other-va-debts-ltr-body').should('exist');
+    cy.findByTestId('other-va-copay-body').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
