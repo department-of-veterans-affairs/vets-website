@@ -8,11 +8,35 @@ import {
   WIZARD_STATUS,
 } from '../constants';
 
+// testing
+Cypress.Commands.add('fillWCDate', (fieldName, dateString) => {
+  const date = dateString.split('-').map(part => parseInt(part, 10).toString());
+  cy.get(`va-date[name="${fieldName}"]`)
+    .shadow()
+    .then(el => {
+      cy.wrap(el)
+        .find('va-select.select-month')
+        .shadow()
+        .find('select')
+        .select(date[1]);
+      cy.wrap(el)
+        .find('va-select.select-day')
+        .shadow()
+        .find('select')
+        .select(date[2]);
+      cy.wrap(el)
+        .find('va-text-input.input-year')
+        .shadow()
+        .find('input')
+        .clear()
+        .type(date[0]);
+    });
+});
+
 // Date selects don't include leading zeros
-const [mockYear120, mockMonth120, mockDay120] = moment()
+const mock120 = moment()
   .add(120, 'days')
-  .format('YYYY-M-D')
-  .split('-');
+  .format('YYYY-M-D');
 // Date saved to sessionStorage includes leading zeros
 const mockDate = moment()
   .add(120, 'days')
@@ -105,13 +129,9 @@ describe('526 wizard', () => {
       label: 'Are you on active duty right now?',
       value: 'yes-bdd',
     });
-    cy.get('.form-datefield-month').should('exist');
 
-    cy.findByLabelText(/month/i).select(mockMonth120);
-    cy.findByLabelText(/day/i).select(mockDay120);
-    cy.findByLabelText(/year/i)
-      .clear()
-      .type(mockYear120);
+    cy.get('va-date').should('exist');
+    cy.fillWCDate('discharge-date', mock120);
 
     cy.checkStorage(FORM_STATUS_BDD, 'true');
     cy.checkStorage(SAVED_SEPARATION_DATE, mockDate);
