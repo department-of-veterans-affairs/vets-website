@@ -86,6 +86,27 @@ function CalculateYourBenefitsForm({
     };
   };
 
+  const toggleExpanded = (expandedName, isExpanded) => {
+    const newExpanded = {};
+    Object.keys(expanded).forEach(key => {
+      const flipped = expanded[expandedName] ? false : expanded[expandedName];
+      newExpanded[key] = expandedName === key ? isExpanded : flipped;
+    });
+    setExpanded(newExpanded);
+    const field = document.getElementById('estimate-your-benefits-accordion');
+    if (field) {
+      field.scrollIntoView();
+    }
+  };
+
+  const displayExtensionBeneficiaryInternationalCheckbox = () => {
+    const { beneficiaryLocationQuestion, extension } = inputs;
+    return (
+      beneficiaryLocationQuestion === 'other' ||
+      (beneficiaryLocationQuestion === 'extension' && extension === 'other')
+    );
+  };
+
   const recalculateBenefits = childSection => {
     const accordionButtonId = `${createId(childSection)}-accordion-button`;
     const { beneficiaryZIPError, beneficiaryZIP } = inputs;
@@ -174,27 +195,6 @@ function CalculateYourBenefitsForm({
     }
 
     if (!environment.isProduction()) recalculateBenefits();
-  };
-
-  const toggleExpanded = (expandedName, isExpanded) => {
-    const newExpanded = {};
-    Object.keys(expanded).forEach(key => {
-      const flipped = expanded[expandedName] ? false : expanded[expandedName];
-      newExpanded[key] = expandedName === key ? isExpanded : flipped;
-    });
-    setExpanded(newExpanded);
-    const field = document.getElementById('estimate-your-benefits-accordion');
-    if (field) {
-      field.scrollIntoView();
-    }
-  };
-
-  const displayExtensionBeneficiaryInternationalCheckbox = () => {
-    const { beneficiaryLocationQuestion, extension } = inputs;
-    return (
-      beneficiaryLocationQuestion === 'other' ||
-      (beneficiaryLocationQuestion === 'extension' && extension === 'other')
-    );
   };
 
   const updateEligibility = e => {
