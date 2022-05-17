@@ -1,14 +1,14 @@
 import React from 'react';
 import { expect } from 'chai';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import { DeviceConnectionCard } from '../../components/DeviceConnectionCard';
+import { DeviceDisconnectionCard } from '../../components/DeviceDisconnectionCard';
 
-describe('Device connection card', () => {
+describe('Device to connect card', () => {
   it('Renders vendors name', () => {
     const card = renderInReduxProvider(
-      <DeviceConnectionCard
+      <DeviceDisconnectionCard
         device={{ name: 'Test Vendor' }}
-        authUrl="www.google.com"
+        onClickHandler="www.google.com"
       />,
     );
 
