@@ -477,6 +477,7 @@ module.exports = async (env = {}) => {
           process.env.NODE_EXTRA_CA_CERTS || '',
         ),
         'process.env.TEST_A': JSON.stringify(process.env.TEST_A || ''),
+        'process.env.TEST_B': JSON.stringify(process.env.TEST_B || ''),
       }),
 
       new webpack.DefinePlugin({
