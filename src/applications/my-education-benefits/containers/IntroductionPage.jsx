@@ -91,7 +91,7 @@ export const IntroductionPage = ({ firstName, eligibility, user, route }) => {
         eligibility &&
         !user.profile.savedForms.some(
           p => p.form === VA_FORM_IDS.FORM_22_1990EZ,
-        ) && <h3>Begin your application for education benefits</h3>}
+        ) && <h2>Begin your application for education benefits</h2>}
 
       {!user.login.currentlyLoggedIn || (firstName && eligibility) ? (
         <SaveInProgressIntro

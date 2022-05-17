@@ -9,7 +9,7 @@ import {
 } from './e2e/fixtures/mocks/letters';
 
 describe('Authed Letter Test', () => {
-  it('confirms authed letter functionality', () => {
+  it.skip('confirms authed letter functionality', () => {
     cy.intercept('GET', '/v0/letters/beneficiary', benefitSummaryOptions).as(
       'benefitSummaryOptions',
     );

@@ -1,26 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { PATTERNS } from '@department-of-veterans-affairs/component-library/Telephone';
-import { apiRequest } from 'platform/utilities/api';
 import DebtLetterCard from './DebtLetterCard';
 import { ErrorMessage, DowntimeMessage } from './Alerts';
 import OtherVADebts from '../../medical-copays/components/OtherVADebts';
 import { cdpAccessToggle } from '../../medical-copays/utils/helpers';
+import alertMessage from '../../combined-debt-portal/combined/utils/alert-messages';
+import {
+  ALERT_TYPES,
+  APP_TYPES,
+  API_RESPONSES,
+} from '../../combined-debt-portal/combined/utils/helpers';
 
-const fetchCopaysResponseAsync = async () => {
-  return apiRequest('/medical_copays')
-    .then(response => {
-      return response.data.length > 0;
-    })
-    .catch(err => {
-      return !err;
-    });
-};
-
-const DebtCardsList = ({ debts, errors }) => {
-  const [hasCopays, setHasCopays] = useState(false);
+const DebtCardsList = ({ debts, errors, hasCopays }) => {
   const showCDPComponents = useSelector(state => cdpAccessToggle(state));
   const error = errors.length ? errors[0] : [];
 
@@ -31,11 +25,29 @@ const DebtCardsList = ({ debts, errors }) => {
     return <ErrorMessage />;
   };
 
-  useEffect(() => {
-    fetchCopaysResponseAsync().then(hasCopaysResponse =>
-      setHasCopays(hasCopaysResponse),
-    );
-  }, []);
+  const renderOtherVA = () => {
+    const alertInfo = alertMessage(ALERT_TYPES.ERROR, APP_TYPES.COPAY);
+    if (hasCopays > 0) {
+      return <OtherVADebts module={APP_TYPES.COPAY} />;
+    }
+    if (hasCopays === API_RESPONSES.ERROR) {
+      return (
+        <>
+          <h3>Your other VA bills</h3>
+          <va-alert
+            data-testid={alertInfo.testID}
+            status={alertInfo.alertStatus}
+          >
+            <h4 slot="headline" className="vads-u-font-size--h3">
+              {alertInfo.header}
+            </h4>
+            {alertInfo.body}
+          </va-alert>
+        </>
+      );
+    }
+    return <></>;
+  };
 
   return (
     <>
@@ -99,17 +111,17 @@ const DebtCardsList = ({ debts, errors }) => {
         </h3>
         <p className="vads-u-font-family--sans">
           If you received a letter about a VA benefit debt that isn’t listed
-          here, call us at
+          here, call us at{' '}
           <va-telephone
             contact="800-827-0648"
             className="vads-u-margin-x--0p5"
-          />
-          (or
+          />{' '}
+          (or{' '}
           <va-telephone
             contact="1-612-713-6415"
             pattern={PATTERNS.OUTSIDE_US}
             className="vads-u-margin-x--0p5"
-          />
+          />{' '}
           from overseas).
         </p>
         <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
@@ -123,7 +135,7 @@ const DebtCardsList = ({ debts, errors }) => {
           to learn about your payment options.
         </p>
 
-        {showCDPComponents && hasCopays && <OtherVADebts module="LTR" />}
+        {showCDPComponents && renderOtherVA()}
 
         <h3
           id="downloadDebtLetters"
@@ -141,7 +153,7 @@ const DebtCardsList = ({ debts, errors }) => {
           className="vads-u-margin-top--1 vads-u-font-family--sans"
           data-testid="download-letters-link"
         >
-          Download letters related to your va debt
+          Download letters related to your VA debt
         </Link>
       </section>
     </>
@@ -155,6 +167,7 @@ DebtCardsList.propTypes = {
     }),
   ),
   errors: PropTypes.array,
+  hasCopays: PropTypes.number,
 };
 
 DebtCardsList.defaultProps = {
