@@ -320,7 +320,7 @@ jobs:
 
       - name: Security Audit
         timeout-minutes: 30
-        uses: department-of-veterans-affairs/platform-release-tools-actions@master
+        uses: department-of-veterans-affairs/platform-release-tools-actions/security-check@ver1
 
   linting:
     name: Linting (All)
