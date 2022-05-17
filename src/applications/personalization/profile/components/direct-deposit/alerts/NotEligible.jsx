@@ -15,7 +15,9 @@ const NotEligible = props => {
     : 'Learn more about GI Bill and other education benefit eligibility';
   return (
     <>
-      <p className="vads-u-margin-top--0">{headerText}</p>
+      <p className="vads-u-margin-top--0" data-testid={`${benefitType}-header`}>
+        {headerText}
+      </p>
       <p className="vads-u-margin-top--0">
         If you think this is an error, call us at{' '}
         <Telephone contact={CONTACTS.VA_BENEFITS} /> (

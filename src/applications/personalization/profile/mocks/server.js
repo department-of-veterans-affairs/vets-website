@@ -15,6 +15,8 @@ const { generateFeatureToggles } = require('./feature-toggles');
 
 const { paymentHistory } = require('./payment-history');
 
+const { defaultResponse } = require('./bank-accounts');
+
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/user': user.user72Success,
@@ -40,18 +42,7 @@ const responses = {
       },
     },
   },
-  'GET /v0/profile/ch33_bank_accounts': {
-    data: {
-      id: '',
-      type: 'hashes',
-      attributes: {
-        accountType: null,
-        accountNumber: null,
-        financialInstitutionRoutingNumber: null,
-        financialInstitutionName: null,
-      },
-    },
-  },
+  'GET /v0/profile/ch33_bank_accounts': defaultResponse,
   'GET /v0/profile/service_history': {
     data: {
       id: '',
