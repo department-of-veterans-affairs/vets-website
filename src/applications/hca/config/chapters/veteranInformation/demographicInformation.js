@@ -62,62 +62,62 @@ export default {
       'ui:field': DemographicField,
       'ui:title': ' ',
       isAmericanIndianOrAlaskanNative: {
-        // 'ui:title': 'American Indian or Alaskan Native',
-        'ui:title': (
-          <span
-            aria-label={`${demographicQuestion} American Indian or Alaskan Native`}
-          >
-            American Indian or Alaskan Native
-          </span>
-        ),
+        'ui:title': 'American Indian or Alaskan Native',
+        // 'ui:title': (
+        //   <span
+        //     aria-label={`${demographicQuestion} American Indian or Alaskan Native`}
+        //   >
+        //     American Indian or Alaskan Native
+        //   </span>
+        // ),
       },
       isSpanishHispanicLatino: {
-        // 'ui:title': ' Hispanic, Latino, or Spanish',
-        'ui:title': (
-          <span
-            aria-label={`${demographicQuestion} Hispanic, Latino, or Spanish`}
-          >
-            Hispanic, Latino, or Spanish
-          </span>
-        ),
+        'ui:title': ' Hispanic, Latino, or Spanish',
+        // 'ui:title': (
+        //   <span
+        //     aria-label={`${demographicQuestion} Hispanic, Latino, or Spanish`}
+        //   >
+        //     Hispanic, Latino, or Spanish
+        //   </span>
+        // ),
       },
       isAsian: {
-        // 'ui:title': 'Asian',
-        'ui:title': (
-          <span aria-label={`${demographicQuestion} Asian`}>Asian</span>
-        ),
+        'ui:title': 'Asian',
+        // 'ui:title': (
+        //   <span aria-label={`${demographicQuestion} Asian`}>Asian</span>
+        // ),
       },
       isBlackOrAfricanAmerican: {
-        // 'ui:title': 'Black or African American',
-        'ui:title': (
-          <span aria-label={`${demographicQuestion} Black or African American`}>
-            Black or African American
-          </span>
-        ),
+        'ui:title': 'Black or African American',
+        // 'ui:title': (
+        //   <span aria-label={`${demographicQuestion} Black or African American`}>
+        //     Black or African American
+        //   </span>
+        // ),
       },
       isNativeHawaiianOrOtherPacificIslander: {
-        // 'ui:title': 'Native Hawaiian or Other Pacific Islander',
-        'ui:title': (
-          <span
-            aria-label={`${demographicQuestion} Native Hawaiian or Other Pacific Islander`}
-          >
-            Native Hawaiian or Other Pacific Islander
-          </span>
-        ),
+        'ui:title': 'Native Hawaiian or Other Pacific Islander',
+        // 'ui:title': (
+        //   <span
+        //     aria-label={`${demographicQuestion} Native Hawaiian or Other Pacific Islander`}
+        //   >
+        //     Native Hawaiian or Other Pacific Islander
+        //   </span>
+        // ),
       },
       isWhite: {
-        // 'ui:title': 'White',
-        'ui:title': (
-          <span aria-label={`${demographicQuestion} White`}>White</span>
-        ),
+        'ui:title': 'White',
+        // 'ui:title': (
+        //   <span aria-label={`${demographicQuestion} White`}>White</span>
+        // ),
       },
       hasDemographicNoAnswer: {
-        // 'ui:title': 'Prefer not to answer',
-        'ui:title': (
-          <span aria-label={`${demographicQuestion} Prefer not to answer`}>
-            Prefer not to answer
-          </span>
-        ),
+        'ui:title': 'Prefer not to answer',
+        // 'ui:title': (
+        //   <span aria-label={`${demographicQuestion} Prefer not to answer`}>
+        //     Prefer not to answer
+        //   </span>
+        // ),
       },
     },
   },
