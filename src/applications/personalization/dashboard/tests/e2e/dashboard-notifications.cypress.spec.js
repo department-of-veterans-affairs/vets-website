@@ -123,6 +123,10 @@ describe('The My VA Dashboard - Notifications', () => {
     });
     it('and they dismiss a notification - C16723', () => {
       cy.intercept(
+        '/v0/onsite_notifications',
+        notificationSuccessNotDismissed(),
+      ).as('notifications');
+      cy.intercept(
         'PATCH',
         `v0/onsite_notifications/e4213b12-eb44-4b2f-bac5-3384fbde0b7a`,
         {
@@ -131,10 +135,6 @@ describe('The My VA Dashboard - Notifications', () => {
           delay: 100,
         },
       );
-      cy.intercept(
-        '/v0/onsite_notifications',
-        notificationSuccessNotDismissed(),
-      ).as('notifications');
       cy.wait(['@notifications']);
       cy.findByTestId('dashboard-notifications').should('exist');
       cy.get('va-alert')
