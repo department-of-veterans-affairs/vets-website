@@ -106,6 +106,12 @@ describe('Facility VA search', () => {
 
     cy.get('.extra-ca-certs').should('exist');
     cy.get('.extra-ca-certs').then($el => cy.task('log', $el.text()));
+
+    cy.get('.test-a').should('exist');
+    cy.get('.test-a').then($el => cy.task('log', $el.text()));
+
+    cy.get('.test-b').should('exist');
+    cy.get('.test-b').then($el => cy.task('log', $el.text()));
   });
 
   it('does a simple search and finds a result on the list', () => {

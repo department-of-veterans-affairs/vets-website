@@ -73,8 +73,11 @@ jobs:
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+      TEST_A: 'testA'
+      TEST_B: 'testB'
 
     steps:
+      # ADD THIS STEP
       - name: Get Mapbox Token
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:

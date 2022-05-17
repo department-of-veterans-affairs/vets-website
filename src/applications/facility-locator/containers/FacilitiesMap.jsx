@@ -655,6 +655,8 @@ const FacilitiesMap = props => {
           <h3 className="extra-ca-certs">
             {process.env.NODE_EXTRA_CA_CERTS || 'ca certs not set'}
           </h3>
+          <h3 className="test-a">{process.env.TEST_A}</h3>
+          <h3 className="test-b">{process.env.TEST_B}</h3>
         </div>
         <div className="facility-introtext">
           <p>

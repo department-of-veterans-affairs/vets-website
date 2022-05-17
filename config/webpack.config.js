@@ -11,12 +11,12 @@ const fs = require('fs');
 
 console.log('__dirname: ', __dirname);
 
-fs.readFile('.env', 'utf8', (err, data) => {
+fs.readFile('/.env', 'utf8', (err, data) => {
   if (err) {
     console.error(err);
     return;
   }
-  console.log('CONTENTS: .env');
+  console.log('CONTENTS: /.env');
   console.log(data);
 });
 
@@ -476,6 +476,7 @@ module.exports = async (env = {}) => {
         'process.env.NODE_EXTRA_CA_CERTS': JSON.stringify(
           process.env.NODE_EXTRA_CA_CERTS || '',
         ),
+        'process.env.TEST_A': JSON.stringify(process.env.TEST_A || ''),
       }),
 
       new webpack.DefinePlugin({
