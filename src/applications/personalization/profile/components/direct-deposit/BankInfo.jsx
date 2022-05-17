@@ -59,6 +59,7 @@ export const BankInfo = ({
   type,
   typeIsCNP,
   setFormIsDirty,
+  setViewingPayments,
   useAlwaysShowDirectDepositDisplay,
 }) => {
   const formPrefix = type;
@@ -361,6 +362,7 @@ export const BankInfo = ({
     if (isEligibleToSetUpDirectDeposit) {
       return notSetUpContent;
     }
+    setViewingPayments(old => ({ ...old, [type]: false }));
     if (useAlwaysShowDirectDepositDisplay) {
       return (
         <NotEligible benefitType={benefitTypeShort} typeIsCNP={typeIsCNP} />
@@ -442,6 +444,7 @@ BankInfo.propTypes = {
   isLOA3: PropTypes.bool.isRequired,
   saveBankInformation: PropTypes.func.isRequired,
   setFormIsDirty: PropTypes.func.isRequired,
+  setViewingPayments: PropTypes.func.isRequired,
   toggleEditState: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   directDepositAccountInfo: PropTypes.shape({
