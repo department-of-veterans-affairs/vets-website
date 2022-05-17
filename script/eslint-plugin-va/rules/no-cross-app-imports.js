@@ -15,9 +15,9 @@ module.exports = {
         // is the import from vets-website?
         if (pathToImport.includes('src/applications')) {
           const regex = new RegExp('applications/(?<app>[a-zA-Z0-9_-]+)/');
-          const importedApp = pathToImport.match(regex).matches?.app;
+          const importedApp = pathToImport.match(regex)?.groups?.app;
           const currentPath = context.getCwd();
-          const currentApp = currentPath.match(regex).matches?.app;
+          const currentApp = currentPath.match(regex)?.groups?.app;
           // is the import a cross app import?
           if (importedApp !== currentApp) {
             context.report({

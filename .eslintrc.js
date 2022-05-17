@@ -64,6 +64,7 @@ module.exports = {
     ],
     'va/correct-apostrophe': 1,
     'va/prefer-web-component-library': 1,
+    'va/no-cross-app-imports': 2,
   },
   overrides: [
     {
