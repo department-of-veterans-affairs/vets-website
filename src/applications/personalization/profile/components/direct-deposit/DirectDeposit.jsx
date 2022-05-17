@@ -74,6 +74,10 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
   const [eduFormIsDirty, setEduFormIsDirty] = useState(false);
 
   const [viewingIsRestricted, setViewingIsRestricted] = useState(false);
+  const [viewingPayments, setViewingPayments] = useState({
+    [benefitTypes.CNP]: true,
+    [benefitTypes.EDU]: true,
+  });
 
   const allFormsAreEmpty = eduFormIsDirty && cnpFormIsDirty;
 
@@ -196,6 +200,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
             <BankInfo
               type={benefitTypes.CNP}
               setFormIsDirty={setCnpFormIsDirty}
+              setViewingPayments={setViewingPayments}
             />
           </DowntimeNotification>
         ) : (
@@ -207,8 +212,10 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
             <BankInfo
               type={benefitTypes.EDU}
               setFormIsDirty={setEduFormIsDirty}
+              setViewingPayments={setViewingPayments}
             />
-            <PaymentHistory />
+            {(viewingPayments[benefitTypes.CNP] ||
+              viewingPayments[benefitTypes.EDU]) && <PaymentHistory />}
           </>
         ) : null}
       </DirectDepositWrapper>
