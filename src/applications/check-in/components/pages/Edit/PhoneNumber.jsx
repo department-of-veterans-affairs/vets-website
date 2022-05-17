@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
-import { VaTextInput } from 'web-components/react-bindings';
 import { isValidPhone } from 'platform/forms/validations';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -118,7 +117,7 @@ export default function PhoneNumber(props) {
         editingPage={editingPage}
         value={value}
       />
-      <VaTextInput
+      <va-text-input
         error={phoneErrorMessage}
         label={getLabelForEditField(key, { capitalizeFirstLetter: true })}
         maxlength={null}
@@ -127,7 +126,7 @@ export default function PhoneNumber(props) {
         onInput={onPhoneNumberInput}
         required
       />
-      <VaTextInput
+      <va-text-input
         error={extensionErrorMessage}
         label="Extension"
         maxlength={null}

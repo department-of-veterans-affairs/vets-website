@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
-import { VaTextInput } from 'web-components/react-bindings';
 import { isValidEmail } from 'platform/forms/validations';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -79,7 +78,7 @@ export default function Email(props) {
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--4  vads-u-padding-right--4 vads-u-padding-left-2 ">
       <Header value={value} what="email address" editingPage={editingPage} />
 
-      <VaTextInput
+      <va-text-input
         error={errorMessage}
         label={t('email-address')}
         maxlength={null}
