@@ -2,21 +2,23 @@
 
 ## Table of Contents
 
-- [What is this?](#what-is-this)
-- [Common commands](#common-commands)
-- [Building `vets-website`](#building-vets-website)
-  - [Building applications](#building-applications)
-  - [Building static content](#building-static-content)
-  - [Building both together](#building-both-together)
-- [Working in GitHub Codespaces](#working-in-github-codespaces)
-- [Running tests](#running-tests)
-  - [Unit tests](#unit-tests)
-  - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
-  - [Contract tests](#contract-tests)
-- [Running a mock API for local development](#running-a-mock-api-for-local-development)
-- [More commands](#more-commands)
-- [Supported Browsers](#supported-browsers)
-- [Additional Resources](#additional-resources)
+- [VA.gov !Build Status](#vagov-)
+  - [Table of Contents](#table-of-contents)
+  - [What is this?](#what-is-this)
+  - [Common commands](#common-commands)
+  - [Building `vets-website`](#building-vets-website)
+    - [Building applications](#building-applications)
+    - [Building static content](#building-static-content)
+    - [Building both together](#building-both-together)
+  - [Working in GitHub Codespaces](#working-in-github-codespaces)
+  - [Running tests](#running-tests)
+    - [Unit tests](#unit-tests)
+    - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
+    - [Contract tests](#contract-tests)
+  - [Running a mock API for local development](#running-a-mock-api-for-local-development)
+  - [More commands](#more-commands)
+  - [Supported Browsers](#supported-browsers)
+  - [Additional Resources](#additional-resources)
 
 ## What is this?
 
@@ -281,3 +283,5 @@ for doing very specific things.
 
 1. [VA.gov Knowledge Hub](https://department-of-veterans-affairs.github.io/va.gov-team/)
 1. [Manual](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/accessibility/testing/508-manual-testing.md) and [Automated](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/accessibility/testing/508-automated-testing.md) 508 Testing
+
+test...
