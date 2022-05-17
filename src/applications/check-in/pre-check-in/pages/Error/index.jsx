@@ -61,14 +61,18 @@ const Error = () => {
     const accordions = <PreCheckInAccordionBlock key="accordion" errorPage />;
     if (appointments && appointments.length) {
       // don't show sub message if we are 15 minutes past appointment start time
-      if (appointmentStartTimePast15(appointments)) return ['', accordions];
+      if (appointmentStartTimePast15(appointments))
+        return [t('sorry-pre-check-in-is-no-longer-available'), '', accordions];
       if (preCheckinExpired(appointments))
-        return [t('you-can-still-check-in-once-you-arrive'), accordions];
+        return [
+          t('sorry-pre-check-in-is-no-longer-available'),
+          t('you-can-still-check-in-once-you-arrive'),
+          accordions,
+        ];
     }
-    return [combinedMessage, null];
+    return [t('sorry-we-cant-complete-pre-check-in'), combinedMessage, null];
   };
-  const header = t('sorry-we-cant-complete-pre-check-in');
-  const [message, additionalDetails] = getErrorMessages();
+  const [header, message, additionalDetails] = getErrorMessages();
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 ">
