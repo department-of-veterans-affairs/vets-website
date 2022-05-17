@@ -10,6 +10,9 @@ const NotEligible = props => {
   const headerText = typeIsCNP
     ? 'Our records show that you don’t receive VA disability compensation or pension payments.'
     : 'Our records show that you don’t receive VA education benefit payments or haven’t set up direct deposit payments.';
+  const primaryLinkText = typeIsCNP
+    ? 'Learn more about disability eligibility'
+    : 'Learn more about GI Bill and other education benefit eligibility';
   return (
     <>
       <p className="vads-u-margin-top--0">{headerText}</p>
@@ -34,7 +37,7 @@ const NotEligible = props => {
             });
           }}
         >
-          Learn more about disability eligibility
+          {primaryLinkText}
         </a>
       </p>
       {typeIsCNP && (
@@ -53,7 +56,6 @@ const NotEligible = props => {
 };
 
 NotEligible.propTypes = {
-  benefitDisplayText: PropTypes.string.isRequired,
   benefitType: PropTypes.string.isRequired,
   typeIsCNP: PropTypes.bool,
 };
