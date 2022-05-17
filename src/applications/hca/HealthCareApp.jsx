@@ -13,6 +13,7 @@ const HealthCareEntry = ({
   children,
   caregiverSIGIEnabled = false,
   hcaAmericanIndianEnabled = false,
+  hcaShortFormEnabled = false,
   setFormData,
   formData,
 }) => {
@@ -29,7 +30,7 @@ const HealthCareEntry = ({
         setFormData({
           ...formData,
           'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
-          'view:hcaShortFormEnabled': false,
+          'view:hcaShortFormEnabled': hcaShortFormEnabled,
         });
       }
     },
@@ -60,6 +61,9 @@ const mapStateToProps = state => ({
   hcaAmericanIndianEnabled: toggleValues(state)[
     FEATURE_FLAG_NAMES.hcaAmericanIndianEnabled
   ],
+  hcaShortFormEnabled: toggleValues(state)[
+    FEATURE_FLAG_NAMES.hcaShortFormEnabled
+  ],
 });
 
 const mapDispatchToProps = {
@@ -70,6 +74,7 @@ HealthCareEntry.propTypes = {
   caregiverSIGIEnabled: PropTypes.bool,
   formData: PropTypes.object,
   hcaAmericanIndianEnabled: PropTypes.bool,
+  hcaShortFormEnabled: PropTypes.bool,
   setFormData: PropTypes.func,
 };
 
