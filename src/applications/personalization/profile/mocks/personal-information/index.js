@@ -3,7 +3,7 @@
 
 const set = require('lodash/set');
 
-// v0/personal_information route basic user response
+// v0/personal_information successful user response
 const basicUserPersonalInfo = {
   data: {
     id: '',
@@ -19,6 +19,19 @@ const basicUserPersonalInfo = {
       sexualOrientationNotListedText: 'Some other orientation',
     },
   },
+};
+
+// v0/personal_information failure response
+const userPersonalInfoFailure = {
+  errors: [
+    {
+      title: 'Unexpected response body',
+      detail: 'MVI service responded without a birthday or a gender.',
+      code: 'MVI_BD502',
+      status: '502',
+      source: 'V0::Profile::PersonalInformationsController',
+    },
+  ],
 };
 
 // v0/personal_information with none of the new demographics data set
@@ -156,6 +169,7 @@ module.exports = {
   handlePutGenderIdentitiesRoute,
   handlePutPreferredNameRoute,
   basicUserPersonalInfo,
+  userPersonalInfoFailure,
   unsetUserPersonalInfo,
   createPutPreferredNameSuccess,
   createPutGenderIdentitySuccess,

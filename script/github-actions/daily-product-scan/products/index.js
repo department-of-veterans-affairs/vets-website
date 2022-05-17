@@ -13,8 +13,8 @@ class Products {
       const { productId } = manifest;
 
       if (productId) {
-        const productPath = path.slice(0, path.lastIndexOf('/'));
-        this.all[productId] = new Product({ productPath });
+        const pathToCode = path.slice(0, path.lastIndexOf('/'));
+        this.all[productId] = new Product({ pathToCode });
       }
     });
   }

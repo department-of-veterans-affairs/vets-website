@@ -1035,6 +1035,11 @@ const formConfig = {
               [formFields.toursOfDuty]: {
                 ...toursOfDuty,
                 title: '', // Hack to prevent console warning
+                items: {
+                  type: 'object',
+                  properties: {},
+                },
+                required: [],
               },
               'view:serviceHistory': {
                 type: 'object',

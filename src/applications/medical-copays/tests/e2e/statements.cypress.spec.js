@@ -34,7 +34,7 @@ describe('Medical Copays', () => {
   });
 
   it.skip('displays other va debts', () => {
-    cy.findByTestId('other-va-debts-mcp-body').should('exist');
+    cy.findByTestId('other-va-debt-body').should('exist');
     cy.axeCheck();
   });
 

@@ -49,12 +49,12 @@ jobs:
           MANIFEST_GLOB_PATH: src/applications/**/*manifest.json
 
       - name: Notify Slack that a PR in the Product Directory repo has been submitted
-        if: ${{ success() && env.CHANGES_DETECTED == true }}
+        if: ${{ success() && env.CHANGE_DETECTED == 'true' }}
         uses: ./.github/workflows/slack-notify
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> Product dependencies have changed. A PR to update the `product-directory` has been submitted and needs to be approved. Link: <https://github.com/department-of-veterans-affairs/product-directory/pulls>"}}]}]}'
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> Values to one or more product fields have been changed in the Product Directory CSV. A PR to update it has been submitted and needs to be approved - <https://github.com/department-of-veterans-affairs/product-directory/pulls>"}}]}]}'
           channel_id: C026PD47Z19 #gha-test-status
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

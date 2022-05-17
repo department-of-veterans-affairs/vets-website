@@ -3,15 +3,13 @@ import set from 'lodash/set';
 import capitalize from 'lodash/capitalize';
 
 import { PERSONAL_INFO_FIELD_NAMES } from '@@vap-svc/constants';
-
 import {
   VAP_SERVICE_TRANSACTION_REQUESTED,
   VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED,
   VAP_SERVICE_TRANSACTION_REQUEST_FAILED,
   clearTransaction,
 } from '@@vap-svc/actions';
-
-import { getData } from '../util';
+import { captureError, createApiEvent, ERROR_SOURCES } from '../util/analytics';
 
 import recordEvent from '~/platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
@@ -25,45 +23,112 @@ export const FETCH_PERSONAL_INFORMATION_FAILED =
 export const UPDATE_PERSONAL_INFORMATION_FIELD =
   'UPDATE_PERSONAL_INFORMATION_FIELD';
 
-export function fetchPersonalInformation(forceCacheClear = false) {
+const handleServerErrorResponse = response => {
+  if (response?.errors) {
+    const error = new Error('There was an api error');
+    error.errors = response?.errors;
+    error.source = ERROR_SOURCES.API;
+    throw error;
+  }
+};
+
+const captureAndRecordError = ({
+  error,
+  apiEventName,
+  analyticsSectionName = 'unknown-profile-section',
+  recordAnalyticsEvent,
+}) => {
+  const [firstError = {}] = error.errors ?? [];
+  const {
+    code = 'code-unknown',
+    title = 'title-unknown',
+    detail = 'detail-unknown',
+    status = 'status-unknown',
+  } = firstError;
+
+  const errorKey = `${analyticsSectionName}-${code}-${title}-${detail}`;
+
+  recordAnalyticsEvent(
+    createApiEvent({
+      name: apiEventName,
+      status: 'failed',
+      errorKey,
+    }),
+  );
+
+  captureError(error, { eventName: apiEventName, code, title, detail, status });
+};
+
+export function fetchPersonalInformation(
+  forceCacheClear = false,
+  recordAnalyticsEvent = recordEvent,
+) {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFORMATION });
 
     const baseUrl = '/profile/personal_information';
 
+    const apiEventName = `GET ${baseUrl}`;
+
     const url = forceCacheClear
       ? appendQuery(baseUrl, { now: new Date().getTime() })
       : baseUrl;
 
-    const response = await getData(url);
+    try {
+      recordAnalyticsEvent(
+        createApiEvent({
+          name: apiEventName,
+          status: 'started',
+        }),
+      );
 
-    if (response.errors || response.error) {
+      const response = await apiRequest(url);
+
+      handleServerErrorResponse(response);
+
+      const personalInfoData = response.data.attributes;
+
+      recordAnalyticsEvent(
+        createApiEvent({
+          name: apiEventName,
+          status: 'successful',
+        }),
+      );
+
+      // preferred name returns as ALL CAPS, so it needs to be capitalized appropriately for display
+      if (personalInfoData?.[PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME]) {
+        set(
+          personalInfoData,
+          PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME,
+          capitalize(
+            personalInfoData?.[PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME],
+          ),
+        );
+      }
+
+      // a null code for gender identity needs to instead be set to an empty string or else
+      // validation message will be incorrectly set to 'is not of a type(s) string'
+      if (
+        !personalInfoData?.[PERSONAL_INFO_FIELD_NAMES.GENDER_IDENTITY]?.code
+      ) {
+        set(
+          personalInfoData,
+          `${PERSONAL_INFO_FIELD_NAMES.GENDER_IDENTITY}.code`,
+          '',
+        );
+      }
+
+      dispatch({
+        type: FETCH_PERSONAL_INFORMATION_SUCCESS,
+        personalInformation: personalInfoData,
+      });
+    } catch (error) {
+      captureAndRecordError({ error, apiEventName, recordAnalyticsEvent });
       dispatch({
         type: FETCH_PERSONAL_INFORMATION_FAILED,
-        personalInformation: { errors: response },
+        personalInformation: { error },
       });
-      return;
     }
-
-    // preferred name returns as ALL CAPS, so it needs to be capitalized appropriately for display
-    if (response?.[PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME]) {
-      set(
-        response,
-        PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME,
-        capitalize(response?.[PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME]),
-      );
-    }
-
-    // a null code for gender identity needs to instead be set to an empty string or else
-    // validation message will be incorrectly set to 'is not of a type(s) string'
-    if (!response?.[PERSONAL_INFO_FIELD_NAMES.GENDER_IDENTITY]?.code) {
-      set(response, `${PERSONAL_INFO_FIELD_NAMES.GENDER_IDENTITY}.code`, '');
-    }
-
-    dispatch({
-      type: FETCH_PERSONAL_INFORMATION_SUCCESS,
-      personalInformation: response,
-    });
   };
 }
 
@@ -87,6 +152,9 @@ export function createPersonalInfoUpdate({
         'Content-Type': 'application/json',
       },
     };
+
+    const apiEventName = `${method} ${route}`;
+
     try {
       dispatch({
         type: VAP_SERVICE_TRANSACTION_REQUESTED,
@@ -94,25 +162,35 @@ export function createPersonalInfoUpdate({
         method,
       });
 
-      const transaction = await apiRequest(route, options);
+      recordAnalyticsEvent(
+        createApiEvent({
+          name: apiEventName,
+          status: 'started',
+        }),
+      );
 
-      if (transaction?.errors) {
-        const error = new Error('There was a transaction error');
-        error.errors = transaction?.errors;
-        throw error;
-      }
+      const response = await apiRequest(route, options);
+
+      handleServerErrorResponse(response);
+
+      recordAnalyticsEvent(
+        createApiEvent({
+          name: apiEventName,
+          status: 'successful',
+        }),
+      );
 
       // clearTransaction uses this transactionId in a lookup to remove it
       set(
-        transaction,
+        response,
         'data.attributes.transactionId',
-        `${fieldName}_${transaction?.attributes?.[fieldName]?.sourceDate}`,
+        `${fieldName}_${response?.attributes?.[fieldName]?.sourceDate}`,
       );
 
       dispatch({
         type: VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED,
         fieldName,
-        transaction,
+        transaction: response,
       });
 
       // optimistic UI update to show saved field value
@@ -122,20 +200,13 @@ export function createPersonalInfoUpdate({
         value,
       });
 
-      dispatch(clearTransaction(transaction));
+      dispatch(clearTransaction(response));
     } catch (error) {
-      const [firstError = {}] = error.errors ?? [];
-      const { code = 'code', title = 'title', detail = 'detail' } = firstError;
-      const profileSection = analyticsSectionName || 'unknown-profile-section';
-
-      recordAnalyticsEvent({
-        event: 'profile-edit-failure',
-        'profile-action': 'save-failure',
-        'profile-section': profileSection,
-        'error-key': `tx-creation-error-${profileSection}-${code}-${title}-${detail}`,
-      });
-      recordAnalyticsEvent({
-        'error-key': undefined,
+      captureAndRecordError({
+        error,
+        apiEventName,
+        analyticsSectionName,
+        recordAnalyticsEvent,
       });
       dispatch({
         type: VAP_SERVICE_TRANSACTION_REQUEST_FAILED,
