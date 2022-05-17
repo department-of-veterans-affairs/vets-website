@@ -246,15 +246,14 @@ describe('Authentication Utilities', () => {
     it('should return session url with additional params appeneded for MHV Logins', () => {
       setup({ path: usipPathWithParams(mhvUsipParams) });
       expect(authUtilities.sessionTypeUrl({ type })).to.contain.all(
-        'skip_dupe=true',
         'redirect=',
         'postLogin=true',
       );
     });
 
-    it('should return session url with additional params appeneded for MHV Logins', () => {
+    it('should return session url with additional params appended for My VA Health (Cerner) login', () => {
       setup({ path: usipPathWithParams(cernerUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type })).to.contain.all(
+      expect(authUtilities.sessionTypeUrl({ type })).to.not.contain.all(
         'skip_dupe=true',
       );
     });

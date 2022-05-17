@@ -135,5 +135,4 @@ export const AUTH_PARAMS = {
   codeChallenge: 'code_challenge',
   codeChallengeMethod: 'code_challenge_method',
   to: 'to',
-  skipDupe: 'skip_dupe',
 };

@@ -132,7 +132,6 @@ export const generateConfigQueryParams = ({ config, params }) => {
     ...(queryParams.allowRedirect && {
       redirect: createExternalApplicationUrl(),
     }),
-    ...(queryParams.allowSkipDupe && { [AUTH_PARAMS.skipDupe]: true }),
   };
 };
 

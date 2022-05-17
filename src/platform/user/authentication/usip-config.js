@@ -13,7 +13,6 @@ const defaultSignUpProviders = {
 };
 
 const defaultMobileQueryParams = {
-  allowSkipDupe: false,
   allowOAuth: true,
   allowPostLogin: false,
   allowRedirect: false,
@@ -25,7 +24,6 @@ export const externalApplicationsConfig = {
     allowedSignUpProviders: { ...defaultSignUpProviders },
     isMobile: false,
     queryParams: {
-      allowSkipDupe: false,
       allowOAuth: false,
       allowPostLogin: true,
       allowRedirect: false,
@@ -38,7 +36,6 @@ export const externalApplicationsConfig = {
     allowedSignUpProviders: { ...defaultSignUpProviders },
     isMobile: false,
     queryParams: {
-      allowSkipDupe: true,
       allowOAuth: false,
       allowPostLogin: true,
       allowRedirect: true,
@@ -52,7 +49,6 @@ export const externalApplicationsConfig = {
     allowedSignUpProviders: { ...defaultSignUpProviders },
     isMobile: false,
     queryParams: {
-      allowSkipDupe: true,
       allowOAuth: false,
       allowPostLogin: false,
       allowRedirect: false,
@@ -66,7 +62,6 @@ export const externalApplicationsConfig = {
     allowedSignUpProviders: { ...defaultSignUpProviders },
     isMobile: false,
     queryParams: {
-      allowSkipDupe: false,
       allowOAuth: false,
       allowPostLogin: false,
       allowRedirect: false,
