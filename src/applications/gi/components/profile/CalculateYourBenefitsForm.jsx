@@ -86,6 +86,57 @@ function CalculateYourBenefitsForm({
     };
   };
 
+  const toggleExpanded = (expandedName, isExpanded) => {
+    const newExpanded = {};
+    Object.keys(expanded).forEach(key => {
+      const flipped = expanded[expandedName] ? false : expanded[expandedName];
+      newExpanded[key] = expandedName === key ? isExpanded : flipped;
+    });
+    setExpanded(newExpanded);
+    const field = document.getElementById('estimate-your-benefits-accordion');
+    if (field) {
+      field.scrollIntoView();
+    }
+  };
+
+  const displayExtensionBeneficiaryInternationalCheckbox = () => {
+    const { beneficiaryLocationQuestion, extension } = inputs;
+    return (
+      beneficiaryLocationQuestion === 'other' ||
+      (beneficiaryLocationQuestion === 'extension' && extension === 'other')
+    );
+  };
+
+  const recalculateBenefits = childSection => {
+    const accordionButtonId = `${createId(childSection)}-accordion-button`;
+    const { beneficiaryZIPError, beneficiaryZIP } = inputs;
+
+    if (
+      eligibility.giBillChapter === '33' &&
+      displayExtensionBeneficiaryInternationalCheckbox() &&
+      displayExtensionBeneficiaryZipcode &&
+      (beneficiaryZIPError || beneficiaryZIP.length !== 5)
+    ) {
+      toggleExpanded('learningFormatAndSchedule', true);
+      setTimeout(() => {
+        scrollTo('beneficiary-zip-question', getScrollOptions());
+        focusElement('input[name=beneficiaryZIPCode]');
+      }, 50);
+    } else {
+      setInputUpdated(false);
+      updateEstimatedBenefits();
+      setTimeout(() => {
+        focusElement(`#${accordionButtonId}`);
+      }, 50);
+    }
+
+    recordEvent({
+      event: 'cta-default-button-click',
+      'gibct-parent-accordion-section': 'Estimate your benefits',
+      'gibct-child-accordion-section': childSection,
+    });
+  };
+
   const handleBeneficiaryZIPCodeChanged = event => {
     if (!event.dirty) {
       onBeneficiaryZIPCodeChanged(event.value);
@@ -99,7 +150,7 @@ function CalculateYourBenefitsForm({
       setInvalidZip('');
       setInputUpdated(true);
 
-      if (!environment.isProduction()) updateEstimatedBenefits();
+      if (!environment.isProduction()) recalculateBenefits();
     } else if (inputs.beneficiaryZIP.length < 5) {
       setInvalidZip('Postal code must be a 5-digit number');
     }
@@ -144,57 +195,8 @@ function CalculateYourBenefitsForm({
         'gibct-form-value': value,
       });
     }
-  };
 
-  const toggleExpanded = (expandedName, isExpanded) => {
-    const newExpanded = {};
-    Object.keys(expanded).forEach(key => {
-      const flipped = expanded[expandedName] ? false : expanded[expandedName];
-      newExpanded[key] = expandedName === key ? isExpanded : flipped;
-    });
-    setExpanded(newExpanded);
-    const field = document.getElementById('estimate-your-benefits-accordion');
-    if (field) {
-      field.scrollIntoView();
-    }
-  };
-
-  const displayExtensionBeneficiaryInternationalCheckbox = () => {
-    const { beneficiaryLocationQuestion, extension } = inputs;
-    return (
-      beneficiaryLocationQuestion === 'other' ||
-      (beneficiaryLocationQuestion === 'extension' && extension === 'other')
-    );
-  };
-
-  const handleCalculateBenefitsClick = childSection => {
-    const accordionButtonId = `${createId(childSection)}-accordion-button`;
-    const { beneficiaryZIPError, beneficiaryZIP } = inputs;
-
-    if (
-      eligibility.giBillChapter === '33' &&
-      displayExtensionBeneficiaryInternationalCheckbox() &&
-      displayExtensionBeneficiaryZipcode &&
-      (beneficiaryZIPError || beneficiaryZIP.length !== 5)
-    ) {
-      toggleExpanded('learningFormatAndSchedule', true);
-      setTimeout(() => {
-        scrollTo('beneficiary-zip-question', getScrollOptions());
-        focusElement('input[name=beneficiaryZIPCode]');
-      }, 50);
-    } else {
-      setInputUpdated(false);
-      updateEstimatedBenefits();
-      setTimeout(() => {
-        focusElement(`#${accordionButtonId}`);
-      }, 50);
-    }
-
-    recordEvent({
-      event: 'cta-default-button-click',
-      'gibct-parent-accordion-section': 'Estimate your benefits',
-      'gibct-child-accordion-section': childSection,
-    });
+    if (!environment.isProduction()) recalculateBenefits();
   };
 
   const updateEligibility = e => {
@@ -207,7 +209,8 @@ function CalculateYourBenefitsForm({
     });
     eligibilityChange({ [field]: value });
     setInputUpdated(true);
-    if (!environment.isProduction()) updateEstimatedBenefits();
+
+    if (!environment.isProduction()) recalculateBenefits();
   };
 
   const handleExtensionBlur = event => {
@@ -236,7 +239,8 @@ function CalculateYourBenefitsForm({
     const { name: field, checked: value } = e.target;
     setInputUpdated(true);
     calculatorInputChange({ field, value });
-    if (!environment.isProduction()) updateEstimatedBenefits();
+
+    if (!environment.isProduction()) recalculateBenefits();
   };
 
   const handleHasClassesOutsideUSChange = e => {
@@ -273,7 +277,8 @@ function CalculateYourBenefitsForm({
         field: 'buyUpAmount',
         value: 600,
       });
-      if (!environment.isProduction()) updateEstimatedBenefits();
+
+      if (!environment.isProduction()) recalculateBenefits();
     }
   };
 
@@ -1025,7 +1030,7 @@ function CalculateYourBenefitsForm({
     <button
       id={`update-${createId(name)}-button`}
       className="calculate-button"
-      onClick={() => handleCalculateBenefitsClick(name)}
+      onClick={() => recalculateBenefits(name)}
       disabled={!inputUpdated}
     >
       Update benefits
