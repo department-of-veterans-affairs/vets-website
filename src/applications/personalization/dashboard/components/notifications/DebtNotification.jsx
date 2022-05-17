@@ -1,28 +1,31 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+import { VaAlert } from 'web-components/react-bindings';
 import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
+import { dismissNotificationById } from '../../actions/notifications';
 import '../../sass/user-profile.scss';
 
-export const DebtNotification = ({ notification }) => {
-  const [dismissed, setDismissed] = React.useState(false);
-  if (dismissed) {
-    return null;
-  }
+export const DebtNotification = ({ notification, dismissNotification }) => {
+  const createdAtFormatted = moment(notification.attributes.createdAt).format(
+    'MMM DD, YYYY',
+  );
 
   return (
     <DashboardWidgetWrapper>
       <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-top--2p5">
-        <va-alert
+        <VaAlert
           status="warning"
           show-icon
           className="vads-u-margin-top--0"
-          onCloseEvent={() => setDismissed(true)}
+          onCloseEvent={() => dismissNotification(notification.id)}
           closeable
         >
           <div className="vads-u-margin-top--0">
-            You have new debt as of {notification.attributes.createdAt}.{' '}
+            You have new debt as of {createdAtFormatted}.{' '}
             <CTALink
               text="Manage your VA debt"
               href="/manage-va-debt/your-debt"
@@ -35,13 +38,14 @@ export const DebtNotification = ({ notification }) => {
               }
             />
           </div>
-        </va-alert>
+        </VaAlert>
       </div>
     </DashboardWidgetWrapper>
   );
 };
 
 DebtNotification.propTypes = {
+  dismissNotification: PropTypes.func.isRequired,
   notification: PropTypes.shape({
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
@@ -55,4 +59,11 @@ DebtNotification.propTypes = {
   }),
 };
 
-export default DebtNotification;
+const mapDispatchToProps = {
+  dismissNotification: dismissNotificationById,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(DebtNotification);

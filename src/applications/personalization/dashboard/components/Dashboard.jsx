@@ -322,7 +322,11 @@ const mapStateToProps = state => {
     FEATURE_FLAG_NAMES.showDashboardNotifications
   ];
 
-  const showNotifications = !!hasNotificationFeature;
+  const showNotifications =
+    !!hasNotificationFeature &&
+    !showMPIConnectionError &&
+    !showNotInMPIError &&
+    isLOA3;
 
   return {
     isLOA3,

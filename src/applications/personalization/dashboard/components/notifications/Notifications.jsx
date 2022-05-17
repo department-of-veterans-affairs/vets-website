@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../../sass/user-profile.scss';
+import { VaAlert } from 'web-components/react-bindings';
 import DebtNotification from './DebtNotification';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import { fetchNotifications } from '../../actions/notifications';
@@ -15,6 +16,7 @@ export const Notifications = ({
   getNotifications,
   notifications,
   notificationsError,
+  dismissalError,
 }) => {
   useEffect(
     () => {
@@ -26,32 +28,39 @@ export const Notifications = ({
     n => n.attributes.templateId === debtTemplateId,
   );
 
-  if (!debtNotifications) {
+  if (
+    (!debtNotifications || !debtNotifications.length) &&
+    !notificationsError
+  ) {
     return null;
   }
 
   return (
     <div data-testid="dashboard-notifications">
       <h2>Notifications</h2>
-      {notificationsError && (
+      {(notificationsError || dismissalError) && (
         <DashboardWidgetWrapper>
-          <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5">
-            <va-alert
-              status="error"
-              show-icon
-              className="vads-u-margin-top--0"
-              closeable
-            >
-              We’re sorry. Something went wrong on our end, and we can’t access
-              your debt information. Please try again later or go to the debts
-              tool.
-            </va-alert>
+          <div
+            data-testid="dashboard-notifications-error"
+            className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
+          >
+            <VaAlert status="error" show-icon className="vads-u-margin-top--0">
+              {notificationsError
+                ? `We’re sorry. Something went wrong on our end, and we can’t access
+                your debt information. Please try again later or go to the debts
+                tool.`
+                : `We’re sorry. Something went wrong on our end, and we can’t dismiss this notification. Please try again later.`}
+            </VaAlert>
           </div>
         </DashboardWidgetWrapper>
       )}
       {!notificationsError &&
         debtNotifications.map((n, i) => (
-          <DebtNotification key={i} hasError={notificationsError} />
+          <DebtNotification
+            key={i}
+            hasError={notificationsError}
+            notification={n}
+          />
         ))}
     </div>
   );
@@ -59,6 +68,7 @@ export const Notifications = ({
 
 Notifications.propTypes = {
   getNotifications: PropTypes.func.isRequired,
+  dismissalError: PropTypes.bool,
   notifications: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -75,11 +85,19 @@ Notifications.propTypes = {
   notificationsError: PropTypes.bool,
 };
 
+const mapStateToProps = state => {
+  return {
+    notifications: state.notifications.notifications,
+    dismissalError: state.notifications.dismissalError,
+    notificationsError: state.notifications.notificationError,
+  };
+};
+
 const mapDispatchToProps = {
   getNotifications: fetchNotifications,
 };
 
 export default connect(
-  {},
+  mapStateToProps,
   mapDispatchToProps,
 )(Notifications);

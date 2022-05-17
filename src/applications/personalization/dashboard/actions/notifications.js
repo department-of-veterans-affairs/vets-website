@@ -36,21 +36,22 @@ export const fetchNotifications = () => async dispatch => {
       recordEvent({
         event: `api_call`,
         'error-key': `server error`,
-        'api-name': 'GET onsight notifications',
+        'api-name': 'GET on-site notifications',
         'api-status': 'failed',
       });
       return dispatch({
         type: NOTIFICATIONS_RECEIVED_FAILED,
-        error: response,
+        notificationError: true,
+        errors: response.errors,
       });
     }
     recordEvent({
       event: `api_call`,
-      'api-name': 'GET onsight notifications',
+      'api-name': 'GET on-site notifications',
       'api-status': 'successful',
     });
     const filteredNotifications = response.data.filter(
-      n => n.attributes.dismissed,
+      n => !n.attributes?.dismissed,
     );
     return dispatch({
       type: NOTIFICATIONS_RECEIVED_SUCCEEDED,
@@ -70,7 +71,7 @@ export const fetchNotifications = () => async dispatch => {
 export const dismissNotificationById = id => async dispatch => {
   const dismissNotification = () => {
     const options = {
-      method: 'GET',
+      method: 'PATCH',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -96,29 +97,32 @@ export const dismissNotificationById = id => async dispatch => {
       recordEvent({
         event: `api_call`,
         'error-key': `server error`,
-        'api-name': 'GET onsight notifications',
+        'api-name': 'PATCH dismiss on-site notification',
         'api-status': 'failed',
       });
       return dispatch({
         type: NOTIFICATION_DISMISSAL_FAILED,
-        error: response,
+        dismissalError: true,
+        errors: response.errors,
       });
     }
     recordEvent({
       event: `api_call`,
-      'api-name': 'Dismiss onsight notification',
+      'api-name': 'PATCH dismiss on-site notification',
       'api-status': 'successful',
     });
-    const successful = response.data.attributes.dismissed;
+    const notification = response.data[0];
+    const successful = notification.attributes.dismissed;
     return dispatch({
       type: NOTIFICATION_DISMISSAL_SUCCEEDED,
       successful,
+      id: notification.id,
     });
   } catch (error) {
     recordEvent({
       event: `api_call`,
       'error-key': `internal error`,
-      'api-name': 'Dismiss onsite notification',
+      'api-name': 'PATCH dismiss on-site notification',
       'api-status': 'failed',
     });
     throw new Error(error);
