@@ -22,7 +22,7 @@ const responses = {
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/feature_toggles': generateFeatureToggles(),
-  'GET /v0/ppiu/payment_information': paymentHistory.notEligible,
+  'GET /v0/ppiu/payment_information': paymentHistory.simplePaymentHistory,
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount,
   'GET /v0/profile/personal_information': handleGetPersonalInformationRoute,
