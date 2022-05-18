@@ -144,8 +144,6 @@
       { "name": "profile_schema_forms", "value": true },
       { "name": "profileShowReceiveTextNotifications", "value": true },
       { "name": "profile_show_receive_text_notifications", "value": true },
-      { "name": "requestLockedPdfPassword", "value": true },
-      { "name": "request_locked_pdf_password", "value": true },
       { "name": "searchRepresentative", "value": false },
       { "name": "search_representative", "value": false },
       { "name": "sharableLink", "value": true },
