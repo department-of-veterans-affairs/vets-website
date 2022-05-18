@@ -251,10 +251,10 @@ export function prefillTransformer(pages, formData, metadata, state) {
     },
     'view:phoneNumbers': {
       mobilePhoneNumber: {
-        phone: contactInfo?.mobilePhoneNumber || undefined,
+        phone: contactInfo?.mobilePhoneNumber?.replace(/\D/g, '') || undefined,
       },
       phoneNumber: {
-        phone: contactInfo?.homePhoneNumber || undefined,
+        phone: contactInfo?.homePhoneNumber?.replace(/\D/g, '') || undefined,
       },
     },
     'view:contactMethod': {
