@@ -63,9 +63,7 @@ const intervalUntilNextAppointmentIneligibleForCheckin = appointments => {
     appointment => appointment.checkInWindowEnd,
   );
 
-  // @ts-ignore
   checkInWindowEnds.sort((a, b) => {
-    // @ts-ignore
     return parseISO(a) > parseISO(b);
   });
 
