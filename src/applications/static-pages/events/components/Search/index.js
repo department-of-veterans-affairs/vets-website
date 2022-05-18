@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
 import {
-  dayOptions,
+  dayOptionsForMonth,
   deriveDefaultSelectedOption,
   filterByOptions,
   monthOptions,
@@ -33,13 +33,21 @@ export const Search = ({ onSearch }) => {
     queryParams.get('endDateDay') || '',
   );
 
-  const [endDateMonthOptions, setEndDateMonthOptions] = useState(
-    getDisabledEndDateOptions(monthOptions, startDateMonth),
+  const [startDateDayOptions, setStartDateDayOptions] = useState(
+    dayOptionsForMonth(startDateMonth),
   );
+
   const [endDateDayOptions, setEndDateDayOptions] = useState(
     startDateMonth === endDateMonth
-      ? getDisabledEndDateOptions(dayOptions, startDateDay)
-      : dayOptions,
+      ? getDisabledEndDateOptions(
+          dayOptionsForMonth(endDateMonth),
+          startDateDay,
+        )
+      : dayOptionsForMonth(endDateMonth),
+  );
+
+  const [endDateMonthOptions, setEndDateMonthOptions] = useState(
+    getDisabledEndDateOptions(monthOptions, startDateMonth),
   );
 
   // Derive errors state.
@@ -60,6 +68,8 @@ export const Search = ({ onSearch }) => {
 
   useEffect(
     () => {
+      setStartDateDayOptions(dayOptionsForMonth(startDateMonth));
+
       // If the end month is too early
       if (startDateMonth > endDateMonth) {
         setEndDateMonth(startDateMonth);
@@ -68,11 +78,14 @@ export const Search = ({ onSearch }) => {
         // If the start and end months are the same
         setEndDateDay(startDateDay > endDateDay ? startDateDay : endDateDay);
         setEndDateDayOptions(
-          getDisabledEndDateOptions(dayOptions, startDateDay),
+          getDisabledEndDateOptions(
+            dayOptionsForMonth(endDateMonth),
+            startDateDay,
+          ),
         );
       } else {
         // If the end month is after the start month
-        setEndDateDayOptions(dayOptions);
+        setEndDateDayOptions(dayOptionsForMonth(endDateMonth));
       }
 
       setEndDateMonthOptions(
@@ -90,10 +103,13 @@ export const Search = ({ onSearch }) => {
         }
 
         setEndDateDayOptions(
-          getDisabledEndDateOptions(dayOptions, startDateDay),
+          getDisabledEndDateOptions(
+            dayOptionsForMonth(endDateMonth),
+            startDateDay,
+          ),
         );
       } else {
-        setEndDateDayOptions(dayOptions);
+        setEndDateDayOptions(dayOptionsForMonth(endDateMonth));
       }
     },
     [startDateDay],
@@ -101,16 +117,21 @@ export const Search = ({ onSearch }) => {
 
   useEffect(
     () => {
+      setEndDateDayOptions(dayOptionsForMonth(endDateMonth));
+
       if (startDateMonth === endDateMonth) {
         if (startDateDay > endDateDay) {
           setEndDateDay(startDateDay);
         }
 
         setEndDateDayOptions(
-          getDisabledEndDateOptions(dayOptions, startDateDay),
+          getDisabledEndDateOptions(
+            dayOptionsForMonth(endDateMonth),
+            startDateDay,
+          ),
         );
       } else {
-        setEndDateDayOptions(dayOptions);
+        setEndDateDayOptions(dayOptionsForMonth(endDateMonth));
       }
     },
     [endDateMonth],
@@ -309,7 +330,7 @@ export const Search = ({ onSearch }) => {
                   onChange={event => setStartDateDay(event.target.value)}
                   value={startDateDay}
                 >
-                  {dayOptions?.map(option => (
+                  {startDateDayOptions?.map(option => (
                     <option key={option?.value} value={option?.value}>
                       {option?.label}
                     </option>
@@ -402,7 +423,7 @@ export const Search = ({ onSearch }) => {
                   onChange={event => setStartDateDay(event.target.value)}
                   value={startDateDay}
                 >
-                  {dayOptions?.map(option => (
+                  {startDateDayOptions?.map(option => (
                     <option key={option?.value} value={option?.value}>
                       {option?.label}
                     </option>
