@@ -44,7 +44,7 @@ export default function TransitionAccount() {
                   Starting on <strong>{MHV_TRANSITION_DATE}</strong>,{' '}
                 </>
               ) : (
-                <>Soon</>
+                <>Soon </>
               )}
               you’ll no longer be able to use your My HealtheVet username and
               password to sign in to VA.gov. You’ll need to use a verified{' '}
