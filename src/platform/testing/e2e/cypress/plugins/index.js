@@ -92,6 +92,7 @@ module.exports = async (on, config) => {
       __REGISTRY__: JSON.stringify(appRegistry),
       'process.env.NODE_ENV': '"production"',
       'process.env.BUILDTYPE': '"production"',
+      'process.env.API_URL': 'apiurl.apiurl.test',
     },
     plugins: [cypressPlugin],
     platform: 'browser',
