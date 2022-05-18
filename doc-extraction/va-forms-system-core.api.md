@@ -138,9 +138,11 @@ export interface PageProps {
     // (undocumented)
     children: JSX.Element | JSX.Element[] | Element;
     // (undocumented)
-    nextPage: string;
+    nextPage?: string;
     // (undocumented)
     path?: string;
+    // (undocumented)
+    prevPage?: string;
     // (undocumented)
     title: string;
 }

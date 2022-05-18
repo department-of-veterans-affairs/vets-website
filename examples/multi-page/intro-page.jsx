@@ -4,7 +4,7 @@ import { Page, IntroductionPage } from '@department-of-veterans-affairs/va-forms
 export default function FormIntroductionPage() {
   return (
     <>
-      <Page title="Introduction Page" nextPage="page-one">
+      <Page title="Introduction Page" nextPage="/page-one">
         <IntroductionPage />
       </Page>
     </>

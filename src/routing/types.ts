@@ -33,7 +33,8 @@ export interface PageProps {
   children: JSX.Element | JSX.Element[] | Element;
   title: string;
   path?: string;
-  nextPage: string;
+  nextPage?: string;
+  prevPage?: string;
 }
 
 /**

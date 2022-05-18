@@ -11,10 +11,10 @@ import {
 export default function PersonalInformationPage() {
   return (
     <>
-      <Page title="Personal Information" nextPage="page-two">
-        <TextField name="firstName" label="First name" required/>
-        <TextField name="lastName" label="Last name" required/>
-        <EmailField name="email" label="Email" required />
+      <Page title="Personal Information" nextPage="/page-two" prevPage="/">
+        <TextField name="firstName" label="First name" />
+        <TextField name="lastName" label="Last name" />
+        <EmailField name="email" label="Email" />
         <PhoneField name="phone" label="Phone" required/>
         <SSNField name="ssn" label="Social Security Number" required />
       </Page>

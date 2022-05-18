@@ -9,7 +9,7 @@ import {
 export default function ContactInformationPage() {
   return (
     <>
-      <Page title="Address Information" nextPage="/">
+      <Page title="Address Information" nextPage="/" prevPage="/page-one">
         <TextField name="street" label="Street line 1" />
         <TextField name="streetTwo" label="Street line 2" />
         <TextField name="streetThree" label="Street line 3" />

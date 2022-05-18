@@ -72,7 +72,7 @@ export interface OMBInfoProps {
  */
 export type FullNameProps = FieldProps<string>;
 
-export type AddressProps = FieldProps<string>
+export type AddressProps = FieldProps<string>;
 
 export interface Address {
   isMilitaryBaseOutside?: boolean;

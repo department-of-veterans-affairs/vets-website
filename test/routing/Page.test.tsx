@@ -38,7 +38,7 @@ const PageOne = () => (
 
 const PageTwo = () => (
   <Page 
-    nextPage="/"
+    prevPage="/"
     title="page two"
     >
     <p>page two</p>
@@ -68,11 +68,27 @@ describe('Routing - Page', () => {
       </MemoryRouter>
     );
     act(() => {
-      const goLink = container.querySelector('button');
+      const goLink = container.querySelector('button.next');
       goLink?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
     });
 
     await waitFor(() => expect(container.querySelector('h3')?.innerHTML).toContain('page two'));
   });
 
+  test('switches page content to go back a page', async() => {
+    const { container } = render(
+      <MemoryRouter initialEntries={["/", "/page-two"]} initialIndex={1}>
+        <FormRouterInternal basename="/" formData={initialValues} title="Page Test">
+          <Route index element={<PageOne />} />
+          <Route path="/page-two" element={<PageTwo />} />
+        </FormRouterInternal>
+      </MemoryRouter>
+    );
+    act(() => {
+      const goLink = container.querySelector('button.prev');
+      goLink?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    });
+
+    await waitFor(() => expect(container.querySelector('h3')?.innerHTML).toContain('page one'));
+  });
 });
