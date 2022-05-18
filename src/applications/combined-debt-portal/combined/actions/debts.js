@@ -17,7 +17,7 @@ import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
 import { deductionCodes } from '../../../debt-letters/const/deduction-codes';
 import recordEvent from '~/platform/monitoring/record-event';
-import { debtMockResponse } from '../utils/mockResponses';
+import { debtMockResponse } from '../utils/mocks/mockResponses';
 
 const fetchDebtsInitiated = () => ({ type: DEBTS_FETCH_INITIATED });
 const fetchDebtLettersInitiated = () => ({

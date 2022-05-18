@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable camelcase */
 const { Octokit } = require('@octokit/rest');
-const { sleep } = require('../../script/utils');
+const { sleep } = require('../utils');
 
 const { GITHUB_TOKEN: auth, GITHUB_REPOSITORY } = process.env;
 const args = process.argv.slice(2);
@@ -54,7 +54,7 @@ function getLatestWorkflow(page) {
     owner,
     repo,
     workflow_id: 'continuous-integration.yml',
-    branch: 'master',
+    branch: 'main',
     per_page: '50',
     page,
   };
