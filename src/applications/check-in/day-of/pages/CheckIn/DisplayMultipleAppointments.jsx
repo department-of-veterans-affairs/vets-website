@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
@@ -36,6 +36,8 @@ const DisplayMultipleAppointments = props => {
     true,
   );
 
+  const refreshTimer = useRef(null);
+
   useEffect(
     () => {
       focusElement('h1');
@@ -44,9 +46,16 @@ const DisplayMultipleAppointments = props => {
         appointments,
       );
 
+      // Refresh the page 5 seconds before the checkIn window expires.
       if (refreshInterval > 5000) {
-        // Refresh the page 5 seconds before the checkIn window expires.
-        setInterval(() => refreshCheckInData(), refreshInterval - 5000);
+        if (refreshTimer.current !== null) {
+          clearTimeout(refreshTimer.current);
+        }
+
+        refreshTimer.current = setTimeout(
+          () => refreshCheckInData(),
+          refreshInterval - 5000,
+        );
       }
 
       if (checkInDataError) {
