@@ -143,10 +143,7 @@ export function CalculateYourBenefits({
         {gibctEybBottomSheet && (
           <div>
             {expandEybSheet && (
-              <div
-                className="va-modal overlay"
-                role="alertdialog"
-              />
+              <div className="va-modal overlay" role="alertdialog" />
             )}
             {
               <div id="eyb-summary-sheet" className={summarySheetClassNames}>
