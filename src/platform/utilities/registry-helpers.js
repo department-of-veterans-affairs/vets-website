@@ -1,3 +1,5 @@
+// Test branch protection
+
 /**
  * Gets the root URL of an app from the registry in the content-build.
  *
