@@ -17,6 +17,7 @@ const BenefitsForm = ({
   handleInputFocus,
   militaryStatus,
   numberOfDependents,
+  optionDisabled,
   showHeader,
   showModal,
   spouseActiveDuty,
@@ -122,6 +123,7 @@ const BenefitsForm = ({
                 optionValue: '35',
                 optionLabel:
                   "Survivors' and Dependents' Educational Assistance (DEA) (Ch 35)",
+                optionDisabled,
               },
             ]}
             value={giBillChapter}
@@ -129,6 +131,7 @@ const BenefitsForm = ({
             visible
             onChange={eligibilityChange}
             onFocus={handleInputFocus}
+            // optionDisabled={optionDisabled}
           />
           <div>
             {militaryStatus === 'active duty' &&
@@ -251,6 +254,7 @@ BenefitsForm.propTypes = {
   hideModal: PropTypes.func,
   militaryStatus: PropTypes.string,
   numberOfDependents: PropTypes.string,
+  optionDisabled: PropTypes.bool,
   showHeader: PropTypes.bool,
   showModal: PropTypes.func,
   spouseActiveDuty: PropTypes.string,

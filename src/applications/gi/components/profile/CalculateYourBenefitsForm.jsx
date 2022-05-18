@@ -7,6 +7,7 @@ import ExpandingGroup from '@department-of-veterans-affairs/component-library/Ex
 import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import recordEvent from 'platform/monitoring/record-event';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 import AlertBox from '../AlertBox';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
@@ -24,7 +25,6 @@ import { ariaLabels } from '../../constants';
 import AccordionItem from '../AccordionItem';
 import BenefitsForm from './BenefitsForm';
 import LearnMoreLabel from '../LearnMoreLabel';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 
 function CalculateYourBenefitsForm({
   calculatorInputChange,
@@ -47,11 +47,12 @@ function CalculateYourBenefitsForm({
     learningFormatAndSchedule: false,
     scholarshipsAndOtherFunding: false,
   });
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const displayExtensionBeneficiaryZipcode = !inputs.classesoutsideus;
 
   const getExtensions = () => {
-    const facilityMap = profile.attributes.facilityMap;
+    const { facilityMap } = profile.attributes;
     const profileFacilityCode = profile.attributes.facilityCode;
     let extensions;
     if (profileFacilityCode === facilityMap.main.institution.facilityCode) {
@@ -104,9 +105,7 @@ function CalculateYourBenefitsForm({
 
   const handleInputChange = event => {
     const { name: field, value } = event.target;
-    setInputUpdated(true);
     calculatorInputChange({ field, value });
-
     if (field === 'beneficiaryLocationQuestion' || field === 'extension') {
       if (value === 'extension' || value === profile.attributes.name) {
         recordEvent({
@@ -165,7 +164,6 @@ function CalculateYourBenefitsForm({
   const handleCalculateBenefitsClick = childSection => {
     const accordionButtonId = `${createId(childSection)}-accordion-button`;
     const { beneficiaryZIPError, beneficiaryZIP } = inputs;
-
     if (
       eligibility.giBillChapter === '33' &&
       displayExtensionBeneficiaryInternationalCheckbox() &&
@@ -194,7 +192,7 @@ function CalculateYourBenefitsForm({
 
   const updateEligibility = e => {
     const field = e.target.name;
-    const value = e.target.value;
+    const { value } = e.target;
     recordEvent({
       event: 'gibct-form-change',
       'gibct-form-field': field,
@@ -202,6 +200,14 @@ function CalculateYourBenefitsForm({
     });
     eligibilityChange({ [field]: value });
     setInputUpdated(true);
+    if (
+      field === 'militaryStatus' &&
+      (value === 'spouse' || value === 'child')
+    ) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
   };
 
   const handleExtensionBlur = event => {
@@ -213,7 +219,7 @@ function CalculateYourBenefitsForm({
   };
 
   const handleExtensionChange = event => {
-    const value = event.target.value;
+    const { value } = event.target;
     const zipCode = value.slice(value.indexOf('-') + 1);
 
     if (!event.dirty) {
@@ -463,7 +469,7 @@ function CalculateYourBenefitsForm({
           />
           <Dropdown
             label="Division or school"
-            name={'yellowRibbonDivision'}
+            name="yellowRibbonDivision"
             alt="Division or school"
             disabled={yellowRibbonDivisionOptions.length <= 1}
             hideArrows={yellowRibbonDivisionOptions.length <= 1}
@@ -843,7 +849,7 @@ function CalculateYourBenefitsForm({
           }
           onChange={handleHasClassesOutsideUSChange}
           checked={inputs.classesoutsideus}
-          name={'classesOutsideUS'}
+          name="classesOutsideUS"
         />
       );
     }
@@ -1044,6 +1050,7 @@ function CalculateYourBenefitsForm({
             displayedInputs={displayedInputs}
             handleInputFocus={handleEYBInputFocus}
             giBillChapterOpen={[displayedInputs?.giBillBenefit]}
+            optionDisabled={isDisabled}
           >
             {renderGbBenefit()}
           </BenefitsForm>
@@ -1193,17 +1200,19 @@ function CalculateYourBenefitsForm({
 }
 
 CalculateYourBenefitsForm.propTypes = {
-  profile: PropTypes.object,
+  updateEstimatedBenefits: PropTypes.func.isRequired,
+  calculatorInputChange: PropTypes.func,
+  displayedInputs: PropTypes.object,
   eligibility: PropTypes.object,
   eligibilityChange: PropTypes.func,
-  inputs: PropTypes.object,
-  displayedInputs: PropTypes.object,
-  showModal: PropTypes.func,
-  calculatorInputChange: PropTypes.func,
-  onBeneficiaryZIPCodeChanged: PropTypes.func,
   estimatedBenefits: PropTypes.object,
-  updateEstimatedBenefits: PropTypes.func.isRequired,
+  focusHandler: PropTypes.func,
+  hideModal: PropTypes.func,
+  inputs: PropTypes.object,
+  profile: PropTypes.object,
+  showModal: PropTypes.func,
   updateBenefitsButtonEnabled: PropTypes.bool,
+  onBeneficiaryZIPCodeChanged: PropTypes.func,
 };
 
 export default CalculateYourBenefitsForm;

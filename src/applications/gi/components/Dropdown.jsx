@@ -17,6 +17,7 @@ const Dropdown = ({
   selectClassName,
   value,
   visible,
+  // optionDisabled,
 }) => {
   if (!visible) {
     return null;
@@ -44,11 +45,12 @@ const Dropdown = ({
         onFocus={() => onFocus(dropdownId)}
       >
         {options.map(
-          ({ optionValue, optionLabel }, index) =>
+          ({ optionValue, optionLabel, optionDisabled }, index) =>
             optionLabel && (
               <option
                 key={index}
                 value={optionValue}
+                disabled={optionDisabled}
                 className={
                   optionValue === value
                     ? 'vads-u-font-weight--bold'
@@ -65,9 +67,8 @@ const Dropdown = ({
 };
 
 Dropdown.propTypes = {
-  visible: PropTypes.bool.isRequired,
+  alt: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   options: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,
@@ -75,9 +76,11 @@ Dropdown.propTypes = {
     }),
   ).isRequired,
   value: PropTypes.string.isRequired,
+  visible: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
-  alt: PropTypes.string.isRequired,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
+  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   onFocus: PropTypes.func,
 };
 
