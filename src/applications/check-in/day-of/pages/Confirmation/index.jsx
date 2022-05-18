@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
-import MultipleAppointment from './MultipleAppointments';
+import CheckInConfirmation from './CheckInConfirmation';
 import { triggerRefresh } from '../../../actions/day-of';
 import { makeSelectConfirmationData } from '../../../selectors';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
@@ -35,7 +35,7 @@ const Confirmation = () => {
   );
 
   return (
-    <MultipleAppointment
+    <CheckInConfirmation
       selectedAppointment={selectedAppointment}
       appointments={appointments}
       triggerRefresh={refreshAppointments}

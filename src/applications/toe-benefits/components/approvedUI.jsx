@@ -100,6 +100,11 @@ export default function ApprovedUI({ user, dateReceived }) {
           </div>
         </va-additional-info>
       </div>
+      <div className="vads-u-margin-bottom--3">
+        <a className="vads-c-action-link--green " href="/?next=%2Fprofile">
+          Go to your My VA dashboard
+        </a>
+      </div>
     </>
   );
 }

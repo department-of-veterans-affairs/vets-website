@@ -74,7 +74,10 @@ export const fullNameLoadError = state => {
 };
 
 export const personalInformationLoadError = state => {
-  return state.vaProfile?.personalInformation?.errors;
+  return (
+    state.vaProfile?.personalInformation?.errors ||
+    state.vaProfile?.personalInformation?.error
+  );
 };
 
 export const militaryInformationLoadError = state => {
@@ -102,6 +105,11 @@ export const profileShowPronounsAndSexualOrientation = state =>
 export const profileDoNotRequireInternationalZipCode = state =>
   toggleValues(state)?.[
     FEATURE_FLAG_NAMES.profileDoNotRequireInternationalZipCode
+  ];
+
+export const profileAlwaysShowDirectDepositDisplay = state =>
+  toggleValues(state)?.[
+    FEATURE_FLAG_NAMES.profileAlwaysShowDirectDepositDisplay
   ];
 
 export function selectVAProfilePersonalInformation(state, fieldName) {

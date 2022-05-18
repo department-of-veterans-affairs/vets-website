@@ -7,12 +7,12 @@ import {
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 import get from 'platform/utilities/data/get';
-import { veteranFields } from '../constants';
 import {
   medicalCenterLabels,
   medicalCentersByState,
   facilityNameMaxLength,
 } from 'applications/caregivers/helpers';
+import { veteranFields } from '../constants';
 
 const emptyFacilityList = [];
 const stateLabels = createUSAStateLabels(states);

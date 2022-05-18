@@ -96,6 +96,7 @@ const PreSubmitCheckboxGroup = ({
         ...transformSignatures(signatures),
       });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [setFormData, signatures],
   );
 
