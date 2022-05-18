@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { ConnectedDevicesSection } from '../../components/ConnectedDevicesSection';
 
 describe('Connect Devices Section', () => {
@@ -32,5 +32,35 @@ describe('Connect Devices Section', () => {
 
     expect(section.getByTestId('apple-disconnect-link')).to.exist;
     expect(section.queryByTestId('libre-disconnect-link')).to.not.exist;
+  });
+  it('logs clicked when clicking disconnect', async () => {
+    const devices = [
+      {
+        vendor: 'Apple Watch',
+        key: 'apple',
+        authUrl: `/apple`,
+        disconnectUrl: 'placeholder',
+        connected: true,
+      },
+    ];
+    const { getByTestId, getByText, getByRole } = render(
+      <ConnectedDevicesSection
+        connectedDevices={devices}
+        successAlert={false}
+        failureAlert={false}
+      />,
+    );
+    const disconnectBtn = getByRole('button', { name: 'Disconnect' });
+    await fireEvent.click(disconnectBtn);
+    const modal = getByTestId('disconnect-modal');
+    expect(modal).to.exist;
+    expect(modal.getAttribute('modalTitle')).to.eq('Disconnect device');
+    expect(
+      getByText(
+        'Disconnecting your Apple Watch will stop sharing data with the VA.',
+      ),
+    ).to.exist;
+    expect(modal.getAttribute('primaryButtonText')).to.eq('Disconnect device');
+    expect(modal.getAttribute('secondaryButtonText')).to.eq('Go back');
   });
 });
