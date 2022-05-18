@@ -43,7 +43,8 @@ const DisplayMultipleAppointments = props => {
       const refreshInterval = intervalUntilNextAppointmentIneligibleForCheckin(
         appointments,
       );
-      if (refreshInterval) {
+
+      if (refreshInterval > 5000) {
         // Refresh the page 5 seconds before the checkIn window expires.
         setInterval(() => refreshCheckInData(), refreshInterval - 5000);
       }
