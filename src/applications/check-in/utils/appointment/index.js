@@ -63,13 +63,13 @@ const intervalUntilNextAppointmentIneligibleForCheckin = appointments => {
     appointment => appointment.checkInWindowEnd,
   );
 
-  checkInWindowEnds.sort((a, b) => {
-    return parseISO(a) > parseISO(b);
-  });
-
   checkInWindowEnds = checkInWindowEnds.filter(
     checkInWindowEnd => parseISO(checkInWindowEnd) > Date.now(),
   );
+
+  checkInWindowEnds.sort((a, b) => {
+    return parseISO(a) > parseISO(b);
+  });
 
   if (checkInWindowEnds[0]) {
     interval = Math.round(parseISO(checkInWindowEnds[0]) - Date.now());
