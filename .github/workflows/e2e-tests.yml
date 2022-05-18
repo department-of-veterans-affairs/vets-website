@@ -36,9 +36,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: set-commit-sha
 
-    env:
-      TEST_B: 'testB'
-
     steps:
       - name: Get Mapbox Token A
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -82,16 +79,8 @@ jobs:
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
-      TEST_A: 'testA'
 
     steps:
-      # ADD THIS STEP
-      - name: Get Mapbox Token B
-        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-        with:
-          ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
-          env_variable_name: MAPBOX_TOKEN
-
       - name: Checkout
         uses: actions/checkout@v3
         with:
