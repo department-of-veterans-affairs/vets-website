@@ -1,3 +1,5 @@
+import { isVAProfileServiceConfigured } from '@@vap-svc/util/local-vapsvc';
+
 export const DEBTS_FETCH_INITIATED = 'DEBTS_FETCH_INITIATED';
 export const DEBTS_FETCH_SUCCESS = 'DEBTS_FETCH_SUCCESS';
 export const DEBTS_FETCH_FAILURE = 'DEBTS_FETCH_FAILURE';
@@ -15,6 +17,7 @@ import environment from '~/platform/utilities/environment';
 import { apiRequest } from '~/platform/utilities/api';
 import { deductionCodes } from '../../../debt-letters/const/deduction-codes';
 import recordEvent from '~/platform/monitoring/record-event';
+import { debtMockResponse } from '../utils/mocks/mockResponses';
 
 const fetchDebtsInitiated = () => ({ type: DEBTS_FETCH_INITIATED });
 const fetchDebtLettersInitiated = () => ({
@@ -52,10 +55,9 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
         'Source-App-Name': window.appName,
       },
     };
-    const response = await apiRequest(
-      `${environment.API_URL}/v0/debt_letters`,
-      options,
-    );
+    const response = isVAProfileServiceConfigured()
+      ? await apiRequest(`${environment.API_URL}/v0/debt_letters`, options)
+      : await debtMockResponse();
 
     // Remove DMC prefixing added by VBMS
     const filteredResponse = response.map(debtLetter => {
@@ -93,10 +95,9 @@ export const fetchDebtLetters = async dispatch => {
         'Source-App-Name': window.appName,
       },
     };
-    const response = await apiRequest(
-      `${environment.API_URL}/v0/debts`,
-      options,
-    );
+    const response = isVAProfileServiceConfigured()
+      ? await apiRequest(`${environment.API_URL}/v0/debts`, options)
+      : await debtMockResponse();
 
     if (Object.keys(response).includes('errors')) {
       recordEvent({ event: 'bam-get-veteran-dmc-info-failed' });

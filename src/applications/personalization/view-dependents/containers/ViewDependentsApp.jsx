@@ -7,12 +7,16 @@ import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import titleCase from 'platform/utilities/data/titleCase';
+
 import { fetchAllDependents } from '../actions/index';
 import ViewDependentsLayout from '../layouts/ViewDependentsLayout';
+import { PAGE_TITLE, TITLE_SUFFIX } from '../util';
 
 class ViewDependentsApp extends Component {
   componentDidMount() {
     this.props.fetchAllDependents();
+    document.title = `${titleCase(PAGE_TITLE)}${TITLE_SUFFIX}`;
   }
 
   render() {

@@ -355,7 +355,7 @@ class EducationWizard extends React.Component {
                     this.answerQuestion('post911GIBill', value)
                   }
                   value={{ value: post911GIBill }}
-                  label="Are you applying for the Post-9/11 Gi Bill?"
+                  label="Are you applying for the Post-9/11 GI Bill?"
                 />
               )}
             {newBenefit === 'yes' &&
