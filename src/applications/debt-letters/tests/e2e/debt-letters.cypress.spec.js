@@ -42,7 +42,7 @@ describe('Debt Letters', () => {
   it('displays download debt letters - C1227', () => {
     cy.findByTestId('download-jumplink').click({ waitForAnimations: true });
     cy.findByTestId('download-letters-link').click();
-    cy.get('#downloadDebtLetters').should('be.visible');
+    cy.get('#downloadDebtLetters1').should('be.visible');
   });
 
   it('displays how do I pay my VA debt? - C1228', () => {

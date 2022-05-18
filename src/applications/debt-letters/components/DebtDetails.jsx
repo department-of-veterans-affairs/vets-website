@@ -142,10 +142,7 @@ const DebtDetails = ({ selectedDebt, debts }) => {
                 .
               </p>
               <HistoryTable history={filteredHistory} />
-              <h3
-                // id="downloadDebtLetters"
-                className="vads-u-margin-top--0"
-              >
+              <h3 id="downloadDebtLetters2" className="vads-u-margin-top--0">
                 Download debt letters
               </h3>
               <p className="vads-u-margin-bottom--0">
