@@ -7,6 +7,7 @@ import 'platform/polyfills';
 import startSitewideComponents from 'platform/site-wide';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import createCommonStore from 'platform/startup/store';
+import showVaAlertExpandable from 'platform/site-wide/alerts/showVaAlertExpandable';
 import alertsBuildShow from './widget-creators/alerts-dismiss-view';
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
 import icsCreate from './widget-creators/ics-generator';
@@ -103,6 +104,7 @@ subscribeAccordionEvents();
 alertsBuildShow();
 icsCreate();
 openShareLink();
+showVaAlertExpandable(store);
 
 // Create widgets.
 createApplicationStatus(store, {
