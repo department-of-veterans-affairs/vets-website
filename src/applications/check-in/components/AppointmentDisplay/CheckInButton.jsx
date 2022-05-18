@@ -2,11 +2,10 @@ import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
+import { isBefore } from 'date-fns';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { createAnalyticsSlug } from '../../utils/analytics';
-
-const isBefore = require('date-fns/isBefore');
 
 const CheckInButton = ({
   checkInWindowEnd,
