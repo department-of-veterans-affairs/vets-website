@@ -26,15 +26,16 @@ describe('The My VA Dashboard - Notifications', () => {
           type: 'feature_toggles',
           features: [],
         },
-      });
+      }).as('features');
+      cy.intercept('/v0/profile/service_history', serviceHistory).as('service');
+      cy.intercept('/v0/profile/full_name', fullName).as('name');
       mockLocalStorage();
       cy.login(mockUser);
       cy.visit('my-va/');
-      cy.intercept('/v0/profile/service_history', serviceHistory);
-      cy.intercept('/v0/profile/full_name', fullName);
+      cy.wait(['@features', '@name', '@service']);
     });
     it('the notifications does not show up - C13978', () => {
-      // make sure that the Payment and Debt section is not shown
+      // make sure that the Notification section is not shown
       cy.findByTestId('dashboard-notifications').should('not.exist');
 
       // make the a11y check
@@ -56,12 +57,12 @@ describe('The My VA Dashboard - Notifications', () => {
           ],
         },
       }).as('features');
+      cy.intercept('/v0/profile/service_history', serviceHistory).as('service');
+      cy.intercept('/v0/profile/full_name', fullName).as('name');
       mockLocalStorage();
       cy.login(mockUser);
       cy.visit('my-va/');
-      cy.intercept('/v0/profile/service_history', serviceHistory);
-      cy.intercept('/v0/profile/full_name', fullName);
-      cy.wait(['@features']);
+      cy.wait(['@features', '@name', '@service']);
     });
     it('and they have no notifications - C13979', () => {
       cy.intercept('/v0/onsite_notifications', notificationsSuccessEmpty()).as(
