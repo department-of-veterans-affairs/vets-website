@@ -30,12 +30,18 @@ const HealthCareEntry = ({
         setFormData({
           ...formData,
           'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
+        });
+      }
+
+      if (hcaShortFormEnabled !== undefined) {
+        setFormData({
+          ...formData,
           'view:hcaShortFormEnabled': hcaShortFormEnabled,
         });
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [caregiverSIGIEnabled, hcaAmericanIndianEnabled],
+    [caregiverSIGIEnabled, hcaAmericanIndianEnabled, hcaShortFormEnabled],
   );
 
   useEffect(
