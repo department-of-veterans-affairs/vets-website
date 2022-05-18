@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import React from 'react';
 import { DeviceDisconnectionCard } from './DeviceDisconnectionCard';
 import {
   DeviceConnectionFailedAlert,
@@ -12,7 +11,6 @@ export const ConnectedDevicesSection = ({
   successAlert,
   failureAlert,
 }) => {
-  const [modalVisible, setModalVisible] = useState(false);
   const areDevicesConnected = () => {
     try {
       return connectedDevices.some(device => device.connected);
@@ -25,13 +23,7 @@ export const ConnectedDevicesSection = ({
     try {
       return connectedDevices.map(device => {
         if (device.connected) {
-          return (
-            <DeviceDisconnectionCard
-              device={device}
-              key={device.key}
-              onClickHandler={() => setModalVisible(true)}
-            />
-          );
+          return <DeviceDisconnectionCard device={device} key={device.key} />;
         }
         return <></>;
       });
@@ -46,25 +38,6 @@ export const ConnectedDevicesSection = ({
 
   return (
     <>
-      {modalVisible && (
-        <>
-          <VaModal
-            id="disconnect-modal"
-            modalTitle="Disconnect device"
-            onCloseEvent={function noRefCheck() {}}
-            onPrimaryButtonClick={function noRefCheck() {}}
-            onSecondaryButtonClick={function noRefCheck() {}}
-            primaryButtonText="Disconnect device"
-            secondaryButtonText="Go back"
-            data-testid="disconnect-modal"
-            visible
-          >
-            <p>
-              Disconnecting your Apple Watch will stop sharing data with the VA.
-            </p>
-          </VaModal>
-        </>
-      )}
       {successAlert && <DeviceConnectionSucceededAlert />}
       {failureAlert && <DeviceConnectionFailedAlert />}
       {!areDevicesConnected() && (
