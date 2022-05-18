@@ -18,21 +18,36 @@ describe('Device disconnection card', () => {
 });
 
 describe('Device disconnection card modal', () => {
-  it('Should show modal when disconnect is clicked', async () => {
-    const { getByText, getByRole, getByTestId } = render(
+  let screen;
+  let modal;
+  beforeEach(async () => {
+    screen = render(
       <DeviceDisconnectionCard device={{ name: 'Test Vendor', key: 'test' }} />,
     );
-    const disconnectBtn = getByRole('button', { name: 'Disconnect' });
+    const disconnectBtn = screen.getByRole('button', { name: 'Disconnect' });
     await fireEvent.click(disconnectBtn);
-    const modal = getByTestId('disconnect-modal');
+    modal = screen.getByTestId('disconnect-modal');
+  });
+
+  it('Should show modal when Disconnect is clicked', async () => {
     expect(modal).to.exist;
     expect(modal.getAttribute('modalTitle')).to.eq('Disconnect device');
     expect(
-      getByText(
+      screen.getByText(
         'Disconnecting your Test Vendor will stop sharing data with the VA.',
       ),
     ).to.exist;
     expect(modal.getAttribute('primaryButtonText')).to.eq('Disconnect device');
     expect(modal.getAttribute('secondaryButtonText')).to.eq('Go back');
+  });
+  it("Should close modal when 'Go back' button is clicked", async () => {
+    const goBackBtn = modal.__events.secondaryButtonClick;
+    await goBackBtn();
+    expect(screen.queryByTestId('disconnect-modal')).to.not.exist;
+  });
+  it("Should close modal when 'X' button is clicked", async () => {
+    const xBtn = modal.__events.closeEvent;
+    await xBtn();
+    expect(screen.queryByTestId('disconnect-modal')).to.not.exist;
   });
 });

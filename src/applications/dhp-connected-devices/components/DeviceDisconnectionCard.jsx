@@ -4,9 +4,16 @@ import { DisconnectModal } from './DisconnectModal';
 
 export const DeviceDisconnectionCard = ({ device }) => {
   const [modalVisible, setModalVisible] = useState(false);
+
+  function closeModal() {
+    setModalVisible(false);
+  }
+
   return (
     <>
-      {modalVisible && <DisconnectModal deviceName={device.name} />}
+      {modalVisible && (
+        <DisconnectModal deviceName={device.name} handleClose={closeModal} />
+      )}
       <div className="connect-device">
         <h3 className="vads-u-margin-y--0">
           {device.name}{' '}
