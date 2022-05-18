@@ -134,7 +134,7 @@ export function CalculateYourBenefits({
         />
         <div className={spacerClassNames}>&nbsp;</div>
         <EstimatedBenefits
-          outputs={outputs}
+          outputs={calculated.outputs}
           profile={profile}
           calculator={inputs}
           isOJT={isOJT}
@@ -149,7 +149,7 @@ export function CalculateYourBenefits({
             {
               <div id="eyb-summary-sheet" className={summarySheetClassNames}>
                 <EstimateYourBenefitsSummarySheet
-                  outputs={outputs}
+                  outputs={calculated.outputs}
                   expandEybSheet={expandEybSheet}
                   showEybSheet={showEybSheet}
                   toggleEybExpansion={toggleEybExpansion}

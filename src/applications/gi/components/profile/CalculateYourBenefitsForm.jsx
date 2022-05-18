@@ -248,6 +248,8 @@ function CalculateYourBenefitsForm({
       'gibct-form-field': 'gibctInternationalCheckbox',
       'gibct-form-value': 'Classes outside the U.S. & U.S. territories',
     });
+
+    if (!environment.isProduction()) recalculateBenefits();
   };
 
   const handleInputBlur = event => {
@@ -257,6 +259,8 @@ function CalculateYourBenefitsForm({
       'gibct-form-field': field,
       'gibct-form-value': value,
     });
+
+    if (!environment.isProduction()) recalculateBenefits();
   };
 
   const handleEYBInputFocus = fieldId => {
