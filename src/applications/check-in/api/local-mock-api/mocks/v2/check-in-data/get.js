@@ -73,17 +73,15 @@ const createAppointment = (
   preCheckInValid = false,
   uuid = defaultUUID,
 ) => {
-  const startTime = preCheckInValid
-    ? dateFns.addDays(new Date(), 1)
-    : new Date();
+  let startTime = preCheckInValid ? dateFns.addDays(new Date(), 1) : new Date();
   if (eligibility === 'INELIGIBLE_TOO_LATE') {
-    startTime.setHours(startTime.getHours() - 1);
+    startTime = dateFns.subHours(startTime, 1);
   } else if (eligibility === 'INELIGIBLE_TOO_EARLY') {
-    startTime.setHours(startTime.getHours() + 1);
+    startTime = dateFns.addHours(startTime, 1);
   } else if (uuid === aboutToExpireUUID) {
-    startTime.setMinutes(startTime.getMinutes() - 14);
+    startTime = dateFns.subMinutes(startTime, 14);
   } else {
-    startTime.setMinutes(startTime.getMinutes() + 15);
+    startTime = dateFns.addMinutes(startTime, 15);
   }
   const formattedStartTime = dateFns.format(
     startTime,
