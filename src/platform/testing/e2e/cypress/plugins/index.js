@@ -97,6 +97,15 @@ module.exports = async (on, config) => {
     platform: 'browser',
     target: ['esnext', 'node14'],
   });
+  on('before:browser:launch', (browser = {}, args) => {
+    // console.log(config, browser, args);
+    if (browser.name === 'chrome') {
+      args.push(
+        '--disabled-features=CrossSiteDocumentBlockingIfIsolating,CrossSiteDocumentBlockingAlways,IsolateOrigins,site-per-process',
+      );
+    }
+    return args;
+  });
   on('file:preprocessor', bundler);
 
   on('after:spec', (spec, results) => {
