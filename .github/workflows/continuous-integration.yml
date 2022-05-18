@@ -30,6 +30,12 @@ jobs:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
     steps:
+      - name: Get Mapbox Token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
+          env_variable_name: MAPBOX_TOKEN
+
       - name: Checkout
         uses: actions/checkout@v3
         with:
