@@ -106,9 +106,9 @@ describe('HCA-Shortform-Authenticated', () => {
     aiqHelpers.goToNextPage('/veteran-information/demographic-information');
     aiqHelpers.shortFormAdditionalHelpAssertion();
 
-    aiqHelpers.goToNextPage('/veteran-information/american-indian');
+    // aiqHelpers.goToNextPage('/veteran-information/american-indian');
     // aiqHelpers.shortFormAdditionalHelpAssertion();
-    cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
+    // cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
 
     aiqHelpers.goToNextPage('/veteran-information/veteran-address');
     aiqHelpers.shortFormAdditionalHelpAssertion();
@@ -193,8 +193,8 @@ describe('HCA-Shortform-Authenticated', () => {
     aiqHelpers.goToNextPage('/veteran-information/birth-sex');
     aiqHelpers.goToNextPage('/veteran-information/demographic-information');
 
-    aiqHelpers.goToNextPage('/veteran-information/american-indian');
-    cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
+    // aiqHelpers.goToNextPage('/veteran-information/american-indian');
+    // cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
 
     aiqHelpers.goToNextPage('/veteran-information/veteran-address');
     cy.get('[type=radio]')
@@ -264,8 +264,8 @@ describe('HCA-Shortform-UnAuthenticated', () => {
 
     aiqHelpers.goToNextPage('/veteran-information/demographic-information');
 
-    aiqHelpers.goToNextPage('/veteran-information/american-indian');
-    cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
+    // aiqHelpers.goToNextPage('/veteran-information/american-indian');
+    // cy.get('#root_sigiIsAmericanIndianNo[type="radio"]').check();
 
     aiqHelpers.goToNextPage('/veteran-information/veteran-address');
     cy.get('#root_veteranAddress_street').type(testData.veteranAddress.street);
