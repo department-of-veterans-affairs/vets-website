@@ -93,6 +93,7 @@ export function CalculateYourBenefits({
     return <LoadingIndicator message="Loading your estimated benefits..." />;
   }
 
+  const outputs = estimatedBenefits;
   const inputs = calculator;
   const displayed = calculated.inputs;
 
@@ -133,7 +134,7 @@ export function CalculateYourBenefits({
         />
         <div className={spacerClassNames}>&nbsp;</div>
         <EstimatedBenefits
-          outputs={calculated.outputs}
+          outputs={environment.isProduction() ? outputs : calculated.outputs}
           profile={profile}
           calculator={inputs}
           isOJT={isOJT}
@@ -148,7 +149,7 @@ export function CalculateYourBenefits({
             {
               <div id="eyb-summary-sheet" className={summarySheetClassNames}>
                 <EstimateYourBenefitsSummarySheet
-                  outputs={calculated.outputs}
+                  outputs={environment.isProduction() ? outputs : calculated.outputs}
                   expandEybSheet={expandEybSheet}
                   showEybSheet={showEybSheet}
                   toggleEybExpansion={toggleEybExpansion}
