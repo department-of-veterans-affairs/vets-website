@@ -74,7 +74,13 @@ const AppointmentAction = props => {
       );
     }
     if (areEqual(appointment.eligibility, ELIGIBILITY.ELIGIBLE)) {
-      return <CheckInButton onClick={onClick} />;
+      return (
+        <CheckInButton
+          checkInWindowEnd={parseISO(appointment.checkInWindowEnd)}
+          onClick={onClick}
+          router={router}
+        />
+      );
     }
     if (areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_BAD_STATUS)) {
       return (
