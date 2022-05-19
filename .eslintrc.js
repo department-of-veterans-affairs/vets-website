@@ -41,6 +41,11 @@ module.exports = {
         name: '@department-of-veterans-affairs/component-library/ProgressBar',
         use: '<va-progress-bar>',
       },
+      {
+        name: 'web-components/react-bindings',
+        use:
+          '@department-of-veterans-affairs/component-library/dist/react-bindings',
+      },
     ],
     'jsx-a11y/control-has-associated-label': 1, // 2
     'jsx-a11y/click-events-have-key-events': 1, // 24
