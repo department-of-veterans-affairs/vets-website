@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -17,39 +17,53 @@ const HealthCareEntry = ({
   setFormData,
   formData,
 }) => {
-  const getFlipperData = useCallback(
-    () => {
-      if (caregiverSIGIEnabled !== undefined) {
-        setFormData({
-          ...formData,
-          'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
-        });
-      }
+  // const getFlipperData = useCallback(
+  //   () => {
+  //     if (caregiverSIGIEnabled !== undefined) {
+  //       setFormData({
+  //         ...formData,
+  //         'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
+  //       });
+  //     }
 
-      if (hcaAmericanIndianEnabled !== undefined) {
-        setFormData({
-          ...formData,
-          'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
-        });
-      }
+  //     if (hcaAmericanIndianEnabled !== undefined) {
+  //       setFormData({
+  //         ...formData,
+  //         'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
+  //       });
+  //     }
 
-      if (hcaShortFormEnabled !== undefined) {
-        setFormData({
-          ...formData,
-          'view:hcaShortFormEnabled': hcaShortFormEnabled,
-        });
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [caregiverSIGIEnabled, hcaAmericanIndianEnabled, hcaShortFormEnabled],
-  );
+  //     if (hcaShortFormEnabled !== undefined) {
+  //       setFormData({
+  //         ...formData,
+  //         'view:hcaShortFormEnabled': hcaShortFormEnabled,
+  //       });
+  //     }
+  //   },
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [caregiverSIGIEnabled, hcaAmericanIndianEnabled, hcaShortFormEnabled],
+  // );
+
+  // useEffect(
+  //   () => {
+  //     getFlipperData();
+  //   },
+
+  //   [getFlipperData, caregiverSIGIEnabled],
+  // );
 
   useEffect(
     () => {
-      getFlipperData();
+      setFormData({
+        ...formData,
+        'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
+        'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
+        'view:hcaShortFormEnabled': hcaShortFormEnabled,
+      });
     },
 
-    [getFlipperData, caregiverSIGIEnabled],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [caregiverSIGIEnabled, hcaAmericanIndianEnabled, hcaShortFormEnabled],
   );
 
   return (
