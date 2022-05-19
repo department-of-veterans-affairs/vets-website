@@ -45,7 +45,7 @@ describe('The My VA Dashboard - Notifications', () => {
     });
   });
   describe('when the feature is not hidden', () => {
-    Cypress.config({ defaultCommandTimeout: 24000 });
+    Cypress.config({ defaultCommandTimeout: 12000 });
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
@@ -84,8 +84,11 @@ describe('The My VA Dashboard - Notifications', () => {
       cy.login(mockUser);
       cy.visit('my-va/');
       cy.wait(['@featuresB', '@nameB', '@serviceB', '@notifications2']);
-      cy.findByTestId('dashboard-notifications').should('exist');
-
+      // cy.findByTestId('dashboard-notifications').should('exist');
+      cy.findAllByTestId('dashboard-notification-alert').should(
+        'have.length',
+        1,
+      );
       // make the a11y check
       cy.injectAxeThenAxeCheck('#react-root');
     });
@@ -97,8 +100,11 @@ describe('The My VA Dashboard - Notifications', () => {
       cy.login(mockUser);
       cy.visit('my-va/');
       cy.wait(['@featuresB', '@nameB', '@serviceB', '@notifications3']);
-      cy.findByTestId('dashboard-notifications').should('exist');
-
+      // cy.findByTestId('dashboard-notifications').should('exist');
+      cy.findAllByTestId('dashboard-notification-alert').should(
+        'have.length',
+        2,
+      );
       // make the a11y check
       cy.injectAxeThenAxeCheck('#react-root'); // First AXE-check already checked the whole
     });
@@ -144,7 +150,11 @@ describe('The My VA Dashboard - Notifications', () => {
       cy.login(mockUser);
       cy.visit('my-va/');
       cy.wait(['@featuresB', '@nameB', '@serviceB', '@notifications6']);
-      cy.findByTestId('dashboard-notifications').should('exist');
+      // cy.findByTestId('dashboard-notifications').should('exist');
+      cy.findAllByTestId('dashboard-notification-alert').should(
+        'have.length',
+        1,
+      );
       cy.get('va-alert')
         .shadow()
         .find('button.va-alert-close')
