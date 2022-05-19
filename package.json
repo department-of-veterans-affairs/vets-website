@@ -133,7 +133,7 @@
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
     "append-query": "^2.1.1",
     "autoprefixer": "^10.3.5",
-    "axe-core": "^4.4.1",
+    "axe-core": "^4.4.2",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
