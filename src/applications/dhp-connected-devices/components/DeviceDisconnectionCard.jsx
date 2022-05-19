@@ -5,7 +5,7 @@ export const DeviceDisconnectionCard = ({ device, onClickHandler }) => {
   return (
     <div className="connect-device">
       <h3 className="vads-u-margin-y--0">
-        {device.vendor}{' '}
+        {device.name}{' '}
         <span className="connected-header-text"> - Connected</span>{' '}
       </h3>
       <p className="vads-u-margin-y--0">
