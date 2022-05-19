@@ -60,7 +60,7 @@ export const Results = ({
       {/* Events */}
       {results && (
         <div className="vads-u-display--flex vads-u-flex-direction--column">
-          {results?.map(event => {
+          {results?.map((event, index) => {
             // Derive event properties.
             const entityUrl = event?.entityUrl;
             const fieldDescription = event?.fieldDescription;
@@ -92,7 +92,7 @@ export const Results = ({
             return (
               <div
                 className="vads-u-display--flex vads-u-flex-direction--column vads-u-border-top--1px vads-u-border-color--gray-light vads-u-padding-y--4"
-                key={`${title}-${entityUrl?.path}`}
+                key={`${title}-${entityUrl?.path}-${index}`}
               >
                 {/* Title */}
                 <h3 className="vads-u-margin--0 vads-u-font-size--h4">
