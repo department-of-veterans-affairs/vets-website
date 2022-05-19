@@ -5,13 +5,12 @@ import OverviewPage from './containers/OverviewPage';
 import DetailPage from './containers/DetailPage';
 import HTMLStatementPage from './containers/HTMLStatementPage';
 
-const Routes = () => (
+const MedicalCopaysRoutes = () => (
   <MedicalCopaysApp>
     <Switch>
-      <Route exact path="/" component={OverviewPage} />
-      <Route exact path="/balance-details/:id" component={DetailPage} />
+      <Route path="/" component={OverviewPage} />
+      <Route path="/balance-details/:id" component={DetailPage} />
       <Route
-        exact
         path="/balance-details/:id/statement-view"
         component={HTMLStatementPage}
       />
@@ -22,4 +21,4 @@ const Routes = () => (
   </MedicalCopaysApp>
 );
 
-export default Routes;
+export default MedicalCopaysRoutes;
