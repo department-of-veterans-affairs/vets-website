@@ -320,14 +320,10 @@ class FileField extends React.Component {
                 errorSchema,
               );
               const attachmentNameErrors = get([index, 'name'], errorSchema);
-              // feature flag
-              const showPasswordContent = file.isEncrypted;
               const showPasswordInput =
-                showPasswordContent && !file.confirmationCode;
+                file.isEncrypted && !file.confirmationCode;
               const showPasswordSuccess =
-                showPasswordContent &&
-                !showPasswordInput &&
-                file.confirmationCode;
+                file.isEncrypted && file.confirmationCode;
               const description =
                 (!file.uploading && uiOptions.itemDescription) || '';
 
