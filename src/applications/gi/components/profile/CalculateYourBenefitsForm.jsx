@@ -202,10 +202,6 @@ function CalculateYourBenefitsForm({
   const updateEligibility = e => {
     const field = e.target.name;
     const { value } = e.target;
-    // eslint-disable-next-line no-console
-    console.log(`value: ${value}`);
-    // eslint-disable-next-line no-console
-    console.log(`isDisabled: ${isDisabled}`);
     recordEvent({
       event: 'gibct-form-change',
       'gibct-form-field': field,
@@ -1219,17 +1215,19 @@ function CalculateYourBenefitsForm({
 }
 
 CalculateYourBenefitsForm.propTypes = {
-  profile: PropTypes.object,
+  updateEstimatedBenefits: PropTypes.func.isRequired,
+  calculatorInputChange: PropTypes.func,
+  displayedInputs: PropTypes.object,
   eligibility: PropTypes.object,
   eligibilityChange: PropTypes.func,
-  inputs: PropTypes.object,
-  displayedInputs: PropTypes.object,
-  showModal: PropTypes.func,
-  calculatorInputChange: PropTypes.func,
-  onBeneficiaryZIPCodeChanged: PropTypes.func,
   estimatedBenefits: PropTypes.object,
-  updateEstimatedBenefits: PropTypes.func.isRequired,
+  focusHandler: PropTypes.func,
+  hideModal: PropTypes.func,
+  inputs: PropTypes.object,
+  profile: PropTypes.object,
+  showModal: PropTypes.func,
   updateBenefitsButtonEnabled: PropTypes.bool,
+  onBeneficiaryZIPCodeChanged: PropTypes.func,
 };
 
 export default CalculateYourBenefitsForm;

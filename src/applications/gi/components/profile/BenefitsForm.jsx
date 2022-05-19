@@ -22,8 +22,6 @@ const BenefitsForm = ({
   showModal,
   spouseActiveDuty,
 }) => {
-  // eslint-disable-next-line no-console
-  console.log(`benefitsForm ${optionDisabled}`);
   const cumulativeServiceOptions = () => [
     { optionValue: '1.0', optionLabel: '36+ months: 100%' }, // notice not 1.00
     { optionValue: '0.9', optionLabel: '30 months: 90%' },
