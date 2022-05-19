@@ -6,7 +6,11 @@ import _ from 'lodash';
 
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { VaCheckbox, VaSelect } from 'web-components/react-bindings';
+import {
+  VaTextInput,
+  VaCheckbox,
+  VaSelect,
+} from 'web-components/react-bindings';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { makeSelectEditContext } from '../../../selectors';
@@ -206,7 +210,7 @@ export default function Address(props) {
         switch (addressField.type) {
           case 'text': {
             return (
-              <va-text-input
+              <VaTextInput
                 error={addressError[addressField.name]}
                 label={addressField.label}
                 name={addressField.name}

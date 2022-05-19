@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { VaTextInput } from 'web-components/react-bindings';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { makeSelectEditContext } from '../../../selectors';
@@ -73,7 +74,7 @@ export default function Name(props) {
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 edit-relationship-page">
       <h1 data-testid="header">{title}</h1>
-      <va-text-input
+      <VaTextInput
         error={error}
         label={t('name')}
         name={key}

@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { VaTextInput } from 'web-components/react-bindings';
 import { Date } from '@department-of-veterans-affairs/component-library';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import LanguagePicker from '../../LanguagePicker';
@@ -68,7 +69,7 @@ export default function ValidateDisplay({
         <></>
       )}
       <form className="vads-u-margin-bottom--2p5" onSubmit={validateHandler}>
-        <va-text-input
+        <VaTextInput
           autoCorrect="false"
           error={lastNameErrorMessage}
           label={t('your-last-name')}
@@ -94,7 +95,7 @@ export default function ValidateDisplay({
             />
           </div>
         ) : (
-          <va-text-input
+          <VaTextInput
             error={last4ErrorMessage}
             inputmode="numeric"
             label={t('last-4-digits-of-your-social-security-number')}
