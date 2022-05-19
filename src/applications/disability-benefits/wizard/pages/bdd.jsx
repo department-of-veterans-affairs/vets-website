@@ -37,12 +37,12 @@ const findNextPage = date => {
   }
 
   if (differenceBetweenDatesInDays < 90) {
-    saveDischargeDate(dateDischarge, false);
+    saveDischargeDate(date, false);
     return pageNames.fileClaimEarly;
   }
 
   if (differenceBetweenDatesInDays <= 180) {
-    saveDischargeDate(dateDischarge, true);
+    saveDischargeDate(date, true);
     return pageNames.fileBDD;
   }
 

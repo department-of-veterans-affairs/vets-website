@@ -28,7 +28,6 @@ Cypress.Commands.add('fillWCDate', (fieldName, dateString) => {
         .find('va-text-input.input-year')
         .shadow()
         .find('input')
-        .clear()
         .type(date[0]);
     });
 });
