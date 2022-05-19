@@ -161,8 +161,6 @@ function CalculateYourBenefitsForm({
     setInputUpdated(true);
     calculatorInputChange({ field, value });
 
-    if (!environment.isProduction()) updateEstimatedBenefits();
-
     if (field === 'beneficiaryLocationQuestion' || field === 'extension') {
       if (value === 'extension' || value === profile.attributes.name) {
         recordEvent({
@@ -209,6 +207,7 @@ function CalculateYourBenefitsForm({
     });
     eligibilityChange({ [field]: value });
     setInputUpdated(true);
+
     if (
       field === 'militaryStatus' &&
       (value === 'spouse' || value === 'child')
@@ -260,6 +259,8 @@ function CalculateYourBenefitsForm({
       'gibct-form-field': 'gibctInternationalCheckbox',
       'gibct-form-value': 'Classes outside the U.S. & U.S. territories',
     });
+
+    if (!environment.isProduction()) recalculateBenefits();
   };
 
   const handleInputBlur = event => {
@@ -269,6 +270,8 @@ function CalculateYourBenefitsForm({
       'gibct-form-field': field,
       'gibct-form-value': value,
     });
+
+    if (!environment.isProduction()) recalculateBenefits();
   };
 
   const handleEYBInputFocus = fieldId => {

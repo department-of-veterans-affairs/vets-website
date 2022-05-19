@@ -15,6 +15,7 @@ import CalculateYourBenefitsForm from '../components/profile/CalculateYourBenefi
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import EstimateYourBenefitsSummarySheet from '../components/profile/EstimateYourBenefitsSummarySheet';
 import LearnMoreLabel from '../components/LearnMoreLabel';
+import environment from 'platform/utilities/environment';
 
 export function CalculateYourBenefits({
   calculated,
@@ -134,7 +135,7 @@ export function CalculateYourBenefits({
         />
         <div className={spacerClassNames}>&nbsp;</div>
         <EstimatedBenefits
-          outputs={outputs}
+          outputs={environment.isProduction() ? outputs : calculated.outputs}
           profile={profile}
           calculator={inputs}
           isOJT={isOJT}
@@ -144,12 +145,14 @@ export function CalculateYourBenefits({
         {gibctEybBottomSheet && (
           <div>
             {expandEybSheet && (
-              <div onClick={toggleEybExpansion} className="va-modal overlay" />
+              <div className="va-modal overlay" role="alertdialog" />
             )}
             {
               <div id="eyb-summary-sheet" className={summarySheetClassNames}>
                 <EstimateYourBenefitsSummarySheet
-                  outputs={outputs}
+                  outputs={
+                    environment.isProduction() ? outputs : calculated.outputs
+                  }
                   expandEybSheet={expandEybSheet}
                   showEybSheet={showEybSheet}
                   toggleEybExpansion={toggleEybExpansion}
