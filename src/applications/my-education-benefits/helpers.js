@@ -284,13 +284,12 @@ export function prefillTransformer(pages, formData, metadata, state) {
   };
 
   if (claimant?.suffix) {
-    newData[
-      'view:userFullName'
-    ].userFullName.suffix = state.form.pages.applicantInformation.schema.properties[
-      'view:userFullName'
-    ].properties.userFullName.properties.suffix.enum.find(e =>
-      equalsAlphaOnlyIgnoreCase(e, claimant.suffix),
-    );
+    newData['view:userFullName'].userFullName.suffix =
+      state?.form?.pages?.applicantInformation?.schema?.properties[
+        'view:userFullName'
+      ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
+        equalsAlphaOnlyIgnoreCase(e, claimant.suffix),
+      ) || undefined;
   }
 
   return {
