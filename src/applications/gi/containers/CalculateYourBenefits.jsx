@@ -15,6 +15,7 @@ import CalculateYourBenefitsForm from '../components/profile/CalculateYourBenefi
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import EstimateYourBenefitsSummarySheet from '../components/profile/EstimateYourBenefitsSummarySheet';
 import LearnMoreLabel from '../components/LearnMoreLabel';
+import environment from 'platform/utilities/environment';
 
 export function CalculateYourBenefits({
   calculated,
