@@ -135,9 +135,7 @@ export function CalculateYourBenefits({
         />
         <div className={spacerClassNames}>&nbsp;</div>
         <EstimatedBenefits
-          outputs={
-            environment.isProduction() ? outputs : calculated.outputs
-          }
+          outputs={environment.isProduction() ? outputs : calculated.outputs}
           profile={profile}
           calculator={inputs}
           isOJT={isOJT}
