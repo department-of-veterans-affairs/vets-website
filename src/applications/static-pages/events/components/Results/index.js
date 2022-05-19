@@ -114,9 +114,8 @@ export const Results = ({
                     <p className="vads-u-margin--0">
                       {formattedStartsAt} – {formattedEndsAt} {endsAtTimezone}
                     </p>
-
                     {/* Repeats */}
-                    {event?.fieldDatetimeRangeTimezone[0]?.length > 1 && (
+                    {event?.fieldDatetimeRangeTimezone?.length > 1 && (
                       <p className="vads-u-margin--0">
                         <i
                           className="fa fa-sync vads-u-font-size--sm vads-u-margin-right--0p5"
