@@ -8,30 +8,6 @@ import {
   WIZARD_STATUS,
 } from '../constants';
 
-// testing
-Cypress.Commands.add('fillWCDate', (fieldName, dateString) => {
-  const date = dateString.split('-').map(part => parseInt(part, 10).toString());
-  cy.get(`va-date[name="${fieldName}"]`)
-    .shadow()
-    .then(el => {
-      cy.wrap(el)
-        .find('va-select.select-month')
-        .shadow()
-        .find('select')
-        .select(date[1]);
-      cy.wrap(el)
-        .find('va-select.select-day')
-        .shadow()
-        .find('select')
-        .select(date[2]);
-      cy.wrap(el)
-        .find('va-text-input.input-year')
-        .shadow()
-        .find('input')
-        .type(date[0]);
-    });
-});
-
 // Date selects don't include leading zeros
 const mock120 = moment()
   .add(120, 'days')
@@ -130,7 +106,7 @@ describe('526 wizard', () => {
     });
 
     cy.get('va-date').should('exist');
-    cy.fillWCDate('discharge-date', mock120);
+    cy.fillDate('discharge-date', mock120);
 
     cy.checkStorage(FORM_STATUS_BDD, 'true');
     cy.checkStorage(SAVED_SEPARATION_DATE, mockDate);
