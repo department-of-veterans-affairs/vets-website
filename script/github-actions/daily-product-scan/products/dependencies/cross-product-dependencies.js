@@ -10,8 +10,8 @@ class CrossProductDependencies extends Dependencies {
 
   setDependencies() {
     Object.keys(this.products).forEach(productId => {
-      const { productPath } = this.products[productId];
-      const imports = findImports(`${productPath}/**/*.*`, {
+      const { pathToCode } = this.products[productId];
+      const imports = findImports(`${pathToCode}/**/*.*`, {
         absoluteImports: true,
         relativeImports: true,
         packageImports: false,
@@ -28,9 +28,7 @@ class CrossProductDependencies extends Dependencies {
             return;
           }
 
-          if (
-            this.importIsFromOtherProduct({ productPath, importedFilePath })
-          ) {
+          if (this.importIsFromOtherProduct({ pathToCode, importedFilePath })) {
             this.setDependency({
               productId,
               importedFilePath,
@@ -83,8 +81,8 @@ class CrossProductDependencies extends Dependencies {
     );
   }
 
-  importIsFromOtherProduct({ productPath, importedFilePath }) {
-    const parentDirectory = productPath
+  importIsFromOtherProduct({ pathToCode, importedFilePath }) {
+    const parentDirectory = pathToCode
       .split('/')
       .slice(0, 3)
       .join('/');
