@@ -49,17 +49,6 @@ describe('<BenefitsForm>', () => {
     tree.unmount();
   });
 
-  it('should render fields for Post-9/11 GI Bill (Ch 33)', () => {
-    const props = { ...defaultProps, giBillChapter: '33' };
-    const tree = mount(<BenefitsForm {...props} />);
-    checkExpectedDropdowns(tree, [
-      'militaryStatus',
-      'giBillChapter',
-      'cumulativeService',
-    ]);
-    tree.unmount();
-  });
-
   it('should render fields for Montgomery GI Bill (Ch 30)', () => {
     const props = { ...defaultProps, giBillChapter: '30' };
     const tree = mount(<BenefitsForm {...props} />);
