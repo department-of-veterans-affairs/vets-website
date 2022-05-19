@@ -18,9 +18,9 @@ export const DeviceDisconnectionCard = ({ device }) => {
 
   function disconnectDevice() {
     setModalVisible(false);
-    window.location.assign(
-      `${environment.API_URL}/dhp_connected_devices${device.disconnectUrl}`,
-    );
+    window.location.href = `${environment.API_URL}/dhp_connected_devices${
+      device.disconnectUrl
+    }`;
   }
 
   return (

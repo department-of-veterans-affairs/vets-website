@@ -1,5 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
+import environment from 'platform/utilities/environment';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { render, fireEvent } from '@testing-library/react';
 import { DeviceDisconnectionCard } from '../../components/DeviceDisconnectionCard';
@@ -54,8 +55,18 @@ describe('Device disconnection card modal', () => {
     expect(screen.queryByTestId('disconnect-modal')).to.not.exist;
   });
   it("Should close modal when 'Disconnect device' button is clicked and redirect to disconnect url", async () => {
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: {
+        assign: () => {},
+        href: '/',
+      },
+    });
     const disconnectDeviceBtn = modal.__events.primaryButtonClick;
     await disconnectDeviceBtn();
     expect(screen.queryByTestId('disconnect-modal')).to.not.exist;
+    expect(global.window.location.href).to.eq(
+      `${environment.API_URL}/dhp_connected_devices${device.disconnectUrl}`,
+    );
   });
 });
