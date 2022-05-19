@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
+import PropTypes from 'prop-types';
 import moment from '../../lib/moment-tz';
 
 import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../utils/constants';
@@ -18,11 +19,12 @@ import Breadcrumbs from '../../components/Breadcrumbs';
 import InfoAlert from '../../components/InfoAlert';
 import { getCalendarData } from '../../services/appointment';
 import StatusAlert from './ConfirmedAppointmentDetailsPage/StatusAlert';
+import { getTypeOfCareById } from '../../utils/appointment';
 
 export default function CommunityCareAppointmentDetailsPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { appointment, appointmentDetailsStatus } = useSelector(state =>
+  const { appointment, appointmentDetailsStatus, useV2 } = useSelector(state =>
     selectCommunityCareDetailsInfo(state, id),
   );
   const appointmentDate = moment.parseZone(appointment?.start);
@@ -83,6 +85,7 @@ export default function CommunityCareAppointmentDetailsPage() {
   });
   const { isPastAppointment } = appointment.vaos;
   const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
+  const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
 
   return (
     <PageLayout>
@@ -96,6 +99,17 @@ export default function CommunityCareAppointmentDetailsPage() {
 
       <StatusAlert appointment={appointment} />
 
+      {useV2 && (
+        <>
+          <h2
+            className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
+            data-cy="community-care-appointment-details-header"
+          >
+            <div className="vads-u-display--inline">Type of care</div>
+          </h2>
+          <div>{typeOfCare?.name}</div>
+        </>
+      )}
       <h2
         className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
         data-cy="community-care-appointment-details-header"
@@ -177,3 +191,7 @@ export default function CommunityCareAppointmentDetailsPage() {
     </PageLayout>
   );
 }
+
+CommunityCareAppointmentDetailsPage.propTypes = {
+  useV2: PropTypes.bool,
+};
