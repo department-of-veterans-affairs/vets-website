@@ -12,43 +12,57 @@ const veteranTestData = {
     firstName: 'Mark',
     middleName: 'W',
     lastName: 'Webb',
-    suffix: 'Sr'
-  }
-}
+    suffix: 'Sr',
+  },
+};
 
 const getInputs = (container: HTMLElement) => {
-  return ({
-    firstNameInput: container.querySelector('#veteranFullNameFirstName') as HTMLElement,
-    middleNameInput: container.querySelector('#veteranFullNameMiddleName') as HTMLElement,
-    lastNameInput: container.querySelector('#veteranFullNameLastName') as HTMLElement,
-    suffixSelect: container.querySelector('#veteranFullNameSuffix') as HTMLElement
-  })
-} 
+  return {
+    firstNameInput: container.querySelector(
+      '#veteranFullNameFirstName'
+    ) as HTMLElement,
+    middleNameInput: container.querySelector(
+      '#veteranFullNameMiddleName'
+    ) as HTMLElement,
+    lastNameInput: container.querySelector(
+      '#veteranFullNameLastName'
+    ) as HTMLElement,
+    suffixSelect: container.querySelector(
+      '#veteranFullNameSuffix'
+    ) as HTMLElement,
+  };
+};
 
 describe('Form Builder - FullNameField', () => {
   test('renders', () => {
-    const { container } = renderForm(<FullNameField name="veteranFullName" label="" />)
-    const { firstNameInput, middleNameInput, lastNameInput, suffixSelect } = getInputs(container);
+    const { container } = renderForm(
+      <FullNameField name="veteranFullName" label="" />
+    );
+    const { firstNameInput, middleNameInput, lastNameInput, suffixSelect } =
+      getInputs(container);
 
-    expect(firstNameInput.getAttribute('label')).toEqual('Your first Name');
-    expect(middleNameInput.getAttribute('label')).toEqual('Your middle Name');
-    expect(lastNameInput.getAttribute('label')).toEqual('Your last Name');
+    expect(firstNameInput.getAttribute('label')).toEqual('Your first name');
+    expect(middleNameInput.getAttribute('label')).toEqual('Your middle name');
+    expect(lastNameInput.getAttribute('label')).toEqual('Your last name');
     expect(suffixSelect.getAttribute('label')).toEqual('Suffix');
   });
 
   test('renders initial value', () => {
     const rf = buildRenderForm(veteranTestData);
-    const { container } = rf(<FullNameField name="veteranFullName" label="" />)
-    const { firstNameInput, middleNameInput, lastNameInput, suffixSelect } = getInputs(container);
+    const { container } = rf(<FullNameField name="veteranFullName" label="" />);
+    const { firstNameInput, middleNameInput, lastNameInput, suffixSelect } =
+      getInputs(container);
 
-    expect(firstNameInput.getAttribute('value')).toEqual('Mark')
-    expect(middleNameInput.getAttribute('value')).toEqual('W')
-    expect(lastNameInput.getAttribute('value')).toEqual('Webb')
-    expect(suffixSelect.getAttribute('value')).toEqual('Sr')
+    expect(firstNameInput.getAttribute('value')).toEqual('Mark');
+    expect(middleNameInput.getAttribute('value')).toEqual('W');
+    expect(lastNameInput.getAttribute('value')).toEqual('Webb');
+    expect(suffixSelect.getAttribute('value')).toEqual('Sr');
   });
 
   test('renders the default "required" validation error message', async () => {
-    const { container, getFormProps } = renderForm(<FullNameField name="veteranFullName" label="" />);
+    const { container, getFormProps } = renderForm(
+      <FullNameField name="veteranFullName" label="" />
+    );
     const { firstNameInput, lastNameInput } = getInputs(container);
 
     await waitFor(() => {
@@ -56,27 +70,32 @@ describe('Form Builder - FullNameField', () => {
       getFormProps().setFieldTouched('veteranFullName.lastName');
     });
 
-    expect(firstNameInput.getAttribute('error')).toContain('provide a response')
-    expect(lastNameInput.getAttribute('error')).toContain('provide a response')
+    expect(firstNameInput.getAttribute('error')).toContain(
+      'provide a response'
+    );
+    expect(lastNameInput.getAttribute('error')).toContain('provide a response');
   });
 
   test('updates the formik state', async () => {
     const rf = buildRenderForm(veteranTestData);
-    const { container, getFormProps } = rf(<FullNameField name="veteranFullName" label="" />);
-    const { firstNameInput, middleNameInput, lastNameInput, suffixSelect } = getInputs(container);
+    const { container, getFormProps } = rf(
+      <FullNameField name="veteranFullName" label="" />
+    );
+    const { firstNameInput, middleNameInput, lastNameInput, suffixSelect } =
+      getInputs(container);
 
-    await changeValue(firstNameInput, 'Tony')
-    await changeValue(middleNameInput, 'H')
-    await changeValue(lastNameInput, 'Stark')
-    await changeValue(suffixSelect, 'Jr', 'vaSelect')
+    await changeValue(firstNameInput, 'Tony');
+    await changeValue(middleNameInput, 'H');
+    await changeValue(lastNameInput, 'Stark');
+    await changeValue(suffixSelect, 'Jr', 'vaSelect');
 
     expect(getFormProps().values).toEqual({
       veteranFullName: {
         firstName: 'Tony',
         middleName: 'H',
         lastName: 'Stark',
-        suffix: 'Jr'
-      }
-    })
+        suffix: 'Jr',
+      },
+    });
   });
 });

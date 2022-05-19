@@ -10,8 +10,8 @@ import {
 } from '@department-of-veterans-affairs/va-forms-system-core';
 
 const checkboxProps = {
-  label: 'What breakfast?',
-  name: 'breakfast',
+  label: 'Military Service Details',
+  name: 'serviceStatus',
   id: '12',
   /**
    * If `required` is true, the default message will be used. If `required` is a
@@ -21,28 +21,48 @@ const checkboxProps = {
   values: {},
   options: [
     {
-      name: 'eggs',
-      label: 'Eggs',
-      content: '🐥🐣',
-      checked: true,
+      name: 'purpleHeartRecipient',
+      label: 'Purple Heart award recipient',
       required: false,
     },
     {
-      name: 'protein',
-      label: 'Protein Shake',
-      content: '🏋️',
-      required: true,
-    },
-    {
-      name: 'toast',
-      label: 'Toast',
-      content: '🍞',
+      name: 'isFormerPow',
+      label: 'Former Prisoner of War',
       required: false,
     },
     {
-      name: 'fruit',
-      label: 'Fruit',
-      content: '🍐',
+      name: 'postNov111998Combat',
+      label: 'Served in combat theater of operations after November 11, 1998',
+      required: false,
+    },
+    {
+      name: 'disabledInLineOfDuty',
+      label: 'Discharged or retired from the military for a disability incurred in the line of duty',
+      required: false,
+    },
+    {
+      name: 'sawAsiaCombat',
+      label: 'Served in Southwest Asia during the Gulf War between August 2, 1990, and Nov 11, 1998',
+      required: false,
+    },
+    {
+      name: 'vietnamService',
+      label: 'Served in Vietnam between January 9, 1962, and May 7, 1975',
+      required: false,
+    },
+    {
+      name: 'exposedToRadiation',
+      label: 'Exposed to radiation while in the military',
+      required: false,
+    },
+    {
+      name: 'radiumTreatments',
+      label: 'Received nose/throat radium treatments while in the military',
+      required: false,
+    },
+    {
+      name: 'campLejeune',
+      label: 'Received nose/throat radium treatments while in the military',
       required: false,
     },
   ],
@@ -53,13 +73,19 @@ const SimpleApp = () => (
     <h1>Example form</h1>
     <Formik
       initialValues={{
-        bar: true,
-        breakfast: {
-          eggs: true,
-          protein: false,
-          toast: false,
-          fruit: false,
+        email: "",
+        serviceStatus: {
+          purpleHeartRecipient: false,
+          isFormerPow: false,
+          postNov111998Combat: false,
+          disabledInLineOfDuty: false,
+          sawAsiaCombat: false,
+          vietnamService: false,
+          exposedToRadiation: false,
+          radiumTreatments: false,
+          campLejeune: false,
         },
+        contactMethod: null,
       }}
     >
       <Form>
