@@ -74,7 +74,7 @@ const textInputTransformer = (context, node) => {
           return [
             fixer.replaceText(componentName, 'va-text-input'),
             error && fixer.replaceText(error.name, 'error'),
-            additionalClass && fixer.replaceText(additionalClass, 'class'),
+            additionalClass && fixer.replaceText(additionalClass.name, 'class'),
             field && fixer.remove(field),
             placeholder && fixer.remove(placeholder),
             maxlength && fixer.replaceText(maxlength.name, 'maxlength'),
