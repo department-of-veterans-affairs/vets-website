@@ -6,7 +6,6 @@ import { getPdfSizeFeature } from '../utils/schemas';
 /**
  * Generic description added to file upload pages
  * @param {String|ReactComponent} uploadTitle - page title
- *   feature flag
  */
 export const UploadDescription = ({
   uploadTitle,

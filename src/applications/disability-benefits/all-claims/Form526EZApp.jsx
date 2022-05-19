@@ -25,7 +25,6 @@ import {
 import { MVI_ADD_SUCCEEDED } from './actions';
 import {
   WIZARD_STATUS,
-  PDF_SIZE_FEATURE,
   SHOW_8940_4192,
   PAGE_TITLE_SUFFIX,
   DOCUMENT_TITLE_SUFFIX,
@@ -69,7 +68,6 @@ export const Form526Entry = ({
   location,
   loggedIn,
   mvi,
-  pdfLimit,
   router,
   savedForms,
   showSubforms,
@@ -187,11 +185,6 @@ export const Form526Entry = ({
       return wrapWithBreadcrumb(title, <MissingServices title={title} />);
     }
   }
-
-  // No easy method to pass a feature flag setting to a uiSchema, so we'll use
-  // sessionStorage for now. Done here because continuing an application may
-  // bypass the intro page.
-  sessionStorage.setItem(PDF_SIZE_FEATURE, pdfLimit);
 
   return wrapWithBreadcrumb(
     title,
