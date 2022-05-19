@@ -15,6 +15,7 @@ import CalculateYourBenefitsForm from '../components/profile/CalculateYourBenefi
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import EstimateYourBenefitsSummarySheet from '../components/profile/EstimateYourBenefitsSummarySheet';
 import LearnMoreLabel from '../components/LearnMoreLabel';
+import environment from 'platform/utilities/environment';
 
 export function CalculateYourBenefits({
   calculated,
@@ -134,7 +135,11 @@ export function CalculateYourBenefits({
         />
         <div className={spacerClassNames}>&nbsp;</div>
         <EstimatedBenefits
+<<<<<<< HEAD
           outputs={calculated.outputs}
+=======
+          outputs={environment.isProduction() ? outputs : calculated.outputs}
+>>>>>>> 5cca27e790 ([40383] Remove "update benefits" button and make changes automatic (#21117))
           profile={profile}
           calculator={inputs}
           isOJT={isOJT}
@@ -149,7 +154,13 @@ export function CalculateYourBenefits({
             {
               <div id="eyb-summary-sheet" className={summarySheetClassNames}>
                 <EstimateYourBenefitsSummarySheet
+<<<<<<< HEAD
                   outputs={calculated.outputs}
+=======
+                  outputs={
+                    environment.isProduction() ? outputs : calculated.outputs
+                  }
+>>>>>>> 5cca27e790 ([40383] Remove "update benefits" button and make changes automatic (#21117))
                   expandEybSheet={expandEybSheet}
                   showEybSheet={showEybSheet}
                   toggleEybExpansion={toggleEybExpansion}
