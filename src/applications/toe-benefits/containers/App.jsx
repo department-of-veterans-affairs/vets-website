@@ -6,10 +6,11 @@ import { format } from 'date-fns';
 import { fetchUser } from '../../my-education-benefits/selectors/userDispatch';
 import Layout from '../../education-letters/components/Layout';
 import FormFooter from '../../my-education-benefits/components/FormFooter';
-import ApprovedUI from '../components/approvedUI';
-import DeniedUI from '../components/deniedUI';
+// import ApprovedUI from '../components/approvedUI';
+// import DeniedUI from '../components/deniedUI';
 import { FETCH_CLAIM_TOE } from '../actions';
 import { apiRequest } from '../../letters/utils/helpers';
+import UnderReview from '../components/underReview';
 
 const App = ({ user }) => {
   const [claimStatus, setClaimStatus] = useState(null);
@@ -40,7 +41,7 @@ const App = ({ user }) => {
 
       checkIfClaimantCanTOE().then(r => r);
     },
-    [claimStatus],
+    [claimStatus, user],
   );
 
   const user2 = {
@@ -51,9 +52,12 @@ const App = ({ user }) => {
 
   const renderUI = () => {
     // if (!isLoading) {
-    if (claimStatus === true)
-      return <ApprovedUI dateReceived={dateReceived} user={user2} />;
-    return <DeniedUI dateReceived={dateReceived} user={user2} />;
+
+    return <UnderReview dateReceived={dateReceived} user={user2} />;
+
+    // if (claimStatus === true)
+    //   return <ApprovedUI dateReceived={dateReceived} user={user2} />;
+    // return <DeniedUI dateReceived={dateReceived} user={user2} />;
     // }
     // return (
     //   <div className="vads-u-margin-y--5">
@@ -83,11 +87,6 @@ const App = ({ user }) => {
         {renderUI()}
         {/* {!isLoading && ( */}
         <>
-          <div className="vads-u-margin-bottom--3">
-            <a className="vads-c-action-link--green " href="/?next=%2Fprofile">
-              Go to your My VA dashboard
-            </a>
-          </div>
           <FormFooter />
         </>
         {/* )} */}

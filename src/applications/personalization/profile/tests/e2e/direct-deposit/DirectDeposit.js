@@ -29,6 +29,14 @@ class DirectDepositPage {
     cy.findByText(this.LINK_TEXT).should('not.exist');
   };
 
+  confirmIneligibleMessageIsDisplayedForCNP = () => {
+    cy.findByTestId('disability-header').should('exist');
+  };
+
+  confirmIneligibleMessageIsDisplayedForEducation = () => {
+    cy.findByTestId('education-header').should('exist');
+  };
+
   checkVerifyMessageIsShowing = () => {
     cy.findAllByTestId('direct-deposit-mfa-message').should('exist');
   };

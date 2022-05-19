@@ -9,11 +9,6 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 
-import recordEvent from '~/platform/monitoring/record-event';
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-
-import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
-import { usePrevious } from '~/platform/utilities/react-hooks';
 import {
   editCNPPaymentInformationToggled,
   saveCNPPaymentInformation as saveCNPPaymentInformationAction,
@@ -32,7 +27,13 @@ import {
   eduDirectDepositIsSetUp,
   eduDirectDepositLoadError,
   eduDirectDepositUiState as eduDirectDepositUiStateSelector,
+  profileAlwaysShowDirectDepositDisplay,
 } from '@@profile/selectors';
+import recordEvent from '~/platform/monitoring/record-event';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+
+import { isLOA3 as isLOA3Selector } from '~/platform/user/selectors';
+import { usePrevious } from '~/platform/utilities/react-hooks';
 
 import DirectDepositConnectionError from '../alerts/DirectDepositConnectionError';
 
@@ -43,6 +44,8 @@ import ProfileInfoTable from '../ProfileInfoTable';
 
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import { benefitTypes } from '~/applications/personalization/common/constants';
+
+import NotEligible from './alerts/NotEligible';
 
 export const BankInfo = ({
   isLOA3,
@@ -56,6 +59,8 @@ export const BankInfo = ({
   type,
   typeIsCNP,
   setFormIsDirty,
+  setViewingPayments,
+  useAlwaysShowDirectDepositDisplay,
 }) => {
   const formPrefix = type;
   const editBankInfoButton = useRef();
@@ -86,7 +91,7 @@ export const BankInfo = ({
     () => {
       setFormIsDirty(isEmptyForm);
     },
-    [isEmptyForm],
+    [isEmptyForm, setFormIsDirty],
   );
 
   useEffect(
@@ -97,7 +102,7 @@ export const BankInfo = ({
         }
       };
     },
-    [isEditingBankInfo],
+    [isEditingBankInfo, toggleEditState],
   );
 
   // when we enter and exit edit mode...
@@ -176,6 +181,7 @@ export const BankInfo = ({
         <dd>{`${directDepositAccountInfo?.accountType} account`}</dd>
       </dl>
       <button
+        type="button"
         className={classes.editButton}
         aria-label={`Edit your direct deposit for ${benefitTypeLong} bank information`}
         ref={editBankInfoButton}
@@ -201,9 +207,8 @@ export const BankInfo = ({
       </p>
       <button
         className={classes.editButton}
-        aria-label={
-          'Edit your direct deposit for disability compensation and pension benefits bank information'
-        }
+        type="button"
+        aria-label="Edit your direct deposit for disability compensation and pension benefits bank information"
         ref={editBankInfoButton}
         onClick={() => {
           recordEvent({
@@ -248,7 +253,7 @@ export const BankInfo = ({
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href={`https://www.va.gov/pension/eligibility/`}
+            href="https://www.va.gov/pension/eligibility/"
           >
             Find out if you’re eligible for VA pension benefits
           </a>
@@ -357,6 +362,12 @@ export const BankInfo = ({
     if (isEligibleToSetUpDirectDeposit) {
       return notSetUpContent;
     }
+    setViewingPayments(old => ({ ...old, [type]: false }));
+    if (useAlwaysShowDirectDepositDisplay) {
+      return (
+        <NotEligible benefitType={benefitTypeShort} typeIsCNP={typeIsCNP} />
+      );
+    }
     return notEligibleContent;
   };
 
@@ -386,7 +397,7 @@ export const BankInfo = ({
   return (
     <>
       <Modal
-        title={'Are you sure?'}
+        title="Are you sure?"
         status="warning"
         visible={showConfirmCancelModal}
         onClose={() => {
@@ -399,6 +410,7 @@ export const BankInfo = ({
         </p>
         <button
           className="usa-button-secondary"
+          type="button"
           onClick={() => {
             setShowConfirmCancelModal(false);
           }}
@@ -406,6 +418,7 @@ export const BankInfo = ({
           Continue Editing
         </button>
         <button
+          type="button"
           onClick={() => {
             setShowConfirmCancelModal(false);
             toggleEditState();
@@ -425,25 +438,28 @@ export const BankInfo = ({
 };
 
 BankInfo.propTypes = {
+  directDepositServerError: PropTypes.bool.isRequired,
+  isDirectDepositSetUp: PropTypes.bool.isRequired,
+  isEligibleToSetUpDirectDeposit: PropTypes.bool.isRequired,
   isLOA3: PropTypes.bool.isRequired,
+  saveBankInformation: PropTypes.func.isRequired,
+  setFormIsDirty: PropTypes.func.isRequired,
+  setViewingPayments: PropTypes.func.isRequired,
+  toggleEditState: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
   directDepositAccountInfo: PropTypes.shape({
     accountNumber: PropTypes.string.isRequired,
     accountType: PropTypes.string.isRequired,
     financialInstitutionName: PropTypes.string,
     financialInstitutionRoutingNumber: PropTypes.string.isRequired,
   }),
-  isDirectDepositSetUp: PropTypes.bool.isRequired,
-  directDepositServerError: PropTypes.bool.isRequired,
-  isEligibleToSetUpDirectDeposit: PropTypes.bool.isRequired,
   directDepositUiState: PropTypes.shape({
     isEditing: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
     responseError: PropTypes.object,
   }),
-  saveBankInformation: PropTypes.func.isRequired,
-  toggleEditState: PropTypes.func.isRequired,
-  type: PropTypes.string.isRequired,
-  setFormIsDirty: PropTypes.func.isRequired,
+  typeIsCNP: PropTypes.bool,
+  useAlwaysShowDirectDepositDisplay: PropTypes.bool,
 };
 
 export const mapStateToProps = (state, ownProps) => {
@@ -469,6 +485,9 @@ export const mapStateToProps = (state, ownProps) => {
     directDepositUiState: typeIsCNP
       ? cnpDirectDepositUiStateSelector(state)
       : eduDirectDepositUiStateSelector(state),
+    useAlwaysShowDirectDepositDisplay: profileAlwaysShowDirectDepositDisplay(
+      state,
+    ),
   };
 };
 

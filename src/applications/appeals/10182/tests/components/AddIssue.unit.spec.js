@@ -52,20 +52,19 @@ describe('<AddIssue>', () => {
 
   it('should render', () => {
     const { container } = render(setup());
-    const textInput = $('input[name="add-nod-issue"]', container);
-    expect(textInput).to.exist;
-    expect($('.usa-datefields', container)).to.exist;
+    expect($('va-text-input')).to.exist;
+    expect($('va-date', container)).to.exist;
   });
   it('should prevent submission when empty', () => {
     const goToPathSpy = sinon.spy();
     const { container } = render(setup({ goToPath: goToPathSpy }));
     $('button#submit', container).click();
-    const errors = $$('.usa-input-error-message', container);
+    const elems = $$('va-text-input, va-date', container);
 
-    expect(errors[0].textContent).to.contain(issueErrorMessages.missingIssue);
-    expect(errors[1].textContent).to.contain(
-      issueErrorMessages.missingDecisionDate,
-    );
+    expect(elems[0].error).to.contain(issueErrorMessages.missingIssue);
+    // expect(elems[1].error).to.contain(issueErrorMessages.missingDecisionDate);
+    // Returning invalidDate until va-date web component is updated
+    expect(elems[1].error).to.contain(issueErrorMessages.invalidDate);
     expect(goToPathSpy.called).to.be.false;
   });
   it('should navigate on cancel', () => {
@@ -86,8 +85,8 @@ describe('<AddIssue>', () => {
     );
     $('button#submit', container).click();
 
-    const error = $('.usa-input-error-message', container);
-    expect(error.textContent).to.contain(issueErrorMessages.maxLength);
+    const textInput = $('va-text-input', container);
+    expect(textInput.error).to.contain(issueErrorMessages.maxLength);
   });
   it('should show error when issue date is not in range', () => {
     const decisionDate = getDate({ offset: { years: +200 } });
@@ -99,8 +98,8 @@ describe('<AddIssue>', () => {
     );
     $('button#submit', container).click();
 
-    const error = $('fieldset[id] .usa-input-error-message', container);
-    expect(error.textContent).to.contain(
+    const date = $('va-date', container);
+    expect(date.error).to.contain(
       // partial match
       issueErrorMessages.invalidDateRange('xxxx', '').split('xxxx')[0],
     );
@@ -115,8 +114,8 @@ describe('<AddIssue>', () => {
     );
     $('button#submit', container).click();
 
-    const error = $('fieldset[id] .usa-input-error-message', container);
-    expect(error.textContent).to.contain(issueErrorMessages.pastDate);
+    const date = $('va-date', container);
+    expect(date.error).to.contain(issueErrorMessages.pastDate);
   });
   it('should show an error when the issue date is > 1 year in the past', () => {
     const decisionDate = getDate({ offset: { months: -13 } });
@@ -128,8 +127,8 @@ describe('<AddIssue>', () => {
     );
     $('button#submit', container).click();
 
-    const error = $('fieldset[id] .usa-input-error-message', container);
-    expect(error.textContent).to.contain(issueErrorMessages.newerDate);
+    const date = $('va-date', container);
+    expect(date.error).to.contain(issueErrorMessages.newerDate);
   });
 
   it('should show an error when the issue is not unique', () => {
@@ -144,8 +143,8 @@ describe('<AddIssue>', () => {
     );
     $('button#submit', container).click();
 
-    const error = $('.usa-input-error-message', container);
-    expect(error.textContent).to.contain(issueErrorMessages.uniqueIssue);
+    const textInput = $('va-text-input', container);
+    expect(textInput.error).to.contain(issueErrorMessages.uniqueIssue);
   });
 
   it('should submit when everything is valid', () => {
@@ -162,7 +161,8 @@ describe('<AddIssue>', () => {
     );
     $('button#submit', container).click();
 
-    expect($('.usa-input-error-message', container)).to.not.exist;
+    expect($('va-text-input', container).error).to.be.null;
+    expect($('va-date', container).error).to.be.null;
     expect(goToPathSpy.called).to.be.true;
   });
 });
