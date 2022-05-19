@@ -4,15 +4,12 @@ import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
-import { selectProfile } from '~/platform/user/selectors';
-
 import {
-  cnpDirectDepositLoadError,
-  eduDirectDepositLoadError,
   fullNameLoadError,
   militaryInformationLoadError,
   personalInformationLoadError,
 } from '@@profile/selectors';
+import { selectProfile } from '~/platform/user/selectors';
 
 import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
 
@@ -91,8 +88,6 @@ const mapStateToProps = (state, ownProps) => {
     totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
     showNameTag: ownProps.isLOA3 && isEmpty(hero?.errors),
     showNotAllDataAvailableError:
-      !!cnpDirectDepositLoadError(state) ||
-      !!eduDirectDepositLoadError(state) ||
       !!fullNameLoadError(state) ||
       !!personalInformationLoadError(state) ||
       (!!militaryInformationLoadError(state) && !invalidVeteranStatus),
