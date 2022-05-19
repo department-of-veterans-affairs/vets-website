@@ -89,31 +89,6 @@ describe('Facility VA search', () => {
     );
   });
 
-  it('CHECKS MAPBOX TOKEN', () => {
-    cy.visit('/find-locations');
-
-    cy.get('.mapbox-token').should('exist');
-    cy.get('.mapbox-token').then($el => cy.task('log', $el.text()));
-
-    cy.get('.test123').should('exist');
-    cy.get('.test123').then($el => cy.task('log', $el.text()));
-
-    cy.get('.api-url').should('exist');
-    cy.get('.api-url').then($el => cy.task('log', $el.text()));
-
-    cy.get('.window-url').should('exist');
-    cy.get('.window-url').then($el => cy.task('log', $el.text()));
-
-    cy.get('.extra-ca-certs').should('exist');
-    cy.get('.extra-ca-certs').then($el => cy.task('log', $el.text()));
-
-    cy.get('.test-a').should('exist');
-    cy.get('.test-a').then($el => cy.task('log', $el.text()));
-
-    cy.get('.test-b').should('exist');
-    cy.get('.test-b').then($el => cy.task('log', $el.text()));
-  });
-
   it('does a simple search and finds a result on the list', () => {
     cy.intercept('GET', '/geocoding/**/*', mockGeocodingData);
 

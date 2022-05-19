@@ -596,67 +596,39 @@ const FacilitiesMap = props => {
     [map, props.currentQuery.searchCoords],
   );
 
-  useEffect(
-    () => {
-      searchCurrentArea();
-    },
-    [props.currentQuery.searchArea],
-  );
+  useEffect(() => {
+    searchCurrentArea();
+  }, [props.currentQuery.searchArea]);
 
   useEffect(() => {
     setMap(setupMap());
     setUpResizeEventListener();
   }, []); // <-- empty array means 'run once'
 
-  useEffect(
-    () => {
-      handleSearchOnQueryChange();
-    },
-    [props.currentQuery.id],
-  );
+  useEffect(() => {
+    handleSearchOnQueryChange();
+  }, [props.currentQuery.id]);
 
-  useEffect(
-    () => {
-      if (!map) return;
-      renderMarkers(props.results);
-    },
-    [props.results, map],
-  );
+  useEffect(() => {
+    if (!map) return;
+    renderMarkers(props.results);
+  }, [props.results, map]);
 
-  useEffect(
-    () => {
-      if (searchResultTitleRef.current && props.resultTime) {
-        setFocus(searchResultTitleRef.current);
-      }
-    },
-    [props.resultTime],
-  );
+  useEffect(() => {
+    if (searchResultTitleRef.current && props.resultTime) {
+      setFocus(searchResultTitleRef.current);
+    }
+  }, [props.resultTime]);
 
-  useEffect(
-    () => {
-      handleMapOnNoResultsFound();
-    },
-    [props.currentQuery.searchCoords, props.results],
-  );
+  useEffect(() => {
+    handleMapOnNoResultsFound();
+  }, [props.currentQuery.searchCoords, props.results]);
 
   return (
     <>
       <div>
         <div className="title-section">
           <h1>Find VA locations</h1>
-          <h2 className="mapbox-token">{mapboxToken}</h2>
-          <h3 className="test123">
-            {process.env.TEST123 || 'test123 not set'}
-          </h3>
-          <h3 className="api-url">
-            {process.env.API_URL_TEST || 'api url not set'}
-          </h3>
-          <h3 className="window-url">{window.location.href}</h3>
-          <h3 className="extra-ca-certs">
-            {process.env.NODE_EXTRA_CA_CERTS || 'ca certs not set'}
-          </h3>
-          <h3 className="test-a">{process.env.TEST_A}</h3>
-          <h3 className="test-b">{process.env.TEST_B}</h3>
         </div>
         <div className="facility-introtext">
           <p>
@@ -702,7 +674,4 @@ const mapDispatchToProps = {
   clearSearchText,
   mapMoved,
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(FacilitiesMap);
+export default connect(mapStateToProps, mapDispatchToProps)(FacilitiesMap);
