@@ -47,7 +47,7 @@ function CalculateYourBenefitsForm({
     learningFormatAndSchedule: false,
     scholarshipsAndOtherFunding: false,
   });
-
+  const [isDisabled, setIsDisabled] = useState(true);
   const displayExtensionBeneficiaryZipcode = !inputs.classesoutsideus;
 
   const getExtensions = () => {
@@ -206,6 +206,16 @@ function CalculateYourBenefitsForm({
     });
     eligibilityChange({ [field]: value });
     setInputUpdated(true);
+
+    if (
+      field === 'militaryStatus' &&
+      (value === 'spouse' || value === 'child')
+    ) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+
     recalculateBenefits();
   };
 
@@ -1040,6 +1050,7 @@ function CalculateYourBenefitsForm({
             hideModal={hideModal}
             showModal={showModal}
             inputs={inputs}
+            optionDisabled={environment.isProduction() ? false : isDisabled}
             displayedInputs={displayedInputs}
             handleInputFocus={handleEYBInputFocus}
             giBillChapterOpen={[displayedInputs?.giBillBenefit]}
@@ -1188,17 +1199,19 @@ function CalculateYourBenefitsForm({
 }
 
 CalculateYourBenefitsForm.propTypes = {
-  profile: PropTypes.object,
+  updateEstimatedBenefits: PropTypes.func.isRequired,
+  calculatorInputChange: PropTypes.func,
+  displayedInputs: PropTypes.object,
   eligibility: PropTypes.object,
   eligibilityChange: PropTypes.func,
-  inputs: PropTypes.object,
-  displayedInputs: PropTypes.object,
-  showModal: PropTypes.func,
-  calculatorInputChange: PropTypes.func,
-  onBeneficiaryZIPCodeChanged: PropTypes.func,
   estimatedBenefits: PropTypes.object,
-  updateEstimatedBenefits: PropTypes.func.isRequired,
+  focusHandler: PropTypes.func,
+  hideModal: PropTypes.func,
+  inputs: PropTypes.object,
+  profile: PropTypes.object,
+  showModal: PropTypes.func,
   updateBenefitsButtonEnabled: PropTypes.bool,
+  onBeneficiaryZIPCodeChanged: PropTypes.func,
 };
 
 export default CalculateYourBenefitsForm;
