@@ -14,10 +14,10 @@ export const directDepositWarning = (
     >
       www.usdirectexpress.com
     </a>{' '}
-    or by telephone at <a href="tel:8003331795">1-800-333-1795</a>. If you chose
-    not to enroll, you must contact representatives handling waiver requests for
-    the Department of Treasury at
-    <a href="tel:8882242950">1-888-224-2950</a>. They will address any questions
-    or concerns you may have and encourage your participation in EFT.
+    or by telephone at <va-telephone contact="8003331795" />. If you chose not
+    to enroll, you must contact representatives handling waiver requests for the
+    Department of Treasury at <va-telephone contact="8882242950" />. They will
+    address any questions or concerns you may have and encourage your
+    participation in EFT.
   </div>
 );

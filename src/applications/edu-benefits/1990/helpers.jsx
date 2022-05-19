@@ -53,9 +53,9 @@ export function directDepositDescription() {
         >
           www.usdirectexpress.com
         </a>{' '}
-        or by calling <a href="tel:18003331795">800-333-1795</a> To request a
-        waiver, contact the Department of Treasury Electronic Solution Center at{' '}
-        <a href="tel:18882242950">888-224-2950</a>.
+        or by calling <va-telephone contact="8003331795" /> To request a waiver,
+        contact the Department of Treasury Electronic Solution Center at{' '}
+        <va-telephone contact="8882242950" />.
       </p>
     </div>
   );
