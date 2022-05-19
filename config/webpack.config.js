@@ -2,71 +2,8 @@
 
 require('core-js/stable');
 require('regenerator-runtime/runtime');
-
-// require('dotenv').config();
-require('dotenv').config({ debug: true });
-
-console.log('webpack.config EXECUTION');
+require('dotenv').config();
 const fs = require('fs');
-
-console.log('__dirname: ', __dirname);
-
-fs.readFile('/.env', 'utf8', (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  console.log('CONTENTS: /.env');
-  console.log(data);
-});
-
-fs.readFile('../.env', 'utf8', (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  console.log('CONTENTS: ../.env');
-  console.log(data);
-});
-
-fs.readFile('../../.env', 'utf8', (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
-  console.log('CONTENTS: ../../.env');
-  console.log(data);
-});
-
-fs.readFile(
-  '/home/runner/runner1/_work/vets-website/vets-website/.env',
-  'utf8',
-  (err, data) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log(
-      'CONTENTS: /home/runner/runner1/_work/vets-website/vets-website/.env',
-    );
-    console.log(data);
-  },
-);
-
-fs.readFile(
-  '/home/runner/runner1/_work/vets-website/.env',
-  'utf8',
-  (err, data) => {
-    if (err) {
-      console.error(err);
-      return;
-    }
-    console.log('CONTENTS: /home/runner/runner1/_work/vets-website/.env');
-    console.log(data);
-  },
-);
-
-// const fs = require('fs');
 const fetch = require('node-fetch');
 const path = require('path');
 const webpack = require('webpack');
