@@ -8,20 +8,35 @@ export const ConnectedDevicesContainer = () => {
   const [connectedDevices, setConnectedDevices] = useState([]);
   const [successAlert, setSuccessAlert] = useState(false);
   const [failureAlert, setFailureAlert] = useState(false);
+  const [disconnectSuccessAlert, setDisconnectSuccessAlert] = useState(false);
+  const [disconnectFailureAlert, setDisconnectFailureAlert] = useState(false);
 
+  // TODO: REFACTOR SHOW ALERT
   const showSuccessAlert = () => {
     setSuccessAlert(true);
+  };
+
+  const showDisconnectSuccessAlert = () => {
+    setDisconnectSuccessAlert(true);
+  };
+
+  const showDisconnectFailureAlert = () => {
+    setDisconnectFailureAlert(true);
   };
 
   const showFailureAlert = () => {
     setFailureAlert(true);
   };
 
-  const showConnectionAlert = (vendor, status) => {
+  const showAlert = (vendor, status) => {
     if (status === 'success') {
       showSuccessAlert();
     } else if (status === 'error') {
       showFailureAlert();
+    } else if (status === 'disconnect-success') {
+      showDisconnectSuccessAlert();
+    } else if (status === 'disconnect-error') {
+      showDisconnectFailureAlert();
     }
   };
 
@@ -45,12 +60,17 @@ export const ConnectedDevicesContainer = () => {
       const handleRedirectQueryParams = () => {
         const resUrl = new URL(window.location);
         resUrl.searchParams.forEach((status, vendor) => {
-          showConnectionAlert(vendor, status);
+          showAlert(vendor, status);
         });
       };
       handleRedirectQueryParams();
     },
-    [successAlert, failureAlert],
+    [
+      successAlert,
+      failureAlert,
+      disconnectSuccessAlert,
+      disconnectFailureAlert,
+    ],
   );
 
   return (
@@ -61,6 +81,8 @@ export const ConnectedDevicesContainer = () => {
           connectedDevices={connectedDevices}
           successAlert={successAlert}
           failureAlert={failureAlert}
+          disconnectSuccessAlert={disconnectSuccessAlert}
+          disconnectFailureAlert={disconnectFailureAlert}
         />
       </div>
       <h2>Devices you can connect</h2>
