@@ -2,14 +2,18 @@ import { VaModal } from '@department-of-veterans-affairs/component-library/dist/
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export const DisconnectModal = ({ deviceName, handleClose }) => {
+export const DisconnectModal = ({
+  deviceName,
+  handleClose,
+  handleDisconnect,
+}) => {
   return (
     <>
       <VaModal
         id="disconnect-modal"
         modalTitle="Disconnect device"
         onCloseEvent={handleClose}
-        onPrimaryButtonClick={function noRefCheck() {}}
+        onPrimaryButtonClick={handleDisconnect}
         onSecondaryButtonClick={handleClose}
         primaryButtonText="Disconnect device"
         secondaryButtonText="Go back"
@@ -27,4 +31,5 @@ export const DisconnectModal = ({ deviceName, handleClose }) => {
 DisconnectModal.propTypes = {
   deviceName: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
+  handleDisconnect: PropTypes.func.isRequired,
 };

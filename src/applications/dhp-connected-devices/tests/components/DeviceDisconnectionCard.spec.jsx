@@ -20,10 +20,13 @@ describe('Device disconnection card', () => {
 describe('Device disconnection card modal', () => {
   let screen;
   let modal;
+  const device = {
+    name: 'Test Vendor',
+    key: 'test',
+    disconnectUrl: 'path/to/test-disconnect',
+  };
   beforeEach(async () => {
-    screen = render(
-      <DeviceDisconnectionCard device={{ name: 'Test Vendor', key: 'test' }} />,
-    );
+    screen = render(<DeviceDisconnectionCard device={device} />);
     const disconnectBtn = screen.getByRole('button', { name: 'Disconnect' });
     await fireEvent.click(disconnectBtn);
     modal = screen.getByTestId('disconnect-modal');
@@ -48,6 +51,11 @@ describe('Device disconnection card modal', () => {
   it("Should close modal when 'X' button is clicked", async () => {
     const xBtn = modal.__events.closeEvent;
     await xBtn();
+    expect(screen.queryByTestId('disconnect-modal')).to.not.exist;
+  });
+  it("Should close modal when 'Disconnect device' button is clicked and redirect to disconnect url", async () => {
+    const disconnectDeviceBtn = modal.__events.primaryButtonClick;
+    await disconnectDeviceBtn();
     expect(screen.queryByTestId('disconnect-modal')).to.not.exist;
   });
 });
