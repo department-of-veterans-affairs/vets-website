@@ -6,7 +6,6 @@ import { getPdfSizeFeature } from '../utils/schemas';
 /**
  * Generic description added to file upload pages
  * @param {String|ReactComponent} uploadTitle - page title
- * @param {Boolean} uploadPdfLimit - state of the evss_upload_limit_150mb
  *   feature flag
  */
 export const UploadDescription = ({

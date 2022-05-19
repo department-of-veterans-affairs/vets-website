@@ -39,7 +39,6 @@ export default Object.freeze({
   dependencyVerification: 'dependency_verification',
   dischargeWizardFeatures: 'discharge_wizard_features',
   enrollmentVerification: 'enrollment_verification',
-  evssUploadLimit150Mb: 'evss_upload_limit_150mb',
   facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',
   facilitiesPpmsSuppressCommunityCare:
     'facilities_ppms_suppress_community_care',

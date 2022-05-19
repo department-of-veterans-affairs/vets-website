@@ -11,6 +11,8 @@ import {
 } from 'platform/site-wide/wizard';
 import { isLoggedIn } from 'platform/user/selectors';
 
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { focusElement } from 'platform/utilities/ui';
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
@@ -36,10 +38,6 @@ import {
   wrapWithBreadcrumb,
   isExpired,
 } from './utils';
-import { uploadPdfLimitFeature } from './config/selectors';
-
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -214,7 +212,6 @@ const mapStateToProps = state => ({
   isStartingOver: state.form?.isStartingOver,
   loggedIn: isLoggedIn(state),
   mvi: state.mvi,
-  pdfLimit: uploadPdfLimitFeature(state),
   savedForms: state?.user?.profile?.savedForms || [],
   showSubforms: showSubform8940And4192(state),
   showWizard: show526Wizard(state),
