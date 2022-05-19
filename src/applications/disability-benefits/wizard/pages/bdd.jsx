@@ -61,7 +61,7 @@ const isDateLessThanMax = date => date?.isBefore(maxDate);
 const BDDPage = ({ setPageState, state = '' }) => {
   const [ariaDescribedby, setAriaDescribedby] = useState('');
   const [isDirty, setIsDirty] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const onChange = event => {
     const pageState = event.target.value || '';
