@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import { api } from '../api';
 import { makeSelectCurrentContext } from '../selectors';
@@ -11,13 +11,21 @@ import {
 } from '../actions/day-of';
 
 const useGetCheckInData = (
-  shouldRefresh,
+  refreshNeeded,
   isUpdatePageEnabled = false,
   appointmentsOnly = false,
 ) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isStale, setIsStale] = useState(refreshNeeded);
+  const [checkInDataError, setCheckInDataError] = useState(false);
+
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token } = useSelector(selectCurrentContext);
   const dispatch = useDispatch();
+
+  const refreshCheckInData = () => {
+    setIsStale(true);
+  };
 
   const setSessionData = useCallback(
     payload => {
@@ -46,19 +54,27 @@ const useGetCheckInData = (
 
   useEffect(
     () => {
-      if (shouldRefresh) {
+      if (isStale) {
+        setIsLoading(true);
+
         api.v2
           .getCheckInData(token)
           .then(json => {
             setSessionData(json.payload);
           })
           .catch(() => {
-            throw new Error('Could not retrieve appointment data.');
+            setCheckInDataError(true);
+          })
+          .finally(() => {
+            setIsLoading(false);
+            setIsStale(false);
           });
       }
     },
-    [setSessionData, shouldRefresh, token],
+    [isStale, setSessionData, token],
   );
+
+  return { checkInDataError, isLoading, refreshCheckInData };
 };
 
 export { useGetCheckInData };

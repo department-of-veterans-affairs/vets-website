@@ -1,6 +1,6 @@
-DEV_BRANCH = 'master'
-STAGING_BRANCH = 'master'
-PROD_BRANCH = 'master'
+DEV_BRANCH = 'main'
+STAGING_BRANCH = 'main'
+PROD_BRANCH = 'main'
 
 IS_DEV_BRANCH = env.BRANCH_NAME == DEV_BRANCH
 IS_STAGING_BRANCH = env.BRANCH_NAME == STAGING_BRANCH
@@ -15,7 +15,7 @@ def isReviewable() {
 }
 
 def shouldBail() {
-  // abort the job if we're not on deployable branch (usually master) and there's a newer build going now
+  // abort the job if we're not on deployable branch (usually main) and there's a newer build going now
   return !IS_DEV_BRANCH &&
     !IS_STAGING_BRANCH &&
     !IS_PROD_BRANCH &&
@@ -31,7 +31,7 @@ def setup() {
     }
 
     dir("content-build") {
-      checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/content-build.git']]]
+      checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'CloneOption', noTags: true, reference: '', shallow: true]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'va-bot', url: 'git@github.com:department-of-veterans-affairs/content-build.git']]]
     }
 
     dir("vets-website") {

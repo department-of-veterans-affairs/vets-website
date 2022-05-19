@@ -1,8 +1,7 @@
 import React from 'react';
 import moment from 'moment';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import { getSchemaCountryCode } from './utils/form-submit-transform';
 import { DATE_TIMESTAMP } from './constants';
+import { getSchemaCountryCode } from './utils/form-submit-transform';
 
 export const directDepositWarning = (
   <div className="pension-dd-warning">
@@ -28,8 +27,8 @@ export const directDepositWarning = (
 export const chapter30Label = (
   <>
     Montgomery GI Bill Active Duty (Chapter 30)
-    <AdditionalInfo triggerText="Learn more">
-      <p>
+    <va-additional-info trigger="Learn more">
+      <p className="vads-u-margin-top--0">
         Our records indicate you may be eligible for this benefit because you
         served at least two years on active duty and were honorably discharged.
         If you give up this benefit, VA will pay you for any eligible kickers
@@ -42,15 +41,15 @@ export const chapter30Label = (
       >
         Learn more about the Montgomery GI Bill Active Duty
       </a>
-    </AdditionalInfo>
+    </va-additional-info>
   </>
 );
 
 export const chapter1606Label = (
   <>
     Montgomery GI Bill Selected Reserve (Chapter 1606)
-    <AdditionalInfo triggerText="Learn more">
-      <p>
+    <va-additional-info trigger="Learn more">
+      <p className="vads-u-margin-top--0">
         Our records indicate you may be eligible for this benefit because you
         agreed to serve six years in the Selected Reserve. If you give up this
         benefit, VA will pay you for any eligible kickers associated with it.
@@ -62,7 +61,7 @@ export const chapter1606Label = (
       >
         Learn more about the Montgomery GI Bill Selected Reserve
       </a>
-    </AdditionalInfo>
+    </va-additional-info>
   </>
 );
 
@@ -252,10 +251,10 @@ export function prefillTransformer(pages, formData, metadata, state) {
     },
     'view:phoneNumbers': {
       mobilePhoneNumber: {
-        phone: contactInfo?.mobilePhoneNumber || undefined,
+        phone: contactInfo?.mobilePhoneNumber?.replace(/\D/g, '') || undefined,
       },
       phoneNumber: {
-        phone: contactInfo?.homePhoneNumber || undefined,
+        phone: contactInfo?.homePhoneNumber?.replace(/\D/g, '') || undefined,
       },
     },
     'view:contactMethod': {

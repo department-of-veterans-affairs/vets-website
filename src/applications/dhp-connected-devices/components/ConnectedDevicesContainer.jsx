@@ -1,27 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { apiRequest } from 'platform/utilities/api';
 import { DevicesToConnectSection } from './DevicesToConnectSection';
 import { ConnectedDevicesSection } from './ConnectedDevicesSection';
+import { FETCH_CONNECTED_DEVICES } from '../actions/api';
 
 export const ConnectedDevicesContainer = () => {
-  const [connectedDevices, setConnectedDevices] = useState([
-    {
-      vendor: 'Fitbit',
-      key: 'fitbit',
-      authUrl: `/fitbit`,
-      disconnectUrl: 'placeholder',
-      connected: false,
-    },
-  ]);
+  const [connectedDevices, setConnectedDevices] = useState([]);
   const [successAlert, setSuccessAlert] = useState(false);
   const [failureAlert, setFailureAlert] = useState(false);
-
-  const updateConnectedDevices = vendor => {
-    const connectedDevicesCopy = [...connectedDevices];
-    const device =
-      connectedDevicesCopy[connectedDevices.findIndex(d => d.key === vendor)];
-    device.connected = true;
-    setConnectedDevices(connectedDevicesCopy);
-  };
 
   const showSuccessAlert = () => {
     setSuccessAlert(true);
@@ -33,13 +19,27 @@ export const ConnectedDevicesContainer = () => {
 
   const showConnectionAlert = (vendor, status) => {
     if (status === 'success') {
-      updateConnectedDevices(vendor);
       showSuccessAlert();
     } else if (status === 'error') {
       showFailureAlert();
     }
   };
 
+  // run after initial render
+  useEffect(() => {
+    const getConnectedDevices = async () => {
+      // fetch from endpoint that returns json
+      try {
+        const headers = { 'Content-Type': 'application/json' };
+        const response = await apiRequest(FETCH_CONNECTED_DEVICES, { headers });
+        setConnectedDevices(response?.devices);
+      } catch (err) {
+        // console.error('getConnectedDevices error:', err);
+      }
+    };
+    getConnectedDevices();
+  }, []);
+  // run if updates to successAlert, failureAlert states
   useEffect(
     () => {
       const handleRedirectQueryParams = () => {

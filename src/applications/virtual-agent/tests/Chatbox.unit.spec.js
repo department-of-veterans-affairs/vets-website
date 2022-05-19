@@ -880,7 +880,7 @@ describe('App', () => {
       },
     };
 
-    it('when message activity is fired, then utterances should be stored in sessionStorage', () => {
+    it.skip('when message activity is fired, then utterances should be stored in sessionStorage', () => {
       loadWebChat();
       mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
 
