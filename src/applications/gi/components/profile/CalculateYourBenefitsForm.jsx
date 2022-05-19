@@ -48,7 +48,7 @@ function CalculateYourBenefitsForm({
     learningFormatAndSchedule: false,
     scholarshipsAndOtherFunding: false,
   });
-
+  const [isDisabled, setIsDisabled] = useState(true);
   const displayExtensionBeneficiaryZipcode = !inputs.classesoutsideus;
 
   const getExtensions = () => {
@@ -202,6 +202,10 @@ function CalculateYourBenefitsForm({
   const updateEligibility = e => {
     const field = e.target.name;
     const { value } = e.target;
+    // eslint-disable-next-line no-console
+    console.log(`value: ${value}`);
+    // eslint-disable-next-line no-console
+    console.log(`isDisabled: ${isDisabled}`);
     recordEvent({
       event: 'gibct-form-change',
       'gibct-form-field': field,
@@ -209,6 +213,14 @@ function CalculateYourBenefitsForm({
     });
     eligibilityChange({ [field]: value });
     setInputUpdated(true);
+    if (
+      field === 'militaryStatus' &&
+      (value === 'spouse' || value === 'child')
+    ) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
 
     if (!environment.isProduction()) recalculateBenefits();
   };
@@ -1054,6 +1066,7 @@ function CalculateYourBenefitsForm({
             hideModal={hideModal}
             showModal={showModal}
             inputs={inputs}
+            optionDisabled={environment.isProduction() ? false : isDisabled}
             displayedInputs={displayedInputs}
             handleInputFocus={handleEYBInputFocus}
             giBillChapterOpen={[displayedInputs?.giBillBenefit]}
