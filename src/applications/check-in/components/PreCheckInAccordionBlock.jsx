@@ -19,8 +19,11 @@ const PreCheckInAccordionBlock = ({
       <>
         <strong>{t('contact-information')}</strong>
         <p>
+          {t('a-staff-member-will-help-you-on-the-day-of-your-appointment')}
+        </p>
+        <p>
           <Trans
-            i18nKey="a-staff-member-will-help-you-on-the-day-of-your-appointment-or-you-can-login-to-your-va-account-to-update-your-contact-information-online"
+            i18nKey="or-you-can-login-to-your-va-account-to-update-your-contact-information-online"
             components={[
               <ExternalLink
                 key="link"

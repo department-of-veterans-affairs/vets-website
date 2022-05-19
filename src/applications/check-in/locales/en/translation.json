@@ -1,6 +1,5 @@
 {
   "a-staff-member-will-help-you-on-the-day-of-your-appointment": "A staff member will help you on the day of your appointment.",
-  "a-staff-member-will-help-you-on-the-day-of-your-appointment-or-you-can-login-to-your-va-account-to-update-your-contact-information-online": "A staff member will help you on the day of your appointment. Or you can <0>{{link}}</0> to your VA account to update your contact information online.",
   "add": "Add",
   "address": "Address",
   "and-select-0-were-here-24-7": "and select 0. We’re here 24/7.",
@@ -83,6 +82,7 @@
   "no": "No",
   "not-available": "Not available",
   "online-check-in-isnt-available-for-this-appointment-check-in-with-a-staff-member": "Online check-in isn’t available for this appointment. Check in with a staff member.",
+  "or-you-can-login-to-your-va-account-to-update-your-contact-information-online": "Or you can <0>{{link}}</0> to your VA account to update your contact information online.",
   "our-staff-can-help-you-update-your-contact-information": "Our staff can help you update your contact information.",
   "our-staff-can-help-you-update-your-emergency-contact-information": "Our staff can help you update your emergency contact information.",
   "our-staff-can-help-you-update-your-next-of-kin-information": "Our staff can help you update your next of kin information.",
