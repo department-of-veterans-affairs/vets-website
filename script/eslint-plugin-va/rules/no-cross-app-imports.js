@@ -1,9 +1,9 @@
 const path = require('path');
-const message = 'No cross app imports allowed.';
+const MESSAGE = 'No cross app imports allowed';
 module.exports = {
   meta: {
     docs: {
-      description: message,
+      description: MESSAGE,
       category: 'problem',
     },
   },
@@ -11,18 +11,32 @@ module.exports = {
     return {
       ImportDeclaration(node) {
         const value = node.source.value;
-        const pathToImport = path.resolve(value);
-        // is the import from vets-website?
-        if (pathToImport.includes('src/applications')) {
+        const currentPath = context.getFilename();
+
+        let importPath;
+        // import not a relative import
+        if (value.startsWith('applications')) {
+          importPath = path.join('vets-website', 'src', value);
+          // relative import
+        } else if (value.startsWith('..')) {
+          const currentDir = path.join(currentPath, '..');
+          importPath = path.join(currentDir, value);
+          // not a vets-website import or not a cross app import
+        } else {
+          importPath = value;
+        }
+
+        const testLocation = new RegExp('vets-website/src/applications');
+        // are the current file and the import in vets-website apps?
+        if (importPath.match(testLocation) && currentPath.match(testLocation)) {
           const regex = new RegExp('applications/(?<app>[a-zA-Z0-9_-]+)/');
-          const importedApp = pathToImport.match(regex)?.groups?.app;
-          const currentPath = context.getCwd();
+          const importedApp = importPath.match(regex)?.groups?.app;
           const currentApp = currentPath.match(regex)?.groups?.app;
-          // is the import a cross app import?
+
           if (importedApp !== currentApp) {
             context.report({
               node,
-              message,
+              message: `${MESSAGE}: ${currentApp} importing from ${importedApp}`,
             });
           }
         }
