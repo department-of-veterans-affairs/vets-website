@@ -8,7 +8,7 @@
 
 import moment from 'moment';
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/feature-toggles-aiq.json';
+import featureToggles from './fixtures/feature-toggles-shortForm.json';
 import mockUserAiq from './fixtures/mockUserAiq';
 import minTestData from './fixtures/schema/minimal-test.json';
 import enrollmentStatus from './fixtures/mockEnrollmentStatus.json';
