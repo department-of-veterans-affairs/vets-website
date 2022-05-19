@@ -45,7 +45,7 @@ describe('The My VA Dashboard - Notifications', () => {
     });
   });
   describe('when the feature is not hidden', () => {
-    Cypress.config({ defaultCommandTimeout: 12000 });
+    Cypress.config({ defaultCommandTimeout: 24000 });
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles*', {
         data: {
