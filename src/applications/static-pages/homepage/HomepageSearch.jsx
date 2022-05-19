@@ -4,38 +4,31 @@ import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
 
 import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
-// import { apiRequest } from '../../../platform/utilities/api';
+import { apiRequest } from '../../../platform/utilities/api';
 
 /**
  * Homepage redesign
- * Search component that appears in the Common Tasks section
- *
- * uses the new Search Input component from the VA Design System
+ * Search component that appears in the Common Tasks section (midpage)
+ * which uses the new Search Input component from the VA Design System
  */
 const HomepageSearch = ({ value, suggestions }) => {
   const [userInput, setUserInput] = useState(value);
   const [latestSuggestions, setLatestSuggestions] = useState(suggestions);
 
-  // Typeahead API
+  // fetch Typeahead suggestions from API
   const fetchDropDownSuggestions = async inputValue => {
     // encode user input for query to suggestions url
     const encodedInput = encodeURIComponent(inputValue);
 
     // fetch suggestions
     try {
-      // const apiRequestOptions = {
-      //   method: 'GET',
-      // };
-      // const fetchedSuggestions = await apiRequest(
-      //   `/search_typeahead?query=${encodedInput}`,
-      //   apiRequestOptions,
-      // );
-
-      const fetchedSuggestions1 = await fetch(
-        `https://api.va.gov/v0/search_typeahead?query=${encodedInput}`,
+      const apiRequestOptions = {
+        method: 'GET',
+      };
+      const fetchedSuggestions = await apiRequest(
+        `/search_typeahead?query=${encodedInput}`,
+        apiRequestOptions,
       );
-
-      const fetchedSuggestions = await fetchedSuggestions1.json();
 
       if (fetchedSuggestions.length !== 0) {
         setLatestSuggestions(fetchedSuggestions);
