@@ -6,6 +6,11 @@ import { shallow } from 'enzyme';
 import { App } from '.';
 
 describe('Contact Chatbot CTA <App>', () => {
+  it('does not render when feature toggle is falsey', () => {
+    const wrapper = shallow(<App show={false} />);
+    expect(wrapper.type()).to.equal(null);
+    wrapper.unmount();
+  });
   it.skip('renders what we expect', () => {
     const wrapper = shallow(<App show />);
     expect(wrapper.type()).to.not.equal(null);
