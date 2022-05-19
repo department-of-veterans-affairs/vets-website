@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
 
 import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
-import { apiRequest } from '../../../platform/utilities/api';
+// import { apiRequest } from '../../../platform/utilities/api';
 
 /**
  * Homepage redesign
@@ -16,36 +16,30 @@ const HomepageSearch = ({ value, suggestions }) => {
   const [userInput, setUserInput] = useState(value);
   const [latestSuggestions, setLatestSuggestions] = useState(suggestions);
 
-  /**
-   * Mock suggestions
-   * Provides suggestions for the following values: for, form, forms
-   * All other values will return an empty array
-   */
-  // const mockSuggestions = [
-  //   'foreign study',
-  //   'forever gi bill',
-  //   'form',
-  //   'form finder',
-  //   'form search',
-  //   'forms',
-  // ];
-
-  // TA2.0
+  // Typeahead API
   const fetchDropDownSuggestions = async inputValue => {
     // encode user input for query to suggestions url
     const encodedInput = encodeURIComponent(inputValue);
 
     // fetch suggestions
     try {
-      const apiRequestOptions = {
-        method: 'GET',
-      };
-      const fetchedSuggestions = await apiRequest(
-        `/search_typeahead?query=${encodedInput}`,
-        apiRequestOptions,
+      // const apiRequestOptions = {
+      //   method: 'GET',
+      // };
+      // const fetchedSuggestions = await apiRequest(
+      //   `/search_typeahead?query=${encodedInput}`,
+      //   apiRequestOptions,
+      // );
+
+      const fetchedSuggestions1 = await fetch(
+        `https://api.va.gov/v0/search_typeahead?query=${encodedInput}`,
       );
 
+      const fetchedSuggestions = await fetchedSuggestions1.json();
+
       if (fetchedSuggestions.length !== 0) {
+        setLatestSuggestions(fetchedSuggestions);
+
         return fetchedSuggestions.sort((a, b) => {
           return a.length - b.length;
         });
@@ -63,14 +57,26 @@ const HomepageSearch = ({ value, suggestions }) => {
     return [];
   };
 
-  const handleInput = e => {
-    if (e.target.value.length < 3) return;
+  // clear all suggestions and saved suggestions
+  const clearSuggestions = () => {
+    setLatestSuggestions([]);
+  };
+
+  const handleInputChange = e => {
+    // update input value to new value
+    const inputValue = e.target.value;
+    setUserInput(inputValue);
+
+    // don't display suggestions if input is too short
+    if (inputValue?.length < 3) {
+      clearSuggestions();
+      return;
+    }
+
     setTimeout(
-      () => setLatestSuggestions(fetchDropDownSuggestions(e.target.value)),
+      () => setLatestSuggestions(fetchDropDownSuggestions(inputValue)),
       500,
     );
-
-    setUserInput(e.target.value);
   };
 
   const handleSubmit = e => {
@@ -93,7 +99,7 @@ const HomepageSearch = ({ value, suggestions }) => {
 
       <VaSearchInput
         value={userInput}
-        onInput={handleInput}
+        onInput={handleInputChange}
         onSubmit={handleSubmit}
         suggestions={latestSuggestions}
       />
