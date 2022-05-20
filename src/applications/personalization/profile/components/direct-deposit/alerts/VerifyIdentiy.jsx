@@ -48,7 +48,7 @@ export default function VerifyIdentiy() {
         <a href="tel:711" aria-label="TTY: 7 1 1.">
           TTY: 711
         </a>
-        ) . We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </va-alert>
   );
