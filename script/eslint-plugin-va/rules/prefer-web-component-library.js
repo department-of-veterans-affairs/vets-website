@@ -48,6 +48,44 @@ const telephoneTransformer = (context, node) => {
   });
 };
 
+const textInputTransformer = (context, node) => {
+  const componentName = node.openingElement.name;
+  const error = getPropNode(node, 'errorMessage');
+  const additionalClass = getPropNode(node, 'additionalClass');
+  const field = getPropNode(node, 'field');
+  const placeholder = getPropNode(node, 'placeholder');
+  const maxlength = getPropNode(node, 'charmax');
+  const changeHandler = getPropNode(node, 'onValueChange');
+
+  context.report({
+    node,
+    message:
+      MESSAGE +
+      `\nBEWARE: onValueChanged has been replaced with an onInput event handler and uses an event argument. This means the handler has to be updated to retrieve the value from event.target.value`,
+    data: {
+      reactComponent: componentName.name,
+      webComponent: 'va-text-input',
+    },
+    suggest: [
+      {
+        desc: 'Migrate component',
+        fix: fixer => {
+          // Replace the node name
+          return [
+            fixer.replaceText(componentName, 'va-text-input'),
+            error && fixer.replaceText(error.name, 'error'),
+            additionalClass && fixer.replaceText(additionalClass.name, 'class'),
+            field && fixer.remove(field),
+            placeholder && fixer.remove(placeholder),
+            maxlength && fixer.replaceText(maxlength.name, 'maxlength'),
+            changeHandler && fixer.replaceText(changeHandler.name, 'onInput'),
+          ].filter(i => !!i);
+        },
+      },
+    ],
+  });
+};
+
 const breadcrumbsTransformer = (context, node) => {
   const componentName = node.openingElement.name;
   const closingTag = node.closingElement.name;
@@ -391,6 +429,9 @@ module.exports = {
             break;
           case 'Telephone':
             telephoneTransformer(context, node);
+            break;
+          case 'TextInput':
+            textInputTransformer(context, node);
             break;
           default:
             break;
