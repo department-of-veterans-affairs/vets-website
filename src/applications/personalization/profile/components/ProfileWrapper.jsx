@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import {
   cnpDirectDepositLoadError,
   eduDirectDepositLoadError,
@@ -22,17 +21,13 @@ import ProfileMobileSubNav from './ProfileMobileSubNav';
 
 const NotAllDataAvailableError = () => (
   <div data-testid="not-all-data-available-error">
-    <AlertBox
-      level={2}
-      status="warning"
-      headline="We can’t load all the information in your profile"
-      className="vads-u-margin-bottom--4"
-    >
+    <va-alert status="warning" visible className="vads-u-margin-bottom--4">
+      <h2 slot="headline">We can’t load all the information in your profile</h2>
       <p>
         We’re sorry. Something went wrong on our end. We can’t display all the
         information in your profile. Please refresh the page or try again later.
       </p>
-    </AlertBox>
+    </va-alert>
   </div>
 );
 
@@ -108,8 +103,6 @@ const mapStateToProps = (state, ownProps) => {
 
 ProfileWrapper.propTypes = {
   children: PropTypes.node.isRequired,
-  location: PropTypes.object,
-  hero: PropTypes.object,
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       component: PropTypes.func.isRequired,
@@ -120,6 +113,13 @@ ProfileWrapper.propTypes = {
     }),
   ).isRequired,
   showNotAllDataAvailableError: PropTypes.bool.isRequired,
+  hero: PropTypes.object,
+  isInMVI: PropTypes.bool,
+  isLOA3: PropTypes.bool,
+  location: PropTypes.object,
+  showNameTag: PropTypes.bool,
+  totalDisabilityRating: PropTypes.string,
+  totalDisabilityRatingServerError: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(ProfileWrapper);
