@@ -3,6 +3,12 @@ import { apiRequest } from 'platform/utilities/api';
 import { DevicesToConnectSection } from './DevicesToConnectSection';
 import { ConnectedDevicesSection } from './ConnectedDevicesSection';
 import { FETCH_CONNECTED_DEVICES } from '../actions/api';
+import {
+  CONNECTION_FAILED_STATUS,
+  CONNECTION_SUCCESSFUL_STATUS,
+  DISCONNECTION_FAILED_STATUS,
+  DISCONNECTION_SUCCESSFUL_STATUS,
+} from '../constants/alerts';
 
 export const ConnectedDevicesContainer = () => {
   const [connectedDevices, setConnectedDevices] = useState([]);
@@ -11,32 +17,15 @@ export const ConnectedDevicesContainer = () => {
   const [disconnectSuccessAlert, setDisconnectSuccessAlert] = useState(false);
   const [disconnectFailureAlert, setDisconnectFailureAlert] = useState(false);
 
-  // TODO: REFACTOR SHOW ALERT
-  const showSuccessAlert = () => {
-    setSuccessAlert(true);
-  };
-
-  const showDisconnectSuccessAlert = () => {
-    setDisconnectSuccessAlert(true);
-  };
-
-  const showDisconnectFailureAlert = () => {
-    setDisconnectFailureAlert(true);
-  };
-
-  const showFailureAlert = () => {
-    setFailureAlert(true);
-  };
-
   const showAlert = (vendor, status) => {
-    if (status === 'success') {
-      showSuccessAlert();
-    } else if (status === 'error') {
-      showFailureAlert();
-    } else if (status === 'disconnect-success') {
-      showDisconnectSuccessAlert();
-    } else if (status === 'disconnect-error') {
-      showDisconnectFailureAlert();
+    if (status === CONNECTION_SUCCESSFUL_STATUS) {
+      setSuccessAlert(true);
+    } else if (status === CONNECTION_FAILED_STATUS) {
+      setFailureAlert(true);
+    } else if (status === DISCONNECTION_SUCCESSFUL_STATUS) {
+      setDisconnectSuccessAlert(true);
+    } else if (status === DISCONNECTION_FAILED_STATUS) {
+      setDisconnectFailureAlert(true);
     }
   };
 
