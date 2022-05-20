@@ -1,3 +1,5 @@
+import React from 'react';
+import { Route } from 'react-router-dom';
 import {
   createPageList,
   createFormPageList,
@@ -31,18 +33,17 @@ export function createRoutesWithSaveInProgress(formConfig) {
 
     // rewrite page component
     if (!protectedRoutes.has(route.path)) {
-      newRoute = Object.assign({}, route, {
+      newRoute = {
+        ...route,
         component: RoutedSavablePage,
         formConfig,
-      });
+      };
       newRoutes[index] = newRoute;
     }
 
     // rewrite review page component
     if (route.path === 'review-and-submit') {
-      newRoute = Object.assign({}, route, {
-        component: RoutedSavableReviewPage,
-      });
+      newRoute = { ...route, component: RoutedSavableReviewPage };
       newRoutes[index] = newRoute;
     }
   });
@@ -69,5 +70,13 @@ export function createRoutesWithSaveInProgress(formConfig) {
     });
   }
 
-  return newRoutes;
+  return newRoutes.map((routeObject, i) => (
+    <Route
+      path={`/${routeObject.path}`}
+      component={props => {
+        return <routeObject.component {...props} route={routeObject} />;
+      }}
+      key={i}
+    />
+  ));
 }
