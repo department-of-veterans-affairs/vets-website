@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { VaAlert } from 'web-components/react-bindings';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../../sass/user-profile.scss';
-import { VaAlert } from 'web-components/react-bindings';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import DebtNotification from './DebtNotification';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import { fetchNotifications } from '../../actions/notifications';
