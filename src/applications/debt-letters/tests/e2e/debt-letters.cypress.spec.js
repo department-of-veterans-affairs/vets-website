@@ -12,7 +12,7 @@ import mockCopays from '../../../medical-copays/tests/e2e/fixtures/mocks/copays.
 
 describe('Debt Letters', () => {
   beforeEach(() => {
-    cy.login(mockUser).as('login');
+    cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles).as(
       'features',
     );
