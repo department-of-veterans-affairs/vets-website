@@ -206,6 +206,12 @@ function CalculateYourBenefitsForm({
     });
     eligibilityChange({ [field]: value });
     setInputUpdated(true);
+    if (field === 'militaryStatus') {
+      setIsDisabled(true);
+      if (value === 'spouse' || value === 'child') {
+        setIsDisabled(false);
+      }
+    }
 
     if (
       field === 'militaryStatus' &&
