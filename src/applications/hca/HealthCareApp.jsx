@@ -17,42 +17,8 @@ const HealthCareEntry = ({
   setFormData,
   formData,
 }) => {
-  // const getFlipperData = useCallback(
-  //   () => {
-  //     if (caregiverSIGIEnabled !== undefined) {
-  //       setFormData({
-  //         ...formData,
-  //         'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
-  //       });
-  //     }
-
-  //     if (hcaAmericanIndianEnabled !== undefined) {
-  //       setFormData({
-  //         ...formData,
-  //         'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
-  //       });
-  //     }
-
-  //     if (hcaShortFormEnabled !== undefined) {
-  //       setFormData({
-  //         ...formData,
-  //         'view:hcaShortFormEnabled': hcaShortFormEnabled,
-  //       });
-  //     }
-  //   },
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   [caregiverSIGIEnabled, hcaAmericanIndianEnabled, hcaShortFormEnabled],
-  // );
-
-  // useEffect(
-  //   () => {
-  //     getFlipperData();
-  //   },
-
-  //   [getFlipperData, caregiverSIGIEnabled],
-  // );
-
   useEffect(
+    // included veteranFullName to reset view flipper toggles when starting a new application from save-in-progress
     () => {
       setFormData({
         ...formData,
@@ -63,7 +29,12 @@ const HealthCareEntry = ({
     },
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [caregiverSIGIEnabled, hcaAmericanIndianEnabled, hcaShortFormEnabled],
+    [
+      caregiverSIGIEnabled,
+      hcaAmericanIndianEnabled,
+      hcaShortFormEnabled,
+      formData.veteranFullName,
+    ],
   );
 
   return (
