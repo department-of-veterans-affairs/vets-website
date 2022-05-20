@@ -6,6 +6,8 @@ const alreadyPreCheckedInUUID = '4d523464-c450-49dc-9a18-c04b3f1642ee';
 const canceledAppointmentUUID = '9d7b7c15-d539-4624-8d15-b740b84e8548';
 const expiredUUID = '354d5b3a-b7b7-4e5c-99e4-8d563f15c521';
 
+const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
+
 const createMockSuccessResponse = (
   token,
   demographicsNeedsUpdate = false,
@@ -21,16 +23,15 @@ const createMockSuccessResponse = (
   let status = '';
 
   if (token === alreadyPreCheckedInUUID) {
-    const dateFormat = "yyyy-LL-dd'T'HH:mm:ss";
     // 35 minutes ago.
     const preCheckinStarted = format(
       new Date(mockTime.getTime() - 2100000),
-      dateFormat,
+      isoDateWithoutTimezoneFormat,
     );
     // 30 minutes ago.
     const preCheckinCompleted = format(
       new Date(mockTime.getTime() - 1800000),
-      dateFormat,
+      isoDateWithoutTimezoneFormat,
     );
 
     checkInSteps = [

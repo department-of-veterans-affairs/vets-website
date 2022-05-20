@@ -145,7 +145,9 @@ export default Object.freeze({
   showEduBenefits1990EZWizard: 'show_edu_benefits_1990EZ_Wizard',
   caregiverSIGIEnabled: 'caregiver_sigi_enabled',
   hcaAmericanIndianEnabled: 'hca_american_indian_enabled',
+  hcaShortFormEnabled: 'hca_short_form_enabled',
   checkVAInboxEnabled: 'check_va_inbox_enabled',
-  ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test'
+  ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
+  showExpandableVamcAlert: 'show_expandable_vamc_alert'
 
 });

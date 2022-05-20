@@ -9,7 +9,7 @@ class PackageDependencies extends Dependencies {
 
   setDependencies() {
     Object.values(this.products).forEach(product => {
-      const imports = findImports(`${product.productPath}/**/*.{js,jsx}`, {
+      const imports = findImports(`${product.pathToCode}/**/*.{js,jsx}`, {
         absoluteImports: false,
         relativeImports: false,
         packageImports: true,
