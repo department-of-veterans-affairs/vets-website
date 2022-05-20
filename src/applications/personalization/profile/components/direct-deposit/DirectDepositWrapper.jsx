@@ -22,6 +22,7 @@ const DirectDepositWrapper = props => {
   }
 
   if (errored) {
+    setViewingIsRestricted(true);
     return <ServiceDown />;
   }
 
