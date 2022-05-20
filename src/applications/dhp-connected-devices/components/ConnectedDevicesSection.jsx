@@ -1,11 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { DeviceDisconnectionCard } from './DeviceDisconnectionCard';
-import {
-  DeviceConnectionAlert,
-  DeviceConnectionFailedAlert,
-  DeviceConnectionSucceededAlert,
-} from './DeviceConnectionAlerts';
+import { DeviceConnectionAlert } from './DeviceConnectionAlerts';
 
 export const ConnectedDevicesSection = ({
   connectedDevices,
@@ -41,11 +37,26 @@ export const ConnectedDevicesSection = ({
   // TODO: REFACTOR ALERT TO CONNECTION ALERT
   return (
     <>
-      {successAlert && <DeviceConnectionSucceededAlert />}
-      {failureAlert && <DeviceConnectionFailedAlert />}
+      {successAlert && (
+        <DeviceConnectionAlert
+          testId="connection-success-alert"
+          status="success"
+          headline="Device connected"
+          description="Your device is now connected."
+        />
+      )}
+      {failureAlert && (
+        <DeviceConnectionAlert
+          testId="connection-failure-alert"
+          status="error"
+          headline="We couldn’t connect your device"
+          description="We were not able to connect to your device right now. Please try
+          again."
+        />
+      )}
       {disconnectSuccessAlert && (
         <DeviceConnectionAlert
-          testId="disconnect-success-alert"
+          testId="disconnection-success-alert"
           status="success"
           headline="Device disconnected"
           description="Your device is no longer sharing data with the VA."
@@ -53,10 +64,10 @@ export const ConnectedDevicesSection = ({
       )}
       {disconnectFailureAlert && (
         <DeviceConnectionAlert
-          testId="disconnect-failure-alert"
+          testId="disconnection-failure-alert"
           status="error"
           headline="We couldn't disconnect your device"
-          description="We were not able to connect your device right now. Please try again."
+          description="We were not able to disconnect your device right now. Please try again."
         />
       )}
       {!areDevicesConnected() && (
@@ -71,8 +82,8 @@ export const ConnectedDevicesSection = ({
 
 ConnectedDevicesSection.propTypes = {
   connectedDevices: PropTypes.array.isRequired,
-  disconnectSuccessAlert: PropTypes.bool.isRequired,
   disconnectFailureAlert: PropTypes.bool.isRequired,
+  disconnectSuccessAlert: PropTypes.bool.isRequired,
   failureAlert: PropTypes.bool.isRequired,
   successAlert: PropTypes.bool.isRequired,
 };
