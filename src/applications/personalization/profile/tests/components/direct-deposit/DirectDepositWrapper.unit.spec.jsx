@@ -5,16 +5,25 @@ import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+
 import { CSP_IDS } from 'platform/user/authentication/constants';
 import { spy } from 'sinon';
 import DirectDepositWrapper from '../../../components/direct-deposit/DirectDepositWrapper';
 
 describe('authenticated experience -- profile -- direct deposit', () => {
   describe('DirectDepositWrapper', () => {
-    const createStore = ({ serviceType = CSP_IDS.ID_ME, cpnErrors } = {}) => {
+    const createStore = ({
+      serviceType = CSP_IDS.ID_ME,
+      cpnErrors,
+      featureToggles = {
+        [FEATURE_FLAG_NAMES.profileAlwaysShowDirectDepositDisplay]: true,
+      },
+    } = {}) => {
       const middleware = [];
       const mockStore = configureStore(middleware);
       const initState = {
+        featureToggles,
         user: {
           profile: {
             signIn: {
@@ -127,6 +136,24 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       expect(queryByTestId('child')).to.be.null;
 
       expect(setViewingIsRestricted.called).to.be.true;
+    });
+    it('should render the children if the feature is disabled', () => {
+      const setViewingIsRestricted = spy();
+      const store = createStore({
+        featureToggles: {
+          [FEATURE_FLAG_NAMES.profileAlwaysShowDirectDepositDisplay]: false,
+        },
+      });
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <DirectDepositWrapper setViewingIsRestricted={setViewingIsRestricted}>
+            <div data-testid="child" />
+          </DirectDepositWrapper>
+        </Provider>,
+      );
+      expect(getByTestId('child')).to.exist;
+      expect(setViewingIsRestricted.called).to.be.false;
     });
   });
 });
