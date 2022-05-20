@@ -52,9 +52,18 @@ const CombinedPortalApp = ({ children }) => {
   }
 
   // TODO: we'll probably need to have a unauth redirect checking 'userLoggedIn'
+  //   isLoggedIn: state.user.login.currentlyLoggedIn
   if (!isCombinedPortalActive) {
     window.location.replace('/');
-    return <></>;
+    return (
+      <div className="vads-u-margin--5">
+        <va-loading-indicator
+          label="Loading"
+          message="Please wait while we load the application for you."
+          set-focus
+        />
+      </div>
+    );
   }
 
   return (
