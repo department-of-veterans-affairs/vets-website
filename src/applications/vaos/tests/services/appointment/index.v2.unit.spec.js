@@ -707,6 +707,7 @@ describe('VAOS Appointment service', () => {
       // This adjusts for that format difference, because fixing the code results
       // in weird test failures that need to be looked at separately
       v0Result.start = v0Result.start.replace('Z', '+00:00');
+      v2Result.start = v2Result.start.replace('Z', '+00:00');
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
