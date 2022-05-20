@@ -359,5 +359,24 @@ ruleTester.run('prefer-web-component-library', rule, {
         },
       ],
     },
+    {
+      code: mockFile(
+        'TextInput',
+        'const Component = () => (<TextInput label="First name" name="first_name" field={field} required additionalClass="some-class" onValueChange={handler} />)',
+      ),
+      errors: [
+        {
+          suggestions: [
+            {
+              desc: 'Migrate component',
+              output: mockFile(
+                'TextInput',
+                'const Component = () => (<va-text-input label="First name" name="first_name"  required class="some-class" onInput={handler} />)',
+              ),
+            },
+          ],
+        },
+      ],
+    },
   ],
 });

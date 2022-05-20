@@ -17,7 +17,7 @@ import {
   getHlrWizardStatus,
   removeHlrWizardStatus,
   setHlrWizardStatus,
-} from '../wizard/utils';
+} from './utils';
 
 export const WizardContainer = ({ setWizardStatus, hlrV2 }) => {
   const { title, subTitle } = formConfig;
