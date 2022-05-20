@@ -41,7 +41,8 @@ class Confirmation {
       )
       .contains(
         "[header='How can I update my information?']",
-        'A staff member will help you on the day of your appointment. Or you can sign in to your VA account to update your contact information online.',
+        'A staff member will help you on the day of your appointment.',
+        'Or you can sign in to your VA account to update your contact information online.',
       );
   };
 
