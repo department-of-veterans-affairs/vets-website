@@ -53,7 +53,7 @@ const BalanceCard = ({ amount, count, date, appType }) => {
         data-testid="card-link"
         aria-label={linkText}
       >
-        LINKY BOI: {linkText}
+        {linkText}
         <i
           className="fa fa-chevron-right vads-u-margin-left--1"
           aria-hidden="true"
