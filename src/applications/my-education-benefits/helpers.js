@@ -228,6 +228,13 @@ function mapNotificaitonMethod(notificationMethod) {
   return notificationMethod;
 }
 
+export const transformAlphaOnlyLowercase = str =>
+  str.toLowerCase().replace(/[^a-z]/g, '');
+
+export const equalsAlphaOnlyIgnoreCase = (a, b) => {
+  return transformAlphaOnlyLowercase(a) === transformAlphaOnlyLowercase(b);
+};
+
 export function prefillTransformer(pages, formData, metadata, state) {
   const claimant = state.data?.formData?.data?.attributes?.claimant || {};
   const serviceData = state.data?.formData?.data?.attributes?.serviceData || [];
@@ -277,7 +284,12 @@ export function prefillTransformer(pages, formData, metadata, state) {
   };
 
   if (claimant?.suffix) {
-    newData['view:userFullName'].userFullName.suffix = claimant?.suffix;
+    newData['view:userFullName'].userFullName.suffix =
+      state?.form?.pages?.applicantInformation?.schema?.properties[
+        'view:userFullName'
+      ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
+        equalsAlphaOnlyIgnoreCase(e, claimant.suffix),
+      ) || undefined;
   }
 
   return {
