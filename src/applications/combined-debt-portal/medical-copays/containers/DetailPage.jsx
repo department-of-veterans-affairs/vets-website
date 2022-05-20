@@ -21,7 +21,8 @@ import {
 const DetailPage = ({ match }) => {
   const selectedId = match.params.id;
   const [alert, setAlert] = useState('status');
-  const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
+  const combinedPortalData = useSelector(state => state.combinedPortal);
+  const statements = combinedPortalData.mcp.statements ?? [];
   const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);
   const title = `Copay bill for ${selectedCopay?.station.facilityName}`;
   const statementDate = formatDate(selectedCopay?.pSStatementDate);

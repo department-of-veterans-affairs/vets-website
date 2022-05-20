@@ -20,7 +20,8 @@ const OverviewPage = () => {
   const [hasDebts, setHasDebts] = useState(false);
 
   const showCDPComponents = useSelector(state => cdpAccessToggle(state));
-  const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
+  const combinedPortalData = useSelector(state => state.combinedPortal);
+  const statements = combinedPortalData.mcp.statements ?? [];
   const sortedStatements = sortStatementsByDate(statements);
   const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
   const title = 'Current copay balances';
