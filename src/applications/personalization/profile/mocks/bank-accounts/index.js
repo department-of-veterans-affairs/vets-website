@@ -11,6 +11,13 @@ const defaultResponse = {
   },
 };
 
+const errorResponse = {
+  data: {
+    errors: [{}],
+  },
+};
+
 module.exports = {
   defaultResponse,
+  errorResponse,
 };
