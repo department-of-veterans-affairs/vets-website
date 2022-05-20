@@ -11,6 +11,7 @@ describe('Contact Chatbot CTA <App>', () => {
     expect(wrapper.type()).to.equal(null);
     wrapper.unmount();
   });
+
   it.skip('renders what we expect', () => {
     const wrapper = shallow(<App show />);
     expect(wrapper.type()).to.not.equal(null);
