@@ -214,15 +214,6 @@ function CalculateYourBenefitsForm({
       }
     }
 
-    if (
-      field === 'militaryStatus' &&
-      (value === 'spouse' || value === 'child')
-    ) {
-      setIsDisabled(false);
-    } else {
-      setIsDisabled(true);
-    }
-
     if (!environment.isProduction()) recalculateBenefits();
   };
 
