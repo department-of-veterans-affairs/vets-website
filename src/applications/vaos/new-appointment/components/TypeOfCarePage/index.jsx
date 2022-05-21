@@ -20,6 +20,7 @@ import { resetDataLayer } from '../../../utils/events';
 
 import { PODIATRY_ID, TYPES_OF_CARE } from '../../../utils/constants';
 import useFormState from '../../../hooks/useFormState';
+import { getLongTermAppointmentHistoryV2 } from '../../../services/vaos';
 
 const pageKey = 'typeOfCare';
 const pageTitle = 'Choose the type of care you need';
@@ -34,6 +35,7 @@ export default function TypeOfCarePage() {
     showCommunityCare,
     showDirectScheduling,
     showPodiatryApptUnavailableModal,
+    useV2,
   } = useSelector(selectTypeOfCarePage, shallowEqual);
 
   const history = useHistory();
@@ -114,7 +116,8 @@ export default function TypeOfCarePage() {
             // This could get called multiple times, but the function is memoized
             // and returns the previous promise if it eixsts
             if (showDirectScheduling) {
-              getLongTermAppointmentHistory();
+              if (useV2) getLongTermAppointmentHistoryV2();
+              else getLongTermAppointmentHistory();
             }
 
             setData(newData);
