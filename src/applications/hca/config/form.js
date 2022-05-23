@@ -97,6 +97,13 @@ const isHighDisability = formData =>
   formData['view:hcaShortFormEnabled'] &&
   formData.vaCompensationType === 'highDisability';
 
+const notHighDisabilityEnrolledMedicarePartA = formData =>
+  !formData['view:hcaShortFormEnabled'] ||
+  (formData.isEnrolledMedicarePartA &&
+    formData.vaCompensationType !== 'highDisability' &&
+    (!formData['view:totalDisabilityRating'] ||
+      formData['view:totalDisabilityRating'] < HIGH_DISABILITY));
+
 // For which page needs prefill-message, check
 // vets-api/config/form_profile_mappings/1010ez.yml
 const formConfig = {
@@ -401,7 +408,7 @@ const formConfig = {
           path: 'insurance-information/medicare-part-a-effective-date',
           title: 'Medicare Part A effective date',
           initialData: {},
-          depends: formData => formData.isEnrolledMedicarePartA,
+          depends: notHighDisabilityEnrolledMedicarePartA,
           uiSchema: medicarePartAEffectiveDate.uiSchema,
           schema: medicarePartAEffectiveDate.schema,
         },
