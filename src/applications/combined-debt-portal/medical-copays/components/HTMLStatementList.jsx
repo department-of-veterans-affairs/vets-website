@@ -5,7 +5,8 @@ import { sortStatementsByDate } from '../../combined/utils/helpers';
 import HTMLStatementLink from './HTMLStatementLink';
 
 const HTMLStatementList = ({ selectedId }) => {
-  const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
+  const combinedPortalData = useSelector(state => state.combinedPortal);
+  const statements = combinedPortalData.mcp.statements ?? [];
   // get selected statement
   const [selectedCopay] = statements.filter(({ id }) => id === selectedId);
   // get facility  number on selected statement
@@ -28,7 +29,7 @@ const HTMLStatementList = ({ selectedId }) => {
       {sortedFacilityCopays.map(statement => (
         <HTMLStatementLink
           id={statement.id}
-          statementDate={statement.pSStatementDate}
+          statementDate={statement.pSStatementDateOutput}
           key={statement.id}
         />
       ))}

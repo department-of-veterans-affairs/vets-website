@@ -11,7 +11,7 @@ const HTMLStatementLink = ({ id, statementDate }) => {
   return (
     <div className="vads-u-margin-top--3 vads-u-margin-bottom--3">
       <Link
-        to={`/balance-details/${id}/statement-view`}
+        to={`/summary/copay-balances/${id}/detail/statement`}
         data-testid={`balance-details-${id}-statement-view`}
       >
         <span aria-hidden="true">

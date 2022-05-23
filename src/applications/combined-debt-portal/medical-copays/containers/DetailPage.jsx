@@ -25,11 +25,11 @@ const DetailPage = ({ match }) => {
   const statements = combinedPortalData.mcp.statements ?? [];
   const [selectedCopay] = statements?.filter(({ id }) => id === selectedId);
   const title = `Copay bill for ${selectedCopay?.station.facilityName}`;
-  const statementDate = formatDate(selectedCopay?.pSStatementDate);
+  const statementDate = formatDate(selectedCopay?.pSStatementDateOutput);
   const isCurrentBalance = verifyCurrentBalance(selectedCopay?.pSStatementDate);
   const acctNum = selectedCopay?.pHAccountNumber
-    ? selectedCopay?.pHAccountNumber
-    : selectedCopay?.pHCernerAccountNumber;
+    ? selectedCopay?.pHAccountNumber.toString()
+    : selectedCopay?.pHCernerAccountNumber.toString();
   const showHTMLStatements = useSelector(state =>
     mcpHTMLStatementToggle(state),
   );

@@ -10,9 +10,14 @@ const Routes = () => (
   <CombinedPortalApp>
     <Switch>
       <Route exact path="/" component={OverviewPage} />
-      <Route path="/summary/copay-balances" component={MCPOverview} />
-      <Route path="/summary/copay-balances/:id/detail" component={DetailPage} />
+      <Route exact path="/summary/copay-balances" component={MCPOverview} />
       <Route
+        exact
+        path="/summary/copay-balances/:id/detail"
+        component={DetailPage}
+      />
+      <Route
+        exact
         path="/summary/copay-balances/:id/detail/statement"
         component={HTMLStatementPage}
       />

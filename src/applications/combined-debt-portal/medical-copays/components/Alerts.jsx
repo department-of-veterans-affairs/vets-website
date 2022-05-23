@@ -48,7 +48,7 @@ Alert.Error = () => (
 );
 
 Alert.PastDue = ({ copay }) => {
-  const statementDate = formatDate(copay?.pSStatementDate);
+  const statementDate = formatDate(copay?.pSStatementDateOutput);
 
   return (
     <va-alert
@@ -85,13 +85,13 @@ Alert.PastDue = ({ copay }) => {
 
 Alert.PastDue.propTypes = {
   copay: PropTypes.shape({
-    pSStatementDate: PropTypes.string,
+    pSStatementDateOutput: PropTypes.string,
     pHAmtDue: PropTypes.number,
   }),
 };
 
 Alert.ZeroBalance = ({ copay }) => {
-  const statementDate = formatDate(copay?.pSStatementDate);
+  const statementDate = formatDate(copay?.pSStatementDateOutput);
 
   return (
     <va-alert
@@ -127,7 +127,7 @@ Alert.ZeroBalance = ({ copay }) => {
 
 Alert.ZeroBalance.propTypes = {
   copay: PropTypes.shape({
-    pSStatementDate: PropTypes.string,
+    pSStatementDateOutput: PropTypes.string,
   }),
 };
 
@@ -192,14 +192,14 @@ Alert.Status = ({ copay }) => (
       to wrap to the next line so we need a {' '} space here */}
       Pay your {currency(copay?.pHAmtDue)} balance or request help before{' '}
       <span className="vads-u-line-height--4 no-wrap">
-        {calcDueDate(copay?.pSStatementDate, 30)}
+        {calcDueDate(copay?.pSStatementDateOutput, 30)}
       </span>
     </h2>
     <p>
       To avoid late fees or collection action on your bill, you must pay your
       full balance or request financial help before
       <span className="vads-u-margin-left--0p5">
-        {calcDueDate(copay?.pSStatementDate, 30)}
+        {calcDueDate(copay?.pSStatementDateOutput, 30)}
       </span>
       .
     </p>
@@ -229,7 +229,7 @@ Alert.Status = ({ copay }) => (
 
 Alert.Status.propTypes = {
   copay: PropTypes.shape({
-    pSStatementDate: PropTypes.string,
+    pSStatementDateOutput: PropTypes.string,
     pHAmtDue: PropTypes.number,
   }),
 };
@@ -281,7 +281,7 @@ const Alerts = ({ type, copay, error }) => {
 
 Alerts.propTypes = {
   copay: PropTypes.shape({
-    pSStatementDate: PropTypes.string,
+    pSStatementDateOutput: PropTypes.string,
     pHAmtDue: PropTypes.number,
   }),
   error: PropTypes.string,
