@@ -84,9 +84,7 @@ describe('Hca financial disclosure', () => {
       />,
     );
     const formDOM = findDOMNode(form);
-    expect(
-      Array.from(formDOM.querySelectorAll('.usa-alert-info')).length,
-    ).to.equal(1);
+    expect(Array.from(formDOM.querySelectorAll('va-alert')).length).to.equal(1);
 
     ReactTestUtils.Simulate.change(
       formDOM.querySelector('#root_discloseFinancialInformationNo'),
@@ -97,8 +95,6 @@ describe('Hca financial disclosure', () => {
       },
     );
 
-    expect(
-      Array.from(formDOM.querySelectorAll('.usa-alert-info')).length,
-    ).to.equal(2);
+    expect(Array.from(formDOM.querySelectorAll('va-alert')).length).to.equal(2);
   });
 });
