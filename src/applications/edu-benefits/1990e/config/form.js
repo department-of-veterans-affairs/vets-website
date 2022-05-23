@@ -56,11 +56,7 @@ import {
   validateEmail,
 } from '../utils/validation';
 
-import {
-  IM_NOT_SURE_VALUE,
-  SPONSOR_NOT_LISTED_VALUE,
-  SPONSOR_RELATIONSHIP,
-} from '../constants';
+import { SPONSOR_RELATIONSHIP, newFormFields } from '../constants';
 
 import {
   transform,
@@ -72,6 +68,7 @@ import {
   hideUnder18Field,
   addWhitespaceOnlyError,
   isAlphaNumeric,
+  applicantIsChildOfSponsor,
   // prefillTransformer,
 } from '../helpers';
 
@@ -117,48 +114,6 @@ const newFormPages = {
   newSponsorSelection: 'newSponsorSelection',
   newSponsorSelectionReview: 'newSponsorSelectionReview',
   newVerifyHighSchool: 'newVerifyHighSchool',
-};
-
-const newFormFields = {
-  newAccountNumber: 'newAccountNumber',
-  newAccountType: 'newAccountType',
-  newActiveDutyKicker: 'newActiveDutyKicker',
-  newAdditionalConsiderationsNote: 'newAdditionalConsiderationsNote',
-  newAddress: 'newAddress',
-  newBankAccount: 'newBankAccount',
-  newContactMethod: 'newContactMethod',
-  newConfirmEmail: 'newConfirmEmail',
-  newDateOfBirth: 'newDateOfBirth',
-  newEmail: 'newEmail',
-  newFederallySponsoredAcademy: 'newFederallySponsoredAcademy',
-  firstSponsor: 'firstSponsor',
-  newFullName: 'newFullName',
-  newHasDoDLoanPaymentPeriod: 'newHasDoDLoanPaymentPeriod',
-  newHighSchoolDiploma: 'newHighSchoolDiploma',
-  newHighSchoolDiplomaDate: 'newHighSchoolDiplomaDate',
-  newIncorrectServiceHistoryExplanation:
-    'newIncorrectServiceHistoryExplanation',
-  newLoanPayment: 'newLoanPayment',
-  newMobilePhoneNumber: 'newMobilePhoneNumber',
-  newMobilePhoneNumberInternational: 'newMobilePhoneNumberInternational',
-  newParentGuardianSponsor: 'newParentGuardianSponsor',
-  newPhoneNumber: 'newPhoneNumber',
-  newPhoneNumberInternational: 'newPhoneNumberInternational',
-  newRelationshipToServiceMember: 'newRelationshipToServiceMember',
-  newReceiveTextMessages: 'newReceiveTextMessages',
-  newRoutingNumber: 'newRoutingNumber',
-  newServiceHistoryIncorrect: 'newServiceHistoryIncorrect',
-  selectedSponsors: 'selectedSponsors',
-  newSponsorDateOfBirth: 'newSponsorDateOfBirth',
-  newSponsorFullName: 'newSponsorFullName',
-  newSsn: 'newSsn',
-  newToursOfDuty: 'newToursOfDuty',
-  newUserFullName: 'newUserFullName',
-  newViewBenefitSelection: 'view:newBenefitSelection',
-  newViewNoDirectDeposit: 'view:newNoDirectDeposit',
-  newViewPhoneNumbers: 'view:newPhoneNumbers',
-  newViewSelectedSponsor: 'view:newSelectedSponsor',
-  newViewStopWarning: 'view:newStopWarning',
 };
 
 const { fullName, date, dateRange, usaPhone, email } = commonDefinitions;
@@ -596,8 +551,6 @@ const formConfig = {
         [newFormPages.newSponsorSelection]: {
           title: 'Choose your sponsor',
           path: 'new/sponsor/select-sponsor',
-          // hideOnReview: true,
-          // CustomPage: SponsorsSelectionPage,
           CustomPageReview: SelectedSponsorsReviewField,
           depends: formData =>
             formData.showUpdatedToeApp &&
@@ -658,95 +611,13 @@ const formConfig = {
             },
           },
         },
-        // [newFormPages.newSponsorSelectionReview]: {
-        //   title: 'Choose your sponsors',
-        //   path: 'new/sponsor/select-sponsor/review-page-only',
-        //   CustomPage: SponsorsSelectionPage,
-        //   CustomPageReview: SelectedSponsorsReviewField,
-        //   depends: formData =>
-        //     formData.showUpdatedToeApp &&
-        //     (!formData.fetchedSponsorsComplete ||
-        //       formData.sponsors?.sponsors?.length),
-        //   schema: {
-        //     type: 'object',
-        //     properties: {},
-        //   },
-        // },
-        [newFormPages.newFirstSponsorSelection]: {
-          title: 'Choose your first sponsor',
-          path: 'new/sponsor/select-first-sponsor',
-          depends: formData =>
-            formData.showUpdatedToeApp && formData.selectedSponsors?.length > 1,
-          uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Choose your first sponsor</h3>
-                  <p>
-                    You can only use one sponsor’s benefits at a time. Because
-                    you selected more than one sponsor, you must choose which
-                    benefits to use first.
-                  </p>
-                </>
-              ),
-            },
-            [newFormFields.firstSponsor]: {
-              'ui:title':
-                'Which sponsor’s benefits would you like to use first?',
-              'ui:widget': FirstSponsorRadioGroup,
-              'ui:reviewWidget': FirstSponsorReviewField,
-              'ui:errorMessages': {
-                required: 'Please select at least one sponsor',
-              },
-            },
-            'view:firstSponsorAdditionalInfo': {
-              'ui:description': (
-                <va-additional-info
-                  trigger="Which sponsor should I use first?"
-                  class="vads-u-margin-bottom--4"
-                >
-                  <p className="vads-u-margin-top--0">
-                    Though unlikely, you may need to consider differences in the
-                    amount of benefits each sponsor offers and when they expire.
-                    Benefits from other sponsors can be used after your first
-                    sponsor’s benefits expire.
-                  </p>
-                  <p className="vads-u-margin-bottom--0">
-                    If you choose “I’m not sure,” or if there are additional
-                    things to consider regarding your sponsors, a VA
-                    representative will reach out to help you decide.
-                  </p>
-                </va-additional-info>
-              ),
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [newFormFields.firstSponsor],
-            properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              [newFormFields.firstSponsor]: {
-                type: 'string',
-              },
-              'view:firstSponsorAdditionalInfo': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
-        },
         [newFormPages.newSponsorInformation]: {
           title: 'Enter your sponsor’s info',
           path: 'new/sponsor/information',
           depends: formData =>
             formData.showUpdatedToeApp &&
             (!formData.sponsors?.sponsors?.length ||
-              formData.firstSponsor === SPONSOR_NOT_LISTED_VALUE ||
-              (formData[newFormFields.selectedSponsors]?.length === 1 &&
-                formData.sponsors?.someoneNotListed)),
+              formData.sponsors?.someoneNotListed),
           uiSchema: {
             'view:noSponsorWarning': {
               'ui:description': (
@@ -783,7 +654,9 @@ const formConfig = {
                   status="warning"
                   visible
                 >
-                  <h3 slot="headline">Your selected sponsor is not on file</h3>
+                  <h3 slot="headline">
+                    One of your selected sponsors is not on file
+                  </h3>
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
                     they can{' '}
@@ -876,32 +749,77 @@ const formConfig = {
             },
           },
         },
+        [newFormPages.newFirstSponsorSelection]: {
+          title: 'Choose your first sponsor',
+          path: 'new/sponsor/select-first-sponsor',
+          depends: formData =>
+            formData.showUpdatedToeApp && formData.selectedSponsors?.length > 1,
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Choose your first sponsor</h3>
+                  <p>
+                    You can only use one sponsor’s benefits at a time. Because
+                    you selected more than one sponsor, you must choose which
+                    benefits to use first.
+                  </p>
+                </>
+              ),
+            },
+            [newFormFields.firstSponsor]: {
+              'ui:title':
+                'Which sponsor’s benefits would you like to use first?',
+              'ui:widget': FirstSponsorRadioGroup,
+              'ui:reviewWidget': FirstSponsorReviewField,
+              'ui:errorMessages': {
+                required: 'Please select at least one sponsor',
+              },
+            },
+            'view:firstSponsorAdditionalInfo': {
+              'ui:description': (
+                <va-additional-info
+                  trigger="Which sponsor should I use first?"
+                  class="vads-u-margin-bottom--4"
+                >
+                  <p className="vads-u-margin-top--0">
+                    Though unlikely, you may need to consider differences in the
+                    amount of benefits each sponsor offers and when they expire.
+                    Benefits from other sponsors can be used after your first
+                    sponsor’s benefits expire.
+                  </p>
+                  <p className="vads-u-margin-bottom--0">
+                    If you choose “I’m not sure,” or if there are additional
+                    things to consider regarding your sponsors, a VA
+                    representative will reach out to help you decide.
+                  </p>
+                </va-additional-info>
+              ),
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [newFormFields.firstSponsor],
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              [newFormFields.firstSponsor]: {
+                type: 'string',
+              },
+              'view:firstSponsorAdditionalInfo': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
         [newFormPages.newVerifyHighSchool]: {
           title: 'Verify your high school education',
           path: 'new/child/high-school-education',
           depends: formData =>
-            formData.showUpdatedToeApp &&
-            // Only show this page if the user is a child of the sponsor.
-            ((formData[newFormFields.selectedSponsors]?.length === 1 &&
-              formData.sponsors?.sponsors?.find(sponsor => sponsor.selected)
-                ?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
-              (formData[newFormFields.selectedSponsors]?.length > 1 &&
-                ((![SPONSOR_NOT_LISTED_VALUE, IM_NOT_SURE_VALUE].includes(
-                  formData.firstSponsor,
-                ) &&
-                  formData.sponsors?.sponsors?.find(
-                    sponsor => sponsor.id === formData.firstSponsor,
-                  )?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
-                  (formData.firstSponsor === SPONSOR_NOT_LISTED_VALUE &&
-                    formData[newFormFields.newRelationshipToServiceMember] ===
-                      SPONSOR_RELATIONSHIP.CHILD))) ||
-              (!formData.sponsors?.sponsors?.length &&
-                formData[newFormFields.newRelationshipToServiceMember] ===
-                  SPONSOR_RELATIONSHIP.CHILD) ||
-              (formData[newFormFields.selectedSponsors]?.length === 1 &&
-                formData.sponsors?.someoneNotListed &&
-                formData[newFormFields.newRelationshipToServiceMember] ===
-                  SPONSOR_RELATIONSHIP.CHILD)),
+            formData.showUpdatedToeApp && applicantIsChildOfSponsor(formData),
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -948,28 +866,8 @@ const formConfig = {
           path: 'new/sponsor/high-school-education',
           depends: formData =>
             formData.showUpdatedToeApp &&
-            (formData[newFormFields.newHighSchoolDiploma] === 'Yes' &&
-              // TODO Use helpers for the sub-logic below (shared with the previous page)
-              ((formData[newFormFields.selectedSponsors]?.length === 1 &&
-                formData.sponsors?.sponsors?.find(sponsor => sponsor.selected)
-                  ?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
-                (formData[newFormFields.selectedSponsors]?.length > 1 &&
-                  ((![SPONSOR_NOT_LISTED_VALUE, IM_NOT_SURE_VALUE].includes(
-                    formData.firstSponsor,
-                  ) &&
-                    formData.sponsors?.sponsors?.find(
-                      sponsor => sponsor.id === formData.firstSponsor,
-                    )?.relationship === SPONSOR_RELATIONSHIP.CHILD) ||
-                    (formData.firstSponsor === SPONSOR_NOT_LISTED_VALUE &&
-                      formData[newFormFields.newRelationshipToServiceMember] ===
-                        SPONSOR_RELATIONSHIP.CHILD))) ||
-                (!formData.sponsors?.sponsors?.length &&
-                  formData[newFormFields.newRelationshipToServiceMember] ===
-                    SPONSOR_RELATIONSHIP.CHILD) ||
-                (formData[newFormFields.selectedSponsors]?.length === 1 &&
-                  formData.sponsors?.someoneNotListed &&
-                  formData[newFormFields.newRelationshipToServiceMember] ===
-                    SPONSOR_RELATIONSHIP.CHILD))),
+            applicantIsChildOfSponsor(formData) &&
+            formData[newFormFields.newHighSchoolDiploma] === 'Yes',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (

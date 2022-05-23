@@ -4,8 +4,10 @@ import { cloneDeep } from 'lodash';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import {
+  newFormFields,
   SPONSOR_NOT_LISTED_LABEL,
   SPONSOR_NOT_LISTED_VALUE,
+  SPONSOR_RELATIONSHIP,
 } from './constants';
 
 export function transform(formConfig, form) {
@@ -263,3 +265,27 @@ export function mapSponsorsToCheckboxOptions(sponsors) {
     values,
   };
 }
+
+export const applicantIsChildOfSponsor = formData => {
+  const numSelectedSponsors = formData[newFormFields.selectedSponsors]?.length;
+
+  if (
+    !numSelectedSponsors ||
+    (numSelectedSponsors === 1 && formData.sponsors?.someoneNotListed) ||
+    (numSelectedSponsors > 1 &&
+      formData.firstSponsor === SPONSOR_NOT_LISTED_VALUE)
+  ) {
+    return (
+      formData[newFormFields.newRelationshipToServiceMember] ===
+      SPONSOR_RELATIONSHIP.CHILD
+    );
+  }
+
+  const sponsors = formData.sponsors?.sponsors;
+  const sponsor =
+    numSelectedSponsors === 1
+      ? sponsors?.find(s => s.selected)
+      : sponsors?.find(s => s.id === formData.firstSponsor);
+
+  return sponsor?.relationship === SPONSOR_RELATIONSHIP.CHILD;
+};
