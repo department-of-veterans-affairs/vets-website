@@ -7,7 +7,6 @@ import RadioButtons from '@department-of-veterans-affairs/component-library/Radi
 import {
   IM_NOT_SURE_LABEL,
   IM_NOT_SURE_VALUE,
-  SPONSOR_NOT_LISTED_LABEL,
   SPONSOR_NOT_LISTED_VALUE,
 } from '../constants';
 
@@ -38,8 +37,15 @@ function FirstSponsorRadioGroup({
       )
     : [];
   if (sponsors.someoneNotListed) {
+    const sponsorName = [
+      formData.newSponsorFullName.first,
+      formData.newSponsorFullName.middle,
+      formData.newSponsorFullName.last,
+      formData.newSponsorFullName.suffix,
+    ].join(' ');
+
     options.push({
-      label: SPONSOR_NOT_LISTED_LABEL,
+      label: `Sponsor that I’ve added: ${sponsorName}`,
       value: `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
     });
   }
