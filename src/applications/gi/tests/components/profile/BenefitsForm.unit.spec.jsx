@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import { mount } from 'enzyme';
 
 import createCommonStore from 'platform/startup/store';
-import { BenefitsForm } from '../../../components/profile/BenefitsForm';
-import reducer from '../../../reducers';
 import { Provider } from 'react-redux';
+import BenefitsForm from '../../../components/profile/BenefitsForm';
+import reducer from '../../../reducers';
 
 const commonStore = createCommonStore(reducer);
 const defaultProps = {
@@ -43,17 +43,6 @@ describe('<BenefitsForm>', () => {
     checkExpectedDropdowns(tree, [
       'militaryStatus',
       'spouseActiveDuty',
-      'giBillChapter',
-      'cumulativeService',
-    ]);
-    tree.unmount();
-  });
-
-  it('should render fields for Post-9/11 GI Bill (Ch 33)', () => {
-    const props = { ...defaultProps, giBillChapter: '33' };
-    const tree = mount(<BenefitsForm {...props} />);
-    checkExpectedDropdowns(tree, [
-      'militaryStatus',
       'giBillChapter',
       'cumulativeService',
     ]);

@@ -16,7 +16,7 @@ const { generateFeatureToggles } = require('./feature-toggles');
 
 const { paymentHistory } = require('./payment-history');
 
-const { defaultResponse } = require('./bank-accounts');
+const bankAccounts = require('./bank-accounts');
 
 // set DELAY=1000 to add 1 sec delay to all responses
 const responseDelay = process?.env?.DELAY || 0;
@@ -28,7 +28,9 @@ const responses = {
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/feature_toggles': generateFeatureToggles(),
-  'GET /v0/ppiu/payment_information': paymentHistory.notEligible,
+  'GET /v0/ppiu/payment_information': (_req, res) => {
+    return res.status(200).json(paymentHistory.simplePaymentHistory);
+  },
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount,
   'GET /v0/profile/personal_information': handleGetPersonalInformationRoute,
@@ -46,7 +48,9 @@ const responses = {
       },
     },
   },
-  'GET /v0/profile/ch33_bank_accounts': defaultResponse,
+  'GET /v0/profile/ch33_bank_accounts': (_req, res) => {
+    return res.status(200).json(bankAccounts.defaultResponse);
+  },
   'GET /v0/profile/service_history': {
     data: {
       id: '',

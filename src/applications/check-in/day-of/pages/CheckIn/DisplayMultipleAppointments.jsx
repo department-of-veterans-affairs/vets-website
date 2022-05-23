@@ -1,4 +1,5 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useMemo, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
@@ -13,23 +14,56 @@ import LanguagePicker from '../../../components/LanguagePicker';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { sortAppointmentsByStartTime } from '../../../utils/appointment';
+import {
+  intervalUntilNextAppointmentIneligibleForCheckin,
+  sortAppointmentsByStartTime,
+} from '../../../utils/appointment';
+
+import { makeSelectCurrentContext } from '../../../selectors';
 
 const DisplayMultipleAppointments = props => {
   const { appointments, router, token } = props;
   const { t } = useTranslation();
-  const [shouldRefresh, setShouldRefresh] = useState(false);
   const { goToErrorPage } = useFormRouting(router);
 
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const context = useSelector(selectCurrentContext);
+  const { shouldRefresh } = context;
 
-  try {
-    useGetCheckInData(shouldRefresh, false, true);
-  } catch (e) {
-    goToErrorPage();
-  }
+  const { isLoading, checkInDataError, refreshCheckInData } = useGetCheckInData(
+    shouldRefresh,
+    false,
+    true,
+  );
+
+  const refreshTimer = useRef(null);
+
+  useEffect(
+    () => {
+      focusElement('h1');
+
+      const refreshInterval = intervalUntilNextAppointmentIneligibleForCheckin(
+        appointments,
+      );
+
+      // Refresh the page 5 seconds before the checkIn window expires.
+      if (refreshInterval > 5000) {
+        if (refreshTimer.current !== null) {
+          clearTimeout(refreshTimer.current);
+        }
+
+        refreshTimer.current = setTimeout(
+          () => refreshCheckInData(),
+          refreshInterval - 5000,
+        );
+      }
+
+      if (checkInDataError) {
+        goToErrorPage();
+      }
+    },
+    [appointments, checkInDataError, goToErrorPage, refreshCheckInData],
+  );
 
   const handleClick = useCallback(
     () => {
@@ -37,16 +71,18 @@ const DisplayMultipleAppointments = props => {
         event: createAnalyticsSlug('refresh-appointments-button-clicked'),
       });
 
-      setShouldRefresh(true);
+      refreshCheckInData();
       focusElement('h1');
     },
-    [setShouldRefresh],
+    [refreshCheckInData],
   );
 
   const { goToPreviousPage } = useFormRouting(router);
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
-  return (
+  return isLoading ? (
+    <va-loading-indicator message={t('loading-your-appointments-for-today')} />
+  ) : (
     <>
       <BackButton router={router} action={goToPreviousPage} />
       <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
