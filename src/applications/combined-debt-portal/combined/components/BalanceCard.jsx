@@ -19,7 +19,7 @@ const BalanceCard = ({ amount, count, date, appType }) => {
   const linkDestination =
     appType === APP_TYPES.DEBT
       ? `/manage-va-debt/your-debt/`
-      : `/medical-copays-index`;
+      : `/summary/copay-balances`;
 
   return (
     <div

@@ -22,7 +22,7 @@ export const Balances = ({ statements }) => {
           <BalanceCard
             id={balance.id}
             amount={balance.pHAmtDue}
-            date={balance.pSStatementDate}
+            date={balance.pSStatementDateOutput}
             city={balance.station.city}
             facility={facilityName}
             key={balance.id ? balance.id : `${idx}-${balance.facilitYNum}`}

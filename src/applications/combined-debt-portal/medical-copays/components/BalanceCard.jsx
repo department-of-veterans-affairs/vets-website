@@ -90,7 +90,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       </div>
       <Link
         className="vads-u-font-size--sm vads-u-font-weight--bold"
-        to={`/balance-details/${id}`}
+        to={`/summary/copay-balances/${id}/detail`}
         data-testid={`detail-link-${id}`}
         aria-label={linkText}
       >
