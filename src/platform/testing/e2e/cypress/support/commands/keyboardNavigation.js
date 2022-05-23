@@ -121,8 +121,10 @@ Cypress.Commands.add(
 
 // Target & use the "Start" form button on the Introduction page
 Cypress.Commands.add('tabToStartForm', () => {
-  // Same selector as tabToSubmitForm
-  cy.tabToElement('button[id$="continueButton"].usa-button-primary');
+  // Same button selector as tabToSubmitForm, or action link
+  cy.tabToElement(
+    'button[id$="continueButton"].usa-button-primary, .vads-c-action-link--green',
+  );
   cy.realPress('Space');
 });
 
