@@ -1,7 +1,7 @@
 import 'platform/polyfills';
 import './sass/post-911-gib-status.scss';
 
-import startApp from 'platform/startup';
+import startApp from 'platform/startup/router';
 
 import routes from './routes';
 import reducer from './reducers';

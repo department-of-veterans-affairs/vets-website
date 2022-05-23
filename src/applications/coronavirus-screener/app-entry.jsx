@@ -1,7 +1,7 @@
 import 'platform/polyfills';
 import './sass/coronavirus-screener.scss';
 
-import startApp from 'platform/startup';
+import startApp from 'platform/startup/router';
 
 import routes from './routes';
 import reducer from './reducers';

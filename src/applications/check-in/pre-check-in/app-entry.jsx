@@ -1,7 +1,7 @@
 import 'platform/polyfills';
 import './sass/pre-check-in.scss';
 
-import startApp from 'platform/startup';
+import startApp from 'platform/startup/router';
 
 import createRoutesWithStore from './routes';
 import reducer from '../reducers';
