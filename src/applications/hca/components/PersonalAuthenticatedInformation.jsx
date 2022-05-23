@@ -51,14 +51,18 @@ const PersonalAuthenticatedInformation = ({
           ...formData,
           'view:totalDisabilityRating': 40,
         });
-      } else if (
-        (user && user.email === 'vets.gov.user+228@gmail.com') ||
-        user.email === 'vets.gov.user+226@gmail.com' ||
-        user.email === 'vets.gov.user+204@gmail.com'
-      ) {
+      } else if (user && user.email === 'vets.gov.user+228@gmail.com') {
         setFormData({
           ...formData,
           'view:totalDisabilityRating': 100,
+        });
+      } else if (
+        (user && user.email === 'vets.gov.user+226@gmail.com') ||
+        user.email === 'vets.gov.user+201@gmail.com'
+      ) {
+        setFormData({
+          ...formData,
+          'view:totalDisabilityRating': 70,
         });
       } else {
         setFormData({
