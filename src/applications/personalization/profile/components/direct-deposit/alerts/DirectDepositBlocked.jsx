@@ -12,10 +12,10 @@ export default function DirectDepositBlocked() {
       </h2>
       <p>
         We’re sorry. Based on our records, we can't show your financial
-        information in your VA.gov profile.I
+        information in your VA.gov profile.
       </p>
       <p>
-        f you think this is an error, you can call the VA.gov help desk at
+        If you think this is an error, you can call the VA.gov help desk at{' '}
         <va-telephone contact="855-574-7286" /> (
         <a href="tel:711" aria-label="TTY: 7 1 1.">
           TTY: 711
