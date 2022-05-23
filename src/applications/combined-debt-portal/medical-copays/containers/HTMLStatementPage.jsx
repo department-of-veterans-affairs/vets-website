@@ -12,7 +12,8 @@ import DownloadStatement from '../components/DownloadStatement';
 
 const HTMLStatementPage = ({ match }) => {
   const selectedId = match.params.id;
-  const statements = useSelector(({ mcp }) => mcp.statements) ?? [];
+  const combinedPortalData = useSelector(state => state.combinedPortal);
+  const statements = combinedPortalData.mcp.statements ?? [];
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
   const [selectedCopay] = statements.filter(({ id }) => id === selectedId);
   const statementDate = moment(selectedCopay.pSStatementDate, 'MM-DD').format(
