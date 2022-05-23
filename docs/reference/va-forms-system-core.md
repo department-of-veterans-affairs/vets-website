@@ -22,9 +22,11 @@
 |  [ChapterProps](./va-forms-system-core.chapterprops.md) | <b><i>(BETA)</i></b> The properties for the Chapter React component |
 |  [FormTitleProps](./va-forms-system-core.formtitleprops.md) | FormTitle properties |
 |  [IFormData](./va-forms-system-core.iformdata.md) | <b><i>(BETA)</i></b> The type for the FormData to define the flexible data object |
+|  [IRouterContext](./va-forms-system-core.iroutercontext.md) | <b><i>(BETA)</i></b> Properties for Router Context |
 |  [OMBInfoProps](./va-forms-system-core.ombinfoprops.md) | OMBInfo properties |
 |  [PageProps](./va-forms-system-core.pageprops.md) | <b><i>(BETA)</i></b> The properties for the Page React component |
 |  [Routable](./va-forms-system-core.routable.md) | <b><i>(BETA)</i></b> Indicates if a component can be routed using <code>react-router-dom</code>. The <code>path</code> prop must be present. |
+|  [RouterContextProps](./va-forms-system-core.routercontextprops.md) |  |
 |  [RouterProps](./va-forms-system-core.routerprops.md) | <b><i>(BETA)</i></b> The properties for the Router React component |
 
 ## Variables
