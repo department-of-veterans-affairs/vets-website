@@ -207,14 +207,11 @@ function CalculateYourBenefitsForm({
     });
     eligibilityChange({ [field]: value });
     setInputUpdated(true);
-
-    if (
-      field === 'militaryStatus' &&
-      (value === 'spouse' || value === 'child')
-    ) {
-      setIsDisabled(false);
-    } else {
+    if (field === 'militaryStatus') {
       setIsDisabled(true);
+      if (value === 'spouse' || value === 'child') {
+        setIsDisabled(false);
+      }
     }
 
     if (!environment.isProduction()) recalculateBenefits();
