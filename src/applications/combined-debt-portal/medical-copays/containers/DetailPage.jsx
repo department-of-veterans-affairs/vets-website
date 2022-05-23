@@ -48,13 +48,18 @@ const DetailPage = ({ match }) => {
     <>
       <va-breadcrumbs className="vads-u-font-family--sans no-wrap">
         <a href="/">Home</a>
-        <a href="/health-care">Health care</a>
-        <a href="/health-care/pay-copay-bill">Pay your VA copay bill</a>
-        <a href="/health-care/pay-copay-bill/your-current-balances">
-          Current copay balances
+        <a href="/manage-debt-and-bills">Manage your VA debt and bills</a>
+        <a href="/manage-debt-and-bills/summary/">
+          Your debt and bills summary
         </a>
-        <a href="/health-care/pay-copay-bill/your-current-balances/balance-details">
-          {title}
+        <a href="/manage-debt-and-bills/summary/copay-balances">
+          {' '}
+          Current copay bills
+        </a>
+        <a
+          href={`/manage-debt-and-bills/summary/copay-balances/${selectedId}/detail`}
+        >
+          Copay bill for {selectedCopay?.station.facilityName}
         </a>
       </va-breadcrumbs>
       <h1 data-testid="detail-page-title">{title}</h1>

@@ -34,14 +34,22 @@ const HTMLStatementPage = ({ match }) => {
       <article>
         <va-breadcrumbs className="vads-u-font-family--sans no-wrap">
           <a href="/">Home</a>
-          <a href="/health-care">Health care</a>
-          <a href="/health-care/pay-copay-bill">Pay your VA copay bill</a>
+          <a href="/manage-debt-and-bills">Manage your VA debt and bills</a>
+          <a href="/manage-debt-and-bills/summary/">
+            Your debt and bills summary
+          </a>
+          <a href="/manage-debt-and-bills/summary/copay-balances">
+            {' '}
+            Current copay bills
+          </a>
           <a
-            href={`/health-care/pay-copay-bill/your-current-balances/balance-details/${selectedId}`}
+            href={`/manage-debt-and-bills/summary/copay-balances/${selectedId}/detail`}
           >
             {prevPage}
           </a>
-          <a href={`/balance-details/${selectedId}/statement-view`}>{title}</a>
+          <a href={`/summary/copay-balances/${selectedId}/detail/statement`}>
+            {title}
+          </a>
         </va-breadcrumbs>
         <h1 data-testid="statement-page-title">{title}</h1>
         <p
