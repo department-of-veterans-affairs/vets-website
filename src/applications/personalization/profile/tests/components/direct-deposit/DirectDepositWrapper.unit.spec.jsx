@@ -4,12 +4,14 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import { spy } from 'sinon';
 
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-
 import { CSP_IDS } from 'platform/user/authentication/constants';
-import { spy } from 'sinon';
+
 import DirectDepositWrapper from '../../../components/direct-deposit/DirectDepositWrapper';
+
+import { paymentHistory } from '../../../mocks/payment-history';
 
 describe('authenticated experience -- profile -- direct deposit', () => {
   describe('DirectDepositWrapper', () => {
@@ -19,11 +21,27 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       featureToggles = {
         [FEATURE_FLAG_NAMES.profileAlwaysShowDirectDepositDisplay]: true,
       },
+      controlInformation = {
+        canUpdateAddress: true,
+        corpAvailIndicator: true,
+        corpRecFoundIndicator: true,
+        hasNoBdnPaymentsIndicator: true,
+        identityIndicator: true,
+        isCompetentIndicator: true,
+        indexIndicator: true,
+        noFiduciaryAssignedIndicator: true,
+        notDeceasedIndicator: true,
+      },
     } = {}) => {
       const middleware = [];
       const mockStore = configureStore(middleware);
       const initState = {
         featureToggles,
+        vaProfile: {
+          cnpPaymentInformation: {
+            responses: [{ controlInformation }],
+          },
+        },
         user: {
           profile: {
             signIn: {
@@ -154,6 +172,63 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       );
       expect(getByTestId('child')).to.exist;
       expect(setViewingIsRestricted.called).to.be.false;
+    });
+    it('should render blocked message if the veteran is deceased', () => {
+      const setViewingIsRestricted = spy();
+      const store = createStore({
+        controlInformation: {
+          ...paymentHistory.isDeceased.data.attributes.responses[0]
+            .controlInformation,
+        },
+      });
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <DirectDepositWrapper setViewingIsRestricted={setViewingIsRestricted}>
+            <div data-testid="child" />
+          </DirectDepositWrapper>
+        </Provider>,
+      );
+      expect(getByTestId('direct-deposit-blocked')).to.exist;
+      expect(setViewingIsRestricted.called).to.be.true;
+    });
+    it('should render blocked message if the veteran is fiduciary', () => {
+      const setViewingIsRestricted = spy();
+      const store = createStore({
+        controlInformation: {
+          ...paymentHistory.isFiduciary.data.attributes.responses[0]
+            .controlInformation,
+        },
+      });
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <DirectDepositWrapper setViewingIsRestricted={setViewingIsRestricted}>
+            <div data-testid="child" />
+          </DirectDepositWrapper>
+        </Provider>,
+      );
+      expect(getByTestId('direct-deposit-blocked')).to.exist;
+      expect(setViewingIsRestricted.called).to.be.true;
+    });
+    it('should render blocked message if the veteran is not competent', () => {
+      const setViewingIsRestricted = spy();
+      const store = createStore({
+        controlInformation: {
+          ...paymentHistory.isNotCompetent.data.attributes.responses[0]
+            .controlInformation,
+        },
+      });
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <DirectDepositWrapper setViewingIsRestricted={setViewingIsRestricted}>
+            <div data-testid="child" />
+          </DirectDepositWrapper>
+        </Provider>,
+      );
+      expect(getByTestId('direct-deposit-blocked')).to.exist;
+      expect(setViewingIsRestricted.called).to.be.true;
     });
   });
 });
