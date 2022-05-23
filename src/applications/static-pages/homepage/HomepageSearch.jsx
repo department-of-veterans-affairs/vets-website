@@ -11,9 +11,9 @@ import { apiRequest } from '../../../platform/utilities/api';
  * Search component that appears in the Common Tasks section (midpage)
  * which uses the new Search Input component from the VA Design System
  */
-const HomepageSearch = ({ value, suggestions }) => {
-  const [userInput, setUserInput] = useState(value);
-  const [latestSuggestions, setLatestSuggestions] = useState(suggestions);
+const HomepageSearch = () => {
+  const [userInput, setUserInput] = useState('');
+  const [latestSuggestions, setLatestSuggestions] = useState([]);
 
   // fetch Typeahead suggestions from API
   const fetchDropDownSuggestions = async inputValue => {
@@ -31,8 +31,6 @@ const HomepageSearch = ({ value, suggestions }) => {
       );
 
       if (fetchedSuggestions.length !== 0) {
-        setLatestSuggestions(fetchedSuggestions);
-
         return fetchedSuggestions.sort((a, b) => {
           return a.length - b.length;
         });
@@ -46,8 +44,8 @@ const HomepageSearch = ({ value, suggestions }) => {
         );
       }
       Sentry.captureException(error);
+      return [];
     }
-    return [];
   };
 
   // clear all suggestions and saved suggestions
@@ -55,7 +53,7 @@ const HomepageSearch = ({ value, suggestions }) => {
     setLatestSuggestions([]);
   };
 
-  const handleInputChange = e => {
+  const handleInputChange = async e => {
     // update input value to new value
     const inputValue = e.target.value;
     setUserInput(inputValue);
@@ -66,10 +64,8 @@ const HomepageSearch = ({ value, suggestions }) => {
       return;
     }
 
-    setTimeout(
-      () => setLatestSuggestions(fetchDropDownSuggestions(inputValue)),
-      500,
-    );
+    const results = await fetchDropDownSuggestions(inputValue);
+    setLatestSuggestions(results);
   };
 
   const handleSubmit = e => {
