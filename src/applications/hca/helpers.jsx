@@ -305,16 +305,15 @@ export const financialDisclosureText = (
       </li>
       <li>Should be charged for copays or medication</li>
     </ol>
-
-    <div className="usa-alert usa-alert-info">
-      <div className="usa-alert-body">
-        <span>
+    <div className="vads-u-margin-top--2p5">
+      <va-alert status="info" visible>
+        <p className="vads-u-margin-y--0">
           <strong>Note:</strong> You don’t have to provide your financial
           information. But if you don’t have a qualifying eligibility factor,
           this information is the only other way for us to see if you can get VA
           health care benefits--including added benefits like waived copays.
-        </span>
-      </div>
+        </p>
+      </va-alert>
     </div>
     <p>Qualifying factors:</p>
     <ul>
@@ -383,13 +382,13 @@ export const incomeDescription = (
 );
 
 export const disclosureWarning = (
-  <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body" aria-live="polite">
-      <span>
+  <div role="alert">
+    <va-alert status="info" visible>
+      <p className="vads-u-margin-y--0">
         If you don’t provide your financial information and you don’t have
         another qualifying eligibility factor, VA can’t enroll you.
-      </span>
-    </div>
+      </p>
+    </va-alert>
   </div>
 );
 
