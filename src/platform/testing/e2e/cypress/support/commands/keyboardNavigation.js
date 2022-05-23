@@ -125,7 +125,7 @@ Cypress.Commands.add('tabToStartForm', () => {
   cy.tabToElement(
     'button[id$="continueButton"].usa-button-primary, .vads-c-action-link--green',
   );
-  cy.realPress('Space');
+  cy.realPress('Enter');
 });
 
 // Target & use the "Continue" button on a form page
