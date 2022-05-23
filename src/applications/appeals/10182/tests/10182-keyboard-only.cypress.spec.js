@@ -16,7 +16,7 @@ Cypress.Commands.add('tabToInputWithLabel', text => {
     });
 });
 
-describe.skip('Notice of Disagreement keyboard only navigation', () => {
+describe('Notice of Disagreement keyboard only navigation', () => {
   it('navigates through a maximal form', () => {
     cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
     cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);
@@ -30,66 +30,53 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
     cy.injectAxeThenAxeCheck();
 
     // Intro page
-    cy.tabToElement('button[id$="continueButton"]');
-    cy.realPress('Space');
+    cy.tabToStartForm();
 
     // Veteran details
-    cy.tabToElement('button[type="submit"]');
-    cy.realPress('Space');
+    cy.tabToContinueForm();
 
     // Homelessness radios
     cy.tabToElement('[name="root_homeless"]');
     cy.chooseRadio('N');
-    cy.tabToElement('button[type="submit"]');
-    cy.realPress('Space');
+    cy.tabToContinueForm();
 
     // Contact info
-    cy.tabToElement('button[type="submit"]');
-    cy.realPress('Space');
+    cy.tabToContinueForm();
 
     // Filing deadlines
-    cy.tabToElement('button[type="submit"]');
-    cy.realPress('Space');
+    cy.tabToContinueForm();
 
     // Issues for review (sorted by random decision date) - only selecting one,
     // or more complex code is needed to find if the next checkbox is before or
     // after the first
     cy.tabToInputWithLabel('tinnitus');
     cy.realPress('Space');
-    cy.tabToElement('button[type="submit"]');
-    cy.realPress('Space');
+    cy.tabToContinueForm();
 
     // area of disagreement for tinnitus
     cy.tabToInputWithLabel('service connection');
     cy.realPress('Space');
     cy.tabToElement('#root_otherEntry');
     cy.typeInFocused('Few words');
-    cy.tabToElement('button[type="submit"]');
-    cy.realPress('Space');
+    cy.tabToContinueForm();
 
     // Issue summary
-    cy.tabToElement('button[type="submit"]');
-    cy.realPress('Space');
+    cy.tabToContinueForm();
 
     // Board review option
     cy.tabToElement('[name="root_boardReviewOption"]');
     cy.chooseRadio('hearing');
-    cy.tabToElement('button[type="submit"]');
-    cy.realPress('Space');
+    cy.tabToContinueForm();
 
     // Hearing type
     cy.tabToElement('[name="root_hearingTypePreference"]');
     cy.chooseRadio('video_conference');
-    cy.tabToElement('button[type="submit"]');
-    cy.realPress('Space');
+    cy.tabToContinueForm();
 
     // Review & submit page
     cy.tabToElement('[name="privacyAgreementAccepted"]');
     cy.realPress('Space');
-
-    // Form submit button is a button type?
-    cy.tabToElement('button[id$="continueButton"].usa-button-primary');
-    cy.realPress('Space');
+    cy.tabToSubmitForm();
 
     // Confirmation page print button
     cy.get('button.screen-only').should('exist');
