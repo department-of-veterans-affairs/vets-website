@@ -60,10 +60,10 @@ const DebtDetails = () => {
     <div>
       <va-breadcrumbs label="Breadcrumb">
         <a href="/">Home</a>
-        <Link to="/manage-debt-and-bills/">Manage your VA debt and bills</Link>
-        <Link to="/manage-debt-and-bills/summary/">
+        <a href="/manage-debt-and-bills/">Manage your VA debt and bills</a>
+        <a href="/manage-debt-and-bills/summary/">
           Your debt and bills summary
-        </Link>
+        </a>
         <Link to="/debt-balances/">Benefit debt balances</Link>
         <Link
           to={`/debt-balances/details/${selectedDebt.fileNumber +
@@ -142,7 +142,7 @@ const DebtDetails = () => {
                 <strong>Note:</strong> The content of the debt letters below may
                 not include recent updates to your debt reflected above. If you
                 have any questions about your debt history, please contact the
-                Debt Management Center at
+                Debt Management Center at{' '}
                 <va-telephone
                   className="vads-u-margin-left--0p5"
                   contact="8008270648"

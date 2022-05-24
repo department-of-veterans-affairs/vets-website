@@ -76,10 +76,10 @@ const DebtLettersSummary = () => {
         label="Breadcrumb"
       >
         <a href="/">Home</a>
-        <Link to="/manage-debt-and-bills/">Manage your VA debt and bills</Link>
-        <Link to="/manage-debt-and-bills/summary/">
+        <a href="/manage-debt-and-bills/">Manage your VA debt and bills</a>
+        <a href="/manage-debt-and-bills/summary/">
           Your debt and bills summary
-        </Link>
+        </a>
         <Link to="/debt-balances">Benefit debt balances</Link>
       </va-breadcrumbs>
 

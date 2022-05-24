@@ -12,17 +12,12 @@ import DebtLettersSummary from '../debt-letters/containers/DebtLettersSummary';
 const Routes = () => (
   <CombinedPortalApp>
     <Switch>
-      {/** Combined Landing Page */}
       <Route exact path="/" component={OverviewPage} />
-      <Route exact path="/summary/copay-balances" component={MCPOverview} />
+      <Route exact path="/copay-balances" component={MCPOverview} />
+      <Route exact path="/copay-balances/:id/detail" component={DetailPage} />
       <Route
         exact
-        path="/summary/copay-balances/:id/detail"
-        component={DetailPage}
-      />
-      <Route
-        exact
-        path="/summary/copay-balances/:id/detail/statement"
+        path="/copay-balances/:id/detail/statement"
         component={HTMLStatementPage}
       />
       <Route exact path="/debt-balances" component={DebtLettersSummary} />
