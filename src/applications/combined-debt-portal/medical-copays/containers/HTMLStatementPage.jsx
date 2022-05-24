@@ -58,7 +58,7 @@ const HTMLStatementPage = ({ match }) => {
         </p>
         <Link
           className="vads-u-font-size--sm"
-          to={`/balance-details/${selectedId}`}
+          to={`/copay-balances/${selectedId}/detail`}
         >
           <i
             className="fa fa-chevron-left vads-u-margin-right--1"
