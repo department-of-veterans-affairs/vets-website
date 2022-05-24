@@ -3,8 +3,6 @@ import moment from 'moment-timezone';
 import { expect } from 'chai';
 // Relative imports.
 import {
-  dayOptions,
-  dayOptionsForMonth,
   deriveEndsAtUnix,
   deriveEventLocations,
   deriveMostRecentDate,
@@ -12,76 +10,8 @@ import {
   filterByOptions,
   filterEvents,
   hideLegacyEvents,
-  monthOptions,
   showLegacyEvents,
 } from '.';
-
-describe('dayOptions', () => {
-  it('returns what we expect', () => {
-    expect(dayOptions).to.have.lengthOf(32);
-  });
-});
-
-describe('dayOptionsForMonth', () => {
-  it('returns the expected number of days for each month', () => {
-    const monthsToTest = [
-      {
-        number: '01',
-        days: 31,
-      },
-      {
-        number: '02',
-        days: 28,
-      },
-      {
-        number: '03',
-        days: 31,
-      },
-      {
-        number: '04',
-        days: 30,
-      },
-      {
-        number: '05',
-        days: 31,
-      },
-      {
-        number: '06',
-        days: 30,
-      },
-      {
-        number: '07',
-        days: 31,
-      },
-      {
-        number: '08',
-        days: 31,
-      },
-      {
-        number: '09',
-        days: 30,
-      },
-      {
-        number: '10',
-        days: 31,
-      },
-      {
-        number: '11',
-        days: 30,
-      },
-      {
-        number: '12',
-        days: 31,
-      },
-    ];
-
-    monthsToTest.forEach(month => {
-      const days = dayOptionsForMonth(month.number);
-      expect(days.length).to.eq(month.days + 1); // Includes the empty "Month" option
-      expect(days[days.length - 1].value).to.eq(String(month.days));
-    });
-  });
-});
 
 describe('deriveMostRecentDate', () => {
   it('returns the argument fieldDatetimeRangeTimezone when it is falsey', () => {
@@ -392,12 +322,6 @@ describe('deriveEventLocations', () => {
 describe('hideLegacyEvents', () => {
   it('returns what we expect with no arguments', () => {
     expect(hideLegacyEvents()).to.equal(undefined);
-  });
-});
-
-describe('monthOptions', () => {
-  it('returns what we expect', () => {
-    expect(monthOptions).to.have.lengthOf(13);
   });
 });
 

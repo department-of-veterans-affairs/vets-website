@@ -2,74 +2,6 @@
 import moment from 'moment-timezone';
 import { isArray, sortBy, filter, isEmpty } from 'lodash';
 
-export const monthOptions = [
-  { value: '', label: 'Month' },
-  { value: '01', label: 'January' },
-  { value: '02', label: 'February' },
-  { value: '03', label: 'March' },
-  { value: '04', label: 'April' },
-  { value: '05', label: 'May' },
-  { value: '06', label: 'June' },
-  { value: '07', label: 'July' },
-  { value: '08', label: 'August' },
-  { value: '09', label: 'September' },
-  { value: '10', label: 'October' },
-  { value: '11', label: 'November' },
-  { value: '12', label: 'December' },
-];
-
-export const dayOptions = [
-  { value: '', label: 'Day' },
-  { value: '01', label: '1' },
-  { value: '02', label: '2' },
-  { value: '03', label: '3' },
-  { value: '04', label: '4' },
-  { value: '05', label: '5' },
-  { value: '06', label: '6' },
-  { value: '07', label: '7' },
-  { value: '08', label: '8' },
-  { value: '09', label: '9' },
-  { value: '10', label: '10' },
-  { value: '11', label: '11' },
-  { value: '12', label: '12' },
-  { value: '13', label: '13' },
-  { value: '14', label: '14' },
-  { value: '15', label: '15' },
-  { value: '16', label: '16' },
-  { value: '17', label: '17' },
-  { value: '18', label: '18' },
-  { value: '19', label: '19' },
-  { value: '20', label: '20' },
-  { value: '21', label: '21' },
-  { value: '22', label: '22' },
-  { value: '23', label: '23' },
-  { value: '24', label: '24' },
-  { value: '25', label: '25' },
-  { value: '26', label: '26' },
-  { value: '27', label: '27' },
-  { value: '28', label: '28' },
-  { value: '29', label: '29' },
-  { value: '30', label: '30' },
-  { value: '31', label: '31' },
-];
-
-export const dayOptionsForMonth = month => {
-  let numberOfDays;
-  const monthsWithDays = {
-    28: ['02'],
-    30: ['04', '06', '09', '11'],
-    31: ['01', '03', '05', '07', '08', '10', '12'],
-  };
-
-  for (const [dayCount, months] of Object.entries(monthsWithDays)) {
-    if (months.includes(month)) {
-      numberOfDays = parseInt(dayCount, 10);
-    }
-  }
-
-  return dayOptions.slice(0, numberOfDays + 1);
-};
-
 export const filterByOptions = [
   {
     label: 'All upcoming',
@@ -261,14 +193,21 @@ export const filterEvents = (
   }
 };
 
-export const deriveStartsAtUnix = (startDateMonth, startDateDay) => {
+export const deriveStartsAtUnix = (
+  startDateMonth,
+  startDateDay,
+  startDateYear,
+) => {
   // Escape early if arguments are missing.
   if (!startDateMonth || !startDateDay) {
     return undefined;
   }
 
   // Derive the startsAt moment.
-  let startsAt = moment(`${startDateMonth}/${startDateDay}`, 'MM/DD');
+  let startsAt = moment(
+    `${startDateMonth}/${startDateDay}/${startDateYear}`,
+    'MM/DD/YYYY',
+  );
 
   // If startsAt is today, then set it to now + 1 hour.
   if (startsAt.isSame(moment(), 'day')) {
@@ -283,7 +222,12 @@ export const deriveStartsAtUnix = (startDateMonth, startDateDay) => {
   return startsAt.unix();
 };
 
-export const deriveEndsAtUnix = (startsAtUnix, endDateMonth, endDateDay) => {
+export const deriveEndsAtUnix = (
+  startsAtUnix,
+  endDateMonth,
+  endDateDay,
+  endDateYear,
+) => {
   // Escape early if arguments are missing.
   if (!startsAtUnix && (!endDateMonth || !endDateDay)) {
     return undefined;
@@ -301,7 +245,10 @@ export const deriveEndsAtUnix = (startsAtUnix, endDateMonth, endDateDay) => {
 
   // If there are endsAt fields provided, use those.
   if (endDateMonth && endDateDay) {
-    endsAt = moment(`${endDateMonth}/${endDateDay}`, 'MM/DD').endOf('day');
+    endsAt = moment(
+      `${endDateMonth}/${endDateDay}/${endDateYear}`,
+      'MM/DD/YYYY',
+    ).endOf('day');
   }
 
   // If the endsAt is in the past, we need to increase it by a year (since there are only month/day fields).
@@ -418,16 +365,27 @@ export const updateQueryParams = (queryParamsLookup = {}) => {
 export const deriveFilteredEvents = ({
   endDateDay,
   endDateMonth,
+  endDateYear,
   rawEvents,
   selectedOption,
   startDateDay,
   startDateMonth,
+  startDateYear,
 }) => {
   // Derive startsAtUnix.
-  const startsAtUnix = deriveStartsAtUnix(startDateMonth, startDateDay);
+  const startsAtUnix = deriveStartsAtUnix(
+    startDateMonth,
+    startDateDay,
+    startDateYear,
+  );
 
   // Derive endsAtUnix.
-  const endsAtUnix = deriveEndsAtUnix(startsAtUnix, endDateMonth, endDateDay);
+  const endsAtUnix = deriveEndsAtUnix(
+    startsAtUnix,
+    endDateMonth,
+    endDateDay,
+    endDateYear,
+  );
 
   // Filter events.
   return filterEvents(rawEvents, selectedOption?.value, {
