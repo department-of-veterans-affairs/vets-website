@@ -24,7 +24,7 @@ import {
   sortByLastUpdated,
   getVisibleRows,
 } from '../utils/appeals-v2-helpers';
-import { setUpPage, setPageFocus } from '../utils/page';
+import { setUpPage } from '../utils/page';
 
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import ClaimsAppealsUnavailable from '../components/ClaimsAppealsUnavailable';
@@ -79,10 +79,6 @@ class YourClaimsPageV2 extends React.Component {
   // componentWillReceiveProps(newProps) {
   // an initial sort needs to happen in componentDidMount
   // }
-
-  componentDidUpdate() {
-    setPageFocus();
-  }
 
   changePage(page) {
     const { changePageV2 } = this.props;
