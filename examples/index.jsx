@@ -1,32 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import FormApp from './multi-page';
-import ChapterForm from './chapter-form/index';
 
 import '@department-of-veterans-affairs/component-library/dist/main.css';
-import { defineCustomElements } from '@department-of-veterans-affairs/component-library';
-import { Link, Route, Routes } from 'react-router-dom';
+import {defineCustomElements} from '@department-of-veterans-affairs/component-library';
+import schema from './multi-page/schema';
+import {transformJSONSchema} from "@department-of-veterans-affairs/va-forms-system-core/utils/helpers";
+
 void defineCustomElements();
 
-const initialValues = {
-  firstName: '', 
-  lastName: '', 
-  email: '', 
-  street: '', 
-  streetTwo: '', 
-  streetThree: '', 
-  state: '', 
-  zipcode: '',
-  phone: '',
-  ssn: ''
-};
+const schemaKeys = transformJSONSchema(schema);
 
 const Main = () => {
   return (
     <>
-      <FormApp basename="/" initialValues={ initialValues } />
+      <FormApp basename="/" initialValues={schemaKeys}/>
     </>
   )
 }
 
-ReactDOM.render(<Main />, document.getElementById('root'));
+ReactDOM.render(<Main/>, document.getElementById('root'));

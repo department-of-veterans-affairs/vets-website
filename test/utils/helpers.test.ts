@@ -1,4 +1,4 @@
-import { buildPath, buildRelativePath } from '../../src/utils/helpers';
+import { buildPath, buildRelativePath, transformJSONSchema } from '../../src/utils/helpers';
 
 describe('Helpers - buildPath', () => {
   test('It returns expected results', () => {
@@ -49,5 +49,318 @@ describe('Helpers - buildRelativePath', () => {
     const result5 = buildRelativePath('//a', '', '/', '/b/');
     const expectedResult5 = '//a/b';
     expect(result5).toEqual(expectedResult5);
+  });
+});
+
+describe('Helpers - JSON Schema', () => {
+  test('It transforms primitive type properties', () => {
+    const schemaToTest = {
+      properties: {
+        booleanProperty: {
+          type: 'boolean'
+        },
+        numberProperty: {
+          type: 'number'
+        },
+        stringProperty: {
+          type: 'string'
+        },
+      }
+    }
+    const expectedResult = {
+      booleanProperty: false,
+      numberProperty: 0,
+      stringProperty: '',
+    }
+
+    const actualResult = transformJSONSchema(schemaToTest);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  test('It transforms object type properties', () => {
+    const schemaToTest = {
+      properties: {
+        objectProperty: {
+          type: 'object',
+          properties: {
+            prop1: {
+              type: 'string'
+            },
+            prop2: {
+              type: 'number'
+            }
+          }
+        }
+      }
+    }
+    const expectedResult = {
+      objectProperty: {
+        prop1: '',
+        prop2: 0
+      }
+    }
+
+    const actualResult = transformJSONSchema(schemaToTest);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  test('It transforms array type properties', () => {
+    const schemaToTest = {
+      properties: {
+        arrayProperty: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              prop3: {
+                type: 'boolean'
+              },
+              prop4: {
+                type: 'string'
+              }
+            }
+          }
+        }
+      }
+    }
+    const expectedResult = {
+      arrayProperty: [
+        {
+          prop3: false,
+          prop4: ''
+        }
+      ]
+    }
+
+    const actualResult = transformJSONSchema(schemaToTest);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  test('It maps properties with primitive type definitions', () => {
+    const schemaToTest = {
+      definitions: {
+        booleanDefinition: {
+          type: 'boolean'
+        },
+        numberDefinition: {
+          type: 'number'
+        },
+        stringDefinition: {
+          type: 'string'
+        },
+      },
+      properties: {
+        booleanProperty: {
+          $ref: '#/definitions/booleanDefinition'
+        },
+        numberProperty: {
+          $ref: '#/definitions/numberDefinition'
+        },
+        stringProperty: {
+          $ref: '#/definitions/stringDefinition'
+        },
+      }
+    }
+    const expectedResult = {
+      booleanProperty: false,
+      numberProperty: 0,
+      stringProperty: ''
+    }
+
+    const actualResult = transformJSONSchema(schemaToTest);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  test('It maps properties with object type definitions', () => {
+    const schemaToTest = {
+      definitions: {
+        fullNameDefinition: {
+          type: 'object',
+          properties: {
+            first: {
+              type: 'string'
+            },
+            middle: {
+              type: 'string'
+            },
+            last: {
+              type: 'string'
+            },
+            suffix: {
+              type: 'string'
+            },
+          }
+        }
+      },
+      properties: {
+        fullNameProperty: {
+          $ref: '#/definitions/fullNameDefinition'
+        }
+      }
+    }
+    const expectedResult = {
+      fullNameProperty: {
+        first: '',
+        middle: '',
+        last: '',
+        suffix: ''
+      }
+    }
+
+    const actualResult = transformJSONSchema(schemaToTest);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  test('It maps properties with array type definitions', () => {
+    const schemaToTest = {
+      definitions: {
+        filesDefinition: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              name: {
+                type: 'string'
+              },
+              size: {
+                type: 'string'
+              }
+            }
+          }
+        }
+      },
+      properties: {
+        filesProperty: {
+          $ref: '#/definitions/filesDefinition'
+        }
+      }
+    }
+    const expectedResult = {
+      filesProperty: [
+        {
+          name: '',
+          size: ''
+        }
+      ]
+    }
+
+    const actualResult = transformJSONSchema(schemaToTest);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  test('It maps properties with nested object type definitions', () => {
+    const schemaToTest = {
+      definitions: {
+        dateRangeDefinition: {
+          type: 'object',
+          properties: {
+            from: {
+              $ref: '#/definitions/dateDefinition'
+            },
+            to: {
+              $ref: '#/definitions/dateDefinition'
+            }
+          }
+        },
+        dateDefinition: {
+          type: 'string'
+        }
+      },
+      properties: {
+        datesOfServiceProperty: {
+          $ref: '#/definitions/dateRangeDefinition'
+        }
+      }
+    }
+    const expectedResult = {
+      datesOfServiceProperty: {
+        from: '',
+        to: ''
+      }
+    }
+
+    const actualResult = transformJSONSchema(schemaToTest);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  test('It maps array properties with nested array type definitions', () => {
+    const schemaToTest = {
+      definitions: {
+        filesDefinition: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              name: {
+                type: 'string'
+              },
+              size: {
+                type: 'string'
+              }
+            }
+          }
+        }
+      },
+      properties: {
+        filesProperty: {
+          type: 'array',
+          items: {
+            $ref: '#/definitions/filesDefinition'
+          }
+        }
+      }
+    }
+    const expectedResult = {
+      filesProperty: [
+        [
+          {
+            name: '',
+            size: ''
+          }
+        ]
+      ]
+    }
+
+    const actualResult = transformJSONSchema(schemaToTest);
+
+    expect(actualResult).toEqual(expectedResult);
+  });
+
+  test('It handles properties with centralMailAddress definitions differently', () => {
+    const schemaToTest = {
+      definitions: {
+        centralMailAddress: {
+          type: 'string'
+        }
+      },
+      properties: {
+        mailProperty: {
+          $ref: '#/definitions/centralMailAddress'
+        }
+      }
+    }
+    const expectedResult = {
+      mailProperty: {
+        isMilitaryBaseOutside: false,
+        streetAddress: '',
+        streetAddressLine2: '',
+        streetAddressLine3: '',
+        city: '',
+        state: '',
+        country: '',
+        postalCode: ''
+      }
+    }
+
+    const actualResult = transformJSONSchema(schemaToTest);
+
+    expect(actualResult).toEqual(expectedResult);
   });
 });
