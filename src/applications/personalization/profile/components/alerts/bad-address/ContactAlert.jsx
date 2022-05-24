@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 export default function ContactAlert() {
   return (
@@ -13,9 +12,10 @@ export default function ContactAlert() {
         <strong className="vads-u-font-weight--bold">Update</strong> to confirm.
       </p>
       <p>
-        <Link to="/contact-information">
-          Go to your contact information to review your address
-        </Link>
+        <a href="#mailingAddress">
+          <i aria-hidden="true" className="fas fa-arrow-down" />
+          Review your mailing address
+        </a>
       </p>
     </va-alert>
   );
