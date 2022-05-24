@@ -17,9 +17,7 @@ const BalanceCard = ({ amount, count, date, appType }) => {
   // Linking to existing applications
   // TODO: update a tag with Link component after merge
   const linkDestination =
-    appType === APP_TYPES.DEBT
-      ? `/manage-va-debt/your-debt/`
-      : `/summary/copay-balances`;
+    appType === APP_TYPES.DEBT ? `/debt-balances` : `/copay-balances`;
 
   return (
     <div

@@ -52,15 +52,24 @@ const CombinedPortalApp = ({ children }) => {
   }
 
   // TODO: we'll probably need to have a unauth redirect checking 'userLoggedIn'
+  //   isLoggedIn: state.user.login.currentlyLoggedIn
   if (!isCombinedPortalActive) {
     window.location.replace('/');
-    return <></>;
+    return (
+      <div className="vads-u-margin--5">
+        <va-loading-indicator
+          label="Loading"
+          message="Please wait while we load the application for you."
+          set-focus
+        />
+      </div>
+    );
   }
 
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 vads-u-margin-bottom--5">
       <div className="vads-l-row vads-u-margin-x--neg2p5">
-        <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--8">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8 large-screen:vads-l-col--8">
           <DowntimeNotification
             appTitle="Debts and bills application"
             dependencies={[externalServices.mvi, externalServices.vbs]}
