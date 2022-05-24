@@ -3,7 +3,7 @@ import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import VerifyIdentiy from '../../../../components/direct-deposit/alerts/VerifyIdentiy';
 
 describe('authenticated experience -- profile -- direct deposit', () => {
-  describe('CancelButton', () => {
+  describe('VerifyIdentiy', () => {
     it('passes axeCheck', () => {
       axeCheck(<VerifyIdentiy />);
     });

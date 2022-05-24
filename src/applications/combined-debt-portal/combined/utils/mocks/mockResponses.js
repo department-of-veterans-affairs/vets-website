@@ -1,4 +1,6 @@
 import mockDebt from './mockDebts.json';
+import mockDebtVBMS from './mockDebtsVBMS.json';
+import mockDebtError from './mockDebtsError.json';
 
 const asyncReturn = (returnValue, delay = 300) =>
   new Promise(resolve => {
@@ -8,3 +10,5 @@ const asyncReturn = (returnValue, delay = 300) =>
   });
 
 export const debtMockResponse = () => asyncReturn(mockDebt);
+export const debtMockResponseVBMS = () => asyncReturn(mockDebtVBMS);
+export const debtLettersFailure = () => asyncReturn(mockDebtError, 1000);
