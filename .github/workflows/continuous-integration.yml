@@ -321,34 +321,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install dependencies
-        uses: ./.github/workflows/install
+      - name: Security Audit
         timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
-
-      - name: List changed files
-        id: changed-files
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-          else
-            echo ::set-output name=all_changed_files::$(git diff --name-only origin/main...)
-          fi
-
-      - name: Get app entries for changed files
-        id: get-changed-apps
-        run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
-        env:
-          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
-
-      - name: Audit dependencies
-        if: steps.get-changed-apps.outputs.app_entries == ''
-        run: yarn security-check
+        uses: department-of-veterans-affairs/platform-release-tools-actions/security-check@main
 
   linting:
     name: Linting (All)
@@ -444,10 +419,10 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
+        uses: department-of-veterans-affairs/platform-release-tools-actions/configure-bigquery@main
 
       - name: Upload app list to BigQuery
         run: yarn generate-app-list
@@ -629,7 +604,7 @@ jobs:
 
       - name: Notify Slack about Contract test failures
         if: ${{ github.ref == 'refs/heads/main' && needs.contract-tests.result == 'failure' }}
-        uses: ./.github/workflows/slack-notify
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
@@ -657,10 +632,10 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
+        uses: department-of-veterans-affairs/platform-release-tools-actions/configure-bigquery@main
 
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -858,10 +833,10 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
-        uses: ./.github/workflows/configure-bigquery
+        uses: department-of-veterans-affairs/platform-release-tools-actions/configure-bigquery@main
 
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
