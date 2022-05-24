@@ -221,6 +221,15 @@ div.review {
   }
 }
 
+/* Introduction page */
+article[data-location="introduction"]
+{
+  a.vads-c-action-link--green {
+    display: block;
+    line-height: 1em;
+  }
+}
+
 /* Confirmation page */
 article[data-location="confirmation"] {
   h1[tabindex="-1"] {
