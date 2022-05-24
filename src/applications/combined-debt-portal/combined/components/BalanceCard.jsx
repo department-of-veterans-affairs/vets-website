@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { APP_TYPES, currency, formatDate } from '../utils/helpers';
 
 const BalanceCard = ({ amount, count, date, appType }) => {
@@ -18,7 +19,7 @@ const BalanceCard = ({ amount, count, date, appType }) => {
   const linkDestination =
     appType === APP_TYPES.DEBT
       ? `/manage-va-debt/your-debt/`
-      : `/health-care/pay-copay-bill/your-current-balances/`;
+      : `/summary/copay-balances`;
 
   return (
     <div
@@ -46,9 +47,9 @@ const BalanceCard = ({ amount, count, date, appType }) => {
           <span className="vads-u-margin-x--0p5">{formatDate(date)}</span>
         </p>
       )}
-      <a
+      <Link
         className="vads-u-font-size--sm vads-u-font-weight--bold"
-        href={linkDestination}
+        to={linkDestination}
         data-testid="card-link"
         aria-label={linkText}
       >
@@ -57,7 +58,7 @@ const BalanceCard = ({ amount, count, date, appType }) => {
           className="fa fa-chevron-right vads-u-margin-left--1"
           aria-hidden="true"
         />
-      </a>
+      </Link>
     </div>
   );
 };
