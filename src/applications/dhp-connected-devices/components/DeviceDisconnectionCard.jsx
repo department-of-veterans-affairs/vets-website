@@ -3,12 +3,6 @@ import PropTypes from 'prop-types';
 import environment from 'platform/utilities/environment';
 import { DisconnectModal } from './DisconnectModal';
 
-export function navigateToDisconnect(disconnectUrl) {
-  window.location.assign(
-    `${environment.API_URL}/dhp_connected_devices${disconnectUrl}`,
-  );
-}
-
 export const DeviceDisconnectionCard = ({ device }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -17,7 +11,7 @@ export const DeviceDisconnectionCard = ({ device }) => {
   }
 
   function disconnectDevice() {
-    setModalVisible(false);
+    closeModal();
     window.location.href = `${environment.API_URL}/dhp_connected_devices${
       device.disconnectUrl
     }`;
