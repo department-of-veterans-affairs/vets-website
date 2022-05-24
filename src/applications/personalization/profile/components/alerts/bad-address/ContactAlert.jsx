@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function full() {
+export default function ContactAlert() {
   return (
     <va-alert status="warning">
       <h2 slot="headline">Review your mailing address</h2>

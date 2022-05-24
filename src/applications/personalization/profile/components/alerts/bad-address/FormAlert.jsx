@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function small() {
+export default function FormAlert() {
   return (
     <va-alert status="warning" background-only show-icon>
       <h2 slot="headline">Review your mailing address</h2>
