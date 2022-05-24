@@ -47,7 +47,6 @@ function CalculateYourBenefitsForm({
     learningFormatAndSchedule: false,
     scholarshipsAndOtherFunding: false,
   });
-  const [isDisabled, setIsDisabled] = useState(true);
   const displayExtensionBeneficiaryZipcode = !inputs.classesoutsideus;
 
   const getExtensions = () => {
@@ -196,6 +195,8 @@ function CalculateYourBenefitsForm({
     recalculateBenefits();
   };
 
+  const [isDisabled, setIsDisabled] = useState(true);
+
   const updateEligibility = e => {
     const field = e.target.name;
     const { value } = e.target;
@@ -210,6 +211,9 @@ function CalculateYourBenefitsForm({
       setIsDisabled(true);
       if (value === 'spouse' || value === 'child') {
         setIsDisabled(false);
+      }
+      if (!environment.isProduction()) {
+        eligibilityChange({ giBillChapter: '33a' });
       }
     }
 
