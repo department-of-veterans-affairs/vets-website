@@ -5,8 +5,6 @@ import moment from 'moment';
 import head from 'lodash/head';
 import last from 'lodash/last';
 import first from 'lodash/first';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
@@ -46,7 +44,7 @@ const DebtDetails = () => {
   }, []);
 
   if (Object.keys(currentDebt).length === 0) {
-    window.location.replace('/manage-va-debt/your-debt');
+    window.location.replace('/manage-debt-and-bills/summary/debt-balances/');
     return (
       <div className="vads-u-font-family--sans vads-u-margin--0 vads-u-padding--1">
         <va-loading-indicator
@@ -60,12 +58,20 @@ const DebtDetails = () => {
 
   return (
     <div>
-      <Breadcrumbs className="vads-u-font-family--sans">
+      <va-breadcrumbs label="Breadcrumb">
         <a href="/">Home</a>
-        <a href="/manage-va-debt">Manage your VA debt</a>
-        <a href="/manage-va-debt/your-debt">Your VA debt</a>
-        <a href="/manage-va-debt/your-debt/debt-detail">Details</a>
-      </Breadcrumbs>
+        <Link to="/manage-debt-and-bills/">Manage your VA debt and bills</Link>
+        <Link to="/manage-debt-and-bills/summary/">
+          Your debt and bills summary
+        </Link>
+        <Link to="/debt-balances/">Benefit debt balances</Link>
+        <Link
+          to={`/debt-balances/details/${selectedDebt.fileNumber +
+            selectedDebt.deductionCode}`}
+        >
+          Debt details
+        </Link>
+      </va-breadcrumbs>
       <h1
         className="vads-u-font-family--serif vads-u-margin-bottom--2"
         tabIndex="-1"
@@ -75,7 +81,7 @@ const DebtDetails = () => {
       <section className="vads-l-row">
         <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-right--2p5 vads-l-col--12 vads-u-font-family--sans">
           {dateUpdated && (
-            <p className="va-introtext vads-u-margin-top--0">
+            <p className="va-introtext vads-u-font-family--sans vads-u-margin-top--0">
               Updated on
               <span className="vads-u-margin-left--0p5">
                 {moment(dateUpdated, 'MM-DD-YYYY').format('MMMM D, YYYY')}
@@ -137,7 +143,7 @@ const DebtDetails = () => {
                 not include recent updates to your debt reflected above. If you
                 have any questions about your debt history, please contact the
                 Debt Management Center at
-                <Telephone
+                <va-telephone
                   className="vads-u-margin-left--0p5"
                   contact="8008270648"
                 />
@@ -151,14 +157,17 @@ const DebtDetails = () => {
                 You can download some of your letters for education,
                 compensation and pension debt.
               </p>
-              <Link to="/debt-letters" className="vads-u-margin-top--1">
+              <Link
+                to="/debt-balances/letters"
+                className="vads-u-margin-top--1"
+              >
                 Download letters related to your VA debt
               </Link>
             </>
           )}
           <HowDoIPay />
           <NeedHelp />
-          <Link className="vads-u-margin-top--4" to="/">
+          <Link className="vads-u-margin-top--4" to="/debt-balances/">
             <i aria-hidden="true" className="fa fa-chevron-left" /> Return to
             your list of debts.
           </Link>

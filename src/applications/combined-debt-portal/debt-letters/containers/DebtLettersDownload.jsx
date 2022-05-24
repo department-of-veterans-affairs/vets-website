@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import Telephone, {
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
 import { setPageFocus } from '../utils/page';
 import DebtLettersTable from '../components/DebtLettersTable';
 import { DownloadLettersAlert } from '../components/Alerts';
@@ -24,14 +20,15 @@ const DebtLettersDownload = () => {
 
   return (
     <div className="vads-l-row large-screen:vads-u-margin-x--neg2p5">
-      <Breadcrumbs className="vads-u-font-family--sans">
+      <va-breadcrumbs label="Breadcrumb">
         <a href="/">Home</a>
-        <a href="/manage-va-debt">Manage your VA debt</a>
-        <a href="/manage-va-debt/your-debt">Your debt</a>
-        <a href="/manage-va-debt/your-debt/debt-letters">
-          Download debt letters
-        </a>
-      </Breadcrumbs>
+        <Link to="/manage-debt-and-bills/">Manage your VA debt and bills</Link>
+        <Link to="/manage-debt-and-bills/summary/">
+          Your debt and bills summary
+        </Link>
+        <Link to="/debt-balances/">Benefit debt balances</Link>
+        <Link to="/debt-balances/letters">Debt letters</Link>
+      </va-breadcrumbs>
       <div>
         <h1
           id="downloadDebtLetters"
@@ -58,15 +55,15 @@ const DebtLettersDownload = () => {
           <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
             If you’ve received a letter about a VA debt that isn’t listed here,
             call us at
-            <Telephone
+            <va-telephone
               contact="800-827-0648"
               className="vads-u-margin-x--0p5"
             />
             (or
-            <Telephone
+            <va-telephone
               contact="1-612-713-6415"
-              pattern={PATTERNS.OUTSIDE_US}
               className="vads-u-margin-x--0p5"
+              international
             />
             from overseas). You can also call us to get information about your
             resolved debts.
@@ -84,7 +81,7 @@ const DebtLettersDownload = () => {
           <p>
             <Link
               className="vads-u-font-family--sans vads-u-font-size--sm"
-              to="/"
+              to="/debt-balances/"
             >
               <i aria-hidden="true" className="fa fa-chevron-left" /> Return to
               your list of debts.

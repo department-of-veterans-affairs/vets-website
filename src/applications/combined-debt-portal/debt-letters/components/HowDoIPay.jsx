@@ -50,7 +50,7 @@ const HowDoIPay = () => (
       <p className="vads-u-margin-y--0">
         Find instructions on how to pay by mail in the demand letter sent to
         your address or you can
-        <Link className="vads-u-margin-left--0p5" to="/debt-letters">
+        <Link className="vads-u-margin-left--0p5" to="/debt-balances/letters">
           download them online
         </Link>
       </p>

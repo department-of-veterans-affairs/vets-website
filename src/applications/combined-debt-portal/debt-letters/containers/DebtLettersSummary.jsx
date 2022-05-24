@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
+import { Link } from 'react-router-dom';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
 import DebtCardsList from '../components/DebtCardsList';
 import OnThisPageLinks from '../components/OnThisPageLinks';
+import '../sass/debt-letters.scss';
 // TODO: OtherVA Update
 import OtherVADebts from '../../../medical-copays/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
@@ -34,7 +35,15 @@ const renderAlert = (alertType, statements) => {
 
 const DebtLettersSummary = () => {
   const { debtLetters } = useSelector(({ combinedPortal }) => combinedPortal);
-  const { isError, isVBMSError, debts, debtLinks } = debtLetters;
+  const {
+    isProfileUpdating,
+    isPending,
+    isPendingVBMS,
+    isError,
+    isVBMSError,
+    debts,
+    debtLinks,
+  } = debtLetters;
 
   const { statements: mcpStatements, error: mcpError } = useSelector(
     ({ combinedPortal }) => combinedPortal.mcp,
@@ -44,18 +53,35 @@ const DebtLettersSummary = () => {
     scrollToTop();
   }, []);
 
+  if (isPending || isPendingVBMS || isProfileUpdating) {
+    return (
+      <div className="vads-u-margin--5">
+        <va-loading-indicator
+          label="Loading"
+          message="Please wait while we load the application for you."
+          set-focus
+        />
+      </div>
+    );
+  }
+
   const allDebtsFetchFailure = isVBMSError && isError;
   const allDebtsEmpty =
     !allDebtsFetchFailure && debts.length === 0 && debtLinks.length === 0;
 
   return (
-    <>
-      {/** TODO: Update Breadcrumbs */}
-      <Breadcrumbs className="vads-u-font-family--sans">
+    <div className="vads-l-grid-container vads-u-padding-x--0">
+      <va-breadcrumbs
+        className="vads-l-col--12 vads-u-padding-x--0"
+        label="Breadcrumb"
+      >
         <a href="/">Home</a>
-        <a href="/manage-va-debt">Manage your VA debt</a>
-        <a href="/manage-va-debt/your-debt">Your VA debt</a>
-      </Breadcrumbs>
+        <Link to="/manage-debt-and-bills/">Manage your VA debt and bills</Link>
+        <Link to="/manage-debt-and-bills/summary/">
+          Your debt and bills summary
+        </Link>
+        <Link to="/debt-balances">Benefit debt balances</Link>
+      </va-breadcrumbs>
 
       <section
         className="vads-l-row vads-u-margin-x--neg2p5"
@@ -63,13 +89,13 @@ const DebtLettersSummary = () => {
       >
         <h1
           data-testid="summary-page-title"
-          className="vads-u-padding-x--2p5 vads-u-margin-bottom--2"
+          className="vads-u-margin-bottom--2"
         >
           Current VA debt
         </h1>
 
         <div className="vads-u-display--block">
-          <div className="vads-l-col--12 vads-u-padding-x--2p5">
+          <div className="vads-l-col--12">
             <p className="va-introtext vads-u-margin-top--0 vads-u-margin-bottom--2">
               Check the details of VA debt you might have related to your
               education, disability compensation, or pension benefits. Find out
@@ -101,7 +127,7 @@ const DebtLettersSummary = () => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
 

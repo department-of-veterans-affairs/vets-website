@@ -6,12 +6,10 @@ import DebtLetterCard from './DebtLetterCard';
 import { ErrorMessage, DowntimeMessage } from './Alerts';
 // TODO: OtherVA Update
 import OtherVADebts from '../../../medical-copays/components/OtherVADebts';
-import { cdpAccessToggle } from '../../../medical-copays/utils/helpers';
 import alertMessage from '../../combined/utils/alert-messages';
 import { ALERT_TYPES, APP_TYPES } from '../../combined/utils/helpers';
 
 const DebtCardsList = () => {
-  const showCDPComponents = useSelector(state => cdpAccessToggle(state));
   const { debts, errors } = useSelector(
     ({ combinedPortal }) => combinedPortal.debtLetters,
   );
@@ -29,7 +27,7 @@ const DebtCardsList = () => {
 
   const renderOtherVA = () => {
     const alertInfo = alertMessage(ALERT_TYPES.ERROR, APP_TYPES.COPAY);
-    if (mcpStatements > 0) {
+    if (mcpStatements?.length) {
       return <OtherVADebts module={APP_TYPES.COPAY} />;
     }
     if (mcpError) {
@@ -137,7 +135,7 @@ const DebtCardsList = () => {
           to learn about your payment options.
         </p>
 
-        {showCDPComponents && renderOtherVA()}
+        {renderOtherVA()}
 
         <h3
           id="downloadDebtLetters"
@@ -151,7 +149,7 @@ const DebtCardsList = () => {
         </p>
 
         <Link
-          to="/debt-letters"
+          to="/debt-balances/letters"
           className="vads-u-margin-top--1 vads-u-font-family--sans"
           data-testid="download-letters-link"
         >

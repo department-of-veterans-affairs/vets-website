@@ -5,10 +5,14 @@ import CombinedPortalApp from './containers/CombinedPortalApp';
 import DetailPage from '../medical-copays/containers/DetailPage';
 import HTMLStatementPage from '../medical-copays/containers/HTMLStatementPage';
 import MCPOverview from '../medical-copays/containers/OverviewPage';
+import DebtDetails from '../debt-letters/containers/DebtDetails';
+import DebtLettersDownload from '../debt-letters/containers/DebtLettersDownload';
+import DebtLettersSummary from '../debt-letters/containers/DebtLettersSummary';
 
 const Routes = () => (
   <CombinedPortalApp>
     <Switch>
+      {/** Combined Landing Page */}
       <Route exact path="/" component={OverviewPage} />
       <Route exact path="/summary/copay-balances" component={MCPOverview} />
       <Route
@@ -21,6 +25,13 @@ const Routes = () => (
         path="/summary/copay-balances/:id/detail/statement"
         component={HTMLStatementPage}
       />
+      <Route exact path="/debt-balances" component={DebtLettersSummary} />
+      <Route
+        exact
+        path="/debt-balances/letters"
+        component={DebtLettersDownload}
+      />
+      <Route exact path="/debt-balances/details/:id" component={DebtDetails} />
       <Route>
         <Redirect to="/" />
       </Route>
