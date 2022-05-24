@@ -17,6 +17,8 @@ const { paymentHistory } = require('./payment-history');
 
 const bankAccounts = require('./bank-accounts');
 
+const serviceHistory = require('./service-history');
+
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/user': user.user72Success,
@@ -47,15 +49,7 @@ const responses = {
   'GET /v0/profile/ch33_bank_accounts': (_req, res) => {
     return res.status(200).json(bankAccounts.defaultResponse);
   },
-  'GET /v0/profile/service_history': {
-    data: {
-      id: '',
-      type: 'arrays',
-      attributes: {
-        serviceHistory: [],
-      },
-    },
-  },
+  'GET /v0/profile/service_history': serviceHistory.spaceForce,
   'GET /v0/disability_compensation_form/rating_info': {
     data: {
       id: '',
