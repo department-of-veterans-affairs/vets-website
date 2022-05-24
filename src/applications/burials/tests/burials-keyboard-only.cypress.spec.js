@@ -24,8 +24,7 @@ describe('Burials keyboard only navigation', () => {
     cy.injectAxeThenAxeCheck();
 
     // *** Intro page ***
-    cy.tabToElement('button[id$="continueButton"]');
-    cy.realPress('Space');
+    cy.tabToStartForm();
 
     // *** Claimant Info ***
     cy.typeInFullName('root_claimantFullName_', data.claimantFullName);

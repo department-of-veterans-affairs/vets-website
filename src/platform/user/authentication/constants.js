@@ -119,7 +119,7 @@ export const AUTH_ERROR = {
   MULTIPLE_CORPIDS: '106', // Multiple Corp IDs
 };
 
-export const MHV_TRANSITION_DATE = 'MONTH XX, 20XX';
+export const MHV_TRANSITION_DATE = null;
 export const MHV_TRANSITION_TIME = '[x]';
 export const ACCOUNT_TRANSITION_DISMISSED = 'accountTransitionDismissed';
 

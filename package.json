@@ -133,7 +133,7 @@
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
     "append-query": "^2.1.1",
     "autoprefixer": "^10.3.5",
-    "axe-core": "^4.4.1",
+    "axe-core": "^4.4.2",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
@@ -335,7 +335,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#5ba819bc039e34ce6e1a1812cef7e0cee84c2982",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ecdb84139a36c0e698fe8e090361cf1fd08b3fa6",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {

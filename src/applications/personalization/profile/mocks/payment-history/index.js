@@ -223,6 +223,12 @@ const notEligible = {
   },
 };
 
+const errorResponse = {
+  data: {
+    errors: [{}],
+  },
+};
+
 module.exports = {
   paymentHistory: {
     isDeceased,
@@ -230,5 +236,6 @@ module.exports = {
     isNotCompetent,
     simplePaymentHistory,
     notEligible,
+    errorResponse,
   },
 };
