@@ -87,22 +87,20 @@ const notHighDisabilityNotSelfDisclosure = formData =>
       formData['view:totalDisabilityRating'] < HIGH_DISABILITY));
 
 const notHighDisabilityAndNotInMvi = formData =>
-  !formData['view:hcaShortFormEnabled'] ||
-  (formData.vaCompensationType !== 'highDisability' &&
-    !formData['view:isUserInMvi'] &&
-    (!formData['view:totalDisabilityRating'] ||
-      formData['view:totalDisabilityRating'] < HIGH_DISABILITY));
+  (!formData['view:hcaShortFormEnabled'] && !formData['view:isUserInMvi']) ||
+  (formData['view:hcaShortFormEnabled'] &&
+    formData.vaCompensationType !== 'highDisability' &&
+    !formData['view:isUserInMvi']);
 
 const isHighDisability = formData =>
   formData['view:hcaShortFormEnabled'] &&
   formData.vaCompensationType === 'highDisability';
 
 const notHighDisabilityEnrolledMedicarePartA = formData =>
-  !formData['view:hcaShortFormEnabled'] ||
-  (formData.isEnrolledMedicarePartA &&
+  (!formData['view:hcaShortFormEnabled'] && formData.isEnrolledMedicarePartA) ||
+  (formData['view:hcaShortFormEnabled'] &&
     formData.vaCompensationType !== 'highDisability' &&
-    (!formData['view:totalDisabilityRating'] ||
-      formData['view:totalDisabilityRating'] < HIGH_DISABILITY));
+    formData.isEnrolledMedicarePartA);
 
 // For which page needs prefill-message, check
 // vets-api/config/form_profile_mappings/1010ez.yml
