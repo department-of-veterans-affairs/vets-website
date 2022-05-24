@@ -104,7 +104,7 @@ describe('Form Builder - AddressField', () => {
     expect(postalCodeInput.getAttribute('error')).toContain('provide a response');
   });
 
-  test('when country is united states and military checkbox is false: updates the formik state for street names, city, state, and postal code', async () => {
+  test.skip('when country is united states and military checkbox is false: updates the formik state for street names, city, state, and postal code', async () => {
     const testData = {
       homeAddress: {
         isMilitaryBaseOutside: false,
@@ -149,7 +149,7 @@ describe('Form Builder - AddressField', () => {
     })
   });
 
-  test('Country is not united states and military checkbox is false: render State as a text field', async () => {
+  test.skip('Country is not united states and military checkbox is false: render State as a text field', async () => {
     const testData = {
       homeAddress: {
         isMilitaryBaseOutside: false,

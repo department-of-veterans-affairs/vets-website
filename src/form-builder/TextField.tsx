@@ -20,7 +20,7 @@ const TextField = (props: FieldProps<string>): JSX.Element => {
       label={props.label}
       required={!!props.required}
       {...field}
-      onVaChange={field.onChange}
+      onInput={field.onChange}
       error={(meta.touched && meta.error) || undefined}
     />
   );

@@ -65,10 +65,11 @@ export type CheckboxProps = FieldProps<string> & {
     value?: boolean;
 };
 
-// Warning: (ae-forgotten-export) The symbol "DateProps" needs to be exported by the entry point index.d.ts
-//
-// @public
+// @public (undocumented)
 export const DateField: (props: DateProps) => JSX.Element;
+
+// @public (undocumented)
+export type DateProps = FieldProps<string>;
 
 // @public
 export const DebuggerView: () => JSX.Element;

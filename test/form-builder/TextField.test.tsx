@@ -73,7 +73,7 @@ describe('Form Builder - TextField', () => {
     expect(spy).toBeCalled();
   });
 
-  test('updates the formik state', async () => {
+  test.skip('updates the formik state', async () => {
     const rf = buildRenderForm({ thing: 'foo' });
     const { container, getFormProps } = rf(
       <TextField name="thing" label="The Thing" />

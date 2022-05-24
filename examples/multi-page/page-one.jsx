@@ -5,7 +5,8 @@ import {
   Page,
   PhoneField,
   DebuggerView,
-  SSNField
+  SSNField,
+  DateField
 } from '@department-of-veterans-affairs/va-forms-system-core';
 
 export default function PersonalInformationPage() {
@@ -17,6 +18,7 @@ export default function PersonalInformationPage() {
         <EmailField name="email" label="Email" />
         <PhoneField name="phone" label="Phone" required/>
         <SSNField name="ssn" label="Social Security Number" required />
+        <DateField name="dob" label="Date of burial(includes cremation or interment)" required/>
       </Page>
       <DebuggerView />
     </>

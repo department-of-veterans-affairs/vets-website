@@ -64,7 +64,7 @@ const SSNField = (props: SSNProps): JSX.Element => {
       value={ssn}
       maxlength={11}
       onFocus={onFocus}
-      onVaBlur={onBlur}
+      onBlur={onBlur}
       error={(meta.touched && meta.error) || undefined}
     />
   );

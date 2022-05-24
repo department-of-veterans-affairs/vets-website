@@ -84,3 +84,5 @@ export interface Address {
   state: string;
   postalCode: string;
 }
+
+export type DateProps = FieldProps<string>;

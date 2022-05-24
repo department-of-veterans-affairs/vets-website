@@ -1354,7 +1354,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.12.13, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.14.6, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.7.6, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
   version: 7.17.9
   resolution: "@babel/runtime@npm:7.17.9"
   dependencies:
@@ -1421,12 +1421,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@department-of-veterans-affairs/component-library@npm:8.3.x":
-  version: 8.3.0
-  resolution: "@department-of-veterans-affairs/component-library@npm:8.3.0"
+"@department-of-veterans-affairs/component-library@npm:^10.3.0":
+  version: 10.3.0
+  resolution: "@department-of-veterans-affairs/component-library@npm:10.3.0"
   dependencies:
-    "@department-of-veterans-affairs/react-components": 6.0.0
-    "@department-of-veterans-affairs/web-components": 2.9.0
+    "@department-of-veterans-affairs/react-components": 6.1.2
+    "@department-of-veterans-affairs/web-components": 4.2.0
+    i18next: ^21.6.14
+    i18next-browser-languagedetector: ^6.1.4
     react-focus-on: ^3.5.1
     react-scroll: ^1.7.16
     react-transition-group: ^1.0.0
@@ -1434,13 +1436,13 @@ __metadata:
     "@department-of-veterans-affairs/formation": "*"
     react: ^17
     react-dom: "*"
-  checksum: 066a2088bf2f0b23e67ef94b99c8f4cde3c4f16ae21dab65afdc7051bdbae8fac5be6cfdae4e958ecee78a5167f6574f44891be09b6fa26e71df1988c6e1392f
+  checksum: 6764b04db108a2f4b1a12c31c1fa703ccbd710b34b59728b2d28c7673cc260155b12ca248bd412062910eacd01e23dcec32e0c2903b5fcd1e98f12dd29e45b1d
   languageName: node
   linkType: hard
 
-"@department-of-veterans-affairs/react-components@npm:6.0.0":
-  version: 6.0.0
-  resolution: "@department-of-veterans-affairs/react-components@npm:6.0.0"
+"@department-of-veterans-affairs/react-components@npm:6.1.2":
+  version: 6.1.2
+  resolution: "@department-of-veterans-affairs/react-components@npm:6.1.2"
   dependencies:
     classnames: ^2.2.6
     prop-types: ^15.6.2
@@ -1450,9 +1452,11 @@ __metadata:
     recast: ^0.14.4
   peerDependencies:
     "@department-of-veterans-affairs/web-components": "*"
+    i18next: "*"
+    i18next-browser-languagedetector: "*"
     react: ^17
     react-dom: "*"
-  checksum: 4e3451a06a8064506291b255439b47942b835f6773c94b9cdfc9dc7a899ef71acde42750ba7bf1df24e19a149195361bf47fe80f275905050095fe8e5d39f595
+  checksum: a0a83827a57d88bbdf1f19138d6ee9d83b64b57fd269881f312315f2f6395b1cbaef5cd7ab2f7570ed9bdf74c10fb3af3144d9781ac962f2fc5004190adbaff1
   languageName: node
   linkType: hard
 
@@ -1464,7 +1468,7 @@ __metadata:
     "@babel/preset-env": ^7.14.5
     "@babel/preset-react": ^7.14.5
     "@babel/preset-typescript": ^7.14.5
-    "@department-of-veterans-affairs/component-library": 8.3.x
+    "@department-of-veterans-affairs/component-library": ^10.3.0
     "@microsoft/api-documenter": ^7.13.41
     "@microsoft/api-extractor": ^7.18.6
     "@size-limit/preset-small-lib": ^5.0.1
@@ -1512,19 +1516,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@department-of-veterans-affairs/web-components@npm:2.9.0":
-  version: 2.9.0
-  resolution: "@department-of-veterans-affairs/web-components@npm:2.9.0"
+"@department-of-veterans-affairs/web-components@npm:4.2.0":
+  version: 4.2.0
+  resolution: "@department-of-veterans-affairs/web-components@npm:4.2.0"
   dependencies:
     "@stencil/core": ^2.10.0
     aria-hidden: ^1.1.3
     body-scroll-lock: ^4.0.0-beta.0
     classnames: ^2.3.1
-    focus-trap: ^6.8.0-beta.0
     intersection-observer: ^0.12.0
   peerDependencies:
-    "@department-of-veterans-affairs/formation": ^6.14.0
-  checksum: 74708ed42719e5be95612a378ebdc642514d55e870e7cf6e12b311e0bc89a4c6b49e8fb9144ed2fded54da8d5d3a0a74db3be8268f8ae89bbc2fd030e58a23c7
+    "@department-of-veterans-affairs/formation": ^7.0.1
+    i18next: "*"
+    i18next-browser-languagedetector: "*"
+  checksum: 887aa5663c2f0119aa71063127630cd36c2c1f2f5e32acc0de674465a219b90f2869e8c49081c782b9e0a80824b5712ccaf8c5fd3bf74ba84273009051daaaa5
   languageName: node
   linkType: hard
 
@@ -7494,15 +7499,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"focus-trap@npm:^6.8.0-beta.0":
-  version: 6.8.0
-  resolution: "focus-trap@npm:6.8.0"
-  dependencies:
-    tabbable: 5.3.0
-  checksum: da1bb252027ebd9243f7d5db2d7e221768703840e7a551e24fe0ee163624327a561a29982467d95298d4ddf6dd13183ef85bda94a27358d3be0acf8aa28cab92
-  languageName: node
-  linkType: hard
-
 "follow-redirects@npm:^1.0.0":
   version: 1.14.9
   resolution: "follow-redirects@npm:1.14.9"
@@ -8431,6 +8427,24 @@ fsevents@^1.2.7:
   bin:
     husky: lib/bin.js
   checksum: db6da76a670b2cd1e967990decfd291e6f35a5aee4d362208a51771474d3b4896d526acb4bf0413c2d7154716e42a4d8b6cc19f2bb108e48d1f554624c723a00
+  languageName: node
+  linkType: hard
+
+"i18next-browser-languagedetector@npm:^6.1.4":
+  version: 6.1.4
+  resolution: "i18next-browser-languagedetector@npm:6.1.4"
+  dependencies:
+    "@babel/runtime": ^7.14.6
+  checksum: 379dba3527c359c3adeb26c1e16e6b7e007989763c4361d43662e4d9412c538ca35e28a6a12df0654edc0adb78b44ff5afdf4c5d842bbf0e83db59d5e9e02f55
+  languageName: node
+  linkType: hard
+
+"i18next@npm:^21.6.14":
+  version: 21.8.2
+  resolution: "i18next@npm:21.8.2"
+  dependencies:
+    "@babel/runtime": ^7.17.2
+  checksum: 6114fafa9604073f783bdeb25c0b81cdadbe00ac7ae85a756576c52e4191f5ba3e4bc818bf57826493fc1770edfd69940fdcd337abb8a52dd50d0bc7819175cc
   languageName: node
   linkType: hard
 
@@ -15024,13 +15038,6 @@ resolve@~1.19.0:
   version: 3.2.4
   resolution: "symbol-tree@npm:3.2.4"
   checksum: 6e8fc7e1486b8b54bea91199d9535bb72f10842e40c79e882fc94fb7b14b89866adf2fd79efa5ebb5b658bc07fb459ccce5ac0e99ef3d72f474e74aaf284029d
-  languageName: node
-  linkType: hard
-
-"tabbable@npm:5.3.0":
-  version: 5.3.0
-  resolution: "tabbable@npm:5.3.0"
-  checksum: 3971231b6331458e42542929229e182fb9aff4de8322756d05c34dddab81539379925b110a876bb45addd0d541db11e9e85da1c14a0239442885e6351968901e
   languageName: node
   linkType: hard
 

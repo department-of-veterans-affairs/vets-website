@@ -4,10 +4,6 @@
 
 ## DateField variable
 
-Field value format: M-D-YYYY
-
-TODO: Convert the Date component into a web component and use it here.
-
 <b>Signature:</b>
 
 ```typescript
