@@ -9,6 +9,8 @@ import {
   cnpDirectDepositIsBlocked,
   showProfileLGBTQEnhancements,
   profileAlwaysShowDirectDepositDisplay,
+  showBadAddressIndicator,
+  hasBadAddress,
 } from '@@profile/selectors';
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
@@ -23,6 +25,8 @@ import Headline from '../ProfileSectionHeadline';
 import PersonalInformationContent from './PersonalInformationContent';
 
 import { PROFILE_PATHS } from '../../constants';
+
+import BadAddressAlert from '../alerts/bad-address/ProfileAlert';
 
 // drops the leading `edit` from the hash and looks for that element
 const getScrollTarget = hash => {
@@ -126,13 +130,18 @@ const PersonalInformation = () => {
     },
     [openEditModal],
   );
-
   return (
     <>
       <Prompt
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={hasUnsavedEdits}
       />
+      {badAddressIndicatorEnabled &&
+        showBadAddressAlert && (
+          <>
+            <BadAddressAlert />
+          </>
+        )}
       {shouldShowProfileLGBTQEnhancements ? (
         <Headline>Personal information</Headline>
       ) : (
