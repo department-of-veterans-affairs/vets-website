@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -7,7 +8,8 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import recordEvent from 'platform/monitoring/record-event';
 import formConfig from '../config/form';
 
-const App = ({ loading, location, children }) => {
+const App = ({ loading, children }) => {
+  const location = useLocation();
   // find all yes/no check boxes and attach analytics events
   useEffect(
     () => {
