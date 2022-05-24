@@ -180,7 +180,7 @@ export const shortFormSelfDisclosureToSubmit = () => {
     selector: 'dt',
   })
     .next('dd')
-    .should('have.text', 'highDisability');
+    .should('have.text', 'Yes (50% or higher rating)');
 
   cy.get('[name="privacyAgreementAccepted"]')
     .scrollIntoView()
