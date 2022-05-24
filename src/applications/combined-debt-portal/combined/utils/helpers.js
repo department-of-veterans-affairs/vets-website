@@ -24,6 +24,9 @@ export const API_RESPONSES = Object.freeze({
 export const combinedPortalAccess = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
 
+export const debtLettersShowLetters = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.debtLettersShowLetters];
+
 export const selectLoadingFeatureFlags = state =>
   state?.featureToggles?.loading;
 
