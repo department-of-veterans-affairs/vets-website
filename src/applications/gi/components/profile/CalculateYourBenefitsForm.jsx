@@ -213,7 +213,9 @@ function CalculateYourBenefitsForm({
       if (value === 'spouse' || value === 'child') {
         setIsDisabled(false);
       }
-      eligibilityChange({ giBillChapter: '33a' });
+      if (!environment.isProduction()) {
+        eligibilityChange({ giBillChapter: '33a' });
+      }
     }
     if (!environment.isProduction()) recalculateBenefits();
   };
