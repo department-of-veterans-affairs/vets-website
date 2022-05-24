@@ -17,7 +17,6 @@ export default function VAOSBreadcrumbs({ children }) {
     <VaBreadcrumbs
       className="medium-screen:vads-u-padding-x--0 vaos-appts__breadcrumbs"
       aria-label="Breadcrumb"
-      role="navigation"
     >
       <a href="/" key="home">
         Home
