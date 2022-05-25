@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { fromUnixTime, isBefore } from 'date-fns';
 import { format } from 'date-fns-tz';
@@ -301,7 +301,7 @@ class SaveInProgressIntro extends React.Component {
 
   goToBeginning = () => {
     recordEvent({ event: 'no-login-start-form' });
-    this.props.router.push(this.getStartPage());
+    this.props.history.push(this.getStartPage());
   };
 
   openLoginModal = () => {
