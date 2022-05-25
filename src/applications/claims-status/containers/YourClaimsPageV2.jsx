@@ -22,7 +22,7 @@ import {
   appealsAvailability,
   sortByLastUpdated,
   getVisibleRows,
-  ROWS_PER_PAGE,
+  getPageRange,
 } from '../utils/appeals-v2-helpers';
 import { setUpPage, setPageFocus } from '../utils/page';
 
@@ -172,11 +172,12 @@ class YourClaimsPageV2 extends React.Component {
       if (!emptyList) {
         pageInfo = null;
         if (pages > 1) {
-          const firstItem = (page - 1) * ROWS_PER_PAGE + 1;
-          const lastItem = firstItem + ROWS_PER_PAGE - 1;
+          const range = getPageRange(page, listLength);
           pageInfo = (
             <p id="pagination-info">
-              {`Showing ${firstItem} \u2012 ${lastItem} of ${listLength} events`}
+              {`Showing ${range.start} \u2012 ${
+                range.end
+              } of ${listLength} events`}
             </p>
           );
         }
