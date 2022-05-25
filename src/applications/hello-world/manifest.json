@@ -1,0 +1,7 @@
+{
+  "appName": "Test Form",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "hello-world",
+  "rootUrl": "/hello-world",
+  "production": false
+}
