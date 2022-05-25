@@ -1,4 +1,4 @@
-const addDays = require('date-fns/addDays');
+const add = require('date-fns/add');
 const format = require('date-fns/format');
 
 const defaultUUID = '0429dda5-4165-46be-9ed1-1e652a8dfd83';
@@ -17,7 +17,8 @@ const createMockSuccessResponse = (
   emergencyContactNeedsUpdate = false,
   emergencyContactConfirmedAt = null,
 ) => {
-  const mockTime = token === expiredUUID ? new Date() : addDays(new Date(), 1);
+  const mockTime =
+    token === expiredUUID ? new Date() : add(new Date(), { days: 1 });
 
   let checkInSteps = [];
   let status = '';
@@ -120,7 +121,7 @@ const createMockSuccessResponse = (
           eligibility: 'ELIGIBLE',
           facilityId: 'some-facility',
           checkInWindowStart: mockTime,
-          checkInWindowEnd: mockTime,
+          checkInWindowEnd: add(new Date(mockTime), { minutes: 15 }),
           checkedInTime: '',
           status,
         },
@@ -135,7 +136,7 @@ const createMockSuccessResponse = (
           eligibility: 'ELIGIBLE',
           facilityId: 'some-facility',
           checkInWindowStart: mockTime,
-          checkInWindowEnd: mockTime,
+          checkInWindowEnd: add(new Date(mockTime), { minutes: 15 }),
           checkedInTime: '',
           status,
         },

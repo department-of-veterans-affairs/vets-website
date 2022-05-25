@@ -77,6 +77,7 @@ export default Object.freeze({
   profileDoNotRequireInternationalZipCode:'profile_do_not_require_international_zip_code',
   profileEnhancements: 'profile_enhancements',
   profileShowAddressChangeModal: 'profile_show_address_change_modal',
+  profileShowBadAddressIndicator: 'profile_show_bad_address_indicator',
   profileShowFaxNumber: 'profile_show_fax_number',
   profileShowGender: 'profile_show_gender',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
