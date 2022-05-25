@@ -93,7 +93,6 @@ export function CalculateYourBenefits({
     return <LoadingIndicator message="Loading your estimated benefits..." />;
   }
 
-  const outputs = estimatedBenefits;
   const inputs = calculator;
   const displayed = calculated.inputs;
 

@@ -40,7 +40,6 @@ function CalculateYourBenefitsForm({
   focusHandler,
 }) {
   const [invalidZip, setInvalidZip] = useState('');
-  const [inputUpdated, setInputUpdated] = useState(false);
   const [expanded, setExpanded] = useState({
     yourBenefits: true,
     aboutYourSchool: false,
@@ -121,7 +120,6 @@ function CalculateYourBenefitsForm({
         focusElement('input[name=beneficiaryZIPCode]');
       }, 50);
     } else {
-      setInputUpdated(false);
       updateEstimatedBenefits();
       setTimeout(() => {
         focusElement(`#${accordionButtonId}`);
@@ -146,7 +144,6 @@ function CalculateYourBenefitsForm({
         });
       }
       setInvalidZip('');
-      setInputUpdated(true);
 
       recalculateBenefits();
     } else if (inputs.beneficiaryZIP.length < 5) {
@@ -156,7 +153,6 @@ function CalculateYourBenefitsForm({
 
   const handleInputChange = event => {
     const { name: field, value } = event.target;
-    setInputUpdated(true);
     calculatorInputChange({ field, value });
 
     if (field === 'beneficiaryLocationQuestion' || field === 'extension') {
@@ -206,7 +202,6 @@ function CalculateYourBenefitsForm({
       'gibct-form-value': value,
     });
     eligibilityChange({ [field]: value });
-    setInputUpdated(true);
     if (field === 'militaryStatus') {
       setIsDisabled(true);
       if (value === 'spouse' || value === 'child') {
@@ -242,7 +237,6 @@ function CalculateYourBenefitsForm({
 
   const handleCheckboxChange = e => {
     const { name: field, checked: value } = e.target;
-    setInputUpdated(true);
     calculatorInputChange({ field, value });
 
     recalculateBenefits();
@@ -281,7 +275,6 @@ function CalculateYourBenefitsForm({
     event.preventDefault();
     handleInputBlur(event);
     if (inputs.buyUpAmount > 600) {
-      setInputUpdated(true);
       calculatorInputChange({
         field: 'buyUpAmount',
         value: 600,
