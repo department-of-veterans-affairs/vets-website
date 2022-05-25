@@ -149,7 +149,7 @@ function CalculateYourBenefitsForm({
       setInvalidZip('');
       setInputUpdated(true);
 
-      if (!environment.isProduction()) recalculateBenefits();
+      recalculateBenefits();
     } else if (inputs.beneficiaryZIP.length < 5) {
       setInvalidZip('Postal code must be a 5-digit number');
     }
@@ -193,7 +193,7 @@ function CalculateYourBenefitsForm({
       });
     }
 
-    if (!environment.isProduction()) recalculateBenefits();
+    recalculateBenefits();
   };
 
   const [isDisabled, setIsDisabled] = useState(true);
@@ -213,11 +213,11 @@ function CalculateYourBenefitsForm({
       if (value === 'spouse' || value === 'child') {
         setIsDisabled(false);
       }
-      if (!environment.isProduction()) {
+      {
         eligibilityChange({ giBillChapter: '33a' });
       }
     }
-    if (!environment.isProduction()) recalculateBenefits();
+    recalculateBenefits();
   };
 
   const handleExtensionBlur = event => {
@@ -247,7 +247,7 @@ function CalculateYourBenefitsForm({
     setInputUpdated(true);
     calculatorInputChange({ field, value });
 
-    if (!environment.isProduction()) recalculateBenefits();
+    recalculateBenefits();
   };
 
   const handleHasClassesOutsideUSChange = e => {
@@ -260,7 +260,7 @@ function CalculateYourBenefitsForm({
       'gibct-form-value': 'Classes outside the U.S. & U.S. territories',
     });
 
-    if (!environment.isProduction()) recalculateBenefits();
+    recalculateBenefits();
   };
 
   const handleInputBlur = event => {
@@ -271,7 +271,7 @@ function CalculateYourBenefitsForm({
       'gibct-form-value': value,
     });
 
-    if (!environment.isProduction()) recalculateBenefits();
+    recalculateBenefits();
   };
 
   const handleEYBInputFocus = fieldId => {
@@ -289,7 +289,7 @@ function CalculateYourBenefitsForm({
         value: 600,
       });
 
-      if (!environment.isProduction()) recalculateBenefits();
+      recalculateBenefits();
     }
   };
 
@@ -1065,7 +1065,7 @@ function CalculateYourBenefitsForm({
             hideModal={hideModal}
             showModal={showModal}
             inputs={inputs}
-            optionDisabled={environment.isProduction() ? false : isDisabled}
+            optionDisabled={isDisabled}
             displayedInputs={displayedInputs}
             handleInputFocus={handleEYBInputFocus}
             giBillChapterOpen={[displayedInputs?.giBillBenefit]}
@@ -1074,7 +1074,6 @@ function CalculateYourBenefitsForm({
             {renderOnlineClasses()}
           </BenefitsForm>
         </div>
-        {environment.isProduction() && renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
@@ -1118,7 +1117,6 @@ function CalculateYourBenefitsForm({
           {renderCalendar()}
           {renderEnrolled()}
         </div>
-        {environment.isProduction() && renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
@@ -1143,7 +1141,6 @@ function CalculateYourBenefitsForm({
           {renderExtensionBeneficiaryZIP()}
           {renderWorking()}
         </div>
-        {environment.isProduction() && renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
@@ -1180,7 +1177,6 @@ function CalculateYourBenefitsForm({
           {renderBuyUp()}
           {renderScholarships()}
         </div>
-        {environment.isProduction() && renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
