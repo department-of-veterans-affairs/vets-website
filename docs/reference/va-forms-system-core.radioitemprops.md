@@ -9,7 +9,6 @@
 ```typescript
 export declare type RadioItemProps = {
     'aria-describedby': string;
-    checked: boolean;
     label: string;
     name: string;
     value: string;
