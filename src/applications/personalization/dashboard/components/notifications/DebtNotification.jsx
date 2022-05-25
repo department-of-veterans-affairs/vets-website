@@ -11,7 +11,7 @@ import '../../sass/user-profile.scss';
 
 export const DebtNotification = ({ notification, dismissNotification }) => {
   const createdAtFormatted = moment(notification.attributes.createdAt).format(
-    'MMM DD, YYYY',
+    'dddd, MMM DD, YYYY',
   );
 
   return (
@@ -28,7 +28,9 @@ export const DebtNotification = ({ notification, dismissNotification }) => {
           closeable
         >
           <div className="vads-u-margin-top--0">
-            You have new debt as of {createdAtFormatted}.{' '}
+            <span className="vads-u-font-weight--bold">
+              You have new debt.{' '}
+            </span>
             <CTALink
               text="Manage your VA debt"
               href="/manage-va-debt/your-debt"
@@ -41,6 +43,7 @@ export const DebtNotification = ({ notification, dismissNotification }) => {
               }
             />
           </div>
+          <div className="vads-u-margin-top--0">{createdAtFormatted}</div>
         </VaAlert>
       </div>
     </DashboardWidgetWrapper>

@@ -8,7 +8,6 @@ import TextInput from '@department-of-veterans-affairs/component-library/TextInp
 import recordEvent from 'platform/monitoring/record-event';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import environment from 'platform/utilities/environment';
 import AlertBox from '../AlertBox';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
@@ -41,14 +40,12 @@ function CalculateYourBenefitsForm({
   focusHandler,
 }) {
   const [invalidZip, setInvalidZip] = useState('');
-  const [inputUpdated, setInputUpdated] = useState(false);
   const [expanded, setExpanded] = useState({
     yourBenefits: true,
     aboutYourSchool: false,
     learningFormatAndSchedule: false,
     scholarshipsAndOtherFunding: false,
   });
-  const [isDisabled, setIsDisabled] = useState(true);
   const displayExtensionBeneficiaryZipcode = !inputs.classesoutsideus;
 
   const getExtensions = () => {
@@ -123,7 +120,6 @@ function CalculateYourBenefitsForm({
         focusElement('input[name=beneficiaryZIPCode]');
       }, 50);
     } else {
-      setInputUpdated(false);
       updateEstimatedBenefits();
       setTimeout(() => {
         focusElement(`#${accordionButtonId}`);
@@ -148,9 +144,8 @@ function CalculateYourBenefitsForm({
         });
       }
       setInvalidZip('');
-      setInputUpdated(true);
 
-      if (!environment.isProduction()) recalculateBenefits();
+      recalculateBenefits();
     } else if (inputs.beneficiaryZIP.length < 5) {
       setInvalidZip('Postal code must be a 5-digit number');
     }
@@ -158,7 +153,6 @@ function CalculateYourBenefitsForm({
 
   const handleInputChange = event => {
     const { name: field, value } = event.target;
-    setInputUpdated(true);
     calculatorInputChange({ field, value });
 
     if (field === 'beneficiaryLocationQuestion' || field === 'extension') {
@@ -194,8 +188,10 @@ function CalculateYourBenefitsForm({
       });
     }
 
-    if (!environment.isProduction()) recalculateBenefits();
+    recalculateBenefits();
   };
+
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const updateEligibility = e => {
     const field = e.target.name;
@@ -206,15 +202,15 @@ function CalculateYourBenefitsForm({
       'gibct-form-value': value,
     });
     eligibilityChange({ [field]: value });
-    setInputUpdated(true);
     if (field === 'militaryStatus') {
       setIsDisabled(true);
       if (value === 'spouse' || value === 'child') {
         setIsDisabled(false);
+      } else {
+        eligibilityChange({ giBillChapter: '33a' });
       }
     }
-
-    if (!environment.isProduction()) recalculateBenefits();
+    recalculateBenefits();
   };
 
   const handleExtensionBlur = event => {
@@ -241,10 +237,9 @@ function CalculateYourBenefitsForm({
 
   const handleCheckboxChange = e => {
     const { name: field, checked: value } = e.target;
-    setInputUpdated(true);
     calculatorInputChange({ field, value });
 
-    if (!environment.isProduction()) recalculateBenefits();
+    recalculateBenefits();
   };
 
   const handleHasClassesOutsideUSChange = e => {
@@ -257,7 +252,7 @@ function CalculateYourBenefitsForm({
       'gibct-form-value': 'Classes outside the U.S. & U.S. territories',
     });
 
-    if (!environment.isProduction()) recalculateBenefits();
+    recalculateBenefits();
   };
 
   const handleInputBlur = event => {
@@ -268,7 +263,7 @@ function CalculateYourBenefitsForm({
       'gibct-form-value': value,
     });
 
-    if (!environment.isProduction()) recalculateBenefits();
+    recalculateBenefits();
   };
 
   const handleEYBInputFocus = fieldId => {
@@ -280,13 +275,12 @@ function CalculateYourBenefitsForm({
     event.preventDefault();
     handleInputBlur(event);
     if (inputs.buyUpAmount > 600) {
-      setInputUpdated(true);
       calculatorInputChange({
         field: 'buyUpAmount',
         value: 600,
       });
 
-      if (!environment.isProduction()) recalculateBenefits();
+      recalculateBenefits();
     }
   };
 
@@ -1034,17 +1028,6 @@ function CalculateYourBenefitsForm({
     );
   };
 
-  const renderUpdateBenefitsButton = name => (
-    <button
-      id={`update-${createId(name)}-button`}
-      className="calculate-button"
-      onClick={() => recalculateBenefits(name)}
-      disabled={!inputUpdated}
-    >
-      Update benefits
-    </button>
-  );
-
   const renderMilitaryDetails = () => {
     const name = 'Your military details';
 
@@ -1062,7 +1045,7 @@ function CalculateYourBenefitsForm({
             hideModal={hideModal}
             showModal={showModal}
             inputs={inputs}
-            optionDisabled={environment.isProduction() ? false : isDisabled}
+            optionDisabled={isDisabled}
             displayedInputs={displayedInputs}
             handleInputFocus={handleEYBInputFocus}
             giBillChapterOpen={[displayedInputs?.giBillBenefit]}
@@ -1071,7 +1054,6 @@ function CalculateYourBenefitsForm({
             {renderOnlineClasses()}
           </BenefitsForm>
         </div>
-        {environment.isProduction() && renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
@@ -1115,7 +1097,6 @@ function CalculateYourBenefitsForm({
           {renderCalendar()}
           {renderEnrolled()}
         </div>
-        {environment.isProduction() && renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
@@ -1140,7 +1121,6 @@ function CalculateYourBenefitsForm({
           {renderExtensionBeneficiaryZIP()}
           {renderWorking()}
         </div>
-        {environment.isProduction() && renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
@@ -1177,7 +1157,6 @@ function CalculateYourBenefitsForm({
           {renderBuyUp()}
           {renderScholarships()}
         </div>
-        {environment.isProduction() && renderUpdateBenefitsButton(name)}
         {renderEYBSkipLink()}
       </AccordionItem>
     );
