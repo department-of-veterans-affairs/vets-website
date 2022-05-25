@@ -1,7 +1,7 @@
 {
-  "appName": "Test Form",
+  "appName": "Hello World Page",
   "entryFile": "./app-entry.jsx",
-  "entryName": "hello-world",
+  "entryName": "hello-world-page",
   "rootUrl": "/hello-world",
-  "production": false
+  "e2eTestsDisabled": true
 }
