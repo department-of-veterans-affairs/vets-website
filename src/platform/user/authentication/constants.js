@@ -5,12 +5,15 @@ import environment from '../../utilities/environment';
 import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
 
 export const API_VERSION = 'v1';
+export const SIS_API_VERSION = 'v0';
 
 export const API_SESSION_URL = ({ version = API_VERSION, type = null }) =>
   `${environment.API_URL}/${version}/sessions/${type}/new`;
 
-export const API_SIGN_IN_SERVICE_URL = ({ type = null }) =>
-  `${environment.API_URL}/sign_in/${type}/authorize`;
+export const API_SIGN_IN_SERVICE_URL = ({
+  version = SIS_API_VERSION,
+  type = null,
+}) => `${environment.API_URL}/${version}/sign_in/${type}/authorize`;
 
 export const AUTH_EVENTS = {
   MODAL_LOGIN: 'login-link-clicked-modal',
