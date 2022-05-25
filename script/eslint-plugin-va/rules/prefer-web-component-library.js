@@ -236,7 +236,7 @@ const paginationTransformer = (context, node) => {
             // Update import path to react-bindings
             fixer.replaceText(
               importNode.source,
-              `'web-components/react-bindings'`,
+              `'@department-of-veterans-affairs/component-library/dist/react-bindings'`,
             ),
 
             // Rename component name Pagination to VaPagination

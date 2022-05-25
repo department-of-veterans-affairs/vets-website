@@ -2,20 +2,18 @@ import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
-import head from 'lodash/head';
 import last from 'lodash/last';
-import first from 'lodash/first';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
 import OnThisPageLinks from '../components/OnThisPageLinks';
 import HistoryTable from '../components/HistoryTable';
-import { setPageFocus, getCurrentDebt, currency } from '../utils/page';
-import { renderAdditionalInfo } from '../const/diary-codes';
+import { setPageFocus, getCurrentDebt } from '../utils/page';
 import {
   deductionCodes,
   renderWhyMightIHaveThisDebt,
 } from '../const/deduction-codes';
+import DebtDetailsCard from '../components/DebtDetailsCard';
 
 const DebtDetails = () => {
   const { selectedDebt, debts } = useSelector(
@@ -24,19 +22,19 @@ const DebtDetails = () => {
   const approvedLetterCodes = ['100', '101', '102', '109', '117', '123', '130'];
   const location = useLocation();
   const currentDebt = getCurrentDebt(selectedDebt, debts, location);
-  const mostRecentHistory = head(currentDebt?.debtHistory);
   const whyContent = renderWhyMightIHaveThisDebt(currentDebt.deductionCode);
   const dateUpdated = last(currentDebt.debtHistory)?.date;
-  const dateFirstNotice = first(currentDebt.debtHistory)?.date;
   const filteredHistory = currentDebt.debtHistory
     ?.filter(history => approvedLetterCodes.includes(history.letterCode))
     .reverse();
   const hasFilteredHistory = filteredHistory && filteredHistory.length > 0;
-  const additionalInfo = renderAdditionalInfo(
-    currentDebt.diaryCode,
-    mostRecentHistory?.date,
-    currentDebt.benefitType,
-  );
+
+  const howToUserData = {
+    fileNumber: currentDebt.fileNumber,
+    payeeNumber: currentDebt.payeeNumber,
+    personEntitled: currentDebt.personEntitled,
+    deductionCode: currentDebt.deductionCode,
+  };
 
   useEffect(() => {
     scrollToTop();
@@ -88,39 +86,7 @@ const DebtDetails = () => {
               </span>
             </p>
           )}
-          <dl className="details-table">
-            <div className="details-row">
-              <dt className="details-title">Amount owed:</dt>
-              <dd className="details-data">
-                {currency.format(parseFloat(currentDebt.currentAr))}
-              </dd>
-            </div>
-            <div className="details-row">
-              <dt className="details-title">Original amount:</dt>
-              <dd className="details-data">
-                {currency.format(parseFloat(currentDebt.originalAr))}
-              </dd>
-            </div>
-            {dateFirstNotice && (
-              <div className="details-row">
-                <dt className="details-title">Date of first notice:</dt>
-                <dd className="details-data">
-                  {moment(dateFirstNotice, 'MM-DD-YYYY').format('MMMM D, YYYY')}
-                </dd>
-              </div>
-            )}
-            <div className="details-row">
-              <dt className="details-title">Collection status:</dt>
-              <dd className="details-data">{additionalInfo.status}</dd>
-            </div>
-          </dl>
-          <va-alert
-            status="info"
-            class="vads-u-margin-bottom--4 vads-u-font-size--base"
-            background-only
-          >
-            {additionalInfo.nextStep}
-          </va-alert>
+          <DebtDetailsCard debt={currentDebt} />
           {whyContent && (
             <va-additional-info trigger="Why might I have this debt?">
               {whyContent}
@@ -165,12 +131,8 @@ const DebtDetails = () => {
               </Link>
             </>
           )}
-          <HowDoIPay />
+          <HowDoIPay userData={howToUserData} />
           <NeedHelp />
-          <Link className="vads-u-margin-top--4" to="/debt-balances/">
-            <i aria-hidden="true" className="fa fa-chevron-left" /> Return to
-            your list of debts.
-          </Link>
         </div>
       </section>
     </div>
