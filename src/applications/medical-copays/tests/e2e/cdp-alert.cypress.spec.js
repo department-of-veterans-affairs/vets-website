@@ -31,7 +31,7 @@ describe('Medical Copays - CDP Alerts', () => {
   });
 
   // Has VHA and VBA 404
-  it('should display valid copay balances & other VA debt information', () => {
+  it.skip('should display valid copay balances & other VA debt information', () => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
     cy.intercept('GET', '/v0/medical_copays', mockCopays);
