@@ -2,6 +2,7 @@
 
 require('core-js/stable');
 require('regenerator-runtime/runtime');
+require('dotenv').config();
 const fs = require('fs');
 const fetch = require('node-fetch');
 const path = require('path');
@@ -403,6 +404,12 @@ module.exports = async (env = {}) => {
       },
     },
     plugins: [
+      new webpack.DefinePlugin({
+        'process.env.MAPBOX_TOKEN': JSON.stringify(
+          process.env.MAPBOX_TOKEN || '',
+        ),
+      }),
+
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(buildtype),
         __API__: JSON.stringify(buildOptions.api),
