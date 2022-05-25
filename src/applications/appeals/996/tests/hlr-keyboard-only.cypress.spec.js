@@ -1,33 +1,62 @@
 import path from 'path';
 
 import formConfig from '../config/form';
-import { fixDecisionDates } from './nod.cypress.helpers';
-import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
+import { CONTESTABLE_ISSUES_API, WIZARD_STATUS } from '../constants';
+
+import {
+  mockContestableIssues,
+  // getRandomDate,
+  fixDecisionDates,
+} from './hlr.cypress.helpers';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
+import mockStatus from './fixtures/mocks/profile-status.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 import mockUser from './fixtures/mocks/user.json';
 
-describe.skip('Notice of Disagreement keyboard only navigation', () => {
+describe('Notice of Disagreement keyboard only navigation', () => {
   before(() => {
-    cy.fixture(path.join(__dirname, 'fixtures/data/minimal-test.json')).as(
+    window.sessionStorage.removeItem(WIZARD_STATUS);
+
+    cy.fixture(path.join(__dirname, 'fixtures/data/maximal-test-v2.json')).as(
       'testData',
     );
-    cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [{ name: 'hlrV2', value: true }],
+      },
+    });
     cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);
+    cy.intercept('GET', '/v0/profile/status', mockStatus);
     cy.intercept('POST', formConfig.submitUrl, mockSubmit);
+
+    cy.intercept(
+      'GET',
+      `/v1${CONTESTABLE_ISSUES_API}compensation`,
+      mockContestableIssues,
+    );
+
     cy.login(mockUser);
+  });
+  after(() => {
+    window.sessionStorage.removeItem(WIZARD_STATUS);
   });
 
   it('navigates through a maximal form', () => {
     cy.get('@testData').then(({ data }) => {
       const { chapters } = formConfig;
-      cy.intercept('GET', 'v0/notice_of_disagreements/contestable_issues', {
+      cy.intercept('GET', 'v1/notice_of_disagreements/contestable_issues', {
         data: fixDecisionDates(data.contestableIssues),
       });
       cy.visit(
-        '/decision-reviews/board-appeal/request-board-appeal-form-10182',
+        '/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996',
       );
       cy.injectAxeThenAxeCheck();
+
+      // Wizard
+      cy.tabToElement('input[name="higher-level-review-option"]');
+      cy.chooseRadio('compensation');
+      cy.tabToStartForm();
 
       // Intro page
       cy.tabToStartForm();
@@ -42,20 +71,13 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
       // Homelessness radios
       cy.url().should('include', chapters.infoPages.pages.homeless.path);
       cy.tabToElement('[name="root_homeless"]');
-      cy.chooseRadio('N');
+      cy.chooseRadio(data.homeless ? 'Y' : 'N');
       cy.tabToContinueForm();
 
       // Contact info
       cy.url().should(
         'include',
         chapters.infoPages.pages.confirmContactInformation.path,
-      );
-      cy.tabToContinueForm();
-
-      // Filing deadlines
-      cy.url().should(
-        'include',
-        chapters.conditions.pages.filingDeadlines.path,
       );
       cy.tabToContinueForm();
 
@@ -66,11 +88,11 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
         'include',
         chapters.conditions.pages.contestableIssues.path,
       );
-      cy.tabToInputWithLabel('tinnitus');
+      cy.tabToInputWithLabel('Tinnitus');
       cy.realPress('Space');
       cy.tabToContinueForm();
 
-      // area of disagreement for tinnitus
+      // Area of disagreement for tinnitus
       cy.url().should(
         'include',
         chapters.conditions.pages.areaOfDisagreementFollowUp.path.replace(
@@ -88,19 +110,36 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
       cy.url().should('include', chapters.conditions.pages.issueSummary.path);
       cy.tabToContinueForm();
 
-      // Board review option
+      // Informal conference option
       cy.url().should(
         'include',
-        chapters.boardReview.pages.boardReviewOption.path,
+        chapters.informalConference.pages.requestConference.path,
       );
-      cy.tabToElement('[name="root_boardReviewOption"]');
-      cy.chooseRadio('hearing');
+      cy.tabToElement('[name="root_informalConference"]');
+      cy.chooseRadio(data.informalConference);
       cy.tabToContinueForm();
 
-      // Hearing type
-      cy.url().should('include', chapters.boardReview.pages.hearingType.path);
-      cy.tabToElement('[name="root_hearingTypePreference"]');
-      cy.chooseRadio('video_conference');
+      // Rep name & contact info
+      cy.url().should(
+        'include',
+        chapters.informalConference.pages.representativeInfoV2.path,
+      );
+      const rep = data.informalConferenceRep;
+      const repPrefix = '#root_informalConferenceRep_';
+      cy.typeInIfDataExists(`${repPrefix}firstName`, rep.firstName);
+      cy.typeInIfDataExists(`${repPrefix}lastName`, rep.lastName);
+      cy.typeInIfDataExists(`${repPrefix}phone`, rep.phone);
+      cy.typeInIfDataExists(`${repPrefix}extension`, rep.extension);
+      cy.typeInIfDataExists(`${repPrefix}email`, rep.email);
+      cy.tabToContinueForm();
+
+      // Informal conference time
+      cy.url().should(
+        'include',
+        chapters.informalConference.pages.conferenceTime.path,
+      );
+      cy.tabToElement('[name="root_informalConferenceTime"]');
+      cy.chooseRadio(data.informalConferenceTime);
       cy.tabToContinueForm();
 
       // Review & submit page
