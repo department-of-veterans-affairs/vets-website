@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useCallback } from 'react';
 import { Prompt } from 'react-router-dom';
 import { useLastLocation } from 'react-router-last-location';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { openModal } from '@@vap-svc/actions';
 
 import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
 import {
   cnpDirectDepositIsBlocked,
   showProfileLGBTQEnhancements,
+  profileAlwaysShowDirectDepositDisplay,
 } from '@@profile/selectors';
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
@@ -30,15 +30,32 @@ const getScrollTarget = hash => {
   return document.querySelector(hashWithoutLeadingEdit);
 };
 
-const PersonalInformation = ({
-  clearSuccessAlert,
-  hasUnsavedEdits,
-  hasVAPServiceError,
-  openEditModal,
-  shouldShowProfileLGBTQEnhancements,
-  showDirectDepositBlockedError,
-}) => {
+const PersonalInformation = () => {
   const lastLocation = useLastLocation();
+
+  const showDirectDepositBlockedError = useSelector(
+    state => !!cnpDirectDepositIsBlocked(state),
+  );
+  const hasUnsavedEdits = useSelector(
+    state => state.vapService.hasUnsavedEdits,
+  );
+  const hasVAPServiceError = useSelector(hasVAPServiceConnectionError);
+  const shouldShowProfileLGBTQEnhancements = useSelector(
+    showProfileLGBTQEnhancements,
+  );
+
+  const directDepositIsAlwaysShowing = useSelector(
+    profileAlwaysShowDirectDepositDisplay,
+  );
+
+  const dispatch = useDispatch();
+  const clearSuccessAlert = useCallback(
+    () => dispatch(clearMostRecentlySavedField()),
+    [dispatch],
+  );
+
+  const openEditModal = useCallback(() => dispatch(openModal()), [dispatch]);
+
   useEffect(
     () => {
       if (shouldShowProfileLGBTQEnhancements)
@@ -125,7 +142,8 @@ const PersonalInformation = ({
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}
       >
-        {showDirectDepositBlockedError && <PaymentInformationBlocked />}
+        {showDirectDepositBlockedError &&
+          !directDepositIsAlwaysShowing && <PaymentInformationBlocked />}
         <PersonalInformationContent
           hasVAPServiceError={hasVAPServiceError}
           shouldShowProfileLGBTQEnhancements={
@@ -137,28 +155,6 @@ const PersonalInformation = ({
   );
 };
 
-PersonalInformation.propTypes = {
-  clearSuccessAlert: PropTypes.func.isRequired,
-  hasUnsavedEdits: PropTypes.bool.isRequired,
-  openEditModal: PropTypes.func.isRequired,
-  shouldShowProfileLGBTQEnhancements: PropTypes.bool.isRequired,
-  showDirectDepositBlockedError: PropTypes.bool.isRequired,
-  hasVAPServiceError: PropTypes.bool,
-};
+PersonalInformation.propTypes = {};
 
-const mapStateToProps = state => ({
-  showDirectDepositBlockedError: !!cnpDirectDepositIsBlocked(state),
-  hasUnsavedEdits: state.vapService.hasUnsavedEdits,
-  hasVAPServiceError: hasVAPServiceConnectionError(state),
-  shouldShowProfileLGBTQEnhancements: showProfileLGBTQEnhancements(state),
-});
-
-const mapDispatchToProps = {
-  clearSuccessAlert: clearMostRecentlySavedField,
-  openEditModal: openModal,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PersonalInformation);
+export default PersonalInformation;
