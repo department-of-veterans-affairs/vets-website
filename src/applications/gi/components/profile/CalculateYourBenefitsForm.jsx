@@ -213,9 +213,7 @@ function CalculateYourBenefitsForm({
       if (value === 'spouse' || value === 'child') {
         setIsDisabled(false);
       }
-      if (!environment.isProduction()) {
-        eligibilityChange({ giBillChapter: '33a' });
-      }
+      eligibilityChange({ giBillChapter: '33a' });
     }
     if (!environment.isProduction()) recalculateBenefits();
   };
@@ -1065,7 +1063,7 @@ function CalculateYourBenefitsForm({
             hideModal={hideModal}
             showModal={showModal}
             inputs={inputs}
-            optionDisabled={environment.isProduction() ? false : isDisabled}
+            optionDisabled={isDisabled}
             displayedInputs={displayedInputs}
             handleInputFocus={handleEYBInputFocus}
             giBillChapterOpen={[displayedInputs?.giBillBenefit]}
