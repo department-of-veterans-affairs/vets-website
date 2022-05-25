@@ -41,8 +41,7 @@ const DebtLetterCard = ({ debt }) => {
             <a
               className="vads-u-font-size--md vads-u-font-weight--bold"
               aria-label="Make a payment"
-              href={`/debt-balances/details/${debt.fileNumber +
-                debt.deductionCode}`}
+              href="https://www.pay.va.gov/"
             >
               <i
                 aria-hidden="true"
