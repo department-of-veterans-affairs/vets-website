@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const HowDoIPay = ({ userData }) => (
   <article className="vads-u-font-family--sans vads-u-padding-x--0">
@@ -94,5 +95,14 @@ const HowDoIPay = ({ userData }) => (
     </va-accordion>
   </article>
 );
+
+HowDoIPay.propTypes = {
+  userData: PropTypes.shape({
+    fileNumber: PropTypes.string,
+    payeeNumber: PropTypes.string,
+    personEntitled: PropTypes.string,
+    deductionCode: PropTypes.string,
+  }),
+};
 
 export default HowDoIPay;
