@@ -12,7 +12,7 @@ const generateFeatureToggles = (toggles = {}) => {
     profileShowProfile2 = false,
     profileShowPronounsAndSexualOrientation = false,
     profileShowReceiveTextNotifications = true,
-    profileAlwaysShowDirectDepositDisplay = true,
+    profileAlwaysShowDirectDepositDisplay = false,
   } = toggles;
 
   return {

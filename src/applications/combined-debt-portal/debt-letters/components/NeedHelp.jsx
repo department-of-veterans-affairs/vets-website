@@ -1,15 +1,12 @@
 import React from 'react';
-import Telephone, {
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
 
 const NeedHelp = () => (
-  <article className="vads-u-font-family--sans">
+  <article className="vads-u-font-family--sans vads-u-padding-x--0">
     <h2
       id="howDoIGetHelp"
       className="vads-u-margin-top--4 vads-u-margin-bottom--0"
     >
-      How do I get financial help?
+      How to get financial help
     </h2>
 
     <p className="vads-u-margin-top--2">
@@ -26,21 +23,11 @@ const NeedHelp = () => (
       </li>
       <li>A waiver (ask us to stop collection on the debt)</li>
     </ul>
-
-    <p>
-      You may be required to submit a financial status report. Call the DMC at
-      <Telephone className="vads-u-margin-x--0p5" contact="8008270648" />
-      between 6:30 a.m. and 6:00 p.m. CT to discuss your options and next steps.
-      For international callers, use
-      <Telephone
-        className="vads-u-margin-left--0p5"
-        contact="6127136415"
-        pattern={PATTERNS.OUTSIDE_US}
-      />
-      .
-    </p>
-    <a href="/manage-va-debt/request-debt-help-form-5655/">
-      Find information about submitting a financial status report
+    <a
+      className="vads-c-action-link--blue"
+      href="/manage-va-debt/request-debt-help-form-5655/"
+    >
+      Request help with your debt
     </a>
 
     <section>
@@ -48,19 +35,14 @@ const NeedHelp = () => (
         id="howDoIDispute"
         className="vads-u-margin-top--4 vads-u-margin-bottom--0"
       >
-        How do I dispute a debt?
+        How to dispute a debt
       </h2>
       <p className="vads-u-margin-top--2">
         If you think a debt was created in error, you can dispute it. Get
-        information about disputing a debt by calling the DMC at
-        <Telephone className="vads-u-margin-x--0p5" contact="8008270648" />
-        between 6:30 a.m. and 6:00 p.m. CT. For international callers, use
-        <Telephone
-          className="vads-u-margin-left--0p5"
-          contact="6127136415"
-          pattern={PATTERNS.OUTSIDE_US}
-        />
-        .
+        information about disputing a debt by calling the DMC at{' '}
+        <va-telephone contact="8008270648" /> between 6:30 a.m. and 6:00 p.m.
+        CST. For international callers, use{' '}
+        <va-telephone contact="6127136415" international />.
       </p>
     </section>
   </article>
