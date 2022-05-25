@@ -8,7 +8,6 @@ import TextInput from '@department-of-veterans-affairs/component-library/TextInp
 import recordEvent from 'platform/monitoring/record-event';
 import { getScrollOptions, focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import environment from 'platform/utilities/environment';
 import AlertBox from '../AlertBox';
 import Dropdown from '../Dropdown';
 import RadioButtons from '../RadioButtons';
@@ -212,8 +211,7 @@ function CalculateYourBenefitsForm({
       setIsDisabled(true);
       if (value === 'spouse' || value === 'child') {
         setIsDisabled(false);
-      }
-      {
+      } else {
         eligibilityChange({ giBillChapter: '33a' });
       }
     }
@@ -1036,17 +1034,6 @@ function CalculateYourBenefitsForm({
       </div>
     );
   };
-
-  const renderUpdateBenefitsButton = name => (
-    <button
-      id={`update-${createId(name)}-button`}
-      className="calculate-button"
-      onClick={() => recalculateBenefits(name)}
-      disabled={!inputUpdated}
-    >
-      Update benefits
-    </button>
-  );
 
   const renderMilitaryDetails = () => {
     const name = 'Your military details';
