@@ -1,19 +1,17 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useCallback } from 'react';
 import { Prompt } from 'react-router-dom';
 import { useLastLocation } from 'react-router-last-location';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '@@vap-svc/actions';
 
+import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
+import { cnpDirectDepositIsBlocked } from '@@profile/selectors';
+import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
 import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 import { focusElement } from '~/platform/utilities/ui';
-
-import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
-import { cnpDirectDepositIsBlocked } from '@@profile/selectors';
-import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
@@ -28,21 +26,37 @@ const getScrollTarget = hash => {
   return document.querySelector(hashWithoutLeadingEdit);
 };
 
-const ContactInformation = ({
-  clearSuccessAlert,
-  hasUnsavedEdits,
-  hasVAPServiceError,
-  showDirectDepositBlockedError,
-  openEditModal,
-}) => {
+const ContactInformation = () => {
   const lastLocation = useLastLocation();
-  useEffect(() => {
-    document.title = `Contact Information | Veterans Affairs`;
 
-    return () => {
-      clearSuccessAlert();
-    };
-  }, []);
+  const showDirectDepositBlockedError = useSelector(
+    state => !!cnpDirectDepositIsBlocked(state),
+  );
+  const hasUnsavedEdits = useSelector(
+    state => state.vapService.hasUnsavedEdits,
+  );
+  const hasVAPServiceError = useSelector(state =>
+    hasVAPServiceConnectionError(state),
+  );
+
+  const dispatch = useDispatch();
+  const clearSuccessAlert = useCallback(
+    () => dispatch(clearMostRecentlySavedField()),
+    [dispatch],
+  );
+
+  const openEditModal = useCallback(() => dispatch(openModal()), [dispatch]);
+
+  useEffect(
+    () => {
+      document.title = `Contact Information | Veterans Affairs`;
+
+      return () => {
+        clearSuccessAlert();
+      };
+    },
+    [clearSuccessAlert],
+  );
 
   useEffect(
     () => {
@@ -119,25 +133,6 @@ const ContactInformation = ({
   );
 };
 
-ContactInformation.propTypes = {
-  showDirectDepositBlockedError: PropTypes.bool.isRequired,
-  hasUnsavedEdits: PropTypes.bool.isRequired,
-  hasVAPServiceError: PropTypes.bool,
-  openEditModal: PropTypes.func.isRequired,
-};
+ContactInformation.propTypes = {};
 
-const mapStateToProps = state => ({
-  showDirectDepositBlockedError: !!cnpDirectDepositIsBlocked(state),
-  hasUnsavedEdits: state.vapService.hasUnsavedEdits,
-  hasVAPServiceError: hasVAPServiceConnectionError(state),
-});
-
-const mapDispatchToProps = {
-  clearSuccessAlert: clearMostRecentlySavedField,
-  openEditModal: openModal,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ContactInformation);
+export default ContactInformation;
