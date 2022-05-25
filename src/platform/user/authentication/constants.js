@@ -2,7 +2,10 @@ import React from 'react';
 import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
 import IDMeSVG from 'platform/user/authentication/components/IDMeSVG';
 import environment from '../../utilities/environment';
-import { eauthEnvironmentPrefixes } from '../../utilities/sso/constants';
+import {
+  eauthEnvironmentPrefixes,
+  cernerEnvPrefixes,
+} from '../../utilities/sso/constants';
 
 export const API_VERSION = 'v1';
 export const SIS_API_VERSION = 'v0';
@@ -60,50 +63,22 @@ export const EXTERNAL_APPS = {
   VA_OCC_MOBILE: 'vaoccmobile',
 };
 
-export const MOBILE_APPS = [
-  EXTERNAL_APPS.VA_OCC_MOBILE,
-  EXTERNAL_APPS.VA_FLAGSHIP_MOBILE,
-];
-
-export const OAUTH_ENABLED_APPS = [
-  EXTERNAL_APPS.VA_OCC_MOBILE,
-  EXTERNAL_APPS.VA_FLAGSHIP_MOBILE,
-];
-
-export const OAUTH_ENABLED_POLICIES = [
-  CSP_IDS.MHV,
-  CSP_IDS.DS_LOGON,
-  CSP_IDS.LOGIN_GOV,
-  CSP_IDS.ID_ME,
-];
-
-export const EBenefitsDefaultPath = '/profilepostauth';
+export const EBENEFITS_DEFAULT_PATH = '/profilepostauth';
 
 export const eAuthURL = `https://${
   eauthEnvironmentPrefixes[environment.BUILDTYPE]
 }eauth.va.gov`;
 
-export const EXTERNAL_LINKS = {
-  MY_VA_HEALTH: {
-    STAGING: 'https://staging-patientportal.myhealth.va.gov',
-    PRODUCTION: 'https://patientportal.myhealth.va.gov',
-  },
-  MHV: `${eAuthURL}/mhv-portal-web/eauth`,
-  EBENEFITS: `${eAuthURL}/ebenefits`,
-  VA_FLAGSHIP_MOBILE: `https://${
+export const EXTERNAL_REDIRECTS = {
+  [EXTERNAL_APPS.MY_VA_HEALTH]: `https://${
+    cernerEnvPrefixes[environment.BUILDTYPE]
+  }patientportal.myhealth.va.gov`,
+  [EXTERNAL_APPS.MHV]: `${eAuthURL}/mhv-portal-web/eauth`,
+  [EXTERNAL_APPS.EBENEFITS]: `${eAuthURL}/ebenefits`,
+  [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: `https://${
     eauthEnvironmentPrefixes[environment.BUILDTYPE]
   }fed.eauth.va.gov/oauthe/sps/oauth/oauth20/authorize`,
-  VA_OCC_MOBILE: `${eAuthURL}/MAP/users/v2/landing`,
-};
-
-export const EXTERNAL_REDIRECTS = {
-  [EXTERNAL_APPS.MY_VA_HEALTH]: environment.isProduction()
-    ? EXTERNAL_LINKS.MY_VA_HEALTH.PRODUCTION
-    : EXTERNAL_LINKS.MY_VA_HEALTH.STAGING,
-  [EXTERNAL_APPS.MHV]: EXTERNAL_LINKS.MHV,
-  [EXTERNAL_APPS.EBENEFITS]: EXTERNAL_LINKS.EBENEFITS,
-  [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: EXTERNAL_LINKS.VA_FLAGSHIP_MOBILE,
-  [EXTERNAL_APPS.VA_OCC_MOBILE]: EXTERNAL_LINKS.VA_OCC_MOBILE,
+  [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
 };
 
 export const GA_TRACKING_ID_KEY = 'trackingId';
