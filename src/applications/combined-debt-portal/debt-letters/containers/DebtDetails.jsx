@@ -167,10 +167,6 @@ const DebtDetails = () => {
           )}
           <HowDoIPay />
           <NeedHelp />
-          <Link className="vads-u-margin-top--4" to="/debt-balances/">
-            <i aria-hidden="true" className="fa fa-chevron-left" /> Return to
-            your list of debts.
-          </Link>
         </div>
       </section>
     </div>
