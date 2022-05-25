@@ -37,6 +37,12 @@ const DebtDetails = () => {
     mostRecentHistory?.date,
     currentDebt.benefitType,
   );
+  const howToUserData = {
+    fileNumber: currentDebt.fileNumber,
+    payeeNumber: currentDebt.payeeNumber,
+    personEntitled: currentDebt.personEntitled,
+    deductionCode: currentDebt.deductionCode,
+  };
 
   useEffect(() => {
     scrollToTop();
@@ -165,7 +171,7 @@ const DebtDetails = () => {
               </Link>
             </>
           )}
-          <HowDoIPay />
+          <HowDoIPay userData={howToUserData} />
           <NeedHelp />
         </div>
       </section>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const HowDoIPay = () => (
+const HowDoIPay = ({ userData }) => (
   <article className="vads-u-font-family--sans vads-u-padding-x--0">
     <h2 id="howDoIPay" className="vads-u-margin-top--4 vads-u-margin-bottom-2">
       How to pay your VA debt
@@ -36,24 +36,34 @@ const HowDoIPay = () => (
           You will need to provide the following details to pay this debt
           online:
         </p>
-        <ul className="no-bullets">
-          <li>
-            <strong>File Number: </strong>
-            ######
-          </li>
-          <li>
-            <strong>Payee Number: </strong>
-            ######
-          </li>
-          <li>
-            <strong>Person Entitled: </strong>
-            ######
-          </li>
-          <li>
-            <strong>Deduction Code: </strong>
-            ######
-          </li>
-        </ul>
+
+        {userData ? (
+          <ul className="no-bullets">
+            <li>
+              <strong>File Number: </strong>
+              {userData.fileNumber}
+            </li>
+            <li>
+              <strong>Payee Number: </strong>
+              {userData.payeeNumber}
+            </li>
+            <li>
+              <strong>Person Entitled: </strong>
+              {userData.personEntitled}
+            </li>
+            <li>
+              <strong>Deduction Code: </strong>
+              {userData.deductionCode}
+            </li>
+          </ul>
+        ) : (
+          <ul>
+            <li>File Number</li>
+            <li>Payee Number</li>
+            <li>Person Entitled</li>
+            <li>Deduction Code</li>
+          </ul>
+        )}
 
         <a className="vads-c-action-link--blue" href="https://www.pay.va.gov/">
           Pay on pay.va.gov
