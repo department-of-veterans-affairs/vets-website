@@ -278,6 +278,7 @@ function CalculateYourBenefitsForm({
       'gibct-form-field': field,
       'gibct-form-value': value,
     });
+
     recalculateBenefits();
   };
 
@@ -295,6 +296,7 @@ function CalculateYourBenefitsForm({
         field: 'buyUpAmount',
         value: 600,
       });
+
       recalculateBenefits();
     }
   };
@@ -1042,6 +1044,7 @@ function CalculateYourBenefitsForm({
       </div>
     );
   };
+
 
   const renderMilitaryDetails = () => {
     const name = 'Your military details';
