@@ -5,7 +5,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '@@vap-svc/actions';
 
 import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
-import { cnpDirectDepositIsBlocked } from '@@profile/selectors';
+import {
+  cnpDirectDepositIsBlocked,
+  profileAlwaysShowDirectDepositDisplay,
+} from '@@profile/selectors';
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
   externalServices,
@@ -37,6 +40,10 @@ const ContactInformation = () => {
   );
   const hasVAPServiceError = useSelector(state =>
     hasVAPServiceConnectionError(state),
+  );
+
+  const directDepositIsAlwaysShowing = useSelector(
+    profileAlwaysShowDirectDepositDisplay,
   );
 
   const dispatch = useDispatch();
@@ -126,7 +133,8 @@ const ContactInformation = () => {
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}
       >
-        {showDirectDepositBlockedError && <PaymentInformationBlocked />}
+        {showDirectDepositBlockedError &&
+          !directDepositIsAlwaysShowing && <PaymentInformationBlocked />}
         <ContactInformationContent hasVAPServiceError={hasVAPServiceError} />
       </DowntimeNotification>
     </>
