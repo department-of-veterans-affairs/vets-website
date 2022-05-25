@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
-import { VaTextInput } from 'web-components/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidPhone } from 'platform/forms/validations';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';

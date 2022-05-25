@@ -10,7 +10,7 @@ import {
   VaTextInput,
   VaCheckbox,
   VaSelect,
-} from 'web-components/react-bindings';
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { makeSelectEditContext } from '../../../selectors';
