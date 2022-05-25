@@ -21,7 +21,7 @@ const serviceHistory = require('./service-history');
 
 /* eslint-disable camelcase */
 const responses = {
-  'GET /v0/user': user.user72Success,
+  'GET /v0/user': user.badAddress,
   'GET /v0/profile/status': status,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
