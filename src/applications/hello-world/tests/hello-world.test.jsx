@@ -1,8 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { HelloWorld } from '../components/hello-world';
-// import HelloWorldApi from '../api/HelloWorldApi';
+import submitForm from '../api/HelloWorldApi';
 
 describe('<HelloWorld>', () => {
   it('should display message', () => {
@@ -13,14 +14,18 @@ describe('<HelloWorld>', () => {
 
   it('should mount form', () => {
     const wrapper = mount(<HelloWorld firstField="testing" />);
-    // expect(wrapper.find('.testForm').exists()).to.be.true;
+    // eslint-disable-next-line no-unused-expressions
+    expect(wrapper.find('.testForm').exists()).to.be.true;
     wrapper.unmount();
   });
 
   it('should call api with entered value', () => {
     const wrapper = mount(<HelloWorld />);
-    wrapper.find('.testForm').simulate('click');
-    // expect(HelloWorldApi.submitForm).to.have.been.called();
+    const spy = sinon.spy(submitForm);
+    // wrapper.find('.testForm').simulate('submit');
+    wrapper.find('.button').simulate('click');
+    // eslint-disable-next-line no-unused-expressions
+    expect(spy.called).to.be.true;
     wrapper.unmount();
   });
 });

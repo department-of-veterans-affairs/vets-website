@@ -1,12 +1,23 @@
 import React from 'react';
-import HelloWorldApi from '../api/HelloWorldApi';
+import submitForm from '../api/HelloWorldApi';
 
 export class HelloWorld extends React.PureComponent {
   async handleSubmit(event) {
     event.preventDefault();
     try {
       const form = this.getFormState();
-      await HelloWorldApi.submitForm(form);
+      await submitForm(form);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log('error');
+    }
+  }
+
+  async handleClick(event) {
+    event.preventDefault();
+    try {
+      const form = this.getFormState();
+      await submitForm(form);
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log('error');
@@ -37,7 +48,12 @@ export class HelloWorld extends React.PureComponent {
               onChange={this.handleChangeFor('firstField')}
             />
           </label>
-          <input type="submit" value="Submit" />
+          <input
+            className="button"
+            type="submit"
+            value="Submit"
+            onClick={this.handleClick}
+          />
         </form>
       </div>
     );

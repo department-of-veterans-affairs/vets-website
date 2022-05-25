@@ -1,7 +1,7 @@
 import HelloWorld from './components/hello-world';
 
 const routes = {
-  path: '/',
+  path: '/hello-world',
   component: HelloWorld,
 };
 

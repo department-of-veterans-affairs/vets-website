@@ -1,12 +1,12 @@
-import axios from 'axios';
+import { apiRequest } from 'platform/utilities/api';
 
-const HelloWorldApi = {
-  submitForm: async firstField => {
-    await axios.post(
-      `https://localhost:3000/test/message/:message`,
-      firstField,
-    );
-  },
+export const submitForm = form => {
+  const optionalSettings = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    body: form,
+  };
+  return apiRequest('/test/message/', optionalSettings);
 };
 
-export default HelloWorldApi;
+export default submitForm;
