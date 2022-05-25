@@ -5,18 +5,17 @@ import { useLastLocation } from 'react-router-last-location';
 import { connect } from 'react-redux';
 import { openModal } from '@@vap-svc/actions';
 
-import DowntimeNotification, {
-  externalServices,
-} from '~/platform/monitoring/DowntimeNotification';
-import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
-import { focusElement } from '~/platform/utilities/ui';
-
 import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
 import {
   cnpDirectDepositIsBlocked,
   showProfileLGBTQEnhancements,
 } from '@@profile/selectors';
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
+import DowntimeNotification, {
+  externalServices,
+} from '~/platform/monitoring/DowntimeNotification';
+import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
+import { focusElement } from '~/platform/utilities/ui';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
@@ -40,15 +39,19 @@ const PersonalInformation = ({
   showDirectDepositBlockedError,
 }) => {
   const lastLocation = useLastLocation();
-  useEffect(() => {
-    if (shouldShowProfileLGBTQEnhancements)
-      document.title = `Personal Information | Veterans Affairs`;
-    else document.title = `Personal And Contact Information | Veterans Affairs`;
+  useEffect(
+    () => {
+      if (shouldShowProfileLGBTQEnhancements)
+        document.title = `Personal Information | Veterans Affairs`;
+      else
+        document.title = `Personal And Contact Information | Veterans Affairs`;
 
-    return () => {
-      clearSuccessAlert();
-    };
-  }, []);
+      return () => {
+        clearSuccessAlert();
+      };
+    },
+    [clearSuccessAlert, shouldShowProfileLGBTQEnhancements],
+  );
 
   useEffect(
     () => {
@@ -135,11 +138,12 @@ const PersonalInformation = ({
 };
 
 PersonalInformation.propTypes = {
-  showDirectDepositBlockedError: PropTypes.bool.isRequired,
+  clearSuccessAlert: PropTypes.func.isRequired,
   hasUnsavedEdits: PropTypes.bool.isRequired,
-  hasVAPServiceError: PropTypes.bool,
   openEditModal: PropTypes.func.isRequired,
   shouldShowProfileLGBTQEnhancements: PropTypes.bool.isRequired,
+  showDirectDepositBlockedError: PropTypes.bool.isRequired,
+  hasVAPServiceError: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
