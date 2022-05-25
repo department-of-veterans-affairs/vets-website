@@ -1,20 +1,13 @@
-import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 import formConfig from './config/form';
-import App from './containers/App';
+import App from './containers/App.jsx';
 
-const routeObjects = createRoutesWithSaveInProgress(formConfig);
+const route = {
+  path: '/',
+  component: App,
+  indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
 
-const route = (
-  <Switch>
-    <Route exact path="/">
-      <App>
-        <Redirect to="/introduction" />
-      </App>
-    </Route>
-    {routeObjects}
-  </Switch>
-);
+  childRoutes: createRoutesWithSaveInProgress(formConfig),
+};
 
 export default route;

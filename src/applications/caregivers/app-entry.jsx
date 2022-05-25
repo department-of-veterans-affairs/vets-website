@@ -1,7 +1,7 @@
 import 'platform/polyfills';
 import './sass/caregivers.scss';
 
-import startApp from 'platform/startup/router';
+import startApp from 'platform/startup';
 
 import routes from './routes';
 import reducer from './reducers';
