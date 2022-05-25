@@ -47,9 +47,7 @@ const HTMLStatementPage = ({ match }) => {
           >
             {prevPage}
           </a>
-          <a href={`/summary/copay-balances/${selectedId}/detail/statement`}>
-            {title}
-          </a>
+          <a href={`/copay-balances/${selectedId}/detail/statement`}>{title}</a>
         </va-breadcrumbs>
         <h1 data-testid="statement-page-title">{title}</h1>
         <p
@@ -60,7 +58,7 @@ const HTMLStatementPage = ({ match }) => {
         </p>
         <Link
           className="vads-u-font-size--sm"
-          to={`/balance-details/${selectedId}`}
+          to={`/copay-balances/${selectedId}/detail`}
         >
           <i
             className="fa fa-chevron-left vads-u-margin-right--1"

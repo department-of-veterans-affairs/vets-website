@@ -5,6 +5,12 @@ import sinon from 'sinon';
 import environment from 'platform/utilities/environment';
 import { mockApiRequest } from 'platform/testing/unit/helpers';
 import { ConnectedDevicesContainer } from '../../components/ConnectedDevicesContainer';
+import {
+  CONNECTION_FAILED_STATUS,
+  CONNECTION_SUCCESSFUL_STATUS,
+  DISCONNECTION_FAILED_STATUS,
+  DISCONNECTION_SUCCESSFUL_STATUS,
+} from '../../constants/alerts';
 
 const noDevicesConnectedState = {
   devices: [
@@ -157,10 +163,17 @@ describe('Connect Devices Container', () => {
 describe('Device connection url parameters', () => {
   const successUrl = `${
     environment.BASE_URL
-  }/health-care/connected-devices/?vendor-1=success#_=_`;
+  }/health-care/connected-devices/?vendor-1=${CONNECTION_SUCCESSFUL_STATUS}#_=_`;
   const failureUrl = `${
     environment.BASE_URL
-  }/health-care/connected-devices/?vendor-1=error#_=_`;
+  }/health-care/connected-devices/?vendor-1=${CONNECTION_FAILED_STATUS}#_=_`;
+  const successfulDisconnectUrl = `${
+    environment.BASE_URL
+  }/health-care/connected-devices/?vendor-1=${DISCONNECTION_SUCCESSFUL_STATUS}#_=_`;
+
+  const failedDisconnectUrl = `${
+    environment.BASE_URL
+  }/health-care/connected-devices/?vendor-1=${DISCONNECTION_FAILED_STATUS}#_=_`;
   const savedLocation = window.location;
 
   beforeEach(() => {
@@ -179,8 +192,9 @@ describe('Device connection url parameters', () => {
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
     );
-    expect(await connectedDevicesContainer.findByTestId('success-alert')).to
-      .exist;
+    expect(
+      await connectedDevicesContainer.findByTestId('connection-success-alert'),
+    ).to.exist;
   });
 
   it('should render failure alert when url params contain a error message', async () => {
@@ -191,7 +205,26 @@ describe('Device connection url parameters', () => {
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
     );
-    expect(await connectedDevicesContainer.findByTestId('failure-alert')).to
-      .exist;
+    expect(
+      await connectedDevicesContainer.findByTestId('connection-failure-alert'),
+    ).to.exist;
+  });
+  it('should render successful disconnection alert when url params contain a disconnect success message', async () => {
+    await mockApiRequest(oneDeviceConnectedState);
+    window.location = Object.assign(new URL(successfulDisconnectUrl), {
+      ancestorOrigins: '',
+      assign: sinon.spy(),
+    });
+    const screen = renderInReduxProvider(<ConnectedDevicesContainer />);
+    expect(screen.findByTestId('disconnection-success-alert')).to.exist;
+  });
+  it('should render failed disconnection alert when url params contain a disconnect failure message', async () => {
+    await mockApiRequest(oneDeviceConnectedState);
+    window.location = Object.assign(new URL(failedDisconnectUrl), {
+      ancestorOrigins: '',
+      assign: sinon.spy(),
+    });
+    const screen = renderInReduxProvider(<ConnectedDevicesContainer />);
+    expect(await screen.findByTestId('disconnection-failure-alert')).to.exist;
   });
 });
