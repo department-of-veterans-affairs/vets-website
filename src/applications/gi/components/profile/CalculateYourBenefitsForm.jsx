@@ -40,7 +40,6 @@ function CalculateYourBenefitsForm({
   focusHandler,
 }) {
   const [invalidZip, setInvalidZip] = useState('');
-  const [inputUpdated, setInputUpdated] = useState(false);
   const [expanded, setExpanded] = useState({
     yourBenefits: true,
     aboutYourSchool: false,
@@ -258,7 +257,6 @@ function CalculateYourBenefitsForm({
       'gibct-form-field': field,
       'gibct-form-value': value,
     });
-
     recalculateBenefits();
   };
 
