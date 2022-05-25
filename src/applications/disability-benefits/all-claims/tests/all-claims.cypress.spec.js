@@ -66,7 +66,7 @@ const testConfig = createTestConfig(
             window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
           }
           // Start form
-          cy.findAllByText(/start/i, { selector: 'button' })
+          cy.findAllByText(/start the/i, { selector: 'a' })
             .first()
             .click();
         });
