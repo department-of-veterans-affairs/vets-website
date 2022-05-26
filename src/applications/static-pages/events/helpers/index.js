@@ -64,7 +64,20 @@ export const deriveMostRecentDate = (
   return futureDates[0];
 };
 
-export const deriveResults = (events, page, perPage) => {
+export const removeDuplicateEvents = events => {
+  return events.reduce((allEvents, event) => {
+    const currentEventIds = allEvents.map(
+      currentEvent => currentEvent.entityId,
+    );
+
+    return !currentEventIds.includes(event.entityId)
+      ? [...allEvents, event]
+      : allEvents;
+  }, []);
+};
+
+export const deriveResults = (allEvents, page, perPage) => {
+  const events = removeDuplicateEvents(allEvents);
   // Escape early if we do not have events, page, or perPage.
   if (isEmpty(events) || !page || !perPage) {
     return events;
@@ -100,11 +113,12 @@ export const deriveResultsEndNumber = (page, perPage, totalResults) => {
 };
 
 export const filterEvents = (
-  events,
+  allEvents,
   filterBy,
   options = {},
   now = moment(),
 ) => {
+  const events = removeDuplicateEvents(allEvents);
   // Escape early if there are no events.
   if (isEmpty(events)) {
     return [];
