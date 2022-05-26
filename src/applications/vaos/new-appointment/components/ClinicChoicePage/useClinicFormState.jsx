@@ -40,11 +40,11 @@ export default function useClinicFormState() {
         const siteId = getSiteIdFromFacilityId(initialData.vaFacility);
 
         pastAppointments.forEach(appt => {
-          const apptTime = appt.version === 1 ? appt.startDate : appt.start;
+          const apptTime = appt.version === 2 ? appt.start : appt.startDate;
           const clinicId =
-            appt.version === 1 ? appt.clinicId : appt.location.clinicId;
+            appt.version === 2 ? appt.location.clinicId : appt.clinicId;
           const facilityId =
-            appt.version === 1 ? appt.facilityId : appt.location.stationId;
+            appt.version === 2 ? appt.location.stationId : appt.facilityId;
           const latestApptTime = pastAppointmentDateMap.get(clinicId);
           if (
             // Remove parse function when converting the past appointment call to FHIR service

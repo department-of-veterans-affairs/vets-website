@@ -450,6 +450,7 @@ export function transformConfirmedAppointment(appt) {
       isCOVIDVaccine: appt.char4 === 'CDQC',
       apiData: appt,
     },
+    version: 1,
   };
 }
 
