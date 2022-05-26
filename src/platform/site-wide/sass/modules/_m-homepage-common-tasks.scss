@@ -15,27 +15,6 @@
     list-style: none;
   }
 
-  &__search {
-    input[type="search"] {
-      display: inline-block;
-      height: 37px;
-
-      @include media($small-desktop-screen) {
-        width: 75%;
-      }
-    }
-
-    button {
-      display: inline-block;
-      border-radius: 0 0.3rem 0.3rem 0;
-      height: 39px;
-
-      @include media($small-desktop-screen) {
-        width: 20%;
-      }
-    }
-  }
-
   &__search-tools {
     ul {
       list-style: none;
