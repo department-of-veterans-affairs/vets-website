@@ -5,7 +5,7 @@ import {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
-import { isProfileLoading } from 'platform/user/selectors';
+import { isProfileLoading, isLoggedIn } from 'platform/user/selectors';
 import { fetchDebtLetters } from '../actions/debts';
 import { getStatements } from '../actions/copays';
 import {
@@ -16,15 +16,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 
 const CombinedPortalApp = ({ children }) => {
   const dispatch = useDispatch();
-
-  useEffect(
-    () => {
-      fetchDebtLetters(dispatch);
-      getStatements(dispatch);
-    },
-    [dispatch],
-  );
-
+  const userLoggedIn = useSelector(state => isLoggedIn(state));
   const isCombinedPortalActive = useSelector(state =>
     combinedPortalAccess(state),
   );
@@ -32,27 +24,37 @@ const CombinedPortalApp = ({ children }) => {
   // Generic loading flags
   const isLoadingFlags = useSelector(state => selectLoadingFeatureFlags(state));
   const profileLoading = useSelector(state => isProfileLoading(state));
+  const isPlatformLoading = isLoadingFlags || profileLoading;
+
   // Debt and Bill loading flags
   const { debtLetters, mcp } = useSelector(
     ({ combinedPortal }) => combinedPortal,
   );
-  const { pending } = mcp;
+  const { pending: isMcpLoading } = mcp;
   const { isPending, isPendingVBMS, isProfileUpdating } = debtLetters;
+  const isDebtLoading = isPending || isPendingVBMS || isProfileUpdating;
+
+  useEffect(
+    () => {
+      if (userLoggedIn) {
+        fetchDebtLetters(dispatch);
+        getStatements(dispatch);
+      }
+    },
+    [dispatch, userLoggedIn],
+  );
+
+  // Authentication!
+  if (!profileLoading && !userLoggedIn) {
+    window.location.replace('/manage-debt-and-bills/');
+    return <LoadingSpinner margin={5} />;
+  }
 
   // Hold off on loading until everyone is ready
-  if (
-    isLoadingFlags ||
-    profileLoading ||
-    pending ||
-    isPending ||
-    isPendingVBMS ||
-    isProfileUpdating
-  ) {
+  if (isPlatformLoading || isMcpLoading || isDebtLoading) {
     return <LoadingSpinner />;
   }
 
-  // TODO: we'll probably need to have a unauth redirect checking 'userLoggedIn'
-  //   isLoggedIn: state.user.login.currentlyLoggedIn
   if (!isCombinedPortalActive) {
     window.location.replace('/');
     return (
