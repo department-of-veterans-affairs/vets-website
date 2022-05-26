@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function ClaimSyncWarning({ olderVersion }) {
   let additionalText;
@@ -27,3 +28,7 @@ export default function ClaimSyncWarning({ olderVersion }) {
     </div>
   );
 }
+
+ClaimSyncWarning.propTypes = {
+  olderVersion: PropTypes.bool,
+};
