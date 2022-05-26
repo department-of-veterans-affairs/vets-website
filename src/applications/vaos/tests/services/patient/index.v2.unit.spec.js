@@ -64,6 +64,11 @@ describe('VAOS Patient service v0/v2 comparison', () => {
           useV2: true,
         }),
       ]);
+
+      // These are always different
+      delete v0Result.pastAppointments;
+      delete v2Result.pastAppointments;
+
       const differences = diff(v0Result, v2Result);
 
       // Then both results are the same
@@ -144,6 +149,11 @@ describe('VAOS Patient service v0/v2 comparison', () => {
           useV2: true,
         }),
       ]);
+
+      // These are always different
+      delete v0Result.pastAppointments;
+      delete v2Result.pastAppointments;
+
       const differences = diff(v0Result, v2Result);
 
       // Then both results are the same
@@ -401,6 +411,11 @@ describe('VAOS Patient service v0/v2 comparison', () => {
           useV2: true,
         }),
       ]);
+
+      // These are always different
+      delete v0Result.pastAppointments;
+      delete v2Result.pastAppointments;
+
       const differences = diff(v0Result, v2Result);
 
       // Then both results are the same
@@ -465,6 +480,7 @@ describe('VAOS Patient service v0/v2 comparison', () => {
             version: 2,
           }),
         ],
+        pastClinics: true,
         version: 2,
       });
 
@@ -483,6 +499,11 @@ describe('VAOS Patient service v0/v2 comparison', () => {
           useV2: true,
         }),
       ]);
+
+      // These are always different
+      delete v0Result.pastAppointments;
+      delete v2Result.pastAppointments;
+
       const differences = diff(v0Result, v2Result);
 
       // Then both results are the same
@@ -632,6 +653,7 @@ describe('VAOS Patient service v0/v2 comparison', () => {
             version: 2,
           }),
         ],
+        pastClinics: true,
         version: 2,
       });
 
@@ -650,6 +672,11 @@ describe('VAOS Patient service v0/v2 comparison', () => {
           useV2: true,
         }),
       ]);
+
+      // These are always different
+      delete v0Result.pastAppointments;
+      delete v2Result.pastAppointments;
+
       const differences = diff(v0Result, v2Result);
 
       // Then both results are the same

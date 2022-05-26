@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
+const moment = require('moment');
 
 // var
 const confirmedVA = require('./var/confirmed_va.json');
@@ -229,9 +230,29 @@ const responses = {
   },
   'GET /vaos/v2/appointments': (req, res) => {
     if (req.query.statuses?.includes('proposed')) {
+      if (req.query.start && req.query.end) {
+        return res.json({
+          data: confirmedV2.data.filter(appt => {
+            const d = moment(appt.attributes.start);
+            return d.isValid()
+              ? d.isBetween(req.query.start, req.query.end, 'day', '(]')
+              : false;
+          }),
+        });
+      }
       return res.json(requestsV2);
     }
     if (req.query.statuses?.includes('booked')) {
+      if (req.query.start && req.query.end) {
+        return res.json({
+          data: confirmedV2.data.filter(appt => {
+            const d = moment(appt.attributes.start);
+            return d.isValid()
+              ? d.isBetween(req.query.start, req.query.end, 'day', '(]')
+              : false;
+          }),
+        });
+      }
       return res.json(confirmedV2);
     }
 
