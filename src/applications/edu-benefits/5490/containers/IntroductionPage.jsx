@@ -36,6 +36,7 @@ export class IntroductionPage extends React.Component {
     const show = showWizard && status !== WIZARD_STATUS_COMPLETE;
 
     if (showWizard === undefined) return null;
+
     if (showUpdatedFryDeaApp) {
       return (
         <div className="schemaform-intro">
@@ -83,7 +84,10 @@ export class IntroductionPage extends React.Component {
                   Make sure you meet our eligibility requirements before you
                   apply.
                 </p>
-                <va-additional-info trigger="What are the Fry Scholarship (Chapter 33) eligibility requirements?">
+                <va-additional-info
+                  class="vads-u-margin-bottom--2"
+                  trigger="What are the Fry Scholarship (Chapter 33) eligibility requirements?"
+                >
                   <p>
                     <strong>
                       You are the child or surviving spouse of a service member
@@ -107,11 +111,9 @@ export class IntroductionPage extends React.Component {
                       service-connect disability on or after September 11, 2001
                     </li>
                   </ul>
-                  <p>
-                    <a href="/">
-                      Learn more about the Fry Scholarship (Chapter 33)
-                    </a>
-                  </p>
+                  <a href="/">
+                    Learn more about the Fry Scholarship (Chapter 33)
+                  </a>
                 </va-additional-info>
 
                 <va-additional-info trigger="What are the Survivors' and Dependents' Educational Assistance (DEA, Chapter 35) eligibility requirements?">
@@ -125,20 +127,20 @@ export class IntroductionPage extends React.Component {
                   <ul>
                     <li>
                       The Veteran or service member is permanently and totally
-                      disabled due to a service-connected disability,
+                      disabled due to a service-connected disability,{' '}
                       <strong>or</strong>
                     </li>
                     <li>
                       The Veteran or service member died while on active duty or
-                      as the result of a service-connect disability,
+                      as the result of a service-connect disability,{' '}
                       <strong>or</strong>
                     </li>
                     The Veteran or service member is missing in action or was
-                    captured in the line of duty by a hostile force,
+                    captured in the line of duty by a hostile force,{' '}
                     <strong>or</strong>
                     <li>
                       The Veteran or service member was forcibly detained (held)
-                      or interned in the line of duty by a foreign entity,
+                      or interned in the line of duty by a foreign entity,{' '}
                       <strong>or</strong>
                     </li>
                     <li>
@@ -146,16 +148,13 @@ export class IntroductionPage extends React.Component {
                       getting outpatient treatment for a service-connect
                       permanent and total disibility and is likely to be
                       discharged for the disability (effective December 23,
-                      2006),
-                      <strong>or</strong>
+                      2006), <strong>or</strong>
                     </li>
                   </ul>
-                  <p>
-                    <a href="/">
-                      Learn more about Survivors' and Dependents' Educational
-                      Assistance (DEA, Chapter 35)
-                    </a>
-                  </p>
+                  <a href="/">
+                    Learn more about Survivors' and Dependents' Educational
+                    Assistance (DEA, Chapter 35)
+                  </a>
                 </va-additional-info>
               </li>
               <li className="process-step list-two">
@@ -165,7 +164,7 @@ export class IntroductionPage extends React.Component {
                 <p>
                   <strong>Here’s what you’ll need to apply</strong>:
                 </p>
-                <ul>
+                <ul className="vads-u-margin-bottom--0">
                   <li>
                     Knowledge of your chosen Veteran of service member's
                     military service history

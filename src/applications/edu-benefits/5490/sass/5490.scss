@@ -6,3 +6,7 @@
 #root_view\:noSSN ~ .schemaform-label {
   margin-top: 3rem;
 }
+
+.process ul.vads-u-margin-bottom--0 {
+  margin-bottom: 0 !important; // Override .process ul
+}
