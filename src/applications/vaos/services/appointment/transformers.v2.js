@@ -107,10 +107,10 @@ export function transformVAOSAppointment(appt) {
       duration: appt.minutesDuration,
       providers: (providers || []).map(provider => ({
         name: {
-          firstName: provider.name.given,
-          lastName: provider.name.family,
+          firstName: provider.name?.given,
+          lastName: provider.name?.family,
         },
-        display: `${provider.name.given} ${provider.name.family}`,
+        display: `${provider.name?.given} ${provider.name?.family}`,
       })),
       isAtlas,
       atlasLocation: isAtlas ? getAtlasLocation(appt) : null,
@@ -195,10 +195,14 @@ export function transformVAOSAppointment(appt) {
         ? {
             practiceName: appt.extension?.ccLocation?.practiceName,
             address: appt.extension?.ccLocation?.address,
-            telecom: null,
-            firstName: null,
-            lastName: null,
-            providerName: null,
+            telecom: appt.contact?.telecom,
+            providers: (providers || []).map(provider => ({
+              name: {
+                firstName: provider.name?.given,
+                lastName: provider.name?.family,
+              },
+              providerName: `${provider.name?.given} ${provider.name?.family}`,
+            })),
           }
         : null,
     practitioners: appt.practitioners,

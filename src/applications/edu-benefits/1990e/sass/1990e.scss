@@ -1,0 +1,80 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+// @import "~@department-of-veterans-affairs/formation/sass/modules/m-progress-bar";
+@import "../../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../../platform/forms/sass/m-form-confirmation";
+
+va-alert ul {
+	margin-bottom: 0;
+}
+
+.toe-form-featured-content {
+	background-color: $color-gray-lightest;
+	padding: 24px;
+}
+
+.toe-definition-list {
+	margin: 0;
+}
+.toe-definition-list:after {
+	clear: both;
+	content: "";
+	display: table;
+}
+.toe-definition-list_term,
+.toe-definition-list_definition {
+	float: left;
+}
+.toe-definition-list_term {
+	clear: left;
+	font-weight: bold;
+	margin-top: 0;
+}
+.toe-definition-list_definition {
+	margin-left: 1em;
+}
+
+// Sponsors List
+.toe-sponsors {
+	list-style-type: none;
+}
+
+// Sponsors Checkboxes
+#root_firstSponsor-label,
+.toe-sponsors_legend {
+	display: flex !important; // override label styling
+	flex-flow: row wrap;
+}
+.toe-sponsors-labels_label--main {
+	flex: 0 1 auto;
+	order: 0;
+}
+.toe-sponsors-labels_label--secondary {
+	color: $color-gray;
+	flex: 1 1 100%;
+	order: 2;
+}
+#root_firstSponsor-label .schemaform-required-span,
+.toe-sponsors_legend .form-required-span {
+	flex: 0 1 auto;
+	order: 1;
+}
+
+// Review Page
+.toe-review-page-only {
+	display: none;
+}
+.form-review-panel-page .toe-review-page-only {
+	display: block;
+}
+.review-row .toe-review-page_selected-sponsors {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+.review .toe-sponsors-labels_label--secondary {
+	display: none;
+}
