@@ -31,7 +31,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showIcon: false,
         showLinks: false,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             Please contact us through IRIS or call us at <ContactDMC /> to
             verify your military status. We’re here Monday through Friday, 7:30
             a.m. to 7:00 p.m. ET.
@@ -50,7 +50,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: true,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             We’ve added interest to your balance. To avoid more interest charges
             or further collection action, you must pay your full balance or
             request financial help before ${endDate(dateOfLetter, 30)}. If you
@@ -71,7 +71,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: true,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             To avoid further collection action on your bill, you must pay your
             full balance or request financial help before{' '}
             {endDate(dateOfLetter, 30)}. If you don’t, this debt may be referred
@@ -91,7 +91,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: true,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             To avoid your debt being referred to the U.S. Department of the
             Treasury, you must pay your full balance or request financial help
             before {endDate(dateOfLetter, 30)}.
@@ -105,7 +105,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showIcon: false,
         showLinks: false,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             Please contact us through IRIS or call us at <ContactDMC /> to
             update your address. We’re here Monday through Friday, 7:30 a.m. to
             7:00 p.m. ET.
@@ -124,9 +124,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: false,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
-            Your compromise offer must be paid with a single payment.
-          </p>
+          <p>Your compromise offer must be paid with a single payment.</p>
         ),
       };
     case '061':
@@ -144,7 +142,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: true,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             We’ll let you know when we start collecting on this debt again. You
             don’t have to do anything until that time.
           </p>
@@ -160,7 +158,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: false,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             We’ll send you a letter with our decision. Please continue to make
             payments monthly while we complete our review. <br />
             <br />
@@ -179,7 +177,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: false,
         showRequestHelp: false,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             Please check your debt balance again soon. If it isn’t adjusted to
             reflect your payment within 30 days, call us at <ContactDMC />,
             Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
@@ -198,7 +196,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: false,
         showRequestHelp: false,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             Please check back in 1 week for updates. If your account shows the
             same information then call us at <ContactDMC />, Monday through
             Friday, 7:30 a.m. to 7:00 p.m. ET.
@@ -220,7 +218,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: false,
         showRequestHelp: false,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             Please check back in 30 days for updates. If your account shows the
             same information then call us at <ContactDMC />, Monday through
             Friday, 7:30 a.m. to 7:00 p.m. ET.
@@ -240,7 +238,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: true,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             Call the U.S. Department of the Treasury’s Debt Management Services
             at <span className="underline">888-826-3127</span>, 8:30 a.m. to
             6:30 p.m. ET. Don’t send us a payment directly. This will delay
@@ -290,7 +288,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: true,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             To avoid collection actions on your bill, you must pay your full
             balance or request financial help before {endDate(dateOfLetter, 30)}
             . If you don’t, this debt may be referred to the U.S. Department of
@@ -308,7 +306,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: false,
         showRequestHelp: false,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             If you’d like to pay in full now, call us first to ensure you don’t
             overpay. If you stop receiving VA benefits, call us to set up a new
             payment plan. We can be reached at{' '}
@@ -340,7 +338,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: false,
         showRequestHelp: false,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             If you’d like to pay in full now, call us first to ensure you don’t
             overpay. If you stop receiving VA benefits, call us to set up a new
             payment plan. We can be reached at{' '}
@@ -366,7 +364,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: true,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             To avoid late fees or further collection action on your bill, you
             must pay your full balance or request financial help before{' '}
             {endDate(dateOfLetter, 30)}.
@@ -386,7 +384,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: true,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             To avoid late fees or further collection action on your bill, you
             must pay your full balance or request financial help before{' '}
             {endDate(dateOfLetter, 30)}. If you don’t, this debt may be referred
@@ -405,9 +403,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: true,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
-            Your next payment is due by {endDate(dateOfLetter, 30)}.
-          </p>
+          <p>Your next payment is due by {endDate(dateOfLetter, 30)}.</p>
         ),
       };
     case '603':
@@ -423,7 +419,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: true,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             To avoid late fees or collection action on your bill, you must make
             a payment on your balance or request financial help before{' '}
             {endDate(dateOfLetter, 30)}.
@@ -441,7 +437,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: true,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             You can request a waiver, compromise, or extended monthly payment
             plan by filling out the Financial Status Report (VA FORM 5655)
             online or by mail.
@@ -457,7 +453,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: true,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             To avoid collection actions on your bill, you must pay your full
             balance or request financial help.
           </p>
@@ -473,7 +469,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: false,
         showRequestHelp: true,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             If you’d like to pay in full now, call the U.S. Department of the
             Treasury’s Debt. Management Services at{' '}
             <span className="underline">888-826-3127</span>, 8:30 a.m. to 6:30
@@ -497,7 +493,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: false,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             We’ll send you a letter with our decision. Please continue to make
             payments monthly while we complete our review. <br />
             <br />
@@ -516,7 +512,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: false,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             We’ll send you a letter with our decision. Please continue to make
             payments monthly while we complete our review. <br />
             <br />
@@ -535,7 +531,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: false,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             We’ll send you a letter with our decision. Please continue to make
             payments monthly while we complete our review. <br />
             <br />
@@ -554,7 +550,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showMakePayment: true,
         showRequestHelp: false,
         bodyText: (
-          <p data-testid="diary-code-080-next-step">
+          <p>
             We’ll send you a letter with our decision. Please continue to make
             payments monthly while we complete our review. <br />
             <br />
@@ -576,11 +572,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showLinks: false,
         showMakePayment: false,
         showRequestHelp: false,
-        bodyText: (
-          <p data-testid="diary-code-080-next-step">
-            You don’t need to do anything at this time.
-          </p>
-        ),
+        bodyText: <p>You don’t need to do anything at this time.</p>,
       };
   }
 };
