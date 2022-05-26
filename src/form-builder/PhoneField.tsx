@@ -30,7 +30,6 @@ const PhoneField = (props: PhoneProps): JSX.Element => {
       {...props}
       onChange={field.onChange}
       value={value}
-      required
       onBlur={() => helpers.setTouched(true)}
     />
   );

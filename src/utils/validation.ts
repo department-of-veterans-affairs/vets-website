@@ -80,7 +80,8 @@ export const isValidEmail = <T>(
   props: FieldProps<T>
 ): ValidationFunctionResult<T> => {
   if (typeof emailString !== 'string') {
-    return 'Error: Email is not the correct type'; // This shouldn't happen
+    console.warn('emailString was not of type string');
+    return '';
   }
 
   // Comes from StackOverflow: http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
@@ -97,7 +98,8 @@ export const isValidPhone = <T>(
   props: FieldProps<T>
 ): ValidationFunctionResult<T> => {
   if (typeof phoneString !== 'string') {
-    return 'Error: Phone is not the correct type'; // This shouldn't happen
+    console.warn('phoneString was not of type string');
+    return '';
   }
   function validPhone(value: string) {
     // Strip spaces, dashes, and parens
@@ -124,7 +126,8 @@ export const isValidSSN = <T>(
   props: FieldProps<T>
 ): ValidationFunctionResult<T> => {
   if (typeof ssnString !== 'string') {
-    return 'Error: ssnString is not the correct type.'; // This shouldn't happen
+    console.warn('ssnString was not of type string');
+    return '';
   }
 
   const noBadSameDigitNumber = range(0, 10).every((i) => {

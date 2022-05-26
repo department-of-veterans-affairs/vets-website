@@ -29,7 +29,6 @@ const EmailField = (props: EmailProps): JSX.Element => {
       {...props}
       onChange={field.onChange}
       value={value}
-      required
       onBlur={() => helpers.setTouched(true)}
     />
   );
