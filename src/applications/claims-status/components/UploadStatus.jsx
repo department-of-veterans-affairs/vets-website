@@ -12,18 +12,17 @@ export default function UploadStatus({ progress, files, onCancel }) {
           ...
         </h4>
         <va-progress-bar percent={progress * 100} />
-        Your files are uploading. Please do not close this window.
-        <p>
-          <a
-            onClick={evt => {
-              evt.preventDefault();
-              onCancel();
-            }}
-            href="#"
-          >
-            Cancel
-          </a>
-        </p>
+        <p>Your files are uploading. Please do not close this window.</p>
+        <button
+          type="button"
+          className="usa-button-secondary"
+          onClick={evt => {
+            evt.preventDefault();
+            onCancel();
+          }}
+        >
+          Cancel
+        </button>
       </div>
     </div>
   );
