@@ -170,19 +170,22 @@ class AddFilesForm extends React.Component {
             buttonText="Add Files"
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
+            aria-describedby="file-requirements"
           />
         </div>
-        <div className="file-requirements">
-          <p className="file-requirement-header">Accepted file types:</p>
-          <p className="file-requirement-text">{displayTypes}</p>
-          <p className="file-requirement-header">Maximum file size:</p>
-          <p className="file-requirement-text">
-            {`${MAX_FILE_SIZE_MB}MB (non-PDF)`}
-          </p>
-          <p className="file-requirement-text">
-            {`${MAX_PDF_SIZE_MB}MB (PDF only)`}
-          </p>
-        </div>
+        <dl className="file-requirements" id="file-requirements">
+          <dt className="file-requirement-header">Accepted file types:</dt>
+          <dd className="file-requirement-text">{displayTypes}</dd>
+          <dt className="file-requirement-header">Maximum file size:</dt>
+          <dd>
+            <p className="file-requirement-text">
+              {`${MAX_FILE_SIZE_MB}MB (non-PDF)`}
+            </p>
+            <p className="file-requirement-text">
+              {`${MAX_PDF_SIZE_MB}MB (PDF only)`}
+            </p>
+          </dd>
+        </dl>
         {this.props.files.map(
           ({ file, docType, isEncrypted, password }, index) => (
             <div key={index} className="document-item-container">
