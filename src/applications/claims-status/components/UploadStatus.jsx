@@ -1,6 +1,11 @@
 import React from 'react';
 
 export default function UploadStatus({ progress, files, onCancel }) {
+  const handleClick = evt => {
+    evt.preventDefault();
+    onCancel();
+  };
+
   return (
     <div>
       <div className="claims-status-upload-header" id="upload-status-title">
@@ -16,10 +21,7 @@ export default function UploadStatus({ progress, files, onCancel }) {
         <button
           type="button"
           className="usa-button-secondary"
-          onClick={evt => {
-            evt.preventDefault();
-            onCancel();
-          }}
+          onClick={handleClick}
         >
           Cancel
         </button>
