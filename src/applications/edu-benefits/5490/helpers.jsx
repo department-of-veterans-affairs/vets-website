@@ -126,3 +126,7 @@ export const eighteenOrOver = birthday => {
     moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years') > 17
   );
 };
+
+export function isOnlyWhitespace(str) {
+  return str && !str.trim().length;
+}

@@ -1,8 +1,26 @@
+import React from 'react';
 import { merge, omit, without } from 'lodash';
 import get from 'platform/utilities/data/get';
 import { createSelector } from 'reselect';
 
 import fullSchema5490 from 'vets-json-schema/dist/22-5490-schema.json';
+import {
+  validateMonthYear,
+  validateFutureDateIfExpectedGrad,
+} from 'platform/forms-system/src/js/validation';
+import * as address from 'platform/forms/definitions/address';
+import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
+import dateUI from 'platform/forms-system/src/js/definitions/date';
+import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import * as personId from 'platform/forms/definitions/personId';
+import dateRangeUi from 'platform/forms-system/src/js/definitions/dateRange';
+import fullNameUi from 'platform/forms/definitions/fullName';
+import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import FormFooter from 'platform/forms/components/FormFooter';
+import environment from 'platform/utilities/environment';
+import { VA_FORM_IDS } from 'platform/forms/constants';
+import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 import {
   benefitsRelinquishedInfo,
@@ -12,29 +30,13 @@ import {
   relationshipLabels,
   highSchoolStatusLabels,
   transform,
+  isOnlyWhitespace,
 } from '../helpers';
 
 import { urlMigration } from '../../config/migrations';
 
 import { stateLabels, survivorBenefitsLabels } from '../../utils/labels';
 
-import {
-  validateMonthYear,
-  validateFutureDateIfExpectedGrad,
-} from 'platform/forms-system/src/js/validation';
-
-import * as address from 'platform/forms/definitions/address';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import dateUI from 'platform/forms-system/src/js/definitions/date';
-import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import * as personId from 'platform/forms/definitions/personId';
-import dateRangeUi from 'platform/forms-system/src/js/definitions/dateRange';
-import fullNameUi from 'platform/forms/definitions/fullName';
-
-import FormFooter from 'platform/forms/components/FormFooter';
-import environment from 'platform/utilities/environment';
-import { VA_FORM_IDS } from 'platform/forms/constants';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
 import postHighSchoolTrainingsUi from '../../definitions/postHighSchoolTrainings';
@@ -52,9 +54,10 @@ import employmentHistoryPage from '../../pages/employmentHistory';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import benefitSelectionWarning from '../components/BenefitSelectionWarning';
-import createNonRequiredFullName from 'platform/forms/definitions/nonRequiredFullName';
 
 import manifest from '../manifest.json';
+import { newFormFields, newFormPages } from '../constants';
+import GoToYourProfileLink from '../../1990e/components/GoToYourProfileLink';
 
 const {
   benefit,
@@ -130,16 +133,25 @@ const formConfig = {
     vaFileNumber,
   },
   chapters: {
+    /**
+     * OLD CHAPTERS
+     */
     applicantInformation: {
       title: 'Applicant information',
       pages: {
         applicantInformation: applicantInformationUpdate(fullSchema5490, {
           labels: { relationship: relationshipLabels },
         }),
-        additionalBenefits: additionalBenefitsPage(fullSchema5490, {
-          fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource'],
-        }),
-        applicantService: applicantServicePage(fullSchema5490),
+        additionalBenefits: {
+          ...additionalBenefitsPage(fullSchema5490, {
+            fields: ['civilianBenefitsAssistance', 'civilianBenefitsSource'],
+          }),
+          depends: formData => !formData.showUpdatedFryDeaApp,
+        },
+        applicantService: {
+          ...applicantServicePage(fullSchema5490),
+          depends: formData => !formData.showUpdatedFryDeaApp,
+        },
       },
     },
     benefitSelection: {
@@ -149,6 +161,7 @@ const formConfig = {
           title: 'Benefits eligibility',
           path: 'benefits/eligibility',
           initialData: {},
+          depends: formData => !formData.showUpdatedFryDeaApp,
           uiSchema: {
             'ui:title': 'Benefit selection',
             'view:benefitsDisclaimerChild': {
@@ -207,9 +220,8 @@ const formConfig = {
           title: 'Benefits relinquishment',
           path: 'benefits/relinquishment',
           initialData: {},
-          depends: {
-            relationship: 'child',
-          },
+          depends: formData =>
+            !formData.showUpdatedFryDeaApp && formData.relationship === 'child',
           uiSchema: {
             'ui:title': 'Benefits relinquishment',
             'view:benefitsRelinquishedInfo': {
@@ -239,6 +251,7 @@ const formConfig = {
         benefitHistory: {
           title: 'Benefits history',
           path: 'benefits/history',
+          depends: formData => !formData.showUpdatedFryDeaApp,
           initialData: {},
           uiSchema: {
             'ui:title': 'Benefits history',
@@ -408,6 +421,7 @@ const formConfig = {
         sponsorInformation: {
           title: 'Sponsor information',
           path: 'sponsor/information',
+          depends: formData => !formData.showUpdatedFryDeaApp,
           uiSchema: {
             spouseInfo: {
               divorcePending: {
@@ -568,6 +582,7 @@ const formConfig = {
         sponsorService: {
           title: 'Sponsor service',
           path: 'sponsor/service',
+          depends: formData => !formData.showUpdatedFryDeaApp,
           uiSchema: {
             'ui:title': 'Sponsor service',
             serviceBranch: {
@@ -600,6 +615,7 @@ const formConfig = {
         educationHistory: {
           title: 'Education history',
           path: 'education/history',
+          depends: formData => !formData.showUpdatedFryDeaApp,
           initialData: {},
           uiSchema: {
             highSchool: {
@@ -708,75 +724,76 @@ const formConfig = {
     employmentHistory: {
       title: 'Employment history',
       pages: {
-        employmentHistory: employmentHistoryPage(fullSchema5490, false),
+        employmentHistory: {
+          ...employmentHistoryPage(fullSchema5490, false),
+          depends: formData => !formData.showUpdatedFryDeaApp,
+        },
       },
     },
     schoolSelection: {
       title: 'School selection',
       pages: {
-        schoolSelection: merge(
-          {},
-          createSchoolSelectionPage(
+        schoolSelection: {
+          ...createSchoolSelectionPage(
             fullSchema5490,
             schoolSelectionOptionsFor['5490'],
           ),
-          {
-            // Rephrase the question for facility name in educationProgram
-            uiSchema: {
-              educationProgram: {
-                name: {
-                  'ui:title':
-                    'Name of school, university, or training facility you want to attend',
-                },
-                educationType: {
-                  'ui:options': {
-                    updateSchema: (() => {
-                      const edTypes = educationType.enum;
-                      // Using reselect here avoids running the filter code
-                      // and creating a new object unless either benefit or
-                      // relationship has changed
-                      const filterEducationType = createSelector(
-                        form => get('benefit', form),
-                        form => get('relationship', form),
-                        (benefitData, relationshipData) => {
-                          // Remove tuition top-up
-                          const filterOut = ['tuitionTopUp'];
-                          // Correspondence not available to Chapter 35 (DEA) children
-                          if (
-                            benefitData === 'chapter35' &&
-                            relationshipData === 'child'
-                          ) {
-                            filterOut.push('correspondence');
-                          }
-                          // Flight training available to Chapter 33 (Fry Scholarships) only
-                          if (benefitData && benefitData !== 'chapter33') {
-                            filterOut.push('flightTraining');
-                          }
+          uiSchema: {
+            educationProgram: {
+              name: {
+                'ui:title':
+                  'Name of school, university, or training facility you want to attend',
+              },
+              educationType: {
+                'ui:options': {
+                  updateSchema: (() => {
+                    const edTypes = educationType.enum;
+                    // Using reselect here avoids running the filter code
+                    // and creating a new object unless either benefit or
+                    // relationship has changed
+                    const filterEducationType = createSelector(
+                      form => get('benefit', form),
+                      form => get('relationship', form),
+                      (benefitData, relationshipData) => {
+                        // Remove tuition top-up
+                        const filterOut = ['tuitionTopUp'];
+                        // Correspondence not available to Chapter 35 (DEA) children
+                        if (
+                          benefitData === 'chapter35' &&
+                          relationshipData === 'child'
+                        ) {
+                          filterOut.push('correspondence');
+                        }
+                        // Flight training available to Chapter 33 (Fry Scholarships) only
+                        if (benefitData && benefitData !== 'chapter33') {
+                          filterOut.push('flightTraining');
+                        }
 
-                          return { enum: without(edTypes, filterOut) };
-                        },
-                      );
+                        return { enum: without(edTypes, filterOut) };
+                      },
+                    );
 
-                      return form => filterEducationType(form);
-                    })(),
-                  },
+                    return form => filterEducationType(form);
+                  })(),
                 },
               },
             },
           },
-        ),
+          depends: formData => !formData.showUpdatedFryDeaApp,
+        },
       },
     },
     personalInformation: {
       title: 'Personal information',
       pages: {
-        contactInformation: contactInformationPage(
-          fullSchema5490,
-          'relativeAddress',
-        ),
+        contactInformation: {
+          ...contactInformationPage(fullSchema5490, 'relativeAddress'),
+          depends: formData => !formData.showUpdatedFryDeaApp,
+        },
         secondaryContact: {
           title: 'Secondary contact',
           path: 'personal-information/secondary-contact',
+          depends: formData => !formData.showUpdatedFryDeaApp,
           initialData: {},
           uiSchema: {
             'ui:title': 'Secondary contact',
@@ -813,7 +830,110 @@ const formConfig = {
             },
           },
         },
-        directDeposit: createDirectDepositPage(fullSchema5490),
+        directDeposit: {
+          ...createDirectDepositPage(fullSchema5490),
+          depends: formData => !formData.showUpdatedFryDeaApp,
+        },
+      },
+    },
+    /**
+     * END OLD CHAPTERS
+     */
+
+    /**
+     * NEW CHAPTERS
+     */
+    newApplicantInformationChapter: {
+      title: 'Your information',
+      pages: {
+        [newFormPages.newApplicantInformation]: {
+          depends: formData => formData.showUpdatedToeApp,
+          title: 'Your information',
+          path: 'new/applicant-information/personal-information',
+          subTitle: 'Your information',
+          instructions:
+            'This is the personal information we have on file for you.',
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Review your personal information</h3>
+                  <p>
+                    This is the personal information we have on file for you. If
+                    you notice any errors, please correct them now. Any updates
+                    you make will change the information for your education
+                    benefits only.
+                  </p>
+                  <p>
+                    <strong>Note:</strong> If you want to update your personal
+                    information for other VA benefits, you can do that from your
+                    profile.
+                  </p>
+                  <p className="vads-u-margin-bottom--3">
+                    <GoToYourProfileLink />
+                  </p>
+                </>
+              ),
+            },
+            [newFormFields.newUserFullName]: {
+              ...fullNameUI,
+              first: {
+                ...fullNameUI.first,
+                'ui:title': 'Your first name',
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isOnlyWhitespace(field)) {
+                      errors.addError('Please enter a first name');
+                    }
+                  },
+                ],
+              },
+              last: {
+                ...fullNameUI.last,
+                'ui:title': 'Your last name',
+                'ui:validations': [
+                  (errors, field) => {
+                    if (isOnlyWhitespace(field)) {
+                      errors.addError('Please enter a last name');
+                    }
+                  },
+                ],
+              },
+              middle: {
+                ...fullNameUI.middle,
+                'ui:title': 'Your middle name',
+              },
+            },
+            [newFormFields.newDateOfBirth]: {
+              ...currentOrPastDateUI('Your date of birth'),
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [newFormFields.newDateOfBirth],
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              [newFormFields.newUserFullName]: {
+                ...fullName,
+                properties: {
+                  ...fullName.properties,
+                  middle: {
+                    ...fullName.properties.middle,
+                    maxLength: 30,
+                  },
+                },
+              },
+              [newFormFields.newDateOfBirth]: date,
+              'view:dateOfBirthUnder18Alert': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
       },
     },
   },
