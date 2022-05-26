@@ -1,7 +1,5 @@
 import { isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
-
-import environment from 'platform/utilities/environment';
 import {
   formatCurrency,
   isCountryUSA,
@@ -551,11 +549,7 @@ const getDerivedValues = createSelector(
           spouseActiveDuty))
     ) {
       housingAllowTerm1 = 0;
-    } else if (
-      !environment.isProduction() &&
-      giBillChapter === 35 &&
-      isPhilipines(institution.facilityCode)
-    ) {
+    } else if (giBillChapter === 35 && isPhilipines(institution.facilityCode)) {
       housingAllowTerm1 = totalHousingAllowance / 2;
     } else if (isOJT && (giBillChapter === 35 || oldGiBill || onlyVRE)) {
       housingAllowTerm1 = monthlyRateFinal;
@@ -617,11 +611,7 @@ const getDerivedValues = createSelector(
           spouseActiveDuty))
     ) {
       housingAllowTerm2 = 0;
-    } else if (
-      !environment.isProduction() &&
-      giBillChapter === 35 &&
-      isPhilipines(institution.facilityCode)
-    ) {
+    } else if (giBillChapter === 35 && isPhilipines(institution.facilityCode)) {
       housingAllowTerm2 = totalHousingAllowance / 2;
     } else if (giBillChapter === 35 && isOJT) {
       housingAllowTerm2 = 0.75 * monthlyRateFinal;
@@ -685,11 +675,7 @@ const getDerivedValues = createSelector(
           spouseActiveDuty))
     ) {
       housingAllowTerm3 = 0;
-    } else if (
-      !environment.isProduction() &&
-      giBillChapter === 35 &&
-      isPhilipines(institution.facilityCode)
-    ) {
+    } else if (giBillChapter === 35 && isPhilipines(institution.facilityCode)) {
       housingAllowTerm3 = totalHousingAllowance / 2;
     } else if (giBillChapter === 35 && isOJT) {
       housingAllowTerm3 = 0.494 * monthlyRateFinal;
