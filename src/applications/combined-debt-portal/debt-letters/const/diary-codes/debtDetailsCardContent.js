@@ -114,19 +114,18 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       };
     case '815':
       return {
-        status: 'We’ve accepted your compromise payment.',
-        nextStep: (
-          <p>
-            <strong>Next step: </strong>
-            Please pay the amount you offered as a compromise within
-            <strong> 30 days </strong>
-            of the date in your acceptance letter.
-            <a
-              className="vads-u-margin-y--2 vads-u-margin-left--0p5"
-              href="#howDoIPay"
-            >
-              Review payment options
-            </a>
+        headerText: `Pay your one time payment as part of your compromise agreement by ${endDate(
+          dateOfLetter,
+          30,
+        )}`,
+        status: 'info',
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: false,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
+            Your compromise offer must be paid with a single payment.
           </p>
         ),
       };
@@ -153,29 +152,35 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       };
     case '811':
       return {
-        status: 'We’re reviewing your compromise offer.',
-        nextStep: (
-          <p>
-            <strong>Next step: </strong>
+        headerText:
+          'Continue making monthly payments while we review your compromise offer',
+        status: 'info',
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: false,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
             We’ll send you a letter with our decision. Please continue to make
-            payments while we complete our review.
-            <a
-              href="#howDoIPay"
-              className="vads-u-margin-y--2 vads-u-margin-left--0p5"
-            >
-              Review payment options
-            </a>
+            payments monthly while we complete our review. <br />
+            <strong>
+              Your next payment is due by {endDate(dateOfLetter, 30)}.
+            </strong>
           </p>
         ),
       };
     case '816':
       return {
-        status: 'We’ve received your compromise payment.',
-        nextStep: (
-          <p>
+        headerText: "We're processing your compromise payment",
+        status: 'info',
+        showIcon: true,
+        showLinks: false,
+        showMakePayment: false,
+        showRequestHelp: false,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
             Please check your debt balance again soon. If it isn’t adjusted to
-            reflect your payment within 30 days, call us at
-            <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
+            reflect your payment within 30 days, call us at <ContactDMC />,
             Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
@@ -185,13 +190,17 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '032':
     case '609':
       return {
-        status: 'We’re updating your account.',
-        nextStep: (
-          <p data-testid="diary-code-002-next-step">
+        headerText: `We're updating your account`,
+        status: 'info',
+        showIcon: true,
+        showLinks: false,
+        showMakePayment: false,
+        showRequestHelp: false,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
             Please check back in 1 week for updates. If your account shows the
-            same information then, call us at
-            <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+            same information then call us at <ContactDMC />, Monday through
+            Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
       };
@@ -203,26 +212,17 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '425':
     case '627':
       return {
-        status: 'We’re updating your account.',
-        nextStep: (
-          <p>
+        headerText: `We're updating your account`,
+        status: 'info',
+        showIcon: true,
+        showLinks: false,
+        showMakePayment: false,
+        showRequestHelp: false,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
             Please check back in 30 days for updates. If your account shows the
-            same information then, call us at
-            <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-          </p>
-        ),
-      };
-    case '481':
-    case '482':
-    case '483':
-    case '484':
-      return {
-        status: 'We’re reviewing your account.',
-        nextStep: (
-          <p>
-            <strong>Next step: </strong>
-            You don’t need to do anything at this time
+            same information then call us at <ContactDMC />, Monday through
+            Friday, 7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
       };
@@ -232,20 +232,19 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '860':
     case '855':
       return {
-        headerText: `Pay your ${amountDue} balance now or request help by ${endDate(
-          dateOfLetter,
-          30,
-        )}`,
+        headerText: `Contact the U.S. Department of the Treasury to pay this ${amountDue} debt`,
         status: 'info',
+        showIcon: false,
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: true,
         bodyText: (
           <p data-testid="diary-code-080-next-step">
-            To avoid late fees or further collection action on your bill, you
-            must pay your full balance or request financial help before{' '}
-            {endDate(dateOfLetter, 30)}. If you don’t, this debt may be referred
-            to the U.S. Department of the Treasury.
+            Call the U.S. Department of the Treasury’s Debt Management Services
+            at <span className="underline">888-826-3127</span>, 8:30 a.m. to
+            6:30 p.m. ET. Don’t send us a payment directly. This will delay
+            posting the payment to your account and the Treasury Department may
+            continue adding fees and interest.
           </p>
         ),
       };
@@ -298,10 +297,31 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
           </p>
         ),
       };
-    case '101':
     case '430':
     case '431':
+      return {
+        headerText: `We're offsetting your education benefits each month until your debt is paid`,
+        status: 'info',
+        showIcon: true,
+        showLinks: false,
+        showMakePayment: false,
+        showRequestHelp: false,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
+            If you’d like to pay in full now, call us first to ensure you don’t
+            overpay. If you stop receiving VA benefits, call us to set up a new
+            payment plan. We can be reached at{' '}
+            <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
+            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. <br />
+            If reduced payments are causing you hardship, you can{' '}
+            <a href="/manage-va-debt/request-debt-help-form-5655">
+              request help with your debt
+            </a>
+          </p>
+        ),
+      };
     case '450':
+    case '101':
     case '602':
     case '607':
     case '608':
@@ -310,24 +330,24 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '614':
     case '615':
     case '617':
-      // we need to have debt type available within this switch
       return {
-        status: (
-          <>
-            We’re keeping part of your
-            <span className="vads-u-margin-x--0p5">{debt.benefitType}</span>
-            payments each month to pay your debt (called monthly offsets).
-          </>
-        ),
-        nextStep: (
-          <p data-testid="diary-code-608-next-step">
-            <strong>Next step: </strong>
-            We’ll keep offsetting your benefits each month until your debt is
-            paid in full. If you’d like to pay in full now, please call us first
-            to make sure you don’t overpay. If you stop receiving VA benefits,
-            call us to set up a new payment plan. We’re here at
-            <ContactDMC className="vads-u-margin-left--0p5" />, Monday through
-            Friday, 7:30 a.m. to 7:00 p.m. ET.
+        headerText: `We're offsetting your benefit payments each month until your debt is paid`,
+        status: 'info',
+        showIcon: true,
+        showLinks: false,
+        showMakePayment: false,
+        showRequestHelp: false,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
+            If you’d like to pay in full now, call us first to ensure you don’t
+            overpay. If you stop receiving VA benefits, call us to set up a new
+            payment plan. We can be reached at{' '}
+            <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
+            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. <br />
+            If reduced payments are causing you hardship, you can{' '}
+            <a href="/manage-va-debt/request-debt-help-form-5655">
+              request help with your debt
+            </a>
           </p>
         ),
       };
@@ -374,41 +394,36 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '600':
     case '601':
       return {
-        status: 'Your payment is due.',
-        nextStep: (
-          <p data-testid="diary-code-600-next-step">
-            <strong>Next step: </strong>
-            Please continue to make payments. If you begin receiving VA
-            benefits, call us to set up an automatic payment plan. We’ll keep
-            part of your benefit amount each month to pay your debt. We’re here
-            at <ContactDMC className="vads-u-margin-left--0p5" />, Monday
-            through Friday, 7:30 a.m. to 7:00 p.m. ET.
+        headerText:
+          'Continue making monthly payments until your balance is paid',
+        status: 'info',
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: true,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
+            Your next payment is due by {endDate(dateOfLetter, 30)}.
           </p>
         ),
       };
     case '603':
     case '613':
       return {
-        status: 'Your payment is past due.',
-        nextStep: (
-          <p>
-            <strong>Next step: </strong>
-            Please pay the amount you agreed to in your monthly payment plan. To
-            discuss about other payment options,
-            <a
-              className="vads-u-margin-x--0p5"
-              href="https://www.va.gov/contact-us/"
-            >
-              contact us online through Ask VA
-            </a>
-            or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
-            We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-            <a
-              className="vads-u-margin-y--2 vads-u-margin-left--0p5"
-              href="#howDoIPay"
-            >
-              Review payment options
-            </a>
+        headerText: `Make a payment on your ${amountDue} balance now or request help by ${endDate(
+          dateOfLetter,
+          30,
+        )}`,
+        status: 'info',
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: true,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
+            To avoid late fees or collection action on your bill, you must make
+            a payment on your balance or request financial help before{' '}
+            {endDate(dateOfLetter, 30)}.
           </p>
         ),
       };
@@ -456,8 +471,12 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showRequestHelp: true,
         bodyText: (
           <p data-testid="diary-code-080-next-step">
-            To avoid collection actions on your bill, you must pay your full
-            balance or request financial help.
+            If you’d like to pay in full now, call the U.S. Department of the
+            Treasury’s Debt. Management Services at{' '}
+            <span className="underline">888-826-3127</span>, 8:30 a.m. to 6:30
+            p.m. ET. Don’t send us a payment directly. This will delay posting
+            the payment to your account and the Treasury Department may continue
+            adding fees and interest.
           </p>
         ),
       };
@@ -468,145 +487,93 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '809':
     case '820':
       return {
-        status: 'We’re reviewing your waiver request.',
-        nextStep: (
-          <p>
-            <strong>Next step: </strong>
+        headerText: `Continue making monthly payments while we review your waiver request`,
+        status: 'info',
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: false,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
             We’ll send you a letter with our decision. Please continue to make
-            payments while we complete our review.
-            <a
-              className="vads-u-margin-y--2 vads-u-margin-left--0p5"
-              href="#howDoIPay"
-            >
-              Review payment options
-            </a>
+            payments monthly while we complete our review. <br />
+            <strong>
+              Your next payment is due by {endDate(dateOfLetter, 30)}.
+            </strong>
           </p>
         ),
       };
     case '822':
       return {
-        status: 'We’re reviewing your debt dispute.',
-        nextStep: (
-          <p>
-            <strong>Next step: </strong>
+        headerText: `Continue making monthly payments while we review your dispute`,
+        status: 'info',
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: false,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
             We’ll send you a letter with our decision. Please continue to make
-            payments while we complete our review.
-            <a
-              className="vads-u-margin-y--2 vads-u-margin-left--0p5"
-              href="#howDoIPay"
-            >
-              Review payment options
-            </a>
+            payments monthly while we complete our review. <br />
+            <strong>
+              Your next payment is due by {endDate(dateOfLetter, 30)}.
+            </strong>
           </p>
         ),
       };
     case '825':
       return {
-        status: 'We’re reviewing your request for a waiver or hearing.',
-        nextStep: (
-          <p>
-            <strong>Next step: </strong>
+        headerText: `Continue making monthly payments while we review your request for a hearing`,
+        status: 'info',
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: false,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
             We’ll send you a letter with our decision. Please continue to make
-            payments while we complete our review.
-            <a
-              className="vads-u-margin-y--2 vads-u-margin-left--0p5"
-              href="#howDoIPay"
-            >
-              Review payment options
-            </a>
+            payments monthly while we complete our review. <br />
+            <strong>
+              Your next payment is due by {endDate(dateOfLetter, 30)}.
+            </strong>
           </p>
         ),
       };
     case '821':
       return {
-        status: 'We’re reviewing your notice of disagreement.',
-        nextStep: (
-          <p>
-            <strong>Next step: </strong>
+        headerText: `Continue making monthly payments while we review your Notice of Disagreement`,
+        status: 'info',
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: false,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
             We’ll send you a letter with our decision. Please continue to make
-            payments while we complete our review.
-            <a
-              className="vads-u-margin-y--2 vads-u-margin-left--0p5"
-              href="#howDoIPay"
-            >
-              Review payment options
-            </a>
+            payments monthly while we complete our review. <br />
+            <strong>
+              Your next payment is due by {endDate(dateOfLetter, 30)}.
+            </strong>
           </p>
         ),
       };
+    case '481':
+    case '482':
+    case '483':
+    case '484':
     default:
       return {
-        status: 'We’re updating your account.',
-        nextStep: (
-          <p data-testid="diary-code-default-next-step">
-            <strong>Next step: </strong>
-            Please check back in 1 week for updates. If your account shows the
-            same information then, call us at
-            <ContactDMC className="vads-u-margin-left--0p5" />, Monday through
-            Friday, 7:30 a.m. to 7:00 p.m. ET.
+        headerText: `We're reviewing your account`,
+        status: 'info',
+        showIcon: true,
+        showLinks: false,
+        showMakePayment: false,
+        showRequestHelp: false,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
+            You don’t need to do anything at this time.
           </p>
         ),
       };
-  }
-};
-
-export const renderLetterHistory = diaryCode => {
-  switch (diaryCode) {
-    case '100':
-    case '101':
-    case '102':
-    case '109':
-      return (
-        <>
-          <p className="vads-u-margin-bottom--0">
-            <strong>First demand letter</strong>
-          </p>
-          <p className="vads-u-margin-top--0">
-            A letter was sent to notify you of your debt and provide information
-            on how to resolve it.
-          </p>
-        </>
-      );
-    case '117':
-      return (
-        <>
-          <p className="vads-u-margin-bottom--0">
-            <strong>Second demand letter</strong>
-          </p>
-          <p className="vads-u-margin-top--0">
-            A letter was sent to inform you that failure to pay or contact the
-            DMC within 60 days would result in the debt being reported to Credit
-            Reporting Agencies.
-          </p>
-        </>
-      );
-    case '123':
-      return (
-        <>
-          <p className="vads-u-margin-bottom--0">
-            <strong>Third demand letter</strong>
-          </p>
-          <p className="vads-u-margin-top--0">
-            A letter was sent to inform you that failure to pay or contact the
-            DMC within 30 days would result in the debt being referred to the
-            Department of Treasury for collection. This referral could result in
-            your state or federal payments being withheld.
-          </p>
-        </>
-      );
-    case '130':
-      return (
-        <>
-          <p className="vads-u-margin-bottom--0">
-            <strong>Debt increase letter</strong>
-          </p>
-          <p className="vads-u-margin-top--0">
-            A letter was sent to inform you that your debt’s balance has
-            increased due to additional benefit over payments being made to you.
-          </p>
-        </>
-      );
-    default:
-      return null;
   }
 };
