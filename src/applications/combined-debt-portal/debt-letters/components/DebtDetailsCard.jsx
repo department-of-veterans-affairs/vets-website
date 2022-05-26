@@ -1,20 +1,22 @@
 import React from 'react';
-import head from 'lodash/head';
+import { head } from 'lodash';
 import PropTypes from 'prop-types';
 // import { deductionCodes } from '../const/deduction-codes';
 // import { setActiveDebt } from '../../combined/actions/debts';
+import { format } from 'date-fns';
 import { getDebtDetailsCardContent } from '../const/diary-codes/debtDetailsCardContent';
 import { currency } from '../utils/page';
 
 const DebtLetterCard = ({ debt }) => {
   // TODO: currently we do not have a debtID so we need to make one by combining fileNumber and diaryCode
-  const mostRecentHistory = head(debt?.debtHistory);
-
+  const dates = debt?.debtHistory.map(m => new Date(m.date));
+  const sortedHistory = dates.sort((a, b) => Date.parse(b) - Date.parse(a));
+  const mostRecentDate = format(head(sortedHistory), 'MM/dd/yyyy');
   const convertedAr = currency.format(parseFloat(debt.currentAr));
 
   const debtCardContent = getDebtDetailsCardContent(
     debt,
-    mostRecentHistory?.date,
+    mostRecentDate,
     convertedAr,
   );
 
@@ -31,9 +33,9 @@ const DebtLetterCard = ({ debt }) => {
       <h3 className="vads-u-margin--0">{debtCardContent.headerText}</h3>
 
       <div>
-        <p className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
+        <div className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
           {debtCardContent.bodyText}
-        </p>
+        </div>
       </div>
 
       {debtCardContent.showLinks && (

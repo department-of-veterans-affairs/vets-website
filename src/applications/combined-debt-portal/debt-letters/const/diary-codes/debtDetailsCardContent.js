@@ -163,6 +163,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
           <p data-testid="diary-code-080-next-step">
             We’ll send you a letter with our decision. Please continue to make
             payments monthly while we complete our review. <br />
+            <br />
             <strong>
               Your next payment is due by {endDate(dateOfLetter, 30)}.
             </strong>
@@ -313,6 +314,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
             payment plan. We can be reached at{' '}
             <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
             Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. <br />
+            <br />
             If reduced payments are causing you hardship, you can{' '}
             <a href="/manage-va-debt/request-debt-help-form-5655">
               request help with your debt
@@ -344,6 +346,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
             payment plan. We can be reached at{' '}
             <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
             Monday through Friday, 7:30 a.m. to 7:00 p.m. ET. <br />
+            <br />
             If reduced payments are causing you hardship, you can{' '}
             <a href="/manage-va-debt/request-debt-help-form-5655">
               request help with your debt
@@ -497,6 +500,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
           <p data-testid="diary-code-080-next-step">
             We’ll send you a letter with our decision. Please continue to make
             payments monthly while we complete our review. <br />
+            <br />
             <strong>
               Your next payment is due by {endDate(dateOfLetter, 30)}.
             </strong>
@@ -515,6 +519,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
           <p data-testid="diary-code-080-next-step">
             We’ll send you a letter with our decision. Please continue to make
             payments monthly while we complete our review. <br />
+            <br />
             <strong>
               Your next payment is due by {endDate(dateOfLetter, 30)}.
             </strong>
@@ -533,6 +538,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
           <p data-testid="diary-code-080-next-step">
             We’ll send you a letter with our decision. Please continue to make
             payments monthly while we complete our review. <br />
+            <br />
             <strong>
               Your next payment is due by {endDate(dateOfLetter, 30)}.
             </strong>
@@ -551,6 +557,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
           <p data-testid="diary-code-080-next-step">
             We’ll send you a letter with our decision. Please continue to make
             payments monthly while we complete our review. <br />
+            <br />
             <strong>
               Your next payment is due by {endDate(dateOfLetter, 30)}.
             </strong>
