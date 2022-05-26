@@ -339,7 +339,7 @@ jobs:
           else
             echo ::set-output name=all_changed_files::$(git diff --name-only origin/main...)
           fi
-          
+
       - name: Get app entries for changed files
         id: get-changed-apps
         run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
