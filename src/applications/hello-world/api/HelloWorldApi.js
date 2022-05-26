@@ -5,8 +5,20 @@ export const submitForm = form => {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
     body: form,
+    apiVersion: '/test',
   };
-  return apiRequest('/test/message/', optionalSettings);
+  return apiRequest('/message', optionalSettings);
 };
 
-export default submitForm;
+export const getMessage = async () => {
+  const optionalSettings = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    apiVersion: 'test',
+  };
+  try {
+    return await apiRequest('/message', optionalSettings);
+  } catch (e) {
+    return null;
+  }
+};

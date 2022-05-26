@@ -1,33 +1,26 @@
 import React from 'react';
-import submitForm from '../api/HelloWorldApi';
+import * as HelloWorldApi from '../api/HelloWorldApi';
 
 export class HelloWorld extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      form: this.props.form,
+      status: this.props.status,
+    };
+    this.handleChangeFor = this.handleChangeFor.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
   async handleSubmit(event) {
     event.preventDefault();
     try {
-      const form = this.getFormState();
-      await submitForm(form);
+      const resp = await HelloWorldApi.getMessage();
+      await this.setState({ status: resp.status });
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log('error');
     }
-  }
-
-  async handleClick(event) {
-    event.preventDefault();
-    try {
-      const form = this.getFormState();
-      await submitForm(form);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.log('error');
-    }
-  }
-
-  getFormState() {
-    return {
-      firstField: this.state.firstField,
-    };
   }
 
   handleChangeFor = field => event => {
@@ -44,15 +37,15 @@ export class HelloWorld extends React.PureComponent {
             TestEntry:
             <input
               type="text"
-              name="test"
-              onChange={this.handleChangeFor('firstField')}
+              className="test"
+              onChange={this.handleChangeFor('form.firstField')}
             />
           </label>
           <input
             className="button"
             type="submit"
             value="Submit"
-            onClick={this.handleClick}
+            onClick={this.handleSubmit}
           />
         </form>
       </div>
