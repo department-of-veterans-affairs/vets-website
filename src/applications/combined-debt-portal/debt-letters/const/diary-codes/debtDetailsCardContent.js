@@ -26,135 +26,87 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
   switch (debt.diaryCode) {
     case '71':
       return {
-        status:
-          'We need to verify your military status to update your account.',
-        nextStep: (
-          <p>
-            <strong>Next step: </strong>
-            Please
-            <a
-              className="vads-u-margin-x--0p5"
-              href="https://www.va.gov/contact-us/"
-            >
-              contact us online through Ask VA
-            </a>
-            or call us at <ContactDMC /> to verify your military status. We’re
-            here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+        headerText: 'Contact us to verify your military status',
+        status: 'info',
+        showIcon: false,
+        showLinks: false,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
+            Please contact us through IRIS or call us at <ContactDMC /> to
+            verify your military status. We’re here Monday through Friday, 7:30
+            a.m. to 7:00 p.m. ET.
           </p>
         ),
       };
     case '109':
       return {
-        status:
-          'Your payment is past due, and we’re adding interest to the amount.',
-        nextStep: (
-          <>
-            <p>
-              <strong>Next step: </strong>
-              Please pay now or contact us to start making payments again to
-              avoid collection actions.
-            </p>
-            <p>
-              You can
-              <a
-                className="vads-u-margin-x--0p5"
-                href="https://www.va.gov/contact-us/"
-              >
-                contact us online through Ask VA
-              </a>
-              or call us at <ContactDMC className="vads-u-margin-left--0p5" />,
-              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-              <a className="vads-u-margin-left--0p5" href="#howDoIPay">
-                Review payment options
-              </a>
-            </p>
-          </>
+        headerText: `Pay your balance now or request help by ${endDate(
+          dateOfLetter,
+          30,
+        )} to avoid more interest charges`,
+        status: 'info',
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: true,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
+            We’ve added interest to your balance. To avoid more interest charges
+            or further collection action, you must pay your full balance or
+            request financial help before ${endDate(dateOfLetter, 30)}. If you
+            don’t this debt may be referred to the U.S. Department of the
+            Treasury.
+          </p>
         ),
       };
     case '117':
       return {
-        status: 'Your payment is past due.',
-        nextStep: (
-          <span data-testid="diary-code-117-next-step">
-            <p>
-              <strong>Next step: </strong>
-              Please pay now or contact us about payment options by
-              <strong className="vads-u-margin-x--0p5">
-                {dateOfLetter && endDate(dateOfLetter, 60)}
-              </strong>
-              to avoid additional collection action. These include having your
-              debt reported to credit reporting agencies or referred to the U.S.
-              Department of the Treasury.
-            </p>
-            <p>
-              You can
-              <a
-                className="vads-u-margin-x--0p5"
-                href="https://www.va.gov/contact-us/"
-              >
-                contact us online through Ask VA
-              </a>
-              or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
-              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-              <a
-                href="#howDoIPay"
-                className="vads-u-margin-y--2 vads-u-margin-left--0p5"
-              >
-                Review payment options
-              </a>
-            </p>
-          </span>
+        headerText: `Pay your ${amountDue} balance in full or request help by ${endDate(
+          dateOfLetter,
+          30,
+        )}`,
+        status: 'info',
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: true,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
+            To avoid further collection action on your bill, you must pay your
+            full balance or request financial help before{' '}
+            {endDate(dateOfLetter, 30)}. If you don’t, this debt may be referred
+            to the U.S. Department of the Treasury.
+          </p>
         ),
       };
     case '123':
       return {
-        status: 'Your payment is past due.',
-        nextStep: (
-          <span data-testid="diary-code-123-next-step">
-            <p>
-              <strong>Next step: </strong>
-              Please pay now or contact us about payment options by
-              <strong className="vads-u-margin-x--0p5">
-                {dateOfLetter && endDate(dateOfLetter, 60)}
-              </strong>
-              to avoid collection actions. If you don’t pay or make other
-              arrangements with us by this date, we’re required by law to refer
-              your debt to the U.S. Department of the Treasury.
-            </p>
-            <p>
-              You can
-              <a
-                className="vads-u-margin-x--0p5"
-                href="https://www.va.gov/contact-us/"
-              >
-                contact us online through Ask VA
-              </a>
-              or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
-              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-              <a
-                href="#howDoIPay"
-                className="vads-u-margin-y--2 vads-u-margin-left--0p5"
-              >
-                Review payment options
-              </a>
-            </p>
-          </span>
+        headerText: `Pay your ${amountDue} balance now or request help by ${endDate(
+          dateOfLetter,
+          30,
+        )}`,
+        status: 'info',
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: true,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
+            To avoid your debt being referred to the U.S. Department of the
+            Treasury, you must pay your full balance or request financial help
+            before {endDate(dateOfLetter, 30)}.
+          </p>
         ),
       };
     case '212':
       return {
-        status: 'We need your address to update your account.',
-        nextStep: (
-          <p>
-            <strong>Next step: </strong>
-            Please
-            <a
-              className="vads-u-margin-x--0p5"
-              href="https://www.va.gov/contact-us/"
-            >
-              contact us online through Ask VA
-            </a>
-            or call us at <ContactDMC className="vads-u-margin-x--0p5" /> to
+        headerText: 'Contact us to update your address',
+        status: 'info',
+        showIcon: false,
+        showLinks: false,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
+            Please contact us through IRIS or call us at <ContactDMC /> to
             update your address. We’re here Monday through Friday, 7:30 a.m. to
             7:00 p.m. ET.
           </p>
@@ -186,9 +138,14 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '448':
     case '453':
       return {
-        status: 'We’ve paused collection on this debt as you requested.',
-        nextStep: (
-          <p>
+        headerText: "We've paused collection on this debt as you requested",
+        status: 'info',
+        showIcon: true,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: true,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
             We’ll let you know when we start collecting on this debt again. You
             don’t have to do anything until that time.
           </p>
@@ -281,6 +238,8 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         )}`,
         status: 'info',
         showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: true,
         bodyText: (
           <p data-testid="diary-code-080-next-step">
             To avoid late fees or further collection action on your bill, you
@@ -321,29 +280,22 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '130':
     case '140':
       return {
-        status: 'Your payment is due now.',
-        nextStep: (
-          <span data-testid="diary-code-100-next-step">
-            <p>
-              <strong>Next step: </strong>
-              Please pay now or contact us to start making payments again to
-              avoid collection actions. You can
-              <a
-                className="vads-u-margin-x--0p5"
-                href="https://www.va.gov/contact-us/"
-              >
-                contact us online through Ask VA
-              </a>
-              or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
-              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-              <a
-                className="vads-u-margin-y--2 vads-u-margin-left--0p5"
-                href="#howDoIPay"
-              >
-                Review payment options
-              </a>
-            </p>
-          </span>
+        headerText: `Pay your ${amountDue} balance now or request help by ${endDate(
+          dateOfLetter,
+          30,
+        )}`,
+        status: 'info',
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: true,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
+            To avoid collection actions on your bill, you must pay your full
+            balance or request financial help before {endDate(dateOfLetter, 30)}
+            . If you don’t, this debt may be referred to the U.S. Department of
+            the Treasury.
+          </p>
         ),
       };
     case '101':
@@ -379,24 +331,43 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
           </p>
         ),
       };
-    case '439':
     case '449':
+      return {
+        headerText: `Pay your balance now or request help by ${endDate(
+          dateOfLetter,
+          30,
+        )}`,
+        status: 'info',
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: true,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
+            To avoid late fees or further collection action on your bill, you
+            must pay your full balance or request financial help before{' '}
+            {endDate(dateOfLetter, 30)}.
+          </p>
+        ),
+      };
+    case '439':
     case '459':
       return {
-        status: 'We’ve restarted collection on this debt.',
-        nextStep: (
-          <p>
-            <strong>Next step: </strong>
-            Please
-            <a
-              className="vads-u-margin-x--0p5"
-              href="https://www.va.gov/contact-us/"
-            >
-              contact us online through Ask VA
-            </a>
-            or call us at <ContactDMC className="vads-u-margin-x--0p5" /> to
-            start making payments again to avoid collection actions. We’re here
-            Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+        headerText: `Pay your balance now or request help by ${endDate(
+          dateOfLetter,
+          30,
+        )}`,
+        status: 'info',
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: true,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
+            To avoid late fees or further collection action on your bill, you
+            must pay your full balance or request financial help before{' '}
+            {endDate(dateOfLetter, 30)}. If you don’t, this debt may be referred
+            to the U.S. Department of the Treasury.
           </p>
         ),
       };
@@ -444,63 +415,49 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '655':
     case '817':
       return {
-        status:
-          'We need your completed Financial Status Report to make a decision on your request.',
-        nextStep: (
-          <>
-            <p>
-              <strong>Next step: </strong>
-              Please send us your completed Financial Status Report (VA Form
-              5655) now so we can make a decision on your waiver, compromise, or
-              extended monthly payment plan request.
-              <a
-                className="vads-u-margin-left--0p5"
-                href="https://www.va.gov/debtman/Financial_Status_Report.asp"
-              >
-                Download VA Form 5655 (PDF)
-              </a>
-            </p>
-            <p>
-              If you need help with the form, read our
-              <a
-                className="vads-u-margin-x--0p5"
-                href="https://www.va.gov/DEBTMAN/Most_Frequently_Asked_Questions.asp"
-              >
-                frequently asked questions
-              </a>
-              or call us at <ContactDMC className="vads-u-margin-left--0p5" />.
-              We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-            </p>
-          </>
+        headerText:
+          'Submit a Financial Status Report so that we can make a decision on your request',
+        status: 'info',
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: true,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
+            You can request a waiver, compromise, or extended monthly payment
+            plan by filling out the Financial Status Report (VA FORM 5655)
+            online or by mail.
+          </p>
         ),
       };
     case '680':
+      return {
+        headerText: `Pay your ${amountDue} balance now or request help`,
+        status: 'info',
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: true,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
+            To avoid collection actions on your bill, you must pay your full
+            balance or request financial help.
+          </p>
+        ),
+      };
     case '681':
     case '682':
       return {
-        status: 'Your payment is due.',
-        nextStep: (
-          <p>
-            <strong>Next step: </strong>
-            Please pay now or contact us about payment options by
-            <strong className="vads-u-margin-left--0p5">
-              {dateOfLetter && endDate(dateOfLetter, 30)}
-            </strong>
-            to avoid collection actions. You can
-            <a
-              className="vads-u-margin-x--0p5"
-              href="https://www.va.gov/contact-us/"
-            >
-              contact us online through Ask VA
-            </a>
-            or call us at <ContactDMC className="vads-u-margin-left--0p5" />,
-            We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-            <a
-              href="#howDoIPay"
-              className="vads-u-margin-y--2 vads-u-margin-left--0p5"
-            >
-              Review payment options
-            </a>
+        headerText: `The U.S. Department of the Treasury is offsetting your federal payments until your debt is paid`,
+        status: 'info',
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: false,
+        showRequestHelp: true,
+        bodyText: (
+          <p data-testid="diary-code-080-next-step">
+            To avoid collection actions on your bill, you must pay your full
+            balance or request financial help.
           </p>
         ),
       };

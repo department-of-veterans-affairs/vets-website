@@ -24,6 +24,7 @@ const DebtLetterCard = ({ debt }) => {
       class="vads-u-margin-bottom--1"
       disable-analytics="false"
       full-width="false"
+      show-icon={debtCardContent.showIcon}
       status={debtCardContent.status}
       visible="true"
     >
@@ -37,32 +38,36 @@ const DebtLetterCard = ({ debt }) => {
 
       {debtCardContent.showLinks && (
         <div className="vads-u-margin-y--2">
-          <div>
-            <a
-              className="vads-u-font-size--md vads-u-font-weight--bold"
-              aria-label="Make a payment"
-              href="https://www.pay.va.gov/"
-            >
-              <i
-                aria-hidden="true"
-                className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
-              />
-              Make a payment
-            </a>
-          </div>
-          <div>
-            <a
-              className="vads-u-font-size--md vads-u-font-weight--bold"
-              aria-label="Request help with your debt"
-              href="/manage-va-debt/request-debt-help-form-5655"
-            >
-              <i
-                className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
-                aria-hidden="true"
-              />
-              Request help with your debt
-            </a>
-          </div>
+          {debtCardContent.showMakePayment && (
+            <div>
+              <a
+                className="vads-u-font-size--md vads-u-font-weight--bold"
+                aria-label="Make a payment"
+                href="https://www.pay.va.gov/"
+              >
+                <i
+                  aria-hidden="true"
+                  className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
+                />
+                Make a payment
+              </a>
+            </div>
+          )}
+          {debtCardContent.showRequestHelp && (
+            <div>
+              <a
+                className="vads-u-font-size--md vads-u-font-weight--bold"
+                aria-label="Request help with your debt"
+                href="/manage-va-debt/request-debt-help-form-5655"
+              >
+                <i
+                  className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
+                  aria-hidden="true"
+                />
+                Request help with your debt
+              </a>
+            </div>
+          )}
         </div>
       )}
     </va-alert>
