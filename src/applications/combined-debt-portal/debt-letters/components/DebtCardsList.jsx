@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { PATTERNS } from '@department-of-veterans-affairs/component-library/Telephone';
 import DebtSummaryCard from './DebtSummaryCard';
 import { ErrorMessage, DowntimeMessage } from './Alerts';
 // TODO: OtherVA Update
@@ -106,35 +105,6 @@ const DebtCardsList = () => {
         )}
 
       <section>
-        <h3 className="vads-u-font-size--h4">
-          What if my debt isn’t listed here?
-        </h3>
-        <p className="vads-u-font-family--sans">
-          If you received a letter about a VA benefit debt that isn’t listed
-          here, call us at{' '}
-          <va-telephone
-            contact="800-827-0648"
-            className="vads-u-margin-x--0p5"
-          />{' '}
-          (or{' '}
-          <va-telephone
-            contact="1-612-713-6415"
-            pattern={PATTERNS.OUTSIDE_US}
-            className="vads-u-margin-x--0p5"
-          />{' '}
-          from overseas).
-        </p>
-        <p className="vads-u-font-family--sans vads-u-margin-bottom--0">
-          For medical co-payment debt, please go to
-          <a
-            className="vads-u-margin-x--0p5"
-            href="/health-care/pay-copay-bill/"
-          >
-            Pay your VA copay bill
-          </a>
-          to learn about your payment options.
-        </p>
-
         {renderOtherVA()}
 
         <h3
