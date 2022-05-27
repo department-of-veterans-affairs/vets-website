@@ -1,0 +1,14 @@
+{
+    "name": "@department-of-veterans-affairs/platform-startup",
+    "version": "1.0.0",
+    "exports": {
+      "." :"./",
+      "./index" :"./index.js",
+      "./store" :"./store.js",
+      "./react" :"./react.js"
+    },
+    "license": "MIT",
+    "private": true
+   
+   }
+  

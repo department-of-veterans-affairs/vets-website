@@ -390,7 +390,8 @@
     "src/applications/burials",
     "src/applications/lgy/coe",
 
-    "src/platform"
+    "src/platform",
+    "src/platform/startup"
     
     ],
     "nohoist": [
