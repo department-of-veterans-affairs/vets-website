@@ -771,8 +771,8 @@ jobs:
       - name: Init Dashboard Data Repo
         uses: ./.github/workflows/init-data-repo
 
-      # - name: Set Up BigQuery Creds
-      #   uses: ./.github/workflows/configure-bigquery
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -940,8 +940,8 @@ jobs:
       - name: Init Dashboard Data Repo
         uses: ./.github/workflows/init-data-repo
 
-      # - name: Set Up BigQuery Creds
-      #   uses: ./.github/workflows/configure-bigquery
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1

@@ -89,7 +89,7 @@ class StayInformedPage {
 
   validateSubmission() {
     cy.get('.vads-l-row').contains(
-      'Thank you for up to stay informed about COVID-19 vaccines at VA',
+      'Thank you for signing up to stay informed about COVID-19 vaccines at VA',
     );
   }
 
