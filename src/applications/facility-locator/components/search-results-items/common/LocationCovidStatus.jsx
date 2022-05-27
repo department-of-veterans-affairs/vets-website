@@ -13,7 +13,7 @@ const store = createCommonStore({
 const LocationCovidStatus = ({ supplementalStatus }) => {
   const [showVamcAlert, setShowVamcAlert] = useState(true);
   const covidStatus = supplementalStatus?.find(status =>
-    status.id.includes('COVID'),
+    status.status_id.includes('COVID'),
   );
 
   useEffect(() => {
@@ -34,16 +34,19 @@ const LocationCovidStatus = ({ supplementalStatus }) => {
   }
 
   return (
-    <va-alert
-      background-only
-      show-icon
+    <va-alert-expandable
+      class="vads-u-margin-x--0"
       status="info"
-      visible
-      data-testid={`${covidStatus.id.toLowerCase()}-message`}
-      class="vads-u-margin-y--2"
+      trigger={covidStatus.name}
+      data-testid={`${covidStatus.status_id.toLowerCase()}-message`}
     >
-      <div tabIndex={0}>{covidStatus.label}</div>
-    </va-alert>
+      {/* eslint-disable react/no-danger */}
+      <div
+        dangerouslySetInnerHTML={{
+          __html: covidStatus.description,
+        }}
+      />
+    </va-alert-expandable>
   );
 };
 
