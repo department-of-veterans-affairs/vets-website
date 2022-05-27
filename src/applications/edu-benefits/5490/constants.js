@@ -1,3 +1,8 @@
+export const RELATIONSHIP = {
+  CHILD: 'Child',
+  SPOUSE: 'Spouse',
+};
+
 export const newFormPages = {
   newApplicantInformation: 'newApplicantInformation',
   newContactInformation: {
