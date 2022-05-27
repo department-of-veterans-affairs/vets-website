@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { PATTERNS } from '@department-of-veterans-affairs/component-library/Telephone';
-import DebtLetterCard from './DebtLetterCard';
+import DebtSummaryCard from './DebtSummaryCard';
 import { ErrorMessage, DowntimeMessage } from './Alerts';
 // TODO: OtherVA Update
 import OtherVADebts from '../../../medical-copays/components/OtherVADebts';
@@ -96,7 +96,7 @@ const DebtCardsList = () => {
           <>
             <div className="vads-u-margin-top--3" data-testid="debt-list">
               {debts.map((debt, index) => (
-                <DebtLetterCard
+                <DebtSummaryCard
                   key={`${index}-${debt.fileNumber}`}
                   debt={debt}
                 />
