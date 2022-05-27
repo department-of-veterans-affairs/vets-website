@@ -15,7 +15,7 @@ export class HelloWorld extends React.PureComponent {
   async handleSubmit(event) {
     event.preventDefault();
     try {
-      const resp = await HelloWorldApi.getMessage();
+      const resp = await HelloWorldApi.getMessage2();
       await this.setState({ status: resp.status });
     } catch (error) {
       // eslint-disable-next-line no-console

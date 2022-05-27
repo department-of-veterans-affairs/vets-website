@@ -23,6 +23,16 @@ export const getMessage = async () => {
   }
 };
 
+export const getMessage2 = async () => {
+  const optionalSettings = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+    apiVersion: 'test',
+  };
+
+  return await apiRequest('http://localhost:3000/test/message', optionalSettings);
+};
+
 export const helloWorld = () => {
   return {"hello": "world"};
 };
