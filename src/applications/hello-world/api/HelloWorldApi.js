@@ -22,3 +22,7 @@ export const getMessage = async () => {
     return null;
   }
 };
+
+export const helloWorld = () => {
+  return {"hello": "world"};
+};
