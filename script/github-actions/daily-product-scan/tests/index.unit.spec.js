@@ -24,7 +24,7 @@ describe('daily-product-scan', () => {
     });
 
     it('sets the status return prop to the correct value', () => {
-      expect(status).to.equal('Success');
+      expect(status).to.equal('Suss');
     });
 
     it('sets the message return prop to the correct value', () => {
