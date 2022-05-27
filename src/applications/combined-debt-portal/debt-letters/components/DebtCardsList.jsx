@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { PATTERNS } from '@department-of-veterans-affairs/component-library/Telephone';
 import DebtSummaryCard from './DebtSummaryCard';
 import { ErrorMessage, DowntimeMessage } from './Alerts';
 // TODO: OtherVA Update
