@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-
+import { fetchEDUPaymentInformation as fetchEDUPaymentInformationAction } from '@@profile/actions/paymentInformation';
 import { VA_FORM_IDS } from '~/platform/forms/constants';
 import recordEvent from '~/platform/monitoring/record-event';
 import { isVAPatient, isLOA3, selectProfile } from '~/platform/user/selectors';
@@ -11,14 +10,12 @@ import { filterOutExpiredForms } from '~/applications/personalization/dashboard/
 
 import { getEnrollmentStatus as getEnrollmentStatusAction } from '~/applications/hca/actions';
 
-import { fetchEDUPaymentInformation as fetchEDUPaymentInformationAction } from '@@profile/actions/paymentInformation';
-
 import ApplicationsInProgress from './ApplicationsInProgress';
 import BenefitOfInterest from './BenefitOfInterest';
 
 const AllBenefits = () => (
   <div className="vads-u-margin-top--2">
-    <AdditionalInfo triggerText="What benefits does VA offer?">
+    <va-additional-info trigger="What benefits does VA offer?">
       <p className="vads-u-font-weight--bold">
         Explore VA.gov to learn about the benefits we offer.
       </p>
@@ -54,7 +51,7 @@ const AllBenefits = () => (
           <a href="/family-member-benefits/">Family member benefits</a>
         </li>
       </ul>
-    </AdditionalInfo>
+    </va-additional-info>
   </div>
 );
 
