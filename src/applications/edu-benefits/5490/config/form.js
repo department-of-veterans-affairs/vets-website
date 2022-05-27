@@ -58,6 +58,7 @@ import benefitSelectionWarning from '../components/BenefitSelectionWarning';
 import manifest from '../manifest.json';
 import { newFormFields, newFormPages } from '../constants';
 import GoToYourProfileLink from '../../1990e/components/GoToYourProfileLink';
+import RelatedVeterans from '../components/RelatedVeterans';
 
 const {
   benefit,
@@ -847,7 +848,7 @@ const formConfig = {
       title: 'Your information',
       pages: {
         [newFormPages.newApplicantInformation]: {
-          depends: formData => formData.showUpdatedToeApp,
+          depends: formData => formData.showUpdatedFryDeaApp,
           title: 'Your information',
           path: 'new/applicant-information/personal-information',
           subTitle: 'Your information',
@@ -928,6 +929,78 @@ const formConfig = {
               },
               [newFormFields.newDateOfBirth]: date,
               'view:dateOfBirthUnder18Alert': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
+      },
+    },
+    newVeteranServiceMember: {
+      title: 'Veteran and service member information',
+      pages: {
+        [newFormPages.chooseServiceMember]: {
+          title: 'Veteran and service member information',
+          path: 'new/choose-veteran-or-service-member',
+          depends: formData => formData.showUpdatedFryDeaApp,
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Choose your Veteran or service member</h3>
+                  <p>
+                    Based on Department of Defense records, these are the
+                    Veterans and service members we have on file related to you,
+                    as well as the associated eduacational benefits you may be
+                    eligible for.
+                  </p>
+                  <RelatedVeterans />
+                </>
+              ),
+            },
+            [newFormFields.firstSponsor]: {
+              'ui:title':
+                'Which sponsor’s benefits would you like to use first?',
+              // 'ui:widget': FirstSponsorRadioGroup,
+              // 'ui:reviewWidget': FirstSponsorReviewField,
+              'ui:errorMessages': {
+                required: 'Please select at least one sponsor',
+              },
+            },
+            'view:firstSponsorAdditionalInfo': {
+              'ui:description': (
+                <va-additional-info
+                  trigger="Which sponsor should I use first?"
+                  class="vads-u-margin-bottom--4"
+                >
+                  <p className="vads-u-margin-top--0">
+                    Though unlikely, you may need to consider differences in the
+                    amount of benefits each sponsor offers and when they expire.
+                    Benefits from other sponsors can be used after your first
+                    sponsor’s benefits expire.
+                  </p>
+                  <p className="vads-u-margin-bottom--0">
+                    If you choose “I’m not sure,” or if there are additional
+                    things to consider regarding your sponsors, a VA
+                    representative will reach out to help you decide.
+                  </p>
+                </va-additional-info>
+              ),
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [newFormFields.firstSponsor],
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              [newFormFields.firstSponsor]: {
+                type: 'string',
+              },
+              'view:firstSponsorAdditionalInfo': {
                 type: 'object',
                 properties: {},
               },
