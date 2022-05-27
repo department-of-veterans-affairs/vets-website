@@ -50,24 +50,14 @@ export class ResultsList extends Component {
     }
   }
 
-  visNEightIsShowNumber(result, query, facilityLocatorShowHealthConnectNumber) {
+  isHealthAndHealthConnect(result, query) {
     let final = false;
     if (
-      result?.attributes?.visn === '8' &&
       query?.facilityType === 'health' &&
-      facilityLocatorShowHealthConnectNumber
-    ) {
-      final = facilityLocatorShowHealthConnectNumber;
-    } else if (
-      result?.attributes?.visn === '2' &&
-      query?.facilityType === 'health'
+      result?.attributes?.phone?.healthConnect !== null
     ) {
       final = true;
-    } else if (
-      result?.attributes?.visn === '17' &&
-      query?.facilityType === 'health'
-    ) {
-      final = true;
+      return final;
     }
     return final;
   }
@@ -86,10 +76,9 @@ export class ResultsList extends Component {
         ? services[0]?.walkInsAccepted
         : 'false';
 
-      const showHealthConnectNumber = this.visNEightIsShowNumber(
+      const showHealthConnectNumber = this.isHealthAndHealthConnect(
         result,
         query,
-        this.props.facilityLocatorShowHealthConnectNumber,
       );
 
       switch (query.facilityType) {
