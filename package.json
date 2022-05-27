@@ -382,6 +382,18 @@
     "**/async": "^2.6.4",
     "**/ejs": "^3.1.7",
     "**/fbjs": "^3.0.4"
-  }
+  },
   
+  "workspaces": {
+    "packages":[
+    "src/applications/vaos",
+    "src/applications/burials",
+    "src/applications/lgy/coe"
+    
+    ],
+    "nohoist": [
+      "**/applications-vaos/docdash", 
+      "**/applications-vaos/@barebones/keycodes" 
+    ]
+  }
 }

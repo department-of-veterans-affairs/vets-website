@@ -1,0 +1,18 @@
+{
+    "name": "@department-of-veterans-affairs/applications-vaos",
+    "version": "0.0.1",
+    "scripts": {
+      "build": "echo Build script goes here",
+      "test": "echo Test script goes here",
+      "demo":"echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+    },
+    "dependencies": {
+      "@barebones/keycodes": "^1.0.1",
+      "docdash": "^1.2.0"
+    },
+    "devDependencies": {
+      "cross-env": "^7.0.3"
+    },
+    "private": true
+  }
+  

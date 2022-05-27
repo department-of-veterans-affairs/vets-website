@@ -1,0 +1,14 @@
+{
+    "name": "@department-of-veterans-affairs/applications-burials",
+    "version": "0.0.1",
+    "scripts": {
+      "build": "echo Build script goes here",
+      "test": "echo Test script goes here",
+      "demo":"echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+    },
+    "dependencies": {},
+    "devDependencies": {
+      "cross-env": "^7.0.3"
+    },
+    "private": true
+  }
