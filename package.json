@@ -388,7 +388,9 @@
     "packages":[
     "src/applications/vaos",
     "src/applications/burials",
-    "src/applications/lgy/coe"
+    "src/applications/lgy/coe",
+
+    "src/platform"
     
     ],
     "nohoist": [
