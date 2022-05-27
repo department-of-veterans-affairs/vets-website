@@ -5,7 +5,8 @@
       "." :"./",
       "./index" :"./index.js",
       "./store" :"./store.js",
-      "./react" :"./react.js"
+      "./react" :"./react.js",
+      "./analytics" :"./analytics-middleware.js"
     },
     "license": "MIT",
     "private": true
