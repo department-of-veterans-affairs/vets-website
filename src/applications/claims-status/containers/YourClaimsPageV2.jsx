@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import { VaPagination } from '@department-of-veterans-affairs/web-components/react-bindings';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
 import backendServices from 'platform/user/profile/constants/backendServices';
@@ -23,6 +22,7 @@ import {
   appealsAvailability,
   sortByLastUpdated,
   getVisibleRows,
+  getPageRange,
 } from '../utils/appeals-v2-helpers';
 import { setUpPage, setPageFocus } from '../utils/page';
 
@@ -80,14 +80,11 @@ class YourClaimsPageV2 extends React.Component {
   // an initial sort needs to happen in componentDidMount
   // }
 
-  componentDidUpdate() {
-    setPageFocus();
-  }
-
-  changePage(page) {
+  changePage(event) {
     const { changePageV2 } = this.props;
-    changePageV2(page);
-    scrollToTop();
+    changePageV2(event.detail.page);
+    // Move focus to "Showing X through Y of Z events..." for screenreaders
+    setPageFocus('#pagination-info');
   }
 
   renderListItem(claim) {
@@ -145,6 +142,7 @@ class YourClaimsPageV2 extends React.Component {
   render() {
     const {
       list,
+      listLength,
       pages,
       page,
       claimsLoading,
@@ -155,6 +153,7 @@ class YourClaimsPageV2 extends React.Component {
     } = this.props;
 
     let content;
+    let pageInfo;
     const allRequestsLoaded =
       !claimsLoading && !appealsLoading && !stemClaimsLoading;
     const allRequestsLoading =
@@ -171,17 +170,29 @@ class YourClaimsPageV2 extends React.Component {
       );
     } else {
       if (!emptyList) {
+        pageInfo = null;
+        if (pages > 1) {
+          const range = getPageRange(page, listLength);
+          pageInfo = (
+            <p id="pagination-info">
+              {`Showing ${range.start} \u2012 ${
+                range.end
+              } of ${listLength} events`}
+            </p>
+          );
+        }
         content = (
           <div>
             {show30DayNotice && (
               <ClosedClaimMessage claims={list} onClose={hide30DayNotice} />
             )}
+            {pageInfo}
             <div className="claim-list">
               {atLeastOneRequestLoading && (
                 <va-loading-indicator message="Loading your claims and appeals..." />
               )}
               {list.map(claim => this.renderListItem(claim))}
-              <Pagination
+              <VaPagination
                 page={page}
                 pages={pages}
                 onPageSelect={this.changePage}
@@ -257,6 +268,7 @@ YourClaimsPageV2.propTypes = {
       attributes: PropTypes.shape({}),
     }),
   ),
+  listLength: PropTypes.number,
   page: PropTypes.number,
   pages: PropTypes.number,
   show30DayNotice: PropTypes.bool,
@@ -296,6 +308,7 @@ function mapStateToProps(state) {
     appealsLoading: claimsV2Root.appealsLoading,
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
     list,
+    listLength: sortedList.length,
     page: claimsV2Root.page,
     pages: claimsV2Root.pages,
     sortProperty: claimsRoot.sortProperty,
