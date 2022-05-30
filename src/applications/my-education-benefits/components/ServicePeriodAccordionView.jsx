@@ -48,10 +48,14 @@ export default function ServicePeriodAccordionView({ formData }) {
       </dd>
 
       <dt className="service-history-details_term">Character of service</dt>
-      <dd className="service-history-details_definition">{serviceCharacter}</dd>
+      <dd className="service-history-details_definition">
+        {servicePeriodTo ? serviceCharacter : 'Not Applicable'}
+      </dd>
 
       <dt className="service-history-details_term">Separation reason</dt>
-      <dd className="service-history-details_definition">{separationReason}</dd>
+      <dd className="service-history-details_definition">
+        {servicePeriodTo ? separationReason : 'Not Applicable'}
+      </dd>
 
       {!!formattedTrainingPeriods.length && (
         <>

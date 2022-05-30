@@ -1,7 +1,7 @@
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
 
-describe('Fetch Form Status Successfully', () => {
+describe.skip('Fetch Form Status Successfully', () => {
   before(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
