@@ -27,7 +27,89 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        buildtype: [vagovdev, vagovstaging, vagovprod]
+        include:
+          - buildname: vagovdev
+            buildtype: vagovdev
+          - buildname: vagovstaging
+            buildtype: vagovstaging
+          - buildname: vagovprod
+            buildtype: vagovprod
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: List changed files
+        id: changed-files
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
+            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+          else
+            echo ::set-output name=all_changed_files::$(git diff --name-only origin/main...)
+          fi
+
+      - name: Get app entries for changed files
+        id: get-changed-apps
+        run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+
+      - name: Build
+        run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
+        timeout-minutes: 30
+        env:
+          ENTRY: ${{ steps.get-changed-apps.outputs.app_entries }}
+
+      - name: Generate build details
+        run: |
+          cat > build/${{ matrix.buildname }}/BUILD.txt << EOF
+          BUILDTYPE=${{ matrix.buildtype }}
+          NODE_ENV=production
+          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+          CHANGE_TARGET=null
+          RUN_ID=${{ github.run_id }}
+          RUN_NUMBER=${{ github.run_number }}
+          REF=${{ github.sha }}
+          BUILDTIME=$(date +%s)
+          EOF
+
+      - name: Compress and archive build
+        run: tar -C build/${{ matrix.buildname }} -cjf ${{ matrix.buildname }}.tar.bz2 .
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.buildname }}.tar.bz2
+          path: ${{ matrix.buildname }}.tar.bz2
+          retention-days: 1
+
+  build-cypress:
+    name: Build Cypress
+    runs-on: self-hosted
+    outputs:
+      app_entries: ${{ steps.get-changed-apps.outputs.app_entries }}
+
+    env:
+      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - buildname: vagovcypress
+            buildtype: vagovprod
 
     steps:
       - name: Checkout
@@ -74,14 +156,14 @@ jobs:
           env_variable_name: MAPBOX_TOKEN
 
       - name: Build
-        run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
+        run: yarn build --verbose --buildtype=${{ matrix.buildtype }} --destination=${{ matrix.buildname }} ${ENTRY:+"--entry=$ENTRY"}
         timeout-minutes: 30
         env:
           ENTRY: ${{ steps.get-changed-apps.outputs.app_entries }}
 
       - name: Generate build details
         run: |
-          cat > build/${{ matrix.buildtype }}/BUILD.txt << EOF
+          cat > build/${{ matrix.buildname }}/BUILD.txt << EOF
           BUILDTYPE=${{ matrix.buildtype }}
           NODE_ENV=production
           BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
@@ -93,13 +175,13 @@ jobs:
           EOF
 
       - name: Compress and archive build
-        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
+        run: tar -C build/${{ matrix.buildname }} -cjf ${{ matrix.buildname }}.tar.bz2 .
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.buildtype }}.tar.bz2
-          path: ${{ matrix.buildtype }}.tar.bz2
+          name: ${{ matrix.buildname }}.tar.bz2
+          path: ${{ matrix.buildname }}.tar.bz2
           retention-days: 1
 
   unit-tests:
@@ -561,12 +643,12 @@ jobs:
       - name: Download production build artifact
         uses: actions/download-artifact@v3
         with:
-          name: vagovprod.tar.bz2
+          name: vagovcypress.tar.bz2
 
       - name: Unpack build
         run: |
-          mkdir -p build/vagovprod
-          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+          mkdir -p build/vagovcypress
+          tar -C build/vagovcypress -xjf vagovcypress.tar.bz2
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -580,7 +662,7 @@ jobs:
             node_modules
 
       - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --buildroot=vagovcypress --port=3001 &
 
       - name: Run Cypress tests
         run: node script/github-actions/run-cypress-tests.js
@@ -1030,7 +1112,7 @@ jobs:
 
     strategy:
       matrix:
-        buildtype: [vagovdev, vagovstaging, vagovprod]
+        buildname: [vagovdev, vagovstaging, vagovprod, vagovcypress]
 
     needs:
       [
@@ -1066,14 +1148,14 @@ jobs:
       - name: Download build artifact
         uses: actions/download-artifact@v3
         with:
-          name: ${{ matrix.buildtype }}.tar.bz2
+          name: ${{ matrix.buildname }}.tar.bz2
 
       - name: Extract build artifact
         if: env.IS_SINGLE_APP_BUILD == 'true'
         run: |
-          mkdir -p build/${{ matrix.buildtype }}
-          tar -C build/${{ matrix.buildtype }} -xjvf ${{ matrix.buildtype }}.tar.bz2
-          rm ${{ matrix.buildtype }}.tar.bz2
+          mkdir -p build/${{ matrix.buildname }}
+          tar -C build/${{ matrix.buildname }} -xjvf ${{ matrix.buildname }}.tar.bz2
+          rm ${{ matrix.buildname }}.tar.bz2
 
       - name: Remove global assets from build
         if: env.IS_SINGLE_APP_BUILD == 'true'
@@ -1081,11 +1163,11 @@ jobs:
         env:
           ENTRY_NAMES: ${{ needs.build.outputs.app_entries }}
           APP_DIRS: ${{ needs.unit-tests.outputs.app_folders }}
-          BUILD_DIR: build/${{ matrix.buildtype }}
+          BUILD_DIR: build/${{ matrix.buildname }}
 
       - name: Compress and archive single/grouped app build
         if: env.IS_SINGLE_APP_BUILD == 'true'
-        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
+        run: tar -C build/${{ matrix.buildname }} -cjf ${{ matrix.buildname }}.tar.bz2 .
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
@@ -1111,7 +1193,7 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Upload build
-        run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
+        run: aws s3 cp ${{ matrix.buildname }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/${{ matrix.buildname }}.tar.bz2 --acl public-read --region us-gov-west-1
 
   get-latest-run-number:
     name: Get Latest Workflow Run Number

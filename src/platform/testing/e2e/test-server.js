@@ -16,10 +16,14 @@ const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: ENVIRONMENTS.VAGOVDEV },
   { name: 'port', type: Number, defaultValue: +(process.env.WEB_PORT || 3333) },
   { name: 'host', type: String, defaultValue: 'localhost' },
+  { name: 'buildroot', type: String, defaultValue: '' },
 ];
 
 const options = commandLineArgs(optionDefinitions);
-const root = path.resolve(__dirname, `../../../../build/${options.buildtype}`);
+const root = path.resolve(
+  __dirname,
+  `../../../../build/${options.buildroot || options.buildtype}`,
+);
 const routes = manifestHelpers.getAppRoutes();
 
 const app = express();
