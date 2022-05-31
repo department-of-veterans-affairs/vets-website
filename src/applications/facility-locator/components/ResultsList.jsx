@@ -57,7 +57,6 @@ export class ResultsList extends Component {
       result?.attributes?.phone?.healthConnect !== null
     ) {
       final = true;
-      return final;
     }
     return final;
   }
