@@ -1,7 +1,6 @@
 import React from 'react';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-import CustomReviewFieldCompensationType from '../../../components/CustomReviewFieldCompensationType';
 import { emptyObjectSchema } from '../../../helpers';
 
 const { vaCompensationType } = fullSchemaHca.properties;
@@ -47,7 +46,6 @@ export default {
     vaCompensationType: {
       'ui:title': 'Do you receive VA disability compensation?',
       'ui:description': CompensationInfo,
-      'ui:reviewField': CustomReviewFieldCompensationType,
       'ui:widget': 'radio',
       'ui:options': {
         labels: {

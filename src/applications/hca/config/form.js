@@ -61,6 +61,7 @@ import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicare
 import vaFacility from './chapters/insuranceInformation/vaFacility';
 import general from './chapters/insuranceInformation/general';
 import ServiceConnectedPayConfirmation from '../components/ServiceConnectedPayConfirmation';
+import CompensationTypeReviewPage from '../components/CompensationTypeReviewPage';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
 
@@ -277,6 +278,7 @@ const formConfig = {
         vaBenefits: {
           path: 'va-benefits/basic-information',
           title: 'VA benefits',
+          CustomPageReview: CompensationTypeReviewPage,
           depends: notHighDisability,
           uiSchema: basicInformation.uiSchema,
           schema: basicInformation.schema,
