@@ -284,7 +284,16 @@ export class ResultsList extends Component {
 }
 
 ResultsList.propTypes = {
+  inProgress: PropTypes.bool,
   results: PropTypes.array,
+  error: PropTypes.object,
+  query: PropTypes.object,
+  currentQuery: PropTypes.object,
+  pagination: PropTypes.object,
+  facilityTypeName: PropTypes.string,
+  searchError: PropTypes.string,
+  searchString: PropTypes.string,
+  showCovidVaccineSchedulingLinks: PropTypes.string,
 };
 
 function mapDispatchToProps(dispatch) {
