@@ -1,29 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { ConfirmationPageContent } from '../../components/ConfirmationPageContent';
 
-class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('.confirmation-page-title');
-    scrollToTop('topScrollElement');
-  }
+function ConfirmationPage(props) {
+  // componentDidMount() {
+  //   focusElement('.confirmation-page-title');
+  //   scrollToTop('topScrollElement');
+  // }
+  const [isLoading, setIsLoading] = useState(false);
+  const { form } = props;
+  const { submission, formId } = form;
 
-  render() {
-    const form = this.props.form;
-    const { submission, formId } = form;
+  useEffect(
+    () => {
+      focusElement('.confirmation-page-title');
+      scrollToTop('topScrollElement');
+      setIsLoading(true);
+    },
+    [isLoading],
+  );
 
+  if (isLoading) {
     return (
-      <ConfirmationPageContent
-        formId={formId}
-        name={form.data.relativeFullName}
-        printHeader={'Apply to use transferred education benefits'}
-        submission={submission}
-      />
+      <div className="vads-u-margin-y--5">
+        <va-loading-indicator label="Loading" message="Loading your results" />
+      </div>
     );
   }
+
+  return (
+    <ConfirmationPageContent
+      formId={formId}
+      name={form.data.relativeFullName}
+      printHeader="Apply to use transferred education benefits"
+      submission={submission}
+    />
+  );
 }
 
 function mapStateToProps(state) {
