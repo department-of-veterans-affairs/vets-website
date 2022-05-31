@@ -51,7 +51,7 @@ const VaFacilityResult = ({
           operatingStatus.code !== OperatingStatus.NORMAL && (
             <LocationOperationStatus operatingStatus={operatingStatus} />
           )}
-        {operatingStatus && (
+        {!!operatingStatus.supplementalStatus?.length && (
           <LocationCovidStatus
             supplementalStatus={operatingStatus.supplementalStatus}
           />
