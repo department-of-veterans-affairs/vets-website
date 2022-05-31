@@ -52,6 +52,10 @@ const PersonalInformation = () => {
     profileAlwaysShowDirectDepositDisplay,
   );
 
+  const userHasBadAddress = useSelector(hasBadAddress);
+
+  const badAddressIndicatorEnabled = useSelector(showBadAddressIndicator);
+
   const dispatch = useDispatch();
   const clearSuccessAlert = useCallback(
     () => dispatch(clearMostRecentlySavedField()),
@@ -130,6 +134,7 @@ const PersonalInformation = () => {
     },
     [openEditModal],
   );
+
   return (
     <>
       <Prompt
@@ -137,7 +142,7 @@ const PersonalInformation = () => {
         when={hasUnsavedEdits}
       />
       {badAddressIndicatorEnabled &&
-        showBadAddressAlert && (
+        userHasBadAddress && (
           <>
             <BadAddressAlert />
           </>

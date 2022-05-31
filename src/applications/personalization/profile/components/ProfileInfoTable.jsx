@@ -96,6 +96,7 @@ const ProfileInfoTable = ({
           {title}
         </TableTitle>
       )}
+
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ol className="vads-u-margin--0 vads-u-padding--0" role="list">
         {data
@@ -118,6 +119,7 @@ const ProfileInfoTable = ({
                       {row.description}
                     </span>
                   )}
+                  {row.alertMessage && <>{row.alertMessage}</>}
                 </dfn>
               )}
 

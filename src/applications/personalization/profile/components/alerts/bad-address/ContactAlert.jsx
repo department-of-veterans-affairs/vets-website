@@ -12,9 +12,9 @@ export default function ContactAlert() {
         <strong className="vads-u-font-weight--bold">Update</strong> to confirm.
       </p>
       <p>
-        <a href="#mailingAddress">
-          <i aria-hidden="true" className="fas fa-arrow-down" />
-          Review your mailing address
+        <a href="#addresses">
+          <i aria-hidden="true" className="fas fa-arrow-down" /> Review your
+          mailing address
         </a>
       </p>
     </va-alert>
