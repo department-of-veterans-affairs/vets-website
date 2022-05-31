@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-
+import { Route } from 'react-router-dom';
 import FormRouter from '../../src/routing/Router';
 import FormTitle from '../../src/form-layout/FormTitle';
 
@@ -30,6 +30,7 @@ describe('FormTitle', () => {
 
     const { container } = render(
       <FormRouter basename="" title="hello world" formData={{firstName: ''}}>
+        <Route path="/" element={<div>Hello World</div>} />
       </FormRouter>
     );
 
@@ -44,6 +45,7 @@ describe('FormTitle', () => {
       subtitle: "subtitle",
       formData: {firstName: ''}
     }}>
+      <Route path="/" element={<div>Hello World</div>} />
     </FormRouter>);
 
     const titleText = container.querySelector('.va-form-subtitle')?.innerHTML;

@@ -10,7 +10,7 @@ import { RouterContext } from './RouterContext';
  * @beta
  */
 export default function Page(props: PageProps): JSX.Element {
-  const { values, submitForm } = useFormikContext();
+  const { values } = useFormikContext();
   const formValues = values as IFormData;
   const listOfRoutes = useContext(RouterContext).listOfRoutes;
   const currentLocation = useLocation();

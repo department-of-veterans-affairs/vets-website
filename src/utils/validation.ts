@@ -80,7 +80,6 @@ export const isValidEmail = <T>(
   props: FieldProps<T>
 ): ValidationFunctionResult<T> => {
   if (typeof emailString !== 'string') {
-    console.warn('emailString was not of type string');
     return '';
   }
 
@@ -98,7 +97,6 @@ export const isValidPhone = <T>(
   props: FieldProps<T>
 ): ValidationFunctionResult<T> => {
   if (typeof phoneString !== 'string') {
-    console.warn('phoneString was not of type string');
     return '';
   }
   function validPhone(value: string) {
@@ -126,7 +124,6 @@ export const isValidSSN = <T>(
   props: FieldProps<T>
 ): ValidationFunctionResult<T> => {
   if (typeof ssnString !== 'string') {
-    console.warn('ssnString was not of type string');
     return '';
   }
 
