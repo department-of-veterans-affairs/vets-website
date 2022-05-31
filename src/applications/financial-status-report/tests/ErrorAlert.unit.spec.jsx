@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { ErrorAlert } from '../components/Alerts';
 
-describe.skip('ErrorAlert', () => {
+describe('ErrorAlert', () => {
   it('should render va-alert', async () => {
     const fakeStore = {
       getState: () => ({
