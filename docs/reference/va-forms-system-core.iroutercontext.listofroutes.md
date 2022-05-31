@@ -10,5 +10,5 @@
 <b>Signature:</b>
 
 ```typescript
-listOfRoutes?: string[];
+listOfRoutes: RouteInfo[];
 ```

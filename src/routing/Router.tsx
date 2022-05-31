@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Routes } from 'react-router-dom';
 import { Formik } from 'formik';
 import { RouterProps } from './types';
@@ -6,6 +6,7 @@ import { RouterProps } from './types';
 import FormTitle from '../form-layout/FormTitle';
 import FormFooter from '../form-layout/FormFooter';
 import { RouterContextProvider } from './RouterContext';
+import RouterProgress from './RouterProgress';
 
 /**
  * Manages form pages as routes
@@ -14,15 +15,19 @@ import { RouterContextProvider } from './RouterContext';
  */
 export default function FormRouter(props: RouterProps): JSX.Element {
   const initialValues = props.formData;
+  const [route, updateRoute] = useState('/');
 
   return (
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
-        <RouterContextProvider routes={props.children}>
-          <BrowserRouter basename={props.basename}>
-            {props?.title && (
-              <FormTitle title={props.title} subTitle={props?.subtitle} />
-            )}
+        <BrowserRouter basename={props.basename}>
+          <RouterContextProvider
+            routes={props.children}
+            currentRoute={route}
+            updateRoute={updateRoute}
+          >
+            <FormTitle title={props.title} subTitle={props?.subtitle} />
+            <RouterProgress route={route} />
             <Formik
               initialValues={initialValues}
               onSubmit={(values, actions) => {
@@ -34,8 +39,8 @@ export default function FormRouter(props: RouterProps): JSX.Element {
               <Routes>{props.children}</Routes>
             </Formik>
             <FormFooter />
-          </BrowserRouter>
-        </RouterContextProvider>
+          </RouterContextProvider>
+        </BrowserRouter>
       </div>
     </div>
   );

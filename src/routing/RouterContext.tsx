@@ -1,11 +1,11 @@
 import React, { ReactElement } from 'react';
 import { createRoutesFromChildren, RouteObject } from 'react-router-dom';
-import { RouterContextProps, RouterProps } from './types';
-
-import { IRouterContext } from './types';
+import { IRouterContext, RouteInfo, RouterContextProps } from './types';
 
 const RouterContextDefaultState = {
   listOfRoutes: [],
+  currentRoute: '',
+  updateRoute: (value: string) => null,
 };
 
 export const RouterContext = React.createContext<IRouterContext>(
@@ -13,18 +13,37 @@ export const RouterContext = React.createContext<IRouterContext>(
 );
 
 export const routeObjectsReducer = (routeObjectsArray: RouteObject[]) => {
-  return routeObjectsArray.reduce<string[]>(
-    (accumulator, current): string[] => {
+  return routeObjectsArray.reduce<RouteInfo[]>(
+    (accumulator, current): RouteInfo[] => {
+      let accumulatorItem: RouteInfo[] = [...accumulator];
+
+      if (current.path === '*') return accumulatorItem;
+
+      accumulatorItem = [
+        ...accumulatorItem,
+        {
+          path: current?.path ? current.path : '/',
+          title: (
+            (current?.element as ReactElement)?.props as { title: string }
+          )?.title,
+        },
+      ];
       if (current.children) {
-        return [
-          ...accumulator,
-          current?.path ? current.path : '/',
-          ...current.children.map((child) =>
-            child?.path ? (current?.path as string) + '/' + child.path : '/'
-          ),
+        accumulatorItem = [
+          ...accumulatorItem,
+          ...current.children.map((child) => {
+            return {
+              path: child?.path
+                ? (current?.path as string) + '/' + child.path
+                : '/',
+              title: (
+                (child?.element as ReactElement)?.props as { title: string }
+              )?.title,
+            };
+          }),
         ];
       }
-      return [...accumulator, current?.path ? current.path : '/'];
+      return accumulatorItem;
     },
     []
   );
@@ -35,7 +54,7 @@ export function RouterContextProvider(props: RouterContextProps): JSX.Element {
     listOfRoutes = routeObjectsReducer(routeObjects);
 
   return (
-    <RouterContext.Provider value={{ listOfRoutes: listOfRoutes }}>
+    <RouterContext.Provider value={{ ...props, listOfRoutes: listOfRoutes }}>
       {props.children}
     </RouterContext.Provider>
   );

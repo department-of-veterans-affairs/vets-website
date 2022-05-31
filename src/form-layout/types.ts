@@ -13,3 +13,9 @@ export interface FormTitleProps {
   title: string;
   subTitle?: string;
 }
+
+export interface ProgressBarProps {
+  numberOfSteps: number;
+  currentStep: number;
+  stepTitle: string;
+}

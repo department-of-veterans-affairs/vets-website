@@ -17,9 +17,9 @@ const BurialApp = (props) => {
   return (
     <div className='vads-u-display--flex vads-u-align-items--center vads-u-flex-direction--column'>
       <FormRouter basename={props.basename} formData={props.initialValues} title="Burials Example">
-        <Route index element={<BurialIntroduction />} />
-        <Route path="/claimant-information" element={<ClaimantInformation />} />
-        <Route path="/veteran-information" element={<VeteranInformation />} />
+        <Route index element={<BurialIntroduction title="Introduction Page" />} />
+        <Route path="/claimant-information" element={<ClaimantInformation title="Claimant Information" />} />
+        <Route path="/veteran-information" element={<VeteranInformation title="Deceased Veteran Information" />} />
         <Route path="*" element={<NoMatch name="No Routes for App" />} />
       </FormRouter>
     </div>

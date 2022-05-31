@@ -1,10 +1,10 @@
 import React from 'react';
 import { Page, IntroductionPage } from '@department-of-veterans-affairs/va-forms-system-core';
 
-export default function BurialIntroduction() {
+export default function BurialIntroduction(props) {
   return (
     <>
-      <Page title="Introduction Page" nextPage="/claimant-information">
+      <Page {...props} nextPage="/claimant-information">
         <IntroductionPage />
       </Page>
     </>

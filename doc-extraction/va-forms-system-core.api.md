@@ -121,7 +121,11 @@ export const IntroductionPage: () => JSX.Element;
 // @beta
 export interface IRouterContext {
     // (undocumented)
-    listOfRoutes?: string[];
+    currentRoute: string;
+    // (undocumented)
+    listOfRoutes: RouteInfo[];
+    // (undocumented)
+    updateRoute: (value: string) => void;
 }
 
 // @public
@@ -147,8 +151,6 @@ export interface PageProps {
     // (undocumented)
     nextPage?: string;
     // (undocumented)
-    path?: string;
-    // (undocumented)
     prevPage?: string;
     // (undocumented)
     title: string;
@@ -158,6 +160,16 @@ export interface PageProps {
 //
 // @beta
 export const PhoneField: (props: PhoneProps) => JSX.Element;
+
+// @public (undocumented)
+export interface ProgressBarProps {
+    // (undocumented)
+    currentStep: number;
+    // (undocumented)
+    numberOfSteps: number;
+    // (undocumented)
+    stepTitle: string;
+}
 
 // @public (undocumented)
 export function RadioGroup(props: RadioGroupProps): JSX.Element;
@@ -184,12 +196,24 @@ export interface Routable {
     path: string;
 }
 
+// @beta
+export interface RouteInfo {
+    // (undocumented)
+    path: string;
+    // (undocumented)
+    title: string;
+}
+
 // @public (undocumented)
 export interface RouterContextProps {
     // (undocumented)
     children: ReactElement<any, any> | ReactElement<any, any>[];
     // (undocumented)
+    currentRoute: string;
+    // (undocumented)
     routes: React.ReactElement | React.ReactElement[];
+    // (undocumented)
+    updateRoute: (value: string) => void;
 }
 
 // @beta

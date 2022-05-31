@@ -18,7 +18,7 @@ export default function ClaimantInformation() {
   
   return (
     <>
-      <Page title="Step 1 of 6: Claimant Information" nextPage="/veteran-information" prevPage="/">
+      <Page {...props} nextPage="/veteran-information" prevPage="/">
         <FullNameField name="claimantFullName"/>
         <RadioGroup
           name="relationship.type"

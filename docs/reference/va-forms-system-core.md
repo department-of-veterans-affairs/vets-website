@@ -25,7 +25,9 @@
 |  [IRouterContext](./va-forms-system-core.iroutercontext.md) | <b><i>(BETA)</i></b> Properties for Router Context |
 |  [OMBInfoProps](./va-forms-system-core.ombinfoprops.md) | OMBInfo properties |
 |  [PageProps](./va-forms-system-core.pageprops.md) | <b><i>(BETA)</i></b> The properties for the Page React component |
+|  [ProgressBarProps](./va-forms-system-core.progressbarprops.md) |  |
 |  [Routable](./va-forms-system-core.routable.md) | <b><i>(BETA)</i></b> Indicates if a component can be routed using <code>react-router-dom</code>. The <code>path</code> prop must be present. |
+|  [RouteInfo](./va-forms-system-core.routeinfo.md) | <b><i>(BETA)</i></b> Used for passing a list of routes into Router Context |
 |  [RouterContextProps](./va-forms-system-core.routercontextprops.md) |  |
 |  [RouterProps](./va-forms-system-core.routerprops.md) | <b><i>(BETA)</i></b> The properties for the Router React component |
 

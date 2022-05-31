@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { RouterContext } from './RouterContext';
 import { ChapterProps } from './types';
@@ -9,8 +9,16 @@ import { ChapterProps } from './types';
  * @beta
  */
 export default function Chapter(props: ChapterProps): JSX.Element {
-  const listOfRoutes = useContext(RouterContext).listOfRoutes;
+  const { listOfRoutes, updateRoute } = useContext(RouterContext);
   const currentLocation = useLocation();
+
+  useEffect(
+    () =>
+      updateRoute(
+        currentLocation.pathname !== '' ? currentLocation.pathname : '/'
+      ),
+    [currentLocation]
+  );
 
   return (
     <div className="chapter">

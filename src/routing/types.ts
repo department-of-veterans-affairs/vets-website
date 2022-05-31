@@ -17,6 +17,8 @@ export interface RouterProps {
 export interface RouterContextProps {
   routes: React.ReactElement | React.ReactElement[];
   children: ReactElement<any, any> | ReactElement<any, any>[];
+  currentRoute: string;
+  updateRoute: (value: string) => void;
 }
 
 /**
@@ -30,12 +32,24 @@ export interface Routable {
 }
 
 /**
+ * Used for passing a list of routes into Router Context
+ *
+ * @beta
+ */
+export interface RouteInfo {
+  path: string;
+  title: string;
+}
+
+/**
  * Properties for Router Context
  *
  * @beta
  */
 export interface IRouterContext {
-  listOfRoutes?: string[];
+  listOfRoutes: RouteInfo[];
+  currentRoute: string;
+  updateRoute: (value: string) => void;
 }
 
 /**
@@ -46,7 +60,6 @@ export interface IRouterContext {
 export interface PageProps {
   children: JSX.Element | JSX.Element[] | Element;
   title: string;
-  path?: string;
   nextPage?: string;
   prevPage?: string;
 }

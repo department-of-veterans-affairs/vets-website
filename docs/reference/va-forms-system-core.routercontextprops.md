@@ -15,5 +15,7 @@ export interface RouterContextProps
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [children](./va-forms-system-core.routercontextprops.children.md) | ReactElement&lt;any, any&gt; \| ReactElement&lt;any, any&gt;\[\] |  |
+|  [currentRoute](./va-forms-system-core.routercontextprops.currentroute.md) | string |  |
 |  [routes](./va-forms-system-core.routercontextprops.routes.md) | React.ReactElement \| React.ReactElement\[\] |  |
+|  [updateRoute](./va-forms-system-core.routercontextprops.updateroute.md) | (value: string) =&gt; void |  |
 
