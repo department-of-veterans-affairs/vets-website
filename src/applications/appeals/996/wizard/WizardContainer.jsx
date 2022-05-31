@@ -43,10 +43,9 @@ export const WizardContainer = ({ setWizardStatus, hlrV2 }) => {
       <div className="wizard-container">
         <h2>Is this the form I need?</h2>
         <p>
-          Use this form if you disagree with VA’s decision on your claim and
-          want to request that a senior reviewer take a new look at your case
-          and the evidence you provided. You can’t submit any new evidence with
-          a Higher-Level Review.
+          Use this form if you disagree with our decision on your claim and want
+          a senior reviewer to review your case again. You can’t submit any new
+          evidence with a Higher-Level Review.
         </p>
         <p>{getStarted}</p>
         <Wizard

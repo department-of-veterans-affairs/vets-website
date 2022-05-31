@@ -4,7 +4,7 @@ import * as Sentry from '@sentry/browser';
 import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
-import { SET_UNAUTHORIZED } from '../actions/index.jsx';
+import { SET_UNAUTHORIZED } from '../actions/index';
 
 const evidenceGathering = 'Evidence gathering, review, and decision';
 
@@ -26,7 +26,8 @@ export function getPhaseDescription(phase) {
 export function getUserPhaseDescription(phase) {
   if (phase < 3) {
     return phaseMap[phase];
-  } else if (phase === 3) {
+  }
+  if (phase === 3) {
     return evidenceGathering;
   }
 
@@ -41,7 +42,8 @@ export function getPhaseDescriptionFromEvent(event) {
 export function getUserPhase(phase) {
   if (phase < 3) {
     return phase;
-  } else if (phase >= 3 && phase < 7) {
+  }
+  if (phase >= 3 && phase < 7) {
     return 3;
   }
 
@@ -51,9 +53,11 @@ export function getUserPhase(phase) {
 export function getItemDate(item) {
   if (item.receivedDate) {
     return item.receivedDate;
-  } else if (item.documents && item.documents.length) {
+  }
+  if (item.documents && item.documents.length) {
     return item.documents[item.documents.length - 1].uploadDate;
-  } else if (item.type === 'other_documents_list' && item.uploadDate) {
+  }
+  if (item.type === 'other_documents_list' && item.uploadDate) {
     return item.uploadDate;
   }
 
@@ -214,7 +218,7 @@ export function hasBeenReviewed(trackedItem) {
 // Adapted from http://stackoverflow.com/a/26230989/487883
 export function getTopPosition(elem) {
   const box = elem.getBoundingClientRect();
-  const body = document.body;
+  const { body } = document;
   const docEl = document.documentElement;
 
   const scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;

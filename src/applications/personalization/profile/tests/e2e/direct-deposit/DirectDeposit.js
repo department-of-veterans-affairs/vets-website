@@ -40,6 +40,16 @@ class DirectDepositPage {
   checkVerifyMessageIsShowing = () => {
     cy.findAllByTestId('direct-deposit-mfa-message').should('exist');
   };
+
+  confirmDirectDepositIsBlocked = () => {
+    cy.findByTestId('direct-deposit-blocked').should('exist');
+  };
+
+  confirmServiceIsDownMessageShows = () => {
+    cy.findByTestId('direct-deposit-service-down-alert-headline').should(
+      'exist',
+    );
+  };
 }
 
 export default new DirectDepositPage();

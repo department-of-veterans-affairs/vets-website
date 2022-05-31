@@ -3,25 +3,29 @@ import { apiRequest } from 'platform/utilities/api';
 import { DevicesToConnectSection } from './DevicesToConnectSection';
 import { ConnectedDevicesSection } from './ConnectedDevicesSection';
 import { FETCH_CONNECTED_DEVICES } from '../actions/api';
+import {
+  CONNECTION_FAILED_STATUS,
+  CONNECTION_SUCCESSFUL_STATUS,
+  DISCONNECTION_FAILED_STATUS,
+  DISCONNECTION_SUCCESSFUL_STATUS,
+} from '../constants/alerts';
 
 export const ConnectedDevicesContainer = () => {
   const [connectedDevices, setConnectedDevices] = useState([]);
   const [successAlert, setSuccessAlert] = useState(false);
   const [failureAlert, setFailureAlert] = useState(false);
+  const [disconnectSuccessAlert, setDisconnectSuccessAlert] = useState(false);
+  const [disconnectFailureAlert, setDisconnectFailureAlert] = useState(false);
 
-  const showSuccessAlert = () => {
-    setSuccessAlert(true);
-  };
-
-  const showFailureAlert = () => {
-    setFailureAlert(true);
-  };
-
-  const showConnectionAlert = (vendor, status) => {
-    if (status === 'success') {
-      showSuccessAlert();
-    } else if (status === 'error') {
-      showFailureAlert();
+  const showAlert = (vendor, status) => {
+    if (status === CONNECTION_SUCCESSFUL_STATUS) {
+      setSuccessAlert(true);
+    } else if (status === CONNECTION_FAILED_STATUS) {
+      setFailureAlert(true);
+    } else if (status === DISCONNECTION_SUCCESSFUL_STATUS) {
+      setDisconnectSuccessAlert(true);
+    } else if (status === DISCONNECTION_FAILED_STATUS) {
+      setDisconnectFailureAlert(true);
     }
   };
 
@@ -45,12 +49,17 @@ export const ConnectedDevicesContainer = () => {
       const handleRedirectQueryParams = () => {
         const resUrl = new URL(window.location);
         resUrl.searchParams.forEach((status, vendor) => {
-          showConnectionAlert(vendor, status);
+          showAlert(vendor, status);
         });
       };
       handleRedirectQueryParams();
     },
-    [successAlert, failureAlert],
+    [
+      successAlert,
+      failureAlert,
+      disconnectSuccessAlert,
+      disconnectFailureAlert,
+    ],
   );
 
   return (
@@ -61,6 +70,8 @@ export const ConnectedDevicesContainer = () => {
           connectedDevices={connectedDevices}
           successAlert={successAlert}
           failureAlert={failureAlert}
+          disconnectSuccessAlert={disconnectSuccessAlert}
+          disconnectFailureAlert={disconnectFailureAlert}
         />
       </div>
       <h2>Devices you can connect</h2>

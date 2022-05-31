@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { signup } from 'platform/user/authentication/utilities';
+import { signup, signupUrl } from 'platform/user/authentication/utilities';
 import { CSP_IDS } from 'platform/user/authentication/constants';
 
 export default function VerifyIdentiy() {
@@ -36,8 +36,7 @@ export default function VerifyIdentiy() {
       </p>
       <p>
         <a
-          href="#create-id.me-account"
-          onClick={() => signUp(CSP_IDS.ID_ME)}
+          href={signupUrl(CSP_IDS.ID_ME)}
           data-testid="direct-deposit-id-me-sign-up-link"
         >
           Create an ID.me account
@@ -49,7 +48,7 @@ export default function VerifyIdentiy() {
         <a href="tel:711" aria-label="TTY: 7 1 1.">
           TTY: 711
         </a>
-        ) . We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </va-alert>
   );

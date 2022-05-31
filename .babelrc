@@ -60,7 +60,6 @@
           "~": "./src",
           "@@vap-svc": "./src/platform/user/profile/vap-svc",
           "@@profile": "./src/applications/personalization/profile",
-          "web-components/react-bindings": "@department-of-veterans-affairs/component-library/dist/react-bindings",
           "@department-of-veterans-affairs/component-library/LoadingIndicator": "@department-of-veterans-affairs/react-components/LoadingIndicator",
           "@department-of-veterans-affairs/component-library/AlertBox": "@department-of-veterans-affairs/react-components/AlertBox",
           "@department-of-veterans-affairs/component-library/ProgressButton": "@department-of-veterans-affairs/react-components/ProgressButton",
