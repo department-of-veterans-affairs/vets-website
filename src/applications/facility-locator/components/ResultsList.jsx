@@ -1,3 +1,4 @@
+/* eslint-disable react/sort-prop-types */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -50,6 +51,7 @@ export class ResultsList extends Component {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   isHealthAndHealthConnect(result, query) {
     let final = false;
     if (
