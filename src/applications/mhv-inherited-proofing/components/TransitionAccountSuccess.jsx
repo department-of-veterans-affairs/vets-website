@@ -5,7 +5,7 @@ import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 
 export default function TransitionAccountSuccess() {
   const signInService = useSelector(signInServiceName);
-  const TRANSFERED_CSP = SERVICE_PROVIDERS[signInService];
+  const TRANSFERED_CSP = SERVICE_PROVIDERS[signInService].label;
   return (
     <main className="usa-grid usa-grid-full">
       <div className="usa-content vads-u-padding--2">

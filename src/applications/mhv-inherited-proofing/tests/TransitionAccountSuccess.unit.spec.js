@@ -6,32 +6,22 @@ import TransitionAccountSuccess from 'applications/mhv-inherited-proofing/compon
 
 import configureStore from 'redux-mock-store';
 
-// export const SERVICE_PROVIDERS = {
-//   logingov: { label: 'Login.gov', link: 'https://secure.login.gov/account' },
-//   idme: { label: 'ID.me', link: 'https://wallet.id.me/settings' },
-// };
-
-// selectProfile(state).signIn?.serviceName;
-
 describe('TransitionAccountSuccess', () => {
   let store;
   let tree;
   const middleware = [];
   const mockStore = configureStore(middleware);
-  const initState = {
-    user: {
-      login: {
-        currentlyLoggedIn: true,
-        hasCheckedKeepAlive: true,
-      },
-      profile: {
-        signIn: {
-          serviceName: 'logingov',
+
+  it('should render', () => {
+    const initState = {
+      user: {
+        profile: {
+          signIn: {
+            serviceName: 'logingov',
+          },
         },
       },
-    },
-  };
-  beforeEach(() => {
+    };
     store = mockStore(initState);
 
     tree = render(
@@ -39,9 +29,7 @@ describe('TransitionAccountSuccess', () => {
         <TransitionAccountSuccess />
       </Provider>,
     );
-  });
 
-  it('should render', () => {
     expect(tree.getByTestId('header')).to.exist;
 
     expect(tree.getByTestId('header')).to.have.text(
@@ -52,11 +40,51 @@ describe('TransitionAccountSuccess', () => {
   });
 
   it('should render when `signInServiceName` is `logingov`', () => {
+    const initState = {
+      user: {
+        profile: {
+          signIn: {
+            serviceName: 'logingov',
+          },
+        },
+      },
+    };
+    store = mockStore(initState);
+
+    tree = render(
+      <Provider store={store}>
+        <TransitionAccountSuccess />
+      </Provider>,
+    );
+
     expect(tree.getByTestId('transfered_CSP')).to.exist;
 
-    expect(tree.getByTestId('transfered_CSP')).to.have.text(
-      'Some text to compare',
+    expect(tree.getByTestId('transfered_CSP')).to.have.text('Login.gov');
+
+    tree.unmount();
+  });
+
+  it('should render when `signInServiceName` is `idme`', () => {
+    const initState = {
+      user: {
+        profile: {
+          signIn: {
+            serviceName: 'idme',
+          },
+        },
+      },
+    };
+    store = mockStore(initState);
+
+    tree = render(
+      <Provider store={store}>
+        <TransitionAccountSuccess />
+      </Provider>,
     );
+
+    expect(tree.getByTestId('transfered_CSP')).to.exist;
+
+    expect(tree.getByTestId('transfered_CSP')).to.have.text('ID.me');
 
     tree.unmount();
   });
