@@ -3,17 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
-
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { links } from 'applications/caregivers/definitions/content';
 
 const ConfirmationPage = props => {
   useEffect(() => {
-    focusElement('.usa-alert-heading');
+    focusElement('.caregiver-success-message');
     scrollToTop();
   }, []);
 
@@ -70,7 +67,7 @@ const ConfirmationPage = props => {
 
   return (
     <section className="caregiver-confirmation vads-u-margin-bottom--2p5">
-      <va-alert status="success">
+      <va-alert status="success" class="caregiver-success-message">
         <h2 slot="headline">You’ve successfully submitted your application.</h2>
         <div>
           Once we’ve reviewed your application, a Caregiver Support Coordinator
@@ -127,14 +124,9 @@ const ConfirmationPage = props => {
             If you have questions about your application, what to expect next,
             or if you are interested in learning more about the supports and
             services available to support Veterans and caregivers, you may
-            contact the VA Caregiver Support Line at
-            <Telephone
-              contact={CONTACTS.CAREGIVER}
-              className="vads-u-margin-x--0p5"
-            />
-            or visit
+            contact the VA Caregiver Support Line at{' '}
+            <va-telephone contact={CONTACTS.CAREGIVER} /> or visit{' '}
             <a
-              className="vads-u-margin-left--0p5"
               href={links.caregiverHelpPage.link}
               target="_blank"
               rel="noreferrer noopener"

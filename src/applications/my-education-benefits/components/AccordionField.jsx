@@ -1,8 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import moment from 'moment';
-import { FORMAT_DATE_READABLE } from '../constants';
 
 import {
   getDefaultFormState,
@@ -10,6 +8,7 @@ import {
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import get from 'platform/utilities/data/get';
 import { isReactComponent } from 'platform/utilities/ui';
+import { formatReadableDate } from '../helpers';
 
 /**
  * Wraps an 'array' schema in separate accordion elements.
@@ -26,10 +25,13 @@ export default class AccordionField extends React.Component {
   };
 
   itemsOpen = [];
+
   togglingAll = false;
 
   MEB_ACORDION_ITEM = 'va-accordion-item';
+
   accordionField;
+
   accordionFieldItems;
 
   constructor(props) {
@@ -97,30 +99,30 @@ export default class AccordionField extends React.Component {
     );
   };
 
-  toggleAllButtons = event => {
-    if (event) {
-      event.preventDefault();
-    }
+  // toggleAllButtons = event => {
+  //   if (event) {
+  //     event.preventDefault();
+  //   }
 
-    if (!this.accordionFieldItems || !this.accordionFieldItems.length) {
-      return;
-    }
+  //   if (!this.accordionFieldItems || !this.accordionFieldItems.length) {
+  //     return;
+  //   }
 
-    // Set togglingAll to true while we're toggleing the accordions so
-    // manuallyToggleCollapseLinkOnClick doesn't also check if the
-    // Collapse/Expand all link should be toggled, as we would when the
-    // veteran manually collapses or expands the accordions.
-    this.togglingAll = true;
-    // Preserve the scroll position as it will otherwise change when
-    // the accordions are expanded.
-    const scrollPosition = window.scrollY;
-    this.accordionFieldItems
-      .filter(item => item.open === this.state.collapseAll)
-      .forEach(item => item.shadowRoot.querySelector('button').click());
-    window.scrollTo(0, scrollPosition);
-    this.togglingAll = false;
-    this.setState({ collapseAll: !this.state.collapseAll });
-  };
+  //   // Set togglingAll to true while we're toggleing the accordions so
+  //   // manuallyToggleCollapseLinkOnClick doesn't also check if the
+  //   // Collapse/Expand all link should be toggled, as we would when the
+  //   // veteran manually collapses or expands the accordions.
+  //   this.togglingAll = true;
+  //   // Preserve the scroll position as it will otherwise change when
+  //   // the accordions are expanded.
+  //   const scrollPosition = window.scrollY;
+  //   this.accordionFieldItems
+  //     .filter(item => item.open === this.state.collapseAll)
+  //     .forEach(item => item.shadowRoot.querySelector('button').click());
+  //   window.scrollTo(0, scrollPosition);
+  //   this.togglingAll = false;
+  //   this.setState({ collapseAll: !this.state.collapseAll });
+  // };
 
   manuallyToggleCollapseLinkOnClick = event => {
     const clickTarget = event.target.tagName.toLowerCase();
@@ -199,7 +201,7 @@ export default class AccordionField extends React.Component {
       <>
         {this.getDescription()}
 
-        {!formContext?.onReviewPage && (
+        {/* {!formContext?.onReviewPage && (
           <button
             className="accordion-toggle-button"
             onClick={this.toggleAllButtons}
@@ -207,15 +209,16 @@ export default class AccordionField extends React.Component {
           >
             {this.state.collapseAll ? 'Collapse all' : 'Expand all'}
           </button>
-        )}
+        )} */}
 
         <va-accordion bordered id={this.id}>
           {items.map(item => {
-            const subheader = !item.dateRange
-              ? ''
-              : `${moment(item.dateRange.from).format(
-                  FORMAT_DATE_READABLE,
-                )} – ${moment(item.dateRange.to).format(FORMAT_DATE_READABLE)}`;
+            const subheader = item.dateRange
+              ? `${formatReadableDate(
+                  item.dateRange.from,
+                  2,
+                )} – ${formatReadableDate(item.dateRange.to, 2)}`
+              : '';
 
             return (
               <va-accordion-item

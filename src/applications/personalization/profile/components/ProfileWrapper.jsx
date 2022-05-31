@@ -2,10 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-
-import { selectProfile } from '~/platform/user/selectors';
-
 import {
   cnpDirectDepositLoadError,
   eduDirectDepositLoadError,
@@ -13,6 +9,9 @@ import {
   militaryInformationLoadError,
   personalInformationLoadError,
 } from '@@profile/selectors';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
+
+import { selectProfile } from '~/platform/user/selectors';
 
 import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
 
@@ -22,17 +21,13 @@ import ProfileMobileSubNav from './ProfileMobileSubNav';
 
 const NotAllDataAvailableError = () => (
   <div data-testid="not-all-data-available-error">
-    <AlertBox
-      level={2}
-      status="warning"
-      headline="We can’t load all the information in your profile"
-      className="vads-u-margin-bottom--4"
-    >
+    <va-alert status="warning" visible className="vads-u-margin-bottom--4">
+      <h2 slot="headline">We can’t load all the information in your profile</h2>
       <p>
         We’re sorry. Something went wrong on our end. We can’t display all the
         information in your profile. Please refresh the page or try again later.
       </p>
-    </AlertBox>
+    </va-alert>
   </div>
 );
 
@@ -84,6 +79,14 @@ const mapStateToProps = (state, ownProps) => {
   const invalidVeteranStatus =
     !veteranStatus || veteranStatus.status === 'NOT_AUTHORIZED';
   const hero = state.vaProfile?.hero;
+  const directDepositConsistencyIsEnabled =
+    state.featureToggles[
+      FEATURE_FLAG_NAMES.profileAlwaysShowDirectDepositDisplay
+    ];
+  // for the old experience, we want to show banner error if the API calls fail, but for the for the new experience, we have moved the API fail message
+  const useDirectDepositError = directDepositConsistencyIsEnabled
+    ? false
+    : !!cnpDirectDepositLoadError(state) || !!eduDirectDepositLoadError(state);
 
   return {
     hero,
@@ -91,8 +94,7 @@ const mapStateToProps = (state, ownProps) => {
     totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
     showNameTag: ownProps.isLOA3 && isEmpty(hero?.errors),
     showNotAllDataAvailableError:
-      !!cnpDirectDepositLoadError(state) ||
-      !!eduDirectDepositLoadError(state) ||
+      useDirectDepositError ||
       !!fullNameLoadError(state) ||
       !!personalInformationLoadError(state) ||
       (!!militaryInformationLoadError(state) && !invalidVeteranStatus),
@@ -101,8 +103,6 @@ const mapStateToProps = (state, ownProps) => {
 
 ProfileWrapper.propTypes = {
   children: PropTypes.node.isRequired,
-  location: PropTypes.object,
-  hero: PropTypes.object,
   routes: PropTypes.arrayOf(
     PropTypes.shape({
       component: PropTypes.func.isRequired,
@@ -113,6 +113,13 @@ ProfileWrapper.propTypes = {
     }),
   ).isRequired,
   showNotAllDataAvailableError: PropTypes.bool.isRequired,
+  hero: PropTypes.object,
+  isInMVI: PropTypes.bool,
+  isLOA3: PropTypes.bool,
+  location: PropTypes.object,
+  showNameTag: PropTypes.bool,
+  totalDisabilityRating: PropTypes.string,
+  totalDisabilityRatingServerError: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(ProfileWrapper);

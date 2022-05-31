@@ -80,6 +80,10 @@
             {
               "type": "email",
               "value": null
+            },
+            {
+              "system": "phone",
+              "value": "723-234-4566"
             }
           ]
         },
@@ -92,13 +96,18 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
-            "firstName": "Dr",
-            "lastName": "Hyde",
-            "practiceName": "Jeckle and Hyde"
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
+            "name": {
+              "family": "Hyde",
+              "given": [
+                "DR"
+              ]
+            }
           }
         ],
         "extension": {
@@ -149,13 +158,12 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
-            "firstName": "Dr",
-            "lastName": "Hyde",
-            "practiceName": "Jeckle and Hyde"
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ]
           }
         ],
         "extension": {
@@ -321,8 +329,12 @@
               "system": null,
               "value": "1801312053"
             }],
-            "firstName": "Meg",
-            "lastName": "Smith",
+            "name":{
+              "family": "Smith",
+              "given": [
+                "Megan"
+              ]
+            },
             "practiceName": null
           },
           {
@@ -330,8 +342,12 @@
               "system": null,
               "value": "1801312053"
             }],
-            "firstName": "Salvador",
-            "lastName": "Dali",
+            "name":{
+              "family": "Dali",
+              "given": [
+                "Salvador"
+              ]
+            },
             "practiceName": null
           }
         ],

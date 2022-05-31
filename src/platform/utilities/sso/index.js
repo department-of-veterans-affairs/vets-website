@@ -22,7 +22,9 @@ import localStorage from '../storage/localStorage';
 const keepAliveThreshold = 5 * 60 * 1000; // 5 minutes, in milliseconds
 
 function keepAlive() {
-  return environment.isLocalhost() ? mockKeepAlive() : liveKeepAlive();
+  return environment.isLocalhost() || window.Cypress
+    ? mockKeepAlive()
+    : liveKeepAlive();
 }
 
 export async function ssoKeepAliveSession() {

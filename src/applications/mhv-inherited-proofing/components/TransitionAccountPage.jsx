@@ -39,9 +39,15 @@ export default function TransitionAccount() {
           <h1>Transfer to using a verified account to sign in to VA.gov</h1>
           <div className="va-introtext">
             <p>
-              Starting on <strong>{MHV_TRANSITION_DATE}</strong>, you’ll no
-              longer be able to use your My HealtheVet username and password to
-              sign in to VA.gov. You’ll need to use a verified{' '}
+              {MHV_TRANSITION_DATE ? (
+                <>
+                  Starting on <strong>{MHV_TRANSITION_DATE}</strong>,{' '}
+                </>
+              ) : (
+                <>Soon </>
+              )}
+              you’ll no longer be able to use your My HealtheVet username and
+              password to sign in to VA.gov. You’ll need to use a verified{' '}
               <strong>Login.gov</strong> or <strong>ID.me</strong> account that
               meets our new, stronger security requirements. Read this page to
               learn how to transfer to a free, verified account now.

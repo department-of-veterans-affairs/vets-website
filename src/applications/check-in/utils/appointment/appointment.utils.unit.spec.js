@@ -1,6 +1,9 @@
 import { expect } from 'chai';
+import MockDate from 'mockdate';
 import {
+  appointmentWasCanceled,
   hasMoreAppointmentsToCheckInto,
+  intervalUntilNextAppointmentIneligibleForCheckin,
   preCheckinAlreadyCompleted,
   sortAppointmentsByStartTime,
   removeTimeZone,
@@ -8,9 +11,15 @@ import {
 } from './index';
 
 import { get } from '../../api/local-mock-api/mocks/v2/check-in-data';
+import { ELIGIBILITY } from './eligibility';
 
 describe('check in', () => {
+  afterEach(() => {
+    MockDate.reset();
+  });
+
   const { createAppointment, createMultipleAppointments } = get;
+
   describe('appointment navigation utils', () => {
     describe('hasMoreAppointmentsToCheckInto', () => {
       it('returns false if selected Appointment is undefined and no more eligible appointments found', () => {
@@ -114,6 +123,80 @@ describe('check in', () => {
         expect(
           hasMoreAppointmentsToCheckInto(appointments, selectedAppointment),
         ).to.equal(false);
+      });
+    });
+    describe('appointmentWasCanceled', () => {
+      const generateAppointments = () => {
+        const earliest = createAppointment();
+        earliest.startTime = '2018-01-01T00:00:00.000Z';
+        const midday = createAppointment();
+        midday.startTime = '2018-01-01T12:00:00.000Z';
+        const latest = createAppointment();
+        latest.startTime = '2018-01-01T23:59:59.000Z';
+
+        return [latest, earliest, midday];
+      };
+
+      it('returns false when no appointment was canceled', () => {
+        const appointments = generateAppointments();
+        expect(appointmentWasCanceled(appointments)).to.deep.equal(false);
+      });
+      it('returns false when appointments are not set', () => {
+        expect(appointmentWasCanceled(null)).to.deep.equal(false);
+      });
+      it('returns false when there are no appointments', () => {
+        expect(appointmentWasCanceled([])).to.deep.equal(false);
+      });
+      it('returns true when any appointment has been canceled', () => {
+        const appointments = generateAppointments();
+        appointments[0].status = 'CANCELLED BY CLINIC';
+        expect(appointmentWasCanceled(appointments)).to.deep.equal(true);
+      });
+      it('returns false when status is undefined', () => {
+        const appointments = generateAppointments();
+        appointments.forEach((appt, idx) => {
+          delete appointments[idx].status;
+        });
+        expect(appointmentWasCanceled(appointments)).to.deep.equal(false);
+      });
+      it('returns true when all appointments have been canceled', () => {
+        const appointments = generateAppointments();
+        appointments[0].status = 'CANCELLED BY CLINIC';
+        appointments[1].status = 'CANCELLED BY PATIENT';
+        appointments[0].status = 'CANCELLED BY CLINIC';
+        expect(appointmentWasCanceled(appointments)).to.deep.equal(true);
+      });
+    });
+    describe('intervalUntilNextAppointmentIneligibleForCheckin', () => {
+      const generateAppointments = () => {
+        const earliest = createAppointment();
+        earliest.startTime = '2018-01-01T11:00';
+        earliest.checkInWindowEnd = '2018-01-01T11:15-04:00';
+        const midday = createAppointment();
+        midday.startTime = '2018-01-01T12:30:00';
+        midday.checkInWindowEnd = '2018-01-01T12:45:00-04:00';
+        const latest = createAppointment();
+        latest.startTime = '2018-01-01T13:00';
+        latest.checkInWindowEnd = '2018-01-01T13:15:00-04:00';
+
+        return [midday, earliest, latest];
+      };
+
+      it('returns 0 when no appointments are eligible', () => {
+        const appointments = generateAppointments();
+        appointments[0].eligibility = ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN;
+        appointments[1].eligibility = ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN;
+        appointments[2].eligibility = ELIGIBILITY.INELIGIBLE_ALREADY_CHECKED_IN;
+        expect(
+          intervalUntilNextAppointmentIneligibleForCheckin(appointments),
+        ).to.deep.equal(0);
+      });
+      it('returns interval to next appointment', () => {
+        const appointments = generateAppointments();
+        MockDate.set('2018-01-01T12:44:00-04:00');
+        expect(
+          intervalUntilNextAppointmentIneligibleForCheckin(appointments),
+        ).to.deep.equal(60000);
       });
     });
     describe('preCheckinAlreadyCompleted', () => {

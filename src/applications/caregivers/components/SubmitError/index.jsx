@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { focusElement } from 'platform/utilities/ui';
-
 import DownLoadLink from './DownloadLink';
 
 const SubmitError = ({ form }) => {
@@ -14,7 +11,7 @@ const SubmitError = ({ form }) => {
   }, []);
 
   return (
-    <va-alert status="error" className="caregivers-error-message">
+    <va-alert status="error" class="caregivers-error-message">
       <h3 slot="headline">We didn’t receive your online application</h3>
       <div>
         <p>
@@ -47,12 +44,10 @@ const SubmitError = ({ form }) => {
         </div>
 
         <div>
-          If you have trouble downloading your application, call our
-          <a className="vads-u-margin-x--0p5" href="https://www.va.gov/">
-            VA.gov
-          </a>
-          help desk at <Telephone contact={CONTACTS.HELP_DESK} /> (TTY: 711).
-          We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          If you have trouble downloading your application, call our{' '}
+          <a href="https://www.va.gov/">VA.gov</a> help desk at{' '}
+          <va-telephone contact={CONTACTS.HELP_DESK} /> (TTY: 711). We’re here
+          Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </div>
 
         <DownLoadLink form={form} />

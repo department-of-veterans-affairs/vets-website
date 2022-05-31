@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Payments } from './Payments';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import recordEvent from '~/platform/monitoring/record-event';
-
+import { fetchDebts } from '~/applications/personalization/dashboard/actions/debts';
 import Debts from './Debts';
 
 const NoRecentPaymentText = () => {
@@ -19,13 +20,37 @@ const NoRecentPaymentText = () => {
   );
 };
 
-const BenefitPaymentsAndDebt = ({ payments, debts, debtsError }) => {
+const BenefitPaymentsAndDebt = ({
+  debts,
+  debtsError,
+  getDebts,
+  payments,
+  shouldShowLoadingIndicator,
+}) => {
+  useEffect(
+    () => {
+      getDebts();
+    },
+    [getDebts],
+  );
+
   const lastPayment =
     payments
       ?.filter(p => moment(p.payCheckDt) > moment().subtract(31, 'days'))
       .sort((a, b) => moment(b.payCheckDt) - moment(a.payCheckDt))[0] ?? null;
 
   const debtsCount = debts?.length || 0;
+
+  if (shouldShowLoadingIndicator) {
+    return (
+      <div className="vads-u-margin-y--6">
+        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
+          Benefit payments and debts
+        </h2>
+        <va-loading-indicator message="Loading benefit payments and debts..." />
+      </div>
+    );
+  }
 
   return (
     payments &&
@@ -138,6 +163,7 @@ BenefitPaymentsAndDebt.propTypes = {
     }),
   ),
   debtsError: PropTypes.bool,
+  getDebts: PropTypes.func,
   payments: PropTypes.arrayOf(
     PropTypes.shape({
       payCheckAmount: PropTypes.string.isRequired,
@@ -150,6 +176,25 @@ BenefitPaymentsAndDebt.propTypes = {
       accountNumber: PropTypes.string.isRequired,
     }),
   ),
+  shouldShowLoadingIndicator: PropTypes.bool,
 };
 
-export default BenefitPaymentsAndDebt;
+const mapStateToProps = state => {
+  const debtsIsLoading = state.allDebts.isLoading;
+  const paymentsIsLoading = state.allPayments.isLoading;
+  const debts = state.allDebts.debts || [];
+  return {
+    debts,
+    debtsError: state.allDebts.isError || false,
+    shouldShowLoadingIndicator: debtsIsLoading || paymentsIsLoading,
+  };
+};
+
+const mapDispatchToProps = {
+  getDebts: fetchDebts,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(BenefitPaymentsAndDebt);

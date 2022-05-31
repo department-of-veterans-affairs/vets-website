@@ -1,13 +1,14 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ExternalLink from './ExternalLink';
 
 const PreCheckInAccordionBlock = ({
-  demographicsUpToDate,
-  emergencyContactUpToDate,
-  nextOfKinUpToDate,
-  appointments,
+  demographicsUpToDate = 'no',
+  emergencyContactUpToDate = 'no',
+  nextOfKinUpToDate = 'no',
+  appointments = null,
+  errorPage = false,
 }) => {
   const { t } = useTranslation();
   let hasUpdates = false;
@@ -18,16 +19,22 @@ const PreCheckInAccordionBlock = ({
       <>
         <strong>{t('contact-information')}</strong>
         <p>
-          {t(
-            'a-staff-member-will-help-you-on-the-day-of-your-appointment-or-you-can-',
-          )}
-          <ExternalLink
-            href="https://www.va.gov/profile/personal-information"
-            hrefLang="en"
-          >
-            {t('login')}
-          </ExternalLink>
-          {t('to-your-va-account-to-update-your-contact-information-online')}
+          {t('a-staff-member-will-help-you-on-the-day-of-your-appointment')}
+        </p>
+        <p>
+          <Trans
+            i18nKey="or-you-can-login-to-your-va-account-to-update-your-contact-information-online"
+            components={[
+              <ExternalLink
+                key="link"
+                href="https://www.va.gov/profile/personal-information"
+                hrefLang="en"
+              >
+                link
+              </ExternalLink>,
+            ]}
+            values={{ link: t('sign-in') }}
+          />
         </p>
       </>
     );
@@ -52,36 +59,40 @@ const PreCheckInAccordionBlock = ({
       </>
     );
   }
-  const accordions = [
-    {
-      header: t('why-do-i-need-to-make-sure-my-information-is-up-to-date'),
-      body: (
-        <p>
-          {t(
-            'we-can-better-prepare-for-your-appointment-and-contact-you-more-easily',
-          )}
-        </p>
-      ),
-      open: false,
-    },
-    {
-      header: t('what-if-i-have-questions-about-my-appointment'),
-      body: (
-        <>
-          <p>{t('call-your-va-health-care-team')}:</p>
-          {appointments.map((appointment, index) => {
-            return (
-              <p key={index}>
-                {appointment.clinicFriendlyName || appointment.clinicName} at{' '}
-                <va-telephone contact={appointment.clinicPhoneNumber} />
-              </p>
-            );
-          })}
-        </>
-      ),
-      open: false,
-    },
-  ];
+  const accordions = [];
+  if (appointments) {
+    accordions.unshift(
+      {
+        header: t('why-do-i-need-to-make-sure-my-information-is-up-to-date'),
+        body: (
+          <p>
+            {t(
+              'we-can-better-prepare-for-your-appointment-and-contact-you-more-easily',
+            )}
+          </p>
+        ),
+        open: false,
+      },
+      {
+        header: t('what-if-i-have-questions-about-my-appointment'),
+        body: (
+          <>
+            <p>{t('call-your-va-health-care-team')}:</p>
+            {appointments.map((appointment, index) => {
+              return (
+                <p key={index}>
+                  {appointment.clinicFriendlyName || appointment.clinicName} at{' '}
+                  <va-telephone contact={appointment.clinicPhoneNumber} />
+                </p>
+              );
+            })}
+          </>
+        ),
+        open: false,
+      },
+    );
+  }
+
   if (hasUpdates) {
     accordions.unshift({
       header: t('how-can-i-update-my-information'),
@@ -89,6 +100,49 @@ const PreCheckInAccordionBlock = ({
       open: true,
     });
   }
+
+  if (errorPage) {
+    accordions.unshift({
+      header: t('what-is-pre-check-in'),
+      body: (
+        <>
+          <p>
+            {t(
+              'during-pre-check-in-you-can-review-your-personal-emergency-contact-and-next-of-kin-information-and-confirm-its-up-to-date-this-helps-us-better-prepare-for-your-appointment',
+            )}
+          </p>
+          <p>
+            <Trans
+              i18nKey="you-can-also-sign-in-to-your-va-account-to-review-your-information"
+              components={[
+                <ExternalLink
+                  key="link"
+                  href="https://www.va.gov/profile/personal-information"
+                  hrefLang="en"
+                >
+                  link
+                </ExternalLink>,
+              ]}
+              values={{ link: t('sign-in') }}
+            />
+          </p>
+        </>
+      ),
+      open: false,
+    });
+    accordions.push({
+      header: t('why-cant-i-pre-check-in'),
+      body: (
+        <p>
+          {t(
+            'you-can-pre-check-in-online-before-midnight-of-the-day-of-your-appointment',
+          )}
+        </p>
+      ),
+      open: false,
+    });
+  }
+
   return (
     <va-accordion open-single bordered data-testid="pre-check-in-accordions">
       {accordions.map((accordion, index) => {
@@ -111,6 +165,7 @@ PreCheckInAccordionBlock.propTypes = {
   appointments: PropTypes.array,
   demographicsUpToDate: PropTypes.string,
   emergencyContactUpToDate: PropTypes.string,
+  errorPage: PropTypes.bool,
   nextOfKinUpToDate: PropTypes.string,
 };
 

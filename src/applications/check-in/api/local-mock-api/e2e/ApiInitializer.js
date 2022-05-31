@@ -199,6 +199,15 @@ class ApiInitializer {
       });
       return data;
     },
+    withCanceledAppointment: () => {
+      const data = preCheckInData.get.createMockSuccessResponse(
+        preCheckInData.get.canceledAppointmentUUID,
+      );
+      cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
+        req.reply(data);
+      });
+      return data;
+    },
     withExpired: () => {
       const data = preCheckInData.get.createMockSuccessResponse(
         preCheckInData.get.expiredUUID,
