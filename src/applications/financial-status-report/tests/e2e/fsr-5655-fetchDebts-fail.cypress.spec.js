@@ -2,7 +2,7 @@ import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
 // import { deductionCodes } from '../../../debt-letters/const/deduction-codes';
 
-describe.skip('Fetch Debts Unsuccessfully', () => {
+describe('Fetch Debts Unsuccessfully', () => {
   before(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {

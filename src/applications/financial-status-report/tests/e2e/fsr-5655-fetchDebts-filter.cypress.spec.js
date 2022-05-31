@@ -1,7 +1,7 @@
 import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
 
-describe.skip('Fetch Debts Successfully and Filter Out Invalid Debt', () => {
+describe('Fetch Debts Successfully and Filter Out Invalid Debt', () => {
   before(() => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
