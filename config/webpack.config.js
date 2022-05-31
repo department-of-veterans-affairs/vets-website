@@ -405,15 +405,12 @@ module.exports = async (env = {}) => {
     },
     plugins: [
       new webpack.DefinePlugin({
-        'process.env.MAPBOX_TOKEN': JSON.stringify(
-          process.env.MAPBOX_TOKEN || '',
-        ),
-      }),
-
-      new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(buildtype),
         __API__: JSON.stringify(buildOptions.api),
         __REGISTRY__: JSON.stringify(appRegistry),
+        'process.env.MAPBOX_TOKEN': JSON.stringify(
+          process.env.MAPBOX_TOKEN || '',
+        ),
       }),
 
       new webpack.SourceMapDevToolPlugin({
