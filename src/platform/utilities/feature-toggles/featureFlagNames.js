@@ -1,6 +1,7 @@
 // prettier-ignore
 
 export default Object.freeze({
+  canPrefill1010cgAddress: 'can_prefill_10_10cg_address',
   canUpload1010cgPOA: 'can_upload_10_10cg_poa',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
