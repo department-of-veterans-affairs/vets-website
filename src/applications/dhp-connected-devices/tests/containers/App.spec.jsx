@@ -7,14 +7,12 @@ import App from '../../containers/App';
 function getStore(loading = false, currentlyLoggedIn = false) {
   return {
     getState: () => ({
-      featureToggles: {
-        loading,
-      },
       user: {
         login: {
           currentlyLoggedIn,
         },
         profile: {
+          loading,
           loa: {
             current: 1,
           },
