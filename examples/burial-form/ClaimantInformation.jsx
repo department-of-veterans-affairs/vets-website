@@ -7,7 +7,7 @@ import {
   RadioGroup
 } from '@department-of-veterans-affairs/va-forms-system-core';
 
-export default function ClaimantInformation() {
+export default function ClaimantInformation(props) {
   useEffect(() => {
     window.scrollTo({
       top: 0,

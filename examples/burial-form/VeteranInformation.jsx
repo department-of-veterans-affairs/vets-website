@@ -9,7 +9,7 @@ import {
 } from '@department-of-veterans-affairs/va-forms-system-core';
 import { useFormikContext } from 'formik';
 
-export default function VeteranInformation() {
+export default function VeteranInformation(props) {
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -22,7 +22,7 @@ export default function VeteranInformation() {
 
   return (
     <>
-      <Page title="Step 2 of 6: Deceased Veteran Information" nextPage="/" prevPage="/claimant-information">
+      <Page {...props} nextPage="/" prevPage="/claimant-information">
         <FullNameField name="veteranFullName" label="Veteran Full Name" />
 
         {
