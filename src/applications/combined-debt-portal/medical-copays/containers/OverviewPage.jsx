@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { uniqBy } from 'lodash';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
@@ -6,55 +6,93 @@ import Balances from '../components/Balances';
 import BalanceQuestions from '../components/BalanceQuestions';
 import {
   sortStatementsByDate,
-  cdpAccessToggle,
   ALERT_TYPES,
   APP_TYPES,
-  API_RESPONSES,
 } from '../../combined/utils/helpers';
 import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
-import { fetchDebtResponseAsync } from './MedicalCopaysApp';
+import DisputeCharges from '../components/DisputeCharges';
+import HowToPay from '../components/HowToPay';
+import FinancialHelp from '../components/FinancialHelp';
+import { OnThisPageOverview } from '../components/OnThisPageOverview';
+import '../sass/medical-copays.scss';
+
+const renderAlert = (alertType, debts) => {
+  const alertInfo = alertMessage(alertType, APP_TYPES.COPAY);
+  const showOther = debts > 0;
+
+  return (
+    <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
+      <h2 className="vads-u-font-size--h3" slot="headline">
+        {alertInfo.header}
+      </h2>
+      {alertInfo.body}
+      {showOther && <OtherVADebts module={APP_TYPES.DEBT} subHeading />}
+      {alertType === ALERT_TYPES.ALL_ERROR && (
+        <>
+          <h3 className="vads-u-font-size--h4">{alertInfo.secondHeader}</h3>
+          {alertInfo.secondBody}
+        </>
+      )}
+    </va-alert>
+  );
+};
+
+const renderOtherVA = (debtLength, debtError) => {
+  const alertInfo = alertMessage(ALERT_TYPES.ERROR, APP_TYPES.DEBT);
+  if (debtLength > 0) {
+    return <OtherVADebts module={APP_TYPES.DEBT} />;
+  }
+  if (debtError) {
+    return (
+      <>
+        <h3>Your other VA debts</h3>
+        <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
+          <h4 slot="headline" className="vads-u-font-size--h3">
+            {alertInfo.header}
+          </h4>
+          {alertInfo.body}
+        </va-alert>
+      </>
+    );
+  }
+  return <></>;
+};
 
 const OverviewPage = () => {
-  const [hasDebts, setHasDebts] = useState(false);
+  const { debtLetters, mcp } = useSelector(
+    ({ combinedPortal }) => combinedPortal,
+  );
 
-  const showCDPComponents = useSelector(state => cdpAccessToggle(state));
-  const combinedPortalData = useSelector(state => state.combinedPortal);
-  const statements = combinedPortalData.mcp.statements ?? [];
-  const sortedStatements = sortStatementsByDate(statements);
+  const {
+    debts,
+    isError: debtError,
+    isPending: isDebtPending,
+    isProfileUpdating,
+  } = debtLetters;
+  const debtLoading = isDebtPending || isProfileUpdating;
+  const { statements, error: mcpError, pending: mcpLoading } = mcp;
+  const statementsEmpty = statements?.length === 0;
+
+  const sortedStatements = sortStatementsByDate(statements ?? []);
   const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
-  const title = 'Current copay bills';
-
-  const renderOtherVA = () => {
-    const alertInfo = alertMessage(ALERT_TYPES.ERROR, APP_TYPES.DEBT);
-    if (hasDebts > 0) {
-      return <OtherVADebts module={APP_TYPES.DEBT} />;
-    }
-    if (hasDebts === API_RESPONSES.ERROR) {
-      return (
-        <>
-          <h3>Your other VA debts</h3>
-          <va-alert
-            data-testid={alertInfo.testID}
-            status={alertInfo.alertStatus}
-          >
-            <h4 slot="headline" className="vads-u-font-size--h3">
-              {alertInfo.header}
-            </h4>
-            {alertInfo.body}
-          </va-alert>
-        </>
-      );
-    }
-    return <></>;
-  };
+  const title = 'Current copay balances';
 
   useEffect(() => {
     scrollToTop();
-    fetchDebtResponseAsync().then(hasDebtsResponse =>
-      setHasDebts(hasDebtsResponse),
-    );
   }, []);
+
+  if (debtLoading || mcpLoading) {
+    return (
+      <div className="vads-u-margin--5">
+        <va-loading-indicator
+          label="Loading"
+          message="Please wait while we load the application for you."
+          set-focus
+        />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -66,18 +104,36 @@ const OverviewPage = () => {
         </a>
         <a href="/manage-debt-and-bills/summary/copay-balances">
           {' '}
-          Current copay bills
+          Current copay balances
         </a>
       </va-breadcrumbs>
       <h1 data-testid="overview-page-title">{title}</h1>
-      <p className="vads-u-font-size--lg vads-u-font-family--serif">
+      <p className="vads-u-font-size--lg vads-u-font-family--sans">
         Check the balance of VA health care and prescription charges from each
         of your facilities. Find out how to make payments or request financial
         help.
       </p>
-      <Balances statements={statementsByUniqueFacility} />
-      {showCDPComponents && renderOtherVA()}
-      <BalanceQuestions />
+      {mcpError || statementsEmpty ? (
+        <>
+          {mcpError &&
+            renderAlert(
+              debtError ? ALERT_TYPES.ALL_ERROR : ALERT_TYPES.ERROR,
+              debts?.length,
+            )}
+
+          {statementsEmpty && renderAlert(ALERT_TYPES.ZERO, debts?.length)}
+        </>
+      ) : (
+        <>
+          <OnThisPageOverview multiple={statements?.length > 1} />
+          <Balances statements={statementsByUniqueFacility} />
+          {renderOtherVA(debts?.length, debtError)}
+          <HowToPay />
+          <FinancialHelp />
+          <DisputeCharges />
+          <BalanceQuestions />
+        </>
+      )}
     </>
   );
 };

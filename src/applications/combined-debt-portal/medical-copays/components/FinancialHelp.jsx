@@ -3,7 +3,7 @@ import React from 'react';
 export const FinancialHelp = () => (
   <article className="vads-u-padding--0" data-testid="financial-help">
     <h2 id="how-to-get-financial-help">
-      How do I get financial help for my copays?
+      How to get financial help for your copays
     </h2>
     <p>
       If you’re struggling because of life situations like losing your job,
