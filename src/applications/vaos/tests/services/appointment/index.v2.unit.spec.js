@@ -672,7 +672,12 @@ describe('VAOS Appointment service', () => {
             state: 'DC',
             postalCode: '20005-3477',
           },
-          practiceName: 'CAMPBELL, WILLIAM',
+          providers: {
+            name: {
+              firstName: 'WILLIAM',
+              lastName: 'CAMPBELL',
+            },
+          },
         },
       };
 
@@ -693,7 +698,6 @@ describe('VAOS Appointment service', () => {
         }),
         fetchBookedAppointment({ id: data.id, type: 'cc' }),
       ]);
-
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
@@ -708,6 +712,14 @@ describe('VAOS Appointment service', () => {
       const differences = diff(v2Result, v0Result);
       expect(differences).to.have.deep.members(
         [
+          { op: 'remove', path: ['communityCareProvider', 'providers'] },
+          { op: 'remove', path: ['practitioners'] },
+          { op: 'remove', path: ['vaos', 'facilityData'] },
+          {
+            op: 'replace',
+            path: ['communityCareProvider', 'telecom'],
+            value: null,
+          },
           {
             op: 'replace',
             path: ['vaos', 'timeZone'],
@@ -717,14 +729,24 @@ describe('VAOS Appointment service', () => {
           },
           {
             op: 'add',
-            path: ['preferredCommunityCareProviders'],
+            path: ['communityCareProvider', 'firstName'],
             value: null,
           },
           {
-            op: 'remove',
-            path: ['practitioners'],
+            op: 'add',
+            path: ['communityCareProvider', 'lastName'],
+            value: null,
           },
-          { op: 'remove', path: ['vaos', 'facilityData'] },
+          {
+            op: 'add',
+            path: ['communityCareProvider', 'providerName'],
+            value: null,
+          },
+          {
+            op: 'add',
+            path: ['preferredCommunityCareProviders'],
+            value: null,
+          },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );

@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import recordEvent from '~/platform/monitoring/record-event';
 
 const NotEligible = props => {
@@ -13,14 +11,18 @@ const NotEligible = props => {
   const primaryLinkText = typeIsCNP
     ? 'Learn more about disability eligibility'
     : 'Learn more about GI Bill and other education benefit eligibility';
+  const contactMessage = typeIsCNP
+    ? 'If you think this is an error'
+    : 'If you want to set up direct deposit payments, or you think this is an error';
+
   return (
     <>
       <p className="vads-u-margin-top--0" data-testid={`${benefitType}-header`}>
         {headerText}
       </p>
       <p className="vads-u-margin-top--0">
-        If you think this is an error, call us at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} /> (
+        {contactMessage}, call us at{' '}
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
         <a href="tel:711" aria-label="TTY: 7 1 1.">
           TTY: 711
         </a>

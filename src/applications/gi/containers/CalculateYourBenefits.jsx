@@ -93,7 +93,6 @@ export function CalculateYourBenefits({
     return <LoadingIndicator message="Loading your estimated benefits..." />;
   }
 
-  const outputs = estimatedBenefits;
   const inputs = calculator;
   const displayed = calculated.inputs;
 
@@ -134,7 +133,7 @@ export function CalculateYourBenefits({
         />
         <div className={spacerClassNames}>&nbsp;</div>
         <EstimatedBenefits
-          outputs={outputs}
+          outputs={calculated.outputs}
           profile={profile}
           calculator={inputs}
           isOJT={isOJT}
@@ -144,12 +143,12 @@ export function CalculateYourBenefits({
         {gibctEybBottomSheet && (
           <div>
             {expandEybSheet && (
-              <div onClick={toggleEybExpansion} className="va-modal overlay" />
+              <div className="va-modal overlay" role="alertdialog" />
             )}
             {
               <div id="eyb-summary-sheet" className={summarySheetClassNames}>
                 <EstimateYourBenefitsSummarySheet
-                  outputs={outputs}
+                  outputs={calculated.outputs}
                   expandEybSheet={expandEybSheet}
                   showEybSheet={showEybSheet}
                   toggleEybExpansion={toggleEybExpansion}
@@ -190,7 +189,7 @@ export function CalculateYourBenefits({
 
           <div className="vads-u-padding-bottom--1 small-screen-font">
             <LearnMoreLabel
-              text={'Protection against late VA payments'}
+              text="Protection against late VA payments"
               onClick={() => {
                 dispatchShowModal('section103');
               }}
@@ -207,7 +206,7 @@ export function CalculateYourBenefits({
 
           <div className="vads-u-padding-bottom--1 small-screen-font">
             <LearnMoreLabel
-              text={'Yellow Ribbon Program'}
+              text="Yellow Ribbon Program"
               onClick={() => {
                 dispatchShowModal('yribbon');
               }}
@@ -222,7 +221,7 @@ export function CalculateYourBenefits({
 
           <div className="vads-u-padding-bottom--1 small-screen-font">
             <LearnMoreLabel
-              text={'Veteran Rapid Retraining Assistance Program (VRRAP)'}
+              text="Veteran Rapid Retraining Assistance Program (VRRAP)"
               onClick={() => {
                 dispatchShowModal('vrrap');
               }}

@@ -77,7 +77,7 @@ export default function CommunityCareAppointmentDetailsPage() {
   }
 
   const header = 'Community care';
-  const { name, providerName, practiceName } =
+  const { name, providers, practiceName } =
     appointment.communityCareProvider || {};
   const calendarData = getCalendarData({
     facility: appointment.communityCareProvider,
@@ -86,6 +86,7 @@ export default function CommunityCareAppointmentDetailsPage() {
   const { isPastAppointment } = appointment.vaos;
   const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
+  const providerName = providers ? providers[0].providerName : null;
 
   return (
     <PageLayout>

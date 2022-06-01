@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { VaTextInput } from 'web-components/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Date } from '@department-of-veterans-affairs/component-library';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import LanguagePicker from '../../LanguagePicker';

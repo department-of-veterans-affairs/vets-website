@@ -938,15 +938,15 @@ export function getCalendarData({ appointment, facility }) {
       additionalText: [signinText],
     };
   } else if (isCommunityCare) {
-    let { providerName, practiceName } =
-      appointment.communityCareProvider || {};
+    let { practiceName } = appointment.communityCareProvider || {};
+    const { providers } = appointment.communityCareProvider || {};
+    let providerName = providers ? providers[0].providerName : null;
     let summary = 'Community care appointment';
-
     // Check if providerName is all spaces.
     providerName = providerName?.trim().length ? providerName : '';
     practiceName = practiceName?.trim().length ? practiceName : '';
-    if (providerName || practiceName) {
-      summary = `Appointment at ${providerName || practiceName}`;
+    if (practiceName) {
+      summary = `Appointment at ${practiceName}`;
     }
 
     data = {

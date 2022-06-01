@@ -80,6 +80,10 @@
             {
               "type": "email",
               "value": null
+            },
+            {
+              "system": "phone",
+              "value": "723-234-4566"
             }
           ]
         },
@@ -92,13 +96,18 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
-            "firstName": "Dr",
-            "lastName": "Hyde",
-            "practiceName": "Jeckle and Hyde"
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
+            "name": {
+              "family": "Hyde",
+              "given": [
+                "DR"
+              ]
+            }
           }
         ],
         "extension": {
@@ -111,7 +120,11 @@
               "state": "OH",
               "postalCode": "45414",
               "text": "1601 Needmore Rd Ste 1\nDayton OH 45414"
-            }
+            },
+            "telecom": [{
+              "system": "phone",
+              "value": "723-234-4565"
+            }]
           }
         },        
         "preferredTimesForPhoneCall": [],
@@ -149,13 +162,12 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
-            "firstName": "Dr",
-            "lastName": "Hyde",
-            "practiceName": "Jeckle and Hyde"
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ]
           }
         ],
         "extension": {
