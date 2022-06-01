@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+import { TextInput } from '@department-of-veterans-affairs/component-library';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { setData } from 'platform/forms-system/src/js/actions';

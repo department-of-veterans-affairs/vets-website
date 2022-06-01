@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { submitEmail, setEmail } from '../actions';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+import { TextInput } from '@department-of-veterans-affairs/component-library';
+import { submitEmail, setEmail } from '../actions';
 
 class EmailCapture extends React.Component {
   constructor(props) {
@@ -29,7 +29,7 @@ class EmailCapture extends React.Component {
           <h1>Printed Veteran ID Card</h1>
           <AlertBox
             headline="Thank you for your email address. We will follow up with instructions on how to proceed with the application."
-            content={''}
+            content=""
             isVisible
             status="success"
           />

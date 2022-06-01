@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import set from 'platform/utilities/data/set';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+import { TextInput } from '@department-of-veterans-affairs/component-library';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 /**

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import environment from 'platform/utilities/environment';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+import { TextInput } from '@department-of-veterans-affairs/component-library';
 
 const PreSubmitSignature = ({
   formData,

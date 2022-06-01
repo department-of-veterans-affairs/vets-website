@@ -1,8 +1,10 @@
 /* eslint-disable react/jsx-no-bind */
 import React, { useState } from 'react';
 import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
-import Select from '@department-of-veterans-affairs/component-library/Select';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+import {
+  TextInput,
+  Select,
+} from '@department-of-veterans-affairs/component-library';
 import { submitToAPI } from './submit';
 import { addFile } from './addFile';
 import { DOCUMENT_TYPES, FILE_TYPES } from '../../constants';

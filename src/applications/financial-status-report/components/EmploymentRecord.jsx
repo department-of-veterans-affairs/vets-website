@@ -6,9 +6,9 @@ import { setData } from 'platform/forms-system/src/js/actions';
 import {
   MonthYear,
   Select,
+  TextInput,
 } from '@department-of-veterans-affairs/component-library';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
 import { parseISODate } from 'platform/forms-system/src/js/helpers';
 
 const defaultRecord = [

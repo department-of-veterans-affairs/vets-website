@@ -4,10 +4,10 @@ import Scroll from 'react-scroll';
 
 // Relative Imports
 import { months } from 'platform/static-data/options-for-select.js';
-import Select from '@department-of-veterans-affairs/component-library/Select';
+import { Select } from '@department-of-veterans-affairs/component-library';
 import { shouldShowQuestion } from '../../helpers';
 
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 const DischargeMonthQuestion = ({
   formValues,

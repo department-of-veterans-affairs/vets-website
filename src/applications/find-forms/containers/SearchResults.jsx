@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
 import { connect } from 'react-redux';
-import Select from '@department-of-veterans-affairs/component-library/Select';
+import { Select } from '@department-of-veterans-affairs/component-library';
 
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
@@ -153,7 +153,7 @@ export const SearchResults = ({
   // Show loading indicator if we are fetching.
   if (fetching) {
     return (
-      <va-loading-indicator setFocus message={'Loading search results...'} />
+      <va-loading-indicator setFocus message="Loading search results..." />
     );
   }
 
@@ -283,7 +283,7 @@ export const SearchResults = ({
             document.getElementById(prevFocusedLink).focus();
           }}
           title="Download this PDF and open it in Acrobat Reader"
-          initialFocusSelector={'#va-modal-title'}
+          initialFocusSelector="#va-modal-title"
           visible={isOpen}
         >
           <div className="vads-u-display--flex vads-u-flex-direction--column">

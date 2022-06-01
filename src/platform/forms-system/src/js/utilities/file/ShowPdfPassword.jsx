@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+import { TextInput } from '@department-of-veterans-affairs/component-library';
 
 const ShowPdfPassword = ({
   file,
@@ -17,7 +17,7 @@ const ShowPdfPassword = ({
   return (
     <div className="vads-u-margin-bottom--2">
       <TextInput
-        label={'PDF password'}
+        label="PDF password"
         errorMessage={
           showError && 'Please provide a password to decrypt this file'
         }

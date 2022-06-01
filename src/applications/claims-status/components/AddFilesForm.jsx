@@ -4,10 +4,11 @@ import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
 import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
-import Select from '@department-of-veterans-affairs/component-library/Select';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
-
+import {
+  TextInput,
+  Select,
+} from '@department-of-veterans-affairs/component-library';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import {
