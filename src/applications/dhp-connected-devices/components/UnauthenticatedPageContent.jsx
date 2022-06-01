@@ -1,7 +1,12 @@
-import React from 'react';
-import UserNav from 'platform/site-wide/user-nav/containers/Main';
+import React, { useCallback } from 'react';
+import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-export const UnauthenticatedPageContent = () => {
+export const UnauthenticatedPageContent = toggleLoginModal => {
+  const onSignInClicked = useCallback(() => toggleLoginModal(true), [
+    toggleLoginModal,
+  ]);
   return (
     <>
       <h2>Connected devices</h2>
@@ -16,10 +21,23 @@ export const UnauthenticatedPageContent = () => {
           If you don’t have any of these accounts, you can create a free ID.me
           account now.
         </div>
-        <div className="dhp-login-button">
-          <UserNav isHeaderV2 />
-        </div>
+        <button type="button" className="usa-button" onClick={onSignInClicked}>
+          Sign in or create an account
+        </button>
       </va-alert>
     </>
   );
+};
+
+const mapDispatchToProps = dispatch => ({
+  toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(UnauthenticatedPageContent);
+
+UnauthenticatedPageContent.propTypes = {
+  toggleLoginModal: PropTypes.func,
 };
