@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-unused-vars */
 
@@ -66,6 +67,9 @@ class Differ {
             scannedValue,
           })
         ) {
+          console.log('currentValue', currentValue);
+          console.log('scannedValue', scannedValue);
+
           updatedProductDirectory[productId][
             productDirectoryProps[attribute]
           ] = scannedValue.join(',');
