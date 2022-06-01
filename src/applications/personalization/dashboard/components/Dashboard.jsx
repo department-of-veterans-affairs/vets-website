@@ -16,10 +16,6 @@ import { CSP_IDS } from 'platform/user/authentication/constants';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import PropTypes from 'prop-types';
-import {
-  cnpDirectDepositIsSetUp,
-  eduDirectDepositIsSetUp,
-} from '@@profile/selectors';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
 import {
@@ -175,7 +171,6 @@ const Dashboard = ({
         fetchFullName();
         fetchMilitaryInformation();
         fetchTotalDisabilityRating();
-        getPayments();
       }
     },
     [
@@ -183,8 +178,17 @@ const Dashboard = ({
       fetchFullName,
       fetchMilitaryInformation,
       fetchTotalDisabilityRating,
-      getPayments,
     ],
+  );
+
+  // fetch data when we determine they are LOA3
+  useEffect(
+    () => {
+      if (showBenefitPaymentsAndDebt) {
+        getPayments();
+      }
+    },
+    [getPayments, showBenefitPaymentsAndDebt],
   );
 
   return (
@@ -324,17 +328,13 @@ const mapStateToProps = state => {
   const showHealthCare =
     !showMPIConnectionError && !showNotInMPIError && isLOA3 && isVAPatient;
   const signInService = signInServiceNameSelector(state);
-  const isCNPDirectDepositSetUp = cnpDirectDepositIsSetUp(state);
-  const isEDUDirectDepositSetUp = eduDirectDepositIsSetUp(state);
   const showBenefitPaymentsAndDebt =
     toggleValues(state)[FEATURE_FLAG_NAMES.showPaymentAndDebtSection] &&
     !showMPIConnectionError &&
     !showNotInMPIError &&
     isLOA3 &&
     signInServicesEligibleForDD.has(signInService) &&
-    isMultifactorEnabled(state) &&
-    isCNPDirectDepositSetUp &&
-    isEDUDirectDepositSetUp;
+    isMultifactorEnabled(state);
 
   const hasNotificationFeature = toggleValues(state)[
     FEATURE_FLAG_NAMES.showDashboardNotifications
