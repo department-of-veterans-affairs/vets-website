@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-console */
 /* eslint-disable class-methods-use-this */
+/* eslint-disable no-unused-vars */
 
 const _ = require('lodash');
 
@@ -37,90 +36,41 @@ class Differ {
       }
 
       // check if hasUnitTests, hasE2eTests, hasContractTests has changed
-      ['hasUnitTests', 'hasE2eTests', 'hasContractTests'].forEach(
-        (attribute, i) => {
-          const currentValue = product[productDirectoryProps[attribute]]; // key is snake case
-          const scannedValue = scannedProduct[attribute]; // key is camel case
+      ['hasUnitTests', 'hasE2eTests', 'hasContractTests'].forEach(attribute => {
+        const currentValue = product[productDirectoryProps[attribute]]; // key is snake case
+        const scannedValue = scannedProduct[attribute]; // key is camel case
 
-          if (
-            this.isNewBoolean({
-              currentValue,
-              scannedValue,
-            })
-          ) {
-            // if (i === 0) {
-            //   console.log('attribute', attribute);
-            //   console.log(
-            //     'productDirectoryProps[attribute]',
-            //     productDirectoryProps[attribute],
-            //   );
-            //   console.log(
-            //     'updatedProductDirectory[productId]',
-            //     updatedProductDirectory[productId],
-            //   );
-            //   console.log(
-            //     'updatedProductDirectory[productId][productDirectoryProps[attribute]]',
-            //     updatedProductDirectory[productId][
-            //       productDirectoryProps[attribute]
-            //     ],
-            //   );
-            // }
-
-            updatedProductDirectory[productId][
-              productDirectoryProps[attribute]
-            ] = scannedProduct[attribute];
-            this.changeDetected = true;
-          }
-        },
-      );
+        if (
+          this.isNewBoolean({
+            currentValue,
+            scannedValue,
+          })
+        ) {
+          updatedProductDirectory[productId][productDirectoryProps[attribute]] =
+            scannedProduct[attribute];
+          this.changeDetected = true;
+        }
+      });
 
       // check if packageDependencies, crossProductDependencies has changed
-      ['packageDependencies', 'crossProductDependencies'].forEach(
-        (attribute, i) => {
-          const currentValue = product[productDirectoryProps[attribute]]
-            ? product[productDirectoryProps[attribute]].split(',').sort()
-            : [];
-          const scannedValue = Array.from(scannedProduct[attribute]).sort();
+      ['packageDependencies', 'crossProductDependencies'].forEach(attribute => {
+        const currentValue = product[productDirectoryProps[attribute]]
+          ? product[productDirectoryProps[attribute]].split(',').sort()
+          : [];
+        const scannedValue = Array.from(scannedProduct[attribute]).sort();
 
-          // if (i === 0) {
-          //   console.log('attribute', attribute);
-          //   console.log(
-          //     'productDirectoryProps[attribute]',
-          //     productDirectoryProps[attribute],
-          //   );
-          //   console.log(
-          //     'updatedProductDirectory[productId]',
-          //     updatedProductDirectory[productId],
-          //   );
-          //   console.log(
-          //     'updatedProductDirectory[productId][productDirectoryProps[attribute]]',
-          //     updatedProductDirectory[productId][
-          //       productDirectoryProps[attribute]
-          //     ],
-          //   );
-          //   console.log('scannedValue', scannedValue);
-          // }
-
-          if (
-            this.hasUpdatedDependencies({
-              currentValue,
-              scannedValue,
-            })
-          ) {
-            // updatedProductDirectory[productId][
-            //   productDirectoryProps[attribute]
-            // ] = scannedValue.join(',');
-
-            updatedProductDirectory[productId][
-              productDirectoryProps[attribute]
-            ] = 'HELLO, IS THIS GETTING UPDATED?!?!';
-            this.changeDetected = true;
-          }
-        },
-      );
+        if (
+          this.hasUpdatedDependencies({
+            currentValue,
+            scannedValue,
+          })
+        ) {
+          updatedProductDirectory[productId][productDirectoryProps[attribute]] =
+            'HELLO, IS THIS GETTING UPDATED?!?!';
+          this.changeDetected = true;
+        }
+      });
     });
-
-    console.log(JSON.stringify(updatedProductDirectory, null, 2));
 
     return JSON.stringify(
       Object.keys(updatedProductDirectory).map(
