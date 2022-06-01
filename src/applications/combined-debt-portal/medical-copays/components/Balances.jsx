@@ -12,23 +12,26 @@ export const Balances = ({ statements }) => {
   return (
     <>
       {statements?.length === 1 ? single : multiple}
+      <ul className="no-bullets">
+        {statements?.map((balance, idx) => {
+          const facilityName =
+            balance.station.facilityName ||
+            getMedicalCenterNameByID(balance.station.facilitYNum);
 
-      {statements?.map((balance, idx) => {
-        const facilityName =
-          balance.station.facilityName ||
-          getMedicalCenterNameByID(balance.station.facilitYNum);
-
-        return (
-          <BalanceCard
-            id={balance.id}
-            amount={balance.pHAmtDue}
-            date={balance.pSStatementDateOutput}
-            city={balance.station.city}
-            facility={facilityName}
-            key={balance.id ? balance.id : `${idx}-${balance.facilitYNum}`}
-          />
-        );
-      })}
+          return (
+            <li key={idx}>
+              <BalanceCard
+                id={balance.id}
+                amount={balance.pHAmtDue}
+                date={balance.pSStatementDateOutput}
+                city={balance.station.city}
+                facility={facilityName}
+                key={balance.id ? balance.id : `${idx}-${balance.facilitYNum}`}
+              />
+            </li>
+          );
+        })}
+      </ul>
     </>
   );
 };
