@@ -369,9 +369,7 @@
   },
   "workspaces": {
     "packages": [
-      "src/platform/landing-pages",
-      "src/platform/polyfills",
-      "src/platform/static-data",
+      "src/platform/*",
       "src/applications/*/packages/*",
       "src/applications/*/"
     ],
