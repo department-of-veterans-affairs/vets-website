@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function ContactAlert() {
   return (
-    <va-alert status="warning">
+    <va-alert status="warning" data-testid="bad-address-contact-alert">
       <h2 slot="headline">Review your mailing address</h2>
       <p>
         The address we have on file for you may not be correct. Select{' '}
@@ -12,9 +12,9 @@ export default function ContactAlert() {
         <strong className="vads-u-font-weight--bold">Update</strong> to confirm.
       </p>
       <p>
-        <a href="#mailingAddress">
-          <i aria-hidden="true" className="fas fa-arrow-down" />
-          Review your mailing address
+        <a href="#addresses">
+          <i aria-hidden="true" className="fas fa-arrow-down" /> Review your
+          mailing address
         </a>
       </p>
     </va-alert>
