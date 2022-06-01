@@ -1,5 +1,4 @@
 /* eslint-disable class-methods-use-this */
-/* eslint-disable no-param-reassign */
 
 const _ = require('lodash');
 
@@ -19,12 +18,14 @@ class Differ {
 
     currentProductDirectory.forEach(product => {
       const productId = product.product_id;
-      const scannedProduct = products[productId];
+      const scannedProduct = products.all[productId];
+
+      if (scannedProduct === undefined) return;
 
       // check if path_to_code has changed
       if (
         this.isNewPathToCode({
-          currentPath: product.pathToCode,
+          currentPath: product.path_to_code,
           scannedPath: scannedProduct.pathToCode,
         })
       ) {
@@ -49,21 +50,29 @@ class Differ {
 
       // check if packageDependencies, crossProductDependencies has changed
       ['packageDependencies', 'crossProductDependencies'].forEach(attribute => {
+        const currentValue = product[productDirectoryProps[attribute]]
+          ? product[productDirectoryProps[attribute]].split(',').sort()
+          : [];
+        const scannedValue = Array.from(scannedProduct[attribute]).sort();
+
         if (
           this.hasUpdatedDependencies({
-            currentValue: product[productDirectoryProps[attribute]],
-            scannedValue: scannedProduct[attribute],
+            currentValue,
+            scannedValue,
           })
         ) {
-          updatedProductDirectory[productId][productDirectoryProps[attribute]] =
-            scannedProduct[attribute];
+          updatedProductDirectory[productId][
+            productDirectoryProps[attribute]
+          ] = scannedValue;
           this.changeDetected = true;
         }
       });
     });
 
-    return Object.keys(updatedProductDirectory).map(
-      productId => updatedProductDirectory[productId],
+    return JSON.stringify(
+      Object.keys(updatedProductDirectory).map(
+        productId => updatedProductDirectory[productId],
+      ),
     );
   }
 
@@ -78,7 +87,7 @@ class Differ {
   }
 
   hasUpdatedDependencies({ currentValue, scannedValue }) {
-    return !_.isEqual(currentValue.sort(), scannedValue.sort());
+    return !_.isEqual(currentValue, scannedValue);
   }
 }
 

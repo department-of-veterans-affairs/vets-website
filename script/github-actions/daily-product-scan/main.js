@@ -85,7 +85,7 @@ async function main({ octokit }) {
   }
 
   response = await octokit.createPull({
-    content: JSON.stringify(updatedProductDirectory),
+    content: updatedProductDirectory,
   });
 
   if (response?.status !== 201) {
