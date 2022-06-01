@@ -1,6 +1,4 @@
-/* eslint-disable no-console */
 /* eslint-disable class-methods-use-this */
-/* eslint-disable no-unused-vars */
 
 const _ = require('lodash');
 
