@@ -21,7 +21,7 @@ class GitHubClient {
     });
   }
 
-  async getProductCsv() {
+  async getProductJson() {
     try {
       return await this.octokit.rest.repos.getContent({
         mediaType: {

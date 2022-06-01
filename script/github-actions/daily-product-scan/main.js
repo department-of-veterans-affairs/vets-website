@@ -6,11 +6,7 @@ const Products = require('./products');
 const PackageDependencies = require('./products/dependencies/package-dependencies');
 const CrossProductDependencies = require('./products/dependencies/cross-product-dependencies');
 const TestTypes = require('./products/test-types');
-const Csv = require('./csv');
-const Headings = require('./csv/headings');
-const Rows = require('./csv/rows');
-const Differ = require('./csv/differ');
-const { removeCarriageReturn, transformCsvToScsv } = require('./csv/helpers');
+const Differ = require('./json/differ');
 
 function handleFailure({ response }) {
   core.setFailed(
@@ -62,31 +58,20 @@ async function main({ octokit }) {
 
   testTypes.checkExistance();
 
-  let response = await octokit.getProductCsv();
+  let response = await octokit.getProductJson();
 
   if (response?.status !== 200) {
     return handleFailure({ response });
   }
 
-  const { data: csv } = response;
+  const productDirectory = JSON.parse(response.data);
 
-  const csvLines = removeCarriageReturn(transformCsvToScsv(csv).split('\n'));
+  const differ = new Differ();
 
-  const emptyProductCsv = new Csv({
-    headings: new Headings({ csvLine: csvLines.slice(0, 1)[0] }),
-    rows: new Rows({ csvLines: [] }),
+  const updatedProductDirectory = differ.diff({
+    products,
+    currentProductDirectory: productDirectory,
   });
-
-  const productCsv = new Csv({
-    headings: new Headings({ csvLine: csvLines.slice(0, 1)[0] }),
-    rows: new Rows({ csvLines: csvLines.slice(1) }),
-  });
-
-  const differ = new Differ({ emptyProductCsv });
-
-  differ.diff({ products, productCsv });
-
-  const updatedCsv = emptyProductCsv.generateOutput();
 
   const { changeDetected } = differ;
 
@@ -95,12 +80,12 @@ async function main({ octokit }) {
       changeDetected,
       message:
         'No changes were detected. The data prop includes the unchanged CSV.',
-      data: updatedCsv,
+      data: updatedProductDirectory,
     });
   }
 
   response = await octokit.createPull({
-    content: updatedCsv,
+    content: JSON.stringify(updatedProductDirectory),
   });
 
   if (response?.status !== 201) {
@@ -110,7 +95,7 @@ async function main({ octokit }) {
   return handleSuccess({
     changeDetected,
     message: 'Changes were detected. The data prop includes the updated CSV.',
-    data: updatedCsv,
+    data: updatedProductDirectory,
   });
 }
 
