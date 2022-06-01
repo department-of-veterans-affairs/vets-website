@@ -47,9 +47,13 @@ const ContactInformation = () => {
   );
   const badAddressIndicatorEnabled = useSelector(showBadAddressIndicator);
 
-  const userHasBadAddress = useSelector(
-    state =>
-      hasBadAddress(state) && state?.vapService?.modal !== 'addressValidation',
+  const userHasBadAddress = useSelector(state => hasBadAddress(state));
+
+  const addressValidationModalIsShowing = useSelector(
+    state => state?.vapService?.modal === 'addressValidation',
+  );
+  const addressSavedDidError = useSelector(
+    state => state.vapService.addressValidation.addressValidationError,
   );
 
   const directDepositIsAlwaysShowing = useSelector(
@@ -132,6 +136,17 @@ const ContactInformation = () => {
     [openEditModal],
   );
 
+  const showHeroBadAddressAlert =
+    badAddressIndicatorEnabled &&
+    userHasBadAddress &&
+    !addressValidationModalIsShowing;
+
+  const showFormBadAddressAlert =
+    badAddressIndicatorEnabled &&
+    userHasBadAddress &&
+    !addressSavedDidError &&
+    !addressValidationModalIsShowing;
+
   return (
     <>
       <Prompt
@@ -139,12 +154,11 @@ const ContactInformation = () => {
         when={hasUnsavedEdits}
       />
       <Headline>Contact information</Headline>
-      {badAddressIndicatorEnabled &&
-        userHasBadAddress && (
-          <>
-            <BadAddressAlert />
-          </>
-        )}
+      {showHeroBadAddressAlert && (
+        <>
+          <BadAddressAlert />
+        </>
+      )}
       <DowntimeNotification
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}
@@ -153,7 +167,7 @@ const ContactInformation = () => {
           !directDepositIsAlwaysShowing && <PaymentInformationBlocked />}
         <ContactInformationContent
           hasVAPServiceError={hasVAPServiceError}
-          showBadAddress={badAddressIndicatorEnabled && userHasBadAddress}
+          showBadAddress={showFormBadAddressAlert}
         />
       </DowntimeNotification>
     </>
