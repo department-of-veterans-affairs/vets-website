@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable class-methods-use-this */
 
 const _ = require('lodash');
@@ -54,6 +55,9 @@ class Differ {
           ? product[productDirectoryProps[attribute]].split(',').sort()
           : [];
         const scannedValue = Array.from(scannedProduct[attribute]).sort();
+
+        console.log('currentValue', currentValue);
+        console.log('scannedValue', scannedValue);
 
         if (
           this.hasUpdatedDependencies({
