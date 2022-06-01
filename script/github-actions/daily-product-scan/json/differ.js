@@ -37,8 +37,8 @@ class Differ {
 
       // check if hasUnitTests, hasE2eTests, hasContractTests has changed
       ['hasUnitTests', 'hasE2eTests', 'hasContractTests'].forEach(attribute => {
-        const currentValue = product[productDirectoryProps[attribute]]; // key is snake case
-        const scannedValue = scannedProduct[attribute]; // key is camel case
+        const currentValue = product[productDirectoryProps[attribute]];
+        const scannedValue = scannedProduct[attribute];
 
         if (
           this.isNewBoolean({
@@ -46,8 +46,9 @@ class Differ {
             scannedValue,
           })
         ) {
-          updatedProductDirectory[productId][productDirectoryProps[attribute]] =
-            scannedProduct[attribute];
+          updatedProductDirectory[productId][
+            productDirectoryProps[attribute]
+          ] = scannedValue;
           this.changeDetected = true;
         }
       });
@@ -65,8 +66,9 @@ class Differ {
             scannedValue,
           })
         ) {
-          updatedProductDirectory[productId][productDirectoryProps[attribute]] =
-            'HELLO, IS THIS GETTING UPDATED?!?!';
+          updatedProductDirectory[productId][
+            productDirectoryProps[attribute]
+          ] = scannedValue.join(',');
           this.changeDetected = true;
         }
       });
