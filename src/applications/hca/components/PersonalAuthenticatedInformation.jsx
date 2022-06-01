@@ -18,7 +18,6 @@ const PersonalAuthenticatedInformation = ({
   formData,
   getTotalDisabilityRating,
   totalDisabilityRating,
-  user,
 }) => {
   useEffect(
     () => {
@@ -27,52 +26,15 @@ const PersonalAuthenticatedInformation = ({
     [getTotalDisabilityRating],
   );
 
-  // useEffect(
-  //   () => {
-  //     setFormData({
-  //       ...formData,
-  //       'view:totalDisabilityRatingLoading': loading,
-  //       'view:totalDisabilityRatingError': error,
-  //       'view:totalDisabilityRating': totalDisabilityRating || 0,
-  //     });
-  //   },
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   [loading, error, totalDisabilityRating],
-  // );
-
   useEffect(
     () => {
-      if (!user) return;
-      if (
-        (user && user.email === 'vets.gov.user+11@gmail.com') ||
-        user.email === 'vets.gov.user+12@gmail.com'
-      ) {
-        setFormData({
-          ...formData,
-          'view:totalDisabilityRating': 40,
-        });
-      } else if (user && user.email === 'vets.gov.user+228@gmail.com') {
-        setFormData({
-          ...formData,
-          'view:totalDisabilityRating': 100,
-        });
-      } else if (
-        (user && user.email === 'vets.gov.user+226@gmail.com') ||
-        user.email === 'vets.gov.user+201@gmail.com'
-      ) {
-        setFormData({
-          ...formData,
-          'view:totalDisabilityRating': 70,
-        });
-      } else {
-        setFormData({
-          ...formData,
-          'view:totalDisabilityRating': totalDisabilityRating || 0,
-        });
-      }
+      setFormData({
+        ...formData,
+        'view:totalDisabilityRating': totalDisabilityRating || 0,
+      });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [totalDisabilityRating, user],
+    [totalDisabilityRating],
   );
 
   const navButtons = <FormNavButtons goBack={goBack} goForward={goForward} />;
@@ -173,7 +135,6 @@ PersonalAuthenticatedInformation.propTypes = {
   setFormData: PropTypes.func,
   suffix: PropTypes.string,
   totalDisabilityRating: PropTypes.number,
-  user: PropTypes.object,
   veteranDateOfBirth: PropTypes.string,
   veteranSocialSecurityNumber: PropTypes.string,
 };
