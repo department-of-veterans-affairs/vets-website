@@ -94,6 +94,7 @@ class AskVAPage extends React.Component {
               </div>
               <button
                 disabled={submitDisabled}
+                type="button"
                 className={
                   submitDisabled
                     ? 'usa-button-primary usa-button-disabled'
