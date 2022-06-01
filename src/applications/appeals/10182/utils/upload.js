@@ -27,9 +27,15 @@ export const evidenceUploadUI = {
     fileTypes: SUPPORTED_UPLOAD_TYPES,
     maxSize: MAX_FILE_SIZE_BYTES,
     minSize: 1024,
-    createPayload: file => {
+    createPayload: (file, _formId, password) => {
       const payload = new FormData();
       payload.append('decision_review_evidence_attachment[file_data]', file);
+      if (password) {
+        payload.append(
+          'decision_review_evidence_attachment[password]',
+          password,
+        );
+      }
       return payload;
     },
     parseResponse: (response, { name }) => {

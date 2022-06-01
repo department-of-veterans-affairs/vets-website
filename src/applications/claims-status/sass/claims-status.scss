@@ -42,6 +42,10 @@
   }
 }
 
+.claim-list-item-container a {
+  position: relative;
+}
+
 @media (max-width: $medium-screen) {
   .claims-status-content .help-sidebar {
     margin-top: 0px;

@@ -11,7 +11,7 @@ import {
   APP_TYPES,
   API_RESPONSES,
 } from '../../combined/utils/helpers';
-import OtherVADebts from '../components/OtherVADebts';
+import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
 import { fetchDebtResponseAsync } from './MedicalCopaysApp';
 

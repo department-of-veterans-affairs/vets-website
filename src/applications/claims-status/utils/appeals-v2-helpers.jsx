@@ -2182,3 +2182,23 @@ export function getVisibleRows(list, currentPage) {
   }
   return list.slice(currentIndex, currentIndex + ROWS_PER_PAGE);
 }
+
+/**
+ * Calculate the item range based on the current page and number of rows/page.
+ * This is used to
+ * @param {Number} page - current page
+ * @param {Number} totalItems - total number of entries
+ * @returns
+ */
+export const getPageRange = (page, totalItems) => {
+  const firstItem = (page - 1) * ROWS_PER_PAGE + 1;
+  const itemsLeftToShow = totalItems - (page - 1) * ROWS_PER_PAGE;
+  const lastItem =
+    itemsLeftToShow > ROWS_PER_PAGE
+      ? firstItem + ROWS_PER_PAGE - 1
+      : firstItem + itemsLeftToShow - 1;
+  return {
+    start: firstItem,
+    end: lastItem,
+  };
+};

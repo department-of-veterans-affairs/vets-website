@@ -1,8 +1,8 @@
 export const defaultSignInProviders = {
   logingov: true,
   idme: true,
-  mhv: true,
   dslogon: true,
+  mhv: true,
 };
 
 export const defaultSignUpProviders = {

@@ -3,7 +3,7 @@ import Breadcrumbs from '@department-of-veterans-affairs/component-library/Bread
 import PropTypes from 'prop-types';
 import Alert from './Alerts';
 import alertMessage from '../../combined/utils/alert-messages';
-import OtherVADebts from './OtherVADebts';
+import OtherVADebts from '../../combined/components/OtherVADebts';
 import {
   ALERT_TYPES,
   APP_TYPES,
