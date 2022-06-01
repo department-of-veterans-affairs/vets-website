@@ -67,7 +67,7 @@ class Differ {
         ) {
           updatedProductDirectory[productId][
             productDirectoryProps[attribute]
-          ] = scannedValue;
+          ] = scannedValue.split(',');
           this.changeDetected = true;
         }
       });
