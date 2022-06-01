@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import * as VAP_SERVICE from '@@vap-svc/constants';
@@ -47,16 +46,16 @@ const ProfileInformationView = props => {
     // and . symbols so very long email addresses will wrap at those symbols if
     // needed
     const regex = /(@|\.)/;
-    const wrappableEmailAddress = data.emailAddress
-      .split(regex)
-      .map(
-        part =>
-          regex.test(part) ? (
-            <span className="email-address-symbol">{part}</span>
-          ) : (
-            part
-          ),
-      );
+    const wrappableEmailAddress = data.emailAddress.split(regex).map(
+      (part, i) =>
+        regex.test(part) ? (
+          <span className="email-address-symbol" key={i}>
+            {part}
+          </span>
+        ) : (
+          part
+        ),
+    );
     return (
       <span style={{ wordBreak: 'break-word' }}>{wrappableEmailAddress}</span>
     );
@@ -65,10 +64,10 @@ const ProfileInformationView = props => {
   if (phoneNumbers.includes(fieldName)) {
     return (
       <div>
-        <Telephone
+        <va-telephone
           contact={`${data.areaCode}${data.phoneNumber}`}
           extension={data.extension}
-          notClickable
+          not-clickable
         />
       </div>
     );
