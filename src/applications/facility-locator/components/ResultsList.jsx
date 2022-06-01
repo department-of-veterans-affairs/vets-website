@@ -1,4 +1,3 @@
-/* eslint-disable react/sort-prop-types */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
@@ -286,13 +285,13 @@ export class ResultsList extends Component {
 }
 
 ResultsList.propTypes = {
-  inProgress: PropTypes.bool,
-  results: PropTypes.array,
-  error: PropTypes.object,
-  query: PropTypes.object,
   currentQuery: PropTypes.object,
-  pagination: PropTypes.object,
+  error: PropTypes.object,
   facilityTypeName: PropTypes.string,
+  inProgress: PropTypes.bool,
+  pagination: PropTypes.object,
+  query: PropTypes.object,
+  results: PropTypes.array,
   searchError: PropTypes.string,
   searchString: PropTypes.string,
   showCovidVaccineSchedulingLinks: PropTypes.string,
