@@ -9,7 +9,7 @@ on:
 jobs:
   cypress-tests:
     name: Cypress E2E Proxy Rewrite Header/Footer Injection Test
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout
@@ -22,7 +22,7 @@ jobs:
           yarn_cache_folder: .cache/yarn
           path: |
             .cache/yarn
-            /home/runner/.cache/Cypress
+            /github/home/.cache/Cypress
             node_modules
       
       - name: Start server
