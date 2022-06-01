@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import { submitRequest, getClaimDetail } from '../actions/index.jsx';
+import { submitRequest, getClaimDetail } from '../actions';
 import { setUpPage } from '../utils/page';
 
 import AskVAQuestions from '../components/AskVAQuestions';
