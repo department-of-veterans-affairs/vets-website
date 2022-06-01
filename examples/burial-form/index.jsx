@@ -4,6 +4,7 @@ import { FormRouter } from '@department-of-veterans-affairs/va-forms-system-core
 import BurialIntroduction from './BurialIntroduction';
 import ClaimantInformation from './ClaimantInformation';
 import VeteranInformation from './VeteranInformation';
+import MilitaryServiceHistory from './MilitaryServiceHistory';
 
 const NoMatch = (props) => (
   <main style={{ padding: '1rem' }}>
@@ -20,6 +21,7 @@ const BurialApp = (props) => {
         <Route index element={<BurialIntroduction title="Introduction Page" />} />
         <Route path="/claimant-information" element={<ClaimantInformation title="Claimant Information" />} />
         <Route path="/veteran-information" element={<VeteranInformation title="Deceased Veteran Information" />} />
+        <Route path="/military-history/service-periods" element={<MilitaryServiceHistory title="Military Service History" />} />
         <Route path="*" element={<NoMatch name="No Routes for App" />} />
       </FormRouter>
     </div>

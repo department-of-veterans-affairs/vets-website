@@ -8,7 +8,7 @@ export default function RouterProgress(props: { route: string }): JSX.Element {
       listOfRoutes.filter((item) => item.path === currentRoute)[0]
     ),
     currentIndex = findIndex >= 0 ? findIndex + 1 : 0,
-    stepTitle = listOfRoutes[findIndex]?.title ,
+    stepTitle = listOfRoutes[findIndex]?.title,
     numberOfSteps = listOfRoutes.length | 0;
 
   return (

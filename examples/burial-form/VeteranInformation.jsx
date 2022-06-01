@@ -22,7 +22,7 @@ export default function VeteranInformation(props) {
 
   return (
     <>
-      <Page {...props} nextPage="/" prevPage="/claimant-information">
+      <Page {...props} nextPage="/military-history/service-periods" prevPage="/claimant-information">
         <FullNameField name="veteranFullName" label="Veteran Full Name" />
 
         {
