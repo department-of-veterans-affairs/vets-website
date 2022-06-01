@@ -37,10 +37,13 @@ class Differ {
 
       // check if hasUnitTests, hasE2eTests, hasContractTests has changed
       ['hasUnitTests', 'hasE2eTests', 'hasContractTests'].forEach(attribute => {
+        const currentValue = product[productDirectoryProps[attribute]]; // key is snake case
+        const scannedValue = scannedProduct[attribute]; // key is camel case
+
         if (
           this.isNewBoolean({
-            currentValue: product[productDirectoryProps[attribute]],
-            scannedValue: scannedProduct[attribute],
+            currentValue,
+            scannedValue,
           })
         ) {
           updatedProductDirectory[productId][productDirectoryProps[attribute]] =
