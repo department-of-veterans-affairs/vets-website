@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 import {
-  DateField,
-  DebuggerView,
   FullNameField,
   Page,
   RadioGroup
@@ -19,6 +17,9 @@ export default function ClaimantInformation(props) {
   return (
     <>
       <Page {...props} nextPage="/veteran-information" prevPage="/">
+        <p>
+          You aren't required to fill in all fields, but we can review your application faster if you provide more information.
+        </p>
         <FullNameField name="claimantFullName"/>
         <RadioGroup
           name="relationship.type"
@@ -34,9 +35,7 @@ export default function ClaimantInformation(props) {
             ]
           }
         />
-        <DateField name="dob" label="Date of burial(includes cremation or interment)" required/>
       </Page>
-      <DebuggerView />
     </>
   )
 }
