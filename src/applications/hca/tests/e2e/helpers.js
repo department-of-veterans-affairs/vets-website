@@ -107,3 +107,90 @@ export const advanceToServiceInfoPage = () => {
 
   goToNextPage('/military-service/service-information');
 };
+
+export const shortFormAdditionalHelpAssertion = () => {
+  cy.get('va-additional-info')
+    .shadow()
+    .findByText(/you’re filling out a shortened application!/i, {
+      selector: '.additional-info-title',
+    })
+    .first()
+    .should('exist');
+};
+
+export const shortFormSelfDisclosureToSubmit = () => {
+  goToNextPage('/va-benefits/basic-information');
+  cy.get('[type=radio]#root_vaCompensationType_1')
+    .first()
+    .scrollIntoView()
+    .check('highDisability');
+
+  goToNextPage('/va-benefits/confirm-service-pay');
+  cy.findByText(
+    /please confirm that you receive service-connected pay for a 50% or higher disability rating./i,
+  )
+    .first()
+    .should('exist');
+
+  cy.injectAxe();
+  cy.axeCheck();
+  cy.findAllByText(/confirm/i, { selector: 'button' })
+    .first()
+    .click();
+
+  // medicaid page with short form message
+  cy.get('va-alert')
+    .find('h3')
+    .contains(/you’re now on step 3 of 4 of our shorter application/i)
+    .should('exist');
+
+  cy.get('[type=radio]#root_isMedicaidEligibleNo')
+    .first()
+    .scrollIntoView()
+    .check('N');
+
+  // general insurance
+  goToNextPage('/insurance-information/general');
+  shortFormAdditionalHelpAssertion();
+
+  cy.get('[type=radio]#root_isCoveredByHealthInsuranceNo')
+    .first()
+    .scrollIntoView()
+    .check('N');
+
+  // va facility
+  goToNextPage('/insurance-information/va-facility');
+  shortFormAdditionalHelpAssertion();
+
+  cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
+    testData['view:preferredFacility']['view:facilityState'],
+  );
+
+  cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]').select(
+    testData['view:preferredFacility'].vaMedicalFacility,
+  );
+
+  goToNextPage('review-and-submit');
+
+  // check review page for self disclosure of va compensation type
+  cy.get(`button.usa-button-unstyled`)
+    .contains(/^VA Benefits$/)
+    .click();
+  cy.findByText(/Do you receive VA disability compensation?/i, {
+    selector: 'dt',
+  })
+    .next('dd')
+    .should('have.text', 'Yes (50% or higher rating)');
+
+  cy.get('[name="privacyAgreementAccepted"]')
+    .scrollIntoView()
+    .check();
+  cy.findByText(/submit/i, { selector: 'button' }).click();
+  cy.wait('@mockSubmit').then(interception => {
+    // check submitted vaCompensationType value.
+    cy.wrap(JSON.parse(interception.request.body.form))
+      .its('vaCompensationType')
+      .should('eq', 'highDisability');
+  });
+  cy.location('pathname').should('include', '/confirmation');
+};
