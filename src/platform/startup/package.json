@@ -2,11 +2,13 @@
     "name": "@department-of-veterans-affairs/platform-startup",
     "version": "1.0.0",
     "exports": {
-      "." :"./",
-      "./index" :"./index.js",
-      "./store" :"./store.js",
-      "./react" :"./react.js",
-      "./analytics" :"./analytics-middleware.js"
+      "." : "./exportsFile.js",
+      "./index" : "./index.js",
+      "./store" : "./store.js",
+      "./react" : "./react.js",
+      "./setup" : "./setup.js",
+      "./router" : "./router.js",
+      "./analytics-middleware" : "./analytics-middleware.js"
     },
     "license": "MIT",
     "private": true
