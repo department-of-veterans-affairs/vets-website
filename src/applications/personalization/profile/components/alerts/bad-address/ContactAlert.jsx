@@ -1,8 +1,18 @@
+/* eslint-disable no-console */
 import React from 'react';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+// import { recordBadAddressEvent } from './analytics';
 
 export default function ContactAlert() {
+  console.log('ContactAlert');
   return (
-    <va-alert status="warning" data-testid="bad-address-contact-alert">
+    <VaAlert
+      status="warning"
+      data-testid="bad-address-contact-alert"
+      onVaComponentDidLoad={() => {
+        console.log('loaded');
+      }}
+    >
       <h2 slot="headline">Review your mailing address</h2>
       <p>
         The address we have on file for you may not be correct. Select{' '}
@@ -17,6 +27,6 @@ export default function ContactAlert() {
           mailing address
         </a>
       </p>
-    </va-alert>
+    </VaAlert>
   );
 }
