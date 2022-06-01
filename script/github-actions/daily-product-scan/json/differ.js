@@ -55,31 +55,24 @@ class Differ {
       });
 
       // check if packageDependencies, crossProductDependencies has changed
-      ['packageDependencies', 'crossProductDependencies'].forEach(
-        (attribute, i) => {
-          const currentValue = product[productDirectoryProps[attribute]]
-            ? product[productDirectoryProps[attribute]].split(',').sort()
-            : [];
-          const scannedValue = Array.from(scannedProduct[attribute]).sort();
+      ['packageDependencies', 'crossProductDependencies'].forEach(attribute => {
+        const currentValue = product[productDirectoryProps[attribute]]
+          ? product[productDirectoryProps[attribute]].split(',').sort()
+          : [];
+        const scannedValue = Array.from(scannedProduct[attribute]).sort();
 
-          if (i === 1) {
-            console.log('currentValue', currentValue);
-            console.log('scannedValue', scannedValue);
-          }
-
-          if (
-            this.hasUpdatedDependencies({
-              currentValue,
-              scannedValue,
-            })
-          ) {
-            updatedProductDirectory[productId][
-              productDirectoryProps[attribute]
-            ] = scannedValue.join(',');
-            this.changeDetected = true;
-          }
-        },
-      );
+        if (
+          this.hasUpdatedDependencies({
+            currentValue,
+            scannedValue,
+          })
+        ) {
+          updatedProductDirectory[productId][
+            productDirectoryProps[attribute]
+          ] = scannedValue.join(',');
+          this.changeDetected = true;
+        }
+      });
     });
 
     return JSON.stringify(
