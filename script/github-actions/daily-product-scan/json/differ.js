@@ -72,9 +72,9 @@ class Differ {
     return JSON.stringify(
       Object.keys(updatedProductDirectory).map(
         productId => updatedProductDirectory[productId],
-        null,
-        2,
       ),
+      null,
+      2,
     );
   }
 
