@@ -12,6 +12,7 @@ import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
 } from '@@profile/actions';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import PropTypes from 'prop-types';
@@ -24,7 +25,9 @@ import {
   isVAPatient as isVAPatientSelector,
   hasMPIConnectionError,
   isNotInMPI,
+  isMultifactorEnabled,
 } from '~/platform/user/selectors';
+import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import RequiredLoginView, {
   RequiredLoginLoader,
 } from '~/platform/user/authorization/components/RequiredLoginView';
@@ -168,7 +171,6 @@ const Dashboard = ({
         fetchFullName();
         fetchMilitaryInformation();
         fetchTotalDisabilityRating();
-        getPayments();
       }
     },
     [
@@ -176,8 +178,17 @@ const Dashboard = ({
       fetchFullName,
       fetchMilitaryInformation,
       fetchTotalDisabilityRating,
-      getPayments,
     ],
+  );
+
+  // fetch data when we determine they are LOA3
+  useEffect(
+    () => {
+      if (showBenefitPaymentsAndDebt) {
+        getPayments();
+      }
+    },
+    [getPayments, showBenefitPaymentsAndDebt],
   );
 
   return (
@@ -282,6 +293,10 @@ const isAppealsAvailableSelector = createIsServiceAvailableSelector(
 
 const mapStateToProps = state => {
   const { isReady: hasLoadedScheduledDowntime } = state.scheduledDowntime;
+  const signInServicesEligibleForDD = new Set([
+    CSP_IDS.ID_ME,
+    CSP_IDS.LOGIN_GOV,
+  ]);
   const isLOA3 = isLOA3Selector(state);
   const isLOA1 = isLOA1Selector(state);
   const isVAPatient = isVAPatientSelector(state);
@@ -312,11 +327,14 @@ const mapStateToProps = state => {
     hasClaimsOrAppealsService;
   const showHealthCare =
     !showMPIConnectionError && !showNotInMPIError && isLOA3 && isVAPatient;
+  const signInService = signInServiceNameSelector(state);
   const showBenefitPaymentsAndDebt =
     toggleValues(state)[FEATURE_FLAG_NAMES.showPaymentAndDebtSection] &&
     !showMPIConnectionError &&
     !showNotInMPIError &&
-    isLOA3;
+    isLOA3 &&
+    signInServicesEligibleForDD.has(signInService) &&
+    isMultifactorEnabled(state);
 
   const hasNotificationFeature = toggleValues(state)[
     FEATURE_FLAG_NAMES.showDashboardNotifications
