@@ -6,6 +6,7 @@ import {
   deductibleExpensesDescription,
   expensesGreaterThanIncomeWarning,
   expensesLessThanIncome,
+  emptyObjectSchema,
 } from '../../../helpers';
 
 import { validateCurrency } from '../../../validation';
@@ -15,11 +16,6 @@ const {
   deductibleFuneralExpenses,
   deductibleMedicalExpenses,
 } = fullSchemaHca.properties;
-
-const emptyObjectSchema = {
-  type: 'object',
-  properties: {},
-};
 
 export default {
   uiSchema: {
