@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router';
+import PropTypes from 'prop-types';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 import { submitRequest, getClaimDetail } from '../actions';
 import { setUpPage } from '../utils/page';
-
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 
@@ -50,6 +50,7 @@ class AskVAPage extends React.Component {
     } else if (decisionRequestError !== null) {
       buttonMsg = 'Something went wrong...';
     }
+
     return (
       <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
         <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
@@ -144,5 +145,15 @@ export default withRouter(
     mapDispatchToProps,
   )(AskVAPage),
 );
+
+AskVAPage.propTypes = {
+  decisionRequestError: PropTypes.string,
+  decisionRequested: PropTypes.bool,
+  getClaimDetail: PropTypes.func,
+  loadingDecisionRequest: PropTypes.bool,
+  params: PropTypes.object,
+  router: PropTypes.object,
+  submitRequest: PropTypes.func,
+};
 
 export { AskVAPage };
