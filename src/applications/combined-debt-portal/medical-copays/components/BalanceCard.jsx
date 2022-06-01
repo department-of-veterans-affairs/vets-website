@@ -61,45 +61,55 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
       className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
       data-testid={`balance-card-${id}`}
     >
-      <h3
-        aria-describedby={`copay-balance-${id}`}
-        className="card-balance vads-u-margin-top--0"
-        data-testid={`amount-${id}`}
-      >
-        {currency(amount)}
-      </h3>
-      <p
-        id={`copay-balance-${id}`}
-        className="card-heading vads-u-margin-top--0"
-        data-testid={`facility-city-${id}`}
-      >
-        {facility} - {city}
-      </p>
-      <div className="card-content">
-        <i
-          aria-hidden="true"
-          role="img"
-          className="fa fa-exclamation-triangle"
-        />
-        <span className="sr-only">Alert</span>
-        {isCurrentBalance ? (
-          <CurrentContent id={id} date={date} />
-        ) : (
-          <PastDueContent id={id} date={date} amount={amount} />
-        )}
-      </div>
-      <Link
-        className="vads-u-font-size--sm vads-u-font-weight--bold"
-        to={`/copay-balances/${id}/detail`}
-        data-testid={`detail-link-${id}`}
-        aria-label={linkText}
-      >
-        {linkText}
-        <i
-          className="fa fa-chevron-right vads-u-margin-left--1"
-          aria-hidden="true"
-        />
-      </Link>
+      <ul className="no-bullets">
+        <li>
+          <h3
+            aria-describedby={`copay-balance-${id}`}
+            className="card-balance vads-u-margin-top--0"
+            data-testid={`amount-${id}`}
+          >
+            {currency(amount)}
+          </h3>
+        </li>
+        <li>
+          <p
+            id={`copay-balance-${id}`}
+            className="card-heading vads-u-margin-top--0"
+            data-testid={`facility-city-${id}`}
+          >
+            {facility} - {city}
+          </p>
+        </li>
+        <li>
+          <div className="card-content">
+            <i
+              aria-hidden="true"
+              role="img"
+              className="fa fa-exclamation-triangle"
+            />
+            <span className="sr-only">Alert</span>
+            {isCurrentBalance ? (
+              <CurrentContent id={id} date={date} />
+            ) : (
+              <PastDueContent id={id} date={date} amount={amount} />
+            )}
+          </div>
+        </li>
+        <li>
+          <Link
+            className="vads-u-font-size--sm vads-u-font-weight--bold"
+            to={`/copay-balances/${id}/detail`}
+            data-testid={`detail-link-${id}`}
+            aria-label={linkText}
+          >
+            {linkText}
+            <i
+              className="fa fa-chevron-right vads-u-margin-left--1"
+              aria-hidden="true"
+            />
+          </Link>
+        </li>
+      </ul>
     </div>
   );
 };
