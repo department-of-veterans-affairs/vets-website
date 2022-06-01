@@ -1,16 +1,15 @@
 /* eslint-disable no-console */
 import React from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-// import { recordBadAddressEvent } from './analytics';
+import { recordBadAddressEvent } from './analytics';
 
 export default function ContactAlert() {
-  console.log('ContactAlert');
   return (
     <VaAlert
       status="warning"
       data-testid="bad-address-contact-alert"
-      onVaComponentDidLoad={() => {
-        console.log('loaded');
+      onVa-component-did-load={() => {
+        recordBadAddressEvent('contact');
       }}
     >
       <h2 slot="headline">Review your mailing address</h2>
