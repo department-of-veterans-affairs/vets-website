@@ -2,7 +2,7 @@
 const octokitResponses = {
   productDirectory: {
     status: 200,
-    data: [
+    data: JSON.stringify([
       {
         product_id: 'b1ad72a5-aac8-4331-aa0b-8d0c2e9c1915',
         product_name: '10-10EZ',
@@ -30,27 +30,27 @@ const octokitResponses = {
         features: [
           {
             featureName: '10-10EZ Auto-qualifiers',
-            status: 'null',
-            launchDate: 'null',
-            url: 'null',
+            status: null,
+            launchDate: null,
+            url: null,
           },
           {
             featureName: 'American Indian Question 10-10EZ',
-            status: 'null',
-            launchDate: 'null',
-            url: 'null',
+            status: null,
+            launchDate: null,
+            url: null,
           },
           {
             featureName: 'HCA - Add Self-Identifying Gender Identity',
-            status: 'null',
-            launchDate: 'null',
-            url: 'null',
+            status: null,
+            launchDate: null,
+            url: null,
           },
           {
             featureName: 'HCA Address Project',
-            status: 'null',
-            launchDate: 'null',
-            url: 'null',
+            status: null,
+            launchDate: null,
+            url: null,
           },
         ],
         has_unit_tests: true,
@@ -147,11 +147,11 @@ const octokitResponses = {
         analytics_category: '',
         platform_console_category: "Forms'",
       },
-    ],
+    ]),
   },
   outdatedProductDirectory: {
     status: 200,
-    data: [
+    data: JSON.stringify([
       {
         product_id: 'b1ad72a5-aac8-4331-aa0b-8d0c2e9c1915',
         product_name: '10-10EZ',
@@ -178,27 +178,27 @@ const octokitResponses = {
         features: [
           {
             featureName: '10-10EZ Auto-qualifiers',
-            status: 'null',
-            launchDate: 'null',
-            url: 'null',
+            status: null,
+            launchDate: null,
+            url: null,
           },
           {
             featureName: 'American Indian Question 10-10EZ',
-            status: 'null',
-            launchDate: 'null',
-            url: 'null',
+            status: null,
+            launchDate: null,
+            url: null,
           },
           {
             featureName: 'HCA - Add Self-Identifying Gender Identity',
-            status: 'null',
-            launchDate: 'null',
-            url: 'null',
+            status: null,
+            launchDate: null,
+            url: null,
           },
           {
             featureName: 'HCA Address Project',
-            status: 'null',
-            launchDate: 'null',
-            url: 'null',
+            status: null,
+            launchDate: null,
+            url: null,
           },
         ],
         has_unit_tests: 'FALSE',
@@ -292,7 +292,7 @@ const octokitResponses = {
         analytics_category: '',
         platform_console_category: "Forms'",
       },
-    ],
+    ]),
   },
   productDirectoryForbidden: {
     status: 403,
