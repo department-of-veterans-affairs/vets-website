@@ -21,7 +21,7 @@ class GitHubClient {
     });
   }
 
-  async getProductCsv() {
+  async getProductJson() {
     try {
       return await this.octokit.rest.repos.getContent({
         mediaType: {
@@ -37,13 +37,13 @@ class GitHubClient {
   }
 
   async createPull({ content }) {
-    const title = 'Update product-directory.csv';
+    const title = 'Update product-directory.json';
     const body = [
       'This is an automatic update.',
       '',
-      'Changes were detected in one or more products listed in `product-directory.csv`.',
+      'Changes were detected in one or more products listed in `product-directory.json`.',
       '',
-      'This PR was made by the Product Directory Updater bot. It scans `vets-website` once a day for changes to the following fields for each product:',
+      'This PR was made by the Product Directory Updater bot. It scans `vets-website` once a day for changes to the following property values for each product:',
       '- `package_dependencies`',
       '- `cross_product_dependencies`',
       '- `has_unit_tests`',
@@ -54,7 +54,7 @@ class GitHubClient {
       'The bot runs weekdays at 12am.',
     ].join('\n');
     const head = `update_dependencies_${getDateTime()}`;
-    const commit = 'Update fields in the Product Directory CSV';
+    const commit = 'Update fields in the Product Directory JSON';
 
     try {
       return await this.octokit.createPullRequest({
