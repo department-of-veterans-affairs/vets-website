@@ -9,7 +9,7 @@ export default function ContactAlert() {
       status="warning"
       data-testid="bad-address-contact-alert"
       onVa-component-did-load={() => {
-        recordBadAddressEvent('contact');
+        recordBadAddressEvent({ location: 'contact' });
       }}
     >
       <h2 slot="headline">Review your mailing address</h2>

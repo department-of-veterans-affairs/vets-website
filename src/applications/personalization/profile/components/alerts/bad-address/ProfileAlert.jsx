@@ -9,7 +9,7 @@ export default function ProfileAlert() {
       status="warning"
       data-testid="bad-address-profile-alert"
       onVa-component-did-load={() => {
-        recordBadAddressEvent('profile');
+        recordBadAddressEvent({ location: 'profile' });
       }}
     >
       <h2 slot="headline">Review your mailing address</h2>
