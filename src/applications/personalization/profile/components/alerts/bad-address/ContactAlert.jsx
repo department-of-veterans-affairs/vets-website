@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { recordBadAddressEvent } from './analytics';
