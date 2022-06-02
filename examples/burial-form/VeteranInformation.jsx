@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
-  DebuggerView,
   DateField,
   FullNameField,
   Page,
@@ -10,19 +9,12 @@ import {
 import { useFormikContext } from 'formik';
 
 export default function VeteranInformation(props) {
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth"
-    });
-  });
 
   const state = useFormikContext();
 
   return (
     <>
-      <Page {...props} nextPage="/military-history/service-periods" prevPage="/claimant-information">
+      <Page {...props} nextPage="/veteran-information/burial" prevPage="/claimant-information">
         <FullNameField name="veteranFullName" label="Veteran Full Name" />
 
         {
@@ -61,7 +53,6 @@ export default function VeteranInformation(props) {
           name="placeOfBirth"
           label="Place of birth (city and state or foreign country)" />
       </Page>
-      <DebuggerView />
     </>
   )
 }
