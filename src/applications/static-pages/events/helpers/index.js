@@ -65,7 +65,7 @@ export const deriveMostRecentDate = (
 };
 
 export const removeDuplicateEvents = events => {
-  return events.reduce((allEvents, event) => {
+  return events?.reduce((allEvents, event) => {
     const currentEventIds = allEvents.map(
       currentEvent => currentEvent.entityId,
     );
@@ -73,7 +73,7 @@ export const removeDuplicateEvents = events => {
     return !currentEventIds.includes(event.entityId)
       ? [...allEvents, event]
       : allEvents;
-  }, []);
+  }, events);
 };
 
 export const deriveResults = (allEvents, page, perPage) => {
