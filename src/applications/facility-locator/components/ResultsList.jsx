@@ -254,22 +254,13 @@ export const ResultsList = ({
   }
 
   const markers = MARKER_LETTERS.values();
-  const resultsData = results
-    .map(result => {
-      return {
-        ...result,
-        resultItem: true,
-        searchString,
-        currentPage,
-      };
-    })
-    .map(result => {
-      const markerText = markers.next().value;
-      return {
-        ...result,
-        markerText,
-      };
-    });
+  const resultsData = results.map(result => ({
+    ...result,
+    resultItem: true,
+    searchString,
+    currentPage,
+    markerText: markers.next().value,
+  }));
 
   if (resultsData.length > 0) {
     recordSearchResultsEvents(props, resultsData);
