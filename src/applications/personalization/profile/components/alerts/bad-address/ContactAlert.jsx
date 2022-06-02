@@ -1,8 +1,16 @@
 import React from 'react';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { recordBadAddressEvent } from './analytics';
 
 export default function ContactAlert() {
   return (
-    <va-alert status="warning" data-testid="bad-address-contact-alert">
+    <VaAlert
+      status="warning"
+      data-testid="bad-address-contact-alert"
+      onVa-component-did-load={() => {
+        recordBadAddressEvent({ location: 'contact' });
+      }}
+    >
       <h2 slot="headline">Review your mailing address</h2>
       <p>
         The address we have on file for you may not be correct. Select{' '}
@@ -17,6 +25,6 @@ export default function ContactAlert() {
           mailing address
         </a>
       </p>
-    </va-alert>
+    </VaAlert>
   );
 }
