@@ -34,20 +34,20 @@ fs.readJSON('package.json', (err, data) => {
   const results = {
     dependencies: {},
     devDependencies: {},
-    uninstalled: [],
+    uninstalled: {},
   };
 
   const keys = Object.keys(theImports);
   keys.forEach(key =>
     theImports[key].forEach(d => {
       if (deps[d]) {
-        results.dependencies[d] = deps[d] ? deps[d] : 'not installed';
+        results.dependencies[d] = deps[d];
       }
       if (devDeps[d]) {
-        results.devDependencies[d] = devDeps[d] ? devDeps[d] : 'not installed';
+        results.devDependencies[d] = devDeps[d];
       }
       if (!devDeps[d] && !deps[d]) {
-        results.uninstalled.push(d);
+        results.uninstalled[d] = 'uninstalled';
       }
     }),
   );
