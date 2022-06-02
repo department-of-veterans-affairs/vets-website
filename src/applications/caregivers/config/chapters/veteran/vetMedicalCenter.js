@@ -8,9 +8,10 @@ import {
   preferredFacilityView,
 } from 'applications/caregivers/definitions/UIDefinitions/veteranUI';
 
-const plannedClinic = fullSchema.properties.veteran.properties.plannedClinic;
-const lastTreatmentFacility =
-  fullSchema.properties.veteran.properties.lastTreatmentFacility;
+const {
+  lastTreatmentFacility,
+  plannedClinic,
+} = fullSchema.properties.veteran.properties;
 
 const vetMedicalCenterPage = {
   uiSchema: {
@@ -36,9 +37,7 @@ const vetMedicalCenterPage = {
               state => !!medicalCentersByState[state],
             ),
           },
-          [veteranFields.plannedClinic]: Object.assign({}, plannedClinic, {
-            enum: [],
-          }),
+          [veteranFields.plannedClinic]: { ...plannedClinic, enum: [] },
         },
       },
     },

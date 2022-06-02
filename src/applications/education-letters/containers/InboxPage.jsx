@@ -150,12 +150,10 @@ const InboxPage = () => {
     if (LTSIsDown) {
       return (
         <va-banner
-          headline="There was an error in accessing your decision letters"
+          headline="There was an error in accessing your decision letters. We’re sorry we couldn’t display your letters.  Please try again later."
           type="error"
           visible
-        >
-          We’re sorry we couldn’t display your letters. Please try again later
-        </va-banner>
+        />
       );
     }
 

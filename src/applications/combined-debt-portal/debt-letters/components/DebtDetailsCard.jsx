@@ -7,7 +7,7 @@ import { format } from 'date-fns';
 import { getDebtDetailsCardContent } from '../const/diary-codes/debtDetailsCardContent';
 import { currency } from '../utils/page';
 
-const DebtLetterCard = ({ debt }) => {
+const DebtDetailsCard = ({ debt }) => {
   // TODO: currently we do not have a debtID so we need to make one by combining fileNumber and diaryCode
   const dates = debt?.debtHistory.map(m => new Date(m.date));
   const sortedHistory = dates.sort((a, b) => Date.parse(b) - Date.parse(a));
@@ -76,7 +76,7 @@ const DebtLetterCard = ({ debt }) => {
   );
 };
 
-DebtLetterCard.propTypes = {
+DebtDetailsCard.propTypes = {
   debt: PropTypes.shape({
     currentAr: PropTypes.number,
     convertedAr: PropTypes.number,
@@ -93,4 +93,4 @@ DebtLetterCard.propTypes = {
   }),
 };
 
-export default DebtLetterCard;
+export default DebtDetailsCard;

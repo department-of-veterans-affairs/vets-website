@@ -51,11 +51,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
     });
     it('hides entire Pmts-n-Debts section - C13193', () => {
-      cy.intercept('/v0/profile/payment_history', paymentsSuccess(true)).as(
-        'recentPayments0',
-      );
       cy.visit('my-va/');
-      cy.wait(['@recentPayments0']);
 
       cy.findByTestId('dashboard-section-payment-and-debts').should(
         'not.exist',

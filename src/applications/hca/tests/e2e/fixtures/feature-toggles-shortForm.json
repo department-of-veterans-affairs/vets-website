@@ -1,0 +1,19 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "caregiver_sigi_enabled",
+        "value": false
+      },
+      {
+        "name": "hca_american_indian_enabled",
+        "value": false
+      },
+      {
+        "name": "hca_short_form_enabled",
+        "value": true
+      }
+    ]
+  }
+}
