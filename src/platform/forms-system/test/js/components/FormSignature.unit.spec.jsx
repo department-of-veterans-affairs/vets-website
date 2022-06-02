@@ -21,23 +21,19 @@ describe('Forms library - Forms signature component', () => {
 
   describe('signature input', () => {
     it('should render input with default label', () => {
-      const { getByLabelText } = render(<FormSignature {...signatureProps} />);
-      expect(getByLabelText('Veteran’s full name')).to.exist;
+      render(<FormSignature {...signatureProps} />);
+
+      expect(
+        document.querySelector('va-text-input[label="Veteran’s full name"]'),
+      ).to.exist;
     });
 
     it('should render input with custom string label', () => {
-      const { getByLabelText } = render(
+      render(
         <FormSignature {...signatureProps} signatureLabel="Custom text here" />,
       );
-      expect(getByLabelText('Custom text here')).to.exist;
-    });
-
-    it('should render input input with custom React element label', () => {
-      const customLabel = <span>Custom text here</span>;
-      const { getByLabelText } = render(
-        <FormSignature {...signatureProps} signatureLabel={customLabel} />,
-      );
-      expect(getByLabelText('Custom text here')).to.exist;
+      expect(document.querySelector('va-text-input[label="Custom text here"]'))
+        .to.exist;
     });
   });
 
@@ -166,8 +162,9 @@ describe('Forms library - Forms signature component', () => {
       // Uncheck box
       userEvent.click(checkbox);
 
+      const textInput = document.querySelector('va-text-input');
       // Not called if the box isn't checked
-      userEvent.type(getByLabelText(/Veteran’s full name/), 'asdf');
+      userEvent.type(textInput, 'asdf');
       expect(oscSpy.called).to.be.false;
     });
 

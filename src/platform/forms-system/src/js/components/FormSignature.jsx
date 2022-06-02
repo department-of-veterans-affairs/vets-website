@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import set from 'platform/utilities/data/set';
-import { TextInput } from '@department-of-veterans-affairs/component-library';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
 
 /**
@@ -38,7 +37,7 @@ export const FormSignature = ({
   onSectionComplete,
 }) => {
   // Input states
-  const [signature, setSignature] = useState({ value: '', dirty: false });
+  const [signature, setSignature] = useState('');
   const [checked, setChecked] = useState(false);
 
   // Validation states
@@ -62,7 +61,7 @@ export const FormSignature = ({
       setSignatureError(
         validations.reduce(
           (errorMessage, validator) =>
-            errorMessage || validator(signature.value, formData),
+            errorMessage || validator(signature, formData),
           null,
         ),
       );
@@ -85,7 +84,7 @@ export const FormSignature = ({
   // Update signature in formData
   useEffect(
     () => {
-      setFormData(set(signaturePath, signature.value, formData));
+      setFormData(set(signaturePath, signature, formData));
     },
     // Don't re-execute when formData changes because this changes formData
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,12 +106,12 @@ export const FormSignature = ({
 
   return (
     <>
-      <TextInput
+      <va-text-input
         label={signatureLabel}
-        field={signature}
-        onValueChange={setSignature}
+        value={signature}
+        onInput={setSignature}
         required={required}
-        errorMessage={(showError || signature.dirty) && signatureError}
+        error={showError && signatureError}
       />
       <Checkbox
         label={checkboxLabel}
@@ -137,7 +136,7 @@ FormSignature.propTypes = {
   /**
    * The label for the signature input
    */
-  signatureLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  signatureLabel: PropTypes.string,
 
   /**
    * The path in the formData to the signature value
