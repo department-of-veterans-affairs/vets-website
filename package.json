@@ -1,7 +1,7 @@
 {
   "name": "vets-website",
   "version": "1.0.1",
-  "description": "Frontend build for vets.gov website static assets.",
+  "description": "Frontend build for VA.gov website static assets.",
   "scripts": {
     "analyze": "webpack-bundle-analyzer build/vagovprod/generated/stats.json",
     "apps": "./script/app-list.sh",
