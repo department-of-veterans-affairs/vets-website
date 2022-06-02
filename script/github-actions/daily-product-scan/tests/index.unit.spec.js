@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable camelcase */
 const { expect } = require('chai');
 const sinon = require('sinon');
 
@@ -29,130 +29,89 @@ describe('daily-product-scan', () => {
       );
     });
 
-    // context('field updates', () => {
-    //   let originalProductDirectory;
-    //   let updatedProductDirectory;
-    //   let originalProductDirectoryByProductId;
-    //   let updatedProductDirectoryByProductId;
+    context('field updates', () => {
+      let originalJsonDirectoryByProductId;
+      let updatedJsonDirectoryByProductId;
 
-    //   before(() => {
-    //     const originalCsvLines = removeCarriageReturn(
-    //       transformCsvToScsv(
-    //         octokitResponses.outdatedProductDirectory.data,
-    //       ).split('\n'),
-    //     );
+      before(() => {
+        const originalJsonDirectory = JSON.parse(
+          octokitResponses.outdatedProductDirectory.data,
+        );
+        const updatedJsonDirectory = JSON.parse(data);
 
-    //     const updatedCsvLines = removeCarriageReturn(
-    //       transformCsvToScsv(data).split('\n'),
-    //     );
+        originalJsonDirectoryByProductId = {};
+        originalJsonDirectory.forEach(product => {
+          originalJsonDirectoryByProductId[product.product_id] = product;
+        });
 
-    //     originalProductDirectory = new Csv({
-    //       headings: new Headings({ csvLine: originalCsvLines.slice(0, 1)[0] }),
-    //       rows: new Rows({ csvLines: originalCsvLines.slice(1) }),
-    //     });
+        updatedJsonDirectoryByProductId = {};
+        updatedJsonDirectory.forEach(product => {
+          updatedJsonDirectoryByProductId[product.product_id] = product;
+        });
+      });
 
-    //     updatedProductDirectory = new Csv({
-    //       headings: new Headings({ csvLine: updatedCsvLines.slice(0, 1)[0] }),
-    //       rows: new Rows({ csvLines: updatedCsvLines.slice(1) }),
-    //     });
+      it('successfully compares package_dependencies values when they are not equal', () => {
+        Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
+          expect(
+            originalJsonDirectoryByProductId[product_id].package_dependencies,
+          ).not.to.equal(
+            updatedJsonDirectoryByProductId[product_id].package_dependencies,
+          );
+        });
+      });
 
-    //     originalProductDirectoryByProductId = {};
-    //     originalProductDirectory.rows.all.forEach(row => {
-    //       const fields = row.split(';');
-    //       originalProductDirectoryByProductId[fields[0]] = fields;
-    //     });
+      it('successfully compares cross_product_dependencies values when they are not equal', () => {
+        Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
+          expect(
+            originalJsonDirectoryByProductId[product_id]
+              .cross_product_dependencies,
+          ).not.to.equal(
+            updatedJsonDirectoryByProductId[product_id]
+              .cross_product_dependencies,
+          );
+        });
+      });
 
-    //     updatedProductDirectoryByProductId = {};
-    //     updatedProductDirectory.rows.all.forEach(row => {
-    //       const fields = row.split(';');
-    //       updatedProductDirectoryByProductId[fields[0]] = fields;
-    //     });
-    //   });
+      it('successfully compares path_to_code values when they are not equal', () => {
+        Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
+          expect(
+            originalJsonDirectoryByProductId[product_id].path_to_code,
+          ).not.to.equal(
+            updatedJsonDirectoryByProductId[product_id].path_to_code,
+          );
+        });
+      });
 
-    //   it('successfully compares package_dependencies values when they are not equal', () => {
-    //     Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
-    //       expect(
-    //         originalProductDirectoryByProductId[uuid][
-    //           originalProductDirectory.headings.packageDependenciesIndex
-    //         ],
-    //       ).not.to.equal(
-    //         updatedProductDirectoryByProductId[uuid][
-    //           updatedProductDirectory.headings.packageDependenciesIndex
-    //         ],
-    //       );
-    //     });
-    //   });
+      it('successfully compares has_unit_tests values when they are not equal', () => {
+        Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
+          expect(
+            originalJsonDirectoryByProductId[product_id].has_unit_tests,
+          ).not.to.equal(
+            updatedJsonDirectoryByProductId[product_id].has_unit_tests,
+          );
+        });
+      });
 
-    //   it('successfully compares cross_product_dependencies values when they are not equal', () => {
-    //     Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
-    //       expect(
-    //         originalProductDirectoryByProductId[uuid][
-    //           originalProductDirectory.headings.crossProductDependenciesIndex
-    //         ],
-    //       ).not.to.equal(
-    //         updatedProductDirectoryByProductId[uuid][
-    //           updatedProductDirectory.headings.crossProductDependenciesIndex
-    //         ],
-    //       );
-    //     });
-    //   });
+      it('successfully compares has_e2e_tests values when they are not equal', () => {
+        Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
+          expect(
+            originalJsonDirectoryByProductId[product_id].has_e2e_tests,
+          ).not.to.equal(
+            updatedJsonDirectoryByProductId[product_id].has_e2e_tests,
+          );
+        });
+      });
 
-    //   it('successfully compares path_to_code values when they are not equal', () => {
-    //     Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
-    //       expect(
-    //         originalProductDirectoryByProductId[uuid][
-    //           originalProductDirectory.headings.pathToCodeIndex
-    //         ],
-    //       ).not.to.equal(
-    //         updatedProductDirectoryByProductId[uuid][
-    //           updatedProductDirectory.headings.pathToCodeIndex
-    //         ],
-    //       );
-    //     });
-    //   });
-
-    //   it('successfully compares has_unit_tests values when they are not equal', () => {
-    //     Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
-    //       expect(
-    //         originalProductDirectoryByProductId[uuid][
-    //           originalProductDirectory.headings.hasUnitTestsIndex
-    //         ],
-    //       ).not.to.equal(
-    //         updatedProductDirectoryByProductId[uuid][
-    //           updatedProductDirectory.headings.hasUnitTestsIndex
-    //         ],
-    //       );
-    //     });
-    //   });
-
-    //   it('successfully compares has_e2e_tests values when they are not equal', () => {
-    //     Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
-    //       expect(
-    //         originalProductDirectoryByProductId[uuid][
-    //           originalProductDirectory.headings.hasE2eTestsIndex
-    //         ],
-    //       ).not.to.equal(
-    //         updatedProductDirectoryByProductId[uuid][
-    //           updatedProductDirectory.headings.hasE2eTestsIndex
-    //         ],
-    //       );
-    //     });
-    //   });
-
-    //   it('successfully compares has_contract_tests values when they are not equal', () => {
-    //     Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
-    //       expect(
-    //         originalProductDirectoryByProductId[uuid][
-    //           originalProductDirectory.headings.hasContractTestsIndex
-    //         ],
-    //       ).not.to.equal(
-    //         updatedProductDirectoryByProductId[uuid][
-    //           updatedProductDirectory.headings.hasContractTestsIndex
-    //         ],
-    //       );
-    //     });
-    //   });
-    // });
+      it('successfully compares has_contract_tests values when they are not equal', () => {
+        Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
+          expect(
+            originalJsonDirectoryByProductId[product_id].has_contract_tests,
+          ).not.to.equal(
+            updatedJsonDirectoryByProductId[product_id].has_contract_tests,
+          );
+        });
+      });
+    });
   });
 
   context('success, but changes ARE NOT detected', () => {
@@ -177,130 +136,85 @@ describe('daily-product-scan', () => {
       );
     });
 
-    // context('field updates', () => {
-    //   let originalProductDirectory;
-    //   let updatedProductDirectory;
-    //   let originalProductDirectoryByProductId;
-    //   let updatedProductDirectoryByProductId;
+    context('field updates', () => {
+      let originalJsonDirectoryByProductId;
+      let updatedJsonDirectoryByProductId;
 
-    //   before(() => {
-    //     const originalCsvLines = removeCarriageReturn(
-    //       transformCsvToScsv(octokitResponses.productDirectory.data).split(
-    //         '\n',
-    //       ),
-    //     );
+      before(() => {
+        const originalJsonDirectory = JSON.parse(
+          octokitResponses.productDirectory.data,
+        );
+        const updatedJsonDirectory = JSON.parse(data);
 
-    //     const updatedCsvLines = removeCarriageReturn(
-    //       transformCsvToScsv(data).split('\n'),
-    //     );
+        originalJsonDirectoryByProductId = {};
+        originalJsonDirectory.forEach(product => {
+          originalJsonDirectoryByProductId[product.product_id] = product;
+        });
 
-    //     originalProductDirectory = new Csv({
-    //       headings: new Headings({ csvLine: originalCsvLines.slice(0, 1)[0] }),
-    //       rows: new Rows({ csvLines: originalCsvLines.slice(1) }),
-    //     });
+        updatedJsonDirectoryByProductId = {};
+        updatedJsonDirectory.forEach(product => {
+          updatedJsonDirectoryByProductId[product.product_id] = product;
+        });
+      });
 
-    //     updatedProductDirectory = new Csv({
-    //       headings: new Headings({ csvLine: updatedCsvLines.slice(0, 1)[0] }),
-    //       rows: new Rows({ csvLines: updatedCsvLines.slice(1) }),
-    //     });
+      it('successfully compares package_dependencies values when they are equal', () => {
+        Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
+          expect(
+            originalJsonDirectoryByProductId[product_id].package_dependencies,
+          ).to.equal(
+            updatedJsonDirectoryByProductId[product_id].package_dependencies,
+          );
+        });
+      });
 
-    //     originalProductDirectoryByProductId = {};
-    //     originalProductDirectory.rows.all.forEach(row => {
-    //       const fields = row.split(';');
-    //       originalProductDirectoryByProductId[fields[0]] = fields;
-    //     });
+      it('successfully compares cross_product_dependencies values when they are equal', () => {
+        Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
+          expect(
+            originalJsonDirectoryByProductId[product_id]
+              .cross_product_dependencies,
+          ).to.equal(
+            updatedJsonDirectoryByProductId[product_id]
+              .cross_product_dependencies,
+          );
+        });
+      });
 
-    //     updatedProductDirectoryByProductId = {};
-    //     updatedProductDirectory.rows.all.forEach(row => {
-    //       const fields = row.split(';');
-    //       updatedProductDirectoryByProductId[fields[0]] = fields;
-    //     });
-    //   });
+      it('successfully compares path_to_code values when they are equal', () => {
+        Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
+          expect(
+            originalJsonDirectoryByProductId[product_id].path_to_code,
+          ).to.equal(updatedJsonDirectoryByProductId[product_id].path_to_code);
+        });
+      });
 
-    //   it('successfully compares package_dependencies values when they are equal', () => {
-    //     Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
-    //       expect(
-    //         originalProductDirectoryByProductId[uuid][
-    //           originalProductDirectory.headings.packageDependenciesIndex
-    //         ],
-    //       ).to.equal(
-    //         updatedProductDirectoryByProductId[uuid][
-    //           updatedProductDirectory.headings.packageDependenciesIndex
-    //         ],
-    //       );
-    //     });
-    //   });
+      it('successfully compares has_unit_tests values when they are equal', () => {
+        Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
+          expect(
+            originalJsonDirectoryByProductId[product_id].has_unit_tests,
+          ).to.equal(
+            updatedJsonDirectoryByProductId[product_id].has_unit_tests,
+          );
+        });
+      });
 
-    //   it('successfully compares cross_product_dependencies values when they are equal', () => {
-    //     Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
-    //       expect(
-    //         originalProductDirectoryByProductId[uuid][
-    //           originalProductDirectory.headings.crossProductDependenciesIndex
-    //         ],
-    //       ).to.equal(
-    //         updatedProductDirectoryByProductId[uuid][
-    //           updatedProductDirectory.headings.crossProductDependenciesIndex
-    //         ],
-    //       );
-    //     });
-    //   });
+      it('successfully compares has_e2e_tests values when they are equal', () => {
+        Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
+          expect(
+            originalJsonDirectoryByProductId[product_id].has_e2e_tests,
+          ).to.equal(updatedJsonDirectoryByProductId[product_id].has_e2e_tests);
+        });
+      });
 
-    //   it('successfully compares path_to_code values when they are equal', () => {
-    //     Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
-    //       expect(
-    //         originalProductDirectoryByProductId[uuid][
-    //           originalProductDirectory.headings.pathToCodeIndex
-    //         ],
-    //       ).to.equal(
-    //         updatedProductDirectoryByProductId[uuid][
-    //           updatedProductDirectory.headings.pathToCodeIndex
-    //         ],
-    //       );
-    //     });
-    //   });
-
-    //   it('successfully compares has_unit_tests values when they are equal', () => {
-    //     Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
-    //       expect(
-    //         originalProductDirectoryByProductId[uuid][
-    //           originalProductDirectory.headings.hasUnitTestsIndex
-    //         ],
-    //       ).to.equal(
-    //         updatedProductDirectoryByProductId[uuid][
-    //           updatedProductDirectory.headings.hasUnitTestsIndex
-    //         ],
-    //       );
-    //     });
-    //   });
-
-    //   it('successfully compares has_e2e_tests values when they are equal', () => {
-    //     Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
-    //       expect(
-    //         originalProductDirectoryByProductId[uuid][
-    //           originalProductDirectory.headings.hasE2eTestsIndex
-    //         ],
-    //       ).to.equal(
-    //         updatedProductDirectoryByProductId[uuid][
-    //           updatedProductDirectory.headings.hasE2eTestsIndex
-    //         ],
-    //       );
-    //     });
-    //   });
-
-    //   it('successfully compares has_contract_tests values when they are equal', () => {
-    //     Object.keys(originalProductDirectoryByProductId).forEach(uuid => {
-    //       expect(
-    //         originalProductDirectoryByProductId[uuid][
-    //           originalProductDirectory.headings.hasContractTestsIndex
-    //         ],
-    //       ).to.equal(
-    //         updatedProductDirectoryByProductId[uuid][
-    //           updatedProductDirectory.headings.hasContractTestsIndex
-    //         ],
-    //       );
-    //     });
-    //   });
-    // });
+      it('successfully compares has_contract_tests values when they are equal', () => {
+        Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
+          expect(
+            originalJsonDirectoryByProductId[product_id].has_contract_tests,
+          ).to.equal(
+            updatedJsonDirectoryByProductId[product_id].has_contract_tests,
+          );
+        });
+      });
+    });
   });
 
   context(

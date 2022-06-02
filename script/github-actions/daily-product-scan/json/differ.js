@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable class-methods-use-this */
 
 const _ = require('lodash');
@@ -33,12 +32,8 @@ class Differ {
           scannedPath,
         })
       ) {
-        console.log('in pathToCode');
-        console.log('currentPath', currentPath);
-        console.log('scannedPath', scannedPath);
-
-        updatedProductDirectory[productId].pathToCode =
-          scannedProduct.pathToCode;
+        // eslint-disable-next-line camelcase
+        updatedProductDirectory[productId].path_to_code = scannedPath;
         this.changeDetected = true;
       }
 
@@ -53,10 +48,6 @@ class Differ {
             scannedValue,
           })
         ) {
-          console.log('in isNewBoolean');
-          console.log('currentValue', currentValue);
-          console.log('scannedValue', scannedValue);
-
           updatedProductDirectory[productId][
             productDirectoryProps[attribute]
           ] = scannedValue;
@@ -77,10 +68,6 @@ class Differ {
             scannedValue,
           })
         ) {
-          console.log('in dependencies');
-          console.log('currentValue', currentValue);
-          console.log('scannedValue', scannedValue);
-
           updatedProductDirectory[productId][
             productDirectoryProps[attribute]
           ] = scannedValue.join(',');
