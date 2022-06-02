@@ -6,6 +6,7 @@ import BackToHome from './BackToHome';
 import LanguagePicker from './LanguagePicker';
 import ExternalLink from './ExternalLink';
 import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
+import MixedLanguageDisclaimer from './MixedLanguageDisclaimer';
 
 const PreCheckinConfirmation = props => {
   const { appointments, isLoading, formData } = props;
@@ -32,6 +33,7 @@ const PreCheckinConfirmation = props => {
         className="vads-l-grid-container vads-u-padding-bottom--3 vads-u-padding-top--3"
         data-testid="confirmation-wrapper"
       >
+        <MixedLanguageDisclaimer />
         <LanguagePicker />
         <h1 tabIndex="-1" className="vads-u-margin-top--2">
           {t('youve-completed-pre-check-in')}

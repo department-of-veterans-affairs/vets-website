@@ -17,6 +17,7 @@ import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectVeteranData } from '../../../selectors';
 import ExternalLink from '../../../components/ExternalLink';
+import MixedLanguageDisclaimer from '../../../components/MixedLanguageDisclaimer';
 
 const IntroductionDisplay = props => {
   useEffect(() => {
@@ -116,6 +117,7 @@ const IntroductionDisplay = props => {
       className="vads-l-grid-container vads-u-padding-top--3 vads-u-padding-bottom--3"
       data-testid="intro-wrapper"
     >
+      <MixedLanguageDisclaimer />
       <LanguagePicker />
       <h1 tabIndex="-1" className="vads-u-margin-top--2">
         {t('answer-pre-check-in-questions')}

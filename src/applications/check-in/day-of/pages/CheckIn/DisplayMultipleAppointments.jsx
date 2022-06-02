@@ -20,6 +20,7 @@ import {
 } from '../../../utils/appointment';
 
 import { makeSelectCurrentContext } from '../../../selectors';
+import MixedLanguageDisclaimer from '../../../components/MixedLanguageDisclaimer';
 
 const DisplayMultipleAppointments = props => {
   const { appointments, router, token } = props;
@@ -86,6 +87,7 @@ const DisplayMultipleAppointments = props => {
     <>
       <BackButton router={router} action={goToPreviousPage} />
       <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
+        <MixedLanguageDisclaimer />
         <LanguagePicker />
         <h1 tabIndex="-1" className="vads-u-margin-top--2">
           {t('your-appointments')}

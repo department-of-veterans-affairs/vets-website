@@ -6,6 +6,7 @@ import { VaTextInput } from '@department-of-veterans-affairs/component-library/d
 import { Date } from '@department-of-veterans-affairs/component-library';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import LanguagePicker from '../../LanguagePicker';
+import MixedLanguageDisclaimer from '../../MixedLanguageDisclaimer';
 
 export default function ValidateDisplay({
   header = '',
@@ -48,6 +49,7 @@ export default function ValidateDisplay({
 
   return (
     <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
+      <MixedLanguageDisclaimer />
       <LanguagePicker />
       <h1>{header || t('check-in-at-va')}</h1>
       <p>
