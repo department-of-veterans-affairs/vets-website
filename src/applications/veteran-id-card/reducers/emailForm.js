@@ -9,19 +9,11 @@ const initialState = {
   errors: null,
   submitting: false,
   success: false,
-  email: {
-    value: '',
-    dirty: false,
-  },
+  email: '',
 };
 
 function validEmail(email) {
-  const { value, dirty } = email;
-
-  if (dirty) {
-    return value.match(/[^@\s]+@([^@\s]+\.)+[^@\s]+/);
-  }
-  return true;
+  return email.match(/[^@\s]+@([^@\s]+\.)+[^@\s]+/);
 }
 
 function emailForm(state = initialState, action) {

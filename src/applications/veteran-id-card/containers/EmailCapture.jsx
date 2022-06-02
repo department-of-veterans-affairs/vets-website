@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import { TextInput } from '@department-of-veterans-affairs/component-library';
 import { submitEmail, setEmail } from '../actions';
 
 class EmailCapture extends React.Component {
@@ -53,12 +52,12 @@ class EmailCapture extends React.Component {
             <a href="/privacy-policy/">See our privacy policy</a>
           </p>
           <form onSubmit={this.handleSubmit}>
-            <TextInput
-              errorMessage={this.props.errors && this.props.errors[0].title}
-              label={<span>Email address</span>}
+            <va-text-input
+              error={this.props.errors && this.props.errors[0].title}
+              label="Email address"
               name="email"
-              field={this.props.email}
-              onValueChange={update => this.props.setEmail(update)}
+              value={this.props.email}
+              onInput={e => this.props.setEmail(e.target.value)}
               required
             />
             <div>
