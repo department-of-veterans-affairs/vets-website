@@ -42,6 +42,7 @@ const initialState = {
 const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingVAOSServiceRequests: true,
+    vaOnlineSchedulingVAOSServiceCCAppointments: true,
   },
 };
 
@@ -826,6 +827,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       expect(document.activeElement).to.have.tagName('h1');
     });
 
+    expect(screen.getByText(/Type of care/)).to.be.ok;
     expect(
       screen.getByRole('heading', {
         level: 1,
