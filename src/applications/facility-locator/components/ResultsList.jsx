@@ -30,7 +30,7 @@ import Covid19Result from './search-results-items/Covid19Result';
 import SearchResultMessage from './SearchResultMessage';
 import { covidVaccineSchedulingFrontend } from '../utils/featureFlagSelectors';
 
-export function ResultsList({
+export const ResultsList = ({
   facilityTypeName,
   inProgress,
   searchString,
@@ -40,7 +40,7 @@ export function ResultsList({
   currentQuery,
   query,
   ...props
-}) {
+}) => {
   const searchResultTitle = useRef();
 
   useEffect(
@@ -210,10 +210,10 @@ export function ResultsList({
         <DelayedRender>
           <va-alert visible status="info">
             <h3 slot="headline">Please wait</h3>
-            <div>
+            <p>
               Your results should appear in less than a minute. Thank you for
               your patience.
-            </div>
+            </p>
           </va-alert>
         </DelayedRender>
       </div>
@@ -275,7 +275,7 @@ export function ResultsList({
     recordSearchResultsEvents(props, resultsData);
   }
   return <div>{renderResultItems(query, resultsData)}</div>;
-}
+};
 
 ResultsList.propTypes = {
   currentQuery: PropTypes.object,
@@ -285,7 +285,7 @@ ResultsList.propTypes = {
   pagination: PropTypes.object,
   query: PropTypes.object,
   results: PropTypes.array,
-  searchError: PropTypes.string,
+  searchError: PropTypes.object,
   searchString: PropTypes.string,
   showCovidVaccineSchedulingLinks: PropTypes.string,
 };
