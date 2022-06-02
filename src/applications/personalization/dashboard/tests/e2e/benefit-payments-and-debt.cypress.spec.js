@@ -104,12 +104,12 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
     });
 
-    context('and user has no debts', () => {
+    describe('and user has no debts', () => {
       beforeEach(() => {
         cy.intercept('/v0/debts', debtsSuccessEmpty()).as('noDebts1');
       });
 
-      context('and recent payments', () => {
+      describe('and recent payments', () => {
         // Last payment received within past 30 days:
         it('shows Zero-debt-balance & Payment-card - C14319', () => {
           cy.intercept('/v0/profile/payment_history', paymentsSuccess(true)).as(
@@ -142,7 +142,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         });
       });
 
-      context('and old payments', () => {
+      describe('and old payments', () => {
         // Last payment received > 30 days ago:
         it('shows Zero-debt-balance and No-recent-payments - C14320', () => {
           cy.intercept('/v0/profile/payment_history', paymentsSuccess()).as(
@@ -175,7 +175,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         });
       });
 
-      context('and no payments', () => {
+      describe('and no payments', () => {
         // No payments received ever:
         /* eslint-disable va/axe-check-required */
         // Same display state as a previous test with AXE-check.
@@ -209,7 +209,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         /* eslint-enable va/axe-check-required */
       });
 
-      context('and payments-API-error', () => {
+      describe('and payments-API-error', () => {
         // Payments API returns error:
         it('hides entire section and shows Payments-error only - C14675', () => {
           cy.intercept('/v0/profile/payment_history', paymentsError()).as(
@@ -243,12 +243,12 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       });
     });
 
-    context('and user has debts', () => {
+    describe('and user has debts', () => {
       beforeEach(() => {
         cy.intercept('/v0/debts', debtsSuccess()).as('debts2');
       });
 
-      context('and recent payments', () => {
+      describe('and recent payments', () => {
         // Last payment received within past 30 days:
         it('shows Debt-count & Payment-card - C13194', () => {
           cy.intercept('/v0/profile/payment_history', paymentsSuccess(true)).as(
@@ -280,7 +280,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
           cy.injectAxeThenAxeCheck();
         });
       });
-      context('and old payments', () => {
+      describe('and old payments', () => {
         // Last payment received > 30 days ago:
         it('shows Debt-count and No-recent-payments - C13195', () => {
           cy.intercept('/v0/profile/payment_history', paymentsSuccess()).as(
@@ -313,7 +313,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         });
       });
 
-      context('and no payments', () => {
+      describe('and no payments', () => {
         // No payments received ever:
         /* eslint-disable va/axe-check-required */
         // Same display state as a previous test with AXE-check.
@@ -347,7 +347,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         /* eslint-enable va/axe-check-required */
       });
 
-      context('and payments-API-error', () => {
+      describe('and payments-API-error', () => {
         // Payments API returns error:
         /* eslint-disable va/axe-check-required */
         // Same display state as a previous test with AXE-check.
@@ -381,12 +381,12 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       });
     });
 
-    context('and User has debts-API-error', () => {
+    describe('and User has debts-API-error', () => {
       beforeEach(() => {
         cy.intercept('/v0/debts', debtsError()).as('debtsError3');
       });
 
-      context('and recent payments', () => {
+      describe('and recent payments', () => {
         // Last payment received within last 30 days:
         it('shows Debts-error & Payment-card - C14676', () => {
           cy.intercept('/v0/profile/payment_history', paymentsSuccess(true)).as(
@@ -419,7 +419,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         });
       });
 
-      context('and old payments', () => {
+      describe('and old payments', () => {
         // Last payment received > 30 days ago:
         it('shows Debts-error and No-recent-payments - C14390', () => {
           cy.intercept('/v0/profile/payment_history', paymentsSuccess()).as(
@@ -452,7 +452,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         });
       });
 
-      context('and no payments', () => {
+      describe('and no payments', () => {
         // No payments received ever.
         /* eslint-disable va/axe-check-required */
         // Same display state as a previous test with AXE-check.
@@ -486,7 +486,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         /* eslint-enable va/axe-check-required */
       });
 
-      context('and payments-API-error', () => {
+      describe('and payments-API-error', () => {
         // Payments API returns error.
         /* eslint-disable va/axe-check-required */
         // Same display state as a previous test with AXE-check.
