@@ -46,6 +46,7 @@ const sharedModules = [
   'redux-thunk',
   '@sentry/browser',
 ];
+const CWD = process.cwd();
 
 const globalEntryFiles = {
   polyfills: getAbsolutePath('src/platform/polyfills/preESModulesPolyfills.js'),
@@ -367,6 +368,9 @@ module.exports = async (env = {}) => {
       noParse: [/mapbox\/vendor\/promise.js$/],
     },
     resolve: {
+      alias: {
+        '@': path.join(CWD, 'src'),
+      },
       extensions: ['.js', '.jsx'],
       fallback: {
         path: require.resolve('path-browserify'),
