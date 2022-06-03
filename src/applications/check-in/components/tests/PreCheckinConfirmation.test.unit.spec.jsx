@@ -2,12 +2,36 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { shallow } from 'enzyme';
+
 import PreCheckinConfirmation from '../PreCheckinConfirmation';
 
-describe.skip('pre-check-in', () => {
+describe('pre-check-in', () => {
   let store;
+  beforeEach(() => {
+    const middleware = [];
+    const mockStore = configureStore(middleware);
+    const initState = {
+      checkInData: {
+        context: {
+          token: '',
+        },
+        form: {
+          pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+        },
+      },
+    };
+    store = mockStore(initState);
+  });
+
+  const formData = {
+    demographicsUpToDate: 'yes',
+    emergencyContactUpToDate: 'yes',
+    nextOfKinUpToDate: 'yes',
+  };
+
   describe('Confirmation page', () => {
     describe('appointment without friendly name', () => {
       const appointments = [
@@ -29,7 +53,7 @@ describe.skip('pre-check-in', () => {
         const wrapper = shallow(
           <PreCheckinConfirmation
             appointments={appointments}
-            hasUpdates={false}
+            formData={formData}
             isLoading
           />,
         );
@@ -38,11 +62,13 @@ describe.skip('pre-check-in', () => {
       });
       it('renders page with clinic name', () => {
         const screen = render(
-          <PreCheckinConfirmation
-            appointments={appointments}
-            hasUpdates={false}
-            isLoading={false}
-          />,
+          <Provider store={store}>
+            <PreCheckinConfirmation
+              appointments={appointments}
+              formData={formData}
+              isLoading={false}
+            />
+          </Provider>,
         );
         expect(screen.getAllByText('LOM ACC CLINIC TEST')).to.have.lengthOf(1);
       });
@@ -94,32 +120,38 @@ describe.skip('pre-check-in', () => {
           <Provider store={store}>
             <PreCheckinConfirmation
               appointments={appointments}
-              hasUpdates={false}
+              formData={formData}
               isLoading={false}
             />
             ,
           </Provider>,
         );
         expect(screen.getByTestId('confirmation-wrapper')).to.exist;
-        expect(screen.queryByTestId('confirmation-update-alert')).to.be.null;
+        expect(screen.getByTestId('confirmation-update-alert')).to.have.text(
+          'please-bring-your-insurance-cards-with-you-to-your-appointment',
+        );
       });
       it('renders page with clinic friendly name', () => {
         const screen = render(
-          <PreCheckinConfirmation
-            appointments={appointments}
-            hasUpdates={false}
-            isLoading={false}
-          />,
+          <Provider store={store}>
+            <PreCheckinConfirmation
+              appointments={appointments}
+              formData={formData}
+              isLoading={false}
+            />
+          </Provider>,
         );
         expect(screen.getAllByText('TEST CLINIC')).to.have.lengthOf(3);
       });
       it('page passes axeCheck', () => {
         axeCheck(
-          <PreCheckinConfirmation
-            appointments={appointments}
-            hasUpdates={false}
-            isLoading={false}
-          />,
+          <Provider store={store}>
+            <PreCheckinConfirmation
+              appointments={appointments}
+              formData={formData}
+              isLoading={false}
+            />
+          </Provider>,
         );
       });
     });
