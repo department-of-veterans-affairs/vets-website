@@ -3,8 +3,8 @@ import { VaSearchInput } from '@department-of-veterans-affairs/web-components/re
 import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
 
-import { replaceWithStagingDomain } from '../../../platform/utilities/environment/stagingDomains';
-import { apiRequest } from '../../../platform/utilities/api';
+import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
+import { apiRequest } from 'platform/utilities/api';
 
 /**
  * Homepage redesign

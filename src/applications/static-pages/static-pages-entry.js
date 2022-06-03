@@ -207,7 +207,7 @@ createShiftedVetsBanner(store, widgetTypes.SHIFTED_VETS_BANNER);
 createNodCTA(store, widgetTypes.FORM_10182_CTA);
 
 // Create the My VA Login widget only on the homepage.
-if (location.pathname === '/') {
+if (window.location.pathname === '/') {
   createMyVALoginWidget(store);
 }
 
