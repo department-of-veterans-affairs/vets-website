@@ -53,7 +53,7 @@ export function getRequestMessages(requestId) {
 // and we need a way to wait for an in progress call to finish
 // So this memoizes the promise and returns it to the caller
 export const getLongTermAppointmentHistory = (() => {
-  const MAX_HISTORY = 24;
+  const MAX_HISTORY = 36;
   const MONTH_CHUNK = 12;
   let promise = null;
 
@@ -85,6 +85,8 @@ export const getLongTermAppointmentHistory = (() => {
       promise = getConfirmedAppointments('va', ranges[0][0], ranges[0][1])
         .then(({ data }) => appointments.push(...data))
         .then(() => getConfirmedAppointments('va', ranges[1][0], ranges[1][1]))
+        .then(({ data }) => appointments.push(...data))
+        .then(() => getConfirmedAppointments('va', ranges[2][0], ranges[2][1]))
         .then(({ data }) => appointments.push(...data))
         .then(() => appointments);
     }
