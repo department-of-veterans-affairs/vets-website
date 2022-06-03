@@ -94,10 +94,10 @@ const LocationPhoneLink = ({
 };
 
 LocationPhoneLink.propTypes = {
-  location: PropTypes.object,
   from: PropTypes.string,
+  location: PropTypes.object,
   query: PropTypes.object,
-  showHealthConnectNumber: PropTypes.string,
+  showHealthConnectNumber: PropTypes.bool,
 };
 
 export default LocationPhoneLink;
