@@ -23,8 +23,6 @@ class LastUpdated {
   }
 
   async getLastDateUpdated({ path }) {
-    // commits are returned sorted by date in desc order
-    // so we only need one commit, which is the most recent one
     const { status, data } = await this.octokit.request(
       'GET /repos/{owner}/{repo}/commits',
       {
@@ -37,12 +35,23 @@ class LastUpdated {
     );
 
     if (status === 200) {
-      // data is always an array with length 1
-      const { date } = data[0].commit.committer;
-      return date;
+      for (let i = 0; i < data.length; i += 1) {
+        const { date, name } = data[i].commit.author;
+
+        // Ignore update to manifest.json files by GitHUb user rjohnson2011 on 5/12/2022
+        // eslint-disable-next-line no-continue
+        if (this.isManifestJsonUpdate({ date: new Date(date), name })) continue;
+        return date;
+      }
     }
 
     return null;
+  }
+
+  isManifestJsonUpdate({ date, name }) {
+    const dateString = `${date.getMonth() +
+      1}/${date.getDate()}/${date.getFullYear()}`;
+    return name === 'rjohnson2011' && dateString === '5/12/2022';
   }
 }
 
