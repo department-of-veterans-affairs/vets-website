@@ -6,9 +6,7 @@ const constants = require('./constants');
 class LastUpdated {
   constructor({ products }) {
     this.products = products;
-    this.octokit = new Octokit({
-      // auth: process.env.DAILY_PRODUCT_SCAN_LAST_UPDATED_TOKEN,
-    });
+    this.octokit = new Octokit();
   }
 
   setLastUpdated() {
