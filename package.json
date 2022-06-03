@@ -391,7 +391,8 @@
     "src/applications/lgy/coe",
 
     "src/platform",
-    "src/platform/startup"
+    "src/platform/startup",
+    "src/platform/monitoring"
 
     ],
     "nohoist": [
