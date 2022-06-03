@@ -7,7 +7,7 @@ import { format, subDays } from 'date-fns';
 import VaModal from '@department-of-veterans-affairs/component-library/Modal';
 
 import AppointmentBlock from '../../../components/AppointmentBlock';
-import Footer from '../../../components/Footer';
+import Footer from '../../../components/layout/Footer';
 import BackToHome from '../../../components/BackToHome';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';

@@ -7,7 +7,7 @@ import { subDays } from 'date-fns';
 
 import ErrorMessage from '../../../components/ErrorMessage';
 import BackToHome from '../../../components/BackToHome';
-import Footer from '../../../components/Footer';
+import Footer from '../../../components/layout/Footer';
 import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
 
 import { makeSelectVeteranData } from '../../../selectors';

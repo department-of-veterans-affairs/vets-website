@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import ErrorMessage from '../../components/ErrorMessage';
 import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/Footer';
+import Footer from '../../components/layout/Footer';
 
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import Wrapper from '../../components/layout/Wrapper';

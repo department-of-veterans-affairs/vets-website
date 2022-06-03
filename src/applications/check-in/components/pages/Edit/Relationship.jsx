@@ -16,7 +16,7 @@ import {
 import CancelButton from './shared/CancelButton';
 import UpdateButton from './shared/UpdateButton';
 import Header from './shared/Header';
-import Footer from '../../Footer';
+import Footer from '../../layout/Footer';
 import BackToHome from '../../BackToHome';
 
 export default function Relationship(props) {

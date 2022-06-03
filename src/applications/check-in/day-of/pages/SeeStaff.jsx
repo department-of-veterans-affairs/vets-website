@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/Footer';
+import Footer from '../../components/layout/Footer';
 import BackButton from '../../components/BackButton';
 import LanguagePicker from '../../components/LanguagePicker';
 
