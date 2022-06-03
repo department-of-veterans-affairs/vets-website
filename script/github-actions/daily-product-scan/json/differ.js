@@ -42,7 +42,7 @@ class Differ {
         product.last_updated === ''
           ? new Date(null)
           : new Date(product.last_updated);
-      const scannedDate = scannedProduct.lastUpdated;
+      const scannedDate = new Date(scannedProduct.lastUpdated);
 
       if (scannedDate > currentDate) {
         // eslint-disable-next-line camelcase
