@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function ClaimsUnavailable({ headerLevel = '4' }) {
   const Tag = `h${headerLevel}`;
+
   return (
     <div className="usa-alert usa-alert-warning claims-unavailable">
       <div className="usa-alert-body">
@@ -17,5 +19,9 @@ function ClaimsUnavailable({ headerLevel = '4' }) {
     </div>
   );
 }
+
+ClaimsUnavailable.propTypes = {
+  headerLevel: PropTypes.string.isRequired,
+};
 
 export default ClaimsUnavailable;
