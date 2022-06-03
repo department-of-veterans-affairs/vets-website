@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable class-methods-use-this */
 
 const _ = require('lodash');
@@ -46,9 +45,6 @@ class Differ {
       const scannedDate = scannedProduct.lastUpdated;
 
       if (scannedDate > currentDate) {
-        console.log('currentDate', currentDate);
-        console.log('scannedDate', scannedDate);
-
         // eslint-disable-next-line camelcase
         updatedProductDirectory[productId].last_updated = scannedDate;
         this.changeDetected = true;
