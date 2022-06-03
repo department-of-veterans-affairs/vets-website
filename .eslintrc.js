@@ -69,8 +69,8 @@ module.exports = {
     {
       files: ['**/*.cypress.spec.js'],
       rules: {
-        'va/axe-check-required': 1,
-        'va/cypress-viewport-deprecated': 1,
+        '@department-of-veterans-affairs/axe-check-required': 1,
+        '@department-of-veterans-affairs/cypress-viewport-deprecated': 1,
       },
     },
   ],
