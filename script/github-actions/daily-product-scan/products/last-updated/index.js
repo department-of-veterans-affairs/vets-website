@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable class-methods-use-this */
 const { Octokit } = require('@octokit/core');
 
@@ -17,15 +18,12 @@ class LastUpdated {
       const { pathToCode } = product;
       product.lastUpdated = await this.getLastDateUpdated({
         path: pathToCode,
+        id: productId,
       });
-
-      // console.log(productId);
-      // console.log(product.lastUpdated);
-      // console.log('');
     });
   }
 
-  async getLastDateUpdated({ path }) {
+  async getLastDateUpdated({ path, id }) {
     const commitDates = [];
     let moreResultsExist = true;
     let page = 1;
@@ -45,7 +43,12 @@ class LastUpdated {
       );
 
       if (status === 200) {
-        data.forEach(d => commitDates.push(d.commit.committer.date));
+        data.forEach(d => {
+          if (id === '07069333-cb9c-4757-8518-1c4d373efb88') {
+            console.log('d.commit.committer.date', d.commit.committer.date);
+          }
+          commitDates.push(d.commit.committer.date);
+        });
 
         if (headers.link) {
           page += 1;
@@ -54,8 +57,14 @@ class LastUpdated {
         }
       }
     }
-    // console.log('page', page);
-    // console.log('commitDates.length', commitDates.length);
+
+    if (id === '07069333-cb9c-4757-8518-1c4d373efb88') {
+      console.log('commitDates', commitDates);
+      console.log(
+        'LATEST DATE',
+        this.getMostRecentDate({ dates: commitDates }),
+      );
+    }
 
     return this.getMostRecentDate({ dates: commitDates });
   }

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable class-methods-use-this */
 
 const _ = require('lodash');
@@ -34,6 +35,22 @@ class Differ {
       ) {
         // eslint-disable-next-line camelcase
         updatedProductDirectory[productId].path_to_code = scannedPath;
+        this.changeDetected = true;
+      }
+
+      // check if last_updated has changed
+      const currentDate =
+        product.last_updated === ''
+          ? new Date(null)
+          : new Date(product.last_updated);
+      const scannedDate = scannedProduct.lastUpdated;
+
+      if (scannedDate > currentDate) {
+        console.log('currentDate', currentDate);
+        console.log('scannedDate', scannedDate);
+
+        // eslint-disable-next-line camelcase
+        updatedProductDirectory[productId].last_updated = scannedDate;
         this.changeDetected = true;
       }
 
