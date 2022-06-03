@@ -1,24 +1,28 @@
 import React from 'react';
-import moment from 'moment';
+import { addDays } from 'date-fns';
+import { formatDate } from '../../../combined/utils/helpers';
 
 const TriangleIcon = () => (
-  <i
-    aria-hidden="true"
-    className="fas fa-exclamation-triangle vads-u-margin-right--1"
-  />
+  <>
+    <i
+      aria-hidden="true"
+      className="fas fa-exclamation-triangle vads-u-margin-right--1"
+    />
+    <span className="sr-only">Alert</span>
+  </>
 );
 const CircleIcon = () => (
-  <i
-    aria-hidden="true"
-    className="fas fa-exclamation-triangle vads-u-margin-right--1"
-  />
+  <>
+    <i
+      aria-hidden="true"
+      className="fas fa-exclamation-triangle vads-u-margin-right--1"
+    />
+    <span className="sr-only">Alert</span>
+  </>
 );
 
 export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
-  const endDate = (date, days) =>
-    moment(date, 'MM-DD-YYYY')
-      .add(days, 'days')
-      .format('MMMM Do, YYYY,');
+  const endDate = (date, days) => formatDate(addDays(new Date(date), days));
 
   switch (diaryCode) {
     case '71':

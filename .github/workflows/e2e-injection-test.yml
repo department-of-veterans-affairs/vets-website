@@ -9,7 +9,7 @@ on:
 jobs:
   cypress-tests:
     name: Cypress E2E Proxy Rewrite Header/Footer Injection Test
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
       - name: Checkout
