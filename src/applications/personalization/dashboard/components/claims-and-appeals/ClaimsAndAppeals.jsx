@@ -78,7 +78,10 @@ const ClaimsAndAppeals = ({
   if (shouldShowLoadingIndicator) {
     return (
       <div data-testid="dashboard-section-claims-and-appeals">
-        <va-loading-indicator message="We’re loading your information." />
+        <va-loading-indicator
+          label="Loading"
+          message="We’re loading your information."
+        />
       </div>
     );
   }
