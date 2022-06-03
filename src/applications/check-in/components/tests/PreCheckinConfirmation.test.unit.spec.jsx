@@ -128,7 +128,7 @@ describe('pre-check-in', () => {
         );
         expect(screen.getByTestId('confirmation-wrapper')).to.exist;
         expect(screen.getByTestId('confirmation-update-alert')).to.have.text(
-          'please-bring-your-insurance-cards-with-you-to-your-appointment',
+          'Please bring your insurance cards with you to your appointment.',
         );
       });
       it('renders page with clinic friendly name', () => {
