@@ -150,7 +150,7 @@ describe('HLR wizard', () => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
-        features: [{ name: 'hlrV2', value: true }],
+        features: [],
       },
     });
     // reload the page, so the intercept override takes effect
