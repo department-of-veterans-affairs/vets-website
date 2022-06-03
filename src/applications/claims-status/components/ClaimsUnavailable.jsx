@@ -10,7 +10,7 @@ function ClaimsUnavailable({ headerLevel = '4' }) {
         </Tag>
         <p className="usa-alert-text">
           VA.gov is having trouble loading claims information at this time.
-          Please check back again in a hour. Please note: You are still able to
+          Please check back again in an hour. Please note: You are still able to
           review appeals information.
         </p>
       </div>
