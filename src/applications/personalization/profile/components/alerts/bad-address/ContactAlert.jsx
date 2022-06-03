@@ -30,7 +30,7 @@ export default function ContactAlert() {
         <strong className="vads-u-font-weight--bold">Update</strong> to confirm.
       </p>
       <p>
-        <a href="#edit-mailing-address">
+        <a href="#mailing-address">
           <i aria-hidden="true" className="fas fa-arrow-down" /> Review your
           mailing address
         </a>
