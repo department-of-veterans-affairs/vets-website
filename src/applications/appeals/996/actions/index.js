@@ -14,7 +14,7 @@ export const FETCH_CONTESTABLE_ISSUES_FAILED =
 
 export const getContestableIssues = props => {
   const benefitType = props?.benefitType || DEFAULT_BENEFIT_TYPE;
-  const apiOptions = { apiVersion: props.hlrV2 ? 'v1' : 'v0' };
+  const apiOptions = { apiVersion: 'v1' };
   return dispatch => {
     dispatch({ type: FETCH_CONTESTABLE_ISSUES_INIT });
 
