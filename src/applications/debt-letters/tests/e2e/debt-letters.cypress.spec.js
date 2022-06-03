@@ -36,7 +36,7 @@ describe('Debt Letters', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  /* eslint-disable va/axe-check-required */
+  /* eslint-disable @department-of-veterans-affairs/axe-check-required */
   // Same display-states below as test above which already had AXE-check.
 
   it('displays download debt letters - C1227', () => {
@@ -61,5 +61,5 @@ describe('Debt Letters', () => {
     });
     cy.get('#howDoIDispute').should('be.visible');
   });
-  /* eslint-ensable va/axe-check-required */
+  /* eslint-enable @department-of-veterans-affairs/axe-check-required */
 });
