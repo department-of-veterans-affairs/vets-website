@@ -47,7 +47,7 @@ export default function DetailsVA({
       ? 'COVID-19 vaccine'
       : getTypeOfCareById(serviceType)?.name;
     return (
-      typeOfCare && (
+      !!typeOfCare && (
         <>
           <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0 vads-u-display--inline-block">
             Type of care:
