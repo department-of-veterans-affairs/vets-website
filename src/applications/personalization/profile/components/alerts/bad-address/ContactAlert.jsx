@@ -10,8 +10,18 @@ export default function ContactAlert() {
       onVa-component-did-load={() => {
         recordBadAddressEvent({ location: 'contact' });
       }}
+      className="vads-u-margin-bottom--4"
     >
-      <h2 slot="headline">Review your mailing address</h2>
+      <h2
+        slot="headline"
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+        tabIndex={0}
+        role="alert"
+        aria-live="polite"
+        aria-label="The address we have on file for you may not be correct."
+      >
+        Review your mailing address
+      </h2>
       <p>
         The address we have on file for you may not be correct. Select{' '}
         <strong className="vads-u-font-weight--bold">Edit</strong> to review
@@ -20,7 +30,7 @@ export default function ContactAlert() {
         <strong className="vads-u-font-weight--bold">Update</strong> to confirm.
       </p>
       <p>
-        <a href="#addresses">
+        <a href="#edit-mailing-address">
           <i aria-hidden="true" className="fas fa-arrow-down" /> Review your
           mailing address
         </a>

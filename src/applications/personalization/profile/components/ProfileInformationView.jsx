@@ -26,7 +26,7 @@ const shouldShowUnsetFieldTitleSpan = (data, fieldName) => {
 };
 
 const ProfileInformationView = props => {
-  const { data, fieldName, title } = props;
+  const { data, fieldName, title, id } = props;
 
   const titleLower = title.toLowerCase();
 
@@ -78,7 +78,7 @@ const ProfileInformationView = props => {
     const { street, cityStateZip, country } = formatAddress(data);
 
     return (
-      <div>
+      <div id={id}>
         {street}
         <br />
         {cityStateZip}
@@ -110,6 +110,7 @@ const ProfileInformationView = props => {
 ProfileInformationView.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
   data: PropTypes.object,
+  id: PropTypes.string,
   title: PropTypes.string,
 };
 

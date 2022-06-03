@@ -31,6 +31,7 @@ const AddressesTable = ({ className, showBadAddress }) => (
           value: (
             <ProfileInformationFieldController
               fieldName={FIELD_NAMES.MAILING_ADDRESS}
+              ariaDescribedBy="address-title"
             />
           ),
           alertMessage: showBadAddress ? <BadAddressAlert /> : null,
