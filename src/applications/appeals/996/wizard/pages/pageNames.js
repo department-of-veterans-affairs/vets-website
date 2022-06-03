@@ -1,5 +1,6 @@
 const pageNames = {
   start: 'start',
+  startHlr: 'startHlr',
   other: 'other',
 };
 

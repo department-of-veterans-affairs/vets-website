@@ -34,8 +34,8 @@ const ClaimType = ({ setPageState, state = {} }) => {
         'form-field-value': value,
       });
 
-      // Show 'other', or 'legacyNo'(v2) page
-      const page = pageNames[value !== pageNames.other ? 'legacyNo' : 'other'];
+      // Show 'other', or 'startHlr'(v2) page
+      const page = pageNames[value !== pageNames.other ? 'startHlr' : 'other'];
       setPageState({ selected: value }, page);
 
       if (value === pageNames.other) {
@@ -48,7 +48,7 @@ const ClaimType = ({ setPageState, state = {} }) => {
   };
 
   // aria-describedby fix for #34873
-  const ariaDescribedby = [pageNames.legacyNo, pageNames.other];
+  const ariaDescribedby = [pageNames.startHlr, pageNames.other];
 
   return (
     <RadioButtons
