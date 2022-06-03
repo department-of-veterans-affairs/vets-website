@@ -39,6 +39,8 @@
     "lint:js:untracked:fix": "LIST=`git ls-files --others --exclude-standard | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --fix --quiet $LIST; fi",
     "lint:sass": "stylelint src/**/*.scss --fix",
     "lint:sass:changed": "LIST=`git diff-index --diff-filter=d --name-only HEAD -- \"*.scss\"`; if [ \"$LIST\" ]; then stylelint $LIST; fi",
+    "list-imports:apps":"node script/list-imports.js --app-dir applications",
+    "list-imports:plat":"node script/list-imports.js --app-dir platform",
     "migrate-component": "node script/component-migration/index.js",
     "mock-api": "node src/platform/testing/e2e/mockapi.js",
     "new:app": "yo @department-of-veterans-affairs/vets-website && npm run lint:js:untracked:fix",
