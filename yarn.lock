@@ -2737,11 +2737,6 @@
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/eslint-config-vagov@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-config-vagov/-/eslint-config-vagov-0.0.1.tgz#236e65df5e24ef1750b4b6e44a0fb6bfe3d1c400"
-  integrity sha512-5XUVH67KO8AXWAxo9eZQbXpxtglQjG2AvrXtzt3e0rfCBcfNNkqQQaWeRZFshiK8sOD+b4rRLf+sbQ7CEoSkIw==
-
 "@department-of-veterans-affairs/eslint-plugin@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.1.0.tgz#fcfb3651485aaddb66f1f46f227b670b2adce7da"
