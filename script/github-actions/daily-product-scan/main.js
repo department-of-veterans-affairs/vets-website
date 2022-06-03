@@ -6,6 +6,7 @@ const Products = require('./products');
 const PackageDependencies = require('./products/dependencies/package-dependencies');
 const CrossProductDependencies = require('./products/dependencies/cross-product-dependencies');
 const TestTypes = require('./products/test-types');
+const LastUpdated = require('./products/last-updated');
 const Differ = require('./json/differ');
 
 function handleFailure({ response }) {
@@ -57,6 +58,10 @@ async function main({ octokit }) {
   const testTypes = new TestTypes({ products: products.all });
 
   testTypes.checkExistance();
+
+  const lastUpdated = new LastUpdated({ products: products.all });
+
+  lastUpdated.setLastUpdated();
 
   let response = await octokit.getProductJson();
 
