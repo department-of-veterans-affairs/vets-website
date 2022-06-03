@@ -29,7 +29,7 @@ const FacilityList = ({ facilities, separator }) => {
 };
 
 FacilityList.propTypes = {
-  facilities: PropTypes.string,
+  facilities: PropTypes.arrayOf(PropTypes.string),
   separator: PropTypes.string,
 };
 
