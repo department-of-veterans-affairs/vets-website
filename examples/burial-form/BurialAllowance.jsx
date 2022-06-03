@@ -1,74 +1,96 @@
-import React, { useEffect } from 'react';
-import {
-  TextField,
-  DateField,
-  DebuggerView,
-  FullNameField,
-  Page,
-  RadioGroup
-} from '@department-of-veterans-affairs/va-forms-system-core';
-import { useFormikContext } from 'formik';
+import React from 'react';
+import {Page, RadioGroup, TextField} from '@department-of-veterans-affairs/va-forms-system-core';
+import {useFormikContext} from "formik";
 
-export default function ClaimantInformation(props) {
+export default function BurialAllowance(props) {
+  const formikContext = useFormikContext();
 
-  const formikContext = useFormikContext()
-  
+  const getBurialAllowanceRequestedOptions = () => {
+    const allowanceTypes = [
+      {
+        label: "Service-connected death (for a Veteran death related to, or resulting from, a service-connected disability)",
+        value: "service",
+        key: 1
+      },
+      {
+        label: "Non-service-connected death",
+        value: "nonService",
+        key: 2
+      },
+    ];
+
+    const locationOfDeath = formikContext?.values?.locationOfDeath?.location;
+    if (locationOfDeath === 'vaMedicalCenter' || locationOfDeath === 'nursingHome') {
+      allowanceTypes.push(
+        {
+          label: "VA medical center death",
+          value: "vaMC",
+          key: 3
+        }
+      );
+    }
+    return allowanceTypes;
+  }
+
   return (
     <>
-      <Page {...props} prevPage="/benefits/burial-allowance" nextPage="/claimant-contact-information">
-        <TextField required name="placeOfRemains" label="Place of burial or deceased Veteran’s remains" />
-        <RadioGroup
-          name="federalCemetery"
-          label="Was the Veteran buried in a national cemetary, or one owned by the federal government?"
-          required
-          options={
-            [
-              {label: "Yes", value: true, key: 1},
-              {label: "No", value: false, key: 2}
-            ]
-          }
-        />
-        { formikContext?.values?.federalCemetery === "true" && (
-          <div className='form-expanding-group-open'>
+      <Page {...props} nextPage="/benefits/plot-allowance" prevPage="/benefits/selection">
+        <div className={"form-expanding-group " + (formikContext?.values?.burialAllowanceRequested === "vaMC" ? "form-expanding-group-open" : "")}>
+          <RadioGroup name="burialAllowanceRequested"
+                      label="Type of burial allowance requested"
+                      required
+                      options={getBurialAllowanceRequestedOptions()}
+          />
+          {formikContext?.values?.burialAllowanceRequested === "nonService" && (
+            <va-alert status="warning"
+                      background-only
+                      class="vads-u-margin-y--2">
+                <span>
+                  If filing for a non-service-connected allowance, the Veteran’s burial date must be no more than 2 years from the current date. Find out if you still qualify.
+                  <a href="/burials-memorials/eligibility/" target="_blank">Learn about eligibility</a>
+                </span>
+            </va-alert>
+          )}
+          {formikContext?.values?.burialAllowanceRequested === "vaMC" && (
+            <div className="form-expanding-group-open">
+              <TextField label="Actual burial cost"
+                         name="burialCost"/>
+            </div>
+          )}
+        </div>
+
+        {formikContext?.values?.relationship?.type === "spouse" && (
+          <div className="vads-u-margin-y--3">
             <RadioGroup
-              name="govtContributions"
-              label="Did a federal/state government or the Veteran’s employer contribute to the burial? (Not including employer life insurance)"
+              name="previouslyReceivedAllowance"
+              label="Did you previously receive a VA burial allowance?"
               required
               options={
                 [
                   {label: "Yes", value: true, key: 1},
-                  {label: "No", value: false, key: 2}
+                  {label: "No", value: false, key: 2},
                 ]
               }
             />
-            { formikContext?.values?.govtContributions === "true" && (
-              <div className='form-expanding-group-open'>
-                <TextField
-                  required 
-                  name="amountGovtContribution" 
-                  label="Amount of government or employer contribution." />
-              </div>
-              )
-            }
           </div>
         )}
-        { formikContext?.values?.federalCemetery === "false" && (
-          <div className='form-expanding-group-open'>
+
+        {formikContext?.values?.relationship?.type === "other" && (
+          <div className="vads-u-margin-y--3">
             <RadioGroup
-              name="stateCemetery"
-              label="Was the Veteran buried in a state veteran’s cemetary?"
+              name="benefitsUnclaimedRemains"
+              label="Are you seeking burial benefits for the unclaimed remains of a Veteran?"
               required
               options={
                 [
                   {label: "Yes", value: true, key: 1},
-                  {label: "No", value: false, key: 2}
+                  {label: "No", value: false, key: 2},
                 ]
               }
             />
           </div>
         )}
       </Page>
-      <DebuggerView />
     </>
   )
 }
