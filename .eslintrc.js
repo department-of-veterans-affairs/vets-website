@@ -5,8 +5,7 @@ module.exports = {
     ecmaVersion: 11,
     sourceType: 'module',
   },
-  plugins: ['va'],
-  extends: ['@department-of-veterans-affairs/eslint-config-vagov'],
+  extends: ['plugin:@department-of-veterans-affairs/recommended'],
   globals: {
     __BUILDTYPE__: true,
     __API__: true,
@@ -52,18 +51,6 @@ module.exports = {
       },
     ], // 40
     'jsx-a11y/no-static-element-interactions': 1, // 20
-
-    /* || va custom plugin || */
-    'va/proptypes-camel-cased': 2,
-    'va/enzyme-unmount': 2,
-    'va/use-resolved-path': [
-      2,
-      {
-        aliases: ['applications', 'platform', 'site', '@@vap-svc', '@@profile'],
-      },
-    ],
-    'va/correct-apostrophe': 1,
-    'va/prefer-web-component-library': 1,
   },
   overrides: [
     {
