@@ -7,7 +7,7 @@ class LastUpdated {
   constructor({ products }) {
     this.products = products;
     this.octokit = new Octokit({
-      auth: process.env.DAILY_PRODUCT_SCAN_LAST_UPDATED_TOKEN,
+      // auth: process.env.DAILY_PRODUCT_SCAN_LAST_UPDATED_TOKEN,
     });
   }
 
