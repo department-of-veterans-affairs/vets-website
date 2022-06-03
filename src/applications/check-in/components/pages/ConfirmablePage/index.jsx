@@ -1,11 +1,9 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import DemographicItem from '../../DemographicItem';
 import EditLinkText from '../Edit/shared/EditLinkText';
-import LanguagePicker from '../../LanguagePicker';
-import MixedLanguageDisclaimer from '../../MixedLanguageDisclaimer';
+import Wrapper from '../../layout/Wrapper';
 
 const ConfirmablePage = ({
   header,
@@ -19,9 +17,6 @@ const ConfirmablePage = ({
   loadingMessageOverride = null,
   Footer,
 }) => {
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
   const { t } = useTranslation();
   const defaultLoadingMessage = () => (
     <va-loading-indicator message={t('loading')} />
@@ -31,10 +26,7 @@ const ConfirmablePage = ({
     dataToEdit.editAction(dataToEdit);
   }, []);
   return (
-    <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 confirmable-page">
-      <MixedLanguageDisclaimer />
-      <LanguagePicker />
-      <h1 data-testid="header">{header}</h1>
+    <Wrapper pageTitle={header} classNames="confirmable-page" withBackButton>
       {subtitle && (
         <p data-testid="subtitle" className="vads-u-font-family--serif">
           {subtitle}
@@ -96,7 +88,7 @@ const ConfirmablePage = ({
         </>
       )}
       {Footer && <Footer />}
-    </div>
+    </Wrapper>
   );
 };
 ConfirmablePage.propTypes = {

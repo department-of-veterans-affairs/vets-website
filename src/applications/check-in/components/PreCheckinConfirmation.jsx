@@ -3,10 +3,9 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import AppointmentBlock from './AppointmentBlock';
 import BackToHome from './BackToHome';
-import LanguagePicker from './LanguagePicker';
 import ExternalLink from './ExternalLink';
 import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
-import MixedLanguageDisclaimer from './MixedLanguageDisclaimer';
+import Wrapper from './layout/Wrapper';
 
 const PreCheckinConfirmation = props => {
   const { appointments, isLoading, formData } = props;
@@ -29,15 +28,10 @@ const PreCheckinConfirmation = props => {
       return <></>;
     }
     return (
-      <div
-        className="vads-l-grid-container vads-u-padding-bottom--3 vads-u-padding-top--3"
-        data-testid="confirmation-wrapper"
+      <Wrapper
+        pageTitle={t('youve-completed-pre-check-in')}
+        testID="confirmation-wrapper"
       >
-        <MixedLanguageDisclaimer />
-        <LanguagePicker />
-        <h1 tabIndex="-1" className="vads-u-margin-top--2">
-          {t('youve-completed-pre-check-in')}
-        </h1>
         <AppointmentBlock appointments={appointments} />
         <p className="vads-u-margin-bottom--4">
           <ExternalLink
@@ -67,7 +61,7 @@ const PreCheckinConfirmation = props => {
           appointments={appointments}
         />
         <BackToHome />
-      </div>
+      </Wrapper>
     );
   };
 

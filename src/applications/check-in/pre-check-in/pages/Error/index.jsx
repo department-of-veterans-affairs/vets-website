@@ -17,6 +17,7 @@ import {
 } from '../../../utils/appointment';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import Wrapper from '../../../components/layout/Wrapper';
 
 const Error = () => {
   const { getValidateAttempts } = useSessionStorage(true);
@@ -75,15 +76,11 @@ const Error = () => {
   const [header, message, additionalDetails] = getErrorMessages();
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-y--5 ">
-      <ErrorMessage
-        header={header}
-        message={message}
-        additionalDetails={additionalDetails}
-      />
+    <Wrapper pageTitle={header}>
+      <ErrorMessage message={message} additionalDetails={additionalDetails} />
       <Footer />
       <BackToHome />
-    </div>
+    </Wrapper>
   );
 };
 
