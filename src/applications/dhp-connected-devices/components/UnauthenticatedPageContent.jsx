@@ -1,12 +1,9 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-export const UnauthenticatedPageContent = toggleLoginModal => {
-  const onSignInClicked = useCallback(() => toggleLoginModal(true), [
-    toggleLoginModal,
-  ]);
+export const UnauthenticatedPageContent = ({ toggleLoginModal }) => {
   return (
     <>
       <h2>Connected devices</h2>
@@ -21,7 +18,7 @@ export const UnauthenticatedPageContent = toggleLoginModal => {
           If you don’t have any of these accounts, you can create a free ID.me
           account now.
         </div>
-        <button type="button" className="usa-button" onClick={onSignInClicked}>
+        <button type="button" className="usa-button" onClick={toggleLoginModal}>
           Sign in or create an account
         </button>
       </va-alert>
@@ -30,7 +27,7 @@ export const UnauthenticatedPageContent = toggleLoginModal => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  toggleLoginModal: open => dispatch(toggleLoginModalAction(open)),
+  toggleLoginModal: () => dispatch(toggleLoginModalAction(true)),
 });
 
 export default connect(
