@@ -1,5 +1,5 @@
 import React from 'react';
-import { VaModal } from 'web-components/react-bindings';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { FETCH_STATUS } from '../../../utils/constants';
 import FacilityAddress from '../../../components/FacilityAddress';

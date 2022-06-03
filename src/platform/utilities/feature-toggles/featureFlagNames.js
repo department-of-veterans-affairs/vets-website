@@ -72,10 +72,12 @@ export default Object.freeze({
   mhvToLogingovAccountTransitionModal: 'mhv_to_logingov_account_transition_modal',
   omniChannelLink: 'omni_channel_link',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
+  profileAlwaysShowDirectDepositDisplay: 'profile_always_show_direct_deposit_display',
   profileNotificationSettings: 'profile_notification_settings',
   profileDoNotRequireInternationalZipCode:'profile_do_not_require_international_zip_code',
   profileEnhancements: 'profile_enhancements',
   profileShowAddressChangeModal: 'profile_show_address_change_modal',
+  profileShowBadAddressIndicator: 'profile_show_bad_address_indicator',
   profileShowFaxNumber: 'profile_show_fax_number',
   profileShowGender: 'profile_show_gender',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
@@ -112,6 +114,7 @@ export default Object.freeze({
     'show_new_schedule_view_appointments_page',
   showNewSecureMessagingPage: 'show_new_secure_messaging_page',
   showNewViewTestLabResultsPage: 'show_new_view_test_lab_results_page',
+  showUpdatedFryDeaApp: 'show_updated_fry_dea_app',
   stemAutomatedDecision: 'stem_automated_decision',
   stemSCOEmail: 'stem_sco_email',
   subform89404192: 'subform_8940_4192',
@@ -144,7 +147,9 @@ export default Object.freeze({
   showEduBenefits1990EZWizard: 'show_edu_benefits_1990EZ_Wizard',
   caregiverSIGIEnabled: 'caregiver_sigi_enabled',
   hcaAmericanIndianEnabled: 'hca_american_indian_enabled',
+  hcaShortFormEnabled: 'hca_short_form_enabled',
   checkVAInboxEnabled: 'check_va_inbox_enabled',
-  ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test'
+  ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
+  showExpandableVamcAlert: 'show_expandable_vamc_alert'
 
 });

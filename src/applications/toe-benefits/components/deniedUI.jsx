@@ -79,6 +79,11 @@ export default function DeniedUI({ user, dateReceived }) {
           <li>There is no further action required by you at this time.</li>
         </ul>
       </div>
+      <div className="vads-u-margin-bottom--3">
+        <a className="vads-c-action-link--green " href="/?next=%2Fprofile">
+          Go to your My VA dashboard
+        </a>
+      </div>
     </>
   );
 }

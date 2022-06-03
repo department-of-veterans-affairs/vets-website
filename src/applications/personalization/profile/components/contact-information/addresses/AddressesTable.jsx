@@ -14,8 +14,9 @@ import { formatAddressTitle } from '@@profile/util/contact-information/addressUt
 import CopyAddressModalController from './CopyAddressModalController';
 
 import ProfileInfoTable from '../../ProfileInfoTable';
+import BadAddressAlert from '../../alerts/bad-address/FormAlert';
 
-const AddressesTable = ({ className }) => (
+const AddressesTable = ({ className, showBadAddress }) => (
   <>
     <CopyAddressModalController />
     <ProfileInfoTable
@@ -32,6 +33,7 @@ const AddressesTable = ({ className }) => (
               fieldName={FIELD_NAMES.MAILING_ADDRESS}
             />
           ),
+          alertMessage: showBadAddress ? <BadAddressAlert /> : null,
         },
         {
           title: formatAddressTitle(
@@ -55,6 +57,7 @@ const AddressesTable = ({ className }) => (
 
 AddressesTable.propTypes = {
   className: PropTypes.string,
+  showBadAddress: PropTypes.bool,
 };
 
 export default AddressesTable;

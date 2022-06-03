@@ -53,9 +53,10 @@ import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilit
 
 import {
   isValidPhone,
-  validatePhone,
   validateEmail,
   validateEffectiveDate,
+  validateMobilePhone,
+  validateHomePhone,
 } from '../utils/validation';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
@@ -124,7 +125,7 @@ const formPages = {
       title:
         'Do you qualify for an active duty kicker, sometimes called a College Fund?',
       additionalInfo: {
-        triggerText: 'What is an active duty kicker?',
+        trigger: 'What is an active duty kicker?',
         info:
           'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
       },
@@ -135,7 +136,7 @@ const formPages = {
       title:
         'Do you qualify for a reserve kicker, sometimes called a College Fund?',
       additionalInfo: {
-        triggerText: 'What is a reserve kicker?',
+        trigger: 'What is a reserve kicker?',
         info:
           'Kickers, sometimes referred to as College Funds, are additional amounts of money that increase an individual’s basic monthly benefit. Each Department of Defense service branch (and not VA) determines who receives the kicker payments and the amount received. Kickers are included in monthly GI Bill payments from VA.',
       },
@@ -151,7 +152,7 @@ const formPages = {
       order: 3,
       title: 'Were you commissioned as a result of Senior ROTC?',
       additionalInfo: {
-        triggerText: 'What is Senior ROTC?',
+        trigger: 'What is Senior ROTC?',
         info:
           'The Senior Reserve Officer Training Corps (SROTC)—more commonly referred to as the Reserve Officer Training Corps (ROTC)—is an officer training and scholarship program for postsecondary students authorized under Chapter 103 of Title 10 of the United States Code.',
       },
@@ -162,7 +163,7 @@ const formPages = {
       title:
         'Do you have a period of service that the Department of Defense counts towards an education loan payment?',
       additionalInfo: {
-        triggerText: 'What does this mean?',
+        trigger: 'What does this mean?',
         info:
           "This is a Loan Repayment Program, which is a special incentive that certain military branches offer to qualified applicants. Under a Loan Repayment Program, the branch of service will repay part of an applicant's qualifying student loans.",
       },
@@ -182,13 +183,6 @@ function isOnlyWhitespace(str) {
   return str && !str.trim().length;
 }
 
-function startPhoneEditValidation({ phone }) {
-  if (!phone) {
-    return true;
-  }
-  return validatePhone(phone);
-}
-
 function titleCase(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
@@ -198,13 +192,14 @@ function phoneUISchema(category) {
     'ui:options': {
       hideLabelText: true,
       showFieldLabel: false,
-      startInEdit: formData => startPhoneEditValidation(formData),
       viewComponent: PhoneViewField,
     },
     'ui:objectViewField': PhoneReviewField,
     phone: {
       ...phoneUI(`${titleCase(category)} phone number`),
-      'ui:validations': [validatePhone],
+      'ui:validations': [
+        category === 'mobile' ? validateMobilePhone : validateHomePhone,
+      ],
     },
     isInternational: {
       'ui:title': `This ${category} phone number is international`,
@@ -279,7 +274,7 @@ function AdditionalConsiderationTemplate(page, formField) {
     additionalInfoView = {
       [additionalInfoViewName]: {
         'ui:description': (
-          <va-additional-info trigger={additionalInfo.triggerText}>
+          <va-additional-info trigger={additionalInfo.trigger}>
             <p>{additionalInfo.info}</p>
           </va-additional-info>
         ),
@@ -1035,6 +1030,11 @@ const formConfig = {
               [formFields.toursOfDuty]: {
                 ...toursOfDuty,
                 title: '', // Hack to prevent console warning
+                items: {
+                  type: 'object',
+                  properties: {},
+                },
+                required: [],
               },
               'view:serviceHistory': {
                 type: 'object',

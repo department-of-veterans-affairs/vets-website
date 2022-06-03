@@ -40,6 +40,9 @@ describe('<AddFilesForm>', () => {
       />,
     );
     expect(tree.everySubTree('FileInput')).not.to.be.empty;
+    expect(tree.everySubTree('FileInput')[0].props['aria-describedby']).to.eq(
+      'file-requirements',
+    );
     expect(tree.everySubTree('Modal')[0].props.visible).to.be.false;
   });
 

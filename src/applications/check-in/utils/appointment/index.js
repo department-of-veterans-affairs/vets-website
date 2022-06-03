@@ -1,4 +1,4 @@
-import { startOfDay } from 'date-fns';
+import { parseISO, startOfDay } from 'date-fns';
 import { ELIGIBILITY } from './eligibility';
 import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
 
@@ -20,6 +20,8 @@ import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
 /**
  * @param {Array<Appointment>} appointments
  * @param {Appointment} currentAppointment
+ *
+ * @returns {boolean}
  */
 const hasMoreAppointmentsToCheckInto = (appointments, currentAppointment) => {
   return (
@@ -33,12 +35,47 @@ const hasMoreAppointmentsToCheckInto = (appointments, currentAppointment) => {
  * Check if any appointment was canceled.
  *
  * @param {Array<Appointment>} appointments
+ *
+ * @returns {boolean}
  */
 const appointmentWasCanceled = appointments => {
   const statusIsCanceled = appointment =>
     appointment.status?.startsWith('CANCELLED');
 
   return Array.isArray(appointments) && appointments.some(statusIsCanceled);
+};
+
+/**
+ * Get the interval from now until the end of the next check-in window.
+ *
+ * @param {Array<Appointment>} appointments
+ *
+ * @returns {number} ms until the end of the next check-in window. (0 if no appointments are eligible for check-in)
+ */
+const intervalUntilNextAppointmentIneligibleForCheckin = appointments => {
+  let interval = 0;
+
+  const eligibleAppointments = appointments.filter(
+    appointment => appointment.eligibility === ELIGIBILITY.ELIGIBLE,
+  );
+
+  let checkInWindowEnds = eligibleAppointments.map(
+    appointment => appointment.checkInWindowEnd,
+  );
+
+  checkInWindowEnds = checkInWindowEnds.filter(
+    checkInWindowEnd => parseISO(checkInWindowEnd) > Date.now(),
+  );
+
+  checkInWindowEnds.sort((a, b) => {
+    return parseISO(a) > parseISO(b);
+  });
+
+  if (checkInWindowEnds[0]) {
+    interval = Math.round(parseISO(checkInWindowEnds[0]) - Date.now());
+  }
+
+  return interval;
 };
 
 /**
@@ -110,14 +147,24 @@ const removeTimeZone = payload => {
 const preCheckinExpired = appointments => {
   return !Object.values(appointments).some(appt => {
     const today = new Date();
-    const checkInExpiry = startOfDay(new Date(appt.startTime));
-    return today.getTime() < checkInExpiry.getTime();
+    const preCheckInExpiry = startOfDay(new Date(appt.startTime));
+    return today.getTime() < preCheckInExpiry.getTime();
+  });
+};
+
+const appointmentStartTimePast15 = appointments => {
+  return !Object.values(appointments).some(appt => {
+    const today = new Date();
+    const deadline = appt.checkInWindowEnd;
+    return today.getTime() < new Date(deadline).getTime();
   });
 };
 
 export {
+  appointmentStartTimePast15,
   appointmentWasCanceled,
   hasMoreAppointmentsToCheckInto,
+  intervalUntilNextAppointmentIneligibleForCheckin,
   sortAppointmentsByStartTime,
   preCheckinAlreadyCompleted,
   removeTimeZone,

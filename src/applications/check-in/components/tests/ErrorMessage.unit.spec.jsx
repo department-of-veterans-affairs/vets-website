@@ -45,5 +45,28 @@ describe('check-in', () => {
         'Error line 2',
       );
     });
+    it('Renders passed addtionalDetails jsx', () => {
+      const additionalDetails = (
+        <>
+          <p data-testid="detail-line-1">Detail line 1</p>
+          <p data-testid="detail-line-2">Detail line 2</p>
+        </>
+      );
+      const component = render(
+        <ErrorMessage
+          header="test heading"
+          message="test message"
+          additionalDetails={additionalDetails}
+        />,
+      );
+      expect(component.getByTestId('detail-line-1')).to.exist;
+      expect(component.getByTestId('detail-line-1')).to.have.text(
+        'Detail line 1',
+      );
+      expect(component.getByTestId('detail-line-2')).to.exist;
+      expect(component.getByTestId('detail-line-2')).to.have.text(
+        'Detail line 2',
+      );
+    });
   });
 });

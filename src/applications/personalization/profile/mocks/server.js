@@ -1,6 +1,7 @@
 const _ = require('lodash');
+const delay = require('mocker-api/lib/delay');
+
 const user = require('./user');
-const paymentHistory = require('./paymentHistory');
 const mhvAcccount = require('./mhvAccount');
 const address = require('./address');
 const status = require('./status');
@@ -13,14 +14,24 @@ const { createNotificationSuccess } = require('./notifications');
 
 const { generateFeatureToggles } = require('./feature-toggles');
 
+const { paymentHistory } = require('./payment-history');
+
+const bankAccounts = require('./bank-accounts');
+
+const serviceHistory = require('./service-history');
+// set DELAY=1000 to add 1 sec delay to all responses
+const responseDelay = process?.env?.DELAY || 0;
+
 /* eslint-disable camelcase */
 const responses = {
-  'GET /v0/user': user.getUser72Success,
+  'GET /v0/user': user.badAddress,
   'GET /v0/profile/status': status,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/feature_toggles': generateFeatureToggles(),
-  'GET /v0/ppiu/payment_information': paymentHistory,
+  'GET /v0/ppiu/payment_information': (_req, res) => {
+    return res.status(200).json(paymentHistory.simplePaymentHistory);
+  },
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount,
   'GET /v0/profile/personal_information': handleGetPersonalInformationRoute,
@@ -38,27 +49,10 @@ const responses = {
       },
     },
   },
-  'GET /v0/profile/ch33_bank_accounts': {
-    data: {
-      id: '',
-      type: 'hashes',
-      attributes: {
-        accountType: null,
-        accountNumber: null,
-        financialInstitutionRoutingNumber: null,
-        financialInstitutionName: null,
-      },
-    },
+  'GET /v0/profile/ch33_bank_accounts': (_req, res) => {
+    return res.status(200).json(bankAccounts.defaultResponse);
   },
-  'GET /v0/profile/service_history': {
-    data: {
-      id: '',
-      type: 'arrays',
-      attributes: {
-        serviceHistory: [],
-      },
-    },
-  },
+  'GET /v0/profile/service_history': serviceHistory.spaceForce,
   'GET /v0/disability_compensation_form/rating_info': {
     data: {
       id: '',
@@ -111,4 +105,5 @@ const responses = {
   },
 };
 
-module.exports = responses;
+module.exports =
+  responseDelay > 0 ? delay(responses, responseDelay) : responses;

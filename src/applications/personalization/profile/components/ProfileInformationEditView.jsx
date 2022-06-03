@@ -242,7 +242,9 @@ export class ProfileInformationEditView extends Component {
       this.props.fieldName === FIELD_NAMES.PREFERRED_NAME &&
       !newFieldValue[FIELD_NAMES.PREFERRED_NAME]
     ) {
-      document.getElementById('root_preferredName').blur();
+      const input = document.getElementById('root_preferredName');
+      input?.blur();
+      input?.focus();
     }
 
     this.onChangeFormDataAndSchemas(newFieldValue, schema, uiSchema);
