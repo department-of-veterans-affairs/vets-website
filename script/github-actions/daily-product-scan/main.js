@@ -6,6 +6,7 @@ const Products = require('./products');
 const PackageDependencies = require('./products/dependencies/package-dependencies');
 const CrossProductDependencies = require('./products/dependencies/cross-product-dependencies');
 const TestTypes = require('./products/test-types');
+const LastUpdated = require('./products/last-updated');
 const Differ = require('./json/differ');
 
 function handleFailure({ response }) {
@@ -35,13 +36,10 @@ function handleSuccess({ changeDetected, message, data }) {
 
 async function main({ octokit }) {
   const products = new Products();
-
   const manifestGlobPathForTests =
     'script/github-actions/daily-product-scan/tests/mocks/applications/**/*manifest.json';
-
   const manifestGlobPath =
     process.env.MANIFEST_GLOB_PATH || manifestGlobPathForTests;
-
   products.addProducts({
     manifestPaths: glob.sync(manifestGlobPath),
   });
@@ -55,8 +53,13 @@ async function main({ octokit }) {
   }).setDependencies();
 
   const testTypes = new TestTypes({ products: products.all });
-
   testTypes.checkExistance();
+
+  // only update last_updated when GitHub Actions workflow runs for now
+  if (process.env.MANIFEST_GLOB_PATH) {
+    const lastUpdated = new LastUpdated({ products: products.all });
+    lastUpdated.setLastUpdated();
+  }
 
   let response = await octokit.getProductJson();
 
@@ -67,7 +70,6 @@ async function main({ octokit }) {
   const productDirectory = JSON.parse(response.data);
 
   const differ = new Differ();
-
   const updatedProductDirectory = differ.diff({
     products,
     currentProductDirectory: productDirectory,

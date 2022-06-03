@@ -177,9 +177,11 @@ export const filterEvents = (
       );
 
       return sortedEvents?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone[0].endValue * 1000).isBefore(
-          now.clone(),
-        ),
+        moment(
+          event?.fieldDatetimeRangeTimezone[0]
+            ? event.fieldDatetimeRangeTimezone[0].endValue * 1000
+            : event.fieldDatetimeRangeTimezone.endValue * 1000,
+        ).isBefore(now.clone()),
       );
     }
 
