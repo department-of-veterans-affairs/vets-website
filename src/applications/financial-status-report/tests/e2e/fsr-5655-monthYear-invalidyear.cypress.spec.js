@@ -106,7 +106,7 @@ describe.skip('Month Year Error Renders Successfully', () => {
       window.sessionStorage.clear();
     });
   });
-  // eslint-disable-next-line va/axe-check-required
+  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
   it('Successfully Navigate to Form Field', () => {
     cy.get('#start-option-0').click({ waitforanimations: true });
     cy.get('#reconsider-option-2').click({ waitforanimations: true });

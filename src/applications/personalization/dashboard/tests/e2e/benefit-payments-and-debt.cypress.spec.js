@@ -170,7 +170,7 @@ describe('The My VA Dashboard - Payments and Debt - when the feature is enabled'
 
     describe('and no payments', () => {
       // No payments received ever:
-      /* eslint-disable va/axe-check-required */
+      /* eslint-disable @department-of-veterans-affairs/axe-check-required */
       // Same display state as a previous test with AXE-check.
       it('hides entire Pmts-n-Debts section - C14674', () => {
         cy.intercept('/v0/profile/payment_history', paymentsSuccessEmpty()).as(
@@ -198,7 +198,7 @@ describe('The My VA Dashboard - Payments and Debt - when the feature is enabled'
         cy.findByTestId('manage-direct-deposit-link').should('not.exist');
         cy.findByTestId('learn-va-debt-link').should('not.exist');
       });
-      /* eslint-enable va/axe-check-required */
+      /* eslint-enable @department-of-veterans-affairs/axe-check-required */
     });
 
     describe('and payments-API-error', () => {
@@ -303,7 +303,7 @@ describe('The My VA Dashboard - Payments and Debt - when the feature is enabled'
 
     describe('and no payments', () => {
       // No payments received ever:
-      /* eslint-disable va/axe-check-required */
+      /* eslint-disable @department-of-veterans-affairs/axe-check-required */
       // Same display state as a previous test with AXE-check.
       it('hides entire Pmts-n-Debts section - C14195', () => {
         cy.intercept('/v0/profile/payment_history', paymentsSuccessEmpty()).as(
@@ -331,12 +331,12 @@ describe('The My VA Dashboard - Payments and Debt - when the feature is enabled'
         cy.findByTestId('manage-direct-deposit-link').should('not.exist');
         cy.findByTestId('learn-va-debt-link').should('not.exist');
       });
-      /* eslint-enable va/axe-check-required */
+      /* eslint-enable @department-of-veterans-affairs/axe-check-required */
     });
 
     describe('and payments-API-error', () => {
       // Payments API returns error:
-      /* eslint-disable va/axe-check-required */
+      /* eslint-disable @department-of-veterans-affairs/axe-check-required */
       // Same display state as a previous test with AXE-check.
       it('hides entire section and shows Payments-error only - C14391', () => {
         cy.intercept('/v0/profile/payment_history', paymentsError()).as(
@@ -364,7 +364,7 @@ describe('The My VA Dashboard - Payments and Debt - when the feature is enabled'
         cy.findByTestId('manage-direct-deposit-link').should('not.exist');
         cy.findByTestId('learn-va-debt-link').should('not.exist');
       });
-      /* eslint-enable va/axe-check-required */
+      /* eslint-enable @department-of-veterans-affairs/axe-check-required */
     });
   });
 
@@ -437,7 +437,7 @@ describe('The My VA Dashboard - Payments and Debt - when the feature is enabled'
 
     describe('and no payments', () => {
       // No payments received ever.
-      /* eslint-disable va/axe-check-required */
+      /* eslint-disable @department-of-veterans-affairs/axe-check-required */
       // Same display state as a previous test with AXE-check.
       it('hides entire Pmts-n-Debts section and shows no error - C14677', () => {
         cy.intercept('/v0/profile/payment_history', paymentsSuccessEmpty()).as(
@@ -465,12 +465,12 @@ describe('The My VA Dashboard - Payments and Debt - when the feature is enabled'
         cy.findByTestId('view-payment-history-link').should('not.exist');
         cy.findByTestId('learn-va-debt-link').should('not.exist');
       });
-      /* eslint-enable va/axe-check-required */
+      /* eslint-enable @department-of-veterans-affairs/axe-check-required */
     });
 
     describe('and payments-API-error', () => {
       // Payments API returns error.
-      /* eslint-disable va/axe-check-required */
+      /* eslint-disable @department-of-veterans-affairs/axe-check-required */
       // Same display state as a previous test with AXE-check.
       it('hides entire section and shows Payments-error only - C14392', () => {
         cy.intercept('/v0/profile/payment_history', paymentsError()).as(
@@ -498,7 +498,7 @@ describe('The My VA Dashboard - Payments and Debt - when the feature is enabled'
         cy.findByTestId('view-payment-history-link').should('not.exist');
         cy.findByTestId('learn-va-debt-link').should('not.exist');
       });
-      /* eslint-enable va/axe-check-required */
+      /* eslint-enable @department-of-veterans-affairs/axe-check-required */
     });
   });
 });
