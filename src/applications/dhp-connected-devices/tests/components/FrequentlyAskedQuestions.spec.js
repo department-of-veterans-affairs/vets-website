@@ -7,6 +7,5 @@ describe('Frequently asked questions component', () => {
   it('renders with FAQ section', () => {
     const screen = renderInReduxProvider(<FrequentlyAskedQuestions />);
     expect(screen.getByText(/Frequently asked questions/)).to.exist;
-    expect(screen.getByText(/Question 1/)).to.exist;
   });
 });
