@@ -9,24 +9,6 @@ export async function pkceChallengeFromVerifier(v) {
   return oauthCrypto.base64UrlEncode(hashed);
 }
 
-export const getOAuthConfig = (state, codeChallenge) => {
-  if (!state || !codeChallenge) {
-    return {};
-  }
-
-  return {
-    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent('somelongid+somethingelse'),
-    [OAUTH_KEYS.REDIRECT_URI]: encodeURIComponent(
-      `${environment.BASE_URL}/auth/login/callback`,
-    ),
-    [OAUTH_KEYS.RESPONSE_TYPE]: 'code',
-    [OAUTH_KEYS.SCOPE]: 'email',
-    [OAUTH_KEYS.STATE]: state,
-    [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
-    [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: 'S256',
-  };
-};
-
 export const saveStateAndVerifier = () => {
   /*
     Ensures saved state is not overwritten if location has state parameter.
@@ -56,20 +38,24 @@ export async function createOAuthRequest(csp) {
   const codeChallenge = await pkceChallengeFromVerifier(codeVerifier);
 
   // Build the authorization URL
-  const config = getOAuthConfig(state, codeChallenge);
+  const oAuthParams = {
+    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent('client_id_value'),
+    [OAUTH_KEYS.REDIRECT_URI]: encodeURIComponent(
+      `${environment.BASE_URL}/auth/login/callback`,
+    ),
+    [OAUTH_KEYS.RESPONSE_TYPE]: 'code',
+    [OAUTH_KEYS.SCOPE]: 'email',
+    [OAUTH_KEYS.STATE]: state,
+    [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
+    [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: 'S256',
+  };
 
   const url = new URL(API_SIGN_IN_SERVICE_URL({ type: csp }));
 
-  Object.keys(config).forEach(param =>
-    url.searchParams.append(param, config[param]),
+  Object.keys(oAuthParams).forEach(param =>
+    url.searchParams.append(param, oAuthParams[param]),
   );
 
   // Redirect to the authorization server
   window.location = url;
 }
-
-export const alexOptions = {
-  createOAuthRequest,
-  pkceChallengeFromVerifier,
-  saveStateAndVerifier,
-};

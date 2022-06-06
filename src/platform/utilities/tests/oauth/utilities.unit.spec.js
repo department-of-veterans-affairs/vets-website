@@ -52,8 +52,8 @@ describe('OAuth - Utilities', () => {
       expect(codeChallenge).to.eql(
         'LPJNul-wow4m6DsqxbninhsWHlwfp0JecwQzYpOLmCQ',
       );
-      expect(codeChallenge.length).to.eql(43);
-      expect(codeChallenge2.length).to.eql(43);
+      expect(codeChallenge.length).to.eql(88);
+      expect(codeChallenge2.length).to.eql(88);
     });
     it('should return null if parameter is empty', async () => {
       const emptyString = await oAuthUtils.pkceChallengeFromVerifier('');
@@ -61,20 +61,6 @@ describe('OAuth - Utilities', () => {
 
       expect(emptyString).to.be.null;
       expect(undefinedPkce).to.be.null;
-    });
-  });
-
-  describe('getOAuthConfig', () => {
-    it('should return proper `state` and `codeVerifier`', () => {
-      expect(
-        oAuthUtils.getOAuthConfig('sampleState', 'sampleCodeChallenge'),
-      ).to.includes({
-        [OAUTH_KEYS.STATE]: 'sampleState',
-        [OAUTH_KEYS.CODE_CHALLENGE]: 'sampleCodeChallenge',
-      });
-    });
-    it('should not return empty state or codeVerifier', () => {
-      expect(oAuthUtils.getOAuthConfig()).to.eql({});
     });
   });
 
