@@ -3,7 +3,6 @@ import moment from 'moment-timezone';
 import { expect } from 'chai';
 // Relative imports.
 import {
-  dayOptions,
   deriveEndsAtUnix,
   deriveEventLocations,
   deriveMostRecentDate,
@@ -11,15 +10,8 @@ import {
   filterByOptions,
   filterEvents,
   hideLegacyEvents,
-  monthOptions,
   showLegacyEvents,
 } from '.';
-
-describe('dayOptions', () => {
-  it('returns what we expect', () => {
-    expect(dayOptions).to.have.lengthOf(32);
-  });
-});
 
 describe('deriveMostRecentDate', () => {
   it('returns the argument fieldDatetimeRangeTimezone when it is falsey', () => {
@@ -135,72 +127,80 @@ describe('filterEvents', () => {
 
   const upcomingEvent = {
     id: 'upcoming',
-    fieldDatetimeRangeTimezone: {
-      endValue: now
-        .clone()
-        .add(1, 'seconds')
-        .add(2, 'hours')
-        .unix(),
-      value: now
-        .clone()
-        .add(1, 'hours')
-        .unix(),
-      timezone: 'America/New_York',
-    },
+    fieldDatetimeRangeTimezone: [
+      {
+        endValue: now
+          .clone()
+          .add(1, 'seconds')
+          .add(2, 'hours')
+          .unix(),
+        value: now
+          .clone()
+          .add(1, 'hours')
+          .unix(),
+        timezone: 'America/New_York',
+      },
+    ],
   };
 
   const nextWeekEvent = {
     id: 'next-week',
-    fieldDatetimeRangeTimezone: {
-      endValue: now
-        .clone()
-        .add(7, 'days')
-        .startOf('week')
-        .add(2, 'hours')
-        .unix(),
-      value: now
-        .clone()
-        .add(7, 'days')
-        .startOf('week')
-        .add(1, 'hours')
-        .unix(),
-      timezone: 'America/New_York',
-    },
+    fieldDatetimeRangeTimezone: [
+      {
+        endValue: now
+          .clone()
+          .add(7, 'days')
+          .startOf('week')
+          .add(2, 'hours')
+          .unix(),
+        value: now
+          .clone()
+          .add(7, 'days')
+          .startOf('week')
+          .add(1, 'hours')
+          .unix(),
+        timezone: 'America/New_York',
+      },
+    ],
   };
 
   const nextMonthEvent = {
     id: 'next-month',
-    fieldDatetimeRangeTimezone: {
-      endValue: now
-        .clone()
-        .add(1, 'month')
-        .startOf('month')
-        .add(2, 'hours')
-        .unix(),
-      value: now
-        .clone()
-        .add(1, 'month')
-        .startOf('month')
-        .add(1, 'hours')
-        .unix(),
-      timezone: 'America/New_York',
-    },
+    fieldDatetimeRangeTimezone: [
+      {
+        endValue: now
+          .clone()
+          .add(1, 'month')
+          .startOf('month')
+          .add(2, 'hours')
+          .unix(),
+        value: now
+          .clone()
+          .add(1, 'month')
+          .startOf('month')
+          .add(1, 'hours')
+          .unix(),
+        timezone: 'America/New_York',
+      },
+    ],
   };
 
   const pastEvent = {
     id: 'past',
-    fieldDatetimeRangeTimezone: {
-      endValue: now
-        .clone()
-        .subtract(2, 'days')
-        .add(1, 'hours')
-        .unix(),
-      value: now
-        .clone()
-        .subtract(2, 'days')
-        .unix(),
-      timezone: 'America/New_York',
-    },
+    fieldDatetimeRangeTimezone: [
+      {
+        endValue: now
+          .clone()
+          .subtract(2, 'days')
+          .add(1, 'hours')
+          .unix(),
+        value: now
+          .clone()
+          .subtract(2, 'days')
+          .unix(),
+        timezone: 'America/New_York',
+      },
+    ],
   };
 
   const events = [upcomingEvent, nextWeekEvent, nextMonthEvent, pastEvent];
@@ -322,12 +322,6 @@ describe('deriveEventLocations', () => {
 describe('hideLegacyEvents', () => {
   it('returns what we expect with no arguments', () => {
     expect(hideLegacyEvents()).to.equal(undefined);
-  });
-});
-
-describe('monthOptions', () => {
-  it('returns what we expect', () => {
-    expect(monthOptions).to.have.lengthOf(13);
   });
 });
 

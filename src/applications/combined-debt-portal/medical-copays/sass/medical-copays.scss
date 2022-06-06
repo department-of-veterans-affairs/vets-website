@@ -1,21 +1,15 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "./partials/balance-card";
-@import "./partials/charge-details";
-@import "./partials/statement-page";
 
 .no-wrap {
   white-space: nowrap;
 }
 
-.card-balance {
-  font-family: "Bitter";
-  font-size: 24px;
+.no-bullets {
+  list-style: none;
 }
 
-.card-heading {
-  font-family: "Bitter";
-  font-size: 17px;
-  color: $color-gray-dark;
+.card-balance {
+  font-size: 24px;
 }
 
 .card-content {
@@ -29,24 +23,6 @@
   p {
     margin: 0;
   }
-}
-
-.charge-detail-group {
-  display: flex;
-  margin-bottom: 25px;
-}
-
-.charge-detail-col {
-  margin-right: 20px;
-  @media (min-width: $small-screen) {
-    margin-right: 100px;
-  }
-}
-
-.charge-detail-value {
-  font-family: "Bitter";
-  font-size: 22px;
-  font-weight: 900;
 }
 
 .balance-activity {

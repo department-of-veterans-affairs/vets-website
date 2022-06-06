@@ -2710,13 +2710,13 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@department-of-veterans-affairs/component-library@^10.2.2":
-  version "10.2.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-10.2.2.tgz#97197687bf0832149b8e9c5b2f6be7bfc68087fc"
-  integrity sha512-WSK6wUyEeHaLZ125Yn6WrfQuAxwLva4cuyxBjCXk0mK59f/v+Ho4HZg+Ep09NKCJ1M6FoSyBfh/j6ROY/p5ddw==
+"@department-of-veterans-affairs/component-library@^10.3.1":
+  version "10.3.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-10.3.1.tgz#78b1578ed237d5fe6ec08d288bb5fe13a9870d70"
+  integrity sha512-vJbWRY1qD2lLTUcQu4hNVniX2ROxfdCJQoIvhD05GUJNz/TNL5ttSz3FtUJaM/I64xFEr0HM2rLtm09lT3JigQ==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "6.1.2"
-    "@department-of-veterans-affairs/web-components" "4.1.1"
+    "@department-of-veterans-affairs/react-components" "6.1.3"
+    "@department-of-veterans-affairs/web-components" "4.2.1"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2735,10 +2735,10 @@
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/eslint-config-vagov@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-config-vagov/-/eslint-config-vagov-0.0.1.tgz#236e65df5e24ef1750b4b6e44a0fb6bfe3d1c400"
-  integrity sha512-5XUVH67KO8AXWAxo9eZQbXpxtglQjG2AvrXtzt3e0rfCBcfNNkqQQaWeRZFshiK8sOD+b4rRLf+sbQ7CEoSkIw==
+"@department-of-veterans-affairs/eslint-plugin@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.1.0.tgz#fcfb3651485aaddb66f1f46f227b670b2adce7da"
+  integrity sha512-QLtevzdk7axqtFVVI0NRc9qhbCcSAdgmv/PkQF0kUPNZagKlDImL8acZRK0U74cixKIL1JUSkk8FSi761phL6w==
 
 "@department-of-veterans-affairs/formation@^7.0.1":
   version "7.0.1"
@@ -2750,10 +2750,10 @@
     element-closest "^3.0.1"
     foundation-sites "5"
 
-"@department-of-veterans-affairs/generator-vets-website@^3.5.4":
-  version "3.5.4"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.5.4.tgz#503dd6c0e1affb00a30a685b906ae571f0d1c431"
-  integrity sha512-hvMZA7MXnQWrGUjO5pRq18Mwf45BLwR74ge8c0FTny3prSx+vmqiMMsqeEYj26XbzonhsATQlXq48twLWr73cA==
+"@department-of-veterans-affairs/generator-vets-website@^3.6.0":
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.6.0.tgz#a13175a8624b131e09c9d25e9c6c1a6ed64b0e2f"
+  integrity sha512-Z51IDeRU9z/urKqImy8tOfFyvnJOvQhk384Z1KpcC1PZ78u1wsj0FAZClgVyybE1ciMSykBy4M9phOf/AkH4uw==
   dependencies:
     chalk "^4.1.0"
     yeoman-generator "^5.6.1"
@@ -2774,10 +2774,10 @@
     react-transition-group "1"
     recast "^0.14.4"
 
-"@department-of-veterans-affairs/react-components@6.1.2":
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-6.1.2.tgz#606270e03f1f5eed17e83ff511719da408312fff"
-  integrity sha512-EwljMLBQq8BCAGLXOLXsdXP0WbSLVgOP8iNp4h94zxEIRmguha0YmXLX3yjN/ricajOO0u0v7uv5k4bNnVA1kQ==
+"@department-of-veterans-affairs/react-components@6.1.3":
+  version "6.1.3"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-6.1.3.tgz#9ba45d99b50ac6f862c633b9bc41591a05723e6f"
+  integrity sha512-mVgRheEsFAJ9HPCCDUVWIDM+GE10MYbfbjmjPnfLsDYj+XWASp+OhlA5AUiyMqKMTAXEfSSMVyP9rnU+LM5cZg==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
@@ -2825,10 +2825,10 @@
     intersection-observer "^0.12.0"
     postcss-url "^10.1.1"
 
-"@department-of-veterans-affairs/web-components@4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.1.1.tgz#428efbfa916d57e8e3ccbc20f0df71b30f767d54"
-  integrity sha512-ojqb8aDLiJlaUICszFUFRf6Imlu3gd7PRlrZS5Kh3YpU01NFLVnG8rQc3jD+wwrqtNPzPjc8djaKg49Q0+0aeg==
+"@department-of-veterans-affairs/web-components@4.2.1":
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.2.1.tgz#83a8193f12d057f4808e7e38f84726b9cdfc5796"
+  integrity sha512-xEe/56AgUlgzqOesAa9U89Cd+mPIZPCHoiWOhSrvxGLZh0f0y50bV98PjhCnt5Ue+RO9WRf9u/jUcTwVpUGpaw==
   dependencies:
     "@stencil/core" "^2.10.0"
     aria-hidden "^1.1.3"
@@ -6437,25 +6437,10 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001260, caniuse-lite@^1.0.30001271:
-  version "1.0.30001272"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001272.tgz#8e9790ff995e9eb6e1f4c45cd07ddaa87cddbb14"
-  integrity sha512-DV1j9Oot5dydyH1v28g25KoVm7l8MTxazwuiH3utWiAS6iL/9Nh//TGwqFEeqqN8nnWYQ8HHhUq+o4QPt9kvYw==
-
-caniuse-lite@^1.0.30001280:
-  version "1.0.30001280"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001280.tgz#066a506046ba4be34cde5f74a08db7a396718fb7"
-  integrity sha512-kFXwYvHe5rix25uwueBxC569o53J6TpnGu0BEEn+6Lhl2vsnAumRFWEBhDft1fwyo6m1r4i+RqA4+163FpeFcA==
-
-caniuse-lite@^1.0.30001313:
-  version "1.0.30001314"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001314.tgz#65c7f9fb7e4594fca0a333bec1d8939662377596"
-  integrity sha512-0zaSO+TnCHtHJIbpLroX7nsD+vYuOVjl3uzFbJO1wMVbuveJA0RK2WcQA9ZUIOiO0/ArMiMgHJLxfEZhQiC0kw==
-
-caniuse-lite@^1.0.30001317:
-  version "1.0.30001323"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001323.tgz#a451ff80dec7033016843f532efda18f02eec011"
-  integrity sha512-e4BF2RlCVELKx8+RmklSEIVub1TWrmdhvA5kEUueummz1XyySW0DVk+3x9HyhU9MuWTa2BhqLgEuEmUwASAdCA==
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001260, caniuse-lite@^1.0.30001271, caniuse-lite@^1.0.30001280, caniuse-lite@^1.0.30001313, caniuse-lite@^1.0.30001317:
+  version "1.0.30001346"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001346.tgz"
+  integrity sha512-q6ibZUO2t88QCIPayP/euuDREq+aMAxFE5S70PkrLh0iTDj/zEhgvJRKC2+CvXY6EWc6oQwUR48lL5vCW6jiXQ==
 
 capture-stack-trace@^1.0.0:
   version "1.0.1"
@@ -9303,10 +9288,6 @@ eslint-plugin-unicorn@^35.0.0:
     regexp-tree "^0.1.23"
     safe-regex "^2.1.1"
     semver "^7.3.5"
-
-"eslint-plugin-va@link:./script/eslint-plugin-va":
-  version "0.0.0"
-  uid ""
 
 eslint-scope@5.1.1, eslint-scope@^5.1.1:
   version "5.1.1"

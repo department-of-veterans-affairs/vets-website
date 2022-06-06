@@ -59,9 +59,9 @@ const DebtDetails = () => {
       <va-breadcrumbs label="Breadcrumb">
         <a href="/">Home</a>
         <a href="/manage-debt-and-bills/">Manage your VA debt and bills</a>
-        <a href="/manage-debt-and-bills/summary/">
+        <Link to="/manage-debt-and-bills/summary/">
           Your debt and bills summary
-        </a>
+        </Link>
         <Link to="/debt-balances/">Benefit debt balances</Link>
         <Link
           to={`/debt-balances/details/${selectedDebt.fileNumber +
