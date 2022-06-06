@@ -75,8 +75,8 @@ import {
 import { urlMigration } from '../../config/migrations';
 
 import manifest from '../manifest.json';
-import SelectedSponsorsReviewField from '../components/SelectedSponsorsReviewField';
-import FirstSponsorReviewField from '../components/FirstSponsorReviewField';
+import SelectedSponsorsReviewPage from '../components/SelectedSponsorsReviewPage';
+import FirstSponsorReviewPage from '../components/FirstSponsorReviewPage';
 import Sponsors from '../components/Sponsors';
 import GoToYourProfileLink from '../components/GoToYourProfileLink';
 // import SponsorsSelectionPage from '../containers/SponsorsSelectionPage';
@@ -551,7 +551,7 @@ const formConfig = {
         [newFormPages.newSponsorSelection]: {
           title: 'Choose your sponsor',
           path: 'new/sponsor/select-sponsor',
-          CustomPageReview: SelectedSponsorsReviewField,
+          CustomPageReview: SelectedSponsorsReviewPage,
           depends: formData =>
             formData.showUpdatedToeApp &&
             (!formData.fetchedSponsorsComplete ||
@@ -752,6 +752,7 @@ const formConfig = {
         [newFormPages.newFirstSponsorSelection]: {
           title: 'Choose your first sponsor',
           path: 'new/sponsor/select-first-sponsor',
+          CustomPageReview: FirstSponsorReviewPage,
           depends: formData =>
             formData.showUpdatedToeApp && formData.selectedSponsors?.length > 1,
           uiSchema: {
@@ -771,9 +772,8 @@ const formConfig = {
               'ui:title':
                 'Which sponsor’s benefits would you like to use first?',
               'ui:widget': FirstSponsorRadioGroup,
-              'ui:reviewWidget': FirstSponsorReviewField,
               'ui:errorMessages': {
-                required: 'Please select at least one sponsor',
+                required: 'Please select a sponsor',
               },
             },
             'view:firstSponsorAdditionalInfo': {

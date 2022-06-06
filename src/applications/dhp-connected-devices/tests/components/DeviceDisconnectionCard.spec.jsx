@@ -29,7 +29,7 @@ describe('Device disconnection card modal', () => {
   beforeEach(async () => {
     screen = render(<DeviceDisconnectionCard device={device} />);
     const disconnectBtn = screen.getByRole('button', { name: 'Disconnect' });
-    await fireEvent.click(disconnectBtn);
+    fireEvent.click(disconnectBtn);
     modal = screen.getByTestId('disconnect-modal');
   });
 

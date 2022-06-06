@@ -1,13 +1,12 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
-import { disclosureWarning, financialDisclosureText } from '../../../helpers';
+import {
+  disclosureWarning,
+  financialDisclosureText,
+  emptyObjectSchema,
+} from '../../../helpers';
 
 const { discloseFinancialInformation } = fullSchemaHca.properties;
-
-const emptyObjectSchema = {
-  type: 'object',
-  properties: {},
-};
 
 export default {
   uiSchema: {

@@ -1,6 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-
+import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
 /*
@@ -162,11 +161,10 @@ const getChatHours = facilityId => {
 };
 
 export const COVID19Alert = ({ facilityId }) => (
-  <AlertBox
-    isVisible
-    headline="You may be eligible to use health chat as part of our pilot"
-    status="info"
-  >
+  <va-alert isVisible status="info">
+    <h2 slot="headline">
+      You may be eligible to use health chat as part of our pilot
+    </h2>
     <p>
       If you have questions about COVID-19 or general health concerns, you may
       be able to chat with a VA staff person, on desktop or as a mobile app.
@@ -191,5 +189,9 @@ export const COVID19Alert = ({ facilityId }) => (
       <strong>Note:</strong> Some VA facilities may be receiving many messages,
       and it may take them time to reply via chat.
     </p>
-  </AlertBox>
+  </va-alert>
 );
+
+COVID19Alert.propTypes = {
+  facilityId: PropTypes.string.isRequired,
+};
