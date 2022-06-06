@@ -27,11 +27,9 @@ export const getOAuthConfig = (state, codeChallenge) => {
   };
 };
 
-// works as expected
 export const saveStateAndVerifier = () => {
   /*
-    Ensures saved state is not overwritten if location has
-    state parameter.
+    Ensures saved state is not overwritten if location has state parameter.
   */
   if (window.location.search.includes('state')) return null;
   const storage = window.sessionStorage;
@@ -69,11 +67,3 @@ export async function createOAuthRequest(csp) {
   // Redirect to the authorization server
   window.location = url;
 }
-
-export const alexOptions = {
-  createOAuthRequest,
-  getOAuthConfig,
-  pkceChallengeFromVerifier,
-  oauthCrypto,
-  saveStateAndVerifier,
-};

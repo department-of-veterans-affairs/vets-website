@@ -5,6 +5,9 @@ const toUtf8 = data => {
   return encoder.encode(data);
 };
 
+// Decimal to Hexadecimal
+const decimal2hex = dec => `0${dec.toString(16)}`.substr(-2);
+
 /**
  * @description Calculate the SHA256 hash of the input
  * @param {ArrayBufferView} plain Input text
@@ -25,9 +28,6 @@ export function base64UrlEncode(string) {
   const data = toUtf8(string);
   return base64.encode(data);
 }
-
-// Decimal to Hexadecimal
-const decimal2hex = dec => `0${dec.toString(16)}`.substr(-2);
 
 /**
  *
