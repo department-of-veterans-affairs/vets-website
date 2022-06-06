@@ -1,0 +1,36 @@
+{
+    "name": "@department-of-veterans-affairs/platform-startup",
+    "version": "1.0.0",
+    "exports": {
+      "." : "./exportsFile.js",
+      "./index" : "./index.js",
+      "./store" : "./store.js",
+      "./react" : "./react.js",
+      "./setup" : "./setup.js",
+      "./router" : "./router.js",
+      "./analytics-middleware" : "./analytics-middleware.js"
+    },
+
+    "dependencies": {
+      "history": "3",
+      "react": "^17.0.2",
+      "react-dom": "^17.0.2",
+      "react-redux": "^7.2.6",
+      "react-router": "3",
+      "react-router-dom": "^5.3.0",
+      "redux": "^4.1.1",
+      "redux-localstorage": "^0.4.1",
+      "redux-thunk": "^2.3.0"
+    },
+
+    "devDependencies": {
+      "@sentry/browser": "^6.13.2",
+      "chai": "^4.3.4",
+      "sinon": "^3.2.1"
+    },
+
+    "license": "MIT",
+    "private": true
+   
+   }
+  
