@@ -6,6 +6,7 @@ import ClaimantInformation from './ClaimantInformation';
 import VeteranInformation from './VeteranInformation';
 import BurialInformation from './BurialInformation';
 import MilitaryServiceHistory from './MilitaryServiceHistory';
+import PreviousNames from './PreviousNames';
 import PlotAllowance from './PlotAllowance';
 import BurialAllowance from "./BurialAllowance";
 import BenefitsSelection from './BenefitsSelection';
@@ -27,6 +28,7 @@ const BurialApp = (props) => {
         <Route path="/veteran-information" element={<VeteranInformation title="Deceased Veteran Information" />} />
         <Route path="/veteran-information/burial" element={<BurialInformation title="Deceased Veteran Information" />} />
         <Route path="/military-history/service-periods" element={<MilitaryServiceHistory title="Military Service History" />} />
+        <Route path="/military-history/previous-names" element={<PreviousNames title="Military history" />} />
         <Route path="/benefits/selection" element={<BenefitsSelection title="Benefits Selection" />} />
         <Route path="/benefits/burial-allowance" element={<BurialAllowance title="Burial allowance" />} />
         <Route path="/benefits/plot-allowance" element={<PlotAllowance title="Benefits Selection" />} />
