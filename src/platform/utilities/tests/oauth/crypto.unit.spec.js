@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import crypto from 'crypto';
+import { randomFillSync } from 'crypto';
 import {
   sha256,
   base64UrlEncode,
@@ -33,7 +33,7 @@ describe('OAuth crypto', () => {
   describe('generateRandomString', () => {
     const mockCrypto = {
       getRandomValues(buffer) {
-        return crypto.randomFillSync(buffer);
+        return randomFillSync(buffer);
       },
     };
     it('should generate a random string given a length', () => {

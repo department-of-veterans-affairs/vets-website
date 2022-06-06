@@ -46,8 +46,12 @@ describe('OAuth - Utilities', () => {
   describe('pkceChallengeFromVerifier', () => {
     it('should generate a code challenge from verifier', async () => {
       const codeChallenge = await oAuthUtils.pkceChallengeFromVerifier('hello');
+      const codeChallenge2 = await oAuthUtils.pkceChallengeFromVerifier(
+        'somesuperlongrandomsecurestring',
+      );
       expect(codeChallenge).to.include('==');
-      expect(codeChallenge.length).to.eql(248);
+      expect(codeChallenge.length).to.eql(88);
+      expect(codeChallenge2.length).to.eql(88);
     });
     it('should return null if parameter is empty', async () => {
       const emptyString = await oAuthUtils.pkceChallengeFromVerifier('');
