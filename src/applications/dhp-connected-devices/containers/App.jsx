@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { UnauthenticatedPageContent } from '../components/UnauthenticatedPageContent';
+import UnauthenticatedPageContent from '../components/UnauthenticatedPageContent';
 import { AuthenticatedPageContent } from '../components/AuthenticatedPageContent';
 import { FrequentlyAskedQuestions } from '../components/FrequentlyAskedQuestions';
 

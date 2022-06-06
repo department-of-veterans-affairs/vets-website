@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -9,6 +8,7 @@ import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
 import StatementCharges from '../components/StatementCharges';
 import DownloadStatement from '../components/DownloadStatement';
+import '../sass/medical-copays.scss';
 
 const HTMLStatementPage = ({ match }) => {
   const selectedId = match.params.id;
@@ -39,8 +39,7 @@ const HTMLStatementPage = ({ match }) => {
             Your debt and bills summary
           </a>
           <a href="/manage-debt-and-bills/summary/copay-balances">
-            {' '}
-            Current copay bills
+            Current copay balances
           </a>
           <a
             href={`/manage-debt-and-bills/summary/copay-balances/${selectedId}/detail`}
@@ -51,21 +50,11 @@ const HTMLStatementPage = ({ match }) => {
         </va-breadcrumbs>
         <h1 data-testid="statement-page-title">{title}</h1>
         <p
-          className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--5"
+          className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-font-family--sarif"
           data-testid="facility-name"
         >
           {`${selectedCopay?.station.facilityName}`}
         </p>
-        <Link
-          className="vads-u-font-size--sm"
-          to={`/copay-balances/${selectedId}/detail`}
-        >
-          <i
-            className="fa fa-chevron-left vads-u-margin-right--1"
-            aria-hidden="true"
-          />
-          <strong>Return to facility details</strong>
-        </Link>
         <va-on-this-page className="vads-u-margin-top--0" />
         <AccountSummary
           currentBalance={selectedCopay.pHNewBalance}
@@ -102,16 +91,6 @@ const HTMLStatementPage = ({ match }) => {
         <Modals title="Notice of rights and responsibilities">
           <Modals.Rights />
         </Modals>
-        <Link
-          className="vads-u-font-size--sm"
-          to={`/balance-details/${selectedId}`}
-        >
-          <i
-            className="fa fa-chevron-left vads-u-margin-right--1"
-            aria-hidden="true"
-          />
-          <strong>Return to facility details</strong>
-        </Link>
       </article>
     </>
   );
