@@ -23,7 +23,11 @@ export const FrequentlyAskedQuestions = () => {
           connect your devices, they will be able to access the data you choose
           to share.
         </va-accordion-item>
-        <va-accordion-item header="How can I connect my devices?" id="second">
+        <va-accordion-item
+          header="How can I connect my devices?"
+          id="second"
+          data-testid="second-faq"
+        >
           <strong>Take these steps to connect a device:</strong>
           <p />
           <ol>
@@ -43,6 +47,7 @@ export const FrequentlyAskedQuestions = () => {
         <va-accordion-item
           header="Can I stop sharing my connected device data with VA?"
           id="third"
+          data-testid="third-faq"
         >
           Yes. If you no longer want to share your information with VA, you can
           disconnect your device at any time. The device will then no longer
@@ -68,6 +73,7 @@ export const FrequentlyAskedQuestions = () => {
         <va-accordion-item
           header="What information can VA access from my devices?"
           id="fourth"
+          data-testid="fourth-faq"
         >
           When you connect a device, you can choose the type of data that will
           be shared with VA.
@@ -75,6 +81,7 @@ export const FrequentlyAskedQuestions = () => {
         <va-accordion-item
           header="Who can access data from my connected devices?"
           id="fifth"
+          data-testid="fifth-faq"
         >
           Your VA care team will be able to view the data from your connected
           devices. Authorized researchers at VA may also be able to view data
@@ -84,6 +91,7 @@ export const FrequentlyAskedQuestions = () => {
         <va-accordion-item
           header="Does VA keep my data after I disconnect a device?"
           id="sixth"
+          data-testid="sixth-faq"
         >
           VA will no longer receive new data from your device after it is
           disconnected. Data shared while your device was connected will not be
