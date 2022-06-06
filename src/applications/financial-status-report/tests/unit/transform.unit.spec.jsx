@@ -16,8 +16,8 @@ import {
   nameStr,
 } from '../../utils/helpers';
 
-describe.skip('fsr transform helper functions', () => {
-  describe.skip('dateFormatter helper', () => {
+describe('fsr transform helper functions', () => {
+  describe('dateFormatter helper', () => {
     it('should return formatted date MM/YYYY', () => {
       expect(dateFormatter('2004-10-XX')).to.equal('10/2004');
     });
@@ -26,7 +26,7 @@ describe.skip('fsr transform helper functions', () => {
     });
   });
 
-  describe.skip('getFsrReason helper', () => {
+  describe('getFsrReason helper', () => {
     it('should return string of unique fsr reasons comma separated', () => {
       const debts = [
         { resolution: { resolutionType: 'Resolution 1' } },
@@ -37,7 +37,7 @@ describe.skip('fsr transform helper functions', () => {
     });
   });
 
-  describe.skip('sumValue helper', () => {
+  describe('sumValue helper', () => {
     it('should sum specified object keys in list of objects', () => {
       const objectList = Array(5).fill({ someKey: '10' });
       expect(sumValues(objectList, 'someKey')).to.equal(50);
@@ -56,7 +56,7 @@ describe.skip('fsr transform helper functions', () => {
     });
   });
 
-  describe.skip('filterDeductions helper', () => {
+  describe('filterDeductions helper', () => {
     it('should return deductions based on elements in filter array', () => {
       const deductions = [
         {
@@ -86,7 +86,7 @@ describe.skip('fsr transform helper functions', () => {
     });
   });
 
-  describe.skip('otherDeductionsAmt helper', () => {
+  describe('otherDeductionsAmt helper', () => {
     it('should return string of unique fsr reasons comma separated', () => {
       const deductions = [
         {
@@ -120,14 +120,14 @@ describe.skip('fsr transform helper functions', () => {
   });
 
   // Depends on sumValues, filterDeductions, otherDeductionsAmt
-  describe.skip('getMonthlyIncome helper', () => {
+  describe('getMonthlyIncome helper', () => {
     it('should return monthy income based on veterans net and other income, and spouses net and other income', () => {
       expect(getMonthlyIncome(inputObject.data)).to.equal(20398.05);
     });
   });
 
   // depends on sumValues
-  describe.skip('getMonthlyExpenses helper', () => {
+  describe('getMonthlyExpenses helper', () => {
     it('should return a number which is the sum total monthly expenses', () => {
       const expenses = {
         expenses: {
@@ -164,7 +164,7 @@ describe.skip('fsr transform helper functions', () => {
   });
 
   // depends on sumValues
-  describe.skip('getEmploymentHistory helper', () => {
+  describe('getEmploymentHistory helper', () => {
     it('should return a veterans employment history', () => {
       const history = {
         questions: {
@@ -265,7 +265,7 @@ describe.skip('fsr transform helper functions', () => {
     });
   });
 
-  describe.skip('getTotalAssets helper', () => {
+  describe('getTotalAssets helper', () => {
     it('should return total value of assets', () => {
       const totalAssets = {
         assets: {
@@ -304,7 +304,7 @@ describe.skip('fsr transform helper functions', () => {
     });
   });
 
-  describe.skip('otherDeductionsName helper', () => {
+  describe('otherDeductionsName helper', () => {
     const allFilters = [
       'State tax',
       'Federal tax',
@@ -345,7 +345,7 @@ describe.skip('fsr transform helper functions', () => {
     });
   });
 
-  describe.skip('nameStr helper', () => {
+  describe('nameStr helper', () => {
     it('should return string of all other vet and/or spuse income when non zero', () => {
       const addlIncRecords = [
         {
@@ -368,8 +368,8 @@ describe.skip('fsr transform helper functions', () => {
   });
 });
 
-describe.skip('fsr transform information', () => {
-  describe.skip('personalIdentification', () => {
+describe('fsr transform information', () => {
+  describe('personalIdentification', () => {
     it('has valid structure', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj).haveOwnProperty('personalIdentification');
@@ -389,7 +389,7 @@ describe.skip('fsr transform information', () => {
       );
     });
   });
-  describe.skip('personalData', () => {
+  describe('personalData', () => {
     it('has valid structure', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj).haveOwnProperty('personalData');
@@ -422,7 +422,7 @@ describe.skip('fsr transform information', () => {
       );
       expect(submissionObj.personalData.dateOfBirth).to.equal('04/05/1933');
     });
-    describe.skip('veteran full name', () => {
+    describe('veteran full name', () => {
       it('has valid strucutre', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(submissionObj).haveOwnProperty('personalData');
@@ -450,7 +450,7 @@ describe.skip('fsr transform information', () => {
         );
       });
     });
-    describe.skip('spouse full name', () => {
+    describe('spouse full name', () => {
       it('has valid strucutre', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(submissionObj).haveOwnProperty('personalData');
@@ -478,7 +478,7 @@ describe.skip('fsr transform information', () => {
         );
       });
     });
-    describe.skip('address', () => {
+    describe('address', () => {
       it('has valid structure', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(submissionObj.personalData).haveOwnProperty('address');
@@ -522,7 +522,7 @@ describe.skip('fsr transform information', () => {
         expect(submissionObj.personalData.address.countryName).to.equal('USA');
       });
     });
-    describe.skip('employment history', () => {
+    describe('employment history', () => {
       it('has valid structure', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(submissionObj).haveOwnProperty('personalData');
@@ -571,7 +571,7 @@ describe.skip('fsr transform information', () => {
           submissionObj.personalData.employmentHistory[0].employerName,
         ).to.equal('Veteran Current One');
       });
-      describe.skip('employer address', () => {
+      describe('employer address', () => {
         it('has valid structure', () => {
           const submissionObj = JSON.parse(transform(null, inputObject));
           expect(submissionObj).haveOwnProperty('personalData');
@@ -640,13 +640,13 @@ describe.skip('fsr transform information', () => {
       });
     });
   });
-  describe.skip('income', () => {
+  describe('income', () => {
     it('has valid structure', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj).haveOwnProperty('income');
       expect(submissionObj.income).to.be.an('array');
     });
-    describe.skip('income list object', () => {
+    describe('income list object', () => {
       it('has valid structure', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(submissionObj).haveOwnProperty('income');
@@ -672,7 +672,7 @@ describe.skip('fsr transform information', () => {
           '12621.51',
         );
       });
-      describe.skip('deductions', () => {
+      describe('deductions', () => {
         it('has valid structure', () => {
           const submissionObj = JSON.parse(transform(null, inputObject));
           expect(submissionObj.income[0].deductions).haveOwnProperty('taxes');
@@ -699,7 +699,7 @@ describe.skip('fsr transform information', () => {
             '122.40',
           );
         });
-        describe.skip('other deductions', () => {
+        describe('other deductions', () => {
           it('has valid structure', () => {
             const submissionObj = JSON.parse(transform(null, inputObject));
             expect(
@@ -720,7 +720,7 @@ describe.skip('fsr transform information', () => {
           });
         });
       });
-      describe.skip('otherIncome', () => {
+      describe('otherIncome', () => {
         it('has valid structure', () => {
           const submissionObj = JSON.parse(transform(null, inputObject));
           expect(submissionObj.income[0].otherIncome).haveOwnProperty('name');
@@ -738,7 +738,7 @@ describe.skip('fsr transform information', () => {
       });
     });
   });
-  describe.skip('expenses', () => {
+  describe('expenses', () => {
     it('has valid structure', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj).haveOwnProperty('expenses');
@@ -763,7 +763,7 @@ describe.skip('fsr transform information', () => {
       ).to.equal('2000.64');
       expect(submissionObj.expenses.totalMonthlyExpenses).to.equal('8203.44');
     });
-    describe.skip('other living expenses', () => {
+    describe('other living expenses', () => {
       it('has valid structure', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(submissionObj.expenses.otherLivingExpenses).haveOwnProperty(
@@ -784,7 +784,7 @@ describe.skip('fsr transform information', () => {
       });
     });
   });
-  describe.skip('discretionaryIncome', () => {
+  describe('discretionaryIncome', () => {
     it('has valid structure', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj).haveOwnProperty('discretionaryIncome');
@@ -806,7 +806,7 @@ describe.skip('fsr transform information', () => {
       ).to.equal('800.97');
     });
   });
-  describe.skip('assets', () => {
+  describe('assets', () => {
     it('has valid structure', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj).haveOwnProperty('assets');
@@ -833,7 +833,7 @@ describe.skip('fsr transform information', () => {
       expect(submissionObj.assets.realEstateOwned).to.equal('800000.81');
       expect(submissionObj.assets.totalAssets).to.equal('1084005.55');
     });
-    describe.skip('automobiles', () => {
+    describe('automobiles', () => {
       it('has valid structure', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(submissionObj.assets.automobiles[0]).haveOwnProperty('make');
@@ -853,7 +853,7 @@ describe.skip('fsr transform information', () => {
         );
       });
     });
-    describe.skip('otherAssets', () => {
+    describe('otherAssets', () => {
       it('has valid structure', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(submissionObj.assets.otherAssets[0]).haveOwnProperty('name');
@@ -866,7 +866,7 @@ describe.skip('fsr transform information', () => {
       });
     });
   });
-  describe.skip('installmentContractsAndOtherDebts', () => {
+  describe('installmentContractsAndOtherDebts', () => {
     it('has valid structure', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj).haveOwnProperty(
@@ -874,7 +874,7 @@ describe.skip('fsr transform information', () => {
       );
       expect(submissionObj.installmentContractsAndOtherDebts).is.an('array');
     });
-    describe.skip('installmentContractsAndOtherDebts list item', () => {
+    describe('installmentContractsAndOtherDebts list item', () => {
       it('has valid structure', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(submissionObj.installmentContractsAndOtherDebts[0]).is.an(
@@ -932,7 +932,7 @@ describe.skip('fsr transform information', () => {
           submissionObj.installmentContractsAndOtherDebts[0].amountPastDue,
         ).to.equal('125.43');
       });
-      describe.skip('creditorAddress', () => {
+      describe('creditorAddress', () => {
         it('has valid structure', () => {
           const submissionObj = JSON.parse(transform(null, inputObject));
           expect(
@@ -991,7 +991,7 @@ describe.skip('fsr transform information', () => {
       });
     });
   });
-  describe.skip('totalOfInstallmentContractsAndOtherDebts', () => {
+  describe('totalOfInstallmentContractsAndOtherDebts', () => {
     it('has valid structure', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj).haveOwnProperty(
@@ -1029,7 +1029,7 @@ describe.skip('fsr transform information', () => {
       ).to.equal('125.43');
     });
   });
-  describe.skip('additionalData', () => {
+  describe('additionalData', () => {
     it('has valid structure', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj).haveOwnProperty('additionalData');
@@ -1046,7 +1046,7 @@ describe.skip('fsr transform information', () => {
         'Supporting personal statement...',
       );
     });
-    describe.skip('bankruptcy', () => {
+    describe('bankruptcy', () => {
       it('has valid structure', () => {
         const submissionObj = JSON.parse(transform(null, inputObject));
         expect(submissionObj.additionalData.bankruptcy).haveOwnProperty(
@@ -1079,7 +1079,7 @@ describe.skip('fsr transform information', () => {
       });
     });
   });
-  describe.skip('applicantCertifications', () => {
+  describe('applicantCertifications', () => {
     it('has valid structure', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj).haveOwnProperty('applicantCertifications');

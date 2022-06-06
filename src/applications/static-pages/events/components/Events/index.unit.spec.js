@@ -13,10 +13,6 @@ describe('Events <Events>', () => {
     const wrapper = shallow(<Events />);
 
     // Assertions.
-    expect(wrapper.text()).includes('Outreach events');
-    expect(wrapper.text()).includes(
-      'VA benefits can help Veterans and their families buy homes, earn degrees, start careers, stay healthy, and more. Join an event for conversation and information.',
-    );
     expect(wrapper.find(Search)).to.have.length(1);
     expect(wrapper.find(Results)).to.have.length(1);
 

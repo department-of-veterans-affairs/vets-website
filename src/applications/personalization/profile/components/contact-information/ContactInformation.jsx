@@ -8,6 +8,8 @@ import PaymentInformationBlocked from '@@profile/components/direct-deposit/Payme
 import {
   cnpDirectDepositIsBlocked,
   profileAlwaysShowDirectDepositDisplay,
+  showBadAddressIndicator,
+  hasBadAddress,
 } from '@@profile/selectors';
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
@@ -22,6 +24,8 @@ import Headline from '../ProfileSectionHeadline';
 import ContactInformationContent from './ContactInformationContent';
 
 import { PROFILE_PATHS } from '../../constants';
+
+import BadAddressAlert from '../alerts/bad-address/ContactAlert';
 
 // drops the leading `edit` from the hash and looks for that element
 const getScrollTarget = hash => {
@@ -40,6 +44,16 @@ const ContactInformation = () => {
   );
   const hasVAPServiceError = useSelector(state =>
     hasVAPServiceConnectionError(state),
+  );
+  const badAddressIndicatorEnabled = useSelector(showBadAddressIndicator);
+
+  const userHasBadAddress = useSelector(state => hasBadAddress(state));
+
+  const addressValidationModalIsShowing = useSelector(
+    state => state?.vapService?.modal === 'addressValidation',
+  );
+  const addressSavedDidError = useSelector(
+    state => state.vapService.addressValidation.addressValidationError,
   );
 
   const directDepositIsAlwaysShowing = useSelector(
@@ -122,6 +136,17 @@ const ContactInformation = () => {
     [openEditModal],
   );
 
+  const showHeroBadAddressAlert =
+    badAddressIndicatorEnabled &&
+    userHasBadAddress &&
+    !addressValidationModalIsShowing;
+
+  const showFormBadAddressAlert =
+    badAddressIndicatorEnabled &&
+    userHasBadAddress &&
+    !addressSavedDidError &&
+    !addressValidationModalIsShowing;
+
   return (
     <>
       <Prompt
@@ -129,13 +154,21 @@ const ContactInformation = () => {
         when={hasUnsavedEdits}
       />
       <Headline>Contact information</Headline>
+      {showHeroBadAddressAlert && (
+        <>
+          <BadAddressAlert />
+        </>
+      )}
       <DowntimeNotification
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}
       >
         {showDirectDepositBlockedError &&
           !directDepositIsAlwaysShowing && <PaymentInformationBlocked />}
-        <ContactInformationContent hasVAPServiceError={hasVAPServiceError} />
+        <ContactInformationContent
+          hasVAPServiceError={hasVAPServiceError}
+          showBadAddress={showFormBadAddressAlert}
+        />
       </DowntimeNotification>
     </>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function ClaimSyncWarning({ olderVersion }) {
   let additionalText;
@@ -17,14 +18,17 @@ export default function ClaimSyncWarning({ olderVersion }) {
       <div className="usa-alert-body">
         <h4 className="usa-alert-heading">Claim status is temporarily down</h4>
         <p className="usa-alert-text">
-          Please{' '}
-          <a href="#" onClick={handleClick}>
-            refresh the page
-          </a>{' '}
-          or try again later.
+          Please refresh the page or try again later.
           {additionalText}
         </p>
+        <button type="button" className="usa-button" onClick={handleClick}>
+          Refresh the page
+        </button>
       </div>
     </div>
   );
 }
+
+ClaimSyncWarning.propTypes = {
+  olderVersion: PropTypes.bool,
+};

@@ -14,6 +14,12 @@
   color: $color-link-default;
 }
 
+.va-c-range-error-message {
+  margin-bottom: 0;
+  font-weight: 700;
+  color: $color-red;
+}
+
 
 @include media($medium-screen) {
   .va-c-btn-group {

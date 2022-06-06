@@ -1,10 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import {
   currency,
   calcDueDate,
@@ -35,11 +32,9 @@ const PastDueContent = ({ id, date, amount }) => (
       {formatDate(date)}
     </strong>
     was {currency(amount)}. If you haven’t either paid your full balance or
-    requested financial help, contact the VA Health Resource Center at
-    <span className="vads-u-margin-x--0p5">
-      <Telephone contact="866-400-1238" />
-    </span>
-    (TTY: <Telephone contact={CONTACTS[711]} pattern={PATTERNS['3_DIGIT']} />
+    requested financial help, contact the VA Health Resource Center at{' '}
+    <va-telephone contact="866-400-1238" /> (TTY:{' '}
+    <va-telephone contact={CONTACTS[711]} />
     ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
   </p>
 );
@@ -63,25 +58,25 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
     >
       <h3
         aria-describedby={`copay-balance-${id}`}
-        className="card-balance vads-u-margin-top--0"
+        className="card-balance vads-u-margin-top--0 vads-u-font-family--serif"
         data-testid={`amount-${id}`}
       >
         {currency(amount)}
       </h3>
       <p
         id={`copay-balance-${id}`}
-        className="card-heading vads-u-margin-top--0"
+        className="vads-u-margin-top--0 vads-u-font-family--serif vads-u-font-size--h4"
         data-testid={`facility-city-${id}`}
       >
         {facility} - {city}
       </p>
       <div className="card-content">
+        <span className="sr-only">Alert</span>
         <i
           aria-hidden="true"
           role="img"
           className="fa fa-exclamation-triangle"
         />
-        <span className="sr-only">Alert</span>
         {isCurrentBalance ? (
           <CurrentContent id={id} date={date} />
         ) : (

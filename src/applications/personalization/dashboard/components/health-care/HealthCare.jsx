@@ -300,11 +300,14 @@ const mapStateToProps = state => {
     'VA Central Ohio health care',
   ];
 
-  const columbusStartAfterDate = new Date('2022-04-29');
-  columbusStartAfterDate.setUTCHours(23, 59, 59, 999);
+  const roseburgAndWhiteCityStartAfterDate = new Date('2022-06-10');
+  roseburgAndWhiteCityStartAfterDate.setUTCHours(23, 59, 59, 999);
 
-  if (isAfter(new Date(), columbusStartAfterDate)) {
-    facilityLocations.push('VA Columbus Ohio health care');
+  if (isAfter(new Date(), roseburgAndWhiteCityStartAfterDate)) {
+    facilityLocations.concat([
+      'Roseburg (Oregon) VA health care',
+      'White City health care',
+    ]);
   }
 
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
