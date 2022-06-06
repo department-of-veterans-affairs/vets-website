@@ -1087,15 +1087,9 @@ jobs:
 
       - name: Generate build details
         run: |
-          cat > build/${{ matrix.buildtype }}/BUILD_ARTIFACT.txt << EOF
-          SINGLE_APP_BUILD=${{ env.IS_SINGLE_APP_BUILD }}
-          NODE_ENV=production
-          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
-          CHANGE_TARGET=null
-          RUN_ID=${{ github.run_id }}
-          RUN_NUMBER=${{ github.run_number }}
+          cat > BUILD_ARTIFACT.txt << EOF
+          IS_SINGLE_APP_BUILD=${{ env.IS_SINGLE_APP_BUILD }}
           REF=${{ github.sha }}
-          BUILDTIME=$(date +%s)
           EOF
 
       - name: Compress and archive single/grouped app build
