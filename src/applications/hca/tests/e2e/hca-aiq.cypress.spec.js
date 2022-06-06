@@ -42,7 +42,7 @@ describe('HCA-AIQ', () => {
     }).as('mockSubmit');
   });
 
-  /* eslint-disable va/axe-check-required */
+  /* eslint-disable @department-of-veterans-affairs/axe-check-required */
   // AXE check in last test (toggle-section).
   it('works with AIQ (Yes selected) - C12901', () => {
     cy.visit(manifest.rootUrl);
@@ -135,7 +135,7 @@ describe('HCA-AIQ', () => {
     aiqHelpers.goToNextPage();
     cy.get('#root_sigiIsAmericanIndian-error-message').should('be.visible');
   });
-  /* eslint-enable va/axe-check-required */
+  /* eslint-enable @department-of-veterans-affairs/axe-check-required */
 
   it('expands/collapses toggle-section - C13161', () => {
     cy.visit(manifest.rootUrl);
