@@ -1,11 +1,12 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
-import get from 'platform/utilities/data/get';
+
 import recordEvent from 'platform/monitoring/record-event';
+import { apiRequest } from 'platform/utilities/api';
+import get from 'platform/utilities/data/get';
 import environment from 'platform/utilities/environment';
 import localStorage from 'platform/utilities/storage/localStorage';
-import { apiRequest } from 'platform/utilities/api';
-import { makeAuthRequest, roundToNearest } from '../utils/helpers';
+
 import {
   getErrorStatus,
   USER_FORBIDDEN_ERROR,
@@ -21,10 +22,17 @@ import {
   CHANGE_INDEX_PAGE,
   UNKNOWN_STATUS,
 } from '../utils/appeals-v2-helpers';
+import { makeAuthRequest, roundToNearest } from '../utils/helpers';
 
 // Uncomment this import out, along with the code in `getClaimDetail`, then load
 // http://localhost:3001/track-claims/your-claims/600219085/status
 // import mockDetails from '../tests/e2e/fixtures/mocks/claim-detail.json';
+
+// Used to mock fetching a list of claims
+import mockClaimsList from '../tests/e2e/fixtures/mocks/claims-list.json';
+
+// NOTE: This should be FALSE when in production
+const USE_MOCKS = !environment.isProduction();
 
 // -------------------- v2 and v1 -------------
 export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
@@ -235,6 +243,11 @@ export function getClaimsV2(options = {}) {
 
     poll({
       onError: response => {
+        if (USE_MOCKS) {
+          dispatch(fetchClaimsSuccess(mockClaimsList));
+          return;
+        }
+
         const errorCode = getErrorStatus(response);
         if (errorCode && errorCode !== UNKNOWN_STATUS) {
           Sentry.withScope(scope => {
