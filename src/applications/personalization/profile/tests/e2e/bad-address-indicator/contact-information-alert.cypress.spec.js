@@ -27,4 +27,11 @@ describe('Bad Address Alert -- Contact Page', () => {
     cy.injectAxeThenAxeCheck();
     BadAddressFeature.confirmPersonalInformationAlertIsNotShowing();
   });
+  it('has the accessability concerns', () => {
+    cy.intercept('GET', '/v0/user', badAddress);
+    cy.login(badAddress);
+    BadAddressFeature.visitContactInformationPage();
+    cy.injectAxeThenAxeCheck();
+    BadAddressFeature.confirmContactPageHasAccessibilityConcerns();
+  });
 });

@@ -4,10 +4,6 @@ import isEmpty from 'lodash/isEmpty';
 
 import '../sass/dashboard.scss';
 
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
-
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
@@ -60,15 +56,19 @@ const renderWidgetDowntimeNotification = (downtime, children) => {
     return (
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-          <AlertBox
-            status={ALERT_TYPE.ERROR}
-            headline="We can’t access any claims or appeals information right now"
-          >
-            We’re sorry. We’re working to fix some problems with the claims or
-            appeals tool right now and cannot display your information on this
-            page. Please check back after{' '}
-            {downtime.endTime.format('MMMM D [at] LT')}
-          </AlertBox>
+          <va-alert status="error">
+            <h2 slot="headline">
+              We can’t access any claims or appeals information right now
+            </h2>
+            <div>
+              <p>
+                We’re sorry. We’re working to fix some problems with the claims
+                or appeals tool right now and cannot display your information on
+                this page. Please check back after{' '}
+                {downtime.endTime.format('MMMM D [at] LT')}
+              </p>
+            </div>
+          </va-alert>
         </div>
       </div>
     );
