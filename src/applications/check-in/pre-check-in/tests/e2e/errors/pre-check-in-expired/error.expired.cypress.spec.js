@@ -34,6 +34,7 @@ describe('Pre-Check In Experience ', () => {
 
     // Expired UUID should navigate to an error
     Error.validateExpiredPageLoaded();
+    Error.validateAccordionBlocks();
     cy.injectAxeThenAxeCheck();
   });
 });

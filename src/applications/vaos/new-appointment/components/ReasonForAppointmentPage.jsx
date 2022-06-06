@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { VaTelephone } from 'web-components/react-bindings';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { validateWhiteSpace } from 'platform/forms/validations';
 import { useHistory } from 'react-router-dom';

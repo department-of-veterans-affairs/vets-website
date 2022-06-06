@@ -15,7 +15,6 @@ import CalculateYourBenefitsForm from '../components/profile/CalculateYourBenefi
 import EstimatedBenefits from '../components/profile/EstimatedBenefits';
 import EstimateYourBenefitsSummarySheet from '../components/profile/EstimateYourBenefitsSummarySheet';
 import LearnMoreLabel from '../components/LearnMoreLabel';
-import environment from 'platform/utilities/environment';
 
 export function CalculateYourBenefits({
   calculated,
@@ -94,7 +93,6 @@ export function CalculateYourBenefits({
     return <LoadingIndicator message="Loading your estimated benefits..." />;
   }
 
-  const outputs = estimatedBenefits;
   const inputs = calculator;
   const displayed = calculated.inputs;
 
@@ -135,7 +133,7 @@ export function CalculateYourBenefits({
         />
         <div className={spacerClassNames}>&nbsp;</div>
         <EstimatedBenefits
-          outputs={environment.isProduction() ? outputs : calculated.outputs}
+          outputs={calculated.outputs}
           profile={profile}
           calculator={inputs}
           isOJT={isOJT}
@@ -150,9 +148,7 @@ export function CalculateYourBenefits({
             {
               <div id="eyb-summary-sheet" className={summarySheetClassNames}>
                 <EstimateYourBenefitsSummarySheet
-                  outputs={
-                    environment.isProduction() ? outputs : calculated.outputs
-                  }
+                  outputs={calculated.outputs}
                   expandEybSheet={expandEybSheet}
                   showEybSheet={showEybSheet}
                   toggleEybExpansion={toggleEybExpansion}
@@ -193,7 +189,7 @@ export function CalculateYourBenefits({
 
           <div className="vads-u-padding-bottom--1 small-screen-font">
             <LearnMoreLabel
-              text={'Protection against late VA payments'}
+              text="Protection against late VA payments"
               onClick={() => {
                 dispatchShowModal('section103');
               }}
@@ -210,7 +206,7 @@ export function CalculateYourBenefits({
 
           <div className="vads-u-padding-bottom--1 small-screen-font">
             <LearnMoreLabel
-              text={'Yellow Ribbon Program'}
+              text="Yellow Ribbon Program"
               onClick={() => {
                 dispatchShowModal('yribbon');
               }}
@@ -225,7 +221,7 @@ export function CalculateYourBenefits({
 
           <div className="vads-u-padding-bottom--1 small-screen-font">
             <LearnMoreLabel
-              text={'Veteran Rapid Retraining Assistance Program (VRRAP)'}
+              text="Veteran Rapid Retraining Assistance Program (VRRAP)"
               onClick={() => {
                 dispatchShowModal('vrrap');
               }}
