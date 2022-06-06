@@ -1,14 +1,17 @@
+const base64 = require('base-64');
+
+const toUtf8 = data => {
+  const encoder = new TextEncoder();
+  return encoder.encode(data);
+};
+
 /**
- * @description Calculate the SHA256 hash of the input text
- * @param {String} plain Input text
+ * @description Calculate the SHA256 hash of the input
+ * @param {ArrayBufferView} plain Input text
  * @returns {Promise} Returns Promise of an ArrayBuffer
  */
 export function sha256(plain) {
-  if (!plain || !plain.length || !window?.crypto?.subtle) {
-    return null;
-  }
-  const encoder = new TextEncoder();
-  const data = encoder.encode(plain);
+  const data = toUtf8(plain);
   return window.crypto.subtle.digest('SHA-256', data);
 }
 
@@ -19,21 +22,12 @@ export function sha256(plain) {
  */
 export function base64UrlEncode(string) {
   if (!string || !string.length) return null;
-  /**
-   * btoa takes characters from 0-255 and base64 encodes it.
-   * Then convert the base64 encoded to base64url encoded.
-   * (replaces `+` with `-`, `/` with `_`, trim trailing)
-   */
-  return btoa(String.fromCharCode.apply(null, new Uint8Array(string)))
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+$/, '');
+  const data = toUtf8(string);
+  return base64.encode(data);
 }
 
 // Decimal to Hexadecimal
-const decimal2hex = dec => {
-  return `0${dec.toString(16)}`.substr(-2);
-};
+const decimal2hex = dec => `0${dec.toString(16)}`.substr(-2);
 
 /**
  *

@@ -1,14 +1,18 @@
 import { expect } from 'chai';
+import crypto from 'crypto';
 import {
   sha256,
   base64UrlEncode,
   generateRandomString,
 } from '../../oauth/crypto';
 
-describe('OAuth - crypto.js', () => {
-  describe('sha256', () => {
-    it('returns a Promise <ArrayBuffer>', () => {
-      expect(sha256('hello')).resolves(new ArrayBuffer(32));
+describe('OAuth crypto', () => {
+  describe('sha256', async () => {
+    const rs = generateRandomString(64);
+    it('returns a Promise <ArrayBuffer>', async () => {
+      const promisedArrBuff = await sha256(rs);
+      expect(promisedArrBuff).to.be.a('string');
+      expect(promisedArrBuff.byteLength).to.eql(32);
     });
     it('should return null if parameter is empty', () => {
       expect(sha256()).to.be.null;
@@ -18,6 +22,8 @@ describe('OAuth - crypto.js', () => {
   describe('base64UrlEncode', () => {
     it('should base64urlencode a string', () => {
       expect(base64UrlEncode('hello')).to.be.a.string;
+      expect(base64UrlEncode('h+llo')).to.eql('aCtsbG8=');
+      expect(base64UrlEncode('jell//o')).to.eql('amVsbC8vbw==');
     });
     it('should not generate for empty parameter', () => {
       expect(base64UrlEncode()).to.be.null;
@@ -25,10 +31,19 @@ describe('OAuth - crypto.js', () => {
     });
   });
   describe('generateRandomString', () => {
+    const mockCrypto = {
+      getRandomValues(buffer) {
+        return crypto.randomFillSync(buffer);
+      },
+    };
     it('should generate a random string given a length', () => {
-      expect(generateRandomString(16)).to.have.lengthOf(16);
+      window.crypto = mockCrypto;
+      expect(generateRandomString(28).length).to.eql(56);
+      expect(generateRandomString(64).length).to.eql(128);
+      expect(generateRandomString(128).length).to.eql(256);
     });
     it('should not generate the same string twice', () => {
+      window.crypto = mockCrypto;
       const tempStr = generateRandomString(16);
       const tempArr = Array.from({ length: 28 }).map(_ =>
         generateRandomString(16),

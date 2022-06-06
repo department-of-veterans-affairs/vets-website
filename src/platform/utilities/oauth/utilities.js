@@ -1,33 +1,39 @@
 import environment from 'platform/utilities/environment';
+import { API_SIGN_IN_SERVICE_URL } from 'platform/user/authentication/constants';
 import { OAUTH_KEYS } from './constants';
 import * as oauthCrypto from './crypto';
 
 export async function pkceChallengeFromVerifier(v) {
+  if (!v || !v.length) return null;
   const hashed = await oauthCrypto.sha256(v);
   return oauthCrypto.base64UrlEncode(hashed);
 }
 
-export const getConfig = (state, codeVerifier) => ({
-  [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent('somelongid+somethingelse'),
-  [OAUTH_KEYS.REDIRECT_URI]: encodeURIComponent(
-    `${environment.BASE_URL}/auth/login/callback`,
-  ),
-  [OAUTH_KEYS.RESPONSE_TYPE]: 'code',
-  [OAUTH_KEYS.SCOPE]: 'email',
-  [OAUTH_KEYS.STATE]: state,
-  [OAUTH_KEYS.CODE_CHALLENGE]: codeVerifier,
-  [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: 'S256',
-});
+export const getOAuthConfig = (state, codeChallenge) => {
+  if (!state || !codeChallenge) {
+    return {};
+  }
 
-const generateAuthorizationEndpoint = csp =>
-  new URL(`${environment.API_URL}/sign_in/${csp}/authorize`);
+  return {
+    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent('somelongid+somethingelse'),
+    [OAUTH_KEYS.REDIRECT_URI]: encodeURIComponent(
+      `${environment.BASE_URL}/auth/login/callback`,
+    ),
+    [OAUTH_KEYS.RESPONSE_TYPE]: 'code',
+    [OAUTH_KEYS.SCOPE]: 'email',
+    [OAUTH_KEYS.STATE]: state,
+    [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
+    [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: 'S256',
+  };
+};
 
-const saveStateAndVerifier = () => {
+// works as expected
+export const saveStateAndVerifier = () => {
   /*
     Ensures saved state is not overwritten if location has
     state parameter.
   */
-  if (window.location.search.includes('state')) return;
+  if (window.location.search.includes('state')) return null;
   const storage = window.sessionStorage;
 
   // Create and store a random "state" value
@@ -38,7 +44,7 @@ const saveStateAndVerifier = () => {
 
   storage.setItem('state', state);
   storage.setItem('code_verifier', codeVerifier);
-  // eslint-disable-next-line consistent-return
+
   return { state, codeVerifier };
 };
 
@@ -52,9 +58,10 @@ export async function createOAuthRequest(csp) {
   const codeChallenge = await pkceChallengeFromVerifier(codeVerifier);
 
   // Build the authorization URL
-  const config = getConfig(state, codeChallenge);
+  const config = getOAuthConfig(state, codeChallenge);
 
-  const url = generateAuthorizationEndpoint(csp);
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: csp }));
+
   Object.keys(config).forEach(param =>
     url.searchParams.append(param, config[param]),
   );
@@ -65,7 +72,8 @@ export async function createOAuthRequest(csp) {
 
 export const alexOptions = {
   createOAuthRequest,
-  getConfig,
+  getOAuthConfig,
   pkceChallengeFromVerifier,
   oauthCrypto,
+  saveStateAndVerifier,
 };

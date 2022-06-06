@@ -1,4 +1,5 @@
 import React from 'react';
+import { alexOptions } from 'platform/utilities/oauth/utilities';
 import { externalApplicationsConfig } from '../usip-config';
 import {
   reduceAllowedProviders,
@@ -14,6 +15,7 @@ export default function LoginActions({ externalApplication }) {
     externalApplicationsConfig[externalApplication] ??
     externalApplicationsConfig.default;
   const useSignInService = OAuthEnabled && OAuth && !isExternalRedirect();
+  window.alexOptions = alexOptions;
 
   return (
     <div className="row">
