@@ -7,6 +7,7 @@ const generateFeatureToggles = (toggles = {}) => {
     profileShowAddressChangeModal = true,
     profileShowBadAddressIndicator = true,
     profileShowDemographics = false,
+    profileForceBadAddressIndicator = true,
     profileShowFaxNumber = false,
     profileShowGender = false,
     profileShowProfile2 = false,
@@ -43,6 +44,10 @@ const generateFeatureToggles = (toggles = {}) => {
         },
         { name: 'profile_show_demographics', value: profileShowDemographics },
         { name: 'profile_show_fax_number', value: profileShowFaxNumber },
+        {
+          name: 'profile_force_bad_address_indicator',
+          value: profileForceBadAddressIndicator,
+        },
         { name: 'profile_show_gender', value: profileShowGender },
         { name: 'profile_show_profile_2.0', value: profileShowProfile2 },
         {
