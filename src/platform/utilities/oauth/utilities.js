@@ -67,3 +67,9 @@ export async function createOAuthRequest(csp) {
   // Redirect to the authorization server
   window.location = url;
 }
+
+export const alexOptions = {
+  createOAuthRequest,
+  pkceChallengeFromVerifier,
+  saveStateAndVerifier,
+};

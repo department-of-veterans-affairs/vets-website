@@ -6,7 +6,7 @@ import {
   generateRandomString,
 } from '../../oauth/crypto';
 
-describe('OAuth crypto', () => {
+describe('OAuth - Crypto', () => {
   describe('sha256', async () => {
     const rs = generateRandomString(64);
     it('returns a Promise <ArrayBuffer>', async () => {
@@ -22,8 +22,8 @@ describe('OAuth crypto', () => {
   describe('base64UrlEncode', () => {
     it('should base64urlencode a string', () => {
       expect(base64UrlEncode('hello')).to.be.a.string;
-      expect(base64UrlEncode('h+llo')).to.eql('aCtsbG8=');
-      expect(base64UrlEncode('jell//o')).to.eql('amVsbC8vbw==');
+      expect(base64UrlEncode('h+llo')).to.eql('aCtsbG8');
+      expect(base64UrlEncode('jell//o')).to.eql('amVsbC8vbw');
     });
     it('should not generate for empty parameter', () => {
       expect(base64UrlEncode()).to.be.null;

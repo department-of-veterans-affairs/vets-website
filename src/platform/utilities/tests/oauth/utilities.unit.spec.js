@@ -49,9 +49,11 @@ describe('OAuth - Utilities', () => {
       const codeChallenge2 = await oAuthUtils.pkceChallengeFromVerifier(
         'somesuperlongrandomsecurestring',
       );
-      expect(codeChallenge).to.include('==');
-      expect(codeChallenge.length).to.eql(88);
-      expect(codeChallenge2.length).to.eql(88);
+      expect(codeChallenge).to.eql(
+        'LPJNul-wow4m6DsqxbninhsWHlwfp0JecwQzYpOLmCQ',
+      );
+      expect(codeChallenge.length).to.eql(43);
+      expect(codeChallenge2.length).to.eql(43);
     });
     it('should return null if parameter is empty', async () => {
       const emptyString = await oAuthUtils.pkceChallengeFromVerifier('');

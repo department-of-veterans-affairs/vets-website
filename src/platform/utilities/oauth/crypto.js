@@ -1,5 +1,3 @@
-const base64 = require('base-64');
-
 // Decimal to Hexadecimal
 const decimal2hex = dec => `0${dec.toString(16)}`.substr(-2);
 
@@ -8,15 +6,10 @@ const decimal2hex = dec => `0${dec.toString(16)}`.substr(-2);
  * @param {ArrayBufferView} plain Input text
  * @returns {Promise} Returns Promise of an ArrayBuffer
  */
-export async function sha256(plain) {
+export function sha256(plain) {
   // Transforms string into a Uint8Array (utf8)
-  const utf8 = new TextEncoder().encode(plain);
-  // Returns promise of an ArrayBuffer from Uint8Array
-  const hashBuffer = await window.crypto.subtle.digest('SHA-256', utf8);
-  // Converts ArrayBuffer into a usable Array
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  // Maps array to Radix 16 and pads the beginning with a zero
-  return hashArray.map(bytes => bytes.toString(16).padStart(2, '0')).join('');
+  const data = new TextEncoder().encode(plain);
+  return window.crypto.subtle.digest('SHA-256', data);
 }
 
 /**
@@ -25,8 +18,17 @@ export async function sha256(plain) {
  * @returns A Base64 Url encoded string
  */
 export function base64UrlEncode(data) {
-  if (!data || !data.length) return null;
-  return base64.encode(data);
+  if (!data) return null;
+
+  const _data =
+    typeof data === 'string'
+      ? data
+      : String.fromCharCode.apply(null, new Uint8Array(data));
+
+  return btoa(_data)
+    .replace(/\+/g, '-')
+    .replace(/\//g, '_')
+    .replace(/=+$/, '');
 }
 
 /**
