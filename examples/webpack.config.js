@@ -1,6 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
@@ -27,6 +26,7 @@ const config = {
   output: {
     path: path.resolve(__dirname, outputDirectory),
     filename: '[name]/bundle.js',
+    publicPath: '/'
   },
   module: {
     rules: [
