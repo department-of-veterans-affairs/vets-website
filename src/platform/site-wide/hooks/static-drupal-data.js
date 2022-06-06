@@ -17,5 +17,5 @@ export default function useStaticDrupalData(file) {
     [file, API_ENDPOINT],
   );
 
-  return staticDrupalData;
+  return staticDrupalData || false;
 }
