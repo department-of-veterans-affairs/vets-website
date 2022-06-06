@@ -300,8 +300,8 @@ class ProfileInformationFieldController extends React.Component {
       transactionRequest,
       data,
       isEnrolledInVAHealthCare,
+      ariaDescribedBy,
     } = this.props;
-
     const activeSection = VAP_SERVICE.FIELD_TITLES[
       activeEditView
     ]?.toLowerCase();
@@ -328,7 +328,6 @@ class ProfileInformationFieldController extends React.Component {
         </VAPServiceTransaction>
       );
     };
-
     // default the content to the read-view
     let content = wrapInTransaction(
       <div className={classes.wrapper}>
@@ -336,6 +335,7 @@ class ProfileInformationFieldController extends React.Component {
           data={data}
           fieldName={fieldName}
           title={title}
+          id={ariaDescribedBy}
         />
 
         {this.props.showUpdateSuccessAlert ? (
@@ -351,6 +351,7 @@ class ProfileInformationFieldController extends React.Component {
                 aria-label={`Edit ${title}`}
                 type="button"
                 data-action="edit"
+                aria-describedby={ariaDescribedBy}
                 onClick={() => {
                   this.onEdit(isEmpty ? 'add-link' : 'edit-link');
                 }}
@@ -483,6 +484,7 @@ ProfileInformationFieldController.propTypes = {
   showValidationView: PropTypes.bool.isRequired,
   uiSchema: PropTypes.object.isRequired,
   activeEditView: PropTypes.string,
+  ariaDescribedBy: PropTypes.string,
   cancelCallback: PropTypes.func,
   data: PropTypes.object,
   editViewData: PropTypes.object,

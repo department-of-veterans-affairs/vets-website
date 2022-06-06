@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import PropTypes from 'prop-types';
-import PDFStatementList from '../components/PDFStatementList';
 import HTMLStatementList from '../components/HTMLStatementList';
 import BalanceQuestions from '../components/BalanceQuestions';
 import DisputeCharges from '../components/DisputeCharges';
@@ -11,12 +9,9 @@ import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
 import Modals from '../components/Modals';
 import Alert from '../components/Alerts';
-import { OnThisPage } from '../components/OnThisPage';
-import {
-  formatDate,
-  verifyCurrentBalance,
-  mcpHTMLStatementToggle,
-} from '../../combined/utils/helpers';
+import { OnThisPageDetails } from '../components/OnThisPageDetails';
+import { formatDate, verifyCurrentBalance } from '../../combined/utils/helpers';
+import '../sass/medical-copays.scss';
 
 const DetailPage = ({ match }) => {
   const selectedId = match.params.id;
@@ -30,9 +25,6 @@ const DetailPage = ({ match }) => {
   const acctNum = selectedCopay?.pHAccountNumber
     ? selectedCopay?.pHAccountNumber.toString()
     : selectedCopay?.pHCernerAccountNumber.toString();
-  const showHTMLStatements = useSelector(state =>
-    mcpHTMLStatementToggle(state),
-  );
 
   useEffect(
     () => {
@@ -53,8 +45,7 @@ const DetailPage = ({ match }) => {
           Your debt and bills summary
         </a>
         <a href="/manage-debt-and-bills/summary/copay-balances">
-          {' '}
-          Current copay bills
+          Current copay balances
         </a>
         <a
           href={`/manage-debt-and-bills/summary/copay-balances/${selectedId}/detail`}
@@ -74,12 +65,8 @@ const DetailPage = ({ match }) => {
         </time>
       </p>
       <Alert type={alert} copay={selectedCopay} />
-      <OnThisPage />
-      {showHTMLStatements ? (
-        <HTMLStatementList selectedId={selectedId} />
-      ) : (
-        <PDFStatementList />
-      )}
+      <OnThisPageDetails />
+      <HTMLStatementList selectedId={selectedId} />
       <HowToPay acctNum={acctNum} facility={selectedCopay?.station} />
       <FinancialHelp />
       <DisputeCharges />
@@ -90,13 +77,6 @@ const DetailPage = ({ match }) => {
       <Modals title="Notice of rights and responsibilities">
         <Modals.Rights />
       </Modals>
-      <Link className="vads-u-font-size--sm" to="/">
-        <i
-          className="fa fa-chevron-left vads-u-margin-right--1"
-          aria-hidden="true"
-        />
-        <strong>Return to copay balances</strong>
-      </Link>
     </>
   );
 };

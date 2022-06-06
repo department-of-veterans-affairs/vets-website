@@ -2,6 +2,7 @@
 
 require('core-js/stable');
 require('regenerator-runtime/runtime');
+require('dotenv').config();
 const fs = require('fs');
 const fetch = require('node-fetch');
 const path = require('path');
@@ -407,6 +408,9 @@ module.exports = async (env = {}) => {
         __BUILDTYPE__: JSON.stringify(buildtype),
         __API__: JSON.stringify(buildOptions.api),
         __REGISTRY__: JSON.stringify(appRegistry),
+        'process.env.MAPBOX_TOKEN': JSON.stringify(
+          process.env.MAPBOX_TOKEN || '',
+        ),
       }),
 
       new webpack.SourceMapDevToolPlugin({

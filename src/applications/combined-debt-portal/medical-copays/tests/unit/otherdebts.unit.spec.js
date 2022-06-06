@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import React from 'react';
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import OtherVADebts from '../../components/OtherVADebts';
+import OtherVADebts from '../../../combined/components/OtherVADebts';
 import { APP_TYPES } from '../../../combined/utils/helpers';
 
 describe('other va debts component', () => {

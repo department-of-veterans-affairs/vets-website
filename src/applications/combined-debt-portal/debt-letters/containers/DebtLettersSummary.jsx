@@ -8,7 +8,7 @@ import DebtCardsList from '../components/DebtCardsList';
 import OnThisPageLinks from '../components/OnThisPageLinks';
 import '../sass/debt-letters.scss';
 // TODO: OtherVA Update
-import OtherVADebts from '../../../medical-copays/components/OtherVADebts';
+import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
 import { ALERT_TYPES, APP_TYPES } from '../../combined/utils/helpers';
 
@@ -33,27 +33,46 @@ const renderAlert = (alertType, statements) => {
   );
 };
 
+const renderOtherVA = (mcpLength, mcpError) => {
+  const alertInfo = alertMessage(ALERT_TYPES.ERROR, APP_TYPES.COPAY);
+  if (mcpLength) {
+    return <OtherVADebts module={APP_TYPES.COPAY} />;
+  }
+  if (mcpError) {
+    return (
+      <>
+        <h3>Your other VA bills</h3>
+        <va-alert data-testid={alertInfo.testID} status={alertInfo.alertStatus}>
+          <h4 slot="headline" className="vads-u-font-size--h3">
+            {alertInfo.header}
+          </h4>
+          {alertInfo.body}
+        </va-alert>
+      </>
+    );
+  }
+  return <></>;
+};
+
 const DebtLettersSummary = () => {
-  const { debtLetters } = useSelector(({ combinedPortal }) => combinedPortal);
+  const { debtLetters, mcp } = useSelector(
+    ({ combinedPortal }) => combinedPortal,
+  );
   const {
-    isProfileUpdating,
-    isPending,
-    isPendingVBMS,
-    isError,
-    isVBMSError,
     debts,
     debtLinks,
+    isError: debtError,
+    isPending: isDebtPending,
+    isPendingVBMS,
+    isProfileUpdating,
   } = debtLetters;
-
-  const { statements: mcpStatements, error: mcpError } = useSelector(
-    ({ combinedPortal }) => combinedPortal.mcp,
-  );
+  const { statements: mcpStatements, error: mcpError } = mcp;
 
   useEffect(() => {
     scrollToTop();
   }, []);
 
-  if (isPending || isPendingVBMS || isProfileUpdating) {
+  if (isDebtPending || isPendingVBMS || isProfileUpdating) {
     return (
       <div className="vads-u-margin--5">
         <va-loading-indicator
@@ -65,9 +84,8 @@ const DebtLettersSummary = () => {
     );
   }
 
-  const allDebtsFetchFailure = isVBMSError && isError;
   const allDebtsEmpty =
-    !allDebtsFetchFailure && debts.length === 0 && debtLinks.length === 0;
+    !debtError && debts.length === 0 && debtLinks.length === 0;
 
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0">
@@ -103,20 +121,45 @@ const DebtLettersSummary = () => {
               assistance.
             </p>
             <>
-              {allDebtsFetchFailure &&
-                renderAlert(
-                  mcpError ? ALERT_TYPES.ALL_ERROR : ALERT_TYPES.ERROR,
-                  mcpStatements?.length,
-                )}
+              {debtError || allDebtsEmpty ? (
+                <>
+                  {debtError &&
+                    renderAlert(
+                      mcpError ? ALERT_TYPES.ALL_ERROR : ALERT_TYPES.ERROR,
+                      mcpStatements?.length,
+                    )}
 
-              {allDebtsEmpty &&
-                renderAlert(ALERT_TYPES.ZERO, mcpStatements?.length)}
-
-              {!allDebtsFetchFailure && (
+                  {allDebtsEmpty &&
+                    renderAlert(ALERT_TYPES.ZERO, mcpStatements?.length)}
+                </>
+              ) : (
                 <>
                   <OnThisPageLinks />
 
                   <DebtCardsList />
+
+                  {renderOtherVA(mcpStatements?.length, mcpError)}
+
+                  <section>
+                    <h3
+                      id="downloadDebtLetters"
+                      className="vads-u-margin-top--4 vads-u-font-size--h2"
+                    >
+                      Download debt letters
+                    </h3>
+                    <p className="vads-u-margin-bottom--0 vads-u-font-family--sans">
+                      You can download some of your letters for education,
+                      compensation and pension debt.
+                    </p>
+
+                    <Link
+                      to="/debt-balances/letters"
+                      className="vads-u-margin-top--1 vads-u-font-family--sans"
+                      data-testid="download-letters-link"
+                    >
+                      Download letters related to your VA debt
+                    </Link>
+                  </section>
 
                   <HowDoIPay />
 
