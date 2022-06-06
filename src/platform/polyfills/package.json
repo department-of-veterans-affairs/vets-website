@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "exports": {
     "." :"./exportsFile.js",
-    "./dev-template": "./dev-template-ejs",
-    "./facility-sidebar": "./facility-sidebar.json",
-    "./header-footer-data": "./header-footer-data.json"
+    "./preESModulesPolyfills" :"./preESModulesPolyfills.js"
   },
   "dependencies": {
     "@formatjs/intl-datetimeformat": "^4.2.3",
