@@ -31,8 +31,8 @@ import { makeAuthRequest, roundToNearest } from '../utils/helpers';
 // Used to mock fetching a list of claims
 import mockClaimsList from '../tests/e2e/fixtures/mocks/claims-list.json';
 
-// NOTE: This should be FALSE when in production
-const USE_MOCKS = !environment.isProduction();
+// NOTE: This should only be TRUE when developing locally
+const USE_MOCKS = environment.isLocalhost();
 
 // -------------------- v2 and v1 -------------
 export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
