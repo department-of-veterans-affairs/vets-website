@@ -369,9 +369,14 @@
   },
   "workspaces": {
     "packages": [
-      "src/platform/*",
-      "src/applications/*/packages/*",
-      "src/applications/*/"
+      "src/applications/vaos",
+      "src/applications/burials",
+      "src/applications/lgy/coe",
+  
+      "src/platform/startup",
+      "src/platform/landing-pages",
+      "src/platform/polyfills",
+      "src/platform/static-data"
     ],
     "nohoist": [
       "**/platform-polyfills/@formatjs/intl-datetimeformat",
