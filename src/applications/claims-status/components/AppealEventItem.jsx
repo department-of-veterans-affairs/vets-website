@@ -14,6 +14,7 @@ export default class AppealEventItem extends React.Component {
   }
 
   toggle() {
+    // eslint-disable-next-line react/no-access-state-in-setstate
     this.setState({ open: !this.state.open });
   }
 
@@ -28,7 +29,7 @@ export default class AppealEventItem extends React.Component {
     });
 
     return (
-      <li className="event-item" onClick={this.toggle}>
+      <li className="event-item" onClick={this.toggle} onKeyPress={this.toggle}>
         <div className="event-header">
           <i className="fa fa-check-circle claims-status-icon event-header-icon" />
           <strong className="event-date">

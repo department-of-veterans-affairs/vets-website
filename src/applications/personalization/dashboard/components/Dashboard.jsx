@@ -4,14 +4,11 @@ import isEmpty from 'lodash/isEmpty';
 
 import '../sass/dashboard.scss';
 
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
-
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
 } from '@@profile/actions';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import PropTypes from 'prop-types';
@@ -24,7 +21,9 @@ import {
   isVAPatient as isVAPatientSelector,
   hasMPIConnectionError,
   isNotInMPI,
+  isMultifactorEnabled,
 } from '~/platform/user/selectors';
+import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import RequiredLoginView, {
   RequiredLoginLoader,
 } from '~/platform/user/authorization/components/RequiredLoginView';
@@ -57,15 +56,19 @@ const renderWidgetDowntimeNotification = (downtime, children) => {
     return (
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-          <AlertBox
-            status={ALERT_TYPE.ERROR}
-            headline="We can’t access any claims or appeals information right now"
-          >
-            We’re sorry. We’re working to fix some problems with the claims or
-            appeals tool right now and cannot display your information on this
-            page. Please check back after{' '}
-            {downtime.endTime.format('MMMM D [at] LT')}
-          </AlertBox>
+          <va-alert status="error">
+            <h2 slot="headline">
+              We can’t access any claims or appeals information right now
+            </h2>
+            <div>
+              <p>
+                We’re sorry. We’re working to fix some problems with the claims
+                or appeals tool right now and cannot display your information on
+                this page. Please check back after{' '}
+                {downtime.endTime.format('MMMM D [at] LT')}
+              </p>
+            </div>
+          </va-alert>
         </div>
       </div>
     );
@@ -168,7 +171,6 @@ const Dashboard = ({
         fetchFullName();
         fetchMilitaryInformation();
         fetchTotalDisabilityRating();
-        getPayments();
       }
     },
     [
@@ -176,8 +178,17 @@ const Dashboard = ({
       fetchFullName,
       fetchMilitaryInformation,
       fetchTotalDisabilityRating,
-      getPayments,
     ],
+  );
+
+  // fetch data when we determine they are LOA3
+  useEffect(
+    () => {
+      if (showBenefitPaymentsAndDebt) {
+        getPayments();
+      }
+    },
+    [getPayments, showBenefitPaymentsAndDebt],
   );
 
   return (
@@ -282,6 +293,10 @@ const isAppealsAvailableSelector = createIsServiceAvailableSelector(
 
 const mapStateToProps = state => {
   const { isReady: hasLoadedScheduledDowntime } = state.scheduledDowntime;
+  const signInServicesEligibleForDD = new Set([
+    CSP_IDS.ID_ME,
+    CSP_IDS.LOGIN_GOV,
+  ]);
   const isLOA3 = isLOA3Selector(state);
   const isLOA1 = isLOA1Selector(state);
   const isVAPatient = isVAPatientSelector(state);
@@ -312,11 +327,14 @@ const mapStateToProps = state => {
     hasClaimsOrAppealsService;
   const showHealthCare =
     !showMPIConnectionError && !showNotInMPIError && isLOA3 && isVAPatient;
+  const signInService = signInServiceNameSelector(state);
   const showBenefitPaymentsAndDebt =
     toggleValues(state)[FEATURE_FLAG_NAMES.showPaymentAndDebtSection] &&
     !showMPIConnectionError &&
     !showNotInMPIError &&
-    isLOA3;
+    isLOA3 &&
+    signInServicesEligibleForDD.has(signInService) &&
+    isMultifactorEnabled(state);
 
   const hasNotificationFeature = toggleValues(state)[
     FEATURE_FLAG_NAMES.showDashboardNotifications

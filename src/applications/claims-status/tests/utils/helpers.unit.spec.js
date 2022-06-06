@@ -3,6 +3,12 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 
 import {
+  mockFetch,
+  setFetchJSONFailure,
+  setFetchJSONResponse,
+} from 'platform/testing/unit/helpers';
+
+import {
   groupTimelineActivity,
   isPopulatedClaim,
   hasBeenReviewed,
@@ -31,12 +37,8 @@ import {
   isolateAppeal,
   STATUS_TYPES,
   AOJS,
+  getPageRange,
 } from '../../utils/appeals-v2-helpers';
-import {
-  mockFetch,
-  setFetchJSONFailure,
-  setFetchJSONResponse,
-} from 'platform/testing/unit/helpers';
 
 describe('Disability benefits helpers: ', () => {
   describe('groupTimelineActivity', () => {
@@ -671,6 +673,19 @@ describe('Disability benefits helpers: ', () => {
       expect(roundToNearest({ interval: 5000, value: 2000 })).to.equal(0);
       expect(roundToNearest({ interval: 5000, value: 23123 })).to.equal(25000);
       expect(roundToNearest({ interval: 1000, value: 11450 })).to.equal(11000);
+    });
+  });
+
+  describe('getPageRangeText', () => {
+    it('returns the correct item range based on the page', () => {
+      // ROWS_PER_PAGE constant used
+      expect(getPageRange(1, 5)).to.deep.equal({ start: 1, end: 5 });
+      expect(getPageRange(1, 12)).to.deep.equal({ start: 1, end: 10 });
+      expect(getPageRange(1, 25)).to.deep.equal({ start: 1, end: 10 });
+      expect(getPageRange(2, 12)).to.deep.equal({ start: 11, end: 12 });
+      expect(getPageRange(2, 22)).to.deep.equal({ start: 11, end: 20 });
+      expect(getPageRange(2, 25)).to.deep.equal({ start: 11, end: 20 });
+      expect(getPageRange(3, 25)).to.deep.equal({ start: 21, end: 25 });
     });
   });
 });
