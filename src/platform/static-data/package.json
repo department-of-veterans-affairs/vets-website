@@ -1,0 +1,17 @@
+{
+  "name": "@department-of-veterans-affairs/platform-static-data",
+  "version": "1.0.0",
+  "exports": {
+    "." :"./exportsFile.js",
+    "./CallHRC": "./CallHRC",
+    "./CallNCACenter": "./CallNCACenter",
+    "./CallVBACenter": "./CallVBACenter",
+    "./EmailVICHelp": "./EmailVICHelp",
+    "./error-messages": "./error-messages",
+    "./labels": "./labels.jsx",
+    "./options-for-select": "./options-for-select",
+    "./SubmitSignInForm": "./SubmitSignInForm"
+  },
+  "license": "MIT",
+  "private": true
+ }
