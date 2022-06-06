@@ -13,11 +13,13 @@ export const UnauthenticatedPageContent = ({ toggleLoginModal }) => {
         visible
       >
         <h3 slot="headline">Please sign in to connect a device</h3>
-        <div>
-          Sign in with your existing ID.me, DS Logon, or My HealtheVet account.
-          If you don’t have any of these accounts, you can create a free ID.me
-          account now.
-        </div>
+        <p>
+          <div>
+            Sign in with your existing ID.me, DS Logon, or My HealtheVet
+            account. If you don’t have any of these accounts, you can create a
+            free ID.me account now.
+          </div>
+        </p>
         <button type="button" className="usa-button" onClick={toggleLoginModal}>
           Sign in or create an account
         </button>
