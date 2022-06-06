@@ -17,6 +17,7 @@ Before you get started check [this page](https://depo-platform-documentation.scr
   - visit the app:
     - check-in `http://localhost:3001/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
     - pre-check-in `http://localhost:3001/health-care/appointment-pre-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
+  - Login using the mock user, Last name: `Smith` Last four: `1234` or DOB `03-15-1989`
 
 ## Design system
 99% of the styling comes from the VA design system [component library](https://design.va.gov/components/) and [utility classes](https://design.va.gov/foundation/utilities/). For the remaining 1% of styling there is an scss file in the `sass` directory in the root of each sub-application.
@@ -27,23 +28,25 @@ When adding features, use components from the design system as much as possible.
 The check-in and pre-check-in apps are very similar, so when possible use and add to the common reducer, selector, and utils found in the root of the two apps.
 
 ## Page routing
-Internal page routing is defined in `utils\navigation` within this directory there are sub-directories for `day-of` and `pre-check-in` the index file in each contains an object the determines the order of the pages. Within the hooks there is a `useFormRouting` hook that is used to route to the next page, previous page, error page, or any specific page in the app.
+Internal page routing is defined in `utils\navigation` within this directory there are sub-directories for `day-of` and `pre-check-in` the index file in each contains an object that determines the order of the pages. Within the hooks there is a `useFormRouting` hook that is used to route to the next page, previous page, error page, or any specific page in the app.
 
 ## Running tests
 Unit tests for both check-in and pre-check-in can be run using this command: `yarn test:unit --app-folder check-in` to get detailed errors run with `--log-level=error`
 
-Cypress tests can be ran with the GUI using this command: `yarn cy:open` from there you can filter by `check-in` to run just check-in nnd pre-check-in end to end tests.
+Cypress tests can be ran with the GUI using this command: `yarn cy:open` from there you can filter by `check-in` to run just check-in and pre-check-in end to end tests.
 
 ## Ticket lifecycle
 When starting a new ticket follow these steps:
-  - Assign to your self if not already assigned to you.
+  - Assign the ticket to your self if not already assigned to you.
   - Move the ticket to in-progress.
   - Name your branch with this convention `checkin/[ticket#]/[short-description]`
   - Creating a draft PR early on is helpful for others to help troubleshoot issues.
-  - When you are finished create a PR or convert your draft to PR. If the automated tests pass, copy a link to the PR and post it to the [#check-in-experience-engineering slack chat](https://dsva.slack.com/archives/C02G6AB3ZRS) requesting a review by tagging `@check-in-fe`
+  - When you are finished create a PR or convert your draft to a PR. If the automated tests pass, copy a link to the PR and post it to the [#check-in-experience-engineering slack chat](https://dsva.slack.com/archives/C02G6AB3ZRS) requesting a review by tagging `@check-in-fe`
   - After approval, you can merge. Then move the ticket to the validate column.
   - Add a comment to the ticket with screenshots and tag the UX team to review.
   - If it is approved, you can move the ticket to the closed column.
+
+Merging your PR may mean merging to a feature branch. Always be aware that anything that gets merged to `main` will get deployed in the next daily deployment. If you aren't sure if something should get merged to `main` ask in slack. Also make sure to not merge anything that may have gone stale since the PR was first created. It is helpful to rebase before merging just to make sure you are up to date.
 
 If you have any questions along the way be sure to ask in slack.
 
