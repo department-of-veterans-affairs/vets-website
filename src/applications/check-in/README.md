@@ -13,7 +13,7 @@ Before you get started check [this page](https://depo-platform-documentation.scr
   - navigate to the check-in application `cd src/applications/check-in`
   - run `yarn install`
   - turn on local mocks `yarn mock-api --responses src/applications/check-in/api/local-mock-api/index.js`
-  - start app `yarn watch`
+  - start app `yarn watch --env entry=check-in,pre-check-in`
   - visit the app:
     - check-in `http://localhost:3001/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
     - pre-check-in `http://localhost:3001/health-care/appointment-pre-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
