@@ -15,9 +15,6 @@ export default {
       allowPostLogin: true,
       allowRedirect: false,
     },
-    OAuthConfig: {
-      // [OAUTH_KEYS.CLIENT_ID]: generate
-    },
     OAuthEnabled: true,
     requiresVerification: false,
   },
