@@ -120,6 +120,8 @@ export default Object.freeze({
   subform89404192: 'subform_8940_4192',
   useLighthouseFormsSearchLogic: 'new_va_forms_search',
   vaGlobalDowntimeNotification: 'va_global_downtime_notification',
+  vaHomePreview: 
+  'va_home_preview',
   vaOnlineFacilitySelectionV22: 'va_online_scheduling_facility_selection_v2_2',
   vaOnlineScheduling: 'va_online_scheduling',
   vaOnlineSchedulingCancel: 'va_online_scheduling_cancel',
