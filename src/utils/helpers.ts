@@ -71,7 +71,7 @@ class JSONSchemaMapper {
     const referencedDefinition: string = /\/([A-Za-z]+)$/.exec(refString)![1];
     if (referencedDefinition === 'centralMailAddress') {
       return {
-        isMilitaryBaseOutside: false,
+        isMilitaryBaseOutside: null,
         streetAddress: '',
         streetAddressLine2: '',
         streetAddressLine3: '',
@@ -90,7 +90,7 @@ class JSONSchemaMapper {
       case 'number':
         return 0;
       case 'boolean':
-        return false;
+        return null;
       default:
         return '';
     }
@@ -130,7 +130,7 @@ class JSONSchemaMapper {
           updatedValue = 0;
           break;
         case 'boolean':
-          updatedValue = false;
+          updatedValue = null;
           break;
         default:
           updatedValue = '';

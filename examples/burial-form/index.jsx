@@ -11,6 +11,7 @@ import PlotAllowance from './PlotAllowance';
 import BurialAllowance from "./BurialAllowance";
 import BenefitsSelection from './BenefitsSelection';
 import ClaimantContactInformation from "./ClaimantContactInformation";
+import ReviewPage from './ReviewPage';
 
 const NoMatch = (props) => (
   <main style={{ padding: '1rem' }}>
@@ -34,6 +35,7 @@ const BurialApp = (props) => {
         <Route path="/benefits/burial-allowance" element={<BurialAllowance title="Burial allowance" />} />
         <Route path="/benefits/plot-allowance" element={<PlotAllowance title="Benefits Selection" />} />
         <Route path="/claimant-contact-information" element={<ClaimantContactInformation title="Claimant contact information" />} />
+        <Route path="/review-and-submit" element={<ReviewPage title="Review Your Application" />} />
         <Route path="*" element={<NoMatch name="No Routes for App" />} />
       </FormRouter>
     </div>

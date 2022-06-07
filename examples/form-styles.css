@@ -1,3 +1,23 @@
 .schemaform-expandUnder-indent{
   margin-left: 29px;
 }
+
+/* Review Page */
+.review-page--page-heading--text {
+  color: var(--color-primary-darker);
+}
+
+.review-page--page-heading--link {
+  text-align: right;
+  margin-top: 1.8em;
+}
+
+.review-page--page-info--label-text {
+  color: var(--color-gray);
+}
+
+.review-page--page-info--value-text {
+  color: var(--color-gray-dark);
+  font-size: 18px;
+}
+

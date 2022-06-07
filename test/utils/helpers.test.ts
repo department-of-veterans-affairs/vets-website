@@ -68,7 +68,7 @@ describe('Helpers - JSON Schema', () => {
       }
     }
     const expectedResult = {
-      booleanProperty: false,
+      booleanProperty: null,
       numberProperty: 0,
       stringProperty: '',
     }
@@ -128,7 +128,7 @@ describe('Helpers - JSON Schema', () => {
     const expectedResult = {
       arrayProperty: [
         {
-          prop3: false,
+          prop3: null,
           prop4: ''
         }
       ]
@@ -165,7 +165,7 @@ describe('Helpers - JSON Schema', () => {
       }
     }
     const expectedResult = {
-      booleanProperty: false,
+      booleanProperty: null,
       numberProperty: 0,
       stringProperty: ''
     }
@@ -348,7 +348,7 @@ describe('Helpers - JSON Schema', () => {
     }
     const expectedResult = {
       mailProperty: {
-        isMilitaryBaseOutside: false,
+        isMilitaryBaseOutside: null,
         streetAddress: '',
         streetAddressLine2: '',
         streetAddressLine3: '',

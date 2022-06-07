@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import {
   TextField,
   DateField,
-  DebuggerView,
   FullNameField,
   Page,
   RadioGroup
@@ -15,7 +14,7 @@ export default function PlotAllowance(props) {
   
   return (
     <div className="vads-u-margin-x--1p5">
-      <Page {...props} nextPage="/" prevPage="/military-history/service-periods">
+      <Page {...props} nextPage="/claimant-contact-information" prevPage="/benefits/burial-allowance">
         <TextField required name="placeOfRemains" label="Place of burial or deceased Veteran’s remains" />
         <div className={'vads-u-padding-y--1p5 form-expanding-group' + (formikContext?.values?.federalCemetery === "false" && ' form-expanding-group-open')}>
           <RadioGroup
@@ -67,7 +66,6 @@ export default function PlotAllowance(props) {
           )}
         </div>
       </Page>
-      <DebuggerView />
     </div>
   )
 }
