@@ -466,7 +466,7 @@ jobs:
 
       - name: Upload app list to BigQuery
         run: yarn generate-app-list
-        working-directory: testing-tools-team-dashboard-data
+        working-directory: qa-standards-dashboard-data
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
@@ -704,18 +704,18 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: contract-test-report
-          path: testing-tools-team-dashboard-data/src/testing-reports/data
+          path: qa-standards-dashboard-data/src/testing-reports/data
 
       - name: Create Contract Test report and post results to BigQuery
         run: yarn contract-mochawesome-to-bigquery
-        working-directory: testing-tools-team-dashboard-data
+        working-directory: qa-standards-dashboard-data
         env:
           TEST_EXECUTIONS_TABLE_NAME: vets_website_contract_test_suite_executions
           TEST_RESULTS_TABLE_NAME: vets_website_contract_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-contract-test-reports
 
       - name: Upload Contract Test report to s3
-        run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-contract-test-reports --acl public-read --region us-gov-west-1 --recursive
+        run: aws s3 cp qa-standards-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-contract-test-reports --acl public-read --region us-gov-west-1 --recursive
 
       # -------------------------
       # | Contract Tests Summary |
@@ -816,18 +816,18 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: unit-test-report
-          path: testing-tools-team-dashboard-data/src/testing-reports/data
+          path: qa-standards-dashboard-data/src/testing-reports/data
 
       - name: Create Unit Test report and post results to BigQuery
         run: yarn unit-mochawesome-to-bigquery
-        working-directory: testing-tools-team-dashboard-data
+        working-directory: qa-standards-dashboard-data
         env:
           UNIT_TEST_RESULTS_TABLE_NAME: vets_website_unit_test_results
           UNIT_TEST_EXECUTIONS_TABLE_NAME: unit_test_suite_executions
           TEST_REPORTS_FOLDER_NAME: vets-website-unit-test-reports
 
       - name: Upload Unit Test report to s3
-        run: aws s3 cp testing-tools-team-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
+        run: aws s3 cp qa-standards-dashboard-data/src/testing-reports/data s3://testing-tools-testing-reports/vets-website-unit-test-reports --acl public-read --region us-gov-west-1 --recursive
 
       # -------------------------
       # | Unit Tests Summary |
@@ -905,11 +905,11 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: unit-test-coverage-report
-          path: testing-tools-team-dashboard-data/src/testing-reports/data
+          path: qa-standards-dashboard-data/src/testing-reports/data
 
       - name: Process Coverage Report and post results to BigQuery
         run: yarn unit-coverage-to-bigquery
-        working-directory: testing-tools-team-dashboard-data
+        working-directory: qa-standards-dashboard-data
 
   testing-reports-cypress:
     name: Testing Reports - Cypress E2E Tests
@@ -985,18 +985,18 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: cypress-mochawesome-test-results
-          path: testing-tools-team-dashboard-data/src/testing-reports/data
+          path: qa-standards-dashboard-data/src/testing-reports/data
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: actions/download-artifact@v3
         with:
           name: cypress-video-artifacts
-          path: testing-tools-team-dashboard-data/videos/${{ env.UUID }}
+          path: qa-standards-dashboard-data/videos/${{ env.UUID }}
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
-        working-directory: testing-tools-team-dashboard-data
+        working-directory: qa-standards-dashboard-data
         env:
           IS_MASTER_BUILD: false
           TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
@@ -1007,10 +1007,10 @@ jobs:
 
       - name: Upload Cypress E2E test videos to s3
         if: ${{ needs.cypress-tests.result == 'failure' }}
-        run: aws s3 cp testing-tools-team-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
+        run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
 
       - name: Upload Cypress E2E test report to s3
-        run: aws s3 cp testing-tools-team-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
+        run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
 
         # -------------------------
         # | Cypress Tests Summary |

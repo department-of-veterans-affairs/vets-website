@@ -56,6 +56,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -111,6 +113,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -166,6 +170,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -216,6 +222,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -267,6 +275,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -328,6 +338,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -417,6 +429,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -485,6 +499,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -538,6 +554,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -590,6 +608,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -642,6 +662,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -701,6 +723,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // The CC date transformer logic sets the date in UTC mode, which creates
       // a format difference when this test is run on a machine in GMT/UTC
@@ -883,6 +907,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result[0].vaos.apiData;
       delete v2Result[0].vaos.apiData;
+      delete v0Result[0].version;
+      delete v2Result[0].version;
 
       // When they compare the two results
       // differences format is http://jsonpatch.com/
@@ -980,6 +1006,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result[0].vaos.apiData;
       delete v2Result[0].vaos.apiData;
+      delete v0Result[0].version;
+      delete v2Result[0].version;
 
       // When they compare the two results
       // differences format is http://jsonpatch.com/
@@ -1086,6 +1114,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result[0].vaos.apiData;
       delete v2Result[0].vaos.apiData;
+      delete v0Result[0].version;
+      delete v2Result[0].version;
 
       // When they compare the two results
       // differences format is http://jsonpatch.com/
