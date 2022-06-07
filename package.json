@@ -369,7 +369,6 @@
     "**/ansi-regex": "^5.0.1",
     "@babel/runtime": "^7.15.4",
     "**/cached-path-relative": "1.1.0",
-    "**/moment": "^2.29.2",
     "**/minimist": "^1.2.6",
     "**/async": "^2.6.4",
     "**/ejs": "^3.1.7",
