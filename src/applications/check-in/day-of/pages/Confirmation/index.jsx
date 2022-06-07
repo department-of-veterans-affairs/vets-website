@@ -43,7 +43,7 @@ const Confirmation = props => {
         jumpToPage(URLS.DETAILS);
       }
     },
-    [selectedAppointment],
+    [selectedAppointment, jumpToPage],
   );
 
   return (
