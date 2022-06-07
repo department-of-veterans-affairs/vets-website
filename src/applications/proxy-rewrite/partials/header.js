@@ -1,4 +1,5 @@
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
+import { isIE } from '~/logic/detection/is-browser';
 
 export default `
   <!-- Header -->
@@ -100,6 +101,34 @@ export default `
         <div class="menu-rule usa-one-whole"></div>
         <div id="mega-menu"></div>
       </div>
+
+      <!-- Alert - hidden for modern browsers. -->
+      <va-alert
+        class="ie-deprecation-warning"
+        close-btn-aria-label="Close notification"
+        full-width
+        status="warning"
+        style="display: none;"
+        visible
+      >
+        <h3 slot="headline">
+          Internet Explorer 11 will soon be unsupported
+        </h3>
+        <div>
+          <p class="vads-u-margin-bottom--0" style="padding: 0;">
+            You will need to switch to use Chrome, Firefox, or Safari.
+          </p>
+        </div>
+      </va-alert>
     </div>
   </header>
 `;
+
+// In the case of IE display the IE deprecation notice to the user.
+// Solutioned for: https://github.com/department-of-veterans-affairs/va.gov-cms/issues/9075
+if (isIE) {
+  window.addEventListener('load', () => {
+    const ieMessageEl = document.body.querySelector('.ie-deprecation-warning');
+    ieMessageEl.style.display = 'block';
+  });
+}

@@ -16,6 +16,7 @@ module.exports = {
   rules: {
     /* || Eslint main rules || */
     camelcase: [2, { properties: 'always' }], // Override airbnb style.
+    'consistent-return': 'off',
     'deprecate/import': [
       'warn',
       {
@@ -52,6 +53,7 @@ module.exports = {
       },
     ], // 40
     'jsx-a11y/no-static-element-interactions': 1, // 20
+    'no-console': ['error', { allow: ['warn', 'error'] }],
 
     /* || va custom plugin || */
     'va/proptypes-camel-cased': 2,

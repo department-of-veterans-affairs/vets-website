@@ -1,0 +1,1 @@
+- All reusable logic should be saved within this folder if its intended to be reused across multiple `vets-website` applications.

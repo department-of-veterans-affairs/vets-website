@@ -369,7 +369,7 @@ module.exports = async (env = {}) => {
     },
     resolve: {
       alias: {
-        '@': path.join(CWD, 'src'),
+        '~': path.join(CWD, 'src'),
       },
       extensions: ['.js', '.jsx'],
       fallback: {

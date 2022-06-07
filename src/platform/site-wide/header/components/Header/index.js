@@ -8,9 +8,12 @@ import OfficialGovtWebsite from '../OfficialGovtWebsite';
 import VeteranCrisisLine from '../VeteranCrisisLine';
 import addFocusBehaviorToCrisisLineModal from '../../../accessible-VCL-modal';
 import { addOverlayTriggers } from '../../../legacy/menu';
+import { isIE } from '~/logic/detection/is-browser';
+import { useOnLoaded } from '~/logic/hooks/events/use-on-loaded';
 
 export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const loaded = useOnLoaded(window);
 
   useEffect(() => {
     // Start Veteran Crisis Line modal functionality.
@@ -41,6 +44,27 @@ export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
           showMegaMenu={showMegaMenu}
         />
       </nav>
+
+      {/* Alert when the user's browser is Internet Explorer. */}
+      {/* @TODO Wrap this web-component into its own react component. */}
+      {loaded &&
+        isIE && (
+          <va-alert
+            close-btn-aria-label="Close notification"
+            full-width
+            status="warning"
+            visible
+          >
+            <h3 slot="headline">
+              Internet Explorer 11 will soon be unsupported
+            </h3>
+            <div>
+              <p className="vads-u-margin-bottom--0 vads-u-padding--0">
+                You will need to switch to use Chrome, Firefox, or Safari.
+              </p>
+            </div>
+          </va-alert>
+        )}
     </div>
   );
 };

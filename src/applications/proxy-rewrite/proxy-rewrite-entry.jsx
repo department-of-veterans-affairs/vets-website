@@ -18,6 +18,8 @@ import redirectIfNecessary from './redirects';
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
 import proxyWhitelist from './proxy-rewrite-whitelist.json';
+import { isIE } from '~/logic/detection/is-browser';
+import { installWebComponentsLibrary } from '~/logic/legacy/web-components';
 
 function createMutationObserverCallback() {
   // Find native header, footer, etc based on page path
@@ -102,7 +104,7 @@ function mountReactComponents(headerFooterData, commonStore) {
 
   // New navigation menu
   if (document.querySelector('#vetnav')) {
-    require('../../platform/site-wide/legacy/mega-menu.js');
+    require('../../platform/site-wide/legacy/mega-menu');
   }
 
   // set up sizes for rem
@@ -268,6 +270,12 @@ function addOverrideHeaderFooter(
 function main() {
   // if a build type is passed in the url, then the header for the specific build type is used
   const { targetEnvironment, hostnameOverride } = getHostnameOverride();
+
+  // Loads our custom web-components library in the case of IE so that we have support for the web-component
+  // which will display the IE deprecation notice to the user.
+  if (isIE) {
+    installWebComponentsLibrary();
+  }
 
   if (targetEnvironment && targetEnvironment !== environment.BUILDTYPE) {
     removeCurrentHeaderFooter();
