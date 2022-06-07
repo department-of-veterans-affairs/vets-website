@@ -15,6 +15,7 @@ const ConfirmablePage = ({
   isLoading = false,
   isEditEnabled = false,
   loadingMessageOverride = null,
+  withBackButton = false,
   Footer,
 }) => {
   const { t } = useTranslation();
@@ -26,7 +27,11 @@ const ConfirmablePage = ({
     dataToEdit.editAction(dataToEdit);
   }, []);
   return (
-    <Wrapper pageTitle={header} classNames="confirmable-page" withBackButton>
+    <Wrapper
+      pageTitle={header}
+      classNames="confirmable-page"
+      withBackButton={withBackButton}
+    >
       {subtitle && (
         <p data-testid="subtitle" className="vads-u-font-family--serif">
           {subtitle}
@@ -107,5 +112,6 @@ ConfirmablePage.propTypes = {
   isLoading: PropTypes.bool,
   loadingMessageOverride: PropTypes.func,
   subtitle: PropTypes.string,
+  withBackButton: PropTypes.bool,
 };
 export default ConfirmablePage;

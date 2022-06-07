@@ -14,14 +14,16 @@ const MixedLanguageDisclaimer = props => {
   // const displayTagalog = (language === 'tz' || tagalogDisclaimer)
 
   return displaySpanish ? (
-    <va-alert
-      background-only
-      status="info"
-      show-icon
-      data-testid="mixed-language-disclaimer"
-    >
-      <div>{t('some-content-may-be-in-english')}</div>
-    </va-alert>
+    <div className="vads-u-margin-bottom--2">
+      <va-alert
+        background-only
+        status="info"
+        show-icon
+        data-testid="mixed-language-disclaimer"
+      >
+        <div>{t('some-content-may-be-in-english')}</div>
+      </va-alert>
+    </div>
   ) : (
     ''
   );

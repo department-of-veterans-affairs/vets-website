@@ -18,10 +18,12 @@ const Wrapper = props => {
     focusElement('h1');
   }, []);
 
+  const topPadding = withBackButton ? '' : ' vads-u-padding-y--3';
+
   return (
     <>
       <div
-        className={`vads-l-grid-container vads-u-padding-y--3 ${classNames}`}
+        className={`vads-l-grid-container ${classNames} ${topPadding}`}
         data-testid={testID}
       >
         <MixedLanguageDisclaimer />
