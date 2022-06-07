@@ -7,7 +7,7 @@ const generateFeatureToggles = (toggles = {}) => {
     profileShowAddressChangeModal = true,
     profileShowBadAddressIndicator = true,
     profileShowDemographics = false,
-    profileForceBadAddressIndicator = true,
+    profileForceBadAddressIndicator = false,
     profileShowFaxNumber = false,
     profileShowGender = false,
     profileShowProfile2 = false,
