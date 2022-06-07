@@ -24,11 +24,12 @@ import {
 } from '../utils/appeals-v2-helpers';
 import { makeAuthRequest, roundToNearest } from '../utils/helpers';
 
-// Uncomment this import out, along with the code in `getClaimDetail`, then load
-// http://localhost:3001/track-claims/your-claims/600219085/status
-// import mockDetails from '../tests/e2e/fixtures/mocks/claim-detail.json';
+// Used to mock fetching the details for a specific claim
+// URL: http://localhost:3001/track-claims/your-claims/600219085/status
+import mockDetails from '../tests/e2e/fixtures/mocks/claim-detail.json';
 
 // Used to mock fetching a list of claims
+// URL: http://localhost:3001/track-claims/your-claims
 import mockClaimsList from '../tests/e2e/fixtures/mocks/claims-list.json';
 
 // NOTE: This should only be TRUE when developing locally
@@ -244,8 +245,7 @@ export function getClaimsV2(options = {}) {
     poll({
       onError: response => {
         if (USE_MOCKS) {
-          dispatch(fetchClaimsSuccess(mockClaimsList));
-          return;
+          return dispatch(fetchClaimsSuccess(mockClaimsList));
         }
 
         const errorCode = getErrorStatus(response);
@@ -272,7 +272,7 @@ export function getClaimsV2(options = {}) {
             error: errorCode,
           });
         }
-        dispatch({ type: FETCH_CLAIMS_ERROR });
+        return dispatch({ type: FETCH_CLAIMS_ERROR });
       },
       onSuccess: response => {
         recordClaimsAPIEvent({
@@ -329,22 +329,17 @@ export function getClaimDetail(id, router, poll = pollRequest) {
     });
     poll({
       onError: response => {
-        /* Claim status development
-           comment out the next block of code to access the claim status, file &
-           details tabs for development
-        /* * /
-        return dispatch({
-          type: SET_CLAIM_DETAIL,
-          claim: mockDetails.data,
-          meta: mockDetails.meta,
-        });
-        /* */
-        if (response.status !== 404 || !router) {
-          dispatch({ type: SET_CLAIMS_UNAVAILABLE });
-        } else {
-          router.replace('your-claims');
+        if (USE_MOCKS) {
+          return dispatch({
+            type: SET_CLAIM_DETAIL,
+            claim: mockDetails.data,
+            meta: mockDetails.meta,
+          });
         }
-        /* */
+
+        if (response.status !== 404 || !router)
+          return dispatch({ type: SET_CLAIMS_UNAVAILABLE });
+        return router.replace('your-claims');
       },
       onSuccess: response =>
         dispatch({
