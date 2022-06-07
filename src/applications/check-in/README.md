@@ -28,12 +28,12 @@ When adding features, use components from the design system as much as possible.
 The check-in and pre-check-in apps are very similar, so when possible use and add to the common reducer, selector, and utils found in the root of the two apps.
 
 ## Page routing
-Internal page routing is defined in `utils\navigation` within this directory there are sub-directories for `day-of` and `pre-check-in` the index file in each contains an object that determines the order of the pages. Within the hooks there is a `useFormRouting` hook that is used to route to the next page, previous page, error page, or any specific page in the app.
+Internal page routing is defined in `utils\navigation`. Within this directory there are sub-directories for `day-of` and `pre-check-in`. The index file in each sub-directory contains an object that determines the order of the pages. Within the hooks there is a `useFormRouting` hook that is used to route to the next page, previous page, error page, or any specific page in the app.
 
 ## Running tests
 Unit tests for both check-in and pre-check-in can be run using this command: `yarn test:unit --app-folder check-in` to get detailed errors run with `--log-level=error`
 
-Cypress tests can be ran with the GUI using this command: `yarn cy:open` from there you can filter by `check-in` to run just check-in and pre-check-in end to end tests.
+Cypress tests can be run with the GUI using this command: `yarn cy:open`. From there you can filter by `check-in` to run just check-in and pre-check-in end to end tests.
 
 ## Ticket lifecycle
 When starting a new ticket follow these steps:
