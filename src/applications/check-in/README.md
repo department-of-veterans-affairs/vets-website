@@ -31,7 +31,7 @@ The check-in and pre-check-in apps are very similar, so when possible use and ad
 Internal page routing is defined in `utils\navigation`. Within this directory there are sub-directories for `day-of` and `pre-check-in`. The index file in each sub-directory contains an object that determines the order of the pages. Within the hooks there is a `useFormRouting` hook that is used to route to the next page, previous page, error page, or any specific page in the app.
 
 ## Running tests
-Unit tests for both check-in and pre-check-in can be run using this command: `yarn test:unit --app-folder check-in` to get detailed errors run with `--log-level=error`
+Unit tests for both check-in and pre-check-in can be run using this command: `yarn test:unit --app-folder check-in`. To get detailed errors, run this command with `--log-level=error`
 
 Cypress tests can be run with the GUI using this command: `yarn cy:open`. From there you can filter by `check-in` to run just check-in and pre-check-in end to end tests.
 
@@ -53,4 +53,4 @@ If you have any questions along the way be sure to ask in slack.
 ## How it works
 Check-in allows veterans to check into an appointment on the day of their appointment while physically at a VA clinic. The veteran texts `check-in` to `VEText` and gets returned a short-url that re-directs to the check-in application with a unique UUID for the appointment.
 
-Pre-check-in allows veterans to pre-check into an appointment days ahead of the appointment. This usually happens when the veteran is not at a VA clinic. The vet will receive a text from `VEText` with a short-url that re-directs to the pre-check-in application with a unique UUID for the appointment.
+Pre-check-in allows veterans to pre-check into an appointment between 1 -7 days ahead of the appointment. This usually happens when the veteran is not at a VA clinic. The vet will receive a text from `VEText` with a short-url that re-directs to the pre-check-in application with a unique UUID for the appointment.
