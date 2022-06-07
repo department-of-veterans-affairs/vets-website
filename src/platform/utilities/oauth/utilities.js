@@ -39,7 +39,7 @@ export async function createOAuthRequest(csp) {
 
   // Build the authorization URL
   const oAuthParams = {
-    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent('client_id_value'),
+    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent('web'),
     [OAUTH_KEYS.REDIRECT_URI]: encodeURIComponent(
       `${environment.BASE_URL}/auth/login/callback`,
     ),
