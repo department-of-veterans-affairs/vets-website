@@ -3,7 +3,9 @@ import { useField, FieldHookConfig, useFormikContext } from 'formik';
 
 import { chainValidations, required } from '../utils/validation';
 import { AddressProps, Address } from './types';
-import { TextField, CheckboxField, SelectField } from './index';
+import TextField from './TextField';
+import CheckboxField from './CheckboxField';
+import SelectField from './SelectField';
 import {
   Countries,
   CountryUSA,
