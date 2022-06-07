@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+import environment from 'platform/utilities/environment';
 
 const getConstants = state => state.constants.constants;
 
@@ -83,7 +84,8 @@ export function getDerivedAttributes(constant, eligibility, institution) {
 
       if (
         (your.militaryStatus === 'child' || your.militaryStatus === 'spouse') &&
-        its.country === 'philippines'
+        its.country === 'philippines' &&
+        !environment.isProduction()
       ) {
         monthlyRate /= 2;
       }
