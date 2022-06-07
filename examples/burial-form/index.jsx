@@ -1,6 +1,6 @@
 import React from 'react';
-import { Route } from 'react-router-dom'
-import { FormRouter } from '@department-of-veterans-affairs/va-forms-system-core';
+import {Route} from 'react-router-dom'
+import {FormRouter} from '@department-of-veterans-affairs/va-forms-system-core';
 import BurialIntroduction from './BurialIntroduction';
 import ClaimantInformation from './ClaimantInformation';
 import VeteranInformation from './VeteranInformation';
@@ -10,6 +10,7 @@ import PreviousNames from './PreviousNames';
 import PlotAllowance from './PlotAllowance';
 import BurialAllowance from "./BurialAllowance";
 import BenefitsSelection from './BenefitsSelection';
+import ClaimantContactInformation from "./ClaimantContactInformation";
 
 const NoMatch = (props) => (
   <main style={{ padding: '1rem' }}>
@@ -32,6 +33,7 @@ const BurialApp = (props) => {
         <Route path="/benefits/selection" element={<BenefitsSelection title="Benefits Selection" />} />
         <Route path="/benefits/burial-allowance" element={<BurialAllowance title="Burial allowance" />} />
         <Route path="/benefits/plot-allowance" element={<PlotAllowance title="Benefits Selection" />} />
+        <Route path="/claimant-contact-information" element={<ClaimantContactInformation title="Claimant contact information" />} />
         <Route path="*" element={<NoMatch name="No Routes for App" />} />
       </FormRouter>
     </div>
