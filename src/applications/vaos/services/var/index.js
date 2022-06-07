@@ -86,8 +86,6 @@ export const getLongTermAppointmentHistory = (() => {
         .then(({ data }) => appointments.push(...data))
         .then(() => getConfirmedAppointments('va', ranges[1][0], ranges[1][1]))
         .then(({ data }) => appointments.push(...data))
-        .then(() => getConfirmedAppointments('va', ranges[2][0], ranges[2][1]))
-        .then(({ data }) => appointments.push(...data))
         .then(() => appointments);
     }
     return promise;
