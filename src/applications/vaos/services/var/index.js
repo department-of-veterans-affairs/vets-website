@@ -53,7 +53,7 @@ export function getRequestMessages(requestId) {
 // and we need a way to wait for an in progress call to finish
 // So this memoizes the promise and returns it to the caller
 export const getLongTermAppointmentHistory = (() => {
-  const MAX_HISTORY = 36;
+  const MAX_HISTORY = 24;
   const MONTH_CHUNK = 12;
   let promise = null;
 
