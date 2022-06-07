@@ -14,7 +14,6 @@ export const FETCH_CONTESTABLE_ISSUES_FAILED =
 
 export const getContestableIssues = props => {
   const benefitType = props?.benefitType || DEFAULT_BENEFIT_TYPE;
-  const apiOptions = { apiVersion: 'v1' };
   return dispatch => {
     dispatch({ type: FETCH_CONTESTABLE_ISSUES_INIT });
 
@@ -34,7 +33,9 @@ export const getContestableIssues = props => {
       );
     }
 
-    return apiRequest(`${CONTESTABLE_ISSUES_API}${benefitType}`, apiOptions)
+    return apiRequest(`${CONTESTABLE_ISSUES_API}${benefitType}`, {
+      apiVersion: 'v1',
+    })
       .then(response =>
         dispatch({
           type: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,

@@ -3,12 +3,8 @@ import { isVersion1Data } from '../utils/helpers';
 const unaffectedPages = ['/contact-information', '/veteran-information'];
 
 export const forceV2Migration = data => {
-  const formData = {
-    ...data,
-    veteran: {
-      ...data.veteran,
-    },
-  };
+  const formData = { ...data };
+
   // Remove sameOffice
   delete formData.sameOffice;
 

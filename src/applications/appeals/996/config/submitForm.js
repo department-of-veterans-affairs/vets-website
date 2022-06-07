@@ -19,8 +19,7 @@ const submitForm = (form, formConfig) => {
     ? formConfig.transformForSubmit(formConfig, form)
     : transformForSubmit(formConfig, form);
 
-  const version = '1';
-  const url = `${environment.API_URL}/v${version}/${submitUrl}`;
+  const url = `${environment.API_URL}/v1/${submitUrl}`;
 
   // eventData for analytics
   const eventData = buildEventData(form.data);
