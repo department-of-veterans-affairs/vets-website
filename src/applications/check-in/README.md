@@ -16,8 +16,19 @@ Before you get started check [this page](https://depo-platform-documentation.scr
   - start app `yarn watch --env entry=check-in,pre-check-in`
   - visit the app:
     - check-in `http://localhost:3001/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
-    - pre-check-in `http://localhost:3001/health-care/appointment-pre-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287`
+    - pre-check-in `http://localhost:3001/health-care/appointment-pre-check-in/?id=0429dda5-4165-46be-9ed1-1e652a8dfd83`
   - Login using the mock user, Last name: `Smith` Last four: `1234` or DOB `03-15-1989`
+
+## Mock UUIDs
+There are several different mock UUIDs that can be used as a value for the `id` URL param.
+### Check-in
+  - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
+  - aboutToExpireUUID: `25165847-2c16-4c8b-8790-5de37a7f427f`
+### Pre-check-in
+  - defaultUUID: `0429dda5-4165-46be-9ed1-1e652a8dfd83`
+  - alreadyPreCheckedInUUID: `4d523464-c450-49dc-9a18-c04b3f1642ee`
+  - canceledAppointmentUUID: `9d7b7c15-d539-4624-8d15-b740b84e8548`
+  - expiredUUID: `354d5b3a-b7b7-4e5c-99e4-8d563f15c521`
 
 ## Design system
 99% of the styling comes from the VA design system [component library](https://design.va.gov/components/) and [utility classes](https://design.va.gov/foundation/utilities/). For the remaining 1% of styling there is an scss file in the `sass` directory in the root of each sub-application.
@@ -43,7 +54,7 @@ When starting a new ticket follow these steps:
   - Creating a draft PR early on is helpful for others to help troubleshoot issues.
   - When you are finished create a PR or convert your draft to a PR. If the automated tests pass, copy a link to the PR and post it to the [#check-in-experience-engineering slack chat](https://dsva.slack.com/archives/C02G6AB3ZRS) requesting a review by tagging `@check-in-fe`
   - After approval, you can merge. Then move the ticket to the validate column.
-  - Add a comment to the ticket with screenshots and tag the UX team to review.
+  - Add a comment to the ticket with mobile size (320-375px) screenshots and tag the UX team to review.
   - If it is approved, you can move the ticket to the closed column.
 
 Merging your PR may mean merging to a feature branch. Always be aware that anything that gets merged to `main` will get deployed in the next daily deployment. If you aren't sure if something should get merged to `main` ask in slack. Also make sure to not merge anything that may have gone stale since the PR was first created. It is helpful to rebase before merging just to make sure you are up to date.
