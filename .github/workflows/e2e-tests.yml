@@ -303,7 +303,7 @@ jobs:
 
       - name: Upload app list to BigQuery
         run: yarn generate-app-list
-        working-directory: testing-tools-team-dashboard-data
+        working-directory: qa-standards-dashboard-data
 
   testing-reports-cypress:
     name: Testing Reports - Cypress E2E Tests
@@ -372,18 +372,18 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: cypress-mochawesome-test-results
-          path: testing-tools-team-dashboard-data/src/testing-reports/data
+          path: qa-standards-dashboard-data/src/testing-reports/data
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.cypress-tests.result == 'failure' }}
         uses: actions/download-artifact@v3
         with:
           name: cypress-video-artifacts
-          path: testing-tools-team-dashboard-data/videos/${{ env.UUID }}
+          path: qa-standards-dashboard-data/videos/${{ env.UUID }}
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
-        working-directory: testing-tools-team-dashboard-data
+        working-directory: qa-standards-dashboard-data
         env:
           IS_MASTER_BUILD: true
           TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
@@ -393,10 +393,10 @@ jobs:
 
       - name: Upload Cypress E2E test videos to s3
         if: ${{ needs.cypress-tests.result == 'failure' }}
-        run: aws s3 cp testing-tools-team-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
+        run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
 
       - name: Upload Cypress E2E test report to s3
-        run: aws s3 cp testing-tools-team-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
+        run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
 
       # -------------------------
       # | Cypress Tests Summary |
@@ -474,11 +474,11 @@ jobs:
   #       uses: actions/download-artifact@v3
   #       with:
   #         name: code-coverage-artifacts
-  #         path: testing-tools-team-dashboard-data/src/testing-reports/data
+  #         path: qa-standards-dashboard-data/src/testing-reports/data
 
   #     - name: Push E2E Code Coverage Results to BigQuery
   #       run: yarn e2e-code-coverage-to-bigquery
-  #       working-directory: testing-tools-team-dashboard-data
+  #       working-directory: qa-standards-dashboard-data
 
   notify-failure:
     name: Notify Failure
