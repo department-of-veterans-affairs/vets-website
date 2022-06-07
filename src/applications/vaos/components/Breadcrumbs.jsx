@@ -14,11 +14,7 @@ export default function VAOSBreadcrumbs({ children }) {
   const breadcrumbs = useSelector(state => state.appointments.breadcrumbs);
 
   return (
-    <VaBreadcrumbs
-      className="medium-screen:vads-u-padding-x--0 vaos-appts__breadcrumbs"
-      aria-label="Breadcrumbs"
-      role="navigation"
-    >
+    <VaBreadcrumbs aria-label="Breadcrumbs" role="navigation">
       <a href="/" key="home">
         Home
       </a>

@@ -98,11 +98,8 @@
   outline: none;
 }
 
-.vaos-appts__breadcrumbs {
-  padding: 2em 0;
-}
-.vaos-appts__breadcrumbs li {
-  padding: 0em !important;
+va-breadcrumbs {
+  margin-left: -1em !important;
 }
 
 nav.vaos-appts__breadcrumb {
