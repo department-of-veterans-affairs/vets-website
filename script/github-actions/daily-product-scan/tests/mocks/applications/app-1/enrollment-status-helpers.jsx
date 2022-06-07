@@ -1,4 +1,4 @@
-/* eslint-disable va/correct-apostrophe */
+/* eslint-disable @department-of-veterans-affairs/correct-apostrophe */
 /* eslint-disable import/order */
 import React from 'react';
 import moment from 'moment';

@@ -1,6 +1,14 @@
 import { PROFILE_PATHS_LGBTQ_ENHANCEMENT } from '@@profile/constants';
 
 class BadAddressFeature {
+  PROFILE_ALERT_TEST_ID = 'bad-address-profile-alert';
+
+  FORM_ALERT_TEST_ID = 'bad-address-form-alert';
+
+  CONTACT_INFORMATION_TEST_ID = 'bad-address-contact-alert';
+
+  EDIT_MAILING_ADDRESS_BUTTON_ID = '#edit-mailing-address';
+
   visitPersonalInformationPage = () => {
     cy.visit(PROFILE_PATHS_LGBTQ_ENHANCEMENT.PERSONAL_INFORMATION);
   };
@@ -8,8 +16,6 @@ class BadAddressFeature {
   visitContactInformationPage = () => {
     cy.visit(PROFILE_PATHS_LGBTQ_ENHANCEMENT.CONTACT_INFORMATION);
   };
-
-  PROFILE_ALERT_TEST_ID = 'bad-address-profile-alert';
 
   confirmPersonalInformationAlertIsShowing = () => {
     cy.findByTestId(this.PROFILE_ALERT_TEST_ID).should('exist');
@@ -22,8 +28,6 @@ class BadAddressFeature {
     cy.findByTestId(this.PROFILE_ALERT_TEST_ID).should('not.exist');
   };
 
-  CONTACT_INFORMATION_TEST_ID = 'bad-address-contact-alert';
-
   confirmContactInformationAlertIsShowing = () => {
     cy.findByTestId(this.CONTACT_INFORMATION_TEST_ID).should('exist');
   };
@@ -31,8 +35,6 @@ class BadAddressFeature {
   confirmContactInformationAlertIsNotShowing = () => {
     cy.findByTestId(this.CONTACT_INFORMATION_TEST_ID).should('not.exist');
   };
-
-  FORM_ALERT_TEST_ID = 'bad-address-form-alert';
 
   confirmAlertInFormExists = () => {
     cy.findByTestId(this.FORM_ALERT_TEST_ID).should('exist');
@@ -49,7 +51,7 @@ class BadAddressFeature {
   };
 
   startEditingAddress = () => {
-    cy.get('#edit-mailing-address')
+    cy.get(this.EDIT_MAILING_ADDRESS_BUTTON_ID)
       .should('exist')
       .click({ waitForAnimations: true });
   };
@@ -75,7 +77,19 @@ class BadAddressFeature {
   confirmUpdatedMessageIsShown = () => {
     cy.get('[data-testid="update-success-alert"]').should('exist');
   };
-  // TODO: Add checks for accessibility and analytics?
+
+  confirmContactPageHasAccessibilityConcerns = () => {
+    cy.get('#described-by-mailingAddress').should(
+      'have.attr',
+      'id',
+      'described-by-mailingAddress',
+    );
+    cy.get(this.EDIT_MAILING_ADDRESS_BUTTON_ID).should(
+      'have.attr',
+      'aria-describedby',
+      'described-by-mailingAddress',
+    );
+  };
 }
 
 export default new BadAddressFeature();

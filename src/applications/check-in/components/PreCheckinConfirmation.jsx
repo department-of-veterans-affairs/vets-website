@@ -71,7 +71,6 @@ const PreCheckinConfirmation = props => {
 PreCheckinConfirmation.propTypes = {
   appointments: PropTypes.array,
   formData: PropTypes.object,
-  hasUpdates: PropTypes.bool,
   isLoading: PropTypes.bool,
 };
 
