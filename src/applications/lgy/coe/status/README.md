@@ -5,10 +5,15 @@ URL: `{root url}/housing-assistance/home-loans/check-coe-status/your-coe`
 
 
 # Background
-TBD
+When a Veteran wants to get a VA backed home loan the VA can provide them with something called a "Certificate of Eligibility" (COE). This certificate does not approve them for a specific dollar amount but rather lets the Veteran's chosen lender know that they are in fact able to get a VA backed home loan.
+
+When a veteran wants to recieve a COE they can come to this page and we can make a call to the upstream data service LGY and they can send us a determination of if the Veteran is automatically approved for a COE. If they are automatically approved then we can provide them a link to download that COE. Alternatively if the Veteran applied for a COE then the call we make the LGY serivice will return to us the status of that COE application that the Veteran has in progress.
 
 ## How the app works for the user
-TBD
+When a Veteran first lands on the page we make the initial call to the LGY service to get the status of the COE for the Veteran. We then show content relevent to that Veteran based on the status that comes back from LGY, so for example if the Veteran is automatically approved for a COE we show them a message that says that they are automatically approved as well as a link to download the COE as a PDF.
+
+### Statuses
+
 
 ## The front end code
 TBD
@@ -19,9 +24,7 @@ TBD
 ## Mocking the `/coe/` endpoint in vets-api
 When developing locally, vets-api is generally not set up to access the COE status from the upstream data service LGY.
 
-### COE Status
-
-To mock the COE status we need to go to the controller at `app/controllers/v0/coe_controller.rb` and replace this code - 
+To mock the COE app we need to go to the controller at `app/controllers/v0/coe_controller.rb` and replace this code - 
 
 ```ruby
  # def status
