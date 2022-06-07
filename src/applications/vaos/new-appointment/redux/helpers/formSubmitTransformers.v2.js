@@ -1,7 +1,11 @@
 import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
-import { LANGUAGES, PURPOSE_TEXT_V2 } from '../../../utils/constants';
+import {
+  LANGUAGES,
+  PURPOSE_TEXT,
+  PURPOSE_TEXT_V2,
+} from '../../../utils/constants';
 import {
   getTypeOfCare,
   getFormData,
@@ -151,13 +155,13 @@ export function transformFormToVAOSVARequest(state) {
   };
 }
 
-// function getUserMessage(data) {
-//   const label = PURPOSE_TEXT.find(
-//     purpose => purpose.id === data.reasonForAppointment,
-//   ).short;
+function getUserMessage(data) {
+  const label = PURPOSE_TEXT.find(
+    purpose => purpose.id === data.reasonForAppointment,
+  ).short;
 
-//   return `${label}: ${data.reasonAdditionalInfo}`;
-// }
+  return `${label}: ${data.reasonAdditionalInfo}`;
+}
 
 export function transformFormToVAOSAppointment(state) {
   const data = getFormData(state);
@@ -178,6 +182,6 @@ export function transformFormToVAOSAppointment(state) {
     },
     locationId: data.vaFacility,
     // removing this for now, it's preventing QA from testing, will re-introduce when the team figures out how we're handling the comment field
-    // comment: getUserMessage(data),
+    comment: getUserMessage(data),
   };
 }

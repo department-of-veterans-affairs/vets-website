@@ -2,19 +2,18 @@ import { expect } from 'chai';
 import React from 'react';
 import { render } from 'enzyme';
 import { Provider } from 'react-redux';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import App from '../../containers/App';
 
 function getStore(loading = false, currentlyLoggedIn = false) {
   return {
     getState: () => ({
-      featureToggles: {
-        loading,
-      },
       user: {
         login: {
           currentlyLoggedIn,
         },
         profile: {
+          loading,
           loa: {
             current: 1,
           },
@@ -28,6 +27,15 @@ function getStore(loading = false, currentlyLoggedIn = false) {
 }
 
 describe('App', () => {
+  it('renders the shared page content', () => {
+    const dhpContainer = renderInReduxProvider(<App />);
+    const title = 'Connect your health devices to share data';
+    const faq = 'Frequently asked questions';
+
+    expect(dhpContainer.getByText(title)).to.exist;
+    expect(dhpContainer.getByText(faq)).to.exist;
+  });
+
   it('renders the the loading indicator when page is loading', () => {
     const mockStore = getStore(true, true);
     const wrapper = render(

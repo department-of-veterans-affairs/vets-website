@@ -1,7 +1,7 @@
 const constants = {
   owner: 'department-of-veterans-affairs',
   repo: 'product-directory',
-  path: 'product-directory.csv',
+  path: 'product-directory.json',
   branch: 'main',
 };
 
