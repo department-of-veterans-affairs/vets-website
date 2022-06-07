@@ -272,6 +272,7 @@ export function getClaimsV2(options = {}) {
             error: errorCode,
           });
         }
+
         return dispatch({ type: FETCH_CLAIMS_ERROR });
       },
       onSuccess: response => {
@@ -337,8 +338,10 @@ export function getClaimDetail(id, router, poll = pollRequest) {
           });
         }
 
-        if (response.status !== 404 || !router)
+        if (response.status !== 404 || !router) {
           return dispatch({ type: SET_CLAIMS_UNAVAILABLE });
+        }
+
         return router.replace('your-claims');
       },
       onSuccess: response =>
