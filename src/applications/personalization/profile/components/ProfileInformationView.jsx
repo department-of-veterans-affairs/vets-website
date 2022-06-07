@@ -26,7 +26,7 @@ const shouldShowUnsetFieldTitleSpan = (data, fieldName) => {
 };
 
 const ProfileInformationView = props => {
-  const { data, fieldName, title } = props;
+  const { data, fieldName, title, id } = props;
 
   const titleLower = title.toLowerCase();
 
@@ -47,16 +47,16 @@ const ProfileInformationView = props => {
     // and . symbols so very long email addresses will wrap at those symbols if
     // needed
     const regex = /(@|\.)/;
-    const wrappableEmailAddress = data.emailAddress
-      .split(regex)
-      .map(
-        part =>
-          regex.test(part) ? (
-            <span className="email-address-symbol">{part}</span>
-          ) : (
-            part
-          ),
-      );
+    const wrappableEmailAddress = data.emailAddress.split(regex).map(
+      (part, i) =>
+        regex.test(part) ? (
+          <span className="email-address-symbol" key={i}>
+            {part}
+          </span>
+        ) : (
+          part
+        ),
+    );
     return (
       <span style={{ wordBreak: 'break-word' }}>{wrappableEmailAddress}</span>
     );
@@ -78,7 +78,7 @@ const ProfileInformationView = props => {
     const { street, cityStateZip, country } = formatAddress(data);
 
     return (
-      <div>
+      <div id={id}>
         {street}
         <br />
         {cityStateZip}
@@ -110,6 +110,7 @@ const ProfileInformationView = props => {
 ProfileInformationView.propTypes = {
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
   data: PropTypes.object,
+  id: PropTypes.string,
   title: PropTypes.string,
 };
 

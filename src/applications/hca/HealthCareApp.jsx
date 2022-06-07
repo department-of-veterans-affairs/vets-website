@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -13,34 +13,28 @@ const HealthCareEntry = ({
   children,
   caregiverSIGIEnabled = false,
   hcaAmericanIndianEnabled = false,
+  hcaShortFormEnabled = false,
   setFormData,
   formData,
 }) => {
-  const getFlipperData = useCallback(
-    () => {
-      if (caregiverSIGIEnabled !== undefined) {
-        setFormData({
-          ...formData,
-          'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
-        });
-      }
-
-      if (hcaAmericanIndianEnabled !== undefined) {
-        setFormData({
-          ...formData,
-          'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
-        });
-      }
-    },
-    [caregiverSIGIEnabled, hcaAmericanIndianEnabled],
-  );
-
   useEffect(
+    // included veteranFullName to reset view flipper toggles when starting a new application from save-in-progress
     () => {
-      getFlipperData();
+      setFormData({
+        ...formData,
+        'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
+        'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
+        'view:hcaShortFormEnabled': hcaShortFormEnabled,
+      });
     },
 
-    [getFlipperData, caregiverSIGIEnabled],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      caregiverSIGIEnabled,
+      hcaAmericanIndianEnabled,
+      hcaShortFormEnabled,
+      formData.veteranFullName,
+    ],
   );
 
   return (
@@ -58,6 +52,9 @@ const mapStateToProps = state => ({
   hcaAmericanIndianEnabled: toggleValues(state)[
     FEATURE_FLAG_NAMES.hcaAmericanIndianEnabled
   ],
+  hcaShortFormEnabled: toggleValues(state)[
+    FEATURE_FLAG_NAMES.hcaShortFormEnabled
+  ],
 });
 
 const mapDispatchToProps = {
@@ -66,9 +63,10 @@ const mapDispatchToProps = {
 
 HealthCareEntry.propTypes = {
   caregiverSIGIEnabled: PropTypes.bool,
-  hcaAmericanIndianEnabled: PropTypes.bool,
-  setFormData: PropTypes.func,
   formData: PropTypes.object,
+  hcaAmericanIndianEnabled: PropTypes.bool,
+  hcaShortFormEnabled: PropTypes.bool,
+  setFormData: PropTypes.func,
 };
 
 export default connect(

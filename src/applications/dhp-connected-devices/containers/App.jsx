@@ -1,12 +1,12 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { UnauthenticatedPageContent } from '../components/UnauthenticatedPageContent';
+import UnauthenticatedPageContent from '../components/UnauthenticatedPageContent';
 import { AuthenticatedPageContent } from '../components/AuthenticatedPageContent';
 import { FrequentlyAskedQuestions } from '../components/FrequentlyAskedQuestions';
 
 export default function App() {
+  const isLoading = useSelector(state => state?.user?.profile?.loading);
   const isLoggedIn = useSelector(state => state?.user.login.currentlyLoggedIn);
-  const isLoading = useSelector(state => state?.featureToggles?.loading);
   const pageContent = isLoggedIn ? (
     <AuthenticatedPageContent />
   ) : (

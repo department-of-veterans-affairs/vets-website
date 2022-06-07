@@ -4,14 +4,13 @@ import { useSelector } from 'react-redux';
 import BalanceCard from './BalanceCard';
 import ZeroBalanceCard from './ZeroBalanceCard';
 import AlertCard from './AlertCard';
-import ComboAlerts from './ComboAlerts';
 import {
   calculateTotalDebts,
   calculateTotalBills,
   getLatestDebt,
   getLatestBill,
 } from '../utils/balance-helpers';
-import { APP_TYPES, ALERT_TYPES } from '../utils/helpers';
+import { APP_TYPES } from '../utils/helpers';
 
 // Some terminology that could be helpful:
 // debt(s) = debtLetters
@@ -26,11 +25,6 @@ const Balances = () => {
   const billError = mcp.error;
   const debtError = debtLetters.errors?.length > 0;
 
-  // Both Error, show combo alert
-  if (billError && debtError) {
-    return <ComboAlerts alertType={ALERT_TYPES.ERROR} />;
-  }
-
   // get Debt info
   const { debts } = debtLetters;
   const totalDebts = calculateTotalDebts(debts);
@@ -40,11 +34,6 @@ const Balances = () => {
   const bills = mcp.statements;
   const totalBills = calculateTotalBills(bills);
   const latestBill = getLatestBill(bills);
-
-  // If there are no debts or bills, show zero balance card
-  if (totalDebts === 0 && totalBills === 0) {
-    return <ComboAlerts alertType={ALERT_TYPES.ZERO} />;
-  }
 
   // Sort two valid BalancCards by date
   if (!debtError && !billError && totalDebts > 0 && totalBills > 0) {

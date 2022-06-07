@@ -59,7 +59,7 @@ describe('Schemaform: ReviewCardField', () => {
   it('should throw an error if no viewComponent is found', () => {
     expect(() => {
       // Not necessary if not componentWillUnmount
-      // eslint-disable-next-line va/enzyme-unmount
+      // eslint-disable-next-line @department-of-veterans-affairs/enzyme-unmount
       shallow(<ReviewCardField {...defaultProps} uiSchema={{}} />);
     }).to.throw('viewComponent');
   });
@@ -67,7 +67,7 @@ describe('Schemaform: ReviewCardField', () => {
   it('should throw an error if schema type is not object or array', () => {
     expect(() => {
       // Not necessary if not componentWillUnmount
-      // eslint-disable-next-line va/enzyme-unmount
+      // eslint-disable-next-line @department-of-veterans-affairs/enzyme-unmount
       shallow(
         <ReviewCardField {...defaultProps} schema={{ type: 'string' }} />,
       );

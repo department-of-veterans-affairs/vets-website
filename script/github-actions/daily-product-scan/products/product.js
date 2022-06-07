@@ -6,6 +6,7 @@ class Product {
     this.hasUnitTests = null;
     this.hasE2eTests = null;
     this.hasContractTests = null;
+    this.lastUpdated = null;
   }
 }
 
