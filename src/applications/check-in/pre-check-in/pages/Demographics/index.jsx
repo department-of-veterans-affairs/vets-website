@@ -6,7 +6,7 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import BackToHome from '../../../components/BackToHome';
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import Footer from '../../../components/Footer';
+import Footer from '../../../components/layout/Footer';
 import BackButton from '../../../components/BackButton';
 import DemographicsDisplay from '../../../components/pages/demographics/DemographicsDisplay';
 import { recordAnswer } from '../../../actions/pre-check-in';

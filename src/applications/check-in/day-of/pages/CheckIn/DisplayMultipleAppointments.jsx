@@ -9,8 +9,7 @@ import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import BackButton from '../../../components/BackButton';
 import BackToHome from '../../../components/BackToHome';
-import Footer from '../../../components/Footer';
-import LanguagePicker from '../../../components/LanguagePicker';
+import Footer from '../../../components/layout/Footer';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
@@ -20,6 +19,7 @@ import {
 } from '../../../utils/appointment';
 
 import { makeSelectCurrentContext } from '../../../selectors';
+import Wrapper from '../../../components/layout/Wrapper';
 
 const DisplayMultipleAppointments = props => {
   const { appointments, router, token } = props;
@@ -40,8 +40,6 @@ const DisplayMultipleAppointments = props => {
 
   useEffect(
     () => {
-      focusElement('h1');
-
       const refreshInterval = intervalUntilNextAppointmentIneligibleForCheckin(
         appointments,
       );
@@ -85,11 +83,11 @@ const DisplayMultipleAppointments = props => {
   ) : (
     <>
       <BackButton router={router} action={goToPreviousPage} />
-      <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
-        <LanguagePicker />
-        <h1 tabIndex="-1" className="vads-u-margin-top--2">
-          {t('your-appointments')}
-        </h1>
+      <Wrapper
+        pageTitle={t('your-appointments')}
+        classNames="appointment-check-in"
+        withBackButton
+      >
         <p data-testid="date-text">
           {t('here-are-your-appointments-for-today', { date: new Date() })}
         </p>
@@ -128,7 +126,7 @@ const DisplayMultipleAppointments = props => {
         </p>
         <Footer />
         <BackToHome />
-      </div>
+      </Wrapper>
     </>
   );
 };
