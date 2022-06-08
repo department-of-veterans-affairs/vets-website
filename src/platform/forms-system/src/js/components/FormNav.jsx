@@ -34,13 +34,17 @@ export default function FormNav(props) {
     eligiblePageList.map(p => p.chapterKey).filter(key => !!key),
   );
 
-  let page = eligiblePageList.filter(p => p.path === currentPath)[0];
+  const pathArray = currentPath.split('/');
+  const trimmedPath = `/${pathArray[pathArray.length - 1]}`;
+
+  let page = eligiblePageList.filter(p => p.path === trimmedPath)[0];
+
   // If the page isn’t active, it won’t be in the eligiblePageList
   // This is a fallback to still find the chapter name if you open the page directly
   // (the chapter index will probably be wrong, but this isn’t a scenario that happens in normal use)
   if (!page) {
     page = formPages.find(
-      p => `${formConfig.urlPrefix}${p.path}` === currentPath,
+      p => `${formConfig.urlPrefix}${p.path}` === trimmedPath,
     );
   }
 
@@ -92,6 +96,9 @@ export default function FormNav(props) {
     },
     [current, index],
   );
+
+  // eslint-disable-next-line no-console
+  console.log(chapters.length, ' and ', current);
 
   return (
     <div>
