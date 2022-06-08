@@ -9,6 +9,9 @@ import {
   cnpDirectDepositIsBlocked,
   showProfileLGBTQEnhancements,
   profileAlwaysShowDirectDepositDisplay,
+  showBadAddressIndicator,
+  hasBadAddress,
+  forceBadAddressIndicator,
 } from '@@profile/selectors';
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
@@ -23,6 +26,8 @@ import Headline from '../ProfileSectionHeadline';
 import PersonalInformationContent from './PersonalInformationContent';
 
 import { PROFILE_PATHS } from '../../constants';
+
+import BadAddressAlert from '../alerts/bad-address/ProfileAlert';
 
 // drops the leading `edit` from the hash and looks for that element
 const getScrollTarget = hash => {
@@ -47,6 +52,16 @@ const PersonalInformation = () => {
   const directDepositIsAlwaysShowing = useSelector(
     profileAlwaysShowDirectDepositDisplay,
   );
+
+  const userHasBadAddress = useSelector(hasBadAddress);
+
+  const shouldForceBadAddressIndicator = useSelector(
+    state =>
+      forceBadAddressIndicator(state) &&
+      !sessionStorage.getItem('profile-has-cleared-bad-address-indicator'),
+  );
+
+  const badAddressIndicatorEnabled = useSelector(showBadAddressIndicator);
 
   const dispatch = useDispatch();
   const clearSuccessAlert = useCallback(
@@ -127,12 +142,21 @@ const PersonalInformation = () => {
     [openEditModal],
   );
 
+  const showHeroBadAddressAlert =
+    badAddressIndicatorEnabled &&
+    (userHasBadAddress || shouldForceBadAddressIndicator);
+
   return (
     <>
       <Prompt
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={hasUnsavedEdits}
       />
+      {showHeroBadAddressAlert && (
+        <>
+          <BadAddressAlert />
+        </>
+      )}
       {shouldShowProfileLGBTQEnhancements ? (
         <Headline>Personal information</Headline>
       ) : (

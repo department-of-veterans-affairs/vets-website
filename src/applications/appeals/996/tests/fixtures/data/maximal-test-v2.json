@@ -1,6 +1,6 @@
 {
   "data": {
-    "hlrV2": true,
+    "benefitType": "compensation",
     "veteran": {
       "ssnLastFour": "7821",
       "vaFileLastFour": "8765",

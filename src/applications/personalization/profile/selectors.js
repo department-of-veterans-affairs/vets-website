@@ -87,6 +87,17 @@ export const militaryInformationLoadError = state => {
 export const showProfileLGBTQEnhancements = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileEnhancements] || false;
 
+export const showBadAddressIndicator = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowBadAddressIndicator] ||
+  false;
+
+export const forceBadAddressIndicator = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileForceBadAddressIndicator] ||
+  false;
+
+export const hasBadAddress = state =>
+  state.user?.profile?.vapContactInfo?.mailingAddress?.badAddress;
+
 export const profileShowAddressChangeModal = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowAddressChangeModal] ||
   false;

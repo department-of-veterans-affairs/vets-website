@@ -53,9 +53,10 @@ import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilit
 
 import {
   isValidPhone,
-  validatePhone,
   validateEmail,
   validateEffectiveDate,
+  validateMobilePhone,
+  validateHomePhone,
 } from '../utils/validation';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
@@ -182,13 +183,6 @@ function isOnlyWhitespace(str) {
   return str && !str.trim().length;
 }
 
-function startPhoneEditValidation({ phone }) {
-  if (!phone) {
-    return true;
-  }
-  return validatePhone(phone);
-}
-
 function titleCase(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
@@ -198,13 +192,14 @@ function phoneUISchema(category) {
     'ui:options': {
       hideLabelText: true,
       showFieldLabel: false,
-      startInEdit: formData => startPhoneEditValidation(formData),
       viewComponent: PhoneViewField,
     },
     'ui:objectViewField': PhoneReviewField,
     phone: {
       ...phoneUI(`${titleCase(category)} phone number`),
-      'ui:validations': [validatePhone],
+      'ui:validations': [
+        category === 'mobile' ? validateMobilePhone : validateHomePhone,
+      ],
     },
     isInternational: {
       'ui:title': `This ${category} phone number is international`,
@@ -1340,14 +1335,17 @@ const formConfig = {
                 properties: {
                   accountType: {
                     type: 'string',
+                    required: [formFields.accountType],
                     enum: ['checking', 'savings'],
                   },
                   routingNumber: {
                     type: 'string',
+                    required: [formFields.routingNumber],
                     pattern: '^\\d{9}$',
                   },
                   accountNumber: {
                     type: 'string',
+                    required: [formFields.accountNumber],
                   },
                 },
               },

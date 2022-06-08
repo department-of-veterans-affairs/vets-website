@@ -120,7 +120,11 @@
               "state": "OH",
               "postalCode": "45414",
               "text": "1601 Needmore Rd Ste 1\nDayton OH 45414"
-            }
+            },
+            "telecom": [{
+              "system": "phone",
+              "value": "723-234-4565"
+            }]
           }
         },        
         "preferredTimesForPhoneCall": [],
