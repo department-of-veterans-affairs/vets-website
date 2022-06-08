@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
@@ -24,7 +23,7 @@ const options = [
 
 const name = 'higher-level-review-option';
 
-const ClaimType = ({ setPageState, state = {}, hlrV2 }) => {
+const ClaimType = ({ setPageState, state = {} }) => {
   const handlers = {
     setState: ({ value }) => {
       recordEvent({
@@ -35,9 +34,8 @@ const ClaimType = ({ setPageState, state = {}, hlrV2 }) => {
         'form-field-value': value,
       });
 
-      // Show 'other', or 'legacyChoice'(v1)/'legacyNo'(v2) page
-      const hlrV2Page = hlrV2 ? 'legacyNo' : 'legacyChoice';
-      const page = pageNames[value !== pageNames.other ? hlrV2Page : 'other'];
+      // Show 'other', or 'startHlr'(v2) page
+      const page = pageNames[value !== pageNames.other ? 'startHlr' : 'other'];
       setPageState({ selected: value }, page);
 
       if (value === pageNames.other) {
@@ -50,10 +48,7 @@ const ClaimType = ({ setPageState, state = {}, hlrV2 }) => {
   };
 
   // aria-describedby fix for #34873
-  const ariaDescribedby = [
-    hlrV2 ? pageNames.legacyNo : pageNames.legacyChoice,
-    pageNames.other,
-  ];
+  const ariaDescribedby = [pageNames.startHlr, pageNames.other];
 
   return (
     <RadioButtons
@@ -69,16 +64,11 @@ const ClaimType = ({ setPageState, state = {}, hlrV2 }) => {
 };
 
 ClaimType.propTypes = {
-  hlrV2: PropTypes.bool,
   setPageState: PropTypes.func,
   state: PropTypes.shape({}),
 };
 
-const mapStateToProps = state => ({
-  hlrV2: state.featureToggles.hlrV2,
-});
-
 export default {
   name: pageNames.start,
-  component: connect(mapStateToProps)(ClaimType),
+  component: ClaimType,
 };

@@ -2,6 +2,33 @@ import { isVersion1Data } from '../utils/helpers';
 
 const unaffectedPages = ['/contact-information', '/veteran-information'];
 
+export const forceV2Migration = data => {
+  const formData = { ...data };
+
+  // Remove sameOffice
+  delete formData.sameOffice;
+
+  // Change time window selection - clear out previous selections
+  formData.informalConferenceTimes = {};
+
+  // Change Rep Name format
+  const name = formData?.informalConferenceRep?.name;
+  if (formData.informalConference === 'rep' && name) {
+    // can't split name on a space, e.g. "James P. Sullivan", so we add it to
+    // the last name field since the schema allows more characters in the last
+    formData.informalConferenceRep.firstName = '';
+    formData.informalConferenceRep.lastName = name;
+    delete formData.informalConferenceRep.name;
+  }
+
+  // Move v1 property to v2 location (temporary)
+  formData.veteran.zipCode5 = formData.zipCode5;
+  // Remove v1-only property
+  delete formData.zipCode5;
+
+  return formData;
+};
+
 /* Update to match Lighthouse v2 changes
  * https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json
  * Four modifications need to happen in this migration
@@ -29,29 +56,8 @@ export default function version2Updates(savedData) {
     ? metadata.returnUrl
     : unaffectedPages[0];
 
-  // Remove sameOffice
-  delete formData.sameOffice;
-
-  // Change time window selection - clear out previous selections
-  formData.informalConferenceTimes = {};
-
-  // Change Rep Name format
-  const name = formData.informalConferenceRep?.name;
-  if (formData.informalConference === 'rep' && name) {
-    // can't split name on a space, e.g. "James P. Sullivan", so we add it to
-    // the last name field since the schema allows more characters in the last
-    formData.informalConferenceRep.firstName = '';
-    formData.informalConferenceRep.lastName = name;
-    delete formData.informalConferenceRep.name;
-  }
-
-  // Move v1 property to v2 location (temporary)
-  formData.veteran.zipCode5 = formData.zipCode5;
-  // Remove v1-only property
-  delete formData.zipCode5;
-
   return {
-    formData,
+    formData: forceV2Migration(formData),
     metadata: {
       ...metadata,
       version: 2,
