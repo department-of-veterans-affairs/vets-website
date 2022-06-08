@@ -30,6 +30,9 @@ import {
 
 export const CHATBOT_ERROR_MESSAGE = /We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk/i;
 
+const disclaimerText =
+  'Our chatbot can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.';
+
 /**
  * @testing-library/dom
  */
@@ -166,14 +169,7 @@ describe('App', () => {
           unacknowledgedUserStore,
         );
 
-        await waitFor(
-          () =>
-            expect(
-              wrapper.getByText(
-                'Our virtual agent can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.',
-              ),
-            ).to.exist,
-        );
+        await waitFor(() => expect(wrapper.getByText(disclaimerText)).to.exist);
 
         await waitFor(
           () =>
@@ -1048,26 +1044,12 @@ describe('App', () => {
         reducers: virtualAgentReducer,
       });
 
-      waitFor(
-        () =>
-          expect(
-            wrapper.queryByText(
-              'Our virtual agent can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.',
-            ),
-          ).to.not.exist,
-      );
+      waitFor(() => expect(wrapper.queryByText(disclaimerText)).to.not.exist);
       // done();
 
       location.reload();
 
-      waitFor(
-        () =>
-          expect(
-            wrapper.queryByText(
-              'Our virtual agent can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.',
-            ),
-          ).to.not.exist,
-      );
+      waitFor(() => expect(wrapper.queryByText(disclaimerText)).to.not.exist);
       done();
     });
   });

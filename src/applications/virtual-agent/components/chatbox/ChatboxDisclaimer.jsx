@@ -12,7 +12,7 @@ export const ChatboxDisclaimer = () => {
       <div data-testid="disclaimer" style={{ width: '100%' }}>
         <ul>
           <li>
-            Our virtual agent can’t help you if you’re experiencing a personal,
+            Our chatbot can’t help you if you’re experiencing a personal,
             medical, or mental health emergency. Go to the nearest emergency
             room or call 911 to get medical care right away.
             <br />
