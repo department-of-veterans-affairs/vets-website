@@ -155,12 +155,23 @@ export function transformFormToVAOSVARequest(state) {
   };
 }
 
-function getUserMessage(data) {
-  const label = PURPOSE_TEXT.find(
-    purpose => purpose.id === data.reasonForAppointment,
-  ).short;
+// function getUserMessage(data) {
+//   const label = PURPOSE_TEXT.find(
+//     purpose => purpose.id === data.reasonForAppointment,
+//   ).short;
 
-  return `${label}: ${data.reasonAdditionalInfo}`;
+//   return `${label}: ${data.reasonAdditionalInfo}`;
+// }
+
+function getReasonCode(data) {
+  const code = PURPOSE_TEXT.filter(purpose => purpose.id !== 'other').find(
+    purpose => purpose.id === data.reasonForAppointment,
+  )?.short;
+
+  return {
+    coding: code ? [{ code }] : [],
+    text: data.reasonAdditionalInfo,
+  };
 }
 
 export function transformFormToVAOSAppointment(state) {
@@ -181,7 +192,8 @@ export function transformFormToVAOSAppointment(state) {
       desiredDate: `${data.preferredDate}T00:00:00+00:00`,
     },
     locationId: data.vaFacility,
+    reasonCode: getReasonCode(data),
     // removing this for now, it's preventing QA from testing, will re-introduce when the team figures out how we're handling the comment field
-    comment: getUserMessage(data),
+    // comment: getUserMessage(data),
   };
 }

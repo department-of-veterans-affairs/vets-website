@@ -113,7 +113,198 @@ describe('VAOS V2 data transformation', () => {
         },
         extension: { desiredDate: '2019-12-02T00:00:00+00:00' },
         locationId: '983',
-        comment: 'Follow-up/Routine: asdfasdf',
+        reasonCode: {
+          coding: [
+            {
+              code: 'Follow-up/Routine',
+            },
+          ],
+          text: 'asdfasdf',
+        },
+      });
+    });
+
+    it('should set reason code only', () => {
+      // When user select 'other' for reason for appointment
+      const state = {
+        featureToggles: {
+          vaOnlineSchedulingFacilitiesServiceV2: true,
+          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+        },
+        newAppointment: {
+          pages: {},
+          data: {
+            typeOfCareId: '323',
+            phoneNumber: '2234567890',
+            email: 'joeblow@gmail.com',
+            reasonForAppointment: 'other',
+            reasonAdditionalInfo: 'I need an appt',
+            vaParent: '983',
+            vaFacility: '983',
+            clinicId: '983_308',
+            preferredDate: '2019-12-02',
+            selectedDates: ['2019-11-22T09:30:00'],
+          },
+          facilityDetails: {
+            '983': {
+              id: '983',
+              name: 'Cheyenne VA Medical Center',
+              address: {
+                postalCode: '82001-5356',
+                city: 'Cheyenne',
+                state: 'WY',
+                line: ['2360 East Pershing Boulevard'],
+              },
+            },
+          },
+          facilities: {
+            '323': [
+              {
+                id: '983',
+                name: 'Cheyenne VA Medical Center',
+                identifier: [
+                  { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
+                ],
+                address: {
+                  postalCode: '82001-5356',
+                  city: 'Cheyenne',
+                  state: 'WY',
+                  line: ['2360 East Pershing Boulevard'],
+                },
+                telecom: [{ system: 'phone', value: '307-778-7550' }],
+              },
+            ],
+          },
+          availableSlots: [
+            {
+              id: 'test2',
+              start: '2019-11-22T09:30:00',
+              end: '2019-11-22T09:30:00',
+            },
+          ],
+          clinics: {
+            '983_323': [
+              {
+                id: '983_308',
+                serviceName: 'Some VA clinic',
+                stationId: '983',
+                stationName: 'Cheyenne VA Medical Center',
+              },
+            ],
+          },
+        },
+      };
+      const data = transformFormToVAOSAppointment(state);
+
+      // then reasonCode.coding should be null or an empty array
+      // and reasonCode.text should be populated with user entered additional text
+      expect(data).to.deep.equal({
+        kind: 'clinic',
+        status: 'booked',
+        clinic: '308',
+        slot: {
+          id: 'test2',
+        },
+        extension: { desiredDate: '2019-12-02T00:00:00+00:00' },
+        locationId: '983',
+        reasonCode: {
+          coding: [],
+          text: 'I need an appt',
+        },
+      });
+    });
+
+    it('should set reason code and reason text only', () => {
+      // When user select anything but 'other' for reason for appointment
+      const state = {
+        featureToggles: {
+          vaOnlineSchedulingFacilitiesServiceV2: true,
+          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+        },
+        newAppointment: {
+          pages: {},
+          data: {
+            typeOfCareId: '323',
+            phoneNumber: '2234567890',
+            email: 'joeblow@gmail.com',
+            reasonForAppointment: 'routine-follow-up',
+            reasonAdditionalInfo: 'I need an appt',
+            vaParent: '983',
+            vaFacility: '983',
+            clinicId: '983_308',
+            preferredDate: '2019-12-02',
+            selectedDates: ['2019-11-22T09:30:00'],
+          },
+          facilityDetails: {
+            '983': {
+              id: '983',
+              name: 'Cheyenne VA Medical Center',
+              address: {
+                postalCode: '82001-5356',
+                city: 'Cheyenne',
+                state: 'WY',
+                line: ['2360 East Pershing Boulevard'],
+              },
+            },
+          },
+          facilities: {
+            '323': [
+              {
+                id: '983',
+                name: 'Cheyenne VA Medical Center',
+                identifier: [
+                  { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
+                ],
+                address: {
+                  postalCode: '82001-5356',
+                  city: 'Cheyenne',
+                  state: 'WY',
+                  line: ['2360 East Pershing Boulevard'],
+                },
+                telecom: [{ system: 'phone', value: '307-778-7550' }],
+              },
+            ],
+          },
+          availableSlots: [
+            {
+              id: 'test2',
+              start: '2019-11-22T09:30:00',
+              end: '2019-11-22T09:30:00',
+            },
+          ],
+          clinics: {
+            '983_323': [
+              {
+                id: '983_308',
+                serviceName: 'Some VA clinic',
+                stationId: '983',
+                stationName: 'Cheyenne VA Medical Center',
+              },
+            ],
+          },
+        },
+      };
+      const data = transformFormToVAOSAppointment(state);
+
+      // then reasonCode.coding should contain the reason for the appointment
+      // and reasonCode.text should be populated with user entered additional text
+      expect(data).to.deep.equal({
+        kind: 'clinic',
+        status: 'booked',
+        clinic: '308',
+        slot: {
+          id: 'test2',
+        },
+        extension: { desiredDate: '2019-12-02T00:00:00+00:00' },
+        locationId: '983',
+        reasonCode: {
+          coding: [
+            {
+              code: 'Follow-up/Routine',
+            },
+          ],
+          text: 'I need an appt',
+        },
       });
     });
   });
