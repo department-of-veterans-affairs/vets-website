@@ -46,16 +46,7 @@ describe('Medical Copays', () => {
     cy.findByTestId(`past-due-balance-alert`).contains(
       'Your balance may be overdue',
     );
-    cy.findByTestId(`how-to-pay`).contains('How do I pay my VA copay bill?');
-    cy.findByTestId(`financial-help`).contains(
-      'How do I get financial help for my copays?',
-    );
-    cy.findByTestId(`dispute-charges`).contains(
-      'How do I dispute my copay charges?',
-    );
-    cy.findByTestId(`balance-questions`).contains(
-      'What to do if you have questions about your balance',
-    );
+    cy.findByTestId(`how-to-pay`).contains('How to pay your copay bill');
     cy.injectAxeThenAxeCheck();
   });
 
@@ -63,7 +54,7 @@ describe('Medical Copays', () => {
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
-    cy.findByTestId(`download-statements`).should('exist');
+    cy.findByTestId(`view-statements`).should('exist');
     cy.findAllByText(/November 15, 2019/i).should('exist');
     cy.injectAxeThenAxeCheck();
   });
