@@ -123,6 +123,9 @@ describe('App', () => {
         );
 
         await waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
+        await waitFor(
+          () => expect(wrapper.getByText('VA chatbot (beta)')).to.exist,
+        );
       });
 
       it('should not create a store more than once', async () => {
