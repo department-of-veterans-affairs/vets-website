@@ -14,18 +14,6 @@ const store = createCommonStore({
 const LocationCovidStatus = ({ supplementalStatus }) => {
   const [showVamcAlert, setShowVamcAlert] = useState(true);
 
-  const staticCovidStatuses = useStaticDrupalData(
-    'vamc-facility-supplemental-status',
-  );
-
-  const covidStatus = staticCovidStatuses.find(status => {
-    const activeCovidStatus = supplementalStatus?.find(activeStatus =>
-      activeStatus.id.includes('COVID'),
-    );
-
-    return status.status_id === activeCovidStatus?.id;
-  });
-
   useEffect(() => {
     connectFeatureToggle(store.dispatch);
     store.subscribe(() => {
@@ -38,6 +26,22 @@ const LocationCovidStatus = ({ supplementalStatus }) => {
       }
     });
   }, []);
+
+  const staticCovidStatuses = useStaticDrupalData(
+    'vamc-facility-supplemental-status',
+  );
+
+  if (!staticCovidStatuses) {
+    return <></>;
+  }
+
+  const covidStatus = staticCovidStatuses.find(status => {
+    const activeCovidStatus = supplementalStatus?.find(activeStatus =>
+      activeStatus.id.includes('COVID'),
+    );
+
+    return status.status_id === activeCovidStatus?.id;
+  });
 
   if (!covidStatus || !showVamcAlert) {
     return <></>;

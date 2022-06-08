@@ -7,6 +7,7 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceEditingPreCheckInEnabled = true,
     checkInExperienceTranslationDayOfEnabled = true,
     checkInExperienceTranslationPreCheckInEnabled = true,
+    checkInExperienceTranslationDisclaimerSpanishEnabled = true,
     checkInExperienceDayOfDemographicsFlagsEnabled = true,
     checkInExperienceLorotaSecurityUpdatesEnabled = false,
     checkInExperienceEditMessagingEnabled = false,
@@ -43,6 +44,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_translation_pre_check_in_enabled',
           value: checkInExperienceTranslationPreCheckInEnabled,
+        },
+        {
+          name: 'check_in_experience_translation_disclaimer_spanish_enabled',
+          value: checkInExperienceTranslationDisclaimerSpanishEnabled,
         },
         {
           name: 'check_in_experience_day_of_demographics_flags_enabled',

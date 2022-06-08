@@ -4,18 +4,18 @@ import { useEffect, useState } from 'react';
 export default function useStaticDrupalData(file) {
   const [staticDrupalData, setStaticDrupalData] = useState([]);
 
-  const API_ENDPOINT = environment.isLocalhost()
+  const BASE_ENDPOINT = environment.isLocalhost()
     ? 'http://localhost:3002'
-    : environment.API_URL;
+    : environment.BASE_URL;
 
   useEffect(
     () => {
-      fetch(`${API_ENDPOINT}/data/cms/${file}.json`)
+      fetch(`${BASE_ENDPOINT}/data/cms/${file}.json`)
         .then(res => res.json())
         .then(data => setStaticDrupalData(data));
     },
-    [file, API_ENDPOINT],
+    [file, BASE_ENDPOINT],
   );
 
-  return staticDrupalData;
+  return staticDrupalData || false;
 }

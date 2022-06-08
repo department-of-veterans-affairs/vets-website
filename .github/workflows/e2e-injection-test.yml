@@ -10,6 +10,13 @@ jobs:
   cypress-tests:
     name: Cypress E2E Proxy Rewrite Header/Footer Injection Test
     runs-on: self-hosted
+    container:
+      image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
+      options: -u 1001:1001 -v /usr/local/share:/share
+
+    env:
+      CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
+      NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
       - name: Checkout
