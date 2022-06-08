@@ -12,13 +12,28 @@ describe('Medical Copays - CDP Alerts', () => {
     data: [],
   };
 
+  beforeEach(() => {
+    cy.login(mockUser);
+    cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
+      'features',
+    );
+    cy.intercept('GET', '/v0/debts', mockDebt).as('debts');
+    cy.intercept('GET', '/v0/medical_copays', mockCopays).as('copays');
+    cy.visit('/manage-debt-and-bills/summary/copay-balances');
+
+    // Page load
+    cy.wait(['@copays', '@debts', '@features']);
+    cy.findByTestId('overview-page-title').should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
+
   // Has both VHA and VBA balances
   it('should display valid copay balances & other VA debt information', () => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
     cy.intercept('GET', '/v0/medical_copays', mockCopays);
     cy.intercept('GET', '/v0/debts', mockDebt);
-    cy.visit('/copay-balances');
+    cy.visit('/manage-debt-and-bills/summary/copay-balances');
     cy.findByTestId('overview-page-title').should('exist');
     cy.injectAxe();
     cy.findByTestId(`balance-card-${id}`).should('exist');
@@ -38,7 +53,7 @@ describe('Medical Copays - CDP Alerts', () => {
     cy.intercept('GET', '/v0/debts', req => {
       req.reply(404, { errors: ['error'] });
     });
-    cy.visit('/health-care/pay-copay-bill/your-current-balances/');
+    cy.visit('/manage-debt-and-bills/summary/copay-balances');
     cy.findByTestId('overview-page-title').should('exist');
     cy.injectAxe();
     cy.findByTestId(`balance-card-${id}`).should('exist');
@@ -61,7 +76,7 @@ describe('Medical Copays - CDP Alerts', () => {
     cy.intercept('GET', '/v0/debts', req => {
       req.reply(404, { errors: ['error'] });
     });
-    cy.visit('/health-care/pay-copay-bill/your-current-balances/');
+    cy.visit('/manage-debt-and-bills/summary/copay-balances');
     cy.findByTestId('overview-page-title').should('exist');
     cy.injectAxe();
     cy.findByTestId('all-error-alert').should('exist');
@@ -77,7 +92,7 @@ describe('Medical Copays - CDP Alerts', () => {
       req.reply(404, { errors: ['error'] });
     });
     cy.intercept('GET', '/v0/debts', mockDebt);
-    cy.visit('/health-care/pay-copay-bill/your-current-balances/');
+    cy.visit('/manage-debt-and-bills/summary/copay-balances');
     cy.findByTestId('overview-page-title').should('exist');
     cy.injectAxe();
     cy.findByTestId('error-copay-alert').should('exist');
@@ -93,7 +108,7 @@ describe('Medical Copays - CDP Alerts', () => {
       req.reply(404, { errors: ['error'] });
     });
     cy.intercept('GET', '/v0/debts', mockZeroDebt);
-    cy.visit('/health-care/pay-copay-bill/your-current-balances/');
+    cy.visit('/manage-debt-and-bills/summary/copay-balances');
     cy.findByTestId('overview-page-title').should('exist');
     cy.injectAxe();
     cy.findByTestId('error-copay-alert').should('exist');
@@ -107,7 +122,7 @@ describe('Medical Copays - CDP Alerts', () => {
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
     cy.intercept('GET', '/v0/medical_copays', mockZeroCopay);
     cy.intercept('GET', '/v0/debts', mockDebt);
-    cy.visit('/health-care/pay-copay-bill/your-current-balances/');
+    cy.visit('/manage-debt-and-bills/summary/copay-balances');
     cy.findByTestId('overview-page-title').should('exist');
     cy.injectAxe();
     cy.findByTestId('zero-copay-alert').should('exist');
@@ -121,7 +136,8 @@ describe('Medical Copays - CDP Alerts', () => {
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
     cy.intercept('GET', '/v0/medical_copays', mockZeroCopay);
     cy.intercept('GET', '/v0/debts', mockZeroDebt);
-    cy.visit('/health-care/pay-copay-bill/your-current-balances/');
+    cy.visit('/manage-debt-and-bills/summary/copay-balances');
+
     cy.findByTestId('overview-page-title').should('exist');
     cy.injectAxe();
     cy.findByTestId('zero-copay-alert').should('exist');
