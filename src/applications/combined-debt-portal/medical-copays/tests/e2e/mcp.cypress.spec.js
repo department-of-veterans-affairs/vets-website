@@ -5,6 +5,7 @@
  * @testrailinfo groupId 3090
  * @testrailinfo runName MCP-e2e-Main
  */
+import mockDebt from '../../../combined/utils/mocks/mockDebts.json';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockCopays from './fixtures/mocks/copays.json';
 import mockUser from './fixtures/mocks/mock-user.json';
@@ -14,11 +15,17 @@ describe('Medical Copays', () => {
 
   beforeEach(() => {
     cy.login(mockUser);
-    cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
-    cy.intercept('GET', '/v0/medical_copays', mockCopays);
-    cy.visit('/health-care/pay-copay-bill/your-current-balances/');
+    cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
+      'features',
+    );
+    cy.intercept('GET', '/v0/debts', mockDebt).as('debts');
+    cy.intercept('GET', '/v0/medical_copays', mockCopays).as('copays');
+    cy.visit('/manage-debt-and-bills/summary/copay-balances');
+
+    // Page load
+    cy.wait(['@copays', '@debts', '@features']);
     cy.findByTestId('overview-page-title').should('exist');
-    cy.injectAxe();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('displays copay balances - C12576', () => {
@@ -28,7 +35,7 @@ describe('Medical Copays', () => {
     cy.findByTestId(`facility-city-${id}`).contains(
       'Ralph H. Johnson Department of Veterans Affairs Medical Center',
     );
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('navigates to the detail page - C12577', () => {
@@ -49,15 +56,15 @@ describe('Medical Copays', () => {
     cy.findByTestId(`balance-questions`).contains(
       'What to do if you have questions about your balance',
     );
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
-  it.skip('displays download statements - C12578', () => {
+  it('displays download statements - C12578', () => {
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
     cy.findByTestId(`download-statements`).should('exist');
     cy.findAllByText(/November 15, 2019/i).should('exist');
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 });
