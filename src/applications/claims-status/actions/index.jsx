@@ -23,6 +23,7 @@ import {
   UNKNOWN_STATUS,
 } from '../utils/appeals-v2-helpers';
 import { makeAuthRequest, roundToNearest } from '../utils/helpers';
+import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 
 // NOTE: This should only be TRUE when developing locally
 const USE_MOCKS = environment.isLocalhost();
@@ -234,16 +235,14 @@ export function getClaimsV2(options = {}) {
   return dispatch => {
     dispatch({ type: FETCH_CLAIMS_PENDING });
 
-    poll({
-      onError: response => {
-        if (USE_MOCKS) {
-          return import('../tests/e2e/fixtures/mocks/claims-list.json').then(
-            mockClaimsList => {
-              return dispatch(fetchClaimsSuccess(mockClaimsList));
-            },
-          );
-        }
+    if (USE_MOCKS) {
+      return mockApi.getClaimList().then(mockClaimsList => {
+        return dispatch(fetchClaimsSuccess(mockClaimsList));
+      });
+    }
 
+    return poll({
+      onError: response => {
         const errorCode = getErrorStatus(response);
         if (errorCode && errorCode !== UNKNOWN_STATUS) {
           Sentry.withScope(scope => {
@@ -324,20 +323,19 @@ export function getClaimDetail(id, router, poll = pollRequest) {
     dispatch({
       type: GET_CLAIM_DETAIL,
     });
-    poll({
-      onError: response => {
-        if (USE_MOCKS) {
-          return import('../tests/e2e/fixtures/mocks/claim-detail.json').then(
-            mockDetails => {
-              return dispatch({
-                type: SET_CLAIM_DETAIL,
-                claim: mockDetails.data,
-                meta: mockDetails.meta,
-              });
-            },
-          );
-        }
 
+    if (USE_MOCKS) {
+      return mockApi.getClaimDetails(id).then(mockDetails => {
+        return dispatch({
+          type: SET_CLAIM_DETAIL,
+          claim: mockDetails.data,
+          meta: mockDetails.meta,
+        });
+      });
+    }
+
+    return poll({
+      onError: response => {
         if (response.status !== 404 || !router) {
           return dispatch({ type: SET_CLAIMS_UNAVAILABLE });
         }
