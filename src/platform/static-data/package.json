@@ -12,6 +12,10 @@
     "./options-for-select": "./options-for-select",
     "./SubmitSignInForm": "./SubmitSignInForm"
   },
+  "dependencies": {
+    "react": "^17.0.2",
+    "@department-of-veterans-affairs/component-library": "^10.3.1"
+  },
   "license": "MIT",
   "private": true
 }
