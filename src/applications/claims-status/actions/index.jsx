@@ -24,14 +24,6 @@ import {
 } from '../utils/appeals-v2-helpers';
 import { makeAuthRequest, roundToNearest } from '../utils/helpers';
 
-// Used to mock fetching the details for a specific claim
-// URL: http://localhost:3001/track-claims/your-claims/600219085/status
-import mockDetails from '../tests/e2e/fixtures/mocks/claim-detail.json';
-
-// Used to mock fetching a list of claims
-// URL: http://localhost:3001/track-claims/your-claims
-import mockClaimsList from '../tests/e2e/fixtures/mocks/claims-list.json';
-
 // NOTE: This should only be TRUE when developing locally
 const USE_MOCKS = environment.isLocalhost();
 
@@ -245,7 +237,11 @@ export function getClaimsV2(options = {}) {
     poll({
       onError: response => {
         if (USE_MOCKS) {
-          return dispatch(fetchClaimsSuccess(mockClaimsList));
+          return import('../tests/e2e/fixtures/mocks/claims-list.json').then(
+            mockClaimsList => {
+              return dispatch(fetchClaimsSuccess(mockClaimsList));
+            },
+          );
         }
 
         const errorCode = getErrorStatus(response);
@@ -331,11 +327,15 @@ export function getClaimDetail(id, router, poll = pollRequest) {
     poll({
       onError: response => {
         if (USE_MOCKS) {
-          return dispatch({
-            type: SET_CLAIM_DETAIL,
-            claim: mockDetails.data,
-            meta: mockDetails.meta,
-          });
+          return import('../tests/e2e/fixtures/mocks/claim-detail.json').then(
+            mockDetails => {
+              return dispatch({
+                type: SET_CLAIM_DETAIL,
+                claim: mockDetails.data,
+                meta: mockDetails.meta,
+              });
+            },
+          );
         }
 
         if (response.status !== 404 || !router) {
