@@ -19,6 +19,7 @@ const { paymentHistory } = require('./payment-history');
 const bankAccounts = require('./bank-accounts');
 
 const serviceHistory = require('./service-history');
+
 // set DELAY=1000 to add 1 sec delay to all responses
 const responseDelay = process?.env?.DELAY || 0;
 
