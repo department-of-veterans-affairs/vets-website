@@ -42,7 +42,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
     window.sessionStorage.removeItem(WIZARD_STATUS);
   });
 
-  it('navigates through a maximal form', () => {
+  it.skip('navigates through a maximal form', () => {
     cy.get('@testData').then(({ data }) => {
       const { chapters } = formConfig;
       cy.intercept('GET', 'v1/notice_of_disagreements/contestable_issues', {
