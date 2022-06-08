@@ -39,7 +39,7 @@ const SearchBenefits = ({
       if (value === 'spouse' || value === 'child') {
         setIsDisabled(false);
       }
-      // setGiBillChapter('33a');
+      setGiBillChapter('33a');
     }
   };
 
@@ -113,7 +113,6 @@ const SearchBenefits = ({
         value={giBillChapter}
         alt="Which GI Bill benefit do you want to use?"
         visible
-        // disabled={isDisabled}
         onChange={e => {
           recordEvent({
             event: 'gibct-form-change',
