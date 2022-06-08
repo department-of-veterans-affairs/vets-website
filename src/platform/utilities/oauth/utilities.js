@@ -1,3 +1,4 @@
+import environment from 'platform/utilities/environment';
 import { API_SIGN_IN_SERVICE_URL } from 'platform/user/authentication/constants';
 import { OAUTH_KEYS } from './constants';
 import * as oauthCrypto from './crypto';
@@ -40,7 +41,7 @@ export async function createOAuthRequest(csp) {
   const oAuthParams = {
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent('web'),
     [OAUTH_KEYS.REDIRECT_URI]: encodeURIComponent(
-      API_SIGN_IN_SERVICE_URL({ type: csp, endpoint: 'callback' }),
+      `${environment.BASE_URL}/auth/login/callback`,
     ),
     [OAUTH_KEYS.RESPONSE_TYPE]: 'code',
     [OAUTH_KEYS.SCOPE]: 'email',
