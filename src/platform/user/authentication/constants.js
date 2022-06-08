@@ -16,7 +16,8 @@ export const API_SESSION_URL = ({ version = API_VERSION, type = null }) =>
 export const API_SIGN_IN_SERVICE_URL = ({
   version = SIS_API_VERSION,
   type = null,
-}) => `${environment.API_URL}/${version}/sign_in/${type}/authorize`;
+  endpoint = 'authorize',
+}) => `${environment.API_URL}/${version}/sign_in/${type}/${endpoint}`;
 
 export const AUTH_EVENTS = {
   MODAL_LOGIN: 'login-link-clicked-modal',
