@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import { APP_NAMES } from '../utils/appConstants';
-import { makeSelectApp } from '../selectors';
-import ExternalLink from './ExternalLink';
+import { APP_NAMES } from '../../utils/appConstants';
+import { makeSelectApp } from '../../selectors';
+import ExternalLink from '../ExternalLink';
 
 const Footer = ({ header, message }) => {
   const selectApp = useMemo(makeSelectApp, []);

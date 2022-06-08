@@ -7,7 +7,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/Footer';
+import Footer from '../../components/layout/Footer';
 import { recordAnswer, seeStaffMessageUpdated } from '../../actions/day-of';
 import NextOfKinDisplay from '../../components/pages/nextOfKin/NextOfKinDisplay';
 import { makeSelectVeteranData } from '../../selectors';

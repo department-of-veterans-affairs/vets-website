@@ -23,7 +23,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
-        features: [{ name: 'hlrV2', value: true }],
+        features: [],
       },
     });
     cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);

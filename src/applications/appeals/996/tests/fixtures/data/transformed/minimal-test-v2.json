@@ -1,0 +1,43 @@
+{
+  "data": {
+    "type": "higherLevelReview",
+    "attributes": {
+      "benefitType": "compensation",
+      "informalConference": true,
+      "informalConferenceContact": "me",
+      "informalConferenceTime": "time0800to1200",
+      "veteran": {
+        "address": {
+          "addressLine1": "123 Main St",
+          "addressLine2": "Suite #1200",
+          "city": "New York",
+          "countryCodeISO2": "US",
+          "stateCode": "NY",
+          "zipCode5": "30012"
+        },
+        "phone": {
+          "countryCode": "1",
+          "areaCode": "987",
+          "phoneNumber": "5551218",
+          "phoneNumberExt": "1234"
+        },
+        "email": "user@example.com",
+        "homeless": false,
+        "timezone": "America/Los_Angeles"
+      },
+      "socOptIn": true
+    }
+  },
+  "included": [
+    {
+      "type": "contestableIssue",
+      "attributes": {
+        "issue": "Ankylosis of knee - 10% - Service connection for Ankylosis of knee is granted with an evaluation of 10 percent effective December 2, 2020.",
+        "decisionDate": "2022-03-12",
+        "decisionIssueId": 44,
+        "ratingIssueReferenceId": "66",
+        "disagreementArea": "service connection,effective date,disability evaluation,this is an other entry"
+      }
+    }
+  ]
+}

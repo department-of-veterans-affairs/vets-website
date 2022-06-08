@@ -1,20 +1,8 @@
 import React from 'react';
 
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
 import recordEvent from 'platform/monitoring/record-event';
 
-import { disabilitiesExplanationAlert } from './contestedIssues';
 import { PROFILE_URL } from '../constants';
-
-const noIssuesMessage = (
-  <p className="vads-u-font-size--base">
-    If you think this is an error, please call us at{' '}
-    <va-telephone contact={CONTACTS.VA_BENEFITS} />. We’re here Monday through
-    Friday, 8:00 a.m. to 9:00 p.m. ET.
-    {disabilitiesExplanationAlert}
-  </p>
-);
 
 const networkError = (
   <p className="vads-u-font-size--base">
@@ -27,16 +15,6 @@ const benefitError = type => (
   <p className="vads-u-font-size--base">
     We don’t currently support the "{type}" benefit type
   </p>
-);
-
-export const noContestableIssuesFound = (
-  <va-alert status="warning">
-    <h3 slot="headline">
-      We don’t have any issues on file for you that are eligible for a
-      Higher-Level Review
-    </h3>
-    {noIssuesMessage}
-  </va-alert>
 );
 
 let timeoutId;
