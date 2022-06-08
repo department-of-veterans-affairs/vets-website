@@ -12,7 +12,16 @@ export default function ProfileAlert() {
         recordBadAddressEvent({ location: 'profile' });
       }}
     >
-      <h2 slot="headline">Review your mailing address</h2>
+      <h2
+        slot="headline"
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+        tabIndex={0}
+        role="alert"
+        aria-live="polite"
+        aria-label="The address we have on file for you may not be correct."
+      >
+        Review your mailing address
+      </h2>
       <p>The mailing address we have on file for you may not be correct.</p>
       <p>
         <Link to="contact-information">

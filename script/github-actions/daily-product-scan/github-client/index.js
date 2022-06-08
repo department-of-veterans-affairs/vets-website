@@ -50,6 +50,7 @@ class GitHubClient {
       '- `has_e2e_tests`',
       '- `has_contract_tests`',
       '- `path_to_code`',
+      '- `last_updated`',
       '',
       'The bot runs weekdays at 12am.',
     ].join('\n');

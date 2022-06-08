@@ -74,7 +74,8 @@ export default Object.freeze({
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileAlwaysShowDirectDepositDisplay: 'profile_always_show_direct_deposit_display',
   profileNotificationSettings: 'profile_notification_settings',
-  profileDoNotRequireInternationalZipCode:'profile_do_not_require_international_zip_code',
+  profileDoNotRequireInternationalZipCode: 'profile_do_not_require_international_zip_code',
+  profileForceBadAddressIndicator: 'profile_force_bad_address_indicator',
   profileEnhancements: 'profile_enhancements',
   profileShowAddressChangeModal: 'profile_show_address_change_modal',
   profileShowBadAddressIndicator: 'profile_show_bad_address_indicator',
@@ -120,6 +121,8 @@ export default Object.freeze({
   subform89404192: 'subform_8940_4192',
   useLighthouseFormsSearchLogic: 'new_va_forms_search',
   vaGlobalDowntimeNotification: 'va_global_downtime_notification',
+  vaHomePreview: 
+  'va_home_preview',
   vaOnlineFacilitySelectionV22: 'va_online_scheduling_facility_selection_v2_2',
   vaOnlineScheduling: 'va_online_scheduling',
   vaOnlineSchedulingCancel: 'va_online_scheduling_cancel',
