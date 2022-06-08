@@ -6,6 +6,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import formConfig from './config/form';
 
 const HealthCareEntry = ({
@@ -16,16 +17,27 @@ const HealthCareEntry = ({
   hcaShortFormEnabled = false,
   setFormData,
   formData,
+  hasSavedForm,
 }) => {
   useEffect(
     // included veteranFullName to reset view flipper toggles when starting a new application from save-in-progress
+    // So users can complete the form as they started, we want to use 'view:hcaShortFormEnabled' from save in progress data,
+    // we can check using hasSavedForm. This can be removed 90 days after hcaShortFormEnabled flipper toggle is fully enabled for all users
     () => {
-      setFormData({
-        ...formData,
-        'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
-        'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
-        'view:hcaShortFormEnabled': hcaShortFormEnabled,
-      });
+      if (hasSavedForm || typeof hasSavedForm === 'undefined') {
+        setFormData({
+          ...formData,
+          'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
+          'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
+        });
+      } else {
+        setFormData({
+          ...formData,
+          'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
+          'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
+          'view:hcaShortFormEnabled': hcaShortFormEnabled,
+        });
+      }
     },
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -34,6 +46,7 @@ const HealthCareEntry = ({
       hcaAmericanIndianEnabled,
       hcaShortFormEnabled,
       formData.veteranFullName,
+      hasSavedForm,
     ],
   );
 
@@ -55,6 +68,9 @@ const mapStateToProps = state => ({
   hcaShortFormEnabled: toggleValues(state)[
     FEATURE_FLAG_NAMES.hcaShortFormEnabled
   ],
+  hasSavedForm: state?.user?.profile?.savedForms.some(
+    form => form.form === VA_FORM_IDS.FORM_10_10EZ,
+  ),
 });
 
 const mapDispatchToProps = {
@@ -64,6 +80,7 @@ const mapDispatchToProps = {
 HealthCareEntry.propTypes = {
   caregiverSIGIEnabled: PropTypes.bool,
   formData: PropTypes.object,
+  hasSavedForm: PropTypes.bool,
   hcaAmericanIndianEnabled: PropTypes.bool,
   hcaShortFormEnabled: PropTypes.bool,
   setFormData: PropTypes.func,
