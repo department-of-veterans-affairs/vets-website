@@ -2,15 +2,14 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Trans, useTranslation } from 'react-i18next';
 
-import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import BackToHome from '../../../components/BackToHome';
 import BackToAppointments from '../../../components/BackToAppointments';
-import Footer from '../../../components/Footer';
+import Footer from '../../../components/layout/Footer';
 import AppointmentLocation from '../../../components/AppointmentDisplay/AppointmentLocation';
 import TravelPayReimbursementLink from '../../../components/TravelPayReimbursementLink';
-import LanguagePicker from '../../../components/LanguagePicker';
+import Wrapper from '../../../components/layout/Wrapper';
 
 const CheckInConfirmation = props => {
   const { appointments, selectedAppointment, triggerRefresh } = props;
@@ -20,39 +19,27 @@ const CheckInConfirmation = props => {
   const appointmentDateTime = new Date(appointment.startTime);
 
   useEffect(() => {
-    focusElement('h1');
     scrollToTop('topScrollElement');
   }, []);
 
+  const pageTitle = t('youre-checked-in-for-your-appointment', {
+    date: appointmentDateTime,
+  });
+
   return (
-    <div
-      className="vads-l-grid-container vads-u-padding-y--5"
-      data-testid="multiple-appointments-confirm"
-    >
-      <LanguagePicker />
-      <div>
-        <h1
-          tabIndex="-1"
-          aria-label={t('thank-you-for-checking-in')}
-          slot="headline"
-        >
-          {t('youre-checked-in-for-your-appointment', {
-            date: appointmentDateTime,
-          })}
-        </h1>
-        <p>
-          <Trans
-            i18nKey="well-come-get-you-from-the-waiting-room-when-its-time-for-your-appointment-to-start"
-            components={[
-              <AppointmentLocation
-                key="location"
-                appointment={appointment}
-                bold
-              />,
-            ]}
-          />
-        </p>
-      </div>
+    <Wrapper pageTitle={pageTitle} testID="multiple-appointments-confirm">
+      <p>
+        <Trans
+          i18nKey="well-come-get-you-from-the-waiting-room-when-its-time-for-your-appointment-to-start"
+          components={[
+            <AppointmentLocation
+              key="location"
+              appointment={appointment}
+              bold
+            />,
+          ]}
+        />
+      </p>
       <TravelPayReimbursementLink />
       <BackToAppointments
         appointments={appointments}
@@ -60,7 +47,7 @@ const CheckInConfirmation = props => {
       />
       <Footer />
       <BackToHome />
-    </div>
+    </Wrapper>
   );
 };
 

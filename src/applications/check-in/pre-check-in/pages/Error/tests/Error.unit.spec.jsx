@@ -49,6 +49,8 @@ describe('check-in', () => {
             <Error />
           </Provider>,
         );
+        expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
+          .exist;
         const dateMessage = component.getByTestId('date-message');
         expect(dateMessage).to.exist;
         expect(dateMessage).to.contain.text(
@@ -89,6 +91,9 @@ describe('check-in', () => {
             <Error />
           </Provider>,
         );
+        expect(
+          component.getByText('Sorry, pre-check-in is no longer available'),
+        ).to.exist;
         const expiredMessage = component.getByTestId('error-message');
         expect(expiredMessage).to.exist;
         expect(
@@ -153,17 +158,10 @@ describe('check-in', () => {
             <Error />
           </Provider>,
         );
+        expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
+          .exist;
         expect(component.getByTestId('error-message')).to.exist;
       });
-      it('correctly renders pre-check-in expiration date', () => {
-        const component = render(
-          <Provider store={store}>
-            <Error />
-          </Provider>,
-        );
-        expect(component.getByTestId('error-message')).to.exist;
-      });
-
       it('Passes AxeCheck', () => {
         axeCheck(
           <Provider store={store}>

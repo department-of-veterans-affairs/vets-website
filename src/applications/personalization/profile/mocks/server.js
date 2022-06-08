@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const delay = require('mocker-api/lib/delay');
+
 const user = require('./user');
 const mhvAcccount = require('./mhvAccount');
 const address = require('./address');
@@ -19,9 +20,12 @@ const bankAccounts = require('./bank-accounts');
 
 const serviceHistory = require('./service-history');
 
+// set DELAY=1000 to add 1 sec delay to all responses
+const responseDelay = process?.env?.DELAY || 0;
+
 /* eslint-disable camelcase */
 const responses = {
-  'GET /v0/user': user.badAddress,
+  'GET /v0/user': user.user72Success,
   'GET /v0/profile/status': status,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
@@ -102,4 +106,5 @@ const responses = {
   },
 };
 
-module.exports = delay(responses, 2000);
+module.exports =
+  responseDelay > 0 ? delay(responses, responseDelay) : responses;

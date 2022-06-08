@@ -2,18 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import { formatAddress } from '~/platform/forms/address/helpers';
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-import recordEvent from '~/platform/monitoring/record-event';
-import { focusElement } from '~/platform/utilities/ui';
-
 import {
   isFailedTransaction,
   isPendingTransaction,
 } from '@@vap-svc/util/transactions';
 import { selectAddressValidation } from '@@vap-svc/selectors';
-
 import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
+import { formatAddress } from '~/platform/forms/address/helpers';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import recordEvent from '~/platform/monitoring/record-event';
+import { focusElement } from '~/platform/utilities/ui';
 
 import * as VAP_SERVICE from '../constants';
 import {
@@ -84,7 +82,7 @@ class AddressValidationView extends React.Component {
       'profile-section': analyticsSectionName,
       'profile-addressSuggestionUsed': suggestedAddressSelected ? 'yes' : 'no',
     });
-
+    sessionStorage.setItem('profile-has-cleared-bad-address-indicator', 'true');
     if (suggestedAddressSelected) {
       this.props.updateValidationKeyAndSave(
         VAP_SERVICE.API_ROUTES.ADDRESSES,

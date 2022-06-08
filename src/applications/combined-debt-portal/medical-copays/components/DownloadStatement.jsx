@@ -1,11 +1,9 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
-import { mcpHTMLStatementToggle } from '../../combined/utils/helpers';
 
 const handleDownloadClick = date => {
   return recordEvent({
@@ -15,9 +13,6 @@ const handleDownloadClick = date => {
 };
 
 const DownloadStatement = ({ statementId, statementDate, fullName }) => {
-  const showHTMLStatements = useSelector(state =>
-    mcpHTMLStatementToggle(state),
-  );
   const formattedStatementDate = moment(statementDate, 'MM-DD-YYYY').format(
     'MMMM D, YYYY',
   );
@@ -38,17 +33,11 @@ const DownloadStatement = ({ statementId, statementDate, fullName }) => {
           target="_blank"
           href={pdfStatementUri}
           type="application/pdf"
-          className="vads-u-text-decoration--none"
           rel="noreferrer"
         >
-          <i
-            aria-hidden="true"
-            role="img"
-            className="fas fa-download vads-u-padding-right--1"
-          />
           <span aria-hidden="true">
-            {showHTMLStatements ? 'Download your ' : ''}
-            {formattedStatementDate} statement{' '}
+            <i role="img" className="fas fa-download vads-u-padding-right--1" />
+            Download your {formattedStatementDate} statement{' '}
           </span>
           <span className="sr-only">
             Download {formattedStatementDate} dated medical copay statement

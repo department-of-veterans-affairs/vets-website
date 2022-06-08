@@ -14,13 +14,18 @@ const {
   hasDemographicNoAnswer,
 } = fullSchemaHca.properties;
 
-const DemographicInfoDescription = props => {
+import {
+  shortFormMessage,
+  HIGH_DISABILITY,
+  emptyObjectSchema,
+} from '../../../helpers';
+
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+const DemographicInfoDescription = () => {
   return (
     <>
-      <PrefillMessage {...props} />
-
-      <div>
-        <p className="vads-u-margin-bottom--1">
+      <div tabIndex="0" style={{ outline: 'none' }}>
+        <p id="demographic-question-label" className="vads-u-margin-bottom--1">
           What is your race, ethnicity, or origin? (Please check all that
           apply.)
         </p>
@@ -32,10 +37,27 @@ const DemographicInfoDescription = props => {
     </>
   );
 };
+/* eslint-enable */
 
 export default {
   uiSchema: {
-    'ui:description': DemographicInfoDescription,
+    'view:dmShortFormMessage': {
+      'ui:description': shortFormMessage,
+      'ui:options': {
+        hideIf: form =>
+          !(
+            form['view:hcaShortFormEnabled'] &&
+            form['view:totalDisabilityRating'] &&
+            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
+          ),
+      },
+    },
+    'view:prefillMessage': {
+      'ui:description': PrefillMessage,
+    },
+    'view:demographicDescription': {
+      'ui:description': DemographicInfoDescription,
+    },
     'view:demographicCategories': {
       'ui:field': DemographicField,
       'ui:title': ' ',
@@ -65,6 +87,9 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      'view:dmShortFormMessage': emptyObjectSchema,
+      'view:prefillMessage': emptyObjectSchema,
+      'view:demographicDescription': emptyObjectSchema,
       'view:demographicCategories': {
         type: 'object',
         required: [],

@@ -12,6 +12,9 @@ import { Form0996App } from '../../containers/Form0996App';
 import { setHlrWizardStatus, removeHlrWizardStatus } from '../../wizard/utils';
 import { SELECTED } from '../../constants';
 
+import maximalTestV1 from '../fixtures/data/maximal-test-v1.json';
+import migratedMaximalTestV1 from '../fixtures/data/migrated/maximal-test-v1-to-v2.json';
+
 const profile = {
   vapContactInfo: {
     email: {
@@ -49,10 +52,8 @@ const getData = ({
   loggedIn = true,
   mockProfile = profile,
   savedForms = [],
-  hlrV2 = true,
 } = {}) => ({
   props: {
-    hlrV2,
     loggedIn,
     location: { pathname: '/introduction', search: '' },
     children: <h1>Intro</h1>,
@@ -274,7 +275,6 @@ describe('Form0996App', () => {
       ],
     };
     const formData = {
-      hlrV2: true,
       benefitType: 'compensation',
       contestedIssues: contestableIssues.issues,
       additionalIssues: [{ issue: 'other issue', [SELECTED]: true }],
@@ -304,6 +304,36 @@ describe('Form0996App', () => {
       { ...formData.contestedIssues[0], index: 0 },
       { ...formData.additionalIssues[0], index: 1 },
     ]);
+
+    tree.unmount();
+  });
+
+  it('should force transform of v1 data', () => {
+    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
+    const setFormData = sinon.spy();
+    const { props, mockStore } = getData({ savedForms: savedHlr });
+    const contestableIssues = {
+      status: 'done', // any truthy value to skip get contestable issues action
+      issues: maximalTestV1.data.contestedIssues,
+      benefitType: 'compensation',
+      legacyCount: 0,
+    };
+    const tree = mount(
+      <Provider store={mockStore}>
+        <Form0996App
+          {...props}
+          formData={maximalTestV1.data}
+          setFormData={setFormData}
+          contestableIssues={contestableIssues}
+        />
+      </Provider>,
+    );
+
+    tree.setProps();
+    expect(setFormData.called).to.be.true;
+
+    const formData = setFormData.args[0][0];
+    expect(formData).to.deep.equal(migratedMaximalTestV1);
 
     tree.unmount();
   });
