@@ -8,16 +8,17 @@ import { subDays } from 'date-fns';
 import ErrorMessage from '../../../components/ErrorMessage';
 import BackToHome from '../../../components/BackToHome';
 import Footer from '../../../components/Footer';
+import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
 
 import { makeSelectVeteranData } from '../../../selectors';
+import {
+  preCheckinExpired,
+  appointmentStartTimePast15,
+} from '../../../utils/appointment';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
-const Error = ({ location }) => {
-  const type =
-    location && location.query && location.query.type
-      ? location.query.type
-      : undefined;
+const Error = () => {
   const { getValidateAttempts } = useSessionStorage(true);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   // try get date of appointment
@@ -56,21 +57,30 @@ const Error = ({ location }) => {
     </>
   );
 
-  // use type param to set unique error messages
-  const getErrorMessagePropsByType = () => {
-    if (type && type === 'expired')
-      return [
-        t('sorry-we-cant-complete-pre-check-in'),
-        t('you-can-still-check-in-once-you-arrive'),
-      ];
-    return [t('sorry-we-cant-complete-pre-check-in'), combinedMessage];
+  const getErrorMessages = () => {
+    const accordions = <PreCheckInAccordionBlock key="accordion" errorPage />;
+    if (appointments && appointments.length) {
+      // don't show sub message if we are 15 minutes past appointment start time
+      if (appointmentStartTimePast15(appointments))
+        return [t('sorry-pre-check-in-is-no-longer-available'), '', accordions];
+      if (preCheckinExpired(appointments))
+        return [
+          t('sorry-pre-check-in-is-no-longer-available'),
+          t('you-can-still-check-in-once-you-arrive'),
+          accordions,
+        ];
+    }
+    return [t('sorry-we-cant-complete-pre-check-in'), combinedMessage, null];
   };
-
-  const [header, message] = getErrorMessagePropsByType();
+  const [header, message, additionalDetails] = getErrorMessages();
 
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 ">
-      <ErrorMessage header={header} message={message} />
+      <ErrorMessage
+        header={header}
+        message={message}
+        additionalDetails={additionalDetails}
+      />
       <Footer />
       <BackToHome />
     </div>

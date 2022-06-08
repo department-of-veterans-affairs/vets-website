@@ -14,13 +14,15 @@ import {
   EXTERNAL_REDIRECTS,
   API_VERSION,
   API_SESSION_URL,
+  API_SIGN_IN_SERVICE_URL,
   SIGNUP_TYPES,
   GA_TRACKING_ID_KEY,
   VAGOV_TRACKING_IDS,
   GA_CLIENT_ID_KEY,
-  EBenefitsDefaultPath,
+  EBENEFITS_DEFAULT_PATH,
   POLICY_TYPES,
   AUTH_EVENTS,
+  AUTH_PARAMS,
 } from '../../authentication/constants';
 
 const originalLocation = global.window.location;
@@ -37,6 +39,7 @@ const flagshipUsipParams = '?application=vamobile';
 const mockGAClientId = '1234';
 const mockInvalidGATrackingId = 'UA-12345678-12';
 
+const normalPathWithParams = `${nonUsipPath}?oauth=true`;
 const usipPathWithParams = params => `${usipPath}${params}`;
 
 const mockGADefaultArgs = {
@@ -115,19 +118,29 @@ describe('Authentication Utilities', () => {
     });
   });
 
-  describe('fixUrl', () => {
+  describe('sanitizeUrl', () => {
     const CRLFString = '\r\n';
 
     it('should return null if not given a url', () => {
-      expect(authUtilities.fixUrl()).to.be.null;
+      expect(authUtilities.sanitizeUrl()).to.be.null;
     });
 
     it('should remove trailing slash from urls', () => {
-      expect(authUtilities.fixUrl(`${base}/`)).to.equal(base);
+      expect(authUtilities.sanitizeUrl(`${base}/`)).to.equal(base);
     });
 
     it('should remove potential CRLF injection sequences', () => {
-      expect(authUtilities.fixUrl(`${base}${CRLFString}`)).to.equal(base);
+      expect(authUtilities.sanitizeUrl(`${base}${CRLFString}`)).to.equal(base);
+    });
+  });
+
+  describe('sanitizePath', () => {
+    it('should return an empty string if to is undefined or null', () => {
+      expect(authUtilities.sanitizePath()).to.eql('');
+    });
+    it('should format to add forward slashes if necessary', () => {
+      expect(authUtilities.sanitizePath('/hello')).to.eql('/hello');
+      expect(authUtilities.sanitizePath('hello')).to.eql('/hello');
     });
   });
 
@@ -149,6 +162,60 @@ describe('Authentication Utilities', () => {
     it('should return false on non USiP even with valid params', () => {
       setup({ path: mhvUsipParams });
       expect(authUtilities.isExternalRedirect()).to.be.false;
+    });
+  });
+
+  describe('generateConfigQueryParams', () => {
+    const defaultConfig = {
+      allowSkipDupe: false,
+      allowOAuth: true,
+      allowPostLogin: false,
+    };
+
+    const params = {
+      codeChallenge: 'bob',
+      codeChallengeMethod: '256S',
+      oauth: 'true',
+    };
+
+    it('should generate OAuth config', () => {
+      const config = {
+        queryParams: {
+          ...defaultConfig,
+        },
+        OAuthEnabled: true,
+      };
+
+      const expected = authUtilities.generateConfigQueryParams({
+        config,
+        params,
+      });
+
+      expect(expected).to.contains({
+        oauth: 'true',
+        [AUTH_PARAMS.codeChallenge]: 'bob',
+        [AUTH_PARAMS.codeChallengeMethod]: '256S',
+      });
+    });
+
+    it('should not generate OAuth config', () => {
+      const config = {
+        queryParams: {
+          ...defaultConfig,
+          allowOAuth: false,
+          allowPostLogin: true,
+        },
+        OAuthEnabled: true,
+      };
+
+      const expected = authUtilities.generateConfigQueryParams({
+        config,
+        params,
+      });
+
+      expect(expected).to.contains({
+        postLogin: true,
+      });
     });
   });
 
@@ -180,15 +247,14 @@ describe('Authentication Utilities', () => {
     it('should return session url with additional params appeneded for MHV Logins', () => {
       setup({ path: usipPathWithParams(mhvUsipParams) });
       expect(authUtilities.sessionTypeUrl({ type })).to.contain.all(
-        'skip_dupe=true',
         'redirect=',
         'postLogin=true',
       );
     });
 
-    it('should return session url with additional params appeneded for MHV Logins', () => {
+    it('should return session url with additional params appended for My VA Health (Cerner) login', () => {
       setup({ path: usipPathWithParams(cernerUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type })).to.contain.all(
+      expect(authUtilities.sessionTypeUrl({ type })).to.not.contain.all(
         'skip_dupe=true',
       );
     });
@@ -221,10 +287,19 @@ describe('Authentication Utilities', () => {
       );
     });
 
+    it('should return the SIS session URL if oauth is set', () => {
+      setup({ path: usipPathWithParams(normalPathWithParams) });
+      expect(
+        authUtilities.sessionTypeUrl({
+          type,
+        }),
+      ).to.equal(API_SIGN_IN_SERVICE_URL({ type }));
+    });
+
     it('should NOT return session url with _verified appended to type for types other than login/signup', () => {
       setup({ path: usipPathWithParams(flagshipUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type: 'other' })).to.include(
-        appendQuery(API_SESSION_URL({ type: 'other' })),
+      expect(authUtilities.sessionTypeUrl({ type: 'mfa' })).to.include(
+        appendQuery(API_SESSION_URL({ type: 'mfa' })),
       );
     });
 
@@ -239,6 +314,34 @@ describe('Authentication Utilities', () => {
       setup({ path: usipPathWithParams(mhvUsipParams) });
       expect(authUtilities.sessionTypeUrl({ type })).to.not.include(
         '_verified',
+      );
+    });
+
+    it('should use `API_SIGN_IN_SERVICE_URL` when `useOAuth` is true', () => {
+      setup({
+        path: usipPathWithParams(
+          `${flagshipUsipParams}&oauth=true&code_challenge=hello&code_challenge_method=S256`,
+        ),
+      });
+      expect(
+        authUtilities.sessionTypeUrl({
+          type,
+        }),
+      ).to.include(appendQuery(API_SIGN_IN_SERVICE_URL({ type })));
+    });
+    it('should use API_SESSION_URL when OAuth is disabled', () => {
+      const params = { application: 'vamobile' };
+      setup({
+        path: usipPathWithParams(
+          `${flagshipUsipParams}&oauth=false&code_challenge=hello&code_challenge_method=S256`,
+        ),
+      });
+      expect(
+        authUtilities.sessionTypeUrl({
+          type,
+        }),
+      ).to.include(
+        appendQuery(API_SESSION_URL({ type: typeVerified }), params),
       );
     });
   });
@@ -284,31 +387,6 @@ describe('Authentication Utilities', () => {
     });
   });
 
-  describe('generatePath', () => {
-    it('should default to an empty string if `to` is null/undefined', () => {
-      expect(authUtilities.generatePath('mhv')).to.eql('');
-      expect(authUtilities.generatePath('myvahealth')).to.eql('');
-    });
-    it('should default to `/profilepostauth` for eBenefits', () => {
-      expect(authUtilities.generatePath('ebenefits')).to.eql(
-        '/profilepostauth',
-      );
-    });
-    it('should default to having a `/` regardless if `to` query params has it for (eBenefits or Cerner)', () => {
-      expect(
-        authUtilities.generatePath('myvahealth', 'secure_messaging'),
-      ).to.eql('/secure_messaging');
-      expect(
-        authUtilities.generatePath('ebenefits', '/profile_dashboard'),
-      ).to.eql('/profile_dashboard');
-    });
-    it('should create deeplinking query param for mhv if `to` provided', () => {
-      expect(authUtilities.generatePath('mhv', 'some_random_link')).to.eql(
-        '?deeplinking=some_random_link',
-      );
-    });
-  });
-
   describe('createExternalApplicationUrl', () => {
     it('should return correct url or null for the parsed application param', () => {
       Object.values(EXTERNAL_APPS).forEach(application => {
@@ -317,7 +395,7 @@ describe('Authentication Utilities', () => {
         const pathAppend = () => {
           switch (application) {
             case EXTERNAL_APPS.EBENEFITS:
-              return EBenefitsDefaultPath;
+              return EBENEFITS_DEFAULT_PATH;
             case EXTERNAL_APPS.VA_FLAGSHIP_MOBILE:
             case EXTERNAL_APPS.VA_OCC_MOBILE:
               return `${global.window.location.search}`;

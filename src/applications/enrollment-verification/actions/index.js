@@ -53,14 +53,17 @@ export function fetchPost911GiBillEligibility() {
 export function updateEnrollmentVerifications(vs) {
   const VERIFICATION_STATUS_ENDPOINT = `${
     environment.API_URL
-  }/submit_enrollment_verification`;
+  }/meb_api/v0/submit_enrollment_verification`;
 
   // TODO The following is very much in-progress.
   // return async dispatch => {
   //   dispatch({ type: UPDATE_VERIFICATION_STATUS });
   return apiRequest(VERIFICATION_STATUS_ENDPOINT, {
     method: 'POST',
-    body: JSON.stringify(vs),
+    body: JSON.stringify({
+      enrollmentVerifications: vs,
+    }),
+    headers: { 'Content-Type': 'application/json' },
   })
     .then(
       () => window.console.log(UPDATE_VERIFICATION_STATUS_SUCCESS),

@@ -8,6 +8,9 @@ import {
   healthInsuranceCoverageQuestionDescription,
   hasTricareWhatIsMyPolicyNumberDescription,
   healthInsuranceDescription,
+  shortFormMessage,
+  HIGH_DISABILITY,
+  emptyObjectSchema,
 } from '../../../helpers';
 
 const { provider } = fullSchemaHca.definitions;
@@ -15,7 +18,21 @@ const { isCoveredByHealthInsurance } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
-    'ui:description': healthInsuranceDescription,
+    'view:generalShortFormMessage': {
+      'ui:description': shortFormMessage,
+      'ui:options': {
+        hideIf: form =>
+          !form['view:hcaShortFormEnabled'] ||
+          (form.vaCompensationType !== 'highDisability' &&
+            !(
+              form['view:totalDisabilityRating'] &&
+              form['view:totalDisabilityRating'] >= HIGH_DISABILITY
+            )),
+      },
+    },
+    'view:healthInsuranceDescription': {
+      'ui:description': healthInsuranceDescription,
+    },
     isCoveredByHealthInsurance: {
       'ui:title': 'Do you have health insurance coverage?',
       'ui:description': healthInsuranceCoverageQuestionDescription,
@@ -108,6 +125,8 @@ export default {
     type: 'object',
     required: ['isCoveredByHealthInsurance'],
     properties: {
+      'view:generalShortFormMessage': emptyObjectSchema,
+      'view:healthInsuranceDescription': emptyObjectSchema,
       isCoveredByHealthInsurance,
       providers: {
         type: 'array',
@@ -115,18 +134,9 @@ export default {
         items: merge({}, provider, {
           required: ['insuranceName', 'insurancePolicyHolderName'],
           properties: {
-            'view:policyOrGroupDesc': {
-              type: 'object',
-              properties: {},
-            },
-            'view:hasTricare': {
-              type: 'object',
-              properties: {},
-            },
-            'view:or': {
-              type: 'object',
-              properties: {},
-            },
+            'view:policyOrGroupDesc': emptyObjectSchema,
+            'view:hasTricare': emptyObjectSchema,
+            'view:or': emptyObjectSchema,
           },
         }),
       },

@@ -1,7 +1,6 @@
 import { mapValues } from 'lodash';
 import moment from 'moment';
 
-import RadioWidget from 'platform/forms-system/src/js/widgets/RadioWidget';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import OtherTextField from '@@profile/components/personal-information/OtherTextField';
 import { NOT_SET_TEXT } from '../../constants';
@@ -133,7 +132,7 @@ export const personalInformationUiSchemas = {
   },
   genderIdentity: {
     genderIdentity: {
-      'ui:widget': RadioWidget,
+      'ui:widget': 'radio',
       'ui:title': `Select your gender identity`,
       'ui:options': {
         labels: genderLabels,

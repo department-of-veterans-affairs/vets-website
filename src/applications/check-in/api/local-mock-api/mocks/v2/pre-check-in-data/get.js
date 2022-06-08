@@ -1,10 +1,12 @@
-const addDays = require('date-fns/addDays');
+const add = require('date-fns/add');
 const format = require('date-fns/format');
 
 const defaultUUID = '0429dda5-4165-46be-9ed1-1e652a8dfd83';
 const alreadyPreCheckedInUUID = '4d523464-c450-49dc-9a18-c04b3f1642ee';
 const canceledAppointmentUUID = '9d7b7c15-d539-4624-8d15-b740b84e8548';
 const expiredUUID = '354d5b3a-b7b7-4e5c-99e4-8d563f15c521';
+
+const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
 
 const createMockSuccessResponse = (
   token,
@@ -15,22 +17,22 @@ const createMockSuccessResponse = (
   emergencyContactNeedsUpdate = false,
   emergencyContactConfirmedAt = null,
 ) => {
-  const mockTime = token === expiredUUID ? new Date() : addDays(new Date(), 1);
+  const mockTime =
+    token === expiredUUID ? new Date() : add(new Date(), { days: 1 });
 
   let checkInSteps = [];
   let status = '';
 
   if (token === alreadyPreCheckedInUUID) {
-    const dateFormat = "yyyy-LL-dd'T'HH:mm:ss";
     // 35 minutes ago.
     const preCheckinStarted = format(
       new Date(mockTime.getTime() - 2100000),
-      dateFormat,
+      isoDateWithoutTimezoneFormat,
     );
     // 30 minutes ago.
     const preCheckinCompleted = format(
       new Date(mockTime.getTime() - 1800000),
-      dateFormat,
+      isoDateWithoutTimezoneFormat,
     );
 
     checkInSteps = [
@@ -119,7 +121,7 @@ const createMockSuccessResponse = (
           eligibility: 'ELIGIBLE',
           facilityId: 'some-facility',
           checkInWindowStart: mockTime,
-          checkInWindowEnd: mockTime,
+          checkInWindowEnd: add(new Date(mockTime), { minutes: 15 }),
           checkedInTime: '',
           status,
         },
@@ -134,7 +136,7 @@ const createMockSuccessResponse = (
           eligibility: 'ELIGIBLE',
           facilityId: 'some-facility',
           checkInWindowStart: mockTime,
-          checkInWindowEnd: mockTime,
+          checkInWindowEnd: add(new Date(mockTime), { minutes: 15 }),
           checkedInTime: '',
           status,
         },

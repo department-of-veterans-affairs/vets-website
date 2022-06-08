@@ -159,6 +159,13 @@ const analyticsEvents = {
       prefix: 'loading-indicator',
     },
   ],
+  'va-modal': [
+    {
+      action: 'show',
+      event: 'int-modal-show',
+      prefix: 'modal',
+    },
+  ],
   'va-radio': [
     {
       action: 'change',
