@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
-import Dropdown from './Dropdown';
-import LearnMoreLabel from './LearnMoreLabel';
+import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
+import PropTypes from 'prop-types';
+import LearnMoreLabel from './LearnMoreLabel';
+import Dropdown from './Dropdown';
 
 const SearchBenefits = ({
   cumulativeService,
@@ -21,7 +23,26 @@ const SearchBenefits = ({
   setMilitaryStatus,
   setSpouseActiveDuty,
 }) => {
+  const [isDisabled, setIsDisabled] = useState(true);
   const chapter33Check = giBillChapter === '33a' || giBillChapter === '33b';
+  const handleChange = e => {
+    const field = e.target.name;
+    const { value } = e.target;
+    recordEvent({
+      event: 'gibct-form-change',
+      'gibct-form-field': `What's your military status?`,
+      'gibct-form-value': e.target.value,
+    });
+    setMilitaryStatus(e.target.value);
+    if (!environment.isProduction() && field === 'militaryStatus') {
+      setIsDisabled(true);
+      if (value === 'spouse' || value === 'child') {
+        setIsDisabled(false);
+      }
+      // setGiBillChapter('33a');
+    }
+  };
+
   return (
     <div>
       <Dropdown
@@ -40,14 +61,7 @@ const SearchBenefits = ({
         value={militaryStatus}
         alt="What's your military status?"
         visible
-        onChange={e => {
-          recordEvent({
-            event: 'gibct-form-change',
-            'gibct-form-field': `What's your military status?`,
-            'gibct-form-value': e.target.value,
-          });
-          setMilitaryStatus(e.target.value);
-        }}
+        onChange={handleChange}
       />
 
       <Dropdown
@@ -93,11 +107,13 @@ const SearchBenefits = ({
             optionValue: '35',
             optionLabel:
               "Survivors' and Dependents' Educational Assistance (DEA) (Ch 35)",
+            optionDisabled: isDisabled,
           },
         ]}
         value={giBillChapter}
         alt="Which GI Bill benefit do you want to use?"
         visible
+        // disabled={isDisabled}
         onChange={e => {
           recordEvent({
             event: 'gibct-form-change',
@@ -233,4 +249,21 @@ const SearchBenefits = ({
   );
 };
 
+SearchBenefits.propTypes = {
+  cumulativeService: PropTypes.string,
+  dispatchShowModal: PropTypes.func,
+  eligForPostGiBill: PropTypes.string,
+  enlistmentService: PropTypes.string,
+  giBillChapter: PropTypes.string,
+  militaryStatus: PropTypes.string,
+  numberOfDependents: PropTypes.string,
+  setCumulativeService: PropTypes.func,
+  setEligForPostGiBill: PropTypes.func,
+  setEnlistmentService: PropTypes.func,
+  setGiBillChapter: PropTypes.func,
+  setMilitaryStatus: PropTypes.func,
+  setNumberOfDependents: PropTypes.func,
+  setSpouseActiveDuty: PropTypes.func,
+  spouseActiveDuty: PropTypes.string,
+};
 export default SearchBenefits;
