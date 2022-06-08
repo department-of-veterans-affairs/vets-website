@@ -42,6 +42,7 @@ export default {
       'ui:options': {
         expandUnder: 'isCoveredByHealthInsurance',
         itemName: 'insurance policy',
+        supplementalLabel: 'insuranceName',
         hideTitle: true,
         viewField: InsuranceProviderView,
       },
