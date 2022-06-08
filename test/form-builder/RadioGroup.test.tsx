@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, getByTestId, waitFor } from '@testing-library/react';
 import { RadioGroup } from '../../src/form-builder/RadioGroup';
-import { buildRenderForm } from '../utils';
+import { buildRenderForm, changeValue } from '../utils';
 
 const renderForm = buildRenderForm({ "radio-test": false });
 
@@ -88,5 +88,25 @@ describe('Form Builder - RadioGroup', () => {
       fireEvent.click(el);
       expect(el.getAttribute('checked')).toBeTruthy();
     });
+  })
+
+  test.skip('checks radio button options of type boolean', async () => {
+    const renderForm = buildRenderForm({ "veteranServedUnderAnotherName": false }); 
+    const {container, getFormProps} = renderForm(
+      <RadioGroup
+            name="veteranServedUnderAnotherName"
+            label="Did the Veteran serve under another name?"
+            required
+            options={
+              [
+                {label: "Yes", value: true, key: 1},
+                {label: "No", value: false, key: 2},
+              ]
+            }
+          />
+    );
+    const el = getByTestId(container, 'veteranServedUnderAnotherName-0');
+    await changeValue(el, true);
+    expect(getFormProps().values).toEqual({ veteranServedUnderAnotherName: true });
   })
 });
