@@ -18,7 +18,9 @@ const Wrapper = props => {
     focusElement('h1');
   }, []);
 
-  const topPadding = withBackButton ? '' : ' vads-u-padding-y--3';
+  const topPadding = withBackButton
+    ? 'vads-u-padding-y--2'
+    : ' vads-u-padding-y--3';
 
   return (
     <>
