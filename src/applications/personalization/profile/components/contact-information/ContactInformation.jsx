@@ -10,6 +10,7 @@ import {
   profileAlwaysShowDirectDepositDisplay,
   showBadAddressIndicator,
   hasBadAddress,
+  forceBadAddressIndicator,
 } from '@@profile/selectors';
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
@@ -47,7 +48,13 @@ const ContactInformation = () => {
   );
   const badAddressIndicatorEnabled = useSelector(showBadAddressIndicator);
 
-  const userHasBadAddress = useSelector(state => hasBadAddress(state));
+  const userHasBadAddress = useSelector(hasBadAddress);
+
+  const shouldForceBadAddressIndicator = useSelector(
+    state =>
+      forceBadAddressIndicator(state) &&
+      !sessionStorage.getItem('profile-has-cleared-bad-address-indicator'),
+  );
 
   const addressValidationModalIsShowing = useSelector(
     state => state?.vapService?.modal === 'addressValidation',
@@ -138,12 +145,12 @@ const ContactInformation = () => {
 
   const showHeroBadAddressAlert =
     badAddressIndicatorEnabled &&
-    userHasBadAddress &&
+    (userHasBadAddress || shouldForceBadAddressIndicator) &&
     !addressValidationModalIsShowing;
 
   const showFormBadAddressAlert =
     badAddressIndicatorEnabled &&
-    userHasBadAddress &&
+    (userHasBadAddress || shouldForceBadAddressIndicator) &&
     !addressSavedDidError &&
     !addressValidationModalIsShowing;
 
