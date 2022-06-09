@@ -74,7 +74,8 @@ const getAllowedApps = (filePath, allow) => {
  * @param {string[]} filePaths - An array of relative file paths.
  * @param {Object} config - The changed apps build config.
  * @param {string} outputType - Determines what app information should be returned.
- * @returns {string} A comma-delimited string of app entry names, relative paths or URLs.
+ * @param {string} delimiter - Delimiter to use for string output.
+ * @returns {string} A delimited string of app entry names, relative paths, URLs, or Slack groups.
  */
 const getChangedAppsString = (
   filePaths,
