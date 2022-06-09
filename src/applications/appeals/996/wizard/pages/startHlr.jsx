@@ -8,7 +8,7 @@ import { HLR_INFO_URL, BASE_URL } from '../../constants';
 import pageNames from './pageNames';
 
 // Does not have a legacy appeal
-const LegacyNo = ({ setWizardStatus }) => {
+const startHlr = ({ setWizardStatus }) => {
   recordEvent({
     event: 'howToWizard-alert-displayed',
     'reason-for-alert': 'no legacy issues; form can be started',
@@ -41,7 +41,7 @@ const LegacyNo = ({ setWizardStatus }) => {
 
   return (
     <div
-      id={pageNames.legacyNo}
+      id={pageNames.startHlr}
       className="vads-u-background-color--gray-lightest vads-u-padding--2 vads-u-margin-top--2"
     >
       <p className="vads-u-margin-top--0">
@@ -65,11 +65,11 @@ const LegacyNo = ({ setWizardStatus }) => {
   );
 };
 
-LegacyNo.propTypes = {
+startHlr.propTypes = {
   setWizardStatus: PropTypes.func,
 };
 
 export default {
-  name: pageNames.legacyNo,
-  component: LegacyNo,
+  name: pageNames.startHlr,
+  component: startHlr,
 };

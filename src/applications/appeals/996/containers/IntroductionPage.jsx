@@ -26,7 +26,6 @@ import {
   GET_HELP_REVIEW_REQUEST_URL,
 } from '../constants';
 import {
-  noContestableIssuesFound,
   showContestableIssueError,
   showHasEmptyAddress,
 } from '../content/contestableIssueAlerts';
@@ -45,7 +44,6 @@ export class IntroductionPage extends React.Component {
       route,
       contestableIssues,
       delay = 250,
-      hlrV2,
       location,
     } = this.props;
 
@@ -71,38 +69,21 @@ export class IntroductionPage extends React.Component {
     }
 
     const { formId, prefillEnabled, savedFormMessages } = route.formConfig;
-    // Allow starting the form with no contestable Issues in HLR v2
-    const lengthCheck = hlrV2 ? -1 : 0;
-
-    if (!loggedIn || contestableIssues?.issues?.length > lengthCheck) {
-      return (
-        <SaveInProgressIntro
-          formId={formId}
-          headingLevel={2}
-          prefillEnabled={prefillEnabled}
-          messages={savedFormMessages}
-          pageList={route.pageList}
-          startText="Start the Request for a Higher-Level Review"
-          gaStartEventName="decision-reviews-va20-0996-start-form"
-          ariaDescribedby="main-content"
-          hideUnauthedStartLink
-          testActionLink
-          buttonOnly={last}
-        />
-      );
-    }
-
-    recordEvent({
-      event: 'visible-alert-box',
-      'alert-box-type': 'warning',
-      'alert-box-heading':
-        'We don’t have any issues on file for you that are eligible for a Higher-Level Review',
-      'error-key': contestableIssues?.status || '',
-      'alert-box-full-width': false,
-      'alert-box-background-only': false,
-      'alert-box-closeable': false,
-    });
-    return noContestableIssuesFound;
+    return (
+      <SaveInProgressIntro
+        formId={formId}
+        headingLevel={2}
+        prefillEnabled={prefillEnabled}
+        messages={savedFormMessages}
+        pageList={route.pageList}
+        startText="Start the Request for a Higher-Level Review"
+        gaStartEventName="decision-reviews-va20-0996-start-form"
+        ariaDescribedby="main-content"
+        hideUnauthedStartLink
+        testActionLink
+        buttonOnly={last}
+      />
+    );
   };
 
   restartWizard = () => {
@@ -244,7 +225,6 @@ IntroductionPage.propTypes = {
   }),
   delay: PropTypes.number,
   hasEmptyAddress: PropTypes.bool,
-  hlrV2: PropTypes.bool,
   isVerified: PropTypes.bool,
   location: PropTypes.shape({
     basename: PropTypes.string,
@@ -273,7 +253,6 @@ function mapStateToProps(state) {
     hasEmptyAddress: isEmptyAddress(
       selectVAPContactInfoField(state, FIELD_NAMES.MAILING_ADDRESS),
     ),
-    hlrV2: state.featureToggles.hlrV2,
   };
 }
 

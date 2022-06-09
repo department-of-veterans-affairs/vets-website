@@ -25,10 +25,12 @@ const LoggedInContent = ({ route, status }) => (
       headingLevel={2}
     />
     {shouldShowHeader(status) && (
-      <h2>Follow these steps to request a VA home loan COE</h2>
+      <h2 className="vads-u-margin-top--5">
+        Follow these steps to request a VA home loan COE
+      </h2>
     )}
     <SubwayMap />
-    <div className="vads-u-margin-bottom--4">
+    <div className="vads-u-margin-bottom--5">
       <SaveInProgressIntro
         buttonOnly
         testActionLink

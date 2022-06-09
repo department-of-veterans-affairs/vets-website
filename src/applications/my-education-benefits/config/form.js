@@ -1335,14 +1335,17 @@ const formConfig = {
                 properties: {
                   accountType: {
                     type: 'string',
+                    required: [formFields.accountType],
                     enum: ['checking', 'savings'],
                   },
                   routingNumber: {
                     type: 'string',
+                    required: [formFields.routingNumber],
                     pattern: '^\\d{9}$',
                   },
                   accountNumber: {
                     type: 'string',
+                    required: [formFields.accountNumber],
                   },
                 },
               },
