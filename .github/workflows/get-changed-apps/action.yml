@@ -35,10 +35,10 @@ runs:
       id: get-changed-files
       shell: bash
       run: |
-        if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
+        if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
             echo ::set-output name=changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
         else
-          echo ::set-output name=changed_files::$(git diff --name-only origin/master...)
+          echo ::set-output name=changed_files::$(git diff --name-only origin/main...)
         fi
 
     - name: Get entry names
