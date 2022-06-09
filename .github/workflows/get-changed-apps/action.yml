@@ -37,34 +37,34 @@ runs:
       run: |
         if [[ ${{ github.ref }} == 'refs/heads/master' ]]; then
             echo ::set-output name=changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-          else
-            echo ::set-output name=changed_files::$(git diff --name-only origin/master...)
-          fi
+        else
+          echo ::set-output name=changed_files::$(git diff --name-only origin/master...)
+        fi
 
     - name: Get entry names
       id: get-entry-names
       shell: bash
       run: echo ::set-output name=entry_names::$(node script/github-actions/get-changed-apps.js --output-type entry -d "${{ inputs.delimiter }}")
       env:
-          CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
 
     - name: Get folders
       id: get-folders
       shell: bash
       run: echo ::set-output name=folders::$(node script/github-actions/get-changed-apps.js --output-type folder -d "${{ inputs.delimiter }}")
       env:
-          CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
 
     - name: Get Slack groups
       id: get-slack-groups
       shell: bash
       run: echo ::set-output name=slack_groups::$(node script/github-actions/get-changed-apps.js --output-type slack-group -d "${{ inputs.delimiter }}")
       env:
-          CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
 
     - name: Get URLs
       id: get-urls
       shell: bash
       run: echo ::set-output name=urls::$(node script/github-actions/get-changed-apps.js --output-type url -d "${{ inputs.delimiter }}")
       env:
-          CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
