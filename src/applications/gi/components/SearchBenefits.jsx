@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
-import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import LearnMoreLabel from './LearnMoreLabel';
@@ -34,12 +33,12 @@ const SearchBenefits = ({
       'gibct-form-value': e.target.value,
     });
     setMilitaryStatus(e.target.value);
-    if (!environment.isProduction() && field === 'militaryStatus') {
+    if (field === 'militaryStatus') {
       setIsDisabled(true);
       if (value === 'spouse' || value === 'child') {
         setIsDisabled(false);
       }
-      // setGiBillChapter('33a');
+      setGiBillChapter('33a');
     }
   };
 
@@ -113,7 +112,6 @@ const SearchBenefits = ({
         value={giBillChapter}
         alt="Which GI Bill benefit do you want to use?"
         visible
-        // disabled={isDisabled}
         onChange={e => {
           recordEvent({
             event: 'gibct-form-change',
