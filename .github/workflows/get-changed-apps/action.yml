@@ -40,11 +40,6 @@ runs:
           else
             echo ::set-output name=changed_files::$(git diff --name-only origin/master...)
           fi
-    - name: Set outputs
-      shell: bash
-      run: node ./.github/workflows/get-changed-apps/index.js
-      env:
-        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
 
     - name: Get entry names
       id: get-entry-names
