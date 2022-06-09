@@ -48,23 +48,36 @@ const scrollToError = () => {
   if (errors.length) {
     const errorPosition = getTopPosition(errors[0]);
     const options = getScrollOptions({ offset: -25 });
+    const errorID = errors[0].querySelector('label').getAttribute('for');
+    const errorInput = document.getElementById(`${errorID}`);
+    const inputType = errorInput.getAttribute('type');
     scrollTo(errorPosition, options);
-    errors[0].querySelector('label').focus();
+
+    if (inputType === 'file') {
+      errors[0].querySelector('label').setAttribute('tabindex', '-1');
+      errors[0].querySelector('label').focus();
+    } else {
+      errorInput.focus();
+    }
   }
 };
 const { Element } = Scroll;
 
 class AddFilesForm extends React.Component {
-  state = {
-    errorMessage: null,
-    checked: false,
-    errorMessageCheckbox: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      errorMessage: null,
+      checked: false,
+      errorMessageCheckbox: null,
+    };
+  }
 
   getErrorMessage = () => {
     if (this.state.errorMessage) {
       return this.state.errorMessage;
     }
+
     return validateIfDirty(this.props.field, () => this.props.files.length > 0)
       ? undefined
       : 'Please select a file first';
