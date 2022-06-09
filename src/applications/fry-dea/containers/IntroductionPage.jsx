@@ -83,7 +83,7 @@ class IntroductionPage extends React.Component {
                   </li>
                   <li>
                     The member of the Selected Reserve died from a
-                    service-connect disability on or after September 11, 2001
+                    service-connected disability on or after September 11, 2001
                   </li>
                 </ul>
                 <a href="/">
@@ -107,7 +107,7 @@ class IntroductionPage extends React.Component {
                   </li>
                   <li>
                     The Veteran or service member died while on active duty or
-                    as the result of a service-connect disability,{' '}
+                    as the result of a service-connected disability,{' '}
                     <strong>or</strong>
                   </li>
                   The Veteran or service member is missing in action or was
@@ -120,10 +120,9 @@ class IntroductionPage extends React.Component {
                   </li>
                   <li>
                     The Veteran or service member is in the hospital or getting
-                    outpatient treatment for a service-connect permanent and
+                    outpatient treatment for a service-connected permanent and
                     total disibility and is likely to be discharged for the
-                    disability (effective December 23, 2006),{' '}
-                    <strong>or</strong>
+                    disability (effective December 23, 2006){' '}
                   </li>
                 </ul>
                 <a href="/">

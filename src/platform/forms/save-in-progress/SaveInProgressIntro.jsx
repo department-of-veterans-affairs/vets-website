@@ -228,10 +228,10 @@ class SaveInProgressIntro extends React.Component {
               starting your {appType}
             </H>
             <div className="usa-alert-text">
-              <p>When you’re signed in to your VA.gov account:</p>
+              <p>When you’re signed into your VA.gov account:</p>
               <ul>
                 <li>
-                  We can prefill part of your {appType} based on your account
+                  We can prefill some of your {appType} based on your account
                   details.
                 </li>
                 <li>
@@ -240,6 +240,10 @@ class SaveInProgressIntro extends React.Component {
                   the date you start or update your {appType} to submit it.
                   After {retentionPeriod}, we’ll delete the {appType} and you’ll
                   need to start over.
+                </li>
+                <li>
+                  You may be eligible to recieve an instant decision about your
+                  application.
                 </li>
               </ul>
               <p>
