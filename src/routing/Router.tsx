@@ -31,8 +31,12 @@ export default function FormRouter(props: RouterProps): JSX.Element {
             <Formik
               initialValues={initialValues}
               onSubmit={(values, actions) => {
-                // Here we leverage formik actions to perform validations, submit data, etc.
-                // Also a good candidate for extracting data out of form apps
+                // This is where data is transformed if a custom transformForSubmit function is provided.
+                // The wrapping onSubmit function will need updated in the future if the default case needs updated when users don't pass a transformForSubmit function
+                if (props.transformForSubmit) {
+                  props.transformForSubmit(values, actions);
+                }
+
                 actions.setSubmitting(true);
               }}
             >

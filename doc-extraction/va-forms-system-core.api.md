@@ -7,6 +7,8 @@
 /// <reference types="react" />
 
 import { FieldHookConfig } from 'formik';
+import { FormikHelpers } from 'formik';
+import { FormikValues } from 'formik';
 import { ReactElement } from 'react';
 
 // @public (undocumented)
@@ -228,6 +230,8 @@ export interface RouterProps {
     subtitle?: string;
     // (undocumented)
     title: string;
+    // (undocumented)
+    transformForSubmit?: (values: FormikValues, actions: FormikHelpers<FormikValues>) => any;
 }
 
 // Warning: (ae-forgotten-export) The symbol "SelectProps" needs to be exported by the entry point index.d.ts

@@ -24,4 +24,5 @@ export interface RouterProps
 |  [formData](./va-forms-system-core.routerprops.formdata.md) | [IFormData](./va-forms-system-core.iformdata.md) | <b><i>(BETA)</i></b> |
 |  [subtitle?](./va-forms-system-core.routerprops.subtitle.md) | string | <b><i>(BETA)</i></b> <i>(Optional)</i> |
 |  [title](./va-forms-system-core.routerprops.title.md) | string | <b><i>(BETA)</i></b> |
+|  [transformForSubmit?](./va-forms-system-core.routerprops.transformforsubmit.md) | (values: FormikValues, actions: FormikHelpers&lt;FormikValues&gt;) =&gt; any | <b><i>(BETA)</i></b> <i>(Optional)</i> |
 

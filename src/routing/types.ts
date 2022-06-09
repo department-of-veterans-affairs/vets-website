@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { RouteProps } from 'react-router-dom';
+import { FormikHelpers, FormikValues } from 'formik';
 
 /**
  * The properties for the Router React component
@@ -11,6 +11,10 @@ export interface RouterProps {
   basename: string;
   title: string;
   subtitle?: string;
+  transformForSubmit?: (
+    values: FormikValues,
+    actions: FormikHelpers<FormikValues>
+  ) => any;
   formData: IFormData;
 }
 
