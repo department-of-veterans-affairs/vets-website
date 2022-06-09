@@ -1,0 +1,12 @@
+{
+  "name": "@department-of-veterans-affairs/platform-landing-pages",
+  "version": "1.0.0",
+  "exports": {
+    "." :"./exportsFile.js",
+    "./dev-template": "./dev-template.ejs",
+    "./facility-sidebar": "./facility-sidebar.json",
+    "./header-footer-data": "./header-footer-data.json"
+  },
+  "license": "MIT",
+  "private": true
+}
