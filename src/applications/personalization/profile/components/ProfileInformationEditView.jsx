@@ -186,6 +186,20 @@ export class ProfileInformationEditView extends Component {
 
     // for personal info fields we are using a different request flow
     if (Object.values(PERSONAL_INFO_FIELD_NAMES).includes(fieldName)) {
+      // personal info updates require a value
+      // this is a fix for blur validation bug
+      if (
+        fieldName === PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME &&
+        !field.value?.[PERSONAL_INFO_FIELD_NAMES.PREFERRED_NAME]
+      ) {
+        field.formSchema.required = [fieldName];
+        this.onChangeFormDataAndSchemas(
+          field.value,
+          field.formSchema,
+          field.uiSchema,
+        );
+        return;
+      }
       this.props.createPersonalInfoUpdate({
         route: apiRoute,
         method: 'PUT',
@@ -234,17 +248,6 @@ export class ProfileInformationEditView extends Component {
     };
     if (newFieldValue['view:livesOnMilitaryBase']) {
       newFieldValue.countryCodeIso3 = USA.COUNTRY_ISO3_CODE;
-    }
-
-    // doing this to trigger a blur when the field is cleared so that validation runs
-    // otherwise there didn't seem to be a way to show validation appropriately
-    if (
-      this.props.fieldName === FIELD_NAMES.PREFERRED_NAME &&
-      !newFieldValue[FIELD_NAMES.PREFERRED_NAME]
-    ) {
-      const input = document.getElementById('root_preferredName');
-      input?.blur();
-      input?.focus();
     }
 
     this.onChangeFormDataAndSchemas(newFieldValue, schema, uiSchema);

@@ -1,15 +1,14 @@
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { focusElement } from 'platform/utilities/ui';
 import { createSetSession } from '../../actions/authentication';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 
 import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/Footer';
+import Footer from '../../components/layout/Footer';
 import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 import { validateLogin } from '../../utils/validateVeteran';
 import { makeSelectCurrentContext } from '../../selectors';
@@ -105,9 +104,6 @@ const ValidateVeteran = props => {
       isLorotaSecurityUpdatesEnabled,
     ],
   );
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
   return (
     <>
       <ValidateDisplay

@@ -31,7 +31,7 @@ const transform = data => {
   });
 };
 
-export const getStatements = dispatch => {
+export const getStatements = async dispatch => {
   dispatch({ type: MCP_STATEMENTS_FETCH_INIT });
   return apiRequest('/medical_copays')
     .then(({ data }) => {

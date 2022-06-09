@@ -14,7 +14,7 @@ export const FrequentlyAskedQuestions = () => {
           value: 'null',
         }}
       >
-        <va-accordion-item id="first">
+        <va-accordion-item id="first-dhp-faq">
           <h3 slot="headline">
             What are connected devices and why might I use them?
           </h3>
@@ -25,7 +25,7 @@ export const FrequentlyAskedQuestions = () => {
         </va-accordion-item>
         <va-accordion-item
           header="How can I connect my devices?"
-          id="second"
+          id="second-dhp-faq"
           data-testid="second-faq"
         >
           <strong>Take these steps to connect a device:</strong>
@@ -46,7 +46,7 @@ export const FrequentlyAskedQuestions = () => {
         </va-accordion-item>
         <va-accordion-item
           header="Can I stop sharing my connected device data with VA?"
-          id="third"
+          id="third-dhp-faq"
           data-testid="third-faq"
         >
           Yes. If you no longer want to share your information with VA, you can
@@ -72,7 +72,7 @@ export const FrequentlyAskedQuestions = () => {
         </va-accordion-item>
         <va-accordion-item
           header="What information can VA access from my devices?"
-          id="fourth"
+          id="fourth-dhp-faq"
           data-testid="fourth-faq"
         >
           When you connect a device, you can choose the type of data that will
@@ -80,7 +80,7 @@ export const FrequentlyAskedQuestions = () => {
         </va-accordion-item>
         <va-accordion-item
           header="Who can access data from my connected devices?"
-          id="fifth"
+          id="fifth-dhp-faq"
           data-testid="fifth-faq"
         >
           Your VA care team will be able to view the data from your connected
@@ -90,7 +90,7 @@ export const FrequentlyAskedQuestions = () => {
         </va-accordion-item>
         <va-accordion-item
           header="Does VA keep my data after I disconnect a device?"
-          id="sixth"
+          id="sixth-dhp-faq"
           data-testid="sixth-faq"
         >
           VA will no longer receive new data from your device after it is
