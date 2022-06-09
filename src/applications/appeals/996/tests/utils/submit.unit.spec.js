@@ -369,6 +369,6 @@ describe('getPhone', () => {
 describe('getTimeZone', () => {
   it('should return a string', () => {
     // result will be a location string, not stubbing for this test
-    expect(getTimeZone().length).to.be.greaterThan(1);
+    expect(getTimeZone().length).to.be.greaterThan(0);
   });
 });
