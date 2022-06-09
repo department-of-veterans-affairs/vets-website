@@ -8,7 +8,7 @@ import OfficialGovtWebsite from '../OfficialGovtWebsite';
 import VeteranCrisisLine from '../VeteranCrisisLine';
 import addFocusBehaviorToCrisisLineModal from '../../../accessible-VCL-modal';
 import { addOverlayTriggers } from '../../../legacy/menu';
-import { isIE } from '~/logic/detection/is-browser';
+import { isBrowserIE } from '~/logic/detection/is-browser';
 import { useOnLoaded } from '~/logic/hooks/events/use-on-loaded';
 
 export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
@@ -48,7 +48,7 @@ export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
       {/* Alert when the user's browser is Internet Explorer. */}
       {/* @TODO Wrap this web-component into its own react component. */}
       {loaded &&
-        isIE && (
+        isBrowserIE() && (
           <va-alert
             close-btn-aria-label="Close notification"
             full-width

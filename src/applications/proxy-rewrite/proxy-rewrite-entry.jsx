@@ -18,7 +18,7 @@ import redirectIfNecessary from './redirects';
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
 import proxyWhitelist from './proxy-rewrite-whitelist.json';
-import { isIE } from '~/logic/detection/is-browser';
+import { isBrowserIE } from '~/logic/detection/is-browser';
 import { installWebComponentsLibrary } from '~/logic/legacy/web-components';
 
 function createMutationObserverCallback() {
@@ -273,7 +273,7 @@ function main() {
 
   // Loads our custom web-components library in the case of IE so that we have support for the web-component
   // which will display the IE deprecation notice to the user.
-  if (isIE) {
+  if (isBrowserIE()) {
     installWebComponentsLibrary();
   }
 

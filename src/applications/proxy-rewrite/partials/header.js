@@ -1,5 +1,5 @@
 import { replaceWithStagingDomain } from 'platform/utilities/environment/stagingDomains';
-import { isIE } from '~/logic/detection/is-browser';
+import { isBrowserIE } from '~/logic/detection/is-browser';
 
 export default `
   <!-- Header -->
@@ -126,7 +126,7 @@ export default `
 
 // In the case of IE display the IE deprecation notice to the user.
 // Solutioned for: https://github.com/department-of-veterans-affairs/va.gov-cms/issues/9075
-if (isIE) {
+if (isBrowserIE()) {
   window.addEventListener('load', () => {
     const ieMessageEl = document.body.querySelector('.ie-deprecation-warning');
     ieMessageEl.style.display = 'block';
