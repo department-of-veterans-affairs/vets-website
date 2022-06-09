@@ -21,7 +21,7 @@ function ClaimsUnavailable({ headerLevel = '4' }) {
 }
 
 ClaimsUnavailable.propTypes = {
-  headerLevel: PropTypes.string.isRequired,
+  headerLevel: PropTypes.string,
 };
 
 export default ClaimsUnavailable;
