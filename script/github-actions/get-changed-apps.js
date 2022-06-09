@@ -76,7 +76,12 @@ const getAllowedApps = (filePath, allow) => {
  * @param {string} outputType - Determines what app information should be returned.
  * @returns {string} A comma-delimited string of app entry names, relative paths or URLs.
  */
-const getChangedAppsString = (filePaths, config, outputType = 'entry') => {
+const getChangedAppsString = (
+  filePaths,
+  config,
+  outputType = 'entry',
+  delimiter = ' ',
+) => {
   const appStrings = [];
 
   for (const filePath of filePaths) {
@@ -97,7 +102,7 @@ const getChangedAppsString = (filePaths, config, outputType = 'entry') => {
     } else return '';
   }
 
-  return [...new Set(appStrings)].join(',');
+  return [...new Set(appStrings)].join(delimiter);
 };
 
 if (process.env.CHANGED_FILE_PATHS) {
@@ -110,13 +115,14 @@ if (process.env.CHANGED_FILE_PATHS) {
     // 'url': The root URLs of the changed apps.
     // 'slack-group': The Slack group of the app's team, specified in the config.
     { name: 'output-type', type: String, defaultValue: 'entry' },
+    { name: 'delimiter', alias: 'd', type: String, defaultValue: ' ' },
   ]);
-  const outputType = options['output-type'];
 
   const changedAppsString = getChangedAppsString(
     changedFilePaths,
     changedAppsConfig,
-    outputType,
+    options['output-type'],
+    options.delimiter,
   );
 
   console.log(changedAppsString);
