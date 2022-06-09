@@ -26,7 +26,7 @@ import { makeAuthRequest, roundToNearest } from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 
 // NOTE: This should only be TRUE when developing locally
-const USE_MOCKS = environment.isLocalhost();
+const USE_MOCKS = environment.isLocalhost() && !window.Cypress;
 
 // -------------------- v2 and v1 -------------
 export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
