@@ -50,6 +50,10 @@ export default function ValidateDisplay({
       validateHandler();
     }
   };
+  const handleFormSubmit = useCallback(e => {
+    e.preventDefault();
+    validateHandler();
+  });
   return (
     <Wrapper pageTitle={header || t('check-in-at-va')}>
       <p>
@@ -70,7 +74,7 @@ export default function ValidateDisplay({
       ) : (
         <></>
       )}
-      <form className="vads-u-margin-bottom--2p5" onSubmit={validateHandler}>
+      <form className="vads-u-margin-bottom--2p5" onSubmit={handleFormSubmit}>
         <VaTextInput
           autoCorrect="false"
           error={lastNameErrorMessage}
@@ -112,7 +116,7 @@ export default function ValidateDisplay({
           />
         )}
         <button
-          onClick={validateHandler}
+          type="submit"
           className="usa-button usa-button-big"
           data-testid="check-in-button"
           disabled={isLoading}
