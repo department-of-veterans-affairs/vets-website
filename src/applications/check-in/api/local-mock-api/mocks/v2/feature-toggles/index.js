@@ -63,7 +63,7 @@ const generateFeatureToggles = (toggles = {}) => {
           value: checkInExperienceEditMessagingEnabled,
         },
         {
-          name: 'check_in_experience_phone_appointments',
+          name: 'check_in_experience_phone_appointments_enabled',
           value: checkInExperiencePhoneAppointmentsEnabled,
         },
       ],
