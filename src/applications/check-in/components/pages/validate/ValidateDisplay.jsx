@@ -45,7 +45,11 @@ export default function ValidateDisplay({
     },
     [setDob],
   );
-
+  const handleEnter = e => {
+    if (e.key === 'Enter') {
+      validateHandler();
+    }
+  };
   return (
     <Wrapper pageTitle={header || t('check-in-at-va')}>
       <p>
@@ -77,6 +81,7 @@ export default function ValidateDisplay({
           spellCheck="false"
           value={lastName}
           data-testid="last-name-input"
+          onKeyDown={handleEnter}
         />
         {isLorotaSecurityUpdatesEnabled ? (
           <div data-testid="dob-input" className="vads-u-margin-top--3">
@@ -103,24 +108,25 @@ export default function ValidateDisplay({
             required
             value={last4Ssn}
             data-testid="last-4-input"
+            onKeyDown={handleEnter}
           />
         )}
+        <button
+          onClick={validateHandler}
+          className="usa-button usa-button-big"
+          data-testid="check-in-button"
+          disabled={isLoading}
+          aria-label={t('check-in-now-for-your-appointment')}
+        >
+          {' '}
+          {isLoading ? (
+            <span role="status">{t('loading')}</span>
+          ) : (
+            <>{t('continue')}</>
+          )}
+        </button>
       </form>
-      <button
-        onClick={validateHandler}
-        type="button"
-        className="usa-button usa-button-big"
-        data-testid="check-in-button"
-        disabled={isLoading}
-        aria-label={t('check-in-now-for-your-appointment')}
-      >
-        {' '}
-        {isLoading ? (
-          <span role="status">{t('loading')}</span>
-        ) : (
-          <>{t('continue')}</>
-        )}
-      </button>
+
       {Footer && <Footer />}
     </Wrapper>
   );
