@@ -1,5 +1,17 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
+const messages = {
+  title: {
+    dayOf: {
+      en: 'Check in at VA',
+      es: 'Registrarse en VA',
+    },
+    preCheckIn: {
+      en: 'Check in at VA',
+    },
+  },
+};
+
 class ValidateVeteran {
   validatePageLoaded = (title = 'Start pre-check-in') => {
     cy.get('h1', { timeout: Timeouts.slow })
@@ -8,11 +20,11 @@ class ValidateVeteran {
   };
 
   validatePage = {
-    dayOf: () => {
-      this.validatePageLoaded('Check in at VA');
+    dayOf: (language = 'en') => {
+      this.validatePageLoaded(messages.title.dayOf[language]);
     },
-    preCheckIn: () => {
-      this.validatePageLoaded('Start pre-check-in');
+    preCheckIn: (language = 'en') => {
+      this.validatePageLoaded(messages.title.preCheckIn[language]);
     },
   };
 
