@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import constants from 'vets-json-schema/dist/constants.json';
 
 export const AddressWithAutofillReviewField = ({
@@ -8,7 +7,7 @@ export const AddressWithAutofillReviewField = ({
   formData,
   inputLabel,
 }) => {
-  const stateLabel = constants.states50AndDC.find(
+  const stateLabel = constants.states.USA.find(
     state => state.value === formData.state,
   ).label;
 

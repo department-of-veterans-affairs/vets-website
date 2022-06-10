@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import { IntroductionPage } from '../containers/IntroductionPage';
+import { IntroductionPage } from '../../containers/IntroductionPage';
 
 const getData = ({ canUpload1010cgPOA = true } = {}) => ({
   mockProps: {

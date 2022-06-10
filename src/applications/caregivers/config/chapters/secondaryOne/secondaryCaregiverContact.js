@@ -28,11 +28,7 @@ const secondaryCaregiverContactPage = {
         introText: secondaryOneContactIntro,
         showContactIntro: true,
       }),
-    // secondaryOne UI
-    [secondaryOneFields.address]: addressWithAutofillUI(
-      secondaryOneInputLabel,
-      'secondaryOneAddress',
-    ),
+    [secondaryOneFields.address]: addressWithAutofillUI(),
     [secondaryOneFields.primaryPhoneNumber]: primaryPhoneNumberUI(
       secondaryOneInputLabel,
     ),
@@ -57,7 +53,6 @@ const secondaryCaregiverContactPage = {
       secondaryOneFields.primaryPhoneNumber,
     ],
     properties: {
-      // secondaryOne properties
       [secondaryOneFields.address]: {
         ...address,
         properties: { ...address.properties, autofill: { type: 'boolean' } },

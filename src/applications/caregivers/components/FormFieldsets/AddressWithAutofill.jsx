@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -9,7 +8,11 @@ import {
   VaSelect,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { primaryInputLabel } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+import {
+  primaryInputLabel,
+  secondaryOneInputLabel,
+  secondaryTwoInputLabel,
+} from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
 import { AddressWithAutofillReviewField } from 'applications/caregivers/components/FormFieldsets/AddressWithAutofillReviewField';
 
 const PrimaryAddressWithAutofill = props => {
@@ -26,9 +29,8 @@ const PrimaryAddressWithAutofill = props => {
   const { reviewMode, submitted } = formContext;
   const { properties: schemaProps, required: reqFields } = schema;
   const [dirtyFields, setDirtyFields] = useState([]);
-  console.log('Props:', props);
 
-  // define custom error messages
+  // define our custom error messages
   const errorMessages = {
     street: { required: 'Please enter a street address' },
     city: { required: 'Please enter a city' },
@@ -40,7 +42,14 @@ const PrimaryAddressWithAutofill = props => {
     },
   };
 
-  // populate dirty fields array on user interaction
+  // define our custom input label map
+  const inputLabelMap = {
+    primaryAddress: primaryInputLabel,
+    secondaryOneAddress: secondaryOneInputLabel,
+    secondaryTwoAddress: secondaryTwoInputLabel,
+  };
+
+  // populate our dirty fields array on user interaction
   const addDirtyField = useCallback(
     field => {
       if (!dirtyFields.includes(field)) {
@@ -69,7 +78,7 @@ const PrimaryAddressWithAutofill = props => {
     event => {
       const fieldName = event.target.name.split('_').pop();
       formData[fieldName] = event.target.value;
-      // uncheck autofill if we have modified a field value
+      // uncheck autofill since we have modified the input value
       if (formData.autofill) formData.autofill = false;
       // send updated date to the form
       addDirtyField(fieldName);
@@ -87,7 +96,7 @@ const PrimaryAddressWithAutofill = props => {
     [addDirtyField],
   );
 
-  // check for field validation errors
+  // check field for validation errors
   const showError = field => {
     const errorList = errorSchema[field].__errors;
     const fieldIsDirty = dirtyFields.includes(field);
@@ -118,6 +127,7 @@ const PrimaryAddressWithAutofill = props => {
     <fieldset className="cg-address-with-autofill vads-u-margin-y--2">
       {canAutofillAddress && (
         <VaCheckbox
+          id={idSchema.autofill.$id}
           checked={formData.autofill}
           label="Use the same address as the Veteran"
           className="vads-u-margin-left--neg3"
@@ -127,9 +137,10 @@ const PrimaryAddressWithAutofill = props => {
       )}
 
       <VaTextInput
+        id={idSchema.street.$id}
         name={idSchema.street.$id}
         value={formData.street}
-        label={`${primaryInputLabel} current street address`}
+        label={`${inputLabelMap[props.name]} current street address`}
         className="cg-address-input"
         error={showError('street') || null}
         required
@@ -138,6 +149,7 @@ const PrimaryAddressWithAutofill = props => {
       />
 
       <VaTextInput
+        id={idSchema.street2.$id}
         name={idSchema.street2.$id}
         value={formData.street2}
         label="Street address line 2"
@@ -147,6 +159,7 @@ const PrimaryAddressWithAutofill = props => {
       />
 
       <VaTextInput
+        id={idSchema.city.$id}
         name={idSchema.city.$id}
         value={formData.city}
         label="City"
@@ -158,6 +171,7 @@ const PrimaryAddressWithAutofill = props => {
       />
 
       <VaSelect
+        id={idSchema.state.$id}
         name={idSchema.state.$id}
         value={formData.state}
         label="State"
@@ -168,7 +182,7 @@ const PrimaryAddressWithAutofill = props => {
         onBlur={handleBlur}
       >
         <option value=""> </option>
-        {constants.states50AndDC.map(state => (
+        {constants.states.USA.map(state => (
           <option key={state.value} value={state.value}>
             {state.label}
           </option>
@@ -176,6 +190,7 @@ const PrimaryAddressWithAutofill = props => {
       </VaSelect>
 
       <VaTextInput
+        id={idSchema.postalCode.$id}
         name={idSchema.postalCode.$id}
         value={formData.postalCode}
         label="Postal code"
@@ -196,6 +211,7 @@ PrimaryAddressWithAutofill.propTypes = {
   formContext: PropTypes.object,
   formData: PropTypes.object,
   idSchema: PropTypes.object,
+  name: PropTypes.string,
   schema: PropTypes.object,
   veteranAddress: PropTypes.object,
   onChange: PropTypes.func,

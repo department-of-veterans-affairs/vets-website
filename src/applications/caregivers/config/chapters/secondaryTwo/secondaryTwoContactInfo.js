@@ -26,10 +26,7 @@ const secondaryTwoContactPage = {
         introText: secondaryTwoContactIntro,
         showContactIntro: true,
       }),
-    [secondaryTwoFields.address]: addressWithAutofillUI(
-      secondaryTwoInputLabel,
-      'secondaryTwoAddress',
-    ),
+    [secondaryTwoFields.address]: addressWithAutofillUI(),
     [secondaryTwoFields.primaryPhoneNumber]: primaryPhoneNumberUI(
       secondaryTwoInputLabel,
     ),

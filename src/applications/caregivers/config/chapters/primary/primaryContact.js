@@ -8,8 +8,8 @@ import {
   vetRelationshipUI,
   alternativePhoneNumberUI,
   primaryPhoneNumberUI,
+  addressWithAutofillUI,
 } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
-import PrimaryAddressWithAutofill from 'applications/caregivers/components/FormFieldsets/PrimaryAddressWithAutofill';
 
 const { primaryCaregiver } = fullSchema.properties;
 const primaryCaregiverProps = primaryCaregiver.properties;
@@ -23,10 +23,7 @@ const primaryContactInfoPage = {
         pageTitle: 'Contact information',
         showContactIntro: true,
       }),
-    [primaryCaregiverFields.address]: {
-      'ui:title': ' ',
-      'ui:field': PrimaryAddressWithAutofill,
-    },
+    [primaryCaregiverFields.address]: addressWithAutofillUI(),
     [primaryCaregiverFields.primaryPhoneNumber]: primaryPhoneNumberUI(
       primaryInputLabel,
     ),
