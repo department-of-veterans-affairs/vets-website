@@ -89,7 +89,7 @@ describe('check-in', () => {
         },
       };
 
-      it('renders correct error message when pre-checkin is expired', () => {
+      it('renders correct error message when in person pre-checkin is expired', () => {
         store = mockStore(initState);
         const component = render(
           <Provider store={store}>
