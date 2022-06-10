@@ -135,28 +135,28 @@ class AddFilesForm extends React.Component {
   };
 
   submit = () => {
-    this.setState(
-      this.state.checked
-        ? { errorMessageCheckbox: null }
-        : { errorMessageCheckbox: 'Please accept the above' },
-    );
-
     const { files } = this.props;
     const hasPasswords = files.every(
       file => !file.isEncrypted || (file.isEncrypted && file.password.value),
     );
 
-    if (
-      files.length > 0 &&
-      files.every(isValidDocument) &&
-      hasPasswords &&
-      this.state.checked
-    ) {
-      this.props.onSubmit();
-    } else {
-      this.props.onDirtyFields();
-      setTimeout(scrollToError);
+    if (files.length > 0 && files.every(isValidDocument) && hasPasswords) {
+      // This nested state prevents VoiceOver from accouncing an
+      // unchecked checkbox if the file is missing.
+      if (this.state.checked) {
+        this.props.onSubmit();
+        return;
+      }
+
+      const { checked } = this.state;
+
+      this.setState({
+        errorMessageCheckbox: checked ? null : 'Please accept the above',
+      });
     }
+
+    this.props.onDirtyFields();
+    setTimeout(scrollToError);
   };
 
   render() {
