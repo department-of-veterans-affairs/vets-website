@@ -25,7 +25,7 @@ outputs:
 
 runs:
   using: 'node16'
-  main: 'script/github-actions/get-changed-apps.js'
+  main: '../../../script/github-actions/get-changed-apps.js'
   # steps:
   #   - name: Get changed file paths
   #     id: get-changed-files
