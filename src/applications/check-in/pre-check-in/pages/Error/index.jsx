@@ -64,12 +64,16 @@ const Error = () => {
       // don't show sub message if we are 15 minutes past appointment start time
       if (appointmentStartTimePast15(appointments))
         return [t('sorry-pre-check-in-is-no-longer-available'), '', accordions];
-      if (preCheckinExpired(appointments))
+      if (preCheckinExpired(appointments)) {
+        const apptType = appointments[0]?.kind;
         return [
           t('sorry-pre-check-in-is-no-longer-available'),
-          t('you-can-still-check-in-once-you-arrive'),
+          apptType === 'phone'
+            ? t('your-provider-will-call-you')
+            : t('you-can-still-check-in-once-you-arrive'),
           accordions,
         ];
+      }
     }
     return [t('sorry-we-cant-complete-pre-check-in'), combinedMessage, null];
   };
