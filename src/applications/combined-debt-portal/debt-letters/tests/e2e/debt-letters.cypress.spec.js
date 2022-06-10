@@ -28,24 +28,23 @@ describe('Debt Letters', () => {
     cy.findByTestId('other-va-copay-body').should('exist');
     cy.injectAxeThenAxeCheck();
   });
-
-  /* eslint-disable @department-of-veterans-affairs/axe-check-required */
-  // Same display-states below as test above which already had AXE-check.
-
   it('displays download debt letters', () => {
     cy.findByTestId('download-jumplink').click({ waitForAnimations: true });
     cy.findByTestId('download-letters-link').click();
     cy.get('#downloadDebtLetters').should('be.visible');
+    cy.injectAxeThenAxeCheck();
   });
 
   it('displays how do I pay my VA debt?', () => {
     cy.findByTestId('howto-pay-jumplink').click({ waitForAnimations: true });
     cy.get('#howDoIPay').should('be.visible');
+    cy.injectAxeThenAxeCheck();
   });
 
   it('displays how do I get financial help?', () => {
     cy.findByTestId('howto-help-jumplink').click({ waitForAnimations: true });
     cy.get('#howDoIGetHelp').should('be.visible');
+    cy.injectAxeThenAxeCheck();
   });
 
   it('displays how do I dispute a debt?', () => {
@@ -53,6 +52,6 @@ describe('Debt Letters', () => {
       waitForAnimations: true,
     });
     cy.get('#howDoIDispute').should('be.visible');
+    cy.injectAxeThenAxeCheck();
   });
-  /* eslint-enable @department-of-veterans-affairs/axe-check-required */
 });
