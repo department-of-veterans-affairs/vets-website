@@ -54,6 +54,7 @@ const scrollToError = () => {
     scrollTo(errorPosition, options);
 
     if (inputType === 'file') {
+      // Sends focus to the file input button
       errors[0].querySelector('label[role="button"]').focus();
     } else {
       errorInput.focus();
