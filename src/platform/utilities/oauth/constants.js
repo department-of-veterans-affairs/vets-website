@@ -6,4 +6,7 @@ export const OAUTH_KEYS = {
   RESPONSE_TYPE: 'response_type',
   SCOPE: 'scope',
   STATE: 'state',
+  GRANT_TYPE: 'grant_type',
+  CODE: 'code',
+  CODE_VERIFIER: 'code_verifier',
 };

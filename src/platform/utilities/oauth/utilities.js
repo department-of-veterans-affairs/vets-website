@@ -41,7 +41,7 @@ export async function createOAuthRequest(csp) {
   const oAuthParams = {
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent('web'),
     [OAUTH_KEYS.REDIRECT_URI]: encodeURIComponent(
-      `${environment.BASE_URL}/auth/login/callback`,
+      `${environment.BASE_URL}/auth/login/callback/`,
     ),
     [OAUTH_KEYS.RESPONSE_TYPE]: 'code',
     [OAUTH_KEYS.SCOPE]: 'email',
@@ -50,7 +50,7 @@ export async function createOAuthRequest(csp) {
     [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: 'S256',
   };
 
-  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: csp }));
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: `/${csp}` }));
 
   Object.keys(oAuthParams).forEach(param =>
     url.searchParams.append(param, oAuthParams[param]),
@@ -59,3 +59,45 @@ export async function createOAuthRequest(csp) {
   // Redirect to the authorization server
   window.location = url;
 }
+
+const getCV = () => {
+  const codeVerifier = sessionStorage.getItem('code_verifier');
+  return { codeVerifier };
+};
+
+export function buildTokenRequest({
+  code,
+  redirectUri = `${environment.BASE_URL}`,
+}) {
+  const { codeVerifier } = getCV();
+
+  // Build the authorization URL
+  const oAuthParams = {
+    [OAUTH_KEYS.GRANT_TYPE]: 'authorization_code',
+    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent('web'),
+    [OAUTH_KEYS.REDIRECT_URI]: encodeURIComponent(redirectUri),
+    [OAUTH_KEYS.CODE]: code,
+    [OAUTH_KEYS.CODE_VERIFIER]: codeVerifier,
+  };
+
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: '/token' }));
+
+  Object.keys(oAuthParams).forEach(param =>
+    url.searchParams.append(param, oAuthParams[param]),
+  );
+
+  return url;
+}
+
+export const requestToken = async ({ code, redirectUri }) => {
+  const url = buildTokenRequest({
+    code,
+    redirectUri,
+  });
+
+  const response = await fetch(url, { method: 'POST' });
+
+  if (response.ok) {
+    window.location = redirectUri ?? '/?postLogin=true';
+  }
+};

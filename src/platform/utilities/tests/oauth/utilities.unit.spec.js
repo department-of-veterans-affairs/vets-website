@@ -106,4 +106,6 @@ describe('OAuth - Utilities', () => {
       expect(window.location.href).to.not.eql(originalLocation);
     });
   });
+
+  describe('getCV', () => {});
 });
