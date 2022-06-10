@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { I18nextProvider } from 'react-i18next';
 import configureStore from 'redux-mock-store';
 import { add, sub } from 'date-fns';
 
@@ -8,6 +9,9 @@ import { render } from '@testing-library/react';
 import { within } from '@testing-library/dom';
 import MockDate from 'mockdate';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
+
+import i18n from '../../../../utils/i18n/i18n';
+
 import Error from '../index';
 
 describe('check-in', () => {
@@ -46,7 +50,9 @@ describe('check-in', () => {
         MockDate.set('2022-01-01T14:00:00.000-05:00');
         const component = render(
           <Provider store={store}>
-            <Error />
+            <I18nextProvider i18n={i18n}>
+              <Error />
+            </I18nextProvider>
           </Provider>,
         );
         expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
@@ -60,35 +66,36 @@ describe('check-in', () => {
     });
     describe('store with expired appointment (between midnight and 15 min after appt start time)', () => {
       let store;
-      beforeEach(() => {
-        const middleware = [];
-        const mockStore = configureStore(middleware);
-        const initState = {
-          checkInData: {
-            appointments: [
-              {
-                facility: 'LOMA LINDA VA CLINIC',
-                clinicPhoneNumber: '5551234567',
-                clinicFriendlyName: 'TEST CLINIC',
-                clinicName: 'LOM ACC CLINIC TEST',
-                appointmentIen: 'some-ien',
-                startTime: new Date(),
-                eligibility: 'ELIGIBLE',
-                facilityId: 'some-facility',
-                checkInWindowStart: new Date(),
-                checkInWindowEnd: add(new Date(), { minutes: 16 }),
-                checkedInTime: '',
-              },
-            ],
-            veteranData: {},
-          },
-        };
-        store = mockStore(initState);
-      });
+      const middleware = [];
+      const mockStore = configureStore(middleware);
+      const initState = {
+        checkInData: {
+          appointments: [
+            {
+              facility: 'LOMA LINDA VA CLINIC',
+              clinicPhoneNumber: '5551234567',
+              clinicFriendlyName: 'TEST CLINIC',
+              clinicName: 'LOM ACC CLINIC TEST',
+              appointmentIen: 'some-ien',
+              startTime: new Date(),
+              eligibility: 'ELIGIBLE',
+              facilityId: 'some-facility',
+              checkInWindowStart: new Date(),
+              checkInWindowEnd: add(new Date(), { minutes: 16 }),
+              checkedInTime: '',
+            },
+          ],
+          veteranData: {},
+        },
+      };
+
       it('renders correct error message when pre-checkin is expired', () => {
+        store = mockStore(initState);
         const component = render(
           <Provider store={store}>
-            <Error />
+            <I18nextProvider i18n={i18n}>
+              <Error />
+            </I18nextProvider>
           </Provider>,
         );
         expect(
@@ -99,6 +106,28 @@ describe('check-in', () => {
         expect(
           within(expiredMessage).getByText(
             'You can still check-in with your phone once you arrive at your appointment.',
+          ),
+        ).to.exist;
+      });
+      it('renders correct error message when phone pre-checkin is expired', () => {
+        const phoneInitState = { ...initState };
+        phoneInitState.checkInData.appointments[0].kind = 'phone';
+        store = mockStore(phoneInitState);
+        const component = render(
+          <Provider store={store}>
+            <I18nextProvider i18n={i18n}>
+              <Error />
+            </I18nextProvider>
+          </Provider>,
+        );
+        expect(
+          component.getByText('Sorry, pre-check-in is no longer available'),
+        ).to.exist;
+        const expiredMessage = component.getByTestId('error-message');
+        expect(expiredMessage).to.exist;
+        expect(
+          within(expiredMessage).getByText(
+            'Your provider will call you. You may need to wait about 15 minutes for their call. Thanks for your patience.',
           ),
         ).to.exist;
       });
@@ -133,7 +162,9 @@ describe('check-in', () => {
       it('renders no sub message when appointment started more than 15 minutes ago', () => {
         const component = render(
           <Provider store={store}>
-            <Error />
+            <I18nextProvider i18n={i18n}>
+              <Error />
+            </I18nextProvider>
           </Provider>,
         );
         expect(component.queryByTestId('error-message')).to.be.null;
@@ -155,7 +186,9 @@ describe('check-in', () => {
       it('renders error page', () => {
         const component = render(
           <Provider store={store}>
-            <Error />
+            <I18nextProvider i18n={i18n}>
+              <Error />
+            </I18nextProvider>
           </Provider>,
         );
         expect(component.getByText('Sorry, we can’t complete pre-check-in')).to
@@ -165,7 +198,9 @@ describe('check-in', () => {
       it('Passes AxeCheck', () => {
         axeCheck(
           <Provider store={store}>
-            <Error />
+            <I18nextProvider i18n={i18n}>
+              <Error />
+            </I18nextProvider>
           </Provider>,
         );
       });
