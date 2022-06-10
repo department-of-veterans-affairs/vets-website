@@ -35,7 +35,7 @@ describe('Pre Check In Experience', () => {
       const featureRoute = '/health-care/appointment-pre-check-in/introduction';
       cy.visit(featureRoute);
       // redirected back to landing page to reload the data
-      ValidateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePage.preCheckIn();
       cy.injectAxeThenAxeCheck();
     });
   });
