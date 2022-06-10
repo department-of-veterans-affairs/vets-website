@@ -116,8 +116,9 @@ export default function ValidateDisplay({
           />
         )}
         <button
-          type="submit"
-          className="usa-button usa-button-big vads-u-width-l--auto vads-u-margin-top--4"
+          type="button"
+          onClick={validateHandler}
+          className="usa-button usa-button-big vads-u-margin-top--4"
           data-testid="check-in-button"
           disabled={isLoading}
           aria-label={t('check-in-now-for-your-appointment')}
