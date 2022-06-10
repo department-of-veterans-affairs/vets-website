@@ -160,7 +160,7 @@ class SaveInProgressIntro extends React.Component {
             </div>
           );
         }
-      } else if (prefillAvailable && !verifiedPrefillAlert) {
+      } else if (!prefillAvailable && !verifiedPrefillAlert) {
         alert = (
           <div>
             <div className="usa-alert usa-alert-info schemaform-sip-alert">
