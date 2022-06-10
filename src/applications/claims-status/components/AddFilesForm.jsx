@@ -151,7 +151,9 @@ class AddFilesForm extends React.Component {
       const { checked } = this.state;
 
       this.setState({
-        errorMessageCheckbox: checked ? null : 'Please accept the above',
+        errorMessageCheckbox: checked
+          ? null
+          : 'Please confirm you know these documents apply to this claim only',
       });
     }
 
