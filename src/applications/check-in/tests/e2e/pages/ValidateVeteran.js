@@ -7,13 +7,13 @@ const messages = {
       es: 'Registrarse en VA',
     },
     preCheckIn: {
-      en: 'Check in at VA',
+      en: 'Start pre-check-in',
     },
   },
 };
 
 class ValidateVeteran {
-  validatePageLoaded = (title = 'Start pre-check-in') => {
+  validatePageLoaded = title => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', title);
