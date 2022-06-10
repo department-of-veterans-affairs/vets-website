@@ -3,7 +3,7 @@ description: Get information on changed applications
 
 inputs:
   delimiter:
-    description: 'Delimiter to use for string output'
+    description: 'Delimiter to use for string output. Does not apply to `changed_files`'
     required: false
     default: ' '
 
