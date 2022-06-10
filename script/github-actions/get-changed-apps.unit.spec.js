@@ -266,7 +266,7 @@ describe('getChangedAppsString', () => {
       ];
 
       const appString = getChangedAppsString(changedFiles, config, 'url');
-      expect(appString).to.equal('/groupedApp1,/groupedApp2');
+      expect(appString).to.equal('/groupedApp1 /groupedApp2');
     });
   });
 
