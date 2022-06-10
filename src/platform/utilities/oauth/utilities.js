@@ -60,7 +60,7 @@ export async function createOAuthRequest(csp) {
   window.location = url;
 }
 
-const getCV = () => {
+export const getCV = () => {
   const codeVerifier = sessionStorage.getItem('code_verifier');
   return { codeVerifier };
 };
@@ -68,8 +68,10 @@ const getCV = () => {
 export function buildTokenRequest({
   code,
   redirectUri = `${environment.BASE_URL}`,
-}) {
+} = {}) {
   const { codeVerifier } = getCV();
+
+  if (!code || !codeVerifier) return null;
 
   // Build the authorization URL
   const oAuthParams = {
@@ -98,6 +100,6 @@ export const requestToken = async ({ code, redirectUri }) => {
   const response = await fetch(url, { method: 'POST' });
 
   if (response.ok) {
-    window.location = redirectUri ?? '/?postLogin=true';
+    // window.location = redirectUri ?? '/?postLogin=true';
   }
 };

@@ -133,7 +133,7 @@ export function AuthApp2({ location: { query }, openLoginModal }) {
   // Fetch the user to get the login policy and validate the session.
   const validateSession = useCallback(
     async () => {
-      const { code, state, auth, returnUrl } = authAppOptions;
+      const { code, state, auth } = authAppOptions;
       if (code && state) {
         // Verify the state matches in localStorage
         if (
@@ -147,7 +147,7 @@ export function AuthApp2({ location: { query }, openLoginModal }) {
         } else {
           // Matches - requestToken exchange
           try {
-            await requestToken({ code, redirectUri: returnUrl });
+            await requestToken({ code });
           } catch (error) {
             generateOAuthError({
               code: 202,

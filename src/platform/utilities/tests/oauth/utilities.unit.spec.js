@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { createHash, randomFillSync } from 'crypto';
-import { OAUTH_KEYS } from '../../oauth/constants';
+import { AUTHORIZE_KEYS } from '../../oauth/constants';
 import * as oAuthUtils from '../../oauth/utilities';
 
 function getArrayBufferOrView(buffer) {
@@ -94,7 +94,7 @@ describe('OAuth - Utilities', () => {
     it('should append additional params', async () => {
       expect(window.location.search).to.eql('');
       await oAuthUtils.createOAuthRequest('logingov');
-      Object.values(OAUTH_KEYS).forEach(key => {
+      Object.values(AUTHORIZE_KEYS).forEach(key => {
         const searchParams = new URLSearchParams(window.location.search);
         expect(searchParams.has(key)).to.be.true;
       });
@@ -107,5 +107,38 @@ describe('OAuth - Utilities', () => {
     });
   });
 
-  describe('getCV', () => {});
+  describe('getCV', () => {
+    it('should return null when empty', () => {
+      expect(oAuthUtils.getCV()).to.eql({ codeVerifier: null });
+    });
+    it('should return code_verifier when in session storage', () => {
+      const cvValue = 'success';
+      window.sessionStorage.setItem('code_verifier', cvValue);
+      expect(oAuthUtils.getCV()).to.eql({
+        codeVerifier: cvValue,
+      });
+      window.sessionStorage.clear();
+    });
+  });
+
+  describe('buildTokenRequest', () => {
+    it('should not generate url if no `code` is provider or `code_verifier` is null', () => {
+      expect(oAuthUtils.buildTokenRequest()).to.be.null;
+      expect(oAuthUtils.buildTokenRequest({ code: 'hello' })).to.be.null;
+    });
+    it('should generate a proper url with appropriate query params', () => {
+      const cvValue = 'success';
+      window.sessionStorage.setItem('code_verifier', cvValue);
+      const tokenPath = `https://dev-api.va.gov/v0/sign_in/token?grant_type=authorization_code&client_id=web&redirect_uri=https%253A%252F%252Fdev.va.gov&code=hello&code_verifier=${cvValue}`;
+      expect(oAuthUtils.buildTokenRequest({ code: 'hello' }).href).to.eql(
+        tokenPath,
+      );
+    });
+  });
+
+  describe('requestToken', () => {
+    it('should fail if url is no url or url does not contain `code` and `code_verifier`', () => {});
+    it('should POST successfully to `/token` endpoint', () => {});
+    it('should redirect to proper redirectUri or homepage', () => {});
+  });
 });

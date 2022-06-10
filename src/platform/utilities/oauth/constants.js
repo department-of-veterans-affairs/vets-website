@@ -10,3 +10,26 @@ export const OAUTH_KEYS = {
   CODE: 'code',
   CODE_VERIFIER: 'code_verifier',
 };
+
+const generateOAuthKeysWithout = array =>
+  Object.keys(OAUTH_KEYS).reduce((acc, cv) => {
+    let tempAcc = acc;
+    if (!array.includes(cv)) {
+      tempAcc = { ...acc, [cv]: OAUTH_KEYS[cv] };
+    }
+    return tempAcc;
+  }, {});
+
+export const AUTHORIZE_KEYS = generateOAuthKeysWithout([
+  'GRANT_TYPE',
+  'CODE_VERIFIER',
+  'CODE',
+]);
+
+export const TOKEN_KEYS = generateOAuthKeysWithout([
+  'SCOPE',
+  'RESPONSE_TYPE',
+  'STATE',
+  'CODE_CHALLENGE_METHOD',
+  'CODE_CHALLENGE',
+]);
