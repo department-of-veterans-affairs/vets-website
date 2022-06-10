@@ -54,8 +54,7 @@ const scrollToError = () => {
     scrollTo(errorPosition, options);
 
     if (inputType === 'file') {
-      errors[0].querySelector('label').setAttribute('tabindex', '-1');
-      errors[0].querySelector('label').focus();
+      errors[0].querySelector('label[role="button"]').focus();
     } else {
       errorInput.focus();
     }
