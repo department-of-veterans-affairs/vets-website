@@ -50,10 +50,10 @@ export default function ValidateDisplay({
       validateHandler();
     }
   };
-  const handleFormSubmit = useCallback(e => {
+  const handleFormSubmit = e => {
     e.preventDefault();
     validateHandler();
-  });
+  };
   return (
     <Wrapper pageTitle={header || t('check-in-at-va')}>
       <p>
@@ -117,7 +117,7 @@ export default function ValidateDisplay({
         )}
         <button
           type="submit"
-          className="usa-button usa-button-big"
+          className="usa-button usa-button-big vads-u-width--auto"
           data-testid="check-in-button"
           disabled={isLoading}
           aria-label={t('check-in-now-for-your-appointment')}
