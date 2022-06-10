@@ -174,6 +174,7 @@ class AddFilesForm extends React.Component {
           <FileInput
             errorMessage={this.getErrorMessage()}
             label={
+              // eslint-disable-next-line react/jsx-wrap-multilines
               <span className="claims-upload-input-title">
                 Select files to upload
               </span>
@@ -275,6 +276,7 @@ class AddFilesForm extends React.Component {
           checked={this.state.checked}
           errorMessage={this.state.errorMessageCheckbox}
           label={
+            // eslint-disable-next-line react/jsx-wrap-multilines
             <div>
               <strong>
                 The files I uploaded are supporting documents for this claim
