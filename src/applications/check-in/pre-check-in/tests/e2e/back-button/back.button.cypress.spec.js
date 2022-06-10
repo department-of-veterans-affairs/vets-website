@@ -34,7 +34,7 @@ describe('Pre-Check In Experience ', () => {
   it('Happy Path w/Emergency Contact', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
-    ValidateVeteran.validatePageLoaded();
+    ValidateVeteran.validatePage.preCheckIn();
     ValidateVeteran.validateVeteran();
     cy.injectAxeThenAxeCheck();
 
