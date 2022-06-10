@@ -32,13 +32,13 @@ export const PrimaryCaregiverInfo = ({
             <p className="vads-u-font-size--h4 vads-u-margin-bottom--1">
               <strong>Veteran address</strong>
             </p>
-            <address className="va-address-block vads-u-margin-left--0">
+            <p className="va-address-block vads-u-margin-left--0">
               {name.first} {name.middle} {name.last}
               <br />
               {address.street} {address.street2}
               <br />
               {address.city}, {address.state} {address.postalCode}
-            </address>
+            </p>
           </>
         )}
 

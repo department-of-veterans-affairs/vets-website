@@ -121,10 +121,14 @@ const PrimaryAddressWithAutofill = props => {
     <AddressWithAutofillReviewField
       canAutofillAddress={canAutofillAddress}
       formData={formData}
-      inputLabel={primaryInputLabel}
+      inputLabel={inputLabelMap[props.name]}
     />
   ) : (
     <fieldset className="cg-address-with-autofill vads-u-margin-y--2">
+      <legend className="vads-u-visibility--screen-reader">
+        {inputLabelMap[props.name]} current address
+      </legend>
+
       {canAutofillAddress && (
         <VaCheckbox
           id={idSchema.autofill.$id}
