@@ -219,6 +219,7 @@ export function transformVAOSAppointment(appt) {
       timeZone: null,
       facilityData,
     },
+    version: 2,
   };
 }
 

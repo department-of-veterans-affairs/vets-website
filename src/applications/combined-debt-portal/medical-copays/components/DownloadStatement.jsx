@@ -30,7 +30,7 @@ const DownloadStatement = ({ statementId, statementDate, fullName }) => {
       <div className="vads-u-margin-top--2">
         <a
           onClick={() => handleDownloadClick(statementDate)}
-          target="_blank"
+          download={downloadFileName}
           href={pdfStatementUri}
           type="application/pdf"
           rel="noreferrer"
