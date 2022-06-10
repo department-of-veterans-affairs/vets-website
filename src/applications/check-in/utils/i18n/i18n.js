@@ -40,7 +40,7 @@ i18n
       lookupSessionStorage: 'checkin-i18nextLng',
     },
     fallbackLng: 'en',
-    debug: true,
+    debug: false,
     interpolation: {
       escapeValue: false,
       format: (value, format, lng) => {
