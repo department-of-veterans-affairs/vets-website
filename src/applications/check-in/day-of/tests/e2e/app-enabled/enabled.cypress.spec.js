@@ -18,7 +18,7 @@ describe('Check In Experience -- ', () => {
     it('C5742 - Feature is enabled', () => {
       cy.visitWithUUID();
       cy.injectAxeThenAxeCheck();
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
     });
   });
 });

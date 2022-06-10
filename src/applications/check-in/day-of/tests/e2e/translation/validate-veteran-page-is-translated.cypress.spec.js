@@ -1,13 +1,13 @@
 import '../../../../tests/e2e/commands';
 
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
-import Error from '../pages/Error';
+import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 
 describe('Check In Experience -- ', () => {
   beforeEach(() => {
     const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
     initializeFeatureToggle.withDayOfTranslationEnabled();
-    initializeSessionGet.withFailure();
+    initializeSessionGet.withSuccessfulNewSession();
     // Verifies that browser language detection is working.
     cy.visitWithUUID(null, 'es');
   });
@@ -16,8 +16,15 @@ describe('Check In Experience -- ', () => {
       window.sessionStorage.clear();
     });
   });
-  it('Error page - spanish', () => {
-    Error.validatePageLoaded(null, 'es');
+  it('Validate Veteran page - spanish', () => {
+    // App is translated.
+    ValidateVeteran.validatePage.dayOf('es');
+    // DS components are translated.
+    cy.get('[data-testid="last-name-input"]')
+      .shadow()
+      .find('label')
+      .should('be.visible')
+      .and('have.text', 'Su apellido (*Requerido)');
     cy.injectAxe();
     cy.axeCheck();
   });
