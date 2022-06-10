@@ -23,6 +23,7 @@ export const customCOEsubmit = (formConfig, form) => {
         return {
           ...loan,
           dateRange: {
+            //  our form months are 1-12 (Jan-Dec) but a Date() month starts 0
             from: new Date(fromYear, fromMonth - 1).toISOString(),
             to: new Date(toYear, toMonth - 1).toISOString(),
           },
