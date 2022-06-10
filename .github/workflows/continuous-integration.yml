@@ -17,12 +17,12 @@ concurrency:
 jobs:
   build:
     name: Build
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     outputs:
       app_entries: ${{ steps.get-changed-apps.outputs.app_entries }}
 
-    env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+    # env:
+    #   NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
     strategy:
       fail-fast: false
@@ -106,12 +106,12 @@ jobs:
 
   unit-tests:
     name: Unit Tests
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.app_folders }}
 
-    env:
-      NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
+    # env:
+    #   NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
 
     steps:
       - name: Checkout
