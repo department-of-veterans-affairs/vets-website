@@ -104,15 +104,17 @@ const getChangedAppsString = (filePaths, config, delimiter = ' ') => {
   core.setOutput('test', 'passed');
 };
 
-if (process.env.CHANGED_FILE_PATHS) {
-  const changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ');
+getChangedAppsString('', changedAppsConfig, core.getInput('delimiter'));
 
-  getChangedAppsString(
-    changedFilePaths,
-    changedAppsConfig,
-    core.getInput('delimiter'),
-  );
-}
+// if (process.env.CHANGED_FILE_PATHS) {
+//   const changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ');
+
+//   getChangedAppsString(
+//     changedFilePaths,
+//     changedAppsConfig,
+//     core.getInput('delimiter'),
+//   );
+// }
 
 module.exports = {
   getChangedAppsString,

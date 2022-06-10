@@ -24,21 +24,22 @@ outputs:
     description: 'Root URLs of changed applications.'
 
 runs:
-  using: 'composite'
-  steps:
-    - name: Get changed file paths
-      id: get-changed-files
-      shell: bash
-      run: |
-        if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-            echo ::set-output name=changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-        else
-          echo ::set-output name=changed_files::$(git diff --name-only origin/main...)
-        fi
+  using: 'node16'
+  main: 'script/github-actions/get-changed-apps.js'
+  # steps:
+  #   - name: Get changed file paths
+  #     id: get-changed-files
+  #     shell: bash
+  #     run: |
+  #       if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
+  #           echo ::set-output name=changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+  #       else
+  #         echo ::set-output name=changed_files::$(git diff --name-only origin/main...)
+  #       fi
 
-    - name: Get changed applications
-      shell: bash
-      run: node script/github-actions/get-changed-apps.js
-      env:
-        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+  #   - name: Get changed applications
+  #     shell: bash
+  #     run: node script/github-actions/get-changed-apps.js
+  #     env:
+  #       CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
   
