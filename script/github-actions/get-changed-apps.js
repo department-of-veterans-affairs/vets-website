@@ -101,6 +101,7 @@ const getChangedAppsString = (filePaths, config, delimiter = ' ') => {
   core.setOutput('folders', [...apps.rootPaths].join(delimiter));
   core.setOutput('urls', [...apps.rootUrls].join(delimiter));
   core.setOutput('slack_groups', [...apps.slackGroups].join(delimiter));
+  core.setOutput('test', 'passed');
 };
 
 if (process.env.CHANGED_FILE_PATHS) {
