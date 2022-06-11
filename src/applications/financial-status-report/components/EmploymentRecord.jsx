@@ -37,8 +37,6 @@ const EmploymentRecord = ({
   const { submitted } = formContext;
 
   const typeError = 'Please enter the type of work.';
-  const startError = 'Please enter your employment start date.';
-  const endError = 'Please enter your employment end date.';
   const employerError = 'Please enter your employer name.';
 
   const updateFormData = updated => {
@@ -72,9 +70,8 @@ const EmploymentRecord = ({
     updateFormData(updated);
   };
 
-  const handleDateChange = (key, value) => {
-    const { month, year } = value;
-    const dateString = `${year.value}-${month.value}-XX`;
+  const handleDateChange = (key, monthYear) => {
+    const dateString = `${monthYear}-XX`;
 
     const updated = employment.map((item, i) => {
       return i === index ? { ...item, [key]: dateString } : item;
@@ -106,7 +103,6 @@ const EmploymentRecord = ({
           name="from"
           onDateChange={e => handleDateChange('from', e.target.value)}
           required
-          error={submitted ? startError : null}
         />
       </div>
       <div
@@ -121,7 +117,6 @@ const EmploymentRecord = ({
           name="to"
           onDateChange={e => handleDateChange('to', e.target.value)}
           required
-          error={submitted ? endError : null}
         />
       </div>
       <Checkbox
