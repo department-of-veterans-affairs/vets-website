@@ -42,7 +42,7 @@ describe('Pre-Check In Experience', () => {
     it('reloads of confirmation page should redirect back to verify page', () => {
       cy.injectAxeThenAxeCheck();
       cy.reload();
-      ValidateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePage.preCheckIn();
 
       // moved afterEach here to
       // avoid async clearing of session storage

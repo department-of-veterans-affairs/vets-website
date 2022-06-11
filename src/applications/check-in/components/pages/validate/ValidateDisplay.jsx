@@ -45,7 +45,15 @@ export default function ValidateDisplay({
     },
     [setDob],
   );
-
+  const handleEnter = e => {
+    if (e.key === 'Enter') {
+      validateHandler();
+    }
+  };
+  const handleFormSubmit = e => {
+    e.preventDefault();
+    validateHandler();
+  };
   return (
     <Wrapper pageTitle={header || t('check-in-at-va')}>
       <p>
@@ -66,7 +74,7 @@ export default function ValidateDisplay({
       ) : (
         <></>
       )}
-      <form className="vads-u-margin-bottom--2p5" onSubmit={validateHandler}>
+      <form className="vads-u-margin-bottom--2p5" onSubmit={handleFormSubmit}>
         <VaTextInput
           autoCorrect="false"
           error={lastNameErrorMessage}
@@ -77,6 +85,7 @@ export default function ValidateDisplay({
           spellCheck="false"
           value={lastName}
           data-testid="last-name-input"
+          onKeyDown={handleEnter}
         />
         {isLorotaSecurityUpdatesEnabled ? (
           <div data-testid="dob-input" className="vads-u-margin-top--3">
@@ -103,24 +112,26 @@ export default function ValidateDisplay({
             required
             value={last4Ssn}
             data-testid="last-4-input"
+            onKeyDown={handleEnter}
           />
         )}
+        <button
+          type="button"
+          onClick={validateHandler}
+          className="usa-button usa-button-big vads-u-margin-top--4"
+          data-testid="check-in-button"
+          disabled={isLoading}
+          aria-label={t('check-in-now-for-your-appointment')}
+        >
+          {' '}
+          {isLoading ? (
+            <span role="status">{t('loading')}</span>
+          ) : (
+            <>{t('continue')}</>
+          )}
+        </button>
       </form>
-      <button
-        onClick={validateHandler}
-        type="button"
-        className="usa-button usa-button-big"
-        data-testid="check-in-button"
-        disabled={isLoading}
-        aria-label={t('check-in-now-for-your-appointment')}
-      >
-        {' '}
-        {isLoading ? (
-          <span role="status">{t('loading')}</span>
-        ) : (
-          <>{t('continue')}</>
-        )}
-      </button>
+
       {Footer && <Footer />}
     </Wrapper>
   );
