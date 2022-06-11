@@ -33,6 +33,9 @@ Cypress.Commands.add('fillDate', (fieldName, dateString) => {
   const date = dateString.split('-');
   cy.document().then(doc => {
     const vaDate = doc.querySelector(`va-date[name="${fieldName}"]`);
+    const monthYearOnly = doc.querySelector(
+      `va-date[name="${fieldName}"][monthyearonly]`,
+    );
     if (vaDate) {
       cy.wrap(vaDate)
         .shadow()
@@ -42,11 +45,12 @@ Cypress.Commands.add('fillDate', (fieldName, dateString) => {
             .shadow()
             .find('select')
             .select(date[1]);
-          cy.wrap(el)
-            .find('va-select.select-day')
-            .shadow()
-            .find('select')
-            .select(date[2]);
+          if (!monthYearOnly)
+            cy.wrap(el)
+              .find('va-select.select-day')
+              .shadow()
+              .find('select')
+              .select(date[2]);
           cy.wrap(el)
             .find('va-text-input.input-year')
             .shadow()
