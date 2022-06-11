@@ -110,7 +110,7 @@ describe('check-in', () => {
         ).to.exist;
       });
       it('renders correct error message when phone pre-checkin is expired', () => {
-        const phoneInitState = { ...initState };
+        const phoneInitState = JSON.parse(JSON.stringify(initState));
         phoneInitState.checkInData.appointments[0].kind = 'phone';
         store = mockStore(phoneInitState);
         const component = render(
