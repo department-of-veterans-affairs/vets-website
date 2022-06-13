@@ -35,14 +35,14 @@ import { getTypeOfCareById } from '../../utils/appointment';
 function getAppointmentType(appt) {
   if (appt.typeOfCareId?.startsWith('CC')) {
     return APPOINTMENT_TYPES.ccRequest;
-  } else if (appt.typeOfCareId) {
+  }
+  if (appt.typeOfCareId) {
     return APPOINTMENT_TYPES.request;
-  } else if (
-    appt.vvsAppointments?.length ||
-    (appt.clinicId && !appt.communityCare)
-  ) {
+  }
+  if (appt.vvsAppointments?.length || (appt.clinicId && !appt.communityCare)) {
     return APPOINTMENT_TYPES.vaAppointment;
-  } else if (appt.appointmentTime || appt.communityCare === true) {
+  }
+  if (appt.appointmentTime || appt.communityCare === true) {
     return APPOINTMENT_TYPES.ccAppointment;
   }
 
@@ -102,9 +102,11 @@ function getRequestStatus(request, isExpressCare) {
   if (isExpressCare) {
     if (request.status === 'Submitted') {
       return APPOINTMENT_STATUS.proposed;
-    } else if (request.status === 'Cancelled') {
+    }
+    if (request.status === 'Cancelled') {
       return APPOINTMENT_STATUS.cancelled;
-    } else if (request.status.startsWith('Escalated')) {
+    }
+    if (request.status.startsWith('Escalated')) {
       return APPOINTMENT_STATUS.pending;
     }
 
@@ -113,7 +115,8 @@ function getRequestStatus(request, isExpressCare) {
 
   if (request.status === 'Booked' || request.status === 'Resolved') {
     return APPOINTMENT_STATUS.booked;
-  } else if (request.status === 'Cancelled') {
+  }
+  if (request.status === 'Cancelled') {
     return APPOINTMENT_STATUS.cancelled;
   }
 
@@ -447,6 +450,7 @@ export function transformConfirmedAppointment(appt) {
       isCOVIDVaccine: appt.char4 === 'CDQC',
       apiData: appt,
     },
+    version: 1,
   };
 }
 
@@ -528,6 +532,7 @@ export function transformPendingAppointment(appt) {
       apiData: appt,
       timeZone: null,
     },
+    version: 1,
   };
 }
 

@@ -30,7 +30,7 @@ describe('Check In Experience ', () => {
   it('Render Error is caught', () => {
     cy.visitWithUUID();
 
-    ValidateVeteran.validatePageLoaded('Check in at VA');
+    ValidateVeteran.validatePage.dayOf();
     cy.injectAxeThenAxeCheck();
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPage();

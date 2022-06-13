@@ -11,8 +11,7 @@
           "city": "New York",
           "countryName": "United States",
           "stateCode": "NY",
-          "zipCode5": "30012",
-          "internationalPostalCode": "1"
+          "zipCode5": "30012"
         },
         "phone": {
           "countryCode": "6",
