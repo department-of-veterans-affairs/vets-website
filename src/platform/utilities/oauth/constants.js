@@ -33,3 +33,12 @@ export const TOKEN_KEYS = generateOAuthKeysWithout([
   'CODE_CHALLENGE_METHOD',
   'CODE_CHALLENGE',
 ]);
+
+export const OAUTH_ERRORS = {
+  INVALID_REQUEST: 'invalid_request',
+  UNAUTHORIZED_CLIENT: 'unauthorized_client',
+  ACCESS_DENIED: 'access_denied',
+  RESPONSE_TYPE_UNSUPPORTED: 'unsupported_response_type',
+  SERVER_ERROR: 'server_error',
+  UNAVAILBLE: 'unavailable',
+};

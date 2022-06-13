@@ -97,9 +97,9 @@ export const requestToken = async ({ code, redirectUri }) => {
     redirectUri,
   });
 
-  const response = await fetch(url, { method: 'POST' });
+  if (!url) return null;
 
-  if (response.ok) {
-    // window.location = redirectUri ?? '/?postLogin=true';
-  }
+  const response = await fetch(url.toString(), { method: 'POST' });
+
+  return response.ok ? response : 'error';
 };
