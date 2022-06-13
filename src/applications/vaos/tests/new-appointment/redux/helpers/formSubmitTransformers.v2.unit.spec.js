@@ -120,7 +120,7 @@ describe('VAOS V2 data transformation', () => {
               code: 'Follow-up/Routine',
             },
           ],
-          text: 'asdfasdf',
+          text: undefined,
         },
       });
     });
@@ -209,7 +209,7 @@ describe('VAOS V2 data transformation', () => {
         extension: { desiredDate: '2019-12-02T00:00:00+00:00' },
         locationId: '983',
         reasonCode: {
-          coding: [],
+          coding: undefined,
           text: 'I need an appt',
         },
       });
@@ -304,7 +304,7 @@ describe('VAOS V2 data transformation', () => {
               code: 'Follow-up/Routine',
             },
           ],
-          text: 'I need an appt',
+          text: undefined,
         },
       });
     });

@@ -490,7 +490,6 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
             code: 'Follow-up/Routine',
           },
         ],
-        text: 'I need an appt',
       },
       extension: {
         desiredDate: '2021-05-06T00:00:00+00:00',

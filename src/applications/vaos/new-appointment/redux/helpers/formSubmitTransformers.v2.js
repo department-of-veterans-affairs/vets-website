@@ -169,8 +169,14 @@ function getReasonCode(data) {
   )?.short;
 
   return {
-    coding: code ? [{ code }] : [],
-    text: data.reasonAdditionalInfo,
+    // If the user selects one of the three preset radio selections
+    // ("Routine Follow-up", "New Problem", or "Medication Concern"), then that values goes
+    // in reasonCode.coding[0].code and text should not be sent. But...
+    coding: code ? [{ code }] : undefined,
+    // If the veteran selects the "other reason" radio button and enters a free text reason
+    // then you will want to leave reasonCode.coding[] as null/empty, and then send the free
+    // text reason in reasonCode.text :
+    text: code ? undefined : data.reasonAdditionalInfo.slice(0, 100),
   };
 }
 
