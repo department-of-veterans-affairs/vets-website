@@ -28,10 +28,13 @@ const Demographics = props => {
   const { t } = useTranslation();
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isEditingPreCheckInEnabled } = useSelector(selectFeatureToggles);
+  const {
+    isEditingPreCheckInEnabled,
+    isPhoneAppointmentsEnabled,
+  } = useSelector(selectFeatureToggles);
 
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
-  const { demographics } = useSelector(selectVeteranData);
+  const { demographics, appointments } = useSelector(selectVeteranData);
 
   const selectPendingEdits = useMemo(makeSelectPendingEdits, []);
   const { pendingEdits } = useSelector(selectPendingEdits);
@@ -90,9 +93,15 @@ const Demographics = props => {
     },
     [isEditingPreCheckInEnabled, token, dispatch, goToNextPage],
   );
-  const subtitle = t(
-    'if-you-need-to-make-changes-please-talk-to-a-staff-member-when-you-check-in',
-  );
+  // check if appointment is in-person or phone
+  const apptType =
+    appointments && appointments.length ? appointments[0]?.kind : null;
+  const subtitle =
+    isPhoneAppointmentsEnabled && apptType === 'phone'
+      ? ''
+      : t(
+          'if-you-need-to-make-changes-please-talk-to-a-staff-member-when-you-check-in',
+        );
 
   return (
     <>
