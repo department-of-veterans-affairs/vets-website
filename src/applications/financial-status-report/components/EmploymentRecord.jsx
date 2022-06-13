@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
@@ -27,6 +27,7 @@ const EmploymentRecord = ({
   employmentHistory,
   formContext,
 }) => {
+  const [fromDateError, setFromDateError] = useState();
   const index = Number(idSchema.$id.slice(-1));
   const { userType, userArray } = uiSchema['ui:options'];
   const { employmentRecords } = employmentHistory[`${userType}`];
@@ -70,8 +71,25 @@ const EmploymentRecord = ({
     updateFormData(updated);
   };
 
+  const validateYear = (year, errorSetter) => {
+    const todayYear = new Date().getFullYear();
+
+    if (
+      !!year &&
+      (parseInt(year, 10) > todayYear || parseInt(year, 10) < 1900)
+    ) {
+      errorSetter(`Please enter a year between 1900 and ${todayYear}`);
+    } else {
+      errorSetter(null);
+    }
+  };
+
   const handleDateChange = (key, monthYear) => {
+    const [year] = monthYear.split('-');
     const dateString = `${monthYear}-XX`;
+
+    const errorSetter = setFromDateError;
+    validateYear(year, errorSetter);
 
     const updated = employment.map((item, i) => {
       return i === index ? { ...item, [key]: dateString } : item;
@@ -103,6 +121,7 @@ const EmploymentRecord = ({
           name="from"
           onDateChange={e => handleDateChange('from', e.target.value)}
           required
+          error={fromDateError}
         />
       </div>
       <div
