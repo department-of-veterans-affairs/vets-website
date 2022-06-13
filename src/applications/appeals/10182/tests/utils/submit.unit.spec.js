@@ -320,9 +320,15 @@ describe('getAddress', () => {
       addressLine3: 'suite 99',
       city: 'Big City',
       stateCode: 'NV',
-      zipCode5: '10101',
+      zipCode5: '00000',
       countryName: 'USA',
       internationalPostalCode: '12345',
+    });
+    expect(
+      getAddress(wrap({ internationalPostalCode: '55555' })),
+    ).to.deep.equal({
+      zipCode5: '00000',
+      internationalPostalCode: '55555',
     });
   });
 });

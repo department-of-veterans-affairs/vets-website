@@ -7,9 +7,11 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceEditingPreCheckInEnabled = true,
     checkInExperienceTranslationDayOfEnabled = true,
     checkInExperienceTranslationPreCheckInEnabled = true,
+    checkInExperienceTranslationDisclaimerSpanishEnabled = true,
     checkInExperienceDayOfDemographicsFlagsEnabled = true,
     checkInExperienceLorotaSecurityUpdatesEnabled = false,
     checkInExperienceEditMessagingEnabled = false,
+    checkInExperiencePhoneAppointmentsEnabled = false,
   } = toggles;
 
   return {
@@ -45,6 +47,10 @@ const generateFeatureToggles = (toggles = {}) => {
           value: checkInExperienceTranslationPreCheckInEnabled,
         },
         {
+          name: 'check_in_experience_translation_disclaimer_spanish_enabled',
+          value: checkInExperienceTranslationDisclaimerSpanishEnabled,
+        },
+        {
           name: 'check_in_experience_day_of_demographics_flags_enabled',
           value: checkInExperienceDayOfDemographicsFlagsEnabled,
         },
@@ -55,6 +61,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_edit_messaging_enabled',
           value: checkInExperienceEditMessagingEnabled,
+        },
+        {
+          name: 'check_in_experience_phone_appointments_enabled',
+          value: checkInExperiencePhoneAppointmentsEnabled,
         },
       ],
     },

@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/Footer';
-import { recordAnswer, seeStaffMessageUpdated } from '../../actions/day-of';
+import Footer from '../../components/layout/Footer';
+import { seeStaffMessageUpdated } from '../../actions/day-of';
+import { recordAnswer } from '../../actions/universal';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
 import { makeSelectVeteranData } from '../../selectors';
 

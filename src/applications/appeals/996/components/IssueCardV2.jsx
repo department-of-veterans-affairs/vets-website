@@ -8,7 +8,7 @@ import { scrollAndFocus } from 'platform/utilities/ui';
 import { SELECTED, FORMAT_READABLE, LAST_HLR_ITEM } from '../constants';
 import { replaceDescriptionContent } from '../utils/replace';
 
-/** HLR v1 card */
+/** HLR v2 card */
 /**
  * IssueCardContent
  * @param {String} description - contestable issue description

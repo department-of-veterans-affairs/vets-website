@@ -7,18 +7,23 @@ import { subDays } from 'date-fns';
 
 import ErrorMessage from '../../../components/ErrorMessage';
 import BackToHome from '../../../components/BackToHome';
-import Footer from '../../../components/Footer';
+import Footer from '../../../components/layout/Footer';
 import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
 
 import { makeSelectVeteranData } from '../../../selectors';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+
 import {
   preCheckinExpired,
   appointmentStartTimePast15,
 } from '../../../utils/appointment';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import Wrapper from '../../../components/layout/Wrapper';
 
 const Error = () => {
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
   const { getValidateAttempts } = useSessionStorage(true);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   // try get date of appointment
@@ -63,27 +68,34 @@ const Error = () => {
       // don't show sub message if we are 15 minutes past appointment start time
       if (appointmentStartTimePast15(appointments))
         return [t('sorry-pre-check-in-is-no-longer-available'), '', accordions];
-      if (preCheckinExpired(appointments))
+      if (preCheckinExpired(appointments)) {
+        if (!isPhoneAppointmentsEnabled) {
+          return [
+            t('sorry-pre-check-in-is-no-longer-available'),
+            t('you-can-still-check-in-once-you-arrive'),
+            accordions,
+          ];
+        }
+        const apptType = appointments[0]?.kind;
         return [
           t('sorry-pre-check-in-is-no-longer-available'),
-          t('you-can-still-check-in-once-you-arrive'),
+          apptType === 'phone'
+            ? t('your-provider-will-call-you')
+            : t('you-can-still-check-in-once-you-arrive'),
           accordions,
         ];
+      }
     }
     return [t('sorry-we-cant-complete-pre-check-in'), combinedMessage, null];
   };
   const [header, message, additionalDetails] = getErrorMessages();
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-y--5 ">
-      <ErrorMessage
-        header={header}
-        message={message}
-        additionalDetails={additionalDetails}
-      />
+    <Wrapper pageTitle={header}>
+      <ErrorMessage message={message} additionalDetails={additionalDetails} />
       <Footer />
       <BackToHome />
-    </div>
+    </Wrapper>
   );
 };
 

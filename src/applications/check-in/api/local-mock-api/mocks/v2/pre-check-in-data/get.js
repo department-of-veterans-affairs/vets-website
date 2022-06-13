@@ -1,12 +1,14 @@
-const add = require('date-fns/add');
-const format = require('date-fns/format');
+const dateFns = require('date-fns');
 
 const defaultUUID = '0429dda5-4165-46be-9ed1-1e652a8dfd83';
 const alreadyPreCheckedInUUID = '4d523464-c450-49dc-9a18-c04b3f1642ee';
 const canceledAppointmentUUID = '9d7b7c15-d539-4624-8d15-b740b84e8548';
 const expiredUUID = '354d5b3a-b7b7-4e5c-99e4-8d563f15c521';
+const phoneApptUUID = '258d753c-262a-4ab2-b618-64b645884daf';
+const expiredPhoneUUID = '08ba56a7-68b7-4b9f-b779-53ba609140ef';
 
 const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
+const isoDateWithOffsetFormat = "yyyy-LL-dd'T'HH:mm:ss.SSSxxx";
 
 const createMockSuccessResponse = (
   token,
@@ -18,19 +20,23 @@ const createMockSuccessResponse = (
   emergencyContactConfirmedAt = null,
 ) => {
   const mockTime =
-    token === expiredUUID ? new Date() : add(new Date(), { days: 1 });
+    token === expiredUUID || token === expiredPhoneUUID
+      ? new Date()
+      : dateFns.add(new Date(), { days: 1 });
+
+  let apptKind = 'clinic';
 
   let checkInSteps = [];
   let status = '';
 
   if (token === alreadyPreCheckedInUUID) {
     // 35 minutes ago.
-    const preCheckinStarted = format(
+    const preCheckinStarted = dateFns.format(
       new Date(mockTime.getTime() - 2100000),
       isoDateWithoutTimezoneFormat,
     );
     // 30 minutes ago.
-    const preCheckinCompleted = format(
+    const preCheckinCompleted = dateFns.format(
       new Date(mockTime.getTime() - 1800000),
       isoDateWithoutTimezoneFormat,
     );
@@ -49,7 +55,29 @@ const createMockSuccessResponse = (
     ];
   } else if (token === canceledAppointmentUUID) {
     status = 'CANCELLED BY CLINIC';
+  } else if (token === phoneApptUUID || token === expiredPhoneUUID) {
+    apptKind = 'phone';
   }
+
+  const formattedStartTime = dateFns.format(
+    mockTime,
+    isoDateWithoutTimezoneFormat,
+  );
+
+  const checkInWindowStart = dateFns.subMinutes(
+    new Date(mockTime.getTime()),
+    30,
+  );
+  const formattedCheckInWindowStart = dateFns.format(
+    checkInWindowStart,
+    isoDateWithOffsetFormat,
+  );
+
+  const checkInWindowEnd = dateFns.addMinutes(new Date(mockTime.getTime()), 15);
+  const formattedCheckInWindowEnd = dateFns.format(
+    checkInWindowEnd,
+    isoDateWithOffsetFormat,
+  );
 
   return {
     id: token || defaultUUID,
@@ -112,31 +140,33 @@ const createMockSuccessResponse = (
       appointments: [
         {
           facility: 'LOMA LINDA VA CLINIC',
+          kind: apptKind,
           checkInSteps,
           clinicPhoneNumber: '5551234567',
           clinicFriendlyName: 'TEST CLINIC',
           clinicName: 'LOM ACC CLINIC TEST',
           appointmentIen: 'some-ien',
-          startTime: mockTime,
+          startTime: formattedStartTime,
           eligibility: 'ELIGIBLE',
           facilityId: 'some-facility',
-          checkInWindowStart: mockTime,
-          checkInWindowEnd: add(new Date(mockTime), { minutes: 15 }),
+          checkInWindowStart: formattedCheckInWindowStart,
+          checkInWindowEnd: formattedCheckInWindowEnd,
           checkedInTime: '',
           status,
         },
         {
           facility: 'LOMA LINDA VA CLINIC',
+          kind: apptKind,
           checkInSteps,
           clinicPhoneNumber: '5551234567',
           clinicFriendlyName: 'TEST CLINIC',
           clinicName: 'LOM ACC CLINIC TEST',
           appointmentIen: 'some-other-ien',
-          startTime: mockTime,
+          startTime: formattedStartTime,
           eligibility: 'ELIGIBLE',
           facilityId: 'some-facility',
-          checkInWindowStart: mockTime,
-          checkInWindowEnd: add(new Date(mockTime), { minutes: 15 }),
+          checkInWindowStart: formattedCheckInWindowStart,
+          checkInWindowEnd: formattedCheckInWindowEnd,
           checkedInTime: '',
           status,
         },

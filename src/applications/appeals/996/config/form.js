@@ -24,31 +24,21 @@ import AddIssue from '../components/AddIssue';
 import veteranInformation from '../pages/veteranInformation';
 import contactInfo from '../pages/contactInformation';
 import homeless from '../pages/homeless';
-import contestedIssuesPage from '../pages/contestedIssuesV1';
 import contestableIssuesPage from '../pages/contestableIssues';
 import addIssue from '../pages/addIssue';
 import areaOfDisagreementFollowUp from '../pages/areaOfDisagreement';
 import optIn from '../pages/optIn';
 import issueSummary from '../pages/issueSummary';
-import sameOffice from '../pages/sameOffice';
 import informalConference from '../pages/informalConference';
-import informalConferenceRep from '../pages/informalConferenceRep';
 import informalConferenceRepV2 from '../pages/informalConferenceRepV2';
-import informalConferenceTimes from '../pages/informalConferenceTimes';
 import informalConferenceTime from '../pages/informalConferenceTimeV2';
 
 import {
   errorMessages,
   WIZARD_STATUS,
   contestableIssuesPath,
-  contestedIssuesPath,
 } from '../constants';
-import {
-  apiVersion1,
-  apiVersion2,
-  appStateSelector,
-  mayHaveLegacyAppeals,
-} from '../utils/helpers';
+import { appStateSelector, mayHaveLegacyAppeals } from '../utils/helpers';
 import { getIssueTitle } from '../content/areaOfDisagreement';
 
 // import initialData from '../tests/schema/initialData';
@@ -125,7 +115,6 @@ const formConfig = {
           path: 'homeless',
           uiSchema: homeless.uiSchema,
           schema: homeless.schema,
-          depends: apiVersion2,
         },
         confirmContactInformation: {
           title: 'Contact information',
@@ -165,19 +154,10 @@ const formConfig = {
     conditions: {
       title: 'Issues eligible for review',
       pages: {
-        // v1 - only show contested issues
-        contestedIssues: {
-          title: ' ',
-          path: contestedIssuesPath,
-          depends: apiVersion1,
-          uiSchema: contestedIssuesPage.uiSchema,
-          schema: contestedIssuesPage.schema,
-        },
         // v2 - show contested + added issues
         contestableIssues: {
           title: ' ',
           path: contestableIssuesPath,
-          depends: apiVersion2,
           uiSchema: contestableIssuesPage.uiSchema,
           schema: contestableIssuesPage.schema,
           appStateSelector,
@@ -196,7 +176,6 @@ const formConfig = {
         areaOfDisagreementFollowUp: {
           title: getIssueTitle,
           path: 'area-of-disagreement/:index',
-          depends: apiVersion2,
           showPagePerItem: true,
           arrayPath: 'areaOfDisagreement',
           uiSchema: areaOfDisagreementFollowUp.uiSchema,
@@ -208,8 +187,7 @@ const formConfig = {
           path: 'opt-in',
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
-          depends: formData =>
-            apiVersion2(formData) && mayHaveLegacyAppeals(formData),
+          depends: formData => mayHaveLegacyAppeals(formData),
           initialData: {
             socOptIn: false,
           },
@@ -219,19 +197,6 @@ const formConfig = {
           path: 'issue-summary',
           uiSchema: issueSummary.uiSchema,
           schema: issueSummary.schema,
-          depends: apiVersion2,
-        },
-      },
-    },
-    sameOffice: {
-      title: 'Office of review',
-      pages: {
-        sameOffice: {
-          title: ' ',
-          path: 'office-of-review',
-          uiSchema: sameOffice.uiSchema,
-          schema: sameOffice.schema,
-          depends: apiVersion1,
         },
       },
     },
@@ -244,37 +209,19 @@ const formConfig = {
           uiSchema: informalConference.uiSchema,
           schema: informalConference.schema,
         },
-        representativeInfo: {
-          path: 'informal-conference/representative-information',
-          title: 'Representative’s information',
-          depends: formData =>
-            formData?.informalConference === 'rep' && apiVersion1(formData),
-          uiSchema: informalConferenceRep.uiSchema,
-          schema: informalConferenceRep.schema,
-        },
         representativeInfoV2: {
           // changing path from v1, but this shouldn't matter since the
           // migration code returns the Veteran to the contact info page
           path: 'informal-conference/representative-info',
           title: 'Representative’s information',
-          depends: formData =>
-            formData?.informalConference === 'rep' && apiVersion2(formData),
+          depends: formData => formData?.informalConference === 'rep',
           uiSchema: informalConferenceRepV2.uiSchema,
           schema: informalConferenceRepV2.schema,
-        },
-        availability: {
-          path: 'informal-conference/availability',
-          title: 'Scheduling availability',
-          depends: formData =>
-            formData?.informalConference !== 'no' && apiVersion1(formData),
-          uiSchema: informalConferenceTimes.uiSchema,
-          schema: informalConferenceTimes.schema,
         },
         conferenceTime: {
           path: 'informal-conference/conference-availability',
           title: 'Scheduling availability',
-          depends: formData =>
-            formData?.informalConference !== 'no' && apiVersion2(formData),
+          depends: formData => formData?.informalConference !== 'no',
           uiSchema: informalConferenceTime.uiSchema,
           schema: informalConferenceTime.schema,
         },

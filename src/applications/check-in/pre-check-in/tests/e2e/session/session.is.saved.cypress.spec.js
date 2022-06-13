@@ -23,7 +23,7 @@ describe('Pre Check In Experience', () => {
     });
     it('Data is saved to session storage', () => {
       cy.visitPreCheckInWithUUID();
-      ValidateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePage.preCheckIn();
       cy.window().then(window => {
         const data = window.sessionStorage.getItem(
           'health.care.pre.check.in.current.uuid',

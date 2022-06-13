@@ -30,7 +30,7 @@ describe('Pre-Check In Experience ', () => {
       it('bad status code(400)', () => {
         cy.visitPreCheckInWithUUID();
         // page: Validate
-        ValidateVeteran.validatePageLoaded();
+        ValidateVeteran.validatePage.preCheckIn();
         cy.injectAxeThenAxeCheck();
         ValidateVeteran.validateVeteran();
         ValidateVeteran.attemptToGoToNextPage();
