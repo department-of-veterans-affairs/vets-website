@@ -9,7 +9,7 @@ import { useFormRouting } from '../../../hooks/useFormRouting';
 import Footer from '../../../components/layout/Footer';
 import BackButton from '../../../components/BackButton';
 import DemographicsDisplay from '../../../components/pages/demographics/DemographicsDisplay';
-import { recordAnswer } from '../../../actions/pre-check-in';
+import { recordAnswer } from '../../../actions/universal';
 
 import {
   makeSelectVeteranData,
