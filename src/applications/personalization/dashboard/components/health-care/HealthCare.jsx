@@ -198,6 +198,7 @@ const HealthCare = ({
   if (isCernerPatient && facilityLocations?.length) {
     return (
       <div className="vads-l-row">
+        <h2>healthcare</h2>
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
           <CernerWidget
             facilityLocations={facilityLocations}
