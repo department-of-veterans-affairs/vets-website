@@ -73,6 +73,7 @@ const Error = () => {
           return [
             t('sorry-pre-check-in-is-no-longer-available'),
             t('you-can-still-check-in-once-you-arrive'),
+            accordions,
           ];
         }
         const apptType = appointments[0]?.kind;
