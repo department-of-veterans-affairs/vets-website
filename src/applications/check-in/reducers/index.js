@@ -12,7 +12,6 @@ const initialState = {
 };
 
 import {
-  RECORD_ANSWER,
   SET_VETERAN_DATA,
   UPDATE_PRE_CHECK_IN_FORM,
 } from '../actions/pre-check-in';
@@ -46,7 +45,7 @@ import { SET_SESSION } from '../actions/authentication';
 
 import { setSessionHandler } from './authentication';
 
-import { SET_APP } from '../actions/universal';
+import { SET_APP, RECORD_ANSWER } from '../actions/universal';
 
 import {
   SET_EDIT_CONTEXT,
