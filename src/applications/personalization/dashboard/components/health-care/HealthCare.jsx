@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { differenceInDays, isAfter } from 'date-fns';
+import { differenceInDays } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
@@ -298,17 +298,9 @@ const mapStateToProps = state => {
     'VA Spokane health care',
     'VA Walla Walla health care',
     'VA Central Ohio health care',
+    'Roseburg (Oregon) VA health care',
+    'White City health care',
   ];
-
-  const roseburgAndWhiteCityStartAfterDate = new Date('2022-06-10');
-  roseburgAndWhiteCityStartAfterDate.setUTCHours(23, 59, 59, 999);
-
-  if (isAfter(new Date(), roseburgAndWhiteCityStartAfterDate)) {
-    facilityLocations.concat([
-      'Roseburg (Oregon) VA health care',
-      'White City health care',
-    ]);
-  }
 
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,
