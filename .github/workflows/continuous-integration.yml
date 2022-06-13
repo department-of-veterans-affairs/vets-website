@@ -100,7 +100,7 @@ jobs:
     name: Unit Tests
     runs-on: self-hosted
     outputs:
-      folders: ${{ steps.get-changed-apps.outputs.folders }}
+      app_folders: ${{ steps.get-changed-apps.outputs.folders }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
@@ -132,6 +132,7 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
+          output-type: 'folder'
 
       - name: Run unit tests
         run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
@@ -249,6 +250,8 @@ jobs:
       - name: Get changed applications
         id: get-changed-apps
         uses: ./.github/workflows/get-changed-apps
+        with:
+          output-type: 'folder'
 
       - name: Get contract tests
         id: get-tests
@@ -322,6 +325,8 @@ jobs:
       - name: Get changed applications
         id: get-changed-apps
         uses: ./.github/workflows/get-changed-apps
+        with:
+          output-type: 'entry_name'
 
       - name: Audit dependencies
         if: steps.get-changed-apps.outputs.entry_names == ''
@@ -353,6 +358,8 @@ jobs:
       - name: Get changed applications
         id: get-changed-apps
         uses: ./.github/workflows/get-changed-apps
+        with:
+          output-type: 'folder'
 
       - name: Annotate ESLint results
         run: |
@@ -452,6 +459,7 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
+          output-type: 'entry_name, url'
 
       - name: Set TESTS variable
         run: node script/github-actions/select-cypress-tests.js
@@ -1027,7 +1035,7 @@ jobs:
         run: ./script/github-actions/remove-global-assets.sh
         env:
           ENTRY_NAMES: ${{ needs.build.outputs.entry_names }}
-          APP_DIRS: ${{ needs.unit-tests.outputs.folders }}
+          APP_DIRS: ${{ needs.unit-tests.outputs.app_folders }}
           BUILD_DIR: build/${{ matrix.buildtype }}
 
       - name: Compress and archive single/grouped app build
@@ -1174,6 +1182,8 @@ jobs:
         id: get-changed-apps
         if: env.ALERT_TEAMS == 'true'
         uses: ./.github/workflows/get-changed-apps
+        with:
+          output-type: 'slack_group'
 
       - name: Notify application team in Slack
         if: env.ALERT_TEAMS == 'true' && steps.get-changed-apps.outputs.slack_groups != ''
