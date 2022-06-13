@@ -109,11 +109,9 @@ export const advanceToServiceInfoPage = () => {
 };
 
 export const shortFormAdditionalHelpAssertion = () => {
-  cy.get('va-additional-info')
+  cy.get('va-alert-expandable')
     .shadow()
-    .findByText(/you’re filling out a shortened application!/i, {
-      selector: '.additional-info-title',
-    })
+    .findByText(/you’re filling out a shortened application!/i)
     .first()
     .should('exist');
 };
