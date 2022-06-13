@@ -487,7 +487,7 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
       reasonCode: {
         coding: [
           {
-            code: 'Follow-up/Routine',
+            code: 'Routine Follow-up',
           },
         ],
       },
