@@ -54,14 +54,14 @@ const bufferFields = (fields, rank = 0) => {
  */
 const recurseField = (key, field, rank = 0) => {
   if (field.value === "" | field.value === 0 | field.value === null | field.value === undefined) return;
-  const fieldLabel = field.label && <label className='vads-u-margin-top--1 review-page--page-info--label-text'>{field.label}:</label>
+  const fieldLabel = field.label && <label className='vads-u-margin-top--1 review-page--page-info--label-text'>{field.label}</label>
 
   if ((typeof field.value) === 'object') {
     return (<div className={`level-${rank}-field-${key}`} key={`level-${rank}-field-${key}`}> {bufferFields(field.value, rank+1)}</div>)
   }
   else {
     return (
-      <div className={`level-${rank}-field-${key}`} key={`level-${rank}-field-${key}`}> 
+      <div className={`level-${rank}-field-${key}`} key={`level-${rank}-field-${key} vads-u-margin-bottom--1p5`}> 
         {fieldLabel} 
         <span className={`review-page--page-info--value-text field-value ${(rank > 0 && ` field-value-level-${rank}`)}`}> { transformFieldValue(key, field) }</span>
       </div>
@@ -83,21 +83,25 @@ export default function ReviewPage(props) {
           "fullName": {
             value: {
               first: {
-                label: "First",
+                label: "First name",
                 value: state.values?.claimantFullName?.first
               },
               middle: {
-                label: "Middle",
+                label: "Middle name",
                 value: state.values?.claimantFullName?.middle
               },
               last: {
-                label: "Last",
+                label: "Last name",
                 value: state.values?.claimantFullName?.last
+              },
+              suffix: {
+                label: "Suffix",
+                value: state.values?.claimantFullName?.suffix
               }
             }
           },
           "relationship": {
-            label: "Relationship to deceased Veteran",
+            label: "Relationship to the Veteran",
             value: state.values?.relationship?.type
           }
         }
@@ -111,21 +115,25 @@ export default function ReviewPage(props) {
             label: "Veteran Name",
             value: {
               first: {
-                label: "First",
+                label: "First name",
                 value: state.values?.veteranFullName?.first
               },
               middle: {
-                label: "Middle",
+                label: "Middle name",
                 value: state.values?.veteranFullName?.middle
               },
               last: {
-                label: "Last",
+                label: "Last name",
                 value: state.values?.veteranFullName?.last
+              },
+              suffix: {
+                label: "Suffix",
+                value: state.values?.veteranFullName?.suffix
               }
             }
           },
           "veteranSocialSecurityNumber": {
-            label: "Social Security Number",
+            label: "Social Security",
             value: state.values?.veteranSocialSecurityNumber
           },
           "vaFileNumber": {
@@ -133,11 +141,11 @@ export default function ReviewPage(props) {
             value: state.values?.vaFileNumber
           },
           "veteranDateOfBirth": {
-            label: "Date of Birth",
+            label: "Date of birth",
             value: state.values?.veteranDateOfBirth
           },
           "placeOfBirth": {
-            label: "Place of Birth",
+            label: "Place of birth",
             value: state.values?.placeOfBirth
           }
         }
@@ -148,15 +156,15 @@ export default function ReviewPage(props) {
         pageUrl: '/veteran-information/burial',
         fields: {
           "deathDate": {
-            label: "Date of Death",
+            label: "Date of death",
             value: state.values?.deathDate
           },
           "burialDate": {
-            label: "Date of Burial",
+            label: "Date of burial(includes cremation or interment)",
             value: state.values?.burialDate
           },
           "locationOfDeath.location": {
-            label: "Location of Death",
+            label: "Where did the Veteran's death occur?",
             value: state.values?.locationOfDeath.location
           },
           "locationOfDeath.other": {
@@ -214,20 +222,28 @@ export default function ReviewPage(props) {
         id: 'military-history-previous-names',
         pageUrl: '/military-history/previous-names',
         fields: {
+          "veteranServedUnderAnotherName": {
+            label: "Did the Veteran serve under another name?",
+            value: state.values?.veteranServedUnderAnotherName
+          },
           "previousNames" : {
-            label: "Did the Veteran serve under another name?", 
+            label: "Did the Veteran serve under another name?",
             value: {
               first: {
-                label: "First",
+                label: "First name",
                 value: state.values?.previousNames[0]?.first
               },
               middle: {
-                label: "Middle",
+                label: "Middle name",
                 value: state.values?.previousNames[0]?.middle
               },
               last: {
-                label: "Last",
+                label: "Last name",
                 value: state.values?.previousNames[0]?.last
+              },
+              suffix: {
+                label: "Suffix",
+                value: state.values?.previousNames[0]?.suffix
               }
             }
           }
@@ -239,7 +255,7 @@ export default function ReviewPage(props) {
         pageUrl: '/benefits/selection',
         fields: {
           "burialAllowance": {
-            label: "Burial Allowance",
+            label: "Burial allowance",
             value: state?.values?.benefitsSelection?.burialAllowance
           },
           "plotAllowance": {
@@ -262,7 +278,7 @@ export default function ReviewPage(props) {
         pageUrl: '/benefits/burial-allowance',
         fields: {
           "burialAllowanceRequested": {
-            label: "Type of Burial allowance requested",
+            label: "Type of burial allowance requested",
             value: state?.values?.burialAllowanceRequested
           }
         },
@@ -277,11 +293,11 @@ export default function ReviewPage(props) {
             value: state?.values?.placeOfRemains
           },
           "federalCemetery": {
-            label: "Was the Veteran buried in a national cemetary, or one owned by the federal government?",
+            label: "Was the Veteran buried in a national cemetery, or one owned by the federal government?",
             value: state?.values?.federalCemetery
           },
           "stateCemetery":{
-            label: "Was the Veteran buried in a state veteran’s cemetary?",
+            label: "Was the Veteran buried in a state Veteran’s cemetery?",
             value: state?.values?.stateCemetery
           },
           "govtContributions": {
@@ -302,6 +318,10 @@ export default function ReviewPage(props) {
           "claimantAddress": {
             label: "Claimant Address",
             value: {
+              "country": {
+                label: "Country",
+                value: state?.values?.claimantAddress?.country,
+              },
               "street": {
                 label: "Street",
                 value: state?.values?.claimantAddress?.street,
@@ -314,16 +334,12 @@ export default function ReviewPage(props) {
                 label: "City",
                 value: state?.values?.claimantAddress?.city,
               },
-              "country": {
-                label: "Country",
-                value: state?.values?.claimantAddress?.country,
-              },
               "state": {
                 label: "State",
                 value: state?.values?.claimantAddress?.state,
               },
               "postalCode": {
-                label: "Postal Code",
+                label: "Postal code",
                 value: state?.values?.claimantAddress?.postalCode,
               }
             }
