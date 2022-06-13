@@ -117,7 +117,7 @@ describe('VAOS V2 data transformation', () => {
         reasonCode: {
           coding: [
             {
-              code: 'Follow-up/Routine',
+              code: 'Routine Follow-up',
             },
           ],
           text: undefined,
@@ -301,7 +301,7 @@ describe('VAOS V2 data transformation', () => {
         reasonCode: {
           coding: [
             {
-              code: 'Follow-up/Routine',
+              code: 'Routine Follow-up',
             },
           ],
           text: undefined,
