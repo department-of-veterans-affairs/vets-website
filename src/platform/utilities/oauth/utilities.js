@@ -99,7 +99,10 @@ export const requestToken = async ({ code, redirectUri }) => {
 
   if (!url) return null;
 
-  const response = await fetch(url.toString(), { method: 'POST' });
+  const response = await fetch(url.toString(), {
+    method: 'POST',
+    credentials: 'include',
+  });
 
   return response.ok ? response : Promise.resolve(response);
 };
