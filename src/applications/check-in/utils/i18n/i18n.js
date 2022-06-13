@@ -6,6 +6,15 @@ import { format as formatDate, isDate } from 'date-fns';
 import { enUS as en, es } from 'date-fns/locale';
 import enTranslation from '../../locales/en/translation.json';
 
+/**
+ * Helper function to set language on main element for DS component detection.
+ *
+ * @param {string} language
+ */
+const setPageLanguage = language => {
+  document.getElementById('main')?.setAttribute('lang', language);
+};
+
 const locales = { en, es };
 
 i18n
@@ -25,8 +34,13 @@ i18n
   .use(initReactI18next)
   .use(LanguageDetector)
   .init({
+    detection: {
+      order: ['localStorage', 'sessionStorage', 'navigator'],
+      lookupLocalStorage: 'checkin-i18nextLng',
+      lookupSessionStorage: 'checkin-i18nextLng',
+    },
     fallbackLng: 'en',
-    debug: true,
+    debug: false,
     interpolation: {
       escapeValue: false,
       format: (value, format, lng) => {
@@ -71,9 +85,11 @@ i18n
     },
   });
 
-// Sets lang attribute on main element, this is what the DS components use to detect the active language.
+// This is necessary for DS components to use our language preference on initial load.
+setPageLanguage(i18n.language);
+
 i18n.on('languageChanged', language => {
-  document.getElementById('main')?.setAttribute('lang', language);
+  setPageLanguage(language);
 });
 
 export default i18n;

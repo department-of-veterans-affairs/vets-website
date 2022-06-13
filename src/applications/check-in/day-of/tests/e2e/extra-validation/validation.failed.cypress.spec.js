@@ -19,7 +19,7 @@ describe('Check In Experience -- ', () => {
       initializeSessionPost.withValidation();
       initializeCheckInDataGet.withSuccess();
       cy.visitWithUUID();
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
     });
     afterEach(() => {
       cy.window().then(window => {
