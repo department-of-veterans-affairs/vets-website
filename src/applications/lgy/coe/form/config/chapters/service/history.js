@@ -14,6 +14,7 @@ export const uiSchema = {
       itemName: 'Service Period',
       viewField: ServicePeriodView,
       keepInPageOnReview: true,
+      customTitle: ' ', // Prevent outer DL wrapper
     },
     items: {
       'ui:title': 'Service period',
