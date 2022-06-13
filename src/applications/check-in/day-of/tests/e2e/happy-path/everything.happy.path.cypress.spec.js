@@ -56,7 +56,7 @@ describe('Check In Experience', () => {
     });
     it('everything Happy path', () => {
       cy.visitWithUUID();
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
 
       ValidateVeteran.validateVeteran();

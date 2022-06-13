@@ -20,7 +20,7 @@ describe('Pre-Check In Experience', () => {
       initializeSessionPost.withValidation();
       initializePreCheckInDataGet.withSuccess();
       cy.visitPreCheckInWithUUID();
-      ValidateVeteran.validatePageLoaded('Start pre-check-in');
+      ValidateVeteran.validatePage.preCheckIn();
     });
     afterEach(() => {
       cy.window().then(window => {
