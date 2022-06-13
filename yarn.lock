@@ -1421,12 +1421,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@department-of-veterans-affairs/component-library@npm:^10.3.0":
-  version: 10.3.0
-  resolution: "@department-of-veterans-affairs/component-library@npm:10.3.0"
+"@department-of-veterans-affairs/component-library@npm:^10.6.0-1":
+  version: 10.6.0-1
+  resolution: "@department-of-veterans-affairs/component-library@npm:10.6.0-1"
   dependencies:
-    "@department-of-veterans-affairs/react-components": 6.1.2
-    "@department-of-veterans-affairs/web-components": 4.2.0
+    "@department-of-veterans-affairs/react-components": 6.1.3
+    "@department-of-veterans-affairs/web-components": 4.5.0-1
     i18next: ^21.6.14
     i18next-browser-languagedetector: ^6.1.4
     react-focus-on: ^3.5.1
@@ -1436,13 +1436,13 @@ __metadata:
     "@department-of-veterans-affairs/formation": "*"
     react: ^17
     react-dom: "*"
-  checksum: 6764b04db108a2f4b1a12c31c1fa703ccbd710b34b59728b2d28c7673cc260155b12ca248bd412062910eacd01e23dcec32e0c2903b5fcd1e98f12dd29e45b1d
+  checksum: 5f01494e250a6f20f92e913ae784162545f3fed8695d4cd06dedc28cfda201427a996c46fc5f28ec1a984faeef0bc7c9d5753348d87d66c33e94892198884d34
   languageName: node
   linkType: hard
 
-"@department-of-veterans-affairs/react-components@npm:6.1.2":
-  version: 6.1.2
-  resolution: "@department-of-veterans-affairs/react-components@npm:6.1.2"
+"@department-of-veterans-affairs/react-components@npm:6.1.3":
+  version: 6.1.3
+  resolution: "@department-of-veterans-affairs/react-components@npm:6.1.3"
   dependencies:
     classnames: ^2.2.6
     prop-types: ^15.6.2
@@ -1456,7 +1456,7 @@ __metadata:
     i18next-browser-languagedetector: "*"
     react: ^17
     react-dom: "*"
-  checksum: a0a83827a57d88bbdf1f19138d6ee9d83b64b57fd269881f312315f2f6395b1cbaef5cd7ab2f7570ed9bdf74c10fb3af3144d9781ac962f2fc5004190adbaff1
+  checksum: fe89ad27561dde78ad5c6eac6e8a88317cb9c8b34b161a6a4146b548e75e08dfe405c72efcae4e79ae6d0d0c53676ca3927f7cd77cd500d75019f4c6e8bbb5ed
   languageName: node
   linkType: hard
 
@@ -1468,7 +1468,7 @@ __metadata:
     "@babel/preset-env": ^7.14.5
     "@babel/preset-react": ^7.14.5
     "@babel/preset-typescript": ^7.14.5
-    "@department-of-veterans-affairs/component-library": ^10.3.0
+    "@department-of-veterans-affairs/component-library": ^10.6.0-1
     "@microsoft/api-documenter": ^7.13.41
     "@microsoft/api-extractor": ^7.18.6
     "@size-limit/preset-small-lib": ^5.0.1
@@ -1518,9 +1518,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@department-of-veterans-affairs/web-components@npm:4.2.0":
-  version: 4.2.0
-  resolution: "@department-of-veterans-affairs/web-components@npm:4.2.0"
+"@department-of-veterans-affairs/web-components@npm:4.5.0-1":
+  version: 4.5.0-1
+  resolution: "@department-of-veterans-affairs/web-components@npm:4.5.0-1"
   dependencies:
     "@stencil/core": ^2.10.0
     aria-hidden: ^1.1.3
@@ -1531,7 +1531,7 @@ __metadata:
     "@department-of-veterans-affairs/formation": ^7.0.1
     i18next: "*"
     i18next-browser-languagedetector: "*"
-  checksum: 887aa5663c2f0119aa71063127630cd36c2c1f2f5e32acc0de674465a219b90f2869e8c49081c782b9e0a80824b5712ccaf8c5fd3bf74ba84273009051daaaa5
+  checksum: 6c38bd327fd87366d8040f1bd3c331c5ca291f13005ba32bc24bc0b46b662aa4f60b71e5b823dedd7f8d3a35976307bd64034add009561a340d95556f8be5f3a
   languageName: node
   linkType: hard
 
