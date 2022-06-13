@@ -171,7 +171,7 @@ describe('OAuth - Utilities', () => {
       expect(global.fetch.calledOnce).to.be.true;
       expect(global.fetch.firstCall.args[1].method).to.equal('POST');
       expect(global.fetch.firstCall.args[0].includes('/token')).to.be.true;
-      expect(tokenOptions).to.eql('error');
+      expect(tokenOptions.ok).to.be.false;
     });
   });
 });

@@ -101,5 +101,5 @@ export const requestToken = async ({ code, redirectUri }) => {
 
   const response = await fetch(url.toString(), { method: 'POST' });
 
-  return response.ok ? response : 'error';
+  return response.ok ? response : Promise.resolve(response);
 };

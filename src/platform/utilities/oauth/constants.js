@@ -35,10 +35,15 @@ export const TOKEN_KEYS = generateOAuthKeysWithout([
 ]);
 
 export const OAUTH_ERRORS = {
-  INVALID_REQUEST: 'invalid_request',
-  UNAUTHORIZED_CLIENT: 'unauthorized_client',
-  ACCESS_DENIED: 'access_denied',
-  RESPONSE_TYPE_UNSUPPORTED: 'unsupported_response_type',
-  SERVER_ERROR: 'server_error',
-  UNAVAILBLE: 'unavailable',
+  OAUTH_DEFAULT_ERROR: '201', // default
+  OAUTH_STATE_MISMATCH: '202', // state mismatch
+  OAUTH_INVALID_REQUEST: '203', // invalid request/missing param
+  OAUTH_UNAUTHORIZED_CLIENT: '204', // client not registered
+  OAUTH_ACCESS_DENIED: '205', // client not authorized
+  OAUTH_RT_UNSUPPORTED: '206', // response type unsupported
+};
+
+export const OAUTH_ERROR_RESPONSES = {
+  'Code is not valid': OAUTH_ERRORS.OAUTH_INVALID_REQUEST,
+  default: OAUTH_ERRORS.OAUTH_DEFAULT_ERROR,
 };
