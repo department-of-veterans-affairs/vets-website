@@ -155,6 +155,6 @@ export default Object.freeze({
   hcaShortFormEnabled: 'hca_short_form_enabled',
   checkVAInboxEnabled: 'check_va_inbox_enabled',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
-  showExpandableVamcAlert: 'show_expandable_vamc_alert'
-
+  showExpandableVamcAlert: 'show_expandable_vamc_alert',
+  showDhpConnectedDevicesFitbit: 'dhp_connected_devices_fitbit',
 });
