@@ -578,6 +578,7 @@ export const shortFormMessage = (
   <va-alert-expandable
     trigger="You’re filling out a shortened application!"
     status="success"
+    class="vads-u-margin-y--5"
   >
     <div>
       Your service-connected disability rating is 50% or higher. This is one of
