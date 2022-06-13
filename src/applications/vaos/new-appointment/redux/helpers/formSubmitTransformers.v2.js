@@ -1,11 +1,7 @@
 import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
-import {
-  LANGUAGES,
-  PURPOSE_TEXT,
-  PURPOSE_TEXT_V2,
-} from '../../../utils/constants';
+import { LANGUAGES, PURPOSE_TEXT_V2 } from '../../../utils/constants';
 import {
   getTypeOfCare,
   getFormData,
@@ -164,7 +160,7 @@ export function transformFormToVAOSVARequest(state) {
 // }
 
 function getReasonCode(data) {
-  const code = PURPOSE_TEXT.filter(purpose => purpose.id !== 'other').find(
+  const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
     purpose => purpose.id === data.reasonForAppointment,
   )?.short;
 
