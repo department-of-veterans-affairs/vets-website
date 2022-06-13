@@ -44,7 +44,9 @@ export default {
         itemName: 'insurance policy',
         hideTitle: true,
         viewField: InsuranceProviderView,
-        itemAriaLabel: data => data.insuranceName,
+        itemAriaLabel: data =>
+          `${data.insuranceName} ${data.insurancePolicyNumber ||
+            data.insuranceGroupCode}`,
       },
       'ui:errorMessages': {
         minItems: 'You need to at least one provider.',
