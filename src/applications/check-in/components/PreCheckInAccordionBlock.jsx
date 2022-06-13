@@ -21,7 +21,7 @@ const PreCheckInAccordionBlock = ({
   let hasUpdates = false;
   let updateBody = '';
   let appointmentType = 'clinic';
-  if (isPhoneAppointmentsEnabled) {
+  if (isPhoneAppointmentsEnabled && appointments && appointments.length) {
     appointmentType = appointments[0]?.kind;
   }
   if (demographicsUpToDate === 'no') {
