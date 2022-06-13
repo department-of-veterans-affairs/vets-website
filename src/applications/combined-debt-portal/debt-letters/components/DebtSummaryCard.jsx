@@ -37,8 +37,8 @@ const DebtSummaryCard = ({ debt }) => {
       >
         Check details and resolve this debt
         <i
+          className="fa fa-chevron-right vads-u-margin-left--1"
           aria-hidden="true"
-          className="fa fa-chevron-right vads-u-font-size--sm vads-u-margin-left--0p5"
         />
       </Link>
     </article>
