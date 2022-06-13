@@ -270,7 +270,6 @@ export default class ArrayField extends React.Component {
               'Item';
             const notLastOrMultipleRows =
               showSave || !isLast || items.length > 1;
-            const supplementalLabel = uiOptions.supplementalLabel || '';
 
             if (isReviewMode ? isEditing : isLast || isEditing) {
               return (
@@ -349,10 +348,7 @@ export default class ArrayField extends React.Component {
                   <button
                     type="button"
                     className="usa-button-secondary edit vads-u-flex--auto"
-                    aria-label={`
-                      Edit ${itemName} ${formData[index][supplementalLabel] ??
-                      ''}
-                    `}
+                    aria-label={`Edit ${itemName}`}
                     onClick={() => this.handleEdit(index)}
                   >
                     Edit

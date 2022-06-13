@@ -42,9 +42,9 @@ export default {
       'ui:options': {
         expandUnder: 'isCoveredByHealthInsurance',
         itemName: 'insurance policy',
-        supplementalLabel: 'insuranceName',
         hideTitle: true,
         viewField: InsuranceProviderView,
+        itemAriaLabel: data => data.insuranceName,
       },
       'ui:errorMessages': {
         minItems: 'You need to at least one provider.',
