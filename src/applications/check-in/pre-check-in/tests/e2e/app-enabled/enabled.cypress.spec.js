@@ -15,7 +15,7 @@ describe('Pre-Check In Experience', () => {
   });
   it('Feature is enabled', () => {
     cy.visitPreCheckInWithUUID();
-    ValidateVeteran.validatePageLoaded();
+    ValidateVeteran.validatePage.preCheckIn();
     cy.injectAxeThenAxeCheck();
   });
 });
