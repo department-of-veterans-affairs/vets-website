@@ -2,7 +2,7 @@
 const fs = require('fs');
 const find = require('find');
 const path = require('path');
-const core = require('@actions/core');
+const commandLineArgs = require('command-line-args');
 
 const changedAppsConfig = require('../../config/changed-apps-build.json');
 
@@ -73,49 +73,62 @@ const getAllowedApps = (filePath, allow) => {
  *
  * @param {string[]} filePaths - An array of relative file paths.
  * @param {Object} config - The changed apps build config.
+ * @param {string} outputType - Determines what app information should be returned.
  * @param {string} delimiter - Delimiter to use for string output.
  * @returns {string} A delimited string of app entry names, relative paths, URLs, or Slack groups.
  */
-const getChangedAppsString = (filePaths, config, delimiter = ' ') => {
-  const apps = {
-    entryNames: new Set(),
-    rootPaths: new Set(),
-    rootUrls: new Set(),
-    slackGroups: new Set(),
-  };
+const getChangedAppsString = (
+  filePaths,
+  config,
+  outputType = 'entry',
+  delimiter = ' ',
+) => {
+  const appStrings = [];
 
   for (const filePath of filePaths) {
     const allowedApps = getAllowedApps(filePath, config.allow);
 
     if (allowedApps) {
       allowedApps.forEach(app => {
-        apps.entryNames.add(app.entryName);
-        apps.rootPaths.add(app.rootPath);
-        if (app.rootUrl) apps.rootUrls.add(app.rootUrl);
-        if (app.slackGroup) apps.slackGroups.add(app.slackGroup);
+        if (outputType === 'entry') {
+          appStrings.push(app.entryName);
+        } else if (outputType === 'folder') {
+          appStrings.push(app.rootPath);
+        } else if (outputType === 'slack-group') {
+          if (app.slackGroup) appStrings.push(app.slackGroup);
+        } else if (outputType === 'url') {
+          if (app.rootUrl) appStrings.push(app.rootUrl);
+        } else throw new Error('Invalid output type specified.');
       });
-    }
+    } else return '';
   }
 
-  core.setOutput('entry_names', [...apps.entryNames].join(delimiter));
-  core.setOutput('folders', [...apps.rootPaths].join(delimiter));
-  core.setOutput('urls', [...apps.rootUrls].join(delimiter));
-  core.setOutput('slack_groups', [...apps.slackGroups].join(delimiter));
-  core.setOutput('test', 'passed');
+  return [...new Set(appStrings)].join(delimiter);
 };
-
-// getChangedAppsString('', changedAppsConfig, core.getInput('delimiter'));
 
 if (process.env.CHANGED_FILE_PATHS) {
   const changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ').filter(
     filePath => filePath.startsWith('src/applications'),
   );
 
-  getChangedAppsString(
+  const options = commandLineArgs([
+    // Use the --output-type option to specify one of the following outputs:
+    // 'entry': The entry names of the changed apps.
+    // 'folder': The relative path of the changed apps root folders.
+    // 'url': The root URLs of the changed apps.
+    // 'slack-group': The Slack group of the app's team, specified in the config.
+    { name: 'output-type', type: String, defaultValue: 'entry' },
+    { name: 'delimiter', alias: 'd', type: String, defaultValue: ' ' },
+  ]);
+
+  const changedAppsString = getChangedAppsString(
     changedFilePaths,
     changedAppsConfig,
-    core.getInput('delimiter'),
+    options['output-type'],
+    options.delimiter,
   );
+
+  console.log(changedAppsString);
 }
 
 module.exports = {
