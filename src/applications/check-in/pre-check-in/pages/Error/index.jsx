@@ -11,6 +11,8 @@ import Footer from '../../../components/layout/Footer';
 import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
 
 import { makeSelectVeteranData } from '../../../selectors';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+
 import {
   preCheckinExpired,
   appointmentStartTimePast15,
@@ -20,6 +22,8 @@ import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import Wrapper from '../../../components/layout/Wrapper';
 
 const Error = () => {
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
   const { getValidateAttempts } = useSessionStorage(true);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   // try get date of appointment
@@ -65,6 +69,12 @@ const Error = () => {
       if (appointmentStartTimePast15(appointments))
         return [t('sorry-pre-check-in-is-no-longer-available'), '', accordions];
       if (preCheckinExpired(appointments)) {
+        if (!isPhoneAppointmentsEnabled) {
+          return [
+            t('sorry-pre-check-in-is-no-longer-available'),
+            t('you-can-still-check-in-once-you-arrive'),
+          ];
+        }
         const apptType = appointments[0]?.kind;
         return [
           t('sorry-pre-check-in-is-no-longer-available'),

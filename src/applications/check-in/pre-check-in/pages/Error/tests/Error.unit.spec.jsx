@@ -40,6 +40,10 @@ describe('check-in', () => {
             ],
             veteranData: {},
           },
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            check_in_experience_phone_appointments_enabled: false,
+          },
         };
         afterEach(() => {
           MockDate.reset();
@@ -87,6 +91,10 @@ describe('check-in', () => {
           ],
           veteranData: {},
         },
+        featureToggles: {
+          // eslint-disable-next-line camelcase
+          check_in_experience_phone_appointments_enabled: false,
+        },
       };
 
       it('renders correct error message when in person pre-checkin is expired', () => {
@@ -112,7 +120,10 @@ describe('check-in', () => {
       it('renders correct error message when phone pre-checkin is expired', () => {
         const phoneInitState = JSON.parse(JSON.stringify(initState));
         phoneInitState.checkInData.appointments[0].kind = 'phone';
+        // eslint-disable-next-line camelcase
+        phoneInitState.featureToggles.check_in_experience_phone_appointments_enabled = true;
         store = mockStore(phoneInitState);
+
         const component = render(
           <Provider store={store}>
             <I18nextProvider i18n={i18n}>
@@ -156,6 +167,10 @@ describe('check-in', () => {
             ],
             veteranData: {},
           },
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            check_in_experience_phone_appointments_enabled: false,
+          },
         };
         store = mockStore(initState);
       });
@@ -179,6 +194,10 @@ describe('check-in', () => {
           checkInData: {
             appoinments: [],
             veteranData: {},
+          },
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            check_in_experience_phone_appointments_enabled: false,
           },
         };
         store = mockStore(initState);
