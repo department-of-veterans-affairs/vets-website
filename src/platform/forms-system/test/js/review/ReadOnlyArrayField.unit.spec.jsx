@@ -48,5 +48,6 @@ describe('Schemaform review: ReadOnlyArrayField', () => {
     expect(tree.subTree('.schemaform-array-readonly-header').text()).to.contain(
       'Item',
     );
+    expect(tree.everySubTree('.review').length).to.equal(1);
   });
 });
