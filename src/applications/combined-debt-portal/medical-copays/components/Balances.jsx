@@ -4,15 +4,17 @@ import PropTypes from 'prop-types';
 import BalanceCard from './BalanceCard';
 
 export const Balances = ({ statements }) => {
-  const single = <h2>What you owe to your facility</h2>;
+  const single = <h2 id="balance-list">What you owe to your facility</h2>;
   const multiple = (
-    <h2>What you owe to your {statements?.length} facilities</h2>
+    <h2 id="balance-list">
+      What you owe to your {statements?.length} facilities
+    </h2>
   );
 
   return (
     <>
       {statements?.length === 1 ? single : multiple}
-      <ul className="no-bullets">
+      <ul className="no-bullets vads-u-padding-x--0">
         {statements?.map((balance, idx) => {
           const facilityName =
             balance.station.facilityName ||

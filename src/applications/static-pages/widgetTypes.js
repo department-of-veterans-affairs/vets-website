@@ -36,6 +36,8 @@ export default {
   HEALTH_CARE_APP_STATUS: 'health-care-app-status',
   HIGHER_LEVEL_REVIEW_APP_STATUS: 'higher-level-review-status',
   HOMEPAGE_BANNER: 'homepage-banner',
+  HOMEPAGE_HERO_RANDOMIZER: 'homepage-hero-randomizer',
+  HOMEPAGE_SEARCH: 'homepage-search',
   I_18_SELECT: 'i18-select',
   LETTERS_MOBILE_CTA: 'letters-mobile-cta',
   MAINTENANCE_BANNER: 'maintenance-banner',

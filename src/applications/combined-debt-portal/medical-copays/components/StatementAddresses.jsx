@@ -9,7 +9,7 @@ const StatementAddresses = ({ copay }) => {
       </h2>
       <dl>
         <dt
-          className="vads-u-font-weight--bold"
+          className="vads-u-font-size--h4 vads-u-font-family--serif vads-u-font-weight--bold"
           data-testid="sender-address-head"
         >
           Sender Address
@@ -44,7 +44,7 @@ const StatementAddresses = ({ copay }) => {
           </span>
         </dd>
         <dt
-          className="vads-u-font-weight--bold"
+          className="vads-u-font-size--h4 vads-u-font-family--serif vads-u-font-weight--bold"
           data-testid="recipient-address-head"
         >
           Recipient Address
@@ -72,7 +72,7 @@ const StatementAddresses = ({ copay }) => {
             {copay.pHCity}, {copay.pHState} {copay.pHZipCde}
           </span>
           <p>
-            If your address has changed, call &nbsp;
+            <strong>Note:</strong> If your address has changed, call &nbsp;
             <span>
               <va-telephone contact="8662602614" international="true" />.
             </span>

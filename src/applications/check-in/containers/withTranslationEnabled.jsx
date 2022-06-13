@@ -13,6 +13,7 @@ const withTranslationEnabled = WrappedComponent => props => {
   const {
     isTranslationDayOfEnabled,
     isTranslationPreCheckInEnabled,
+    isTranslationDisclaimerSpanishEnabled,
   } = useSelector(selectFeatureToggles);
 
   if (
@@ -24,7 +25,12 @@ const withTranslationEnabled = WrappedComponent => props => {
 
   // Allowing for HOC
   // eslint-disable-next-line react/jsx-props-no-spreading
-  return <WrappedComponent {...props} />;
+  return (
+    <WrappedComponent
+      {...props}
+      spanishDisclaimer={isTranslationDisclaimerSpanishEnabled}
+    />
+  );
 };
 
 export default withTranslationEnabled;

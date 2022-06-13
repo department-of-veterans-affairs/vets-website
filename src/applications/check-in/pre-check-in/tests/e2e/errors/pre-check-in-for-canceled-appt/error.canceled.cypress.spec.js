@@ -27,7 +27,7 @@ describe('Pre-Check In Experience ', () => {
   it('Canceled Appointments are taken to Error Page', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
-    ValidateVeteran.validatePageLoaded();
+    ValidateVeteran.validatePage.preCheckIn();
     ValidateVeteran.validateVeteran();
     cy.injectAxeThenAxeCheck();
     ValidateVeteran.attemptToGoToNextPage();

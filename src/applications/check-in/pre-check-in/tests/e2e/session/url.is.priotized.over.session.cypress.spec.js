@@ -42,7 +42,7 @@ describe('Pre Check In Experience', () => {
         expect(data).to.equal(sample);
       });
       cy.visitPreCheckInWithUUID();
-      ValidateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePage.preCheckIn();
 
       cy.injectAxeThenAxeCheck();
       cy.window().then(window => {

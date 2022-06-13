@@ -77,6 +77,7 @@ export default function EmergencyContactDisplay({
         Footer={Footer}
         isLoading={isLoading}
         isEditEnabled={isEditEnabled}
+        withBackButton
       />
     </>
   );
