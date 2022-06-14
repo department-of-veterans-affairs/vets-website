@@ -86,9 +86,15 @@ i18n
   });
 
 // This is necessary for DS components to use our language preference on initial load.
+// @TODO remove this.
+// eslint-disable-next-line no-console
+console.log('Setting page language on initial load');
 setPageLanguage(i18n.language);
 
 i18n.on('languageChanged', language => {
+  // @TODO remove this.
+  // eslint-disable-next-line no-console
+  console.log('Setting page language on language changed');
   setPageLanguage(language);
 });
 
