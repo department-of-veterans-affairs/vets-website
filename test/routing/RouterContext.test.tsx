@@ -7,8 +7,16 @@ import { Page, RouterProps } from "../../src";
 import { render, waitFor } from "@testing-library/react";
 import RouterProgress from "../../src/routing/RouterProgress";
 
-const PageOne = (props: {title: string}) => (
+const IntroPage = (props: {title: string}) => (
   <Page 
+    {...props}
+    nextPage="/page-one">
+    <p>page one</p>
+  </Page>
+);
+
+const PageOne = (props: {title: string}) => (
+  <Page
     {...props}
     nextPage="/page-two">
     <p>page one</p>
@@ -112,7 +120,7 @@ describe('Routing - Router Context', () => {
   });
 
   test('Router Context passes correct information to the progress bar', async() => {
-    const routes = ["/", "/page-two"];
+    const routes = ["/", "/page-one", "/page-two"];
     const { container } = render(
       <MemoryRouter initialEntries={routes} initialIndex={1}>
         <FormRouterInternal
@@ -120,7 +128,8 @@ describe('Routing - Router Context', () => {
           formData={initialValues}
           title="Page Test"
           >
-          <Route index element={<PageOne title="Page One" />} />
+          <Route index element={<IntroPage title="Intro Page" />} />
+          <Route path="/page-one" element={<PageOne title="Page One" />} />
           <Route path="/page-two" element={<PageTwo title="Page Two" />} />
         </FormRouterInternal>
       </MemoryRouter>
