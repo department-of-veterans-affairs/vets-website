@@ -95,11 +95,6 @@ const EmploymentRecord = ({
   const handleDateChange = (key, monthYear) => {
     const dateString = `${monthYear}-XX`;
 
-    // const errorSetter = key === 'from' ? setFromDateError : setToDateError;
-    const errorSetter = setFromDateError;
-    const requiredMessage = key === 'from' ? startError : endError;
-    validateYear(monthYear, errorSetter, requiredMessage);
-
     const updated = employment.map((item, i) => {
       return i === index ? { ...item, [key]: dateString } : item;
     });
