@@ -28,6 +28,7 @@ const EmploymentRecord = ({
   formContext,
 }) => {
   const [fromDateError, setFromDateError] = useState();
+  const [toDateError, setToDateError] = useState();
   const index = Number(idSchema.$id.slice(-1));
   const { userType, userArray } = uiSchema['ui:options'];
   const { employmentRecords } = employmentHistory[`${userType}`];
@@ -38,6 +39,8 @@ const EmploymentRecord = ({
   const { submitted } = formContext;
 
   const typeError = 'Please enter the type of work.';
+  const startError = 'Please enter your employment start date.';
+  const endError = 'Please enter your employment end date.';
   const employerError = 'Please enter your employer name.';
 
   const updateFormData = updated => {
@@ -71,10 +74,15 @@ const EmploymentRecord = ({
     updateFormData(updated);
   };
 
-  const validateYear = (year, errorSetter) => {
+  const validateYear = (monthYear, errorSetter, requiredMessage) => {
+    const [year] = monthYear.split('-');
     const todayYear = new Date().getFullYear();
+    const isComplete = /\d{4}-\d{1,2}/.test(monthYear);
 
-    if (
+    if (!isComplete) {
+      // This allows a custom required error message to be used
+      errorSetter(requiredMessage);
+    } else if (
       !!year &&
       (parseInt(year, 10) > todayYear || parseInt(year, 10) < 1900)
     ) {
@@ -85,11 +93,12 @@ const EmploymentRecord = ({
   };
 
   const handleDateChange = (key, monthYear) => {
-    const [year] = monthYear.split('-');
     const dateString = `${monthYear}-XX`;
 
+    // const errorSetter = key === 'from' ? setFromDateError : setToDateError;
     const errorSetter = setFromDateError;
-    validateYear(year, errorSetter);
+    const requiredMessage = key === 'from' ? startError : endError;
+    validateYear(monthYear, errorSetter, requiredMessage);
 
     const updated = employment.map((item, i) => {
       return i === index ? { ...item, [key]: dateString } : item;
@@ -120,6 +129,9 @@ const EmploymentRecord = ({
           label="Date you started work at this job?"
           name="from"
           onDateChange={e => handleDateChange('from', e.target.value)}
+          onDateBlur={e =>
+            validateYear(e.target.value || '', setFromDateError, startError)
+          }
           required
           error={fromDateError}
         />
@@ -135,7 +147,11 @@ const EmploymentRecord = ({
           label="Date you stopped work at this job?"
           name="to"
           onDateChange={e => handleDateChange('to', e.target.value)}
+          onDateBlur={e =>
+            validateYear(e.target.value || '', setToDateError, endError)
+          }
           required
+          error={toDateError}
         />
       </div>
       <Checkbox
