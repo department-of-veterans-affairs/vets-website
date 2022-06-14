@@ -84,6 +84,9 @@ const Demographics = props => {
         demographics={demographics}
         yesAction={yesClick}
         noAction={noClick}
+        subtitle={t(
+          'we-can-better-follow-up-with-you-after-your-appointment-when-we-have-your-current-information',
+        )}
         Footer={Footer}
       />
       <BackToHome />
