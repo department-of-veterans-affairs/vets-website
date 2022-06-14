@@ -6,7 +6,12 @@ export default function PhoneReviewField({ uiSchema, formData }) {
       <div className="review-row">
         <dt>{uiSchema.phone['ui:title']}</dt>
         <dd>
-          {formData.phone} {formData.isInternational && '(International)'}
+          <va-telephone
+            not-clickable
+            contact={formData.phone}
+            international={formData.isInternational}
+          />
+          {formData.isInternational && ' (International)'}
         </dd>
       </div>
     </>

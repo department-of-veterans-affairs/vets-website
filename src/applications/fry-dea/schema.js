@@ -4,35 +4,46 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 const { usaPhone } = commonDefinitions;
 
 import PhoneReviewField from './components/PhoneReviewField';
-import PhoneViewField from './components/PhoneViewField';
 import YesNoReviewField from './components/YesNoReviewField';
 import { newFormFields } from './constants';
 import { titleCase } from './helpers';
-import { isValidPhone, validatePhone } from './validation';
+import { validateHomePhone, validateMobilePhone } from './validation';
 
-export function phoneUISchema(category, parent, international) {
+export function phoneUISchema(category) {
   return {
-    [parent]: {
-      'ui:options': {
-        hideLabelText: true,
-        showFieldLabel: false,
-        viewComponent: PhoneViewField,
-      },
-      'ui:objectViewField': PhoneReviewField,
-      phone: {
-        ...phoneUI(`${titleCase(category)} phone number`),
-        'ui:validations': [validatePhone],
-      },
+    'ui:options': {
+      hideLabelText: true,
+      showFieldLabel: false,
     },
-    [international]: {
+    'ui:objectViewField': PhoneReviewField,
+    phone: {
+      ...phoneUI(`${titleCase(category)} phone number`),
+      'ui:validations': [
+        category === 'mobile' ? validateMobilePhone : validateHomePhone,
+      ],
+    },
+    isInternational: {
       'ui:title': `This ${category} phone number is international`,
       'ui:reviewField': YesNoReviewField,
       'ui:options': {
-        // expandUnder: parent,
-        hideIf: formData =>
-          !isValidPhone(
-            formData[newFormFields.newViewPhoneNumbers][parent].phone,
-          ),
+        hideIf: formData => {
+          if (category === 'mobile') {
+            if (
+              !formData[newFormFields.newViewPhoneNumbers][
+                newFormFields.newMobilePhoneNumber
+              ].phone
+            ) {
+              return true;
+            }
+          } else if (
+            !formData[newFormFields.newViewPhoneNumbers][
+              newFormFields.newPhoneNumber
+            ].phone
+          ) {
+            return true;
+          }
+          return false;
+        },
       },
     },
   };
@@ -45,6 +56,9 @@ export function phoneSchema() {
       phone: {
         ...usaPhone,
         pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
+      },
+      isInternational: {
+        type: 'boolean',
       },
     },
   };

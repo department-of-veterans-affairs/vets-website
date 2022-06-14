@@ -674,16 +674,8 @@ const formConfig = {
                   </p>
                 </>
               ),
-              ...phoneUISchema(
-                'mobile',
-                newFormFields.newMobilePhoneNumber,
-                newFormFields.newMobilePhoneNumberInternational,
-              ),
-              ...phoneUISchema(
-                'home',
-                newFormFields.newPhoneNumber,
-                newFormFields.newPhoneNumberInternational,
-              ),
+              [newFormFields.newMobilePhoneNumber]: phoneUISchema('mobile'),
+              [newFormFields.newPhoneNumber]: phoneUISchema('home'),
             },
             [newFormFields.newEmail]: {
               'ui:options': {
@@ -728,13 +720,7 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   [newFormFields.newMobilePhoneNumber]: phoneSchema(),
-                  [newFormFields.newMobilePhoneNumberInternational]: {
-                    type: 'boolean',
-                  },
                   [newFormFields.newPhoneNumber]: phoneSchema(),
-                  [newFormFields.newPhoneNumberInternational]: {
-                    type: 'boolean',
-                  },
                 },
               },
               [newFormFields.newEmail]: {

@@ -19,7 +19,7 @@ class IntroductionPage extends React.Component {
 
     return (
       <div className="schemaform-intro">
-        <FormTitle title="Apply to use transferred education benefits" />
+        <FormTitle title="Apply for education benefits as an eligible dependent" />
         <p className="vads-u-font-size--h3">Equal to VA Form 22-5490</p>
 
         <va-alert
@@ -123,7 +123,7 @@ class IntroductionPage extends React.Component {
                   <li>
                     The Veteran or service member is in the hospital or getting
                     outpatient treatment for a service-connected permanent and
-                    total disibility and is likely to be discharged for the
+                    total disibility and is likely to be discharged for that
                     disability (effective December 23, 2006)
                   </li>
                 </ul>
