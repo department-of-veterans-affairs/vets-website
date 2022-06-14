@@ -13,6 +13,46 @@ When a veteran wants to recieve a COE they can come to this page and we can make
 When a Veteran first lands on the page we make the initial call to the LGY service to get the status of the COE for the Veteran. We then show content relevent to that Veteran based on the status that comes back from LGY, so for example if the Veteran is automatically approved for a COE we show them a message that says that they are automatically approved as well as a link to download the COE as a PDF.
 
 ### Statuses
+The LGY service that we call when a Veteran lands on the status app page returns to us two pieces of data that we then use to determine a "status" for the COE of that Veteran. The idea behind the LGY service is to make an automatic determination for the Veteran for if they are eligible to recieve a COE. The two pieces of data are used in combination in the logic of the back end controller in vets-api. The two piees of data are -
+
+> 1. A string returned to us in the body of our request to the LGY service for 'status'
+> 2. A 200 or 404 http response for any current application the Veteran may have on file for a COE
+
+The string for a status that is returned is pretty simple, it can either be one of these -
+
+1. `ELIGIBLE` - meaning that the Veteran is in fact eligible for an automatic approval and can get a COE
+2. `UNABLE_TO_DETERMINE_AUTOMATICALLY` - meaning that the Veteran is not eligible for an automatic approval but can apply for a COE manually
+3. `NOT_ELIGIBLE` - meaning that the Veteran has been denied approval for a COE
+4. `PENDING` - meaning that the Veteran has an application for a COE currently pending
+
+The different statuses that can be returned are also combined with the http response for a current application in a set of logic and what is returned based on that logic is what we used on the front end. In vets-api the file with the logic for this is the service and is available at `vets-api/app/lib/lgy/service.rb` and looks like this -
+
+```ruby
+    def coe_status
+      if get_determination.body['status'] == 'ELIGIBLE' && get_application.status == 404
+        { status: 'eligible', reference_number: get_determination.body['reference_number'] }
+      elsif get_determination.body['status'] == 'UNABLE_TO_DETERMINE_AUTOMATICALLY' && get_application.status == 404
+        { status: 'unable-to-determine-eligibility', reference_number: get_determination.body['reference_number'] }
+      elsif get_determination.body['status'] == 'ELIGIBLE' && get_application.status == 200
+        { status: 'available', application_create_date: get_application.body['create_date'],
+          reference_number: get_determination.body['reference_number'] }
+      elsif get_determination.body['status'] == 'NOT_ELIGIBLE'
+        { status: 'denied', application_create_date: get_determination.body['determination_date'],
+          reference_number: get_determination.body['reference_number'] }
+      elsif get_determination.body['status'] == 'PENDING' && get_application.status == 404
+        # Kelli said we'll never having a pending status w/o an application, but LGY sqa data is getting hand crafted
+        { status: 'pending', reference_number: get_determination.body['reference_number'] }
+      elsif get_determination.body['status'] == 'PENDING' && get_application.body['status'] == 'SUBMITTED'
+        # SUBMITTED & RECEIVED ARE COMBINED ON LGY SIDE
+        { status: 'pending', application_create_date: get_application.body['create_date'],
+          reference_number: get_determination.body['reference_number'] }
+      elsif get_determination.body['status'] == 'PENDING' && get_application.body['status'] == 'RETURNED'
+        { status: 'pending-upload', application_create_date: get_application.body['create_date'],
+          reference_number: get_determination.body['reference_number'] }
+      end
+    end
+```
+
 
 
 ## The front end code
