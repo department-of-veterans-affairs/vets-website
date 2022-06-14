@@ -241,6 +241,10 @@ class SaveInProgressIntro extends React.Component {
                   After {retentionPeriod}, we’ll delete the {appType} and you’ll
                   need to start over.
                 </li>
+                <li>
+                  You may be eligible to recieve an instant decision about your{' '}
+                  {appType}
+                </li>
               </ul>
               <p>
                 <strong>Note:</strong> If you sign in after you’ve started your{' '}
