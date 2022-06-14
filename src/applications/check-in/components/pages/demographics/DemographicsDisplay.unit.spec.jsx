@@ -33,17 +33,19 @@ describe('pre-check-in experience', () => {
         );
       });
       it('renders with default values', () => {
-        const { getByText } = render(
+        const { queryByText } = render(
           <Provider store={store}>
             <DemographicsDisplay />
           </Provider>,
         );
-        expect(getByText('Is this your current contact information?')).to.exist;
+        expect(queryByText('Is this your current contact information?')).to
+          .exist;
+        // this subtitle should only appear when passed in
         expect(
-          getByText(
+          queryByText(
             'We can better follow up with you after your appointment when we have your current information.',
           ),
-        ).to.exist;
+        ).not.to.exist;
       });
       it('renders the footer if footer is supplied', () => {
         const { getByText } = render(

@@ -23,7 +23,7 @@ describe('Check In Experience', () => {
       initializeCheckInDataGet.withSuccess({ appointments });
 
       cy.visitWithUUID();
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       Demographics.attemptToGoToNextPage();

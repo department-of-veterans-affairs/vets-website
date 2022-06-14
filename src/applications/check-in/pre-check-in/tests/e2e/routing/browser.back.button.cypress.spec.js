@@ -35,7 +35,7 @@ describe('Pre-Check In Experience ', () => {
   it('Browser back button still works with routing', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
-    ValidateVeteran.validatePageLoaded();
+    ValidateVeteran.validatePage.preCheckIn();
     ValidateVeteran.validateVeteran();
     cy.injectAxeThenAxeCheck();
     ValidateVeteran.attemptToGoToNextPage();
