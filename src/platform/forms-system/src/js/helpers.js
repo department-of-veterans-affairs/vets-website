@@ -653,9 +653,7 @@ export function transformForSubmit(
   const withoutViewFields = filterViewFields(withoutInactivePages);
 
   const data = JSON.stringify(withoutViewFields, replacer) || '{}';
-  try {
-    JSON.parse(data);
-  } catch {
+  if (typeof data !== 'string') {
     // eslint-disable-next-line no-console
     console.log('the bad data is....', data);
   }
