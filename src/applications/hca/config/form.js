@@ -161,7 +161,7 @@ const formConfig = {
   },
   chapters: {
     veteranInformation: {
-      title: 'Veteran Information',
+      title: 'Veteran information',
       pages: {
         veteranProfileInformation: {
           path: 'veteran-information/personal-information',
@@ -273,7 +273,7 @@ const formConfig = {
       },
     },
     vaBenefits: {
-      title: 'VA Benefits',
+      title: 'VA benefits',
       pages: {
         vaBenefits: {
           path: 'va-benefits/basic-information',
@@ -306,7 +306,7 @@ const formConfig = {
       },
     },
     militaryService: {
-      title: 'Military Service',
+      title: 'Military service',
       pages: {
         serviceInformation: {
           path: 'military-service/service-information',
@@ -333,7 +333,7 @@ const formConfig = {
       },
     },
     householdInformation: {
-      title: 'Household Information',
+      title: 'Household information',
       pages: {
         financialDisclosure: {
           path: 'household-information/financial-disclosure',
@@ -387,7 +387,7 @@ const formConfig = {
       },
     },
     insuranceInformation: {
-      title: 'Insurance Information',
+      title: 'Insurance information',
       pages: {
         medicaid: {
           path: 'insurance-information/medicaid',
