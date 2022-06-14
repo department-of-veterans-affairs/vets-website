@@ -15,7 +15,7 @@ export default function MilitaryServiceHistory(props) {
 
   return (
     <>
-      <Page {...props} nextPage="/military-history/previous-names" prevPage="/veteran-information/burial">
+      <Page {...props}>
         <div className="usa-alert usa-alert-warning background-color-only">
           <span>
             <strong>Note:</strong> If you would rather upload a DD214 than enter dates

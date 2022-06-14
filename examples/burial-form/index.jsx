@@ -1,6 +1,6 @@
-import React from 'react';
-import {Route} from 'react-router-dom'
-import {FormRouter} from '@department-of-veterans-affairs/va-forms-system-core';
+import React, { useContext } from 'react';
+import {Navigate, Route, useLocation} from 'react-router-dom'
+import {FormRouter, ConditionalRoute} from '@department-of-veterans-affairs/va-forms-system-core';
 import BurialIntroduction from './BurialIntroduction';
 import ClaimantInformation from './ClaimantInformation';
 import VeteranInformation from './VeteranInformation';
@@ -20,15 +20,22 @@ const NoMatch = (props) => (
   </main>
 );
 
+
+
 const mapProps = (values, actions) => {
 }
 
 const BurialApp = (props) => {
   // Let users extract and use formData here
   // initialValues would ideally be provided by a json-schema
+
   return (
     <div className='vads-u-display--flex vads-u-align-items--center vads-u-flex-direction--column'>
-      <FormRouter basename={props.basename} formData={props.initialValues} title="Burials Example" transformForSubmit={mapProps}>
+      <FormRouter basename={props.basename}
+        formData={props.initialValues}
+        title="Burials Example"
+        transformForSubmit={mapProps}
+        >
         <Route index element={<BurialIntroduction title="Introduction Page" />} />
         <Route path="/claimant-information" element={<ClaimantInformation title="Claimant Information" />} />
         <Route path="/veteran-information" element={<VeteranInformation title="Deceased Veteran Information" />} />
@@ -36,8 +43,16 @@ const BurialApp = (props) => {
         <Route path="/military-history/service-periods" element={<MilitaryServiceHistory title="Military Service History" />} />
         <Route path="/military-history/previous-names" element={<PreviousNames title="Military history" />} />
         <Route path="/benefits/selection" element={<BenefitsSelection title="Benefits Selection" />} />
-        <Route path="/benefits/burial-allowance" element={<BurialAllowance title="Burial allowance" />} />
-        <Route path="/benefits/plot-allowance" element={<PlotAllowance title="Benefits Selection" />} />
+        <Route path="/benefits/burial-allowance" element={
+          <ConditionalRoute title="Benefits Selection: Burial Allowance" type="conditional" condition={'benefitsSelection.burialAllowance'}>
+            <BurialAllowance />
+          </ConditionalRoute>}
+        />
+        <Route path="/benefits/plot-allowance" element={
+          <ConditionalRoute title="Benefits Selection" type="conditional" condition={'benefitsSelection.plotAllowance'}>
+            <PlotAllowance />
+          </ConditionalRoute>}
+        />
         <Route path="/claimant-contact-information" element={<ClaimantContactInformation title="Claimant contact information" />} />
         <Route path="/review-and-submit" element={<ReviewPage title="Review Your Application" />} />
         <Route path="/confirmation" element={<ConfirmationPage title="Confirmation Page" />} />

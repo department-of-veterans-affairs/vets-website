@@ -21,8 +21,6 @@ export interface RouterProps {
 export interface RouterContextProps {
   routes: React.ReactElement | React.ReactElement[];
   children: ReactElement<any, any> | ReactElement<any, any>[];
-  currentRoute: string;
-  updateRoute: (value: string) => void;
 }
 
 /**
@@ -43,6 +41,8 @@ export interface Routable {
 export interface RouteInfo {
   path: string;
   title: string;
+  conditional?: boolean;
+  isShown?: boolean | null;
 }
 
 /**
@@ -53,9 +53,9 @@ export interface RouteInfo {
 export interface IRouterContext {
   listOfRoutes: RouteInfo[];
   currentRoute: string;
-  updateRoute: (value: string) => void;
+  previousRoute: string | null;
+  nextRoute: string | null;
 }
-
 /**
  * The properties for the Page React component
  *
@@ -64,8 +64,6 @@ export interface IRouterContext {
 export interface PageProps {
   children: JSX.Element | JSX.Element[] | Element;
   title: string;
-  nextPage?: string;
-  prevPage?: string;
 }
 
 /**

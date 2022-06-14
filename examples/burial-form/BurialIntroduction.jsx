@@ -4,7 +4,7 @@ import { Page, IntroductionPage } from '@department-of-veterans-affairs/va-forms
 export default function BurialIntroduction(props) {
   return (
     <>
-      <Page {...props} nextPage="/claimant-information">
+      <Page {...props}>
         <IntroductionPage />
       </Page>
     </>

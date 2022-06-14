@@ -21,5 +21,6 @@ export interface IRouterContext
 |  --- | --- | --- |
 |  [currentRoute](./va-forms-system-core.iroutercontext.currentroute.md) | string | <b><i>(BETA)</i></b> |
 |  [listOfRoutes](./va-forms-system-core.iroutercontext.listofroutes.md) | [RouteInfo](./va-forms-system-core.routeinfo.md)<!-- -->\[\] | <b><i>(BETA)</i></b> |
-|  [updateRoute](./va-forms-system-core.iroutercontext.updateroute.md) | (value: string) =&gt; void | <b><i>(BETA)</i></b> |
+|  [nextRoute](./va-forms-system-core.iroutercontext.nextroute.md) | string \| null | <b><i>(BETA)</i></b> |
+|  [previousRoute](./va-forms-system-core.iroutercontext.previousroute.md) | string \| null | <b><i>(BETA)</i></b> |
 

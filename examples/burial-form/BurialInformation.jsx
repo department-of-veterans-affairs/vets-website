@@ -28,7 +28,7 @@ export default function BurialInformation(props) {
     },[values.locationOfDeath.location])
 
     return (
-        <Page {...props} nextPage="/military-history/service-periods" prevPage="/veteran-information">
+        <Page {...props}>
             <DateField name="deathDate" label="Date of death" required />
             <DateField 
                 name="burialDate" 

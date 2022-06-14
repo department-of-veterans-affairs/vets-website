@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter, Routes } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, useLocation } from 'react-router-dom';
 import { Formik } from 'formik';
 import { RouterProps } from './types';
 
@@ -21,29 +21,25 @@ export default function FormRouter(props: RouterProps): JSX.Element {
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
         <BrowserRouter basename={props.basename}>
-          <RouterContextProvider
-            routes={props.children}
-            currentRoute={route}
-            updateRoute={updateRoute}
-          >
-            <FormTitle title={props.title} subTitle={props?.subtitle} />
-            <RouterProgress route={route} />
-            <Formik
-              initialValues={initialValues}
-              onSubmit={(values, actions) => {
-                // This is where data is transformed if a custom transformForSubmit function is provided.
-                // The wrapping onSubmit function will need updated in the future if the default case needs updated when users don't pass a transformForSubmit function
-                if (props.transformForSubmit) {
-                  props.transformForSubmit(values, actions);
-                }
+          <Formik
+            initialValues={initialValues}
+            onSubmit={(values, actions) => {
+              // This is where data is transformed if a custom transformForSubmit function is provided.
+              // The wrapping onSubmit function will need updated in the future if the default case needs updated when users don't pass a transformForSubmit function
+              if (props.transformForSubmit) {
+                props.transformForSubmit(values, actions);
+              }
 
-                actions.setSubmitting(true);
-              }}
-            >
+              actions.setSubmitting(true);
+            }}
+          >
+            <RouterContextProvider routes={props.children}>
+              <FormTitle title={props.title} subTitle={props?.subtitle} />
+              <RouterProgress />
               <Routes>{props.children}</Routes>
-            </Formik>
-            <FormFooter />
-          </RouterContextProvider>
+              <FormFooter />
+            </RouterContextProvider>
+          </Formik>
         </BrowserRouter>
       </div>
     </div>

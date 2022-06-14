@@ -32,7 +32,7 @@ export default function BenefitsSelection(props) {
 
   return (
     <>
-      <Page {...props} nextPage="/benefits/burial-allowance" prevPage="/military-history/previous-names">
+      <Page {...props}>
         <CheckboxFieldGroup {...checkboxProps} />
         {
           !!state.values.benefitsSelection?.transportation && (

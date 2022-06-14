@@ -14,11 +14,6 @@ const FormRouterInternal = (props: RouterProps): JSX.Element => {
   const initialValues = props.formData;
 
   return (
-    <RouterContextProvider
-      routes={props.children}
-      currentRoute={"/page-two"}
-      updateRoute={(value:string) => {return undefined}}>
-
       <Formik
         initialValues={props.formData}
         onSubmit={(values, actions) => {
@@ -27,23 +22,22 @@ const FormRouterInternal = (props: RouterProps): JSX.Element => {
           actions.setSubmitting(true);
         }}
       >
+      <RouterContextProvider routes={props.children}>
         <Routes>{props.children}</Routes>
-      </Formik>
-    </RouterContextProvider>
+      </RouterContextProvider>
+    </Formik>
   )
 };
 
 const PageOne = () => (
-  <Page 
-    nextPage="/page-two"
+  <Page
     title="page one">
     <p>page one</p>
   </Page>
 );
 
 const PageTwo = () => (
-  <Page 
-    prevPage="/"
+  <Page
     title="page two"
     >
     <p>page two</p>

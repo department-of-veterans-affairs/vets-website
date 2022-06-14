@@ -22,13 +22,13 @@ const ChapterOne = (props: {title: string}) => (
 );
 
 const ChapterOnePageOne = (props: {title: string}) => (
-  <Page {...props} nextPage="/chapter-one/page-two">
+  <Page {...props}>
     <p>chapter one, page one</p>
   </Page>
 );
 
 const ChapterOnePageTwo = (props: {title: string}) => (
-  <Page  {...props} nextPage="/">
+  <Page  {...props}>
     <p>chapter one, page two</p>
   </Page>
 );
@@ -37,22 +37,18 @@ const FormRouterInternal = (props: RouterProps): JSX.Element => {
     const initialValues = props.formData;
 
   return (
-    <RouterContextProvider
-      routes={props.children}
-      currentRoute={"/page-two"}
-      updateRoute={(value:string) => {return undefined}}>
-
-      <Formik
-        initialValues={props.formData}
-        onSubmit={(values, actions) => {
-          // Here we leverage formik actions to perform validations, submit data, etc.
-          // Also a good candidate for extracting data out of form apps
-          actions.setSubmitting(true);
-        }}
+    <Formik
+      initialValues={props.formData}
+      onSubmit={(values, actions) => {
+        // Here we leverage formik actions to perform validations, submit data, etc.
+        // Also a good candidate for extracting data out of form apps
+        actions.setSubmitting(true);
+      }}
       >
+      <RouterContextProvider routes={props.children}>
         <Routes>{props.children}</Routes>
-      </Formik>
-    </RouterContextProvider>
+      </RouterContextProvider>
+    </Formik>
   )
 };
 
@@ -100,7 +96,7 @@ describe('Routing - Chapter', () => {
       </MemoryRouter>
     );
     act(() => {
-      const goLink = container.querySelector('button.btn');
+      const goLink = container.querySelector('button.next');
       goLink?.dispatchEvent(new MouseEvent("click", { bubbles: true }));
     });
 

@@ -9,6 +9,7 @@
 import { FieldHookConfig } from 'formik';
 import { FormikHelpers } from 'formik';
 import { FormikValues } from 'formik';
+import { default as React_2 } from 'react';
 import { ReactElement } from 'react';
 
 // @public (undocumented)
@@ -66,6 +67,14 @@ export type CheckboxProps = FieldProps<string> & {
     onValueChange?: (e: Event) => void;
     value?: boolean;
 };
+
+// @public (undocumented)
+export function ConditionalRoute(props: {
+    title: string;
+    condition: string;
+    type: string;
+    children: ReactElement<any, any>;
+}): React_2.ReactElement<any, any>;
 
 // @public (undocumented)
 export const DateField: (props: DateProps) => JSX.Element;
@@ -127,7 +136,9 @@ export interface IRouterContext {
     // (undocumented)
     listOfRoutes: RouteInfo[];
     // (undocumented)
-    updateRoute: (value: string) => void;
+    nextRoute: string | null;
+    // (undocumented)
+    previousRoute: string | null;
 }
 
 // @public
@@ -150,10 +161,6 @@ export function Page(props: PageProps): JSX.Element;
 export interface PageProps {
     // (undocumented)
     children: JSX.Element | JSX.Element[] | Element;
-    // (undocumented)
-    nextPage?: string;
-    // (undocumented)
-    prevPage?: string;
     // (undocumented)
     title: string;
 }
@@ -201,21 +208,26 @@ export interface Routable {
 // @beta
 export interface RouteInfo {
     // (undocumented)
+    conditional?: boolean;
+    // (undocumented)
+    isShown?: boolean | null;
+    // (undocumented)
     path: string;
     // (undocumented)
     title: string;
 }
+
+// Warning: (ae-incompatible-release-tags) The symbol "RouterContext" is marked as @public, but its signature references "IRouterContext" which is marked as @beta
+//
+// @public (undocumented)
+export const RouterContext: React_2.Context<IRouterContext>;
 
 // @public (undocumented)
 export interface RouterContextProps {
     // (undocumented)
     children: ReactElement<any, any> | ReactElement<any, any>[];
     // (undocumented)
-    currentRoute: string;
-    // (undocumented)
     routes: React.ReactElement | React.ReactElement[];
-    // (undocumented)
-    updateRoute: (value: string) => void;
 }
 
 // @beta

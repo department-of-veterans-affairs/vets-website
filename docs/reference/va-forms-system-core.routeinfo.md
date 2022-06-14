@@ -19,6 +19,8 @@ export interface RouteInfo
 
 |  Property | Type | Description |
 |  --- | --- | --- |
+|  [conditional?](./va-forms-system-core.routeinfo.conditional.md) | boolean | <b><i>(BETA)</i></b> <i>(Optional)</i> |
+|  [isShown?](./va-forms-system-core.routeinfo.isshown.md) | boolean \| null | <b><i>(BETA)</i></b> <i>(Optional)</i> |
 |  [path](./va-forms-system-core.routeinfo.path.md) | string | <b><i>(BETA)</i></b> |
 |  [title](./va-forms-system-core.routeinfo.title.md) | string | <b><i>(BETA)</i></b> |
 

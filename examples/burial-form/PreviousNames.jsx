@@ -19,7 +19,7 @@ export default function PreviousNames(props) {
   
   return (
     <>
-      <Page {...props} prevPage="/military-history/service-periods" nextPage="/benefits/selection">
+      <Page {...props}>
         <div className={values?.veteranServedUnderAnotherName ? `${ExpandingGroupClass}` : ''}>
           <RadioGroup
             name="veteranServedUnderAnotherName"

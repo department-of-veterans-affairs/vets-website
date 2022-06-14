@@ -13,7 +13,7 @@ export default function ClaimantContactInformation(props) {
 
   return (
     <>
-      <Page {...props} nextPage="/review-and-submit" prevPage="/benefits/plot-allowance">
+      <Page {...props}>
         {formikContext?.values?.relationship?.isEntity && (
           <>
             <TextField label="Full name of firm, corporation or state agency"

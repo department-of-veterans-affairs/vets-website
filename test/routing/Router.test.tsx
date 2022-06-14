@@ -14,36 +14,30 @@ const FormRouterInternal = (props: RouterProps): JSX.Element => {
   const initialValues = props.formData;
 
   return (
-    <RouterContextProvider
-      routes={props.children}
-      currentRoute={"/page-two"}
-      updateRoute={(value:string) => {return undefined}}>
-
-      <Formik
-        initialValues={props.formData}
-        onSubmit={(values, actions) => {
-          // Here we leverage formik actions to perform validations, submit data, etc.
-          // Also a good candidate for extracting data out of form apps
-          actions.setSubmitting(true);
-        }}
-      >
+    <Formik
+      initialValues={props.formData}
+      onSubmit={(values, actions) => {
+        // Here we leverage formik actions to perform validations, submit data, etc.
+        // Also a good candidate for extracting data out of form apps
+        actions.setSubmitting(true);
+      }}
+    >
+      <RouterContextProvider routes={props.children}>
         <Routes>{props.children}</Routes>
-      </Formik>
-    </RouterContextProvider>
+      </RouterContextProvider>  
+    </Formik>
   )
 };
 
 const PageOne = () => (
   <Page 
-    nextPage="/chapter-one/page-two"
     title="page one">
     <p>page one</p>
   </Page>
 );
 
 const PageTwo = () => (
-  <Page 
-    nextPage="/"
+  <Page
     title="page two"
     >
     <p>page two</p>

@@ -1,12 +1,7 @@
-import React, { useContext, useEffect } from 'react';
-import { useFormikContext, Form } from 'formik';
-import {
-  useNavigate,
-  To,
-  useLocation,
-  useSearchParams,
-} from 'react-router-dom';
-import { PageProps, IFormData } from './types';
+import React, { useContext } from 'react';
+import { Form } from 'formik';
+import { useNavigate, To, useSearchParams } from 'react-router-dom';
+import { PageProps } from './types';
 import { RouterContext } from './RouterContext';
 
 /**
@@ -15,21 +10,10 @@ import { RouterContext } from './RouterContext';
  * @beta
  */
 export default function Page(props: PageProps): JSX.Element {
-  const { values } = useFormikContext();
-  const formValues = values as IFormData;
-  const { listOfRoutes, updateRoute } = useContext(RouterContext);
-  const currentLocation = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const editPage = searchParams.get('edit');
-
-  useEffect(
-    () =>
-      updateRoute(
-        currentLocation.pathname !== '' ? currentLocation.pathname : '/'
-      ),
-    [currentLocation]
-  );
+  const { nextRoute, previousRoute } = useContext(RouterContext);
 
   return (
     <div>
@@ -50,24 +34,24 @@ export default function Page(props: PageProps): JSX.Element {
             </button>
           </div>
         )}
-        {props.prevPage && (
+        {previousRoute && (
           <button
-            className="btn usa-button-secondary prev"
+            className="btn usa-button-primary prev"
             onClick={(event) => {
               event.preventDefault();
-              navigate(props.prevPage as To);
+              navigate(previousRoute as To);
             }}
           >
             <i className="fas fa-angle-double-left"></i> Previous
           </button>
         )}
 
-        {props.nextPage && (
+        {nextRoute && (
           <button
-            className="btn usa-button-secondary next"
+            className="btn usa-button-primary next"
             onClick={(event) => {
               event.preventDefault();
-              navigate(props.nextPage as To);
+              navigate(nextRoute as To);
             }}
           >
             Next <i className="fas fa-angle-double-right"></i>
