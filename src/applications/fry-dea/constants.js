@@ -30,6 +30,7 @@ export const newFormFields = {
   newAdditionalConsiderationsNote: 'newAdditionalConsiderationsNote',
   newAddress: 'newAddress',
   newBankAccount: 'newBankAccount',
+  newBenefitSelection: 'newBenefitSelection',
   newContactMethod: 'newContactMethod',
   newConfirmEmail: 'newConfirmEmail',
   newDateOfBirth: 'newDateOfBirth',
