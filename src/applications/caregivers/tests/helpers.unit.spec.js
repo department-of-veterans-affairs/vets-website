@@ -27,6 +27,8 @@ describe('Caregivers helpers', () => {
 
     const transformedData = submitTransform(formConfig, form);
     const payloadData = JSON.parse(transformedData);
+    // eslint-disable-next-line no-console
+    console.log('payloadData is...', payloadData);
     const payloadObject = JSON.parse(
       payloadData.caregiversAssistanceClaim.form,
     );
