@@ -57,13 +57,13 @@ export class ConfirmationPage extends React.Component {
           <strong>Please print this page for your records.</strong>
         </p>
         <div className="inset">
-          <h4 className="schemaform-confirmation-claim-header">
+          <h2 className="schemaform-confirmation-claim-header">
             Thank you for submitting your application
-          </h4>
-          <h5>
+          </h2>
+          <h3 className="vads-u-font-size--h5">
             Health Care Benefit Claim{' '}
             <span className="additional">(Form 10-10EZ)</span>
-          </h5>
+          </h3>
           <span>
             for {first} {middle} {last} {suffix}
           </span>
@@ -79,9 +79,9 @@ export class ConfirmationPage extends React.Component {
           )}
         </div>
         <div className="confirmation-guidance-container">
-          <h4 className="confirmation-guidance-heading">
+          <h3 className="confirmation-guidance-heading vads-u-font-size--h5">
             How long will it take VA to make a decision on my application?
-          </h4>
+          </h3>
           <p className="how-long">
             We usually decide on applications within <strong>1 week</strong>.
           </p>
@@ -101,9 +101,9 @@ export class ConfirmationPage extends React.Component {
             at <va-telephone contact="877-222-8387" />. We’re here Monday
             through Friday, 8:00 am to 8:00 pm ET.
           </p>
-          <h4 className="confirmation-guidance-heading">
+          <h3 className="confirmation-guidance-heading vads-u-font-size--h5">
             How will I know if I’m enrolled in VA health care?
-          </h4>
+          </h3>
           <p>
             If enrolled, you’ll receive a Veterans Health Benefits Handbook in
             the mail within about 10 days.
@@ -118,9 +118,9 @@ export class ConfirmationPage extends React.Component {
               Find out what happens after you apply
             </a>
           </p>
-          <h4 className="confirmation-guidance-heading">
+          <h3 className="confirmation-guidance-heading vads-u-font-size--h5">
             What if I have more questions?
-          </h4>
+          </h3>
           <p className="confirmation-guidance-message">
             Please call <va-telephone contact="877-222-8387" /> and select 2.
             We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
