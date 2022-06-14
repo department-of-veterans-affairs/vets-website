@@ -51,127 +51,122 @@ class IntroductionPage extends React.Component {
           Follow these steps to get started
         </h2>
 
-        <div className="process schemaform-process">
-          <ol>
-            <li className="process-step list-one">
-              <h3 className="vads-u-font-size--h4">Check your eligibility</h3>
+        <va-process-list>
+          <li>
+            <h3 className="vads-u-font-size--h4">Check your eligibility</h3>
+            <p>
+              Make sure you meet our eligibility requirements before you apply.
+            </p>
+            <va-additional-info
+              class="vads-u-margin-bottom--2"
+              trigger="What are the Fry Scholarship (Chapter 33) eligibility requirements?"
+            >
               <p>
-                Make sure you meet our eligibility requirements before you
-                apply.
+                <strong>
+                  You are the child or surviving spouse of a service member and
+                  one of these descriptions is true
+                </strong>
+                :
               </p>
-              <va-additional-info
-                class="vads-u-margin-bottom--2"
-                trigger="What are the Fry Scholarship (Chapter 33) eligibility requirements?"
-              >
-                <p>
-                  <strong>
-                    You are the child or surviving spouse of a service member
-                    and one of these descriptions is true
-                  </strong>
-                  :
-                </p>
-                <ul>
-                  <li>
-                    The service member died in the line of duty while serving on
-                    active duty on or after September 11, 2001,{' '}
-                    <strong>or</strong>
-                  </li>
-                  <li>
-                    The service member died in the line of duty while not on
-                    active duty on or after September 11, 2001,{' '}
-                    <strong>or</strong>
-                  </li>
-                  <li>
-                    The member of the Selected Reserve died from a
-                    service-connected disability on or after September 11, 2001
-                  </li>
-                </ul>
-                <a href="/">
-                  Learn more about the Fry Scholarship (Chapter 33)
-                </a>
-              </va-additional-info>
-
-              <va-additional-info trigger="What are the Survivors' and Dependents' Educational Assistance (DEA, Chapter 35) eligibility requirements?">
-                <p>
-                  <strong>
-                    As the child or surviving spouse of a Veteran of service
-                    member, at least one of these must be true
-                  </strong>
-                  :
-                </p>
-                <ul>
-                  <li>
-                    The Veteran or service member is permanently and totally
-                    disabled due to a service-connected disability,{' '}
-                    <strong>or</strong>
-                  </li>
-                  <li>
-                    The Veteran or service member died while on active duty or
-                    as the result of a service-connected disability,{' '}
-                    <strong>or</strong>
-                  </li>
-                  <li>
-                    The Veteran or service member is missing in action or was
-                    captured in the line of duty by a hostile force,{' '}
-                    <strong>or</strong>
-                  </li>
-                  <li>
-                    The Veteran or service member was forcibly detained (held)
-                    or interned in the line of duty by a foreign entity,{' '}
-                    <strong>or</strong>
-                  </li>
-                  <li>
-                    The Veteran or service member is in the hospital or getting
-                    outpatient treatment for a service-connected permanent and
-                    total disibility and is likely to be discharged for that
-                    disability (effective December 23, 2006)
-                  </li>
-                </ul>
-                <a href="/">
-                  Learn more about Survivors' and Dependents' Educational
-                  Assistance (DEA, Chapter 35)
-                </a>
-              </va-additional-info>
-            </li>
-            <li className="process-step list-two">
-              <h3 className="vads-u-font-size--h4">Gather your information</h3>
-              <p>
-                <strong>Here’s what you’ll need to apply</strong>:
-              </p>
-              <ul className="vads-u-margin-bottom--0">
+              <ul>
                 <li>
-                  Knowledge of your chosen Veteran of service member's military
-                  service history
+                  The service member died in the line of duty while serving on
+                  active duty on or after September 11, 2001,{' '}
+                  <strong>or</strong>
                 </li>
-                <li>Your current address and contact information</li>
-                <li>Bank account direct deposit information</li>
+                <li>
+                  The service member died in the line of duty while not on
+                  active duty on or after September 11, 2001,{' '}
+                  <strong>or</strong>
+                </li>
+                <li>
+                  The member of the Selected Reserve died from a
+                  service-connected disability on or after September 11, 2001
+                </li>
               </ul>
-            </li>
-            <li className="process-step list-three">
-              <h3 className="vads-u-font-size--h4">Start your application</h3>
-              <p>
-                We’ll take you through each step of the process. It should take
-                about 15 minutes.
-              </p>
+              <a href="/">Learn more about the Fry Scholarship (Chapter 33)</a>
+            </va-additional-info>
 
-              <va-additional-info trigger="What happens after I apply?">
-                <p>
-                  After you apply, you may get an automatic decision. If we
-                  approve or deny your application, you’ll be able to download
-                  your decision letter right away. We’ll also mail you a copy of
-                  your decision letter.
-                </p>
-                <p className="vads-u-margin-bottom--0">
-                  <strong>Note</strong>: In some cases, we may need more time to
-                  make a decision. If you don’t get an automatic decision right
-                  after you apply, you’ll receive a decision letter in the mail
-                  in about 30 days. And we’ll contact you if we need more
-                  information.
-                </p>
-              </va-additional-info>
-            </li>
-          </ol>
-        </div>
+            <va-additional-info trigger="What are the Survivors' and Dependents' Educational Assistance (DEA, Chapter 35) eligibility requirements?">
+              <p>
+                <strong>
+                  As the child or surviving spouse of a Veteran of service
+                  member, at least one of these must be true
+                </strong>
+                :
+              </p>
+              <ul>
+                <li>
+                  The Veteran or service member is permanently and totally
+                  disabled due to a service-connected disability,{' '}
+                  <strong>or</strong>
+                </li>
+                <li>
+                  The Veteran or service member died while on active duty or as
+                  the result of a service-connected disability,{' '}
+                  <strong>or</strong>
+                </li>
+                <li>
+                  The Veteran or service member is missing in action or was
+                  captured in the line of duty by a hostile force,{' '}
+                  <strong>or</strong>
+                </li>
+                <li>
+                  The Veteran or service member was forcibly detained (held) or
+                  interned in the line of duty by a foreign entity,{' '}
+                  <strong>or</strong>
+                </li>
+                <li>
+                  The Veteran or service member is in the hospital or getting
+                  outpatient treatment for a service-connected permanent and
+                  total disibility and is likely to be discharged for that
+                  disability (effective December 23, 2006)
+                </li>
+              </ul>
+              <a href="/">
+                Learn more about Survivors' and Dependents' Educational
+                Assistance (DEA, Chapter 35)
+              </a>
+            </va-additional-info>
+          </li>
+          <li>
+            <h3 className="vads-u-font-size--h4">Gather your information</h3>
+            <p>
+              <strong>Here’s what you’ll need to apply</strong>:
+            </p>
+            <ul className="vads-u-margin-bottom--0">
+              <li>
+                Knowledge of your chosen Veteran of service member's military
+                service history
+              </li>
+              <li>Your current address and contact information</li>
+              <li>Bank account direct deposit information</li>
+            </ul>
+          </li>
+          <li>
+            <h3 className="vads-u-font-size--h4">Start your application</h3>
+            <p>
+              We’ll take you through each step of the process. It should take
+              about 15 minutes.
+            </p>
+
+            <va-additional-info trigger="What happens after I apply?">
+              <p>
+                After you apply, you may get an automatic decision. If we
+                approve or deny your application, you’ll be able to download
+                your decision letter right away. We’ll also mail you a copy of
+                your decision letter.
+              </p>
+              <p className="vads-u-margin-bottom--0">
+                <strong>Note</strong>: In some cases, we may need more time to
+                make a decision. If you don’t get an automatic decision right
+                after you apply, you’ll receive a decision letter in the mail in
+                about 30 days. And we’ll contact you if we need more
+                information.
+              </p>
+            </va-additional-info>
+          </li>
+        </va-process-list>
 
         {user?.login?.currentlyLoggedIn && (
           <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
