@@ -430,8 +430,9 @@ describe('Schemaform helpers:', () => {
           },
         },
       };
-
-      const output = JSON.parse(transformForSubmit(formConfig, formData));
+      const transformed = transformForSubmit(formConfig, formData);
+      const output =
+        typeof transformed === 'object' ? transformed : JSON.parse(transformed);
 
       expect(output.address).to.be.undefined;
     });
