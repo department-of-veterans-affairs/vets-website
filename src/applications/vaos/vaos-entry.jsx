@@ -6,7 +6,6 @@ import createRoutesWithStore from './routes';
 import manifest from './manifest.json';
 import reducer from './redux/reducer';
 
-// testing changed app build
 startApp({
   url: manifest.rootUrl,
   createRoutesWithStore,

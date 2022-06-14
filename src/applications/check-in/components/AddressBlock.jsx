@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-// Testing grouped app builds
 const AddressBlock = ({ address }) => {
   const { t } = useTranslation();
   const requiredFields = ['street1', 'city', 'state', 'zip'];
