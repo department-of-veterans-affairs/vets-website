@@ -104,6 +104,14 @@ export default function ReviewPage(props) {
           "relationship": {
             label: "Relationship to the Veteran",
             value: state.values?.relationship?.type
+          },
+          "relationship.other": {
+            label: "If other, please specify",
+            value: state.values?.relationship.other
+          },
+          "claimingAsFirm": {
+            label: "Claiming as a firm, corporation or state agency",
+            value: state.values?.claimingAsFirm
           }
         }
       },
