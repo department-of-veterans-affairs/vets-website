@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import moment from 'moment';
 import { intersection, matches, merge, uniq } from 'lodash';
 import shouldUpdate from 'recompose/shouldUpdate';
@@ -653,11 +654,8 @@ export function transformForSubmit(
   const withoutViewFields = filterViewFields(withoutInactivePages);
 
   const data = JSON.stringify(withoutViewFields, replacer) || '{}';
-  // eslint-disable-next-line valid-typeof
-  if (typeof data === String({})) {
-    // eslint-disable-next-line no-console
-    console.log('the bad data is....', data);
-  }
+  console.log('the bad data is....', data);
+  console.log('\n');
   return data;
 }
 
