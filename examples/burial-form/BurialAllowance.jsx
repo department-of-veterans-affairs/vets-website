@@ -1,9 +1,9 @@
-import React from 'react';
-import {Page, RadioGroup, TextField} from '@department-of-veterans-affairs/va-forms-system-core';
-import {useFormikContext} from "formik";
+import React, { useEffect } from 'react';
+import { Page, RadioGroup, TextField } from '@department-of-veterans-affairs/va-forms-system-core';
+import { useFormikContext} from "formik";
 
 export default function BurialAllowance(props) {
-  const formikContext = useFormikContext();
+  const { values, setFieldValue } = useFormikContext();
 
   const getBurialAllowanceRequestedOptions = () => {
     const allowanceTypes = [
@@ -19,7 +19,7 @@ export default function BurialAllowance(props) {
       },
     ];
 
-    const locationOfDeath = formikContext?.values?.locationOfDeath?.location;
+    const locationOfDeath = values?.locationOfDeath?.location;
     if (locationOfDeath === 'vaMedicalCenter' || locationOfDeath === 'nursingHome') {
       allowanceTypes.push(
         {
@@ -32,16 +32,26 @@ export default function BurialAllowance(props) {
     return allowanceTypes;
   }
 
+  useEffect(() => {
+    if (values.burialAllowanceRequested === 'nonService') {
+      setFieldValue('burialAllowanceRequestedLabel', 'Non-service-connected death');
+    } else if (values.burialAllowanceRequested === 'service') {
+      setFieldValue('burialAllowanceRequestedLabel', 'Service-connected death');
+    } else if (values.burialAllowanceRequested === 'vaMC') {
+      setFieldValue('burialAllowanceRequestedLabel', 'VA medical center death');
+    }
+  },[values.burialAllowanceRequested])
+
   return (
     <>
       <Page {...props} nextPage="/benefits/plot-allowance" prevPage="/benefits/selection">
-        <div className={"form-expanding-group " + (formikContext?.values?.burialAllowanceRequested === "vaMC" ? "form-expanding-group-open" : "")}>
+        <div className={"form-expanding-group " + (values?.burialAllowanceRequested === "vaMC" ? "form-expanding-group-open" : "")}>
           <RadioGroup name="burialAllowanceRequested"
                       label="Type of burial allowance requested"
                       required
                       options={getBurialAllowanceRequestedOptions()}
           />
-          {formikContext?.values?.burialAllowanceRequested === "nonService" && (
+          {values?.burialAllowanceRequested === "nonService" && (
             <va-alert status="warning"
                       background-only
                       class="vads-u-margin-y--2">
@@ -51,7 +61,7 @@ export default function BurialAllowance(props) {
                 </span>
             </va-alert>
           )}
-          {formikContext?.values?.burialAllowanceRequested === "vaMC" && (
+          {values?.burialAllowanceRequested === "vaMC" && (
             <div className="form-expanding-group-open">
               <TextField label="Actual burial cost"
                          name="burialCost"/>
@@ -59,7 +69,7 @@ export default function BurialAllowance(props) {
           )}
         </div>
 
-        {formikContext?.values?.relationship?.type === "spouse" && (
+        {values?.relationship?.type === "spouse" && (
           <div className="vads-u-margin-y--3">
             <RadioGroup
               name="previouslyReceivedAllowance"
@@ -75,7 +85,7 @@ export default function BurialAllowance(props) {
           </div>
         )}
 
-        {formikContext?.values?.relationship?.type === "other" && (
+        {values?.relationship?.type === "other" && (
           <div className="vads-u-margin-y--3">
             <RadioGroup
               name="benefitsUnclaimedRemains"

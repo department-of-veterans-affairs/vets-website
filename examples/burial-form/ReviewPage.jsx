@@ -133,7 +133,7 @@ export default function ReviewPage(props) {
             }
           },
           "veteranSocialSecurityNumber": {
-            label: "Social Security",
+            label: "Social Security number",
             value: state.values?.veteranSocialSecurityNumber
           },
           "vaFileNumber": {
@@ -165,7 +165,8 @@ export default function ReviewPage(props) {
           },
           "locationOfDeath.location": {
             label: "Where did the Veteran's death occur?",
-            value: state.values?.locationOfDeath.location
+            // Label of option is set in BurialInformation component instead of value
+            value: state.values?.locationOfDeath.locationLabel
           },
           "locationOfDeath.other": {
             label: "If other, please specify",
@@ -279,7 +280,8 @@ export default function ReviewPage(props) {
         fields: {
           "burialAllowanceRequested": {
             label: "Type of burial allowance requested",
-            value: state?.values?.burialAllowanceRequested
+            // Label of option is set in BurialAllowance component instead of value
+            value: state?.values?.burialAllowanceRequestedLabel
           }
         },
       },

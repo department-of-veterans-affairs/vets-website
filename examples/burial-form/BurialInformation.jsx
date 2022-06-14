@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Page, DateField, TextField, RadioGroup } from '@department-of-veterans-affairs/va-forms-system-core';
 import { useFormikContext } from 'formik';
 import { isBeforeDate } from './utils';
@@ -13,7 +13,19 @@ const LOCATIONS = [
 const VALIDATION_STRING = 'Date of burial must be on or after the date of death';
 
 export default function BurialInformation(props) {
-    const state = useFormikContext();
+    const { values, setFieldValue } = useFormikContext();
+
+    useEffect(() => {
+        if (values.locationOfDeath.location === 'vaMedicalCenter') {
+            setFieldValue('locationOfDeath.locationLabel', 'VA medical center');
+        } else if (values.locationOfDeath.location === 'stateVeteransHome') {
+            setFieldValue('locationOfDeath.locationLabel', 'State Veterans home');
+        } else if (values.locationOfDeath.location === 'nursingHome') {
+            setFieldValue('locationOfDeath.locationLabel', 'Nursing home under VA contract');
+        } else {
+            setFieldValue('locationOfDeath.Label', 'Other');
+        }
+    },[values.locationOfDeath.location])
 
     return (
         <Page {...props} nextPage="/military-history/service-periods" prevPage="/veteran-information">
@@ -22,7 +34,7 @@ export default function BurialInformation(props) {
                 name="burialDate" 
                 label="Date of burial (includes cremation or internment)" 
                 required 
-                validate={isBeforeDate(state.values.burialDate, state.values.deathDate, VALIDATION_STRING)} 
+                validate={isBeforeDate(values.burialDate, values.deathDate, VALIDATION_STRING)} 
             />
             <RadioGroup 
                 name="locationOfDeath.location" 
@@ -30,12 +42,12 @@ export default function BurialInformation(props) {
                 required 
                 options={LOCATIONS} />
             {
-                state.values.locationOfDeath.location === "other" && (
+                values.locationOfDeath.location === "other" && (
                     <TextField 
                         className="vads-u-border-color--primary-alt-light vads-u-border-left--4px vads-u-padding-left--2 vads-u-padding-y--0p5 vads-u-margin-left--neg2p5" 
                         name="locationOfDeath.other" 
                         label="Please specify"
-                        required={state.values.locationOfDeath.location === 'other'}    
+                        required={values.locationOfDeath.location === 'other'}    
                     />
                 )
             }
