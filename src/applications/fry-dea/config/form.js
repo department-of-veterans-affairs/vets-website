@@ -20,7 +20,7 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 // import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 // import * as personId from 'platform/forms/definitions/personId';
 // import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+// import { VA_FORM_IDS } from 'platform/forms/constants';
 // import {
 //   validateMonthYear,
 //   validateFutureDateIfExpectedGrad,
@@ -63,7 +63,7 @@ const formConfig = {
   trackingPrefix: 'fry-dea-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: VA_FORM_IDS.FORM_22_5490,
+  formId: 'TODO', // VA_FORM_IDS.FORM_22_5490,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your education benefits application (22-5490) is in progress.',
@@ -86,7 +86,6 @@ const formConfig = {
       title: 'Your information',
       pages: {
         [newFormPages.newApplicantInformation]: {
-          // depends: formData => formData.showUpdatedFryDeaApp,
           title: 'Your information',
           path: 'applicant/information',
           subTitle: 'Your information',
@@ -181,7 +180,6 @@ const formConfig = {
         [newFormPages.chooseServiceMember]: {
           title: 'Veteran and service member information',
           path: 'new/choose-veteran-or-service-member',
-          // depends: formData => formData.showUpdatedFryDeaApp,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -248,10 +246,10 @@ const formConfig = {
         [newFormPages.newSponsorInformation]: {
           title: 'Enter your sponsor’s info',
           path: 'new/sponsor/information',
-          depends: formData =>
-            // formData.showUpdatedFryDeaApp &&
-            !formData.sponsors?.sponsors?.length ||
-            formData.sponsors?.someoneNotListed,
+          // depends: formData =>
+          //   // formData.showUpdatedFryDeaApp &&
+          //   !formData.sponsors?.sponsors?.length ||
+          //   formData.sponsors?.someoneNotListed,
           uiSchema: {
             'view:noSponsorWarning': {
               'ui:description': (
@@ -531,9 +529,7 @@ const formConfig = {
         [newFormPages.newVerifyHighSchool]: {
           title: 'Verify your high school education',
           path: 'new/child/high-school-education',
-          depends: formData =>
-            // formData.showUpdatedFryDeaApp &&
-            applicantIsChildOfSponsor(formData),
+          depends: formData => applicantIsChildOfSponsor(formData),
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -579,7 +575,6 @@ const formConfig = {
           title: 'Verify your high school graduation date',
           path: 'new/sponsor/high-school-education',
           depends: formData =>
-            // formData.showUpdatedFryDeaApp &&
             applicantIsChildOfSponsor(formData) &&
             formData[newFormFields.newHighSchoolDiploma] === 'Yes',
           uiSchema: {
@@ -628,7 +623,6 @@ const formConfig = {
       title: 'Contact information',
       pages: {
         [newFormPages.newContactInformation.newContactInformation]: {
-          // depends: formData => formData.showUpdatedFryDeaApp,
           title: 'Phone numbers and email address',
           path: 'new/contact-information/email-phone',
           uiSchema: {
@@ -738,7 +732,6 @@ const formConfig = {
           },
         },
         [newFormPages.newContactInformation.newMailingAddress]: {
-          // depends: formData => formData.showUpdatedFryDeaApp,
           title: 'Mailing address',
           path: 'new/contact-information/mailing-address',
           uiSchema: {
@@ -877,7 +870,6 @@ const formConfig = {
           },
         },
         [newFormPages.newContactInformation.newPreferredContactMethod]: {
-          // depends: formData => formData.showUpdatedFryDeaApp,
           title: 'Contact preferences',
           path: 'new/contact-information/contact-preferences',
           uiSchema: {
@@ -1086,7 +1078,6 @@ const formConfig = {
       title: 'Direct deposit',
       pages: {
         [newFormPages.newDirectDeposit]: {
-          // depends: formData => formData.showUpdatedFryDeaApp,
           path: 'new/direct-deposit',
           uiSchema: {
             'ui:description': (
