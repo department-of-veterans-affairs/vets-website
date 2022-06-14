@@ -124,7 +124,7 @@ class IntroductionPage extends React.Component {
                     The Veteran or service member is in the hospital or getting
                     outpatient treatment for a service-connected permanent and
                     total disibility and is likely to be discharged for the
-                    disability (effective December 23, 2006){' '}
+                    disability (effective December 23, 2006)
                   </li>
                 </ul>
                 <a href="/">
