@@ -28,6 +28,13 @@ export const saveStateAndVerifier = () => {
   return { state, codeVerifier };
 };
 
+export const removeStateAndVerifier = () => {
+  const storage = window.sessionStorage;
+
+  storage.removeItem('state');
+  storage.removeItem('code_verifier');
+};
+
 /**
  *
  * @param {String} csp
@@ -104,5 +111,9 @@ export const requestToken = async ({ code, redirectUri }) => {
     credentials: 'include',
   });
 
-  return response.ok ? response : Promise.resolve(response);
+  if (response.ok) {
+    removeStateAndVerifier();
+  }
+
+  return response;
 };

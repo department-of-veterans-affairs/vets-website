@@ -125,6 +125,7 @@ export const AUTH_ERROR = {
   ICN_MISMATCH: '103', // ICN Mismatch
   UUID_MISSING: '104', // UUID Missing (Login.gov or ID.me)
   MULTIPLE_CORPIDS: '106', // Multiple Corp IDs
+  REQUIRED_MISSING_USER_PARAMTER: '108',
 };
 
 export const MHV_TRANSITION_DATE = null;

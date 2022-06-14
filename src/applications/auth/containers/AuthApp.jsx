@@ -131,7 +131,7 @@ export class AuthApp extends React.Component {
   };
 
   handleTokenRequest = async ({ code, state }) => {
-    // Verify the state matches in localStorage
+    // Verify the state matches in storage
     if (
       !sessionStorage.getItem('state') ||
       sessionStorage.getItem('state') !== state
@@ -160,7 +160,7 @@ export class AuthApp extends React.Component {
     const { code, state, auth } = this.state;
 
     if (code && state) {
-      this.handleTokenRequest({ code, state });
+      await this.handleTokenRequest({ code, state });
     }
 
     if (auth === 'force-needed') {
