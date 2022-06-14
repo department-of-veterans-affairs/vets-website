@@ -45,7 +45,7 @@ export default {
         hideTitle: true,
         viewField: InsuranceProviderView,
         itemAriaLabel: data =>
-          `${data.insuranceName} ${data.insurancePolicyNumber ||
+          `${data.insuranceName} ${data.insurancePolicyNumber ??
             data.insuranceGroupCode}`,
       },
       'ui:errorMessages': {
