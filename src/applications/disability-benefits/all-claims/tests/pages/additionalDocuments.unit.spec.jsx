@@ -118,4 +118,26 @@ describe('526EZ document upload', () => {
     expect(onSubmit.called).to.equal(true);
     form.unmount();
   });
+
+  it('should have an "Add Additional Document" button whose aria-label property value matches its text value', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <Provider store={uploadStore}>
+        <DefinitionTester
+          arrayPath={arrayPath}
+          onSubmit={onSubmit}
+          pagePerItemIndex={0}
+          definitions={formConfig.defaultDefinitions}
+          schema={schema}
+          data={validDocumentData}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
+    );
+    const button = form.find('#addAdditionalDocument');
+
+    expect(button.prop('aria-label')).to.equal(button.text());
+
+    form.unmount();
+  });
 });
