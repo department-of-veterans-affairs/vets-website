@@ -6,7 +6,7 @@ const main = require('../main');
 const GitHubClient = require('../github-client');
 const octokitResponses = require('./mocks/octokit-responses');
 
-describe('daily-product-scan', () => {
+describe.skip('daily-product-scan', () => {
   context('success, changes ARE detected', () => {
     let status;
     let message;
