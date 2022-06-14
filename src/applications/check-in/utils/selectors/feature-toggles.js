@@ -39,6 +39,9 @@ const selectFeatureToggles = createSelector(
     isEditMessagingEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceEditMessagingEnabled
     ],
+    isPhoneAppointmentsEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperiencePhoneAppointmentsEnabled
+    ],
   }),
   toggles => toggles,
 );

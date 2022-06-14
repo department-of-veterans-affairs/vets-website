@@ -51,9 +51,8 @@ export const generateCoe = (skip = '') => async dispatch => {
       }
     }
     return response;
-  } else {
-    dispatch({ type: SKIP_AUTOMATIC_COE_CHECK });
   }
 
+  dispatch({ type: SKIP_AUTOMATIC_COE_CHECK });
   return null;
 };

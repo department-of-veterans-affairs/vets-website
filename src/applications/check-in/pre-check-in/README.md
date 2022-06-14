@@ -101,6 +101,8 @@ Though we have the HOC, its now considered best practice to query redux using th
   - when to sunset: once we have successfully tested this feature in production with users and the backend has fully switched over
 - `check_in_experience_edit_messaging_enabled` : Enables or disables edit messaging.
   - when to sunset: once we have successfully tested this feature in production with users and the backend has fully switched over
+- `check_in_experience_phone_appointments_enabled` : Enables or disables telephone appointments as an alternate type to in-person
+  - when to sunset: once we have successfully tested this feature in production with users
 
 ### How to test this?
 
