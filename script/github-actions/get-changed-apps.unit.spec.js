@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import { expect } from 'chai';
 import mockFs from 'mock-fs';
 
@@ -267,6 +268,30 @@ describe('getChangedAppsString', () => {
 
       const appString = getChangedAppsString(changedFiles, config, 'url');
       expect(appString).to.equal('/groupedApp1 /groupedApp2');
+    });
+  });
+
+  context('when the delimiter is specified', () => {
+    it('should return a string delimited by the delimiter', () => {
+      const config = {
+        allow: {
+          singleApps: [{ entryName: 'app1' }, { entryName: 'app2' }],
+          groupedApps: [],
+        },
+      };
+      const changedFiles = [
+        'src/applications/app1/some-file.js',
+        'src/applications/app2',
+      ];
+      const delimiter = ',';
+
+      const appString = getChangedAppsString(
+        changedFiles,
+        config,
+        'entry',
+        delimiter,
+      );
+      expect(appString).to.equal(`app1${delimiter}app2`);
     });
   });
 
