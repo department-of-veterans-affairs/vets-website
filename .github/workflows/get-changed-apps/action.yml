@@ -1,5 +1,5 @@
 name: Get changed applications
-description: Get information on changed applications
+description: Get application details for branches/commits with changes to single or grouped applications on the allow-list.
 
 inputs:
   delimiter:
@@ -8,13 +8,13 @@ inputs:
     default: ' '
 
   output-type:
-    description: 'Comma delimited list of changed application information to retrieve.'
+    description: 'Comma delimited list of changed application details to retrieve. Output types include: `entry_name`, `folder`, `slack_group`, `url`.'
     required: false
     default: ''
 
 outputs:
   changed_files:
-    description: 'Paths of changed files.'
+    description: 'Space delimited list of paths for changed files that differ from `main` branch.'
     value: ${{ steps.get-changed-files.outputs.changed_files }}
 
   entry_names:
@@ -26,7 +26,7 @@ outputs:
     value: ${{ steps.get-folders.outputs.folders }}
 
   slack_groups:
-    description: 'Slack groups of changed applications.'
+    description: 'Slack user groups of changed applications.'
     value: ${{ steps.get-slack-groups.outputs.slack_groups }}
 
   urls:
@@ -36,7 +36,7 @@ outputs:
 runs:
   using: 'composite'
   steps:
-    - name: Get changed file paths
+    - name: Get paths of changed files
       id: get-changed-files
       shell: bash
       run: |
@@ -62,7 +62,7 @@ runs:
       env:
         CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
 
-    - name: Get Slack groups
+    - name: Get Slack user groups
       id: get-slack-groups
       if: contains(inputs.output-type, 'slack_group')
       shell: bash
