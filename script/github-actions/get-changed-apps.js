@@ -67,15 +67,15 @@ const getAllowedApps = (filePath, allow) => {
 };
 
 /**
- * Checks if a changed apps build is possible by confirming that all
- * files are from apps on an allow list. If so, returns a comma-delimited string
- * of app entry names, relative paths, or URLs; otherwise returns an empty string.
+ * Checks if a changed apps build is possible by confirming that all files
+ * are from apps on an allow list. If so, returns a delimited string of application
+ * entry names, relative paths, URLs or Slack user groups; otherwise returns an empty string.
  *
  * @param {string[]} filePaths - An array of relative file paths.
  * @param {Object} config - The changed apps build config.
  * @param {string} outputType - Determines what app information should be returned.
  * @param {string} delimiter - Delimiter to use for string output.
- * @returns {string} A delimited string of app entry names, relative paths, URLs, or Slack groups.
+ * @returns {string} A delimited string of app entry names, relative paths, URLs, or Slack user groups.
  */
 const getChangedAppsString = (
   filePaths,
