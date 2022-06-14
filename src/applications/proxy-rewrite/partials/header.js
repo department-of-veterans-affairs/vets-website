@@ -112,11 +112,11 @@ export default `
         visible
       >
         <h3 slot="headline">
-          Internet Explorer 11 will soon be unsupported
+          You'll need to use a different web browser
         </h3>
         <div>
           <p class="vads-u-margin-bottom--0" style="padding: 0;">
-            You will need to switch to use Chrome, Firefox, or Safari.
+            You're using Internet Explorer 11 right now to access <a href="/">VA.gov</a>. Microsoft stopped supporting that browser on June 15, 2022. This means that you'll need to switch to another browser, like Microsoft Edge, Google Chrome, Mozilla Firefox, or Apple Safari.
           </p>
         </div>
       </va-alert>
