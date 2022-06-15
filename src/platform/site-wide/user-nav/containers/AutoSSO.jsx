@@ -4,6 +4,7 @@ import { checkKeepAlive } from 'platform/user/authentication/actions';
 import {
   hasCheckedKeepAlive,
   ssoeTransactionId,
+  isAuthenticatedWithOAuth,
 } from 'platform/user/authentication/selectors';
 import {
   selectProfile,
@@ -15,6 +16,7 @@ import { removeLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 
 function AutoSSO(props) {
   const {
+    authenticatedWithOAuth,
     hasCalledKeepAlive,
     transactionId,
     loggedIn,
@@ -38,7 +40,9 @@ function AutoSSO(props) {
     !hasCalledKeepAlive
   ) {
     checkAutoSession(loggedIn, transactionId, profile).then(() => {
-      props.checkKeepAlive();
+      if (!authenticatedWithOAuth) {
+        props.checkKeepAlive();
+      }
     });
   }
 
@@ -47,6 +51,7 @@ function AutoSSO(props) {
 
 const mapStateToProps = state => ({
   profile: selectProfile(state),
+  authenticatedWithOAuth: isAuthenticatedWithOAuth(state),
   transactionId: ssoeTransactionId(state),
   hasCalledKeepAlive: hasCheckedKeepAlive(state),
   profileLoading: isProfileLoading(state),

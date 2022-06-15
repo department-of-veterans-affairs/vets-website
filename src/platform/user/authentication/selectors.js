@@ -9,6 +9,9 @@ export const signInServiceName = state =>
 export const isAuthenticatedWithSSOe = state =>
   selectProfile(state)?.session?.ssoe;
 
+export const isAuthenticatedWithOAuth = state =>
+  selectProfile(state)?.session?.oauth;
+
 export const ssoeTransactionId = state =>
   selectProfile(state)?.session?.transactionid;
 
