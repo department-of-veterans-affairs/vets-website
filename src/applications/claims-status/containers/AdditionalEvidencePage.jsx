@@ -2,9 +2,11 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+
 import AddFilesForm from '../components/AddFilesForm';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
@@ -20,12 +22,20 @@ import {
   setFieldsDirty,
   resetUploads,
   clearAdditionalEvidenceNotification,
-} from '../actions/index.jsx';
+} from '../actions';
 
 const scrollToError = () => {
-  const options = getScrollOptions({ offset: -25 });
+  // When the viewport is under a certain height, scrollTo doesn't seem to work
+  // without 'smooth' being set to true. Setting 'duration' so that the transition
+  // isn't so jarring
+  const options = getScrollOptions({
+    duration: 500,
+    offset: -25,
+    smooth: true,
+  });
   scrollTo('uploadError', options);
 };
+
 const { Element } = Scroll;
 
 class AdditionalEvidencePage extends React.Component {
@@ -83,14 +93,14 @@ class AdditionalEvidencePage extends React.Component {
       content = (
         <div className="claim-container">
           {message && (
-            <div>
+            <>
               <Element name="uploadError" />
               <Notification
                 title={message.title}
                 body={message.body}
                 type={message.type}
               />
-            </div>
+            </>
           )}
           <EvidenceWarning />
           <AddFilesForm
