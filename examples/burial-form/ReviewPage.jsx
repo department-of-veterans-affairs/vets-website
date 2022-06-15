@@ -25,6 +25,9 @@ const transformFieldValue = (key, field) => {
   if (["amountIncurred", "amountGovtContribution"].indexOf(key) > -1) {
     return `$${field.value}`;
   }
+  if (["claimantPhone"].indexOf(key) > -1) {
+    return `${field.value.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3')}`;
+  }
   return field.value;
 }
 
@@ -295,7 +298,7 @@ export default function ReviewPage(props) {
         },
       },
       {
-        title: 'Benefits Selection: Plot or interment allowance',
+        title: 'Benefits Selection: Plot or Interment Allowance',
         id: 'benefits-plot-allowance',
         pageUrl: '/benefits/plot-allowance',
         fields: {
@@ -354,6 +357,10 @@ export default function ReviewPage(props) {
                 value: state?.values?.claimantAddress?.postalCode,
               }
             }
+          },
+          "claimantEmail": {
+            label: "Claimant Email",
+            value: state?.values?.claimantEmail,
           },
           "claimantPhone": {
             label: "Claimant Phone Number",

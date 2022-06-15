@@ -44,7 +44,7 @@ const BurialApp = (props) => {
         <Route path="/military-history/previous-names" element={<PreviousNames title="Military history" />} />
         <Route path="/benefits/selection" element={<BenefitsSelection title="Benefits Selection" />} />
         <Route path="/benefits/burial-allowance" element={
-          <ConditionalRoute title="Benefits Selection: Burial Allowance" type="conditional" condition={'benefitsSelection.burialAllowance'}>
+          <ConditionalRoute title="Benefits Selection" type="conditional" condition={'benefitsSelection.burialAllowance'}>
             <BurialAllowance />
           </ConditionalRoute>}
         />
