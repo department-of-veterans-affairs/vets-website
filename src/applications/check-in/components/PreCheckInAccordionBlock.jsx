@@ -116,7 +116,7 @@ const PreCheckInAccordionBlock = ({
     );
   }
   const accordions = [];
-  if (appointments) {
+  if (appointments && !errorPage) {
     accordions.unshift(
       {
         header: t('why-do-i-need-to-make-sure-my-information-is-up-to-date'),
