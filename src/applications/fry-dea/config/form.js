@@ -81,6 +81,10 @@ const formConfig = {
   title: 'Fry/DEA — VA Education Benefits For Survivors and Dependents;',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
+  defaultDefinitions: {
+    fullName,
+    date,
+  },
   chapters: {
     newApplicantInformationChapter: {
       title: 'Your information',
