@@ -5,7 +5,6 @@ import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { hasSession } from 'platform/user/profile/utilities';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 // HCA internal app imports
@@ -139,7 +138,7 @@ const formConfig = {
       path: 'id-form',
       component: IDPage,
       pageKey: 'id-form',
-      depends: () => !hasSession(),
+      depends: formData => !formData['view:isLoggedIn'],
     },
   ],
   confirmation: ConfirmationPage,
@@ -169,7 +168,7 @@ const formConfig = {
           CustomPage: PersonalAuthenticatedInformation,
           CustomPageReview: null,
           initialData: {},
-          depends: () => hasSession(),
+          depends: formData => formData['view:isLoggedIn'],
           uiSchema: {},
           schema: {
             type: 'object',
@@ -180,7 +179,7 @@ const formConfig = {
           path: 'veteran-information/profile-information',
           title: 'Veteran name',
           initialData: {},
-          depends: () => !hasSession(),
+          depends: formData => !formData['view:isLoggedIn'],
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
@@ -188,7 +187,7 @@ const formConfig = {
           path: 'veteran-information/profile-information-ssn',
           title: 'Social Security number',
           initialData: {},
-          depends: () => !hasSession(),
+          depends: formData => !formData['view:isLoggedIn'],
           uiSchema: personalInformationSsn.uiSchema,
           schema: personalInformationSsn.schema,
         },
@@ -196,7 +195,7 @@ const formConfig = {
           path: 'veteran-information/profile-information-dob',
           title: 'Date of birth',
           initialData: {},
-          depends: () => !hasSession(),
+          depends: formData => !formData['view:isLoggedIn'],
           uiSchema: personalInformationDOB.uiSchema,
           schema: personalInformationDOB.schema,
         },

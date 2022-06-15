@@ -18,6 +18,7 @@ const HealthCareEntry = ({
   setFormData,
   formData,
   hasSavedForm,
+  isLoggedIn,
 }) => {
   useEffect(
     // included veteranFullName to reset view flipper toggles when starting a new application from save-in-progress
@@ -29,12 +30,14 @@ const HealthCareEntry = ({
           ...formData,
           'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
           'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
+          'view:isLoggedIn': isLoggedIn,
         });
       } else {
         setFormData({
           ...formData,
           'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
           'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
+          'view:isLoggedIn': isLoggedIn,
           'view:hcaShortFormEnabled': hcaShortFormEnabled,
         });
       }
@@ -47,6 +50,7 @@ const HealthCareEntry = ({
       hcaShortFormEnabled,
       formData.veteranFullName,
       hasSavedForm,
+      isLoggedIn,
     ],
   );
 
@@ -71,6 +75,7 @@ const mapStateToProps = state => ({
   hasSavedForm: state?.user?.profile?.savedForms.some(
     form => form.form === VA_FORM_IDS.FORM_10_10EZ,
   ),
+  isLoggedIn: state?.user?.login?.currentlyLoggedIn,
 });
 
 const mapDispatchToProps = {
@@ -83,6 +88,7 @@ HealthCareEntry.propTypes = {
   hasSavedForm: PropTypes.bool,
   hcaAmericanIndianEnabled: PropTypes.bool,
   hcaShortFormEnabled: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
   setFormData: PropTypes.func,
 };
 
