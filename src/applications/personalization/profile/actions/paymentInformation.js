@@ -269,16 +269,17 @@ export function saveEDUPaymentInformation(
         '/profile/ch33_bank_accounts',
         apiRequestOptions,
       );
-
-      if (response.errors) {
+      // .errors is returned from the API, .error is returned from getData
+      if (response.errors || response.error) {
         recordEvent({
           event: 'profile-edit-failure',
           'profile-action': 'save-failure',
           'profile-section': 'edu-direct-deposit-information',
           'error-key': 'unknown-save-error',
         });
+        const err = response.errors || response.error.errors;
         captureDirectDepositErrorResponse({
-          error: { ...response, source: ERROR_SOURCES.API },
+          error: { ...err, ...response, source: ERROR_SOURCES.API },
           apiEventName: 'profile-put-edu-direct-deposit-failed',
         });
 
