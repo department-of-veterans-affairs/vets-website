@@ -15,7 +15,7 @@ export default function VeteranInformation(props) {
   return (
     <>
       <Page {...props} nextPage="/veteran-information/burial" prevPage="/claimant-information">
-        <FullNameField name="veteranFullName" label="Veteran Full Name" />
+        <FullNameField name="veteranFullName"/>
 
         {
           state.values.vaFileNumber ?

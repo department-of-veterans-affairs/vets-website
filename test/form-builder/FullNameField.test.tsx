@@ -36,7 +36,7 @@ const getInputs = (container: HTMLElement) => {
 describe('Form Builder - FullNameField', () => {
   test('renders', () => {
     const { container } = renderForm(
-      <FullNameField name="veteranFullName" label="" />
+      <FullNameField name="veteranFullName" label="your" />
     );
     const { firstNameInput, middleNameInput, lastNameInput, suffixSelect } =
       getInputs(container);

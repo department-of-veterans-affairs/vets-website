@@ -152,3 +152,7 @@ export const transformJSONSchema = (schema: any) => {
   const schemaMapper = new JSONSchemaMapper(schema);
   return schemaMapper.flattenProperties(schemaMapper.jsonProperties);
 };
+
+export const CapitalizeFirstLetter = (value: string): string => {
+  return value.trim().charAt(0).toUpperCase() + value.trim().slice(1);
+};

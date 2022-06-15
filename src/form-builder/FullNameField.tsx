@@ -4,27 +4,35 @@ import { Suffixes } from '../utils/constants';
 import { FullNameProps } from './types';
 import SelectField from './SelectField';
 import TextField from './TextField';
+import { CapitalizeFirstLetter } from '../utils/helpers';
 
 const FullNameField = (props: FullNameProps): JSX.Element => {
   const fieldName = props.name;
+  const label = props.label ? props.label : '';
+
+  const labels = {
+    firstNameLabel: `${label} first name`,
+    middleNameLabel: `${label} middle name`,
+    lastNameLabel: `${label} last name`,
+  };
 
   return (
     <>
       <TextField
         id={`${fieldName}FirstName`}
         name={`${fieldName}.first`}
-        label="Your first name"
+        label={CapitalizeFirstLetter(labels.firstNameLabel)}
         required
       />
       <TextField
         id={`${fieldName}MiddleName`}
         name={`${fieldName}.middle`}
-        label="Your middle name"
+        label={CapitalizeFirstLetter(labels.middleNameLabel)}
       />
       <TextField
         id={`${fieldName}LastName`}
         name={`${fieldName}.last`}
-        label="Your last name"
+        label={CapitalizeFirstLetter(labels.lastNameLabel)}
         required
       />
       <SelectField

@@ -33,7 +33,7 @@ export default function ClaimantInformation(props) {
         <p>
           You aren’t required to fill in all fields, but we can review your application faster if you provide more information.
         </p>
-        <FullNameField name="claimantFullName"/>
+        <FullNameField name="claimantFullName" label="your"/>
         <div className={values.relationship.type === "Other" ? `${ExpandingGroupClass}` : ''}>
           <RadioGroup
             name="relationship.type"
