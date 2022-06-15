@@ -1,3 +1,4 @@
+import recordAnalyticsEvent from 'platform/monitoring/record-event';
 import {
   createCNPDirectDepositAnalyticsDataObject,
   getData,
@@ -5,7 +6,8 @@ import {
   isSignedUpForCNPDirectDeposit,
   isSignedUpForEDUDirectDeposit,
 } from '../util';
-import recordAnalyticsEvent from 'platform/monitoring/record-event';
+
+import { captureError, ERROR_SOURCES } from '../util/analytics';
 
 export const CNP_PAYMENT_INFORMATION_FETCH_STARTED =
   'CNP_PAYMENT_INFORMATION_FETCH_STARTED';
@@ -178,29 +180,55 @@ export function fetchEDUPaymentInformation(recordEvent = recordAnalyticsEvent) {
     dispatch({ type: EDU_PAYMENT_INFORMATION_FETCH_STARTED });
 
     recordEvent({ event: 'profile-get-edu-direct-deposit-started' });
-    const response = await getData('/profile/ch33_bank_accounts');
-
-    if (response.error) {
+    try {
+      const response = await getData('/profile/ch33_bank_accounts');
+      if (response.error || response.errors) {
+        recordEvent({ event: 'profile-get-edu-direct-deposit-failed' });
+        const err = response.error || response.errors;
+        const [firstError = {}] = err ?? [];
+        const {
+          code = 'code-unknown',
+          title = 'title-unknown',
+          detail = 'detail-unknown',
+          status = 'status-unknown',
+        } = firstError;
+        captureError(
+          { source: ERROR_SOURCES.API },
+          {
+            eventName: 'profile-get-edu-direct-deposit-failed',
+            code,
+            title,
+            detail,
+            status,
+          },
+        );
+        dispatch({
+          type: EDU_PAYMENT_INFORMATION_FETCH_FAILED,
+          response,
+        });
+      } else {
+        recordEvent({
+          event: 'profile-get-edu-direct-deposit-retrieved',
+          // NOTE: the GET profile/ch33_bank_accounts/ is not able to tell us if a
+          // user is eligible to set up DD for EDU, so we are only reporting if
+          // they are currently enrolled in DD for EDU or not
+          'direct-deposit-setup-complete': isSignedUpForEDUDirectDeposit(
+            response,
+          ),
+        });
+        dispatch({
+          type: EDU_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+          response: {
+            paymentAccount: response,
+          },
+        });
+      }
+    } catch (error) {
       recordEvent({ event: 'profile-get-edu-direct-deposit-failed' });
+      captureError(error);
       dispatch({
         type: EDU_PAYMENT_INFORMATION_FETCH_FAILED,
-        response,
-      });
-    } else {
-      recordEvent({
-        event: 'profile-get-edu-direct-deposit-retrieved',
-        // NOTE: the GET profile/ch33_bank_accounts/ is not able to tell us if a
-        // user is eligible to set up DD for EDU, so we are only reporting if
-        // they are currently enrolled in DD for EDU or not
-        'direct-deposit-setup-complete': isSignedUpForEDUDirectDeposit(
-          response,
-        ),
-      });
-      dispatch({
-        type: EDU_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
-        response: {
-          paymentAccount: response,
-        },
+        response: { error },
       });
     }
   };
