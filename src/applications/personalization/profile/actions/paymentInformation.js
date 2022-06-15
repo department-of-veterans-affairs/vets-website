@@ -257,34 +257,55 @@ export function saveEDUPaymentInformation(
     };
 
     dispatch({ type: EDU_PAYMENT_INFORMATION_SAVE_STARTED });
+    try {
+      const response = await getData(
+        '/profile/ch33_bank_accounts',
+        apiRequestOptions,
+      );
 
-    const response = await getData(
-      '/profile/ch33_bank_accounts',
-      apiRequestOptions,
-    );
-
-    if (response.error || response.errors) {
-      recordEvent({
-        event: 'profile-edit-failure',
-        'profile-action': 'save-failure',
-        'profile-section': 'edu-direct-deposit-information',
-        'error-key': 'unknown-save-error',
-      });
-      dispatch({
-        type: EDU_PAYMENT_INFORMATION_SAVE_FAILED,
-        response,
-      });
-    } else {
-      recordEvent({
-        event: 'profile-transaction',
-        'profile-section': 'edu-direct-deposit-information',
-      });
-      dispatch({
-        type: EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
-        response: {
-          paymentAccount: response,
-        },
-      });
+      if (response.error || response.errors) {
+        recordEvent({
+          event: 'profile-edit-failure',
+          'profile-action': 'save-failure',
+          'profile-section': 'edu-direct-deposit-information',
+          'error-key': 'unknown-save-error',
+        });
+        const err = response.error || response.errors;
+        const [firstError = {}] = err ?? [];
+        const {
+          code = 'code-unknown',
+          title = 'title-unknown',
+          detail = 'detail-unknown',
+          status = 'status-unknown',
+        } = firstError;
+        captureError(
+          { source: ERROR_SOURCES.API },
+          {
+            eventName: 'profile-put-edu-direct-deposit-failed',
+            code,
+            title,
+            detail,
+            status,
+          },
+        );
+        dispatch({
+          type: EDU_PAYMENT_INFORMATION_SAVE_FAILED,
+          response,
+        });
+      } else {
+        recordEvent({
+          event: 'profile-transaction',
+          'profile-section': 'edu-direct-deposit-information',
+        });
+        dispatch({
+          type: EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
+          response: {
+            paymentAccount: response,
+          },
+        });
+      }
+    } catch (error) {
+      captureError(error);
     }
   };
 }
