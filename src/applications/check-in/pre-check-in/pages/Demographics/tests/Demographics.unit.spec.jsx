@@ -4,6 +4,10 @@ import configureStore from 'redux-mock-store';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
+import {
+  singleAppointment,
+  multipleAppointments,
+} from '../../../../tests/unit/mocks/mock-appointments';
 import Demographics from '../index';
 
 import { createMockRouter } from '../../../../tests/unit/mocks/router';
@@ -16,47 +20,7 @@ describe('pre-check-in', () => {
       const mockStore = configureStore(middleware);
       const initState = {
         checkInData: {
-          appointments: [
-            {
-              facility: 'LOMA LINDA VA CLINIC',
-              clinicPhoneNumber: '5551234567',
-              clinicFriendlyName: 'TEST CLINIC',
-              clinicName: 'LOM ACC CLINIC TEST',
-              appointmentIen: 'some-ien',
-              startTime: '2021-11-30T17:12:10.694Z',
-              eligibility: 'ELIGIBLE',
-              facilityId: 'some-facility',
-              checkInWindowStart: '2021-11-30T17:12:10.694Z',
-              checkInWindowEnd: '2021-11-30T17:12:10.694Z',
-              checkedInTime: '',
-            },
-            {
-              facility: 'LOMA LINDA VA CLINIC',
-              clinicPhoneNumber: '5551234567',
-              clinicFriendlyName: 'TEST CLINIC',
-              clinicName: 'LOM ACC CLINIC TEST',
-              appointmentIen: 'some-ien',
-              startTime: '2021-11-30T17:12:10.694Z',
-              eligibility: 'ELIGIBLE',
-              facilityId: 'some-facility',
-              checkInWindowStart: '2021-11-30T17:12:10.694Z',
-              checkInWindowEnd: '2021-11-30T17:12:10.694Z',
-              checkedInTime: '',
-            },
-            {
-              facility: 'LOMA LINDA VA CLINIC',
-              clinicPhoneNumber: '5551234567',
-              clinicFriendlyName: 'TEST CLINIC',
-              clinicName: 'LOM ACC CLINIC TEST',
-              appointmentIen: 'some-other-ien',
-              startTime: '2021-11-30T17:12:10.694Z',
-              eligibility: 'ELIGIBLE',
-              facilityId: 'some-facility',
-              checkInWindowStart: '2021-11-30T17:12:10.694Z',
-              checkInWindowEnd: '2021-11-30T17:12:10.694Z',
-              checkedInTime: '',
-            },
-          ],
+          appointments: multipleAppointments,
           veteranData: {
             demographics: {
               nextOfKin1: {
@@ -206,21 +170,7 @@ describe('pre-check-in', () => {
     let store;
     const initState = {
       checkInData: {
-        appointments: [
-          {
-            facility: 'LOMA LINDA VA CLINIC',
-            clinicPhoneNumber: '5551234567',
-            clinicFriendlyName: 'TEST CLINIC',
-            clinicName: 'LOM ACC CLINIC TEST',
-            appointmentIen: 'some-ien',
-            startTime: '2022-01-03T14:56:04.788Z',
-            eligibility: 'ELIGIBLE',
-            facilityId: 'some-facility',
-            checkInWindowStart: '2022-01-03T14:56:04.788Z',
-            checkInWindowEnd: '2022-01-03T14:56:04.788Z',
-            checkedInTime: '',
-          },
-        ],
+        appointments: singleAppointment,
         context: {
           token: '',
         },
