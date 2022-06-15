@@ -12,7 +12,7 @@ import formConfig from '../../config/form.js';
 
 const defaultStore = createCommonStore();
 
-describe('COE applicant service status', () => {
+describe.skip('COE applicant service status', () => {
   const {
     schema,
     uiSchema,
