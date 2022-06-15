@@ -85,11 +85,15 @@ i18n
     },
   });
 
-// This is necessary for DS components to use our language preference on initial load.
-// @TODO remove this.
-// eslint-disable-next-line no-console
-console.log('Setting page language on initial load');
-setPageLanguage(i18n.language);
+// Ugly hack to try and trigger DS language detection.
+window.addEventListener('load', () => {
+  // @TODO remove this.
+  // eslint-disable-next-line no-console
+  console.log('Setting page language after load.');
+  setTimeout(() => {
+    setPageLanguage(i18n.language);
+  }, 10);
+});
 
 i18n.on('languageChanged', language => {
   // @TODO remove this.
