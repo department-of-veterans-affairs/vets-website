@@ -43,6 +43,24 @@ export const EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED =
 export const EDU_PAYMENT_INFORMATION_SAVE_FAILED =
   'EDU_PAYMENT_INFORMATION_SAVE_FAILED';
 
+const captureDirectDepositErrorResponse = ({ error, apiEventName }) => {
+  const [firstError = {}] = error.errors ?? [];
+  const {
+    code = 'code-unknown',
+    title = 'title-unknown',
+    detail = 'detail-unknown',
+    status = 'status-unknown',
+  } = firstError;
+
+  captureError(error, {
+    eventName: apiEventName,
+    code,
+    title,
+    detail,
+    status,
+  });
+};
+
 export function fetchCNPPaymentInformation(recordEvent = recordAnalyticsEvent) {
   return async dispatch => {
     dispatch({ type: CNP_PAYMENT_INFORMATION_FETCH_STARTED });
@@ -182,26 +200,12 @@ export function fetchEDUPaymentInformation(recordEvent = recordAnalyticsEvent) {
     recordEvent({ event: 'profile-get-edu-direct-deposit-started' });
     try {
       const response = await getData('/profile/ch33_bank_accounts');
-      if (response.error || response.errors) {
+      if (response.errors) {
         recordEvent({ event: 'profile-get-edu-direct-deposit-failed' });
-        const err = response.error || response.errors;
-        const [firstError = {}] = err ?? [];
-        const {
-          code = 'code-unknown',
-          title = 'title-unknown',
-          detail = 'detail-unknown',
-          status = 'status-unknown',
-        } = firstError;
-        captureError(
-          { source: ERROR_SOURCES.API },
-          {
-            eventName: 'profile-get-edu-direct-deposit-failed',
-            code,
-            title,
-            detail,
-            status,
-          },
-        );
+        captureDirectDepositErrorResponse({
+          error: { ...response, source: ERROR_SOURCES.API },
+          apiEventName: 'profile-get-edu-direct-deposit-failed',
+        });
         dispatch({
           type: EDU_PAYMENT_INFORMATION_FETCH_FAILED,
           response,
@@ -225,7 +229,10 @@ export function fetchEDUPaymentInformation(recordEvent = recordAnalyticsEvent) {
       }
     } catch (error) {
       recordEvent({ event: 'profile-get-edu-direct-deposit-failed' });
-      captureError(error);
+      captureDirectDepositErrorResponse({
+        error,
+        apiEventName: 'profile-get-edu-direct-deposit-failed',
+      });
       dispatch({
         type: EDU_PAYMENT_INFORMATION_FETCH_FAILED,
         response: { error },
@@ -263,31 +270,18 @@ export function saveEDUPaymentInformation(
         apiRequestOptions,
       );
 
-      if (response.error || response.errors) {
+      if (response.errors) {
         recordEvent({
           event: 'profile-edit-failure',
           'profile-action': 'save-failure',
           'profile-section': 'edu-direct-deposit-information',
           'error-key': 'unknown-save-error',
         });
-        const err = response.error || response.errors;
-        const [firstError = {}] = err ?? [];
-        const {
-          code = 'code-unknown',
-          title = 'title-unknown',
-          detail = 'detail-unknown',
-          status = 'status-unknown',
-        } = firstError;
-        captureError(
-          { source: ERROR_SOURCES.API },
-          {
-            eventName: 'profile-put-edu-direct-deposit-failed',
-            code,
-            title,
-            detail,
-            status,
-          },
-        );
+        captureDirectDepositErrorResponse({
+          error: { ...response, source: ERROR_SOURCES.API },
+          apiEventName: 'profile-put-edu-direct-deposit-failed',
+        });
+
         dispatch({
           type: EDU_PAYMENT_INFORMATION_SAVE_FAILED,
           response,
@@ -305,7 +299,16 @@ export function saveEDUPaymentInformation(
         });
       }
     } catch (error) {
-      captureError(error);
+      captureDirectDepositErrorResponse({
+        error,
+        apiEventName: 'profile-put-edu-direct-deposit-failed',
+      });
+      recordEvent({
+        event: 'profile-edit-failure',
+        'profile-action': 'save-failure',
+        'profile-section': 'edu-direct-deposit-information',
+        'error-key': 'unknown-save-error',
+      });
     }
   };
 }
