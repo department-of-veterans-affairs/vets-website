@@ -84,7 +84,7 @@ const savedAddress = {
  * @param {object} oldFormData - Form data prior to interaction change
  * @param {object} formData - Form data after interaction change
  * @returns {object} - updated Form data with manipulated mailing address if the
- * militar base checkbox state changes
+ * military base checkbox state changes
  */
 export const updateFormData = (oldFormData, formData) => {
   let { city, state } = formData.mailingAddress;
