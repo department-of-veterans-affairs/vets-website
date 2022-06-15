@@ -63,8 +63,14 @@ const Error = () => {
   );
 
   const getErrorMessages = () => {
-    const accordions = <PreCheckInAccordionBlock key="accordion" errorPage />;
     if (appointments && appointments.length) {
+      const accordions = (
+        <PreCheckInAccordionBlock
+          key="accordion"
+          errorPage
+          appointments={appointments}
+        />
+      );
       // don't show sub message if we are 15 minutes past appointment start time
       if (appointmentStartTimePast15(appointments))
         return [t('sorry-pre-check-in-is-no-longer-available'), '', accordions];
