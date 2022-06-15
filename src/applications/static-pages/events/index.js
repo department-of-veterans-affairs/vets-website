@@ -5,7 +5,6 @@ import { Provider } from 'react-redux';
 // Related imports.
 import App from './components/App';
 
-// Update for full build
 export default (store, widgetType) => {
   const root = document.querySelector(`[data-widget-type="${widgetType}"]`);
 
