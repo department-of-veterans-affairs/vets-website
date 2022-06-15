@@ -12,13 +12,19 @@ When a veteran wants to recieve a COE they can come to this page and we can make
 ## How the app works for the user
 When a Veteran first lands on the page we make the initial call to the LGY service to get the status of the COE for the Veteran. We then show content relevent to that Veteran based on the status that comes back from LGY, so for example if the Veteran is automatically approved for a COE we show them a message that says that they are automatically approved as well as a link to download the COE as a PDF.
 
+## The front end code
+The front end for the COE status app is broken up into `containers` and `components` with the main entry point of the app being `app-entry.jsx`. Inside the `containers` directory there is a file called `App.js` which housese the main logic for the front end, everything else are components rendered inside this main `App.js` file. We use Redux to make the call to the LGY endpoints for the status of the COE, those are one level out in a `/shared` folder since they are used in this app and in the form app.
+
+Inside `App.js` we import the Redux actions and based on the data returned by the LGY service called in those Redux actions we enter into a block of logic. That logic first tests if the call to LGY is pending and if it is it returns a loading indicator. Once the call to LGY is successful we enter into a switch statement based on the data returned by the LGY service. 
+
+
 ### Statuses
 The LGY service that we call when a Veteran lands on the status app page returns to us two pieces of data that we then use to determine a "status" for the COE of that Veteran. The idea behind the LGY service is to make an automatic determination for the Veteran for if they are eligible to recieve a COE. The two pieces of data are used in combination in the logic of the back end controller in vets-api. The two piees of data are -
 
 > 1. A string returned to us in the body of our request to the LGY service for 'status'
-> 2. A 200 or 404 http response for any current application the Veteran may have on file for a COE
+> 2. A 200 or 404 http response for any current application the Veteran may have in progress for a COE
 
-The string for a status that is returned is pretty simple, it can either be one of these -
+The string for the status that is returned by LGY is pretty simple, it can either be one of these -
 
 1. `ELIGIBLE` - meaning that the Veteran is in fact eligible for an automatic approval and can get a COE
 2. `UNABLE_TO_DETERMINE_AUTOMATICALLY` - meaning that the Veteran is not eligible for an automatic approval but can apply for a COE manually
@@ -53,10 +59,12 @@ The different statuses that can be returned are also combined with the http resp
     end
 ```
 
+Once we determine the status for the Veteran's COE we then show content on the page specific to that status. These pieces of content are held inside `components/statuses`. If the Veteran is in fact eligible for an automatic COE or has had their application for a COE approved we also show them a link to download their COE. This link makes an API call to the LGY service and they then stream the PDF for the COE back to us.
 
+In the last instance of the status logic above you will notice that the status returned to us is one of `pending-upload`, this means that the Veteran has an application in progress but that the VA needs further documentation from the Veteran. In this instance we include the document uploader inside `components/DocumentUploader` in the content shown to the Veteran.
 
-## The front end code
-TBD
+### Documents
+In many cases the Veteran will have documents that have been sent either to them from the VA or sent by them to the VA. When the status app loads we also make a call to a `coe` controller action at `/coe/documents` to retreive a list of the documents that have been sent by or to the Veteran regarding their COE and list them out. We also provide links to those documents that the Veteran can use to download the document. When the Veteran clicks those links we make an API call to the LGY service and they then stream the PDF of that document back to us.
 
 ## The back end code
 TBD
