@@ -6,9 +6,8 @@ import moment from 'moment';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { hasSession } from 'platform/user/profile/utilities';
 
-const ConfirmationPage = ({ form, user }) => {
+const ConfirmationPage = ({ form, profile, isLoggedIn }) => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
     scrollToTop('topScrollElement');
@@ -18,7 +17,7 @@ const ConfirmationPage = ({ form, user }) => {
   const { response } = submission;
 
   // if authenticated, get veteran's name from profile, else, from form data
-  const name = hasSession() ? user.userFullName : data.veteranFullName;
+  const name = isLoggedIn ? profile.userFullName : data.veteranFullName;
   const { first = '', middle = '', last = '', suffix = '' } = name;
 
   return (
@@ -141,12 +140,14 @@ const ConfirmationPage = ({ form, user }) => {
 
 ConfirmationPage.propTypes = {
   form: PropTypes.object,
-  user: PropTypes.object,
+  isLoggedIn: PropTypes.bool,
+  profile: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
   form: state.form,
-  user: state.user.profile,
+  isLoggedIn: state.user?.login.currentlyLoggedIn,
+  profile: state.user?.profile,
 });
 
 export default connect(mapStateToProps)(ConfirmationPage);

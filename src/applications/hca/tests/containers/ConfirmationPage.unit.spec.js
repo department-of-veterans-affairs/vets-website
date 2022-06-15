@@ -4,7 +4,6 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 
-import localStorage from 'platform/utilities/storage/localStorage';
 import ConfirmationPage from '../../containers/ConfirmationPage';
 
 describe('HCA ConfirmationPage', () => {
@@ -20,6 +19,9 @@ describe('HCA ConfirmationPage', () => {
       },
     },
     user: {
+      login: {
+        currentlyLoggedIn: false,
+      },
       profile: {
         userFullName: {
           first: 'John',
@@ -123,8 +125,13 @@ describe('HCA ConfirmationPage', () => {
   });
 
   it('should render veteran’s name from profile', () => {
-    localStorage.setItem('hasSession', true);
-    const store = mockStore(initState);
+    const store = mockStore({
+      ...initState,
+      user: {
+        ...initState.user,
+        login: { currentlyLoggedIn: true },
+      },
+    });
     const view = render(
       <Provider store={store}>
         <ConfirmationPage />
@@ -133,6 +140,5 @@ describe('HCA ConfirmationPage', () => {
     expect(
       view.container.querySelector('.hca-veteran-fullname'),
     ).to.contain.text('John Marjorie Smith Sr.');
-    localStorage.removeItem('hasSession');
   });
 });
