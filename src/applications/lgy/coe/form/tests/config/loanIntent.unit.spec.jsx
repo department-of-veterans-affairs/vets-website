@@ -12,7 +12,7 @@ import formConfig from '../../config/form.js';
 
 const defaultStore = createCommonStore();
 
-describe.skip('COE applicant loan intent', () => {
+describe('COE applicant loan intent', () => {
   const {
     schema,
     uiSchema,
