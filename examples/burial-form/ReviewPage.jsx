@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { useFormikContext } from 'formik';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { VaOnThisPage } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {Page} from "@department-of-veterans-affairs/va-forms-system-core";
 
@@ -73,8 +73,34 @@ const recurseField = (key, field, rank = 0) => {
   }
 }
 
+/**
+ * Anchor scroller
+ * @param {string} location hash location
+ *
+ * @beta
+ */
+const scrollToSection = (location) => {
+  // Get the '#' id from the location 
+  const id  = (
+    location && location.hash
+  ) ? location.hash : null;
+   if (id) {
+      const element = document.querySelector(id);
+      // If element present, scroll me to that part 
+      if (element) {
+        element.scrollIntoView();
+      } else {
+        // If element not present, scroll me to the top
+        window.scrollTo(0, 0);
+      }
+    }
+  }
+
 export default function ReviewPage(props) {
   const state = useFormikContext();
+  const location = useLocation();
+
+  useLayoutEffect(() => scrollToSection(location), [location])
 
   // mockup some data to review formik context
   const pageData = {
@@ -83,6 +109,7 @@ export default function ReviewPage(props) {
         title: 'Claimant information',
         id: 'claimant-information',
         pageUrl: '/claimant-information',
+        isShown: true,
         fields: {
           "fullName": {
             value: {
@@ -122,6 +149,7 @@ export default function ReviewPage(props) {
         title: 'Deceased Veteran Information',
         id: 'veteran-information',
         pageUrl: '/veteran-information',
+        isShown: true,
         fields: {
           "veteranFullName": {
             label: "Veteran Name",
@@ -166,6 +194,7 @@ export default function ReviewPage(props) {
         title: 'Deceased Veteran Information: Death and Burial',
         id: 'veteran-information-burial',
         pageUrl: '/veteran-information/burial',
+        isShown: true,
         fields: {
           "deathDate": {
             label: "Date of death",
@@ -191,6 +220,7 @@ export default function ReviewPage(props) {
         title: 'Military Service History',
         id: 'military-history-service-periods',
         pageUrl: '/military-history/service-periods',
+        isShown: true,
         fields: {
           "toursOfDuty": {
             value: {
@@ -234,6 +264,7 @@ export default function ReviewPage(props) {
         title: 'Military Service History: Previous Names',
         id: 'military-history-previous-names',
         pageUrl: '/military-history/previous-names',
+        isShown: true,
         fields: {
           "veteranServedUnderAnotherName": {
             label: "Did the Veteran serve under another name?",
@@ -266,6 +297,7 @@ export default function ReviewPage(props) {
         title: 'Benefits Selection',
         id: 'benefits-selection',
         pageUrl: '/benefits/selection',
+        isShown: true,
         fields: {
           "burialAllowance": {
             label: "Burial allowance",
@@ -289,6 +321,7 @@ export default function ReviewPage(props) {
         title: 'Benefits Selection: Type of Burial Allowance',
         id: 'benefits-burial-allowance',
         pageUrl: '/benefits/burial-allowance',
+        isShown: state?.values?.benefitsSelection?.burialAllowance === true,
         fields: {
           "burialAllowanceRequested": {
             label: "Type of burial allowance requested",
@@ -301,6 +334,7 @@ export default function ReviewPage(props) {
         title: 'Benefits Selection: Plot or Interment Allowance',
         id: 'benefits-plot-allowance',
         pageUrl: '/benefits/plot-allowance',
+        isShown: state?.values?.benefitsSelection?.plotAllowance === true,
         fields: {
           "placeOfRemains": {
             label: "Place of burial or deceased Veteran’s remains",
@@ -328,6 +362,7 @@ export default function ReviewPage(props) {
         title: 'Claimant Contact Information',
         id: 'claimant-contact-information',
         pageUrl: '/claimant-contact-information',
+        isShown: true,
         fields: {
           "claimantAddress": {
             label: "Claimant Address",
@@ -383,21 +418,22 @@ export default function ReviewPage(props) {
   }
 
   return (
-    <Page {...props} prevPage="/claimant-contact-information" nextPage="/confirmation">
+    <Page {...props}>
       <article>
         <h1>{props.title}</h1>
         <VaOnThisPage></VaOnThisPage>
 
-        { pageData.pages.map(page => (
+        { pageData.pages.map(page => { if (page.isShown) return (
           <section id={page.id} key={page.id} className="review-page--page-info">
             <div className='review-page--page-heading vads-u-justify-content--space-between vads-l-row vads-u-border-bottom--1px vads-u-border-color--link-default'>
               <h2 id={page.id} className='vads-u-font-size--h3 vads-u-flex--1 review-page--page-heading--text'>{page.title}</h2>
-              <Link to={page.pageUrl+'?edit=true'} className='vads-u-margin-bottom--1p5 review-page--page-heading--link'>Edit</Link>
+              <Link to={page.pageUrl+'?edit=true&source='+page.id} className='vads-u-margin-bottom--1p5 review-page--page-heading--link'>Edit</Link>
             </div>
 
             {bufferFields(page.fields)}
           </section>
-        )) }
+        )}
+        ) }
       </article>
     </Page>
   )

@@ -15,7 +15,6 @@ import RouterProgress from './RouterProgress';
  */
 export default function FormRouter(props: RouterProps): JSX.Element {
   const initialValues = props.formData;
-  const [route, updateRoute] = useState('/');
 
   return (
     <div className="row">

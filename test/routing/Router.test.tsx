@@ -1,12 +1,8 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
-
-import { Link, MemoryRouter, Route, Router, Routes } from 'react-router-dom';
+import { render } from '@testing-library/react';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { RouterProps } from '../../src/routing/types';
 import Page from '../../src/routing/Page';
-import Chapter from '../../src/routing/Chapter';
-import { act } from 'react-dom/test-utils';
-import { FormFooter, FormTitle } from '../../src';
 import { Formik } from 'formik';
 import { RouterContextProvider } from '../../src/routing/RouterContext';
 

@@ -121,11 +121,13 @@ export function RouterContextProvider(props: RouterContextProps): JSX.Element {
   );
   const nextRoute = getNextRoute(listOfRoutes, currentLocation.pathname);
 
-  useEffect(() => {
-    return updateRoute(
-      currentLocation.pathname !== '' ? currentLocation.pathname : '/'
-    );
-  }, [currentLocation]);
+  useEffect(
+    () =>
+      updateRoute(
+        currentLocation.pathname !== '' ? currentLocation.pathname : '/'
+      ),
+    [currentLocation]
+  );
 
   return (
     <RouterContext.Provider
