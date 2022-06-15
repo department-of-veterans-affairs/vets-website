@@ -13,6 +13,7 @@
   - [Unit tests](#unit-tests)
   - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
   - [Contract tests](#contract-tests)
+- [Review Environments](#review-environments)
 - [Running a mock API for local development](#running-a-mock-api-for-local-development)
 - [More commands](#more-commands)
 - [Supported Browsers](#supported-browsers)
