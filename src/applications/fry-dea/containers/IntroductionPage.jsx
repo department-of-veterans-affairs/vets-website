@@ -43,7 +43,9 @@ class IntroductionPage extends React.Component {
             </li>
           </ul>
           <p className="vads-u-margin-bottom--0">
-            <a href="/">Check your eligibility for other education benefits</a>
+            <a href="https://www.va.gov/education/eligibility/">
+              Learn more about other education benefits you may be eligible for
+            </a>
           </p>
         </va-alert>
 
@@ -84,7 +86,9 @@ class IntroductionPage extends React.Component {
                   service-connected disability on or after September 11, 2001
                 </li>
               </ul>
-              <a href="/">Learn more about the Fry Scholarship (Chapter 33)</a>
+              <a href="https://www.va.gov/education/survivor-dependent-benefits/fry-scholarship/">
+                Learn more about the Fry Scholarship (Chapter 33)
+              </a>
             </va-additional-info>
 
             <va-additional-info trigger="What are the Survivors' and Dependents' Educational Assistance (DEA, Chapter 35) eligibility requirements?">
@@ -123,7 +127,7 @@ class IntroductionPage extends React.Component {
                   disability (effective December 23, 2006)
                 </li>
               </ul>
-              <a href="/">
+              <a href="https://www.va.gov/education/survivor-dependent-benefits/dependents-education-assistance/">
                 Learn more about Survivors' and Dependents' Educational
                 Assistance (DEA, Chapter 35)
               </a>
