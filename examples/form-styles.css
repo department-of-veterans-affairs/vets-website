@@ -21,3 +21,14 @@
   font-size: 18px;
 }
 
+.inset {
+  margin: 2rem 0rem;
+  padding: 2rem 3rem;
+  line-height: 2.2rem;
+  background-color: #e0f3f8;
+}
+
+ul.claim-list {
+  list-style: none;
+  padding-left: 0;
+}

@@ -55,7 +55,7 @@ const BurialApp = (props) => {
         />
         <Route path="/claimant-contact-information" element={<ClaimantContactInformation title="Claimant contact information" />} />
         <Route path="/review-and-submit" element={<ReviewPage title="Review Your Application" />} />
-        <Route path="/confirmation" element={<ConfirmationPage title="Confirmation Page" />} />
+        <Route path="/confirmation" element={<ConfirmationPage title="Claim submitted" />} />
         <Route path="*" element={<NoMatch name="No Routes for App" />} />
       </FormRouter>
     </div>
