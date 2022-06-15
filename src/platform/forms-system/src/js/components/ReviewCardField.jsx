@@ -225,7 +225,7 @@ export default class ReviewCardField extends React.Component {
                     className={cancelButtonClasses}
                     style={{ boxShadow: 'none' }}
                     onClick={this.cancelUpdate}
-                    aria-label={'Cancel Changes'}
+                    aria-label="Cancel Changes"
                   >
                     Cancel
                   </button>
@@ -245,7 +245,8 @@ export default class ReviewCardField extends React.Component {
       if (dataType === 'object') {
         const { ObjectField } = this.props.registry.fields;
         return <ObjectField {...this.props} />;
-      } else if (dataType === 'array') {
+      }
+      if (dataType === 'array') {
         const { ArrayField } = this.props.registry.fields;
         return <ArrayField {...this.props} />;
       }
@@ -338,7 +339,7 @@ export default class ReviewCardField extends React.Component {
     //  have the option to cancel later
     if (this.props.uiSchema['ui:options']?.volatileData) {
       newState.oldData = this.props.formData;
-      this.resetFormData();
+      this.resetFormData(newState.oldData);
     }
 
     this.setState(newState);
