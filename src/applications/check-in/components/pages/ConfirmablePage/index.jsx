@@ -76,7 +76,7 @@ const ConfirmablePage = ({
         <>
           <button
             onClick={yesAction}
-            className="usa-button-secondary usa-button-big"
+            className="usa-button-primary usa-button-big"
             data-testid="yes-button"
             type="button"
           >
