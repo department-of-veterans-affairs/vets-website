@@ -66,8 +66,6 @@ In the last instance of the status logic above you will notice that the status r
 ### Documents
 In many cases the Veteran will have documents that have been sent either to them from the VA or sent by them to the VA. When the status app loads we also make a call to a `coe` controller action at `/coe/documents` to retreive a list of the documents that have been sent by or to the Veteran regarding their COE and list them out. We also provide links to those documents that the Veteran can use to download the document. When the Veteran clicks those links we make an API call to the LGY service and they then stream the PDF of that document back to us.
 
-## The back end code
-TBD
 
 ## Mocking the `/coe/` endpoint in vets-api
 When developing locally, vets-api is generally not set up to access the COE status from the upstream data service LGY.
