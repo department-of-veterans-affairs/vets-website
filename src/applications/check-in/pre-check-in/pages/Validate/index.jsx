@@ -1,15 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import propTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { focusElement } from 'platform/utilities/ui';
 
 import { createSetSession } from '../../../actions/authentication';
 
 import BackToHome from '../../../components/BackToHome';
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
-import Footer from '../../../components/Footer';
+import Footer from '../../../components/layout/Footer';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
@@ -107,9 +106,6 @@ const Index = ({ router }) => {
     ],
   );
 
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
   return (
     <>
       <ValidateDisplay

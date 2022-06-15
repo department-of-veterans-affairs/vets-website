@@ -323,6 +323,8 @@ export const validateAddress = (
       'profile-section': analyticsSectionName,
       'profile-addressSuggestionUsed': 'no',
     });
+    sessionStorage.setItem('profile-has-cleared-bad-address-indicator', 'true');
+
     // otherwise just send the first suggestion to the API
     return dispatch(
       createTransaction(

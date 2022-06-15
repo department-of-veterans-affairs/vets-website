@@ -155,7 +155,9 @@ export function sessionTypeUrl({
   const externalRedirect = isExternalRedirect();
   const isSignup = Object.values(SIGNUP_TYPES).includes(type);
   const isLogin = Object.values(CSP_IDS).includes(type);
-  const config = externalApplicationsConfig[application];
+  const config =
+    externalApplicationsConfig[application] ||
+    externalApplicationsConfig.default;
 
   // We should use OAuth when the following are true:
   // OAuth param is 'true'

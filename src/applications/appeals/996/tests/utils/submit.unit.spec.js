@@ -6,7 +6,6 @@ import {
   createIssueName,
   getContestedIssues,
   addAreaOfDisagreement,
-  getConferenceTimes,
   getConferenceTime,
   removeEmptyEntries,
   getRep,
@@ -187,20 +186,11 @@ describe('removeEmptyEntries', () => {
 });
 
 describe('getRep', () => {
-  const getDataV1 = ({ rep = 'rep' }) => ({
-    hlrV2: false,
-    informalConference: rep,
-    informalConferenceRep: {
-      name: 'James Sullivan',
-      phone: '8005551212',
-    },
-  });
   const getDataV2 = ({
     rep = 'rep',
     extension = '1234',
     email = 'sully@pixar.com',
   } = {}) => ({
-    hlrV2: true,
     informalConference: rep,
     informalConferenceRep: {
       firstName: 'James',
@@ -209,20 +199,6 @@ describe('getRep', () => {
       extension,
       email,
     },
-  });
-
-  it('should return null for v1 non-rep choices', () => {
-    expect(getRep(getDataV1({ rep: 'me' }))).to.be.null;
-  });
-  it('should return all v1 rep info', () => {
-    expect(getRep(getDataV1({}))).to.deep.equal({
-      name: 'James Sullivan',
-      phone: {
-        countryCode: '1',
-        areaCode: '800',
-        phoneNumber: '5551212',
-      },
-    });
   });
 
   it('should return null for v2 non-rep choices', () => {
@@ -254,29 +230,6 @@ describe('getRep', () => {
   });
 });
 
-describe('getConferenceTimes', () => {
-  it('should return v1 times', () => {
-    expect(
-      getConferenceTimes({
-        informalConferenceTimes: { time1: 'time0800to1000' },
-      }),
-    ).to.deep.equal(['800-1000 ET']);
-    expect(
-      getConferenceTimes({
-        informalConferenceTimes: { time1: 'time1230to1400' },
-      }),
-    ).to.deep.equal(['1230-1400 ET']);
-    expect(
-      getConferenceTimes({
-        informalConferenceTimes: {
-          time1: 'time0800to1000',
-          time2: 'time1400to1630',
-        },
-      }),
-    ).to.deep.equal(['800-1000 ET', '1400-1630 ET']);
-  });
-});
-
 describe('getConferenceTime', () => {
   it('should return v2 times', () => {
     expect(
@@ -290,40 +243,31 @@ describe('getConferenceTime', () => {
 
 describe('getAddress', () => {
   it('should return a cleaned up address object', () => {
-    const wrap = (obj, v = 'v1') => ({
-      hlrV2: v === 'v2',
+    const wrap = obj => ({
       veteran: { address: obj },
     });
-    expect(getAddress()).to.deep.equal({ zipCode5: '00000' });
-    expect(getAddress({ hlrV2: true })).to.deep.equal({});
-    expect(getAddress(wrap({}))).to.deep.equal({ zipCode5: '00000' });
-    expect(getAddress(wrap({}, 'v2'))).to.deep.equal({});
-    expect(getAddress(wrap({ temp: 'test' }))).to.deep.equal({
-      zipCode5: '00000',
-    });
-    expect(getAddress(wrap({ temp: 'test' }, 'v2'))).to.deep.equal({});
-    expect(getAddress(wrap({ addressLine1: 'test' }, 'v2'))).to.deep.equal({
+    expect(getAddress({})).to.deep.equal({});
+    expect(getAddress(wrap({}))).to.deep.equal({});
+    expect(getAddress(wrap({ temp: 'test' }))).to.deep.equal({});
+    expect(getAddress(wrap({ addressLine1: 'test' }))).to.deep.equal({
       addressLine1: 'test',
     });
-    expect(getAddress(wrap({ zipCode: '10101' }, 'v2'))).to.deep.equal({
+    expect(getAddress(wrap({ zipCode: '10101' }))).to.deep.equal({
       zipCode5: '10101',
     });
     expect(
       getAddress(
-        wrap(
-          {
-            addressLine1: '123 test',
-            addressLine2: 'c/o foo',
-            addressLine3: 'suite 99',
-            city: 'Big City',
-            stateCode: 'NV',
-            zipCode: '10101',
-            countryCodeIso2: 'US',
-            internationalPostalCode: '12345',
-            extra: 'will not be included',
-          },
-          'v2',
-        ),
+        wrap({
+          addressLine1: '123 test',
+          addressLine2: 'c/o foo',
+          addressLine3: 'suite 99',
+          city: 'Big City',
+          stateCode: 'NV',
+          zipCode: '10101',
+          countryCodeIso2: 'US',
+          internationalPostalCode: '12345',
+          extra: 'will not be included',
+        }),
       ),
     ).to.deep.equal({
       addressLine1: '123 test',
@@ -331,9 +275,15 @@ describe('getAddress', () => {
       addressLine3: 'suite 99',
       city: 'Big City',
       stateCode: 'NV',
-      zipCode5: '10101',
+      zipCode5: '00000',
       countryCodeISO2: 'US',
       internationalPostalCode: '12345',
+    });
+    expect(
+      getAddress(wrap({ internationalPostalCode: '55555' })),
+    ).to.deep.equal({
+      zipCode5: '00000',
+      internationalPostalCode: '55555',
     });
   });
 });

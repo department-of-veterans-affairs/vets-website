@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { differenceInDays, isAfter } from 'date-fns';
+import { differenceInDays } from 'date-fns';
 import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
 import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
@@ -27,6 +27,8 @@ import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import Appointments from './Appointments';
 import IconCTALink from '../IconCTALink';
 import CTALink from '../CTALink';
+
+import HealthCareHeader from './HealthCareHeader';
 
 const HealthCareCTA = ({
   hasInboxError,
@@ -187,9 +189,7 @@ const HealthCare = ({
   if (shouldShowLoadingIndicator) {
     return (
       <div className="health-care vads-u-margin-y--6">
-        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
-          Health care
-        </h2>
+        <HealthCareHeader classes="vads-u-margin-top--0 vads-u-margin-bottom--2" />
         <va-loading-indicator message="Loading health care..." />
       </div>
     );
@@ -197,14 +197,18 @@ const HealthCare = ({
 
   if (isCernerPatient && facilityLocations?.length) {
     return (
-      <div className="vads-l-row">
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-          <CernerWidget
-            facilityLocations={facilityLocations}
-            authenticatedWithSSOe={authenticatedWithSSOe}
-          />
+      <>
+        <HealthCareHeader />
+
+        <div className="vads-l-row">
+          <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
+            <CernerWidget
+              facilityLocations={facilityLocations}
+              authenticatedWithSSOe={authenticatedWithSSOe}
+            />
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
@@ -221,7 +225,7 @@ const HealthCare = ({
       className="health-care-wrapper vads-u-margin-y--6"
       data-testid="dashboard-section-health-care"
     >
-      <h2>Health care</h2>
+      <HealthCareHeader />
 
       <div className="vads-l-row">
         <DashboardWidgetWrapper>
@@ -298,17 +302,9 @@ const mapStateToProps = state => {
     'VA Spokane health care',
     'VA Walla Walla health care',
     'VA Central Ohio health care',
+    'Roseburg (Oregon) VA health care',
+    'White City health care',
   ];
-
-  const roseburgAndWhiteCityStartAfterDate = new Date('2022-06-10');
-  roseburgAndWhiteCityStartAfterDate.setUTCHours(23, 59, 59, 999);
-
-  if (isAfter(new Date(), roseburgAndWhiteCityStartAfterDate)) {
-    facilityLocations.concat([
-      'Roseburg (Oregon) VA health care',
-      'White City health care',
-    ]);
-  }
 
   const shouldFetchUnreadMessages = selectAvailableServices(state).includes(
     backendServices.MESSAGING,

@@ -32,7 +32,7 @@ describe('Pre-Check In Experience ', () => {
   it('Edit is disabled', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
-    ValidateVeteran.validatePageLoaded();
+    ValidateVeteran.validatePage.preCheckIn();
     ValidateVeteran.validateVeteran();
     cy.injectAxeThenAxeCheck();
     ValidateVeteran.attemptToGoToNextPage();

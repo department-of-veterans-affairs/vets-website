@@ -70,7 +70,7 @@ export const personalInformationFormSchemas = {
         maxLength: 25,
       },
     },
-    required: ['preferredName'],
+    required: [],
   },
   pronouns: {
     type: 'object',

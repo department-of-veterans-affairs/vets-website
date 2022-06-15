@@ -6,8 +6,10 @@ import CheckInConfirmation from './CheckInConfirmation';
 import { triggerRefresh } from '../../../actions/day-of';
 import { makeSelectConfirmationData } from '../../../selectors';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
+import { useFormRouting } from '../../../hooks/useFormRouting';
+import { URLS } from '../../../utils/navigation';
 
-const Confirmation = () => {
+const Confirmation = props => {
   const dispatch = useDispatch();
   const refreshAppointments = useCallback(
     () => {
@@ -15,12 +17,12 @@ const Confirmation = () => {
     },
     [dispatch],
   );
-
+  const { router } = props;
+  const { jumpToPage } = useFormRouting(router);
   const selectConfirmationData = useMemo(makeSelectConfirmationData, []);
   const { appointments, selectedAppointment } = useSelector(
     selectConfirmationData,
   );
-
   const {
     getShouldSendDemographicsFlags,
     setShouldSendDemographicsFlags,
@@ -34,12 +36,26 @@ const Confirmation = () => {
     [getShouldSendDemographicsFlags, setShouldSendDemographicsFlags],
   );
 
+  useEffect(
+    () => {
+      if (!selectedAppointment) {
+        triggerRefresh();
+        jumpToPage(URLS.DETAILS);
+      }
+    },
+    [selectedAppointment, jumpToPage],
+  );
+
   return (
-    <CheckInConfirmation
-      selectedAppointment={selectedAppointment}
-      appointments={appointments}
-      triggerRefresh={refreshAppointments}
-    />
+    <>
+      {selectedAppointment && (
+        <CheckInConfirmation
+          selectedAppointment={selectedAppointment}
+          appointments={appointments}
+          triggerRefresh={refreshAppointments}
+        />
+      )}
+    </>
   );
 };
 
