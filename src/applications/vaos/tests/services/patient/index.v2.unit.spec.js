@@ -123,6 +123,7 @@ describe('VAOS Patient service v0/v2 comparison', () => {
         ],
         version: 0,
       });
+
       mockEligibilityFetchesByVersion({
         ...eligibility,
         clinics: [
@@ -156,11 +157,7 @@ describe('VAOS Patient service v0/v2 comparison', () => {
 
       const differences = diff(v0Result, v2Result);
 
-      // Removing eligibility reason 'noMatchingClinics' since the v2 api returns
-      // all appointments by default causing the eligibility check to report 'noMatchClinics'.
-      expect(differences).to.have.deep.members([
-        { op: 'remove', path: ['eligibility', 'directReasons', 1] },
-      ]);
+      expect(differences).to.be.empty;
     });
 
     it('should match when using primary care', async () => {
