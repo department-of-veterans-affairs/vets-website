@@ -36,6 +36,8 @@ export default function ClaimDetailLayout(props) {
       />
     );
   } else if (claim !== null) {
+    const claimTitle = `Your ${getClaimType(claim)} claim`;
+
     headingContent = (
       <>
         {message && (
@@ -46,7 +48,7 @@ export default function ClaimDetailLayout(props) {
             onClose={clearNotification}
           />
         )}
-        <h1 className="claim-title">Your {getClaimType(claim)} claim</h1>
+        <h1 className="claim-title">{claimTitle}</h1>
         {!synced && <ClaimSyncWarning olderVersion={!synced} />}
         <div className="claim-contentions">
           <h2 className="claim-contentions-header vads-u-font-size--h6">
