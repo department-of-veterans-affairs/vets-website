@@ -9,12 +9,14 @@ import {
   HIGH_DISABILITY,
   emptyObjectSchema,
 } from '../../../helpers';
+import { ContactInfoDescription } from '../../../components/FormDescriptions';
 
 const { email } = fullSchemaHca.properties;
 const { phone } = fullSchemaHca.definitions;
 
 export default {
   uiSchema: {
+    'ui:description': ContactInfoDescription,
     'view:contactShortFormMessage': {
       'ui:description': shortFormMessage,
       'ui:options': {
