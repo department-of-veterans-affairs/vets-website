@@ -11,16 +11,9 @@ export const useOnLoaded = (targetElement = window) => {
 
   useEffect(
     () => {
-      if (!targetElement.addEventListener) {
-        console.warn(
-          `The target element does not support \`addEventListener\` - targeting ${targetElement}.`,
-        );
-        return;
-      }
-
-      targetElement.addEventListener('load', loadedHandler);
+      targetElement?.addEventListener('load', loadedHandler);
       return () => {
-        targetElement.removeEventListener('load', loadedHandler);
+        targetElement?.removeEventListener('load', loadedHandler);
       };
     },
     [targetElement],
