@@ -8,6 +8,7 @@ import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
 import StatementCharges from '../components/StatementCharges';
 import DownloadStatement from '../components/DownloadStatement';
+import { OnThisPageStatements } from '../components/OnThisPageStatements';
 import '../sass/medical-copays.scss';
 
 const HTMLStatementPage = ({ match }) => {
@@ -57,7 +58,7 @@ const HTMLStatementPage = ({ match }) => {
         >
           {`${selectedCopay?.station.facilityName}`}
         </p>
-        <va-on-this-page className="vads-u-margin-top--0" />
+        <OnThisPageStatements />
         <AccountSummary
           currentBalance={selectedCopay.pHNewBalance}
           newCharges={selectedCopay.pHTotCharges}
@@ -81,7 +82,7 @@ const HTMLStatementPage = ({ match }) => {
           data-testid="statement-addresses"
           copay={selectedCopay}
         />
-        <h2 id="if-i-have-questions">
+        <h2 id="what-do-questions">
           What to do if you have questions about your statement
         </h2>
         <p>
