@@ -21,7 +21,11 @@ const StatementCharges = ({ copay }) => {
     billref: item.pDRefNo,
     amount: (
       <div>
-        ${item.pDTransAmtOutput.replace('-', '').replace(/[^\d.-]/g, '')}
+        $
+        {item.pDTransAmtOutput
+          .replace('&nbsp', '')
+          .replace('-', '')
+          .replace(/[^\d.-]/g, '')}
       </div>
     ),
   }));

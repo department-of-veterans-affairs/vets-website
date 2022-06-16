@@ -202,6 +202,7 @@ const formConfig = {
           path: 'contact-information',
           uiSchema: contactInformation.uiSchema,
           schema: contactInformation.schema,
+          updateFormData: contactInformation.updateFormData,
         },
         alternateNames: {
           title: 'Service under another name',
