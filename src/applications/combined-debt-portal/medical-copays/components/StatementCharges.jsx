@@ -19,7 +19,11 @@ const StatementCharges = ({ copay }) => {
         <span>{item.pDTransDescOutput}</span>
         <span>{item.pDRefNo}</span>
         <span>
-          ${item.pDTransAmtOutput.replace('-', '').replace(/[^\d.-]/g, '')}
+          $
+          {item.pDTransAmtOutput
+            .replace('&nbsp', '')
+            .replace('-', '')
+            .replace(/[^\d.-]/g, '')}
         </span>
       </va-table-row>
     );
