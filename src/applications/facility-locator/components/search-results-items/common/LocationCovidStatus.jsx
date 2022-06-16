@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import createCommonStore from 'platform/startup/store';
-import useStaticDrupalData from 'platform/site-wide/hooks/static-drupal-data';
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 import { FeatureToggleReducer } from 'platform/site-wide/feature-toggles/reducers';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
@@ -11,7 +10,7 @@ const store = createCommonStore({
   FeatureToggleReducer,
 });
 
-const LocationCovidStatus = ({ supplementalStatus }) => {
+const LocationCovidStatus = ({ supplementalStatus, staticCovidStatuses }) => {
   const [showVamcAlert, setShowVamcAlert] = useState(true);
 
   useEffect(() => {
@@ -26,10 +25,6 @@ const LocationCovidStatus = ({ supplementalStatus }) => {
       }
     });
   }, []);
-
-  const staticCovidStatuses = useStaticDrupalData(
-    'vamc-facility-supplemental-status',
-  );
 
   if (!staticCovidStatuses) {
     return <></>;
@@ -65,6 +60,7 @@ const LocationCovidStatus = ({ supplementalStatus }) => {
 };
 
 LocationCovidStatus.propTypes = {
+  staticCovidStatuses: PropTypes.array,
   supplementalStatus: PropTypes.array,
 };
 
