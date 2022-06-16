@@ -730,7 +730,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       );
 
       beforeEach(() => mockFetch());
-      it.skip('should show clinics message when direct is supported, has past visits, no matching clinics, requests not supported', async () => {
+      it('should show clinics message when direct is supported, has past visits, no matching clinics, requests not supported', async () => {
         mockSchedulingConfigurations([
           getSchedulingConfigurationMock({
             id: '983',

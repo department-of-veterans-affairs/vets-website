@@ -75,7 +75,7 @@ describe('VAOS Patient service v0/v2 comparison', () => {
       expect(differences).to.be.empty;
     });
 
-    it.skip('should match when clinics are fetched', async () => {
+    it('should match when clinics are fetched', async () => {
       // Given a non MH/PC type of care
       const typeOfCare = {
         id: '125',
