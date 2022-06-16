@@ -13,6 +13,7 @@ const StatementCharges = ({ copay }) => {
     return (
       <va-table-row
         key={`${item.pDRefNo}-${item.pDTransAmtOutput
+          .replace('&nbsp', '')
           .replace('-', '')
           .replace(/[^\d.-]/g, '')}`}
       >
