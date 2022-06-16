@@ -39,6 +39,7 @@ export default Object.freeze({
   covidVolunteerUpdateEnabled: 'covid_volunteer_update_enabled',
   debtLettersShowLetters: 'debt_letters_show_letters',
   dependencyVerification: 'dependency_verification',
+  dhpConnectedDevicesFitbit: 'dhp_connected_devices_fitbit',
   dischargeWizardFeatures: 'discharge_wizard_features',
   enrollmentVerification: 'enrollment_verification',
   evssUploadLimit150Mb: 'evss_upload_limit_150mb',

@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { diff } from 'just-diff';
@@ -14,6 +15,11 @@ import {
 import { VIDEO_TYPES } from '../../../utils/constants';
 import moment from '../../../lib/moment-tz';
 import { createMockAppointmentByVersion } from '../../mocks/data';
+import { getLongTermAppointmentHistoryV2 } from '../../../services/vaos';
+import {
+  getDateRanges,
+  mockVAOSAppointmentsFetch,
+} from '../../mocks/helpers.v2';
 
 describe('VAOS Appointment service', () => {
   describe('fetchBookedAppointment', () => {
@@ -1201,6 +1207,33 @@ describe('VAOS Appointment service', () => {
 
       // Then the results have the following differences
       expect(differences).to.be.empty;
+    });
+  });
+
+  describe('getLongTermAppointmentHistoryV2', () => {
+    beforeEach(() => {
+      mockFetch();
+    });
+
+    it('should fetch 3 years of appointment history', async () => {
+      const dateRanges = getDateRanges(3);
+      dateRanges.forEach(range => {
+        mockVAOSAppointmentsFetch({
+          start: range.start,
+          end: range.end,
+          requests: [],
+          statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+        });
+      });
+
+      await getLongTermAppointmentHistoryV2();
+      expect(global.fetch.callCount).to.equal(3);
+      expect(global.fetch.firstCall.args[0]).to.contain(dateRanges[0].start);
+      expect(global.fetch.firstCall.args[0]).to.contain(dateRanges[0].end);
+      expect(global.fetch.secondCall.args[0]).to.contain(dateRanges[1].start);
+      expect(global.fetch.secondCall.args[0]).to.contain(dateRanges[1].end);
+      expect(global.fetch.thirdCall.args[0]).to.contain(dateRanges[2].start);
+      expect(global.fetch.thirdCall.args[0]).to.contain(dateRanges[2].end);
     });
   });
 });
