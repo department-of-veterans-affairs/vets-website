@@ -1,6 +1,8 @@
+import { isFuture } from 'date-fns';
 import { range } from 'lodash';
 import { FieldProps } from '../form-builder/types';
 import { getMessage } from './i18n';
+import { FUTURE_DATE_MESSAGE } from './constants';
 
 export const emailRegex =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -90,6 +92,23 @@ export const isValidEmail = <T>(
   return isValid
     ? ''
     : 'Please enter an email address using this format: X@X.com';
+};
+
+/**
+ * This function is used to validate an date field and make sure it's not in the future
+ *
+ * @param dateString
+ * @param props
+ */
+export const isValidDate = <T>(
+  dateString: T,
+  props: FieldProps<T>
+): ValidationFunctionResult<T> => {
+  if (typeof dateString !== 'string') {
+    return '';
+  }
+
+  return isFuture(new Date(dateString)) ? FUTURE_DATE_MESSAGE : '';
 };
 
 export const isValidPhone = <T>(

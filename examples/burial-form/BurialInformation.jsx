@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Page, DateField, TextField, RadioGroup } from '@department-of-veterans-affairs/va-forms-system-core';
 import { useFormikContext } from 'formik';
 import { isBeforeDate } from './utils';
+import { VALIDATION_MESSAGE } from '../Constant';
 
 const LOCATIONS = [
     {label: "VA medical center", value:"vaMedicalCenter", key:1},
@@ -9,8 +10,6 @@ const LOCATIONS = [
     {label: "Nursing home under VA contract", value:"nursingHome", key:3},
     {label: "Other", value:"other", key:4},
 ]
-
-const VALIDATION_STRING = 'Date of burial must be on or after the date of death';
 
 export default function BurialInformation(props) {
     const { values, setFieldValue } = useFormikContext();
@@ -29,12 +28,16 @@ export default function BurialInformation(props) {
 
     return (
         <Page {...props}>
-            <DateField name="deathDate" label="Date of death" required />
+            <DateField
+                name="deathDate"
+                label="Date of death"
+                required
+            />
             <DateField 
                 name="burialDate" 
                 label="Date of burial (includes cremation or internment)" 
                 required 
-                validate={isBeforeDate(values.burialDate, values.deathDate, VALIDATION_STRING)} 
+                validate={isBeforeDate(values.burialDate, values.deathDate, VALIDATION_MESSAGE)} 
             />
             <RadioGroup 
                 name="locationOfDeath.location" 

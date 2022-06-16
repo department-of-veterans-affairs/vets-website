@@ -374,3 +374,6 @@ export const MilitaryCities = [
   { label: 'Fleet Post Office', value: 'FPO' },
   { label: 'Diplomatic Post Office', value: 'DPO' },
 ];
+
+export const FUTURE_DATE_MESSAGE =
+  'Please provide a valid current or past date';

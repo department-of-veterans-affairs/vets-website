@@ -2,13 +2,13 @@ import React from 'react';
 import { useField, FieldHookConfig } from 'formik';
 
 import { DateProps } from './types';
-import { chainValidations, required } from '../utils/validation';
+import { chainValidations, isValidDate, required } from '../utils/validation';
 import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const DateField = (props: DateProps): JSX.Element => {
   const withValidation = {
     ...props,
-    validate: chainValidations(props, [required]),
+    validate: chainValidations(props, [required, isValidDate]),
   };
   const [field, meta, helpers] = useField(
     withValidation as FieldHookConfig<string>

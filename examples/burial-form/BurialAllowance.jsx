@@ -69,7 +69,7 @@ export default function BurialAllowance(props) {
           )}
         </div>
 
-        {values?.relationship?.type === "spouse" && (
+        {values?.relationship?.type === "Spouse" && (
           <div className="vads-u-margin-y--3">
             <RadioGroup
               name="previouslyReceivedAllowance"
@@ -85,7 +85,7 @@ export default function BurialAllowance(props) {
           </div>
         )}
 
-        {values?.relationship?.type === "other" && (
+        {values?.relationship?.type === "Other" && (
           <div className="vads-u-margin-y--3">
             <RadioGroup
               name="benefitsUnclaimedRemains"
