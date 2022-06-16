@@ -42,7 +42,7 @@ export default function Page(props: PageProps): JSX.Element {
         )}
         {previousRoute && (
           <button
-            className="btn usa-button-primary prev"
+            className="btn usa-button-secondary prev"
             onClick={(event) => {
               event.preventDefault();
               navigate(previousRoute as To);
