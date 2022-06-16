@@ -26,13 +26,8 @@ import {
 } from '../actions';
 
 const scrollToError = () => {
-  // When the viewport is under a certain height, scrollTo doesn't seem to work
-  // without 'smooth' being set to 'true'
-  const options = getScrollOptions({
-    offset: -25,
-    smooth: true,
-  });
-  scrollTo('uploadError', options);
+  const options = getScrollOptions({ offset: -25 });
+  setTimeout(() => scrollTo('uploadError', options));
 };
 
 const { Element } = Scroll;
