@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 
-import { recordAnswer } from '../../../actions/pre-check-in';
+import { recordAnswer } from '../../../actions/universal';
 
 import BackButton from '../../../components/BackButton';
 import BackToHome from '../../../components/BackToHome';
