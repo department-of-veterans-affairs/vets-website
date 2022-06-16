@@ -18,8 +18,8 @@ import redirectIfNecessary from './redirects';
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
 import proxyWhitelist from './proxy-rewrite-whitelist.json';
-import { isBrowserIE } from '~/logic/detection/is-browser';
-import { installWebComponentsLibrary } from '~/logic/legacy/web-components';
+import { isBrowserIE } from '~/platform/utilities/detection/is-browser';
+import { installWebComponentsLibrary } from '~/platform/utilities/legacy/web-components';
 
 function createMutationObserverCallback() {
   // Find native header, footer, etc based on page path
