@@ -14,12 +14,6 @@ import mockDebts from '../../../debt-letters/tests/e2e/fixtures/mocks/debts.json
 import mockDebtsEmpty from './fixtures/mocks/mockDebtsEmpty.json';
 
 describe('Your VA debt and bills (overview)', () => {
-  // Skip tests in CI until the app is released.
-  // Remove this block when the app has a content page in production.
-  before(function skipInCI() {
-    if (Cypress.env('CI')) this.skip();
-  });
-
   beforeEach(() => {
     cy.login(mockUser81);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
@@ -40,6 +34,9 @@ describe('Your VA debt and bills (overview)', () => {
       cy.findByTestId('overview-page-title').should('exist');
 
       cy.findByTestId('balance-card-combo-alert-zero').should('exist');
+
+      cy.findByTestId('balance-card-copay').should('not.exist');
+      cy.findByTestId('balance-card-debt').should('not.exist');
 
       cy.injectAxeThenAxeCheck('#react-root');
     });
@@ -65,6 +62,9 @@ describe('Your VA debt and bills (overview)', () => {
             .should('contain', '61.00');
         });
       cy.findByTestId('balance-card-zero-debt').should('exist');
+
+      cy.findByTestId('balance-card-zero-copay').should('not.exist');
+      cy.findByTestId('balance-card-debt').should('not.exist');
 
       cy.injectAxeThenAxeCheck('#react-root');
     });
@@ -104,6 +104,9 @@ describe('Your VA debt and bills (overview)', () => {
             .invoke('text')
             .should('contain', '3,305.40');
         });
+
+      cy.findByTestId('balance-card-copay').should('not.exist');
+      cy.findByTestId('balance-card-zero-debt').should('not.exist');
 
       cy.injectAxeThenAxeCheck('#react-root');
     });
@@ -149,6 +152,9 @@ describe('Your VA debt and bills (overview)', () => {
             .invoke('text')
             .should('contain', '3,305.40');
         });
+
+      cy.findByTestId('balance-card-zero-copay').should('not.exist');
+      cy.findByTestId('balance-card-zero-debt').should('not.exist');
 
       cy.injectAxeThenAxeCheck('#react-root');
     });
