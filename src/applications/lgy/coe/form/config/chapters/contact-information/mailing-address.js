@@ -1,5 +1,6 @@
 import React from 'react';
 import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
+import { isValidCentralMailPostalCode } from 'platform/forms/address/validations';
 
 import { contactInformation } from '../../schemaImports';
 
@@ -17,7 +18,6 @@ const description = () => (
     </p>
   </>
 );
-
 export const title = 'Mailing address';
 
 const checkboxTitle = 'I live on a U.S. military base outside of the country';
@@ -26,9 +26,32 @@ export const schema = contactInformation.mailingAddress;
 
 export const uiSchema = {
   'ui:description': description,
-  applicantAddress: addressUiSchema(
-    'applicantAddress',
-    checkboxTitle,
-    () => true,
-  ),
+  applicantAddress: {
+    ...addressUiSchema('applicantAddress', checkboxTitle, () => true),
+    postalCode: {
+      'ui:autocomplete': 'postal-code',
+      'ui:errorMessages': {
+        required: 'Please enter a postal code',
+        pattern:
+          'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
+      },
+      'ui:options': {
+        widgetClassNames: 'usa-input-medium',
+      },
+      'ui:required': () => true,
+      'ui:title': 'Postal code',
+      'ui:validations': [
+        {
+          validator: (errors, _fieldData, formData) => {
+            const { country, postalCode } = formData.applicantAddress;
+            const isValid = isValidCentralMailPostalCode({
+              country,
+              postalCode,
+            });
+            if (!isValid) errors.addError('Please provide a valid postal code');
+          },
+        },
+      ],
+    },
+  },
 };
