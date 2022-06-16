@@ -63,7 +63,7 @@ describe('check-in', () => {
       );
     });
     it('Renders failed validation message', () => {
-      const component = render(<ErrorMessage isMaxValidateAttempts />);
+      const component = render(<ErrorMessage validationError="check-in" />);
       expect(component.getByTestId('error-message')).to.exist;
       expect(component.getByTestId('error-message')).to.contain.text(
         'We’re sorry. We couldn’t match your information to our records.',

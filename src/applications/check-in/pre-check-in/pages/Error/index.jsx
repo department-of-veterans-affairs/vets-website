@@ -95,7 +95,7 @@ const Error = () => {
       <ErrorMessage
         message={message}
         additionalDetails={additionalDetails}
-        isMaxValidateAttempts={isMaxValidateAttempts}
+        validationError={isMaxValidateAttempts ? 'pre-check-in' : ''}
       />
       <Footer />
       <BackToHome />

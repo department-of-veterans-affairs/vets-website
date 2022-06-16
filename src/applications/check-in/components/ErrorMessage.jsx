@@ -2,11 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-const ErrorMessage = ({
-  message,
-  additionalDetails,
-  isMaxValidateAttempts,
-}) => {
+const ErrorMessage = ({ message, additionalDetails, validationError }) => {
   const { t } = useTranslation();
   const errorMessage =
     message ??
@@ -23,7 +19,7 @@ const ErrorMessage = ({
       </va-alert>
     );
 
-  return isMaxValidateAttempts ? (
+  return validationError ? (
     <va-alert
       show-icon
       background-only
@@ -37,9 +33,11 @@ const ErrorMessage = ({
         <strong>{t('in-person-appointment')}</strong>
       </div>
       <div>
-        {t(
-          'you-can-still-check-in-with-your-phone-on-the-day-of-your-appointment',
-        )}
+        {validationError === 'check-in'
+          ? t('check-in-with-a-staff-member')
+          : t(
+              'you-can-still-check-in-with-your-phone-on-the-day-of-your-appointment',
+            )}
       </div>
       <div className="check-in-error-arrow">
         <strong>{t('telephone-appointment')}</strong>
@@ -59,8 +57,8 @@ const ErrorMessage = ({
 ErrorMessage.propTypes = {
   additionalDetails: PropTypes.node,
   header: PropTypes.string,
-  isMaxValidateAttempts: PropTypes.bool,
   message: PropTypes.node,
+  validationError: PropTypes.string,
 };
 
 export default ErrorMessage;
