@@ -143,11 +143,6 @@ class AddFilesForm extends React.Component {
     if (files.length > 0 && files.every(isValidDocument) && hasPasswords) {
       // This nested state prevents VoiceOver from accouncing an
       // unchecked checkbox if the file is missing.
-      if (this.state.checked) {
-        this.props.onSubmit();
-        return;
-      }
-
       const { checked } = this.state;
 
       this.setState({
@@ -155,6 +150,11 @@ class AddFilesForm extends React.Component {
           ? null
           : 'Please confirm these documents apply to this claim only',
       });
+
+      if (this.state.checked) {
+        this.props.onSubmit();
+        return;
+      }
     }
 
     this.props.onDirtyFields();
