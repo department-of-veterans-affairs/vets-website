@@ -1,7 +1,7 @@
 import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
 import 'url-search-params-polyfill';
-
+import environment from 'platform/utilities/environment';
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 import { externalApplicationsConfig } from './usip-config';
 import {
@@ -63,6 +63,15 @@ export const sanitizePath = to => {
     return '';
   }
   return to.startsWith('/') ? to : `/${to}`;
+};
+
+export const generateReturnURL = (returnUrl, redirectToMyVA) => {
+  return [
+    `${environment.BASE_URL}/?next=loginModal`,
+    `${environment.BASE_URL}`,
+  ].includes(returnUrl) && redirectToMyVA
+    ? `${environment.BASE_URL}/my-va/`
+    : returnUrl;
 };
 
 export const createExternalApplicationUrl = () => {
@@ -187,7 +196,7 @@ export function sessionTypeUrl({
 
   return appendQuery(
     useOAuth
-      ? API_SIGN_IN_SERVICE_URL({ type })
+      ? API_SIGN_IN_SERVICE_URL({ type: `/${type}` })
       : API_SESSION_URL({
           version,
           type: `${type}${requireVerification}`,

@@ -98,6 +98,7 @@ src/applications/coronavirus-vaccination-expansion @department-of-veterans-affai
 src/applications/my-education-benefits @department-of-veterans-affairs/my-education-benefits
 src/applications/enrollment-verification @department-of-veterans-affairs/my-education-benefits
 src/applications/education-letters @department-of-veterans-affairs/my-education-benefits
+src/applications/fry-dea @department-of-veterans-affairs/my-education-benefits
 
 # Other
 src/applications/coronavirus-chatbot @department-of-veterans-affairs/chatbot-admin
