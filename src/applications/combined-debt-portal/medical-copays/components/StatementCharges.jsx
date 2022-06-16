@@ -39,7 +39,7 @@ const StatementCharges = ({ copay }) => {
         This statement shows charges you received between{' '}
         {previousCopaysStartDate} and {today}
       </p>
-      <va-table>
+      <va-table role="table">
         <va-table-row slot="headers">
           <span>Description</span>
           <span> Billing reference</span>

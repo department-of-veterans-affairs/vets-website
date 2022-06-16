@@ -10,8 +10,8 @@ const TriangleIcon = () => (
 );
 const CircleIcon = () => (
   <div className="vads-u-margin-top--0p5 vads-u-margin-right--1">
-    <i aria-hidden="true" className="fas fa-exclamation-triangle" />
-    <span className="sr-only">Alert</span>
+    <i aria-hidden="true" className="fas fa-info-circle" />
+    <span className="sr-only">Information</span>
   </div>
 );
 
