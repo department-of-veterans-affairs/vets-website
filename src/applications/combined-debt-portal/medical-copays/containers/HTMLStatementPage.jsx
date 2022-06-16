@@ -31,7 +31,7 @@ const HTMLStatementPage = ({ match }) => {
 
   return (
     <>
-      <article>
+      <div className="vads-l-col--12 small-desktop-screen:vads-l-col--10">
         <va-breadcrumbs className="vads-u-font-family--sans no-wrap">
           <a href="/">Home</a>
           <a href="/manage-debt-and-bills">Manage your VA debt and bills</a>
@@ -48,6 +48,8 @@ const HTMLStatementPage = ({ match }) => {
           </a>
           <a href={`/copay-balances/${selectedId}/detail/statement`}>{title}</a>
         </va-breadcrumbs>
+      </div>
+      <article className="vads-u-padding--0 medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="statement-page-title">{title}</h1>
         <p
           className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-font-family--sarif"
@@ -80,7 +82,7 @@ const HTMLStatementPage = ({ match }) => {
           copay={selectedCopay}
         />
         <h2 id="if-i-have-questions">
-          What if I have questions about my statement?
+          What to do if you have questions about your statement
         </h2>
         <p>
           Contact the VA Health Resource Center at{' '}

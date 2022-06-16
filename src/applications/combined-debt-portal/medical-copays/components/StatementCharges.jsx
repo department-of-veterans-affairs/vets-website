@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Table from '@department-of-veterans-affairs/component-library/Table';
 import moment from 'moment';
 
 const StatementCharges = ({ copay }) => {
@@ -10,25 +9,21 @@ const StatementCharges = ({ copay }) => {
     .subtract(1, 'month')
     .format('MMMM D, YYYY');
 
-  const fields = [
-    { label: 'Description', value: 'desc' },
-    { label: 'Billing Reference', value: 'billref' },
-    { label: 'Amount', value: 'amount' },
-  ];
-
-  const tableData = copay.details.map(item => ({
-    desc: item.pDTransDescOutput,
-    billref: item.pDRefNo,
-    amount: (
-      <div>
-        $
-        {item.pDTransAmtOutput
-          .replace('&nbsp', '')
+  const tableData = copay.details.map(item => {
+    return (
+      <va-table-row
+        key={`${item.pDRefNo}-${item.pDTransAmtOutput
           .replace('-', '')
-          .replace(/[^\d.-]/g, '')}
-      </div>
-    ),
-  }));
+          .replace(/[^\d.-]/g, '')}`}
+      >
+        <span>{item.pDTransDescOutput}</span>
+        <span>{item.pDRefNo}</span>
+        <span>
+          ${item.pDTransAmtOutput.replace('-', '').replace(/[^\d.-]/g, '')}
+        </span>
+      </va-table-row>
+    );
+  });
 
   return (
     <>
@@ -39,11 +34,14 @@ const StatementCharges = ({ copay }) => {
         This statement shows charges you received between{' '}
         {previousCopaysStartDate} and {today}
       </p>
-      <Table
-        data={tableData}
-        fields={fields}
-        className="statement-charges-table"
-      />
+      <va-table>
+        <va-table-row slot="headers">
+          <span>Description</span>
+          <span> Billing reference</span>
+          <span>Amount</span>
+        </va-table-row>
+        {tableData}
+      </va-table>
     </>
   );
 };
