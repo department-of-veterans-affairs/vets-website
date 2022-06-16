@@ -45,15 +45,11 @@ const DebtDetailsCard = ({ debt }) => {
           {debtCardContent.showMakePayment && (
             <div>
               <a
-                className="vads-u-font-size--md vads-u-font-weight--bold"
                 aria-label="Make a payment"
-                href="https://www.pay.va.gov/"
+                className="vads-c-action-link--blue"
                 data-testid="link-make-payment"
+                href="https://www.pay.va.gov/"
               >
-                <i
-                  aria-hidden="true"
-                  className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
-                />
                 Make a payment
               </a>
             </div>
@@ -61,15 +57,11 @@ const DebtDetailsCard = ({ debt }) => {
           {debtCardContent.showRequestHelp && (
             <div>
               <a
-                className="vads-u-font-size--md vads-u-font-weight--bold"
                 aria-label="Request help with your debt"
-                href="/manage-va-debt/request-debt-help-form-5655"
+                className="vads-c-action-link--blue"
                 data-testid="link-request-help"
+                href="/manage-va-debt/request-debt-help-form-5655"
               >
-                <i
-                  className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
-                  aria-hidden="true"
-                />
                 Request help with your debt
               </a>
             </div>
