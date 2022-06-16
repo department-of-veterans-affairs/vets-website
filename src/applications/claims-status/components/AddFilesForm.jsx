@@ -148,14 +148,13 @@ class AddFilesForm extends React.Component {
 
   render() {
     return (
-      <>
+      <div>
         <div>
-          <va-additional-info
-            class="vads-u-margin-y--2"
-            trigger="Need to mail your files?"
-          >
-            {mailMessage}
-          </va-additional-info>
+          <p>
+            <va-additional-info trigger="Need to mail your files?">
+              {mailMessage}
+            </va-additional-info>
+          </p>
         </div>
         <Element name="filesList" />
         <div>
@@ -212,7 +211,7 @@ class AddFilesForm extends React.Component {
                 {isEncrypted && (
                   <>
                     <p className="clearfix">
-                      This is an encrypted PDF document. In order for us to be
+                      This is en encrypted PDF document. In order for us to be
                       able to view the document, we will need the password to
                       decrypt it.
                     </p>
@@ -299,7 +298,7 @@ class AddFilesForm extends React.Component {
             />
           }
         />
-      </>
+      </div>
     );
   }
 }

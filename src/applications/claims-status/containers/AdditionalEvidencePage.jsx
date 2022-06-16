@@ -27,10 +27,8 @@ import {
 
 const scrollToError = () => {
   // When the viewport is under a certain height, scrollTo doesn't seem to work
-  // without 'smooth' being set to true. Setting 'duration' so that the transition
-  // isn't so jarring
+  // without 'smooth' being set to 'true'
   const options = getScrollOptions({
-    duration: 500,
     offset: -25,
     smooth: true,
   });
