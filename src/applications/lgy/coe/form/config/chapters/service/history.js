@@ -15,6 +15,7 @@ export const uiSchema = {
       viewField: ServicePeriodView,
       keepInPageOnReview: true,
       customTitle: ' ', // Prevent outer DL wrapper
+      useDlWrap: true, // Move DL wrap to immediately around list
     },
     items: {
       'ui:title': 'Service period',

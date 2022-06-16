@@ -26,6 +26,7 @@ class ReadOnlyArrayField extends React.Component {
     const uiOptions = uiSchema['ui:options'] || {};
 
     const items = formData || [];
+    const Wrapper = uiSchema?.['ui:options']?.useDlWrap ? 'dl' : 'div';
 
     return (
       <div className="schemaform-field-container">
@@ -51,7 +52,7 @@ class ReadOnlyArrayField extends React.Component {
                   {/* outer wrapper needs uiOptions.customTitle = ' ' to prevent
                     * rendering of a <dl> around the schemaform-field-container
                     */}
-                  <dl className="review">
+                  <Wrapper className="review">
                     <SchemaField
                       key={index}
                       schema={itemSchema}
@@ -66,7 +67,7 @@ class ReadOnlyArrayField extends React.Component {
                       disabled={disabled}
                       readonly={readonly}
                     />
-                  </dl>
+                  </Wrapper>
                 </div>
               </div>
             </div>
@@ -90,7 +91,9 @@ ReadOnlyArrayField.propTypes = {
     ).isRequired,
     fields: PropTypes.objectOf(PropTypes.func).isRequired,
     definitions: PropTypes.object.isRequired,
-    formContext: PropTypes.object.isRequired,
+    formContext: PropTypes.shape({
+      onReviewPage: PropTypes.bool,
+    }).isRequired,
   }),
   uiSchema: PropTypes.object,
 };
