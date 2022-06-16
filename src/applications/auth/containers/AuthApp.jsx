@@ -18,6 +18,11 @@ import {
   setupProfileSession,
 } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
+import { requestToken } from 'platform/utilities/oauth/utilities';
+import {
+  OAUTH_ERRORS,
+  OAUTH_ERROR_RESPONSES,
+} from 'platform/utilities/oauth/constants';
 import RenderErrorUI from '../components/RenderErrorContainer';
 import AuthMetrics from './AuthMetrics';
 
@@ -29,17 +34,24 @@ export class AuthApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: props.location.query.auth === 'fail',
+      hasError: this.props.location.query.auth === 'fail',
+      loginType: this.props.location.query.type || '',
       returnUrl: sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '',
+      auth: this.props.location.query.auth || '',
+      code: this.props.location.query.code || '',
+      state: this.props.location.query.state || '',
     };
   }
 
   componentDidMount() {
-    if (!this.state.error || hasSession()) this.validateSession();
+    if (!this.state.hasError || hasSession()) {
+      this.validateSession();
+    }
   }
 
   handleAuthError = error => {
-    const loginType = this.props.location.query.type;
+    const { loginType, code } = this.state;
+    const errorCode = code.length === 3 ? code : '007';
 
     Sentry.withScope(scope => {
       scope.setExtra('error', error);
@@ -49,7 +61,11 @@ export class AuthApp extends React.Component {
 
     recordEvent({ event: AUTH_EVENTS.ERROR_USER_FETCH });
 
-    this.setState({ error: true });
+    this.setState(prevState => ({
+      ...prevState,
+      code: errorCode,
+      hasError: true,
+    }));
   };
 
   handleAuthForceNeeded = () => {
@@ -63,15 +79,15 @@ export class AuthApp extends React.Component {
 
   handleAuthSuccess = payload => {
     sessionStorage.setItem('shouldRedirectExpiredSession', true);
-    const { type } = this.props.location.query;
-    const authMetrics = new AuthMetrics(type, payload);
+    const { loginType } = this.state;
+    const authMetrics = new AuthMetrics(loginType, payload);
     authMetrics.run();
     setupProfileSession(authMetrics.userProfile);
     this.redirect(authMetrics.userProfile);
   };
 
   redirect = (userProfile = {}) => {
-    const returnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '';
+    const { returnUrl } = this.state;
 
     const handleRedirect = () => {
       sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
@@ -99,16 +115,9 @@ export class AuthApp extends React.Component {
       returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]) ||
       returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])
     ) {
-      const { app } = {
-        ...(returnUrl.includes(
-          EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH],
-        ) && {
-          app: CSP_IDS.CERNER,
-        }),
-        ...(returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV]) && {
-          app: CSP_IDS.MHV,
-        }),
-      };
+      const app = returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV])
+        ? CSP_IDS.MHV
+        : EXTERNAL_APPS.MY_VA_HEALTH;
 
       recordEvent({
         event: `login-inbound-redirect-to-${app}`,
@@ -121,30 +130,75 @@ export class AuthApp extends React.Component {
     handleRedirect();
   };
 
+  handleTokenRequest = async ({ code, state }) => {
+    // Verify the state matches in storage
+    if (
+      !sessionStorage.getItem('state') ||
+      sessionStorage.getItem('state') !== state
+    ) {
+      this.generateOAuthError({
+        code: OAUTH_ERRORS.OAUTH_STATE_MISMATCH,
+        event: OAUTH_ERRORS.OAUTH_STATE_MISMATCH,
+      });
+    } else {
+      // Matches - requestToken exchange
+      try {
+        await requestToken({ code });
+      } catch (error) {
+        const { errors } = await error.json();
+        const errorCode = OAUTH_ERROR_RESPONSES[errors];
+        this.generateOAuthError({
+          code: errorCode,
+          event: AUTH_EVENTS.OAUTH_ERROR_USER_FETCH,
+        });
+      }
+    }
+  };
+
   // Fetch the user to get the login policy and validate the session.
-  validateSession = () => {
-    if (this.props.location.query.auth === 'force-needed') {
+  validateSession = async () => {
+    const { code, state, auth } = this.state;
+
+    if (code && state) {
+      await this.handleTokenRequest({ code, state });
+    }
+
+    if (auth === 'force-needed') {
       this.handleAuthForceNeeded();
     } else {
-      apiRequest('/user')
-        .then(this.handleAuthSuccess)
-        .catch(this.handleAuthError);
+      try {
+        const response = await apiRequest('/user');
+        this.handleAuthSuccess(response);
+      } catch (error) {
+        this.handleAuthError(error);
+      }
     }
+  };
+
+  generateOAuthError = ({ code, event = AUTH_EVENTS.OAUTH_ERROR_DEFAULT }) => {
+    recordEvent({ event });
+
+    this.setState(prevState => ({
+      ...prevState,
+      code,
+      auth: 'fail',
+      hasError: true,
+    }));
   };
 
   render() {
     const renderErrorProps = {
-      code: this.props.location.query.code,
-      auth: this.props.location.query.auth,
+      code: this.state.code,
+      auth: this.state.auth,
       recordEvent,
       openLoginModal: this.props.openLoginModal,
     };
-    const view = this.state.error ? (
+
+    const view = this.state.hasError ? (
       <RenderErrorUI {...renderErrorProps} />
     ) : (
       <va-loading-indicator message="Signing in to VA.gov..." />
     );
-
     return <div className="row vads-u-padding-y--5">{view}</div>;
   }
 }

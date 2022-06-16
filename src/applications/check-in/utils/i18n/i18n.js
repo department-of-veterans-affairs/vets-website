@@ -88,6 +88,13 @@ i18n
 // This is necessary for DS components to use our language preference on initial load.
 setPageLanguage(i18n.language);
 
+// Ugly hack to trigger DS language detection.
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    setPageLanguage(i18n.language);
+  }, 10);
+});
+
 i18n.on('languageChanged', language => {
   setPageLanguage(language);
 });
