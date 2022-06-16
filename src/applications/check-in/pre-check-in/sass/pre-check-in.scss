@@ -30,3 +30,15 @@ ol.pre-check-in--appointment-list{
   display: inline-block;
   padding: 0 0.15em;
 }
+
+.check-in-error-arrow {
+  margin: 1.5rem 0;
+}
+
+.check-in-error-arrow:before {
+  margin-right: 1rem;
+  font-family: "Font Awesome 5 Free";
+  content: "\f054";
+  font-weight: 900;
+  display: inline-block;
+}

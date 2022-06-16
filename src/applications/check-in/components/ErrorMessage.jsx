@@ -2,7 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-const ErrorMessage = ({ message, additionalDetails }) => {
+const ErrorMessage = ({
+  message,
+  additionalDetails,
+  isMaxValidateAttempts,
+}) => {
   const { t } = useTranslation();
   const errorMessage =
     message ??
@@ -19,7 +23,30 @@ const ErrorMessage = ({ message, additionalDetails }) => {
       </va-alert>
     );
 
-  return (
+  return isMaxValidateAttempts ? (
+    <va-alert
+      show-icon
+      background-only
+      status="error"
+      data-testid="error-message"
+    >
+      <div>
+        {t('were-sorry-we-couldnt-match-your-information-to-our-records')}
+      </div>
+      <div className="check-in-error-arrow">
+        <strong>{t('in-person-appointment')}</strong>
+      </div>
+      <div>
+        {t(
+          'you-can-still-check-in-with-your-phone-on-the-day-of-your-appointment',
+        )}
+      </div>
+      <div className="check-in-error-arrow">
+        <strong>{t('telephone-appointment')}</strong>
+      </div>
+      <div>{t('your-provider-will-call-you')}</div>
+    </va-alert>
+  ) : (
     <>
       {subMessage}
       {additionalDetails && (
@@ -32,6 +59,7 @@ const ErrorMessage = ({ message, additionalDetails }) => {
 ErrorMessage.propTypes = {
   additionalDetails: PropTypes.node,
   header: PropTypes.string,
+  isMaxValidateAttempts: PropTypes.bool,
   message: PropTypes.node,
 };
 

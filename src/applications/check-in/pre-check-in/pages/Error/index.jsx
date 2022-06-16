@@ -31,15 +31,9 @@ const Error = () => {
   const { appointments } = useSelector(selectVeteranData);
   const { t } = useTranslation();
 
-  // If date exists, then show date.
-  const defaultMessageText = isMaxValidateAttempts
-    ? t(
-        'were-sorry-we-couldnt-match-your-information-to-our-records-please-call-us-at-800-698-2411-tty-711-for-help-signing-in',
-      )
-    : t('were-sorry-something-went-wrong-on-our-end-please-try-again');
   const messages = [
     {
-      text: defaultMessageText,
+      text: t('were-sorry-something-went-wrong-on-our-end-please-try-again'),
     },
   ];
   if (appointments && appointments.length > 0 && appointments[0].startTime) {
@@ -98,7 +92,11 @@ const Error = () => {
 
   return (
     <Wrapper pageTitle={header}>
-      <ErrorMessage message={message} additionalDetails={additionalDetails} />
+      <ErrorMessage
+        message={message}
+        additionalDetails={additionalDetails}
+        isMaxValidateAttempts={isMaxValidateAttempts}
+      />
       <Footer />
       <BackToHome />
     </Wrapper>

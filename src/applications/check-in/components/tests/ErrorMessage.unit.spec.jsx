@@ -62,5 +62,12 @@ describe('check-in', () => {
         'Detail line 2',
       );
     });
+    it('Renders failed validation message', () => {
+      const component = render(<ErrorMessage isMaxValidateAttempts />);
+      expect(component.getByTestId('error-message')).to.exist;
+      expect(component.getByTestId('error-message')).to.contain.text(
+        'We’re sorry. We couldn’t match your information to our records.',
+      );
+    });
   });
 });

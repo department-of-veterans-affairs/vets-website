@@ -12,13 +12,10 @@ const Error = () => {
   const { t } = useTranslation();
   const { getValidateAttempts } = useSessionStorage(false);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
-  const maxValidateMessage = t(
-    'were-sorry-we-couldnt-match-your-information-to-our-records-please-ask-a-staff-member-for-help',
-  );
   return (
     <Wrapper pageTitle={t('we-couldnt-check-you-in')}>
       {isMaxValidateAttempts ? (
-        <ErrorMessage message={maxValidateMessage} />
+        <ErrorMessage isMaxValidateAttempts />
       ) : (
         <ErrorMessage />
       )}
