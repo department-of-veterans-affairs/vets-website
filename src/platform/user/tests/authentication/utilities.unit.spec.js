@@ -293,7 +293,7 @@ describe('Authentication Utilities', () => {
         authUtilities.sessionTypeUrl({
           type,
         }),
-      ).to.equal(API_SIGN_IN_SERVICE_URL({ type }));
+      ).to.equal(API_SIGN_IN_SERVICE_URL({ type: `/${type}` }));
     });
 
     it('should NOT return session url with _verified appended to type for types other than login/signup', () => {
@@ -327,7 +327,7 @@ describe('Authentication Utilities', () => {
         authUtilities.sessionTypeUrl({
           type,
         }),
-      ).to.include(appendQuery(API_SIGN_IN_SERVICE_URL({ type })));
+      ).to.include(appendQuery(API_SIGN_IN_SERVICE_URL({ type: `/${type}` })));
     });
     it('should use API_SESSION_URL when OAuth is disabled', () => {
       const params = { application: 'vamobile' };
