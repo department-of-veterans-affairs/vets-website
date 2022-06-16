@@ -80,6 +80,13 @@ export function getDerivedAttributes(constant, eligibility, institution) {
       } else {
         monthlyRate = constant.DEARATEFULLTIME;
       }
+
+      if (
+        (your.militaryStatus === 'child' || your.militaryStatus === 'spouse') &&
+        its.country === 'philippines'
+      ) {
+        monthlyRate /= 2;
+      }
       break;
     case 31:
       if (n <= 2) {

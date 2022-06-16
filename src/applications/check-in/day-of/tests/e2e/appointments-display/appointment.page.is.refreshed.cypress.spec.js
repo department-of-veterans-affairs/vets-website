@@ -30,7 +30,7 @@ describe('Check In Experience -- ', () => {
       initializeCheckInDataPost.withSuccess();
 
       cy.visitWithUUID();
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       Demographics.attemptToGoToNextPage();
@@ -47,7 +47,7 @@ describe('Check In Experience -- ', () => {
       cy.injectAxeThenAxeCheck();
       // refresh the page
       cy.reload();
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
     });
   });
 });

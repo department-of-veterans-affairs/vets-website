@@ -1,12 +1,11 @@
 /** @module testing/mocks/fetch */
-import moment from 'moment';
 import sinon from 'sinon';
 import environment from 'platform/utilities/environment';
 import { setFetchJSONResponse } from 'platform/testing/unit/helpers';
-import { getVAAppointmentMock } from './v0';
 import { mockEligibilityFetches } from './helpers';
-import { getV2ClinicMock } from './v2';
+import { getV2ClinicMock, getVAOSAppointmentMock } from './v2';
 import { TYPES_OF_CARE } from '../../utils/constants';
+import { getDateRanges, mockVAOSAppointmentsFetch } from './helpers.v2';
 
 /**
  * Mocks the api calls for the various eligibility related fetches VAOS does in the new appointment flow
@@ -115,43 +114,26 @@ export function mockEligibilityFetchesByVersion({
     );
 
     const pastAppointments = clinics.map(clinic => {
-      const appointment = getVAAppointmentMock();
-      appointment.attributes = {
-        ...appointment.attributes,
-        startDate: moment().format(),
-        facilityId: facilityId.substr(0, 3),
-        sta6aid: facilityId,
-        clinicId: clinic.id,
+      const appt = getVAOSAppointmentMock();
+      return {
+        ...appt,
+        attributes: {
+          ...appt.attributes,
+          clinic: clinic.id,
+          locationId: facilityId.substr(0, 3),
+        },
       };
-      appointment.attributes.vdsAppointments[0].currentStatus = 'FUTURE';
-
-      return appointment;
     });
-    // These will probably need to in the different version blocks after we refactor
-    // how the past appointment check works
-    setFetchJSONResponse(
-      global.fetch.withArgs(
-        `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
-          .startOf('day')
-          .subtract(12, 'months')
-          .toISOString()}&end_date=${moment()
-          .startOf('day')
-          .toISOString()}&type=va`,
-      ),
-      { data: pastClinics ? pastAppointments : [] },
-    );
-    setFetchJSONResponse(
-      global.fetch.withArgs(
-        `${environment.API_URL}/vaos/v0/appointments?start_date=${moment()
-          .startOf('day')
-          .subtract(24, 'months')
-          .toISOString()}&end_date=${moment()
-          .startOf('day')
-          .subtract(12, 'months')
-          .toISOString()}&type=va`,
-      ),
-      { data: [] },
-    );
+
+    const dateRanges = getDateRanges(3);
+    dateRanges.forEach(range => {
+      mockVAOSAppointmentsFetch({
+        start: range.start,
+        end: range.end,
+        requests: pastClinics ? pastAppointments : [],
+        statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      });
+    });
   } else if (version === 0) {
     mockEligibilityFetches({
       siteId: facilityId.substr(0, 3),

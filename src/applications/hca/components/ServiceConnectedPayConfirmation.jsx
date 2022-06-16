@@ -33,10 +33,10 @@ const ServiceConnectedPayConfirmation = ({ goBack, goForward }) => {
       <div className="hca-id-form-wrapper vads-u-margin-bottom--2 vads-u-margin-x--neg1p5">
         <div className="vads-u-background-color--primary-alt-lightest vads-u-padding-top--1 vads-u-padding-bottom--2p5  vads-u-margin-bottom--3">
           <div className="vads-u-padding-x--4">
-            <p className="vads-u-font-family--serif vads-u-font-size--lg vads-u-font-weight--bold">
+            <h3>
               Please confirm that you receive service-connected pay for a 50% or
               higher disability rating.
-            </p>
+            </h3>
             <p>
               You selected that you currently receive service-connected
               disability pay for a 50% or higher disability rating. Because your
@@ -44,7 +44,7 @@ const ServiceConnectedPayConfirmation = ({ goBack, goForward }) => {
             </p>
             <p>
               <strong>Note:</strong> We’ll confirm your information when we
-              receive your application.{' '}
+              receive your application.
             </p>
             <div className="vads-u-margin-y--4">
               <va-additional-info trigger="Why do I need to confirm my disability pay?">

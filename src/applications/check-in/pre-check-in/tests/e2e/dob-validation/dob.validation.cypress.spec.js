@@ -29,7 +29,7 @@ describe('Pre-Check In Experience ', () => {
   it('Validate with DOB', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
-    ValidateVeteran.validatePageLoaded();
+    ValidateVeteran.validatePage.preCheckIn();
     ValidateVeteran.validateVeteranDob();
     cy.injectAxeThenAxeCheck();
     ValidateVeteran.attemptToGoToNextPage();
@@ -39,7 +39,7 @@ describe('Pre-Check In Experience ', () => {
   it('only allows current and past years', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
-    ValidateVeteran.validatePageLoaded();
+    ValidateVeteran.validatePage.preCheckIn();
     ValidateVeteran.validateVeteranDobInvalidYear();
     ValidateVeteran.attemptToGoToNextPage();
     ValidateVeteran.getDobError();

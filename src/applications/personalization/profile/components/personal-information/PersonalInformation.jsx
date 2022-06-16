@@ -11,6 +11,7 @@ import {
   profileAlwaysShowDirectDepositDisplay,
   showBadAddressIndicator,
   hasBadAddress,
+  forceBadAddressIndicator,
 } from '@@profile/selectors';
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
@@ -53,6 +54,12 @@ const PersonalInformation = () => {
   );
 
   const userHasBadAddress = useSelector(hasBadAddress);
+
+  const shouldForceBadAddressIndicator = useSelector(
+    state =>
+      forceBadAddressIndicator(state) &&
+      !sessionStorage.getItem('profile-has-cleared-bad-address-indicator'),
+  );
 
   const badAddressIndicatorEnabled = useSelector(showBadAddressIndicator);
 
@@ -135,18 +142,21 @@ const PersonalInformation = () => {
     [openEditModal],
   );
 
+  const showHeroBadAddressAlert =
+    badAddressIndicatorEnabled &&
+    (userHasBadAddress || shouldForceBadAddressIndicator);
+
   return (
     <>
       <Prompt
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={hasUnsavedEdits}
       />
-      {badAddressIndicatorEnabled &&
-        userHasBadAddress && (
-          <>
-            <BadAddressAlert />
-          </>
-        )}
+      {showHeroBadAddressAlert && (
+        <>
+          <BadAddressAlert />
+        </>
+      )}
       {shouldShowProfileLGBTQEnhancements ? (
         <Headline>Personal information</Headline>
       ) : (

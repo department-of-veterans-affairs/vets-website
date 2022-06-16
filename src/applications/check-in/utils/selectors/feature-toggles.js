@@ -27,6 +27,9 @@ const selectFeatureToggles = createSelector(
     isTranslationPreCheckInEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceTranslationPreCheckInEnabled
     ],
+    isTranslationDisclaimerSpanishEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceTranslationDisclaimerSpanishEnabled
+    ],
     isDayOfDemographicsFlagsEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceDayOfDemographicsFlagsEnabled
     ],
@@ -35,6 +38,9 @@ const selectFeatureToggles = createSelector(
     ],
     isEditMessagingEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceEditMessagingEnabled
+    ],
+    isPhoneAppointmentsEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperiencePhoneAppointmentsEnabled
     ],
   }),
   toggles => toggles,

@@ -26,7 +26,7 @@ describe('Pre Check In Experience', () => {
     });
     it('On page reload, the data should be pull from session storage and redirected to landing screen with data loaded', () => {
       cy.visitPreCheckInWithUUID();
-      ValidateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePage.preCheckIn();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       Introduction.validatePageLoaded();
@@ -43,7 +43,7 @@ describe('Pre Check In Experience', () => {
         // redirected back to landing page to reload the data
         cy.url().should('match', /id=0429dda5-4165-46be-9ed1-1e652a8dfd83/);
 
-        ValidateVeteran.validatePageLoaded();
+        ValidateVeteran.validatePage.preCheckIn();
         cy.injectAxeThenAxeCheck();
       });
     });

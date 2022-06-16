@@ -1332,6 +1332,11 @@ const formConfig = {
             properties: {
               bankAccount: {
                 type: 'object',
+                required: [
+                  formFields.accountType,
+                  formFields.accountNumber,
+                  formFields.routingNumber,
+                ],
                 properties: {
                   accountType: {
                     type: 'string',
@@ -1343,6 +1348,7 @@ const formConfig = {
                   },
                   accountNumber: {
                     type: 'string',
+                    required: [],
                   },
                 },
               },

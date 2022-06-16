@@ -23,7 +23,7 @@ const DebtSummaryCard = ({ debt }) => {
   return (
     <article
       className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
-      data-testid="debt-list-item"
+      data-testid="debt-summary-item"
     >
       <h3 className="vads-u-margin--0">{debtCardTotal}</h3>
       <h4 className="vads-u-margin-y--2 vads-u-font-weight--normal">
@@ -37,8 +37,8 @@ const DebtSummaryCard = ({ debt }) => {
       >
         Check details and resolve this debt
         <i
+          className="fa fa-chevron-right vads-u-margin-left--1"
           aria-hidden="true"
-          className="fa fa-chevron-right vads-u-font-size--sm vads-u-margin-left--0p5"
         />
       </Link>
     </article>

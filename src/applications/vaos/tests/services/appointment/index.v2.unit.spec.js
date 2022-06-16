@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { diff } from 'just-diff';
@@ -14,6 +15,11 @@ import {
 import { VIDEO_TYPES } from '../../../utils/constants';
 import moment from '../../../lib/moment-tz';
 import { createMockAppointmentByVersion } from '../../mocks/data';
+import { getLongTermAppointmentHistoryV2 } from '../../../services/vaos';
+import {
+  getDateRanges,
+  mockVAOSAppointmentsFetch,
+} from '../../mocks/helpers.v2';
 
 describe('VAOS Appointment service', () => {
   describe('fetchBookedAppointment', () => {
@@ -56,6 +62,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -111,6 +119,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -166,6 +176,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -216,6 +228,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -267,6 +281,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -328,6 +344,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -417,6 +435,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -485,6 +505,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -538,6 +560,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -590,6 +614,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -642,6 +668,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // differences format is http://jsonpatch.com/
       const differences = diff(v2Result, v0Result);
@@ -701,6 +729,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result.vaos.apiData;
       delete v2Result.vaos.apiData;
+      delete v0Result.version;
+      delete v2Result.version;
 
       // The CC date transformer logic sets the date in UTC mode, which creates
       // a format difference when this test is run on a machine in GMT/UTC
@@ -883,6 +913,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result[0].vaos.apiData;
       delete v2Result[0].vaos.apiData;
+      delete v0Result[0].version;
+      delete v2Result[0].version;
 
       // When they compare the two results
       // differences format is http://jsonpatch.com/
@@ -980,6 +1012,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result[0].vaos.apiData;
       delete v2Result[0].vaos.apiData;
+      delete v0Result[0].version;
+      delete v2Result[0].version;
 
       // When they compare the two results
       // differences format is http://jsonpatch.com/
@@ -1086,6 +1120,8 @@ describe('VAOS Appointment service', () => {
       // These are always different
       delete v0Result[0].vaos.apiData;
       delete v2Result[0].vaos.apiData;
+      delete v0Result[0].version;
+      delete v2Result[0].version;
 
       // When they compare the two results
       // differences format is http://jsonpatch.com/
@@ -1171,6 +1207,33 @@ describe('VAOS Appointment service', () => {
 
       // Then the results have the following differences
       expect(differences).to.be.empty;
+    });
+  });
+
+  describe('getLongTermAppointmentHistoryV2', () => {
+    beforeEach(() => {
+      mockFetch();
+    });
+
+    it('should fetch 3 years of appointment history', async () => {
+      const dateRanges = getDateRanges(3);
+      dateRanges.forEach(range => {
+        mockVAOSAppointmentsFetch({
+          start: range.start,
+          end: range.end,
+          requests: [],
+          statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+        });
+      });
+
+      await getLongTermAppointmentHistoryV2();
+      expect(global.fetch.callCount).to.equal(3);
+      expect(global.fetch.firstCall.args[0]).to.contain(dateRanges[0].start);
+      expect(global.fetch.firstCall.args[0]).to.contain(dateRanges[0].end);
+      expect(global.fetch.secondCall.args[0]).to.contain(dateRanges[1].start);
+      expect(global.fetch.secondCall.args[0]).to.contain(dateRanges[1].end);
+      expect(global.fetch.thirdCall.args[0]).to.contain(dateRanges[2].start);
+      expect(global.fetch.thirdCall.args[0]).to.contain(dateRanges[2].end);
     });
   });
 });

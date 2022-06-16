@@ -15,8 +15,9 @@ export const API_SESSION_URL = ({ version = API_VERSION, type = null }) =>
 
 export const API_SIGN_IN_SERVICE_URL = ({
   version = SIS_API_VERSION,
-  type = null,
-}) => `${environment.API_URL}/${version}/sign_in/${type}/authorize`;
+  type = '',
+  endpoint = '/authorize',
+}) => `${environment.API_URL}/${version}/sign_in${type}${endpoint}`;
 
 export const AUTH_EVENTS = {
   MODAL_LOGIN: 'login-link-clicked-modal',
@@ -29,6 +30,10 @@ export const AUTH_EVENTS = {
   REGISTER: 'register-link-clicked',
   ERROR_USER_FETCH: 'login-error-user-fetch',
   ERROR_FORCE_NEEDED: 'login-failed-force-needed',
+  OAUTH_LOGIN: 'login-oauth-success',
+  OAUTH_ERROR_DEFAULT: 'login-error-oauth-default',
+  OAUTH_ERROR_STATE_MISMATCH: 'login-error-oauth-state-mismatch',
+  OAUTH_ERROR_USER_FETCH: 'login-error-oauth-user-fetch',
 };
 
 export const SERVICE_PROVIDERS = {
@@ -120,6 +125,7 @@ export const AUTH_ERROR = {
   ICN_MISMATCH: '103', // ICN Mismatch
   UUID_MISSING: '104', // UUID Missing (Login.gov or ID.me)
   MULTIPLE_CORPIDS: '106', // Multiple Corp IDs
+  REQUIRED_MISSING_USER_PARAMTER: '108',
 };
 
 export const MHV_TRANSITION_DATE = null;

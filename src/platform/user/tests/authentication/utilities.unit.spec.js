@@ -39,6 +39,7 @@ const flagshipUsipParams = '?application=vamobile';
 const mockGAClientId = '1234';
 const mockInvalidGATrackingId = 'UA-12345678-12';
 
+const normalPathWithParams = `${nonUsipPath}?oauth=true`;
 const usipPathWithParams = params => `${usipPath}${params}`;
 
 const mockGADefaultArgs = {
@@ -286,6 +287,15 @@ describe('Authentication Utilities', () => {
       );
     });
 
+    it('should return the SIS session URL if oauth is set', () => {
+      setup({ path: usipPathWithParams(normalPathWithParams) });
+      expect(
+        authUtilities.sessionTypeUrl({
+          type,
+        }),
+      ).to.equal(API_SIGN_IN_SERVICE_URL({ type: `/${type}` }));
+    });
+
     it('should NOT return session url with _verified appended to type for types other than login/signup', () => {
       setup({ path: usipPathWithParams(flagshipUsipParams) });
       expect(authUtilities.sessionTypeUrl({ type: 'mfa' })).to.include(
@@ -317,7 +327,7 @@ describe('Authentication Utilities', () => {
         authUtilities.sessionTypeUrl({
           type,
         }),
-      ).to.include(appendQuery(API_SIGN_IN_SERVICE_URL({ type })));
+      ).to.include(appendQuery(API_SIGN_IN_SERVICE_URL({ type: `/${type}` })));
     });
     it('should use API_SESSION_URL when OAuth is disabled', () => {
       const params = { application: 'vamobile' };
