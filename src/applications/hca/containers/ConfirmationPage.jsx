@@ -118,10 +118,7 @@ const ConfirmationPage = ({ form, profile, isLoggedIn }) => {
           may have about your health care benefits.
         </p>
         <p className="confirmation-guidance-message">
-          <a
-            href="/health-care/after-you-apply/"
-            className="vads-c-action-link--green"
-          >
+          <a href="/health-care/after-you-apply/">
             Find out what happens after you apply
           </a>
         </p>
