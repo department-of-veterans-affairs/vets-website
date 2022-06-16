@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useLastLocation } from 'react-router-last-location';
@@ -14,13 +14,25 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
     return selectVAPContactInfoField(state, fieldName);
   });
   const referrer = useLastLocation();
+  const id = `${fieldName}-alert`;
+  const useLink =
+    !!fieldData &&
+    referrer?.pathname === PROFILE_PATHS.NOTIFICATION_SETTINGS &&
+    fieldName === FIELD_NAMES.MOBILE_PHONE;
+  useEffect(
+    () => {
+      const editButton = document
+        .querySelector(`[data-field-name=${fieldName}]`)
+        .querySelector("[data-action='edit']");
+      window.thing = editButton;
+      // console.log({ editButton });
+    },
+
+    [id, useLink],
+  );
   const message = React.useMemo(
     () => {
-      if (
-        !!fieldData &&
-        referrer?.pathname === PROFILE_PATHS.NOTIFICATION_SETTINGS &&
-        fieldName === FIELD_NAMES.MOBILE_PHONE
-      ) {
+      if (useLink) {
         return (
           <>
             Update saved. Now you can{' '}
@@ -33,12 +45,12 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
       }
       return 'Update saved.';
     },
-    [fieldName, fieldData, referrer],
+    [useLink],
   );
 
   return (
     <AlertBox backgroundOnly status="success" className="vads-u-margin-y--1">
-      <div className="vads-u-display--flex">
+      <div className="vads-u-display--flex" id={id}>
         <i
           aria-hidden="true"
           className="fa fa-check-circle vads-u-padding-top--0p5 vads-u-margin-right--1"
