@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
 import moment from 'moment';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 
 import {
   getPhaseDescription,
@@ -9,23 +9,26 @@ import {
   getClaimType,
 } from '../../utils/helpers';
 
-function listPhase(phase) {
-  return phase === 8 ? 'Closed' : getPhaseDescription(phase);
-}
+const listPhase = phase =>
+  phase === 8 ? 'Closed' : getPhaseDescription(phase);
+
+const getTitle = claim => {
+  const updatedOn = moment(claim.attributes.phaseChangeDate).format(
+    'MMMM D, YYYY',
+  );
+
+  return `Claim for ${getClaimType(claim)}\n updated on ${updatedOn}`;
+};
 
 export default function ClaimsListItem({ claim }) {
   const inProgress = !isClaimComplete(claim);
   const formattedReceiptDate = moment(claim.attributes.dateFiled).format(
     'MMMM D, YYYY',
   );
+
   return (
     <div className="claim-list-item-container">
-      <h3 className="claim-list-item-header-v2">
-        Claim for {getClaimType(claim)}
-        <br />
-        updated on{' '}
-        {moment(claim.attributes.phaseChangeDate).format('MMMM D, YYYY')}
-      </h3>
+      <h3 className="claim-list-item-header-v2">{getTitle(claim)}</h3>
       <div className="card-status">
         <div
           className={`status-circle ${

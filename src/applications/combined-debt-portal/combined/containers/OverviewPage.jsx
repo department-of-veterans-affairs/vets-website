@@ -10,7 +10,7 @@ import {
 } from '../utils/balance-helpers';
 
 const OverviewPage = () => {
-  const title = 'Your VA debt and bill';
+  const title = 'Your VA debt and bills';
 
   useEffect(() => {
     scrollToTop();

@@ -11,7 +11,7 @@ import MockDate from 'mockdate';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import i18n from '../../../../utils/i18n/i18n';
-
+import { singleAppointment } from '../../../../tests/unit/mocks/mock-appointments';
 import Error from '../index';
 
 describe('check-in', () => {
@@ -23,21 +23,7 @@ describe('check-in', () => {
         const mockStore = configureStore(middleware);
         const initState = {
           checkInData: {
-            appointments: [
-              {
-                facility: 'LOMA LINDA VA CLINIC',
-                clinicPhoneNumber: '5551234567',
-                clinicFriendlyName: 'TEST CLINIC',
-                clinicName: 'LOM ACC CLINIC TEST',
-                appointmentIen: 'some-ien',
-                startTime: '2022-01-03T14:56:04.788Z',
-                eligibility: 'ELIGIBLE',
-                facilityId: 'some-facility',
-                checkInWindowStart: '2022-01-03T14:56:04.788Z',
-                checkInWindowEnd: '2022-01-03T14:56:04.788Z',
-                checkedInTime: '',
-              },
-            ],
+            appointments: singleAppointment,
             veteranData: {},
           },
           featureToggles: {
