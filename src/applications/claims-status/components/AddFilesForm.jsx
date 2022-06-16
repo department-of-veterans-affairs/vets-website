@@ -148,13 +148,14 @@ class AddFilesForm extends React.Component {
 
   render() {
     return (
-      <div>
+      <>
         <div>
-          <p>
-            <va-additional-info trigger="Need to mail your files?">
-              {mailMessage}
-            </va-additional-info>
-          </p>
+          <va-additional-info
+            class="vads-u-margin-y--2"
+            trigger="Need to mail your files?"
+          >
+            {mailMessage}
+          </va-additional-info>
         </div>
         <Element name="filesList" />
         <div>
@@ -298,7 +299,7 @@ class AddFilesForm extends React.Component {
             />
           }
         />
-      </div>
+      </>
     );
   }
 }
