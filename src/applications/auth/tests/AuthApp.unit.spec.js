@@ -2,29 +2,9 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-// import { AUTH_ERROR } from 'platform/user/authentication/constants';
 import localStorage from 'platform/utilities/storage/localStorage';
 
-// import RenderErrorUI from '../components/RenderErrorContainer';
 import { AuthApp } from '../containers/AuthApp';
-
-// describe('RenderErrorUI', () => {
-//   it('should render', () => {
-//     const wrapper = mount(<RenderErrorUI />);
-
-//     expect(wrapper.find('h1').exists()).to.be.true;
-//     expect(wrapper.find('em').text()).to.include(AUTH_ERROR.DEFAULT);
-
-//     wrapper.unmount();
-//   });
-//   it('should display error from api', () => {
-//     const wrapper = shallow(<RenderErrorUI auth="fail" code="005" />);
-
-//     expect(wrapper.find('em').text()).to.include('005');
-
-//     wrapper.unmount();
-//   });
-// })
 
 const generateAuthApp = ({
   query = { auth: 'fail' },
