@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-export const OnThisPageOverview = ({ multiple }) => (
+export const OnThisPageStatements = () => (
   <>
     <h2>On this page</h2>
     <div className="vads-u-font-family--sans vads-u-display--flex vads-u-flex-direction--column">
       <a
-        href="#balance-list"
+        href="#account-summary"
         className="vads-u-margin-y--1 vads-u-display--flex vads-u-align-items--flex-start"
       >
         <i
@@ -14,10 +13,10 @@ export const OnThisPageOverview = ({ multiple }) => (
           role="img"
           className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm vads-u-margin-top--0p5"
         />
-        What you owe to your {multiple ? 'facilities' : 'facility'}
+        Account summary
       </a>
       <a
-        href="#how-to-pay"
+        href="#statement-charges"
         className="vads-u-margin-y--1 vads-u-display--flex vads-u-align-items--flex-start"
       >
         <i
@@ -25,10 +24,10 @@ export const OnThisPageOverview = ({ multiple }) => (
           role="img"
           className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm vads-u-margin-top--0p5"
         />
-        How to pay your copay bill
+        Statement charges
       </a>
       <a
-        href="#how-to-get-financial-help"
+        href="#statement-addresses"
         className="vads-u-margin-y--1 vads-u-display--flex vads-u-align-items--flex-start"
       >
         <i
@@ -36,10 +35,10 @@ export const OnThisPageOverview = ({ multiple }) => (
           role="img"
           className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm vads-u-margin-top--0p5"
         />
-        How to get financial help for your copays
+        Statement addresses
       </a>
       <a
-        href="#dispute-charges"
+        href="#what-do-questions"
         className="vads-u-margin-y--1 vads-u-display--flex vads-u-align-items--flex-start"
       >
         <i
@@ -47,23 +46,8 @@ export const OnThisPageOverview = ({ multiple }) => (
           role="img"
           className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm vads-u-margin-top--0p5"
         />
-        How to dispute your copay charges
-      </a>
-      <a
-        href="#balance-questions"
-        className="vads-u-margin-y--1 vads-u-display--flex vads-u-align-items--flex-start"
-      >
-        <i
-          aria-hidden="true"
-          role="img"
-          className="fas fa-arrow-down vads-u-padding-right--1 vads-u-font-size--sm vads-u-margin-top--0p5"
-        />
-        What to do if you have questions about your balance
+        What to do if you have questions about your statement
       </a>
     </div>
   </>
 );
-
-OnThisPageOverview.propTypes = {
-  multiple: PropTypes.bool,
-};

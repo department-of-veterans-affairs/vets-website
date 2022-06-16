@@ -35,17 +35,27 @@ const DownloadStatement = ({ statementId, statementDate, fullName }) => {
           type="application/pdf"
           rel="noreferrer"
         >
-          <span aria-hidden="true">
-            <i role="img" className="fas fa-download vads-u-padding-right--1" />
-            Download your {formattedStatementDate} statement{' '}
+          <span
+            aria-hidden="true"
+            className="vads-u-display--flex vads-u-align-items--flex-start"
+          >
+            <i
+              className="fas fa-download vads-u-margin-top--0p5 vads-u-padding-right--1"
+              role="img"
+            />
+            <p className="vads-u-margin-y--0">
+              Download your {formattedStatementDate} statement{' '}
+              <dfn>
+                <abbr title="Portable Document Format">(PDF)</abbr>
+              </dfn>
+            </p>
           </span>
           <span className="sr-only">
-            Download {formattedStatementDate} dated medical copay statement
+            Download {formattedStatementDate} dated medical copay statement{' '}
+            <dfn>
+              <abbr title="Portable Document Format">(PDF)</abbr>
+            </dfn>
           </span>
-
-          <dfn>
-            <abbr title="Portable Document Format">(PDF)</abbr>
-          </dfn>
         </a>
       </div>
     </article>
