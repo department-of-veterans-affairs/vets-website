@@ -2737,10 +2737,10 @@
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/eslint-plugin@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.2.0.tgz#f006323471502ac9a0c0b961c0600372b521ef5c"
-  integrity sha512-kmsVSJx4Ug6f2b+nO0TSh8j2BblCHnBmtX95KuY5d7cT8Tc2r2Aeu7czvlEJOwKtFsuifwOZB3dWYE9bq/CPcA==
+"@department-of-veterans-affairs/eslint-plugin@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.1.0.tgz#fcfb3651485aaddb66f1f46f227b670b2adce7da"
+  integrity sha512-QLtevzdk7axqtFVVI0NRc9qhbCcSAdgmv/PkQF0kUPNZagKlDImL8acZRK0U74cixKIL1JUSkk8FSi761phL6w==
 
 "@department-of-veterans-affairs/formation@^7.0.1":
   version "7.0.1"
