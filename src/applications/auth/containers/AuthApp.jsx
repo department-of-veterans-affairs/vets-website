@@ -5,7 +5,6 @@ import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
 
 import recordEvent from 'platform/monitoring/record-event';
-// import environment from 'platform/utilities/environment';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import {
   AUTHN_SETTINGS,
