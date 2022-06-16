@@ -5,6 +5,7 @@ import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
 
 import recordEvent from 'platform/monitoring/record-event';
+import environment from 'platform/utilities/environment';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import {
   AUTHN_SETTINGS,
@@ -17,6 +18,7 @@ import {
   hasSession,
   setupProfileSession,
 } from 'platform/user/profile/utilities';
+import { shouldRedirectToMyVA } from 'platform/user/selectors';
 import { apiRequest } from 'platform/utilities/api';
 import RenderErrorUI from '../components/RenderErrorContainer';
 import AuthMetrics from './AuthMetrics';
@@ -30,7 +32,12 @@ export class AuthApp extends React.Component {
     super(props);
     this.state = {
       error: props.location.query.auth === 'fail',
-      returnUrl: sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL) || '',
+      returnUrl:
+        [`${environment.BASE_URL}/`, `${environment.BASE_URL}`, ''].includes(
+          sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL),
+        ) && shouldRedirectToMyVA
+          ? `${environment.API_URL}/my-va`
+          : sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL),
     };
   }
 
