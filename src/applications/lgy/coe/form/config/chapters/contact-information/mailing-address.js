@@ -32,8 +32,6 @@ export const uiSchema = {
       'ui:autocomplete': 'postal-code',
       'ui:errorMessages': {
         required: 'Please enter a postal code',
-        pattern:
-          'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
       },
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
@@ -48,7 +46,10 @@ export const uiSchema = {
               country,
               postalCode,
             });
-            if (!isValid) errors.addError('Please provide a valid postal code');
+            if (!isValid)
+              errors.addError(
+                'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
+              );
           },
         },
       ],
