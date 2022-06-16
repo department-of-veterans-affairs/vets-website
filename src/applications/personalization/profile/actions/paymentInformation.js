@@ -200,10 +200,12 @@ export function fetchEDUPaymentInformation(recordEvent = recordAnalyticsEvent) {
     recordEvent({ event: 'profile-get-edu-direct-deposit-started' });
     try {
       const response = await getData('/profile/ch33_bank_accounts');
-      if (response.errors) {
+      // .errors is returned from the API, .error is returned from getData
+      if (response.errors || response.error) {
+        const err = response.error || response.errors;
         recordEvent({ event: 'profile-get-edu-direct-deposit-failed' });
         captureDirectDepositErrorResponse({
-          error: { ...response, source: ERROR_SOURCES.API },
+          error: { ...err, source: ERROR_SOURCES.API },
           apiEventName: 'profile-get-edu-direct-deposit-failed',
         });
         dispatch({
