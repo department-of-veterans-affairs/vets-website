@@ -12,6 +12,7 @@ const MessageWrapper = ({ children, classes, id, alert }) => {
         'vads-u-margin-top--0p5',
         'rb-input-message',
         'vads-u-font-weight--bold',
+        // 'vads-u-padding--1',
         classes,
       )}
       role={alert ? 'alert' : undefined}
@@ -87,7 +88,7 @@ const NotificationRadioButtons = ({
         classes="rb-input-message-information"
         alert
       >
-        <div className="vads-u-background-color--primary-alt-lightest">
+        <div className="vads-u-background-color--primary-alt-lightest vads-u-padding--1">
           <i
             className="fas fa-info-circle vads-u-margin-right--1"
             aria-hidden="true"
@@ -195,28 +196,34 @@ const NotificationRadioButtons = ({
     const buttonAriaDescribedby =
       (checked && ariaDescribedby?.[optionIndex]) || null;
     return (
-      <React.Fragment key={optionAdditional ? undefined : optionIndex}>
-        <input
-          checked={checked}
-          id={`${id}-${optionIndex}`}
-          name={name}
-          type="radio"
-          onMouseDown={onMouseDown}
-          onKeyDown={onKeyDown}
-          value={optionValue}
-          onChange={handleChange}
-          aria-describedby={buttonAriaDescribedby}
-        />
+      <React.Fragment
+        className="vads-u-padding-left--1"
+        key={optionAdditional ? undefined : optionIndex}
+      >
+        <div className="vads-u-padding-left--1">
+          <input
+            checked={checked}
+            id={`${id}-${optionIndex}`}
+            name={name}
+            type="radio"
+            onMouseDown={onMouseDown}
+            onKeyDown={onKeyDown}
+            value={optionValue}
+            onChange={handleChange}
+            aria-describedby={buttonAriaDescribedby}
+            className="vads-u-padding-left--1"
+          />
 
-        <label
-          name={`${name}-${optionIndex}-label`}
-          htmlFor={`${id}-${optionIndex}`}
-          aria-label={optionAriaLabel}
-          className="vads-u-margin--0 vads-u-padding-y--1p5"
-        >
-          {optionLabel}
-        </label>
-        {option.content}
+          <label
+            name={`${name}-${optionIndex}-label`}
+            htmlFor={`${id}-${optionIndex}`}
+            aria-label={optionAriaLabel}
+            className="vads-u-margin--0 vads-u-padding-y--1p5"
+          >
+            {optionLabel}
+          </label>
+          {option.content}
+        </div>
       </React.Fragment>
     );
   });
@@ -237,7 +244,6 @@ const NotificationRadioButtons = ({
     'vads-u-font-family--sans',
     'vads-u-font-weight--bold',
     'vads-u-font-size--base',
-    'vads-u-padding--0',
     'vads-u-margin--0',
     additionalLegendClass,
   );
@@ -245,7 +251,7 @@ const NotificationRadioButtons = ({
   return (
     <fieldset className={fieldsetClasses} disabled={disabled} id={id}>
       <div className="clearfix">
-        <legend className="rb-legend vads-u-padding--0">
+        <legend className="rb-legend vads-u-padding-left--1">
           <h3 className={legendClasses}>
             {label}
             {requiredSpan}
