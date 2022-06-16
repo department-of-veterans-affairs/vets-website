@@ -328,6 +328,10 @@ export default function ReviewPage(props) {
             // Label of option is set in BurialAllowance component instead of value
             value: state?.values?.burialAllowanceRequestedLabel
           },
+          "previouslyReceivedAllowance": {
+            label: "Did you previously receive a VA burial allowance?",
+            value: state.values?.previouslyReceivedAllowance
+          },
           "benefitsUnclaimedRemains": {
             label: "Are you seeking burial benefits for the unclaimed remains of a Veteran?",
             value: state.values?.benefitsUnclaimedRemains

@@ -22,7 +22,7 @@ export default function BurialInformation(props) {
         } else if (values.locationOfDeath.location === 'nursingHome') {
             setFieldValue('locationOfDeath.locationLabel', 'Nursing home under VA contract');
         } else {
-            setFieldValue('locationOfDeath.Label', 'Other');
+            setFieldValue('locationOfDeath.locationLabel', 'Other');
         }
     },[values.locationOfDeath.location])
 
