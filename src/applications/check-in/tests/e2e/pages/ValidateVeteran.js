@@ -182,7 +182,7 @@ class ValidateVeteran {
       .should('be.visible')
       .and(
         'have.text',
-        "We're sorry. We couldn't match your information to our records. Please try again.",
+        'We’re sorry. We couldn’t match your information to our records. Please try again.',
       );
   };
 }
