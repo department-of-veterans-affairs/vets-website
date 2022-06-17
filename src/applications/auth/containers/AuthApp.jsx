@@ -17,8 +17,10 @@ import {
   hasSession,
   setupProfileSession,
 } from 'platform/user/profile/utilities';
+import { shouldRedirectToMyVA } from 'platform/user/selectors';
 import { apiRequest } from 'platform/utilities/api';
 import { requestToken } from 'platform/utilities/oauth/utilities';
+import { generateReturnURL } from 'platform/user/authentication/utilities';
 import {
   OAUTH_ERRORS,
   OAUTH_ERROR_RESPONSES,
@@ -88,13 +90,16 @@ export class AuthApp extends React.Component {
 
   redirect = (userProfile = {}) => {
     const { returnUrl } = this.state;
+    const { redirectToMyVA } = this.props;
 
     const handleRedirect = () => {
       sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
 
-      const postAuthUrl = returnUrl
-        ? appendQuery(returnUrl, 'postLogin=true')
-        : returnUrl;
+      const updatedUrl = generateReturnURL(returnUrl, redirectToMyVA);
+
+      const postAuthUrl = updatedUrl
+        ? appendQuery(updatedUrl, 'postLogin=true')
+        : updatedUrl;
 
       const redirectUrl =
         (!returnUrl.match(REDIRECT_IGNORE_PATTERN) && postAuthUrl) || '/';
@@ -203,11 +208,15 @@ export class AuthApp extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  redirectToMyVA: shouldRedirectToMyVA(state),
+});
+
 const mapDispatchToProps = dispatch => ({
   openLoginModal: () => dispatch(toggleLoginModal(true)),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(AuthApp);

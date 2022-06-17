@@ -18,11 +18,12 @@ describe('Debt Balances Page Diary Codes', () => {
 
   it('renders expected content for diary code: 080, 850, 852, 860, 855', () => {
     // Get Summary Card & navigate to it's details page
-    cy.get('[data-testid="debt-summary-item"]')
-      .contains('Contact the U.S. Department of the Treasury to pay this debt')
-      .parent()
+    cy.contains(
+      '[data-testid="debt-summary-item"]',
+      'Contact the U.S. Department of the Treasury to pay this debt',
+    )
       .find('a')
-      .click();
+      .click({ waitForAnimations: true });
     // Get Alert's Children
     cy.get('va-alert').as('alert-content');
     // Check Alert Header
@@ -42,13 +43,12 @@ describe('Debt Balances Page Diary Codes', () => {
   });
 
   it('renders expected content for diary code: 100, 102, 130, 140', () => {
-    cy.get('[data-testid="debt-summary-item"]')
-      .contains(
-        'Pay your $120.40 balance now or request help by October 18, 2012',
-      )
-      .parent()
+    cy.contains(
+      '[data-testid="debt-summary-item"]',
+      'Pay your $120.40 balance now or request help by October 18, 2012',
+    )
       .find('a')
-      .click();
+      .click({ waitForAnimations: true });
     cy.get('va-alert').as('alert-content');
     cy.get('@alert-content')
       .find('h3')
@@ -65,11 +65,10 @@ describe('Debt Balances Page Diary Codes', () => {
   });
 
   it('renders expected content for diary code: 101, 450, 602, 607, 608, 610, 611, 614, 615, 617', () => {
-    cy.get('[data-testid="debt-summary-item"]')
-      .contains(
-        'We’re offsetting your benefit payments each month until your debt is paid',
-      )
-      .parent()
+    cy.contains(
+      '[data-testid="debt-summary-item"]',
+      'We’re offsetting your benefit payments each month until your debt is paid',
+    )
       .find('a')
       .click({ waitForAnimations: true });
     cy.get('va-alert').as('alert-content');
@@ -88,11 +87,10 @@ describe('Debt Balances Page Diary Codes', () => {
   });
 
   it('renders expected content for diary code: 117', () => {
-    cy.get('[data-testid="debt-summary-item"]')
-      .contains(
-        'Pay your $1,000.00 past due balance in full or request help before May 31, 2017',
-      )
-      .parent()
+    cy.contains(
+      '[data-testid="debt-summary-item"]',
+      'Pay your $1,000.00 past due balance in full or request help before May 31, 2017',
+    )
       .find('a')
       .click({ waitForAnimations: true });
     cy.get('va-alert').as('alert-content');
@@ -111,11 +109,10 @@ describe('Debt Balances Page Diary Codes', () => {
   });
 
   it('renders expected content for diary code: 123', () => {
-    cy.get('[data-testid="debt-summary-item"]')
-      .contains(
-        'Pay your $200.00 past due balance now or request help by October 7, 2018',
-      )
-      .parent()
+    cy.contains(
+      '[data-testid="debt-summary-item"]',
+      'Pay your $200.00 past due balance now or request help by October 7, 2018',
+    )
       .find('a')
       .click({ waitForAnimations: true });
     cy.get('va-alert').as('alert-content');

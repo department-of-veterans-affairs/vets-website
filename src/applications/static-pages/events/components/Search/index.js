@@ -64,10 +64,6 @@ export const Search = ({ onSearch }) => {
   const [fullDateError, setFullDateError] = useState(false);
 
   const updatefullDateValue = (dateVal, position) => {
-    if (!dateVal) {
-      return null;
-    }
-
     const isInvalidDateRange = dateCheck => {
       const enoughCharacters = dateCheck.split('').length === 10;
       const enoughFields = dateCheck.split('-').length === 3;
@@ -75,7 +71,7 @@ export const Search = ({ onSearch }) => {
       return !enoughCharacters || !enoughFields;
     };
 
-    if (isInvalidDateRange(dateVal)) {
+    if (!dateVal || isInvalidDateRange(dateVal)) {
       return null;
     }
 
@@ -99,8 +95,13 @@ export const Search = ({ onSearch }) => {
     setEndDateFull(getFullDate(endDateDay, endDateMonth, endDateYear));
   }, []);
 
-  useEffect(() => updatefullDateValue(startDateFull, 'start'), [startDateFull]);
-  useEffect(() => updatefullDateValue(endDateFull, 'end'), [endDateFull]);
+  useEffect(
+    () => {
+      updatefullDateValue(startDateFull, 'start');
+      updatefullDateValue(endDateFull, 'end');
+    },
+    [selectedOption, startDateFull, endDateFull],
+  );
 
   const onFilterByChange = event => {
     const filterByOption = filterByOptions?.find(
