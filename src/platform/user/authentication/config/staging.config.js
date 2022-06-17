@@ -15,7 +15,7 @@ export default {
       allowPostLogin: true,
       allowRedirect: false,
     },
-    OAuthEnabled: false,
+    OAuthEnabled: true,
     requiresVerification: false,
   },
   [EXTERNAL_APPS.MHV]: {
