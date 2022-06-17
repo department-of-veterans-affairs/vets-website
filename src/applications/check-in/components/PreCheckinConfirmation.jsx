@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
+
 import AppointmentBlock from './AppointmentBlock';
+import AppointmentBlockWithIcons from './AppointmentBlockWithIcons';
 import BackToHome from './BackToHome';
 import ExternalLink from './ExternalLink';
 import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
@@ -14,6 +19,8 @@ const PreCheckinConfirmation = props => {
     emergencyContactUpToDate,
     nextOfKinUpToDate,
   } = formData;
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
   const { t } = useTranslation();
 
   if (appointments.length === 0) {
@@ -32,7 +39,14 @@ const PreCheckinConfirmation = props => {
         pageTitle={t('youve-completed-pre-check-in')}
         testID="confirmation-wrapper"
       >
-        <AppointmentBlock appointments={appointments} />
+        {isPhoneAppointmentsEnabled ? (
+          <AppointmentBlockWithIcons
+            appointments={appointments}
+            page="confirmation"
+          />
+        ) : (
+          <AppointmentBlock appointments={appointments} />
+        )}
         <p className="vads-u-margin-bottom--4">
           <ExternalLink
             href="https://va.gov/health-care/schedule-view-va-appointments/appointments/"
