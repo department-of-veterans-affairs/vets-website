@@ -527,6 +527,143 @@ const formConfig = {
         },
       },
     },
+    newAdditionalConsideration: {
+      title: 'Additional considerations',
+      pages: {
+        [newFormPages.newAdditionalConsiderations.newMarriageDate]: {
+          title: 'Marriage date',
+          path: 'new/additional/consideration/marriage/date',
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Marriage date</h3>
+                </>
+              ),
+            },
+            [newFormFields.newAdditionalConsiderations.newMarriageDate]: {
+              ...currentOrPastDateUI(
+                'When did you get married to your chosen Veteran or service member?',
+              ),
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [
+              newFormFields.newAdditionalConsiderations.newMarriageDate,
+            ],
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              [newFormFields.newAdditionalConsiderations.newMarriageDate]: date,
+            },
+          },
+        },
+        [newFormPages.newAdditionalConsiderations.newMarriageInformation]: {
+          title: 'Marriage information',
+          path: 'new/additional/consideration/marriage/information',
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Marriage information</h3>
+                </>
+              ),
+            },
+            [newFormFields.newAdditionalConsiderations
+              .newMarriageInformation]: {
+              'ui:title':
+                'What’s the status of your marriage with your chosen Veteran or service member?',
+              'ui:widget': 'radio',
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [
+              newFormFields.newAdditionalConsiderations.newMarriageInformation,
+            ],
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              [newFormFields.newAdditionalConsiderations
+                .newMarriageInformation]: {
+                type: 'string',
+                enum: [
+                  'Married',
+                  'Divorced (or a divorce is in progress)',
+                  'Marriage was annulled (or annulment is in progress)',
+                  'Widowed',
+                ],
+              },
+            },
+          },
+        },
+        [newFormPages.newAdditionalConsiderations.newRemarriage]: {
+          title: 'Remarriage',
+          path: 'new/additional/consideration/remarriage/information',
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Remarriage</h3>
+                </>
+              ),
+            },
+            [newFormFields.newAdditionalConsiderations.newRemarriage]: {
+              'ui:title': 'Have you been remarried since your divorce?',
+              'ui:widget': 'yesNo',
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [newFormFields.newAdditionalConsiderations.newRemarriage],
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              [newFormFields.newAdditionalConsiderations.newRemarriage]: {
+                type: 'boolean',
+              },
+            },
+          },
+        },
+        [newFormPages.newAdditionalConsiderations.newRemarriageDate]: {
+          title: 'Remarriage date',
+          path: 'new/additional/consideration/remarriage/date',
+          uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Remarriage date</h3>
+                </>
+              ),
+            },
+            [newFormFields.newAdditionalConsiderations.newRemarriageDate]: {
+              ...currentOrPastDateUI('When did you get remarried?'),
+            },
+          },
+          schema: {
+            type: 'object',
+            required: [
+              newFormFields.newAdditionalConsiderations.newRemarriageDate,
+            ],
+            properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              [newFormFields.newAdditionalConsiderations
+                .newRemarriageDate]: date,
+            },
+          },
+        },
+      },
+    },
     newHighSchool: {
       title: 'Sponsor information',
       pages: {
