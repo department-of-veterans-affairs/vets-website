@@ -28,7 +28,12 @@ const PreCheckinConfirmation = props => {
   }
 
   const renderLoadingMessage = () => {
-    return <va-loading-indicator message={t('completing-pre-check-in')} />;
+    return (
+      <va-loading-indicator
+        data-testid="loading-indicator"
+        message={t('completing-pre-check-in')}
+      />
+    );
   };
   const renderConfirmationMessage = () => {
     if (appointments.length === 0) {
