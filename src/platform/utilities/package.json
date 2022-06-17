@@ -1,5 +1,5 @@
 {
-    "name": "@department-of-veterans-affairs/utilities",
+    "name": "@department-of-veterans-affairs/platform-utilities",
     "version": "1.0.0",
     "exports": {
         "." : "./exportsFile.js"
