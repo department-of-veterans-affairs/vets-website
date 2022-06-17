@@ -11,7 +11,7 @@ import scrollTo from 'platform/utilities/ui/scrollTo';
 import AddFilesForm from '../components/AddFilesForm';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
-import { setPageFocus, setUpPage } from '../utils/page';
+import { setFocus, setPageFocus, setUpPage } from '../utils/page';
 
 import {
   addFile,
@@ -27,7 +27,11 @@ import {
 
 const scrollToError = () => {
   const options = getScrollOptions({ offset: -25 });
-  setTimeout(() => scrollTo('uploadError', options));
+
+  setTimeout(() => {
+    scrollTo('uploadError', options);
+    setFocus('.usa-alert-error');
+  });
 };
 
 const { Element } = Scroll;
