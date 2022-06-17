@@ -6,9 +6,9 @@ import { Provider } from 'react-redux';
 import {
   DefinitionTester,
   getFormDOM,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 import createCommonStore from 'platform/startup/store';
-import formConfig from '../../config/form.js';
+import formConfig from '../../config/form';
 
 const defaultStore = createCommonStore();
 
@@ -31,7 +31,7 @@ describe('COE applicant information', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(7);
+    expect(formDOM.querySelectorAll('input').length).to.equal(6);
   });
 
   it('Should not submit without required fields', () => {

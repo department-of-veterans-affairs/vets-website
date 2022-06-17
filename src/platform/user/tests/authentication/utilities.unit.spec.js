@@ -28,7 +28,7 @@ import {
 const originalLocation = global.window.location;
 const originalGA = global.ga;
 
-const base = 'https://www.va.gov';
+const base = 'https://dev.va.gov';
 const usipPath = '/sign-in';
 const nonUsipPath = '/about';
 const trickyNonUsipPath = '/sign-in-app';
@@ -635,6 +635,37 @@ describe('Authentication Utilities', () => {
     it('should generate an ID.me session signup url if the given type is not valid', () => {
       expect(authUtilities.signupUrl('test')).to.include(
         API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }),
+      );
+    });
+  });
+
+  describe('generateReturnURL', () => {
+    const homepageModalRoute = `${base}/?next=loginModal`;
+    const usipRoute = `${base}`;
+    const nonHomepageRoute = `${base}/education/eligibility/`;
+    const myVARoute = `${base}/my-va/`;
+    it('should return users signing in on via the USiP (on default USiP route) to /my-va/', () => {
+      expect(authUtilities.generateReturnURL(usipRoute, true)).to.eql(
+        myVARoute,
+      );
+      expect(authUtilities.generateReturnURL(usipRoute, false)).to.eql(
+        usipRoute,
+      );
+    });
+    it('should return users signing in via the Sign in Modal (on the homepage) to /my-va/', () => {
+      expect(authUtilities.generateReturnURL(homepageModalRoute, true)).to.eql(
+        myVARoute,
+      );
+      expect(authUtilities.generateReturnURL(homepageModalRoute, false)).to.eql(
+        homepageModalRoute,
+      );
+    });
+    it('should return users signing in on non-default routes to original location', () => {
+      expect(authUtilities.generateReturnURL(nonHomepageRoute, true)).to.eql(
+        nonHomepageRoute,
+      );
+      expect(authUtilities.generateReturnURL(nonHomepageRoute, false)).to.eql(
+        nonHomepageRoute,
       );
     });
   });
