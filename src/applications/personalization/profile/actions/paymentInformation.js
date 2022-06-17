@@ -273,13 +273,14 @@ export function saveEDUPaymentInformation(
       );
       // .errors is returned from the API, .error is returned from getData
       if (response.errors || response.error) {
+        const err = response.errors || response.error.errors;
+        const errorName = err[0]?.title || 'unknown';
         recordEvent({
           event: 'profile-edit-failure',
           'profile-action': 'save-failure',
           'profile-section': 'edu-direct-deposit-information',
-          'error-key': 'unknown-save-error',
+          'error-key': `${errorName}-save-error-api-response`,
         });
-        const err = response.errors || response.error.errors;
         captureDirectDepositErrorResponse({
           error: { ...err, ...response, source: ERROR_SOURCES.API },
           apiEventName: 'profile-put-edu-direct-deposit-failed',
@@ -310,7 +311,7 @@ export function saveEDUPaymentInformation(
         event: 'profile-edit-failure',
         'profile-action': 'save-failure',
         'profile-section': 'edu-direct-deposit-information',
-        'error-key': 'unknown-save-error',
+        'error-key': 'unknown-caught-save-error',
       });
     }
   };
