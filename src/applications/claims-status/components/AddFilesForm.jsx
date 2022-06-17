@@ -48,23 +48,36 @@ const scrollToError = () => {
   if (errors.length) {
     const errorPosition = getTopPosition(errors[0]);
     const options = getScrollOptions({ offset: -25 });
+    const errorID = errors[0].querySelector('label').getAttribute('for');
+    const errorInput = document.getElementById(`${errorID}`);
+    const inputType = errorInput.getAttribute('type');
     scrollTo(errorPosition, options);
-    errors[0].querySelector('label').focus();
+
+    if (inputType === 'file') {
+      // Sends focus to the file input button
+      errors[0].querySelector('label[role="button"]').focus();
+    } else {
+      errorInput.focus();
+    }
   }
 };
 const { Element } = Scroll;
 
 class AddFilesForm extends React.Component {
-  state = {
-    errorMessage: null,
-    checked: false,
-    errorMessageCheckbox: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      errorMessage: null,
+      checked: false,
+      errorMessageCheckbox: null,
+    };
+  }
 
   getErrorMessage = () => {
     if (this.state.errorMessage) {
       return this.state.errorMessage;
     }
+
     return validateIfDirty(this.props.field, () => this.props.files.length > 0)
       ? undefined
       : 'Please select a file first';
@@ -122,28 +135,30 @@ class AddFilesForm extends React.Component {
   };
 
   submit = () => {
-    this.setState(
-      this.state.checked
-        ? { errorMessageCheckbox: null }
-        : { errorMessageCheckbox: 'Please accept the above' },
-    );
-
     const { files } = this.props;
     const hasPasswords = files.every(
       file => !file.isEncrypted || (file.isEncrypted && file.password.value),
     );
 
-    if (
-      files.length > 0 &&
-      files.every(isValidDocument) &&
-      hasPasswords &&
-      this.state.checked
-    ) {
-      this.props.onSubmit();
-    } else {
-      this.props.onDirtyFields();
-      setTimeout(scrollToError);
+    if (files.length > 0 && files.every(isValidDocument) && hasPasswords) {
+      // This nested state prevents VoiceOver from accouncing an
+      // unchecked checkbox if the file is missing.
+      const { checked } = this.state;
+
+      this.setState({
+        errorMessageCheckbox: checked
+          ? null
+          : 'Please confirm these documents apply to this claim only',
+      });
+
+      if (this.state.checked) {
+        this.props.onSubmit();
+        return;
+      }
     }
+
+    this.props.onDirtyFields();
+    setTimeout(scrollToError);
   };
 
   render() {
@@ -161,6 +176,7 @@ class AddFilesForm extends React.Component {
           <FileInput
             errorMessage={this.getErrorMessage()}
             label={
+              // eslint-disable-next-line react/jsx-wrap-multilines
               <span className="claims-upload-input-title">
                 Select files to upload
               </span>
@@ -262,6 +278,7 @@ class AddFilesForm extends React.Component {
           checked={this.state.checked}
           errorMessage={this.state.errorMessageCheckbox}
           label={
+            // eslint-disable-next-line react/jsx-wrap-multilines
             <div>
               <strong>
                 The files I uploaded are supporting documents for this claim
