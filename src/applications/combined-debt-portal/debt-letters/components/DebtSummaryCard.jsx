@@ -30,17 +30,19 @@ const DebtSummaryCard = ({ debt }) => {
         {debtCardHeading}
       </h4>
       {debtCardSubHeading}
-      <Link
-        data-testclass="debt-details-button"
-        onClick={() => setActiveDebt(debt)}
-        to={`/debt-balances/details/${debt.fileNumber + debt.deductionCode}`}
-      >
-        Check details and resolve this debt
-        <i
-          aria-hidden="true"
-          className="fa fa-chevron-right vads-u-font-size--sm vads-u-margin-left--0p5"
-        />
-      </Link>
+      <div className="vads-u-margin-right--5 vads-u-margin-top--2">
+        <Link
+          data-testclass="debt-details-button"
+          onClick={() => setActiveDebt(debt)}
+          to={`/debt-balances/details/${debt.fileNumber + debt.deductionCode}`}
+        >
+          Check details and resolve this debt
+          <i
+            aria-hidden="true"
+            className="fa fa-chevron-right vads-u-font-size--sm vads-u-margin-left--0p5"
+          />
+        </Link>
+      </div>
     </article>
   );
 };

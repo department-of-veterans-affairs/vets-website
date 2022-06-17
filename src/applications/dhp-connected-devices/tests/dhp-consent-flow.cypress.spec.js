@@ -1,6 +1,21 @@
 import manifest from '../manifest.json';
 
 describe(manifest.appName, () => {
+  beforeEach(() => {
+    const featureToggles = {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          {
+            name: 'dhp_connected_devices_fitbit',
+            value: true,
+          },
+        ],
+      },
+    };
+    cy.intercept('GET', '/v0/feature_toggles*', featureToggles);
+  });
+
   it('is accessible', () => {
     cy.visit(manifest.rootUrl);
     cy.injectAxe();

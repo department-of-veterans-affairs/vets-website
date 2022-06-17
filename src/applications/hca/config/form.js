@@ -241,7 +241,7 @@ const formConfig = {
         },
         americanIndian: {
           path: 'veteran-information/american-indian',
-          title: 'Tribal affiliation',
+          title: 'Recognition as an American Indian or Alaska Native',
           initialData: {},
           depends: formData => formData['view:hcaAmericanIndianEnabled'],
           uiSchema: americanIndian.uiSchema,

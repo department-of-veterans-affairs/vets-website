@@ -50,11 +50,6 @@ export const HowToPay = ({ acctNum, facility }) => (
           Call us at <va-telephone contact="888-827-4817" />. We’re here Monday
           through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
-        <p>You will need to provide an account number.</p>
-        <p>
-          <strong>Account Number: </strong>
-          {acctNum}
-        </p>
       </va-accordion-item>
       <va-accordion-item header="Option 3: Pay by mail">
         <p>Please send us these items:</p>
@@ -76,7 +71,7 @@ export const HowToPay = ({ acctNum, facility }) => (
         </p>
         <ul>
           <li>Your full name</li>
-          <li>Your account number: {acctNum}</li>
+          <li>Your account number {acctNum}</li>
         </ul>
         <p>
           <strong>Mail your payment and remittance stubs to:</strong>
@@ -101,24 +96,6 @@ export const HowToPay = ({ acctNum, facility }) => (
           <strong>Note: </strong>
           You’ll find these stubs at the bottom of each statement. If you don’t
           have your most recent statement, you can download and print it above.
-        </p>
-        <p>
-          <strong>Account Number: </strong>
-          {acctNum}
-        </p>
-        <p>
-          <strong>Your facility’s address:</strong>
-        </p>
-        <p className="va-address-block">
-          {facility?.facilityName}
-          <br />
-          {facility?.staTAddress1}
-          <br />
-          {facility?.city}, {facility?.state}
-          <span className="vads-u-margin-x--0p5">
-            {facility?.ziPCde.substring(0, 5)}-{facility?.ziPCde.substring(5)}
-          </span>
-          <br />
         </p>
       </va-accordion-item>
     </va-accordion>
