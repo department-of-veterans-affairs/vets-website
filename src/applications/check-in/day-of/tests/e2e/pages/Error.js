@@ -8,8 +8,7 @@ const messages = {
       'Lo sentimos. Algo no funcionó de nuestra parte. Regístrese con un miembro del personal.',
   },
   messageTextLastValidateAttempt: {
-    en:
-      "We're sorry. We couldn't match your information to our records. Please ask a staff member for help.",
+    en: 'We’re sorry. We couldn’t match your information to our records.',
     es:
       'Lo sentimos. No encontramos información en nuestros archivos que corresponda a esta información. Pídale asistencia a un miembro del personal.',
   },
@@ -28,7 +27,7 @@ class Error {
       .and('have.text', messages.couldntCheckIn[language]);
     cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', messageText);
+      .and('include.text', messageText);
   };
 
   validateDatePreCheckInDateShows = () => {
