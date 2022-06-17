@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FieldHookConfig, useField } from 'formik';
 
 import { FieldProps } from './types';
@@ -24,7 +24,13 @@ const SSNField = (props: SSNProps): JSX.Element => {
   );
   const id = props.id || props.name;
 
-  const [ssn, setSSN] = useState('');
+  const [ssn, setSSN] = useState(field.value ? field.value : '');
+
+  useEffect(() => {
+    if (field.value) {
+      setSSN(maskedValue(field.value));
+    }
+  }, []);
 
   const onFocus = () => {
     if (!field.value) return;
@@ -40,23 +46,27 @@ const SSNField = (props: SSNProps): JSX.Element => {
       helpers.setValue(ssnString);
       helpers.setTouched(true);
 
-      let maskedSSNString = '';
-
-      if (ssnString.length) {
-        const strippedSSN = ssnString.replace(/[- ]/g, '');
-        const maskedSSN = strippedSSN.replace(/^\d{1,5}/, (digit) =>
-          digit.replace(/\d/g, '●')
-        );
-
-        maskedSSNString = [
-          [...maskedSSN].splice(0, 3).join(''),
-          [...maskedSSN].splice(3, 2).join(''),
-          [...maskedSSN].splice(5).join(''),
-        ].join('-');
-      }
-
-      setSSN(maskedSSNString);
+      setSSN(maskedValue(ssnString));
     }, 0);
+  };
+
+  const maskedValue = (ssnString: string) => {
+    let maskedSSNString = '';
+
+    if (ssnString.length) {
+      const strippedSSN = ssnString.replace(/[- ]/g, '');
+      const maskedSSN = strippedSSN.replace(/^\d{1,5}/, (digit) =>
+        digit.replace(/\d/g, '●')
+      );
+
+      maskedSSNString = [
+        [...maskedSSN].splice(0, 3).join(''),
+        [...maskedSSN].splice(3, 2).join(''),
+        [...maskedSSN].splice(5).join(''),
+      ].join('-');
+    }
+
+    return maskedSSNString;
   };
 
   return (
