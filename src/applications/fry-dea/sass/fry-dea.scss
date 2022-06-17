@@ -31,8 +31,23 @@
 }
 
 
+// Benefit Selection Page
+$border-width: 4px;
+$error-left-padding-width: 1.5rem;
+#root_favoriteanimal-label,
+#root_favoriteAnimal-label + .schemaform-widget-wrapper {
+  border-left: $border-width solid $color-primary-alt-dark;
+}
+.usa-input-error #root_favoriteAnimal-label {
+  border-color: $color-secondary-dark;
+  margin-left: calc(-#{$error-left-padding-width} - #{$border-width});
+}
+.usa-input-error .fry-dea-labels_label--main,
+.usa-input-error .fry-dea-input-message {
+  padding-left: $error-left-padding-width !important; // Override vads spacing units
+}
 #root_favoriteAnimal-label {
-	display: flex !important; // override label styling
+	display: flex !important; // Override label styling
 	flex-flow: row wrap;
 }
 .fry-dea-labels_label--main {
@@ -43,10 +58,18 @@
   font-weight: bold;
 }
 .fry-dea-labels_label--secondary {
-	// color: $color-gray;
 	flex: 1 1 100%;
 	order: 2;
 }
-.fry-dea-input-message {
-  border-left: .5rem solid $color-primary-alt-dark;
+#root_favoriteAnimal-label + .schemaform-widget-wrapper {
+  padding-left: 13px;
 }
+#root_favoriteAnimal-label + .schemaform-widget-wrapper .form-radio-buttons label {
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-top: 1em;
+}
+#root_favoriteAnimal-label + .schemaform-widget-wrapper .form-radio-buttons:last-child label {
+  padding-bottom: .65em;
+}
+// END - Benefit Selection Page

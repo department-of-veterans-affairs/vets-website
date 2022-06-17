@@ -522,7 +522,7 @@ const formConfig = {
             favoriteAnimal: {
               'ui:title': (
                 <>
-                  <span className="fry-dea-labels_label--main vads-u-padding-bottom--1">
+                  <span className="fry-dea-labels_label--main vads-u-padding-left--1 vads-u-padding-bottom--1">
                     Favorite animal
                   </span>
                   <span className="fry-dea-labels_label--secondary fry-dea-input-message vads-u-background-color--primary-alt-lightest vads-u-padding--1">
