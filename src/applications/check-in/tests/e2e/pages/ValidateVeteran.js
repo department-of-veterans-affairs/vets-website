@@ -181,8 +181,8 @@ class ValidateVeteran {
     cy.get('[data-testid=validate-error-alert]')
       .should('be.visible')
       .and(
-        'have.text',
-        'We’re sorry. We couldn’t match your information to our records. Please try again.',
+        'contains.text',
+        'We’re sorry. We couldn’t match your information to our records.',
       );
   };
 }
