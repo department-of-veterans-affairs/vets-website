@@ -120,7 +120,7 @@
     "@babel/traverse": "^7.17.3",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.1.2",
     "@cypress/code-coverage": "^3.9.12",
-    "@department-of-veterans-affairs/eslint-plugin": "^1.1.0",
+    "@department-of-veterans-affairs/eslint-plugin": "^1.2.1",
     "@department-of-veterans-affairs/generator-vets-website": "^3.6.0",
     "@octokit/rest": "^18.11.0",
     "@pact-foundation/pact": "^9.16.4",
