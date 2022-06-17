@@ -12,7 +12,7 @@ export const directDepositDescription = () => {
           src="/img/direct-deposit-check-guide.svg"
           alt="Personal checks have all the information to set up direct deposit"
         />
-        <figcaption>
+        <figcaption style={{ color: '#000', marginTop: '4px' }}>
           Your bank’s routing number is listed along the bottom-left edge of a
           personal check. Your account number is listed to the right of that.
           Routing numbers must be nine digits and account numbers can be up to
