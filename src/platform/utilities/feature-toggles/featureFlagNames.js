@@ -105,7 +105,6 @@ export default Object.freeze({
   showFinancialStatusReport: 'show_financial_status_report',
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
   showFormI18n: 'show_form_i18n',
-  showEventsV2: 'show_events_v2',
   showMebMockEndpoints: 'show_meb_mock_endpoints',
   showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
@@ -124,7 +123,7 @@ export default Object.freeze({
   subform89404192: 'subform_8940_4192',
   useLighthouseFormsSearchLogic: 'new_va_forms_search',
   vaGlobalDowntimeNotification: 'va_global_downtime_notification',
-  vaHomePreview: 
+  vaHomePreview:
   'va_home_preview',
   vaOnlineFacilitySelectionV22: 'va_online_scheduling_facility_selection_v2_2',
   vaOnlineScheduling: 'va_online_scheduling',
