@@ -40,11 +40,11 @@ const result = JSON.stringify({
   },
 });
 
-// console.log(stub);
 describe('coe helpers', () => {
   let stub;
   beforeEach(function() {
     stub = sinon.stub(helpers, 'transformForSubmit');
+    // console.log(stub);
   });
   afterEach(function() {
     stub.restore();
