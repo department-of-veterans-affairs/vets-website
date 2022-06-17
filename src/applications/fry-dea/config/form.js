@@ -519,10 +519,54 @@ const formConfig = {
                 />
               ),
             },
+            favoriteAnimal: {
+              'ui:title': (
+                <>
+                  <span className="fry-dea-labels_label--main vads-u-padding-bottom--1">
+                    Favorite animal
+                  </span>
+                  <span className="fry-dea-labels_label--secondary fry-dea-input-message vads-u-background-color--primary-alt-lightest vads-u-padding--1">
+                    <i
+                      className="fas fa-info-circle vads-u-margin-right--1"
+                      aria-hidden="true"
+                    />{' '}
+                    <span className="sr-only">information</span> If you’re the
+                    child of a veteran or service member who died in the line of
+                    duty before August 1, 2011 you can use both Fry Scholarship
+                    and DEA and get up to 81 months of benefits. You’ll need to
+                    apply separately and use one program at a time.
+                  </span>
+                </>
+              ),
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  dog: 'Dog',
+                  cat: 'Cat',
+                  octopus: 'Octopus',
+                  sloth: 'Sloth',
+                },
+                widgetProps: {
+                  dog: { 'data-info': 'dog_1' },
+                  cat: { 'data-info': 'cat_2' },
+                  octopus: { 'data-info': 'octopus_3' },
+                  sloth: { 'data-info': 'sloth_4' },
+                },
+                // Only added to the radio when it is selected
+                // a11y requirement: aria-describedby ID's *must* exist on the page; and we
+                // conditionally add content based on the selection
+                selectedProps: {
+                  dog: { 'aria-describedby': 'some_id_1' },
+                  cat: { 'aria-describedby': 'some_id_2' },
+                  octopus: { 'aria-describedby': 'some_id_3' },
+                  sloth: { 'aria-describedby': 'some_id_4' },
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
-            required: [newFormFields.newBenefitSelection],
+            required: ['favoriteAnimal', newFormFields.newBenefitSelection],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -543,6 +587,10 @@ const formConfig = {
               'view:benefitSelectionAlert': {
                 type: 'object',
                 properties: {},
+              },
+              favoriteAnimal: {
+                type: 'string',
+                enum: ['dog', 'cat', 'octopus', 'sloth'],
               },
             },
           },
