@@ -2,24 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import {
-  profileShowGender,
-  profileShowPronounsAndSexualOrientation,
-} from '@@profile/selectors';
+import { profileShowPronounsAndSexualOrientation } from '@@profile/selectors';
 
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
-import {
-  renderGender,
-  renderDOB,
-} from '@@profile/util/personal-information/personalInformationUtils';
+import { renderDOB } from '@@profile/util/personal-information/personalInformationUtils';
 import ProfileInfoTable from '../ProfileInfoTable';
 import GenderIdentityAdditionalInfo from './GenderIdentityAdditionalInfo';
 
 const PersonalInformationSection = ({
-  gender,
   dob,
-  shouldProfileShowGender,
   shouldShowPronounsAndSexualOrientation,
 }) => {
   const tableFields = [
@@ -49,9 +41,6 @@ const PersonalInformationSection = ({
             ),
           },
         ]
-      : []),
-    ...(shouldProfileShowGender
-      ? [{ title: 'Sex assigned at birth', value: renderGender(gender) }]
       : []),
     {
       title: 'Gender identity',
@@ -138,13 +127,11 @@ PersonalInformationSection.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  gender: state.vaProfile?.personalInformation?.gender,
   dob: state.vaProfile?.personalInformation?.birthDate,
   preferredName: state.vaProfile?.personalInformation?.preferredName,
   pronouns: state.vaProfile?.personalInformation?.pronouns,
   genderIdentity: state.vaProfile?.personalInformation?.genderIdentity,
   sexualOrientation: state.vaProfile?.personalInformation?.sexualOrientation,
-  shouldProfileShowGender: profileShowGender(state),
   shouldShowPronounsAndSexualOrientation: profileShowPronounsAndSexualOrientation(
     state,
   ),

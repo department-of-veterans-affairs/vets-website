@@ -82,8 +82,6 @@ export default Object.freeze({
   profileEnhancements: 'profile_enhancements',
   profileShowAddressChangeModal: 'profile_show_address_change_modal',
   profileShowBadAddressIndicator: 'profile_show_bad_address_indicator',
-  profileShowFaxNumber: 'profile_show_fax_number',
-  profileShowGender: 'profile_show_gender',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
   profileShowNewDirectDepositCTAMessage: 'profile_show_new_direct_deposit_cta_message',
   profileUseVaosV2Api:'profile_use_vaos_v2_api',
@@ -124,7 +122,7 @@ export default Object.freeze({
   subform89404192: 'subform_8940_4192',
   useLighthouseFormsSearchLogic: 'new_va_forms_search',
   vaGlobalDowntimeNotification: 'va_global_downtime_notification',
-  vaHomePreview: 
+  vaHomePreview:
   'va_home_preview',
   vaOnlineFacilitySelectionV22: 'va_online_scheduling_facility_selection_v2_2',
   vaOnlineScheduling: 'va_online_scheduling',
