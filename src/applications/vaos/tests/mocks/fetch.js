@@ -125,7 +125,7 @@ export function mockEligibilityFetchesByVersion({
       };
     });
 
-    const dateRanges = getDateRanges(2);
+    const dateRanges = getDateRanges(3);
     dateRanges.forEach(range => {
       mockVAOSAppointmentsFetch({
         start: range.start,

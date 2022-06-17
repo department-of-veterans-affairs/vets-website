@@ -116,6 +116,9 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
         };
       });
 
+      // There are three chunks with date ranges from the array created above.
+      // We're trying to run them serially, because we want to be careful about
+      // overloading the upstream service, so Promise.all doesn't fit here.
       promise = ranges.reduce(async (prev, curr) => {
         // NOTE: This is the secret sauce to run the fetch requests sequentially.
         // Doing an 'await' on a non promise wraps it into a promise that is then awaited.
@@ -138,4 +141,4 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
 
     return promise;
   };
-})(2);
+})(3);

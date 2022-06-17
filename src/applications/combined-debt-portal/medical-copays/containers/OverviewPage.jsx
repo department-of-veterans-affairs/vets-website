@@ -107,33 +107,35 @@ const OverviewPage = () => {
           Current copay balances
         </a>
       </va-breadcrumbs>
-      <h1 data-testid="overview-page-title">{title}</h1>
-      <p className="vads-u-font-size--lg vads-u-font-family--sans">
-        Check the balance of VA health care and prescription charges from each
-        of your facilities. Find out how to make payments or request financial
-        help.
-      </p>
-      {mcpError || statementsEmpty ? (
-        <>
-          {mcpError &&
-            renderAlert(
-              debtError ? ALERT_TYPES.ALL_ERROR : ALERT_TYPES.ERROR,
-              debts?.length,
-            )}
+      <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
+        <h1 data-testid="overview-page-title">{title}</h1>
+        <p className="vads-u-font-size--lg vads-u-font-family--sans">
+          Check the balance of VA health care and prescription charges from each
+          of your facilities. Find out how to make payments or request financial
+          help.
+        </p>
+        {mcpError || statementsEmpty ? (
+          <>
+            {mcpError &&
+              renderAlert(
+                debtError ? ALERT_TYPES.ALL_ERROR : ALERT_TYPES.ERROR,
+                debts?.length,
+              )}
 
-          {statementsEmpty && renderAlert(ALERT_TYPES.ZERO, debts?.length)}
-        </>
-      ) : (
-        <>
-          <OnThisPageOverview multiple={statements?.length > 1} />
-          <Balances statements={statementsByUniqueFacility} />
-          {renderOtherVA(debts?.length, debtError)}
-          <HowToPay />
-          <FinancialHelp />
-          <DisputeCharges />
-          <BalanceQuestions />
-        </>
-      )}
+            {statementsEmpty && renderAlert(ALERT_TYPES.ZERO, debts?.length)}
+          </>
+        ) : (
+          <>
+            <OnThisPageOverview multiple={statements?.length > 1} />
+            <Balances statements={statementsByUniqueFacility} />
+            {renderOtherVA(debts?.length, debtError)}
+            <HowToPay />
+            <FinancialHelp />
+            <DisputeCharges />
+            <BalanceQuestions />
+          </>
+        )}
+      </div>
     </>
   );
 };
