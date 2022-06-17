@@ -40,10 +40,18 @@ const result = JSON.stringify({
   },
 });
 
+// console.log(stub);
 describe('coe helpers', () => {
+  let stub;
+  beforeEach(function() {
+    stub = sinon.stub(helpers, 'transformForSubmit');
+  });
+  afterEach(function() {
+    stub.restore();
+  });
   describe('customCOEsubmit', () => {
     it('should correctly format the form data', () => {
-      sinon.stub(helpers, 'transformForSubmit').returns(formattedProperties);
+      stub.returns(formattedProperties);
       expect(customCOEsubmit({}, form)).to.equal(result);
     });
   });
