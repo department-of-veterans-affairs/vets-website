@@ -12,7 +12,6 @@ export const GET_COE_URL_FAILED = 'GET_COE_URL_FAILED';
 const COE_DOWNLOAD_URI = '/coe/download_coe';
 const COE_STATUS_URI = '/coe/status';
 
-//
 export const getCoeStatus = async () => {
   try {
     const response = await apiRequest(COE_STATUS_URI);
