@@ -207,7 +207,9 @@ export default class ReviewCardField extends React.Component {
     return (
       <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
-          <Tag className={titleClasses}>{title}</Tag>
+          <Tag tabIndex={0} className={titleClasses}>
+            {title}
+          </Tag>
           {subtitle && <div className="review-card--subtitle">{subtitle}</div>}
           {needsDlWrapper ? <dl className="review">{Field}</dl> : Field}
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2p5">
@@ -303,7 +305,9 @@ export default class ReviewCardField extends React.Component {
     return (
       <div className="review-card">
         <div className={headerClasses} style={{ minHeight: '5rem' }}>
-          <Tag className={titleClasses}>{title}</Tag>
+          <Tag tabIndex={0} className={titleClasses}>
+            {title}
+          </Tag>
           {!volatileData && (
             <button
               className={`usa-button-secondary ${editButton}`}
@@ -342,6 +346,9 @@ export default class ReviewCardField extends React.Component {
       this.resetFormData(newState.oldData);
     }
 
+    setTimeout(() => {
+      this.setFocusToHeading();
+    }, 1);
     this.setState(newState);
   };
 
@@ -353,6 +360,8 @@ export default class ReviewCardField extends React.Component {
     }
     this.props.onChange(this.state.oldData);
     this.setState({ editing: false });
+
+    this.setFocusToHeading();
   };
 
   /**
@@ -399,10 +408,20 @@ export default class ReviewCardField extends React.Component {
         canCancel: true,
         oldData: this.props.formData,
       });
+
       if (this.props.uiSchema.saveClickTrackEvent) {
         recordEvent(this.props.uiSchema.saveClickTrackEvent);
       }
+
+      this.setFocusToHeading();
     }
+  };
+
+  // Sets focus on the heading if it exists
+  setFocusToHeading = () => {
+    const reviewCardHeading = document.querySelector('.review-card--title');
+
+    if (reviewCardHeading) reviewCardHeading.focus();
   };
 
   render() {
