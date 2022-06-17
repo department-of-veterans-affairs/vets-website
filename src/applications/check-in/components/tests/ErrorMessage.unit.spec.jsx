@@ -1,4 +1,6 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import '../../utils/i18n/i18n';
@@ -7,8 +9,24 @@ import ErrorMessage from '../ErrorMessage';
 
 describe('check-in', () => {
   describe('ErrorMessage', () => {
+    let store;
+    const middleware = [];
+    const mockStore = configureStore(middleware);
+    const initState = {
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        check_in_experience_phone_appointments_enabled: false,
+      },
+    };
+    beforeEach(() => {
+      store = mockStore(initState);
+    });
     it('Renders default error message', () => {
-      const component = render(<ErrorMessage />);
+      const component = render(
+        <Provider store={store}>
+          <ErrorMessage />
+        </Provider>,
+      );
 
       expect(component.getByTestId('error-message')).to.exist;
       expect(component.getByTestId('error-message')).to.have.text(
@@ -16,7 +34,11 @@ describe('check-in', () => {
       );
     });
     it('Renders passed error string', () => {
-      const component = render(<ErrorMessage message="test message" />);
+      const component = render(
+        <Provider store={store}>
+          <ErrorMessage message="test message" />
+        </Provider>,
+      );
       expect(component.getByTestId('error-message')).to.exist;
       expect(component.getByTestId('error-message')).to.have.text(
         'test message',
@@ -29,7 +51,11 @@ describe('check-in', () => {
           <p data-testid="error-line-2">Error line 2</p>
         </>
       );
-      const component = render(<ErrorMessage message={msg} />);
+      const component = render(
+        <Provider store={store}>
+          <ErrorMessage message={msg} />
+        </Provider>,
+      );
 
       expect(component.getByTestId('error-line-1')).to.exist;
       expect(component.getByTestId('error-line-1')).to.have.text(
@@ -48,10 +74,12 @@ describe('check-in', () => {
         </>
       );
       const component = render(
-        <ErrorMessage
-          message="test message"
-          additionalDetails={additionalDetails}
-        />,
+        <Provider store={store}>
+          <ErrorMessage
+            message="test message"
+            additionalDetails={additionalDetails}
+          />
+        </Provider>,
       );
       expect(component.getByTestId('detail-line-1')).to.exist;
       expect(component.getByTestId('detail-line-1')).to.have.text(
@@ -63,7 +91,11 @@ describe('check-in', () => {
       );
     });
     it('Renders failed validation message', () => {
-      const component = render(<ErrorMessage validationError="check-in" />);
+      const component = render(
+        <Provider store={store}>
+          <ErrorMessage validationError="check-in" />
+        </Provider>,
+      );
       expect(component.getByTestId('error-message')).to.exist;
       expect(component.getByTestId('error-message')).to.contain.text(
         'We’re sorry. We couldn’t match your information to our records.',
