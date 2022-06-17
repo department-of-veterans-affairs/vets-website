@@ -273,8 +273,15 @@ export function saveEDUPaymentInformation(
       );
       // .errors is returned from the API, .error is returned from getData
       if (response.errors || response.error) {
-        const err = response.errors || response.error;
-        const errorName = err ? err[0]?.title || 'unknown' : 'unknown';
+        const err = response.errors || response.error?.errors;
+        let errorName = 'unknown';
+        if (err) {
+          if (err.length > 0) {
+            errorName = err[0].title;
+          } else {
+            errorName = err?.title || 'unknown-title';
+          }
+        }
         recordEvent({
           event: 'profile-edit-failure',
           'profile-action': 'save-failure',
