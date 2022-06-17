@@ -1,0 +1,27 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../platform/forms/sass/m-form-confirmation";
+
+.process ul.vads-u-margin-bottom--0 {
+  margin-bottom: 0 !important; // Override .process ul
+}
+
+// Review Page
+.fry-dea-review-page-only {
+  display: none;
+}
+.form-review-panel-page .fry-dea-review-page-only {
+  display: block;
+}
+.review-row .fry-dea-review-page_selected-sponsors {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.review .fry-dea-sponsors-labels_label--secondary {
+  display: none;
+}

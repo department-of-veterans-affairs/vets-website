@@ -62,6 +62,58 @@ const mailingAddress = merge(
 const countryEnum = fullSchema.definitions.country.enum;
 const citySchema = fullSchema.definitions.address.properties.city;
 
+/**
+ * Return state of mailing address military base checkbox
+ * @param {object} data - Complete form data
+ * @returns {boolean} - military base checkbox state
+ */
+const getMilitaryValue = data =>
+  data.mailingAddress?.['view:livesOnMilitaryBase'];
+
+// Temporary storage for city & state if military base checkbox is toggled more
+// than once
+const savedAddress = {
+  city: '',
+  state: '',
+};
+
+/**
+ * Update form data to remove selected military city & state and restore any
+ * previously set city & state when the "I live on a U.S. military base"
+ * checkbox is unchecked. See va.gov-team/issues/42216 for details
+ * @param {object} oldFormData - Form data prior to interaction change
+ * @param {object} formData - Form data after interaction change
+ * @returns {object} - updated Form data with manipulated mailing address if the
+ * military base checkbox state changes
+ */
+export const updateFormData = (oldFormData, formData) => {
+  let { city, state } = formData.mailingAddress;
+  const onMilitaryBase = getMilitaryValue(formData);
+  if (getMilitaryValue(oldFormData) !== onMilitaryBase) {
+    if (onMilitaryBase) {
+      savedAddress.city = oldFormData.mailingAddress.city || '';
+      savedAddress.state = oldFormData.mailingAddress.state || '';
+      city = '';
+      state = '';
+    } else {
+      city = MILITARY_CITIES.includes(oldFormData.mailingAddress.city)
+        ? savedAddress.city
+        : city || savedAddress.city;
+      state = MILITARY_STATE_VALUES.includes(oldFormData.mailingAddress.state)
+        ? savedAddress.state
+        : state || savedAddress.state;
+    }
+  }
+  return {
+    ...formData,
+    mailingAddress: {
+      ...formData.mailingAddress,
+      city,
+      state,
+    },
+  };
+};
+
 export const uiSchema = {
   'ui:title': 'Contact information',
   'ui:description': contactInfoDescription,

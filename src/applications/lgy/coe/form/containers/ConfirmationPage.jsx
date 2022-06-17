@@ -21,7 +21,7 @@ const ConfirmationPage = ({ form }) => {
 
   const { data, submission } = form;
   const name = data.fullName;
-  const { referenceNumber } = submission.response.attributes;
+  const { referenceNumber } = submission.response.attributes || '';
 
   return (
     <div className="vads-u-margin-bottom--9">

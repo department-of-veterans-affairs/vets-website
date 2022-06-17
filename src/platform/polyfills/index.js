@@ -28,7 +28,7 @@ if (navigator.userAgent.includes('Edge/14')) {
       cancelable: false,
       detail: null,
     };
-    const evt = document.createEvent('CustomEvent');
+    const evt = document?.createEvent('CustomEvent');
     evt.initCustomEvent(
       event,
       customParams.bubbles,

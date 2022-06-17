@@ -6,14 +6,21 @@ export const CALLSTATUS = {
   idle: 'idle',
 };
 
+/**
+ * LGY API (https://int.services.lgy.va.gov/eligibility-manager/swagger-ui/index.html?configUrl=/eligibility-manager/v3/api-docs/swagger-config)
+ * `/api/eligibility/determination` schema only showing:
+ * ELIGIBLE, NOT_ELIGIBLE, PENDING, UNABLE_TO_DETERMINE_AUTOMATICALLY
+ */
 export const COE_ELIGIBILITY_STATUS = {
-  available: 'available',
-  denied: 'denied',
-  eligible: 'eligible',
-  ineligible: 'ineligible',
-  unableToDetermine: 'unable-to-determine-eligibility',
-  pending: 'pending',
-  pendingUpload: 'pending-upload',
+  eligible: 'ELIGIBLE',
+  ineligible: 'NOT_NELIGIBLE',
+  pending: 'PENDING',
+  unableToDetermine: 'UNABLE_TO_DETERMINE_AUTOMATICALLY',
+
+  // not supported?
+  available: 'AVAILABLE',
+  denied: 'DENIED',
+  pendingUpload: 'PENDING-UPLOAD',
 };
 
 export const ACTIONS = {
