@@ -103,9 +103,7 @@ const PersonalInformationSection = ({
             photo ID that shows proof of the correct information. We’ll accept a
             government-issued photo ID, driver’s license, or passport as proof.
           </p>
-
           <p>Here’s how to request a correction:</p>
-
           <p>
             <span className="vads-u-font-weight--bold vads-u-display--block ">
               If you’re enrolled in the VA health care program
@@ -113,15 +111,16 @@ const PersonalInformationSection = ({
             Please contact your nearest VA medical center to update your
             personal information.
           </p>
-
           <a href="/find-locations/">Find your nearest VA medical center</a>
-
           <p className="vads-u-margin-bottom--0">
             <span className="vads-u-font-weight--bold vads-u-display--block">
               If you receive VA benefits, but aren’t enrolled in VA health care
             </span>
-            Call us at 800-827-1000 (TTY: +711). We’re here Monday through
-            Friday, 8:00 a.m. to 9:00 p.m. ET.
+            Call us at <va-telephone contact="800-827-1000" /> (
+            <a href="tel:711" aria-label="TTY: 7 1 1.">
+              TTY: +711
+            </a>
+            ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
           </p>
         </va-additional-info>
       </div>
