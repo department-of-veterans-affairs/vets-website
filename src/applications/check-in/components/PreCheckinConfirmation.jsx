@@ -60,19 +60,22 @@ const PreCheckinConfirmation = props => {
             {t('go-to-your-appointment-details')}
           </ExternalLink>
         </p>
-        <va-alert
-          background-only
-          status="info"
-          show-icon
-          data-testid="confirmation-update-alert"
-          class="vads-u-margin-bottom--3"
-        >
-          <div>
-            {t(
-              'please-bring-your-insurance-cards-with-you-to-your-appointment',
-            )}
-          </div>
-        </va-alert>
+        {!isPhoneAppointmentsEnabled && (
+          <va-alert
+            background-only
+            status="info"
+            show-icon
+            data-testid="confirmation-update-alert"
+            class="vads-u-margin-bottom--3"
+          >
+            <div>
+              {t(
+                'please-bring-your-insurance-cards-with-you-to-your-appointment',
+              )}
+            </div>
+          </va-alert>
+        )}
+
         <PreCheckInAccordionBlock
           demographicsUpToDate={demographicsUpToDate}
           emergencyContactUpToDate={emergencyContactUpToDate}

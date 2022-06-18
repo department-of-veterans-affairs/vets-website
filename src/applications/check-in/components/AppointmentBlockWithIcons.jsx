@@ -78,7 +78,7 @@ const AppointmentBlock = props => {
                   {clinic}
                 </dd>
               </dl>
-              {appointment?.kind === 'phone' ? (
+              {page === 'confirmation' || appointment?.kind === 'phone' ? (
                 <va-alert
                   background-only
                   show-icon
@@ -86,9 +86,15 @@ const AppointmentBlock = props => {
                   class="vads-u-margin-bottom--2"
                 >
                   <div>
-                    {`${t('your-provider-will-call-you')} ${
-                      page === 'confirmation' ? t('you-may-need-to-wait') : ''
-                    }`}
+                    {appointment?.kind === 'phone'
+                      ? `${t('your-provider-will-call-you')} ${
+                          page === 'confirmation'
+                            ? t('you-may-need-to-wait')
+                            : ''
+                        }`
+                      : t(
+                          'please-bring-your-insurance-cards-with-you-to-your-appointment',
+                        )}
                   </div>
                 </va-alert>
               ) : (
