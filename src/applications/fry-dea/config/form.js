@@ -48,7 +48,6 @@ import { isValidPhone, validateEmail } from '../validation';
 import EmailReviewField from '../components/EmailReviewField';
 import YesNoReviewField from '../components/YesNoReviewField';
 import MailingAddressViewField from '../components/MailingAddressViewField';
-import NotificationRadioButtons from '../components/NotificationRadioButtons';
 
 const { date, fullName } = fullSchema5490.definitions;
 const { /* fullName, date, dateRange, usaPhone, */ email } = commonDefinitions;
@@ -489,41 +488,11 @@ const formConfig = {
                 </va-additional-info>
               ),
             },
-            'view:benefitSelectionAlert': {
-              'ui:description': (
-                <NotificationRadioButtons
-                  label="Which education benefit would you like to apply for?"
-                  name="benefit selection"
-                  required
-                  additionalFieldsetClass="information-border"
-                  informationMessage="If you’re the child of a veteran or service member who died
-                  in the line of duty before August 1, 2011 you can use both
-                  Fry Scholarship and DEA and get up to 81 months of benefits.
-                  You’ll need to apply separately and use one program at a
-                  time."
-                  value={{ value: 'Fry' }}
-                  onValueChange={e => e}
-                  options={[
-                    {
-                      label: `Fry Scholarship (Chapter 33)`,
-                      value: 'Fry',
-                      ariaLabel: 'Notify me of TEST by',
-                      class: 'vads-u-padding-left--1',
-                    },
-                    {
-                      label: `Survivors' and Dependents Educational Assistance (DEA, Chapter 35)`,
-                      value: 'Dea',
-                      ariaLabel: `Do not notify me of TEST by`,
-                    },
-                  ]}
-                />
-              ),
-            },
-            favoriteAnimal: {
+            benefitSelection: {
               'ui:title': (
                 <>
                   <span className="fry-dea-labels_label--main vads-u-padding-left--1 vads-u-padding-bottom--1">
-                    Favorite animal
+                    Which education benefit would you like to apply for?
                   </span>
                   <span className="fry-dea-labels_label--secondary fry-dea-input-message vads-u-background-color--primary-alt-lightest vads-u-padding--1">
                     <i
@@ -541,32 +510,27 @@ const formConfig = {
               'ui:widget': 'radio',
               'ui:options': {
                 labels: {
-                  dog: 'Dog',
-                  cat: 'Cat',
-                  octopus: 'Octopus',
-                  sloth: 'Sloth',
+                  fry: 'Fry Scholarship (Chapter 33)',
+                  dea:
+                    "Survivors' and Dependents Educational Assistance (DEA, Chapter 35)",
                 },
                 widgetProps: {
-                  dog: { 'data-info': 'dog_1' },
-                  cat: { 'data-info': 'cat_2' },
-                  octopus: { 'data-info': 'octopus_3' },
-                  sloth: { 'data-info': 'sloth_4' },
+                  fry: { 'data-info': 'fry' },
+                  dea: { 'data-info': 'dea' },
                 },
                 // Only added to the radio when it is selected
                 // a11y requirement: aria-describedby ID's *must* exist on the page; and we
                 // conditionally add content based on the selection
                 selectedProps: {
-                  dog: { 'aria-describedby': 'some_id_1' },
-                  cat: { 'aria-describedby': 'some_id_2' },
-                  octopus: { 'aria-describedby': 'some_id_3' },
-                  sloth: { 'aria-describedby': 'some_id_4' },
+                  fry: { 'aria-describedby': 'fry' },
+                  dea: { 'aria-describedby': 'dea' },
                 },
               },
             },
           },
           schema: {
             type: 'object',
-            required: ['favoriteAnimal', newFormFields.newBenefitSelection],
+            required: ['benefitSelection', newFormFields.newBenefitSelection],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -584,13 +548,12 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              'view:benefitSelectionAlert': {
-                type: 'object',
-                properties: {},
-              },
-              favoriteAnimal: {
+              benefitSelection: {
                 type: 'string',
-                enum: ['dog', 'cat', 'octopus', 'sloth'],
+                enum: [
+                  'Fry Scholarship (Chapter 33)',
+                  "Survivors' and Dependents Educational Assistance (DEA, Chapter 35)",
+                ],
               },
             },
           },
