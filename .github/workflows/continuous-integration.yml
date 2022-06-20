@@ -425,7 +425,7 @@ jobs:
         uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
-        uses: department-of-veterans-affairs/platform-release-tools-actions/configure-bigquery@main
+        uses: ./.github/workflows/configure-bigquery
 
       - name: Upload app list to BigQuery
         run: yarn generate-app-list
@@ -628,7 +628,7 @@ jobs:
         uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
-        uses: department-of-veterans-affairs/platform-release-tools-actions/configure-bigquery@main
+        uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -740,7 +740,7 @@ jobs:
         uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
-        uses: department-of-veterans-affairs/platform-release-tools-actions/configure-bigquery@main
+        uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -829,7 +829,7 @@ jobs:
         uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
-        uses: department-of-veterans-affairs/platform-release-tools-actions/configure-bigquery@main
+        uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
@@ -909,7 +909,7 @@ jobs:
         uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
-        uses: department-of-veterans-affairs/platform-release-tools-actions/configure-bigquery@main
+        uses: ./.github/workflows/configure-bigquery
 
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
