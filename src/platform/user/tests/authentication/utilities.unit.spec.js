@@ -291,7 +291,7 @@ describe('Authentication Utilities', () => {
         authUtilities.sessionTypeUrl({
           type,
         }),
-      ).to.equal(API_SIGN_IN_SERVICE_URL({ type: `/${type}` }));
+      ).to.equal(API_SIGN_IN_SERVICE_URL({ type }));
     });
 
     it('should NOT return session url with _verified appended to type for types other than login/signup', () => {
@@ -325,7 +325,7 @@ describe('Authentication Utilities', () => {
         authUtilities.sessionTypeUrl({
           type,
         }),
-      ).to.include(appendQuery(API_SIGN_IN_SERVICE_URL({ type: `/${type}` })));
+      ).to.include(appendQuery(API_SIGN_IN_SERVICE_URL({ type })));
     });
     it('should use API_SESSION_URL when OAuth is disabled', () => {
       const params = { application: 'vamobile' };
@@ -367,7 +367,7 @@ describe('Authentication Utilities', () => {
       expect(global.window.location).to.not.equal(base);
       authUtilities.redirectWithGAClientId(base);
       expect(global.window.location).to.equal(
-        `${base}/?client_id=${mockGAClientId}`,
+        `${base}/?ga_client_id=${mockGAClientId}`,
       );
     });
 

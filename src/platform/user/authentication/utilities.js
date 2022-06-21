@@ -194,7 +194,7 @@ export function sessionTypeUrl({
 
   return appendQuery(
     useOAuth
-      ? API_SIGN_IN_SERVICE_URL({ type: `/${type}` })
+      ? API_SIGN_IN_SERVICE_URL({ type })
       : API_SESSION_URL({
           version,
           type: `${type}${requireVerification}`,
