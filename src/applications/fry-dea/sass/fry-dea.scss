@@ -37,24 +37,35 @@ $error-left-padding-width: 1.5rem;
   border-color: $color-secondary-dark;
   margin-left: calc(-#{$error-left-padding-width} - #{$border-width});
 }
-.usa-input-error .fry-dea-labels_label--main,
-.usa-input-error .fry-dea-input-message {
-  padding-left: $error-left-padding-width !important; // Override vads spacing units
-}
 #root_benefitSelection-label {
 	display: flex !important; // Override label styling
 	flex-flow: row wrap;
 }
+.usa-input-error #root_benefitSelection-label {
+  padding-left: $error-left-padding-width;
+}
 .fry-dea-labels_label--main {
 	flex: 0 1 auto;
+  margin-right: 0.35em;
 	order: 0;
 }
-.usa-input-error .fry-dea-labels_label--main {
+.usa-input-error .fry-dea-labels_label--main,
+.usa-input-error .schemaform-required-span {
   font-weight: bold;
+}
+.usa-input-error .fry-dea-labels_label--main {
+  padding-left: 0 !important; // Override VADS spacing units
+}
+.usa-input-error .fry-dea-input-message {
+  margin-left: -$error-left-padding-width;
+  padding-left: $error-left-padding-width !important; // Override VADS spacing units
 }
 .fry-dea-labels_label--secondary {
 	flex: 1 1 100%;
 	order: 2;
+}
+#root_benefitSelection-label .schemaform-required-span {
+  margin-left: 0;
 }
 #root_benefitSelection-label + .schemaform-widget-wrapper {
   padding-left: 13px;

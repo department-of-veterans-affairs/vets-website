@@ -492,13 +492,13 @@ const formConfig = {
                 </va-additional-info>
               ),
             },
-            benefitSelection: {
+            [newFormFields.benefitSelection]: {
               'ui:title': (
                 <>
-                  <span className="fry-dea-labels_label--main vads-u-padding-left--1 vads-u-padding-bottom--1">
+                  <span className="fry-dea-labels_label--main vads-u-padding-left--1">
                     Which education benefit would you like to apply for?
                   </span>
-                  <span className="fry-dea-labels_label--secondary fry-dea-input-message vads-u-background-color--primary-alt-lightest vads-u-padding--1">
+                  <span className="fry-dea-labels_label--secondary fry-dea-input-message vads-u-background-color--primary-alt-lightest vads-u-padding--1 vads-u-margin-top--1">
                     <i
                       className="fas fa-info-circle vads-u-margin-right--1"
                       aria-hidden="true"
@@ -511,6 +511,9 @@ const formConfig = {
                   </span>
                 </>
               ),
+              'ui:errorMessages': {
+                required: 'Please select an education benefit',
+              },
               'ui:widget': 'radio',
               'ui:options': {
                 labels: {
@@ -534,7 +537,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['benefitSelection', newFormFields.newBenefitSelection],
+            required: [newFormFields.benefitSelection],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -552,7 +555,7 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              benefitSelection: {
+              [newFormFields.benefitSelection]: {
                 type: 'string',
                 enum: [
                   'Fry Scholarship (Chapter 33)',
