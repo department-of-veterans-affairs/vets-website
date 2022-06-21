@@ -377,7 +377,6 @@ describe('VAOS V2 data transformation', () => {
           coding: [{ code: 'Routine Follow-up' }],
           text: 'Testing',
         },
-        // comment: 'Testing',
         contact: {
           telecom: [
             { type: 'phone', value: '5035551234' },
@@ -462,7 +461,6 @@ describe('VAOS V2 data transformation', () => {
           coding: undefined,
           text: reasonAdditionalInfo.slice(0, 100),
         },
-        // comment: reasonAdditionalInfo,
         contact: {
           telecom: [
             { type: 'phone', value: '5035551234' },
