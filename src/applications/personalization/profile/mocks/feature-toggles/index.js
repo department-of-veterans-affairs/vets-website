@@ -13,17 +13,12 @@ const generateFeatureToggles = (toggles = {}) => {
     profileShowProfile2 = false,
     profileShowPronounsAndSexualOrientation = false,
     profileShowReceiveTextNotifications = true,
-    profileAlwaysShowDirectDepositDisplay = false,
   } = toggles;
 
   return {
     data: {
       type: 'feature_toggles',
       features: [
-        {
-          name: 'profile_always_show_direct_deposit_display',
-          value: profileAlwaysShowDirectDepositDisplay,
-        },
         {
           name: 'profile_do_not_require_international_zip_code',
           value: profileDoNotRequireInternationalZipCode,

@@ -5,9 +5,6 @@ import { bindActionCreators } from 'redux';
 
 import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
 
 import {
   editCNPPaymentInformationToggled,
@@ -27,7 +24,6 @@ import {
   eduDirectDepositIsSetUp,
   eduDirectDepositLoadError,
   eduDirectDepositUiState as eduDirectDepositUiStateSelector,
-  profileAlwaysShowDirectDepositDisplay,
 } from '@@profile/selectors';
 import recordEvent from '~/platform/monitoring/record-event';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
@@ -60,7 +56,6 @@ export const BankInfo = ({
   typeIsCNP,
   setFormIsDirty,
   setViewingPayments,
-  useAlwaysShowDirectDepositDisplay,
 }) => {
   const formPrefix = type;
   const editBankInfoButton = useRef();
@@ -224,44 +219,6 @@ export const BankInfo = ({
     </div>
   );
 
-  // When not eligible for DD
-  const notEligibleContent = (
-    <>
-      <p className="vads-u-margin-top--0">
-        Our records show that you’re not receiving {benefitTypeShort} payments.
-        If you think this is an error, please call us at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} />.
-      </p>
-      <p>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href={`https://www.va.gov/${benefitTypeShort}/eligibility/`}
-          onClick={() => {
-            recordEvent({
-              event: 'profile-navigation',
-              'profile-action': 'view-link',
-              'profile-section': `${benefitTypeShort}-benefits`,
-            });
-          }}
-        >
-          Find out if you’re eligible for VA {benefitTypeShort} benefits
-        </a>
-      </p>
-      {typeIsCNP && (
-        <p className="vads-u-margin-bottom--0">
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://www.va.gov/pension/eligibility/"
-          >
-            Find out if you’re eligible for VA pension benefits
-          </a>
-        </p>
-      )}
-    </>
-  );
-
   // When editing/setting up direct deposit, we'll show a form that accepts bank
   // account information
   const editingBankInfoContent = (
@@ -363,12 +320,8 @@ export const BankInfo = ({
       return notSetUpContent;
     }
     setViewingPayments(old => ({ ...old, [type]: false }));
-    if (useAlwaysShowDirectDepositDisplay) {
-      return (
-        <NotEligible benefitType={benefitTypeShort} typeIsCNP={typeIsCNP} />
-      );
-    }
-    return notEligibleContent;
+
+    return <NotEligible benefitType={benefitTypeShort} typeIsCNP={typeIsCNP} />;
   };
 
   const directDepositData = () => {
@@ -459,7 +412,6 @@ BankInfo.propTypes = {
     responseError: PropTypes.object,
   }),
   typeIsCNP: PropTypes.bool,
-  useAlwaysShowDirectDepositDisplay: PropTypes.bool,
 };
 
 export const mapStateToProps = (state, ownProps) => {
@@ -485,9 +437,6 @@ export const mapStateToProps = (state, ownProps) => {
     directDepositUiState: typeIsCNP
       ? cnpDirectDepositUiStateSelector(state)
       : eduDirectDepositUiStateSelector(state),
-    useAlwaysShowDirectDepositDisplay: profileAlwaysShowDirectDepositDisplay(
-      state,
-    ),
   };
 };
 
