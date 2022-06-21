@@ -29,7 +29,6 @@ const CheckInConfirmation = props => {
   return (
     <Wrapper pageTitle={pageTitle} testID="multiple-appointments-confirm">
       <p>{t('your-appointment')}</p>
-      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ol
         className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
         data-testid="appointment-list"
