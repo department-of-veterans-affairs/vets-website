@@ -118,6 +118,10 @@ export const requestToken = async ({ code, redirectUri }) => {
   return response;
 };
 
+export const infoTokenExists = () => {
+  return document.cookie.includes(INFO_TOKEN);
+};
+
 export const formatInfoCookie = unformattedCookie =>
   unformattedCookie.split(',+:').reduce((obj, cookieString) => {
     const [key, value] = cookieString.replace(/{:|}/g, '').split('=>');
@@ -126,7 +130,7 @@ export const formatInfoCookie = unformattedCookie =>
   }, {});
 
 export const getInfoToken = () => {
-  if (!document.cookie.includes(INFO_TOKEN)) return null;
+  if (!infoTokenExists()) return null;
 
   return document.cookie
     .split(';')
@@ -136,4 +140,28 @@ export const getInfoToken = () => {
         ...formatInfoCookie(decodeURIComponent(cookieValue)),
       }),
     }));
+};
+
+export const refresh = async () => {
+  // Build the authorization URL
+  const oAuthParams = {
+    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent('web'),
+  };
+
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: '/refresh' }));
+
+  Object.keys(oAuthParams).forEach(param =>
+    url.searchParams.append(param, oAuthParams[param]),
+  );
+
+  const response = await fetch(url.toString(), {
+    method: 'POST',
+    credentials: 'include',
+  });
+
+  if (response.ok) {
+    removeStateAndVerifier();
+  }
+
+  return response;
 };

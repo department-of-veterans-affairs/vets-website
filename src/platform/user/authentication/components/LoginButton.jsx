@@ -1,7 +1,7 @@
 import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import * as authUtilities from 'platform/user/authentication/utilities';
-import { createOAuthRequest } from 'platform/utilities/oauth/utilities';
+import { createOAuthRequest } from 'platform/utilities/oauth';
 import { CSP_CONTENT } from '../constants';
 
 export function loginHandler(loginType, useWebSiS) {

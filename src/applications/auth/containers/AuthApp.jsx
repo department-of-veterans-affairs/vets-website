@@ -19,7 +19,7 @@ import {
 } from 'platform/user/profile/utilities';
 import { shouldRedirectToMyVA } from 'platform/user/selectors';
 import { apiRequest } from 'platform/utilities/api';
-import { requestToken } from 'platform/utilities/oauth/utilities';
+import { requestToken } from 'platform/utilities/oauth';
 import { generateReturnURL } from 'platform/user/authentication/utilities';
 import {
   OAUTH_ERRORS,

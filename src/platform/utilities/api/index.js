@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/browser';
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
 import { checkAndUpdateSSOeSession } from '../sso';
+import { infoTokenExists, refresh } from '../oauth';
 
 export function fetchAndUpdateSessionExpiration(...args) {
   // Only replace with custom fetch if not stubbed for unit testing
@@ -66,24 +67,17 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     );
   }
 
-  const defaultSettings = {
+  const settings = {
     method: 'GET',
     credentials: 'include',
+    ...optionalSettings,
     headers: {
       'X-Key-Inflection': 'camel',
       'Source-App-Name': window.appName,
       'X-CSRF-Token': csrfTokenStored,
+      ...optionalSettings.headers,
     },
   };
-
-  const newHeaders = Object.assign(
-    {},
-    defaultSettings.headers,
-    optionalSettings ? optionalSettings.headers : undefined,
-  );
-
-  const settings = Object.assign({}, defaultSettings, optionalSettings);
-  settings.headers = newHeaders;
 
   return fetchAndUpdateSessionExpiration(url, settings)
     .catch(err => {
@@ -113,12 +107,23 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 
       if (environment.isProduction()) {
         const { pathname } = window.location;
-        const shouldRedirectToSessionExpired =
+
+        const shouldRefreshOAuth =
           response.status === 401 &&
           !pathname.includes('auth/login/callback') &&
+          infoTokenExists();
+
+        if (shouldRefreshOAuth) {
+          refresh();
+        }
+
+        const shouldRedirectToSAMLSessionExpired =
+          response.status === 401 &&
+          !pathname.includes('auth/login/callback') &&
+          !infoTokenExists() &&
           sessionStorage.getItem('shouldRedirectExpiredSession') === 'true';
 
-        if (shouldRedirectToSessionExpired) {
+        if (shouldRedirectToSAMLSessionExpired) {
           window.location = '/session-expired';
         }
       }

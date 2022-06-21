@@ -6,7 +6,7 @@ import {
 } from 'platform/testing/unit/helpers';
 import { createHash, randomFillSync } from 'crypto';
 import { AUTHORIZE_KEYS } from '../../oauth/constants';
-import * as oAuthUtils from '../../oauth/utilities';
+import * as oAuthUtils from '../../oauth';
 
 function getArrayBufferOrView(buffer) {
   if (Buffer.isBuffer(buffer)) {
