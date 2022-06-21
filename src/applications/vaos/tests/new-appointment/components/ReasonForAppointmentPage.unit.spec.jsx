@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import React from 'react';
 import { expect } from 'chai';
 import { mockFetch } from 'platform/testing/unit/helpers';
@@ -40,7 +41,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     expect(textBox).to.exist;
     expect(textBox)
       .to.have.attribute('maxlength')
-      .to.equal('250');
+      .to.equal('100');
 
     expect((await screen.findAllByRole('radio')).length).to.equal(4);
 

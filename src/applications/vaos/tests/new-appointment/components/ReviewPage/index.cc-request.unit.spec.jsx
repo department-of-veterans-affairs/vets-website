@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
@@ -595,6 +596,9 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
             value: 'joeblow@gmail.com',
           },
         ],
+      },
+      reasonCode: {
+        text: 'I need an appt',
       },
       requestedPeriods: [
         {

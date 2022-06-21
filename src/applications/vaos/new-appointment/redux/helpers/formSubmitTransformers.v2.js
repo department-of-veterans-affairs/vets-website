@@ -11,6 +11,25 @@ import {
 } from '../selectors';
 import { getClinicId } from '../../../services/healthcare-service';
 
+function getReasonCode(data) {
+  const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
+    purpose => purpose.id === data.reasonForAppointment,
+  )?.short;
+
+  return {
+    // If the user selects one of the three preset radio selections
+    // ("Routine Follow-up", "New Problem", or "Medication Concern"), then that values goes
+    // in reasonCode.coding[0].code.
+    coding: code ? [{ code }] : undefined,
+    // Per Brad - All comments should be sent in the reasonCode.text field and should should be
+    // truncated to 100 char for both VA appointment types only. CC appointments will continue
+    // to be truncated to 250 char
+    text: data.reasonAdditionalInfo
+      ? data.reasonAdditionalInfo.slice(0, 100)
+      : null,
+  };
+}
+
 export function transformFormToVAOSCCRequest(state) {
   const data = getFormData(state);
   const provider = data.communityCareProvider;
@@ -63,6 +82,8 @@ export function transformFormToVAOSCCRequest(state) {
     status: 'proposed',
     locationId: data.communityCareSystemId,
     serviceType: typeOfCare.idV2 || typeOfCare.ccId,
+    // Sending addtional text in both fields for now. Plan is to delete 'comment' field.
+    reasonCode: getReasonCode(data),
     comment: data.reasonAdditionalInfo,
     contact: {
       telecom: [
@@ -99,9 +120,6 @@ export function transformFormToVAOSCCRequest(state) {
 export function transformFormToVAOSVARequest(state) {
   const data = getFormData(state);
   const typeOfCare = getTypeOfCare(data);
-  const code = PURPOSE_TEXT_V2.find(
-    purpose => purpose.id === data.reasonForAppointment,
-  )?.serviceName;
 
   return {
     kind: data.visitType,
@@ -109,21 +127,7 @@ export function transformFormToVAOSVARequest(state) {
     locationId: data.vaFacility,
     // This may need to change when we get the new service type ids
     serviceType: typeOfCare.idV2,
-    reasonCode:
-      code === 'Other'
-        ? {
-            coding: [],
-            text: data.reasonAdditionalInfo.slice(0, 100),
-          }
-        : {
-            coding: [
-              {
-                code,
-              },
-            ],
-            text: code,
-          },
-    comment: data.reasonAdditionalInfo,
+    reasonCode: getReasonCode(data),
     contact: {
       telecom: [
         {
@@ -158,23 +162,6 @@ export function transformFormToVAOSVARequest(state) {
 
 //   return `${label}: ${data.reasonAdditionalInfo}`;
 // }
-
-function getReasonCode(data) {
-  const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
-    purpose => purpose.id === data.reasonForAppointment,
-  )?.short;
-
-  return {
-    // If the user selects one of the three preset radio selections
-    // ("Routine Follow-up", "New Problem", or "Medication Concern"), then that values goes
-    // in reasonCode.coding[0].code and text should not be sent. But...
-    coding: code ? [{ code }] : undefined,
-    // If the veteran selects the "other reason" radio button and enters a free text reason
-    // then you will want to leave reasonCode.coding[] as null/empty, and then send the free
-    // text reason in reasonCode.text :
-    text: code ? undefined : data.reasonAdditionalInfo.slice(0, 100),
-  };
-}
 
 export function transformFormToVAOSAppointment(state) {
   const data = getFormData(state);

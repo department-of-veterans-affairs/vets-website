@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
@@ -347,10 +348,9 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
       status: 'proposed',
       locationId: '983',
       serviceType: 'primaryCare',
-      comment: 'I need an appt',
       reasonCode: {
         coding: [{ code: 'Routine Follow-up' }],
-        text: 'Routine Follow-up',
+        text: 'I need an appt',
       },
       contact: {
         telecom: [
@@ -413,9 +413,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
       status: 'proposed',
       locationId: '983',
       serviceType: 'primaryCare',
-      comment: 'I need an appt',
       reasonCode: {
-        coding: [],
         text: 'I need an appt',
       },
       contact: {

@@ -120,7 +120,7 @@ describe('VAOS V2 data transformation', () => {
               code: 'Routine Follow-up',
             },
           ],
-          text: undefined,
+          text: 'asdfasdf',
         },
       });
     });
@@ -304,7 +304,7 @@ describe('VAOS V2 data transformation', () => {
               code: 'Routine Follow-up',
             },
           ],
-          text: undefined,
+          text: 'I need an appt',
         },
       });
     });
@@ -375,9 +375,9 @@ describe('VAOS V2 data transformation', () => {
         serviceType: 'cpap',
         reasonCode: {
           coding: [{ code: 'Routine Follow-up' }],
-          text: 'Routine Follow-up',
+          text: 'Testing',
         },
-        comment: 'Testing',
+        // comment: 'Testing',
         contact: {
           telecom: [
             { type: 'phone', value: '5035551234' },
@@ -459,10 +459,10 @@ describe('VAOS V2 data transformation', () => {
         locationId: '983GB',
         serviceType: 'cpap',
         reasonCode: {
-          coding: [],
+          coding: undefined,
           text: reasonAdditionalInfo.slice(0, 100),
         },
-        comment: reasonAdditionalInfo,
+        // comment: reasonAdditionalInfo,
         contact: {
           telecom: [
             { type: 'phone', value: '5035551234' },
