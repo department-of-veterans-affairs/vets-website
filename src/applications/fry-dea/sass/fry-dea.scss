@@ -25,3 +25,57 @@
 .review .fry-dea-sponsors-labels_label--secondary {
   display: none;
 }
+
+// Benefit Selection Page
+$border-width: 4px;
+$error-left-padding-width: 1.5rem;
+#root_benefitSelection-label,
+#root_benefitSelection-label + .schemaform-widget-wrapper {
+  border-left: $border-width solid $color-primary-alt-dark;
+}
+.usa-input-error #root_benefitSelection-label {
+  border-color: $color-secondary-dark;
+  margin-left: calc(-#{$error-left-padding-width} - #{$border-width});
+}
+#root_benefitSelection-label {
+	display: flex !important; // Override label styling
+	flex-flow: row wrap;
+}
+.usa-input-error #root_benefitSelection-label {
+  padding-left: $error-left-padding-width;
+}
+.fry-dea-labels_label--main {
+	flex: 0 1 auto;
+  margin-right: 0.35em;
+	order: 0;
+}
+.usa-input-error .fry-dea-labels_label--main,
+.usa-input-error .schemaform-required-span {
+  font-weight: bold;
+}
+.usa-input-error .fry-dea-labels_label--main {
+  padding-left: 0 !important; // Override VADS spacing units
+}
+.usa-input-error .fry-dea-input-message {
+  margin-left: -$error-left-padding-width;
+  padding-left: $error-left-padding-width !important; // Override VADS spacing units
+}
+.fry-dea-labels_label--secondary {
+	flex: 1 1 100%;
+	order: 2;
+}
+#root_benefitSelection-label .schemaform-required-span {
+  margin-left: 0;
+}
+#root_benefitSelection-label + .schemaform-widget-wrapper {
+  padding-left: 13px;
+}
+#root_benefitSelection-label + .schemaform-widget-wrapper .form-radio-buttons label {
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-top: 1em;
+}
+#root_benefitSelection-label + .schemaform-widget-wrapper .form-radio-buttons:last-child label {
+  padding-bottom: .65em;
+}
+// END - Benefit Selection Page
