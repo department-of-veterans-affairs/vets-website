@@ -18,6 +18,7 @@ const PersonalAuthenticatedInformation = ({
   formData,
   getTotalDisabilityRating,
   totalDisabilityRating,
+  user,
 }) => {
   useEffect(
     () => {
@@ -31,29 +32,24 @@ const PersonalAuthenticatedInformation = ({
       setFormData({
         ...formData,
         'view:totalDisabilityRating': totalDisabilityRating || 0,
+        'view:userDob': user.dob,
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [totalDisabilityRating],
+    [totalDisabilityRating, user.dob],
   );
 
   const navButtons = <FormNavButtons goBack={goBack} goForward={goForward} />;
 
   const {
-    veteranFullName: { first, middle, last, suffix },
-    veteranDateOfBirth,
-    veteranSocialSecurityNumber,
-  } = formData;
+    userFullName: { first, middle, last, suffix },
+    dob,
+  } = user;
 
   let dateOfBirthFormatted = '-';
-  let ssnLastFour = '-';
-  if (veteranSocialSecurityNumber) {
-    ssnLastFour = veteranSocialSecurityNumber.substr(
-      veteranSocialSecurityNumber.length - 4,
-    );
-  }
-  if (veteranDateOfBirth) {
-    dateOfBirthFormatted = moment(veteranDateOfBirth).format('MMMM DD, YYYY');
+
+  if (dob) {
+    dateOfBirthFormatted = moment(dob).format('MMMM DD, YYYY');
   }
 
   return (
@@ -61,7 +57,10 @@ const PersonalAuthenticatedInformation = ({
       {isLoggedIn && (
         <div>
           <div className="hca-id-form-wrapper vads-u-margin-bottom--2">
-            <p>This is the personal information we have on file for you.</p>
+            {dob && (
+              <p>This is the personal information we have on file for you.</p>
+            )}
+            {!dob && <p>Here’s the name we have on file for you.</p>}
             <div className="vads-u-border-left--7px vads-u-border-color--primary vads-u-padding-y--1 vads-u-margin-bottom--3">
               <div className="vads-u-padding-left--1">
                 <p className="vads-u-margin--1px">
@@ -70,12 +69,11 @@ const PersonalAuthenticatedInformation = ({
                     {first || ''} {middle || ''} {last || ''} {suffix || ''}
                   </strong>
                 </p>
-                <p className="vads-u-margin--1px">
-                  Last 4 of Social Security number: {ssnLastFour}
-                </p>
-                <p className="vads-u-margin--1px">
-                  Date of birth: {dateOfBirthFormatted}
-                </p>
+                {dob && (
+                  <p className="vads-u-margin--1px">
+                    Date of birth: {dateOfBirthFormatted}
+                  </p>
+                )}
               </div>
             </div>
             <p>
@@ -135,6 +133,5 @@ PersonalAuthenticatedInformation.propTypes = {
   setFormData: PropTypes.func,
   suffix: PropTypes.string,
   totalDisabilityRating: PropTypes.number,
-  veteranDateOfBirth: PropTypes.string,
-  veteranSocialSecurityNumber: PropTypes.string,
+  user: PropTypes.object,
 };
