@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 const AuthenticatedShortFormAlert = ({ formData }) => {
   const disabilityRating = formData['view:totalDisabilityRating'];
@@ -21,9 +21,10 @@ const AuthenticatedShortFormAlert = ({ formData }) => {
         <div>
           <va-additional-info trigger="What if I don’t think my rating information is correct here?">
             <p>
-              Call us at <va-telephone contact="877-222-8387" />. We’re here
-              Monday through Friday, 8:00 a.m. to 9:00 p.m. ET. If you have
-              hearing loss, call TTY: <va-telephone contact={CONTACTS[711]} />.
+              Call us at <va-telephone contact={CONTACTS['222_VETS']} />. We’re
+              here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
+              <abbr title="eastern time">ET</abbr>. If you have hearing loss,
+              call TTY: <va-telephone contact={CONTACTS['711']} />.
             </p>
           </va-additional-info>
         </div>

@@ -73,6 +73,7 @@ export default Object.freeze({
   medicalCopaysHtmlMedicalStatementsViewEnabled:'medical_copays_html_medical_statements_view_enabled',
   mhvToLogingovAccountTransition: 'mhv_to_logingov_account_transition',
   mhvToLogingovAccountTransitionModal: 'mhv_to_logingov_account_transition_modal',
+  myVARedirect: 'my_va_redirect',
   omniChannelLink: 'omni_channel_link',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
   profileAlwaysShowDirectDepositDisplay: 'profile_always_show_direct_deposit_display',
@@ -82,8 +83,6 @@ export default Object.freeze({
   profileEnhancements: 'profile_enhancements',
   profileShowAddressChangeModal: 'profile_show_address_change_modal',
   profileShowBadAddressIndicator: 'profile_show_bad_address_indicator',
-  profileShowFaxNumber: 'profile_show_fax_number',
-  profileShowGender: 'profile_show_gender',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
   profileShowNewDirectDepositCTAMessage: 'profile_show_new_direct_deposit_cta_message',
   profileUseVaosV2Api:'profile_use_vaos_v2_api',
@@ -105,7 +104,6 @@ export default Object.freeze({
   showFinancialStatusReport: 'show_financial_status_report',
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
   showFormI18n: 'show_form_i18n',
-  showEventsV2: 'show_events_v2',
   showMebMockEndpoints: 'show_meb_mock_endpoints',
   showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
@@ -124,7 +122,7 @@ export default Object.freeze({
   subform89404192: 'subform_8940_4192',
   useLighthouseFormsSearchLogic: 'new_va_forms_search',
   vaGlobalDowntimeNotification: 'va_global_downtime_notification',
-  vaHomePreview: 
+  vaHomePreview:
   'va_home_preview',
   vaOnlineFacilitySelectionV22: 'va_online_scheduling_facility_selection_v2_2',
   vaOnlineScheduling: 'va_online_scheduling',

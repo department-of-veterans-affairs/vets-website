@@ -2737,10 +2737,10 @@
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/eslint-plugin@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.1.0.tgz#fcfb3651485aaddb66f1f46f227b670b2adce7da"
-  integrity sha512-QLtevzdk7axqtFVVI0NRc9qhbCcSAdgmv/PkQF0kUPNZagKlDImL8acZRK0U74cixKIL1JUSkk8FSi761phL6w==
+"@department-of-veterans-affairs/eslint-plugin@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.2.1.tgz#98186933a21d3ef4a1790d1aa2585232849cd176"
+  integrity sha512-4QRsPsm5in1hTIS2RILjNYycICrbXWpGXXug+qhCDKfOK78hjgbzQXhyZ0KXh0NXB47NR4JA1H9jjy9oKemxwg==
 
 "@department-of-veterans-affairs/formation@^7.0.1":
   version "7.0.1"
@@ -12500,9 +12500,9 @@ joycon@^2.2.5:
   integrity sha512-YqvUxoOcVPnCp0VU1/56f+iKSdvIRJYPznH22BdXV3xMk75SFXhWeJkZ8C9XxUWt1b5x2X1SxuFygW1U0FmkEQ==
 
 jpeg-js@0.2.0, jpeg-js@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/jpeg-js/-/jpeg-js-0.4.3.tgz#6158e09f1983ad773813704be80680550eff977b"
-  integrity sha512-ru1HWKek8octvUHFHvE5ZzQ1yAsJmIvRdGWvSoKV52XKyuyYA437QWDttXT8eZXDSbuMpHlLzPDZUPd6idIz+Q==
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/jpeg-js/-/jpeg-js-0.4.4.tgz#a9f1c6f1f9f0fa80cdb3484ed9635054d28936aa"
+  integrity sha512-WZzeDOEtTOBK4Mdsar0IqEU5sMr3vSV2RqkAIzUEV2BHnUfKGyswWFPFwK5EeDo93K3FohSHbLAjj0s1Wzd+dg==
 
 js-base64@^2.1.8:
   version "2.5.1"
@@ -20112,9 +20112,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#ecdb84139a36c0e698fe8e090361cf1fd08b3fa6":
-  version "20.20.2"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ecdb84139a36c0e698fe8e090361cf1fd08b3fa6"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#901cc443a8f7e217287883067c87efde99cbd3b5":
+  version "20.20.3"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#901cc443a8f7e217287883067c87efde99cbd3b5"
 
 vfile-message@^2.0.0:
   version "2.0.4"

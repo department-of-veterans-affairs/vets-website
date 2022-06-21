@@ -78,7 +78,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
-  title: 'Fry/DEA — VA Education Benefits For Survivors and Dependents;',
+  title: 'Apply for education benefits as an eligible dependent',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {

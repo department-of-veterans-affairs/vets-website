@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 // Relative imports.
-import AuthContent from '../AuthContent';
-import UnauthContent from '../UnauthContent';
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { selectPatientFacilities } from 'platform/user/selectors';
+import AuthContent from '../AuthContent';
+import UnauthContent from '../UnauthContent';
 
 export const App = ({ facilities, authenticatedWithSSOe }) => {
   const cernerFacilities = facilities?.filter(f => f.usesCernerRx);
