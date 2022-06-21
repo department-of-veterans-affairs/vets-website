@@ -12,7 +12,7 @@ import {
 
 import ConfirmationApproved from '../components/confirmation/ConfirmationApproved';
 import ConfirmationDenied from '../components/confirmation/ConfirmationDenied';
-import ConfirmationError from '../components/confirmation/ConfirmationError';
+// import ConfirmationError from '../components/confirmation/ConfirmationError';
 import LoadingIndicator from '../components/LoadingIndicator';
 import ConfirmationPending from '../components/confirmation/ConfirmationPending';
 
@@ -62,7 +62,8 @@ export const ConfirmationPage = ({
         />
       );
     }
-    case CLAIM_STATUS_RESPONSE_IN_PROGRESS: {
+    case CLAIM_STATUS_RESPONSE_IN_PROGRESS:
+    case CLAIM_STATUS_RESPONSE_ERROR: {
       return (
         <ConfirmationPending
           claimantName={claimantName}
@@ -71,9 +72,9 @@ export const ConfirmationPage = ({
         />
       );
     }
-    case CLAIM_STATUS_RESPONSE_ERROR: {
-      return <ConfirmationError />;
-    }
+    // case CLAIM_STATUS_RESPONSE_ERROR: {
+    //   return <ConfirmationError />;
+    // }
     default: {
       return (
         <LoadingIndicator

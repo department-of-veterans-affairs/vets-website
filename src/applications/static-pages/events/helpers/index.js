@@ -314,46 +314,6 @@ export const deriveEventLocations = event => {
   return locations;
 };
 
-export const hideLegacyEvents = () => {
-  // Derive the legacy events page.
-  const legacyEvents = document.querySelector('div[id="events-v1"]');
-  // Show the new header.
-  const eventsv2Header = document.querySelector('.events-v2');
-  eventsv2Header?.classList.remove('vads-u-display--none');
-  if (!eventsv2Header?.classList.contains('vads-u-display--flex')) {
-    eventsv2Header?.classList.add('vads-u-display--flex');
-  }
-  // Escape early if the legacy events page doesn't exist.
-  if (!legacyEvents) {
-    return;
-  }
-  // Add `vads-u-display--none` to the legacy events page if it doesn't already have it.
-  if (!legacyEvents.classList.contains('vads-u-display--none')) {
-    legacyEvents.classList.add('vads-u-display--none');
-  }
-};
-
-export const showLegacyEvents = () => {
-  // Derive the legacy events page.
-  const legacyEvents = document.querySelector('div[id="events-v1"]');
-  // Hide the new header.
-  const eventsv2Header = document.querySelector('.events-v2');
-  eventsv2Header?.classList.remove('vads-u-display--flex');
-  if (!eventsv2Header?.classList.contains('vads-u-display--none')) {
-    eventsv2Header?.classList.add('vads-u-display--none');
-  }
-
-  // Escape early if the legacy events page doesn't exist.
-  if (!legacyEvents) {
-    return;
-  }
-
-  // Add `vads-u-display--none` to the legacy events page if it doesn't already have it.
-  if (legacyEvents.classList.contains('vads-u-display--none')) {
-    legacyEvents.classList.remove('vads-u-display--none');
-  }
-};
-
 export const updateQueryParams = (queryParamsLookup = {}) => {
   // Derive the query params on the URL.
   const queryParams = new URLSearchParams(window.location.search);

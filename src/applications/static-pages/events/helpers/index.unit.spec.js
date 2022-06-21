@@ -9,8 +9,6 @@ import {
   deriveStartsAtUnix,
   filterByOptions,
   filterEvents,
-  hideLegacyEvents,
-  showLegacyEvents,
 } from '.';
 
 describe('deriveMostRecentDate', () => {
@@ -316,17 +314,5 @@ describe('deriveEventLocations', () => {
         fieldAddress: { locality: 'foo', administrativeArea: 'bar' },
       }),
     ).to.deep.equal(['foo, bar']);
-  });
-});
-
-describe('hideLegacyEvents', () => {
-  it('returns what we expect with no arguments', () => {
-    expect(hideLegacyEvents()).to.equal(undefined);
-  });
-});
-
-describe('showLegacyEvents', () => {
-  it('returns what we expect with no arguments', () => {
-    expect(showLegacyEvents()).to.equal(undefined);
   });
 });
