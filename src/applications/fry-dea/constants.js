@@ -23,7 +23,11 @@ export const newFormPages = {
   newVerifyHighSchool: 'newVerifyHighSchool',
   newAdditionalConsiderations: {
     newMarriageDate: 'newMarriageDate',
-    newMarriageInformation: 'newMarriageInformation',
+    newMarriageInformation: {
+      divorced: 'divorced',
+      annulled: 'annulled',
+      widowed: 'widowed',
+    },
     newRemarriage: 'newRemarriage',
     newRemarriageDate: 'newRemarriageDate',
   },

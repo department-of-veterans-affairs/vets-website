@@ -56,6 +56,32 @@ const checkImageSrc = environment.isStaging()
   ? `${VAGOVSTAGING}/img/check-sample.png`
   : `${vagovprod}/img/check-sample.png`;
 
+function AdditionalConsiderationTemplate(title, path, formField, UI, SCHEMA) {
+  return {
+    title,
+    path,
+    uiSchema: {
+      'view:subHeadings': {
+        'ui:description': <h3>{title}</h3>,
+      },
+      [formField]: {
+        ...UI,
+      },
+    },
+    schema: {
+      type: 'object',
+      required: [formField],
+      properties: {
+        'view:subHeadings': {
+          type: 'object',
+          properties: {},
+        },
+        [formField]: { ...SCHEMA },
+      },
+    },
+  };
+}
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -531,117 +557,108 @@ const formConfig = {
       title: 'Additional considerations',
       pages: {
         [newFormPages.newAdditionalConsiderations.newMarriageDate]: {
-          title: 'Marriage date',
-          path: 'new/additional/consideration/marriage/date',
-          uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Marriage date</h3>
-                </>
-              ),
-            },
-            [newFormFields.newAdditionalConsiderations.newMarriageDate]: {
+          ...AdditionalConsiderationTemplate(
+            'Marriage date',
+            'new/additional/consideration/marriage/date',
+            newFormFields.newAdditionalConsiderations.newMarriageDate,
+            {
               ...currentOrPastDateUI(
                 'When did you get married to your chosen Veteran or service member?',
               ),
             },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              newFormFields.newAdditionalConsiderations.newMarriageDate,
-            ],
-            properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              [newFormFields.newAdditionalConsiderations.newMarriageDate]: date,
-            },
-          },
+            { ...date },
+          ),
+          depends: formData =>
+            formData[newFormFields.newRelationshipToServiceMember] ===
+            RELATIONSHIP.SPOUSE,
         },
         [newFormPages.newAdditionalConsiderations.newMarriageInformation]: {
-          title: 'Marriage information',
-          path: 'new/additional/consideration/marriage/information',
-          uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Marriage information</h3>
-                </>
-              ),
-            },
-            [newFormFields.newAdditionalConsiderations
-              .newMarriageInformation]: {
+          ...AdditionalConsiderationTemplate(
+            'Marriage information',
+            'new/additional/consideration/marriage/information',
+            newFormFields.newAdditionalConsiderations.newMarriageInformation,
+            {
               'ui:title':
                 'What’s the status of your marriage with your chosen Veteran or service member?',
               'ui:widget': 'radio',
             },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              newFormFields.newAdditionalConsiderations.newMarriageInformation,
-            ],
-            properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              [newFormFields.newAdditionalConsiderations
-                .newMarriageInformation]: {
-                type: 'string',
-                enum: [
-                  'Married',
-                  'Divorced (or a divorce is in progress)',
-                  'Marriage was annulled (or annulment is in progress)',
-                  'Widowed',
-                ],
-              },
+            {
+              type: 'string',
+              enum: [
+                'Married',
+                'Divorced (or a divorce is in progress)',
+                'Marriage was annulled (or annulment is in progress)',
+                'Widowed',
+              ],
             },
-          },
+          ),
+          depends: formData =>
+            formData[newFormFields.newRelationshipToServiceMember] ===
+            RELATIONSHIP.SPOUSE,
         },
-        [newFormPages.newAdditionalConsiderations.newRemarriage]: {
-          title: 'Remarriage',
-          path: 'new/additional/consideration/remarriage/information',
-          uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Remarriage</h3>
-                </>
-              ),
-            },
-            [newFormFields.newAdditionalConsiderations.newRemarriage]: {
-              'ui:title': 'Have you been remarried since your divorce?',
+        [newFormPages.newAdditionalConsiderations.newMarriageInformation
+          .divorced]: {
+          ...AdditionalConsiderationTemplate(
+            'Remarriage',
+            'new/additional/consideration/remarriage/information/divorced',
+            newFormFields.newAdditionalConsiderations.newRemarriage,
+            {
+              'ui:title': 'Have you been remarried?',
               'ui:widget': 'yesNo',
             },
-          },
-          schema: {
-            type: 'object',
-            required: [newFormFields.newAdditionalConsiderations.newRemarriage],
-            properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              [newFormFields.newAdditionalConsiderations.newRemarriage]: {
-                type: 'boolean',
-              },
+            {
+              type: 'boolean',
             },
-          },
+          ),
+          depends: formData =>
+            formData[
+              newFormFields.newAdditionalConsiderations.newMarriageInformation
+            ] === 'Divorced (or a divorce is in progress)',
+        },
+        [newFormPages.newAdditionalConsiderations.newMarriageInformation
+          .annulled]: {
+          ...AdditionalConsiderationTemplate(
+            'Remarriage',
+            'new/additional/consideration/remarriage/information/annulment',
+            newFormFields.newAdditionalConsiderations.newRemarriage,
+            {
+              'ui:title': 'Have you been remarried since your annulment?',
+              'ui:widget': 'yesNo',
+            },
+            {
+              type: 'boolean',
+            },
+          ),
+          depends: formData =>
+            formData[
+              newFormFields.newAdditionalConsiderations.newMarriageInformation
+            ] === 'Marriage was annulled (or annulment is in progress)',
+        },
+        [newFormPages.newAdditionalConsiderations.newMarriageInformation
+          .widowed]: {
+          ...AdditionalConsiderationTemplate(
+            'Remarriage',
+            'new/additional/consideration/remarriage/information/widowed',
+            newFormFields.newAdditionalConsiderations.newRemarriage,
+            {
+              'ui:title': 'Have you been remarried since being widowed?',
+              'ui:widget': 'yesNo',
+            },
+            {
+              type: 'boolean',
+            },
+          ),
+          depends: formData =>
+            formData[
+              newFormFields.newAdditionalConsiderations.newMarriageInformation
+            ] === 'Widowed',
         },
         [newFormPages.newAdditionalConsiderations.newRemarriageDate]: {
           title: 'Remarriage date',
           path: 'new/additional/consideration/remarriage/date',
           uiSchema: {
             'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Remarriage date</h3>
-                </>
-              ),
+              'ui:description': <h3>Remarriage date</h3>,
             },
             [newFormFields.newAdditionalConsiderations.newRemarriageDate]: {
               ...currentOrPastDateUI('When did you get remarried?'),
@@ -661,6 +678,8 @@ const formConfig = {
                 .newRemarriageDate]: date,
             },
           },
+          depends: formData =>
+            formData[newFormFields.newAdditionalConsiderations.newRemarriage],
         },
       },
     },
