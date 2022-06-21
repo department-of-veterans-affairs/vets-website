@@ -56,8 +56,11 @@ const AppointmentBlock = props => {
                     }`}
                   />
                 </dt>
-                <dd className="appointment-type-label vads-u-margin-left--2p5 vads-u-font-weight--bold">
-                  {appointment?.kind === 'phone' ? 'Phone call' : 'In Person'}
+                <dd
+                  className="appointment-type-label vads-u-margin-left--2p5 vads-u-font-weight--bold"
+                  data-testid="appointment-type-label"
+                >
+                  {appointment?.kind === 'phone' ? 'Phone call' : 'In person'}
                 </dd>
                 <dt className="pre-check-in--label vads-u-margin-right--1">
                   {t('time')}:
