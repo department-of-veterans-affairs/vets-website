@@ -46,7 +46,6 @@
   "for-questions-about-your-appointment-or-if-you-have-a-health-related-concern": "For questions about your appointment or if you have a health-related concern,",
   "get-tips-for-protecting-your-personal-health-information": "Get tips for protecting your personal health information",
   "go-to-another-appointment": "Go to another appointment",
-  "go-to-your-appointment-details": "Go to your appointment details",
   "grandchild": "Grandchild",
   "here-are-your-appointments-for-today": "Here are your appointments for today: {{ date, long }}.",
   "home-address": "Home address",
@@ -166,5 +165,6 @@
   "you-can-pre-check-in-online-before-midnight-of-the-day-of-your-appointment": "You can pre-check-in online before midnight of the day of your appointment.",
   "during-pre-check-in-you-can-review-your-personal-emergency-contact-and-next-of-kin-information-and-confirm-its-up-to-date-this-helps-us-better-prepare-for-your-appointment": "During pre-check-in, you can review your personal, emergency contact, and next of kin information and confirm it's up to date. This helps us better prepare for your appointment.",
   "you-can-also-sign-in-to-your-va-account-to-review-your-information": "You can also <0>{{link}}</0> to your VA account to review your information.",
-  "sign-in": "sign in"
+  "sign-in": "sign in",
+  "sign-in-to-manage": "Sign in to manage all appointments"
 }
