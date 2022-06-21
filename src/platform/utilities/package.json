@@ -2,7 +2,26 @@
     "name": "@department-of-veterans-affairs/platform-utilities",
     "version": "1.0.0",
     "exports": {
-        "." : "./exportsFile.js"
+        "." : "./exportsFile.js",
+        "./environment": "./environment/index",
+        "./stagingDomains": "./environment/stagingDomains",
+        "./va-subdomain": "./environment/va-subdomain",
+        "./feature-toggles": "./feature-toggles/index",
+        "./helpers": "./feature-toggles/helpers",
+        "./flipper-client": "./feature-toggles/flipper-client",
+        "./featureFlagNames": "./feature-toggles/featureFlagNames",
+        "./medical-centers": "./medical-centers/medical-centers",
+        "./constants": "./sso/constants",
+        "./sso": "./sso/index",
+        "./keepAliveSSO": "./sso/keepAliveSSO",
+        "./loginAttempted": "./sso/loginAttempted",
+        "./mockKeepAliveSSO": "./sso/mockKeepAliveSSO",
+        "./localStorage": "./storage/localStorage",
+        "./asyncLoader": "./ui/asyncLoader",
+        "./DelayedRender": "./ui/DelayedRender",
+        "./ui": "./ui/index",
+        "./scrollTo": "./ui/scrollTo",
+        "./scrollToTop": "./ui/scrollToTop"
     },
 
     "dependencies": {
