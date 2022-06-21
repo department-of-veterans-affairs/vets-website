@@ -64,6 +64,7 @@ function AdditionalConsiderationTemplate(
   SCHEMA,
   dependA,
   dependB,
+  condition2 = false,
 ) {
   return {
     title,
@@ -87,7 +88,14 @@ function AdditionalConsiderationTemplate(
         [formField]: { ...SCHEMA },
       },
     },
-    depends: formData => formData[dependA] === dependB,
+    depends: formData => {
+      if (!condition2) {
+        return formData[dependA] === dependB;
+      }
+
+      const [x, y] = condition2;
+      return formData[dependA] === dependB && formData[x] !== y;
+    },
   };
 }
 
@@ -667,6 +675,10 @@ const formConfig = {
             },
             newFormFields.newAdditionalConsiderations.newRemarriage,
             true,
+            [
+              newFormFields.newAdditionalConsiderations.newMarriageInformation,
+              'Married',
+            ],
           ),
         },
       },
