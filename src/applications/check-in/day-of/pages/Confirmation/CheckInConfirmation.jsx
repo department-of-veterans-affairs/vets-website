@@ -34,7 +34,7 @@ const CheckInConfirmation = props => {
         className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
         data-testid="appointment-list"
       >
-        <AppointmentConfirmationListItem appointment={appointment} />
+        <AppointmentConfirmationListItem appointment={appointment} key={0} />
       </ol>
 
       <va-alert background-only show-icon data-testid="error-message">

@@ -30,6 +30,7 @@ const AppointmentBlock = props => {
           return (
             <AppointmentConfirmationListItem
               appointment={appointment}
+              index={index}
               key={index}
             />
           );

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 const AppointmentConfirmationListItem = props => {
-  const { appointment, key = 1 } = props;
+  const { appointment, index = 0 } = props;
   const { t } = useTranslation();
 
   const appointmentDateTime = new Date(appointment.startTime);
@@ -13,9 +13,9 @@ const AppointmentConfirmationListItem = props => {
 
   return (
     <li
-      key={key}
+      key={index}
       className="vads-u-border-bottom--1px check-in--appointment-item"
-      data-testid={`appointment-list-item-${key}`}
+      data-testid={`appointment-list-item-${index}`}
     >
       <dl className="check-in--appointment-summary">
         <dt className="check-in--label vads-u-margin-right--1">{t('time')}:</dt>
@@ -35,7 +35,7 @@ const AppointmentConfirmationListItem = props => {
 
 AppointmentConfirmationListItem.propTypes = {
   appointment: PropTypes.object,
-  key: PropTypes.number,
+  index: PropTypes.number,
 };
 
 export default AppointmentConfirmationListItem;
