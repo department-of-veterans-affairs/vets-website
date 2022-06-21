@@ -86,6 +86,7 @@ export default Object.freeze({
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
   profileShowNewDirectDepositCTAMessage: 'profile_show_new_direct_deposit_cta_message',
   profileUseVaosV2Api:'profile_use_vaos_v2_api',
+  pwEhrCtaDrupalSourceOfTruth: 'pw_ehr_cta_drupal_source_of_truth',
   requestLockedPdfPassword: 'request_locked_pdf_password',
   searchRepresentative: 'search_representative',
   searchDropdownComponentEnabled: 'search_dropdown_component_enabled',
