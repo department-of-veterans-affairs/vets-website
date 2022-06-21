@@ -1,5 +1,6 @@
 import environment from 'platform/utilities/environment';
 import { API_SIGN_IN_SERVICE_URL } from 'platform/user/authentication/constants';
+import recordEvent from '../../monitoring/record-event';
 import { OAUTH_KEYS, INFO_TOKEN } from './constants';
 import * as oauthCrypto from './crypto';
 
@@ -64,6 +65,7 @@ export async function createOAuthRequest(csp) {
   );
 
   // Redirect to the authorization server
+  recordEvent({ event: `login-attempted-${csp}-oauth` });
   window.location = url;
 }
 
@@ -98,7 +100,7 @@ export function buildTokenRequest({
   return url;
 }
 
-export const requestToken = async ({ code, redirectUri }) => {
+export const requestToken = async ({ code, redirectUri, csp }) => {
   const url = buildTokenRequest({
     code,
     redirectUri,
@@ -109,6 +111,12 @@ export const requestToken = async ({ code, redirectUri }) => {
   const response = await fetch(url.toString(), {
     method: 'POST',
     credentials: 'include',
+  });
+
+  recordEvent({
+    event: response.ok
+      ? `login-success-${csp}-oauth-tokenexchange`
+      : `login-failure-${csp}-oauth-tokenexchange`,
   });
 
   if (response.ok) {
@@ -142,7 +150,7 @@ export const getInfoToken = () => {
     }));
 };
 
-export const refresh = async () => {
+export const refresh = async csp => {
   // Build the authorization URL
   const oAuthParams = {
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent('web'),
@@ -159,9 +167,11 @@ export const refresh = async () => {
     credentials: 'include',
   });
 
-  if (response.ok) {
-    removeStateAndVerifier();
-  }
+  recordEvent({
+    event: response.ok
+      ? `login-refresh-success-${csp}`
+      : `login-refresh-fail-${csp}`,
+  });
 
   return response;
 };

@@ -165,7 +165,7 @@ export class AuthApp extends React.Component {
     const { code, state, auth } = this.state;
 
     if (code && state) {
-      await this.handleTokenRequest({ code, state });
+      await this.handleTokenRequest({ code, state, csp: this.state.loginType });
     }
 
     if (auth === 'force-needed') {
