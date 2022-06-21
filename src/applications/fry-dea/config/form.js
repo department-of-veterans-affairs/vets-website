@@ -56,7 +56,15 @@ const checkImageSrc = environment.isStaging()
   ? `${VAGOVSTAGING}/img/check-sample.png`
   : `${vagovprod}/img/check-sample.png`;
 
-function AdditionalConsiderationTemplate(title, path, formField, UI, SCHEMA) {
+function AdditionalConsiderationTemplate(
+  title,
+  path,
+  formField,
+  UI,
+  SCHEMA,
+  dependA,
+  dependB,
+) {
   return {
     title,
     path,
@@ -79,6 +87,7 @@ function AdditionalConsiderationTemplate(title, path, formField, UI, SCHEMA) {
         [formField]: { ...SCHEMA },
       },
     },
+    depends: formData => formData[dependA] === dependB,
   };
 }
 
@@ -567,10 +576,9 @@ const formConfig = {
               ),
             },
             { ...date },
-          ),
-          depends: formData =>
-            formData[newFormFields.newRelationshipToServiceMember] ===
+            newFormFields.newRelationshipToServiceMember,
             RELATIONSHIP.SPOUSE,
+          ),
         },
         [newFormPages.newAdditionalConsiderations.newMarriageInformation]: {
           ...AdditionalConsiderationTemplate(
@@ -591,10 +599,9 @@ const formConfig = {
                 'Widowed',
               ],
             },
-          ),
-          depends: formData =>
-            formData[newFormFields.newRelationshipToServiceMember] ===
+            newFormFields.newRelationshipToServiceMember,
             RELATIONSHIP.SPOUSE,
+          ),
         },
         [newFormPages.newAdditionalConsiderations.newMarriageInformation
           .divorced]: {
@@ -609,11 +616,9 @@ const formConfig = {
             {
               type: 'boolean',
             },
+            newFormFields.newAdditionalConsiderations.newMarriageInformation,
+            'Divorced (or a divorce is in progress)',
           ),
-          depends: formData =>
-            formData[
-              newFormFields.newAdditionalConsiderations.newMarriageInformation
-            ] === 'Divorced (or a divorce is in progress)',
         },
         [newFormPages.newAdditionalConsiderations.newMarriageInformation
           .annulled]: {
@@ -628,11 +633,9 @@ const formConfig = {
             {
               type: 'boolean',
             },
+            newFormFields.newAdditionalConsiderations.newMarriageInformation,
+            'Marriage was annulled (or annulment is in progress)',
           ),
-          depends: formData =>
-            formData[
-              newFormFields.newAdditionalConsiderations.newMarriageInformation
-            ] === 'Marriage was annulled (or annulment is in progress)',
         },
         [newFormPages.newAdditionalConsiderations.newMarriageInformation
           .widowed]: {
@@ -647,39 +650,24 @@ const formConfig = {
             {
               type: 'boolean',
             },
+            newFormFields.newAdditionalConsiderations.newMarriageInformation,
+            'Widowed',
           ),
-          depends: formData =>
-            formData[
-              newFormFields.newAdditionalConsiderations.newMarriageInformation
-            ] === 'Widowed',
         },
         [newFormPages.newAdditionalConsiderations.newRemarriageDate]: {
-          title: 'Remarriage date',
-          path: 'new/additional/consideration/remarriage/date',
-          uiSchema: {
-            'view:subHeadings': {
-              'ui:description': <h3>Remarriage date</h3>,
-            },
-            [newFormFields.newAdditionalConsiderations.newRemarriageDate]: {
+          ...AdditionalConsiderationTemplate(
+            'Remarriage date',
+            'new/additional/consideration/remarriage/date',
+            newFormFields.newAdditionalConsiderations.newRemarriageDate,
+            {
               ...currentOrPastDateUI('When did you get remarried?'),
             },
-          },
-          schema: {
-            type: 'object',
-            required: [
-              newFormFields.newAdditionalConsiderations.newRemarriageDate,
-            ],
-            properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              [newFormFields.newAdditionalConsiderations
-                .newRemarriageDate]: date,
+            {
+              ...date,
             },
-          },
-          depends: formData =>
-            formData[newFormFields.newAdditionalConsiderations.newRemarriage],
+            newFormFields.newAdditionalConsiderations.newRemarriage,
+            true,
+          ),
         },
       },
     },
