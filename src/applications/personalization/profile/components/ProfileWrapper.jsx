@@ -6,12 +6,9 @@ import {
   cnpDirectDepositLoadError,
   eduDirectDepositLoadError,
   fullNameLoadError,
-  militaryInformationLoadError,
   personalInformationLoadError,
 } from '@@profile/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
-
-import { selectProfile } from '~/platform/user/selectors';
 
 import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
 
@@ -78,9 +75,6 @@ const ProfileWrapper = ({
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const veteranStatus = selectProfile(state)?.veteranStatus;
-  const invalidVeteranStatus =
-    !veteranStatus || veteranStatus.status === 'NOT_AUTHORIZED';
   const hero = state.vaProfile?.hero;
   const directDepositConsistencyIsEnabled =
     state.featureToggles[
@@ -99,8 +93,7 @@ const mapStateToProps = (state, ownProps) => {
     showNotAllDataAvailableError:
       useDirectDepositError ||
       !!fullNameLoadError(state) ||
-      !!personalInformationLoadError(state) ||
-      (!!militaryInformationLoadError(state) && !invalidVeteranStatus),
+      !!personalInformationLoadError(state),
   };
 };
 
