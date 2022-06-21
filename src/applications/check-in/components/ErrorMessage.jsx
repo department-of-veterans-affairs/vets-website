@@ -20,7 +20,7 @@ const ErrorMessage = ({ message, additionalDetails, validationError }) => {
         <div>
           {t('were-sorry-we-couldnt-match-your-information-to-our-records')}
         </div>
-        <div className="check-in-error-arrow">
+        <div className="vads-u-margin-x--0 vads-u-margin-y--2 check-in-error-arrow">
           <strong>{t('in-person-appointment')}</strong>
         </div>
         <div>
@@ -30,7 +30,7 @@ const ErrorMessage = ({ message, additionalDetails, validationError }) => {
                 'you-can-still-check-in-with-your-phone-on-the-day-of-your-appointment',
               )}
         </div>
-        <div className="check-in-error-arrow">
+        <div className="vads-u-margin-x--0 vads-u-margin-y--2 check-in-error-arrow">
           <strong>{t('telephone-appointment')}</strong>
         </div>
         <div>{t('your-provider-will-call-you')}</div>
