@@ -10,13 +10,11 @@ import {
   API_VERSION,
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
-  GA_TRACKING_ID_KEY,
-  VAGOV_TRACKING_IDS,
+  GA,
   CSP_IDS,
   POLICY_TYPES,
   SIGNUP_TYPES,
   API_SESSION_URL,
-  GA_CLIENT_ID_KEY,
   EBENEFITS_DEFAULT_PATH,
   API_SIGN_IN_SERVICE_URL,
   AUTH_PARAMS,
@@ -219,15 +217,15 @@ export const redirectWithGAClientId = redirectUrl => {
     const trackers = ga.getAll();
 
     const tracker = trackers.find(t => {
-      const trackingId = t.get(GA_TRACKING_ID_KEY);
-      return VAGOV_TRACKING_IDS.includes(trackingId);
+      const trackingId = t.get(GA.trackingIdKey);
+      return GA.trackingIds.includes(trackingId);
     });
 
-    const clientId = tracker && tracker.get(GA_CLIENT_ID_KEY);
+    const clientId = tracker && tracker.get(GA.clientIdKey);
 
     window.location = clientId
       ? // eslint-disable-next-line camelcase
-        appendQuery(redirectUrl, { client_id: clientId })
+        appendQuery(redirectUrl, { [GA.queryParamKey]: clientId })
       : redirectUrl;
   } catch (e) {
     window.location = redirectUrl;

@@ -86,9 +86,12 @@ export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
 };
 
-export const GA_TRACKING_ID_KEY = 'trackingId';
-export const GA_CLIENT_ID_KEY = 'clientId';
-export const VAGOV_TRACKING_IDS = ['UA-50123418-16', 'UA-50123418-17'];
+export const GA = {
+  clientIdKey: 'clientId',
+  trackingIdKey: 'trackingId',
+  trackingIds: ['UA-50123418-16', 'UA-50123418-17'],
+  queryParamKey: 'ga_client_id',
+};
 
 export const POLICY_TYPES = {
   VERIFY: 'verify',

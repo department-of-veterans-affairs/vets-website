@@ -16,9 +16,7 @@ import {
   API_SESSION_URL,
   API_SIGN_IN_SERVICE_URL,
   SIGNUP_TYPES,
-  GA_TRACKING_ID_KEY,
-  VAGOV_TRACKING_IDS,
-  GA_CLIENT_ID_KEY,
+  GA,
   EBENEFITS_DEFAULT_PATH,
   POLICY_TYPES,
   AUTH_EVENTS,
@@ -44,7 +42,7 @@ const usipPathWithParams = params => `${usipPath}${params}`;
 
 const mockGADefaultArgs = {
   mockGAActive: false,
-  trackingId: VAGOV_TRACKING_IDS[0],
+  trackingId: GA.trackingIds[0],
   throwGAError: false,
 };
 
@@ -62,9 +60,9 @@ const setup = ({ path, mockGA = mockGADefaultArgs }) => {
           {
             get: key => {
               switch (key) {
-                case GA_CLIENT_ID_KEY:
+                case GA.clientIdKey:
                   return mockGAClientId;
-                case GA_TRACKING_ID_KEY:
+                case GA.trackingIdKey:
                   return trackingId;
                 default:
                   return undefined;
@@ -363,7 +361,7 @@ describe('Authentication Utilities', () => {
       setup({
         mockGA: {
           mockGAActive: true,
-          trackingId: VAGOV_TRACKING_IDS[0],
+          trackingId: GA.trackingIds[0],
         },
       });
       expect(global.window.location).to.not.equal(base);
@@ -378,7 +376,7 @@ describe('Authentication Utilities', () => {
         mockGA: {
           mockGAActive: true,
           throwGAError: true,
-          trackingId: VAGOV_TRACKING_IDS[0],
+          trackingId: GA.trackingIds[0],
         },
       });
       expect(global.window.location).to.not.equal(base);
@@ -486,7 +484,7 @@ describe('Authentication Utilities', () => {
         path: base,
         mockGA: {
           mockGAActive: true,
-          trackingId: VAGOV_TRACKING_IDS[0],
+          trackingId: GA.trackingIds[0],
         },
       });
 
