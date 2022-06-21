@@ -422,20 +422,23 @@ const formConfig = {
                   <p className="vads-u-margin-y--1px">Chapter 33</p>
                   <h3 className="vads-u-margin-y--1px">Fry Scholarship</h3>
                   <p>
-                    <i className="fas fa-check-circle" /> You may be eligible
-                    for this benefit
+                    <i className="fas fa-check-circle" aria-hidden="true" /> You
+                    may be eligible for this benefit
                   </p>
                   <h4>Receive up to 36 months of benefits, including</h4>
                   <p>
-                    <i className="fas fa-folder" /> Tuition & fees
+                    <i className="fas fa-folder" aria-hidden="true" /> Tuition
+                    &amp; fees
                   </p>
                   <p>
-                    <i className="fas fa-folder" /> Money for housing
+                    <i className="fas fa-folder" aria-hidden="true" /> Money for
+                    housing
                   </p>
                   <p>
-                    <i className="fas fa-folder" /> Money for books & supplies
+                    <i className="fas fa-folder" aria-hidden="true" /> Money for
+                    books &amp; supplies
                   </p>
-                  <a href="va.gov">
+                  <a href="https://va.gov/">
                     Learn more about the Fry Scholarship education benefit
                   </a>
                 </va-alert>
@@ -459,12 +462,13 @@ const formConfig = {
                     Survivors' and Dependents Educational Assistance
                   </h3>
                   <p>
-                    <i className="fas fa-check-circle" /> You may be eligible
-                    for this benefit
+                    <i className="fas fa-check-circle" aria-hidden="true" /> You
+                    may be eligible for this benefit
                   </p>
                   <h4>Receive up to 45 months of benefits, including</h4>
                   <p>
-                    <i className="fas fa-folder" /> Monthly stipened
+                    <i className="fas fa-folder" aria-hidden="true" /> Monthly
+                    stipened
                   </p>
                   <a href="va.gov">
                     Learn more about the DEA education benefit
