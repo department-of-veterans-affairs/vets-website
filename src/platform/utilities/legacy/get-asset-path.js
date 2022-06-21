@@ -5,7 +5,7 @@ import buckets from '~/site/constants/buckets';
  * @param targetEnvironment The target environment used for AWS S3 Bucket lookup ['localhost' | 'vagovdev' | 'vagovstaging' | 'vagovprod'].
  * @returns The AWS S3 Bucket URL to the static assets used within the project.
  */
-export const getEnvDetails = (targetEnvironment = 'localhost') => {
+export const getAssetPath = (targetEnvironment = 'localhost') => {
   let assetPath = '';
 
   // Localhost is not available in the buckets
