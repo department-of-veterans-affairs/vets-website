@@ -10,7 +10,7 @@ import {
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import set from '../../../../utilities/data/set';
+import set from 'platform/utilities/data/set';
 import { scrollToFirstError } from '../utilities/ui';
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
