@@ -21,6 +21,16 @@ export const newFormPages = {
   newSponsorSelection: 'newSponsorSelection',
   newSponsorSelectionReview: 'newSponsorSelectionReview',
   newVerifyHighSchool: 'newVerifyHighSchool',
+  newAdditionalConsiderations: {
+    newMarriageDate: 'newMarriageDate',
+    newMarriageInformation: {
+      divorced: 'divorced',
+      annulled: 'annulled',
+      widowed: 'widowed',
+    },
+    newRemarriage: 'newRemarriage',
+    newRemarriageDate: 'newRemarriageDate',
+  },
 };
 
 export const newFormFields = {
@@ -64,4 +74,10 @@ export const newFormFields = {
   newViewPhoneNumbers: 'view:newPhoneNumbers',
   newViewSelectedSponsor: 'view:newSelectedSponsor',
   newViewStopWarning: 'view:newStopWarning',
+  newAdditionalConsiderations: {
+    newMarriageDate: 'newMarriageDate',
+    newMarriageInformation: 'newMarriageInformation',
+    newRemarriage: 'newRemarriage',
+    newRemarriageDate: 'newRemarriageDate',
+  },
 };
