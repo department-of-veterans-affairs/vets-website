@@ -1,6 +1,6 @@
 import environment from 'platform/utilities/environment';
 import { API_SIGN_IN_SERVICE_URL } from 'platform/user/authentication/constants';
-import { OAUTH_KEYS } from './constants';
+import { OAUTH_KEYS, INFO_TOKEN } from './constants';
 import * as oauthCrypto from './crypto';
 
 export async function pkceChallengeFromVerifier(v) {
@@ -116,4 +116,24 @@ export const requestToken = async ({ code, redirectUri }) => {
   }
 
   return response;
+};
+
+export const formatInfoCookie = unformattedCookie =>
+  unformattedCookie.split(',+:').reduce((obj, cookieString) => {
+    const [key, value] = cookieString.replace(/{:|}/g, '').split('=>');
+    const formattedValue = value.replaceAll('++00:00', '').replaceAll('+', ' ');
+    return { ...obj, [key]: new Date(formattedValue) };
+  }, {});
+
+export const getInfoToken = () => {
+  if (!document.cookie.includes(INFO_TOKEN)) return null;
+
+  return document.cookie
+    .split(';')
+    .map(cookie => cookie.split('='))
+    .reduce((_, [cookieKey, cookieValue]) => ({
+      ...(cookieKey.includes(INFO_TOKEN) && {
+        ...formatInfoCookie(decodeURIComponent(cookieValue)),
+      }),
+    }));
 };
