@@ -24,6 +24,9 @@ export default function BurialInformation(props) {
         } else {
             setFieldValue('locationOfDeath.locationLabel', 'Other');
         }
+        if (values.locationOfDeath.location !== 'other') {
+            setFieldValue('locationOfDeath.other', undefined);
+        }
     },[values.locationOfDeath.location])
 
     return (
