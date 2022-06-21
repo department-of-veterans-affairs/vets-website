@@ -3,7 +3,6 @@ import 'platform/polyfills';
 import cookie from 'cookie';
 // Relative imports.
 import addFocusBehaviorToCrisisLineModal from 'platform/site-wide/accessible-VCL-modal';
-import buckets from 'site/constants/buckets';
 import bucketsContent from 'site/constants/buckets-content';
 import createCommonStore from 'platform/startup/store';
 import environment from 'platform/utilities/environment';
@@ -19,6 +18,8 @@ import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
 import proxyWhitelist from './proxy-rewrite-whitelist.json';
 import { isBrowserIE } from '~/platform/utilities/detection/is-browser';
+import { getAssetPath } from '~/platform/utilities/legacy/get-asset-path';
+import { getTargetEnv } from '~/platform/utilities/legacy/get-target-env';
 import { installWebComponentsLibrary } from '~/platform/utilities/legacy/web-components';
 
 function createMutationObserverCallback() {
@@ -203,27 +204,6 @@ function shouldActivateInjectedAssets(whitelistItem, proxyRewriteCookieValue) {
   return true;
 }
 
-function getHostnameOverride() {
-  // default to vagovprod
-  const targetEnvironment = (window.location.search.match(
-    /\btargetEnvironment=(\w+)/,
-  ) || [])[1];
-
-  // localhost is not available in the buckets
-  if (targetEnvironment === 'localhost') {
-    return {
-      targetEnvironment,
-      hostnameOverride: 'http://localhost:3001',
-    };
-  }
-
-  // if the bucket is not found, an empty string will use relative paths
-  return {
-    targetEnvironment,
-    hostnameOverride: buckets[targetEnvironment] || '',
-  };
-}
-
 const scriptPaths = [
   '/generated/polyfills.entry.js',
   '/generated/vendor.entry.js',
@@ -269,7 +249,9 @@ function addOverrideHeaderFooter(
 
 function main() {
   // if a build type is passed in the url, then the header for the specific build type is used
-  const { targetEnvironment, hostnameOverride } = getHostnameOverride();
+  const targetEnvironment = getTargetEnv();
+  // Get the AWS S3 Bucket asset-path for the given environment.
+  const assetPath = getAssetPath(targetEnvironment);
 
   // Loads our custom web-components library in the case of IE so that we have support for the web-component
   // which will display the IE deprecation notice to the user.
@@ -280,7 +262,7 @@ function main() {
   if (targetEnvironment && targetEnvironment !== environment.BUILDTYPE) {
     removeCurrentHeaderFooter();
     removeInjectedHeaderFooter();
-    addOverrideHeaderFooter(hostnameOverride);
+    addOverrideHeaderFooter(assetPath);
   } else if (
     shouldActivateInjectedAssets(
       getMatchedWhitelistItem(),
