@@ -130,6 +130,19 @@ describe('pre-check-in', () => {
             .querySelector('[data-testid="appointment-clinic"]'),
         ).to.have.text('LOM ACC CLINIC TEST');
       });
+      it('Renders facility name', () => {
+        const screen = render(
+          <I18nextProvider i18n={i18n}>
+            <AppointmentBlockWithIcons
+              appointments={appointments}
+              page="intro"
+            />
+          </I18nextProvider>,
+        );
+        expect(screen.getAllByTestId('facility-name')[0]).to.have.text(
+          'LOMA LINDA VA CLINIC',
+        );
+      });
       it('passes axeCheck', () => {
         axeCheck(
           <I18nextProvider i18n={i18n}>
@@ -195,6 +208,27 @@ describe('pre-check-in', () => {
         );
         expect(screen.getAllByTestId('appointment-message')[0]).to.have.text(
           'Your provider will call you. ',
+        );
+      });
+      it('Does not render facility name', () => {
+        const screen = render(
+          <I18nextProvider i18n={i18n}>
+            <AppointmentBlockWithIcons
+              appointments={phoneAppointments}
+              page="intro"
+            />
+          </I18nextProvider>,
+        );
+        expect(screen.queryByTestId('facility-name')).to.not.exist;
+      });
+      it('passes axeCheck', () => {
+        axeCheck(
+          <I18nextProvider i18n={i18n}>
+            <AppointmentBlockWithIcons
+              appointments={phoneAppointments}
+              page="confirmation"
+            />
+          </I18nextProvider>,
         );
       });
     });

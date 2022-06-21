@@ -62,6 +62,19 @@ const AppointmentBlock = props => {
                 >
                   {appointment?.kind === 'phone' ? 'Phone call' : 'In person'}
                 </dd>
+                {appointment?.kind !== 'phone' && (
+                  <>
+                    <dt className="pre-check-in--label vads-u-margin-right--1">
+                      Facility:
+                    </dt>
+                    <dd
+                      className="pre-check-in--value"
+                      data-testid="facility-name"
+                    >
+                      {appointment.facility}
+                    </dd>
+                  </>
+                )}
                 <dt className="pre-check-in--label vads-u-margin-right--1">
                   {t('time')}:
                 </dt>
