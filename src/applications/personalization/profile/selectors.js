@@ -112,11 +112,6 @@ export const profileDoNotRequireInternationalZipCode = state =>
     FEATURE_FLAG_NAMES.profileDoNotRequireInternationalZipCode
   ];
 
-export const profileAlwaysShowDirectDepositDisplay = state =>
-  toggleValues(state)?.[
-    FEATURE_FLAG_NAMES.profileAlwaysShowDirectDepositDisplay
-  ];
-
 export function selectVAProfilePersonalInformation(state, fieldName) {
   const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];
 
