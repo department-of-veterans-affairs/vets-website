@@ -28,7 +28,7 @@ export default function ConfirmationPage(props) {
 
   return (
     <>
-      <Page {...props}>
+      <Page {...props} hidePreviousButton>
         <div>
           <div className="print-only">
             <img

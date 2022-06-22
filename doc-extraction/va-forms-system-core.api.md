@@ -162,6 +162,10 @@ export interface PageProps {
     // (undocumented)
     children: JSX.Element | JSX.Element[] | Element;
     // (undocumented)
+    hidePreviousButton: boolean;
+    // (undocumented)
+    nextButtonCustomText?: string;
+    // (undocumented)
     title: string;
 }
 

@@ -1,8 +1,9 @@
-import React, { useEffect, useLayoutEffect } from 'react';
-import { useFormikContext } from 'formik';
-import { Link, useLocation } from 'react-router-dom';
-import { VaOnThisPage } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import React, {useLayoutEffect} from 'react';
+import {useFormikContext} from 'formik';
+import {Link, useLocation} from 'react-router-dom';
+import {VaOnThisPage} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {Page} from "@department-of-veterans-affairs/va-forms-system-core";
+import {parseDate} from "@department-of-veterans-affairs/va-forms-system-core/utils/helpers";
 
 /**
  * Transforms fields value into value that is more readable
@@ -19,7 +20,7 @@ const transformFieldValue = (key, field) => {
     return 'No';
   }
   if (["from", "to", "veteranDateOfBirth", "deathDate", "burialDate"].indexOf(key) > -1) {
-    const date = new Date(field.value);
+    const date = parseDate(field.value);
     return date.toLocaleDateString("en-US", { day: 'numeric', month: 'long', year: 'numeric' });
   }
   if (["amountIncurred", "amountGovtContribution"].indexOf(key) > -1) {
@@ -41,7 +42,7 @@ const transformFieldValue = (key, field) => {
  */
 const bufferFields = (fields, rank = 0) => {
   let buffer = [];
-  for (const [key, field] of Object.entries(fields)) { 
+  for (const [key, field] of Object.entries(fields)) {
     buffer.push(recurseField(key, field, rank));
   }
   return buffer;
@@ -65,8 +66,8 @@ const recurseField = (key, field, rank = 0) => {
   }
   else {
     return (
-      <div className={`level-${rank}-field-${key}`} key={`level-${rank}-field-${key} vads-u-margin-bottom--1p5`}> 
-        {fieldLabel} 
+      <div className={`level-${rank}-field-${key}`} key={`level-${rank}-field-${key} vads-u-margin-bottom--1p5`}>
+        {fieldLabel}
         <span className={`review-page--page-info--value-text field-value ${(rank > 0 && ` field-value-level-${rank}`)}`}> { transformFieldValue(key, field) }</span>
       </div>
     );
@@ -86,7 +87,7 @@ const scrollToSection = (location) => {
   ) ? location.hash : null;
    if (id) {
       const element = document.querySelector(id);
-      // If element present, scroll me to that part 
+      // If element present, scroll me to that part
       if (element) {
         element.scrollIntoView();
       } else {
@@ -426,7 +427,7 @@ export default function ReviewPage(props) {
   }
 
   return (
-    <Page {...props}>
+    <Page {...props} nextButtonCustomText="Submit">
       <article>
         <h1>{props.title}</h1>
         <VaOnThisPage></VaOnThisPage>

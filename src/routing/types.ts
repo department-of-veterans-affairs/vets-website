@@ -64,6 +64,8 @@ export interface IRouterContext {
 export interface PageProps {
   children: JSX.Element | JSX.Element[] | Element;
   title: string;
+  hidePreviousButton: boolean;
+  nextButtonCustomText?: string;
 }
 
 /**

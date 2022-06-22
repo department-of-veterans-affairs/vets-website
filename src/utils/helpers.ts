@@ -156,3 +156,14 @@ export const transformJSONSchema = (schema: any) => {
 export const CapitalizeFirstLetter = (value: string): string => {
   return value.trim().charAt(0).toUpperCase() + value.trim().slice(1);
 };
+
+/**
+ * A function to transform a dateString in the form yyyy-mm-dd into a javascript date object. This is necessary because
+ * parsing the date string will result in a date one day before the expected value
+ *
+ * @param dateString
+ */
+export const parseDate = (dateString: string): Date => {
+  const [yyyy, mm, dd] = dateString.split('-').map(str => parseInt(str));
+  return new Date(yyyy, mm - 1, dd)
+}
