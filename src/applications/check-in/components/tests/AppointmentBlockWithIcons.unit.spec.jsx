@@ -64,7 +64,7 @@ describe('pre-check-in', () => {
         );
         expect(screen.queryByTestId('appointment-message')).to.not.exist;
       });
-      it('Renders appointment day and facility for multiple appointments', () => {
+      it('Renders appointment day for multiple appointments', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
             <AppointmentBlockWithIcons
@@ -74,7 +74,7 @@ describe('pre-check-in', () => {
           </I18nextProvider>,
         );
         expect(screen.getByTestId('appointment-day-location')).to.have.text(
-          'Your appointments are on November 16, 2021 at LOMA LINDA VA CLINIC.',
+          'Your appointments are on November 16, 2021.',
         );
         expect(screen.getByTestId('appointment-list-item-0')).to.exist;
         expect(screen.getByTestId('appointment-list-item-1')).to.exist;
@@ -90,12 +90,12 @@ describe('pre-check-in', () => {
           </I18nextProvider>,
         );
         expect(screen.getByTestId('appointment-day-location')).to.have.text(
-          'Your appointment is on November 16, 2021 at LOMA LINDA VA CLINIC.',
+          'Your appointment is on November 16, 2021.',
         );
         expect(screen.getByTestId('appointment-list-item-0')).to.exist;
         expect(screen.queryByTestId('appointment-list-item-1')).to.not.exist;
       });
-      it('Renders appointment time and clinic', () => {
+      it('Renders appointment facility, time, and clinic', () => {
         const screen = render(
           <I18nextProvider i18n={i18n}>
             <AppointmentBlockWithIcons
@@ -104,6 +104,11 @@ describe('pre-check-in', () => {
             />
           </I18nextProvider>,
         );
+        expect(
+          screen
+            .getByTestId('appointment-list-item-0')
+            .querySelector('[data-testid="facility-name"]'),
+        ).to.have.text('LOMA LINDA VA CLINIC');
         expect(
           screen
             .getByTestId('appointment-list-item-0')
@@ -129,19 +134,6 @@ describe('pre-check-in', () => {
             .getByTestId('appointment-list-item-1')
             .querySelector('[data-testid="appointment-clinic"]'),
         ).to.have.text('LOM ACC CLINIC TEST');
-      });
-      it('Renders facility name', () => {
-        const screen = render(
-          <I18nextProvider i18n={i18n}>
-            <AppointmentBlockWithIcons
-              appointments={appointments}
-              page="intro"
-            />
-          </I18nextProvider>,
-        );
-        expect(screen.getAllByTestId('facility-name')[0]).to.have.text(
-          'LOMA LINDA VA CLINIC',
-        );
       });
       it('passes axeCheck', () => {
         axeCheck(

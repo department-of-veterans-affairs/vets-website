@@ -7,7 +7,6 @@ const AppointmentBlock = props => {
   const { t } = useTranslation();
 
   const appointmentsDateTime = new Date(appointments[0].startTime);
-  const appointmentFacility = appointments[0].facility;
 
   return (
     <div>
@@ -15,22 +14,10 @@ const AppointmentBlock = props => {
         className="vads-u-font-family--serif"
         data-testid="appointment-day-location"
       >
-        {appointments[0]?.kind === 'phone' ? (
-          <>
-            {t('your-appointments-on-day', {
-              count: appointments.length,
-              day: appointmentsDateTime,
-            })}
-          </>
-        ) : (
-          <>
-            {t('your-appointments-on-day-facility', {
-              count: appointments.length,
-              day: appointmentsDateTime,
-              facility: appointmentFacility,
-            })}
-          </>
-        )}
+        {t('your-appointments-on-day', {
+          count: appointments.length,
+          day: appointmentsDateTime,
+        })}
       </p>
       <ol
         className="vads-u-border-top--1px vads-u-margin-bottom--4 pre-check-in--appointment-list"
