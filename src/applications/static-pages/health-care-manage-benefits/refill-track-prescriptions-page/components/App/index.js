@@ -5,7 +5,10 @@ import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 // Relative imports.
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
-import { selectPatientFacilities } from 'platform/user/selectors';
+import {
+  selectPatientFacilities,
+  selectPatientFacilitiesDsot,
+} from 'platform/user/selectors';
 import AuthContent from '../AuthContent';
 import UnauthContent from '../UnauthContent';
 
@@ -43,7 +46,9 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-  facilities: selectPatientFacilities(state),
+  facilities: state?.featureToggles?.pwEhrCtaDrupalSourceOfTruth
+    ? selectPatientFacilitiesDsot(state)
+    : selectPatientFacilities(state),
 });
 
 export default connect(
