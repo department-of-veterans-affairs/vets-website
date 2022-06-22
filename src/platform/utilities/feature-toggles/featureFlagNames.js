@@ -14,8 +14,6 @@ export default Object.freeze({
   checkInExperienceEnabled: 'check_in_experience_enabled',
   checkInExperiencePreCheckInEnabled:
     'check_in_experience_pre_check_in_enabled',
-  checkInExperienceUpdateInformationPageEnabled:
-    'check_in_experience_update_information_page_enabled',
   checkInExperienceEditingDayOfEnabled: 'check_in_experience_editing_day_of_enabled',
   checkInExperienceEditingPreCheckInEnabled:'check_in_experience_editing_pre_check_in_enabled',
   checkInExperienceTranslationDayOfEnabled: 'check_in_experience_translation_day_of_enabled',
