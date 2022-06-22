@@ -470,15 +470,15 @@ const formConfig = {
                   </p>
                   <h4>Receive up to 36 months of benefits, including</h4>
                   <p>
-                    <i className="fas fa-folder" aria-hidden="true" /> Tuition
+                    <i className="fas fa-school" aria-hidden="true" /> Tuition
                     &amp; fees
                   </p>
                   <p>
-                    <i className="fas fa-folder" aria-hidden="true" /> Money for
+                    <i className="fas fa-home" aria-hidden="true" /> Money for
                     housing
                   </p>
                   <p>
-                    <i className="fas fa-folder" aria-hidden="true" /> Money for
+                    <i className="fas fa-book" aria-hidden="true" /> Money for
                     books &amp; supplies
                   </p>
                   <a href="https://va.gov/">
@@ -510,8 +510,8 @@ const formConfig = {
                   </p>
                   <h4>Receive up to 45 months of benefits, including</h4>
                   <p>
-                    <i className="fas fa-folder" aria-hidden="true" /> Monthly
-                    stipened
+                    <i className="fas fa-money-check-alt" aria-hidden="true" />{' '}
+                    Monthly stipened
                   </p>
                   <a href="va.gov">
                     Learn more about the DEA education benefit

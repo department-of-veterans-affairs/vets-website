@@ -78,4 +78,8 @@ $error-left-padding-width: 1.5rem;
 #root_benefitSelection-label + .schemaform-widget-wrapper .form-radio-buttons:last-child label {
   padding-bottom: .65em;
 }
+.fa-check-circle {
+  color: $color-green;
+}
+
 // END - Benefit Selection Page
