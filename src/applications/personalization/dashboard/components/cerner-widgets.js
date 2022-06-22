@@ -3,37 +3,33 @@ import PropTypes from 'prop-types';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import { getCernerURL } from 'platform/utilities/cerner';
 
+const SeparatorSpan = ({ children }) => (
+  <span className="vads-u-font-weight--normal vads-u-font-size--base">
+    {children}
+  </span>
+);
+
+SeparatorSpan.propTypes = {
+  children: PropTypes.node,
+};
+
 // Helper component that takes an array of facility names and a separator string and returns some JSX to style the list of facility names.
 const FacilityList = ({ facilities, separator, finalSeparator }) => {
-  let newArray = [];
-  if (facilities.length > 1) {
-    const lastElement = facilities.pop();
-    const secondToLastElement = facilities.pop();
-    const finalSeparatorSpan = (
-      <span className="vads-u-font-weight--normal vads-u-font-size--base">
-        {finalSeparator || separator}
-      </span>
-    );
-    // first make an array that alternates between a facility name and the
-    // separator word wrapped in a <span> for styling purposes
-    facilities.forEach(el => {
-      newArray.push(el);
-      newArray.push(
-        <span className="vads-u-font-weight--normal vads-u-font-size--base">
-          {separator}
-        </span>,
-      );
-    });
-    newArray.push(secondToLastElement, finalSeparatorSpan, lastElement);
-  } else {
-    newArray = newArray.concat(facilities);
-  }
-
-  // Then map over the array we just made, converting it to JSX
   return (
     <>
-      {newArray.map((el, i) => {
-        return <strong key={i}>{el}</strong>;
+      {facilities.map((facility, i, orig) => {
+        return (
+          <strong key={i}>
+            {facility}
+            {facility !== orig.at(-2) &&
+              facility !== orig.at(-1) && (
+                <SeparatorSpan>{separator}</SeparatorSpan>
+              )}
+            {facility === orig.at(-2) && (
+              <SeparatorSpan>{finalSeparator}</SeparatorSpan>
+            )}
+          </strong>
+        );
       })}
     </>
   );
