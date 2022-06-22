@@ -58,7 +58,8 @@ import hearingType from '../pages/hearingType';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/notice_of_disagreements`,
+  // submitUrl: `${environment.API_URL}/v0/notice_of_disagreements`,
+  submitUrl: `${environment.API_URL}/v1/notice_of_disagreements`,
   trackingPrefix: '10182-board-appeal-',
 
   downtime: {
