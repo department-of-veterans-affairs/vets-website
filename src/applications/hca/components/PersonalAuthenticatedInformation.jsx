@@ -1,44 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
-import { setData } from 'platform/forms-system/src/js/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-
-import { fetchTotalDisabilityRating } from '../actions';
 
 const PersonalAuthenticatedInformation = ({
   goBack,
   goForward,
-  setFormData,
   isLoggedIn,
-  formData,
-  getTotalDisabilityRating,
-  totalDisabilityRating,
   user,
 }) => {
-  useEffect(
-    () => {
-      getTotalDisabilityRating();
-    },
-    [getTotalDisabilityRating],
-  );
-
-  useEffect(
-    () => {
-      setFormData({
-        ...formData,
-        'view:totalDisabilityRating': totalDisabilityRating || 0,
-        'view:userDob': user.dob,
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [totalDisabilityRating, user.dob],
-  );
-
   const navButtons = <FormNavButtons goBack={goBack} goForward={goForward} />;
 
   const {
@@ -100,38 +73,21 @@ const PersonalAuthenticatedInformation = ({
 
 const mapStateToProps = state => {
   return {
-    formData: state.form.data,
     isLoggedIn: state.user.login.currentlyLoggedIn,
     user: state.user.profile,
-    loading: state.totalRating.loading,
-    error: state.totalRating.error,
-    totalDisabilityRating: state.totalRating.totalDisabilityRating,
   };
 };
 
-const mapDispatchToProps = {
-  setFormData: setData,
-  getTotalDisabilityRating: fetchTotalDisabilityRating,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PersonalAuthenticatedInformation);
+export default connect(mapStateToProps)(PersonalAuthenticatedInformation);
 
 PersonalAuthenticatedInformation.propTypes = {
-  error: PropTypes.object,
   first: PropTypes.string,
-  formData: PropTypes.object,
-  getTotalDisabilityRating: PropTypes.func,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   isLoggedIn: PropTypes.bool,
   last: PropTypes.string,
   loading: PropTypes.bool,
   middle: PropTypes.string,
-  setFormData: PropTypes.func,
   suffix: PropTypes.string,
-  totalDisabilityRating: PropTypes.number,
   user: PropTypes.object,
 };
