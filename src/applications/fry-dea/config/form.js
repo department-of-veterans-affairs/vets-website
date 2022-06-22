@@ -33,6 +33,7 @@ import {
   applicantIsChildOfSponsor,
   addWhitespaceOnlyError,
   isAlphaNumeric,
+  AdditionalConsiderationTemplate,
 } from '../helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -55,53 +56,6 @@ const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
 const checkImageSrc = environment.isStaging()
   ? `${VAGOVSTAGING}/img/check-sample.png`
   : `${vagovprod}/img/check-sample.png`;
-
-function AdditionalConsiderationTemplate(
-  title,
-  path,
-  formField,
-  UI,
-  SCHEMA,
-  dependA,
-  dependB = false,
-  condition2 = false,
-) {
-  return {
-    title,
-    path,
-    uiSchema: {
-      'view:subHeadings': {
-        'ui:description': <h3>{title}</h3>,
-      },
-      [formField]: {
-        ...UI,
-      },
-    },
-    schema: {
-      type: 'object',
-      required: [formField],
-      properties: {
-        'view:subHeadings': {
-          type: 'object',
-          properties: {},
-        },
-        [formField]: { ...SCHEMA },
-      },
-    },
-    depends: formData => {
-      if (!dependB) {
-        return true;
-      }
-
-      if (!condition2) {
-        return formData[dependA] === dependB;
-      }
-
-      const [x, y] = condition2;
-      return formData[dependA] === dependB && formData[x] !== y;
-    },
-  };
-}
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
