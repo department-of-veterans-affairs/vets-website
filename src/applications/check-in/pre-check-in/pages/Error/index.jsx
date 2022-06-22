@@ -98,7 +98,11 @@ const Error = () => {
 
   return (
     <Wrapper pageTitle={header}>
-      <ErrorMessage message={message} additionalDetails={additionalDetails} />
+      <ErrorMessage
+        message={message}
+        additionalDetails={additionalDetails}
+        validationError={isMaxValidateAttempts}
+      />
       <Footer />
       <BackToHome />
     </Wrapper>
