@@ -20,7 +20,7 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 // import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 // import * as personId from 'platform/forms/definitions/personId';
 // import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-// import { VA_FORM_IDS } from 'platform/forms/constants';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 // import {
 //   validateMonthYear,
 //   validateFutureDateIfExpectedGrad,
@@ -56,6 +56,49 @@ const checkImageSrc = environment.isStaging()
   ? `${VAGOVSTAGING}/img/check-sample.png`
   : `${vagovprod}/img/check-sample.png`;
 
+function AdditionalConsiderationTemplate(
+  title,
+  path,
+  formField,
+  UI,
+  SCHEMA,
+  dependA,
+  dependB,
+  condition2 = false,
+) {
+  return {
+    title,
+    path,
+    uiSchema: {
+      'view:subHeadings': {
+        'ui:description': <h3>{title}</h3>,
+      },
+      [formField]: {
+        ...UI,
+      },
+    },
+    schema: {
+      type: 'object',
+      required: [formField],
+      properties: {
+        'view:subHeadings': {
+          type: 'object',
+          properties: {},
+        },
+        [formField]: { ...SCHEMA },
+      },
+    },
+    depends: formData => {
+      if (!condition2) {
+        return formData[dependA] === dependB;
+      }
+
+      const [x, y] = condition2;
+      return formData[dependA] === dependB && formData[x] !== y;
+    },
+  };
+}
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -63,7 +106,7 @@ const formConfig = {
   trackingPrefix: 'fry-dea-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  // formId: VA_FORM_IDS.FORM_22_5490,
+  formId: VA_FORM_IDS.FORM_22_5490,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your education benefits application (22-5490) is in progress.',
@@ -564,6 +607,119 @@ const formConfig = {
               },
             },
           },
+        },
+      },
+    },
+    newAdditionalConsideration: {
+      title: 'Additional considerations',
+      pages: {
+        [newFormPages.newAdditionalConsiderations.newMarriageDate]: {
+          ...AdditionalConsiderationTemplate(
+            'Marriage date',
+            'new/additional/consideration/marriage/date',
+            newFormFields.newAdditionalConsiderations.newMarriageDate,
+            {
+              ...currentOrPastDateUI(
+                'When did you get married to your chosen Veteran or service member?',
+              ),
+            },
+            { ...date },
+            newFormFields.newRelationshipToServiceMember,
+            RELATIONSHIP.SPOUSE,
+          ),
+        },
+        [newFormPages.newAdditionalConsiderations.newMarriageInformation]: {
+          ...AdditionalConsiderationTemplate(
+            'Marriage information',
+            'new/additional/consideration/marriage/information',
+            newFormFields.newAdditionalConsiderations.newMarriageInformation,
+            {
+              'ui:title':
+                'What’s the status of your marriage with your chosen Veteran or service member?',
+              'ui:widget': 'radio',
+            },
+            {
+              type: 'string',
+              enum: [
+                'Married',
+                'Divorced (or a divorce is in progress)',
+                'Marriage was annulled (or annulment is in progress)',
+                'Widowed',
+              ],
+            },
+            newFormFields.newRelationshipToServiceMember,
+            RELATIONSHIP.SPOUSE,
+          ),
+        },
+        [newFormPages.newAdditionalConsiderations.newMarriageInformation
+          .divorced]: {
+          ...AdditionalConsiderationTemplate(
+            'Remarriage',
+            'new/additional/consideration/remarriage/information/divorced',
+            newFormFields.newAdditionalConsiderations.newRemarriage,
+            {
+              'ui:title': 'Have you been remarried?',
+              'ui:widget': 'yesNo',
+            },
+            {
+              type: 'boolean',
+            },
+            newFormFields.newAdditionalConsiderations.newMarriageInformation,
+            'Divorced (or a divorce is in progress)',
+          ),
+        },
+        [newFormPages.newAdditionalConsiderations.newMarriageInformation
+          .annulled]: {
+          ...AdditionalConsiderationTemplate(
+            'Remarriage',
+            'new/additional/consideration/remarriage/information/annulment',
+            newFormFields.newAdditionalConsiderations.newRemarriage,
+            {
+              'ui:title': 'Have you been remarried since your annulment?',
+              'ui:widget': 'yesNo',
+            },
+            {
+              type: 'boolean',
+            },
+            newFormFields.newAdditionalConsiderations.newMarriageInformation,
+            'Marriage was annulled (or annulment is in progress)',
+          ),
+        },
+        [newFormPages.newAdditionalConsiderations.newMarriageInformation
+          .widowed]: {
+          ...AdditionalConsiderationTemplate(
+            'Remarriage',
+            'new/additional/consideration/remarriage/information/widowed',
+            newFormFields.newAdditionalConsiderations.newRemarriage,
+            {
+              'ui:title': 'Have you been remarried since being widowed?',
+              'ui:widget': 'yesNo',
+            },
+            {
+              type: 'boolean',
+            },
+            newFormFields.newAdditionalConsiderations.newMarriageInformation,
+            'Widowed',
+          ),
+        },
+        [newFormPages.newAdditionalConsiderations.newRemarriageDate]: {
+          ...AdditionalConsiderationTemplate(
+            'Remarriage date',
+            'new/additional/consideration/remarriage/date',
+            newFormFields.newAdditionalConsiderations.newRemarriageDate,
+            {
+              ...currentOrPastDateUI('When did you get remarried?'),
+            },
+            {
+              ...date,
+            },
+            newFormFields.newAdditionalConsiderations.newRemarriage,
+            true,
+            [
+              newFormFields.newAdditionalConsiderations.newMarriageInformation,
+              'Married',
+            ],
+          ),
         },
       },
     },
