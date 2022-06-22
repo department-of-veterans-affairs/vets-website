@@ -17,10 +17,10 @@ import redirectIfNecessary from './redirects';
 import headerPartial from './partials/header';
 import footerPartial from './partials/footer';
 import proxyWhitelist from './proxy-rewrite-whitelist.json';
-import { isBrowserIE } from '~/platform/utilities/detection/is-browser';
-import { getAssetPath } from '~/platform/utilities/legacy/get-asset-path';
-import { getTargetEnv } from '~/platform/utilities/legacy/get-target-env';
-import { installWebComponentsLibrary } from '~/platform/utilities/legacy/web-components';
+import { isBrowserIE } from '~/platform/site-wide/helpers/detection/is-browser';
+import { getAssetPath } from '~/platform/site-wide/helpers/team-sites/get-asset-path';
+import { getTargetEnv } from '~/platform/site-wide/helpers/team-sites/get-target-env';
+import { installWebComponentsLibrary } from '~/platform/site-wide/helpers/team-sites/web-components';
 
 function createMutationObserverCallback() {
   // Find native header, footer, etc based on page path

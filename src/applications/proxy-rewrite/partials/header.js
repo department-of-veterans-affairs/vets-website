@@ -1,5 +1,5 @@
+import { isBrowserIE } from '~/platform/site-wide/helpers/detection/is-browser';
 import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
-import { isBrowserIE } from '~/platform/utilities/detection/is-browser';
 
 export default `
   <!-- Header -->
