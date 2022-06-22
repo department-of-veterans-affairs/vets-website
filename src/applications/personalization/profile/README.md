@@ -57,7 +57,7 @@ When running the app locally, all test users will have 2 connected apps availabl
 
 ### Step 1: ready your dockerfile
 
-1. Update the [dockerfile](https://github.com/department-of-veterans-affairs/vets-website/blob/main/.devcontainer/Dockerfile#L29) on your local branch but removing `libappindicator1`.
+1. Update the [dockerfile](https://github.com/department-of-veterans-affairs/vets-website/blob/main/.devcontainer/Dockerfile#L29) on your local branch by removing `libappindicator1`.
 
 ### Step 2: Creating the code space
 
@@ -110,7 +110,7 @@ Open the mock api url, and visit `/v0/user` to test it. You should see a JSON re
 
 #### Build
 
-Since we are running the site as a static site, vuild the app in localhost mode. We need build for the locally environment so we can change the API url to the mock api we are running in this instance
+Since we are running the site as a static site, build the app in localhost mode. We need build for the locally environment so we can change the API url to the mock api we are running in this instance
 
 ```bash
  yarn build:webpack:local --env api="${instance-mock-api-url}"
@@ -134,4 +134,4 @@ Just like the API, make sure to change the PORT to public.
 
 - The main content will never load, that is static content. That is outside the scope of this setup.
 - Sometimes its a refresh or two to get things going
-- If you make changes, you will to re-build and re-start the server
+- If you make changes, you will have to re-build and re-start the server
