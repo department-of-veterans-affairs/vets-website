@@ -443,9 +443,15 @@ const formConfig = {
                 <>
                   <h3>Choose the benefit you’d like to apply for</h3>
                   <p>
+                    We estimated your benefit eligibility based on your chosen
+                    Veteran or service member’s service history. This isn’t an
+                    eligibility determination. An official determination won’t
+                    be made until you complete and submit this application.
+                  </p>
+                  <p>
                     <strong>Note:</strong> If you are eligible for both the Fry
-                    scholarship and Survivors' and Dependents Educational
-                    Assistance Benefits, you’ll need to choose which one to use.
+                    Scholarship and Survivors’ and Dependents’ Educational
+                    Assistance benefits, you’ll need to choose which one to use.
                     Once you make this choice, you can’t switch to the other
                     program.
                   </p>
@@ -502,7 +508,7 @@ const formConfig = {
                 >
                   <p className="vads-u-margin-y--1px">DEA, Chapter 35</p>
                   <h3 className="vads-u-margin-y--1px">
-                    Survivors' and Dependents Educational Assistance
+                    Survivors' and Dependents' Educational Assistance
                   </h3>
                   <p>
                     <i className="fas fa-check-circle" aria-hidden="true" /> You
@@ -524,10 +530,7 @@ const formConfig = {
             },
             'view:benefitSelectionExplainer': {
               'ui:description': (
-                <va-additional-info
-                  status="info"
-                  trigger="Which benefit should I choose?"
-                >
+                <va-additional-info trigger="Which benefit should I choose?">
                   <p>
                     For each benefit, you should consider the amount you can
                     receive, how payments are made, and when they expire.
@@ -539,7 +542,7 @@ const formConfig = {
               'ui:title': (
                 <>
                   <span className="fry-dea-labels_label--main vads-u-padding-left--1">
-                    Which education benefit would you like to apply for?
+                    <b>Which education benefit would you like to apply for?</b>
                   </span>
                   <span className="fry-dea-labels_label--secondary fry-dea-input-message vads-u-background-color--primary-alt-lightest vads-u-padding--1 vads-u-margin-top--1">
                     <i
