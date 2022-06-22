@@ -41,14 +41,14 @@ const SipsDevModal = props => {
 
   useEffect(
     () => {
-      if (showLink && isModalVisible && pageList.length) {
+      if (showLink && isModalVisible && pageList?.length) {
         setAvailablePaths(getAvailablePaths(pageList, sipsData));
       }
     },
     [pageList, sipsData, showLink, isModalVisible],
   );
 
-  if (!showLink || pageList.length === 0) {
+  if (!showLink || (pageList || []).length === 0) {
     return null;
   }
 
