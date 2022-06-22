@@ -59,7 +59,7 @@ describe('Header <Header>', () => {
     });
 
     it('when using a modern browser', () => {
-      expect(wrapper.find('va-alert')).to.have.lengthOf(0);
+      expect(wrapper.find('va-banner')).to.have.lengthOf(0);
     });
 
     afterEach(() => {
