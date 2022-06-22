@@ -5,7 +5,7 @@ const { usaPhone } = commonDefinitions;
 
 import PhoneReviewField from './components/PhoneReviewField';
 import YesNoReviewField from './components/YesNoReviewField';
-import { newFormFields } from './constants';
+import { formFields } from './constants';
 import { titleCase } from './helpers';
 import { validateHomePhone, validateMobilePhone } from './validation';
 
@@ -29,16 +29,14 @@ export function phoneUISchema(category) {
         hideIf: formData => {
           if (category === 'mobile') {
             if (
-              !formData[newFormFields.newViewPhoneNumbers][
-                newFormFields.newMobilePhoneNumber
+              !formData[formFields.viewPhoneNumbers][
+                formFields.mobilePhoneNumber
               ].phone
             ) {
               return true;
             }
           } else if (
-            !formData[newFormFields.newViewPhoneNumbers][
-              newFormFields.newPhoneNumber
-            ].phone
+            !formData[formFields.viewPhoneNumbers][formFields.phoneNumber].phone
           ) {
             return true;
           }

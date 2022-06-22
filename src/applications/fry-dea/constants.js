@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export const YOUR_PROFILE_URL = '/profile';
 
 export const RELATIONSHIP = {
@@ -5,79 +7,93 @@ export const RELATIONSHIP = {
   SPOUSE: 'Spouse',
 };
 
-export const newFormPages = {
-  newApplicantInformation: 'newApplicantInformation',
-  newContactInformation: {
-    newContactInformation: 'newContactInformation',
-    newMailingAddress: 'newMailingAddress',
-    newPreferredContactMethod: 'newPreferredContactMethod',
+export const ELIGIBILITY = {
+  CHAPTER_30: 'Chapter30',
+  CHAPTER_1606: 'Chapter1606',
+};
+
+export const VETERANS_TYPE = PropTypes.arrayOf(
+  PropTypes.shape({
+    dateOfBirth: PropTypes.string,
+    deaEligibility: PropTypes.number,
+    fryEligibility: PropTypes.number,
+    id: PropTypes.number,
+    name: PropTypes.string,
+    relationship: PropTypes.string,
+  }),
+);
+
+export const formPages = {
+  applicantInformation: 'applicantInformation',
+  contactInformation: {
+    contactInformation: 'contactInformation',
+    mailingAddress: 'mailingAddress',
+    preferredContactMethod: 'preferredContactMethod',
   },
-  newServiceHistory: 'newServiceHistory',
-  newBenefitSelection: 'newBenefitSelection',
-  newDirectDeposit: 'newDirectDeposit',
-  newFirstSponsorSelection: 'newFirstSponsorSelection',
-  newSponsorInformation: 'newSponsorInformation',
-  newSponsorHighSchool: 'newSponsorHighSchool',
-  newSponsorSelection: 'newSponsorSelection',
-  newSponsorSelectionReview: 'newSponsorSelectionReview',
-  newVerifyHighSchool: 'newVerifyHighSchool',
-  newAdditionalConsiderations: {
-    newMarriageDate: 'newMarriageDate',
-    newMarriageInformation: {
+  serviceHistory: 'serviceHistory',
+  benefitSelection: 'benefitSelection',
+  directDeposit: 'directDeposit',
+  firstSponsorSelection: 'firstSponsorSelection',
+  sponsorInformation: 'sponsorInformation',
+  sponsorHighSchool: 'sponsorHighSchool',
+  sponsorSelection: 'sponsorSelection',
+  sponsorSelectionReview: 'sponsorSelectionReview',
+  verifyHighSchool: 'verifyHighSchool',
+  additionalConsiderations: {
+    marriageDate: 'marriageDate',
+    marriageInformation: {
       divorced: 'divorced',
       annulled: 'annulled',
       widowed: 'widowed',
     },
-    newRemarriage: 'newRemarriage',
-    newRemarriageDate: 'newRemarriageDate',
+    remarriage: 'remarriage',
+    remarriageDate: 'remarriageDate',
   },
 };
 
-export const newFormFields = {
-  newAccountNumber: 'newAccountNumber',
-  newAccountType: 'newAccountType',
-  newActiveDutyKicker: 'newActiveDutyKicker',
-  newAdditionalConsiderationsNote: 'newAdditionalConsiderationsNote',
-  newAddress: 'newAddress',
-  newBankAccount: 'newBankAccount',
+export const formFields = {
+  accountNumber: 'accountNumber',
+  accountType: 'accountType',
+  activeDutyKicker: 'activeDutyKicker',
+  additionalConsiderationsNote: 'additionalConsiderationsNote',
+  address: 'address',
+  bankAccount: 'bankAccount',
   benefitSelection: 'benefitSelection',
-  newContactMethod: 'newContactMethod',
-  newConfirmEmail: 'newConfirmEmail',
-  newDateOfBirth: 'newDateOfBirth',
-  newEmail: 'newEmail',
-  newFederallySponsoredAcademy: 'newFederallySponsoredAcademy',
-  firstSponsor: 'firstSponsor',
-  newFullName: 'newFullName',
-  newHasDoDLoanPaymentPeriod: 'newHasDoDLoanPaymentPeriod',
-  newHighSchoolDiploma: 'newHighSchoolDiploma',
-  newHighSchoolDiplomaDate: 'newHighSchoolDiplomaDate',
-  newIncorrectServiceHistoryExplanation:
-    'newIncorrectServiceHistoryExplanation',
-  newLoanPayment: 'newLoanPayment',
-  newMobilePhoneNumber: 'newMobilePhoneNumber',
-  newMobilePhoneNumberInternational: 'newMobilePhoneNumberInternational',
-  newParentGuardianSponsor: 'newParentGuardianSponsor',
-  newPhoneNumber: 'newPhoneNumber',
-  newPhoneNumberInternational: 'newPhoneNumberInternational',
-  newRelationshipToServiceMember: 'newRelationshipToServiceMember',
-  newReceiveTextMessages: 'newReceiveTextMessages',
-  newRoutingNumber: 'newRoutingNumber',
-  newServiceHistoryIncorrect: 'newServiceHistoryIncorrect',
+  contactMethod: 'contactMethod',
+  confirmEmail: 'confirmEmail',
+  dateOfBirth: 'dateOfBirth',
+  email: 'email',
+  federallySponsoredAcademy: 'federallySponsoredAcademy',
+  chosenVeteran: 'chosenVeteran',
+  fullName: 'fullName',
+  hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
+  highSchoolDiploma: 'highSchoolDiploma',
+  highSchoolDiplomaDate: 'highSchoolDiplomaDate',
+  incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
+  loanPayment: 'loanPayment',
+  mobilePhoneNumber: 'mobilePhoneNumber',
+  mobilePhoneNumberInternational: 'mobilePhoneNumberInternational',
+  parentGuardianSponsor: 'parentGuardianSponsor',
+  phoneNumber: 'phoneNumber',
+  phoneNumberInternational: 'phoneNumberInternational',
+  relationshipToServiceMember: 'relationshipToServiceMember',
+  receiveTextMessages: 'receiveTextMessages',
+  routingNumber: 'routingNumber',
+  serviceHistoryIncorrect: 'serviceHistoryIncorrect',
   selectedSponsors: 'selectedSponsors',
-  newSponsorDateOfBirth: 'newSponsorDateOfBirth',
-  newSponsorFullName: 'newSponsorFullName',
-  newSsn: 'newSsn',
-  newToursOfDuty: 'newToursOfDuty',
-  newUserFullName: 'newUserFullName',
-  newViewBenefitSelection: 'view:newBenefitSelection',
-  newViewNoDirectDeposit: 'view:newNoDirectDeposit',
-  newViewPhoneNumbers: 'view:newPhoneNumbers',
-  newViewSelectedSponsor: 'view:newSelectedSponsor',
-  newViewStopWarning: 'view:newStopWarning',
-  newAdditionalConsiderations: {
-    newMarriageDate: 'newMarriageDate',
-    newMarriageInformation: 'newMarriageInformation',
-    newRemarriage: 'newRemarriage',
-    newRemarriageDate: 'newRemarriageDate',
+  sponsorDateOfBirth: 'sponsorDateOfBirth',
+  sponsorFullName: 'sponsorFullName',
+  ssn: 'nsn',
+  userFullName: 'userFullName',
+  viewBenefitSelection: 'view:benefitSelection',
+  viewNoDirectDeposit: 'view:noDirectDeposit',
+  viewPhoneNumbers: 'view:phoneNumbers',
+  viewSelectedSponsor: 'view:selectedSponsor',
+  viewStopWarning: 'view:stopWarning',
+  additionalConsiderations: {
+    marriageDate: 'marriageDate',
+    marriageInformation: 'marriageInformation',
+    remarriage: 'remarriage',
+    remarriageDate: 'remarriageDate',
   },
 };

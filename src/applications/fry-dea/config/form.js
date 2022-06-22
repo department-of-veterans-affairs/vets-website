@@ -38,7 +38,7 @@ import {
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { newFormFields, newFormPages, RELATIONSHIP } from '../constants';
+import { formFields, formPages, RELATIONSHIP } from '../constants';
 import GetFormHelp from '../components/GetFormHelp';
 import GoToYourProfileLink from '../components/GoToYourProfileLink';
 import RelatedVeterans from '../components/RelatedVeterans';
@@ -129,10 +129,10 @@ const formConfig = {
     date,
   },
   chapters: {
-    newApplicantInformationChapter: {
+    applicantInformationChapter: {
       title: 'Your information',
       pages: {
-        [newFormPages.newApplicantInformation]: {
+        [formPages.applicantInformation]: {
           title: 'Your information',
           path: 'applicant/information',
           subTitle: 'Your information',
@@ -160,7 +160,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newUserFullName]: {
+            [formFields.userFullName]: {
               ...fullNameUI,
               first: {
                 ...fullNameUI.first,
@@ -189,19 +189,19 @@ const formConfig = {
                 'ui:title': 'Your middle name',
               },
             },
-            [newFormFields.newDateOfBirth]: {
+            [formFields.dateOfBirth]: {
               ...currentOrPastDateUI('Your date of birth'),
             },
           },
           schema: {
             type: 'object',
-            required: [newFormFields.newDateOfBirth],
+            required: [formFields.dateOfBirth],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newUserFullName]: {
+              [formFields.userFullName]: {
                 ...fullName,
                 properties: {
                   ...fullName.properties,
@@ -211,7 +211,7 @@ const formConfig = {
                   },
                 },
               },
-              [newFormFields.newDateOfBirth]: date,
+              [formFields.dateOfBirth]: date,
               'view:dateOfBirthUnder18Alert': {
                 type: 'object',
                 properties: {},
@@ -221,14 +221,14 @@ const formConfig = {
         },
       },
     },
-    newVeteranServiceMember: {
+    veteranServiceMember: {
       title: 'Veteran and service member information',
       pages: {
-        [newFormPages.chooseServiceMember]: {
+        [formPages.chooseServiceMember]: {
           title: 'Veteran and service member information',
-          path: 'new/choose-veteran-or-service-member',
+          path: 'choose-veteran-or-service-member',
           uiSchema: {
-            'view:subHeadings': {
+            'view:chooseServiceMemberSubHeadings': {
               'ui:description': (
                 <>
                   <h3>Choose your Veteran or service member</h3>
@@ -242,7 +242,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.firstSponsor]: {
+            [formFields.chosenVeteran]: {
               'ui:title':
                 'Which sponsor’s benefits would you like to use first?',
               // 'ui:widget': FirstSponsorRadioGroup,
@@ -274,13 +274,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [newFormFields.firstSponsor],
+            required: [formFields.chosenVeteran],
             properties: {
-              'view:subHeadings': {
+              'view:chooseServiceMemberSubHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.firstSponsor]: {
+              [formFields.chosenVeteran]: {
                 type: 'string',
               },
               'view:firstSponsorAdditionalInfo': {
@@ -290,9 +290,9 @@ const formConfig = {
             },
           },
         },
-        [newFormPages.newSponsorInformation]: {
+        [formPages.sponsorInformation]: {
           title: 'Enter your sponsor’s info',
-          path: 'new/sponsor/information',
+          path: 'sponsor/information',
           // depends: formData =>
           //   // formData.showUpdatedFryDeaApp &&
           //   !formData.sponsors?.sponsors?.length ||
@@ -354,12 +354,12 @@ const formConfig = {
                 hideIf: formData => !formData.sponsors?.sponsors?.length,
               },
             },
-            [newFormFields.newRelationshipToServiceMember]: {
+            [formFields.relationshipToServiceMember]: {
               'ui:title':
                 'What’s your relationship to the service member whose benefit has been transferred to you?',
               'ui:widget': 'radio',
             },
-            [newFormFields.newSponsorFullName]: {
+            [formFields.sponsorFullName]: {
               ...fullNameUI,
               first: {
                 ...fullNameUI.first,
@@ -390,15 +390,15 @@ const formConfig = {
                 'ui:title': 'Your sponsor’s middle name',
               },
             },
-            [newFormFields.newSponsorDateOfBirth]: {
+            [formFields.sponsorDateOfBirth]: {
               ...currentOrPastDateUI('Your sponsor’s date of birth'),
             },
           },
           schema: {
             type: 'object',
             required: [
-              newFormFields.newRelationshipToServiceMember,
-              newFormFields.newSponsorDateOfBirth,
+              formFields.relationshipToServiceMember,
+              formFields.sponsorDateOfBirth,
             ],
             properties: {
               'view:noSponsorWarning': {
@@ -409,11 +409,11 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newRelationshipToServiceMember]: {
+              [formFields.relationshipToServiceMember]: {
                 type: 'string',
                 enum: [RELATIONSHIP.SPOUSE, RELATIONSHIP.CHILD],
               },
-              [newFormFields.newSponsorFullName]: {
+              [formFields.sponsorFullName]: {
                 ...fullName,
                 required: ['first', 'last'],
                 properties: {
@@ -424,18 +424,18 @@ const formConfig = {
                   },
                 },
               },
-              [newFormFields.newSponsorDateOfBirth]: date,
+              [formFields.sponsorDateOfBirth]: date,
             },
           },
         },
       },
     },
-    newBenefitSelection: {
+    benefitSelection: {
       title: 'Benefit selection',
       pages: {
-        [newFormPages.benefitSelection]: {
+        [formPages.benefitSelection]: {
           title: 'Benefit Selection',
-          path: 'new/benefit-selection',
+          path: 'benefit-selection',
           // depends: formData => formData.showUpdatedFryDeaApp,
           uiSchema: {
             'view:subHeadings': {
@@ -444,7 +444,7 @@ const formConfig = {
                   <h3>Choose the benefit you’d like to apply for</h3>
                   <p>
                     <strong>Note:</strong> If you are eligible for both the Fry
-                    scholarship and Survivors' and Dependents Educational
+                    scholarship and Survivors’ and Dependents Educational
                     Assistance Benefits, you’ll need to choose which one to use.
                     Once you make this choice, you can’t switch to the other
                     program.
@@ -502,7 +502,7 @@ const formConfig = {
                 >
                   <p className="vads-u-margin-y--1px">DEA, Chapter 35</p>
                   <h3 className="vads-u-margin-y--1px">
-                    Survivors' and Dependents Educational Assistance
+                    Survivors’ and Dependents Educational Assistance
                   </h3>
                   <p>
                     <i className="fas fa-check-circle" aria-hidden="true" /> You
@@ -535,7 +535,7 @@ const formConfig = {
                 </va-additional-info>
               ),
             },
-            [newFormFields.benefitSelection]: {
+            [formFields.benefitSelection]: {
               'ui:title': (
                 <>
                   <span className="fry-dea-labels_label--main vads-u-padding-left--1">
@@ -562,14 +562,14 @@ const formConfig = {
                 labels: {
                   fry: 'Fry Scholarship (Chapter 33)',
                   dea:
-                    "Survivors' and Dependents Educational Assistance (DEA, Chapter 35)",
+                    'Survivors’ and Dependents Educational Assistance (DEA, Chapter 35)',
                 },
                 widgetProps: {
                   fry: { 'data-info': 'fry' },
                   dea: { 'data-info': 'dea' },
                 },
                 // Only added to the radio when it is selected
-                // a11y requirement: aria-describedby ID's *must* exist on the page; and we
+                // a11y requirement: aria-describedby ID’s *must* exist on the page; and we
                 // conditionally add content based on the selection
                 selectedProps: {
                   fry: { 'aria-describedby': 'fry' },
@@ -580,7 +580,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [newFormFields.benefitSelection],
+            required: [formFields.benefitSelection],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -598,11 +598,11 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.benefitSelection]: {
+              [formFields.benefitSelection]: {
                 type: 'string',
                 enum: [
                   'Fry Scholarship (Chapter 33)',
-                  "Survivors' and Dependents Educational Assistance (DEA, Chapter 35)",
+                  'Survivors’ and Dependents Educational Assistance (DEA, Chapter 35)',
                 ],
               },
             },
@@ -610,29 +610,29 @@ const formConfig = {
         },
       },
     },
-    newAdditionalConsideration: {
+    additionalConsideration: {
       title: 'Additional considerations',
       pages: {
-        [newFormPages.newAdditionalConsiderations.newMarriageDate]: {
+        [formPages.additionalConsiderations.marriageDate]: {
           ...AdditionalConsiderationTemplate(
             'Marriage date',
-            'new/additional/consideration/marriage/date',
-            newFormFields.newAdditionalConsiderations.newMarriageDate,
+            'additional/consideration/marriage/date',
+            formFields.additionalConsiderations.marriageDate,
             {
               ...currentOrPastDateUI(
                 'When did you get married to your chosen Veteran or service member?',
               ),
             },
             { ...date },
-            newFormFields.newRelationshipToServiceMember,
+            formFields.relationshipToServiceMember,
             RELATIONSHIP.SPOUSE,
           ),
         },
-        [newFormPages.newAdditionalConsiderations.newMarriageInformation]: {
+        [formPages.additionalConsiderations.marriageInformation]: {
           ...AdditionalConsiderationTemplate(
             'Marriage information',
-            'new/additional/consideration/marriage/information',
-            newFormFields.newAdditionalConsiderations.newMarriageInformation,
+            'additional/consideration/marriage/information',
+            formFields.additionalConsiderations.marriageInformation,
             {
               'ui:title':
                 'What’s the status of your marriage with your chosen Veteran or service member?',
@@ -647,16 +647,15 @@ const formConfig = {
                 'Widowed',
               ],
             },
-            newFormFields.newRelationshipToServiceMember,
+            formFields.relationshipToServiceMember,
             RELATIONSHIP.SPOUSE,
           ),
         },
-        [newFormPages.newAdditionalConsiderations.newMarriageInformation
-          .divorced]: {
+        [formPages.additionalConsiderations.marriageInformation.divorced]: {
           ...AdditionalConsiderationTemplate(
             'Remarriage',
-            'new/additional/consideration/remarriage/information/divorced',
-            newFormFields.newAdditionalConsiderations.newRemarriage,
+            'additional/consideration/remarriage/information/divorced',
+            formFields.additionalConsiderations.remarriage,
             {
               'ui:title': 'Have you been remarried?',
               'ui:widget': 'yesNo',
@@ -664,16 +663,15 @@ const formConfig = {
             {
               type: 'boolean',
             },
-            newFormFields.newAdditionalConsiderations.newMarriageInformation,
+            formFields.additionalConsiderations.marriageInformation,
             'Divorced (or a divorce is in progress)',
           ),
         },
-        [newFormPages.newAdditionalConsiderations.newMarriageInformation
-          .annulled]: {
+        [formPages.additionalConsiderations.marriageInformation.annulled]: {
           ...AdditionalConsiderationTemplate(
             'Remarriage',
-            'new/additional/consideration/remarriage/information/annulment',
-            newFormFields.newAdditionalConsiderations.newRemarriage,
+            'additional/consideration/remarriage/information/annulment',
+            formFields.additionalConsiderations.remarriage,
             {
               'ui:title': 'Have you been remarried since your annulment?',
               'ui:widget': 'yesNo',
@@ -681,16 +679,15 @@ const formConfig = {
             {
               type: 'boolean',
             },
-            newFormFields.newAdditionalConsiderations.newMarriageInformation,
+            formFields.additionalConsiderations.marriageInformation,
             'Marriage was annulled (or annulment is in progress)',
           ),
         },
-        [newFormPages.newAdditionalConsiderations.newMarriageInformation
-          .widowed]: {
+        [formPages.additionalConsiderations.marriageInformation.widowed]: {
           ...AdditionalConsiderationTemplate(
             'Remarriage',
-            'new/additional/consideration/remarriage/information/widowed',
-            newFormFields.newAdditionalConsiderations.newRemarriage,
+            'additional/consideration/remarriage/information/widowed',
+            formFields.additionalConsiderations.remarriage,
             {
               'ui:title': 'Have you been remarried since being widowed?',
               'ui:widget': 'yesNo',
@@ -698,37 +695,37 @@ const formConfig = {
             {
               type: 'boolean',
             },
-            newFormFields.newAdditionalConsiderations.newMarriageInformation,
+            formFields.additionalConsiderations.marriageInformation,
             'Widowed',
           ),
         },
-        [newFormPages.newAdditionalConsiderations.newRemarriageDate]: {
+        [formPages.additionalConsiderations.remarriageDate]: {
           ...AdditionalConsiderationTemplate(
             'Remarriage date',
-            'new/additional/consideration/remarriage/date',
-            newFormFields.newAdditionalConsiderations.newRemarriageDate,
+            'additional/consideration/remarriage/date',
+            formFields.additionalConsiderations.remarriageDate,
             {
               ...currentOrPastDateUI('When did you get remarried?'),
             },
             {
               ...date,
             },
-            newFormFields.newAdditionalConsiderations.newRemarriage,
+            formFields.additionalConsiderations.remarriage,
             true,
             [
-              newFormFields.newAdditionalConsiderations.newMarriageInformation,
+              formFields.additionalConsiderations.marriageInformation,
               'Married',
             ],
           ),
         },
       },
     },
-    newHighSchool: {
+    highSchool: {
       title: 'Sponsor information',
       pages: {
-        [newFormPages.newVerifyHighSchool]: {
+        [formPages.verifyHighSchool]: {
           title: 'Verify your high school education',
-          path: 'new/child/high-school-education',
+          path: 'child/high-school-education',
           depends: formData => applicantIsChildOfSponsor(formData),
           uiSchema: {
             'view:subHeadings': {
@@ -750,7 +747,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newHighSchoolDiploma]: {
+            [formFields.highSchoolDiploma]: {
               'ui:title':
                 'Did you earn a high school diploma or equivalency certificate?',
               'ui:widget': 'radio',
@@ -758,25 +755,25 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [newFormFields.newHighSchoolDiploma],
+            required: [formFields.highSchoolDiploma],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newHighSchoolDiploma]: {
+              [formFields.highSchoolDiploma]: {
                 type: 'string',
                 enum: ['Yes', 'No'],
               },
             },
           },
         },
-        [newFormPages.newSponsorHighSchool]: {
+        [formPages.sponsorHighSchool]: {
           title: 'Verify your high school graduation date',
-          path: 'new/sponsor/high-school-education',
+          path: 'sponsor/high-school-education',
           depends: formData =>
             applicantIsChildOfSponsor(formData) &&
-            formData[newFormFields.newHighSchoolDiploma] === 'Yes',
+            formData[formFields.highSchoolDiploma] === 'Yes',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -797,7 +794,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newHighSchoolDiplomaDate]: {
+            [formFields.highSchoolDiplomaDate]: {
               ...currentOrPastDateUI(
                 'When did you earn your high school diploma or equivalency certificate?',
               ),
@@ -805,13 +802,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [newFormFields.newHighSchoolDiplomaDate],
+            required: [formFields.highSchoolDiplomaDate],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newHighSchoolDiplomaDate]: date,
+              [formFields.highSchoolDiplomaDate]: date,
             },
           },
         },
@@ -819,12 +816,12 @@ const formConfig = {
     },
     // Mariage chapter
     // Outstanding felony chapter
-    newContactInformationChapter: {
+    contactInformationChapter: {
       title: 'Contact information',
       pages: {
-        [newFormPages.newContactInformation.newContactInformation]: {
+        [formPages.contactInformation.contactInformation]: {
           title: 'Phone numbers and email address',
-          path: 'new/contact-information/email-phone',
+          path: 'contact-information/email-phone',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -856,7 +853,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newViewPhoneNumbers]: {
+            [formFields.viewPhoneNumbers]: {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 fry-dea-review-page-only">
@@ -868,21 +865,21 @@ const formConfig = {
                   </p>
                 </>
               ),
-              [newFormFields.newMobilePhoneNumber]: phoneUISchema('mobile'),
-              [newFormFields.newPhoneNumber]: phoneUISchema('home'),
+              [formFields.mobilePhoneNumber]: phoneUISchema('mobile'),
+              [formFields.phoneNumber]: phoneUISchema('home'),
             },
-            [newFormFields.newEmail]: {
+            [formFields.email]: {
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
                 viewComponent: EmailViewField,
               },
-              [newFormFields.newEmail]: {
+              [formFields.email]: {
                 ...emailUI('Email address'),
                 'ui:validations': [validateEmail],
                 'ui:reviewField': EmailReviewField,
               },
-              [newFormFields.newConfirmEmail]: {
+              [formFields.confirmEmail]: {
                 ...emailUI('Confirm email address'),
                 'ui:options': {
                   ...emailUI()['ui:options'],
@@ -892,10 +889,9 @@ const formConfig = {
               'ui:validations': [
                 (errors, field) => {
                   if (
-                    field[newFormFields.newEmail] !==
-                    field[newFormFields.newConfirmEmail]
+                    field[formFields.email] !== field[formFields.confirmEmail]
                   ) {
-                    errors[newFormFields.newConfirmEmail].addError(
+                    errors[formFields.confirmEmail].addError(
                       'Sorry, your emails must match',
                     );
                   }
@@ -910,30 +906,27 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newViewPhoneNumbers]: {
+              [formFields.viewPhoneNumbers]: {
                 type: 'object',
                 properties: {
-                  [newFormFields.newMobilePhoneNumber]: phoneSchema(),
-                  [newFormFields.newPhoneNumber]: phoneSchema(),
+                  [formFields.mobilePhoneNumber]: phoneSchema(),
+                  [formFields.phoneNumber]: phoneSchema(),
                 },
               },
-              [newFormFields.newEmail]: {
+              [formFields.email]: {
                 type: 'object',
-                required: [
-                  newFormFields.newEmail,
-                  newFormFields.newConfirmEmail,
-                ],
+                required: [formFields.email, formFields.confirmEmail],
                 properties: {
-                  [newFormFields.newEmail]: email,
-                  [newFormFields.newConfirmEmail]: email,
+                  [formFields.email]: email,
+                  [formFields.confirmEmail]: email,
                 },
               },
             },
           },
         },
-        [newFormPages.newContactInformation.newMailingAddress]: {
+        [formPages.contactInformation.mailingAddress]: {
           title: 'Mailing address',
-          path: 'new/contact-information/mailing-address',
+          path: 'contact-information/mailing-address',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -994,7 +987,7 @@ const formConfig = {
                   </va-additional-info>
                 ),
               },
-              [newFormFields.newAddress]: {
+              [formFields.address]: {
                 ...address.uiSchema(''),
                 street: {
                   'ui:title': 'Street address',
@@ -1061,7 +1054,7 @@ const formConfig = {
                     type: 'object',
                     properties: {},
                   },
-                  [newFormFields.newAddress]: {
+                  [formFields.address]: {
                     ...address.schema(fullSchema5490, true),
                   },
                 },
@@ -1069,9 +1062,9 @@ const formConfig = {
             },
           },
         },
-        [newFormPages.newContactInformation.newPreferredContactMethod]: {
+        [formPages.contactInformation.preferredContactMethod]: {
           title: 'Contact preferences',
-          path: 'new/contact-information/contact-preferences',
+          path: 'contact-information/contact-preferences',
           uiSchema: {
             'view:contactMethodIntro': {
               'ui:description': (
@@ -1082,7 +1075,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newContactMethod]: {
+            [formFields.contactMethod]: {
               'ui:title':
                 'How should we contact you if we have questions about your application?',
               'ui:widget': 'radio',
@@ -1093,13 +1086,12 @@ const formConfig = {
                 updateSchema: (() => {
                   const filterContactMethods = createSelector(
                     form =>
-                      form[newFormFields.newViewPhoneNumbers][
-                        newFormFields.newMobilePhoneNumber
+                      form[formFields.viewPhoneNumbers][
+                        formFields.mobilePhoneNumber
                       ]?.phone,
                     form =>
-                      form[newFormFields.newViewPhoneNumbers][
-                        newFormFields.newPhoneNumber
-                      ]?.phone,
+                      form[formFields.viewPhoneNumbers][formFields.phoneNumber]
+                        ?.phone,
                     (mobilePhoneNumber, homePhoneNumber) => {
                       const invalidContactMethods = [];
                       if (!mobilePhoneNumber) {
@@ -1151,19 +1143,19 @@ const formConfig = {
                   </div>
                 </>
               ),
-              [newFormFields.newReceiveTextMessages]: {
+              [formFields.receiveTextMessages]: {
                 'ui:title':
                   'Would you like to receive text message notifications on your education benefits?',
                 'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {
                     const isYes = field.slice(0, 4).includes('Yes');
-                    const phoneExists = !!formData[
-                      newFormFields.newViewPhoneNumbers
-                    ][newFormFields.newMobilePhoneNumber].phone;
+                    const phoneExists = !!formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
+                    ].phone;
                     const isInternational =
-                      formData[newFormFields.newViewPhoneNumbers][
-                        newFormFields.newMobilePhoneNumberInternational
+                      formData[formFields.viewPhoneNumbers][
+                        formFields.mobilePhoneNumberInternational
                       ];
 
                     if (isYes) {
@@ -1203,12 +1195,12 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   isValidPhone(
-                    formData[newFormFields.newViewPhoneNumbers][
-                      newFormFields.newMobilePhoneNumber
+                    formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
                     ].phone,
                   ) ||
-                  formData[newFormFields.newViewPhoneNumbers][
-                    newFormFields.newMobilePhoneNumberInternational
+                  formData[formFields.viewPhoneNumbers][
+                    formFields.mobilePhoneNumberInternational
                   ],
               },
             },
@@ -1226,12 +1218,12 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   !isValidPhone(
-                    formData[newFormFields.newViewPhoneNumbers][
-                      newFormFields.newMobilePhoneNumber
+                    formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
                     ].phone,
                   ) ||
-                  !formData[newFormFields.newViewPhoneNumbers][
-                    newFormFields.newMobilePhoneNumberInternational
+                  !formData[formFields.viewPhoneNumbers][
+                    formFields.mobilePhoneNumberInternational
                   ],
               },
             },
@@ -1243,15 +1235,15 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newContactMethod]: {
+              [formFields.contactMethod]: {
                 type: 'string',
                 enum: contactMethods,
               },
               'view:receiveTextMessages': {
                 type: 'object',
-                required: [newFormFields.newReceiveTextMessages],
+                required: [formFields.receiveTextMessages],
                 properties: {
-                  [newFormFields.newReceiveTextMessages]: {
+                  [formFields.receiveTextMessages]: {
                     type: 'string',
                     enum: [
                       'Yes, send me text message notifications',
@@ -1269,7 +1261,7 @@ const formConfig = {
                 properties: {},
               },
             },
-            required: [newFormFields.newContactMethod],
+            required: [formFields.contactMethod],
           },
         },
       },
@@ -1277,8 +1269,8 @@ const formConfig = {
     bankAccountInfoChapter: {
       title: 'Direct deposit',
       pages: {
-        [newFormPages.newDirectDeposit]: {
-          path: 'new/direct-deposit',
+        [formPages.directDeposit]: {
+          path: 'direct-deposit',
           uiSchema: {
             'ui:description': (
               <p className="vads-u-margin-bottom--4">
@@ -1286,7 +1278,7 @@ const formConfig = {
                 deposit, also called electronic funds transfer (EFT).
               </p>
             ),
-            [newFormFields.newBankAccount]: {
+            [formFields.bankAccount]: {
               ...bankAccountUI,
               'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
               accountType: {
@@ -1327,7 +1319,7 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              [newFormFields.newBankAccount]: {
+              [formFields.bankAccount]: {
                 type: 'object',
                 required: ['accountType', 'routingNumber', 'accountNumber'],
                 properties: {

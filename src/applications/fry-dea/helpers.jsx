@@ -1,4 +1,4 @@
-import { newFormFields, RELATIONSHIP } from './constants';
+import { formFields, RELATIONSHIP } from './constants';
 
 export function isAlphaNumeric(str) {
   const alphaNumericRegEx = new RegExp(/^[a-z0-9]+$/i);
@@ -62,7 +62,7 @@ export const formatReadableDate = rawDate => {
 };
 
 export const applicantIsChildOfSponsor = formData => {
-  const numSelectedSponsors = formData[newFormFields.selectedSponsors]?.length;
+  const numSelectedSponsors = formData[formFields.selectedSponsors]?.length;
 
   if (
     !numSelectedSponsors ||
@@ -72,8 +72,7 @@ export const applicantIsChildOfSponsor = formData => {
     //   formData.firstSponsor === SPONSOR_NOT_LISTED_VALUE)
   ) {
     return (
-      formData[newFormFields.newRelationshipToServiceMember] ===
-      RELATIONSHIP.CHILD
+      formData[formFields.relationshipToServiceMember] === RELATIONSHIP.CHILD
     );
   }
 
