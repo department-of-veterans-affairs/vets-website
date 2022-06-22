@@ -30,6 +30,7 @@ export const newFormPages = {
     },
     newRemarriage: 'newRemarriage',
     newRemarriageDate: 'newRemarriageDate',
+    newOutstandingFelony: 'newOutstandingFelony',
   },
 };
 
@@ -79,5 +80,6 @@ export const newFormFields = {
     newMarriageInformation: 'newMarriageInformation',
     newRemarriage: 'newRemarriage',
     newRemarriageDate: 'newRemarriageDate',
+    newOutstandingFelony: 'newOutstandingFelony',
   },
 };

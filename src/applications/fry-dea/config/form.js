@@ -63,7 +63,7 @@ function AdditionalConsiderationTemplate(
   UI,
   SCHEMA,
   dependA,
-  dependB,
+  dependB = false,
   condition2 = false,
 ) {
   return {
@@ -89,6 +89,10 @@ function AdditionalConsiderationTemplate(
       },
     },
     depends: formData => {
+      if (!dependB) {
+        return true;
+      }
+
       if (!condition2) {
         return formData[dependA] === dependB;
       }
@@ -719,6 +723,22 @@ const formConfig = {
               newFormFields.newAdditionalConsiderations.newMarriageInformation,
               'Married',
             ],
+          ),
+        },
+        [newFormPages.newAdditionalConsiderations.outstandingFelony]: {
+          ...AdditionalConsiderationTemplate(
+            'Outstanding felony',
+            'new/additional/consideration/felony/status',
+            newFormFields.newAdditionalConsiderations.newOutstandingFelony,
+            {
+              'ui:title':
+                'Do you or your chosen Veteran or service member have an outstanding felony or warrant?',
+              'ui:widget': 'yesNo',
+            },
+            {
+              type: 'boolean',
+            },
+            newFormFields.newAdditionalConsiderations.newMarriageInformation,
           ),
         },
       },
