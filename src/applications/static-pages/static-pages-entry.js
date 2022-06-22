@@ -10,7 +10,7 @@ import createCommonStore from 'platform/startup/store';
 import showVaAlertExpandable from 'platform/site-wide/alerts/showVaAlertExpandable';
 import alertsBuildShow from './widget-creators/alerts-dismiss-view';
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
-import icsCreate from './widget-creators/ics-generator';
+import { icsCreate } from './widget-creators/ics-generator';
 import openShareLink from './widget-creators/social-share-links';
 import subscribeAccordionEvents from './subscription-creators/subscribeAccordionEvents';
 import subscribeAdditionalInfoEvents from './subscription-creators/subscribeAdditionalInfoEvents';
@@ -104,7 +104,9 @@ Sentry.withScope(scope => {
 subscribeAdditionalInfoEvents();
 subscribeAccordionEvents();
 alertsBuildShow();
-icsCreate();
+// See `content-build/src/site/includes/social-share.drupal.liquid
+// & `content-build/src/site/layouts/event.drupal.liquid`, respectively (per selector)
+icsCreate('#add-to-calendar-link, .recurring-event');
 openShareLink();
 showVaAlertExpandable(store);
 
