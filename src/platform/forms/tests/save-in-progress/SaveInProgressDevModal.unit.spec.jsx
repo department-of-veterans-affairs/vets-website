@@ -225,4 +225,11 @@ describe('Schemaform <SipsDevModal>', () => {
     expect(dom.querySelector('.va-button-link')).to.be.null;
     expect(dom.querySelector('va-modal')).to.be.null;
   });
+  it('should not show link, or modal, with an undefined pageList', () => {
+    setLoc();
+    const dom = document.createElement('div');
+    ReactDOM.render(<SipsDevModal {...props} pageList={undefined} />, dom);
+    expect(dom.querySelector('.va-button-link')).to.be.null;
+    expect(dom.querySelector('va-modal')).to.be.null;
+  });
 });

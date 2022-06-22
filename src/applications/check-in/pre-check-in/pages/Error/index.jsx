@@ -86,7 +86,7 @@ const Error = () => {
         return [
           t('sorry-pre-check-in-is-no-longer-available'),
           apptType === 'phone'
-            ? t('your-provider-will-call-you')
+            ? `${t('your-provider-will-call-you')} ${t('you-may-need-to-wait')}`
             : t('you-can-still-check-in-once-you-arrive'),
           accordions,
         ];
