@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/browser';
 import 'url-search-params-polyfill';
 import environment from 'platform/utilities/environment';
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
+import { getInfoToken, infoTokenExists } from 'platform/utilities/oauth';
 import { externalApplicationsConfig } from './usip-config';
 import {
   AUTH_EVENTS,
@@ -336,4 +337,16 @@ export const signupUrl = type => {
 
 export const logoutUrl = () => {
   return sessionTypeUrl({ type: POLICY_TYPES.SLO, version: API_VERSION });
+};
+
+export const checkOrSetSessionExpiration = response => {
+  const samlSessionExpiration = response.headers.get('X-Session-Expiration');
+  const { refresh_token_expiration: RTExpiration } = getInfoToken();
+
+  if (infoTokenExists() || samlSessionExpiration) {
+    localStorage.setItem(
+      'sessionExpiration',
+      RTExpiration ?? samlSessionExpiration,
+    );
+  }
 };

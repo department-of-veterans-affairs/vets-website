@@ -144,10 +144,26 @@ export const getInfoToken = () => {
     .split(';')
     .map(cookie => cookie.split('='))
     .reduce((_, [cookieKey, cookieValue]) => ({
+      ..._,
       ...(cookieKey.includes(INFO_TOKEN) && {
         ...formatInfoCookie(decodeURIComponent(cookieValue)),
       }),
     }));
+};
+
+export const removeInfoToken = () => {
+  if (!infoTokenExists()) return null;
+
+  document.cookie = document.cookie
+    .split(';')
+    .reduce((cookieString, cookie) => {
+      let tempCookieString = cookieString;
+      if (!cookie.includes(INFO_TOKEN)) {
+        tempCookieString += cookie;
+      }
+      return tempCookieString;
+    }, '');
+  return undefined;
 };
 
 export const refresh = async csp => {

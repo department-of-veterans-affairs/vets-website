@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/browser';
 
+import { checkOrSetSessionExpiration } from 'platform/user/authentication/utilities';
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
 import { checkAndUpdateSSOeSession } from '../sso';
@@ -15,13 +16,13 @@ export function fetchAndUpdateSessionExpiration(...args) {
         response.url.includes(apiURL) &&
         (response.ok || response.status === 304)
       ) {
-        // Get session expiration from header
-        const sessionExpiration = response.headers.get('X-Session-Expiration');
-        if (sessionExpiration) {
-          localStorage.setItem('sessionExpiration', sessionExpiration);
+        // Get session expiration from header (SAML) or cookie (OAuth)
+        checkOrSetSessionExpiration(response);
+
+        if (!infoTokenExists()) {
+          // SSOe session is independent of vets-api, and must be kept alive for cross-session continuity
+          checkAndUpdateSSOeSession();
         }
-        // SSOe session is independent of vets-api, and must be kept alive for cross-session continuity
-        checkAndUpdateSSOeSession();
       }
       return response;
     });
@@ -105,21 +106,19 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         return data;
       }
 
-      if (environment.isProduction()) {
+      if (environment.isStaging() || environment.isProduction()) {
         const { pathname } = window.location;
+        const is401WithGoodPath =
+          response.status === 401 && !pathname.includes('auth/login/callback');
 
-        const shouldRefreshOAuth =
-          response.status === 401 &&
-          !pathname.includes('auth/login/callback') &&
-          infoTokenExists();
+        const shouldRefreshOAuth = is401WithGoodPath && infoTokenExists();
 
         if (shouldRefreshOAuth) {
           refresh();
         }
 
         const shouldRedirectToSAMLSessionExpired =
-          response.status === 401 &&
-          !pathname.includes('auth/login/callback') &&
+          is401WithGoodPath &&
           !infoTokenExists() &&
           sessionStorage.getItem('shouldRedirectExpiredSession') === 'true';
 
