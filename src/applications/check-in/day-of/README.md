@@ -53,7 +53,6 @@ This is a multi-team project and questions are highly encouraged. There are seve
 ``` markdown
 /health-care/appointment-check-in/?id=xxxxxx
 /health-care/appointment-check-in/verify
-/health-care/appointment-check-in/update-information
 /health-care/appointment-check-in/contact-information
 /health-care/appointment-check-in/details
 /health-care/appointment-check-in/see-staff
