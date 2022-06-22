@@ -9,6 +9,8 @@ import { PROFILE_PATHS } from '@@profile/constants';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import { selectVAPContactInfoField } from '@@vap-svc/selectors';
 
+import { focusElement } from '~/platform/utilities/ui';
+
 const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
   const fieldData = useSelector(state => {
     return selectVAPContactInfoField(state, fieldName);
@@ -24,8 +26,9 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
       const editButton = document
         .querySelector(`[data-field-name=${fieldName}]`)
         .querySelector("[data-action='edit']");
-      window.thing = editButton;
-      // console.log({ editButton });
+      if (editButton) {
+        focusElement(editButton);
+      }
     },
 
     [id, useLink],
