@@ -6,10 +6,16 @@ import localStorage from '../storage/localStorage';
 import { checkAndUpdateSSOeSession } from '../sso';
 import { infoTokenExists, refresh } from '../oauth';
 
-export function fetchAndUpdateSessionExpiration(...args) {
+export function fetchAndUpdateSessionExpiration({
+  fetchOptions,
+  shouldRefresh = false,
+} = {}) {
   // Only replace with custom fetch if not stubbed for unit testing
   if (!fetch.isSinonProxy) {
-    return fetch.apply(this, args).then(response => {
+    if (shouldRefresh) {
+      refresh(checkOrSetSessionExpiration);
+    }
+    return fetch.apply(this, Object.values(fetchOptions)).then(response => {
       const apiURL = environment.API_URL;
 
       if (
@@ -28,7 +34,7 @@ export function fetchAndUpdateSessionExpiration(...args) {
     });
   }
 
-  return fetch(...args);
+  return fetch(...fetchOptions);
 }
 
 function isJson(response) {
@@ -49,9 +55,9 @@ function isJson(response) {
  * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
  */
 export function apiRequest(resource, optionalSettings = {}, success, error) {
-  const apiVersion = (optionalSettings && optionalSettings.apiVersion) || 'v0';
+  const { apiVersion = 'v0', shouldRefresh } = optionalSettings;
   const baseUrl = `${environment.API_URL}/${apiVersion}`;
-  const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
+  const url = resource[0] === '/' ? `${baseUrl}${resource}` : resource;
   const csrfTokenStored = localStorage.getItem('csrfToken');
 
   if (success) {
@@ -80,7 +86,10 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     },
   };
 
-  return fetchAndUpdateSessionExpiration(url, settings)
+  return fetchAndUpdateSessionExpiration({
+    fetchOptions: { url, settings },
+    shouldRefresh,
+  })
     .catch(err => {
       Sentry.withScope(scope => {
         scope.setExtra('error', err);
@@ -111,11 +120,11 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         const is401WithGoodPath =
           response.status === 401 && !pathname.includes('auth/login/callback');
 
-        const shouldRefreshOAuth = is401WithGoodPath && infoTokenExists();
+        // const shouldRefreshOAuth = is401WithGoodPath && infoTokenExists();
 
-        if (shouldRefreshOAuth) {
-          refresh();
-        }
+        // if (shouldRefreshOAuth) {
+        //   refresh();
+        // }
 
         const shouldRedirectToSAMLSessionExpired =
           is401WithGoodPath &&

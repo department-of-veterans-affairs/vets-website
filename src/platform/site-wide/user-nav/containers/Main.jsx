@@ -163,6 +163,10 @@ export class Main extends Component {
     });
   };
 
+  onExtendSession = () => {
+    this.props.initializeProfile(true);
+  };
+
   unbindNavbarLinks = () => {
     [...document.querySelectorAll('.login-required')].forEach(el => {
       el.removeEventListener('click');
@@ -251,7 +255,7 @@ export class Main extends Component {
         />
         <SessionTimeoutModal
           isLoggedIn={this.props.currentlyLoggedIn}
-          onExtendSession={this.props.initializeProfile}
+          onExtendSession={this.onExtendSession}
         />
         <AutoSSO />
       </div>
