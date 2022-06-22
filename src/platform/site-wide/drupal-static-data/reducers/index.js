@@ -12,7 +12,7 @@ export default function drupalStaticData(state = initialState, action) {
         ...state,
         [action.payload.statePropName]: {
           loading: true,
-          data: {},
+          data: action?.payload?.data || {},
         },
       };
     case FETCH_STATIC_DATA_SUCCEEDED:

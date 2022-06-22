@@ -38,7 +38,7 @@ const PreCheckinConfirmation = props => {
             href="https://va.gov/health-care/schedule-view-va-appointments/appointments/"
             hrefLang="en"
           >
-            {t('go-to-your-appointment-details')}
+            {t('sign-in-to-manage')}
           </ExternalLink>
         </p>
         <va-alert
