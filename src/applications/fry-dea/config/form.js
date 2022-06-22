@@ -56,6 +56,49 @@ const checkImageSrc = environment.isStaging()
   ? `${VAGOVSTAGING}/img/check-sample.png`
   : `${vagovprod}/img/check-sample.png`;
 
+function AdditionalConsiderationTemplate(
+  title,
+  path,
+  formField,
+  UI,
+  SCHEMA,
+  dependA,
+  dependB,
+  condition2 = false,
+) {
+  return {
+    title,
+    path,
+    uiSchema: {
+      'view:subHeadings': {
+        'ui:description': <h3>{title}</h3>,
+      },
+      [formField]: {
+        ...UI,
+      },
+    },
+    schema: {
+      type: 'object',
+      required: [formField],
+      properties: {
+        'view:subHeadings': {
+          type: 'object',
+          properties: {},
+        },
+        [formField]: { ...SCHEMA },
+      },
+    },
+    depends: formData => {
+      if (!condition2) {
+        return formData[dependA] === dependB;
+      }
+
+      const [x, y] = condition2;
+      return formData[dependA] === dependB && formData[x] !== y;
+    },
+  };
+}
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -395,135 +438,288 @@ const formConfig = {
           path: 'new/benefit-selection',
           // depends: formData => formData.showUpdatedFryDeaApp,
           uiSchema: {
-            // 'view:noSponsorWarning': {
-            //   'ui:description': (
-            //     <va-alert
-            //       close-btn-aria-label="Close notification"
-            //       status="warning"
-            //       visible
-            //     >
-            //       <h3 slot="headline">
-            //         We do not have any sponsor information on file
-            //       </h3>
-            //       <p>
-            //         If you think this is incorrect, reach out to your sponsor so
-            //         they can{' '}
-            //         <a href="https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1">
-            //           update this information on the DoD milConnect website
-            //         </a>
-            //         .
-            //       </p>
-            //       <p>
-            //         You may still continue this application and enter your
-            //         sponsor information manually.
-            //       </p>
-            //     </va-alert>
-            //   ),
-            //   'ui:options': {
-            //     hideIf: formData => formData.sponsors?.sponsors?.length,
-            //   },
-            // },
-            // 'view:sponsorNotOnFileWarning': {
-            //   'ui:description': (
-            //     <va-alert
-            //       close-btn-aria-label="Close notification"
-            //       status="warning"
-            //       visible
-            //     >
-            //       <h3 slot="headline">
-            //         One of your selected sponsors is not on file
-            //       </h3>
-            //       <p>
-            //         If you think this is incorrect, reach out to your sponsor so
-            //         they can{' '}
-            //         <a href="https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1">
-            //           update this information on the DoD milConnect website
-            //         </a>
-            //         .
-            //       </p>
-            //       <p>
-            //         You may still continue this application and enter your
-            //         sponsor information manually.
-            //       </p>
-            //     </va-alert>
-            //   ),
-            //   'ui:options': {
-            //     hideIf: formData => !formData.sponsors?.sponsors?.length,
-            //   },
-            // },
-            // [newFormFields.newRelationshipToServiceMember]: {
-            //   'ui:title':
-            //     'What’s your relationship to the service member whose benefit has been transferred to you?',
-            //   'ui:widget': 'radio',
-            // },
-            // [newFormFields.newSponsorFullName]: {
-            //   ...fullNameUI,
-            //   first: {
-            //     ...fullNameUI.first,
-            //     'ui:title': 'Your sponsor’s first name',
-            //     'ui:validations': [
-            //       (errors, field) =>
-            //         addWhitespaceOnlyError(
-            //           field,
-            //           errors,
-            //           'Please enter a first name',
-            //         ),
-            //     ],
-            //   },
-            //   last: {
-            //     ...fullNameUI.last,
-            //     'ui:title': 'Your sponsor’s last name',
-            //     'ui:validations': [
-            //       (errors, field) =>
-            //         addWhitespaceOnlyError(
-            //           field,
-            //           errors,
-            //           'Please enter a last name',
-            //         ),
-            //     ],
-            //   },
-            //   middle: {
-            //     ...fullNameUI.middle,
-            //     'ui:title': 'Your sponsor’s middle name',
-            //   },
-            // },
-            // [newFormFields.newSponsorDateOfBirth]: {
-            //   ...currentOrPastDateUI('Your sponsor’s date of birth'),
-            // },
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Choose the benefit you’d like to apply for</h3>
+                  <p>
+                    <strong>Note:</strong> If you are eligible for both the Fry
+                    scholarship and Survivors' and Dependents Educational
+                    Assistance Benefits, you’ll need to choose which one to use.
+                    Once you make this choice, you can’t switch to the other
+                    program.
+                  </p>
+                </>
+              ),
+            },
+            'view:fryMessageAlert': {
+              'ui:description': (
+                <va-alert
+                  close-btn-aria-label="Close notification"
+                  disable-analytics="false"
+                  full-width="false"
+                  status="continue"
+                  visible="true"
+                  background-only
+                >
+                  <p className="vads-u-margin-y--1px">Chapter 33</p>
+                  <h3 className="vads-u-margin-y--1px">Fry Scholarship</h3>
+                  <p>
+                    <i className="fas fa-check-circle" aria-hidden="true" /> You
+                    may be eligible for this benefit
+                  </p>
+                  <h4>Receive up to 36 months of benefits, including</h4>
+                  <p>
+                    <i className="fas fa-school" aria-hidden="true" /> Tuition
+                    &amp; fees
+                  </p>
+                  <p>
+                    <i className="fas fa-home" aria-hidden="true" /> Money for
+                    housing
+                  </p>
+                  <p>
+                    <i className="fas fa-book" aria-hidden="true" /> Money for
+                    books &amp; supplies
+                  </p>
+                  <a href="https://va.gov/">
+                    Learn more about the Fry Scholarship education benefit
+                  </a>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => formData.sponsors?.sponsors?.length,
+              },
+            },
+            'view:deaMessageAlert': {
+              'ui:description': (
+                <va-alert
+                  close-btn-aria-label="Close notification"
+                  disable-analytics="false"
+                  full-width="false"
+                  status="continue"
+                  visible="true"
+                  background-only
+                >
+                  <p className="vads-u-margin-y--1px">DEA, Chapter 35</p>
+                  <h3 className="vads-u-margin-y--1px">
+                    Survivors' and Dependents Educational Assistance
+                  </h3>
+                  <p>
+                    <i className="fas fa-check-circle" aria-hidden="true" /> You
+                    may be eligible for this benefit
+                  </p>
+                  <h4>Receive up to 45 months of benefits, including</h4>
+                  <p>
+                    <i className="fas fa-money-check-alt" aria-hidden="true" />{' '}
+                    Monthly stipened
+                  </p>
+                  <a href="va.gov">
+                    Learn more about the DEA education benefit
+                  </a>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => formData.sponsors?.sponsors?.length,
+              },
+            },
+            'view:benefitSelectionExplainer': {
+              'ui:description': (
+                <va-additional-info
+                  status="info"
+                  trigger="Which benefit should I choose?"
+                >
+                  <p>
+                    For each benefit, you should consider the amount you can
+                    receive, how payments are made, and when they expire.
+                  </p>
+                </va-additional-info>
+              ),
+            },
+            [newFormFields.benefitSelection]: {
+              'ui:title': (
+                <>
+                  <span className="fry-dea-labels_label--main vads-u-padding-left--1">
+                    Which education benefit would you like to apply for?
+                  </span>
+                  <span className="fry-dea-labels_label--secondary fry-dea-input-message vads-u-background-color--primary-alt-lightest vads-u-padding--1 vads-u-margin-top--1">
+                    <i
+                      className="fas fa-info-circle vads-u-margin-right--1"
+                      aria-hidden="true"
+                    />{' '}
+                    <span className="sr-only">information</span> If you’re the
+                    child of a veteran or service member who died in the line of
+                    duty before August 1, 2011 you can use both Fry Scholarship
+                    and DEA and get up to 81 months of benefits. You’ll need to
+                    apply separately and use one program at a time.
+                  </span>
+                </>
+              ),
+              'ui:errorMessages': {
+                required: 'Please select an education benefit',
+              },
+              'ui:widget': 'radio',
+              'ui:options': {
+                labels: {
+                  fry: 'Fry Scholarship (Chapter 33)',
+                  dea:
+                    "Survivors' and Dependents Educational Assistance (DEA, Chapter 35)",
+                },
+                widgetProps: {
+                  fry: { 'data-info': 'fry' },
+                  dea: { 'data-info': 'dea' },
+                },
+                // Only added to the radio when it is selected
+                // a11y requirement: aria-describedby ID's *must* exist on the page; and we
+                // conditionally add content based on the selection
+                selectedProps: {
+                  fry: { 'aria-describedby': 'fry' },
+                  dea: { 'aria-describedby': 'dea' },
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
-            required: [
-              // newFormFields.newRelationshipToServiceMember,
-              // newFormFields.newSponsorDateOfBirth,
-            ],
+            required: [newFormFields.benefitSelection],
             properties: {
-              // 'view:noSponsorWarning': {
-              //   type: 'object',
-              //   properties: {},
-              // },
-              // 'view:sponsorNotOnFileWarning': {
-              //   type: 'object',
-              //   properties: {},
-              // },
-              // [newFormFields.newRelationshipToServiceMember]: {
-              //   type: 'string',
-              //   enum: [SPONSOR_RELATIONSHIP.SPOUSE, SPONSOR_RELATIONSHIP.CHILD],
-              // },
-              // [newFormFields.newSponsorFullName]: {
-              //   ...fullName,
-              //   required: ['first', 'last'],
-              //   properties: {
-              //     ...fullName.properties,
-              //     middle: {
-              //       ...fullName.properties.middle,
-              //       maxLength: 30,
-              //     },
-              //   },
-              // },
-              // [newFormFields.newSponsorDateOfBirth]: date,
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
+              'view:fryMessageAlert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:deaMessageAlert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:benefitSelectionExplainer': {
+                type: 'object',
+                properties: {},
+              },
+              [newFormFields.benefitSelection]: {
+                type: 'string',
+                enum: [
+                  'Fry Scholarship (Chapter 33)',
+                  "Survivors' and Dependents Educational Assistance (DEA, Chapter 35)",
+                ],
+              },
             },
           },
+        },
+      },
+    },
+    newAdditionalConsideration: {
+      title: 'Additional considerations',
+      pages: {
+        [newFormPages.newAdditionalConsiderations.newMarriageDate]: {
+          ...AdditionalConsiderationTemplate(
+            'Marriage date',
+            'new/additional/consideration/marriage/date',
+            newFormFields.newAdditionalConsiderations.newMarriageDate,
+            {
+              ...currentOrPastDateUI(
+                'When did you get married to your chosen Veteran or service member?',
+              ),
+            },
+            { ...date },
+            newFormFields.newRelationshipToServiceMember,
+            RELATIONSHIP.SPOUSE,
+          ),
+        },
+        [newFormPages.newAdditionalConsiderations.newMarriageInformation]: {
+          ...AdditionalConsiderationTemplate(
+            'Marriage information',
+            'new/additional/consideration/marriage/information',
+            newFormFields.newAdditionalConsiderations.newMarriageInformation,
+            {
+              'ui:title':
+                'What’s the status of your marriage with your chosen Veteran or service member?',
+              'ui:widget': 'radio',
+            },
+            {
+              type: 'string',
+              enum: [
+                'Married',
+                'Divorced (or a divorce is in progress)',
+                'Marriage was annulled (or annulment is in progress)',
+                'Widowed',
+              ],
+            },
+            newFormFields.newRelationshipToServiceMember,
+            RELATIONSHIP.SPOUSE,
+          ),
+        },
+        [newFormPages.newAdditionalConsiderations.newMarriageInformation
+          .divorced]: {
+          ...AdditionalConsiderationTemplate(
+            'Remarriage',
+            'new/additional/consideration/remarriage/information/divorced',
+            newFormFields.newAdditionalConsiderations.newRemarriage,
+            {
+              'ui:title': 'Have you been remarried?',
+              'ui:widget': 'yesNo',
+            },
+            {
+              type: 'boolean',
+            },
+            newFormFields.newAdditionalConsiderations.newMarriageInformation,
+            'Divorced (or a divorce is in progress)',
+          ),
+        },
+        [newFormPages.newAdditionalConsiderations.newMarriageInformation
+          .annulled]: {
+          ...AdditionalConsiderationTemplate(
+            'Remarriage',
+            'new/additional/consideration/remarriage/information/annulment',
+            newFormFields.newAdditionalConsiderations.newRemarriage,
+            {
+              'ui:title': 'Have you been remarried since your annulment?',
+              'ui:widget': 'yesNo',
+            },
+            {
+              type: 'boolean',
+            },
+            newFormFields.newAdditionalConsiderations.newMarriageInformation,
+            'Marriage was annulled (or annulment is in progress)',
+          ),
+        },
+        [newFormPages.newAdditionalConsiderations.newMarriageInformation
+          .widowed]: {
+          ...AdditionalConsiderationTemplate(
+            'Remarriage',
+            'new/additional/consideration/remarriage/information/widowed',
+            newFormFields.newAdditionalConsiderations.newRemarriage,
+            {
+              'ui:title': 'Have you been remarried since being widowed?',
+              'ui:widget': 'yesNo',
+            },
+            {
+              type: 'boolean',
+            },
+            newFormFields.newAdditionalConsiderations.newMarriageInformation,
+            'Widowed',
+          ),
+        },
+        [newFormPages.newAdditionalConsiderations.newRemarriageDate]: {
+          ...AdditionalConsiderationTemplate(
+            'Remarriage date',
+            'new/additional/consideration/remarriage/date',
+            newFormFields.newAdditionalConsiderations.newRemarriageDate,
+            {
+              ...currentOrPastDateUI('When did you get remarried?'),
+            },
+            {
+              ...date,
+            },
+            newFormFields.newAdditionalConsiderations.newRemarriage,
+            true,
+            [
+              newFormFields.newAdditionalConsiderations.newMarriageInformation,
+              'Married',
+            ],
+          ),
         },
       },
     },

@@ -95,8 +95,9 @@ export async function checkAutoSession(
        * If user has an SSOe session & is verified, redirect them
        * to the specified return url
        */
-      window.location =
-        createExternalApplicationUrl() || window.location.origin;
+      window.location = encodeURI(
+        createExternalApplicationUrl() || window.location.origin,
+      );
     }
   } else if (
     !loggedIn &&
