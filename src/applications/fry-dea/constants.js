@@ -12,12 +12,15 @@ export const ELIGIBILITY = {
   CHAPTER_1606: 'Chapter1606',
 };
 
+export const VETERAN_NOT_LISTED_LABEL = 'Someone not listed here';
+export const VETERAN_NOT_LISTED_VALUE = 'SPONSOR_NOT_LISTED';
+
 export const VETERANS_TYPE = PropTypes.arrayOf(
   PropTypes.shape({
     dateOfBirth: PropTypes.string,
     deaEligibility: PropTypes.number,
     fryEligibility: PropTypes.number,
-    id: PropTypes.number,
+    id: PropTypes.string,
     name: PropTypes.string,
     relationship: PropTypes.string,
   }),
@@ -64,7 +67,7 @@ export const formFields = {
   dateOfBirth: 'dateOfBirth',
   email: 'email',
   federallySponsoredAcademy: 'federallySponsoredAcademy',
-  chosenVeteran: 'chosenVeteran',
+  selectedVeteran: 'selectedVeteran',
   fullName: 'fullName',
   hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
   highSchoolDiploma: 'highSchoolDiploma',

@@ -48,6 +48,7 @@ import { isValidPhone, validateEmail } from '../validation';
 import EmailReviewField from '../components/EmailReviewField';
 import YesNoReviewField from '../components/YesNoReviewField';
 import MailingAddressViewField from '../components/MailingAddressViewField';
+import VeteransRadioGroup from '../components/VeteransRadioGroup';
 
 const { date, fullName } = fullSchema5490.definitions;
 const { /* fullName, date, dateRange, usaPhone, */ email } = commonDefinitions;
@@ -227,6 +228,7 @@ const formConfig = {
         [formPages.chooseServiceMember]: {
           title: 'Veteran and service member information',
           path: 'choose-veteran-or-service-member',
+          depends: formData => formData.veterans?.length > 1,
           uiSchema: {
             'view:chooseServiceMemberSubHeadings': {
               'ui:description': (
@@ -242,10 +244,10 @@ const formConfig = {
                 </>
               ),
             },
-            [formFields.chosenVeteran]: {
+            [formFields.selectedVeteran]: {
               'ui:title':
                 'Which sponsor’s benefits would you like to use first?',
-              // 'ui:widget': FirstSponsorRadioGroup,
+              'ui:widget': VeteransRadioGroup,
               // 'ui:reviewWidget': FirstSponsorReviewField,
               'ui:errorMessages': {
                 required: 'Please select at least one sponsor',
@@ -274,13 +276,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [formFields.chosenVeteran],
+            required: [formFields.selectedVeteran],
             properties: {
               'view:chooseServiceMemberSubHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [formFields.chosenVeteran]: {
+              [formFields.selectedVeteran]: {
                 type: 'string',
               },
               'view:firstSponsorAdditionalInfo': {
