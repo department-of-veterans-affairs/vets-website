@@ -37,9 +37,9 @@ export const removeStateAndVerifier = () => {
 
 /**
  *
- * @param {String} csp
+ * @param {String} type
  */
-export async function createOAuthRequest(csp) {
+export async function createOAuthRequest(type = '') {
   const { state, codeVerifier } = saveStateAndVerifier();
   // Hash and base64-urlencode the secret to use as the challenge
   const codeChallenge = await pkceChallengeFromVerifier(codeVerifier);
@@ -57,7 +57,7 @@ export async function createOAuthRequest(csp) {
     [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: 'S256',
   };
 
-  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: `/${csp}` }));
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ type }));
 
   Object.keys(oAuthParams).forEach(param =>
     url.searchParams.append(param, oAuthParams[param]),
@@ -89,7 +89,7 @@ export function buildTokenRequest({
     [OAUTH_KEYS.CODE_VERIFIER]: codeVerifier,
   };
 
-  const url = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: '/token' }));
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'token' }));
 
   Object.keys(oAuthParams).forEach(param =>
     url.searchParams.append(param, oAuthParams[param]),

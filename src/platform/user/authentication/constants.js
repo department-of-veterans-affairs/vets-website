@@ -16,8 +16,10 @@ export const API_SESSION_URL = ({ version = API_VERSION, type = null }) =>
 export const API_SIGN_IN_SERVICE_URL = ({
   version = SIS_API_VERSION,
   type = '',
-  endpoint = '/authorize',
-}) => `${environment.API_URL}/${version}/sign_in${type}${endpoint}`;
+  endpoint = 'authorize',
+}) =>
+  `${environment.API_URL}/${version}/sign_in/${endpoint}${type &&
+    `?type=${type}`}`;
 
 export const AUTH_EVENTS = {
   MODAL_LOGIN: 'login-link-clicked-modal',
@@ -86,9 +88,12 @@ export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
 };
 
-export const GA_TRACKING_ID_KEY = 'trackingId';
-export const GA_CLIENT_ID_KEY = 'clientId';
-export const VAGOV_TRACKING_IDS = ['UA-50123418-16', 'UA-50123418-17'];
+export const GA = {
+  clientIdKey: 'clientId',
+  trackingIdKey: 'trackingId',
+  trackingIds: ['UA-50123418-16', 'UA-50123418-17'],
+  queryParamKey: 'ga_client_id',
+};
 
 export const POLICY_TYPES = {
   VERIFY: 'verify',
