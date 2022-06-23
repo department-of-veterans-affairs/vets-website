@@ -32,6 +32,7 @@ export const formFields = {
   additionalConsiderations: {
     marriageDate: 'marriageDate',
     marriageInformation: 'marriageInformation',
+    outstandingFelony: 'outstandingFelony',
     remarriage: 'remarriage',
     remarriageDate: 'remarriageDate',
   },

@@ -1038,6 +1038,13 @@ jobs:
           APP_DIRS: ${{ needs.unit-tests.outputs.app_folders }}
           BUILD_DIR: build/${{ matrix.buildtype }}
 
+      - name: Generate build details
+        run: |
+          cat > BUILD_ARTIFACT.txt << EOF
+          IS_SINGLE_APP_BUILD=${{ env.IS_SINGLE_APP_BUILD }}
+          REF=${{ github.sha }}
+          EOF
+
       - name: Compress and archive single/grouped app build
         if: env.IS_SINGLE_APP_BUILD == 'true'
         run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
@@ -1066,7 +1073,9 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Upload build
-        run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
+        run: |
+          aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
+          aws s3 cp BUILD_ARTIFACT.txt s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/BUILD_ARTIFACT.txt --acl public-read --region us-gov-west-1
 
   get-latest-run-number:
     name: Get Latest Workflow Run Number

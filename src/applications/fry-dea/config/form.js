@@ -33,6 +33,7 @@ import {
   applicantIsChildOfVeteran,
   addWhitespaceOnlyError,
   isAlphaNumeric,
+  AdditionalConsiderationTemplate,
 } from '../helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -61,49 +62,6 @@ const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
 const checkImageSrc = environment.isStaging()
   ? `${VAGOVSTAGING}/img/check-sample.png`
   : `${vagovprod}/img/check-sample.png`;
-
-function AdditionalConsiderationTemplate(
-  title,
-  path,
-  formField,
-  UI,
-  SCHEMA,
-  dependA,
-  dependB,
-  condition2 = false,
-) {
-  return {
-    title,
-    path,
-    uiSchema: {
-      'view:subHeadings': {
-        'ui:description': <h3>{title}</h3>,
-      },
-      [formField]: {
-        ...UI,
-      },
-    },
-    schema: {
-      type: 'object',
-      required: [formField],
-      properties: {
-        'view:subHeadings': {
-          type: 'object',
-          properties: {},
-        },
-        [formField]: { ...SCHEMA },
-      },
-    },
-    depends: formData => {
-      if (!condition2) {
-        return formData[dependA] === dependB;
-      }
-
-      const [x, y] = condition2;
-      return formData[dependA] === dependB && formData[x] !== y;
-    },
-  };
-}
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -423,9 +381,15 @@ const formConfig = {
                 <>
                   <h3>Choose the benefit you’d like to apply for</h3>
                   <p>
+                    We estimated your benefit eligibility based on your chosen
+                    Veteran or service member’s service history. This isn’t an
+                    eligibility determination. An official determination won’t
+                    be made until you complete and submit this application.
+                  </p>
+                  <p>
                     <strong>Note:</strong> If you are eligible for both the Fry
-                    scholarship and Survivors’ and Dependents Educational
-                    Assistance Benefits, you’ll need to choose which one to use.
+                    Scholarship and Survivors’ and Dependents’ Educational
+                    Assistance benefits, you’ll need to choose which one to use.
                     Once you make this choice, you can’t switch to the other
                     program.
                   </p>
@@ -442,7 +406,7 @@ const formConfig = {
                   visible="true"
                   background-only
                 >
-                  <p className="vads-u-margin-y--1px">Chapter 33</p>
+                  <p className="vads-u-margin-y--1px">CHAPTER 33</p>
                   <h3 className="vads-u-margin-y--1px">Fry Scholarship</h3>
                   <p>
                     <i className="fas fa-check-circle" aria-hidden="true" /> You
@@ -480,9 +444,9 @@ const formConfig = {
                   visible="true"
                   background-only
                 >
-                  <p className="vads-u-margin-y--1px">DEA, Chapter 35</p>
+                  <p className="vads-u-margin-y--1px">DEA, CHAPTER 35</p>
                   <h3 className="vads-u-margin-y--1px">
-                    Survivors’ and Dependents Educational Assistance
+                    Survivors’ and Dependents’ Educational Assistance
                   </h3>
                   <p>
                     <i className="fas fa-check-circle" aria-hidden="true" /> You
@@ -491,7 +455,7 @@ const formConfig = {
                   <h4>Receive up to 45 months of benefits, including</h4>
                   <p>
                     <i className="fas fa-money-check-alt" aria-hidden="true" />{' '}
-                    Monthly stipened
+                    Monthly stipend
                   </p>
                   <a href="va.gov">
                     Learn more about the DEA education benefit
@@ -504,10 +468,7 @@ const formConfig = {
             },
             'view:benefitSelectionExplainer': {
               'ui:description': (
-                <va-additional-info
-                  status="info"
-                  trigger="Which benefit should I choose?"
-                >
+                <va-additional-info trigger="Which benefit should I choose?">
                   <p>
                     For each benefit, you should consider the amount you can
                     receive, how payments are made, and when they expire.
@@ -604,9 +565,9 @@ const formConfig = {
               ),
             },
             { ...date },
-            formFields.relationshipToVeteran,
-            RELATIONSHIP.SPOUSE,
           ),
+          depends: formData =>
+            formData[formFields.relationshipToVeteran] === RELATIONSHIP.SPOUSE,
         },
         additionalConsiderationsMarriageInformation: {
           ...AdditionalConsiderationTemplate(
@@ -627,9 +588,9 @@ const formConfig = {
                 'Widowed',
               ],
             },
-            formFields.relationshipToVeteran,
-            RELATIONSHIP.SPOUSE,
           ),
+          depends: formData =>
+            formData[formFields.relationshipToVeteran] === RELATIONSHIP.SPOUSE,
         },
         additionalConsiderationsMarriageInformationDivorced: {
           ...AdditionalConsiderationTemplate(
@@ -643,9 +604,11 @@ const formConfig = {
             {
               type: 'boolean',
             },
-            formFields.additionalConsiderations.marriageInformation,
-            'Divorced (or a divorce is in progress)',
           ),
+          depends: formData =>
+            formData[
+              formFields.additionalConsiderations.marriageInformation
+            ] === 'Divorced (or a divorce is in progress)',
         },
         additionalConsiderationsMarriageInformationAnnulled: {
           ...AdditionalConsiderationTemplate(
@@ -659,9 +622,11 @@ const formConfig = {
             {
               type: 'boolean',
             },
-            formFields.additionalConsiderations.marriageInformation,
-            'Marriage was annulled (or annulment is in progress)',
           ),
+          depends: formData =>
+            formData[
+              formFields.additionalConsiderations.marriageInformation
+            ] === 'Marriage was annulled (or annulment is in progress)',
         },
         additionalConsiderationsMarriageInformationWidowed: {
           ...AdditionalConsiderationTemplate(
@@ -675,9 +640,11 @@ const formConfig = {
             {
               type: 'boolean',
             },
-            formFields.additionalConsiderations.marriageInformation,
-            'Widowed',
           ),
+          depends: formData =>
+            formData[
+              formFields.additionalConsiderations.marriageInformation
+            ] === 'Widowed',
         },
         additionalConsiderationsRemarriageDate: {
           ...AdditionalConsiderationTemplate(
@@ -690,12 +657,26 @@ const formConfig = {
             {
               ...date,
             },
-            formFields.additionalConsiderations.remarriage,
-            true,
-            [
-              formFields.additionalConsiderations.marriageInformation,
-              'Married',
-            ],
+          ),
+          depends: formData =>
+            formData[formFields.additionalConsiderations.remarriage] === true &&
+            formData[
+              formFields.additionalConsiderations.marriageInformation
+            ] === 'Married',
+        },
+        additionalConsiderationsOutstandingFelony: {
+          ...AdditionalConsiderationTemplate(
+            'Outstanding felony',
+            'new/additional/consideration/felony/status',
+            formFields.additionalConsiderations.outstandingFelony,
+            {
+              'ui:title':
+                'Do you or your chosen Veteran or service member have an outstanding felony or warrant?',
+              'ui:widget': 'yesNo',
+            },
+            {
+              type: 'boolean',
+            },
           ),
         },
       },

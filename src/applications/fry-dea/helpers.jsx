@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   formFields,
   RELATIONSHIP,
@@ -71,4 +72,34 @@ export const applicantIsChildOfVeteran = formData => {
     : formData.veterans?.find(
         v => v.id === formData[formFields.selectedVeteran],
       )?.relationship === RELATIONSHIP.CHILD;
+};
+
+export const AdditionalConsiderationTemplate = (
+  title,
+  path,
+  formField,
+  UI,
+  SCHEMA,
+) => {
+  return {
+    title,
+    path,
+    uiSchema: {
+      'view:subHeadings': {
+        'ui:description': <h3>{title}</h3>,
+      },
+      [formField]: { ...UI },
+    },
+    schema: {
+      type: 'object',
+      required: [formField],
+      properties: {
+        'view:subHeadings': {
+          type: 'object',
+          properties: {},
+        },
+        [formField]: { ...SCHEMA },
+      },
+    },
+  };
 };
