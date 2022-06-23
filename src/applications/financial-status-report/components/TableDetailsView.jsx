@@ -30,6 +30,8 @@ const TableDetailsView = ({ formData, onEdit }) => {
           className="usa-button-secondary vads-u-margin--0"
           onClick={() => onEdit()}
           type="button"
+          aria-label={`Edit ${formData.name}`}
+          tabIndex={0}
         >
           Edit
         </button>
