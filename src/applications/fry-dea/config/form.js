@@ -582,9 +582,10 @@ const formConfig = {
               ),
             },
             { ...date },
-            newFormFields.newRelationshipToServiceMember,
-            RELATIONSHIP.SPOUSE,
           ),
+          depends: formData =>
+            formData[newFormFields.newRelationshipToServiceMember] ===
+            RELATIONSHIP.SPOUSE,
         },
         [newFormPages.newAdditionalConsiderations.newMarriageInformation]: {
           ...AdditionalConsiderationTemplate(
@@ -605,9 +606,10 @@ const formConfig = {
                 'Widowed',
               ],
             },
-            newFormFields.newRelationshipToServiceMember,
-            RELATIONSHIP.SPOUSE,
           ),
+          depends: formData =>
+            formData[newFormFields.newRelationshipToServiceMember] ===
+            RELATIONSHIP.SPOUSE,
         },
         [newFormPages.newAdditionalConsiderations.newMarriageInformation
           .divorced]: {
@@ -622,9 +624,11 @@ const formConfig = {
             {
               type: 'boolean',
             },
-            newFormFields.newAdditionalConsiderations.newMarriageInformation,
-            'Divorced (or a divorce is in progress)',
           ),
+          depends: formData =>
+            formData[
+              newFormFields.newAdditionalConsiderations.newMarriageInformation
+            ] === 'Divorced (or a divorce is in progress)',
         },
         [newFormPages.newAdditionalConsiderations.newMarriageInformation
           .annulled]: {
@@ -639,9 +643,11 @@ const formConfig = {
             {
               type: 'boolean',
             },
-            newFormFields.newAdditionalConsiderations.newMarriageInformation,
-            'Marriage was annulled (or annulment is in progress)',
           ),
+          depends: formData =>
+            formData[
+              newFormFields.newAdditionalConsiderations.newMarriageInformation
+            ] === 'Marriage was annulled (or annulment is in progress)',
         },
         [newFormPages.newAdditionalConsiderations.newMarriageInformation
           .widowed]: {
@@ -656,9 +662,11 @@ const formConfig = {
             {
               type: 'boolean',
             },
-            newFormFields.newAdditionalConsiderations.newMarriageInformation,
-            'Widowed',
           ),
+          depends: formData =>
+            formData[
+              newFormFields.newAdditionalConsiderations.newMarriageInformation
+            ] === 'Widowed',
         },
         [newFormPages.newAdditionalConsiderations.newRemarriageDate]: {
           ...AdditionalConsiderationTemplate(
@@ -671,13 +679,14 @@ const formConfig = {
             {
               ...date,
             },
-            newFormFields.newAdditionalConsiderations.newRemarriage,
-            true,
-            [
-              newFormFields.newAdditionalConsiderations.newMarriageInformation,
-              'Married',
-            ],
           ),
+          depends: formData =>
+            formData[
+              newFormFields.newAdditionalConsiderations.newRemarriage
+            ] === true &&
+            formData[
+              newFormFields.newAdditionalConsiderations.newMarriageInformation
+            ] === 'Married',
         },
         [newFormPages.newAdditionalConsiderations.outstandingFelony]: {
           ...AdditionalConsiderationTemplate(
@@ -692,7 +701,6 @@ const formConfig = {
             {
               type: 'boolean',
             },
-            newFormFields.newAdditionalConsiderations.newMarriageInformation,
           ),
         },
       },

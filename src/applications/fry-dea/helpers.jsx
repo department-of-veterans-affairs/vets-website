@@ -93,9 +93,6 @@ export const AdditionalConsiderationTemplate = (
   formField,
   UI,
   SCHEMA,
-  dependA,
-  dependB = false,
-  condition2 = false,
 ) => {
   return {
     title,
@@ -104,9 +101,7 @@ export const AdditionalConsiderationTemplate = (
       'view:subHeadings': {
         'ui:description': <h3>{title}</h3>,
       },
-      [formField]: {
-        ...UI,
-      },
+      [formField]: { ...UI },
     },
     schema: {
       type: 'object',
@@ -118,14 +113,6 @@ export const AdditionalConsiderationTemplate = (
         },
         [formField]: { ...SCHEMA },
       },
-    },
-    depends: formData => {
-      if (!dependB) return true;
-
-      if (!condition2) return formData[dependA] === dependB;
-
-      const [A, B] = condition2;
-      return formData[dependA] === dependB && formData[A] !== B;
     },
   };
 };
