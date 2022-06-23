@@ -1043,6 +1043,10 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       kind: 'cc',
       locationId: '983GC',
       id: '1234',
+      providerData: {
+        id: '123',
+        name: 'Atlantic Medical Care',
+      },
       practitioners: [{ identifier: [{ value: '123' }] }],
       preferredTimesForPhoneCall: ['Morning'],
       reason: 'New Issue',
