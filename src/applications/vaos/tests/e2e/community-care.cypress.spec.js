@@ -699,11 +699,11 @@ describe('VAOS community care flow using VAOS service', () => {
 
       // Check for weekend and select following Monday if true
       if (date.weekday() === 0) {
-        date = date.add(1, 'days').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+        date = date.add(1, 'days').format('YYYY-MM-DD[T]HH:mm:ss');
       } else if (date.weekday() === 6) {
-        date = date.add(2, 'days').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+        date = date.add(2, 'days').format('YYYY-MM-DD[T]HH:mm:ss');
       } else {
-        date = date.format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+        date = date.format('YYYY-MM-DD[T]HH:mm:ss');
       }
 
       expect(xhr.status).to.eq(200);

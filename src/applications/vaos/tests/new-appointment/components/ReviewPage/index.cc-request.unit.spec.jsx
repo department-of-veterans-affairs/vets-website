@@ -598,12 +598,12 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       },
       requestedPeriods: [
         {
-          start: '2020-05-25T00:00:00Z',
-          end: '2020-05-25T11:59:00Z',
+          start: '2020-05-25T00:00:00',
+          end: '2020-05-25T11:59:00',
         },
         {
-          start: '2020-05-26T12:00:00Z',
-          end: '2020-05-26T23:59:00Z',
+          start: '2020-05-26T12:00:00',
+          end: '2020-05-26T23:59:00',
         },
       ],
       preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
