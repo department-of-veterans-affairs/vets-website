@@ -426,7 +426,7 @@ const formConfig = {
                   visible="true"
                   background-only
                 >
-                  <p className="vads-u-margin-y--1px">Chapter 33</p>
+                  <p className="vads-u-margin-y--1px">CHAPTER 33</p>
                   <h3 className="vads-u-margin-y--1px">Fry Scholarship</h3>
                   <p>
                     <i className="fas fa-check-circle" aria-hidden="true" /> You
@@ -464,7 +464,7 @@ const formConfig = {
                   visible="true"
                   background-only
                 >
-                  <p className="vads-u-margin-y--1px">DEA, Chapter 35</p>
+                  <p className="vads-u-margin-y--1px">DEA, CHAPTER 35</p>
                   <h3 className="vads-u-margin-y--1px">
                     Survivors' and Dependents' Educational Assistance
                   </h3>
