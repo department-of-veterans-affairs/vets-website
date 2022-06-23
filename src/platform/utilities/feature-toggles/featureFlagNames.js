@@ -42,7 +42,6 @@ export default Object.freeze({
   dhpConnectedDevicesFitbit: 'dhp_connected_devices_fitbit',
   dischargeWizardFeatures: 'discharge_wizard_features',
   enrollmentVerification: 'enrollment_verification',
-  evssUploadLimit150Mb: 'evss_upload_limit_150mb',
   facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',
   facilitiesPpmsSuppressCommunityCare:
     'facilities_ppms_suppress_community_care',
@@ -76,7 +75,6 @@ export default Object.freeze({
   myVARedirect: 'my_va_redirect',
   omniChannelLink: 'omni_channel_link',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
-  profileAlwaysShowDirectDepositDisplay: 'profile_always_show_direct_deposit_display',
   profileNotificationSettings: 'profile_notification_settings',
   profileDoNotRequireInternationalZipCode: 'profile_do_not_require_international_zip_code',
   profileForceBadAddressIndicator: 'profile_force_bad_address_indicator',
@@ -84,7 +82,6 @@ export default Object.freeze({
   profileShowAddressChangeModal: 'profile_show_address_change_modal',
   profileShowBadAddressIndicator: 'profile_show_bad_address_indicator',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
-  profileShowNewDirectDepositCTAMessage: 'profile_show_new_direct_deposit_cta_message',
   profileUseVaosV2Api:'profile_use_vaos_v2_api',
   pwEhrCtaDrupalSourceOfTruth: 'pw_ehr_cta_drupal_source_of_truth',
   requestLockedPdfPassword: 'request_locked_pdf_password',

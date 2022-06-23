@@ -1,3 +1,4 @@
+import React from 'react';
 import { newFormFields, RELATIONSHIP } from './constants';
 
 export function isAlphaNumeric(str) {
@@ -84,4 +85,34 @@ export const applicantIsChildOfSponsor = formData => {
       : sponsors?.find(s => s.id === formData.firstSponsor);
 
   return sponsor?.relationship === RELATIONSHIP.CHILD;
+};
+
+export const AdditionalConsiderationTemplate = (
+  title,
+  path,
+  formField,
+  UI,
+  SCHEMA,
+) => {
+  return {
+    title,
+    path,
+    uiSchema: {
+      'view:subHeadings': {
+        'ui:description': <h3>{title}</h3>,
+      },
+      [formField]: { ...UI },
+    },
+    schema: {
+      type: 'object',
+      required: [formField],
+      properties: {
+        'view:subHeadings': {
+          type: 'object',
+          properties: {},
+        },
+        [formField]: { ...SCHEMA },
+      },
+    },
+  };
 };

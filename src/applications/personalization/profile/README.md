@@ -1,5 +1,30 @@
 # Profile 2.0
+<!-- TOC -->
 
+- [Profile 2.0](#profile-20)
+  - [Test users](#test-users)
+  - [Contact info and the VA Profile service](#contact-info-and-the-va-profile-service)
+  - [Direct deposit](#direct-deposit)
+  - [Connected apps](#connected-apps)
+  - [Set up Codespaces for testing](#set-up-codespaces-for-testing)
+    - [Prerequisites](#prerequisites)
+    - [Step 1: ready your dockerfile](#step-1-ready-your-dockerfile)
+    - [Step 2: Creating the code space](#step-2-creating-the-code-space)
+    - [Step 3: Changes to make the site run the environment](#step-3-changes-to-make-the-site-run-the-environment)
+      - [Turn off CORS](#turn-off-cors)
+      - [Disable the FOOTER IMAGE](#disable-the-footer-image)
+      - [Trick user session](#trick-user-session)
+    - [Step 4: Start mock API](#step-4-start-mock-api)
+      - [Start the API](#start-the-api)
+      - [Make it public](#make-it-public)
+      - [Test it](#test-it)
+    - [Step 5: Start the website](#step-5-start-the-website)
+      - [Build](#build)
+      - [Run](#run)
+      - [PORTS](#ports)
+      - [Things of note](#things-of-note)
+
+<!-- /TOC -->
 ## Test users
 
 Users must be LOA3 to access most of the Profile features. Users must also have two-factor set up to access the Direct Deposit feature.
@@ -23,3 +48,90 @@ There is a dedicated team that manages the connected app integrations. The slack
 When running the app locally, all test users will have 2 connected apps available to them as they are mocked [here](src/applications/personalization/profile/util/connected-apps.js).
 
 [How to connect apps in staging](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/identity-personalization/profile/Combine%20Profile%20and%20Account/QA/how-to-turn-on-connected-apps.md)
+
+## Set up Codespaces for testing
+
+### Prerequisites
+
+- Have some commits on a feature branch to test
+
+### Step 1: ready your dockerfile
+
+1. Update the [dockerfile](https://github.com/department-of-veterans-affairs/vets-website/blob/main/.devcontainer/Dockerfile#L29) on your local branch by removing `libappindicator1`.
+
+### Step 2: Creating the code space
+
+1. Push your branch to github
+2. Create a code space with at least **16GB of ram**
+
+### Step 3: Changes to make the site run the environment
+
+ > commits of differences: <https://github.com/department-of-veterans-affairs/vets-website/compare/main...profile/spike/42144/codespaces>
+
+#### Turn off CORS
+
+Turn off CORS for all api calls by commenting out `credentials: 'include` for relevant API calls
+
+- [feature toggle](src/platform/utilities/feature-toggles/flipper-client.js)
+- [profile dashboard, platform utilities](src/platform/utilities/api/index.js)
+- [keepAliveSSO](src/platform/utilities/sso/keepAliveSSO.js)
+
+#### Disable the FOOTER IMAGE
+
+- For some reason, there is a synchronous image call in the footer that needs to be removed or the initial load of the page will be blocked until that times out
+  - [footer](src/platform/site-wide/va-footer/components/Footer.jsx)
+
+#### Trick user session
+
+- Force the user to have a session by adding `localStorage.setItem('hasSession', true);` in the site header in `src/platform/site-wide/header/index.js`
+- Update the the `local-vapsvc.js` return true
+  - this ensures that calls actually go out the mock api
+  - [local-vapsvc.js](src/platform/user/profile/vap-svc/util/local-vapsvc.js)
+
+### Step 4: Start mock API
+
+#### Start the API
+
+Open a terminal and start the the mock api
+
+```bash
+yarn mock-api --responses src/applications/personalization/profile/mocks/server.js
+```
+
+#### Make it public
+
+Be sure to change the PORT from private to public.
+
+#### Test it
+
+Open the mock api url, and visit `/v0/user` to test it. You should see a JSON response of the user object, remember this url.
+
+### Step 5: Start the website
+
+#### Build
+
+Since we are running the site as a static site, build the app in localhost mode. We need build for the locally environment so we can change the API url to the mock api we are running in this instance
+
+```bash
+ yarn build:webpack:local --env api="${instance-mock-api-url}"
+```
+
+Use the the url from step 4 as your api url
+
+#### Run
+
+We are going to serve the built website through a static server, defining the PORT as `3001`
+
+```bash
+WEB_PORT=3001 node src/platform/testing/e2e/test-server.js --buildtype=localhost
+```
+
+#### PORTS
+
+Just like the API, make sure to change the PORT to public.
+
+#### Things of note
+
+- The main content will never load, that is static content. That is outside the scope of this setup.
+- Sometimes its a refresh or two to get things going
+- If you make changes, you will have to re-build and re-start the server

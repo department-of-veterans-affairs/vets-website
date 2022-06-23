@@ -20,7 +20,7 @@ const AppointmentBlock = props => {
         })}
       </p>
       <ol
-        className="vads-u-border-top--1px vads-u-margin-bottom--4 pre-check-in--appointment-list"
+        className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
         data-testid="appointment-list"
       >
         {appointments.map((appointment, index) => {
@@ -31,11 +31,11 @@ const AppointmentBlock = props => {
           return (
             <li
               key={index}
-              className="vads-u-border-bottom--1px pre-check-in--appointment-item"
+              className="vads-u-border-bottom--1px check-in--appointment-item"
               data-testid={`appointment-list-item-${index}`}
             >
-              <dl className="pre-check-in--appointment-summary">
-                <dt className="pre-check-in--label vads-u-margin-right--1 appointment-type-label">
+              <dl className="check-in--appointment-summary">
+                <dt className="check-in--label vads-u-margin-right--1 appointment-type-label">
                   <i
                     aria-label="Appointment type"
                     className={`fas ${
@@ -51,31 +51,25 @@ const AppointmentBlock = props => {
                 </dd>
                 {appointment?.kind !== 'phone' && (
                   <>
-                    <dt className="pre-check-in--label vads-u-margin-right--1">
+                    <dt className="check-in--label vads-u-margin-right--1">
                       Facility:
                     </dt>
-                    <dd
-                      className="pre-check-in--value"
-                      data-testid="facility-name"
-                    >
+                    <dd className="check-in--value" data-testid="facility-name">
                       {appointment.facility}
                     </dd>
                   </>
                 )}
-                <dt className="pre-check-in--label vads-u-margin-right--1">
+                <dt className="check-in--label vads-u-margin-right--1">
                   {t('time')}:
                 </dt>
-                <dd
-                  className="pre-check-in--value"
-                  data-testid="appointment-time"
-                >
+                <dd className="check-in--value" data-testid="appointment-time">
                   {t('date-time', { date: appointmentDateTime })}
                 </dd>
-                <dt className="pre-check-in--label vads-u-margin-right--1">
+                <dt className="check-in--label vads-u-margin-right--1">
                   {t('clinic')}:
                 </dt>
                 <dd
-                  className="pre-check-in--value"
+                  className="check-in--value"
                   data-testid="appointment-clinic"
                 >
                   {clinic}
