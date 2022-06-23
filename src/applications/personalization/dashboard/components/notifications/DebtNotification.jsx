@@ -25,8 +25,10 @@ export const DebtNotification = ({ notification, dismissNotification }) => {
           show-icon
           className="vads-u-margin-top--0"
           onCloseEvent={() => dismissNotification(notification.id)}
+          close-btn-aria-label="Close notification"
           closeable
         >
+          <span className="sr-only">Important Alert!</span>
           <div className="vads-u-margin-top--0">
             <span className="vads-u-font-weight--bold">
               You have new debt.{' '}

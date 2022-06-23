@@ -103,9 +103,12 @@ const DashboardHeader = ({ showNotifications, paymentsError }) => {
             data-testid="payments-error"
           >
             <va-alert status="error" show-icon className="vads-u-margin-top--0">
-              We’re sorry. We can’t access some of your financial information
-              right now. We’re working to fix this problem. Please check back
-              later.
+              <span className="sr-only">Error Alert!</span>
+              <div>
+                We’re sorry. We can’t access some of your financial information
+                right now. We’re working to fix this problem. Please check back
+                later.
+              </div>
             </va-alert>
           </div>
         </DashboardWidgetWrapper>

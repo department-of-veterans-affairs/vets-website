@@ -45,11 +45,14 @@ export const Notifications = ({
             className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
           >
             <VaAlert status="error" show-icon className="vads-u-margin-top--0">
-              {notificationsError
-                ? `We’re sorry. Something went wrong on our end, and we can’t access
-                your debt information. Please try again later or go to the debts
-                tool.`
-                : `We’re sorry. Something went wrong on our end, and we can’t dismiss this notification. Please try again later.`}
+              <span className="sr-only">Critical Alert!</span>
+              <div>
+                {notificationsError
+                  ? `We’re sorry. Something went wrong on our end, and we can’t access
+                  your debt information. Please try again later or go to the debts
+                  tool.`
+                  : `We’re sorry. Something went wrong on our end, and we can’t dismiss this notification. Please try again later.`}
+              </div>
             </VaAlert>
           </div>
         </DashboardWidgetWrapper>

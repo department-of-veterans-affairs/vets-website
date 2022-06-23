@@ -11,8 +11,12 @@ export const Debts = ({ debts, hasError }) => {
         data-testid="debts-error"
       >
         <va-alert status="error" show-icon className="vads-u-margin-top--0">
-          We’re sorry. We can’t access some of your financial information right
-          now. We’re working to fix this problem. Please check back later.
+          <span className="sr-only">Critical Alert!</span>
+          <div>
+            We’re sorry. We can’t access some of your financial information
+            right right now. We’re working to fix this problem. Please check
+            back later.
+          </div>
         </va-alert>
       </div>
     );
@@ -33,6 +37,7 @@ export const Debts = ({ debts, hasError }) => {
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5">
       <va-alert status="warning" show-icon data-testid="debt-count-alert">
+        <span className="sr-only">Important Alert!</span>
         <div className="vads-u-margin-top--0">
           You have {debtsCount} outstanding debts.{' '}
           <CTALink

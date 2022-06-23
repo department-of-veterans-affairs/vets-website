@@ -236,6 +236,7 @@ const HealthCare = ({
               data-testid="unread-messages-alert"
             >
               <va-alert status="warning" show-icon>
+                <span className="sr-only">Important Alert!</span>
                 <div className="vads-u-margin-top--0">
                   {`You have ${unreadMessagesCount} unread message${
                     unreadMessagesCount === 1 ? '' : 's'
