@@ -78,11 +78,11 @@ export const dismissNotificationById = id => async dispatch => {
         'X-Key-Inflection': 'camel',
         'Source-App-Name': window.appName,
       },
-      body: {
+      body: JSON.stringify({
         onsiteNotification: {
           dismissed: true,
         },
-      },
+      }),
     };
 
     return apiRequest(
