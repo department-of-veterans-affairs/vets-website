@@ -81,12 +81,12 @@ export function transformFormToVAOSCCRequest(state) {
       ],
     },
     requestedPeriods: data.selectedDates.map(date => ({
-      start: moment.utc(date).format(),
+      start: moment.utc(date).format('YYYY-MM-DDTHH:mm:ss'),
       end: moment
         .utc(date)
         .add(12, 'hours')
         .subtract(1, 'minute')
-        .format(),
+        .format('YYYY-MM-DDTHH:mm:ss'),
     })),
     // These four fields aren't in the current schema, but probably should be
     preferredTimesForPhoneCall: Object.entries(data.bestTimeToCall)
