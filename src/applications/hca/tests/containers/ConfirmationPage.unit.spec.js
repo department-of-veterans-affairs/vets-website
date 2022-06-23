@@ -85,33 +85,6 @@ describe('HCA ConfirmationPage', () => {
     ).to.contain.text('Jan. 1, 2010');
   });
 
-  it('should render without email message', () => {
-    const store = mockStore(initState);
-    const view = render(
-      <Provider store={store}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-    expect(view.container.querySelector('.hca-email-message')).to.not.exist;
-  });
-
-  it('should render email message', () => {
-    const mockFormData = { email: 'jack.smith@gmail.com' };
-    const store = mockStore({
-      ...initState,
-      form: {
-        ...initState.form,
-        data: { ...initState.form.data, ...mockFormData },
-      },
-    });
-    const view = render(
-      <Provider store={store}>
-        <ConfirmationPage />
-      </Provider>,
-    );
-    expect(view.container.querySelector('.hca-email-message')).to.exist;
-  });
-
   it('should render veteran’s name from form data', () => {
     const store = mockStore(initState);
     const view = render(

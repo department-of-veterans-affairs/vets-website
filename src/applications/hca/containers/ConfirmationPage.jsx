@@ -54,19 +54,6 @@ const ConfirmationPage = ({ form, profile, isLoggedIn }) => {
           We usually decide on applications within <strong>1 week</strong>.
         </p>
 
-        {data.email && (
-          <div className="hca-email-message">
-            <p>We’ll contact you by email if we:</p>
-            <ul>
-              <li>
-                Successfully receive and process your application,{' '}
-                <strong>or</strong>
-              </li>
-              <li>Can’t process your application for any reason</li>
-            </ul>
-          </div>
-        )}
-
         <p>
           If we need you to provide more information or documents, we’ll contact
           you by mail.
