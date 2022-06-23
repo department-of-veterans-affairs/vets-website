@@ -318,11 +318,11 @@ const ItemLoop = ({
     formContext.onError(false);
 
     setTimeout(() => {
-      const comboBox = document.getElementById(
+      const associatedInputField = document.getElementById(
         `${idSchema.$id}_${lastIndex + 1}_name`,
       );
 
-      if (comboBox) comboBox.focus();
+      if (associatedInputField) associatedInputField.focus();
     }, 1);
   };
 
