@@ -80,8 +80,7 @@ const mapStateToProps = (state, ownProps) => {
     totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
     showNameTag: ownProps.isLOA3 && isEmpty(hero?.errors),
     showNotAllDataAvailableError:
-      !!fullNameLoadError(state) ||
-      !!personalInformationLoadError(state),
+      !!fullNameLoadError(state) || !!personalInformationLoadError(state),
   };
 };
 
