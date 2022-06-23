@@ -14,12 +14,9 @@ const ManageVADebtCTA = () => {
     state => toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess],
   );
 
-  return (
+  return !isCombinedPortalActive ? (
     <>
-      <va-breadcrumbs>
-        <a href="/">Home</a>
-        <a href="/manage-va-debt">Manage your VA debt</a>
-      </va-breadcrumbs>
+      <va-breadcrumbs />
       <h1>Manage your VA debt</h1>
       <p>
         Check the status of debt related to VA disability compensation,
@@ -30,11 +27,7 @@ const ManageVADebtCTA = () => {
       <a
         className="usa-button-primary va-button-primary"
         target="_self"
-        href={
-          isCombinedPortalActive
-            ? '/manage-debt-and-bills/summary'
-            : debtLettersUrl
-        }
+        href={debtLettersUrl}
       >
         Manage your VA debt
       </a>
@@ -46,6 +39,23 @@ const ManageVADebtCTA = () => {
         href={fsrUrl}
       >
         Request help with VA debt
+      </a>
+    </>
+  ) : (
+    <>
+      <va-breadcrumbs />
+      <h1>Manage VA debt for benefit overpayments and copay bills</h1>
+      <p>
+        Review your current VA benefit debt or copay bill balances online. And
+        find out how to make payments or request help now.
+      </p>
+      <h3>Review your benefit debt and copay bills online</h3>
+      <a
+        className="usa-button-primary va-button-primary"
+        target="_self"
+        href="/manage-debt-and-bills/summary"
+      >
+        Manage your VA debts and bills
       </a>
     </>
   );
