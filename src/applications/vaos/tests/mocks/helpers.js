@@ -258,12 +258,12 @@ export function mockCCProviderFetch(
  * @param {Object<PPMSProvider>} request PPMS provider object
  */
 
-export function mockCCSingleProviderFetch(provider) {
+export function mockCCSingleProviderFetch(request) {
   setFetchJSONResponse(
     global.fetch.withArgs(
-      `${environment.API_URL}/vaos/v2/provider/${provider.id}`,
+      `${environment.API_URL}/v1/facilities/ccp/${request.id}`,
     ),
-    { data: provider },
+    { data: request },
   );
 }
 
