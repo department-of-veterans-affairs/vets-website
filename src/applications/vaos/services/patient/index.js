@@ -13,7 +13,10 @@ import { captureError } from '../../utils/error';
 import { ELIGIBILITY_REASONS } from '../../utils/constants';
 import { promiseAllFromObject } from '../../utils/data';
 import { getAvailableHealthcareServices } from '../healthcare-service';
-import { getPatientEligibility } from '../vaos';
+import {
+  getLongTermAppointmentHistoryV2,
+  getPatientEligibility,
+} from '../vaos';
 
 /**
  * @typedef PatientEligibilityForType
@@ -146,7 +149,7 @@ function checkEligibilityReason(ineligibilityReasons, ineligibilityType) {
   return !Array.isArray(ineligibilityReasons)
     ? true
     : !ineligibilityReasons.some(reason => {
-        const code = reason.coding[0].code;
+        const { code } = reason.coding[0];
         return code === ineligibilityType;
       });
 }
@@ -249,6 +252,12 @@ function hasMatchingClinics(clinics, pastAppointments) {
     clinic =>
       !!pastAppointments.find(appt => {
         const clinicIds = clinic.id.split('_');
+        if (appt.version === 2) {
+          return (
+            clinicIds[0] === appt.location.stationId &&
+            clinicIds[1] === appt.location.clinicId
+          );
+        }
         return (
           clinicIds[0] === appt.facilityId && clinicIds[1] === appt.clinicId
         );
@@ -372,9 +381,15 @@ export async function fetchFlowEligibilityAndClinics({
     }).catch(createErrorHandler('direct-available-clinics-error'));
 
     if (typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH) {
-      apiCalls.pastAppointments = getLongTermAppointmentHistory().catch(
-        createErrorHandler('direct-no-matching-past-clinics-error'),
-      );
+      if (useV2) {
+        apiCalls.pastAppointments = getLongTermAppointmentHistoryV2().catch(
+          createErrorHandler('direct-no-matching-past-clinics-error'),
+        );
+      } else {
+        apiCalls.pastAppointments = getLongTermAppointmentHistory().catch(
+          createErrorHandler('direct-no-matching-past-clinics-error'),
+        );
+      }
     }
   }
 

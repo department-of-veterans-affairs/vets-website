@@ -11,11 +11,11 @@ export default {
     allowedSignUpProviders: { ...defaultSignUpProviders },
     isMobile: false,
     queryParams: {
-      allowOAuth: false,
+      allowOAuth: true,
       allowPostLogin: true,
       allowRedirect: false,
     },
-    OAuthEnabled: false,
+    OAuthEnabled: true,
     requiresVerification: false,
   },
   [EXTERNAL_APPS.MHV]: {

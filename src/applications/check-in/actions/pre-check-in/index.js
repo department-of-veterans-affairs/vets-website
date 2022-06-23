@@ -1,14 +1,5 @@
 import { updateForm } from '../../utils/navigation/pre-check-in';
 
-export const RECORD_ANSWER = 'RECORD_ANSWER';
-
-export const recordAnswer = answer => {
-  return {
-    type: RECORD_ANSWER,
-    payload: answer,
-  };
-};
-
 export const SET_VETERAN_DATA = 'SET_VETERAN_DATA';
 
 export const setVeteranData = ({ appointments, demographics }) => {

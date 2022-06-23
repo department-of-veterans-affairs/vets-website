@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
-import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
 import LearnMoreLabel from './LearnMoreLabel';
@@ -34,7 +33,7 @@ const SearchBenefits = ({
       'gibct-form-value': e.target.value,
     });
     setMilitaryStatus(e.target.value);
-    if (!environment.isProduction() && field === 'militaryStatus') {
+    if (field === 'militaryStatus') {
       setIsDisabled(true);
       if (value === 'spouse' || value === 'child') {
         setIsDisabled(false);

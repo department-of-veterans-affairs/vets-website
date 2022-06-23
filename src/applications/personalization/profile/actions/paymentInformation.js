@@ -1,3 +1,4 @@
+import recordAnalyticsEvent from 'platform/monitoring/record-event';
 import {
   createCNPDirectDepositAnalyticsDataObject,
   getData,
@@ -5,7 +6,8 @@ import {
   isSignedUpForCNPDirectDeposit,
   isSignedUpForEDUDirectDeposit,
 } from '../util';
-import recordAnalyticsEvent from 'platform/monitoring/record-event';
+
+import { captureError, ERROR_SOURCES } from '../util/analytics';
 
 export const CNP_PAYMENT_INFORMATION_FETCH_STARTED =
   'CNP_PAYMENT_INFORMATION_FETCH_STARTED';
@@ -40,6 +42,24 @@ export const EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED =
   'EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED';
 export const EDU_PAYMENT_INFORMATION_SAVE_FAILED =
   'EDU_PAYMENT_INFORMATION_SAVE_FAILED';
+
+const captureDirectDepositErrorResponse = ({ error, apiEventName }) => {
+  const [firstError = {}] = error.errors ?? [];
+  const {
+    code = 'code-unknown',
+    title = 'title-unknown',
+    detail = 'detail-unknown',
+    status = 'status-unknown',
+  } = firstError;
+
+  captureError(error, {
+    eventName: apiEventName,
+    code,
+    title,
+    detail,
+    status,
+  });
+};
 
 export function fetchCNPPaymentInformation(recordEvent = recordAnalyticsEvent) {
   return async dispatch => {
@@ -178,29 +198,46 @@ export function fetchEDUPaymentInformation(recordEvent = recordAnalyticsEvent) {
     dispatch({ type: EDU_PAYMENT_INFORMATION_FETCH_STARTED });
 
     recordEvent({ event: 'profile-get-edu-direct-deposit-started' });
-    const response = await getData('/profile/ch33_bank_accounts');
-
-    if (response.error) {
+    try {
+      const response = await getData('/profile/ch33_bank_accounts');
+      // .errors is returned from the API, .error is returned from getData
+      if (response.errors || response.error) {
+        const err = response.error || response.errors;
+        recordEvent({ event: 'profile-get-edu-direct-deposit-failed' });
+        captureDirectDepositErrorResponse({
+          error: { ...err, source: ERROR_SOURCES.API },
+          apiEventName: 'profile-get-edu-direct-deposit-failed',
+        });
+        dispatch({
+          type: EDU_PAYMENT_INFORMATION_FETCH_FAILED,
+          response,
+        });
+      } else {
+        recordEvent({
+          event: 'profile-get-edu-direct-deposit-retrieved',
+          // NOTE: the GET profile/ch33_bank_accounts/ is not able to tell us if a
+          // user is eligible to set up DD for EDU, so we are only reporting if
+          // they are currently enrolled in DD for EDU or not
+          'direct-deposit-setup-complete': isSignedUpForEDUDirectDeposit(
+            response,
+          ),
+        });
+        dispatch({
+          type: EDU_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
+          response: {
+            paymentAccount: response,
+          },
+        });
+      }
+    } catch (error) {
       recordEvent({ event: 'profile-get-edu-direct-deposit-failed' });
+      captureDirectDepositErrorResponse({
+        error,
+        apiEventName: 'profile-get-edu-direct-deposit-failed',
+      });
       dispatch({
         type: EDU_PAYMENT_INFORMATION_FETCH_FAILED,
-        response,
-      });
-    } else {
-      recordEvent({
-        event: 'profile-get-edu-direct-deposit-retrieved',
-        // NOTE: the GET profile/ch33_bank_accounts/ is not able to tell us if a
-        // user is eligible to set up DD for EDU, so we are only reporting if
-        // they are currently enrolled in DD for EDU or not
-        'direct-deposit-setup-complete': isSignedUpForEDUDirectDeposit(
-          response,
-        ),
-      });
-      dispatch({
-        type: EDU_PAYMENT_INFORMATION_FETCH_SUCCEEDED,
-        response: {
-          paymentAccount: response,
-        },
+        response: { error },
       });
     }
   };
@@ -229,33 +266,59 @@ export function saveEDUPaymentInformation(
     };
 
     dispatch({ type: EDU_PAYMENT_INFORMATION_SAVE_STARTED });
+    try {
+      const response = await getData(
+        '/profile/ch33_bank_accounts',
+        apiRequestOptions,
+      );
+      // .errors is returned from the API, .error is returned from getData
+      if (response.errors || response.error) {
+        const err = response.errors || response.error?.errors;
+        let errorName = 'unknown';
+        if (err) {
+          if (err.length > 0) {
+            errorName = err[0].title;
+          } else {
+            errorName = err?.title || 'unknown-title';
+          }
+        }
+        recordEvent({
+          event: 'profile-edit-failure',
+          'profile-action': 'save-failure',
+          'profile-section': 'edu-direct-deposit-information',
+          'error-key': `${errorName}-save-error-api-response`,
+        });
+        captureDirectDepositErrorResponse({
+          error: { ...err, ...response, source: ERROR_SOURCES.API },
+          apiEventName: 'profile-put-edu-direct-deposit-failed',
+        });
 
-    const response = await getData(
-      '/profile/ch33_bank_accounts',
-      apiRequestOptions,
-    );
-
-    if (response.error || response.errors) {
+        dispatch({
+          type: EDU_PAYMENT_INFORMATION_SAVE_FAILED,
+          response,
+        });
+      } else {
+        recordEvent({
+          event: 'profile-transaction',
+          'profile-section': 'edu-direct-deposit-information',
+        });
+        dispatch({
+          type: EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
+          response: {
+            paymentAccount: response,
+          },
+        });
+      }
+    } catch (error) {
+      captureDirectDepositErrorResponse({
+        error,
+        apiEventName: 'profile-put-edu-direct-deposit-failed',
+      });
       recordEvent({
         event: 'profile-edit-failure',
         'profile-action': 'save-failure',
         'profile-section': 'edu-direct-deposit-information',
-        'error-key': 'unknown-save-error',
-      });
-      dispatch({
-        type: EDU_PAYMENT_INFORMATION_SAVE_FAILED,
-        response,
-      });
-    } else {
-      recordEvent({
-        event: 'profile-transaction',
-        'profile-section': 'edu-direct-deposit-information',
-      });
-      dispatch({
-        type: EDU_PAYMENT_INFORMATION_SAVE_SUCCEEDED,
-        response: {
-          paymentAccount: response,
-        },
+        'error-key': 'unknown-caught-save-error',
       });
     }
   };

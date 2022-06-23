@@ -4,11 +4,8 @@ import { useLastLocation } from 'react-router-last-location';
 import { useSelector, useDispatch } from 'react-redux';
 import { openModal } from '@@vap-svc/actions';
 
-import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
 import {
-  cnpDirectDepositIsBlocked,
   showProfileLGBTQEnhancements,
-  profileAlwaysShowDirectDepositDisplay,
   showBadAddressIndicator,
   hasBadAddress,
   forceBadAddressIndicator,
@@ -38,19 +35,12 @@ const getScrollTarget = hash => {
 const PersonalInformation = () => {
   const lastLocation = useLastLocation();
 
-  const showDirectDepositBlockedError = useSelector(
-    state => !!cnpDirectDepositIsBlocked(state),
-  );
   const hasUnsavedEdits = useSelector(
     state => state.vapService.hasUnsavedEdits,
   );
   const hasVAPServiceError = useSelector(hasVAPServiceConnectionError);
   const shouldShowProfileLGBTQEnhancements = useSelector(
     showProfileLGBTQEnhancements,
-  );
-
-  const directDepositIsAlwaysShowing = useSelector(
-    profileAlwaysShowDirectDepositDisplay,
   );
 
   const userHasBadAddress = useSelector(hasBadAddress);
@@ -166,8 +156,6 @@ const PersonalInformation = () => {
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}
       >
-        {showDirectDepositBlockedError &&
-          !directDepositIsAlwaysShowing && <PaymentInformationBlocked />}
         <PersonalInformationContent
           hasVAPServiceError={hasVAPServiceError}
           shouldShowProfileLGBTQEnhancements={

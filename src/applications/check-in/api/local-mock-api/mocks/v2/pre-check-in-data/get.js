@@ -4,6 +4,8 @@ const defaultUUID = '0429dda5-4165-46be-9ed1-1e652a8dfd83';
 const alreadyPreCheckedInUUID = '4d523464-c450-49dc-9a18-c04b3f1642ee';
 const canceledAppointmentUUID = '9d7b7c15-d539-4624-8d15-b740b84e8548';
 const expiredUUID = '354d5b3a-b7b7-4e5c-99e4-8d563f15c521';
+const phoneApptUUID = '258d753c-262a-4ab2-b618-64b645884daf';
+const expiredPhoneUUID = '08ba56a7-68b7-4b9f-b779-53ba609140ef';
 
 const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
 const isoDateWithOffsetFormat = "yyyy-LL-dd'T'HH:mm:ss.SSSxxx";
@@ -18,7 +20,11 @@ const createMockSuccessResponse = (
   emergencyContactConfirmedAt = null,
 ) => {
   const mockTime =
-    token === expiredUUID ? new Date() : dateFns.add(new Date(), { days: 1 });
+    token === expiredUUID || token === expiredPhoneUUID
+      ? new Date()
+      : dateFns.add(new Date(), { days: 1 });
+
+  let apptKind = 'clinic';
 
   let checkInSteps = [];
   let status = '';
@@ -49,6 +55,8 @@ const createMockSuccessResponse = (
     ];
   } else if (token === canceledAppointmentUUID) {
     status = 'CANCELLED BY CLINIC';
+  } else if (token === phoneApptUUID || token === expiredPhoneUUID) {
+    apptKind = 'phone';
   }
 
   const formattedStartTime = dateFns.format(
@@ -132,6 +140,7 @@ const createMockSuccessResponse = (
       appointments: [
         {
           facility: 'LOMA LINDA VA CLINIC',
+          kind: apptKind,
           checkInSteps,
           clinicPhoneNumber: '5551234567',
           clinicFriendlyName: 'TEST CLINIC',
@@ -147,6 +156,7 @@ const createMockSuccessResponse = (
         },
         {
           facility: 'LOMA LINDA VA CLINIC',
+          kind: apptKind,
           checkInSteps,
           clinicPhoneNumber: '5551234567',
           clinicFriendlyName: 'TEST CLINIC',
