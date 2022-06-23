@@ -4,6 +4,17 @@ import PropTypes from 'prop-types';
 import { formatReadableDate } from '../helpers';
 
 function RelatedVeterans({ veterans }) {
+  const upToListItem = (months, benefit) => {
+    if (!months) {
+      return <></>;
+    }
+    return (
+      <li>
+        Up to {months} {months === 1 ? 'month' : 'months'} of {benefit}
+      </li>
+    );
+  };
+
   const veteranList = veterans?.map((veteran, index) => {
     return (
       <li
@@ -29,22 +40,17 @@ function RelatedVeterans({ veterans }) {
           </dd>
         </dl>
         <h5 className="vads-u-margin-top--1 vads-u-padding-top--1 vads-u-border-top--1px vads-u-border-color--base">
-          Associated benefits you may be elibible for:
+          Associated{' '}
+          {veteran.fryEligibility && veteran.deaEligibility
+            ? 'benefits'
+            : 'benefit'}{' '}
+          you may be elibible for:
         </h5>
         <ul className="vads-u-margin--0 vads-u-padding-left--2">
-          {veteran.fryEligibility > 0 && (
-            <li>
-              Up to {veteran.fryEligibility}{' '}
-              {veteran.fryEligibility === 1 ? 'month' : 'months'} of Fry
-              Scholarship (Chapter 33)
-            </li>
-          )}
-          {veteran.deaEligibility > 0 && (
-            <li>
-              Up to {veteran.deaEligibility}{' '}
-              {veteran.deaEligibility === 1 ? 'month' : 'months'} of Survivors’
-              and Dependents Educational Assistance (DEA, Chapter 35)
-            </li>
+          {upToListItem(veteran.fryEligibility, 'Fry Scholarship (Chapter 33)')}
+          {upToListItem(
+            veteran.deaEligibility,
+            'Survivors’ and Dependents Educational Assistance (DEA, Chapter 35)',
           )}
         </ul>
       </li>

@@ -39,7 +39,7 @@ function VeteransRadioGroup({
   return (
     <RadioButtons
       additionalFieldsetClass="vads-u-margin-top--0"
-      additionalLegendClass="toe-sponsors-checkboxes_legend vads-u-margin-top--0"
+      additionalLegendClass="fry-dea-veterans-checkboxes_legend vads-u-margin-top--0"
       onValueChange={onValueChange}
       options={options}
       value={{ value: VETERAN_VALUE_PREFIX + selectedVeteran }}

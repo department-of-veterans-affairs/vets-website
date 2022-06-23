@@ -246,11 +246,11 @@ const formConfig = {
             },
             [formFields.selectedVeteran]: {
               'ui:title':
-                'Which sponsor’s benefits would you like to use first?',
+                'Which Veteran or service member’s benefits would you like to use?',
               'ui:widget': VeteransRadioGroup,
               // 'ui:reviewWidget': FirstSponsorReviewField,
               'ui:errorMessages': {
-                required: 'Please select at least one sponsor',
+                required: 'Please select a Veteran or service member',
               },
             },
             'view:firstSponsorAdditionalInfo': {
