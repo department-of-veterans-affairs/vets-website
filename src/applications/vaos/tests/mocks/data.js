@@ -423,3 +423,27 @@ export function createMockCheyenneFacilityByVersion({ version = 2 } = {}) {
     version,
   });
 }
+
+/**
+ * Creates a mock Provider object, for the specified version
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} params.id The providerNpi id
+ * @param {string} params.name The provider name address, in the FHIR format
+ * @param {number} [params.version = 2] The version of the facility object to create
+ * @returns {Provider} The provider mock with specified data
+ */
+export function createMockProviderByVersion({
+  id = '123',
+  name = 'Fake name',
+  version = 2,
+} = {}) {
+  if (version === 2) {
+    return {
+      id,
+      name,
+    };
+  }
+  return null;
+}

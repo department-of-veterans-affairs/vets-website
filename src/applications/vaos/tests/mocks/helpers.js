@@ -7,13 +7,13 @@ import {
   setFetchJSONResponse,
   setFetchJSONFailure,
 } from 'platform/testing/unit/helpers';
+import sinon from 'sinon';
 import {
   getVAAppointmentMock,
   getExpressCareRequestCriteriaMock,
   getRequestEligibilityCriteriaMock,
   getDirectBookingEligibilityCriteriaMock,
-} from '../mocks/v0';
-import sinon from 'sinon';
+} from './v0';
 import { createMockFacilityByVersion } from './data';
 import { mockFacilitiesFetchByVersion } from './fetch';
 
@@ -258,12 +258,12 @@ export function mockCCProviderFetch(
  * @param {Object<PPMSProvider>} request PPMS provider object
  */
 
-export function mockCCSingleProviderFetch(request) {
+export function mockCCSingleProviderFetch(provider) {
   setFetchJSONResponse(
     global.fetch.withArgs(
-      `${environment.API_URL}/v1/facilities/ccp/${request.id}`,
+      `${environment.API_URL}/vaos/v2/provider/${provider.id}`,
     ),
-    { data: request },
+    { data: provider },
   );
 }
 

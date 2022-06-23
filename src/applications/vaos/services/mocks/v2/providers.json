@@ -22,6 +22,17 @@
       "AddressCity": "DURHAM",
       "AddressStateProvince": "NC",
       "AddressCounty": "DURHAM"
+    },
+    {
+      "ProviderIdentifier": 123,
+      "ProviderIdentifierType": "NPI",
+      "Name": "Atlantic Medical Care",
+      "ProviderType": "Individual",
+      "Address": "1640 GREGSON ST\r\nDURHAM, NC",
+      "AddressStreet": "1640 GREGSON ST",
+      "AddressCity": "DURHAM",
+      "AddressStateProvince": "NC",
+      "AddressCounty": "DURHAM"
     }
       ]
 }
