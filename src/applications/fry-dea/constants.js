@@ -26,35 +26,15 @@ export const VETERANS_TYPE = PropTypes.arrayOf(
   }),
 );
 
-export const formPages = {
-  applicantInformation: 'applicantInformation',
-  contactInformation: {
-    contactInformation: 'contactInformation',
-    mailingAddress: 'mailingAddress',
-    preferredContactMethod: 'preferredContactMethod',
-  },
-  serviceHistory: 'serviceHistory',
-  benefitSelection: 'benefitSelection',
-  directDeposit: 'directDeposit',
-  veteranInformation: 'veteranInformation',
-  highSchool: 'highSchool',
-  additionalConsiderations: {
-    marriageDate: 'marriageDate',
-    marriageInformation: {
-      divorced: 'divorced',
-      annulled: 'annulled',
-      widowed: 'widowed',
-    },
-    remarriage: 'remarriage',
-    remarriageDate: 'remarriageDate',
-  },
-};
-
 export const formFields = {
   accountNumber: 'accountNumber',
   accountType: 'accountType',
-  activeDutyKicker: 'activeDutyKicker',
-  additionalConsiderationsNote: 'additionalConsiderationsNote',
+  additionalConsiderations: {
+    marriageDate: 'marriageDate',
+    marriageInformation: 'marriageInformation',
+    remarriage: 'remarriage',
+    remarriageDate: 'remarriageDate',
+  },
   address: 'address',
   bankAccount: 'bankAccount',
   benefitSelection: 'benefitSelection',
@@ -62,14 +42,9 @@ export const formFields = {
   confirmEmail: 'confirmEmail',
   dateOfBirth: 'dateOfBirth',
   email: 'email',
-  federallySponsoredAcademy: 'federallySponsoredAcademy',
-  selectedVeteran: 'selectedVeteran',
   fullName: 'fullName',
-  hasDoDLoanPaymentPeriod: 'hasDoDLoanPaymentPeriod',
   highSchoolDiploma: 'highSchoolDiploma',
   highSchoolDiplomaDate: 'highSchoolDiplomaDate',
-  incorrectServiceHistoryExplanation: 'incorrectServiceHistoryExplanation',
-  loanPayment: 'loanPayment',
   mobilePhoneNumber: 'mobilePhoneNumber',
   mobilePhoneNumberInternational: 'mobilePhoneNumberInternational',
   phoneNumber: 'phoneNumber',
@@ -77,20 +52,9 @@ export const formFields = {
   relationshipToVeteran: 'relationshipToServiceMember',
   receiveTextMessages: 'receiveTextMessages',
   routingNumber: 'routingNumber',
-  serviceHistoryIncorrect: 'serviceHistoryIncorrect',
+  selectedVeteran: 'selectedVeteran',
   veteranDateOfBirth: 'veteranDateOfBirth',
   veteranFullName: 'veteranFullName',
-  ssn: 'nsn',
   userFullName: 'userFullName',
-  viewBenefitSelection: 'view:benefitSelection',
-  viewNoDirectDeposit: 'view:noDirectDeposit',
-  viewNoVeteranWarning: 'view:noVeteranWarning',
   viewPhoneNumbers: 'view:phoneNumbers',
-  viewStopWarning: 'view:stopWarning',
-  additionalConsiderations: {
-    marriageDate: 'marriageDate',
-    marriageInformation: 'marriageInformation',
-    remarriage: 'remarriage',
-    remarriageDate: 'remarriageDate',
-  },
 };

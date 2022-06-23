@@ -18,7 +18,7 @@ function RelatedVeterans({ veterans }) {
   const veteranList = veterans?.map((veteran, index) => {
     return (
       <li
-        key={`sponsor-${index}`}
+        key={`veteran-${index}`}
         className="fry-dea-form-featured-content vads-u-margin-top--2"
       >
         <h5 className="vads-u-font-size--base vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--0">
@@ -32,9 +32,7 @@ function RelatedVeterans({ veterans }) {
           <dd className="fry-dea-definition-list_definition">
             {formatReadableDate(veteran.dateOfBirth)}
           </dd>
-          <dt className="fry-dea-definition-list_term">
-            Your relationship to sponsor:
-          </dt>
+          <dt className="fry-dea-definition-list_term">Relationship:</dt>
           <dd className="fry-dea-definition-list_definition">
             {veteran.relationship}
           </dd>

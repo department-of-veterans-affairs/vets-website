@@ -40,7 +40,6 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
   formFields,
-  formPages,
   RELATIONSHIP,
   VETERAN_NOT_LISTED_VALUE,
 } from '../constants';
@@ -139,7 +138,7 @@ const formConfig = {
     applicantInformationChapter: {
       title: 'Your information',
       pages: {
-        [formPages.applicantInformation]: {
+        applicantInformation: {
           title: 'Your information',
           path: 'applicant/information',
           subTitle: 'Your information',
@@ -274,7 +273,7 @@ const formConfig = {
             },
           },
         },
-        [formPages.veteranInformation]: {
+        veteranInformation: {
           title: 'Enter Veteran or service member information',
           path: 'veteran-service-member/information',
           depends: formData =>
@@ -286,7 +285,7 @@ const formConfig = {
                 <h3>Enter Veteran or service member information</h3>
               ),
             },
-            [formFields.viewNoVeteranWarning]: {
+            'view:noVeteranWarning': {
               'ui:description': (
                 <va-alert
                   close-btn-aria-label="Close notification"
@@ -378,7 +377,7 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [formFields.viewNoVeteranWarning]: {
+              'view:noVeteranWarning': {
                 type: 'object',
                 properties: {},
               },
@@ -414,7 +413,7 @@ const formConfig = {
     benefitSelection: {
       title: 'Benefit selection',
       pages: {
-        [formPages.benefitSelection]: {
+        benefitSelection: {
           title: 'Benefit Selection',
           path: 'benefit-selection',
           depends: formData => formData.veterans?.length,
@@ -594,7 +593,7 @@ const formConfig = {
     additionalConsideration: {
       title: 'Additional considerations',
       pages: {
-        [formPages.additionalConsiderations.marriageDate]: {
+        additionalConsiderationsMarriageDate: {
           ...AdditionalConsiderationTemplate(
             'Marriage date',
             'additional/consideration/marriage/date',
@@ -609,7 +608,7 @@ const formConfig = {
             RELATIONSHIP.SPOUSE,
           ),
         },
-        [formPages.additionalConsiderations.marriageInformation]: {
+        additionalConsiderationsMarriageInformation: {
           ...AdditionalConsiderationTemplate(
             'Marriage information',
             'additional/consideration/marriage/information',
@@ -632,7 +631,7 @@ const formConfig = {
             RELATIONSHIP.SPOUSE,
           ),
         },
-        [formPages.additionalConsiderations.marriageInformation.divorced]: {
+        additionalConsiderationsMarriageInformationDivorced: {
           ...AdditionalConsiderationTemplate(
             'Remarriage',
             'additional/consideration/remarriage/information/divorced',
@@ -648,7 +647,7 @@ const formConfig = {
             'Divorced (or a divorce is in progress)',
           ),
         },
-        [formPages.additionalConsiderations.marriageInformation.annulled]: {
+        additionalConsiderationsMarriageInformationAnnulled: {
           ...AdditionalConsiderationTemplate(
             'Remarriage',
             'additional/consideration/remarriage/information/annulment',
@@ -664,7 +663,7 @@ const formConfig = {
             'Marriage was annulled (or annulment is in progress)',
           ),
         },
-        [formPages.additionalConsiderations.marriageInformation.widowed]: {
+        additionalConsiderationsMarriageInformationWidowed: {
           ...AdditionalConsiderationTemplate(
             'Remarriage',
             'additional/consideration/remarriage/information/widowed',
@@ -680,7 +679,7 @@ const formConfig = {
             'Widowed',
           ),
         },
-        [formPages.additionalConsiderations.remarriageDate]: {
+        additionalConsiderationsRemarriageDate: {
           ...AdditionalConsiderationTemplate(
             'Remarriage date',
             'additional/consideration/remarriage/date',
@@ -749,7 +748,7 @@ const formConfig = {
             },
           },
         },
-        [formPages.highSchool]: {
+        highSchool: {
           title: 'Date received',
           path: 'veteran-service-member/high-school-education',
           depends: formData =>
@@ -800,7 +799,7 @@ const formConfig = {
     contactInformationChapter: {
       title: 'Contact information',
       pages: {
-        [formPages.contactInformation.contactInformation]: {
+        phoneEmail: {
           title: 'Phone numbers and email address',
           path: 'contact-information/email-phone',
           uiSchema: {
@@ -905,7 +904,7 @@ const formConfig = {
             },
           },
         },
-        [formPages.contactInformation.mailingAddress]: {
+        mailingAddress: {
           title: 'Mailing address',
           path: 'contact-information/mailing-address',
           uiSchema: {
@@ -1043,7 +1042,7 @@ const formConfig = {
             },
           },
         },
-        [formPages.contactInformation.preferredContactMethod]: {
+        contactPreferences: {
           title: 'Contact preferences',
           path: 'contact-information/contact-preferences',
           uiSchema: {
@@ -1250,7 +1249,7 @@ const formConfig = {
     bankAccountInfoChapter: {
       title: 'Direct deposit',
       pages: {
-        [formPages.directDeposit]: {
+        directDeposit: {
           path: 'direct-deposit',
           uiSchema: {
             'ui:description': (
