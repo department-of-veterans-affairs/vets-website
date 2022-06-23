@@ -125,6 +125,7 @@ describe('filterEvents', () => {
 
   const upcomingEvent = {
     id: 'upcoming',
+    entityId: '1',
     fieldDatetimeRangeTimezone: [
       {
         endValue: now
@@ -143,6 +144,7 @@ describe('filterEvents', () => {
 
   const nextWeekEvent = {
     id: 'next-week',
+    entityId: '2',
     fieldDatetimeRangeTimezone: [
       {
         endValue: now
@@ -164,6 +166,7 @@ describe('filterEvents', () => {
 
   const nextMonthEvent = {
     id: 'next-month',
+    entityId: '3',
     fieldDatetimeRangeTimezone: [
       {
         endValue: now
@@ -185,6 +188,7 @@ describe('filterEvents', () => {
 
   const pastEvent = {
     id: 'past',
+    entityId: '4',
     fieldDatetimeRangeTimezone: [
       {
         endValue: now

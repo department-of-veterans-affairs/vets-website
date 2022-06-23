@@ -153,58 +153,77 @@ export const deriveResultsEndNumber = (page, perPage, totalResults) => {
 };
 
 export const filterEvents = (
-  allEvents,
+  events,
   filterBy,
   options = {},
   now = moment(),
 ) => {
-  const events = removeDuplicateEvents(allEvents);
   // Escape early if there are no events.
   if (isEmpty(events)) {
     return [];
+  }
+
+  function hideMultipleRepeatEvents(repeatedEvents, event) {
+    if (repeatedEvents === []) {
+      return [event];
+    }
+
+    const currentEventIds = repeatedEvents.map(ev => parseInt(ev.entityId, 10));
+
+    if (!currentEventIds.includes(parseInt(event.entityId, 10))) {
+      repeatedEvents.push(event);
+    }
+
+    return repeatedEvents;
   }
 
   // Filter the events.
   switch (filterBy) {
     // Upcoming events.
     case 'upcoming': {
-      return events?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isAfter(
-          now.clone(),
-        ),
-      );
+      return events
+        .filter(event => {
+          return moment(
+            event?.fieldDatetimeRangeTimezone[0]?.value * 1000,
+          ).isAfter(now.clone());
+        })
+        .reduce(hideMultipleRepeatEvents, []);
     }
 
     // Next week.
     case 'next-week': {
-      return events?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isBetween(
-          now
-            .clone()
-            .add('7', 'days')
-            .startOf('week'),
-          now
-            .clone()
-            .add('7', 'days')
-            .endOf('week'),
-        ),
-      );
+      return events
+        ?.filter(event =>
+          moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isBetween(
+            now
+              .clone()
+              .add('7', 'days')
+              .startOf('week'),
+            now
+              .clone()
+              .add('7', 'days')
+              .endOf('week'),
+          ),
+        )
+        .reduce(hideMultipleRepeatEvents, []);
     }
 
     // Next month.
     case 'next-month': {
-      return events?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isBetween(
-          now
-            .clone()
-            .add('1', 'month')
-            .startOf('month'),
-          now
-            .clone()
-            .add('1', 'month')
-            .endOf('month'),
-        ),
-      );
+      return events
+        ?.filter(event =>
+          moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isBetween(
+            now
+              .clone()
+              .add('1', 'month')
+              .startOf('month'),
+            now
+              .clone()
+              .add('1', 'month')
+              .endOf('month'),
+          ),
+        )
+        .reduce(hideMultipleRepeatEvents, []);
     }
 
     // Past events.
