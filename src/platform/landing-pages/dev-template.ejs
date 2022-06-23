@@ -143,24 +143,16 @@
           <div id="mega-menu"></div>
         </div>
 
-        <!-- Alert - hidden for modern browsers. -->
-        <va-alert
+        <!-- Hidden for modern browsers. -->
+        <va-banner
           class="ie-deprecation-warning"
-          close-btn-aria-label="Close notification"
-          full-width
-          status="warning"
-          style="display: none;"
-          visible
+          headline="You'll need to use a different web browser"
+          show-close
+          type="warning"
+          visible="false"
         >
-          <h3 slot="headline">
-            You'll need to use a different web browser
-          </h3>
-          <div>
-            <p class="vads-u-margin-bottom--0">
-              You're using Internet Explorer right now to access VA.gov. Microsoft stopped supporting all versions of this browser on June 15, 2022. This means that you'll need to switch to another browser, like Microsoft Edge, Google Chrome, Mozilla Firefox, or Apple Safari.
-            </p>
-          </div>
-        </va-alert>
+          You're using Internet Explorer right now to access VA.gov. Microsoft stopped supporting all versions of this browser on June 15, 2022. This means that you'll need to switch to another browser, like Microsoft Edge, Google Chrome, Mozilla Firefox, or Apple Safari.
+        </va-banner>
       </div>
     </header>
 
@@ -270,7 +262,7 @@
 
       if (isIE) {
         const ieMessageEl = document.body.querySelector('.ie-deprecation-warning');
-        ieMessageEl.style.display = 'block';
+        ieMessageEl.setAttribute('visible', '');
       }
     </script>
   </body>
