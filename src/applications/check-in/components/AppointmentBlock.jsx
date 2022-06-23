@@ -1,3 +1,4 @@
+// This component should be deleted when the isPhoneAppointmentsEnabled flag is deprecated, since it is redundant with AppointmentBlockWithIcons.
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';

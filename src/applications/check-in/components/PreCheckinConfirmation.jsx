@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
+
 import AppointmentBlock from './AppointmentBlock';
+import AppointmentBlockWithIcons from './AppointmentBlockWithIcons';
 import BackToHome from './BackToHome';
 import ExternalLink from './ExternalLink';
 import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
@@ -15,6 +20,8 @@ const PreCheckinConfirmation = props => {
     emergencyContactUpToDate,
     nextOfKinUpToDate,
   } = formData;
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
   const { t } = useTranslation();
 
   if (appointments.length === 0) {
@@ -22,7 +29,12 @@ const PreCheckinConfirmation = props => {
   }
 
   const renderLoadingMessage = () => {
-    return <va-loading-indicator message={t('completing-pre-check-in')} />;
+    return (
+      <va-loading-indicator
+        data-testid="loading-indicator"
+        message={t('completing-pre-check-in')}
+      />
+    );
   };
   const renderConfirmationMessage = () => {
     if (appointments.length === 0) {
@@ -33,28 +45,38 @@ const PreCheckinConfirmation = props => {
         pageTitle={t('youve-completed-pre-check-in')}
         testID="confirmation-wrapper"
       >
-        <AppointmentBlock appointments={appointments} />
+        {isPhoneAppointmentsEnabled ? (
+          <AppointmentBlockWithIcons
+            appointments={appointments}
+            page="confirmation"
+          />
+        ) : (
+          <AppointmentBlock appointments={appointments} />
+        )}
         <p className="vads-u-margin-bottom--4">
           <ExternalLink
             href="https://va.gov/health-care/schedule-view-va-appointments/appointments/"
             hrefLang="en"
           >
-            {t('go-to-your-appointment-details')}
+            {t('sign-in-to-manage')}
           </ExternalLink>
         </p>
-        <va-alert
-          background-only
-          status="info"
-          show-icon
-          data-testid="confirmation-update-alert"
-          class="vads-u-margin-bottom--3"
-        >
-          <div>
-            {t(
-              'please-bring-your-insurance-cards-with-you-to-your-appointment',
-            )}
-          </div>
-        </va-alert>
+        {!isPhoneAppointmentsEnabled && (
+          <va-alert
+            background-only
+            status="info"
+            show-icon
+            data-testid="confirmation-update-alert"
+            class="vads-u-margin-bottom--3"
+          >
+            <div>
+              {t(
+                'please-bring-your-insurance-cards-with-you-to-your-appointment',
+              )}
+            </div>
+          </va-alert>
+        )}
+
         <PreCheckInAccordionBlock
           demographicsUpToDate={demographicsUpToDate}
           emergencyContactUpToDate={emergencyContactUpToDate}
