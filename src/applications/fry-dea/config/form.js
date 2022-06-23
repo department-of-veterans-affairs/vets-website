@@ -33,6 +33,7 @@ import {
   applicantIsChildOfSponsor,
   addWhitespaceOnlyError,
   isAlphaNumeric,
+  AdditionalConsiderationTemplate,
 } from '../helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -55,49 +56,6 @@ const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
 const checkImageSrc = environment.isStaging()
   ? `${VAGOVSTAGING}/img/check-sample.png`
   : `${vagovprod}/img/check-sample.png`;
-
-function AdditionalConsiderationTemplate(
-  title,
-  path,
-  formField,
-  UI,
-  SCHEMA,
-  dependA,
-  dependB,
-  condition2 = false,
-) {
-  return {
-    title,
-    path,
-    uiSchema: {
-      'view:subHeadings': {
-        'ui:description': <h3>{title}</h3>,
-      },
-      [formField]: {
-        ...UI,
-      },
-    },
-    schema: {
-      type: 'object',
-      required: [formField],
-      properties: {
-        'view:subHeadings': {
-          type: 'object',
-          properties: {},
-        },
-        [formField]: { ...SCHEMA },
-      },
-    },
-    depends: formData => {
-      if (!condition2) {
-        return formData[dependA] === dependB;
-      }
-
-      const [x, y] = condition2;
-      return formData[dependA] === dependB && formData[x] !== y;
-    },
-  };
-}
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -627,9 +585,10 @@ const formConfig = {
               ),
             },
             { ...date },
-            newFormFields.newRelationshipToServiceMember,
-            RELATIONSHIP.SPOUSE,
           ),
+          depends: formData =>
+            formData[newFormFields.newRelationshipToServiceMember] ===
+            RELATIONSHIP.SPOUSE,
         },
         [newFormPages.newAdditionalConsiderations.newMarriageInformation]: {
           ...AdditionalConsiderationTemplate(
@@ -650,9 +609,10 @@ const formConfig = {
                 'Widowed',
               ],
             },
-            newFormFields.newRelationshipToServiceMember,
-            RELATIONSHIP.SPOUSE,
           ),
+          depends: formData =>
+            formData[newFormFields.newRelationshipToServiceMember] ===
+            RELATIONSHIP.SPOUSE,
         },
         [newFormPages.newAdditionalConsiderations.newMarriageInformation
           .divorced]: {
@@ -667,9 +627,11 @@ const formConfig = {
             {
               type: 'boolean',
             },
-            newFormFields.newAdditionalConsiderations.newMarriageInformation,
-            'Divorced (or a divorce is in progress)',
           ),
+          depends: formData =>
+            formData[
+              newFormFields.newAdditionalConsiderations.newMarriageInformation
+            ] === 'Divorced (or a divorce is in progress)',
         },
         [newFormPages.newAdditionalConsiderations.newMarriageInformation
           .annulled]: {
@@ -684,9 +646,11 @@ const formConfig = {
             {
               type: 'boolean',
             },
-            newFormFields.newAdditionalConsiderations.newMarriageInformation,
-            'Marriage was annulled (or annulment is in progress)',
           ),
+          depends: formData =>
+            formData[
+              newFormFields.newAdditionalConsiderations.newMarriageInformation
+            ] === 'Marriage was annulled (or annulment is in progress)',
         },
         [newFormPages.newAdditionalConsiderations.newMarriageInformation
           .widowed]: {
@@ -701,9 +665,11 @@ const formConfig = {
             {
               type: 'boolean',
             },
-            newFormFields.newAdditionalConsiderations.newMarriageInformation,
-            'Widowed',
           ),
+          depends: formData =>
+            formData[
+              newFormFields.newAdditionalConsiderations.newMarriageInformation
+            ] === 'Widowed',
         },
         [newFormPages.newAdditionalConsiderations.newRemarriageDate]: {
           ...AdditionalConsiderationTemplate(
@@ -716,12 +682,28 @@ const formConfig = {
             {
               ...date,
             },
-            newFormFields.newAdditionalConsiderations.newRemarriage,
-            true,
-            [
-              newFormFields.newAdditionalConsiderations.newMarriageInformation,
-              'Married',
-            ],
+          ),
+          depends: formData =>
+            formData[
+              newFormFields.newAdditionalConsiderations.newRemarriage
+            ] === true &&
+            formData[
+              newFormFields.newAdditionalConsiderations.newMarriageInformation
+            ] === 'Married',
+        },
+        [newFormPages.newAdditionalConsiderations.outstandingFelony]: {
+          ...AdditionalConsiderationTemplate(
+            'Outstanding felony',
+            'new/additional/consideration/felony/status',
+            newFormFields.newAdditionalConsiderations.newOutstandingFelony,
+            {
+              'ui:title':
+                'Do you or your chosen Veteran or service member have an outstanding felony or warrant?',
+              'ui:widget': 'yesNo',
+            },
+            {
+              type: 'boolean',
+            },
           ),
         },
       },
