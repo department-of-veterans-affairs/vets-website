@@ -199,8 +199,13 @@ const AddAnotherButton = ({ uiOptions, handleAdd, collapsed }) => {
     <div>
       <div className="add-item-container" name="table_root_">
         <div className="add-item-button-section">
-          <button className={linkClassNames} onClick={handleAdd} type="button">
-            <i className="fas fa-plus plus-icon" />
+          <button
+            className={linkClassNames}
+            onClick={handleAdd}
+            type="button"
+            tabIndex={0}
+          >
+            <i role="presentation" className="fas fa-plus plus-icon" />
             {uiOptions.itemName ? `Add ${uiOptions.itemName}` : 'Add another'}
           </button>
         </div>
