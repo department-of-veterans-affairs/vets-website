@@ -19,12 +19,13 @@ const { paymentHistory } = require('./payment-history');
 const bankAccounts = require('./bank-accounts');
 
 const serviceHistory = require('./service-history');
+
 // set DELAY=1000 to add 1 sec delay to all responses
 const responseDelay = process?.env?.DELAY || 0;
 
 /* eslint-disable camelcase */
 const responses = {
-  'GET /v0/user': user.badAddress,
+  'GET /v0/user': user.user72Success,
   'GET /v0/profile/status': status,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },

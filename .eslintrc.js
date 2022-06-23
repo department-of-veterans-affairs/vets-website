@@ -64,6 +64,8 @@ module.exports = {
         'no-restricted-imports': ['error', 'raven'],
         'no-unused-expressions': 0,
         'react/no-find-dom-node': 0,
+        '@department-of-veterans-affairs/axe-check-required': 0,
+        '@department-of-veterans-affairs/cypress-viewport-deprecated': 0,
       },
     },
     {

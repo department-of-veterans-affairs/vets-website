@@ -109,11 +109,9 @@ export const advanceToServiceInfoPage = () => {
 };
 
 export const shortFormAdditionalHelpAssertion = () => {
-  cy.get('va-additional-info')
+  cy.get('va-alert-expandable')
     .shadow()
-    .findByText(/you’re filling out a shortened application!/i, {
-      selector: '.additional-info-title',
-    })
+    .findByText(/you’re filling out a shortened application!/i)
     .first()
     .should('exist');
 };
@@ -174,7 +172,7 @@ export const shortFormSelfDisclosureToSubmit = () => {
 
   // check review page for self disclosure of va compensation type
   cy.get(`button.usa-button-unstyled`)
-    .contains(/^VA Benefits$/)
+    .contains(/^VA benefits$/)
     .click();
   cy.findByText(/Do you receive VA disability compensation?/i, {
     selector: 'dt',

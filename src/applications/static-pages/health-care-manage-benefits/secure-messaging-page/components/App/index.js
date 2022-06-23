@@ -4,10 +4,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 // Relative imports.
+import {
+  selectPatientFacilities,
+  selectPatientFacilitiesDsot,
+} from 'platform/user/selectors';
+import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import AuthContent from '../AuthContent';
 import UnauthContent from '../UnauthContent';
-import { selectPatientFacilities } from 'platform/user/selectors';
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 
 export const App = ({ authenticatedWithSSOe, facilities }) => {
   const cernerFacilities = facilities?.filter(f => f.usesCernerMessaging);
@@ -43,7 +46,9 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-  facilities: selectPatientFacilities(state),
+  facilities: state?.featureToggles?.pwEhrCtaDrupalSourceOfTruth
+    ? selectPatientFacilitiesDsot(state)
+    : selectPatientFacilities(state),
 });
 
 export default connect(

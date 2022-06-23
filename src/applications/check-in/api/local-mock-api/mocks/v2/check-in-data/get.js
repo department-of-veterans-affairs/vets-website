@@ -4,7 +4,7 @@ const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
 const aboutToExpireUUID = '25165847-2c16-4c8b-8790-5de37a7f427f';
 
 const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
-const isoDateWithOffsetFormat = "yyyy-LL-dd'T'HH:mm:ssxxx";
+const isoDateWithOffsetFormat = "yyyy-LL-dd'T'HH:mm:ss.SSSxxx";
 
 const createMockSuccessResponse = (
   data,

@@ -70,7 +70,7 @@ export const personalInformationFormSchemas = {
         maxLength: 25,
       },
     },
-    required: ['preferredName'],
+    required: [],
   },
   pronouns: {
     type: 'object',
@@ -186,13 +186,6 @@ export const formatMultiSelectAndText = (data, fieldName) => {
   if (mergedValues.length > 0) return mergedValues.join('; ');
 
   return null;
-};
-
-export const renderGender = gender => {
-  let content = NOT_SET_TEXT;
-  if (gender === 'M') content = 'Male';
-  else if (gender === 'F') content = 'Female';
-  return content;
 };
 
 export const renderDOB = dob => (dob ? moment(dob).format('LL') : NOT_SET_TEXT);

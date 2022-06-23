@@ -4,12 +4,10 @@ import { useLastLocation } from 'react-router-last-location';
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '@@vap-svc/actions';
 
-import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
 import {
-  cnpDirectDepositIsBlocked,
-  profileAlwaysShowDirectDepositDisplay,
   showBadAddressIndicator,
   hasBadAddress,
+  forceBadAddressIndicator,
 } from '@@profile/selectors';
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
@@ -36,9 +34,6 @@ const getScrollTarget = hash => {
 const ContactInformation = () => {
   const lastLocation = useLastLocation();
 
-  const showDirectDepositBlockedError = useSelector(
-    state => !!cnpDirectDepositIsBlocked(state),
-  );
   const hasUnsavedEdits = useSelector(
     state => state.vapService.hasUnsavedEdits,
   );
@@ -47,17 +42,19 @@ const ContactInformation = () => {
   );
   const badAddressIndicatorEnabled = useSelector(showBadAddressIndicator);
 
-  const userHasBadAddress = useSelector(state => hasBadAddress(state));
+  const userHasBadAddress = useSelector(hasBadAddress);
+
+  const shouldForceBadAddressIndicator = useSelector(
+    state =>
+      forceBadAddressIndicator(state) &&
+      !sessionStorage.getItem('profile-has-cleared-bad-address-indicator'),
+  );
 
   const addressValidationModalIsShowing = useSelector(
     state => state?.vapService?.modal === 'addressValidation',
   );
   const addressSavedDidError = useSelector(
     state => state.vapService.addressValidation.addressValidationError,
-  );
-
-  const directDepositIsAlwaysShowing = useSelector(
-    profileAlwaysShowDirectDepositDisplay,
   );
 
   const dispatch = useDispatch();
@@ -138,12 +135,12 @@ const ContactInformation = () => {
 
   const showHeroBadAddressAlert =
     badAddressIndicatorEnabled &&
-    userHasBadAddress &&
+    (userHasBadAddress || shouldForceBadAddressIndicator) &&
     !addressValidationModalIsShowing;
 
   const showFormBadAddressAlert =
     badAddressIndicatorEnabled &&
-    userHasBadAddress &&
+    (userHasBadAddress || shouldForceBadAddressIndicator) &&
     !addressSavedDidError &&
     !addressValidationModalIsShowing;
 
@@ -163,8 +160,6 @@ const ContactInformation = () => {
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}
       >
-        {showDirectDepositBlockedError &&
-          !directDepositIsAlwaysShowing && <PaymentInformationBlocked />}
         <ContactInformationContent
           hasVAPServiceError={hasVAPServiceError}
           showBadAddress={showFormBadAddressAlert}

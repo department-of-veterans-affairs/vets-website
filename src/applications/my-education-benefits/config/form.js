@@ -349,6 +349,25 @@ const checkImageSrc = (() => {
   return `${bucket}/img/check-sample.png`;
 })();
 
+const isValidAccountNumber = accountNumber => {
+  if (/^[0-9]*$/.test(accountNumber)) {
+    return accountNumber;
+  }
+  return false;
+};
+
+const validateAccountNumber = (
+  errors,
+  accountNumber,
+  formData,
+  schema,
+  errorMessages,
+) => {
+  if (!isValidAccountNumber(accountNumber)) {
+    errors.addError(errorMessages.pattern);
+  }
+};
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -1300,6 +1319,13 @@ const formConfig = {
             bankAccount: {
               ...bankAccountUI,
               'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
+              accountNumber: {
+                'ui:title': 'Bank account number',
+                'ui:validations': [validateAccountNumber],
+                'ui:errorMessages': {
+                  pattern: 'Please enter only numbers',
+                },
+              },
             },
             'view:learnMore': {
               'ui:description': (
@@ -1332,6 +1358,11 @@ const formConfig = {
             properties: {
               bankAccount: {
                 type: 'object',
+                required: [
+                  formFields.accountType,
+                  formFields.accountNumber,
+                  formFields.routingNumber,
+                ],
                 properties: {
                   accountType: {
                     type: 'string',
@@ -1343,6 +1374,7 @@ const formConfig = {
                   },
                   accountNumber: {
                     type: 'string',
+                    required: [],
                   },
                 },
               },

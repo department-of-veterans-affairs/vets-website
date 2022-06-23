@@ -4,13 +4,11 @@ import { useLastLocation } from 'react-router-last-location';
 import { useSelector, useDispatch } from 'react-redux';
 import { openModal } from '@@vap-svc/actions';
 
-import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
 import {
-  cnpDirectDepositIsBlocked,
   showProfileLGBTQEnhancements,
-  profileAlwaysShowDirectDepositDisplay,
   showBadAddressIndicator,
   hasBadAddress,
+  forceBadAddressIndicator,
 } from '@@profile/selectors';
 import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
@@ -37,9 +35,6 @@ const getScrollTarget = hash => {
 const PersonalInformation = () => {
   const lastLocation = useLastLocation();
 
-  const showDirectDepositBlockedError = useSelector(
-    state => !!cnpDirectDepositIsBlocked(state),
-  );
   const hasUnsavedEdits = useSelector(
     state => state.vapService.hasUnsavedEdits,
   );
@@ -48,11 +43,13 @@ const PersonalInformation = () => {
     showProfileLGBTQEnhancements,
   );
 
-  const directDepositIsAlwaysShowing = useSelector(
-    profileAlwaysShowDirectDepositDisplay,
-  );
-
   const userHasBadAddress = useSelector(hasBadAddress);
+
+  const shouldForceBadAddressIndicator = useSelector(
+    state =>
+      forceBadAddressIndicator(state) &&
+      !sessionStorage.getItem('profile-has-cleared-bad-address-indicator'),
+  );
 
   const badAddressIndicatorEnabled = useSelector(showBadAddressIndicator);
 
@@ -135,18 +132,21 @@ const PersonalInformation = () => {
     [openEditModal],
   );
 
+  const showHeroBadAddressAlert =
+    badAddressIndicatorEnabled &&
+    (userHasBadAddress || shouldForceBadAddressIndicator);
+
   return (
     <>
       <Prompt
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={hasUnsavedEdits}
       />
-      {badAddressIndicatorEnabled &&
-        userHasBadAddress && (
-          <>
-            <BadAddressAlert />
-          </>
-        )}
+      {showHeroBadAddressAlert && (
+        <>
+          <BadAddressAlert />
+        </>
+      )}
       {shouldShowProfileLGBTQEnhancements ? (
         <Headline>Personal information</Headline>
       ) : (
@@ -156,8 +156,6 @@ const PersonalInformation = () => {
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}
       >
-        {showDirectDepositBlockedError &&
-          !directDepositIsAlwaysShowing && <PaymentInformationBlocked />}
         <PersonalInformationContent
           hasVAPServiceError={hasVAPServiceError}
           shouldShowProfileLGBTQEnhancements={

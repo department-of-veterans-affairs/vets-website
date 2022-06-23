@@ -2712,13 +2712,13 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@department-of-veterans-affairs/component-library@^10.3.1":
-  version "10.3.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-10.3.1.tgz#78b1578ed237d5fe6ec08d288bb5fe13a9870d70"
-  integrity sha512-vJbWRY1qD2lLTUcQu4hNVniX2ROxfdCJQoIvhD05GUJNz/TNL5ttSz3FtUJaM/I64xFEr0HM2rLtm09lT3JigQ==
+"@department-of-veterans-affairs/component-library@^10.6.0":
+  version "10.6.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-10.6.0.tgz#bcd9f0b12c550f15a6a34d3ce7113cb5d7a3bafe"
+  integrity sha512-jraiRAIFuFIH/jLGUEYwPBgiAAxVuLXz2tz8cj23d0+8L0dh/1qNk+eH6yCMNJJ142blZdNmKULK3P+HW2nxtw==
   dependencies:
     "@department-of-veterans-affairs/react-components" "6.1.3"
-    "@department-of-veterans-affairs/web-components" "4.2.1"
+    "@department-of-veterans-affairs/web-components" "4.5.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2737,15 +2737,15 @@
     react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/eslint-plugin@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.1.0.tgz#fcfb3651485aaddb66f1f46f227b670b2adce7da"
-  integrity sha512-QLtevzdk7axqtFVVI0NRc9qhbCcSAdgmv/PkQF0kUPNZagKlDImL8acZRK0U74cixKIL1JUSkk8FSi761phL6w==
+"@department-of-veterans-affairs/eslint-plugin@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.2.1.tgz#98186933a21d3ef4a1790d1aa2585232849cd176"
+  integrity sha512-4QRsPsm5in1hTIS2RILjNYycICrbXWpGXXug+qhCDKfOK78hjgbzQXhyZ0KXh0NXB47NR4JA1H9jjy9oKemxwg==
 
-"@department-of-veterans-affairs/formation@^7.0.1":
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.1.tgz#641641475148816960b0312f717157b9f1c94486"
-  integrity sha512-gX74Tfgoi5z6hCIwQnnXWRwmZVl08Vs2RLM4+CS1RIEVG47BPoBqc3MoHHX+QUbSN0vOmLqY69XKxf8y2jyC9A==
+"@department-of-veterans-affairs/formation@^7.0.2":
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.2.tgz#fa828af9c456c69d86cb9a9f7f216a1b9ba3c2d4"
+  integrity sha512-OfLkYXM3v8OVgtyh07xjTnhw0sVMH6ma5tghCxdbxCcRdcja+lYGrQr0WXhWIqPWP0s7aD783fVvF/pT9xfk0g==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -2827,10 +2827,10 @@
     intersection-observer "^0.12.0"
     postcss-url "^10.1.1"
 
-"@department-of-veterans-affairs/web-components@4.2.1":
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.2.1.tgz#83a8193f12d057f4808e7e38f84726b9cdfc5796"
-  integrity sha512-xEe/56AgUlgzqOesAa9U89Cd+mPIZPCHoiWOhSrvxGLZh0f0y50bV98PjhCnt5Ue+RO9WRf9u/jUcTwVpUGpaw==
+"@department-of-veterans-affairs/web-components@4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.5.0.tgz#7833534343da7fb8b21b23545648672812868716"
+  integrity sha512-Bxql8ExxCu/dNZWo/S3VOvIMxgkjSEwvMQMiy76Hhn/8Z8CJI2Ok4DppQ5OkMqPSv8nWQJG5QBz4F6hnevXecg==
   dependencies:
     "@stencil/core" "^2.10.0"
     aria-hidden "^1.1.3"
@@ -12500,9 +12500,9 @@ joycon@^2.2.5:
   integrity sha512-YqvUxoOcVPnCp0VU1/56f+iKSdvIRJYPznH22BdXV3xMk75SFXhWeJkZ8C9XxUWt1b5x2X1SxuFygW1U0FmkEQ==
 
 jpeg-js@0.2.0, jpeg-js@^0.4.3:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/jpeg-js/-/jpeg-js-0.4.3.tgz#6158e09f1983ad773813704be80680550eff977b"
-  integrity sha512-ru1HWKek8octvUHFHvE5ZzQ1yAsJmIvRdGWvSoKV52XKyuyYA437QWDttXT8eZXDSbuMpHlLzPDZUPd6idIz+Q==
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/jpeg-js/-/jpeg-js-0.4.4.tgz#a9f1c6f1f9f0fa80cdb3484ed9635054d28936aa"
+  integrity sha512-WZzeDOEtTOBK4Mdsar0IqEU5sMr3vSV2RqkAIzUEV2BHnUfKGyswWFPFwK5EeDo93K3FohSHbLAjj0s1Wzd+dg==
 
 js-base64@^2.1.8:
   version "2.5.1"
@@ -18103,15 +18103,10 @@ shebang-regex@^3.0.0:
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
 
-shell-quote@^1.4.2:
+shell-quote@^1.4.2, shell-quote@^1.6.1:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.7.3.tgz#aa40edac170445b9a431e17bb62c0b881b9c4123"
   integrity sha512-Vpfqwm4EnqGdlsBFNmHhxhElJYrdfcxPThu+ryKS5J8L/fhAwLazFZtq+S+TWZ9ANj2piSQLGj6NQg+lKPmxrw==
-
-shell-quote@^1.6.1:
-  version "1.7.2"
-  resolved "https://registry.npmjs.org/shell-quote/-/shell-quote-1.7.2.tgz"
-  integrity sha512-mRz/m/JVscCrkMyPqHc/bczi3OQHkLTqXHEFu0zDhK/qfv3UcOA4SVmRCLmos4bhjr9ekVQubj/R7waKapmiQg==
 
 shelljs@^0.6.0, shelljs@^0.8.5:
   version "0.8.5"
@@ -20112,9 +20107,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#ecdb84139a36c0e698fe8e090361cf1fd08b3fa6":
-  version "20.20.2"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#ecdb84139a36c0e698fe8e090361cf1fd08b3fa6"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#901cc443a8f7e217287883067c87efde99cbd3b5":
+  version "20.20.3"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#901cc443a8f7e217287883067c87efde99cbd3b5"
 
 vfile-message@^2.0.0:
   version "2.0.4"

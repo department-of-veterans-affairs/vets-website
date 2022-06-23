@@ -1,0 +1,48 @@
+/*****
+
+  New homepage hero banner with a CTA to Sign In. This component displays 3 out of 8 Veteran portraits, randomly chosen on page load.
+
+  TODO:
+  - refactor vets-website/src/platform/site-wide/sass/modules/_m-homepage.scss
+
+  Date: April 2022
+  Author: allison@cityfriends.tech
+
+******/
+
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.homepage-hero {
+  // gradient background from left to right
+  &__wrapper {
+    background: linear-gradient(to right, $color-old-browser-background-start 37%, $color-old-browser-background-end);
+  }
+
+  &__container {
+    display: flex;
+  }
+
+  // these styles overwrite USWDS button styles and are specific to the homepage hero
+  &__button {
+    color: $color-primary;
+    background-color: $color-white;
+
+    &:hover, &:active {
+      background-color: $color-primary-darker;
+      outline-offset: 2px;
+    }
+
+    &:hover, &:focus, &:visited {
+      color: $color-white;
+      text-decoration: none;
+      outline-offset: 2px;
+    }
+  }
+
+  &__image {
+    min-height: 100%;
+    width: auto;
+    object-fit: cover;
+    object-position: center bottom;
+  }
+}

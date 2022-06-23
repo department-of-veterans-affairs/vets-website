@@ -95,6 +95,7 @@ export default function NextOfKinDisplay({
         loadingMessageOverride={loadingMessage}
         Footer={Footer}
         isEditEnabled={isEditEnabled}
+        withBackButton
       />
     </>
   );

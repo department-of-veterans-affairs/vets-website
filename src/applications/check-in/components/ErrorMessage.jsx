@@ -1,19 +1,14 @@
-import React, { useEffect } from 'react';
-import { focusElement } from 'platform/utilities/ui';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-const ErrorMessage = ({ header, message, additionalDetails }) => {
+const ErrorMessage = ({ message, additionalDetails }) => {
   const { t } = useTranslation();
-  const errorHeader = header ?? t('we-couldnt-check-you-in');
   const errorMessage =
     message ??
     t(
       'were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member',
     );
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
 
   const subMessage =
     errorMessage.length === 0 ? (
@@ -26,9 +21,6 @@ const ErrorMessage = ({ header, message, additionalDetails }) => {
 
   return (
     <>
-      <h1 tabIndex="-1" slot="headline">
-        {errorHeader}
-      </h1>
       {subMessage}
       {additionalDetails && (
         <div className="vads-u-margin-top--3">{additionalDetails}</div>

@@ -11,6 +11,7 @@ export default function ProfileAlert() {
       onVa-component-did-load={() => {
         recordBadAddressEvent({ location: 'profile' });
       }}
+      className="vads-u-margin-top--4"
     >
       <h2
         slot="headline"

@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -6,26 +6,26 @@ import { format, subDays } from 'date-fns';
 
 import VaModal from '@department-of-veterans-affairs/component-library/Modal';
 
-import { focusElement } from 'platform/utilities/ui';
-
 import AppointmentBlock from '../../../components/AppointmentBlock';
-import Footer from '../../../components/Footer';
+import AppointmentBlockWithIcons from '../../../components/AppointmentBlockWithIcons';
+import Footer from '../../../components/layout/Footer';
 import BackToHome from '../../../components/BackToHome';
-import LanguagePicker from '../../../components/LanguagePicker';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectVeteranData } from '../../../selectors';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+
 import ExternalLink from '../../../components/ExternalLink';
+import Wrapper from '../../../components/layout/Wrapper';
 
 const IntroductionDisplay = props => {
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
   const { router } = props;
   const { t } = useTranslation();
   const { goToNextPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
   const { appointments } = useSelector(selectVeteranData);
 
   const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
@@ -112,18 +112,18 @@ const IntroductionDisplay = props => {
     </>
   );
   return (
-    <div
-      className="vads-l-grid-container vads-u-padding-top--3 vads-u-padding-bottom--3"
-      data-testid="intro-wrapper"
+    <Wrapper
+      testID="intro-wrapper"
+      pageTitle={t('answer-pre-check-in-questions')}
     >
-      <LanguagePicker />
-      <h1 tabIndex="-1" className="vads-u-margin-top--2">
-        {t('answer-pre-check-in-questions')}
-      </h1>
       <p className="vads-u-font-family--serif">
         {t('your-answers-will-help-us-better-prepare-for-your-needs')}
       </p>
-      <AppointmentBlock appointments={appointments} />
+      {isPhoneAppointmentsEnabled ? (
+        <AppointmentBlockWithIcons appointments={appointments} page="intro" />
+      ) : (
+        <AppointmentBlock appointments={appointments} />
+      )}
       <h2 className="vads-u-margin-top--6">{t('start-here')}</h2>
       <StartButton />
       {accordionContent && accordionContent.length ? (
@@ -176,7 +176,7 @@ const IntroductionDisplay = props => {
         cssClass=""
         contents={privacyStatement}
       />
-    </div>
+    </Wrapper>
   );
 };
 

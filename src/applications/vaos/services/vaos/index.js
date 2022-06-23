@@ -1,4 +1,6 @@
 import appendQuery from 'append-query';
+import moment from 'moment';
+import { fetchAppointments } from '../appointment';
 import { apiRequestWithUrl, parseApiList, parseApiObject } from '../utils';
 
 export function postAppointment(appointment) {
@@ -92,3 +94,51 @@ export function getAvailableV2Slots(facilityId, clinicId, startDate, endDate) {
     `/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?start=${startDate}&end=${endDate}`,
   ).then(parseApiList);
 }
+
+export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
+  const batch = [];
+  let promise = null;
+
+  return () => {
+    if (!promise || navigator.userAgent === 'node.js') {
+      // Creating an array of start and end dates for each chunk
+      const ranges = Array.from(Array(chunks).keys()).map(i => {
+        return {
+          start: moment()
+            .startOf('day')
+            .subtract(i + 1, 'year')
+            .toISOString(),
+
+          end: moment()
+            .startOf('day')
+            .subtract(i, 'year')
+            .toISOString(),
+        };
+      });
+
+      // There are three chunks with date ranges from the array created above.
+      // We're trying to run them serially, because we want to be careful about
+      // overloading the upstream service, so Promise.all doesn't fit here.
+      promise = ranges.reduce(async (prev, curr) => {
+        // NOTE: This is the secret sauce to run the fetch requests sequentially.
+        // Doing an 'await' on a non promise wraps it into a promise that is then awaited.
+        // In this case, the initial value of previous is set to an empty array.
+        //
+        // NOTE: fetchAppointments will run concurrently without this await 1st!
+        await prev;
+
+        // Next, fetch the appointments which will be chained which the previous await
+        const p1 = await fetchAppointments({
+          startDate: curr.start,
+          endDate: curr.end,
+          useV2VA: true,
+          useV2CC: true,
+        });
+        batch.push(p1);
+        return Promise.resolve([...batch].flat());
+      }, []);
+    }
+
+    return promise;
+  };
+})(3);
