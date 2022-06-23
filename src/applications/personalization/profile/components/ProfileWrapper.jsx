@@ -4,11 +4,8 @@ import PropTypes from 'prop-types';
 import { isEmpty } from 'lodash';
 import {
   fullNameLoadError,
-  militaryInformationLoadError,
   personalInformationLoadError,
 } from '@@profile/selectors';
-
-import { selectProfile } from '~/platform/user/selectors';
 
 import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
 
@@ -75,9 +72,6 @@ const ProfileWrapper = ({
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const veteranStatus = selectProfile(state)?.veteranStatus;
-  const invalidVeteranStatus =
-    !veteranStatus || veteranStatus.status === 'NOT_AUTHORIZED';
   const hero = state.vaProfile?.hero;
 
   return {
@@ -86,9 +80,7 @@ const mapStateToProps = (state, ownProps) => {
     totalDisabilityRatingServerError: hasTotalDisabilityServerError(state),
     showNameTag: ownProps.isLOA3 && isEmpty(hero?.errors),
     showNotAllDataAvailableError:
-      !!fullNameLoadError(state) ||
-      !!personalInformationLoadError(state) ||
-      (!!militaryInformationLoadError(state) && !invalidVeteranStatus),
+      !!fullNameLoadError(state) || !!personalInformationLoadError(state),
   };
 };
 
