@@ -2710,6 +2710,19 @@
   dependencies:
     protobufjs "^6.10.2"
 
+"@department-of-veterans-affairs/component-library@^10.3.1":
+  version "10.6.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-10.6.2.tgz#aef7bdaba2e85ae96b64a5845021679dd28feeea"
+  integrity sha512-5dqhSSCz5489azDHaT5AQ+fySYHTmpUa6ZHjiYNOG6y2roZvk2BK0bdFHZ9u8L3klEXUIdnmvp2TqObjS200GA==
+  dependencies:
+    "@department-of-veterans-affairs/react-components" "workspace:*"
+    "@department-of-veterans-affairs/web-components" "workspace:*"
+    i18next "^21.6.14"
+    i18next-browser-languagedetector "^6.1.4"
+    react-focus-on "^3.5.1"
+    react-scroll "^1.7.16"
+    react-transition-group "^1.0.0"
+
 "@department-of-veterans-affairs/component-library@^10.6.0":
   version "10.6.0"
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-10.6.0.tgz#bcd9f0b12c550f15a6a34d3ce7113cb5d7a3bafe"
@@ -2774,7 +2787,7 @@
     react-transition-group "1"
     recast "^0.14.4"
 
-"@department-of-veterans-affairs/react-components@6.1.3":
+"@department-of-veterans-affairs/react-components@6.1.3", "@department-of-veterans-affairs/react-components@workspace:*":
   version "6.1.3"
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-6.1.3.tgz#9ba45d99b50ac6f862c633b9bc41591a05723e6f"
   integrity sha512-mVgRheEsFAJ9HPCCDUVWIDM+GE10MYbfbjmjPnfLsDYj+XWASp+OhlA5AUiyMqKMTAXEfSSMVyP9rnU+LM5cZg==
@@ -2829,6 +2842,17 @@
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.5.0.tgz#7833534343da7fb8b21b23545648672812868716"
   integrity sha512-Bxql8ExxCu/dNZWo/S3VOvIMxgkjSEwvMQMiy76Hhn/8Z8CJI2Ok4DppQ5OkMqPSv8nWQJG5QBz4F6hnevXecg==
+  dependencies:
+    "@stencil/core" "^2.10.0"
+    aria-hidden "^1.1.3"
+    body-scroll-lock "^4.0.0-beta.0"
+    classnames "^2.3.1"
+    intersection-observer "^0.12.0"
+
+"@department-of-veterans-affairs/web-components@workspace:*":
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.5.2.tgz#61cdf03e615cdfb18a8237b3c795bb0d0ac67ab3"
+  integrity sha512-UXbLdHf4qdpF3Inyr59NPsahbM+1eU8mZJ9SG5fc7KUTIRbc9etLXPyju3LrfaZ/n553meok494k2XWPuyjtpw==
   dependencies:
     "@stencil/core" "^2.10.0"
     aria-hidden "^1.1.3"

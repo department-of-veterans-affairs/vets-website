@@ -4,7 +4,11 @@
     "exports": {
         "." : "./exportsFile.js"
     },
-
+    "scripts": {
+        "demo":"for (( c=5; c>0; c-- ))\ndo echo $c\n done \n echo It’s alive!!!\n echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES.",
+        "local":"node demo-script/local-demo.js"
+    },
+  
     "dependencies": {
         "moment": "~2.24.0",
         "js-cookie": "^2.2.1",
