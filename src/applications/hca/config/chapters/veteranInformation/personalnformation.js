@@ -1,14 +1,14 @@
 import merge from 'lodash/merge';
 
-import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import HCAApplicantDescription from 'applications/hca/components/HCAApplicantDescription';
 
 const { veteranFullName } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
-    'ui:description': applicantDescription,
+    'ui:description': HCAApplicantDescription,
     veteranFullName: merge({}, fullNameUI, {
       first: {
         'ui:errorMessages': {
