@@ -13,7 +13,7 @@ export const ELIGIBILITY = {
 };
 
 export const VETERAN_NOT_LISTED_LABEL = 'Someone not listed here';
-export const VETERAN_NOT_LISTED_VALUE = 'SPONSOR_NOT_LISTED';
+export const VETERAN_NOT_LISTED_VALUE = 'VETERAN_NOT_LISTED';
 
 export const VETERANS_TYPE = PropTypes.arrayOf(
   PropTypes.shape({
@@ -36,12 +36,8 @@ export const formPages = {
   serviceHistory: 'serviceHistory',
   benefitSelection: 'benefitSelection',
   directDeposit: 'directDeposit',
-  firstSponsorSelection: 'firstSponsorSelection',
-  sponsorInformation: 'sponsorInformation',
-  sponsorHighSchool: 'sponsorHighSchool',
-  sponsorSelection: 'sponsorSelection',
-  sponsorSelectionReview: 'sponsorSelectionReview',
-  verifyHighSchool: 'verifyHighSchool',
+  veteranInformation: 'veteranInformation',
+  highSchool: 'highSchool',
   additionalConsiderations: {
     marriageDate: 'marriageDate',
     marriageInformation: {
@@ -76,22 +72,20 @@ export const formFields = {
   loanPayment: 'loanPayment',
   mobilePhoneNumber: 'mobilePhoneNumber',
   mobilePhoneNumberInternational: 'mobilePhoneNumberInternational',
-  parentGuardianSponsor: 'parentGuardianSponsor',
   phoneNumber: 'phoneNumber',
   phoneNumberInternational: 'phoneNumberInternational',
-  relationshipToServiceMember: 'relationshipToServiceMember',
+  relationshipToVeteran: 'relationshipToServiceMember',
   receiveTextMessages: 'receiveTextMessages',
   routingNumber: 'routingNumber',
   serviceHistoryIncorrect: 'serviceHistoryIncorrect',
-  selectedSponsors: 'selectedSponsors',
-  sponsorDateOfBirth: 'sponsorDateOfBirth',
-  sponsorFullName: 'sponsorFullName',
+  veteranDateOfBirth: 'veteranDateOfBirth',
+  veteranFullName: 'veteranFullName',
   ssn: 'nsn',
   userFullName: 'userFullName',
   viewBenefitSelection: 'view:benefitSelection',
   viewNoDirectDeposit: 'view:noDirectDeposit',
+  viewNoVeteranWarning: 'view:noVeteranWarning',
   viewPhoneNumbers: 'view:phoneNumbers',
-  viewSelectedSponsor: 'view:selectedSponsor',
   viewStopWarning: 'view:stopWarning',
   additionalConsiderations: {
     marriageDate: 'marriageDate',

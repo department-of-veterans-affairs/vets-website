@@ -1,4 +1,8 @@
-import { formFields, RELATIONSHIP } from './constants';
+import {
+  formFields,
+  RELATIONSHIP,
+  VETERAN_NOT_LISTED_VALUE,
+} from './constants';
 
 export function isAlphaNumeric(str) {
   const alphaNumericRegEx = new RegExp(/^[a-z0-9]+$/i);
@@ -61,26 +65,10 @@ export const formatReadableDate = rawDate => {
   return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 };
 
-export const applicantIsChildOfSponsor = formData => {
-  const numSelectedSponsors = formData[formFields.selectedSponsors]?.length;
-
-  if (
-    !numSelectedSponsors ||
-    (numSelectedSponsors === 1 && formData.sponsors?.someoneNotListed)
-    // ||
-    // (numSelectedSponsors > 1 &&
-    //   formData.firstSponsor === SPONSOR_NOT_LISTED_VALUE)
-  ) {
-    return (
-      formData[formFields.relationshipToServiceMember] === RELATIONSHIP.CHILD
-    );
-  }
-
-  const sponsors = formData.sponsors?.sponsors;
-  const sponsor =
-    numSelectedSponsors === 1
-      ? sponsors?.find(s => s.selected)
-      : sponsors?.find(s => s.id === formData.firstSponsor);
-
-  return sponsor?.relationship === RELATIONSHIP.CHILD;
+export const applicantIsChildOfVeteran = formData => {
+  return formData[formFields.selectedVeteran] === VETERAN_NOT_LISTED_VALUE
+    ? formData[formFields.relationshipToVeteran] === RELATIONSHIP.CHILD
+    : formData.veterans?.find(
+        v => v.id === formData[formFields.selectedVeteran],
+      )?.relationship === RELATIONSHIP.CHILD;
 };

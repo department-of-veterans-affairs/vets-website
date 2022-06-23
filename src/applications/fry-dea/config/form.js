@@ -30,7 +30,7 @@ import manifest from '../manifest.json';
 
 import {
   isOnlyWhitespace,
-  applicantIsChildOfSponsor,
+  applicantIsChildOfVeteran,
   addWhitespaceOnlyError,
   isAlphaNumeric,
 } from '../helpers';
@@ -38,7 +38,12 @@ import {
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-import { formFields, formPages, RELATIONSHIP } from '../constants';
+import {
+  formFields,
+  formPages,
+  RELATIONSHIP,
+  VETERAN_NOT_LISTED_VALUE,
+} from '../constants';
 import GetFormHelp from '../components/GetFormHelp';
 import GoToYourProfileLink from '../components/GoToYourProfileLink';
 import RelatedVeterans from '../components/RelatedVeterans';
@@ -49,6 +54,7 @@ import EmailReviewField from '../components/EmailReviewField';
 import YesNoReviewField from '../components/YesNoReviewField';
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import VeteransRadioGroup from '../components/VeteransRadioGroup';
+import SelectedVeteranReviewPage from '../components/SelectedVeteranReviewPage';
 
 const { date, fullName } = fullSchema5490.definitions;
 const { /* fullName, date, dateRange, usaPhone, */ email } = commonDefinitions;
@@ -225,12 +231,13 @@ const formConfig = {
     veteranServiceMember: {
       title: 'Veteran and service member information',
       pages: {
-        [formPages.chooseServiceMember]: {
+        selectVeteran: {
           title: 'Veteran and service member information',
           path: 'choose-veteran-or-service-member',
+          CustomPageReview: SelectedVeteranReviewPage,
           depends: formData => formData.veterans?.length > 1,
           uiSchema: {
-            'view:chooseServiceMemberSubHeadings': {
+            'view:selectedVeteranSubHeadings': {
               'ui:description': (
                 <>
                   <h3>Choose your Veteran or service member</h3>
@@ -248,59 +255,38 @@ const formConfig = {
               'ui:title':
                 'Which Veteran or service member’s benefits would you like to use?',
               'ui:widget': VeteransRadioGroup,
-              // 'ui:reviewWidget': FirstSponsorReviewField,
               'ui:errorMessages': {
                 required: 'Please select a Veteran or service member',
               },
-            },
-            'view:firstSponsorAdditionalInfo': {
-              'ui:description': (
-                <va-additional-info
-                  trigger="Which sponsor should I use first?"
-                  class="vads-u-margin-bottom--4"
-                >
-                  <p className="vads-u-margin-top--0">
-                    Though unlikely, you may need to consider differences in the
-                    amount of benefits each sponsor offers and when they expire.
-                    Benefits from other sponsors can be used after your first
-                    sponsor’s benefits expire.
-                  </p>
-                  <p className="vads-u-margin-bottom--0">
-                    If you choose “I’m not sure,” or if there are additional
-                    things to consider regarding your sponsors, a VA
-                    representative will reach out to help you decide.
-                  </p>
-                </va-additional-info>
-              ),
             },
           },
           schema: {
             type: 'object',
             required: [formFields.selectedVeteran],
             properties: {
-              'view:chooseServiceMemberSubHeadings': {
+              'view:selectedVeteranSubHeadings': {
                 type: 'object',
                 properties: {},
               },
               [formFields.selectedVeteran]: {
                 type: 'string',
               },
-              'view:firstSponsorAdditionalInfo': {
-                type: 'object',
-                properties: {},
-              },
             },
           },
         },
-        [formPages.sponsorInformation]: {
-          title: 'Enter your sponsor’s info',
-          path: 'sponsor/information',
-          // depends: formData =>
-          //   // formData.showUpdatedFryDeaApp &&
-          //   !formData.sponsors?.sponsors?.length ||
-          //   formData.sponsors?.someoneNotListed,
+        [formPages.veteranInformation]: {
+          title: 'Enter Veteran or service member information',
+          path: 'veteran-service-member/information',
+          depends: formData =>
+            !formData.veterans?.length ||
+            formData[formFields.selectedVeteran] === VETERAN_NOT_LISTED_VALUE,
           uiSchema: {
-            'view:noSponsorWarning': {
+            'view:veteranInformationHeading': {
+              'ui:description': (
+                <h3>Enter Veteran or service member information</h3>
+              ),
+            },
+            [formFields.viewNoVeteranWarning]: {
               'ui:description': (
                 <va-alert
                   close-btn-aria-label="Close notification"
@@ -308,64 +294,54 @@ const formConfig = {
                   visible
                 >
                   <h3 slot="headline">
-                    We do not have any sponsor information on file
+                    We do not have any Veteran or service member information on
+                    file
                   </h3>
                   <p>
-                    If you think this is incorrect, reach out to your sponsor so
-                    they can{' '}
-                    <a href="https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1">
-                      update this information on the DoD milConnect website
-                    </a>
-                    .
-                  </p>
-                  <p>
-                    You may still continue this application and enter your
-                    sponsor information manually.
+                    If you think this is incorrect, you may still continue this
+                    application and enter their information manually.
                   </p>
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData => formData.sponsors?.sponsors?.length,
+                hideIf: formData => formData.veterans?.length,
               },
             },
-            'view:sponsorNotOnFileWarning': {
+            'view:veteranNotOnFileWarning': {
               'ui:description': (
                 <va-alert
                   close-btn-aria-label="Close notification"
-                  status="warning"
+                  status="info"
                   visible
                 >
                   <h3 slot="headline">
-                    One of your selected sponsors is not on file
+                    Your selected Veteran or service member is not on file
                   </h3>
                   <p>
-                    If you think this is incorrect, reach out to your sponsor so
-                    they can{' '}
-                    <a href="https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do?execution=e3s1">
-                      update this information on the DoD milConnect website
-                    </a>
-                    .
-                  </p>
-                  <p>
-                    You may still continue this application and enter your
-                    sponsor information manually.
+                    You may still continue this application and enter their
+                    information manually.
                   </p>
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData => !formData.sponsors?.sponsors?.length,
+                hideIf: formData => !formData.veterans?.length,
               },
             },
-            [formFields.relationshipToServiceMember]: {
+            [formFields.relationshipToVeteran]: {
               'ui:title':
-                'What’s your relationship to the service member whose benefit has been transferred to you?',
+                'What’s your relationship to the Veteran or service member whose benefits you’d like to use?',
               'ui:widget': 'radio',
+              'ui:errorMessages': {
+                required: 'Please select a relationship',
+              },
             },
-            [formFields.sponsorFullName]: {
+            'view:veteranFullNameHeading': {
+              'ui:description': <h4>Veteran or service member information</h4>,
+            },
+            [formFields.veteranFullName]: {
               ...fullNameUI,
               first: {
                 ...fullNameUI.first,
-                'ui:title': 'Your sponsor’s first name',
                 'ui:validations': [
                   (errors, field) =>
                     addWhitespaceOnlyError(
@@ -377,7 +353,6 @@ const formConfig = {
               },
               last: {
                 ...fullNameUI.last,
-                'ui:title': 'Your sponsor’s last name',
                 'ui:validations': [
                   (errors, field) =>
                     addWhitespaceOnlyError(
@@ -387,35 +362,39 @@ const formConfig = {
                     ),
                 ],
               },
-              middle: {
-                ...fullNameUI.middle,
-                'ui:title': 'Your sponsor’s middle name',
-              },
             },
-            [formFields.sponsorDateOfBirth]: {
-              ...currentOrPastDateUI('Your sponsor’s date of birth'),
+            [formFields.veteranDateOfBirth]: {
+              ...currentOrPastDateUI('Date of birth'),
             },
           },
           schema: {
             type: 'object',
             required: [
-              formFields.relationshipToServiceMember,
-              formFields.sponsorDateOfBirth,
+              formFields.relationshipToVeteran,
+              formFields.veteranDateOfBirth,
             ],
             properties: {
-              'view:noSponsorWarning': {
+              'view:veteranInformationHeading': {
                 type: 'object',
                 properties: {},
               },
-              'view:sponsorNotOnFileWarning': {
+              [formFields.viewNoVeteranWarning]: {
                 type: 'object',
                 properties: {},
               },
-              [formFields.relationshipToServiceMember]: {
+              'view:veteranNotOnFileWarning': {
+                type: 'object',
+                properties: {},
+              },
+              [formFields.relationshipToVeteran]: {
                 type: 'string',
                 enum: [RELATIONSHIP.SPOUSE, RELATIONSHIP.CHILD],
               },
-              [formFields.sponsorFullName]: {
+              'view:veteranFullNameHeading': {
+                type: 'object',
+                properties: {},
+              },
+              [formFields.veteranFullName]: {
                 ...fullName,
                 required: ['first', 'last'],
                 properties: {
@@ -426,7 +405,7 @@ const formConfig = {
                   },
                 },
               },
-              [formFields.sponsorDateOfBirth]: date,
+              [formFields.veteranDateOfBirth]: date,
             },
           },
         },
@@ -438,7 +417,7 @@ const formConfig = {
         [formPages.benefitSelection]: {
           title: 'Benefit Selection',
           path: 'benefit-selection',
-          // depends: formData => formData.showUpdatedFryDeaApp,
+          depends: formData => formData.veterans?.length,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -489,7 +468,7 @@ const formConfig = {
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData => formData.sponsors?.sponsors?.length,
+                hideIf: formData => formData.veterans?.length,
               },
             },
             'view:deaMessageAlert': {
@@ -521,7 +500,7 @@ const formConfig = {
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData => formData.sponsors?.sponsors?.length,
+                hideIf: formData => formData.veterans?.length,
               },
             },
             'view:benefitSelectionExplainer': {
@@ -626,7 +605,7 @@ const formConfig = {
               ),
             },
             { ...date },
-            formFields.relationshipToServiceMember,
+            formFields.relationshipToVeteran,
             RELATIONSHIP.SPOUSE,
           ),
         },
@@ -649,7 +628,7 @@ const formConfig = {
                 'Widowed',
               ],
             },
-            formFields.relationshipToServiceMember,
+            formFields.relationshipToVeteran,
             RELATIONSHIP.SPOUSE,
           ),
         },
@@ -723,32 +702,32 @@ const formConfig = {
       },
     },
     highSchool: {
-      title: 'Sponsor information',
+      title: 'Additional considerations',
       pages: {
-        [formPages.verifyHighSchool]: {
-          title: 'Verify your high school education',
+        verifyHighSchool: {
+          title: 'High school education',
           path: 'child/high-school-education',
-          depends: formData => applicantIsChildOfSponsor(formData),
+          depends: formData => applicantIsChildOfVeteran(formData),
           uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Verify your high school education</h3>
-                  <va-alert
-                    close-btn-aria-label="Close notification"
-                    status="info"
-                    visible
-                  >
-                    <h3 slot="headline">We need additional information</h3>
-                    <div>
-                      Since you indicated that you are the child of your
-                      sponsor, please include information about your high school
-                      education.
-                    </div>
-                  </va-alert>
-                </>
-              ),
-            },
+            // 'view:subHeadings': {
+            //   'ui:description': (
+            //     <>
+            //       <h3>Verify your high school education</h3>
+            //       <va-alert
+            //         close-btn-aria-label="Close notification"
+            //         status="info"
+            //         visible
+            //       >
+            //         <h3 slot="headline">We need additional information</h3>
+            //         <div>
+            //           Since you indicated that you are the child of your
+            //           sponsor, please include information about your high school
+            //           education.
+            //         </div>
+            //       </va-alert>
+            //     </>
+            //   ),
+            // },
             [formFields.highSchoolDiploma]: {
               'ui:title':
                 'Did you earn a high school diploma or equivalency certificate?',
@@ -759,10 +738,10 @@ const formConfig = {
             type: 'object',
             required: [formFields.highSchoolDiploma],
             properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
+              // 'view:subHeadings': {
+              //   type: 'object',
+              //   properties: {},
+              // },
               [formFields.highSchoolDiploma]: {
                 type: 'string',
                 enum: ['Yes', 'No'],
@@ -770,32 +749,32 @@ const formConfig = {
             },
           },
         },
-        [formPages.sponsorHighSchool]: {
-          title: 'Verify your high school graduation date',
-          path: 'sponsor/high-school-education',
+        [formPages.highSchool]: {
+          title: 'Date received',
+          path: 'veteran-service-member/high-school-education',
           depends: formData =>
-            applicantIsChildOfSponsor(formData) &&
+            applicantIsChildOfVeteran(formData) &&
             formData[formFields.highSchoolDiploma] === 'Yes',
           uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Verify your high school education</h3>
-                  <va-alert
-                    close-btn-aria-label="Close notification"
-                    status="info"
-                    visible
-                  >
-                    <h3 slot="headline">We need additional information</h3>
-                    <div>
-                      Since you indicated that you are the child of your
-                      sponsor, please include information about your high school
-                      education.
-                    </div>
-                  </va-alert>
-                </>
-              ),
-            },
+            // 'view:subHeadings': {
+            //   'ui:description': (
+            //     <>
+            //       <h3>Verify your high school education</h3>
+            //       <va-alert
+            //         close-btn-aria-label="Close notification"
+            //         status="info"
+            //         visible
+            //       >
+            //         <h3 slot="headline">We need additional information</h3>
+            //         <div>
+            //           Since you indicated that you are the child of your
+            //           sponsor, please include information about your high school
+            //           education.
+            //         </div>
+            //       </va-alert>
+            //     </>
+            //   ),
+            // },
             [formFields.highSchoolDiplomaDate]: {
               ...currentOrPastDateUI(
                 'When did you earn your high school diploma or equivalency certificate?',
@@ -806,10 +785,10 @@ const formConfig = {
             type: 'object',
             required: [formFields.highSchoolDiplomaDate],
             properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
+              // 'view:subHeadings': {
+              //   type: 'object',
+              //   properties: {},
+              // },
               [formFields.highSchoolDiplomaDate]: date,
             },
           },
