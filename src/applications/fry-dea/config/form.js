@@ -542,7 +542,7 @@ const formConfig = {
               'ui:title': (
                 <>
                   <span className="fry-dea-labels_label--main vads-u-padding-left--1">
-                    <b>Which education benefit would you like to apply for?</b>
+                    Which education benefit would you like to apply for?
                   </span>
                   <span className="fry-dea-labels_label--secondary fry-dea-input-message vads-u-background-color--primary-alt-lightest vads-u-padding--1 vads-u-margin-top--1">
                     <i
