@@ -65,19 +65,59 @@ export const deriveMostRecentDate = (
 };
 
 export const removeDuplicateEvents = events => {
-  return events?.reduce((allEvents, event) => {
-    const currentEventIds = allEvents.map(
-      currentEvent => currentEvent.entityId,
-    );
+  if (!events) {
+    return [];
+  }
 
-    return !currentEventIds.includes(event.entityId)
-      ? [...allEvents, event]
-      : allEvents;
-  }, events);
+  return events?.reduce((allEvents, event) => {
+    const currentEventIds = allEvents.map(ev => parseInt(ev.entityId, 10));
+
+    if (!currentEventIds.includes(parseInt(event.entityId, 10))) {
+      allEvents.push(event);
+    }
+
+    return allEvents;
+  }, []);
 };
 
-export const deriveResults = (allEvents, page, perPage) => {
-  const events = removeDuplicateEvents(allEvents);
+export const fleshOutRecurringEvents = events => {
+  if (!events) {
+    return [];
+  }
+
+  const allEvents = events.reduce((fullEvents, event) => {
+    if (!event.fieldDatetimeRangeTimezone) {
+      return fullEvents;
+    }
+
+    if (event?.fieldDatetimeRangeTimezone.length === 1) {
+      fullEvents.push(event);
+      return fullEvents;
+    }
+
+    const eventTimes = event?.fieldDatetimeRangeTimezone;
+    event?.fieldDatetimeRangeTimezone.forEach((tz, index) => {
+      const timeZonesCopy = [...eventTimes];
+
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < index; i++) {
+        timeZonesCopy.unshift(timeZonesCopy.pop());
+      }
+
+      fullEvents.push({ ...event, fieldDatetimeRangeTimezone: timeZonesCopy });
+    });
+
+    return fullEvents;
+  }, []);
+
+  return [...allEvents]?.sort(
+    (event1, event2) =>
+      event1?.fieldDatetimeRangeTimezone[0]?.value -
+      event2?.fieldDatetimeRangeTimezone[0]?.value,
+  );
+};
+
+export const deriveResults = (events, page, perPage) => {
   // Escape early if we do not have events, page, or perPage.
   if (isEmpty(events) || !page || !perPage) {
     return events;
