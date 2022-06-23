@@ -1103,16 +1103,20 @@ export function transformPreferredProviderV2(provider) {
  * Fetch provider information
  *
  * @export
- * @async
- * @param {Object} providerParams Parameters needed for fetching provider
- * @param {Array<string>} providerParams.providerNpi An id for the provider to fetch info for
- * @param {boolean} providerParams.useV2 Use the VAOS v2 endpoints to get provider
- * @returns {Location} A FHIR Location resource
+ * @param {String} providerNpi An id for the provider to fetch info for
+ * @returns {Provider} Provider info
  */
 export function getPreferredProviderV2(providerNpi) {
   return getPreferredCCProvider(providerNpi);
 }
 
+/**
+ * Transform provider information
+ *
+ * @export
+ * @param {String} providerNpi An id for the provider to fetch info for
+ * @returns {Provider} Transformed Provider info
+ */
 export async function getTransformedPreferredProvider(providerNpi) {
   const prov = await getPreferredProviderV2(providerNpi);
   return transformPreferredProviderV2(prov);

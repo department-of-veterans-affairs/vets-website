@@ -603,7 +603,7 @@ export function fetchConfirmedAppointmentDetails(id, type) {
         state.appointments.facilityData?.[facilityId] ||
         appointment.vaos.facilityData;
 
-      // Similar to the clinic, we'd expect to have the facility and provider data included, but if
+      // Similar to the clinic, we'd expect to have the facility data included, but if
       // we don't, fetch it
       if (facilityId && !facility) {
         try {
