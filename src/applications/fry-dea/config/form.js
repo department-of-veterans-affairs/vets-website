@@ -34,6 +34,7 @@ import {
   addWhitespaceOnlyError,
   isAlphaNumeric,
   AdditionalConsiderationTemplate,
+  applicantIsSpouseOfVeteran,
 } from '../helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -554,136 +555,6 @@ const formConfig = {
     additionalConsideration: {
       title: 'Additional considerations',
       pages: {
-        additionalConsiderationsMarriageDate: {
-          ...AdditionalConsiderationTemplate(
-            'Marriage date',
-            'additional/consideration/marriage/date',
-            formFields.additionalConsiderations.marriageDate,
-            {
-              ...currentOrPastDateUI(
-                'When did you get married to your chosen Veteran or service member?',
-              ),
-            },
-            { ...date },
-          ),
-          depends: formData =>
-            formData[formFields.relationshipToVeteran] === RELATIONSHIP.SPOUSE,
-        },
-        additionalConsiderationsMarriageInformation: {
-          ...AdditionalConsiderationTemplate(
-            'Marriage information',
-            'additional/consideration/marriage/information',
-            formFields.additionalConsiderations.marriageInformation,
-            {
-              'ui:title':
-                'What’s the status of your marriage with your chosen Veteran or service member?',
-              'ui:widget': 'radio',
-            },
-            {
-              type: 'string',
-              enum: [
-                'Married',
-                'Divorced (or a divorce is in progress)',
-                'Marriage was annulled (or annulment is in progress)',
-                'Widowed',
-              ],
-            },
-          ),
-          depends: formData =>
-            formData[formFields.relationshipToVeteran] === RELATIONSHIP.SPOUSE,
-        },
-        additionalConsiderationsMarriageInformationDivorced: {
-          ...AdditionalConsiderationTemplate(
-            'Remarriage',
-            'additional/consideration/remarriage/information/divorced',
-            formFields.additionalConsiderations.remarriage,
-            {
-              'ui:title': 'Have you been remarried?',
-              'ui:widget': 'yesNo',
-            },
-            {
-              type: 'boolean',
-            },
-          ),
-          depends: formData =>
-            formData[
-              formFields.additionalConsiderations.marriageInformation
-            ] === 'Divorced (or a divorce is in progress)',
-        },
-        additionalConsiderationsMarriageInformationAnnulled: {
-          ...AdditionalConsiderationTemplate(
-            'Remarriage',
-            'additional/consideration/remarriage/information/annulment',
-            formFields.additionalConsiderations.remarriage,
-            {
-              'ui:title': 'Have you been remarried since your annulment?',
-              'ui:widget': 'yesNo',
-            },
-            {
-              type: 'boolean',
-            },
-          ),
-          depends: formData =>
-            formData[
-              formFields.additionalConsiderations.marriageInformation
-            ] === 'Marriage was annulled (or annulment is in progress)',
-        },
-        additionalConsiderationsMarriageInformationWidowed: {
-          ...AdditionalConsiderationTemplate(
-            'Remarriage',
-            'additional/consideration/remarriage/information/widowed',
-            formFields.additionalConsiderations.remarriage,
-            {
-              'ui:title': 'Have you been remarried since being widowed?',
-              'ui:widget': 'yesNo',
-            },
-            {
-              type: 'boolean',
-            },
-          ),
-          depends: formData =>
-            formData[
-              formFields.additionalConsiderations.marriageInformation
-            ] === 'Widowed',
-        },
-        additionalConsiderationsRemarriageDate: {
-          ...AdditionalConsiderationTemplate(
-            'Remarriage date',
-            'additional/consideration/remarriage/date',
-            formFields.additionalConsiderations.remarriageDate,
-            {
-              ...currentOrPastDateUI('When did you get remarried?'),
-            },
-            {
-              ...date,
-            },
-          ),
-          depends: formData =>
-            formData[formFields.additionalConsiderations.remarriage] === true &&
-            formData[
-              formFields.additionalConsiderations.marriageInformation
-            ] === 'Married',
-        },
-        additionalConsiderationsOutstandingFelony: {
-          ...AdditionalConsiderationTemplate(
-            'Outstanding felony',
-            'new/additional/consideration/felony/status',
-            formFields.additionalConsiderations.outstandingFelony,
-            {
-              'ui:title':
-                'Do you or your chosen Veteran or service member have an outstanding felony or warrant?',
-              'ui:widget': 'yesNo',
-            },
-            {
-              type: 'boolean',
-            },
-          ),
-        },
-      },
-    },
-    highSchool: {
-      title: 'Additional considerations',
-      pages: {
         verifyHighSchool: {
           title: 'High school education',
           path: 'child/high-school-education',
@@ -773,10 +644,135 @@ const formConfig = {
             },
           },
         },
+        marriageDate: {
+          ...AdditionalConsiderationTemplate(
+            'Marriage date',
+            'additional/consideration/marriage/date',
+            formFields.additionalConsiderations.marriageDate,
+            {
+              ...currentOrPastDateUI(
+                'When did you get married to your chosen Veteran or service member?',
+              ),
+            },
+            { ...date },
+          ),
+          depends: formData => applicantIsSpouseOfVeteran(formData),
+        },
+        marriageInformation: {
+          ...AdditionalConsiderationTemplate(
+            'Marriage information',
+            'additional/consideration/marriage/information',
+            formFields.additionalConsiderations.marriageInformation,
+            {
+              'ui:title':
+                'What’s the status of your marriage with your chosen Veteran or service member?',
+              'ui:widget': 'radio',
+            },
+            {
+              type: 'string',
+              enum: [
+                'Married',
+                'Divorced (or a divorce is in progress)',
+                'Marriage was annulled (or annulment is in progress)',
+                'Widowed',
+              ],
+            },
+          ),
+          depends: formData => applicantIsSpouseOfVeteran(formData),
+        },
+        marriageInformationDivorced: {
+          ...AdditionalConsiderationTemplate(
+            'Remarriage',
+            'additional/consideration/remarriage/information/divorced',
+            formFields.additionalConsiderations.remarriage,
+            {
+              'ui:title': 'Have you been remarried?',
+              'ui:widget': 'yesNo',
+            },
+            {
+              type: 'boolean',
+            },
+          ),
+          depends: formData =>
+            applicantIsSpouseOfVeteran(formData) &&
+            formData[
+              formFields.additionalConsiderations.marriageInformation
+            ] === 'Divorced (or a divorce is in progress)',
+        },
+        marriageInformationAnnulled: {
+          ...AdditionalConsiderationTemplate(
+            'Remarriage',
+            'additional/consideration/remarriage/information/annulment',
+            formFields.additionalConsiderations.remarriage,
+            {
+              'ui:title': 'Have you been remarried since your annulment?',
+              'ui:widget': 'yesNo',
+            },
+            {
+              type: 'boolean',
+            },
+          ),
+          depends: formData =>
+            applicantIsSpouseOfVeteran(formData) &&
+            formData[
+              formFields.additionalConsiderations.marriageInformation
+            ] === 'Marriage was annulled (or annulment is in progress)',
+        },
+        marriageInformationWidowed: {
+          ...AdditionalConsiderationTemplate(
+            'Remarriage',
+            'additional/consideration/remarriage/information/widowed',
+            formFields.additionalConsiderations.remarriage,
+            {
+              'ui:title': 'Have you been remarried since being widowed?',
+              'ui:widget': 'yesNo',
+            },
+            {
+              type: 'boolean',
+            },
+          ),
+          depends: formData =>
+            applicantIsSpouseOfVeteran(formData) &&
+            formData[
+              formFields.additionalConsiderations.marriageInformation
+            ] === 'Widowed',
+        },
+        remarriageDate: {
+          ...AdditionalConsiderationTemplate(
+            'Remarriage date',
+            'additional/consideration/remarriage/date',
+            formFields.additionalConsiderations.remarriageDate,
+            {
+              ...currentOrPastDateUI('When did you get remarried?'),
+            },
+            {
+              ...date,
+            },
+          ),
+          depends: formData =>
+            applicantIsSpouseOfVeteran(formData) &&
+            formData[formFields.additionalConsiderations.remarriage] &&
+            formData[
+              formFields.additionalConsiderations.marriageInformation
+            ] === 'Married',
+        },
+        outstandingFelony: {
+          ...AdditionalConsiderationTemplate(
+            'Outstanding felony',
+            'new/additional/consideration/felony/status',
+            formFields.additionalConsiderations.outstandingFelony,
+            {
+              'ui:title':
+                'Do you or your chosen Veteran or service member have an outstanding felony or warrant?',
+              'ui:widget': 'yesNo',
+            },
+            {
+              type: 'boolean',
+            },
+          ),
+        },
       },
     },
-    // Mariage chapter
-    // Outstanding felony chapter
     contactInformationChapter: {
       title: 'Contact information',
       pages: {

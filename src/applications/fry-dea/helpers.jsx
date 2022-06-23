@@ -66,12 +66,23 @@ export const formatReadableDate = rawDate => {
   return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 };
 
+const applicantMatchesVeteranRelationship = (formData, relationship) => {
+  const r =
+    formData[formFields.selectedVeteran] === VETERAN_NOT_LISTED_VALUE
+      ? formData[formFields.relationshipToVeteran]
+      : formData.veterans?.find(
+          v => v.id === formData[formFields.selectedVeteran],
+        )?.relationship;
+
+  return r === relationship;
+};
+
 export const applicantIsChildOfVeteran = formData => {
-  return formData[formFields.selectedVeteran] === VETERAN_NOT_LISTED_VALUE
-    ? formData[formFields.relationshipToVeteran] === RELATIONSHIP.CHILD
-    : formData.veterans?.find(
-        v => v.id === formData[formFields.selectedVeteran],
-      )?.relationship === RELATIONSHIP.CHILD;
+  return applicantMatchesVeteranRelationship(formData, RELATIONSHIP.CHILD);
+};
+
+export const applicantIsSpouseOfVeteran = formData => {
+  return applicantMatchesVeteranRelationship(formData, RELATIONSHIP.SPOUSE);
 };
 
 export const AdditionalConsiderationTemplate = (
