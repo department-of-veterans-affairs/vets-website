@@ -20,6 +20,7 @@ import {
   getAppointments,
   postAppointment,
   putAppointment,
+  getPreferredCCProvider,
 } from '../vaos';
 import {
   transformConfirmedAppointment,
@@ -397,6 +398,18 @@ export function getVAAppointmentLocationId(appointment) {
 
   return appointment?.location.stationId;
 }
+
+/**
+ * Returns the NPI of a CC Provider
+ *
+ * @export
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @returns {string} The NPI of the CC Provider
+ */
+export function getPreferredCCProviderNPI(appointment) {
+  return appointment?.practitioners[0].identifier[0].value;
+}
+
 /**
  * Returns the patient telecom info in a VA appointment
  *
@@ -1068,4 +1081,39 @@ export function getAppointmentTimezone(appointment) {
     abbreviation,
     description: getTimezoneNameFromAbbr(abbreviation),
   };
+}
+
+/**
+ * Transforms a provider object from the providers endpoint into our
+ * VAOS format
+ *
+ * @export
+ * @param {provider} provider A provider from the providers endpoint
+ * @returns {Provider} A Provider resource
+ */
+export function transformPreferredProviderV2(provider) {
+  return {
+    resourceType: 'Provider',
+    id: provider.ProviderIdentifier,
+    name: provider.Name,
+  };
+}
+
+/**
+ * Fetch provider information
+ *
+ * @export
+ * @async
+ * @param {Object} providerParams Parameters needed for fetching provider
+ * @param {Array<string>} providerParams.providerNpi An id for the provider to fetch info for
+ * @param {boolean} providerParams.useV2 Use the VAOS v2 endpoints to get provider
+ * @returns {Location} A FHIR Location resource
+ */
+export function getPreferredProviderV2(providerNpi) {
+  return getPreferredCCProvider(providerNpi);
+}
+
+export async function getTransformedPreferredProvider(providerNpi) {
+  const prov = await getPreferredProviderV2(providerNpi);
+  return transformPreferredProviderV2(prov);
 }

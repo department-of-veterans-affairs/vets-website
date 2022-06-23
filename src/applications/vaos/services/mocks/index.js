@@ -27,6 +27,7 @@ const generateMockSlots = require('./var/slots');
 // v2
 const requestsV2 = require('./v2/requests.json');
 const facilitiesV2 = require('./v2/facilities.json');
+const providersV2 = require('./v2/providers.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
@@ -255,6 +256,15 @@ const responses = {
   'GET /vaos/v2/facilities/:id': (req, res) => {
     return res.json({
       data: facilitiesV2.data.find(facility => facility.id === req.params.id),
+    });
+  },
+  'GET /vaos/v2/providers/:id': (req, res) => {
+    return res.json({
+      data: {
+        attributes: providersV2.data.find(
+          provider => provider.ProviderIdentifier === Number(req.params.id),
+        ),
+      },
     });
   },
   'GET /vaos/v2/facilities': (req, res) => {

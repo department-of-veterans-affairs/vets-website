@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { getPatientInstruction } from '.';
+import { getPatientInstruction } from './index';
 import {
   APPOINTMENT_TYPES,
   PURPOSE_TEXT,

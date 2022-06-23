@@ -1,5 +1,10 @@
 import appendQuery from 'append-query';
-import { apiRequestWithUrl, parseApiList, parseApiObject } from '../utils';
+import {
+  apiRequestWithUrl,
+  parseApiList,
+  parseApiObject,
+  parseApiObjectWithoutId,
+} from '../utils';
 
 export function postAppointment(appointment) {
   return apiRequestWithUrl('/vaos/v2/appointments', {
@@ -91,4 +96,10 @@ export function getAvailableV2Slots(facilityId, clinicId, startDate, endDate) {
   return apiRequestWithUrl(
     `/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?start=${startDate}&end=${endDate}`,
   ).then(parseApiList);
+}
+
+export function getPreferredCCProvider(id) {
+  return apiRequestWithUrl(`/vaos/v2/providers/${id}`, {
+    method: 'GET',
+  }).then(parseApiObjectWithoutId);
 }

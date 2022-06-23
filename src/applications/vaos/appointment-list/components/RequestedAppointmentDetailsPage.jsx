@@ -30,6 +30,7 @@ import {
   closeCancelAppointment,
   confirmCancelAppointment,
   fetchRequestDetails,
+  getProviderInfoV2,
 } from '../redux/actions';
 import RequestedStatusAlert from './RequestedStatusAlert';
 
@@ -48,6 +49,8 @@ export default function RequestedAppointmentDetailsPage() {
     cancelInfo,
     appointment,
     message,
+    providerData,
+    useV2,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
@@ -56,7 +59,6 @@ export default function RequestedAppointmentDetailsPage() {
   useEffect(() => {
     dispatch(fetchRequestDetails(id));
   }, []);
-
   useEffect(
     () => {
       if (appointment) {
@@ -65,12 +67,13 @@ export default function RequestedAppointmentDetailsPage() {
         const typeOfCareText = lowerCase(
           appointment?.type?.coding?.[0]?.display,
         );
-
         const title = `${isCanceled ? 'Canceled' : 'Pending'} ${
           isCC ? 'Community care' : 'VA'
         } ${typeOfCareText} appointment`;
 
         document.title = title;
+
+        dispatch(getProviderInfoV2(appointment));
       }
       scrollAndFocus();
     },
@@ -112,7 +115,11 @@ export default function RequestedAppointmentDetailsPage() {
     );
   }
 
-  if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
+  if (
+    !appointment ||
+    appointmentDetailsStatus === FETCH_STATUS.loading ||
+    (useV2 && !providerData)
+  ) {
     return (
       <FullWidthLayout>
         <va-loading-indicator
@@ -131,8 +138,10 @@ export default function RequestedAppointmentDetailsPage() {
   const facility = facilityData?.[facilityId];
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const provider = appointment.preferredCommunityCareProviders?.[0];
   const comment = message || appointment.comment;
+  const provider = useV2
+    ? providerData
+    : appointment.preferredCommunityCareProviders?.[0];
   const apptDetails =
     appointment.reason && comment
       ? `${appointment.reason}: ${comment}`
@@ -235,6 +244,7 @@ export default function RequestedAppointmentDetailsPage() {
                 className="fas fa-times vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-right--1"
               />
               <button
+                type="button"
                 aria-label="Cancel request"
                 className="vaos-appts__cancel-btn va-button-link vads-u-flex--0"
                 onClick={() => {
