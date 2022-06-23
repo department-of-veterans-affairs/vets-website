@@ -37,12 +37,20 @@ const ConfirmablePage = ({
           {subtitle}
         </p>
       )}
-      <div className="vads-u-border-color--primary vads-u-border-left--5px vads-u-margin-left--0p5 vads-u-padding-left--2">
+      <div className="vads-u-margin-top--3">
         <dl data-testid="demographics-fields">
-          {dataFields.map(field => (
+          {dataFields.map((field, i, { length }) => (
             <React.Fragment key={field.key}>
-              <dt className="vads-u-font-weight--bold">{field.title}</dt>
-              <dd>
+              <dt className="vads-u-font-weight--bold vads-u-border-top--1px vads-u-padding-top--2 vads-u-margin-top--2 vads-u-border-color--gray-light">
+                {field.title}
+              </dt>
+              <dd
+                className={
+                  i + 1 === length
+                    ? 'vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-bottom--2'
+                    : ''
+                }
+              >
                 {field.key in data && data[field.key] ? (
                   <DemographicItem demographic={data[field.key]} />
                 ) : (
@@ -76,7 +84,7 @@ const ConfirmablePage = ({
         <>
           <button
             onClick={yesAction}
-            className="usa-button-secondary usa-button-big"
+            className="usa-button-primary usa-button-big"
             data-testid="yes-button"
             type="button"
           >
