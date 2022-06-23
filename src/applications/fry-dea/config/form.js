@@ -517,7 +517,7 @@ const formConfig = {
                   <h4>Receive up to 45 months of benefits, including</h4>
                   <p>
                     <i className="fas fa-money-check-alt" aria-hidden="true" />{' '}
-                    Monthly stipened
+                    Monthly stipend
                   </p>
                   <a href="va.gov">
                     Learn more about the DEA education benefit
