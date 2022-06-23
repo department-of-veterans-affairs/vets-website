@@ -208,14 +208,14 @@ export function selectCanUseVaccineFlow(state) {
 }
 
 export function selectRequestedAppointmentDetails(state, id) {
-  const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
-    state,
-  );
   const {
     appointmentDetailsStatus,
     facilityData,
     providerData,
   } = state.appointments;
+  const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
+    state,
+  );
   return {
     appointment: selectAppointmentById(state, id, [
       APPOINTMENT_TYPES.request,
@@ -288,17 +288,16 @@ export function getPastAppointmentListInfo(state) {
 }
 
 export function selectCommunityCareDetailsInfo(state, id) {
-  const {
-    appointmentDetailsStatus,
-    facilityData,
-    providerData,
-  } = state.appointments;
+  const { appointmentDetailsStatus, facilityData } = state.appointments;
+  const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
+    state,
+  );
   return {
     appointment: selectAppointmentById(state, id, [
       APPOINTMENT_TYPES.ccAppointment,
     ]),
     appointmentDetailsStatus,
     facilityData,
-    providerData,
+    useV2: featureVAOSServiceCCAppointments,
   };
 }

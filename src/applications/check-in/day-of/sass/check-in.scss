@@ -78,3 +78,21 @@ ol.appointment-list{
     }
   }
 }
+
+ol.check-in--appointment-list{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  .check-in--appointment-item{
+    width: 100%;
+    dl.check-in--appointment-summary{
+      display: grid;
+      grid-template-columns: min-content auto;
+      grid-template-rows: auto auto auto;
+      dt.check-in--label{
+        margin-top: 0;
+        font-weight: bold;
+       }
+    }
+  }
+}

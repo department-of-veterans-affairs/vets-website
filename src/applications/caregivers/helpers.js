@@ -82,8 +82,6 @@ export const submitTransform = (formConfig, form) => {
 
         const documentUpload = data[key][0].guid;
         sortedDataByChapter.poaAttachmentId = documentUpload;
-
-        // if has same prefix
       } else if (key.includes(dataPrefix)) {
         // if preferredFacility grab the nested "plannedClinic" value, and surface it
         if (key === 'veteranPreferredFacility') {

@@ -33,6 +33,7 @@ import {
   getProviderInfoV2,
 } from '../redux/actions';
 import RequestedStatusAlert from './RequestedStatusAlert';
+import { getTypeOfCareById } from '../../utils/appointment';
 
 const TIME_TEXT = {
   AM: 'in the morning',
@@ -49,8 +50,8 @@ export default function RequestedAppointmentDetailsPage() {
     cancelInfo,
     appointment,
     message,
-    providerData,
     useV2,
+    providerData,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
@@ -146,6 +147,7 @@ export default function RequestedAppointmentDetailsPage() {
     appointment.reason && comment
       ? `${appointment.reason}: ${comment}`
       : comment || (appointment.reason ? appointment.reason : null);
+  const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
 
   return (
     <PageLayout>
@@ -174,6 +176,17 @@ export default function RequestedAppointmentDetailsPage() {
 
       {isCCRequest ? (
         <>
+          {useV2 && (
+            <>
+              <h2
+                className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
+                data-cy="community-care-appointment-details-header"
+              >
+                <div className="vads-u-display--inline">Type of care</div>
+              </h2>
+              <div>{typeOfCare?.name}</div>
+            </>
+          )}
           <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
             Preferred community care provider
           </h2>

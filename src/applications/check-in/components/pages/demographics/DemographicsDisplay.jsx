@@ -77,12 +77,7 @@ export default function DemographicsDisplay({
     <>
       <ConfirmablePage
         header={header || t('is-this-your-current-contact-information')}
-        subtitle={
-          subtitle ||
-          t(
-            'we-can-better-follow-up-with-you-after-your-appointment-when-we-have-your-current-information',
-          )
-        }
+        subtitle={subtitle}
         dataFields={demographicFields}
         data={demographics}
         isEditEnabled={isEditEnabled}

@@ -19,7 +19,7 @@ const {
 
 export default {
   uiSchema: {
-    'ui:title': 'Previous Calendar Year\u2019s Deductible Expenses',
+    'ui:title': 'Previous calendar year\u2019s deductible expenses',
     'ui:description': deductibleExpensesDescription,
     deductibleMedicalExpenses: set(
       'ui:validations',

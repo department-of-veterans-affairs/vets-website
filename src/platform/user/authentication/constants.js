@@ -15,9 +15,11 @@ export const API_SESSION_URL = ({ version = API_VERSION, type = null }) =>
 
 export const API_SIGN_IN_SERVICE_URL = ({
   version = SIS_API_VERSION,
-  type = null,
+  type = '',
   endpoint = 'authorize',
-}) => `${environment.API_URL}/${version}/sign_in/${type}/${endpoint}`;
+}) =>
+  `${environment.API_URL}/${version}/sign_in/${endpoint}${type &&
+    `?type=${type}`}`;
 
 export const AUTH_EVENTS = {
   MODAL_LOGIN: 'login-link-clicked-modal',
@@ -30,6 +32,10 @@ export const AUTH_EVENTS = {
   REGISTER: 'register-link-clicked',
   ERROR_USER_FETCH: 'login-error-user-fetch',
   ERROR_FORCE_NEEDED: 'login-failed-force-needed',
+  OAUTH_LOGIN: 'login-oauth-success',
+  OAUTH_ERROR_DEFAULT: 'login-error-oauth-default',
+  OAUTH_ERROR_STATE_MISMATCH: 'login-error-oauth-state-mismatch',
+  OAUTH_ERROR_USER_FETCH: 'login-error-oauth-user-fetch',
 };
 
 export const SERVICE_PROVIDERS = {
@@ -82,9 +88,12 @@ export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
 };
 
-export const GA_TRACKING_ID_KEY = 'trackingId';
-export const GA_CLIENT_ID_KEY = 'clientId';
-export const VAGOV_TRACKING_IDS = ['UA-50123418-16', 'UA-50123418-17'];
+export const GA = {
+  clientIdKey: 'clientId',
+  trackingIdKey: 'trackingId',
+  trackingIds: ['UA-50123418-16', 'UA-50123418-17'],
+  queryParamKey: 'ga_client_id',
+};
 
 export const POLICY_TYPES = {
   VERIFY: 'verify',
@@ -121,6 +130,7 @@ export const AUTH_ERROR = {
   ICN_MISMATCH: '103', // ICN Mismatch
   UUID_MISSING: '104', // UUID Missing (Login.gov or ID.me)
   MULTIPLE_CORPIDS: '106', // Multiple Corp IDs
+  REQUIRED_MISSING_USER_PARAMTER: '108',
 };
 
 export const MHV_TRANSITION_DATE = null;

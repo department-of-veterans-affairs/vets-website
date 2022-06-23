@@ -101,17 +101,12 @@ say "INFO: Expanding source into build/"
 mkdir build
 tar -x $compress -C build -f "$(basename "$SOURCE")"
 
-# Exit if BUILD.txt file isn't present in source
-if [ ! -f build/BUILD.txt ] ; then
-    say_err "ERROR: BUILD.txt file missing from source tarball"
-    exit 1
-fi
-
 # Copy filtered assets into 'assets' directory. The build should already
 # only contain application assets, but exclude global assets just to be safe
 say "INFO: Filtering assets for S3 sync"
 mkdir assets
 rsync -a \
+    --exclude 'BUILD.txt' \
     --exclude 'generated/node_modules*' \
     --exclude 'generated/polyfills*' \
     --exclude 'generated/shared-modules.*' \
