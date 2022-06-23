@@ -1,0 +1,27 @@
+{
+  "data": [
+    {
+  "ProviderIdentifier": 1801312053,
+  "ProviderIdentifierType": "NPI",
+  "Name": "ANDERSON, SARA JOE",
+  "ProviderType": "Individual",
+  "Address": "1640 GREGSON ST\r\nDURHAM, NC",
+  "AddressStreet": "1640 GREGSON ST",
+  "AddressCity": "DURHAM",
+  "AddressStateProvince": "NC",
+  "AddressCounty": "DURHAM"
+  
+    },
+    {
+      "ProviderIdentifier": 1952935777,
+      "ProviderIdentifierType": "NPI",
+      "Name": "SOME, PROVIDER",
+      "ProviderType": "Individual",
+      "Address": "1640 GREGSON ST\r\nDURHAM, NC",
+      "AddressStreet": "1640 GREGSON ST",
+      "AddressCity": "DURHAM",
+      "AddressStateProvince": "NC",
+      "AddressCounty": "DURHAM"
+    }
+      ]
+}

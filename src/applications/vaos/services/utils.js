@@ -102,3 +102,16 @@ export function parseApiObject(resp) {
     id: resp.data.id,
   };
 }
+/**
+ * Parses a single item response and returns the attributes object that contains
+ * the actual data
+ *
+ * @export
+ * @param {Object} resp Response object with a single object data property
+ * @returns {Object} The data.attributes object from resp, but without the id included
+ */
+export function parseApiObjectWithoutId(resp) {
+  return {
+    ...resp.data.attributes,
+  };
+}

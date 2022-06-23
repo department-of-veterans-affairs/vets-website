@@ -1,7 +1,12 @@
 import appendQuery from 'append-query';
 import moment from 'moment';
 import { fetchAppointments } from '../appointment';
-import { apiRequestWithUrl, parseApiList, parseApiObject } from '../utils';
+import {
+  apiRequestWithUrl,
+  parseApiList,
+  parseApiObject,
+  parseApiObjectWithoutId,
+} from '../utils';
 
 export function postAppointment(appointment) {
   return apiRequestWithUrl('/vaos/v2/appointments', {
@@ -94,7 +99,6 @@ export function getAvailableV2Slots(facilityId, clinicId, startDate, endDate) {
     `/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?start=${startDate}&end=${endDate}`,
   ).then(parseApiList);
 }
-
 export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
   const batch = [];
   let promise = null;
@@ -142,3 +146,9 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
     return promise;
   };
 })(3);
+
+export function getPreferredCCProvider(id) {
+  return apiRequestWithUrl(`/vaos/v2/providers/${id}`, {
+    method: 'GET',
+  }).then(parseApiObjectWithoutId);
+}
