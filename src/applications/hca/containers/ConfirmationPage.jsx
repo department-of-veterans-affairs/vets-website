@@ -53,16 +53,17 @@ const ConfirmationPage = ({ form, profile, isLoggedIn }) => {
         <p>
           We usually decide on applications within <strong>1 week</strong>.
         </p>
-
-        <p>
-          If we need you to provide more information or documents, we’ll contact
-          you by mail.
-        </p>
-        <p>
-          <strong>
-            If we haven’t contacted you within a week after you submitted your
-            application
-          </strong>
+        <p>We’ll contact you if we:</p>
+        <ul>
+          <li>
+            Successfully receive and process your application,{' '}
+            <strong>or</strong>
+          </li>
+          <li>If we need you to provide more information or documents</li>
+        </ul>
+        <p className="vads-u-font-weight--bold">
+          If we haven’t contacted you within a week after you submitted your
+          application
         </p>
         <p>
           Please don’t apply again. Instead, please call our toll-free hotline
@@ -130,7 +131,7 @@ ConfirmationPage.propTypes = {
 
 const mapStateToProps = state => ({
   form: state.form,
-  isLoggedIn: state.user?.login.currentlyLoggedIn,
+  isLoggedIn: state.user?.login?.currentlyLoggedIn,
   profile: state.user?.profile,
 });
 
