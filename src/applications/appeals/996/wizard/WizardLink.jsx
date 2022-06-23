@@ -10,11 +10,8 @@ const WizardLink = (
       online request tool. This online option is only available for disability
       compensation claims.
     </p>
-    <a
-      href={BASE_URL}
-      className="usa-button usa-button-primary va-button-primary"
-    >
-      Let&apos;s get started
+    <a href={BASE_URL} className="vads-c-action-link--green">
+      Let’s get started
       <span role="img" aria-hidden="true" className="button-icon">
         &nbsp;»
       </span>
