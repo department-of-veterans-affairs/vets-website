@@ -32,7 +32,6 @@ describe('check-in', () => {
           isLoadingFeatureFlags: false,
           isCheckInEnabled: true,
           isPreCheckInEnabled: true,
-          isUpdatePageEnabled: true,
           isEditingPreCheckInEnabled: false,
           isEditingDayOfEnabled: false,
           isTranslationPreCheckInEnabled: false,
