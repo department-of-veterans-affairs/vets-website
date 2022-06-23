@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter, Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { fromUnixTime, isBefore } from 'date-fns';
 import { format } from 'date-fns-tz';
@@ -209,14 +209,15 @@ class SaveInProgressIntro extends React.Component {
           {unauthStartButton}
           {!this.props.hideUnauthedStartLink && (
             <p>
-              <button
-                className="va-button-link schemaform-start-button"
+              <Link
                 onClick={this.goToBeginning}
+                to={this.getStartPage}
+                className="schemaform-start-button"
                 aria-label={ariaLabel}
                 aria-describedby={ariaDescribedby}
               >
                 Start your {appType} without signing in
-              </button>
+              </Link>
             </p>
           )}
         </>
@@ -250,14 +251,15 @@ class SaveInProgressIntro extends React.Component {
               {unauthStartButton}
               {!this.props.hideUnauthedStartLink && (
                 <p>
-                  <button
-                    className="va-button-link schemaform-start-button"
+                  <Link
                     onClick={this.goToBeginning}
+                    to={this.getStartPage}
+                    className="schemaform-start-button"
                     aria-label={ariaLabel}
                     aria-describedby={ariaDescribedby}
                   >
                     Start your {appType} without signing in
-                  </button>
+                  </Link>
                 </p>
               )}
             </div>
