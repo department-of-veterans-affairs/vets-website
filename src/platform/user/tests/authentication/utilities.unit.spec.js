@@ -16,9 +16,7 @@ import {
   API_SESSION_URL,
   API_SIGN_IN_SERVICE_URL,
   SIGNUP_TYPES,
-  GA_TRACKING_ID_KEY,
-  VAGOV_TRACKING_IDS,
-  GA_CLIENT_ID_KEY,
+  GA,
   EBENEFITS_DEFAULT_PATH,
   POLICY_TYPES,
   AUTH_EVENTS,
@@ -28,7 +26,7 @@ import {
 const originalLocation = global.window.location;
 const originalGA = global.ga;
 
-const base = 'https://www.va.gov';
+const base = 'https://dev.va.gov';
 const usipPath = '/sign-in';
 const nonUsipPath = '/about';
 const trickyNonUsipPath = '/sign-in-app';
@@ -44,7 +42,7 @@ const usipPathWithParams = params => `${usipPath}${params}`;
 
 const mockGADefaultArgs = {
   mockGAActive: false,
-  trackingId: VAGOV_TRACKING_IDS[0],
+  trackingId: GA.trackingIds[0],
   throwGAError: false,
 };
 
@@ -62,9 +60,9 @@ const setup = ({ path, mockGA = mockGADefaultArgs }) => {
           {
             get: key => {
               switch (key) {
-                case GA_CLIENT_ID_KEY:
+                case GA.clientIdKey:
                   return mockGAClientId;
-                case GA_TRACKING_ID_KEY:
+                case GA.trackingIdKey:
                   return trackingId;
                 default:
                   return undefined;
@@ -293,7 +291,7 @@ describe('Authentication Utilities', () => {
         authUtilities.sessionTypeUrl({
           type,
         }),
-      ).to.equal(API_SIGN_IN_SERVICE_URL({ type: `/${type}` }));
+      ).to.equal(API_SIGN_IN_SERVICE_URL({ type }));
     });
 
     it('should NOT return session url with _verified appended to type for types other than login/signup', () => {
@@ -327,7 +325,7 @@ describe('Authentication Utilities', () => {
         authUtilities.sessionTypeUrl({
           type,
         }),
-      ).to.include(appendQuery(API_SIGN_IN_SERVICE_URL({ type: `/${type}` })));
+      ).to.include(appendQuery(API_SIGN_IN_SERVICE_URL({ type })));
     });
     it('should use API_SESSION_URL when OAuth is disabled', () => {
       const params = { application: 'vamobile' };
@@ -363,13 +361,13 @@ describe('Authentication Utilities', () => {
       setup({
         mockGA: {
           mockGAActive: true,
-          trackingId: VAGOV_TRACKING_IDS[0],
+          trackingId: GA.trackingIds[0],
         },
       });
       expect(global.window.location).to.not.equal(base);
       authUtilities.redirectWithGAClientId(base);
       expect(global.window.location).to.equal(
-        `${base}/?client_id=${mockGAClientId}`,
+        `${base}/?ga_client_id=${mockGAClientId}`,
       );
     });
 
@@ -378,7 +376,7 @@ describe('Authentication Utilities', () => {
         mockGA: {
           mockGAActive: true,
           throwGAError: true,
-          trackingId: VAGOV_TRACKING_IDS[0],
+          trackingId: GA.trackingIds[0],
         },
       });
       expect(global.window.location).to.not.equal(base);
@@ -486,7 +484,7 @@ describe('Authentication Utilities', () => {
         path: base,
         mockGA: {
           mockGAActive: true,
-          trackingId: VAGOV_TRACKING_IDS[0],
+          trackingId: GA.trackingIds[0],
         },
       });
 
@@ -635,6 +633,37 @@ describe('Authentication Utilities', () => {
     it('should generate an ID.me session signup url if the given type is not valid', () => {
       expect(authUtilities.signupUrl('test')).to.include(
         API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }),
+      );
+    });
+  });
+
+  describe('generateReturnURL', () => {
+    const homepageModalRoute = `${base}/?next=loginModal`;
+    const usipRoute = `${base}`;
+    const nonHomepageRoute = `${base}/education/eligibility/`;
+    const myVARoute = `${base}/my-va/`;
+    it('should return users signing in on via the USiP (on default USiP route) to /my-va/', () => {
+      expect(authUtilities.generateReturnURL(usipRoute, true)).to.eql(
+        myVARoute,
+      );
+      expect(authUtilities.generateReturnURL(usipRoute, false)).to.eql(
+        usipRoute,
+      );
+    });
+    it('should return users signing in via the Sign in Modal (on the homepage) to /my-va/', () => {
+      expect(authUtilities.generateReturnURL(homepageModalRoute, true)).to.eql(
+        myVARoute,
+      );
+      expect(authUtilities.generateReturnURL(homepageModalRoute, false)).to.eql(
+        homepageModalRoute,
+      );
+    });
+    it('should return users signing in on non-default routes to original location', () => {
+      expect(authUtilities.generateReturnURL(nonHomepageRoute, true)).to.eql(
+        nonHomepageRoute,
+      );
+      expect(authUtilities.generateReturnURL(nonHomepageRoute, false)).to.eql(
+        nonHomepageRoute,
       );
     });
   });

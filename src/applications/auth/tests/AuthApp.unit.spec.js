@@ -6,10 +6,12 @@ import localStorage from 'platform/utilities/storage/localStorage';
 
 import { AuthApp } from '../containers/AuthApp';
 
+const oldWindow = global.window;
 const generateAuthApp = ({
   query = { auth: 'fail' },
   hasSession = false,
   oAuthOpts = {},
+  returnUrl = '',
 } = {}) => {
   const props = {
     location: {
@@ -27,6 +29,10 @@ const generateAuthApp = ({
     Object.keys(oAuthOpts).forEach(key => {
       sessionStorage.setItem(key, oAuthOpts[key]);
     });
+  }
+
+  if (returnUrl.length) {
+    sessionStorage.setItem('authReturnUrl', returnUrl);
   }
   const wrapper = shallow(<AuthApp {...props} />);
   const instance = wrapper.instance();
@@ -154,6 +160,44 @@ describe('AuthApp', () => {
       auth: 'fail',
       hasError: true,
     });
+    wrapper.unmount();
+  });
+
+  it('should fire redirect & send user to non-homepage route', () => {
+    global.window = { location: { replace: sinon.spy() } };
+    const { wrapper, instance } = generateAuthApp({
+      query: { type: 'idme' },
+      hasSession: true,
+      returnUrl: 'http://localhost/education/eligibility',
+    });
+    const spy = sinon.spy(instance, 'redirect');
+    instance.redirect();
+
+    expect(spy.called).to.be.true;
+    expect(
+      global.window.location.replace.calledWith(
+        'http://localhost/education/eligibility',
+      ),
+    );
+    global.window = oldWindow;
+    wrapper.unmount();
+  });
+
+  it('should fire redirect & send user to /my-va/ route', () => {
+    global.window = { location: { replace: sinon.spy() } };
+    const { wrapper, instance } = generateAuthApp({
+      query: { type: 'idme' },
+      hasSession: true,
+      returnUrl: 'http://localhost/',
+    });
+    const spy = sinon.spy(instance, 'redirect');
+    instance.redirect();
+
+    expect(spy.called).to.be.true;
+    expect(
+      global.window.location.replace.calledWith('http://localhost/my-va/'),
+    );
+    global.window = oldWindow;
     wrapper.unmount();
   });
 });

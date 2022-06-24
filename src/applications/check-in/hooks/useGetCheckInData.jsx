@@ -10,11 +10,7 @@ import {
   updateFormAction,
 } from '../actions/day-of';
 
-const useGetCheckInData = (
-  refreshNeeded,
-  isUpdatePageEnabled = false,
-  appointmentsOnly = false,
-) => {
+const useGetCheckInData = (refreshNeeded, appointmentsOnly = false) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isStale, setIsStale] = useState(refreshNeeded);
   const [checkInDataError, setCheckInDataError] = useState(false);
@@ -43,13 +39,12 @@ const useGetCheckInData = (
           dispatch(
             updateFormAction({
               patientDemographicsStatus,
-              checkInExperienceUpdateInformationPageEnabled: isUpdatePageEnabled,
             }),
           );
         }
       });
     },
-    [appointmentsOnly, dispatch, isUpdatePageEnabled, token],
+    [appointmentsOnly, dispatch, token],
   );
 
   useEffect(
