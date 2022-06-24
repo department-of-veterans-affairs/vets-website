@@ -2742,10 +2742,10 @@
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/eslint-plugin/-/eslint-plugin-1.2.1.tgz#98186933a21d3ef4a1790d1aa2585232849cd176"
   integrity sha512-4QRsPsm5in1hTIS2RILjNYycICrbXWpGXXug+qhCDKfOK78hjgbzQXhyZ0KXh0NXB47NR4JA1H9jjy9oKemxwg==
 
-"@department-of-veterans-affairs/formation@^7.0.1":
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.1.tgz#641641475148816960b0312f717157b9f1c94486"
-  integrity sha512-gX74Tfgoi5z6hCIwQnnXWRwmZVl08Vs2RLM4+CS1RIEVG47BPoBqc3MoHHX+QUbSN0vOmLqY69XKxf8y2jyC9A==
+"@department-of-veterans-affairs/formation@^7.0.2":
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-7.0.2.tgz#fa828af9c456c69d86cb9a9f7f216a1b9ba3c2d4"
+  integrity sha512-OfLkYXM3v8OVgtyh07xjTnhw0sVMH6ma5tghCxdbxCcRdcja+lYGrQr0WXhWIqPWP0s7aD783fVvF/pT9xfk0g==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.6.3"
     domready "^1.0.8"
@@ -20107,9 +20107,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#901cc443a8f7e217287883067c87efde99cbd3b5":
-  version "20.20.3"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#901cc443a8f7e217287883067c87efde99cbd3b5"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#6072dd15bf0d5c907c178b414201b0f4d1750d8f":
+  version "20.20.4"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#6072dd15bf0d5c907c178b414201b0f4d1750d8f"
 
 vfile-message@^2.0.0:
   version "2.0.4"

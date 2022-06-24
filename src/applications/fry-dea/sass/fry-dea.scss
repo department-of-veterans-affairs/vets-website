@@ -10,6 +10,40 @@
   margin-bottom: 0 !important; // Override .process ul
 }
 
+// Form content
+.fry-dea-veterans {
+  list-style-type: none;
+}
+
+.fry-dea-form-featured-content {
+	background-color: $color-gray-lightest;
+	padding: 24px;
+}
+
+.fry-dea-definition-list {
+	margin: 0;
+}
+.fry-dea-definition-list:after {
+	clear: both;
+	content: "";
+	display: table;
+}
+.fry-dea-definition-list_term,
+.fry-dea-definition-list_definition {
+	float: left;
+}
+.fry-dea-definition-list_term {
+	clear: left;
+	font-weight: bold;
+	margin-top: 0;
+}
+.fry-dea-definition-list_definition {
+	margin-left: 1em;
+}
+legend.legend-label.fry-dea-veterans-checkboxes_legend + .form-radio-buttons {
+  margin-top: 0;
+}
+
 // Review Page
 .fry-dea-review-page-only {
   display: none;
@@ -81,5 +115,4 @@ $error-left-padding-width: 1.5rem;
 .fa-check-circle {
   color: $color-green;
 }
-
 // END - Benefit Selection Page

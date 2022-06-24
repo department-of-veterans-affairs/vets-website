@@ -32,7 +32,6 @@ const DisplayMultipleAppointments = props => {
 
   const { isLoading, checkInDataError, refreshCheckInData } = useGetCheckInData(
     shouldRefresh,
-    false,
     true,
   );
 

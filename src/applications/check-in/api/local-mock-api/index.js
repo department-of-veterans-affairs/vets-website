@@ -20,7 +20,6 @@ const responses = {
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     checkInExperienceEnabled: true,
     preCheckInEnabled: true,
-    checkInExperienceUpdateInformationPageEnabled: false,
   }),
   // v2
   'GET /check_in/v2/sessions/:uuid': (req, res) => {

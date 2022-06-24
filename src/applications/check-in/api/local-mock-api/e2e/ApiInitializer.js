@@ -22,7 +22,6 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
           checkInExperienceEditingPreCheckInEnabled: false,
         }),
@@ -35,7 +34,6 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
           checkInExperienceEditingPreCheckInEnabled: true,
         }),
@@ -48,7 +46,6 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
           checkInExperienceDayOfDemographicsFlagsEnabled: true,
         }),
@@ -61,7 +58,6 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
           checkInExperienceDayOfDemographicsFlagsEnabled: true,
           checkInExperienceDayOfTranslationEnabled: true,
@@ -75,7 +71,6 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: true,
           emergencyContactEnabled: true,
         }),
       );
@@ -87,7 +82,6 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
           checkInExperienceEditingPreCheckInEnabled: false,
           checkInExperienceLorotaSecurityUpdatesEnabled: true,
