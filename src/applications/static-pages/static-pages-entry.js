@@ -40,6 +40,7 @@ import createContactChatbotCTA from './contact-chatbot-cta';
 import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusChatbot';
 import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createCovidVaccineUpdatesWidget';
 import createDependencyVerification from './dependency-verification/createDependencyVerification';
+import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createEventsPage from './events';
@@ -134,6 +135,7 @@ createApplicationStatus(store, {
   applyText: 'Apply for burial benefits',
   widgetType: widgetTypes.BURIALS_APP_STATUS,
 });
+createDisabilityFormWizard(store, widgetTypes.DISABILITY_APP_STATUS);
 createDisabilityRatingCalculator(
   store,
   widgetTypes.DISABILITY_RATING_CALCULATOR,
