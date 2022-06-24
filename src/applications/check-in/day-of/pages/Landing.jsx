@@ -22,7 +22,7 @@ import { setApp } from '../../actions/universal';
 import { APP_NAMES } from '../../utils/appConstants';
 
 const Landing = props => {
-  const { isUpdatePageEnabled, location, router } = props;
+  const { location, router } = props;
   const { jumpToPage, goToErrorPage } = useFormRouting(router);
   const { t } = useTranslation();
 
@@ -102,7 +102,6 @@ const Landing = props => {
     },
     [
       location,
-      isUpdatePageEnabled,
       clearCurrentSession,
       setCurrentToken,
       jumpToPage,
@@ -120,7 +119,6 @@ const Landing = props => {
 };
 
 Landing.propTypes = {
-  isUpdatePageEnabled: PropTypes.bool,
   location: PropTypes.object,
   router: PropTypes.object,
 };
