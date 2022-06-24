@@ -129,6 +129,7 @@
     "veteranDateOfBirth": "1980-03-02",
     "veteranSocialSecurityNumber": "324234444",
     "view:placeOfBirth": {
+      "countryOfBirth": "USA",
       "cityOfBirth": "Boston",
       "stateOfBirth": "MA"
     },
