@@ -12,6 +12,7 @@ import mockCopays from '../../../medical-copays/tests/e2e/fixtures/mocks/copays.
 import mockDataEmpty from './fixtures/mocks/mockDataEmpty.json';
 import mockDebts from '../../../debt-letters/tests/e2e/fixtures/mocks/debts.json';
 import mockDebtsEmpty from './fixtures/mocks/mockDebtsEmpty.json';
+import { reply404 } from './helpers/cdp-helpers';
 
 describe('Your VA debt and bills (overview)', () => {
   beforeEach(() => {
@@ -179,9 +180,9 @@ describe('Your VA debt and bills (overview)', () => {
 
   context('Error states', () => {
     it('should display Copays error message upon copays API-404-error - C18216', () => {
-      cy.intercept('GET', '/v0/medical_copays', req => {
-        req.reply(404, { errors: ['error'] });
-      }).as('copaysE1');
+      cy.intercept('GET', '/v0/medical_copays', req => reply404(req)).as(
+        'copaysE1',
+      );
       cy.intercept('GET', '/v0/debts', mockDebts).as('debtsE1');
 
       cy.visit('/manage-debt-and-bills/summary');
@@ -190,14 +191,14 @@ describe('Your VA debt and bills (overview)', () => {
 
       cy.findByTestId('balance-card-alert-copay').should('exist');
 
+      cy.findByTestId('balance-card-copay').should('not.exist');
+
       cy.injectAxeThenAxeCheck('#react-root');
     });
 
     it('should display Debts error message upon debts API-404-error - C18217', () => {
       cy.intercept('GET', '/v0/medical_copays', mockCopays).as('copaysE2');
-      cy.intercept('GET', '/v0/debts', req => {
-        req.reply(404, { errors: ['error'] });
-      }).as('debtsE2');
+      cy.intercept('GET', '/v0/debts', req => reply404(req)).as('debtsE2');
 
       cy.visit('/manage-debt-and-bills/summary');
       cy.wait(['@features', '@copaysE2', '@debtsE2']);
@@ -205,24 +206,27 @@ describe('Your VA debt and bills (overview)', () => {
 
       cy.findByTestId('balance-card-alert-debt').should('exist');
 
+      cy.findByTestId('balance-card-debt').should('not.exist');
+
       cy.injectAxeThenAxeCheck('#react-root');
     });
 
     /* eslint-disable @department-of-veterans-affairs/axe-check-required */
     // Alerts already AXE-checked in previous 2 tests.
     it('should display Combined error message upon both API-404-errors - C18218', () => {
-      cy.intercept('GET', '/v0/medical_copays', req => {
-        req.reply(404, { errors: ['error'] });
-      }).as('copaysE3');
-      cy.intercept('GET', '/v0/debts', req => {
-        req.reply(404, { errors: ['error'] });
-      }).as('debtsE3');
+      cy.intercept('GET', '/v0/medical_copays', req => reply404(req)).as(
+        'copaysE3',
+      );
+      cy.intercept('GET', '/v0/debts', req => reply404(req)).as('debtsE3');
 
       cy.visit('/manage-debt-and-bills/summary');
       cy.wait(['@features', '@copaysE3', '@debtsE3']);
       cy.findByTestId('overview-page-title').should('exist');
 
       cy.findByTestId('balance-card-combo-alert-error').should('exist');
+
+      cy.findByTestId('balance-card-copay').should('not.exist');
+      cy.findByTestId('balance-card-debt').should('not.exist');
     });
     /* eslint-enable @department-of-veterans-affairs/axe-check-required */
   });
