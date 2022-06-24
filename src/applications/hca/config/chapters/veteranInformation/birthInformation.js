@@ -43,7 +43,7 @@ export default {
                   enum: states[countryOfBirth].map(object => object.value),
                   enumNames: states[countryOfBirth].map(object => object.label),
                 }
-              : { enum: [] };
+              : { enum: [], enumNames: [] };
           },
         },
       },

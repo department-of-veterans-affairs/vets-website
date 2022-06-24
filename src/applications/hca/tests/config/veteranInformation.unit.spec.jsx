@@ -114,7 +114,7 @@ describe('HCA veteranInformation', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input, select').length).to.equal(2);
+    expect(formDOM.querySelectorAll('input, select').length).to.equal(3);
 
     submitForm(form);
     expect(onSubmit.called).to.be.true;
