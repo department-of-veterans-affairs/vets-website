@@ -402,15 +402,18 @@ SaveInProgressIntro.propTypes = {
   ariaDescribedby: PropTypes.string,
   ariaLabel: PropTypes.string,
   buttonOnly: PropTypes.bool,
+  children: PropTypes.any,
   downtime: PropTypes.object,
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       appType: PropTypes.string,
     }),
   }),
+  formData: PropTypes.object,
   gaStartEventName: PropTypes.string,
   headingLevel: PropTypes.number,
   hideUnauthedStartLink: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
   lastSavedDate: PropTypes.number,
   messages: PropTypes.object,
   migrations: PropTypes.array,
@@ -418,17 +421,18 @@ SaveInProgressIntro.propTypes = {
   prefillEnabled: PropTypes.bool,
   prefillTransformer: PropTypes.func,
   renderSignInMessage: PropTypes.func,
+  resumeOnly: PropTypes.bool,
   retentionPeriod: PropTypes.string,
   returnUrl: PropTypes.string,
-
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }),
   startMessageOnly: PropTypes.bool,
   startText: PropTypes.string,
   testActionLink: PropTypes.bool,
-
   unauthStartText: PropTypes.string,
   unverifiedPrefillAlert: PropTypes.element,
   verifiedPrefillAlert: PropTypes.element,
-
   verifyRequiredPrefill: PropTypes.bool,
 };
 
