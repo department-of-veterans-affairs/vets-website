@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useLastLocation } from 'react-router-last-location';
-
 import { PROFILE_PATHS } from '@@profile/constants';
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import { selectVAPContactInfoField } from '@@vap-svc/selectors';
@@ -29,7 +29,7 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
       }
     },
 
-    [id, useLink],
+    [fieldName, id, useLink],
   );
   const message = React.useMemo(
     () => {
@@ -49,32 +49,28 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
     [useLink],
   );
 
-  // return (
-  //   <AlertBox backgroundOnly status="success" className="vads-u-margin-y--1">
-  //     <div className="vads-u-display--flex" id={id}>
-  //       <i
-  //         aria-hidden="true"
-  //         className="fa fa-check-circle vads-u-padding-top--0p5 vads-u-margin-right--1"
-  //       />
-  //       <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
-  //         {message}
-  //       </p>
-  //     </div>
-  //   </AlertBox>
-  // );
   return (
-    <va-alert backgroundOnly>
-      <div className="vads-u-display--flex" id={id}>
-        <i
-          aria-hidden="true"
-          className="fa fa-check-circle vads-u-padding-top--0p5 vads-u-margin-right--1"
-        />
-        <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
-          {message}
-        </p>
-      </div>
-    </va-alert>
+    <>
+      <va-alert status="success" background-only class="vads-u-margin-y--1">
+        <div
+          className="vads-u-display--flex vads-u-margin-left--neg1p5"
+          id={id}
+        >
+          <i
+            aria-hidden="true"
+            className="fa fa-check-circle vads-u-padding-top--0p5 vads-u-margin-right--1"
+          />
+          <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
+            {message}
+          </p>
+        </div>
+      </va-alert>
+    </>
   );
+};
+
+ContactInformationUpdateSuccessAlert.propTypes = {
+  fieldName: PropTypes.string.isRequired,
 };
 
 export default ContactInformationUpdateSuccessAlert;
