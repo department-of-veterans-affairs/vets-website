@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const HowToPay = ({ acctNum, facility }) => (
-  <article className="vads-u-padding--0" data-testid="how-to-pay">
+  <article className="vads-u-padding--0" data-tetid="how-to-pay">
     <h2 id="how-to-pay">How to pay your copay bill</h2>
     <p>
       <strong>You can pay your bill in any of these 4 ways:</strong>
@@ -42,7 +42,7 @@ export const HowToPay = ({ acctNum, facility }) => (
         <p>
           If you need help making a payment online, call us at{' '}
           <va-telephone contact="888-827-4817" />. We’re available Monday
-          through Friday, 8:00am - 8:00pm EST.
+          through Friday, 8:00am - 8:00pm ET.
         </p>
       </va-accordion-item>
       <va-accordion-item header="Option 2: Pay by phone">
