@@ -32,14 +32,49 @@ const Error = () => {
   const { t } = useTranslation();
 
   // If date exists, then show date.
-  const defaultMessageText = isMaxValidateAttempts
-    ? t(
-        'were-sorry-we-couldnt-match-your-information-to-our-records-please-call-us-at-800-698-2411-tty-711-for-help-signing-in',
-      )
-    : t('were-sorry-something-went-wrong-on-our-end-please-try-again');
+  let messageText = t(
+    'were-sorry-something-went-wrong-on-our-end-please-try-again',
+  );
+
+  const phoneAppointmentLoginFailedMessage = (
+    <div>
+      {t('were-sorry-we-couldnt-match-your-information-to-our-records')}
+      <div className="vads-u-margin-top--2">
+        <i className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
+        <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
+          {t('in-person-appointment')}
+        </span>
+      </div>
+      <div className="vads-u-margin-top--2">
+        {t(
+          'you-can-still-check-in-with-your-phone-on-the-day-of-your-appointment',
+        )}
+      </div>
+      <div className="vads-u-margin-top--2">
+        <i className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
+        <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
+          {t('telephone-appointment')}
+        </span>
+      </div>
+      <div className="vads-u-margin-top--2">
+        {t(
+          'your-provider-will-call-you-at-your-appointment-time-you-may-need-to-wait-about-15-minutes-for-their-call-thanks-for-your-patience',
+        )}
+      </div>
+    </div>
+  );
+
+  if (isMaxValidateAttempts) {
+    messageText = isPhoneAppointmentsEnabled
+      ? phoneAppointmentLoginFailedMessage
+      : t(
+          'were-sorry-we-couldnt-match-your-information-to-our-records-please-call-us-at-800-698-2411-tty-711-for-help-signing-in',
+        );
+  }
+
   const messages = [
     {
-      text: defaultMessageText,
+      text: messageText,
     },
   ];
   if (appointments && appointments.length > 0 && appointments[0].startTime) {
