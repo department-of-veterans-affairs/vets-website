@@ -1,7 +1,5 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 
-import * as helpers from 'platform/forms-system/src/js/helpers';
 import { customCOEsubmit } from '../../config/helpers';
 
 const form = {
@@ -40,16 +38,9 @@ const result = JSON.stringify({
   },
 });
 
-const sandbox = sinon.sandbox.create();
-
-afterEach(() => {
-  sandbox.restore();
-});
-
 describe.skip('coe helpers', () => {
   describe('customCOEsubmit', () => {
     it('should correctly format the form data', () => {
-      sandbox.stub(helpers, 'transformForSubmit').returns(formattedProperties);
       expect(customCOEsubmit({}, form)).to.equal(result);
     });
   });
