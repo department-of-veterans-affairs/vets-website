@@ -407,7 +407,7 @@ export function getVAAppointmentLocationId(appointment) {
  * @returns {string} The NPI of the CC Provider
  */
 export function getPreferredCCProviderNPI(appointment) {
-  return appointment?.practitioners[0]?.identifier[0]?.value;
+  return appointment?.practitioners[0].identifier[0].value || null;
 }
 
 /**

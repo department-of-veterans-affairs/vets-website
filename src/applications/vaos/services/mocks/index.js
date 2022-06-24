@@ -283,7 +283,7 @@ const responses = {
     return res.json({
       data: {
         attributes: providersV2.data.find(
-          provider => provider.ProviderIdentifier === Number(req.params.id),
+          provider => provider.providerIdentifier === Number(req.params.id),
         ),
       },
     });
