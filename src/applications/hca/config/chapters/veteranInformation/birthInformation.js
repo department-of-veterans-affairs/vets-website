@@ -1,8 +1,8 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { countries, states } from 'platform/forms/address';
 
-import { BirthInfoDescription } from '../../../components/FormDescriptions';
 import AuthenticatedShortFormAlert from '../../../components/FormAlerts/AuthenticatedShortFormAlert';
+import { BirthInfoDescription } from '../../../components/FormDescriptions';
 import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
 
 const { cityOfBirth } = fullSchemaHca.properties;
