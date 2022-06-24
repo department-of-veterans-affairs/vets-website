@@ -35,6 +35,7 @@ import {
   isAlphaNumeric,
   AdditionalConsiderationTemplate,
   applicantIsSpouseOfVeteran,
+  bothFryAndDeaBenefitsAvailable,
 } from '../helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -56,6 +57,7 @@ import YesNoReviewField from '../components/YesNoReviewField';
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import VeteransRadioGroup from '../components/VeteransRadioGroup';
 import SelectedVeteranReviewPage from '../components/SelectedVeteranReviewPage';
+import FryDeaEligibilityCards from '../components/FryDeaEligibilityCards';
 
 const { date, fullName } = fullSchema5490.definitions;
 const { /* fullName, date, dateRange, usaPhone, */ email } = commonDefinitions;
@@ -375,9 +377,9 @@ const formConfig = {
         benefitSelection: {
           title: 'Benefit Selection',
           path: 'benefit-selection',
-          depends: formData => formData.veterans?.length,
+          depends: formData => bothFryAndDeaBenefitsAvailable(formData),
           uiSchema: {
-            'view:subHeadings': {
+            'view:benefitSelectionHeaderInfo': {
               'ui:description': (
                 <>
                   <h3>Choose the benefit you’d like to apply for</h3>
@@ -394,87 +396,14 @@ const formConfig = {
                     Once you make this choice, you can’t switch to the other
                     program.
                   </p>
+                  <FryDeaEligibilityCards />
+                  <va-additional-info trigger="Which benefit should I choose?">
+                    <p>
+                      For each benefit, you should consider the amount you can
+                      receive, how payments are made, and when they expire.
+                    </p>
+                  </va-additional-info>
                 </>
-              ),
-            },
-            'view:fryMessageAlert': {
-              'ui:description': (
-                <va-alert
-                  close-btn-aria-label="Close notification"
-                  disable-analytics="false"
-                  full-width="false"
-                  status="continue"
-                  visible="true"
-                  background-only
-                >
-                  <p className="vads-u-margin-y--1px">CHAPTER 33</p>
-                  <h3 className="vads-u-margin-y--1px">Fry Scholarship</h3>
-                  <p>
-                    <i className="fas fa-check-circle" aria-hidden="true" /> You
-                    may be eligible for this benefit
-                  </p>
-                  <h4>Receive up to 36 months of benefits, including</h4>
-                  <p>
-                    <i className="fas fa-school" aria-hidden="true" /> Tuition
-                    &amp; fees
-                  </p>
-                  <p>
-                    <i className="fas fa-home" aria-hidden="true" /> Money for
-                    housing
-                  </p>
-                  <p>
-                    <i className="fas fa-book" aria-hidden="true" /> Money for
-                    books &amp; supplies
-                  </p>
-                  <a href="https://va.gov/">
-                    Learn more about the Fry Scholarship education benefit
-                  </a>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData => formData.veterans?.length,
-              },
-            },
-            'view:deaMessageAlert': {
-              'ui:description': (
-                <va-alert
-                  close-btn-aria-label="Close notification"
-                  disable-analytics="false"
-                  full-width="false"
-                  status="continue"
-                  visible="true"
-                  background-only
-                >
-                  <p className="vads-u-margin-y--1px">DEA, CHAPTER 35</p>
-                  <h3 className="vads-u-margin-y--1px">
-                    Survivors’ and Dependents’ Educational Assistance
-                  </h3>
-                  <p>
-                    <i className="fas fa-check-circle" aria-hidden="true" /> You
-                    may be eligible for this benefit
-                  </p>
-                  <h4>Receive up to 45 months of benefits, including</h4>
-                  <p>
-                    <i className="fas fa-money-check-alt" aria-hidden="true" />{' '}
-                    Monthly stipend
-                  </p>
-                  <a href="va.gov">
-                    Learn more about the DEA education benefit
-                  </a>
-                </va-alert>
-              ),
-              'ui:options': {
-                hideIf: formData => formData.veterans?.length,
-              },
-            },
-            'view:benefitSelectionExplainer': {
-              'ui:description': (
-                <va-additional-info trigger="Which benefit should I choose?">
-                  <p>
-                    For each benefit, you should consider the amount you can
-                    receive, how payments are made, and when they expire.
-                  </p>
-                </va-additional-info>
               ),
             },
             [formFields.benefitSelection]: {
@@ -524,19 +453,7 @@ const formConfig = {
             type: 'object',
             required: [formFields.benefitSelection],
             properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              'view:fryMessageAlert': {
-                type: 'object',
-                properties: {},
-              },
-              'view:deaMessageAlert': {
-                type: 'object',
-                properties: {},
-              },
-              'view:benefitSelectionExplainer': {
+              'view:benefitSelectionHeaderInfo': {
                 type: 'object',
                 properties: {},
               },

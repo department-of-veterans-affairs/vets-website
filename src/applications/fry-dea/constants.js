@@ -19,7 +19,9 @@ export const VETERANS_TYPE = PropTypes.arrayOf(
   PropTypes.shape({
     dateOfBirth: PropTypes.string,
     deaEligibility: PropTypes.number,
+    deaStartDate: PropTypes.string,
     fryEligibility: PropTypes.number,
+    fryStartDate: PropTypes.string,
     id: PropTypes.string,
     name: PropTypes.string,
     relationship: PropTypes.string,
