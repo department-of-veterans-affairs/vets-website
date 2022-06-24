@@ -68,13 +68,13 @@ export function fetchMilitaryInformation(recordAnalyticsEvent = recordEvent) {
       const response = await getData(baseUrl);
 
       if (response.errors || response.error) {
-        const err = response.error || response.errors;
+        const error = response.error || response.errors;
         let errorName = 'unknown';
-        if (err) {
-          if (err.length > 0) {
-            errorName = err[0].title;
+        if (error) {
+          if (error.length > 0) {
+            errorName = error[0].title;
           } else {
-            errorName = err?.title || 'unknown-title';
+            errorName = error?.title || 'unknown-title';
           }
         }
 
@@ -86,7 +86,7 @@ export function fetchMilitaryInformation(recordAnalyticsEvent = recordEvent) {
         });
 
         captureMilitaryInfoErrorResponse({
-          error: { ...err, source: ERROR_SOURCES.API },
+          error: { ...error, source: ERROR_SOURCES.API },
           apiEventName: 'profile-get-military-information-failed',
         });
 
@@ -94,7 +94,7 @@ export function fetchMilitaryInformation(recordAnalyticsEvent = recordEvent) {
           type: FETCH_MILITARY_INFORMATION_FAILED,
           militaryInformation: {
             serviceHistory: {
-              err,
+              error,
             },
           },
         });
