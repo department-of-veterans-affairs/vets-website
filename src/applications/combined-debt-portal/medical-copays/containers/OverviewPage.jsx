@@ -130,6 +130,7 @@ const OverviewPage = () => {
             <Balances statements={statementsByUniqueFacility} />
             {renderOtherVA(debts?.length, debtError)}
             <HowToPay
+              isOverview="true"
               acctNum={statementsByUniqueFacility[0].pHAccountNumber}
               facility={statementsByUniqueFacility[0].station}
             />
