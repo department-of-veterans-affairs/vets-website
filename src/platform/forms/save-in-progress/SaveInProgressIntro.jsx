@@ -4,8 +4,6 @@ import { withRouter, Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { fromUnixTime, isBefore } from 'date-fns';
 import { format } from 'date-fns-tz';
-
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import {
   expiredMessage,
@@ -334,7 +332,7 @@ class SaveInProgressIntro extends React.Component {
     if (profile.loading && !this.props.resumeOnly) {
       return (
         <div>
-          <LoadingIndicator
+          <va-loading-indicator
             message={`Checking to see if you have a saved version of this ${appType} ...`}
           />
           <br />
