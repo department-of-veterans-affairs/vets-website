@@ -340,7 +340,8 @@ export const logoutUrl = () => {
 };
 
 export const checkOrSetSessionExpiration = response => {
-  const samlSessionExpiration = response.headers.get('X-Session-Expiration');
+  const samlSessionExpiration =
+    response.headers.get('X-Session-Expiration') ?? null;
   const { refresh_token_expiration: RTExpiration } = getInfoToken();
 
   if (infoTokenExists() || samlSessionExpiration) {

@@ -11,11 +11,12 @@ export function fetchAndUpdateSessionExpiration({
   shouldRefresh = false,
 } = {}) {
   // Only replace with custom fetch if not stubbed for unit testing
+  const { url, settings } = fetchOptions;
   if (!fetch.isSinonProxy) {
     if (shouldRefresh) {
       refresh(checkOrSetSessionExpiration);
     }
-    return fetch.apply(this, Object.values(fetchOptions)).then(response => {
+    return fetch.apply(this, [url, settings]).then(response => {
       const apiURL = environment.API_URL;
 
       if (
@@ -34,7 +35,7 @@ export function fetchAndUpdateSessionExpiration({
     });
   }
 
-  return fetch(...fetchOptions);
+  return fetch(url, settings);
 }
 
 function isJson(response) {
@@ -128,7 +129,6 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 
         const shouldRedirectToSAMLSessionExpired =
           is401WithGoodPath &&
-          !infoTokenExists() &&
           sessionStorage.getItem('shouldRedirectExpiredSession') === 'true';
 
         if (shouldRedirectToSAMLSessionExpired) {
