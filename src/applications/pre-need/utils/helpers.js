@@ -459,11 +459,16 @@ export const militaryNameUI = {
 };
 
 export function getCemeteries() {
-  return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {
-    credentials: 'include',
-    headers: {
-      'X-Key-Inflection': 'camel',
-      'Source-App-Name': window.appName,
+  return fetch({
+    fetchOptions: {
+      url: `${environment.API_URL}/v0/preneeds/cemeteries`,
+      settings: {
+        credentials: 'include',
+        headers: {
+          'X-Key-Inflection': 'camel',
+          'Source-App-Name': window.appName,
+        },
+      },
     },
   })
     .then(res => {

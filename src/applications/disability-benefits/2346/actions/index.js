@@ -1,15 +1,15 @@
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
-import {
-  MDOT_API_ERROR,
-  MDOT_RESET_ERRORS,
-  MDOT_API_CALL_INITIATED,
-} from '../constants';
 import moment from 'moment';
 import sortBy from 'lodash/sortBy';
 import head from 'lodash/head';
 import get from 'lodash/get';
 import localStorage from 'platform/utilities/storage/localStorage';
+import {
+  MDOT_API_ERROR,
+  MDOT_RESET_ERRORS,
+  MDOT_API_CALL_INITIATED,
+} from '../constants';
 
 const handleError = (error, nextAvailabilityDate = '') => ({
   type: MDOT_API_ERROR,
@@ -36,12 +36,17 @@ export const fetchFormStatus = () => async dispatch => {
     // always result in that error so we can go ahead and return
     return dispatch(resetError());
   }
-  fetch(`${environment.API_URL}/v0/in_progress_forms/mdot`, {
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Key-Inflection': 'camel',
-      'Source-App-Name': window.appName,
+  fetch({
+    fetchOptions: {
+      url: `${environment.API_URL}/v0/in_progress_forms/mdot`,
+      settings: {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Key-Inflection': 'camel',
+          'Source-App-Name': window.appName,
+        },
+      },
     },
   })
     .then(res => res.json())
@@ -54,7 +59,7 @@ export const fetchFormStatus = () => async dispatch => {
         }
         return dispatch(handleError(firstError.code.toUpperCase()));
       }
-      const eligibility = body.formData.eligibility;
+      const { eligibility } = body.formData;
 
       if (
         !eligibility ||

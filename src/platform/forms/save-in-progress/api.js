@@ -8,14 +8,19 @@ import { VA_FORM_IDS_SKIP_INFLECTION } from '../constants';
 export function removeFormApi(formId) {
   const csrfTokenStored = localStorage.getItem('csrfToken');
   const apiUrl = inProgressApi(formId);
-  return fetch(apiUrl, {
-    method: 'DELETE',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Key-Inflection': 'camel',
-      'Source-App-Name': window.appName,
-      'X-CSRF-Token': csrfTokenStored,
+  return fetch({
+    fetchOptions: {
+      url: apiUrl,
+      settings: {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Key-Inflection': 'camel',
+          'Source-App-Name': window.appName,
+          'X-CSRF-Token': csrfTokenStored,
+        },
+      },
     },
   })
     .then(res => {
@@ -30,7 +35,8 @@ export function removeFormApi(formId) {
         Sentry.captureException(res);
         Sentry.captureMessage('vets_sip_error_delete');
         return Promise.resolve();
-      } else if (!res.ok) {
+      }
+      if (!res.ok) {
         Sentry.captureMessage(`vets_sip_error_delete: ${res.statusText}`);
       }
 
@@ -68,11 +74,16 @@ export function saveFormApi(
     delete saveFormApiHeaders['X-Key-Inflection'];
   }
 
-  return fetch(apiUrl, {
-    method: 'PUT',
-    credentials: 'include',
-    headers: saveFormApiHeaders,
-    body,
+  return fetch({
+    fetchOptions: {
+      url: apiUrl,
+      settings: {
+        method: 'PUT',
+        credentials: 'include',
+        headers: saveFormApiHeaders,
+        body,
+      },
+    },
   })
     .then(res => {
       if (res.ok) {

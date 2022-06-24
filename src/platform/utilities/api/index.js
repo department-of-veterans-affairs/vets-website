@@ -55,7 +55,7 @@ function isJson(response) {
  * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
  */
 export function apiRequest(resource, optionalSettings = {}, success, error) {
-  const { apiVersion = 'v0', shouldRefresh } = optionalSettings;
+  const { apiVersion = 'v0', shouldRefresh = false } = optionalSettings;
   const baseUrl = `${environment.API_URL}/${apiVersion}`;
   const url = resource[0] === '/' ? `${baseUrl}${resource}` : resource;
   const csrfTokenStored = localStorage.getItem('csrfToken');

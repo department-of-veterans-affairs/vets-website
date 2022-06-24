@@ -153,7 +153,7 @@ export function migrateFormData(savedData, migrations) {
     return savedData;
   }
 
-  let savedDataCopy = Object.assign({}, savedData);
+  let savedDataCopy = { ...savedData };
   let savedVersion = savedData.metadata.version;
   while (typeof migrations[savedVersion] === 'function') {
     savedDataCopy = migrations[savedVersion](savedDataCopy);
@@ -198,7 +198,7 @@ function saveForm(saveType, formId, formData, version, returnUrl, submission) {
   const savedAt = Date.now();
 
   return (dispatch, getState) => {
-    const trackingPrefix = getState().form.trackingPrefix;
+    const { trackingPrefix } = getState().form;
 
     dispatch(setSaveFormStatus(saveType, SAVE_STATUSES.pending));
 
@@ -265,19 +265,24 @@ export function fetchInProgressForm(
   // TODO: Migrations currently aren’t sent; they’re taken from `form` in the
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
-    const trackingPrefix = getState().form.trackingPrefix;
+    const { trackingPrefix } = getState().form;
     const apiUrl = inProgressApi(formId);
 
     // Update UI while we’re waiting for the API
     dispatch(setFetchFormPending(prefill));
 
     // Query the api and return a promise (for navigation / error handling afterward)
-    return fetch(apiUrl, {
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Key-Inflection': 'camel',
-        'Source-App-Name': window.appName,
+    return fetch({
+      fetchOptions: {
+        url: apiUrl,
+        settings: {
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Key-Inflection': 'camel',
+            'Source-App-Name': window.appName,
+          },
+        },
       },
     })
       .then(res => {
@@ -323,7 +328,7 @@ export function fetchInProgressForm(
 
           ({ formData, metadata } = migrateFormData(dataToMigrate, migrations));
 
-          let pages = getState().form.pages;
+          let { pages } = getState().form;
           if (metadata.prefill && prefillTransformer) {
             ({ formData, pages, metadata } = prefillTransformer(
               pages,
@@ -399,7 +404,7 @@ export function fetchInProgressForm(
 
 export function removeInProgressForm(formId, migrations, prefillTransformer) {
   return (dispatch, getState) => {
-    const trackingPrefix = getState().form.trackingPrefix;
+    const { trackingPrefix } = getState().form;
 
     // Update UI while we’re waiting for the API
     dispatch(setStartOver());

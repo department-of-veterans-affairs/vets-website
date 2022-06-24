@@ -41,10 +41,15 @@ function checkStatus(guid) {
     'Source-App-Name': window.appName,
   };
 
-  return fetch(`${environment.API_URL}/v0/pension_claims/${guid}`, {
-    credentials: 'include',
-    headers,
-    mode: 'cors',
+  return fetch({
+    fetchOptions: {
+      url: `${environment.API_URL}/v0/pension_claims/${guid}`,
+      settings: {
+        credentials: 'include',
+        headers,
+        mode: 'cors',
+      },
+    },
   })
     .then(res => {
       if (res.ok) {
@@ -124,12 +129,17 @@ export function submit(form, formConfig) {
 
   const body = transform(formConfig, form);
 
-  return fetch(`${environment.API_URL}/v0/pension_claims`, {
-    body,
-    credentials: 'include',
-    headers,
-    method: 'POST',
-    mode: 'cors',
+  return fetch({
+    fetchOptions: {
+      url: `${environment.API_URL}/v0/pension_claims`,
+      settings: {
+        body,
+        credentials: 'include',
+        headers,
+        method: 'POST',
+        mode: 'cors',
+      },
+    },
   })
     .then(res => {
       if (res.ok) {

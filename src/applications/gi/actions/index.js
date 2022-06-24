@@ -1,12 +1,11 @@
 import appendQuery from 'append-query';
 
-import { api } from '../config';
-
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
+import { api } from '../config';
 
 import { rubyifyKeys, searchCriteriaFromCoords } from '../utils/helpers';
 import { TypeList } from '../constants';
-import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
 import mapboxClient from '../components/MapboxClient';
 import { buildSearchFilters } from '../selectors/filters';
 
@@ -101,7 +100,7 @@ export function fetchProfile(facilityCode, version) {
   return (dispatch, getState) => {
     dispatch({ type: FETCH_PROFILE_STARTED });
 
-    return fetch(url, api.settings)
+    return fetch({ fetchOptions: { url, settings: api.settings } })
       .then(res => {
         if (res.ok) {
           return res.json();
@@ -133,7 +132,7 @@ export function fetchConstants(version) {
   const url = `${api.url}/calculator_constants${queryString}`;
   return dispatch => {
     dispatch({ type: FETCH_CONSTANTS_STARTED });
-    return fetch(url, api.settings)
+    return fetch({ fetchOptions: { url, settings: api.settings } })
       .then(res => {
         if (res.ok) {
           return res.json();
@@ -181,7 +180,7 @@ export function beneficiaryZIPCodeChanged(beneficiaryZIP) {
   const url = `${api.url}/zipcode_rates/${beneficiaryZIP}`;
 
   return dispatch => {
-    fetch(url, api.settings)
+    fetch({ fetchOptions: { url, settings: api.settings } })
       .then(res => {
         if (res.ok) {
           return res.json();
@@ -235,7 +234,7 @@ export function fetchSearchByNameResults(name, page, filters, version) {
   return dispatch => {
     dispatch({ type: SEARCH_STARTED, payload: { name } });
 
-    return fetch(url, api.settings)
+    return fetch({ fetchOptions: { url, settings: api.settings } })
       .then(res => {
         if (res.ok) {
           return res.json();
@@ -291,7 +290,7 @@ export function fetchNameAutocompleteSuggestions(name, filterFields, version) {
   });
   return dispatch => {
     dispatch({ type: AUTOCOMPLETE_STARTED });
-    fetch(url, api.settings)
+    fetch({ fetchOptions: { url, settings: api.settings } })
       .then(res => {
         if (res.ok) {
           return res.json();
@@ -363,7 +362,7 @@ export function fetchSearchByLocationCoords(
       payload: { location, latitude, longitude, distance },
     });
 
-    return fetch(url, api.settings)
+    return fetch({ fetchOptions: { url, settings: api.settings } })
       .then(res => {
         if (res.ok) {
           dispatch(
@@ -453,7 +452,7 @@ export function fetchCompareDetails(facilityCodes, filters, version) {
   const url = appendQuery(`${api.url}/institutions/search`, params);
 
   return dispatch => {
-    return fetch(url, api.settings)
+    return fetch({ fetchOptions: { url, settings: api.settings } })
       .then(res => {
         if (res.ok) {
           return res.json();

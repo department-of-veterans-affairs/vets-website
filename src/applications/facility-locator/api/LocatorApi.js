@@ -1,5 +1,5 @@
-import { getAPI, resolveParamsWithUrl } from '../config';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
+import { getAPI, resolveParamsWithUrl } from '../config';
 
 class LocatorApi {
   /**
@@ -41,7 +41,9 @@ class LocatorApi {
     const api = getAPI();
     const startTime = new Date().getTime();
     return new Promise((resolve, reject) => {
-      fetch(`${url}?${params}`, api.settings)
+      fetch({
+        fetchOptions: { url: `${url}?${params}`, settings: api.settings },
+      })
         .then(response => {
           if (!response.ok) {
             throw Error(response.statusText);
@@ -71,7 +73,7 @@ class LocatorApi {
     const url = `${api.url}/${id}`;
 
     return new Promise((resolve, reject) => {
-      fetch(url, api.settings)
+      fetch({ fetchOptions: { url, settings: api.settings } })
         .then(res => res.json())
         .then(data => resolve(data), error => reject(error));
     });
@@ -87,7 +89,7 @@ class LocatorApi {
     const url = `${api.baseUrl}/ccp/${id}`;
 
     return new Promise((resolve, reject) => {
-      fetch(url, api.settings)
+      fetch({ fetchOptions: { url, settings: api.settings } })
         .then(res => res.json())
         .then(data => resolve(data), error => reject(error));
     });
@@ -100,7 +102,7 @@ class LocatorApi {
     const api = getAPI();
     const url = `${api.baseUrl}/ccp/specialties`;
     return new Promise((resolve, reject) => {
-      fetch(url, api.settings)
+      fetch({ fetchOptions: { url, settings: api.settings } })
         .then(res => res.json())
         .then(
           data => resolve(data.data.map(specialty => specialty.attributes)),
