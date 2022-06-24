@@ -200,6 +200,7 @@ class SaveInProgressIntro extends React.Component {
           onClick={this.openLoginModal}
           aria-label={ariaLabel}
           aria-describedby={ariaDescribedby}
+          type="button"
         >
           {unauthStartText || UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
         </button>
@@ -281,6 +282,7 @@ class SaveInProgressIntro extends React.Component {
                 onClick={this.openLoginModal}
                 aria-label={ariaLabel}
                 aria-describedby={ariaDescribedby}
+                type="button"
               >
                 Sign in to your account.
               </button>
