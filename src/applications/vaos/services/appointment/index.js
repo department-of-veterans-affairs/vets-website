@@ -1094,8 +1094,8 @@ export function getAppointmentTimezone(appointment) {
 export function transformPreferredProviderV2(provider) {
   return {
     resourceType: 'Provider',
-    id: provider.ProviderIdentifier,
-    name: provider.Name,
+    id: provider.providerIdentifier,
+    name: provider.name,
   };
 }
 

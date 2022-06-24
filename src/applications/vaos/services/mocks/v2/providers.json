@@ -1,9 +1,9 @@
 {
   "data": [
     {
-  "ProviderIdentifier": 1801312053,
+  "providerIdentifier": 1801312053,
   "ProviderIdentifierType": "NPI",
-  "Name": "ANDERSON, SARA JOE",
+  "name": "ANDERSON, SARA JOE",
   "ProviderType": "Individual",
   "Address": "1640 GREGSON ST\r\nDURHAM, NC",
   "AddressStreet": "1640 GREGSON ST",
@@ -13,9 +13,9 @@
   
     },
     {
-      "ProviderIdentifier": 1952935777,
+      "providerIdentifier": 1952935777,
       "ProviderIdentifierType": "NPI",
-      "Name": "SOME, PROVIDER",
+      "name": "SOME, PROVIDER",
       "ProviderType": "Individual",
       "Address": "1640 GREGSON ST\r\nDURHAM, NC",
       "AddressStreet": "1640 GREGSON ST",
@@ -24,9 +24,9 @@
       "AddressCounty": "DURHAM"
     },
     {
-      "ProviderIdentifier": 123,
+      "providerIdentifier": 123,
       "ProviderIdentifierType": "NPI",
-      "Name": "Atlantic Medical Care",
+      "name": "Atlantic Medical Care",
       "ProviderType": "Individual",
       "Address": "1640 GREGSON ST\r\nDURHAM, NC",
       "AddressStreet": "1640 GREGSON ST",
