@@ -40,10 +40,16 @@ const result = JSON.stringify({
   },
 });
 
+const sandbox = sinon.sandbox.create();
+
+afterEach(() => {
+  sandbox.restore();
+});
+
 describe.skip('coe helpers', () => {
   describe('customCOEsubmit', () => {
     it('should correctly format the form data', () => {
-      sinon.stub(helpers, 'transformForSubmit').returns(formattedProperties);
+      sandbox.stub(helpers, 'transformForSubmit').returns(formattedProperties);
       expect(customCOEsubmit({}, form)).to.equal(result);
     });
   });
