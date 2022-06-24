@@ -15,13 +15,9 @@ import NextOfKinDisplay from '../../../components/pages/nextOfKin/NextOfKinDispl
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import {
-  makeSelectCurrentContext,
   makeSelectVeteranData,
   makeSelectPendingEdits,
 } from '../../../selectors';
-import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
-
-import { api } from '../../../api';
 
 const NextOfKin = props => {
   const { router } = props;
@@ -37,15 +33,9 @@ const NextOfKin = props => {
   const { pendingEdits } = useSelector(selectPendingEdits);
   const { nextOfKin1: newInformation } = pendingEdits || {};
 
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isEditingPreCheckInEnabled } = useSelector(selectFeatureToggles);
-
   const dispatch = useDispatch();
 
   const { goToNextPage, goToPreviousPage, jumpToPage } = useFormRouting(router);
-
-  const selectContext = useMemo(makeSelectCurrentContext, []);
-  const { token } = useSelector(selectContext);
 
   const buttonClick = useCallback(
     async answer => {
@@ -54,28 +44,10 @@ const NextOfKin = props => {
         event: 'cta-button-click',
         'button-click-label': `${answer}-to-next-of-kin`,
       });
-      if (isEditingPreCheckInEnabled) {
-        setIsLoading(true);
-        if (newInformation) {
-          await api.v2.postDemographicsData({
-            demographics: {
-              nextOfKin1: newInformation,
-            },
-            token,
-          });
-        }
-        await api.v2.postPreCheckInData({
-          uuid: token,
-          nextOfKinUpToDate: true,
-        });
-        dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
-        goToNextPage();
-      } else {
-        dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
-        goToNextPage();
-      }
+      dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
+      goToNextPage();
     },
-    [dispatch, goToNextPage, isEditingPreCheckInEnabled, newInformation, token],
+    [dispatch, goToNextPage],
   );
 
   const yesClick = useCallback(
@@ -106,7 +78,6 @@ const NextOfKin = props => {
         yesAction={yesClick}
         noAction={noClick}
         isLoading={isLoading}
-        isEditEnabled={isEditingPreCheckInEnabled}
         jumpToPage={jumpToPage}
       />
       <BackToHome />

@@ -27,18 +27,6 @@ class ApiInitializer {
         }),
       );
     },
-    withPreCheckInEditEnabled: () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          checkInExperienceEnabled: true,
-          preCheckInEnabled: true,
-          emergencyContactEnabled: true,
-          checkInExperienceEditingPreCheckInEnabled: true,
-        }),
-      );
-    },
     withDayOfDemographicsFlagsEnabled: () => {
       cy.intercept(
         'GET',

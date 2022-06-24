@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -14,24 +14,18 @@ import { recordAnswer } from '../../../actions/universal';
 import {
   makeSelectVeteranData,
   makeSelectPendingEdits,
-  makeSelectCurrentContext,
 } from '../../../selectors';
 
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
-import { api } from '../../../api';
-
 const Demographics = props => {
   const dispatch = useDispatch();
   const { router } = props;
-  const { goToNextPage, goToPreviousPage, jumpToPage } = useFormRouting(router);
+  const { goToNextPage, goToPreviousPage } = useFormRouting(router);
   const { t } = useTranslation();
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const {
-    isEditingPreCheckInEnabled,
-    isPhoneAppointmentsEnabled,
-  } = useSelector(selectFeatureToggles);
+  const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
 
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics, appointments } = useSelector(selectVeteranData);
@@ -40,37 +34,16 @@ const Demographics = props => {
   const { pendingEdits } = useSelector(selectPendingEdits);
   const { demographics: newInformation } = pendingEdits || {};
 
-  const selectContext = useMemo(makeSelectCurrentContext, []);
-  const { token } = useSelector(selectContext);
-
-  const [isLoading, setIsLoading] = useState();
-
   const yesClick = useCallback(
     async () => {
       recordEvent({
         event: 'cta-button-click',
         'button-click-label': 'yes-to-demographic-information',
       });
-      if (isEditingPreCheckInEnabled) {
-        setIsLoading(true);
-        if (newInformation) {
-          await api.v2.postDemographicsData({
-            demographics: newInformation,
-            token,
-          });
-        }
-        await api.v2.postPreCheckInData({
-          uuid: token,
-          demographicsUpToDate: 'yes',
-        });
-        dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
-        goToNextPage();
-      } else {
-        dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
-        goToNextPage();
-      }
+      dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
+      goToNextPage();
     },
-    [isEditingPreCheckInEnabled, newInformation, token, dispatch, goToNextPage],
+    [dispatch, goToNextPage],
   );
   const noClick = useCallback(
     async () => {
@@ -78,20 +51,10 @@ const Demographics = props => {
         event: 'cta-button-click',
         'button-click-label': 'no-to-demographic-information',
       });
-      if (isEditingPreCheckInEnabled) {
-        setIsLoading(true);
-        await api.v2.postPreCheckInData({
-          uuid: token,
-          demographicsUpToDate: 'no',
-        });
-        dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
-        goToNextPage();
-      } else {
-        dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
-        goToNextPage();
-      }
+      dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
+      goToNextPage();
     },
-    [isEditingPreCheckInEnabled, token, dispatch, goToNextPage],
+    [dispatch, goToNextPage],
   );
   // check if appointment is in-person or phone
   const apptType =
@@ -112,9 +75,6 @@ const Demographics = props => {
         subtitle={subtitle}
         demographics={newInformation || demographics}
         Footer={Footer}
-        isEditEnabled={isEditingPreCheckInEnabled}
-        jumpToPage={jumpToPage}
-        isLoading={isLoading}
       />
       <BackToHome />
     </>

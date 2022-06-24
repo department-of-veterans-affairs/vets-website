@@ -9,13 +9,11 @@ describe('Pre-Check In Experience ', () => {
   let apiData = {};
   beforeEach(() => {
     const {
-      initializeFeatureToggle,
       initializeSessionGet,
       initializeSessionPost,
       initializePreCheckInDataGet,
       initializePreCheckInDataPost,
     } = ApiInitializer;
-    initializeFeatureToggle.withPreCheckInEditEnabled();
     initializeSessionGet.withSuccessfulNewSession();
 
     initializeSessionPost.withSuccess();
