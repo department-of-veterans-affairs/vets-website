@@ -15,11 +15,17 @@ export function transform(formConfig, form) {
       data: {
         type: 'noticeOfDisagreement',
         attributes: {
+          // TODO: hookup requestingExtension and extensionReason
+          requestingExtension: true,
+          extensionReason: '1234',
           veteran: {
             homeless: formData.homeless || false,
-            address: getAddress(formData),
-            phone: getPhone(formData),
-            emailAddressText: formData.veteran?.email || '',
+            address: {
+              ...getAddress(formData),
+              countryCodeISO2: 'US',
+            },
+            phone: getPhone(formData) || '',
+            email: formData.veteran?.email,
           },
           boardReviewOption: formData.boardReviewOption || '',
           hearingTypePreference: formData.hearingTypePreference || '',
