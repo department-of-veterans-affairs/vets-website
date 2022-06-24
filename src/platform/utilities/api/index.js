@@ -115,16 +115,16 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         return data;
       }
 
-      if (environment.isStaging() || environment.isProduction()) {
+      if (environment.isProduction()) {
         const { pathname } = window.location;
         const is401WithGoodPath =
           response.status === 401 && !pathname.includes('auth/login/callback');
 
-        // const shouldRefreshOAuth = is401WithGoodPath && infoTokenExists();
+        const shouldRefreshOAuth = is401WithGoodPath && infoTokenExists();
 
-        // if (shouldRefreshOAuth) {
-        //   refresh();
-        // }
+        if (shouldRefreshOAuth) {
+          refresh(checkOrSetSessionExpiration);
+        }
 
         const shouldRedirectToSAMLSessionExpired =
           is401WithGoodPath &&
