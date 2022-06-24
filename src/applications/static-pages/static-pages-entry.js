@@ -106,7 +106,7 @@ subscribeAccordionEvents();
 alertsBuildShow();
 // See `content-build/src/site/includes/social-share.drupal.liquid
 // & `content-build/src/site/layouts/event.drupal.liquid`, respectively (per selector)
-icsCreate('#add-to-calendar-link, .recurring-event');
+icsCreate('#add-to-calendar-link, a.recurring-event');
 openShareLink();
 showVaAlertExpandable(store);
 
