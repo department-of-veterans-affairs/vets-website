@@ -40,7 +40,6 @@ import createContactChatbotCTA from './contact-chatbot-cta';
 import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusChatbot';
 import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createCovidVaccineUpdatesWidget';
 import createDependencyVerification from './dependency-verification/createDependencyVerification';
-import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
 import createDisabilityRatingCalculator from '../disability-benefits/disability-rating-calculator/createCalculator';
 import createEducationApplicationStatus from '../edu-benefits/components/createEducationApplicationStatus';
 import createEventsPage from './events';
@@ -52,7 +51,6 @@ import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-forms/createFindVaForms';
 import createFindVaFormsPDFDownloadHelper from '../find-forms/widgets/createFindVaFormsPDFDownloadHelper';
-import createHigherLevelReviewApplicationStatus from '../appeals/996/components/createHLRApplicationStatus';
 import createLettersMobileCTA from './letters-mobile-cta';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
@@ -129,10 +127,6 @@ createCallToActionWidget(store, widgetTypes.CTA);
 createContactChatbotCTA(store, widgetTypes.CONTACT_CHATBOT_CTA);
 createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
 createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
-createHigherLevelReviewApplicationStatus(
-  store,
-  widgetTypes.HIGHER_LEVEL_REVIEW_APP_STATUS,
-);
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_21P_530,
   applyHeading: 'How do I apply?',
@@ -140,7 +134,6 @@ createApplicationStatus(store, {
   applyText: 'Apply for burial benefits',
   widgetType: widgetTypes.BURIALS_APP_STATUS,
 });
-createDisabilityFormWizard(store, widgetTypes.DISABILITY_APP_STATUS);
 createDisabilityRatingCalculator(
   store,
   widgetTypes.DISABILITY_RATING_CALCULATOR,
