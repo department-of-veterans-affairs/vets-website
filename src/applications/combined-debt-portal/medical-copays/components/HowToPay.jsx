@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const HowToPay = ({ acctNum, facility }) => (
-  <article className="vads-u-padding--0" data-tetid="how-to-pay">
+  <article className="vads-u-padding--0" data-testid="how-to-pay">
     <h2 id="how-to-pay">How to pay your copay bill</h2>
     <p>
       <strong>You can pay your bill in any of these 4 ways:</strong>
