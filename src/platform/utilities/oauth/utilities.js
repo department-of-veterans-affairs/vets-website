@@ -1,12 +1,16 @@
 import environment from 'platform/utilities/environment';
-import { API_SIGN_IN_SERVICE_URL } from 'platform/user/authentication/constants';
+import {
+  API_SIGN_IN_SERVICE_URL,
+  GA,
+} from 'platform/user/authentication/constants';
+import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import { OAUTH_KEYS } from './constants';
 import * as oauthCrypto from './crypto';
 
 export async function pkceChallengeFromVerifier(v) {
   if (!v || !v.length) return null;
   const hashed = await oauthCrypto.sha256(v);
-  return oauthCrypto.base64UrlEncode(hashed);
+  return { codeChallenge: oauthCrypto.base64UrlEncode(hashed) };
 }
 
 export const saveStateAndVerifier = () => {
@@ -39,20 +43,46 @@ export const removeStateAndVerifier = () => {
  *
  * @param {String} type
  */
-export async function createOAuthRequest(type = '') {
-  const { state, codeVerifier } = saveStateAndVerifier();
-  // Hash and base64-urlencode the secret to use as the challenge
-  const codeChallenge = await pkceChallengeFromVerifier(codeVerifier);
+export async function createOAuthRequest({
+  application = '',
+  clientId,
+  config,
+  passedQueryParams = {},
+  type = '',
+}) {
+  const isDefaultOAuth = !application || clientId === 'web';
+  const isMobileOAuth =
+    ['vamobile', 'vaoccmobile'].includes(application) || clientId === 'mobile';
+  const { oAuthOptions } =
+    config ??
+    (externalApplicationsConfig[application] ||
+      externalApplicationsConfig.default);
 
-  // Build the authorization URL
+  /*
+    Web - Generate state & codeVerifier if default oAuth
+  */
+  const { state, codeVerifier } = isDefaultOAuth && saveStateAndVerifier();
+
+  /*
+    Mobile - Use passed code_challenge
+    Web - Generate code_challenge
+  */
+  const { codeChallenge } =
+    isMobileOAuth && passedQueryParams
+      ? passedQueryParams
+      : await pkceChallengeFromVerifier(codeVerifier);
+
+  // Build the authorization URL query params from config
   const oAuthParams = {
-    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent('web'),
-    [OAUTH_KEYS.REDIRECT_URI]: encodeURIComponent(
-      `${environment.BASE_URL}/auth/login/callback/`,
+    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(
+      clientId || oAuthOptions.clientId,
     ),
+    [OAUTH_KEYS.ACR]: oAuthOptions.acr,
     [OAUTH_KEYS.RESPONSE_TYPE]: 'code',
-    [OAUTH_KEYS.SCOPE]: 'email',
-    [OAUTH_KEYS.STATE]: state,
+    ...(isDefaultOAuth && { [OAUTH_KEYS.STATE]: state }),
+    ...(passedQueryParams.gaClientId && {
+      [GA.queryParamKey]: passedQueryParams.gaClientId,
+    }),
     [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
     [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: 'S256',
   };
@@ -64,7 +94,7 @@ export async function createOAuthRequest(type = '') {
   );
 
   // Redirect to the authorization server
-  window.location = url;
+  return url.toString();
 }
 
 export const getCV = () => {

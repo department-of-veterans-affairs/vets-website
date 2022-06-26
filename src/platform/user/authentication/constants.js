@@ -148,5 +148,6 @@ export const AUTH_PARAMS = {
   OAuth: 'oauth',
   codeChallenge: 'code_challenge',
   codeChallengeMethod: 'code_challenge_method',
+  clientId: 'client_id',
   to: 'to',
 };
