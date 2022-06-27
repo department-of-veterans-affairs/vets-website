@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import PropTypes from 'prop-types';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
 import {
@@ -17,7 +17,6 @@ export default function VAPServiceEditModalErrorMessage({
   error: { errors = [] },
 }) {
   let content = null;
-
   switch (true) {
     case hasError(LOW_CONFIDENCE_ADDRESS_ERROR_CODES, errors):
       content = (
@@ -71,22 +70,29 @@ export default function VAPServiceEditModalErrorMessage({
   }
 
   return (
-    <AlertBox
-      backgroundOnly
-      status="error"
-      className="va-profile-alert vads-u-margin-y--1"
-    >
-      <div className="vads-u-display--flex">
-        <i
-          className="fas fa-info-circle vads-u-font-size--md vads-u-color--black vads-u-margin-right--2 vads-u-padding-top--0p5"
-          aria-hidden="true"
-          role="img"
-        />
-        <span className="sr-only">Alert: </span>
-        <div role="alert" aria-live="polite">
-          {content}
+    <>
+      <va-alert
+        background-only
+        close-btn-aria-label="Close notification"
+        status="error"
+        visible
+      >
+        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-left--neg1p5 vads-u-margin-y--neg1p5">
+          <i
+            className="fas fa-info-circle vads-u-font-size--md vads-u-color--black vads-u-margin-right--2 vads-u-padding-top--0p5"
+            aria-hidden="true"
+            role="img"
+          />
+          <span className="sr-only">Alert: </span>
+          <div role="alert" aria-live="polite">
+            {content}
+          </div>
         </div>
-      </div>
-    </AlertBox>
+      </va-alert>
+    </>
   );
 }
+
+VAPServiceEditModalErrorMessage.prototype = {
+  error: PropTypes.object,
+};
