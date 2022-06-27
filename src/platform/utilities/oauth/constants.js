@@ -61,3 +61,5 @@ export const CLIENT_IDS = {
   WEB: 'web',
   MOBILE: 'mobile',
 };
+
+export const INFO_TOKEN = 'vagov_info_token';
