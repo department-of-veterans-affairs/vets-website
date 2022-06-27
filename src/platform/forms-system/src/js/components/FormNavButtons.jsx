@@ -30,6 +30,7 @@ const FormNavButtons = ({ goBack, goForward, submitToContinue }) => (
         buttonText="Continue"
         buttonClass="usa-button-primary"
         afterText="»"
+        ariaDescribedBy="nav-form-header"
       />
     </div>
   </div>
