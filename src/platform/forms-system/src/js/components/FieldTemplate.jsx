@@ -93,6 +93,7 @@ export default function FieldTemplate(props) {
     <label id={`${id}-label`} className={labelClassNames} htmlFor={id}>
       {label}
       {requiredSpan}
+      {errorSpan}
     </label>
   );
 
@@ -113,7 +114,6 @@ export default function FieldTemplate(props) {
         />
       )}
       {!textDescription && !DescriptionField && description}
-      {errorSpan}
       {<div className={inputWrapperClassNames}>{children}</div>}
       {help}
     </>
