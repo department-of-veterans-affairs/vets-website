@@ -42,7 +42,7 @@ const PrimaryAddressWithAutofill = props => {
     },
   };
 
-  // define our custom input label map
+  // define our custom input labels
   const inputLabelMap = {
     primaryAddress: primaryInputLabel,
     secondaryOneAddress: secondaryOneInputLabel,
@@ -62,11 +62,11 @@ const PrimaryAddressWithAutofill = props => {
   // define our checkbox input change event
   const handleCheck = useCallback(
     event => {
-      formData.autofill = event.target.checked;
+      formData['view:autofill'] = event.target.checked;
       // transform and send data back to the form
-      const dataToSend = formData.autofill
+      const dataToSend = formData['view:autofill']
         ? { ...formData, ...veteranAddress }
-        : { autofill: false };
+        : { 'view:autofill': false };
       addDirtyField('autofill');
       onChange(dataToSend);
     },
@@ -79,7 +79,7 @@ const PrimaryAddressWithAutofill = props => {
       const fieldName = event.target.name.split('_').pop();
       formData[fieldName] = event.target.value;
       // uncheck autofill since we have modified the input value
-      if (formData.autofill) formData.autofill = false;
+      if (formData['view:autofill']) formData['view:autofill'] = false;
       // send updated date to the form
       addDirtyField(fieldName);
       onChange(formData);
@@ -131,8 +131,8 @@ const PrimaryAddressWithAutofill = props => {
 
       {canAutofillAddress && (
         <VaCheckbox
-          id={idSchema.autofill.$id}
-          checked={formData.autofill}
+          id={idSchema['view:autofill'].$id}
+          checked={formData['view:autofill']}
           label="Use the same address as the Veteran"
           className="vads-u-margin-left--neg3"
           style={{ marginLeft: '-24px' }}
