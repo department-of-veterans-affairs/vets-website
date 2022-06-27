@@ -1,6 +1,7 @@
 // prettier-ignore
 
 export default Object.freeze({
+  canAutofill1010cgAddress: 'can_autofill_10_10cg_address',
   canUpload1010cgPOA: 'can_upload_10_10cg_poa',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
@@ -14,8 +15,6 @@ export default Object.freeze({
   checkInExperienceEnabled: 'check_in_experience_enabled',
   checkInExperiencePreCheckInEnabled:
     'check_in_experience_pre_check_in_enabled',
-  checkInExperienceUpdateInformationPageEnabled:
-    'check_in_experience_update_information_page_enabled',
   checkInExperienceEditingDayOfEnabled: 'check_in_experience_editing_day_of_enabled',
   checkInExperienceEditingPreCheckInEnabled:'check_in_experience_editing_pre_check_in_enabled',
   checkInExperienceTranslationDayOfEnabled: 'check_in_experience_translation_day_of_enabled',
