@@ -40,7 +40,8 @@ class SessionTimeoutModal extends React.Component {
     }
 
     const expirationDate = localStorage.getItem('sessionExpiration');
-    if (!expirationDate || isNaN(new Date(expirationDate).getTime())) return;
+    if (!expirationDate || Math.isNaN(new Date(expirationDate).getTime()))
+      return;
 
     const countdown = differenceInSeconds(new Date(expirationDate), Date.now());
     if (countdown < 0) this.expireSession();
