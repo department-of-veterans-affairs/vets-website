@@ -156,7 +156,7 @@ export default function AppointmentsPageV2() {
 
   useEffect(
     () => {
-      // Get non cancled appointment requests from store
+      // Get non cancelled appointment requests from store
       setCount(
         pendingAppointments
           ? pendingAppointments.filter(
