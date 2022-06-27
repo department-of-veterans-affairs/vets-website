@@ -18,6 +18,7 @@ import {
   API_SESSION_URL,
   EBENEFITS_DEFAULT_PATH,
   AUTH_PARAMS,
+  IDME_TYPES,
 } from './constants';
 import recordEvent from '../../monitoring/record-event';
 
@@ -182,8 +183,8 @@ export function sessionTypeUrl({
       : '';
 
   // Passes GA Client ID if it is an `ID.me` type
-  const { gaClientId } = type === 'idme' && getGAClientId();
-  const passGAClientId = type === 'idme' && gaClientId;
+  const { gaClientId } = IDME_TYPES.includes(type) && getGAClientId();
+  const passGAClientId = IDME_TYPES.includes(type) && gaClientId;
 
   const appendParams =
     externalRedirect && isLogin

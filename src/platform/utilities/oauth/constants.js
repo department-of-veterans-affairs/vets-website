@@ -56,3 +56,8 @@ export const OAUTH_ERROR_RESPONSES = {
   'Code is not valid': OAUTH_ERRORS.OAUTH_INVALID_REQUEST,
   default: OAUTH_ERRORS.OAUTH_DEFAULT_ERROR,
 };
+
+export const CLIENT_IDS = {
+  WEB: 'web',
+  MOBILE: 'mobile',
+};

@@ -21,7 +21,7 @@ export default function LoginActions({ externalApplication }) {
           <h2 className="vads-u-margin-top--3">Or create an account</h2>
           <div className="vads-u-display--flex vads-u-flex-direction--column">
             {reduceAllowedProviders(allowedSignUpProviders).map(csp => (
-              <AccountLink key={csp} csp={csp} />
+              <AccountLink key={csp} csp={csp} useOAuth={useSignInService} />
             ))}
           </div>
         </div>

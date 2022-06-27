@@ -2,12 +2,21 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import * as authUtilities from 'platform/user/authentication/utilities';
+import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
 import { CSP_CONTENT, AUTH_EVENTS, LINK_TYPES } from '../constants';
 
-function signupHandler(loginType, eventBase) {
-  recordEvent({ event: `${eventBase}-${loginType}` });
+function signupHandler(loginType, eventBase, isOAuth) {
+  recordEvent({ event: `${eventBase}-${loginType}${isOAuth && '-oauth'}` });
+
+  if (isOAuth) {
+    updateStateAndVerifier(loginType);
+  }
 }
-export default function AccountLink({ csp, type = LINK_TYPES.CREATE }) {
+export default function AccountLink({
+  csp,
+  type = LINK_TYPES.CREATE,
+  useOAuth = false,
+}) {
   const [href, setHref] = useState('');
 
   const { children, eventBase } = {
@@ -39,7 +48,7 @@ export default function AccountLink({ csp, type = LINK_TYPES.CREATE }) {
       href={href}
       className={`vads-c-action-link--blue vads-u-padding-y--2p5 vads-u-width--full ${csp}`}
       data-testid={csp}
-      onClick={() => signupHandler(csp, eventBase)}
+      onClick={() => signupHandler(csp, eventBase, useOAuth)}
     >
       {children}
     </a>
@@ -50,4 +59,5 @@ AccountLink.propTypes = {
   csp: PropTypes.string,
   isDisabled: PropTypes.bool,
   type: PropTypes.string,
+  useOAuth: PropTypes.bool,
 };

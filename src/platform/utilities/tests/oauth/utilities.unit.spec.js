@@ -9,7 +9,7 @@ import {
   AUTHORIZE_KEYS_WEB,
   AUTHORIZE_KEYS_MOBILE,
 } from '../../oauth/constants';
-import { mockCrypto } from '../../oauth/crypto';
+import { mockCrypto } from '../../oauth/mockCrypto';
 import * as oAuthUtils from '../../oauth/utilities';
 
 describe('OAuth - Utilities', () => {

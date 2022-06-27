@@ -6,7 +6,7 @@ import {
   getLoginAttempted,
   removeLoginAttempted,
 } from 'platform/utilities/sso/loginAttempted';
-import { mockCrypto } from 'platform/utilities/oauth/crypto';
+import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
 import * as authUtilities from '../../authentication/utilities';
 import {
   AUTHN_SETTINGS,
