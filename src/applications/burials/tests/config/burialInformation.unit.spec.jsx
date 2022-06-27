@@ -96,7 +96,7 @@ describe('Burials veteran burial information', () => {
     expect(onSubmit.called).to.be.true;
   });
 
-  it('should show warning if death date was more than 2 years ago', () => {
+  it('should show warning if death date was more than 2 years ago', done => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
@@ -109,8 +109,13 @@ describe('Burials veteran burial information', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelector('.usa-alert')).to.be.null;
+    expect(formDOM.querySelector('va-alert')).to.be.null;
     formDOM.fillDate('root_burialDate', '2001-12-11');
-    expect(formDOM.querySelector('.usa-alert')).to.not.be.null;
+    setTimeout(() => {
+      expect(formDOM.querySelector('va-alert')).to.not.be.null;
+      done();
+      // va-alert should render after 1000ms, using 1010ms because 1000ms
+      // didn't seem to be enough for the test to pass
+    }, 1010);
   });
 });
