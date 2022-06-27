@@ -16,7 +16,7 @@ describe('Check In Experience -- ', () => {
   });
 
   it('C5751 - Should show error page since there is no data to load locally', () => {
-    const featureRoute = '/health-care/appointment-check-in/update-information';
+    const featureRoute = '/health-care/appointment-check-in/details';
     cy.window().then(window => {
       window.sessionStorage.clear();
     });

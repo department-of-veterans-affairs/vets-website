@@ -5,7 +5,6 @@ import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Demographics from '../../../../tests/e2e/pages/Demographics';
 import NextOfKin from '../../../../tests/e2e/pages/NextOfKin';
 import EmergencyContact from '../../../../tests/e2e/pages/EmergencyContact';
-import UpdateInformation from '../pages/UpdateInformation';
 import Appointments from '../pages/Appointments';
 import Confirmation from '../pages/Confirmation';
 import checkInData from '../../../../api/local-mock-api/mocks/v2/check-in-data';
@@ -75,10 +74,6 @@ describe('Check In Experience', () => {
       );
       cy.injectAxeThenAxeCheck();
       NextOfKin.attemptToGoToNextPage();
-
-      UpdateInformation.validatePageLoaded();
-      cy.injectAxeThenAxeCheck();
-      UpdateInformation.attemptToGoToNextPage('no');
 
       Appointments.validatePageLoaded();
       Appointments.validateAppointmentLength(3);

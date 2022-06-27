@@ -48,7 +48,7 @@
     "react": "^17.0.2",
     "react-redux": "^7.2.6",
     "react-router": "3",
-    "@department-of-veterans-affairs/component-library": "^10.3.1",
+    "@department-of-veterans-affairs/component-library": "^10.6.0",
     "prop-types": "^15.6.1",
     "reselect": "^2.5.4",
     "lodash": "^4.17.21",

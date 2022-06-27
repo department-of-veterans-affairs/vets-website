@@ -5,16 +5,7 @@ const isWithInDays = (days, pageLastUpdated) => {
   return daysAgo <= days;
 };
 
-const updateFormPages = (
-  patientDemographicsStatus,
-  checkInExperienceUpdateInformationPageEnabled,
-  pages,
-  URLS,
-) => {
-  let newPages = pages;
-  if (!checkInExperienceUpdateInformationPageEnabled) {
-    newPages = pages.filter(page => page !== URLS.UPDATE_INSURANCE);
-  }
+const updateFormPages = (patientDemographicsStatus, pages, URLS) => {
   const skippedPages = [];
   const {
     demographicsNeedsUpdate,
@@ -55,8 +46,7 @@ const updateFormPages = (
       skippedPages.push(page.url);
     }
   });
-  newPages = newPages.filter(page => !skippedPages.includes(page));
-  return newPages;
+  return pages.filter(page => !skippedPages.includes(page));
 };
 
 const URLS = Object.freeze({
@@ -71,7 +61,6 @@ const URLS = Object.freeze({
   VERIFY: 'verify',
   COMPLETE: 'complete',
   DETAILS: 'details',
-  UPDATE_INSURANCE: 'update-information',
   VALIDATION_NEEDED: 'verify',
   LOADING: 'loading-appointments',
   EDIT_ADDRESS: 'edit-address',
