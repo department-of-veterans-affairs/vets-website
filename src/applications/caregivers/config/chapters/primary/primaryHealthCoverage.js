@@ -1,5 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { PrimaryHealthCoverage } from 'applications/caregivers/components/AdditionalInfo';
+import { PrimaryHealthCoverage } from 'applications/caregivers/components/AdditionalInfo/PrimaryHealthCoverage';
 import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
 import { hasHealthInsurance } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
 
