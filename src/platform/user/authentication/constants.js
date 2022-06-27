@@ -95,6 +95,8 @@ export const GA = {
   queryParamKey: 'ga_client_id',
 };
 
+export const IDME_TYPES = ['idme', 'idme_signup'];
+
 export const POLICY_TYPES = {
   VERIFY: 'verify',
   MFA: 'mfa',
@@ -148,5 +150,6 @@ export const AUTH_PARAMS = {
   OAuth: 'oauth',
   codeChallenge: 'code_challenge',
   codeChallengeMethod: 'code_challenge_method',
+  clientId: 'client_id',
   to: 'to',
 };
