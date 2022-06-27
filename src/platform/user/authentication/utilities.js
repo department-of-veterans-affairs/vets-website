@@ -2,7 +2,11 @@ import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
 import 'url-search-params-polyfill';
 import environment from 'platform/utilities/environment';
-import { createOAuthRequest } from 'platform/utilities/oauth/utilities';
+import {
+  createOAuthRequest,
+  infoTokenExists,
+  getInfoToken,
+} from 'platform/utilities/oauth/utilities';
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 import { externalApplicationsConfig } from './usip-config';
 import {
@@ -335,4 +339,18 @@ export const signupUrl = type => {
 
 export const logoutUrl = () => {
   return sessionTypeUrl({ type: POLICY_TYPES.SLO, version: API_VERSION });
+};
+
+export const checkOrSetSessionExpiration = response => {
+  const sessionExpirationSAML =
+    response.headers.get('X-Session-Expiration') ?? null;
+
+  if (infoTokenExists()) {
+    const { refresh_token_expiration: sessionExpirationOAuth } = getInfoToken();
+    localStorage.setItem('sessionExpiration', sessionExpirationOAuth);
+  }
+
+  if (sessionExpirationSAML) {
+    localStorage.setItem('sessionExpiration', sessionExpirationSAML);
+  }
 };

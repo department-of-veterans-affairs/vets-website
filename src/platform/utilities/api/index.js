@@ -4,8 +4,8 @@ import environment from '../environment';
 import localStorage from '../storage/localStorage';
 import {
   infoTokenExists,
-  refresh,
   checkOrSetSessionExpiration,
+  refresh,
 } from '../oauth/utilities';
 import { checkAndUpdateSSOeSession } from '../sso';
 
@@ -19,7 +19,8 @@ export function fetchAndUpdateSessionExpiration(...args) {
         response.url.includes(apiURL) &&
         (response.ok || response.status === 304)
       ) {
-        // Get (SAML | OAuth) session expiration from header
+        // Set (SAML | OAuth) session expiration
+        // SAML - response headers | OAuth - cookie
         checkOrSetSessionExpiration(response);
 
         // SSOe session is independent of vets-api, and must be kept alive for cross-session continuity
@@ -113,7 +114,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         return data;
       }
 
-      if (environment.isProduction()) {
+      if (environment.isStaging() || environment.isProduction()) {
         const { pathname } = window.location;
         const is401WithGoodPath =
           response.status === 401 && !pathname.includes('auth/login/callback');
