@@ -1,5 +1,9 @@
 import React from 'react';
-import { newFormFields, RELATIONSHIP } from './constants';
+import {
+  formFields,
+  RELATIONSHIP,
+  VETERAN_NOT_LISTED_VALUE,
+} from './constants';
 
 export function isAlphaNumeric(str) {
   const alphaNumericRegEx = new RegExp(/^[a-z0-9]+$/i);
@@ -24,7 +28,7 @@ export const addWhitespaceOnlyError = (field, errors, errorMessage) => {
  * Formats a date in human-readable form. For example:
  * January 1, 2000.
  *
- * @param {*} rawDate A date in the form '01-01-2000'
+ * @param {*} rawDate A date in the form '2000-12-31' (December 31, 2000)
  * @returns A human-readable date string.
  */
 export const formatReadableDate = rawDate => {
@@ -62,29 +66,47 @@ export const formatReadableDate = rawDate => {
   return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 };
 
-export const applicantIsChildOfSponsor = formData => {
-  const numSelectedSponsors = formData[newFormFields.selectedSponsors]?.length;
+const applicantMatchesVeteranRelationship = (formData, relationship) => {
+  const r =
+    formData[formFields.selectedVeteran] === VETERAN_NOT_LISTED_VALUE
+      ? formData[formFields.relationshipToVeteran]
+      : formData.veterans?.find(
+          v => v.id === formData[formFields.selectedVeteran],
+        )?.relationship;
 
-  if (
-    !numSelectedSponsors ||
-    (numSelectedSponsors === 1 && formData.sponsors?.someoneNotListed)
-    // ||
-    // (numSelectedSponsors > 1 &&
-    //   formData.firstSponsor === SPONSOR_NOT_LISTED_VALUE)
-  ) {
-    return (
-      formData[newFormFields.newRelationshipToServiceMember] ===
-      RELATIONSHIP.CHILD
-    );
+  return r === relationship;
+};
+
+export const applicantIsChildOfVeteran = formData => {
+  return applicantMatchesVeteranRelationship(formData, RELATIONSHIP.CHILD);
+};
+
+export const applicantIsSpouseOfVeteran = formData => {
+  return applicantMatchesVeteranRelationship(formData, RELATIONSHIP.SPOUSE);
+};
+
+export const bothFryAndDeaBenefitsAvailable = formData => {
+  let hasDea = false;
+  let hasFry = false;
+
+  if (!formData?.veterans?.length) {
+    return false;
   }
 
-  const sponsors = formData.sponsors?.sponsors;
-  const sponsor =
-    numSelectedSponsors === 1
-      ? sponsors?.find(s => s.selected)
-      : sponsors?.find(s => s.id === formData.firstSponsor);
+  for (const veteran of formData.veterans) {
+    if (veteran.deaEligibility) {
+      hasDea = true;
+    }
+    if (veteran.fryEligibility) {
+      hasFry = true;
+    }
 
-  return sponsor?.relationship === RELATIONSHIP.CHILD;
+    if (hasDea && hasFry) {
+      break;
+    }
+  }
+
+  return hasDea && hasFry;
 };
 
 export const AdditionalConsiderationTemplate = (

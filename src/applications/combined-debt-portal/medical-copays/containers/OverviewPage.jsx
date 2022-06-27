@@ -129,7 +129,11 @@ const OverviewPage = () => {
             <OnThisPageOverview multiple={statements?.length > 1} />
             <Balances statements={statementsByUniqueFacility} />
             {renderOtherVA(debts?.length, debtError)}
-            <HowToPay />
+            <HowToPay
+              isOverview="true"
+              acctNum={statementsByUniqueFacility[0].pHAccountNumber}
+              facility={statementsByUniqueFacility[0].station}
+            />
             <FinancialHelp />
             <DisputeCharges />
             <BalanceQuestions />
