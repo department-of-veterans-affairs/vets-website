@@ -2,8 +2,7 @@ import React from 'react';
 import { waitFor } from '@testing-library/react';
 
 import CheckboxFieldGroup from '../../src/form-builder/CheckboxFieldGroup';
-import VaCheckboxGroup from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { buildRenderForm, changeValue } from '../utils';
+import { buildRenderForm } from '../utils';
 
 const renderForm = buildRenderForm({ thing: false, breakfast: [] });
 
@@ -24,7 +23,6 @@ const testData = {
    * string, it will be used as the error message.
    */
   required: true,
-  values: {},
   options: [
     {
       name: 'eggs',
@@ -61,15 +59,15 @@ describe('Form Builder - CheckboxFieldGroup', () => {
     expect(firstCheckbox?.label).toEqual('Eggs');
   });
 
-  test('renders the default "required" validation error message', async () => {
+  test('renders the default "required" validation error message', async() => {
     const rf = buildRenderForm({
-      breakfast: {
-        eggs: false,
-        protein: false,
-        toast: false,
-        fruit: false,
-      },
-    });
+                                 breakfast: {
+                                   eggs: false,
+                                   protein: false,
+                                   toast: false,
+                                   fruit: false,
+                                 },
+                               });
     const { container, getFormProps } = rf(
       <CheckboxFieldGroup {...testData} />
     );
@@ -81,17 +79,17 @@ describe('Form Builder - CheckboxFieldGroup', () => {
     expect(input.getAttribute('error')).toContain('Please provide a response');
   });
 
-  test('does not render the default "required" validation error message when required is not set', async () => {
+  test('does not render the default "required" validation error message when required is not set', async() => {
     const rf = buildRenderForm({
-      breakfast: {
-        eggs: false,
-        protein: false,
-        toast: false,
-        fruit: false,
-      },
-    });
+                                 breakfast: {
+                                   eggs: false,
+                                   protein: false,
+                                   toast: false,
+                                   fruit: false,
+                                 },
+                               });
     const { container, getFormProps } = rf(
-      <CheckboxFieldGroup {...testData} required={false} />
+      <CheckboxFieldGroup {...testData} required={false}/>
     );
     const input = getCheckboxGroupContainer(container);
     await waitFor(() => {
@@ -103,14 +101,63 @@ describe('Form Builder - CheckboxFieldGroup', () => {
 
   test('renders initial value', () => {
     const rf = buildRenderForm({
-      breakfast: {
         eggs: true,
         protein: false,
         toast: false,
         fruit: false,
-      },
     });
     const { container } = rf(<CheckboxFieldGroup {...testData} />);
+    const input = getCheckboxGroupContainer(container);
+    const firstCheckbox = input.querySelector('va-checkbox');
+    // This expects the string "true" because attributes on HTML elements are
+    // always strings
+
+    expect(firstCheckbox?.getAttribute('checked')).toBeTruthy();
+  });
+
+  test('renders initial value for nested objects', () => {
+    const nestedTestData = {
+      label: 'What meal?',
+      name: 'meal',
+      id: '12',
+      required: true,
+      values: {},
+      options: [
+        {
+          name: 'breakfast.eggs',
+          label: 'Eggs',
+          content: '🐥🐣',
+          required: false,
+        },
+        {
+          name: 'breakfast.protein',
+          label: 'Protein Shake',
+          content: '🏋️',
+          required: true,
+        },
+        {
+          name: 'breakfast.toast',
+          label: 'Toast',
+          content: '🍞',
+          required: false,
+        },
+        {
+          name: 'breakfast.fruit',
+          label: 'Fruit',
+          content: '🍐',
+          required: false,
+        },
+      ],
+    };
+    const rf = buildRenderForm({
+                                   breakfast: {
+                                     eggs: true,
+                                     protein: false,
+                                     toast: false,
+                                     fruit: false,
+                                   },
+                               });
+    const { container } = rf(<CheckboxFieldGroup {...nestedTestData} />);
     const input = getCheckboxGroupContainer(container);
     const firstCheckbox = input.querySelector('va-checkbox');
     // This expects the string "true" because attributes on HTML elements are

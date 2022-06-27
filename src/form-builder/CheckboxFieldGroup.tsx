@@ -26,12 +26,11 @@ const CheckboxFieldGroup = (props: CheckboxGroupProps): JSX.Element => {
         error={(meta.touched && meta.error) || undefined}
       >
         {props.options.map((option: CheckboxProps, index: number) => (
-          <CheckboxField
-            key={`va-checkbox-field-${field.name}-${index}`}
-            {...option}
-            required={false}
-            name={`${field.name}.${option.name}`}
-          ></CheckboxField>
+          <CheckboxField key={`va-checkbox-field-${field.name}-${index}`}
+                         {...option}
+                         required={false}
+                         name={option.name}
+          />
         ))}
       </VaCheckboxGroup>
     </>
