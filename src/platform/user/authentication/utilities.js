@@ -211,6 +211,9 @@ export function sessionTypeUrl({
         codeChallengeMethod,
         ...(passGAClientId && { gaClientId }),
       },
+      passedOptions: {
+        isSignup,
+      },
     });
   }
 

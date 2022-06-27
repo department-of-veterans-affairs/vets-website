@@ -2,7 +2,11 @@ import React from 'react';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { logout } from 'platform/user/authentication/utilities';
+import {
+  logout,
+  checkOrSetSessionExpiration,
+} from 'platform/user/authentication/utilities';
+import { refresh } from 'platform/utilities/oauth/utilities';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
 
@@ -38,7 +42,7 @@ class SessionTimeoutModal extends React.Component {
     }
 
     const expirationDate = localStorage.getItem('sessionExpiration');
-    if (!expirationDate || Math.isNaN(new Date(expirationDate).getTime()))
+    if (!expirationDate || Number.isNaN(new Date(expirationDate).getTime()))
       return;
 
     const countdown = differenceInSeconds(new Date(expirationDate), Date.now());
@@ -60,7 +64,11 @@ class SessionTimeoutModal extends React.Component {
     // Expiration will reset after a successful request to extend the session.
     localStorage.removeItem('sessionExpiration');
     this.setState({ countdown: null });
-    this.props.onExtendSession();
+    if (this.props.authenticatedWithOAuth) {
+      refresh(checkOrSetSessionExpiration);
+    } else {
+      this.props.onExtendSession();
+    }
   };
 
   signOut = () => {

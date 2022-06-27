@@ -7,7 +7,12 @@ import {
   SIGNUP_TYPES,
 } from 'platform/user/authentication/constants';
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
-import { OAUTH_KEYS, CLIENT_IDS, INFO_TOKEN } from './constants';
+import {
+  ALL_STATE_AND_VERIFIERS,
+  OAUTH_KEYS,
+  CLIENT_IDS,
+  INFO_TOKEN,
+} from './constants';
 import * as oauthCrypto from './crypto';
 
 export async function pkceChallengeFromVerifier(v) {
@@ -45,8 +50,11 @@ export const saveStateAndVerifier = type => {
 export const removeStateAndVerifier = () => {
   const storage = window.sessionStorage;
 
-  storage.removeItem('state');
-  storage.removeItem('code_verifier');
+  Object.keys(storage)
+    .filter(key => ALL_STATE_AND_VERIFIERS.includes(key))
+    .forEach(key => {
+      storage.removeItem(key);
+    });
 };
 
 export const updateStateAndVerifier = csp => {
@@ -79,6 +87,7 @@ export async function createOAuthRequest({
   clientId,
   config,
   passedQueryParams = {},
+  passedOptions = {},
   type = '',
 }) {
   const isDefaultOAuth = !application || clientId === CLIENT_IDS.WEB;
@@ -110,7 +119,9 @@ export async function createOAuthRequest({
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(
       clientId || oAuthOptions.clientId,
     ),
-    [OAUTH_KEYS.ACR]: oAuthOptions.acr,
+    [OAUTH_KEYS.ACR]: passedOptions.isSignup
+      ? oAuthOptions.acrSignup[type]
+      : oAuthOptions.acr[type],
     [OAUTH_KEYS.RESPONSE_TYPE]: 'code',
     ...(isDefaultOAuth && { [OAUTH_KEYS.STATE]: state }),
     ...(passedQueryParams.gaClientId && {
@@ -189,14 +200,16 @@ export const requestToken = async ({ code, redirectUri, csp }) => {
 };
 
 export const refresh = async callback => {
-  const url = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: '/refresh' }));
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'refresh' }));
 
   const response = await fetch(url.href, {
     method: 'POST',
     credentials: 'include',
   });
 
-  callback(response);
+  if (callback) {
+    callback(response);
+  }
 };
 
 export const infoTokenExists = () => {

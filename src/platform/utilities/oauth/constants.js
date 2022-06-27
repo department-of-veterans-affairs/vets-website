@@ -63,3 +63,12 @@ export const CLIENT_IDS = {
 };
 
 export const INFO_TOKEN = 'vagov_info_token';
+
+export const ALL_STATE_AND_VERIFIERS = [
+  'state',
+  'idme_signup_state',
+  'logingov_signup_state',
+  'code_verifier',
+  'idme_signup_code_verifier',
+  'logingov_signup_code_verifier',
+];
