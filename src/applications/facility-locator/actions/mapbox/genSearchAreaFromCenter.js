@@ -1,12 +1,12 @@
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import mapboxClient from '../components/MapboxClient';
+import mapboxClient from '../../components/MapboxClient';
 import {
   SEARCH_FAILED,
   SEARCH_QUERY_UPDATED,
   GEOCODE_FAILED,
-} from '../utils/actionTypes';
-import { MAPBOX_QUERY_TYPES, CountriesList } from '../constants';
-import { distBetween } from '../utils/facilityDistance';
+} from '../../utils/actionTypes';
+import { MAPBOX_QUERY_TYPES, CountriesList } from '../../constants';
+import { distBetween } from '../../utils/facilityDistance';
 
 const mbxClient = mbxGeo(mapboxClient);
 

@@ -1,19 +1,19 @@
 import mbxGeo from '@mapbox/mapbox-sdk/services/geocoding';
-import mapboxClient from '../components/MapboxClient';
+import mapboxClient from '../../components/MapboxClient';
 import {
   BOUNDING_RADIUS,
   EXPANDED_BOUNDING_RADIUS,
   MAPBOX_QUERY_TYPES,
   CountriesList,
-} from '../constants';
+} from '../../constants';
 import {
   GEOCODE_STARTED,
   SEARCH_FAILED,
   SEARCH_QUERY_UPDATED,
   GEOCODE_COMPLETE,
   GEOCODE_FAILED,
-} from '../utils/actionTypes';
-import { radiusFromBoundingBox } from '../utils/facilityDistance';
+} from '../../utils/actionTypes';
+import { radiusFromBoundingBox } from '../../utils/facilityDistance';
 
 const mbxClient = mbxGeo(mapboxClient);
 

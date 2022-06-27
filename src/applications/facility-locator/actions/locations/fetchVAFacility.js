@@ -2,8 +2,8 @@ import {
   FETCH_LOCATION_DETAIL,
   SEARCH_STARTED,
   SEARCH_FAILED,
-} from '../utils/actionTypes';
-import LocatorApi from '../api';
+} from '../../utils/actionTypes';
+import LocatorApi from '../../api';
 
 /**
  * Get the details of a single VA facility.

@@ -1,9 +1,9 @@
-import LocatorApi from '../api';
+import LocatorApi from '../../api';
 import {
   FETCH_SPECIALTIES,
   FETCH_SPECIALTIES_FAILED,
   FETCH_SPECIALTIES_DONE,
-} from '../utils/actionTypes';
+} from '../../utils/actionTypes';
 
 /**
  * Preloads all specialties available from CC Providers

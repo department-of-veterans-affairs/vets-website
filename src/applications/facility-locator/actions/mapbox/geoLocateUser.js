@@ -2,9 +2,9 @@ import {
   GEOLOCATE_USER,
   GEOCODE_FAILED,
   GEOCODE_COMPLETE,
-} from '../utils/actionTypes';
-import { searchCriteraFromCoords } from '../utils/mapHelpers';
-import { updateSearchQuery } from './updateSearchQuery';
+} from '../../utils/actionTypes';
+import { searchCriteraFromCoords } from '../../utils/mapHelpers';
+import { updateSearchQuery } from '../search/updateSearchQuery';
 
 export const geolocateUser = () => async dispatch => {
   const GEOLOCATION_TIMEOUT = 10000;

@@ -1,8 +1,8 @@
-import { FETCH_LOCATIONS, SEARCH_FAILED } from '../utils/actionTypes';
-import { LocationType } from '../constants';
-import { distBetween } from '../utils/facilityDistance';
+import { FETCH_LOCATIONS, SEARCH_FAILED } from '../../utils/actionTypes';
+import { LocationType } from '../../constants';
+import { distBetween } from '../../utils/facilityDistance';
 
-import LocatorApi from '../api';
+import LocatorApi from '../../api';
 
 /**
  * Handles all care request (mashup) - Urgent care and Emergency care

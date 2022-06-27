@@ -1,7 +1,7 @@
-import { SEARCH_STARTED, SEARCH_FAILED } from '../utils/actionTypes';
-import { reverseGeocodeBox } from '../utils/mapHelpers';
-import { LocationType } from '../constants';
-import { fetchLocations } from './fetchLocations';
+import { SEARCH_STARTED, SEARCH_FAILED } from '../../utils/actionTypes';
+import { reverseGeocodeBox } from '../../utils/mapHelpers';
+import { LocationType } from '../../constants';
+import { fetchLocations } from '../locations/fetchLocations';
 
 /**
  * Find which locations exist within the given bounding box's area.

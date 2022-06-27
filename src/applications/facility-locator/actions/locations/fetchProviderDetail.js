@@ -2,8 +2,8 @@ import {
   SEARCH_STARTED,
   FETCH_LOCATION_DETAIL,
   SEARCH_FAILED,
-} from '../utils/actionTypes';
-import LocatorApi from '../api';
+} from '../../utils/actionTypes';
+import LocatorApi from '../../api';
 
 /**
  * Gets the details of a single Community Care Provider
