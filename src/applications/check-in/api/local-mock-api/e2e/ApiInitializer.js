@@ -24,6 +24,8 @@ class ApiInitializer {
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
           checkInExperienceEditingPreCheckInEnabled: false,
+          checkInExperiencePhoneAppointmentsEnabled: false,
+          checkInExperienceLorotaSecurityUpdatesEnabled: false,
         }),
       );
     },
@@ -84,7 +86,22 @@ class ApiInitializer {
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
           checkInExperienceEditingPreCheckInEnabled: false,
+          checkInExperiencePhoneAppointmentsEnabled: false,
           checkInExperienceLorotaSecurityUpdatesEnabled: true,
+        }),
+      );
+    },
+    withPhoneAppointments: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          emergencyContactEnabled: true,
+          checkInExperienceEditingPreCheckInEnabled: false,
+          checkInExperienceLorotaSecurityUpdatesEnabled: false,
+          checkInExperiencePhoneAppointmentsEnabled: true,
         }),
       );
     },
@@ -131,8 +148,11 @@ class ApiInitializer {
     },
     withValidation: () => {
       cy.intercept('POST', '/check_in/v2/sessions', req => {
-        const { last4, lastName } = req.body?.session || {};
-        if (last4 === '1234' && lastName === 'Smith') {
+        const { last4, lastName, dob } = req.body?.session || {};
+        if (
+          (last4 === '1234' || dob === '1989-03-15') &&
+          lastName === 'Smith'
+        ) {
           req.reply(
             session.post.createMockSuccessResponse('some-token', 'read.full'),
           );
