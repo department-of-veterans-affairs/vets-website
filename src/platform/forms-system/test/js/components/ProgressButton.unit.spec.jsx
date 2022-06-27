@@ -11,15 +11,17 @@ import ProgressButton from '../../../src/js/components/ProgressButton.jsx';
 chai.use(chaiAsPromised);
 
 describe('<ProgressButton>', () => {
-  it('should render with button text', () => {
+  it('should render with button text and aria-describedby attribute', () => {
     const tree = shallow(
       <ProgressButton
         buttonText="Button text"
         buttonClass="usa-button-primary"
         disabled={false}
+        ariaDescribedBy="test-aria-describedby"
       />,
     );
     expect(tree.text()).to.equal('Button text');
+    expect(tree.prop('aria-describedby')).to.equal('test-aria-describedby');
     expect(tree).to.have.length.of(1);
     tree.unmount();
   });
