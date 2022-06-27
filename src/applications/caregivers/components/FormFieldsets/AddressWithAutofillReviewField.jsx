@@ -14,7 +14,7 @@ export const AddressWithAutofillReviewField = ({
   return (
     <>
       {canAutofillAddress &&
-        formData.autofill && (
+        formData['view:autofill'] && (
           <div className="review-row">
             <dt>Use the same address as the Veteran</dt>
             <dd>Selected</dd>
