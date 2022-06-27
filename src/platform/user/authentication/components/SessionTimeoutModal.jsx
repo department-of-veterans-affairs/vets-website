@@ -1,8 +1,6 @@
 import React from 'react';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
-
 import recordEvent from 'platform/monitoring/record-event';
 import { logout } from 'platform/user/authentication/utilities';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
@@ -72,13 +70,13 @@ class SessionTimeoutModal extends React.Component {
 
   render() {
     return (
-      <Modal
+      <va-modal
         hideCloseButton
         id="session-timeout-modal"
-        focusSelector="button"
-        onClose={this.extendSession}
+        initialFocusSelector="button"
+        clickToClose={this.extendSession}
         status="warning"
-        title="Your session will end in..."
+        modalTitle="Your session will end in..."
         visible={this.state.countdown} // Display only for 30s countdown.
       >
         <div className="vads-u-text-align--center">
@@ -90,14 +88,22 @@ class SessionTimeoutModal extends React.Component {
           we’ll sign you out of your account to protect your privacy.
         </p>
         <div className="alert-actions">
-          <button className="usa-button" onClick={this.extendSession}>
+          <button
+            type="button"
+            className="usa-button"
+            onClick={this.extendSession}
+          >
             I need more time
           </button>
-          <button className="va-button-link" onClick={this.signOut}>
+          <button
+            type="button"
+            className="va-button-link"
+            onClick={this.signOut}
+          >
             Sign out
           </button>
         </div>
-      </Modal>
+      </va-modal>
     );
   }
 }
