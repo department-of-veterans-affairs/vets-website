@@ -164,7 +164,7 @@ export class Main extends Component {
   };
 
   onExtendSession = () => {
-    this.props.initializeProfile(true);
+    this.props.initializeProfile();
   };
 
   unbindNavbarLinks = () => {

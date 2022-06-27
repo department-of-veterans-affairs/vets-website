@@ -31,17 +31,12 @@ export const fetchFormStatus = () => async dispatch => {
   }
 
   try {
-    fetch({
-      fetchOptions: {
-        url: `${environment.API_URL}/v0/in_progress_forms/5655`,
-        settings: {
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Key-Inflection': 'camel',
-            'Source-App-Name': window.appName,
-          },
-        },
+    fetch(`${environment.API_URL}/v0/in_progress_forms/5655`, {
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
       },
     })
       .then(response => response.json())

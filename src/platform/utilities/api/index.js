@@ -6,17 +6,10 @@ import localStorage from '../storage/localStorage';
 import { checkAndUpdateSSOeSession } from '../sso';
 import { infoTokenExists, refresh } from '../oauth';
 
-export function fetchAndUpdateSessionExpiration({
-  fetchOptions,
-  shouldRefresh = false,
-} = {}) {
+export function fetchAndUpdateSessionExpiration(...args) {
   // Only replace with custom fetch if not stubbed for unit testing
-  const { url, settings } = fetchOptions;
   if (!fetch.isSinonProxy) {
-    if (shouldRefresh) {
-      refresh(checkOrSetSessionExpiration);
-    }
-    return fetch.apply(this, [url, settings]).then(response => {
+    return fetch.apply(this, args).then(response => {
       const apiURL = environment.API_URL;
 
       if (
@@ -35,7 +28,7 @@ export function fetchAndUpdateSessionExpiration({
     });
   }
 
-  return fetch(url, settings);
+  return fetch(...args);
 }
 
 function isJson(response) {
@@ -56,7 +49,7 @@ function isJson(response) {
  * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
  */
 export function apiRequest(resource, optionalSettings = {}, success, error) {
-  const { apiVersion = 'v0', shouldRefresh = false } = optionalSettings;
+  const { apiVersion = 'v0' } = optionalSettings;
   const baseUrl = `${environment.API_URL}/${apiVersion}`;
   const url = resource[0] === '/' ? `${baseUrl}${resource}` : resource;
   const csrfTokenStored = localStorage.getItem('csrfToken');
@@ -87,10 +80,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     },
   };
 
-  return fetchAndUpdateSessionExpiration({
-    fetchOptions: { url, settings },
-    shouldRefresh,
-  })
+  return fetchAndUpdateSessionExpiration(url, settings)
     .catch(err => {
       Sentry.withScope(scope => {
         scope.setExtra('error', err);

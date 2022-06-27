@@ -16,24 +16,22 @@ export const submitToAPI = (state, setState) => {
     submissionPending: true,
   });
 
-  fetchAndUpdateSessionExpiration({
-    fetchOptions: {
-      url: `${environment.API_URL}/v0/coe/document_upload`,
-      settings: {
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Key-Inflection': 'camel',
-          'Source-App-Name': window.appName,
-          'X-CSRF-Token': state.token,
-        },
-        method: 'POST',
-        body: JSON.stringify({
-          files: state.files,
-        }),
+  fetchAndUpdateSessionExpiration(
+    `${environment.API_URL}/v0/coe/document_upload`,
+    {
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
+        'X-CSRF-Token': state.token,
       },
+      method: 'POST',
+      body: JSON.stringify({
+        files: state.files,
+      }),
     },
-  })
+  )
     .then(res => res.json())
     .then(body => {
       if (body?.errors) {

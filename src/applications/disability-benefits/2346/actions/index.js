@@ -36,17 +36,12 @@ export const fetchFormStatus = () => async dispatch => {
     // always result in that error so we can go ahead and return
     return dispatch(resetError());
   }
-  fetch({
-    fetchOptions: {
-      url: `${environment.API_URL}/v0/in_progress_forms/mdot`,
-      settings: {
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Key-Inflection': 'camel',
-          'Source-App-Name': window.appName,
-        },
-      },
+  fetch(`${environment.API_URL}/v0/in_progress_forms/mdot`, {
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Key-Inflection': 'camel',
+      'Source-App-Name': window.appName,
     },
   })
     .then(res => res.json())

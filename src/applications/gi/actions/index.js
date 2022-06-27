@@ -100,7 +100,7 @@ export function fetchProfile(facilityCode, version) {
   return (dispatch, getState) => {
     dispatch({ type: FETCH_PROFILE_STARTED });
 
-    return fetch({ fetchOptions: { url, settings: api.settings } })
+    return fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
           return res.json();
@@ -132,7 +132,7 @@ export function fetchConstants(version) {
   const url = `${api.url}/calculator_constants${queryString}`;
   return dispatch => {
     dispatch({ type: FETCH_CONSTANTS_STARTED });
-    return fetch({ fetchOptions: { url, settings: api.settings } })
+    return fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
           return res.json();
@@ -180,7 +180,7 @@ export function beneficiaryZIPCodeChanged(beneficiaryZIP) {
   const url = `${api.url}/zipcode_rates/${beneficiaryZIP}`;
 
   return dispatch => {
-    fetch({ fetchOptions: { url, settings: api.settings } })
+    fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
           return res.json();
@@ -234,7 +234,7 @@ export function fetchSearchByNameResults(name, page, filters, version) {
   return dispatch => {
     dispatch({ type: SEARCH_STARTED, payload: { name } });
 
-    return fetch({ fetchOptions: { url, settings: api.settings } })
+    return fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
           return res.json();
@@ -290,7 +290,7 @@ export function fetchNameAutocompleteSuggestions(name, filterFields, version) {
   });
   return dispatch => {
     dispatch({ type: AUTOCOMPLETE_STARTED });
-    fetch({ fetchOptions: { url, settings: api.settings } })
+    fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
           return res.json();
@@ -362,7 +362,7 @@ export function fetchSearchByLocationCoords(
       payload: { location, latitude, longitude, distance },
     });
 
-    return fetch({ fetchOptions: { url, settings: api.settings } })
+    return fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
           dispatch(
@@ -452,7 +452,7 @@ export function fetchCompareDetails(facilityCodes, filters, version) {
   const url = appendQuery(`${api.url}/institutions/search`, params);
 
   return dispatch => {
-    return fetch({ fetchOptions: { url, settings: api.settings } })
+    return fetch(url, api.settings)
       .then(res => {
         if (res.ok) {
           return res.json();

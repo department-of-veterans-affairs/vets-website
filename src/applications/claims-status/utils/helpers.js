@@ -275,9 +275,7 @@ export function makeAuthRequest(
     userOptions,
   );
 
-  fetch({
-    fetchOptions: { url: `${environment.API_URL}${url}`, settings: options },
-  })
+  fetch(`${environment.API_URL}${url}`, options)
     .catch(err => {
       Sentry.withScope(scope => {
         scope.setExtra('error', err);

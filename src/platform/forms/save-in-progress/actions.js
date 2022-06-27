@@ -272,17 +272,12 @@ export function fetchInProgressForm(
     dispatch(setFetchFormPending(prefill));
 
     // Query the api and return a promise (for navigation / error handling afterward)
-    return fetch({
-      fetchOptions: {
-        url: apiUrl,
-        settings: {
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Key-Inflection': 'camel',
-            'Source-App-Name': window.appName,
-          },
-        },
+    return fetch(apiUrl, {
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
       },
     })
       .then(res => {

@@ -24,7 +24,7 @@ export function savedFormRequest(
   };
 
   const settings = merge({}, defaultSettings, optionalSettings);
-  return fetch({ fetchOptions: { url, settings } })
+  return fetch(url, settings)
     .then(response => {
       const data = isJson(response)
         ? response.json()

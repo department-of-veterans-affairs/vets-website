@@ -110,7 +110,7 @@ export function refreshTransaction(
 
       if (isSuccessfulTransaction(transactionRefreshed)) {
         const forceCacheClear = true;
-        await dispatch(refreshProfile({ forceCacheClear }));
+        await dispatch(refreshProfile(forceCacheClear));
         dispatch(clearTransaction(transactionRefreshed));
         recordEvent({
           event: 'profile-saved',

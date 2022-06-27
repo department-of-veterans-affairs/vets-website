@@ -28,25 +28,22 @@ export function profileLoadingFinished() {
   };
 }
 
-export function refreshProfile({
-  forceCacheClear = false,
-  refresh = false,
-} = {}) {
+export function refreshProfile(forceCacheClear = false) {
   return async dispatch => {
     const url = forceCacheClear
       ? appendQuery(baseUrl, { now: new Date().getTime() })
       : baseUrl;
 
-    const payload = await apiRequest(url, { shouldRefresh: refresh });
+    const payload = await apiRequest(url);
     dispatch(updateProfileFields(payload));
     return payload;
   };
 }
 
-export function initializeProfile(refresh = false) {
+export function initializeProfile() {
   return async dispatch => {
     try {
-      await dispatch(refreshProfile({ refresh }));
+      await dispatch(refreshProfile());
       dispatch(updateLoggedInStatus(true));
     } catch (error) {
       /* If the fetch fails due to the browser cancelling the request due to a navigation event short circuit it to prevent terminating session */

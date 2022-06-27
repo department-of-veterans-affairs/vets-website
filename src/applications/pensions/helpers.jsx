@@ -41,15 +41,10 @@ function checkStatus(guid) {
     'Source-App-Name': window.appName,
   };
 
-  return fetch({
-    fetchOptions: {
-      url: `${environment.API_URL}/v0/pension_claims/${guid}`,
-      settings: {
-        credentials: 'include',
-        headers,
-        mode: 'cors',
-      },
-    },
+  return fetch(`${environment.API_URL}/v0/pension_claims/${guid}`, {
+    credentials: 'include',
+    headers,
+    mode: 'cors',
   })
     .then(res => {
       if (res.ok) {
