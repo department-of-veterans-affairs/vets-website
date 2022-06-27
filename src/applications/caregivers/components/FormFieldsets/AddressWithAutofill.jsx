@@ -131,7 +131,7 @@ const PrimaryAddressWithAutofill = props => {
 
       {canAutofillAddress && (
         <VaCheckbox
-          id={idSchema['view:autofill'].$id}
+          id="root_primaryAddress_autofill"
           checked={formData['view:autofill']}
           label="Use the same address as the Veteran"
           className="vads-u-margin-left--neg3"
