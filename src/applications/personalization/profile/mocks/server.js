@@ -4,6 +4,7 @@ const delay = require('mocker-api/lib/delay');
 const user = require('./user');
 const mhvAcccount = require('./mhvAccount');
 const address = require('./address');
+const phoneNumber = require('./phone-number');
 const status = require('./status');
 const {
   handlePutGenderIdentitiesRoute,
@@ -54,6 +55,9 @@ const responses = {
         userPercentOfDisability: 40,
       },
     },
+  },
+  'PUT /v0/profile/telephones': (_req, res) => {
+    return res.status(200).json(phoneNumber.transactions.received);
   },
   'PUT /v0/profile/addresses': (req, res) => {
     if (
