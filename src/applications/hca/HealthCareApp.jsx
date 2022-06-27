@@ -26,9 +26,11 @@ const HealthCareEntry = ({
 }) => {
   useEffect(
     () => {
-      getTotalDisabilityRating();
+      if (isLoggedIn) {
+        getTotalDisabilityRating();
+      }
     },
-    [getTotalDisabilityRating],
+    [getTotalDisabilityRating, isLoggedIn],
   );
   useEffect(
     // included veteranFullName to reset view flipper toggles when starting a new application from save-in-progress
@@ -44,15 +46,23 @@ const HealthCareEntry = ({
           'view:totalDisabilityRating': totalDisabilityRating || 0,
           'view:userDob': user.dob,
         });
+      } else if (isLoggedIn) {
+        setFormData({
+          ...formData,
+          'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
+          'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
+          'view:hcaShortFormEnabled': hcaShortFormEnabled,
+          'view:isLoggedIn': isLoggedIn,
+          'view:totalDisabilityRating': totalDisabilityRating || 0,
+          'view:userDob': user.dob,
+        });
       } else {
         setFormData({
           ...formData,
           'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
           'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
-          'view:isLoggedIn': isLoggedIn,
-          'view:totalDisabilityRating': totalDisabilityRating || 0,
-          'view:userDob': user.dob,
           'view:hcaShortFormEnabled': hcaShortFormEnabled,
+          'view:isLoggedIn': isLoggedIn,
         });
       }
     },
