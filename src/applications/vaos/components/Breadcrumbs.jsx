@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -12,15 +12,26 @@ export default function VAOSBreadcrumbs({ children }) {
   const location = useLocation();
   const isPast = location.pathname.includes('/past');
   const isPending = location.pathname.includes('/pending');
+  const breadcrumbsRef = useRef(null);
 
   useEffect(
     () => {
       const updateBreadcrumbs = () => {
-        // TODO: handle the aria-current on the last breadcrumb
+        const anchorNodes = Array.from(
+          breadcrumbsRef.current.querySelectorAll('a'),
+        );
+
+        anchorNodes.forEach((crumb, index) => {
+          crumb.removeAttribute('aria-current');
+
+          if (index === anchorNodes.length - 1) {
+            crumb.setAttribute('aria-current', 'page');
+          }
+        });
       };
       updateBreadcrumbs();
     },
-    [location],
+    [location, breadcrumbsRef],
   );
 
   return (
@@ -28,6 +39,7 @@ export default function VAOSBreadcrumbs({ children }) {
       className="medium-screen:vads-u-padding-x--0 vaos-appts__breadcrumbs"
       role="navigation"
       aria-label="Breadcrumb"
+      ref={breadcrumbsRef}
     >
       <a href="/" key="home">
         Home
@@ -62,7 +74,7 @@ export default function VAOSBreadcrumbs({ children }) {
 
       {isPending && (
         <li className="va-breadcrumbs-li">
-          <Link to="/pending" key="past">
+          <Link to="/pending" key="pending">
             Pending
           </Link>
         </li>
