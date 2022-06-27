@@ -19,10 +19,8 @@ export function fetchAndUpdateSessionExpiration(...args) {
         // Get session expiration from header (SAML) or cookie (OAuth)
         checkOrSetSessionExpiration(response);
 
-        if (!infoTokenExists()) {
-          // SSOe session is independent of vets-api, and must be kept alive for cross-session continuity
-          checkAndUpdateSSOeSession();
-        }
+        // SSOe session is independent of vets-api, and must be kept alive for cross-session continuity
+        checkAndUpdateSSOeSession();
       }
       return response;
     });
@@ -49,9 +47,9 @@ function isJson(response) {
  * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
  */
 export function apiRequest(resource, optionalSettings = {}, success, error) {
-  const { apiVersion = 'v0' } = optionalSettings;
+  const apiVersion = (optionalSettings && optionalSettings.apiVersion) || 'v0';
   const baseUrl = `${environment.API_URL}/${apiVersion}`;
-  const url = resource[0] === '/' ? `${baseUrl}${resource}` : resource;
+  const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
   const csrfTokenStored = localStorage.getItem('csrfToken');
 
   if (success) {
@@ -68,17 +66,23 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
     );
   }
 
-  const settings = {
+  const defaultSettings = {
     method: 'GET',
     credentials: 'include',
-    ...optionalSettings,
     headers: {
       'X-Key-Inflection': 'camel',
       'Source-App-Name': window.appName,
       'X-CSRF-Token': csrfTokenStored,
-      ...optionalSettings.headers,
     },
   };
+
+  const newHeaders = {
+    ...defaultSettings.headers,
+    ...(optionalSettings ? optionalSettings.headers : undefined),
+  };
+
+  const settings = { ...defaultSettings, ...optionalSettings };
+  settings.headers = newHeaders;
 
   return fetchAndUpdateSessionExpiration(url, settings)
     .catch(err => {

@@ -342,14 +342,15 @@ export const logoutUrl = () => {
 };
 
 export const checkOrSetSessionExpiration = response => {
-  const samlSessionExpiration =
+  const sessionExpirationSAML =
     response.headers.get('X-Session-Expiration') ?? null;
-  const { refresh_token_expiration: RTExpiration } = getInfoToken();
 
-  if (infoTokenExists() || samlSessionExpiration) {
-    localStorage.setItem(
-      'sessionExpiration',
-      RTExpiration ?? samlSessionExpiration,
-    );
+  if (infoTokenExists()) {
+    const { refresh_token_expiration: sessionExpirationOAuth } = getInfoToken();
+    localStorage.setItem('sessionExpiration', sessionExpirationOAuth);
+  }
+
+  if (sessionExpirationSAML) {
+    localStorage.setItem('sessionExpiration', sessionExpirationSAML);
   }
 };
