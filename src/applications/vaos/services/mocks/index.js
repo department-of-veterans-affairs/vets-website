@@ -229,34 +229,26 @@ const responses = {
     });
   },
   'GET /vaos/v2/appointments': (req, res) => {
-    if (req.query.statuses?.includes('proposed')) {
-      if (req.query.start && req.query.end) {
-        return res.json({
-          data: confirmedV2.data.filter(appt => {
-            const d = moment(appt.attributes.start);
-            return d.isValid()
-              ? d.isBetween(req.query.start, req.query.end, 'day', '(]')
-              : false;
-          }),
-        });
-      }
-      return res.json(requestsV2);
-    }
-    if (req.query.statuses?.includes('booked')) {
-      if (req.query.start && req.query.end) {
-        return res.json({
-          data: confirmedV2.data.filter(appt => {
-            const d = moment(appt.attributes.start);
-            return d.isValid()
-              ? d.isBetween(req.query.start, req.query.end, 'day', '(]')
-              : false;
-          }),
-        });
-      }
-      return res.json(confirmedV2);
-    }
-
-    return res.json({ data: [] });
+    // merge arrays together
+    const appointments = confirmedV2.data.concat(requestsV2.data);
+    const filteredAppointments = appointments.filter(appointment => {
+      return req.query.statuses.some(status => {
+        if (appointment.attributes.status === status) {
+          const date =
+            status === 'proposed'
+              ? moment(appointment.attributes.requestedPeriods[0]?.start)
+              : moment(appointment.attributes.start);
+          if (
+            date.isValid() &&
+            date.isBetween(req.query.start, req.query.end, 'day', '(]')
+          ) {
+            return true;
+          }
+        }
+        return false;
+      });
+    });
+    return res.json({ data: filteredAppointments });
   },
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
