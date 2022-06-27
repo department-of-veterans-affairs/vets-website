@@ -50,7 +50,7 @@ describe('Preferred name field tests on the personal information page', () => {
     setup({ isEnhanced: true, personalInfo: unsetUserPersonalInfo });
 
     cy.findByTestId('preferredName')
-      .contains('Edit your profile to add a preferred name.')
+      .contains('Choose edit to add a preferred name.')
       .should('exist');
 
     cy.injectAxeThenAxeCheck();

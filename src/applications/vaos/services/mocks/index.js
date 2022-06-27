@@ -446,6 +446,7 @@ const responses = {
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
         { name: 'vaOnlineSchedulingPocHealthApt', value: true },
         { name: 'vaOnlineSchedulingStatusImprovement', value: true },
+        { name: 'vaOnlineFilter36Vats', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },
