@@ -238,3 +238,19 @@ export const removeInfoToken = () => {
     }, '');
   return undefined;
 };
+
+export const checkOrSetSessionExpiration = response => {
+  const sessionExpirationSAML = response.headers.get('X-Session-Expiration');
+
+  if (sessionExpirationSAML) {
+    localStorage.setItem('sessionExpiration', sessionExpirationSAML);
+  }
+
+  if (infoTokenExists()) {
+    const { refresh_token_expiration: sessionExpirationOAuth } = getInfoToken();
+
+    if (sessionExpirationOAuth) {
+      localStorage.setItem('sessionExpiration', sessionExpirationOAuth);
+    }
+  }
+};
