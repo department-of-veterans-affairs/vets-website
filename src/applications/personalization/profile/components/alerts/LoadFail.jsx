@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import PropTypes from 'prop-types';
 
 export const fieldFailureMessage = (
   <span>
@@ -10,16 +10,18 @@ export const fieldFailureMessage = (
 
 export default function LoadFail({ information }) {
   return (
-    <AlertBox
-      isVisible
-      headline={`We can’t access your ${information} information right now.`}
-      status="warning"
-      content={
-        <p>
-          We’re sorry. Something went wrong on our end. Please refresh this page
-          or try again later.
-        </p>
-      }
-    />
+    <va-alert status="warning" visible data-testid="service-is-down-banner">
+      <h2 slot="headline">
+        We can’t access your ${information} information right now.
+      </h2>
+      <p>
+        We’re sorry. Something went wrong on our end. Please refresh this page
+        or try again later.
+      </p>
+    </va-alert>
   );
 }
+
+LoadFail.propTypes = {
+  information: PropTypes.string.isRequired,
+};

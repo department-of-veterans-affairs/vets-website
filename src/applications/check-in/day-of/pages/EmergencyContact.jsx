@@ -95,7 +95,6 @@ const EmergencyContact = props => {
 
 EmergencyContact.propTypes = {
   isDayOfDemographicsFlagsEnabled: PropTypes.bool,
-  isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
 };
 

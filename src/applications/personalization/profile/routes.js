@@ -13,7 +13,7 @@ import {
 } from './constants';
 
 const getRoutes = options => {
-  let routes = [
+  const routes = [
     {
       component: PersonalInformation,
       name: PROFILE_PATH_NAMES.PERSONAL_INFORMATION,
@@ -58,13 +58,7 @@ const getRoutes = options => {
     },
   ];
 
-  if (options.removeDirectDeposit) {
-    routes = routes.filter(
-      route => route.name !== PROFILE_PATH_NAMES.DIRECT_DEPOSIT,
-    );
-  }
-
-  if (options.shouldShowProfileLGBTQEnhancements) {
+  if (options?.shouldShowProfileLGBTQEnhancements) {
     const personalInformation = {
       component: PersonalInformation,
       name: PROFILE_PATH_NAMES_LGBTQ_ENHANCEMENT.PERSONAL_INFORMATION,

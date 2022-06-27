@@ -4,26 +4,35 @@ export const OAUTH_KEYS = {
   CODE_CHALLENGE_METHOD: 'code_challenge_method',
   REDIRECT_URI: 'redirect_uri',
   RESPONSE_TYPE: 'response_type',
-  SCOPE: 'scope',
   STATE: 'state',
   GRANT_TYPE: 'grant_type',
   CODE: 'code',
   CODE_VERIFIER: 'code_verifier',
+  ACR: 'acr',
 };
 
 const generateOAuthKeysWithout = array =>
-  Object.keys(OAUTH_KEYS).reduce((acc, cv) => {
-    let tempAcc = acc;
-    if (!array.includes(cv)) {
-      tempAcc = { ...acc, [cv]: OAUTH_KEYS[cv] };
-    }
-    return tempAcc;
-  }, {});
+  Object.keys(OAUTH_KEYS).reduce(
+    (acc, cv) => ({
+      ...acc,
+      ...(!array.includes(cv) && { [cv]: OAUTH_KEYS[cv] }),
+    }),
+    {},
+  );
 
-export const AUTHORIZE_KEYS = generateOAuthKeysWithout([
+export const AUTHORIZE_KEYS_WEB = generateOAuthKeysWithout([
   'GRANT_TYPE',
   'CODE_VERIFIER',
   'CODE',
+  'REDIRECT_URI',
+]);
+
+export const AUTHORIZE_KEYS_MOBILE = generateOAuthKeysWithout([
+  'GRANT_TYPE',
+  'CODE_VERIFIER',
+  'CODE',
+  'STATE',
+  'REDIRECT_URI',
 ]);
 
 export const TOKEN_KEYS = generateOAuthKeysWithout([
@@ -46,4 +55,9 @@ export const OAUTH_ERRORS = {
 export const OAUTH_ERROR_RESPONSES = {
   'Code is not valid': OAUTH_ERRORS.OAUTH_INVALID_REQUEST,
   default: OAUTH_ERRORS.OAUTH_DEFAULT_ERROR,
+};
+
+export const CLIENT_IDS = {
+  WEB: 'web',
+  MOBILE: 'mobile',
 };

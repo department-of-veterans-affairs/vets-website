@@ -422,7 +422,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -597,7 +597,7 @@ jobs:
 
       - name: Notify Slack about Contract test failures
         if: ${{ github.ref == 'refs/heads/main' && needs.contract-tests.result == 'failure' }}
-        uses: ./.github/workflows/slack-notify
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
@@ -625,7 +625,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -709,7 +709,7 @@ jobs:
 
       - name: Notify Slack about Unit test failures
         if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.result == 'failure' }}
-        uses: ./.github/workflows/slack-notify
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
@@ -737,7 +737,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -826,7 +826,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -878,7 +878,7 @@ jobs:
 
       - name: Notify Slack about Cypress test failures
         if: ${{ github.ref == 'refs/heads/main' && needs.cypress-tests.result == 'failure' }}
-        uses: ./.github/workflows/slack-notify
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
@@ -906,7 +906,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -1038,6 +1038,13 @@ jobs:
           APP_DIRS: ${{ needs.unit-tests.outputs.app_folders }}
           BUILD_DIR: build/${{ matrix.buildtype }}
 
+      - name: Generate build details
+        run: |
+          cat > BUILD_ARTIFACT.txt << EOF
+          IS_SINGLE_APP_BUILD=${{ env.IS_SINGLE_APP_BUILD }}
+          REF=${{ github.sha }}
+          EOF
+
       - name: Compress and archive single/grouped app build
         if: env.IS_SINGLE_APP_BUILD == 'true'
         run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
@@ -1066,7 +1073,9 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Upload build
-        run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
+        run: |
+          aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
+          aws s3 cp BUILD_ARTIFACT.txt s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/BUILD_ARTIFACT.txt --acl public-read --region us-gov-west-1
 
   get-latest-run-number:
     name: Get Latest Workflow Run Number
@@ -1187,7 +1196,7 @@ jobs:
 
       - name: Notify application team in Slack
         if: env.ALERT_TEAMS == 'true' && steps.get-changed-apps.outputs.slack_groups != ''
-        uses: ./.github/workflows/slack-notify
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-changed-apps.outputs.slack_groups}} CI for your application failed on the `main` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> on failed workflow runs."}}]}]}'
@@ -1197,7 +1206,7 @@ jobs:
 
       - name: Notify Slack
         if: steps.get-changed-apps.outputs.slack_groups == ''
-        uses: ./.github/workflows/slack-notify
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "`main` branch CI in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'

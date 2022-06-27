@@ -21,6 +21,7 @@ import {
   processContestableIssues,
   readableList,
   returnPhoneObject,
+  checkContestableIssueError,
 } from '../../utils/helpers';
 
 describe('getEligibleContestableIssues', () => {
@@ -415,5 +416,21 @@ describe('returnPhoneObject', () => {
       phoneNumber: '5551212',
       phoneNumberExt: '',
     });
+  });
+});
+
+describe('checkContestableIssueError', () => {
+  it('should return false if no error', () => {
+    expect(checkContestableIssueError()).to.be.false;
+  });
+  it('should return false if 404 error', () => {
+    expect(checkContestableIssueError({ errors: [{ status: '404' }] })).to.be
+      .false;
+  });
+  it('should return true', () => {
+    expect(checkContestableIssueError({})).to.be.true;
+    expect(checkContestableIssueError({ error: 'blah' })).to.be.true;
+    expect(checkContestableIssueError({ errors: [{ status: '123' }] })).to.be
+      .true;
   });
 });
