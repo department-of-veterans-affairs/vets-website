@@ -52,7 +52,10 @@ const secondaryTwoContactPage = {
     properties: {
       [secondaryTwoFields.address]: {
         ...address,
-        properties: { ...address.properties, autofill: { type: 'boolean' } },
+        properties: {
+          ...address.properties,
+          'view:autofill': { type: 'boolean' },
+        },
       },
       [secondaryTwoFields.primaryPhoneNumber]:
         secondaryCaregiverTwoProps.primaryPhoneNumber,
