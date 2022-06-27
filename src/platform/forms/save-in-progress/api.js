@@ -69,16 +69,11 @@ export function saveFormApi(
     delete saveFormApiHeaders['X-Key-Inflection'];
   }
 
-  return fetch({
-    fetchOptions: {
-      url: apiUrl,
-      settings: {
-        method: 'PUT',
-        credentials: 'include',
-        headers: saveFormApiHeaders,
-        body,
-      },
-    },
+  return fetch(apiUrl, {
+    method: 'PUT',
+    credentials: 'include',
+    headers: saveFormApiHeaders,
+    body,
   })
     .then(res => {
       if (res.ok) {
