@@ -14,10 +14,7 @@ import NextOfKinDisplay from '../../../components/pages/nextOfKin/NextOfKinDispl
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import {
-  makeSelectVeteranData,
-  makeSelectPendingEdits,
-} from '../../../selectors';
+import { makeSelectVeteranData } from '../../../selectors';
 
 const NextOfKin = props => {
   const { router } = props;
@@ -28,10 +25,6 @@ const NextOfKin = props => {
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const { nextOfKin1: nextOfKin } = demographics;
-
-  const selectPendingEdits = useMemo(makeSelectPendingEdits, []);
-  const { pendingEdits } = useSelector(selectPendingEdits);
-  const { nextOfKin1: newInformation } = pendingEdits || {};
 
   const dispatch = useDispatch();
 
@@ -74,7 +67,7 @@ const NextOfKin = props => {
         Footer={Footer}
         header={header}
         subtitle={subtitle}
-        nextOfKin={newInformation || nextOfKin}
+        nextOfKin={nextOfKin}
         yesAction={yesClick}
         noAction={noClick}
         isLoading={isLoading}

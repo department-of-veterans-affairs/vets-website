@@ -12,10 +12,7 @@ import Footer from '../../../components/layout/Footer';
 import EmergencyContactDisplay from '../../../components/pages/emergencyContact/EmergencyContactDisplay';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
-import {
-  makeSelectVeteranData,
-  makeSelectPendingEdits,
-} from '../../../selectors';
+import { makeSelectVeteranData } from '../../../selectors';
 
 const EmergencyContact = props => {
   const { router } = props;
@@ -23,10 +20,6 @@ const EmergencyContact = props => {
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const { emergencyContact } = demographics;
-
-  const selectPendingEdits = useMemo(makeSelectPendingEdits, []);
-  const { pendingEdits } = useSelector(selectPendingEdits);
-  const { emergencyContact: newInformation } = pendingEdits || {};
 
   const dispatch = useDispatch();
 
@@ -65,7 +58,7 @@ const EmergencyContact = props => {
     <>
       <BackButton action={goToPreviousPage} router={router} />
       <EmergencyContactDisplay
-        emergencyContact={newInformation || emergencyContact}
+        emergencyContact={emergencyContact}
         yesAction={yesClick}
         noAction={noClick}
         isLoading={isLoading}

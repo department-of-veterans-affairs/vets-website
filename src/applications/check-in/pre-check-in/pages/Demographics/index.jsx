@@ -11,10 +11,7 @@ import BackButton from '../../../components/BackButton';
 import DemographicsDisplay from '../../../components/pages/demographics/DemographicsDisplay';
 import { recordAnswer } from '../../../actions/universal';
 
-import {
-  makeSelectVeteranData,
-  makeSelectPendingEdits,
-} from '../../../selectors';
+import { makeSelectVeteranData } from '../../../selectors';
 
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
@@ -29,10 +26,6 @@ const Demographics = props => {
 
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics, appointments } = useSelector(selectVeteranData);
-
-  const selectPendingEdits = useMemo(makeSelectPendingEdits, []);
-  const { pendingEdits } = useSelector(selectPendingEdits);
-  const { demographics: newInformation } = pendingEdits || {};
 
   const yesClick = useCallback(
     async () => {
@@ -73,7 +66,7 @@ const Demographics = props => {
         yesAction={yesClick}
         noAction={noClick}
         subtitle={subtitle}
-        demographics={newInformation || demographics}
+        demographics={demographics}
         Footer={Footer}
       />
       <BackToHome />

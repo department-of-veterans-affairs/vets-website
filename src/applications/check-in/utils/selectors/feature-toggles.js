@@ -27,9 +27,6 @@ const selectFeatureToggles = createSelector(
     isLorotaSecurityUpdatesEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceLorotaSecurityUpdatesEnabled
     ],
-    isEditMessagingEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceEditMessagingEnabled
-    ],
     isPhoneAppointmentsEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperiencePhoneAppointmentsEnabled
     ],

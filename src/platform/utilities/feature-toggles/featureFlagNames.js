@@ -20,7 +20,6 @@ export default Object.freeze({
   checkInExperienceTranslationDisclaimerSpanishEnabled: 'check_in_experience_translation_disclaimer_spanish_enabled',
   checkInExperienceDayOfDemographicsFlagsEnabled: 'check_in_experience_day_of_demographics_flags_enabled',
   checkInExperienceLorotaSecurityUpdatesEnabled: 'check_in_experience_lorota_security_updates_enabled',
-  checkInExperienceEditMessagingEnabled: 'check_in_experience_edit_messaging_enabled',
   checkInExperiencePhoneAppointmentsEnabled: 'check_in_experience_phone_appointments_enabled',
   coeAccess: 'coe_access',
   combinedDebtPortalAccess: 'combined_debt_portal_access',
