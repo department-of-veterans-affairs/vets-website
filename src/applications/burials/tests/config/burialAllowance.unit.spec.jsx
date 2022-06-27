@@ -1,14 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
+import sinon from 'sinon';
 
 import {
   DefinitionTester,
   submitForm,
   getFormDOM,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+} from 'platform/testing/unit/schemaform-utils';
+
+import formConfig from '../../config/form';
 
 describe('Burials burial allowance', () => {
   const {
