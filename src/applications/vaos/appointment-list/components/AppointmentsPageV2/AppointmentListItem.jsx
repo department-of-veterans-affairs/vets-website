@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import moment from '../../../lib/moment-tz';
 import {
   getAppointmentTimezone,
@@ -13,7 +13,6 @@ import {
   VIDEO_TYPES,
   SPACE_BAR,
 } from '../../../utils/constants';
-import { updateBreadcrumb } from '../../redux/actions';
 import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 
 function VideoAppointmentDescription({ appointment }) {
@@ -55,7 +54,6 @@ function VAFacilityName({ facility }) {
 
 function handleClick({
   history,
-  dispatch,
   link,
   idClickable,
   isPastAppointment,
@@ -67,7 +65,7 @@ function handleClick({
       history.push(link);
 
       if (featureStatusImprovement && isPastAppointment) {
-        dispatch(updateBreadcrumb({ title: 'Past', path: '/past' }));
+        //  dispatch(updatecrumb({ title: 'Past', path: '/past' }));
       }
     }
   };
@@ -75,7 +73,6 @@ function handleClick({
 
 function handleKeyDown({
   history,
-  dispatch,
   link,
   idClickable,
   isPastAppointment,
@@ -87,21 +84,17 @@ function handleKeyDown({
       history.push(link);
 
       if (featureStatusImprovement && isPastAppointment) {
-        dispatch(updateBreadcrumb({ title: 'Past', path: '/past' }));
+        //  dispatch(updatecrumb({ title: 'Past', path: '/past' }));
       }
     }
   };
 }
 
-function handleLinkClicked(
-  featureStatusImprovement,
-  isPastAppointment,
-  dispatch,
-) {
+function handleLinkClicked(featureStatusImprovement, isPastAppointment) {
   return e => {
     e.preventDefault();
     if (featureStatusImprovement && isPastAppointment) {
-      dispatch(updateBreadcrumb({ title: 'Past', path: '/past' }));
+      //  dispatch(updatecrumb({ title: 'Past', path: '/past' }));
     }
   };
 }
@@ -120,7 +113,6 @@ export default function AppointmentListItem({ appointment, facility }) {
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
   const { abbreviation, description } = getAppointmentTimezone(appointment);
   const { isPastAppointment } = appointment.vaos;
-  const dispatch = useDispatch();
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
@@ -139,7 +131,6 @@ export default function AppointmentListItem({ appointment, facility }) {
         className="vads-u-padding--2 vads-u-display--flex vads-u-align-items--left vads-u-flex-direction--column medium-screen:vads-u-padding--3 medium-screen:vads-u-flex-direction--row medium-screen:vads-u-align-items--center"
         onClick={handleClick({
           history,
-          dispatch,
           link,
           idClickable,
           isPastAppointment,
@@ -147,7 +138,6 @@ export default function AppointmentListItem({ appointment, facility }) {
         })}
         onKeyDown={handleKeyDown({
           history,
-          dispatch,
           link,
           idClickable,
           isPastAppointment,
@@ -192,7 +182,6 @@ export default function AppointmentListItem({ appointment, facility }) {
             onClick={handleLinkClicked(
               featureStatusImprovement,
               isPastAppointment,
-              dispatch,
             )}
           >
             Details

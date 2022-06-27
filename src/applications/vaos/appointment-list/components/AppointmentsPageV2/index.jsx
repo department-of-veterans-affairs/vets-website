@@ -16,7 +16,6 @@ import PageLayout from '../PageLayout';
 import { selectPendingAppointments } from '../../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import AppointmentListNavigation from '../AppointmentListNavigation';
-import { updateBreadcrumb } from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
 
@@ -114,11 +113,11 @@ export default function AppointmentsPageV2() {
         if (location.pathname.endsWith('pending')) {
           prefix = 'Pending';
           pageTitle = `${prefix} appointments`;
-          dispatch(updateBreadcrumb({ title: prefix, path: 'pending' }));
+          //  dispatch(updatecrumb({ title: prefix, path: 'pending' }));
         } else if (location.pathname.endsWith('past')) {
           prefix = 'Past';
           pageTitle = `${prefix} appointments`;
-          dispatch(updateBreadcrumb({ title: prefix, path: 'past' }));
+          //  dispatch(updatecrumb({ title: prefix, path: 'past' }));
         } else {
           pageTitle = 'Your appointments';
         }
