@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import PropTypes from 'prop-types';
+import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectFeatureStatusImprovement } from '../redux/selectors';
 import { updateBreadcrumb } from '../appointment-list/redux/actions';
@@ -14,11 +13,7 @@ export default function VAOSBreadcrumbs({ children }) {
   const breadcrumbs = useSelector(state => state.appointments.breadcrumbs);
 
   return (
-    <VaBreadcrumbs
-      className="medium-screen:vads-u-padding-x--0 vaos-appts__breadcrumbs"
-      aria-label="Breadcrumbs"
-      role="navigation"
-    >
+    <Breadcrumbs className="medium-screen:vads-u-padding-x--0 vaos-appts__breadcrumbs">
       <a href="/" key="home">
         Home
       </a>
@@ -54,9 +49,6 @@ export default function VAOSBreadcrumbs({ children }) {
           );
         })}
       {children}
-    </VaBreadcrumbs>
+    </Breadcrumbs>
   );
 }
-VAOSBreadcrumbs.propTypes = {
-  children: PropTypes.object,
-};

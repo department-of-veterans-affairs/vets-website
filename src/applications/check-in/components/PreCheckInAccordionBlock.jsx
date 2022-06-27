@@ -200,7 +200,7 @@ const PreCheckInAccordionBlock = ({
   }
 
   return (
-    <va-accordion open-single bordered data-testid="pre-check-in-accordions">
+    <va-accordion bordered data-testid="pre-check-in-accordions">
       {accordions.map((accordion, index) => {
         return (
           <va-accordion-item

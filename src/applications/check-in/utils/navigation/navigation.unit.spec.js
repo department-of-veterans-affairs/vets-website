@@ -33,7 +33,6 @@ describe('Global check in', () => {
         };
         const form = updateFormPages(
           patientDemographicsStatus,
-          false,
           testPages,
           URLS,
         );
@@ -50,7 +49,6 @@ describe('Global check in', () => {
         };
         const form = updateFormPages(
           patientDemographicsStatus,
-          false,
           testPages,
           URLS,
         );
@@ -67,7 +65,6 @@ describe('Global check in', () => {
         };
         const form = updateFormPages(
           patientDemographicsStatus,
-          false,
           testPages,
           URLS,
         );
@@ -85,7 +82,6 @@ describe('Global check in', () => {
         };
         const form = updateFormPages(
           patientDemographicsStatus,
-          false,
           testPages,
           URLS,
         );
@@ -102,7 +98,6 @@ describe('Global check in', () => {
         };
         const form = updateFormPages(
           patientDemographicsStatus,
-          false,
           testPages,
           URLS,
         );
@@ -120,7 +115,6 @@ describe('Global check in', () => {
         };
         const form = updateFormPages(
           patientDemographicsStatus,
-          false,
           testPages,
           URLS,
         );
@@ -139,7 +133,6 @@ describe('Global check in', () => {
         };
         const form = updateFormPages(
           patientDemographicsStatus,
-          false,
           testPages,
           URLS,
         );

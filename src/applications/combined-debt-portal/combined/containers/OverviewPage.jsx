@@ -30,7 +30,8 @@ const OverviewPage = () => {
   const totalDebts = calculateTotalDebts(debts);
   const bills = mcp.statements;
   const totalBills = calculateTotalBills(bills);
-  const bothZero = totalDebts === 0 && totalBills === 0;
+  const bothZero =
+    totalDebts === 0 && totalBills === 0 && !billError && !debtError;
 
   return (
     <>

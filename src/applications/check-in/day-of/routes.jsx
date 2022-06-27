@@ -9,7 +9,6 @@ import EmergencyContact from './pages/EmergencyContact';
 import Error from './pages/Error';
 import SeeStaff from './pages/SeeStaff';
 import Landing from './pages/Landing';
-import UpdateInformationQuestion from './pages/UpdateInformationQuestion';
 import ValidateVeteran from './pages/ValidateVeteran';
 import LoadingPage from './pages/LoadingPage';
 
@@ -51,14 +50,6 @@ const routes = [
   {
     path: URLS.EMERGENCY_CONTACT,
     component: EmergencyContact,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-  },
-  {
-    path: URLS.UPDATE_INSURANCE,
-    component: UpdateInformationQuestion,
     permissions: {
       requiresForm: true,
       requireAuthorization: true,

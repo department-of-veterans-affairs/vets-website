@@ -7,6 +7,7 @@ import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 import { validateSSNIsUnique } from 'applications/caregivers/helpers';
 import { VeteranSSNInfo } from 'applications/caregivers/components/AdditionalInfo';
+import AddressWithAutofill from 'applications/caregivers/components/FormFieldsets/AddressWithAutofill';
 
 const stateLabels = createUSAStateLabels(states);
 
@@ -79,7 +80,9 @@ export const addressWithoutCountryUI = label => ({
     'ui:title': `${label} current street address`,
     'ui:errorMessages': { required: 'Please enter a street address' },
   },
-  street2: { 'ui:title': `Street address line 2` },
+  street2: {
+    'ui:title': `Street address line 2`,
+  },
   city: {
     'ui:title': `City`,
     'ui:errorMessages': { required: 'Please enter a city' },
@@ -93,11 +96,18 @@ export const addressWithoutCountryUI = label => ({
   },
   postalCode: {
     'ui:title': `Postal code`,
-    'ui:options': { widgetClassNames: 'usa-input-medium' },
+    'ui:options': {
+      widgetClassNames: 'usa-input-medium',
+    },
     'ui:errorMessages': {
       required: 'Please enter a postal code',
       pattern:
         'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
     },
   },
+});
+
+export const addressWithAutofillUI = () => ({
+  'ui:title': ' ',
+  'ui:field': AddressWithAutofill,
 });
