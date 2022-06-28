@@ -14,7 +14,7 @@ import { getClinicId } from '../../../services/healthcare-service';
 function getReasonCode(data) {
   const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
     purpose => purpose.id === data.reasonForAppointment,
-  )?.short;
+  )?.serviceName;
 
   return {
     // If the user selects one of the three preset radio selections
