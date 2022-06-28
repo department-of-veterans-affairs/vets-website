@@ -40,7 +40,7 @@ const Error = () => {
     <div>
       {t('were-sorry-we-couldnt-match-your-information-to-our-records')}
       <div className="vads-u-margin-top--2">
-        <i className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
+        <span className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
         <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
           {t('in-person-appointment')}
         </span>
@@ -51,7 +51,7 @@ const Error = () => {
         )}
       </div>
       <div className="vads-u-margin-top--2">
-        <i className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
+        <span className="fas fa-chevron-right vads-u-margin-left--neg0p5" />
         <span className="appointment-type-label vads-u-margin-left--0p5 vads-u-font-weight--bold">
           {t('telephone-appointment')}
         </span>
