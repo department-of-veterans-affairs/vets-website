@@ -9,6 +9,7 @@ import {
   HIGH_DISABILITY,
   emptyObjectSchema,
 } from '../../../helpers';
+import { ContactInfoDescription } from '../../../components/FormDescriptions';
 
 const { email } = fullSchemaHca.properties;
 const { phone } = fullSchemaHca.definitions;
@@ -29,6 +30,9 @@ export default {
     'view:prefillMessage': {
       'ui:description': PrefillMessage,
     },
+    'view:contactInfoDescription': {
+      'ui:description': ContactInfoDescription,
+    },
     'ui:validations': [validateMatch('email', 'view:emailConfirmation')],
     email: emailUI(),
     'view:emailConfirmation': emailUI('Re-enter email address'),
@@ -40,6 +44,7 @@ export default {
     properties: {
       'view:contactShortFormMessage': emptyObjectSchema,
       'view:prefillMessage': emptyObjectSchema,
+      'view:contactInfoDescription': emptyObjectSchema,
       email,
       'view:emailConfirmation': email,
       homePhone: phone,

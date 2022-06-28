@@ -131,6 +131,7 @@ const IntroductionDisplay = props => {
           bordered
           className="vads-u-margin-top--1"
           data-testid="intro-accordion-group"
+          open-single={accordionContent.length === 1}
         >
           {accordionContent.map((accordionItem, index) => (
             <va-accordion-item

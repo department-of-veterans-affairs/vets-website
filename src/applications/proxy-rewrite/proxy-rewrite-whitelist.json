@@ -57,6 +57,11 @@
       "cookieOnly": true
     },
     {
+      "hostname": "www.ea.oit.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
       "hostname": "www.healthquality.va.gov",
       "pathnameBeginning": "/",
       "cookieOnly": true

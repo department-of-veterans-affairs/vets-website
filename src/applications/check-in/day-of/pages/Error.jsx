@@ -18,7 +18,7 @@ const Error = () => {
   return (
     <Wrapper pageTitle={t('we-couldnt-check-you-in')}>
       {isMaxValidateAttempts ? (
-        <ErrorMessage message={maxValidateMessage} />
+        <ErrorMessage message={maxValidateMessage} validationError />
       ) : (
         <ErrorMessage />
       )}

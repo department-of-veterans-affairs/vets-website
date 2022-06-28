@@ -1,5 +1,5 @@
 import { isValidEmail } from 'platform/forms/validations';
-import { newFormFields } from './constants';
+import { formFields } from './constants';
 
 export const isValidPhone = (phone, isInternational) => {
   let stripped;
@@ -23,16 +23,16 @@ const validatePhone = (errors, phone, isInternational) => {
 };
 
 export const validateHomePhone = (errors, phone, formData) => {
-  const { isInternational } = formData[newFormFields.newViewPhoneNumbers][
-    newFormFields.newPhoneNumber
+  const { isInternational } = formData[formFields.viewPhoneNumbers][
+    formFields.phoneNumber
   ];
 
   validatePhone(errors, phone, isInternational);
 };
 
 export const validateMobilePhone = (errors, phone, formData) => {
-  const { isInternational } = formData[newFormFields.newViewPhoneNumbers][
-    newFormFields.newMobilePhoneNumber
+  const { isInternational } = formData[formFields.viewPhoneNumbers][
+    formFields.mobilePhoneNumber
   ];
   validatePhone(errors, phone, isInternational);
 };
