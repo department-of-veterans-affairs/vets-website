@@ -42,7 +42,13 @@ const TIME_TEXT = {
 
 function getAppointmentDetails(appointment, message) {
   if (appointment.version === 2) {
-    return appointment.reasonCode?.text || appointment.comment || 'none';
+    const coding = appointment.reasonCode?.coding;
+    const text = appointment.reasonCode?.text;
+    const code = coding ? coding[0]?.code : null;
+
+    if (code && text) return `${code}: ${text}`;
+
+    return code || text || appointment.comment || 'none';
   }
 
   const comment = message || appointment.comment;
