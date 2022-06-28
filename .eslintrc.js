@@ -40,6 +40,10 @@ module.exports = {
         name: '@department-of-veterans-affairs/component-library/ProgressBar',
         use: '<va-progress-bar>',
       },
+      {
+        name: '@department-of-veterans-affairs/component-library/TextArea',
+        use: '<va-textarea>',
+      },
     ],
     'jsx-a11y/control-has-associated-label': 1, // 2
     'jsx-a11y/click-events-have-key-events': 1, // 24
