@@ -1,4 +1,5 @@
 import environment from 'platform/utilities/environment';
+import recordEvent from 'platform/monitoring/record-event';
 import {
   API_SIGN_IN_SERVICE_URL,
   EXTERNAL_APPS,
@@ -6,7 +7,12 @@ import {
   SIGNUP_TYPES,
 } from 'platform/user/authentication/constants';
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
-import { OAUTH_KEYS, CLIENT_IDS } from './constants';
+import {
+  ALL_STATE_AND_VERIFIERS,
+  OAUTH_KEYS,
+  CLIENT_IDS,
+  INFO_TOKEN,
+} from './constants';
 import * as oauthCrypto from './crypto';
 
 export async function pkceChallengeFromVerifier(v) {
@@ -44,8 +50,11 @@ export const saveStateAndVerifier = type => {
 export const removeStateAndVerifier = () => {
   const storage = window.sessionStorage;
 
-  storage.removeItem('state');
-  storage.removeItem('code_verifier');
+  Object.keys(storage)
+    .filter(key => ALL_STATE_AND_VERIFIERS.includes(key))
+    .forEach(key => {
+      storage.removeItem(key);
+    });
 };
 
 export const updateStateAndVerifier = csp => {
@@ -78,6 +87,7 @@ export async function createOAuthRequest({
   clientId,
   config,
   passedQueryParams = {},
+  passedOptions = {},
   type = '',
 }) {
   const isDefaultOAuth = !application || clientId === CLIENT_IDS.WEB;
@@ -109,7 +119,9 @@ export async function createOAuthRequest({
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(
       clientId || oAuthOptions.clientId,
     ),
-    [OAUTH_KEYS.ACR]: oAuthOptions.acr,
+    [OAUTH_KEYS.ACR]: passedOptions.isSignup
+      ? oAuthOptions.acrSignup[type]
+      : oAuthOptions.acr[type],
     [OAUTH_KEYS.RESPONSE_TYPE]: 'code',
     ...(isDefaultOAuth && { [OAUTH_KEYS.STATE]: state }),
     ...(passedQueryParams.gaClientId && {
@@ -125,7 +137,8 @@ export async function createOAuthRequest({
     url.searchParams.append(param, oAuthParams[param]),
   );
 
-  // Redirect to the authorization server
+  recordEvent({ event: `login-attempted-${type}-oauth-${clientId}` });
+
   return url.toString();
 }
 
@@ -160,7 +173,7 @@ export function buildTokenRequest({
   return url;
 }
 
-export const requestToken = async ({ code, redirectUri }) => {
+export const requestToken = async ({ code, redirectUri, csp }) => {
   const url = buildTokenRequest({
     code,
     redirectUri,
@@ -173,9 +186,84 @@ export const requestToken = async ({ code, redirectUri }) => {
     credentials: 'include',
   });
 
+  recordEvent({
+    event: response.ok
+      ? `login-success-${csp}-oauth-tokenexchange`
+      : `login-failure-${csp}-oauth-tokenexchange`,
+  });
+
   if (response.ok) {
     removeStateAndVerifier();
   }
 
   return response;
+};
+
+export const refresh = async callback => {
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'refresh' }));
+
+  const response = await fetch(url.href, {
+    method: 'POST',
+    credentials: 'include',
+  });
+
+  if (callback) {
+    callback(response);
+  }
+};
+
+export const infoTokenExists = () => {
+  return document.cookie.includes(INFO_TOKEN);
+};
+
+export const formatInfoCookie = unformattedCookie =>
+  unformattedCookie.split(',+:').reduce((obj, cookieString) => {
+    const [key, value] = cookieString.replace(/{:|}/g, '').split('=>');
+    const formattedValue = value.replaceAll('++00:00', '').replaceAll('+', ' ');
+    return { ...obj, [key]: new Date(formattedValue) };
+  }, {});
+
+export const getInfoToken = () => {
+  if (!infoTokenExists()) return null;
+
+  return document.cookie
+    .split(';')
+    .map(cookie => cookie.split('='))
+    .reduce((_, [cookieKey, cookieValue]) => ({
+      ..._,
+      ...(cookieKey.includes(INFO_TOKEN) && {
+        ...formatInfoCookie(decodeURIComponent(cookieValue)),
+      }),
+    }));
+};
+
+export const removeInfoToken = () => {
+  if (!infoTokenExists()) return null;
+
+  document.cookie = document.cookie
+    .split(';')
+    .reduce((cookieString, cookie) => {
+      let tempCookieString = cookieString;
+      if (!cookie.includes(INFO_TOKEN)) {
+        tempCookieString += cookie;
+      }
+      return tempCookieString;
+    }, '');
+  return undefined;
+};
+
+export const checkOrSetSessionExpiration = response => {
+  const sessionExpirationSAML = response.headers.get('X-Session-Expiration');
+
+  if (sessionExpirationSAML) {
+    localStorage.setItem('sessionExpiration', sessionExpirationSAML);
+  }
+
+  if (infoTokenExists()) {
+    const { refresh_token_expiration: sessionExpirationOAuth } = getInfoToken();
+
+    if (sessionExpirationOAuth) {
+      localStorage.setItem('sessionExpiration', sessionExpirationOAuth);
+    }
+  }
 };
