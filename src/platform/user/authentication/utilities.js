@@ -123,7 +123,7 @@ export const getGAClientId = () => {
 
     return tracker && tracker.get(GA.clientIdKey);
   } catch (e) {
-    return null;
+    return {};
   }
 };
 
