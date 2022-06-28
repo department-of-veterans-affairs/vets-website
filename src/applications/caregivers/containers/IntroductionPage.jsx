@@ -17,8 +17,6 @@ import {
   DowntimeNotification,
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 export const IntroductionPage = ({
@@ -26,6 +24,7 @@ export const IntroductionPage = ({
   router,
   formData,
   setFormData,
+  canAutofill1010cgAddress,
   canUpload1010cgPOA,
 }) => {
   useEffect(() => {
@@ -37,10 +36,11 @@ export const IntroductionPage = ({
       setFormData({
         ...formData,
         'view:canUpload1010cgPOA': canUpload1010cgPOA,
+        'view:canAutofill1010cgAddress': canAutofill1010cgAddress,
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [setFormData, canUpload1010cgPOA],
+    [setFormData, canAutofill1010cgAddress, canUpload1010cgPOA],
   );
 
   const startForm = useCallback(
@@ -278,9 +278,8 @@ export const IntroductionPage = ({
 
 const mapStateToProps = state => ({
   formData: state.form.data,
-  canUpload1010cgPOA: toggleValues(state)[
-    FEATURE_FLAG_NAMES.canUpload1010cgPOA
-  ],
+  canAutofill1010cgAddress: state.featureToggles?.canAutofill1010cgAddress,
+  canUpload1010cgPOA: state.featureToggles?.canUpload1010cgPOA,
 });
 
 const mapDispatchToProps = {
@@ -288,6 +287,7 @@ const mapDispatchToProps = {
 };
 
 IntroductionPage.propTypes = {
+  canAutofill1010cgAddress: PropTypes.bool,
   canUpload1010cgPOA: PropTypes.bool,
   formData: PropTypes.object,
   route: PropTypes.object,

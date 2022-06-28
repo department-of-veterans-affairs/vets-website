@@ -1,6 +1,7 @@
 import React from 'react';
 import { isAfter } from 'date-fns';
 import { useSelector } from 'react-redux';
+import { uniqBy } from 'lodash';
 import BalanceCard from './BalanceCard';
 import ZeroBalanceCard from './ZeroBalanceCard';
 import AlertCard from './AlertCard';
@@ -10,7 +11,7 @@ import {
   getLatestDebt,
   getLatestBill,
 } from '../utils/balance-helpers';
-import { APP_TYPES } from '../utils/helpers';
+import { APP_TYPES, sortStatementsByDate } from '../utils/helpers';
 
 // Some terminology that could be helpful:
 // debt(s) = debtLetters
@@ -31,7 +32,8 @@ const Balances = () => {
   const latestDebt = getLatestDebt(debts);
 
   // get Bill info
-  const bills = mcp.statements;
+  const sortedStatements = sortStatementsByDate(mcp.statements ?? []);
+  const bills = uniqBy(sortedStatements, 'pSFacilityNum');
   const totalBills = calculateTotalBills(bills);
   const latestBill = getLatestBill(bills);
 
