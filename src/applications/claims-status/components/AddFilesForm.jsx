@@ -85,11 +85,17 @@ class AddFilesForm extends React.Component {
   };
 
   handleDocTypeChange = (docType, index) => {
-    this.props.onFieldChange(`files[${index}].docType`, docType);
+    this.props.onFieldChange(`files[${index}].docType`, {
+      value: docType,
+      dirty: true,
+    });
   };
 
   handlePasswordChange = (password, index) => {
-    this.props.onFieldChange(`files[${index}].password`, password);
+    this.props.onFieldChange(`files[${index}].password`, {
+      value: password,
+      dirty: true,
+    });
   };
 
   add = async files => {
