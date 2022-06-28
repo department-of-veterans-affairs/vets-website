@@ -121,10 +121,9 @@ export const getGAClientId = () => {
       return GA.trackingIds.includes(trackingId);
     });
 
-    const clientId = tracker && tracker.get(GA.clientIdKey);
-    return clientId && { gaClientId: clientId };
+    return tracker && tracker.get(GA.clientIdKey);
   } catch (e) {
-    return {};
+    return null;
   }
 };
 
@@ -187,8 +186,7 @@ export function sessionTypeUrl({
       : '';
 
   // Passes GA Client ID if it is an `ID.me` type
-  const { gaClientId } = IDME_TYPES.includes(type) && getGAClientId();
-  const passGAClientId = IDME_TYPES.includes(type) && gaClientId;
+  const gaClientId = IDME_TYPES.includes(type) && getGAClientId();
 
   const appendParams =
     externalRedirect && isLogin
@@ -209,7 +207,7 @@ export function sessionTypeUrl({
       passedQueryParams: {
         codeChallenge,
         codeChallengeMethod,
-        ...(passGAClientId && { gaClientId }),
+        ...(gaClientId && { gaClientId }),
       },
       passedOptions: {
         isSignup,
@@ -225,7 +223,7 @@ export function sessionTypeUrl({
     {
       ...queryParams,
       ...appendParams,
-      ...(passGAClientId && {
+      ...(gaClientId && {
         [GA.queryParams.default]: gaClientId,
       }),
       application,

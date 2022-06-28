@@ -298,9 +298,7 @@ describe('Authentication Utilities', () => {
           trackingId: GA.trackingIds[0],
         },
       });
-      expect(authUtilities.getGAClientId()).includes({
-        gaClientId: mockGAClientId,
-      });
+      expect(authUtilities.getGAClientId()).to.eql(mockGAClientId);
     });
     it('should return an empty object if clientId is invalid', () => {
       setup({
