@@ -1,34 +1,37 @@
-import React, { useEffect } from 'react';
-import { focusElement } from 'platform/utilities/ui';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
-const ErrorMessage = ({ header, message, additionalDetails }) => {
+const ErrorMessage = ({
+  message,
+  additionalDetails,
+  validationError = false,
+}) => {
   const { t } = useTranslation();
-  const errorHeader = header ?? t('we-couldnt-check-you-in');
   const errorMessage =
     message ??
     t(
       'were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member',
     );
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+
+  const status = validationError ? 'error' : 'info';
 
   const subMessage =
     errorMessage.length === 0 ? (
       ''
     ) : (
-      <va-alert background-only show-icon data-testid="error-message">
+      <va-alert
+        background-only
+        show-icon
+        status={status}
+        data-testid="error-message"
+      >
         <div>{errorMessage}</div>
       </va-alert>
     );
 
   return (
     <>
-      <h1 tabIndex="-1" slot="headline">
-        {errorHeader}
-      </h1>
       {subMessage}
       {additionalDetails && (
         <div className="vads-u-margin-top--3">{additionalDetails}</div>
@@ -41,6 +44,7 @@ ErrorMessage.propTypes = {
   additionalDetails: PropTypes.node,
   header: PropTypes.string,
   message: PropTypes.node,
+  validationError: PropTypes.bool,
 };
 
 export default ErrorMessage;

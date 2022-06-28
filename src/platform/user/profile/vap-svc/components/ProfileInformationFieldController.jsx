@@ -35,6 +35,8 @@ import ProfileInformationEditView from '@@profile/components/ProfileInformationE
 import ProfileInformationView from '@@profile/components/ProfileInformationView';
 
 import { getInitialFormValues } from '@@profile/util/contact-information/formValues';
+import { isFieldEmpty } from '@@profile/util';
+
 import { isVAPatient } from '~/platform/user/selectors';
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -260,17 +262,18 @@ class ProfileInformationFieldController extends React.Component {
     this.openRemoveModal();
   };
 
-  // When a personal information field contains initial field data from the api
-  // we need to require that field, bc there are no deletes available at this time, and only updates
-  requirePersonalInfoFieldBasedOnInitialValue = formSchema => {
+  // only require certain fields based on initial data from api on that field
+  requireFieldBasedOnInitialValue = formSchema => {
+    const activeFields = [
+      VAP_SERVICE.PERSONAL_INFO_FIELD_NAMES.GENDER_IDENTITY,
+    ];
+
     // TODO: handle multi-select values for when sexual orientation and pronouns are released
     const newFormSchema = { ...formSchema };
     const { fieldName, data, editViewData } = this.props;
 
     // only check field value if field is one of personal info fields
-    if (
-      Object.values(VAP_SERVICE.PERSONAL_INFO_FIELD_NAMES).includes(fieldName)
-    ) {
+    if (Object.values(activeFields).includes(fieldName)) {
       const initialValues = getInitialFormValues({
         fieldName,
         data,
@@ -393,7 +396,7 @@ class ProfileInformationFieldController extends React.Component {
           apiRoute={this.props.apiRoute}
           convertCleanDataToPayload={this.props.convertCleanDataToPayload}
           uiSchema={this.props.uiSchema}
-          formSchema={this.requirePersonalInfoFieldBasedOnInitialValue(
+          formSchema={this.requireFieldBasedOnInitialValue(
             this.props.formSchema,
           )}
           title={title}
@@ -511,7 +514,7 @@ export const mapStateToProps = (state, ownProps) => {
     selectVAPContactInfoField(state, fieldName) ||
     selectVAProfilePersonalInformation(state, fieldName);
 
-  const isEmpty = !data;
+  const isEmpty = isFieldEmpty(data, fieldName);
   const addressValidationType = selectAddressValidationType(state);
   const activeEditView = selectCurrentlyOpenEditModal(state);
   const showValidationView =

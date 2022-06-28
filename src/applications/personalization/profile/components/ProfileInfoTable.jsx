@@ -33,6 +33,12 @@ const TableTitle = ({ namedAnchor, children, level }) => {
   );
 };
 
+TableTitle.propTypes = {
+  children: PropTypes.node,
+  level: numberBetween(1, 6),
+  namedAnchor: PropTypes.string,
+};
+
 const ProfileInfoTable = ({
   data,
   dataTransformer,

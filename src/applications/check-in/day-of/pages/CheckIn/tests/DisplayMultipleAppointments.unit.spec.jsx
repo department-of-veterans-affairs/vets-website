@@ -170,7 +170,6 @@ describe('check-in', () => {
                 router={mockRouter}
                 token={token}
                 appointments={appointments}
-                isUpdatePageEnabled
               />
             </I18nextProvider>
           </Provider>,

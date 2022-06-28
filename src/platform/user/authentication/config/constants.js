@@ -15,3 +15,13 @@ export const defaultMobileQueryParams = {
   allowPostLogin: false,
   allowRedirect: false,
 };
+
+export const defaultMobileOAuthOptions = {
+  clientId: 'mobile',
+  acr: 'ial2',
+};
+
+export const defaultWebOAuthOptions = {
+  clientId: 'web',
+  acr: 'min',
+};

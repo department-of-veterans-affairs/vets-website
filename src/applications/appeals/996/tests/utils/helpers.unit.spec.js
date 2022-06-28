@@ -8,8 +8,6 @@ import {
   getEligibleContestableIssues,
   getLegacyAppealsLength,
   mayHaveLegacyAppeals,
-  apiVersion1,
-  apiVersion2,
   isVersion1Data,
   someSelected,
   hasSomeSelected,
@@ -22,6 +20,8 @@ import {
   isEmptyObject,
   processContestableIssues,
   readableList,
+  returnPhoneObject,
+  checkContestableIssueError,
 } from '../../utils/helpers';
 
 describe('getEligibleContestableIssues', () => {
@@ -137,26 +137,6 @@ describe('mayHaveLegacyAppeals', () => {
   });
 });
 
-describe('apiVersion1', () => {
-  it('should return true when feature flag is not set', () => {
-    expect(apiVersion1()).to.be.true;
-    expect(apiVersion1({ hlrV2: false })).to.be.true;
-  });
-  it('should return false when feature flag is set', () => {
-    expect(apiVersion1({ hlrV2: true })).to.be.false;
-  });
-});
-
-describe('apiVersion2', () => {
-  it('should return undefined/false when feature flag is not set', () => {
-    expect(apiVersion2()).to.be.undefined;
-    expect(apiVersion2({ hlrV2: false })).to.be.false;
-  });
-  it('should return true when feature flag is set', () => {
-    expect(apiVersion2({ hlrV2: true })).to.be.true;
-  });
-});
-
 describe('isVersion1Data', () => {
   it('should return true when version 1 data is found', () => {
     expect(isVersion1Data({ zipCode5: '12345' })).to.be.true;
@@ -221,7 +201,6 @@ describe('getSelected & getSelectedCount', () => {
   });
   it('should return selected additional issues', () => {
     const data = {
-      hlrV2: true,
       additionalIssues: [
         { type: 'no', [SELECTED]: false },
         { type: 'ok', [SELECTED]: true },
@@ -238,7 +217,6 @@ describe('getSelected & getSelectedCount', () => {
         { type: 'no1', [SELECTED]: false },
         { type: 'ok1', [SELECTED]: true },
       ],
-      hlrV2: true,
       additionalIssues: [
         { type: 'no2', [SELECTED]: false },
         { type: 'ok2', [SELECTED]: true },
@@ -414,5 +392,45 @@ describe('readableList', () => {
     expect(readableList(['v', null, 'w', 'x', '', 'y', 'z'])).to.eq(
       'v, w, x, y and z',
     );
+  });
+});
+
+describe('returnPhoneObject', () => {
+  const emptyPhone = {
+    countryCode: '',
+    areaCode: '',
+    phoneNumber: '',
+    phoneNumberExt: '',
+  };
+  it('should return empty phone object', () => {
+    expect(returnPhoneObject()).to.deep.equal(emptyPhone);
+    expect(returnPhoneObject(undefined)).to.deep.equal(emptyPhone);
+    expect(returnPhoneObject(null)).to.deep.equal(emptyPhone);
+    expect(returnPhoneObject([])).to.deep.equal(emptyPhone);
+    expect(returnPhoneObject('1234')).to.deep.equal(emptyPhone);
+  });
+  it('should return a phone object', () => {
+    expect(returnPhoneObject('8005551212')).to.deep.equal({
+      countryCode: '1',
+      areaCode: '800',
+      phoneNumber: '5551212',
+      phoneNumberExt: '',
+    });
+  });
+});
+
+describe('checkContestableIssueError', () => {
+  it('should return false if no error', () => {
+    expect(checkContestableIssueError()).to.be.false;
+  });
+  it('should return false if 404 error', () => {
+    expect(checkContestableIssueError({ errors: [{ status: '404' }] })).to.be
+      .false;
+  });
+  it('should return true', () => {
+    expect(checkContestableIssueError({})).to.be.true;
+    expect(checkContestableIssueError({ error: 'blah' })).to.be.true;
+    expect(checkContestableIssueError({ errors: [{ status: '123' }] })).to.be
+      .true;
   });
 });

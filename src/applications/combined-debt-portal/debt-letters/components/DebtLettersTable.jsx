@@ -36,7 +36,10 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
   return (
     <>
       <h3>Latest debt letters</h3>
-      <ul className="no-bullets" data-testId="debt-letters-table">
+      <ul
+        className="no-bullets vads-u-padding-x--0"
+        data-testId="debt-letters-table"
+      >
         {[first, second].map(debt => {
           const recvDate = moment(debt.receivedAt, 'YYYY-MM-DD').format(
             'MMM D, YYYY',
@@ -94,7 +97,7 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
       ) : null}
 
       {showOlder && hasMoreThanOneDebt ? (
-        <ol id="older-letters-list" className="no-bullets">
+        <ol id="older-letters-list" className="no-bullets vads-u-padding-x--0">
           {rest.map((debt, index) => (
             <li key={index}>
               <div>

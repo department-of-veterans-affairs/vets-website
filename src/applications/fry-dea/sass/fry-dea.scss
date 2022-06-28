@@ -1,0 +1,118 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "../../../platform/forms/sass/m-schemaform";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
+@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "../../../platform/forms/sass/m-form-confirmation";
+
+.process ul.vads-u-margin-bottom--0 {
+  margin-bottom: 0 !important; // Override .process ul
+}
+
+// Form content
+.fry-dea-veterans {
+  list-style-type: none;
+}
+
+.fry-dea-form-featured-content {
+	background-color: $color-gray-lightest;
+	padding: 24px;
+}
+
+.fry-dea-definition-list {
+	margin: 0;
+}
+.fry-dea-definition-list:after {
+	clear: both;
+	content: "";
+	display: table;
+}
+.fry-dea-definition-list_term,
+.fry-dea-definition-list_definition {
+	float: left;
+}
+.fry-dea-definition-list_term {
+	clear: left;
+	font-weight: bold;
+	margin-top: 0;
+}
+.fry-dea-definition-list_definition {
+	margin-left: 1em;
+}
+legend.legend-label.fry-dea-veterans-checkboxes_legend + .form-radio-buttons {
+  margin-top: 0;
+}
+
+// Review Page
+.fry-dea-review-page-only {
+  display: none;
+}
+.form-review-panel-page .fry-dea-review-page-only {
+  display: block;
+}
+.review-row .fry-dea-review-page_selected-sponsors {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.review .fry-dea-sponsors-labels_label--secondary {
+  display: none;
+}
+
+// Benefit Selection Page
+$border-width: 4px;
+$error-left-padding-width: 1.5rem;
+#root_benefitSelection-label,
+#root_benefitSelection-label + .schemaform-widget-wrapper {
+  border-left: $border-width solid $color-primary-alt-dark;
+}
+.usa-input-error #root_benefitSelection-label {
+  border-color: $color-secondary-dark;
+  margin-left: calc(-#{$error-left-padding-width} - #{$border-width});
+}
+#root_benefitSelection-label {
+	display: flex !important; // Override label styling
+	flex-flow: row wrap;
+}
+.usa-input-error #root_benefitSelection-label {
+  padding-left: $error-left-padding-width;
+}
+.fry-dea-labels_label--main {
+	flex: 0 1 auto;
+  margin-right: 0.35em;
+	order: 0;
+}
+.usa-input-error .fry-dea-labels_label--main,
+.usa-input-error .schemaform-required-span {
+  font-weight: bold;
+}
+.usa-input-error .fry-dea-labels_label--main {
+  padding-left: 0 !important; // Override VADS spacing units
+}
+.usa-input-error .fry-dea-input-message {
+  margin-left: -$error-left-padding-width;
+  padding-left: $error-left-padding-width !important; // Override VADS spacing units
+}
+.fry-dea-labels_label--secondary {
+	flex: 1 1 100%;
+	order: 2;
+}
+#root_benefitSelection-label .schemaform-required-span {
+  margin-left: 0;
+}
+#root_benefitSelection-label + .schemaform-widget-wrapper {
+  padding-left: 13px;
+}
+#root_benefitSelection-label + .schemaform-widget-wrapper .form-radio-buttons label {
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-top: 1em;
+}
+#root_benefitSelection-label + .schemaform-widget-wrapper .form-radio-buttons:last-child label {
+  padding-bottom: .65em;
+}
+.fa-check-circle {
+  color: $color-green;
+}
+// END - Benefit Selection Page

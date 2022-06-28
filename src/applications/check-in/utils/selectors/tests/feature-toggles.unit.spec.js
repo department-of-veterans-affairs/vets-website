@@ -16,9 +16,11 @@ describe('check-in', () => {
         check_in_experience_editing_pre_check_in_enabled: false,
         check_in_experience_translation_day_of_enabled: false,
         check_in_experience_translation_pre_check_in_enabled: false,
+        check_in_experience_translation_disclaimer_spanish_enabled: false,
         check_in_experience_day_of_demographics_flags_enabled: false,
         check_in_experience_lorota_security_updates_enabled: false,
         check_in_experience_edit_messaging_enabled: false,
+        check_in_experience_phone_appointments_enabled: false,
         loading: false,
       },
     };
@@ -30,14 +32,15 @@ describe('check-in', () => {
           isLoadingFeatureFlags: false,
           isCheckInEnabled: true,
           isPreCheckInEnabled: true,
-          isUpdatePageEnabled: true,
           isEditingPreCheckInEnabled: false,
           isEditingDayOfEnabled: false,
           isTranslationPreCheckInEnabled: false,
           isTranslationDayOfEnabled: false,
+          isTranslationDisclaimerSpanishEnabled: false,
           isDayOfDemographicsFlagsEnabled: false,
           isLorotaSecurityUpdatesEnabled: false,
           isEditMessagingEnabled: false,
+          isPhoneAppointmentsEnabled: false,
         });
       });
     });

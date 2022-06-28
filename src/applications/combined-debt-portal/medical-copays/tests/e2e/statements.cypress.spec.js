@@ -15,12 +15,17 @@ describe('Medical Copays', () => {
 
   beforeEach(() => {
     cy.login(mockUser);
-    cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
-    cy.intercept('GET', '/v0/medical_copays', mockCopays);
-    cy.intercept('GET', '/v0/debts', mockDebt);
-    cy.visit('/health-care/pay-copay-bill/your-current-balances/');
+    cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
+      'features',
+    );
+    cy.intercept('GET', '/v0/debts', mockDebt).as('debts');
+    cy.intercept('GET', '/v0/medical_copays', mockCopays).as('copays');
+    cy.visit('/manage-debt-and-bills/summary/copay-balances');
+
+    // Page load
+    cy.wait(['@copays', '@debts', '@features']);
     cy.findByTestId('overview-page-title').should('exist');
-    cy.injectAxe();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('displays copay balances - C12576', () => {
@@ -30,45 +35,32 @@ describe('Medical Copays', () => {
     cy.findByTestId(`facility-city-${id}`).contains(
       'Ralph H. Johnson Department of Veterans Affairs Medical Center',
     );
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
-  it.skip('displays other va debts', () => {
+  it('displays other va debts', () => {
     cy.findByTestId('other-va-debt-body').should('exist');
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('navigates to the detail page - C12577', () => {
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
-    cy.findByTestId(`updated-date`).contains('November 15, 2019');
-    cy.findByTestId(`past-due-balance-alert`).contains(
-      'Your balance may be overdue',
-    );
-    cy.findByTestId(`how-to-pay`).contains('How do I pay my VA copay bill?');
-    cy.findByTestId(`financial-help`).contains(
-      'How do I get financial help for my copays?',
-    );
-    cy.findByTestId(`dispute-charges`).contains(
-      'How do I dispute my copay charges?',
-    );
-    cy.findByTestId(`balance-questions`).contains(
-      'What to do if you have questions about your balance',
-    );
-    cy.axeCheck();
+    cy.findByTestId(`how-to-pay`).contains('How to pay your copay bill');
+    cy.injectAxeThenAxeCheck();
   });
 
-  it.skip('displays view statements section - C12578', () => {
+  it('displays view statements section - C12578', () => {
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
     cy.findByTestId(`view-statements`).should('exist');
     cy.findByTestId(`balance-details-${id}-statement-view`).should('exist');
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
-  it.skip('navigates to view statements page - C12579', () => {
+  it('navigates to view statements page - C12579', () => {
     // get to page
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
@@ -80,10 +72,10 @@ describe('Medical Copays', () => {
     cy.findByTestId(`facility-name`).contains(
       'Ralph H. Johnson Department of Veterans Affairs Medical Center',
     );
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
-  it.skip('displays account summary - C12580', () => {
+  it('displays account summary - C12580', () => {
     // get to page
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
@@ -105,6 +97,6 @@ describe('Medical Copays', () => {
     cy.findByTestId('account-summary-new-charges').contains(
       'New charges: $15.00',
     );
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 });

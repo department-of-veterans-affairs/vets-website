@@ -40,6 +40,10 @@ module.exports = {
         name: '@department-of-veterans-affairs/component-library/ProgressBar',
         use: '<va-progress-bar>',
       },
+      {
+        name: '@department-of-veterans-affairs/component-library/TextArea',
+        use: '<va-textarea>',
+      },
     ],
     'jsx-a11y/control-has-associated-label': 1, // 2
     'jsx-a11y/click-events-have-key-events': 1, // 24
@@ -64,6 +68,8 @@ module.exports = {
         'no-restricted-imports': ['error', 'raven'],
         'no-unused-expressions': 0,
         'react/no-find-dom-node': 0,
+        '@department-of-veterans-affairs/axe-check-required': 0,
+        '@department-of-veterans-affairs/cypress-viewport-deprecated': 0,
       },
     },
     {

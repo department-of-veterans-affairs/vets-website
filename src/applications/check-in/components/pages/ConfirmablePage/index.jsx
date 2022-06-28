@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import DemographicItem from '../../DemographicItem';
 import EditLinkText from '../Edit/shared/EditLinkText';
-import LanguagePicker from '../../LanguagePicker';
+import Wrapper from '../../layout/Wrapper';
 
 const ConfirmablePage = ({
   header,
@@ -16,11 +15,9 @@ const ConfirmablePage = ({
   isLoading = false,
   isEditEnabled = false,
   loadingMessageOverride = null,
+  withBackButton = false,
   Footer,
 }) => {
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
   const { t } = useTranslation();
   const defaultLoadingMessage = () => (
     <va-loading-indicator message={t('loading')} />
@@ -30,20 +27,30 @@ const ConfirmablePage = ({
     dataToEdit.editAction(dataToEdit);
   }, []);
   return (
-    <div className="vads-l-grid-container vads-u-padding-bottom--6 vads-u-padding-top--2 confirmable-page">
-      <LanguagePicker />
-      <h1 data-testid="header">{header}</h1>
+    <Wrapper
+      pageTitle={header}
+      classNames="confirmable-page"
+      withBackButton={withBackButton}
+    >
       {subtitle && (
         <p data-testid="subtitle" className="vads-u-font-family--serif">
           {subtitle}
         </p>
       )}
-      <div className="vads-u-border-color--primary vads-u-border-left--5px vads-u-margin-left--0p5 vads-u-padding-left--2">
+      <div className="vads-u-margin-top--3">
         <dl data-testid="demographics-fields">
-          {dataFields.map(field => (
+          {dataFields.map((field, i, { length }) => (
             <React.Fragment key={field.key}>
-              <dt className="vads-u-font-weight--bold">{field.title}</dt>
-              <dd>
+              <dt className="vads-u-font-weight--bold vads-u-border-top--1px vads-u-padding-top--2 vads-u-margin-top--2 vads-u-border-color--gray-light">
+                {field.title}
+              </dt>
+              <dd
+                className={
+                  i + 1 === length
+                    ? 'vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-bottom--2'
+                    : ''
+                }
+              >
                 {field.key in data && data[field.key] ? (
                   <DemographicItem demographic={data[field.key]} />
                 ) : (
@@ -77,7 +84,7 @@ const ConfirmablePage = ({
         <>
           <button
             onClick={yesAction}
-            className="usa-button-secondary usa-button-big"
+            className="usa-button-primary usa-button-big"
             data-testid="yes-button"
             type="button"
           >
@@ -94,7 +101,7 @@ const ConfirmablePage = ({
         </>
       )}
       {Footer && <Footer />}
-    </div>
+    </Wrapper>
   );
 };
 ConfirmablePage.propTypes = {
@@ -113,5 +120,6 @@ ConfirmablePage.propTypes = {
   isLoading: PropTypes.bool,
   loadingMessageOverride: PropTypes.func,
   subtitle: PropTypes.string,
+  withBackButton: PropTypes.bool,
 };
 export default ConfirmablePage;

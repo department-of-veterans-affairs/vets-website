@@ -4,6 +4,7 @@ const delay = require('mocker-api/lib/delay');
 const user = require('./user');
 const mhvAcccount = require('./mhvAccount');
 const address = require('./address');
+const phoneNumber = require('./phone-number');
 const status = require('./status');
 const {
   handlePutGenderIdentitiesRoute,
@@ -19,6 +20,8 @@ const { paymentHistory } = require('./payment-history');
 const bankAccounts = require('./bank-accounts');
 
 const serviceHistory = require('./service-history');
+const fullName = require('./full-name');
+
 // set DELAY=1000 to add 1 sec delay to all responses
 const responseDelay = process?.env?.DELAY || 0;
 
@@ -37,22 +40,13 @@ const responses = {
   'GET /v0/profile/personal_information': handleGetPersonalInformationRoute,
   'PUT /v0/profile/preferred_names': handlePutPreferredNameRoute,
   'PUT /v0/profile/gender_identities': handlePutGenderIdentitiesRoute,
-  'GET /v0/profile/full_name': {
-    data: {
-      id: '',
-      type: 'hashes',
-      attributes: {
-        first: 'Mitchell',
-        middle: 'G',
-        last: 'Jenkins',
-        suffix: null,
-      },
-    },
-  },
+  'GET /v0/profile/full_name': fullName.success,
   'GET /v0/profile/ch33_bank_accounts': (_req, res) => {
     return res.status(200).json(bankAccounts.defaultResponse);
   },
-  'GET /v0/profile/service_history': serviceHistory.spaceForce,
+  'GET /v0/profile/service_history': (_req, res) => {
+    return res.status(500).json(serviceHistory.error);
+  },
   'GET /v0/disability_compensation_form/rating_info': {
     data: {
       id: '',
@@ -61,6 +55,9 @@ const responses = {
         userPercentOfDisability: 40,
       },
     },
+  },
+  'PUT /v0/profile/telephones': (_req, res) => {
+    return res.status(200).json(phoneNumber.transactions.received);
   },
   'PUT /v0/profile/addresses': (req, res) => {
     if (

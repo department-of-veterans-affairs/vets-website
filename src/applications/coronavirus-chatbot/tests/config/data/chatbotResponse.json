@@ -59,8 +59,6 @@
       { "name": "direct_deposit_vanotify", "value": true },
       { "name": "educationReportsCleanup", "value": false },
       { "name": "education_reports_cleanup", "value": false },
-      { "name": "evssUploadLimit150mb", "value": true },
-      { "name": "evss_upload_limit_150mb", "value": true },
       { "name": "facilitiesPPMSSuppressCommunityCare", "value": false },
       { "name": "facilities_ppms_suppress_community_care", "value": false },
       { "name": "facilitiesPPMSSuppressPharmacies", "value": false },

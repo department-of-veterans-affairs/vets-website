@@ -1,8 +1,7 @@
 import { errorMessages, SELECTED } from '../constants';
-import { apiVersion1 } from '../utils/helpers';
 
-export const requireRatedDisability = (err, fieldData, formData) => {
-  if (apiVersion1(formData) && !fieldData.some(entry => entry[SELECTED])) {
+export const requireRatedDisability = (err, fieldData) => {
+  if (!fieldData.some(entry => entry[SELECTED])) {
     // The actual validation error is displayed as an alert field. The message
     // here will be shown on the review page
     err.addError(errorMessages.contestedIssue);

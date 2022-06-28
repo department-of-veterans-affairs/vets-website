@@ -39,7 +39,7 @@ export default {
       },
     },
     'view:vaFacilityTitle': {
-      'ui:title': 'VA Facility',
+      'ui:title': 'VA facility',
     },
     isEssentialAcaCoverage: {
       'ui:title':
