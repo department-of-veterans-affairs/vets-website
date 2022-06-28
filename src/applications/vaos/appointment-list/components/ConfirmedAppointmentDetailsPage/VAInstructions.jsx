@@ -6,7 +6,7 @@ export default function VAInstructions({ appointment }) {
   const showInstructions =
     appointment.version === 2
       ? PURPOSE_TEXT_V2.some(purpose =>
-          appointment?.comment?.startsWith(purpose.short),
+          appointment?.comment?.startsWith(purpose.serviceName),
         )
       : PURPOSE_TEXT.some(purpose =>
           appointment?.comment?.startsWith(purpose.short),
