@@ -39,6 +39,7 @@ import { formatFacilityAddress, getFacilityPhone } from '../location';
 import {
   transformVAOSAppointment,
   transformVAOSAppointments,
+  transformPreferredProviderV2,
 } from './transformers.v2';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
@@ -1080,22 +1081,6 @@ export function getAppointmentTimezone(appointment) {
     identifier: getUserTimezone(),
     abbreviation,
     description: getTimezoneNameFromAbbr(abbreviation),
-  };
-}
-
-/**
- * Transforms a provider object from the providers endpoint into our
- * VAOS format
- *
- * @export
- * @param {provider} provider A provider from the providers endpoint
- * @returns {Provider} A Provider resource
- */
-export function transformPreferredProviderV2(provider) {
-  return {
-    resourceType: 'Provider',
-    id: provider.providerIdentifier,
-    name: provider.name,
   };
 }
 
