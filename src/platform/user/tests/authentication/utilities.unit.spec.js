@@ -417,7 +417,7 @@ describe('Authentication Utilities', () => {
       );
     });
 
-    it('should redirect with GA Client ID appended for redirects that include `idme`', async () => {
+    it.skip('should redirect with GA Client ID appended for redirects that include `idme`', async () => {
       setup({
         path: base,
         mockGA: {
