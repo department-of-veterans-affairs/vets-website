@@ -166,6 +166,13 @@ export function transformVAOSAppointment(appt) {
   if (appt.location && appt.location.attributes) {
     facilityData = transformFacilityV2(appt.location.attributes);
   }
+  let comment = null;
+  if (
+    appt.reasonCode?.coding &&
+    appt.reasonCode?.coding[0]?.code &&
+    appt.comment
+  )
+    comment = `${appt.reasonCode?.coding[0].code}: ${appt.comment}`;
   return {
     resourceType: 'Appointment',
     id: appt.id,
@@ -188,7 +195,7 @@ export function transformVAOSAppointment(appt) {
     comment:
       isVideo && !!appt.patientInstruction
         ? getPatientInstruction(appt)
-        : appt.reasonCode.text || appt.comment || null,
+        : comment || appt.reasonCode?.text || appt.comment || null,
     videoData,
     communityCareProvider:
       isCC && !isRequest

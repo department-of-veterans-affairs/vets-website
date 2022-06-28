@@ -649,7 +649,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
       reasonCode: {
-        coding: [{ code: 'New Issue' }],
+        text: 'New Issue: A message from the patient',
       },
       requestedPeriods: [
         {
@@ -759,7 +759,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       }`,
     );
 
-    expect(screen.baseElement).to.contain.text('New issue');
+    expect(screen.baseElement).to.contain.text('New Issue');
 
     expect(await screen.findByText(/A message from the patient/i)).to.be.ok;
     expect(screen.baseElement).to.contain.text('veteranemailtest@va.gov');
@@ -783,7 +783,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       id: '1234',
       practitioners: [{ identifier: [{ value: '123' }] }],
       preferredTimesForPhoneCall: ['Morning'],
-      reason: 'New Issue',
+      reasonCode: { coding: [{ coding: 'New Issue' }] },
       requestedPeriods: [
         {
           start: moment(testDate)
@@ -916,7 +916,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       locationId: '983GC',
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
-      reason: 'Routine Follow-up',
+      reasonCode: { coding: [{ code: 'Routine Follow-up' }] },
       requestedPeriods: [
         {
           start: moment(testDate)
@@ -989,7 +989,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       locationId: '983GC',
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
-      reason: 'Routine Follow-up',
+      reasonCode: { coding: [{ coding: 'Routine Follow-up' }] },
       requestedPeriods: [
         {
           start: moment(testDate)
@@ -1045,7 +1045,7 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       id: '1234',
       practitioners: [{ identifier: [{ value: '123' }] }],
       preferredTimesForPhoneCall: ['Morning'],
-      reason: 'New Issue',
+      reasonCode: { coding: [{ coding: 'New Issue' }] },
       requestedPeriods: [
         {
           start: `${moment(testDate)
