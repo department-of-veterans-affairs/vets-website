@@ -218,9 +218,9 @@ export function sessionTypeUrl({
     {
       ...queryParams,
       ...appendParams,
-      // ...(passGAClientId && {
-      //   [GA.queryParamKey]: gaClientId,
-      // }),
+      ...(passGAClientId && {
+        [GA.queryParams.default]: gaClientId,
+      }),
       application,
     },
   );
