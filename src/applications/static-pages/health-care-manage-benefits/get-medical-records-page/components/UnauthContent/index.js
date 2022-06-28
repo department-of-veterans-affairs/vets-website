@@ -76,14 +76,7 @@ const UnauthContent = () => (
       </a>
     </p>
     <h3>Questions about managing your VA medical records</h3>
-    <va-accordion
-      disable-analytics={{
-        value: 'false',
-      }}
-      section-heading={{
-        value: 'null',
-      }}
-    >
+    <va-accordion>
       <va-accordion-item id="first">
         <h4 slot="headline">
           Once I’m signed in, how do I access my medical records?
@@ -130,8 +123,8 @@ const UnauthContent = () => (
         <p>
           <strong>If you’re signing up for a My HealtheVet account</strong>, go
           to "Notifications and Settings" on the registration page. Select{' '}
-          <strong>On</strong>
-          for "VA medical images and report available notification.
+          <strong>On</strong> for "VA medical images and report available
+          notification.
         </p>
         <a href="https://www.myhealth.va.gov/mhv-portal-web/user-registration/">
           Sign up for an account on the My HealtheVet website
@@ -156,6 +149,7 @@ const UnauthContent = () => (
         <a href="/resources/how-to-get-your-medical-records-from-your-va-health-facility">
           Learn how to request medical records from your VA health facility
         </a>
+        <br />
         <a href="/resources/how-to-get-your-medical-records-from-the-department-of-defense-dod">
           Learn how to request medical records from DoD
         </a>

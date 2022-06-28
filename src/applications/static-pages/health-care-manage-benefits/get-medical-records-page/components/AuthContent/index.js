@@ -111,14 +111,7 @@ const AuthContent = ({
       Find out how to apply for VA health care
     </a>
     <h3>Questions about managing your VA medical records</h3>
-    <va-accordion
-      disable-analytics={{
-        value: 'false',
-      }}
-      section-heading={{
-        value: 'null',
-      }}
-    >
+    <va-accordion>
       <va-accordion-item id="first">
         <h4 slot="headline">
           Once I’m signed in, how do I access my medical records?
@@ -181,6 +174,7 @@ const AuthContent = ({
         <a href="/resources/how-to-get-your-medical-records-from-your-va-health-facility">
           Learn how to request medical records from your VA health facility
         </a>
+        <br />
         <a href="/resources/how-to-get-your-medical-records-from-the-department-of-defense-dod">
           Learn how to request medical records from DoD
         </a>
