@@ -76,15 +76,10 @@ export default function AppointmentListItem({ appointment, facility }) {
     selectFeatureStatusImprovement(state),
   );
   const appointmentDate = moment.parseZone(appointment.start);
-  const {
-    isCommunityCare,
-    isVideo,
-    status,
-    isPastAppointment,
-  } = appointment.vaos;
+  const { isCommunityCare, isVideo, isPastAppointment } = appointment.vaos;
   const isPhone = isVAPhoneAppointment(appointment);
   const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
-  const canceled = status === APPOINTMENT_STATUS.cancelled;
+  const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const link = isCommunityCare
     ? `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}cc/${
         appointment.id
