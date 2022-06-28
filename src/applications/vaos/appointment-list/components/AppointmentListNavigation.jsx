@@ -11,7 +11,6 @@ function handleClick({ history, callback }) {
     if (event.target.id === 'pending') {
       history.push('/pending');
       callback(true);
-      //  dispatch(updatecrumb({ title: 'Pending', path: 'pending' }));
       recordEvent({
         event: `${GA_PREFIX}-status-pending-link-clicked`,
       });
@@ -22,7 +21,6 @@ function handleClick({ history, callback }) {
       });
       history.push('/past');
       callback(true);
-      //  dispatch(updatecrumb({ title: 'Past', path: 'past' }));
     }
   };
 }

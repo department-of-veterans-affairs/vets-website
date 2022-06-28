@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import DowntimeNotification, {
   externalServices,
@@ -105,7 +105,6 @@ export default function AppointmentsPageV2() {
   } = getDropdownValueFromLocation(location.pathname);
 
   const [count, setCount] = useState(0);
-  const dispatch = useDispatch();
   useEffect(
     () => {
       if (featureStatusImprovement) {
@@ -113,11 +112,9 @@ export default function AppointmentsPageV2() {
         if (location.pathname.endsWith('pending')) {
           prefix = 'Pending';
           pageTitle = `${prefix} appointments`;
-          //  dispatch(updatecrumb({ title: prefix, path: 'pending' }));
         } else if (location.pathname.endsWith('past')) {
           prefix = 'Past';
           pageTitle = `${prefix} appointments`;
-          //  dispatch(updatecrumb({ title: prefix, path: 'past' }));
         } else {
           pageTitle = 'Your appointments';
         }
@@ -129,7 +126,7 @@ export default function AppointmentsPageV2() {
         scrollAndFocus('h1');
       }
     },
-    [subPageTitle, featureStatusImprovement, location.pathname, dispatch],
+    [subPageTitle, featureStatusImprovement, location.pathname],
   );
 
   const [documentTitle, setDocumentTitle] = useState();
