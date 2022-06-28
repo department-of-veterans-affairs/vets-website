@@ -168,7 +168,8 @@ export const BurialDateWarning = () => {
 
   useEffect(() => {
     // NOTE: If we don't wait at least 900ms to render,
-    // the alert content gets overridden by the year content.
+    // the alert content gets overspoken by the year content
+    // when using a Screen Reader.
     // Using 1000ms to give a bit of padding
     const timeout = setTimeout(() => setShouldRender(true), 1000);
     return () => clearTimeout(timeout);
