@@ -19,8 +19,11 @@ export function fetchAndUpdateSessionExpiration(...args) {
         response.url.includes(apiURL) &&
         (response.ok || response.status === 304)
       ) {
-        // Set (SAML | OAuth) session expiration
-        // SAML - response headers | OAuth - cookie
+        /**
+         * Sets sessionExpiration
+         * SAML - Response headers `X-Session-Expiration`
+         * OAuth - Cookie set by response
+         * */
         checkOrSetSessionExpiration(response);
 
         // SSOe session is independent of vets-api, and must be kept alive for cross-session continuity
@@ -114,19 +117,16 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         return data;
       }
 
-      if (environment.isStaging() || environment.isProduction()) {
+      if (response.status === 403 && infoTokenExists()) {
+        refresh(response);
+      }
+
+      if (environment.isProduction()) {
         const { pathname } = window.location;
-        const is401WithGoodPath =
-          response.status === 401 && !pathname.includes('auth/login/callback');
-
-        const shouldRefreshOAuth = is401WithGoodPath && infoTokenExists();
-
-        if (shouldRefreshOAuth) {
-          refresh(response);
-        }
 
         const shouldRedirectToSessionExpired =
-          is401WithGoodPath &&
+          response.status === 401 &&
+          !pathname.includes('auth/login/callback') &&
           sessionStorage.getItem('shouldRedirectExpiredSession') === 'true';
 
         if (shouldRedirectToSessionExpired) {
