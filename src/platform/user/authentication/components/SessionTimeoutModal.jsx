@@ -1,6 +1,8 @@
 import React from 'react';
 import differenceInSeconds from 'date-fns/differenceInSeconds';
 
+import Modal from '@department-of-veterans-affairs/component-library/Modal';
+
 import recordEvent from 'platform/monitoring/record-event';
 import {
   logout,
@@ -78,13 +80,13 @@ class SessionTimeoutModal extends React.Component {
 
   render() {
     return (
-      <va-modal
+      <Modal
         hideCloseButton
         id="session-timeout-modal"
-        initialFocusSelector="button"
-        clickToClose={this.extendSession}
+        focusSelector="button"
+        onClose={this.extendSession}
         status="warning"
-        modalTitle="Your session will end in..."
+        title="Your session will end in..."
         visible={this.state.countdown} // Display only for 30s countdown.
       >
         <div className="vads-u-text-align--center">
@@ -111,7 +113,7 @@ class SessionTimeoutModal extends React.Component {
             Sign out
           </button>
         </div>
-      </va-modal>
+      </Modal>
     );
   }
 }
