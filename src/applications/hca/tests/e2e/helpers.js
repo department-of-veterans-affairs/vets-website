@@ -137,10 +137,7 @@ export const shortFormSelfDisclosureToSubmit = () => {
     .click();
 
   // medicaid page with short form message
-  cy.get('va-alert')
-    .find('h3')
-    .contains(/you’re now on step 3 of 4 of our shorter application/i)
-    .should('exist');
+  shortFormAdditionalHelpAssertion();
 
   cy.get('[type=radio]#root_isMedicaidEligibleNo')
     .first()
