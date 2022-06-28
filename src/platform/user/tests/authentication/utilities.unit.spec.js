@@ -432,9 +432,7 @@ describe('Authentication Utilities', () => {
 
       await authUtilities.redirect(url);
       expect(
-        String(global.window.location).includes(
-          `ga_client_id=${mockGAClientId}`,
-        ),
+        String(global.window.location).includes(`client_id=${mockGAClientId}`),
       ).to.be.true;
     });
   });
