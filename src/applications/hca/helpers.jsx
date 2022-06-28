@@ -574,38 +574,6 @@ export const medicarePartADescription = (
   </section>
 );
 
-export const shortFormMessage = (
-  <va-alert-expandable
-    trigger="You’re filling out a shortened application!"
-    status="success"
-    class="vads-u-margin-y--5"
-  >
-    <div>
-      Your service-connected disability rating is 50% or higher. This is one of
-      our eligibility criteria. This means that we don’t have to ask you
-      questions about other criteria like income and military service.
-    </div>
-  </va-alert-expandable>
-);
-
-export const shortFormAlert = (
-  <div className="vads-u-margin-y--4">
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="success"
-      visible
-    >
-      <h3 slot="headline">
-        You’re now on step 3 of 4 of our shorter application
-      </h3>
-      <div>
-        Your service-connected disability rating is 50% or higher. This is one
-        of our eligibility criteria. This means that we don’t have to ask you
-        questions about other criteria like income and military service.
-      </div>
-    </va-alert>
-  </div>
-);
 export const emptyObjectSchema = {
   type: 'object',
   properties: {},

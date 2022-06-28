@@ -1,16 +1,11 @@
 // import React from 'react';
 import { genderLabels } from 'platform/static-data/labels';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
+import { ShortFormMessage } from '../../../components/FormAlerts';
 import CustomReviewField from '../../../components/CustomReviewField';
-
-import {
-  shortFormMessage,
-  HIGH_DISABILITY,
-  emptyObjectSchema,
-} from '../../../helpers';
+import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
 
 const { gender } = fullSchemaHca.properties;
 
@@ -46,7 +41,7 @@ const { gender } = fullSchemaHca.properties;
 export default {
   uiSchema: {
     'view:birthSexShortFormMessage': {
-      'ui:description': shortFormMessage,
+      'ui:description': ShortFormMessage,
       'ui:options': {
         hideIf: form =>
           !(
