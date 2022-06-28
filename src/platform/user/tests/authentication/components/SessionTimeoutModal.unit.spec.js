@@ -9,12 +9,13 @@ const defaultProps = {
   isLoggedIn: true,
   onExtendSession: sinon.spy(),
   signOut: sinon.spy(),
+  authenticatedWithOAuth: false,
 };
 
 describe('SessionTimeoutModal', () => {
   it('should render Modal', () => {
     const component = shallow(<SessionTimeoutModal {...defaultProps} />);
-    const modalWebComponent = component.find('va-modal');
+    const modalWebComponent = component.find('Modal');
     const buttons = component.find('button');
     expect(modalWebComponent.exists()).to.be.true;
     expect(buttons.length).to.eql(2);
