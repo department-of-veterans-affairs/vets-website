@@ -12,9 +12,9 @@
     "./options-for-select": "./options-for-select.js",
     "./SubmitSignInForm": "./SubmitSignInForm.jsx"
   },
-  "dependencies": {
-    "react": "^17.0.2",
-    "@department-of-veterans-affairs/component-library": "^10.6.0"
+  "peerDependencies": {
+    "react": "*",
+    "@department-of-veterans-affairs/component-library": "*"
   },
   "license": "MIT",
   "private": true

@@ -23,29 +23,24 @@
         "./scrollTo": "./ui/scrollTo.js",
         "./scrollToTop": "./ui/scrollToTop.js"
     },
-    "dependencies": {
-        "moment": "~2.24.0",
-        "js-cookie": "^2.2.1",
-        "fast-levenshtein": "^2.0.6",
-        "react" : "^17.0.2",
-        "url-search-params-polyfill": "^8.1.1",
-        "local-storage-fallback": "^4.1.2",
-        "lodash": "^4.17.21",
-        "react-dom": "^17.0.2",
-        "react-scroll": "^1.8.4",
-        "react-is": "^17.0.2",
-        "date-fns": "^2.24.0",
-        "@department-of-veterans-affairs/component-library": "^10.6.0"
+    "peerDependencies": {
+        "moment": "*",
+        "js-cookie": "*",
+        "fast-levenshtein": "*",
+        "react" : "*",
+        "url-search-params-polyfill": "*",
+        "local-storage-fallback": "*",
+        "lodash": "*",
+        "react-dom": "*",
+        "react-scroll": "*",
+        "react-is": "*",
+        "date-fns": "*",
+        "@department-of-veterans-affairs/component-library": "*",
+        "@sentry/browser": "*", 
+        "chai": "*", 
+        "sinon": "*" 
     },
-
-    "devDependencies": { 
-        "@sentry/browser": "^6.13.2", 
-        "chai": "^4.3.4", 
-        "sinon": "^3.2.1" 
-    },
-    
     "license": "MIT",
     "private": true
-   
    }
   
