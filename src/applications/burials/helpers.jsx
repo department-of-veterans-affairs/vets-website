@@ -178,6 +178,7 @@ export const BurialDateWarning = () => {
     <div aria-live="polite">
       {shouldRender && (
         <va-alert background-only show-icon status="warning">
+          <span className="sr-only">Warning:</span>
           <p className="vads-u-margin-top--0">
             If filing for a non-service-connected allowance, the Veteran’s
             burial date must be no more than 2 years from the current date.
