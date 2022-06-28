@@ -80,7 +80,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.COMBINED_DEBT_PORTAL]: {
     id: CTA_WIDGET_TYPES.COMBINED_DEBT_PORTAL,
     deriveToolUrlDetails: () => ({
-      url: 'mange-debt-and-bills/summary',
+      url: '/mange-debt-and-bills/summary',
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,
