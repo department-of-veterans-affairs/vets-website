@@ -46,15 +46,22 @@ export default function FieldTemplate(props) {
 
   let errorSpanId;
   let errorSpan;
+  let errorSpanSrOnly;
   let errorClass;
   if (hasErrors) {
     errorClass = `usa-input-error ${isDateField ? 'input-error-date' : ''}`;
     errorSpanId = `${id}-error-message`;
     errorSpan = (
-      <span className="usa-input-error-message" role="alert" id={errorSpanId}>
+      <span
+        aria-hidden="true"
+        className="usa-input-error-message"
+        role="alert"
+        id={errorSpanId}
+      >
         <span className="sr-only">Error</span> {rawErrors[0]}
       </span>
     );
+    errorSpanSrOnly = <span className="sr-only">Error {rawErrors[0]}</span>;
   }
 
   const containerClassNames = classNames(
@@ -93,7 +100,9 @@ export default function FieldTemplate(props) {
     <label id={`${id}-label`} className={labelClassNames} htmlFor={id}>
       {label}
       {requiredSpan}
-      {errorSpan}
+
+      {/* Only show this error to screenreader users */}
+      {errorSpanSrOnly}
     </label>
   );
 
@@ -114,6 +123,9 @@ export default function FieldTemplate(props) {
         />
       )}
       {!textDescription && !DescriptionField && description}
+
+      {errorSpan}
+
       {<div className={inputWrapperClassNames}>{children}</div>}
       {help}
     </>
