@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-
 import moment from 'moment';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
@@ -116,10 +115,11 @@ export default function RequestedAppointmentDetailsPage() {
     );
   }
 
+  const hasProviderData = useV2 && appointment?.practitioners?.length > 0;
   if (
     !appointment ||
     appointmentDetailsStatus === FETCH_STATUS.loading ||
-    (useV2 && !providerData)
+    (hasProviderData && !providerData)
   ) {
     return (
       <FullWidthLayout>
@@ -140,8 +140,9 @@ export default function RequestedAppointmentDetailsPage() {
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
   const comment = message || appointment.comment;
+  const providerInfo = hasProviderData ? providerData : null;
   const provider = useV2
-    ? providerData
+    ? providerInfo
     : appointment.preferredCommunityCareProviders?.[0];
   const apptDetails =
     appointment.reason && comment

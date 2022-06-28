@@ -407,7 +407,7 @@ export function getVAAppointmentLocationId(appointment) {
  * @returns {string} The NPI of the CC Provider
  */
 export function getPreferredCCProviderNPI(appointment) {
-  return appointment?.practitioners[0].identifier[0].value || null;
+  return appointment?.practitioners[0]?.identifier[0]?.value || null;
 }
 
 /**
@@ -1104,20 +1104,9 @@ export function transformPreferredProviderV2(provider) {
  *
  * @export
  * @param {String} providerNpi An id for the provider to fetch info for
- * @returns {Provider} Provider info
+ * @returns {transformed Provider} transformed Provider info
  */
-export function getPreferredProviderV2(providerNpi) {
-  return getPreferredCCProvider(providerNpi);
-}
-
-/**
- * Transform provider information
- *
- * @export
- * @param {String} providerNpi An id for the provider to fetch info for
- * @returns {Provider} Transformed Provider info
- */
-export async function getTransformedPreferredProvider(providerNpi) {
-  const prov = await getPreferredProviderV2(providerNpi);
+export async function fetchPreferredProvider(providerNpi) {
+  const prov = await getPreferredCCProvider(providerNpi);
   return transformPreferredProviderV2(prov);
 }

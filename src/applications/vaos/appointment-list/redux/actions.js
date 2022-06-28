@@ -32,7 +32,7 @@ import {
   fetchRequestById,
   fetchBookedAppointment,
   cancelAppointment,
-  getTransformedPreferredProvider,
+  fetchPreferredProvider,
   getPreferredCCProviderNPI,
 } from '../../services/appointment';
 import { captureError, has400LevelError } from '../../utils/error';
@@ -743,14 +743,26 @@ export function getProviderInfoV2(appointments) {
     const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
       getState(),
     );
-    if (featureVAOSServiceCCAppointments) {
+    if (
+      featureVAOSServiceCCAppointments &&
+      appointments.practitioners.length > 0
+    ) {
       const ProviderNpi = getPreferredCCProviderNPI(appointments);
 
-      const providerData = await getTransformedPreferredProvider(ProviderNpi);
+      const providerData = await fetchPreferredProvider(ProviderNpi);
 
       dispatch({
         type: FETCH_PROVIDER_SUCCEEDED,
         providerData,
+      });
+    }
+    if (
+      featureVAOSServiceCCAppointments &&
+      appointments.practitioners.length === 0
+    ) {
+      dispatch({
+        type: FETCH_PROVIDER_SUCCEEDED,
+        providerData: null,
       });
     }
   };
