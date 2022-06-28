@@ -319,7 +319,7 @@ class AddFilesForm extends React.Component {
         <VaModal
           id="upload-status"
           onCloseEvent={() => true}
-          visible={this.props.uploading}
+          visible={Boolean(this.props.uploading)}
         >
           <UploadStatus
             progress={this.props.progress}
