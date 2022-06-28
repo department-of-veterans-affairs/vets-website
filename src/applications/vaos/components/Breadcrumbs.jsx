@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectFeatureStatusImprovement } from '../redux/selectors';
@@ -34,7 +35,7 @@ export default function VAOSBreadcrumbs({ children }) {
   );
 
   return (
-    <va-breadcrumbs
+    <VaBreadcrumbs
       className="medium-screen:vads-u-padding-x--0 vaos-appts__breadcrumbs"
       role="navigation"
       aria-label="Breadcrumbs"
@@ -80,7 +81,7 @@ export default function VAOSBreadcrumbs({ children }) {
       )}
 
       {children}
-    </va-breadcrumbs>
+    </VaBreadcrumbs>
   );
 }
 
