@@ -62,7 +62,7 @@ export default function VAPServiceEditModalErrorMessage({
 
     default:
       content = (
-        <p>
+        <p id="error-message-details">
           We’re sorry. We can’t update your information right now. We’re working
           to fix this problem. Please check back later.
         </p>
