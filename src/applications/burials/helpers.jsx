@@ -175,18 +175,20 @@ export const BurialDateWarning = () => {
   }, []);
 
   return (
-    shouldRender && (
-      <va-alert aria-live="polite" background-only show-icon status="warning">
-        <p className="vads-u-margin-top--0">
-          If filing for a non-service-connected allowance, the Veteran’s burial
-          date must be no more than 2 years from the current date.
-        </p>
-        <a href="/burials-memorials/eligibility/" target="_blank">
-          Find out if you still qualify for a non-service-connected allowance
-          (opens in new tab)
-        </a>
-      </va-alert>
-    )
+    <div aria-live="polite">
+      {shouldRender && (
+        <va-alert background-only show-icon status="warning">
+          <p className="vads-u-margin-top--0">
+            If filing for a non-service-connected allowance, the Veteran’s
+            burial date must be no more than 2 years from the current date.
+          </p>
+          <a href="/burials-memorials/eligibility/" target="_blank">
+            Find out if you still qualify for a non-service-connected allowance
+            (opens in new tab)
+          </a>
+        </va-alert>
+      )}
+    </div>
   );
 };
 
