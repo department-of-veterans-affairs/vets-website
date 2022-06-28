@@ -268,6 +268,7 @@
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "0.0.2",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
+    "@department-of-veterans-affairs/platform-utilities": "1.0.0",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@mapbox/mapbox-sdk": "^0.13.2",
     "blob-polyfill": "^5.0.20210201",

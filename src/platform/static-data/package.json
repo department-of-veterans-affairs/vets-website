@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "exports": {
     "." :"./exportsFile.js",
-    "./CallHRC": "./CallHRC",
-    "./CallNCACenter": "./CallNCACenter",
-    "./CallVBACenter": "./CallVBACenter",
-    "./EmailVICHelp": "./EmailVICHelp",
-    "./error-messages": "./error-messages",
+    "./CallHRC": "./CallHRC.jsx",
+    "./CallNCACenter": "./CallNCACenter.jsx",
+    "./CallVBACenter": "./CallVBACenter.jsx",
+    "./EmailVICHelp": "./EmailVICHelp.jsx",
+    "./error-messages": "./error-messages.jsx",
     "./labels": "./labels.jsx",
-    "./options-for-select": "./options-for-select",
-    "./SubmitSignInForm": "./SubmitSignInForm"
+    "./options-for-select": "./options-for-select.js",
+    "./SubmitSignInForm": "./SubmitSignInForm.jsx"
   },
   "dependencies": {
     "react": "^17.0.2",
