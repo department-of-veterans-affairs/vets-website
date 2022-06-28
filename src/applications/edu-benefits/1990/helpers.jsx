@@ -37,8 +37,25 @@ export function directDepositDescription() {
   return (
     <div>
       <p>
-        VA Makes payments through only direct deposit, also called electronic
-        funds transfer (EFT).
+        VA makes payments through only direct deposit, also called electronic
+        funds transfer (EFT). The only exception is for participants in the
+        Post-Vietnam Era Veterans’ Educational Assistance Program (VEAP).
+      </p>
+
+      <p>
+        If you don’t have a bank account, VA will pay you through the Direct
+        Express® Debit MasterCard®. Apply for a Direct Express® Debit
+        MasterCard® at{' '}
+        <a
+          href="https://www.usdirectexpress.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          www.usdirectexpress.com
+        </a>{' '}
+        or by calling <a href="tel:18003331795">800-333-1795</a> To request a
+        waiver, contact the Department of Treasury Electronic Solution Center at{' '}
+        <a href="tel:18882242950">888-224-2950</a>.
       </p>
     </div>
   );

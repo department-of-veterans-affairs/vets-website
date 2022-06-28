@@ -299,3 +299,14 @@ export function prefillTransformer(pages, formData, metadata, state) {
     state,
   };
 }
+
+export function customDirectDepositDescription() {
+  return (
+    <div>
+      <p>
+        VA Makes payments through only direct deposit, also called electronic
+        funds transfer (EFT).
+      </p>
+    </div>
+  );
+}
