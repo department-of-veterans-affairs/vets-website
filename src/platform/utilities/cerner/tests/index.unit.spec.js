@@ -1,8 +1,8 @@
 // Node modules.
 import { expect } from 'chai';
 // Relative imports.
-import { CERNER_FACILITY_IDS } from '.';
-import featureFlagNames from '../feature-toggles/featureFlagNames';
+import { CERNER_FACILITY_IDS } from '..';
+import featureFlagNames from '../../feature-toggles/featureFlagNames';
 
 describe('CERNER_FACILITY_IDS', () => {
   it('includes a corresponding feature toggle', () => {

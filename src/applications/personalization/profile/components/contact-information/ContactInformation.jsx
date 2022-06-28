@@ -4,10 +4,7 @@ import { useLastLocation } from 'react-router-last-location';
 import { useDispatch, useSelector } from 'react-redux';
 import { openModal } from '@@vap-svc/actions';
 
-import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
 import {
-  cnpDirectDepositIsBlocked,
-  profileAlwaysShowDirectDepositDisplay,
   showBadAddressIndicator,
   hasBadAddress,
   forceBadAddressIndicator,
@@ -37,9 +34,6 @@ const getScrollTarget = hash => {
 const ContactInformation = () => {
   const lastLocation = useLastLocation();
 
-  const showDirectDepositBlockedError = useSelector(
-    state => !!cnpDirectDepositIsBlocked(state),
-  );
   const hasUnsavedEdits = useSelector(
     state => state.vapService.hasUnsavedEdits,
   );
@@ -61,10 +55,6 @@ const ContactInformation = () => {
   );
   const addressSavedDidError = useSelector(
     state => state.vapService.addressValidation.addressValidationError,
-  );
-
-  const directDepositIsAlwaysShowing = useSelector(
-    profileAlwaysShowDirectDepositDisplay,
   );
 
   const dispatch = useDispatch();
@@ -170,8 +160,6 @@ const ContactInformation = () => {
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}
       >
-        {showDirectDepositBlockedError &&
-          !directDepositIsAlwaysShowing && <PaymentInformationBlocked />}
         <ContactInformationContent
           hasVAPServiceError={hasVAPServiceError}
           showBadAddress={showFormBadAddressAlert}

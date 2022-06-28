@@ -3,13 +3,10 @@ import { expect } from 'chai';
 import {
   formatMultiSelectAndText,
   createNotListedTextKey,
-  renderGender,
   createBooleanSchemaPropertiesFromOptions,
   createUiTitlePropertiesFromOptions,
   formatIndividualLabel,
 } from '@@profile/util/personal-information/personalInformationUtils';
-
-import { NOT_SET_TEXT } from '@@profile/constants';
 
 describe('formatMultiSelectAndText utility', () => {
   it('returns single pronouns', () => {
@@ -60,20 +57,6 @@ describe('createNotListedTextKey utility', () => {
     expect(createNotListedTextKey('pronouns')).to.equal(
       'pronounsNotListedText',
     );
-  });
-});
-
-describe('renderGender utility', () => {
-  it('returns Male', () => {
-    expect(renderGender('M')).to.equal('Male');
-  });
-
-  it('returns Female', () => {
-    expect(renderGender('F')).to.equal('Female');
-  });
-
-  it('returns NOT_SET_TEXT', () => {
-    expect(renderGender('')).to.equal(NOT_SET_TEXT);
   });
 });
 

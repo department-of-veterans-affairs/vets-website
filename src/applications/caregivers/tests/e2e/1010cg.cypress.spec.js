@@ -91,6 +91,68 @@ const testSecondaryTwo = createTestConfig(
           .first()
           .click();
       },
+      'primary-3': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('#root_primaryAddress_autofill')
+            .shadow()
+            .find('[type="checkbox"]')
+            .check();
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'secondary-one-3': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('#root_secondaryOneAddress_street')
+            .shadow()
+            .find('input')
+            .type('1375 E Buena Vista Dr');
+          cy.get('#root_secondaryOneAddress_street2')
+            .shadow()
+            .find('input')
+            .type('Apt 1');
+          cy.get('#root_secondaryOneAddress_city')
+            .shadow()
+            .find('input')
+            .type('Orlando');
+          cy.get('#root_secondaryOneAddress_state')
+            .shadow()
+            .find('select')
+            .select('Florida');
+          cy.get('#root_secondaryOneAddress_postalCode')
+            .shadow()
+            .find('input')
+            .type('32830');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+      'secondary-two-2': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('#root_secondaryTwoAddress_street')
+            .shadow()
+            .find('input')
+            .type('1375 E Buena Vista Dr');
+          cy.get('#root_secondaryTwoAddress_street2')
+            .shadow()
+            .find('input')
+            .type('Apt 1');
+          cy.get('#root_secondaryTwoAddress_city')
+            .shadow()
+            .find('input')
+            .type('Orlando');
+          cy.get('#root_secondaryTwoAddress_state')
+            .shadow()
+            .find('select')
+            .select('Florida');
+          cy.get('#root_secondaryTwoAddress_postalCode')
+            .shadow()
+            .find('input')
+            .type('32830');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'review-and-submit': () => {
         cy.get('@testKey').then(testKey => {
           switch (testKey) {

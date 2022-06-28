@@ -45,7 +45,6 @@
   "for-questions-about-your-appointment-or-if-you-have-a-health-related-concern": "Para preguntas sobre su cita o si tiene alguna inquietud relacionada con la salud,",
   "get-tips-for-protecting-your-personal-health-information": "Obtenga consejos para proteger su información personal de salud",
   "go-to-another-appointment": "Ir a otra cita",
-  "go-to-your-appointment-details": "Ir a su cita",
   "grandchild": "Nieto o nieta",
   "here-are-your-appointments-for-today": "Aquí están sus citas para el día de hoy: {{ date, long }}.",
   "home-address": "Dirección residencial",
@@ -152,7 +151,6 @@
   "your-date-of-birth-can-not-be-in-the-future": "Su fecha de nacimiento no puede ser una fecha en el futuro.",
   "your-last-name": "Su apellido",
   "youre-also-responsible-for-protecting-your-personal-health-information-if-you-print-or-download-your-information-or-share-it-electronically-with-others-youll-need-to-take-steps-to-protect-it": "Usted también tiene la responsabilidad de proteger su información personal de salud. Si imprime o descarga su información, o si la comparte electrónicamente con otros, deberá dar pasos para protegerla.",
-  "youre-checked-in-for-your-appointment": "El registro se ha completado para su cita en esta fecha y hora: {{date, time}}",
   "youve-completed-pre-check-in": "Ha completado el registro previo a la llegada",
   "zip-code-is-required": "Se requiere un código postal"
 }

@@ -27,7 +27,7 @@ import EducationModalContent from './components/OMBInfoModalContent/EducationMod
 import HealthcareModalContent from './components/OMBInfoModalContent/HealthcareModalContent';
 import ApplicantDescription from './components/ApplicantDescription';
 import FormFooter from './components/FormFooter';
-import GetFormHelp from './components/GetPensionOrBurialFormHelp';
+import GetPensionOrBurialFormHelp from './components/GetPensionOrBurialFormHelp';
 import ServicePeriodView from './components/ServicePeriodView';
 import {
   stateRequiredCountries,
@@ -148,7 +148,7 @@ export default {
   HealthcareModalContent,
   ApplicantDescription,
   FormFooter,
-  GetFormHelp,
+  GetPensionOrBurialFormHelp,
   ServicePeriodView,
   stateRequiredCountries,
   requireStateWithCountry,

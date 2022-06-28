@@ -1,8 +1,8 @@
 import React from 'react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import { IntroductionPage } from '../containers/IntroductionPage';
+import { IntroductionPage } from '../../containers/IntroductionPage';
 
 const getData = ({ canUpload1010cgPOA = true } = {}) => ({
   mockProps: {
@@ -35,25 +35,29 @@ const getData = ({ canUpload1010cgPOA = true } = {}) => ({
 describe('IntroductionPage', () => {
   it('should render poa note', () => {
     const { mockProps, mockStore } = getData({ canUpload1010cgPOA: true });
-    const tree = mount(
+    const view = render(
       <Provider store={mockStore}>
         <IntroductionPage {...mockProps} />,
       </Provider>,
     );
+    const noteContainer = view.container.querySelector(
+      '[data-testid="poa-info-note"]',
+    );
 
-    expect(tree.find('[data-testid="poa-info-note"]').exists()).to.be.true;
-    tree.unmount();
+    expect(noteContainer).to.exist;
   });
 
   it('should not render poa note', () => {
     const { mockProps, mockStore } = getData({ canUpload1010cgPOA: false });
-    const tree = mount(
+    const view = render(
       <Provider store={mockStore}>
         <IntroductionPage {...mockProps} />,
       </Provider>,
     );
+    const noteContainer = view.container.querySelector(
+      '[data-testid="poa-info-note"]',
+    );
 
-    expect(tree.find('[data-testid="poa-info-note"]').exists()).to.be.false;
-    tree.unmount();
+    expect(noteContainer).to.not.exist;
   });
 });
