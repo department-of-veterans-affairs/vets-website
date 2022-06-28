@@ -113,7 +113,7 @@ export async function createOAuthRequest({
     [OAUTH_KEYS.RESPONSE_TYPE]: 'code',
     ...(isDefaultOAuth && { [OAUTH_KEYS.STATE]: state }),
     ...(passedQueryParams.gaClientId && {
-      [GA.queryParamKey]: passedQueryParams.gaClientId,
+      [GA.queryParams.sis]: passedQueryParams.gaClientId,
     }),
     [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
     [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: 'S256',

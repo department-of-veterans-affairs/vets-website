@@ -6,7 +6,7 @@ import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 
 import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
-import AuthenticatedShortFormAlert from '../../../components/AuthenticatedShortFormAlert';
+import AuthenticatedShortFormAlert from '../../../components/FormAlerts/AuthenticatedShortFormAlert';
 
 const { cityOfBirth } = fullSchemaHca.properties;
 
