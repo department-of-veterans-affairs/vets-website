@@ -52,70 +52,51 @@ function VAFacilityName({ facility }) {
   return 'VA appointment';
 }
 
-function handleClick({
-  history,
-  link,
-  idClickable,
-  isPastAppointment,
-  featureStatusImprovement,
-}) {
+function handleClick({ history, link, idClickable }) {
   return () => {
     if (!window.getSelection().toString()) {
       focusElement(`#${idClickable}`);
       history.push(link);
-
-      if (featureStatusImprovement && isPastAppointment) {
-        //  dispatch(updatecrumb({ title: 'Past', path: '/past' }));
-      }
     }
   };
 }
 
-function handleKeyDown({
-  history,
-  link,
-  idClickable,
-  isPastAppointment,
-  featureStatusImprovement,
-}) {
+function handleKeyDown({ history, link, idClickable }) {
   return event => {
     if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
       focusElement(`#${idClickable}`);
       history.push(link);
-
-      if (featureStatusImprovement && isPastAppointment) {
-        //  dispatch(updatecrumb({ title: 'Past', path: '/past' }));
-      }
-    }
-  };
-}
-
-function handleLinkClicked(featureStatusImprovement, isPastAppointment) {
-  return e => {
-    e.preventDefault();
-    if (featureStatusImprovement && isPastAppointment) {
-      //  dispatch(updatecrumb({ title: 'Past', path: '/past' }));
     }
   };
 }
 
 export default function AppointmentListItem({ appointment, facility }) {
   const history = useHistory();
-  const appointmentDate = moment.parseZone(appointment.start);
-  const { isCommunityCare } = appointment.vaos;
-  const { isVideo } = appointment.vaos;
-  const isPhone = isVAPhoneAppointment(appointment);
-  const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
-  const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const link = isCommunityCare
-    ? `cc/${appointment.id}`
-    : `va/${appointment.id}`;
-  const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
-  const { abbreviation, description } = getAppointmentTimezone(appointment);
-  const { isPastAppointment } = appointment.vaos;
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );
+  const appointmentDate = moment.parseZone(appointment.start);
+  const {
+    isCommunityCare,
+    isVideo,
+    status,
+    isPastAppointment,
+  } = appointment.vaos;
+  const isPhone = isVAPhoneAppointment(appointment);
+  const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
+  const canceled = status === APPOINTMENT_STATUS.cancelled;
+  const link = isCommunityCare
+    ? `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}cc/${
+        appointment.id
+      }`
+    : `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}va/${
+        appointment.id
+      }`;
+  const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
+  const { abbreviation, description } = getAppointmentTimezone(appointment);
+  const label = `Details for ${
+    canceled ? 'canceled ' : ''
+  }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`;
 
   return (
     <li
@@ -133,15 +114,11 @@ export default function AppointmentListItem({ appointment, facility }) {
           history,
           link,
           idClickable,
-          isPastAppointment,
-          featureStatusImprovement,
         })}
         onKeyDown={handleKeyDown({
           history,
           link,
           idClickable,
-          isPastAppointment,
-          featureStatusImprovement,
         })}
       >
         <div className="vads-u-flex--1 vads-u-margin-y--neg0p5">
@@ -175,14 +152,8 @@ export default function AppointmentListItem({ appointment, facility }) {
         <div className="vads-u-flex--auto vads-u-padding-top--0p5 medium-screen:vads-u-padding-top--0 vaos-hide-for-print">
           <Link
             className="vaos-appts__focus--hide-outline"
-            aria-label={`Details for ${
-              canceled ? 'canceled ' : ''
-            }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`}
+            aria-label={label}
             to={link}
-            onClick={handleLinkClicked(
-              featureStatusImprovement,
-              isPastAppointment,
-            )}
           >
             Details
           </Link>
