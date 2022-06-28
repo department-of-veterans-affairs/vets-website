@@ -226,7 +226,7 @@ export function sessionTypeUrl({
       ...queryParams,
       ...appendParams,
       ...(passGAClientId && {
-        [GA.queryParamKey]: gaClientId,
+        [GA.queryParams.default]: gaClientId,
       }),
       application,
     },
