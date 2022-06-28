@@ -93,6 +93,13 @@ export default function VAPServiceEditModalErrorMessage({
   );
 }
 
-VAPServiceEditModalErrorMessage.prototype = {
-  error: PropTypes.object,
+VAPServiceEditModalErrorMessage.propTypes = {
+  error: PropTypes.shape({
+    errors: PropTypes.arrayOf(
+      PropTypes.shape({
+        code: PropTypes.string,
+        message: PropTypes.string,
+      }),
+    ),
+  }),
 };
