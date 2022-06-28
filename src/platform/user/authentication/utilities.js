@@ -121,9 +121,9 @@ export const getGAClientId = () => {
       return GA.trackingIds.includes(trackingId);
     });
 
-    return tracker && tracker.get(GA.clientIdKey);
+    return (tracker && tracker.get(GA.clientIdKey)) ?? null;
   } catch (e) {
-    return {};
+    return null;
   }
 };
 
