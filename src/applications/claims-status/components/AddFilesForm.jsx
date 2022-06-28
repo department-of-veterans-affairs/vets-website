@@ -3,11 +3,12 @@ import React from 'react';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
+import {
+  VaSelect,
+  VaTextInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
-import Select from '@department-of-veterans-affairs/component-library/Select';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
-
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import {
@@ -16,12 +17,11 @@ import {
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 import { getScrollOptions } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
-import UploadStatus from './UploadStatus';
-import mailMessage from './MailMessage';
 import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
+import { setFocus } from '../utils/page';
 import {
   validateIfDirty,
   isNotBlank,
@@ -35,7 +35,8 @@ import {
   MAX_FILE_SIZE_MB,
   MAX_PDF_SIZE_MB,
 } from '../utils/validations';
-import { setFocus } from '../utils/page';
+import UploadStatus from './UploadStatus';
+import mailMessage from './MailMessage';
 
 const displayTypes = FILE_TYPES.join(', ');
 
@@ -81,6 +82,14 @@ class AddFilesForm extends React.Component {
     return validateIfDirty(this.props.field, () => this.props.files.length > 0)
       ? undefined
       : 'Please select a file first';
+  };
+
+  handleDocTypeChange = (docType, index) => {
+    this.props.onFieldChange(`files[${index}].docType`, docType);
+  };
+
+  handlePasswordChange = (password, index) => {
+    this.props.onFieldChange(`files[${index}].password`, password);
   };
 
   add = async files => {
@@ -163,14 +172,13 @@ class AddFilesForm extends React.Component {
 
   render() {
     return (
-      <div>
-        <div>
-          <p>
-            <va-additional-info trigger="Need to mail your files?">
-              {mailMessage}
-            </va-additional-info>
-          </p>
-        </div>
+      <>
+        <va-additional-info
+          class="vads-u-margin-y--2"
+          trigger="Need to mail your files?"
+        >
+          {mailMessage}
+        </va-additional-info>
         <Element name="filesList" />
         <div>
           <FileInput
@@ -231,27 +239,23 @@ class AddFilesForm extends React.Component {
                       able to view the document, we will need the password to
                       decrypt it.
                     </p>
-                    <TextInput
+                    <VaTextInput
                       required
-                      errorMessage={
+                      error={
                         validateIfDirty(password, isNotBlank)
                           ? undefined
                           : 'Please provide a password to decrypt this file'
                       }
-                      name="password"
                       label="PDF password"
-                      field={password}
-                      onValueChange={update => {
-                        this.props.onFieldChange(
-                          `files[${index}].password`,
-                          update,
-                        );
-                      }}
+                      name="password"
+                      onInput={e =>
+                        this.handlePasswordChange(e.target.value, index)
+                      }
                     />
                   </>
                 )}
                 <div className="clearfix" />
-                <Select
+                <VaSelect
                   required
                   errorMessage={
                     validateIfDirty(docType, isNotBlank)
@@ -260,13 +264,18 @@ class AddFilesForm extends React.Component {
                   }
                   name="docType"
                   label="What type of document is this?"
-                  options={DOC_TYPES}
                   value={docType}
-                  emptyDescription="Select a description"
-                  onValueChange={update =>
-                    this.props.onFieldChange(`files[${index}].docType`, update)
+                  onVaSelect={e =>
+                    this.handleDocTypeChange(e.target.value, index)
                   }
-                />
+                >
+                  <option>Select a description</option>
+                  {DOC_TYPES.map(({ label, value }, i) => (
+                    <option key={i} value={value}>
+                      {label}
+                    </option>
+                  ))}
+                </VaSelect>
               </div>
             </div>
           ),
@@ -315,7 +324,7 @@ class AddFilesForm extends React.Component {
             />
           }
         />
-      </div>
+      </>
     );
   }
 }
