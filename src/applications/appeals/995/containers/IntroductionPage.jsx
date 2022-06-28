@@ -26,13 +26,14 @@ class IntroductionPage extends React.Component {
       gaStartEventName: 'decision-reviews-va20-0996-start-form',
       ariaDescribedby: 'main-content',
       testActionLink: true,
+      hideUnauthedStartLink: true,
     };
 
     return (
       <article className="schemaform-intro">
         <FormTitle
           title="Request a Supplemental Claim"
-          subtitle="Equal to VA Form 20-0995 (Request a Supplemental Claim)"
+          subTitle="Equal to VA Form 20-0995 (Request a Supplemental Claim)"
         />
         <SaveInProgressIntro {...saveInProgressProps}>
           Please complete the 20-0995 form to apply for VA Form 20-0995
