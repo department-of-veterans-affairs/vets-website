@@ -2,7 +2,6 @@
  * Utilities for testing forms built with our schema based form library
  */
 
-import set from '../../utilities/data/set';
 import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
@@ -10,18 +9,20 @@ import sinon from 'sinon';
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import { fillDate as oldFillDate } from './helpers';
 
 import {
   replaceRefSchemas,
   updateSchemaAndData,
 } from 'platform/forms-system/src/js/state/helpers';
 import { fireEvent } from '@testing-library/dom';
+import { fillDate as oldFillDate } from './helpers';
+import set from '../../utilities/data/set';
 
 function getDefaultData(schema) {
   if (schema.type === 'array') {
     return [];
-  } else if (schema.type === 'object') {
+  }
+  if (schema.type === 'object') {
     return {};
   }
 
@@ -68,7 +69,9 @@ export class DefinitionTester extends React.Component {
       uiSchema,
     };
   }
+
   debouncedAutoSave = sinon.spy();
+
   handleChange = data => {
     const { schema, uiSchema, formData } = this.state;
     const { pagePerItemIndex, arrayPath } = this.props;
@@ -91,6 +94,7 @@ export class DefinitionTester extends React.Component {
       uiSchema,
     });
   };
+
   render() {
     let { schema, uiSchema, formData } = this.state;
     const { pagePerItemIndex, arrayPath } = this.props;
@@ -200,6 +204,11 @@ export function getFormDOM(form) {
 
   formDOM.fillData = function fillDataFn(id, value) {
     ReactTestUtils.Simulate.change(this.getElement(id), {
+      target: {
+        value,
+      },
+    });
+    ReactTestUtils.Simulate.input(this.getElement(id), {
       target: {
         value,
       },

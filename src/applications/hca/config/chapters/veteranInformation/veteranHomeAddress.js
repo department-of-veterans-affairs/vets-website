@@ -9,17 +9,13 @@ import {
 } from 'platform/forms/definitions/address';
 
 import { AddressDescription } from '../../../components/ContentComponents';
-
-import {
-  shortFormMessage,
-  HIGH_DISABILITY,
-  emptyObjectSchema,
-} from '../../../helpers';
+import { ShortFormMessage } from '../../../components/FormAlerts';
+import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
 
 export default {
   uiSchema: {
     'view:homeAddressShortFormMessage': {
-      'ui:description': shortFormMessage,
+      'ui:description': ShortFormMessage,
       'ui:options': {
         hideIf: form =>
           !(

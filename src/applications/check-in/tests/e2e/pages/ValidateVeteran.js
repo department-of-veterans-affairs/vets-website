@@ -4,7 +4,7 @@ const messages = {
   title: {
     dayOf: {
       en: 'Check in at VA',
-      es: 'Registrarse en VA',
+      es: 'Regístrese en VA',
     },
     preCheckIn: {
       en: 'Start pre-check-in',

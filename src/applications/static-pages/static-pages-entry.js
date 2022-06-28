@@ -52,7 +52,6 @@ import createFindVaForms, {
   findVaFormsWidgetReducer,
 } from '../find-forms/createFindVaForms';
 import createFindVaFormsPDFDownloadHelper from '../find-forms/widgets/createFindVaFormsPDFDownloadHelper';
-import createHigherLevelReviewApplicationStatus from '../appeals/996/components/createHLRApplicationStatus';
 import createLettersMobileCTA from './letters-mobile-cta';
 import createManageVADebtCTA from './manage-va-debt/createManageVADebtCTA';
 import createMedicalCopaysCTA from './medical-copays-cta';
@@ -129,10 +128,6 @@ createCallToActionWidget(store, widgetTypes.CTA);
 createContactChatbotCTA(store, widgetTypes.CONTACT_CHATBOT_CTA);
 createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
 createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
-createHigherLevelReviewApplicationStatus(
-  store,
-  widgetTypes.HIGHER_LEVEL_REVIEW_APP_STATUS,
-);
 createApplicationStatus(store, {
   formId: VA_FORM_IDS.FORM_21P_530,
   applyHeading: 'How do I apply?',
