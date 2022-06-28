@@ -1069,7 +1069,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       locationId: '983GC',
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: { text: 'New problem: I have a headache' },
+      reasonCode: { text: 'New Problem: I have a headache' },
       comment: 'New issue: I have a headache',
       serviceType: 'primaryCare',
       start: futureDate.format(),
@@ -1131,7 +1131,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
-    expect(screen.getByText(/New problem: I have a headache/)).to.be.ok;
+    expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
     expect(
       screen.getByRole('link', {
         name: new RegExp(
@@ -1172,7 +1172,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       locationId: '983GC',
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: { text: 'New problem: I have a headache' },
+      reasonCode: { text: 'New Problem: I have a headache' },
       comment: 'New issue: I have a headache',
       serviceType: 'primaryCare',
       start: futureDate.format(),
@@ -1248,7 +1248,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
-    expect(screen.getByText(/New problem: I have a headache/)).to.be.ok;
+    expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
     expect(
       screen.getByRole('link', {
         name: new RegExp(
@@ -1288,7 +1288,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       locationId: '983GC',
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
-      reasonCode: { text: 'New problem: I have a headache' },
+      reasonCode: { text: 'New Problem: I have a headache' },
       comment: 'New issue: I have a headache',
       serviceType: 'primaryCare',
       start: futureDate.format(),
@@ -1369,7 +1369,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
-    expect(screen.getByText(/New problem: I have a headache/)).to.be.ok;
+    expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
 
     // And it should not display the add to calendar link
     expect(
