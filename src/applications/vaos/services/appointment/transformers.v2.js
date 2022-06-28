@@ -188,7 +188,7 @@ export function transformVAOSAppointment(appt) {
     comment:
       isVideo && !!appt.patientInstruction
         ? getPatientInstruction(appt)
-        : appt.comment || null,
+        : appt.reasonCode.text || appt.comment || null,
     videoData,
     communityCareProvider:
       isCC && !isRequest

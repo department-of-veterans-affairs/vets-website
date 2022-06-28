@@ -40,6 +40,20 @@ const TIME_TEXT = {
   'No Time Selected': '',
 };
 
+function getAppointmentDetails(appointment, message) {
+  if (appointment.version === 2) {
+    return appointment.reasonCode?.text || appointment.comment || 'none';
+  }
+
+  const comment = message || appointment.comment;
+  if (appointment.vaos.isCommunityCare) {
+    return comment || 'none';
+  }
+  return appointment.reason && comment
+    ? `${appointment.reason}: ${comment}`
+    : comment || (appointment.reason ? appointment.reason : null);
+}
+
 export default function RequestedAppointmentDetailsPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -134,11 +148,11 @@ export default function RequestedAppointmentDetailsPage() {
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
   const provider = appointment.preferredCommunityCareProviders?.[0];
-  const comment = message || appointment.comment;
-  const apptDetails =
-    appointment.reason && comment
-      ? `${appointment.reason}: ${comment}`
-      : comment || (appointment.reason ? appointment.reason : null);
+  // const comment = message || appointment.comment;
+  // const apptDetails =
+  //   appointment.reason && comment
+  //     ? `${appointment.reason}: ${comment}`
+  //     : comment || (appointment.reason ? appointment.reason : null);
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
 
   return (
@@ -215,8 +229,9 @@ export default function RequestedAppointmentDetailsPage() {
         <h2 className="vads-u-margin-top--2 vaos-appts__block-label">
           You shared these details about your concern
         </h2>
-        {!isCCRequest && apptDetails}
-        {isCCRequest && <>{comment || 'none'}</>}
+        {/* {!isCCRequest && apptDetails}
+        {isCCRequest && <>{comment || 'none'}</>} */}
+        {getAppointmentDetails(appointment, message)}
       </div>
       <div>
         <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
