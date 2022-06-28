@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
-import { CSP_CONTENT, AUTH_EVENTS, LINK_TYPES } from '../constants';
+import { CSP_CONTENT, AUTH_EVENTS } from '../constants';
 
 function signupHandler(loginType, eventBase, isOAuth) {
   recordEvent({ event: `${eventBase}-${loginType}${isOAuth && '-oauth'}` });
@@ -12,35 +12,19 @@ function signupHandler(loginType, eventBase, isOAuth) {
     updateStateAndVerifier(loginType);
   }
 }
-export default function AccountLink({
-  csp,
-  type = LINK_TYPES.CREATE,
-  useOAuth = false,
-}) {
-  const [href, setHref] = useState('');
 
-  const { children, eventBase } = {
-    children:
-      type !== LINK_TYPES.CREATE
-        ? `Sign in with ${CSP_CONTENT[csp].COPY} account`
-        : `Create an account with ${CSP_CONTENT[csp].COPY}`,
-    eventBase:
-      type !== LINK_TYPES.CREATE ? AUTH_EVENTS.LOGIN : AUTH_EVENTS.REGISTER,
-  };
+export default function CreateAccountLink({ csp, useOAuth = false }) {
+  const [href, setHref] = useState('');
 
   useEffect(
     () => {
-      async function updateHref(passedCSP, passedType) {
-        const url =
-          passedType !== LINK_TYPES.CREATE
-            ? await authUtilities.sessionTypeUrl({ type: csp })
-            : await authUtilities.signupUrl(passedCSP);
-
+      async function updateHref() {
+        const url = await authUtilities.signupUrl(csp);
         setHref(url);
       }
-      updateHref(csp, type);
+      updateHref();
     },
-    [csp, type],
+    [csp],
   );
 
   return (
@@ -48,16 +32,45 @@ export default function AccountLink({
       href={href}
       className={`vads-c-action-link--blue vads-u-padding-y--2p5 vads-u-width--full ${csp}`}
       data-testid={csp}
-      onClick={() => signupHandler(csp, eventBase, useOAuth)}
+      onClick={() => signupHandler(csp, AUTH_EVENTS.REGISTER, useOAuth)}
     >
-      {children}
+      Create an account with {CSP_CONTENT[csp].COPY}
     </a>
   );
 }
 
-AccountLink.propTypes = {
-  csp: PropTypes.string,
-  isDisabled: PropTypes.bool,
-  type: PropTypes.string,
+export function SignInAccountLink({ csp, useOAuth = false }) {
+  const [href, setHref] = useState('');
+
+  useEffect(
+    () => {
+      async function updateHref() {
+        const url = await authUtilities.sessionTypeUrl({ type: csp });
+        setHref(url);
+      }
+      updateHref();
+    },
+    [csp],
+  );
+
+  return (
+    <a
+      href={href}
+      className={`vads-c-action-link--blue vads-u-padding-y--2p5 vads-u-width--full ${csp}`}
+      data-testid={csp}
+      onClick={() => signupHandler(csp, AUTH_EVENTS.LOGIN, useOAuth)}
+    >
+      Sign in with {CSP_CONTENT[csp].COPY} account
+    </a>
+  );
+}
+
+CreateAccountLink.propTypes = {
+  csp: PropTypes.string.isRequired,
+  useOAuth: PropTypes.bool,
+};
+
+SignInAccountLink.propTypes = {
+  csp: PropTypes.string.isRequired,
   useOAuth: PropTypes.bool,
 };

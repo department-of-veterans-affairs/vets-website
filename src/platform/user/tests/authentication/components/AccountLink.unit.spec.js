@@ -1,19 +1,18 @@
 import React from 'react';
-import {
-  CSP_CONTENT,
-  LINK_TYPES,
-} from 'platform/user/authentication/constants';
+import { CSP_CONTENT } from 'platform/user/authentication/constants';
 import { expect } from 'chai';
 import * as authUtilities from 'platform/user/authentication/utilities';
-import AccountLink from 'platform/user/authentication/components/AccountLink';
+import CreateAccountLink, {
+  SignInAccountLink,
+} from 'platform/user/authentication/components/AccountLink';
 import { render } from '@testing-library/react';
 
 const csps = ['logingov', 'idme'];
 
-describe('AccountLink', () => {
+describe('CreateAccountLink', () => {
   csps.forEach(csp => {
     it(`should render correctly for each ${csp}`, async () => {
-      const screen = render(<AccountLink csp={csp} />);
+      const screen = render(<CreateAccountLink csp={csp} />);
       const anchor = await screen.findByTestId(csp);
 
       expect(anchor.textContent).to.include(
@@ -23,8 +22,8 @@ describe('AccountLink', () => {
       screen.unmount();
     });
 
-    it(`should set correct href for ${csp} type=create`, async () => {
-      const screen = render(<AccountLink csp={csp} type={LINK_TYPES.CREATE} />);
+    it(`should set correct href for ${csp} Sign up`, async () => {
+      const screen = render(<CreateAccountLink csp={csp} />);
       const anchor = await screen.findByTestId(csp);
       const href = await authUtilities.signupUrl(csp);
 
@@ -35,9 +34,24 @@ describe('AccountLink', () => {
 
       screen.unmount();
     });
+  });
+});
 
-    it(`should set correct href for ${csp} type=create`, async () => {
-      const screen = render(<AccountLink csp={csp} type={LINK_TYPES.SIGNIN} />);
+describe('SignInAccountLink', () => {
+  csps.forEach(csp => {
+    it(`should render correctly for each ${csp}`, async () => {
+      const screen = render(<SignInAccountLink csp={csp} />);
+      const anchor = await screen.findByTestId(csp);
+
+      expect(anchor.textContent).to.include(
+        `Sign in with ${CSP_CONTENT[csp].COPY} account`,
+      );
+
+      screen.unmount();
+    });
+
+    it(`should set correct href for ${csp} Login`, async () => {
+      const screen = render(<SignInAccountLink csp={csp} />);
       const anchor = await screen.findByTestId(csp);
       const href = await authUtilities.sessionTypeUrl({ type: csp });
 
