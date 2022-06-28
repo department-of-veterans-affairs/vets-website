@@ -4,12 +4,12 @@ import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
 import {
+  VaModal,
   VaSelect,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 
 import {
   readAndCheckFile,
@@ -263,7 +263,7 @@ class AddFilesForm extends React.Component {
                 <div className="clearfix" />
                 <VaSelect
                   required
-                  errorMessage={
+                  error={
                     validateIfDirty(docType, isNotBlank)
                       ? undefined
                       : 'Please provide a response'
@@ -275,7 +275,7 @@ class AddFilesForm extends React.Component {
                     this.handleDocTypeChange(e.target.value, index)
                   }
                 >
-                  <option>Select a description</option>
+                  <option value="">Select a description</option>
                   {DOC_TYPES.map(({ label, value }, i) => (
                     <option key={i} value={value}>
                       {label}
@@ -316,20 +316,17 @@ class AddFilesForm extends React.Component {
             Cancel
           </Link>
         </div>
-        <Modal
-          onClose={() => true}
-          visible={this.props.uploading}
-          hideCloseButton
-          cssClass=""
+        <VaModal
           id="upload-status"
-          contents={
-            <UploadStatus
-              progress={this.props.progress}
-              files={this.props.files.length}
-              onCancel={this.props.onCancel}
-            />
-          }
-        />
+          onCloseEvent={() => true}
+          visible={this.props.uploading}
+        >
+          <UploadStatus
+            progress={this.props.progress}
+            files={this.props.files.length}
+            onCancel={this.props.onCancel}
+          />
+        </VaModal>
       </>
     );
   }
@@ -346,6 +343,7 @@ AddFilesForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   backUrl: PropTypes.string,
   mockReadAndCheckFile: PropTypes.bool,
+  progress: PropTypes.number,
   uploading: PropTypes.bool,
 };
 
