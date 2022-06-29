@@ -15,19 +15,6 @@ const AuthContent = ({
   otherFacilities,
 }) => (
   <>
-    <h2 className="vads-u-margin-bottom--2 vads-u-font-size--lg">
-      On this page:
-    </h2>
-    <ul>
-      <li>
-        <a href="#va-blue-button">
-          My HealtheVet (VA Blue Button) and My VA Health{' '}
-        </a>
-      </li>
-      <li>
-        <a href="#vhie">The Veterans Health Information Exchange (VHIE)</a>
-      </li>
-    </ul>
     <h2 id="va-blue-button">
       Use My HealtheVet or My VA Health to manage your records online
     </h2>
@@ -249,7 +236,7 @@ const AuthContent = ({
         </ul>
         <h4>For My VA Health questions</h4>
         <p>
-          Call My VA Health support anytime at
+          Call My VA Health support anytime at{' '}
           <a href="tel:18773270022" aria-label="8 0 0. 9 6 2. 1 0 2 4.">
             800-962-1024
           </a>
