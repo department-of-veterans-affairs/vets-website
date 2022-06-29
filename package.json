@@ -386,7 +386,9 @@
     "src/platform/landing-pages",
     "src/platform/polyfills",
     "src/platform/static-data",
-    "src/platform/utilities"
+    "src/platform/utilities",
+    "src/platform/forms",
+    "src/platform/forms-system"
 
     ],
     "nohoist": [
