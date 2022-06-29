@@ -8,7 +8,7 @@ context('Keyboard Navigation', () => {
      */
     cy.tabToElement('.no-wrap');
 
-    cy.tabToElement('a.schemaform-start-button', false);
+    cy.tabToElement('.schemaform-start-button', false);
 
     cy.realPress('Space');
 
