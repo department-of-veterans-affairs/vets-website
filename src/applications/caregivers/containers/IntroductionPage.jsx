@@ -40,7 +40,7 @@ export const IntroductionPage = ({
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [setFormData, canAutofill1010cgAddress, canUpload1010cgPOA],
+    [canAutofill1010cgAddress, canUpload1010cgPOA],
   );
 
   const startForm = useCallback(
@@ -279,7 +279,7 @@ export const IntroductionPage = ({
 const mapStateToProps = state => ({
   formData: state.form.data,
   canAutofill1010cgAddress: state.featureToggles?.canAutofill1010cgAddress,
-  canUpload1010cgPOA: state.featureToggles?.canUpload1010cgPOA,
+  canUpload1010cgPOA: state.featureToggles?.canUpload1010cgPoa,
 });
 
 const mapDispatchToProps = {
