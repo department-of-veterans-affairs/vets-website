@@ -10,8 +10,9 @@ import SortSelect from './SortSelect';
 // Need to transform date string into a meaningful format and extract any special issues.
 const formalizeData = data => {
   return data.map(d => {
+    // example effectiveDate: '2004-06-14T05:00:00.000+0000'
     const effectiveDate = d.effectiveDate
-      ? moment(d.effectiveDate, 'YYYY-DD-MMThh:mm:ss.SSSZ')
+      ? moment(d.effectiveDate, 'YYYY-MM-DDThh:mm:ss.SSSZ')
       : null;
 
     return { ...d, effectiveDate };
