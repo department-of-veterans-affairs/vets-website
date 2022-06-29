@@ -55,7 +55,6 @@ export default function RequestedAppointmentDetailsPage() {
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
   );
-  let providerInfo = null;
   useEffect(() => {
     dispatch(fetchRequestDetails(id));
   }, []);
@@ -140,7 +139,7 @@ export default function RequestedAppointmentDetailsPage() {
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
   const comment = message || appointment.comment;
-  providerInfo = hasProviderData ? providerData : null;
+  const providerInfo = hasProviderData ? providerData : null;
   const provider = useV2
     ? providerInfo
     : appointment.preferredCommunityCareProviders?.[0];
