@@ -67,8 +67,8 @@ const AuthContent = ({
     <h3>What you can do in My VA Health’s Health Records</h3>
     <ul>
       <li>
-        Review and print your health profile, lab and test results, health
-        conditions, and procedures
+        Review and print your VA medical records—including your health profile,
+        lab and test results, health conditions, and procedures
       </li>
       <li>Review, download, and share clinical documents</li>
     </ul>
@@ -157,6 +157,7 @@ const AuthContent = ({
         <a href="/resources/how-to-get-your-medical-records-from-your-va-health-facility">
           Learn how to request medical records from your VA health facility
         </a>
+        <br />
         <br />
         <a href="/resources/how-to-get-your-medical-records-from-the-department-of-defense-dod">
           Learn how to request medical records from DoD
