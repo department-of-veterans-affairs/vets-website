@@ -1,11 +1,9 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import PropTypes from 'prop-types';
 
 import { subDays } from 'date-fns';
 
-import ErrorMessage from '../../../components/ErrorMessage';
 import BackToHome from '../../../components/BackToHome';
 import Footer from '../../../components/layout/Footer';
 import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
@@ -21,20 +19,28 @@ import {
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import Wrapper from '../../../components/layout/Wrapper';
 
+const appointmentAccordion = appointments => {
+  return (
+    <PreCheckInAccordionBlock
+      key="accordion"
+      errorPage
+      appointments={appointments}
+    />
+  );
+};
+
 const Error = () => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
+
   const { getValidateAttempts } = useSessionStorage(true);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
-  // try get date of appointment
+
+  // Get appointment dates if available.
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
-  const { t } = useTranslation();
 
-  // If date exists, then show date.
-  let messageText = t(
-    'were-sorry-something-went-wrong-on-our-end-please-try-again',
-  );
+  const { t } = useTranslation();
 
   const phoneAppointmentLoginFailedMessage = (
     <div>
@@ -64,28 +70,90 @@ const Error = () => {
     </div>
   );
 
-  if (isMaxValidateAttempts) {
-    messageText = isPhoneAppointmentsEnabled
-      ? phoneAppointmentLoginFailedMessage
-      : t(
-          'were-sorry-we-couldnt-match-your-information-to-our-records-please-call-us-at-800-698-2411-tty-711-for-help-signing-in',
-        );
+  let header = t('sorry-we-cant-complete-pre-check-in');
+  let messages = [];
+  let accordion = null;
+
+  // If date exists, then show date.
+  let messageText = t(
+    'were-sorry-something-went-wrong-on-our-end-please-try-again',
+  );
+
+  if (isPhoneAppointmentsEnabled) {
+    if (isMaxValidateAttempts) {
+      messageText = phoneAppointmentLoginFailedMessage;
+    }
+
+    messages.push({ text: messageText });
+
+    if (appointments && appointments.length > 0) {
+      // don't show sub message if we are 15 minutes past appointment start time
+      if (appointmentStartTimePast15(appointments)) {
+        header = t('sorry-pre-check-in-is-no-longer-available');
+        messages = [];
+        accordion = appointmentAccordion(appointments);
+      } else if (preCheckinExpired(appointments)) {
+        header = t('sorry-pre-check-in-is-no-longer-available');
+
+        const apptType = appointments[0]?.kind;
+        messages =
+          apptType === 'phone'
+            ? [
+                {
+                  text: `${t('your-provider-will-call-you')} ${t(
+                    'you-may-need-to-wait',
+                  )}`,
+                },
+              ]
+            : [{ text: t('you-can-still-check-in-once-you-arrive') }];
+
+        accordion = appointmentAccordion(appointments);
+      } else if (appointments[0].startTime) {
+        messages.push({
+          text: t('you-can-pre-check-in-online-until-date', {
+            date: subDays(new Date(appointments[0].startTime), 1),
+          }),
+          testId: 'date-message',
+        });
+      }
+    } else {
+      header = t('sorry-we-cant-complete-pre-check-in');
+      accordion = null;
+    }
+  } else {
+    // Phone appointments not enabled.
+    if (isMaxValidateAttempts) {
+      messageText = t(
+        'were-sorry-we-couldnt-match-your-information-to-our-records-please-call-us-at-800-698-2411-tty-711-for-help-signing-in',
+      );
+    }
+
+    messages.push({ text: messageText });
+
+    if (appointments && appointments.length) {
+      // don't show sub message if we are 15 minutes past appointment start time
+      if (appointmentStartTimePast15(appointments)) {
+        header = t('sorry-pre-check-in-is-no-longer-available');
+        messages = [];
+        accordion = appointmentAccordion(appointments);
+      } else if (preCheckinExpired(appointments)) {
+        header = t('sorry-pre-check-in-is-no-longer-available');
+        messages = [{ text: t('you-can-still-check-in-once-you-arrive') }];
+        accordion = appointmentAccordion(appointments);
+      } else if (appointments[0].startTime) {
+        messages.push({
+          text: t('you-can-pre-check-in-online-until-date', {
+            date: subDays(new Date(appointments[0].startTime), 1),
+          }),
+          testId: 'date-message',
+        });
+      }
+    } else {
+      header = t('sorry-we-cant-complete-pre-check-in');
+    }
   }
 
-  const messages = [
-    {
-      text: messageText,
-    },
-  ];
-  if (appointments && appointments.length > 0 && appointments[0].startTime) {
-    messages.push({
-      text: t('you-can-pre-check-in-online-until-date', {
-        date: subDays(new Date(appointments[0].startTime), 1),
-      }),
-      testId: 'date-message',
-    });
-  }
-  const combinedMessage = (
+  const errorText = messages.length ? (
     <>
       {messages.map((message, index) => {
         return (
@@ -95,61 +163,27 @@ const Error = () => {
         );
       })}
     </>
+  ) : (
+    ''
   );
-
-  const getErrorMessages = () => {
-    if (appointments && appointments.length) {
-      const accordions = (
-        <PreCheckInAccordionBlock
-          key="accordion"
-          errorPage
-          appointments={appointments}
-        />
-      );
-      // don't show sub message if we are 15 minutes past appointment start time
-      if (appointmentStartTimePast15(appointments))
-        return [t('sorry-pre-check-in-is-no-longer-available'), '', accordions];
-      if (preCheckinExpired(appointments)) {
-        if (!isPhoneAppointmentsEnabled) {
-          return [
-            t('sorry-pre-check-in-is-no-longer-available'),
-            t('you-can-still-check-in-once-you-arrive'),
-            accordions,
-          ];
-        }
-        const apptType = appointments[0]?.kind;
-        return [
-          t('sorry-pre-check-in-is-no-longer-available'),
-          apptType === 'phone'
-            ? `${t('your-provider-will-call-you')} ${t('you-may-need-to-wait')}`
-            : t('you-can-still-check-in-once-you-arrive'),
-          accordions,
-        ];
-      }
-    }
-    return [t('sorry-we-cant-complete-pre-check-in'), combinedMessage, null];
-  };
-  const [header, message, additionalDetails] = getErrorMessages();
 
   return (
     <Wrapper pageTitle={header}>
-      <ErrorMessage
-        message={message}
-        additionalDetails={additionalDetails}
-        validationError={isMaxValidateAttempts}
-      />
+      {errorText && (
+        <va-alert
+          background-only
+          show-icon
+          status={isMaxValidateAttempts ? 'error' : 'info'}
+          data-testid="error-message"
+        >
+          <div>{errorText}</div>
+        </va-alert>
+      )}
+      {accordion && <div className="vads-u-margin-top--3">{accordion}</div>}
       <Footer />
       <BackToHome />
     </Wrapper>
   );
-};
-
-Error.propTypes = {
-  location: PropTypes.shape({
-    query: PropTypes.shape({
-      type: PropTypes.string,
-    }),
-  }),
 };
 
 export default Error;
