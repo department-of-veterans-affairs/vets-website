@@ -25,7 +25,7 @@ export const IntroductionPage = ({
   formData,
   setFormData,
   canAutofill1010cgAddress,
-  canUpload1010cgPOA,
+  canUpload1010cgPoa,
 }) => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -35,12 +35,12 @@ export const IntroductionPage = ({
     () => {
       setFormData({
         ...formData,
-        'view:canUpload1010cgPOA': canUpload1010cgPOA,
+        'view:canUpload1010cgPOA': canUpload1010cgPoa,
         'view:canAutofill1010cgAddress': canAutofill1010cgAddress,
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [setFormData, canAutofill1010cgAddress, canUpload1010cgPOA],
+    [canAutofill1010cgAddress, canUpload1010cgPoa],
   );
 
   const startForm = useCallback(
@@ -104,7 +104,7 @@ export const IntroductionPage = ({
                   </div>
                 </va-additional-info>
               </div>
-              {canUpload1010cgPOA && (
+              {canUpload1010cgPoa && (
                 <p
                   data-testid="poa-info-note"
                   className="vads-u-margin-bottom--4"
@@ -279,7 +279,7 @@ export const IntroductionPage = ({
 const mapStateToProps = state => ({
   formData: state.form.data,
   canAutofill1010cgAddress: state.featureToggles?.canAutofill1010cgAddress,
-  canUpload1010cgPOA: state.featureToggles?.canUpload1010cgPOA,
+  canUpload1010cgPoa: state.featureToggles?.canUpload1010cgPoa,
 });
 
 const mapDispatchToProps = {
@@ -288,7 +288,7 @@ const mapDispatchToProps = {
 
 IntroductionPage.propTypes = {
   canAutofill1010cgAddress: PropTypes.bool,
-  canUpload1010cgPOA: PropTypes.bool,
+  canUpload1010cgPoa: PropTypes.bool,
   formData: PropTypes.object,
   route: PropTypes.object,
   router: PropTypes.object,

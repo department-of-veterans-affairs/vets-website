@@ -4,18 +4,18 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { IntroductionPage } from '../../containers/IntroductionPage';
 
-const getData = ({ canUpload1010cgPOA = true } = {}) => ({
+const getData = ({ canUpload1010cgPoa = true } = {}) => ({
   mockProps: {
     router: [],
     route: { formConfig: {} },
     formData: {},
     setFormData: () => {},
-    canUpload1010cgPOA,
+    canUpload1010cgPoa,
   },
   mockStore: {
     getState: () => ({
       featureToggles: {
-        canUpload1010cgPOA,
+        canUpload1010cgPoa,
       },
       scheduledDowntime: {
         globalDowntime: null,
@@ -34,7 +34,7 @@ const getData = ({ canUpload1010cgPOA = true } = {}) => ({
 
 describe('IntroductionPage', () => {
   it('should render poa note', () => {
-    const { mockProps, mockStore } = getData({ canUpload1010cgPOA: true });
+    const { mockProps, mockStore } = getData({ canUpload1010cgPoa: true });
     const view = render(
       <Provider store={mockStore}>
         <IntroductionPage {...mockProps} />,
@@ -48,7 +48,7 @@ describe('IntroductionPage', () => {
   });
 
   it('should not render poa note', () => {
-    const { mockProps, mockStore } = getData({ canUpload1010cgPOA: false });
+    const { mockProps, mockStore } = getData({ canUpload1010cgPoa: false });
     const view = render(
       <Provider store={mockStore}>
         <IntroductionPage {...mockProps} />,
