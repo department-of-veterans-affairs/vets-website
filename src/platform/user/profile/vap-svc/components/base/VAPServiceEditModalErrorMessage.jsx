@@ -84,9 +84,7 @@ export default function VAPServiceEditModalErrorMessage({
             role="img"
           />
           <span className="sr-only">Alert: </span>
-          <div role="alert" aria-live="polite">
-            {content}
-          </div>
+          <div role="alert">{content}</div>
         </div>
       </va-alert>
     </>
