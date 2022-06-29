@@ -8,17 +8,6 @@ import CallToActionWidget from 'applications/static-pages/cta-widget';
 
 const UnauthContent = () => (
   <>
-    <h2 className="vads-u-margin-bottom--2 vads-u-font-size--lg">
-      On this page:
-    </h2>
-    <ul>
-      <li>
-        <a href="#va-blue-button">VA Blue Button</a>
-      </li>
-      <li>
-        <a href="#vhie">The Veterans Health Information Exchange (VHIE)</a>
-      </li>
-    </ul>
     <h2 id="va-blue-button">
       Use VA Blue Button to manage your records online
     </h2>
@@ -61,12 +50,12 @@ const UnauthContent = () => (
         You’re enrolled in VA health care, <strong>and</strong>
       </li>
       <li>
-        You’re registered as a patient in a VA health facility,
+        You’re registered as a patient in a VA health facility,{' '}
         <strong>and</strong>
       </li>
       <li>
-        You have a verified <strong>Login.gov</strong> or <strong>ID.me</strong>
-        account or a Premium <strong>DS Logon</strong> or
+        You have a verified <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
+        account or a Premium <strong>DS Logon</strong> or{' '}
         <strong>My HealtheVet</strong> account
       </li>
     </ul>
@@ -75,6 +64,7 @@ const UnauthContent = () => (
         Find out how to apply for VA health care
       </a>
     </p>
+
     <h3>Questions about managing your VA medical records</h3>
     <va-accordion>
       <va-accordion-item id="first">
@@ -188,7 +178,7 @@ const UnauthContent = () => (
           If you don’t want us to share your information through VHIE, you can
           opt out at any time.
         </p>
-        <a href="/resources/the-veterans-health-information-exchange">
+        <a href="/resources/the-veterans-health-information-exchange-vhie">
           Learn more about VHIE
         </a>
       </va-accordion-item>
@@ -226,104 +216,6 @@ const UnauthContent = () => (
         </ul>
       </va-accordion-item>
     </va-accordion>
-
-    <h2 id="vhie">The Veterans Health Information Exchange</h2>
-    <p>
-      The Veterans Health Information Exchange (VHIE) program lets us
-      automatically and securely share your health information with
-      participating community care providers as well as the Department of
-      Defense.
-    </p>
-    <h3>What’s VHIE, and how can it help me manage my health?</h3>
-    <p>
-      VHIE gives your health care providers a more complete view of your health
-      record to help them make more informed treatment decisions. Through VHIE,
-      community providers who are a part of your care team can safely and
-      securely receive your VA health information electronically.
-    </p>
-
-    <p>
-      VHIE helps improve continuity of your care, reduce test duplication, and
-      avoid clinical error. That’s because you can see all your health care
-      providers from different practices or networks in one place. Our secure
-      system also eliminates the need to send paper medical records by mail, and
-      to carry your records to appointments with community providers.
-    </p>
-
-    <p>
-      We share your health information only with participating community
-      providers via VHIE when they’re treating you. Visit the{' '}
-      <a href="/VHIE/">VHIE page</a> to learn more about how the program helps
-      your providers better understand your health history and develop safer,
-      more effective treatment plans.
-    </p>
-    <h4>VHIE sharing options</h4>
-    <p>
-      If you don’t want your community providers to receive your information via
-      VHIE, you may opt out of electronic sharing at any time. And if you
-      previously opted out but want to resume secure, seamless sharing, you may
-      opt back in. Visit the{' '}
-      <a href="/VHIE/VHIE_Sharing_Options.asp">VHIE Sharing Options page</a> to
-      learn more.
-    </p>
-    <h3>How do I opt out?</h3>
-    <p>
-      If you would prefer to opt out of sharing your health information
-      electronically, you can do so at any time. You must complete and submit{' '}
-      <a href="/vaforms/medical/pdf/10-10164-fill.pdf">
-        VA Form 10-10164 (PDF)
-      </a>{' '}
-      to your facility’s Release of Information Office (ROI). You may also opt
-      out via{' '}
-      <a
-        href="https://www.myhealth.va.gov/mhv-portal-web/home"
-        rel="noreferrer noopener"
-      >
-        My HealtheVet
-      </a>
-      .
-    </p>
-    <p>
-      <strong>Note:</strong> If you haven’t already done so, you’ll need to
-      upgrade your My HealtheVet account to Premium status to opt out. Visit{' '}
-      <a
-        href="https://www.myhealth.va.gov/mhv-portal-web/home"
-        rel="noreferrer noopener"
-      >
-        My HealtheVet
-      </a>{' '}
-      to learn more.
-    </p>
-    <p>
-      Choosing to opt out will not affect your access to care from community
-      providers. However, if you opt out, your community providers may not
-      receive your medical records before you receive treatment. This may put
-      you at risk. Also, if you visit any emergency room, your information may
-      still be shared via VHIE so that you can receive the care you need.
-    </p>
-    <h3>If I opt out, how can I opt back in?</h3>
-    <p>
-      If you previously opted out, but want to resume secure, seamless sharing,
-      you may do so at any time. Simply complete{' '}
-      <a href="/vaforms/medical/pdf/10-10163-fill.pdf">
-        VA Form 10-10163 (PDF)
-      </a>{' '}
-      and return it to your VA facility’s ROI office, or submit it online
-      through{' '}
-      <a
-        href="https://www.myhealth.va.gov/mhv-portal-web/home"
-        rel="noreferrer noopener"
-      >
-        My HealtheVet
-      </a>
-      .
-    </p>
-    <h3>Can I check my sharing preference status?</h3>
-    <p>
-      Yes. Please contact your VA facility’s ROI office. If you’ve already
-      submitted your form to opt out, or to opt back in, to the electronic
-      sharing program, your request may be in process.
-    </p>
   </>
 );
 

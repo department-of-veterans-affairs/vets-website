@@ -116,6 +116,7 @@ const AuthContent = ({
         <h4 slot="headline">
           Once I’m signed in, how do I access my medical records?
         </h4>
+        <h5>If you’re accessing your records on My HealtheVet</h5>
         <p>
           Go to your welcome page dashboard. Then select{' '}
           <strong>Health Records</strong>. You’ll go to a new page.
@@ -126,11 +127,10 @@ const AuthContent = ({
           <li>Your VA health summary</li>
           <li>Your VA medical images and reports</li>
         </ul>
-      </va-accordion-item>
-      <va-accordion-item
-        header="How can I add information to my personal health record in My HealtheVet?"
-        id="second"
-      >
+        <strong>
+          How can I add information to my personal health record in My
+          HealtheVet?
+        </strong>
         <p>
           Go to the main navigation menu at the top of the page, and click on{' '}
           <strong>Track Health</strong>. You’ll go to a new page.
@@ -145,11 +145,7 @@ const AuthContent = ({
           <li>Health goals</li>
           <li>Food and exercise efforts</li>
         </ul>
-      </va-accordion-item>
-      <va-accordion-item
-        header="f you’re accessing your records on My VA Health"
-        id="third"
-      >
+        <h5>If you’re accessing your records on My VA Health</h5>
         <p>
           Go to the main navigation menu. Then select{' '}
           <strong>Health Record</strong>. You’ll go to a new page.
@@ -164,7 +160,7 @@ const AuthContent = ({
       </va-accordion-item>
       <va-accordion-item
         header="What if I can’t access all of my medical records in My HealtheVet or My VA Health?"
-        id="fourth"
+        id="second"
       >
         <p>
           You can request a complete copy of your medical records from your VA
@@ -181,7 +177,7 @@ const AuthContent = ({
       </va-accordion-item>
       <va-accordion-item
         header="Will VA protect my personal health information?"
-        id="fifth"
+        id="third"
       >
         <p>
           Yes. My HealtheVet and My VA Health are secure websites. We follow
@@ -195,7 +191,7 @@ const AuthContent = ({
       </va-accordion-item>
       <va-accordion-item
         header="How does VA share my health information with providers outside VA?"
-        id="sixth"
+        id="fourth"
       >
         <p>
           The Veterans Health Information Exchange (VHIE) program lets us
@@ -218,7 +214,7 @@ const AuthContent = ({
           Learn more about VHIE
         </a>
       </va-accordion-item>
-      <va-accordion-item header="What if I have more questions?" id="seventh">
+      <va-accordion-item header="What if I have more questions?" id="fifth">
         <h4>For My HealtheVet questions</h4>
         <p>You can get more information in any of these ways:</p>
         <ul>
@@ -261,98 +257,6 @@ const AuthContent = ({
         </p>
       </va-accordion-item>
     </va-accordion>
-    <h2>The Veterans Health Information Exchange</h2>
-    <p>
-      The Veterans Health Information Exchange (VHIE) program lets us
-      automatically and securely share your health information with
-      participating community care providers as well as the Department of
-      Defense.
-    </p>
-    <h3>What’s VHIE, and how can it help me manage my health?</h3>
-    <p>
-      VHIE gives your health care providers a more complete view of your health
-      record to help them make more informed treatment decisions. Through VHIE,
-      community providers who are a part of your care team can safely and
-      securely receive your VA health information electronically.
-    </p>
-    <p>
-      VHIE helps improve continuity of your care, reduce test duplication, and
-      avoid clinical error. That’s because you can see all your health care
-      providers from different practices or networks in one place. Our secure
-      system also eliminates the need to send paper medical records by mail, and
-      to carry your records to appointments with community providers.
-    </p>
-    <p>
-      We share your health information only with participating community
-      providers via VHIE when they’re treating you. Visit the{' '}
-      <a href="/VHIE/">VHIE page</a> to learn more about how the program helps
-      your providers better understand your health history and develop safer,
-      more effective treatment plans.
-    </p>
-    <h4>VHIE sharing options</h4>
-    <p>
-      If you don’t want your community providers to receive your information via
-      VHIE, you may opt out of electronic sharing at any time. And if you
-      previously opted out but want to resume secure, seamless sharing, you may
-      opt back in. Visit the{' '}
-      <a href="/VHIE/VHIE_Sharing_Options.asp">VHIE Sharing Options page</a> to
-      learn more.
-    </p>
-    <h3>How do I opt out?</h3>
-    <p>
-      If you would prefer to opt out of sharing your health information
-      electronically, you can do so at any time. You must complete and submit{' '}
-      <a href="/vaforms/medical/pdf/10-10164-fill.pdf">
-        VA Form 10-10164 (PDF)
-      </a>{' '}
-      to your facility’s Release of Information Office (ROI). You may also opt
-      out via{' '}
-      <a
-        rel="noreferrer noopener"
-        href="https://www.myhealth.va.gov/mhv-portal-web/home"
-      >
-        My HealtheVet
-      </a>
-      .
-    </p>
-    <p>
-      <strong>Note:</strong> If you haven’t already done so, you’ll need to
-      upgrade your My HealtheVet account to Premium status to opt out. Visit{' '}
-      <a href="https://www.myhealth.va.gov/mhv-portal-web/home">
-        My HealtheVet
-      </a>{' '}
-      to learn more.
-    </p>
-    <p>
-      Choosing to opt out will not affect your access to care from community
-      providers. However, if you opt out, your community providers may not
-      receive your medical records before you receive treatment. This may put
-      you at risk. Also, if you visit any emergency room, your information may
-      still be shared via VHIE so that you can receive the care you need.
-    </p>
-    <h3>If I opt out, how can I opt back in?</h3>
-    <p>
-      If you previously opted out, but want to resume secure, seamless sharing,
-      you may do so at any time. Simply complete{' '}
-      <a href="/vaforms/medical/pdf/10-10163-fill.pdf">
-        VA Form 10-10163 (PDF)
-      </a>{' '}
-      and return it to your VA facility’s ROI office, or submit it online
-      through{' '}
-      <a
-        rel="noreferrrer noopener"
-        href="https://www.myhealth.va.gov/mhv-portal-web/home"
-      >
-        My HealtheVet
-      </a>
-      .
-    </p>
-    <h3>Can I check my sharing preference status?</h3>
-    <p>
-      Yes. Please contact your VA facility’s ROI office. If you’ve already
-      submitted your form to opt out, or to opt back in, to the electronic
-      sharing program, your request may be in process.
-    </p>
   </>
 );
 
