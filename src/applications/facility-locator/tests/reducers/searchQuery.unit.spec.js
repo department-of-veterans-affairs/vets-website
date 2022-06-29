@@ -11,7 +11,11 @@ import {
   CLEAR_SEARCH_TEXT,
   MAP_MOVED,
 } from '../../utils/actionTypes';
-import { SearchQueryReducer, INITIAL_STATE } from '../../reducers/searchQuery';
+import {
+  SearchQueryReducer,
+  INITIAL_STATE,
+  validateForm,
+} from '../../reducers/searchQuery';
 
 describe('search query reducer', () => {
   it('should handle search started', () => {
@@ -217,5 +221,65 @@ describe('search query reducer', () => {
     expect(state.locationChanged).to.eql(true);
     expect(state.facilityTypeChanged).to.be.undefined;
     expect(state.serviceTypeChanged).to.be.undefined;
+  });
+});
+
+describe('validateForm function', () => {
+  it('should return true when passed a valid state object', () => {
+    const oldState = {
+      ...INITIAL_STATE,
+    };
+    const payload = {
+      searchString: 'test',
+      facilityType: 'test',
+    };
+    const result = validateForm(oldState, payload);
+    expect(result.isValid).to.eql(true);
+  });
+
+  it('should return false when passed an invalid state object', () => {
+    const oldState = {
+      ...INITIAL_STATE,
+    };
+    const payload = {
+      searchString: null,
+      facilityType: '',
+    };
+    const result = validateForm(oldState, payload);
+    expect(result.isValid).to.eql(false);
+  });
+
+  it('should return true when location is changed', () => {
+    const oldState = {
+      ...INITIAL_STATE,
+    };
+    const payload = {
+      searchString: 'new string',
+      facilityType: '',
+    };
+    const result = validateForm(oldState, payload);
+    expect(result.locationChanged).to.eql(true);
+  });
+
+  it('should return true when facility type is changed', () => {
+    const oldState = {
+      ...INITIAL_STATE,
+    };
+    const payload = {
+      facilityType: 'test',
+    };
+    const result = validateForm(oldState, payload);
+    expect(result.facilityTypeChanged).to.eql(true);
+  });
+
+  it('should return true when service type is changed', () => {
+    const oldState = {
+      ...INITIAL_STATE,
+    };
+    const payload = {
+      serviceType: 'test',
+    };
+    const result = validateForm(oldState, payload);
+    expect(result.serviceTypeChanged).to.eql(true);
   });
 });
