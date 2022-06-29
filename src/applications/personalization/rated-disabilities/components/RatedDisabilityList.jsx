@@ -72,12 +72,19 @@ const noDisabilityRatingContent = errorCode => {
   );
 };
 
-const RatedDisabilityList = props => {
+const RatedDisabilityList = ({
+  fetchRatedDisabilities,
+  ratedDisabilities,
+  sortToggle,
+}) => {
   const [sortBy, setSortBy] = useState('effectiveDate.desc');
 
-  useEffect(() => {
-    props.fetchRatedDisabilities();
-  }, []);
+  useEffect(
+    () => {
+      fetchRatedDisabilities();
+    },
+    [fetchRatedDisabilities],
+  );
 
   const sortFunc = (a, b) => {
     const [sortKey, direction] = sortBy.split('.');
@@ -87,17 +94,17 @@ const RatedDisabilityList = props => {
       : b[sortKey] - a[sortKey];
   };
 
-  if (!props.ratedDisabilities) {
+  if (!ratedDisabilities) {
     return <va-loading-indicator message="Loading your information..." />;
   }
 
   if (
-    props?.ratedDisabilities?.errors ||
-    props?.ratedDisabilities?.ratedDisabilities.length === 0
+    ratedDisabilities?.errors ||
+    ratedDisabilities?.ratedDisabilities.length === 0
   ) {
     // There are instances when a 200 response is received but evss sends an empty array.
     // In this scenario errorCode is explicitly set to 404 to ensure a defined value is passed to noDisabilityRatingContent
-    const errorCode = props?.ratedDisabilities?.errors?.[0]?.code || 404;
+    const errorCode = ratedDisabilities?.errors?.[0]?.code || 404;
     return (
       <div className="usa-width-one-whole">
         {noDisabilityRatingContent(errorCode)}
@@ -106,7 +113,7 @@ const RatedDisabilityList = props => {
   }
 
   const formattedDisabilities = formalizeData(
-    props?.ratedDisabilities?.ratedDisabilities,
+    ratedDisabilities?.ratedDisabilities,
   ).sort(sortFunc);
 
   return (
@@ -114,7 +121,7 @@ const RatedDisabilityList = props => {
       <h2 id="individual-ratings" className="vads-u-margin-y--1p5">
         Your individual ratings
       </h2>
-      {props.sortToggle && (
+      {sortToggle && (
         <div id="ratings-sort-select-ab" className="vads-u-margin-bottom--2">
           <SortSelect onSelect={setSortBy} sortBy={sortBy} />
         </div>
@@ -131,6 +138,7 @@ const RatedDisabilityList = props => {
 RatedDisabilityList.propTypes = {
   fetchRatedDisabilities: PropTypes.func.isRequired,
   ratedDisabilities: PropTypes.shape({
+    errors: PropTypes.array,
     ratedDisabilities: PropTypes.array,
   }),
   sortToggle: PropTypes.bool,
