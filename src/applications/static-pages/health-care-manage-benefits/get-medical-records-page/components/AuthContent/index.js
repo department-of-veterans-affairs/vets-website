@@ -197,7 +197,7 @@ const AuthContent = ({
           If you don’t want us to share your information through VHIE, you can
           opt out at any time.
         </p>
-        <a href="/resources/the-veterans-health-information-exchange">
+        <a href="/resources/the-veterans-health-information-exchange-vhie">
           Learn more about VHIE
         </a>
       </va-accordion-item>
