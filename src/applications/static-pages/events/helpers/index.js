@@ -64,22 +64,30 @@ export const deriveMostRecentDate = (
   return futureDates[0];
 };
 
-export const removeDuplicateEvents = events => {
-  if (!events) {
+function keepUniqueEventsFromList(allEvents, event) {
+  if (!allEvents) {
     return [];
   }
 
-  return events?.reduce((allEvents, event) => {
-    const currentEventIds = allEvents.map(ev => parseInt(ev.entityId, 10));
+  if (allEvents === []) {
+    return [event];
+  }
 
-    if (!currentEventIds.includes(parseInt(event.entityId, 10))) {
-      allEvents.push(event);
-    }
+  const currentEventIds = allEvents.map(ev => ev.entityId);
 
-    return allEvents;
-  }, []);
-};
+  if (!currentEventIds.includes(event.entityId)) {
+    allEvents.push(event);
+  }
 
+  return allEvents;
+}
+
+export const removeDuplicateEvents = events =>
+  events?.reduce(keepUniqueEventsFromList, []);
+
+// This takes all repeating events and creates a separate event for
+// each repeated instance. Repeating events can still be identified as such,
+// and let event listings show multiple recurring events.
 export const fleshOutRecurringEvents = events => {
   if (!events) {
     return [];
@@ -96,6 +104,8 @@ export const fleshOutRecurringEvents = events => {
     }
 
     const eventTimes = event?.fieldDatetimeRangeTimezone;
+    // This makes each copy of a recurring event start with a different time,
+    // so each time is a separate event
     event?.fieldDatetimeRangeTimezone.forEach((tz, index) => {
       const timeZonesCopy = [...eventTimes];
 
@@ -163,20 +173,6 @@ export const filterEvents = (
     return [];
   }
 
-  function hideMultipleRepeatEvents(repeatedEvents, event) {
-    if (repeatedEvents === []) {
-      return [event];
-    }
-
-    const currentEventIds = repeatedEvents.map(ev => parseInt(ev.entityId, 10));
-
-    if (!currentEventIds.includes(parseInt(event.entityId, 10))) {
-      repeatedEvents.push(event);
-    }
-
-    return repeatedEvents;
-  }
-
   // Filter the events.
   switch (filterBy) {
     // Upcoming events.
@@ -187,7 +183,7 @@ export const filterEvents = (
             event?.fieldDatetimeRangeTimezone[0]?.value * 1000,
           ).isAfter(now.clone());
         })
-        .reduce(hideMultipleRepeatEvents, []);
+        .reduce(keepUniqueEventsFromList, []);
     }
 
     // Next week.
@@ -205,7 +201,7 @@ export const filterEvents = (
               .endOf('week'),
           ),
         )
-        .reduce(hideMultipleRepeatEvents, []);
+        .reduce(keepUniqueEventsFromList, []);
     }
 
     // Next month.
@@ -223,7 +219,7 @@ export const filterEvents = (
               .endOf('month'),
           ),
         )
-        .reduce(hideMultipleRepeatEvents, []);
+        .reduce(keepUniqueEventsFromList, []);
     }
 
     // Past events.
