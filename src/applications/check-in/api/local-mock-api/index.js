@@ -82,9 +82,6 @@ const responses = {
     }
     return res.json(preCheckInData.post.createMockSuccessResponse({}));
   },
-  'POST /check_in/v2/edit_demographics/': (req, res) => {
-    return res.json(checkInData.post.createMockEditSuccessResponse({}));
-  },
   'PATCH /check_in/v2/demographics/:uuid': (req, res) => {
     const { uuid } = req.params;
     if (!uuid) {

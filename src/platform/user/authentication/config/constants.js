@@ -18,10 +18,12 @@ export const defaultMobileQueryParams = {
 
 export const defaultMobileOAuthOptions = {
   clientId: 'mobile',
-  acr: 'ial2',
+  acr: { idme: 'loa3', dslogon: 'loa3', mhv: 'loa3', logingov: 'ial2' },
+  acrSignup: { idme: 'loa3', logingov: 'ial2' },
 };
 
 export const defaultWebOAuthOptions = {
   clientId: 'web',
-  acr: 'min',
+  acr: { idme: 'min', dslogon: 'min', mhv: 'min', logingov: 'min' },
+  acrSignup: { idme: 'min', logingov: 'min' },
 };
