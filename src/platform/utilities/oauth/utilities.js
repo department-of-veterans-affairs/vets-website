@@ -1,3 +1,4 @@
+import differenceInSeconds from 'date-fns/differenceInSeconds';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import {
@@ -260,10 +261,22 @@ export const checkOrSetSessionExpiration = response => {
   }
 
   if (infoTokenExists()) {
-    const { refresh_token_expiration: sessionExpirationOAuth } = getInfoToken();
+    const {
+      access_token_expiration: atExpiration,
+      refresh_token_expiration: sessionExpirationOAuth,
+    } = getInfoToken();
 
-    if (sessionExpirationOAuth) {
-      localStorage.setItem('sessionExpiration', sessionExpirationOAuth);
-    }
+    localStorage.setItem('atExpires', atExpiration);
+    localStorage.setItem('sessionExpiration', sessionExpirationOAuth);
   }
+};
+
+export const canCallRefresh = () => {
+  const atExpiration = localStorage.getItem('atExpires');
+  // if less than 5 seconds until expiration return true
+  const shouldCallRefresh =
+    differenceInSeconds(new Date(atExpiration), new Date()) < 5;
+
+  localStorage.removeItem('atExpires');
+  return shouldCallRefresh;
 };
