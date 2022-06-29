@@ -147,7 +147,7 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       window.sessionStorage.setItem(SHOW_8940_4192, 'true');
-      window.sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
+      window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
       window.sessionStorage.removeItem(FORM_STATUS_BDD);
 
       cy.login(mockUser);
