@@ -85,9 +85,6 @@ ProgressButton.propTypes = {
   // button
   ariaLabel: PropTypes.string,
 
-  // aria-describedby attribute; used to associate the button with another element
-  ariaDescribedBy: PropTypes.string,
-
   // is this a submit button or not
   submitButton: PropTypes.bool,
 };
