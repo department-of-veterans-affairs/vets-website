@@ -685,18 +685,9 @@ textarea:focus {
   }
 }
 
-textarea.resize-none {
-  resize: none;
-}
-
-textarea.resize-y {
+.resize-y {
   resize: vertical;
 }
-
-textarea.resize-x {
-  resize: horizontal;
-}
-
 
 .blue-bar-block {
   border-left: 7px solid $color-primary;
