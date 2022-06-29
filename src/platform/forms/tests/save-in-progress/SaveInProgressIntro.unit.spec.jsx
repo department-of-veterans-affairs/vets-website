@@ -385,7 +385,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    expect(tree.find('va-loading-indicator').exists()).to.be.true;
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
     tree.unmount();
   });
