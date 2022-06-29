@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CallToActionAlert from '../CallToActionAlert';
-
 import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
+import CallToActionAlert from '../CallToActionAlert';
 
 const SignIn = ({
   serviceDescription,
@@ -14,7 +13,7 @@ const SignIn = ({
   ariaDescribedby = null,
 }) => {
   const content = {
-    heading: `Please sign in to ${serviceDescription}`,
+    heading: `Sign in to ${serviceDescription}`,
     headerLevel,
     alertText: (
       <p>
