@@ -36,6 +36,7 @@ export default function VAOSBreadcrumbs({ children }) {
 
   return (
     <VaBreadcrumbs
+      className="medium-screen:vads-u-padding-x--0 vaos-appts__breadcrumbs"
       role="navigation"
       aria-label="Breadcrumbs"
       ref={breadcrumbsRef}
