@@ -275,7 +275,9 @@ class AddFilesForm extends React.Component {
                     this.handleDocTypeChange(e.target.value, index)
                   }
                 >
-                  <option value="">Select a description</option>
+                  <option disabled value="">
+                    Select a description
+                  </option>
                   {DOC_TYPES.map(({ label, value }, i) => (
                     <option key={i} value={value}>
                       {label}
