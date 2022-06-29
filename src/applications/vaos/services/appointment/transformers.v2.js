@@ -170,9 +170,9 @@ export function transformVAOSAppointment(appt) {
   if (
     appt.reasonCode?.coding &&
     appt.reasonCode?.coding[0]?.code &&
-    appt.comment
+    appt.reasonCode.text
   )
-    comment = `${appt.reasonCode?.coding[0].code}: ${appt.comment}`;
+    comment = `${appt.reasonCode?.coding[0].code}: ${appt.reasonCode.text}`;
   return {
     resourceType: 'Appointment',
     id: appt.id,
