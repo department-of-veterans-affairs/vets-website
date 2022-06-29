@@ -281,11 +281,7 @@ const responses = {
   },
   'GET /vaos/v2/providers/:id': (req, res) => {
     return res.json({
-      data: {
-        attributes: providersV2.data.find(
-          provider => provider.providerIdentifier === Number(req.params.id),
-        ),
-      },
+      data: providersV2.data.find(provider => provider.id === req.params.id),
     });
   },
   'GET /vaos/v2/facilities': (req, res) => {
