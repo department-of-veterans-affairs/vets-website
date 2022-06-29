@@ -108,4 +108,3 @@ index 28ce0a625..c3d81d8f4 100644
        @store_dir = form_attachment_guid
      end 
 ```
-
