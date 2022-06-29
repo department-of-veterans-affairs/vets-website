@@ -112,9 +112,9 @@ const UnauthContent = () => (
         </p>
         <p>
           <strong>If you’re signing up for a My HealtheVet account</strong>, go
-          to "Notifications and Settings" on the registration page. Select{' '}
-          <strong>On</strong> for "VA medical images and report available
-          notification".
+          to “Notifications and Settings” on the registration page. Select{' '}
+          <strong>On</strong> for “VA medical images and report available
+          notification”.
           <br />
           <a href="https://www.myhealth.va.gov/mhv-portal-web/user-registration/">
             Sign up for an account on the My HealtheVet website
