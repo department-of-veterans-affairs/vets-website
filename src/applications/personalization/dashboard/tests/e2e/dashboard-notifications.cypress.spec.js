@@ -12,6 +12,7 @@ import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagName
 import {
   notificationsError,
   notificationSuccessDismissed,
+  notificationDismissedSuccess,
   notificationsSuccessEmpty,
   notificationSuccessNotDismissed,
   multipleNotificationSuccess,
@@ -148,7 +149,7 @@ describe('The My VA Dashboard - Notifications', () => {
         `v0/onsite_notifications/e4213b12-eb44-4b2f-bac5-3384fbde0b7a`,
         {
           statusCode: 200,
-          body: notificationSuccessDismissed(),
+          body: notificationDismissedSuccess(),
           delay: 100,
         },
       ).as('patch');

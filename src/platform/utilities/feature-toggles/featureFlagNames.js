@@ -1,6 +1,7 @@
 // prettier-ignore
 
 export default Object.freeze({
+  canAutofill1010cgAddress: 'can_autofill_10_10cg_address',
   canUpload1010cgPOA: 'can_upload_10_10cg_poa',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
@@ -14,16 +15,11 @@ export default Object.freeze({
   checkInExperienceEnabled: 'check_in_experience_enabled',
   checkInExperiencePreCheckInEnabled:
     'check_in_experience_pre_check_in_enabled',
-  checkInExperienceUpdateInformationPageEnabled:
-    'check_in_experience_update_information_page_enabled',
-  checkInExperienceEditingDayOfEnabled: 'check_in_experience_editing_day_of_enabled',
-  checkInExperienceEditingPreCheckInEnabled:'check_in_experience_editing_pre_check_in_enabled',
   checkInExperienceTranslationDayOfEnabled: 'check_in_experience_translation_day_of_enabled',
   checkInExperienceTranslationPreCheckInEnabled:'check_in_experience_translation_pre_check_in_enabled',
   checkInExperienceTranslationDisclaimerSpanishEnabled: 'check_in_experience_translation_disclaimer_spanish_enabled',
   checkInExperienceDayOfDemographicsFlagsEnabled: 'check_in_experience_day_of_demographics_flags_enabled',
   checkInExperienceLorotaSecurityUpdatesEnabled: 'check_in_experience_lorota_security_updates_enabled',
-  checkInExperienceEditMessagingEnabled: 'check_in_experience_edit_messaging_enabled',
   checkInExperiencePhoneAppointmentsEnabled: 'check_in_experience_phone_appointments_enabled',
   coeAccess: 'coe_access',
   combinedDebtPortalAccess: 'combined_debt_portal_access',
@@ -42,7 +38,6 @@ export default Object.freeze({
   dhpConnectedDevicesFitbit: 'dhp_connected_devices_fitbit',
   dischargeWizardFeatures: 'discharge_wizard_features',
   enrollmentVerification: 'enrollment_verification',
-  evssUploadLimit150Mb: 'evss_upload_limit_150mb',
   facilitiesPpmsSuppressAll: 'facilities_ppms_suppress_all',
   facilitiesPpmsSuppressCommunityCare:
     'facilities_ppms_suppress_community_care',
@@ -76,7 +71,6 @@ export default Object.freeze({
   myVARedirect: 'my_va_redirect',
   omniChannelLink: 'omni_channel_link',
   preEntryCovid19Screener: 'pre_entry_covid19_screener',
-  profileAlwaysShowDirectDepositDisplay: 'profile_always_show_direct_deposit_display',
   profileNotificationSettings: 'profile_notification_settings',
   profileDoNotRequireInternationalZipCode: 'profile_do_not_require_international_zip_code',
   profileForceBadAddressIndicator: 'profile_force_bad_address_indicator',
@@ -84,7 +78,6 @@ export default Object.freeze({
   profileShowAddressChangeModal: 'profile_show_address_change_modal',
   profileShowBadAddressIndicator: 'profile_show_bad_address_indicator',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
-  profileShowNewDirectDepositCTAMessage: 'profile_show_new_direct_deposit_cta_message',
   profileUseVaosV2Api:'profile_use_vaos_v2_api',
   pwEhrCtaDrupalSourceOfTruth: 'pw_ehr_cta_drupal_source_of_truth',
   requestLockedPdfPassword: 'request_locked_pdf_password',

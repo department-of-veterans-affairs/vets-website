@@ -9,23 +9,6 @@ h1.question:focus {
   outline: none;
 }
 
-.update-information {
-  h1{
-    font-size: 3.2rem;
-  }
-  h2{
-    font-size: 2.4rem;
-    margin-top: 0;
-  }
-  legend p{
-    font-size: initial;
-    font-weight: initial;
-  }
-  fieldset{
-    margin-bottom: 1rem;
-  }
-}
-
 .appointment-check-in{
   h1{
     font-size: 3.2rem;
@@ -75,6 +58,24 @@ ol.appointment-list{
       dd.facility-name{
         grid-row: 2;
       }
+    }
+  }
+}
+
+ol.check-in--appointment-list{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  .check-in--appointment-item{
+    width: 100%;
+    dl.check-in--appointment-summary{
+      display: grid;
+      grid-template-columns: min-content auto;
+      grid-template-rows: auto auto auto;
+      dt.check-in--label{
+        margin-top: 0;
+        font-weight: bold;
+       }
     }
   }
 }

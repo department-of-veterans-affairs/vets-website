@@ -33,7 +33,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import ErrorText from '../components/ErrorText';
 
 import {
-  burialDateWarning,
+  BurialDateWarning,
   fileHelp,
   transportationWarning,
   serviceRecordNotification,
@@ -243,7 +243,7 @@ const formConfig = {
               'Date of burial (includes cremation or interment)',
             ),
             'view:burialDateWarning': {
-              'ui:description': burialDateWarning,
+              'ui:description': BurialDateWarning,
               'ui:options': {
                 hideIf: formData => {
                   // If they haven’t entered a complete year, don’t jump the gun and show the warning
@@ -448,7 +448,7 @@ const formConfig = {
               },
             },
             'view:nonServiceWarning': {
-              'ui:description': burialDateWarning,
+              'ui:description': BurialDateWarning,
               'ui:options': {
                 hideIf: formData => {
                   if (

@@ -3,6 +3,8 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
 import DemographicField from '../../../components/DemographicField';
+import { ShortFormMessage } from '../../../components/FormAlerts';
+import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
 
 const {
   isAmericanIndianOrAlaskanNative,
@@ -13,12 +15,6 @@ const {
   isWhite,
   hasDemographicNoAnswer,
 } = fullSchemaHca.properties;
-
-import {
-  shortFormMessage,
-  HIGH_DISABILITY,
-  emptyObjectSchema,
-} from '../../../helpers';
 
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 const DemographicInfoDescription = () => {
@@ -42,7 +38,7 @@ const DemographicInfoDescription = () => {
 export default {
   uiSchema: {
     'view:dmShortFormMessage': {
-      'ui:description': shortFormMessage,
+      'ui:description': ShortFormMessage,
       'ui:options': {
         hideIf: form =>
           !(
