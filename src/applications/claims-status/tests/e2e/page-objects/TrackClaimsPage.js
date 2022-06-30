@@ -101,7 +101,7 @@ class TrackClaimsPage {
         cy.injectAxeThenAxeCheck();
       });
 
-    cy.get('.main .usa-alert')
+    cy.get('.main va-alert')
       .should('be.visible')
       .then(alertElem => {
         cy.wrap(alertElem).should('contain', 'Your claim decision is ready');
