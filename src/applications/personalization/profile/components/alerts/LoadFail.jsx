@@ -12,7 +12,7 @@ export default function LoadFail({ information }) {
   return (
     <va-alert status="warning" visible data-testid="service-is-down-banner">
       <h2 slot="headline">
-        We can’t access your ${information} information right now.
+        We can’t access your {information} information right now.
       </h2>
       <p>
         We’re sorry. Something went wrong on our end. Please refresh this page
