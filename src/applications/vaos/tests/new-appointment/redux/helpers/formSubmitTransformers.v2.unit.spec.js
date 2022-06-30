@@ -113,7 +113,6 @@ describe('VAOS V2 data transformation', () => {
         },
         extension: { desiredDate: '2019-12-02T00:00:00+00:00' },
         locationId: '983',
-        comment: 'Follow-up/Routine: asdfasdf',
         reasonCode: {
           coding: [
             {

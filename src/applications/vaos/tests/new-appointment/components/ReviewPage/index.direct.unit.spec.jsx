@@ -486,7 +486,6 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
       status: 'booked',
       locationId: '983',
       clinic: '455',
-      comment: 'Follow-up/Routine: I need an appt',
       reasonCode: {
         coding: [{ code: 'Routine Follow-up' }],
         text: 'I need an appt',
