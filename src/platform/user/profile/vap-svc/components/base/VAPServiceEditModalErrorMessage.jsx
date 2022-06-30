@@ -71,12 +71,7 @@ export default function VAPServiceEditModalErrorMessage({
 
   return (
     <>
-      <va-alert
-        background-only
-        close-btn-aria-label="Close notification"
-        status="error"
-        visible
-      >
+      <va-alert background-only status="error" visible>
         <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-left--neg1p5 vads-u-margin-y--neg1p5">
           <i
             className="fas fa-info-circle vads-u-font-size--md vads-u-color--black vads-u-margin-right--2 vads-u-padding-top--0p5"
