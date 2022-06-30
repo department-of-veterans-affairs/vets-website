@@ -79,78 +79,48 @@ const Error = () => {
     'were-sorry-something-went-wrong-on-our-end-please-try-again',
   );
 
-  if (isPhoneAppointmentsEnabled) {
-    if (isMaxValidateAttempts) {
-      messageText = phoneAppointmentLoginFailedMessage;
-    }
+  if (isMaxValidateAttempts) {
+    messageText = isPhoneAppointmentsEnabled
+      ? phoneAppointmentLoginFailedMessage
+      : t(
+          'were-sorry-we-couldnt-match-your-information-to-our-records-please-call-us-at-800-698-2411-tty-711-for-help-signing-in',
+        );
+  }
 
-    messages.push({ text: messageText });
+  messages.push({ text: messageText });
 
-    if (appointments && appointments.length > 0) {
-      // don't show sub message if we are 15 minutes past appointment start time
-      if (appointmentStartTimePast15(appointments)) {
-        header = t('sorry-pre-check-in-is-no-longer-available');
-        messages = [];
-        accordion = appointmentAccordion(appointments);
-      } else if (preCheckinExpired(appointments)) {
-        header = t('sorry-pre-check-in-is-no-longer-available');
+  if (appointments && appointments.length > 0) {
+    // don't show sub message if we are 15 minutes past appointment start time
+    if (appointmentStartTimePast15(appointments)) {
+      header = t('sorry-pre-check-in-is-no-longer-available');
+      messages = [];
+      accordion = appointmentAccordion(appointments);
+    } else if (preCheckinExpired(appointments)) {
+      header = t('sorry-pre-check-in-is-no-longer-available');
 
-        const apptType = appointments[0]?.kind;
-        messages =
-          apptType === 'phone'
-            ? [
-                {
-                  text: `${t('your-provider-will-call-you')} ${t(
-                    'you-may-need-to-wait',
-                  )}`,
-                },
-              ]
-            : [{ text: t('you-can-still-check-in-once-you-arrive') }];
+      const apptType = appointments[0]?.kind ?? 'clinic';
+      messages =
+        apptType === 'phone'
+          ? [
+              {
+                text: `${t('your-provider-will-call-you')} ${t(
+                  'you-may-need-to-wait',
+                )}`,
+              },
+            ]
+          : [{ text: t('you-can-still-check-in-once-you-arrive') }];
 
-        accordion = appointmentAccordion(appointments);
-      } else if (appointments[0].startTime) {
-        messages.push({
-          text: t('you-can-pre-check-in-online-until-date', {
-            date: subDays(new Date(appointments[0].startTime), 1),
-          }),
-          testId: 'date-message',
-        });
-      }
-    } else {
-      header = t('sorry-we-cant-complete-pre-check-in');
-      accordion = null;
+      accordion = appointmentAccordion(appointments);
+    } else if (appointments[0].startTime) {
+      messages.push({
+        text: t('you-can-pre-check-in-online-until-date', {
+          date: subDays(new Date(appointments[0].startTime), 1),
+        }),
+        testId: 'date-message',
+      });
     }
   } else {
-    // Phone appointments not enabled.
-    if (isMaxValidateAttempts) {
-      messageText = t(
-        'were-sorry-we-couldnt-match-your-information-to-our-records-please-call-us-at-800-698-2411-tty-711-for-help-signing-in',
-      );
-    }
-
-    messages.push({ text: messageText });
-
-    if (appointments && appointments.length) {
-      // don't show sub message if we are 15 minutes past appointment start time
-      if (appointmentStartTimePast15(appointments)) {
-        header = t('sorry-pre-check-in-is-no-longer-available');
-        messages = [];
-        accordion = appointmentAccordion(appointments);
-      } else if (preCheckinExpired(appointments)) {
-        header = t('sorry-pre-check-in-is-no-longer-available');
-        messages = [{ text: t('you-can-still-check-in-once-you-arrive') }];
-        accordion = appointmentAccordion(appointments);
-      } else if (appointments[0].startTime) {
-        messages.push({
-          text: t('you-can-pre-check-in-online-until-date', {
-            date: subDays(new Date(appointments[0].startTime), 1),
-          }),
-          testId: 'date-message',
-        });
-      }
-    } else {
-      header = t('sorry-we-cant-complete-pre-check-in');
-    }
+    header = t('sorry-we-cant-complete-pre-check-in');
   }
 
   const errorText = messages.length ? (
