@@ -29,7 +29,7 @@ function RelatedVeterans({ veterans }) {
 
         <hr className="fry-dea-content-break vads-u-margin-y--2" />
 
-        <h5 className="vads-u-font-family--sans vads-u-margin-top--0">
+        <h5 className="vads-u-font-family--sans vads-u-font-size--base vads-u-margin-top--0">
           Associated benefits you may be eligible for:
         </h5>
         <ul className="vads-u-margin--0 vads-u-padding-left--2">
