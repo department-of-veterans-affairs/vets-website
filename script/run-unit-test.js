@@ -23,6 +23,7 @@ const COMMAND_LINE_OPTIONS_DEFINITIONS = [
     multiple: true,
     defaultValue: [defaultPath],
   },
+  { name: 'slow', type: Number, defaultValue: 2000 },
 ];
 
 const options = commandLineArgs(COMMAND_LINE_OPTIONS_DEFINITIONS);
