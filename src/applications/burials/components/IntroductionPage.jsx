@@ -1,10 +1,10 @@
 import React from 'react';
-
-import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import PropTypes from 'prop-types';
+
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import { focusElement } from 'platform/utilities/ui';
 
 class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -34,33 +34,27 @@ class IntroductionPage extends React.Component {
         </h2>
         <va-process-list>
           <li>
-            <div>
-              <h3>Prepare</h3>
-            </div>
-            <div>
-              <h4>
-                <a href="/burials-memorials/veterans-burial-allowance/">
-                  Find out if you qualify for a burial allowance
-                </a>
-                .
-              </h4>
-            </div>
-            <br />
-            <div>
-              <h4>
-                To fill out this application, you’ll need information about the
-                deceased Veteran, including their:
-              </h4>
-            </div>
+            <h3>Prepare</h3>
+            <a
+              className="vads-c-action-link--blue"
+              href="/burials-memorials/veterans-burial-allowance/"
+            >
+              Find out if you qualify for a burial allowance
+            </a>
+            <h4 className="vads-u-margin-top--2p5">
+              Needed information about the deceased Veteran
+            </h4>
+            <p>
+              To fill out this application, you’ll need information about the
+              deceased Veteran, including their:
+            </p>
             <ul>
               <li>Social Security number or VA file number (required)</li>
               <li>Date and place of birth (required)</li>
               <li>Date and place of death (required)</li>
               <li>Military status and history</li>
             </ul>
-            <div>
-              <h4>You may need to upload:</h4>
-            </div>
+            <h4>You may need to upload:</h4>
             <ul>
               <li>
                 A copy of the deceased Veteran’s DD214 or other separation
@@ -72,8 +66,8 @@ class IntroductionPage extends React.Component {
                 for the transportation of the Veteran’s remains)
               </li>
             </ul>
+            <h4>What if I need help filling out my application?</h4>
             <p>
-              <strong>What if I need help filling out my application?</strong>{' '}
               An accredited representative, like a Veterans Service Officer
               (VSO), can help you fill out your claim.{' '}
               <a href="/disability/get-help-filing-claim/">
@@ -93,28 +87,20 @@ class IntroductionPage extends React.Component {
             </p>
           </li>
           <li>
-            <div>
-              <h3>Apply</h3>
-            </div>
-            <div>
-              <p>Complete this burial benefits form.</p>
-              <p>
-                After submitting the form, you’ll get a confirmation message.
-                You can print this for your records.
-              </p>
-            </div>
+            <h3>Apply</h3>
+            <p>Complete this burial benefits form.</p>
+            <p>
+              After submitting the form, you’ll get a confirmation message. You
+              can print this for your records.
+            </p>
           </li>
           <li>
-            <div>
-              <h3>VA Review</h3>
-            </div>
+            <h3>VA Review</h3>
             <p>We process claims in the order we receive them.</p>
             <p>We’ll let you know by mail if we need more information.</p>
           </li>
           <li>
-            <div>
-              <h3>Decision</h3>
-            </div>
+            <h3>Decision</h3>
             <p>
               After we process your claim, you’ll get a notice in the mail about
               the decision.

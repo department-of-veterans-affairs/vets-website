@@ -55,7 +55,10 @@ const secondaryCaregiverContactPage = {
     properties: {
       [secondaryOneFields.address]: {
         ...address,
-        properties: { ...address.properties, autofill: { type: 'boolean' } },
+        properties: {
+          ...address.properties,
+          'view:autofill': { type: 'boolean' },
+        },
       },
       [secondaryOneFields.primaryPhoneNumber]:
         secondaryCaregiverOneProps.primaryPhoneNumber,
