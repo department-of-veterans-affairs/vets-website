@@ -6,10 +6,13 @@ import { BirthInfoDescription } from '../../../components/FormDescriptions';
 import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
 
 const { cityOfBirth } = fullSchemaHca.properties;
-const states = Object.values(constants.states)
-  .reverse()
-  .flat()
-  .filter((val, idx, arr) => arr.indexOf(val) === idx);
+const states = [
+  ...new Set(
+    Object.values(constants.states)
+      .reverse()
+      .flat(),
+  ),
+];
 
 export default {
   uiSchema: {
