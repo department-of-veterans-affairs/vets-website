@@ -344,7 +344,18 @@ const formConfig = {
                 expandUnder: 'view:serveUnderOtherNames',
                 viewField: FullNameField,
               },
-              items: fullNameUI,
+              items: {
+                ...fullNameUI,
+                first: {
+                  'ui:title': 'Veteran’s first name',
+                },
+                middle: {
+                  'ui:title': 'Veteran’s middle name',
+                },
+                last: {
+                  'ui:title': 'Veteran’s last name',
+                },
+              },
             },
             'view:serveUnderOtherNames': {
               'ui:title': 'Did the Veteran serve under another name?',
