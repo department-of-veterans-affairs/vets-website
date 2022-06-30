@@ -1,16 +1,18 @@
-import React from 'react';
-import { hasSession } from 'platform/user/profile/utilities';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import constants from 'vets-json-schema/dist/constants.json';
 
-import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
-import { states } from 'platform/forms/address';
-
+import AuthenticatedShortFormAlert from '../../../components/FormAlerts/AuthenticatedShortFormAlert';
+import { BirthInfoDescription } from '../../../components/FormDescriptions';
 import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
-import AuthenticatedShortFormAlert from '../../../components/AuthenticatedShortFormAlert';
 
 const { cityOfBirth } = fullSchemaHca.properties;
-
-const stateLabels = createUSAStateLabels(states);
+const states = [
+  ...new Set(
+    Object.values(constants.states)
+      .reverse()
+      .flat(),
+  ),
+];
 
 export default {
   uiSchema: {
@@ -25,27 +27,14 @@ export default {
           ),
       },
     },
-    'view:applicationDescription': {
-      'ui:options': {
-        hideIf: () => !hasSession(),
-      },
-      'ui:description': (
-        <p>
-          You don’t have to fill in all these fields. But we can review your
-          application faster if you provide more information.
-        </p>
-      ),
-    },
     'view:placeOfBirth': {
-      'ui:title': 'Place of birth',
+      'ui:title': 'Your place of birth',
+      'ui:description': BirthInfoDescription,
       cityOfBirth: {
         'ui:title': 'City',
       },
       stateOfBirth: {
-        'ui:title': 'State',
-        'ui:options': {
-          labels: stateLabels,
-        },
+        'ui:title': 'State/Province/Region',
       },
     },
   },
@@ -53,14 +42,14 @@ export default {
     type: 'object',
     properties: {
       'view:authShortFormAlert': emptyObjectSchema,
-      'view:applicationDescription': emptyObjectSchema,
       'view:placeOfBirth': {
         type: 'object',
         properties: {
           cityOfBirth,
           stateOfBirth: {
             type: 'string',
-            enum: states.USA.map(state => state.value),
+            enum: [...states.map(object => object.value), 'Other'],
+            enumNames: [...states.map(object => object.label), 'Other'],
           },
         },
       },

@@ -1,8 +1,7 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import DemographicItem from '../../DemographicItem';
-import EditLinkText from '../Edit/shared/EditLinkText';
 import Wrapper from '../../layout/Wrapper';
 
 const ConfirmablePage = ({
@@ -13,7 +12,6 @@ const ConfirmablePage = ({
   yesAction = () => {},
   noAction = () => {},
   isLoading = false,
-  isEditEnabled = false,
   loadingMessageOverride = null,
   withBackButton = false,
   Footer,
@@ -23,9 +21,7 @@ const ConfirmablePage = ({
     <va-loading-indicator message={t('loading')} />
   );
   const LoadingMessage = loadingMessageOverride ?? defaultLoadingMessage;
-  const editHandler = useCallback(dataToEdit => {
-    dataToEdit.editAction(dataToEdit);
-  }, []);
+
   return (
     <Wrapper
       pageTitle={header}
@@ -56,21 +52,6 @@ const ConfirmablePage = ({
                 ) : (
                   t('not-available')
                 )}
-                {isEditEnabled &&
-                  field.editAction && (
-                    <div>
-                      <a
-                        href={`#edit-${field.key}`}
-                        // eslint-disable-next-line react/jsx-no-bind
-                        onClick={() =>
-                          editHandler({ ...field, value: data[field.key] })
-                        }
-                        data-testid="edit-button"
-                      >
-                        <EditLinkText value={data[field.key]} />
-                      </a>
-                    </div>
-                  )}
               </dd>
             </React.Fragment>
           ))}
@@ -116,7 +97,6 @@ ConfirmablePage.propTypes = {
   noAction: PropTypes.func.isRequired,
   yesAction: PropTypes.func.isRequired,
   Footer: PropTypes.func,
-  isEditEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   loadingMessageOverride: PropTypes.func,
   subtitle: PropTypes.string,

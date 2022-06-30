@@ -4,12 +4,12 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { logValidateMarriageDateVaFacilityPage } from '../../../validation';
 
+import { ShortFormMessage } from '../../../components/FormAlerts';
 import {
   facilityHelp,
   isEssentialAcaCoverageDescription,
   medicalCenterLabels,
   medicalCentersByState,
-  shortFormMessage,
   HIGH_DISABILITY,
   emptyObjectSchema,
 } from '../../../helpers';
@@ -27,7 +27,7 @@ const emptyFacilityList = [];
 export default {
   uiSchema: {
     'view:facilityShortFormMessage': {
-      'ui:description': shortFormMessage,
+      'ui:description': ShortFormMessage,
       'ui:options': {
         hideIf: form =>
           !form['view:hcaShortFormEnabled'] ||
