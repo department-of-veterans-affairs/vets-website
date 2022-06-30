@@ -230,10 +230,12 @@ const responses = {
   },
   'GET /vaos/v2/appointments': (req, res) => {
     // merge arrays together
-    const appointments = confirmedV2.data.concat(requestsV2.data);
+    const appointments = confirmedV2.data.concat(requestsV2.data, mockAppts);
     const filteredAppointments = appointments.filter(appointment => {
       return req.query.statuses.some(status => {
         if (appointment.attributes.status === status) {
+          if (appointment.id.startsWith('mock')) return true;
+
           const date =
             status === 'proposed'
               ? moment(appointment.attributes.requestedPeriods[0]?.start)
