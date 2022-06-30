@@ -12,7 +12,7 @@ const StatementCharges = ({ copay }) => {
   const tableData = copay.details.map(item => {
     return (
       <va-table-row
-        key={`${item.pDRefNo}-${item.pDTransAmtOutput
+        key={`${item.pDRefNo}-${item.pDTransAmt
           .replace('&nbsp', '')
           .replace('-', '')
           .replace(/[^\d.-]/g, '')}`}
@@ -21,7 +21,7 @@ const StatementCharges = ({ copay }) => {
         <span>{item.pDRefNo}</span>
         <span>
           $
-          {item.pDTransAmtOutput
+          {item.pDTransAmt
             .replace('&nbsp', '')
             .replace('-', '')
             .replace(/[^\d.-]/g, '')}
