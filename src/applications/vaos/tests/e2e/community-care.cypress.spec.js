@@ -699,13 +699,18 @@ describe('VAOS community care flow using VAOS service', () => {
 
       // Check for weekend and select following Monday if true
       if (date.weekday() === 0) {
-        date = date.add(1, 'days').format('YYYY-MM-DD[T]HH:mm:ss');
+        date = date.add(1, 'days').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
       } else if (date.weekday() === 6) {
-        date = date.add(2, 'days').format('YYYY-MM-DD[T]HH:mm:ss');
+        date = date.add(2, 'days').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
       } else {
-        date = date.format('YYYY-MM-DD[T]HH:mm:ss');
+        date = date.format('YYYY-MM-DD[T]HH:mm:ss[Z]');
       }
 
+      // Convert date timezone to that of the facility for scheduled appointment
+      date = moment
+        .tz(date, 'YYYY-MM-DDTHH:mm:ss', 'America/Denver')
+        .utc()
+        .format();
       expect(xhr.status).to.eq(200);
       expect(xhr.url, 'post url').to.contain('/vaos/v2/appointments');
       const request = xhr.requestBody;
