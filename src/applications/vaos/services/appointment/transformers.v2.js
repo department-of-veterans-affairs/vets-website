@@ -167,9 +167,9 @@ export function transformVAOSAppointment(appt) {
     facilityData = transformFacilityV2(appt.location.attributes);
   }
   let comment = null;
-  const { coding } = appt.reasonCode;
-  const { text } = appt.reasonCode;
-  if (coding && coding[0]?.code && appt.reasonCode.text) {
+  const coding = appt.reasonCode ? appt.reasonCode.coding : null;
+  const text = appt.reasonCode ? appt.reasonCode.text : null;
+  if (coding && coding[0]?.code && text) {
     comment = `${coding[0].code}: ${text}`;
   } else if (coding && coding[0].code) {
     comment = coding[0].code;
