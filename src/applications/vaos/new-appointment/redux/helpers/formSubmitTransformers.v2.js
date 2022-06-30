@@ -83,11 +83,11 @@ export function transformFormToVAOSCCRequest(state) {
     },
     requestedPeriods: data.selectedDates.map(date => ({
       start: moment
-        .tz(date, facilityTimezone)
+        .tz(date, 'YYYY-MM-DDTHH:mm:ss', facilityTimezone)
         .utc()
         .format(),
       end: moment
-        .tz(date, facilityTimezone)
+        .tz(date, 'YYYY-MM-DDTHH:mm:ss', facilityTimezone)
         .utc()
         .add(12, 'hours')
         .subtract(1, 'minute')
