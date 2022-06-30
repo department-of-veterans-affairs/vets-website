@@ -20,6 +20,7 @@ import {
   getAppointments,
   postAppointment,
   putAppointment,
+  getPreferredCCProvider,
 } from '../vaos';
 import {
   transformConfirmedAppointment,
@@ -38,6 +39,7 @@ import { formatFacilityAddress, getFacilityPhone } from '../location';
 import {
   transformVAOSAppointment,
   transformVAOSAppointments,
+  transformPreferredProviderV2,
 } from './transformers.v2';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
@@ -397,6 +399,18 @@ export function getVAAppointmentLocationId(appointment) {
 
   return appointment?.location.stationId;
 }
+
+/**
+ * Returns the NPI of a CC Provider
+ *
+ * @export
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @returns {string} The NPI of the CC Provider
+ */
+export function getPreferredCCProviderNPI(appointment) {
+  return appointment?.practitioners[0]?.identifier[0]?.value || null;
+}
+
 /**
  * Returns the patient telecom info in a VA appointment
  *
@@ -1068,4 +1082,16 @@ export function getAppointmentTimezone(appointment) {
     abbreviation,
     description: getTimezoneNameFromAbbr(abbreviation),
   };
+}
+
+/**
+ * Fetch provider information
+ *
+ * @export
+ * @param {String} providerNpi An id for the provider to fetch info for
+ * @returns {transformed Provider} transformed Provider info
+ */
+export async function fetchPreferredProvider(providerNpi) {
+  const prov = await getPreferredCCProvider(providerNpi);
+  return transformPreferredProviderV2(prov);
 }
