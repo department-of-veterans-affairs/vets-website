@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import classNames from 'classnames';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import get from '../../../../utilities/data/get';
@@ -78,7 +78,7 @@ class FormPage extends React.Component {
 
     const path = getNextPagePath(route.pageList, form.data, location.pathname);
 
-    this.props.router.push(path);
+    this.props.history.push(path);
   };
 
   formData = () => {
@@ -105,7 +105,7 @@ class FormPage extends React.Component {
 
     const path = getPreviousPagePath(pageList, form.data, location.pathname);
 
-    this.props.router.push(path);
+    this.props.history.push(path);
   };
 
   goToPath = customPath => {
@@ -121,7 +121,7 @@ class FormPage extends React.Component {
         ? customPath
         : getPreviousPagePath(pageList, form.data, location.pathname);
 
-    this.props.router.push(path);
+    this.props.history.push(path);
   };
 
   render() {

@@ -1,3 +1,5 @@
+import React from 'react';
+import { Route } from 'react-router-dom';
 import {
   createPageList,
   createFormPageList,
@@ -68,5 +70,13 @@ export function createRoutesWithSaveInProgress(formConfig) {
     });
   }
 
-  return newRoutes;
+  return newRoutes.map((routeObject, i) => (
+    <Route
+      path={`/${routeObject.path}`}
+      component={props => {
+        return <routeObject.component {...props} route={routeObject} />;
+      }}
+      key={i}
+    />
+  ));
 }
