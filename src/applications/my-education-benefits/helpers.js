@@ -304,7 +304,7 @@ export function customDirectDepositDescription() {
   return (
     <div>
       <p>
-        VA Makes payments through only direct deposit, also called electronic
+        VA makes payments through only direct deposit, also called electronic
         funds transfer (EFT).
       </p>
     </div>
