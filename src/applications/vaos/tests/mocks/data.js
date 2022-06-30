@@ -1,8 +1,8 @@
 /**
  * @module testing/mocks/data
  */
-import moment from '../../lib/moment-tz';
 import omit from 'platform/utilities/data/omit';
+import moment from '../../lib/moment-tz';
 import { VIDEO_TYPES, APPOINTMENT_STATUS } from '../../utils/constants';
 
 /**
@@ -246,7 +246,7 @@ export function createMockAppointmentByVersion({
           : null,
         preferredTimesForPhoneCall: null,
         priority: null,
-        reason: null,
+        reasonCode: {},
         requestedPeriods: null,
         serviceType: null,
         slot: null,
@@ -310,7 +310,8 @@ export function createMockClinicByVersion({
         char4: null,
       },
     };
-  } else if (version === 0) {
+  }
+  if (version === 0) {
     return {
       id,
       type: 'clinic',

@@ -560,6 +560,9 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
 
     mockAppointmentSubmitV2({
       id: 'fake_id',
+      attributes: {
+        reasonCode: {},
+      },
     });
     mockPreferences(null);
 
@@ -595,6 +598,9 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
             value: 'joeblow@gmail.com',
           },
         ],
+      },
+      reasonCode: {
+        text: 'I need an appt',
       },
       requestedPeriods: [
         {
@@ -646,6 +652,9 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
 
     mockAppointmentSubmitV2({
       id: 'fake_id',
+      attributes: {
+        reasonCode: {},
+      },
     });
     mockPreferences(null);
 
