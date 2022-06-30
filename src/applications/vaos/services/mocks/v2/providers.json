@@ -1,0 +1,244 @@
+{
+  "data": [
+    {
+      "id": "1801312053",
+      "type": "provider",
+      "attributes": {
+      "providerIdentifier": "1801312053",
+      "ProviderIdentifierType": "NPI",
+      "name": "AJADI, ADEDIWURA",
+      "ProviderType": "Individual",
+      "Address": "700 CONSTITUTION AVE NE\r\nDURHAM, NC",
+      "AddressStreet": "700 CONSTITUTION AVE NE",
+      "AddressCity": "DC",
+      "AddressStateProvince": "DC",
+      "AddressCounty": "DISTRICT OF COLUMBIA"
+      }
+    },
+    {
+      "id": "1952935777",
+      "type": "provider",
+      "attributes": {
+      "providerIdentifier": "1952935777",
+      "ProviderIdentifierType": "NPI",
+      "name": "OH, JANICE",
+      "ProviderType": "Individual",
+      "Address": "7700 LITTLE RIVER TPKE STE 102\r\nFAIRFAX, VA",
+      "AddressStreet": "7700 LITTLE RIVER TPKE STE 102",
+      "AddressCity": "ANNANDALE",
+      "AddressStateProvince": "VA",
+      "AddressCounty": "FAIRFAX"
+      }
+    },
+    {
+      "id": "1992228522",
+      "type": "provider",
+      "attributes": {
+      "providerIdentifier": "1992228522",
+      "ProviderIdentifierType": "NPI",
+      "name": "SMAWLEY, DONNA C",
+      "ProviderType": "Individual",
+      "Address": "5454 WISCONSIN AVE STE 1100\r\nDURHAM, NC",
+      "AddressStreet": "5454 WISCONSIN AVE STE 1100",
+      "AddressCity": "CHEVY CHASE",
+      "AddressStateProvince": "MD",
+      "AddressCounty": "CHEVY CHASE"
+      }
+    },
+    {
+      "id": "34234234-34234",
+      "type": "provider",
+      "attributes": {
+      "providerIdentifier": "34234234-34234",
+      "ProviderIdentifierType": "NPI",
+      "name": "CAMPBELL, WILLIAM",
+      "ProviderType": "Individual",
+      "Address": "1012 14TH ST NW STE 700\r\nWASHINGTON, DC",
+      "AddressStreet": "1012 14TH ST NW STE 700",
+      "AddressCity": "WASHINGTON",
+      "AddressStateProvince": "DC",
+      "AddressCounty": "DISTRICT OF COLUMBIA"
+      }
+    },
+    {
+      "id": "1053355479",
+      "type": "provider",
+      "attributes": {
+      "providerIdentifier": "1053355479",
+      "ProviderIdentifierType": "NPI",
+      "name": "LYONS, KRISTYN",
+      "ProviderType": "Individual",
+      "Address": "1785 S HAYES ST\r\nARLINGTON, VA",
+      "AddressStreet": "1785 S HAYES ST",
+      "AddressCity": "ARLINGTON",
+      "AddressStateProvince": "VA",
+      "AddressCounty": "ARLINGTON"
+      }
+    },
+    {
+      "id": "1396153797",
+      "type": "provider",
+      "attributes": {
+      "providerIdentifier": "1396153797",
+      "ProviderIdentifierType": "NPI",
+      "name": "STEWART, DARRYL",
+      "ProviderType": "Individual",
+      "Address": "110 IRVING ST NW STE EB-3114\r\nWASHINGTON, WASHINGTON",
+      "AddressStreet": "110 IRVING ST NW STE EB-3114",
+      "AddressCity": "WASHINGTON",
+      "AddressStateProvince": "DC",
+      "AddressCounty": "DISTRICT OF COLUMBIA"
+      }
+    },
+    {
+      "id": "1154867018",
+      "type": "provider",
+      "attributes": {
+      "providerIdentifier": "1154867018",
+      "ProviderIdentifierType": "NPI",
+      "name": "GUILD, MICHAELA",
+      "ProviderType": "Individual",
+      "Address": "3800 RESERVOIR RD NW FL 1\r\nWASHINGTON, DC",
+      "AddressStreet": "3800 RESERVOIR RD NW FL 1",
+      "AddressCity": "WASHINGTON",
+      "AddressStateProvince": "DC",
+      "AddressCounty": "DISTRICT OF COLUMBIA"
+      }
+    },
+    {
+      "id": "1205346533",
+      "type": "provider",
+      "attributes": {
+      "providerIdentifier": "1205346533",
+      "ProviderIdentifierType": "NPI",
+      "name": "FREEMAN, SHARON",
+      "ProviderType": "Individual",
+      "Address": "3800 RESERVOIR RD NW FL 6\r\nWASHINGTON, DC",
+      "AddressStreet": "3800 RESERVOIR RD NW FL 6",
+      "AddressCity": "WASHINGTON",
+      "AddressStateProvince": "DC",
+      "AddressCounty": "DISTRICT OF COLUMBIA"
+      }
+    },
+    {
+      "id": "1548796501",
+      "type": "provider",
+      "attributes": {
+      "providerIdentifier": "1548796501",
+      "ProviderIdentifierType": "NPI",
+      "name": "CHAIB, EMBARKA",
+      "ProviderType": "Individual",
+      "Address": "1160 VARNUM ST NE STE 318\r\nWASHINGTON, DC",
+      "AddressStreet": "1160 VARNUM ST NE STE 318",
+      "AddressCity": "WASHINGTON",
+      "AddressStateProvince": "DC",
+      "AddressCounty": "DISTRICT OF COLUMBIA"
+      }
+    },
+    {
+      "id": "1780016782",
+      "type": "provider",
+      "attributes": {
+      "providerIdentifier": "1780016782",
+      "ProviderIdentifierType": "NPI",
+      "name": "Lawton, Amanda",
+      "ProviderType": "Individual",
+      "Address": "4660 Kenmore Ave Ste 305\r\nAlexandria, VA",
+      "AddressStreet": "4660 Kenmore Ave Ste 305",
+      "AddressCity": "Alexandria",
+      "AddressStateProvince": "VA",
+      "AddressCounty": "Alexandria"
+      }
+    },
+    {
+      "id": "1558874636",
+      "type": "provider",
+      "attributes": {
+      "providerIdentifier": "1558874636",
+      "ProviderIdentifierType": "NPI",
+      "name": "MELTON, JOY C",
+      "ProviderType": "Individual",
+      "Address": "5620 SAINT BARNABAS RD\r\nOXON HILL, MD",
+      "AddressStreet": "5620 SAINT BARNABAS RD",
+      "AddressCity": "OXON HILL",
+      "AddressStateProvince": "MD",
+      "AddressCounty": "OXON HILL"
+      }
+    },
+    {
+      "id": "1982005708",
+      "type": "provider",
+      "attributes": {
+      "providerIdentifier": "1982005708",
+      "ProviderIdentifierType": "NPI",
+      "name": "OLUBUNMI, ABOLANLE A",
+      "ProviderType": "Individual",
+      "Address": "8116 GOOD LUCK RD STE 200\r\nLANHAM, MD",
+      "AddressStreet": "8116 GOOD LUCK RD STE 200",
+      "AddressCity": "LANHAM",
+      "AddressStateProvince": "MD",
+      "AddressCounty": "LANHAM"
+      }
+    },
+    {
+      "id": "1649609736",
+      "type": "provider",
+      "attributes": {
+      "providerIdentifier": "1649609736",
+      "ProviderIdentifierType": "NPI",
+      "name": "REISER, KATRINA",
+      "ProviderType": "Individual",
+      "Address": "7501 Greenway Center Dr\r\nGreenbelt, MD",
+      "AddressStreet": "7501 Greenway Center Dr",
+      "AddressCity": "Greenbelt",
+      "AddressStateProvince": "MD",
+      "AddressCounty": "Greenbelt"
+      }
+    },
+    {
+      "id": "1770999294",
+      "type": "provider",
+      "attributes": {
+      "providerIdentifier": "1770999294",
+      "ProviderIdentifierType": "NPI",
+      "name": "TUCKER JONES, MICHELLE A",
+      "ProviderType": "Individual",
+      "Address": "6215 GREENBELT RD STE 107\r\nBERWYN HEIGHTS, MD",
+      "AddressStreet": "6215 GREENBELT RD STE 107",
+      "AddressCity": "BERWYN HEIGHTS",
+      "AddressStateProvince": "MD",
+      "AddressCounty": "BERWYN HEIGHTS"
+      }
+    },
+    {
+      "id": "1255962510",
+      "type": "provider",
+      "attributes": {
+      "providerIdentifier": "1255962510",
+      "ProviderIdentifierType": "NPI",
+      "name": "OYEKAN, ADETOLA O",
+      "ProviderType": "Individual",
+      "Address": "1400 MERCANTILE LN STE 180\r\nLARGO, MD",
+      "AddressStreet": "1400 MERCANTILE LN STE 180",
+      "AddressCity": "LARGO",
+      "AddressStateProvince": "MD",
+      "AddressCounty": "LARGO"
+      }
+    },
+    {
+      "id": "1770904021",
+      "type": "provider",
+      "attributes": {
+      "providerIdentifier": "1770904021",
+      "ProviderIdentifierType": "NPI",
+      "name": "Jones, Tillie",
+      "ProviderType": "Individual",
+      "Address": "1000 Daleview Dr\r\nSilver Spring, MD",
+      "AddressStreet": "1000 Daleview Dr",
+      "AddressCity": "Silver Spring",
+      "AddressStateProvince": "MD",
+      "AddressCounty": "Silver Spring"
+      }
+    }
+  ]
+}

@@ -183,8 +183,8 @@ describe('Authentication Utilities', () => {
       );
     });
 
-    it('should return session url with queryParams appeneded if provided', () => {
-      expect(authUtilities.sessionTypeUrl({ type, queryParams })).to.equal(
+    it('should return session url with queryParams appended if provided', () => {
+      expect(authUtilities.sessionTypeUrl({ type, queryParams })).to.eql(
         appendQuery(API_SESSION_URL({ type }), queryParams),
       );
     });
@@ -273,7 +273,7 @@ describe('Authentication Utilities', () => {
         }),
       ).to.include(appendQuery(API_SIGN_IN_SERVICE_URL({ type })));
     });
-    it('should use API_SESSION_URL when OAuth is disabled', () => {
+    it('should use API_SESSION_URL when OAuth is disabled', async () => {
       const params = { application: 'vamobile' };
       setup({
         path: usipPathWithParams(
@@ -281,7 +281,7 @@ describe('Authentication Utilities', () => {
         ),
       });
       expect(
-        authUtilities.sessionTypeUrl({
+        await authUtilities.sessionTypeUrl({
           type,
         }),
       ).to.include(
@@ -298,20 +298,18 @@ describe('Authentication Utilities', () => {
           trackingId: GA.trackingIds[0],
         },
       });
-      expect(authUtilities.getGAClientId()).includes({
-        gaClientId: mockGAClientId,
-      });
+      expect(authUtilities.getGAClientId()).to.eql(mockGAClientId);
     });
-    it('should return an empty object if clientId is invalid', () => {
+    it('should return null if clientId is invalid', () => {
       setup({
         mockGA: {
           mockGAActive: true,
           trackingId: mockInvalidGATrackingId,
         },
       });
-      expect(authUtilities.getGAClientId()).to.include({});
+      expect(authUtilities.getGAClientId()).to.eql(null);
     });
-    it('should return an empty object if clientId is invalid', () => {
+    it('should return null if clientId is invalid', () => {
       setup({
         mockGA: {
           throwGAError: true,
@@ -319,7 +317,7 @@ describe('Authentication Utilities', () => {
           trackingId: mockInvalidGATrackingId,
         },
       });
-      expect(authUtilities.getGAClientId()).to.include({});
+      expect(authUtilities.getGAClientId()).to.eql(null);
     });
   });
 

@@ -15,7 +15,7 @@ const { createNotificationSuccess } = require('./notifications');
 
 const { generateFeatureToggles } = require('./feature-toggles');
 
-const { paymentHistory } = require('./payment-history');
+const payments = require('./payment-history');
 
 const bankAccounts = require('./bank-accounts');
 
@@ -33,7 +33,10 @@ const responses = {
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/feature_toggles': generateFeatureToggles(),
   'GET /v0/ppiu/payment_information': (_req, res) => {
-    return res.status(200).json(paymentHistory.simplePaymentHistory);
+    return res.status(200).json(payments.paymentHistory.simplePaymentHistory);
+  },
+  'PUT /v0/ppiu/payment_information': (_req, res) => {
+    return res.status(200).json(payments.paymentInformation.saved);
   },
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount,
