@@ -22,22 +22,7 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
-          checkInExperienceEditingPreCheckInEnabled: false,
-        }),
-      );
-    },
-    withPreCheckInEditEnabled: () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          checkInExperienceEnabled: true,
-          preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
-          emergencyContactEnabled: true,
-          checkInExperienceEditingPreCheckInEnabled: true,
         }),
       );
     },
@@ -48,7 +33,6 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
           checkInExperienceDayOfDemographicsFlagsEnabled: true,
         }),
@@ -61,7 +45,6 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
           checkInExperienceDayOfDemographicsFlagsEnabled: true,
           checkInExperienceDayOfTranslationEnabled: true,
@@ -75,7 +58,6 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: true,
           emergencyContactEnabled: true,
         }),
       );
@@ -87,9 +69,7 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
-          checkInExperienceEditingPreCheckInEnabled: false,
           checkInExperienceLorotaSecurityUpdatesEnabled: true,
         }),
       );
@@ -355,19 +335,6 @@ class ApiInitializer {
     withFailure: (errorCode = 400) => {
       cy.intercept('POST', `/check_in/v2/patient_check_ins/`, req => {
         req.reply(errorCode, checkInData.post.createMockFailedResponse({}));
-      });
-    },
-  };
-
-  initializeDemographicEditPost = {
-    withSuccess: () => {
-      cy.intercept('POST', `/check_in/v2/edit_demographics/`, req => {
-        req.reply(checkInData.post.createMockEditSuccessResponse());
-      });
-    },
-    withFailure: (errorCode = 400) => {
-      cy.intercept('POST', `/check_in/v2/edit_demographics/`, req => {
-        req.reply(errorCode, checkInData.post.createMockEditErrorResponse({}));
       });
     },
   };

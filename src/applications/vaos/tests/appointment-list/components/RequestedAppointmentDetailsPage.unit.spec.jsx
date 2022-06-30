@@ -42,6 +42,7 @@ const initialState = {
 const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingVAOSServiceRequests: true,
+    vaOnlineSchedulingVAOSServiceCCAppointments: false,
   },
 };
 
@@ -825,7 +826,8 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
     await waitFor(() => {
       expect(document.activeElement).to.have.tagName('h1');
     });
-
+    // Need to re-vist this when we update our v2 cypress tests
+    // expect(screen.getByText(/Type of care/)).to.be.ok;
     expect(
       screen.getByRole('heading', {
         level: 1,
@@ -1004,7 +1006,6 @@ describe('VAOS <RequestedAppointmentDetailsPage> with VAOS service', () => {
       facility: createMockFacilityByVersion({ id: '442GC', version: 0 }),
       version: 0,
     });
-
     const screen = renderWithStoreAndRouter(<AppointmentList />, {
       initialState: initialStateVAOSService,
       path: `/requests/${appointment.id}`,

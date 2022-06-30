@@ -85,7 +85,7 @@ class AddressPage {
       cy
         .focused()
         .invoke('text')
-        .should('match', /update saved/i);
+        .should('match', /edit/i);
     altText && cy.findByText(altText).should('exist');
   };
 

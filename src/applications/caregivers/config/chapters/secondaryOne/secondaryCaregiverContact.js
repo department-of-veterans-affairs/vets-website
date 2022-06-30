@@ -1,7 +1,8 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
-import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
+import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo/SecondaryCaregiverInfo';
 import { secondaryOneFields } from 'applications/caregivers/definitions/constants';
+import { secondaryOneContactIntro } from 'applications/caregivers/definitions/content';
 import {
   secondaryOneInputLabel,
   hasSecondaryCaregiverTwoUI,
@@ -11,23 +12,23 @@ import {
   vetRelationshipUI,
   alternativePhoneNumberUI,
   primaryPhoneNumberUI,
-  addressWithoutCountryUI,
+  addressWithAutofillUI,
 } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
 const { secondaryCaregiverOne } = fullSchema.properties;
 const secondaryCaregiverOneProps = secondaryCaregiverOne.properties;
-
 const { address } = fullSchema.definitions;
 
 const secondaryCaregiverContactPage = {
   uiSchema: {
-    'ui:description': SecondaryCaregiverInfo({
-      pageTitle: 'Contact information',
-    }),
-    // secondaryOne UI
-    [secondaryOneFields.address]: addressWithoutCountryUI(
-      secondaryOneInputLabel,
-    ),
+    'ui:description': formContext =>
+      SecondaryCaregiverInfo({
+        formContext,
+        pageTitle: 'Contact information',
+        introText: secondaryOneContactIntro,
+        showContactIntro: true,
+      }),
+    [secondaryOneFields.address]: addressWithAutofillUI(),
     [secondaryOneFields.primaryPhoneNumber]: primaryPhoneNumberUI(
       secondaryOneInputLabel,
     ),
@@ -52,8 +53,13 @@ const secondaryCaregiverContactPage = {
       secondaryOneFields.primaryPhoneNumber,
     ],
     properties: {
-      // secondaryOne properties
-      [secondaryOneFields.address]: address,
+      [secondaryOneFields.address]: {
+        ...address,
+        properties: {
+          ...address.properties,
+          'view:autofill': { type: 'boolean' },
+        },
+      },
       [secondaryOneFields.primaryPhoneNumber]:
         secondaryCaregiverOneProps.primaryPhoneNumber,
       [secondaryOneFields.alternativePhoneNumber]:

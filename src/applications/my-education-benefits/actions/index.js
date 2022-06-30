@@ -116,7 +116,7 @@ export function fetchClaimStatus() {
     dispatch({ type: FETCH_CLAIM_STATUS });
     const timeoutResponse = {
       attributes: {
-        claimStatus: CLAIM_STATUS_RESPONSE_ERROR,
+        claimStatus: CLAIM_STATUS_RESPONSE_IN_PROGRESS,
         receivedDate: getNowDate(),
       },
     };

@@ -4,6 +4,7 @@ import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import { createAppointment } from '../../services/appointment';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
   selectFeatureDirectScheduling,
@@ -29,7 +30,6 @@ import {
   sendRequestMessage,
   getCommunityCare,
 } from '../../services/var';
-import { createAppointment } from '../../services/appointment';
 import {
   getLocation,
   getSiteIdFromFacilityId,
@@ -255,7 +255,6 @@ export function fetchFacilityDetails(facilityId) {
     });
   };
 }
-
 export function checkEligibility({ location, showModal }) {
   return async (dispatch, getState) => {
     const state = getState();

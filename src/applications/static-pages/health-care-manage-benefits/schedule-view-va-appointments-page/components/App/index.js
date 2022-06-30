@@ -4,9 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
 // Relative imports.
+import {
+  selectPatientFacilities,
+  selectPatientFacilitiesDsot,
+} from 'platform/user/selectors';
 import AuthContent from '../AuthContent';
 import UnauthContent from '../UnauthContent';
-import { selectPatientFacilities } from 'platform/user/selectors';
 
 export const App = ({ facilities }) => {
   const cernerFacilities = facilities?.filter(f => f.usesCernerAppointments);
@@ -39,7 +42,9 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  facilities: selectPatientFacilities(state),
+  facilities: state?.featureToggles?.pwEhrCtaDrupalSourceOfTruth
+    ? selectPatientFacilitiesDsot(state)
+    : selectPatientFacilities(state),
 });
 
 export default connect(

@@ -28,6 +28,7 @@ const generateMockSlots = require('./var/slots');
 // v2
 const requestsV2 = require('./v2/requests.json');
 const facilitiesV2 = require('./v2/facilities.json');
+const providersV2 = require('./v2/providers.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
@@ -278,6 +279,11 @@ const responses = {
       data: facilitiesV2.data.find(facility => facility.id === req.params.id),
     });
   },
+  'GET /vaos/v2/providers/:id': (req, res) => {
+    return res.json({
+      data: providersV2.data.find(provider => provider.id === req.params.id),
+    });
+  },
   'GET /vaos/v2/facilities': (req, res) => {
     const { ids } = req.query;
     const { children } = req.query;
@@ -446,6 +452,7 @@ const responses = {
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
         { name: 'vaOnlineSchedulingPocHealthApt', value: true },
         { name: 'vaOnlineSchedulingStatusImprovement', value: true },
+        { name: 'vaOnlineFilter36Vats', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },

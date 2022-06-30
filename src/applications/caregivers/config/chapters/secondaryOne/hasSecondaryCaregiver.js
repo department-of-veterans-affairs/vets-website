@@ -1,6 +1,6 @@
 import { secondaryRequiredAlert } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
 import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
+import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo/SecondaryCaregiverInfo';
 
 const hasSecondaryCaregiverPage = {
   uiSchema: {
@@ -10,7 +10,6 @@ const hasSecondaryCaregiverPage = {
       'ui:widget': 'yesNo',
       'ui:description': SecondaryCaregiverInfo({
         additionalInfo: true,
-        headerInfo: false,
       }),
       'ui:required': formData =>
         !formData[primaryCaregiverFields.hasPrimaryCaregiver],

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { getPatientInstruction } from '.';
+import { getPatientInstruction } from './index';
 import {
   APPOINTMENT_TYPES,
   PURPOSE_TEXT,
@@ -225,4 +225,20 @@ export function transformVAOSAppointment(appt) {
 
 export function transformVAOSAppointments(appts) {
   return appts.map(appt => transformVAOSAppointment(appt));
+}
+
+/**
+ * Transforms a provider object from the providers endpoint into our
+ * VAOS format
+ *
+ * @export
+ * @param {provider} provider A provider from the providers endpoint
+ * @returns {Provider} A Provider resource
+ */
+export function transformPreferredProviderV2(provider) {
+  return {
+    resourceType: 'Provider',
+    id: provider.providerIdentifier,
+    name: provider.name,
+  };
 }

@@ -53,14 +53,8 @@ export const seeStaffMessageUpdated = message => {
 
 export const UPDATE_DAY_OF_CHECK_IN_FORM = 'UPDATE_DAY_OF_CHECK_IN_FORM';
 
-export const updateFormAction = ({
-  patientDemographicsStatus,
-  checkInExperienceUpdateInformationPageEnabled = false,
-}) => {
-  const pages = updateForm(
-    patientDemographicsStatus,
-    checkInExperienceUpdateInformationPageEnabled,
-  );
+export const updateFormAction = ({ patientDemographicsStatus }) => {
+  const pages = updateForm(patientDemographicsStatus);
   return {
     type: UPDATE_DAY_OF_CHECK_IN_FORM,
     payload: {
