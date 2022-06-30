@@ -3,7 +3,7 @@ import React from 'react';
 export const BirthInfoDescription = () => (
   <>
     <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
-      Enter your place of birth, including city and state or foreign country.
+      Enter your place of birth, including city and state, province or region.
     </p>
     <va-additional-info
       trigger="Why we ask for this information"

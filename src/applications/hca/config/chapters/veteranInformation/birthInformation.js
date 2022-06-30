@@ -1,9 +1,15 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import constants from 'vets-json-schema/dist/constants.json';
+
 import AuthenticatedShortFormAlert from '../../../components/FormAlerts/AuthenticatedShortFormAlert';
 import { BirthInfoDescription } from '../../../components/FormDescriptions';
 import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
 
-const { cityOfBirth, stateOfBirth } = fullSchemaHca.properties;
+const { cityOfBirth } = fullSchemaHca.properties;
+const states = Object.values(constants.states)
+  .reverse()
+  .flat()
+  .filter((val, idx, arr) => arr.indexOf(val) === idx);
 
 export default {
   uiSchema: {
@@ -37,7 +43,11 @@ export default {
         type: 'object',
         properties: {
           cityOfBirth,
-          stateOfBirth,
+          stateOfBirth: {
+            type: 'string',
+            enum: [...states.map(object => object.value), 'Other'],
+            enumNames: [...states.map(object => object.label), 'Other'],
+          },
         },
       },
     },
