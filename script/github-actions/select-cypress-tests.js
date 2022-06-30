@@ -90,7 +90,7 @@ function updateGraph(graph, appName, importerFilePath, importeeFilePath) {
 
 function buildGraph() {
   const graph = {};
-  const files = ['src/applications/**/*.*', '!src/applications/*.*'];
+  const files = ['src/applications/**/*.js', '!src/applications/*.js'];
   const imports = getImports(files);
 
   Object.keys(imports).forEach(importerFilePath => {
@@ -224,8 +224,6 @@ function run() {
   const graph = dedupeGraph(buildGraph());
   const tests = selectTests(graph, pathsOfChangedFiles);
 
-  // eslint-disable-next-line no-console
-  console.log('Debugging selected tests:', tests);
   exportVariables(tests);
 }
 
