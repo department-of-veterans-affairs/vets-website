@@ -31,7 +31,7 @@ const TableDetailsView = ({ formData, onEdit }) => {
           onClick={() => onEdit()}
           type="button"
           // Add the form name to the aria-label if it exists
-          aria-label={`Edit ${formData.name ? formData.name : ''} `}
+          aria-label={`Edit ${formData?.name ?? ''} `}
           tabIndex={0}
         >
           Edit
