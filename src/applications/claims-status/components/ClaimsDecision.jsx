@@ -2,65 +2,61 @@ import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
-function ClaimsDecision({ completedDate }) {
-  return (
-    <div className="usa-alert usa-alert-info claims-alert-status background-color-only">
-      <h3 className="claims-alert-header vads-u-font-size--h4">
-        Your claim decision is ready
-      </h3>
-      <p>
-        {completedDate
-          ? `We finished reviewing your claim on ${moment(completedDate).format(
-              'MMM D, YYYY',
-            )}. `
-          : null}
-        You’ll receive a packet by mail that includes details of your claim
-        decision. <strong>Note:</strong> Please allow 7 to 10 business days for
-        your packet to arrive before contacting us. If you haven’t received your
-        packet yet, you can check your claim decision online.
-      </p>
-      <h4 className="claims-paragraph-header vads-u-font-size--h5">
-        Next steps
-      </h4>
-      <p>
-        <strong>If you agree with your claim decision</strong>, you don’t need
-        to do anything else.
-      </p>
-      <p>
-        <strong>If you have new evidence</strong> that shows your condition is
-        service connected, you can file a Supplemental Claim. We'll review your
-        claim decision using the new evidence.{' '}
-        <a href="/decision-reviews/supplemental-claim/" target="_blank">
-          Learn more about Supplemental Claims
-        </a>
-      </p>
-      <p>
-        <strong>
-          If your condition has gotten worse since you filed your claim
-        </strong>
-        , you can file a new claim for an increase in disability compensation.{' '}
-        <a href="/disability/how-to-file-claim/" target="_blank">
-          Learn how to file a VA disability claim
-        </a>
-      </p>
-      <p>
-        <strong>If you disagree with your claim decision</strong>, you can
-        request a decision review.{' '}
-        <a href="/resources/choosing-a-decision-review-option/" target="_blank">
-          Find out how to choose a decision review option
-        </a>
-      </p>
-      <p>
-        <strong>If you're not enrolled in VA health care</strong>, you can apply
-        now.{' '}
-        <a href="/health-care/apply/application/introduction" target="_blank">
-          Apply for VA health care benefits
-        </a>
-        .
-      </p>
-    </div>
-  );
-}
+const ClaimsDecision = ({ completedDate }) => (
+  <va-alert background-only>
+    <h3 className="claims-alert-header vads-u-font-size--h4">
+      Your claim decision is ready
+    </h3>
+    <p>
+      {completedDate
+        ? `We finished reviewing your claim on ${moment(completedDate).format(
+            'MMM D, YYYY',
+          )}. `
+        : null}
+      You’ll receive a packet by mail that includes details of your claim
+      decision. <strong>Note:</strong> Please allow 7 to 10 business days for
+      your packet to arrive before contacting us. If you haven’t received your
+      packet yet, you can check your claim decision online.
+    </p>
+    <h4 className="claims-paragraph-header vads-u-font-size--h5">Next steps</h4>
+    <p>
+      <strong>If you agree with your claim decision</strong>, you don’t need to
+      do anything else.
+    </p>
+    <p>
+      <strong>If you have new evidence</strong> that shows your condition is
+      service connected, you can file a Supplemental Claim. We’ll review your
+      claim decision using the new evidence.{' '}
+      <a href="/decision-reviews/supplemental-claim/" target="_blank">
+        Learn more about Supplemental Claims
+      </a>
+    </p>
+    <p>
+      <strong>
+        If your condition has gotten worse since you filed your claim
+      </strong>
+      , you can file a new claim for an increase in disability compensation.{' '}
+      <a href="/disability/how-to-file-claim/" target="_blank">
+        Learn how to file a VA disability claim
+      </a>
+    </p>
+    <p>
+      <strong>If you disagree with your claim decision</strong>, you can request
+      a decision review.{' '}
+      <a href="/resources/choosing-a-decision-review-option/" target="_blank">
+        Find out how to choose a decision review option
+      </a>
+    </p>
+    <p>
+      <strong>If you’re not enrolled in VA health care</strong>, you can apply
+      now.{' '}
+      <a href="/health-care/apply/application/introduction" target="_blank">
+        Apply for VA health care benefits
+      </a>
+      .
+    </p>
+  </va-alert>
+);
 
 ClaimsDecision.propTypes = {
   completedDate: PropTypes.string,
