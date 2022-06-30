@@ -25,7 +25,7 @@ export default {
       },
     },
     'view:placeOfBirth': {
-      'ui:title': 'Place of birth',
+      'ui:title': 'Your place of birth',
       'ui:description': BirthInfoDescription,
       cityOfBirth: {
         'ui:title': 'City',
