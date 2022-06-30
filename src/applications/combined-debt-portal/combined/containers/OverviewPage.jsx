@@ -8,6 +8,7 @@ import {
   calculateTotalDebts,
   calculateTotalBills,
 } from '../utils/balance-helpers';
+import MCPAlert from '../components/MCPAlerts';
 
 const OverviewPage = () => {
   const title = 'Your VA debt and bills';
@@ -24,6 +25,7 @@ const OverviewPage = () => {
   const billError = mcp.error;
   const debtError = debtLetters.errors?.length > 0;
   const bothError = billError && debtError;
+  const isEnrolledInHealthCare = true;
 
   // get totals
   const { debts } = debtLetters;
@@ -32,6 +34,22 @@ const OverviewPage = () => {
   const totalBills = calculateTotalBills(bills);
   const bothZero =
     totalDebts === 0 && totalBills === 0 && !billError && !debtError;
+
+  if (!isEnrolledInHealthCare)
+    return (
+      <>
+        <va-breadcrumbs className="vads-u-font-family--sans" label="Breadcrumb">
+          <a href="/">Home</a>
+          <a href="/manage-debt-and-bills">
+            Review and manage VA debt and bills
+          </a>
+          <a href="/manage-debt-and-bills/summary">Your VA debt and bills</a>
+        </va-breadcrumbs>
+        <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
+          <MCPAlert type="no-health-care" />
+        </div>
+      </>
+    );
 
   return (
     <>
