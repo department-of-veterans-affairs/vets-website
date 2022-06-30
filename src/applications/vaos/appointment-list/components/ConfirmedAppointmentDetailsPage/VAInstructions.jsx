@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { PURPOSE_TEXT, PURPOSE_TEXT_V2 } from '../../../utils/constants';
+import { PURPOSE_TEXT } from '../../../utils/constants';
 
 export default function VAInstructions({ appointment }) {
   const showInstructions =
     appointment.version === 2
-      ? PURPOSE_TEXT_V2.some(purpose =>
-          appointment?.comment?.startsWith(purpose.serviceName),
-        )
+      ? appointment?.comment
       : PURPOSE_TEXT.some(purpose =>
           appointment?.comment?.startsWith(purpose.short),
         );
