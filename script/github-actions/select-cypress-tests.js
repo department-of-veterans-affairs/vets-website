@@ -223,6 +223,9 @@ function run() {
   const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
   const graph = dedupeGraph(buildGraph());
   const tests = selectTests(graph, pathsOfChangedFiles);
+
+  // eslint-disable-next-line no-console
+  console.log('Debugging selected tests:', tests);
   exportVariables(tests);
 }
 
