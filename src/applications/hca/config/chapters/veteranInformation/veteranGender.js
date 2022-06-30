@@ -1,14 +1,10 @@
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import React from 'react';
-
+import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-import CustomReviewField from '../../../components/CustomReviewField';
 
-import {
-  shortFormMessage,
-  HIGH_DISABILITY,
-  emptyObjectSchema,
-} from '../../../helpers';
+import CustomReviewField from '../../../components/CustomReviewField';
+import { ShortFormMessage } from '../../../components/FormAlerts';
+import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
 
 const { sigiGenders } = fullSchemaHca.properties;
 
@@ -45,7 +41,7 @@ const SIGIGenderDescription = () => {
 export default {
   uiSchema: {
     'view:genderShortFormMessage': {
-      'ui:description': shortFormMessage,
+      'ui:description': ShortFormMessage,
       'ui:options': {
         hideIf: form =>
           !(

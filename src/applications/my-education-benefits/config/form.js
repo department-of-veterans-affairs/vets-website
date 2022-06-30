@@ -46,6 +46,7 @@ import {
   unsureDescription,
   post911GiBillNote,
   prefillTransformer,
+  customDirectDepositDescription,
 } from '../helpers';
 
 import MailingAddressViewField from '../components/MailingAddressViewField';
@@ -60,7 +61,6 @@ import {
 } from '../utils/validation';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
-import { directDepositDescription } from '../../edu-benefits/1990/helpers';
 
 import { ELIGIBILITY } from '../actions';
 
@@ -1315,7 +1315,7 @@ const formConfig = {
         [formPages.directDeposit]: {
           path: 'direct-deposit',
           uiSchema: {
-            'ui:description': directDepositDescription,
+            'ui:description': customDirectDepositDescription,
             bankAccount: {
               ...bankAccountUI,
               'ui:order': ['accountType', 'accountNumber', 'routingNumber'],

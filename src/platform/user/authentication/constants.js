@@ -92,7 +92,10 @@ export const GA = {
   clientIdKey: 'clientId',
   trackingIdKey: 'trackingId',
   trackingIds: ['UA-50123418-16', 'UA-50123418-17'],
-  queryParamKey: 'ga_client_id',
+  queryParams: {
+    sis: 'ga_client_id',
+    default: 'client_id',
+  },
 };
 
 export const IDME_TYPES = ['idme', 'idme_signup'];

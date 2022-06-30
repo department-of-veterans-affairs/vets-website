@@ -19,6 +19,7 @@ import { isInProgressPath } from 'platform/forms/helpers';
 import {
   signInServiceName as signInServiceNameSelector,
   transitionMHVAccount,
+  isAuthenticatedWithOAuth,
 } from 'platform/user/authentication/selectors';
 import {
   isLoggedIn,
@@ -252,6 +253,7 @@ export class Main extends Component {
         <SessionTimeoutModal
           isLoggedIn={this.props.currentlyLoggedIn}
           onExtendSession={this.props.initializeProfile}
+          authenticatedWithOAuth={this.props.authenticatedWithOAuth}
         />
         <AutoSSO />
       </div>
@@ -278,6 +280,7 @@ export const mapStateToProps = state => {
   return {
     currentlyLoggedIn: isLoggedIn(state),
     isLOA3: isLOA3(state),
+    authenticatedWithOAuth: isAuthenticatedWithOAuth(state),
     isProfileLoading: isProfileLoading(state),
     mhvTransition: mhvTransitionEnabled(state),
     mhvTransitionModal: mhvTransitionModalEnabled(state),
@@ -317,6 +320,7 @@ Main.propTypes = {
   toggleSearchHelpUserMenu: PropTypes.func.isRequired,
   updateLoggedInStatus: PropTypes.func.isRequired,
   // From mapStateToProps.
+  authenticatedWithOAuth: PropTypes.bool,
   canTransferMHVAccount: PropTypes.bool,
   currentlyLoggedIn: PropTypes.bool,
   isHeaderV2: PropTypes.bool,

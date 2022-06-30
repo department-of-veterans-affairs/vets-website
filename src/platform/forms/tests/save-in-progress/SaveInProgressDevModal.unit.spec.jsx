@@ -101,7 +101,7 @@ describe('Schemaform <SipsDevModal>', () => {
     const dom = getFormDOM(modal);
     // open the sips modal
     dom.click('.va-button-link');
-    dom.fillData('textarea', JSON.stringify(newData));
+    dom.fillData('va-textarea', JSON.stringify(newData));
     dom.fillData('select', '/page-2');
     dom.click('.usa-button-primary'); // replace button
     expect(result).to.deep.equal({
@@ -134,7 +134,7 @@ describe('Schemaform <SipsDevModal>', () => {
     const dom = getFormDOM(modal);
     // open the sips modal
     dom.click('.va-button-link');
-    dom.fillData('textarea', JSON.stringify(newData));
+    dom.fillData('va-textarea', JSON.stringify(newData));
     dom.fillData('select', '/page-2');
     // replace button
     dom.click('.usa-button-primary');
@@ -169,7 +169,7 @@ describe('Schemaform <SipsDevModal>', () => {
     const dom = getFormDOM(modal);
     // open the sips modal
     dom.click('.va-button-link');
-    dom.fillData('textarea', JSON.stringify(newData));
+    dom.fillData('va-textarea', JSON.stringify(newData));
     dom.fillData('select', '/page-1');
     // merge button
     dom.click('.usa-button-secondary');
@@ -204,7 +204,7 @@ describe('Schemaform <SipsDevModal>', () => {
     const dom = getFormDOM(modal);
     // open the sips modal
     dom.click('.va-button-link');
-    dom.fillData('textarea', JSON.stringify(newData));
+    dom.fillData('va-textarea', JSON.stringify(newData));
     dom.fillData('select', '/page-1');
     // merge button
     dom.click('.usa-button-secondary');
