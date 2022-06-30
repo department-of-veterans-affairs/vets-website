@@ -144,7 +144,7 @@ const testConfig = createTestConfig(
         cy.route('POST', '/v0/mdot/supplies', postData);
       });
     },
-    skip: false,
+    skip: true,
   },
   manifest,
   formConfig,
