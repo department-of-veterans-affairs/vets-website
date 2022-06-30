@@ -27,14 +27,10 @@ function RelatedVeterans({ veterans }) {
           </dd>
         </dl>
 
-        <hr className="fry-dea-content-break vads-u-margin-y--1" />
+        <hr className="fry-dea-content-break vads-u-margin-y--2" />
 
-        <h5 className="vads-u-margin-top--0">
-          Associated{' '}
-          {veteran.fryEligibility && veteran.deaEligibility
-            ? 'benefits'
-            : 'benefit'}{' '}
-          you may be elibible for:
+        <h5 className="vads-u-font-family--sans vads-u-margin-top--0">
+          Associated benefits you may be eligible for:
         </h5>
         <ul className="vads-u-margin--0 vads-u-padding-left--2">
           {veteran.fryEligibility && (
@@ -44,7 +40,7 @@ function RelatedVeterans({ veterans }) {
           )}
           {veteran.deaEligibility && (
             <li className="vads-u-padding-left--1p5">
-              Up to 36 months of Survivors’ and Dependents Educational
+              Up to 36 months of Survivors’ and Dependents’ Educational
               Assistance (DEA, Chapter 35)
             </li>
           )}

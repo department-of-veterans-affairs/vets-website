@@ -78,7 +78,11 @@ function FryDeaEligibilityCards({ veterans }) {
             Money for books &amp; supplies
           </li>
         </ul>
-        <a href="https://www.va.gov/education/survivor-dependent-benefits/fry-scholarship/">
+        <a
+          href="https://www.va.gov/education/survivor-dependent-benefits/fry-scholarship/"
+          target="_blank"
+          rel="noreferrer"
+        >
           Learn more about the Fry Scholarship education benefit
         </a>
       </va-alert>
@@ -119,7 +123,11 @@ function FryDeaEligibilityCards({ veterans }) {
             Monthly stipend
           </li>
         </ul>
-        <a href="https://www.va.gov/education/survivor-dependent-benefits/dependents-education-assistance/">
+        <a
+          href="https://www.va.gov/education/survivor-dependent-benefits/dependents-education-assistance/"
+          target="_blank"
+          rel="noreferrer"
+        >
           Learn more about the DEA education benefit
         </a>
       </va-alert>

@@ -434,7 +434,7 @@ const formConfig = {
                 labels: {
                   fry: 'Fry Scholarship (Chapter 33)',
                   dea:
-                    'Survivors’ and Dependents Educational Assistance (DEA, Chapter 35)',
+                    'Survivors’ and Dependents’ Educational Assistance (DEA, Chapter 35)',
                 },
                 widgetProps: {
                   fry: { 'data-info': 'fry' },
@@ -462,7 +462,7 @@ const formConfig = {
                 type: 'string',
                 enum: [
                   'Fry Scholarship (Chapter 33)',
-                  'Survivors’ and Dependents Educational Assistance (DEA, Chapter 35)',
+                  'Survivors’ and Dependents’ Educational Assistance (DEA, Chapter 35)',
                 ],
               },
             },
