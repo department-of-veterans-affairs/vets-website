@@ -25,7 +25,7 @@ const OverviewPage = () => {
   const billError = mcp.error;
   const debtError = debtLetters.errors?.length > 0;
   const bothError = billError && debtError;
-  const isEnrolledInHealthCare = mcp.error.code !== '403';
+  const isEnrolledInHealthCare = mcp.error?.code !== '403' ?? true;
 
   // get totals
   const { debts } = debtLetters;
