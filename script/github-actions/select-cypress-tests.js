@@ -4,11 +4,11 @@ const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
 const findImports = require('find-imports');
+
+const { fixturesFolder } = require('../../config/cypress.config').cypressConfig;
 const {
-  integrationFolder,
-  testFiles,
-  // eslint-disable-next-line import/extensions
-} = require('../../config/cypress.config.js').cypressConfig;
+  specPattern,
+} = require('../../config/cypress.config').cypressConfig.e2e;
 
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
@@ -182,7 +182,7 @@ function selectedTests(graph, pathsOfChangedFiles) {
 }
 
 function allTests() {
-  const pattern = path.join(__dirname, '../..', integrationFolder, testFiles);
+  const pattern = path.join(__dirname, '../..', fixturesFolder, specPattern);
   return glob.sync(pattern);
 }
 
