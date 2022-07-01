@@ -71,7 +71,6 @@ const ClaimsDecision = ({ completedDate }) => (
       <a href="/health-care/apply/application/introduction">
         Apply for VA health care benefits
       </a>
-      .
     </p>
   </va-alert>
 );
