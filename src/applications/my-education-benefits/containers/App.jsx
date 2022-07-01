@@ -28,7 +28,7 @@ export const App = ({
       if (
         user.login.currentlyLoggedIn &&
         !personalInfoFetchInProgress &&
-        fetchedPersonalInfo
+        !fetchedPersonalInfo
       ) {
         if (!firstName) {
           getPersonalInfo();
