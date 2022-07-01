@@ -25,7 +25,7 @@ const OverviewPage = () => {
   const billError = mcp.error;
   const debtError = debtLetters.errors?.length > 0;
   const bothError = billError && debtError;
-  const isEnrolledInHealthCare = mcp.error?.code !== '403' ?? true;
+  const isEnrolledInHealthCare = billError?.code !== '403' ?? true;
 
   // get totals
   const { debts } = debtLetters;
@@ -46,6 +46,7 @@ const OverviewPage = () => {
           <a href="/manage-debt-and-bills/summary">Your VA debt and bills</a>
         </va-breadcrumbs>
         <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
+          <h1 data-testid="overview-page-title">{title}</h1>
           <MCPAlert type="no-health-care" />
         </div>
       </>

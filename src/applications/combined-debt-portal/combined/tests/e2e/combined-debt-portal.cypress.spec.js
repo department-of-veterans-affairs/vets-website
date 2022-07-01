@@ -187,7 +187,7 @@ describe('Your VA debt and bills (overview)', () => {
 
       cy.visit('/manage-debt-and-bills/summary');
       cy.wait(['@features', '@copaysNE', '@debtsNE']);
-      cy.findByTestId('overview-page-title').should('not.exist');
+      cy.findByTestId('overview-page-title').should('exist');
 
       cy.findByTestId('no-healthcare-alert').should('exist');
 

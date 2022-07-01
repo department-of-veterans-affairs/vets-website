@@ -3,5 +3,14 @@ export const reply404 = req => {
 };
 
 export const reply403 = req => {
-  return req.reply(403, { errors: ['error'] });
+  return req.reply(403, {
+    errors: [
+      {
+        title: 'Forbidden',
+        detail: 'User does not have access to the requested resource',
+        code: '403',
+        status: '403',
+      },
+    ],
+  });
 };
