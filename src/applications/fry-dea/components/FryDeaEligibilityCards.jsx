@@ -1,31 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { VETERANS_TYPE } from '../constants';
 
-function FryDeaEligibilityCards({ veterans }) {
-  if (!veterans) {
-    return <></>;
-  }
-
-  let earliestDeaDate;
-  let earliestFryDate;
-
-  for (const veteran of veterans) {
-    if (
-      (veteran.deaStartDate && !earliestDeaDate) ||
-      veteran.deaStartDate < earliestDeaDate
-    ) {
-      earliestDeaDate = veteran.deaStartDate;
-    }
-    if (
-      (veteran.fryStartDate && !earliestFryDate) ||
-      veteran.fryStartDate < earliestFryDate
-    ) {
-      earliestFryDate = veteran.fryStartDate;
-    }
-  }
-
+function FryDeaEligibilityCards() {
   return (
     <>
       <va-alert
@@ -136,11 +115,8 @@ function FryDeaEligibilityCards({ veterans }) {
 }
 
 FryDeaEligibilityCards.propTypes = {
+  selectedVeteran: PropTypes.string,
   veterans: VETERANS_TYPE,
 };
 
-const mapStateToProps = state => ({
-  veterans: state.form?.data?.veterans,
-});
-
-export default connect(mapStateToProps)(FryDeaEligibilityCards);
+export default connect()(FryDeaEligibilityCards);

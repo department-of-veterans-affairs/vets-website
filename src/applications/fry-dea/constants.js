@@ -8,8 +8,8 @@ export const RELATIONSHIP = {
 };
 
 export const ELIGIBILITY = {
-  CHAPTER_30: 'Chapter30',
-  CHAPTER_1606: 'Chapter1606',
+  FRY: 'fry',
+  DEA: 'dea',
 };
 
 export const VETERAN_NOT_LISTED_LABEL = 'Someone not listed here';
