@@ -350,7 +350,6 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
       status: 'proposed',
       locationId: '983',
       serviceType: 'primaryCare',
-      comment: 'I need an appt',
       reasonCode: {
         coding: [{ code: 'Routine Follow-up' }],
         text: 'I need an appt',
@@ -419,7 +418,6 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
       status: 'proposed',
       locationId: '983',
       serviceType: 'primaryCare',
-      comment: 'I need an appt',
       reasonCode: {
         text: 'I need an appt',
       },

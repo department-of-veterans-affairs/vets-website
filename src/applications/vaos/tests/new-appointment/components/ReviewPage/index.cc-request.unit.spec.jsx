@@ -586,7 +586,6 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       status: 'proposed',
       locationId: '983',
       serviceType: 'primaryCare',
-      comment: 'I need an appt',
       contact: {
         telecom: [
           {
