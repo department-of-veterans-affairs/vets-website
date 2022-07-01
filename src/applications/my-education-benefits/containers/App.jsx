@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -21,11 +21,18 @@ export const App = ({
   user,
   personalInfoFetchInProgress,
 }) => {
+  const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
+
   useEffect(
     () => {
-      if (user.login.currentlyLoggedIn && !personalInfoFetchInProgress) {
+      if (
+        user.login.currentlyLoggedIn &&
+        !personalInfoFetchInProgress &&
+        fetchedPersonalInfo
+      ) {
         if (!firstName) {
           getPersonalInfo();
+          setFetchedPersonalInfo(true);
         } else if (!formData?.claimantId && claimantInfo.claimantId) {
           setFormData({
             ...formData,
