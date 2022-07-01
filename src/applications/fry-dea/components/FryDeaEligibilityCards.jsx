@@ -1,10 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
-import { VETERANS_TYPE } from '../constants';
+// import { VETERANS_TYPE , VETERAN_NOT_LISTED_VALUE } from '../constants';
 
-function FryDeaEligibilityCards() {
+function FryDeaEligibilityCards(/* { selectedVeteran, veterans } */) {
+  // if (
+  //   !veterans ||
+  //   !selectedVeteran ||
+  //   selectedVeteran === VETERAN_NOT_LISTED_VALUE
+  // ) {
+  //   return <></>;
+  // }
+
+  // const veteran = veterans.find(v => v.id === selectedVeteran);
+
   return (
     <>
       <va-alert
@@ -115,8 +125,8 @@ function FryDeaEligibilityCards() {
 }
 
 FryDeaEligibilityCards.propTypes = {
-  selectedVeteran: PropTypes.string,
-  veterans: VETERANS_TYPE,
+  // selectedVeteran: PropTypes.string,
+  // veterans: VETERANS_TYPE,
 };
 
 export default connect()(FryDeaEligibilityCards);
