@@ -4,7 +4,9 @@ const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
 const findImports = require('find-imports');
-const { integrationFolder, testFiles } = require('../../config/cypress.json');
+// const { integrationFolder, testFiles } = require('../../config/cypress.json');
+const integrationFolder = 'src';
+const testFiles = '**/tests/**/*.cypress.spec.js?(x)';
 
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
