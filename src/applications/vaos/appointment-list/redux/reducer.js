@@ -27,6 +27,7 @@ import {
   FETCH_FACILITY_SETTINGS_FAILED,
   FETCH_FACILITY_SETTINGS_SUCCEEDED,
   FETCH_FACILITY_SETTINGS,
+  FETCH_PROVIDER_SUCCEEDED,
 } from './actions';
 
 import {
@@ -43,6 +44,7 @@ const initialState = {
   confirmed: null,
   confirmedStatus: FETCH_STATUS.notStarted,
   past: null,
+  providerData: null,
   pastStatus: FETCH_STATUS.notStarted,
   pastSelectedIndex: 0,
   showCancelModal: false,
@@ -180,7 +182,6 @@ export default function appointmentsReducer(state = initialState, action) {
           [action.facility.id]: action.facility,
         };
       }
-
       return newState;
     }
     case FETCH_REQUEST_MESSAGES_SUCCEEDED: {
@@ -307,6 +308,11 @@ export default function appointmentsReducer(state = initialState, action) {
       return {
         ...state,
         facilitySettingsStatus: FETCH_STATUS.failed,
+      };
+    case FETCH_PROVIDER_SUCCEEDED:
+      return {
+        ...state,
+        providerData: action.providerData,
       };
     default:
       return state;
