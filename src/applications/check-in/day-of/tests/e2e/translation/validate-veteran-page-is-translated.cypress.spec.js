@@ -28,4 +28,17 @@ describe('Check In Experience -- ', () => {
     cy.injectAxe();
     cy.axeCheck();
   });
+  it('Validate Veteran page - tagalog', () => {
+    cy.visitWithUUID(null, 'tl');
+    // App is translated.
+    ValidateVeteran.validatePage.dayOf('tl');
+    // DS components are translated.
+    cy.get('[data-testid="last-name-input"]')
+      .shadow()
+      .find('label')
+      .should('be.visible')
+      .and('have.text', 'Ang iyong apelyido (*Kailangan)');
+    cy.injectAxe();
+    cy.axeCheck();
+  });
 });

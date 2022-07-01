@@ -40,7 +40,7 @@ describe('check-in', () => {
         'li',
       );
     });
-    it('changes language', () => {
+    it('changes language to es', () => {
       const screen = render(
         <I18nextProvider i18n={i18n}>
           <LanguagePicker />
@@ -48,6 +48,17 @@ describe('check-in', () => {
       );
       fireEvent.click(screen.getByTestId('translate-button-es'));
       expect(i18n.language).to.equal('es');
+    });
+    it('changes language to tl', () => {
+      const screen = render(
+        <Provider store={store}>
+          <I18nextProvider i18n={i18n}>
+            <LanguagePicker />
+          </I18nextProvider>
+        </Provider>,
+      );
+      fireEvent.click(screen.getByTestId('translate-button-tl'));
+      expect(i18n.language).to.equal('tl');
     });
   });
 });

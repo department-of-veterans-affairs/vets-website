@@ -54,6 +54,7 @@ describe('Mixed Language Disclaimer', () => {
         </I18nextProvider>
       </Provider>,
     );
+    // This test should probably be refactored not to rely on the mixed-language dislaimer
     expect(screen.queryByTestId('mixed-language-disclaimer')).to.exist;
   });
   it('passes axeCheck', () => {
