@@ -5,10 +5,12 @@ const path = require('path');
 const glob = require('glob');
 const findImports = require('find-imports');
 
-const { fixturesFolder } = require('../../config/cypress.config').cypressConfig;
+const cypressConfig = require('../../config/cypress.config');
+
 const {
-  specPattern,
-} = require('../../config/cypress.config').cypressConfig.e2e;
+  fixturesFolder,
+  e2e: { specPattern },
+} = cypressConfig;
 
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
