@@ -20,10 +20,10 @@ module.exports = async (on, config) => {
   let appRegistry;
   if (fs.existsSync('../content-build/src/applications/registry.json')) {
     // eslint-disable-next-line import/no-unresolved
-    appRegistry = require('../../../../../../../content-build/src/applications/registry.json');
+    appRegistry = require('../content-build/src/applications/registry.json');
   } else if (fs.existsSync('content-build/src/applications/registry.json')) {
     // eslint-disable-next-line import/no-unresolved
-    appRegistry = require('../../../../../../content-build/src/applications/registry.json');
+    appRegistry = require('../content-build/src/applications/registry.json');
   } else {
     const REMOTE_CONTENT_BUILD_REGISTRY =
       'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/main/src/applications/registry.json';

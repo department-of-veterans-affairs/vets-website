@@ -1,6 +1,6 @@
 const { defineConfig } = require('cypress');
 
-module.exports = defineConfig({
+const cypressConfig = {
   viewportWidth: 1920,
   viewportHeight: 1080,
   modifyObstructiveCode: false,
@@ -190,4 +190,6 @@ module.exports = defineConfig({
     specPattern: 'src/**/tests/**/*.cypress.spec.js?(x)',
     supportFile: 'src/platform/testing/e2e/cypress/support/index.js',
   },
-});
+};
+
+module.exports = defineConfig(cypressConfig);
