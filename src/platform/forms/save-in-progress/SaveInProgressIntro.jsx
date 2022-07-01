@@ -434,7 +434,7 @@ SaveInProgressIntro.defaultProps = {
       appType: '',
     },
   },
-  headingLevel: 3,
+  headingLevel: 2,
   ariaLabel: null,
   ariaDescribedby: null,
 };
