@@ -1,3 +1,7 @@
+form [type=submit] {
+  width: auto;
+}
+
 .schemaform-expandUnder-indent{
   margin-left: 29px;
 }

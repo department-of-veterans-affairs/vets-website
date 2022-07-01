@@ -46,23 +46,22 @@ export const required = <T>(
         : getMessage('required.default');
     return errorMessage;
   }
-
-  return props.validate ? props.validate(value) : undefined;
 };
 
 export const requiredValue = <T>(
   value: T,
   props: FieldProps<T>
 ): ValidationFunctionResult<T> => {
-  if (props.required && !Object.values(value).find((v: boolean) => v)) {
+  if (
+    (props.required && !value) ||
+    !Object?.values(value).find((v: boolean) => v)
+  ) {
     const errorMessage =
       typeof props.required === 'string'
         ? props.required
         : getMessage('required.default');
     return errorMessage;
   }
-
-  return props.validate ? props.validate(value) : undefined;
 };
 
 /**

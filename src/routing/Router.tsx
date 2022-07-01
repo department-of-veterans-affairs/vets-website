@@ -28,16 +28,16 @@ export default function FormRouter(props: RouterProps): JSX.Element {
               if (props.transformForSubmit) {
                 props.transformForSubmit(values, actions);
               }
-
-              actions.setSubmitting(true);
             }}
           >
-            <RouterContextProvider routes={props.children}>
-              <FormTitle title={props.title} subTitle={props?.subtitle} />
-              <RouterProgress />
-              <Routes>{props.children}</Routes>
-              <FormFooter />
-            </RouterContextProvider>
+            <form>
+              <RouterContextProvider routes={props.children}>
+                <FormTitle title={props.title} subTitle={props?.subtitle} />
+                <RouterProgress />
+                <Routes>{props.children}</Routes>
+                <FormFooter />
+              </RouterContextProvider>
+            </form>
           </Formik>
         </BrowserRouter>
       </div>

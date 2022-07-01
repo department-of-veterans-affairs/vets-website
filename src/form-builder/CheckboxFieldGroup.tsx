@@ -14,7 +14,9 @@ const CheckboxFieldGroup = (props: CheckboxGroupProps): JSX.Element => {
     ...props,
     validate: chainValidations(props, [requiredValue]),
   };
-  const [field, meta] = useField(withValidation as FieldHookConfig<string[]>);
+  const [field, meta, helpers] = useField(
+    withValidation as FieldHookConfig<string[]>
+  );
   return (
     <>
       <VaCheckboxGroup
@@ -23,6 +25,9 @@ const CheckboxFieldGroup = (props: CheckboxGroupProps): JSX.Element => {
         required={!!props.required}
         name={props.name}
         options={props.options}
+        onBlur={() => {
+          helpers.setTouched(true, true);
+        }}
         error={(meta.touched && meta.error) || undefined}
       >
         {props.options.map((option: CheckboxProps, index: number) => (

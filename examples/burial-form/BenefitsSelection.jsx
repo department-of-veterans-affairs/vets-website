@@ -12,15 +12,15 @@ const checkboxProps = {
   required: true,
   options: [
     {
-      name: 'burialAllowance',
+      name: 'benefitsSelection.burialAllowance',
       label: 'Burial allowance',
     },
     {
-      name: 'plotAllowance',
+      name: 'benefitsSelection.plotAllowance',
       label: 'Plot or interment allowance (Check this box if you incurred expenses for the plot to bury the Veteran’s remains.)',
     },
     {
-      name: 'transportation',
+      name: 'benefitsSelection.transportation',
       label: 'Transportation expenses (Transportation of the Veteran’s remains from the place of death to the final resting place)',
     },
   ],

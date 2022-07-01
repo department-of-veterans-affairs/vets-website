@@ -381,6 +381,9 @@ const schema = {
                 }
             }
         },
+        "veteranServedUnderAnotherName": {
+            "type": "boolean"
+        },
         "previousNames": {
             "type": "array",
             "items": {
@@ -390,6 +393,20 @@ const schema = {
         "claimantEmail": {
             "type": "string",
             "format": "email"
+        },
+        "benefitsSelection": {
+            "type": "object",
+            "properties": {
+                "burialAllowance": {
+                    "type": "boolean"
+                },
+                "plotAllowance": {
+                    "type": "boolean"
+                },
+                "transportation": {
+                    "type": "boolean"
+                }
+            }
         },
         "burialAllowance": {
             "type": "boolean"

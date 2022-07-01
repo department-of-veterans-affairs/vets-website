@@ -94,9 +94,8 @@ describe('Form Builder - CheckboxFieldGroup', () => {
     const input = getCheckboxGroupContainer(container);
     await waitFor(() => {
       getFormProps().setFieldTouched('breakfast');
+      expect(input.getAttribute('error')).toBeFalsy();
     });
-
-    expect(input.getAttribute('error')).toBeFalsy();
   });
 
   test('renders initial value', () => {

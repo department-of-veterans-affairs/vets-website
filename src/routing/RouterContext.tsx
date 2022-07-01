@@ -1,4 +1,4 @@
-import { useField, useFormikContext } from 'formik';
+import { useField } from 'formik';
 import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import {
   createRoutesFromChildren,
@@ -121,13 +121,11 @@ export function RouterContextProvider(props: RouterContextProps): JSX.Element {
   );
   const nextRoute = getNextRoute(listOfRoutes, currentLocation.pathname);
 
-  useEffect(
-    () =>
-      updateRoute(
-        currentLocation.pathname !== '' ? currentLocation.pathname : '/'
-      ),
-    [currentLocation]
-  );
+  useEffect(() => {
+    updateRoute(
+      currentLocation.pathname !== '' ? currentLocation.pathname : '/'
+    );
+  }, [currentLocation]);
 
   return (
     <RouterContext.Provider

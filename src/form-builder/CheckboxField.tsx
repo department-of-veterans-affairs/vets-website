@@ -23,6 +23,7 @@ const CheckboxField = (props: CheckboxProps): JSX.Element => {
       {...field}
       name={props.name}
       checked={field.value}
+      onBlur={() => helpers.setTouched(true)}
       onVaChange={(e: CustomEvent) => {
         helpers.setValue((e?.target as HTMLInputElement).checked);
         if (props.onValueChange) {
