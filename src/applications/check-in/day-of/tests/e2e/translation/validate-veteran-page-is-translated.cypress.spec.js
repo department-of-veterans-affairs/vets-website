@@ -28,8 +28,22 @@ describe('Check In Experience -- ', () => {
     cy.injectAxe();
     cy.axeCheck();
   });
-  it('Validate Veteran page - tagalog', () => {
+});
+
+describe('Check In Experience - Tagalog', () => {
+  beforeEach(() => {
+    const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
+    initializeFeatureToggle.withDayOfTranslationEnabled();
+    initializeSessionGet.withSuccessfulNewSession();
+    // Verifies that browser language detection is working.
     cy.visitWithUUID(null, 'tl');
+  });
+  afterEach(() => {
+    cy.window().then(window => {
+      window.sessionStorage.clear();
+    });
+  });
+  it('Validate Veteran page - tagalog', () => {
     // App is translated.
     ValidateVeteran.validatePage.dayOf('tl');
     // DS components are translated.
