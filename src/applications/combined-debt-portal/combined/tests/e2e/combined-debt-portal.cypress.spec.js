@@ -12,7 +12,7 @@ import mockCopays from '../../../medical-copays/tests/e2e/fixtures/mocks/copays.
 import mockDataEmpty from './fixtures/mocks/mockDataEmpty.json';
 import mockDebts from '../../../debt-letters/tests/e2e/fixtures/mocks/debts.json';
 import mockDebtsEmpty from './fixtures/mocks/mockDebtsEmpty.json';
-import { reply404 } from './helpers/cdp-helpers';
+import { reply404, reply403 } from './helpers/cdp-helpers';
 
 describe('Your VA debt and bills (overview)', () => {
   beforeEach(() => {
@@ -176,6 +176,23 @@ describe('Your VA debt and bills (overview)', () => {
       cy.url().should('match', /\/debt-balances$/);
     });
     /* eslint-enable @department-of-veterans-affairs/axe-check-required */
+  });
+
+  context('User is not enrolled in healthcare', () => {
+    it('should display not enrolled in healthcare alert', () => {
+      cy.intercept('GET', '/v0/medical_copays', req => reply403(req)).as(
+        'copaysNE',
+      );
+      cy.intercept('GET', '/v0/debts', mockDebts).as('debtsNE');
+
+      cy.visit('/manage-debt-and-bills/summary');
+      cy.wait(['@features', '@copaysNE', '@debtsNE']);
+      cy.findByTestId('overview-page-title').should('not.exist');
+
+      cy.findByTestId('no-healthcare-alert').should('exist');
+
+      cy.injectAxeThenAxeCheck('#react-root');
+    });
   });
 
   context('Error states', () => {
