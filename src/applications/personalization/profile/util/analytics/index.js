@@ -43,6 +43,7 @@ const captureError = (error, details) => {
       scope.setContext(message, {
         details,
         error,
+        errorAsString: error ? JSON.stringify(error) : 'no error found',
       });
 
       Sentry.captureMessage(message);

@@ -41,15 +41,15 @@ import DateReviewField from '../components/DateReviewField';
 import EmailReviewField from '../components/EmailReviewField';
 
 import {
-  chapter30Label,
-  chapter1606Label,
   unsureDescription,
   post911GiBillNote,
   prefillTransformer,
+  customDirectDepositDescription,
 } from '../helpers';
 
-import MailingAddressViewField from '../components/MailingAddressViewField';
+import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
+import MailingAddressViewField from '../components/MailingAddressViewField';
 
 import {
   isValidPhone,
@@ -60,7 +60,6 @@ import {
 } from '../utils/validation';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
-import { directDepositDescription } from '../../edu-benefits/1990/helpers';
 
 import { ELIGIBILITY } from '../actions';
 
@@ -1078,7 +1077,7 @@ const formConfig = {
         [formPages.benefitSelection]: {
           path: 'benefit-selection',
           title: 'Benefit selection',
-          subTitle: "You're applying for the Post-9/11 GI Bill®",
+          subTitle: 'You’re applying for the Post-9/11 GI Bill®',
           depends: formData => formData.eligibility?.length,
           uiSchema: {
             'view:post911Notice': {
@@ -1119,13 +1118,14 @@ const formConfig = {
                 </div>
               ),
               [formFields.benefitRelinquished]: {
-                'ui:title': 'Which benefit will you give up?',
+                'ui:title': <BenefitRelinquishedLabel />,
                 'ui:reviewField': BenefitGivenUpReviewField,
                 'ui:widget': 'radio',
                 'ui:options': {
                   labels: {
-                    Chapter30: chapter30Label,
-                    Chapter1606: chapter1606Label,
+                    Chapter30: 'Montgomery GI Bill Active Duty (Chapter 30)',
+                    Chapter1606:
+                      'Montgomery GI Bill Selected Reserve (Chapter 1606)',
                     CannotRelinquish: "I'm not sure",
                   },
                   widgetProps: {
@@ -1315,7 +1315,7 @@ const formConfig = {
         [formPages.directDeposit]: {
           path: 'direct-deposit',
           uiSchema: {
-            'ui:description': directDepositDescription,
+            'ui:description': customDirectDepositDescription,
             bankAccount: {
               ...bankAccountUI,
               'ui:order': ['accountType', 'accountNumber', 'routingNumber'],

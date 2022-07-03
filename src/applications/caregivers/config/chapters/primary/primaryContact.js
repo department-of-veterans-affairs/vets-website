@@ -49,7 +49,10 @@ const primaryContactInfoPage = {
     properties: {
       [primaryCaregiverFields.address]: {
         ...address,
-        properties: { ...address.properties, autofill: { type: 'boolean' } },
+        properties: {
+          ...address.properties,
+          'view:autofill': { type: 'boolean' },
+        },
       },
       [primaryCaregiverFields.primaryPhoneNumber]:
         primaryCaregiverProps.primaryPhoneNumber,

@@ -121,7 +121,6 @@ async function testTransactionCreationFails(numberName) {
 
   // expect an error to be shown
   const alert = await view.findByTestId('delete-error-alert');
-  expect(alert).to.have.descendant('div.va-profile-alert');
   expect(alert).to.contain.text(errorText);
 
   // make sure that Delete Modal is not automatically exited
@@ -152,7 +151,6 @@ async function testQuickFailure(numberName) {
 
   // expect an error to be shown
   const alert = await view.findByTestId('delete-error-alert');
-  expect(alert).to.have.descendant('div.va-profile-alert');
   expect(alert).to.contain.text(errorText);
 
   // waiting to make sure it doesn't auto exit

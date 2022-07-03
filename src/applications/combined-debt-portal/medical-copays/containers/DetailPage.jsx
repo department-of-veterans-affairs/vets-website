@@ -8,7 +8,7 @@ import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
 import Modals from '../components/Modals';
-import Alert from '../components/Alerts';
+import Alert from '../../combined/components/MCPAlerts';
 import { OnThisPageDetails } from '../components/OnThisPageDetails';
 import { formatDate, verifyCurrentBalance } from '../../combined/utils/helpers';
 import '../sass/medical-copays.scss';

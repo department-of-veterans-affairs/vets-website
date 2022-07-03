@@ -6,13 +6,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 
 import SubwayMap from '../../components/SubwayMap';
 
-const shouldShowHeader = status => {
-  const showStatuses = ['ineligible', 'pending', 'pending-upload'];
-
-  return showStatuses.includes(status);
-};
-
-const LoggedInContent = ({ route, status }) => (
+const LoggedInContent = ({ route }) => (
   <>
     <SaveInProgressIntro
       testActionLink
@@ -24,11 +18,9 @@ const LoggedInContent = ({ route, status }) => (
       startText="Request a Certificate of Eligibility"
       headingLevel={2}
     />
-    {shouldShowHeader(status) && (
-      <h2 className="vads-u-margin-top--5">
-        Follow these steps to request a VA home loan COE
-      </h2>
-    )}
+    <h2 className="vads-u-font-size--h3 vads-u-margin-top--5">
+      Follow these steps to request a VA home loan COE
+    </h2>
     <SubwayMap />
     <div className="vads-u-margin-bottom--5">
       <SaveInProgressIntro

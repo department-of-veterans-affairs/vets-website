@@ -2710,13 +2710,13 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@department-of-veterans-affairs/component-library@^10.6.0":
-  version "10.6.4"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-10.6.4.tgz#3128da925d1b84a2a415f145c1deed2657efd718"
-  integrity sha512-fG9AfpNFaXjL5E7UZKZZVjeK0P6s22g1JgjcKQbekp+C7EK0nGYsv5Cb/wQeNgJkpYhB/RJzZMoMYwuv4itXTw==
+"@department-of-veterans-affairs/component-library@^10.6.5":
+  version "10.6.5"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-10.6.5.tgz#b026f08c15218477b17563030a89351cf60e58a0"
+  integrity sha512-fEJDS9V+CmvL2oOJX+67JrqVF/K8gLW6cPuWZHwP4SpkEQ/swBBdpgE5CQQusI+Z4VS3nuLz7zay3NOrT8iWmA==
   dependencies:
     "@department-of-veterans-affairs/react-components" "6.1.3"
-    "@department-of-veterans-affairs/web-components" "4.5.4"
+    "@department-of-veterans-affairs/web-components" "4.5.5"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2825,10 +2825,10 @@
     intersection-observer "^0.12.0"
     postcss-url "^10.1.1"
 
-"@department-of-veterans-affairs/web-components@4.5.4":
-  version "4.5.4"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.5.4.tgz#2f1fa0a06fdbadeba2de68f8dd46be88dc76338f"
-  integrity sha512-Oll1SH8hoo2um0Ur2ZuYgq370N2X3xM/JBjOQuSSrXG6ugz662Y5arpfA34rkQDpDgVi18N4FMdyKgyfLiZgLg==
+"@department-of-veterans-affairs/web-components@4.5.5":
+  version "4.5.5"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.5.5.tgz#aed63e765b48a24d7806e09b22a9a2d30aeb8ee7"
+  integrity sha512-cLKPoFpB9zuuVPEuwsIr4nQD/KKFA/N5uD0qu8p24X6bj7BHU35tyGLNimyFmc0ggIM1dLqCwPbq9wISo+gq2Q==
   dependencies:
     "@stencil/core" "^2.10.0"
     aria-hidden "^1.1.3"
