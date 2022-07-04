@@ -392,9 +392,9 @@
     "src/platform/polyfills",
     "src/platform/static-data",
     "src/platform/utilities",
+    "src/platform/site-wide",
     "src/platform/forms",
     "src/platform/forms-system"
-
     ],
     "nohoist": [
       "**/applications-vaos/docdash", 
