@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-
 import AddressesTable from './addresses/AddressesTable';
 import PhoneNumbersTable from './phone-numbers/PhoneNumbersTable';
 
@@ -10,7 +8,7 @@ const ContactInformationSection = ({ className, showBadAddress }) => {
   return (
     <div className={className}>
       <div className="vads-u-margin-bottom--2">
-        <AdditionalInfo triggerText="Which benefits and services does VA use this contact information for?">
+        <va-additional-info trigger="Which benefits and services does VA use this contact information for?">
           <p className="vads-u-margin-y--1">
             We use this information to contact you about these VA benefits and
             services:
@@ -40,7 +38,7 @@ const ContactInformationSection = ({ className, showBadAddress }) => {
               benefits{' '}
             </a>
           </p>
-        </AdditionalInfo>
+        </va-additional-info>
       </div>
       <AddressesTable
         className="vads-u-margin-bottom--6"
