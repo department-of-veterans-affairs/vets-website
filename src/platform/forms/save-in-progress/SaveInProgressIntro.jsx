@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router';
+import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 import { fromUnixTime, isBefore } from 'date-fns';
 import { format } from 'date-fns-tz';
@@ -209,7 +209,7 @@ class SaveInProgressIntro extends React.Component {
           {!this.props.hideUnauthedStartLink && (
             <p>
               <Link
-                onClick={this.goToBeginning}
+                onClick={this.handleClick}
                 to={this.getStartPage}
                 className="schemaform-start-button"
                 aria-label={ariaLabel}
@@ -251,7 +251,7 @@ class SaveInProgressIntro extends React.Component {
               {!this.props.hideUnauthedStartLink && (
                 <p>
                   <Link
-                    onClick={this.goToBeginning}
+                    onClick={this.handleClick}
                     to={this.getStartPage}
                     className="schemaform-start-button"
                     aria-label={ariaLabel}
@@ -301,9 +301,8 @@ class SaveInProgressIntro extends React.Component {
     return pageList[1].path;
   };
 
-  goToBeginning = () => {
+  handleClick = () => {
     recordEvent({ event: 'no-login-start-form' });
-    this.props.router.push(this.getStartPage());
   };
 
   openLoginModal = () => {
@@ -460,11 +459,9 @@ const mapDispatchToProps = {
   toggleLoginModal,
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(SaveInProgressIntro),
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SaveInProgressIntro);
 
 export { SaveInProgressIntro };
