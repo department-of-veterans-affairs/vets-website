@@ -26,7 +26,7 @@ function getReasonCode(data) {
     // to be truncated to 250 char
     text: data.reasonAdditionalInfo
       ? data.reasonAdditionalInfo.slice(0, 100)
-      : '',
+      : null,
   };
 }
 
