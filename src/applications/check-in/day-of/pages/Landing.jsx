@@ -31,6 +31,7 @@ const Landing = props => {
     clearCurrentSession,
     setShouldSendDemographicsFlags,
     setCurrentToken,
+    resetAttempts,
   } = useSessionStorage(false);
   const dispatch = useDispatch();
 
@@ -87,6 +88,8 @@ const Landing = props => {
 
               initForm(pages, firstPage);
               setSession(token, session.permissions);
+              // Reset validation attempts.
+              resetAttempts(window, token, true);
               if (session.permissions === SCOPES.READ_FULL) {
                 jumpToPage(URLS.LOADING);
               } else {
@@ -109,6 +112,7 @@ const Landing = props => {
       initForm,
       setSession,
       setShouldSendDemographicsFlags,
+      resetAttempts,
     ],
   );
   return (

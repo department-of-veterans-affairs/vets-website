@@ -27,7 +27,7 @@ const Introduction = props => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(true);
   const { goToErrorPage, jumpToPage } = useFormRouting(router);
-  const { setPreCheckinComplete } = useSessionStorage();
+  const { setPreCheckinComplete, resetAttempts } = useSessionStorage();
 
   // select token from redux store
   const dispatch = useDispatch();
@@ -62,7 +62,8 @@ const Introduction = props => {
           const { payload } = json;
           //  set data to state
           setDataToState(payload);
-
+          // Reset validation attempts.
+          resetAttempts(window, token, true);
           // We do this check before pre-checkin already completed so we don't
           // show a success message on the day of the appointment that could lead
           // the Veteran to believe they completed day-of check-in.
@@ -98,6 +99,7 @@ const Introduction = props => {
       jumpToPage,
       setPreCheckinComplete,
       token,
+      resetAttempts,
     ],
   );
   if (isLoading) {

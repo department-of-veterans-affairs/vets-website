@@ -32,11 +32,28 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
     return data ? JSON.parse(data) : null;
   };
 
-  const setCurrentToken = useCallback(
-    (window, token) => {
-      setSessionKey(window, SESSION_STORAGE_KEYS.CURRENT_UUID, { token });
+  const resetAttempts = useCallback(
+    (window, uuid, complete = false) => {
+      if (uuid !== SESSION_STORAGE_KEYS.CURRENT_UUID || complete === true) {
+        window.sessionStorage.removeItem(
+          SESSION_STORAGE_KEYS.VALIDATE_ATTEMPTS,
+        );
+      }
     },
     [SESSION_STORAGE_KEYS],
+  );
+
+  const setCurrentToken = useCallback(
+    (window, token) => {
+      const lastToken = JSON.parse(
+        sessionStorage.getItem(SESSION_STORAGE_KEYS.CURRENT_UUID),
+      ).token;
+      if (lastToken !== token) {
+        resetAttempts(window, token);
+      }
+      setSessionKey(window, SESSION_STORAGE_KEYS.CURRENT_UUID, { token });
+    },
+    [SESSION_STORAGE_KEYS, resetAttempts],
   );
 
   const getCurrentToken = useCallback(
@@ -114,6 +131,7 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
     getValidateAttempts,
     setShouldSendDemographicsFlags,
     getShouldSendDemographicsFlags,
+    resetAttempts,
   };
 };
 
