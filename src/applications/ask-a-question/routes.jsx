@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
+import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableAppV5';
+import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpersV5';
 import formConfig from './form/form';
 
 const routeObjects = createRoutesWithSaveInProgress(formConfig);

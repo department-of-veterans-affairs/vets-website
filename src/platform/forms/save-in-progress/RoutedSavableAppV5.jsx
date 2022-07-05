@@ -3,7 +3,7 @@ import Scroll from 'react-scroll';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import FormApp from 'platform/forms-system/src/js/containers/FormApp';
+import FormApp from 'platform/forms-system/src/js/containers/FormAppV5';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -178,6 +178,7 @@ class RoutedSavableApp extends React.Component {
     return message;
   };
 
+  // eslint-disable-next-line class-methods-use-this
   getFirstNonIntroPagePath(props) {
     return getNextPagePath(
       props.routes[props.routes.length - 1].pageList,
@@ -186,6 +187,7 @@ class RoutedSavableApp extends React.Component {
     );
   }
 
+  // eslint-disable-next-line react/sort-comp
   redirectOrLoad(props) {
     // Stop a user that's been redirected from being redirected again after
     // logging in
