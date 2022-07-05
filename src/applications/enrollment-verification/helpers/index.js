@@ -173,7 +173,7 @@ export const getEnrollmentVerificationStatus = status => {
     month => month.verificationResponse === VERIFICATION_RESPONSE.NOT_RESPONDED,
   );
 
-  if (!unverifiedMonths.length) {
+  if (!unverifiedMonths?.length) {
     return STATUS.ALL_VERIFIED;
   }
 
