@@ -98,9 +98,23 @@
   outline: none;
 }
 
-.vaos-appts__breadcrumbs {
+.vaos-appts__breadcrumb {
   padding: 2em 0;
-}
-.vaos-appts__breadcrumbs li {
-  padding: 0em !important;
+
+  ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  li {
+    padding: 0em !important;
+    display: inline;
+  }
+
+  li + li::before {
+    display: inline-block;
+    margin: 0 0.5em;
+    content: "";
+  }
 }
