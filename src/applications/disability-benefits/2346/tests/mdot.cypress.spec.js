@@ -56,6 +56,8 @@ const testConfig = createTestConfig(
       supplies: () => {
         cy.get('@testKey').then(testKey => {
           if (testKey === 'noBatteries') {
+            // #1 is "Order batteries for this device"
+            // #3 & #5 are "order this accessory" for the available accessories
             cy.get('#3').click({ force: true });
             cy.get('#5').click({ force: true });
           } else if (testKey === 'noAccessories') {
@@ -144,7 +146,7 @@ const testConfig = createTestConfig(
         cy.route('POST', '/v0/mdot/supplies', postData);
       });
     },
-    skip: true,
+    skip: false,
   },
   manifest,
   formConfig,
