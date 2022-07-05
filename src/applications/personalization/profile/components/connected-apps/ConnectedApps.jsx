@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import AlertBox, {
   ALERT_TYPE,
 } from '@department-of-veterans-affairs/component-library/AlertBox';
@@ -184,7 +183,10 @@ export class ConnectedApps extends Component {
 
         {!isEmpty(activeApps) && (
           <div className="vads-u-margin-y--3 available-connected-apps">
-            <AdditionalInfo triggerText="What other third-party apps can I connect to my profile?">
+            <va-additional-info
+              disable-border
+              trigger="What other third-party apps can I connect to my profile?"
+            >
               To find out what other third-party apps are available to connect
               to your profile,{' '}
               <a
@@ -193,7 +195,7 @@ export class ConnectedApps extends Component {
               >
                 go to the app directory
               </a>
-            </AdditionalInfo>
+            </va-additional-info>
           </div>
         )}
 
