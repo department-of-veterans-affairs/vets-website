@@ -14,7 +14,7 @@ const MixedLanguageDisclaimer = () => {
 
   const displaySpanish =
     language === 'es' && isTranslationDisclaimerSpanishEnabled;
-  const displayTagalog = (language === 'tz' && isTranslationDisclaimerTagalogEnabled)
+  const displayTagalog = (language === 'tl' && isTranslationDisclaimerTagalogEnabled)
 
   return displaySpanish || displayTagalog ? (
     <div className="vads-u-margin-bottom--2">

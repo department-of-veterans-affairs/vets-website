@@ -21,4 +21,9 @@ describe('Check In Experience -- ', () => {
     cy.injectAxe();
     cy.axeCheck();
   });
+  it('Error page - tagalog', () => {
+    Error.validatePageLoaded(null, 'tl');
+    cy.injectAxe();
+    cy.axeCheck();
+  });
 });
