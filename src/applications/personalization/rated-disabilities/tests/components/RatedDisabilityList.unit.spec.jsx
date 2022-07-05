@@ -51,7 +51,7 @@ describe('<RatedDisabilityList/>', () => {
     );
     const date = moment(
       ratedDisabilities.ratedDisabilities[0].effectiveDate,
-    ).format('DD/MM/YYYY');
+    ).format('MM/DD/YYYY');
     expect(wrapper.getByText(date)).to.exist;
   });
 

@@ -1,9 +1,8 @@
-import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
-import { makeUserObject } from '~/applications/personalization/common/helpers';
-
 import mockCommunicationPreferences from '@@profile/tests/fixtures/communication-preferences/get-200-maximal.json';
 import transactionReceived from '@@profile/tests/fixtures/transactions/received-transaction.json';
 import transactionSucceeded from '@@profile/tests/fixtures/transactions/finished-transaction.json';
+import { makeUserObject } from '~/applications/personalization/common/helpers';
+import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
 
 import { mockFeatureToggles, mockNotificationSettingsAPIs } from './helpers';
 import { PROFILE_PATHS } from '../../constants';
@@ -38,8 +37,12 @@ describe('Contact info update success alert', () => {
   });
   it('should be shown after deleting mobile phone number', () => {
     cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
-    cy.findByRole('link', { name: /update mobile phone/i }).click();
-    cy.findByRole('button', { name: /remove mobile phone/i }).click();
+    cy.findByRole('link', { name: /update mobile phone/i }).click({
+      waitForAnimations: true,
+    });
+    cy.findByRole('button', { name: /remove mobile phone/i }).click({
+      waitForAnimations: true,
+    });
 
     cy.injectAxeThenAxeCheck();
 

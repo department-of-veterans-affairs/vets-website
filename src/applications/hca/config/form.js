@@ -195,7 +195,8 @@ const formConfig = {
           path: 'veteran-information/profile-information-dob',
           title: 'Date of birth',
           initialData: {},
-          depends: formData => !formData['view:isLoggedIn'],
+          depends: formData =>
+            !formData['view:isLoggedIn'] || !formData['view:userDob'],
           uiSchema: personalInformationDOB.uiSchema,
           schema: personalInformationDOB.schema,
         },

@@ -17,7 +17,7 @@ describe('Debt Letters', () => {
 
   it('displays the current debts section and navigates to debt details', () => {
     cy.findByTestId('debts-jumplink').click({ waitForAnimations: true });
-    cy.get('[data-testclass="debt-details-button"]')
+    cy.get('[data-testid="debt-details-button"]')
       .first()
       .click();
     cy.get('#debtLetterHistory').should('be.visible');

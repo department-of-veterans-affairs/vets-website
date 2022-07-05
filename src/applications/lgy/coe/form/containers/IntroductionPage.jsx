@@ -44,17 +44,17 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
 
   return (
     <>
-      <FormTitle title="Request a VA home loan Certificate of Eligibility (COE)" />
-      <p className="vads-u-padding-bottom--3">
-        Request for a Certificate of Eligibility (VA Form 26-1880)
-      </p>
+      <FormTitle
+        title="Request a VA home loan Certificate of Eligibility (COE)"
+        subTitle="Request for a Certificate of Eligibility (VA Form 26-1880)"
+      />
       {content}
     </>
   );
 };
 
 const mapStateToProps = state => ({
-  coe: state.certificateOfEligibility.coe,
+  coe: state.certificateOfEligibility.coe || {},
   downloadUrl: state.certificateOfEligibility.downloadUrl,
   loggedIn: isLoggedIn(state),
   status: state.certificateOfEligibility.generateAutoCoeStatus,
