@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
   editCNPPaymentInformationToggled,
@@ -241,7 +240,7 @@ export const BankInfo = ({
         type.
       </p>
       <div className="vads-u-margin-bottom--2">
-        <AdditionalInfo triggerText="Where can I find these numbers?">
+        <va-additional-info trigger="Where can I find these numbers?">
           <figure
             className="vads-u-margin-x--0"
             role="figure"
@@ -275,7 +274,7 @@ export const BankInfo = ({
               </ul>
             </figcaption>
           </figure>
-        </AdditionalInfo>
+        </va-additional-info>
       </div>
       <div data-testid={`${formPrefix}-bank-info-form`} ref={editBankInfoForm}>
         <BankInfoForm
@@ -349,11 +348,11 @@ export const BankInfo = ({
 
   return (
     <>
-      <Modal
-        title="Are you sure?"
+      <VaModal
+        modalTitle="Are you sure?"
         status="warning"
         visible={showConfirmCancelModal}
-        onClose={() => {
+        onCloseEvent={() => {
           setShowConfirmCancelModal(false);
         }}
       >
@@ -379,7 +378,7 @@ export const BankInfo = ({
         >
           Cancel
         </button>
-      </Modal>
+      </VaModal>
       <ProfileInfoTable
         className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
         title={sectionTitle}
