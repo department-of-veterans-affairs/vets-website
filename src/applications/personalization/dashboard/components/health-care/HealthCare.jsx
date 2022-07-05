@@ -186,20 +186,24 @@ const HealthCare = ({
     [shouldFetchUnreadMessages, fetchUnreadMessages, dataLoadingDisabled],
   );
 
-  if (shouldShowLoadingIndicator) {
-    return (
-      <div className="health-care vads-u-margin-y--6">
-        <HealthCareHeader classes="vads-u-margin-top--0 vads-u-margin-bottom--2" />
-        <va-loading-indicator message="Loading health care..." />
-      </div>
-    );
-  }
+  const shouldShowUnreadMessageAlert =
+    shouldFetchUnreadMessages && !hasInboxError && unreadMessagesCount > 0;
 
-  if (isCernerPatient && facilityLocations?.length) {
-    return (
-      <>
-        <HealthCareHeader />
+  const headerClassNames = shouldShowLoadingIndicator
+    ? 'vads-u-margin-top--0 vads-u-margin-bottom--2'
+    : '';
 
+  const shouldShowOnOneColumn =
+    !shouldShowUnreadMessageAlert &&
+    !hasUpcomingAppointment &&
+    !hasAppointmentsError;
+
+  const Content = () => {
+    if (shouldShowLoadingIndicator) {
+      return <va-loading-indicator message="Loading health care..." />;
+    }
+    if (isCernerPatient && facilityLocations?.length) {
+      return (
         <div className="vads-l-row">
           <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
             <CernerWidget
@@ -208,25 +212,9 @@ const HealthCare = ({
             />
           </div>
         </div>
-      </>
-    );
-  }
-
-  const shouldShowUnreadMessageAlert =
-    shouldFetchUnreadMessages && !hasInboxError && unreadMessagesCount > 0;
-
-  const shouldShowOnOneColumn =
-    !shouldShowUnreadMessageAlert &&
-    !hasUpcomingAppointment &&
-    !hasAppointmentsError;
-
-  return (
-    <div
-      className="health-care-wrapper vads-u-margin-y--6"
-      data-testid="dashboard-section-health-care"
-    >
-      <HealthCareHeader />
-
+      );
+    }
+    return (
       <div className="vads-l-row">
         <DashboardWidgetWrapper>
           {/* Messages */}
@@ -293,6 +281,16 @@ const HealthCare = ({
           </DashboardWidgetWrapper>
         ) : null}
       </div>
+    );
+  };
+
+  return (
+    <div
+      className="health-care-wrapper vads-u-margin-y--6"
+      data-testid="dashboard-section-health-care"
+    >
+      <HealthCareHeader className={headerClassNames} />
+      <Content />
     </div>
   );
 };
