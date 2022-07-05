@@ -42,7 +42,7 @@ const TIME_TEXT = {
 
 function getAppointmentDetails(appointment, message) {
   if (appointment.version === 2) {
-    return appointment.comment;
+    return appointment.comment ? appointment.comment : 'none';
   }
 
   const comment = message || appointment.comment;
