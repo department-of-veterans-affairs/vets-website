@@ -299,7 +299,7 @@ describe('check-in', () => {
         ).to.not.contain.text('Call your VA health care team:');
         // Error accordions are present.
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
-          "During pre-check-in, you can review your personal, emergency contact, and next of kin information and confirm it's up to date. This helps us better prepare for your appointment.",
+          'During pre-check-in, you can review your personal, emergency contact, and next of kin information and confirm it’s up to date. This helps us better prepare for your appointment.',
         );
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
           'You can pre-check-in online before midnight of the day of your appointment.',
@@ -338,13 +338,13 @@ describe('check-in', () => {
           'You can sign in to your VA account to update your contact information online.',
         );
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
-          "Or you can call 800-698-2411 and select 0. We're here 24/7.",
+          'Or you can call 800-698-2411 and select 0. We’re here 24/7.',
         );
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
           'Emergency and next of kin information',
         );
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
-          "Please call 800-698-2411 and select 0. We're here 24/7.",
+          'Please call 800-698-2411 and select 0. We’re here 24/7.',
         );
         // Confirmation accordions are not present.
         expect(
@@ -357,7 +357,7 @@ describe('check-in', () => {
         ).to.not.contain.text('Call your VA health care team:');
         // Error accordions are present.
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
-          "During pre-check-in, you can review your personal, emergency contact, and next of kin information and confirm it's up to date. This helps us better prepare for your appointment.",
+          'During pre-check-in, you can review your personal, emergency contact, and next of kin information and confirm it’s up to date. This helps us better prepare for your appointment.',
         );
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
           'You can pre-check-in online before midnight of the day of your appointment.',
@@ -400,13 +400,13 @@ describe('check-in', () => {
           'You can sign in to your VA account to update your contact information online.',
         );
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
-          "Or you can call 800-698-2411 and select 0. We're here 24/7.",
+          'Or you can call 800-698-2411 and select 0. We’re here 24/7.',
         );
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
           'Emergency and next of kin information',
         );
         expect(screen.getByTestId('pre-check-in-accordions')).to.contain.text(
-          "Please call 800-698-2411 and select 0. We're here 24/7.",
+          'Please call 800-698-2411 and select 0. We’re here 24/7.',
         );
       });
     });

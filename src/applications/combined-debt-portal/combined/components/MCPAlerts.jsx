@@ -2,11 +2,7 @@ import React from 'react';
 import recordEvent from 'platform/monitoring/record-event';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import PropTypes from 'prop-types';
-import {
-  currency,
-  calcDueDate,
-  formatDate,
-} from '../../combined/utils/helpers';
+import { currency, calcDueDate, formatDate } from '../utils/helpers';
 
 const Alert = ({ children }) => children;
 
@@ -281,7 +277,7 @@ const Alerts = ({ type, copay, error }) => {
 
 Alerts.propTypes = {
   copay: PropTypes.shape({
-    pSStatementDateOutput: PropTypes.string,
+    pSStatementDate: PropTypes.string,
     pHAmtDue: PropTypes.number,
   }),
   error: PropTypes.string,
