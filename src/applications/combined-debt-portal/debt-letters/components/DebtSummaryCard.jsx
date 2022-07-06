@@ -29,13 +29,16 @@ const DebtSummaryCard = ({ debt }) => {
       <h4 className="vads-u-margin-y--2 vads-u-font-weight--normal">
         {debtCardHeading}
       </h4>
+      <span hidden id="link-description">
+        Check details and resolve this {debtCardHeading}
+      </span>
       {debtCardSubHeading}
       <div className="vads-u-margin-right--5 vads-u-margin-top--2 vads-u-font-weight--bold">
         <Link
           data-testid="debt-details-button"
           onClick={() => setActiveDebt(debt)}
           to={`/debt-balances/details/${debt.fileNumber + debt.deductionCode}`}
-          aria-describedby={`Check details and resolve this ${debtCardHeading}`}
+          aria-describedby="link-description"
         >
           Check details and resolve this debt
           <i

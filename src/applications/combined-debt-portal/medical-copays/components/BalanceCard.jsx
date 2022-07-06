@@ -83,12 +83,15 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
           <PastDueContent id={id} date={date} amount={amount} />
         )}
       </div>
+      <span hidden id="link-description">
+        Check details and resolve this debt for ${facility}
+      </span>
       <Link
         className="vads-u-font-size--sm vads-u-font-weight--bold"
         to={`/copay-balances/${id}/detail`}
         data-testid={`detail-link-${id}`}
         aria-label={linkText}
-        aria-describedby={`Check details and resolve this debt for ${facility}`}
+        aria-describedby="link-description"
       >
         {linkText}
         <i
