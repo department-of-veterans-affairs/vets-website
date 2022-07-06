@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { focusElement } from 'platform/utilities/ui';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { sentenceCase } from '../../../utils/formatters';
 import { getPreferredCommunityCareProviderName } from '../../../services/appointment';
 import { APPOINTMENT_STATUS, SPACE_BAR } from '../../../utils/constants';
@@ -120,3 +121,7 @@ export default function RequestListItem({ appointment, facility }) {
     </li>
   );
 }
+RequestListItem.propTypes = {
+  appointment: PropTypes.object.isRequired,
+  facility: PropTypes.object,
+};

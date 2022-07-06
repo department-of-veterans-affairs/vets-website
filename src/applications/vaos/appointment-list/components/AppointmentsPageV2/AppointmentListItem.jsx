@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import moment from '../../../lib/moment-tz';
 import {
   getAppointmentTimezone,
@@ -33,6 +34,9 @@ function VideoAppointmentDescription({ appointment }) {
     </>
   );
 }
+VideoAppointmentDescription.propTypes = {
+  appointment: PropTypes.object.isRequired,
+};
 
 function CommunityCareProvider({ appointment }) {
   return (
@@ -44,6 +48,10 @@ function CommunityCareProvider({ appointment }) {
   );
 }
 
+CommunityCareProvider.propTypes = {
+  appointment: PropTypes.object.isRequired,
+};
+
 function VAFacilityName({ facility }) {
   if (facility) {
     return <>{facility.name}</>;
@@ -51,6 +59,10 @@ function VAFacilityName({ facility }) {
 
   return 'VA appointment';
 }
+
+VAFacilityName.propTypes = {
+  facility: PropTypes.object.isRequired,
+};
 
 function handleClick({ history, link, idClickable }) {
   return () => {
@@ -161,3 +173,8 @@ export default function AppointmentListItem({ appointment, facility }) {
     </li>
   );
 }
+
+AppointmentListItem.propTypes = {
+  appointment: PropTypes.object.isRequired,
+  facility: PropTypes.object,
+};
