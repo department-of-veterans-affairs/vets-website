@@ -603,12 +603,12 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       },
       requestedPeriods: [
         {
-          start: '2020-05-25T00:00:00Z',
-          end: '2020-05-25T11:59:00Z',
+          start: '2020-05-25T06:00:00Z',
+          end: '2020-05-25T17:59:00Z',
         },
         {
-          start: '2020-05-26T12:00:00Z',
-          end: '2020-05-26T23:59:00Z',
+          start: '2020-05-26T18:00:00Z',
+          end: '2020-05-27T05:59:00Z',
         },
       ],
       preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],

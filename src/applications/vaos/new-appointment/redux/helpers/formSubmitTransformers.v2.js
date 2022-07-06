@@ -1,6 +1,6 @@
-import moment from 'moment';
 import titleCase from 'platform/utilities/data/titleCase';
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import moment from '../../../lib/moment-tz';
 import { LANGUAGES, PURPOSE_TEXT_V2 } from '../../../utils/constants';
 import {
   getTypeOfCare,
@@ -10,6 +10,7 @@ import {
   getChosenSlot,
 } from '../selectors';
 import { getClinicId } from '../../../services/healthcare-service';
+import { getTimezoneByFacilityId } from '../../../utils/timezone';
 
 function getReasonCode(data) {
   const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
@@ -76,7 +77,7 @@ export function transformFormToVAOSCCRequest(state) {
   }
 
   const typeOfCare = getTypeOfCare(data);
-
+  const facilityTimezone = getTimezoneByFacilityId(data.communityCareSystemId);
   return {
     kind: 'cc',
     status: 'proposed',
@@ -97,9 +98,13 @@ export function transformFormToVAOSCCRequest(state) {
       ],
     },
     requestedPeriods: data.selectedDates.map(date => ({
-      start: moment.utc(date).format(),
+      start: moment
+        .tz(date, facilityTimezone)
+        .utc()
+        .format(),
       end: moment
-        .utc(date)
+        .tz(date, facilityTimezone)
+        .utc()
         .add(12, 'hours')
         .subtract(1, 'minute')
         .format(),
