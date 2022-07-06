@@ -421,9 +421,6 @@ SaveInProgressIntro.propTypes = {
   resumeOnly: PropTypes.bool,
   retentionPeriod: PropTypes.string,
   returnUrl: PropTypes.string,
-  router: PropTypes.shape({
-    push: PropTypes.func,
-  }),
   startMessageOnly: PropTypes.bool,
   startText: PropTypes.string,
   testActionLink: PropTypes.bool,
