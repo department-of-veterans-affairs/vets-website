@@ -28,6 +28,7 @@ const generateMockSlots = require('./var/slots');
 // v2
 const requestsV2 = require('./v2/requests.json');
 const facilitiesV2 = require('./v2/facilities.json');
+const providersV2 = require('./v2/providers.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
@@ -229,34 +230,28 @@ const responses = {
     });
   },
   'GET /vaos/v2/appointments': (req, res) => {
-    if (req.query.statuses?.includes('proposed')) {
-      if (req.query.start && req.query.end) {
-        return res.json({
-          data: confirmedV2.data.filter(appt => {
-            const d = moment(appt.attributes.start);
-            return d.isValid()
-              ? d.isBetween(req.query.start, req.query.end, 'day', '(]')
-              : false;
-          }),
-        });
-      }
-      return res.json(requestsV2);
-    }
-    if (req.query.statuses?.includes('booked')) {
-      if (req.query.start && req.query.end) {
-        return res.json({
-          data: confirmedV2.data.filter(appt => {
-            const d = moment(appt.attributes.start);
-            return d.isValid()
-              ? d.isBetween(req.query.start, req.query.end, 'day', '(]')
-              : false;
-          }),
-        });
-      }
-      return res.json(confirmedV2);
-    }
+    // merge arrays together
+    const appointments = confirmedV2.data.concat(requestsV2.data, mockAppts);
+    const filteredAppointments = appointments.filter(appointment => {
+      return req.query.statuses.some(status => {
+        if (appointment.attributes.status === status) {
+          if (appointment.id.startsWith('mock')) return true;
 
-    return res.json({ data: [] });
+          const date =
+            status === 'proposed'
+              ? moment(appointment.attributes.requestedPeriods[0]?.start)
+              : moment(appointment.attributes.start);
+          if (
+            date.isValid() &&
+            date.isBetween(req.query.start, req.query.end, 'day', '(]')
+          ) {
+            return true;
+          }
+        }
+        return false;
+      });
+    });
+    return res.json({ data: filteredAppointments });
   },
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
@@ -276,6 +271,11 @@ const responses = {
   'GET /vaos/v2/facilities/:id': (req, res) => {
     return res.json({
       data: facilitiesV2.data.find(facility => facility.id === req.params.id),
+    });
+  },
+  'GET /vaos/v2/providers/:id': (req, res) => {
+    return res.json({
+      data: providersV2.data.find(provider => provider.id === req.params.id),
     });
   },
   'GET /vaos/v2/facilities': (req, res) => {
