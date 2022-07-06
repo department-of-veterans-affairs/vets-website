@@ -21,6 +21,7 @@ describe('<Main>', () => {
     showTransitionSuccessModal: false,
     showTransitionModal: false,
     utilitiesMenuIsOpen: { search: false, help: false, account: false },
+    useSignInService: false,
     getBackendStatuses: sinon.spy(),
     toggleFormSignInModal: sinon.spy(),
     toggleLoginModal: sinon.spy(),
@@ -34,7 +35,7 @@ describe('<Main>', () => {
   };
 
   let oldWindow = null;
-  const appendSpy = sinon.spy(Main.prototype, 'appendNextParameter');
+  const appendSpy = sinon.spy(Main.prototype, 'appendOrRemoveParameter');
 
   beforeEach(() => {
     oldWindow = global.window;

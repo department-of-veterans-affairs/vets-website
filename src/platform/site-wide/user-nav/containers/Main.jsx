@@ -110,13 +110,12 @@ export class Main extends Component {
     pageTitle = '',
     useSiS = true,
   } = {}) {
+    const location = window.location.toString();
     const nextQuery = {
       next: url,
       ...(useSiS && this.props.useSignInService && { oauth: true }),
     };
-    const path = useSiS
-      ? window.location.toString()
-      : window.location.href.replace('&oauth=true', '');
+    const path = useSiS ? location : location.replace('&oauth=true', '');
     const nextPath = appendQuery(path, nextQuery);
     history.pushState({}, pageTitle, nextPath);
 
