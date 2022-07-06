@@ -304,13 +304,8 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
           <p className="vads-u-margin-y--0">We’re reviewing your account</p>
         </div>
       );
-
-    //
-    // TODO: No Definition in mockup
-    //
-
-    case '425':
-    case '081':
+    case '425': // ok - defined in spreadsheet
+    case '081': // TODO: No Definition in mockup
     case '500':
     case '510':
     case '503':
