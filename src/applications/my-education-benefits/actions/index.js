@@ -7,6 +7,7 @@ export const CLAIMANT_INFO_ENDPOINT = `${
 
 const CLAIM_STATUS_ENDPOINT = `${environment.API_URL}/meb_api/v0/claim_status`;
 
+export const FETCH_PERSONAL_INFORMATION = 'FETCH_PERSONAL_INFORMATION';
 export const FETCH_PERSONAL_INFORMATION_SUCCESS =
   'FETCH_PERSONAL_INFORMATION_SUCCESS';
 export const FETCH_PERSONAL_INFORMATION_FAILED =
@@ -42,6 +43,7 @@ const ONE_MINUTE_IN_THE_FUTURE = () => {
 
 export function fetchPersonalInformation() {
   return async dispatch => {
+    dispatch({ type: FETCH_PERSONAL_INFORMATION });
     return apiRequest(CLAIMANT_INFO_ENDPOINT)
       .then(response => {
         if (!response?.data?.attributes?.claimant) {

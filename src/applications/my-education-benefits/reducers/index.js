@@ -9,6 +9,7 @@ import {
   FETCH_ELIGIBILITY_SUCCESS,
   FETCH_ELIGIBILITY_FAILURE,
   ELIGIBILITY,
+  FETCH_PERSONAL_INFORMATION,
 } from '../actions';
 
 const initialState = {
@@ -22,6 +23,11 @@ export default {
   form: createSaveInProgressFormReducer(formConfig),
   data: (state = initialState, action) => {
     switch (action.type) {
+      case FETCH_PERSONAL_INFORMATION:
+        return {
+          ...state,
+          personalInfoFetchInProgress: true,
+        };
       case FETCH_PERSONAL_INFORMATION_SUCCESS:
       case FETCH_PERSONAL_INFORMATION_FAILED:
         return {
