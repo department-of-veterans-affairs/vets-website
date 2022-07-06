@@ -37,11 +37,19 @@
 	font-weight: bold;
 	margin-top: 0;
 }
-.fry-dea-definition-list_definition {
-	margin-left: 1em;
-}
 legend.legend-label.fry-dea-veterans-checkboxes_legend + .form-radio-buttons {
   margin-top: 0;
+}
+.fry-dea-content-break {
+  display: block;
+  border: 0;
+  border-top: 1px solid $color-gray;
+}
+.fry-dea-benefits-list {
+  list-style-type: none;
+}
+.fry-dea-benefit-selection-icon {
+  min-width: 28px;
 }
 
 // Review Page

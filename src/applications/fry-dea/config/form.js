@@ -91,6 +91,7 @@ const formConfig = {
       'Please sign in again to continue your application for education benefits.',
   },
   title: 'Apply for education benefits as an eligible dependent',
+  subTitle: 'Equal to VA Form 22-5490',
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
@@ -206,7 +207,7 @@ const formConfig = {
                   <p>
                     Based on Department of Defense records, these are the
                     Veterans and service members we have on file related to you,
-                    as well as the associated eduacational benefits you may be
+                    as well as the associated education benefits you may be
                     eligible for.
                   </p>
                   <RelatedVeterans />
@@ -437,7 +438,7 @@ const formConfig = {
                 labels: {
                   fry: 'Fry Scholarship (Chapter 33)',
                   dea:
-                    'Survivors’ and Dependents Educational Assistance (DEA, Chapter 35)',
+                    'Survivors’ and Dependents’ Educational Assistance (DEA, Chapter 35)',
                 },
                 widgetProps: {
                   fry: { 'data-info': 'fry' },
@@ -486,7 +487,7 @@ const formConfig = {
                 type: 'string',
                 enum: [
                   'Fry Scholarship (Chapter 33)',
-                  'Survivors’ and Dependents Educational Assistance (DEA, Chapter 35)',
+                  'Survivors’ and Dependents’ Educational Assistance (DEA, Chapter 35)',
                 ],
               },
             },
