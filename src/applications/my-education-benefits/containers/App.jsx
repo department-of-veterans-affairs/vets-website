@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -6,7 +6,6 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 import { fetchPersonalInformation, fetchEligibility } from '../actions';
 import { fetchUser } from '../selectors/userDispatch';
-import { personalInfoFetchProgress } from '../selectors/personalInfoFetchInProgress';
 import { prefillTransformer } from '../helpers';
 
 export const App = ({
@@ -22,11 +21,18 @@ export const App = ({
   user,
   personalInfoFetchInProgress,
 }) => {
+  const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
+
   useEffect(
     () => {
-      if (user.login.currentlyLoggedIn && !personalInfoFetchInProgress) {
+      if (
+        user.login.currentlyLoggedIn &&
+        !personalInfoFetchInProgress &&
+        !fetchedPersonalInfo
+      ) {
         if (!firstName) {
           getPersonalInfo();
+          setFetchedPersonalInfo(true);
         } else if (!formData?.claimantId && claimantInfo.claimantId) {
           setFormData({
             ...formData,
@@ -81,7 +87,7 @@ const mapStateToProps = state => {
   const claimantInfo = transformedClaimantInfo.formData;
   const eligibility = state.data?.eligibility;
   const user = fetchUser(state);
-  const personalInfoFetchInProgress = personalInfoFetchProgress(state);
+  const personalInfoFetchInProgress = state.data.personalInfoFetchProgress;
   return {
     formData,
     firstName,
@@ -97,7 +103,6 @@ const mapDispatchToProps = {
   getPersonalInfo: fetchPersonalInformation,
   getEligibility: fetchEligibility,
 };
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

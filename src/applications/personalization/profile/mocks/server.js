@@ -60,7 +60,7 @@ const responses = {
     },
   },
   'PUT /v0/profile/telephones': (_req, res) => {
-    return res.status(200).json(phoneNumber.transactions.received);
+    return res.status(500).json(phoneNumber.errors.vets360Phon106);
   },
   'PUT /v0/profile/addresses': (req, res) => {
     if (

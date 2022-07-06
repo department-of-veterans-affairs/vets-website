@@ -35,13 +35,13 @@ import {
   isAlphaNumeric,
   AdditionalConsiderationTemplate,
   applicantIsSpouseOfVeteran,
-  bothFryAndDeaBenefitsAvailable,
 } from '../helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
+  ELIGIBILITY,
   formFields,
   RELATIONSHIP,
   VETERAN_NOT_LISTED_VALUE,
@@ -65,6 +65,8 @@ const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
 const checkImageSrc = environment.isStaging()
   ? `${VAGOVSTAGING}/img/check-sample.png`
   : `${vagovprod}/img/check-sample.png`;
+
+const BENEFITS = [ELIGIBILITY.FRY, ELIGIBILITY.DEA];
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -377,7 +379,9 @@ const formConfig = {
         benefitSelection: {
           title: 'Benefit Selection',
           path: 'benefit-selection',
-          depends: formData => bothFryAndDeaBenefitsAvailable(formData),
+          depends: formData =>
+            formData.veterans?.length &&
+            formData[formFields.selectedVeteran] !== VETERAN_NOT_LISTED_VALUE,
           uiSchema: {
             'view:benefitSelectionHeaderInfo': {
               'ui:description': (
@@ -412,7 +416,7 @@ const formConfig = {
                   <span className="fry-dea-labels_label--main vads-u-padding-left--1">
                     Which education benefit would you like to apply for?
                   </span>
-                  <span className="fry-dea-labels_label--secondary fry-dea-input-message vads-u-background-color--primary-alt-lightest vads-u-padding--1 vads-u-margin-top--1">
+                  <span className="fry-dea-labels_label--secondary fry-dea-input-message fry-dea-review-view-hidden vads-u-background-color--primary-alt-lightest vads-u-padding--1 vads-u-margin-top--1">
                     <i
                       className="fas fa-info-circle vads-u-margin-right--1"
                       aria-hidden="true"
@@ -446,6 +450,27 @@ const formConfig = {
                   fry: { 'aria-describedby': 'fry' },
                   dea: { 'aria-describedby': 'dea' },
                 },
+                updateSchema: (() => {
+                  const filterBenefits = createSelector(
+                    state => state,
+                    formData => {
+                      const veteran = formData?.veterans?.find(
+                        v => v.id === formData[formFields.selectedVeteran],
+                      );
+
+                      return {
+                        enum: BENEFITS.filter(
+                          benefit =>
+                            (benefit === ELIGIBILITY.FRY &&
+                              veteran?.fryEligibility) ||
+                            (benefit === ELIGIBILITY.DEA &&
+                              veteran?.deaEligibility),
+                        ),
+                      };
+                    },
+                  );
+                  return (form, state) => filterBenefits(form, state);
+                })(),
               },
             },
           },
@@ -477,25 +502,9 @@ const formConfig = {
           path: 'child/high-school-education',
           depends: formData => applicantIsChildOfVeteran(formData),
           uiSchema: {
-            // 'view:subHeadings': {
-            //   'ui:description': (
-            //     <>
-            //       <h3>Verify your high school education</h3>
-            //       <va-alert
-            //         close-btn-aria-label="Close notification"
-            //         status="info"
-            //         visible
-            //       >
-            //         <h3 slot="headline">We need additional information</h3>
-            //         <div>
-            //           Since you indicated that you are the child of your
-            //           sponsor, please include information about your high school
-            //           education.
-            //         </div>
-            //       </va-alert>
-            //     </>
-            //   ),
-            // },
+            'view:highSchoolDiplomaHeadings': {
+              'ui:description': <h3>High school education</h3>,
+            },
             [formFields.highSchoolDiploma]: {
               'ui:title':
                 'Did you earn a high school diploma or equivalency certificate?',
@@ -506,10 +515,10 @@ const formConfig = {
             type: 'object',
             required: [formFields.highSchoolDiploma],
             properties: {
-              // 'view:subHeadings': {
-              //   type: 'object',
-              //   properties: {},
-              // },
+              'view:highSchoolDiplomaHeadings': {
+                type: 'object',
+                properties: {},
+              },
               [formFields.highSchoolDiploma]: {
                 type: 'string',
                 enum: ['Yes', 'No'],
@@ -524,25 +533,9 @@ const formConfig = {
             applicantIsChildOfVeteran(formData) &&
             formData[formFields.highSchoolDiploma] === 'Yes',
           uiSchema: {
-            // 'view:subHeadings': {
-            //   'ui:description': (
-            //     <>
-            //       <h3>Verify your high school education</h3>
-            //       <va-alert
-            //         close-btn-aria-label="Close notification"
-            //         status="info"
-            //         visible
-            //       >
-            //         <h3 slot="headline">We need additional information</h3>
-            //         <div>
-            //           Since you indicated that you are the child of your
-            //           sponsor, please include information about your high school
-            //           education.
-            //         </div>
-            //       </va-alert>
-            //     </>
-            //   ),
-            // },
+            'view:highSchoolDiplomaDateHeading': {
+              'ui:description': <h3>Date received</h3>,
+            },
             [formFields.highSchoolDiplomaDate]: {
               ...currentOrPastDateUI(
                 'When did you earn your high school diploma or equivalency certificate?',
@@ -553,10 +546,10 @@ const formConfig = {
             type: 'object',
             required: [formFields.highSchoolDiplomaDate],
             properties: {
-              // 'view:subHeadings': {
-              //   type: 'object',
-              //   properties: {},
-              // },
+              'view:highSchoolDiplomaDateHeading': {
+                type: 'object',
+                properties: {},
+              },
               [formFields.highSchoolDiplomaDate]: date,
             },
           },
@@ -668,10 +661,10 @@ const formConfig = {
           ),
           depends: formData =>
             applicantIsSpouseOfVeteran(formData) &&
-            formData[formFields.additionalConsiderations.remarriage] &&
             formData[
               formFields.additionalConsiderations.marriageInformation
-            ] === 'Married',
+            ] !== 'Married' &&
+            formData[formFields.additionalConsiderations.remarriage],
         },
         outstandingFelony: {
           ...AdditionalConsiderationTemplate(
