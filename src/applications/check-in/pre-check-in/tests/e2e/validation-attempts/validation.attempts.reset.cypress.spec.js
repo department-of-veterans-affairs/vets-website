@@ -66,4 +66,22 @@ describe('Pre-Check In Experience ', () => {
       ).to.be.null;
     });
   });
+  it('Persists with same UUID', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.window().then(window => {
+      const { sessionStorage } = window;
+      expect(
+        sessionStorage.getItem('health.care.pre.check.in.validate.attempts'),
+      ).to.eq('1');
+    });
+    cy.visitPreCheckInWithUUID();
+    cy.injectAxeThenAxeCheck();
+    ValidateVeteran.validatePage.preCheckIn();
+    cy.window().then(window => {
+      const { sessionStorage } = window;
+      expect(
+        sessionStorage.getItem('health.care.pre.check.in.validate.attempts'),
+      ).to.eq('1');
+    });
+  });
 });
