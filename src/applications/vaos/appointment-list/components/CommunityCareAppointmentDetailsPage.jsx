@@ -100,17 +100,18 @@ export default function CommunityCareAppointmentDetailsPage() {
 
       <StatusAlert appointment={appointment} />
 
-      {useV2 && (
-        <>
-          <h2
-            className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
-            data-cy="community-care-appointment-details-header"
-          >
-            <div className="vads-u-display--inline">Type of care</div>
-          </h2>
-          <div>{typeOfCare?.name}</div>
-        </>
-      )}
+      {useV2 &&
+        typeOfCare && (
+          <>
+            <h2
+              className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
+              data-cy="community-care-appointment-details-header"
+            >
+              <div className="vads-u-display--inline">Type of care</div>
+            </h2>
+            <div>{typeOfCare?.name}</div>
+          </>
+        )}
       <h2
         className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
         data-cy="community-care-appointment-details-header"

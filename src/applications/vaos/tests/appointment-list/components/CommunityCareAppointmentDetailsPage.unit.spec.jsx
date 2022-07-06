@@ -726,6 +726,67 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
     expect(screen.getByText(/Community care/)).to.be.ok;
     expect(screen.getByText(/Atlantic Medical Care/)).to.be.ok;
   });
+  it('should not display type of care when serviceType is missing or null', async () => {
+    // Given when the staff schedules the Community Care appointment for the Veteran
+    const url = '/cc/01aa456cc';
+    const appointmentTime = moment().add(1, 'days');
+    // When the serviceType is blank or null
+    const data = {
+      id: '01aa456cc',
+      kind: 'cc',
+      practitioners: [
+        {
+          identifier: [{ system: null, value: '123' }],
+          name: {
+            family: 'Medical Care',
+            given: ['Atlantic'],
+          },
+        },
+      ],
+      description: 'community care appointment',
+      comment: 'test comment',
+      start: appointmentTime,
+      communityCareProvider: {
+        practiceName: 'Atlantic Medical Care',
+      },
+    };
+
+    const appointment = createMockAppointmentByVersion({
+      version: 2,
+      ...data,
+    });
+
+    mockSingleVAOSAppointmentFetch({
+      appointment,
+    });
+
+    const screen = renderWithStoreAndRouter(<AppointmentList />, {
+      initialState: {
+        featureToggles: {
+          ...initialState.featureToggles,
+          vaOnlineSchedulingVAOSServiceVAAppointments: true,
+          vaOnlineSchedulingVAOSServiceCCAppointments: true,
+        },
+      },
+      path: url,
+    });
+
+    // Verify page content...
+    expect(
+      await screen.findByRole('heading', {
+        level: 1,
+        name: new RegExp(
+          appointmentTime.format('dddd, MMMM D, YYYY [at] h:mm a'),
+          'i',
+        ),
+      }),
+    ).to.be.ok;
+
+    expect(screen.getByText(/Community care/)).to.be.ok;
+    expect(screen.getByText(/Atlantic Medical Care/)).to.be.ok;
+    // Then the appointment details will not display the type of care label
+    expect(screen.queryByText(/Type of care/i)).not.to.exist;
+  });
 
   it('should not show "Add to Calendar" for canceled appointments', async () => {
     // Given a user with a canceled CC appointment
