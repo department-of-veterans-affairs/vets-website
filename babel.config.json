@@ -50,7 +50,12 @@
     "@babel/plugin-proposal-optional-chaining",
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-syntax-import-meta",
-    ["@babel/plugin-proposal-class-properties", { "loose": false }],
+    [
+      "@babel/plugin-proposal-class-properties",
+      {
+        "loose": false
+      }
+    ],
     "@babel/plugin-proposal-json-strings",
     [
       "module-resolver",
@@ -114,7 +119,7 @@
           "@department-of-veterans-affairs/platform-forms/helpers": "./src/platform/forms/helpers.js",
           // for forms-system imports
           "@department-of-veterans-affairs/platform-forms-system/exports": "./src/platform/forms-system/exportsFile.js",
-          "@department-of-veterans-affairs/platform-forms-system/AddressViewField" : "./src/platform/forms-system/src/js/components/AddressViewField.jsx",
+          "@department-of-veterans-affairs/platform-forms-system/AddressViewField": "./src/platform/forms-system/src/js/components/AddressViewField.jsx",
           "@department-of-veterans-affairs/platform-forms-system/FormNavButtons": "./src/platform/forms-system/src/js/components/FormNavButtons.jsx",
           "@department-of-veterans-affairs/platform-forms-system/FormTitle": "./src/platform/forms-system/src/js/components/FormTitle.jsx",
           "@department-of-veterans-affairs/platform-forms-system/ProgressButton": "./src/platform/forms-system/src/js/components/ProgressButton.jsx",
@@ -175,7 +180,7 @@
           // for platform/static-data imports
           "@department-of-veterans-affairs/platform-static-data/exports": "./src/platform/forms/static-data/exportsFile.js",
           // for platform/utilities imports
-          "@department-of-veterans-affairs/platform-utilities/exports" : "./src/platform/utilities/exportsFile.js",
+          "@department-of-veterans-affairs/platform-utilities/exports": "./src/platform/utilities/exportsFile.js",
           "@department-of-veterans-affairs/platform-utilities/environment": "./src/platform/utilities/environment/index.js",
           "@department-of-veterans-affairs/platform-utilities/stagingDomains": "./src/platform/utilities/environment/stagingDomains.js",
           "@department-of-veterans-affairs/platform-utilities/va-subdomain": "./src/platform/utilities/environment/va-subdomain.js",
@@ -196,7 +201,7 @@
           "@department-of-veterans-affairs/platform-utilities/scrollTo": "./src/platform/utilities/ui/scrollTo.js",
           "@department-of-veterans-affairs/platform-utilities/scrollToTop": "./src/platform/utilities/ui/scrollToTop.js",
           // for platform/site-wide imports
-          "@department-of-veterans-affairs/platform-site-wide/exports" :"./src/platform/site-wide/exportsFile.js",
+          "@department-of-veterans-affairs/platform-site-wide/exports": "./src/platform/site-wide/exportsFile.js",
           "@department-of-veterans-affairs/platform-site-wide/showVaAlertExpandable": "./src/platform/site-wide/alerts/showVaAlertExpandable.js",
           "@department-of-veterans-affairs/platform-site-wide/EbenefitsLink": "./src/platform/site-wide/ebenefits/containers/EbenefitsLink.jsx",
           "@department-of-veterans-affairs/platform-site-wide/selectors": "./src/platform/site-wide/feature-toggles/selectors.js",
@@ -230,7 +235,41 @@
           "@department-of-veterans-affairs/platform-site-wide/accessible-VCL-modal": "./src/platform/site-wide/accessible-VCL-modal.js",
           "@department-of-veterans-affairs/platform-site-wide/main": "./src/platform/site-wide/index.js",
           "@department-of-veterans-affairs/platform-site-wide/moment-setup": "./src/platform/site-wide/moment-setup.js",
-          "@department-of-veterans-affairs/platform-site-wide/wc-loader": "./src/platform/site-wide/wc-loader.js"
+          "@department-of-veterans-affairs/platform-site-wide/wc-loader": "./src/platform/site-wide/wc-loader.js",
+          // for platform/user imports
+          "@department-of-veterans-affairs/platform-user/exports": "./src/platform/user/exportsFile.js",
+          "@department-of-veterans-affairs/platform-user/selectors": "./src/platform/user/selectors.js",
+          "@department-of-veterans-affairs/platform-user/authentication/actions": "./src/platform/user/authentication/actions/index.js",
+          "@department-of-veterans-affairs/platform-user/authentication/constants": "./src/platform/user/authentication/constants.js",
+          "@department-of-veterans-affairs/platform-user/authentication/selectors": "./src/platform/user/authentication/selectors.js",
+          "@department-of-veterans-affairs/platform-user/authentication/utilities": "./src/platform/user/authentication/utilities.js",
+          "@department-of-veterans-affairs/platform-user/transitionModal": "./src/platform/user/authentication/components/account-transition/TransitionModal.jsx",
+          "@department-of-veterans-affairs/platform-user/transitionSuccessModal": "./src/platform/user/authentication/components/account-transition/TransitionSuccessModal.jsx",
+          "@department-of-veterans-affairs/platform-user/AccountLink": "./src/platform/user/authentication/components/AccountLink.jsx",
+          "@department-of-veterans-affairs/platform-user/DowntimeBanner": "./src/platform/user/authentication/components/DowntimeBanner.js",
+          "@department-of-veterans-affairs/platform-user/FedWarning": "./src/platform/user/authentication/components/FedWarning.jsx",
+          "@department-of-veterans-affairs/platform-user/IDMeSVG": "./src/platform/user/authentication/components/IDMeSVG.jsx",
+          "@department-of-veterans-affairs/platform-user/LoginActions": "./src/platform/user/authentication/components/LoginActions.jsx",
+          "@department-of-veterans-affairs/platform-user/LoginButton": "./src/platform/user/authentication/components/LoginButton.jsx",
+          "@department-of-veterans-affairs/platform-user/LoginContainer": "./src/platform/user/authentication/components/LoginContainer.jsx",
+          "@department-of-veterans-affairs/platform-user/LoginGovSVG": "./src/platform/user/authentication/components/LoginGovSVG.jsx",
+          "@department-of-veterans-affairs/platform-user/LoginHeader": "./src/platform/user/authentication/components/LoginHeader.jsx",
+          "@department-of-veterans-affairs/platform-user/LoginInfo": "./src/platform/user/authentication/components/LoginInfo.jsx",
+          "@department-of-veterans-affairs/platform-user/LogoutAlert": "./src/platform/user/authentication/components/LogoutAlert.jsx",
+          "@department-of-veterans-affairs/platform-user/ServiceProvidersList": "./src/platform/user/authentication/components/ServiceProvidersList.jsx",
+          "@department-of-veterans-affairs/platform-user/ServiceProvidersText": "./src/platform/user/authentication/components/ServiceProvidersText.jsx",
+          "@department-of-veterans-affairs/platform-user/SessionTimeoutModal": "./src/platform/user/authentication/components/SessionTimeoutModal.jsx",
+          "@department-of-veterans-affairs/platform-user/SignInModal": "./src/platform/user/authentication/components/SignInModal.jsx",
+          "@department-of-veterans-affairs/platform-user/AcceptTermsPrompt": "./src/platform/user/authorization/components/AcceptTermsPrompt.jsx",
+          "@department-of-veterans-affairs/platform-user/RequiredLoginView": "./src/platform/user/authorization/components/RequiredLoginView.jsx",
+          "@department-of-veterans-affairs/platform-user/MHVApp": "./src/platform/user/authorization/container/MHVApp.jsx",
+          "@department-of-veterans-affairs/platform-user/RequiredTermsAcceptanceView": "./src/platform/user/authorization/container/RequiredTermsAcceptanceView.jsx",
+          "@department-of-veterans-affairs/platform-user/profile/actions": "./src/platform/user/profile/actions.js",
+          "@department-of-veterans-affairs/platform-user/profile/backendServices": "./src/platform/user/profile/constants/backendServices.js",
+          "@department-of-veterans-affairs/platform-user/profile/reducers": "./src/platform/user/profile/reducers/index.js",
+          "@department-of-veterans-affairs/platform-user/profile/utilities": "./src/platform/user/profile/utilities/index.js",
+          "@department-of-veterans-affairs/platform-user/local-vapsvc": "./src/platform/user/profile/vap-svc/util/local-vapsvc.js",
+          "@department-of-veterans-affairs/platform-user/disableFTUXModals": "./src/platform/user/tests/disableFTUXModals.js"
         }
       }
     ]
@@ -238,7 +277,10 @@
   // Share polyfills between files.
   "env": {
     "test": {
-      "presets": ["@babel/env", "@babel/preset-react"],
+      "presets": [
+        "@babel/env",
+        "@babel/preset-react"
+      ],
       "plugins": [
         "istanbul",
         "transform-class-properties",
@@ -252,7 +294,12 @@
         // Stage 3
         "@babel/plugin-syntax-dynamic-import",
         "@babel/plugin-syntax-import-meta",
-        ["@babel/plugin-proposal-class-properties", { "loose": false }],
+        [
+          "@babel/plugin-proposal-class-properties",
+          {
+            "loose": false
+          }
+        ],
         "@babel/plugin-proposal-json-strings"
       ]
     },
