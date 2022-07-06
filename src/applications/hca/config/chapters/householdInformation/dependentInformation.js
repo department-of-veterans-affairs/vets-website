@@ -18,6 +18,10 @@ export default {
         itemName: 'Dependent',
         hideTitle: true,
         viewField: DependentView,
+        itemAriaLabel: data =>
+          data.fullName && data.fullName.first && data.fullName.last
+            ? `${data.fullName.first} ${data.fullName.last}`
+            : 'Dependent',
       },
       'ui:errorMessages': {
         minItems: 'You must add at least one dependent.',
