@@ -31,6 +31,7 @@ const Landing = props => {
     clearCurrentSession,
     setShouldSendDemographicsFlags,
     setCurrentToken,
+    resetAttempts,
   } = useSessionStorage(false);
   const dispatch = useDispatch();
 
@@ -109,6 +110,7 @@ const Landing = props => {
       initForm,
       setSession,
       setShouldSendDemographicsFlags,
+      resetAttempts,
     ],
   );
   return (

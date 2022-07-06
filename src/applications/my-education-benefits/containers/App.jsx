@@ -25,7 +25,7 @@ export const App = ({
 
   useEffect(
     () => {
-      if (user.login.currentlyLoggedIn) {
+      if (!user.login.currentlyLoggedIn) {
         return;
       }
 

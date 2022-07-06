@@ -61,9 +61,11 @@ const Index = ({ router }) => {
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
   const [dobErrorMessage, setDobErrorMessage] = useState();
 
-  const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
-    true,
-  );
+  const {
+    getValidateAttempts,
+    incrementValidateAttempts,
+    resetAttempts,
+  } = useSessionStorage(true);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
 
@@ -88,6 +90,7 @@ const Index = ({ router }) => {
         token,
         setSession,
         app,
+        resetAttempts,
       );
     },
     [
@@ -99,6 +102,7 @@ const Index = ({ router }) => {
       last4Ssn,
       lastName,
       dob,
+      resetAttempts,
       setSession,
       showValidateError,
       token,
