@@ -84,7 +84,7 @@ function fillOutAndSubmitBankInfoForm(view) {
 }
 
 function findSetUpBankInfoButton(view) {
-  return view.container.querySelector('#edit-bank-info-button');
+  return view.container.querySelector('[data-testid=edit-bank-info-button]');
 }
 
 function findEditBankInfoButton(view) {
@@ -97,8 +97,8 @@ function findPaymentHistoryLink(view) {
   return view.queryByText('/view your payment history/i', { selector: 'a' });
 }
 
-function findCancelEditButton(view) {
-  return view.getByTestId('form-cancel-button');
+function findCancelEditButton(view, type) {
+  return view.getByTestId(`${type}-form-cancel-button`);
 }
 
 describe('DirectDepositCNP', () => {
@@ -163,7 +163,7 @@ describe('DirectDepositCNP', () => {
       expect(await view.findAllByLabelText(/account number/i)).to.exist;
 
       // find and click on the cancel button
-      userEvent.click(findCancelEditButton(view));
+      userEvent.click(findCancelEditButton(view, benefitTypes.CNP));
 
       // ensure that the edit form was removed
       expect(view.queryByLabelText(/account number/i)).not.to.exist;

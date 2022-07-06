@@ -202,7 +202,7 @@ export const BankInfo = ({
       <button
         className={classes.editButton}
         type="button"
-        id="edit-bank-info-button"
+        data-testid="edit-bank-info-button"
         aria-label="Edit your direct deposit for disability compensation and pension benefits bank information"
         ref={editBankInfoButton}
         onClick={() => {
@@ -245,7 +245,7 @@ export const BankInfo = ({
           <figure
             className="vads-u-margin-x--0"
             role="figure"
-            aria-labelledby="check-caption"
+            aria-labelledby={`${type}-check-caption`}
           >
             {/* eslint-disable jsx-a11y/no-redundant-roles */}
             <img
@@ -255,7 +255,7 @@ export const BankInfo = ({
             />
             {/* eslint-enable jsx-a11y/no-redundant-roles */}
             <figcaption
-              id="check-caption"
+              id={`${type}-check-caption`}
               className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-width--auto vads-u-color--gray-dark"
             >
               <p>
@@ -300,7 +300,7 @@ export const BankInfo = ({
             className="usa-button-secondary small-screen:vads-u-margin-top--0"
             onClick={closeDDForm}
             data-qa="cancel-button"
-            data-testid="form-cancel-button"
+            data-testid={`${formPrefix}-form-cancel-button`}
           >
             Cancel
           </button>
