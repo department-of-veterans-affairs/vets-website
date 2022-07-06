@@ -49,7 +49,7 @@ i18n
 
           if (format === 'long') {
             if (lng.startsWith('es')) {
-              return formatDate(value, 'dd \'de\' MMMM \'de\' yyy', { locale });
+              return formatDate(value, "dd 'de' MMMM 'de' yyy", { locale });
             }
             return formatDate(value, 'MMMM dd, yyyy', { locale });
           }
