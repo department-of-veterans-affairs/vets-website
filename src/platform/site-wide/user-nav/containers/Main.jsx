@@ -20,6 +20,7 @@ import {
   signInServiceName as signInServiceNameSelector,
   transitionMHVAccount,
   isAuthenticatedWithOAuth,
+  signInServiceEnabled,
 } from 'platform/user/authentication/selectors';
 import {
   isLoggedIn,
@@ -104,14 +105,24 @@ export class Main extends Component {
     return null;
   }
 
-  appendNextParameter(url = 'loginModal', pageTitle = '') {
+  appendOrRemoveParameter({
+    url = 'loginModal',
+    pageTitle = '',
+    useSiS = true,
+  } = {}) {
+    const nextQuery = {
+      next: url,
+      ...(useSiS && this.props.useSignInService && { oauth: true }),
+    };
+    const path = useSiS
+      ? window.location.toString()
+      : window.location.href.replace('&oauth=true', '');
+    const nextPath = appendQuery(path, nextQuery);
+    history.pushState({}, pageTitle, nextPath);
+
     if (url === 'loginModal' && this.getNextParameter()) {
       return null;
     }
-
-    const nextQuery = { next: url };
-    const nextPath = appendQuery(window.location.toString(), nextQuery);
-    history.pushState({}, pageTitle, nextPath);
     return nextQuery;
   }
 
@@ -157,7 +168,7 @@ export class Main extends Component {
           e.preventDefault();
           const linkHref = el.getAttribute('href');
           const pageTitle = el.textContent;
-          this.appendNextParameter(linkHref, pageTitle);
+          this.appendOrRemoveParameter({ linkHref, pageTitle });
           this.openLoginModal();
         }
       });
@@ -176,6 +187,7 @@ export class Main extends Component {
 
   closeLoginModal = () => {
     this.props.toggleLoginModal(false);
+    this.appendOrRemoveParameter({ useSiS: false });
   };
 
   closeAccountTransitionModal = () => {
@@ -194,7 +206,7 @@ export class Main extends Component {
 
   openLoginModal = () => {
     this.props.toggleLoginModal(true);
-    this.appendNextParameter();
+    this.appendOrRemoveParameter({});
   };
 
   signInSignUp = () => {
@@ -206,7 +218,7 @@ export class Main extends Component {
       // requests when the sign-in modal renders.
       this.props.getBackendStatuses();
       this.props.toggleLoginModal(true, 'header');
-      this.appendNextParameter();
+      this.appendOrRemoveParameter({});
     }
   };
 
@@ -236,6 +248,7 @@ export class Main extends Component {
         <SignInModal
           onClose={this.closeLoginModal}
           visible={this.props.showLoginModal}
+          useSiS={this.props.useSignInService}
         />
         {mhvTransition &&
           mhvTransitionModal && (
@@ -286,6 +299,7 @@ export const mapStateToProps = state => {
     mhvTransitionModal: mhvTransitionModalEnabled(state),
     signInServiceName: signInServiceNameSelector(state),
     shouldConfirmLeavingForm,
+    useSignInService: signInServiceEnabled(state),
     user: selectUser(state),
     userGreeting: selectUserGreeting(state),
     canTransferMHVAccount: transitionMHVAccount(state),
@@ -333,6 +347,7 @@ Main.propTypes = {
   showAccountTransitionSuccessModal: PropTypes.bool,
   showFormSignInModal: PropTypes.bool,
   showLoginModal: PropTypes.bool,
+  useSignInService: PropTypes.bool,
   userGreeting: PropTypes.array,
   utilitiesMenuIsOpen: PropTypes.object,
 };
