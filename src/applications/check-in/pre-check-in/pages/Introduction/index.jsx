@@ -62,7 +62,6 @@ const Introduction = props => {
           const { payload } = json;
           //  set data to state
           setDataToState(payload);
-
           // We do this check before pre-checkin already completed so we don't
           // show a success message on the day of the appointment that could lead
           // the Veteran to believe they completed day-of check-in.
