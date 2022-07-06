@@ -9,42 +9,20 @@ import { getPreferredCommunityCareProviderName } from '../../../services/appoint
 import { APPOINTMENT_STATUS, SPACE_BAR } from '../../../utils/constants';
 import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 
-function handleClick({ history, link, idClickable, featureStatusImprovement }) {
+function handleClick({ history, link, idClickable }) {
   return () => {
     if (!window.getSelection().toString()) {
       focusElement(`#${idClickable}`);
       history.push(link);
-
-      if (featureStatusImprovement) {
-        //  dispatch(updatecrumb({ title: 'Pending', path: '/pending' }));
-      }
     }
   };
 }
 
-function handleKeyDown({
-  history,
-  link,
-  idClickable,
-  featureStatusImprovement,
-}) {
+function handleKeyDown({ history, link, idClickable }) {
   return event => {
     if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
       focusElement(`#${idClickable}`);
       history.push(link);
-
-      if (featureStatusImprovement) {
-        //  dispatch(updatecrumb({ title: 'Pending', path: '/pending' }));
-      }
-    }
-  };
-}
-
-function handleLinkClicked(featureStatusImprovement) {
-  return e => {
-    e.preventDefault();
-    if (featureStatusImprovement) {
-      //  dispatch(updatecrumb({ title: 'Pending', path: '/pending' }));
     }
   };
 }
@@ -108,7 +86,6 @@ export default function RequestListItem({ appointment, facility }) {
               canceled ? 'canceled ' : ''
             }${typeOfCareText}request for ${preferredDate}`}
             to={link}
-            onClick={handleLinkClicked(featureStatusImprovement)}
           >
             Details
           </Link>
