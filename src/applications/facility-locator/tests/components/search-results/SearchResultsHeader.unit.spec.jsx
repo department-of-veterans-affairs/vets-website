@@ -43,7 +43,7 @@ describe('SearchResultsHeader', () => {
       <SearchResultsHeader
         results={[{}]}
         facilityType={LocationType.HEALTH}
-        context={'new york'}
+        context="new york"
         pagination={{ totalEntries: 5 }}
       />,
     );
@@ -412,6 +412,29 @@ describe('SearchResultsHeader', () => {
 
     expect(wrapper.find('h2').text()).to.match(
       /Showing 11 - 15 of 15 results for "VA cemeteries"\s+near\s+"new york"/,
+    );
+    wrapper.unmount();
+  });
+  it('should refresh header with new results', () => {
+    let wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.HEALTH}
+        context="new york"
+        pagination={{ totalEntries: 5 }}
+      />,
+    );
+    wrapper = shallow(
+      <SearchResultsHeader
+        results={[{}]}
+        facilityType={LocationType.HEALTH}
+        context="new jersey"
+        pagination={{ totalEntries: 5 }}
+      />,
+    );
+
+    expect(wrapper.find('h2').text()).to.match(
+      /Showing 1 - 5 results for "VA health",\s+"All VA health services"\s+near\s+"new jersey"/,
     );
     wrapper.unmount();
   });
