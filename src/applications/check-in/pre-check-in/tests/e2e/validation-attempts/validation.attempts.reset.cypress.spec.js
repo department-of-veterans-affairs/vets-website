@@ -3,6 +3,7 @@ import '../../../../tests/e2e/commands';
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Introduction from '../pages/Introduction';
+import Demographics from '../../../../tests/e2e/pages/Demographics';
 
 describe('Pre-Check In Experience ', () => {
   beforeEach(() => {
@@ -81,6 +82,85 @@ describe('Pre-Check In Experience ', () => {
       const { sessionStorage } = window;
       expect(
         sessionStorage.getItem('health.care.pre.check.in.validate.attempts'),
+      ).to.eq('1');
+    });
+  });
+});
+describe('Check In Experience ', () => {
+  beforeEach(() => {
+    const {
+      initializeFeatureToggle,
+      initializeSessionGet,
+      initializeSessionPost,
+      initializeCheckInDataPost,
+      initializeCheckInDataGet,
+    } = ApiInitializer;
+    initializeFeatureToggle.withCurrentFeatures();
+    initializeSessionGet.withSuccessfulNewSession();
+    initializeCheckInDataGet.withSuccess();
+
+    initializeSessionPost.withValidation();
+
+    initializeCheckInDataPost.withSuccess();
+  });
+  beforeEach(() => {
+    cy.window().then(window => {
+      window.sessionStorage.clear();
+    });
+    cy.visitWithUUID();
+    ValidateVeteran.validatePage.dayOf();
+    ValidateVeteran.validateVeteran('Smit', '1234');
+    ValidateVeteran.attemptToGoToNextPage();
+  });
+  it('Reset with successful login', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.window().then(window => {
+      const { sessionStorage } = window;
+      expect(
+        sessionStorage.getItem('health.care.check-in.validate.attempts'),
+      ).to.eq('1');
+    });
+    ValidateVeteran.validateVeteran();
+    ValidateVeteran.attemptToGoToNextPage();
+    Demographics.validatePageLoaded();
+    cy.window().then(window => {
+      const { sessionStorage } = window;
+      expect(sessionStorage.getItem('health.care.check-in.validate.attempts'))
+        .to.be.null;
+    });
+  });
+  it('Reset with new UUID', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.window().then(window => {
+      const { sessionStorage } = window;
+      expect(
+        sessionStorage.getItem('health.care.check-in.validate.attempts'),
+      ).to.eq('1');
+    });
+    cy.visitWithUUID('25165847-2c16-4c8b-8790-5de37a7f427f');
+    cy.injectAxeThenAxeCheck();
+    ValidateVeteran.validatePage.dayOf();
+    cy.window().then(window => {
+      const { sessionStorage } = window;
+      expect(sessionStorage.getItem('health.care.check-in.validate.attempts'))
+        .to.be.null;
+    });
+  });
+  it('Persists with same UUID', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.window().then(window => {
+      const { sessionStorage } = window;
+      expect(
+        sessionStorage.getItem('health.care.check-in.validate.attempts'),
+      ).to.eq('1');
+    });
+    cy.visitWithUUID();
+    cy.injectAxeThenAxeCheck();
+    ValidateVeteran.validatePage.dayOf();
+    cy.window().then(window => {
+      const { sessionStorage } = window;
+      expect(
+        sessionStorage.getItem('health.care.check-in.validate.attempts'),
       ).to.eq('1');
     });
   });
