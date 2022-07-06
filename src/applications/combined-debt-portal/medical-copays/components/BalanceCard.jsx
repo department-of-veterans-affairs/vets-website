@@ -88,6 +88,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
         to={`/copay-balances/${id}/detail`}
         data-testid={`detail-link-${id}`}
         aria-label={linkText}
+        aria-describedby={`Check details and resolve this debt for ${facility}`}
       >
         {linkText}
         <i

@@ -20,6 +20,7 @@ export const PROFILE_PATHS = Object.freeze({
   PROFILE_ROOT: '/profile',
   DIRECT_DEPOSIT: '/profile/direct-deposit',
   PERSONAL_INFORMATION: '/profile/personal-information',
+  CONTACT_INFORMATION: '/profile/contact-information',
   MILITARY_INFORMATION: '/profile/military-information',
   NOTIFICATION_SETTINGS: '/profile/notifications',
   CONNECTED_APPLICATIONS: '/profile/connected-applications',
@@ -28,7 +29,8 @@ export const PROFILE_PATHS = Object.freeze({
 
 export const PROFILE_PATH_NAMES = Object.freeze({
   DIRECT_DEPOSIT: 'Direct deposit information',
-  PERSONAL_INFORMATION: 'Personal and contact information',
+  PERSONAL_INFORMATION: 'Personal information',
+  CONTACT_INFORMATION: 'Contact information',
   MILITARY_INFORMATION: 'Military information',
   NOTIFICATION_SETTINGS: 'Notification settings',
   CONNECTED_APPLICATIONS: 'Connected apps',
