@@ -5,13 +5,13 @@ import { formatDate } from '../../../combined/utils/helpers';
 const TriangleIcon = () => (
   <div className="vads-u-margin-top--0p5 vads-u-margin-right--1">
     <i aria-hidden="true" className="fas fa-exclamation-triangle" />
-    <span className="sr-only">Alert</span>
+    <span className="sr-only">important</span>
   </div>
 );
 const CircleIcon = () => (
   <div className="vads-u-margin-top--0p5 vads-u-margin-right--1">
     <i aria-hidden="true" className="fas fa-info-circle" />
-    <span className="sr-only">Information</span>
+    <span className="sr-only">informational</span>
   </div>
 );
 
@@ -22,7 +22,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '71':
       return (
         <div className="vads-u-display--flex vads-u-align-items--flex-start">
-          <TriangleIcon />
+          <CircleIcon />
           <p className="vads-u-margin-y--0">
             Contact us to verify your military status
           </p>
@@ -32,7 +32,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '817':
       return (
         <div className="vads-u-display--flex vads-u-align-items--flex-start">
-          <TriangleIcon />
+          <CircleIcon />
           <p className="vads-u-margin-y--0">
             Submit a Financial Status Report so that we can make a decision on
             your request
@@ -42,7 +42,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '212':
       return (
         <div className="vads-u-display--flex vads-u-align-items--flex-start">
-          <TriangleIcon />
+          <CircleIcon />
           <p className="vads-u-margin-y--0">
             Contact us to update your address
           </p>
@@ -132,7 +132,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '682':
       return (
         <div className="vads-u-display--flex vads-u-align-items--flex-start">
-          <TriangleIcon />
+          <CircleIcon />
           <p className="vads-u-margin-y--0">
             The U.S. Department of the Treasury is offsetting your federal
             payments until your debt is paid
@@ -144,7 +144,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '601':
       return (
         <div className="vads-u-display--flex vads-u-align-items--flex-start">
-          <TriangleIcon />
+          <CircleIcon />
           <p className="vads-u-margin-y--0">
             Continue making monthly payments until your balance is paid
           </p>
@@ -208,7 +208,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '811':
       return (
         <div className="vads-u-display--flex vads-u-align-items--flex-start">
-          <TriangleIcon />
+          <CircleIcon />
           <p className="vads-u-margin-y--0">
             Continue making monthly payments while we review your compromise
             offer
@@ -242,7 +242,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '820':
       return (
         <div className="vads-u-display--flex vads-u-align-items--flex-start">
-          <TriangleIcon />
+          <CircleIcon />
           <p className="vads-u-margin-y--0">
             Continue making monthly payments while we review your waiver request
           </p>
@@ -252,7 +252,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '822':
       return (
         <div className="vads-u-display--flex vads-u-align-items--flex-start">
-          <TriangleIcon />
+          <CircleIcon />
           <p className="vads-u-margin-y--0">
             Continue making monthly payments while we review your dispute
           </p>
@@ -261,7 +261,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '825':
       return (
         <div className="vads-u-display--flex vads-u-align-items--flex-start">
-          <TriangleIcon />
+          <CircleIcon />
           <p className="vads-u-margin-y--0">
             Continue making monthly payments while we review your request for a
             hearing
@@ -271,7 +271,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '821':
       return (
         <div className="vads-u-display--flex vads-u-align-items--flex-start">
-          <TriangleIcon />
+          <CircleIcon />
           <p className="vads-u-margin-y--0">
             Continue making monthly payments while we review your Notice of
             Disagreement
@@ -317,7 +317,7 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     default:
       return (
         <div className="vads-u-display--flex vads-u-align-items--flex-start">
-          <TriangleIcon />
+          <CircleIcon />
           <p className="vads-u-margin-y--0">We’re updating your account.</p>
         </div>
       );
