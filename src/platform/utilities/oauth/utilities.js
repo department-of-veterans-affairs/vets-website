@@ -253,9 +253,7 @@ export const removeInfoToken = () => {
     }
     return tempCookieString;
   }, '');
-  // console.log(updatedCookie);
   document.cookie = updatedCookie;
-  // console.log({ updatedCookie, dd: document.cookie });
   return undefined;
 };
 
