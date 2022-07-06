@@ -2,7 +2,6 @@ import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress
 import formConfig from '../config/form';
 
 import {
-  FETCH_PERSONAL_INFORMATION,
   FETCH_PERSONAL_INFORMATION_SUCCESS,
   FETCH_PERSONAL_INFORMATION_FAILED,
   FETCH_CLAIM_STATUS_SUCCESS,
@@ -23,11 +22,6 @@ export default {
   form: createSaveInProgressFormReducer(formConfig),
   data: (state = initialState, action) => {
     switch (action.type) {
-      case FETCH_PERSONAL_INFORMATION:
-        return {
-          ...state,
-          personalInfoFetchInProgress: true,
-        };
       case FETCH_PERSONAL_INFORMATION_SUCCESS:
       case FETCH_PERSONAL_INFORMATION_FAILED:
         return {
