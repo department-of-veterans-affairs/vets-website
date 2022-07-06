@@ -32,7 +32,7 @@
   "email-address": "Email address",
   "emergency-and-next-of-kin-information": "Emergency and next of kin information",
   "emergency-information": "Emergency information",
-  "expiration-date": "Expiration date:",
+  "expiration-date": "Expiration date: {{ date, mdY }}",
   "extended-family-member": "Extended family member",
   "facility": "Facility",
   "father": "Father",

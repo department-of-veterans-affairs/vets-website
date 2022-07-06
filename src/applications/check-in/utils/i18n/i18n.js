@@ -48,6 +48,9 @@ i18n
           const locale = locales[lng];
 
           if (format === 'long') {
+            if (lng.startsWith('es')) {
+              return formatDate(value, 'dd \'de\' MMMM \'de\' yyy', { locale });
+            }
             return formatDate(value, 'MMMM dd, yyyy', { locale });
           }
           if (format === 'longAtTime') {
@@ -66,6 +69,9 @@ i18n
             return dateString;
           }
           if (format === 'mdY') {
+            if (lng.startsWith('es')) {
+              return formatDate(value, 'dd/M/Y');
+            }
             return formatDate(value, 'MM/dd/Y');
           }
           if (format === 'time') {
