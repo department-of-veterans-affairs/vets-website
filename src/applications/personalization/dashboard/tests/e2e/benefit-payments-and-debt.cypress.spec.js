@@ -246,7 +246,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       // No payments received ever:
       /* eslint-disable @department-of-veterans-affairs/axe-check-required */
       // Same display state as a previous test with AXE-check.
-      it('hides entire Pmts-n-Debts section - C14195', () => {
+      it('shows only debts in Pmts-n-Debts section - C14195', () => {
         cy.intercept('/v0/profile/payment_history', paymentsSuccessEmpty()).as(
           'noPayments2',
         );
