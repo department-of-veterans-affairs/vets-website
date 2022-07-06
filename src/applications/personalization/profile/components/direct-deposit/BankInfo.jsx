@@ -202,6 +202,7 @@ export const BankInfo = ({
       <button
         className={classes.editButton}
         type="button"
+        id="edit-bank-info-button"
         aria-label="Edit your direct deposit for disability compensation and pension benefits bank information"
         ref={editBankInfoButton}
         onClick={() => {
@@ -299,6 +300,7 @@ export const BankInfo = ({
             className="usa-button-secondary small-screen:vads-u-margin-top--0"
             onClick={closeDDForm}
             data-qa="cancel-button"
+            data-testid="form-cancel-button"
           >
             Cancel
           </button>
