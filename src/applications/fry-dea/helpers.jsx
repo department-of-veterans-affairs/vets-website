@@ -68,6 +68,7 @@ export const formatReadableDate = rawDate => {
 
 const applicantMatchesVeteranRelationship = (formData, relationship) => {
   const r =
+    !formData.veterans?.length ||
     formData[formFields.selectedVeteran] === VETERAN_NOT_LISTED_VALUE
       ? formData[formFields.relationshipToVeteran]
       : formData.veterans?.find(
@@ -83,30 +84,6 @@ export const applicantIsChildOfVeteran = formData => {
 
 export const applicantIsSpouseOfVeteran = formData => {
   return applicantMatchesVeteranRelationship(formData, RELATIONSHIP.SPOUSE);
-};
-
-export const bothFryAndDeaBenefitsAvailable = formData => {
-  let hasDea = false;
-  let hasFry = false;
-
-  if (!formData?.veterans?.length) {
-    return false;
-  }
-
-  for (const veteran of formData.veterans) {
-    if (veteran.deaEligibility) {
-      hasDea = true;
-    }
-    if (veteran.fryEligibility) {
-      hasFry = true;
-    }
-
-    if (hasDea && hasFry) {
-      break;
-    }
-  }
-
-  return hasDea && hasFry;
 };
 
 export const AdditionalConsiderationTemplate = (
