@@ -579,6 +579,9 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
         },
       },
       serviceType: 'audiology',
+      reasonCode: {
+        text: 'test comment',
+      },
     };
 
     const appointment = createMockAppointmentByVersion({
