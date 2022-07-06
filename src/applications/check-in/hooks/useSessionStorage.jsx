@@ -47,8 +47,9 @@ const useSessionStorage = (isPreCheckIn = true, maxValidateAttempts = 3) => {
     (window, token) => {
       const lastToken = JSON.parse(
         sessionStorage.getItem(SESSION_STORAGE_KEYS.CURRENT_UUID),
-      ).token;
-      if (lastToken !== token) {
+      );
+
+      if (lastToken && lastToken.token !== token) {
         resetAttempts(window, token);
       }
       setSessionKey(window, SESSION_STORAGE_KEYS.CURRENT_UUID, { token });
