@@ -264,6 +264,7 @@ export const checkOrSetSessionExpiration = response => {
 
   if (sessionExpirationSAML) {
     localStorage.setItem('sessionExpiration', sessionExpirationSAML);
+    return true;
   }
 
   if (infoTokenExists()) {
@@ -274,7 +275,10 @@ export const checkOrSetSessionExpiration = response => {
 
     localStorage.setItem('atExpires', atExpiration);
     localStorage.setItem('sessionExpiration', sessionExpirationOAuth);
+    return true;
   }
+
+  return false;
 };
 
 export const canCallRefresh = () => {
