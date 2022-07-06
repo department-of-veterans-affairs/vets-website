@@ -4,7 +4,7 @@ import { cleanPhoneNumber } from './facilityUtilities';
 export default function FacilityPhone({ facility }) {
   const { phone } = facility.attributes;
   const mainPhone = cleanPhoneNumber(phone.main);
-  const mentalHealthClinicPhone = cleanPhoneNumber(phone.mentalHealthClinic);
+  const mentalHealthCarePhone = cleanPhoneNumber(phone.mentalHealthClinic);
 
   return (
     <div className="vads-u-margin-bottom--0">
@@ -15,11 +15,9 @@ export default function FacilityPhone({ facility }) {
         </div>
       )}
       {facility.attributes.phone.mentalHealthClinic && (
-        <div className="mental-health-clinic-phone">
-          <strong>Mental health clinic: </strong>
-          <a href={`tel:${mentalHealthClinicPhone}`}>
-            {mentalHealthClinicPhone}
-          </a>
+        <div className="mental-health-care-phone">
+          <strong>Mental health care: </strong>
+          <a href={`tel:${mentalHealthCarePhone}`}>{mentalHealthCarePhone}</a>
         </div>
       )}
     </div>

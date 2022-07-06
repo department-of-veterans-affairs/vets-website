@@ -49,10 +49,10 @@ describe('facilities <FacilityListWidget>', () => {
       expect(mainPhone.text()).to.contain('Main phone: 866-482-7488');
 
       const mentalHealthClinic = facilityPhoneComponent.find(
-        '.mental-health-clinic-phone',
+        '.mental-health-care-phone',
       );
       expect(mentalHealthClinic.text()).to.contain(
-        'Mental health clinic: 412-360-6600',
+        'Mental health care: 412-360-6600',
       );
       tree.unmount();
       done();
