@@ -541,7 +541,9 @@ describe('VAOS community care flow using VAOS service', () => {
       response: {
         data: {
           id: '25956',
-          attributes: {},
+          attributes: {
+            reasonCode: {},
+          },
         },
       },
     }).as('appointmentRequests');

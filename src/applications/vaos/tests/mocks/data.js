@@ -246,7 +246,7 @@ export function createMockAppointmentByVersion({
           : null,
         preferredTimesForPhoneCall: null,
         priority: null,
-        reason: null,
+        reasonCode: {},
         requestedPeriods: null,
         serviceType: null,
         slot: null,
