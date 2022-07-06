@@ -253,12 +253,10 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.visit('my-va/');
         cy.wait(['@debts2', '@noPayments2']);
 
-        cy.findByTestId('dashboard-section-payment-and-debts').should(
-          'not.exist',
-        );
+        cy.findByTestId('dashboard-section-payment-and-debts').should('exist');
 
-        cy.findByTestId('debt-count-alert').should('not.exist');
-        cy.findByTestId('manage-va-debt-link').should('not.exist');
+        cy.findByTestId('debt-count-alert').should('exist');
+        cy.findByTestId('manage-va-debt-link').should('exist');
         cy.findByTestId('zero-debt-paragraph').should('not.exist');
         cy.findByTestId('debts-error').should('not.exist');
 
