@@ -144,7 +144,7 @@
   "you-checked-in-at": "Se registró en esta fecha y hora: {{date, time}}",
   "your-answers-will-help-us-better-prepare-for-your-needs": "Sus repuestas nos ayudarán a prepararnos mejor para sus necesidades.",
   "your-appointment-started-more-than-15-minutes-ago-we-cant-check-you-in-online-ask-a-staff-member-for-help": "Su cita comenzó hace más de 15 minutos. No podemos completar el registro en línea. Pídale asistencia a un miembro del personal.",
-  "your-appointment": "Su cit a:",
+  "your-appointment": "Su cita:",
   "your-appointments": "Sus citas:",
   "your-appointments-on-day-facility_one": "Su cita es en esta fecha: {{day, long}} y en: {{facility}}.",
   "your-appointments-on-day-facility_other": "Sus citas son en esta fecha: {{day, long}} y en: {{facility}}.",
