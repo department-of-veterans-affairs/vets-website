@@ -46,38 +46,31 @@ i18n
       format: (value, format, lng) => {
         if (isDate(value)) {
           const locale = locales[lng];
-
           if (format === 'long') {
-            if (lng.startsWith('es')) {
-              return formatDate(value, "dd 'de' MMMM 'de' yyy", { locale });
-            }
-            return formatDate(value, 'MMMM dd, yyyy', { locale });
+            return lng.startsWith('es')
+              ? formatDate(value, "dd 'de' MMMM 'de' yyy", { locale })
+              : formatDate(value, 'MMMM dd, yyyy', { locale });
           }
           if (format === 'longAtTime') {
             let dateString = formatDate(value, 'PPPppp', { locale });
-
             // Remove date suffixes. (1st/2nd/etc.)
             dateString = dateString.replace(
               /([0-9]{1,2})([a-z]{2})(, )/,
               '$1$3',
             );
-
             // Adjust am/pm formatting.
             dateString = dateString.replace(/:[0-9]{2} AM .*$/, ' a.m.');
             dateString = dateString.replace(/:[0-9]{2} PM .*$/, ' p.m.');
-
             return dateString;
           }
           if (format === 'mdY') {
-            if (lng.startsWith('es')) {
-              return formatDate(value, 'dd/M/Y');
-            }
-            return formatDate(value, 'MM/dd/Y');
+            return lng.startsWith('es')
+              ? formatDate(value, 'dd/M/Y')
+              : formatDate(value, 'MM/dd/Y');
           }
           if (format === 'time') {
             return formatDate(value, 'h:mm aaaa', { locale });
           }
-
           return formatDate(value, format, { locale });
         }
         return value;
