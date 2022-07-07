@@ -2,7 +2,7 @@ import React, { useMemo, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { format, subDays } from 'date-fns';
+import { subDays } from 'date-fns';
 
 import VaModal from '@department-of-veterans-affairs/component-library/Modal';
 
@@ -148,10 +148,7 @@ const IntroductionDisplay = props => {
         ''
       )}
       <div className="vads-u-margin-top--4">
-        {t('expiration-date')}{' '}
-        <span data-testid="expiration-date">
-          {format(subDays(appointmentsDateTime, 1), 'M/dd/Y')}
-        </span>
+        {t('expiration-date', { date: subDays(appointmentsDateTime, 1) })}
         <br />
         <a
           href="#privacy-modal"
