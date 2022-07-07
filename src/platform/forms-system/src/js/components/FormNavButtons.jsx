@@ -7,7 +7,7 @@ import ProgressButton from './ProgressButton';
  *
  * If `goBack` is not present, the back button will not appear. If
  * `FormNavButtons` are rendered inside a form (such as
- * ~/platform/forms/formulate-integration/Form), use `submitToContinue` and pass
+ * platform/forms/formulate-integration/Form), use `submitToContinue` and pass
  * the `goForward` function to the form's `onSubmit` instead. Doing this will
  * navigate the user to the next page only if validation is successful.
  */

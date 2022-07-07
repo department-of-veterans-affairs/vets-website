@@ -2,7 +2,7 @@ import React from 'react';
 import enzyme from 'enzyme';
 import { expect } from 'chai';
 
-import CopyMailingAddress from '@@vap-svc/containers/CopyMailingAddress';
+import CopyMailingAddress from 'platform/user/profile/vap-svc/containers/CopyMailingAddress';
 
 describe('<CopyMailingAddress/>', () => {
   describe('the checkbox', () => {

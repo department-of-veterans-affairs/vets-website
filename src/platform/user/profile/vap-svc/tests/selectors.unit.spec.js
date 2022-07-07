@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import backendServices from '~/platform/user/profile/constants/backendServices';
+import backendServices from 'platform/user/profile/constants/backendServices';
 
-import { wait } from '@@profile/tests/unit-test-helpers';
+import { wait } from 'applications/personalization/profile/tests/unit-test-helpers';
 
 import {
   TRANSACTION_STATUS,

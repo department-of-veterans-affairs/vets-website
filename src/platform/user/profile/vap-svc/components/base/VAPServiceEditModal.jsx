@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import {
   isFailedTransaction,
   isPendingTransaction,
-} from '@@vap-svc/util/transactions';
+} from 'platform/user/profile/vap-svc/util/transactions';
 import VAPServiceEditModalActionButtons from './VAPServiceEditModalActionButtons';
 import VAPServiceEditModalErrorMessage from './VAPServiceEditModalErrorMessage';
 

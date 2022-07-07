@@ -5,13 +5,13 @@ import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox
 import {
   isFailedTransaction,
   isPendingTransaction,
-} from '@@vap-svc/util/transactions';
-import { selectAddressValidation } from '@@vap-svc/selectors';
-import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
-import { formatAddress } from '~/platform/forms/address/helpers';
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-import recordEvent from '~/platform/monitoring/record-event';
-import { focusElement } from '~/platform/utilities/ui';
+} from 'platform/user/profile/vap-svc/util/transactions';
+import { selectAddressValidation } from 'platform/user/profile/vap-svc/selectors';
+import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
+import { formatAddress } from 'platform/forms/address/helpers';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from 'platform/utilities/ui';
 
 import * as VAP_SERVICE from '../constants';
 import {

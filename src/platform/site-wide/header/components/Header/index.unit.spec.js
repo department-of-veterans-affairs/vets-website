@@ -5,8 +5,8 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 
 // 1st-party imports
-import * as isBrowser from '~/platform/site-wide/helpers/detection/is-browser';
-import * as useOnLoadedHook from '~/platform/site-wide/hooks/events/use-on-loaded';
+import * as isBrowser from 'platform/site-wide/helpers/detection/is-browser';
+import * as useOnLoadedHook from 'platform/site-wide/hooks/events/use-on-loaded';
 import { Header } from '.';
 
 describe('Header <Header>', () => {

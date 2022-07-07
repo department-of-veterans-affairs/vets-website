@@ -1,4 +1,4 @@
-import countries from '@@vap-svc/constants/countries.json';
+import countries from 'platform/user/profile/vap-svc/constants/countries.json';
 import ADDRESS_DATA from './data';
 
 const STATE_NAMES = ADDRESS_DATA.states;

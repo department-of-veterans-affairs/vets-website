@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { mockContactInformation } from '~/platform/user/profile/vap-svc/util/local-vapsvc';
+import { mockContactInformation } from 'platform/user/profile/vap-svc/util/local-vapsvc';
 import moment from '../../lib/moment-tz';
 import schedulingConfigurations from '../../services/mocks/v2/scheduling_configurations.json';
 import { getVAOSAppointmentMock } from '../mocks/v2';

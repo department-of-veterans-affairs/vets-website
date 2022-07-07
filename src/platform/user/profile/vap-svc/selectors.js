@@ -1,8 +1,8 @@
-import backendServices from '~/platform/user/profile/constants/backendServices';
+import backendServices from 'platform/user/profile/constants/backendServices';
 import {
   selectAvailableServices,
   selectVAPContactInfo,
-} from '~/platform/user/selectors';
+} from 'platform/user/selectors';
 
 import {
   VAP_SERVICE_INITIALIZATION_STATUS,
