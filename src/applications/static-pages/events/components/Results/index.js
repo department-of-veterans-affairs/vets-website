@@ -149,6 +149,19 @@ export const Results = ({
                     </p>
 
                     <div className="vads-u-display--flex vads-u-flex-direction--column">
+                      {event.fieldFacilityLocation?.entity?.entityUrl?.path &&
+                        event.fieldFacilityLocation?.entity?.title && (
+                          <p className="vads-u-margin--0">
+                            <a
+                              href={
+                                event.fieldFacilityLocation.entity.entityUrl
+                                  .path
+                              }
+                            >
+                              {event.fieldFacilityLocation.entity.title}
+                            </a>
+                          </p>
+                        )}
                       {locations?.map(location => (
                         <p className="vads-u-margin--0" key={location}>
                           {location}
