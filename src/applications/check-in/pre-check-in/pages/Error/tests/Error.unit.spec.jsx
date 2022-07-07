@@ -134,32 +134,35 @@ describe('check-in', () => {
       let store;
       const middleware = [];
       const mockStore = configureStore(middleware);
-      const initState = {
-        checkInData: {
-          appointments: [
-            {
-              facility: 'LOMA LINDA VA CLINIC',
-              clinicPhoneNumber: '5551234567',
-              clinicFriendlyName: 'TEST CLINIC',
-              clinicName: 'LOM ACC CLINIC TEST',
-              appointmentIen: 'some-ien',
-              startTime: '2022-01-03T14:56:04.788',
-              eligibility: 'ELIGIBLE',
-              facilityId: 'some-facility',
-              checkInWindowStart: '2022-01-03T14:56:04.788Z',
-              checkInWindowEnd: '2022-01-03T14:56:04.788Z',
-              checkedInTime: '',
-              status: 'CANCELLED BY CLINIC',
-            },
-          ],
-          veteranData: {},
-        },
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          check_in_experience_phone_appointments_enabled: false,
-        },
-      };
-      store = mockStore(initState);
+      let initState = {};
+      beforeEach(() => {
+        initState = {
+          checkInData: {
+            appointments: [
+              {
+                facility: 'LOMA LINDA VA CLINIC',
+                clinicPhoneNumber: '5551234567',
+                clinicFriendlyName: 'TEST CLINIC',
+                clinicName: 'LOM ACC CLINIC TEST',
+                appointmentIen: 'some-ien',
+                startTime: '2022-01-03T14:56:04.788',
+                eligibility: 'ELIGIBLE',
+                facilityId: 'some-facility',
+                checkInWindowStart: '2022-01-03T14:56:04.788Z',
+                checkInWindowEnd: '2022-01-03T14:56:04.788Z',
+                checkedInTime: '',
+                status: 'CANCELLED BY CLINIC',
+              },
+            ],
+            veteranData: {},
+          },
+          featureToggles: {
+            // eslint-disable-next-line camelcase
+            check_in_experience_phone_appointments_enabled: false,
+          },
+        };
+        store = mockStore(initState);
+      });
       it('renders correct error message for an in-person cancelled appointment', () => {
         const component = render(
           <Provider store={store}>
