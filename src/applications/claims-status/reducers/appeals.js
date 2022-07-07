@@ -1,12 +1,7 @@
-import set from 'platform/utilities/data/set';
 import merge from 'lodash/merge';
 // import moment from 'moment';
 
-import {
-  SET_APPEALS,
-  SET_APPEALS_UNAVAILABLE,
-  FETCH_APPEALS_SUCCESS,
-} from '../actions/index.jsx';
+import { FETCH_APPEALS_SUCCESS } from '../actions';
 
 // import {
 //   FETCH_APPEALS_PENDING,
@@ -49,6 +44,7 @@ const initialState = {
 
 // TO-DO: Break out v2 into its own reducer
 export default function appealsReducer(state = initialState, action) {
+  /* eslint-disable-next-line sonarjs/no-small-switch */
   switch (action.type) {
     // case FETCH_APPEALS_PENDING: // pretty sure this is only in v2
     //   return _.set('appealsLoading', true, state);
@@ -67,11 +63,6 @@ export default function appealsReducer(state = initialState, action) {
         // v2Availability: AVAILABLE // New and improved! More bits of info!
       });
     }
-    // TODO: Verify that this isn't actually needed and then remove it
-    case SET_APPEALS: // Appeals v1
-      return set('available', true, state);
-    case SET_APPEALS_UNAVAILABLE: // Appeals v1
-      return set('available', false, state);
     // Following are reducers for Appeals v2 error states
     // case USER_FORBIDDEN_ERROR:
     //   return _.merge(state, {

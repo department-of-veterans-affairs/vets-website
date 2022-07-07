@@ -31,29 +31,20 @@ const USE_MOCKS = environment.isLocalhost() && !window.Cypress;
 // -------------------- v2 and v1 -------------
 export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
 // -------------------- v1 --------------------
-export const SET_CLAIMS = 'SET_CLAIMS';
-export const SET_APPEALS = 'SET_APPEALS';
-export const FETCH_CLAIMS = 'FETCH_CLAIMS';
-export const FETCH_APPEALS = 'FETCH_APPEALS';
 export const FETCH_STEM_CLAIMS_PENDING = 'FETCH_STEM_CLAIMS_PENDING';
 export const FETCH_STEM_CLAIMS_SUCCESS = 'FETCH_STEM_CLAIMS_SUCCESS';
 export const FETCH_STEM_CLAIMS_ERROR = 'FETCH_STEM_CLAIMS_ERROR';
-export const FILTER_CLAIMS = 'FILTER_CLAIMS';
 export const SORT_CLAIMS = 'SORT_CLAIMS';
-export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
 export const GET_CLAIM_DETAIL = 'GET_CLAIM_DETAIL';
 export const SET_CLAIM_DETAIL = 'SET_CLAIM_DETAIL';
-export const GET_APPEALS_DETAIL = 'GET_APPEALS_DETAIL';
 export const SUBMIT_DECISION_REQUEST = 'SUBMIT_DECISION_REQUEST';
 export const SET_DECISION_REQUESTED = 'SET_DECISION_REQUESTED';
 export const SET_DECISION_REQUEST_ERROR = 'SET_DECISION_REQUEST_ERROR';
 export const SET_CLAIMS_UNAVAILABLE = 'SET_CLAIMS_UNAVAILABLE';
-export const SET_APPEALS_UNAVAILABLE = 'SET_APPEALS_UNAVAILABLE';
 export const SET_UNAUTHORIZED = 'SET_UNAUTHORIZED';
 export const RESET_UPLOADS = 'RESET_UPLOADS';
 export const ADD_FILE = 'ADD_FILE';
 export const REMOVE_FILE = 'REMOVE_FILE';
-export const SUBMIT_FILES = 'SUBMIT_FILES';
 export const SET_UPLOADING = 'SET_UPLOADING';
 export const SET_UPLOADER = 'SET_UPLOADER';
 export const DONE_UPLOADING = 'DONE_UPLOADING';
@@ -61,8 +52,7 @@ export const SET_PROGRESS = 'SET_PROGRESS';
 export const SET_UPLOAD_ERROR = 'SET_UPLOAD_ERROR';
 export const UPDATE_FIELD = 'UPDATE_FIELD';
 export const CANCEL_UPLOAD = 'CANCEL_UPLOAD';
-export const SET_FIELDS_DIRTY = 'SET_FIELD_DIRTY';
-export const SHOW_CONSOLIDATED_MODAL = 'SHOW_CONSOLIDATED_MODAL';
+export const SET_FIELDS_DIRTY = 'SET_FIELDS_DIRTY';
 export const SET_LAST_PAGE = 'SET_LAST_PAGE';
 export const SET_NOTIFICATION = 'SET_NOTIFICATION';
 export const SET_ADDITIONAL_EVIDENCE_NOTIFICATION =
@@ -86,23 +76,7 @@ export function setAdditionalEvidenceNotification(message) {
   };
 }
 
-export function getAppeals(filter) {
-  return dispatch => {
-    dispatch({ type: FETCH_APPEALS });
-
-    makeAuthRequest(
-      '/v0/appeals',
-      null,
-      dispatch,
-      appeals => {
-        dispatch({ type: SET_APPEALS, filter, appeals: appeals.data });
-      },
-      () => dispatch({ type: SET_APPEALS_UNAVAILABLE }),
-    );
-  };
-}
-
-export function fetchAppealsSuccess(response) {
+function fetchAppealsSuccess(response) {
   const appeals = response.data;
   return {
     type: FETCH_APPEALS_SUCCESS,
@@ -144,7 +118,7 @@ export function getAppealsV2() {
   };
 }
 
-export function fetchClaimsSuccess(response) {
+function fetchClaimsSuccess(response) {
   const claims = response.data;
   const pages = Math.ceil(claims.length / ROWS_PER_PAGE);
   return {
@@ -190,7 +164,7 @@ export function pollRequest(options) {
   );
 }
 
-export function getSyncStatus(claimsAsyncResponse) {
+function getSyncStatus(claimsAsyncResponse) {
   return get('meta.syncStatus', claimsAsyncResponse, null);
 }
 
@@ -286,22 +260,10 @@ export function getClaimsV2(options = {}) {
   };
 }
 
-export function filterClaims(filter) {
-  return {
-    type: FILTER_CLAIMS,
-    filter,
-  };
-}
 export function sortClaims(sortProperty) {
   return {
     type: SORT_CLAIMS,
     sortProperty,
-  };
-}
-export function changePage(page) {
-  return {
-    type: CHANGE_CLAIMS_PAGE,
-    page,
   };
 }
 
@@ -309,12 +271,6 @@ export function changePageV2(page) {
   return {
     type: CHANGE_INDEX_PAGE,
     page,
-  };
-}
-
-export function setUnavailable() {
-  return {
-    type: SET_CLAIMS_UNAVAILABLE,
   };
 }
 
@@ -604,13 +560,6 @@ export function cancelUpload() {
 export function setFieldsDirty() {
   return {
     type: SET_FIELDS_DIRTY,
-  };
-}
-
-export function showConsolidatedMessage(visible) {
-  return {
-    type: SHOW_CONSOLIDATED_MODAL,
-    visible,
   };
 }
 

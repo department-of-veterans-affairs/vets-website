@@ -34,11 +34,6 @@ export function getUserPhaseDescription(phase) {
   return phaseMap[phase + 3];
 }
 
-export function getPhaseDescriptionFromEvent(event) {
-  const phase = parseInt(event.type.replace('phase', ''), 10);
-  return phaseMap[phase];
-}
-
 export function getUserPhase(phase) {
   if (phase < 3) {
     return phase;
@@ -195,10 +190,6 @@ export const DOC_TYPES = [
   { value: 'L070', label: 'Photographs' },
   { value: 'L023', label: 'Other Correspondence' },
 ];
-
-export function getDocTypeDescription(docType) {
-  return DOC_TYPES.filter(type => type.value === docType)[0].label;
-}
 
 export function isPopulatedClaim({ attributes }) {
   return (

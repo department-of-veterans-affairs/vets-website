@@ -4,19 +4,11 @@ import moment from 'moment';
 import { appealTypes } from '../utils/appeals-v2-helpers';
 
 import {
-  SET_CLAIMS,
-  SET_APPEALS,
-  FILTER_CLAIMS,
   SORT_CLAIMS,
-  CHANGE_CLAIMS_PAGE,
-  SHOW_CONSOLIDATED_MODAL,
   HIDE_30_DAY_NOTICE,
-  FETCH_APPEALS,
   FETCH_APPEALS_SUCCESS,
-  FETCH_CLAIMS,
   SET_CLAIMS_UNAVAILABLE,
-  SET_APPEALS_UNAVAILABLE,
-} from '../actions/index.jsx';
+} from '../actions';
 import { getClaimType } from '../utils/helpers';
 
 const ROWS_PER_PAGE = 10;
@@ -58,20 +50,6 @@ const sortPropertyFn = {
   claimType,
 };
 
-function filterList(list, filter) {
-  let filteredList = list;
-  if (filter) {
-    const open = filter === 'open';
-    filteredList = filteredList.filter(claim => {
-      if (appealTypes.includes(claim.type)) {
-        return claim.attributes.active === open;
-      }
-      return claim.attributes.open === open;
-    });
-  }
-  return filteredList;
-}
-
 function sortList(list, sortProperty) {
   const sortOrder = sortProperty === 'claimType' ? 'asc' : 'desc';
   const sortFunc = el => {
@@ -110,53 +88,8 @@ function getTotalPages(list) {
 
 export default function claimsReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_CLAIMS: {
-      const visibleList = sortList(
-        filterList(state.appeals.concat(action.claims), action.filter),
-        state.sortProperty,
-      );
-      return {
-        ...state,
-        claims: action.claims,
-        visibleList,
-        visibleRows: getVisibleRows(visibleList, state.page),
-        pages: getTotalPages(visibleList),
-        claimsLoading: false,
-      };
-    }
     // Fall-through until we handle v2 appeals solely in the appeals reducer
     case FETCH_APPEALS_SUCCESS:
-    case SET_APPEALS: {
-      const visibleAppeals = sortList(
-        filterList(action.appeals, action.filter),
-        state.sortProperty,
-      );
-      const visibleList = sortList(
-        filterList(state.claims, action.filter).concat(visibleAppeals),
-        state.sortProperty,
-      );
-      return {
-        ...state,
-        appeals: action.appeals,
-        visibleList,
-        visibleRows: getVisibleRows(visibleList, state.page),
-        pages: getTotalPages(visibleList),
-        appealsLoading: false,
-      };
-    }
-    case FILTER_CLAIMS: {
-      const visibleList = sortList(
-        filterList(state.appeals.concat(state.claims), action.filter),
-        state.sortProperty,
-      );
-      return {
-        ...state,
-        visibleList,
-        visibleRows: getVisibleRows(visibleList, 1),
-        page: 1,
-        pages: getTotalPages(visibleList),
-      };
-    }
     case SORT_CLAIMS: {
       const visibleList = sortList(state.visibleList, action.sortProperty);
       return {
@@ -168,29 +101,11 @@ export default function claimsReducer(state = initialState, action) {
         pages: getTotalPages(visibleList),
       };
     }
-    case CHANGE_CLAIMS_PAGE: {
-      return {
-        ...state,
-        page: action.page,
-        visibleRows: getVisibleRows(state.visibleList, action.page),
-      };
-    }
-    case SHOW_CONSOLIDATED_MODAL: {
-      return set('consolidatedModal', action.visible, state);
-    }
     case HIDE_30_DAY_NOTICE: {
       return set('show30DayNotice', false, state);
     }
-    case FETCH_APPEALS: {
-      return set('appealsLoading', true, state);
-    }
-    case FETCH_CLAIMS: {
-      return set('claimsLoading', true, state);
-    }
     case SET_CLAIMS_UNAVAILABLE:
       return set('claimsLoading', false, state);
-    case SET_APPEALS_UNAVAILABLE:
-      return set('appealsLoading', false, state);
     default:
       return state;
   }
