@@ -135,7 +135,7 @@ export class AuthApp extends React.Component {
     handleRedirect();
   };
 
-  handleTokenRequest = async ({ code, state }) => {
+  handleTokenRequest = async ({ code, state, csp }) => {
     // Verify the state matches in storage
     if (
       !sessionStorage.getItem('state') ||
@@ -148,7 +148,7 @@ export class AuthApp extends React.Component {
     } else {
       // Matches - requestToken exchange
       try {
-        await requestToken({ code });
+        await requestToken({ code, csp });
       } catch (error) {
         const { errors } = await error.json();
         const errorCode = OAUTH_ERROR_RESPONSES[errors];
@@ -165,7 +165,7 @@ export class AuthApp extends React.Component {
     const { code, state, auth } = this.state;
 
     if (code && state) {
-      await this.handleTokenRequest({ code, state });
+      await this.handleTokenRequest({ code, state, csp: this.state.loginType });
     }
 
     if (auth === 'force-needed') {

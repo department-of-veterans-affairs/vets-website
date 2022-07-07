@@ -2,6 +2,7 @@ import appendQuery from 'append-query';
 
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 import { apiRequest } from 'platform/utilities/api';
+import recordEvent from 'platform/monitoring/record-event';
 import { updateLoggedInStatus } from '../../authentication/actions';
 import { teardownProfileSession } from '../utilities';
 
@@ -35,6 +36,11 @@ export function refreshProfile(forceCacheClear = false) {
       : baseUrl;
 
     const payload = await apiRequest(url);
+    recordEvent({
+      event: 'api_call',
+      'api-name': 'GET /v0/user',
+      'api-status': 'successful',
+    });
     dispatch(updateProfileFields(payload));
     return payload;
   };

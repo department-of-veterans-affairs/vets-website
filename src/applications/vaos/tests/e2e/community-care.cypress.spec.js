@@ -541,7 +541,9 @@ describe('VAOS community care flow using VAOS service', () => {
       response: {
         data: {
           id: '25956',
-          attributes: {},
+          attributes: {
+            reasonCode: {},
+          },
         },
       },
     }).as('appointmentRequests');
@@ -706,6 +708,11 @@ describe('VAOS community care flow using VAOS service', () => {
         date = date.format('YYYY-MM-DD[T]HH:mm:ss[Z]');
       }
 
+      // Convert date timezone to that of the facility for scheduled appointment
+      date = moment
+        .tz(date, 'YYYY-MM-DDTHH:mm:ss', 'America/Denver')
+        .utc()
+        .format();
       expect(xhr.status).to.eq(200);
       expect(xhr.url, 'post url').to.contain('/vaos/v2/appointments');
       const request = xhr.requestBody;

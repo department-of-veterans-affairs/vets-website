@@ -3,9 +3,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
 import Events from '../Events';
+import { fleshOutRecurringEvents, removeDuplicateEvents } from '../../helpers';
 
 export const App = ({ rawEvents }) => {
-  return <Events rawEvents={rawEvents} />;
+  return (
+    <Events
+      rawEvents={fleshOutRecurringEvents(removeDuplicateEvents(rawEvents))}
+    />
+  );
 };
 
 App.propTypes = {

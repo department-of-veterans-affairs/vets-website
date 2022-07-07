@@ -3,12 +3,12 @@ import merge from 'lodash/merge';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
 import InsuranceProviderView from '../../../components/InsuranceProviderView';
+import { ShortFormMessage } from '../../../components/FormAlerts';
 
 import {
   healthInsuranceCoverageQuestionDescription,
   hasTricareWhatIsMyPolicyNumberDescription,
   healthInsuranceDescription,
-  shortFormMessage,
   HIGH_DISABILITY,
   emptyObjectSchema,
 } from '../../../helpers';
@@ -19,7 +19,7 @@ const { isCoveredByHealthInsurance } = fullSchemaHca.properties;
 export default {
   uiSchema: {
     'view:generalShortFormMessage': {
-      'ui:description': shortFormMessage,
+      'ui:description': ShortFormMessage,
       'ui:options': {
         hideIf: form =>
           !form['view:hcaShortFormEnabled'] ||
@@ -44,9 +44,12 @@ export default {
         itemName: 'insurance policy',
         hideTitle: true,
         viewField: InsuranceProviderView,
-        itemAriaLabel: data =>
-          `${data.insuranceName} ${data.insurancePolicyNumber ??
-            data.insuranceGroupCode}`,
+        itemAriaLabel: data => {
+          const INSURANCE_TITLE = `${
+            data.insuranceName
+          } ${data.insurancePolicyNumber ?? data.insuranceGroupCode}`;
+          return data.insuranceName ? INSURANCE_TITLE : 'insurance policy';
+        },
       },
       'ui:errorMessages': {
         minItems: 'You need to at least one provider.',

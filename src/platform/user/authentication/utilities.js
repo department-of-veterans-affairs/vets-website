@@ -2,7 +2,11 @@ import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
 import 'url-search-params-polyfill';
 import environment from 'platform/utilities/environment';
-import { createOAuthRequest } from 'platform/utilities/oauth/utilities';
+import {
+  createOAuthRequest,
+  infoTokenExists,
+  getInfoToken,
+} from 'platform/utilities/oauth/utilities';
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 import { externalApplicationsConfig } from './usip-config';
 import {
@@ -117,10 +121,9 @@ export const getGAClientId = () => {
       return GA.trackingIds.includes(trackingId);
     });
 
-    const clientId = tracker && tracker.get(GA.clientIdKey);
-    return clientId && { gaClientId: clientId };
+    return (tracker && tracker.get(GA.clientIdKey)) ?? null;
   } catch (e) {
-    return {};
+    return null;
   }
 };
 
@@ -183,8 +186,7 @@ export function sessionTypeUrl({
       : '';
 
   // Passes GA Client ID if it is an `ID.me` type
-  const { gaClientId } = IDME_TYPES.includes(type) && getGAClientId();
-  const passGAClientId = IDME_TYPES.includes(type) && gaClientId;
+  const gaClientId = IDME_TYPES.includes(type) && getGAClientId();
 
   const appendParams =
     externalRedirect && isLogin
@@ -205,7 +207,10 @@ export function sessionTypeUrl({
       passedQueryParams: {
         codeChallenge,
         codeChallengeMethod,
-        ...(passGAClientId && { gaClientId }),
+        ...(gaClientId && { gaClientId }),
+      },
+      passedOptions: {
+        isSignup,
       },
     });
   }
@@ -218,7 +223,7 @@ export function sessionTypeUrl({
     {
       ...queryParams,
       ...appendParams,
-      ...(passGAClientId && {
+      ...(gaClientId && {
         [GA.queryParams.default]: gaClientId,
       }),
       application,
@@ -335,4 +340,18 @@ export const signupUrl = type => {
 
 export const logoutUrl = () => {
   return sessionTypeUrl({ type: POLICY_TYPES.SLO, version: API_VERSION });
+};
+
+export const checkOrSetSessionExpiration = response => {
+  const sessionExpirationSAML =
+    response.headers.get('X-Session-Expiration') ?? null;
+
+  if (infoTokenExists()) {
+    const { refresh_token_expiration: sessionExpirationOAuth } = getInfoToken();
+    localStorage.setItem('sessionExpiration', sessionExpirationOAuth);
+  }
+
+  if (sessionExpirationSAML) {
+    localStorage.setItem('sessionExpiration', sessionExpirationSAML);
+  }
 };
