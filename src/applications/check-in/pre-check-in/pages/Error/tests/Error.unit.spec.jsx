@@ -143,7 +143,7 @@ describe('check-in', () => {
               clinicFriendlyName: 'TEST CLINIC',
               clinicName: 'LOM ACC CLINIC TEST',
               appointmentIen: 'some-ien',
-              startTime: '2022-01-03T14:56:04.788Z',
+              startTime: '2022-01-03T14:56:04.788',
               eligibility: 'ELIGIBLE',
               facilityId: 'some-facility',
               checkInWindowStart: '2022-01-03T14:56:04.788Z',
@@ -175,7 +175,7 @@ describe('check-in', () => {
         expect(canceledMessage).to.exist;
         expect(
           within(canceledMessage).getByText(
-            'Your appointment at 7:56 a.m. on January 03, 2022 is cancelled.',
+            'Your appointment at 2:56 p.m. on January 03, 2022 is cancelled.',
           ),
         ).to.exist;
         expect(
@@ -204,7 +204,7 @@ describe('check-in', () => {
         expect(canceledMessage).to.exist;
         expect(
           within(canceledMessage).getByText(
-            'Your appointment at 7:56 a.m. on January 03, 2022 is cancelled.',
+            'Your appointment at 2:56 p.m. on January 03, 2022 is cancelled.',
           ),
         ).to.exist;
         expect(
