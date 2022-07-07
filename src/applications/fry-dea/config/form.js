@@ -20,7 +20,7 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 // import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 // import * as personId from 'platform/forms/definitions/personId';
 // import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+// import { VA_FORM_IDS } from 'platform/forms/constants';
 // import {
 //   validateMonthYear,
 //   validateFutureDateIfExpectedGrad,
@@ -51,7 +51,11 @@ import GoToYourProfileLink from '../components/GoToYourProfileLink';
 import RelatedVeterans from '../components/RelatedVeterans';
 import { phoneSchema, phoneUISchema } from '../schema';
 import EmailViewField from '../components/EmailViewField';
-import { isValidPhone, validateEmail } from '../validation';
+import {
+  isValidPhone,
+  validateEmail,
+  validateReMarriageDate,
+} from '../validation';
 import EmailReviewField from '../components/EmailReviewField';
 import YesNoReviewField from '../components/YesNoReviewField';
 import MailingAddressViewField from '../components/MailingAddressViewField';
@@ -75,7 +79,7 @@ const formConfig = {
   trackingPrefix: 'fry-dea-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: VA_FORM_IDS.FORM_22_5490,
+  // formId: VA_FORM_IDS.FORM_22_5490,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your education benefits application (22-5490) is in progress.',
@@ -655,6 +659,7 @@ const formConfig = {
             formFields.additionalConsiderations.remarriageDate,
             {
               ...currentOrPastDateUI('When did you get remarried?'),
+              'ui:validations': [validateReMarriageDate],
             },
             {
               ...date,

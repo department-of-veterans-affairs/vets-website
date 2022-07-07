@@ -42,3 +42,11 @@ export const validateEmail = (errors, email) => {
     errors.addError('Please enter a valid email address.');
   }
 };
+
+export const validateReMarriageDate = (errors, newMarriageDate, formData) => {
+  if (formData.marriageDate >= newMarriageDate) {
+    errors.addError(
+      'New marriage date can not be before previous marriage date',
+    );
+  }
+};
