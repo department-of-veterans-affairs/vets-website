@@ -223,7 +223,7 @@ const formConfig = {
         },
         additionalBenefits: {
           ...additionalBenefits(fullSchema1990e),
-          depends: formData => !formData.showUpdatedToeApp,
+          // depends: formData => !formData.showUpdatedToeApp,
         },
         // 'ui:options': {
         //   hideIf: formData => formData.showUpdatedToeApp,
@@ -236,7 +236,7 @@ const formConfig = {
         benefitEligibility: {
           path: 'benefits/eligibility',
           title: 'Benefits eligibility',
-          depends: formData => !formData.showUpdatedToeApp,
+          // depends: formData => !formData.showUpdatedToeApp,
           uiSchema: {
             'ui:description': eligibilityDescription,
             benefit: {
@@ -263,7 +263,7 @@ const formConfig = {
         sponsorVeteran: {
           title: 'Sponsor information',
           path: 'sponsor/information',
-          depends: formData => !formData.showUpdatedToeApp,
+          // depends: formData => !formData.showUpdatedToeApp,
           uiSchema: {
             veteranFullName: merge({}, fullNameUISchema, {
               first: {
@@ -315,7 +315,7 @@ const formConfig = {
           path: 'education/history',
           title: 'Education history',
           initialData: {},
-          depends: formData => !formData.showUpdatedToeApp,
+          // depends: formData => !formData.showUpdatedToeApp,
           uiSchema: {
             highSchoolOrGedCompletionDate: monthYearUI(
               'When did you earn your high school diploma or equivalency certificate?',
@@ -343,7 +343,7 @@ const formConfig = {
       pages: {
         employmentHistory: {
           ...employmentHistoryPage(fullSchema1990e, false),
-          depends: formData => !formData.showUpdatedToeApp,
+          // depends: formData => !formData.showUpdatedToeApp,
         },
       },
     },
@@ -355,7 +355,7 @@ const formConfig = {
             fullSchema1990e,
             schoolSelectionOptionsFor['1990e'],
           ),
-          depends: formData => !formData.showUpdatedToeApp,
+          // depends: formData => !formData.showUpdatedToeApp,
         },
       },
     },
@@ -364,11 +364,11 @@ const formConfig = {
       pages: {
         contactInformation: {
           ...createContactInformationPage(fullSchema1990e, 'relativeAddress'),
-          depends: formData => !formData.showUpdatedToeApp,
+          // depends: formData => !formData.showUpdatedToeApp,
         },
         directDeposit: {
           ...createDirectDepositPage(),
-          depends: formData => !formData.showUpdatedToeApp,
+          // depends: formData => !formData.showUpdatedToeApp,
         },
       },
     },

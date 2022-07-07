@@ -1,4 +1,4 @@
-import { apiRequest } from 'platform/utilities/api';
+// import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
 export const CLAIMANT_INFO_ENDPOINT = `${
@@ -21,44 +21,44 @@ export const FETCH_SPONSORS_SUCCESS = 'FETCH_SPONSORS_SUCCESS';
 export const FETCH_SPONSORS_FAILED = 'FETCH_SPONSORS_FAILED';
 export const UPDATE_SPONSORS = 'UPDATE_SPONSORS';
 
-export function fetchPersonalInformation() {
-  return async dispatch => {
-    dispatch({ type: FETCH_PERSONAL_INFORMATION });
-    return apiRequest(CLAIMANT_INFO_ENDPOINT)
-      .then(response => {
-        dispatch({
-          type: FETCH_PERSONAL_INFORMATION_SUCCESS,
-          response,
-        });
-      })
-      .catch(errors => {
-        dispatch({
-          type: FETCH_PERSONAL_INFORMATION_FAILED,
-          errors,
-        });
-      });
-  };
-}
+// export function fetchPersonalInformation() {
+//   return async dispatch => {
+//     dispatch({ type: FETCH_PERSONAL_INFORMATION });
+//     return apiRequest(CLAIMANT_INFO_ENDPOINT)
+//       .then(response => {
+//         dispatch({
+//           type: FETCH_PERSONAL_INFORMATION_SUCCESS,
+//           response,
+//         });
+//       })
+//       .catch(errors => {
+//         dispatch({
+//           type: FETCH_PERSONAL_INFORMATION_FAILED,
+//           errors,
+//         });
+//       });
+//   };
+// }
 
-export function fetchSponsors() {
-  return async dispatch => {
-    dispatch({ type: FETCH_SPONSORS });
-    return apiRequest(SPONSORS_ENDPOINT)
-      .then(response => {
-        dispatch({
-          type: FETCH_SPONSORS_SUCCESS,
-          response,
-        });
-      })
-      .catch(errors => {
-        dispatch({
-          type: FETCH_SPONSORS_FAILED,
-          errors,
-        });
-      });
-  };
-}
+// export function fetchSponsors() {
+//   return async dispatch => {
+//     dispatch({ type: FETCH_SPONSORS });
+//     return apiRequest(SPONSORS_ENDPOINT)
+//       .then(response => {
+//         dispatch({
+//           type: FETCH_SPONSORS_SUCCESS,
+//           response,
+//         });
+//       })
+//       .catch(errors => {
+//         dispatch({
+//           type: FETCH_SPONSORS_FAILED,
+//           errors,
+//         });
+//       });
+//   };
+// }
 
-export function updateSponsors(sponsors) {
-  return { type: UPDATE_SPONSORS, payload: sponsors };
-}
+// export function updateSponsors(sponsors) {
+//   return { type: UPDATE_SPONSORS, payload: sponsors };
+// }
