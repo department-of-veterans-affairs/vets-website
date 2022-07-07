@@ -12,7 +12,6 @@ import {
   groupTimelineActivity,
   isPopulatedClaim,
   hasBeenReviewed,
-  getDocTypeDescription,
   displayFileSize,
   getUserPhase,
   getUserPhaseDescription,
@@ -258,13 +257,6 @@ describe('Disability benefits helpers: ', () => {
       });
 
       expect(result).to.be.false;
-    });
-  });
-  describe('getDocTypeDescription', () => {
-    it('should get description by type', () => {
-      const result = getDocTypeDescription('L070');
-
-      expect(result).to.equal('Photographs');
     });
   });
   describe('displayFileSize', () => {
