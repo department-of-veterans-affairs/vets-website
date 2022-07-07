@@ -3,15 +3,15 @@ import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 import {
   isVAProfileServiceConfigured,
   mockContactInformation,
-} from '@@vap-svc/util/local-vapsvc';
+} from 'platform/user/profile/vap-svc/util/local-vapsvc';
+import localStorage from 'platform/utilities/storage/localStorage';
+
+import { ssoKeepAliveSession } from 'platform/utilities/sso';
+import { removeInfoToken } from 'platform/utilities/oauth/utilities';
 import {
   setSentryLoginType,
   clearSentryLoginType,
 } from '../../authentication/utilities';
-import localStorage from '~/platform/utilities/storage/localStorage';
-
-import { ssoKeepAliveSession } from '~/platform/utilities/sso';
-import { removeInfoToken } from '~/platform/utilities/oauth/utilities';
 
 const commonServices = {
   EMIS: 'EMIS',

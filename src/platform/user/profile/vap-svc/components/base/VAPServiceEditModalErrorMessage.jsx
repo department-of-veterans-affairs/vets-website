@@ -7,7 +7,7 @@ import {
   INVALID_EMAIL_ADDRESS_ERROR_CODES,
   LOW_CONFIDENCE_ADDRESS_ERROR_CODES,
   INVALID_PHONE_ERROR_CODES,
-} from '@@vap-svc/util/transactions';
+} from 'platform/user/profile/vap-svc/util/transactions';
 
 function hasError(codes, errors) {
   return errors.some(error => codes.has(error.code));

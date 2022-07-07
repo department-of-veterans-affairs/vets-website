@@ -1,4 +1,4 @@
-import buckets from '~/site/constants/buckets';
+import buckets from 'site/constants/buckets';
 
 /**
  * Performs a static lookup from the `buckets` dictionary of AWS S3 Bucket URLs.

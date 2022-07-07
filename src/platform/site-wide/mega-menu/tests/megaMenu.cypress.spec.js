@@ -6,7 +6,7 @@
  * @testrailinfo runName SH-e2e-MegaMenu
  */
 // Relative imports.
-import { mockUser } from '@@profile/tests/fixtures/users/user.js';
+import { mockUser } from 'applications/personalization/profile/tests/fixtures/users/user.js';
 
 Cypress.Commands.add(
   'checkMenuItem',

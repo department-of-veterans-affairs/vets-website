@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import {
   getValidationMessageKey,
   showAddressValidationModal,
-} from '@@vap-svc/util';
+} from 'platform/user/profile/vap-svc/util';
 
 describe('getValidationMessageKey', () => {
   it('returns showSuggestionsOverride key', () => {

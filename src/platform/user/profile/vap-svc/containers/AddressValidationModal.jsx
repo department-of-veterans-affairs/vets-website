@@ -4,8 +4,15 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import { formatAddress } from '~/platform/forms/address/helpers';
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import { formatAddress } from 'platform/forms/address/helpers';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import { focusElement } from 'platform/utilities/ui';
+import recordEvent from 'platform/monitoring/record-event';
+import {
+  isFailedTransaction,
+  isPendingTransaction,
+} from 'platform/user/profile/vap-svc/util/transactions';
+import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
 import {
   openModal,
   createTransaction,
@@ -14,19 +21,10 @@ import {
   closeModal,
   resetAddressValidation as resetAddressValidationAction,
 } from '../actions';
-import { focusElement } from '~/platform/utilities/ui';
 import { getValidationMessageKey } from '../util';
 import { ADDRESS_VALIDATION_MESSAGES } from '../constants/addressValidationMessages';
-import recordEvent from '~/platform/monitoring/record-event';
 
 import * as VAP_SERVICE from '../constants';
-
-import {
-  isFailedTransaction,
-  isPendingTransaction,
-} from '@@vap-svc/util/transactions';
-
-import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
 
 class AddressValidationModal extends React.Component {
   componentWillUnmount() {
@@ -273,8 +271,7 @@ class AddressValidationModal extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { transaction } = ownProps;
-  const addressValidationType =
-    state.vapService.addressValidation.addressValidationType;
+  const { addressValidationType } = state.vapService.addressValidation;
 
   return {
     analyticsSectionName:

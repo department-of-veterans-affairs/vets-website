@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
-import { FIELD_NAMES } from '@@vap-svc/constants';
-import VAPServiceEditModalErrorMessage from '~/platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
+import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
 
 const ConfirmRemoveModal = ({
   cancelAction,
@@ -18,7 +18,7 @@ const ConfirmRemoveModal = ({
 }) => {
   return (
     <Modal
-      title={`Are you sure?`}
+      title="Are you sure?"
       cssClass="overflow-auto"
       status="warning"
       visible={isVisible}
