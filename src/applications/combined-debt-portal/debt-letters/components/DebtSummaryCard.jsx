@@ -43,7 +43,7 @@ const DebtSummaryCard = ({ debt }) => {
           onClick={() => setActiveDebt(debt)}
           to={`/debt-balances/details/${debt.fileNumber + debt.deductionCode}`}
           aria-describedby={`${debt.fileNumber +
-            debt.deductionCode}}-debt-summary-card-link-description`}
+            debt.deductionCode}-debt-summary-card-link-description`}
         >
           Check details and resolve this debt
           <i
