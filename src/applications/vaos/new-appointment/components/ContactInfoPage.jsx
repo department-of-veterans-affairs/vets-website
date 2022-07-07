@@ -9,6 +9,7 @@ import {
   selectVAPMobilePhoneString,
 } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
+import { useHistory } from 'react-router-dom';
 import FormButtons from '../../components/FormButtons';
 
 import {
@@ -17,7 +18,6 @@ import {
   selectPageChangeInProgress,
 } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { useHistory } from 'react-router-dom';
 import {
   routeToNextAppointmentPage,
   routeToPreviousAppointmentPage,
@@ -118,7 +118,10 @@ export default function ContactInfoPage() {
           Want to update your contact information for more VA benefits and
           services?
           <br />
-          <NewTabAnchor href="/profile">Go to your VA profile</NewTabAnchor>.
+          <NewTabAnchor href="/profile/contact-information">
+            Go to your VA profile
+          </NewTabAnchor>
+          .
         </p>
       </>
     ),

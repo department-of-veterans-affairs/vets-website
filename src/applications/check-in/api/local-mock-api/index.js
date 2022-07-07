@@ -20,7 +20,6 @@ const responses = {
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     checkInExperienceEnabled: true,
     preCheckInEnabled: true,
-    checkInExperienceUpdateInformationPageEnabled: false,
   }),
   // v2
   'GET /check_in/v2/sessions/:uuid': (req, res) => {
@@ -82,9 +81,6 @@ const responses = {
         .json(preCheckInData.post.createMockFailedResponse());
     }
     return res.json(preCheckInData.post.createMockSuccessResponse({}));
-  },
-  'POST /check_in/v2/edit_demographics/': (req, res) => {
-    return res.json(checkInData.post.createMockEditSuccessResponse({}));
   },
   'PATCH /check_in/v2/demographics/:uuid': (req, res) => {
     const { uuid } = req.params;

@@ -1,8 +1,8 @@
 /**
  * @module testing/mocks/data
  */
-import moment from '../../lib/moment-tz';
 import omit from 'platform/utilities/data/omit';
+import moment from '../../lib/moment-tz';
 import { VIDEO_TYPES, APPOINTMENT_STATUS } from '../../utils/constants';
 
 /**
@@ -246,7 +246,7 @@ export function createMockAppointmentByVersion({
           : null,
         preferredTimesForPhoneCall: null,
         priority: null,
-        reason: null,
+        reasonCode: {},
         requestedPeriods: null,
         serviceType: null,
         slot: null,
@@ -310,7 +310,8 @@ export function createMockClinicByVersion({
         char4: null,
       },
     };
-  } else if (version === 0) {
+  }
+  if (version === 0) {
     return {
       id,
       type: 'clinic',
@@ -421,4 +422,28 @@ export function createMockCheyenneFacilityByVersion({ version = 2 } = {}) {
     phone: '307-778-7550',
     version,
   });
+}
+
+/**
+ * Creates a mock Provider object, for the specified version
+ *
+ * @export
+ * @param {Object} params
+ * @param {string} params.id The providerNpi id
+ * @param {string} params.name The provider name address, in the FHIR format
+ * @param {number} [params.version = 2] The version of the facility object to create
+ * @returns {Provider} The provider mock with specified data
+ */
+export function createMockProviderByVersion({
+  id = '123',
+  name = 'Fake name',
+  version = 2,
+} = {}) {
+  if (version === 2) {
+    return {
+      id,
+      name,
+    };
+  }
+  return null;
 }

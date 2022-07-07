@@ -4,6 +4,7 @@ const delay = require('mocker-api/lib/delay');
 const user = require('./user');
 const mhvAcccount = require('./mhvAccount');
 const address = require('./address');
+const phoneNumber = require('./phone-number');
 const status = require('./status');
 const {
   handlePutGenderIdentitiesRoute,
@@ -14,11 +15,12 @@ const { createNotificationSuccess } = require('./notifications');
 
 const { generateFeatureToggles } = require('./feature-toggles');
 
-const { paymentHistory } = require('./payment-history');
+const payments = require('./payment-history');
 
 const bankAccounts = require('./bank-accounts');
 
 const serviceHistory = require('./service-history');
+const fullName = require('./full-name');
 
 // set DELAY=1000 to add 1 sec delay to all responses
 const responseDelay = process?.env?.DELAY || 0;
@@ -31,29 +33,23 @@ const responses = {
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/feature_toggles': generateFeatureToggles(),
   'GET /v0/ppiu/payment_information': (_req, res) => {
-    return res.status(200).json(paymentHistory.simplePaymentHistory);
+    return res.status(200).json(payments.paymentHistory.simplePaymentHistory);
+  },
+  'PUT /v0/ppiu/payment_information': (_req, res) => {
+    return res.status(200).json(payments.paymentInformation.saved);
   },
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount,
   'GET /v0/profile/personal_information': handleGetPersonalInformationRoute,
   'PUT /v0/profile/preferred_names': handlePutPreferredNameRoute,
   'PUT /v0/profile/gender_identities': handlePutGenderIdentitiesRoute,
-  'GET /v0/profile/full_name': {
-    data: {
-      id: '',
-      type: 'hashes',
-      attributes: {
-        first: 'Mitchell',
-        middle: 'G',
-        last: 'Jenkins',
-        suffix: null,
-      },
-    },
-  },
+  'GET /v0/profile/full_name': fullName.success,
   'GET /v0/profile/ch33_bank_accounts': (_req, res) => {
     return res.status(200).json(bankAccounts.defaultResponse);
   },
-  'GET /v0/profile/service_history': serviceHistory.spaceForce,
+  'GET /v0/profile/service_history': (_req, res) => {
+    return res.status(500).json(serviceHistory.error);
+  },
   'GET /v0/disability_compensation_form/rating_info': {
     data: {
       id: '',
@@ -62,6 +58,9 @@ const responses = {
         userPercentOfDisability: 40,
       },
     },
+  },
+  'PUT /v0/profile/telephones': (_req, res) => {
+    return res.status(500).json(phoneNumber.errors.vets360Phon106);
   },
   'PUT /v0/profile/addresses': (req, res) => {
     if (

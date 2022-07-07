@@ -36,8 +36,20 @@ const generateServiceHistory = ({ branchOfService = 'Air Force' }) => {
 const airForce = generateServiceHistory({ branchOfService: 'Air Force' });
 const spaceForce = generateServiceHistory({ branchOfService: 'Space Force' });
 
+const error = {
+  errors: [
+    {
+      title: 'Internal server error',
+      detail: 'Internal server error',
+      code: '500',
+      status: '500',
+    },
+  ],
+};
+
 module.exports = {
   none,
+  error,
   airForce,
   spaceForce,
 };

@@ -578,6 +578,10 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
           providerName: 'Atlantic Medical Care',
         },
       },
+      serviceType: 'audiology',
+      reasonCode: {
+        text: 'test comment',
+      },
     };
 
     const appointment = createMockAppointmentByVersion({
@@ -621,6 +625,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       }),
     ).to.be.ok;
 
+    expect(screen.getByText(/Type of care/)).to.be.ok;
     expect(screen.getByText(/Community care/)).to.be.ok;
     expect(await screen.findByText(/Atlantic Medical Care/)).to.be.ok;
     expect(

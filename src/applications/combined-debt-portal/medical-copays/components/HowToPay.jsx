@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const HowToPay = ({ acctNum, facility }) => (
+export const HowToPay = ({ isOverview, acctNum, facility }) => (
   <article className="vads-u-padding--0" data-testid="how-to-pay">
     <h2 id="how-to-pay">How to pay your copay bill</h2>
     <p>
@@ -24,12 +24,14 @@ export const HowToPay = ({ acctNum, facility }) => (
           .
         </p>
         <p>
-          You will need to provide an account number to pay this debt online:
+          You will need to provide an account number to pay this debt online.
         </p>
-        <p>
-          <strong>Account Number: </strong>
-          {acctNum}
-        </p>
+        {!isOverview && (
+          <p>
+            <strong>Account Number: </strong>
+            {acctNum}
+          </p>
+        )}
         <a
           className="vads-c-action-link--blue"
           href="https://www.pay.gov/public/form/start/25987221"
@@ -42,18 +44,13 @@ export const HowToPay = ({ acctNum, facility }) => (
         <p>
           If you need help making a payment online, call us at{' '}
           <va-telephone contact="888-827-4817" />. We’re available Monday
-          through Friday, 8:00am - 8:00pm EST.
+          through Friday, 8:00am - 8:00pm ET.
         </p>
       </va-accordion-item>
       <va-accordion-item header="Option 2: Pay by phone">
         <p>
           Call us at <va-telephone contact="888-827-4817" />. We’re here Monday
           through Friday, 8:00 a.m. to 8:00 p.m. ET.
-        </p>
-        <p>You will need to provide an account number.</p>
-        <p>
-          <strong>Account Number: </strong>
-          {acctNum}
         </p>
       </va-accordion-item>
       <va-accordion-item header="Option 3: Pay by mail">
@@ -76,7 +73,7 @@ export const HowToPay = ({ acctNum, facility }) => (
         </p>
         <ul>
           <li>Your full name</li>
-          <li>Your account number: {acctNum}</li>
+          <li>Your account number</li>
         </ul>
         <p>
           <strong>Mail your payment and remittance stubs to:</strong>
@@ -92,33 +89,15 @@ export const HowToPay = ({ acctNum, facility }) => (
       </va-accordion-item>
       <va-accordion-item header="Option 4: Pay in person">
         <p>
-          Visit {facility?.facilityName}, and ask for the agent cashier’s
-          office. Bring your payment stub, along with a check or money order
-          made payable to "VA". Be sure to include your account number on the
-          check or money order.
+          Visit {isOverview ? 'the facility' : facility?.facilityName} and ask
+          for the agent cashier’s office. Bring your payment stub, along with a
+          check or money order made payable to "VA". Be sure to include your
+          account number on the check or money order.
         </p>
         <p>
           <strong>Note: </strong>
           You’ll find these stubs at the bottom of each statement. If you don’t
           have your most recent statement, you can download and print it above.
-        </p>
-        <p>
-          <strong>Account Number: </strong>
-          {acctNum}
-        </p>
-        <p>
-          <strong>Your facility’s address:</strong>
-        </p>
-        <p className="va-address-block">
-          {facility?.facilityName}
-          <br />
-          {facility?.staTAddress1}
-          <br />
-          {facility?.city}, {facility?.state}
-          <span className="vads-u-margin-x--0p5">
-            {facility?.ziPCde.substring(0, 5)}-{facility?.ziPCde.substring(5)}
-          </span>
-          <br />
         </p>
       </va-accordion-item>
     </va-accordion>

@@ -1,14 +1,17 @@
 import React from 'react';
-import Scroll from 'react-scroll';
-import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import Scroll from 'react-scroll';
+
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import scrollTo from 'platform/utilities/ui/scrollTo';
+
 import AddFilesForm from '../components/AddFilesForm';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
-import { setPageFocus, setUpPage } from '../utils/page';
+import { setFocus, setPageFocus, setUpPage } from '../utils/page';
 
 import {
   addFile,
@@ -20,12 +23,17 @@ import {
   setFieldsDirty,
   resetUploads,
   clearAdditionalEvidenceNotification,
-} from '../actions/index.jsx';
+} from '../actions';
 
 const scrollToError = () => {
   const options = getScrollOptions({ offset: -25 });
-  scrollTo('uploadError', options);
+
+  setTimeout(() => {
+    scrollTo('uploadError', options);
+    setFocus('.usa-alert-error');
+  });
 };
+
 const { Element } = Scroll;
 
 class AdditionalEvidencePage extends React.Component {
@@ -83,14 +91,14 @@ class AdditionalEvidencePage extends React.Component {
       content = (
         <div className="claim-container">
           {message && (
-            <div>
+            <>
               <Element name="uploadError" />
               <Notification
                 title={message.title}
                 body={message.body}
                 type={message.type}
               />
-            </div>
+            </>
           )}
           <EvidenceWarning />
           <AddFilesForm
@@ -117,10 +125,10 @@ class AdditionalEvidencePage extends React.Component {
     }
 
     return (
-      <div>
+      <>
         <div name="topScrollElement" />
         {content}
-      </div>
+      </>
     );
   }
 }
@@ -151,6 +159,29 @@ const mapDispatchToProps = {
   setFieldsDirty,
   resetUploads,
   clearAdditionalEvidenceNotification,
+};
+
+AdditionalEvidencePage.propTypes = {
+  addFile: PropTypes.func,
+  cancelUpload: PropTypes.func,
+  claim: PropTypes.object,
+  clearAdditionalEvidenceNotification: PropTypes.func,
+  files: PropTypes.array,
+  getClaimDetail: PropTypes.func,
+  lastPage: PropTypes.string,
+  loading: PropTypes.bool,
+  message: PropTypes.object,
+  params: PropTypes.object,
+  progress: PropTypes.number,
+  removeFile: PropTypes.func,
+  resetUploads: PropTypes.func,
+  router: PropTypes.object,
+  setFieldsDirty: PropTypes.func,
+  submitFiles: PropTypes.func,
+  updateField: PropTypes.func,
+  uploadComplete: PropTypes.bool,
+  uploadField: PropTypes.object,
+  uploading: PropTypes.bool,
 };
 
 export default withRouter(

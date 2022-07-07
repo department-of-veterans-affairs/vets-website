@@ -9,8 +9,6 @@ import {
   deriveStartsAtUnix,
   filterByOptions,
   filterEvents,
-  hideLegacyEvents,
-  showLegacyEvents,
 } from '.';
 
 describe('deriveMostRecentDate', () => {
@@ -127,6 +125,7 @@ describe('filterEvents', () => {
 
   const upcomingEvent = {
     id: 'upcoming',
+    entityId: '1',
     fieldDatetimeRangeTimezone: [
       {
         endValue: now
@@ -145,6 +144,7 @@ describe('filterEvents', () => {
 
   const nextWeekEvent = {
     id: 'next-week',
+    entityId: '2',
     fieldDatetimeRangeTimezone: [
       {
         endValue: now
@@ -166,6 +166,7 @@ describe('filterEvents', () => {
 
   const nextMonthEvent = {
     id: 'next-month',
+    entityId: '3',
     fieldDatetimeRangeTimezone: [
       {
         endValue: now
@@ -187,6 +188,7 @@ describe('filterEvents', () => {
 
   const pastEvent = {
     id: 'past',
+    entityId: '4',
     fieldDatetimeRangeTimezone: [
       {
         endValue: now
@@ -316,17 +318,5 @@ describe('deriveEventLocations', () => {
         fieldAddress: { locality: 'foo', administrativeArea: 'bar' },
       }),
     ).to.deep.equal(['foo, bar']);
-  });
-});
-
-describe('hideLegacyEvents', () => {
-  it('returns what we expect with no arguments', () => {
-    expect(hideLegacyEvents()).to.equal(undefined);
-  });
-});
-
-describe('showLegacyEvents', () => {
-  it('returns what we expect with no arguments', () => {
-    expect(showLegacyEvents()).to.equal(undefined);
   });
 });

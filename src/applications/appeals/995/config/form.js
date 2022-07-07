@@ -1,0 +1,223 @@
+import { VA_FORM_IDS } from 'platform/forms/constants';
+
+import migrations from '../migrations';
+
+import IntroductionPage from '../containers/IntroductionPage';
+import ConfirmationPage from '../containers/ConfirmationPage';
+
+import addIssue from '../pages/addIssue';
+import benefitType from '../pages/benefitType';
+import certifcationAndSignature from '../pages/certifcationAndSignature';
+import claimantName from '../pages/claimantName';
+import claimantType from '../pages/claimantType';
+import contactInfo from '../pages/contactInfo';
+import contestableIssues from '../pages/contestableIssues';
+import evidencePrivateAdd from '../pages/evidencePrivateAdd';
+import evidencePrivateRecords from '../pages/evidencePrivateRecords';
+import evidencePrivateUpload from '../pages/evidencePrivateUpload';
+import evidenceSummary from '../pages/evidenceSummary';
+import evidenceTypes from '../pages/evidenceTypes';
+import evidenceUpload from '../pages/evidenceUpload';
+import evidenceVaRecords from '../pages/evidenceVaRecords';
+import issueSummary from '../pages/issueSummary';
+import noticeOfAcknowledgement from '../pages/noticeOfAcknowledgement';
+import optIn from '../pages/optIn';
+import veteranInfo from '../pages/veteranInfo';
+
+import { appStateSelector, mayHaveLegacyAppeals } from '../utils/helpers';
+
+import manifest from '../manifest.json';
+
+// import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
+// const { } = fullSchema.properties;
+
+const formConfig = {
+  rootUrl: manifest.rootUrl,
+  urlPrefix: '/',
+  // submitUrl: '/v0/api',
+  submit: () =>
+    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  trackingPrefix: '995-supplemental-claim-',
+  introduction: IntroductionPage,
+  confirmation: ConfirmationPage,
+  formId: VA_FORM_IDS.FORM_20_0995,
+  saveInProgress: {
+    // messages: {
+    //   inProgress: 'Your VA Form 20-0995 (Supplemental Claim) application (20-0995) is in progress.',
+    //   expired: 'Your saved VA Form 20-0995 (Supplemental Claim) application (20-0995) has expired. If you want to apply for VA Form 20-0995 (Supplemental Claim), please start a new application.',
+    //   saved: 'Your VA Form 20-0995 (Supplemental Claim) application has been saved.',
+    // },
+  },
+  version: migrations.length,
+  migrations,
+  // prefillTransformer,
+  prefillEnabled: true,
+  // verifyRequiredPrefill: true,
+
+  savedFormMessages: {
+    notFound:
+      'Please start over to apply for VA Form 20-0995 (Supplemental Claim).',
+    noAuth:
+      'Please sign in again to continue your application for VA Form 20-0995 (Supplemental Claim).',
+  },
+  title: 'Request a Supplemental Claim',
+  defaultDefinitions: {},
+  chapters: {
+    infoPages: {
+      title: 'Veteran Details',
+      pages: {
+        benefitType: {
+          title: 'Benefit Type',
+          path: 'benefit-type',
+          uiSchema: benefitType.uiSchema,
+          schema: benefitType.schema,
+        },
+        veteranInfo: {
+          title: 'Veteran Information',
+          path: 'veteran-information',
+          uiSchema: veteranInfo.uiSchema,
+          schema: veteranInfo.schema,
+        },
+        claimantType: {
+          title: 'Claimant Type',
+          path: 'claimant-type',
+          uiSchema: claimantType.uiSchema,
+          schema: claimantType.schema,
+        },
+        claimantName: {
+          title: 'Claimant Name',
+          path: 'claimant-name',
+          uiSchema: claimantName.uiSchema,
+          schema: claimantName.schema,
+          depends: formData => formData.claimantType !== 'veteran',
+        },
+        contactInfo: {
+          title: 'Contact Information',
+          path: 'contact-information',
+          uiSchema: contactInfo.uiSchema,
+          schema: contactInfo.schema,
+        },
+      },
+    },
+
+    issues: {
+      title: 'Issues',
+      pages: {
+        contestableIssues: {
+          title: ' ',
+          path: 'contestable-issues',
+          uiSchema: contestableIssues.uiSchema,
+          schema: contestableIssues.schema,
+          appStateSelector,
+        },
+        addIssue: {
+          title: 'Add issues for review',
+          path: 'add-issue',
+          depends: () => false,
+          // CustomPage: AddIssue,
+          uiSchema: addIssue.uiSchema,
+          schema: addIssue.schema,
+        },
+        optIn: {
+          title: 'Opt in',
+          path: 'opt-in',
+          uiSchema: optIn.uiSchema,
+          schema: optIn.schema,
+          depends: formData => mayHaveLegacyAppeals(formData),
+          initialData: {
+            socOptIn: false,
+          },
+        },
+        issueSummary: {
+          title: 'Issue summary',
+          path: 'issue-summary',
+          uiSchema: issueSummary.uiSchema,
+          schema: issueSummary.schema,
+        },
+      },
+    },
+
+    evidence: {
+      title: 'Supporting Evidence',
+      pages: {
+        evidenceTypes: {
+          title: 'Supporting evidence types',
+          path: 'supporting-evidence/evidence-types',
+          uiSchema: evidenceTypes.uiSchema,
+          schema: evidenceTypes.schema,
+        },
+        evidenceVaRecords: {
+          title: 'VA medical records',
+          path: 'supporting-evidence/va-medical-records',
+          // depends: formData => hasVAEvidence(formData),
+          uiSchema: evidenceVaRecords.uiSchema,
+          schema: evidenceVaRecords.schema,
+        },
+        evidencePrivateRecords: {
+          title: 'Private medical records',
+          path: 'supporting-evidence/private-medical-records',
+          // depends: hasPrivateEvidence,
+          uiSchema: evidencePrivateRecords.uiSchema,
+          schema: evidencePrivateRecords.schema,
+        },
+        evidencePrivateUpload: {
+          title: 'Private medical records',
+          path: 'supporting-evidence/private-medical-records-upload',
+          // depends: formData =>
+          //   hasPrivateEvidence(formData) &&
+          //   !isNotUploadingPrivateMedical(formData),
+          uiSchema: evidencePrivateUpload.uiSchema,
+          schema: evidencePrivateUpload.schema,
+        },
+        evidencePrivateAdd: {
+          title: 'Private medical records',
+          path: 'supporting-evidence/private-medical-records-release',
+          // depends: formData =>
+          //   hasPrivateEvidence(formData) &&
+          //   isNotUploadingPrivateMedical(formData),
+          uiSchema: evidencePrivateAdd.uiSchema,
+          schema: evidencePrivateAdd.schema,
+        },
+        evidenceUpload: {
+          title: 'Lay statements and other evidence',
+          path: 'supporting-evidence/additional-evidence',
+          // depends: hasOtherEvidence,
+          uiSchema: evidenceUpload.uiSchema,
+          schema: evidenceUpload.schema,
+        },
+        evidenceSummary: {
+          title: 'Summary of evidence',
+          path: 'supporting-evidence/summary',
+          uiSchema: evidenceSummary.uiSchema,
+          schema: evidenceSummary.schema,
+        },
+      },
+    },
+
+    acknowledgement: {
+      title: 'Notice of Acknowledgement',
+      pages: {
+        notice5103: {
+          title: 'Notice of Acknowledgement',
+          path: 'notice-of-acknowledgement',
+          uiSchema: noticeOfAcknowledgement.uiSchema,
+          schema: noticeOfAcknowledgement.schema,
+        },
+      },
+    },
+
+    signature: {
+      title: 'Certification & Signature',
+      pages: {
+        sign: {
+          title: 'Certification & Signature',
+          path: 'certification-and-signature',
+          uiSchema: certifcationAndSignature.uiSchema,
+          schema: certifcationAndSignature.schema,
+        },
+      },
+    },
+  },
+};
+
+export default formConfig;
