@@ -18,7 +18,7 @@ import DowntimeNotification, {
   externalServiceStatus,
 } from 'platform/monitoring/DowntimeNotification';
 import { fetchInProgressForm, removeInProgressForm } from './actions';
-import FormStartControls from './FormStartControls';
+import FormStartControls from './FormStartControlsV5';
 import { getIntroState } from './selectors';
 import DowntimeMessage from './DowntimeMessage';
 import {

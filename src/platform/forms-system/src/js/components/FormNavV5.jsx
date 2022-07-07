@@ -97,9 +97,6 @@ export default function FormNav(props) {
     [current, index],
   );
 
-  // eslint-disable-next-line no-console
-  console.log(chapters.length, ' and ', current);
-
   return (
     <div>
       <va-segmented-progress-bar total={chapters.length} current={current} />

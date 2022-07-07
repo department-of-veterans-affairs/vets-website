@@ -3,10 +3,7 @@ import Scroll from 'react-scroll';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import FormApp from 'platform/forms-system/src/js/containers/FormAppV5';
 import { getNextPagePath } from 'platform/forms-system/src/js/routing';
-
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import environment from 'platform/utilities/environment';
@@ -34,8 +31,7 @@ class RoutedSavableApp extends React.Component {
     this.location = props.location || window.location;
   }
 
-  /* eslint-disable-next-line camelcase */
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
     if (window.History) {
       window.History.scrollRestoration = 'manual';
@@ -64,17 +60,15 @@ class RoutedSavableApp extends React.Component {
       //  we're logged in or not, we'll load or redirect as needed.
       this.shouldRedirectOrLoad = true;
     }
-  }
 
-  componentDidMount() {
     // When a user isn't logged in, the profile finishes loading before the component mounts
     if (!this.props.profileIsLoading && this.shouldRedirectOrLoad) {
       this.redirectOrLoad(this.props);
     }
   }
 
-  /* eslint-disable-next-line camelcase */
-  UNSAFE_componentWillReceiveProps(newProps) {
+  // should scroll up to top while user is waiting for form to load or save
+  componentDidUpdate(newProps) {
     // When a user is logged in, the profile finishes loading after the component
     //  has mounted, so we check here.
     // If we're done loading the profile, check to see if we should load or redirect
@@ -92,13 +86,13 @@ class RoutedSavableApp extends React.Component {
       newProps.currentLocation &&
       newProps.currentLocation.pathname.endsWith('resume')
     ) {
-      newProps.router.replace(newProps.returnUrl);
+      newProps.history.replace(newProps.returnUrl);
     } else if (status === LOAD_STATUSES.success) {
       if (newProps.formConfig.onFormLoaded) {
         // The onFormLoaded callback should handle navigating to the start of the form
         newProps.formConfig.onFormLoaded(newProps);
       } else {
-        newProps.router.push(newProps.returnUrl);
+        newProps.history.push(newProps.returnUrl);
       }
       // Set loadedStatus in redux to not-attempted to not show the loading page
       newProps.setFetchFormStatus(LOAD_STATUSES.notAttempted);
@@ -119,7 +113,9 @@ class RoutedSavableApp extends React.Component {
       }
 
       // Form restart redirects to new route or the first page after the intro
-      newProps.router.push(newRoute || this.getFirstNonIntroPagePath(newProps));
+      newProps.history.push(
+        newRoute || this.getFirstNonIntroPagePath(newProps),
+      );
     } else if (
       status !== LOAD_STATUSES.notAttempted &&
       status !== LOAD_STATUSES.pending &&
@@ -130,26 +126,23 @@ class RoutedSavableApp extends React.Component {
       if (this.location.pathname.endsWith('resume')) {
         action = 'replace';
       }
-      newProps.router[action](`${newProps.formConfig.urlPrefix || ''}error`);
+      newProps.history[action](`${newProps.formConfig.urlPrefix || ''}error`);
     }
-  }
 
-  // should scroll up to top while user is waiting for form to load or save
-  componentDidUpdate(oldProps) {
     if (
-      (oldProps.loadedStatus !== this.props.loadedStatus &&
+      (newProps.loadedStatus !== this.props.loadedStatus &&
         this.props.loadedStatus === LOAD_STATUSES.pending) ||
-      (oldProps.savedStatus !== this.props.savedStatus &&
+      (newProps.savedStatus !== this.props.savedStatus &&
         this.props.savedStatus === SAVE_STATUSES.pending)
     ) {
       scrollToTop('topScrollElement', getScrollOptions());
     }
 
     if (
-      this.props.savedStatus !== oldProps.savedStatus &&
+      this.props.savedStatus !== newProps.savedStatus &&
       this.props.savedStatus === SAVE_STATUSES.success
     ) {
-      this.props.router.push(
+      this.props.history.push(
         `${this.props.formConfig.urlPrefix || ''}form-saved`,
       );
     }
@@ -160,6 +153,7 @@ class RoutedSavableApp extends React.Component {
     this.removeOnbeforeunload();
   }
 
+  // NOT SURE WHEN THIS FUNCTION IS ACTUALLY CALLED
   onbeforeunload = e => {
     const { currentLocation, autoSavedStatus, formConfig } = this.props;
     const { additionalRoutes = [] } = formConfig;
@@ -167,6 +161,7 @@ class RoutedSavableApp extends React.Component {
     const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
     const additionalSafePaths = additionalRoutes.map(route => route.path);
     let message;
+
     if (
       autoSavedStatus !== SAVE_STATUSES.success &&
       isInProgressPath(trimmedPathname, additionalSafePaths)
@@ -213,7 +208,7 @@ class RoutedSavableApp extends React.Component {
         );
       } else if (props.skipPrefill) {
         // Just need to go to the page after the introduction
-        props.router.replace(firstNonIntroPagePath);
+        props.history.replace(firstNonIntroPagePath);
       } else if (hasPrefillData) {
         props.fetchInProgressForm(
           currentForm,
@@ -224,12 +219,12 @@ class RoutedSavableApp extends React.Component {
       } else {
         // No forms to load; go to the beginning
         // If the first page is not the intro and uses `depends`, this will probably break
-        props.router.replace(firstPagePath);
+        props.history.replace(firstPagePath);
       }
     } else {
       // Can't load a form; go to the beginning
       // If the first page is not the intro and uses `depends`, this will probably break
-      props.router.replace(firstPagePath);
+      props.history.replace(firstPagePath);
     }
   }
 
@@ -252,23 +247,19 @@ class RoutedSavableApp extends React.Component {
       (!formConfig.disableSave && this.shouldRedirectOrLoad)
     ) {
       content = (
-        <LoadingIndicator message="Retrieving your profile information..." />
+        <va-loading-indicator message="Retrieving your profile information..." />
       );
     } else if (!formConfig.disableSave && loadingForm) {
       content = (
-        <LoadingIndicator message={`Retrieving your saved ${appType}...`} />
+        <va-loading-indicator message={`Retrieving your saved ${appType}...`} />
       );
     } else if (
       !formConfig.disableSave &&
       this.props.savedStatus === SAVE_STATUSES.pending
     ) {
-      content = <LoadingIndicator message={`Saving your ${appType}...`} />;
+      content = <va-loading-indicator message={`Saving your ${appType}...`} />;
     } else {
-      content = (
-        <FormApp formConfig={formConfig} currentLocation={currentLocation}>
-          {children}
-        </FormApp>
-      );
+      content = <>{children}</>;
     }
 
     return (
