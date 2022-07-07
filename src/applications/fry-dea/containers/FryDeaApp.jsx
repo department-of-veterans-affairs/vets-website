@@ -9,8 +9,9 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import formConfig from '../config/form';
-import { fetchVeterans } from '../actions';
+import { fetchVeterans, fetchPersonalInformation } from '../actions';
 import { VETERANS_TYPE } from '../constants';
+import { prefillTransformer } from '../helpers';
 
 function FryDeaApp({
   children,
@@ -20,6 +21,8 @@ function FryDeaApp({
   setFormData,
   showUpdatedFryDeaApp,
   veterans,
+  getPersonalInfo,
+  claimantInfo,
 }) {
   const [fetchedVeterans, setFetchedVeterans] = useState(false);
 
@@ -34,10 +37,12 @@ function FryDeaApp({
         formData.showUpdatedFryDeaApp !== showUpdatedFryDeaApp ||
         formData.veterans !== veterans
       ) {
+        getPersonalInfo();
         setFormData({
           ...formData,
           showUpdatedFryDeaApp,
           veterans,
+          ...claimantInfo,
         });
       }
     },
@@ -49,6 +54,8 @@ function FryDeaApp({
       setFormData,
       showUpdatedFryDeaApp,
       veterans,
+      claimantInfo,
+      getPersonalInfo,
     ],
   );
 
@@ -76,6 +83,7 @@ FryDeaApp.propTypes = {
   setFormData: PropTypes.func,
   showUpdatedFryDeaApp: PropTypes.bool,
   veterans: VETERANS_TYPE,
+  getPersonalInfo: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -84,11 +92,13 @@ const mapStateToProps = state => ({
     FEATURE_FLAG_NAMES.showUpdatedFryDeaApp
   ],
   veterans: state.data?.veterans,
+  claimantInfo: prefillTransformer(null, null, null, state),
 });
 
 const mapDispatchToProps = {
   setFormData: setData,
   getVeterans: fetchVeterans,
+  getPersonalInfo: fetchPersonalInformation,
 };
 
 export default connect(

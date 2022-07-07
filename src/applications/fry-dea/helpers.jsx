@@ -138,3 +138,23 @@ export const AdditionalConsiderationTemplate = (
     },
   };
 };
+
+export function prefillTransformer(pages, formData, metadata, state) {
+  const claimant = state?.user?.profile;
+  const newData = {
+    ...formData,
+    formId: state.data?.formData?.data?.id,
+    claimantId: '',
+    userFullName: {
+      first: claimant.firstName || undefined,
+      middle: claimant.middleName || undefined,
+      last: claimant.lastName || undefined,
+    },
+  };
+  return {
+    metadata,
+    formData: newData,
+    pages,
+    state,
+  };
+}

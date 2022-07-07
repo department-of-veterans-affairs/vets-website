@@ -20,7 +20,7 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 // import monthYearUI from 'platform/forms-system/src/js/definitions/monthYear';
 // import * as personId from 'platform/forms/definitions/personId';
 // import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import { VA_FORM_IDS } from 'platform/forms/constants';
+// import { VA_FORM_IDS } from 'platform/forms/constants';
 // import {
 //   validateMonthYear,
 //   validateFutureDateIfExpectedGrad,
@@ -36,6 +36,7 @@ import {
   AdditionalConsiderationTemplate,
   applicantIsSpouseOfVeteran,
   bothFryAndDeaBenefitsAvailable,
+  prefillTransformer,
 } from '../helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -73,7 +74,7 @@ const formConfig = {
   trackingPrefix: 'fry-dea-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: VA_FORM_IDS.FORM_22_5490,
+  // formId: VA_FORM_IDS.FORM_22_5490,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your education benefits application (22-5490) is in progress.',
@@ -83,6 +84,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
