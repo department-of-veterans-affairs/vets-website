@@ -88,8 +88,7 @@ const Error = () => {
             <p className="vads-u-margin-top--2">
               {t('if-you-have-questions-please-call-us-were-here-24-7')}
             </p>
-            {isPhoneAppointmentsEnabled &&
-            canceledAppointment?.kind === 'phone' ? (
+            {canceledAppointment?.kind !== 'phone' ? (
               <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
                 {t('or-talk-to-a-staff-member-if-youre-at-a-va-facility')}
               </p>
