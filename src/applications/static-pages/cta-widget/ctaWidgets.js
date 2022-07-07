@@ -56,7 +56,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.CHANGE_ADDRESS]: {
     id: CTA_WIDGET_TYPES.CHANGE_ADDRESS,
     deriveToolUrlDetails: () => ({
-      url: '/profile/personal-information',
+      url: '/profile/contact-information',
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,
