@@ -110,6 +110,9 @@ export class Main extends Component {
     pageTitle = '',
     useSiS = true,
   } = {}) {
+    if (url === 'loginModal' && this.getNextParameter()) {
+      return null;
+    }
     const location = window.location.toString();
     const nextQuery = {
       next: url,
@@ -119,9 +122,6 @@ export class Main extends Component {
     const nextPath = appendQuery(path, nextQuery);
     history.pushState({}, pageTitle, nextPath);
 
-    if (url === 'loginModal' && this.getNextParameter()) {
-      return null;
-    }
     return nextQuery;
   }
 
