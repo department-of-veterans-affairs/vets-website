@@ -87,6 +87,8 @@ export class VerifyApp extends React.Component {
     const signInMethod =
       this.signinMethodLabels[(profile?.signIn?.serviceName)] || 'ID.me';
 
+    const verifyWithMyHealtheVet = this.signinMethodLabels.myhealthevet;
+
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
     }
@@ -117,6 +119,9 @@ export class VerifyApp extends React.Component {
                   <strong>5 - 10 minutes</strong> to complete.
                 </p>
                 {this.renderVerifyButton(signInMethod)}
+                {signInMethod === verifyWithMyHealtheVet
+                  ? this.renderVerifyButton(!signInMethod)
+                  : ' '}
               </div>
             </div>
           </div>
