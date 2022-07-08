@@ -33,8 +33,12 @@ export class SignInPage extends React.Component {
       router.push(appendQuery('/verify', window.location.search.slice(1)));
     }
 
-    if (useSignInService && !window.location.search.includes('oauth')) {
-      router.push('?oauth=true');
+    if (
+      useSignInService &&
+      !location.search.includes('oauth') &&
+      !location.search.includes('application')
+    ) {
+      router.push(`?oauth=true`);
     }
   }
 
