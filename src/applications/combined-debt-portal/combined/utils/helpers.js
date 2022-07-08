@@ -111,20 +111,13 @@ export const transform = data => {
   });
 };
 
-export const setFocus = selector => {
-  const el =
-    typeof selector === 'string' ? document.querySelector(selector) : selector;
+export const setPageFocus = selector => {
+  const el = document.querySelector(selector);
   if (el) {
     el.setAttribute('tabIndex', -1);
     el.focus();
-  }
-};
-
-export const setPageFocus = (selector = '.va-nav-breadcrumbs') => {
-  const el = document.querySelector(selector);
-  if (el) {
-    setFocus(el);
   } else {
-    setFocus('#main h1');
+    document.querySelector('#main h1').setAttribute('tabIndex', -1);
+    document.querySelector('#main h1').focus();
   }
 };
