@@ -14,6 +14,8 @@ import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggl
 import {
   preCheckinExpired,
   appointmentStartTimePast15,
+  appointmentWasCanceled,
+  getFirstCanceledAppointment,
 } from '../../../utils/appointment';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
@@ -90,8 +92,37 @@ const Error = () => {
   messages.push({ text: messageText });
 
   if (appointments && appointments.length > 0) {
-    // don't show sub message if we are 15 minutes past appointment start time
-    if (appointmentStartTimePast15(appointments)) {
+    if (appointmentWasCanceled(appointments)) {
+      // get first appointment that was cancelled?
+      const canceledAppointment = getFirstCanceledAppointment(appointments);
+      const appointmentDateTime = new Date(canceledAppointment.startTime);
+      const cancelledMessage = (
+        <div>
+          <p className="vads-u-margin-top--0">
+            {t('your-appointment-at-on-is-cancelled', {
+              day: appointmentDateTime,
+              time: appointmentDateTime,
+            })}
+          </p>
+          <p className="vads-u-margin-top--2">
+            {t('if-you-have-questions-please-call-us-were-here-24-7')}
+          </p>
+          {isPhoneAppointmentsEnabled &&
+          canceledAppointment?.kind === 'phone' ? (
+            ''
+          ) : (
+            <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
+              {t('or-talk-to-a-staff-member-if-youre-at-a-va-facility')}
+            </p>
+          )}
+        </div>
+      );
+
+      header = t('sorry-pre-check-in-is-no-longer-available');
+      messages = [{ text: cancelledMessage }];
+      accordion = appointmentAccordion(appointments);
+    } else if (appointmentStartTimePast15(appointments)) {
+      // don't show sub message if we are 15 minutes past appointment start time
       header = t('sorry-pre-check-in-is-no-longer-available');
       messages = [];
       accordion = appointmentAccordion(appointments);

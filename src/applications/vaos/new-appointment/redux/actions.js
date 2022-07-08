@@ -514,21 +514,33 @@ export function hideEligibilityModal() {
   };
 }
 
-export function openReasonForAppointment(page, uiSchema, schema) {
+export function openReasonForAppointment(
+  page,
+  uiSchema,
+  schema,
+  useV2 = false,
+) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
     page,
     uiSchema,
     schema,
+    useV2,
   };
 }
 
-export function updateReasonForAppointmentData(page, uiSchema, data) {
+export function updateReasonForAppointmentData(
+  page,
+  uiSchema,
+  data,
+  useV2 = false,
+) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
     page,
     uiSchema,
     data,
+    useV2,
   };
 }
 

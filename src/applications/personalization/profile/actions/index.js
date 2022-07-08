@@ -78,12 +78,13 @@ export function fetchMilitaryInformation(recordAnalyticsEvent = recordEvent) {
           }
         }
 
-        recordEvent({
-          event: 'profile-get-military-information-failed',
-          'profile-action': 'get-failure',
-          'profile-section': 'military-information',
-          'error-key': `${errorName}-get-error-api-response`,
-        });
+        recordAnalyticsEvent(
+          createApiEvent({
+            name: apiEventName,
+            status: 'failed',
+            errorKey: `${errorName}-get-error-api-response`,
+          }),
+        );
 
         captureMilitaryInfoErrorResponse({
           error: { ...error, source: ERROR_SOURCES.API },
@@ -115,7 +116,6 @@ export function fetchMilitaryInformation(recordAnalyticsEvent = recordEvent) {
         },
       });
     } catch (error) {
-      recordEvent({ event: 'profile-get-military-information-failed' });
       captureMilitaryInfoErrorResponse({
         error,
         apiEventName: 'profile-get-military-information-failed',

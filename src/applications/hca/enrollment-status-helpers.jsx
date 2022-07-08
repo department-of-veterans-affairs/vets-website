@@ -2,9 +2,9 @@ import React from 'react';
 import moment from 'moment';
 
 import { isValidDateString } from 'platform/utilities/date';
+import { DASHBOARD_ALERT_TYPES } from 'applications/personalization/dashboard/components/DashboardAlert';
 import { HCA_ENROLLMENT_STATUSES } from './constants';
 import { getMedicalCenterNameByID } from './helpers';
-import { DASHBOARD_ALERT_TYPES } from 'applications/personalization/dashboard/components/DashboardAlert';
 
 // There are 9 possible warning headlines to show depending on enrollment status
 export function getWarningHeadline(enrollmentStatus) {
@@ -377,7 +377,10 @@ export function getFAQContent(enrollmentStatus) {
         benefits and services.
       </p>
       <p>
-        <a href="/profile">Go to your profile to update your address</a>.
+        <a href="/profile/contact-information">
+          Go to your profile to update your address
+        </a>
+        .
       </p>
     </>
   );
@@ -478,7 +481,7 @@ export function getFAQContent(enrollmentStatus) {
       </p>
       <p>
         <strong>
-          If you’ve already applied, think you've received this message in
+          If you’ve already applied, think you’ve received this message in
           error, or have any questions
         </strong>
       </p>

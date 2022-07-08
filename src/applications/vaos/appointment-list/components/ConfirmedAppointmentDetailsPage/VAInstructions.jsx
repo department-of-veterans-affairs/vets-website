@@ -1,10 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { PURPOSE_TEXT } from '../../../utils/constants';
 
 export default function VAInstructions({ appointment }) {
-  const showInstructions = PURPOSE_TEXT.some(purpose =>
-    appointment?.comment?.startsWith(purpose.short),
-  );
+  const showInstructions =
+    appointment.version === 2
+      ? appointment?.comment
+      : PURPOSE_TEXT.some(purpose =>
+          appointment?.comment?.startsWith(purpose.short),
+        );
 
   if (!showInstructions) {
     return null;
@@ -21,3 +25,7 @@ export default function VAInstructions({ appointment }) {
     </div>
   );
 }
+
+VAInstructions.propTypes = {
+  appointment: PropTypes.object,
+};

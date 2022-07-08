@@ -30,11 +30,12 @@ const DebtSummaryCard = ({ debt }) => {
         {debtCardHeading}
       </h4>
       {debtCardSubHeading}
-      <div className="vads-u-margin-right--5 vads-u-margin-top--2">
+      <div className="vads-u-margin-right--5 vads-u-margin-top--2 vads-u-font-weight--bold">
         <Link
-          data-testclass="debt-details-button"
+          data-testid="debt-details-button"
           onClick={() => setActiveDebt(debt)}
           to={`/debt-balances/details/${debt.fileNumber + debt.deductionCode}`}
+          aria-label={`Check details and resolve this ${debtCardHeading}`}
         >
           Check details and resolve this debt
           <i
