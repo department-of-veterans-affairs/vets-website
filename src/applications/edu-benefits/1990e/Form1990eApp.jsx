@@ -40,12 +40,11 @@ function Form1990eEntry({
       //   return;
       // }
 
-      if (showUpdatedToeApp && !fetchedSponsors) {
+      if (!fetchedSponsors) {
         getSponsors();
       }
 
       if (
-        showUpdatedToeApp &&
         !sponsors?.loadedFromSavedState &&
         isArray(sponsorsSavedState?.sponsors)
       ) {
@@ -56,7 +55,7 @@ function Form1990eEntry({
             fetchedSponsorsComplete,
           ),
         );
-      } else if (showUpdatedToeApp && sponsorsInitial && !sponsors) {
+      } else if (sponsorsInitial && !sponsors) {
         setFormData(
           mapFormSponsors(formData, sponsorsInitial, fetchedSponsorsComplete),
         );
