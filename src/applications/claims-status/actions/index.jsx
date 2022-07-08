@@ -25,8 +25,11 @@ import {
 import { makeAuthRequest, roundToNearest } from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 
+// This should make it a bit easier to turn mocks on and off manually
+const SHOULD_USE_MOCKS = true;
 // NOTE: This should only be TRUE when developing locally
-const USE_MOCKS = environment.isLocalhost() && !window.Cypress;
+const CAN_USE_MOCKS = environment.isLocalhost() && !window.Cypress;
+const USE_MOCKS = CAN_USE_MOCKS && SHOULD_USE_MOCKS;
 
 // -------------------- v2 and v1 -------------
 export const FETCH_APPEALS_SUCCESS = 'FETCH_APPEALS_SUCCESS';
@@ -236,9 +239,9 @@ export function getClaimsV2(options = {}) {
     dispatch({ type: FETCH_CLAIMS_PENDING });
 
     if (USE_MOCKS) {
-      return mockApi.getClaimList().then(mockClaimsList => {
-        return dispatch(fetchClaimsSuccess(mockClaimsList));
-      });
+      return mockApi
+        .getClaimList()
+        .then(mockClaimsList => dispatch(fetchClaimsSuccess(mockClaimsList)));
     }
 
     return poll({
@@ -325,13 +328,13 @@ export function getClaimDetail(id, router, poll = pollRequest) {
     });
 
     if (USE_MOCKS) {
-      return mockApi.getClaimDetails(id).then(mockDetails => {
-        return dispatch({
+      return mockApi.getClaimDetails(id).then(mockDetails =>
+        dispatch({
           type: SET_CLAIM_DETAIL,
           claim: mockDetails.data,
           meta: mockDetails.meta,
-        });
-      });
+        }),
+      );
     }
 
     return poll({
@@ -627,16 +630,42 @@ export function hide30DayNotice() {
   };
 }
 
+// We don't want to show STEM claims unless they were automatically denied
+const automatedDenial = stemClaim => stemClaim.attributes.automatedDenial;
+
+// Add some attributes to the STEM claim to help normalize it's shape
+const addAttributes = stemClaim => ({
+  ...stemClaim,
+  attributes: {
+    ...stemClaim.attributes,
+    claimType: 'STEM',
+    phaseChangeDate: stemClaim.attributes.submittedAt,
+  },
+});
+
 export function getStemClaims() {
   return dispatch => {
     dispatch({ type: FETCH_STEM_CLAIMS_PENDING });
 
-    makeAuthRequest(
+    if (USE_MOCKS) {
+      return mockApi.getStemClaimList().then(claimList => {
+        const stemClaims = claimList.data
+          .filter(automatedDenial)
+          .map(addAttributes);
+
+        return dispatch({
+          type: FETCH_STEM_CLAIMS_SUCCESS,
+          stemClaims,
+        });
+      });
+    }
+
+    return makeAuthRequest(
       '/v0/education_benefits_claims/stem_claim_status',
       null,
       dispatch,
       response => {
-        const stemClaims = response.data.map(claim => {
+        const stemClaims = response.data.filter(automatedDenial).map(claim => {
           return {
             ...claim,
             attributes: {
