@@ -13,7 +13,7 @@ class Error {
           'Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.';
       } else {
         messageText =
-          "We're sorry. We couldn't match your information to our records. Please call us at 800-698-2411 (TTY:711) for help signing in.";
+          'We’re sorry. We couldn’t match your information to our records. Please call us at 800-698-2411 (TTY:711) for help signing in.';
       }
     }
 
