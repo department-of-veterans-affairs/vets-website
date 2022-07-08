@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { setPageFocus } from '../../combined/utils/helpers';
 import Modals from '../components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
@@ -27,7 +27,7 @@ const HTMLStatementPage = ({ match }) => {
     : `${userFullName.first} ${userFullName.last}`;
 
   useEffect(() => {
-    scrollToTop();
+    setPageFocus();
   }, []);
 
   return (
