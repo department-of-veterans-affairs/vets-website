@@ -11,7 +11,7 @@ const messages = {
   },
   messageTextLastValidateAttempt: {
     en:
-      'We’re sorry. We couldån’t match your information to our records. Please ask a staff member for help.',
+      'We’re sorry. We couldn’t match your information to our records. Please ask a staff member for help.',
     es:
       'Lo sentimos. No encontramos información en nuestros archivos que corresponda a esta información. Pídale asistencia a un miembro del personal.',
     tl:
