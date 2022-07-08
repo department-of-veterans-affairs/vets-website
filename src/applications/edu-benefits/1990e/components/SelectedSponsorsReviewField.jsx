@@ -1,7 +1,7 @@
 import React from 'react';
 import { SPONSOR_NOT_LISTED_LABEL } from '../constants';
 
-export default function SelectedSponsorsReviewPage({ data, editPage, title }) {
+export default function SelectedSponsorsReviewField({ data, editPage, title }) {
   const selectedSponsors = data?.sponsors?.sponsors?.flatMap(
     (sponsor, index) =>
       sponsor.selected ? [`Sponsor ${index + 1}: ${sponsor.name}`] : [],
