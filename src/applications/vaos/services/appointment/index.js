@@ -954,7 +954,7 @@ export function getCalendarData({ appointment, facility }) {
   } else if (isCommunityCare) {
     let { practiceName } = appointment.communityCareProvider || {};
     const { providers } = appointment.communityCareProvider || {};
-    let providerName = providers ? providers[0].providerName : null;
+    let providerName = providers.length > 0 ? providers[0].providerName : null;
     let summary = 'Community care appointment';
     // Check if providerName is all spaces.
     providerName = providerName?.trim().length ? providerName : '';
