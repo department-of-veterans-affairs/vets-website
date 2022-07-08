@@ -1,10 +1,14 @@
 const dateFns = require('date-fns');
 
 const defaultUUID = '0429dda5-4165-46be-9ed1-1e652a8dfd83';
-const alreadyPreCheckedInUUID = '4d523464-c450-49dc-9a18-c04b3f1642ee';
-const canceledAppointmentUUID = '9d7b7c15-d539-4624-8d15-b740b84e8548';
-const expiredUUID = '354d5b3a-b7b7-4e5c-99e4-8d563f15c521';
 const phoneApptUUID = '258d753c-262a-4ab2-b618-64b645884daf';
+
+const alreadyPreCheckedInUUID = '4d523464-c450-49dc-9a18-c04b3f1642ee';
+
+const canceledAppointmentUUID = '9d7b7c15-d539-4624-8d15-b740b84e8548';
+const canceledPhoneAppointmentUUID = '1448d690-fd5f-11ec-b939-0242ac120002';
+
+const expiredUUID = '354d5b3a-b7b7-4e5c-99e4-8d563f15c521';
 const expiredPhoneUUID = '08ba56a7-68b7-4b9f-b779-53ba609140ef';
 
 const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
@@ -53,9 +57,17 @@ const createMockSuccessResponse = (
         ien: 2,
       },
     ];
-  } else if (token === canceledAppointmentUUID) {
+  } else if (
+    token === canceledAppointmentUUID ||
+    token === canceledPhoneAppointmentUUID
+  ) {
     status = 'CANCELLED BY CLINIC';
-  } else if (token === phoneApptUUID || token === expiredPhoneUUID) {
+  }
+  if (
+    token === phoneApptUUID ||
+    token === expiredPhoneUUID ||
+    token === canceledPhoneAppointmentUUID
+  ) {
     apptKind = 'phone';
   }
 
