@@ -80,10 +80,10 @@ class YourClaimsPageV2 extends React.Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.list.length !== nextProps.list.length) {
-      this.setState({
-        pages: Math.ceil(nextProps.list.length / ROWS_PER_PAGE),
-      });
+    const len = nextProps.list.length;
+
+    if (this.props.list.length !== len) {
+      this.setState({ pages: Math.ceil(len / ROWS_PER_PAGE) });
     }
   }
 
