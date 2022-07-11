@@ -7,7 +7,7 @@ const findImports = require('find-imports');
 
 const {
   e2e: { specPattern },
-} = require('../../config/cypress.config').cypressConfig;
+} = require('../../config/cypress.config');
 
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);

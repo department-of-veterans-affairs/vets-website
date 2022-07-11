@@ -193,4 +193,4 @@ const cypressConfig = {
 };
 
 module.exports = defineConfig(cypressConfig);
-module.exports.cypressConfig = cypressConfig;
+// module.exports.cypressConfig = cypressConfig;
