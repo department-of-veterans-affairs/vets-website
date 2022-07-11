@@ -26,8 +26,7 @@ export default function TextWidget(props) {
    * timeout is used to wait for the error message to appear in the DOM.
    */
   const setAriaInvalid = () => {
-    let invalid = 'false';
-    if (inputElement.current) {
+    if (inputElement.current.id) {
       setTimeout(() => {
         const errorMessage = document.getElementById(
           `${inputElement.current.id}-error-message`,
@@ -35,15 +34,11 @@ export default function TextWidget(props) {
 
         if (errorMessage) {
           inputElement.current.ariaInvalid = 'true';
-          invalid = 'true';
         } else {
           inputElement.current.ariaInvalid = 'false';
-          invalid = 'false';
         }
       }, 0);
     }
-
-    return invalid;
   };
 
   const inputProps = {
@@ -69,7 +64,7 @@ export default function TextWidget(props) {
       if (event.target.id) setAriaInvalid();
     },
     'aria-describedby': addIndex(props.options?.ariaDescribedby || null),
-    'aria-invalid': setAriaInvalid(),
+    'aria-invalid': 'false',
   };
 
   return <input {...inputProps} ref={inputElement} />;
