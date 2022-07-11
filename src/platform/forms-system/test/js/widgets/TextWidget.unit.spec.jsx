@@ -69,6 +69,32 @@ describe('Schemaform <TextWidget>', () => {
     ).to.equal('test-id');
     tree.unmount();
   });
+
+  it('should render ariaInvalid attribute', () => {
+    const onChange = sinon.spy();
+    const tree = mount(
+      <TextWidget
+        id="1"
+        value="testing"
+        schema={{ type: 'string' }}
+        required
+        disabled={false}
+        onChange={onChange}
+        options={{
+          ariaInvalid: 'false',
+        }}
+      />,
+    );
+
+    expect(
+      tree
+        .find('input')
+        .getDOMNode()
+        .getAttribute('aria-invalid'),
+    ).to.equal('false');
+    tree.unmount();
+  });
+
   it('should render ariaDescribedby attribute with pagePerItemIndex', () => {
     const onChange = sinon.spy();
     const tree = mount(

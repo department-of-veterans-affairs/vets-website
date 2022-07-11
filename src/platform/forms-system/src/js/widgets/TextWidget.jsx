@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 
 const numberTypes = new Set(['number', 'integer']);
 
 export default function TextWidget(props) {
+  const inputElement = useRef();
   let inputType = props.options.inputType;
   if (!inputType) {
     inputType = numberTypes.has(props.schema.type) ? 'number' : props.type;
@@ -19,6 +20,26 @@ export default function TextWidget(props) {
   const addIndex = (id = '') =>
     id && typeof pageIndex !== 'undefined' ? `${id}_${pageIndex}` : id;
 
+  /**
+   * setAriaInvalid
+   * sets the aria-invalid attribute on the input element if there is an associated error message
+   */
+  const setAriaInvalid = () => {
+    if (inputElement.current) {
+      setTimeout(() => {
+        const errorMessage = document.getElementById(
+          `${inputElement.current.id}-error-message`,
+        );
+
+        if (errorMessage) {
+          inputElement.current.ariaInvalid = 'true';
+        } else {
+          inputElement.current.ariaInvalid = 'false';
+        }
+      }, 0);
+    }
+  };
+
   const inputProps = {
     ...(props.schema.minValue && { min: props.schema.minValue }),
     ...(props.schema.maxValue && { max: props.schema.maxValue }),
@@ -30,14 +51,20 @@ export default function TextWidget(props) {
     maxLength: props.schema.maxLength,
     className: props.options.widgetClassNames,
     value: typeof props.value === 'undefined' ? '' : props.value,
-    onBlur: () => props.onBlur(props.id),
-    onChange: event =>
-      props.onChange(event.target.value ? event.target.value : undefined),
-    onFocus: props.onFocus,
+    onBlur: () => {
+      props.onBlur(props.id);
+      setAriaInvalid();
+    },
+    onChange: event => {
+      props.onChange(event.target.value ? event.target.value : undefined);
+      setAriaInvalid();
+    },
+    onFocus: () => setAriaInvalid(),
     'aria-describedby': addIndex(props.options?.ariaDescribedby || null),
+    'aria-invalid': 'false',
   };
 
-  return <input {...inputProps} />;
+  return <input {...inputProps} ref={inputElement} />;
 }
 TextWidget.propTypes = {
   /**
