@@ -45,7 +45,7 @@ class YourClaimsPageV2 extends React.Component {
   constructor(props) {
     super(props);
     this.changePage = this.changePage.bind(this);
-    this.state = { page: 1, pages: 1 };
+    this.state = { page: 1 };
   }
 
   componentDidMount() {
@@ -75,15 +75,6 @@ class YourClaimsPageV2 extends React.Component {
       scrollToTop();
     } else {
       setUpPage();
-    }
-  }
-
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const len = nextProps.list.length;
-
-    if (this.props.list.length !== len) {
-      this.setState({ pages: Math.ceil(len / ROWS_PER_PAGE) });
     }
   }
 
@@ -174,7 +165,8 @@ class YourClaimsPageV2 extends React.Component {
     } else {
       if (!emptyList) {
         const listLen = list.length;
-        const shouldPaginate = listLen > ROWS_PER_PAGE;
+        const numPages = Math.ceil(listLen / ROWS_PER_PAGE);
+        const shouldPaginate = numPages > 1;
 
         const pageItems = getVisibleRows(list, this.state.page);
 
@@ -204,7 +196,7 @@ class YourClaimsPageV2 extends React.Component {
               {shouldPaginate && (
                 <VaPagination
                   page={this.state.page}
-                  pages={this.state.pages}
+                  pages={numPages}
                   onPageSelect={this.changePage}
                 />
               )}
