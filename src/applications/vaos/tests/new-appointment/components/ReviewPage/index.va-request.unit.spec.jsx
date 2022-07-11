@@ -326,6 +326,9 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     store = createTestStore(defaultState);
     mockAppointmentSubmitV2({
       id: 'fake_id',
+      attributes: {
+        reasonCode: {},
+      },
     });
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -347,10 +350,9 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
       status: 'proposed',
       locationId: '983',
       serviceType: 'primaryCare',
-      comment: 'I need an appt',
       reasonCode: {
         coding: [{ code: 'Routine Follow-up' }],
-        text: 'Routine Follow-up',
+        text: 'I need an appt',
       },
       contact: {
         telecom: [
@@ -392,6 +394,9 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     });
     mockAppointmentSubmitV2({
       id: 'fake_id',
+      attributes: {
+        reasonCode: {},
+      },
     });
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -413,9 +418,7 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
       status: 'proposed',
       locationId: '983',
       serviceType: 'primaryCare',
-      comment: 'I need an appt',
       reasonCode: {
-        coding: [],
         text: 'I need an appt',
       },
       contact: {
@@ -458,6 +461,9 @@ describe('VAOS <ReviewPage> VA request with VAOS service', () => {
     });
     mockAppointmentSubmitV2({
       id: 'fake_id',
+      attributes: {
+        reasonCode: {},
+      },
     });
     mockPreferences(null);
 

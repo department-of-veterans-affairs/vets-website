@@ -40,7 +40,8 @@ export const Debts = ({ debts, hasError, removeBottomPadding }) => {
     <div className={classes}>
       <va-alert status="warning" show-icon data-testid="debt-count-alert">
         <div className="vads-u-margin-top--0">
-          You have {debtsCount} outstanding debts.{' '}
+          You have {debtsCount} outstanding debt
+          {debtsCount === 1 ? '. ' : 's. '}
           <CTALink
             text="Manage your VA debt"
             href="/manage-va-debt/your-debt"
