@@ -643,38 +643,33 @@ const addAttributes = stemClaim => ({
   },
 });
 
+const getStemClaimsMock = dispatch => {
+  return mockApi.getStemClaimList().then(claimList => {
+    const stemClaims = claimList.data
+      .filter(automatedDenial)
+      .map(addAttributes);
+
+    return dispatch({
+      type: FETCH_STEM_CLAIMS_SUCCESS,
+      stemClaims,
+    });
+  });
+};
+
 export function getStemClaims() {
   return dispatch => {
     dispatch({ type: FETCH_STEM_CLAIMS_PENDING });
 
-    if (USE_MOCKS) {
-      return mockApi.getStemClaimList().then(claimList => {
-        const stemClaims = claimList.data
-          .filter(automatedDenial)
-          .map(addAttributes);
-
-        return dispatch({
-          type: FETCH_STEM_CLAIMS_SUCCESS,
-          stemClaims,
-        });
-      });
-    }
+    if (USE_MOCKS) return getStemClaimsMock(dispatch);
 
     return makeAuthRequest(
       '/v0/education_benefits_claims/stem_claim_status',
       null,
       dispatch,
       response => {
-        const stemClaims = response.data.filter(automatedDenial).map(claim => {
-          return {
-            ...claim,
-            attributes: {
-              ...claim.attributes,
-              claimType: 'STEM',
-              phaseChangeDate: claim.attributes.submittedAt,
-            },
-          };
-        });
+        const stemClaims = response.data
+          .filter(automatedDenial)
+          .map(addAttributes);
 
         dispatch({
           type: FETCH_STEM_CLAIMS_SUCCESS,
