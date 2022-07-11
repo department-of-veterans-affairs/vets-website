@@ -4,12 +4,13 @@ import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/
 import { recordBadAddressEvent } from './analytics';
 
 export default function ProfileAlert() {
+  const heading = 'Review your mailing address';
   return (
     <VaAlert
       status="warning"
       data-testid="bad-address-profile-alert"
       onVa-component-did-load={() => {
-        recordBadAddressEvent({ location: 'profile' });
+        recordBadAddressEvent({ heading: `Profile BAI - ${heading}` });
       }}
       className="vads-u-margin-top--4"
     >
@@ -21,7 +22,7 @@ export default function ProfileAlert() {
         aria-live="polite"
         aria-label="The address we have on file for you may not be correct."
       >
-        Review your mailing address
+        {heading}
       </h2>
       <p>The mailing address we have on file for you may not be correct.</p>
       <p>

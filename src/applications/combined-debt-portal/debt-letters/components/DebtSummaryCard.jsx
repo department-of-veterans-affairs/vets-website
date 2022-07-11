@@ -35,7 +35,7 @@ const DebtSummaryCard = ({ debt }) => {
           data-testid="debt-details-button"
           onClick={() => setActiveDebt(debt)}
           to={`/debt-balances/details/${debt.fileNumber + debt.deductionCode}`}
-          aria-describedby={`Check details and resolve this ${debtCardHeading}`}
+          aria-label={`Check details and resolve this ${debtCardHeading}`}
         >
           Check details and resolve this debt
           <i

@@ -40,7 +40,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     expect(textBox).to.exist;
     expect(textBox)
       .to.have.attribute('maxlength')
-      .to.equal('250');
+      .to.equal('100');
 
     expect((await screen.findAllByRole('radio')).length).to.equal(4);
 
