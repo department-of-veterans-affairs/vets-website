@@ -181,7 +181,7 @@ const cypressConfig = {
   },
   e2e: {
     setupNodeEvents(on, config) {
-      return require('../src/platform/testing/e2e/cypress/plugins/index.js')(
+      return require('../src/platform/testing/e2e/cypress/plugins/index')(
         on,
         config,
       );
