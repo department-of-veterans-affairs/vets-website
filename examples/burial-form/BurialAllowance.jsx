@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Page, RadioGroup, TextField } from '@department-of-veterans-affairs/va-forms-system-core';
 import { useFormikContext} from "formik";
 
 export default function BurialAllowance(props) {
-  const { values, setFieldValue } = useFormikContext();
+  const { values } = useFormikContext();
 
   const getBurialAllowanceRequestedOptions = () => {
     const allowanceTypes = [
@@ -32,16 +32,6 @@ export default function BurialAllowance(props) {
     return allowanceTypes;
   }
 
-  useEffect(() => {
-    if (values.burialAllowanceRequested === 'nonService') {
-      setFieldValue('burialAllowanceRequestedLabel', 'Non-service-connected death');
-    } else if (values.burialAllowanceRequested === 'service') {
-      setFieldValue('burialAllowanceRequestedLabel', 'Service-connected death');
-    } else if (values.burialAllowanceRequested === 'vaMC') {
-      setFieldValue('burialAllowanceRequestedLabel', 'VA medical center death');
-    }
-  },[values.burialAllowanceRequested])
-
   return (
     <>
       <Page {...props} title="Burial allowance">
@@ -69,7 +59,7 @@ export default function BurialAllowance(props) {
           )}
         </div>
 
-        {values?.relationship?.type === "Spouse" && (
+        {values?.relationship?.type === "spouse" && (
           <div className="vads-u-margin-y--3">
             <RadioGroup
               name="previouslyReceivedAllowance"

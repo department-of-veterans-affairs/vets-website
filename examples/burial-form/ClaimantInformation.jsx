@@ -12,15 +12,15 @@ import { ExpandingGroupClass } from '../Constant';
 export default function ClaimantInformation(props) {
   const { values, setFieldValue } = useFormikContext();
   const getOptions = [
-    {label: "Spouse", value: "Spouse", key: 1},
-    {label: "Child", value: "Child", key: 2},
-    {label: "Parent", value: "Parent", key: 3},
-    {label: "Executor/Administrator of estate", value: "Executor/Administrator of estate", key: 4},
-    {label: "Other", value: "Other", key: 5},
+    {label: "Spouse", value: "spouse", key: 1},
+    {label: "Child", value: "child", key: 2},
+    {label: "Parent", value: "parent", key: 3},
+    {label: "Executor/Administrator of estate", value: "executorAdministratorEstate", key: 4},
+    {label: "Other", value: "other", key: 5},
   ]
 
   useEffect(() => {
-    if (values.relationship.type !== 'Other') {
+    if (values.relationship.type !== 'other') {
       setFieldValue('relationship.other', '')
       setFieldValue('claimingAsFirm', undefined)
       // Burial Allowance field depends on relationship value is equals to 'Other'
@@ -28,7 +28,7 @@ export default function ClaimantInformation(props) {
       setFieldValue('benefitsUnclaimedRemains', undefined);
     }
 
-    if (values.relationship.type !== 'Spouse') {
+    if (values.relationship.type !== 'spouse') {
       // Burial Allowance field depends on relationship value is equals to 'Spouse'
       // Remove previouslyReceivedAllowance field when relationship is not 'Spouse
       setFieldValue('previouslyReceivedAllowance', undefined);
@@ -51,13 +51,13 @@ export default function ClaimantInformation(props) {
             options={getOptions}
           />
           {
-            values.relationship.type === "Other" && (
+            values.relationship.type === "other" && (
               <>
                 <TextField 
                     className="vads-u-border-color--primary-alt-light vads-u-border-left--4px vads-u-padding-left--2 vads-u-padding-y--0p5 vads-u-margin-left--neg2p5" 
                     name="relationship.other" 
                     label="Please specify"
-                    required={values.relationship.type === 'Other'}    
+                    required={values.relationship.type === 'other'}    
                 />
                 <CheckboxField name="claimingAsFirm" label="Claiming as a firm, corporation or state agency" />
               </>

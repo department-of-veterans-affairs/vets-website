@@ -15,15 +15,6 @@ export default function BurialInformation(props) {
     const { values, setFieldValue } = useFormikContext();
 
     useEffect(() => {
-        if (values.locationOfDeath.location === 'vaMedicalCenter') {
-            setFieldValue('locationOfDeath.locationLabel', 'VA medical center');
-        } else if (values.locationOfDeath.location === 'stateVeteransHome') {
-            setFieldValue('locationOfDeath.locationLabel', 'State Veterans home');
-        } else if (values.locationOfDeath.location === 'nursingHome') {
-            setFieldValue('locationOfDeath.locationLabel', 'Nursing home under VA contract');
-        } else {
-            setFieldValue('locationOfDeath.locationLabel', 'Other');
-        }
         if (values.locationOfDeath.location !== 'other') {
             setFieldValue('locationOfDeath.other', undefined);
         }
