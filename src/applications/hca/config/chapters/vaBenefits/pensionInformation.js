@@ -34,7 +34,7 @@ const PensionInfo = () => (
 
 export default {
   uiSchema: {
-    'ui:title': 'Current compensation',
+    'ui:title': 'Current compensation from VA',
     'ui:description': PrefillMessage,
     'view:compDesc': {
       'ui:description':

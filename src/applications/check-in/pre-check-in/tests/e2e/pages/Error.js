@@ -13,6 +13,15 @@ class Error {
       .contains(messageText);
   };
 
+  validateCanceledPageLoaded = () => {
+    cy.get('h1', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .and('have.text', 'Sorry, pre-check-in is no longer available');
+    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
+      .should('be.visible')
+      .contains('is cancelled.');
+  };
+
   validateExpiredPageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')

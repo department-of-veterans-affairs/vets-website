@@ -122,7 +122,7 @@ const ConfirmationPage = props => {
 
           <p>
             If you have questions about your application, what to expect next,
-            or if you are interested in learning more about the supports and
+            or if you are interested in learning more about the support and
             services available to support Veterans and caregivers, you may
             contact the VA Caregiver Support Line at{' '}
             <va-telephone contact={CONTACTS.CAREGIVER} /> or visit{' '}

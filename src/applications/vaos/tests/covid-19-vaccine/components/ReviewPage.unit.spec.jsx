@@ -291,6 +291,9 @@ describe('VAOS vaccine flow with VAOS service <ReviewPage>', () => {
     await screen.findByText(/COVID-19 vaccine/i);
     mockAppointmentSubmitV2({
       id: 'fake_id',
+      attributes: {
+        reasonCode: {},
+      },
     });
     expect(screen.baseElement).to.contain.text(
       'Make sure the information is correct. Then confirm your appointment.',
