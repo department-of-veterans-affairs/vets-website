@@ -6,7 +6,7 @@ const glob = require('glob');
 const findImports = require('find-imports');
 
 const integrationFolder = 'src';
-const testFiles = 'src/**/tests/**/*.cypress.spec.js?(x)';
+const testFiles = '**/tests/**/*.cypress.spec.js?(x)';
 
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
