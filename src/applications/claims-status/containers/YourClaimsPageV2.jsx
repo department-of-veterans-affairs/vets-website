@@ -179,13 +179,11 @@ class YourClaimsPageV2 extends React.Component {
 
         if (shouldPaginate) {
           const range = getPageRange(this.state.page, list.length);
-          pageInfo = (
-            <p id="pagination-info">
-              {`Showing ${range.start} \u2012 ${range.end} of ${
-                list.length
-              } events`}
-            </p>
-          );
+          const { end, start } = range;
+
+          const txt = `Showing ${start} \u2012 ${end} of ${list.length} events`;
+
+          pageInfo = <p id="pagination-info">{txt}</p>;
         }
         content = (
           <div>
