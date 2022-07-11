@@ -35,8 +35,8 @@ export class SignInPage extends React.Component {
 
     if (
       useSignInService &&
-      !location.search.includes('oauth') &&
-      !location.search.includes('application')
+      !window.location.search.includes('oauth') &&
+      !window.location.search.includes('application')
     ) {
       router.push(`?oauth=true`);
     }

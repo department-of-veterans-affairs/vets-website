@@ -71,7 +71,7 @@ describe('SignInApp', () => {
     component.unmount();
   });
 
-  it('should append the `?oauth=true` parameter if useSignInService is true and oauth=true is not already appended', () => {
+  it('should append the `?oauth=true` parameter if useSignInService is true and oauth=true is not already appended and application is undefined', () => {
     const routerPushSpy = sinon.spy();
     defaultProps.location.query = { oauth: true };
     defaultProps.router = { push: routerPushSpy };
