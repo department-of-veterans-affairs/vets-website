@@ -18,8 +18,6 @@ import {
   FETCH_CLAIMS_PENDING,
   FETCH_CLAIMS_SUCCESS,
   FETCH_CLAIMS_ERROR,
-  ROWS_PER_PAGE,
-  CHANGE_INDEX_PAGE,
   UNKNOWN_STATUS,
 } from '../utils/appeals-v2-helpers';
 import { makeAuthRequest, roundToNearest } from '../utils/helpers';
@@ -145,12 +143,9 @@ export function getAppealsV2() {
 }
 
 export function fetchClaimsSuccess(response) {
-  const claims = response.data;
-  const pages = Math.ceil(claims.length / ROWS_PER_PAGE);
   return {
     type: FETCH_CLAIMS_SUCCESS,
-    claims,
-    pages,
+    claims: response.data,
   };
 }
 
@@ -301,13 +296,6 @@ export function sortClaims(sortProperty) {
 export function changePage(page) {
   return {
     type: CHANGE_CLAIMS_PAGE,
-    page,
-  };
-}
-
-export function changePageV2(page) {
-  return {
-    type: CHANGE_INDEX_PAGE,
     page,
   };
 }
