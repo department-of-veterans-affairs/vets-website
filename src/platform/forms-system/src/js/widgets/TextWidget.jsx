@@ -26,19 +26,20 @@ export default function TextWidget(props) {
    * timeout is used to wait for the error message to appear in the DOM.
    */
   const setAriaInvalid = () => {
-    if (inputElement.current.id) {
-      setTimeout(() => {
-        const errorMessage = document.getElementById(
-          `${inputElement.current.id}-error-message`,
-        );
+    setTimeout(() => {
+      const errorMessage = document.getElementById(
+        `${inputElement.current?.id}-error-message`,
+      );
 
-        if (errorMessage) {
-          inputElement.current.ariaInvalid = 'true';
-        } else {
-          inputElement.current.ariaInvalid = 'false';
-        }
-      }, 0);
-    }
+      // if there's no input element, don't continue
+      if (!inputElement.current) return;
+
+      if (errorMessage) {
+        inputElement.current.ariaInvalid = 'true';
+      } else {
+        inputElement.current.ariaInvalid = 'false';
+      }
+    }, 0);
   };
 
   const inputProps = {
@@ -52,17 +53,15 @@ export default function TextWidget(props) {
     maxLength: props.schema.maxLength,
     className: props.options.widgetClassNames,
     value: typeof props.value === 'undefined' ? '' : props.value,
-    onBlur: event => {
+    onBlur: () => {
       props.onBlur(props.id);
-      if (event.target.id) setAriaInvalid();
+      setAriaInvalid();
     },
     onChange: event => {
       props.onChange(event.target.value ? event.target.value : undefined);
-      if (event.target.id) setAriaInvalid();
+      setAriaInvalid();
     },
-    onFocus: event => {
-      if (event.target.id) setAriaInvalid();
-    },
+    onFocus: () => setAriaInvalid(),
     'aria-describedby': addIndex(props.options?.ariaDescribedby || null),
     'aria-invalid': 'false',
   };
