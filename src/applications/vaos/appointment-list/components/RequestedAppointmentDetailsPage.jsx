@@ -152,7 +152,9 @@ export default function RequestedAppointmentDetailsPage() {
   const facility = facilityData?.[facilityId];
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const provider = appointment.preferredCommunityCareProviders?.[0];
+  const provider = useV2
+    ? providerData
+    : appointment.preferredCommunityCareProviders?.[0];
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
 
   return (
