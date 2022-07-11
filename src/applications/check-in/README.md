@@ -31,7 +31,7 @@ There are several different mock UUIDs that can be used as a value for the `id` 
   - expiredUUID: `354d5b3a-b7b7-4e5c-99e4-8d563f15c521`
 
 ## Design system
-99% of the styling comes from the VA design system [component library](https://design.va.gov/components/) and [utility classes](https://design.va.gov/foundation/utilities/). For the remaining 1% of styling there is an scss file in the `sass` directory in the root of each sub-application.
+99% of the styling comes from the VA design system [component library](https://design.va.gov/components/) and [utility classes](https://design.va.gov/foundation/utilities/). For the remaining 1% of styling there is an scss file in the `sass` directory in the project root.
 
 When adding features, use components from the design system as much as possible. For general spacing, layout, typography, borders, etc... use the utility classes rather than adding to the style sheet.
 
