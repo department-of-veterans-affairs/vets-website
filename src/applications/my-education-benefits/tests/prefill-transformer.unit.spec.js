@@ -19,7 +19,6 @@ describe('prefillTransformer', () => {
       );
 
       // Check the military claimant section
-      //
       expect(transformedClaimantInfo.claimantId).to.eql(
         mockClaimantInfo.claimantId,
       );
