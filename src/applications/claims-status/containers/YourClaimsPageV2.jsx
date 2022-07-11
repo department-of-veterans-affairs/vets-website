@@ -173,15 +173,16 @@ class YourClaimsPageV2 extends React.Component {
       );
     } else {
       if (!emptyList) {
-        const shouldPaginate = list.length > ROWS_PER_PAGE;
+        const listLen = list.length;
+        const shouldPaginate = listLen > ROWS_PER_PAGE;
 
         const pageItems = getVisibleRows(list, this.state.page);
 
         if (shouldPaginate) {
-          const range = getPageRange(this.state.page, list.length);
+          const range = getPageRange(this.state.page, listLen);
           const { end, start } = range;
 
-          const txt = `Showing ${start} \u2012 ${end} of ${list.length} events`;
+          const txt = `Showing ${start} \u2012 ${end} of ${listLen} events`;
 
           pageInfo = <p id="pagination-info">{txt}</p>;
         }
