@@ -1,7 +1,8 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { focusElement } from 'platform/utilities/ui';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Date } from '@department-of-veterans-affairs/component-library';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
@@ -23,6 +24,13 @@ export default function ValidateDisplay({
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+
+  useLayoutEffect(
+    () => {
+      if (showValidateError) focusElement('.validate-error-alert');
+    },
+    [showValidateError],
+  );
 
   const updateField = useCallback(
     event => {
@@ -68,6 +76,8 @@ export default function ValidateDisplay({
           status="error"
           show-icon
           data-testid="validate-error-alert"
+          class="validate-error-alert"
+          tabIndex="-1"
         >
           <div>{validateErrorMessage}</div>
         </va-alert>
