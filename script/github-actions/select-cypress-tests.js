@@ -5,8 +5,9 @@ const path = require('path');
 const glob = require('glob');
 const findImports = require('find-imports');
 
-const integrationFolder = 'src';
-const testFiles = '**/tests/**/*.cypress.spec.js?(x)';
+const {
+  e2e: { specPattern },
+} = require('../../config/cypress.config').cypressConfig;
 
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
@@ -180,7 +181,7 @@ function selectedTests(graph, pathsOfChangedFiles) {
 }
 
 function allTests() {
-  const pattern = path.join(__dirname, '../..', integrationFolder, testFiles);
+  const pattern = path.join(__dirname, '../..', specPattern);
   return glob.sync(pattern);
 }
 
