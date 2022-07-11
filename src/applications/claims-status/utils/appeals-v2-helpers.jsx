@@ -6,7 +6,6 @@ import { Link } from 'react-router';
 import Decision from '../components/appeals-v2/Decision';
 
 // This literally determines how many rows are displayed per page on the v2 index page
-export const ROWS_PER_PAGE = 10;
 export const DECISION_REVIEW_URL = '/decision-reviews';
 
 export const APPEAL_ACTIONS = {
@@ -2175,12 +2174,12 @@ export function sortByLastUpdated(item1, item2) {
   return 0;
 }
 
-export function getVisibleRows(list, currentPage) {
-  const currentIndex = (currentPage - 1) * ROWS_PER_PAGE;
+export function getVisibleRows(list, currentPage, itemsPerPage) {
+  const currentIndex = (currentPage - 1) * itemsPerPage;
   if (!list.length) {
     return list;
   }
-  return list.slice(currentIndex, currentIndex + ROWS_PER_PAGE);
+  return list.slice(currentIndex, currentIndex + itemsPerPage);
 }
 
 /**
@@ -2190,12 +2189,12 @@ export function getVisibleRows(list, currentPage) {
  * @param {Number} totalItems - total number of entries
  * @returns
  */
-export const getPageRange = (page, totalItems) => {
-  const firstItem = (page - 1) * ROWS_PER_PAGE + 1;
-  const itemsLeftToShow = totalItems - (page - 1) * ROWS_PER_PAGE;
+export const getPageRange = (page, totalItems, itemsPerPage) => {
+  const firstItem = (page - 1) * itemsPerPage + 1;
+  const itemsLeftToShow = totalItems - (page - 1) * itemsPerPage;
   const lastItem =
-    itemsLeftToShow > ROWS_PER_PAGE
-      ? firstItem + ROWS_PER_PAGE - 1
+    itemsLeftToShow > itemsPerPage
+      ? firstItem + itemsPerPage - 1
       : firstItem + itemsLeftToShow - 1;
   return {
     start: firstItem,

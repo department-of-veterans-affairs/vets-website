@@ -168,10 +168,10 @@ class YourClaimsPageV2 extends React.Component {
         const numPages = Math.ceil(listLen / ROWS_PER_PAGE);
         const shouldPaginate = numPages > 1;
 
-        const pageItems = getVisibleRows(list, this.state.page);
+        const pageItems = getVisibleRows(list, this.state.page, ROWS_PER_PAGE);
 
         if (shouldPaginate) {
-          const range = getPageRange(this.state.page, listLen);
+          const range = getPageRange(this.state.page, listLen, ROWS_PER_PAGE);
           const { end, start } = range;
 
           const txt = `Showing ${start} \u2012 ${end} of ${listLen} events`;

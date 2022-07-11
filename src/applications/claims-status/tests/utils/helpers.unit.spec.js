@@ -678,14 +678,36 @@ describe('Disability benefits helpers: ', () => {
 
   describe('getPageRangeText', () => {
     it('returns the correct item range based on the page', () => {
-      // ROWS_PER_PAGE constant used
-      expect(getPageRange(1, 5)).to.deep.equal({ start: 1, end: 5 });
-      expect(getPageRange(1, 12)).to.deep.equal({ start: 1, end: 10 });
-      expect(getPageRange(1, 25)).to.deep.equal({ start: 1, end: 10 });
-      expect(getPageRange(2, 12)).to.deep.equal({ start: 11, end: 12 });
-      expect(getPageRange(2, 22)).to.deep.equal({ start: 11, end: 20 });
-      expect(getPageRange(2, 25)).to.deep.equal({ start: 11, end: 20 });
-      expect(getPageRange(3, 25)).to.deep.equal({ start: 21, end: 25 });
+      const ROWS_PER_PAGE = 10;
+
+      expect(getPageRange(1, 5, ROWS_PER_PAGE)).to.deep.equal({
+        start: 1,
+        end: 5,
+      });
+      expect(getPageRange(1, 12, ROWS_PER_PAGE)).to.deep.equal({
+        start: 1,
+        end: 10,
+      });
+      expect(getPageRange(1, 25, ROWS_PER_PAGE)).to.deep.equal({
+        start: 1,
+        end: 10,
+      });
+      expect(getPageRange(2, 12, ROWS_PER_PAGE)).to.deep.equal({
+        start: 11,
+        end: 12,
+      });
+      expect(getPageRange(2, 22, ROWS_PER_PAGE)).to.deep.equal({
+        start: 11,
+        end: 20,
+      });
+      expect(getPageRange(2, 25, ROWS_PER_PAGE)).to.deep.equal({
+        start: 11,
+        end: 20,
+      });
+      expect(getPageRange(3, 25, ROWS_PER_PAGE)).to.deep.equal({
+        start: 21,
+        end: 25,
+      });
     });
   });
 });
