@@ -1,5 +1,3 @@
-const _ = require('lodash');
-
 const mockUserData = {
   loa1User: {
     data: {
@@ -365,7 +363,7 @@ const mockUserData = {
             vet360Id: '1273766',
             zipCode: '97063',
             zipCodeSuffix: null,
-            badAddress: true,
+            badAddress: null,
           },
           mobilePhone: {
             areaCode: '619',
@@ -1068,15 +1066,11 @@ const handleUserRequest = (req, res) => {
 
   // handle test case of BAI being cleared on user request
   if (req?.query?.bai === 'clear') {
-    return res.json(
-      _.set(
-        mockUserData.user72Success,
-        'data.attributes.vet360ContactInformation.mailingAddress.badAddress',
-        false,
-      ),
-    );
+    return res.json(mockUserData.user72Success);
   }
-  return res.json(mockUserData.user72Success);
+  // default user object
+  // modify as needed for simulating varrious users
+  return res.json(mockUserData.badAddress);
 };
 
 module.exports = { ...mockUserData, handleUserRequest };
