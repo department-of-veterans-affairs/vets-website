@@ -71,16 +71,16 @@ export default function ValidateDisplay({
           )}
       </p>
       {showValidateError ? (
-        <va-alert
-          background-only
-          status="error"
-          show-icon
-          data-testid="validate-error-alert"
-          class="validate-error-alert"
-          tabIndex="-1"
-        >
-          <div>{validateErrorMessage}</div>
-        </va-alert>
+        <div className="validate-error-alert" tabIndex="-1">
+          <va-alert
+            background-only
+            status="error"
+            show-icon
+            data-testid="validate-error-alert"
+          >
+            <div>{validateErrorMessage}</div>
+          </va-alert>
+        </div>
       ) : (
         <></>
       )}
