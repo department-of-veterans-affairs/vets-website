@@ -39,7 +39,7 @@ import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import StemClaimListItem from '../components/StemClaimListItem';
 import MobileAppMessage from '../components/MobileAppMessage';
 
-const ROWS_PER_PAGE = 10;
+import { ITEMS_PER_PAGE } from '../constants';
 
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
@@ -165,13 +165,13 @@ class YourClaimsPageV2 extends React.Component {
     } else {
       if (!emptyList) {
         const listLen = list.length;
-        const numPages = Math.ceil(listLen / ROWS_PER_PAGE);
+        const numPages = Math.ceil(listLen / ITEMS_PER_PAGE);
         const shouldPaginate = numPages > 1;
 
-        const pageItems = getVisibleRows(list, this.state.page, ROWS_PER_PAGE);
+        const pageItems = getVisibleRows(list, this.state.page);
 
         if (shouldPaginate) {
-          const range = getPageRange(this.state.page, listLen, ROWS_PER_PAGE);
+          const range = getPageRange(this.state.page, listLen);
           const { end, start } = range;
 
           const txt = `Showing ${start} \u2012 ${end} of ${listLen} events`;
