@@ -1,9 +1,13 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+
 import migrations from '../migrations';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import GetFormHelp from '../content/GetFormHelp';
 
 import addIssue from '../pages/addIssue';
 import benefitType from '../pages/benefitType';
@@ -61,7 +65,9 @@ const formConfig = {
       'Please sign in again to continue your application for VA Form 20-0995 (Supplemental Claim).',
   },
   title: 'Request a Supplemental Claim',
+  subTitle: 'VA Form 20-0995 (Supplemental Claim)',
   defaultDefinitions: {},
+  preSubmitInfo,
   chapters: {
     infoPages: {
       title: 'Veteran Details',
@@ -218,6 +224,8 @@ const formConfig = {
       },
     },
   },
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
 };
 
 export default formConfig;
