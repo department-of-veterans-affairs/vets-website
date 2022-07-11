@@ -13,13 +13,17 @@ describe('Pre-Check In Experience', () => {
         initializeSessionGet,
         initializeSessionPost,
         initializePreCheckInDataGet,
+        initializePreCheckInDataPost,
       } = ApiInitializer;
-      initializeFeatureToggle.withCurrentFeatures();
+
+      initializeFeatureToggle.withLorotaSecurityUpdate();
       initializeSessionGet.withSuccessfulNewSession();
-      initializeSessionPost.withValidation();
       initializePreCheckInDataGet.withSuccess();
+
+      initializeSessionPost.withValidation();
+      initializePreCheckInDataPost.withSuccess();
+
       cy.visitPreCheckInWithUUID();
-      ValidateVeteran.validatePage.preCheckIn();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -29,31 +33,29 @@ describe('Pre-Check In Experience', () => {
     it('validation failed with failed response from server. redirect to error page after max validate limit reached', () => {
       cy.injectAxeThenAxeCheck();
       // First Attempt
-      ValidateVeteran.validateVeteran('Sith', '4321');
+      ValidateVeteran.validateVeteranDobWithFailure();
       ValidateVeteran.attemptToGoToNextPage();
-      ValidateVeteran.validateErrorAlert();
+      ValidateVeteran.validateErrorAlert(true);
 
       // Second Attempt
-      ValidateVeteran.validateVeteran('Sith', '4321');
+      ValidateVeteran.validateVeteranDobWithFailure();
       ValidateVeteran.attemptToGoToNextPage();
-      ValidateVeteran.validateErrorAlert();
+      ValidateVeteran.validateErrorAlert(true);
 
       // Third/Final attempt
-      ValidateVeteran.validateVeteran('Sith', '4321');
-      ValidateVeteran.validateErrorAlert();
+      ValidateVeteran.validateVeteranDobWithFailure();
       ValidateVeteran.attemptToGoToNextPage();
-
       Error.validatePageLoaded(true);
     });
     it('fails validation once and then succeeds on the second attempt', () => {
       cy.injectAxeThenAxeCheck();
       // First Attempt
-      ValidateVeteran.validateVeteran('Sith', '4321');
+      ValidateVeteran.validateVeteranDobWithFailure();
       ValidateVeteran.attemptToGoToNextPage();
-      ValidateVeteran.validateErrorAlert();
+      ValidateVeteran.validateErrorAlert(true);
 
       // Second Attempt
-      ValidateVeteran.validateVeteran('Smith', '1234');
+      ValidateVeteran.validateVeteranDob();
       ValidateVeteran.attemptToGoToNextPage();
       Introduction.validatePageLoaded();
     });

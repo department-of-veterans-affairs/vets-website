@@ -14,7 +14,7 @@ describe('Pre-Check In Experience', () => {
         initializeSessionPost,
         initializePreCheckInDataGet,
       } = ApiInitializer;
-      initializeFeatureToggle.withCurrentFeatures();
+      initializeFeatureToggle.withPhoneAppointments();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withValidation();
       initializePreCheckInDataGet.withSuccess();
@@ -43,7 +43,7 @@ describe('Pre-Check In Experience', () => {
       ValidateVeteran.validateErrorAlert();
       ValidateVeteran.attemptToGoToNextPage();
 
-      Error.validatePageLoaded(true);
+      Error.validatePageLoaded(true, true);
     });
     it('fails validation once and then succeeds on the second attempt', () => {
       cy.injectAxeThenAxeCheck();
