@@ -3,10 +3,7 @@ import PropTypes from 'prop-types';
 import { some } from 'lodash';
 import { connect } from 'react-redux';
 
-import {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 
 import recordEvent from 'platform/monitoring/record-event';
 import DowntimeNotification, {
@@ -33,7 +30,7 @@ const NotAVeteranAlert = () => {
           We’re sorry. We can’t match your information to our records. If you
           think this is an error, please call the VA.gov help desk at{' '}
           <va-telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
-          <va-telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
+          <va-telephone contact={CONTACTS['711']} />
           ). We’re here Monday–Friday, 8:00 a.m.–8:00 p.m. ET.
         </p>
         <p>

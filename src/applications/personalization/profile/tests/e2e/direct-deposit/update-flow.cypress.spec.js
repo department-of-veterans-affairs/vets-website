@@ -175,19 +175,19 @@ describe('Direct Deposit', () => {
         // register and the bank info form does not open
         force: true,
       });
-      // fillInBankInfoForm('CNP');
-      // fillInBankInfoForm('EDU');
-      // saveNewBankInfo('CNP');
-      // saveNewBankInfo('EDU');
-      // // This scan will be run while the bank info is saving and the
-      // // LoadingButton is in its "loading" state. This would throw an aXe error
-      // // if LoadingButton.loadingText was not set
-      // cy.axeCheck();
-      // // Now wait for the update API calls to resolve to failures...
-      // cy.findAllByText(/we couldn’t update your bank info/i).should(
-      //   'have.length',
-      //   '2',
-      // );
+      fillInBankInfoForm('CNP');
+      fillInBankInfoForm('EDU');
+      saveNewBankInfo('CNP');
+      saveNewBankInfo('EDU');
+      // This scan will be run while the bank info is saving and the
+      // LoadingButton is in its "loading" state. This would throw an aXe error
+      // if LoadingButton.loadingText was not set
+      cy.axeCheck();
+      // Now wait for the update API calls to resolve to failures...
+      cy.findAllByText(/we couldn’t update your bank info/i).should(
+        'have.length',
+        '2',
+      );
       cy.axeCheck();
     });
   });
@@ -217,6 +217,7 @@ describe('Direct Deposit', () => {
       cy.findByRole('button', {
         name: /edit.*disability.*bank info/i,
       }).should('exist');
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
