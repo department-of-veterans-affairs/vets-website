@@ -140,6 +140,7 @@ export default Object.freeze({
   vaOnlineSchedulingVariantTesting: 'va_online_scheduling_variant_testing',
   vaOnlineSchedulingPocHealthApt: 'va_online_scheduling_poc_health_apt',
   vaOnlineSchedulingStatusImprovement: 'va_online_scheduling_status_improvement',
+  vaOnlineSchedulingClinicLocation: 'va_online_scheduling_clinic_location',
   vaOnlineFilter36Vats: 'va_online_filter36_vats',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',

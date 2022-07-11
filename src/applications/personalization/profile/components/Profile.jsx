@@ -194,7 +194,7 @@ class Profile extends Component {
               <Redirect
                 exact
                 from="/profile#contact-information"
-                to={PROFILE_PATHS.PERSONAL_INFORMATION}
+                to={PROFILE_PATHS.CONTACT_INFORMATION}
               />
 
               <Redirect

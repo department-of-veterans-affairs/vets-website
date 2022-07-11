@@ -29,6 +29,9 @@ export const phoneUiSchema = fieldName => {
       'ui:errorMessages': {
         pattern: 'Please enter a valid 10-digit U.S. phone number.',
       },
+      'ui:options': {
+        ariaDescribedby: 'error-message-details',
+      },
     },
     extension: {
       'ui:title': 'Extension',

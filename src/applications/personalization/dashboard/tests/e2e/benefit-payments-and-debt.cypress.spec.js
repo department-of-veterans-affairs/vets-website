@@ -11,7 +11,6 @@ import fullName from '@@profile/tests/fixtures/full-name-success.json';
 import claimsSuccess from '@@profile/tests/fixtures/claims-success';
 import appealsSuccess from '@@profile/tests/fixtures/appeals-success';
 import disabilityRating from '@@profile/tests/fixtures/disability-rating-success.json';
-import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   paymentsError,
   paymentsSuccess,
@@ -26,67 +25,9 @@ import appointmentsEmpty from '../fixtures/appointments-empty';
 import MOCK_FACILITIES from '../../utils/mocks/appointments/MOCK_FACILITIES.json';
 import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 
-describe('The My VA Dashboard - Payments and Debt - when the feature is disabled', () => {
+describe('The My VA Dashboard - Payments and Debt', () => {
   Cypress.config({ defaultCommandTimeout: 12000 });
   beforeEach(() => {
-    cy.intercept('/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [],
-      },
-    });
-    mockLocalStorage();
-    cy.login(mockUser);
-    cy.intercept('/v0/profile/service_history', serviceHistory);
-    cy.intercept('/v0/profile/full_name', fullName);
-    cy.intercept('/v0/evss_claims_async', claimsSuccess());
-    cy.intercept('/v0/appeals', appealsSuccess());
-    cy.intercept(
-      '/v0/disability_compensation_form/rating_info',
-      disabilityRating,
-    );
-    cy.intercept('vaos/v0/appointments*', appointmentsEmpty);
-    cy.intercept('/v1/facilities/va?ids=*', MOCK_FACILITIES);
-  });
-  it('hides entire Pmts-n-Debts section - C13193', () => {
-    cy.visit('my-va/');
-
-    cy.findByTestId('dashboard-section-payment-and-debts').should('not.exist');
-
-    cy.findByTestId('debt-count-alert').should('not.exist');
-    cy.findByTestId('manage-va-debt-link').should('not.exist');
-    cy.findByTestId('zero-debt-paragraph').should('not.exist');
-    cy.findByTestId('debts-error').should('not.exist');
-
-    cy.findByTestId('payment-card').should('not.exist');
-    cy.findByTestId('deposit-header').should('not.exist');
-    cy.findByTestId('payment-card-view-history-link').should('not.exist');
-    cy.findByTestId('no-recent-payments-paragraph').should('not.exist');
-    cy.findByTestId('payments-error').should('not.exist');
-
-    cy.findByTestId('view-payment-history-link').should('not.exist');
-    cy.findByTestId('manage-direct-deposit-link').should('not.exist');
-    cy.findByTestId('learn-va-debt-link').should('not.exist');
-
-    // make the a11y check
-    cy.injectAxeThenAxeCheck();
-  });
-});
-
-describe('The My VA Dashboard - Payments and Debt - when the feature is enabled', () => {
-  Cypress.config({ defaultCommandTimeout: 12000 });
-  beforeEach(() => {
-    cy.intercept('/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: featureFlagNames.showPaymentAndDebtSection,
-            value: true,
-          },
-        ],
-      },
-    });
     mockLocalStorage();
     cy.login(mockUser);
     cy.intercept('/v0/profile/service_history', serviceHistory);
@@ -305,19 +246,17 @@ describe('The My VA Dashboard - Payments and Debt - when the feature is enabled'
       // No payments received ever:
       /* eslint-disable @department-of-veterans-affairs/axe-check-required */
       // Same display state as a previous test with AXE-check.
-      it('hides entire Pmts-n-Debts section - C14195', () => {
+      it('shows only debts in Pmts-n-Debts section - C14195', () => {
         cy.intercept('/v0/profile/payment_history', paymentsSuccessEmpty()).as(
           'noPayments2',
         );
         cy.visit('my-va/');
         cy.wait(['@debts2', '@noPayments2']);
 
-        cy.findByTestId('dashboard-section-payment-and-debts').should(
-          'not.exist',
-        );
+        cy.findByTestId('dashboard-section-payment-and-debts').should('exist');
 
-        cy.findByTestId('debt-count-alert').should('not.exist');
-        cy.findByTestId('manage-va-debt-link').should('not.exist');
+        cy.findByTestId('debt-count-alert').should('exist');
+        cy.findByTestId('manage-va-debt-link').should('exist');
         cy.findByTestId('zero-debt-paragraph').should('not.exist');
         cy.findByTestId('debts-error').should('not.exist');
 

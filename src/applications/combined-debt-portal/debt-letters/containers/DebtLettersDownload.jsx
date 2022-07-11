@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { setPageFocus } from '../utils/page';
+import { setPageFocus } from '../../combined/utils/helpers';
 import DebtLettersTable from '../components/DebtLettersTable';
 import { DownloadLettersAlert } from '../components/Alerts';
 
@@ -14,7 +13,6 @@ const DebtLettersDownload = () => {
   const showError = isError || isVBMSError;
 
   useEffect(() => {
-    scrollToTop();
     setPageFocus('h1');
   });
 
