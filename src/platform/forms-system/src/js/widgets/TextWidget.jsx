@@ -22,9 +22,11 @@ export default function TextWidget(props) {
 
   /**
    * setAriaInvalid
-   * sets the aria-invalid attribute on the input element if there is an associated error message
+   * sets the aria-invalid attribute on the input element if there is an associated error message.
+   * timeout is used to wait for the error message to appear in the DOM.
    */
   const setAriaInvalid = () => {
+    let invalid = 'false';
     if (inputElement.current) {
       setTimeout(() => {
         const errorMessage = document.getElementById(
@@ -33,11 +35,15 @@ export default function TextWidget(props) {
 
         if (errorMessage) {
           inputElement.current.ariaInvalid = 'true';
+          invalid = 'true';
         } else {
           inputElement.current.ariaInvalid = 'false';
+          invalid = 'false';
         }
       }, 0);
     }
+
+    return invalid;
   };
 
   const inputProps = {
@@ -51,17 +57,19 @@ export default function TextWidget(props) {
     maxLength: props.schema.maxLength,
     className: props.options.widgetClassNames,
     value: typeof props.value === 'undefined' ? '' : props.value,
-    onBlur: () => {
+    onBlur: event => {
       props.onBlur(props.id);
-      setAriaInvalid();
+      if (event.target.id) setAriaInvalid();
     },
     onChange: event => {
       props.onChange(event.target.value ? event.target.value : undefined);
-      setAriaInvalid();
+      if (event.target.id) setAriaInvalid();
     },
-    onFocus: () => setAriaInvalid(),
+    onFocus: event => {
+      if (event.target.id) setAriaInvalid();
+    },
     'aria-describedby': addIndex(props.options?.ariaDescribedby || null),
-    'aria-invalid': 'false',
+    'aria-invalid': setAriaInvalid(),
   };
 
   return <input {...inputProps} ref={inputElement} />;
