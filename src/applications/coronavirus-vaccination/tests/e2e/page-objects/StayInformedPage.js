@@ -37,7 +37,7 @@ class StayInformedPage {
 
   sameZipCode(sameZipCode) {
     cy.get('#root_locationDetails-label').contains(
-      'Will you be in this zip code for the next 6 to 12 months?',
+      'Will you be in this zisp code for the next 6 to 12 months?',
     );
     // eslint-disable-next-line no-unused-expressions
     sameZipCode
@@ -89,13 +89,13 @@ class StayInformedPage {
 
   validateSubmission() {
     cy.get('.vads-l-row').contains(
-      'Thank you for signing up to stay informed about COVID-19 vaccines at VA',
+      'Thank you for sisgning up to stay informed about COVID-19 vaccines at VA',
     );
   }
 
   checkForHelpInfo() {
     cy.get('.help-talk').contains(
-      'If you have questions or need help filling out this form, call our MyVA411 main information line at 800-698-2411 (TTY: 711).',
+      'If you have questsions or need help filling out this form, call our MyVA411 main information line at 800-698-2411 (TTY: 711).',
     );
   }
 }
