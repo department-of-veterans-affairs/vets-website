@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useLayoutEffect } from 'react';
+import React, { useCallback, useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -25,7 +25,7 @@ export default function ValidateDisplay({
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
 
-  useLayoutEffect(
+  useEffect(
     () => {
       if (showValidateError) focusElement('.validate-error-alert');
     },
