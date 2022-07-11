@@ -7,7 +7,7 @@ function ExternalLink({ children, href, hrefLang }) {
   return (
     <a {...{ href, hrefLang }}>
       {children}
-      {hrefLang !== i18n?.resolvedLanguage ? (
+      {!i18n?.language.startsWith(hrefLang) ? (
         <> ({t(`in-${hrefLang}`)})</>
       ) : null}
     </a>
