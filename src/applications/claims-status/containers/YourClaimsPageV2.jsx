@@ -147,12 +147,12 @@ class YourClaimsPageV2 extends React.Component {
 
   render() {
     const {
-      list,
-      claimsLoading,
       appealsLoading,
-      stemClaimsLoading,
-      show30DayNotice,
+      claimsLoading,
       hide30DayNotice,
+      list,
+      show30DayNotice,
+      stemClaimsLoading,
     } = this.props;
 
     let content;
@@ -185,8 +185,9 @@ class YourClaimsPageV2 extends React.Component {
 
           pageInfo = <p id="pagination-info">{txt}</p>;
         }
+
         content = (
-          <div>
+          <>
             {show30DayNotice && (
               <ClosedClaimMessage
                 claims={pageItems}
@@ -207,11 +208,12 @@ class YourClaimsPageV2 extends React.Component {
                 />
               )}
             </div>
-          </div>
+          </>
         );
       } else if (allRequestsLoaded) {
         content = <NoClaims />;
       }
+
       content = <div className="va-tab-content">{content}</div>;
     }
 
