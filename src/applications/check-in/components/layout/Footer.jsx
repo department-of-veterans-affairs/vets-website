@@ -47,7 +47,9 @@ const Footer = ({ header, message }) => {
           </p>
           <p>
             {t('if-you-have-hearing-loss-call')}{' '}
-            <va-telephone contact="711">{t('tty-711')}</va-telephone>.
+            <a href="tel:711" aria-label="TTY. 7 1 1.">
+              {t('tty-711')}
+            </a>
           </p>
         </>
       ) : (
