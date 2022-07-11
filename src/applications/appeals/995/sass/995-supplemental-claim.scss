@@ -6,6 +6,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
+<<<<<<< HEAD
 .schemaform-intro {
   padding: 0 0 2rem 0;
 
@@ -149,4 +150,8 @@ dl.review {
   .va-profile-wrapper button {
     width: auto;
   }
+}
+
+#root_form5103Acknowledged-label {
+  display: none !important;
 }
