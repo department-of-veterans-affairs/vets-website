@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { differenceInDays } from 'date-fns';
+import recordEvent from '~/platform/monitoring/record-event';
 import backendServices from '~/platform/user/profile/constants/backendServices';
-import HealthCareContent from './HealthCareContent';
+import { CernerWidget } from '~/applications/personalization/dashboard/components/cerner-widgets';
 import { fetchUnreadMessagesCount as fetchUnreadMessageCountAction } from '~/applications/personalization/dashboard/actions/messaging';
 import {
   selectUnreadCount,
@@ -19,18 +21,36 @@ import {
   selectAvailableServices,
 } from '~/platform/user/selectors';
 
-import HealthCareHeader from './HealthCareHeader';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import HealthCareCTA from './HealthCareCTA';
 
-const HealthCare = ({
+import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
+import Appointments from './Appointments';
+import CTALink from '../CTALink';
+
+const HealthCareContent = ({
+  appointments,
+  authenticatedWithSSOe,
   shouldFetchUnreadMessages,
   fetchConfirmedFutureAppointments,
   fetchConfirmedFutureAppointmentsV2,
+  isCernerPatient,
+  facilityLocations,
   fetchUnreadMessages,
+  unreadMessagesCount,
   // TODO: possibly remove this prop in favor of mocking the API in our unit tests
   dataLoadingDisabled = false,
   shouldShowLoadingIndicator,
+  shouldShowPrescriptions,
+  hasInboxError,
+  hasAppointmentsError,
   useVaosV2Api,
 }) => {
+  const nextAppointment = appointments?.[0];
+  const start = new Date(nextAppointment?.startsAt);
+  const today = new Date();
+  const hasUpcomingAppointment = differenceInDays(start, today) < 30;
+
   useEffect(
     () => {
       if (!dataLoadingDisabled) {
@@ -58,17 +78,95 @@ const HealthCare = ({
     [shouldFetchUnreadMessages, fetchUnreadMessages, dataLoadingDisabled],
   );
 
-  const headerClassNames = shouldShowLoadingIndicator
-    ? 'vads-u-margin-top--0 vads-u-margin-bottom--2'
-    : '';
+  const shouldShowUnreadMessageAlert =
+    shouldFetchUnreadMessages && !hasInboxError && unreadMessagesCount > 0;
 
+  const shouldShowOnOneColumn =
+    !shouldShowUnreadMessageAlert &&
+    !hasUpcomingAppointment &&
+    !hasAppointmentsError;
+
+  if (shouldShowLoadingIndicator) {
+    return <va-loading-indicator message="Loading health care..." />;
+  }
+  if (isCernerPatient && facilityLocations?.length) {
+    return (
+      <div className="vads-l-row">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
+          <CernerWidget
+            facilityLocations={facilityLocations}
+            authenticatedWithSSOe={authenticatedWithSSOe}
+          />
+        </div>
+      </div>
+    );
+  }
   return (
-    <div
-      className="health-care-wrapper vads-u-margin-y--6"
-      data-testid="dashboard-section-health-care"
-    >
-      <HealthCareHeader className={headerClassNames} />
-      <HealthCareContent dataLoadingDisabled={dataLoadingDisabled} />
+    <div className="vads-l-row">
+      <DashboardWidgetWrapper>
+        {/* Messages */}
+        {shouldShowUnreadMessageAlert ? (
+          <div
+            className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
+            data-testid="unread-messages-alert"
+          >
+            <va-alert status="warning" show-icon>
+              <div className="vads-u-margin-top--0">
+                {`You have ${unreadMessagesCount} unread message${
+                  unreadMessagesCount === 1 ? '' : 's'
+                }. `}
+                <CTALink
+                  text="View your messages"
+                  newTab
+                  href={mhvUrl(authenticatedWithSSOe, 'secure-messaging')}
+                  onClick={() =>
+                    recordEvent({
+                      event: 'nav-linkslist',
+                      'links-list-header': 'View your messages',
+                      'links-list-section-header': 'Health care',
+                    })
+                  }
+                />
+              </div>
+            </va-alert>
+          </div>
+        ) : null}
+        {(hasUpcomingAppointment || hasAppointmentsError) && (
+          /* Appointments */
+          <Appointments
+            appointments={appointments}
+            hasError={hasAppointmentsError}
+          />
+        )}
+        {!hasUpcomingAppointment &&
+          !hasAppointmentsError && (
+            <p data-testid="no-appointment-message">
+              You have no appointments scheduled in the next 30 days.
+            </p>
+          )}
+        {shouldShowOnOneColumn ? (
+          <HealthCareCTA
+            hasAppointmentsError={hasAppointmentsError}
+            hasInboxError={hasInboxError}
+            authenticatedWithSSOe={authenticatedWithSSOe}
+            hasUpcomingAppointment={hasUpcomingAppointment}
+            shouldShowPrescriptions={shouldShowPrescriptions}
+            unreadMessagesCount={unreadMessagesCount}
+          />
+        ) : null}
+      </DashboardWidgetWrapper>
+      {!shouldShowOnOneColumn ? (
+        <DashboardWidgetWrapper>
+          <HealthCareCTA
+            hasAppointmentsError={hasAppointmentsError}
+            hasInboxError={hasInboxError}
+            authenticatedWithSSOe={authenticatedWithSSOe}
+            hasUpcomingAppointment={hasUpcomingAppointment}
+            shouldShowPrescriptions={shouldShowPrescriptions}
+            unreadMessagesCount={unreadMessagesCount}
+          />
+        </DashboardWidgetWrapper>
+      ) : null}
     </div>
   );
 };
@@ -127,7 +225,7 @@ const mapDispatchToProps = {
   fetchConfirmedFutureAppointmentsV2: fetchConfirmedFutureAppointmentsV2Action,
 };
 
-HealthCare.propTypes = {
+HealthCareContent.propTypes = {
   authenticatedWithSSOe: PropTypes.bool.isRequired,
   canAccessRx: PropTypes.bool.isRequired,
   appointments: PropTypes.arrayOf(
@@ -161,4 +259,4 @@ HealthCare.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HealthCare);
+)(HealthCareContent);
