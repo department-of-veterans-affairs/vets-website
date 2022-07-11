@@ -27,7 +27,7 @@ const HTMLStatementPage = ({ match }) => {
     : `${userFullName.first} ${userFullName.last}`;
 
   useEffect(() => {
-    setPageFocus();
+    setPageFocus('h1');
   }, []);
 
   return (
