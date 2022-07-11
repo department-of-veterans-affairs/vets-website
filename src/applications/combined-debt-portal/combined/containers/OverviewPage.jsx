@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { useSelector } from 'react-redux';
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
-import { ALERT_TYPES } from '../utils/helpers';
+import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
 import {
   calculateTotalDebts,
   calculateTotalBills,
@@ -13,7 +12,7 @@ const OverviewPage = () => {
   const title = 'Your VA debt and bills';
 
   useEffect(() => {
-    scrollToTop();
+    setPageFocus('h1');
   }, []);
 
   const { debtLetters, mcp } = useSelector(
