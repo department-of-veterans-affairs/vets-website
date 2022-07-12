@@ -29,7 +29,7 @@ export default {
       'ui:title': <strong>Yes, I acknowledge</strong>,
       'ui:required': () => true,
       'ui:errorMessages': {
-        enum: '5103 must be acknowledged',
+        enum: 'Please acknowledged',
       },
       'ui:options': {
         forceDivWrapper: true,
