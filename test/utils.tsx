@@ -1,7 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { Formik, FormikProps, FormikConfig } from 'formik';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
+import { Formik, FormikConfig, FormikProps } from 'formik';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {};
@@ -55,6 +54,10 @@ export const changeValue = async (
   }
 
   await waitFor(() => {
-    fireEvent(el, new CustomEvent(eventName));
+    if (fireEvent.hasOwnProperty(eventName)) {
+      fireEvent[eventName](el, { value });
+    } else {
+      fireEvent(el, new CustomEvent(eventName));
+    }
   });
 };
