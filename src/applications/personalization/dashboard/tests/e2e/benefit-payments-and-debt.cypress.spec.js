@@ -246,19 +246,17 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       // No payments received ever:
       /* eslint-disable @department-of-veterans-affairs/axe-check-required */
       // Same display state as a previous test with AXE-check.
-      it('hides entire Pmts-n-Debts section - C14195', () => {
+      it('shows only debts in Pmts-n-Debts section - C14195', () => {
         cy.intercept('/v0/profile/payment_history', paymentsSuccessEmpty()).as(
           'noPayments2',
         );
         cy.visit('my-va/');
         cy.wait(['@debts2', '@noPayments2']);
 
-        cy.findByTestId('dashboard-section-payment-and-debts').should(
-          'not.exist',
-        );
+        cy.findByTestId('dashboard-section-payment-and-debts').should('exist');
 
-        cy.findByTestId('debt-count-alert').should('not.exist');
-        cy.findByTestId('manage-va-debt-link').should('not.exist');
+        cy.findByTestId('debt-count-alert').should('exist');
+        cy.findByTestId('manage-va-debt-link').should('exist');
         cy.findByTestId('zero-debt-paragraph').should('not.exist');
         cy.findByTestId('debts-error').should('not.exist');
 

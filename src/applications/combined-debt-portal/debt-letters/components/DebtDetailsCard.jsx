@@ -32,7 +32,7 @@ const DebtDetailsCard = ({ debt }) => {
       status={debtCardContent.status}
       visible="true"
     >
-      <h3 className="vads-u-margin--0">{debtCardContent.headerText}</h3>
+      <h2 className="vads-u-margin--0">{debtCardContent.headerText}</h2>
 
       <div>
         <div className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">

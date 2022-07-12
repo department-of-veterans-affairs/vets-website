@@ -44,6 +44,18 @@ const appointmentWasCanceled = appointments => {
 
   return Array.isArray(appointments) && appointments.some(statusIsCanceled);
 };
+/**
+ * Return the first cancelled appointment.
+ *
+ * @param {Array<Appointment>} appointments
+ *
+ */
+const getFirstCanceledAppointment = appointments => {
+  const statusIsCanceled = appointment =>
+    appointment.status?.startsWith('CANCELLED');
+
+  return appointments.find(statusIsCanceled);
+};
 
 /**
  * Get the interval from now until the end of the next check-in window.
@@ -163,6 +175,7 @@ const appointmentStartTimePast15 = appointments => {
 export {
   appointmentStartTimePast15,
   appointmentWasCanceled,
+  getFirstCanceledAppointment,
   hasMoreAppointmentsToCheckInto,
   intervalUntilNextAppointmentIneligibleForCheckin,
   sortAppointmentsByStartTime,
