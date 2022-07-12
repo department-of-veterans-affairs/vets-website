@@ -476,7 +476,7 @@ const formConfig = {
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidName(field)) {
-                        errors.addError('Please enter a first name');
+                        errors.addError('Please enter your first name');
                       }
                     },
                   ],
@@ -487,7 +487,7 @@ const formConfig = {
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidLastName(field)) {
-                        errors.addError('Please enter a last name');
+                        errors.addError('Please enter your last name');
                       }
                     },
                   ],
@@ -498,7 +498,7 @@ const formConfig = {
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidName(field)) {
-                        errors.addError('Please enter a middle name');
+                        errors.addError('Please enter your middle name');
                       }
                     },
                   ],
