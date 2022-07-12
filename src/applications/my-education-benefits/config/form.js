@@ -183,11 +183,11 @@ function isOnlyWhitespace(str) {
 }
 
 function isValidName(str) {
-  return str && str.test(/^[A-Za-z][A-Za-z '-]$/);
+  return str && /^[A-Za-z][A-Za-z '-]+$/.test(str);
 }
 
 function isValidLastName(str) {
-  return str && str.test(/^[A-Za-z][A-Za-z '-]{1,25}$/);
+  return str && /^[A-Za-z][A-Za-z '-]{1,25}$/.test(str);
 }
 
 function titleCase(str) {
@@ -486,7 +486,7 @@ const formConfig = {
                   'ui:title': 'Your last name',
                   'ui:validations': [
                     (errors, field) => {
-                      if (isValidLastName(field)) {
+                      if (!isValidLastName(field)) {
                         errors.addError('Please enter a last name');
                       }
                     },
@@ -497,7 +497,7 @@ const formConfig = {
                   'ui:title': 'Your middle name',
                   'ui:validations': [
                     (errors, field) => {
-                      if (isValidName(field)) {
+                      if (!isValidName(field)) {
                         errors.addError('Please enter a middle name');
                       }
                     },
