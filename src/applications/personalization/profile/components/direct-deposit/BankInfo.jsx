@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
   editCNPPaymentInformationToggled,
@@ -203,6 +202,7 @@ export const BankInfo = ({
       <button
         className={classes.editButton}
         type="button"
+        data-testid="edit-bank-info-button"
         aria-label="Edit your direct deposit for disability compensation and pension benefits bank information"
         ref={editBankInfoButton}
         onClick={() => {
@@ -241,11 +241,11 @@ export const BankInfo = ({
         type.
       </p>
       <div className="vads-u-margin-bottom--2">
-        <AdditionalInfo triggerText="Where can I find these numbers?">
+        <va-additional-info trigger="Where can I find these numbers?">
           <figure
             className="vads-u-margin-x--0"
             role="figure"
-            aria-labelledby="check-caption"
+            aria-labelledby={`${type}-check-caption`}
           >
             {/* eslint-disable jsx-a11y/no-redundant-roles */}
             <img
@@ -255,7 +255,7 @@ export const BankInfo = ({
             />
             {/* eslint-enable jsx-a11y/no-redundant-roles */}
             <figcaption
-              id="check-caption"
+              id={`${type}-check-caption`}
               className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-width--auto vads-u-color--gray-dark"
             >
               <p>
@@ -275,7 +275,7 @@ export const BankInfo = ({
               </ul>
             </figcaption>
           </figure>
-        </AdditionalInfo>
+        </va-additional-info>
       </div>
       <div data-testid={`${formPrefix}-bank-info-form`} ref={editBankInfoForm}>
         <BankInfoForm
@@ -300,6 +300,7 @@ export const BankInfo = ({
             className="usa-button-secondary small-screen:vads-u-margin-top--0"
             onClick={closeDDForm}
             data-qa="cancel-button"
+            data-testid={`${formPrefix}-form-cancel-button`}
           >
             Cancel
           </button>
@@ -349,11 +350,11 @@ export const BankInfo = ({
 
   return (
     <>
-      <Modal
-        title="Are you sure?"
+      <VaModal
+        modalTitle="Are you sure?"
         status="warning"
         visible={showConfirmCancelModal}
-        onClose={() => {
+        onCloseEvent={() => {
           setShowConfirmCancelModal(false);
         }}
       >
@@ -379,7 +380,7 @@ export const BankInfo = ({
         >
           Cancel
         </button>
-      </Modal>
+      </VaModal>
       <ProfileInfoTable
         className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
         title={sectionTitle}
