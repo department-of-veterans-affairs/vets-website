@@ -78,6 +78,7 @@ export default function Page(props: PageProps): JSX.Element {
             }
           }}
           type="submit"
+          aria-describedby={props.nextButtonDescribedBy}
         >
           {props.nextButtonCustomText ? props.nextButtonCustomText : 'Next'}{' '}
           <i className="fas fa-angle-double-right" />
