@@ -60,14 +60,17 @@ const ValidateVeteran = props => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
 
-  const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
-    false,
-  );
+  const {
+    getValidateAttempts,
+    incrementValidateAttempts,
+    resetAttempts,
+  } = useSessionStorage(false);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
   const app = '';
   const onClick = useCallback(
     () => {
+      setShowValidateError(false);
       validateLogin(
         last4Ssn,
         lastName,
@@ -87,6 +90,7 @@ const ValidateVeteran = props => {
         token,
         setSession,
         app,
+        resetAttempts,
       );
     },
     [
@@ -98,6 +102,7 @@ const ValidateVeteran = props => {
       last4Ssn,
       lastName,
       dob,
+      resetAttempts,
       setSession,
       showValidateError,
       token,

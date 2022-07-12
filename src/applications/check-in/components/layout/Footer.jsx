@@ -16,7 +16,7 @@ const Footer = ({ header, message }) => {
     <footer>
       <h2
         data-testid="heading"
-        className="help-heading vads-u-font-size--lg vads-u-padding-bottom--1 vads-u-border-bottom--3px vads-u-border-color--primary"
+        className="vads-u-font-size--lg vads-u-padding-bottom--1 vads-u-border-bottom--3px vads-u-border-color--primary"
       >
         {header ?? t('need-help')}
       </h2>

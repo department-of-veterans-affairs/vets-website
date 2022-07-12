@@ -48,7 +48,7 @@ const responses = {
     return res.status(200).json(bankAccounts.defaultResponse);
   },
   'GET /v0/profile/service_history': (_req, res) => {
-    return res.status(500).json(serviceHistory.error);
+    return res.status(200).json(serviceHistory.none);
   },
   'GET /v0/disability_compensation_form/rating_info': {
     data: {

@@ -5,10 +5,10 @@ import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 // Relative imports.
-import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
+import CernerCallToAction from '../../../components/CernerCallToAction';
 
 export const AuthContent = ({
   authenticatedWithSSOe,
@@ -248,7 +248,9 @@ export const AuthContent = ({
               </p>
               <ul>
                 <li>
-                  Go to your <a href="/profile/">VA.gov profile</a>.<br />
+                  Go to your{' '}
+                  <a href="/profile/contact-information">VA.gov profile</a>.
+                  <br />
                   Click <strong>Edit</strong> next to each address you’d like to
                   change, including your mailing and home address. Or if you
                   haven’t yet added an address, click on the link to add your

@@ -1,5 +1,5 @@
 /**
- * [TestRail-integrated] Spec for Medical Copays
+ * [TestRail-integrated] Spec for American Indian Question
  * @testrailinfo projectId 10
  * @testrailinfo suiteId 11
  * @testrailinfo groupId 3267
