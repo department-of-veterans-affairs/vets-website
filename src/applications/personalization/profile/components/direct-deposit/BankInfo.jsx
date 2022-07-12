@@ -166,7 +166,6 @@ export const BankInfo = ({
   const sectionTitle = typeIsCNP
     ? 'Disability compensation and pension benefits'
     : 'Education benefits';
-
   // When direct deposit is already set up we will show the current bank info
   const bankInfoContent = (
     <div>
@@ -178,7 +177,8 @@ export const BankInfo = ({
         <dt className="sr-only">Bank account type:</dt>
         <dd>{`${directDepositAccountInfo?.accountType} account`}</dd>
       </dl>
-      <div id="success" role="alert" aria-atomic="true">
+
+      <div role="alert" aria-atomic="true">
         <TransitionGroup>
           {!!showSuccessMessage && (
             <CSSTransition
