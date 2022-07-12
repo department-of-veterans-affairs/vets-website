@@ -60,7 +60,7 @@ export const MaxSelectionsAlert = ({ closeModal }) => (
     visible
   >
     You are limited to {MAX_LENGTH.SELECTIONS} selected issues for each
-    Supplemental Claims request. If you would like to select more than{' '}
+    Higher-Level Review request. If you would like to select more than{' '}
     {MAX_LENGTH.SELECTIONS}, please submit this request and create a new request
     for the remaining issues.
   </VaModal>
