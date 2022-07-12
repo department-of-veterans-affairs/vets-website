@@ -2,7 +2,7 @@ import React from 'react';
 
 export default {
   uiSchema: {
-    'ui:title': (
+    'ui:description': (
       <div>
         <p>
           If you’re requesting a Board Appeal on an issue in an initial claim we

@@ -2,7 +2,7 @@ import React from 'react';
 
 export default {
   uiSchema: {
-    'ui:title': (
+    'ui:description': (
       <div>
         <p>
           The 5103 Notice regarding new & relevant evidence must be acknowledged
