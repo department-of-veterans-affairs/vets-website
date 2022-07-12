@@ -182,6 +182,14 @@ function isOnlyWhitespace(str) {
   return str && !str.trim().length;
 }
 
+function isValidName(str) {
+  return str && /^[A-Za-z][A-Za-z '-]+$/.test(str);
+}
+
+function isValidLastName(str) {
+  return str && /^[A-Za-z][A-Za-z '-]{1,25}$/.test(str);
+}
+
 function titleCase(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
@@ -467,8 +475,8 @@ const formConfig = {
                   'ui:title': 'Your first name',
                   'ui:validations': [
                     (errors, field) => {
-                      if (isOnlyWhitespace(field)) {
-                        errors.addError('Please enter a first name');
+                      if (!isValidName(field)) {
+                        errors.addError('Please enter your first name');
                       }
                     },
                   ],
@@ -478,8 +486,8 @@ const formConfig = {
                   'ui:title': 'Your last name',
                   'ui:validations': [
                     (errors, field) => {
-                      if (isOnlyWhitespace(field)) {
-                        errors.addError('Please enter a last name');
+                      if (!isValidLastName(field)) {
+                        errors.addError('Please enter your last name');
                       }
                     },
                   ],
@@ -487,6 +495,13 @@ const formConfig = {
                 middle: {
                   ...fullNameUI.middle,
                   'ui:title': 'Your middle name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (!isValidName(field)) {
+                        errors.addError('Please enter your middle name');
+                      }
+                    },
+                  ],
                 },
               },
             },
