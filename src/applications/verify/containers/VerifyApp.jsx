@@ -51,33 +51,53 @@ export class VerifyApp extends React.Component {
     }
   }
 
-  renderVerifyButton(signInMethod) {
-    const verifyWithLoginGov =
-      this.signinMethodLabels.logingov === signInMethod;
+  verifyButton(signInMethod) {
+    const renderOpts = [
+      {
+        copy: 'Login.gov',
+        renderImage: <LoginGovSVG />,
+        className: `logingov-button`,
+      },
+      {
+        copy: 'ID.me',
+        renderImage: (
+          <img
+            role="presentation"
+            aria-hidden="true"
+            alt="ID.me"
+            src="/img/signin/idme-icon-white.svg"
+          />
+        ),
+        className: `idme-button`,
+      },
+    ];
 
-    const renderOpts = {
-      copy: verifyWithLoginGov ? 'Login.gov' : 'ID.me',
-      renderImage: verifyWithLoginGov ? (
-        <LoginGovSVG />
-      ) : (
-        <img
-          role="presentation"
-          aria-hidden="true"
-          alt="ID.me"
-          src="/img/signin/idme-icon-white.svg"
-        />
-      ),
-      className: `usa-button ${
-        verifyWithLoginGov ? 'logingov-button' : 'idme-button'
-      }`,
-    };
-
+    if (signInMethod === this.signinMethodLabels.myhealthevet) {
+      return renderOpts.map(({ copy, renderImage, className }) => (
+        <button
+          key={copy}
+          type="button"
+          className={className}
+          onClick={() => verify()}
+        >
+          <strong>
+            Verify with <span className="sr-only">{copy}</span>
+          </strong>
+          {renderImage}
+        </button>
+      ));
+    }
+    const { className, copy, renderImage } = renderOpts[0];
     return (
-      <button className={renderOpts.className} onClick={() => verify()}>
+      <button
+        type="button"
+        className={`usa-button ${className}`}
+        onClick={() => verify()}
+      >
         <strong>
-          Verify with <span className="sr-only">{renderOpts.copy}</span>
+          Verify with <span className="sr-only">{copy}</span>
         </strong>
-        {renderOpts.renderImage}
+        {renderImage}
       </button>
     );
   }
@@ -86,7 +106,6 @@ export class VerifyApp extends React.Component {
     const { profile } = this.props;
     const signInMethod =
       this.signinMethodLabels[(profile?.signIn?.serviceName)] || 'ID.me';
-    const verifyWithMyHealtheVet = this.signinMethodLabels.myhealthevet;
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
@@ -117,10 +136,8 @@ export class VerifyApp extends React.Component {
                   This one-time process will take{' '}
                   <strong>5 - 10 minutes</strong> to complete.
                 </p>
-                {this.renderVerifyButton(signInMethod)}
-                {signInMethod === verifyWithMyHealtheVet
-                  ? this.renderVerifyButton(!signInMethod)
-                  : ' '}
+                {this.verifyButton(signInMethod)}
+                <div />
               </div>
             </div>
           </div>
