@@ -1,5 +1,7 @@
+import differenceInSeconds from 'date-fns/differenceInSeconds';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
+import localStorage from 'platform/utilities/storage/localStorage';
 import {
   API_SIGN_IN_SERVICE_URL,
   EXTERNAL_APPS,
@@ -216,12 +218,16 @@ export const infoTokenExists = () => {
   return document.cookie.includes(INFO_TOKEN);
 };
 
-export const formatInfoCookie = unformattedCookie =>
-  unformattedCookie.split(',+:').reduce((obj, cookieString) => {
+export const formatInfoCookie = cookieStringRaw => {
+  const decoded = cookieStringRaw.includes('%')
+    ? decodeURIComponent(cookieStringRaw)
+    : cookieStringRaw;
+  return decoded.split(',+:').reduce((obj, cookieString) => {
     const [key, value] = cookieString.replace(/{:|}/g, '').split('=>');
     const formattedValue = value.replaceAll('++00:00', '').replaceAll('+', ' ');
     return { ...obj, [key]: new Date(formattedValue) };
   }, {});
+};
 
 export const getInfoToken = () => {
   if (!infoTokenExists()) return null;
@@ -240,15 +246,14 @@ export const getInfoToken = () => {
 export const removeInfoToken = () => {
   if (!infoTokenExists()) return null;
 
-  document.cookie = document.cookie
-    .split(';')
-    .reduce((cookieString, cookie) => {
-      let tempCookieString = cookieString;
-      if (!cookie.includes(INFO_TOKEN)) {
-        tempCookieString += cookie;
-      }
-      return tempCookieString;
-    }, '');
+  const updatedCookie = document.cookie.split(';').reduce((_, cookie) => {
+    let tempCookieString = _;
+    if (!cookie.includes(INFO_TOKEN)) {
+      tempCookieString += `${cookie};`.trim();
+    }
+    return tempCookieString;
+  }, '');
+  document.cookie = updatedCookie;
   return undefined;
 };
 
@@ -257,13 +262,31 @@ export const checkOrSetSessionExpiration = response => {
 
   if (sessionExpirationSAML) {
     localStorage.setItem('sessionExpiration', sessionExpirationSAML);
+    return true;
   }
 
   if (infoTokenExists()) {
-    const { refresh_token_expiration: sessionExpirationOAuth } = getInfoToken();
+    const {
+      access_token_expiration: atExpiration,
+      refresh_token_expiration: sessionExpirationOAuth,
+    } = getInfoToken();
 
-    if (sessionExpirationOAuth) {
-      localStorage.setItem('sessionExpiration', sessionExpirationOAuth);
-    }
+    localStorage.setItem('atExpires', atExpiration);
+    localStorage.setItem('sessionExpiration', sessionExpirationOAuth);
+    return true;
   }
+
+  return false;
+};
+
+export const canCallRefresh = () => {
+  const atExpiration = localStorage.getItem('atExpires');
+
+  if (!atExpiration) return null;
+  // if less than 5 seconds until expiration return true
+  const shouldCallRefresh =
+    differenceInSeconds(new Date(atExpiration), new Date()) < 5;
+
+  localStorage.removeItem('atExpires');
+  return shouldCallRefresh;
 };

@@ -630,24 +630,22 @@ export function hide30DayNotice() {
   };
 }
 
-// We don't want to show STEM claims unless they were automatically denied
-const automatedDenial = stemClaim => stemClaim.attributes.automatedDenial;
-
 // Add some attributes to the STEM claim to help normalize it's shape
-const addAttributes = stemClaim => ({
-  ...stemClaim,
+const addAttributes = claim => ({
+  ...claim,
   attributes: {
-    ...stemClaim.attributes,
+    ...claim.attributes,
     claimType: 'STEM',
-    phaseChangeDate: stemClaim.attributes.submittedAt,
+    phaseChangeDate: claim.attributes.submittedAt,
   },
 });
 
+// We don't want to show STEM claims unless they were automatically denied
+const automatedDenial = stemClaim => stemClaim.attributes.automatedDenial;
+
 const getStemClaimsMock = dispatch => {
-  return mockApi.getStemClaimList().then(claimList => {
-    const stemClaims = claimList.data
-      .filter(automatedDenial)
-      .map(addAttributes);
+  return mockApi.getStemClaimList().then(res => {
+    const stemClaims = res.data.map(addAttributes).filter(automatedDenial);
 
     return dispatch({
       type: FETCH_STEM_CLAIMS_SUCCESS,
@@ -666,10 +664,8 @@ export function getStemClaims() {
       '/v0/education_benefits_claims/stem_claim_status',
       null,
       dispatch,
-      response => {
-        const stemClaims = response.data
-          .filter(automatedDenial)
-          .map(addAttributes);
+      res => {
+        const stemClaims = res.data.map(addAttributes).filter(automatedDenial);
 
         dispatch({
           type: FETCH_STEM_CLAIMS_SUCCESS,

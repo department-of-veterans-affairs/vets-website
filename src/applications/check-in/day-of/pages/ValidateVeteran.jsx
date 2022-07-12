@@ -70,6 +70,7 @@ const ValidateVeteran = props => {
   const app = '';
   const onClick = useCallback(
     () => {
+      setShowValidateError(false);
       validateLogin(
         last4Ssn,
         lastName,
