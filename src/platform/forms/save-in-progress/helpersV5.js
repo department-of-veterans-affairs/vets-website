@@ -74,6 +74,8 @@ export function createRoutesWithSaveInProgress(formConfig) {
   return newRoutes.map((routeObject, i) => (
     <Route
       path={`/${routeObject.path}`}
+      exact
+      strict
       component={props => {
         return (
           <FormApp formConfig={formConfig}>

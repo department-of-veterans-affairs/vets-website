@@ -2,7 +2,7 @@ import React from 'react';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 import PropTypes from 'prop-types';
 
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntroV5';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { focusElement } from 'platform/utilities/ui';
 
@@ -10,11 +10,6 @@ class IntroductionPage extends React.Component {
   componentDidMount() {
     focusElement('.va-nav-breadcrumbs-list');
   }
-
-  goForward = () => {
-    const { route, router } = this.props;
-    router.push(route.pageList[1].path);
-  };
 
   render() {
     const { route } = this.props;
