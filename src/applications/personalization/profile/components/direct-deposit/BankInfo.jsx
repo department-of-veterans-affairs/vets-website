@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -43,6 +43,7 @@ import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import { benefitTypes } from '~/applications/personalization/common/constants';
 
 import NotEligible from './alerts/NotEligible';
+import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
 
 export const BankInfo = ({
   isLOA3,
@@ -59,13 +60,6 @@ export const BankInfo = ({
   setViewingPayments,
   showSuccessMessage,
 }) => {
-  const bankInfoUpdatedAlertSettings = useMemo(
-    () => ({
-      FADE_SPEED: window.Cypress ? 1 : 500,
-      TIMEOUT: window.Cypress ? 500 : 6000,
-    }),
-    [],
-  );
   const formPrefix = type;
   const editBankInfoButton = useRef();
   const editBankInfoForm = useRef();
@@ -191,9 +185,9 @@ export const BankInfo = ({
               classNames="form-expanding-group-inner"
               appear
               timeout={{
-                appear: bankInfoUpdatedAlertSettings.FADE_SPEED,
-                enter: bankInfoUpdatedAlertSettings.FADE_SPEED,
-                exit: bankInfoUpdatedAlertSettings.FADE_SPEED,
+                appear: BANK_INFO_UPDATED_ALERT_SETTINGS.FADE_SPEED,
+                enter: BANK_INFO_UPDATED_ALERT_SETTINGS.FADE_SPEED,
+                exit: BANK_INFO_UPDATED_ALERT_SETTINGS.FADE_SPEED,
               }}
             >
               <div data-testid="bankInfoUpdateSuccessAlert">

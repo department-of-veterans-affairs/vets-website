@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -31,6 +31,8 @@ import { benefitTypes } from '~/applications/personalization/common/constants';
 
 import DirectDepositWrapper from './DirectDepositWrapper';
 
+import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
+
 const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
   const [showCNPSuccessMessage, setShowCNPSuccessMessage] = useState(false);
   const [showEDUSuccessMessage, setShowEDUSuccessMessage] = useState(false);
@@ -55,23 +57,12 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
   const eduSaveError = eduUiState.responseError;
   const showBankInformation = isVerifiedUser;
 
-  const bankInfoUpdatedAlertSettings = useMemo(
-    () => ({
-      FADE_SPEED: window.Cypress ? 1 : 500,
-      TIMEOUT: window.Cypress ? 500 : 6000,
-    }),
-    [],
-  );
-
-  const removeBankInfoUpdatedAlert = useCallback(
-    () => {
-      setTimeout(() => {
-        setShowCNPSuccessMessage(false);
-        setShowEDUSuccessMessage(false);
-      }, bankInfoUpdatedAlertSettings.TIMEOUT);
-    },
-    [bankInfoUpdatedAlertSettings],
-  );
+  const removeBankInfoUpdatedAlert = useCallback(() => {
+    setTimeout(() => {
+      setShowCNPSuccessMessage(false);
+      setShowEDUSuccessMessage(false);
+    }, BANK_INFO_UPDATED_ALERT_SETTINGS.TIMEOUT);
+  }, []);
 
   useEffect(() => {
     focusElement('[data-focus-target]');
