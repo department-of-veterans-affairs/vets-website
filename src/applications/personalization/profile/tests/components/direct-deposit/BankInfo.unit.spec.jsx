@@ -66,9 +66,15 @@ function createBasicInitialState() {
 }
 
 function fillOutAndSubmitBankInfoForm(view) {
-  const accountNumberField = view.getByLabelText(/account number/i);
-  const routingNumberField = view.getByLabelText(/routing/i);
-  const accountTypeSelect = view.getByLabelText(/account type/i);
+  const accountNumberField = view.container.querySelector(
+    '#root_CNPAccountNumber',
+  );
+  const routingNumberField = view.container.querySelector(
+    '#root_CNPRoutingNumber',
+  );
+  const accountTypeSelect = view.container.querySelector(
+    '#root_CNPAccountType',
+  );
   const submitButton = view.getByText('Update', { selector: 'button' });
 
   userEvent.type(routingNumberField, '456456456');
@@ -78,9 +84,7 @@ function fillOutAndSubmitBankInfoForm(view) {
 }
 
 function findSetUpBankInfoButton(view) {
-  return view.queryByRole('button', {
-    label: /Edit your direct deposit for disability compensation and pension benefits bank information/i,
-  });
+  return view.container.querySelector('[data-testid=edit-bank-info-button]');
 }
 
 function findEditBankInfoButton(view) {
@@ -93,8 +97,8 @@ function findPaymentHistoryLink(view) {
   return view.queryByText('/view your payment history/i', { selector: 'a' });
 }
 
-function findCancelEditButton(view) {
-  return view.getByText('Cancel', { selector: 'button' });
+function findCancelEditButton(view, type) {
+  return view.getByTestId(`${type}-form-cancel-button`);
 }
 
 describe('DirectDepositCNP', () => {
@@ -154,11 +158,12 @@ describe('DirectDepositCNP', () => {
     });
     it('should allow entering and exiting edit mode', async () => {
       userEvent.click(findSetUpBankInfoButton(view));
+
       // ensure that the edit form is visible
-      expect(await view.findByLabelText(/account number/i)).to.exist;
+      expect(await view.findAllByLabelText(/account number/i)).to.exist;
 
       // find and click on the cancel button
-      userEvent.click(findCancelEditButton(view));
+      userEvent.click(findCancelEditButton(view, benefitTypes.CNP));
 
       // ensure that the edit form was removed
       expect(view.queryByLabelText(/account number/i)).not.to.exist;
@@ -166,13 +171,13 @@ describe('DirectDepositCNP', () => {
     it('should handle adding bank info', async () => {
       userEvent.click(findSetUpBankInfoButton(view));
 
-      expect(await view.findByLabelText(/account number/i)).to.exist;
+      expect(await view.findAllByLabelText(/account number/i)).to.exist;
 
       // fill out form info
       fillOutAndSubmitBankInfoForm(view);
 
       await waitForElementToBeRemoved(() =>
-        view.queryByLabelText(/account number/i),
+        view.container.querySelector('#root_CNPAccountNumber'),
       );
 
       // and the bank info from the mocked call should be shown
@@ -208,7 +213,7 @@ describe('DirectDepositCNP', () => {
       fillOutAndSubmitBankInfoForm(view);
 
       await waitForElementToBeRemoved(() =>
-        view.queryByLabelText(/account number/i),
+        view.container.querySelector('#root_CNPAccountNumber'),
       );
 
       // and the bank info from the mocked call should be shown
