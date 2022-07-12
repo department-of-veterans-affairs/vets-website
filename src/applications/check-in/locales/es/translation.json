@@ -32,7 +32,6 @@
   "email-address": "Dirección de correo electrónico",
   "emergency-information": "Información de emergencia",
   "emergency-and-next-of-kin-information": "Información de emergencia y del pariente más cercano",
-  "expiration-date": "Fecha de vencimiento: {{ date, mdY }}",
   "extended-family-member": "Miembro de la familia extendida",
   "facility": "Instalación",
   "father": "Padre",

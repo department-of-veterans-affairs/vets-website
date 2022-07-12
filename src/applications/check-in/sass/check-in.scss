@@ -1,22 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
-
 dt{
   font-weight: bold;
-}
-
-h1.question:focus {
-  outline: none;
-}
-
-.appointment-check-in{
-  h1{
-    font-size: 3.2rem;
-  }
-}
-
-.help-heading{
-  border-bottom: 3px solid $color-blue;
 }
 
 .va-nav-breadcrumbs-list li{
@@ -27,6 +12,38 @@ h1.question:focus {
   content: " \2039 ";
   display: inline-block;
   padding: 0 0.15em;
+}
+
+ol.check-in--appointment-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  .check-in--appointment-item{
+    width: 100%;
+    dl.check-in--appointment-summary{
+      display: grid;
+      grid-template-columns: min-content auto;
+      grid-template-rows: auto auto auto;
+      grid-template-areas: "header header";
+
+      .appointment-type-label{
+        grid-area: header;
+        align-self: center;
+      }
+
+      dt.check-in--label{
+        margin-top: 0;
+        font-weight: bold;
+      }
+    }
+  }
+}
+
+// check-in specific
+.appointment-check-in{
+  h1{
+    font-size: 3.2rem;
+  }
 }
 
 ol.appointment-list{
@@ -58,24 +75,6 @@ ol.appointment-list{
       dd.facility-name{
         grid-row: 2;
       }
-    }
-  }
-}
-
-ol.check-in--appointment-list{
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  .check-in--appointment-item{
-    width: 100%;
-    dl.check-in--appointment-summary{
-      display: grid;
-      grid-template-columns: min-content auto;
-      grid-template-rows: auto auto auto;
-      dt.check-in--label{
-        margin-top: 0;
-        font-weight: bold;
-       }
     }
   }
 }
