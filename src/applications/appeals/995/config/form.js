@@ -1,16 +1,25 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import FormFooter from 'platform/forms/components/FormFooter';
+
 import migrations from '../migrations';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import GetFormHelp from '../content/GetFormHelp';
+import {
+  EditPhone,
+  EditEmail,
+  EditAddress,
+} from '../components/EditContactInfo';
 
 import addIssue from '../pages/addIssue';
 import benefitType from '../pages/benefitType';
 import certifcationAndSignature from '../pages/certifcationAndSignature';
-import claimantName from '../pages/claimantName';
-import claimantType from '../pages/claimantType';
-import contactInfo from '../pages/contactInfo';
+// import claimantName from '../pages/claimantName';
+// import claimantType from '../pages/claimantType';
+import contactInfo from '../pages/contactInformation';
 import contestableIssues from '../pages/contestableIssues';
 import evidencePrivateAdd from '../pages/evidencePrivateAdd';
 import evidencePrivateRecords from '../pages/evidencePrivateRecords';
@@ -61,7 +70,9 @@ const formConfig = {
       'Please sign in again to continue your application for VA Form 20-0995 (Supplemental Claim).',
   },
   title: 'Request a Supplemental Claim',
+  subTitle: 'VA Form 20-0995 (Supplemental Claim)',
   defaultDefinitions: {},
+  preSubmitInfo,
   chapters: {
     infoPages: {
       title: 'Veteran Details',
@@ -78,24 +89,51 @@ const formConfig = {
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
         },
-        claimantType: {
-          title: 'Claimant Type',
-          path: 'claimant-type',
-          uiSchema: claimantType.uiSchema,
-          schema: claimantType.schema,
-        },
-        claimantName: {
-          title: 'Claimant Name',
-          path: 'claimant-name',
-          uiSchema: claimantName.uiSchema,
-          schema: claimantName.schema,
-          depends: formData => formData.claimantType !== 'veteran',
-        },
-        contactInfo: {
-          title: 'Contact Information',
+        // claimantType: {
+        //   title: 'Claimant Type',
+        //   path: 'claimant-type',
+        //   uiSchema: claimantType.uiSchema,
+        //   schema: claimantType.schema,
+        // },
+        // claimantName: {
+        //   title: 'Claimant Name',
+        //   path: 'claimant-name',
+        //   uiSchema: claimantName.uiSchema,
+        //   schema: claimantName.schema,
+        //   depends: formData => formData.claimantType !== 'veteran',
+        // },
+        confirmContactInformation: {
+          title: 'Contact information',
           path: 'contact-information',
           uiSchema: contactInfo.uiSchema,
           schema: contactInfo.schema,
+        },
+        editMobilePhone: {
+          title: 'Edit mobile phone',
+          path: 'edit-mobile-phone',
+          CustomPage: EditPhone,
+          CustomPageReview: EditPhone,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editEmailAddress: {
+          title: 'Edit email address',
+          path: 'edit-email-address',
+          CustomPage: EditEmail,
+          CustomPageReview: EditEmail,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        editMailingAddress: {
+          title: 'Edit mailing address',
+          path: 'edit-mailing-address',
+          CustomPage: EditAddress,
+          CustomPageReview: EditAddress,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },
@@ -218,6 +256,8 @@ const formConfig = {
       },
     },
   },
+  footerContent: FormFooter,
+  getHelp: GetFormHelp,
 };
 
 export default formConfig;
