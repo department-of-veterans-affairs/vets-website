@@ -77,6 +77,9 @@ const AppointmentAction = props => {
       return (
         <CheckInButton
           checkInWindowEnd={parseISO(appointment.checkInWindowEnd)}
+          appointmentTime={
+            appointment.startTime ? parseISO(appointment.startTime) : null
+          }
           onClick={onClick}
           router={router}
         />

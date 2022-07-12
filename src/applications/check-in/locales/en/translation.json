@@ -17,6 +17,7 @@
   "check-in-at-va": "Check in at VA",
   "check-in-now": "Check in now",
   "check-in-now-for-your-appointment": "Check in now for your appointment",
+  "check-in-now-for-your-time-appointment": "Check in now for your {{ time, time }} appointment",
   "check-in-with-a-staff-member": "Check in with a staff member",
   "child-in-law": "Child in-law",
   "city-is-required": "City is required",
