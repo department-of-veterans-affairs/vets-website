@@ -42,7 +42,7 @@ const DebtDetails = () => {
   }, []);
 
   if (Object.keys(currentDebt).length === 0) {
-    window.location.replace('/manage-debt-and-bills/summary/debt-balances/');
+    window.location.replace('/manage-va-debt/summary/debt-balances/');
     return (
       <va-loading-indicator
         label="Loading"
@@ -56,10 +56,8 @@ const DebtDetails = () => {
       <div className="vads-l-col--9 small-desktop-screen:vads-l-col--12">
         <va-breadcrumbs label="Breadcrumb">
           <a href="/">Home</a>
-          <a href="/manage-debt-and-bills/">Manage your VA debt and bills</a>
-          <Link to="/manage-debt-and-bills/summary/">
-            Your debt and bills summary
-          </Link>
+          <a href="/manage-va-debt/">Manage your VA debt and bills</a>
+          <Link to="/manage-va-debt/summary/">Your debt and bills summary</Link>
           <Link to="/debt-balances/">Benefit debt balances</Link>
           <Link
             to={`/debt-balances/details/${selectedDebt.fileNumber +

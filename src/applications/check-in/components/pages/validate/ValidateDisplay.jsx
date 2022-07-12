@@ -131,7 +131,6 @@ export default function ValidateDisplay({
           className="usa-button usa-button-big vads-u-margin-top--4"
           data-testid="check-in-button"
           disabled={isLoading}
-          aria-label={t('check-in-now-for-your-appointment')}
         >
           {' '}
           {isLoading ? (
