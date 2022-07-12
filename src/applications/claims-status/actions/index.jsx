@@ -640,9 +640,12 @@ const addAttributes = claim => ({
   },
 });
 
+// We don't want to show STEM claims unless they were automatically denied
+const automatedDenial = stemClaim => stemClaim.attributes.automatedDenial;
+
 const getStemClaimsMock = dispatch => {
   return mockApi.getStemClaimList().then(res => {
-    const stemClaims = res.data.map(addAttributes);
+    const stemClaims = res.data.map(addAttributes).filter(automatedDenial);
 
     return dispatch({
       type: FETCH_STEM_CLAIMS_SUCCESS,
@@ -662,7 +665,7 @@ export function getStemClaims() {
       null,
       dispatch,
       res => {
-        const stemClaims = res.data.map(addAttributes);
+        const stemClaims = res.data.map(addAttributes).filter(automatedDenial);
 
         dispatch({
           type: FETCH_STEM_CLAIMS_SUCCESS,
