@@ -5,11 +5,11 @@ import {
   createFormPageList,
 } from 'platform/forms-system/src/js/helpers';
 import { createRoutes } from 'platform/forms-system/src/js/routing';
+import FormApp from 'platform/forms-system/src/js/containers/FormAppV5';
 import RoutedSavablePage from './RoutedSavablePageV5';
-import RoutedSavableReviewPage from './RoutedSavableReviewPage';
+import RoutedSavableReviewPage from './RoutedSavableReviewPageV5';
 import FormSaved from './FormSaved';
-import SaveInProgressErrorPage from './SaveInProgressErrorPage';
-import FormApp from '../../forms-system/src/js/containers/FormAppV5';
+import SaveInProgressErrorPage from './SaveInProgressErrorPageV5';
 
 export function createRoutesWithSaveInProgress(formConfig) {
   const protectedRoutes = new Set([
