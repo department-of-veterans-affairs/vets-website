@@ -289,12 +289,14 @@ export function getDateRanges(nbrOfYears = 1) {
       start: moment()
         .startOf('day')
         .subtract(i + 1, 'year')
-        .toISOString(),
+        .utc()
+        .format(),
 
       end: moment()
         .startOf('day')
         .subtract(i, 'year')
-        .toISOString(),
+        .utc()
+        .format(),
     };
   });
 }

@@ -3,13 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import last from 'lodash/last';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
 import OnThisPageLinks from '../components/OnThisPageLinks';
 import '../sass/debt-letters.scss';
 import HistoryTable from '../components/HistoryTable';
-import { setPageFocus, getCurrentDebt } from '../utils/page';
+import { getCurrentDebt } from '../utils/page';
+import { setPageFocus } from '../../combined/utils/helpers';
 import {
   deductionCodes,
   renderWhyMightIHaveThisDebt,
@@ -38,7 +38,6 @@ const DebtDetails = () => {
   };
 
   useEffect(() => {
-    scrollToTop();
     setPageFocus('h1');
   }, []);
 

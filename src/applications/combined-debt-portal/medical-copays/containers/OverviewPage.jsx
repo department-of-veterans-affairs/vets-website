@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { uniqBy } from 'lodash';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import Balances from '../components/Balances';
-import BalanceQuestions from '../components/BalanceQuestions';
 import {
+  setPageFocus,
   sortStatementsByDate,
   ALERT_TYPES,
   APP_TYPES,
 } from '../../combined/utils/helpers';
+import Balances from '../components/Balances';
+import BalanceQuestions from '../components/BalanceQuestions';
 import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
 import DisputeCharges from '../components/DisputeCharges';
@@ -79,7 +79,7 @@ const OverviewPage = () => {
   const title = 'Current copay balances';
 
   useEffect(() => {
-    scrollToTop();
+    setPageFocus('h1');
   }, []);
 
   if (debtLoading || mcpLoading) {

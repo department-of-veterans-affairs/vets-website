@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import PropTypes from 'prop-types';
 import HTMLStatementList from '../components/HTMLStatementList';
 import BalanceQuestions from '../components/BalanceQuestions';
@@ -10,7 +9,11 @@ import FinancialHelp from '../components/FinancialHelp';
 import Modals from '../components/Modals';
 import Alert from '../../combined/components/MCPAlerts';
 import { OnThisPageDetails } from '../components/OnThisPageDetails';
-import { formatDate, verifyCurrentBalance } from '../../combined/utils/helpers';
+import {
+  formatDate,
+  verifyCurrentBalance,
+  setPageFocus,
+} from '../../combined/utils/helpers';
 import '../sass/medical-copays.scss';
 
 const DetailPage = ({ match }) => {
@@ -26,12 +29,15 @@ const DetailPage = ({ match }) => {
     ? selectedCopay?.pHAccountNumber.toString()
     : selectedCopay?.pHCernerAccountNumber.toString();
 
+  useEffect(() => {
+    setPageFocus('h1');
+  }, []);
+
   useEffect(
     () => {
       if (!isCurrentBalance) {
         setAlert('past-due-balance');
       }
-      scrollToTop();
     },
     [isCurrentBalance],
   );
