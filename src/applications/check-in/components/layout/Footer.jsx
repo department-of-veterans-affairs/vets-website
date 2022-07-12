@@ -47,6 +47,7 @@ const Footer = ({ header, message }) => {
           </p>
           <p>
             {t('if-you-have-hearing-loss-call')}{' '}
+            {/* Not using the va-telephone component due to issues with 711 link. To re-evaluate after component is fixed. */}
             <a href="tel:711" aria-label="TTY. 7 1 1.">
               {t('tty-711')}
             </a>
