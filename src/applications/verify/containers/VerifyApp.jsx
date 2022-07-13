@@ -9,16 +9,20 @@ import recordEvent from 'platform/monitoring/record-event';
 import { verify } from 'platform/user/authentication/utilities';
 import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
+import { CSP_IDS } from 'platform/user/authentication/constants';
 import { focusElement } from '~/platform/utilities/ui';
 
 export class VerifyApp extends React.Component {
   constructor(props) {
     super(props);
 
+    const { MHV, MHV_VERBOSE, DS_LOGON, LOGIN_GOV } = CSP_IDS;
+
     this.signinMethodLabels = {
-      dslogon: 'DS Logon',
-      myhealthevet: 'My HealtheVet',
-      logingov: 'Login.gov',
+      [DS_LOGON]: 'DS Logon',
+      [LOGIN_GOV]: 'Login.gov',
+      [MHV]: 'My HealtheVet',
+      [MHV_VERBOSE]: 'My HealtheVet',
     };
   }
 
@@ -57,6 +61,7 @@ export class VerifyApp extends React.Component {
         copy: 'Login.gov',
         renderImage: <LoginGovSVG />,
         className: `logingov-button`,
+        link: 'logingov',
       },
       {
         copy: 'ID.me',
@@ -69,16 +74,17 @@ export class VerifyApp extends React.Component {
           />
         ),
         className: `idme-button`,
+        link: 'idme',
       },
     ];
 
     if (signInMethod === this.signinMethodLabels.myhealthevet) {
-      return renderOpts.map(({ copy, renderImage, className }) => (
+      return renderOpts.map(({ copy, renderImage, className, link }) => (
         <button
           key={copy}
           type="button"
           className={className}
-          onClick={() => verify()}
+          onClick={() => verify(link)}
         >
           <strong>
             Verify with <span className="sr-only">{copy}</span>
@@ -87,12 +93,12 @@ export class VerifyApp extends React.Component {
         </button>
       ));
     }
-    const { className, copy, renderImage } = renderOpts[0];
+    const { className, copy, renderImage, link } = renderOpts[0];
     return (
       <button
         type="button"
         className={`usa-button ${className}`}
-        onClick={() => verify()}
+        onClick={() => verify(link)}
       >
         <strong>
           Verify with <span className="sr-only">{copy}</span>
