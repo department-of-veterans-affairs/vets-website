@@ -12,9 +12,18 @@ class Differ {
 
   diff({ products, currentProductDirectory }) {
     const updatedProductDirectory = {};
-    console.log(Object.keys(products.all));
-    console.log(Object.keys(products.all)[0].length);
-    console.log(currentProductDirectory.map(product => product.product_id));
+    console.log(Object.keys(products.all)[1].length);
+    const manifestIds = Object.keys(products.all);
+    const productListIds = currentProductDirectory.map(
+      product => product.product_id,
+    );
+    manifestIds.forEach(id => {
+      if (id.length === 36 && productListIds.indexOf(id) === -1) {
+        console.log('add product!');
+      } else {
+        console.log('no!');
+      }
+    });
 
     _.cloneDeep(currentProductDirectory).forEach(product => {
       updatedProductDirectory[product.product_id] = product;
