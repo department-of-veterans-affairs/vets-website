@@ -747,6 +747,10 @@ describe('VAOS Appointment service', () => {
       const differences = diff(v2Result, v0Result);
       expect(differences).to.have.deep.members(
         [
+          {
+            op: 'remove',
+            path: ['communityCareProvider', 'providerName'],
+          },
           { op: 'remove', path: ['communityCareProvider', 'providers'] },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },

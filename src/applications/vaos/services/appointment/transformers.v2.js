@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { getPatientInstruction } from './index';
+import { getPatientInstruction, getProviderName } from './index';
 import {
   APPOINTMENT_TYPES,
   PURPOSE_TEXT,
@@ -212,8 +212,8 @@ export function transformVAOSAppointment(appt) {
                 firstName: provider.name?.given,
                 lastName: provider.name?.family,
               },
-              providerName: `${provider.name?.given} ${provider.name?.family}`,
             })),
+            providerName: getProviderName(appt),
           }
         : null,
     practitioners: appt.practitioners,

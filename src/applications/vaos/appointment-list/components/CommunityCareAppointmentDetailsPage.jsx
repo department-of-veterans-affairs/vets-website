@@ -77,7 +77,7 @@ export default function CommunityCareAppointmentDetailsPage() {
   }
 
   const header = 'Community care';
-  const { name, providerName, practiceName } =
+  const { name, practiceName, providerName } =
     appointment.communityCareProvider || {};
   const calendarData = getCalendarData({
     facility: appointment.communityCareProvider,

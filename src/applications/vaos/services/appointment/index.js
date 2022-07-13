@@ -911,6 +911,27 @@ export async function cancelAppointment({ appointment, useV2 = false }) {
 }
 
 /**
+ * Get the first practitioner name from appointment object
+ *
+ * @export
+ * @param {Object} appointment an appointment object
+ * @returns {String} Returns provider first and last name
+ */
+export function getProviderName(appointment) {
+  const providers = appointment?.practitioners;
+  if (
+    appointment.practitioners !== undefined &&
+    providers[0]?.name !== undefined &&
+    providers[0]?.name?.family !== undefined
+  ) {
+    const lastName = providers[0]?.name?.family;
+    const firstName = providers[0]?.name?.given[0];
+    return `${firstName} ${lastName}`;
+  }
+  return null;
+}
+
+/**
  * Get scheduled appointment information needed for generating
  * an .ics file.
  *
@@ -953,19 +974,17 @@ export function getCalendarData({ appointment, facility }) {
     };
   } else if (isCommunityCare) {
     let { practiceName } = appointment.communityCareProvider || {};
-    const { providers } = appointment.communityCareProvider || {};
-    let providerName = providers.length > 0 ? providers[0].providerName : null;
+    const providerName = getProviderName(appointment);
     let summary = 'Community care appointment';
-    // Check if providerName is all spaces.
-    providerName = providerName?.trim().length ? providerName : '';
+    // Check if practiceName is all spaces.
     practiceName = practiceName?.trim().length ? practiceName : '';
-    if (practiceName) {
-      summary = `Appointment at ${practiceName}`;
+    if (!!practiceName || !!providerName) {
+      summary = `Appointment at ${practiceName || providerName}`;
     }
-
     data = {
       summary,
-      providerName: `${providerName || practiceName}`,
+      providerName:
+        providerName !== undefined ? `${providerName || practiceName}` : null,
       location: formatFacilityAddress(appointment?.communityCareProvider),
       text:
         'You have a health care appointment with a community care provider. Please don’t go to your local VA health facility.',
