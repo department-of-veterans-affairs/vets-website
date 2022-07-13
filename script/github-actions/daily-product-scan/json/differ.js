@@ -20,7 +20,7 @@ class Differ {
     manifestIds.forEach(id => {
       if (id.length === 36 && productListIds.indexOf(id) === -1) {
         const manifest = JSON.parse(
-          fs.readFileSync(`${products.all[id].pathToCode}.manifest.json`),
+          fs.readFileSync(`${products.all[id].pathToCode}/manifest.json`),
         );
         console.log(manifest);
       } else {
