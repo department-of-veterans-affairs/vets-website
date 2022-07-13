@@ -476,7 +476,17 @@ const formConfig = {
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidName(field)) {
-                        errors.addError('Please enter your first name');
+                        if (field.length === 0) {
+                          errors.addError('Please enter your first name');
+                        } else if (field[0] === ' ') {
+                          errors.addError(
+                            'First character must be a letter with no leading space.',
+                          );
+                        } else {
+                          errors.addError(
+                            'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                          );
+                        }
                       }
                     },
                   ],
@@ -487,7 +497,17 @@ const formConfig = {
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidLastName(field)) {
-                        errors.addError('Please enter your last name');
+                        if (field.length === 0) {
+                          errors.addError('Please enter your last name');
+                        } else if (field[0] === ' ') {
+                          errors.addError(
+                            'First character must be a letter with no leading space.',
+                          );
+                        } else {
+                          errors.addError(
+                            'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                          );
+                        }
                       }
                     },
                   ],
@@ -498,7 +518,17 @@ const formConfig = {
                   'ui:validations': [
                     (errors, field) => {
                       if (!isValidName(field)) {
-                        errors.addError('Please enter your middle name');
+                        if (field.length === 0) {
+                          errors.addError('Please enter your middle name');
+                        } else if (field[0] === ' ') {
+                          errors.addError(
+                            'First character must be a letter with no leading space.',
+                          );
+                        } else {
+                          errors.addError(
+                            'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                          );
+                        }
                       }
                     },
                   ],
@@ -532,9 +562,17 @@ const formConfig = {
                     ...fullName,
                     properties: {
                       ...fullName.properties,
+                      first: {
+                        ...fullName.properties.first,
+                        maxLength: 20,
+                      },
                       middle: {
                         ...fullName.properties.middle,
-                        maxLength: 30,
+                        maxLength: 20,
+                      },
+                      last: {
+                        ...fullName.properties.last,
+                        maxLength: 26,
                       },
                     },
                   },
