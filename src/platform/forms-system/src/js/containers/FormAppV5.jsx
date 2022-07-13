@@ -20,6 +20,7 @@ function FormApp(props) {
   const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
   const lastPathComponent = currentLocation.pathname.split('/').pop();
   const isIntroductionPage = trimmedPathname.endsWith('introduction');
+  const isConfirmationPage = trimmedPathname.endsWith('confirmation');
 
   const isNonFormPage = nonFormPages.includes(lastPathComponent);
   const Footer = formConfig.footerContent;
@@ -79,8 +80,12 @@ function FormApp(props) {
       <div className="row">
         <div className="usa-width-two-thirds medium-8 columns">
           <Element name="topScrollElement" />
-          {!isNonFormPage && !isIntroductionPage ? formTitle : ''}
-          {!isNonFormPage && !isIntroductionPage ? formNav : ''}
+          {!isNonFormPage && !isIntroductionPage && !isConfirmationPage
+            ? formTitle
+            : ''}
+          {!isNonFormPage && !isIntroductionPage && !isConfirmationPage
+            ? formNav
+            : ''}
           {renderedChildren}
         </div>
       </div>
