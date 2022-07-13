@@ -122,6 +122,7 @@ export default function CommunityCareAppointmentDetailsPage() {
 
       {(!!providerName || !!practiceName || !!name) && (
         <>
+          {/* the order of display name is important to match display name on calendar title */}
           {providerName || practiceName || name}
           <br />
         </>

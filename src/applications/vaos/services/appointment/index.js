@@ -911,16 +911,22 @@ export async function cancelAppointment({ appointment, useV2 = false }) {
 }
 
 /**
- * Get the first practitioner name from appointment object
+ * Get the practitioner object or communityCareProvider object
+ * based on api version
  *
  * @export
  * @param {Object} appointment an appointment object
  * @returns {String} Returns the provider first and last name
  */
 export function getProviderName(appointment) {
+  if (appointment.version === 1) {
+    const { providerName } = appointment.communityCareProvider;
+    return providerName;
+  }
+
   const providers = appointment?.practitioners;
   if (
-    appointment.practitioners !== undefined &&
+    providers !== undefined &&
     providers[0]?.name !== undefined &&
     providers[0]?.name?.family !== undefined
   ) {
@@ -974,12 +980,14 @@ export function getCalendarData({ appointment, facility }) {
     };
   } else if (isCommunityCare) {
     let { practiceName } = appointment.communityCareProvider || {};
-    const providerName = getProviderName(appointment);
+    let providerName = getProviderName(appointment);
     let summary = 'Community care appointment';
-    // Check if practiceName is all spaces.
+    // Check if providerName is all spaces.
+    providerName = providerName?.trim().length ? providerName : '';
     practiceName = practiceName?.trim().length ? practiceName : '';
     if (!!practiceName || !!providerName) {
-      summary = `Appointment at ${practiceName || providerName}`;
+      // order of the name appearing on the calendar title is important to match the display screen name
+      summary = `Appointment at ${providerName || practiceName}`;
     }
     data = {
       summary,

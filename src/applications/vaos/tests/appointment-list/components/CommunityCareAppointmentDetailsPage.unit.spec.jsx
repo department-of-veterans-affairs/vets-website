@@ -188,6 +188,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     ).to.be.ok;
 
     expect(screen.getByText(/Community care/)).to.be.ok;
+    expect(screen.getByText(/Rick Katz/)).to.be.ok;
   });
 
   it('should fire a print request when print button clicked', async () => {
@@ -407,7 +408,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(tokens.has('UID')).to.be.true;
 
     // TODO: Should this be provider practice instead of name???
-    expect(tokens.get('SUMMARY')).to.equal('Appointment at My Eye Dr');
+    expect(tokens.get('SUMMARY')).to.equal('Appointment at Rick Katz');
 
     // The description text longer than 74 characters should start newlines with a tab character
     let description = tokens.get('DESCRIPTION');
