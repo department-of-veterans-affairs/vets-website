@@ -19,7 +19,7 @@ class Differ {
     );
     manifestIds.forEach(id => {
       if (id.length === 36 && productListIds.indexOf(id) === -1) {
-        console.log('add product!');
+        console.log(products.all[id]);
       } else {
         console.log('no!');
       }
