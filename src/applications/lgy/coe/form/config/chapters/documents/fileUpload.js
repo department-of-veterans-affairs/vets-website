@@ -4,6 +4,7 @@ import { validateFileField } from 'platform/forms-system/src/js/validation';
 import FileField from './FileField';
 import UploadRequirements from './UploadRequirements';
 import { updateFilesSchema } from '../../helpers';
+import { DOCUMENT_TYPES } from '../../../../status/constants';
 
 const DocumentUploadDescription = () => (
   <div>
@@ -51,40 +52,8 @@ export const schema = {
           },
           attachmentType: {
             type: 'string',
-            enum: [
-              'Discharge or separation papers (DD214)',
-              'Statement of service',
-              'Report of Separation and Record of Service (NGB Form 22)',
-              'Retirement Points Statement (NGB Form 23)',
-              'Proof of honorable service',
-              'Annual retirement points',
-              'Closing Disclosure',
-              'HUD-1 Settlement Statement',
-              'Statement from Loan Servicer',
-              'ALTA statement',
-              'Marriage certificate',
-              'Divorce decree',
-              'Name change document',
-              'Birth certificate',
-              'Other',
-            ],
-            enumNames: [
-              'Discharge or separation papers (DD214)',
-              'Statement of service',
-              'Report of Separation and Record of Service (NGB Form 22)',
-              'Retirement Points Statement (NGB Form 23)',
-              'Proof of honorable service',
-              'Annual retirement points',
-              'Closing Disclosure',
-              'HUD-1 Settlement Statement',
-              'Statement from Loan Servicer',
-              'ALTA statement',
-              'Marriage certificate',
-              'Divorce decree',
-              'Name change document',
-              'Birth certificate',
-              'Other',
-            ],
+            enum: DOCUMENT_TYPES,
+            enumNames: DOCUMENT_TYPES,
           },
           attachmentDescription: {
             type: 'string',
