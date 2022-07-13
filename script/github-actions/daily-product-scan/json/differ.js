@@ -1,4 +1,5 @@
 /* eslint-disable class-methods-use-this */
+/* eslint-disable no-console */
 
 const _ = require('lodash');
 
@@ -11,6 +12,8 @@ class Differ {
 
   diff({ products, currentProductDirectory }) {
     const updatedProductDirectory = {};
+    console.log(products);
+    console.log(currentProductDirectory);
 
     _.cloneDeep(currentProductDirectory).forEach(product => {
       updatedProductDirectory[product.product_id] = product;
