@@ -1,7 +1,6 @@
 const fs = require('fs');
 
 const Product = require('./product');
-/* eslint-disable no-console */
 
 class Products {
   constructor() {
@@ -11,7 +10,6 @@ class Products {
   addProducts({ manifestPaths }) {
     manifestPaths.forEach(path => {
       const manifest = JSON.parse(fs.readFileSync(path));
-      console.log(manifest);
       const { productId } = manifest;
 
       if (productId) {

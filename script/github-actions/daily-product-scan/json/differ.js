@@ -2,6 +2,7 @@
 /* eslint-disable no-console */
 
 const _ = require('lodash');
+const fs = require('fs');
 
 const productDirectoryProps = require('./product-directory-props');
 
@@ -12,17 +13,20 @@ class Differ {
 
   diff({ products, currentProductDirectory }) {
     const updatedProductDirectory = {};
-    // const manifestIds = Object.keys(products.all);
-    // const productListIds = currentProductDirectory.map(
-    //   product => product.product_id,
-    // );
-    // manifestIds.forEach(id => {
-    //   if (id.length === 36 && productListIds.indexOf(id) === -1) {
-    //     console.log(products.all[id]);
-    //   } else {
-    //     console.log('no!');
-    //   }
-    // });
+    const manifestIds = Object.keys(products.all);
+    const productListIds = currentProductDirectory.map(
+      product => product.product_id,
+    );
+    manifestIds.forEach(id => {
+      if (id.length === 36 && productListIds.indexOf(id) === -1) {
+        const manifest = JSON.parse(
+          fs.readFileSync(`${products.all[id].pathToCode}.manifest.json`),
+        );
+        console.log(manifest);
+      } else {
+        console.log('no!');
+      }
+    });
 
     _.cloneDeep(currentProductDirectory).forEach(product => {
       updatedProductDirectory[product.product_id] = product;
