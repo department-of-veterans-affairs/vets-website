@@ -3,6 +3,7 @@ import appendQuery from 'append-query';
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
+import { isVAProfileServiceConfigured } from 'platform/user/profile/vap-svc/util/local-vapsvc';
 import { updateLoggedInStatus } from '../../authentication/actions';
 import { teardownProfileSession } from '../utilities';
 
@@ -29,11 +30,16 @@ export function profileLoadingFinished() {
   };
 }
 
-export function refreshProfile(forceCacheClear = false) {
+export function refreshProfile(
+  forceCacheClear = false,
+  localQuery = { local: 'none' },
+) {
+  const query = {
+    now: new Date().getTime(),
+    ...(isVAProfileServiceConfigured() ? {} : localQuery),
+  };
   return async dispatch => {
-    const url = forceCacheClear
-      ? appendQuery(baseUrl, { now: new Date().getTime() })
-      : baseUrl;
+    const url = forceCacheClear ? appendQuery(baseUrl, query) : baseUrl;
 
     const payload = await apiRequest(url);
     recordEvent({
