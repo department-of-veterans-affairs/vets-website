@@ -22,9 +22,13 @@ class Differ {
         const manifest = JSON.parse(
           fs.readFileSync(`${products.all[id].pathToCode}/manifest.json`),
         );
-        console.log(manifest);
-      } else {
-        console.log('no!');
+        const product = {
+          // eslint-disable-next-line camelcase
+          product_id: manifest.productId,
+          // eslint-disable-next-line camelcase
+          product_name: manifest.appName,
+        };
+        currentProductDirectory.push(product);
       }
     });
 
