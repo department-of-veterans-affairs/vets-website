@@ -188,7 +188,6 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     ).to.be.ok;
 
     expect(screen.getByText(/Community care/)).to.be.ok;
-    expect(screen.getByText(/My Eye Dr/)).to.be.ok;
   });
 
   it('should fire a print request when print button clicked', async () => {
@@ -573,10 +572,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       comment: 'test comment',
       start: appointmentTime,
       communityCareProvider: {
-        practiceName: 'Atlantic Medical Care',
-        provider: {
-          providerName: 'Atlantic Medical Care',
-        },
+        providerName: 'Atlantic Medical Care',
       },
       serviceType: 'audiology',
       reasonCode: {
@@ -691,7 +687,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       comment: 'test comment',
       start: appointmentTime,
       communityCareProvider: {
-        practiceName: 'Atlantic Medical Care',
+        providerName: 'Atlantic Medical Care',
       },
     };
 
@@ -750,7 +746,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       comment: 'test comment',
       start: appointmentTime,
       communityCareProvider: {
-        practiceName: 'Atlantic Medical Care',
+        providerName: 'Atlantic Medical Care',
       },
     };
 
