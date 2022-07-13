@@ -61,7 +61,10 @@ export default function TextWidget(props) {
       props.onChange(event.target.value ? event.target.value : undefined);
       setAriaInvalid();
     },
-    onFocus: () => setAriaInvalid(),
+    onFocus: event => {
+      props.onFocus(event);
+      setAriaInvalid();
+    },
     'aria-describedby': addIndex(props.options?.ariaDescribedby || null),
     'aria-invalid': 'false',
   };
