@@ -183,11 +183,11 @@ function isOnlyWhitespace(str) {
 }
 
 function isValidName(str) {
-  return str && /^[A-Za-z][A-Za-z '-]+$/.test(str);
+  return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
 }
 
 function isValidLastName(str) {
-  return str && /^[A-Za-z][A-Za-z '-]{1,25}$/.test(str);
+  return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
 }
 
 function titleCase(str) {
