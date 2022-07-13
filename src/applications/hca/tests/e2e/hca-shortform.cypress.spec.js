@@ -275,7 +275,7 @@ describe('HCA-Shortform-UnAuthenticated', () => {
   it('works with self disclosure of va compensation type of High Disability', () => {
     cy.visit(manifest.rootUrl);
 
-    cy.findAllByText(/start.+without signing in/i, { selector: 'button' })
+    cy.findAllByText(/start.+without signing in/i, { selector: 'a' })
       .first()
       .click();
 

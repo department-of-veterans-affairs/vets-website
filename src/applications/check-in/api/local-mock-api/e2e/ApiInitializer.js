@@ -382,8 +382,11 @@ class ApiInitializer {
         req.reply(checkInData.patch.createMockSuccessResponse());
       }).as('demographicsPatchSuccessAlias');
     },
-    withFailure: (errorCode = 400) => {
+    withFailure: (errorCode = 400, delay = 0) => {
       cy.intercept('PATCH', `/check_in/v2/demographics/*`, req => {
+        req.on('response', res => {
+          res.setDelay(delay);
+        });
         req.reply(errorCode, checkInData.patch.createMockFailedResponse({}));
       }).as('demographicsPatchFailureAlias');
     },
