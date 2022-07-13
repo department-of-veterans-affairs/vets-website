@@ -12,8 +12,9 @@ class Differ {
 
   diff({ products, currentProductDirectory }) {
     const updatedProductDirectory = {};
-    console.log(products);
-    console.log(currentProductDirectory);
+    console.log(Object.keys(products));
+    console.log(Object.keys(products)[0].length);
+    console.log(currentProductDirectory.map(product => product.product_id));
 
     _.cloneDeep(currentProductDirectory).forEach(product => {
       updatedProductDirectory[product.product_id] = product;
