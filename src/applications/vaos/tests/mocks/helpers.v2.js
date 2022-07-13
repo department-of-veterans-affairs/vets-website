@@ -5,6 +5,7 @@ import {
   setFetchJSONResponse,
 } from 'platform/testing/unit/helpers';
 import moment from 'moment';
+import providers from '../../services/mocks/v2/providers.json';
 
 /**
  * Mocks the api call that submits an appointment or request to the VAOS service
@@ -264,6 +265,16 @@ export function mockAppointmentSlotFetch({
   );
 }
 
+export function mockNpiProviderFetch({ id }) {
+  const data = providers.data.find(provider => provider.id === id);
+  setFetchJSONResponse(
+    global.fetch.withArgs(`${environment.API_URL}/vaos/v2/providers/${id}`),
+    {
+      data,
+    },
+  );
+}
+
 /**
  * Return a collection of start and end dates. The start date starts from the current
  * date and the end date will be the previous year.
@@ -278,12 +289,14 @@ export function getDateRanges(nbrOfYears = 1) {
       start: moment()
         .startOf('day')
         .subtract(i + 1, 'year')
-        .toISOString(),
+        .utc()
+        .format(),
 
       end: moment()
         .startOf('day')
         .subtract(i, 'year')
-        .toISOString(),
+        .utc()
+        .format(),
     };
   });
 }

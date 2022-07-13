@@ -45,7 +45,7 @@ const CombinedPortalApp = ({ children }) => {
 
   // Authentication!
   if (!profileLoading && !userLoggedIn) {
-    window.location.replace('/manage-debt-and-bills/');
+    window.location.replace('/manage-va-debt/');
     return (
       <va-loading-indicator
         label="Loading"
@@ -65,7 +65,7 @@ const CombinedPortalApp = ({ children }) => {
   }
 
   if (!isCombinedPortalActive) {
-    window.location.replace('/');
+    window.location.replace('/manage-va-debt');
     return (
       <div className="vads-u-margin--5">
         <va-loading-indicator

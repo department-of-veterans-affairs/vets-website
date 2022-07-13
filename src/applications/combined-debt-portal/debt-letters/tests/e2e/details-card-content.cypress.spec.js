@@ -11,7 +11,7 @@ describe('Debt Balances Page Diary Codes', () => {
     );
     cy.intercept('GET', '/v0/debts', mockDebts).as('debts');
     cy.intercept('GET', '/v0/medical_copays', mockCopays).as('copays');
-    cy.visit('/manage-debt-and-bills/summary/debt-balances');
+    cy.visit('/manage-va-debt/summary/debt-balances');
     cy.wait(['@copays', '@debts', '@features']);
     cy.injectAxe();
   });
@@ -28,7 +28,7 @@ describe('Debt Balances Page Diary Codes', () => {
     cy.get('va-alert').as('alert-content');
     // Check Alert Header
     cy.get('@alert-content')
-      .find('h3')
+      .find('h2')
       .contains(
         'Contact the U.S. Department of the Treasury to pay this $110.00 debt',
       );
@@ -51,7 +51,7 @@ describe('Debt Balances Page Diary Codes', () => {
       .click({ waitForAnimations: true });
     cy.get('va-alert').as('alert-content');
     cy.get('@alert-content')
-      .find('h3')
+      .find('h2')
       .contains(
         'Pay your $120.40 balance now or request help by October 18, 2012',
       );
@@ -73,7 +73,7 @@ describe('Debt Balances Page Diary Codes', () => {
       .click({ waitForAnimations: true });
     cy.get('va-alert').as('alert-content');
     cy.get('@alert-content')
-      .find('h3')
+      .find('h2')
       .contains(
         `We're offsetting your benefit payments each month until your debt is paid`,
       );
@@ -95,7 +95,7 @@ describe('Debt Balances Page Diary Codes', () => {
       .click({ waitForAnimations: true });
     cy.get('va-alert').as('alert-content');
     cy.get('@alert-content')
-      .find('h3')
+      .find('h2')
       .contains(
         `Pay your $1,000.00 balance in full or request help by May 31, 2017`,
       );
@@ -117,7 +117,7 @@ describe('Debt Balances Page Diary Codes', () => {
       .click({ waitForAnimations: true });
     cy.get('va-alert').as('alert-content');
     cy.get('@alert-content')
-      .find('h3')
+      .find('h2')
       .contains(
         `Pay your $200.00 balance now or request help by October 7, 2018`,
       );

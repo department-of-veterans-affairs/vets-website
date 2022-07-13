@@ -22,10 +22,12 @@ describe('Check In Experience -- ', () => {
         initializeSessionPost,
         initializeCheckInDataGet,
         initializeCheckInDataPost,
+        initializeDemographicsPatch,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
+      initializeDemographicsPatch.withSuccess();
       initializeCheckInDataGet.withSuccess({ appointments });
       initializeCheckInDataPost.withSuccess();
 

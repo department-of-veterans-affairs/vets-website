@@ -118,9 +118,7 @@ const validateLogin = async (
     if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
       goToErrorPage();
     } else {
-      if (!showValidateError) {
-        setShowValidateError(true);
-      }
+      setShowValidateError(true);
       incrementValidateAttempts(window);
     }
   }
