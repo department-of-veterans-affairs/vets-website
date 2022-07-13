@@ -915,7 +915,7 @@ export async function cancelAppointment({ appointment, useV2 = false }) {
  *
  * @export
  * @param {Object} appointment an appointment object
- * @returns {String} Returns provider first and last name
+ * @returns {String} Returns the provider first and last name
  */
 export function getProviderName(appointment) {
   const providers = appointment?.practitioners;
