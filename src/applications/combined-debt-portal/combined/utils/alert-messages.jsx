@@ -16,7 +16,7 @@ const alertMessage = (alertType, appType) => {
             </p>
           </>
         ),
-        secondHeader: `What to do if you think you have a VA debt or copay bill`,
+        secondHeader: `What to do if you think you have a VA debt or copay bill:`,
         secondBody: (
           <ul>
             <li className="vads-u-font-family--sans">
