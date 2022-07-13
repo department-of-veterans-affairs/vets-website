@@ -1,10 +1,10 @@
 import React from 'react';
-import cloneDeep from '../../../utilities/data/cloneDeep';
 import ReactDOM /* , { act } */ from 'react-dom';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 
 import { getFormDOM } from 'platform/testing/unit/schemaform-utils.jsx';
+import cloneDeep from '../../../utilities/data/cloneDeep';
 import SipsDevModal from '../../save-in-progress/SaveInProgressDevModal';
 import { SAVE_STATUSES } from '../../save-in-progress/actions';
 
@@ -45,7 +45,7 @@ describe('Schemaform <SipsDevModal>', () => {
     const dom = document.createElement('div');
     ReactDOM.render(<SipsDevModal {...props} />, dom);
     expect(dom.querySelector('.va-button-link')).to.be.null;
-    expect(dom.querySelector('.va-modal')).to.be.null;
+    expect(dom.querySelector('va-modal')).to.be.null;
 
     // link should render immediately after updating the hash (not working)
     // act(() => { // TypeError: (0 , _reactDom.act) is not a function
@@ -66,7 +66,7 @@ describe('Schemaform <SipsDevModal>', () => {
     expect(dom.querySelector('.va-button-link').textContent).to.be.contain(
       'save-in-progress menu',
     );
-    expect(dom.querySelector('.va-modal')).to.be.null;
+    expect(dom.querySelector('va-modal')).to.be.null;
   });
   it('should render the modal on click', () => {
     setLoc();
@@ -78,7 +78,7 @@ describe('Schemaform <SipsDevModal>', () => {
     const dom = getFormDOM(modal);
     // open the sips modal
     dom.click('.va-button-link');
-    expect(dom.querySelector('.va-modal')).to.not.be.false;
+    expect(dom.querySelector('va-modal')).to.exist;
   });
 
   it('should replace the form data & include return url', () => {
@@ -101,7 +101,7 @@ describe('Schemaform <SipsDevModal>', () => {
     const dom = getFormDOM(modal);
     // open the sips modal
     dom.click('.va-button-link');
-    dom.fillData('textarea', JSON.stringify(newData));
+    dom.fillData('va-textarea', JSON.stringify(newData));
     dom.fillData('select', '/page-2');
     dom.click('.usa-button-primary'); // replace button
     expect(result).to.deep.equal({
@@ -111,7 +111,7 @@ describe('Schemaform <SipsDevModal>', () => {
       sipsUrl: '/page-2',
     });
     // Modal closed
-    expect(dom.querySelector('.va-modal')).to.be.null;
+    expect(dom.querySelector('va-modal')).to.be.null;
   });
   it('should replace the form data from maximal-test.json & include return url', () => {
     setLoc();
@@ -134,7 +134,7 @@ describe('Schemaform <SipsDevModal>', () => {
     const dom = getFormDOM(modal);
     // open the sips modal
     dom.click('.va-button-link');
-    dom.fillData('textarea', JSON.stringify(newData));
+    dom.fillData('va-textarea', JSON.stringify(newData));
     dom.fillData('select', '/page-2');
     // replace button
     dom.click('.usa-button-primary');
@@ -145,7 +145,7 @@ describe('Schemaform <SipsDevModal>', () => {
       sipsUrl: '/page-2',
     });
     // Modal closed
-    expect(dom.querySelector('.va-modal')).to.be.null;
+    expect(dom.querySelector('va-modal')).to.be.null;
   });
 
   it('should merge partial data into the form data & include return url', () => {
@@ -169,7 +169,7 @@ describe('Schemaform <SipsDevModal>', () => {
     const dom = getFormDOM(modal);
     // open the sips modal
     dom.click('.va-button-link');
-    dom.fillData('textarea', JSON.stringify(newData));
+    dom.fillData('va-textarea', JSON.stringify(newData));
     dom.fillData('select', '/page-1');
     // merge button
     dom.click('.usa-button-secondary');
@@ -180,7 +180,7 @@ describe('Schemaform <SipsDevModal>', () => {
       sipsUrl: '/page-1',
     });
     // Modal closed
-    expect(dom.querySelector('.va-modal')).to.be.null;
+    expect(dom.querySelector('va-modal')).to.be.null;
   });
   it('should unwrap "data" & merge partial data into the form data & include return url', () => {
     setLoc();
@@ -204,7 +204,7 @@ describe('Schemaform <SipsDevModal>', () => {
     const dom = getFormDOM(modal);
     // open the sips modal
     dom.click('.va-button-link');
-    dom.fillData('textarea', JSON.stringify(newData));
+    dom.fillData('va-textarea', JSON.stringify(newData));
     dom.fillData('select', '/page-1');
     // merge button
     dom.click('.usa-button-secondary');
@@ -216,5 +216,20 @@ describe('Schemaform <SipsDevModal>', () => {
     });
     // Modal closed
     expect(dom.querySelector('.va-modal')).to.be.null;
+  });
+
+  it('should not show link, or modal, with an empty pageList', () => {
+    setLoc();
+    const dom = document.createElement('div');
+    ReactDOM.render(<SipsDevModal {...props} pageList={[]} />, dom);
+    expect(dom.querySelector('.va-button-link')).to.be.null;
+    expect(dom.querySelector('va-modal')).to.be.null;
+  });
+  it('should not show link, or modal, with an undefined pageList', () => {
+    setLoc();
+    const dom = document.createElement('div');
+    ReactDOM.render(<SipsDevModal {...props} pageList={undefined} />, dom);
+    expect(dom.querySelector('.va-button-link')).to.be.null;
+    expect(dom.querySelector('va-modal')).to.be.null;
   });
 });

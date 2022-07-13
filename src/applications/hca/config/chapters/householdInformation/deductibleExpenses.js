@@ -6,6 +6,7 @@ import {
   deductibleExpensesDescription,
   expensesGreaterThanIncomeWarning,
   expensesLessThanIncome,
+  emptyObjectSchema,
 } from '../../../helpers';
 
 import { validateCurrency } from '../../../validation';
@@ -16,14 +17,9 @@ const {
   deductibleMedicalExpenses,
 } = fullSchemaHca.properties;
 
-const emptyObjectSchema = {
-  type: 'object',
-  properties: {},
-};
-
 export default {
   uiSchema: {
-    'ui:title': 'Previous Calendar Year\u2019s Deductible Expenses',
+    'ui:title': 'Previous calendar year\u2019s deductible expenses',
     'ui:description': deductibleExpensesDescription,
     deductibleMedicalExpenses: set(
       'ui:validations',

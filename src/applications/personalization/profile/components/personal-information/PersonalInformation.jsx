@@ -1,22 +1,21 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect, useCallback } from 'react';
 import { Prompt } from 'react-router-dom';
 import { useLastLocation } from 'react-router-last-location';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { openModal } from '@@vap-svc/actions';
 
+import {
+  showProfileLGBTQEnhancements,
+  showBadAddressIndicator,
+  hasBadAddress,
+  forceBadAddressIndicator,
+} from '@@profile/selectors';
+import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
 import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 import { focusElement } from '~/platform/utilities/ui';
-
-import PaymentInformationBlocked from '@@profile/components/direct-deposit/PaymentInformationBlocked';
-import {
-  cnpDirectDepositIsBlocked,
-  showProfileLGBTQEnhancements,
-} from '@@profile/selectors';
-import { clearMostRecentlySavedField } from '@@vap-svc/actions/transactions';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
@@ -25,30 +24,56 @@ import PersonalInformationContent from './PersonalInformationContent';
 
 import { PROFILE_PATHS } from '../../constants';
 
+import BadAddressAlert from '../alerts/bad-address/ProfileAlert';
+
 // drops the leading `edit` from the hash and looks for that element
 const getScrollTarget = hash => {
   const hashWithoutLeadingEdit = hash.replace(/^#edit-/, '#');
   return document.querySelector(hashWithoutLeadingEdit);
 };
 
-const PersonalInformation = ({
-  clearSuccessAlert,
-  hasUnsavedEdits,
-  hasVAPServiceError,
-  openEditModal,
-  shouldShowProfileLGBTQEnhancements,
-  showDirectDepositBlockedError,
-}) => {
+const PersonalInformation = () => {
   const lastLocation = useLastLocation();
-  useEffect(() => {
-    if (shouldShowProfileLGBTQEnhancements)
-      document.title = `Personal Information | Veterans Affairs`;
-    else document.title = `Personal And Contact Information | Veterans Affairs`;
 
-    return () => {
-      clearSuccessAlert();
-    };
-  }, []);
+  const hasUnsavedEdits = useSelector(
+    state => state.vapService.hasUnsavedEdits,
+  );
+  const hasVAPServiceError = useSelector(hasVAPServiceConnectionError);
+  const shouldShowProfileLGBTQEnhancements = useSelector(
+    showProfileLGBTQEnhancements,
+  );
+
+  const userHasBadAddress = useSelector(hasBadAddress);
+
+  const shouldForceBadAddressIndicator = useSelector(
+    state =>
+      forceBadAddressIndicator(state) &&
+      !sessionStorage.getItem('profile-has-cleared-bad-address-indicator'),
+  );
+
+  const badAddressIndicatorEnabled = useSelector(showBadAddressIndicator);
+
+  const dispatch = useDispatch();
+  const clearSuccessAlert = useCallback(
+    () => dispatch(clearMostRecentlySavedField()),
+    [dispatch],
+  );
+
+  const openEditModal = useCallback(() => dispatch(openModal()), [dispatch]);
+
+  useEffect(
+    () => {
+      if (shouldShowProfileLGBTQEnhancements)
+        document.title = `Personal Information | Veterans Affairs`;
+      else
+        document.title = `Personal And Contact Information | Veterans Affairs`;
+
+      return () => {
+        clearSuccessAlert();
+      };
+    },
+    [clearSuccessAlert, shouldShowProfileLGBTQEnhancements],
+  );
 
   useEffect(
     () => {
@@ -107,12 +132,21 @@ const PersonalInformation = ({
     [openEditModal],
   );
 
+  const showHeroBadAddressAlert =
+    badAddressIndicatorEnabled &&
+    (userHasBadAddress || shouldForceBadAddressIndicator);
+
   return (
     <>
       <Prompt
         message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
         when={hasUnsavedEdits}
       />
+      {showHeroBadAddressAlert && (
+        <>
+          <BadAddressAlert />
+        </>
+      )}
       {shouldShowProfileLGBTQEnhancements ? (
         <Headline>Personal information</Headline>
       ) : (
@@ -122,7 +156,6 @@ const PersonalInformation = ({
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}
       >
-        {showDirectDepositBlockedError && <PaymentInformationBlocked />}
         <PersonalInformationContent
           hasVAPServiceError={hasVAPServiceError}
           shouldShowProfileLGBTQEnhancements={
@@ -134,27 +167,6 @@ const PersonalInformation = ({
   );
 };
 
-PersonalInformation.propTypes = {
-  showDirectDepositBlockedError: PropTypes.bool.isRequired,
-  hasUnsavedEdits: PropTypes.bool.isRequired,
-  hasVAPServiceError: PropTypes.bool,
-  openEditModal: PropTypes.func.isRequired,
-  shouldShowProfileLGBTQEnhancements: PropTypes.bool.isRequired,
-};
+PersonalInformation.propTypes = {};
 
-const mapStateToProps = state => ({
-  showDirectDepositBlockedError: !!cnpDirectDepositIsBlocked(state),
-  hasUnsavedEdits: state.vapService.hasUnsavedEdits,
-  hasVAPServiceError: hasVAPServiceConnectionError(state),
-  shouldShowProfileLGBTQEnhancements: showProfileLGBTQEnhancements(state),
-});
-
-const mapDispatchToProps = {
-  clearSuccessAlert: clearMostRecentlySavedField,
-  openEditModal: openModal,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PersonalInformation);
+export default PersonalInformation;

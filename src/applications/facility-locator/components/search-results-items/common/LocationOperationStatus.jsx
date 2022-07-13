@@ -22,6 +22,7 @@ const LocationOperationStatus = ({ operatingStatus }) => {
       alertClass: 'info',
     },
   };
+
   if (!display[operatingStatus.code]) {
     return <></>;
   }

@@ -1,11 +1,12 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { VaTextInput } from 'web-components/react-bindings';
+import { focusElement } from 'platform/utilities/ui';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Date } from '@department-of-veterans-affairs/component-library';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
-import LanguagePicker from '../../LanguagePicker';
+import Wrapper from '../../layout/Wrapper';
 
 export default function ValidateDisplay({
   header = '',
@@ -23,6 +24,13 @@ export default function ValidateDisplay({
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+
+  useEffect(
+    () => {
+      if (showValidateError) focusElement('.validate-error-alert');
+    },
+    [showValidateError],
+  );
 
   const updateField = useCallback(
     event => {
@@ -45,11 +53,17 @@ export default function ValidateDisplay({
     },
     [setDob],
   );
-
+  const handleEnter = e => {
+    if (e.key === 'Enter') {
+      validateHandler();
+    }
+  };
+  const handleFormSubmit = e => {
+    e.preventDefault();
+    validateHandler();
+  };
   return (
-    <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
-      <LanguagePicker />
-      <h1>{header || t('check-in-at-va')}</h1>
+    <Wrapper pageTitle={header || t('check-in-at-va')}>
       <p>
         {subtitle ||
           t(
@@ -57,18 +71,20 @@ export default function ValidateDisplay({
           )}
       </p>
       {showValidateError ? (
-        <va-alert
-          background-only
-          status="error"
-          show-icon
-          data-testid="validate-error-alert"
-        >
-          <div>{validateErrorMessage}</div>
-        </va-alert>
+        <div className="validate-error-alert" tabIndex="-1">
+          <va-alert
+            background-only
+            status="error"
+            show-icon
+            data-testid="validate-error-alert"
+          >
+            <div>{validateErrorMessage}</div>
+          </va-alert>
+        </div>
       ) : (
         <></>
       )}
-      <form className="vads-u-margin-bottom--2p5" onSubmit={validateHandler}>
+      <form className="vads-u-margin-bottom--2p5" onSubmit={handleFormSubmit}>
         <VaTextInput
           autoCorrect="false"
           error={lastNameErrorMessage}
@@ -79,6 +95,7 @@ export default function ValidateDisplay({
           spellCheck="false"
           value={lastName}
           data-testid="last-name-input"
+          onKeyDown={handleEnter}
         />
         {isLorotaSecurityUpdatesEnabled ? (
           <div data-testid="dob-input" className="vads-u-margin-top--3">
@@ -105,26 +122,27 @@ export default function ValidateDisplay({
             required
             value={last4Ssn}
             data-testid="last-4-input"
+            onKeyDown={handleEnter}
           />
         )}
+        <button
+          type="button"
+          onClick={validateHandler}
+          className="usa-button usa-button-big vads-u-margin-top--4"
+          data-testid="check-in-button"
+          disabled={isLoading}
+        >
+          {' '}
+          {isLoading ? (
+            <span role="status">{t('loading')}</span>
+          ) : (
+            <>{t('continue')}</>
+          )}
+        </button>
       </form>
-      <button
-        onClick={validateHandler}
-        type="button"
-        className="usa-button usa-button-big"
-        data-testid="check-in-button"
-        disabled={isLoading}
-        aria-label={t('check-in-now-for-your-appointment')}
-      >
-        {' '}
-        {isLoading ? (
-          <span role="status">{t('loading')}</span>
-        ) : (
-          <>{t('continue')}</>
-        )}
-      </button>
+
       {Footer && <Footer />}
-    </div>
+    </Wrapper>
   );
 }
 

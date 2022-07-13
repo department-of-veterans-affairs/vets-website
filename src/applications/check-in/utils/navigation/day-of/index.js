@@ -36,34 +36,22 @@ const CHECK_IN_FORM_PAGES = Object.freeze([
     order: 4,
   },
   {
-    url: URLS.UPDATE_INSURANCE,
+    url: URLS.DETAILS,
     order: 5,
   },
   {
-    url: URLS.DETAILS,
-    order: 6,
-  },
-  {
     url: URLS.COMPLETE,
-    order: 7,
+    order: 6,
   },
 ]);
 
 const createForm = () => {
   return CHECK_IN_FORM_PAGES.map(page => page.url);
 };
-const updateForm = (
-  patientDemographicsStatus,
-  checkInExperienceUpdateInformationPageEnabled,
-) => {
+const updateForm = patientDemographicsStatus => {
   const pages = CHECK_IN_FORM_PAGES.map(page => page.url);
 
-  return updateFormPages(
-    patientDemographicsStatus,
-    checkInExperienceUpdateInformationPageEnabled,
-    pages,
-    URLS,
-  );
+  return updateFormPages(patientDemographicsStatus, pages, URLS);
 };
 
 export { CHECK_IN_FORM_PAGES, createForm, getTokenFromLocation, updateForm };

@@ -24,8 +24,7 @@ echo "Files to sync:" && printf "%s\n" "${filesToSync[@]}" | sort
 # Make temp directory for storing filtered app assets
 tempdir=$(mktemp -d) && mkdir -p $tempdir/generated
 
-# Copy app assets and BUILD.txt into temp directory
-cp $BUILD_DIR/BUILD.txt $tempdir
+# Copy app assets into temp directory
 for filename in ${filesToSync[@]}
 do 
     find $BUILD_DIR/generated/ -name "$filename" -exec cp {} $tempdir/generated/ \;

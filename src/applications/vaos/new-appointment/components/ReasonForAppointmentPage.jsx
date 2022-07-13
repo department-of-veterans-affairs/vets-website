@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { VaTelephone } from 'web-components/react-bindings';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { validateWhiteSpace } from 'platform/forms/validations';
 import { useHistory } from 'react-router-dom';
@@ -18,6 +18,7 @@ import {
   routeToPreviousAppointmentPage,
   updateReasonForAppointmentData,
 } from '../redux/actions';
+import { selectFeatureVAOSServiceRequests } from '../../redux/selectors';
 
 const initialSchema = {
   default: {
@@ -88,11 +89,13 @@ export default function ReasonForAppointmentPage() {
   const pageTitle = isCommunityCare
     ? 'Tell us the reason for this appointment'
     : 'Choose a reason for this appointment';
+  const useV2 = useSelector(state => selectFeatureVAOSServiceRequests(state));
+
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     dispatch(
-      openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema),
+      openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema, useV2),
     );
   }, []);
 
@@ -110,7 +113,12 @@ export default function ReasonForAppointmentPage() {
           }
           onChange={newData =>
             dispatch(
-              updateReasonForAppointmentData(pageKey, pageUISchema, newData),
+              updateReasonForAppointmentData(
+                pageKey,
+                pageUISchema,
+                newData,
+                useV2,
+              ),
             )
           }
           data={data}

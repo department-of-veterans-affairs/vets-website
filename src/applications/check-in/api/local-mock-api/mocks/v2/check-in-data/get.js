@@ -1,9 +1,10 @@
 const dateFns = require('date-fns');
 
 const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
+const aboutToExpireUUID = '25165847-2c16-4c8b-8790-5de37a7f427f';
 
 const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
-const isoDateWithOffsetFormat = "yyyy-LL-dd'T'HH:mm:ssxxx";
+const isoDateWithOffsetFormat = "yyyy-LL-dd'T'HH:mm:ss.SSSxxx";
 
 const createMockSuccessResponse = (
   data,
@@ -70,16 +71,17 @@ const createAppointment = (
   appointmentIen = 'some-ien',
   clinicFriendlyName = 'TEST CLINIC',
   preCheckInValid = false,
+  uuid = defaultUUID,
 ) => {
-  const startTime = preCheckInValid
-    ? dateFns.addDays(new Date(), 1)
-    : new Date();
+  let startTime = preCheckInValid ? dateFns.addDays(new Date(), 1) : new Date();
   if (eligibility === 'INELIGIBLE_TOO_LATE') {
-    startTime.setHours(startTime.getHours() - 1);
+    startTime = dateFns.subHours(startTime, 1);
   } else if (eligibility === 'INELIGIBLE_TOO_EARLY') {
-    startTime.setHours(startTime.getHours() + 1);
+    startTime = dateFns.addHours(startTime, 1);
+  } else if (uuid === aboutToExpireUUID) {
+    startTime = dateFns.subMinutes(startTime, 14);
   } else {
-    startTime.setMinutes(startTime.getMinutes() + 15);
+    startTime = dateFns.addMinutes(startTime, 15);
   }
   const formattedStartTime = dateFns.format(
     startTime,
@@ -209,6 +211,8 @@ const createMultipleAppointments = (
         'ABC_123',
         `some-ien-${i}`,
         `TEST CLINIC-${i}`,
+        false,
+        token,
       ),
     );
   }
@@ -231,6 +235,7 @@ const createMockFailedResponse = _data => {
 };
 
 module.exports = {
+  aboutToExpireUUID,
   createMockSuccessResponse,
   createMockFailedResponse,
   createMultipleAppointments,

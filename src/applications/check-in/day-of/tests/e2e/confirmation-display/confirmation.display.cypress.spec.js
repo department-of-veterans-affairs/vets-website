@@ -17,14 +17,16 @@ describe('Check In Experience -- ', () => {
         initializeSessionPost,
         initializeCheckInDataGet,
         initializeCheckInDataPost,
+        initializeDemographicsPatch,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess();
       initializeCheckInDataPost.withSuccess();
+      initializeDemographicsPatch.withSuccess();
       cy.visitWithUUID();
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
       Demographics.attemptToGoToNextPage();

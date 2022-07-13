@@ -1,17 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import recordEvent from 'platform/monitoring/record-event';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
+import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 import HCAEnrollmentStatus from './HCAEnrollmentStatus';
 import HCASubwayMap from '../components/HCASubwayMap';
 import HcaOMBInfo from '../components/HcaOMBInfo';
@@ -22,7 +21,6 @@ import {
   isUserLOA3,
   shouldShowLoggedOutContent,
 } from '../selectors';
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 
 const VerificationRequiredAlert = () => (
   <va-alert isVisible status="continue">
@@ -59,9 +57,11 @@ const VerificationRequiredAlert = () => (
           </a>
         </li>
         <li>
-          Or call us at <Telephone contact={`18772228387`} />. If you have{' '}
-          hearing loss, call TTY: <Telephone contact={CONTACTS.HELP_TTY} />.
-          We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          Or call us at <va-telephone contact={CONTACTS['222_VETS']} />. If you
+          have hearing hearing loss, call TTY:{' '}
+          <va-telephone contact={CONTACTS.HELP_TTY} />. We’re here Monday
+          through Friday, 8:00 a.m. to 8:00 p.m.{' '}
+          <abbr title="eastern time">ET</abbr>.
         </li>
       </ul>
       <p>
@@ -191,7 +191,12 @@ class IntroductionPage extends React.Component {
             </strong>
           </p>
         )}
-        {showMainLoader && <LoadingIndicator />}
+        {showMainLoader && (
+          <va-loading-indicator
+            label="Loading"
+            message="Loading your application..."
+          />
+        )}
         {showVerificationRequiredAlert && <VerificationRequiredAlert />}
         {showLoggedOutContent && (
           <LoggedOutContent route={route} showLoginAlert={showLoginAlert} />
@@ -213,3 +218,12 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps)(IntroductionPage);
 
 export { IntroductionPage };
+
+IntroductionPage.propTypes = {
+  route: PropTypes.object,
+  showLOA3Content: PropTypes.bool,
+  showLoggedOutContent: PropTypes.bool,
+  showLoginAlert: PropTypes.bool,
+  showMainLoader: PropTypes.bool,
+  showVerificationRequiredAlert: PropTypes.bool,
+};

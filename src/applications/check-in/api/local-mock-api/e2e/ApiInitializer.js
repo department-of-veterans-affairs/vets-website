@@ -22,22 +22,9 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
-          checkInExperienceEditingPreCheckInEnabled: false,
-        }),
-      );
-    },
-    withPreCheckInEditEnabled: () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          checkInExperienceEnabled: true,
-          preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
-          emergencyContactEnabled: true,
-          checkInExperienceEditingPreCheckInEnabled: true,
+          checkInExperiencePhoneAppointmentsEnabled: false,
+          checkInExperienceLorotaSecurityUpdatesEnabled: false,
         }),
       );
     },
@@ -48,7 +35,6 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
           checkInExperienceDayOfDemographicsFlagsEnabled: true,
         }),
@@ -61,7 +47,6 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
           checkInExperienceDayOfDemographicsFlagsEnabled: true,
           checkInExperienceDayOfTranslationEnabled: true,
@@ -75,7 +60,6 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: true,
           emergencyContactEnabled: true,
         }),
       );
@@ -87,10 +71,22 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
-          checkInExperienceEditingPreCheckInEnabled: false,
+          checkInExperiencePhoneAppointmentsEnabled: false,
           checkInExperienceLorotaSecurityUpdatesEnabled: true,
+        }),
+      );
+    },
+    withPhoneAppointments: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          emergencyContactEnabled: true,
+          checkInExperienceLorotaSecurityUpdatesEnabled: false,
+          checkInExperiencePhoneAppointmentsEnabled: true,
         }),
       );
     },
@@ -137,8 +133,11 @@ class ApiInitializer {
     },
     withValidation: () => {
       cy.intercept('POST', '/check_in/v2/sessions', req => {
-        const { last4, lastName } = req.body?.session || {};
-        if (last4 === '1234' && lastName === 'Smith') {
+        const { last4, lastName, dob } = req.body?.session || {};
+        if (
+          (last4 === '1234' || dob === '1989-03-15') &&
+          lastName === 'Smith'
+        ) {
           req.reply(
             session.post.createMockSuccessResponse('some-token', 'read.full'),
           );
@@ -355,19 +354,6 @@ class ApiInitializer {
     withFailure: (errorCode = 400) => {
       cy.intercept('POST', `/check_in/v2/patient_check_ins/`, req => {
         req.reply(errorCode, checkInData.post.createMockFailedResponse({}));
-      });
-    },
-  };
-
-  initializeDemographicEditPost = {
-    withSuccess: () => {
-      cy.intercept('POST', `/check_in/v2/edit_demographics/`, req => {
-        req.reply(checkInData.post.createMockEditSuccessResponse());
-      });
-    },
-    withFailure: (errorCode = 400) => {
-      cy.intercept('POST', `/check_in/v2/edit_demographics/`, req => {
-        req.reply(errorCode, checkInData.post.createMockEditErrorResponse({}));
       });
     },
   };

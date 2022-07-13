@@ -315,19 +315,22 @@ export const removeEmptyEntries = object =>
 export const getAddress = ({ veteran = {} } = {}) => {
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
+  const internationalPostalCode = truncate(
+    'internationalPostalCode',
+    MAX_LENGTH.POSTAL_CODE,
+  );
   return removeEmptyEntries({
     addressLine1: truncate('addressLine1', MAX_LENGTH.ADDRESS_LINE1),
     addressLine2: truncate('addressLine2', MAX_LENGTH.ADDRESS_LINE2),
     addressLine3: truncate('addressLine3', MAX_LENGTH.ADDRESS_LINE3),
     city: truncate('city', MAX_LENGTH.CITY),
     stateCode: veteran.address?.stateCode || '',
-    zipCode5: truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
+    zipCode5: internationalPostalCode
+      ? '00000'
+      : truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
     countryName: veteran.address?.countryName || '',
     // countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.COUNTRY), // v2
-    internationalPostalCode: truncate(
-      'internationalPostalCode',
-      MAX_LENGTH.POSTAL_CODE,
-    ),
+    internationalPostalCode,
   });
 };
 

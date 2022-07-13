@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { focusElement } from 'platform/utilities/ui';
-import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+// import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { Pagination } from '@department-of-veterans-affairs/component-library/index';
 import EnrollmentVerificationMonth from './EnrollmentVerificationMonth';
 import { ENROLLMENT_VERIFICATION_TYPE, STATUS_PROP_TYPE } from '../helpers';
 
@@ -9,7 +10,7 @@ const MONTHS_PER_PAGE = 6;
 function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
   // We assume that months come sorted from most recent to oldest.  If
   // that assumption is incorrect, sort here.
-  const months = enrollmentVerification.enrollmentVerifications.map(
+  const months = enrollmentVerification?.enrollmentVerifications?.map(
     (month, index) => {
       return (
         <EnrollmentVerificationMonth
@@ -61,14 +62,16 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
         </p>
       </va-additional-info>
 
-      <p>
-        Showing {lowerDisplayedRange}-{upperDisplayedRange} of {months?.length}{' '}
-        monthly enrollments listed by most recent
-      </p>
+      {enrollmentVerification?.enrollmentVerifications && (
+        <p>
+          Showing {lowerDisplayedRange}-{upperDisplayedRange} of{' '}
+          {months?.length} monthly enrollments listed by most recent
+        </p>
+      )}
 
       {months?.slice(minMonth, maxMonth)}
 
-      <VaPagination
+      <Pagination
         onPageSelect={onPageSelect}
         page={currentPage}
         pages={numPages}

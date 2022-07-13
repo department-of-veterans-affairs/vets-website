@@ -12,7 +12,7 @@ const params = {
   owner,
   repo,
   workflow_id: 'continuous-integration.yml',
-  branch: 'master',
+  branch: 'main',
 };
 
 return octokit.rest.actions

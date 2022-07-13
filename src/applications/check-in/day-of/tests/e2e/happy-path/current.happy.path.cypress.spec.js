@@ -17,6 +17,7 @@ describe('Check In Experience', () => {
         initializeSessionPost,
         initializeCheckInDataGet,
         initializeCheckInDataPost,
+        initializeDemographicsPatch,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
@@ -25,6 +26,7 @@ describe('Check In Experience', () => {
         numberOfCheckInAbledAppointments: 1,
       });
       initializeCheckInDataPost.withSuccess();
+      initializeDemographicsPatch.withSuccess();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -34,7 +36,7 @@ describe('Check In Experience', () => {
     it('happy path', () => {
       cy.visitWithUUID();
 
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();

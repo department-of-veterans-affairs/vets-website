@@ -2,7 +2,6 @@ import React from 'react';
 import mapValues from 'lodash/mapValues';
 import set from 'platform/utilities/data/set';
 import moment from 'moment';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
@@ -25,6 +24,8 @@ export {
   getMedicalCenterNameByID,
   medicalCenterLabels,
 } from 'platform/utilities/medical-centers/medical-centers';
+
+export const HIGH_DISABILITY = 50;
 
 // clean address so we only get address related properties then return the object
 const cleanAddressObject = address => {
@@ -304,16 +305,15 @@ export const financialDisclosureText = (
       </li>
       <li>Should be charged for copays or medication</li>
     </ol>
-
-    <div className="usa-alert usa-alert-info">
-      <div className="usa-alert-body">
-        <span>
+    <div className="vads-u-margin-top--2p5">
+      <va-alert status="info" visible>
+        <p className="vads-u-margin-y--0">
           <strong>Note:</strong> You don’t have to provide your financial
           information. But if you don’t have a qualifying eligibility factor,
           this information is the only other way for us to see if you can get VA
           health care benefits--including added benefits like waived copays.
-        </span>
-      </div>
+        </p>
+      </va-alert>
     </div>
     <p>Qualifying factors:</p>
     <ul>
@@ -382,13 +382,13 @@ export const incomeDescription = (
 );
 
 export const disclosureWarning = (
-  <div className="usa-alert usa-alert-info">
-    <div className="usa-alert-body">
-      <span>
+  <div role="alert">
+    <va-alert status="info" visible>
+      <p className="vads-u-margin-y--0">
         If you don’t provide your financial information and you don’t have
         another qualifying eligibility factor, VA can’t enroll you.
-      </span>
-    </div>
+      </p>
+    </va-alert>
   </div>
 );
 
@@ -476,26 +476,22 @@ export const deductibleExpensesDescription = (
     Tell us a bit about your expenses this past calendar year. Enter information
     for any expenses that apply to you.
     <div className="hca-tooltip-wrapper">
-      <AdditionalInfo triggerText="What if my expenses are higher than my annual income?">
+      <va-additional-info trigger="What if my expenses are higher than my annual income?">
         We understand in some cases your expenses might be higher than your
         income. If your expenses exceed your income, we’ll adjust them to be
         equal to your income. This won’t affect your application or benefits.
-      </AdditionalInfo>
+      </va-additional-info>
     </div>
   </div>
 );
 export const isEssentialAcaCoverageDescription = (
-  <div>
-    I’m enrolling to get minimum essential coverage under the Affordable Care
-    Act.
-    <div className="hca-tooltip-wrapper">
-      <AdditionalInfo triggerText="Learn more about minimum essential coverage.">
-        To avoid the penalty for not having insurance, you must be enrolled in a
-        health plan that qualifies as minimum essential coverage. Being signed
-        up for VA health care meets the minimum essential coverage requirement
-        under the Affordable Care Act.
-      </AdditionalInfo>
-    </div>
+  <div className="hca-tooltip-wrapper vads-u-margin-left--4">
+    <va-additional-info trigger="Learn more about minimum essential coverage.">
+      To avoid the penalty for not having insurance, you must be enrolled in a
+      health plan that qualifies as minimum essential coverage. Being signed up
+      for VA health care meets the minimum essential coverage requirement under
+      the Affordable Care Act.
+    </va-additional-info>
   </div>
 );
 export const healthInsuranceCoverageQuestionDescription = (
@@ -577,6 +573,11 @@ export const medicarePartADescription = (
     </p>
   </section>
 );
+
+export const emptyObjectSchema = {
+  type: 'object',
+  properties: {},
+};
 
 export const idFormSchema = {
   type: 'object',

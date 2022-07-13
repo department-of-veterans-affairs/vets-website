@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
+
 import AppointmentBlock from './AppointmentBlock';
+import AppointmentBlockWithIcons from './AppointmentBlockWithIcons';
 import BackToHome from './BackToHome';
-import LanguagePicker from './LanguagePicker';
 import ExternalLink from './ExternalLink';
 import PreCheckInAccordionBlock from './PreCheckInAccordionBlock';
+import Wrapper from './layout/Wrapper';
+import Footer from './layout/Footer';
 
 const PreCheckinConfirmation = props => {
   const { appointments, isLoading, formData } = props;
@@ -14,6 +20,8 @@ const PreCheckinConfirmation = props => {
     emergencyContactUpToDate,
     nextOfKinUpToDate,
   } = formData;
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
   const { t } = useTranslation();
 
   if (appointments.length === 0) {
@@ -21,43 +29,54 @@ const PreCheckinConfirmation = props => {
   }
 
   const renderLoadingMessage = () => {
-    return <va-loading-indicator message={t('completing-pre-check-in')} />;
+    return (
+      <va-loading-indicator
+        data-testid="loading-indicator"
+        message={t('completing-pre-check-in')}
+      />
+    );
   };
   const renderConfirmationMessage = () => {
     if (appointments.length === 0) {
       return <></>;
     }
     return (
-      <div
-        className="vads-l-grid-container vads-u-padding-bottom--3 vads-u-padding-top--3"
-        data-testid="confirmation-wrapper"
+      <Wrapper
+        pageTitle={t('youve-completed-pre-check-in')}
+        testID="confirmation-wrapper"
       >
-        <LanguagePicker />
-        <h1 tabIndex="-1" className="vads-u-margin-top--2">
-          {t('youve-completed-pre-check-in')}
-        </h1>
-        <AppointmentBlock appointments={appointments} />
+        {isPhoneAppointmentsEnabled ? (
+          <AppointmentBlockWithIcons
+            appointments={appointments}
+            page="confirmation"
+          />
+        ) : (
+          <AppointmentBlock appointments={appointments} />
+        )}
         <p className="vads-u-margin-bottom--4">
           <ExternalLink
             href="https://va.gov/health-care/schedule-view-va-appointments/appointments/"
             hrefLang="en"
           >
-            {t('go-to-your-appointment-details')}
+            {t('sign-in-to-manage')}
           </ExternalLink>
         </p>
-        <va-alert
-          background-only
-          status="info"
-          show-icon
-          data-testid="confirmation-update-alert"
-          class="vads-u-margin-bottom--3"
-        >
-          <div>
-            {t(
-              'please-bring-your-insurance-cards-with-you-to-your-appointment',
-            )}
-          </div>
-        </va-alert>
+        {!isPhoneAppointmentsEnabled && (
+          <va-alert
+            background-only
+            status="info"
+            show-icon
+            data-testid="confirmation-update-alert"
+            class="vads-u-margin-bottom--3"
+          >
+            <div>
+              {t(
+                'please-bring-your-insurance-cards-with-you-to-your-appointment',
+              )}
+            </div>
+          </va-alert>
+        )}
+
         <PreCheckInAccordionBlock
           demographicsUpToDate={demographicsUpToDate}
           emergencyContactUpToDate={emergencyContactUpToDate}
@@ -65,7 +84,8 @@ const PreCheckinConfirmation = props => {
           appointments={appointments}
         />
         <BackToHome />
-      </div>
+        <Footer />
+      </Wrapper>
     );
   };
 
@@ -75,7 +95,6 @@ const PreCheckinConfirmation = props => {
 PreCheckinConfirmation.propTypes = {
   appointments: PropTypes.array,
   formData: PropTypes.object,
-  hasUpdates: PropTypes.bool,
   isLoading: PropTypes.bool,
 };
 

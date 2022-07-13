@@ -2,57 +2,6 @@
 import moment from 'moment-timezone';
 import { isArray, sortBy, filter, isEmpty } from 'lodash';
 
-export const monthOptions = [
-  { value: '', label: 'Month' },
-  { value: '01', label: 'January' },
-  { value: '02', label: 'February' },
-  { value: '03', label: 'March' },
-  { value: '04', label: 'April' },
-  { value: '05', label: 'May' },
-  { value: '06', label: 'June' },
-  { value: '07', label: 'July' },
-  { value: '08', label: 'August' },
-  { value: '09', label: 'September' },
-  { value: '10', label: 'October' },
-  { value: '11', label: 'November' },
-  { value: '12', label: 'December' },
-];
-
-export const dayOptions = [
-  { value: '', label: 'Day' },
-  { value: '01', label: '1' },
-  { value: '02', label: '2' },
-  { value: '03', label: '3' },
-  { value: '04', label: '4' },
-  { value: '05', label: '5' },
-  { value: '06', label: '6' },
-  { value: '07', label: '7' },
-  { value: '08', label: '8' },
-  { value: '09', label: '9' },
-  { value: '10', label: '10' },
-  { value: '11', label: '11' },
-  { value: '12', label: '12' },
-  { value: '13', label: '13' },
-  { value: '14', label: '14' },
-  { value: '15', label: '15' },
-  { value: '16', label: '16' },
-  { value: '17', label: '17' },
-  { value: '18', label: '18' },
-  { value: '19', label: '19' },
-  { value: '20', label: '20' },
-  { value: '21', label: '21' },
-  { value: '22', label: '22' },
-  { value: '23', label: '23' },
-  { value: '24', label: '24' },
-  { value: '25', label: '25' },
-  { value: '26', label: '26' },
-  { value: '27', label: '27' },
-  { value: '28', label: '28' },
-  { value: '29', label: '29' },
-  { value: '30', label: '30' },
-  { value: '31', label: '31' },
-];
-
 export const filterByOptions = [
   {
     label: 'All upcoming',
@@ -115,6 +64,69 @@ export const deriveMostRecentDate = (
   return futureDates[0];
 };
 
+function keepUniqueEventsFromList(allEvents, event) {
+  if (!allEvents) {
+    return [];
+  }
+
+  if (allEvents === []) {
+    return [event];
+  }
+
+  const currentEventIds = allEvents.map(ev => ev.entityId);
+
+  if (!currentEventIds.includes(event.entityId)) {
+    allEvents.push(event);
+  }
+
+  return allEvents;
+}
+
+export const removeDuplicateEvents = events =>
+  events?.reduce(keepUniqueEventsFromList, []);
+
+// This takes all repeating events and creates a separate event for
+// each repeated instance. Repeating events can still be identified as such,
+// and let event listings show multiple recurring events.
+export const fleshOutRecurringEvents = events => {
+  if (!events) {
+    return [];
+  }
+
+  const allEvents = events.reduce((fullEvents, event) => {
+    if (!event.fieldDatetimeRangeTimezone) {
+      return fullEvents;
+    }
+
+    if (event?.fieldDatetimeRangeTimezone.length === 1) {
+      fullEvents.push(event);
+      return fullEvents;
+    }
+
+    const eventTimes = event?.fieldDatetimeRangeTimezone;
+    // This makes each copy of a recurring event start with a different time,
+    // so each time is a separate event
+    event?.fieldDatetimeRangeTimezone.forEach((tz, index) => {
+      const timeZonesCopy = [...eventTimes];
+
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < index; i++) {
+        timeZonesCopy.unshift(timeZonesCopy.pop());
+      }
+
+      fullEvents.push({ ...event, fieldDatetimeRangeTimezone: timeZonesCopy });
+    });
+
+    return fullEvents;
+  }, []);
+
+  return [...allEvents]?.sort(
+    (event1, event2) =>
+      event1?.fieldDatetimeRangeTimezone[0]?.value -
+      event2?.fieldDatetimeRangeTimezone[0]?.value,
+  );
+};
+
 export const deriveResults = (events, page, perPage) => {
   // Escape early if we do not have events, page, or perPage.
   if (isEmpty(events) || !page || !perPage) {
@@ -165,43 +177,49 @@ export const filterEvents = (
   switch (filterBy) {
     // Upcoming events.
     case 'upcoming': {
-      return events?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isAfter(
-          now.clone(),
-        ),
-      );
+      return events
+        .filter(event => {
+          return moment(
+            event?.fieldDatetimeRangeTimezone[0]?.value * 1000,
+          ).isAfter(now.clone());
+        })
+        .reduce(keepUniqueEventsFromList, []);
     }
 
     // Next week.
     case 'next-week': {
-      return events?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isBetween(
-          now
-            .clone()
-            .add('7', 'days')
-            .startOf('week'),
-          now
-            .clone()
-            .add('7', 'days')
-            .endOf('week'),
-        ),
-      );
+      return events
+        ?.filter(event =>
+          moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isBetween(
+            now
+              .clone()
+              .add('7', 'days')
+              .startOf('week'),
+            now
+              .clone()
+              .add('7', 'days')
+              .endOf('week'),
+          ),
+        )
+        .reduce(keepUniqueEventsFromList, []);
     }
 
     // Next month.
     case 'next-month': {
-      return events?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone?.value * 1000).isBetween(
-          now
-            .clone()
-            .add('1', 'month')
-            .startOf('month'),
-          now
-            .clone()
-            .add('1', 'month')
-            .endOf('month'),
-        ),
-      );
+      return events
+        ?.filter(event =>
+          moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isBetween(
+            now
+              .clone()
+              .add('1', 'month')
+              .startOf('month'),
+            now
+              .clone()
+              .add('1', 'month')
+              .endOf('month'),
+          ),
+        )
+        .reduce(keepUniqueEventsFromList, []);
     }
 
     // Past events.
@@ -209,14 +227,16 @@ export const filterEvents = (
       // Sort events inversely. @WARNING that `.sort` is mutative, so we need to clone the array.
       const sortedEvents = [...events]?.sort(
         (event1, event2) =>
-          event2?.fieldDatetimeRangeTimezone?.value -
-          event1?.fieldDatetimeRangeTimezone?.value,
+          event2?.fieldDatetimeRangeTimezone[0]?.value -
+          event1?.fieldDatetimeRangeTimezone[0]?.value,
       );
 
       return sortedEvents?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone?.endValue * 1000).isBefore(
-          now.clone(),
-        ),
+        moment(
+          event?.fieldDatetimeRangeTimezone[0]
+            ? event.fieldDatetimeRangeTimezone[0].endValue * 1000
+            : event.fieldDatetimeRangeTimezone.endValue * 1000,
+        ).isBefore(now.clone()),
       );
     }
 
@@ -228,11 +248,11 @@ export const filterEvents = (
 
       return events?.filter(
         event =>
-          moment(event?.fieldDatetimeRangeTimezone?.value).isBetween(
+          moment(event?.fieldDatetimeRangeTimezone[0]?.value).isBetween(
             options?.startsAtUnix,
             options?.endsAtUnix,
           ) ||
-          moment(event?.fieldDatetimeRangeTimezone?.endValue).isBetween(
+          moment(event?.fieldDatetimeRangeTimezone[0]?.endValue).isBetween(
             options?.startsAtUnix,
             options?.endsAtUnix,
           ),
@@ -244,14 +264,21 @@ export const filterEvents = (
   }
 };
 
-export const deriveStartsAtUnix = (startDateMonth, startDateDay) => {
+export const deriveStartsAtUnix = (
+  startDateMonth,
+  startDateDay,
+  startDateYear,
+) => {
   // Escape early if arguments are missing.
   if (!startDateMonth || !startDateDay) {
     return undefined;
   }
 
   // Derive the startsAt moment.
-  let startsAt = moment(`${startDateMonth}/${startDateDay}`, 'MM/DD');
+  let startsAt = moment(
+    `${startDateMonth}/${startDateDay}/${startDateYear}`,
+    'MM/DD/YYYY',
+  );
 
   // If startsAt is today, then set it to now + 1 hour.
   if (startsAt.isSame(moment(), 'day')) {
@@ -266,7 +293,12 @@ export const deriveStartsAtUnix = (startDateMonth, startDateDay) => {
   return startsAt.unix();
 };
 
-export const deriveEndsAtUnix = (startsAtUnix, endDateMonth, endDateDay) => {
+export const deriveEndsAtUnix = (
+  startsAtUnix,
+  endDateMonth,
+  endDateDay,
+  endDateYear,
+) => {
   // Escape early if arguments are missing.
   if (!startsAtUnix && (!endDateMonth || !endDateDay)) {
     return undefined;
@@ -284,7 +316,10 @@ export const deriveEndsAtUnix = (startsAtUnix, endDateMonth, endDateDay) => {
 
   // If there are endsAt fields provided, use those.
   if (endDateMonth && endDateDay) {
-    endsAt = moment(`${endDateMonth}/${endDateDay}`, 'MM/DD').endOf('day');
+    endsAt = moment(
+      `${endDateMonth}/${endDateDay}/${endDateYear}`,
+      'MM/DD/YYYY',
+    ).endOf('day');
   }
 
   // If the endsAt is in the past, we need to increase it by a year (since there are only month/day fields).
@@ -334,36 +369,6 @@ export const deriveEventLocations = event => {
   return locations;
 };
 
-export const hideLegacyEvents = () => {
-  // Derive the legacy events page.
-  const legacyEvents = document.querySelector('div[id="events-v1"]');
-
-  // Escape early if the legacy events page doesn't exist.
-  if (!legacyEvents) {
-    return;
-  }
-
-  // Add `vads-u-display--none` to the legacy events page if it doesn't already have it.
-  if (!legacyEvents.classList.contains('vads-u-display--none')) {
-    legacyEvents.classList.add('vads-u-display--none');
-  }
-};
-
-export const showLegacyEvents = () => {
-  // Derive the legacy events page.
-  const legacyEvents = document.querySelector('div[id="events-v1"]');
-
-  // Escape early if the legacy events page doesn't exist.
-  if (!legacyEvents) {
-    return;
-  }
-
-  // Add `vads-u-display--none` to the legacy events page if it doesn't already have it.
-  if (legacyEvents.classList.contains('vads-u-display--none')) {
-    legacyEvents.classList.remove('vads-u-display--none');
-  }
-};
-
 export const updateQueryParams = (queryParamsLookup = {}) => {
   // Derive the query params on the URL.
   const queryParams = new URLSearchParams(window.location.search);
@@ -391,20 +396,40 @@ export const updateQueryParams = (queryParamsLookup = {}) => {
 export const deriveFilteredEvents = ({
   endDateDay,
   endDateMonth,
+  endDateYear,
   rawEvents,
   selectedOption,
   startDateDay,
   startDateMonth,
+  startDateYear,
 }) => {
   // Derive startsAtUnix.
-  const startsAtUnix = deriveStartsAtUnix(startDateMonth, startDateDay);
+  const startsAtUnix = deriveStartsAtUnix(
+    startDateMonth,
+    startDateDay,
+    startDateYear,
+  );
 
   // Derive endsAtUnix.
-  const endsAtUnix = deriveEndsAtUnix(startsAtUnix, endDateMonth, endDateDay);
+  const endsAtUnix = deriveEndsAtUnix(
+    startsAtUnix,
+    endDateMonth,
+    endDateDay,
+    endDateYear,
+  );
 
   // Filter events.
   return filterEvents(rawEvents, selectedOption?.value, {
     startsAtUnix,
     endsAtUnix,
+  });
+};
+
+export const getDisabledEndDateOptions = (options, limit) => {
+  return options.map(option => {
+    return {
+      ...option,
+      disabled: parseInt(option.value, 10) < limit,
+    };
   });
 };

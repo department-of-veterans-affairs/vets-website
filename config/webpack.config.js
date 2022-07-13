@@ -2,6 +2,7 @@
 
 require('core-js/stable');
 require('regenerator-runtime/runtime');
+require('dotenv').config();
 const fs = require('fs');
 const fetch = require('node-fetch');
 const path = require('path');
@@ -98,7 +99,7 @@ async function getScaffoldAssets() {
   const LOCAL_CONTENT_BUILD_ROOT = '../content-build';
 
   const REMOTE_CONTENT_BUILD_ROOT =
-    'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/master';
+    'https://raw.githubusercontent.com/department-of-veterans-affairs/content-build/main';
 
   const loadAsset = async contentBuildPath => {
     const filename = path.basename(contentBuildPath);
@@ -407,6 +408,9 @@ module.exports = async (env = {}) => {
         __BUILDTYPE__: JSON.stringify(buildtype),
         __API__: JSON.stringify(buildOptions.api),
         __REGISTRY__: JSON.stringify(appRegistry),
+        'process.env.MAPBOX_TOKEN': JSON.stringify(
+          process.env.MAPBOX_TOKEN || '',
+        ),
       }),
 
       new webpack.SourceMapDevToolPlugin({

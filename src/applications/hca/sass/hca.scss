@@ -8,7 +8,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
-.confirmation-page {
+.hca-confirmation-page {
   padding-bottom: 5rem;
 }
 
@@ -51,4 +51,9 @@
 
 .bullet-disc {
   list-style-type: disc;
+}
+
+.hca-progress-button {
+  box-sizing: border-box;
+  width: 100%;
 }

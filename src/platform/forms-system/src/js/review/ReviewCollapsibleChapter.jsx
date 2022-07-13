@@ -3,13 +3,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import uniqueId from 'lodash/uniqueId';
+import classNames from 'classnames';
+import { getScrollOptions } from 'platform/utilities/ui';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
-import classNames from 'classnames';
 
 import ProgressButton from '../components/ProgressButton';
 import { focusOnChange } from '../utilities/ui';
-import { getScrollOptions } from 'platform/utilities/ui';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema, showReviewField } from '../helpers';
 import ArrayField from './ArrayField';
@@ -18,8 +18,7 @@ import { isValidForm } from '../validation';
 import { reduceErrors } from '../utilities/data/reduceErrors';
 import { setFormErrors } from '../actions';
 
-const Element = Scroll.Element;
-const scroller = Scroll.scroller;
+const { Element, scroller } = Scroll;
 
 /*
  * Displays all the pages in a chapter on the review page
@@ -29,6 +28,7 @@ class ReviewCollapsibleChapter extends React.Component {
     super();
     this.handleEdit = this.handleEdit.bind(this);
   }
+
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillMount() {
     this.id = uniqueId();
@@ -361,13 +361,13 @@ class ReviewCollapsibleChapter extends React.Component {
                 aria-expanded={this.props.open ? 'true' : 'false'}
                 aria-controls={`collapsible-${this.id}`}
                 onClick={this.props.toggleButtonClicked}
+                id={`collapsibleButton${this.id}`}
               >
                 {chapterTitle || ''}
               </button>
               {this.props.hasUnviewedPages && (
                 <span
-                  role="presentation"
-                  aria-hidden="true"
+                  aria-describedby={`collapsibleButton${this.id}`}
                   className="schemaform-review-chapter-warning-icon"
                 />
               )}

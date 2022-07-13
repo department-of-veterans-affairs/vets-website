@@ -1,15 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import propTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import { focusElement } from 'platform/utilities/ui';
 
 import { createSetSession } from '../../../actions/authentication';
 
 import BackToHome from '../../../components/BackToHome';
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
-import Footer from '../../../components/Footer';
+import Footer from '../../../components/layout/Footer';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
@@ -62,9 +61,11 @@ const Index = ({ router }) => {
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
   const [dobErrorMessage, setDobErrorMessage] = useState();
 
-  const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
-    true,
-  );
+  const {
+    getValidateAttempts,
+    incrementValidateAttempts,
+    resetAttempts,
+  } = useSessionStorage(true);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
 
@@ -89,6 +90,7 @@ const Index = ({ router }) => {
         token,
         setSession,
         app,
+        resetAttempts,
       );
     },
     [
@@ -100,6 +102,7 @@ const Index = ({ router }) => {
       last4Ssn,
       lastName,
       dob,
+      resetAttempts,
       setSession,
       showValidateError,
       token,
@@ -107,9 +110,14 @@ const Index = ({ router }) => {
     ],
   );
 
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  const validateErrorMessage = isLorotaSecurityUpdatesEnabled
+    ? t(
+        'sorry-we-couldnt-find-an-account-that-matches-that-last-name-or-date-of-birth-please-try-again',
+      )
+    : t(
+        'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
+      );
+
   return (
     <>
       <ValidateDisplay
@@ -136,9 +144,7 @@ const Index = ({ router }) => {
         }}
         Footer={Footer}
         showValidateError={showValidateError}
-        validateErrorMessage={t(
-          'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
-        )}
+        validateErrorMessage={validateErrorMessage}
       />
       <BackToHome />
     </>

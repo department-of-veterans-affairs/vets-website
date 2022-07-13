@@ -42,6 +42,10 @@
   }
 }
 
+.claim-list-item-container a {
+  position: relative;
+}
+
 @media (max-width: $medium-screen) {
   .claims-status-content .help-sidebar {
     margin-top: 0px;
@@ -157,6 +161,7 @@
 
 .claim-list-item-header-v2 {
   margin-top: -2rem;
+  white-space: pre-line;
 }
 
 .claim-list-item:hover .claim-list-item-header {

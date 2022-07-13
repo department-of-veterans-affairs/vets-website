@@ -9,26 +9,25 @@ import { makeSelectVeteranData } from '../../../selectors';
 const { isEmpty } = require('lodash');
 
 const LoadingPage = props => {
-  const { router, isUpdatePageEnabled } = props;
+  const { router } = props;
   const { t } = useTranslation();
 
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const { goToErrorPage, goToNextPage } = useFormRouting(router);
 
-  try {
-    useGetCheckInData(true, isUpdatePageEnabled, false);
-  } catch (e) {
-    goToErrorPage();
-  }
+  const { checkInDataError } = useGetCheckInData(true);
 
   useEffect(
     () => {
+      if (checkInDataError) {
+        goToErrorPage();
+      }
       if (!isEmpty(demographics)) {
         goToNextPage();
       }
     },
-    [demographics, goToNextPage],
+    [checkInDataError, demographics, goToErrorPage, goToNextPage],
   );
 
   return (
@@ -38,7 +37,6 @@ const LoadingPage = props => {
 
 LoadingPage.propTypes = {
   isSessionLoading: PropTypes.bool,
-  isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
 };
 

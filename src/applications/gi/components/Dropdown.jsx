@@ -44,11 +44,12 @@ const Dropdown = ({
         onFocus={() => onFocus(dropdownId)}
       >
         {options.map(
-          ({ optionValue, optionLabel }, index) =>
+          ({ optionValue, optionLabel, optionDisabled }, index) =>
             optionLabel && (
               <option
                 key={index}
                 value={optionValue}
+                disabled={optionDisabled}
                 className={
                   optionValue === value
                     ? 'vads-u-font-weight--bold'

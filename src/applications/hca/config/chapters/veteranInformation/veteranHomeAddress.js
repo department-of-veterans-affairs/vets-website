@@ -3,15 +3,31 @@ import merge from 'lodash/merge';
 
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-import { AddressDescription } from '../../../components/ContentComponents';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
 } from 'platform/forms/definitions/address';
 
+import { AddressDescription } from '../../../components/ContentComponents';
+import { ShortFormMessage } from '../../../components/FormAlerts';
+import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
+
 export default {
   uiSchema: {
-    'ui:description': PrefillMessage,
+    'view:homeAddressShortFormMessage': {
+      'ui:description': ShortFormMessage,
+      'ui:options': {
+        hideIf: form =>
+          !(
+            form['view:hcaShortFormEnabled'] &&
+            form['view:totalDisabilityRating'] &&
+            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
+          ),
+      },
+    },
+    'view:prefillMessage': {
+      'ui:description': PrefillMessage,
+    },
     veteranHomeAddress: merge({}, addressUI('Home address', true), {
       'ui:description': <AddressDescription addressType="home" />,
       street: {
@@ -35,6 +51,8 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      'view:homeAddressShortFormMessage': emptyObjectSchema,
+      'view:prefillMessage': emptyObjectSchema,
       veteranHomeAddress: merge({}, addressSchema(fullSchemaHca, true), {
         properties: {
           street: {

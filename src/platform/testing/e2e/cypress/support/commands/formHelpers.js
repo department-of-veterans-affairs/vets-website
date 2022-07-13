@@ -31,10 +31,39 @@ Cypress.Commands.add('selectRadio', (fieldName, value) => {
 });
 Cypress.Commands.add('fillDate', (fieldName, dateString) => {
   const date = dateString.split('-');
-  cy.get(`#${fieldName}Month`).select(parseInt(date[1], 10).toString());
-  cy.get(`#${fieldName}Day`).select(parseInt(date[2], 10).toString());
-  cy.fill(`input[name="${fieldName}Year"]`, parseInt(date[0], 10).toString());
+  cy.document().then(doc => {
+    const vaDate = doc.querySelector(`va-date[name="${fieldName}"]`);
+    if (vaDate) {
+      cy.wrap(vaDate)
+        .shadow()
+        .then(el => {
+          cy.wrap(el)
+            .find('va-select.select-month')
+            .shadow()
+            .find('select')
+            .select(date[1]);
+          cy.wrap(el)
+            .find('va-select.select-day')
+            .shadow()
+            .find('select')
+            .select(date[2]);
+          cy.wrap(el)
+            .find('va-text-input.input-year')
+            .shadow()
+            .find('input')
+            .type(date[0]);
+        });
+    } else {
+      cy.get(`#${fieldName}Month`).select(parseInt(date[1], 10).toString());
+      cy.get(`#${fieldName}Day`).select(parseInt(date[2], 10).toString());
+      cy.fill(
+        `input[name="${fieldName}Year"]`,
+        parseInt(date[0], 10).toString(),
+      );
+    }
+  });
 });
+
 Cypress.Commands.add('selectYesNo', (fieldName, condition) => {
   const target = `input[id="${fieldName}${condition ? 'Yes' : 'No'}"]`;
   cy.get(target).click();

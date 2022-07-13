@@ -3,11 +3,14 @@ import merge from 'lodash/merge';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
 import InsuranceProviderView from '../../../components/InsuranceProviderView';
+import { ShortFormMessage } from '../../../components/FormAlerts';
 
 import {
   healthInsuranceCoverageQuestionDescription,
   hasTricareWhatIsMyPolicyNumberDescription,
   healthInsuranceDescription,
+  HIGH_DISABILITY,
+  emptyObjectSchema,
 } from '../../../helpers';
 
 const { provider } = fullSchemaHca.definitions;
@@ -15,7 +18,21 @@ const { isCoveredByHealthInsurance } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
-    'ui:description': healthInsuranceDescription,
+    'view:generalShortFormMessage': {
+      'ui:description': ShortFormMessage,
+      'ui:options': {
+        hideIf: form =>
+          !form['view:hcaShortFormEnabled'] ||
+          (form.vaCompensationType !== 'highDisability' &&
+            !(
+              form['view:totalDisabilityRating'] &&
+              form['view:totalDisabilityRating'] >= HIGH_DISABILITY
+            )),
+      },
+    },
+    'view:healthInsuranceDescription': {
+      'ui:description': healthInsuranceDescription,
+    },
     isCoveredByHealthInsurance: {
       'ui:title': 'Do you have health insurance coverage?',
       'ui:description': healthInsuranceCoverageQuestionDescription,
@@ -27,6 +44,12 @@ export default {
         itemName: 'insurance policy',
         hideTitle: true,
         viewField: InsuranceProviderView,
+        itemAriaLabel: data => {
+          const INSURANCE_TITLE = `${
+            data.insuranceName
+          } ${data.insurancePolicyNumber ?? data.insuranceGroupCode}`;
+          return data.insuranceName ? INSURANCE_TITLE : 'insurance policy';
+        },
       },
       'ui:errorMessages': {
         minItems: 'You need to at least one provider.',
@@ -108,6 +131,8 @@ export default {
     type: 'object',
     required: ['isCoveredByHealthInsurance'],
     properties: {
+      'view:generalShortFormMessage': emptyObjectSchema,
+      'view:healthInsuranceDescription': emptyObjectSchema,
       isCoveredByHealthInsurance,
       providers: {
         type: 'array',
@@ -115,18 +140,9 @@ export default {
         items: merge({}, provider, {
           required: ['insuranceName', 'insurancePolicyHolderName'],
           properties: {
-            'view:policyOrGroupDesc': {
-              type: 'object',
-              properties: {},
-            },
-            'view:hasTricare': {
-              type: 'object',
-              properties: {},
-            },
-            'view:or': {
-              type: 'object',
-              properties: {},
-            },
+            'view:policyOrGroupDesc': emptyObjectSchema,
+            'view:hasTricare': emptyObjectSchema,
+            'view:or': emptyObjectSchema,
           },
         }),
       },
