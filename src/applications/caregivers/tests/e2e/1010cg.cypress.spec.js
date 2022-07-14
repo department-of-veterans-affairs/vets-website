@@ -287,6 +287,7 @@ const testSecondaryTwo = createTestConfig(
         });
       },
     },
+    skip: true,
   },
   manifest,
   formConfig,

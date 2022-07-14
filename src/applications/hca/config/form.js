@@ -231,7 +231,7 @@ const formConfig = {
         },
         demographicInformation: {
           path: 'veteran-information/demographic-information',
-          title: 'Race, ethnicity, origin',
+          title: 'What is your race, ethnicity, or origin?',
           initialData: {
             'view:demographicCategories': {
               isSpanishHispanicLatino: false,
