@@ -23,6 +23,8 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
+          checkInExperiencePhoneAppointmentsEnabled: false,
+          checkInExperienceLorotaSecurityUpdatesEnabled: false,
         }),
       );
     },
@@ -70,7 +72,21 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           emergencyContactEnabled: true,
+          checkInExperiencePhoneAppointmentsEnabled: false,
           checkInExperienceLorotaSecurityUpdatesEnabled: true,
+        }),
+      );
+    },
+    withPhoneAppointments: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          emergencyContactEnabled: true,
+          checkInExperienceLorotaSecurityUpdatesEnabled: false,
+          checkInExperiencePhoneAppointmentsEnabled: true,
         }),
       );
     },
@@ -117,8 +133,11 @@ class ApiInitializer {
     },
     withValidation: () => {
       cy.intercept('POST', '/check_in/v2/sessions', req => {
-        const { last4, lastName } = req.body?.session || {};
-        if (last4 === '1234' && lastName === 'Smith') {
+        const { last4, lastName, dob } = req.body?.session || {};
+        if (
+          (last4 === '1234' || dob === '1989-03-15') &&
+          lastName === 'Smith'
+        ) {
           req.reply(
             session.post.createMockSuccessResponse('some-token', 'read.full'),
           );
@@ -259,6 +278,7 @@ class ApiInitializer {
       nextOfKinConfirmedAt = null,
       emergencyContactNeedsUpdate = true,
       emergencyContactConfirmedAt = null,
+      timezone = 'browser',
     } = {}) => {
       cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
         const rv = checkInData.get.createMultipleAppointments(
@@ -270,11 +290,20 @@ class ApiInitializer {
           nextOfKinConfirmedAt,
           emergencyContactNeedsUpdate,
           emergencyContactConfirmedAt,
+          timezone,
         );
         if (appointments && appointments.length) {
           const customAppointments = [];
           appointments.forEach(appointment => {
-            const createdAppointment = checkInData.get.createAppointment();
+            const createdAppointment = checkInData.get.createAppointment(
+              'ELIGIBLE',
+              'some-facility',
+              'some-ien',
+              'TEST CLINIC',
+              false,
+              '',
+              timezone,
+            );
             customAppointments.push(
               Object.assign(createdAppointment, appointment),
             );
@@ -363,8 +392,11 @@ class ApiInitializer {
         req.reply(checkInData.patch.createMockSuccessResponse());
       }).as('demographicsPatchSuccessAlias');
     },
-    withFailure: (errorCode = 400) => {
+    withFailure: (errorCode = 400, delay = 0) => {
       cy.intercept('PATCH', `/check_in/v2/demographics/*`, req => {
+        req.on('response', res => {
+          res.setDelay(delay);
+        });
         req.reply(errorCode, checkInData.patch.createMockFailedResponse({}));
       }).as('demographicsPatchFailureAlias');
     },

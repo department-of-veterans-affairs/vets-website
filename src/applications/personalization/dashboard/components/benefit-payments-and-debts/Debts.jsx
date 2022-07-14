@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import CTALink from '../CTALink';
 import recordEvent from '~/platform/monitoring/record-event';
 
-export const Debts = ({ debts, hasError }) => {
+export const Debts = ({ debts, hasError, removeBottomPadding }) => {
   if (hasError) {
     return (
       <div
@@ -30,8 +30,14 @@ export const Debts = ({ debts, hasError }) => {
     );
   }
 
+  let classes =
+    'vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1';
+  classes = removeBottomPadding
+    ? classes
+    : classes.concat(' vads-u-margin-bottom--2p5');
+
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5">
+    <div className={classes}>
       <va-alert status="warning" show-icon data-testid="debt-count-alert">
         <div className="vads-u-margin-top--0">
           You have {debtsCount} outstanding debt
@@ -78,6 +84,7 @@ Debts.propTypes = {
     }),
   ),
   hasError: PropTypes.bool,
+  removeBottomPadding: PropTypes.bool,
 };
 
 export default Debts;

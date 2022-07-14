@@ -17,6 +17,7 @@
   "check-in-at-va": "Check in at VA",
   "check-in-now": "Check in now",
   "check-in-now-for-your-appointment": "Check in now for your appointment",
+  "check-in-now-for-your-time-appointment": "Check in now for your {{ time, time }} appointment",
   "check-in-with-a-staff-member": "Check in with a staff member",
   "child-in-law": "Child in-law",
   "city-is-required": "City is required",
@@ -168,5 +169,11 @@
   "during-pre-check-in-you-can-review-your-personal-emergency-contact-and-next-of-kin-information-and-confirm-its-up-to-date-this-helps-us-better-prepare-for-your-appointment": "During pre-check-in, you can review your personal, emergency contact, and next of kin information and confirm it’s up to date. This helps us better prepare for your appointment.",
   "you-can-also-sign-in-to-your-va-account-to-review-your-information": "You can also <0>{{link}}</0> to your VA account to review your information.",
   "sign-in": "sign in",
-  "sign-in-to-manage": "Sign in to manage all appointments"
+  "sign-in-to-manage": "Sign in to manage all appointments",
+  "sorry-we-couldnt-find-an-account-that-matches-that-last-name-or-date-of-birth-please-try-again": "Sorry, we couldn’t find an account that matches that last name or date of birth. Please try again.",
+  "were-sorry-we-couldnt-match-your-information-to-our-records": "We’re sorry. We couldn’t match your information to our records.",
+  "in-person-appointment": "In-person appointment",
+  "you-can-still-check-in-with-your-phone-on-the-day-of-your-appointment": "You can still check-in with your phone on the day of your appointment.",
+  "telephone-appointment": "Telephone appointment",
+  "your-provider-will-call-you-at-your-appointment-time-you-may-need-to-wait-about-15-minutes-for-their-call-thanks-for-your-patience": "Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience."
 }

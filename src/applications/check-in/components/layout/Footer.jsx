@@ -16,7 +16,7 @@ const Footer = ({ header, message }) => {
     <footer>
       <h2
         data-testid="heading"
-        className="help-heading vads-u-font-size--lg vads-u-padding-bottom--1 vads-u-border-bottom--3px vads-u-border-color--primary"
+        className="vads-u-font-size--lg vads-u-padding-bottom--1 vads-u-border-bottom--3px vads-u-border-color--primary"
       >
         {header ?? t('need-help')}
       </h2>
@@ -47,7 +47,10 @@ const Footer = ({ header, message }) => {
           </p>
           <p>
             {t('if-you-have-hearing-loss-call')}{' '}
-            <va-telephone contact="711">{t('tty-711')}</va-telephone>.
+            {/* Not using the va-telephone component due to issues with 711 link. To re-evaluate after component is fixed. */}
+            <a href="tel:711" aria-label="TTY. 7 1 1.">
+              {t('tty-711')}
+            </a>
           </p>
         </>
       ) : (
