@@ -18,9 +18,9 @@ export const VETERAN_NOT_LISTED_VALUE = 'VETERAN_NOT_LISTED';
 export const VETERANS_TYPE = PropTypes.arrayOf(
   PropTypes.shape({
     dateOfBirth: PropTypes.string,
-    deaEligibility: PropTypes.number,
+    deaEligibility: PropTypes.bool,
     deaStartDate: PropTypes.string,
-    fryEligibility: PropTypes.number,
+    fryEligibility: PropTypes.bool,
     fryStartDate: PropTypes.string,
     id: PropTypes.string,
     name: PropTypes.string,

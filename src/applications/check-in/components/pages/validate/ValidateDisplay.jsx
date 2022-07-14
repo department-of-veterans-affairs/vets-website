@@ -1,7 +1,8 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { focusElement } from 'platform/utilities/ui';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Date } from '@department-of-veterans-affairs/component-library';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
@@ -23,6 +24,13 @@ export default function ValidateDisplay({
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+
+  useEffect(
+    () => {
+      if (showValidateError) focusElement('.validate-error-alert');
+    },
+    [showValidateError],
+  );
 
   const updateField = useCallback(
     event => {
@@ -63,14 +71,16 @@ export default function ValidateDisplay({
           )}
       </p>
       {showValidateError ? (
-        <va-alert
-          background-only
-          status="error"
-          show-icon
-          data-testid="validate-error-alert"
-        >
-          <div>{validateErrorMessage}</div>
-        </va-alert>
+        <div className="validate-error-alert" tabIndex="-1">
+          <va-alert
+            background-only
+            status="error"
+            show-icon
+            data-testid="validate-error-alert"
+          >
+            <div>{validateErrorMessage}</div>
+          </va-alert>
+        </div>
       ) : (
         <></>
       )}
@@ -121,7 +131,6 @@ export default function ValidateDisplay({
           className="usa-button usa-button-big vads-u-margin-top--4"
           data-testid="check-in-button"
           disabled={isLoading}
-          aria-label={t('check-in-now-for-your-appointment')}
         >
           {' '}
           {isLoading ? (

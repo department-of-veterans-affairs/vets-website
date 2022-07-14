@@ -149,6 +149,10 @@
         {
            "name":"show_healthcare_experience_questionnaire",
            "value":false
+        },
+        {
+           "name":"sign_in_service_enabled",
+           "value":false
         }
      ]
   }

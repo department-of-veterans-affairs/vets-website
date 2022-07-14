@@ -40,7 +40,7 @@ describe('Check In Experience -- ', () => {
 
       // Third/Final attempt
       ValidateVeteran.validateVeteran('Sith', '4321');
-      ValidateVeteran.validateErrorAlert(true);
+      ValidateVeteran.validateErrorAlert();
       ValidateVeteran.attemptToGoToNextPage();
 
       Error.validatePageLoaded(true);

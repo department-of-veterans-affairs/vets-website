@@ -5,7 +5,7 @@ class Appointments {
   validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Your appointments');
+      .and('have.text', 'Your appointments:');
   };
 
   validateAppointmentLength = length => {

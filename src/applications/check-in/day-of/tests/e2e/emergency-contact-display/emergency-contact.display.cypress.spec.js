@@ -13,11 +13,13 @@ describe('Check In Experience', () => {
         initializeSessionGet,
         initializeSessionPost,
         initializeCheckInDataGet,
+        initializeDemographicsPatch,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataGet.withSuccess();
+      initializeDemographicsPatch.withSuccess();
 
       cy.visitWithUUID();
       ValidateVeteran.validatePage.dayOf();

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+<<<<<<< HEAD
 import { formatAddress } from 'platform/forms/address/helpers';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { focusElement } from 'platform/utilities/ui';
@@ -13,6 +14,17 @@ import {
   isPendingTransaction,
 } from 'platform/user/profile/vap-svc/util/transactions';
 import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
+=======
+import {
+  isFailedTransaction,
+  isPendingTransaction,
+} from '@@vap-svc/util/transactions';
+import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
+import { hasBadAddress } from '@@profile/selectors';
+import { formatAddress } from '~/platform/forms/address/helpers';
+import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+
+>>>>>>> main
 import {
   openModal,
   createTransaction,
@@ -54,11 +66,25 @@ class AddressValidationModal extends React.Component {
 
     const method = payload.id ? 'PUT' : 'POST';
 
-    recordEvent({
-      event: 'profile-transaction',
-      'profile-section': analyticsSectionName,
-      'profile-addressSuggestionUsed': suggestedAddressSelected ? 'yes' : 'no',
-    });
+    if (this.props.userHasBadAddress) {
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'Updating bad address',
+        'api-status': 'started',
+        'profile-section': analyticsSectionName,
+        'profile-addressSuggestionUsed': suggestedAddressSelected
+          ? 'yes'
+          : 'no',
+      });
+    } else {
+      recordEvent({
+        event: 'profile-transaction',
+        'profile-section': analyticsSectionName,
+        'profile-addressSuggestionUsed': suggestedAddressSelected
+          ? 'yes'
+          : 'no',
+      });
+    }
 
     if (suggestedAddressSelected) {
       this.props.updateValidationKeyAndSave(
@@ -272,6 +298,10 @@ class AddressValidationModal extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   const { transaction } = ownProps;
   const { addressValidationType } = state.vapService.addressValidation;
+<<<<<<< HEAD
+=======
+  const userHasBadAddress = hasBadAddress(state);
+>>>>>>> main
 
   return {
     analyticsSectionName:
@@ -289,6 +319,7 @@ const mapStateToProps = (state, ownProps) => {
     addressFromUser: state.vapService.addressValidation.addressFromUser,
     selectedAddress: state.vapService.addressValidation.selectedAddress,
     selectedAddressId: state.vapService.addressValidation.selectedAddressId,
+    userHasBadAddress,
   };
 };
 
@@ -335,6 +366,7 @@ AddressValidationModal.propTypes = {
   createTransaction: PropTypes.func.isRequired,
   updateSelectedAddress: PropTypes.func.isRequired,
   updateValidationKeyAndSave: PropTypes.func.isRequired,
+  userHasBadAddress: PropTypes.bool,
 };
 
 export default connect(

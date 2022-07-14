@@ -246,7 +246,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
     expect(tree.find('.usa-button-primary').text()).to.contain(
       'Sign in to start your application',
     );
-    expect(tree.find('.va-button-link').text()).to.contain(
+    expect(tree.find('.schemaform-start-button').html()).to.contain(
       'Start your application without signing in',
     );
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
@@ -345,7 +345,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         fetchInProgressForm={fetchInProgressForm}
         removeInProgressForm={removeInProgressForm}
         toggleLoginModal={toggleLoginModal}
-        retentionPeriod={'1 year'}
+        retentionPeriod="1 year"
         formConfig={formConfig}
       />,
     );
@@ -385,7 +385,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
       />,
     );
 
-    expect(tree.find('LoadingIndicator').exists()).to.be.true;
+    expect(tree.find('va-loading-indicator').exists()).to.be.true;
     expect(tree.find('withRouter(FormStartControls)').exists()).to.be.false;
     tree.unmount();
   });
