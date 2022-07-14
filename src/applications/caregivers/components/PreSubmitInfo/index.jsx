@@ -96,6 +96,7 @@ const PreSubmitCheckboxGroup = ({
         ...transformSignatures(signatures),
       });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [setFormData, signatures],
   );
 
@@ -270,10 +271,10 @@ const PreSubmitCheckboxGroup = ({
 };
 
 PreSubmitCheckboxGroup.propTypes = {
+  formData: PropTypes.object.isRequired,
+  setFormData: PropTypes.func.isRequired,
   showError: PropTypes.bool.isRequired,
   onSectionComplete: PropTypes.func.isRequired,
-  setFormData: PropTypes.func.isRequired,
-  formData: PropTypes.object.isRequired,
   submission: PropTypes.shape({
     hasAttemptedSubmit: PropTypes.bool,
     errorMessage: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),

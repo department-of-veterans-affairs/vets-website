@@ -7,12 +7,12 @@ import {
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 import get from 'platform/utilities/data/get';
-import { veteranFields } from '../constants';
 import {
   medicalCenterLabels,
   medicalCentersByState,
   facilityNameMaxLength,
 } from 'applications/caregivers/helpers';
+import { veteranFields } from '../constants';
 
 const emptyFacilityList = [];
 const stateLabels = createUSAStateLabels(states);
@@ -24,13 +24,13 @@ export const previousTreatmentFacilityUI = {
   'ui:title': ' ',
   'ui:order': ['name', 'type'],
   'ui:description': (
-    <div>
-      <h3 className="vads-u-font-size--h4">Recent medical care</h3>
+    <div className="vads-u-margin-top--neg2">
+      <h3 className="vads-u-font-size--h4 vads-u-margin-top--0">
+        Recent medical care
+      </h3>
       <p>
-        Please enter the name of the medical facility where the Veteran
-        <strong className="vads-u-margin-left--0p5">
-          last received medical treatment.
-        </strong>
+        Please enter the name of the medical facility where the Veteran{' '}
+        <strong>last received medical treatment.</strong>
       </p>
     </div>
   ),

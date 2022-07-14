@@ -1,23 +1,25 @@
 import React from 'react';
-import { ENROLLMENTS_TYPE, formatNumericalDate } from '../helpers';
+import { formatNumericalDate, MONTH_PROP_TYPE } from '../helpers';
 
-export default function EnrollmentVerificationMonthInfo({ enrollments }) {
-  const enrollmentInstitutions = enrollments?.map((enrollment, index) => {
-    return (
-      <li className="ev-month-info-institutions_institution" key={index}>
-        <p className="vads-u-margin-y--0">
-          <strong>
-            {formatNumericalDate(enrollment.startDate)} &ndash;{' '}
-            {formatNumericalDate(enrollment.endDate)}
-          </strong>{' '}
-          at {enrollment.institution}
-        </p>
-        <p className="vads-u-margin-y--0">
-          <strong>Total credit hours:</strong> {enrollment.creditHours}
-        </p>
-      </li>
-    );
-  });
+export default function EnrollmentVerificationMonthInfo({ month }) {
+  const enrollmentInstitutions = month?.enrollments?.map(
+    (enrollment, index) => {
+      return (
+        <li className="ev-month-info-institutions_institution" key={index}>
+          <p className="vads-u-margin-y--0">
+            <strong>
+              {formatNumericalDate(month.certifiedBeginDate)} &ndash;{' '}
+              {formatNumericalDate(month.certifiedEndDate)}
+            </strong>{' '}
+            at {enrollment.facilityName}
+          </p>
+          <p className="vads-u-margin-y--0">
+            <strong>Total credit hours:</strong> {enrollment.totalCreditHours}
+          </p>
+        </li>
+      );
+    },
+  );
 
   return (
     <ul className="ev-month-info-institutions vads-u-margin-y--0 vads-u-padding-left--0">
@@ -27,5 +29,5 @@ export default function EnrollmentVerificationMonthInfo({ enrollments }) {
 }
 
 EnrollmentVerificationMonthInfo.propTypes = {
-  enrollments: ENROLLMENTS_TYPE,
+  month: MONTH_PROP_TYPE,
 };

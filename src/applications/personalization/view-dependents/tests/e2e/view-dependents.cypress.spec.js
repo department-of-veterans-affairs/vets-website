@@ -1,6 +1,7 @@
 import manifest from '../../manifest.json';
 import mockDependents from './fixtures/mock-dependents.json';
 import mockNoAwardDependents from './fixtures/mock-no-dependents-on-award.json';
+import { PAGE_TITLE } from '../../util';
 
 const DEPENDENTS_ENDPOINT = 'v0/dependents_applications/show';
 
@@ -13,8 +14,10 @@ const testHappyPath = () => {
   cy.intercept('GET', DEPENDENTS_ENDPOINT, mockDependents).as('mockDependents');
   cy.visit(manifest.rootUrl);
   testAxe();
-  cy.findByRole('heading', { name: /Your VA Dependents/i }).should('exist');
-  cy.findAllByRole('term', { name: /relationship/ }).should('have.length', 4);
+  cy.findByRole('heading', { name: new RegExp(PAGE_TITLE, 'i') }).should(
+    'exist',
+  );
+  cy.get('dt').should('have.length', 12);
   testAxe();
 };
 

@@ -15,10 +15,17 @@ const v2 = {
       ...json,
     };
   },
-  postSession: async ({ lastName, last4, token, checkInType = '' }) => {
+  postSession: async ({
+    lastName,
+    last4,
+    dob,
+    token,
+    checkInType = '',
+    isLorotaSecurityUpdatesEnabled = false,
+  }) => {
     const url = '/check_in/v2/sessions/';
     const headers = { 'Content-Type': 'application/json' };
-    const data = {
+    let data = {
       session: {
         uuid: token,
         last4: last4.trim(),
@@ -26,6 +33,17 @@ const v2 = {
         checkInType,
       },
     };
+    if (isLorotaSecurityUpdatesEnabled) {
+      data = {
+        session: {
+          uuid: token,
+          dob,
+          lastName: lastName.trim(),
+          checkInType,
+        },
+      };
+    }
+
     const body = JSON.stringify(data);
     const settings = {
       headers,
@@ -43,6 +61,7 @@ const v2 = {
       ...json,
     };
   },
+
   getCheckInData: async token => {
     const url = '/check_in/v2/patient_check_ins/';
     const json = await makeApiCallWithSentry(
@@ -156,32 +175,6 @@ const v2 = {
     const json = await makeApiCallWithSentry(
       apiRequest(`${environment.API_URL}${url}${uuid}`, settings),
       'patch-demographics-update-flags',
-      uuid,
-    );
-    return {
-      ...json,
-    };
-  },
-  postDemographicsData: async ({ demographics, uuid }) => {
-    const url = '/check_in/v2/edit_demographics/';
-    const headers = { 'Content-Type': 'application/json' };
-    const data = {
-      preCheckIn: {
-        demographics,
-        uuid,
-      },
-    };
-    const body = JSON.stringify(data);
-    const settings = {
-      headers,
-      body,
-      method: 'POST',
-      mode: 'cors',
-    };
-
-    const json = await makeApiCallWithSentry(
-      apiRequest(`${environment.API_URL}${url}`, settings),
-      'pre-check-in-user-edit-demographics',
       uuid,
     );
     return {

@@ -113,7 +113,14 @@ describe('VAOS V2 data transformation', () => {
         },
         extension: { desiredDate: '2019-12-02T00:00:00+00:00' },
         locationId: '983',
-        // comment: 'Follow-up/Routine: asdfasdf',
+        reasonCode: {
+          coding: [
+            {
+              code: 'Routine Follow-up',
+            },
+          ],
+          text: 'asdfasdf',
+        },
       });
     });
   });
@@ -183,9 +190,92 @@ describe('VAOS V2 data transformation', () => {
         serviceType: 'cpap',
         reasonCode: {
           coding: [{ code: 'Routine Follow-up' }],
-          text: 'Routine Follow-up',
+          text: 'Testing',
         },
-        comment: 'Testing',
+        contact: {
+          telecom: [
+            { type: 'phone', value: '5035551234' },
+            { type: 'email', value: 'test@va.gov' },
+          ],
+        },
+        requestedPeriods: [
+          { start: '2019-11-20T12:00:00Z', end: '2019-11-20T23:59:00Z' },
+        ],
+        preferredTimesForPhoneCall: ['Morning'],
+      });
+    });
+
+    it('reasonCode text is 100 characters and less when My reason isn/`t listed is chosen', () => {
+      // Given a user has entered 250 max characters for additional information
+      const reasonAdditionalInfo =
+        'The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog. The quick brown fox jumped over the lazy dog.';
+      // When the VA request is submitted
+      const state = {
+        newAppointment: {
+          data: {
+            phoneNumber: '5035551234',
+            bestTimeToCall: {
+              morning: true,
+            },
+            email: 'test@va.gov',
+            visitType: 'clinic',
+            reasonForAppointment: 'other',
+            reasonAdditionalInfo,
+            selectedDates: ['2019-11-20T12:00:00.000'],
+            vaParent: '983',
+            vaFacility: '983GB',
+            facilityType: 'vamc',
+            typeOfCareId: 'SLEEP',
+            typeOfSleepCareId: '349',
+          },
+          parentFacilities: [
+            {
+              id: '983',
+              identifier: [
+                {
+                  system: VHA_FHIR_ID,
+                  value: '983',
+                },
+              ],
+            },
+          ],
+          facilities: {
+            '349': [
+              {
+                id: '983GB',
+                identifier: [
+                  {
+                    system: VHA_FHIR_ID,
+                    value: '983GB',
+                  },
+                ],
+                name: 'Cheyenne VA Medical Center',
+                address: {
+                  city: 'Cheyenne',
+                  state: 'WY',
+                },
+                legacyVAR: {
+                  institutionTimezone: 'America/Denver',
+                },
+              },
+            ],
+          },
+          flowType: FLOW_TYPES.REQUEST,
+        },
+        featureToggles: {},
+      };
+
+      const data = transformFormToVAOSVARequest(state);
+      // Then the reasonCode text will submit the first 100 characters
+      expect(data).to.deep.equal({
+        kind: 'clinic',
+        status: 'proposed',
+        locationId: '983GB',
+        serviceType: 'cpap',
+        reasonCode: {
+          coding: undefined,
+          text: reasonAdditionalInfo.slice(0, 100),
+        },
         contact: {
           telecom: [
             { type: 'phone', value: '5035551234' },

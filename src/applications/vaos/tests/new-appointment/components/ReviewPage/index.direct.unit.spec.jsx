@@ -154,7 +154,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
 
     expect(contactHeading).to.contain.text('Your contact details');
     expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
-    expect(screen.baseElement).to.contain.text('223-456-7890');
+    expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.baseElement).to.not.contain.text(
       'Call anytime during the day',
     );
@@ -223,13 +223,13 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
       'Something went wrong when we tried to submit your appointment. Call your VA medical center to schedule this appointment.',
     );
 
-    await screen.findByText('307-778-7550');
-
     // Not sure of a better way to search for test just within the alert
     const alert = screen.baseElement.querySelector('va-alert');
     expect(alert).contain.text('Cheyenne VA Medical Center');
     expect(alert).contain.text('2360 East Pershing Boulevard');
     expect(alert).contain.text('Cheyenne, WyomingWY 82001-5356');
+    expect(screen.getByTestId('facility-telephone')).to.exist;
+
     expect(screen.history.push.called).to.be.false;
     waitFor(() => {
       expect(document.activeElement).to.be(alert);
@@ -268,7 +268,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
       'You already have an overlapping booked appointment. Please schedule for a different day.',
     );
 
-    await screen.findByText('307-778-7550');
+    expect(screen.getByTestId('facility-telephone')).to.exist;
 
     // Not sure of a better way to search for test just within the alert
     const alert = screen.baseElement.querySelector('va-alert');
@@ -313,7 +313,7 @@ describe('VAOS <ReviewPage> direct scheduling', () => {
       `Something went wrong when we tried to submit your appointment. You can try again later, or call your VA medical center to help with your appointment`,
     );
 
-    await screen.findByText('307-778-7550');
+    expect(screen.getByTestId('facility-telephone')).to.exist;
 
     // Not sure of a better way to search for test just within the alert
     const alert = screen.baseElement.querySelector('va-alert');
@@ -444,7 +444,7 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
 
     expect(contactHeading).to.contain.text('Your contact details');
     expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
-    expect(screen.baseElement).to.contain.text('223-456-7890');
+    expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.baseElement).to.not.contain.text(
       'Call anytime during the day',
     );
@@ -461,6 +461,9 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
   it('should submit successfully', async () => {
     mockAppointmentSubmitV2({
       id: 'fake_id',
+      attributes: {
+        reasonCode: {},
+      },
     });
 
     const screen = renderWithStoreAndRouter(<ReviewPage />, {
@@ -483,7 +486,10 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
       status: 'booked',
       locationId: '983',
       clinic: '455',
-      // comment: 'Follow-up/Routine: I need an appt',
+      reasonCode: {
+        coding: [{ code: 'Routine Follow-up' }],
+        text: 'I need an appt',
+      },
       extension: {
         desiredDate: '2021-05-06T00:00:00+00:00',
       },
@@ -528,8 +534,8 @@ describe('VAOS <ReviewPage> direct scheduling with v2 api', () => {
     expect(within(alert).getByText(/2360 East Pershing Boulevard/i)).to.be.ok;
     expect(alert).to.contain.text('Cheyenne, WyomingWY');
     expect(within(alert).getByText(/82001-5356/)).to.be.ok;
-    expect(within(alert).getByText(/307-778-7550/)).to.be.ok;
-
+    expect(within(alert).getByTestId('facility-telephone')).to.exist;
+    // expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.history.push.called).to.be.false;
     waitFor(() => {
       expect(document.activeElement).to.be(alert);

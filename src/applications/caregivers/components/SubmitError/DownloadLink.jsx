@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
 import formConfig from 'applications/caregivers/config/form';
 import environment from 'platform/utilities/environment';
@@ -16,7 +15,7 @@ const DownLoadLink = ({ form }) => {
   const [isLoading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
   const getFormData = submitTransform(formConfig, form);
-  const veteranFullName = form.data.veteranFullName;
+  const { veteranFullName } = form.data;
   const pageList = createFormPageList(formConfig);
   const isFormValid = isValidForm(form, pageList);
 
@@ -60,7 +59,7 @@ const DownLoadLink = ({ form }) => {
     return (
       <div className="pdf-download-link--loaded vads-u-margin-top--2">
         <a
-          aria-label="Download 1010-CG filled out PDF form"
+          aria-label="Download 10-10CG filled out PDF form"
           href={PDFLink}
           download={`10-10CG_${veteranFullName.first}_${veteranFullName.last}`}
         >
@@ -69,9 +68,9 @@ const DownLoadLink = ({ form }) => {
             role="img"
             className="fas fa-download vads-u-padding-right--1"
           />
-          Download your completed application
-          <span className="sr-only vads-u-margin-right--0p5">
-            `dated ${moment(Date.now()).format('MMM D, YYYY')}`
+          Download your completed application{' '}
+          <span className="sr-only">
+            `dated ${moment(Date.now()).format('MMM D, YYYY')} `
           </span>
           <dfn>
             <abbr title="Portable Document Format">(PDF)</abbr>
@@ -98,7 +97,8 @@ const DownLoadLink = ({ form }) => {
     return (
       <div className="vads-u-margin-top--2 vads-u-color--secondary-dark pdf-download-link--error">
         <a
-          aria-label="Error downloading 1010-CG PDF"
+          aria-label="Error downloading 10-10CG PDF"
+          href={() => false}
           className="vads-u-color--gray-medium"
         >
           <i
@@ -107,8 +107,8 @@ const DownLoadLink = ({ form }) => {
             className="fas fa-download vads-u-padding-right--1"
           />
           Download your completed application
-          <span className="sr-only vads-u-margin-right--0p5">
-            `dated ${moment(Date.now()).format('MMM D, YYYY')}`
+          <span className="sr-only">
+            ` dated ${moment(Date.now()).format('MMM D, YYYY')}`
           </span>
         </a>
 
@@ -128,7 +128,7 @@ const DownLoadLink = ({ form }) => {
   const renderLoadingIndicator = () => {
     return (
       <div className="pdf-download-link--loading">
-        <LoadingIndicator message="Downloading PDF..." />
+        <va-loading-indicator message="Downloading PDF..." />
       </div>
     );
   };

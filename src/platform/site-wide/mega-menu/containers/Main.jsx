@@ -27,7 +27,7 @@ export function flagCurrentPageInTopLevelLinks(
 ) {
   return links.map(
     link =>
-      pathName.endsWith(link.href) || href === link.href
+      pathName.endsWith(link.href) || href.includes(link.href)
         ? { ...link, currentPage: true }
         : link,
   );

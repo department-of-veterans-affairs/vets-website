@@ -101,17 +101,12 @@ say "INFO: Expanding source into build/"
 mkdir build
 tar -x $compress -C build -f "$(basename "$SOURCE")"
 
-# Exit if BUILD.txt file isn't present in source
-if [ ! -f build/BUILD.txt ] ; then
-    say_err "ERROR: BUILD.txt file missing from source tarball"
-    exit 1
-fi
-
 # Copy filtered assets into 'assets' directory. The build should already
 # only contain application assets, but exclude global assets just to be safe
 say "INFO: Filtering assets for S3 sync"
 mkdir assets
 rsync -a \
+    --exclude 'BUILD.txt' \
     --exclude 'generated/node_modules*' \
     --exclude 'generated/polyfills*' \
     --exclude 'generated/shared-modules.*' \
@@ -135,16 +130,16 @@ aws s3 sync --only-show-errors \
     --acl public-read \
     --cache-control "public, no-cache" \
     --exclude '*' \
-    --include '*.js' \
-    --include '*.css' \
+    --include '*.js*' \
+    --include '*.css*' \
     . "$DEST"
 
 # Compress assets
 say "INFO: Compressing assets"
 find . \
     \( \
-    -name '*.js' -o \
-    -name '*.css' -o \
+    -name '*.js*' -o \
+    -name '*.css*' -o \
     -name '*.txt' \
     \) \
     -exec gzip -n {} \; -exec mv {}.gz {} \;
@@ -156,8 +151,8 @@ aws s3 sync --only-show-errors \
     --content-encoding gzip \
     --cache-control "public, no-cache" \
     --exclude '*' \
-    --include '*.js' \
-    --include '*.css' \
+    --include '*.js*' \
+    --include '*.css*' \
     --include '*.txt' \
     . "$ASSET_DEST"
 

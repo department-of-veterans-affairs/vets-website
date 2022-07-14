@@ -102,8 +102,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(screen.getByText(/Community care/)).to.be.ok;
     expect(screen.getByText(/123/)).to.be.ok;
     expect(screen.getByText(/Burke,/)).to.be.ok;
-    expect(screen.getByRole('link', { name: /7 0 3. 5 5 5. 1 2 6 4./ })).to.be
-      .ok;
+    expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(
       screen.getByRole('heading', {
         level: 2,
@@ -189,7 +188,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     ).to.be.ok;
 
     expect(screen.getByText(/Community care/)).to.be.ok;
-    expect(screen.getByText(/Rick Katz/)).to.be.ok;
+    expect(screen.getByText(/My Eye Dr/)).to.be.ok;
   });
 
   it('should fire a print request when print button clicked', async () => {
@@ -409,7 +408,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage>', () => {
     expect(tokens.has('UID')).to.be.true;
 
     // TODO: Should this be provider practice instead of name???
-    expect(tokens.get('SUMMARY')).to.equal('Appointment at Rick Katz');
+    expect(tokens.get('SUMMARY')).to.equal('Appointment at My Eye Dr');
 
     // The description text longer than 74 characters should start newlines with a tab character
     let description = tokens.get('DESCRIPTION');
@@ -564,6 +563,10 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       practitioners: [
         {
           identifier: [{ system: null, value: '123' }],
+          name: {
+            family: 'Medical Care',
+            given: ['Atlantic'],
+          },
         },
       ],
       description: 'community care appointment',
@@ -571,6 +574,13 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       start: appointmentTime,
       communityCareProvider: {
         practiceName: 'Atlantic Medical Care',
+        provider: {
+          providerName: 'Atlantic Medical Care',
+        },
+      },
+      serviceType: 'audiology',
+      reasonCode: {
+        text: 'test comment',
       },
     };
 
@@ -615,6 +625,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       }),
     ).to.be.ok;
 
+    expect(screen.getByText(/Type of care/)).to.be.ok;
     expect(screen.getByText(/Community care/)).to.be.ok;
     expect(await screen.findByText(/Atlantic Medical Care/)).to.be.ok;
     expect(
@@ -670,6 +681,10 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       practitioners: [
         {
           identifier: [{ system: null, value: '123' }],
+          name: {
+            family: 'Medical Care',
+            given: ['Atlantic'],
+          },
         },
       ],
       description: 'community care appointment',

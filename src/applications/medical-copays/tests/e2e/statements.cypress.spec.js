@@ -5,6 +5,7 @@
  * @testrailinfo groupId 3090
  * @testrailinfo runName MCP-e2e-Statements
  */
+import mockDebt from '../../utils/mocks/debts.json';
 import mockFeatureToggles from './fixtures/mocks/statement-feature-toggles.json';
 import mockCopays from './fixtures/mocks/copays.json';
 import mockUser from './fixtures/mocks/mock-user.json';
@@ -16,6 +17,7 @@ describe('Medical Copays', () => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles);
     cy.intercept('GET', '/v0/medical_copays', mockCopays);
+    cy.intercept('GET', '/v0/debts', mockDebt);
     cy.visit('/health-care/pay-copay-bill/your-current-balances/');
     cy.findByTestId('overview-page-title').should('exist');
     cy.injectAxe();
@@ -28,6 +30,11 @@ describe('Medical Copays', () => {
     cy.findByTestId(`facility-city-${id}`).contains(
       'Ralph H. Johnson Department of Veterans Affairs Medical Center',
     );
+    cy.axeCheck();
+  });
+
+  it('displays other va debts', () => {
+    cy.findByTestId('other-va-debt-body').should('exist');
     cy.axeCheck();
   });
 

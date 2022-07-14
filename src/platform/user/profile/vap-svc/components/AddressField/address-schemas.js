@@ -222,8 +222,9 @@ const uiSchema = {
       widgetClassNames: 'usa-input-medium',
       hideIf: formData => formData.countryCodeIso3 !== USA.COUNTRY_ISO3_CODE,
     },
-    'ui:required': formData =>
-      formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
+    'ui:required': formData => {
+      return formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE;
+    },
   },
   internationalPostalCode: {
     'ui:title': 'International postal code',
@@ -236,8 +237,6 @@ const uiSchema = {
       widgetClassNames: 'usa-input-medium',
       hideIf: formData => formData.countryCodeIso3 === USA.COUNTRY_ISO3_CODE,
     },
-    'ui:required': formData =>
-      formData.countryCodeIso3 !== USA.COUNTRY_ISO3_CODE,
   },
 };
 

@@ -4,12 +4,14 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/Footer';
+import Footer from '../../components/layout/Footer';
 import BackButton from '../../components/BackButton';
+import LanguagePicker from '../../components/LanguagePicker';
 
 import { makeSelectSeeStaffMessage } from '../../selectors';
 import TravelPayReimbursementLink from '../../components/TravelPayReimbursementLink';
 import useSendDemographicsFlags from '../../hooks/useSendDemographicsFlags';
+import MixedLanguageDisclaimer from '../../components/MixedLanguageDisclaimer';
 
 const SeeStaff = props => {
   const { router } = props;
@@ -24,20 +26,24 @@ const SeeStaff = props => {
   }, []);
 
   return (
-    <div className="vads-l-grid-container vads-u-padding-top--3 vads-u-padding-bottom--3">
+    <>
       <BackButton router={router} action={goBack} />
-      <h1 tabIndex="-1" className="vads-u-margin-top--2">
-        {t('check-in-with-a-staff-member')}
-      </h1>
-      {message ? (
-        <span>{message}</span>
-      ) : (
-        <p>{t('our-staff-can-help-you-update-your-contact-information')}</p>
-      )}
-      <TravelPayReimbursementLink />
-      <Footer />
-      <BackToHome />
-    </div>
+      <div className="vads-l-grid-container vads-u-padding-top--3 vads-u-padding-bottom--3">
+        <MixedLanguageDisclaimer />
+        <LanguagePicker />
+        <h1 tabIndex="-1" className="vads-u-margin-top--2">
+          {t('check-in-with-a-staff-member')}
+        </h1>
+        {message ? (
+          <span>{message}</span>
+        ) : (
+          <p>{t('our-staff-can-help-you-update-your-contact-information')}</p>
+        )}
+        <TravelPayReimbursementLink />
+        <Footer />
+        <BackToHome />
+      </div>
+    </>
   );
 };
 

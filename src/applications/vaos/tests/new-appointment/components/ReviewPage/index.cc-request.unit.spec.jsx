@@ -177,7 +177,7 @@ describe('VAOS <ReviewPage> CC request', () => {
 
     expect(contactHeading).to.contain.text('Your contact details');
     expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
-    expect(screen.baseElement).to.contain.text('234-567-8909');
+    expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Call anytime during the day');
 
     const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
@@ -376,7 +376,7 @@ describe('VAOS <ReviewPage> CC request with provider selection', () => {
 
     expect(contactHeading).to.contain.text('Your contact details');
     expect(screen.baseElement).to.contain.text('joeblow@gmail.com');
-    expect(screen.baseElement).to.contain.text('223-456-7890');
+    expect(screen.getByTestId('patient-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Call anytime during the day');
 
     const editLinks = screen.getAllByText(/^Edit/, { selector: 'a' });
@@ -560,6 +560,9 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
 
     mockAppointmentSubmitV2({
       id: 'fake_id',
+      attributes: {
+        reasonCode: {},
+      },
     });
     mockPreferences(null);
 
@@ -583,7 +586,6 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
       status: 'proposed',
       locationId: '983',
       serviceType: 'primaryCare',
-      comment: 'I need an appt',
       contact: {
         telecom: [
           {
@@ -596,14 +598,17 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
           },
         ],
       },
+      reasonCode: {
+        text: 'I need an appt',
+      },
       requestedPeriods: [
         {
-          start: '2020-05-25T00:00:00Z',
-          end: '2020-05-25T11:59:00Z',
+          start: '2020-05-25T06:00:00Z',
+          end: '2020-05-25T17:59:00Z',
         },
         {
-          start: '2020-05-26T12:00:00Z',
-          end: '2020-05-26T23:59:00Z',
+          start: '2020-05-26T18:00:00Z',
+          end: '2020-05-27T05:59:00Z',
         },
       ],
       preferredTimesForPhoneCall: ['Morning', 'Afternoon', 'Evening'],
@@ -646,6 +651,9 @@ describe('VAOS <ReviewPage> CC request with VAOS service', () => {
 
     mockAppointmentSubmitV2({
       id: 'fake_id',
+      attributes: {
+        reasonCode: {},
+      },
     });
     mockPreferences(null);
 

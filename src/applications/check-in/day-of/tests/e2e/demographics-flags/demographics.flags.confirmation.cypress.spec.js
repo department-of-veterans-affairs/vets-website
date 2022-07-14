@@ -48,7 +48,7 @@ describe('Check In Experience', () => {
     it('happy path with confirmed demographics', () => {
       cy.visitWithUUID();
 
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
@@ -126,7 +126,8 @@ describe('Check In Experience', () => {
         numberOfCheckInAbledAppointments: 2,
       });
       initializeCheckInDataPost.withSuccess();
-      initializeDemographicsPatch.withFailure(400);
+      // Response delayed by 5 seconds.
+      initializeDemographicsPatch.withFailure(400, 5000);
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -136,7 +137,7 @@ describe('Check In Experience', () => {
     it('check-in confirmation with demographics API error', () => {
       cy.visitWithUUID();
 
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
@@ -218,7 +219,7 @@ describe('Check In Experience', () => {
       );
 
       cy.visitWithUUID();
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
     });

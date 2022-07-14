@@ -7,7 +7,6 @@ export default function RenderErrorContainer({
   code = AUTH_ERROR.DEFAULT,
   auth = AUTH_LEVEL.FAIL,
   recordEvent = () => ({}),
-  loginGovOff = false,
   openLoginModal = () => ({}),
 }) {
   let alertContent;
@@ -33,14 +32,13 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>What you can do:</h3>
+          <h2>What you can do:</h2>
           <p>
             Please try again, and this time, select <strong>“Accept”</strong> on
             the final page of the identity verification process. Or, if you
-            don’t want to verify your identity with{' '}
-            {!loginGovOff && `Login.gov or `}
-            ID.me, you can try signing in with your premium DS Logon or premium
-            My HealtheVet username and password.
+            don’t want to verify your identity with Login.gov or ID.me, you can
+            try signing in with your premium DS Logon or premium My HealtheVet
+            username and password.
           </p>
           <button type="button" onClick={openLoginModal}>
             Try signing in again
@@ -60,7 +58,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>What you can do:</h3>
+          <h2>What you can do:</h2>
           <p>
             Please update your computer’s settings to the current date and time,
             and then try again.
@@ -80,7 +78,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>What you can do:</h3>
+          <h2>What you can do:</h2>
           <Helpdesk />
           <button type="button" onClick={openLoginModal}>
             Try signing in again
@@ -100,7 +98,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>What you can do:</h3>
+          <h2>What you can do:</h2>
           <p>Please sign in again.</p>
           <button type="button" onClick={openLoginModal}>
             Sign in
@@ -119,7 +117,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>What you can do:</h3>
+          <h2>What you can do:</h2>
           <p />
           <p>
             For problems with your Login.gov account, please review{' '}
@@ -159,7 +157,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>How can I fix this issue?</h3>
+          <h2>How can I fix this issue?</h2>
           <ul>
             <li>
               <strong>Call the My HealtheVet help desk</strong>
@@ -214,7 +212,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>What you can do:</h3>
+          <h2>What you can do:</h2>
           <Helpdesk />
         </>
       );
@@ -231,7 +229,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>To fix this issue:</h3>
+          <h2>To fix this issue:</h2>
           <Helpdesk />
         </>
       );
@@ -247,7 +245,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>To fix this issue:</h3>
+          <h2>To fix this issue:</h2>
           <Helpdesk />
         </>
       );
@@ -263,8 +261,41 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>To fix this issue:</h3>
+          <h2>To fix this issue:</h2>
           <Helpdesk />
+        </>
+      );
+      break;
+
+    case AUTH_ERROR.OAUTH_STATE_MISMATCH:
+      alertContent = (
+        <p className="vads-u-margin-top--0">
+          We’re having trouble signing you in to VA.gov right now because the
+          browser state is different.
+        </p>
+      );
+      troubleshootingContent = (
+        <>
+          <h2>What you can do:</h2>
+          <p>
+            <strong>Try taking these steps to fix the problem:</strong>
+          </p>
+          <ul>
+            <li>
+              Clear your Internet browser’s cookies and cache. Depending on
+              which browser you’re using, you’ll usually find this information
+              referred to as “Browsing Data,”, “Browsing History,” or “Website
+              Data.”
+            </li>
+            <li>
+              Make sure you have cookies enabled in your browser settings.
+              Depending on which browser you’re using, you’ll usually find this
+              information in the “Tools,” “Settings,” or “Preferences” menu.
+            </li>
+          </ul>
+          <Helpdesk>
+            If you’ve taken the steps above and still can’t sign in,
+          </Helpdesk>
         </>
       );
       break;
@@ -279,7 +310,7 @@ export default function RenderErrorContainer({
       );
       troubleshootingContent = (
         <>
-          <h3>What you can do:</h3>
+          <h2>What you can do:</h2>
           <p>
             <strong>Try taking these steps to fix the problem:</strong>
           </p>
@@ -349,7 +380,6 @@ export default function RenderErrorContainer({
 RenderErrorContainer.propTypes = {
   auth: PropTypes.oneOf(Object.keys(AUTH_LEVEL)),
   code: PropTypes.oneOf(Object.keys(AUTH_ERROR)),
-  loginGovOff: PropTypes.bool,
   openLoginModal: PropTypes.func,
   recordEvent: PropTypes.func,
 };

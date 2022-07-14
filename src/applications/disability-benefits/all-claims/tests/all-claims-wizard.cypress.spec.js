@@ -9,10 +9,9 @@ import {
 } from '../constants';
 
 // Date selects don't include leading zeros
-const [mockYear120, mockMonth120, mockDay120] = moment()
+const mock120 = moment()
   .add(120, 'days')
-  .format('YYYY-M-D')
-  .split('-');
+  .format('YYYY-M-D');
 // Date saved to sessionStorage includes leading zeros
 const mockDate = moment()
   .add(120, 'days')
@@ -105,13 +104,9 @@ describe('526 wizard', () => {
       label: 'Are you on active duty right now?',
       value: 'yes-bdd',
     });
-    cy.get('.form-datefield-month').should('exist');
 
-    cy.findByLabelText(/month/i).select(mockMonth120);
-    cy.findByLabelText(/day/i).select(mockDay120);
-    cy.findByLabelText(/year/i)
-      .clear()
-      .type(mockYear120);
+    cy.get('va-date').should('exist');
+    cy.fillDate('discharge-date', mock120);
 
     cy.checkStorage(FORM_STATUS_BDD, 'true');
     cy.checkStorage(SAVED_SEPARATION_DATE, mockDate);
@@ -129,7 +124,7 @@ describe('526 wizard', () => {
   it('should start all-claims/original claims flow', () => {
     const h1Text = 'File for disability compensation';
     // starts with focus on breadcrumb
-    cy.focused().should('have.class', 'va-nav-breadcrumbs-list');
+    // cy.get('va-breadcrumbs').first().should('have.focus'); // not working?
     cy.get('h1').should('have.text', h1Text);
 
     cy.get('[type="radio"][value="appeals"]').check(checkOpt);

@@ -6,6 +6,33 @@
 
 .connect-device{
   background: rgb(241,241,241);
-  margin: 2em 0em;
+  margin: 2em 0;
   padding: 1em;
+}
+
+
+.connect-button{
+  color: rgb(0, 71, 149);
+  text-decoration: underline;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  transition-property: color, background-color, border-color;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  font-weight: normal;
+}
+
+.connected-header-text{
+  font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.dhp-login-button .sign-in-nav {
+  margin-left: -10px;
+}
+
+.search-form-bottom-margin {
+  margin-bottom: 0;
 }

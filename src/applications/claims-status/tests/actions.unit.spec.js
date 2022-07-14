@@ -315,7 +315,6 @@ describe('Actions', () => {
         expect(dispatchSpy.secondCall.args[0]).to.eql({
           type: 'FETCH_CLAIMS_SUCCESS',
           claims: [],
-          pages: 0,
         });
       });
       it('should record the correct event to the data layer', () => {

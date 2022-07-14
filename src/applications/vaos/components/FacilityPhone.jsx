@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function FacilityPhone({ contact, className, level }) {
   if (!contact) {
@@ -17,18 +17,24 @@ export default function FacilityPhone({ contact, className, level }) {
       >
         Main phone:
       </Heading>{' '}
-      <Telephone contact={number} extension={extension} />
+      <VaTelephone
+        contact={number}
+        extension={extension}
+        data-testid="facility-telephone"
+      />
       <br />
       <Heading
         className={`vads-u-font-family--sans vads-u-display--inline vads-u-font-size--base ${className}`}
       >
         TTY:
       </Heading>{' '}
-      <Telephone contact="711" />
+      <VaTelephone contact="711" data-testid="tty-telephone" />
     </>
   );
 }
 
 FacilityPhone.propTypes = {
-  level: PropTypes.number.isRequired,
+  className: PropTypes.string,
+  contact: PropTypes.string,
+  level: PropTypes.number,
 };

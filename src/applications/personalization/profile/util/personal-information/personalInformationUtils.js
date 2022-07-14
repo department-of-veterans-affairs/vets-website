@@ -1,7 +1,6 @@
 import { mapValues } from 'lodash';
 import moment from 'moment';
 
-import RadioWidget from 'platform/forms-system/src/js/widgets/RadioWidget';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import OtherTextField from '@@profile/components/personal-information/OtherTextField';
 import { NOT_SET_TEXT } from '../../constants';
@@ -33,13 +32,13 @@ const pronounsLabels = {
 };
 
 const genderLabels = {
-  woman: 'Woman',
-  man: 'Man',
-  transgenderWoman: 'Transgender woman',
-  transgenderMan: 'Transgender man',
-  nonBinary: 'Non-binary',
-  preferNotToAnswer: 'Prefer not to answer',
-  genderNotListed: 'A gender not listed here',
+  M: 'Man',
+  B: 'Non-binary',
+  TM: 'Transgender man',
+  TF: 'Transgender woman',
+  F: 'Woman',
+  N: 'Prefer not to answer',
+  O: 'A gender not listed here',
 };
 
 // use the keys from the genderLabels object as the option values
@@ -66,7 +65,7 @@ export const personalInformationFormSchemas = {
     properties: {
       preferredName: {
         type: 'string',
-        pattern: '^[A-Za-z\\s]+$',
+        pattern: '^[A-Za-z]+$',
         minLength: 1,
         maxLength: 25,
       },
@@ -93,7 +92,6 @@ export const personalInformationFormSchemas = {
         enum: genderOptions,
       },
     },
-    required: [],
   },
   sexualOrientation: {
     type: 'object',
@@ -115,7 +113,7 @@ export const personalInformationUiSchemas = {
       'ui:widget': TextWidget,
       'ui:title': `Provide your preferred name (25 characters maximum)`,
       'ui:errorMessages': {
-        pattern: 'Preferred name required',
+        pattern: 'This field accepts alphabetic characters only',
       },
     },
   },
@@ -134,7 +132,7 @@ export const personalInformationUiSchemas = {
   },
   genderIdentity: {
     genderIdentity: {
-      'ui:widget': RadioWidget,
+      'ui:widget': 'radio',
       'ui:title': `Select your gender identity`,
       'ui:options': {
         labels: genderLabels,
@@ -161,7 +159,12 @@ export const formatIndividualLabel = (key, label) => {
   return label;
 };
 
-export const formatGenderIdentity = genderKey => genderLabels?.[genderKey];
+export const formatGenderIdentity = genderData => {
+  if (genderData?.code) {
+    return genderLabels?.[genderData.code];
+  }
+  return null;
+};
 
 export const formatMultiSelectAndText = (data, fieldName) => {
   const notListedTextKey = `${fieldName}NotListedText`;
@@ -183,13 +186,6 @@ export const formatMultiSelectAndText = (data, fieldName) => {
   if (mergedValues.length > 0) return mergedValues.join('; ');
 
   return null;
-};
-
-export const renderGender = gender => {
-  let content = NOT_SET_TEXT;
-  if (gender === 'M') content = 'Male';
-  else if (gender === 'F') content = 'Female';
-  return content;
 };
 
 export const renderDOB = dob => (dob ? moment(dob).format('LL') : NOT_SET_TEXT);

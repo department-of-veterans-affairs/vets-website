@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
-import { focusElement } from 'platform/utilities/ui';
+import PropTypes from 'prop-types';
 
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { focusElement } from 'platform/utilities/ui';
 import DownLoadLink from './DownloadLink';
 
 const SubmitError = ({ form }) => {
@@ -12,12 +10,13 @@ const SubmitError = ({ form }) => {
     focusElement('.caregivers-error-message');
   }, []);
 
-  const ErrorBody = () => {
-    return (
-      <section>
+  return (
+    <va-alert status="error" class="caregivers-error-message">
+      <h3 slot="headline">We didn’t receive your online application</h3>
+      <div>
         <p>
           We’re sorry. Something went wrong when you tried to submit your
-          application. You won't be able to resubmit the form online.
+          application. You won’t be able to resubmit the form online.
         </p>
 
         <div>
@@ -45,27 +44,20 @@ const SubmitError = ({ form }) => {
         </div>
 
         <div>
-          If you have trouble downloading your application, call our
-          <a className="vads-u-margin-x--0p5" href="https://www.va.gov/">
-            VA.gov
-          </a>
-          help desk at <Telephone contact={CONTACTS.HELP_DESK} /> (TTY: 711).
-          We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          If you have trouble downloading your application, call our{' '}
+          <a href="https://www.va.gov/">VA.gov</a> help desk at{' '}
+          <va-telephone contact={CONTACTS.HELP_DESK} /> (TTY: 711). We’re here
+          Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </div>
 
         <DownLoadLink form={form} />
-      </section>
-    );
-  };
-
-  return (
-    <AlertBox
-      className="caregivers-error-message"
-      headline="We didn't receive your online application"
-      content={ErrorBody()}
-      status="error"
-    />
+      </div>
+    </va-alert>
   );
+};
+
+SubmitError.propTypes = {
+  form: PropTypes.object,
 };
 
 export default SubmitError;

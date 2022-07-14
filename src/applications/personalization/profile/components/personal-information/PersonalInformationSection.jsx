@@ -1,31 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 
-import {
-  profileShowGender,
-  profileShowPronounsAndSexualOrientation,
-} from '@@profile/selectors';
+import { profileShowPronounsAndSexualOrientation } from '@@profile/selectors';
 
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
-import {
-  renderGender,
-  renderDOB,
-} from '@@profile/util/personal-information/personalInformationUtils';
+import { renderDOB } from '@@profile/util/personal-information/personalInformationUtils';
 import ProfileInfoTable from '../ProfileInfoTable';
+import GenderIdentityAdditionalInfo from './GenderIdentityAdditionalInfo';
 
 const PersonalInformationSection = ({
-  gender,
   dob,
-  shouldProfileShowGender,
   shouldShowPronounsAndSexualOrientation,
 }) => {
   const tableFields = [
     { title: 'Date of birth', value: renderDOB(dob) },
     {
       title: 'Preferred name',
+      description:
+        "Share this information if you'd like us to use a first name that's different from your legal name when you come in to VA.",
       id: FIELD_IDS[FIELD_NAMES.PREFERRED_NAME],
       value: (
         <ProfileInformationFieldController
@@ -48,11 +42,9 @@ const PersonalInformationSection = ({
           },
         ]
       : []),
-    ...(shouldProfileShowGender
-      ? [{ title: 'Sex assigned at birth', value: renderGender(gender) }]
-      : []),
     {
       title: 'Gender identity',
+      description: <GenderIdentityAdditionalInfo />,
       id: FIELD_IDS[FIELD_NAMES.GENDER_IDENTITY],
       value: (
         <ProfileInformationFieldController
@@ -80,50 +72,46 @@ const PersonalInformationSection = ({
   return (
     <div className="vads-u-margin-bottom--6">
       <div className="vads-u-margin-bottom--3">
-        <AdditionalInfo triggerText="Why do we ask for this?">
-          <p className="vads-u-margin-y--1">
-            Some of the information in this section tells us how you want to be
-            addressed as a person. For example, our staff will know your
-            pronouns and the name you’d like us to use when you call or come in
-            to VA.
+        <va-additional-info trigger="How to update your legal name">
+          <p className="vads-u-margin-top--0">
+            If you’ve changed your legal name, you’ll need to tell us so we can
+            change your name in our records.
           </p>
-          <p className="vads-u-margin-y--1">
-            If you get health care through VA, information in this section helps
-            your care team better assess your health needs and risks. For
-            example, gender identity and sexual orientation are some of the
-            factors that can affect a person’s health, well-being, and quality
-            of life. We call these factors “social determinants of health.”
+          <p className="vads-u-margin-bottom--0">
+            <a href="/resources/how-to-change-your-legal-name-on-file-with-va">
+              Learn how to change your legal name on file with VA
+            </a>
           </p>
-          <p className="vads-u-margin-y--1">
-            We also collect this information to better understand our Veteran
-            community. This helps us make sure that we’re serving the needs of
-            all Veterans.
-          </p>
-        </AdditionalInfo>
+        </va-additional-info>
       </div>
       <div className="vads-u-margin-bottom--3">
-        <AdditionalInfo triggerText="How do I update my name or date of birth?">
-          <h2 className="vads-u-font-size--h5 vads-u-margin-top--3">
-            If you’re enrolled in the VA health care program
-          </h2>
-          <p className="vads-u-margin-y--1">
+        <va-additional-info trigger="How to fix an error in your name or date of birth">
+          <p className="vads-u-margin-top--0">
+            If our records have a misspelling or other error in your name or
+            date of birth, you can request a correction. We’ll ask for a current
+            photo ID that shows proof of the correct information. We’ll accept a
+            government-issued photo ID, driver’s license, or passport as proof.
+          </p>
+          <p>Here’s how to request a correction:</p>
+          <p>
+            <span className="vads-u-font-weight--bold vads-u-display--block ">
+              If you’re enrolled in the VA health care program
+            </span>
             Please contact your nearest VA medical center to update your
             personal information.
           </p>
-          <a href="/find-locations/?facilityType=health">
-            Find your nearest VA medical center{' '}
-          </a>
-          <h2 className="vads-u-font-size--h5 vads-u-margin-top--3 vads-u-margin-bottom--1">
-            If you receive VA benefits, but aren’t enrolled in VA health care
-          </h2>
-          <p className="vads-u-margin-y--1">
-            Please contact your nearest VA regional office to update your
-            personal information
+          <a href="/find-locations/">Find your nearest VA medical center</a>
+          <p className="vads-u-margin-bottom--0">
+            <span className="vads-u-font-weight--bold vads-u-display--block">
+              If you receive VA benefits, but aren’t enrolled in VA health care
+            </span>
+            Call us at <va-telephone contact="800-827-1000" /> (
+            <a href="tel:711" aria-label="TTY: 7 1 1.">
+              TTY: +711
+            </a>
+            ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
           </p>
-          <a href="/find-locations/?facilityType=benefits">
-            Find your nearest VA regional office
-          </a>
-        </AdditionalInfo>
+        </va-additional-info>
       </div>
       <ProfileInfoTable data={tableFields} level={2} />
     </div>
@@ -132,19 +120,16 @@ const PersonalInformationSection = ({
 
 PersonalInformationSection.propTypes = {
   dob: PropTypes.string.isRequired,
-  shouldProfileShowGender: PropTypes.bool.isRequired,
   shouldShowPronounsAndSexualOrientation: PropTypes.bool.isRequired,
   gender: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
-  gender: state.vaProfile?.personalInformation?.gender,
   dob: state.vaProfile?.personalInformation?.birthDate,
   preferredName: state.vaProfile?.personalInformation?.preferredName,
   pronouns: state.vaProfile?.personalInformation?.pronouns,
   genderIdentity: state.vaProfile?.personalInformation?.genderIdentity,
   sexualOrientation: state.vaProfile?.personalInformation?.sexualOrientation,
-  shouldProfileShowGender: profileShowGender(state),
   shouldShowPronounsAndSexualOrientation: profileShowPronounsAndSexualOrientation(
     state,
   ),

@@ -25,13 +25,12 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "Routine Follow-up",
+        "reasonCode": { "coding": [ { "code": "Routine Follow-up" } ] },
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
         "start": "2022-02-21T18:19:34",
         "status": "booked",
-        "cancellable": true,
         "telehealth": null
       }
     },
@@ -60,13 +59,12 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "Routine Follow-up",
+        "reasonCode": {"coding": [{"code": "Routine Follow-up"}]},
         "requestedPeriods": null,
         "serviceType": "covid",
         "slot": null,
         "start": "2022-03-21T18:19:34",
         "status": "booked",
-        "cancellable": true,
         "telehealth": null
       }
     },
@@ -82,6 +80,10 @@
             {
               "type": "email",
               "value": null
+            },
+            {
+              "system": "phone",
+              "value": "723-234-4566"
             }
           ]
         },
@@ -94,13 +96,18 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
-            "firstName": "Dr",
-            "lastName": "Hyde",
-            "practiceName": "Jeckle and Hyde"
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
+            "name": {
+              "family": "Hyde",
+              "given": [
+                "DR"
+              ]
+            }
           }
         ],
         "extension": {
@@ -113,18 +120,21 @@
               "state": "OH",
               "postalCode": "45414",
               "text": "1601 Needmore Rd Ste 1\nDayton OH 45414"
-            }
+            },
+            "telecom": [{
+              "system": "phone",
+              "value": "723-234-4565"
+            }]
           }
         },        
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "audiology",
         "slot": null,
         "start": "2022-02-28T18:19:34",
         "status": "booked",
-        "cancellable": true,
         "telehealth": null
       }
     },
@@ -152,13 +162,12 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
-            "firstName": "Dr",
-            "lastName": "Hyde",
-            "practiceName": "Jeckle and Hyde"
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ]
           }
         ],
         "extension": {
@@ -176,13 +185,12 @@
         },
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "audiology",
         "slot": null,
         "start": "2022-02-20T18:19:34",
         "status": "cancelled",
-        "cancellable": false,
         "telehealth": null
       }
     },
@@ -222,13 +230,12 @@
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "New Issue",
+        "reasonCode": {"coding": [{"code": "New Issue"}]},
         "requestedPeriods": null,
         "serviceType": "outpatientMentalHealth",
         "slot": null,
         "start": "2022-01-23T20:00:00Z",
         "status": "booked",
-        "cancellable": true,
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
@@ -271,13 +278,12 @@
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "amputation",
         "slot": null,
         "start": "2022-01-23T20:00:00Z",
         "status": "booked",
-        "cancellable": true,
         "telehealth": {
           "url": null,
           "atlas": {
@@ -327,8 +333,12 @@
               "system": null,
               "value": "1801312053"
             }],
-            "firstName": "Meg",
-            "lastName": "Smith",
+            "name":{
+              "family": "Smith",
+              "given": [
+                "Megan"
+              ]
+            },
             "practiceName": null
           },
           {
@@ -336,20 +346,23 @@
               "system": null,
               "value": "1801312053"
             }],
-            "firstName": "Salvador",
-            "lastName": "Dali",
+            "name":{
+              "family": "Dali",
+              "given": [
+                "Salvador"
+              ]
+            },
             "practiceName": null
           }
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "audiology",
         "slot": null,
         "start": "2022-03-09T20:30:00Z",
         "status": "booked",
-        "cancellable": true,
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
@@ -382,13 +395,12 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "foodAndNutrition",
         "slot": null,
         "start": "2022-02-22T18:10:34",
         "status": "booked",
-        "cancellable": true,
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
@@ -431,13 +443,12 @@
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
         "start": "2022-02-27T18:19:34",
         "status": "booked",
-        "cancellable": true,
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
@@ -470,13 +481,12 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "New Issue",
+        "reasonCode": {"coding": [{"code": "New Issue"}]},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
         "start": "2022-02-27T18:19:34",
         "status": "booked",
-        "cancellable": true,
         "telehealth": null
       }
     },
@@ -505,13 +515,12 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "New Issue",
+        "reasonCode": {"coding": [{"code": "New Issue"}]},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
         "start": "2022-02-28T18:19:34",
         "status": "cancelled",
-        "cancellable": false,
         "telehealth": null
       }
     },
@@ -540,13 +549,12 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "Medication Concern",
+        "reasonCode": {"coding": [{"code": "Medication Concern"}]},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
         "start": "2021-06-27T18:19:34",
         "status": "booked",
-        "cancellable": true,
         "telehealth": null
       }
     },
@@ -586,13 +594,12 @@
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
         "start": "2021-06-08T17:30:00Z",
         "status": "booked",
-        "cancellable": true,
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
@@ -625,13 +632,12 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "Routine Follow-up",
+        "reasonCode": {"coding": [{"code": "Routine Follow-up"}]},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
         "start": "2022-02-27T18:19:34",
         "status": "cancelled",
-        "cancellable": false,
         "telehealth": null
       }
     },
@@ -660,13 +666,12 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "Routine Follow-up",
+        "reasonCode": {"coding": [{"code": "Routine Follow-up"}]},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
         "start": "2022-02-28T18:19:34",
         "status": "cancelled",
-        "cancellable": false,
         "telehealth": null
       }
     },
@@ -697,7 +702,6 @@
         "cancellationReason": {
           "code": "other"
         },
-        "cancellable": true,
         "serviceName": "CHY PC KILPATRICK",
         "location": {
           "id": "983",

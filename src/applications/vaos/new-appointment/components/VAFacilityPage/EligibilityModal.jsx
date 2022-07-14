@@ -1,5 +1,6 @@
 import React from 'react';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 import { FETCH_STATUS } from '../../../utils/constants';
 import getEligibilityMessage from './getEligibilityMessage';
 
@@ -17,17 +18,25 @@ export default function EligibilityModal({
   });
 
   return (
-    <Modal
+    <VaModal
       id="eligibilityModal"
       status="warning"
       visible
-      onClose={onClose}
+      onCloseEvent={onClose}
       hideCloseButton={status === FETCH_STATUS.loading}
-      title={title}
+      modalTitle={title}
+      data-testid="eligibilityModal"
+      role="alertdialog"
     >
       <div aria-atomic="true" aria-live="assertive">
         {content}
       </div>
-    </Modal>
+    </VaModal>
   );
 }
+EligibilityModal.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  eligibility: PropTypes.object,
+  facilityDetails: PropTypes.object,
+  typeOfCare: PropTypes.object,
+};

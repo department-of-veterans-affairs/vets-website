@@ -59,7 +59,7 @@ describe('Schemaform: ReviewCardField', () => {
   it('should throw an error if no viewComponent is found', () => {
     expect(() => {
       // Not necessary if not componentWillUnmount
-      // eslint-disable-next-line va/enzyme-unmount
+      // eslint-disable-next-line @department-of-veterans-affairs/enzyme-unmount
       shallow(<ReviewCardField {...defaultProps} uiSchema={{}} />);
     }).to.throw('viewComponent');
   });
@@ -67,7 +67,7 @@ describe('Schemaform: ReviewCardField', () => {
   it('should throw an error if schema type is not object or array', () => {
     expect(() => {
       // Not necessary if not componentWillUnmount
-      // eslint-disable-next-line va/enzyme-unmount
+      // eslint-disable-next-line @department-of-veterans-affairs/enzyme-unmount
       shallow(
         <ReviewCardField {...defaultProps} schema={{ type: 'string' }} />,
       );
@@ -128,6 +128,32 @@ describe('Schemaform: ReviewCardField', () => {
     wrapper.find('.update-button').simulate('click');
     expect(wrapper.find('.input-section').length).to.equal(0);
     expect(wrapper.find('viewComponent').length).to.equal(1);
+    wrapper.unmount();
+  });
+
+  it('should show the input value after editing a second time', () => {
+    const wrapper = mount(<ReviewCardField {...defaultProps} />);
+
+    // Start editing
+    wrapper.find('.usa-button-secondary').simulate('click');
+
+    // Find the input and update its value
+    const inputField = wrapper
+      .find('input')
+      .first()
+      .instance();
+
+    inputField.value = 'test';
+
+    // Go back to viewing
+    wrapper.find('.update-button').simulate('click');
+
+    // Go back to editing
+    wrapper.find('.usa-button-secondary').simulate('click');
+
+    // Expect the updated value to still be there
+    expect(inputField.value).to.equal('test');
+
     wrapper.unmount();
   });
 

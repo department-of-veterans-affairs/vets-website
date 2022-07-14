@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function CancelAppointmentSucceededModal({
   isConfirmed,
@@ -9,12 +9,14 @@ export default function CancelAppointmentSucceededModal({
   const typeText = isConfirmed ? 'appointment' : 'request';
   return (
     <>
-      <Modal
+      <VaModal
         id="cancelAppt"
         status="success"
         visible
-        onClose={onClose}
-        title={`Your ${typeText} has been canceled`}
+        onCloseEvent={onClose}
+        modalTitle={`Your ${typeText} has been canceled`}
+        data-testid={`cancel-${typeText}-SuccessModal`}
+        role="alertdialog"
       >
         {isConfirmed
           ? `If you want to reschedule, call us or schedule a new ${typeText} online.`
@@ -24,7 +26,7 @@ export default function CancelAppointmentSucceededModal({
             Continue
           </button>
         </p>
-      </Modal>
+      </VaModal>
     </>
   );
 }

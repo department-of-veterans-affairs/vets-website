@@ -6,7 +6,10 @@ import { DeviceConnectionCard } from '../../components/DeviceConnectionCard';
 describe('Device connection card', () => {
   it('Renders vendors name', () => {
     const card = renderInReduxProvider(
-      <DeviceConnectionCard vendor="Test Vendor" authUrl="www.google.com" />,
+      <DeviceConnectionCard
+        device={{ name: 'Test Vendor' }}
+        authUrl="www.google.com"
+      />,
     );
 
     expect(card.getByText(/Test Vendor/)).to.exist;

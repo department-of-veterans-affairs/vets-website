@@ -1,13 +1,12 @@
 import React from 'react';
 import { expect } from 'chai';
 
+import { daysAgo } from '@@profile/tests/helpers';
+import { wait } from '@@profile/tests/unit-test-helpers';
 import { mockFetch } from '~/platform/testing/unit/helpers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import reducers from '~/applications/personalization/dashboard/reducers';
-
-import { daysAgo } from '@@profile/tests/helpers';
-import { wait } from '@@profile/tests/unit-test-helpers';
 
 import ClaimsAndAppeals from '../../components/claims-and-appeals/ClaimsAndAppeals';
 
@@ -189,8 +188,7 @@ describe('ClaimsAndAppeals component', () => {
           ).to.be.false;
         });
         it('should render a loading spinner but no section headline while loading data', async () => {
-          expect(await view.findByRole('progressbar', { label: /loading/i })).to
-            .exist;
+          expect(view.findByLabelText(/loading/i)).to.exist;
           expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
             .to.not.exist;
         });
@@ -238,8 +236,7 @@ describe('ClaimsAndAppeals component', () => {
           ).to.be.true;
         });
         it('should render a loading spinner but no section headline while loading data', async () => {
-          expect(await view.findByRole('progressbar', { label: /loading/i })).to
-            .exist;
+          expect(view.findByLabelText(/loading/i)).to.exist;
           expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
             .to.not.exist;
         });
@@ -279,8 +276,7 @@ describe('ClaimsAndAppeals component', () => {
           ).to.be.true;
         });
         it('should render a loading spinner but no section headline while loading data', async () => {
-          expect(await view.findByRole('progressbar', { label: /loading/i })).to
-            .exist;
+          expect(view.findByLabelText(/loading/i)).to.exist;
           expect(view.queryByRole('heading', { name: /^claims and appeals$/i }))
             .to.not.exist;
         });

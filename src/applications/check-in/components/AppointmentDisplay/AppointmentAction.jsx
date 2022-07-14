@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { parseISO } from 'date-fns';
 import recordEvent from 'platform/monitoring/record-event';
 import { api } from '../../api';
 
@@ -55,8 +56,34 @@ const AppointmentAction = props => {
   );
 
   if (appointment.eligibility) {
+    // Disable check-in 10 seconds before the end of the eligibility window.
+    // This helps prevent Veterans from getting an error if they click the
+    // button and it takes too long to make the API call.
+    if (
+      (areEqual(appointment.eligibility, ELIGIBILITY.ELIGIBLE) &&
+        parseISO(appointment.checkInWindowEnd).getTime() - Date.now() <
+          10000) ||
+      areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_TOO_LATE)
+    ) {
+      return (
+        <p data-testid="too-late-message">
+          {t(
+            'your-appointment-started-more-than-15-minutes-ago-we-cant-check-you-in-online-ask-a-staff-member-for-help',
+          )}
+        </p>
+      );
+    }
     if (areEqual(appointment.eligibility, ELIGIBILITY.ELIGIBLE)) {
-      return <CheckInButton onClick={onClick} />;
+      return (
+        <CheckInButton
+          checkInWindowEnd={parseISO(appointment.checkInWindowEnd)}
+          appointmentTime={
+            appointment.startTime ? parseISO(appointment.startTime) : null
+          }
+          onClick={onClick}
+          router={router}
+        />
+      );
     }
     if (areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_BAD_STATUS)) {
       return (
@@ -65,7 +92,7 @@ const AppointmentAction = props => {
     }
     if (areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_TOO_EARLY)) {
       if (appointment.checkInWindowStart) {
-        const appointmentDateTime = new Date(appointment.checkInWindowStart);
+        const appointmentDateTime = parseISO(appointment.checkInWindowStart);
         return (
           <p data-testid="too-early-message">
             {t('you-can-check-in-starting-at-this-time', {
@@ -78,15 +105,6 @@ const AppointmentAction = props => {
         <p data-testid="no-time-too-early-reason-message">
           {t(
             'this-appointment-isnt-eligible-for-online-check-in-check-in-with-a-staff-member',
-          )}
-        </p>
-      );
-    }
-    if (areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_TOO_LATE)) {
-      return (
-        <p data-testid="too-late-message">
-          {t(
-            'your-appointment-started-more-than-15-minutes-ago-we-cant-check-you-in-online-ask-a-staff-member-for-help',
           )}
         </p>
       );
