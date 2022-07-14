@@ -15,7 +15,7 @@ import ErrorText from '../components/ErrorText';
 import FormFooter from '../components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorMessage from '../components/ErrorMessage';
-import DowntimeMessage from '../components/DowntimeMessage';
+import DowntimeMessage from '../components/FormAlerts/DowntimeWarning';
 import IntroductionPage from '../containers/IntroductionPage';
 import { prefillTransformer, transform, HIGH_DISABILITY } from '../helpers';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -59,7 +59,7 @@ import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
 import vaFacility from './chapters/insuranceInformation/vaFacility';
 import general from './chapters/insuranceInformation/general';
-import ServiceConnectedPayConfirmation from '../components/ServiceConnectedPayConfirmation';
+import ServiceConnectedPayConfirmation from '../components/FormAlerts/ServiceConnectedPayConfirmation';
 import CompensationTypeReviewPage from '../components/CompensationTypeReviewPage';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);

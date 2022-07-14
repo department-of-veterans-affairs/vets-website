@@ -3,11 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
-
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -16,6 +13,9 @@ import { focusElement } from 'platform/utilities/ui';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { isLoggedIn, isProfileLoading } from 'platform/user/selectors';
 
+import { ServerErrorAlert } from '../components/FormAlerts';
+import LoginRequiredAlert from '../components/FormAlerts/LoginRequiredAlert';
+
 import { getEnrollmentStatus } from '../actions';
 import {
   didEnrollmentStatusChange,
@@ -23,60 +23,6 @@ import {
   idFormUiSchema as uiSchema,
 } from '../helpers';
 import { HCA_ENROLLMENT_STATUSES } from '../constants';
-
-function ContinueButton({ isLoading }) {
-  return (
-    <LoadingButton
-      isLoading={isLoading}
-      disabled={false}
-      type="submit"
-      /* to override the `width: 100%` given to SchemaForm submit buttons */
-      style={{ width: 'auto' }}
-    >
-      Continue to the application
-      <span className="button-icon">&nbsp;»</span>
-    </LoadingButton>
-  );
-}
-
-function LoginRequiredAlert({ handleLogin }) {
-  return (
-    <>
-      <AlertBox
-        isVisible
-        status="error"
-        headline="Please sign in to review your information"
-        content={
-          <>
-            <p>
-              We’re sorry for the interruption, but we’ve found some more
-              information that we need you to review before you can apply for VA
-              health care. Please sign in to VA.gov to review. If you don’t have
-              an account, you can create one now.
-            </p>
-            <button className="usa-button-primary" onClick={handleLogin}>
-              Sign in to VA.gov
-            </button>
-          </>
-        }
-      />
-      <br />
-    </>
-  );
-}
-
-function ServerError() {
-  return (
-    <AlertBox
-      isVisible
-      status="error"
-      headline="Something went wrong on our end"
-      content={
-        <p>We’re sorry. Something went wrong on our end. Please try again</p>
-      }
-    />
-  );
-}
 
 class IDPage extends React.Component {
   state = {
@@ -164,8 +110,12 @@ class IDPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="We need some information before you can start your application" />
-        {showLoadingIndicator && <LoadingIndicator />}
-        {!showLoadingIndicator && (
+        {showLoadingIndicator ? (
+          <va-loading-indicator
+            label="Loading"
+            message="Loading your application..."
+          />
+        ) : (
           <>
             <p>
               This will help us fit the application to your specific needs.
@@ -175,10 +125,14 @@ class IDPage extends React.Component {
             <p>
               <strong>Want to skip this step?</strong>
             </p>
-            <button className="va-button-link" onClick={this.showSignInModal}>
+            <button
+              type="button"
+              className="va-button-link"
+              onClick={this.showSignInModal}
+            >
               Sign in to start your application.
             </button>
-            <div className="hca-id-form-wrapper">
+            <div className="vads-u-margin-top--2p5">
               <SchemaForm
                 // `name` and `title` are required by SchemaForm, but are only used
                 // internally in the component
@@ -196,9 +150,20 @@ class IDPage extends React.Component {
                 {loginRequired && (
                   <LoginRequiredAlert handleLogin={this.showSignInModal} />
                 )}
-                {showServerError && <ServerError />}
+                {showServerError && <ServerErrorAlert />}
                 {showContinueButton && (
-                  <ContinueButton isLoading={isSubmittingIDForm} />
+                  <LoadingButton
+                    /* to override the `width: 100%` given to SchemaForm submit buttons */
+                    class="vads-u-width--auto"
+                    isLoading={isSubmittingIDForm}
+                    disabled={false}
+                    type="submit"
+                  >
+                    Continue to the application
+                    <span className="button-icon" aria-hidden="false">
+                      &nbsp;»
+                    </span>
+                  </LoadingButton>
                 )}
               </SchemaForm>
             </div>
