@@ -1,7 +1,6 @@
 /* eslint-disable class-methods-use-this */
 
 const _ = require('lodash');
-const fs = require('fs');
 
 const productDirectoryProps = require('./product-directory-props');
 
@@ -12,24 +11,6 @@ class Differ {
 
   diff({ products, currentProductDirectory }) {
     const updatedProductDirectory = {};
-    const manifestIds = Object.keys(products.all);
-    const productListIds = currentProductDirectory.map(
-      product => product.product_id,
-    );
-    manifestIds.forEach(id => {
-      if (id.length === 36 && productListIds.indexOf(id) === -1) {
-        const manifest = JSON.parse(
-          fs.readFileSync(`${products.all[id].pathToCode}/manifest.json`),
-        );
-        const product = {
-          // eslint-disable-next-line camelcase
-          product_id: manifest.productId,
-          // eslint-disable-next-line camelcase
-          product_name: manifest.appName,
-        };
-        currentProductDirectory.push(product);
-      }
-    });
 
     _.cloneDeep(currentProductDirectory).forEach(product => {
       updatedProductDirectory[product.product_id] = product;
