@@ -11,7 +11,7 @@ import {
 
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import set from 'platform/utilities/data/set';
-import { scrollToFirstError } from '../utilities/ui';
+import { scrollToFirstError, focusElement } from '../utilities/ui';
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
 import { getScrollOptions, isReactComponent } from '../../../../utilities/ui';
@@ -188,6 +188,8 @@ export default class ArrayField extends React.Component {
     this.props.onChange(newItems);
     this.setState(newState, () => {
       this.scrollToTop();
+      // Focus on "Add Another xyz" button after removing
+      focusElement('.va-growable-add-btn');
     });
   }
 
