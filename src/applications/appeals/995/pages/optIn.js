@@ -5,11 +5,11 @@ export default {
     'ui:description': (
       <div>
         <p>
-          If you’re requesting a Board Appeal on an issue in an initial claim we
-          decided before February 19, 2019, you’ll need to opt in to the new
-          decision review process. To do this, please check the box here. We’ll
-          move your issue from the old appeals process to the new decision
-          review process.
+          If you’re requesting a Supplemental Claim on an issue in an initial
+          claim we decided before February 19, 2019, you’ll need to opt in to
+          the new decision review process. To do this, please check the box
+          here. We’ll move your issue from the old appeals process to the new
+          decision review process.
         </p>
         <p>
           Our decision review process is part of the Appeals Modernization Act.
