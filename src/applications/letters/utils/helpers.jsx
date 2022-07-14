@@ -96,15 +96,11 @@ export const bslHelpInstructions = (
   <div>
     <p>
       If your service period or disability status information is incorrect,
-      please send us a message through VA’s{' '}
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://iris.custhelp.com/app/ask"
-      >
-        Inquiry Routing & Information System (IRIS)
+      please send us a message through
+      <a target="_blank" rel="noopener noreferrer" href="https://ask.va.gov/">
+        Ask VA
       </a>
-      . VA will respond within 5 business days.
+      . We will respond within 5 business days.
     </p>
   </div>
 );

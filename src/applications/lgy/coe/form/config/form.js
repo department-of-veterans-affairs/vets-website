@@ -23,8 +23,8 @@ import { loanScreener, loanIntent, loanHistory } from './chapters/loans';
 
 import { fileUpload } from './chapters/documents';
 
-// TODO: WHen schema is migrated to vets-json-schema, remove common definitions from form schema and get them
-// from common definitions instead
+// TODO: When schema is migrated to vets-json-schema, remove common
+// definitions from form schema and get them from common definitions instead
 
 const formConfig = {
   rootUrl: manifest.rootUrl,

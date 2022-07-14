@@ -6,7 +6,6 @@ import Introduction from '../pages/Introduction';
 import Error from '../pages/Error';
 
 describe('Pre-Check In Experience', () => {
-  // @TODO: un-skip when the error page is created.
   describe('Validate Page', () => {
     beforeEach(() => {
       const {

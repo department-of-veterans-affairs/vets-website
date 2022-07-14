@@ -77,6 +77,9 @@ const AppointmentAction = props => {
       return (
         <CheckInButton
           checkInWindowEnd={parseISO(appointment.checkInWindowEnd)}
+          appointmentTime={
+            appointment.startTime ? parseISO(appointment.startTime) : null
+          }
           onClick={onClick}
           router={router}
         />
@@ -89,7 +92,7 @@ const AppointmentAction = props => {
     }
     if (areEqual(appointment.eligibility, ELIGIBILITY.INELIGIBLE_TOO_EARLY)) {
       if (appointment.checkInWindowStart) {
-        const appointmentDateTime = new Date(appointment.checkInWindowStart);
+        const appointmentDateTime = parseISO(appointment.checkInWindowStart);
         return (
           <p data-testid="too-early-message">
             {t('you-can-check-in-starting-at-this-time', {
