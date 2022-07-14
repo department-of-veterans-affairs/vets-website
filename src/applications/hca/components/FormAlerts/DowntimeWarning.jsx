@@ -19,9 +19,9 @@ const DowntimeWarning = ({ isAfterSteps }) => (
     </p>
     <p>
       In the meantime, you can call{' '}
-      <va-telephone contact={CONTACTS['222_VETS']} />, Monday &#8211; Friday,
-      8:00 a.m. &#8211; 8:00 p.m. (<abbr title="eastern time">ET</abbr>) and
-      press 2 to complete this application over the phone.
+      <va-telephone contact={CONTACTS['222_VETS']} />, Monday through Friday,
+      8:00 a.m. to 8:00 p.m. (<abbr title="eastern time">ET</abbr>) and press 2
+      to complete this application over the phone.
     </p>
   </va-alert>
 );
