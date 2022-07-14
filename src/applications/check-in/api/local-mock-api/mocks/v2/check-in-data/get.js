@@ -97,6 +97,13 @@ const createAppointment = (
     checkInWindowStart,
     isoDateWithOffsetFormat,
   );
+  // C.f. CHECKIN_MINUTES_AFTER in {chip repo}/infra/template.yml
+  let checkInWindowEnd = dateFns.addMinutes(new Date(startTime), 15);
+  let formattedCheckInWindowEnd = dateFns.format(
+    checkInWindowEnd,
+    isoDateWithOffsetFormat,
+  );
+
   if (timezone !== 'browser') {
     checkInWindowStart = dateFns.subMinutes(
       utcToZonedTime(new Date(startTime), timezone),
@@ -107,14 +114,6 @@ const createAppointment = (
       isoDateWithOffsetFormat,
       { timeZone: timezone },
     );
-  }
-  // C.f. CHECKIN_MINUTES_AFTER in {chip repo}/infra/template.yml
-  let checkInWindowEnd = dateFns.addMinutes(new Date(startTime), 15);
-  let formattedCheckInWindowEnd = dateFns.format(
-    checkInWindowEnd,
-    isoDateWithOffsetFormat,
-  );
-  if (timezone !== 'browser') {
     checkInWindowEnd = dateFns.addMinutes(
       utcToZonedTime(new Date(startTime), timezone),
       15,
