@@ -924,17 +924,12 @@ export function getProviderName(appointment) {
     return providerName;
   }
 
-  const providers = appointment?.practitioners;
-  if (
-    providers !== undefined &&
-    providers[0]?.name !== undefined &&
-    providers[0]?.name?.family !== undefined
-  ) {
-    const lastName = providers[0]?.name?.family;
-    const firstName = providers[0]?.name?.given[0];
-    return `${firstName} ${lastName}`;
-  }
-  return null;
+  const { practitioners } = appointment;
+  // grab the 1st element
+  const [practitioner] = practitioners || [];
+  const { name } = practitioner || {};
+
+  return name ? ` ${name.given[0]} ${name.family}` : null;
 }
 
 /**
