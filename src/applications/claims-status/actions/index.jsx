@@ -26,7 +26,7 @@ import { makeAuthRequest, roundToNearest } from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 
 // This should make it a bit easier to turn mocks on and off manually
-const SHOULD_USE_MOCKS = false;
+const SHOULD_USE_MOCKS = true;
 // NOTE: This should only be TRUE when developing locally
 const CAN_USE_MOCKS = environment.isLocalhost() && !window.Cypress;
 const USE_MOCKS = CAN_USE_MOCKS && SHOULD_USE_MOCKS;
