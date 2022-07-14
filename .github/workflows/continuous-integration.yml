@@ -17,7 +17,7 @@ concurrency:
 jobs:
   build:
     name: Build
-    runs-on: self-hosted
+    runs-on: [self-hosted, Linux, X64, tests]
     outputs:
       app_entries: ${{ steps.get-changed-apps.outputs.app_entries }}
 
@@ -92,7 +92,7 @@ jobs:
 
   unit-tests:
     name: Unit Tests
-    runs-on: self-hosted
+    runs-on: [self-hosted, Linux, X64, tests]
     outputs:
       app_folders: ${{ steps.get-changed-apps.outputs.app_folders }}
 
@@ -502,7 +502,7 @@ jobs:
 
   cypress-tests:
     name: Cypress E2E Tests
-    runs-on: self-hosted
+    runs-on: [self-hosted, Linux, X64, tests]
     timeout-minutes: 60
     needs: [build, cypress-tests-prep]
     if: |
