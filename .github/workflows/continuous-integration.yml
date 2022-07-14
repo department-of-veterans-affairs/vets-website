@@ -27,7 +27,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        buildtype: [vagovdev]
+        buildtype: [vagovprod]
 
     steps:
       - name: Checkout
