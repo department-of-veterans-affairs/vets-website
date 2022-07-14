@@ -40,7 +40,7 @@ const result = JSON.stringify({
   },
 });
 
-describe('coe helpers', () => {
+describe.skip('coe helpers', () => {
   describe('customCOEsubmit', () => {
     it('should correctly format the form data', () => {
       sinon.stub(helpers, 'transformForSubmit').returns(formattedProperties);
