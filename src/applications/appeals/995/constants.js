@@ -30,6 +30,11 @@ export const CONTESTABLE_ISSUES_API =
 // key for contestedIssues to indicate that the user selected the issue
 export const SELECTED = 'view:selected';
 
+// Including a default until we determine how to get around the user restarting
+// the application after using the "Finish this application later" link
+// See https://dsva.slack.com/archives/C0113MPTGH5/p1600725048027200
+export const DEFAULT_BENEFIT_TYPE = 'compensation';
+
 export const errorMessages = {
   savedFormNotFound: 'Please start over to request a Supplemental Claim',
   savedFormNoAuth:
@@ -46,6 +51,9 @@ export const NULL_CONDITION_STRING = 'Unknown Condition';
 // contested issue dates
 export const FORMAT_YMD = 'YYYY-MM-DD';
 export const FORMAT_READABLE = 'LL';
+
+export const SAVED_CLAIM_TYPE = 'scClaimType';
+export const LAST_SC_ITEM = 'lastScItem'; // focus management across pages
 
 // Values from benefitTypes in Lighthouse 0995 schema
 // schema.definitions.scCreate.properties.data.properties.attributes.properties.benefitType.emum;
@@ -98,3 +106,5 @@ export const MAX_LENGTH = {
   CLAIMANT_OTHER: 25,
   EVIDENCE_LOCATION_AND_NAME: 255,
 };
+
+export const CONTESTABLE_ISSUES_PATH = 'contestable-issues';
