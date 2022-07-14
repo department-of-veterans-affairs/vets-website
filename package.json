@@ -18,7 +18,7 @@
     "cy:count": "node ./script/count-cy-specs",
     "cy:my-testrail-helper": "node ./script/cypress-testrail-helper",
     "cy:my-testrail-run": "cypress run --config-file config/my-cypress-testrail.json",
-    "cy:open": "cypress open --config-file config/cypress.config.js --browser chrome",
+    "cy:open": "cypress open --config-file config/cypress.config.js --e2e --browser chrome",
     "cy:run": "cypress run --config-file config/cypress.config.js  --browser chrome",
     "cy:test:docker": "node script/run-cypress-tests-docker.js",
     "cy:test:gha": "node script/run-cypress-tests-gha.js",
