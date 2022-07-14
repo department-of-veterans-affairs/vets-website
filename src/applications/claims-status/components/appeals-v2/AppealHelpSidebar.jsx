@@ -21,7 +21,7 @@ const vhaVersion = (
 const AppealHelpSidebar = ({ aoj }) => {
   switch (aoj) {
     case AOJS.vba:
-      return AskVAQuestions;
+      return <AskVAQuestions />;
     case AOJS.vha:
       return vhaVersion;
     case AOJS.nca:
