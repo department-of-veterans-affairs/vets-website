@@ -67,16 +67,13 @@ const createMockSuccessResponse = (
   return rv;
 };
 
-const createAppointment = (
+const getAppointmentStartTime = (
   eligibility = 'ELIGIBLE',
-  facilityId = 'some-facility',
-  appointmentIen = 'some-ien',
-  clinicFriendlyName = 'TEST CLINIC',
   preCheckInValid = false,
   uuid = defaultUUID,
-  timezone = 'browser',
 ) => {
   let startTime = preCheckInValid ? dateFns.addDays(new Date(), 1) : new Date();
+
   if (eligibility === 'INELIGIBLE_TOO_LATE') {
     startTime = dateFns.subHours(startTime, 1);
   } else if (eligibility === 'INELIGIBLE_TOO_EARLY') {
@@ -86,6 +83,20 @@ const createAppointment = (
   } else {
     startTime = dateFns.addMinutes(startTime, 15);
   }
+
+  return startTime;
+};
+
+const createAppointment = (
+  eligibility = 'ELIGIBLE',
+  facilityId = 'some-facility',
+  appointmentIen = 'some-ien',
+  clinicFriendlyName = 'TEST CLINIC',
+  preCheckInValid = false,
+  uuid = defaultUUID,
+  timezone = 'browser',
+) => {
+  const startTime = getAppointmentStartTime(eligibility, preCheckInValid, uuid);
   const formattedStartTime = dateFns.format(
     startTime,
     isoDateWithoutTimezoneFormat,
