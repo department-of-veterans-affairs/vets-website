@@ -34,47 +34,50 @@ const AppointmentBlock = props => {
               className="vads-u-border-bottom--1px check-in--appointment-item"
               data-testid={`appointment-list-item-${index}`}
             >
-              <dl className="check-in--appointment-summary">
-                <dt className="check-in--label vads-u-margin-right--1 appointment-type-label">
+              <div className="check-in--appointment-summary vads-u-margin-bottom--2 vads-u-margin-top--2">
+                <div className="check-in--label vads-u-margin-right--1 appointment-type-label">
                   <i
                     aria-label="Appointment type"
                     className={`fas ${
                       appointment?.kind === 'phone' ? 'fa-phone' : 'fa-building'
                     }`}
                   />
-                </dt>
-                <dd
+                </div>
+                <div
                   className="appointment-type-label vads-u-margin-left--2p5 vads-u-font-weight--bold"
                   data-testid="appointment-type-label"
                 >
                   {appointment?.kind === 'phone' ? 'Phone call' : 'In person'}
-                </dd>
+                </div>
                 {appointment?.kind !== 'phone' && (
                   <>
-                    <dt className="check-in--label vads-u-margin-right--1">
+                    <div className="check-in--label vads-u-margin-right--1">
                       Facility:
-                    </dt>
-                    <dd className="check-in--value" data-testid="facility-name">
+                    </div>
+                    <div
+                      className="check-in--value"
+                      data-testid="facility-name"
+                    >
                       {appointment.facility}
-                    </dd>
+                    </div>
                   </>
                 )}
-                <dt className="check-in--label vads-u-margin-right--1">
+                <div className="check-in--label vads-u-margin-right--1">
                   {t('time')}:
-                </dt>
-                <dd className="check-in--value" data-testid="appointment-time">
+                </div>
+                <div className="check-in--value" data-testid="appointment-time">
                   {t('date-time', { date: appointmentDateTime })}
-                </dd>
-                <dt className="check-in--label vads-u-margin-right--1">
+                </div>
+                <div className="check-in--label vads-u-margin-right--1">
                   {t('clinic')}:
-                </dt>
-                <dd
+                </div>
+                <div
                   className="check-in--value"
                   data-testid="appointment-clinic"
                 >
                   {clinic}
-                </dd>
-              </dl>
+                </div>
+              </div>
               {page === 'confirmation' || appointment?.kind === 'phone' ? (
                 <va-alert
                   background-only
