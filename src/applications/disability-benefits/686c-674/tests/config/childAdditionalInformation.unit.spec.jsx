@@ -16,6 +16,7 @@ describe('686 add child - child additional information', () => {
     schema,
     uiSchema,
     arrayPath,
+    updateFormData,
   } = formConfig.chapters.addChild.pages.addChildAdditionalInformation;
 
   const formData = {
@@ -86,6 +87,7 @@ describe('686 add child - child additional information', () => {
         definitions={formConfig.defaultDefinitions}
         data={formData}
         onSubmit={onSubmit}
+        updateFormData={updateFormData}
       />,
     );
     fillData(
@@ -122,12 +124,11 @@ describe('686 add child - child additional information', () => {
       true,
     );
     changeDropdown(form, 'select#root_childAddressInfo_address_city', 'APO');
-    // not sure why this fails
-    // changeDropdown(
-    //   form,
-    //   'select#root_childAddressInfo_address_stateCode',
-    //   'AA',
-    // );
+    changeDropdown(
+      form,
+      'select#root_childAddressInfo_address_stateCode',
+      'AA',
+    );
     selectCheckbox(
       form,
       'root_childAddressInfo_address_view:livesOnMilitaryBase',

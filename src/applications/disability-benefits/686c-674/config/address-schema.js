@@ -133,7 +133,6 @@ export const updateFormDataAddress = (
    * an array and using `getOldFormDataPath` to find the appropriate path
    */
   const oldAddress = get(getOldFormDataPath(path, index), oldFormData, {});
-
   let { city, stateCode } = address;
   // console.log(address, oldAddress, index, city, stateCode);
   const onMilitaryBase = address?.[MILITARY_BASE_PATH];
@@ -150,8 +149,6 @@ export const updateFormDataAddress = (
       stateCode = ADDRESS_DATA.militaryStates.includes(oldAddress.stateCode)
         ? savedAddress.stateCode
         : stateCode || savedAddress.stateCode;
-      savedAddress.city = city;
-      savedAddress.stateCode = stateCode;
     }
     updatedData = set([...path, 'city'], city, updatedData);
     updatedData = set([...path, 'stateCode'], stateCode, updatedData);
