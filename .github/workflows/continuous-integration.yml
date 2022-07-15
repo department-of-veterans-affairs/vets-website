@@ -473,100 +473,100 @@ jobs:
         id: tests
         run: echo ::set-output name=selected::$TESTS
 
-  cypress-tests:
-    name: Cypress E2E Tests
-    runs-on: [self-hosted, Linux, X64, tests]
-    timeout-minutes: 60
-    needs: [build, cypress-tests-prep]
-    if: |
-      needs.build.result == 'success' &&
-      needs.cypress-tests-prep.result == 'success' &&
-      needs.cypress-tests-prep.outputs.tests != '[]'
-    container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
-      options: -u 1001:1001 -v /usr/local/share:/share
+  # cypress-tests:
+  #   name: Cypress E2E Tests
+  #   runs-on: [self-hosted, Linux, X64, tests]
+  #   timeout-minutes: 60
+  #   needs: [build, cypress-tests-prep]
+  #   if: |
+  #     needs.build.result == 'success' &&
+  #     needs.cypress-tests-prep.result == 'success' &&
+  #     needs.cypress-tests-prep.outputs.tests != '[]'
+  #   container:
+  #     image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
+  #     options: -u 1001:1001 -v /usr/local/share:/share
 
-    strategy:
-      fail-fast: false
-      max-parallel: 8
-      matrix:
-        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7]
+  #   strategy:
+  #     fail-fast: false
+  #     max-parallel: 8
+  #     matrix:
+  #       ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7]
 
-    env:
-      CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
-      NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
+  #   env:
+  #     CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
+  #     NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
-    steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-gov-west-1
+  #   steps:
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-gov-west-1
 
-      - name: Checkout vets-website
-        uses: actions/checkout@v3
+  #     - name: Checkout vets-website
+  #       uses: actions/checkout@v3
 
-      - name: Checkout content-build
-        uses: actions/checkout@v3
-        with:
-          repository: department-of-veterans-affairs/content-build
-          path: content-build
+  #     - name: Checkout content-build
+  #       uses: actions/checkout@v3
+  #       with:
+  #         repository: department-of-veterans-affairs/content-build
+  #         path: content-build
 
-      - name: Download production build artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: vagovprod.tar.bz2
+  #     - name: Download production build artifact
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: vagovprod.tar.bz2
 
-      - name: Unpack build
-        run: |
-          mkdir -p build/vagovprod
-          tar -C build/vagovprod -xjf vagovprod.tar.bz2
+  #     - name: Unpack build
+  #       run: |
+  #         mkdir -p build/vagovprod
+  #         tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            /github/home/.cache/Cypress
-            node_modules
+  #     - name: Install dependencies
+  #       uses: ./.github/workflows/install
+  #       timeout-minutes: 30
+  #       with:
+  #         key: ${{ hashFiles('yarn.lock') }}
+  #         yarn_cache_folder: .cache/yarn
+  #         path: |
+  #           .cache/yarn
+  #           /github/home/.cache/Cypress
+  #           node_modules
 
-      - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+  #     - name: Start server
+  #       run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
-      - name: Run Cypress tests
-        run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 30
-        env:
-          CYPRESS_CI: true
-          STEP: ${{ matrix.ci_node_index }}
-          TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
-          APP_URLS: ${{ needs.cypress-tests-prep.outputs.app_urls }}
+  #     - name: Run Cypress tests
+  #       run: node script/github-actions/run-cypress-tests.js
+  #       timeout-minutes: 30
+  #       env:
+  #         CYPRESS_CI: true
+  #         STEP: ${{ matrix.ci_node_index }}
+  #         TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
+  #         APP_URLS: ${{ needs.cypress-tests-prep.outputs.app_urls }}
 
-      - name: Archive test videos
-        uses: actions/upload-artifact@v3
-        if: ${{ failure() }}
-        with:
-          name: cypress-video-artifacts
-          path: cypress/videos
+  #     - name: Archive test videos
+  #       uses: actions/upload-artifact@v3
+  #       if: ${{ failure() }}
+  #       with:
+  #         name: cypress-video-artifacts
+  #         path: cypress/videos
 
-      - name: Archive test screenshots
-        uses: actions/upload-artifact@v3
-        if: ${{ failure() }}
-        with:
-          name: cypress-screenshot-artifacts
-          path: cypress/screenshots
+  #     - name: Archive test screenshots
+  #       uses: actions/upload-artifact@v3
+  #       if: ${{ failure() }}
+  #       with:
+  #         name: cypress-screenshot-artifacts
+  #         path: cypress/screenshots
 
-      - name: Archive Mochawesome test results
-        uses: actions/upload-artifact@v3
-        if: ${{ always() }}
-        with:
-          name: cypress-mochawesome-test-results
-          path: cypress/results
-          retention-days: 1
+  #     - name: Archive Mochawesome test results
+  #       uses: actions/upload-artifact@v3
+  #       if: ${{ always() }}
+  #       with:
+  #         name: cypress-mochawesome-test-results
+  #         path: cypress/results
+  #         retention-days: 1
 
   testing-reports-contract-tests:
     name: Testing Reports - Contract Tests
@@ -985,12 +985,11 @@ jobs:
 
     strategy:
       matrix:
-        buildtype: [vagovdev]
+        buildtype: [vagovprod]
 
     needs:
       [
         build,
-        cypress-tests,
         unit-tests,
         contract-tests,
         security-audit,
