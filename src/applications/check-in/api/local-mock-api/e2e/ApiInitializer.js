@@ -278,6 +278,7 @@ class ApiInitializer {
       nextOfKinConfirmedAt = null,
       emergencyContactNeedsUpdate = true,
       emergencyContactConfirmedAt = null,
+      timezone = 'browser',
     } = {}) => {
       cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
         const rv = checkInData.get.createMultipleAppointments(
@@ -289,11 +290,20 @@ class ApiInitializer {
           nextOfKinConfirmedAt,
           emergencyContactNeedsUpdate,
           emergencyContactConfirmedAt,
+          timezone,
         );
         if (appointments && appointments.length) {
           const customAppointments = [];
           appointments.forEach(appointment => {
-            const createdAppointment = checkInData.get.createAppointment();
+            const createdAppointment = checkInData.get.createAppointment(
+              'ELIGIBLE',
+              'some-facility',
+              'some-ien',
+              'TEST CLINIC',
+              false,
+              '',
+              timezone,
+            );
             customAppointments.push(
               Object.assign(createdAppointment, appointment),
             );

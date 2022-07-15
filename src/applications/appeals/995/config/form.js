@@ -13,6 +13,7 @@ import {
   EditEmail,
   EditAddress,
 } from '../components/EditContactInfo';
+import AddIssue from '../components/AddIssue';
 
 import addIssue from '../pages/addIssue';
 import benefitType from '../pages/benefitType';
@@ -36,6 +37,7 @@ import veteranInfo from '../pages/veteranInfo';
 import { appStateSelector, mayHaveLegacyAppeals } from '../utils/helpers';
 
 import manifest from '../manifest.json';
+import { CONTESTABLE_ISSUES_PATH } from '../constants';
 
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
 // const { } = fullSchema.properties;
@@ -143,7 +145,7 @@ const formConfig = {
       pages: {
         contestableIssues: {
           title: ' ',
-          path: 'contestable-issues',
+          path: CONTESTABLE_ISSUES_PATH,
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
@@ -152,7 +154,8 @@ const formConfig = {
           title: 'Add issues for review',
           path: 'add-issue',
           depends: () => false,
-          // CustomPage: AddIssue,
+          CustomPage: AddIssue,
+          CustomPageReview: null,
           uiSchema: addIssue.uiSchema,
           schema: addIssue.schema,
         },
@@ -236,6 +239,9 @@ const formConfig = {
       title: 'Notice of Acknowledgement',
       pages: {
         notice5103: {
+          initialData: {
+            form5103Acknowledged: false,
+          },
           title: 'Notice of Acknowledgement',
           path: 'notice-of-acknowledgement',
           uiSchema: noticeOfAcknowledgement.uiSchema,
