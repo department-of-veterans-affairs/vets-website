@@ -220,7 +220,16 @@ function exportVariables(tests) {
 }
 
 function run() {
-  const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
+  // Filter out changed files in this branch while this branch is underdevelopment
+  const filepaths = process.env.CHANGED_FILE_PATHS.split(' ');
+  const pathsOfChangedFiles = filepaths.filter(filepath => {
+    return (
+      filepath !== '.github/workflows/continuous-integration.yml' &&
+      filepath !== 'script/github-actions/select-cypress-tests.js'
+    );
+  });
+
+  // const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
   const graph = dedupeGraph(buildGraph());
   const tests = selectTests(graph, pathsOfChangedFiles);
   exportVariables(tests);
