@@ -18,7 +18,7 @@ const appointments = [
     clinicPhoneNumber: '5551234567',
     clinicFriendlyName: '',
     clinicName: 'LOM ACC CLINIC TEST',
-    appointmentIen: 'some-ien',
+    appointmentIen: 'some-ien2',
     startTime: '2021-11-16T23:00:00',
   },
 ];

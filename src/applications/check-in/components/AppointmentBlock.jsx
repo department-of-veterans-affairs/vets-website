@@ -2,6 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { nanoid } from 'nanoid';
 import AppointmentConfirmationListItem from './AppointmentDisplay/AppointmentConfirmationListItem';
 
 const AppointmentBlock = props => {
@@ -27,12 +28,13 @@ const AppointmentBlock = props => {
         className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
         data-testid="appointment-list"
       >
-        {appointments.map((appointment, index) => {
+        {appointments.map(appointment => {
+          const itemID = nanoid();
           return (
             <AppointmentConfirmationListItem
               appointment={appointment}
-              index={index}
-              key={index}
+              index={itemID}
+              key={itemID}
             />
           );
         })}

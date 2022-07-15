@@ -1,5 +1,6 @@
 const dateFns = require('date-fns');
 const { utcToZonedTime, format } = require('date-fns-tz');
+const { nanoid } = require('nanoid');
 
 const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
 const pacificTimezoneUUID = '6c72b801-74ac-47fe-82af-cfe59744b45f';
@@ -46,7 +47,7 @@ const createMockSuccessResponse = (
           clinicPhoneNumber: '5551234567',
           clinicFriendlyName: 'TEST CLINIC',
           clinicName: 'LOM ACC CLINIC TEST',
-          appointmentIen: 'some-ien',
+          appointmentIen: nanoid(),
         },
       ],
       patientDemographicsStatus: {

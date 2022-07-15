@@ -41,6 +41,7 @@ const AppointmentBlock = props => {
                     className={`fas ${
                       appointment?.kind === 'phone' ? 'fa-phone' : 'fa-building'
                     }`}
+                    aria-hidden="true"
                   />
                 </div>
                 <div
