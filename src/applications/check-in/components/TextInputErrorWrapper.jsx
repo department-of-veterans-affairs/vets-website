@@ -5,8 +5,8 @@ const TextInputErrorWrapper = ({ error, children }) =>
   error ? <div className="vads-u-padding-left--2p5">{children}</div> : children;
 
 TextInputErrorWrapper.propTypes = {
-  error: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
+  error: PropTypes.bool.isRequired,
 };
 
 export default TextInputErrorWrapper;
