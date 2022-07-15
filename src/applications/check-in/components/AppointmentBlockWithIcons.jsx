@@ -83,15 +83,19 @@ const AppointmentBlock = props => {
                   class="vads-u-margin-bottom--2"
                 >
                   <div>
-                    {appointment?.kind === 'phone'
-                      ? `${t('your-provider-will-call-you')} ${
-                          page === 'confirmation'
-                            ? t('you-may-need-to-wait')
-                            : ''
-                        }`
-                      : t(
-                          'please-bring-your-insurance-cards-with-you-to-your-appointment',
-                        )}
+                    {() => {
+                      if (appointment?.kind === 'phone') {
+                        if (page === 'confirmation') {
+                          return t(
+                            'your-provider-will-call-you-at-your-appointment-time-you-may-need-to-wait-about-15-minutes-for-their-call-thanks-for-your-patience',
+                          );
+                        }
+                        return t('your-provider-will-call-you');
+                      }
+                      return t(
+                        'please-bring-your-insurance-cards-with-you-to-your-appointment',
+                      );
+                    }}
                   </div>
                 </va-alert>
               ) : (
