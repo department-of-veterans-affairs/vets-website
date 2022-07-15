@@ -480,8 +480,7 @@ jobs:
     needs: [build, cypress-tests-prep]
     if: |
       needs.build.result == 'success' &&
-      needs.cypress-tests-prep.result == 'success' &&
-      needs.cypress-tests-prep.outputs.tests != '[]'
+      needs.cypress-tests-prep.result == 'success'
     container:
       image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
       options: -u 1001:1001 -v /usr/local/share:/share
@@ -497,7 +496,17 @@ jobs:
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
+      # The following statement is included in each step because of a bug in
+      # GitHub's branch protection:
+      #
+      # if: needs.cypress-tests-prep.outputs.tests != '[]'
+      #
+      # Previously, if no tests were selected, the branch protection check that
+      # requires the cypress-tests job to run was not satisfied. This update forces
+      # the job to always run, and skips each step if no tests are selected.
+      # Previously, the above conditional was included in the job's if statement.
       - name: Configure AWS credentials
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -505,25 +514,30 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Checkout vets-website
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: actions/checkout@v3
 
       - name: Checkout content-build
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: actions/checkout@v3
         with:
           repository: department-of-veterans-affairs/content-build
           path: content-build
 
       - name: Download production build artifact
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: actions/download-artifact@v3
         with:
           name: vagovprod.tar.bz2
 
       - name: Unpack build
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
         run: |
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
       - name: Install dependencies
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: ./.github/workflows/install
         timeout-minutes: 30
         with:
@@ -535,9 +549,11 @@ jobs:
             node_modules
 
       - name: Start server
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
         run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
       - name: Run Cypress tests
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
         run: node script/github-actions/run-cypress-tests.js
         timeout-minutes: 30
         env:
@@ -547,22 +563,22 @@ jobs:
           APP_URLS: ${{ needs.cypress-tests-prep.outputs.app_urls }}
 
       - name: Archive test videos
+        if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
         uses: actions/upload-artifact@v3
-        if: ${{ failure() }}
         with:
           name: cypress-video-artifacts
           path: cypress/videos
 
       - name: Archive test screenshots
+        if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
         uses: actions/upload-artifact@v3
-        if: ${{ failure() }}
         with:
           name: cypress-screenshot-artifacts
           path: cypress/screenshots
 
       - name: Archive Mochawesome test results
+        if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && always() }}
         uses: actions/upload-artifact@v3
-        if: ${{ always() }}
         with:
           name: cypress-mochawesome-test-results
           path: cypress/results
