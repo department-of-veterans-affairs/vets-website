@@ -88,6 +88,11 @@ export const buildAddressSchema = isMilitaryBaseAddress => {
 
 const insertArrayIndex = (key, index) => key.replace('[INDEX]', `[${index}]`);
 
+const getOldFormDataPath = (path, index) => {
+  const indexToSlice = index !== null ? path.indexOf(index) + 1 : 0;
+  return path.slice(indexToSlice);
+};
+
 // Temporary storage for city & state if military base checkbox is toggled more
 // than once. Not ideal, but works since this code isn't inside a React widget
 const savedAddress = {
@@ -116,18 +121,18 @@ export const updateFormDataAddress = (
 ) => {
   let updatedData = formData;
   const address = get(path, formData, {});
+
   /*
+   * formData and oldFormData are not guaranteed to have the same shape; formData
+   * will always return the entire data object. See below for details on oldFormData
+   *
    * In the src/platform/forms-system/src/js/containers/FormPage.jsx, if the
-   * address is inside an array (has a `showPagePerItem` index), it will return
-   * that data from the array index (see the this.formData() function) but that
-   * may not include the address object, so we're passing in a path as an array
-   * and using slice(-1) to get that last path key
+   * address is inside an array (has a `showPagePerItem` index), oldData is set
+   * to the form data from the array index (see the this.formData() function)
+   * but that may not include the address object, so we're passing in a path as
+   * an array and using `getOldFormDataPath` to find the appropriate path
    */
-  const oldAddress = get(
-    index !== null ? path.slice(-1) : path,
-    oldFormData,
-    {},
-  );
+  const oldAddress = get(getOldFormDataPath(path, index), oldFormData, {});
 
   let { city, stateCode } = address;
   // console.log(address, oldAddress, index, city, stateCode);
@@ -151,6 +156,7 @@ export const updateFormDataAddress = (
     updatedData = set([...path, 'city'], city, updatedData);
     updatedData = set([...path, 'stateCode'], stateCode, updatedData);
   }
+
   return updatedData;
 };
 
