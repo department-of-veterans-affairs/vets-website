@@ -1,7 +1,11 @@
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import { veteranInformation } from '../../../utilities';
-import { buildAddressSchema, addressUISchema } from '../../../address-schema';
+import {
+  buildAddressSchema,
+  addressUISchema,
+  updateFormDataAddress,
+} from '../../../address-schema';
 
 const veteranContactInformationSchema = cloneDeep(
   veteranInformation.properties.veteranAddress,
@@ -76,3 +80,9 @@ export const uiSchema = {
     },
   },
 };
+
+export const updateFormData = (oldFormData, formData) =>
+  updateFormDataAddress(oldFormData, formData, [
+    'veteranContactInformation',
+    'veteranAddress',
+  ]);
