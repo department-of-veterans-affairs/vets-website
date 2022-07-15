@@ -19,38 +19,30 @@ class NextOfKin {
   validateNextOfKinFields = (parentSelector = '.confirmable-page ul') => {
     cy.get(parentSelector)
       .find('li:nth-of-type(1)')
-      .should('have.text', 'Name')
+      .should('include.text', 'Name')
       .next()
+      .should('include.text', 'Relationship')
       .next()
-      .should('have.text', 'Relationship')
+      .should('include.text', 'Address')
       .next()
+      .should('include.text', 'Phone')
       .next()
-      .should('have.text', 'Address')
-      .next()
-      .next()
-      .should('have.text', 'Phone')
-      .next()
-      .next()
-      .should('have.text', 'Work phone');
+      .should('include.text', 'Work phone');
   };
 
   // @TODO: update to match against mock api.
   validateNextOfKinData = (parentSelector = '.confirmable-page ul') => {
     cy.get(parentSelector)
       .find('li:nth-of-type(1)')
-      .should('have.text', 'VETERAN,JONAH')
+      .should('include.text', 'VETERAN,JONAH')
       .next()
+      .should('include.text', 'BROTHER')
       .next()
-      .should('have.text', 'BROTHER')
+      .should('include.text', '123 Main St, Ste 234Los Angeles, CA 90089')
       .next()
+      .should('include.text', '111-222-3333')
       .next()
-      .should('have.text', '123 Main St, Ste 234Los Angeles, CA 90089')
-      .next()
-      .next()
-      .should('have.text', '111-222-3333')
-      .next()
-      .next()
-      .should('have.text', '444-555-6666');
+      .should('include.text', '444-555-6666');
   };
 
   attemptToGoToNextPage = (button = 'yes') => {

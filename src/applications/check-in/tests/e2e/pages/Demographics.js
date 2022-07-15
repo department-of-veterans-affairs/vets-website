@@ -4,14 +4,14 @@ class Demographics {
   validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Is this your current contact information?');
+      .and('include.text', 'Is this your current contact information?');
   };
 
   validateSubTitle = () => {
     cy.get('.confirmable-page > p', { timeout: Timeouts.slow })
       .should('be.visible')
       .and(
-        'have.text',
+        'include.text',
         'We can better follow up with you after your appointment when we have your current information.',
       );
   };
@@ -21,22 +21,17 @@ class Demographics {
   ) => {
     cy.get(parentSelector)
       .find('li:nth-of-type(1)')
-      .should('have.text', 'Mailing address')
+      .should('include.text', 'Mailing address')
       .next()
+      .should('include.text', 'Home address')
       .next()
-      .should('have.text', 'Home address')
+      .should('include.text', 'Home phone')
       .next()
+      .should('include.text', 'Mobile phone')
       .next()
-      .should('have.text', 'Home phone')
+      .should('include.text', 'Work phone')
       .next()
-      .next()
-      .should('have.text', 'Mobile phone')
-      .next()
-      .next()
-      .should('have.text', 'Work phone')
-      .next()
-      .next()
-      .should('have.text', 'Email address');
+      .should('include.text', 'Email address');
   };
 
   validateDemographicData = ({
@@ -49,22 +44,17 @@ class Demographics {
   } = {}) => {
     cy.get("ul[data-testid='demographics-fields']")
       .find('li:nth-of-type(1)')
-      .should('have.text', mailingAddress)
+      .should('include.text', mailingAddress)
       .next()
+      .should('include.text', homeAddress)
       .next()
-      .should('have.text', homeAddress)
+      .should('include.text', homePhone)
       .next()
+      .should('include.text', mobilePhone)
       .next()
-      .should('have.text', homePhone)
+      .should('include.text', workPhone)
       .next()
-      .next()
-      .should('have.text', mobilePhone)
-      .next()
-      .next()
-      .should('have.text', workPhone)
-      .next()
-      .next()
-      .should('have.text', email);
+      .should('include.text', email);
   };
 
   attemptToGoToNextPage = (button = 'yes') => {

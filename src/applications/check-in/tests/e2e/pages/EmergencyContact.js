@@ -4,25 +4,21 @@ class EmergencyContact {
   validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Is this your current emergency contact?');
+      .and('include.text', 'Is this your current emergency contact?');
   };
 
   validateDemographicsFields = () => {
     cy.get("ul[data-testid='demographics-fields']")
       .find('li:nth-of-type(1)')
-      .should('have.text', 'Name')
+      .should('include.text', 'Name')
       .next()
+      .should('include.text', 'Relationship')
       .next()
-      .should('have.text', 'Relationship')
+      .should('include.text', 'Address')
       .next()
+      .should('include.text', 'Phone')
       .next()
-      .should('have.text', 'Address')
-      .next()
-      .next()
-      .should('have.text', 'Phone')
-      .next()
-      .next()
-      .should('have.text', 'Work phone');
+      .should('include.text', 'Work phone');
   };
 
   validateDemographicData = ({
@@ -34,19 +30,15 @@ class EmergencyContact {
   } = {}) => {
     cy.get("ul[data-testid='demographics-fields']")
       .find('li:nth-of-type(1)')
-      .should('have.text', name)
+      .should('include.text', name)
       .next()
+      .should('include.text', relationship)
       .next()
-      .should('have.text', relationship)
+      .should('include.text', address)
       .next()
+      .should('include.text', phone)
       .next()
-      .should('have.text', address)
-      .next()
-      .next()
-      .should('have.text', phone)
-      .next()
-      .next()
-      .should('have.text', workPhone);
+      .should('include.text', workPhone);
   };
 
   attemptToGoToNextPage = (button = 'yes') => {
