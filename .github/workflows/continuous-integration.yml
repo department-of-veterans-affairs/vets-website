@@ -554,7 +554,7 @@ jobs:
           APP_URLS: ${{ needs.cypress-tests-prep.outputs.app_urls }}
 
       - name: Archive test videos
-        if: needs.cypress-tests-prep.outputs.tests != '[]' && ${{ failure() }}
+        if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
         uses: actions/upload-artifact@v3
         # if: ${{ failure() }}
         with:
@@ -562,7 +562,7 @@ jobs:
           path: cypress/videos
 
       - name: Archive test screenshots
-        if: needs.cypress-tests-prep.outputs.tests != '[]' && ${{ failure() }}
+        if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
         uses: actions/upload-artifact@v3
         # if: ${{ failure() }}
         with:
@@ -570,7 +570,7 @@ jobs:
           path: cypress/screenshots
 
       - name: Archive Mochawesome test results
-        if: needs.cypress-tests-prep.outputs.tests != '[]' && ${{ always() }}
+        if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && always() }}
         uses: actions/upload-artifact@v3
         # if: ${{ always() }}
         with:
