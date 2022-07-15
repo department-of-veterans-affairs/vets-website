@@ -61,7 +61,7 @@ export class VerifyApp extends React.Component {
         copy: 'Login.gov',
         renderImage: <LoginGovSVG />,
         className: `logingov-button`,
-        link: 'logingov',
+        policy: 'logingov',
       },
       {
         copy: 'ID.me',
@@ -74,17 +74,20 @@ export class VerifyApp extends React.Component {
           />
         ),
         className: `idme-button`,
-        link: 'idme',
+        policy: 'idme',
       },
     ];
 
-    if (signInMethod === this.signinMethodLabels.myhealthevet) {
-      return renderOpts.map(({ copy, renderImage, className, link }) => (
+    if (
+      signInMethod === this.signinMethodLabels.mhv ||
+      signInMethod === this.signinMethodLabels.myhealthevet
+    ) {
+      return renderOpts.map(({ copy, renderImage, className, policy }) => (
         <button
-          key={copy}
+          key={policy}
           type="button"
           className={className}
-          onClick={() => verify(link)}
+          onClick={() => verify({ policy })}
         >
           <strong>
             Verify with <span className="sr-only">{copy}</span>
@@ -93,12 +96,13 @@ export class VerifyApp extends React.Component {
         </button>
       ));
     }
-    const { className, copy, renderImage, link } = renderOpts[0];
+    const { className, copy, renderImage, policy } = renderOpts[0];
+
     return (
       <button
         type="button"
         className={`usa-button ${className}`}
-        onClick={() => verify(link)}
+        onClick={() => verify({ policy })}
       >
         <strong>
           Verify with <span className="sr-only">{copy}</span>
