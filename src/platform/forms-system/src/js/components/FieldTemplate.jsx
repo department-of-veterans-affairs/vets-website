@@ -104,8 +104,8 @@ export default function FieldTemplate(props) {
 
   const content = (
     <>
-      {showLabel && labelElement}
       {textDescription && <p>{textDescription}</p>}
+      {showLabel && labelElement}
       {DescriptionField && (
         <DescriptionField
           options={uiSchema['ui:options']}
