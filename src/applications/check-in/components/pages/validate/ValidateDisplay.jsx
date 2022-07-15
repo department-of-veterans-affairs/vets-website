@@ -86,6 +86,7 @@ export default function ValidateDisplay({
         <></>
       )}
       <form className="vads-u-margin-bottom--2p5" onSubmit={handleFormSubmit}>
+        {/* @TODO This error wrapper can go away once fixed in DS. Evaluate during next audit */}
         <TextInputErrorWrapper
           error={lastNameErrorMessage && lastNameErrorMessage.length}
         >
