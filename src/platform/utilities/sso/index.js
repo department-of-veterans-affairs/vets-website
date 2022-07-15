@@ -13,7 +13,6 @@ import {
   createExternalApplicationUrl,
 } from 'platform/user/authentication/utilities';
 
-import { hasSessionSSO } from 'platform/user/profile/utilities';
 import mockKeepAlive from './mockKeepAliveSSO';
 import { keepAlive as liveKeepAlive } from './keepAliveSSO';
 import { getLoginAttempted } from './loginAttempted';
@@ -121,7 +120,7 @@ export async function checkAutoSession(
 }
 
 export function checkAndUpdateSSOeSession() {
-  if (hasSessionSSO()) {
+  if (JSON.parse(localStorage.getItem('hasSessionSSO'))) {
     const sessionExpiration = localStorage.getItem('sessionExpirationSSO');
 
     const remainingSessionTime = differenceInSeconds(

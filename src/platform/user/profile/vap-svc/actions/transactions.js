@@ -3,11 +3,13 @@ import * as Sentry from '@sentry/browser';
 import {
   ADDRESS_POU,
   FIELD_NAMES,
+  TRANSACTION_STATUS,
 } from 'platform/user/profile/vap-svc/constants';
 import {
   showAddressValidationModal,
   inferAddressType,
 } from 'platform/user/profile/vap-svc/util';
+import { hasBadAddress } from 'applications/personalization/profile/selectors';
 import { apiRequest } from 'platform/utilities/api';
 import { refreshProfile } from 'platform/user/profile/actions';
 import recordEvent from 'platform/monitoring/record-event';
@@ -40,6 +42,8 @@ export const VAP_SERVICE_TRANSACTION_UPDATE_FAILED =
   'VAP_SERVICE_TRANSACTION_UPDATE_FAILED';
 export const VAP_SERVICE_TRANSACTION_CLEARED =
   'VAP_SERVICE_TRANSACTION_CLEARED';
+export const VAP_SERVICE_BAD_ADDRESS_NO_CHANGES_DETECTED =
+  'VAP_SERVICE_BAD_ADDRESS_NO_CHANGES_DETECTED';
 export const ADDRESS_VALIDATION_CONFIRM = 'ADDRESS_VALIDATION_CONFIRM';
 export const ADDRESS_VALIDATION_ERROR = 'ADDRESS_VALIDATION_ERROR';
 export const ADDRESS_VALIDATION_RESET = 'ADDRESS_VALIDATION_RESET';
@@ -156,6 +160,36 @@ export function refreshTransaction(
   };
 }
 
+const handleBadAddressNoChangesDetected = async ({
+  dispatch,
+  getState,
+  fieldName,
+  transaction,
+}) => {
+  const state = getState();
+  const hasMailingBadAddress = hasBadAddress(state);
+
+  const noChangesDetected =
+    transaction?.data?.attributes?.transactionStatus ===
+    TRANSACTION_STATUS.COMPLETED_NO_CHANGES_DETECTED;
+
+  // dipatch an action just for showing update saved alert when BAI is updated with same addrress,
+  // then refresh user profile data so that BAI alert is removed from UI
+  if (
+    fieldName === FIELD_NAMES.MAILING_ADDRESS &&
+    hasMailingBadAddress &&
+    noChangesDetected
+  ) {
+    const forceCacheClear = true;
+    await dispatch(refreshProfile(forceCacheClear, { bai: 'clear' }));
+
+    dispatch({
+      type: VAP_SERVICE_BAD_ADDRESS_NO_CHANGES_DETECTED,
+      fieldName,
+    });
+  }
+};
+
 export function createTransaction(
   route,
   method,
@@ -163,7 +197,7 @@ export function createTransaction(
   payload,
   analyticsSectionName,
 ) {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     const options = {
       body: JSON.stringify(payload),
       method,
@@ -178,12 +212,8 @@ export function createTransaction(
         method,
       });
 
-      // If the request does not hit the server, apiRequest which is using fetch - will throw an error
-      // it will not return back a transaction with errors on it
-      // TODO: use mock server locally instead of isVAProfileServiceConfigured
-      const transaction = isVAProfileServiceConfigured()
-        ? await apiRequest(route, options)
-        : await localVAProfileService.createTransaction();
+      // If the request does not hit a mock server locally, apiRequest which is using fetch - will throw an error
+      const transaction = await apiRequest(route, options);
 
       if (transaction?.errors) {
         const error = new Error('There was a transaction error');
@@ -199,6 +229,13 @@ export function createTransaction(
           'profile-section': analyticsSectionName,
         });
       }
+
+      handleBadAddressNoChangesDetected({
+        dispatch,
+        getState,
+        fieldName,
+        transaction,
+      });
 
       dispatch({
         type: VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED,

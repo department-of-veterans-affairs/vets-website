@@ -98,9 +98,8 @@ describe('DebtSummaryCard', () => {
     );
 
     expect(wrapper.find('h3').text()).to.equal('$10,000.00');
-    expect(wrapper.find('h4').text()).to.equal('Chapter 35 education debt');
     expect(wrapper.find('p').text()).to.equal(
-      'Pay your $10,000.00 balance now or request help',
+      'Chapter 35 education debtPay your $10,000.00 balance now or request help',
     );
   });
 });

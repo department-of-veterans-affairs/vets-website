@@ -1,11 +1,6 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
-import {
-  isVAProfileServiceConfigured,
-  mockContactInformation,
-} from 'platform/user/profile/vap-svc/util/local-vapsvc';
 import localStorage from 'platform/utilities/storage/localStorage';
-
 import { ssoKeepAliveSession } from 'platform/utilities/sso';
 import { removeInfoToken } from 'platform/utilities/oauth/utilities';
 import {
@@ -79,9 +74,7 @@ export function mapRawUserDataToState(json) {
       last,
     },
     verified,
-    vapContactInfo: isVAProfileServiceConfigured()
-      ? vet360ContactInformation
-      : mockContactInformation,
+    vapContactInfo: vet360ContactInformation,
     session,
     veteranStatus: {},
   };
@@ -155,6 +148,7 @@ export function teardownProfileSession() {
     'sessionExpiration',
     'hasSessionSSO',
     'sessionExpirationSSO',
+    'atExpires',
   ].forEach(key => localStorage.removeItem(key));
   removeInfoToken();
   sessionStorage.removeItem('shouldRedirectExpiredSession');

@@ -1,5 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+// TODO: Look at moving the .process-step css into this file
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
+// TODO: Determine if we are actually using any of these
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/va-tabs";
@@ -302,12 +304,6 @@
 }
 
 .help-phone-number {
-  margin: 0.5em 0;
-}
-
-.help-phone-number-link {
-  font-weight: bold;
-  text-decoration: none;
   margin: 0.5em 0;
 }
 

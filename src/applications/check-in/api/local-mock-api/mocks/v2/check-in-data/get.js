@@ -1,6 +1,8 @@
 const dateFns = require('date-fns');
+const { utcToZonedTime, format } = require('date-fns-tz');
 
 const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
+const pacificTimezoneUUID = '6c72b801-74ac-47fe-82af-cfe59744b45f';
 const aboutToExpireUUID = '25165847-2c16-4c8b-8790-5de37a7f427f';
 
 const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
@@ -65,15 +67,13 @@ const createMockSuccessResponse = (
   return rv;
 };
 
-const createAppointment = (
+const getAppointmentStartTime = (
   eligibility = 'ELIGIBLE',
-  facilityId = 'some-facility',
-  appointmentIen = 'some-ien',
-  clinicFriendlyName = 'TEST CLINIC',
   preCheckInValid = false,
   uuid = defaultUUID,
 ) => {
   let startTime = preCheckInValid ? dateFns.addDays(new Date(), 1) : new Date();
+
   if (eligibility === 'INELIGIBLE_TOO_LATE') {
     startTime = dateFns.subHours(startTime, 1);
   } else if (eligibility === 'INELIGIBLE_TOO_EARLY') {
@@ -83,24 +83,58 @@ const createAppointment = (
   } else {
     startTime = dateFns.addMinutes(startTime, 15);
   }
+
+  return startTime;
+};
+
+const createAppointment = (
+  eligibility = 'ELIGIBLE',
+  facilityId = 'some-facility',
+  appointmentIen = 'some-ien',
+  clinicFriendlyName = 'TEST CLINIC',
+  preCheckInValid = false,
+  uuid = defaultUUID,
+  timezone = 'browser',
+) => {
+  const startTime = getAppointmentStartTime(eligibility, preCheckInValid, uuid);
   const formattedStartTime = dateFns.format(
     startTime,
     isoDateWithoutTimezoneFormat,
   );
 
   // C.f. CHECKIN_MINUTES_BEFORE in {chip repo}/infra/template.yml
-  const checkInWindowStart = dateFns.subMinutes(new Date(startTime), 30);
-  const formattedCheckInWindowStart = dateFns.format(
+  let checkInWindowStart = dateFns.subMinutes(new Date(startTime), 30);
+  let formattedCheckInWindowStart = format(
     checkInWindowStart,
     isoDateWithOffsetFormat,
   );
-
   // C.f. CHECKIN_MINUTES_AFTER in {chip repo}/infra/template.yml
-  const checkInWindowEnd = dateFns.addMinutes(new Date(startTime), 15);
-  const formattedCheckInWindowEnd = dateFns.format(
+  let checkInWindowEnd = dateFns.addMinutes(new Date(startTime), 15);
+  let formattedCheckInWindowEnd = dateFns.format(
     checkInWindowEnd,
     isoDateWithOffsetFormat,
   );
+
+  if (timezone !== 'browser') {
+    checkInWindowStart = dateFns.subMinutes(
+      utcToZonedTime(new Date(startTime), timezone),
+      30,
+    );
+    formattedCheckInWindowStart = format(
+      checkInWindowStart,
+      isoDateWithOffsetFormat,
+      { timeZone: timezone },
+    );
+    checkInWindowEnd = dateFns.addMinutes(
+      utcToZonedTime(new Date(startTime), timezone),
+      15,
+    );
+    formattedCheckInWindowEnd = format(
+      checkInWindowEnd,
+      isoDateWithOffsetFormat,
+      { timeZone: timezone },
+    );
+  }
 
   return {
     facility: 'LOMA LINDA VA CLINIC',
@@ -204,6 +238,11 @@ const createMultipleAppointments = (
       },
     },
   };
+
+  let timezone = 'browser';
+  if (token === pacificTimezoneUUID) {
+    timezone = 'America/Los_Angeles';
+  }
   for (let i = 0; i < numberOfCheckInAbledAppointments; i += 1) {
     rv.payload.appointments.push(
       createAppointment(
@@ -213,6 +252,7 @@ const createMultipleAppointments = (
         `TEST CLINIC-${i}`,
         false,
         token,
+        timezone,
       ),
     );
   }

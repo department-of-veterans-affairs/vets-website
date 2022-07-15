@@ -248,7 +248,9 @@ describe('VAOS VA request flow using VAOS service', () => {
       response: {
         data: {
           id: '25957',
-          attributes: {},
+          attributes: {
+            reasonCode: {},
+          },
         },
       },
     }).as('appointmentRequests');

@@ -12,7 +12,9 @@ import {
   isFailedTransaction,
   isPendingTransaction,
 } from 'platform/user/profile/vap-svc/util/transactions';
+import { hasBadAddress } from 'applications/personalization/profile/selectors';
 import VAPServiceEditModalErrorMessage from 'platform/user/profile/vap-svc/components/base/VAPServiceEditModalErrorMessage';
+
 import {
   openModal,
   createTransaction,
@@ -54,11 +56,25 @@ class AddressValidationModal extends React.Component {
 
     const method = payload.id ? 'PUT' : 'POST';
 
-    recordEvent({
-      event: 'profile-transaction',
-      'profile-section': analyticsSectionName,
-      'profile-addressSuggestionUsed': suggestedAddressSelected ? 'yes' : 'no',
-    });
+    if (this.props.userHasBadAddress) {
+      recordEvent({
+        event: 'api_call',
+        'api-name': 'Updating bad address',
+        'api-status': 'started',
+        'profile-section': analyticsSectionName,
+        'profile-addressSuggestionUsed': suggestedAddressSelected
+          ? 'yes'
+          : 'no',
+      });
+    } else {
+      recordEvent({
+        event: 'profile-transaction',
+        'profile-section': analyticsSectionName,
+        'profile-addressSuggestionUsed': suggestedAddressSelected
+          ? 'yes'
+          : 'no',
+      });
+    }
 
     if (suggestedAddressSelected) {
       this.props.updateValidationKeyAndSave(
@@ -272,6 +288,7 @@ class AddressValidationModal extends React.Component {
 const mapStateToProps = (state, ownProps) => {
   const { transaction } = ownProps;
   const { addressValidationType } = state.vapService.addressValidation;
+  const userHasBadAddress = hasBadAddress(state);
 
   return {
     analyticsSectionName:
@@ -289,6 +306,7 @@ const mapStateToProps = (state, ownProps) => {
     addressFromUser: state.vapService.addressValidation.addressFromUser,
     selectedAddress: state.vapService.addressValidation.selectedAddress,
     selectedAddressId: state.vapService.addressValidation.selectedAddressId,
+    userHasBadAddress,
   };
 };
 
@@ -335,6 +353,7 @@ AddressValidationModal.propTypes = {
   createTransaction: PropTypes.func.isRequired,
   updateSelectedAddress: PropTypes.func.isRequired,
   updateValidationKeyAndSave: PropTypes.func.isRequired,
+  userHasBadAddress: PropTypes.bool,
 };
 
 export default connect(

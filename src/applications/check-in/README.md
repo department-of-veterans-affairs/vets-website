@@ -1,5 +1,5 @@
 # Check-in Experience developer guide
-The check-in experience application is split across two smaller applications, check-in and pre-check-in. 
+The check-in experience application is split across two smaller applications, check-in and pre-check-in.
 
 More specific details can be found in the specific README files for each sub-app.
 
@@ -24,14 +24,18 @@ There are several different mock UUIDs that can be used as a value for the `id` 
 ### Check-in
   - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
   - aboutToExpireUUID: `25165847-2c16-4c8b-8790-5de37a7f427f`
+  - pacificTimezoneUUID: `6c72b801-74ac-47fe-82af-cfe59744b45f`
 ### Pre-check-in
   - defaultUUID: `0429dda5-4165-46be-9ed1-1e652a8dfd83`
+  - phoneApptUUID: `258d753c-262a-4ab2-b618-64b645884daf`
   - alreadyPreCheckedInUUID: `4d523464-c450-49dc-9a18-c04b3f1642ee`
   - canceledAppointmentUUID: `9d7b7c15-d539-4624-8d15-b740b84e8548`
+  - canceledPhoneAppointmentUUID: `1448d690-fd5f-11ec-b939-0242ac120002`
   - expiredUUID: `354d5b3a-b7b7-4e5c-99e4-8d563f15c521`
+  - expiredPhoneUUID: `08ba56a7-68b7-4b9f-b779-53ba609140ef`
 
 ## Design system
-99% of the styling comes from the VA design system [component library](https://design.va.gov/components/) and [utility classes](https://design.va.gov/foundation/utilities/). For the remaining 1% of styling there is an scss file in the `sass` directory in the root of each sub-application.
+99% of the styling comes from the VA design system [component library](https://design.va.gov/components/) and [utility classes](https://design.va.gov/foundation/utilities/). For the remaining 1% of styling there is an scss file in the `sass` directory in the project root.
 
 When adding features, use components from the design system as much as possible. For general spacing, layout, typography, borders, etc... use the utility classes rather than adding to the style sheet.
 
