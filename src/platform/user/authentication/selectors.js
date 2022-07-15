@@ -1,3 +1,5 @@
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { selectProfile } from 'platform/user/selectors';
 import { infoTokenExists } from 'platform/utilities/oauth/utilities';
 
@@ -18,3 +20,6 @@ export const ssoeTransactionId = state =>
 
 export const transitionMHVAccount = state =>
   selectProfile(state)?.mhvTransitionEligible;
+
+export const signInServiceEnabled = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.signInServiceEnabled];
