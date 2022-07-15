@@ -1,4 +1,3 @@
-import React from 'react';
 import mapValues from 'lodash/mapValues';
 import set from 'platform/utilities/data/set';
 import moment from 'moment';
@@ -17,8 +16,6 @@ import {
 import { getInactivePages } from 'platform/forms/helpers';
 import { isValidDate } from 'platform/forms/validations';
 import { isInMPI } from 'platform/user/selectors';
-
-import facilityLocator from '../facility-locator/manifest.json';
 
 export {
   getMedicalCenterNameByID,
@@ -177,84 +174,6 @@ export function transform(formConfig, form) {
   });
 }
 
-export const facilityHelp = (
-  <div>
-    <div>
-      OR{' '}
-      <a
-        href={facilityLocator.rootUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Find locations with the VA Facility Locator
-      </a>
-    </div>
-    <br />
-    If you’re looking for medical care outside the continental U.S. or Guam,
-    you’ll need to sign up for our Foreign Medical Program.{' '}
-    <a
-      href="https://www.va.gov/COMMUNITYCARE/programs/veterans/fmp/index.asp"
-      rel="noopener noreferrer"
-      target="_blank"
-    >
-      Learn more about the Foreign Medical Program
-    </a>
-    .<br />
-    <p>
-      You can also visit{' '}
-      <a
-        href="https://www.benefits.va.gov/PERSONA/veteran-abroad.asp"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Veterans Living Abroad
-      </a>
-      .
-    </p>
-  </div>
-);
-
-export function fileHelp({ formContext }) {
-  if (formContext.reviewMode) {
-    return null;
-  }
-
-  return (
-    <>
-      <p>
-        Please upload a copy of your military discharge papers (like your DD214,
-        DD256, DD257, NGB22, or other separation documents). If you have more
-        than one discharge document, please upload the one with the highest
-        character of discharge. If you don’t have your discharge papers, you can
-        upload a copy of other official military documents (like proof of
-        military awards or your disability rating letter).
-      </p>
-      <br />
-      <p>
-        You don’t have to upload these documents. But it can help us verify your
-        military service and may speed up your application process.
-      </p>
-      <br />
-      <p>
-        <strong>Tips for uploading:</strong>
-      </p>
-      <ul>
-        <li>
-          Upload documents as one of these file types: .jpg, .png, .pdf, .doc,
-          .rtf
-        </li>
-        <li>
-          Upload one or more files that add up to no more than 10 MB total.
-        </li>
-        <li>
-          If you don’t have a digital copy of a document, you can scan or take a
-          photo of it and then upload the image from your computer or phone.
-        </li>
-      </ul>
-    </>
-  );
-}
-
 // Turns the facility list for each state into an array of strings
 export const medicalCentersByState = mapValues(vaMedicalFacilities, val =>
   val.map(center => center.value),
@@ -285,126 +204,6 @@ export const lastServiceBranchLabels = {
   'f.scouts old': 'Filipino Old Scout',
   other: 'Other',
 };
-
-export const financialDisclosureText = (
-  <div>
-    <p>
-      Next, we’ll ask you to provide your financial information from the most
-      recent tax year, which we’ll verify with the IRS. We use this information
-      to figure out if you:
-    </p>
-
-    <ol>
-      <li>
-        Are eligible for health care even if you don’t have one of the
-        qualifying factors
-      </li>
-      <li>
-        Are eligible for added benefits, like reimbusement for travel costs or
-        cost-free medications
-      </li>
-      <li>Should be charged for copays or medication</li>
-    </ol>
-    <div className="vads-u-margin-top--2p5">
-      <va-alert status="info" visible>
-        <p className="vads-u-margin-y--0">
-          <strong>Note:</strong> You don’t have to provide your financial
-          information. But if you don’t have a qualifying eligibility factor,
-          this information is the only other way for us to see if you can get VA
-          health care benefits--including added benefits like waived copays.
-        </p>
-      </va-alert>
-    </div>
-    <p>Qualifying factors:</p>
-    <ul>
-      <li>Former Prisoner of War</li>
-      <li>Received a Purple Heart</li>
-      <li>Recently discharged combat Veteran</li>
-      <li>
-        Discharged for a disability that resulted from your service or got worse
-        in the line of duty
-      </li>
-      <li>Getting VA service-connected disability compensation</li>
-      <li>Getting a VA pension</li>
-      <li>Receiving Medicaid benefits</li>
-      <li>Served in Vietnam between January 9, 1962, and May 7, 1975</li>
-      <li>
-        Served in Southwest Asia during the Gulf War between August 2, 1990, and
-        November 11, 1998
-      </li>
-      <li>
-        Served at least 30 days at Camp Lejeune between August 1, 1953, and
-        December 31, 1987
-      </li>
-    </ul>
-
-    <div className="input-section">
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://www.va.gov/healthbenefits/apps/explorer/AnnualIncomeLimits/HealthBenefits"
-      >
-        Learn more
-      </a>{' '}
-      about our income thresholds (also called income limits) and copayments.
-    </div>
-  </div>
-);
-
-export const incomeDescription = (
-  <div>
-    <p>
-      Please fill this section out to the best of your knowledge. Provide the
-      previous calendar year’s gross annual income for you, your spouse, and
-      your dependents.
-    </p>
-    <p>
-      <strong>Gross annual income:</strong> This income is from employment only,
-      and doesn’t include income from your farm, ranch, property, or business.
-      When you calculate your gross annual income, include your wages, bonuses,
-      tips, severance pay, and other accrued benefits. Include your dependent’s
-      income information if it could have been used to pay your household
-      expenses.
-    </p>
-    <p>
-      <strong>Net income:</strong> This is the income from your farm, ranch,
-      property, or business.
-    </p>
-    <p>
-      <strong>Other income:</strong> This includes retirement and pension
-      income; Social Security Retirement and Social Security Disability income;
-      compensation benefits such as VA disability, unemployment, Workers, and
-      black lung; cash gifts; interest and dividends, including tax exempt
-      earnings and distributions from Individual Retirement Accounts (IRAs) or
-      annuities.
-    </p>
-  </div>
-);
-
-export const disclosureWarning = (
-  <div role="alert">
-    <va-alert status="info" visible>
-      <p className="vads-u-margin-y--0">
-        If you don’t provide your financial information and you don’t have
-        another qualifying eligibility factor, VA can’t enroll you.
-      </p>
-    </va-alert>
-  </div>
-);
-
-export const expensesGreaterThanIncomeWarning = (
-  <div className="usa-alert usa-alert-warning">
-    <div className="usa-alert-body">
-      <h2 className="usa-alert-heading">
-        Your expenses are higher than or equal to your income.
-      </h2>
-      <p className="usa-alert-text">
-        You can stop entering your expenses. We’ll adjust your expenses to be
-        equal to your income. This won’t affect your application or benefits.
-      </p>
-    </div>
-  </div>
-);
 
 export function expensesLessThanIncome(fieldShownUnder) {
   const fields = [
@@ -457,122 +256,15 @@ export function expensesLessThanIncome(fieldShownUnder) {
     // then we need to make sure the current field is the last non-empty field
     if (!hideBasedOnValues) {
       const nonEmptyFields = fields.filter(field => formData[field]);
-      if (
+      return (
         !nonEmptyFields.length ||
         nonEmptyFields[nonEmptyFields.length - 1] !== fieldShownUnder
-      ) {
-        return true;
-      }
-
-      return false;
+      );
     }
 
     return true;
   };
 }
-
-export const deductibleExpensesDescription = (
-  <div>
-    Tell us a bit about your expenses this past calendar year. Enter information
-    for any expenses that apply to you.
-    <div className="hca-tooltip-wrapper">
-      <va-additional-info trigger="What if my expenses are higher than my annual income?">
-        We understand in some cases your expenses might be higher than your
-        income. If your expenses exceed your income, we’ll adjust them to be
-        equal to your income. This won’t affect your application or benefits.
-      </va-additional-info>
-    </div>
-  </div>
-);
-export const isEssentialAcaCoverageDescription = (
-  <div className="hca-tooltip-wrapper vads-u-margin-left--4">
-    <va-additional-info trigger="Learn more about minimum essential coverage.">
-      To avoid the penalty for not having insurance, you must be enrolled in a
-      health plan that qualifies as minimum essential coverage. Being signed up
-      for VA health care meets the minimum essential coverage requirement under
-      the Affordable Care Act.
-    </va-additional-info>
-  </div>
-);
-export const healthInsuranceCoverageQuestionDescription = (
-  <div className="vads-u-margin-bottom--3">
-    <div className="hca-tooltip-wrapper">
-      <va-additional-info trigger="Why we ask this information">
-        <p>
-          We ask for this information for billing purposes only. Your health
-          insurance coverage doesn’t affect the VA health care benefits you can
-          get.
-        </p>
-        <p>
-          Giving us your health insurance information helps you for these
-          reasons:
-        </p>
-        <ul>
-          <li>
-            We must bill your private health insurance provider for any care,
-            supplies, or medicines we provide to treat your
-            non-service-connected conditions. If you have a VA copayment, we may
-            be able to use the payments from your provider to cover some or all
-            of your copayment.
-          </li>
-          <li>
-            Your private insurance provider may apply your VA health care
-            charges toward your annual deductible. Your annual deductible is the
-            amount of money you pay toward your care each year before your
-            insurance starts to pay for care.
-          </li>
-        </ul>
-      </va-additional-info>
-    </div>
-  </div>
-);
-export const hasTricareWhatIsMyPolicyNumberDescription = (
-  <div>
-    <div className="hca-tooltip-wrapper">
-      <va-additional-info trigger="I have TRICARE. What’s my policy number?">
-        <p>
-          You can use your Department of Defense benefits number (DBN) or your
-          Social Security number as your policy number.{' '}
-        </p>
-        <p>
-          Your DBN is an 11-digit number. You’ll find this number on the back of
-          your military ID card.
-        </p>
-      </va-additional-info>
-    </div>
-  </div>
-);
-export const healthInsuranceDescription = (
-  <section className="vads-u-margin-bottom--3">
-    <p>
-      Health insurance includes any coverage that you get through a spouse or
-      significant other. Health insurance also includes Medicare, private
-      insurance, or insurance from your employer.
-    </p>
-  </section>
-);
-export const medicaidDescription = (
-  <section className="vads-u-margin-bottom--3">
-    <p>
-      Medicaid is a federal health insurance program for adults and families
-      with low income levels and people with disabilities.
-    </p>
-    <p>
-      <strong>Note:</strong> Some states use different names for their Medicaid
-      programs.
-    </p>
-  </section>
-);
-export const medicarePartADescription = (
-  <section className="vads-u-margin-bottom--3">
-    <p>
-      Medicare is a federal health insurance program providing coverage for
-      people who are 65 years or older or who meet who meet special criteria.
-      Part A insurance covers hospital care, skilled nursing and nursing home
-      care, hospice, and home health services.
-    </p>
-  </section>
-);
 
 export const emptyObjectSchema = {
   type: 'object',

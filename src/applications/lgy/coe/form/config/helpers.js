@@ -40,3 +40,15 @@ export const customCOEsubmit = (formConfig, form) => {
     },
   });
 };
+
+export const updateFilesSchema = (formData, filesSchema) => {
+  const schemaCopy = { ...filesSchema };
+  const files = formData.files || [];
+  files.forEach((file, index) => {
+    schemaCopy.items[index].required = ['attachmentType'];
+    if (file.attachmentType === 'Other') {
+      schemaCopy.items[index].required.push('attachmentDescription');
+    }
+  });
+  return schemaCopy;
+};

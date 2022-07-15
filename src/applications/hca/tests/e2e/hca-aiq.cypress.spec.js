@@ -151,7 +151,7 @@ describe('HCA-AIQ', () => {
 
     // Check more-info toggle
     // expand
-    cy.get('[data-testid="aiq-addl-info"] va-additional-info')
+    cy.get('[data-testid="aiq-addl-info"]')
       .shadow()
       .find('[aria-controls=info][aria-expanded=false]')
       .click({ waitForAnimations: true });
@@ -161,7 +161,7 @@ describe('HCA-AIQ', () => {
       .should('be.visible');
     cy.injectAxeThenAxeCheck('va-additional-info');
     // collapse
-    cy.get('[data-testid="aiq-addl-info"] va-additional-info')
+    cy.get('[data-testid="aiq-addl-info"]')
       .shadow()
       .find('[aria-controls=info][aria-expanded=true]')
       .scrollIntoView()

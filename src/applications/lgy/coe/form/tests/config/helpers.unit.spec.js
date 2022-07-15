@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import * as helpers from 'platform/forms-system/src/js/helpers';
-import { customCOEsubmit } from '../../config/helpers';
+import { customCOEsubmit, updateFilesSchema } from '../../config/helpers';
 
 const form = {
   data: {
@@ -45,6 +45,39 @@ describe.skip('coe helpers', () => {
     it('should correctly format the form data', () => {
       sinon.stub(helpers, 'transformForSubmit').returns(formattedProperties);
       expect(customCOEsubmit({}, form)).to.equal(result);
+    });
+  });
+  describe('updateFilesSchema', () => {
+    it('should return an empty object when no files are present', () => {
+      expect(updateFilesSchema({}, {})).to.deep.equal({});
+    });
+    it('should return a single item not requiring an attachmentDescription', () => {
+      expect(
+        updateFilesSchema(
+          { files: [{ attachmentType: 'Test' }] },
+          { items: [{ required: ['attachmentType'] }] },
+        ),
+      ).to.deep.equal({
+        items: [
+          {
+            required: ['attachmentType'],
+          },
+        ],
+      });
+    });
+    it('should return a single item requiring an attachmentDescription', () => {
+      expect(
+        updateFilesSchema(
+          { files: [{ attachmentType: 'Other' }] },
+          { items: [{ required: ['attachmentType'] }] },
+        ),
+      ).to.deep.equal({
+        items: [
+          {
+            required: ['attachmentType', 'attachmentDescription'],
+          },
+        ],
+      });
     });
   });
 });
