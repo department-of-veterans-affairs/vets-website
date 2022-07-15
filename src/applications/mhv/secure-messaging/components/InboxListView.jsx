@@ -20,7 +20,10 @@ probably needing to accept a URL parameter
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { chunk } from 'lodash';
-import { VaPagination, VaSelect } from 'web-components/react-bindings';
+import {
+  VaPagination,
+  VaSelect,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import InboxListItem from './InboxListItem';
 
