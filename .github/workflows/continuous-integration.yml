@@ -990,6 +990,7 @@ jobs:
     needs:
       [
         build,
+        cypress-tests
         unit-tests,
         contract-tests,
         security-audit,
