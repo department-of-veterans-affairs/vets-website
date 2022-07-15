@@ -3,10 +3,7 @@ import { makeMockUser } from '@@profile/tests/fixtures/users/user';
 import mockProfileEnhancementsToggles from '@@profile/tests/fixtures/personal-information-feature-toggles.json';
 import mockProfileEnhancementsTogglesOff from '@@profile/tests/fixtures/personal-information-feature-toggles-off.json';
 
-import {
-  PROFILE_PATHS,
-  PROFILE_PATHS_LGBTQ_ENHANCEMENT,
-} from '@@profile/constants';
+import { PROFILE_PATHS } from '@@profile/constants';
 
 import {
   mockNotificationSettingsAPIs,
@@ -59,10 +56,7 @@ describe('Notification Settings For Mobile Phone', () => {
 
           cy.findAllByTestId('add-contact-info-link')
             .should('have.attr', 'href')
-            .and(
-              'include',
-              PROFILE_PATHS_LGBTQ_ENHANCEMENT.CONTACT_INFORMATION,
-            );
+            .and('include', PROFILE_PATHS.CONTACT_INFORMATION);
 
           cy.findByRole('link', { name: /add your email/i }).should(
             'not.exist',

@@ -124,7 +124,7 @@ describe('Modals for removal of field', () => {
   });
 });
 
-describe('Modals on the personal information and content page', () => {
+describe('Modals on the contact information and content page', () => {
   it('should render as expected on Desktop', () => {
     setup();
 
@@ -271,7 +271,7 @@ describe('when moving to other profile sections', () => {
       force: true,
     });
     cy.findByRole('link', {
-      name: /personal.*information/i,
+      name: /contact.*information/i,
     }).click({
       // using force: true since there are times when the click does not
       // register and the bank info form does not open
