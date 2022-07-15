@@ -9,10 +9,7 @@ import {
   fetchHero as fetchHeroAction,
   fetchPersonalInformation as fetchPersonalInformationAction,
 } from '@@profile/actions';
-import {
-  cnpDirectDepositInformation,
-  showProfileLGBTQEnhancements,
-} from '@@profile/selectors';
+import { cnpDirectDepositInformation } from '@@profile/selectors';
 import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
@@ -151,12 +148,7 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    const routesOptions = {
-      shouldShowProfileLGBTQEnhancements: this.props
-        .shouldShowProfileLGBTQEnhancements,
-    };
-    // We need to pass in a config to hide forbidden routes
-    const routes = getRoutes(routesOptions);
+    const routes = getRoutes();
     return (
       <BrowserRouter>
         <LastLocationProvider>
@@ -257,7 +249,6 @@ Profile.propTypes = {
   isLOA3: PropTypes.bool.isRequired,
   shouldFetchCNPDirectDepositInformation: PropTypes.bool.isRequired,
   shouldShowDirectDeposit: PropTypes.bool.isRequired,
-  shouldShowProfileLGBTQEnhancements: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
 };
@@ -341,7 +332,6 @@ const mapStateToProps = state => {
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
     ),
-    shouldShowProfileLGBTQEnhancements: showProfileLGBTQEnhancements(state),
   };
 };
 

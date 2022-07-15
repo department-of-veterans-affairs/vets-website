@@ -1,6 +1,6 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 
-import { mockUser } from '@@profile/tests/fixtures/users/user-vap-error.js';
+import { mockUser } from '@@profile/tests/fixtures/users/user-vap-error';
 import mockPersonalInformation from '@@profile/tests/fixtures/personal-information-success.json';
 import mockServiceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
@@ -51,5 +51,7 @@ describe('When there is a known issue connecting to VA Profile', () => {
       'not.exist',
     );
     cy.findByText(/^Contact email address$/i).should('not.exist');
+
+    cy.injectAxeThenAxeCheck();
   });
 });
