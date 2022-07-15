@@ -6,6 +6,7 @@ import {
   infoTokenExists,
   checkOrSetSessionExpiration,
   refresh,
+  canCallRefresh,
 } from '../oauth/utilities';
 import { checkAndUpdateSSOeSession } from '../sso';
 
@@ -117,7 +118,11 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         return data;
       }
 
-      if (response.status === 403 && infoTokenExists()) {
+      if (
+        infoTokenExists() &&
+        (response.status === 403 || response.status === 401) &&
+        canCallRefresh()
+      ) {
         refresh(response);
       }
 

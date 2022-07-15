@@ -18,8 +18,6 @@ import {
   FETCH_CLAIMS_PENDING,
   FETCH_CLAIMS_SUCCESS,
   FETCH_CLAIMS_ERROR,
-  ROWS_PER_PAGE,
-  CHANGE_INDEX_PAGE,
   UNKNOWN_STATUS,
 } from '../utils/appeals-v2-helpers';
 import { makeAuthRequest, roundToNearest } from '../utils/helpers';
@@ -148,12 +146,9 @@ export function getAppealsV2() {
 }
 
 export function fetchClaimsSuccess(response) {
-  const claims = response.data;
-  const pages = Math.ceil(claims.length / ROWS_PER_PAGE);
   return {
     type: FETCH_CLAIMS_SUCCESS,
-    claims,
-    pages,
+    claims: response.data,
   };
 }
 
@@ -304,13 +299,6 @@ export function sortClaims(sortProperty) {
 export function changePage(page) {
   return {
     type: CHANGE_CLAIMS_PAGE,
-    page,
-  };
-}
-
-export function changePageV2(page) {
-  return {
-    type: CHANGE_INDEX_PAGE,
     page,
   };
 }
@@ -640,9 +628,12 @@ const addAttributes = claim => ({
   },
 });
 
+// We don't want to show STEM claims unless they were automatically denied
+const automatedDenial = stemClaim => stemClaim.attributes.automatedDenial;
+
 const getStemClaimsMock = dispatch => {
   return mockApi.getStemClaimList().then(res => {
-    const stemClaims = res.data.map(addAttributes);
+    const stemClaims = res.data.map(addAttributes).filter(automatedDenial);
 
     return dispatch({
       type: FETCH_STEM_CLAIMS_SUCCESS,
@@ -662,7 +653,7 @@ export function getStemClaims() {
       null,
       dispatch,
       res => {
-        const stemClaims = res.data.map(addAttributes);
+        const stemClaims = res.data.map(addAttributes).filter(automatedDenial);
 
         dispatch({
           type: FETCH_STEM_CLAIMS_SUCCESS,

@@ -21,10 +21,8 @@ const DebtLettersDownload = () => {
       <div className="vads-l-col--9 small-desktop-screen:vads-l-col--12">
         <va-breadcrumbs label="Breadcrumb">
           <a href="/">Home</a>
-          <a href="/manage-debt-and-bills/">Manage your VA debt and bills</a>
-          <a href="/manage-debt-and-bills/summary/">
-            Your debt and bills summary
-          </a>
+          <a href="/manage-va-debt/">Manage your VA debt and bills</a>
+          <a href="/manage-va-debt/summary/">Your debt and bills summary</a>
           <Link to="/debt-balances/">Benefit debt balances</Link>
           <Link to="/debt-balances/letters">Debt letters</Link>
         </va-breadcrumbs>

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 
 /**
+ * IMPORTANT: DO NOT USE THIS CUSTOM HOOK. IT IS DEPRECATED AND WILL BE REMOVED.
+ *
  * Listens for the load event of the provided target element - `window` by default - & returns its loaded status.
  * @param targetElement The target element of which to listen for its loaded status.
  * @return The loaded status of the provided target element.

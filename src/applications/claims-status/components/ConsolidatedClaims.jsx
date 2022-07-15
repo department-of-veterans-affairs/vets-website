@@ -9,6 +9,7 @@ export const consolidatedClaimsContent = (
   </div>
 );
 
+// TODO: Remove this component; it is no longer being used
 export default function ConsolidatedClaims({ onClose }) {
   return (
     <div>

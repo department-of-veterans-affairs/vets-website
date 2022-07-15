@@ -20,7 +20,7 @@ describe('Medical Copays', () => {
     );
     cy.intercept('GET', '/v0/debts', mockDebt).as('debts');
     cy.intercept('GET', '/v0/medical_copays', mockCopays).as('copays');
-    cy.visit('/manage-debt-and-bills/summary/copay-balances');
+    cy.visit('/manage-va-debt/summary/copay-balances');
 
     // Page load
     cy.wait(['@copays', '@debts', '@features']);
