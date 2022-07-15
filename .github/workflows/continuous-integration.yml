@@ -497,6 +497,9 @@ jobs:
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
+      - name: WIP - echo selected tests
+        run: echo ${{ needs.cypress-tests-prep.outputs.tests }}
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
