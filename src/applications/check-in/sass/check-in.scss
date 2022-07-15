@@ -60,29 +60,24 @@ ol.appointment-list{
       width: 60%;
     }
     div.appointment-summary{
-      display: grid;
-      grid-template-columns: min-content auto;
-      grid-template-rows: auto auto auto;
-      dd.appointment-details{
-        font-size: 24px;
-        grid-column-start: 1;
-        grid-column-end: 3;
-      }
       h2.appointment-time {
         font-size: 2.4rem;
-        grid-row: 1;
-        grid-column-start: 1;
+        line-height: 36px;
       }
-      h2.appointment-time, div{
-        grid-column-end: 3;
+      .appointment-detail {
+        display: flex;
+        flex-wrap: wrap;
       }
-      span.facility-label{
-        grid-row: 2;
-       }
+      span.item-label {
+        flex: 0 0 74px;
+      }
+      span.item-value {
+        flex: 1 1 calc(100% - 74px);
+        margin-left: auto;
+      }
     }
   }
-}
-// Missing styles from the DS. Evaluate if still needed when auditing sass.
+}// Missing styles from the DS. Evaluate if still needed when auditing sass.
 va-text-input[error]:not([error=""])::part(label) ,
 va-text-input[error]:not([error=""])::part(span)  {
   margin-top: 0;

@@ -22,17 +22,13 @@ const AppointmentListItem = props => {
           {t('date-time', { date: appointmentDateTime })}
         </h2>
         <div id={itemID}>
-          <p className="vads-u-margin--0 vads-u-font-family--serif vads-u-font-weight--bold ">
-            <span className="facility-label vads-u-margin-right--1">
-              {t('facility')}:{' '}
+          <p className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-font-family--serif vads-u-font-weight--bold appointment-detail">
+            <span className="item-label">{t('facility')}: </span>
+            <span className="item-value" data-testid="facility-name">
+              {appointment.facility}
             </span>
-            <span data-testid="facility-name">{appointment.facility}</span>
-          </p>
-          <p className="vads-u-margin--0 vads-u-font-family--serif vads-u-font-weight--bold ">
-            <span className="clinic-label vads-u-margin-right--1">
-              {t('clinic')}:{' '}
-            </span>
-            <span data-testid="clinic-name">
+            <span className="item-label">{t('clinic')}: </span>
+            <span className="item-value" data-testid="clinic-name">
               <AppointmentLocation appointment={appointment} />
             </span>
           </p>
