@@ -183,7 +183,7 @@ function isOnlyWhitespace(str) {
 }
 
 function isValidName(str) {
-  return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
+  return str && /^[A-Za-z][A-Za-z ']*$/.test(str);
 }
 
 function isValidLastName(str) {
@@ -478,7 +478,7 @@ const formConfig = {
                       if (!isValidName(field)) {
                         if (field.length === 0) {
                           errors.addError('Please enter your first name');
-                        } else if (field[0] === ' ') {
+                        } else if (field[0] === ' ' || field[0] === "'") {
                           errors.addError(
                             'First character must be a letter with no leading space.',
                           );
@@ -499,13 +499,17 @@ const formConfig = {
                       if (!isValidLastName(field)) {
                         if (field.length === 0) {
                           errors.addError('Please enter your last name');
-                        } else if (field[0] === ' ') {
+                        } else if (
+                          field[0] === ' ' ||
+                          field[0] === "'" ||
+                          field[0] === '-'
+                        ) {
                           errors.addError(
                             'First character must be a letter with no leading space.',
                           );
                         } else {
                           errors.addError(
-                            'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                            'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
                           );
                         }
                       }
@@ -520,7 +524,7 @@ const formConfig = {
                       if (!isValidName(field)) {
                         if (field.length === 0) {
                           errors.addError('Please enter your middle name');
-                        } else if (field[0] === ' ') {
+                        } else if (field[0] === ' ' || field[0] === "'") {
                           errors.addError(
                             'First character must be a letter with no leading space.',
                           );
