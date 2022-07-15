@@ -16,9 +16,9 @@ class NextOfKin {
       .and('have.text', title);
   };
 
-  validateNextOfKinFields = (parentSelector = '.confirmable-page dl') => {
+  validateNextOfKinFields = (parentSelector = '.confirmable-page ul') => {
     cy.get(parentSelector)
-      .find('dt:nth-of-type(1)')
+      .find('li:nth-of-type(1)')
       .should('have.text', 'Name')
       .next()
       .next()
@@ -35,9 +35,9 @@ class NextOfKin {
   };
 
   // @TODO: update to match against mock api.
-  validateNextOfKinData = (parentSelector = '.confirmable-page dl') => {
+  validateNextOfKinData = (parentSelector = '.confirmable-page ul') => {
     cy.get(parentSelector)
-      .find('dd:nth-of-type(1)')
+      .find('li:nth-of-type(1)')
       .should('have.text', 'VETERAN,JONAH')
       .next()
       .next()

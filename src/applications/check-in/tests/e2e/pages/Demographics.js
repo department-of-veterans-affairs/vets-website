@@ -17,10 +17,10 @@ class Demographics {
   };
 
   validateDemographicsFields = (
-    parentSelector = "dl[data-testid='demographics-fields']",
+    parentSelector = "ul[data-testid='demographics-fields']",
   ) => {
     cy.get(parentSelector)
-      .find('dt:nth-of-type(1)')
+      .find('li:nth-of-type(1)')
       .should('have.text', 'Mailing address')
       .next()
       .next()
@@ -47,8 +47,8 @@ class Demographics {
     workPhone = '555-444-5555',
     email = 'kermit.frog@sesameenterprises.us',
   } = {}) => {
-    cy.get("dl[data-testid='demographics-fields']")
-      .find('dd:nth-of-type(1)')
+    cy.get("ul[data-testid='demographics-fields']")
+      .find('li:nth-of-type(1)')
       .should('have.text', mailingAddress)
       .next()
       .next()

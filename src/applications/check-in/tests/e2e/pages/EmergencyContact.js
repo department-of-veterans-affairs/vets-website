@@ -8,8 +8,8 @@ class EmergencyContact {
   };
 
   validateDemographicsFields = () => {
-    cy.get("dl[data-testid='demographics-fields']")
-      .find('dt:nth-of-type(1)')
+    cy.get("ul[data-testid='demographics-fields']")
+      .find('li:nth-of-type(1)')
       .should('have.text', 'Name')
       .next()
       .next()
@@ -32,8 +32,8 @@ class EmergencyContact {
     workPhone = 'Not available',
     name = 'Bugs Bunny',
   } = {}) => {
-    cy.get("dl[data-testid='demographics-fields']")
-      .find('dd:nth-of-type(1)')
+    cy.get("ul[data-testid='demographics-fields']")
+      .find('li:nth-of-type(1)')
       .should('have.text', name)
       .next()
       .next()
