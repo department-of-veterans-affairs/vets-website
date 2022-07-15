@@ -8,6 +8,18 @@ const AppointmentBlock = props => {
 
   const appointmentsDateTime = new Date(appointments[0].startTime);
 
+  const infoBlockMessage = appointment => {
+    if (appointment?.kind === 'phone') {
+      if (page === 'confirmation') {
+        return t(
+          'your-provider-will-call-you-at-your-appointment-time-you-may-need-to-wait-about-15-minutes-for-their-call-thanks-for-your-patience',
+        );
+      }
+      return t('your-provider-will-call-you');
+    }
+    return t('please-bring-your-insurance-cards-with-you-to-your-appointment');
+  };
+
   return (
     <div>
       <p
@@ -82,21 +94,7 @@ const AppointmentBlock = props => {
                   data-testid="appointment-message"
                   class="vads-u-margin-bottom--2"
                 >
-                  <div>
-                    {() => {
-                      if (appointment?.kind === 'phone') {
-                        if (page === 'confirmation') {
-                          return t(
-                            'your-provider-will-call-you-at-your-appointment-time-you-may-need-to-wait-about-15-minutes-for-their-call-thanks-for-your-patience',
-                          );
-                        }
-                        return t('your-provider-will-call-you');
-                      }
-                      return t(
-                        'please-bring-your-insurance-cards-with-you-to-your-appointment',
-                      );
-                    }}
-                  </div>
+                  <div>{infoBlockMessage(appointment)}</div>
                 </va-alert>
               ) : (
                 ''
