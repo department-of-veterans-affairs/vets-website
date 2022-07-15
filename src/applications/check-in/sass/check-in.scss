@@ -78,3 +78,9 @@ ol.appointment-list{
     }
   }
 }
+
+// Missing styles from the DS. Evaluate if still needed when auditing sass.
+va-text-input[error]:not([error=""])::part(label) ,
+va-text-input[error]:not([error=""])::part(span)  {
+  margin-top: 0;
+}
