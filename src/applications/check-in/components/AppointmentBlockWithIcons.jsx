@@ -59,7 +59,9 @@ const AppointmentBlock = props => {
                   className="appointment-type-label vads-u-margin-left--2p5 vads-u-font-weight--bold"
                   data-testid="appointment-type-label"
                 >
-                  {appointment?.kind === 'phone' ? 'Phone call' : 'In person'}
+                  {appointment?.kind === 'phone'
+                    ? t('phone-call')
+                    : t('in-person')}
                 </dd>
                 {appointment?.kind !== 'phone' && (
                   <>
