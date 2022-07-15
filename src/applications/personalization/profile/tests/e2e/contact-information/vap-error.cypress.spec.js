@@ -14,7 +14,7 @@ const setup = () => {
   cy.intercept('v0/profile/full_name', mockFullName);
   cy.intercept('v0/ppiu/payment_information', mockPaymentInfoNotEligible);
   cy.intercept('v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
-  cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+  cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
   // should show a loading indicator
   cy.findByRole('progressbar').should('exist');
@@ -39,9 +39,6 @@ describe('When there is a known issue connecting to VA Profile', () => {
 
     // Check service branch
     cy.findByText(/United States Air Force/i).should('exist');
-
-    // Check date of birth
-    cy.findByText(/May 6, 1986/i).should('exist');
 
     // Contact info sections should not be shown
     cy.findByText(/^Mailing address$/i).should('not.exist');
