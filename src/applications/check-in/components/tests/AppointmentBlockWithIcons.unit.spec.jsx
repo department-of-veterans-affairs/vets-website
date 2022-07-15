@@ -76,8 +76,9 @@ describe('pre-check-in', () => {
         expect(screen.getByTestId('appointment-day-location')).to.have.text(
           'Your appointments are on November 16, 2021.',
         );
-        expect(screen.getByTestId('appointment-list-item-0')).to.exist;
-        expect(screen.getByTestId('appointment-list-item-1')).to.exist;
+        expect(screen.getAllByTestId('appointment-list-item').length).to.equal(
+          2,
+        );
       });
       it('Renders appointment day and facility for single appointment', () => {
         const updateAppointments = [...appointments];
@@ -92,8 +93,10 @@ describe('pre-check-in', () => {
         expect(screen.getByTestId('appointment-day-location')).to.have.text(
           'Your appointment is on November 16, 2021.',
         );
-        expect(screen.getByTestId('appointment-list-item-0')).to.exist;
-        expect(screen.queryByTestId('appointment-list-item-1')).to.not.exist;
+
+        expect(screen.getAllByTestId('appointment-list-item').length).to.equal(
+          1,
+        );
       });
       it('Renders appointment facility, time, and clinic', () => {
         const screen = render(
@@ -106,17 +109,17 @@ describe('pre-check-in', () => {
         );
         expect(
           screen
-            .getByTestId('appointment-list-item-0')
+            .getAllByTestId('appointment-list-item')[0]
             .querySelector('[data-testid="facility-name"]'),
         ).to.have.text('LOMA LINDA VA CLINIC');
         expect(
           screen
-            .getByTestId('appointment-list-item-0')
+            .getAllByTestId('appointment-list-item')[0]
             .querySelector('[data-testid="appointment-time"]'),
         ).to.have.text('9:39 p.m.');
         expect(
           screen
-            .getByTestId('appointment-list-item-0')
+            .getAllByTestId('appointment-list-item')[0]
             .querySelector('[data-testid="appointment-clinic"]'),
         ).to.have.text('TEST CLINIC');
       });
@@ -131,7 +134,7 @@ describe('pre-check-in', () => {
         );
         expect(
           screen
-            .getByTestId('appointment-list-item-1')
+            .getAllByTestId('appointment-list-item')[1]
             .querySelector('[data-testid="appointment-clinic"]'),
         ).to.have.text('LOM ACC CLINIC TEST');
       });

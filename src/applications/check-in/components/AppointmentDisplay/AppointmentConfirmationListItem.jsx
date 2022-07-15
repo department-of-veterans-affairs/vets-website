@@ -15,7 +15,7 @@ const AppointmentConfirmationListItem = props => {
     <li
       key={index}
       className="vads-u-border-bottom--1px check-in--appointment-item"
-      data-testid={`appointment-list-item-${index}`}
+      data-testid="appointment-list-item"
     >
       <div className="check-in--appointment-summary vads-u-margin-bottom--2 vads-u-margin-top--2">
         <div className="check-in--label vads-u-margin-right--1">
