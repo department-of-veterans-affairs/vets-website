@@ -496,6 +496,15 @@ jobs:
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
+      # The following statement is included in each step because of a bug in
+      # GitHub's branch protection:
+      #
+      # if: needs.cypress-tests-prep.outputs.tests != '[]'
+      #
+      # Previously, if no tests were selected, the branch protection check that
+      # requires the cypress-tests job to run was not satisfied. This update forces
+      # the job to always run, and skips each step if no tests are selected.
+      # Previously, the above conditional was included in the job's if statement.
       - name: Configure AWS credentials
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: aws-actions/configure-aws-credentials@v1
@@ -556,7 +565,6 @@ jobs:
       - name: Archive test videos
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
         uses: actions/upload-artifact@v3
-        # if: ${{ failure() }}
         with:
           name: cypress-video-artifacts
           path: cypress/videos
@@ -564,7 +572,6 @@ jobs:
       - name: Archive test screenshots
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
         uses: actions/upload-artifact@v3
-        # if: ${{ failure() }}
         with:
           name: cypress-screenshot-artifacts
           path: cypress/screenshots
@@ -572,7 +579,6 @@ jobs:
       - name: Archive Mochawesome test results
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && always() }}
         uses: actions/upload-artifact@v3
-        # if: ${{ always() }}
         with:
           name: cypress-mochawesome-test-results
           path: cypress/results
