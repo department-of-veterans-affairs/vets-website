@@ -372,6 +372,16 @@ class ReviewCollapsibleChapter extends React.Component {
                 />
               )}
             </h3>
+            {this.props.hasUnviewedPages && (
+              <span
+                className="vads-u-color--secondary vads-u-border-left--10px vads-u-border-color--secondary vads-u-display--flex vads-u-padding-left--1p5 vads-u-align-items--center vads-u-font-weight--bold"
+                role="alert"
+                style={{ minHeight: '50px' }}
+              >
+                <span className="sr-only">Error</span>
+                {chapterTitle} needs to be updated
+              </span>
+            )}
             <div id={`collapsible-${this.id}`}>{pageContent}</div>
           </li>
         </ul>

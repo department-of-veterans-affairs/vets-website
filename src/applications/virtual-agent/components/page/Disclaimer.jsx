@@ -144,9 +144,7 @@ export default function Disclaimer() {
             </a>
           </p>
         </va-accordion-item>
-      </va-accordion>
 
-      <va-accordion>
         <va-accordion-item header="How to use our chatbot with a screen reader">
           <p>
             If you’re blind or have low vision, follow these steps to use our
@@ -192,9 +190,7 @@ export default function Disclaimer() {
             patience as we work to make our chatbot easier to use.
           </p>
         </va-accordion-item>
-      </va-accordion>
 
-      <va-accordion>
         <va-accordion-item header="What information we collect when you use the chatbot">
           <p>
             We use certain information you’ve provided to build better tools for

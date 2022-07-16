@@ -7,6 +7,7 @@ import { VaTextInput } from '@department-of-veterans-affairs/component-library/d
 import { Date } from '@department-of-veterans-affairs/component-library';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import Wrapper from '../../layout/Wrapper';
+import TextInputErrorWrapper from '../../TextInputErrorWrapper';
 
 export default function ValidateDisplay({
   header = '',
@@ -85,18 +86,23 @@ export default function ValidateDisplay({
         <></>
       )}
       <form className="vads-u-margin-bottom--2p5" onSubmit={handleFormSubmit}>
-        <VaTextInput
-          autoCorrect="false"
-          error={lastNameErrorMessage}
-          label={t('your-last-name')}
-          name="last-name"
-          onInput={updateField}
-          required
-          spellCheck="false"
-          value={lastName}
-          data-testid="last-name-input"
-          onKeyDown={handleEnter}
-        />
+        {/* @TODO This error wrapper can go away once fixed in DS. Evaluate during next audit */}
+        <TextInputErrorWrapper
+          error={lastNameErrorMessage && lastNameErrorMessage.length}
+        >
+          <VaTextInput
+            autoCorrect="false"
+            error={lastNameErrorMessage}
+            label={t('your-last-name')}
+            name="last-name"
+            onInput={updateField}
+            required
+            spellCheck="false"
+            value={lastName}
+            data-testid="last-name-input"
+            onKeyDown={handleEnter}
+          />
+        </TextInputErrorWrapper>
         {isLorotaSecurityUpdatesEnabled ? (
           <div data-testid="dob-input" className="vads-u-margin-top--3">
             <Date
@@ -112,18 +118,22 @@ export default function ValidateDisplay({
             />
           </div>
         ) : (
-          <VaTextInput
-            error={last4ErrorMessage}
-            inputmode="numeric"
-            label={t('last-4-digits-of-your-social-security-number')}
-            maxlength="4"
-            onInput={updateField}
-            name="last-4-ssn"
-            required
-            value={last4Ssn}
-            data-testid="last-4-input"
-            onKeyDown={handleEnter}
-          />
+          <TextInputErrorWrapper
+            error={last4ErrorMessage && last4ErrorMessage.length}
+          >
+            <VaTextInput
+              error={last4ErrorMessage}
+              inputmode="numeric"
+              label={t('last-4-digits-of-your-social-security-number')}
+              maxlength="4"
+              onInput={updateField}
+              name="last-4-ssn"
+              required
+              value={last4Ssn}
+              data-testid="last-4-input"
+              onKeyDown={handleEnter}
+            />
+          </TextInputErrorWrapper>
         )}
         <button
           type="button"
