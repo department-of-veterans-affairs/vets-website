@@ -69,7 +69,6 @@ describe('Schemaform <TextWidget>', () => {
     ).to.equal('test-id');
     tree.unmount();
   });
-
   it('should render ariaDescribedby attribute with pagePerItemIndex', () => {
     const onChange = sinon.spy();
     const tree = mount(
