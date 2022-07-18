@@ -517,13 +517,6 @@ jobs:
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: actions/checkout@v3
 
-      - name: Checkout content-build
-        if: needs.cypress-tests-prep.outputs.tests != '[]'
-        uses: actions/checkout@v3
-        with:
-          repository: department-of-veterans-affairs/content-build
-          path: content-build
-
       - name: Download production build artifact
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: actions/download-artifact@v3
