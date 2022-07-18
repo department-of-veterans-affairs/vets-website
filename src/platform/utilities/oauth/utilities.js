@@ -297,14 +297,14 @@ export const canCallRefresh = () => {
 };
 
 export const logout = async ({ signInServiceName, storedLocation }) => {
-  const url = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'logout' }));
+  const { href } = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'logout' }));
 
   // Redirect to API if Login.gov
   if (signInServiceName.includes(CSP_IDS.LOGIN_GOV)) {
-    redirect(url, `${AUTH_EVENTS.OAUTH_LOGOUT}-${CSP_IDS.LOGIN_GOV}`);
+    redirect(href, `${AUTH_EVENTS.OAUTH_LOGOUT}-${CSP_IDS.LOGIN_GOV}`);
   }
 
-  const response = await fetch(url.href, {
+  const response = await fetch(href, {
     method: 'GET',
     credentials: 'include',
   });
@@ -313,6 +313,9 @@ export const logout = async ({ signInServiceName, storedLocation }) => {
     updateLoggedInStatus(false);
     teardownProfileSession();
 
-    redirect(storedLocation || window.location.href, AUTH_EVENTS.OAUTH_LOGOUT);
+    redirect(
+      storedLocation || window.location.href,
+      `${AUTH_EVENTS.OAUTH_LOGOUT}-${signInServiceName}`,
+    );
   }
 };

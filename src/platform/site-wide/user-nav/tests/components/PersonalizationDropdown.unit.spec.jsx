@@ -85,12 +85,10 @@ describe('<PersonalizationDropdown>', () => {
       <PersonalizationDropdown isSSOe={false} csp="idme" />,
     );
     const signoutButton = wrapper.find('button');
-    const expectedFn = SISLogout({
-      signInServiceName: 'idme',
-      storedLocation: '/',
+    signoutButton.simulate('click', {
+      event: { sis: SISLogout() },
     });
-    signoutButton.simulate('click', { expectedFn });
-    expect(expectedFn.called).to.equal(true);
+    expect(SISLogout.called).to.equal(true);
     wrapper.unmount();
   });
 });

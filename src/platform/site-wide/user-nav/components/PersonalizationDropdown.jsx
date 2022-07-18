@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import {
   isAuthenticatedWithSSOe,
@@ -21,14 +22,15 @@ const recordProfileEvent = recordNavUserEvent('profile');
 export function PersonalizationDropdown(props) {
   const { isSSOe, csp } = props;
 
-  const createAnchor = useCallback(
+  const createSignout = useCallback(
     () => {
       const label = 'Sign Out';
       return isSSOe ? (
         <a href={logoutUrl()}>{label}</a>
       ) : (
         <button
-          className="unstyled"
+          type="button"
+          className="button-styled-as-link"
           onClick={() => {
             SISLogout({
               signInServiceName: csp,
@@ -60,10 +62,15 @@ export function PersonalizationDropdown(props) {
           Profile
         </a>
       </li>
-      <li>{createAnchor()}</li>
+      <li>{createSignout()}</li>
     </ul>
   );
 }
+
+PersonalizationDropdown.propTypes = {
+  isSSOe: PropTypes.bool.isRequired,
+  csp: PropTypes.oneOf(['idme', 'logingov', 'dslogon', 'mhv']),
+};
 
 const mapStateToProps = state => ({
   isSSOe: isAuthenticatedWithSSOe(state),
