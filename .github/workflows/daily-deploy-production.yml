@@ -11,7 +11,7 @@ on:
         description: Deploy specific commit
         required: false
   schedule:
-    - cron: 0 18 * * 1-5
+    - cron: 0 19 * * 1-5
 
 env:
   CHANNEL_ID: C0MQ281DJ # vfs-platform-builds
@@ -57,7 +57,7 @@ jobs:
 
       - name: Get release wait time (scheduled release)
         if: ${{ github.event.schedule != '' }}
-        run: echo 'RELEASE_WAIT=60' >> $GITHUB_ENV
+        run: echo 'RELEASE_WAIT=0' >> $GITHUB_ENV
 
       - name: Get release wait time (workflow_dispatch)
         if: ${{ github.event_name == 'workflow_dispatch' }}
