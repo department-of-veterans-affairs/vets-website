@@ -37,7 +37,7 @@ const AppointmentConfirmationListItem = props => {
 
 AppointmentConfirmationListItem.propTypes = {
   appointment: PropTypes.object,
-  index: PropTypes.number,
+  index: PropTypes.string,
 };
 
 export default AppointmentConfirmationListItem;

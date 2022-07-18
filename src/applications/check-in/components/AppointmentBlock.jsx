@@ -2,7 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { nanoid } from 'nanoid';
 import AppointmentConfirmationListItem from './AppointmentDisplay/AppointmentConfirmationListItem';
 
 const AppointmentBlock = props => {
@@ -29,12 +28,14 @@ const AppointmentBlock = props => {
         data-testid="appointment-list"
       >
         {appointments.map(appointment => {
-          const itemID = nanoid();
+          const apptId = `${
+            appointment.stationNo ? appointment.stationNo : ''
+          }${appointment.appointmentIen}`;
           return (
             <AppointmentConfirmationListItem
               appointment={appointment}
-              index={itemID}
-              key={itemID}
+              index={apptId}
+              key={apptId}
             />
           );
         })}
