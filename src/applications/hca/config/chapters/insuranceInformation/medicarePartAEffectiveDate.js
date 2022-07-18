@@ -21,6 +21,7 @@ export default {
       'ui:description': MedicareClaimNumberDescription,
       'ui:errorMessages': {
         minLength: 'Please enter a valid 11-character Medicare claim number',
+        maxLength: 'Please enter a valid 11-character Medicare claim number',
         required: 'Please enter your Medicare claim number',
       },
     },
