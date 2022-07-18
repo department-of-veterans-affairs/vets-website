@@ -61,7 +61,11 @@ export default function FieldTemplate(props) {
         <span className="sr-only">Error</span> {rawErrors[0]}
       </span>
     );
-    errorSpanSrOnly = <span className="sr-only">Error {rawErrors[0]}</span>;
+    errorSpanSrOnly = (
+      <span role="alert" className="sr-only">
+        Error {rawErrors[0]}
+      </span>
+    );
   }
 
   const containerClassNames = classNames(
