@@ -377,6 +377,7 @@ class ReviewCollapsibleChapter extends React.Component {
                 className="vads-u-color--secondary vads-u-border-left--10px vads-u-border-color--secondary vads-u-display--flex vads-u-padding-left--1p5 vads-u-align-items--center vads-u-font-weight--bold"
                 role="alert"
                 style={{ minHeight: '50px' }}
+                aria-describedby={`collapsibleButton${this.id}`}
               >
                 <span className="sr-only">Error</span>
                 {chapterTitle} needs to be updated
