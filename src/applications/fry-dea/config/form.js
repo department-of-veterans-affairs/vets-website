@@ -29,12 +29,13 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../manifest.json';
 
 import {
-  isOnlyWhitespace,
-  applicantIsChildOfVeteran,
-  addWhitespaceOnlyError,
-  isAlphaNumeric,
   AdditionalConsiderationTemplate,
+  addWhitespaceOnlyError,
+  applicantIsChildOfVeteran,
   applicantIsSpouseOfVeteran,
+  isAlphaNumeric,
+  isOnlyWhitespace,
+  prefillTransformer,
 } from '../helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -89,6 +90,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
@@ -512,7 +514,7 @@ const formConfig = {
             },
             [formFields.highSchoolDiploma]: {
               'ui:title':
-                'Did you earn a high school diploma or equivalency certificate?',
+                'Did you earn a high school diploma or an equivalency certificate?',
               'ui:widget': 'radio',
             },
           },
@@ -543,7 +545,7 @@ const formConfig = {
             },
             [formFields.highSchoolDiplomaDate]: {
               ...currentOrPastDateUI(
-                'When did you earn your high school diploma or equivalency certificate?',
+                'What date did you receive your high school diploma or equivalency certificate?',
               ),
             },
           },
@@ -826,7 +828,7 @@ const formConfig = {
                 </>
               ),
             },
-            'view:mailingAddress': {
+            [formFields.viewMailingAddress]: {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 fry-dea-review-page-only">
