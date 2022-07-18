@@ -52,20 +52,11 @@ export default function FieldTemplate(props) {
     errorClass = `usa-input-error ${isDateField ? 'input-error-date' : ''}`;
     errorSpanId = `${id}-error-message`;
     errorSpan = (
-      <span
-        aria-hidden="true"
-        className="usa-input-error-message"
-        role="alert"
-        id={errorSpanId}
-      >
+      <span role="alert" className="usa-input-error-message" id={errorSpanId}>
         <span className="sr-only">Error</span> {rawErrors[0]}
       </span>
     );
-    errorSpanSrOnly = (
-      <span role="alert" className="sr-only">
-        Error {rawErrors[0]}
-      </span>
-    );
+    errorSpanSrOnly = <span className="sr-only">Error {rawErrors[0]}</span>;
   }
 
   const containerClassNames = classNames(
