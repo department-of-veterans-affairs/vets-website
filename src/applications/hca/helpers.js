@@ -1,4 +1,5 @@
 import mapValues from 'lodash/mapValues';
+import * as Sentry from '@sentry/browser';
 import set from 'platform/utilities/data/set';
 import moment from 'moment';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
@@ -119,6 +120,36 @@ export function transformAttachments(data) {
   return { ...data, attachments: transformedAttachments };
 }
 
+function LogToSentry(formData, payloadData) {
+  if (
+    !formData.veteranFullName ||
+    !formData.veteranDateOfBirth ||
+    !formData.veteranSocialSecurityNumber ||
+    !payloadData.veteranFullName ||
+    !payloadData.veteranDateOfBirth ||
+    !payloadData.veteranSocialSecurityNumber
+  ) {
+    const formVeteranName = formData.veteranFullName;
+    const formVeteranDOB = formData.veteranDateOfBirth;
+    const formVeteranSSN = formData.veteranSocialSecurityNumber;
+    const payloadVeteranName = payloadData.veteranFullName;
+    const payloadVeteranDOB = payloadData.veteranDateOfBirth;
+    const payloadVeteranSSN = payloadData.veteranSocialSecurityNumber;
+    const message = `hca_1010ez_error_unauthenticated_user_with_missing_name_dob_ssn`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        formVeteranName,
+        formVeteranDOB,
+        formVeteranSSN,
+        payloadVeteranName,
+        payloadVeteranDOB,
+        payloadVeteranSSN,
+      });
+      Sentry.captureMessage(message);
+    });
+  }
+}
+
 export function transform(formConfig, form) {
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
@@ -165,6 +196,11 @@ export function transform(formConfig, form) {
     gaClientId = ga.getAll()[0].get('clientId');
   } catch (e) {
     // don't want to break submitting because of a weird GA issue
+  }
+
+  // Log, using Sentry, when user is not logged in and is missing veteran name, ssn or dob
+  if (form.data['view:isLoggedIn'] === false) {
+    LogToSentry(withoutViewFields, JSON.parse(formData));
   }
 
   return JSON.stringify({
