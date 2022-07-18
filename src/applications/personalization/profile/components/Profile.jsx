@@ -239,15 +239,21 @@ class Profile extends Component {
 }
 
 Profile.propTypes = {
+  dismissDowntimeWarning: PropTypes.func.isRequired,
   fetchCNPPaymentInformation: PropTypes.func.isRequired,
   fetchEDUPaymentInformation: PropTypes.func.isRequired,
   fetchFullName: PropTypes.func.isRequired,
   fetchMHVAccount: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
+  fetchTotalDisabilityRating: PropTypes.func.isRequired,
+  initializeDowntimeWarnings: PropTypes.func.isRequired,
+  isDowntimeWarningDismissed: PropTypes.bool.isRequired,
   isInMVI: PropTypes.bool.isRequired,
   isLOA3: PropTypes.bool.isRequired,
   shouldFetchCNPDirectDepositInformation: PropTypes.bool.isRequired,
+  shouldFetchEDUDirectDepositInformation: PropTypes.bool.isRequired,
+  shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
   shouldShowDirectDeposit: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
