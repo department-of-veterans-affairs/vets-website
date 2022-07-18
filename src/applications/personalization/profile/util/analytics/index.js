@@ -33,17 +33,20 @@ const captureError = (error, details) => {
   }
 
   if (error?.source === ERROR_SOURCES.API) {
+    const { eventName } = details;
     Sentry.withScope(scope => {
-      const { eventName, code, title, detail, status } = details;
       scope.setTags({
-        'profile-client-api-error-event': eventName,
-        'profile-client-api-error-code': code,
-        'profile-client-api-error-title': title,
-        'profile-client-api-error-detail': detail,
-        'profile-client-api-error-status': status,
+        'profile-client-api-error': eventName,
       });
 
-      Sentry.captureException(error);
+      const message = `profile_client_api_error-${eventName}`;
+      scope.setContext(message, {
+        details,
+        error,
+        errorAsString: error ? JSON.stringify(error) : 'no error found',
+      });
+
+      Sentry.captureMessage(message);
     });
     return;
   }
@@ -51,7 +54,7 @@ const captureError = (error, details) => {
   Sentry.withScope(scope => {
     const message = `profile_client_error`;
     scope.setContext(message, {
-      error: error.message,
+      error: JSON.stringify(error),
     });
 
     scope.setTag('profile-client-error-message', error?.message);

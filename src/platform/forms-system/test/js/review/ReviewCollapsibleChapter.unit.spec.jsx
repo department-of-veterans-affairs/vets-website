@@ -657,6 +657,44 @@ describe('<ReviewCollapsibleChapter>', () => {
     tree.unmount();
   });
 
+  it('should render a collapsible button with a unique id attribute', () => {
+    const pages = [
+      {
+        title: '',
+        pageKey: 'test2',
+      },
+    ];
+    const chapterKey = 'chapterX';
+    const chapter = {};
+    const form = {
+      pages: {
+        test: {
+          title: '',
+          schema: {
+            properties: {},
+          },
+          uiSchema: {},
+        },
+      },
+      data: {},
+    };
+
+    const wrapper = mount(
+      <ReviewCollapsibleChapter
+        viewedPages={new Set()}
+        expandedPages={pages}
+        chapterKey={chapterKey}
+        chapterFormConfig={chapter}
+        form={form}
+      />,
+    );
+
+    const button = wrapper.find('.usa-button-unstyled');
+    expect(button.props().id).to.contain('collapsibleButton');
+
+    wrapper.unmount();
+  });
+
   describe('updateFormData', () => {
     it('should be called on normal pages', () => {
       const setData = sinon.spy();

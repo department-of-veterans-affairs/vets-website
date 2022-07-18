@@ -15,6 +15,7 @@ export const connectDrupalStaticDataFile = async (dispatch, dataFile) => {
     type: FETCH_STATIC_DATA_STARTED,
     payload: {
       statePropName,
+      data: [],
     },
   });
 

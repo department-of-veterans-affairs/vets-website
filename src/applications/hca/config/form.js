@@ -15,7 +15,7 @@ import ErrorText from '../components/ErrorText';
 import FormFooter from '../components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorMessage from '../components/ErrorMessage';
-import DowntimeMessage from '../components/DowntimeMessage';
+import DowntimeMessage from '../components/FormAlerts/DowntimeWarning';
 import IntroductionPage from '../containers/IntroductionPage';
 import { prefillTransformer, transform, HIGH_DISABILITY } from '../helpers';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -59,7 +59,7 @@ import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
 import vaFacility from './chapters/insuranceInformation/vaFacility';
 import general from './chapters/insuranceInformation/general';
-import ServiceConnectedPayConfirmation from '../components/ServiceConnectedPayConfirmation';
+import ServiceConnectedPayConfirmation from '../components/FormAlerts/ServiceConnectedPayConfirmation';
 import CompensationTypeReviewPage from '../components/CompensationTypeReviewPage';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
@@ -195,7 +195,8 @@ const formConfig = {
           path: 'veteran-information/profile-information-dob',
           title: 'Date of birth',
           initialData: {},
-          depends: formData => !formData['view:isLoggedIn'],
+          depends: formData =>
+            !formData['view:isLoggedIn'] || !formData['view:userDob'],
           uiSchema: personalInformationDOB.uiSchema,
           schema: personalInformationDOB.schema,
         },
@@ -230,7 +231,7 @@ const formConfig = {
         },
         demographicInformation: {
           path: 'veteran-information/demographic-information',
-          title: 'Race, ethnicity, origin',
+          title: 'What is your race, ethnicity, or origin?',
           initialData: {
             'view:demographicCategories': {
               isSpanishHispanicLatino: false,

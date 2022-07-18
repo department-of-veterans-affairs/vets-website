@@ -4,11 +4,9 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import { validateMatch } from 'platform/forms-system/src/js/validation';
 
-import {
-  shortFormMessage,
-  HIGH_DISABILITY,
-  emptyObjectSchema,
-} from '../../../helpers';
+import { ShortFormAlert } from '../../../components/FormAlerts';
+import { ContactInfoDescription } from '../../../components/FormDescriptions';
+import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
 
 const { email } = fullSchemaHca.properties;
 const { phone } = fullSchemaHca.definitions;
@@ -16,7 +14,7 @@ const { phone } = fullSchemaHca.definitions;
 export default {
   uiSchema: {
     'view:contactShortFormMessage': {
-      'ui:description': shortFormMessage,
+      'ui:description': ShortFormAlert,
       'ui:options': {
         hideIf: form =>
           !(
@@ -29,6 +27,9 @@ export default {
     'view:prefillMessage': {
       'ui:description': PrefillMessage,
     },
+    'view:contactInfoDescription': {
+      'ui:description': ContactInfoDescription,
+    },
     'ui:validations': [validateMatch('email', 'view:emailConfirmation')],
     email: emailUI(),
     'view:emailConfirmation': emailUI('Re-enter email address'),
@@ -40,6 +41,7 @@ export default {
     properties: {
       'view:contactShortFormMessage': emptyObjectSchema,
       'view:prefillMessage': emptyObjectSchema,
+      'view:contactInfoDescription': emptyObjectSchema,
       email,
       'view:emailConfirmation': email,
       homePhone: phone,

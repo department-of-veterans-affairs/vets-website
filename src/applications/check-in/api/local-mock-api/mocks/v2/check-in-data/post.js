@@ -6,14 +6,6 @@ const createMockFailedResponse = _data => {
   return { data: { error: true } };
 };
 
-const createMockEditSuccessResponse = _data => {
-  return { data: 'Update successful', status: 200 };
-};
-
-const createMockEditErrorResponse = _data => {
-  return { data: { error: true } };
-};
-
 const createMockAddressValidationSuccessResponse = _data => {
   return {
     data: {
@@ -90,8 +82,6 @@ const createMockAddressValidationErrorResponse = _data => {
 module.exports = {
   createMockSuccessResponse,
   createMockFailedResponse,
-  createMockEditSuccessResponse,
-  createMockEditErrorResponse,
   createMockAddressValidationSuccessResponse,
   createMockAddressValidationErrorResponse,
 };
