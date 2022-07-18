@@ -6,6 +6,7 @@ import Helpdesk from './HelpdeskContact';
 export default function RenderErrorContainer({
   code = AUTH_ERROR.DEFAULT,
   auth = AUTH_LEVEL.FAIL,
+  requestId = '',
   recordEvent = () => ({}),
   openLoginModal = () => ({}),
 }) {
@@ -373,6 +374,11 @@ export default function RenderErrorContainer({
       <p>
         <em>Error code: {code}</em>
       </p>
+      {requestId && (
+        <p>
+          <em>Request ID: {requestId}</em>
+        </p>
+      )}
     </div>
   );
 }
@@ -382,4 +388,5 @@ RenderErrorContainer.propTypes = {
   code: PropTypes.oneOf(Object.keys(AUTH_ERROR)),
   openLoginModal: PropTypes.func,
   recordEvent: PropTypes.func,
+  requestId: PropTypes.string,
 };
