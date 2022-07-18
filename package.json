@@ -119,7 +119,7 @@
     "@babel/register": "^7.17.7",
     "@babel/traverse": "^7.17.3",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.1.2",
-    "@cypress/code-coverage": "^3.10.0",
+    "@cypress/code-coverage": "^3.9.12",
     "@department-of-veterans-affairs/eslint-plugin": "^1.2.1",
     "@department-of-veterans-affairs/generator-vets-website": "^3.7.0",
     "@octokit/rest": "^18.11.0",
