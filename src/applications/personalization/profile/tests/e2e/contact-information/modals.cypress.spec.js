@@ -1,16 +1,16 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 
-import { mockUser } from '@@profile/tests/fixtures/users/user.js';
+import { mockUser } from '@@profile/tests/fixtures/users/user';
 import transactionCompletedWithNoChanges from '@@profile/tests/fixtures/transactions/no-changes-transaction.json';
 import transactionCompletedWithError from '@@profile/tests/fixtures/transactions/error-transaction.json';
 
 const setup = (mobile = false) => {
   if (mobile) {
-    cy.viewport('iphone-4');
+    cy.viewportPreset('va-top-mobile-1');
   }
 
   cy.login(mockUser);
-  cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+  cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
   // should show a loading indicator
   cy.findByRole('progressbar').should('exist');
@@ -124,7 +124,7 @@ describe('Modals for removal of field', () => {
   });
 });
 
-describe('Modals on the personal information and content page', () => {
+describe('Modals on the contact information and content page', () => {
   it('should render as expected on Desktop', () => {
     setup();
 
@@ -208,7 +208,7 @@ describe('Modals on the personal information and content page', () => {
   });
 });
 
-describe('Modals on the personal information and content page after editing', () => {
+describe('Modals on the contact information and content page after editing', () => {
   it('should allow the ability to reopen the edit modal when the transaction completes', () => {
     setup();
 
@@ -271,7 +271,7 @@ describe('when moving to other profile sections', () => {
       force: true,
     });
     cy.findByRole('link', {
-      name: /personal.*information/i,
+      name: /contact.*information/i,
     }).click({
       // using force: true since there are times when the click does not
       // register and the bank info form does not open
@@ -285,7 +285,7 @@ describe('when moving to other profile sections', () => {
   });
 });
 
-describe('Modals on the personal information and content page when they error', () => {
+describe('Modals on the contact information and content page when they error', () => {
   it('should exist', () => {
     setup();
 
