@@ -1,4 +1,6 @@
+import recordEvent from 'platform/monitoring/record-event';
 import { getData } from '../util';
+import { captureError, createApiEvent, ERROR_SOURCES } from '../util/analytics';
 
 export * from './personalInformation';
 
@@ -15,6 +17,24 @@ export const FETCH_MILITARY_INFORMATION_FAILED =
 export const FETCH_ADDRESS_CONSTANTS_SUCCESS =
   'FETCH_ADDRESS_CONSTANTS_SUCCESS';
 
+const captureMilitaryInfoErrorResponse = ({ error, apiEventName }) => {
+  const [firstError = {}] = error.errors ?? [];
+  const {
+    code = 'code-unknown',
+    title = 'title-unknown',
+    detail = 'detail-unknown',
+    status = 'status-unknown',
+  } = firstError;
+
+  captureError(error, {
+    eventName: apiEventName,
+    code,
+    title,
+    detail,
+    status,
+  });
+};
+
 export function fetchHero() {
   return async dispatch => {
     dispatch({ type: FETCH_HERO });
@@ -29,13 +49,81 @@ export function fetchHero() {
   };
 }
 
-export function fetchMilitaryInformation() {
+export function fetchMilitaryInformation(recordAnalyticsEvent = recordEvent) {
   return async dispatch => {
     dispatch({ type: FETCH_MILITARY_INFORMATION });
-    const response = await getData('/profile/service_history');
 
-    if (response.errors || response.error) {
-      const error = response.error || response.errors;
+    const baseUrl = '/profile/service_history';
+
+    let apiEventName = `GET ${baseUrl}`;
+
+    try {
+      recordAnalyticsEvent(
+        createApiEvent({
+          name: apiEventName,
+          status: 'started',
+        }),
+      );
+
+      const response = await getData(baseUrl);
+
+      if (response.errors || response.error) {
+        const error = response.error || response.errors;
+        let errorName = 'unknown';
+        if (error) {
+          if (error.length > 0) {
+            errorName = error[0].title;
+          } else {
+            errorName = error?.title || 'unknown-title';
+          }
+        }
+
+        recordAnalyticsEvent(
+          createApiEvent({
+            name: apiEventName,
+            status: 'failed',
+            errorKey: `${errorName}-get-error-api-response`,
+          }),
+        );
+
+        captureMilitaryInfoErrorResponse({
+          error: { ...error, source: ERROR_SOURCES.API },
+          apiEventName: 'profile-get-military-information-failed',
+        });
+
+        dispatch({
+          type: FETCH_MILITARY_INFORMATION_FAILED,
+          militaryInformation: {
+            serviceHistory: {
+              error,
+            },
+          },
+        });
+        return;
+      }
+
+      apiEventName = `${apiEventName}${
+        response?.dataSource ? ` Source: ${response.dataSource}` : ''
+      }`;
+
+      recordAnalyticsEvent(
+        createApiEvent({
+          name: apiEventName,
+          status: 'successful',
+        }),
+      );
+
+      dispatch({
+        type: FETCH_MILITARY_INFORMATION_SUCCESS,
+        militaryInformation: {
+          serviceHistory: response,
+        },
+      });
+    } catch (error) {
+      captureMilitaryInfoErrorResponse({
+        error,
+        apiEventName: 'profile-get-military-information-failed',
+      });
       dispatch({
         type: FETCH_MILITARY_INFORMATION_FAILED,
         militaryInformation: {
@@ -44,14 +132,6 @@ export function fetchMilitaryInformation() {
           },
         },
       });
-      return;
     }
-
-    dispatch({
-      type: FETCH_MILITARY_INFORMATION_SUCCESS,
-      militaryInformation: {
-        serviceHistory: response,
-      },
-    });
   };
 }

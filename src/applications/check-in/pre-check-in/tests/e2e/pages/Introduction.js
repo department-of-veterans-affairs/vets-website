@@ -1,5 +1,5 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
-import { format, subDays } from 'date-fns';
+import { format } from 'date-fns';
 
 class Introduction {
   validatePageLoaded = () => {
@@ -67,12 +67,6 @@ class Introduction {
         .eq(accordionIndex)
         .should('not.be.visible');
     }
-  };
-
-  validateExpirationDate = appointmentTime => {
-    cy.get('[data-testid="expiration-date"]').contains(
-      format(subDays(appointmentTime, 1), 'M/dd/Y'),
-    );
   };
 
   attemptToGoToNextPage = () => {

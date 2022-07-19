@@ -14,6 +14,7 @@ import {
 
 import { makeSelectCurrentContext } from '../../../selectors';
 import {
+  appointmentWasCanceled,
   preCheckinAlreadyCompleted,
   preCheckinExpired,
 } from '../../../utils/appointment';
@@ -61,7 +62,6 @@ const Introduction = props => {
           const { payload } = json;
           //  set data to state
           setDataToState(payload);
-
           // We do this check before pre-checkin already completed so we don't
           // show a success message on the day of the appointment that could lead
           // the Veteran to believe they completed day-of check-in.
@@ -72,7 +72,11 @@ const Introduction = props => {
             payload.appointments.length > 0 &&
             preCheckinExpired(payload.appointments)
           ) {
-            goToErrorPage('?type=expired');
+            goToErrorPage();
+          }
+
+          if (appointmentWasCanceled(payload.appointments)) {
+            goToErrorPage();
           }
 
           if (preCheckinAlreadyCompleted(payload.appointments)) {

@@ -1,14 +1,19 @@
+import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import get from 'platform/utilities/data/get';
 import { states } from 'platform/forms/address';
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { logValidateMarriageDateVaFacilityPage } from '../../../validation';
 
 import {
-  facilityHelp,
-  isEssentialAcaCoverageDescription,
+  EssentialCoverageDescription,
+  FacilityLocatorDescription,
+} from '../../../components/FormDescriptions';
+import { ShortFormAlert } from '../../../components/FormAlerts';
+import {
   medicalCenterLabels,
   medicalCentersByState,
+  HIGH_DISABILITY,
+  emptyObjectSchema,
 } from '../../../helpers';
 
 const {
@@ -16,20 +21,32 @@ const {
   isEssentialAcaCoverage,
   wantsInitialVaContact,
 } = fullSchemaHca.properties;
-
 const stateLabels = createUSAStateLabels(states);
-
 const emptyFacilityList = [];
-const emptyObjectSchema = {
-  type: 'object',
-  properties: {},
-};
 
 export default {
   uiSchema: {
-    'ui:title': 'VA Facility',
+    'view:facilityShortFormMessage': {
+      'ui:description': ShortFormAlert,
+      'ui:options': {
+        hideIf: form =>
+          !form['view:hcaShortFormEnabled'] ||
+          (form.vaCompensationType !== 'highDisability' &&
+            !(
+              form['view:totalDisabilityRating'] &&
+              form['view:totalDisabilityRating'] >= HIGH_DISABILITY
+            )),
+      },
+    },
+    'view:vaFacilityTitle': {
+      'ui:title': 'VA facility',
+    },
     isEssentialAcaCoverage: {
-      'ui:title': isEssentialAcaCoverageDescription,
+      'ui:title':
+        'I’m enrolling to get minimum essential coverage under the Affordable Care Act.',
+    },
+    'view:isEssentialCoverageDesc': {
+      'ui:description': EssentialCoverageDescription,
     },
     'view:preferredFacility': {
       'ui:title': 'Select your preferred VA medical facility',
@@ -63,7 +80,7 @@ export default {
       },
     },
     'view:locator': {
-      'ui:description': facilityHelp,
+      'ui:description': FacilityLocatorDescription,
     },
     wantsInitialVaContact: {
       'ui:title':
@@ -74,7 +91,10 @@ export default {
   schema: {
     type: 'object',
     properties: {
+      'view:facilityShortFormMessage': emptyObjectSchema,
+      'view:vaFacilityTitle': emptyObjectSchema,
       isEssentialAcaCoverage,
+      'view:isEssentialCoverageDesc': emptyObjectSchema,
       'view:preferredFacility': {
         type: 'object',
         required: ['view:facilityState', 'vaMedicalFacility'],

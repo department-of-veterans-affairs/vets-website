@@ -3,7 +3,7 @@ Cypress.Commands.add(
   (decisionLetterSent, documentsNeeded, waiverSubmitted, phase, estDate) => {
     return {
       data: {
-        id: '11',
+        id: '189685',
         type: 'evss_claims',
         attributes: {
           evssId: 189685,

@@ -1,17 +1,39 @@
 import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import recordEvent from 'platform/monitoring/record-event';
+import { isBefore } from 'date-fns';
 
-const CheckInButton = ({ onClick }) => {
+import { useFormRouting } from '../../hooks/useFormRouting';
+import { createAnalyticsSlug } from '../../utils/analytics';
+
+const CheckInButton = ({
+  checkInWindowEnd,
+  appointmentTime,
+  onClick,
+  eventRecorder = recordEvent,
+  router,
+}) => {
   const [isCheckingIn, setIsCheckingIn] = useState(false);
   const { t } = useTranslation();
+  const { getCurrentPageFromRouter } = useFormRouting(router);
+
   const handleClick = useCallback(
     () => {
+      if (isBefore(checkInWindowEnd, new Date())) {
+        const currentPage = getCurrentPageFromRouter();
+        eventRecorder({
+          event: createAnalyticsSlug('check-in-attempted-after-expiration'),
+          fromPage: currentPage,
+        });
+      }
+
       setIsCheckingIn(true);
       onClick();
     },
-    [onClick],
+    [checkInWindowEnd, eventRecorder, getCurrentPageFromRouter, onClick],
   );
+
   return (
     <button
       type="button"
@@ -19,7 +41,13 @@ const CheckInButton = ({ onClick }) => {
       onClick={handleClick}
       data-testid="check-in-button"
       disabled={isCheckingIn}
-      aria-label={t('check-in-now-for-your-appointment')}
+      aria-label={
+        appointmentTime
+          ? t('check-in-now-for-your-time-appointment', {
+              time: appointmentTime,
+            })
+          : t('check-in-now-for-your-appointment')
+      }
     >
       {isCheckingIn ? (
         <span role="status">{t('loading')}</span>
@@ -31,6 +59,10 @@ const CheckInButton = ({ onClick }) => {
 };
 
 CheckInButton.propTypes = {
+  appointmentTime: PropTypes.instanceOf(Date),
+  checkInWindowEnd: PropTypes.instanceOf(Date),
+  eventRecorder: PropTypes.object,
+  router: PropTypes.object,
   onClick: PropTypes.func,
 };
 

@@ -1,4 +1,4 @@
-# VA.gov ![Build Status](https://github.com/department-of-veterans-affairs/vets-website/actions/workflows/continuous-integration.yml/badge.svg?branch=master)
+# VA.gov ![Build Status](https://github.com/department-of-veterans-affairs/vets-website/actions/workflows/continuous-integration.yml/badge.svg?branch=main)
 
 ## Table of Contents
 
@@ -276,6 +276,12 @@ for doing very specific things.
 | Safari / iOS Safari       |        9        |                                        |
 | Chrome / Android Web view |       44        | _Latest version with >0.5% of traffic_ |
 | Firefox                   |       52        | _Latest version with >0.5% of traffic_ |
+
+## API Keys
+
+In order to work with the Facility Locator locally, you will need a Mapbox API key with dev access.  see [this link](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/working-with-vsp/policies-work-norms/sensitive-guidance.md) for details on handling non public keys and tokens.  You will need to access the paramater store within AWS Systems manager, and get the dev mapbox token from this location: /dsva-vagov/vets-website/dev/mapbox_token.
+
+Create a .env file in the root of vets-website, and assign the above token to a variable called MAPBOX_TOKEN.  The .env file should already be configured to work with dotenv for webpack.  Ensure that the .env file is in .gitigore and take care not to expose this token in any public commits.  See [this link](https://github.com/department-of-veterans-affairs/va.gov-team/issues/new?assignees=&labels=external-request%2Coperations%2Cops-access-request&template=aws-access-request.yml&title=AWS+access+for+%5Bindividual%5D) for instructions on requesting AWS access.
 
 ## Additional Resources
 

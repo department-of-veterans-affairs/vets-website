@@ -29,7 +29,7 @@ describe('Pre-Check In Experience ', () => {
       it('error in the body', () => {
         cy.visitPreCheckInWithUUID();
         // page: Validate
-        ValidateVeteran.validatePageLoaded();
+        ValidateVeteran.validatePage.preCheckIn();
         cy.injectAxeThenAxeCheck();
         ValidateVeteran.validateVeteran();
         ValidateVeteran.attemptToGoToNextPage();

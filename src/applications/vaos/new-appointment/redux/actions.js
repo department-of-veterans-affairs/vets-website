@@ -4,6 +4,7 @@ import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import { createAppointment } from '../../services/appointment';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
   selectFeatureDirectScheduling,
@@ -29,7 +30,6 @@ import {
   sendRequestMessage,
   getCommunityCare,
 } from '../../services/var';
-import { createAppointment } from '../../services/appointment';
 import {
   getLocation,
   getSiteIdFromFacilityId,
@@ -255,7 +255,6 @@ export function fetchFacilityDetails(facilityId) {
     });
   };
 }
-
 export function checkEligibility({ location, showModal }) {
   return async (dispatch, getState) => {
     const state = getState();
@@ -515,21 +514,33 @@ export function hideEligibilityModal() {
   };
 }
 
-export function openReasonForAppointment(page, uiSchema, schema) {
+export function openReasonForAppointment(
+  page,
+  uiSchema,
+  schema,
+  useV2 = false,
+) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
     page,
     uiSchema,
     schema,
+    useV2,
   };
 }
 
-export function updateReasonForAppointmentData(page, uiSchema, data) {
+export function updateReasonForAppointmentData(
+  page,
+  uiSchema,
+  data,
+  useV2 = false,
+) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
     page,
     uiSchema,
     data,
+    useV2,
   };
 }
 

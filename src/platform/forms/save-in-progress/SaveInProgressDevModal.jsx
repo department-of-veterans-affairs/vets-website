@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import TextArea from '@department-of-veterans-affairs/component-library/TextArea';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 
 import environment from 'platform/utilities/environment';
@@ -35,12 +34,22 @@ const SipsDevModal = props => {
   const [sipsUrl, setSipsUrl] = useState(null);
   const [errorMessage, setError] = useState('');
 
+  // Only show SipsDevModal when url hash includes "#dev-(on|off)"
+  checkHash();
+  const showLink = localStorage.getItem('DEV_MODE') === 'true';
+
   useEffect(
     () => {
-      setAvailablePaths(getAvailablePaths(pageList, sipsData));
+      if (showLink && isModalVisible && pageList?.length) {
+        setAvailablePaths(getAvailablePaths(pageList, sipsData));
+      }
     },
-    [pageList, sipsData],
+    [pageList, sipsData, showLink, isModalVisible],
   );
+
+  if (!showLink || (pageList || []).length === 0) {
+    return null;
+  }
 
   const handlers = {
     openSipsModal: () => {
@@ -89,31 +98,23 @@ const SipsDevModal = props => {
     },
   };
 
-  // Only show SipsDevModal when url hash includes "#dev-(on|off)"
-  checkHash();
-  const showLink = localStorage.getItem('DEV_MODE');
-  if (showLink !== 'true') {
-    return null;
-  }
-
   return (
     <>
       {isModalVisible ? (
-        <Modal
-          title="Save in progress data"
+        <VaModal
+          modalTitle="Save in progress data"
           id="sip-menu"
-          cssClass=""
           visible={isModalVisible}
-          onClose={handlers.closeSipsModal}
+          onCloseEvent={handlers.closeSipsModal}
         >
           <>
-            <TextArea
-              errorMessage={errorMessage}
+            <va-textarea
+              error={errorMessage}
               label="Form data"
               name="sips_data"
-              additionalClass="resize-y"
-              field={{ value: textData }}
-              onValueChange={field => handlers.onChange(field.value)}
+              class="resize-y"
+              value={textData}
+              onInput={e => handlers.onChange(e.target.value)}
             />
             <Select
               label="Return url"
@@ -155,7 +156,7 @@ const SipsDevModal = props => {
               </div>
             </div>
           </>
-        </Modal>
+        </VaModal>
       ) : null}{' '}
       <button
         key={showLink}

@@ -19,7 +19,7 @@ describe('Check In Experience -- ', () => {
       initializeSessionPost.withValidation();
       initializeCheckInDataGet.withSuccess();
       cy.visitWithUUID();
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -40,7 +40,7 @@ describe('Check In Experience -- ', () => {
 
       // Third/Final attempt
       ValidateVeteran.validateVeteran('Sith', '4321');
-      ValidateVeteran.validateErrorAlert(true);
+      ValidateVeteran.validateErrorAlert();
       ValidateVeteran.attemptToGoToNextPage();
 
       Error.validatePageLoaded(true);

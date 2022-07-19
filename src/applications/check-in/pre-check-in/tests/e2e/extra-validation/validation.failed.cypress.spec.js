@@ -6,7 +6,6 @@ import Introduction from '../pages/Introduction';
 import Error from '../pages/Error';
 
 describe('Pre-Check In Experience', () => {
-  // @TODO: un-skip when the error page is created.
   describe('Validate Page', () => {
     beforeEach(() => {
       const {
@@ -20,7 +19,7 @@ describe('Pre-Check In Experience', () => {
       initializeSessionPost.withValidation();
       initializePreCheckInDataGet.withSuccess();
       cy.visitPreCheckInWithUUID();
-      ValidateVeteran.validatePageLoaded('Start pre-check-in');
+      ValidateVeteran.validatePage.preCheckIn();
     });
     afterEach(() => {
       cy.window().then(window => {

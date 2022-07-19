@@ -3,10 +3,76 @@ import { expect } from 'chai';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import sinon from 'sinon';
 import environment from 'platform/utilities/environment';
+import { mockApiRequest } from 'platform/testing/unit/helpers';
 import { ConnectedDevicesContainer } from '../../components/ConnectedDevicesContainer';
+import {
+  CONNECTION_FAILED_STATUS,
+  CONNECTION_SUCCESSFUL_STATUS,
+  DISCONNECTION_FAILED_STATUS,
+  DISCONNECTION_SUCCESSFUL_STATUS,
+} from '../../constants/alerts';
+
+const noDevicesConnectedState = {
+  devices: [
+    {
+      name: 'Vendor 1',
+      key: 'vendor-1',
+      authUrl: 'path/to/vetsapi/vendor-1/connect/method',
+      disconnectUrl: 'path/to/vetsapi/vendor-1/disconnect/method',
+      connected: false,
+    },
+    {
+      name: 'Vendor 2',
+      key: 'vendor-2',
+      authUrl: 'path/to/vetsapi/vendor-2/connect/method',
+      disconnectUrl: 'path/to/vetsapi/vendor-2/disconnect/method',
+      connected: false,
+    },
+  ],
+};
+
+const oneDeviceConnectedState = {
+  devices: [
+    {
+      name: 'Vendor 1',
+      key: 'vendor-1',
+      authUrl: 'path/to/vetsapi/vendor-1/connect/method',
+      disconnectUrl: 'path/to/vetsapi/vendor-1/disconnect/method',
+      connected: true,
+    },
+    {
+      name: 'Vendor 2',
+      key: 'vendor-2',
+      authUrl: 'path/to/vetsapi/vendor-2/connect/method',
+      disconnectUrl: 'path/to/vetsapi/vendor-2/disconnect/method',
+      connected: false,
+    },
+  ],
+};
+
+const twoDevicesConnectedState = {
+  devices: [
+    {
+      name: 'Vendor 1',
+      key: 'vendor-1',
+      authUrl: 'path/to/vetsapi/vendor-1/connect/method',
+      disconnectUrl: 'path/to/vetsapi/vendor-1/disconnect/method',
+      connected: true,
+    },
+    {
+      name: 'Vendor 2',
+      key: 'vendor-2',
+      authUrl: 'path/to/vetsapi/vendor-2/connect/method',
+      disconnectUrl: 'path/to/vetsapi/vendor-2/disconnect/method',
+      connected: true,
+    },
+  ],
+};
 
 describe('Connect Devices Container', () => {
   it('should render DeviceConnectionSection and DeviceConnectionCards when devices are not connected', async () => {
+    mockApiRequest(noDevicesConnectedState);
+
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
     );
@@ -18,100 +84,55 @@ describe('Connect Devices Container', () => {
         'devices-to-connect-section',
       ),
     ).to.exist;
-    expect(await connectedDevicesContainer.findByTestId('fitbit-connect-link'))
-      .to.exist;
+    expect(
+      await connectedDevicesContainer.findByTestId('vendor-1-connect-link'),
+    ).to.exist;
   });
 
-  it('should render apple watch in connected devices section when connected', async () => {
+  it('should render Vendor 1 in connected devices section when connected', async () => {
+    mockApiRequest(oneDeviceConnectedState);
+
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
     );
-    expect(await connectedDevicesContainer.findByTestId('fitbit-connect-link'))
-      .to.exist;
+
+    const vendorKey = oneDeviceConnectedState.devices[0].key;
+
+    expect(
+      await connectedDevicesContainer.findByTestId(
+        `${vendorKey}-disconnect-link`,
+      ),
+    ).to.exist;
   });
 
   it('should render "You do not have any devices connected" when no devices are connected', () => {
-    const noDevicesConnectedState = {
-      connectedDevices: [
-        {
-          vendor: 'Fitbit',
-          authUrl: 'path/to/vetsapi/fitbit/connect/method',
-          disconnectUrl: 'placeholder',
-          connected: false,
-        },
-      ],
-    };
+    mockApiRequest(noDevicesConnectedState);
 
     const noConnectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
-      { noDevicesConnectedState },
     );
 
     expect(
       noConnectedDevicesContainer.findByText(
-        'You do not have any devices connected',
+        'You do not have any devices connected.',
       ),
     ).to.exist;
   });
 
   it('should render "You have connected all supported devices" when all supported devices are connected', () => {
-    const allDevicesConnectedState = {
-      connectedDevices: [
-        {
-          vendor: 'Fitbit',
-          authUrl: 'path/to/vetsapi/fitbit/connect/method',
-          disconnectUrl: 'placeholder',
-          connected: true,
-        },
-      ],
-    };
-
-    const allConnectedDevicesContainer = renderInReduxProvider(
+    mockApiRequest(twoDevicesConnectedState);
+    const twoDevicesConnectedContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
-      { allDevicesConnectedState },
     );
 
     expect(
-      allConnectedDevicesContainer.findByTestId('no-devices-connected-alert'),
+      twoDevicesConnectedContainer.findByTestId('all-devices-connected-alert'),
     ).to.exist;
-
-    const oneDeviceConnectedState = {
-      connectedDevices: [
-        {
-          vendor: 'Fitbit',
-          authUrl: 'path/to/vetsapi/fitbit/connect/method',
-          disconnectUrl: 'placeholder',
-          connected: true,
-        },
-        {
-          vendor: 'Fitbit2',
-          authUrl: 'path/to/vetsapi/fitbit/connect/method',
-          disconnectUrl: 'placeholder',
-          connected: false,
-        },
-      ],
-    };
-
-    const oneConnectedDeviceContainer = renderInReduxProvider(
-      <ConnectedDevicesContainer />,
-      { oneDeviceConnectedState },
-    );
-
-    expect(
-      oneConnectedDeviceContainer.findByTestId('all-devices-connected-alert'),
-    ).to.be.empty;
   });
 
   it('should render success alert when successAlert is set to true', () => {
+    mockApiRequest(twoDevicesConnectedState);
     const initialState = {
-      connectedDevices: [
-        {
-          vendor: 'Fitbit',
-          authUrl: 'path/to/vetsapi/fitbit/connect/method',
-          disconnectUrl: 'placeholder',
-          connected: true,
-        },
-      ],
       successAlert: true,
     };
     const connectedDevicesContainer = renderInReduxProvider(
@@ -124,15 +145,9 @@ describe('Connect Devices Container', () => {
   });
 
   it('should render failure alert when failureAlert is set to true', () => {
+    mockApiRequest(twoDevicesConnectedState);
+
     const initialState = {
-      connectedDevices: [
-        {
-          vendor: 'Fitbit',
-          authUrl: 'path/to/vetsapi/fitbit/connect/method',
-          disconnectUrl: 'placeholder',
-          connected: false,
-        },
-      ],
       failureAlert: true,
     };
     const connectedDevicesContainer = renderInReduxProvider(
@@ -148,10 +163,17 @@ describe('Connect Devices Container', () => {
 describe('Device connection url parameters', () => {
   const successUrl = `${
     environment.BASE_URL
-  }/health-care/connected-devices/?fitbit=success#_=_`;
+  }/health-care/connected-devices/?vendor-1=${CONNECTION_SUCCESSFUL_STATUS}#_=_`;
   const failureUrl = `${
     environment.BASE_URL
-  }/health-care/connected-devices/?fitbit=error#_=_`;
+  }/health-care/connected-devices/?vendor-1=${CONNECTION_FAILED_STATUS}#_=_`;
+  const successfulDisconnectUrl = `${
+    environment.BASE_URL
+  }/health-care/connected-devices/?vendor-1=${DISCONNECTION_SUCCESSFUL_STATUS}#_=_`;
+
+  const failedDisconnectUrl = `${
+    environment.BASE_URL
+  }/health-care/connected-devices/?vendor-1=${DISCONNECTION_FAILED_STATUS}#_=_`;
   const savedLocation = window.location;
 
   beforeEach(() => {
@@ -162,6 +184,7 @@ describe('Device connection url parameters', () => {
   });
 
   it('should render success alert when url params contain a success message', async () => {
+    mockApiRequest(oneDeviceConnectedState);
     window.location = Object.assign(new URL(successUrl), {
       ancestorOrigins: '',
       assign: sinon.spy(),
@@ -169,8 +192,9 @@ describe('Device connection url parameters', () => {
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
     );
-    expect(await connectedDevicesContainer.findByTestId('success-alert')).to
-      .exist;
+    expect(
+      await connectedDevicesContainer.findByTestId('connection-success-alert'),
+    ).to.exist;
   });
 
   it('should render failure alert when url params contain a error message', async () => {
@@ -181,7 +205,26 @@ describe('Device connection url parameters', () => {
     const connectedDevicesContainer = renderInReduxProvider(
       <ConnectedDevicesContainer />,
     );
-    expect(await connectedDevicesContainer.findByTestId('failure-alert')).to
-      .exist;
+    expect(
+      await connectedDevicesContainer.findByTestId('connection-failure-alert'),
+    ).to.exist;
+  });
+  it('should render successful disconnection alert when url params contain a disconnect success message', async () => {
+    await mockApiRequest(oneDeviceConnectedState);
+    window.location = Object.assign(new URL(successfulDisconnectUrl), {
+      ancestorOrigins: '',
+      assign: sinon.spy(),
+    });
+    const screen = renderInReduxProvider(<ConnectedDevicesContainer />);
+    expect(screen.findByTestId('disconnection-success-alert')).to.exist;
+  });
+  it('should render failed disconnection alert when url params contain a disconnect failure message', async () => {
+    await mockApiRequest(oneDeviceConnectedState);
+    window.location = Object.assign(new URL(failedDisconnectUrl), {
+      ancestorOrigins: '',
+      assign: sinon.spy(),
+    });
+    const screen = renderInReduxProvider(<ConnectedDevicesContainer />);
+    expect(await screen.findByTestId('disconnection-failure-alert')).to.exist;
   });
 });

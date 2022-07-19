@@ -2,11 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { isEmpty } from 'lodash';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+
 import {
   deleteConnectedApp,
   dismissDeletedAppAlert,
@@ -119,12 +116,15 @@ export class ConnectedApps extends Component {
         )}
 
         {showHasServerError && (
-          <AlertBox
-            className="vads-u-margin-bottom--2"
-            headline="We couldn’t retrieve your connected apps"
-            status="warning"
-            content="We’re sorry. Something went wrong on our end and we couldn’t access your connected apps. Please try again later."
-          />
+          <>
+            <va-alert status="warning" className="vads-u-margin-bottom--2">
+              <h2 slot="headline">We couldn’t retrieve your connected apps</h2>
+              <p>
+                We’re sorry. Something went wrong on our end and we couldn’t
+                access your connected apps. Please try again later.
+              </p>
+            </va-alert>
+          </>
         )}
 
         {deletedApps.map(app => (
@@ -150,28 +150,29 @@ export class ConnectedApps extends Component {
         )}
         {!isEmpty(disconnectErrorApps) &&
           disconnectErrorApps.map(app => (
-            <AlertBox
-              status={ALERT_TYPE.ERROR}
-              backgroundOnly
-              className="vads-u-margin-bottom--2"
-              key={`${app.attributes?.title}`}
-            >
-              <div className="vads-u-display--flex">
-                <i
-                  aria-hidden="true"
-                  className="fa fa-exclamation-circle vads-u-padding-top--0p5 vads-u-margin-right--1"
-                />
-                <p
-                  className="vads-u-margin-y--0"
-                  role="alert"
-                  aria-live="polite"
-                >
-                  We’re sorry. We can’t disconnect {app.attributes?.title} from
-                  your VA.gov profile right now. We’re working to fix this
-                  problem. Please check back later.
-                </p>
-              </div>
-            </AlertBox>
+            <>
+              <va-alert
+                status="error"
+                background-only
+                key={`${app.attributes?.title}`}
+              >
+                <div className="vads-u-display--flex">
+                  <i
+                    aria-hidden="true"
+                    className="fa fa-exclamation-circle vads-u-padding-top--0p5 vads-u-margin-right--1"
+                  />
+                  <p
+                    className="vads-u-margin-y--0"
+                    role="alert"
+                    aria-live="polite"
+                  >
+                    We’re sorry. We can’t disconnect {app.attributes?.title}{' '}
+                    from your VA.gov profile right now. We’re working to fix
+                    this problem. Please check back later.
+                  </p>
+                </div>
+              </va-alert>
+            </>
           ))}
 
         {activeApps.map(app => (
@@ -184,7 +185,10 @@ export class ConnectedApps extends Component {
 
         {!isEmpty(activeApps) && (
           <div className="vads-u-margin-y--3 available-connected-apps">
-            <AdditionalInfo triggerText="What other third-party apps can I connect to my profile?">
+            <va-additional-info
+              disable-border
+              trigger="What other third-party apps can I connect to my profile?"
+            >
               To find out what other third-party apps are available to connect
               to your profile,{' '}
               <a
@@ -193,7 +197,7 @@ export class ConnectedApps extends Component {
               >
                 go to the app directory
               </a>
-            </AdditionalInfo>
+            </va-additional-info>
           </div>
         )}
 

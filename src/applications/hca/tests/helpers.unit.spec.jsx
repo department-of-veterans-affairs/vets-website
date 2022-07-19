@@ -10,7 +10,7 @@ import {
   isBeforeCentralTimeDate,
   transformAttachments,
   prefillTransformer,
-} from '../helpers.jsx';
+} from '../helpers';
 
 describe('HCA helpers', () => {
   describe('expensesLessThanIncome', () => {

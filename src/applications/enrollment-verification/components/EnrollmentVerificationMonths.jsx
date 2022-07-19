@@ -1,21 +1,22 @@
 import React, { useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
-import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+// import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { Pagination } from '@department-of-veterans-affairs/component-library/index';
 import EnrollmentVerificationMonth from './EnrollmentVerificationMonth';
+import { ENROLLMENT_VERIFICATION_TYPE, STATUS_PROP_TYPE } from '../helpers';
 
 const MONTHS_PER_PAGE = 6;
 
-function EnrollmentVerificationMonths({ enrollmentData }) {
-  // We assume that months come sorted.  If that assumption is
-  // incorrect, sort here.
-  const months = enrollmentData?.enrollmentVerifications?.map(
+function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
+  // We assume that months come sorted from most recent to oldest.  If
+  // that assumption is incorrect, sort here.
+  const months = enrollmentVerification?.enrollmentVerifications?.map(
     (month, index) => {
       return (
         <EnrollmentVerificationMonth
           key={index}
           month={month}
-          paymentStatus={enrollmentData.paymentStatus}
+          status={status}
         />
       );
     },
@@ -61,14 +62,16 @@ function EnrollmentVerificationMonths({ enrollmentData }) {
         </p>
       </va-additional-info>
 
-      <p>
-        Showing {lowerDisplayedRange}-{upperDisplayedRange} of {months?.length}{' '}
-        monthly enrollments listed by most recent
-      </p>
+      {enrollmentVerification?.enrollmentVerifications && (
+        <p>
+          Showing {lowerDisplayedRange}-{upperDisplayedRange} of{' '}
+          {months?.length} monthly enrollments listed by most recent
+        </p>
+      )}
 
       {months?.slice(minMonth, maxMonth)}
 
-      <VaPagination
+      <Pagination
         onPageSelect={onPageSelect}
         page={currentPage}
         pages={numPages}
@@ -77,8 +80,9 @@ function EnrollmentVerificationMonths({ enrollmentData }) {
   );
 }
 
-export default EnrollmentVerificationMonths;
-
 EnrollmentVerificationMonths.propTypes = {
-  enrollmentData: PropTypes.object,
+  enrollmentVerification: ENROLLMENT_VERIFICATION_TYPE.isRequired,
+  status: STATUS_PROP_TYPE.isRequired,
 };
+
+export default EnrollmentVerificationMonths;

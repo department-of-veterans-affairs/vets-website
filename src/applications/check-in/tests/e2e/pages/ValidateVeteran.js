@@ -1,18 +1,30 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
+const messages = {
+  title: {
+    dayOf: {
+      en: 'Check in at VA',
+      es: 'Regístrese en VA',
+    },
+    preCheckIn: {
+      en: 'Start pre-check-in',
+    },
+  },
+};
+
 class ValidateVeteran {
-  validatePageLoaded = (title = 'Start pre-check-in') => {
+  validatePageLoaded = title => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', title);
   };
 
   validatePage = {
-    dayOf: () => {
-      this.validatePageLoaded('Check in at VA');
+    dayOf: (language = 'en') => {
+      this.validatePageLoaded(messages.title.dayOf[language]);
     },
-    preCheckIn: () => {
-      this.validatePageLoaded('Start pre-check-in');
+    preCheckIn: (language = 'en') => {
+      this.validatePageLoaded(messages.title.preCheckIn[language]);
     },
   };
 
@@ -40,6 +52,20 @@ class ValidateVeteran {
   validateVeteranDobInvalidYear = (
     lastName = 'Smith',
     year = '2050',
+    month = '1',
+    day = '31',
+  ) => {
+    this.clearLastName();
+    this.typeLastName(lastName);
+    this.selectMonth(month);
+    this.selectDay(day);
+    this.clearYear();
+    this.typeYear(year);
+  };
+
+  validateVeteranDobWithFailure = (
+    lastName = 'Smith',
+    year = '1988',
     month = '1',
     day = '31',
   ) => {
@@ -165,13 +191,13 @@ class ValidateVeteran {
     );
   };
 
-  validateErrorAlert = () => {
+  validateErrorAlert = (withLorotaSecurityUpdate = false) => {
+    const messageText = withLorotaSecurityUpdate
+      ? 'Sorry, we couldn’t find an account that matches that last name or date of birth. Please try again.'
+      : 'We’re sorry. We couldn’t match your information to our records. Please try again.';
     cy.get('[data-testid=validate-error-alert]')
       .should('be.visible')
-      .and(
-        'have.text',
-        "We're sorry. We couldn't match your information to our records. Please try again.",
-      );
+      .and('have.text', messageText);
   };
 }
 

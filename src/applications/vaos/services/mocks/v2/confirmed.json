@@ -25,7 +25,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "Routine Follow-up",
+        "reasonCode": { "coding": [ { "code": "Routine Follow-up" } ] },
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -59,7 +59,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "Routine Follow-up",
+        "reasonCode": {"coding": [{"code": "Routine Follow-up"}]},
         "requestedPeriods": null,
         "serviceType": "covid",
         "slot": null,
@@ -80,6 +80,10 @@
             {
               "type": "email",
               "value": null
+            },
+            {
+              "system": "phone",
+              "value": "723-234-4566"
             }
           ]
         },
@@ -92,13 +96,18 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
-            "firstName": "Dr",
-            "lastName": "Hyde",
-            "practiceName": "Jeckle and Hyde"
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
+            "name": {
+              "family": "Hyde",
+              "given": [
+                "DR"
+              ]
+            }
           }
         ],
         "extension": {
@@ -111,12 +120,16 @@
               "state": "OH",
               "postalCode": "45414",
               "text": "1601 Needmore Rd Ste 1\nDayton OH 45414"
-            }
+            },
+            "telecom": [{
+              "system": "phone",
+              "value": "723-234-4565"
+            }]
           }
         },        
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "audiology",
         "slot": null,
@@ -149,13 +162,12 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
-            "firstName": "Dr",
-            "lastName": "Hyde",
-            "practiceName": "Jeckle and Hyde"
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ]
           }
         ],
         "extension": {
@@ -173,7 +185,7 @@
         },
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "audiology",
         "slot": null,
@@ -218,7 +230,7 @@
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "New Issue",
+        "reasonCode": {"coding": [{"code": "New Issue"}]},
         "requestedPeriods": null,
         "serviceType": "outpatientMentalHealth",
         "slot": null,
@@ -266,7 +278,7 @@
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "amputation",
         "slot": null,
@@ -345,7 +357,7 @@
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "audiology",
         "slot": null,
@@ -383,7 +395,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "foodAndNutrition",
         "slot": null,
@@ -431,7 +443,7 @@
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -469,7 +481,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "New Issue",
+        "reasonCode": {"coding": [{"code": "New Issue"}]},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -503,7 +515,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "New Issue",
+        "reasonCode": {"coding": [{"code": "New Issue"}]},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -537,7 +549,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "Medication Concern",
+        "reasonCode": {"coding": [{"code": "Medication Concern"}]},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -582,7 +594,7 @@
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -620,7 +632,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "Routine Follow-up",
+        "reasonCode": {"coding": [{"code": "Routine Follow-up"}]},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -654,7 +666,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "Routine Follow-up",
+        "reasonCode": {"coding": [{"code": "Routine Follow-up"}]},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,

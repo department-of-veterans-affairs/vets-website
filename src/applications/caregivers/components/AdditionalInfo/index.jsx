@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 import { links } from 'applications/caregivers/definitions/content';
@@ -13,124 +12,6 @@ export const VeteranSSNInfo = () => (
     </va-additional-info>
   </div>
 );
-
-export const VetInfo = ({ pageTitle, headerInfo }) => (
-  <>
-    {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
-
-    {headerInfo && (
-      <p className="vads-u-margin-top--2">
-        Please complete all the following information.
-      </p>
-    )}
-  </>
-);
-
-VetInfo.propTypes = {
-  headerInfo: PropTypes.bool,
-  pageTitle: PropTypes.string,
-};
-
-export const PrimaryCaregiverInfo = ({
-  additionalInfo,
-  pageTitle,
-  headerInfo,
-}) => (
-  <>
-    {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
-    {headerInfo && (
-      <p className="vads-u-margin-top--2">
-        Please complete the following information about the Primary Family
-        Caregiver.
-      </p>
-    )}
-
-    {additionalInfo && (
-      <section className="vads-u-margin-y--2p5">
-        <va-additional-info trigger="Learn more about who qualifies as a Primary Family Caregiver">
-          <p>
-            Family caregivers are approved and designated by VA as Primary
-            Family Caregivers and Secondary Family Caregivers to provide
-            personal care services. A Primary Family Caregiver is the main
-            caregiver for the eligible Veteran.
-          </p>
-
-          <>
-            <p>They can be the Veteran’s:</p>
-
-            <ul>
-              <li>Parent</li>
-              <li>Spouse</li>
-              <li>Son or daughter</li>
-              <li>Stepfamily member</li>
-              <li>Grandchild</li>
-              <li>Significant other</li>
-              <li>Friend or neighbor</li>
-              <li>Other relative</li>
-            </ul>
-          </>
-        </va-additional-info>
-      </section>
-    )}
-  </>
-);
-
-PrimaryCaregiverInfo.propTypes = {
-  additionalInfo: PropTypes.bool,
-  headerInfo: PropTypes.bool,
-  pageTitle: PropTypes.string,
-};
-
-PrimaryCaregiverInfo.defaultProps = {
-  additionalInfo: false,
-  headerInfo: true,
-};
-
-export const SecondaryCaregiverLegal = () => (
-  <div className="vads-u-margin-y--1p5">
-    <va-additional-info trigger="Learn more about who qualifies as a Secondary Family Caregiver">
-      <p>
-        Family caregivers are approved and designated by VA as Primary Family
-        Caregivers and Secondary Family Caregivers to provide personal care
-        services. A Secondary Family Caregiver generally serves as a backup to
-        the Primary Family Caregiver.
-      </p>
-
-      <>
-        <p>They can be the Veteran’s:</p>
-
-        <ul>
-          <li>Parent</li>
-          <li>Spouse</li>
-          <li>Son or daughter</li>
-          <li>Stepfamily member</li>
-          <li>Grandchild</li>
-          <li>Significant other</li>
-          <li>Friend or neighbor</li>
-          <li>Other relative</li>
-        </ul>
-      </>
-    </va-additional-info>
-  </div>
-);
-
-export const SecondaryCaregiverInfo = ({
-  pageTitle,
-  additionalInfo,
-  headerInfo,
-}) => (
-  <>
-    {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
-    {headerInfo && <p className="vads-u-margin-top--2"> {headerInfo} </p>}
-    {additionalInfo && <SecondaryCaregiverLegal />}
-  </>
-);
-
-SecondaryCaregiverInfo.propTypes = {
-  additionalInfo: PropTypes.bool,
-  headerInfo: PropTypes.string,
-  pageTitle: PropTypes.string,
-};
 
 export const FacilityInfo = () => (
   <div className="vads-u-margin-top--2p5">
@@ -160,14 +41,6 @@ export const CaregiverSupportInfo = () => (
     </va-additional-info>
   </div>
 );
-
-export const PrimaryHealthCoverage = ({ pageTitle }) => (
-  <>{pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}</>
-);
-
-PrimaryHealthCoverage.propTypes = {
-  pageTitle: PropTypes.string,
-};
 
 export const whyAskHealthCareCoverage = () => (
   <div className="vads-u-margin-y--2p5">
@@ -207,8 +80,8 @@ export const PleaseSelectVAFacility = () => (
     <h3 className="vads-u-font-size--h4">VA health care services</h3>
 
     <p>
-      Please select the VA medical center or clinic where the
-      <strong className="vads-u-margin-left--0p5">
+      Please select the VA medical center or clinic where the{' '}
+      <strong>
         Veteran receives or plans to receive health care services.
       </strong>
     </p>
@@ -230,18 +103,16 @@ export const AdditionalCaregiverInfo = () => (
   </>
 );
 
-export const SecondaryRequiredAlert = () => {
-  return (
-    <va-alert status="error" isVisible>
-      <h3 slot="headline">We need you to add a Family Caregiver</h3>
-      <p className="vads-u-font-size--base">
-        We can’t process your application unless you add a Family Caregiver.
-        Please go back and add either a Primary or Secondary Family Caregiver to
-        your application.
-      </p>
-    </va-alert>
-  );
-};
+export const SecondaryRequiredAlert = () => (
+  <va-alert status="error">
+    <h3 slot="headline">We need you to add a Family Caregiver</h3>
+    <p className="vads-u-font-size--base">
+      We can’t process your application unless you add a Family Caregiver.
+      Please go back and add either a Primary or Secondary Family Caregiver to
+      your application.
+    </p>
+  </va-alert>
+);
 
 export const RepresentativeIntroContent = () => {
   return (
@@ -295,8 +166,7 @@ export const RepresentativeAdditionalInfo = () => {
         <p className="vads-u-margin-top--4">We accept these documents:</p>
         <ul>
           <li>
-            Veteran guardianship,
-            <strong className="vads-u-margin-left--0p5">or</strong>
+            Veteran guardianship, <strong>or</strong>
           </li>
           <li>Veteran-related court order</li>
         </ul>
@@ -307,8 +177,7 @@ export const RepresentativeAdditionalInfo = () => {
         </p>
         <ul>
           <li>
-            Power of attorney for the Veteran,
-            <strong className="vads-u-margin-left--0p5">or</strong>
+            Power of attorney for the Veteran, <strong>or</strong>
           </li>
           <li>Health care power of attorney for the Veteran</li>
         </ul>

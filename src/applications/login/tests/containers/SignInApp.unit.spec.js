@@ -61,12 +61,28 @@ describe('SignInApp', () => {
     defaultProps.location.query = { application: EXTERNAL_APPS.MY_VA_HEALTH };
     defaultProps.router = { push: routerPushSpy };
     defaultProps.authenticatedWithSSOe = true;
+    defaultProps.useSignInService = false;
     defaultProps.profile = {};
 
     const component = shallow(<SignInPage {...defaultProps} />);
     component.setProps({ profile: { verified: false } });
     expect(routerPushSpy.calledOnce).to.be.true;
     expect(routerPushSpy.args[0][0]).to.contain('/verify');
+    component.unmount();
+  });
+
+  it('should append the `?oauth=true` parameter if useSignInService is true and oauth=true is not already appended and application is undefined', () => {
+    const routerPushSpy = sinon.spy();
+    defaultProps.location.query = { oauth: true };
+    defaultProps.router = { push: routerPushSpy };
+    defaultProps.useSignInService = true;
+
+    const component = shallow(<SignInPage {...defaultProps} />);
+    expect(routerPushSpy.calledOnce).to.be.false;
+
+    component.setProps({ location: { query: {} } });
+    expect(routerPushSpy.calledOnce).to.be.true;
+    expect(routerPushSpy.args[0][0]).to.contain('?oauth=true');
     component.unmount();
   });
 });

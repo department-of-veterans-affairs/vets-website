@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 
@@ -163,18 +163,36 @@ export const transportationWarning = (
   </div>
 );
 
-export const burialDateWarning = (
-  <div className="usa-alert usa-alert-warning background-color-only">
-    <span>
-      If filing for a non-service-connected allowance, the Veteran’s burial date
-      must be no more than 2 years from the current date. Find out if you still
-      qualify.{' '}
-      <a href="/burials-memorials/eligibility/" target="_blank">
-        Learn about eligibility
-      </a>
-    </span>
-  </div>
-);
+export const BurialDateWarning = () => {
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    // NOTE: If we don't wait at least 900ms to render,
+    // the alert content gets overspoken by the year content
+    // when using a Screen Reader.
+    // Using 1000ms to give a bit of padding
+    const timeout = setTimeout(() => setShouldRender(true), 1000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  return (
+    <div aria-live="polite">
+      {shouldRender && (
+        <va-alert background-only show-icon status="warning">
+          <span className="sr-only">Warning:</span>
+          <p className="vads-u-margin-top--0">
+            If filing for a non-service-connected allowance, the Veteran’s
+            burial date must be no more than 2 years from the current date.
+          </p>
+          <a href="/burials-memorials/eligibility/" target="_blank">
+            Find out if you still qualify for a non-service-connected allowance
+            (opens in new tab)
+          </a>
+        </va-alert>
+      )}
+    </div>
+  );
+};
 
 export function fileHelp({ formContext }) {
   if (formContext.reviewMode) {

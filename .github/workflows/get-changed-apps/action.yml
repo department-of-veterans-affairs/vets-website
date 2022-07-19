@@ -1,0 +1,79 @@
+name: Get changed applications
+description: Get application details for branches/commits with changes to single or grouped applications on the allow-list.
+
+inputs:
+  delimiter:
+    description: 'Delimiter to use for string output. Does not apply to `changed_files`.'
+    required: false
+    default: ' '
+
+  output-type:
+    description: 'Comma delimited list of changed application details to retrieve. Output types include: `entry_name`, `folder`, `slack_group`, `url`.'
+    required: false
+    default: ''
+
+outputs:
+  changed_files:
+    description: 'Space delimited list of paths for changed files that differ from `main` branch.'
+    value: ${{ steps.get-changed-files.outputs.changed_files }}
+
+  entry_names:
+    description: 'Entry names of changed applications.'
+    value: ${{ steps.get-entry-names.outputs.entry_names }}
+
+  folders:
+    description: 'Root folder paths of changed applications.'
+    value: ${{ steps.get-folders.outputs.folders }}
+
+  slack_groups:
+    description: 'Slack user groups of changed applications.'
+    value: ${{ steps.get-slack-groups.outputs.slack_groups }}
+
+  urls:
+    description: 'Root URLs of changed applications.'
+    value: ${{ steps.get-urls.outputs.urls }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Get paths of changed files
+      id: get-changed-files
+      shell: bash
+      run: |
+        if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
+            echo ::set-output name=changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+        else
+          echo ::set-output name=changed_files::$(git diff --name-only origin/main...)
+        fi
+
+    - name: Get entry names
+      id: get-entry-names
+      if: contains(inputs.output-type, 'entry_name')
+      shell: bash
+      run: echo ::set-output name=entry_names::$(node script/github-actions/get-changed-apps.js --output-type entry -d "${{ inputs.delimiter }}")
+      env:
+        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+
+    - name: Get folders
+      id: get-folders
+      if: contains(inputs.output-type, 'folder')
+      shell: bash
+      run: echo ::set-output name=folders::$(node script/github-actions/get-changed-apps.js --output-type folder -d "${{ inputs.delimiter }}")
+      env:
+        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+
+    - name: Get Slack user groups
+      id: get-slack-groups
+      if: contains(inputs.output-type, 'slack_group')
+      shell: bash
+      run: echo ::set-output name=slack_groups::$(node script/github-actions/get-changed-apps.js --output-type slack-group -d "${{ inputs.delimiter }}")
+      env:
+        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+
+    - name: Get URLs
+      id: get-urls
+      if: contains(inputs.output-type, 'url')
+      shell: bash
+      run: echo ::set-output name=urls::$(node script/github-actions/get-changed-apps.js --output-type url -d "${{ inputs.delimiter }}")
+      env:
+        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}

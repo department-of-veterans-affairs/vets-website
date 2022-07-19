@@ -10,7 +10,7 @@ import { links } from 'applications/caregivers/definitions/content';
 
 const ConfirmationPage = props => {
   useEffect(() => {
-    focusElement('.usa-alert-heading');
+    focusElement('.caregiver-success-message');
     scrollToTop();
   }, []);
 
@@ -67,7 +67,7 @@ const ConfirmationPage = props => {
 
   return (
     <section className="caregiver-confirmation vads-u-margin-bottom--2p5">
-      <va-alert status="success">
+      <va-alert status="success" class="caregiver-success-message">
         <h2 slot="headline">You’ve successfully submitted your application.</h2>
         <div>
           Once we’ve reviewed your application, a Caregiver Support Coordinator
@@ -122,12 +122,11 @@ const ConfirmationPage = props => {
 
           <p>
             If you have questions about your application, what to expect next,
-            or if you are interested in learning more about the supports and
+            or if you are interested in learning more about the support and
             services available to support Veterans and caregivers, you may
             contact the VA Caregiver Support Line at{' '}
-            <va-telephone contact={CONTACTS.CAREGIVER} /> or visit
+            <va-telephone contact={CONTACTS.CAREGIVER} /> or visit{' '}
             <a
-              className="vads-u-margin-left--0p5"
               href={links.caregiverHelpPage.link}
               target="_blank"
               rel="noreferrer noopener"

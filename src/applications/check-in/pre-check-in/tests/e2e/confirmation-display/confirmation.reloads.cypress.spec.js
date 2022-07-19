@@ -17,11 +17,13 @@ describe('Pre-Check In Experience', () => {
         initializeSessionPost,
         initializePreCheckInDataGet,
         initializePreCheckInDataPost,
+        initializeDemographicsPatch,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
 
       initializeSessionPost.withSuccess();
+      initializeDemographicsPatch.withSuccess();
       initializePreCheckInDataGet.withSuccess();
 
       initializePreCheckInDataPost.withSuccess();
@@ -42,7 +44,7 @@ describe('Pre-Check In Experience', () => {
     it('reloads of confirmation page should redirect back to verify page', () => {
       cy.injectAxeThenAxeCheck();
       cy.reload();
-      ValidateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePage.preCheckIn();
 
       // moved afterEach here to
       // avoid async clearing of session storage

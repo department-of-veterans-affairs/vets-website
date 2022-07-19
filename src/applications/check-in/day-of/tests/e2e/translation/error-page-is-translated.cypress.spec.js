@@ -8,6 +8,7 @@ describe('Check In Experience -- ', () => {
     const { initializeFeatureToggle, initializeSessionGet } = ApiInitializer;
     initializeFeatureToggle.withDayOfTranslationEnabled();
     initializeSessionGet.withFailure();
+    // Verifies that browser language detection is working.
     cy.visitWithUUID(null, 'es');
   });
   afterEach(() => {

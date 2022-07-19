@@ -3,10 +3,11 @@ import moment from 'moment';
 import _ from 'lodash';
 import * as Sentry from '@sentry/browser';
 import { Link } from 'react-router';
+
 import Decision from '../components/appeals-v2/Decision';
+import { ITEMS_PER_PAGE } from '../constants';
 
 // This literally determines how many rows are displayed per page on the v2 index page
-export const ROWS_PER_PAGE = 10;
 export const DECISION_REVIEW_URL = '/decision-reviews';
 
 export const APPEAL_ACTIONS = {
@@ -2176,9 +2177,29 @@ export function sortByLastUpdated(item1, item2) {
 }
 
 export function getVisibleRows(list, currentPage) {
-  const currentIndex = (currentPage - 1) * ROWS_PER_PAGE;
+  const currentIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   if (!list.length) {
     return list;
   }
-  return list.slice(currentIndex, currentIndex + ROWS_PER_PAGE);
+  return list.slice(currentIndex, currentIndex + ITEMS_PER_PAGE);
 }
+
+/**
+ * Calculate the item range based on the current page and number of rows/page.
+ * This is used to
+ * @param {Number} page - current page
+ * @param {Number} totalItems - total number of entries
+ * @returns
+ */
+export const getPageRange = (page, totalItems) => {
+  const firstItem = (page - 1) * ITEMS_PER_PAGE + 1;
+  const itemsLeftToShow = totalItems - (page - 1) * ITEMS_PER_PAGE;
+  const lastItem =
+    itemsLeftToShow > ITEMS_PER_PAGE
+      ? firstItem + ITEMS_PER_PAGE - 1
+      : firstItem + itemsLeftToShow - 1;
+  return {
+    start: firstItem,
+    end: lastItem,
+  };
+};

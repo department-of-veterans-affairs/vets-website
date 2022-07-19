@@ -34,9 +34,7 @@ describe('IntroductionPage', () => {
 
   it('should render SaveInProgressIntro', () => {
     const tree = shallow(<IntroductionPage {...defaultProps()} />);
-    const saveInProgressIntro = tree.find(
-      'withRouter(Connect(SaveInProgressIntro))',
-    );
+    const saveInProgressIntro = tree.find('Connect(SaveInProgressIntro)');
     expect(saveInProgressIntro.length).to.equal(2);
 
     tree.unmount();
@@ -45,9 +43,7 @@ describe('IntroductionPage', () => {
   it('should show verify your account alert', () => {
     const props = defaultProps({ isVerified: false });
     const tree = shallow(<IntroductionPage {...props} />);
-    const saveInProgressIntro = tree.find(
-      'withRouter(Connect(SaveInProgressIntro))',
-    );
+    const saveInProgressIntro = tree.find('Connect(SaveInProgressIntro)');
 
     const alertText = tree
       .find('NeedsToVerify')
@@ -70,7 +66,7 @@ describe('IntroductionPage', () => {
 
     const tree = shallow(<IntroductionPage {...props} />);
     const saveInProgressIntro = tree
-      .find('withRouter(Connect(SaveInProgressIntro))')
+      .find('Connect(SaveInProgressIntro)')
       .first();
     expect(saveInProgressIntro.props().startText).to.include(
       'Start the Board Appeal request',
