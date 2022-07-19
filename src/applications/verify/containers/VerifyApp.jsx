@@ -6,11 +6,11 @@ import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { verify } from 'platform/user/authentication/utilities';
 import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { CSP_IDS } from 'platform/user/authentication/constants';
 import { focusElement } from '~/platform/utilities/ui';
+import { VerifyButton } from '../components/verifyButton';
 
 export class VerifyApp extends React.Component {
   constructor(props) {
@@ -25,6 +25,28 @@ export class VerifyApp extends React.Component {
       [MHV_VERBOSE]: 'My HealtheVet',
       [ID_ME]: 'ID.me',
     };
+
+    this.renderOpts = [
+      {
+        copy: 'Login.gov',
+        renderImage: <LoginGovSVG />,
+        className: `logingov-button`,
+        policy: 'logingov',
+      },
+      {
+        copy: 'ID.me',
+        renderImage: (
+          <img
+            role="presentation"
+            aria-hidden="true"
+            alt="ID.me"
+            src="/img/signin/idme-icon-white.svg"
+          />
+        ),
+        className: `idme-button`,
+        policy: 'idme',
+      },
+    ];
   }
 
   componentDidMount() {
@@ -57,63 +79,31 @@ export class VerifyApp extends React.Component {
   }
 
   verifyButton(signInMethod) {
-    const renderOpts = [
-      {
-        copy: 'Login.gov',
-        renderImage: <LoginGovSVG />,
-        className: `logingov-button`,
-        policy: 'logingov',
-      },
-      {
-        copy: 'ID.me',
-        renderImage: (
-          <img
-            role="presentation"
-            aria-hidden="true"
-            alt="ID.me"
-            src="/img/signin/idme-icon-white.svg"
-          />
-        ),
-        className: `idme-button`,
-        policy: 'idme',
-      },
-    ];
-
     if (
       signInMethod === this.signinMethodLabels.idme ||
       signInMethod === this.signinMethodLabels.logingov
     ) {
       const selectCSP = signInCSP =>
-        renderOpts.find(csp => csp.copy === signInCSP);
-
+        this.renderOpts.find(csp => csp.copy === signInCSP);
       const { className, copy, renderImage, policy } = selectCSP(signInMethod);
       return (
-        <button
-          key={policy}
-          type="button"
-          className={`usa-button ${className}`}
-          onClick={() => verify({ policy })}
-        >
-          <strong>
-            Verify with <span className="sr-only">{copy}</span>
-          </strong>
-          {renderImage}
-        </button>
+        <VerifyButton
+          key={copy}
+          className={className}
+          copy={copy}
+          renderImage={renderImage}
+          policy={policy}
+        />
       );
     }
-
-    return renderOpts.map(({ copy, renderImage, className, policy }) => (
-      <button
-        key={policy}
-        type="button"
+    return this.renderOpts.map(({ copy, renderImage, className, policy }) => (
+      <VerifyButton
+        key={copy}
         className={className}
-        onClick={() => verify({ policy })}
-      >
-        <strong>
-          Verify with <span className="sr-only">{copy}</span>
-        </strong>
-        {renderImage}
-      </button>
+        copy={copy}
+        renderImage={renderImage}
+        policy={policy}
+      />
     ));
   }
 
