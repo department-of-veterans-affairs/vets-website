@@ -245,7 +245,7 @@ class ReviewCollapsibleChapter extends React.Component {
               setData={formData =>
                 this.props.setData(
                   typeof page.updateFormData === 'function'
-                    ? page.updateFormData(form.data, formData)
+                    ? page.updateFormData(form.data, formData, page.index)
                     : formData,
                 )
               }
