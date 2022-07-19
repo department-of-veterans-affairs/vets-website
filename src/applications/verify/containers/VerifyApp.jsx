@@ -16,13 +16,14 @@ export class VerifyApp extends React.Component {
   constructor(props) {
     super(props);
 
-    const { MHV, MHV_VERBOSE, DS_LOGON, LOGIN_GOV } = CSP_IDS;
+    const { MHV, MHV_VERBOSE, DS_LOGON, LOGIN_GOV, ID_ME } = CSP_IDS;
 
     this.signinMethodLabels = {
       [DS_LOGON]: 'DS Logon',
       [LOGIN_GOV]: 'Login.gov',
       [MHV]: 'My HealtheVet',
       [MHV_VERBOSE]: 'My HealtheVet',
+      [ID_ME]: 'ID.me',
     };
   }
 
@@ -79,14 +80,18 @@ export class VerifyApp extends React.Component {
     ];
 
     if (
-      signInMethod === this.signinMethodLabels.mhv ||
-      signInMethod === this.signinMethodLabels.myhealthevet
+      signInMethod === this.signinMethodLabels.idme ||
+      signInMethod === this.signinMethodLabels.logingov
     ) {
-      return renderOpts.map(({ copy, renderImage, className, policy }) => (
+      const selectCSP = signInCSP =>
+        renderOpts.find(csp => csp.copy === signInCSP);
+
+      const { className, copy, renderImage, policy } = selectCSP(signInMethod);
+      return (
         <button
           key={policy}
           type="button"
-          className={className}
+          className={`usa-button ${className}`}
           onClick={() => verify({ policy })}
         >
           <strong>
@@ -94,14 +99,14 @@ export class VerifyApp extends React.Component {
           </strong>
           {renderImage}
         </button>
-      ));
+      );
     }
-    const { className, copy, renderImage, policy } = renderOpts[0];
 
-    return (
+    return renderOpts.map(({ copy, renderImage, className, policy }) => (
       <button
+        key={policy}
         type="button"
-        className={`usa-button ${className}`}
+        className={className}
         onClick={() => verify({ policy })}
       >
         <strong>
@@ -109,18 +114,18 @@ export class VerifyApp extends React.Component {
         </strong>
         {renderImage}
       </button>
-    );
+    ));
   }
 
   render() {
     const { profile } = this.props;
-    const signInMethod =
-      this.signinMethodLabels[(profile?.signIn?.serviceName)] || 'ID.me';
+    const signInMethod = this.signinMethodLabels[
+      (profile?.signIn?.serviceName)
+    ];
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
     }
-
     return (
       <main className="verify">
         <div className="container">
@@ -147,7 +152,6 @@ export class VerifyApp extends React.Component {
                   <strong>5 - 10 minutes</strong> to complete.
                 </p>
                 {this.verifyButton(signInMethod)}
-                <div />
               </div>
             </div>
           </div>
