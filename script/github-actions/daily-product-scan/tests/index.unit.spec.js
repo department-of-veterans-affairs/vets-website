@@ -6,7 +6,7 @@ const main = require('../main');
 const GitHubClient = require('../github-client');
 const octokitResponses = require('./mocks/octokit-responses');
 
-describe('daily-product-scan', () => {
+describe.skip('daily-product-scan', () => {
   context('success, changes ARE detected', () => {
     let status;
     let message;
@@ -19,11 +19,11 @@ describe('daily-product-scan', () => {
       ({ status, message, data } = await main({ octokit }));
     });
 
-    it.skip('sets the status return prop to the correct value', () => {
+    it('sets the status return prop to the correct value', () => {
       expect(status).to.equal('Success');
     });
 
-    it.skip('sets the message return prop to the correct value', () => {
+    it('sets the message return prop to the correct value', () => {
       expect(message).to.equal(
         'Changes were detected. The data prop includes the updated CSV.',
       );
@@ -72,7 +72,7 @@ describe('daily-product-scan', () => {
         });
       });
 
-      it.skip('successfully compares path_to_code values when they are not equal', () => {
+      it('successfully compares path_to_code values when they are not equal', () => {
         Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
           expect(
             originalJsonDirectoryByProductId[product_id].path_to_code,
@@ -126,11 +126,11 @@ describe('daily-product-scan', () => {
       ({ status, message, data } = await main({ octokit }));
     });
 
-    it.skip('sets the status return prop to the correct value', () => {
+    it('sets the status return prop to the correct value', () => {
       expect(status).to.equal('Success');
     });
 
-    it.skip('sets the message return prop to the correct value', () => {
+    it('sets the message return prop to the correct value', () => {
       expect(message).to.equal(
         'No changes were detected. The data prop includes the unchanged CSV.',
       );
@@ -197,7 +197,7 @@ describe('daily-product-scan', () => {
         });
       });
 
-      it.skip('successfully compares has_e2e_tests values when they are equal', () => {
+      it('successfully compares has_e2e_tests values when they are equal', () => {
         Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
           expect(
             originalJsonDirectoryByProductId[product_id].has_e2e_tests,
