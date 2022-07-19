@@ -120,13 +120,11 @@ export default function CommunityCareAppointmentDetailsPage() {
         </span>
       </h2>
 
-      {/* // the order of display name is important to match screen name on add to calendar title */}
+      {/* the order of display name is important to match screen name on add to calendar title */}
       {(!!providerName || !!practiceName || !!name) &&
         !useV2 && (
           // V1 displays the name from the provider object
           <>
-            the order of display name is important to match display name on
-            calendar title
             {providerName || practiceName || name}
             <br />
           </>
