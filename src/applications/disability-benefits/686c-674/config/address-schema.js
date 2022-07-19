@@ -120,7 +120,6 @@ export const updateFormDataAddress = (
   index = null, // this is included in the path, but added as
 ) => {
   let updatedData = formData;
-  const address = get(path, formData, {});
 
   /*
    * formData and oldFormData are not guaranteed to have the same shape; formData
@@ -133,9 +132,11 @@ export const updateFormDataAddress = (
    * an array and using `getOldFormDataPath` to find the appropriate path
    */
   const oldAddress = get(getOldFormDataPath(path, index), oldFormData, {});
-  let { city, stateCode } = address;
-  // console.log(address, oldAddress, index, city, stateCode);
+
+  const address = get(path, formData, {});
   const onMilitaryBase = address?.[MILITARY_BASE_PATH];
+  let { city, stateCode } = address;
+
   if (oldAddress?.[MILITARY_BASE_PATH] !== onMilitaryBase) {
     if (onMilitaryBase) {
       savedAddress.city = oldAddress.city || '';

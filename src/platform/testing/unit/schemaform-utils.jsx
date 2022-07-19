@@ -90,7 +90,7 @@ export class DefinitionTester extends React.Component {
 
     if (typeof updateFormData === 'function') {
       newData = updateFormData(
-        formData[arrayPath][pagePerItemIndex],
+        arrayPath ? formData[arrayPath][pagePerItemIndex] : formData,
         newData,
         pagePerItemIndex,
       );
