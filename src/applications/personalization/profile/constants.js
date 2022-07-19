@@ -57,10 +57,13 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '517', // Beckley VA Medical Center (Beckley, WV)
   '520', // Biloxi VAMC
   '539', // Cincinnati
+  '540', // Clarksburg - Louis A. Johnson VA Medical Center
   '548', // West Palm Beach VAMC
   '550', // Illiana HCS
   '554', // VA Eastern Colorado Health Care System(ECHCS) (Denver, CO)
   '556', // Captn James Lovell Fed Hlt Ctr
+  '561', // East Orange Campus of the VA New Jersey Health Care System
+  '570', // Central California VA Health Care System
   '573', // N. Florida, S. Georgia HCS
   '578', // Hines IL VAMC
   '581', // Huntington VA Medical Center (Huntington, WV)
@@ -69,6 +72,8 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '590', // Hampton VAMC
   '598', // Central Arkansas Veterans Healthcare System John L. McClellan Memorial Veterans Hospital (Little Rock, AR)
   '603', // Roblex Rex VAMC
+  '605', // VA Loma Linda Healthcare System
+  '607', // William S. Middleton Memorial Veterans Hospital
   '608', // Manchester VA Medical Center (Manchester, NH)
   '610', // Marion VAMC
   '613', // Martinsburg VA Medical Center (Martinsburg, WV)
@@ -82,7 +87,6 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '675', // Orlando VAMC
   '676', // Tomah VAMC
   '688', // Washington DC VA Medical Center (Washington, DC)
-  '695', // Milwaukee VAMC
   '756', // El Paso VA HS
   '983', // test-only facility ID, used by user 36 among others
 ]);
