@@ -28,7 +28,6 @@ import {
   FETCH_FACILITY_SETTINGS_SUCCEEDED,
   FETCH_FACILITY_SETTINGS,
   FETCH_PROVIDER_SUCCEEDED,
-  UPDATE_BREADCRUMB,
 } from './actions';
 
 import {
@@ -58,7 +57,6 @@ const initialState = {
   systemClinicToFacilityMap: {},
   facilitySettingsStatus: FETCH_STATUS.notStarted,
   facilitySettings: null,
-  breadcrumbs: [],
 };
 
 export default function appointmentsReducer(state = initialState, action) {
@@ -315,11 +313,6 @@ export default function appointmentsReducer(state = initialState, action) {
       return {
         ...state,
         providerData: action.providerData,
-      };
-    case UPDATE_BREADCRUMB:
-      return {
-        ...state,
-        breadcrumbs: action.breadcrumb ? [action.breadcrumb] : [],
       };
     default:
       return state;
