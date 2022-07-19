@@ -239,6 +239,9 @@ const formConfig = {
       title: 'Notice of Acknowledgement',
       pages: {
         notice5103: {
+          initialData: {
+            form5103Acknowledged: false,
+          },
           title: 'Notice of Acknowledgement',
           path: 'notice-of-acknowledgement',
           uiSchema: noticeOfAcknowledgement.uiSchema,

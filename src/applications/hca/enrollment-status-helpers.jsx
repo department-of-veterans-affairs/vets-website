@@ -74,7 +74,7 @@ export function getWarningHeadline(enrollmentStatus) {
     default:
       break;
   }
-  return <h2 className="usa-alert-heading">{content}</h2>;
+  return content;
 }
 
 export function getEnrollmentDetails(
@@ -952,12 +952,13 @@ export function getAlertContent(
   // rejected, enrolled, ineligible
   const removeNotificationButton = (
     <button
+      type="button"
       className="va-button-link remove-notification-link"
       aria-label="Remove this notification about my healthcare application status"
       onClick={dismissNotification}
       key="dismiss-notification-button"
     >
-      <i className="fa fa-times" />
+      <i className="fa fa-times" aria-hidden="true" />
       <span className="remove-notification-label">
         Remove this notification
       </span>
