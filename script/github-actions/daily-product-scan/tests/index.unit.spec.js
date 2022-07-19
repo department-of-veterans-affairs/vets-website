@@ -72,7 +72,7 @@ describe('daily-product-scan', () => {
         });
       });
 
-      it('successfully compares path_to_code values when they are not equal', () => {
+      it.skip('successfully compares path_to_code values when they are not equal', () => {
         Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
           expect(
             originalJsonDirectoryByProductId[product_id].path_to_code,
@@ -197,7 +197,7 @@ describe('daily-product-scan', () => {
         });
       });
 
-      it('successfully compares has_e2e_tests values when they are equal', () => {
+      it.skip('successfully compares has_e2e_tests values when they are equal', () => {
         Object.keys(originalJsonDirectoryByProductId).forEach(product_id => {
           expect(
             originalJsonDirectoryByProductId[product_id].has_e2e_tests,
