@@ -16,6 +16,7 @@ describe('Report 674 student address and marriage information', () => {
   const {
     schema,
     uiSchema,
+    updateFormData,
   } = formConfig.chapters.report674.pages.studentAddressMarriageTuition;
 
   const formData = {
@@ -76,6 +77,7 @@ describe('Report 674 student address and marriage information', () => {
         definitions={formConfig.defaultDefinitions}
         data={formData}
         onSubmit={onSubmit}
+        updateFormData={updateFormData}
       />,
     );
     changeDropdown(
@@ -110,12 +112,11 @@ describe('Report 674 student address and marriage information', () => {
       'select#root_studentAddressMarriageTuition_address_city',
       'APO',
     );
-    // not sure why this fails
-    // changeDropdown(
-    //   form,
-    //   'select#root_studentAddressMarriageTuition_address_stateCode',
-    //   'AA',
-    // );
+    changeDropdown(
+      form,
+      'select#root_studentAddressMarriageTuition_address_stateCode',
+      'AA',
+    );
     selectCheckbox(
       form,
       'root_studentAddressMarriageTuition_address_view:livesOnMilitaryBase',
