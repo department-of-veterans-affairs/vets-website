@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from '../../../lib/moment-tz';
 import {
@@ -14,7 +14,6 @@ import {
   VIDEO_TYPES,
   SPACE_BAR,
 } from '../../../utils/constants';
-import { updateBreadcrumb } from '../../redux/actions';
 import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 
 function VideoAppointmentDescription({ appointment }) {
@@ -35,6 +34,9 @@ function VideoAppointmentDescription({ appointment }) {
     </>
   );
 }
+VideoAppointmentDescription.propTypes = {
+  appointment: PropTypes.object.isRequired,
+};
 
 function CommunityCareProvider({ appointment }) {
   const {
@@ -51,6 +53,10 @@ function CommunityCareProvider({ appointment }) {
   return 'Community care';
 }
 
+CommunityCareProvider.propTypes = {
+  appointment: PropTypes.object.isRequired,
+};
+
 function VAFacilityName({ facility }) {
   if (facility) {
     return <>{facility.name}</>;
@@ -59,77 +65,50 @@ function VAFacilityName({ facility }) {
   return 'VA appointment';
 }
 
-function handleClick({
-  history,
-  dispatch,
-  link,
-  idClickable,
-  isPastAppointment,
-  featureStatusImprovement,
-}) {
+VAFacilityName.propTypes = {
+  facility: PropTypes.object.isRequired,
+};
+
+function handleClick({ history, link, idClickable }) {
   return () => {
     if (!window.getSelection().toString()) {
       focusElement(`#${idClickable}`);
       history.push(link);
-
-      if (featureStatusImprovement && isPastAppointment) {
-        dispatch(updateBreadcrumb({ title: 'Past', path: '/past' }));
-      }
     }
   };
 }
 
-function handleKeyDown({
-  history,
-  dispatch,
-  link,
-  idClickable,
-  isPastAppointment,
-  featureStatusImprovement,
-}) {
+function handleKeyDown({ history, link, idClickable }) {
   return event => {
     if (!window.getSelection().toString() && event.keyCode === SPACE_BAR) {
       focusElement(`#${idClickable}`);
       history.push(link);
-
-      if (featureStatusImprovement && isPastAppointment) {
-        dispatch(updateBreadcrumb({ title: 'Past', path: '/past' }));
-      }
-    }
-  };
-}
-
-function handleLinkClicked(
-  featureStatusImprovement,
-  isPastAppointment,
-  dispatch,
-) {
-  return e => {
-    e.preventDefault();
-    if (featureStatusImprovement && isPastAppointment) {
-      dispatch(updateBreadcrumb({ title: 'Past', path: '/past' }));
     }
   };
 }
 
 export default function AppointmentListItem({ appointment, facility }) {
   const history = useHistory();
+  const featureStatusImprovement = useSelector(state =>
+    selectFeatureStatusImprovement(state),
+  );
   const appointmentDate = moment.parseZone(appointment.start);
-  const { isCommunityCare } = appointment.vaos;
-  const { isVideo } = appointment.vaos;
+  const { isCommunityCare, isVideo, isPastAppointment } = appointment.vaos;
   const isPhone = isVAPhoneAppointment(appointment);
   const isInPersonVAAppointment = !isVideo && !isCommunityCare && !isPhone;
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const link = isCommunityCare
-    ? `cc/${appointment.id}`
-    : `va/${appointment.id}`;
+    ? `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}cc/${
+        appointment.id
+      }`
+    : `${featureStatusImprovement && isPastAppointment ? '/past/' : ''}va/${
+        appointment.id
+      }`;
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
   const { abbreviation, description } = getAppointmentTimezone(appointment);
-  const { isPastAppointment } = appointment.vaos;
-  const dispatch = useDispatch();
-  const featureStatusImprovement = useSelector(state =>
-    selectFeatureStatusImprovement(state),
-  );
+  const label = `Details for ${
+    canceled ? 'canceled ' : ''
+  }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`;
 
   return (
     <li
@@ -145,19 +124,13 @@ export default function AppointmentListItem({ appointment, facility }) {
         className="vads-u-padding--2 vads-u-display--flex vads-u-align-items--left vads-u-flex-direction--column medium-screen:vads-u-padding--3 medium-screen:vads-u-flex-direction--row medium-screen:vads-u-align-items--center"
         onClick={handleClick({
           history,
-          dispatch,
           link,
           idClickable,
-          isPastAppointment,
-          featureStatusImprovement,
         })}
         onKeyDown={handleKeyDown({
           history,
-          dispatch,
           link,
           idClickable,
-          isPastAppointment,
-          featureStatusImprovement,
         })}
       >
         <div className="vads-u-flex--1 vads-u-margin-y--neg0p5">
@@ -191,15 +164,8 @@ export default function AppointmentListItem({ appointment, facility }) {
         <div className="vads-u-flex--auto vads-u-padding-top--0p5 medium-screen:vads-u-padding-top--0 vaos-hide-for-print">
           <Link
             className="vaos-appts__focus--hide-outline"
-            aria-label={`Details for ${
-              canceled ? 'canceled ' : ''
-            }appointment on ${appointmentDate.format('dddd, MMMM D h:mm a')}`}
+            aria-label={label}
             to={link}
-            onClick={handleLinkClicked(
-              featureStatusImprovement,
-              isPastAppointment,
-              dispatch,
-            )}
           >
             Details
           </Link>
@@ -215,8 +181,5 @@ export default function AppointmentListItem({ appointment, facility }) {
 
 AppointmentListItem.propTypes = {
   appointment: PropTypes.object.isRequired,
-};
-
-CommunityCareProvider.propTypes = {
-  appointment: PropTypes.object.isRequired,
+  facility: PropTypes.object,
 };
