@@ -1,5 +1,4 @@
 import React from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import Telephone, {
   CONTACTS,
   PATTERNS,
@@ -109,11 +108,12 @@ function UpdatePhoneNumberError({ phoneNumberType = 'home' }) {
 
 export default function PaymentInformationEditError({
   className,
+  // eslint-disable-next-line no-unused-vars
   level,
   responseError,
 }) {
   let content = <GenericError error={responseError} />;
-  let headline = 'We couldn’t update your bank information';
+  // let headline = 'We couldn’t update your bank information';
 
   if (responseError.error) {
     const { errors = [] } = responseError.error;
@@ -125,7 +125,7 @@ export default function PaymentInformationEditError({
       content = <FlaggedAccount />;
     } else if (hasRoutingNumberFlaggedError(errors)) {
       content = <FlaggedRoutingNumber />;
-      headline = 'We can’t save your bank routing number';
+      // headline = 'We can’t save your bank routing number';
     } else if (hasInvalidRoutingNumberError(errors)) {
       content = <InvalidRoutingNumber />;
     } else if (hasInvalidAddressError(errors)) {
@@ -138,15 +138,14 @@ export default function PaymentInformationEditError({
   }
 
   return (
-    <AlertBox
+    <va-alert
+      background-only
       status="error"
-      headline={headline}
-      isVisible
-      className={className}
-      level={level || 3}
-      scrollOnShow
+      visible="true"
+      show-icon
+      class={className}
     >
       {content}
-    </AlertBox>
+    </va-alert>
   );
 }
