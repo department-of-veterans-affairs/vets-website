@@ -1,0 +1,7 @@
+{
+  "appName": "mike super app",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "mike-entry",
+  "rootUrl": "/mike-location",
+  "productId": "45e1faea-573f-431b-ba14-ae42d13df485"
+}
