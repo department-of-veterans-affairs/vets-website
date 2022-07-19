@@ -28,7 +28,7 @@ import StudentVeteranGroupModalContent from '../components/content/modals/Studen
 import TuitionAndFeesModalContent from '../components/content/modals/TuitionAndFeesModalContent';
 import VeteranSuccessModalContent from '../components/content/modals/VeteranSuccessModalContent';
 import YellowRibbonModalContent from '../components/content/modals/YellowRibbonModalContent';
-
+import environment from 'platform/utilities/environment'
 export function Modals({ hideModal, modals, profile }) {
   const shouldDisplayModal = modal => modals.displaying === modal;
 
@@ -296,12 +296,14 @@ export function Modals({ hideModal, modals, profile }) {
             http://nces.ed.gov/pubs2014/2014163.pdf
           </a>
         </p>
-        <p>
+        {!environment.isProduction() && 
+       (<p>
           CAUTION: Not every program approved for GI Bill benefits at an accredited 
           school is accredited by the regional or national accreditor. Prior to enrolling, 
           it’s important you confirm the program you’re seeking is accredited and whether 
           or not your field of study requires accreditation for employment and/or licensing.
-        </p>
+        </p>)
+        }
         <p>
           To learn more about accreditation types, visit the{' '}
           <a
