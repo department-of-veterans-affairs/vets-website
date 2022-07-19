@@ -157,7 +157,7 @@ const createMockSuccessResponse = (
           clinicPhoneNumber: '5551234567',
           clinicFriendlyName: 'TEST CLINIC',
           clinicName: 'LOM ACC CLINIC TEST',
-          appointmentIen: 'some-ien',
+          appointmentIen: '0001',
           startTime: formattedStartTime,
           eligibility: 'ELIGIBLE',
           facilityId: 'some-facility',
@@ -165,6 +165,7 @@ const createMockSuccessResponse = (
           checkInWindowEnd: formattedCheckInWindowEnd,
           checkedInTime: '',
           status,
+          stationNo: '0001',
         },
         {
           facility: 'LOMA LINDA VA CLINIC',
@@ -173,7 +174,7 @@ const createMockSuccessResponse = (
           clinicPhoneNumber: '5551234567',
           clinicFriendlyName: 'TEST CLINIC',
           clinicName: 'LOM ACC CLINIC TEST',
-          appointmentIen: 'some-other-ien',
+          appointmentIen: '0002',
           startTime: formattedStartTime,
           eligibility: 'ELIGIBLE',
           facilityId: 'some-facility',
@@ -181,6 +182,7 @@ const createMockSuccessResponse = (
           checkInWindowEnd: formattedCheckInWindowEnd,
           checkedInTime: '',
           status,
+          stationNo: '0001',
         },
       ],
       patientDemographicsStatus: {
