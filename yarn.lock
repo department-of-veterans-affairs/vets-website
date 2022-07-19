@@ -23,6 +23,14 @@
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.0"
 
+"@axe-core/react@^4.4.3":
+  version "4.4.3"
+  resolved "https://registry.yarnpkg.com/@axe-core/react/-/react-4.4.3.tgz#944ce046c0a3a1e65977c6e230d2a2b812922497"
+  integrity sha512-3eIqDoGVTK20kbY+hD0S9n+ALdZ9FOzV692eD2iyyGMq7on6TCISEv8TljvirSBwWcWIxuUnI69KX/mMQBqtFA==
+  dependencies:
+    axe-core "^4.4.1"
+    requestidlecallback "^0.3.0"
+
 "@babel/code-frame@7.12.11":
   version "7.12.11"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.12.11.tgz#f4ad435aa263db935b8f10f2c552d23fb716a63f"
@@ -5110,6 +5118,11 @@ axe-core@^4.3.5:
   version "4.3.5"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.3.5.tgz#78d6911ba317a8262bfee292aeafcc1e04b49cc5"
   integrity sha512-WKTW1+xAzhMS5dJsxWkliixlO/PqC4VhmO9T4juNYcaTg9jzWiJsou6m5pxWYGfigWbwzJWeFY6z47a+4neRXA==
+
+axe-core@^4.4.1:
+  version "4.4.3"
+  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.4.3.tgz#11c74d23d5013c0fa5d183796729bc3482bd2f6f"
+  integrity sha512-32+ub6kkdhhWick/UjvEwRchgoetXqTK14INLqbGm5U2TzBkBNF3nQtLYm8ovxSkQWArjEQvftCKryjZaATu3w==
 
 axe-core@^4.4.2:
   version "4.4.2"
@@ -16908,6 +16921,11 @@ request@^2.87.0, request@^2.88.0, request@^2.88.2:
     tough-cookie "~2.5.0"
     tunnel-agent "^0.6.0"
     uuid "^3.3.2"
+
+requestidlecallback@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/requestidlecallback/-/requestidlecallback-0.3.0.tgz#6fb74e0733f90df3faa4838f9f6a2a5f9b742ac5"
+  integrity sha512-TWHFkT7S9p7IxLC5A1hYmAYQx2Eb9w1skrXmQ+dS1URyvR8tenMLl4lHbqEOUnpEYxNKpkVMXUgknVpBZWXXfQ==
 
 require-directory@^2.1.1:
   version "2.1.1"
