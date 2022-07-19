@@ -18,7 +18,7 @@ const OtherVADebts = ({ module, subHeading }) => {
         {module === APP_TYPES.DEBT && (
           <span data-testid="other-va-debt-body">
             &nbsp;VA benefit debt. You can&nbsp;
-            <a href="/manage-debt-and-bills/summary/debt-balances">
+            <a href="/manage-va-debt/summary/debt-balances">
               check the details of your current debt
             </a>
             <span>
@@ -30,7 +30,7 @@ const OtherVADebts = ({ module, subHeading }) => {
         {module === APP_TYPES.COPAY && (
           <span data-testid="other-va-copay-body">
             a VA health care copay bill. You can&nbsp;
-            <a href="/manage-debt-and-bills/summary/copay-balances">
+            <a href="/manage-va-debt/summary/copay-balances">
               check the details of your copay balance
             </a>
             <span>
@@ -43,7 +43,7 @@ const OtherVADebts = ({ module, subHeading }) => {
       <Link
         className="vads-u-font-size--sm vads-u-font-weight--bold"
         aria-label="View all your VA debt and bills"
-        to="/manage-debt-and-bills/summary"
+        to="/manage-va-debt/summary"
         data-testid="other-va-debts-link"
       >
         <span className="vads-u-font-family--sans">

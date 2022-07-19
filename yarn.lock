@@ -2712,17 +2712,16 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@department-of-veterans-affairs/component-library@^10.6.5":
-  version "10.6.5"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-10.6.5.tgz#b026f08c15218477b17563030a89351cf60e58a0"
-  integrity sha512-fEJDS9V+CmvL2oOJX+67JrqVF/K8gLW6cPuWZHwP4SpkEQ/swBBdpgE5CQQusI+Z4VS3nuLz7zay3NOrT8iWmA==
+"@department-of-veterans-affairs/component-library@^11.0.0":
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-11.0.0.tgz#c9364124d06dd02db036c4e22fed93a6ffd1e09e"
+  integrity sha512-RQg3BG4Qnaj3QBuUSNQalGBTtNx8DrGV0ktF4xRdqsVFCBjmpvhWL0mOlanNXD0075ETWSlIKQXnlt4heV9RWQ==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "6.1.3"
-    "@department-of-veterans-affairs/web-components" "4.5.5"
+    "@department-of-veterans-affairs/react-components" "7.0.0"
+    "@department-of-veterans-affairs/web-components" "4.7.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
-    react-scroll "^1.7.16"
     react-transition-group "^1.0.0"
 
 "@department-of-veterans-affairs/component-library@^3.3.4":
@@ -2752,10 +2751,10 @@
     element-closest "^3.0.1"
     foundation-sites "5"
 
-"@department-of-veterans-affairs/generator-vets-website@^3.6.0":
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.6.0.tgz#a13175a8624b131e09c9d25e9c6c1a6ed64b0e2f"
-  integrity sha512-Z51IDeRU9z/urKqImy8tOfFyvnJOvQhk384Z1KpcC1PZ78u1wsj0FAZClgVyybE1ciMSykBy4M9phOf/AkH4uw==
+"@department-of-veterans-affairs/generator-vets-website@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.7.0.tgz#f6fca9a158406956a17bf7fcb76a765aab2d2f9f"
+  integrity sha512-CHTyurvi6gYls2OCGuQ2ygLJK60XfCVlBlH/KgwD53M3jTMKJMsyTsehTNSZL6+qJJZqYhIaOO4uVgCIpai5xQ==
   dependencies:
     chalk "^4.1.0"
     yeoman-generator "^5.6.1"
@@ -2776,15 +2775,14 @@
     react-transition-group "1"
     recast "^0.14.4"
 
-"@department-of-veterans-affairs/react-components@6.1.3":
-  version "6.1.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-6.1.3.tgz#9ba45d99b50ac6f862c633b9bc41591a05723e6f"
-  integrity sha512-mVgRheEsFAJ9HPCCDUVWIDM+GE10MYbfbjmjPnfLsDYj+XWASp+OhlA5AUiyMqKMTAXEfSSMVyP9rnU+LM5cZg==
+"@department-of-veterans-affairs/react-components@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-7.0.0.tgz#6edb1c9f8d29aaae1f13b3b1f93af886b064a1ad"
+  integrity sha512-BiP8o87Uyp03hOoa/dKjmIQUKZy2n1spxxIfLVbfypG0uhuFQuShY/vCrIeIOgowHd1UZY7P2lmEdPP9vWXVCA==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
     react-focus-on "^3.5.1"
-    react-scroll "^1.7.16"
     react-transition-group "1"
     recast "^0.14.4"
 
@@ -2827,10 +2825,10 @@
     intersection-observer "^0.12.0"
     postcss-url "^10.1.1"
 
-"@department-of-veterans-affairs/web-components@4.5.5":
-  version "4.5.5"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.5.5.tgz#aed63e765b48a24d7806e09b22a9a2d30aeb8ee7"
-  integrity sha512-cLKPoFpB9zuuVPEuwsIr4nQD/KKFA/N5uD0qu8p24X6bj7BHU35tyGLNimyFmc0ggIM1dLqCwPbq9wISo+gq2Q==
+"@department-of-veterans-affairs/web-components@4.7.0":
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.7.0.tgz#02cc91e2eb012dfdd0c069ac26a066c195a158d7"
+  integrity sha512-ef3bbOqctcfBXiATvvXPAOsZR7G7sazvARGFH4z1dHUzOEtoOB0KxwfmYZcYTmhGTg3twAOfEdGsjTmON0kNDQ==
   dependencies:
     "@stencil/core" "^2.10.0"
     aria-hidden "^1.1.3"
@@ -7732,10 +7730,10 @@ cypress-wait-until@^1.7.2:
   resolved "https://registry.yarnpkg.com/cypress-wait-until/-/cypress-wait-until-1.7.2.tgz#7f534dd5a11c89b65359e7a0210f20d3dfc22107"
   integrity sha512-uZ+M8/MqRcpf+FII/UZrU7g1qYZ4aVlHcgyVopnladyoBrpoaMJ4PKZDrdOJ05H5RHbr7s9Tid635X3E+ZLU/Q==
 
-cypress@^9.7.0:
-  version "9.7.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-9.7.0.tgz#bf55b2afd481f7a113ef5604aa8b693564b5e744"
-  integrity sha512-+1EE1nuuuwIt/N1KXRR2iWHU+OiIt7H28jJDyyI4tiUftId/DrXYEwoDa5+kH2pki1zxnA0r6HrUGHV5eLbF5Q==
+cypress@^10.3.0:
+  version "10.3.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-10.3.0.tgz#fae8d32f0822fcfb938e79c7c31ef344794336ae"
+  integrity sha512-txkQWKzvBVnWdCuKs5Xc08gjpO89W2Dom2wpZgT9zWZT5jXxqPIxqP/NC1YArtkpmp3fN5HW8aDjYBizHLUFvg==
   dependencies:
     "@cypress/request" "^2.88.10"
     "@cypress/xvfb" "^1.2.4"
@@ -20112,9 +20110,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#6072dd15bf0d5c907c178b414201b0f4d1750d8f":
-  version "20.20.4"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#6072dd15bf0d5c907c178b414201b0f4d1750d8f"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#":
+  version "20.20.6"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#57ab158f1ad4a6697b3d9876fb8260a68f4c683c"
 
 vfile-message@^2.0.0:
   version "2.0.4"

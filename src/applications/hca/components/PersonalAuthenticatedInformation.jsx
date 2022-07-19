@@ -29,7 +29,7 @@ const PersonalAuthenticatedInformation = ({
     <>
       {isLoggedIn && (
         <div>
-          <div className="hca-id-form-wrapper vads-u-margin-bottom--2">
+          <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
             {dob && (
               <p>This is the personal information we have on file for you.</p>
             )}

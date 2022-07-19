@@ -130,12 +130,7 @@ const removeTimeZone = payload => {
   // Chip should be handling this but currently isn't, this code may be refactored out.
   const updatedPayload = { ...payload };
   // These fields have a potential to include a time stamp.
-  const timeFields = [
-    'checkInWindowEnd',
-    'checkInWindowStart',
-    'checkedInTime',
-    'startTime',
-  ];
+  const timeFields = ['checkedInTime', 'startTime'];
 
   const updatedAppointments = updatedPayload.appointments.map(appointment => {
     const updatedAppointment = { ...appointment };

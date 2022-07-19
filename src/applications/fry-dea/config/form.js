@@ -29,12 +29,13 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../manifest.json';
 
 import {
-  isOnlyWhitespace,
-  applicantIsChildOfVeteran,
-  addWhitespaceOnlyError,
-  isAlphaNumeric,
   AdditionalConsiderationTemplate,
+  addWhitespaceOnlyError,
+  applicantIsChildOfVeteran,
   applicantIsSpouseOfVeteran,
+  isAlphaNumeric,
+  isOnlyWhitespace,
+  prefillTransformer,
 } from '../helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -89,6 +90,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
@@ -826,7 +828,7 @@ const formConfig = {
                 </>
               ),
             },
-            'view:mailingAddress': {
+            [formFields.viewMailingAddress]: {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 fry-dea-review-page-only">

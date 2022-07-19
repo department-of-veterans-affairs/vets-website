@@ -9,6 +9,7 @@ import SignInModal from 'platform/user/authentication/components/SignInModal';
 const defaultProps = {
   visible: true,
   onClose: () => {},
+  useSiS: false,
 };
 
 describe('SignInModal', () => {

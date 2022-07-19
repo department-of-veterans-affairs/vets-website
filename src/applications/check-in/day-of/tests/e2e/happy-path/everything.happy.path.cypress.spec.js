@@ -17,11 +17,13 @@ describe('Check In Experience', () => {
         initializeSessionGet,
         initializeSessionPost,
         initializeCheckInDataPost,
+        initializeDemographicsPatch,
       } = ApiInitializer;
       initializeFeatureToggle.withAllFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
       initializeCheckInDataPost.withSuccess();
+      initializeDemographicsPatch.withSuccess();
 
       const rv1 = checkInData.get.createMultipleAppointments();
       const earliest = checkInData.get.createAppointment();

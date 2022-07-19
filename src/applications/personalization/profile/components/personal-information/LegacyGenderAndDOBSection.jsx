@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import { renderDOB } from '../../util/personal-information/personalInformationUtils';
 
 import ProfileInfoTable from '../ProfileInfoTable';
@@ -9,7 +8,10 @@ import ProfileInfoTable from '../ProfileInfoTable';
 const LegacyGenderAndDOBSection = ({ dob, className }) => (
   <div className={className}>
     <div className="vads-u-margin-bottom--2">
-      <AdditionalInfo triggerText="How do I update my personal information?">
+      <va-additional-info
+        disable-border
+        trigger="How do I update my personal information?"
+      >
         <h2 className="vads-u-font-size--h5 vads-u-margin-top--3">
           If you’re enrolled in the VA health care program
         </h2>
@@ -30,7 +32,7 @@ const LegacyGenderAndDOBSection = ({ dob, className }) => (
         <a href="/find-locations/?facilityType=benefits">
           Find your nearest VA regional office
         </a>
-      </AdditionalInfo>
+      </va-additional-info>
     </div>
     <ProfileInfoTable
       title="Personal information"
