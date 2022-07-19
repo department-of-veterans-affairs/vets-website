@@ -120,13 +120,25 @@ export default function CommunityCareAppointmentDetailsPage() {
         </span>
       </h2>
 
-      {(!!providerName || !!practiceName || !!name) && (
-        <>
-          {/* the order of display name is important to match display name on calendar title */}
-          {providerName || practiceName || name}
-          <br />
-        </>
-      )}
+      {/* // the order of display name is important to match screen name on add to calendar title */}
+      {(!!providerName || !!practiceName || !!name) &&
+        !useV2 && (
+          // V1 displays the name from the provider object
+          <>
+            the order of display name is important to match display name on
+            calendar title
+            {providerName || practiceName || name}
+            <br />
+          </>
+        )}
+      {(!!providerName || !!practiceName || !!name) &&
+        useV2 && (
+          // V2 displays the first provider name from the array
+          <>
+            {providerName[0] || practiceName || name}
+            <br />
+          </>
+        )}
       <FacilityAddress
         facility={appointment.communityCareProvider}
         showDirectionsLink={!!appointment.communityCareProvider?.address}

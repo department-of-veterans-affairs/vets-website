@@ -209,11 +209,15 @@ export function transformVAOSAppointment(appt) {
             telecom: appt.extension?.ccLocation?.telecom,
             providers: (providers || []).map(provider => ({
               name: {
-                firstName: provider.name?.given,
+                firstName: provider.name?.given.join(' '),
                 lastName: provider.name?.family,
               },
+              providerName: provider.name
+                ? `${provider.name.given.join(' ')} ${provider.name.family}`
+                : null,
             })),
-            providerName: getProviderName(appt),
+            providerName:
+              providers !== undefined ? getProviderName(appt) : null,
           }
         : null,
     practitioners: appt.practitioners,

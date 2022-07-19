@@ -805,7 +805,7 @@ describe('VAOS <CommunityCareAppointmentDetailsPage> with VAOS service', () => {
       comment: 'test comment',
       start: appointmentTime,
       communityCareProvider: {
-        practiceName: 'Atlantic Medical Care',
+        providerName: 'Atlantic Medical Care',
       },
       status: 'cancelled',
     };

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import moment from '../../../lib/moment-tz';
 import {
   getAppointmentTimezone,
@@ -36,13 +37,18 @@ function VideoAppointmentDescription({ appointment }) {
 }
 
 function CommunityCareProvider({ appointment }) {
-  return (
-    <>
-      {appointment.communityCareProvider?.providerName ||
-        appointment.communityCareProvider?.practiceName ||
-        'Community care'}
-    </>
-  );
+  const {
+    providerName,
+    practiceName,
+    name,
+  } = appointment.communityCareProvider;
+  if (appointment.version === 1 && providerName !== undefined) {
+    return <>{providerName || practiceName || 'Community care'}</>;
+  }
+  if (!!providerName || !!practiceName || !!name) {
+    return <>{providerName[0] || practiceName || 'Community care'}</>;
+  }
+  return 'Community care';
 }
 
 function VAFacilityName({ facility }) {
@@ -206,3 +212,11 @@ export default function AppointmentListItem({ appointment, facility }) {
     </li>
   );
 }
+
+AppointmentListItem.propTypes = {
+  appointment: PropTypes.object.isRequired,
+};
+
+CommunityCareProvider.propTypes = {
+  appointment: PropTypes.object.isRequired,
+};

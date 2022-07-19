@@ -924,12 +924,16 @@ export function getProviderName(appointment) {
     return providerName;
   }
 
-  const { practitioners } = appointment;
-  // grab the 1st element
-  const [practitioner] = practitioners || [];
-  const { name } = practitioner || {};
-
-  return name ? ` ${name.given[0]} ${name.family}` : null;
+  if (appointment.practitioners !== undefined) {
+    const providers = appointment.practitioners
+      .filter(person => !!person.name)
+      .map(person => `${person.name.given.join(' ')} ${person.name.family} `);
+    if (providers.length > 0) {
+      return providers;
+    }
+    return null;
+  }
+  return null;
 }
 
 /**
@@ -975,14 +979,17 @@ export function getCalendarData({ appointment, facility }) {
     };
   } else if (isCommunityCare) {
     let { practiceName } = appointment.communityCareProvider || {};
-    let providerName = getProviderName(appointment);
+    const providerName = getProviderName(appointment);
     let summary = 'Community care appointment';
     // Check if providerName is all spaces.
-    providerName = providerName?.trim().length ? providerName : '';
+    // providerName = providerName?.trim().length ? providerName : '';
     practiceName = practiceName?.trim().length ? practiceName : '';
     if (!!practiceName || !!providerName) {
       // order of the name appearing on the calendar title is important to match the display screen name
-      summary = `Appointment at ${providerName || practiceName}`;
+      summary =
+        appointment.version === 1
+          ? `Appointment at ${providerName || practiceName}`
+          : `Appointment at ${providerName[0] || practiceName}`;
     }
     data = {
       summary,
