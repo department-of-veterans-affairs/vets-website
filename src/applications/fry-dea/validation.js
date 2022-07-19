@@ -51,8 +51,6 @@ export const validateReMarriageDate = (errors, newMarriageDate, formData) => {
   );
 
   if (result < 1) {
-    errors.addError(
-      'New marriage date can not be before previous marriage date',
-    );
+    errors.addError('New marriage date can’t be before previous marriage date');
   }
 };
