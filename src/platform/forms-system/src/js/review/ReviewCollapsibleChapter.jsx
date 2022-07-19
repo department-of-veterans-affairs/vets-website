@@ -19,6 +19,7 @@ import { reduceErrors } from '../utilities/data/reduceErrors';
 import { setFormErrors } from '../actions';
 
 const { Element, scroller } = Scroll;
+const scrollOffset = -40;
 
 /*
  * Displays all the pages in a chapter on the review page
@@ -314,6 +315,10 @@ class ReviewCollapsibleChapter extends React.Component {
     );
   };
 
+  /**
+   * Focuses on the first focusable element
+   * @param {string} key - The specific page key used to find the element to focus on
+   */
   focusOnPage = key => {
     const name = `${key.replace(/:/g, '\\:')}`;
     const scrollElement = document.querySelector(
@@ -334,7 +339,10 @@ class ReviewCollapsibleChapter extends React.Component {
   };
 
   scrollToPage = key => {
-    scroller.scrollTo(`${key}ScrollElement`, getScrollOptions({ offset: -40 }));
+    scroller.scrollTo(
+      `${key}ScrollElement`,
+      getScrollOptions({ offset: scrollOffset }),
+    );
   };
 
   render() {
