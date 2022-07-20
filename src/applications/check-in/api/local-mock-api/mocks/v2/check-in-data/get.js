@@ -72,7 +72,6 @@ const getAppointmentStartTime = (
   eligibility = 'ELIGIBLE',
   preCheckInValid = false,
   uuid = defaultUUID,
-  physicalLocation = 'Test location, room A',
 ) => {
   let startTime = preCheckInValid ? dateFns.addDays(new Date(), 1) : new Date();
 
@@ -98,6 +97,7 @@ const createAppointment = (
   uuid = defaultUUID,
   timezone = 'browser',
   stationNo = '0001',
+  clinicLocation = 'Test location, room A',
 ) => {
   const startTime = getAppointmentStartTime(eligibility, preCheckInValid, uuid);
   const formattedStartTime = dateFns.format(
@@ -153,7 +153,7 @@ const createAppointment = (
     checkInWindowEnd: formattedCheckInWindowEnd,
     checkedInTime: '',
     stationNo,
-    physicalLocation,
+    clinicLocation,
   };
 };
 
