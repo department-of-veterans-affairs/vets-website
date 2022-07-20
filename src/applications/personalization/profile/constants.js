@@ -82,3 +82,8 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
 ]);
 
 export const NOT_SET_TEXT = 'This information is not available right now.';
+
+export const BANK_INFO_UPDATED_ALERT_SETTINGS = {
+  FADE_SPEED: window.Cypress ? 1 : 500,
+  TIMEOUT: window.Cypress ? 500 : 6000,
+};
