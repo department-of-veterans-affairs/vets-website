@@ -7,7 +7,8 @@ import {
   DefinitionTester,
   fillData,
   selectRadio,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+  selectCheckbox,
+} from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
 
@@ -15,6 +16,7 @@ describe('686 current marriage co-habitation status', () => {
   const {
     schema,
     uiSchema,
+    updateFormData,
   } = formConfig.chapters.addSpouse.pages.doesLiveWithSpouse;
 
   const formData = {
@@ -81,6 +83,7 @@ describe('686 current marriage co-habitation status', () => {
         definitions={formConfig.defaultDefinitions}
         data={formData}
         onSubmit={onSubmit}
+        updateFormData={updateFormData}
       />,
     );
     selectRadio(form, 'root_doesLiveWithSpouse_spouseDoesLiveWithVeteran', 'N');
@@ -105,6 +108,26 @@ describe('686 current marriage co-habitation status', () => {
       'select#root_doesLiveWithSpouse_address_stateCode',
       'AL',
     );
+
+    // test military base toggle restores the previous city/state
+    selectCheckbox(
+      form,
+      'root_doesLiveWithSpouse_address_view:livesOnMilitaryBase',
+      true,
+    );
+    changeDropdown(form, 'select#root_doesLiveWithSpouse_address_city', 'APO');
+    changeDropdown(
+      form,
+      'select#root_doesLiveWithSpouse_address_stateCode',
+      'AA',
+    );
+    selectCheckbox(
+      form,
+      'root_doesLiveWithSpouse_address_view:livesOnMilitaryBase',
+      false,
+    );
+    // test end
+
     fillData(form, 'input#root_doesLiveWithSpouse_address_zipCode', '12345');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
