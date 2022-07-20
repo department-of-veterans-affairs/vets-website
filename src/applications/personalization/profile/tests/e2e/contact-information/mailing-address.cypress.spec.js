@@ -4,7 +4,7 @@ import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
 
 const setup = (mobile = false) => {
   if (mobile) {
-    cy.viewport('iphone-4');
+    cy.viewportPreset('va-top-mobile-1');
   }
 
   cy.login(mockUser);
@@ -17,7 +17,7 @@ const setup = (mobile = false) => {
     'v0/feature_toggles*',
     'v0/ppiu/payment_information',
   ]);
-  cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+  cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
   // should show a loading indicator
   cy.findByRole('progressbar').should('exist');
@@ -156,10 +156,12 @@ describe('The personal and contact information page', () => {
     editMailingAddress();
     checkMilitaryAddress();
     confirmWebAddressesAreBlocked();
+    cy.injectAxeThenAxeCheck();
   });
   it('should handle the military base checkbox on Mobile', () => {
     setup(true);
     editMailingAddress();
     checkMilitaryAddress();
+    cy.injectAxeThenAxeCheck();
   });
 });
