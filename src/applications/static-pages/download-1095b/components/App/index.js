@@ -1,5 +1,6 @@
 // Node modules.
 import React, { useEffect, useState } from 'react';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
 import { connect } from 'react-redux';
@@ -14,13 +15,27 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
   const [lastUpdated, updateLastUpdated] = useState('');
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
+  const [formType, updateFormType] = useState('pdf');
   const [formDownloaded, updateFormDownloaded] = useState({
     downloaded: false,
     timeStamp: '',
   });
 
-  const getPdf = () => {
-    return apiRequest(`/form1095_bs/download/${year}`)
+  const radioOptions = [
+    { label: 'Option 1: PDF document (best for printing)', value: 'pdf' },
+    {
+      label:
+        'Option 2: Text file (best for screen readers, screen enlargers, and refreshable Braille displays)',
+      value: 'txt',
+    },
+  ];
+  const radioOptionsAriaLabels = [
+    'Option 1: P D F Document (best for printing)',
+    'Option 2: Text File (best for screen readers, screen enlargers, and refreshable Braille displays)',
+  ];
+
+  const getContent = () => {
+    return apiRequest(`/form1095_bs/download_${formType}/${year}`)
       .then(response => response.blob())
       .then(blob => {
         return window.URL.createObjectURL(blob);
@@ -65,12 +80,16 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     return string.replace('PM', 'p.m.');
   };
 
-  const callGetPDF = () => {
-    getPdf().then(result => {
+  const callGetContent = () => {
+    getContent().then(result => {
       if (result) {
         const a = document.createElement('a');
         a.href = result;
         a.target = '_blank';
+        if (formType === 'txt') {
+          // download text file directly, pdf opens in new window
+          a.download = `1095B-${year}.txt`;
+        }
         document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
         a.click();
         a.remove(); // removes element from the DOM
@@ -101,6 +120,27 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     [loggedIn],
   );
 
+  const radioComponent = (
+    <RadioButtons
+      id="1095-download-options"
+      name="1095-download-options"
+      label={
+        <div>
+          <h3>Choose your file format and download your document</h3>
+          <p>
+            We offer two file format options for this form. Choose the option
+            that best meets your needs.
+          </p>
+        </div>
+      }
+      options={radioOptions}
+      onValueChange={({ value }) => updateFormType(value)}
+      value={{ value: formType }}
+      ariaDescribedby={radioOptionsAriaLabels}
+      additionalFieldsetClass="vads-u-margin-top--0"
+    />
+  );
+
   const lastUpdatedComponent = (
     <p>
       <span className="vads-u-line-height--3 vads-u-display--block">
@@ -115,13 +155,13 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
   const downloadButton = (
     <p>
       <button
-        className="usa-button-primary va-button-primary"
+        className="usa-button-primary va-button"
         onClick={function() {
-          callGetPDF();
+          callGetContent();
         }}
         id="download-url"
       >
-        Download your 1095-B tax form (PDF){' '}
+        Download your 1095-B tax form{' '}
       </button>
     </p>
   );
@@ -205,6 +245,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
   const loggedInComponent = (
     <>
       {lastUpdatedComponent}
+      {radioComponent}
       {downloadButton}
     </>
   );
