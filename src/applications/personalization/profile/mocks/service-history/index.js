@@ -8,12 +8,16 @@ const none = {
   },
 };
 
-const generateServiceHistory = ({ branchOfService = 'Air Force' }) => {
+const generateServiceHistory = ({
+  branchOfService = 'Air Force',
+  dataSource = 'api.va_profile',
+}) => {
   return {
     data: {
       id: '',
       type: 'arrays',
       attributes: {
+        dataSource,
         serviceHistory: [
           {
             branchOfService,
@@ -47,8 +51,20 @@ const error = {
   ],
 };
 
+const noServiceFound = {
+  errors: [
+    {
+      title: 'Internal server error',
+      detail: 'Internal server error',
+      code: '403',
+      status: '403',
+    },
+  ],
+};
+
 module.exports = {
   none,
+  noServiceFound,
   error,
   airForce,
   spaceForce,

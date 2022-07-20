@@ -33,7 +33,7 @@ describe('Pre-Check In Experience ', () => {
     ValidateVeteran.attemptToGoToNextPage();
 
     // UUID with canceled appointments should navigate to the error page.
-    Error.validatePageLoaded();
+    Error.validateCanceledPageLoaded();
     cy.injectAxeThenAxeCheck();
   });
 });

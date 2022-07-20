@@ -128,6 +128,20 @@ export const Results = ({
                 </div>
 
                 {/* Where */}
+                {event?.fieldLocationType === 'online' && (
+                  <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--1">
+                    <p className="vads-u-margin--0 vads-u-margin-right--0p5">
+                      <strong>Where:</strong>
+                    </p>
+
+                    <div className="vads-u-display--flex vads-u-flex-direction--column">
+                      <p className="vads-u-margin--0">
+                        This is an online event.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 {locations?.length > 0 && (
                   <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--1">
                     <p className="vads-u-margin--0 vads-u-margin-right--0p5">
@@ -135,6 +149,19 @@ export const Results = ({
                     </p>
 
                     <div className="vads-u-display--flex vads-u-flex-direction--column">
+                      {event.fieldFacilityLocation?.entity?.entityUrl?.path &&
+                        event.fieldFacilityLocation?.entity?.title && (
+                          <p className="vads-u-margin--0">
+                            <a
+                              href={
+                                event.fieldFacilityLocation.entity.entityUrl
+                                  .path
+                              }
+                            >
+                              {event.fieldFacilityLocation.entity.title}
+                            </a>
+                          </p>
+                        )}
                       {locations?.map(location => (
                         <p className="vads-u-margin--0" key={location}>
                           {location}

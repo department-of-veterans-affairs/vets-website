@@ -27,12 +27,15 @@ const AppointmentBlock = props => {
         className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
         data-testid="appointment-list"
       >
-        {appointments.map((appointment, index) => {
+        {appointments.map(appointment => {
+          const apptId = `${
+            appointment.stationNo ? appointment.stationNo : ''
+          }${appointment.appointmentIen}`;
           return (
             <AppointmentConfirmationListItem
               appointment={appointment}
-              index={index}
-              key={index}
+              index={apptId}
+              key={apptId}
             />
           );
         })}

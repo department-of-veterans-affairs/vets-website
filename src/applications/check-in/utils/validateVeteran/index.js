@@ -44,6 +44,7 @@ const validateLogin = async (
   token,
   setSession,
   app,
+  resetAttempts,
 ) => {
   setLastNameErrorMessage();
   setLast4ErrorMessage();
@@ -109,6 +110,7 @@ const validateLogin = async (
       goToErrorPage();
     } else {
       setSession(token, resp.permissions);
+      resetAttempts(window, token, true);
       goToNextPage();
     }
   } catch (e) {
@@ -116,9 +118,7 @@ const validateLogin = async (
     if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
       goToErrorPage();
     } else {
-      if (!showValidateError) {
-        setShowValidateError(true);
-      }
+      setShowValidateError(true);
       incrementValidateAttempts(window);
     }
   }

@@ -27,7 +27,7 @@ const responseDelay = process?.env?.DELAY || 0;
 
 /* eslint-disable camelcase */
 const responses = {
-  'GET /v0/user': user.user72Success,
+  'GET /v0/user': user.handleUserRequest,
   'GET /v0/profile/status': status,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
@@ -48,7 +48,7 @@ const responses = {
     return res.status(200).json(bankAccounts.defaultResponse);
   },
   'GET /v0/profile/service_history': (_req, res) => {
-    return res.status(500).json(serviceHistory.error);
+    return res.status(200).json(serviceHistory.airForce);
   },
   'GET /v0/disability_compensation_form/rating_info': {
     data: {
@@ -77,11 +77,9 @@ const responses = {
       );
     }
 
-    if (
-      req?.body?.addressPou ===
-      address.mailingAddressUpdateReceived.request.payload.addressPou
-    ) {
-      return res.json(address.mailingAddressUpdateReceived.response);
+    // trigger NO_CHANGES_DETECTED response
+    if (req?.body?.addressLine1 === 'same') {
+      return res.json(address.mailingAddresUpdateNoChangeDetected);
     }
 
     return res.json(address.homeAddressUpdateReceived.response);

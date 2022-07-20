@@ -67,14 +67,6 @@
 
       <!-- Tablet/Desktop Layout -->
       <div id="legacy-header" class="vads-u-display--none">
-        <div class="incompatible-browser-warning">
-          <div class="row full">
-            <div class="small-12">
-              Your browser is out of date. To use this website, please <a href="https://browsehappy.com/">update your browser</a> or use a different device.
-            </div>
-          </div>
-        </div>
-
         <!-- USA website banner -->
         <div class="va-notice--banner">
           <div class="va-notice--banner-inner">
@@ -155,14 +147,6 @@
         </va-banner>
       </div>
     </header>
-
-    <script nonce="**CSP_NONCE**" type="text/javascript">
-    (function() {
-      var module = {};
-      <%= loadInlineScript('incompatible-browser.js') %>
-      checkBrowserCompatibility();
-    })();
-    </script>
 
     <!-- TODO: Add breadcrumbs -->
     <% if (includeBreadcrumbs) { %>

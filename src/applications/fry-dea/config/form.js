@@ -29,12 +29,13 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../manifest.json';
 
 import {
-  isOnlyWhitespace,
-  applicantIsChildOfVeteran,
-  addWhitespaceOnlyError,
-  isAlphaNumeric,
   AdditionalConsiderationTemplate,
+  addWhitespaceOnlyError,
+  applicantIsChildOfVeteran,
   applicantIsSpouseOfVeteran,
+  isAlphaNumeric,
+  isOnlyWhitespace,
+  prefillTransformer,
 } from '../helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
@@ -51,7 +52,11 @@ import GoToYourProfileLink from '../components/GoToYourProfileLink';
 import RelatedVeterans from '../components/RelatedVeterans';
 import { phoneSchema, phoneUISchema } from '../schema';
 import EmailViewField from '../components/EmailViewField';
-import { isValidPhone, validateEmail } from '../validation';
+import {
+  isValidPhone,
+  validateEmail,
+  validateReMarriageDate,
+} from '../validation';
 import EmailReviewField from '../components/EmailReviewField';
 import YesNoReviewField from '../components/YesNoReviewField';
 import MailingAddressViewField from '../components/MailingAddressViewField';
@@ -75,7 +80,7 @@ const formConfig = {
   trackingPrefix: 'fry-dea-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: VA_FORM_IDS.FORM_22_5490,
+  formId: VA_FORM_IDS.FORM_22_5490E,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your education benefits application (22-5490) is in progress.',
@@ -85,6 +90,7 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
@@ -508,7 +514,7 @@ const formConfig = {
             },
             [formFields.highSchoolDiploma]: {
               'ui:title':
-                'Did you earn a high school diploma or equivalency certificate?',
+                'Did you earn a high school diploma or an equivalency certificate?',
               'ui:widget': 'radio',
             },
           },
@@ -539,7 +545,7 @@ const formConfig = {
             },
             [formFields.highSchoolDiplomaDate]: {
               ...currentOrPastDateUI(
-                'When did you earn your high school diploma or equivalency certificate?',
+                'What date did you receive your high school diploma or equivalency certificate?',
               ),
             },
           },
@@ -655,6 +661,7 @@ const formConfig = {
             formFields.additionalConsiderations.remarriageDate,
             {
               ...currentOrPastDateUI('When did you get remarried?'),
+              'ui:validations': [validateReMarriageDate],
             },
             {
               ...date,
@@ -821,7 +828,7 @@ const formConfig = {
                 </>
               ),
             },
-            'view:mailingAddress': {
+            [formFields.viewMailingAddress]: {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 fry-dea-review-page-only">

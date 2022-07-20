@@ -4,11 +4,11 @@ import differenceInSeconds from 'date-fns/differenceInSeconds';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import recordEvent from 'platform/monitoring/record-event';
+import { logout } from 'platform/user/authentication/utilities';
 import {
-  logout,
+  refresh,
   checkOrSetSessionExpiration,
-} from 'platform/user/authentication/utilities';
-import { refresh } from 'platform/utilities/oauth/utilities';
+} from 'platform/utilities/oauth/utilities';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
 
