@@ -4,14 +4,14 @@ import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
 import * as mocks from '@@profile/msw-mocks';
-import PersonalInformation from '@@profile/components/personal-information/PersonalInformation';
+import ContactInformation from '@@profile/components/contact-information/ContactInformation';
 
 import {
   createBasicInitialState,
   renderWithProfileReducers,
 } from '../../unit-test-helpers';
 
-describe('PersonalInformation', () => {
+describe('ContactInformation', () => {
   let server;
   before(() => {
     server = setupServer(...mocks.updateDD4CNPSuccess);
@@ -26,20 +26,11 @@ describe('PersonalInformation', () => {
 
   const ui = (
     <MemoryRouter>
-      <PersonalInformation />
+      <ContactInformation />
     </MemoryRouter>
   );
 
   let initialState;
-  it('should render personal info data from the Redux state', () => {
-    initialState = createBasicInitialState();
-
-    const view = renderWithProfileReducers(ui, {
-      initialState,
-    });
-
-    expect(view.getByText(/^May 6, 1986$/)).to.exist;
-  });
 
   it('should render the correct contact based on what exists in the Redux state', () => {
     initialState = createBasicInitialState();
