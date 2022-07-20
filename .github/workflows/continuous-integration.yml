@@ -1117,9 +1117,17 @@ jobs:
           - environment: vagovdev
             deploy-bucket: dev.va.gov
             asset-bucket: dev-va-gov-assets
+            iam-role: AWS_FRONTEND_NONPROD_ROLE
+
           - environment: vagovstaging
             deploy-bucket: staging.va.gov
             asset-bucket: staging-va-gov-assets
+            iam-role: AWS_FRONTEND_NONPROD_ROLE
+
+          - environment: vagovprod
+            deploy-bucket: www.va.gov
+            asset-bucket: prod-va-gov-assets
+            iam-role: AWS_FRONTEND_PROD_ROLE
 
     steps:
       - name: Checkout
@@ -1135,8 +1143,8 @@ jobs:
       - name: Get AWS IAM role
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+          ssm_parameter: /frontend-team/github-actions/parameters/${{ matrix.iam-role }}
+          env_variable_name: ${{ matrix.iam-role }}
 
       - name: Configure AWS Credentials (2)
         uses: aws-actions/configure-aws-credentials@v1
@@ -1144,11 +1152,17 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-to-assume: ${{ matrix.iam-role }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
+      - name: Check if isolated app commit can be deployed
+        id: can-commit-deploy
+        if: needs.build.outputs.entry_names != '' && matrix.environment == 'vagovprod'
+        run: node ./script/github-actions/can-commit-deploy.js
+
       - name: Deploy
+        if: matrix.environment != 'vagovprod' || (needs.build.outputs.entry_names != '' && steps.can-commit-deploy.outputs.is_deployable == 'true')
         run: |
           if [[ -n "${{ needs.build.outputs.entry_names }}" ]]; then
             ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
