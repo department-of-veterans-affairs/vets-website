@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -24,6 +25,7 @@ import {
   eduDirectDepositLoadError,
   eduDirectDepositUiState as eduDirectDepositUiStateSelector,
 } from '@@profile/selectors';
+import UpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 import recordEvent from '~/platform/monitoring/record-event';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
@@ -41,6 +43,7 @@ import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import { benefitTypes } from '~/applications/personalization/common/constants';
 
 import NotEligible from './alerts/NotEligible';
+import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
 
 export const BankInfo = ({
   isLOA3,
@@ -55,6 +58,7 @@ export const BankInfo = ({
   typeIsCNP,
   setFormIsDirty,
   setViewingPayments,
+  showSuccessMessage,
 }) => {
   const formPrefix = type;
   const editBankInfoButton = useRef();
@@ -162,7 +166,6 @@ export const BankInfo = ({
   const sectionTitle = typeIsCNP
     ? 'Disability compensation and pension benefits'
     : 'Education benefits';
-
   // When direct deposit is already set up we will show the current bank info
   const bankInfoContent = (
     <div>
@@ -174,6 +177,26 @@ export const BankInfo = ({
         <dt className="sr-only">Bank account type:</dt>
         <dd>{`${directDepositAccountInfo?.accountType} account`}</dd>
       </dl>
+
+      <div role="alert" aria-atomic="true">
+        <TransitionGroup>
+          {!!showSuccessMessage && (
+            <CSSTransition
+              classNames="form-expanding-group-inner"
+              appear
+              timeout={{
+                appear: BANK_INFO_UPDATED_ALERT_SETTINGS.FADE_SPEED,
+                enter: BANK_INFO_UPDATED_ALERT_SETTINGS.FADE_SPEED,
+                exit: BANK_INFO_UPDATED_ALERT_SETTINGS.FADE_SPEED,
+              }}
+            >
+              <div data-testid="bankInfoUpdateSuccessAlert">
+                <UpdateSuccessAlert />
+              </div>
+            </CSSTransition>
+          )}
+        </TransitionGroup>
+      </div>
       <button
         type="button"
         className={classes.editButton}
@@ -412,6 +435,7 @@ BankInfo.propTypes = {
     isSaving: PropTypes.bool.isRequired,
     responseError: PropTypes.object,
   }),
+  showSuccessMessage: PropTypes.bool,
   typeIsCNP: PropTypes.bool,
 };
 

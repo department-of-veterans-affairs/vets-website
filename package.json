@@ -102,6 +102,7 @@
   },
   "devDependencies": {
     "@actions/core": "^1.8.0",
+    "@axe-core/react": "^4.4.3",
     "@babel/core": "^7.17.7",
     "@babel/parser": "^7.17.7",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
