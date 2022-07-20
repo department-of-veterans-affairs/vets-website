@@ -89,6 +89,13 @@ export class DefinitionTester extends React.Component {
     const newSchema = newSchemaAndData.schema;
 
     if (typeof updateFormData === 'function') {
+      if (arrayPath && typeof pagePerItemIndex === 'undefined') {
+        // Adding this console message to help with troubleshooting
+        // eslint-disable-next-line no-console
+        console.error(
+          'pagePerItemIndex prop is required when arrayPath is specified',
+        );
+      }
       newData = updateFormData(
         arrayPath ? formData[arrayPath][pagePerItemIndex] : formData,
         newData,
