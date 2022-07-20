@@ -7,33 +7,27 @@ import {
   DefinitionTester,
   fillData,
   selectCheckbox,
-  selectRadio,
 } from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
 
-describe('Report 674 student address and marriage information', () => {
+describe('Veteran address', () => {
   const {
     schema,
     uiSchema,
     updateFormData,
-  } = formConfig.chapters.report674.pages.studentAddressMarriageTuition;
+  } = formConfig.chapters.veteranInformation.pages.veteranAddress;
 
   const formData = {
-    'view:selectable686Options': {
-      report674: true,
-    },
-    studentAddressMarriageTuition: {
-      wasMarried: '',
-    },
-    studentNameAndSSN: {
-      fullName: {
-        first: 'John',
-        last: 'Doe',
+    veteranContactInformation: {
+      veteranAddress: {
+        countryName: 'USA',
+        addressLine1: '',
+        city: '',
+        stateCode: '',
+        zipCode: '',
       },
-    },
-    schoolAddress: {
-      countryName: '',
+      phoneNumber: '',
     },
   };
 
@@ -46,7 +40,7 @@ describe('Report 674 student address and marriage information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(10);
+    expect(form.find('input').length).to.equal(8);
     expect(form.find('select').length).to.equal(2);
     form.unmount();
   });
@@ -82,58 +76,57 @@ describe('Report 674 student address and marriage information', () => {
     );
     changeDropdown(
       form,
-      'select#root_studentAddressMarriageTuition_address_countryName',
+      'select#root_veteranContactInformation_veteranAddress_countryName',
       'USA',
     );
     fillData(
       form,
-      'input#root_studentAddressMarriageTuition_address_addressLine1',
+      'input#root_veteranContactInformation_veteranAddress_addressLine1',
       '1600',
     );
     fillData(
       form,
-      'input#root_studentAddressMarriageTuition_address_city',
+      'input#root_veteranContactInformation_veteranAddress_city',
       'Washington',
     );
     changeDropdown(
       form,
-      'select#root_studentAddressMarriageTuition_address_stateCode',
+      'select#root_veteranContactInformation_veteranAddress_stateCode',
       'DC',
     );
 
     // test military base toggle restores the previous city/state
     selectCheckbox(
       form,
-      'root_studentAddressMarriageTuition_address_view:livesOnMilitaryBase',
+      'root_veteranContactInformation_veteranAddress_view:livesOnMilitaryBase',
       true,
     );
     changeDropdown(
       form,
-      'select#root_studentAddressMarriageTuition_address_city',
+      'select#root_veteranContactInformation_veteranAddress_city',
       'APO',
     );
     changeDropdown(
       form,
-      'select#root_studentAddressMarriageTuition_address_stateCode',
+      'select#root_veteranContactInformation_veteranAddress_stateCode',
       'AA',
     );
     selectCheckbox(
       form,
-      'root_studentAddressMarriageTuition_address_view:livesOnMilitaryBase',
+      'root_veteranContactInformation_veteranAddress_view:livesOnMilitaryBase',
       false,
     );
     // test end
 
     fillData(
       form,
-      'input#root_studentAddressMarriageTuition_address_zipCode',
+      'input#root_veteranContactInformation_veteranAddress_zipCode',
       '20500',
     );
-    selectRadio(form, 'root_studentAddressMarriageTuition_wasMarried', 'N');
-    selectRadio(
+    fillData(
       form,
-      'root_studentAddressMarriageTuition_tuitionIsPaidByGovAgency',
-      'N',
+      'input#root_veteranContactInformation_phoneNumber',
+      '8005551212',
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -154,34 +147,33 @@ describe('Report 674 student address and marriage information', () => {
     );
     selectCheckbox(
       form,
-      'root_studentAddressMarriageTuition_address_view:livesOnMilitaryBase',
+      'root_veteranContactInformation_veteranAddress_view:livesOnMilitaryBase',
       true,
     );
     fillData(
       form,
-      'input#root_studentAddressMarriageTuition_address_addressLine1',
+      'input#root_veteranContactInformation_veteranAddress_addressLine1',
       '1600',
     );
     changeDropdown(
       form,
-      'select#root_studentAddressMarriageTuition_address_city',
+      'select#root_veteranContactInformation_veteranAddress_city',
       'APO',
     );
     changeDropdown(
       form,
-      'select#root_studentAddressMarriageTuition_address_stateCode',
+      'select#root_veteranContactInformation_veteranAddress_stateCode',
       'AA',
     );
     fillData(
       form,
-      'input#root_studentAddressMarriageTuition_address_zipCode',
+      'input#root_veteranContactInformation_veteranAddress_zipCode',
       '20500',
     );
-    selectRadio(form, 'root_studentAddressMarriageTuition_wasMarried', 'N');
-    selectRadio(
+    fillData(
       form,
-      'root_studentAddressMarriageTuition_tuitionIsPaidByGovAgency',
-      'N',
+      'input#root_veteranContactInformation_phoneNumber',
+      '8005551212',
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -202,29 +194,28 @@ describe('Report 674 student address and marriage information', () => {
     );
     changeDropdown(
       form,
-      'select#root_studentAddressMarriageTuition_address_countryName',
+      'select#root_veteranContactInformation_veteranAddress_countryName',
       'BRA',
     );
     fillData(
       form,
-      'input#root_studentAddressMarriageTuition_address_addressLine1',
+      'input#root_veteranContactInformation_veteranAddress_addressLine1',
       '1600',
     );
     fillData(
       form,
-      'input#root_studentAddressMarriageTuition_address_city',
+      'input#root_veteranContactInformation_veteranAddress_city',
       'Rio de Janeiro',
     );
     fillData(
       form,
-      'input#root_studentAddressMarriageTuition_address_internationalPostalCode',
+      'input#root_veteranContactInformation_veteranAddress_internationalPostalCode',
       '12345',
     );
-    selectRadio(form, 'root_studentAddressMarriageTuition_wasMarried', 'N');
-    selectRadio(
+    fillData(
       form,
-      'root_studentAddressMarriageTuition_tuitionIsPaidByGovAgency',
-      'N',
+      'input#root_veteranContactInformation_phoneNumber',
+      '8005551212',
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -232,7 +223,7 @@ describe('Report 674 student address and marriage information', () => {
     form.unmount();
   });
 
-  it('should submit with a valid domestic US address, marriage, and tuition information', () => {
+  it('should submit with a valid domestic US address and phone number', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -245,69 +236,33 @@ describe('Report 674 student address and marriage information', () => {
     );
     changeDropdown(
       form,
-      'select#root_studentAddressMarriageTuition_address_countryName',
+      'select#root_veteranContactInformation_veteranAddress_countryName',
       'USA',
     );
     fillData(
       form,
-      'input#root_studentAddressMarriageTuition_address_addressLine1',
+      'input#root_veteranContactInformation_veteranAddress_addressLine1',
       '1600',
     );
     fillData(
       form,
-      'input#root_studentAddressMarriageTuition_address_city',
+      'input#root_veteranContactInformation_veteranAddress_city',
       'Washington',
     );
     changeDropdown(
       form,
-      'select#root_studentAddressMarriageTuition_address_stateCode',
+      'select#root_veteranContactInformation_veteranAddress_stateCode',
       'DC',
     );
     fillData(
       form,
-      'input#root_studentAddressMarriageTuition_address_zipCode',
+      'input#root_veteranContactInformation_veteranAddress_zipCode',
       '20500',
     );
-    selectRadio(form, 'root_studentAddressMarriageTuition_wasMarried', 'Y');
-    changeDropdown(
-      form,
-      'select#root_studentAddressMarriageTuition_marriageDateMonth',
-      1,
-    );
-    changeDropdown(
-      form,
-      'select#root_studentAddressMarriageTuition_marriageDateDay',
-      1,
-    );
     fillData(
       form,
-      'input#root_studentAddressMarriageTuition_marriageDateYear',
-      2010,
-    );
-    selectRadio(
-      form,
-      'root_studentAddressMarriageTuition_tuitionIsPaidByGovAgency',
-      'Y',
-    );
-    fillData(
-      form,
-      'input#root_studentAddressMarriageTuition_agencyName',
-      'FBI',
-    );
-    changeDropdown(
-      form,
-      'select#root_studentAddressMarriageTuition_datePaymentsBeganMonth',
-      1,
-    );
-    changeDropdown(
-      form,
-      'select#root_studentAddressMarriageTuition_datePaymentsBeganDay',
-      1,
-    );
-    fillData(
-      form,
-      'input#root_studentAddressMarriageTuition_datePaymentsBeganYear',
-      2010,
+      'input#root_veteranContactInformation_phoneNumber',
+      '8005551212',
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
