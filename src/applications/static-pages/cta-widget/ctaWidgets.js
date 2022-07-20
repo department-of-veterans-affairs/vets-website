@@ -87,7 +87,7 @@ export const ctaWidgetsLookup = {
     isHealthTool: false,
     mhvToolName: null,
     requiredServices: null,
-    serviceDescription: 'manage your VA debt and bills',
+    serviceDescription: 'manage your VA debt',
   },
   [CTA_WIDGET_TYPES.DIRECT_DEPOSIT]: {
     id: CTA_WIDGET_TYPES.DIRECT_DEPOSIT,

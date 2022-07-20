@@ -1,6 +1,7 @@
 apiVersion: backstage.io/v1alpha1
-kind: Component
+kind: System
 metadata:
+  title: VA.gov
   name: vets-website
   description: This is the front end for VA.gov.
   annotations:
@@ -9,6 +10,5 @@ metadata:
     - javascript
     - sass
 spec:
-  type: website
   owner: platform-release-tools
-  lifecycle: production
+  domain: vfs
