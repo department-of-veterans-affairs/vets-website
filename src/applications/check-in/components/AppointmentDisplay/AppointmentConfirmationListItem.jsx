@@ -35,7 +35,7 @@ const AppointmentConfirmationListItem = props => {
             <div className="check-in--label vads-u-margin-right--1">
               {t('location')}:
             </div>
-            <div className="check-in--value" data-testid="appointment-clinic">
+            <div className="check-in--value" data-testid="clinic-location">
               {appointment.clinicLocation}
             </div>
           </>

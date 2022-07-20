@@ -85,7 +85,7 @@ const AppointmentBlock = props => {
                     </div>
                     <div
                       className="check-in--value"
-                      data-testid="appointment-clinic"
+                      data-testid="clinic-location"
                     >
                       {appointment.clinicLocation}
                     </div>
