@@ -34,13 +34,20 @@ const ConfirmablePage = ({
         </p>
       )}
       <div className="vads-u-margin-top--3">
-        <dl data-testid="demographics-fields">
+        <ul
+          data-testid="demographics-fields"
+          className="check-in--definition-list"
+        >
           {dataFields.map((field, i, { length }) => (
-            <React.Fragment key={field.key}>
-              <dt className="vads-u-font-weight--bold vads-u-border-top--1px vads-u-padding-top--2 vads-u-margin-top--2 vads-u-border-color--gray-light">
+            <li key={field.key}>
+              <div
+                className="vads-u-font-weight--bold vads-u-border-top--1px vads-u-padding-top--2 vads-u-margin-top--2 vads-u-border-color--gray-light"
+                aria-describedby={field.title}
+              >
                 {field.title}
-              </dt>
-              <dd
+              </div>
+              <div
+                id={field.title}
                 className={
                   i + 1 === length
                     ? 'vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-bottom--2'
@@ -52,10 +59,10 @@ const ConfirmablePage = ({
                 ) : (
                   t('not-available')
                 )}
-              </dd>
-            </React.Fragment>
+              </div>
+            </li>
           ))}
-        </dl>
+        </ul>
       </div>
       {isLoading ? (
         <>
