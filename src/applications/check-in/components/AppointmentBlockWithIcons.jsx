@@ -78,6 +78,19 @@ const AppointmentBlock = props => {
                 >
                   {clinic}
                 </div>
+                {appointment.clinicLocation && (
+                  <>
+                    <div className="check-in--label vads-u-margin-right--1">
+                      {t('location')}:
+                    </div>
+                    <div
+                      className="check-in--value"
+                      data-testid="appointment-clinic"
+                    >
+                      {appointment.clinicLocation}
+                    </div>
+                  </>
+                )}
               </div>
               {page === 'confirmation' || appointment?.kind === 'phone' ? (
                 <va-alert
