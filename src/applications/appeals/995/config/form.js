@@ -34,7 +34,13 @@ import noticeOfAcknowledgement from '../pages/noticeOfAcknowledgement';
 import optIn from '../pages/optIn';
 import veteranInfo from '../pages/veteranInfo';
 
-import { appStateSelector, mayHaveLegacyAppeals } from '../utils/helpers';
+import {
+  appStateSelector,
+  mayHaveLegacyAppeals,
+  hasVAEvidence,
+  hasPrivateEvidence,
+  hasOtherEvidence,
+} from '../utils/helpers';
 
 import manifest from '../manifest.json';
 import { CONTESTABLE_ISSUES_PATH } from '../constants';
@@ -190,14 +196,14 @@ const formConfig = {
         evidenceVaRecords: {
           title: 'VA medical records',
           path: 'supporting-evidence/va-medical-records',
-          // depends: formData => hasVAEvidence(formData),
+          depends: formData => hasVAEvidence(formData),
           uiSchema: evidenceVaRecords.uiSchema,
           schema: evidenceVaRecords.schema,
         },
         evidencePrivateRecords: {
           title: 'Private medical records',
           path: 'supporting-evidence/private-medical-records',
-          // depends: hasPrivateEvidence,
+          depends: hasPrivateEvidence,
           uiSchema: evidencePrivateRecords.uiSchema,
           schema: evidencePrivateRecords.schema,
         },
@@ -222,7 +228,7 @@ const formConfig = {
         evidenceUpload: {
           title: 'Lay statements and other evidence',
           path: 'supporting-evidence/additional-evidence',
-          // depends: hasOtherEvidence,
+          depends: hasOtherEvidence,
           uiSchema: evidenceUpload.uiSchema,
           schema: evidenceUpload.schema,
         },
