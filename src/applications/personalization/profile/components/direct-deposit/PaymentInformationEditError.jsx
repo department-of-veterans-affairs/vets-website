@@ -62,10 +62,14 @@ function FlaggedRoutingNumber() {
 
 function InvalidRoutingNumber() {
   return (
-    <p className="vads-u-margin-y--0">
-      We couldn’t find a bank linked to this routing number. Please check your
-      bank’s 9-digit routing number and enter it again.
-    </p>
+    <>
+      <p className="vads-u-margin-top--0">
+        We can’t find a bank linked to the routing number you entered.
+      </p>
+      <p className="vads-u-margin-bottom--0">
+        Review your routing number and make sure it’s correct.
+      </p>
+    </>
   );
 }
 

@@ -42,7 +42,7 @@ const responses = {
         _.set(
           payments.paymentInformation.saved.success,
           'data.attributes.error',
-          payments.paymentInformation.errors.restrictionIndicator,
+          payments.paymentInformation.errors.routingNumberInvalid,
         ),
       );
   },
