@@ -1,4 +1,5 @@
 import isAfter from 'date-fns/isAfter';
+import isValid from 'date-fns/isValid';
 import i18next from 'i18next';
 import { api } from '../../api';
 
@@ -69,10 +70,15 @@ const validateLogin = async (
     if (!dob) {
       setDobErrorMessage(i18next.t('please-provide-a-response'));
       valid = false;
-    } else if (isAfter(new Date(dob), new Date())) {
-      setDobErrorMessage(
-        i18next.t('your-date-of-birth-can-not-be-in-the-future'),
-      );
+    } else if (!isValid(dob)) {
+      if (isAfter(new Date(dob), new Date())) {
+        setDobErrorMessage(
+          i18next.t('your-date-of-birth-can-not-be-in-the-future'),
+        );
+        valid = false;
+      } else {
+        setDobErrorMessage(i18next.t('please-enter-a-valid-date'));
+      }
       valid = false;
     }
   }
