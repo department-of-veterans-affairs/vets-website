@@ -39,13 +39,18 @@ VideoAppointmentDescription.propTypes = {
 };
 
 function CommunityCareProvider({ appointment }) {
-  return (
-    <>
-      {appointment.communityCareProvider?.providerName ||
-        appointment.communityCareProvider?.practiceName ||
-        'Community care'}
-    </>
-  );
+  const {
+    providerName,
+    practiceName,
+    name,
+  } = appointment.communityCareProvider;
+  if (appointment.version === 1 && providerName !== undefined) {
+    return <>{providerName || practiceName || 'Community care'}</>;
+  }
+  if (!!providerName || !!practiceName || !!name) {
+    return <>{providerName[0] || practiceName || 'Community care'}</>;
+  }
+  return 'Community care';
 }
 
 CommunityCareProvider.propTypes = {
