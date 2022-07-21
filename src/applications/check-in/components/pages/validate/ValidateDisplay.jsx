@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useEffect } from 'react';
+import React, { useCallback, useMemo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -25,12 +25,20 @@ export default function ValidateDisplay({
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+  const [willSubmit, setWillSubmit] = useState(false);
 
   useEffect(
     () => {
       if (showValidateError) focusElement('.validate-error-alert');
     },
     [showValidateError],
+  );
+
+  useEffect(
+    () => {
+      if (willSubmit) validateHandler();
+    },
+    [willSubmit],
   );
 
   const updateField = useCallback(
@@ -51,9 +59,33 @@ export default function ValidateDisplay({
     },
     [setLastName, setLast4Ssn, setDob],
   );
+  const handleDateEnterPress = e => {
+    const { value } = e.target;
+    const year = /^(.*?)-/g.exec(value)[1] || '';
+    const month = /(?<=-).+?(?=-)/g.exec(value)[0] || '';
+    const day = /(?:[^-]*-\s*){2}(.*)/g.exec(value)[1] || '';
+
+    let newValue = value;
+    let newMonth = month;
+    let newDay = day;
+    if (month.length === 1) {
+      newMonth = `0${month}`;
+    }
+    if (day.length === 1) {
+      newDay = `0${day}`;
+    }
+
+    newValue = `${year}-${newMonth}-${newDay}`;
+    setDob(newValue);
+    setWillSubmit(true);
+  };
   const handleEnter = e => {
     if (e.key === 'Enter') {
-      validateHandler();
+      if (e.target.name === 'date-of-birth') {
+        handleDateEnterPress(e);
+      } else {
+        validateHandler();
+      }
     }
   };
   const handleFormSubmit = e => {
@@ -111,11 +143,13 @@ export default function ValidateDisplay({
           >
             <VaMemorableDate
               label={t('date-of-birth')}
+              onDateBlur={updateField}
               onDateChange={updateField}
               name="date-of-birth"
               value={dob}
               required
               error={dobErrorMessage}
+              onKeyDown={handleEnter}
             />
           </div>
         ) : (
