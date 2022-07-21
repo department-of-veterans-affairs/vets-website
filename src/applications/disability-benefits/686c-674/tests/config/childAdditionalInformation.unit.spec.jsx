@@ -5,16 +5,18 @@ import { mount } from 'enzyme';
 import {
   DefinitionTester,
   fillData,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+  selectCheckbox,
+} from 'platform/testing/unit/schemaform-utils';
+import { changeDropdown } from 'platform/testing/unit/helpers';
 
 import formConfig from '../../config/form';
-import { changeDropdown } from 'platform/testing/unit/helpers';
 
 describe('686 add child - child additional information', () => {
   const {
     schema,
     uiSchema,
     arrayPath,
+    updateFormData,
   } = formConfig.chapters.addChild.pages.addChildAdditionalInformation;
 
   const formData = {
@@ -85,6 +87,7 @@ describe('686 add child - child additional information', () => {
         definitions={formConfig.defaultDefinitions}
         data={formData}
         onSubmit={onSubmit}
+        updateFormData={updateFormData}
       />,
     );
     fillData(
@@ -113,6 +116,26 @@ describe('686 add child - child additional information', () => {
       'select#root_childAddressInfo_address_stateCode',
       'DC',
     );
+
+    // test military base toggle restores the previous city/state in an array
+    selectCheckbox(
+      form,
+      'root_childAddressInfo_address_view:livesOnMilitaryBase',
+      true,
+    );
+    changeDropdown(form, 'select#root_childAddressInfo_address_city', 'APO');
+    changeDropdown(
+      form,
+      'select#root_childAddressInfo_address_stateCode',
+      'AA',
+    );
+    selectCheckbox(
+      form,
+      'root_childAddressInfo_address_view:livesOnMilitaryBase',
+      false,
+    );
+    // test end
+
     fillData(form, 'input#root_childAddressInfo_address_zipCode', '12345');
 
     form.find('form').simulate('submit');

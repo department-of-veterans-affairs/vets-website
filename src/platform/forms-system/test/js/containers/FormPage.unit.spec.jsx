@@ -11,76 +11,70 @@ import { FormPage } from '../../../src/js/containers/FormPage';
 
 // Build our mock objects
 function makeRoute(obj) {
-  return Object.assign(
-    {
-      pageConfig: {
-        pageKey: 'testPage',
-        schema: {},
-        uiSchema: {},
-        errorMessages: {},
-        title: '',
-      },
-      pageList: [
-        {
-          path: '/first-page',
-          pageKey: 'firstPage',
-        },
-        {
-          path: '/testing',
-          pageKey: 'testPage',
-        },
-        {
-          path: '/next-page',
-          pageKey: 'nextPage',
-        },
-        {
-          path: '/last-page',
-          pageKey: 'lastPage',
-        },
-      ],
+  return {
+    pageConfig: {
+      pageKey: 'testPage',
+      schema: {},
+      uiSchema: {},
+      errorMessages: {},
+      title: '',
     },
-    obj,
-  );
+    pageList: [
+      {
+        path: '/first-page',
+        pageKey: 'firstPage',
+      },
+      {
+        path: '/testing',
+        pageKey: 'testPage',
+      },
+      {
+        path: '/next-page',
+        pageKey: 'nextPage',
+      },
+      {
+        path: '/last-page',
+        pageKey: 'lastPage',
+      },
+    ],
+    ...obj,
+  };
 }
 function makeForm(obj) {
-  return Object.assign(
-    {
-      pages: {
-        firstPage: { schema: {}, uiSchema: {} },
-        testPage: { schema: {}, uiSchema: {} },
-        nextPage: { schema: {}, uiSchema: {} },
-        lastPage: { schema: {}, uiSchema: {} },
-      },
-      data: {},
+  return {
+    pages: {
+      firstPage: { schema: {}, uiSchema: {} },
+      testPage: { schema: {}, uiSchema: {} },
+      nextPage: { schema: {}, uiSchema: {} },
+      lastPage: { schema: {}, uiSchema: {} },
     },
-    obj,
-  );
+    data: {},
+    ...obj,
+  };
 }
 function makeArrayForm(obj) {
-  return Object.assign(
-    {
-      pages: {
-        testPage: {
-          schema: {
-            properties: {
-              arrayProp: {
-                items: [{}],
-              },
-            },
-          },
-          uiSchema: {
+  return {
+    pages: {
+      testPage: {
+        schema: {
+          properties: {
             arrayProp: {
-              items: {},
+              items: [{}],
             },
           },
         },
-      },
-      data: {
-        arrayProp: [{}],
+        uiSchema: {
+          arrayProp: {
+            items: {},
+          },
+        },
       },
     },
-    obj,
-  );
+    data: {
+      arrayProp: [{}],
+    },
+    ...obj,
+  };
 }
 
 describe('Schemaform <FormPage>', () => {
@@ -347,6 +341,55 @@ describe('Schemaform <FormPage>', () => {
 
     tree.unmount();
   });
+  it('should update array data using updateDataHooks', () => {
+    const setData = sinon.spy();
+    const route = makeRoute({
+      pageConfig: {
+        pageKey: 'firstPage',
+        updateFormData: (oldData, newData, index) =>
+          set(['foo', index, 'bar'], 'something', newData),
+      },
+    });
+    const form = makeForm({
+      pages: {
+        firstPage: {
+          schema: {
+            type: 'object',
+            properties: {
+              test: { type: 'string' },
+              foo: { type: 'string' },
+            },
+          },
+          uiSchema: {},
+        },
+      },
+      data: {
+        test: '',
+        foo: [{}, { bar: '' }],
+      },
+    });
+
+    const tree = mount(
+      <FormPage
+        setData={setData}
+        form={form}
+        route={route}
+        params={{ index: 1 }}
+        location={location}
+      />,
+    );
+
+    const field = tree.find('input#root_test');
+
+    field.simulate('change', { target: { value: 'foo' } });
+
+    expect(setData.firstCall.args[0]).to.eql({
+      test: 'foo',
+      foo: [{}, { bar: 'something' }],
+    });
+
+    tree.unmount();
+  });
   it('should update data when submitting on array page', () => {
     const setData = sinon.spy();
     const route = makeRoute({
@@ -380,65 +423,56 @@ describe('Schemaform <FormPage>', () => {
 
   describe('bypassing schemaform', () => {
     function makeBypassRoute(CustomPage) {
-      return obj =>
-        Object.assign(
+      return obj => ({
+        pageConfig: {
+          pageKey: 'testPage',
+          CustomPage,
+          errorMessages: {},
+          title: '',
+        },
+        pageList: [
           {
-            pageConfig: {
-              pageKey: 'testPage',
-              CustomPage,
-              errorMessages: {},
-              title: '',
-            },
-            pageList: [
-              {
-                path: '/first-page',
-                pageKey: 'firstPage',
-              },
-              {
-                path: '/testing',
-                pageKey: 'testPage',
-              },
-              {
-                path: '/next-page',
-                pageKey: 'nextPage',
-              },
-            ],
+            path: '/first-page',
+            pageKey: 'firstPage',
           },
-          obj,
-        );
+          {
+            path: '/testing',
+            pageKey: 'testPage',
+          },
+          {
+            path: '/next-page',
+            pageKey: 'nextPage',
+          },
+        ],
+        ...obj,
+      });
     }
     function makeBypassForm(CustomPage) {
-      return obj =>
-        Object.assign(
-          {
-            pages: {
-              firstPage: { schema: {}, uiSchema: {} },
-              testPage: { CustomPage },
-              lastPage: { schema: {}, uiSchema: {} },
-            },
-            data: {},
-          },
-          obj,
-        );
+      return obj => ({
+        pages: {
+          firstPage: { schema: {}, uiSchema: {} },
+          testPage: { CustomPage },
+          lastPage: { schema: {}, uiSchema: {} },
+        },
+        data: {},
+        ...obj,
+      });
     }
     function makeBypassArrayForm(CustomPage) {
-      return obj =>
-        Object.assign(
-          {
-            pages: {
-              testPage: {
-                CustomPage,
-                showPagePerItem: true,
-                arrayPath: 'arrayProp',
-              },
-            },
-            data: {
-              arrayProp: [{}],
-              someOtherProp: 'asdf',
-            },
+      return obj => ({
+        pages: {
+          testPage: {
+            CustomPage,
+            showPagePerItem: true,
+            arrayPath: 'arrayProp',
           },
-          obj,
-        );
+        },
+        data: {
+          arrayProp: [{}],
+          someOtherProp: 'asdf',
+        },
+        ...obj,
+      });
     }
 
     it('should render a custom component instead of SchemaForm', () => {
