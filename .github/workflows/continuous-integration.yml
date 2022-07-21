@@ -44,6 +44,9 @@ jobs:
           path: |
             .cache/yarn
             node_modules
+      
+      - Install dep
+        run: sudo apt install xvfb
 
       - name: Get changed applications
         id: get-changed-apps
