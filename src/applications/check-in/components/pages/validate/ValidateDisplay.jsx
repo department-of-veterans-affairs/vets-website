@@ -4,7 +4,7 @@ import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { focusElement } from 'platform/utilities/ui';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { Date } from '@department-of-veterans-affairs/component-library';
+import { VaMemorableDate } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import Wrapper from '../../layout/Wrapper';
 import TextInputErrorWrapper from '../../TextInputErrorWrapper';
@@ -42,17 +42,14 @@ export default function ValidateDisplay({
         case 'last-4-ssn':
           setLast4Ssn(event.target.value);
           break;
+        case 'date-of-birth':
+          setDob(event.target.value);
+          break;
         default:
           break;
       }
     },
-    [setLastName, setLast4Ssn],
-  );
-  const updateDob = useCallback(
-    event => {
-      setDob(event);
-    },
-    [setDob],
+    [setLastName, setLast4Ssn, setDob],
   );
   const handleEnter = e => {
     if (e.key === 'Enter') {
@@ -104,17 +101,21 @@ export default function ValidateDisplay({
           />
         </TextInputErrorWrapper>
         {isLorotaSecurityUpdatesEnabled ? (
-          <div data-testid="dob-input" className="vads-u-margin-top--3">
-            <Date
+          <div
+            data-testid="dob-input"
+            className={`vads-u-margin-top--3 ${
+              dobErrorMessage && dobErrorMessage.length
+                ? 'vads-u-padding-left--2p5'
+                : ''
+            }`}
+          >
+            <VaMemorableDate
               label={t('date-of-birth')}
-              onValueChange={updateDob}
+              onDateChange={updateField}
               name="date-of-birth"
-              date={dob}
+              value={dob}
               required
-              validation={{
-                valid: !dobErrorMessage,
-                message: dobErrorMessage,
-              }}
+              error={dobErrorMessage}
             />
           </div>
         ) : (
