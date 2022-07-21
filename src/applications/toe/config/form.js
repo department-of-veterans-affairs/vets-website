@@ -150,7 +150,6 @@ const formConfig = {
       title: 'Your information',
       pages: {
         [newFormPages.newApplicantInformation]: {
-          depends: formData => formData.showUpdatedToeApp,
           title: 'Your information',
           path: 'new/applicant-information/personal-information',
           subTitle: 'Your information',
@@ -318,10 +317,7 @@ const formConfig = {
           title: 'Choose your sponsor',
           path: 'new/sponsor/select-sponsor',
           CustomPageReview: SelectedSponsorsReviewPage,
-          depends: formData =>
-            formData.showUpdatedToeApp &&
-            (!formData.fetchedSponsorsComplete ||
-              formData.sponsors?.sponsors?.length),
+          depends: formData => formData.sponsors?.sponsors?.length,
           uiSchema: {
             'view:listOfSponsors': {
               'ui:description': <Sponsors />,
@@ -380,10 +376,7 @@ const formConfig = {
         [newFormPages.newSponsorInformation]: {
           title: 'Enter your sponsor’s info',
           path: 'new/sponsor/information',
-          depends: formData =>
-            formData.showUpdatedToeApp &&
-            (!formData.sponsors?.sponsors?.length ||
-              formData.sponsors?.someoneNotListed),
+          depends: formData => formData.sponsors?.someoneNotListed,
           uiSchema: {
             'view:noSponsorWarning': {
               'ui:description': (
@@ -519,8 +512,7 @@ const formConfig = {
           title: 'Choose your first sponsor',
           path: 'new/sponsor/select-first-sponsor',
           CustomPageReview: FirstSponsorReviewPage,
-          depends: formData =>
-            formData.showUpdatedToeApp && formData.selectedSponsors?.length > 1,
+          depends: formData => formData.selectedSponsors?.length > 1,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -584,8 +576,7 @@ const formConfig = {
         [newFormPages.newVerifyHighSchool]: {
           title: 'Verify your high school education',
           path: 'new/child/high-school-education',
-          depends: formData =>
-            formData.showUpdatedToeApp && applicantIsChildOfSponsor(formData),
+          depends: formData => applicantIsChildOfSponsor(formData),
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -631,7 +622,6 @@ const formConfig = {
           title: 'Verify your high school graduation date',
           path: 'new/sponsor/high-school-education',
           depends: formData =>
-            formData.showUpdatedToeApp &&
             applicantIsChildOfSponsor(formData) &&
             formData[newFormFields.newHighSchoolDiploma] === 'Yes',
           uiSchema: {
@@ -678,7 +668,6 @@ const formConfig = {
       title: 'Contact information',
       pages: {
         [newFormPages.newContactInformation.newContactInformation]: {
-          depends: formData => formData.showUpdatedToeApp,
           title: 'Phone numbers and email address',
           path: 'new/contact-information/email-phone',
           uiSchema: {
@@ -802,7 +791,6 @@ const formConfig = {
           },
         },
         [newFormPages.newContactInformation.newMailingAddress]: {
-          depends: formData => formData.showUpdatedToeApp,
           title: 'Mailing address',
           path: 'new/contact-information/mailing-address',
           uiSchema: {
@@ -931,7 +919,6 @@ const formConfig = {
           },
         },
         [newFormPages.newContactInformation.newPreferredContactMethod]: {
-          depends: formData => formData.showUpdatedToeApp,
           title: 'Contact preferences',
           path: 'new/contact-information/contact-preferences',
           uiSchema: {
@@ -1140,7 +1127,6 @@ const formConfig = {
       title: 'Direct deposit',
       pages: {
         [newFormPages.newDirectDeposit]: {
-          depends: formData => formData.showUpdatedToeApp,
           path: 'new/direct-deposit',
           uiSchema: {
             'ui:description': (

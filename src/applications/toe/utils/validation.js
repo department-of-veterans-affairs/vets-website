@@ -1,6 +1,6 @@
 import { isValidEmail } from 'platform/forms/validations';
 import moment from 'moment';
-import { formatReadableDate } from '../../edu-benefits/1990e/helpers';
+import { formatReadableDate } from '../helpers';
 
 export const isValidPhone = value => {
   let stripped;
