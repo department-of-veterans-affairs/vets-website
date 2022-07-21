@@ -164,7 +164,7 @@
     "cssnano": "^5.0.8",
     "cy-mobile-commands": "^0.3.0",
     "cy-tr-reporter": "^1.2.5",
-    "cypress": "^10.3.0",
+    "cypress": "^10.3.1",
     "cypress-axe": "^0.14.0",
     "cypress-multi-reporters": "^1.5.0",
     "cypress-plugin-tab": "^1.0.5",
