@@ -1183,7 +1183,6 @@ const formConfig = {
                     key="check-image-src"
                     src={checkImageSrc}
                     alt="Example of a check showing where the account and routing numbers are"
-                    style={{ minHeight: '101px', minWidth: '100%' }}
                   />
                   <p>
                     The bank routing number is the first 9 digits on the bottom
