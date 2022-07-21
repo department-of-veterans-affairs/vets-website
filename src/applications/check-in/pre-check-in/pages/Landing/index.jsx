@@ -117,6 +117,7 @@ const Index = props => {
       clearCurrentSession,
       goToErrorPage,
       initForm,
+      isLorotaSecurityUpdatesEnabled,
       jumpToPage,
       router,
       setCurrentToken,
