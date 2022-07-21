@@ -45,7 +45,7 @@ jobs:
             .cache/yarn
             node_modules
       
-      - Install dep
+      - name: Install dep
         run: sudo apt install xvfb
 
       - name: Get changed applications
