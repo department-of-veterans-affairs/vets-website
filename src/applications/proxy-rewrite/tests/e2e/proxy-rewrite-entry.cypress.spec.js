@@ -1,8 +1,10 @@
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 import manifest from '../../manifest.json';
 import { proxyRewriteWhitelist as allowList } from '../../proxy-rewrite-whitelist.json';
 
 describe(manifest.appName, () => {
   // Skip tests unless we are running the daily workflow job
+  // eslint-disable-next-line func-names
   before(function() {
     if (Cypress.env('RUN_INJECTION') !== true) this.skip();
   });
