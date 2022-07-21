@@ -1,6 +1,6 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 
-import { mockUser } from '@@profile/tests/fixtures/users/user.js';
+import { mockUser } from '@@profile/tests/fixtures/users/user';
 import { mockGETEndpoints } from '@@profile/tests/e2e/helpers';
 
 const setup = () => {
@@ -15,7 +15,7 @@ const setup = () => {
     'v0/feature_toggles*',
     'v0/ppiu/payment_information',
   ]);
-  cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+  cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
   // should show a loading indicator
   cy.findByRole('progressbar').should('exist');

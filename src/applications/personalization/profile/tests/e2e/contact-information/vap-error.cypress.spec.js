@@ -1,6 +1,6 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 
-import { mockUser } from '@@profile/tests/fixtures/users/user-vap-error.js';
+import { mockUser } from '@@profile/tests/fixtures/users/user-vap-error';
 import mockPersonalInformation from '@@profile/tests/fixtures/personal-information-success.json';
 import mockServiceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
@@ -14,7 +14,7 @@ const setup = () => {
   cy.intercept('v0/profile/full_name', mockFullName);
   cy.intercept('v0/ppiu/payment_information', mockPaymentInfoNotEligible);
   cy.intercept('v0/profile/ch33_bank_accounts', dd4eduNotEnrolled);
-  cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+  cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
   // should show a loading indicator
   cy.findByRole('progressbar').should('exist');
@@ -40,9 +40,6 @@ describe('When there is a known issue connecting to VA Profile', () => {
     // Check service branch
     cy.findByText(/United States Air Force/i).should('exist');
 
-    // Check date of birth
-    cy.findByText(/May 6, 1986/i).should('exist');
-
     // Contact info sections should not be shown
     cy.findByText(/^Mailing address$/i).should('not.exist');
     cy.findByText(/^Residential address$/i).should('not.exist');
@@ -51,5 +48,7 @@ describe('When there is a known issue connecting to VA Profile', () => {
       'not.exist',
     );
     cy.findByText(/^Contact email address$/i).should('not.exist');
+
+    cy.injectAxeThenAxeCheck();
   });
 });

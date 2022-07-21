@@ -294,11 +294,11 @@ class ApiInitializer {
         );
         if (appointments && appointments.length) {
           const customAppointments = [];
-          appointments.forEach(appointment => {
+          appointments.forEach((appointment, index) => {
             const createdAppointment = checkInData.get.createAppointment(
               'ELIGIBLE',
               'some-facility',
-              'some-ien',
+              `000${index}`,
               'TEST CLINIC',
               false,
               '',
