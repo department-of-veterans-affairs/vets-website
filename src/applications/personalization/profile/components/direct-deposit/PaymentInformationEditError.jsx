@@ -17,13 +17,13 @@ import {
 function FlaggedAccount() {
   return (
     <>
-      <p>
+      <p className="vads-u-margin-top--0">
         We’re sorry. You can’t change your direct deposit information right now
         because we’ve locked the ability to edit this information. We do this to
         protect your bank account information and prevent fraud when we think
         there may be a security issue.
       </p>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         To request that we unlock this function, please call us at{' '}
         <span className="no-wrap">
           <a href="tel:1-800-827-1000">800-827-1000</a>
@@ -38,7 +38,7 @@ function FlaggedAccount() {
 function FlaggedRoutingNumber() {
   return (
     <>
-      <p>
+      <p className="vads-u-margin-top--0">
         We’re sorry. The bank routing number you entered requires additional
         verification before we can save your information. To use this bank
         routing number, you’ll need to call us at{' '}
@@ -48,7 +48,7 @@ function FlaggedRoutingNumber() {
         (TTY: <Telephone contact={CONTACTS['711']} pattern={PATTERNS['911']} />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         You can also update this information by mail or in person at a VA
         regional office.{' '}
         <a href="/change-direct-deposit">
@@ -62,7 +62,7 @@ function FlaggedRoutingNumber() {
 
 function InvalidRoutingNumber() {
   return (
-    <p>
+    <p className="vads-u-margin-y--0">
       We couldn’t find a bank linked to this routing number. Please check your
       bank’s 9-digit routing number and enter it again.
     </p>
@@ -71,7 +71,7 @@ function InvalidRoutingNumber() {
 
 function GenericError() {
   return (
-    <p>
+    <p className="vads-u-margin-y--0">
       We’re sorry. We couldn’t update your payment information. Please try again
       later.
     </p>
@@ -83,7 +83,7 @@ function GenericError() {
 // all address-related errors
 function UpdateAddressError() {
   return (
-    <p>
+    <p className="vads-u-margin-y--0">
       We’re sorry. We couldn’t update your direct deposit bank information
       because your mailing address is missing or invalid. Please go back to{' '}
       <a href="/profile/contact-information#edit-mailing-address">
@@ -97,7 +97,7 @@ function UpdateAddressError() {
 function UpdatePhoneNumberError({ phoneNumberType = 'home' }) {
   const editLink = `/profile/contact-information#edit-${phoneNumberType}-phone-number`;
   return (
-    <p>
+    <p className="vads-u-margin-y--0">
       We’re sorry. We couldn’t update your direct deposit bank information
       because your {phoneNumberType} phone number is missing or invalid. Please
       go back to <a href={editLink}>your profile</a> and fill in this required
@@ -108,12 +108,9 @@ function UpdatePhoneNumberError({ phoneNumberType = 'home' }) {
 
 export default function PaymentInformationEditError({
   className,
-  // eslint-disable-next-line no-unused-vars
-  level,
   responseError,
 }) {
   let content = <GenericError error={responseError} />;
-  // let headline = 'We couldn’t update your bank information';
 
   if (responseError.error) {
     const { errors = [] } = responseError.error;
@@ -125,7 +122,6 @@ export default function PaymentInformationEditError({
       content = <FlaggedAccount />;
     } else if (hasRoutingNumberFlaggedError(errors)) {
       content = <FlaggedRoutingNumber />;
-      // headline = 'We can’t save your bank routing number';
     } else if (hasInvalidRoutingNumberError(errors)) {
       content = <InvalidRoutingNumber />;
     } else if (hasInvalidAddressError(errors)) {

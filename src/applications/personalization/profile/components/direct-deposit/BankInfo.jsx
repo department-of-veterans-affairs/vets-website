@@ -231,7 +231,6 @@ export const BankInfo = ({
         {!!saveError && (
           <PaymentInformationEditError
             className="vads-u-margin-top--0 vads-u-margin-bottom--2"
-            level={4}
             responseError={saveError}
           />
         )}
