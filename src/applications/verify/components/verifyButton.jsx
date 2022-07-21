@@ -23,5 +23,5 @@ VerifyButton.propTypes = {
   className: PropTypes.string,
   copy: PropTypes.string,
   policy: PropTypes.string,
-  renderImage: PropTypes.string,
+  renderImage: PropTypes.node,
 };

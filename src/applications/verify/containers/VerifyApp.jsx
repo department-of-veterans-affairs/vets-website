@@ -8,23 +8,13 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
-import { CSP_IDS } from 'platform/user/authentication/constants';
+import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import { focusElement } from '~/platform/utilities/ui';
 import { VerifyButton } from '../components/verifyButton';
 
 export class VerifyApp extends React.Component {
   constructor(props) {
     super(props);
-
-    const { MHV, MHV_VERBOSE, DS_LOGON, LOGIN_GOV, ID_ME } = CSP_IDS;
-
-    this.signinMethodLabels = {
-      [DS_LOGON]: 'DS Logon',
-      [LOGIN_GOV]: 'Login.gov',
-      [MHV]: 'My HealtheVet',
-      [MHV_VERBOSE]: 'My HealtheVet',
-      [ID_ME]: 'ID.me',
-    };
 
     this.renderOpts = [
       {
@@ -79,39 +69,24 @@ export class VerifyApp extends React.Component {
   }
 
   verifyButton(signInMethod) {
-    if (
-      signInMethod === this.signinMethodLabels.idme ||
-      signInMethod === this.signinMethodLabels.logingov
-    ) {
+    const { idme, logingov } = SERVICE_PROVIDERS;
+    if ([idme.label, logingov.label].includes(signInMethod)) {
       const selectCSP = signInCSP =>
         this.renderOpts.find(csp => csp.copy === signInCSP);
-      const { className, copy, renderImage, policy } = selectCSP(signInMethod);
-      return (
-        <VerifyButton
-          key={copy}
-          className={className}
-          copy={copy}
-          renderImage={renderImage}
-          policy={policy}
-        />
-      );
+      const verifyButtonProps = selectCSP(signInMethod);
+      return <VerifyButton {...verifyButtonProps} />;
     }
-    return this.renderOpts.map(({ copy, renderImage, className, policy }) => (
-      <VerifyButton
-        key={copy}
-        className={className}
-        copy={copy}
-        renderImage={renderImage}
-        policy={policy}
-      />
+    return this.renderOpts.map(props => (
+      <VerifyButton key={props.policy} {...props} />
     ));
   }
 
   render() {
     const { profile } = this.props;
-    const signInMethod = this.signinMethodLabels[
-      (profile?.signIn?.serviceName)
-    ];
+
+    const signInMethod = profile.loading
+      ? null
+      : SERVICE_PROVIDERS[profile.signIn.serviceName].label;
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
