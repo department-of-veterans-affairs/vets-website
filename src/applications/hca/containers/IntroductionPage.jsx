@@ -10,7 +10,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import HCAEnrollmentStatus from './HCAEnrollmentStatus';
 import { VerificationRequiredAlert } from '../components/FormAlerts';
 import HCASubwayMap from '../components/HCASubwayMap';
-import HcaOMBInfo from '../components/HcaOMBInfo';
+import HcaOMBInfo from '../components/HCAOMBInfo';
 import {
   isLoading,
   isLoggedOut,

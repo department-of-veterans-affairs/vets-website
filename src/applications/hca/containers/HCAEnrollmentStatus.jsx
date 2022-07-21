@@ -1,34 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import EnrollmentStatusWarning from '../components/FormAlerts/EnrollmentStatusWarning';
+import EnrollmentStatusFAQ from '../components/EnrollmentStatus/EnrollmentStatusFAQ';
 import { getEnrollmentStatus } from '../actions';
 
-import EnrollmentStatusWarning from '../components/FormAlerts/EnrollmentStatusWarning';
-import HCAEnrollmentStatusFAQ from '../components/HCAEnrollmentStatusFAQ';
+const HCAEnrollmentStatus = props => {
+  const { enrollmentStatus, route } = props;
 
-class HCAEnrollmentStatus extends React.Component {
-  componentDidMount() {
-    this.props.getEnrollmentStatus();
-  }
+  useEffect(() => {
+    props.getEnrollmentStatus();
+  });
 
-  render() {
-    const { enrollmentStatus, route } = this.props;
-    if (enrollmentStatus) {
-      return (
-        <>
-          <EnrollmentStatusWarning {...this.props} />
-          <HCAEnrollmentStatusFAQ
-            enrollmentStatus={enrollmentStatus}
-            route={route}
-          />
-        </>
-      );
-    }
-    return null;
-  }
-}
+  return enrollmentStatus ? (
+    <>
+      <EnrollmentStatusWarning {...props} />
+      <EnrollmentStatusFAQ enrollmentStatus={enrollmentStatus} route={route} />
+    </>
+  ) : null;
+};
 
-export { HCAEnrollmentStatus };
+HCAEnrollmentStatus.propTypes = {
+  enrollmentStatus: PropTypes.string,
+  getEnrollmentStatus: PropTypes.func,
+  route: PropTypes.object,
+};
 
 const mapStateToProps = state => {
   const {

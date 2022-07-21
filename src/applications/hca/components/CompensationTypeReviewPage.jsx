@@ -44,9 +44,9 @@ const CompensationTypeReviewPage = props => {
   );
 };
 
-export default CompensationTypeReviewPage;
-
 CompensationTypeReviewPage.propTypes = {
   data: PropTypes.object,
   props: PropTypes.object,
 };
+
+export default CompensationTypeReviewPage;
