@@ -1,4 +1,4 @@
-import { PROFILE_PATHS_LGBTQ_ENHANCEMENT } from '@@profile/constants';
+import { PROFILE_PATHS } from '@@profile/constants';
 
 import { user72Success } from '../../../mocks/user';
 
@@ -27,7 +27,7 @@ describe('focus after editing fields', () => {
     });
 
     it('should focus on mailing address button when editing is complete', () => {
-      cy.visit(PROFILE_PATHS_LGBTQ_ENHANCEMENT.CONTACT_INFORMATION);
+      cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
       // should show a loading indicator
       cy.findByRole('progressbar').should('exist');
       cy.findByText(/loading your information/i).should('exist');
@@ -60,7 +60,7 @@ describe('focus after editing fields', () => {
       });
     });
     it('should focus on edit phone number button when editing is complete', () => {
-      cy.visit(PROFILE_PATHS_LGBTQ_ENHANCEMENT.CONTACT_INFORMATION);
+      cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
       // should show a loading indicator
       cy.findByRole('progressbar').should('exist');
       cy.findByText(/loading your information/i).should('exist');

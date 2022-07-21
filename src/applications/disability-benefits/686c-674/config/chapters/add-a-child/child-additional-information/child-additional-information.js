@@ -1,5 +1,9 @@
 import cloneDeep from 'platform/utilities/data/cloneDeep';
-import { buildAddressSchema, addressUISchema } from '../../../address-schema';
+import {
+  buildAddressSchema,
+  addressUISchema,
+  updateFormDataAddress,
+} from '../../../address-schema';
 import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
 import { addChild } from '../../../utilities';
@@ -73,3 +77,11 @@ export const uiSchema = {
     },
   },
 };
+
+export const updateFormData = (oldFormData, formData, index) =>
+  updateFormDataAddress(
+    oldFormData,
+    formData,
+    ['childrenToAdd', index, 'childAddressInfo', 'address'],
+    index,
+  );

@@ -1,49 +1,32 @@
 import React, { memo } from 'react';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
+import PropTypes from 'prop-types';
 
 import InitializeVAPServiceID from '@@vap-svc/containers/InitializeVAPServiceID';
 
-import LegacyGenderAndDOBSection from './LegacyGenderAndDOBSection';
-import ContactInformationSection from '../contact-information/ContactInformationSection';
-import EmailInformationSection from '../contact-information/email-addresses/EmailInformationSection';
-import PersonalInformationSection from '../personal-information/PersonalInformationSection';
+import PersonalInformationSection from './PersonalInformationSection';
 
-const PersonalInformationContent = ({
-  hasVAPServiceError,
-  shouldShowProfileLGBTQEnhancements,
-}) => (
+const PersonalInformationContent = ({ hasVAPServiceError }) => (
   <>
-    {!shouldShowProfileLGBTQEnhancements && (
-      <LegacyGenderAndDOBSection className="vads-u-margin-bottom--6" />
-    )}
-
     {hasVAPServiceError ? (
       <div data-testid="vap-service-not-available-error">
-        <AlertBox
-          level={2}
-          status="warning"
-          headline="We can’t load your contact information"
-          className="vads-u-margin-bottom--4"
-        >
+        <va-alert status="warning" className="vads-u-margin-bottom--4">
+          <h2 slot="headline">We can’t load your contact information</h2>
           <p>
             We’re sorry. Something went wrong on our end. We can’t display your
             personal information. Please refresh the page or try again later.
           </p>
-        </AlertBox>
+        </va-alert>
       </div>
     ) : (
       <InitializeVAPServiceID>
-        {shouldShowProfileLGBTQEnhancements ? (
-          <PersonalInformationSection />
-        ) : (
-          <>
-            <ContactInformationSection />
-            <EmailInformationSection />
-          </>
-        )}
+        <PersonalInformationSection />
       </InitializeVAPServiceID>
     )}
   </>
 );
+
+PersonalInformationContent.propTypes = {
+  hasVAPServiceError: PropTypes.bool,
+};
 
 export default memo(PersonalInformationContent);
