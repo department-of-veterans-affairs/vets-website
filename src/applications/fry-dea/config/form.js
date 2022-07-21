@@ -1148,10 +1148,13 @@ const formConfig = {
           path: 'direct-deposit',
           uiSchema: {
             'ui:description': (
-              <p className="vads-u-margin-bottom--4">
-                <strong>Note</strong>: VA makes payments only through direct
-                deposit, also called electronic funds transfer (EFT).
-              </p>
+              <>
+                <h3>Enter your direct deposit information</h3>
+                <p className="vads-u-margin-bottom--4">
+                  <strong>Note</strong>: VA makes payments only through direct
+                  deposit, also called electronic funds transfer (EFT).
+                </p>
+              </>
             ),
             [formFields.bankAccount]: {
               ...bankAccountUI,
@@ -1180,6 +1183,7 @@ const formConfig = {
                     key="check-image-src"
                     src={checkImageSrc}
                     alt="Example of a check showing where the account and routing numbers are"
+                    style={{ minHeight: '101px', minWidth: '100%' }}
                   />
                   <p>
                     The bank routing number is the first 9 digits on the bottom
