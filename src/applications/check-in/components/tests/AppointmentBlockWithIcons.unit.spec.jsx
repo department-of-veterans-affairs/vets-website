@@ -216,6 +216,25 @@ describe('pre-check-in', () => {
         );
         expect(screen.queryByTestId('facility-name')).to.not.exist;
       });
+      it('should render the appointment location when available', () => {
+        const locationAppointments = [...appointments];
+        locationAppointments[0].clinicLocation = 'Test location';
+        const screen = render(
+          <I18nextProvider i18n={i18n}>
+            <AppointmentBlockWithIcons appointments={locationAppointments} />
+          </I18nextProvider>,
+        );
+        expect(
+          screen
+            .getAllByTestId('appointment-list-item')[0]
+            .querySelector('[data-testid="clinic-location"]'),
+        ).to.have.text('Test location');
+        expect(
+          screen
+            .getAllByTestId('appointment-list-item')[1]
+            .querySelector('[data-testid="clinic-location"]'),
+        ).to.not.exist;
+      });
       it('passes axeCheck', () => {
         axeCheck(
           <I18nextProvider i18n={i18n}>
