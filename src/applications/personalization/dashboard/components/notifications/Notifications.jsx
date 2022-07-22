@@ -28,28 +28,22 @@ export const Notifications = ({
     n => n.attributes.templateId === debtTemplateId,
   );
 
-  if (
-    (!debtNotifications || !debtNotifications.length) &&
-    !notificationsError
-  ) {
+  if (!debtNotifications || !debtNotifications.length) {
     return null;
   }
 
   return (
     <div data-testid="dashboard-notifications">
       <h2>Notifications</h2>
-      {(notificationsError || dismissalError) && (
+      {dismissalError && (
         <DashboardWidgetWrapper>
           <div
             data-testid="dashboard-notifications-error"
             className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-bottom--2p5"
           >
             <VaAlert status="error" show-icon className="vads-u-margin-top--0">
-              {notificationsError
-                ? `We’re sorry. Something went wrong on our end, and we can’t access
-                your debt information. Please try again later or go to the debts
-                tool.`
-                : `We’re sorry. Something went wrong on our end, and we can’t dismiss this notification. Please try again later.`}
+              We’re sorry. Something went wrong on our end, and we can’t dismiss
+              this notification. Please try again later.
             </VaAlert>
           </div>
         </DashboardWidgetWrapper>
