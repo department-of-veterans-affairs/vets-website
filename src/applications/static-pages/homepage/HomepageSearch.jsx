@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { VaSearchInput } from '@department-of-veterans-affairs/web-components/react-bindings';
+import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
 
