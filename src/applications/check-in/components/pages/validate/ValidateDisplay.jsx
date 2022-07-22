@@ -38,7 +38,7 @@ export default function ValidateDisplay({
     () => {
       if (willSubmit) validateHandler();
     },
-    [willSubmit],
+    [willSubmit, validateHandler],
   );
 
   const updateField = useCallback(
