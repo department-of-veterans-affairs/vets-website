@@ -5,6 +5,7 @@ import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 import { isVAProfileServiceConfigured } from 'platform/user/profile/vap-svc/util/local-vapsvc';
 import { updateLoggedInStatus } from '../../authentication/actions';
+import { infoTokenExists, refresh } from '../../../utilities/oauth/utilities';
 import { teardownProfileSession } from '../utilities';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
@@ -30,6 +31,43 @@ export function profileLoadingFinished() {
   };
 }
 
+async function saveAndRefresh(payload) {
+  const newPayloadObject = {
+    savedPayload: payload,
+    hasError: false,
+  };
+  if (payload.errors === 'Access token has expired' && infoTokenExists()) {
+    const refreshResponse = await refresh();
+
+    if (!refreshResponse.ok) {
+      return {
+        savedPayload: {
+          errors: 'Could not refresh access token',
+          code: '401',
+          status: '401',
+        },
+        hasError: true,
+      };
+    }
+
+    const newPayload = await apiRequest('/user');
+    if (newPayload.errors || !newPayload.data) {
+      return {
+        savedPayload: {
+          errors: 'Could not hit user endpoint',
+          code: '401',
+          status: '401',
+        },
+        hasError: true,
+      };
+    }
+
+    return { savedPayload: newPayload, hasError: false };
+  }
+
+  return newPayloadObject;
+}
+
 export function refreshProfile(
   forceCacheClear = false,
   localQuery = { local: 'none' },
@@ -42,13 +80,18 @@ export function refreshProfile(
     const url = forceCacheClear ? appendQuery(baseUrl, query) : baseUrl;
 
     const payload = await apiRequest(url);
+    const saved = await saveAndRefresh(payload);
+
     recordEvent({
       event: 'api_call',
       'api-name': 'GET /v0/user',
       'api-status': 'successful',
     });
-    dispatch(updateProfileFields(payload));
-    return payload;
+    dispatch(
+      updateProfileFields(saved.hasError ? payload : saved.savedPayload),
+    );
+
+    return saved.savedPayload;
   };
 }
 

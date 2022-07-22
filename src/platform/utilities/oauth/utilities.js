@@ -201,17 +201,13 @@ export const requestToken = async ({ code, redirectUri, csp }) => {
   return response;
 };
 
-export const refresh = async callback => {
+export const refresh = async () => {
   const url = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'refresh' }));
 
-  const response = await fetch(url.href, {
+  return fetch(url.href, {
     method: 'POST',
     credentials: 'include',
   });
-
-  if (callback) {
-    callback(response);
-  }
 };
 
 export const infoTokenExists = () => {
@@ -284,9 +280,8 @@ export const canCallRefresh = () => {
 
   if (!atExpiration) return null;
   // if less than 5 seconds until expiration return true
-  const shouldCallRefresh =
-    differenceInSeconds(new Date(atExpiration), new Date()) < 5;
+  return differenceInSeconds(new Date(atExpiration), new Date()) < 5;
 
-  localStorage.removeItem('atExpires');
-  return shouldCallRefresh;
+  // localStorage.removeItem('atExpires');
+  // return shouldCallRefresh;
 };

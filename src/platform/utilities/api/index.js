@@ -5,8 +5,6 @@ import localStorage from '../storage/localStorage';
 import {
   infoTokenExists,
   checkOrSetSessionExpiration,
-  refresh,
-  canCallRefresh,
 } from '../oauth/utilities';
 import { checkAndUpdateSSOeSession } from '../sso';
 
@@ -16,10 +14,7 @@ export function fetchAndUpdateSessionExpiration(...args) {
     return fetch.apply(this, args).then(response => {
       const apiURL = environment.API_URL;
 
-      if (
-        response.url.includes(apiURL) &&
-        (response.ok || response.status === 304)
-      ) {
+      if (response.url.includes(apiURL)) {
         /**
          * Sets sessionExpiration
          * SAML - Response headers `X-Session-Expiration`
@@ -28,7 +23,9 @@ export function fetchAndUpdateSessionExpiration(...args) {
         checkOrSetSessionExpiration(response);
 
         // SSOe session is independent of vets-api, and must be kept alive for cross-session continuity
-        checkAndUpdateSSOeSession();
+        if (response.ok || response.status === 304) {
+          checkAndUpdateSSOeSession();
+        }
       }
       return response;
     });
@@ -114,16 +111,13 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         localStorage.setItem('csrfToken', csrfToken);
       }
 
-      if (response.ok || response.status === 304) {
-        return data;
-      }
-
       if (
-        infoTokenExists() &&
-        (response.status === 403 || response.status === 401) &&
-        canCallRefresh()
+        response.ok ||
+        response.status === 304 ||
+        ((response.status === 403 || response.status === 401) &&
+          infoTokenExists())
       ) {
-        refresh(response);
+        return data;
       }
 
       if (environment.isProduction()) {
