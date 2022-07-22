@@ -11,6 +11,13 @@ import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
 
+import {
+  lastUpdatedComponent,
+  notFoundComponent,
+  radioOptions,
+  radioOptionsAriaLabels,
+} from './utils';
+
 export const App = ({ loggedIn, toggleLoginModal }) => {
   const [lastUpdated, updateLastUpdated] = useState('');
   const [year, updateYear] = useState(0);
@@ -20,19 +27,6 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     downloaded: false,
     timeStamp: '',
   });
-
-  const radioOptions = [
-    { label: 'Option 1: PDF document (best for printing)', value: 'pdf' },
-    {
-      label:
-        'Option 2: Text file (best for screen readers, screen enlargers, and refreshable Braille displays)',
-      value: 'txt',
-    },
-  ];
-  const radioOptionsAriaLabels = [
-    'Option 1: P D F Document (best for printing)',
-    'Option 2: Text File (best for screen readers, screen enlargers, and refreshable Braille displays)',
-  ];
 
   const getContent = () => {
     return apiRequest(`/form1095_bs/download_${formType}/${year}`)
@@ -141,17 +135,6 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     />
   );
 
-  const lastUpdatedComponent = (
-    <p>
-      <span className="vads-u-line-height--3 vads-u-display--block">
-        <strong>Related to:</strong> Health care
-      </span>
-      <span className="vads-u-line-height--3 vads-u-display--block">
-        <strong>Document last updated:</strong> {lastUpdated}
-      </span>
-    </p>
-  );
-
   const downloadButton = (
     <p>
       <button
@@ -166,35 +149,9 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     </p>
   );
 
-  const notFoundComponent = (
-    <va-alert close-btn-aria-label="Close notification" status="info" visible>
-      <h3 slot="headline">
-        You don’t have a 1095-B tax form available right now
-      </h3>
-      <div>
-        <p>
-          If you recently enrolled in VA health care, you may not have a 1095-B
-          form yet. We process 1095-B forms in early January each year, based on
-          your enrollment in VA health care during the past year.
-        </p>
-        <p>
-          If you think you should have a 1095-B form, call us at{' '}
-          <a href="tel:+18772228387" aria-label="1 8 7 7 2 2 2 8 3 8 7">
-            1-877-222-8387
-          </a>{' '}
-          (
-          <a href="tel:711" aria-label="TTY. 7 1 1">
-            TTY: 711
-          </a>
-          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-        </p>
-      </div>
-    </va-alert>
-  );
-
   const errorComponent = (
     <>
-      {lastUpdatedComponent}
+      {lastUpdatedComponent(lastUpdated)}
       <va-alert
         close-btn-aria-label="Close notification"
         status="warning"
@@ -223,7 +180,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
 
   const successComponent = (
     <>
-      {lastUpdatedComponent}
+      {lastUpdatedComponent(lastUpdated)}
       <va-alert
         close-btn-aria-label="Close notification"
         status="success"
@@ -244,7 +201,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
 
   const loggedInComponent = (
     <>
-      {lastUpdatedComponent}
+      {lastUpdatedComponent(lastUpdated)}
       {radioComponent}
       {downloadButton}
     </>
@@ -276,7 +233,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
   if (loggedIn) {
     if (formError.error) {
       if (formError.type === 'not found') {
-        return notFoundComponent;
+        return notFoundComponent();
       }
       if (formError.type === 'download error') {
         return errorComponent;
