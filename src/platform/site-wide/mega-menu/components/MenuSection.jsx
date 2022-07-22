@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SubMenu from './SubMenu';
 import _ from 'lodash';
+import SubMenu from './SubMenu';
 
 class MenuSection extends React.Component {
   constructor() {
@@ -69,7 +69,6 @@ class MenuSection extends React.Component {
           data-e2e-id={`vetnav-level2--${_.kebabCase(title)}`}
           href={href}
           onClick={linkClicked}
-          tabIndex={currentSection && !show ? -1 : undefined}
         >
           {title}
         </a>
@@ -83,7 +82,6 @@ class MenuSection extends React.Component {
           className="vetnav-level2"
           data-e2e-id={`vetnav-level2--${_.kebabCase(title)}`}
           onClick={() => this.updateCurrentSection()}
-          tabIndex={currentSection && !show ? -1 : undefined}
         >
           {title}
         </button>

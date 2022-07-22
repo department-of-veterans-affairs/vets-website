@@ -46,6 +46,7 @@ function getDefaultData(schema) {
  * @property {boolean} reviewMode Renders the form in review mode if true
  * @property {function} onSubmit Will be called if a form is submitted
  * @property {function} onFileUpload Will be called if a file upload is triggered
+ * @property {function} updateFormData Will be called if form is updated
  */
 export class DefinitionTester extends React.Component {
   constructor(props) {
@@ -74,7 +75,7 @@ export class DefinitionTester extends React.Component {
 
   handleChange = data => {
     const { schema, uiSchema, formData } = this.state;
-    const { pagePerItemIndex, arrayPath } = this.props;
+    const { pagePerItemIndex, arrayPath, updateFormData } = this.props;
 
     let fullData = data;
 
@@ -82,11 +83,25 @@ export class DefinitionTester extends React.Component {
       fullData = set([arrayPath, pagePerItemIndex], data, formData);
     }
 
-    const { data: newData, schema: newSchema } = updateSchemaAndData(
-      schema,
-      uiSchema,
-      fullData,
-    );
+    const newSchemaAndData = updateSchemaAndData(schema, uiSchema, fullData);
+
+    let newData = newSchemaAndData.data;
+    const newSchema = newSchemaAndData.schema;
+
+    if (typeof updateFormData === 'function') {
+      if (arrayPath && typeof pagePerItemIndex === 'undefined') {
+        // Adding this console message to help with troubleshooting
+        // eslint-disable-next-line no-console
+        console.error(
+          'pagePerItemIndex prop is required when arrayPath is specified',
+        );
+      }
+      newData = updateFormData(
+        arrayPath ? formData[arrayPath][pagePerItemIndex] : formData,
+        newData,
+        pagePerItemIndex,
+      );
+    }
 
     this.setState({
       formData: newData,

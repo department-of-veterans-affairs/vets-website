@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import DowntimeNotification, {
   externalServices,
@@ -16,7 +16,6 @@ import PageLayout from '../PageLayout';
 import { selectPendingAppointments } from '../../redux/selectors';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 import AppointmentListNavigation from '../AppointmentListNavigation';
-import { updateBreadcrumb } from '../../redux/actions';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
 
@@ -106,7 +105,6 @@ export default function AppointmentsPageV2() {
   } = getDropdownValueFromLocation(location.pathname);
 
   const [count, setCount] = useState(0);
-  const dispatch = useDispatch();
   useEffect(
     () => {
       if (featureStatusImprovement) {
@@ -114,11 +112,9 @@ export default function AppointmentsPageV2() {
         if (location.pathname.endsWith('pending')) {
           prefix = 'Pending';
           pageTitle = `${prefix} appointments`;
-          dispatch(updateBreadcrumb({ title: prefix, path: 'pending' }));
         } else if (location.pathname.endsWith('past')) {
           prefix = 'Past';
           pageTitle = `${prefix} appointments`;
-          dispatch(updateBreadcrumb({ title: prefix, path: 'past' }));
         } else {
           pageTitle = 'Your appointments';
         }
@@ -130,7 +126,7 @@ export default function AppointmentsPageV2() {
         scrollAndFocus('h1');
       }
     },
-    [subPageTitle, featureStatusImprovement, location.pathname, dispatch],
+    [subPageTitle, featureStatusImprovement, location.pathname],
   );
 
   const [documentTitle, setDocumentTitle] = useState();
@@ -157,7 +153,7 @@ export default function AppointmentsPageV2() {
 
   useEffect(
     () => {
-      // Get non cancled appointment requests from store
+      // Get non cancelled appointment requests from store
       setCount(
         pendingAppointments
           ? pendingAppointments.filter(

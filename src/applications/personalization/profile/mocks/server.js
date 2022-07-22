@@ -53,7 +53,10 @@ const responses = {
   'PUT /v0/profile/gender_identities': handlePutGenderIdentitiesRoute,
   'GET /v0/profile/full_name': fullName.success,
   'GET /v0/profile/ch33_bank_accounts': (_req, res) => {
-    return res.status(200).json(bankAccounts.defaultResponse);
+    return res.status(200).json(bankAccounts.anAccount);
+  },
+  'PUT /v0/profile/ch33_bank_accounts': (_req, res) => {
+    return res.status(200).json(bankAccounts.saved.success);
   },
   'GET /v0/profile/service_history': (_req, res) => {
     return res.status(200).json(serviceHistory.airForce);
@@ -68,7 +71,7 @@ const responses = {
     },
   },
   'PUT /v0/profile/telephones': (_req, res) => {
-    return res.status(500).json(phoneNumber.errors.vets360Phon106);
+    return res.status(200).json(phoneNumber.transactions.received);
   },
   'PUT /v0/profile/addresses': (req, res) => {
     if (

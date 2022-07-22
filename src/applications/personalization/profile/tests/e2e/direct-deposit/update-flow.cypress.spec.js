@@ -53,10 +53,10 @@ function saveErrorExists() {
   );
 }
 
-function saveSuccessAlertShown(contents) {
+function saveSuccessAlertShown() {
   cy.axeCheck();
   cy.findByTestId('bankInfoUpdateSuccessAlert').contains(
-    new RegExp(`we.*updated your.*account info.*${contents}`, 'i'),
+    new RegExp(`Update saved`, 'i'),
   );
 }
 
@@ -113,7 +113,7 @@ describe('Direct Deposit', () => {
       cy.findByRole('button', { name: /edit.*bank information/i }).should(
         'not.exist',
       );
-      saveSuccessAlertShown('compensation and pension benefits');
+      saveSuccessAlertShown();
       saveSuccessAlertRemoved();
       cy.axeCheck();
     });
@@ -156,7 +156,7 @@ describe('Direct Deposit', () => {
       cy.findByRole('button', {
         name: /edit.*education.*bank info/i,
       }).should('exist');
-      saveSuccessAlertShown('education benefits');
+      saveSuccessAlertShown();
       saveSuccessAlertRemoved();
       cy.axeCheck();
     });

@@ -5,6 +5,11 @@ import { uiSchema as dependentUI } from '../../../definitions/dependent';
 
 const { dependents } = fullSchemaHca.properties;
 
+const ariaLabelfunc = data =>
+  data.fullName && data.fullName.first && data.fullName.last
+    ? `${data.fullName.first} ${data.fullName.last}`
+    : 'Dependent';
+
 export default {
   uiSchema: {
     'view:reportDependents': {
@@ -12,16 +17,18 @@ export default {
       'ui:widget': 'yesNo',
     },
     dependents: {
-      items: dependentUI,
+      items: {
+        ...dependentUI,
+        'ui:options': {
+          itemAriaLabel: ariaLabelfunc,
+        },
+      },
       'ui:options': {
         expandUnder: 'view:reportDependents',
         itemName: 'Dependent',
         hideTitle: true,
         viewField: DependentView,
-        itemAriaLabel: data =>
-          data.fullName && data.fullName.first && data.fullName.last
-            ? `${data.fullName.first} ${data.fullName.last}`
-            : 'Dependent',
+        itemAriaLabel: ariaLabelfunc,
       },
       'ui:errorMessages': {
         minItems: 'You must add at least one dependent.',
