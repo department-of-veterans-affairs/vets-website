@@ -10,7 +10,7 @@ const v2 = {
   }) => {
     const url = `/check_in/v2/sessions/`;
     const checkInTypeSlug = checkInType ? `?checkInType=${checkInType}` : '';
-    const eventLabel = `${checkInType ?? 'day-of'}-get-current-session-${
+    const eventLabel = `${checkInType || 'day-of'}-get-current-session-${
       isLorotaSecurityUpdatesEnabled ? 'dob' : 'ssn4'
     }`;
 
@@ -60,7 +60,7 @@ const v2 = {
       mode: 'cors',
     };
 
-    const eventLabel = `${checkInType ?? 'day-of'}-validating-user-${
+    const eventLabel = `${checkInType || 'day-of'}-validating-user-${
       isLorotaSecurityUpdatesEnabled ? 'dob' : 'ssn4'
     }`;
 

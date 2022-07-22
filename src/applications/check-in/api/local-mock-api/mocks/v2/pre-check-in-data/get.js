@@ -166,6 +166,7 @@ const createMockSuccessResponse = (
           checkedInTime: '',
           status,
           stationNo: '0001',
+          clinicLocation: 'Test location, room B',
         },
         {
           facility: 'LOMA LINDA VA CLINIC',
@@ -183,6 +184,7 @@ const createMockSuccessResponse = (
           checkedInTime: '',
           status,
           stationNo: '0001',
+          clinicLocation: 'Test location, room C',
         },
       ],
       patientDemographicsStatus: {
