@@ -77,6 +77,9 @@ const DisplayMultipleAppointments = props => {
   const { goToPreviousPage } = useFormRouting(router);
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
+
+  if (isLoading) window.scrollTo(0, 0);
+
   return isLoading ? (
     <va-loading-indicator message={t('loading-your-appointments-for-today')} />
   ) : (

@@ -100,6 +100,7 @@ const Introduction = props => {
     ],
   );
   if (isLoading) {
+    window.scrollTo(0, 0);
     return (
       <va-loading-indicator message={t('loading-your-appointment-details')} />
     );
