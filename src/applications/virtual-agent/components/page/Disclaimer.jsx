@@ -65,14 +65,21 @@ export default function Disclaimer() {
           To connect with a Veterans Crisis Line responder anytime day or night:
           <ul>
             <li>
-              Call{' '}
+              Dialing:{' '}
+              <a aria-label="9 8 8." href="tel:988">
+                988
+              </a>
+              and press 1.
+            </li>
+            <li>
+              Calling:{' '}
               <a aria-label="8 0 0. 2 7 3. 8 2 5 5." href="tel:800-273-8255">
                 800-273-8255
               </a>
-              , then select 1.
+              and press 1.
             </li>
             <li>
-              Text{' '}
+              Texting:{' '}
               <a aria-label="8. 3. 8. 2. 5. 5. " href="tel:838255">
                 838255
               </a>
