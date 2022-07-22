@@ -179,6 +179,7 @@ export default function AppointmentListItem({ appointment, facility }) {
     </li>
   );
 }
+
 AppointmentListItem.propTypes = {
   appointment: PropTypes.object.isRequired,
   facility: PropTypes.object,
