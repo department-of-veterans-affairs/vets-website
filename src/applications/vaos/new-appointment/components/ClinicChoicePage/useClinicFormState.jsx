@@ -8,6 +8,7 @@ import {
   getFormData,
   selectPastAppointments,
 } from '../../redux/selectors';
+import { MENTAL_HEALTH } from '../../../utils/constants';
 
 const initialSchema = {
   type: 'object',
@@ -35,7 +36,11 @@ export default function useClinicFormState() {
       let newSchema = initialSchema;
       let filteredClinics = clinics;
 
-      if (pastAppointments) {
+      // Adding type of care check since past appointment history is not needed
+      // for primary care or mental health appointments.
+      // NOTE: Same check is in ../services/patient/index.js:383
+      // TODO: Add primary care????
+      if (pastAppointments && initialData.typeOfCareId !== MENTAL_HEALTH) {
         const pastAppointmentDateMap = new Map();
         const siteId = getSiteIdFromFacilityId(initialData.vaFacility);
 
