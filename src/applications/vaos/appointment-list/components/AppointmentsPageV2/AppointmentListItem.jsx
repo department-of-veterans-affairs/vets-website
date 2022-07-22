@@ -66,7 +66,7 @@ function VAFacilityName({ facility }) {
 }
 
 VAFacilityName.propTypes = {
-  facility: PropTypes.object.isRequired,
+  facility: PropTypes.object,
 };
 
 function handleClick({ history, link, idClickable }) {
