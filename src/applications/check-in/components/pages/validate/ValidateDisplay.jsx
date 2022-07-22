@@ -61,10 +61,7 @@ export default function ValidateDisplay({
   );
   const handleDateEnterPress = e => {
     const { value } = e.target;
-    const year = /^(.*?)-/g.exec(value)[1] || '';
-    const month = /(?<=-).+?(?=-)/g.exec(value)[0] || '';
-    const day = /(?:[^-]*-\s*){2}(.*)/g.exec(value)[1] || '';
-
+    const [year, month, day] = (value || '').split('-').map(val => val);
     let newValue = value;
     let newMonth = month;
     let newDay = day;
