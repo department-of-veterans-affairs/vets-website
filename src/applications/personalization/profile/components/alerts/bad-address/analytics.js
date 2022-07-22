@@ -7,7 +7,7 @@ const recordBadAddressEvent = ({
   recordEvent({
     event,
     'alert-box-type': 'warning',
-    heading,
+    'alert-box-heading': heading,
   });
 };
 
