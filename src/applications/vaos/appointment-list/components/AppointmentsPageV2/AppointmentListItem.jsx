@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { focusElement } from 'platform/utilities/ui';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -170,7 +170,6 @@ export default function AppointmentListItem({ appointment, facility }) {
           >
             Details
           </Link>
-
           <i
             aria-hidden="true"
             className="fas fa-chevron-right vads-u-color--link-default vads-u-margin-left--1"
