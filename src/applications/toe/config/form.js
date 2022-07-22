@@ -16,7 +16,7 @@ import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import manifest from '../manifest.json';
 
-// import ConfirmationPage from '../containers/ConfirmationPage';
+import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
 
 import EmailReviewField from '../components/EmailReviewField';
@@ -124,7 +124,7 @@ const formConfig = {
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'toe-',
   introduction: IntroductionPage,
-  // confirmation: ConfirmationPage,
+  confirmation: ConfirmationPage,
   formId: '22-1990E',
   title: 'Apply to use transferred education benefits',
   subTitle:
