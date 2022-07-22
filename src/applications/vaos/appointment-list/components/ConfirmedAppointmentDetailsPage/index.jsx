@@ -16,6 +16,7 @@ import {
 } from '../../redux/actions';
 import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
 import DetailsVA from './DetailsVA';
+import DetailsCC from './DetailsCC';
 import DetailsVideo from './DetailsVideo';
 
 export default function ConfirmedAppointmentDetailsPage() {
@@ -109,6 +110,7 @@ export default function ConfirmedAppointmentDetailsPage() {
           useV2={useV2}
         />
       )}
+      {isCommunityCare && <DetailsCC appointment={appointment} useV2={false} />}
       <CancelAppointmentModal
         {...cancelInfo}
         onConfirm={() => dispatch(confirmCancelAppointment())}
