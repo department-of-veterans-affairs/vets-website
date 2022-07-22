@@ -40,28 +40,32 @@ describe('Pre-Check In Experience ', () => {
     ValidateVeteran.validatePage.preCheckIn();
     ValidateVeteran.validateVeteran();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Pre-check-in--Validate');
     ValidateVeteran.attemptToGoToNextPage();
 
     // page: Introduction
     Introduction.validatePageLoaded();
     Introduction.countAppointmentList(apiData.payload.appointments.length);
     cy.injectAxeThenAxeCheck();
-
+    cy.createScreenshots('Pre-check-in--Introduction');
     Introduction.attemptToGoToNextPage();
 
     // page: Demographics
     Demographics.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Pre-check-in--Contact-info');
     Demographics.attemptToGoToNextPage();
 
     // page: Emergency Contact
     EmergencyContact.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Pre-check-in--Emergency-contact');
     EmergencyContact.attemptToGoToNextPage();
 
     // page: Next of Kin
     NextOfKin.validatePageLoaded();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Pre-check-in--Next-of-kin');
     NextOfKin.attemptToGoToNextPage();
 
     // page: Confirmation
@@ -83,5 +87,6 @@ describe('Pre-Check In Experience ', () => {
       .should('equal', 200);
 
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Pre-check-in--Confirmation');
   });
 });
