@@ -17,13 +17,9 @@ function getReasonCode({ data, isCC }) {
     purpose => purpose.id === data.reasonForAppointment,
   )?.serviceName;
 
-  let reasonText = null;
-  if (isCC && data.reasonAdditionalInfo) {
-    reasonText = data.reasonAdditionalInfo.slice(0, 250);
-  }
-  if (!isCC) {
-    reasonText = data.reasonAdditionalInfo.slice(0, 100);
-  }
+  const reasonAdditionalInfo = isCC
+    ? data.reasonAdditionalInfo.slice(0, 250)
+    : data.reasonAdditionalInfo.slice(0, 100);
 
   return {
     // If the user selects one of the three preset radio selections
@@ -33,7 +29,7 @@ function getReasonCode({ data, isCC }) {
     // Per Brad - All comments should be sent in the reasonCode.text field and should should be
     // truncated to 100 char for both VA appointment types only. CC appointments will continue
     // to be truncated to 250 char
-    text: data.reasonAdditionalInfo ? reasonText : null,
+    text: data.reasonAdditionalInfo ? reasonAdditionalInfo : null,
   };
 }
 
@@ -90,7 +86,9 @@ export function transformFormToVAOSCCRequest(state) {
     locationId: data.communityCareSystemId,
     serviceType: typeOfCare.idV2 || typeOfCare.ccId,
     // comment: data.reasonAdditionalInfo,
-    reasonCode: getReasonCode({ data, isCC: true }),
+    reasonCode: data.reasonAdditionalInfo
+      ? getReasonCode({ data, isCC: true })
+      : null,
     contact: {
       telecom: [
         {
