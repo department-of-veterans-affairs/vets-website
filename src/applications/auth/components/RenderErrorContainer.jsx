@@ -371,14 +371,18 @@ export default function RenderErrorContainer({
         {alertContent}
       </va-alert>
       {troubleshootingContent}
-      <p>
-        <em>Error code: {code}</em>
+      <p className="vads-u-font-style--italic">
+        <span className="vads-u-display--block">Error code: {code}</span>
+        {requestId && (
+          <span className="vads-u-display--block">Request ID: {requestId}</span>
+        )}
+        <span className="vads-u-display--block">
+          {new Intl.DateTimeFormat('en-US', {
+            dateStyle: 'medium',
+            timeStyle: 'long',
+          }).format(new Date())}
+        </span>
       </p>
-      {requestId && (
-        <p>
-          <em>Request ID: {requestId}</em>
-        </p>
-      )}
     </div>
   );
 }
