@@ -10,14 +10,6 @@ import { SELECTED, LEGACY_TYPE } from '../constants';
 export const isVersion1Data = formData => !!formData?.zipCode5;
 
 /**
- * Get issue name/title from either a manually added issue or issue loaded from
- * the API
- * @param {AdditionalIssueItem|ContestableIssueItem}
- */
-export const getIssueName = (entry = {}) =>
-  entry.issue || entry.attributes?.ratingIssueSubjectText;
-
-/**
  * @typedef ContestableIssues
  * @type {Array<Object>}
  * @property {ContestableIssueItem|LegacyAppealsItem}
@@ -73,8 +65,7 @@ export const getEligibleContestableIssues = issues => {
       .join(' ')
       .includes('deferred');
     const date = moment(approxDecisionDate);
-    const issueName = getIssueName(issue);
-    if (isDeferred || !date.isValid() || !issueName) {
+    if (isDeferred || !date.isValid() || !ratingIssueSubjectText) {
       return false;
     }
     return date.add(1, 'years').isAfter(today);
@@ -153,6 +144,14 @@ export const getSelected = formData => {
 // the formData is updated
 export const getSelectedCount = (formData, items) =>
   getSelected({ ...formData, additionalIssues: items }).length;
+
+/**
+ * Get issue name/title from either a manually added issue or issue loaded from
+ * the API
+ * @param {AdditionalIssueItem|ContestableIssueItem}
+ */
+export const getIssueName = (entry = {}) =>
+  entry.issue || entry.attributes?.ratingIssueSubjectText;
 
 export const getIssueDate = (entry = {}) =>
   entry.decisionDate || entry.attributes?.approxDecisionDate || '';
