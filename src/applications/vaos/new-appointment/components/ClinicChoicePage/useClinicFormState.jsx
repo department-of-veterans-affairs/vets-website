@@ -9,6 +9,7 @@ import {
   selectPastAppointments,
 } from '../../redux/selectors';
 import { MENTAL_HEALTH } from '../../../utils/constants';
+import { selectFeatureVaosV2Next } from '../../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -30,6 +31,7 @@ export default function useClinicFormState() {
   const initialData = useSelector(getFormData);
   const clinics = useSelector(getClinicsForChosenFacility);
   const pastAppointments = useSelector(selectPastAppointments);
+  const featureVaosV2Next = useSelector(selectFeatureVaosV2Next);
 
   const formState = useFormState({
     initialSchema() {
@@ -40,7 +42,10 @@ export default function useClinicFormState() {
       // for primary care or mental health appointments.
       // NOTE: Same check is in ../services/patient/index.js:383
       // TODO: Add primary care????
-      if (pastAppointments && initialData.typeOfCareId !== MENTAL_HEALTH) {
+      const isCheckTypeOfCare = featureVaosV2Next
+        ? initialData.typeOfCareId !== MENTAL_HEALTH
+        : true;
+      if (pastAppointments && isCheckTypeOfCare) {
         const pastAppointmentDateMap = new Map();
         const siteId = getSiteIdFromFacilityId(initialData.vaFacility);
 
