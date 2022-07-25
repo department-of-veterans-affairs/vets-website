@@ -35,5 +35,6 @@ describe('Pre-Check In Experience ', () => {
     // UUID with canceled appointments should navigate to the error page.
     Error.validateCanceledPageLoaded();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Pre-check-in--canceled-error');
   });
 });

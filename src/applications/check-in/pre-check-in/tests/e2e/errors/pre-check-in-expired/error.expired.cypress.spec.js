@@ -36,5 +36,6 @@ describe('Pre-Check In Experience ', () => {
     Error.validateExpiredPageLoaded();
     Error.validateAccordionBlocks();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Pre-check-in--expired-error');
   });
 });

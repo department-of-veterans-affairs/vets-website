@@ -77,6 +77,11 @@ describe('Pre-Check In Experience ', () => {
 
     // page: Confirmation
     Confirmation.validatePageLoaded();
+    cy.get('[data-testid="pre-check-in-accordions"]')
+      .shadow()
+      .find('button[aria-label="Expand all accordions"]')
+      .click();
+    cy.createScreenshots('Pre-check-in--confirmation-answer-no-to-all');
     cy.injectAxeThenAxeCheck();
   });
 });
