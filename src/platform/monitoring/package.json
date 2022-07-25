@@ -7,7 +7,7 @@
     "exports": {
       "." : "./exportsFile.js",
       "./DowntimeNotification" : "./DowntimeNotification/index.jsx",
-      "./DowntimeNotification/containers/DowntimeNotification" : "./DowntimeNotification/components/DowntimeNotification.jsx",
+      "./DowntimeNotification/containers/DowntimeNotification" : "./DowntimeNotification/containers/DowntimeNotification.jsx",
       "./DowntimeNotification/components/Banner" : "./DowntimeNotification/components/Banner.jsx",
       "./DowntimeNotification/components/Down" : "./DowntimeNotification/components/Down.jsx",
       "./DowntimeNotification/components/DowntimeApproaching" : "./DowntimeNotification/components/DowntimeApproaching.jsx",
