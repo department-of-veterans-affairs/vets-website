@@ -28,6 +28,15 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     timeStamp: '',
   });
 
+  const dateOptions = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  };
+
   const getContent = () => {
     return apiRequest(`/form1095_bs/download_${formType}/${year}`)
       .then(response => response.blob())
@@ -87,19 +96,11 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
         a.click();
         a.remove(); // removes element from the DOM
         const date = new Date();
-        const options = {
-          year: 'numeric',
-          month: 'numeric',
-          day: 'numeric',
-          hour: 'numeric',
-          minute: 'numeric',
-          hour12: true,
-        };
         updateFormError({ error: false, type: '' });
         updateFormDownloaded({
           downloaded: true,
           timeStamp: formatTimeString(
-            date.toLocaleDateString(undefined, options),
+            date.toLocaleDateString(undefined, dateOptions),
           ),
         });
       }
