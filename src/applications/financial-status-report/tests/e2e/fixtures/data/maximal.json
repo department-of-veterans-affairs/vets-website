@@ -21,6 +21,7 @@
     "rentOrMortgage": "1200.53",
     "food": "4000.38"
   },
+  "recVehicleAmount": "15000.23",
   "assets": {
     "otherAssets": [
       {
@@ -30,12 +31,6 @@
       {
         "name": "Gambling earning",
         "amount": "16000.34"
-      }
-    ],
-    "recVehicles": [
-      {
-        "recVehicleType": "Boat",
-        "recVehicleAmount": "15000.23"
       }
     ],
     "cashInBank": "3000.45",
