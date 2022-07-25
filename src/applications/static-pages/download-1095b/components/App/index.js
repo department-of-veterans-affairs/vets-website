@@ -80,10 +80,9 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
         const a = document.createElement('a');
         a.href = result;
         a.target = '_blank';
-        if (formType === 'txt') {
-          // download text file directly, pdf opens in new window
-          a.download = `1095B-${year}.txt`;
-        }
+
+        if (formType === 'txt') a.download = `1095B-${year}.txt`; // download text file directly, pdf opens in new window
+
         document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
         a.click();
         a.remove(); // removes element from the DOM
