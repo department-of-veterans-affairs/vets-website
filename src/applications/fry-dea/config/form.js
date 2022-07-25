@@ -80,7 +80,7 @@ const formConfig = {
   trackingPrefix: 'fry-dea-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: VA_FORM_IDS.FORM_22_5490,
+  formId: VA_FORM_IDS.FORM_22_5490E,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your education benefits application (22-5490) is in progress.',
@@ -514,7 +514,7 @@ const formConfig = {
             },
             [formFields.highSchoolDiploma]: {
               'ui:title':
-                'Did you earn a high school diploma or equivalency certificate?',
+                'Did you earn a high school diploma or an equivalency certificate?',
               'ui:widget': 'radio',
             },
           },
@@ -545,7 +545,7 @@ const formConfig = {
             },
             [formFields.highSchoolDiplomaDate]: {
               ...currentOrPastDateUI(
-                'When did you earn your high school diploma or equivalency certificate?',
+                'What date did you receive your high school diploma or equivalency certificate?',
               ),
             },
           },

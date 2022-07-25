@@ -30,6 +30,8 @@ const LoadingPage = props => {
     [checkInDataError, demographics, goToErrorPage, goToNextPage],
   );
 
+  window.scrollTo(0, 0);
+
   return (
     <va-loading-indicator message={t('loading-your-appointments-for-today')} />
   );

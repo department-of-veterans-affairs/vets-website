@@ -8,35 +8,35 @@ const deepLinks = [
   // this first one is to make sure unsupported deep link urls manage focus
   // correctly
   {
-    url: `${PROFILE_PATHS.PERSONAL_INFORMATION}#an-unsupported-deep-link`,
+    url: `${PROFILE_PATHS.CONTACT_INFORMATION}#an-unsupported-deep-link`,
     expectedTarget: {
       role: 'heading',
-      name: 'Personal and contact information',
+      name: 'Contact information',
     },
   },
   {
-    url: `${PROFILE_PATHS.PERSONAL_INFORMATION}#email-address`,
+    url: `${PROFILE_PATHS.CONTACT_INFORMATION}#email-address`,
     expectedTarget: {
       role: 'heading',
       name: 'Email addresses',
     },
   },
   {
-    url: `${PROFILE_PATHS.PERSONAL_INFORMATION}#phone-numbers`,
+    url: `${PROFILE_PATHS.CONTACT_INFORMATION}#phone-numbers`,
     expectedTarget: {
       role: 'heading',
       name: 'Phone numbers',
     },
   },
   {
-    url: `${PROFILE_PATHS.PERSONAL_INFORMATION}#edit-contact-email-address`,
+    url: `${PROFILE_PATHS.CONTACT_INFORMATION}#edit-contact-email-address`,
     expectedTarget: {
       role: 'button',
       name: /edit contact email address/i,
     },
   },
   {
-    url: `${PROFILE_PATHS.PERSONAL_INFORMATION}#edit-mobile-phone-number`,
+    url: `${PROFILE_PATHS.CONTACT_INFORMATION}#edit-mobile-phone-number`,
     expectedTarget: {
       role: 'button',
       name: /edit mobile phone number/i,
@@ -48,9 +48,9 @@ const deepLinks = [
  * @param {boolean} mobile - test on a mobile viewport or not
  */
 function checkAllDeepLinks(mobile = false) {
-  cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
+  cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
   if (mobile) {
-    cy.viewport('iphone-4');
+    cy.viewportPreset('va-top-mobile-1');
   }
 
   // should show a loading indicator
@@ -79,9 +79,11 @@ describe('Profile', () => {
   });
   it('should manage focus for all supported deep links on desktop size', () => {
     checkAllDeepLinks(false);
+    cy.injectAxeThenAxeCheck();
   });
 
   it('should manage focus for all supported deep links on mobile phone size', () => {
     checkAllDeepLinks(true);
+    cy.injectAxeThenAxeCheck();
   });
 });
