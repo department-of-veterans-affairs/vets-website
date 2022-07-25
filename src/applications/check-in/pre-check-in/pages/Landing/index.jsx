@@ -83,34 +83,35 @@ const Index = props => {
         // call the sessions api
         const checkInType = APP_NAMES.PRE_CHECK_IN;
 
-        api.v2
-          .getSession({ token, checkInType, isLorotaSecurityUpdatesEnabled })
-          .then(session => {
-            // if successful, dispatch session data  into redux and current window
+        if (token)
+          api.v2
+            .getSession({ token, checkInType, isLorotaSecurityUpdatesEnabled })
+            .then(session => {
+              // if successful, dispatch session data  into redux and current window
 
-            if (session.error || session.errors) {
+              if (session.error || session.errors) {
+                clearCurrentSession(window);
+                goToErrorPage();
+              } else {
+                setCurrentToken(window, token);
+                setPreCheckinComplete(window, false);
+                const pages = createForm();
+                const firstPage = pages[0];
+                initForm(pages, firstPage);
+                setSession(token, session.permissions);
+                if (session.permissions === SCOPES.READ_FULL) {
+                  // redirect if already full access
+                  jumpToPage(URLS.INTRODUCTION);
+                } else {
+                  // TODO: dispatch to redux
+                  jumpToPage(URLS.VERIFY);
+                }
+              }
+            })
+            .catch(() => {
               clearCurrentSession(window);
               goToErrorPage();
-            } else {
-              setCurrentToken(window, token);
-              setPreCheckinComplete(window, false);
-              const pages = createForm();
-              const firstPage = pages[0];
-              initForm(pages, firstPage);
-              setSession(token, session.permissions);
-              if (session.permissions === SCOPES.READ_FULL) {
-                // redirect if already full access
-                jumpToPage(URLS.INTRODUCTION);
-              } else {
-                // TODO: dispatch to redux
-                jumpToPage(URLS.VERIFY);
-              }
-            }
-          })
-          .catch(() => {
-            clearCurrentSession(window);
-            goToErrorPage();
-          });
+            });
       }
     },
     [
