@@ -157,3 +157,7 @@ export function selectVAPServiceInitializationStatus(state) {
 export const selectCopyAddressModal = state => {
   return state.vapService?.copyAddressModal;
 };
+
+export const selectTransactionIntervalId = state => {
+  return state?.transactionsIntervalId;
+};

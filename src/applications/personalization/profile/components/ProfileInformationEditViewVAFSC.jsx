@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
+// import { useFormik } from 'formik';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
-import { isEmptyAddress } from 'platform/forms/address/helpers';
-
-import { createPersonalInfoUpdate } from '@@profile/actions/personalInformation';
 
 import {
   createTransaction,
@@ -14,8 +11,6 @@ import {
   openModal,
   updateFormFieldWithSchema,
   validateAddress,
-  clearTransactionIntervalId,
-  updateTransactionIntervalId,
 } from '@@vap-svc/actions';
 
 import * as VAP_SERVICE from '@@vap-svc/constants';
@@ -52,41 +47,7 @@ import recordEvent from '~/platform/monitoring/record-event';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
-const propTypes = {
-  analyticsSectionName: PropTypes.oneOf(
-    Object.values(VAP_SERVICE.ANALYTICS_FIELD_MAP),
-  ).isRequired,
-  apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
-  clearTransactionRequest: PropTypes.func.isRequired,
-  clearTransactionIntervalId: PropTypes.func.isRequired,
-  convertCleanDataToPayload: PropTypes.func.isRequired,
-  createPersonalInfoUpdate: PropTypes.func.isRequired,
-  createTransaction: PropTypes.func.isRequired,
-  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
-  formSchema: PropTypes.object.isRequired,
-  getInitialFormValues: PropTypes.func.isRequired,
-  updateTransactionIntervalId: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired,
-  refreshTransaction: PropTypes.func.isRequired,
-  uiSchema: PropTypes.object.isRequired,
-  updateFormFieldWithSchema: PropTypes.func.isRequired,
-  validateAddress: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  activeEditView: PropTypes.string,
-  data: PropTypes.object,
-  editViewData: PropTypes.object,
-  field: PropTypes.shape({
-    value: PropTypes.object,
-    validations: PropTypes.object,
-    formSchema: PropTypes.object,
-    uiSchema: PropTypes.object,
-  }),
-  title: PropTypes.string,
-  transaction: PropTypes.object,
-  transactionRequest: PropTypes.object,
-};
-
-export class ProfileInformationEditView extends Component {
+export class ProfileInformationEditViewVAFSC extends Component {
   componentDidMount() {
     const { getInitialFormValues } = this.props;
     this.onChangeFormDataAndSchemas(
@@ -119,14 +80,12 @@ export class ProfileInformationEditView extends Component {
         this.refreshTransaction,
         window.VetsGov.pollTimeout || 1000,
       );
-      this.props.updateTransactionIntervalId(this.interval);
     }
     // if the transaction is no longer pending, stop refreshing it
     if (
       isPendingTransaction(prevProps.transaction) &&
       !isPendingTransaction(this.props.transaction)
     ) {
-      this.props.clearTransactionIntervalId();
       window.clearInterval(this.interval);
     }
     // if a transaction was created that was immediately successful (for example
@@ -141,7 +100,6 @@ export class ProfileInformationEditView extends Component {
   componentWillUnmount() {
     if (this.interval) {
       window.clearInterval(this.interval);
-      this.props.clearTransactionIntervalId();
     }
     const { fieldName } = this.props;
     // Errors returned directly from the API request (as opposed through a transaction lookup) are
@@ -383,7 +341,37 @@ export class ProfileInformationEditView extends Component {
   }
 }
 
-ProfileInformationEditView.propTypes = propTypes;
+ProfileInformationEditViewVAFSC.propTypes = {
+  analyticsSectionName: PropTypes.oneOf(
+    Object.values(VAP_SERVICE.ANALYTICS_FIELD_MAP),
+  ).isRequired,
+  apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
+  clearTransactionRequest: PropTypes.func.isRequired,
+  convertCleanDataToPayload: PropTypes.func.isRequired,
+  createPersonalInfoUpdate: PropTypes.func.isRequired,
+  createTransaction: PropTypes.func.isRequired,
+  fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
+  formSchema: PropTypes.object.isRequired,
+  getInitialFormValues: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
+  refreshTransaction: PropTypes.func.isRequired,
+  uiSchema: PropTypes.object.isRequired,
+  updateFormFieldWithSchema: PropTypes.func.isRequired,
+  validateAddress: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  activeEditView: PropTypes.string,
+  data: PropTypes.object,
+  editViewData: PropTypes.object,
+  field: PropTypes.shape({
+    value: PropTypes.object,
+    validations: PropTypes.object,
+    formSchema: PropTypes.object,
+    uiSchema: PropTypes.object,
+  }),
+  title: PropTypes.string,
+  transaction: PropTypes.object,
+  transactionRequest: PropTypes.object,
+};
 
 export const mapStateToProps = (state, ownProps) => {
   const { fieldName } = ownProps;
@@ -394,11 +382,6 @@ export const mapStateToProps = (state, ownProps) => {
   const data = selectVAPContactInfoField(state, fieldName);
   // const addressValidationType = selectAddressValidationType(state);
   const activeEditView = selectCurrentlyOpenEditModal(state);
-
-  const mailingAddress = selectVAPContactInfoField(
-    state,
-    FIELD_NAMES.MAILING_ADDRESS,
-  );
 
   return {
     /*
@@ -419,7 +402,6 @@ export const mapStateToProps = (state, ownProps) => {
     transaction,
     transactionRequest,
     editViewData: selectEditViewData(state),
-    emptyMailingAddress: isEmptyAddress(mailingAddress),
     transactionId: selectTransactionIntervalId(state),
   };
 };
@@ -431,12 +413,9 @@ const mapDispatchToProps = {
   updateFormFieldWithSchema,
   validateAddress,
   refreshTransaction,
-  createPersonalInfoUpdate,
-  updateTransactionIntervalId,
-  clearTransactionIntervalId,
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ProfileInformationEditView);
+)(ProfileInformationEditViewVAFSC);
