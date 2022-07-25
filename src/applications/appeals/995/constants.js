@@ -88,6 +88,11 @@ export const CLAIMANT_TYPES = [
   'other',
 ];
 
+export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
+
+export const MAX_FILE_SIZE_MB = 100;
+export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
+
 // Values from Lighthouse maintained schema
 // see ./config/form-0995-schema.json
 export const MAX_LENGTH = {

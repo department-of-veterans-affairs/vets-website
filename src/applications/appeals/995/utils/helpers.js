@@ -239,10 +239,10 @@ export const getItemSchema = (schema, index) => {
  * readableList(['1', '2', '3', '4', 'five'])
  * // => '1, 2, 3, 4 and five'
  */
-export const readableList = list => {
+export const readableList = (list, joiner = 'and') => {
   const cleanedList = list.filter(Boolean);
   return [cleanedList.slice(0, -1).join(', '), cleanedList.slice(-1)[0]].join(
-    cleanedList.length < 2 ? '' : ' and ',
+    cleanedList.length < 2 ? '' : ` ${joiner} `,
   );
 };
 
@@ -302,3 +302,7 @@ export const hasPrivateEvidence = formData =>
   formData?.['view:selectableEvidenceTypes']?.['view:hasPrivateEvidence'];
 export const hasOtherEvidence = formData =>
   formData?.['view:selectableEvidenceTypes']?.['view:hasOtherEvidence'];
+export const hasPrivateEvidenceToUpload = formData =>
+  formData?.['view:uploadPrivateRecordsChoice']?.[
+    'view:hasPrivateRecordsToUpload'
+  ];
