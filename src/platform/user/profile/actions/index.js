@@ -32,37 +32,15 @@ export function profileLoadingFinished() {
 }
 
 async function saveAndRefresh(payload) {
-  const newPayloadObject = {
-    savedPayload: payload,
-    hasError: false,
-  };
+  const newPayloadObject = { payload };
   if (payload.errors === 'Access token has expired' && infoTokenExists()) {
     const refreshResponse = await refresh();
-
     if (!refreshResponse.ok) {
-      return {
-        savedPayload: {
-          errors: 'Could not refresh access token',
-          code: '401',
-          status: '401',
-        },
-        hasError: true,
-      };
+      throw new Error('Could not refresh AT');
     }
 
-    const newPayload = await apiRequest('/user');
-    if (newPayload.errors || !newPayload.data) {
-      return {
-        savedPayload: {
-          errors: 'Could not hit user endpoint',
-          code: '401',
-          status: '401',
-        },
-        hasError: true,
-      };
-    }
-
-    return { savedPayload: newPayload, hasError: false };
+    const newPayload = await apiRequest(baseUrl);
+    return { payload: newPayload };
   }
 
   return newPayloadObject;
@@ -87,11 +65,9 @@ export function refreshProfile(
       'api-name': 'GET /v0/user',
       'api-status': 'successful',
     });
-    dispatch(
-      updateProfileFields(saved.hasError ? payload : saved.savedPayload),
-    );
 
-    return saved.savedPayload;
+    dispatch(updateProfileFields(saved.payload));
+    return saved.payload;
   };
 }
 
