@@ -448,7 +448,7 @@ export const MedicareClaimNumberDescription = (
       class="vads-u-margin-top--3 vads-u-margin-bottom--4"
     >
       <p className="vads-u-margin-top--0">
-        The VA uses your Medicare claim number to keep track of the health care
+        We use your Medicare claim number to keep track of the health care
         services that Medicare covers. We use your claim number when we need to
         create a Medicare explanation of benefits.
       </p>
