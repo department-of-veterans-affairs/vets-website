@@ -39,13 +39,14 @@ export const errorMessages = {
   savedFormNotFound: 'Please start over to request a Supplemental Claim',
   savedFormNoAuth:
     'Please sign in again to continue your request a Supplemental Claim',
-  forwardStartDate: 'Please select a date',
+  invalidDate: 'Please choose a date',
   startDateInPast: 'Start date must be in the future',
   endDateInPast: 'End date must be in the future',
   endDateBeforeStart: 'End date must be after start date',
   contestedIssue: 'Please select an eligible issue',
 
   evidenceTypeMissing: 'Please select at least one type of supporting evidence',
+  locationAndNameMissing: 'Please add a treatment location',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
