@@ -48,7 +48,9 @@ function saveNewBankInfo(id) {
 }
 
 function saveErrorExists() {
-  cy.findByText(/we couldn’t update your bank info/i).should('exist');
+  cy.findByText(/We couldn’t update your payment information./i).should(
+    'exist',
+  );
 }
 
 function saveSuccessAlertShown() {
@@ -184,7 +186,7 @@ describe('Direct Deposit', () => {
       // if LoadingButton.loadingText was not set
       cy.axeCheck();
       // Now wait for the update API calls to resolve to failures...
-      cy.findAllByText(/we couldn’t update your bank info/i).should(
+      cy.findAllByText(/We couldn’t update your payment information./i).should(
         'have.length',
         '2',
       );
