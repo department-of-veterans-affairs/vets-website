@@ -1,6 +1,6 @@
 import React from 'react';
-import get from '../../../../utilities/data/get';
 import classNames from 'classnames';
+import get from '../../../../utilities/data/get';
 import { isReactComponent } from '../../../../utilities/ui';
 // import environment from 'platform/utilities/environment';
 
