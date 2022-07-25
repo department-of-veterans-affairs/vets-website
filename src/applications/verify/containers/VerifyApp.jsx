@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
+import PropTypes from 'prop-types';
 
 import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
@@ -150,3 +151,8 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(VerifyApp);
+
+VerifyApp.propTypes = {
+  profile: PropTypes.object.isRequired,
+  login: PropTypes.object,
+};
