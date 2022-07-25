@@ -1,22 +1,13 @@
-import { RecVehicleInfo } from './records';
-
 export const uiSchema = {
   'ui:title': 'Your trailers, campers, and boats',
   questions: {
     hasRecreationalVehicle: {
-      'ui:title':
-        'What is the estimated value of your trailers, campers, and boats?',
-      'ui:widget': 'text',
+      'ui:title': 'Do you own any trailers, campers, or boats?',
+      'ui:widget': 'yesNo',
       'ui:required': () => true,
       'ui:errorMessages': {
-        required:
-          'Please enter the estimated value trailers, campers, and boats.',
+        required: 'Please enter your trailer, camper, or boat information.',
       },
-    },
-  },
-  'view:components': {
-    'view:recVehicleInfo': {
-      'ui:description': RecVehicleInfo,
     },
   },
 };
@@ -28,16 +19,7 @@ export const schema = {
       type: 'object',
       properties: {
         hasRecreationalVehicle: {
-          type: 'string',
-        },
-      },
-    },
-    'view:components': {
-      type: 'object',
-      properties: {
-        'view:recVehicleInfo': {
-          type: 'object',
-          properties: {},
+          type: 'boolean',
         },
       },
     },
