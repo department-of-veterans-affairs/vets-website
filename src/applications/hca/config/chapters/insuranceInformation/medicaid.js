@@ -1,17 +1,14 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import { ShortFormMessage } from '../../../components/FormAlerts';
-import {
-  HIGH_DISABILITY,
-  medicaidDescription,
-  emptyObjectSchema,
-} from '../../../helpers';
+import { MedicaidDescription } from '../../../components/FormDescriptions';
+import { ShortFormAlert } from '../../../components/FormAlerts';
+import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
 
 const { isMedicaidEligible } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
     'view:medicaidShortFormMessage': {
-      'ui:description': ShortFormMessage,
+      'ui:description': ShortFormAlert,
       'ui:options': {
         hideIf: form =>
           !(
@@ -23,7 +20,7 @@ export default {
       },
     },
     'view:medicaidDescription': {
-      'ui:description': medicaidDescription,
+      'ui:description': MedicaidDescription,
     },
     isMedicaidEligible: {
       'ui:title': 'Are you eligible for Medicaid?',

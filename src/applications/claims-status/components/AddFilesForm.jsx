@@ -2,10 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
-
+import Select from '@department-of-veterans-affairs/component-library/Select';
 import {
   VaModal,
-  VaSelect,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
@@ -261,29 +260,22 @@ class AddFilesForm extends React.Component {
                   </>
                 )}
                 <div className="clearfix" />
-                <VaSelect
+                <Select
                   required
-                  error={
+                  errorMessage={
                     validateIfDirty(docType, isNotBlank)
                       ? undefined
                       : 'Please provide a response'
                   }
                   name="docType"
                   label="What type of document is this?"
+                  options={DOC_TYPES}
                   value={docType}
-                  onVaSelect={e =>
-                    this.handleDocTypeChange(e.target.value, index)
+                  emptyDescription="Select a description"
+                  onValueChange={update =>
+                    this.props.onFieldChange(`files[${index}].docType`, update)
                   }
-                >
-                  <option disabled value="">
-                    Select a description
-                  </option>
-                  {DOC_TYPES.map(({ label, value }, i) => (
-                    <option key={i} value={value}>
-                      {label}
-                    </option>
-                  ))}
-                </VaSelect>
+                />
               </div>
             </div>
           ),

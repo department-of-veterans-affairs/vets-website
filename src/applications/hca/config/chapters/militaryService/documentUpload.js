@@ -1,7 +1,7 @@
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 
-import { fileHelp } from '../../../helpers';
+import DischargePapersDescription from '../../../components/FormDescriptions/DischargePapersDescription';
 
 const attachmentsSchema = {
   type: 'array',
@@ -39,7 +39,7 @@ const attachmentsSchema = {
 export default {
   uiSchema: {
     'ui:title': 'Upload your discharge papers',
-    'ui:description': fileHelp,
+    'ui:description': DischargePapersDescription,
     attachments: fileUploadUI('', {
       buttonText: 'Upload a document',
       addAnotherLabel: 'Upload another document',

@@ -287,8 +287,8 @@ describe('check in', () => {
         const payloadWithoutTZ = {
           appointments: [
             {
-              checkInWindowEnd: '2018-01-01T00:00:00',
-              checkInWindowStart: '2018-01-01T00:00:00',
+              checkInWindowEnd: '2018-01-01T00:00:00.070Z',
+              checkInWindowStart: '2018-01-01T00:00:00.070Z',
               checkedInTime: '2018-01-01T00:00:00',
               startTime: '2018-01-01T00:00:00',
             },
@@ -297,11 +297,11 @@ describe('check in', () => {
         const updatedPayloadWithTZ = removeTimeZone(payloadWithTZ);
         const updatedPayloadWithoutTZ = removeTimeZone(payloadWithoutTZ);
         expect(updatedPayloadWithTZ.appointments[0].checkInWindowEnd).to.equal(
-          '2018-01-01T00:00:00',
+          '2018-01-01T00:00:00.070Z',
         );
         expect(
           updatedPayloadWithTZ.appointments[0].checkInWindowStart,
-        ).to.equal('2018-01-01T00:00:00');
+        ).to.equal('2018-01-01T00:00:00.070Z');
         expect(updatedPayloadWithTZ.appointments[0].checkedInTime).to.equal(
           '2018-01-01T00:00:00',
         );
@@ -310,10 +310,10 @@ describe('check in', () => {
         );
         expect(
           updatedPayloadWithoutTZ.appointments[0].checkInWindowEnd,
-        ).to.equal('2018-01-01T00:00:00');
+        ).to.equal('2018-01-01T00:00:00.070Z');
         expect(
           updatedPayloadWithoutTZ.appointments[0].checkInWindowStart,
-        ).to.equal('2018-01-01T00:00:00');
+        ).to.equal('2018-01-01T00:00:00.070Z');
         expect(updatedPayloadWithoutTZ.appointments[0].checkedInTime).to.equal(
           '2018-01-01T00:00:00',
         );

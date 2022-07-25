@@ -19,15 +19,20 @@ function FryDeaApp({
   location,
   setFormData,
   showUpdatedFryDeaApp,
+  user,
   veterans,
 }) {
   const [fetchedVeterans, setFetchedVeterans] = useState(false);
 
   useEffect(
     () => {
+      if (!user.login.currentlyLoggedIn) {
+        return;
+      }
+
       if (!fetchedVeterans) {
-        getVeterans();
         setFetchedVeterans(true);
+        getVeterans();
       }
 
       if (
@@ -48,6 +53,7 @@ function FryDeaApp({
       location.pathname,
       setFormData,
       showUpdatedFryDeaApp,
+      user.login.currentlyLoggedIn,
       veterans,
     ],
   );
@@ -72,7 +78,7 @@ FryDeaApp.propTypes = {
   children: PropTypes.object,
   formData: PropTypes.object,
   getVeterans: PropTypes.func,
-  location: PropTypes.string,
+  location: PropTypes.object,
   setFormData: PropTypes.func,
   showUpdatedFryDeaApp: PropTypes.bool,
   veterans: VETERANS_TYPE,
@@ -83,6 +89,7 @@ const mapStateToProps = state => ({
   showUpdatedFryDeaApp: toggleValues(state)[
     FEATURE_FLAG_NAMES.showUpdatedFryDeaApp
   ],
+  user: state?.user,
   veterans: state.data?.veterans,
 });
 

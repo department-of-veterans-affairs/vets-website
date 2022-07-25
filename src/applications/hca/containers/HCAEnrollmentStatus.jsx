@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { getEnrollmentStatus } from '../actions';
 
-import HCAEnrollmentStatusWarning from '../components/HCAEnrollmentStatusWarning';
+import EnrollmentStatusWarning from '../components/FormAlerts/EnrollmentStatusWarning';
 import HCAEnrollmentStatusFAQ from '../components/HCAEnrollmentStatusFAQ';
 
 class HCAEnrollmentStatus extends React.Component {
@@ -16,7 +16,7 @@ class HCAEnrollmentStatus extends React.Component {
     if (enrollmentStatus) {
       return (
         <>
-          <HCAEnrollmentStatusWarning {...this.props} />
+          <EnrollmentStatusWarning {...this.props} />
           <HCAEnrollmentStatusFAQ
             enrollmentStatus={enrollmentStatus}
             route={route}

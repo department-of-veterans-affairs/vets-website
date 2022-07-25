@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { getFormDOM } from 'platform/testing/unit/schemaform-utils.jsx';
 import createCommonStore from 'platform/startup/store';
-import VeteranInformationComponent from '../../config/chapters/veteran-information/veteran-information/VeteranInformationComponent.js';
+import VeteranInformationComponent from '../../config/chapters/veteran-information/veteran-information/VeteranInformationComponent';
 
 const defaultStore = createCommonStore();
 
