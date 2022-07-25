@@ -5,6 +5,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { CompatRouter } from 'react-router-dom-v5-compat';
 import startReactApp from './react';
 import setUpCommonFunctionality from './setup';
 
@@ -44,11 +45,15 @@ export default function startApp({
   if (createRoutesWithStore) {
     content = (
       <BrowserRouter basename={url}>
-        {createRoutesWithStore(store)}
+        <CompatRouter>{createRoutesWithStore(store)}</CompatRouter>
       </BrowserRouter>
     );
   } else if (routes) {
-    content = <BrowserRouter basename={url}>{routes}</BrowserRouter>;
+    content = (
+      <BrowserRouter basename={url}>
+        <CompatRouter>{routes}</CompatRouter>
+      </BrowserRouter>
+    );
   }
 
   startReactApp(<Provider store={store}>{content}</Provider>);
