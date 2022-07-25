@@ -1,5 +1,4 @@
 import React from 'react';
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
 import ItemLoop from '../../../components/ItemLoop';
 import CardDetailsView from '../../../components/CardDetailsView';
 import CustomReviewField from '../../../components/CustomReviewField';
@@ -10,8 +9,8 @@ import {
   recreationalVehicleTypes,
 } from '../../../constants/typeaheadOptions';
 
-const RecVehicleInfo = (
-  <AdditionalInfo triggerText="What if I don’t know the estimated value of my trailer, camper, or boat?">
+export const RecVehicleInfo = (
+  <va-additional-info trigger="What if I don’t know the estimated value of my trailer, camper, or boat?">
     Include the amount of money you think you would get if you sold the vehicle
     in your local community. To get an idea of prices, you can check these
     places:
@@ -20,7 +19,7 @@ const RecVehicleInfo = (
       <li>Classified ads in local newspapers</li>
       <li>Websites that appraise the value of vehicles</li>
     </ul>
-  </AdditionalInfo>
+  </va-additional-info>
 );
 
 export const uiSchema = {
