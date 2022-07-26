@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import { LetterList } from '../../containers/LetterList.jsx';
+import { LetterList } from '../../containers/LetterList';
 import { AVAILABILITY_STATUSES } from '../../utils/constants';
 
 const defaultProps = {
@@ -50,51 +50,42 @@ describe('<LetterList>', () => {
     const component = SkinDeep.shallowRender(<LetterList {...defaultProps} />);
 
     const checkButtonInPanel = panel => {
-      const renderedPanel = panel.getRenderOutput();
-      const downloadButton = renderedPanel.props.children[1]; // 0 content 1 DL link 2 BSL instrct
-      expect(downloadButton.type.displayName).to.equal(
-        'Connect(DownloadLetterLink)',
-      );
+      expect(panel.text()).to.contain('Connect(DownloadLetterLink)');
     };
 
-    component.everySubTree('CollapsiblePanel').forEach(checkButtonInPanel);
+    component.everySubTree('va-accordion-item').forEach(checkButtonInPanel);
   });
 
   it('does not render DL button for BSL if !optionsAvailable', () => {
-    const assertButtonUndefined = panel => {
-      const renderedPanel = panel.getRenderOutput();
-      const downloadButton = renderedPanel.props.children[1]; // 0 content 1 DL link 2 BSL instrct
-      expect(downloadButton).to.be.undefined;
+    const assertButtonUndefined = panelText => {
+      expect(panelText).to.not.contain('Connect(DownloadLetterLink)');
     };
 
-    const isBSL = panel =>
-      panel.props.panelName === defaultProps.letters[1].name;
+    const isBSL = panelText => panelText.includes(defaultProps.letters[1].name);
     const props = { ...defaultProps, optionsAvailable: false };
     const component = SkinDeep.shallowRender(<LetterList {...props} />);
 
     component
-      .everySubTree('CollapsiblePanel')
+      .everySubTree('va-accordion-item')
+      .map(panel => panel.text())
       .filter(isBSL)
       .forEach(assertButtonUndefined);
   });
 
   it('renders DL button for non-benefit-summary letters if !optionsAvailable', () => {
-    const checkButtonInPanel = panel => {
-      const renderedPanel = panel.getRenderOutput();
-      const downloadButton = renderedPanel.props.children[1]; // 0 content 1 DL link 2 BSL instrct
-      expect(downloadButton.type.displayName).to.equal(
-        'Connect(DownloadLetterLink)',
-      );
+    const checkButtonInPanel = panelText => {
+      expect(panelText).to.includes('Connect(DownloadLetterLink)');
     };
 
-    const isNotBSL = panel =>
-      panel.props.panelName !== defaultProps.letters[1].name;
+    const isNotBSL = panelText =>
+      !panelText.includes(defaultProps.letters[1].name);
 
     const props = { ...defaultProps, optionsAvailable: false };
     const component = SkinDeep.shallowRender(<LetterList {...props} />);
 
     component
-      .everySubTree('CollapsiblePanel')
+      .everySubTree('va-accordion-item')
+      .map(panel => panel.text())
       .filter(isNotBSL)
       .forEach(checkButtonInPanel);
   });

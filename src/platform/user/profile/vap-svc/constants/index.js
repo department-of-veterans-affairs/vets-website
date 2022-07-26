@@ -78,11 +78,15 @@ export const TRANSACTION_STATUS = {
 
 export const INIT_VAP_SERVICE_ID = 'initializeVAProfileServiceID';
 
-export const FIELD_NAMES = {
+export const PERSONAL_INFO_FIELD_NAMES = {
   PREFERRED_NAME: 'preferredName',
   PRONOUNS: 'pronouns',
   GENDER_IDENTITY: 'genderIdentity',
   SEXUAL_ORIENTATION: 'sexualOrientation',
+};
+
+export const FIELD_NAMES = {
+  ...PERSONAL_INFO_FIELD_NAMES,
   HOME_PHONE: 'homePhone',
   MOBILE_PHONE: 'mobilePhone',
   WORK_PHONE: 'workPhone',
@@ -165,6 +169,8 @@ export const API_ROUTES = {
   TELEPHONES: '/profile/telephones',
   EMAILS: '/profile/email_addresses',
   ADDRESSES: '/profile/addresses',
+  PREFERRED_NAME: '/profile/preferred_names',
+  GENDER_IDENTITY: '/profile/gender_identities',
 };
 
 export const VAP_SERVICE_INITIALIZATION_STATUS = {
@@ -182,4 +188,12 @@ export const MISSING_CONTACT_INFO = {
   ALL: 'ALL',
   EMAIL: 'EMAIL',
   MOBILE: 'MOBILE',
+};
+
+export const COPY_ADDRESS_MODAL_STATUS = {
+  CHECKING: 'checking',
+  PROMPT: 'prompt',
+  PENDING: 'pending',
+  SUCCESS: 'success',
+  FAILURE: 'failure',
 };

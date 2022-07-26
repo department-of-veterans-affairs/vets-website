@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import set from '../../../../utilities/data/set';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
 
@@ -11,12 +10,13 @@ import {
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import { scrollToFirstError } from '../utilities/ui';
+import set from 'platform/utilities/data/set';
+import { scrollToFirstError, focusElement } from '../utilities/ui';
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
 import { getScrollOptions, isReactComponent } from '../../../../utilities/ui';
 
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 /* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {
@@ -83,7 +83,7 @@ export default class ArrayField extends React.Component {
   }
 
   getItemSchema(index) {
-    const schema = this.props.schema;
+    const { schema } = this.props;
     if (schema.items.length > index) {
       return schema.items[index];
     }
@@ -188,6 +188,8 @@ export default class ArrayField extends React.Component {
     this.props.onChange(newItems);
     this.setState(newState, () => {
       this.scrollToTop();
+      // Focus on "Add Another xyz" button after removing
+      focusElement('.va-growable-add-btn');
     });
   }
 
@@ -204,7 +206,7 @@ export default class ArrayField extends React.Component {
       onBlur,
       schema,
     } = this.props;
-    const definitions = registry.definitions;
+    const { definitions } = registry;
     const { TitleField, SchemaField } = registry.fields;
 
     const uiOptions = uiSchema['ui:options'] || {};
@@ -259,7 +261,7 @@ export default class ArrayField extends React.Component {
               itemIdPrefix,
               definitions,
             );
-            const showSave = uiOptions.showSave;
+            const { showSave } = uiOptions;
             const updateText = showSave && index === 0 ? 'Save' : 'Update';
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
@@ -283,7 +285,9 @@ export default class ArrayField extends React.Component {
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && items.length > 1 ? (
-                        <h3 className="vads-u-font-size--h5">New {itemName}</h3>
+                        <h3 className="vads-u-font-size--h5">
+                          New {uiOptions.itemName}
+                        </h3>
                       ) : null}
                       <div className="input-section">
                         <SchemaField

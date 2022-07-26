@@ -11,6 +11,9 @@ describe('recordEvent', () => {
     global.window = Object.create(global.window);
     Object.assign(global.window, {
       dataLayer: [],
+      // eslint-disable-next-line camelcase
+      google_tag_manager: true,
+      test: 'test',
     });
   });
 
@@ -21,7 +24,20 @@ describe('recordEvent', () => {
   it('should record events to the data layer', () => {
     const e = { event: 'foo-bar', contextualData: 'text' };
     recordEvent(e);
-    expect(global.window.dataLayer.includes(e)).to.be.true;
+    expect(global.window.dataLayer).to.eql([e]);
+  });
+
+  it('should return the eventCallback in the event that google_tag_manager is undefiend', () => {
+    // eslint-disable-next-line camelcase
+    global.window.google_tag_manager = undefined;
+    const testString = 'callbackfired';
+    const e = {
+      event: 'foo-bar',
+      contextualData: 'text',
+      eventCallback: () => testString,
+    };
+    const response = recordEvent(e);
+    expect(response).to.equal(testString);
   });
 });
 

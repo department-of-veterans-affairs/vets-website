@@ -1,72 +1,53 @@
-import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import PropTypes from 'prop-types';
 import ConfirmablePage from '../ConfirmablePage';
 
-import { createSetEditContext } from '../../../actions/edit';
-
-import { URLS } from '../../../utils/navigation';
-import { EDITING_PAGE_NAMES } from '../../../utils/appConstants';
-
 export default function DemographicsDisplay({
-  header = 'Is this your current contact information?',
-  subtitle = 'We can better follow up with you after your appointment when we have your current information.',
+  header = '',
+  subtitle = '',
   demographics = {},
-  isEditEnabled = false,
   isLoading = false,
-  jumpToPage = () => {},
   yesAction = () => {},
   noAction = () => {},
   Footer,
 }) {
-  const dispatch = useDispatch();
-  const setEditContext = useCallback(
-    (data, url) => {
-      dispatch(
-        createSetEditContext({
-          ...data,
-          originatingUrl: URLS.DEMOGRAPHICS,
-          editingPage: EDITING_PAGE_NAMES.DEMOGRAPHICS,
-        }),
-      );
-      jumpToPage(url);
-    },
-    [dispatch, jumpToPage],
-  );
+  const { t } = useTranslation();
 
   const demographicFields = [
-    { title: 'Mailing address', key: 'mailingAddress' },
-    { title: 'Home address', key: 'homeAddress' },
     {
-      title: 'Home phone',
+      title: t('mailing-address'),
+      key: 'mailingAddress',
+    },
+    {
+      title: t('home-address'),
+      key: 'homeAddress',
+    },
+    {
+      title: t('home-phone'),
       key: 'homePhone',
-      editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
     },
     {
-      title: 'Mobile phone',
+      title: t('mobile-phone'),
       key: 'mobilePhone',
-      editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
     },
     {
-      title: 'Work phone',
+      title: t('work-phone'),
       key: 'workPhone',
-      editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
     },
     {
-      title: 'Email address',
+      title: t('email-address'),
       key: 'emailAddress',
-      editAction: data => setEditContext(data, URLS.EDIT_EMAIL),
     },
   ];
   return (
     <>
       <ConfirmablePage
-        header={header}
+        header={header || t('is-this-your-current-contact-information')}
         subtitle={subtitle}
         dataFields={demographicFields}
         data={demographics}
-        isEditEnabled={isEditEnabled}
         isLoading={isLoading}
         yesAction={yesAction}
         noAction={noAction}
@@ -80,9 +61,7 @@ DemographicsDisplay.propTypes = {
   Footer: PropTypes.elementType,
   demographics: PropTypes.object,
   header: PropTypes.string,
-  isEditEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
-  jumpToPage: PropTypes.func,
   noAction: PropTypes.func,
   subtitle: PropTypes.string,
   yesAction: PropTypes.func,

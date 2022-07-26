@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
+const moment = require('moment');
 
 // var
 const confirmedVA = require('./var/confirmed_va.json');
@@ -22,11 +23,12 @@ const varSlots = require('./var/slots.json');
 const cancelReasons = require('./var/cancel_reasons.json');
 const requestEligibilityCriteria = require('./var/request_eligibility_criteria.json');
 const directBookingEligibilityCriteria = require('./var/direct_booking_eligibility_criteria.json');
-const generateMockSlots = require('./var/slots.js');
+const generateMockSlots = require('./var/slots');
 
 // v2
 const requestsV2 = require('./v2/requests.json');
 const facilitiesV2 = require('./v2/facilities.json');
+const providersV2 = require('./v2/providers.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
@@ -194,7 +196,6 @@ const responses = {
       attributes: {
         ...req.body,
         start: req.body.slot ? req.body.slot.start : null,
-        cancellable: req.body.status === 'proposed',
       },
     };
     currentMockId++;
@@ -214,7 +215,6 @@ const responses = {
         attributes: {
           ...appt.attributes,
           cancelationReason: { coding: [{ code: 'pat' }] },
-          cancellable: false,
         },
       };
     }
@@ -230,14 +230,28 @@ const responses = {
     });
   },
   'GET /vaos/v2/appointments': (req, res) => {
-    if (req.query.statuses?.includes('proposed')) {
-      return res.json(requestsV2);
-    }
-    if (req.query.statuses?.includes('booked')) {
-      return res.json(confirmedV2);
-    }
+    // merge arrays together
+    const appointments = confirmedV2.data.concat(requestsV2.data, mockAppts);
+    const filteredAppointments = appointments.filter(appointment => {
+      return req.query.statuses.some(status => {
+        if (appointment.attributes.status === status) {
+          if (appointment.id.startsWith('mock')) return true;
 
-    return res.json({ data: [] });
+          const date =
+            status === 'proposed'
+              ? moment(appointment.attributes.requestedPeriods[0]?.start)
+              : moment(appointment.attributes.start);
+          if (
+            date.isValid() &&
+            date.isBetween(req.query.start, req.query.end, 'day', '(]')
+          ) {
+            return true;
+          }
+        }
+        return false;
+      });
+    });
+    return res.json({ data: filteredAppointments });
   },
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
@@ -257,6 +271,11 @@ const responses = {
   'GET /vaos/v2/facilities/:id': (req, res) => {
     return res.json({
       data: facilitiesV2.data.find(facility => facility.id === req.params.id),
+    });
+  },
+  'GET /vaos/v2/providers/:id': (req, res) => {
+    return res.json({
+      data: providersV2.data.find(provider => provider.id === req.params.id),
     });
   },
   'GET /vaos/v2/facilities': (req, res) => {
@@ -427,9 +446,8 @@ const responses = {
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
         { name: 'vaOnlineSchedulingPocHealthApt', value: true },
         { name: 'vaOnlineSchedulingStatusImprovement', value: true },
-        { name: 'ssoe', value: true },
-        { name: 'ssoe_inbound', value: false },
-        { name: 'ssoe_ebenefits_links', value: false },
+        { name: 'vaOnlineFilter36Vats', value: true },
+        { name: 'vaOnlineSchedulingVaosV2Next', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },

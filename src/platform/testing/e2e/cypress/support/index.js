@@ -29,8 +29,19 @@ Cypress.Commands.overwrite('type', (originalFn, element, text, options) => {
     // Use 0 because it's expected to pass most validations.
     return originalFn(element, '0{backspace}', options);
   }
+  let newOptions;
+  if (options?.delay) {
+    newOptions = options;
+  } else {
+    // This removes the default 10 ms delay in cy.type().
+    newOptions = { ...options, delay: 0 };
+  }
+  return originalFn(element, text, newOptions);
+});
 
-  return originalFn(element, text, options);
+// This removes the default 10 ms delay in cy.clear().
+Cypress.Commands.overwrite('clear', (originalFn, element) => {
+  return originalFn(element, { delay: 0 });
 });
 
 Cypress.on('uncaught:exception', () => {

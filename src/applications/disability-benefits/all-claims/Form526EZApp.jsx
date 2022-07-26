@@ -11,6 +11,8 @@ import {
 } from 'platform/site-wide/wizard';
 import { isLoggedIn } from 'platform/user/selectors';
 
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { focusElement } from 'platform/utilities/ui';
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
@@ -23,7 +25,6 @@ import {
 import { MVI_ADD_SUCCEEDED } from './actions';
 import {
   WIZARD_STATUS,
-  PDF_SIZE_FEATURE,
   SHOW_8940_4192,
   PAGE_TITLE_SUFFIX,
   DOCUMENT_TITLE_SUFFIX,
@@ -36,10 +37,6 @@ import {
   wrapWithBreadcrumb,
   isExpired,
 } from './utils';
-import { uploadPdfLimitFeature } from './config/selectors';
-
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
 
 export const serviceRequired = [
   backendServices.FORM526,
@@ -71,7 +68,6 @@ export const Form526Entry = ({
   location,
   loggedIn,
   mvi,
-  pdfLimit,
   router,
   savedForms,
   showSubforms,
@@ -190,11 +186,6 @@ export const Form526Entry = ({
     }
   }
 
-  // No easy method to pass a feature flag setting to a uiSchema, so we'll use
-  // sessionStorage for now. Done here because continuing an application may
-  // bypass the intro page.
-  sessionStorage.setItem(PDF_SIZE_FEATURE, pdfLimit);
-
   return wrapWithBreadcrumb(
     title,
     <article id="form-526" data-location={`${location?.pathname?.slice(1)}`}>
@@ -214,7 +205,6 @@ const mapStateToProps = state => ({
   isStartingOver: state.form?.isStartingOver,
   loggedIn: isLoggedIn(state),
   mvi: state.mvi,
-  pdfLimit: uploadPdfLimitFeature(state),
   savedForms: state?.user?.profile?.savedForms || [],
   showSubforms: showSubform8940And4192(state),
   showWizard: show526Wizard(state),

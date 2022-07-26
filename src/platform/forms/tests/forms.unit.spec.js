@@ -22,6 +22,8 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_21_22A,
   VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL_UPDATE,
   VA_FORM_IDS.FORM_XX_123,
+  VA_FORM_IDS.FORM_MOCK,
+  VA_FORM_IDS.FORM_20_0995,
 ];
 
 const root = path.join(__dirname, '../../../');
@@ -158,7 +160,7 @@ const validFormConfigKeys = formConfig => {
 };
 
 const validFormId = formConfig => {
-  let formId = formConfig.formId;
+  let { formId } = formConfig;
   if (Object.keys(remapFormId).includes(formId)) {
     formId = remapFormId[formId];
   }

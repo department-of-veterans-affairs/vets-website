@@ -4,10 +4,6 @@ import isEmpty from 'lodash/isEmpty';
 
 import '../sass/dashboard.scss';
 
-import AlertBox, {
-  ALERT_TYPE,
-} from '@department-of-veterans-affairs/component-library/AlertBox';
-
 import {
   fetchMilitaryInformation as fetchMilitaryInformationAction,
   fetchHero as fetchHeroAction,
@@ -41,8 +37,6 @@ import NotInMPIError from '~/applications/personalization/components/NotInMPIErr
 import IdentityNotVerified from '~/applications/personalization/components/IdentityNotVerified';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '~/applications/personalization/rated-disabilities/actions';
 import { hasTotalDisabilityServerError } from '~/applications/personalization/rated-disabilities/selectors';
-import { fetchDebts } from '~/applications/personalization/dashboard/actions/debts';
-
 import useDowntimeApproachingRenderMethod from '../useDowntimeApproachingRenderMethod';
 
 import ApplyForBenefits from './apply-for-benefits/ApplyForBenefits';
@@ -50,24 +44,28 @@ import ClaimsAndAppeals from './claims-and-appeals/ClaimsAndAppeals';
 import HealthCare from './health-care/HealthCare';
 import CTALink from './CTALink';
 import BenefitPaymentsAndDebt from './benefit-payments-and-debts/BenefitPaymentsAndDebt';
-import DebtNotification from './notifications/DebtNotification';
 import DashboardWidgetWrapper from './DashboardWidgetWrapper';
 import { getAllPayments } from '../actions/payments';
+import Notifications from './notifications/Notifications';
 
 const renderWidgetDowntimeNotification = (downtime, children) => {
   if (downtime.status === externalServiceStatus.down) {
     return (
       <div className="vads-l-row">
         <div className="vads-l-col--12 medium-screen:vads-l-col--8 medium-screen:vads-u-padding-right--3">
-          <AlertBox
-            status={ALERT_TYPE.ERROR}
-            headline="We can’t access any claims or appeals information right now"
-          >
-            We’re sorry. We’re working to fix some problems with the claims or
-            appeals tool right now and cannot display your information on this
-            page. Please check back after{' '}
-            {downtime.endTime.format('MMMM D [at] LT')}
-          </AlertBox>
+          <va-alert status="error">
+            <h2 slot="headline">
+              We can’t access any claims or appeals information right now
+            </h2>
+            <div>
+              <p>
+                We’re sorry. We’re working to fix some problems with the claims
+                or appeals tool right now and cannot display your information on
+                this page. Please check back after{' '}
+                {downtime.endTime.format('MMMM D [at] LT')}
+              </p>
+            </div>
+          </va-alert>
         </div>
       </div>
     );
@@ -75,12 +73,7 @@ const renderWidgetDowntimeNotification = (downtime, children) => {
   return children;
 };
 
-const DashboardHeader = ({
-  showNotifications,
-  debts,
-  debtsError,
-  paymentsError,
-}) => {
+const DashboardHeader = ({ showNotifications, paymentsError }) => {
   return (
     <div>
       <h1
@@ -117,52 +110,22 @@ const DashboardHeader = ({
           </div>
         </DashboardWidgetWrapper>
       )}
-      {showNotifications && (
-        <div data-testid="dashboard-notifications">
-          <DebtNotification debts={debts} hasError={debtsError} />
-        </div>
-      )}
+      {showNotifications && <Notifications />}
     </div>
   );
 };
 
 DashboardHeader.propTypes = {
-  showNotifications: PropTypes.bool,
-  debts: PropTypes.arrayOf(
-    PropTypes.shape({
-      fileNumber: PropTypes.string.isRequired,
-      payeeNumber: PropTypes.string.isRequired,
-      personEntitled: PropTypes.string.isRequired,
-      deductionCode: PropTypes.string.isRequired,
-      benefitType: PropTypes.string.isRequired,
-      diaryCode: PropTypes.string.isRequired,
-      diaryCodeDescription: PropTypes.string,
-      amountOverpaid: PropTypes.number.isRequired,
-      amountWithheld: PropTypes.number.isRequired,
-      originalAr: PropTypes.number.isRequired,
-      currentAr: PropTypes.number.isRequired,
-      debtHistory: PropTypes.arrayOf(
-        PropTypes.shape({
-          date: PropTypes.string.isRequired,
-          letterCode: PropTypes.string.isRequired,
-          description: PropTypes.string.isRequired,
-        }),
-      ),
-    }),
-  ),
-  debtsError: PropTypes.bool,
   paymentsError: PropTypes.bool,
+  showNotifications: PropTypes.bool,
 };
 
 const Dashboard = ({
   fetchFullName,
   fetchMilitaryInformation,
   fetchTotalDisabilityRating,
-  getDebts,
   getPayments,
   isLOA3,
-  debts,
-  debtsError,
   payments,
   paymentsError,
   showLoader,
@@ -205,8 +168,6 @@ const Dashboard = ({
         fetchFullName();
         fetchMilitaryInformation();
         fetchTotalDisabilityRating();
-        getDebts();
-        getPayments();
       }
     },
     [
@@ -214,9 +175,17 @@ const Dashboard = ({
       fetchFullName,
       fetchMilitaryInformation,
       fetchTotalDisabilityRating,
-      getDebts,
-      getPayments,
     ],
+  );
+
+  // fetch data when we determine they are LOA3
+  useEffect(
+    () => {
+      if (showBenefitPaymentsAndDebt) {
+        getPayments();
+      }
+    },
+    [getPayments, showBenefitPaymentsAndDebt],
   );
 
   return (
@@ -249,8 +218,6 @@ const Dashboard = ({
             )}
             <div className="vads-l-grid-container vads-u-padding-x--1 vads-u-padding-bottom--3 medium-screen:vads-u-padding-x--2 medium-screen:vads-u-padding-bottom--4">
               <DashboardHeader
-                debts={debts}
-                debtsError={debtsError}
                 paymentsError={paymentsError}
                 showNotifications={showNotifications}
               />
@@ -300,8 +267,6 @@ const Dashboard = ({
 
               {showBenefitPaymentsAndDebt ? (
                 <BenefitPaymentsAndDebt
-                  debts={debts}
-                  debtsError={debtsError}
                   payments={payments}
                   showNotifications={showNotifications}
                 />
@@ -332,6 +297,9 @@ const mapStateToProps = state => {
   const hasClaimsOrAppealsService =
     isAppealsAvailableSelector(state) || isClaimsAvailableSelector(state);
   const hasLoadedMilitaryInformation = state.vaProfile?.militaryInformation;
+  const hasMHVAccount = ['OK', 'MULTIPLE'].includes(
+    state.user?.profile?.mhvAccountState,
+  );
   const hasLoadedFullName = !!hero;
 
   const hasLoadedDisabilityRating = state.totalRating?.loading === false;
@@ -354,14 +322,23 @@ const mapStateToProps = state => {
     isLOA3 &&
     hasClaimsOrAppealsService;
   const showHealthCare =
-    !showMPIConnectionError && !showNotInMPIError && isLOA3 && isVAPatient;
-  const showBenefitPaymentsAndDebt = toggleValues(state)[
-    FEATURE_FLAG_NAMES.showPaymentAndDebtSection
-  ];
+    hasMHVAccount &&
+    !showMPIConnectionError &&
+    !showNotInMPIError &&
+    isLOA3 &&
+    isVAPatient;
+  const showBenefitPaymentsAndDebt =
+    !showMPIConnectionError && !showNotInMPIError && isLOA3;
 
-  const showNotifications = toggleValues(state)[
+  const hasNotificationFeature = toggleValues(state)[
     FEATURE_FLAG_NAMES.showDashboardNotifications
   ];
+
+  const showNotifications =
+    !!hasNotificationFeature &&
+    !showMPIConnectionError &&
+    !showNotInMPIError &&
+    isLOA3;
 
   return {
     isLOA3,
@@ -378,8 +355,6 @@ const mapStateToProps = state => {
     showNotInMPIError,
     showBenefitPaymentsAndDebt,
     showNotifications,
-    debts: state.fsr.debts || [],
-    debtsError: state.fsr.isError || false,
     payments: state.allPayments.payments?.payments || [],
     paymentsError: state.allPayments.error,
   };
@@ -389,39 +364,8 @@ Dashboard.propTypes = {
   fetchFullName: PropTypes.func,
   fetchMilitaryInformation: PropTypes.func,
   fetchTotalDisabilityRating: PropTypes.func,
-  getDebts: PropTypes.func,
   getPayments: PropTypes.func,
   isLOA3: PropTypes.bool,
-  showLoader: PropTypes.bool,
-  showMPIConnectionError: PropTypes.bool,
-  showNameTag: PropTypes.bool,
-  showNotInMPIError: PropTypes.bool,
-  showBenefitPaymentsAndDebt: PropTypes.bool,
-  showNotifications: PropTypes.bool,
-  debtsError: PropTypes.bool,
-  debts: PropTypes.arrayOf(
-    PropTypes.shape({
-      fileNumber: PropTypes.string.isRequired,
-      payeeNumber: PropTypes.string.isRequired,
-      personEntitled: PropTypes.string.isRequired,
-      deductionCode: PropTypes.string.isRequired,
-      benefitType: PropTypes.string.isRequired,
-      diaryCode: PropTypes.string.isRequired,
-      diaryCodeDescription: PropTypes.string,
-      amountOverpaid: PropTypes.number.isRequired,
-      amountWithheld: PropTypes.number.isRequired,
-      originalAr: PropTypes.number.isRequired,
-      currentAr: PropTypes.number.isRequired,
-      debtHistory: PropTypes.arrayOf(
-        PropTypes.shape({
-          date: PropTypes.string.isRequired,
-          letterCode: PropTypes.string.isRequired,
-          description: PropTypes.string.isRequired,
-        }),
-      ),
-    }),
-  ),
-  paymentsError: PropTypes.bool,
   payments: PropTypes.arrayOf(
     PropTypes.shape({
       payCheckAmount: PropTypes.string.isRequired,
@@ -434,13 +378,25 @@ Dashboard.propTypes = {
       accountNumber: PropTypes.string.isRequired,
     }),
   ),
+  paymentsError: PropTypes.bool,
+  showBenefitPaymentsAndDebt: PropTypes.bool,
+  showClaimsAndAppeals: PropTypes.bool,
+  showHealthCare: PropTypes.bool,
+  showLoader: PropTypes.bool,
+  showMPIConnectionError: PropTypes.bool,
+  showNameTag: PropTypes.bool,
+  showNotInMPIError: PropTypes.bool,
+  showNotifications: PropTypes.bool,
+  showValidateIdentityAlert: PropTypes.bool,
+  totalDisabilityRating: PropTypes.number,
+  totalDisabilityRatingServerError: PropTypes.bool,
+  user: PropTypes.object,
 };
 
 const mapDispatchToProps = {
   fetchFullName: fetchHeroAction,
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
-  getDebts: fetchDebts,
   getPayments: getAllPayments,
 };
 

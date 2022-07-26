@@ -1,7 +1,9 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import recordEvent from 'platform/monitoring/record-event';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 import { api } from '../../api';
 import {
   getTokenFromLocation,
@@ -21,11 +23,20 @@ import { setApp } from '../../actions/universal';
 import { APP_NAMES } from '../../utils/appConstants';
 
 const Landing = props => {
-  const { isUpdatePageEnabled, location, router } = props;
+  const { location, router } = props;
   const { jumpToPage, goToErrorPage } = useFormRouting(router);
+  const { t } = useTranslation();
 
-  const [loadMessage] = useState('Finding your appointment information');
-  const { clearCurrentSession, setCurrentToken } = useSessionStorage(false);
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+
+  const [loadMessage] = useState(t('finding-your-appointment-information'));
+  const {
+    clearCurrentSession,
+    setShouldSendDemographicsFlags,
+    setCurrentToken,
+    resetAttempts,
+  } = useSessionStorage(false);
   const dispatch = useDispatch();
 
   const initForm = useCallback(
@@ -67,13 +78,17 @@ const Landing = props => {
 
       if (token) {
         api.v2
-          .getSession({ token })
+          .getSession({
+            token,
+            isLorotaSecurityUpdatesEnabled,
+          })
           .then(session => {
             if (session.errors || session.error) {
               clearCurrentSession(window);
               goToErrorPage();
             } else {
               // if session with read.full exists, go to check in page
+              setShouldSendDemographicsFlags(window, true);
               setCurrentToken(window, token);
               const pages = createForm();
               const firstPage = pages[0];
@@ -95,13 +110,15 @@ const Landing = props => {
     },
     [
       location,
-      isUpdatePageEnabled,
       clearCurrentSession,
       setCurrentToken,
       jumpToPage,
       goToErrorPage,
       initForm,
       setSession,
+      setShouldSendDemographicsFlags,
+      resetAttempts,
+      isLorotaSecurityUpdatesEnabled,
     ],
   );
   return (
@@ -112,7 +129,6 @@ const Landing = props => {
 };
 
 Landing.propTypes = {
-  isUpdatePageEnabled: PropTypes.bool,
   location: PropTypes.object,
   router: PropTypes.object,
 };

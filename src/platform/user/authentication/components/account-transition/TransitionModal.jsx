@@ -2,9 +2,13 @@ import React, { useEffect } from 'react';
 
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import recordEvent from 'platform/monitoring/record-event';
-import { MHV_TRANSITION_DATE } from '../../constants';
+import { MHV_TRANSITION_DATE, MHV_TRANSITION_TIME } from '../../constants';
 
-const AccountTransitionModal = ({ visible, onClose }) => {
+const AccountTransitionModal = ({
+  visible,
+  onClose,
+  canTransferMHVAccount,
+}) => {
   useEffect(
     () => {
       recordEvent({
@@ -18,14 +22,16 @@ const AccountTransitionModal = ({ visible, onClose }) => {
 
   const primaryButton = {
     action: () => {
-      window.location = '/sign-in/transition';
+      window.location = '/transfer-account';
     },
-    text: 'Start transition process',
+    text: canTransferMHVAccount
+      ? 'Start to transfer my account'
+      : 'Learn how to transfer account',
   };
 
   const secondaryButton = {
     action: onClose,
-    text: 'Dismiss for now',
+    text: 'Remind me later',
   };
 
   return (
@@ -37,31 +43,41 @@ const AccountTransitionModal = ({ visible, onClose }) => {
       primaryButton={primaryButton}
       secondaryButton={secondaryButton}
       status="info"
-      title="VA.gov is moving to a more secure sign-in process"
+      title="Prepare for sign in changes at VA"
     >
       <div className="container">
         <div className="row">
           <div className="columns">
             <p>
-              Due to stricter security requirements, your My HealtheVet username
-              and password should no longer be used to access your benefits on
-              VA.gov. Instead we recommend transitioning to using the{' '}
-              <strong>Login.gov</strong> credential.
+              {MHV_TRANSITION_DATE ? (
+                <>
+                  Starting on <strong>{MHV_TRANSITION_DATE}</strong>,{' '}
+                </>
+              ) : (
+                <>Soon </>
+              )}
+              you’ll no longer be able to use your My HealtheVet username and
+              password to sign in. You’ll need to use a verified{' '}
+              <strong>Login.gov</strong> or <strong>ID.me</strong> account that
+              meets our new, stronger security requirements. With{' '}
+              <strong>Login.gov</strong> or <strong>ID.me</strong>, you’ll still
+              have access to all the same information and services you use
+              today.
             </p>
-
-            <p>
-              Starting on {MHV_TRANSITION_DATE} a verified{' '}
-              <strong>Login.gov</strong> account will be needed to access your
-              benefits on VA.gov and My HealtheVet. This is part of a continued
-              joint effort to make it safer for you to access and manage the
-              benefits you’ve earned.
-            </p>
-
-            <p>
-              We have made it easy to transition to using a{' '}
-              <strong>Login.gov</strong> account. Would you like to transition
-              to a Login.gov account right now?
-            </p>
+            {canTransferMHVAccount ? (
+              <p>
+                We can help you transfer your account to{' '}
+                <strong>Login.gov</strong> now. This process should take about
+                {MHV_TRANSITION_TIME} minutes. You’ll need access to your email
+                account and your phone to transfer your account.
+              </p>
+            ) : (
+              <p>
+                We can help you transfer to a verified account today. We’ll
+                answer your questions about the different account types and help
+                you get started to create a new account.
+              </p>
+            )}
           </div>
         </div>
       </div>

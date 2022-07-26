@@ -1,24 +1,66 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useMemo, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import format from 'date-fns/format';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
+import { useTranslation, Trans } from 'react-i18next';
+import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 
 import AppointmentListItem from '../../../components/AppointmentDisplay/AppointmentListItem';
 import BackButton from '../../../components/BackButton';
 import BackToHome from '../../../components/BackToHome';
-import Footer from '../../../components/Footer';
+import Footer from '../../../components/layout/Footer';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { sortAppointmentsByStartTime } from '../../../utils/appointment';
+import {
+  intervalUntilNextAppointmentIneligibleForCheckin,
+  sortAppointmentsByStartTime,
+} from '../../../utils/appointment';
+
+import { makeSelectCurrentContext } from '../../../selectors';
+import Wrapper from '../../../components/layout/Wrapper';
 
 const DisplayMultipleAppointments = props => {
-  const { appointments, getMultipleAppointments, router, token } = props;
+  const { appointments, router, token } = props;
+  const { t } = useTranslation();
+  const { goToErrorPage } = useFormRouting(router);
 
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const context = useSelector(selectCurrentContext);
+  const { shouldRefresh } = context;
+
+  const { isLoading, checkInDataError, refreshCheckInData } = useGetCheckInData(
+    shouldRefresh,
+    true,
+  );
+
+  const refreshTimer = useRef(null);
+
+  useEffect(
+    () => {
+      const refreshInterval = intervalUntilNextAppointmentIneligibleForCheckin(
+        appointments,
+      );
+
+      // Refresh the page 5 seconds before the checkIn window expires.
+      if (refreshInterval > 5000) {
+        if (refreshTimer.current !== null) {
+          clearTimeout(refreshTimer.current);
+        }
+
+        refreshTimer.current = setTimeout(
+          () => refreshCheckInData(),
+          refreshInterval - 5000,
+        );
+      }
+
+      if (checkInDataError) {
+        goToErrorPage();
+      }
+    },
+    [appointments, checkInDataError, goToErrorPage, refreshCheckInData],
+  );
 
   const handleClick = useCallback(
     () => {
@@ -26,24 +68,30 @@ const DisplayMultipleAppointments = props => {
         event: createAnalyticsSlug('refresh-appointments-button-clicked'),
       });
 
-      getMultipleAppointments();
+      refreshCheckInData();
       focusElement('h1');
     },
-    [getMultipleAppointments],
+    [refreshCheckInData],
   );
+
   const { goToPreviousPage } = useFormRouting(router);
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
-  const today = format(new Date(), 'MMMM dd, yyyy');
-  return (
+
+  if (isLoading) window.scrollTo(0, 0);
+
+  return isLoading ? (
+    <va-loading-indicator message={t('loading-your-appointments-for-today')} />
+  ) : (
     <>
       <BackButton router={router} action={goToPreviousPage} />
-      <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 appointment-check-in">
-        <h1 tabIndex="-1" className="vads-u-margin-top--2">
-          Your appointments
-        </h1>
+      <Wrapper
+        pageTitle={t('your-appointments')}
+        classNames="appointment-check-in"
+        withBackButton
+      >
         <p data-testid="date-text">
-          {`Here are your appointments for today: ${today}.`}
+          {t('here-are-your-appointments-for-today', { date: new Date() })}
         </p>
         {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
         <ol
@@ -62,8 +110,11 @@ const DisplayMultipleAppointments = props => {
           })}
         </ol>
         <p data-testid="update-text">
-          <strong>Latest update:</strong>{' '}
-          {format(new Date(), "MMMM d, yyyy 'at' h:mm aaaa")}
+          <Trans
+            i18nKey="latest-update"
+            components={{ bold: <strong /> }}
+            values={{ date: new Date() }}
+          />
         </p>
         <p data-testid="refresh-link">
           <button
@@ -72,12 +123,12 @@ const DisplayMultipleAppointments = props => {
             data-testid="refresh-appointments-button"
             type="button"
           >
-            Refresh
+            {t('refresh')}
           </button>
         </p>
         <Footer />
         <BackToHome />
-      </div>
+      </Wrapper>
     </>
   );
 };

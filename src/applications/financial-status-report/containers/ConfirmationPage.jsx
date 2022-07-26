@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
 import moment from 'moment';
-import { connect } from 'react-redux';
+import { useSelector, connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import environment from 'platform/utilities/environment';
 import { focusElement } from 'platform/utilities/ui';
@@ -11,7 +10,8 @@ import ServiceProvidersText, {
 } from 'platform/user/authentication/components/ServiceProvidersText';
 import GetFormHelp from '../components/GetFormHelp';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
-import { downloadPDF } from '../actions';
+import DownloadFormPDF from '../components/DownloadFormPDF';
+import { fsrConfirmationEmailToggle } from '../utils/helpers';
 
 const { scroller } = Scroll;
 const scrollToTop = () => {
@@ -24,6 +24,9 @@ const scrollToTop = () => {
 
 const RequestDetailsCard = ({ data, response }) => {
   const name = data.personalData?.veteranFullName;
+  const windowPrint = useCallback(() => {
+    window.print();
+  }, []);
 
   return (
     <div className="inset">
@@ -61,9 +64,10 @@ const RequestDetailsCard = ({ data, response }) => {
         <p className="vads-u-margin-y--0">P.O. Box 11930</p>
         <p className="vads-u-margin-y--0">St. Paul, MN 55111-0930</p>
         <p>
+          <DownloadFormPDF />
           <button
             className="usa-button-secondary button vads-u-background-color--white"
-            onClick={() => window.print()}
+            onClick={windowPrint}
             type="button"
           >
             Print this page
@@ -76,10 +80,13 @@ const RequestDetailsCard = ({ data, response }) => {
 
 RequestDetailsCard.propTypes = {
   data: PropTypes.object,
+  download: PropTypes.func,
   response: PropTypes.object,
 };
 
 const ConfirmationPage = ({ form, download }) => {
+  const showFSREmail = useSelector(state => fsrConfirmationEmailToggle(state));
+
   const { response } = form.submission;
   const { data } = form;
 
@@ -94,7 +101,18 @@ const ConfirmationPage = ({ form, download }) => {
         <strong>Please print this page for your records.</strong>
       </p>
 
-      <h3 className="confirmation-page-title">We’ve received your request</h3>
+      {showFSREmail && (
+        <va-alert status="success">
+          <h3 className="confirmation-page-title">
+            We’ve received your request
+          </h3>
+          <p>
+            We’ll send you an email confirming your request to{' '}
+            <strong>{data.personalData.emailAddress}.</strong>
+          </p>
+        </va-alert>
+      )}
+
       <p>
         We’ll send you a letter with our decision and any next steps. If you
         experience changes that may affect our decision (like a job loss or a
@@ -182,11 +200,4 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators({ download: downloadPDF }, dispatch),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ConfirmationPage);
+export default connect(mapStateToProps)(ConfirmationPage);

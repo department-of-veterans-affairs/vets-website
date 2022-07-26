@@ -36,7 +36,7 @@ describe('Check In Experience', () => {
     });
     cy.visitWithUUID();
     cy.injectAxeThenAxeCheck();
-    ValidateVeteran.validatePageLoaded('Check in at VA');
+    ValidateVeteran.validatePage.dayOf();
     cy.window().then(window => {
       const data = window.sessionStorage.getItem(
         'health.care.check-in.current.uuid',

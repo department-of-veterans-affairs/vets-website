@@ -7,6 +7,7 @@ export default function TestComponent() {
     demographicsData,
     demographicsFlagsSent,
     setDemographicsFlagsSent,
+    demographicsFlagsEmpty,
   } = useDemographicsFlags();
   return (
     <div>
@@ -21,6 +22,9 @@ export default function TestComponent() {
       </div>
       <div data-testid="demographicsFlagsSent">
         {demographicsFlagsSent ? 'yes' : 'no'}
+      </div>
+      <div data-testid="demographicsFlagsEmpty">
+        {demographicsFlagsEmpty ? 'yes' : 'no'}
       </div>
       <button
         type="button"

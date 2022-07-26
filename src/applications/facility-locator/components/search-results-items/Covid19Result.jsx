@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
+import recordEvent from 'platform/monitoring/record-event';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import { isVADomain } from '../../utils/helpers';
 import { recordResultClickEvents } from '../../utils/analytics';
-import { Link } from 'react-router';
 import { OperatingStatus } from '../../constants';
 import LocationAddress from './common/LocationAddress';
 import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationDistance from './common/LocationDistance';
 import CovidPhoneLink from './common/Covid19PhoneLink';
-import recordEvent from 'platform/monitoring/record-event';
 
 const Covid19Result = ({
   location,
@@ -23,6 +23,7 @@ const Covid19Result = ({
     operatingStatus,
     detailedServices,
     tmpCovidOnlineScheduling,
+    phone,
   } = location.attributes;
   const appointmentPhone = detailedServices
     ? detailedServices[0]?.appointmentPhones[0]
@@ -42,6 +43,11 @@ const Covid19Result = ({
           onClick={() => {
             recordResultClickEvents(location, index);
           }}
+          onKeyPress={() => {
+            recordResultClickEvents(location, index);
+          }}
+          role="link"
+          tabIndex={0}
         >
           {isVADomain(website) ? (
             <h3 className="vads-u-font-size--h5 no-marg-top">
@@ -58,7 +64,7 @@ const Covid19Result = ({
             <LocationOperationStatus operatingStatus={operatingStatus} />
           )}
         <LocationAddress location={location} />
-        <LocationDirectionsLink location={location} from={'SearchResult'} />
+        <LocationDirectionsLink location={location} from="SearchResult" />
         {showCovidVaccineSchedulingLinks &&
           covidSchedulingAvailable && (
             <a
@@ -78,16 +84,28 @@ const Covid19Result = ({
             Walk-ins accepted
           </strong>
         )}
-        <CovidPhoneLink
-          phone={appointmentPhone}
-          showCovidVaccineSchedulingLink={
-            showCovidVaccineSchedulingLinks && covidSchedulingAvailable
-          }
-          showCovidVaccineWalkInAvailabilityText={
-            showCovidVaccineWalkInAvailabilityText
-          }
-          labelId={`${location.id}-phoneLabel`}
-        />
+        {appointmentPhone ? (
+          <CovidPhoneLink
+            phone={appointmentPhone}
+            showCovidVaccineSchedulingLink={
+              showCovidVaccineSchedulingLinks && covidSchedulingAvailable
+            }
+            showCovidVaccineWalkInAvailabilityText={
+              showCovidVaccineWalkInAvailabilityText
+            }
+            labelId={`${location.id}-phoneLabel`}
+          />
+        ) : (
+          <div>
+            <strong id={`${location.id}-phoneLabel`}>
+              Main number :&nbsp;
+            </strong>
+            <va-telephone
+              className="vads-u-margin-left--0p25"
+              contact={phone.main}
+            />
+          </div>
+        )}
         {infoURL && (
           <span className="vads-u-margin-top--2 vads-u-display--block">
             <a href={infoURL} target="_blank" rel="noreferrer">

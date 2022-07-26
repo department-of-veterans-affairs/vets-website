@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import format from 'date-fns/format';
+import { useTranslation } from 'react-i18next';
 import AppointmentLocation from './AppointmentLocation';
 
 import AppointmentAction from './AppointmentAction';
@@ -8,35 +8,41 @@ import AppointmentAction from './AppointmentAction';
 const AppointmentListItem = props => {
   const { appointment, token, router } = props;
   const appointmentDateTime = new Date(appointment.startTime);
-  const appointmentTime = format(appointmentDateTime, 'h:mm aaaa');
+  const { t } = useTranslation();
+  const apptId = `${appointment.stationNo ? appointment.stationNo : ''}${
+    appointment.appointmentIen
+  }`;
   return (
     <li className="appointment-item vads-u-padding--2">
-      <dl className="appointment-summary vads-u-margin--0 vads-u-padding--0">
-        <dd
-          className="appointment-time vads-u-font-family--serif vads-u-font-weight--bold vads-u-margin-bottom--1 "
+      <div className="appointment-summary vads-u-margin--0 vads-u-padding--0">
+        <h2
+          className="appointment-time vads-u-font-family--serif vads-u-font-weight--bold vads-u-margin-bottom--1 vads-u-margin-top--0"
           data-testid="appointment-time"
+          aria-describedby={apptId}
         >
-          {appointmentTime}
-        </dd>
-        <dt className="facility-label vads-u-margin--0 vads-u-margin-right--1 vads-u-font-family--serif vads-u-font-weight--bold ">
-          Facility:{' '}
-        </dt>
-        <dd
-          data-testid="facility-name"
-          className="facility-name vads-u-font-weight--bold vads-u-font-family--serif "
-        >
-          {appointment.facility}
-        </dd>
-        <dt className="clinic-label  vads-u-margin--0 vads-u-margin-right--1 vads-u-margin-bottom--1 vads-u-font-family--serif vads-u-font-weight--bold">
-          Clinic:{' '}
-        </dt>
-        <dd
-          data-testid="clinic-name"
-          className="clinic-name  vads-u-font-weight--bold vads-u-font-family--serif"
-        >
-          <AppointmentLocation appointment={appointment} />
-        </dd>
-      </dl>
+          {t('date-time', { date: appointmentDateTime })}
+        </h2>
+        <div id={apptId}>
+          <p className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-font-family--serif vads-u-font-weight--bold appointment-detail">
+            <span className="item-label">{t('facility')}: </span>
+            <span className="item-value" data-testid="facility-name">
+              {appointment.facility}
+            </span>
+            <span className="item-label">{t('clinic')}: </span>
+            <span className="item-value" data-testid="clinic-name">
+              <AppointmentLocation appointment={appointment} />
+            </span>
+            {appointment.clinicLocation && (
+              <>
+                <span className="item-label">{t('location')}: </span>
+                <span className="item-value" data-testid="clinic-location">
+                  {appointment.clinicLocation}
+                </span>
+              </>
+            )}
+          </p>
+        </div>
+      </div>
       <AppointmentAction
         appointment={appointment}
         router={router}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import moment from 'moment';
-import Date from '@department-of-veterans-affairs/component-library/Date';
+import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -10,12 +10,12 @@ import {
   SAVED_SEPARATION_DATE,
 } from '../../all-claims/constants';
 
+const dateTemplate = 'YYYY-MM-DD';
 const maxDate = moment().add(100, 'year');
 
 const saveDischargeDate = (date, isBDD) => {
   if (date) {
-    const formattedDate = moment(date).format('YYYY-MM-DD');
-    window.sessionStorage.setItem(SAVED_SEPARATION_DATE, formattedDate);
+    window.sessionStorage.setItem(SAVED_SEPARATION_DATE, date);
     // this flag helps maintain the correct form title within a session
     window.sessionStorage.setItem(FORM_STATUS_BDD, isBDD ? 'true' : 'false');
   } else {
@@ -25,13 +25,8 @@ const saveDischargeDate = (date, isBDD) => {
 };
 
 // Figure out which page to go to based on the date entered
-const findNextPage = state => {
-  const dateDischarge = moment({
-    day: state.day.value,
-    // moment takes 0-indexed months, but the date picker provides 1-indexed months
-    month: parseInt(state.month.value, 10) - 1,
-    year: state.year.value,
-  });
+const findNextPage = date => {
+  const dateDischarge = moment(date, dateTemplate);
   const dateToday = moment();
   const differenceBetweenDatesInDays =
     dateDischarge.diff(dateToday, 'days') + 1;
@@ -42,12 +37,12 @@ const findNextPage = state => {
   }
 
   if (differenceBetweenDatesInDays < 90) {
-    saveDischargeDate(dateDischarge, false);
+    saveDischargeDate(date, false);
     return pageNames.fileClaimEarly;
   }
 
   if (differenceBetweenDatesInDays <= 180) {
-    saveDischargeDate(dateDischarge, true);
+    saveDischargeDate(date, true);
     return pageNames.fileBDD;
   }
 
@@ -55,76 +50,68 @@ const findNextPage = state => {
   return pageNames.unableToFileBDD;
 };
 
-const defaultState = {
-  day: {
-    value: '',
-    dirty: false,
-  },
-  month: {
-    value: '',
-    dirty: false,
-  },
-  year: {
-    value: '',
-    dirty: false,
-  },
-};
-
 const label =
   'What’s the date or anticipated date of your release from active duty?';
 
-const isDateComplete = date =>
-  date.day.value && date.month.value && date.year.value.length === 4;
-
-const getDate = date =>
-  moment({
-    day: date.day.value,
-    month: parseInt(date.month.value, 10) - 1,
-    year: date.year.value,
-  });
-
+const getDate = date => moment(date, dateTemplate);
+const isDateComplete = date => date?.length === dateTemplate.length;
 const isDateInFuture = date => date?.diff(moment()) > 0;
 const isDateLessThanMax = date => date?.isBefore(maxDate);
 
-const BDDPage = ({ setPageState, state = defaultState }) => {
+const BDDPage = ({ setPageState, state = '' }) => {
   const [ariaDescribedby, setAriaDescribedby] = useState('');
+  const [isDirty, setIsDirty] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
-  const onChange = pageState => {
+  const onChange = event => {
+    const pageState = event.target.value || '';
     saveDischargeDate();
     const date = isDateComplete(pageState) ? getDate(pageState) : null;
-    const value =
+    const nextPage =
       isDateInFuture(date) && isDateLessThanMax(date)
         ? findNextPage(pageState)
         : null;
 
     // invalid date & page
-    setPageState(pageState, date && value === null ? 1 : value);
-    if (date && value) {
+    setPageState(pageState, date && nextPage === null ? 1 : nextPage);
+
+    if (date && nextPage) {
       // only set when there's a valid date
-      setAriaDescribedby(value);
+      setAriaDescribedby(nextPage);
       recordEvent({
         event: 'howToWizard-formChange',
         // Date component wrapper class name
         'form-field-type': 'usa-date-of-birth',
         'form-field-label': label,
-        'form-field-value': date.format('YYYY-MM-DD'),
+        'form-field-value': pageState,
       });
     } else {
       setAriaDescribedby('');
     }
+
+    let error = null;
+    if (isDirty || date) {
+      if (date) {
+        // show an error message right away
+        setIsDirty(true);
+      } else {
+        error = 'Please provide a valid date';
+      }
+      if (!nextPage) {
+        error = 'Please provide a valid future separation date';
+      }
+    }
+    setErrorMessage(error);
   };
 
   return (
     <div id={pageNames.bdd} className="clearfix vads-u-margin-top--2">
-      <Date
+      <VaDate
         label={label}
-        onValueChange={onChange}
+        onDateChange={onChange}
         name="discharge-date"
-        date={state}
-        validation={{
-          valid: isDateInFuture(getDate(state)),
-          message: 'Your separation date must be in the future',
-        }}
+        value={state}
+        error={errorMessage}
         ariaDescribedby={ariaDescribedby}
       />
     </div>

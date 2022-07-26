@@ -71,6 +71,18 @@ describe('<VeteranBenefitSummaryLetter>', () => {
     expect(tree.subTree('#benefitInfoTable')).to.be.false;
   });
 
+  it('should not render military service information section if no service history', () => {
+    const props = set('benefitSummaryOptions.serviceInfo', [], defaultProps);
+    const tree = SkinDeep.shallowRender(
+      <VeteranBenefitSummaryLetter {...props} />,
+    );
+
+    expect(tree.subTree('#militaryServiceTable')).to.be.false;
+    expect(tree.subTree('h4').text()).to.contain(
+      'VA benefit and disability information',
+    );
+  });
+
   it('maps each service entry to its own table row', () => {
     const navyService = [
       {

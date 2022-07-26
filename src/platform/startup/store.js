@@ -14,6 +14,7 @@ import createAnalyticsMiddleware from './analytics-middleware';
 import environment from '../utilities/environment';
 import externalServiceStatuses from '../monitoring/external-services/reducer';
 import headerMenuReducer from '../site-wide/header/containers/Menu/reducer';
+import drupalStaticData from '../site-wide/drupal-static-data/reducers';
 import login from '../user/authentication/reducers';
 import megaMenu from '../site-wide/mega-menu/reducers';
 import navigation from '../site-wide/user-nav/reducers';
@@ -34,6 +35,7 @@ export const commonReducer = {
   headerMenuReducer,
   externalServiceStatuses,
   featureToggles: FeatureToggleReducer,
+  drupalStaticData,
   navigation,
   scheduledDowntime,
   i18State: i18Reducer,

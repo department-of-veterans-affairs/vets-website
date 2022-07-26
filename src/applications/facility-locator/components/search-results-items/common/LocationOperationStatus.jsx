@@ -1,42 +1,48 @@
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { OperatingStatus } from '../../../constants';
 
 const LocationOperationStatus = ({ operatingStatus }) => {
-  let infoMsg;
-  let classNameAlert;
-  let iconType;
-
-  if (operatingStatus.code === OperatingStatus.NOTICE) {
-    infoMsg = 'Facility notice';
-    classNameAlert = 'usa-alert-info';
-    iconType = 'info';
+  if (!operatingStatus || operatingStatus.code === 'NORMAL') {
+    return <></>;
   }
 
-  if (operatingStatus.code === OperatingStatus.LIMITED) {
-    infoMsg = 'Limited services and hours';
-    classNameAlert = 'usa-alert-info';
-    iconType = 'info';
+  const display = {
+    [OperatingStatus.CLOSED]: {
+      operationStatusTitle: 'Facility Closed',
+      alertClass: 'error',
+    },
+    [OperatingStatus.LIMITED]: {
+      operationStatusTitle: 'Limited services and hours',
+      alertClass: 'warning',
+    },
+    [OperatingStatus.NOTICE]: {
+      operationStatusTitle: 'Facility notice',
+      alertClass: 'info',
+    },
+  };
+
+  if (!display[operatingStatus.code]) {
+    return <></>;
   }
 
-  if (operatingStatus.code === OperatingStatus.CLOSED) {
-    infoMsg = 'Facility Closed';
-    classNameAlert = 'usa-alert-error';
-    iconType = 'exclamation';
-  }
+  const { operationStatusTitle, alertClass } = display[operatingStatus.code];
 
   return (
-    <div
-      className={`usa-alert ${classNameAlert} background-color-only  vads-u-padding--1 vads-u-margin-top--2 vads-u-font-weight--bold`}
+    <va-alert
+      background-only
+      show-icon
+      status={alertClass}
+      visible
+      data-testid={`${operatingStatus.code.toLowerCase()}-message`}
+      class="vads-u-margin-y--2"
     >
-      <i
-        aria-hidden="true"
-        role="img"
-        className={`fa fa-${iconType}-circle vads-u-margin-top--1 vads-u-margin-bottom--1 icon-base`}
-      />
-      <span className="sr-only">Alert: </span>
-      <div className="usa-alert-body">{infoMsg}</div>
-    </div>
+      <div tabIndex={0}>
+        <span className="sr-only">Alert: </span>
+        {operationStatusTitle}
+      </div>
+    </va-alert>
   );
 };
 

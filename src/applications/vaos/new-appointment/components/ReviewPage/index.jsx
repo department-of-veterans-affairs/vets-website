@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { selectReviewPage } from '../../redux/selectors';
 import { FLOW_TYPES, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ReviewDirectScheduleInfo from './ReviewDirectScheduleInfo';
 import ReviewRequestInfo from './ReviewRequestInfo';
-import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import { submitAppointmentOrRequest } from '../../redux/actions';
 import FacilityAddress from '../../../components/FacilityAddress';
 import InfoAlert from '../../../components/InfoAlert';
@@ -23,6 +23,7 @@ export default function ReviewPage() {
     parentFacility,
     submitStatus,
     submitStatusVaos400,
+    submitStatusVaos409,
     systemId,
     vaCityState,
   } = useSelector(selectReviewPage, shallowEqual);
@@ -89,13 +90,21 @@ export default function ReviewPage() {
             headline="We couldn’t schedule this appointment"
           >
             <>
-              {submitStatusVaos400 ? (
+              {submitStatusVaos409 && (
                 <p>
-                  We’re sorry. Something went wrong when we tried to submit your{' '}
-                  {submissionType}. Call your VA medical center to schedule this{' '}
-                  {submissionType}.
+                  We’re sorry. You already have an overlapping booked{' '}
+                  {submissionType}. Please schedule for a different day.
                 </p>
-              ) : (
+              )}
+              {submitStatusVaos400 &&
+                !submitStatusVaos409 && (
+                  <p>
+                    We’re sorry. Something went wrong when we tried to submit
+                    your {submissionType}. Call your VA medical center to
+                    schedule this {submissionType}.
+                  </p>
+                )}
+              {!submitStatusVaos400 && (
                 <p>
                   We’re sorry. Something went wrong when we tried to submit your{' '}
                   {submissionType}. You can try again later, or call your VA

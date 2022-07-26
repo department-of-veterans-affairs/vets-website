@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
+import { useHistory } from 'react-router-dom';
 import FormButtons from '../../components/FormButtons';
 
 import { getCovid19VaccineFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
-import { useHistory } from 'react-router-dom';
 import * as actions from '../redux/actions';
 import NewTabAnchor from '../../components/NewTabAnchor';
 
@@ -40,7 +40,10 @@ const uiSchema = {
         Want to update your contact information for more VA benefits and
         services?
         <br />
-        <NewTabAnchor href="/profile">Go to your VA profile</NewTabAnchor>.
+        <NewTabAnchor href="/profile/contact-information">
+          Go to your VA profile
+        </NewTabAnchor>
+        .
       </p>
     </>
   ),

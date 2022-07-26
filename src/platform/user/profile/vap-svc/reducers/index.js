@@ -1,3 +1,11 @@
+import * as VAP_SERVICE from '@@vap-svc/constants';
+
+import { isEmpty, isEqual, pickBy } from 'lodash';
+
+import { COPY_ADDRESS_MODAL_STATUS } from '@@vap-svc/constants';
+
+import { isFailedTransaction } from '../util/transactions';
+
 import {
   UPDATE_PROFILE_FORM_FIELD,
   OPEN_MODAL,
@@ -11,17 +19,15 @@ import {
   VAP_SERVICE_TRANSACTION_REQUEST_CLEARED,
   VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED,
   VAP_SERVICE_TRANSACTION_UPDATE_FAILED,
+  VAP_SERVICE_BAD_ADDRESS_NO_CHANGES_DETECTED,
   ADDRESS_VALIDATION_CONFIRM,
   ADDRESS_VALIDATION_ERROR,
   ADDRESS_VALIDATION_RESET,
   UPDATE_SELECTED_ADDRESS,
   ADDRESS_VALIDATION_INITIALIZE,
   ADDRESS_VALIDATION_UPDATE,
+  COPY_ADDRESS_MODAL,
 } from '../actions';
-
-import { isEmpty, isEqual, pickBy } from 'lodash';
-
-import { isFailedTransaction } from '../util/transactions';
 
 const initialAddressValidationState = {
   addressValidationType: '',
@@ -57,6 +63,7 @@ const initialState = {
   addressValidation: {
     ...initialAddressValidationState,
   },
+  copyAddressModal: null,
 };
 
 export default function vapService(state = initialState, action) {
@@ -72,7 +79,7 @@ export default function vapService(state = initialState, action) {
       };
     }
 
-    case VAP_SERVICE_TRANSACTION_REQUESTED:
+    case VAP_SERVICE_TRANSACTION_REQUESTED: {
       return {
         ...state,
         fieldTransactionMap: {
@@ -80,8 +87,17 @@ export default function vapService(state = initialState, action) {
           [action.fieldName]: { isPending: true, method: action.method },
         },
       };
+    }
+    case VAP_SERVICE_TRANSACTION_REQUEST_FAILED: {
+      let copyAddressModal = null;
+      if (
+        action.fieldName === VAP_SERVICE.FIELD_NAMES.MAILING_ADDRESS &&
+        state?.copyAddressModal ===
+          VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PENDING
+      ) {
+        copyAddressModal = VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.FAILURE;
+      }
 
-    case VAP_SERVICE_TRANSACTION_REQUEST_FAILED:
       return {
         ...state,
         fieldTransactionMap: {
@@ -93,7 +109,9 @@ export default function vapService(state = initialState, action) {
             error: action.error,
           },
         },
+        copyAddressModal,
       };
+    }
 
     case VAP_SERVICE_TRANSACTION_REQUEST_SUCCEEDED: {
       return {
@@ -106,6 +124,20 @@ export default function vapService(state = initialState, action) {
             isPending: false,
             transactionId: action.transaction.data.attributes.transactionId,
           },
+        },
+        initialFormFields: {},
+        hasUnsavedEdits: false,
+      };
+    }
+
+    case VAP_SERVICE_BAD_ADDRESS_NO_CHANGES_DETECTED: {
+      return {
+        ...state,
+        modal: null,
+        mostRecentlySavedField: action.fieldName,
+        fieldTransactionMap: {
+          ...state.fieldTransactionMap,
+          [action.fieldName]: null,
         },
         initialFormFields: {},
         hasUnsavedEdits: false,
@@ -128,9 +160,14 @@ export default function vapService(state = initialState, action) {
         transactionId: updatedTransactionId,
       } = transaction.data.attributes;
 
+      let copyAddressModal = null;
+
       const metadata = { ...state.metadata };
       if (isFailedTransaction(transaction)) {
         metadata.mostRecentErroredTransactionId = updatedTransactionId;
+        if (state.copyAddressModal === COPY_ADDRESS_MODAL_STATUS.PENDING) {
+          copyAddressModal = COPY_ADDRESS_MODAL_STATUS.FAILURE;
+        }
       }
 
       return {
@@ -145,6 +182,7 @@ export default function vapService(state = initialState, action) {
               ? transaction
               : t,
         ),
+        copyAddressModal,
       };
     }
 
@@ -171,6 +209,7 @@ export default function vapService(state = initialState, action) {
       const fieldTransactionMap = { ...state.fieldTransactionMap };
 
       let mostRecentlySavedField;
+      let copyAddressModal;
 
       Object.keys(fieldTransactionMap).forEach(field => {
         const transactionRequest = fieldTransactionMap[field];
@@ -180,6 +219,25 @@ export default function vapService(state = initialState, action) {
         ) {
           delete fieldTransactionMap[field];
           mostRecentlySavedField = field;
+          if (field === VAP_SERVICE.FIELD_NAMES.RESIDENTIAL_ADDRESS) {
+            copyAddressModal = VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.CHECKING;
+          }
+
+          if (
+            field === VAP_SERVICE.FIELD_NAMES.MAILING_ADDRESS &&
+            state?.copyAddressModal ===
+              VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.PENDING &&
+            action.transaction?.data?.attributes?.transactionStatus ===
+              VAP_SERVICE.TRANSACTION_STATUS.COMPLETED_SUCCESS &&
+            state?.mostRecentlySavedField ===
+              VAP_SERVICE.FIELD_NAMES.RESIDENTIAL_ADDRESS
+          ) {
+            mostRecentlySavedField = [
+              VAP_SERVICE.FIELD_NAMES.RESIDENTIAL_ADDRESS,
+              VAP_SERVICE.FIELD_NAMES.MAILING_ADDRESS,
+            ];
+            copyAddressModal = VAP_SERVICE.COPY_ADDRESS_MODAL_STATUS.SUCCESS;
+          }
         }
       });
 
@@ -197,6 +255,7 @@ export default function vapService(state = initialState, action) {
         modal: null,
         fieldTransactionMap,
         mostRecentlySavedField,
+        copyAddressModal,
       };
     }
 
@@ -338,6 +397,12 @@ export default function vapService(state = initialState, action) {
           selectedAddress: action.selectedAddress,
           selectedAddressId: action.selectedAddressId,
         },
+      };
+
+    case COPY_ADDRESS_MODAL:
+      return {
+        ...state,
+        copyAddressModal: action?.value,
       };
 
     default:

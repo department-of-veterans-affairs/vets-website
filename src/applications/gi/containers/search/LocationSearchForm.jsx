@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 import { useHistory } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 import Dropdown from '../../components/Dropdown';
 import {
   fetchLocationAutocompleteSuggestions,
@@ -237,10 +236,8 @@ export function LocationSearchForm({
                           event: 'map-use-my-location',
                         });
                         dispatchGeolocateUser();
-                        if (!environment.isProduction()) {
-                          setAutocompleteSelection(location);
-                          doSearch(evnt);
-                        }
+                        setAutocompleteSelection(location);
+                        doSearch(evnt);
                       }}
                       className="use-my-location-link"
                     >

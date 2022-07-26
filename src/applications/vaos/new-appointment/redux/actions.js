@@ -4,6 +4,7 @@ import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { selectVAPResidentialAddress } from 'platform/user/selectors';
+import { createAppointment } from '../../services/appointment';
 import newAppointmentFlow from '../newAppointmentFlow';
 import {
   selectFeatureDirectScheduling,
@@ -29,7 +30,6 @@ import {
   sendRequestMessage,
   getCommunityCare,
 } from '../../services/var';
-import { createAppointment } from '../../services/appointment';
 import {
   getLocation,
   getSiteIdFromFacilityId,
@@ -68,12 +68,14 @@ import {
   captureError,
   getErrorCodes,
   has400LevelError,
+  has409LevelError,
 } from '../../utils/error';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
   FORM_SUBMIT_SUCCEEDED,
 } from '../../redux/sitewide';
 import { fetchFlowEligibilityAndClinics } from '../../services/patient';
+import { getTimezoneByFacilityId } from '../../utils/timezone';
 
 export const GA_FLOWS = {
   DIRECT: 'direct',
@@ -253,7 +255,6 @@ export function fetchFacilityDetails(facilityId) {
     });
   };
 }
-
 export function checkEligibility({ location, showModal }) {
   return async (dispatch, getState) => {
     const state = getState();
@@ -317,7 +318,7 @@ export function openFacilityPageV2(page, uiSchema, schema) {
       const featureFacilitiesServiceV2 = selectFeatureFacilitiesServiceV2(
         initialState,
       );
-      const newAppointment = initialState.newAppointment;
+      const { newAppointment } = initialState;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       const typeOfCareId = typeOfCare?.id;
       if (typeOfCareId) {
@@ -513,21 +514,33 @@ export function hideEligibilityModal() {
   };
 }
 
-export function openReasonForAppointment(page, uiSchema, schema) {
+export function openReasonForAppointment(
+  page,
+  uiSchema,
+  schema,
+  useV2 = false,
+) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
     page,
     uiSchema,
     schema,
+    useV2,
   };
 }
 
-export function updateReasonForAppointmentData(page, uiSchema, data) {
+export function updateReasonForAppointmentData(
+  page,
+  uiSchema,
+  data,
+  useV2 = false,
+) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
     page,
     uiSchema,
     data,
+    useV2,
   };
 }
 
@@ -543,6 +556,7 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       state,
     );
+    const timezone = getTimezoneByFacilityId(data.vaFacility);
 
     let fetchedAppointmentSlotMonths = [];
     let fetchedStartMonth = false;
@@ -601,10 +615,27 @@ export function getAppointmentSlots(startDate, endDate, forceFetch = false) {
           fetchedAppointmentSlotMonths.push(endDateMonth);
         }
 
-        const sortedSlots = [...availableSlots, ...mappedSlots].sort((a, b) =>
-          a.start.localeCompare(b.start),
-        );
+        const sortedSlots = [...availableSlots, ...mappedSlots]
+          // Check timezone 1st since conversion might flip the date to the
+          // previous or next day. This insures available slots are displayed
+          // for the correct day.
+          .map(slot => {
+            if (featureVAOSServiceVAAppointments) {
+              // The moment.tz() function will parse a given time with offset
+              // and convert it to the time zone provided.
+              //
+              // NOTE: Stripping off the timezone information 'Z' so that it will
+              // not be used during formatting elsewhere. Including the 'Z' would
+              // result in the formatted string using the local timezone.
+              const time = moment
+                .tz(slot.start, timezone)
+                .format('YYYY-MM-DDTHH:mm:ss');
 
+              return { ...slot, start: time };
+            }
+            return slot;
+          })
+          .sort((a, b) => a.start.localeCompare(b.start));
         dispatch({
           type: FORM_CALENDAR_FETCH_SLOTS_SUCCEEDED,
           availableSlots: sortedSlots,
@@ -749,14 +780,17 @@ export function submitAppointmentOrRequest(history) {
         } else {
           const appointmentBody = transformFormToAppointment(getState());
           await submitAppointment(appointmentBody);
+        }
 
-          try {
-            await buildPreferencesDataAndUpdate(data.email);
-          } catch (error) {
-            // These are ancillary updates, the request went through if the first submit
-            // succeeded
-            captureError(error);
-          }
+        // BG 3/29/2022: This logic is to resolve issue:
+        // https://app.zenhub.com/workspaces/vaos-team-603fdef281af6500110a1691/issues/department-of-veterans-affairs/va.gov-team/39301
+        // This will need to be removed once var resources is sunset.
+        try {
+          await buildPreferencesDataAndUpdate(data.email);
+        } catch (error) {
+          // These are ancillary updates, the request went through if the first submit
+          // succeeded
+          captureError(error);
         }
 
         dispatch({
@@ -784,6 +818,7 @@ export function submitAppointmentOrRequest(history) {
         dispatch({
           type: FORM_SUBMIT_FAILED,
           isVaos400Error: has400LevelError(error),
+          isVaos409Error: has409LevelError(error),
         });
 
         dispatch(fetchFacilityDetails(newAppointment.data.vaFacility));
@@ -875,6 +910,17 @@ export function submitAppointmentOrRequest(history) {
               ),
             });
           }
+        } else {
+          // // BG 3/29/2022: This logic is to resolve issue:
+          // // https://app.zenhub.com/workspaces/vaos-team-603fdef281af6500110a1691/issues/department-of-veterans-affairs/va.gov-team/39301
+          // // This will need to be removed once var resources is sunset.
+          try {
+            await buildPreferencesDataAndUpdate(data.email);
+          } catch (error) {
+            // These are ancillary updates, the request went through if the first submit
+            // succeeded
+            captureError(error);
+          }
         }
 
         dispatch({
@@ -933,10 +979,10 @@ export function requestProvidersList(address) {
         getState(),
       );
       let location = address;
-      const newAppointment = getState().newAppointment;
-      const communityCareProviders = newAppointment.communityCareProviders;
+      const { newAppointment } = getState();
+      const { communityCareProviders } = newAppointment;
       const sortMethod = newAppointment.ccProviderPageSortMethod;
-      let selectedCCFacility = newAppointment.selectedCCFacility;
+      let { selectedCCFacility } = newAppointment;
       const typeOfCare = getTypeOfCare(newAppointment.data);
       let ccProviderCacheKey = `${sortMethod}_${typeOfCare.ccId}`;
       if (sortMethod === FACILITY_SORT_METHODS.distanceFromFacility) {

@@ -8,13 +8,22 @@ import {
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
 
-import { AddFilesForm } from '../../components/AddFilesForm';
+import AddFilesForm from '../../components/AddFilesForm';
 import {
   MAX_FILE_SIZE_BYTES,
   MAX_FILE_SIZE_MB,
   MAX_PDF_SIZE_BYTES,
   MAX_PDF_SIZE_MB,
 } from '../../utils/validations';
+
+// NOTE: Trying to extract the web components that use React bindings with skin-deep is
+// a nightmare. Normally you can use something like the name of the component
+// as a selector, but because of the way that the React bindings are created, it seems
+// that that doesn't work here. Some of the web components have a `name` prop, so I created
+// this matcher to select nodes based on the `name` prop
+const byName = name => {
+  return node => node?.props?.name === name;
+};
 
 describe('<AddFilesForm>', () => {
   it('should render component', () => {
@@ -40,7 +49,12 @@ describe('<AddFilesForm>', () => {
       />,
     );
     expect(tree.everySubTree('FileInput')).not.to.be.empty;
-    expect(tree.everySubTree('Modal')[0].props.visible).to.be.false;
+    expect(tree.everySubTree('FileInput')[0].props['aria-describedby']).to.eq(
+      'file-requirements',
+    );
+
+    // VaModal has an id of `upload-status` so we can use that as the selector here
+    expect(tree.everySubTree('#upload-status')[0].props.visible).to.be.false;
   });
 
   it('should show uploading modal', () => {
@@ -66,7 +80,9 @@ describe('<AddFilesForm>', () => {
         onDirtyFields={onDirtyFields}
       />,
     );
-    expect(tree.everySubTree('Modal')[0].props.visible).to.be.true;
+
+    // VaModal has an id of `upload-status` so we can use that as the selector here
+    expect(tree.everySubTree('#upload-status')[0].props.visible).to.be.true;
   });
 
   it('should include mail info additional info', () => {
@@ -276,7 +292,6 @@ describe('<AddFilesForm>', () => {
         onFieldChange={onFieldChange}
         onCancel={onCancel}
         onDirtyFields={onDirtyFields}
-        pdfSizeFeature
       />,
     );
     tree.getMountedInstance().add([
@@ -396,7 +411,6 @@ describe('<AddFilesForm>', () => {
         onCancel={onCancel}
         onDirtyFields={onDirtyFields}
         mockReadAndCheckFile={mockReadAndCheckFile}
-        pdfSizeFeature
       />,
     );
     tree.getMountedInstance().add([
@@ -439,7 +453,6 @@ describe('<AddFilesForm>', () => {
         onCancel={onCancel}
         onDirtyFields={onDirtyFields}
         mockReadAndCheckFile={mockReadAndCheckFile}
-        pdfSizeFeature
       />,
     );
     tree.getMountedInstance().add([
@@ -520,10 +533,11 @@ describe('<AddFilesForm>', () => {
         onFieldChange={onFieldChange}
         onCancel={onCancel}
         onDirtyFields={onDirtyFields}
-        requestLockedPdfPassword
       />,
     );
     expect(tree.getMountedInstance().state.errorMessage).to.be.null;
-    expect(tree.subTree('TextInput')).to.exist;
+
+    // VaTextInput has a name prop set to 'password'
+    expect(tree.everySubTree('*', byName('password'))[0]).to.exist;
   });
 });

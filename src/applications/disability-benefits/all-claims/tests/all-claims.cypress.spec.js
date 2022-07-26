@@ -3,6 +3,7 @@ import moment from 'moment';
 
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
@@ -22,7 +23,6 @@ import {
   SHOW_8940_4192,
   SAVED_SEPARATION_DATE,
 } from '../constants';
-import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
 const todayPlus120 = moment()
   .add(120, 'days')
@@ -66,7 +66,7 @@ const testConfig = createTestConfig(
             window.sessionStorage.removeItem(SAVED_SEPARATION_DATE);
           }
           // Start form
-          cy.findAllByText(/start/i, { selector: 'button' })
+          cy.findAllByText(/start the/i, { selector: 'a' })
             .first()
             .click();
         });

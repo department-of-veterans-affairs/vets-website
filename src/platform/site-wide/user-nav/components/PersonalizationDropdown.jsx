@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
-import { logout } from 'platform/user/authentication/utilities';
+import {
+  isAuthenticatedWithSSOe,
+  signInServiceName,
+} from 'platform/user/authentication/selectors';
+import { logoutUrl } from 'platform/user/authentication/utilities';
+import { logout as SISLogout } from 'platform/utilities/oauth/utilities';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -14,48 +19,62 @@ const recordMyVaEvent = recordNavUserEvent('my-va');
 const recordMyHealthEvent = recordNavUserEvent('my-health');
 const recordProfileEvent = recordNavUserEvent('profile');
 
-export class PersonalizationDropdown extends React.Component {
-  signOut = () => {
-    // Prevent double clicking of "Sign Out"
-    if (!this.signOutDisabled) {
-      this.signOutDisabled = true;
-      logout();
-    }
-  };
+export function PersonalizationDropdown(props) {
+  const { isSSOe, csp } = props;
 
-  render() {
-    return (
-      <ul>
-        <li>
-          <a href="/my-va/" onClick={recordMyVaEvent}>
-            My VA
-          </a>
-        </li>
-        <li>
-          <a href={mhvUrl(true, 'home')} onClick={recordMyHealthEvent}>
-            My Health
-          </a>
-        </li>
-        <li>
-          <a href={'/profile'} onClick={recordProfileEvent}>
-            Profile
-          </a>
-        </li>
+  const createSignout = useCallback(
+    () => {
+      const label = 'Sign Out';
+      return isSSOe ? (
+        <a href={logoutUrl()}>{label}</a>
+      ) : (
+        <button
+          type="button"
+          className="button-styled-as-link"
+          onClick={() => {
+            SISLogout({
+              signInServiceName: csp,
+              storedLocation: window.location.href,
+            });
+          }}
+        >
+          {label}
+        </button>
+      );
+    },
+    [isSSOe, csp],
+  );
 
-        <li>
-          <a href="#" onClick={this.signOut}>
-            Sign Out
-          </a>
-        </li>
-      </ul>
-    );
-  }
+  return (
+    <ul>
+      <li>
+        <a href="/my-va/" onClick={recordMyVaEvent}>
+          My VA
+        </a>
+      </li>
+      <li>
+        <a href={mhvUrl(isSSOe, 'home')} onClick={recordMyHealthEvent}>
+          My Health
+        </a>
+      </li>
+      <li>
+        <a href="/profile" onClick={recordProfileEvent}>
+          Profile
+        </a>
+      </li>
+      <li>{createSignout()}</li>
+    </ul>
+  );
 }
 
-function mapStateToProps(state) {
-  return {
-    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-  };
-}
+PersonalizationDropdown.propTypes = {
+  isSSOe: PropTypes.bool.isRequired,
+  csp: PropTypes.oneOf(['idme', 'logingov', 'dslogon', 'mhv']),
+};
+
+const mapStateToProps = state => ({
+  isSSOe: isAuthenticatedWithSSOe(state),
+  csp: signInServiceName(state),
+});
 
 export default connect(mapStateToProps)(PersonalizationDropdown);

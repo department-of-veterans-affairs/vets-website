@@ -1,11 +1,9 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
-import { api } from '../../../api';
-import { useFormRouting } from '../../../hooks/useFormRouting';
-import { receivedMultipleAppointmentDetails } from '../../../actions/day-of';
-
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import DisplayMultipleAppointments from './DisplayMultipleAppointments';
+import useSendDemographicsFlags from '../../../hooks/useSendDemographicsFlags';
 
 import {
   makeSelectVeteranData,
@@ -14,43 +12,23 @@ import {
 
 const CheckIn = props => {
   const { router } = props;
-  const { goToErrorPage } = useFormRouting(router);
+  const { t } = useTranslation();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const context = useSelector(selectCurrentContext);
+  useSendDemographicsFlags();
 
   const appointment = appointments ? appointments[0] : {};
 
   const { token } = context;
-  const dispatch = useDispatch();
-
-  const getMultipleAppointments = useCallback(
-    () => {
-      if (!context) {
-        goToErrorPage();
-      } else {
-        api.v2
-          .getCheckInData(token)
-          .then(json => {
-            dispatch(
-              receivedMultipleAppointmentDetails(
-                json.payload.appointments,
-                token,
-              ),
-            );
-          })
-          .catch(() => {
-            goToErrorPage();
-          });
-      }
-    },
-    [dispatch, context, goToErrorPage, token],
-  );
 
   if (!appointment) {
+    window.scrollTo(0, 0);
     return (
-      <va-loading-indicator message="Loading your appointments for today" />
+      <va-loading-indicator
+        message={t('loading-your-appointments-for-today')}
+      />
     );
   }
 
@@ -59,14 +37,12 @@ const CheckIn = props => {
       router={router}
       token={token}
       appointments={appointments}
-      getMultipleAppointments={getMultipleAppointments}
     />
   );
 };
 
 CheckIn.propTypes = {
   appointments: PropTypes.array,
-  isDayOfDemographicsFlagsEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   router: PropTypes.object,
 };

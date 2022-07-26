@@ -5,7 +5,7 @@ class Appointments {
   validatePageLoaded = () => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
-      .and('have.text', 'Your appointments');
+      .and('have.text', 'Your appointments:');
   };
 
   validateAppointmentLength = length => {
@@ -101,7 +101,7 @@ class Appointments {
   attemptCheckIn = (appointmentNumber = 1) => {
     cy.get(
       `:nth-child(${appointmentNumber}) > [data-testid=check-in-button]`,
-    ).click();
+    ).click({ waitForAnimations: true });
   };
 }
 

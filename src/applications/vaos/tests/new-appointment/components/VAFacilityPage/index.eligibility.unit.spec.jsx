@@ -305,9 +305,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
-      await screen.findByText(
-        /We couldn’t find a recent appointment at this location/i,
-      );
+      await screen.findByTestId('eligibilityModal');
       expect(screen.baseElement).to.contain.text('last 12 months');
       const loadingEvent = global.window.dataLayer.find(
         ev => ev.event === 'loading-indicator-displayed',
@@ -359,9 +357,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
       fireEvent.click(screen.getByText(/Continue/));
-      await screen.findByText(
-        /We couldn’t find a clinic for this type of care/,
-      );
+      await screen.findByTestId('eligibilityModal');
       const loadingEvent = global.window.dataLayer.find(
         ev => ev.event === 'loading-indicator-displayed',
       );
@@ -513,18 +509,12 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 5/i));
       fireEvent.click(screen.getByText(/Continue/));
-      await screen.findByText(
-        /We couldn’t find a clinic for this type of care/i,
-      );
-      const closeButton = screen.container.querySelector('.va-modal-close');
-      fireEvent.click(closeButton);
+      await screen.findByTestId('eligibilityModal');
       expect(screen.baseElement).not.to.contain.text(
         /We couldn’t find a clinic for this type of care/i,
       );
       fireEvent.click(await screen.findByText(/Continue/));
-      await screen.findByText(
-        /We couldn’t find a clinic for this type of care/i,
-      );
+      await screen.findByTestId('eligibilityModal');
     });
 
     it('should show error message when eligibility calls fail', async () => {
@@ -575,9 +565,7 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
       fireEvent.click(screen.getByText(/Continue/));
 
       // Then they are presented with the message that they are over the request limit
-      await screen.findByText(
-        /You’ve reached the limit for appointment requests/i,
-      );
+      await screen.findByTestId('eligibilityModal');
 
       // And the link in the over the limit message takes the user to the requested appt page
       expect(
@@ -627,10 +615,10 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
 
       fireEvent.click(await screen.findByLabelText(/Fake facility name 1/i));
       fireEvent.click(screen.getByText(/Continue/));
-      await screen.findByText(/We can’t find a recent appointment for you/i);
+      await screen.findByTestId('eligibilityModal');
       expect(screen.getByRole('alertdialog')).to.be.ok;
       expect(screen.baseElement).to.contain.text('last 36 months');
-      fireEvent.click(screen.getByRole('button', { name: /close/i }));
+      fireEvent.click(screen.getByRole('button', { name: /Continue/i }));
 
       await waitFor(
         () =>
@@ -769,7 +757,8 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
           directPastVisits: true,
           clinics: [
             getV2ClinicMock({
-              id: '455',
+              // Changed to a invalid clinic id so eligibility check failed reasons will match
+              id: '4555',
               stationId: '983',
               serviceName: 'Clinic name',
             }),

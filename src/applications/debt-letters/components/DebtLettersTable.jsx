@@ -1,5 +1,4 @@
-import React from 'react';
-import Table from '@department-of-veterans-affairs/component-library/Table';
+import React, { useState } from 'react';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
@@ -8,6 +7,7 @@ import { ErrorAlert, DependentDebt, NoDebtLinks } from './Alerts';
 
 const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
   const hasDebtLinks = !!debtLinks.length;
+  const [showOlder, toggleShowOlderLetters] = useState(false);
 
   const handleDownload = (type, date) => {
     return recordEvent({
@@ -17,71 +17,127 @@ const DebtLettersTable = ({ debtLinks, hasDependentDebts, isError }) => {
     });
   };
 
-  const tableData = debtLinks.map(debt => {
-    const recvDate = moment(debt.receivedAt, 'YYYY-MM-DD').format(
-      'MMM D, YYYY',
-    );
-
-    return {
-      date: moment(debt.date, 'YYYY-MM-DD').format('MMM D, YYYY'),
-      type: debt.typeDescription,
-      action: (
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => handleDownload(debt.typeDescription, recvDate)}
-          download={`${debt.typeDescription} dated ${recvDate}`}
-          href={encodeURI(
-            `${environment.API_URL}/v0/debt_letters/${debt.documentId}`,
-          )}
-        >
-          <i
-            aria-hidden="true"
-            role="img"
-            className="fas fa-download vads-u-padding-right--1"
-          />
-          <span aria-hidden="true">Download letter </span>
-          <span className="sr-only">
-            Download {debt.typeDescription} dated
-            <time dateTime={recvDate} className="vads-u-margin-left--0p5">
-              {recvDate}
-            </time>
-          </span>
-          <dfn>
-            <abbr title="Portable Document Format">(PDF)</abbr>
-          </dfn>
-        </a>
-      ),
-    };
-  });
-
-  const tableSort = {
-    order: 'DESC',
-    value: 'date',
+  const formatDate = date => {
+    return moment(date, 'YYYY-MM-DD').format('MMM D, YYYY');
   };
 
-  const tableFields = [
-    {
-      label: 'Date',
-      value: 'date',
-      sortable: true,
-    },
-    {
-      label: 'Type',
-      value: 'type',
-    },
-    {
-      label: 'Action',
-      value: 'action',
-    },
-  ];
+  const hasMoreThanOneDebt = debtLinks.length > 1;
+
+  const debtLinksDescending = debtLinks.sort(
+    (d1, d2) => new Date(d2.date).getTime() - new Date(d1.date).getTime(),
+  );
+
+  const [first, second, ...rest] = debtLinksDescending;
 
   if (isError) return <ErrorAlert />;
   if (hasDependentDebts) return <DependentDebt />;
   if (!hasDebtLinks) return <NoDebtLinks />;
 
   return (
-    <Table data={tableData} currentSort={tableSort} fields={tableFields} />
+    <>
+      <h3>Latest debt letters</h3>
+      <ul className="no-bullets" data-testId="debt-letters-table">
+        {[first, second].map(debt => {
+          const recvDate = moment(debt.receivedAt, 'YYYY-MM-DD').format(
+            'MMM D, YYYY',
+          );
+
+          return (
+            <li key={debt.documentId}>
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => handleDownload(debt.typeDescription, recvDate)}
+                download={`${debt.typeDescription} dated ${recvDate}`}
+                href={encodeURI(
+                  `${environment.API_URL}/v0/debt_letters/${debt.documentId}`,
+                )}
+              >
+                <i
+                  aria-hidden="true"
+                  role="img"
+                  className="fas fa-download vads-u-padding-right--1"
+                />
+                <span aria-hidden="true">
+                  {`${recvDate} - ${debt.typeDescription}`}{' '}
+                </span>
+                <span className="sr-only">
+                  Download {debt.typeDescription} dated
+                  <time dateTime={recvDate} className="vads-u-margin-left--0p5">
+                    {recvDate}
+                  </time>
+                </span>
+                <dfn>
+                  <abbr title="Portable Document Format">(PDF)</abbr>
+                </dfn>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+
+      {hasMoreThanOneDebt ? (
+        <>
+          <h5 className="vads-u-margin-top--2p5">
+            {`Older letters (${debtLinks.length - 2})`}
+          </h5>
+          <button
+            type="button"
+            className="debt-older-letters usa-button-secondary"
+            aria-controls="older-letters-button"
+            aria-expanded={showOlder}
+            onClick={() => toggleShowOlderLetters(!showOlder)}
+          >
+            {`${showOlder ? 'Hide' : 'Show'} older letters`}
+          </button>
+        </>
+      ) : null}
+
+      {showOlder && hasMoreThanOneDebt ? (
+        <ol id="older-letters-list" className="no-bullets">
+          {rest.map((debt, index) => (
+            <li key={index}>
+              <div>
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() =>
+                    handleDownload(debt.typeDescription, formatDate(debt.date))
+                  }
+                  download={`${debt.typeDescription} dated ${formatDate(
+                    debt.date,
+                  )}`}
+                  href={encodeURI(
+                    `${environment.API_URL}/v0/debt_letters/${debt.documentId}`,
+                  )}
+                >
+                  <i
+                    aria-hidden="true"
+                    role="img"
+                    className="fas fa-download vads-u-padding-right--1"
+                  />
+                  <span aria-hidden="true">
+                    {`${formatDate(debt.date)} - ${debt.typeDescription}`}{' '}
+                  </span>
+                  <span className="sr-only">
+                    Download {debt.typeDescription} dated
+                    <time
+                      dateTime={formatDate(debt.date)}
+                      className="vads-u-margin-left--0p5"
+                    >
+                      {formatDate(debt.date)}
+                    </time>
+                  </span>
+                  <dfn>
+                    <abbr title="Portable Document Format">(PDF)</abbr>
+                  </dfn>
+                </a>
+              </div>
+            </li>
+          ))}
+        </ol>
+      ) : null}
+    </>
   );
 };
 

@@ -1,16 +1,14 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { validateWhiteSpace } from 'platform/forms/validations';
+import { useHistory } from 'react-router-dom';
 import FormButtons from '../../components/FormButtons';
 import { getFormPageInfo } from '../redux/selectors';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import { PURPOSE_TEXT, FACILITY_TYPES } from '../../utils/constants';
 import TextareaWidget from '../../components/TextareaWidget';
-import { useHistory } from 'react-router-dom';
 import PostFormFieldContent from '../../components/PostFormFieldContent';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import InfoAlert from '../../components/InfoAlert';
@@ -20,6 +18,7 @@ import {
   routeToPreviousAppointmentPage,
   updateReasonForAppointmentData,
 } from '../redux/actions';
+import { selectFeatureVAOSServiceRequests } from '../../redux/selectors';
 
 const initialSchema = {
   default: {
@@ -90,11 +89,13 @@ export default function ReasonForAppointmentPage() {
   const pageTitle = isCommunityCare
     ? 'Tell us the reason for this appointment'
     : 'Choose a reason for this appointment';
+  const useV2 = useSelector(state => selectFeatureVAOSServiceRequests(state));
+
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     dispatch(
-      openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema),
+      openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema, useV2),
     );
   }, []);
 
@@ -112,7 +113,12 @@ export default function ReasonForAppointmentPage() {
           }
           onChange={newData =>
             dispatch(
-              updateReasonForAppointmentData(pageKey, pageUISchema, newData),
+              updateReasonForAppointmentData(
+                pageKey,
+                pageUISchema,
+                newData,
+                useV2,
+              ),
             )
           }
           data={data}
@@ -126,12 +132,16 @@ export default function ReasonForAppointmentPage() {
             >
               <ul>
                 <li>
-                  Call <Telephone contact={CONTACTS['911']} />,{' '}
+                  Call <VaTelephone contact="911" />,{' '}
                   <span className="vads-u-font-weight--bold">or</span>
                 </li>
                 <li>
                   Call the Veterans Crisis hotline at{' '}
-                  <Telephone contact={CONTACTS.CRISIS_LINE} /> and select 1,{' '}
+                  <VaTelephone
+                    contact="988"
+                    data-testid="crisis-hotline-telephone"
+                  />{' '}
+                  and select 1,{' '}
                   <span className="vads-u-font-weight--bold">or</span>
                 </li>
                 <li>

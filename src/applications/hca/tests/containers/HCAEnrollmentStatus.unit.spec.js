@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import { expect } from 'chai';
 
 import { HCAEnrollmentStatus } from '../../containers/HCAEnrollmentStatus';
-import HCAEnrollmentStatusWarning from '../../components/HCAEnrollmentStatusWarning';
+import EnrollmentStatusWarning from '../../components/FormAlerts/EnrollmentStatusWarning';
 import HCAEnrollmentStatusFAQ from '../../components/HCAEnrollmentStatusFAQ';
 
 describe('<HCAEnrollmentStatus />', () => {
@@ -21,9 +21,9 @@ describe('<HCAEnrollmentStatus />', () => {
       route: {},
     };
   });
-  it('renders an HCAEnrollmentStatusWarning with the correct props', () => {
+  it('renders an EnrollmentStatusWarning with the correct props', () => {
     const wrapper = shallow(<HCAEnrollmentStatus {...defaultProps} />);
-    const statusWarning = wrapper.find(HCAEnrollmentStatusWarning);
+    const statusWarning = wrapper.find(EnrollmentStatusWarning);
     expect(statusWarning.prop('applicationDate')).to.equal(
       defaultProps.applicationDate,
     );

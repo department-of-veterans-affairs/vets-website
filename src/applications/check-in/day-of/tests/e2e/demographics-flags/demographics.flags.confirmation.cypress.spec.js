@@ -48,7 +48,7 @@ describe('Check In Experience', () => {
     it('happy path with confirmed demographics', () => {
       cy.visitWithUUID();
 
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
@@ -126,7 +126,8 @@ describe('Check In Experience', () => {
         numberOfCheckInAbledAppointments: 2,
       });
       initializeCheckInDataPost.withSuccess();
-      initializeDemographicsPatch.withFailure(400);
+      // Response delayed by 5 seconds.
+      initializeDemographicsPatch.withFailure(400, 5000);
     });
     afterEach(() => {
       cy.window().then(window => {
@@ -136,7 +137,7 @@ describe('Check In Experience', () => {
     it('check-in confirmation with demographics API error', () => {
       cy.visitWithUUID();
 
-      ValidateVeteran.validatePageLoaded('Check in at VA');
+      ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
@@ -176,6 +177,68 @@ describe('Check In Experience', () => {
       cy.get('@demographicsPatchFailureAlias')
         .its('response.statusCode')
         .should('equal', 400);
+    });
+  });
+  describe('All confirmation pages skipped', () => {
+    beforeEach(() => {
+      const now = Date.now();
+      const today = new Date(now);
+      const {
+        initializeFeatureToggle,
+        initializeSessionGet,
+        initializeSessionPost,
+        initializeCheckInDataGet,
+        initializeCheckInDataPost,
+        initializeDemographicsPatch,
+      } = ApiInitializer;
+      initializeFeatureToggle.withDayOfDemographicsFlagsEnabled();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withSuccess();
+      initializeCheckInDataGet.withSuccess({
+        numberOfCheckInAbledAppointments: 2,
+        demographicsNeedsUpdate: false,
+        demographicsConfirmedAt: today.toISOString(),
+        nextOfKinNeedsUpdate: false,
+        nextOfKinConfirmedAt: today.toISOString(),
+        emergencyContactNeedsUpdate: false,
+        emergencyContactConfirmedAt: today.toISOString(),
+      });
+      initializeCheckInDataPost.withSuccess();
+      initializeDemographicsPatch.withSuccess();
+
+      const demographicsPatchSpy = cy.spy().as('demographicsPatchSpy');
+      cy.intercept(
+        {
+          method: 'PATCH',
+          url: `/check_in/v2/demographics/*`,
+          middleware: true,
+        },
+        () => {
+          demographicsPatchSpy();
+        },
+      );
+
+      cy.visitWithUUID();
+      ValidateVeteran.validatePage.dayOf();
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+    });
+    afterEach(() => {
+      cy.window().then(window => {
+        window.sessionStorage.clear();
+      });
+    });
+    it('Do not send demographics confirmations if all confirm pages skipped', () => {
+      Appointments.validatePageLoaded();
+      Appointments.attemptCheckIn(2);
+
+      cy.injectAxeThenAxeCheck();
+      Confirmation.validatePageLoaded();
+
+      // call should not occur if all confirmation pages skipped
+      cy.get('@demographicsPatchSpy').then(spy => {
+        expect(spy).not.to.be.called;
+      });
     });
   });
 });

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router';
-import environment from 'platform/utilities/environment';
 
 import {
   capitalizeEachWord,
@@ -34,9 +33,6 @@ const mapDisabilityName = (disabilityName, formData, index) => {
 };
 
 const getRedirectLink = formData => {
-  if (environment.isProduction()) {
-    return 'go back to the beginning of this step and add it';
-  }
   // Start from orientation page; assuming user has both existing & new
   // disabilities selected
   let destinationPath = DISABILITY_SHARED_CONFIG.orientation.path;
@@ -48,18 +44,15 @@ const getRedirectLink = formData => {
     destinationPath = DISABILITY_SHARED_CONFIG.addDisabilities.path;
   }
   return (
-    <>
-      <Link
-        aria-label="go back and add any missing disabilities"
-        to={{
-          pathname: destinationPath || '/',
-          search: '?redirect',
-        }}
-      >
-        go back and add
-      </Link>{' '}
-      it
-    </>
+    <Link
+      aria-label="go back and add any missing disabilities"
+      to={{
+        pathname: destinationPath || '/',
+        search: '?redirect',
+      }}
+    >
+      go back and add it
+    </Link>
   );
 };
 

@@ -20,6 +20,19 @@ env:
   BUILD_ENV: vagovprod
 
 jobs:
+  get-workflow-environment:
+    runs-on: ubuntu-latest
+    outputs:
+      environment_name: ${{ steps.check-environment.outputs.env_name }}
+    steps:
+      - name: Check environment
+        id: check-environment
+        run: |
+          if [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+            echo ::set-output name=env_name::'production'
+          else
+            echo ::set-output name=env_name::''
+          fi
   set-env:
     name: Set Env Variables
     runs-on: ubuntu-latest
@@ -34,7 +47,7 @@ jobs:
         uses: andymckay/cancel-action@0.2
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -64,7 +77,7 @@ jobs:
     needs: set-env
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -87,7 +100,7 @@ jobs:
     needs: set-env
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
@@ -108,7 +121,7 @@ jobs:
     
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ needs.set-env.outputs.COMMIT_SHA }}
 
@@ -204,7 +217,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
           token: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
@@ -238,7 +251,8 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    needs: [set-env, create-release]
+    needs: [set-env, create-release, get-workflow-environment]
+    environment: ${{ needs.get-workflow-environment.outputs.environment_name }}
 
     env:
       DEPLOY_BUCKET: www.va.gov
@@ -246,7 +260,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
@@ -285,7 +299,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
@@ -304,7 +318,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Notify Slack
         if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}

@@ -1,26 +1,9 @@
 import { expect } from 'chai';
 
-import {
-  recordAnswer,
-  RECORD_ANSWER,
-  setVeteranData,
-  SET_VETERAN_DATA,
-} from './index';
+import { setVeteranData, SET_VETERAN_DATA } from './index';
 
 describe('pre-check-in', () => {
   describe('actions', () => {
-    describe('recordAnswer', () => {
-      it('should return correct action', () => {
-        const action = recordAnswer({});
-        expect(action.type).to.equal(RECORD_ANSWER);
-      });
-      it('should return correct structure', () => {
-        const action = recordAnswer({
-          demographicsUpToDate: 'yes',
-        });
-        expect(action.payload.demographicsUpToDate).equal('yes');
-      });
-    });
     describe('setVeteranData', () => {
       it('should return correct action', () => {
         const action = setVeteranData({});

@@ -152,7 +152,7 @@ describe('<DocumentRequestPage>', () => {
         submitFiles={onSubmit}
       />,
     );
-    tree.subTree('Connect(AddFilesForm)').props.onSubmit();
+    tree.subTree('AddFilesForm').props.onSubmit();
     expect(onSubmit.called).to.be.true;
   });
   it('should reset uploads and set title on mount', () => {

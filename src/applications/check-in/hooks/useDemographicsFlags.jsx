@@ -4,7 +4,6 @@ import { makeSelectCurrentContext, makeSelectForm } from '../selectors';
 
 const useDemographicsFlags = () => {
   const [demographicsFlagsSent, setDemographicsFlagsSent] = useState(false);
-
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const context = useSelector(selectCurrentContext);
   const { token } = context;
@@ -39,7 +38,17 @@ const useDemographicsFlags = () => {
       nextOfKinUpToDate: nextOfKinUpToDate === 'yes',
     };
 
-  return { demographicsData, demographicsFlagsSent, setDemographicsFlagsSent };
+  const demographicsFlagsEmpty =
+    demographicsUpToDate === undefined &&
+    emergencyContactUpToDate === undefined &&
+    nextOfKinUpToDate === undefined;
+
+  return {
+    demographicsData,
+    demographicsFlagsSent,
+    setDemographicsFlagsSent,
+    demographicsFlagsEmpty,
+  };
 };
 
 export { useDemographicsFlags };

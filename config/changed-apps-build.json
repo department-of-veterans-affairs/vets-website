@@ -18,11 +18,15 @@
         "slackGroup": "@cto-health-products"
       },
       {
-        "entryName": "education-inbox",
+        "entryName": "education-letters",
         "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
       },
       {
         "entryName": "enrollment-verification",
+        "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
+      },
+      {
+        "entryName": "fry-dea",
         "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
       },
       {
@@ -34,11 +38,19 @@
         "slackGroup": "@vsp-identity-group"
       },
       {
+        "entryName": "mhv-inherited-proofing",
+        "slackGroup": "@vsp-identity-group"
+      },
+      {
         "entryName": "medical-copays",
         "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
       },
       {
         "entryName": "terms-and-conditions"
+      },
+      {
+        "entryName": "toe",
+        "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
       },
       {
         "entryName": "vaos",
@@ -53,6 +65,10 @@
       {
         "rootFolder": "check-in",
         "slackGroup": "@check-in-fe"
+      },
+      {
+        "rootFolder": "lgy",
+        "slackGroup": "@benefits-app-builds"
       }
     ]
   }

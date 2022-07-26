@@ -127,8 +127,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(await screen.findByText(/Fort Collins VA Clinic/)).to.be.ok;
     expect(screen.getByText(/Jennie's Lab/)).to.be.ok;
-    expect(screen.getByRole('link', { name: /9 7 0. 2 2 4. 1 5 5 0./ })).to.be
-      .ok;
+    expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(
       screen.getByRole('heading', {
         level: 2,
@@ -303,8 +302,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(await screen.findByText(/Fort Collins VA Clinic/)).to.be.ok;
     expect(screen.getByText(/Jennie's Lab/)).to.be.ok;
-    expect(screen.getByRole('link', { name: /9 7 0. 2 2 4. 1 5 5 0./ })).to.be
-      .ok;
+    expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(
       screen.getByRole('heading', {
         level: 2,
@@ -399,7 +397,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage>', () => {
     userEvent.click(screen.getByText(/yes, cancel this appointment/i));
 
     // Then it should display appointment is canceled
-    await screen.findByText(/your appointment has been canceled/i);
+    await screen.findByTestId('cancel-appointment-SuccessModal');
 
     const cancelData = JSON.parse(
       global.fetch
@@ -1071,7 +1069,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       locationId: '983GC',
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
-      reason: 'New Issue',
+      reasonCode: {
+        coding: [{ code: 'New Problem' }],
+        text: 'I have a headache',
+      },
       comment: 'New issue: I have a headache',
       serviceType: 'primaryCare',
       start: futureDate.format(),
@@ -1126,15 +1127,14 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
     expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
-    expect(screen.getByRole('link', { name: /9 7 0. 2 2 4. 1 5 5 0./ })).to.be
-      .ok;
+    expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(
       screen.getByRole('heading', {
         level: 2,
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
-    expect(screen.getByText(/New issue: I have a headache/)).to.be.ok;
+    expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
     expect(
       screen.getByRole('link', {
         name: new RegExp(
@@ -1175,10 +1175,13 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       locationId: '983GC',
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
-      reason: 'New Issue',
+      reasonCode: {
+        coding: [{ code: 'New Problem' }],
+        text: 'I have a headache',
+      },
       comment: 'New issue: I have a headache',
       serviceType: 'primaryCare',
-      start: futureDate.format(),
+      start: futureDate.add(1, 'days').format(),
       status: 'booked',
     };
 
@@ -1244,15 +1247,14 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
     expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
-    expect(screen.getByRole('link', { name: /9 7 0. 2 2 4. 1 5 5 0./ })).to.be
-      .ok;
+    expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(
       screen.getByRole('heading', {
         level: 2,
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
-    expect(screen.getByText(/New issue: I have a headache/)).to.be.ok;
+    expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
     expect(
       screen.getByRole('link', {
         name: new RegExp(
@@ -1292,7 +1294,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       locationId: '983GC',
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
-      reason: 'New Issue',
+      reasonCode: {
+        coding: [{ code: 'New Problem' }],
+        text: 'I have a headache',
+      },
       comment: 'New issue: I have a headache',
       serviceType: 'primaryCare',
       start: futureDate.format(),
@@ -1366,15 +1371,14 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     // NOTE: This 2nd 'await' is needed due to async facilities fetch call!!!
     expect(await screen.findByText(/Cheyenne VA Medical Center/)).to.be.ok;
     expect(await screen.findByText(/Some fancy clinic name/)).to.be.ok;
-    expect(screen.getByRole('link', { name: /9 7 0. 2 2 4. 1 5 5 0./ })).to.be
-      .ok;
+    expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(
       screen.getByRole('heading', {
         level: 2,
         name: 'You shared these details about your concern',
       }),
     ).to.be.ok;
-    expect(screen.getByText(/New issue: I have a headache/)).to.be.ok;
+    expect(screen.getByText(/New Problem: I have a headache/)).to.be.ok;
 
     // And it should not display the add to calendar link
     expect(
@@ -1417,7 +1421,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       locationId: '983GC',
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
-      reason: 'New Issue',
+      reasonCode: {
+        coding: [{ code: 'New Problem' }],
+        text: 'I have a headache',
+      },
       comment: 'New issue: I have a headache',
       serviceType: 'primaryCare',
       start: futureDate.format(),
@@ -1562,7 +1569,10 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       locationId: '983GC',
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
-      reason: 'New Issue',
+      reasonCode: {
+        coding: [{ code: 'New Problem' }],
+        text: 'I have a headache',
+      },
       comment: 'New issue: I have a headache',
       serviceType: 'primaryCare',
       start: futureDate.format(),
@@ -1631,6 +1641,6 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
     userEvent.click(screen.getByText(/yes, cancel this appointment/i));
 
     // Then it should display the appointment is canceled
-    await screen.findByText(/your appointment has been canceled/i);
+    await screen.findByTestId('cancel-appointment-SuccessModal');
   });
 });

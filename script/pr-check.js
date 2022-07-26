@@ -23,7 +23,7 @@ const octokitDefaults = { owner, repo, pull_number };
 const octokit = new Octokit({ auth });
 
 /**
- * Do a diff on the current PR against master
+ * Do a diff on the current PR against main
  *
  * @returns {array} An array where each item is a line from the diff
  */
@@ -72,7 +72,7 @@ function createReview(additions) {
   octokit.pulls
     .requestReviewers({
       ...octokitDefaults,
-      team_reviewers: ['frontend-review-group'],
+      team_reviewers: ['platform-release-tools'],
     })
     .catch(console.error);
 

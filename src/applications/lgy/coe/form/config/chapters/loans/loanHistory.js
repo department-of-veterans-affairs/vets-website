@@ -4,10 +4,7 @@ import {
   createUSAStateLabels,
   formatReviewDate,
 } from 'platform/forms-system/src/js/helpers';
-import {
-  validateDate,
-  validateDateRange,
-} from 'platform/forms-system/src/js/validation';
+import monthYearRangeUI from 'platform/forms-system/src/js/definitions/monthYearRange';
 import { states } from 'platform/forms/address';
 
 import { loanHistory } from '../../schemaImports';
@@ -24,8 +21,8 @@ const PreviousLoanView = ({ formData }) => {
   let from = '';
   let to = '';
   if (formData.dateRange) {
-    from = formatReviewDate(formData.dateRange.startDate);
-    to = formatReviewDate(formData.dateRange.paidOffDate);
+    from = formatReviewDate(formData.dateRange.from);
+    to = formatReviewDate(formData.dateRange.to);
   }
 
   return (
@@ -51,38 +48,16 @@ export const uiSchema = {
       keepInPageOnReview: true,
     },
     items: {
+      'ui:title': 'Existing VA loan',
       'ui:options': {
+        classNames: 'column',
         itemName: 'VA-backed loan',
       },
-      dateRange: {
-        'ui:validations': [validateDateRange],
-        'ui:errorMessages': {
-          pattern: 'Date loan ended must be after the start of the loan',
-          required: 'Please enter a date',
-        },
-        startDate: {
-          'ui:title': 'Closing date of your loan',
-          'ui:widget': 'date',
-          'ui:validations': [validateDate],
-          'ui:errorMessages': {
-            pattern: 'Please enter a valid date',
-            required: 'Please enter a date',
-          },
-        },
-        paidOffDate: {
-          'ui:title':
-            'Date you paid off your loan (Leave this blank if it’s not paid off)',
-          'ui:widget': 'date',
-          'ui:validations': [validateDate],
-          'ui:errorMessages': {
-            pattern: 'Please enter a valid date',
-            required: 'Please enter a date',
-          },
-          'ui:options': {
-            hideEmptyValueInReview: true,
-          },
-        },
-      },
+      dateRange: monthYearRangeUI(
+        'Closing date of your loan',
+        'Date you paid off your loan (Leave this blank if it’s not paid off)',
+        'Date loan ended must be after the start of the loan',
+      ),
       propertyAddress: {
         'ui:title': 'Property address',
         'ui:order': [
@@ -123,7 +98,10 @@ export const uiSchema = {
           },
         },
       },
-      vaLoanNumber: {},
+      vaLoanNumber: {
+        'ui:title': 'VA loan number',
+        'ui:options': { widgetClassNames: 'usa-input-medium' },
+      },
       propertyOwned: {
         'ui:title': 'Do you still own this property?',
         'ui:widget': 'yesNo',

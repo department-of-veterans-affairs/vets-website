@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import CollapsiblePanel from '@department-of-veterans-affairs/component-library/CollapsiblePanel';
 
 const Issues = ({ issues, isAppeal }) => {
   const open = issues.filter(i => i.status === 'open');
@@ -24,8 +23,8 @@ const Issues = ({ issues, isAppeal }) => {
   let remandSection = null;
   if (remandListItems.length) {
     remandSection = (
-      <div>
-        <h5>Remand</h5>
+      <div className="remand-section">
+        <h4 className="vads-u-font-size--h5">Remand</h4>
         <ul>{remandListItems}</ul>
       </div>
     );
@@ -35,7 +34,7 @@ const Issues = ({ issues, isAppeal }) => {
   if (grantedListItems.length) {
     grantedSection = (
       <div className="granted-section">
-        <h5>Granted</h5>
+        <h4 className="vads-u-font-size--h5">Granted</h4>
         <ul>{grantedListItems}</ul>
       </div>
     );
@@ -45,7 +44,7 @@ const Issues = ({ issues, isAppeal }) => {
   if (deniedListItems.length) {
     deniedSection = (
       <div className="denied-section">
-        <h5>Denied</h5>
+        <h4 className="vads-u-font-size--h5">Denied</h4>
         <ul>{deniedListItems}</ul>
       </div>
     );
@@ -54,8 +53,8 @@ const Issues = ({ issues, isAppeal }) => {
   let withdrawnSection = null;
   if (withdrawnListItems.length) {
     withdrawnSection = (
-      <div>
-        <h5 className="withdrawn-section">Withdrawn</h5>
+      <div className="withdrawn-section">
+        <h4 className="vads-u-font-size--h5">Withdrawn</h4>
         <ul>{withdrawnListItems}</ul>
       </div>
     );
@@ -65,13 +64,13 @@ const Issues = ({ issues, isAppeal }) => {
   if (openListItems.length || remandListItems.length) {
     // Active panel should always render as expanded by default (when items present)
     activeItems = (
-      <CollapsiblePanel
-        panelName={`Currently on ${isAppeal ? 'appeal' : 'review'}`}
-        startOpen
-      >
+      <va-accordion-item open>
+        <h3 slot="headline">
+          {`Currently on ${isAppeal ? 'appeal' : 'review'}`}
+        </h3>
         {openSection}
         {remandSection}
-      </CollapsiblePanel>
+      </va-accordion-item>
     );
   }
 
@@ -83,24 +82,28 @@ const Issues = ({ issues, isAppeal }) => {
   ) {
     // Closed panel should render as expanded by default only if no active panel present
     closedItems = (
-      <CollapsiblePanel panelName={'Closed'} startOpen={!activeItems}>
+      <va-accordion-item open={!activeItems}>
+        <h3 slot="headline">Closed</h3>
         {grantedSection}
         {deniedSection}
         {withdrawnSection}
-      </CollapsiblePanel>
+      </va-accordion-item>
     );
   }
 
   return (
     <div className="issues-container">
       <h2>Issues</h2>
-      {activeItems}
-      {closedItems}
+      <va-accordion bordered open-single>
+        {activeItems}
+        {closedItems}
+      </va-accordion>
     </div>
   );
 };
 
 Issues.propTypes = {
+  isAppeal: PropTypes.bool.isRequired,
   issues: PropTypes.arrayOf(
     PropTypes.shape({
       status: PropTypes.oneOf([
@@ -113,7 +116,6 @@ Issues.propTypes = {
       description: PropTypes.string.isRequired,
     }),
   ).isRequired,
-  isAppeal: PropTypes.bool.isRequired,
 };
 
 export default Issues;

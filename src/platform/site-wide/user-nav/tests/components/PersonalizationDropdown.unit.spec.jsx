@@ -1,8 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import sinon from 'sinon';
 
-import { PersonalizationDropdown } from '../../components/PersonalizationDropdown';
+import { logoutUrl } from 'platform/user/authentication/utilities';
+import { PersonalizationDropdown } from 'platform/site-wide/user-nav/components/PersonalizationDropdown';
 
 describe('<PersonalizationDropdown>', () => {
   let oldWindow = null;
@@ -58,6 +60,35 @@ describe('<PersonalizationDropdown>', () => {
     const recordedEvent = global.window.dataLayer[0];
     expect(recordedEvent.event).to.equal('nav-user');
     expect(recordedEvent['nav-user-section']).to.equal('profile');
+    wrapper.unmount();
+  });
+
+  it('should use the logoutUrl if using SSOe', () => {
+    const wrapper = shallow(<PersonalizationDropdown isSSOe />);
+    const signoutLink = wrapper.find('a').at(3);
+    const expectedUrl = logoutUrl();
+    expect(signoutLink.prop('href')).to.equal(expectedUrl);
+    wrapper.unmount();
+  });
+
+  it('should use the logoutUrl if using SSOe', () => {
+    const wrapper = shallow(<PersonalizationDropdown isSSOe />);
+    const signoutLink = wrapper.find('a').at(3);
+    const expectedUrl = logoutUrl();
+    expect(signoutLink.prop('href')).to.equal(expectedUrl);
+    wrapper.unmount();
+  });
+
+  it('should use the the SISLogout if using OAuth', () => {
+    const SISLogout = sinon.spy();
+    const wrapper = shallow(
+      <PersonalizationDropdown isSSOe={false} csp="idme" />,
+    );
+    const signoutButton = wrapper.find('button');
+    signoutButton.simulate('click', {
+      event: { sis: SISLogout() },
+    });
+    expect(SISLogout.called).to.equal(true);
     wrapper.unmount();
   });
 });

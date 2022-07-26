@@ -1,89 +1,67 @@
 import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import propTypes from 'prop-types';
 import ConfirmablePage from '../ConfirmablePage';
 
-import { createSetEditContext } from '../../../actions/edit';
-
-import { URLS } from '../../../utils/navigation';
-import { EDITING_PAGE_NAMES } from '../../../utils/appConstants';
-
 export default function NextOfKinDisplay({
-  header = 'Is this your current next of kin information?',
+  header = '',
   subtitle = '',
   nextOfKin = {},
   yesAction = () => {},
   noAction = () => {},
-  jumpToPage = () => {},
   isLoading = false,
-  isEditEnabled = false,
   Footer,
 }) {
-  const dispatch = useDispatch();
-  const setEditContext = useCallback(
-    (data, url) => {
-      dispatch(
-        createSetEditContext({
-          ...data,
-          originatingUrl: URLS.NEXT_OF_KIN,
-          editingPage: EDITING_PAGE_NAMES.NEXT_OF_KIN,
-        }),
-      );
-      jumpToPage(url);
-    },
-    [dispatch, jumpToPage],
-  );
+  const { t } = useTranslation();
   const nextOfKinFields = [
     {
-      title: 'Name',
+      title: t('name'),
       key: 'name',
-      editAction: data => {
-        setEditContext(data, URLS.EDIT_NAME);
-      },
     },
     {
-      title: 'Relationship',
+      title: t('relationship'),
       key: 'relationship',
-      editAction: data => {
-        setEditContext(data, URLS.EDIT_RELATIONSHIP);
-      },
     },
-    { title: 'Address', key: 'address' },
     {
-      title: 'Phone',
+      title: t('address'),
+      key: 'address',
+    },
+    {
+      title: t('phone'),
       key: 'phone',
-      editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
     },
     {
-      title: 'Work phone',
+      title: t('work-phone'),
       key: 'workPhone',
-      editAction: data => setEditContext(data, URLS.EDIT_PHONE_NUMBER),
     },
   ];
-  const loadingMessage = useCallback(() => {
-    return (
-      <>
-        <va-loading-indicator
-          data-testid="loading-message"
-          message="Saving your responses..."
-        />
-      </>
-    );
-  }, []);
+  const loadingMessage = useCallback(
+    () => {
+      return (
+        <>
+          <va-loading-indicator
+            data-testid="loading-message"
+            message={t('saving-your-responses')}
+          />
+        </>
+      );
+    },
+    [t],
+  );
   return (
     <>
       <ConfirmablePage
-        header={header}
+        header={header || t('is-this-your-current-next-of-kin-information')}
         subtitle={subtitle}
         dataFields={nextOfKinFields}
         data={nextOfKin}
         yesAction={yesAction}
         noAction={noAction}
         isLoading={isLoading}
-        LoadingMessage={loadingMessage}
+        loadingMessageOverride={loadingMessage}
         Footer={Footer}
-        isEditEnabled={isEditEnabled}
+        withBackButton
       />
     </>
   );
@@ -92,9 +70,7 @@ export default function NextOfKinDisplay({
 NextOfKinDisplay.propTypes = {
   Footer: propTypes.elementType,
   header: propTypes.string,
-  isEditEnabled: propTypes.bool,
   isLoading: propTypes.bool,
-  jumpToPage: propTypes.func,
   nextOfKin: propTypes.object,
   noAction: propTypes.func,
   subtitle: propTypes.string,

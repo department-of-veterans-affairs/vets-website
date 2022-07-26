@@ -50,6 +50,9 @@ describe('check-in', () => {
         expect(component.getByTestId('demographicsFlagsSent')).to.have.text(
           'no',
         );
+        expect(component.getByTestId('demographicsFlagsEmpty')).to.have.text(
+          'yes',
+        );
         fireEvent.click(sentTrueButton);
         expect(component.getByTestId('demographicsFlagsSent')).to.have.text(
           'yes',
@@ -94,6 +97,9 @@ describe('check-in', () => {
           'no',
         );
         expect(component.getByTestId('nextOfKinUpToDate')).to.have.text('yes');
+        expect(component.getByTestId('demographicsFlagsEmpty')).to.have.text(
+          'no',
+        );
       });
     });
   });

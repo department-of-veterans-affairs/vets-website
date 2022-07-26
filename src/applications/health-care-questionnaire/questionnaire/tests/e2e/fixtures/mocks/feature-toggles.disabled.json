@@ -83,18 +83,6 @@
            "value":true
         },
         {
-           "name":"ssoe",
-           "value":false
-        },
-        {
-           "name":"ssoe_inbound",
-           "value":false
-        },
-        {
-           "name":"ssoe_ebenefits_links",
-           "value":false
-        },
-        {
            "name":"eduBenefitsStemScholarship",
            "value":true
         },
@@ -160,6 +148,10 @@
         },
         {
            "name":"show_healthcare_experience_questionnaire",
+           "value":false
+        },
+        {
+           "name":"sign_in_service_enabled",
            "value":false
         }
      ]

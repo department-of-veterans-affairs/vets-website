@@ -57,6 +57,33 @@ export const PURPOSE_TEXT = [
   },
 ];
 
+export const PURPOSE_TEXT_V2 = [
+  {
+    id: 'routine-follow-up',
+    short: 'Routine Follow-up',
+    label: 'This is a routine or follow-up visit.',
+    serviceName: 'Routine Follow-up',
+  },
+  {
+    id: 'new-issue',
+    short: 'New problem',
+    label: 'I have a new medical problem.',
+    serviceName: 'New Problem',
+  },
+  {
+    id: 'medication-concern',
+    short: 'Medication concern',
+    label: 'I have a concern or question about my medication.',
+    serviceName: 'Medication Concern',
+  },
+  {
+    id: 'other',
+    short: 'My reason isn’t listed',
+    label: 'My reason isn’t listed here.',
+    serviceName: 'Other',
+  },
+];
+
 export const PODIATRY_ID = 'tbd-podiatry';
 export const COVID_VACCINE_ID = 'covid';
 

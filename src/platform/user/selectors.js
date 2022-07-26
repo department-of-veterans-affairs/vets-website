@@ -1,3 +1,5 @@
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import {
   CERNER_APPOINTMENTS_BLOCKLIST,
   CERNER_FACILITY_IDS,
@@ -21,6 +23,7 @@ export const isLOA3 = state => selectProfile(state).loa.current === 3;
 export const isLOA1 = state => selectProfile(state).loa.current === 1;
 export const isMultifactorEnabled = state => selectProfile(state).multifactor;
 export const selectAvailableServices = state => selectProfile(state)?.services;
+
 export const selectPatientFacilities = state =>
   selectProfile(state)?.facilities?.map(({ facilityId, isCerner }) => {
     // Derive if the user belongs to a Cerner facility in the FE maintained list.
@@ -57,6 +60,7 @@ export const selectPatientFacilities = state =>
 
     return facility;
   }) || null;
+
 export const selectVAPContactInfo = state =>
   selectProfile(state).vapContactInfo;
 export const hasVAPServiceConnectionError = state =>
@@ -82,6 +86,8 @@ export const selectVAPHomePhoneString = state =>
   createPhoneNumberStringFromData(selectVAPHomePhone(state));
 export const selectVAPResidentialAddress = state =>
   selectVAPContactInfo(state)?.residentialAddress;
+export const selectVAPMailingAddress = state =>
+  selectVAPContactInfo(state)?.mailingAddress;
 
 export function createIsServiceAvailableSelector(service) {
   return state => selectAvailableServices(state).includes(service);
@@ -124,3 +130,12 @@ export const selectCernerTestResultsFacilities = state =>
   selectPatientFacilities(state)?.filter(
     f => f.isCerner && f.usesCernerTestResults,
   );
+
+export const mhvTransitionEnabled = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.mhvToLogingovAccountTransition];
+
+export const mhvTransitionModalEnabled = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.mhvToLogingovAccountTransitionModal];
+
+export const shouldRedirectToMyVA = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.myVARedirect];

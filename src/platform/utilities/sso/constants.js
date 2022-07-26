@@ -9,11 +9,18 @@ export const eauthEnvironmentPrefixes = {
   [ENVIRONMENTS.VAGOVPROD]: '',
 };
 
-export const MHV_SKIP_DUPE = 'skip_dupe=mhv';
+export const cernerEnvPrefixes = {
+  [ENVIRONMENTS.LOCALHOST]: 'staging-',
+  [ENVIRONMENTS.VAGOVDEV]: 'staging-',
+  [ENVIRONMENTS.VAGOVSTAGING]: 'staging-',
+  [ENVIRONMENTS.VAGOVPROD]: '',
+};
+
+export const SKIP_DUPE = 'skip_dupe=true';
 
 export const SKIP_DUPE_QUERY = {
-  SINGLE_QUERY: `?${MHV_SKIP_DUPE}`,
-  MULTIPLE_QUERIES: `&${MHV_SKIP_DUPE}`,
+  SINGLE_QUERY: `?${SKIP_DUPE}`,
+  MULTIPLE_QUERIES: `&${SKIP_DUPE}`,
 };
 
 export const CSP_AUTHN = {

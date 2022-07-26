@@ -1,18 +1,30 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 
+const messages = {
+  title: {
+    dayOf: {
+      en: 'Check in at VA',
+      es: 'Regístrese en VA',
+    },
+    preCheckIn: {
+      en: 'Start pre-check-in',
+    },
+  },
+};
+
 class ValidateVeteran {
-  validatePageLoaded = (title = 'Start pre-check-in') => {
+  validatePageLoaded = title => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', title);
   };
 
   validatePage = {
-    dayOf: () => {
-      this.validatePageLoaded('Check in at VA');
+    dayOf: (language = 'en') => {
+      this.validatePageLoaded(messages.title.dayOf[language]);
     },
-    preCheckIn: () => {
-      this.validatePageLoaded('Start pre-check-in');
+    preCheckIn: (language = 'en') => {
+      this.validatePageLoaded(messages.title.preCheckIn[language]);
     },
   };
 
@@ -21,6 +33,54 @@ class ValidateVeteran {
     this.typeLastName(lastName);
     this.clearLast4();
     this.typeLast4(last4);
+  };
+
+  validateVeteranDob = (
+    lastName = 'Smith',
+    year = '1989',
+    month = '03',
+    day = '15',
+  ) => {
+    this.clearLastName();
+    this.typeLastName(lastName);
+    this.clearYear();
+    this.typeYear(year);
+    this.clearMonth();
+    this.typeMonth(month);
+    this.clearDay();
+    this.typeDay(day);
+  };
+
+  validateVeteranDobInvalidYear = (
+    lastName = 'Smith',
+    year = '2050',
+    month = '01',
+    day = '31',
+  ) => {
+    this.clearLastName();
+    this.typeLastName(lastName);
+    this.clearMonth();
+    this.typeMonth(month);
+    this.clearDay();
+    this.typeDay(day);
+    this.clearYear();
+    this.typeYear(year);
+  };
+
+  validateVeteranDobWithFailure = (
+    lastName = 'Smith',
+    year = '1988',
+    month = '01',
+    day = '31',
+  ) => {
+    this.clearLastName();
+    this.typeLastName(lastName);
+    this.clearMonth();
+    this.typeMonth(month);
+    this.clearDay();
+    this.typeDay(day);
+    this.clearYear();
+    this.typeYear(year);
   };
 
   getLastNameInput = () => {
@@ -37,6 +97,33 @@ class ValidateVeteran {
       .find('input');
   };
 
+  getMonthInput = () => {
+    return cy
+      .get('[label="Date of birth"]')
+      .shadow()
+      .find('.input-month')
+      .shadow()
+      .find('[name="date-of-birthMonth"]');
+  };
+
+  getDayInput = () => {
+    return cy
+      .get('[label="Date of birth"]')
+      .shadow()
+      .find('.input-day')
+      .shadow()
+      .find('[name="date-of-birthDay"]');
+  };
+
+  getYearInput = () => {
+    return cy
+      .get('[label="Date of birth"]')
+      .shadow()
+      .find('.input-year')
+      .shadow()
+      .find('[name="date-of-birthYear"]');
+  };
+
   typeLastName = (lastName = 'Smith') => {
     this.getLastNameInput().type(lastName);
   };
@@ -45,12 +132,36 @@ class ValidateVeteran {
     this.getLast4Input().type(last4);
   };
 
+  typeYear = (year = '1989') => {
+    this.getYearInput().type(year);
+  };
+
+  typeMonth = (month = '03') => {
+    this.getMonthInput().type(month);
+  };
+
+  typeDay = (day = '15') => {
+    this.getDayInput().type(day);
+  };
+
   clearLastName() {
     this.getLastNameInput().invoke('val', '');
   }
 
   clearLast4() {
     this.getLast4Input().invoke('val', '');
+  }
+
+  clearDay() {
+    this.getDayInput().invoke('val', '');
+  }
+
+  clearMonth() {
+    this.getMonthInput().invoke('val', '');
+  }
+
+  clearYear() {
+    this.getYearInput().invoke('val', '');
   }
 
   attemptToGoToNextPage = () => {
@@ -79,6 +190,13 @@ class ValidateVeteran {
       );
   };
 
+  getDobError = () => {
+    cy.get('[label="Date of birth"]')
+      .shadow()
+      .find('.error-message')
+      .contains('Your date of birth can not be in the future');
+  };
+
   validateTypedLast4 = (typed = '1234') => {
     cy.get('[label="Last 4 digits of your Social Security number"]')
       .shadow()
@@ -103,13 +221,13 @@ class ValidateVeteran {
     );
   };
 
-  validateErrorAlert = () => {
+  validateErrorAlert = (withLorotaSecurityUpdate = false) => {
+    const messageText = withLorotaSecurityUpdate
+      ? 'Sorry, we couldn’t find an account that matches that last name or date of birth. Please try again.'
+      : 'We’re sorry. We couldn’t match your information to our records. Please try again.';
     cy.get('[data-testid=validate-error-alert]')
       .should('be.visible')
-      .and(
-        'have.text',
-        "We're sorry. We couldn't match your information to our records. Please try again.",
-      );
+      .and('have.text', messageText);
   };
 }
 

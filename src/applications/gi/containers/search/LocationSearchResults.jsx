@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
+import environment from 'platform/utilities/environment';
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -10,7 +11,6 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 import ResultCard from './ResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit, MAX_SEARCH_AREA_DISTANCE, TABS } from '../../constants';
@@ -337,9 +337,7 @@ function LocationSearchResults({
         map.current.fitBounds(locationBounds, { padding: 20 });
       }
 
-      if (!environment.isProduction()) {
-        setDataReturned(true);
-      }
+      setDataReturned(true);
       setCardResults(visibleResults);
       setUsedFilters(getFiltersChanged(filters));
       setMarkers(mapMarkers);
@@ -459,9 +457,15 @@ function LocationSearchResults({
               <FilterYourResults />
             </>
           )}
-          {(smallScreen || landscape) && (
-            <MobileFilterControls className="vads-u-margin-top--2" />
-          )}
+          {environment.isProduction()
+            ? (smallScreen || landscape) && (
+                <MobileFilterControls className="vads-u-margin-top--2" />
+              )
+            : smallScreen &&
+              !landscape &&
+              results.length > 0 && (
+                <MobileFilterControls className="vads-u-margin-top--2" />
+              )}
         </>
       );
     }
@@ -680,18 +684,13 @@ function LocationSearchResults({
 
   // Only needed on desktop as can do "Search this area of the map" which causes differences in count between what is
   // returned and what is visible
-  let desktopCount;
-
-  if (environment.isProduction()) {
-    desktopCount = !cardResults ? null : cardResults.length;
-  } else {
-    desktopCount = dataReturned ? cardResults.length : 0;
-  }
+  const desktopCount = dataReturned ? cardResults.length : 0;
 
   // Returns content setup for desktop screens
   return (
     <div className="location-search vads-u-padding-top--1">
       <div className="usa-width-one-third">
+        &nbsp;
         {inProgress && (
           <va-loading-indicator message="Loading search results..." />
         )}
@@ -703,16 +702,14 @@ function LocationSearchResults({
                 then click search above to find institutions.
               </div>
             )}
-            {hasSearchLatLong &&
-              (environment.isProduction() ||
-                (!environment.isProduction() && dataReturned)) && (
-                <>
-                  {searchResultsShowing(desktopCount)}
-                  {eligibilityAndFilters(desktopCount)}
-                  {searchResults(desktopCount)}
-                  {noResultsFound(desktopCount)}
-                </>
-              )}
+            {hasSearchLatLong && (
+              <>
+                {dataReturned && searchResultsShowing(desktopCount)}
+                {eligibilityAndFilters(desktopCount)}
+                {searchResults(desktopCount)}
+                {noResultsFound(desktopCount)}
+              </>
+            )}
           </>
         )}
       </div>

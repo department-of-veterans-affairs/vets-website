@@ -86,18 +86,17 @@ export const ErrorMessage = () => (
   <va-alert class="vads-u-margin-top--0 vads-u-padding--3" status="error">
     <div className="usa-alert-body">
       <h3 className="usa-alert-heading">
-        Information about your current debts is unavailable.
+        Information about your current debts is unavailable
       </h3>
       <p className="vads-u-font-family--sans">
-        You can’t view information about your current debts because something
-        went wrong on our end.
+        We’re sorry. You can’t view information about your current debts because
+        something went wrong on our end. Please check back soon.
       </p>
       <h4>What you can do</h4>
       <p className="vads-u-font-family--sans vads-u-margin-y--0">
-        You’re still able to download your debt letters from the list below. If
-        you need help resolving a debt, or you would like to get information
-        about a debt that has been resolved, call the Debt Management Center at
-        <Telephone className="vads-u-margin-left--0p5" contact="8008270648" />.
+        If you continue having trouble viewing information about your current
+        debts, email us at{' '}
+        <a href="mailto:dmcops.vbaspl@va.gov">dmcops.vbaspl@va.gov</a>.
       </p>
     </div>
   </va-alert>

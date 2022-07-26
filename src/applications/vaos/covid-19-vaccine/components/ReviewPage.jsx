@@ -3,6 +3,7 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { Link, useHistory, Redirect } from 'react-router-dom';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { FETCH_STATUS } from '../../utils/constants';
 import FacilityAddress from '../../components/FacilityAddress';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
@@ -14,7 +15,6 @@ import State from '../../components/State';
 import NewTabAnchor from '../../components/NewTabAnchor';
 import InfoAlert from '../../components/InfoAlert';
 import { confirmAppointment } from '../redux/actions';
-import Telephone from '@department-of-veterans-affairs/component-library/Telephone';
 
 const pageTitle = 'Review your appointment details';
 
@@ -95,7 +95,11 @@ export default function ReviewPage() {
             <div>
               {data.email}
               <br />
-              <Telephone notClickable contact={data.phoneNumber} />
+              <VaTelephone
+                notClickable
+                contact={data.phoneNumber}
+                data-testid="patient-telephone"
+              />
             </div>
           </div>
           <Link to={flow.contactInfo.url} aria-label="Edit contact information">

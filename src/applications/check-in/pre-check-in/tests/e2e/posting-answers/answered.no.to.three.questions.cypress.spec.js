@@ -17,8 +17,10 @@ describe('Pre-Check In Experience ', () => {
       initializeSessionPost,
       initializePreCheckInDataGet,
       initializePreCheckInDataPost,
+      initializeDemographicsPatch,
     } = ApiInitializer;
     initializeFeatureToggle.withCurrentFeatures();
+    initializeDemographicsPatch.withSuccess();
     initializeSessionGet.withSuccessfulNewSession();
 
     initializeSessionPost.withSuccess();
@@ -42,7 +44,7 @@ describe('Pre-Check In Experience ', () => {
   it('Answered yes to both questions', () => {
     cy.visitPreCheckInWithUUID();
     // page: Validate
-    ValidateVeteran.validatePageLoaded();
+    ValidateVeteran.validatePage.preCheckIn();
     cy.injectAxeThenAxeCheck();
     ValidateVeteran.validateVeteran();
 
@@ -75,6 +77,8 @@ describe('Pre-Check In Experience ', () => {
 
     // page: Confirmation
     Confirmation.validatePageLoaded();
+    Confirmation.expandAllAccordions();
+    cy.createScreenshots('Pre-check-in--confirmation-answer-no-to-all');
     cy.injectAxeThenAxeCheck();
   });
 });

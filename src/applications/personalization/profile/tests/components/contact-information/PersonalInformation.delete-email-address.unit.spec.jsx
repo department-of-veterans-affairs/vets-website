@@ -139,7 +139,6 @@ describe('Deleting email address', () => {
 
     // expect an error to be shown
     const alert = await view.findByTestId('delete-error-alert');
-    expect(alert).to.have.descendant('div.va-profile-alert');
     expect(alert).to.contain.text(errorText);
   });
   it('should show an error if the deletion fails quickly', async () => {
@@ -162,7 +161,6 @@ describe('Deleting email address', () => {
 
     // expect an error to be shown
     const alert = await view.findByTestId('delete-error-alert');
-    expect(alert).to.have.descendant('div.va-profile-alert');
     expect(alert).to.contain.text(errorText);
 
     // waiting to make sure it doesn't auto exit

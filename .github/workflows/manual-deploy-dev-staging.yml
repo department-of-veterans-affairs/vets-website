@@ -18,20 +18,51 @@ on:
 env:
   DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
   VETS_WEBSITE_CHANNEL_ID: C02V265VCGH # status-vets-website
-  BUILD_ENV_DEV: vagovdev
-  BUILD_ENV_STAGING: vagovstaging
 
 jobs:
+  set-environment:
+    name: Set environment to deploy
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.set-output.outputs.environment }}
+
+    env:
+      dev: "{
+          \\\"environment\\\": \\\"vagovdev\\\", 
+          \\\"bucket\\\": \\\"dev.va.gov\\\", 
+          \\\"asset_bucket\\\": \\\"dev-va-gov-assets\\\"
+        }"
+      staging: "{
+          \\\"environment\\\": \\\"vagovstaging\\\", 
+          \\\"bucket\\\": \\\"staging.va.gov\\\", 
+          \\\"asset_bucket\\\": \\\"staging-va-gov-assets\\\"
+        }"
+
+    steps:
+      - name: Set output
+        id: set-output
+        run: |
+          if [[ ${{ github.event.inputs.deploy_environment }} == 'dev' ]]; then
+            echo ::set-output name=environment::{\"include\":[${{env.dev}}]}
+          elif [[ ${{ github.event.inputs.deploy_environment }} == 'staging' ]]; then
+            echo ::set-output name=environment::{\"include\":[${{env.staging}}]}
+          else
+            echo ::set-output name=environment::{\"include\":[${{env.dev}},${{env.staging}}]}
+          fi
+
   build:
     name: Build
     runs-on: self-hosted
+    needs: set-environment
+    strategy:
+      matrix: ${{ fromJson(needs.set-environment.outputs.environment) }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
       
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.event.inputs.commit_sha }}
 
@@ -44,16 +75,14 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Build dev
-        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
-        run: yarn build --verbose --buildtype=${{ env.BUILD_ENV_DEV }}
+      - name: Build
+        run: yarn build --verbose --buildtype=${{ matrix.environment }}
         timeout-minutes: 30  
         
-      - name: Generate build details for dev
-        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
+      - name: Generate build details
         run: |
-          cat > build/${{ env.BUILD_ENV_DEV }}/BUILD.txt << EOF
-          BUILDTYPE=${{ env.BUILD_ENV_DEV }}
+          cat > build/${{ matrix.environment }}/BUILD.txt << EOF
+          BUILDTYPE=${{ matrix.environment }}
           NODE_ENV=production
           BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
           CHANGE_TARGET=null
@@ -63,57 +92,26 @@ jobs:
           BUILDTIME=$(date +%s)
           EOF
 
-      - name: Compress and archive build for dev 
-        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
-        run: tar -C build/${{ env.BUILD_ENV_DEV }} -cjf ${{ env.BUILD_ENV_DEV }}.tar.bz2 .
+      - name: Compress and archive build
+        run: tar -C build/${{ matrix.environment }} -cjf ${{ matrix.environment }}.tar.bz2 .
 
-      - name: Upload build artifact for dev
-        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
+      - name: Upload build artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.BUILD_ENV_DEV }}.tar.bz2
-          path: ${{ env.BUILD_ENV_DEV }}.tar.bz2
+          name: ${{ matrix.environment }}.tar.bz2
+          path: ${{ matrix.environment }}.tar.bz2
           retention-days: 1   
-        
-      - name: Build staging
-        if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
-        run: yarn build --verbose --buildtype=${{ env.BUILD_ENV_STAGING }}
-        timeout-minutes: 30 
-
-      - name: Generate build details for staging 
-        if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
-        run: |
-          cat > build/${{ env.BUILD_ENV_STAGING }}/BUILD.txt << EOF
-          BUILDTYPE=${{ env.BUILD_ENV_STAGING }}
-          NODE_ENV=production
-          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
-          CHANGE_TARGET=null
-          RUN_ID=${{ github.run_id }}
-          RUN_NUMBER=${{ github.run_number }}
-          REF=${{ github.event.inputs.commit_sha }}
-          BUILDTIME=$(date +%s)
-          EOF
-
-      - name: Compress and archive build for staging
-        if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
-        run: tar -C build/${{ env.BUILD_ENV_STAGING }} -cjf ${{ env.BUILD_ENV_STAGING }}.tar.bz2 .
-
-      - name: Upload build artifact for staging
-        if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ env.BUILD_ENV_STAGING }}.tar.bz2
-          path: ${{ env.BUILD_ENV_STAGING }}.tar.bz2
-          retention-days: 1
 
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, set-environment]
+    strategy:
+      matrix: ${{ fromJson(needs.set-environment.outputs.environment) }}
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Configure AWS credentials (1)
         uses: aws-actions/configure-aws-credentials@v1
@@ -139,40 +137,19 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
       
       - name: Download build artifact
-        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
         uses: actions/download-artifact@v3
         with:
-          name: ${{ env.BUILD_ENV_DEV }}.tar.bz2
+          name: ${{ matrix.environment }}.tar.bz2
 
-      - name: Download build artifact staging
-        if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ env.BUILD_ENV_STAGING }}.tar.bz2
+      - name: Upload build
+        run: aws s3 cp ${{ matrix.environment }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/${{ matrix.environment }}.tar.bz2 --acl public-read --region us-gov-west-1
 
-      - name: Upload build dev
-        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
-        run: aws s3 cp ${{ env.BUILD_ENV_DEV }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/${{ env.BUILD_ENV_DEV }}.tar.bz2 --acl public-read --region us-gov-west-1
-      
-      - name: Upload build staging
-        if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
-        run: aws s3 cp ${{ env.BUILD_ENV_STAGING }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/${{ env.BUILD_ENV_STAGING }}.tar.bz2 --acl public-read --region us-gov-west-1
-
-      - name: Deploy Dev
-        if: ${{ github.event.inputs.deploy_environment == 'dev' || github.event.inputs.deploy_environment == 'both' }}
+      - name: Deploy
         run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
         env:
-          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/vagovdev.tar.bz2
-          DEST: s3://dev.va.gov
-          ASSET_DEST: s3://dev-va-gov-assets
-
-      - name: Deploy Staging
-        if: ${{ github.event.inputs.deploy_environment == 'staging' || github.event.inputs.deploy_environment == 'both' }}
-        run: ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
-        env:
-          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/vagovstaging.tar.bz2
-          DEST: s3://staging.va.gov
-          ASSET_DEST: s3://staging-va-gov-assets
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.inputs.commit_sha }}/${{ matrix.environment }}.tar.bz2
+          DEST: s3://${{ matrix.bucket }}
+          ASSET_DEST: s3://${{ matrix.asset_bucket }}
 
   notify-failure:
     name: Notify Failure
@@ -182,7 +159,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify

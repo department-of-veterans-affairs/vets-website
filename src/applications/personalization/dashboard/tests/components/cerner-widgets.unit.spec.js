@@ -2,18 +2,18 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
-import { CernerWidget } from '../../components/cerner-widgets';
 import { getCernerURL } from 'platform/utilities/cerner';
+import { CernerWidget } from '../../components/cerner-widgets';
 
 describe('General Widget', () => {
-  const facilityNames = ['Facility Name'];
+  const facilityLocations = ['Facility Name'];
   let view;
   beforeEach(() => {
-    view = render(<CernerWidget facilityNames={facilityNames} />);
+    view = render(<CernerWidget facilityLocations={facilityLocations} />);
   });
   it('renders the correct text, including the facility names', () => {
     expect(view.getByTestId('facilities').textContent).to.contain(
-      `For ${facilityNames[0]}:`,
+      `For ${facilityLocations[0]}:`,
     );
   });
   it('renders the correct primary CTA link', () => {

@@ -1,5 +1,5 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
-import { format, subDays } from 'date-fns';
+import { format } from 'date-fns';
 
 class Introduction {
   validatePageLoaded = () => {
@@ -8,7 +8,9 @@ class Introduction {
       .and('have.text', 'Answer pre-check-in questions');
   };
 
-  validateMultipleAppointmentIntroText = (appointmentDate = new Date()) => {
+  validateMultipleAppointmentIntroText = (
+    appointmentDate = new Date().setDate(new Date().getDate() + 1),
+  ) => {
     cy.get('p[data-testid="appointment-day-location"]').contains(
       `Your appointments are on ${format(
         appointmentDate,
@@ -67,15 +69,16 @@ class Introduction {
     }
   };
 
-  validateExpirationDate = appointmentTime => {
-    cy.get('[data-testid="expiration-date"]').contains(
-      format(subDays(appointmentTime, 1), 'M/dd/Y'),
-    );
-  };
-
   attemptToGoToNextPage = () => {
     cy.get('div[data-testid="intro-wrapper"] div[data-testid="start-button"] a')
       .eq(0)
+      .click();
+  };
+
+  expandAccordion = () => {
+    cy.get('[data-testid="intro-accordion-item"]')
+      .shadow()
+      .find('button[aria-controls="content"]')
       .click();
   };
 }

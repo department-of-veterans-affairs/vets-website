@@ -74,25 +74,40 @@ export const fullNameLoadError = state => {
 };
 
 export const personalInformationLoadError = state => {
-  return state.vaProfile?.personalInformation?.errors;
+  return (
+    state.vaProfile?.personalInformation?.errors ||
+    state.vaProfile?.personalInformation?.error
+  );
 };
 
 export const militaryInformationLoadError = state => {
   return state.vaProfile?.militaryInformation?.serviceHistory?.error;
 };
 
-export const showProfileLGBTQEnhancements = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileEnhancements] || false;
+export const showBadAddressIndicator = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowBadAddressIndicator] ||
+  false;
+
+export const forceBadAddressIndicator = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileForceBadAddressIndicator] ||
+  false;
+
+export const hasBadAddress = state =>
+  state.user?.profile?.vapContactInfo?.mailingAddress?.badAddress;
 
 export const profileShowAddressChangeModal = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowAddressChangeModal] ||
   false;
 
-export const profileShowFaxNumber = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowFaxNumber];
+export const profileShowPronounsAndSexualOrientation = state =>
+  toggleValues(state)?.[
+    FEATURE_FLAG_NAMES.profileShowPronounsAndSexualOrientation
+  ];
 
-export const profileShowGender = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowGender];
+export const profileDoNotRequireInternationalZipCode = state =>
+  toggleValues(state)?.[
+    FEATURE_FLAG_NAMES.profileDoNotRequireInternationalZipCode
+  ];
 
 export function selectVAProfilePersonalInformation(state, fieldName) {
   const fieldValue = state?.vaProfile?.personalInformation?.[fieldName];

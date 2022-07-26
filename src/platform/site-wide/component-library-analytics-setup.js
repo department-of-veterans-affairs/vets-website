@@ -126,6 +126,18 @@ const analyticsEvents = {
       prefix: 'alert-box',
     },
   ],
+  'va-alert-expandable': [
+    {
+      action: 'expand',
+      event: 'int-alert-expandable-expand',
+      prefix: 'alert-expandable',
+    },
+    {
+      action: 'collapse',
+      event: 'int-alert-expandable-collapse',
+      prefix: 'alert-expandable',
+    },
+  ],
   'va-breadcrumbs': [
     {
       action: 'linkClick',
@@ -145,6 +157,13 @@ const analyticsEvents = {
       action: 'displayed',
       event: 'loading-indicator-displayed',
       prefix: 'loading-indicator',
+    },
+  ],
+  'va-modal': [
+    {
+      action: 'show',
+      event: 'int-modal-show',
+      prefix: 'modal',
     },
   ],
   'va-radio': [
@@ -175,6 +194,12 @@ const analyticsEvents = {
       prefix: 'segmented-progress-bar',
     },
   ],
+  'va-on-this-page': [
+    {
+      action: 'click',
+      event: 'nav-jumplink-click',
+    },
+  ],
 };
 
 export function subscribeComponentAnalyticsEvents(
@@ -198,7 +223,7 @@ export function subscribeComponentAnalyticsEvents(
       // If the event included additional details / context...
       if (e.detail.details) {
         for (const key of Object.keys(e.detail.details)) {
-          const newKey = `${action.prefix}-${key}`;
+          const newKey = action.prefix ? `${action.prefix}-${key}` : key;
 
           dataLayer[newKey] = e.detail.details[key];
         }

@@ -1,6 +1,5 @@
 import { isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
-
 import {
   formatCurrency,
   isCountryUSA,
@@ -531,6 +530,16 @@ const getDerivedValues = createSelector(
         !useBeneficiaryLocationRate) ||
       inputs.classesOutsideUS;
 
+    const isUSSchool = facilityCode => {
+      const digits = parseInt(facilityCode[5] + facilityCode[6], 10);
+      return digits < 52 || (digits > 60 && digits < 67);
+    };
+
+    const isPhilipines = facilityCode => {
+      const digits = parseInt(facilityCode[6] + facilityCode[7], 10);
+      return digits === 62;
+    };
+
     // Calculate Housing Allowance for Term #1 - getHousingAllowTerm1
     if (
       isOJT &&
@@ -540,6 +549,8 @@ const getDerivedValues = createSelector(
           spouseActiveDuty))
     ) {
       housingAllowTerm1 = 0;
+    } else if (giBillChapter === 35 && isPhilipines(institution.facilityCode)) {
+      housingAllowTerm1 = totalHousingAllowance / 2;
     } else if (isOJT && (giBillChapter === 35 || oldGiBill || onlyVRE)) {
       housingAllowTerm1 = monthlyRateFinal;
     } else if (giBillChapter === 31 && isFlightOrCorrespondence) {
@@ -577,6 +588,11 @@ const getDerivedValues = createSelector(
       } else {
         housingAllowTerm1 = ropOjt * (tier * bah + kickerBenefit);
       }
+    } else if (
+      onlineClasses === 'yes' &&
+      !isUSSchool(institution.facilityCode)
+    ) {
+      housingAllowTerm1 = 0;
     } else if (onlineClasses === 'yes') {
       housingAllowTerm1 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
@@ -595,6 +611,8 @@ const getDerivedValues = createSelector(
           spouseActiveDuty))
     ) {
       housingAllowTerm2 = 0;
+    } else if (giBillChapter === 35 && isPhilipines(institution.facilityCode)) {
+      housingAllowTerm2 = totalHousingAllowance / 2;
     } else if (giBillChapter === 35 && isOJT) {
       housingAllowTerm2 = 0.75 * monthlyRateFinal;
     } else if (oldGiBill && isOJT) {
@@ -634,6 +652,11 @@ const getDerivedValues = createSelector(
       housingAllowTerm2 = rop * kickerBenefit * termLength;
     } else if (isFlightOrCorrespondence) {
       housingAllowTerm2 = 0;
+    } else if (
+      onlineClasses === 'yes' &&
+      !isUSSchool(institution.facilityCode)
+    ) {
+      housingAllowTerm2 = 0;
     } else if (onlineClasses === 'yes') {
       housingAllowTerm2 =
         termLength * rop * ((tier * avgBah) / 2 + kickerBenefit);
@@ -652,6 +675,8 @@ const getDerivedValues = createSelector(
           spouseActiveDuty))
     ) {
       housingAllowTerm3 = 0;
+    } else if (giBillChapter === 35 && isPhilipines(institution.facilityCode)) {
+      housingAllowTerm3 = totalHousingAllowance / 2;
     } else if (giBillChapter === 35 && isOJT) {
       housingAllowTerm3 = 0.494 * monthlyRateFinal;
     } else if (oldGiBill && isOJT) {
@@ -692,6 +717,11 @@ const getDerivedValues = createSelector(
     ) {
       housingAllowTerm3 = rop * kickerBenefit * termLength;
     } else if (isFlightOrCorrespondence) {
+      housingAllowTerm3 = 0;
+    } else if (
+      onlineClasses === 'yes' &&
+      !isUSSchool(institution.facilityCode)
+    ) {
       housingAllowTerm3 = 0;
     } else if (onlineClasses === 'yes') {
       housingAllowTerm3 =

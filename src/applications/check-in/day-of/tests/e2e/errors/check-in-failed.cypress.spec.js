@@ -16,17 +16,19 @@ describe('Check In Experience -- ', () => {
       initializeSessionPost,
       initializeCheckInDataGet,
       initializeCheckInDataPost,
+      initializeDemographicsPatch,
     } = ApiInitializer;
     initializeFeatureToggle.withCurrentFeatures();
     initializeSessionGet.withSuccessfulNewSession();
     initializeSessionPost.withSuccess();
+    initializeDemographicsPatch.withSuccess();
     initializeCheckInDataGet.withSuccess({
       numberOfCheckInAbledAppointments: 1,
     });
     initializeCheckInDataPost.withFailure(200);
 
     cy.visitWithUUID();
-    ValidateVeteran.validatePageLoaded('Check in at VA');
+    ValidateVeteran.validatePage.dayOf();
     ValidateVeteran.validateVeteran();
     ValidateVeteran.attemptToGoToNextPage();
     Demographics.attemptToGoToNextPage();
@@ -44,5 +46,6 @@ describe('Check In Experience -- ', () => {
     Error.validatePageLoaded();
     cy.injectAxe();
     cy.axeCheck();
+    cy.createScreenshots('Day-of-check-in--Error');
   });
 });

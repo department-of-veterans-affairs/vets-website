@@ -18,7 +18,7 @@ function handleChange({
   featureStatusImprovement,
 }) {
   return e => {
-    const dateRange = Number(e.target.value);
+    const dateRange = Number(e.detail.value);
 
     updateDateRangeIndex(dateRange);
     if (featureStatusImprovement) {
@@ -39,13 +39,6 @@ export default function PastAppointmentsDateDropdown({
 
   return (
     <>
-      <label
-        htmlFor="date-dropdown"
-        className="vads-u-display--inline-block vads-u-margin-top--0 vads-u-margin-right--2 vads-u-margin-bottom--0 vaos-hide-for-print"
-      >
-        Select a date range{' '}
-        <span className="sr-only">for your appointments</span>
-      </label>
       <Select
         options={options}
         onChange={handleChange({
@@ -57,6 +50,7 @@ export default function PastAppointmentsDateDropdown({
         })}
         id="date-dropdown"
         value={dateRangeIndex}
+        label="Select a date range"
       />
       {!featureStatusImprovement && (
         <button

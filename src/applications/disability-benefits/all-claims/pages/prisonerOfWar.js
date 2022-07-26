@@ -1,11 +1,8 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import PeriodOfConfinement from '../components/PeriodOfConfinement';
-import {
-  makeSchemaForNewDisabilities,
-  claimingNew,
-  formatDate,
-} from '../utils';
+import { claimingNew, formatDate } from '../utils';
+import { makeSchemaForNewDisabilities } from '../utils/schemas';
 import { isWithinServicePeriod } from '../validations';
 import { confinementDescription } from '../content/prisonerOfWar';
 

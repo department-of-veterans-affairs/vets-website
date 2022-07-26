@@ -2,7 +2,17 @@ import moment from 'moment';
 import {
   initAppointmentListMock,
   initVAAppointmentMock,
+  mockCCEligibilityApi,
+  mockClinicApi,
+  mockDirectScheduleSlotsApi,
+  mockEligibilityApi,
+  mockFacilityApi,
   mockFeatureToggles,
+  mockLoginApi,
+  mockPreferencesApi,
+  mockSchedulingConfigurationApi,
+  mockAppointmentsApi,
+  vaosSetup,
 } from './vaos-cypress-helpers';
 import * as newApptTests from './vaos-cypress-schedule-appointment-helpers';
 
@@ -13,9 +23,10 @@ describe('VAOS direct schedule flow', () => {
     mockFeatureToggles();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
+    cy.axeCheckBestPractice();
 
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Primary care');
@@ -24,7 +35,7 @@ describe('VAOS direct schedule flow', () => {
     newApptTests.chooseFacilityTypeTest(/VA medical center/);
 
     // Choose VA Flat Facility
-    newApptTests.chooseVAFacilityV2Test();
+    newApptTests.chooseVAFacilityV2Test(/Cheyenne VA Medical Center/);
 
     // Choose Clinic
     newApptTests.chooseClinicTest();
@@ -79,9 +90,10 @@ describe('VAOS direct schedule flow', () => {
     initVAAppointmentMock();
     cy.visit('health-care/schedule-view-va-appointments/appointments/');
     cy.injectAxe();
+    cy.axeCheckBestPractice();
 
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Eye care');
@@ -93,7 +105,7 @@ describe('VAOS direct schedule flow', () => {
     cy.findByText(/Continue/).click();
 
     // Choose VA Facility
-    newApptTests.chooseVAFacilityV2Test();
+    newApptTests.chooseVAFacilityV2Test(/Cheyenne VA Medical Center/);
 
     // Choose Clinic
     newApptTests.chooseClinicTest();
@@ -149,7 +161,7 @@ describe('VAOS direct schedule flow', () => {
     cy.injectAxe();
 
     // Start flow
-    cy.findByText('Start scheduling').click();
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
 
     // Choose Type of Care
     newApptTests.chooseTypeOfCareTest('Sleep medicine');
@@ -161,7 +173,7 @@ describe('VAOS direct schedule flow', () => {
     cy.findByText(/Continue/).click();
 
     // Choose VA Facility
-    newApptTests.chooseVAFacilityV2Test();
+    newApptTests.chooseVAFacilityV2Test(/Cheyenne VA Medical Center/);
 
     // Choose Clinic
     newApptTests.chooseClinicTest();
@@ -208,5 +220,91 @@ describe('VAOS direct schedule flow', () => {
 
     // Confirmation page
     newApptTests.confirmationPageV2Test(fullReason);
+  });
+});
+
+describe('VAOS direct schedule flow using VAOS service', () => {
+  beforeEach(() => {
+    vaosSetup();
+
+    mockAppointmentsApi({ apiVersion: 0 });
+    mockAppointmentsApi({ apiVersion: 2 });
+    mockCCEligibilityApi();
+    mockClinicApi({ locations: ['983'], apiVersion: 2 });
+    mockDirectScheduleSlotsApi({ clinicId: '455', apiVersion: 2 });
+    mockEligibilityApi({ isEligible: true });
+    mockFacilityApi({ id: '983', apiVersion: 2 });
+    mockFeatureToggles({
+      v2Requests: true,
+      v2Facilities: true,
+      v2DirectSchedule: true,
+    });
+    mockLoginApi();
+    mockPreferencesApi();
+    mockSchedulingConfigurationApi();
+  });
+
+  it('should submit form', () => {
+    cy.visit('health-care/schedule-view-va-appointments/appointments/');
+    cy.wait('@mockUser');
+    cy.injectAxe();
+    cy.axeCheckBestPractice();
+
+    // Start flow
+    cy.findByText('Start scheduling').click({ waitForAnimations: true });
+
+    // Choose Type of Care
+    newApptTests.chooseTypeOfCareTest('Primary care');
+
+    // Choose Facility Type
+    newApptTests.chooseFacilityTypeTest(/VA medical center/);
+
+    // Choose VA Flat Facility
+    newApptTests.chooseVAFacilityV2Test(/Cheyenne VA Medical Center/);
+
+    // Choose Clinic
+    newApptTests.chooseClinicTest();
+
+    // Choose preferred date
+    newApptTests.choosePreferredDateTest();
+
+    // Select time slot
+    newApptTests.selectTimeSlotTest();
+
+    // Reason for appointment
+    const additionalInfo = 'cough';
+    newApptTests.reasonForAppointmentTest(additionalInfo);
+
+    // Contact info
+    newApptTests.contactInfoDirectScheduleTest();
+
+    // Review
+    newApptTests.reviewTest();
+
+    // Check form requestBody is as expected
+    // const fullReason = 'Follow-up/Routine: cough';
+    cy.wait('@v2:create:appointment').should(xhr => {
+      const request = xhr.request.body;
+
+      expect(request.locationId).to.eq('983');
+      expect(request.clinic).to.eq('455');
+      expect(request.extension).to.have.property(
+        'desiredDate',
+        `${moment()
+          .add(1, 'month')
+          .startOf('month')
+          .add(4, 'days')
+          .startOf('day')
+          .format('YYYY-MM-DD')}T00:00:00+00:00`,
+      );
+      expect(request.status).to.eq('booked');
+    });
+    cy.wait('@v0:update:preferences').should(xhr => {
+      const request = xhr.request.body;
+      expect(request.emailAddress).to.eq('veteran@gmail.com');
+    });
+
+    // Confirmation page
+    newApptTests.confirmationPageV2Test(null, false);
   });
 });

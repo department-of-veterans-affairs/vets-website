@@ -1,8 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import externalServiceStatus from 'platform/monitoring/DowntimeNotification/config/externalServiceStatus';
 import { dismissDowntimeWarning } from 'platform/monitoring/DowntimeNotification/actions';
+import PropTypes from 'prop-types';
 import FullWidthLayout from '../FullWidthLayout';
 import InfoAlert from '../InfoAlert';
 
@@ -43,12 +44,15 @@ export default function DowntimeMessage({
   return (
     <>
       {status === externalServiceStatus.downtimeApproaching && (
-        <Modal
+        <VaModal
           id="downtime-approaching-modal"
-          onClose={close}
+          onCloseEvent={close}
           visible={!isDowntimeWarningDismissed}
+          status="warning"
+          role="alertdialog"
+          modalTitle="VA online scheduling will be down for maintenance"
+          data-testid="downtime-approaching-modal"
         >
-          <h3>VA online scheduling will be down for maintenance</h3>
           <p>
             We’re doing work on the VA appointments tool on{' '}
             {startTime.format('MMMM Do')} between {startTime.format('LT')} and{' '}
@@ -64,9 +68,15 @@ export default function DowntimeMessage({
           >
             Dismiss
           </button>
-        </Modal>
+        </VaModal>
       )}
       {children}
     </>
   );
 }
+DowntimeMessage.propTypes = {
+  children: PropTypes.string,
+  endTime: PropTypes.string,
+  startTime: PropTypes.string,
+  status: PropTypes.string,
+};

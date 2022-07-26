@@ -1,5 +1,5 @@
 /**
- * [TestRail-integrated] Spec for Medical Copays
+ * [TestRail-integrated] Spec for American Indian Question
  * @testrailinfo projectId 10
  * @testrailinfo suiteId 11
  * @testrailinfo groupId 3267
@@ -16,7 +16,7 @@ import prefillAiq from './fixtures/mockPrefillAiq.json';
 import * as aiqHelpers from './helpers';
 
 describe('HCA-AIQ', () => {
-  before(function() {
+  before(function skipInCI() {
     if (Cypress.env('CI')) this.skip();
   });
 
@@ -42,11 +42,12 @@ describe('HCA-AIQ', () => {
     }).as('mockSubmit');
   });
 
-  /* eslint-disable va/axe-check-required */
+  /* eslint-disable @department-of-veterans-affairs/axe-check-required */
   // AXE check in last test (toggle-section).
   it('works with AIQ (Yes selected) - C12901', () => {
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+    // cy.findByTestId('form-title').contains(/apply.+health care/i);
     cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
       .first()
       .should('exist');
@@ -63,7 +64,9 @@ describe('HCA-AIQ', () => {
 
     // Finish, review, & submit
     aiqHelpers.advanceFromAiqToReviewPage();
-    cy.findByText(/veteran information/i, { selector: 'button' }).click();
+    cy.findByText(/veteran information/i, { selector: 'button' }).click({
+      waitForAnimations: true,
+    });
     cy.findByText(/american indian/i, { selector: 'dt' })
       .next('dd')
       .find('span:first-child')
@@ -84,6 +87,7 @@ describe('HCA-AIQ', () => {
   it('works with AIQ (No selected) - C13159', () => {
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+    // cy.findByTestId('form-title').contains(/apply.+health care/i);
     cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
       .first()
       .should('exist');
@@ -96,7 +100,9 @@ describe('HCA-AIQ', () => {
 
     // Finish, review, & submit
     aiqHelpers.advanceFromAiqToReviewPage();
-    cy.findByText(/veteran information/i, { selector: 'button' }).click();
+    cy.findByText(/veteran information/i, { selector: 'button' }).click({
+      waitForAnimations: true,
+    });
     cy.findByText(/american indian/i, { selector: 'dt' })
       .next('dd')
       .find('span:first-child')
@@ -117,6 +123,7 @@ describe('HCA-AIQ', () => {
   it('displays error message for required field - C13160', () => {
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+    // cy.findByTestId('form-title').contains(/apply.+health care/i);
     cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
       .first()
       .should('exist');
@@ -128,56 +135,40 @@ describe('HCA-AIQ', () => {
     aiqHelpers.goToNextPage();
     cy.get('#root_sigiIsAmericanIndian-error-message').should('be.visible');
   });
-  /* eslint-enable va/axe-check-required */
+  /* eslint-enable @department-of-veterans-affairs/axe-check-required */
 
   it('expands/collapses toggle-section - C13161', () => {
     cy.visit(manifest.rootUrl);
     cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+    // cy.findByTestId('form-title').contains(/apply.+health care/i);
     cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
       .first()
       .should('exist');
 
     // Advance to AIQ page
     aiqHelpers.advanceToAiqPage();
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
 
     // Check more-info toggle
     // expand
-    cy.findByText(/american indian or alaska native/i, {
-      selector: '.additional-info-title',
-    })
-      .scrollIntoView()
-      .click()
-      .then(ele => {
-        cy.wrap(ele)
-          .parent()
-          .invoke('attr', 'aria-controls')
-          .then(ariaCtrlsId => {
-            const acId = `#${ariaCtrlsId}`;
-            cy.get(acId)
-              .children()
-              .should('have.length.gt', 0);
-            cy.injectAxe();
-            cy.axeCheck();
-          });
-      });
+    cy.get('[data-testid="aiq-addl-info"]')
+      .shadow()
+      .find('[aria-controls=info][aria-expanded=false]')
+      .click({ waitForAnimations: true });
+    cy.get('va-additional-info')
+      .shadow()
+      .find('#info')
+      .should('be.visible');
+    cy.injectAxeThenAxeCheck('va-additional-info');
     // collapse
-    cy.findByText(/american indian or alaska native/i, {
-      selector: '.additional-info-title',
-    })
+    cy.get('[data-testid="aiq-addl-info"]')
+      .shadow()
+      .find('[aria-controls=info][aria-expanded=true]')
       .scrollIntoView()
-      .click()
-      .then(ele => {
-        cy.wrap(ele)
-          .parent()
-          .invoke('attr', 'aria-controls')
-          .then(ariaCtrlsId => {
-            const acId = `#${ariaCtrlsId}`;
-            cy.get(acId)
-              .children()
-              .should('have.length', 0);
-          });
-      });
+      .click({ waitForAnimations: true });
+    cy.get('va-additional-info')
+      .shadow()
+      .find('#info')
+      .should('not.be.visible');
   });
 });

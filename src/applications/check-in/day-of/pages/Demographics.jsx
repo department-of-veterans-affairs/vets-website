@@ -1,11 +1,13 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/Footer';
-import { recordAnswer, seeStaffMessageUpdated } from '../../actions/day-of';
+import Footer from '../../components/layout/Footer';
+import { seeStaffMessageUpdated } from '../../actions/day-of';
+import { recordAnswer } from '../../actions/universal';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
 import { makeSelectVeteranData } from '../../selectors';
 
@@ -15,6 +17,7 @@ const Demographics = props => {
   const { isDayOfDemographicsFlagsEnabled } = props;
   const dispatch = useDispatch();
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { t } = useTranslation();
   const { demographics } = useSelector(selectVeteranData);
   const { router } = props;
   const { goToNextPage, jumpToPage, goToErrorPage } = useFormRouting(router);
@@ -51,10 +54,11 @@ const Demographics = props => {
       }
       const seeStaffMessage = (
         <>
-          <p>Our staff can help you update your contact information.</p>
+          <p>{t('our-staff-can-help-you-update-your-contact-information')}</p>
           <p className="vads-u-margin-bottom--0">
-            If you don’t live at a fixed address right now, we’ll help you find
-            the best way to stay connected with us.
+            {t(
+              'if-you-dont-live-at-a-fixed-address-right-now-well-help-you-find-the-best-way-to-stay-connected-with-us',
+            )}
           </p>
         </>
       );
@@ -66,6 +70,7 @@ const Demographics = props => {
       jumpToPage,
       isDayOfDemographicsFlagsEnabled,
       dispatch,
+      t,
     ],
   );
 
@@ -79,6 +84,9 @@ const Demographics = props => {
         demographics={demographics}
         yesAction={yesClick}
         noAction={noClick}
+        subtitle={t(
+          'we-can-better-follow-up-with-you-after-your-appointment-when-we-have-your-current-information',
+        )}
         Footer={Footer}
       />
       <BackToHome />

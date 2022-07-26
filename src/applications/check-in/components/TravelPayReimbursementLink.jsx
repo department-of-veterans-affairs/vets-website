@@ -1,14 +1,19 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+
+import ExternalLink from './ExternalLink';
 
 function TravelPayReimbursementLink() {
+  const { t } = useTranslation();
   return (
-    <div className="vads-u-margin-top--3">
-      <a
+    <div className="vads-u-margin-top--3" data-testid="btsss-link">
+      <ExternalLink
         href="/health-care/get-reimbursed-for-travel-pay/"
-        data-testid="btsss-link"
+        hrefLang="en"
+        eventId="request-travel-pay-reimbursement--link-clicked"
       >
-        Find out how to request travel pay reimbursement
-      </a>
+        {t('find-out-how-to-request-travel-pay-reimbursement')}
+      </ExternalLink>
     </div>
   );
 }

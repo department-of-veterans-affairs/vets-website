@@ -40,6 +40,11 @@ describe('Authed Letter Test', () => {
         cy.get('va-accordion-item').should('have.length', 5);
       });
 
+    /* Remove `cy.wait(100)` once expandAccordions uses the expand all button
+     * https://github.com/department-of-veterans-affairs/vets-website/pull/20605
+     */
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(100);
     cy.expandAccordions();
     cy.axeCheck();
 

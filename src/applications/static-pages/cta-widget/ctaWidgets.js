@@ -17,6 +17,7 @@ export const CTA_WIDGET_TYPES = {
   ADD_REMOVE_DEPENDENTS: 'add-remove-dependents',
   CHANGE_ADDRESS: 'change-address',
   CLAIMS_AND_APPEALS: 'claims-and-appeals',
+  COMBINED_DEBT_PORTAL: 'combined-debt-portal',
   DIRECT_DEPOSIT: 'direct-deposit',
   DISABILITY_BENEFITS: 'disability-benefits',
   DISABILITY_RATINGS: 'disability-ratings',
@@ -55,7 +56,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.CHANGE_ADDRESS]: {
     id: CTA_WIDGET_TYPES.CHANGE_ADDRESS,
     deriveToolUrlDetails: () => ({
-      url: '/profile/personal-information',
+      url: '/profile/contact-information',
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,
@@ -75,6 +76,18 @@ export const ctaWidgetsLookup = {
       backendServices.APPEALS_STATUS,
     ],
     serviceDescription: 'see your claim or appeal status',
+  },
+  [CTA_WIDGET_TYPES.COMBINED_DEBT_PORTAL]: {
+    id: CTA_WIDGET_TYPES.COMBINED_DEBT_PORTAL,
+    deriveToolUrlDetails: () => ({
+      url: '/manage-va-debt/summary',
+      redirect: false,
+    }),
+    hasRequiredMhvAccount: () => false,
+    isHealthTool: false,
+    mhvToolName: null,
+    requiredServices: null,
+    serviceDescription: 'manage your VA debt',
   },
   [CTA_WIDGET_TYPES.DIRECT_DEPOSIT]: {
     id: CTA_WIDGET_TYPES.DIRECT_DEPOSIT,

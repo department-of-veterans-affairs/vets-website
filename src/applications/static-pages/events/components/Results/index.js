@@ -1,7 +1,7 @@
 // Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
-import Pagination from '@department-of-veterans-affairs/component-library/Pagination';
+import VaPagination from '@department-of-veterans-affairs/component-library/Pagination';
 import moment from 'moment-timezone';
 // Relative imports.
 import {
@@ -16,6 +16,7 @@ export const Results = ({
   page,
   perPage,
   query,
+  queryId,
   results,
   totalResults,
 }) => {
@@ -23,7 +24,16 @@ export const Results = ({
   if (!results?.length) {
     return (
       <p className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1">
-        No results found for <strong>{query}</strong>.
+        {queryId === 'custom-date-range' ? (
+          <span>
+            No events listed because filters are applied that exclude events
+            from view
+          </span>
+        ) : (
+          <span>
+            No results found for <strong>{query}</strong>
+          </span>
+        )}
       </p>
     );
   }
@@ -50,7 +60,7 @@ export const Results = ({
       {/* Events */}
       {results && (
         <div className="vads-u-display--flex vads-u-flex-direction--column">
-          {results?.map(event => {
+          {results?.map((event, index) => {
             // Derive event properties.
             const entityUrl = event?.entityUrl;
             const fieldDescription = event?.fieldDescription;
@@ -58,7 +68,7 @@ export const Results = ({
 
             // Derive the most recent date.
             const mostRecentDate = deriveMostRecentDate(
-              event?.fieldDatetimeRangeTimezone,
+              event?.fieldDatetimeRangeTimezone[0],
             );
             const startsAtUnix = mostRecentDate?.value;
             const endsAtUnix = mostRecentDate?.endValue;
@@ -82,7 +92,7 @@ export const Results = ({
             return (
               <div
                 className="vads-u-display--flex vads-u-flex-direction--column vads-u-border-top--1px vads-u-border-color--gray-light vads-u-padding-y--4"
-                key={`${title}-${entityUrl?.path}`}
+                key={`${title}-${entityUrl?.path}-${index}`}
               >
                 {/* Title */}
                 <h3 className="vads-u-margin--0 vads-u-font-size--h4">
@@ -104,7 +114,6 @@ export const Results = ({
                     <p className="vads-u-margin--0">
                       {formattedStartsAt} – {formattedEndsAt} {endsAtTimezone}
                     </p>
-
                     {/* Repeats */}
                     {event?.fieldDatetimeRangeTimezone?.length > 1 && (
                       <p className="vads-u-margin--0">
@@ -119,6 +128,20 @@ export const Results = ({
                 </div>
 
                 {/* Where */}
+                {event?.fieldLocationType === 'online' && (
+                  <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--1">
+                    <p className="vads-u-margin--0 vads-u-margin-right--0p5">
+                      <strong>Where:</strong>
+                    </p>
+
+                    <div className="vads-u-display--flex vads-u-flex-direction--column">
+                      <p className="vads-u-margin--0">
+                        This is an online event.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 {locations?.length > 0 && (
                   <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--1">
                     <p className="vads-u-margin--0 vads-u-margin-right--0p5">
@@ -126,6 +149,19 @@ export const Results = ({
                     </p>
 
                     <div className="vads-u-display--flex vads-u-flex-direction--column">
+                      {event.fieldFacilityLocation?.entity?.entityUrl?.path &&
+                        event.fieldFacilityLocation?.entity?.title && (
+                          <p className="vads-u-margin--0">
+                            <a
+                              href={
+                                event.fieldFacilityLocation.entity.entityUrl
+                                  .path
+                              }
+                            >
+                              {event.fieldFacilityLocation.entity.title}
+                            </a>
+                          </p>
+                        )}
                       {locations?.map(location => (
                         <p className="vads-u-margin--0" key={location}>
                           {location}
@@ -141,7 +177,7 @@ export const Results = ({
       )}
 
       {/* Pagination bar */}
-      <Pagination
+      <VaPagination
         className="vads-u-border-top--0"
         onPageSelect={onPageSelect}
         page={page}
@@ -160,17 +196,20 @@ Results.propTypes = {
   results: PropTypes.arrayOf(
     PropTypes.shape({
       entityUrl: PropTypes.object.isRequired,
-      fieldDatetimeRangeTimezone: PropTypes.shape({
-        endValue: PropTypes.number.isRequired,
-        timezone: PropTypes.string,
-        value: PropTypes.number.isRequired,
-      }).isRequired,
+      fieldDatetimeRangeTimezone: PropTypes.arrayOf(
+        PropTypes.shape({
+          endValue: PropTypes.number.isRequired,
+          timezone: PropTypes.string,
+          value: PropTypes.number.isRequired,
+        }),
+      ).isRequired,
       fieldDescription: PropTypes.string,
       title: PropTypes.string.isRequired,
     }),
   ).isRequired,
   totalResults: PropTypes.number.isRequired,
   onPageSelect: PropTypes.func.isRequired,
+  queryId: PropTypes.string,
 };
 
 export default Results;

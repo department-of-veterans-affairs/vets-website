@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const links = {
   findLocations: {
@@ -31,10 +32,12 @@ export const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
 export const representativeLabel = `Representative\u2019s`;
 export const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
 export const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
-export const secondaryOneHeaderInfo =
-  'Please complete the following information about the Secondary Family Caregiver.';
-export const secondaryTwoHeaderInfo =
-  'Please complete the following information about the Secondary Family Caregiver (2).';
+export const primaryPageIntro = `Please complete the following information about the Primary Family Caregiver.`;
+export const primaryContactIntro = `If the Primary Family Caregiver\u2019s address is the same as the Veteran\u2019s address, we can fill those fields out for you.`;
+export const secondaryOnePageIntro = `Please complete the following information about the Secondary Family Caregiver.`;
+export const secondaryTwoPageIntro = `Please complete the following information about the Secondary Family Caregiver (2).`;
+export const secondaryOneContactIntro = `If the Secondary Family Caregiver\u2019s address is the same as the Veteran\u2019s address, we can fill those fields out for you.`;
+export const secondaryTwoContactIntro = `If the Secondary Family Caregiver\u2019s (2) address is the same as the Veteran\u2019s address, we can fill those fields out for you.`;
 
 export const veteranSignatureContent = [
   'I certify that I give consent to the individual(s) named in this application to perform personal care services for me upon being approved as Primary and/or Secondary Family Caregivers in the Program of Comprehensive Assistance for Family Caregivers.',
@@ -95,4 +98,8 @@ export const SecondaryCaregiverCopy = ({ label }) => {
       <PrivacyPolicy />
     </div>
   );
+};
+
+SecondaryCaregiverCopy.propTypes = {
+  label: PropTypes.string,
 };

@@ -84,8 +84,10 @@ describe('VAOS <PastAppointmentsListV2>', () => {
 
     mockPastAppointmentInfoOption1({ va: [appointment] });
 
-    fireEvent.change(screen.getByLabelText(/select a date range/i), {
-      target: { value: 1 },
+    const dropdown = await screen.findByTestId('vaosSelect');
+
+    dropdown.__events.vaSelect({
+      detail: { value: 1 },
     });
 
     fireEvent.click(screen.queryByText('Update'));
