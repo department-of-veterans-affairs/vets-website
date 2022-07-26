@@ -815,7 +815,7 @@ describe('fsr transform information', () => {
       expect(submissionObj.assets).haveOwnProperty('cashOnHand');
       expect(submissionObj.assets).haveOwnProperty('automobiles');
       expect(submissionObj.assets.automobiles).to.be.an('array');
-      expect(submissionObj.assets).haveOwnProperty('recVehicleAmount');
+      expect(submissionObj.assets).haveOwnProperty('trailersBoatsCampers');
       expect(submissionObj.assets).haveOwnProperty('usSavingsBonds');
       expect(submissionObj.assets).haveOwnProperty('stocksAndOtherBonds');
       expect(submissionObj.assets).haveOwnProperty('realEstateOwned');
@@ -827,7 +827,7 @@ describe('fsr transform information', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj.assets.cashInBank).to.equal('3000.45');
       expect(submissionObj.assets.cashOnHand).to.equal('10000.67');
-      expect(submissionObj.assets.recVehicleAmount).to.equal('15000.23');
+      expect(submissionObj.assets.trailersBoatsCampers).to.equal('15000.23');
       expect(submissionObj.assets.usSavingsBonds).to.equal('25000.65');
       expect(submissionObj.assets.stocksAndOtherBonds).to.equal('50000.84');
       expect(submissionObj.assets.realEstateOwned).to.equal('800000.81');

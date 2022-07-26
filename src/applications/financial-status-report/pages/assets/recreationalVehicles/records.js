@@ -16,18 +16,20 @@ const RecVehicleInfo = (
 
 export const uiSchema = {
   'ui:title': 'Your trailers, campers, and boats',
-  recVehicleAmount: {
-    'ui:title':
-      'What is the estimated value of your trailers, campers, and boats?',
-    'ui:options': {
-      classNames: 'schemaform-currency-input',
-      widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
+  assets: {
+    recVehicleAmount: {
+      'ui:title':
+        'What is the estimated value of your trailers, campers, and boats?',
+      'ui:options': {
+        classNames: 'schemaform-currency-input',
+        widgetClassNames: 'input-size-4 vads-u-margin-bottom--3',
+      },
+      'ui:required': () => true,
+      'ui:errorMessages': {
+        required: 'Please enter the estimated value.',
+      },
+      'ui:validations': [validateCurrency],
     },
-    'ui:required': () => true,
-    'ui:errorMessages': {
-      required: 'Please enter the estimated value.',
-    },
-    'ui:validations': [validateCurrency],
   },
   'view:components': {
     'view:recVehicleInfo': {
@@ -39,7 +41,12 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    recVehicleAmount: { type: 'string' },
+    assets: {
+      type: 'object',
+      properties: {
+        recVehicleAmount: { type: 'string' },
+      },
+    },
     'view:components': {
       type: 'object',
       properties: {
