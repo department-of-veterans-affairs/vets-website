@@ -15,7 +15,13 @@ const RecVehicleInfo = (
 );
 
 export const uiSchema = {
-  'ui:title': 'Your trailers, campers, and boats',
+  'ui:title': () => (
+    <>
+      <legend className="schemaform-block-title">
+        Your trailers, campers, and boats
+      </legend>
+    </>
+  ),
   assets: {
     recVehicleAmount: {
       'ui:title':
