@@ -32,7 +32,7 @@ describe('Pre-Check In Experience', () => {
       ValidateVeteran.validateVeteran('Sith', '4321');
       ValidateVeteran.attemptToGoToNextPage();
       ValidateVeteran.validateErrorAlert();
-
+      cy.createScreenshots('Pre-check-in--inline-validation-error');
       // Second Attempt
       ValidateVeteran.validateVeteran('Sith', '4321');
       ValidateVeteran.attemptToGoToNextPage();
@@ -44,6 +44,7 @@ describe('Pre-Check In Experience', () => {
       ValidateVeteran.attemptToGoToNextPage();
 
       Error.validatePageLoaded(true);
+      cy.createScreenshots('Pre-check-in--validation-error');
     });
     it('fails validation once and then succeeds on the second attempt', () => {
       cy.injectAxeThenAxeCheck();
