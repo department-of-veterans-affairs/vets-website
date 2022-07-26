@@ -72,23 +72,28 @@ class Differ {
       });
 
       // check if packageDependencies, crossProductDependencies has changed
-      ['packageDependencies', 'crossProductDependencies'].forEach(attribute => {
-        const currentValue = product[productDirectoryProps[attribute]]
-          ? product[productDirectoryProps[attribute]].split(',').sort()
-          : [];
+      ['packageDependencies', ' '].forEach(attribute => {
+        // const currentValue = product[productDirectoryProps[attribute]]
+        //   ? product[productDirectoryProps[attribute]].split(',').sort()
+        //   : [];
         const scannedValue = Array.from(scannedProduct[attribute]).sort();
 
-        if (
-          this.hasUpdatedDependencies({
-            currentValue,
-            scannedValue,
-          })
-        ) {
-          updatedProductDirectory[productId][
-            productDirectoryProps[attribute]
-          ] = scannedValue;
-          this.changeDetected = true;
-        }
+        // if (
+        //   this.hasUpdatedDependencies({
+        //     currentValue,
+        //     scannedValue,
+        //   })
+        // ) {
+        //   updatedProductDirectory[productId][
+        //     productDirectoryProps[attribute]
+        //   ] = scannedValue;
+        //   this.changeDetected = true;
+        // }
+
+        updatedProductDirectory[productId][
+          productDirectoryProps[attribute]
+        ] = scannedValue;
+        this.changeDetected = true;
       });
     });
 
