@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import VAFacilityLocation from '../../../components/VAFacilityLocation';
+import FacilityAddress from '../../../components/FacilityAddress';
 import { getVAAppointmentLocationId } from '../../../services/appointment';
 import AppointmentDateTime from '../AppointmentDateTime';
 import Breadcrumbs from '../../../components/Breadcrumbs';
@@ -52,14 +52,12 @@ export default function DetailsCC({
       <ShowTypeOfCare />
       <TypeHeader>{header}</TypeHeader>
 
-      {/* <VAFacilityLocation
-        facility={facility}
-        facilityName={facility?.name}
-        facilityId={locationId}
-        clinicFriendlyName={appointment.location?.clinicName}
-        showCovidPhone={isCovid}
-        isPhone={isPhone}
-      /> */}
+      <FacilityAddress
+        facility={appointment.communityCareProvider}
+        showDirectionsLink={!!appointment.communityCareProvider?.address}
+        level={2}
+      />
+
       <VAInstructions appointment={appointment} />
       <CalendarLink appointment={appointment} facility={facility} />
       <PrintLink appointment={appointment} />
