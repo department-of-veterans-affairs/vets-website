@@ -41,7 +41,7 @@ jobs:
           command: yarn cy:run --spec "src/applications/proxy-rewrite/tests/e2e/proxy-rewrite-entry.cypress.spec.js"
           max_attempts: 3
           timeout_minutes: 30
-          retry_wait_seconds: 180
+          retry_wait_seconds: 600
         env:
           CYPRESS_CI: false
           CYPRESS_RUN_INJECTION: true
