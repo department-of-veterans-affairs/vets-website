@@ -71,7 +71,7 @@ Check-in allows veterans to check into an appointment on the day of their appoin
 Pre-check-in allows veterans to pre-check into an appointment between 1 -7 days ahead of the appointment. This usually happens when the veteran is not at a VA clinic. The vet will receive a text from `VEText` with a short-url that re-directs to the pre-check-in application with a unique UUID for the appointment.
 
 ## Generating screenshots with Cypress
-We use Cypress to capture screenshots of each page of this application. The screenshot capturing is conditional on the env variable `with_screenshots` and won't run in CI. The following command with generate the screenshots in the `vets-website/cypress/screenshots` directory:
+We use Cypress to capture screenshots of each page of this application. The screenshot capturing is conditional on the env variable `with_screenshots` and won't run in CI. The following commands will generate screenshots in the `vets-website/cypress/screenshots` directory, these are to be run headless with out the Cypress GUI running.
 
 Current features PCI & day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-current.all.cypress.spec.js`
 
