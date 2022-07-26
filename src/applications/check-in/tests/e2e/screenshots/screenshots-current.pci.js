@@ -1,0 +1,6 @@
+import '../../../pre-check-in/tests/e2e/happy-path/happy.path.cypress.spec';
+import '../../../pre-check-in/tests/e2e/errors/pre-check-in-expired/error.expired.cypress.spec';
+import '../../../pre-check-in/tests/e2e/errors/get-pre-check-in/error.in.body.cypress.spec';
+import '../../../pre-check-in/tests/e2e/errors/pre-check-in-for-canceled-appt/error.canceled.cypress.spec';
+import '../../../pre-check-in/tests/e2e/extra-validation/validation.failed.cypress.spec';
+import '../../../pre-check-in/tests/e2e/posting-answers/answered.no.to.three.questions.cypress.spec';
