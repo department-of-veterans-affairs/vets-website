@@ -31,7 +31,7 @@ import {
 export const CHATBOT_ERROR_MESSAGE = /We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk/i;
 
 const disclaimerText =
-  'Our chatbot can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room, dial 988 and press 1 for mental health support, or call 911 to get medical care right away.';
+  'Our chatbot can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.';
 
 /**
  * @testing-library/dom
@@ -879,7 +879,7 @@ describe('App', () => {
       },
     };
 
-    it.skip('when message activity is fired, then utterances should be stored in sessionStorage', () => {
+    it('when message activity is fired, then utterances should be stored in sessionStorage', done => {
       loadWebChat();
       mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
 
@@ -905,23 +905,42 @@ describe('App', () => {
 
       expect(messageActivityHandlerSpy.callCount).to.equal(1);
       expect(messageActivityHandlerSpy.calledWith(event));
+
+      done();
+
       expect(sessionStorage.getItem(RECENT_UTTERANCES)).to.not.be.null;
       expect(
         JSON.parse(sessionStorage.getItem(RECENT_UTTERANCES)),
       ).to.have.members(['', 'first']);
+    });
 
-      event.data.text = 'second';
+    it('when message activity is fired and sessionStorage is already holding two utterances, then the oldest utterance should be removed', done => {
+      loadWebChat();
+      mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
+
+      const messageActivityHandlerSpy = sinon.spy();
+      window.addEventListener(
+        'webchat-message-activity',
+        messageActivityHandlerSpy,
+      );
+
+      renderInReduxProvider(<Chatbox {...defaultProps} />, {
+        initialState: notLoggedInUser,
+        reducers: virtualAgentReducer,
+      });
+
+      sessionStorage.setItem(
+        RECENT_UTTERANCES,
+        JSON.stringify(['first', 'second']),
+      );
+
+      const event = new Event('webchat-message-activity');
+      event.data = { type: 'message', text: 'third', from: { role: 'user' } };
       window.dispatchEvent(event);
 
-      expect(messageActivityHandlerSpy.callCount).to.equal(2);
-      expect(
-        JSON.parse(sessionStorage.getItem(RECENT_UTTERANCES)),
-      ).to.have.members(['first', 'second']);
+      done();
 
-      event.data.text = 'third';
-      window.dispatchEvent(event);
-
-      expect(messageActivityHandlerSpy.callCount).to.equal(3);
+      expect(messageActivityHandlerSpy.callCount).to.equal(1);
       expect(
         JSON.parse(sessionStorage.getItem(RECENT_UTTERANCES)),
       ).to.have.members(['second', 'third']);
