@@ -19,14 +19,14 @@ export default function TypeHeader({
   return (
     <h2
       className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
-      data-cy={dataCy}
+      data-cy={dataCy()}
     >
       {children}
     </h2>
   );
 }
 TypeHeader.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.string,
   isCC: PropTypes.bool,
   isVideo: PropTypes.bool,
 };
