@@ -9,10 +9,12 @@ import TypeHeader from './TypeHeader';
 import PrintLink from './PrintLink';
 import RescheduleOrCancelAlert from './RescheduleOrCancelAlert';
 import ProviderName from './ProviderName';
+import CCInstructions from './CCInstructions';
 import { getTypeOfCareById } from '../../../utils/appointment';
 
 export default function DetailsCC({ appointment, useV2 = false }) {
   const header = 'Community care';
+  const facility = appointment.communityCareProvider;
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
 
   const ShowTypeOfCare = () => {
@@ -49,16 +51,7 @@ export default function DetailsCC({ appointment, useV2 = false }) {
         level={2}
       />
 
-      <div className="vads-u-margin-top--3 vaos-appts__block-label">
-        {!!appointment.comment && (
-          <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
-            <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
-              Special instructions
-            </h2>
-            <div>{appointment.comment}</div>
-          </div>
-        )}
-      </div>
+      <CCInstructions appointment={appointment} />
 
       <CalendarLink appointment={appointment} facility={facility} />
       <PrintLink appointment={appointment} />
