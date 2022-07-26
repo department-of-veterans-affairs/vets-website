@@ -9,6 +9,7 @@ import CalendarLink from './CalendarLink';
 import TypeHeader from './TypeHeader';
 import PrintLink from './PrintLink';
 import VAInstructions from './VAInstructions';
+import RescheduleOrCancelAlert from './RescheduleOrCancelAlert';
 import { getTypeOfCareById } from '../../../utils/appointment';
 
 export default function DetailsCC({
