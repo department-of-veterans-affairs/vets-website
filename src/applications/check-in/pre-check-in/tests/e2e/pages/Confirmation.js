@@ -78,6 +78,13 @@ class Confirmation {
         'A staff member will help you on the day of your appointment.',
       );
   };
+
+  expandAllAccordions = () => {
+    cy.get('[data-testid="pre-check-in-accordions"]')
+      .shadow()
+      .find('button[aria-label="Expand all accordions"]')
+      .click();
+  };
 }
 
 export default new Confirmation();
