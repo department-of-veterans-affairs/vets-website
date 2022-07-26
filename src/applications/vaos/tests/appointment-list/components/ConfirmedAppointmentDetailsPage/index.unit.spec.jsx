@@ -1181,7 +1181,7 @@ describe('VAOS <ConfirmedAppointmentDetailsPage> with VAOS service', () => {
       },
       comment: 'New issue: I have a headache',
       serviceType: 'primaryCare',
-      start: futureDate.format(),
+      start: futureDate.add(1, 'days').format(),
       status: 'booked',
     };
 

@@ -1,4 +1,4 @@
-import { PROFILE_PATHS_LGBTQ_ENHANCEMENT } from '@@profile/constants';
+import { PROFILE_PATHS } from '@@profile/constants';
 
 class BadAddressFeature {
   PROFILE_ALERT_TEST_ID = 'bad-address-profile-alert';
@@ -10,18 +10,18 @@ class BadAddressFeature {
   EDIT_MAILING_ADDRESS_BUTTON_ID = '#edit-mailing-address';
 
   visitPersonalInformationPage = () => {
-    cy.visit(PROFILE_PATHS_LGBTQ_ENHANCEMENT.PERSONAL_INFORMATION);
+    cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
   };
 
   visitContactInformationPage = () => {
-    cy.visit(PROFILE_PATHS_LGBTQ_ENHANCEMENT.CONTACT_INFORMATION);
+    cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
   };
 
   confirmPersonalInformationAlertIsShowing = () => {
     cy.findByTestId(this.PROFILE_ALERT_TEST_ID).should('exist');
     cy.get('[data-testid="bad-address-profile-alert"] > :nth-child(3) > a')
       .should('have.attr', 'href')
-      .and('include', PROFILE_PATHS_LGBTQ_ENHANCEMENT.CONTACT_INFORMATION);
+      .and('include', PROFILE_PATHS.CONTACT_INFORMATION);
   };
 
   confirmPersonalInformationAlertIsNotShowing = () => {

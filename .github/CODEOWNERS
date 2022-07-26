@@ -97,6 +97,7 @@ src/applications/my-education-benefits @department-of-veterans-affairs/my-educat
 src/applications/enrollment-verification @department-of-veterans-affairs/my-education-benefits
 src/applications/education-letters @department-of-veterans-affairs/my-education-benefits
 src/applications/fry-dea @department-of-veterans-affairs/my-education-benefits
+src/applications/toe @department-of-veterans-affairs/my-education-benefits
 
 # Other
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe

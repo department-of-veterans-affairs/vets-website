@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { getPatientInstruction } from './index';
+import { getPatientInstruction, getProviderName } from './index';
 import {
   APPOINTMENT_TYPES,
   PURPOSE_TEXT,
@@ -209,11 +209,15 @@ export function transformVAOSAppointment(appt) {
             telecom: appt.extension?.ccLocation?.telecom,
             providers: (providers || []).map(provider => ({
               name: {
-                firstName: provider.name?.given,
+                firstName: provider.name?.given.join(' '),
                 lastName: provider.name?.family,
               },
-              providerName: `${provider.name?.given} ${provider.name?.family}`,
+              providerName: provider.name
+                ? `${provider.name.given.join(' ')} ${provider.name.family}`
+                : null,
             })),
+            providerName:
+              providers !== undefined ? getProviderName(appt) : null,
           }
         : null,
     practitioners: appt.practitioners,

@@ -349,6 +349,106 @@ module.exports = {
           },
         ],
       },
+      routingNumberInvalid: {
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'One or more unprocessable user payment properties',
+            code: '126',
+            source: 'EVSS::PPIU::Service',
+            status: '422',
+            meta: {
+              messages: [
+                {
+                  key: 'payment.accountRoutingNumber.invalidCheckSum',
+                  severity: 'ERROR',
+                  text: 'Invalid Routing Number',
+                },
+              ],
+            },
+          },
+        ],
+      },
+      routingNumberFlagged: {
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'Routing Number Flagged Test Error',
+            code: '126',
+            source: 'EVSS::PPIU::Service',
+            status: '422',
+            meta: {
+              messages: [
+                {
+                  key: 'cnp.payment.routing.number.fraud.message',
+                  severity: 'ERROR',
+                  text: 'Routing number flaggged',
+                },
+              ],
+            },
+          },
+        ],
+      },
+      invalidAddress: {
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'Invalid Mailing Address Test Error',
+            code: '126',
+            source: 'EVSS::PPIU::Service',
+            status: '422',
+            meta: {
+              messages: [
+                {
+                  key: 'cnp.payment.generic.error.message',
+                  severity: 'ERROR',
+                  text: 'address update',
+                },
+              ],
+            },
+          },
+        ],
+      },
+      invalidPhoneNumber: {
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'Invalid Phone Number Test Error',
+            code: '126',
+            source: 'EVSS::PPIU::Service',
+            status: '422',
+            meta: {
+              messages: [
+                {
+                  key: 'cnp.payment.generic.error.message',
+                  severity: 'ERROR',
+                  text: 'day phone number',
+                },
+              ],
+            },
+          },
+        ],
+      },
+      restrictionIndicator: {
+        errors: [
+          {
+            title: 'Unprocessable Entity',
+            detail: 'Payment Restrictions Test Error',
+            code: '126',
+            source: 'EVSS::PPIU::Service',
+            status: '422',
+            meta: {
+              messages: [
+                {
+                  key: 'payment.restriction.indicators.present',
+                  severity: 'ERROR',
+                  text: 'payment restrictions',
+                },
+              ],
+            },
+          },
+        ],
+      },
     },
   },
 };

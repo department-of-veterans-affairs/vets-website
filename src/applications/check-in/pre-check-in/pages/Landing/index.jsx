@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
@@ -14,6 +14,7 @@ import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import {
   createForm,
   getTokenFromLocation,
@@ -27,6 +28,9 @@ import { APP_NAMES } from '../../../utils/appConstants';
 const Index = props => {
   const { router } = props;
   const { t } = useTranslation();
+
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
 
   const { goToErrorPage, jumpToPage } = useFormRouting(router);
   const {
@@ -79,40 +83,42 @@ const Index = props => {
         // call the sessions api
         const checkInType = APP_NAMES.PRE_CHECK_IN;
 
-        api.v2
-          .getSession({ token, checkInType })
-          .then(session => {
-            // if successful, dispatch session data  into redux and current window
+        if (token)
+          api.v2
+            .getSession({ token, checkInType, isLorotaSecurityUpdatesEnabled })
+            .then(session => {
+              // if successful, dispatch session data  into redux and current window
 
-            if (session.error || session.errors) {
+              if (session.error || session.errors) {
+                clearCurrentSession(window);
+                goToErrorPage();
+              } else {
+                setCurrentToken(window, token);
+                setPreCheckinComplete(window, false);
+                const pages = createForm();
+                const firstPage = pages[0];
+                initForm(pages, firstPage);
+                setSession(token, session.permissions);
+                if (session.permissions === SCOPES.READ_FULL) {
+                  // redirect if already full access
+                  jumpToPage(URLS.INTRODUCTION);
+                } else {
+                  // TODO: dispatch to redux
+                  jumpToPage(URLS.VERIFY);
+                }
+              }
+            })
+            .catch(() => {
               clearCurrentSession(window);
               goToErrorPage();
-            } else {
-              setCurrentToken(window, token);
-              setPreCheckinComplete(window, false);
-              const pages = createForm();
-              const firstPage = pages[0];
-              initForm(pages, firstPage);
-              setSession(token, session.permissions);
-              if (session.permissions === SCOPES.READ_FULL) {
-                // redirect if already full access
-                jumpToPage(URLS.INTRODUCTION);
-              } else {
-                // TODO: dispatch to redux
-                jumpToPage(URLS.VERIFY);
-              }
-            }
-          })
-          .catch(() => {
-            clearCurrentSession(window);
-            goToErrorPage();
-          });
+            });
       }
     },
     [
       clearCurrentSession,
       goToErrorPage,
       initForm,
+      isLorotaSecurityUpdatesEnabled,
       jumpToPage,
       router,
       setCurrentToken,
