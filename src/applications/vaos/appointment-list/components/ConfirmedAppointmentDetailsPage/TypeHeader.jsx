@@ -27,6 +27,6 @@ export default function TypeHeader({
 }
 TypeHeader.propTypes = {
   children: PropTypes.object,
-  isVideo: PropTypes.bool,
   isCC: PropTypes.bool,
+  isVideo: PropTypes.bool,
 };
