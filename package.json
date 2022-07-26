@@ -393,7 +393,8 @@
       "src/platform/startup",
       "src/platform/static-data",
       "src/platform/user",
-      "src/platform/utilities"
+      "src/platform/utilities",
+      "src/platform/monitoring"
     ],
     "nohoist": [
       "**/applications-vaos/docdash",
