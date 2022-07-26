@@ -9,7 +9,7 @@ import {
 import {
   login,
   loginAppUrlRE,
-  logout,
+  logout as IAMLogout,
   createExternalApplicationUrl,
 } from 'platform/user/authentication/utilities';
 
@@ -70,7 +70,7 @@ export async function checkAutoSession(
        * TTL: > 0 and < 900 = Session valid
        * TTL: undefined, can't verify SSOe status
        */
-      logout(API_VERSION, AUTH_EVENTS.SSO_LOGOUT, {
+      IAMLogout(API_VERSION, AUTH_EVENTS.SSO_LOGOUT, {
         'auto-logout': 'true',
       });
     } else if (transactionid && transactionid !== ssoeTransactionId) {
