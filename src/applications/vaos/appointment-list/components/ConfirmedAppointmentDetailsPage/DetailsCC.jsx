@@ -81,6 +81,17 @@ export default function DetailsCC({
         level={2}
       />
 
+      <div className="vads-u-margin-top--3 vaos-appts__block-label">
+        {!!appointment.comment && (
+          <div className="vads-u-flex--1 vads-u-margin-bottom--2 vaos-u-word-break--break-word">
+            <h2 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
+              Special instructions
+            </h2>
+            <div>{appointment.comment}</div>
+          </div>
+        )}
+      </div>
+
       <CalendarLink appointment={appointment} facility={facility} />
       <PrintLink appointment={appointment} />
       <RescheduleOrCancelAlert appointment={appointment} />
