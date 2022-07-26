@@ -1,7 +1,4 @@
-import {
-  PROFILE_PATHS,
-  PROFILE_PATHS_LGBTQ_ENHANCEMENT,
-} from '@@profile/constants';
+import { PROFILE_PATHS } from '@@profile/constants';
 
 class MilitaryInformationPage {
   visitMilitaryInformationPage = () => {
@@ -13,7 +10,7 @@ class MilitaryInformationPage {
   };
 
   visitContactInformationPage = () => {
-    cy.visit(PROFILE_PATHS_LGBTQ_ENHANCEMENT.CONTACT_INFORMATION);
+    cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
   };
 
   heroErrorMessageShouldNotExist = () => {

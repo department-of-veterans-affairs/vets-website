@@ -95,7 +95,6 @@ export const FETCH_FACILITY_SETTINGS_FAILED =
   'vaos/FETCH_FACILITY_SETTINGS_FAILED';
 export const FETCH_FACILITY_SETTINGS_SUCCEEDED =
   'vaos/FETCH_FACILITY_SETTINGS_SUCCEEDED';
-export const UPDATE_BREADCRUMB = 'vaos/UPDATE_BREADCRUMB';
 
 export function fetchRequestMessages(requestId) {
   return async dispatch => {
@@ -726,18 +725,13 @@ export function fetchFacilitySettings() {
   };
 }
 
-export function updateBreadcrumb(breadcrumb) {
-  return async (dispatch, _getState) => {
-    dispatch({ type: UPDATE_BREADCRUMB, breadcrumb });
-  };
-}
 /**
  * Function to retrieve provider information from the provider
  * endpoint when using the v2 api.
  *
- * @param {*} appointments
+ * @param {*} appointment
  */
-export function getProviderInfoV2(appointments) {
+export function getProviderInfoV2(appointment) {
   // Provider information included with v2 provider api call.
   return async (dispatch, getState) => {
     const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
@@ -745,9 +739,9 @@ export function getProviderInfoV2(appointments) {
     );
     if (
       featureVAOSServiceCCAppointments &&
-      appointments.practitioners.length > 0
+      appointment.practitioners.length > 0
     ) {
-      const ProviderNpi = getPreferredCCProviderNPI(appointments);
+      const ProviderNpi = getPreferredCCProviderNPI(appointment);
 
       const providerData = await fetchPreferredProvider(ProviderNpi);
 
@@ -758,7 +752,7 @@ export function getProviderInfoV2(appointments) {
     }
     if (
       featureVAOSServiceCCAppointments &&
-      appointments.practitioners.length === 0
+      appointment.practitioners.length === 0
     ) {
       dispatch({
         type: FETCH_PROVIDER_SUCCEEDED,

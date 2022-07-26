@@ -67,7 +67,7 @@ export const setupHomeAddressModalBase = type => {
     body: createUserResponse(type),
   });
 
-  cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
+  cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
 
   cy.findByRole('button', { name: /edit home address/i }).click({
     force: true,
