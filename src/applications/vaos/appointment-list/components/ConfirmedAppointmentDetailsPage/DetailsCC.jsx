@@ -60,6 +60,7 @@ export default function DetailsCC({
 
       <CalendarLink appointment={appointment} facility={facility} />
       <PrintLink appointment={appointment} />
+      <RescheduleOrCancelAlert appointment={appointment} />
     </>
   );
 }
