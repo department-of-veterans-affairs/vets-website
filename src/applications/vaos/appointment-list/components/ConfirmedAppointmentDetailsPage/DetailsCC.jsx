@@ -50,7 +50,7 @@ export default function DetailsCC({
         <AppointmentDateTime appointment={appointment} />
       </h1>
       <ShowTypeOfCare />
-      <TypeHeader>{header}</TypeHeader>
+      <TypeHeader isCC>{header}</TypeHeader>
 
       <FacilityAddress
         facility={appointment.communityCareProvider}
