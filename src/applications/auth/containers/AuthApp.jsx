@@ -42,6 +42,7 @@ export class AuthApp extends React.Component {
       auth: this.props.location.query.auth || '',
       code: this.props.location.query.code || '',
       state: this.props.location.query.state || '',
+      requestId: sessionStorage.getItem(AUTHN_SETTINGS.REQUEST_ID),
     };
   }
 
@@ -195,6 +196,7 @@ export class AuthApp extends React.Component {
     const renderErrorProps = {
       code: this.state.code,
       auth: this.state.auth,
+      requestId: this.state.requestId,
       recordEvent,
       openLoginModal: this.props.openLoginModal,
     };
