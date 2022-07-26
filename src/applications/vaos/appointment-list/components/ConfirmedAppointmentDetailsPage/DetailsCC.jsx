@@ -9,20 +9,16 @@ import CalendarLink from './CalendarLink';
 import TypeHeader from './TypeHeader';
 import PrintLink from './PrintLink';
 import RescheduleOrCancelAlert from './RescheduleOrCancelAlert';
+import ProviderName from './ProviderName';
 import { getTypeOfCareById } from '../../../utils/appointment';
 
 export default function DetailsCC({
   appointment,
-  // facilityData,
+  facilityData,
   useV2 = false,
 }) {
-  const locationId = getVAAppointmentLocationId(appointment);
-
-  // const facility = facilityData?.[locationId];
+  const facility = facilityData?.[locationId];
   const header = 'Community care';
-
-  const { name, practiceName, providerName } =
-    appointment.communityCareProvider || {};
 
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
 
@@ -55,26 +51,7 @@ export default function DetailsCC({
       </h1>
       <ShowTypeOfCare />
       <TypeHeader isCC>{header}</TypeHeader>
-
-      {/* the order of display name is important to match screen name on add to calendar title */}
-
-      {(!!providerName || !!practiceName || !!name) &&
-        !useV2 && (
-          // V1 displays the name from the provider object
-          <>
-            {providerName || practiceName || name}
-            <br />
-          </>
-        )}
-      {(!!providerName || !!practiceName || !!name) &&
-        useV2 && (
-          // V2 displays the first provider name from the array
-          <>
-            {providerName[0] || practiceName || name}
-            <br />
-          </>
-        )}
-
+      <ProviderName appointment={appointment} />
       <FacilityAddress
         facility={appointment.communityCareProvider}
         showDirectionsLink={!!appointment.communityCareProvider?.address}
@@ -101,6 +78,5 @@ export default function DetailsCC({
 
 DetailsCC.propTypes = {
   appointment: PropTypes.object.isRequired,
-  // facilityData: PropTypes.object.isRequired,
   useV2: PropTypes.bool,
 };
