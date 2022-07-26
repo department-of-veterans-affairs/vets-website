@@ -13,12 +13,12 @@ import { getTypeOfCareById } from '../../../utils/appointment';
 
 export default function DetailsCC({
   appointment,
-  facilityData,
+  // facilityData,
   useV2 = false,
 }) {
   const locationId = getVAAppointmentLocationId(appointment);
 
-  const facility = facilityData?.[locationId];
+  // const facility = facilityData?.[locationId];
   const header = 'Community care';
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
 
