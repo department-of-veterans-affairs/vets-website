@@ -8,3 +8,8 @@
     await import('../../../pre-check-in/tests/e2e/posting-answers/answered.no.to.three.questions.cypress.spec');
   }
 })();
+describe('Screenshots PCI', () => {
+  it('is true', () => {
+    expect(true).to.equal(true);
+  });
+});

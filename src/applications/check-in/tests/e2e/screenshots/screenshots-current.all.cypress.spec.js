@@ -11,3 +11,8 @@
     await import('../../../day-of/tests/e2e/extra-validation/validation.failed.cypress.spec');
   }
 })();
+describe('Screenshots all', () => {
+  it('is true', () => {
+    expect(true).to.equal(true);
+  });
+});
