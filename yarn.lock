@@ -2512,13 +2512,13 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@department-of-veterans-affairs/component-library@^11.0.0":
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-11.0.0.tgz#c9364124d06dd02db036c4e22fed93a6ffd1e09e"
-  integrity sha512-RQg3BG4Qnaj3QBuUSNQalGBTtNx8DrGV0ktF4xRdqsVFCBjmpvhWL0mOlanNXD0075ETWSlIKQXnlt4heV9RWQ==
+"@department-of-veterans-affairs/component-library@11.1.0-0":
+  version "11.1.0-0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-11.1.0-0.tgz#ebcbefc9b2c7b8eedf3f7f58b84f20a5120c7029"
+  integrity sha512-nsccxWL2biOsZ6Z8Tsy9nqVFcT4FF/1xE7PvCZNLtLLc6V/fI1Ij9kb3HK7ygQ+A8iBqCLuUZ8O8KngFY//KUg==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "7.0.0"
-    "@department-of-veterans-affairs/web-components" "4.7.0"
+    "@department-of-veterans-affairs/react-components" "7.0.1-0"
+    "@department-of-veterans-affairs/web-components" "4.8.0-0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2575,10 +2575,10 @@
     react-transition-group "1"
     recast "^0.14.4"
 
-"@department-of-veterans-affairs/react-components@7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-7.0.0.tgz#6edb1c9f8d29aaae1f13b3b1f93af886b064a1ad"
-  integrity sha512-BiP8o87Uyp03hOoa/dKjmIQUKZy2n1spxxIfLVbfypG0uhuFQuShY/vCrIeIOgowHd1UZY7P2lmEdPP9vWXVCA==
+"@department-of-veterans-affairs/react-components@7.0.1-0":
+  version "7.0.1-0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-7.0.1-0.tgz#c08c1fdf68d0ecdd8727b32334976e6e049db3ca"
+  integrity sha512-A+9XHLY1eO9nMivQpTIn/ONwzK/+myEaMIML+x3F6vaNKK/UzljJd0x7lzXKc4b/Zgiwn1ql89uYDuM2UUmYug==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
@@ -2625,10 +2625,10 @@
     intersection-observer "^0.12.0"
     postcss-url "^10.1.1"
 
-"@department-of-veterans-affairs/web-components@4.7.0":
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.7.0.tgz#02cc91e2eb012dfdd0c069ac26a066c195a158d7"
-  integrity sha512-ef3bbOqctcfBXiATvvXPAOsZR7G7sazvARGFH4z1dHUzOEtoOB0KxwfmYZcYTmhGTg3twAOfEdGsjTmON0kNDQ==
+"@department-of-veterans-affairs/web-components@4.8.0-0":
+  version "4.8.0-0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.8.0-0.tgz#6381cad4f8e628ff26dad162a27984b6a9f60809"
+  integrity sha512-hjrSKWDe4C6oNkbXubggQLM7hfS5SfrjNrTeSMQJ4qkrvwB92zS+NarUhmSf2ZypbmW2gqEOH7BvPqlLIew46g==
   dependencies:
     "@stencil/core" "^2.10.0"
     aria-hidden "^1.1.3"
