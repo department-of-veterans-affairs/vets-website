@@ -20,6 +20,10 @@ export default function DetailsCC({
 
   // const facility = facilityData?.[locationId];
   const header = 'Community care';
+
+  const { name, practiceName, providerName } =
+    appointment.communityCareProvider || {};
+
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
 
   // v0 does not return a stopCode for covid as serviceType, instead we check for isCovid
@@ -51,6 +55,25 @@ export default function DetailsCC({
       </h1>
       <ShowTypeOfCare />
       <TypeHeader isCC>{header}</TypeHeader>
+
+      {/* the order of display name is important to match screen name on add to calendar title */}
+
+      {(!!providerName || !!practiceName || !!name) &&
+        !useV2 && (
+          // V1 displays the name from the provider object
+          <>
+            {providerName || practiceName || name}
+            <br />
+          </>
+        )}
+      {(!!providerName || !!practiceName || !!name) &&
+        useV2 && (
+          // V2 displays the first provider name from the array
+          <>
+            {providerName[0] || practiceName || name}
+            <br />
+          </>
+        )}
 
       <FacilityAddress
         facility={appointment.communityCareProvider}
