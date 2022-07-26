@@ -47,10 +47,7 @@ describe('Pre-Check In Experience ', () => {
     Introduction.validatePageLoaded();
     Introduction.countAppointmentList(apiData.payload.appointments.length);
     cy.injectAxeThenAxeCheck();
-    cy.get('[data-testid="intro-accordion-item"]')
-      .shadow()
-      .find('button[aria-controls="content"]')
-      .click();
+    Introduction.expandAccordion();
     cy.createScreenshots('Pre-check-in--Introduction');
     Introduction.attemptToGoToNextPage();
 
@@ -91,6 +88,7 @@ describe('Pre-Check In Experience ', () => {
       .should('equal', 200);
 
     cy.injectAxeThenAxeCheck();
+    Confirmation.expandAllAccordions();
     cy.createScreenshots('Pre-check-in--Confirmation-answer-yes-to-all');
   });
 });

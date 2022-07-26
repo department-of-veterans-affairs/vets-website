@@ -74,6 +74,13 @@ class Introduction {
       .eq(0)
       .click();
   };
+
+  expandAccordion = () => {
+    cy.get('[data-testid="intro-accordion-item"]')
+      .shadow()
+      .find('button[aria-controls="content"]')
+      .click();
+  };
 }
 
 export default new Introduction();
