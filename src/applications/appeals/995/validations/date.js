@@ -16,13 +16,15 @@ const today = moment().startOf('day');
 export const validateDate = (
   errors,
   dateString,
-  min = oneYearAgo,
-  max = today,
+  _form,
+  _schema,
+  _errorMessages,
+  { min, max }, // alter min & max dates
 ) => {
   const { day, month, year } = parseISODate(dateString);
   const date = moment(dateString, FORMAT_YMD);
-  const minDate = moment.isMoment(min) ? min : moment(min, FORMAT_YMD);
-  const maxDate = moment.isMoment(max) ? max : moment(max, FORMAT_YMD);
+  const minDate = min ? moment(min, FORMAT_YMD) : oneYearAgo;
+  const maxDate = max ? moment(max, FORMAT_YMD) : today;
 
   if (
     dateString === 'XXXX-XX-XX' ||
