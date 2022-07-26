@@ -7,24 +7,15 @@ import { FORMAT_YMD } from '../constants';
 
 import { issueErrorMessages } from '../content/addIssue';
 
-export const oneYearAgo = moment()
+export const minDate = moment()
   .subtract(1, 'year')
   .startOf('day');
 
-const today = moment().startOf('day');
+const maxDate = moment().startOf('day');
 
-export const validateDate = (
-  errors,
-  dateString,
-  _form,
-  _schema,
-  _errorMessages,
-  { min, max }, // alter min & max dates
-) => {
+export const validateDate = (errors, dateString) => {
   const { day, month, year } = parseISODate(dateString);
   const date = moment(dateString, FORMAT_YMD);
-  const minDate = min ? moment(min, FORMAT_YMD) : oneYearAgo;
-  const maxDate = max ? moment(max, FORMAT_YMD) : today;
 
   if (
     dateString === 'XXXX-XX-XX' ||

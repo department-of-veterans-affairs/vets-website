@@ -87,7 +87,7 @@ export default {
               // TODO: investigate why uncommenting these out causes an
               // undefined schema error
               // minItems: 1,
-              // maxItems: 4,
+              maxItems: 4,
               items: {
                 type: 'object',
                 required: ['from', 'to'],
