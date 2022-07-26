@@ -210,7 +210,7 @@ export const transform = (formConfig, form) => {
       cashInBank: assets.cashInBank,
       cashOnHand: assets.cashOnHand,
       automobiles: assets.automobiles,
-      trailersBoatsCampers: sumValues(assets.recVehicles, 'recVehicleAmount'),
+      trailersBoatsCampers: assets.recVehicleAmount,
       usSavingsBonds: assets.usSavingsBonds,
       stocksAndOtherBonds: assets.stocksAndOtherBonds,
       realEstateOwned: sumValues(realEstateRecords, 'realEstateAmount'),
