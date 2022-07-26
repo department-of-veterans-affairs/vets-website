@@ -6,7 +6,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/Tele
 export const DownloadLettersAlert = () => (
   <va-alert status="warning">
     <h3 slot="headline">
-      Letters sent after December 9th, 2021 are unavailable for download
+      Downloadable letters have incorrect repayment plan terms
     </h3>
     <p className="vads-u-font-size--base vads-u-font-family--sans">
       We’re sorry. The length of time listed for repayment plans in these
