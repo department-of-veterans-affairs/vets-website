@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import AddToCalendar from '../../../components/AddToCalendar';
 import { getCalendarData } from '../../../services/appointment';
 import { APPOINTMENT_STATUS } from '../../../utils/constants';
 
 export default function CalendarLink({ appointment, facility }) {
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const isPastAppointment = appointment.vaos.isPastAppointment;
+  const { isPastAppointment } = appointment.vaos;
   const hideCanceledOrPast = canceled || isPastAppointment;
 
   if (hideCanceledOrPast) {
@@ -45,3 +46,8 @@ export default function CalendarLink({ appointment, facility }) {
     </div>
   );
 }
+
+CalendarLink.propTypes = {
+  appointment: PropTypes.object.isRequired,
+  facility: PropTypes.object,
+};
