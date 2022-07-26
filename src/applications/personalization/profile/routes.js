@@ -5,19 +5,21 @@ import MilitaryInformation from './components/military-information/MilitaryInfor
 import DirectDeposit from './components/direct-deposit/DirectDeposit';
 import ConnectedApplications from './components/connected-apps/ConnectedApps';
 import NotificationSettings from './components/notification-settings/NotificationSettings';
-import {
-  PROFILE_PATHS,
-  PROFILE_PATH_NAMES,
-  PROFILE_PATH_NAMES_LGBTQ_ENHANCEMENT,
-  PROFILE_PATHS_LGBTQ_ENHANCEMENT,
-} from './constants';
+import { PROFILE_PATHS, PROFILE_PATH_NAMES } from './constants';
 
-const getRoutes = options => {
-  const routes = [
+const getRoutes = () => {
+  return [
     {
       component: PersonalInformation,
       name: PROFILE_PATH_NAMES.PERSONAL_INFORMATION,
       path: PROFILE_PATHS.PERSONAL_INFORMATION,
+      requiresLOA3: true,
+      requiresMVI: true,
+    },
+    {
+      component: ContactInformation,
+      name: PROFILE_PATH_NAMES.CONTACT_INFORMATION,
+      path: PROFILE_PATHS.CONTACT_INFORMATION,
       requiresLOA3: true,
       requiresMVI: true,
     },
@@ -57,27 +59,6 @@ const getRoutes = options => {
       requiresMVI: true,
     },
   ];
-
-  if (options?.shouldShowProfileLGBTQEnhancements) {
-    const personalInformation = {
-      component: PersonalInformation,
-      name: PROFILE_PATH_NAMES_LGBTQ_ENHANCEMENT.PERSONAL_INFORMATION,
-      path: PROFILE_PATHS_LGBTQ_ENHANCEMENT.PERSONAL_INFORMATION,
-      requiresLOA3: true,
-      requiresMVI: true,
-    };
-    const contactInformation = {
-      component: ContactInformation,
-      name: PROFILE_PATH_NAMES_LGBTQ_ENHANCEMENT.CONTACT_INFORMATION,
-      path: PROFILE_PATHS_LGBTQ_ENHANCEMENT.CONTACT_INFORMATION,
-      requiresLOA3: true,
-      requiresMVI: true,
-    };
-    routes.splice(0, 1, personalInformation); // replace default personalInformation at index 0
-    routes.splice(1, 0, contactInformation); // add contact at index 1
-  }
-
-  return routes;
 };
 
 export default getRoutes;

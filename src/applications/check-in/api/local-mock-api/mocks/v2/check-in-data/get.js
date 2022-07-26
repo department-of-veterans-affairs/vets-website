@@ -46,7 +46,8 @@ const createMockSuccessResponse = (
           clinicPhoneNumber: '5551234567',
           clinicFriendlyName: 'TEST CLINIC',
           clinicName: 'LOM ACC CLINIC TEST',
-          appointmentIen: 'some-ien',
+          appointmentIen: '0001',
+          stationNo: '0001',
         },
       ],
       patientDemographicsStatus: {
@@ -90,11 +91,13 @@ const getAppointmentStartTime = (
 const createAppointment = (
   eligibility = 'ELIGIBLE',
   facilityId = 'some-facility',
-  appointmentIen = 'some-ien',
+  appointmentIen = Math.floor(Math.random() * 100000),
   clinicFriendlyName = 'TEST CLINIC',
   preCheckInValid = false,
   uuid = defaultUUID,
   timezone = 'browser',
+  stationNo = '0001',
+  clinicLocation = 'Test location, room A',
 ) => {
   const startTime = getAppointmentStartTime(eligibility, preCheckInValid, uuid);
   const formattedStartTime = dateFns.format(
@@ -149,6 +152,8 @@ const createAppointment = (
     checkInWindowStart: formattedCheckInWindowStart,
     checkInWindowEnd: formattedCheckInWindowEnd,
     checkedInTime: '',
+    stationNo,
+    clinicLocation,
   };
 };
 
@@ -224,7 +229,7 @@ const createMultipleAppointments = (
         createAppointment(
           'INELIGIBLE_TOO_LATE',
           'ABC_123',
-          `some-ien-L`,
+          '0000',
           `TEST CLINIC-L`,
         ),
       ],
@@ -248,7 +253,7 @@ const createMultipleAppointments = (
       createAppointment(
         'ELIGIBLE',
         'ABC_123',
-        `some-ien-${i}`,
+        `000${i + 1}`,
         `TEST CLINIC-${i}`,
         false,
         token,
@@ -260,7 +265,7 @@ const createMultipleAppointments = (
     createAppointment(
       'INELIGIBLE_TOO_EARLY',
       'ABC_123',
-      `some-ien-E`,
+      `0050`,
       `TEST CLINIC-E`,
     ),
   );

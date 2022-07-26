@@ -227,7 +227,7 @@ describe('<PaymentInformationEditError />', () => {
       <PaymentInformationEditError responseError={{ error: checksumError }} />,
     );
     expect(wrapper.html()).to.contain(
-      'We couldn’t find a bank linked to this routing number. Please check your bank’s 9-digit routing number and enter it again.',
+      'We can’t find a bank linked to the routing number you entered.',
     );
     wrapper.unmount();
 
@@ -237,7 +237,7 @@ describe('<PaymentInformationEditError />', () => {
       />,
     );
     expect(wrapper.html()).to.contain(
-      'We couldn’t find a bank linked to this routing number. Please check your bank’s 9-digit routing number and enter it again.',
+      'We can’t find a bank linked to the routing number you entered.',
     );
     wrapper.unmount();
   });

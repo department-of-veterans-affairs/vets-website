@@ -65,7 +65,7 @@ export const getEligibleContestableIssues = issues => {
       .join(' ')
       .includes('deferred');
     const date = moment(approxDecisionDate);
-    if (isDeferred || !date.isValid()) {
+    if (isDeferred || !date.isValid() || !ratingIssueSubjectText) {
       return false;
     }
     return date.add(1, 'years').isAfter(today);
