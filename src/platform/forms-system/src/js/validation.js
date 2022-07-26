@@ -1,9 +1,9 @@
 import find from 'lodash/find';
+import { Validator } from 'jsonschema';
 import get from '../../../utilities/data/get';
 import omit from '../../../utilities/data/omit';
 import set from '../../../utilities/data/set';
 import unset from '../../../utilities/data/unset';
-import { Validator } from 'jsonschema';
 
 import { isActivePage, parseISODate, minYear, maxYear } from './helpers';
 import {
@@ -348,6 +348,11 @@ export function validateSSN(errors, ssn) {
 export function validateDate(
   errors,
   dateString,
+  formData,
+  schema,
+  errorMessages,
+  currentIndex,
+  appStateData,
   customMinYear = minYear,
   customMaxYear = maxYear,
 ) {
@@ -520,11 +525,14 @@ export function validateDateRangeAllowSameMonth(
 export function getFileError(file) {
   if (file.errorMessage) {
     return file.errorMessage;
-  } else if (file.uploading) {
+  }
+  if (file.uploading) {
     return 'Uploading file...';
-  } else if (file.isEncrypted && !file.password) {
+  }
+  if (file.isEncrypted && !file.password) {
     return null; // still awaiting password entry
-  } else if (!file.confirmationCode) {
+  }
+  if (!file.confirmationCode) {
     return 'Something went wrong...';
   }
 
