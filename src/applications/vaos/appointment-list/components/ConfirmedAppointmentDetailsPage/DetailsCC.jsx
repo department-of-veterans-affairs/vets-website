@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import FacilityAddress from '../../../components/FacilityAddress';
-import { getVAAppointmentLocationId } from '../../../services/appointment';
 import AppointmentDateTime from '../AppointmentDateTime';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import CalendarLink from './CalendarLink';
@@ -12,18 +11,10 @@ import RescheduleOrCancelAlert from './RescheduleOrCancelAlert';
 import ProviderName from './ProviderName';
 import { getTypeOfCareById } from '../../../utils/appointment';
 
-export default function DetailsCC({
-  appointment,
-  facilityData,
-  useV2 = false,
-}) {
-  const facility = facilityData?.[locationId];
+export default function DetailsCC({ appointment, useV2 = false }) {
   const header = 'Community care';
-
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
 
-  // v0 does not return a stopCode for covid as serviceType, instead we check for isCovid
-  // remove the check for isCovid when we migrate entirely to v2
   const ShowTypeOfCare = () => {
     return (
       useV2 &&
@@ -53,7 +44,7 @@ export default function DetailsCC({
       <TypeHeader isCC>{header}</TypeHeader>
       <ProviderName appointment={appointment} />
       <FacilityAddress
-        facility={appointment.communityCareProvider}
+        facility={facility}
         showDirectionsLink={!!appointment.communityCareProvider?.address}
         level={2}
       />
