@@ -1,7 +1,7 @@
 import React from 'react';
 import { validateCurrency } from '../../../utils/validations';
 
-export const RecVehicleInfo = (
+const RecVehicleInfo = (
   <va-additional-info trigger="What if I don’t know the estimated value of my trailer, camper, or boat?">
     Include the amount of money you think you would get if you sold the vehicle
     in your local community. To get an idea of prices, you can check these
