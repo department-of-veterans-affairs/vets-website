@@ -32,6 +32,7 @@ describe('Pre-Check In Experience ', () => {
     ValidateVeteran.validatePage.preCheckIn();
     ValidateVeteran.validateVeteranDob();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Pre-check-in--Validate-with-DOB');
     ValidateVeteran.attemptToGoToNextPage();
     // page: Introduction
     Introduction.validatePageLoaded();

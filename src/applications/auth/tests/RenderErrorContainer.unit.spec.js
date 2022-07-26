@@ -19,7 +19,9 @@ describe('RenderErrorContainer', () => {
     const wrapper = shallow(<RenderErrorContainer />);
 
     expect(wrapper.find('h1').exists()).to.be.true;
-    expect(wrapper.find('em').text()).to.include(AUTH_ERROR.DEFAULT);
+    expect(wrapper.find('[data-testid="error-code"]').text()).to.include(
+      AUTH_ERROR.DEFAULT,
+    );
     wrapper.unmount();
   });
 
@@ -34,9 +36,8 @@ describe('RenderErrorContainer', () => {
 
   it('should render generic content if codes dont match', () => {
     const wrapper = shallow(<RenderErrorContainer auth="fail" code="900" />);
-
     expect(wrapper.find('Helpdesk').exists()).to.be.true;
-    expect(wrapper.find('em').text()).to.include('900');
+    expect(wrapper.find('[data-testid="error-code"]').text()).to.include('900');
     wrapper.unmount();
   });
 
@@ -46,7 +47,9 @@ describe('RenderErrorContainer', () => {
         <RenderErrorContainer auth="fail" code={AUTH_ERROR[CODE]} />,
       );
 
-      expect(wrapper.find('em').text()).to.include(AUTH_ERROR[CODE]);
+      expect(wrapper.find('[data-testid="error-code"]').text()).to.include(
+        AUTH_ERROR[CODE],
+      );
       wrapper.unmount();
     });
   });
@@ -65,7 +68,9 @@ describe('RenderErrorContainer', () => {
       button.simulate('click');
 
       expect(renderOptions.openLoginModal.called).to.be.true;
-      expect(wrapper.find('em').text()).to.include(CODE);
+      expect(wrapper.find('[data-testid="error-code"]').text()).to.include(
+        CODE,
+      );
       wrapper.unmount();
     });
   });

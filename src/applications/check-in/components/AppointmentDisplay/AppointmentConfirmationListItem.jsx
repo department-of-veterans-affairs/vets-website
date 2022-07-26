@@ -15,27 +15,39 @@ const AppointmentConfirmationListItem = props => {
     <li
       key={index}
       className="vads-u-border-bottom--1px check-in--appointment-item"
-      data-testid={`appointment-list-item-${index}`}
+      data-testid="appointment-list-item"
     >
-      <dl className="check-in--appointment-summary">
-        <dt className="check-in--label vads-u-margin-right--1">{t('time')}:</dt>
-        <dd className="check-in--value" data-testid="appointment-time">
+      <div className="check-in--appointment-summary vads-u-margin-bottom--2 vads-u-margin-top--2">
+        <div className="check-in--label vads-u-margin-right--1">
+          {t('time')}:
+        </div>
+        <div className="check-in--value" data-testid="appointment-time">
           {t('date-time', { date: appointmentDateTime })}
-        </dd>
-        <dt className="check-in--label vads-u-margin-right--1">
+        </div>
+        <div className="check-in--label vads-u-margin-right--1">
           {t('clinic')}:
-        </dt>
-        <dd className="check-in--value" data-testid="appointment-clinic">
+        </div>
+        <div className="check-in--value" data-testid="appointment-clinic">
           {clinic}
-        </dd>
-      </dl>
+        </div>
+        {appointment.clinicLocation && (
+          <>
+            <div className="check-in--label vads-u-margin-right--1">
+              {t('location')}:
+            </div>
+            <div className="check-in--value" data-testid="clinic-location">
+              {appointment.clinicLocation}
+            </div>
+          </>
+        )}
+      </div>
     </li>
   );
 };
 
 AppointmentConfirmationListItem.propTypes = {
   appointment: PropTypes.object,
-  index: PropTypes.number,
+  index: PropTypes.string,
 };
 
 export default AppointmentConfirmationListItem;

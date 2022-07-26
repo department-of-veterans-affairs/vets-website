@@ -345,7 +345,10 @@ class ProfileInformationFieldController extends React.Component {
         />
 
         {this.props.showUpdateSuccessAlert ? (
-          <div data-testid="update-success-alert">
+          <div
+            data-testid="update-success-alert"
+            className="vads-u-width--full"
+          >
             <UpdateSuccessAlert fieldName={fieldName} />
           </div>
         ) : null}

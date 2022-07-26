@@ -342,3 +342,22 @@ span.sidelines {
     max-width: 330px;
   }
 }
+
+.button-styled-as-link {
+  background-color: transparent;
+  color: $color-base;
+  font-weight: normal;
+  padding: unset;
+  margin: unset;
+  display: inline-block;
+  text-align: left;
+  height: 24px;
+  border-radius: 0;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: $color-base;
+    text-decoration: none;
+    border-bottom: 0;
+  }
+}

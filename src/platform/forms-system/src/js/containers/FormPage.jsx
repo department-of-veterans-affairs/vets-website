@@ -54,7 +54,11 @@ class FormPage extends React.Component {
       );
     }
     if (typeof pageConfig.updateFormData === 'function') {
-      newData = pageConfig.updateFormData(this.formData(), newData);
+      newData = pageConfig.updateFormData(
+        this.formData(),
+        newData,
+        this.props.params.index,
+      );
     }
     this.props.setData(newData);
   };
@@ -232,6 +236,7 @@ FormPage.propTypes = {
       schema: PropTypes.object.isRequired,
       uiSchema: PropTypes.object.isRequired,
       onContinue: PropTypes.func,
+      updateFormData: PropTypes.func,
     }),
     pageList: PropTypes.arrayOf(
       PropTypes.shape({

@@ -1,6 +1,6 @@
 import { PROFILE_PATHS } from '@@profile/constants';
 
-import { mockUser } from '@@profile/tests/fixtures/users/user.js';
+import { mockUser } from '@@profile/tests/fixtures/users/user';
 import mockPersonalInformation from '@@profile/tests/fixtures/personal-information-success.json';
 import mockServiceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
@@ -16,7 +16,7 @@ const setup = () => {
     'v0/feature_toggles*',
     'v0/ppiu/payment_information',
   ]);
-  cy.visit(PROFILE_PATHS.PROFILE_ROOT);
+  cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
   cy.injectAxe();
 
   // should show a loading indicator
@@ -36,9 +36,6 @@ describe('Content on the personal information section in the profile', () => {
 
     // Check service branch
     cy.findByText(/United States Air Force/i).should('exist');
-
-    // Check date of birth
-    cy.findByText(/May 6, 1986/i).should('exist');
 
     // Check mailing address
     cy.get('div[data-field-name="mailingAddress"]')

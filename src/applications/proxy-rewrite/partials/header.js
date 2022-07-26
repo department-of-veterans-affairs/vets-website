@@ -37,14 +37,6 @@ export default `
 
     <!-- Tablet/Desktop Layout -->
     <div id="legacy-header" class="vads-u-display--none">
-      <div class="incompatible-browser-warning">
-        <div class="row full">
-          <div class="small-12">
-            Your browser is out of date. To use this website, please <a href="https://browsehappy.com/">update your browser</a> or use a different device.
-          </div>
-        </div>
-      </div>
-
       <div id="preview-site-alert"></div>
 
       <div class="va-notice--banner">
