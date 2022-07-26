@@ -3,12 +3,7 @@ import * as Sentry from '@sentry/browser';
 import { AUTHN_SETTINGS } from 'platform/user/authentication/constants';
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
-import {
-  infoTokenExists,
-  checkOrSetSessionExpiration,
-  refresh,
-  canCallRefresh,
-} from '../oauth/utilities';
+import { checkOrSetSessionExpiration } from '../oauth/utilities';
 import { checkAndUpdateSSOeSession } from '../sso';
 
 export function fetchAndUpdateSessionExpiration(...args) {
@@ -123,14 +118,6 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 
       if (response.ok || response.status === 304) {
         return data;
-      }
-
-      if (
-        infoTokenExists() &&
-        (response.status === 403 || response.status === 401) &&
-        canCallRefresh()
-      ) {
-        refresh();
       }
 
       if (environment.isProduction()) {
