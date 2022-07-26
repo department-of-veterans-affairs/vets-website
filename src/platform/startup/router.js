@@ -5,9 +5,20 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { CompatRouter } from 'react-router-dom-v5-compat';
+import { CompatRouter, Routes } from 'react-router-dom-v5-compat';
+import { Formik } from 'formik';
+import {
+  FormFooter,
+  FormTitle,
+} from '@department-of-veterans-affairs/va-forms-system-core';
 import startReactApp from './react';
 import setUpCommonFunctionality from './setup';
+
+const initialValues = {
+  relationship: {
+    type: '',
+  },
+};
 
 /**
  * Starts an application in the default element for standalone React
@@ -51,7 +62,24 @@ export default function startApp({
   } else if (routes) {
     content = (
       <BrowserRouter basename={url}>
-        <CompatRouter>{routes}</CompatRouter>
+        <CompatRouter>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={(values, actions) => {
+              // eslint-disable-next-line no-console
+              console.log(values, actions);
+            }}
+          >
+            <form>
+              <FormTitle
+                title="My Test Form Title"
+                subTitle="Here is a cool Sub title"
+              />
+              <Routes>{routes}</Routes>
+              <FormFooter />
+            </form>
+          </Formik>
+        </CompatRouter>
       </BrowserRouter>
     );
   }
