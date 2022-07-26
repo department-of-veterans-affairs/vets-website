@@ -1,6 +1,10 @@
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import environment from 'platform/utilities/environment';
-import { buildAddressSchema, addressUISchema } from '../../../address-schema';
+import {
+  buildAddressSchema,
+  addressUISchema,
+  updateFormDataAddress,
+} from '../../../address-schema';
 import { addSpouse } from '../../../utilities';
 import { doesLiveTogether, liveWithYouTitle } from './helpers';
 
@@ -58,3 +62,9 @@ export const uiSchema = {
     },
   },
 };
+
+export const updateFormData = (oldFormData, formData) =>
+  updateFormDataAddress(oldFormData, formData, [
+    'doesLiveWithSpouse',
+    'address',
+  ]);

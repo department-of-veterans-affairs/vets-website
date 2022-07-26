@@ -38,27 +38,31 @@ class ValidateVeteran {
   validateVeteranDob = (
     lastName = 'Smith',
     year = '1989',
-    month = '3',
+    month = '03',
     day = '15',
   ) => {
     this.clearLastName();
     this.typeLastName(lastName);
     this.clearYear();
     this.typeYear(year);
-    this.selectMonth(month);
-    this.selectDay(day);
+    this.clearMonth();
+    this.typeMonth(month);
+    this.clearDay();
+    this.typeDay(day);
   };
 
   validateVeteranDobInvalidYear = (
     lastName = 'Smith',
     year = '2050',
-    month = '1',
+    month = '01',
     day = '31',
   ) => {
     this.clearLastName();
     this.typeLastName(lastName);
-    this.selectMonth(month);
-    this.selectDay(day);
+    this.clearMonth();
+    this.typeMonth(month);
+    this.clearDay();
+    this.typeDay(day);
     this.clearYear();
     this.typeYear(year);
   };
@@ -66,13 +70,15 @@ class ValidateVeteran {
   validateVeteranDobWithFailure = (
     lastName = 'Smith',
     year = '1988',
-    month = '1',
+    month = '01',
     day = '31',
   ) => {
     this.clearLastName();
     this.typeLastName(lastName);
-    this.selectMonth(month);
-    this.selectDay(day);
+    this.clearMonth();
+    this.typeMonth(month);
+    this.clearDay();
+    this.typeDay(day);
     this.clearYear();
     this.typeYear(year);
   };
@@ -91,16 +97,31 @@ class ValidateVeteran {
       .find('input');
   };
 
-  getMonthSelect = () => {
-    return cy.get('[name="date-of-birthMonth"]');
+  getMonthInput = () => {
+    return cy
+      .get('[label="Date of birth"]')
+      .shadow()
+      .find('.input-month')
+      .shadow()
+      .find('[name="date-of-birthMonth"]');
   };
 
-  getDaySelect = () => {
-    return cy.get('[name="date-of-birthDay"]');
+  getDayInput = () => {
+    return cy
+      .get('[label="Date of birth"]')
+      .shadow()
+      .find('.input-day')
+      .shadow()
+      .find('[name="date-of-birthDay"]');
   };
 
   getYearInput = () => {
-    return cy.get('[name="date-of-birthYear"]');
+    return cy
+      .get('[label="Date of birth"]')
+      .shadow()
+      .find('.input-year')
+      .shadow()
+      .find('[name="date-of-birthYear"]');
   };
 
   typeLastName = (lastName = 'Smith') => {
@@ -115,12 +136,12 @@ class ValidateVeteran {
     this.getYearInput().type(year);
   };
 
-  selectMonth = (month = '3') => {
-    this.getMonthSelect().select(month);
+  typeMonth = (month = '03') => {
+    this.getMonthInput().type(month);
   };
 
-  selectDay = (day = '15') => {
-    this.getDaySelect().select(day);
+  typeDay = (day = '15') => {
+    this.getDayInput().type(day);
   };
 
   clearLastName() {
@@ -129,6 +150,14 @@ class ValidateVeteran {
 
   clearLast4() {
     this.getLast4Input().invoke('val', '');
+  }
+
+  clearDay() {
+    this.getDayInput().invoke('val', '');
+  }
+
+  clearMonth() {
+    this.getMonthInput().invoke('val', '');
   }
 
   clearYear() {
@@ -162,8 +191,9 @@ class ValidateVeteran {
   };
 
   getDobError = () => {
-    cy.get('[data-testid="dob-input"]')
-      .find('.usa-input-error-message')
+    cy.get('[label="Date of birth"]')
+      .shadow()
+      .find('.error-message')
       .contains('Your date of birth can not be in the future');
   };
 

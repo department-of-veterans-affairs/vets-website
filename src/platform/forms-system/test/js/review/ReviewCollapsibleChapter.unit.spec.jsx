@@ -745,6 +745,60 @@ describe('<ReviewCollapsibleChapter>', () => {
 
       tree.unmount();
     });
+    it('should be called on normal pages and pass an index', () => {
+      const setData = sinon.spy();
+      const pages = [
+        {
+          title: '',
+          pageKey: 'test',
+          index: 0,
+          updateFormData: (oldData, newData, index) => {
+            const bar = [];
+            bar[index] = 'baz';
+            return { ...newData, bar };
+          },
+        },
+      ];
+      const chapterKey = 'test';
+      const chapter = {
+        title: '',
+      };
+      const form = {
+        pages: {
+          test: {
+            title: '',
+            schema: {
+              type: 'object',
+              properties: {
+                foo: { type: 'string' },
+              },
+            },
+            uiSchema: {},
+            editMode: true,
+          },
+        },
+        data: {},
+      };
+
+      const tree = shallow(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          onEdit={() => {}}
+          setData={setData}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+        />,
+      );
+
+      tree.find('SchemaForm').prop('onChange')({ foo: 'asdf' });
+
+      expect(setData.calledWith({ foo: 'asdf', bar: ['baz'] })).to.be.true;
+
+      tree.unmount();
+    });
 
     it('should be called on array pages', () => {
       const setData = sinon.spy();
@@ -799,6 +853,69 @@ describe('<ReviewCollapsibleChapter>', () => {
       expect(setData.firstCall.args[0]).to.eql({
         foo: 'asdf',
         bar: 'baz',
+      });
+
+      tree.unmount();
+    });
+
+    it('should be called on array pages and pass an index', () => {
+      const setData = sinon.spy();
+      const pages = [
+        {
+          title: '',
+          pageKey: 'test',
+          index: 0,
+          updateFormData: (oldData, newData, index) => {
+            const bar = [];
+            bar[index] = 'baz';
+            return { ...newData, bar };
+          },
+        },
+      ];
+      const chapterKey = 'test';
+      const chapter = {
+        title: '',
+      };
+      const form = {
+        pages: {
+          test: {
+            showPagePerItem: true,
+            arrayPath: 'testing',
+            title: '',
+            schema: {
+              properties: {
+                testing: {
+                  items: [{}, {}],
+                },
+              },
+            },
+            uiSchema: {},
+            editMode: [true],
+          },
+        },
+        data: {
+          testing: [{}],
+        },
+      };
+
+      const tree = shallow(
+        <ReviewCollapsibleChapter
+          viewedPages={new Set()}
+          onEdit={() => {}}
+          setData={setData}
+          expandedPages={pages}
+          chapterKey={chapterKey}
+          chapterFormConfig={chapter}
+          form={form}
+          open
+        />,
+      );
+
+      tree.find('SchemaForm').prop('onChange')({ foo: 'asdf' });
+
+      expect(setData.firstCall.args[0]).to.eql({
+        foo: 'asdf',
+        bar: ['baz'],
       });
 
       tree.unmount();
