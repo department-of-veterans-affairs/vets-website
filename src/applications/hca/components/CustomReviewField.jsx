@@ -13,7 +13,11 @@ const CustomReviewField = ({
 );
 
 CustomReviewField.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.object,
+    PropTypes.node,
+  ]),
 };
 
 export default CustomReviewField;
