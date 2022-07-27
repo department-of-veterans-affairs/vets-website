@@ -43,7 +43,8 @@ export default function useClinicFormState() {
       // NOTE: Same check is in ../services/patient/index.js:383
       // TODO: Add primary care????
       const isCheckTypeOfCare = featureVaosV2Next
-        ? initialData.typeOfCareId !== MENTAL_HEALTH
+        ? initialData.typeOfCareId !== MENTAL_HEALTH &&
+          pastAppointments?.length > 0
         : true;
       if (pastAppointments && isCheckTypeOfCare) {
         const pastAppointmentDateMap = new Map();
