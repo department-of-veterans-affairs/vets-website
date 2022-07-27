@@ -7,13 +7,16 @@ import {
 } from '../utils/helpers';
 
 export const evidenceSummaryDescription = ({ formData }) => {
+  const hasPrivateUpload = hasPrivateEvidenceToUpload(formData);
   const vaEvidence = hasVAEvidence(formData) ? formData.locations : [];
-  const privateEvidence = hasPrivateEvidence(formData)
-    ? formData.providerFacility
-    : [];
-  const privateEvidenceUploads = hasPrivateEvidenceToUpload(formData)
-    ? formData.privateMedicalRecordAttachments
-    : [];
+  const privateEvidence =
+    hasPrivateEvidence(formData) && !hasPrivateUpload
+      ? formData.providerFacility
+      : [];
+  const privateEvidenceUploads =
+    hasPrivateEvidence(formData) && hasPrivateUpload
+      ? formData.privateMedicalRecordAttachments
+      : [];
   const layEvidenceUploads = hasOtherEvidence(formData)
     ? formData.additionalDocuments
     : [];
