@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import piiReplace from './piiReplace';
 import {
   IN_AUTH_EXP,
+  IS_TRACKING_UTTERANCES,
   LOGGED_IN_FLOW,
   RECENT_UTTERANCES,
 } from '../chatbox/utils';
@@ -92,14 +93,22 @@ const GreetUser = {
     if (requireAuth) {
       if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
         const data = action.payload.activity;
-        let stopTracking = false;
+
+        // if at the beginning of a conversation, start tracking utterances
+        if (sessionStorage.getItem(IS_TRACKING_UTTERANCES) == null) {
+          sessionStorage.setItem(IS_TRACKING_UTTERANCES, JSON.stringify(true));
+        }
 
         if (data.type === 'message' && data.text) {
           if (
             data.text.includes('Alright. Sending you to the sign in page...') &&
             data.from.role === 'bot'
           ) {
-            stopTracking = true;
+            // if user is redirected to sign in, stop tracking utterances
+            sessionStorage.setItem(
+              IS_TRACKING_UTTERANCES,
+              JSON.stringify(false),
+            );
             const authEvent = new Event('webchat-auth-activity');
             authEvent.data = action.payload.activity;
             window.dispatchEvent(authEvent);
@@ -131,7 +140,8 @@ const GreetUser = {
                 JSON.stringify(utterances),
               );
             }
-          } else if (!stopTracking) {
+          }
+          if (JSON.parse(sessionStorage.getItem(IS_TRACKING_UTTERANCES))) {
             const chatEvent = new Event('webchat-message-activity');
             chatEvent.data = action.payload.activity;
             window.dispatchEvent(chatEvent);
