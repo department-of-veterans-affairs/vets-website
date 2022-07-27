@@ -582,6 +582,7 @@ class SearchApp extends React.Component {
             title: strippedTitle,
             index,
             url: replaceWithStagingDomain(result.url),
+            // Trigger a new build
           })}
         >
           <h4
