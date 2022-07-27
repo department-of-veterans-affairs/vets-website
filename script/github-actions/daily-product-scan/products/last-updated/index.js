@@ -1,12 +1,14 @@
 /* eslint-disable class-methods-use-this */
-const { Octokit } = require('@octokit/core');
+// const { Octokit } = require('@octokit/core');
 
+const GitHubClient = require('../../github-client');
 const constants = require('./constants');
 
 class LastUpdated {
   constructor({ products }) {
     this.products = products;
-    this.octokit = new Octokit();
+    // this.octokit = new Octokit();
+    this.gitHubClient = new GitHubClient();
   }
 
   setLastUpdated() {
@@ -21,7 +23,7 @@ class LastUpdated {
   }
 
   async getLastDateUpdated({ path }) {
-    const { status, data } = await this.octokit.request(
+    const { status, data } = await this.gitHubClient.octokit.request(
       'GET /repos/{owner}/{repo}/commits',
       {
         owner: constants.owner,
