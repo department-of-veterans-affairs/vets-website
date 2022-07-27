@@ -34,21 +34,7 @@ const ValidateVeteran = props => {
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
 
-  const defaultDob = Object.freeze({
-    day: {
-      value: '',
-      dirty: false,
-    },
-    month: {
-      value: '',
-      dirty: false,
-    },
-    year: {
-      value: '',
-      dirty: false,
-    },
-  });
-  const [dob, setDob] = useState(defaultDob);
+  const [dob, setDob] = useState('');
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
@@ -75,11 +61,9 @@ const ValidateVeteran = props => {
         last4Ssn,
         lastName,
         dob,
-        showValidateError,
         setLastNameErrorMessage,
         setLast4ErrorMessage,
         setDobErrorMessage,
-        setDob,
         setIsLoading,
         setShowValidateError,
         isLorotaSecurityUpdatesEnabled,
@@ -104,7 +88,6 @@ const ValidateVeteran = props => {
       dob,
       resetAttempts,
       setSession,
-      showValidateError,
       token,
       isLorotaSecurityUpdatesEnabled,
     ],

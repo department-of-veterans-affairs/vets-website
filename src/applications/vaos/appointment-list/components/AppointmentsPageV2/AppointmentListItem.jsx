@@ -66,7 +66,7 @@ function VAFacilityName({ facility }) {
 }
 
 VAFacilityName.propTypes = {
-  facility: PropTypes.object.isRequired,
+  facility: PropTypes.object,
 };
 
 function handleClick({ history, link, idClickable }) {
@@ -166,6 +166,7 @@ export default function AppointmentListItem({ appointment, facility }) {
             className="vaos-appts__focus--hide-outline"
             aria-label={label}
             to={link}
+            onClick={e => e.preventDefault()}
           >
             Details
           </Link>

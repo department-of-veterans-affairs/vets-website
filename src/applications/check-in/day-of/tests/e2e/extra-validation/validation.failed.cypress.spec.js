@@ -37,13 +37,14 @@ describe('Check In Experience -- ', () => {
       ValidateVeteran.validateVeteran('Sith', '4321');
       ValidateVeteran.attemptToGoToNextPage();
       ValidateVeteran.validateErrorAlert();
-
+      cy.createScreenshots('Day-of-check-in--inline-validation-error');
       // Third/Final attempt
       ValidateVeteran.validateVeteran('Sith', '4321');
       ValidateVeteran.validateErrorAlert();
       ValidateVeteran.attemptToGoToNextPage();
 
       Error.validatePageLoaded(true);
+      cy.createScreenshots('Day-of-check-in--validation-error');
     });
     it('fails validation once and then succeeds on the second attempt', () => {
       cy.injectAxeThenAxeCheck();

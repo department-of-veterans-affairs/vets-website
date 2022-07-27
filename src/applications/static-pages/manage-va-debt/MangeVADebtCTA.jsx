@@ -1,27 +1,25 @@
 import React from 'react';
 import { getAppUrl } from 'platform/utilities/registry-helpers';
-import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 
-const debtLettersUrl = getAppUrl('your-debt');
+const cdpUrl = getAppUrl('combined-debt-portal');
 const fsrUrl = getAppUrl('request-debt-help-form-5655');
 
 const ManageVADebtCTA = () => (
   <>
-    <Breadcrumbs>
+    <va-breadcrumbs>
       <a href="/">Home</a>
       <a href="/manage-va-debt">Manage your VA debt</a>
-    </Breadcrumbs>
-    <h1>Manage your VA debt</h1>
+    </va-breadcrumbs>
+    <h1>Manage your VA debt for benefit overpayments and copay bills</h1>
     <p>
-      Check the status of debt related to VA disability compensation,
-      non-service-connected pension, or education benefits. And make payments or
-      request help now if you’d like.
+      Review your current VA benefit debt or copay bill balances online. And
+      find out how to make payments or request help now.
     </p>
-    <h3>Check the status of your VA benefit debt</h3>
+    <h3>Review your benefit debt and copay bills online</h3>
     <a
       className="usa-button-primary va-button-primary"
       target="_self"
-      href={debtLettersUrl}
+      href={cdpUrl}
     >
       Manage your VA debt
     </a>

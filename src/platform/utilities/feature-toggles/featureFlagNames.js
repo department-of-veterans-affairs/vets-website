@@ -23,6 +23,7 @@ export default Object.freeze({
   checkInExperiencePhoneAppointmentsEnabled: 'check_in_experience_phone_appointments_enabled',
   coeAccess: 'coe_access',
   combinedDebtPortalAccess: 'combined_debt_portal_access',
+  combinedFinancialStatusReport: 'combined_financial_status_report',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
   covidVaccineUpdatesDisableAuth:
@@ -141,6 +142,7 @@ export default Object.freeze({
   vaOnlineSchedulingPocHealthApt: 'va_online_scheduling_poc_health_apt',
   vaOnlineSchedulingStatusImprovement: 'va_online_scheduling_status_improvement',
   vaOnlineSchedulingClinicLocation: 'va_online_scheduling_clinic_location',
+  vaOnlineSchedulingVaosV2Next: 'va_online_scheduling_vaosv2next',
   vaOnlineFilter36Vats: 'va_online_filter36_vats',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',

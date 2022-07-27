@@ -134,7 +134,7 @@ describe('The My VA Dashboard - Notifications', () => {
       cy.login(mockUser);
       cy.visit('my-va/');
       cy.wait(['@featuresB', '@nameB', '@serviceB', '@notifications5']);
-      cy.findByTestId('dashboard-notifications-error').should('exist');
+      cy.findByTestId('dashboard-notifications').should('not.exist');
 
       // make the a11y check
       cy.injectAxeThenAxeCheck('#react-root');

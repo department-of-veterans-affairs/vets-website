@@ -729,19 +729,16 @@ export function fetchFacilitySettings() {
  * Function to retrieve provider information from the provider
  * endpoint when using the v2 api.
  *
- * @param {*} appointments
+ * @param {*} appointment
  */
-export function getProviderInfoV2(appointments) {
+export function getProviderInfoV2(appointment) {
   // Provider information included with v2 provider api call.
   return async (dispatch, getState) => {
     const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
       getState(),
     );
-    if (
-      featureVAOSServiceCCAppointments &&
-      appointments.practitioners.length > 0
-    ) {
-      const ProviderNpi = getPreferredCCProviderNPI(appointments);
+    if (featureVAOSServiceCCAppointments && appointment.practitioners?.length) {
+      const ProviderNpi = getPreferredCCProviderNPI(appointment);
 
       const providerData = await fetchPreferredProvider(ProviderNpi);
 
@@ -752,7 +749,7 @@ export function getProviderInfoV2(appointments) {
     }
     if (
       featureVAOSServiceCCAppointments &&
-      appointments.practitioners.length === 0
+      !appointment.practitioners?.length
     ) {
       dispatch({
         type: FETCH_PROVIDER_SUCCEEDED,
