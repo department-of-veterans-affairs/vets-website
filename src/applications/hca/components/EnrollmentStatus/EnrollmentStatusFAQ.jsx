@@ -59,7 +59,7 @@ const EnrollmentStatusFAQ = ({
 EnrollmentStatusFAQ.propTypes = {
   enrollmentStatus: PropTypes.string,
   route: PropTypes.object,
-  showReapplyContent: PropTypes.bool,
+  showReapplyContent: PropTypes.func,
   showingReapplyForHealthCareContent: PropTypes.bool,
 };
 
@@ -71,6 +71,7 @@ const mapDispatchToProps = {
   showReapplyContent: showReapplyContentAction,
 };
 
+export { EnrollmentStatusFAQ };
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

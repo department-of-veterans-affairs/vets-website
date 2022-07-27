@@ -7,11 +7,12 @@ import EnrollmentStatusFAQ from '../components/EnrollmentStatus/EnrollmentStatus
 import { getEnrollmentStatus } from '../actions';
 
 const HCAEnrollmentStatus = props => {
-  const { enrollmentStatus, route } = props;
+  const { enrollmentStatus, getEnrollmentStatus: getStatus, route } = props;
 
   useEffect(() => {
-    props.getEnrollmentStatus();
-  });
+    getStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return enrollmentStatus ? (
     <>
@@ -46,6 +47,7 @@ const mapDispatchToProps = {
   getEnrollmentStatus,
 };
 
+export { HCAEnrollmentStatus };
 export default connect(
   mapStateToProps,
   mapDispatchToProps,

@@ -5,7 +5,7 @@ import { expect } from 'chai';
 
 import { HCAEnrollmentStatus } from '../../containers/HCAEnrollmentStatus';
 import EnrollmentStatusWarning from '../../components/FormAlerts/EnrollmentStatusWarning';
-import HCAEnrollmentStatusFAQ from '../../components/HCAEnrollmentStatusFAQ';
+import HCAEnrollmentStatusFAQ from '../../components/EnrollmentStatus/EnrollmentStatusFAQ';
 
 describe('<HCAEnrollmentStatus />', () => {
   let getEnrollmentStatusSpy;
@@ -45,11 +45,6 @@ describe('<HCAEnrollmentStatus />', () => {
       defaultProps.enrollmentStatus,
     );
     expect(statusFAQ.prop('route')).to.equal(defaultProps.route);
-    wrapper.unmount();
-  });
-  it('calls its `getEnrollmentStatus` prop when it mounts', () => {
-    const wrapper = shallow(<HCAEnrollmentStatus {...defaultProps} />);
-    expect(getEnrollmentStatusSpy.callCount).to.equal(1);
     wrapper.unmount();
   });
 });

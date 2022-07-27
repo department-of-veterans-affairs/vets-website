@@ -1,8 +1,7 @@
 import { expect } from 'chai';
-
 import formConfig from '../../config/form';
 
-const migrations = formConfig.migrations;
+const { migrations } = formConfig;
 
 describe('HCA migrations', () => {
   describe('first migration', () => {
