@@ -13,8 +13,8 @@ then additional functionality will need to be added to account for this.
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import backendServices from 'platform/user/profile/constants/backendServices';
-import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+// import backendServices from 'platform/user/profile/constants/backendServices';
+// import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 
 import { getAllMessages } from '../actions';
 import Header from '../components/Header';
@@ -58,14 +58,14 @@ const App = props => {
   }
 
   return (
-    <RequiredLoginView
-      user={props.user}
-      serviceRequired={backendServices.MHV_AC}
-    >
-      <div className="vads-l-grid-container">
-        <div className="vads-l-row">{content}</div>
-      </div>
-    </RequiredLoginView>
+    // <RequiredLoginView
+    //   user={props.user}
+    //   serviceRequired={backendServices.MHV_AC}
+    // >
+    <div className="vads-l-grid-container">
+      <div className="vads-l-row">{content}</div>
+    </div>
+    // </RequiredLoginView>
   );
 };
 
