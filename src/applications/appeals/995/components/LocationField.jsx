@@ -20,6 +20,12 @@ import { isReactComponent } from 'platform/utilities/ui';
 
 const { Element } = Scroll;
 
+const copyAndUpdate = (arr, index, val) => {
+  const copy = [...arr];
+  copy[index] = val;
+  return copy;
+};
+
 const LocationField = ({
   disabled,
   errorSchema,
@@ -50,7 +56,7 @@ const LocationField = ({
         onChange(
           Array(schema.minItems).fill(
             getDefaultFormState(
-              schema.additionalItems,
+              schema.additionalItems || schema.items,
               undefined,
               registry.definitions,
             ),
@@ -77,9 +83,8 @@ const LocationField = ({
    * Clicking edit on an item that’s not last and so is in view mode
    */
   const handleEdit = (index, status = true) => {
-    const newEditing = set(['editing', index], status, editing);
-    setEditing(newEditing);
-    scrollTo(`table_${idSchema.$id}_${index}`);
+    setEditing(copyAndUpdate(editing, index, status));
+    setTimeout(() => scrollTo(`table_${idSchema.$id}_${index}`));
   };
 
   /*
@@ -87,8 +92,7 @@ const LocationField = ({
    */
   const handleUpdate = index => {
     if (errorSchemaIsValid(errorSchema[index])) {
-      const newEditing = set([index], false, editing);
-      setEditing(newEditing);
+      setEditing(copyAndUpdate(editing, index, false));
       scrollTo(`topOfTable_${idSchema.$id}`, { offset: -60 });
     } else {
       // Set all the fields for this item as touched, so we show errors
@@ -167,7 +171,8 @@ const LocationField = ({
     formData && formData.length
       ? formData
       : [getDefaultFormState(schema, undefined, registry.definitions)];
-  const addAnotherDisabled = items.length >= (schema.maxItems || Infinity);
+  const itemsLength = items.length;
+  const addAnotherDisabled = itemsLength >= (schema.maxItems || Infinity);
 
   const containerClassNames = [
     'schemaform-field-container',
@@ -208,16 +213,16 @@ const LocationField = ({
             definitions,
           );
           const updateText = index === 0 ? 'Save' : 'Update';
-          const isLast = items.length === index + 1;
+          const isLast = itemsLength === index + 1;
           const isEditing = editing[index];
           const ariaLabel = uiOptions.itemAriaLabel;
           const itemName =
             (typeof ariaLabel === 'function' && ariaLabel(item || {})) ||
             uiOptions.itemName ||
             'Item';
-          const notLastOrMultipleRows = !isLast || items.length > 1;
+          const notLastOrMultipleRows = !isLast || itemsLength > 1;
 
-          if (isReviewMode ? isEditing : isLast || isEditing) {
+          if (isReviewMode || isEditing) {
             return (
               <div
                 key={index}
@@ -228,7 +233,7 @@ const LocationField = ({
                 <Element name={`table_${itemIdPrefix}`} />
                 <div className="row small-collapse vads-u-margin--0">
                   <div className="small-12 columns va-growable-expanded">
-                    {isLast && items.length > 1 ? (
+                    {isLast && itemsLength > 1 ? (
                       <h3 className="vads-u-font-size--h5">
                         {`New ${uiOptions.itemName}`}
                       </h3>
@@ -251,32 +256,30 @@ const LocationField = ({
                         readonly={readonly}
                       />
                     </div>
-                    {notLastOrMultipleRows && (
+                    {notLastOrMultipleRows ? (
                       <div className="row small-collapse">
-                        <div className="small-6 left columns">
+                        <div className="small-12 columns">
                           <button
                             type="button"
-                            className="float-left"
+                            className="float-right"
                             aria-label={`${updateText} ${itemName}`}
                             onClick={() => handleUpdate(index)}
                           >
                             {updateText}
                           </button>
-                        </div>
-                        <div className="small-6 right columns">
-                          {index !== 0 && (
+                          {itemsLength > 1 ? (
                             <button
                               type="button"
-                              className="usa-button-secondary float-right"
+                              className="usa-button-secondary float-right vads-u-margin-right--1"
                               aria-label={`Remove ${itemName}`}
                               onClick={() => handleRemove(index)}
                             >
                               Remove
                             </button>
-                          )}
+                          ) : null}
                         </div>
                       </div>
-                    )}
+                    ) : null}
                   </div>
                 </div>
               </div>

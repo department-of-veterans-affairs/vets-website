@@ -23,18 +23,16 @@ export const locationView = props => {
   const { formData } = props;
   const { locationAndName, evidenceDates } = formData;
   const name = locationAndName || 'Unknown location';
-  const datesLength = evidenceDates?.length || 0;
-  const List = datesLength > 1 ? 'li' : 'div';
   const dates =
     evidenceDates?.map(dateRange => {
       const range = formatDateRange(dateRange);
-      return range ? <List>{range}</List> : null;
+      return range ? <li key={range}>{range}</li> : null;
     }) || null;
 
   return (
     <div key={`${name}`}>
       <h3 className="vads-u-font-size--h5 vads-u-margin-top--0">{name}</h3>
-      {datesLength > 1 ? <ul>{dates}</ul> : dates}
+      <ul>{dates}</ul>
     </div>
   );
 };
