@@ -72,7 +72,7 @@ class Differ {
       });
 
       // check if packageDependencies, crossProductDependencies has changed
-      ['packageDependencies', ' '].forEach(attribute => {
+      ['packageDependencies', 'crossProductDependencies'].forEach(attribute => {
         // const currentValue = product[productDirectoryProps[attribute]]
         //   ? product[productDirectoryProps[attribute]].split(',').sort()
         //   : [];
