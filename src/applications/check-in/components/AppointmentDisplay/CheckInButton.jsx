@@ -9,6 +9,7 @@ import { createAnalyticsSlug } from '../../utils/analytics';
 
 const CheckInButton = ({
   checkInWindowEnd,
+  appointmentTime,
   onClick,
   eventRecorder = recordEvent,
   router,
@@ -32,6 +33,7 @@ const CheckInButton = ({
     },
     [checkInWindowEnd, eventRecorder, getCurrentPageFromRouter, onClick],
   );
+
   return (
     <button
       type="button"
@@ -39,7 +41,13 @@ const CheckInButton = ({
       onClick={handleClick}
       data-testid="check-in-button"
       disabled={isCheckingIn}
-      aria-label={t('check-in-now-for-your-appointment')}
+      aria-label={
+        appointmentTime
+          ? t('check-in-now-for-your-time-appointment', {
+              time: appointmentTime,
+            })
+          : t('check-in-now-for-your-appointment')
+      }
     >
       {isCheckingIn ? (
         <span role="status">{t('loading')}</span>
@@ -51,6 +59,7 @@ const CheckInButton = ({
 };
 
 CheckInButton.propTypes = {
+  appointmentTime: PropTypes.instanceOf(Date),
   checkInWindowEnd: PropTypes.instanceOf(Date),
   eventRecorder: PropTypes.object,
   router: PropTypes.object,

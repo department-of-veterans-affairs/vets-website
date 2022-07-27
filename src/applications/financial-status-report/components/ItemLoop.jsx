@@ -200,7 +200,11 @@ const AddAnotherButton = ({ uiOptions, handleAdd, collapsed }) => {
       <div className="add-item-container" name="table_root_">
         <div className="add-item-button-section">
           <button className={linkClassNames} onClick={handleAdd} type="button">
-            <i className="fas fa-plus plus-icon" />
+            <i
+              role="presentation"
+              aria-hidden="true"
+              className="fas fa-plus plus-icon"
+            />
             {uiOptions.itemName ? `Add ${uiOptions.itemName}` : 'Add another'}
           </button>
         </div>
@@ -311,6 +315,14 @@ const ItemLoop = ({
     setEditing(prevState => [...prevState, 'add']);
     handleScroll(`table_${idSchema.$id}_${lastIndex + 1}`, 0);
     formContext.onError(false);
+
+    setTimeout(() => {
+      const associatedInputField = document.getElementById(
+        `${idSchema.$id}_${lastIndex + 1}_name`,
+      );
+
+      if (associatedInputField) associatedInputField.focus();
+    }, 1);
   };
 
   const handleCancel = index => {

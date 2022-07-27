@@ -2,17 +2,19 @@ import React, { useMemo, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { format, subDays } from 'date-fns';
 
 import VaModal from '@department-of-veterans-affairs/component-library/Modal';
 
 import AppointmentBlock from '../../../components/AppointmentBlock';
+import AppointmentBlockWithIcons from '../../../components/AppointmentBlockWithIcons';
 import Footer from '../../../components/layout/Footer';
 import BackToHome from '../../../components/BackToHome';
 
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectVeteranData } from '../../../selectors';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
+
 import ExternalLink from '../../../components/ExternalLink';
 import Wrapper from '../../../components/layout/Wrapper';
 
@@ -21,6 +23,8 @@ const IntroductionDisplay = props => {
   const { t } = useTranslation();
   const { goToNextPage } = useFormRouting(router);
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
   const { appointments } = useSelector(selectVeteranData);
 
   const [privacyActModalOpen, setPrivacyActModalOpen] = useState(false);
@@ -57,7 +61,6 @@ const IntroductionDisplay = props => {
       ),
     },
   ];
-  const appointmentsDateTime = new Date(appointments[0].startTime);
   const privacyStatement = (
     <div>
       <h3>{t('privacy-act-statement')}</h3>
@@ -102,7 +105,7 @@ const IntroductionDisplay = props => {
         call <va-telephone contact="911" />,{' '}
         <span className="vads-u-font-weight--bold">or</span>{' '}
         {t('call-the-veterans-crisis-hotline-at')}{' '}
-        <va-telephone contact="8002738255" /> {t('and-select-1')}
+        <va-telephone contact="988" /> {t('and-select-1')}
       </p>
     </>
   );
@@ -114,7 +117,11 @@ const IntroductionDisplay = props => {
       <p className="vads-u-font-family--serif">
         {t('your-answers-will-help-us-better-prepare-for-your-needs')}
       </p>
-      <AppointmentBlock appointments={appointments} />
+      {isPhoneAppointmentsEnabled ? (
+        <AppointmentBlockWithIcons appointments={appointments} page="intro" />
+      ) : (
+        <AppointmentBlock appointments={appointments} />
+      )}
       <h2 className="vads-u-margin-top--6">{t('start-here')}</h2>
       <StartButton />
       {accordionContent && accordionContent.length ? (
@@ -122,6 +129,7 @@ const IntroductionDisplay = props => {
           bordered
           className="vads-u-margin-top--1"
           data-testid="intro-accordion-group"
+          open-single={accordionContent.length === 1}
         >
           {accordionContent.map((accordionItem, index) => (
             <va-accordion-item
@@ -138,11 +146,6 @@ const IntroductionDisplay = props => {
         ''
       )}
       <div className="vads-u-margin-top--4">
-        {t('expiration-date')}{' '}
-        <span data-testid="expiration-date">
-          {format(subDays(appointmentsDateTime, 1), 'M/dd/Y')}
-        </span>
-        <br />
         <a
           href="#privacy-modal"
           onClick={useCallback(

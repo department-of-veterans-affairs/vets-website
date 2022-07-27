@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import TextArea from '@department-of-veterans-affairs/component-library/TextArea';
 import Select from '@department-of-veterans-affairs/component-library/Select';
 
 import environment from 'platform/utilities/environment';
@@ -41,14 +40,14 @@ const SipsDevModal = props => {
 
   useEffect(
     () => {
-      if (showLink && isModalVisible && pageList.length) {
+      if (showLink && isModalVisible && pageList?.length) {
         setAvailablePaths(getAvailablePaths(pageList, sipsData));
       }
     },
     [pageList, sipsData, showLink, isModalVisible],
   );
 
-  if (!showLink || pageList.length === 0) {
+  if (!showLink || (pageList || []).length === 0) {
     return null;
   }
 
@@ -109,13 +108,13 @@ const SipsDevModal = props => {
           onCloseEvent={handlers.closeSipsModal}
         >
           <>
-            <TextArea
-              errorMessage={errorMessage}
+            <va-textarea
+              error={errorMessage}
               label="Form data"
               name="sips_data"
-              additionalClass="resize-y"
-              field={{ value: textData }}
-              onValueChange={field => handlers.onChange(field.value)}
+              class="resize-y"
+              value={textData}
+              onInput={e => handlers.onChange(e.target.value)}
             />
             <Select
               label="Return url"

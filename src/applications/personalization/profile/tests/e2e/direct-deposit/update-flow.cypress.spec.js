@@ -26,12 +26,14 @@ function fillInBankInfoForm(id) {
 
 function dismissUnsavedChangesModal() {
   cy.axeCheck();
-  cy.findByText(/are you sure\?/i);
-  cy.findByRole('button', { name: /close/i }).click();
+  cy.get('va-modal')
+    .shadow()
+    .find('.va-modal-close')
+    .click();
 }
 
-function exitBankInfoForm() {
-  cy.findByRole('button', { name: /cancel/i }).click();
+function exitBankInfoForm(type) {
+  cy.get(`[data-testid="${type}-form-cancel-button"]`).click();
 }
 
 function saveNewBankInfo(id) {
@@ -46,13 +48,15 @@ function saveNewBankInfo(id) {
 }
 
 function saveErrorExists() {
-  cy.findByText(/we couldn’t update your bank info/i).should('exist');
+  cy.findByText(/We couldn’t update your payment information./i).should(
+    'exist',
+  );
 }
 
-function saveSuccessAlertShown(contents) {
+function saveSuccessAlertShown() {
   cy.axeCheck();
   cy.findByTestId('bankInfoUpdateSuccessAlert').contains(
-    new RegExp(`we.*updated your.*account info.*${contents}`, 'i'),
+    new RegExp(`Update saved`, 'i'),
   );
 }
 
@@ -78,9 +82,9 @@ describe('Direct Deposit', () => {
         // register and the bank info form does not open
         force: true,
       });
-      cy.findByLabelText(/routing number/i).should('be.focused');
+      cy.get('#root_CNPRoutingNumber').should('be.focused');
       fillInBankInfoForm('CNP');
-      exitBankInfoForm();
+      exitBankInfoForm('CNP');
       dismissUnsavedChangesModal();
       saveNewBankInfo();
       // the save will fail since we didn't mock the update endpoint yet
@@ -109,7 +113,7 @@ describe('Direct Deposit', () => {
       cy.findByRole('button', { name: /edit.*bank information/i }).should(
         'not.exist',
       );
-      saveSuccessAlertShown('compensation and pension benefits');
+      saveSuccessAlertShown();
       saveSuccessAlertRemoved();
       cy.axeCheck();
     });
@@ -124,9 +128,9 @@ describe('Direct Deposit', () => {
         // register and the bank info form does not open
         force: true,
       });
-      cy.findByLabelText(/routing number/i).should('be.focused');
+      cy.get('#root_EDURoutingNumber').should('be.focused');
       fillInBankInfoForm('EDU');
-      exitBankInfoForm();
+      exitBankInfoForm('EDU');
       dismissUnsavedChangesModal();
       saveNewBankInfo();
       // the save will fail since we didn't mock the update endpoint yet
@@ -152,7 +156,7 @@ describe('Direct Deposit', () => {
       cy.findByRole('button', {
         name: /edit.*education.*bank info/i,
       }).should('exist');
-      saveSuccessAlertShown('education benefits');
+      saveSuccessAlertShown();
       saveSuccessAlertRemoved();
       cy.axeCheck();
     });
@@ -182,7 +186,7 @@ describe('Direct Deposit', () => {
       // if LoadingButton.loadingText was not set
       cy.axeCheck();
       // Now wait for the update API calls to resolve to failures...
-      cy.findAllByText(/we couldn’t update your bank info/i).should(
+      cy.findAllByText(/We couldn’t update your payment information./i).should(
         'have.length',
         '2',
       );
@@ -215,6 +219,7 @@ describe('Direct Deposit', () => {
       cy.findByRole('button', {
         name: /edit.*disability.*bank info/i,
       }).should('exist');
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

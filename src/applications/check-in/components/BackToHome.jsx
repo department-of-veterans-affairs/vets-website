@@ -16,7 +16,7 @@ function BackToHome() {
       '/health-care/appointment-check-in/?id=46bebc0a-b99c-464f-a5c5-560bc9eae287';
   }
   return (
-    <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 ">
+    <div className="vads-l-grid-container vads-u-padding-bottom--5 vads-u-padding-top--2 local-start-again">
       <a data-testid="back-to-home-button" href={restartURL}>
         {t('start-again')}
       </a>

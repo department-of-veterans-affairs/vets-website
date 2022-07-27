@@ -1,5 +1,5 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
-import { format, parseISO, subDays } from 'date-fns';
+import { format } from 'date-fns';
 
 class Introduction {
   validatePageLoaded = () => {
@@ -69,15 +69,16 @@ class Introduction {
     }
   };
 
-  validateExpirationDate = appointmentTime => {
-    cy.get('[data-testid="expiration-date"]').contains(
-      format(subDays(parseISO(appointmentTime), 1), 'M/dd/Y'),
-    );
-  };
-
   attemptToGoToNextPage = () => {
     cy.get('div[data-testid="intro-wrapper"] div[data-testid="start-button"] a')
       .eq(0)
+      .click();
+  };
+
+  expandAccordion = () => {
+    cy.get('[data-testid="intro-accordion-item"]')
+      .shadow()
+      .find('button[aria-controls="content"]')
       .click();
   };
 }

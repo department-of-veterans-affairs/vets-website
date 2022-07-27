@@ -2,7 +2,10 @@ import appendQuery from 'append-query';
 
 import { removeFormApi } from 'platform/forms/save-in-progress/api';
 import { apiRequest } from 'platform/utilities/api';
+import recordEvent from 'platform/monitoring/record-event';
+import { isVAProfileServiceConfigured } from 'platform/user/profile/vap-svc/util/local-vapsvc';
 import { updateLoggedInStatus } from '../../authentication/actions';
+import { infoTokenExists, refresh } from '../../../utilities/oauth/utilities';
 import { teardownProfileSession } from '../utilities';
 
 export const UPDATE_PROFILE_FIELDS = 'UPDATE_PROFILE_FIELDS';
@@ -28,15 +31,43 @@ export function profileLoadingFinished() {
   };
 }
 
-export function refreshProfile(forceCacheClear = false) {
+async function saveAndRefresh(payload) {
+  const newPayloadObject = { payload };
+  if (payload.errors === 'Access token has expired' && infoTokenExists()) {
+    const refreshResponse = await refresh();
+    if (!refreshResponse.ok) {
+      throw new Error('Could not refresh AT');
+    }
+
+    const newPayload = await apiRequest(baseUrl);
+    return { payload: newPayload };
+  }
+
+  return newPayloadObject;
+}
+
+export function refreshProfile(
+  forceCacheClear = false,
+  localQuery = { local: 'none' },
+) {
+  const query = {
+    now: new Date().getTime(),
+    ...(isVAProfileServiceConfigured() ? {} : localQuery),
+  };
   return async dispatch => {
-    const url = forceCacheClear
-      ? appendQuery(baseUrl, { now: new Date().getTime() })
-      : baseUrl;
+    const url = forceCacheClear ? appendQuery(baseUrl, query) : baseUrl;
 
     const payload = await apiRequest(url);
-    dispatch(updateProfileFields(payload));
-    return payload;
+    const saved = await saveAndRefresh(payload);
+
+    recordEvent({
+      event: 'api_call',
+      'api-name': 'GET /v0/user',
+      'api-status': 'successful',
+    });
+
+    dispatch(updateProfileFields(saved.payload));
+    return saved.payload;
   };
 }
 

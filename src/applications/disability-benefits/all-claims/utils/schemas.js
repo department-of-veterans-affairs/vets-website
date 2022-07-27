@@ -25,7 +25,6 @@ import {
   MAX_PDF_FILE_SIZE_BYTES,
   USA,
   NULL_CONDITION_STRING,
-  PDF_SIZE_FEATURE,
 } from '../constants';
 
 import {
@@ -253,9 +252,6 @@ export function incidentLocationUISchema(addressPath) {
   };
 }
 
-export const getPdfSizeFeature = () =>
-  sessionStorage.getItem(PDF_SIZE_FEATURE) === 'true';
-
 export const ancillaryFormUploadUi = (
   label,
   itemDescription,
@@ -267,7 +263,6 @@ export const ancillaryFormUploadUi = (
     addAnotherLabel = 'Add Another',
   } = {},
 ) => {
-  const pdfSizeFeature = getPdfSizeFeature();
   // a11y focus management. Move focus to select after upload
   // see va.gov-team/issues/19688
   const findAndFocusLastSelect = () => {
@@ -286,7 +281,7 @@ export const ancillaryFormUploadUi = (
     // not sure what to do here... we need to differentiate pdf vs everything
     // else; the check is in the actions.js > uploadFile function
     maxSize: MAX_FILE_SIZE_BYTES,
-    maxPdfSize: pdfSizeFeature ? MAX_PDF_FILE_SIZE_BYTES : MAX_FILE_SIZE_BYTES,
+    maxPdfSize: MAX_PDF_FILE_SIZE_BYTES,
     minSize: 1,
     createPayload: (file, _formId, password) => {
       const payload = new FormData();

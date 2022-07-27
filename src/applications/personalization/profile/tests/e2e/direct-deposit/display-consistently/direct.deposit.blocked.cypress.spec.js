@@ -1,20 +1,16 @@
 import DirectDeposit from '../DirectDeposit';
 import { paymentHistory } from '../../../../mocks/payment-history';
-import { defaultResponse } from '../../../../mocks/bank-accounts';
+import { anAccount } from '../../../../mocks/bank-accounts';
 import { user72Success } from '../../../../mocks/user';
 
 import { generateFeatureToggles } from '../../../../mocks/feature-toggles';
 
 describe('Direct Deposit Consistently', () => {
   beforeEach(() => {
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({ profileAlwaysShowDirectDepositDisplay: true }),
-    );
+    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
     cy.login(user72Success);
 
-    cy.intercept('GET', '/v0/profile/ch33_bank_accounts', defaultResponse);
+    cy.intercept('GET', '/v0/profile/ch33_bank_accounts', anAccount);
   });
 
   it('happy path', () => {

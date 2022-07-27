@@ -41,29 +41,17 @@ const Index = ({ router }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
-  const defaultDob = Object.freeze({
-    day: {
-      value: '',
-      dirty: false,
-    },
-    month: {
-      value: '',
-      dirty: false,
-    },
-    year: {
-      value: '',
-      dirty: false,
-    },
-  });
-  const [dob, setDob] = useState(defaultDob);
+  const [dob, setDob] = useState('');
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
   const [dobErrorMessage, setDobErrorMessage] = useState();
 
-  const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
-    true,
-  );
+  const {
+    getValidateAttempts,
+    incrementValidateAttempts,
+    resetAttempts,
+  } = useSessionStorage(true);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
 
@@ -73,11 +61,9 @@ const Index = ({ router }) => {
         last4Ssn,
         lastName,
         dob,
-        showValidateError,
         setLastNameErrorMessage,
         setLast4ErrorMessage,
         setDobErrorMessage,
-        setDob,
         setIsLoading,
         setShowValidateError,
         isLorotaSecurityUpdatesEnabled,
@@ -88,6 +74,7 @@ const Index = ({ router }) => {
         token,
         setSession,
         app,
+        resetAttempts,
       );
     },
     [
@@ -99,12 +86,20 @@ const Index = ({ router }) => {
       last4Ssn,
       lastName,
       dob,
+      resetAttempts,
       setSession,
-      showValidateError,
       token,
       isLorotaSecurityUpdatesEnabled,
     ],
   );
+
+  const validateErrorMessage = isLorotaSecurityUpdatesEnabled
+    ? t(
+        'sorry-we-couldnt-find-an-account-that-matches-that-last-name-or-date-of-birth-please-try-again',
+      )
+    : t(
+        'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
+      );
 
   return (
     <>
@@ -132,9 +127,7 @@ const Index = ({ router }) => {
         }}
         Footer={Footer}
         showValidateError={showValidateError}
-        validateErrorMessage={t(
-          'were-sorry-we-couldnt-match-your-information-to-our-records-please-try-again',
-        )}
+        validateErrorMessage={validateErrorMessage}
       />
       <BackToHome />
     </>

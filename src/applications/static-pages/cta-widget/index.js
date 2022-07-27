@@ -16,11 +16,16 @@ import {
 
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
-import { logout, verify, mfa } from 'platform/user/authentication/utilities';
+import {
+  logout as IAMLogout,
+  verify,
+  mfa,
+  createAndStoreReturnUrl,
+} from 'platform/user/authentication/utilities';
+import { logout as SISLogout } from 'platform/utilities/oauth/utilities';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { AUTH_EVENTS } from 'platform/user/authentication/constants';
-import MFAV2 from './components/messages/DirectDeposit/MFA';
-import MFA from './components/messages/MFA';
+import MFA from './components/messages/DirectDeposit/MFA';
 import ChangeAddress from './components/messages/ChangeAddress';
 import DeactivatedMHVIds from './components/messages/DeactivatedMHVIds';
 import DirectDeposit from './components/messages/DirectDeposit';
@@ -137,10 +142,7 @@ export class CallToActionWidget extends Component {
 
   getContent = () => {
     if (!this.props.isLoggedIn) {
-      if (
-        this.props.appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT &&
-        this.props.featureToggles.profileShowNewDirectDepositCtaMessage
-      ) {
+      if (this.props.appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT) {
         return (
           <DirectDepositUnAuthed
             primaryButtonHandler={this.openLoginModal}
@@ -191,10 +193,7 @@ export class CallToActionWidget extends Component {
 
     if (this.props.appId === CTA_WIDGET_TYPES.DIRECT_DEPOSIT) {
       if (!this.props.profile.multifactor) {
-        if (this.props.featureToggles.profileShowNewDirectDepositCtaMessage) {
-          return <MFAV2 />;
-        }
-        return <MFA primaryButtonHandler={this.mfaHandler} />;
+        return <MFA />;
       }
       return (
         <DirectDeposit
@@ -474,7 +473,15 @@ export class CallToActionWidget extends Component {
 
   signOut = () => {
     recordEvent({ event: 'logout-link-clicked-createcta-mhv' });
-    logout();
+    if (this.props.authenticatedWithSSOe) {
+      IAMLogout();
+    } else {
+      const signInServiceName = this.props.profile?.session?.signInServiceName;
+      SISLogout({
+        signInServiceName,
+        storedLocation: createAndStoreReturnUrl(),
+      });
+    }
   };
 
   mfaHandler = () => {

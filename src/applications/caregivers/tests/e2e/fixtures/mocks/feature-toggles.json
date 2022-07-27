@@ -115,11 +115,11 @@
         "value": true
       },
       {
-        "name": "canUpload1010cgPOA",
+        "name": "canAutofill1010cgAddress",
         "value": true
       },
       {
-        "name": "can_upload_10_10cg_poa",
+        "name": "can_autofill_10_10cg_address",
         "value": true
       }
     ]

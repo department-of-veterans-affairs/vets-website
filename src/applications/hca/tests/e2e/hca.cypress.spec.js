@@ -16,7 +16,7 @@ const testConfig = createTestConfig(
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start.+without signing in/i, { selector: 'button' })
+          cy.findAllByText(/start.+without signing in/i, { selector: 'a' })
             .first()
             .click();
         });

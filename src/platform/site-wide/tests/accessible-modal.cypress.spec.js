@@ -1,5 +1,5 @@
 const overlay = '#modal-crisisline';
-const firstModalItem = 'a[href="tel:18002738255"]';
+const firstModalItem = 'a[href="tel:988"]';
 const closeControl = '.va-crisis-panel.va-modal-inner button';
 const firstOpenControl = 'button.va-crisis-line.va-overlay-trigger';
 const thirdOpenControl = 'footer .va-button-link.va-overlay-trigger';

@@ -1,8 +1,7 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import DemographicItem from '../../DemographicItem';
-import EditLinkText from '../Edit/shared/EditLinkText';
 import Wrapper from '../../layout/Wrapper';
 
 const ConfirmablePage = ({
@@ -13,7 +12,6 @@ const ConfirmablePage = ({
   yesAction = () => {},
   noAction = () => {},
   isLoading = false,
-  isEditEnabled = false,
   loadingMessageOverride = null,
   withBackButton = false,
   Footer,
@@ -23,9 +21,7 @@ const ConfirmablePage = ({
     <va-loading-indicator message={t('loading')} />
   );
   const LoadingMessage = loadingMessageOverride ?? defaultLoadingMessage;
-  const editHandler = useCallback(dataToEdit => {
-    dataToEdit.editAction(dataToEdit);
-  }, []);
+
   return (
     <Wrapper
       pageTitle={header}
@@ -37,36 +33,36 @@ const ConfirmablePage = ({
           {subtitle}
         </p>
       )}
-      <div className="vads-u-border-color--primary vads-u-border-left--5px vads-u-margin-left--0p5 vads-u-padding-left--2">
-        <dl data-testid="demographics-fields">
-          {dataFields.map(field => (
-            <React.Fragment key={field.key}>
-              <dt className="vads-u-font-weight--bold">{field.title}</dt>
-              <dd>
+      <div className="vads-u-margin-top--3">
+        <ul
+          data-testid="demographics-fields"
+          className="check-in--definition-list"
+        >
+          {dataFields.map((field, i, { length }) => (
+            <li key={field.key}>
+              <div
+                className="vads-u-font-weight--bold vads-u-border-top--1px vads-u-padding-top--2 vads-u-margin-top--2 vads-u-border-color--gray-light"
+                aria-describedby={field.title}
+              >
+                {field.title}
+              </div>
+              <div
+                id={field.title}
+                className={
+                  i + 1 === length
+                    ? 'vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-bottom--2'
+                    : ''
+                }
+              >
                 {field.key in data && data[field.key] ? (
                   <DemographicItem demographic={data[field.key]} />
                 ) : (
                   t('not-available')
                 )}
-                {isEditEnabled &&
-                  field.editAction && (
-                    <div>
-                      <a
-                        href={`#edit-${field.key}`}
-                        // eslint-disable-next-line react/jsx-no-bind
-                        onClick={() =>
-                          editHandler({ ...field, value: data[field.key] })
-                        }
-                        data-testid="edit-button"
-                      >
-                        <EditLinkText value={data[field.key]} />
-                      </a>
-                    </div>
-                  )}
-              </dd>
-            </React.Fragment>
+              </div>
+            </li>
           ))}
-        </dl>
+        </ul>
       </div>
       {isLoading ? (
         <>
@@ -76,7 +72,7 @@ const ConfirmablePage = ({
         <>
           <button
             onClick={yesAction}
-            className="usa-button-secondary usa-button-big"
+            className="usa-button-primary usa-button-big"
             data-testid="yes-button"
             type="button"
           >
@@ -108,7 +104,6 @@ ConfirmablePage.propTypes = {
   noAction: PropTypes.func.isRequired,
   yesAction: PropTypes.func.isRequired,
   Footer: PropTypes.func,
-  isEditEnabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   loadingMessageOverride: PropTypes.func,
   subtitle: PropTypes.string,

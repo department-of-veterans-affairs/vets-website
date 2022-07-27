@@ -10,7 +10,7 @@ const MONTHS_PER_PAGE = 6;
 function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
   // We assume that months come sorted from most recent to oldest.  If
   // that assumption is incorrect, sort here.
-  const months = enrollmentVerification.enrollmentVerifications.map(
+  const months = enrollmentVerification?.enrollmentVerifications?.map(
     (month, index) => {
       return (
         <EnrollmentVerificationMonth
@@ -62,10 +62,12 @@ function EnrollmentVerificationMonths({ enrollmentVerification, status }) {
         </p>
       </va-additional-info>
 
-      <p>
-        Showing {lowerDisplayedRange}-{upperDisplayedRange} of {months?.length}{' '}
-        monthly enrollments listed by most recent
-      </p>
+      {enrollmentVerification?.enrollmentVerifications && (
+        <p>
+          Showing {lowerDisplayedRange}-{upperDisplayedRange} of{' '}
+          {months?.length} monthly enrollments listed by most recent
+        </p>
+      )}
 
       {months?.slice(minMonth, maxMonth)}
 

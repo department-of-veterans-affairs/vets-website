@@ -45,7 +45,7 @@ ComboAlert.Zero = () => {
         haven’t received a copay bill in the past 6 months.
       </p>
       <h3 className="vads-u-font-size--h4">
-        What to do if you think you have a VA debt or copay bill
+        What to do if you think you have a VA debt or copay bill:
       </h3>
       <ul>
         <li>

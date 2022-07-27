@@ -1,3 +1,4 @@
+import mockProfileEnhancementsToggles from '@@profile/tests/fixtures/personal-information-feature-toggles.json';
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '../../constants';
 
 import mockUser from '../fixtures/users/user-36.json';
@@ -24,6 +25,7 @@ function clickSubNavButton(buttonLabel, mobile) {
  *   - checks that focus is managed correctly
  */
 function checkAllPages(mobile = false) {
+  cy.intercept('v0/feature_toggles*', mockProfileEnhancementsToggles);
   cy.visit(PROFILE_PATHS.PROFILE_ROOT);
   if (mobile) {
     cy.viewport('iphone-4');
@@ -46,10 +48,7 @@ function checkAllPages(mobile = false) {
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.PERSONAL_INFORMATION}`,
   );
-  cy.title().should(
-    'eq',
-    'Personal And Contact Information | Veterans Affairs',
-  );
+  cy.title().should('eq', 'Personal Information | Veterans Affairs');
 
   // focus should be on the sub-nav's heading when redirected from /profile/
   cy.focused().contains(/profile/i);
@@ -104,13 +103,21 @@ function checkAllPages(mobile = false) {
   // focus should be on the section's heading
   cy.focused().contains(PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS);
 
-  // navigate directly to the Personal and Contact Info section via the sub-nav to confirm focus is managed correctly
+  // navigate directly to the Personal Info section via the sub-nav to confirm focus is managed correctly
   clickSubNavButton(PROFILE_PATH_NAMES.PERSONAL_INFORMATION, mobile);
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.PERSONAL_INFORMATION}`,
   );
   cy.focused().contains(PROFILE_PATH_NAMES.PERSONAL_INFORMATION);
+
+  // navigate directly to the Contact Info section via the sub-nav to confirm focus is managed correctly
+  clickSubNavButton(PROFILE_PATH_NAMES.CONTACT_INFORMATION, mobile);
+  cy.url().should(
+    'eq',
+    `${Cypress.config().baseUrl}${PROFILE_PATHS.CONTACT_INFORMATION}`,
+  );
+  cy.focused().contains(PROFILE_PATH_NAMES.CONTACT_INFORMATION);
 }
 
 describe('Profile', () => {

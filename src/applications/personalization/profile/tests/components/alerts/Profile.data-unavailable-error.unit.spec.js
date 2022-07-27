@@ -184,16 +184,4 @@ describe('Profile "Not all data available" error', () => {
 
     await errorAppearsOnAllPages();
   });
-
-  it('should be shown on all pages if there is a 500 error with the `GET service_history` endpoint', async () => {
-    server.use(...mocks.getServiceHistory500);
-
-    await errorAppearsOnAllPages();
-  });
-
-  it('should be shown on all pages if there is a 401 error with the `GET service_history` endpoint', async () => {
-    server.use(...mocks.getServiceHistory401);
-
-    await errorAppearsOnAllPages();
-  });
 });

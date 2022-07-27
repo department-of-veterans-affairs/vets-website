@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { getPatientInstruction } from '.';
+import { getPatientInstruction, getProviderName } from './index';
 import {
   APPOINTMENT_TYPES,
   PURPOSE_TEXT,
@@ -166,6 +166,17 @@ export function transformVAOSAppointment(appt) {
   if (appt.location && appt.location.attributes) {
     facilityData = transformFacilityV2(appt.location.attributes);
   }
+  let comment = null;
+  const coding = appt.reasonCode ? appt.reasonCode.coding : null;
+  const text = appt.reasonCode ? appt.reasonCode.text : null;
+  if (coding && coding[0]?.code && text) {
+    comment = `${coding[0].code}: ${text}`;
+  } else if (coding && coding[0].code) {
+    comment = coding[0].code;
+  } else {
+    comment = text;
+  }
+
   return {
     resourceType: 'Appointment',
     id: appt.id,
@@ -188,7 +199,7 @@ export function transformVAOSAppointment(appt) {
     comment:
       isVideo && !!appt.patientInstruction
         ? getPatientInstruction(appt)
-        : appt.comment || null,
+        : comment,
     videoData,
     communityCareProvider:
       isCC && !isRequest
@@ -198,11 +209,15 @@ export function transformVAOSAppointment(appt) {
             telecom: appt.extension?.ccLocation?.telecom,
             providers: (providers || []).map(provider => ({
               name: {
-                firstName: provider.name?.given,
+                firstName: provider.name?.given.join(' '),
                 lastName: provider.name?.family,
               },
-              providerName: `${provider.name?.given} ${provider.name?.family}`,
+              providerName: provider.name
+                ? `${provider.name.given.join(' ')} ${provider.name.family}`
+                : null,
             })),
+            providerName:
+              providers !== undefined ? getProviderName(appt) : null,
           }
         : null,
     practitioners: appt.practitioners,
@@ -225,4 +240,20 @@ export function transformVAOSAppointment(appt) {
 
 export function transformVAOSAppointments(appts) {
   return appts.map(appt => transformVAOSAppointment(appt));
+}
+
+/**
+ * Transforms a provider object from the providers endpoint into our
+ * VAOS format
+ *
+ * @export
+ * @param {provider} provider A provider from the providers endpoint
+ * @returns {Provider} A Provider resource
+ */
+export function transformPreferredProviderV2(provider) {
+  return {
+    resourceType: 'Provider',
+    id: provider.providerIdentifier,
+    name: provider.name,
+  };
 }

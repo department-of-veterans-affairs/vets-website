@@ -6,6 +6,7 @@ import { isEmpty } from 'lodash';
 // Relative imports.
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { selectPatientFacilities } from 'platform/user/selectors';
+import { selectPatientFacilities as selectPatientFacilitiesDsot } from 'platform/user/cerner-dsot/selectors';
 import AuthContent from '../AuthContent';
 import UnauthContent from '../UnauthContent';
 
@@ -43,7 +44,9 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-  facilities: selectPatientFacilities(state),
+  facilities: state?.featureToggles?.pwEhrCtaDrupalSourceOfTruth
+    ? selectPatientFacilitiesDsot(state)
+    : selectPatientFacilities(state),
 });
 
 export default connect(

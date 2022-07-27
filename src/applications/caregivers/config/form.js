@@ -17,7 +17,6 @@ import {
 } from 'applications/caregivers/helpers';
 
 import { secondaryTwoChapterTitle } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
-
 import { addressWithoutCountryUI } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
 import manifest from '../manifest.json';
@@ -211,7 +210,6 @@ const formConfig = {
         signAsRepresentative: {
           path: 'representative-document',
           title: 'Application signature',
-          depends: formData => formData['view:canUpload1010cgPOA'],
           uiSchema: signAsRepresentativeYesNo.uiSchema,
           schema: signAsRepresentativeYesNo.schema,
         },

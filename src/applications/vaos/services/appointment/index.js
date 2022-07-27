@@ -20,6 +20,7 @@ import {
   getAppointments,
   postAppointment,
   putAppointment,
+  getPreferredCCProvider,
 } from '../vaos';
 import {
   transformConfirmedAppointment,
@@ -38,6 +39,7 @@ import { formatFacilityAddress, getFacilityPhone } from '../location';
 import {
   transformVAOSAppointment,
   transformVAOSAppointments,
+  transformPreferredProviderV2,
 } from './transformers.v2';
 import { captureError, has400LevelError } from '../../utils/error';
 import { resetDataLayer } from '../../utils/events';
@@ -397,6 +399,18 @@ export function getVAAppointmentLocationId(appointment) {
 
   return appointment?.location.stationId;
 }
+
+/**
+ * Returns the NPI of a CC Provider
+ *
+ * @export
+ * @param {Appointment} appointment A FHIR appointment resource
+ * @returns {string} The NPI of the CC Provider
+ */
+export function getPreferredCCProviderNPI(appointment) {
+  return appointment?.practitioners[0]?.identifier[0]?.value || null;
+}
+
 /**
  * Returns the patient telecom info in a VA appointment
  *
@@ -897,6 +911,32 @@ export async function cancelAppointment({ appointment, useV2 = false }) {
 }
 
 /**
+ * Get the provider name based on api version
+ *
+ *
+ * @export
+ * @param {Object} appointment an appointment object
+ * @returns {String} Returns the provider first and last name
+ */
+export function getProviderName(appointment) {
+  if (appointment.version === 1) {
+    const { providerName } = appointment.communityCareProvider;
+    return providerName;
+  }
+
+  if (appointment.practitioners !== undefined) {
+    const providers = appointment.practitioners
+      .filter(person => !!person.name)
+      .map(person => `${person.name.given.join(' ')} ${person.name.family} `);
+    if (providers.length > 0) {
+      return providers;
+    }
+    return null;
+  }
+  return null;
+}
+
+/**
  * Get scheduled appointment information needed for generating
  * an .ics file.
  *
@@ -939,19 +979,20 @@ export function getCalendarData({ appointment, facility }) {
     };
   } else if (isCommunityCare) {
     let { practiceName } = appointment.communityCareProvider || {};
-    const { providers } = appointment.communityCareProvider || {};
-    let providerName = providers ? providers[0].providerName : null;
+    const providerName = getProviderName(appointment);
     let summary = 'Community care appointment';
-    // Check if providerName is all spaces.
-    providerName = providerName?.trim().length ? providerName : '';
     practiceName = practiceName?.trim().length ? practiceName : '';
-    if (practiceName) {
-      summary = `Appointment at ${practiceName}`;
+    if (!!practiceName || !!providerName) {
+      // order of the name appearing on the calendar title is important to match the display screen name
+      summary =
+        appointment.version === 1
+          ? `Appointment at ${providerName || practiceName}`
+          : `Appointment at ${providerName[0] || practiceName}`;
     }
-
     data = {
       summary,
-      providerName: `${providerName || practiceName}`,
+      providerName:
+        providerName !== undefined ? `${providerName || practiceName}` : null,
       location: formatFacilityAddress(appointment?.communityCareProvider),
       text:
         'You have a health care appointment with a community care provider. Please don’t go to your local VA health facility.',
@@ -1068,4 +1109,16 @@ export function getAppointmentTimezone(appointment) {
     abbreviation,
     description: getTimezoneNameFromAbbr(abbreviation),
   };
+}
+
+/**
+ * Fetch provider information
+ *
+ * @export
+ * @param {String} providerNpi An id for the provider to fetch info for
+ * @returns {transformed Provider} transformed Provider info
+ */
+export async function fetchPreferredProvider(providerNpi) {
+  const prov = await getPreferredCCProvider(providerNpi);
+  return transformPreferredProviderV2(prov);
 }

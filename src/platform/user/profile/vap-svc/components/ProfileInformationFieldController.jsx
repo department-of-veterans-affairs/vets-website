@@ -35,6 +35,8 @@ import ProfileInformationEditView from '@@profile/components/ProfileInformationE
 import ProfileInformationView from '@@profile/components/ProfileInformationView';
 
 import { getInitialFormValues } from '@@profile/util/contact-information/formValues';
+import { isFieldEmpty } from '@@profile/util';
+
 import { isVAPatient } from '~/platform/user/selectors';
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -340,7 +342,10 @@ class ProfileInformationFieldController extends React.Component {
         />
 
         {this.props.showUpdateSuccessAlert ? (
-          <div data-testid="update-success-alert">
+          <div
+            data-testid="update-success-alert"
+            className="vads-u-width--full"
+          >
             <UpdateSuccessAlert fieldName={fieldName} />
           </div>
         ) : null}
@@ -512,7 +517,7 @@ export const mapStateToProps = (state, ownProps) => {
     selectVAPContactInfoField(state, fieldName) ||
     selectVAProfilePersonalInformation(state, fieldName);
 
-  const isEmpty = !data;
+  const isEmpty = isFieldEmpty(data, fieldName);
   const addressValidationType = selectAddressValidationType(state);
   const activeEditView = selectCurrentlyOpenEditModal(state);
   const showValidationView =

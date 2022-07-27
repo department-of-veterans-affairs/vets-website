@@ -34,21 +34,7 @@ const ValidateVeteran = props => {
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
 
-  const defaultDob = Object.freeze({
-    day: {
-      value: '',
-      dirty: false,
-    },
-    month: {
-      value: '',
-      dirty: false,
-    },
-    year: {
-      value: '',
-      dirty: false,
-    },
-  });
-  const [dob, setDob] = useState(defaultDob);
+  const [dob, setDob] = useState('');
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
@@ -60,23 +46,24 @@ const ValidateVeteran = props => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
 
-  const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
-    false,
-  );
+  const {
+    getValidateAttempts,
+    incrementValidateAttempts,
+    resetAttempts,
+  } = useSessionStorage(false);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
   const app = '';
   const onClick = useCallback(
     () => {
+      setShowValidateError(false);
       validateLogin(
         last4Ssn,
         lastName,
         dob,
-        showValidateError,
         setLastNameErrorMessage,
         setLast4ErrorMessage,
         setDobErrorMessage,
-        setDob,
         setIsLoading,
         setShowValidateError,
         isLorotaSecurityUpdatesEnabled,
@@ -87,6 +74,7 @@ const ValidateVeteran = props => {
         token,
         setSession,
         app,
+        resetAttempts,
       );
     },
     [
@@ -98,8 +86,8 @@ const ValidateVeteran = props => {
       last4Ssn,
       lastName,
       dob,
+      resetAttempts,
       setSession,
-      showValidateError,
       token,
       isLorotaSecurityUpdatesEnabled,
     ],

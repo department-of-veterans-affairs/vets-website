@@ -75,7 +75,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
         <i
           aria-hidden="true"
           role="img"
-          className="fa fa-exclamation-triangle"
+          className="fa fa-exclamation-triangle icon-right"
         />
         {isCurrentBalance ? (
           <CurrentContent id={id} date={date} />
@@ -87,7 +87,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
         className="vads-u-font-size--sm vads-u-font-weight--bold"
         to={`/copay-balances/${id}/detail`}
         data-testid={`detail-link-${id}`}
-        aria-label={linkText}
+        aria-label={`Check details and resolve this debt for ${facility}`}
       >
         {linkText}
         <i

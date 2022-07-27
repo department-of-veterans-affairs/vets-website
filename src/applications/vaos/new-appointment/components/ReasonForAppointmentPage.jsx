@@ -18,6 +18,7 @@ import {
   routeToPreviousAppointmentPage,
   updateReasonForAppointmentData,
 } from '../redux/actions';
+import { selectFeatureVAOSServiceRequests } from '../../redux/selectors';
 
 const initialSchema = {
   default: {
@@ -88,11 +89,13 @@ export default function ReasonForAppointmentPage() {
   const pageTitle = isCommunityCare
     ? 'Tell us the reason for this appointment'
     : 'Choose a reason for this appointment';
+  const useV2 = useSelector(state => selectFeatureVAOSServiceRequests(state));
+
   useEffect(() => {
     document.title = `${pageTitle} | Veterans Affairs`;
     scrollAndFocus();
     dispatch(
-      openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema),
+      openReasonForAppointment(pageKey, pageUISchema, pageInitialSchema, useV2),
     );
   }, []);
 
@@ -110,7 +113,12 @@ export default function ReasonForAppointmentPage() {
           }
           onChange={newData =>
             dispatch(
-              updateReasonForAppointmentData(pageKey, pageUISchema, newData),
+              updateReasonForAppointmentData(
+                pageKey,
+                pageUISchema,
+                newData,
+                useV2,
+              ),
             )
           }
           data={data}
@@ -130,7 +138,7 @@ export default function ReasonForAppointmentPage() {
                 <li>
                   Call the Veterans Crisis hotline at{' '}
                   <VaTelephone
-                    contact="8002738255"
+                    contact="988"
                     data-testid="crisis-hotline-telephone"
                   />{' '}
                   and select 1,{' '}

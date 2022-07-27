@@ -3,13 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import last from 'lodash/last';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
 import OnThisPageLinks from '../components/OnThisPageLinks';
 import '../sass/debt-letters.scss';
 import HistoryTable from '../components/HistoryTable';
-import { setPageFocus, getCurrentDebt } from '../utils/page';
+import { getCurrentDebt } from '../utils/page';
+import { setPageFocus } from '../../combined/utils/helpers';
 import {
   deductionCodes,
   renderWhyMightIHaveThisDebt,
@@ -38,12 +38,11 @@ const DebtDetails = () => {
   };
 
   useEffect(() => {
-    scrollToTop();
     setPageFocus('h1');
   }, []);
 
   if (Object.keys(currentDebt).length === 0) {
-    window.location.replace('/manage-debt-and-bills/summary/debt-balances/');
+    window.location.replace('/manage-va-debt/summary/debt-balances/');
     return (
       <va-loading-indicator
         label="Loading"
@@ -57,11 +56,9 @@ const DebtDetails = () => {
       <div className="vads-l-col--9 small-desktop-screen:vads-l-col--12">
         <va-breadcrumbs label="Breadcrumb">
           <a href="/">Home</a>
-          <a href="/manage-debt-and-bills/">Manage your VA debt and bills</a>
-          <Link to="/manage-debt-and-bills/summary/">
-            Your debt and bills summary
-          </Link>
-          <Link to="/debt-balances/">Benefit debt balances</Link>
+          <a href="/manage-va-debt/">Manage your VA debt</a>
+          <Link to="/manage-va-debt/summary/">Your VA debt and bills</Link>
+          <Link to="/debt-balances/">Current VA debt</Link>
           <Link
             to={`/debt-balances/details/${selectedDebt.fileNumber +
               selectedDebt.deductionCode}`}
