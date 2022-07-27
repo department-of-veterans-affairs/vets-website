@@ -12,6 +12,6 @@ export const FAF_SORT_OPTIONS = [
 ];
 export const INITIAL_SORT_STATE = 'Closest match';
 export const FORM_MOMENT_CONSTRUCTOR_DATE_FORMAT = 'YYYY-MM-DD';
-export const FORM_MOMENT_PRESENTATION_DATE_FORMAT = 'MM-DD-YYYY';
+export const FORM_MOMENT_PRESENTATION_DATE_FORMAT = 'MMMM YYYY';
 export const UPDATE_HOW_TO_SORT = 'findVAForms/UPDATE_HOW_TO_SORT';
 export const UPDATE_RESULTS = 'findVAForms/UPDATE_RESULTS';
