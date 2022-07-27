@@ -38,30 +38,36 @@ describe('Check In Experience', () => {
 
       ValidateVeteran.validatePage.dayOf();
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--Validate');
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
 
       Demographics.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--Contact-info');
       Demographics.attemptToGoToNextPage();
 
       EmergencyContact.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--Emergency-contact');
       EmergencyContact.attemptToGoToNextPage();
 
       NextOfKin.validatePageLoaded(
         'Is this your current next of kin information?',
       );
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--Next-of-kin');
       NextOfKin.attemptToGoToNextPage();
 
       Appointments.validatePageLoaded();
       Appointments.validateAppointmentLength(3);
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--Appointments');
 
       Appointments.attemptCheckIn(2);
       Confirmation.validatePageLoaded();
       cy.injectAxeThenAxeCheck();
+      cy.createScreenshots('Day-of-check-in--Confirmation');
     });
   });
 });

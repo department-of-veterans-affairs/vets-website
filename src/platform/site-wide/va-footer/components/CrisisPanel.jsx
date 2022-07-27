@@ -37,8 +37,8 @@ export default function CrisisPanel() {
                 className="fa fa-phone va-crisis-panel-icon"
                 aria-hidden="true"
               />
-              <a href="tel:18002738255">
-                Call <strong>800-273-8255 and select 1</strong>
+              <a href="tel:988">
+                Call <strong>988 and select 1</strong>
               </a>
             </li>
             <li>
