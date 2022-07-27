@@ -84,7 +84,7 @@ i18n
     },
   });
 
-// This is necessary for DS components to use our language preference on initial load.
+// This is necessary for DS components to use our language preference on initial page load.
 setPageLanguage(i18n.language);
 
 i18n.on('languageChanged', language => {
