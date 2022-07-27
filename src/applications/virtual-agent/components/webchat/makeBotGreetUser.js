@@ -92,12 +92,14 @@ const GreetUser = {
     if (requireAuth) {
       if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
         const data = action.payload.activity;
+        let stopTracking = false;
 
         if (data.type === 'message' && data.text) {
           if (
             data.text.includes('Alright. Sending you to the sign in page...') &&
             data.from.role === 'bot'
           ) {
+            stopTracking = true;
             const authEvent = new Event('webchat-auth-activity');
             authEvent.data = action.payload.activity;
             window.dispatchEvent(authEvent);
@@ -129,7 +131,7 @@ const GreetUser = {
                 JSON.stringify(utterances),
               );
             }
-          } else {
+          } else if (!stopTracking) {
             const chatEvent = new Event('webchat-message-activity');
             chatEvent.data = action.payload.activity;
             window.dispatchEvent(chatEvent);
