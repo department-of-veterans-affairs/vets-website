@@ -23,16 +23,13 @@ class GitHubClient {
 
   async getVetsWebsiteCommits({ path }) {
     try {
-      return await this.gitHubClient.octokit.request(
-        'GET /repos/{owner}/{repo}/commits',
-        {
-          owner: 'department-of-veterans-affairs',
-          repo: 'vets-website',
-          // eslint-disable-next-line camelcase
-          per_page: 2,
-          path,
-        },
-      );
+      return await this.octokit.request('GET /repos/{owner}/{repo}/commits', {
+        owner: 'department-of-veterans-affairs',
+        repo: 'vets-website',
+        // eslint-disable-next-line camelcase
+        per_page: 2,
+        path,
+      });
     } catch (e) {
       return e;
     }
