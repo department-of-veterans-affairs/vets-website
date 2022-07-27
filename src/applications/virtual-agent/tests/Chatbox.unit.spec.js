@@ -783,7 +783,7 @@ describe('App', () => {
     //   },
     // };
 
-    it('makebotgreetuser test for firing message activity', done => {
+    it.only('makebotgreetuser test for firing message activity', () => {
       window.addEventListener(
         'webchat-message-activity',
         messageActivityHandlerSpy,
@@ -799,7 +799,7 @@ describe('App', () => {
         type: 'DIRECT_LINE/INCOMING_ACTIVITY',
       });
 
-      done();
+      
 
       const actions = store.getActions();
       expect(actions.length).to.equal(1);
@@ -811,7 +811,7 @@ describe('App', () => {
 
     // // TODO: conditions to resend latest utterance (I think this is covered in the other test(s))
 
-    it('makebotgreetuser test for firing auth activity', done => {
+    it.only('makebotgreetuser test for firing auth activity', () => {
       sessionStorage.setItem(IN_AUTH_EXP, 'false');
 
       window.addEventListener('webchat-auth-activity', authActivityHandlerSpy);
@@ -829,7 +829,7 @@ describe('App', () => {
         type: 'DIRECT_LINE/INCOMING_ACTIVITY',
       });
 
-      done();
+      
 
       const actions = store.getActions();
       expect(actions.length).to.equal(1);
@@ -879,7 +879,7 @@ describe('App', () => {
       },
     };
 
-    it('when message activity is fired, then utterances should be stored in sessionStorage', done => {
+    it.only('when message activity is fired, then utterances should be stored in sessionStorage', () => {
       loadWebChat();
       mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
 
@@ -906,7 +906,7 @@ describe('App', () => {
       expect(messageActivityHandlerSpy.callCount).to.equal(1);
       expect(messageActivityHandlerSpy.calledWith(event));
 
-      done();
+      
 
       expect(sessionStorage.getItem(RECENT_UTTERANCES)).to.not.be.null;
       expect(
@@ -914,7 +914,7 @@ describe('App', () => {
       ).to.have.members(['', 'first']);
     });
 
-    it('when message activity is fired and sessionStorage is already holding two utterances, then the oldest utterance should be removed', done => {
+    it.only('when message activity is fired and sessionStorage is already holding two utterances, then the oldest utterance should be removed', () => {
       loadWebChat();
       mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
 
@@ -938,7 +938,7 @@ describe('App', () => {
       event.data = { type: 'message', text: 'third', from: { role: 'user' } };
       window.dispatchEvent(event);
 
-      done();
+      
 
       expect(messageActivityHandlerSpy.callCount).to.equal(1);
       expect(
@@ -949,7 +949,7 @@ describe('App', () => {
     describe('when user is not logged in initially', () => {
       // this is a good test, but failed after adding setTimeout call (also added requiredAuth toggle)
       // commented out for now. testing manually.
-      it('when auth activity event is fired, then loggedInFlow is set to true', done => {
+      it.only('when auth activity event is fired, then loggedInFlow is set to true', () => {
         loadWebChat();
         mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
 
@@ -965,7 +965,7 @@ describe('App', () => {
         });
 
         window.dispatchEvent(new Event('webchat-auth-activity'));
-        done();
+        
 
         expect(authActivityHandlerSpy.callCount).to.equal(1);
         expect(sessionStorage.getItem(LOGGED_IN_FLOW)).to.equal('true');
@@ -998,7 +998,7 @@ describe('App', () => {
     });
 
     describe('when user is prompted to sign in by the bot and has finished signing in', () => {
-      it('should render webchat with pre-existing conversation id and token', done => {
+      it.only('should render webchat with pre-existing conversation id and token', () => {
         // TEST SETUP
         // logged in flow should be set to true
         // user should be logged in
@@ -1017,7 +1017,7 @@ describe('App', () => {
           reducers: virtualAgentReducer,
         });
         waitFor(() => expect(wrapper.getByTestId('webchat')).to.exist);
-        done();
+        
 
         expect(directLineSpy.called).to.be.true;
         expect(sessionStorage.getItem(LOGGED_IN_FLOW)).to.equal('false');
@@ -1037,7 +1037,7 @@ describe('App', () => {
       });
     });
 
-    it('does not display disclaimer when user has logged in via the bot and has returned to the page, and refreshes', done => {
+    it.only('does not display disclaimer when user has logged in via the bot and has returned to the page, and refreshes', done => {
       const loggedInUser2 = {
         navigation: {
           showLoginModal: false,
@@ -1067,7 +1067,6 @@ describe('App', () => {
       });
 
       waitFor(() => expect(wrapper.queryByText(disclaimerText)).to.not.exist);
-      // done();
 
       location.reload();
 
