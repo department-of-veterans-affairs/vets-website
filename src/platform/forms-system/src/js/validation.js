@@ -388,7 +388,17 @@ export function validateCurrentOrPastDate(
   const {
     futureDate = 'Please provide a valid current or past date',
   } = errorMessages;
-  validateDate(errors, dateString, minYear, new Date().getFullYear());
+  validateDate(
+    errors,
+    dateString,
+    formData,
+    schema,
+    errorMessages,
+    undefined,
+    undefined,
+    minYear,
+    new Date().getFullYear(),
+  );
   const { day, month, year } = parseISODate(dateString);
   if (!isValidCurrentOrPastDate(day, month, year)) {
     errors.addError(futureDate);
