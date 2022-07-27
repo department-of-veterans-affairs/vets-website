@@ -129,16 +129,14 @@ const PrimaryAddressWithAutofill = props => {
         {inputLabelMap[props.name]} current address
       </legend>
 
-      {canAutofillAddress && (
-        <VaCheckbox
-          id="root_primaryAddress_autofill"
-          checked={formData['view:autofill']}
-          label="Use the same address as the Veteran"
-          className="vads-u-margin-left--neg3"
-          style={{ marginLeft: '-24px' }}
-          onVaChange={handleCheck}
-        />
-      )}
+      <VaCheckbox
+        id="root_primaryAddress_autofill"
+        checked={formData['view:autofill']}
+        label="Use the same address as the Veteran"
+        className="vads-u-margin-left--neg3"
+        style={{ marginLeft: '-24px' }}
+        onVaChange={handleCheck}
+      />
 
       <VaTextInput
         id={idSchema.street.$id}
@@ -222,7 +220,6 @@ PrimaryAddressWithAutofill.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  canAutofillAddress: state.featureToggles?.canAutofill1010cgAddress,
   veteranAddress: state.form.data.veteranAddress,
 });
 
