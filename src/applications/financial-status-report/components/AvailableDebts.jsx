@@ -1,12 +1,17 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { useSelector, useDispatch } from 'react-redux';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import PropTypes from 'prop-types';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { uniqBy } from 'lodash';
 import { ErrorAlert } from './Alerts';
 import { fetchDebts } from '../actions';
 import DebtCard from './DebtCard';
+import { getStatements } from '../actions/copays';
+import DebtCheckBox from './DebtCheckBox';
+import CopayCheckBox from './CopayCheckBox';
+import { sortStatementsByDate } from '../utils/helpers';
 
 const NoDebts = () => (
   <div className="usa-alert background-color-only">
@@ -15,23 +20,41 @@ const NoDebts = () => (
     </div>
     <p>
       Our records show you don’t have any debt related to VA benefits. If you
-      think this is an error, please contact the Debt Management Center at
-      <Telephone className="vads-u-margin-x--0p5" contact={CONTACTS.DMC} />
+      think this is an error, please contact the Debt Management Center at{' '}
+      <va-telephone contact={CONTACTS.DMC} />
     </p>
   </div>
 );
 
-const AvailableDebts = ({ pendingDebts, debts, getDebts, isError }) => {
+const AvailableDebts = () => {
+  const { debts, statements, pending, isError, pendingCopays } = useSelector(
+    state => state.fsr,
+  );
+
+  const isCFSRActive = useSelector(
+    state =>
+      toggleValues(state)[FEATURE_FLAG_NAMES.combinedFinancialStatusReport],
+  );
+
+  // copays
+  const sortedStatements = sortStatementsByDate(statements ?? []);
+  const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
+
+  const dispatch = useDispatch();
   useEffect(
     () => {
-      getDebts();
+      // fetchDebtLetters(dispatch);
+      dispatch(fetchDebts());
+      if (isCFSRActive) {
+        getStatements(dispatch);
+      }
     },
-    [getDebts],
+    [dispatch, isCFSRActive],
   );
 
   if (isError) return <ErrorAlert />;
 
-  if (pendingDebts) {
+  if (pending || (isCFSRActive && pendingCopays)) {
     return (
       <div className="vads-u-margin--5">
         <va-loading-indicator
@@ -43,7 +66,29 @@ const AvailableDebts = ({ pendingDebts, debts, getDebts, isError }) => {
     );
   }
 
-  return debts.length ? (
+  if (!isCFSRActive && !debts.length) {
+    return <NoDebts />;
+  }
+
+  return isCFSRActive ? (
+    <>
+      <p className="vads-u-margin-bottom--3">
+        Select one or more debts you want to request relief for
+      </p>
+      {debts.map((debt, index) => (
+        <DebtCheckBox debt={debt} key={`${index}-${debt.currentAr}`} />
+      ))}
+      {statementsByUniqueFacility.map(copay => (
+        <CopayCheckBox copay={copay} key={copay.id} />
+      ))}
+      <va-additional-info trigger="What if my debt isn’t listed here?">
+        If you received a letter about a VA benefit debt that isn’t listed here,
+        call us at <va-telephone contact="800-827-0648" /> (or{' '}
+        <va-telephone contact="612-713-6415" international /> from overseas).
+        We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
+      </va-additional-info>
+    </>
+  ) : (
     <>
       <p>
         Select one or more debts below. We’ll help you choose a debt repayment
@@ -58,11 +103,9 @@ const AvailableDebts = ({ pendingDebts, debts, getDebts, isError }) => {
       <h4>What if my debt isn’t listed here?</h4>
       <p className="vads-u-margin-top--2">
         If you received a letter about a VA benefit debt that isn’t listed here,
-        call us at
-        <Telephone contact="8008270648" className="vads-u-margin-x--0p5" /> (or
-        <Telephone contact="16127136415" className="vads-u-margin-x--0p5" />
-        from overseas). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m.
-        ET.
+        call us at <va-telephone contact="8008270648" /> (or{' '}
+        <va-telephone contact="16127136415" international /> from overseas).
+        We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
       </p>
       <p className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         If you need help with a VA copay debt,
@@ -74,8 +117,6 @@ const AvailableDebts = ({ pendingDebts, debts, getDebts, isError }) => {
         </a>
       </p>
     </>
-  ) : (
-    <NoDebts />
   );
 };
 
@@ -86,17 +127,4 @@ AvailableDebts.propTypes = {
   pendingDebts: PropTypes.bool,
 };
 
-const mapStateToProps = ({ fsr }) => ({
-  debts: fsr.debts,
-  pendingDebts: fsr.pendingDebts,
-  isError: fsr.isError,
-});
-
-const mapDispatchToProps = {
-  getDebts: fetchDebts,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AvailableDebts);
+export default AvailableDebts;

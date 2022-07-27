@@ -223,3 +223,14 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
 
   return history;
 };
+
+// receiving formatted date strings in the response
+// so we need to convert back to moment before sorting
+export const sortStatementsByDate = statements => {
+  const dateFormat = 'MM-DD-YYYY';
+  return statements.sort(
+    (a, b) =>
+      moment(b.pSStatementDate, dateFormat) -
+      moment(a.pSStatementDate, dateFormat),
+  );
+};
