@@ -41,6 +41,7 @@ import {
   addWhitespaceOnlyError,
   isAlphaNumeric,
   applicantIsChildOfSponsor,
+  transformTOEForm,
   // prefillTransformer,
 } from '../helpers';
 
@@ -102,10 +103,12 @@ const formConfig = {
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  // ToDo: Will need to uncomment below line & comment line above once sumit url is available
+  // transformForSubmit: transformTOEForm,
   trackingPrefix: 'toe-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '22-1990E',
+  // formId: '22-1990E',
   title: 'Apply to use transferred education benefits',
   subTitle:
     'Equal to VA Form 22-1990e (Application for Family Member to Use Transferred Benefits)',

@@ -245,3 +245,50 @@ export const applicantIsChildOfSponsor = formData => {
 
   return sponsor?.relationship === SPONSOR_RELATIONSHIP.CHILD;
 };
+
+export function transformTOEForm(_formConfig, form) {
+  const payload = {
+    claimant: {
+      claimantId: 0,
+      suffix: form?.data?.relativeFullName?.suffix,
+      dateOfBirth: form?.data?.relativeDateOfBirth,
+      firstName: form?.data?.relativeFullName?.first,
+      lastName: form?.data?.relativeFullName?.last,
+      middleName: form?.data?.relativeFullName?.middle,
+      notificationMethod: form?.data?.preferredContactMethod,
+      contactInfo: {
+        addressLine1: form?.data?.relativeAddress?.street,
+        addressLine2: form?.data?.relativeAddress?.street2,
+        city: form?.data?.relativeAddress?.city,
+        zipcode: form?.data?.relativeAddress?.postalCode,
+        emailAddress: form?.data['view:otherContactInfo']?.email,
+        addressType: 'DOMESTIC',
+        mobilePhoneNumber: form?.data['view:otherContactInfo']?.mobilePhone,
+        homePhoneNumber: form?.data['view:otherContactInfo']?.homePhone,
+        countryCode: form?.data?.relativeAddress?.country,
+        stateCode: form?.data?.relativeAddress?.state,
+      },
+      preferredContact: form?.data?.preferredContactMethod,
+    },
+    sponsors: [
+      {
+        firstName: form?.data?.veteranFullName?.first,
+        middleName: form?.data?.veteranFullName?.middle,
+        lastName: form?.data?.veteranFullName?.last,
+        dob: form?.data?.veteranDateOfBirth,
+        relationship: form?.data?.relationship,
+      },
+    ],
+    additionalInformation: {
+      highSchoolDiplomaOrCertificate:
+        form?.data?.highSchoolOrGedCompletionDate ?? false,
+    },
+    directDeposit: {
+      directDepositAccountType: form?.data?.bankAccount?.accountType,
+      directDepositAccountNumber: form?.data?.bankAccount?.accountNumber,
+      directDepositRoutingNumber: form?.data?.bankAccount?.routingNumber,
+    },
+  };
+
+  return JSON.stringify(payload);
+}
