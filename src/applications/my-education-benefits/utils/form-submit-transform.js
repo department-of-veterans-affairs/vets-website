@@ -318,7 +318,7 @@ export function createMilitaryClaimant(submissionForm) {
     notificationMethod: getNotificationMethod(
       submissionForm['view:receiveTextMessages'].receiveTextMessages,
     ),
-    preferredContact: submissionForm['view:contactMethod'].contactMethod,
+    preferredContact: submissionForm?.contactMethod,
   };
 }
 
