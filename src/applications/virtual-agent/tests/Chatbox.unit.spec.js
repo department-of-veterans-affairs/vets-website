@@ -722,19 +722,6 @@ describe('App', () => {
       });
 
     let store;
-    const storeClean = mockStore(
-      {},
-      GreetUser.makeBotGreetUser(
-        'fakeCsrfToken',
-        'fakeApiSession',
-        'http://apiURL',
-        'http://baseURL',
-        'noFirstNameFound',
-        'fakeUserUuid',
-        true, // requireAuth,
-      ),
-      mockServiceCreator(screen, true),
-    );
 
     const authActivityHandlerSpy = sinon.spy();
     const messageActivityHandlerSpy = sinon.spy();
@@ -748,7 +735,7 @@ describe('App', () => {
     });
 
     beforeEach(() => {
-      store = { ...storeClean };
+      store = mockStore({}, GreetUser.makeBotGreetUser('fakeCsrfToken', 'fakeApiSession', 'http://apiURL', 'http://baseURL', 'noFirstNameFound', 'fakeUserUuid', true), mockServiceCreator(screen, true)); // requireAuth,
       authActivityHandlerSpy.reset();
       messageActivityHandlerSpy.reset();
       sessionStorage.removeItem(IN_AUTH_EXP);
