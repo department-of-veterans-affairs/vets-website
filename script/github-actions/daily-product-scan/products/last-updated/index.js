@@ -2,12 +2,10 @@
 // const { Octokit } = require('@octokit/core');
 
 const GitHubClient = require('../../github-client');
-const constants = require('./constants');
 
 class LastUpdated {
   constructor({ products }) {
     this.products = products;
-    // this.octokit = new Octokit();
     this.gitHubClient = new GitHubClient();
   }
 
@@ -17,22 +15,14 @@ class LastUpdated {
       const { pathToCode } = product;
       product.lastUpdated = await this.getLastDateUpdated({
         path: pathToCode,
-        id: productId,
       });
     });
   }
 
   async getLastDateUpdated({ path }) {
-    const { status, data } = await this.gitHubClient.octokit.request(
-      'GET /repos/{owner}/{repo}/commits',
-      {
-        owner: constants.owner,
-        repo: constants.repo,
-        // eslint-disable-next-line camelcase
-        per_page: constants.perPage,
-        path,
-      },
-    );
+    const { status, data } = await this.gitHubClient.getVetsWebsiteCommits({
+      path,
+    });
 
     if (status === 200) {
       for (let i = 0; i < data.length; i += 1) {
