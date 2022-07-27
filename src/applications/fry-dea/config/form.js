@@ -1074,24 +1074,22 @@ const formConfig = {
                 'ui:validations': [
                   (errors, field, formData) => {
                     const isYes = field.slice(0, 4).includes('Yes');
-                    const phoneExists = !!formData[formFields.viewPhoneNumbers][
-                      formFields.mobilePhoneNumber
-                    ].phone;
-                    const isInternational =
-                      formData[formFields.viewPhoneNumbers][
-                        formFields.mobilePhoneNumberInternational
-                      ];
+                    if (!isYes) {
+                      return;
+                    }
 
-                    if (isYes) {
-                      if (!phoneExists) {
-                        errors.addError(
-                          'You can’t select that response because we don’t have a mobile phone number on file for you.',
-                        );
-                      } else if (isInternational) {
-                        errors.addError(
-                          'You can’t select that response because you have an international mobile phone number',
-                        );
-                      }
+                    const { phone, isInternational } = formData[
+                      formFields.viewPhoneNumbers
+                    ][formFields.mobilePhoneNumber];
+
+                    if (!phone) {
+                      errors.addError(
+                        'You can’t select that response because we don’t have a mobile phone number on file for you.',
+                      );
+                    } else if (isInternational) {
+                      errors.addError(
+                        'You can’t select that response because you have an international mobile phone number',
+                      );
                     }
                   },
                 ],
