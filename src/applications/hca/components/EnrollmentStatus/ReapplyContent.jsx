@@ -10,7 +10,7 @@ const ReapplyContent = ({ route }) => {
   return (
     <>
       <HCASubwayMap />
-      <div data-test-id="hca-sip-intro" className="vads-u-margin-y--3">
+      <div className="vads-u-margin-y--3">
         <SaveInProgressIntro
           startText="Start the health care application"
           messages={formConfig.savedFormMessages}
