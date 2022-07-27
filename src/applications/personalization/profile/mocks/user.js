@@ -1026,7 +1026,7 @@ const mockUserData = {
             areaCode: '989',
             countryCode: '1',
             createdAt: '2018-04-20T17:22:56.000Z',
-            extension: null,
+            extension: '123',
             effectiveEndDate: null,
             effectiveStartDate: '2022-03-11T16:31:55.000Z',
             id: 2272982,

@@ -1,4 +1,6 @@
 import backendServices from '~/platform/user/profile/constants/backendServices';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import {
   selectAvailableServices,
   selectVAPContactInfo,
@@ -7,6 +9,7 @@ import {
 import {
   VAP_SERVICE_INITIALIZATION_STATUS,
   INIT_VAP_SERVICE_ID,
+  FIELD_NAMES,
 } from './constants';
 
 import { isVAProfileServiceConfigured } from './util/local-vapsvc';
@@ -160,4 +163,12 @@ export const selectCopyAddressModal = state => {
 
 export const selectTransactionIntervalId = state => {
   return state?.transactionsIntervalId;
+};
+
+export const selectUseInformationEditViewVAFSC = (state, fieldName) => {
+  const fieldsToUseVAFSC = [FIELD_NAMES.HOME_PHONE];
+  return (
+    toggleValues(state)?.[FEATURE_FLAG_NAMES.profileUseVAFSC] &&
+    fieldsToUseVAFSC.includes(fieldName)
+  );
 };
