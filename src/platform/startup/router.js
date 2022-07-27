@@ -5,19 +5,106 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { CompatRouter, Routes } from 'react-router-dom-v5-compat';
-import { Formik } from 'formik';
-import {
-  FormFooter,
-  FormTitle,
-} from '@department-of-veterans-affairs/va-forms-system-core';
+import { CompatRouter } from 'react-router-dom-v5-compat';
+import { FormRouter } from '@department-of-veterans-affairs/va-forms-system-core';
 import startReactApp from './react';
 import setUpCommonFunctionality from './setup';
 
 const initialValues = {
   relationship: {
     type: '',
+    other: '',
+    isEntity: null,
   },
+  locationOfDeath: {
+    location: '',
+    other: '',
+  },
+  toursOfDuty: [
+    {
+      dateRange: {
+        from: '',
+        to: '',
+      },
+      serviceBranch: '',
+      rank: '',
+      serviceNumber: '',
+      placeOfEntry: '',
+      placeOfSeparation: '',
+    },
+  ],
+  veteranServedUnderAnotherName: null,
+  previousNames: [
+    {
+      first: '',
+      middle: '',
+      last: '',
+      suffix: '',
+    },
+  ],
+  claimantEmail: '',
+  benefitsSelection: {
+    burialAllowance: null,
+    plotAllowance: null,
+    transportation: null,
+  },
+  burialAllowance: null,
+  plotAllowance: null,
+  transportation: null,
+  amountIncurred: 0,
+  burialAllowanceRequested: '',
+  burialCost: 0,
+  placeOfRemains: '',
+  federalCemetery: null,
+  stateCemetery: null,
+  govtContributions: null,
+  amountGovtContribution: 0,
+  placeOfBirth: '',
+  officialPosition: '',
+  firmName: '',
+  privacyAgreementAccepted: null,
+  claimantAddress: {
+    isMilitaryBaseOutside: null,
+    streetAddress: '',
+    streetAddressLine2: '',
+    streetAddressLine3: '',
+    city: '',
+    state: '',
+    country: '',
+    postalCode: '',
+  },
+  claimantPhone: '',
+  claimantFullName: {
+    first: '',
+    middle: '',
+    last: '',
+    suffix: '',
+  },
+  veteranFullName: {
+    first: '',
+    middle: '',
+    last: '',
+    suffix: '',
+  },
+  veteranSocialSecurityNumber: '',
+  vaFileNumber: '',
+  burialDate: '',
+  deathDate: '',
+  veteranDateOfBirth: '',
+  deathCertificate: [
+    {
+      name: '',
+      size: '',
+      confirmationCode: '',
+    },
+  ],
+  transportationReceipts: [
+    {
+      name: '',
+      size: '',
+      confirmationCode: '',
+    },
+  ],
 };
 
 /**
@@ -63,22 +150,13 @@ export default function startApp({
     content = (
       <BrowserRouter basename={url}>
         <CompatRouter>
-          <Formik
-            initialValues={initialValues}
-            onSubmit={(values, actions) => {
-              // eslint-disable-next-line no-console
-              console.log(values, actions);
-            }}
+          <FormRouter
+            formData={initialValues}
+            title="Burial POC"
+            subTitle="Example form for Burials using VAFSC"
           >
-            <form>
-              <FormTitle
-                title="My Test Form Title"
-                subTitle="Here is a cool Sub title"
-              />
-              <Routes>{routes}</Routes>
-              <FormFooter />
-            </form>
-          </Formik>
+            {routes}
+          </FormRouter>
         </CompatRouter>
       </BrowserRouter>
     );
