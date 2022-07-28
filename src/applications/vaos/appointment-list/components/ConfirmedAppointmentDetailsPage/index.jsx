@@ -34,11 +34,20 @@ export default function ConfirmedAppointmentDetailsPage() {
   );
   const appointmentDate = moment.parseZone(appointment?.start);
 
-  useEffect(() => {
-    dispatch(fetchConfirmedAppointmentDetails(id, 'va'));
+  const { isVideo } = appointment.vaos;
+  const { isCommunityCare } = appointment.vaos;
+  const isVA = !isVideo && !isCommunityCare;
 
-    scrollAndFocus();
-  }, []);
+  const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
+
+  useEffect(
+    () => {
+      dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
+
+      scrollAndFocus();
+    },
+    [dispatch, appointmentTypePrefix],
+  );
 
   useEffect(
     () => {
@@ -94,9 +103,6 @@ export default function ConfirmedAppointmentDetailsPage() {
       </FullWidthLayout>
     );
   }
-  const { isVideo } = appointment.vaos;
-  const { isCommunityCare } = appointment.vaos;
-  const isVA = !isVideo && !isCommunityCare;
 
   return (
     <PageLayout>
@@ -110,7 +116,7 @@ export default function ConfirmedAppointmentDetailsPage() {
           useV2={useV2}
         />
       )}
-      {isCommunityCare && <DetailsCC appointment={appointment} useV2={false} />}
+      {isCommunityCare && <DetailsCC appointment={appointment} />}
       <CancelAppointmentModal
         {...cancelInfo}
         onConfirm={() => dispatch(confirmCancelAppointment())}
