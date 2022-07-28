@@ -99,11 +99,9 @@ export function ConsentNotice() {
         someone independent of the research team please contact the Stanford
         Institutional Review Board (IRB) at{' '}
         <va-telephone contact="6507235244" /> or toll free at{' '}
-        <a href="tel:1-866-680-2906" aria-label="1 8 6 6 6 8 0 2 9 0 6">
-          1-866-680-2906
-        </a>
-        . You can also write to the Stanford IRB, Stanford University, 1705 El
-        Camino Real, Palo Alto, CA 94306.
+        <va-telephone international contact="8666802906" />. You can also write
+        to the Stanford IRB, Stanford University, 1705 El Camino Real, Palo
+        Alto, CA 94306.
       </p>
     </span>
   );
