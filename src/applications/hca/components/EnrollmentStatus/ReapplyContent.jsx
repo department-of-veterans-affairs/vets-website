@@ -19,7 +19,7 @@ const ReapplyContent = ({ route }) => {
           buttonOnly
         />
       </div>
-      <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
+      <div className="omb-info--container vads-u-padding-left--0">
         <HcaOMBInfo />
       </div>
     </>
