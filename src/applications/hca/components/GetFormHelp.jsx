@@ -1,7 +1,7 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-function GetFormHelp() {
+const GetFormHelp = () => {
   return (
     <div>
       <p className="help-talk">
@@ -30,6 +30,6 @@ function GetFormHelp() {
       </p>
     </div>
   );
-}
+};
 
 export default GetFormHelp;

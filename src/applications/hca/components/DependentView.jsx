@@ -1,13 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default function DependentView({ formData }) {
+const DependentView = ({ formData }) => {
+  const { fullName, dependentRelation } = formData;
   return (
     <div>
       <strong>
-        {formData.fullName.first} {formData.fullName.last}
+        {fullName.first} {fullName.last}
       </strong>
       <br />
-      {formData.dependentRelation}
+      {dependentRelation}
     </div>
   );
-}
+};
+
+DependentView.propTypes = {
+  formData: PropTypes.object,
+};
+
+export default DependentView;

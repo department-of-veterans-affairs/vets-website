@@ -45,8 +45,9 @@ describe('hca <DemographicField>', () => {
       widgets: {},
       formContext,
     };
-    const demographicInformation =
-      formConfig.chapters.veteranInformation.pages.demographicInformation;
+    const {
+      demographicInformation,
+    } = formConfig.chapters.veteranInformation.pages;
 
     const tree = SkinDeep.shallowRender(
       <DemographicField
