@@ -2589,17 +2589,6 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@0.20.1":
-  version "0.20.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-0.20.1.tgz#69840f06697c716443949dc767fa89a95dacf79d"
-  integrity sha512-QYn81vfqjre2xQyzIVZxYpB63+yRBm9JCI12TAcJxbYe51PT8RI2P+zateK/vutiiJMNwcbqmtxsVuq3yM+7Uw==
-  dependencies:
-    "@stencil/core" "^2.10.0"
-    "@stencil/postcss" "^2.0.0"
-    classnames "^2.3.1"
-    intersection-observer "^0.12.0"
-    postcss-url "^10.1.1"
-
 "@department-of-veterans-affairs/web-components@4.9.1":
   version "4.9.1"
   resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.9.1.tgz#f7e8135a0123d21eea190410e36e21caf051b404"
