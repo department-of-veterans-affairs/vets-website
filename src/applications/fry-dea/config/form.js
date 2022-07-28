@@ -1073,7 +1073,7 @@ const formConfig = {
                 'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {
-                    const isYes = field.slice(0, 4).includes('Yes');
+                    const isYes = field?.slice(0, 4).includes('Yes');
                     if (!isYes) {
                       return;
                     }
@@ -1116,14 +1116,19 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
+                  (formData[formFields.viewReceiveTextMessages][
+                    formFields.receiveTextMessages
+                  ] &&
+                    !formData[formFields.viewReceiveTextMessages][
+                      formFields.receiveTextMessages
+                    ]
+                      .slice(0, 4)
+                      .includes('Yes')) ||
                   isValidPhone(
                     formData[formFields.viewPhoneNumbers][
                       formFields.mobilePhoneNumber
                     ].phone,
-                  ) ||
-                  formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumber
-                  ].isInternational,
+                  ),
               },
             },
             'view:internationalTextMessageAlert': {
@@ -1132,13 +1137,21 @@ const formConfig = {
                   <>
                     You can’t choose to get text notifications because you have
                     an international mobile phone number. At this time, we can
-                    send text messages about your education benefits to U.S.
-                    mobile phone numbers.
+                    send text messages about your education benefits only to
+                    U.S. mobile phone numbers.
                   </>
                 </va-alert>
               ),
               'ui:options': {
                 hideIf: formData =>
+                  (formData[formFields.viewReceiveTextMessages][
+                    formFields.receiveTextMessages
+                  ] &&
+                    !formData[formFields.viewReceiveTextMessages][
+                      formFields.receiveTextMessages
+                    ]
+                      .slice(0, 4)
+                      .includes('Yes')) ||
                   !isValidPhone(
                     formData[formFields.viewPhoneNumbers][
                       formFields.mobilePhoneNumber
@@ -1146,7 +1159,7 @@ const formConfig = {
                   ) ||
                   !formData[formFields.viewPhoneNumbers][
                     formFields.mobilePhoneNumber
-                  ].isInternational,
+                  ]?.isInternational,
               },
             },
           },
@@ -1161,7 +1174,7 @@ const formConfig = {
                 type: 'string',
                 enum: contactMethods,
               },
-              'view:receiveTextMessages': {
+              [formFields.viewReceiveTextMessages]: {
                 type: 'object',
                 required: [formFields.receiveTextMessages],
                 properties: {
