@@ -43,8 +43,7 @@ const AvailableDebts = () => {
   const dispatch = useDispatch();
   useEffect(
     () => {
-      // fetchDebtLetters(dispatch);
-      dispatch(fetchDebts());
+      fetchDebts(dispatch);
       if (isCFSRActive) {
         getStatements(dispatch);
       }
@@ -66,7 +65,7 @@ const AvailableDebts = () => {
     );
   }
 
-  if (!isCFSRActive && !debts.length) {
+  if (!debts.length && (!isCFSRActive || !statementsByUniqueFacility.length)) {
     return <NoDebts />;
   }
 

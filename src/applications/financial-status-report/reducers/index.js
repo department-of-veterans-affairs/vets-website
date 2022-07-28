@@ -16,7 +16,6 @@ const initialState = {
   isError: false,
   errorCode: {},
   pending: true,
-  pendingDebts: true,
   pendingCopays: true,
   debts: [],
   statements: [],
