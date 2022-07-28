@@ -21,7 +21,7 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 // import * as personId from 'platform/forms/definitions/personId';
 // import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
+// import preSubmitInfo from 'platform/forms/preSubmitInfo';
 // import {
 //   validateMonthYear,
 //   validateFutureDateIfExpectedGrad,
@@ -64,6 +64,7 @@ import MailingAddressViewField from '../components/MailingAddressViewField';
 import VeteransRadioGroup from '../components/VeteransRadioGroup';
 import SelectedVeteranReviewPage from '../components/SelectedVeteranReviewPage';
 import FryDeaEligibilityCards from '../components/FryDeaEligibilityCards';
+import PreSubmitInfo from '../components/PreSubmitInfo';
 
 const { date, fullName } = fullSchema5490.definitions;
 const { /* fullName, date, dateRange, usaPhone, */ email } = commonDefinitions;
@@ -113,7 +114,7 @@ const formConfig = {
     fullName,
     date,
   },
-  preSubmitInfo,
+  preSubmitInfo: PreSubmitInfo,
   chapters: {
     applicantInformationChapter: {
       title: 'Your information',
