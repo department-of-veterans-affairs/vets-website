@@ -43,7 +43,7 @@
     "list-imports:plat": "node script/list-imports.js --app-dir platform",
     "migrate-component": "node script/component-migration/index.js",
     "mock-api": "node src/platform/testing/e2e/mockapi.js",
-    "modulesf:del": "./script/delete-modules-f.sh",
+    "modules-folder:del": "./script/delete-modules-folder.sh",
     "new:app": "yo @department-of-veterans-affairs/vets-website && npm run lint:js:untracked:fix",
     "pact:can-i-deploy": "node ./script/can-i-deploy.js",
     "pact:publish": "node ./script/publish-pacts.js",
@@ -265,7 +265,7 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@department-of-veterans-affairs/component-library": "^11.0.0",
+    "@department-of-veterans-affairs/component-library": "^11.2.1",
     "@department-of-veterans-affairs/formation": "^7.0.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
     "@department-of-veterans-affairs/va-forms-system-core": "0.0.2",
