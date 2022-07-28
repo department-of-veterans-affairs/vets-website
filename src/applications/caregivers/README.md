@@ -47,10 +47,6 @@ We are using version 1 of the forms library, Formation. This is a straight forwa
 
 This uses the Caregivers API, the main controller is [here](https://github.com/department-of-veterans-affairs/vets-api/blob/master/app/controllers/v0/caregivers_assistance_claims_controller.rb).
 
-### Feature toggles
-
-We currently have a feature toggle for document uploads, `can_upload_10_10cg_poa`. Its currently conditional enabled for a `Percentage Of Actors`.
-
 ### How to test new features?
 
 Currently, there are no lower environments for CARMA. We are currently working through that problem.

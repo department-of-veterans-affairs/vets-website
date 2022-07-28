@@ -11,7 +11,6 @@ export const SecondaryCaregiverInfo = ({
 }) => {
   const formData = formContext?.formData || {};
   const { veteranFullName: name, veteranAddress: address } = formData;
-  const canAutofillAddress = formData['view:canAutofill1010cgAddress'];
 
   return (
     <>
@@ -19,22 +18,21 @@ export const SecondaryCaregiverInfo = ({
 
       {showPageIntro && <p className="vads-u-margin-top--2">{introText}</p>}
 
-      {showContactIntro &&
-        canAutofillAddress && (
-          <>
-            <p className="vads-u-margin-top--2">{introText}</p>
-            <p className="vads-u-font-size--h4 vads-u-margin-bottom--1">
-              <strong>Veteran address</strong>
-            </p>
-            <p className="va-address-block vads-u-margin-left--0">
-              {name.first} {name.middle} {name.last}
-              <br />
-              {address.street} {address.street2}
-              <br />
-              {address.city}, {address.state} {address.postalCode}
-            </p>
-          </>
-        )}
+      {showContactIntro && (
+        <>
+          <p className="vads-u-margin-top--2">{introText}</p>
+          <p className="vads-u-font-size--h4 vads-u-margin-bottom--1">
+            <strong>Veteran address</strong>
+          </p>
+          <p className="va-address-block vads-u-margin-left--0">
+            {name.first} {name.middle} {name.last}
+            <br />
+            {address.street} {address.street2}
+            <br />
+            {address.city}, {address.state} {address.postalCode}
+          </p>
+        </>
+      )}
 
       {additionalInfo && (
         <section className="vads-u-margin-y--1p5">
