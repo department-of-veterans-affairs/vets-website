@@ -66,10 +66,10 @@ const LoggedOutIntroContent = ({ route, showLoginAlert, toggleLoginModal }) => {
       ) : (
         <div className="vads-u-margin-y--3">
           <SaveInProgressIntro
-            prefillEnabled={route.formConfig.prefillEnabled}
-            messages={route.formConfig.savedFormMessages}
-            downtime={route.formConfig.downtime}
-            pageList={route.pageList}
+            prefillEnabled={formConfig.prefillEnabled}
+            messages={formConfig.savedFormMessages}
+            downtime={formConfig.downtime}
+            pageList={pageList}
             startText="Start the health care application"
             buttonOnly
           />
