@@ -35,8 +35,8 @@ const NeedHelpFooter = () => {
         If this form isn’t working right for you, please call us at{' '}
         <va-telephone contact={CONTACTS.HELP_DESK} />.<br />
         <span>
-          If you have hearing loss, call TTY:{' '}
-          <va-telephone contact={CONTACTS['711']} />.
+          If you have hearing loss, call{' '}
+          <va-telephone contact={CONTACTS['711']} tty />.
         </span>
       </p>
     </>
