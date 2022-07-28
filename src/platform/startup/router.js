@@ -6,106 +6,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { CompatRouter } from 'react-router-dom-v5-compat';
-import { FormRouter } from '@department-of-veterans-affairs/va-forms-system-core';
 import startReactApp from './react';
 import setUpCommonFunctionality from './setup';
-
-const initialValues = {
-  relationship: {
-    type: '',
-    other: '',
-    isEntity: null,
-  },
-  locationOfDeath: {
-    location: '',
-    other: '',
-  },
-  toursOfDuty: [
-    {
-      dateRange: {
-        from: '',
-        to: '',
-      },
-      serviceBranch: '',
-      rank: '',
-      serviceNumber: '',
-      placeOfEntry: '',
-      placeOfSeparation: '',
-    },
-  ],
-  veteranServedUnderAnotherName: null,
-  previousNames: [
-    {
-      first: '',
-      middle: '',
-      last: '',
-      suffix: '',
-    },
-  ],
-  claimantEmail: '',
-  benefitsSelection: {
-    burialAllowance: null,
-    plotAllowance: null,
-    transportation: null,
-  },
-  burialAllowance: null,
-  plotAllowance: null,
-  transportation: null,
-  amountIncurred: 0,
-  burialAllowanceRequested: '',
-  burialCost: 0,
-  placeOfRemains: '',
-  federalCemetery: null,
-  stateCemetery: null,
-  govtContributions: null,
-  amountGovtContribution: 0,
-  placeOfBirth: '',
-  officialPosition: '',
-  firmName: '',
-  privacyAgreementAccepted: null,
-  claimantAddress: {
-    isMilitaryBaseOutside: null,
-    streetAddress: '',
-    streetAddressLine2: '',
-    streetAddressLine3: '',
-    city: '',
-    state: '',
-    country: '',
-    postalCode: '',
-  },
-  claimantPhone: '',
-  claimantFullName: {
-    first: '',
-    middle: '',
-    last: '',
-    suffix: '',
-  },
-  veteranFullName: {
-    first: '',
-    middle: '',
-    last: '',
-    suffix: '',
-  },
-  veteranSocialSecurityNumber: '',
-  vaFileNumber: '',
-  burialDate: '',
-  deathDate: '',
-  veteranDateOfBirth: '',
-  deathCertificate: [
-    {
-      name: '',
-      size: '',
-      confirmationCode: '',
-    },
-  ],
-  transportationReceipts: [
-    {
-      name: '',
-      size: '',
-      confirmationCode: '',
-    },
-  ],
-};
 
 /**
  * Starts an application in the default element for standalone React
@@ -149,38 +51,7 @@ export default function startApp({
   } else if (routes) {
     content = (
       <BrowserRouter basename={url}>
-        <CompatRouter>
-          <FormRouter
-            formData={initialValues}
-            title="Burial POC"
-            subTitle="Example form for Burials using VAFSC"
-          >
-            {routes}
-          </FormRouter>
-          {/* 
-          <FormRouter
-            formData={initialValues}
-            title="Burial POC"
-            subTitle="Example form for Burials using VAFSC"
-          >
-            <Route path="/hello" element={<h1>Hello From the other side</h1>} />
-          </FormRouter> */}
-          {/* 
-          <div className="row">
-            <div className="usa-width-two-thirds medium-8 columns">
-              <Formik initialValues={initialValues}>
-                <form>
-                  <FormTitle
-                    title="Burial POC"
-                    subTitle="Here is my subTitle for Burial POC"
-                  />
-                  <Routes>{routes}</Routes>
-                  <FormFooter />
-                </form>
-              </Formik>
-            </div>
-          </div> */}
-        </CompatRouter>
+        <CompatRouter>{routes}</CompatRouter>
       </BrowserRouter>
     );
   }

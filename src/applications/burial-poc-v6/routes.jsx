@@ -1,6 +1,9 @@
 import React from 'react';
 import { Route } from 'react-router-dom-v5-compat';
-import { ConditionalRoute } from '@department-of-veterans-affairs/va-forms-system-core';
+import {
+  ConditionalRoute,
+  FormRouter,
+} from '@department-of-veterans-affairs/va-forms-system-core';
 import BenefitsSelection from './containers/BenefitsSelection';
 import BurialIntroduction from './containers/BurialIntroduction';
 import ClaimantInformation from './containers/ClaimantInformation';
@@ -13,6 +16,7 @@ import PlotAllowance from './containers/PlotAllowance';
 import ClaimantContactInformation from './containers/ClaimantContactInformation';
 import ReviewPage from './containers/ReviewPage';
 import ConfirmationPage from './containers/ConfirmationPage';
+import { initialValues } from './config/formikData';
 
 const NoMatch = props => (
   <main style={{ padding: '1rem' }}>
@@ -21,7 +25,11 @@ const NoMatch = props => (
 );
 
 const newRoutes = (
-  <>
+  <FormRouter
+    formData={initialValues}
+    title="Burial POC"
+    subTitle="Example form for Burials using VAFSC"
+  >
     <Route index element={<BurialIntroduction title="Introduction Page" />} />
     <Route
       path="/claimant-information"
@@ -90,7 +98,7 @@ const newRoutes = (
       element={<ConfirmationPage title="Claim submitted" />}
     />
     <Route path="*" element={<NoMatch name="No Routes for App" />} />
-  </>
+  </FormRouter>
 );
 
 export default newRoutes;
