@@ -21,7 +21,10 @@ export const cernerFacilitiesFromVamcEhrData = (
     }));
 
     if (includeStaged) {
-      return flattened;
+      return flattened.filter(
+        facility =>
+          facility.ehr === 'cerner' || facility.ehr === 'cerner_staged',
+      );
     }
 
     return flattened.filter(facility => facility.ehr === 'cerner');
