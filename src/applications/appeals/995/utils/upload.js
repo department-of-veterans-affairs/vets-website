@@ -7,17 +7,7 @@ import fullSchema from '../config/form-0995-schema.json';
 
 import { MAX_FILE_SIZE_BYTES, SUPPORTED_UPLOAD_TYPES } from '../constants';
 
-export const ancillaryFormUploadUi = (
-  label,
-  itemDescription,
-  {
-    attachmentId = '',
-    widgetType = 'select',
-    customClasses = '',
-    isDisabled = false,
-    addAnotherLabel = 'Add Another',
-  } = {},
-) => {
+export const ancillaryFormUploadUi = content => {
   // a11y focus management. Move focus to select after upload
   // see va.gov-team/issues/19688
   const findAndFocusLastSelect = () => {
@@ -27,9 +17,11 @@ export const ancillaryFormUploadUi = (
       focusElement(lastSelect[0]);
     }
   };
-  return fileUploadUI(label, {
-    itemDescription,
-    hideLabelText: !label,
+  const addAnotherLabel = 'Add another document';
+
+  return fileUploadUI(content.label, {
+    itemDescription: content.description,
+    hideLabelText: !content.label,
     fileUploadUrl: `${environment.API_URL}/v0/upload_supporting_evidence`,
     addAnotherLabel,
     fileTypes: SUPPORTED_UPLOAD_TYPES,
@@ -52,20 +44,19 @@ export const ancillaryFormUploadUi = (
       return {
         name: file.name,
         confirmationCode: response.data.attributes.guid,
-        attachmentId,
+        attachmentId: '',
       };
     },
     attachmentSchema: ({ fileId }) => ({
       'ui:title': 'Document type',
-      'ui:disabled': isDisabled,
-      'ui:widget': widgetType,
+      'ui:disabled': false,
+      'ui:widget': 'select',
       'ui:options': {
         widgetProps: {
           'aria-describedby': fileId,
         },
       },
     }),
-    classNames: customClasses,
     attachmentName: false,
   });
 };
