@@ -28,7 +28,7 @@ import FirstSponsorReviewPage from '../components/FirstSponsorReviewPage';
 import GoToYourProfileLink from '../components/GoToYourProfileLink';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 import MailingAddressViewField from '../components/MailingAddressViewField';
-import NewGetHelp from '../components/NewGetHelp';
+import GetHelp from '../components/GetHelp';
 import PhoneReviewField from '../components/PhoneReviewField';
 import PhoneViewField from '../components/PhoneViewField';
 import SelectedSponsorsReviewPage from '../components/SelectedSponsorsReviewPage';
@@ -52,25 +52,7 @@ import {
   validateEmail,
 } from '../utils/validation';
 
-import { SPONSOR_RELATIONSHIP, newFormFields } from '../constants';
-
-const newFormPages = {
-  newApplicantInformation: 'newApplicantInformation',
-  newContactInformation: {
-    newContactInformation: 'newContactInformation',
-    newMailingAddress: 'newMailingAddress',
-    newPreferredContactMethod: 'newPreferredContactMethod',
-  },
-  newServiceHistory: 'newServiceHistory',
-  newBenefitSelection: 'newBenefitSelection',
-  newDirectDeposit: 'newDirectDeposit',
-  newFirstSponsorSelection: 'newFirstSponsorSelection',
-  newSponsorInformation: 'newSponsorInformation',
-  newSponsorHighSchool: 'newSponsorHighSchool',
-  newSponsorSelection: 'newSponsorSelection',
-  newSponsorSelectionReview: 'newSponsorSelectionReview',
-  newVerifyHighSchool: 'newVerifyHighSchool',
-};
+import { SPONSOR_RELATIONSHIP, formFields } from '../constants';
 
 const { fullName, date, usaPhone, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
@@ -98,9 +80,7 @@ function phoneUISchema(category, parent, international) {
       'ui:options': {
         // expandUnder: parent,
         hideIf: formData =>
-          !isValidPhone(
-            formData[newFormFields.newViewPhoneNumbers][parent].phone,
-          ),
+          !isValidPhone(formData[formFields.viewPhoneNumbers][parent].phone),
       },
     },
   };
@@ -146,14 +126,14 @@ const formConfig = {
       'Please sign in again to continue your application for survivor dependent benefits.',
   },
   defaultDefinitions: {},
-  getHelp: NewGetHelp,
+  getHelp: GetHelp,
   chapters: {
-    newApplicantInformationChapter: {
+    applicantInformationChapter: {
       title: 'Your information',
       pages: {
-        [newFormPages.newApplicantInformation]: {
+        applicantInformation: {
           title: 'Your information',
-          path: 'applicant-information/personal-information',
+          path: 'applicant-information',
           subTitle: 'Your information',
           instructions:
             'This is the personal information we have on file for you.',
@@ -179,7 +159,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newUserFullName]: {
+            [formFields.userFullName]: {
               ...fullNameUI,
               first: {
                 ...fullNameUI.first,
@@ -208,7 +188,7 @@ const formConfig = {
                 'ui:title': 'Your middle name',
               },
             },
-            [newFormFields.newDateOfBirth]: {
+            [formFields.dateOfBirth]: {
               ...currentOrPastDateUI('Your date of birth'),
             },
             'view:dateOfBirthUnder18Alert': {
@@ -228,13 +208,12 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData => {
-                  if (!formData || !formData[newFormFields.newDateOfBirth]) {
+                  if (!formData || !formData[formFields.dateOfBirth]) {
                     return true;
                   }
 
                   const dateParts =
-                    formData &&
-                    formData[newFormFields.newDateOfBirth].split('-');
+                    formData && formData[formFields.dateOfBirth].split('-');
 
                   if (!dateParts || dateParts.length !== 3) {
                     return true;
@@ -260,14 +239,14 @@ const formConfig = {
                 },
               },
             },
-            [newFormFields.newParentGuardianSponsor]: {
+            [formFields.parentGuardianSponsor]: {
               'ui:title': 'Parent / Guardian signature',
               'ui:options': {
                 hideIf: formData =>
-                  hideUnder18Field(formData, newFormFields.newDateOfBirth),
+                  hideUnder18Field(formData, formFields.dateOfBirth),
               },
               'ui:required': formData =>
-                !hideUnder18Field(formData, newFormFields.newDateOfBirth),
+                !hideUnder18Field(formData, formFields.dateOfBirth),
               'ui:validations': [
                 (errors, field) =>
                   addWhitespaceOnlyError(
@@ -283,13 +262,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [newFormFields.newDateOfBirth],
+            required: [formFields.dateOfBirth],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newUserFullName]: {
+              [formFields.userFullName]: {
                 ...fullName,
                 properties: {
                   ...fullName.properties,
@@ -299,12 +278,12 @@ const formConfig = {
                   },
                 },
               },
-              [newFormFields.newDateOfBirth]: date,
+              [formFields.dateOfBirth]: date,
               'view:dateOfBirthUnder18Alert': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newParentGuardianSponsor]: {
+              [formFields.parentGuardianSponsor]: {
                 type: 'string',
               },
             },
@@ -315,16 +294,17 @@ const formConfig = {
     sponsorInformationChapter: {
       title: 'Sponsor information',
       pages: {
-        [newFormPages.newSponsorSelection]: {
+        sponsorSelection: {
           title: 'Choose your sponsor',
-          path: 'new/sponsor/select-sponsor',
+          path:
+            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/sponsor-selection',
           CustomPageReview: SelectedSponsorsReviewPage,
           depends: formData => formData.sponsors?.sponsors?.length,
           uiSchema: {
             'view:listOfSponsors': {
               'ui:description': <Sponsors />,
             },
-            [newFormFields.selectedSponsors]: {
+            [formFields.selectedSponsors]: {
               'ui:field': SponsorCheckboxGroup,
               'ui:required': formData => !!formData.sponsors?.sponsors?.length,
               'ui:options': {
@@ -361,7 +341,7 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.selectedSponsors]: {
+              [formFields.selectedSponsors]: {
                 type: 'array',
                 minItems: 1,
                 items: {
@@ -375,9 +355,10 @@ const formConfig = {
             },
           },
         },
-        [newFormPages.newSponsorInformation]: {
+        sponsorInformation: {
           title: 'Enter your sponsor’s info',
-          path: 'new/sponsor/information',
+          path:
+            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/sponsor-information',
           depends: formData => formData.sponsors?.someoneNotListed,
           uiSchema: {
             'view:noSponsorWarning': {
@@ -436,12 +417,12 @@ const formConfig = {
                 hideIf: formData => !formData.sponsors?.sponsors?.length,
               },
             },
-            [newFormFields.newRelationshipToServiceMember]: {
+            [formFields.relationshipToServiceMember]: {
               'ui:title':
                 'What’s your relationship to the service member whose benefit has been transferred to you?',
               'ui:widget': 'radio',
             },
-            [newFormFields.newSponsorFullName]: {
+            [formFields.sponsorFullName]: {
               ...fullNameUI,
               first: {
                 ...fullNameUI.first,
@@ -472,15 +453,15 @@ const formConfig = {
                 'ui:title': 'Your sponsor’s middle name',
               },
             },
-            [newFormFields.newSponsorDateOfBirth]: {
+            [formFields.sponsorDateOfBirth]: {
               ...currentOrPastDateUI('Your sponsor’s date of birth'),
             },
           },
           schema: {
             type: 'object',
             required: [
-              newFormFields.newRelationshipToServiceMember,
-              newFormFields.newSponsorDateOfBirth,
+              formFields.relationshipToServiceMember,
+              formFields.sponsorDateOfBirth,
             ],
             properties: {
               'view:noSponsorWarning': {
@@ -491,11 +472,11 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newRelationshipToServiceMember]: {
+              [formFields.relationshipToServiceMember]: {
                 type: 'string',
                 enum: [SPONSOR_RELATIONSHIP.SPOUSE, SPONSOR_RELATIONSHIP.CHILD],
               },
-              [newFormFields.newSponsorFullName]: {
+              [formFields.sponsorFullName]: {
                 ...fullName,
                 required: ['first', 'last'],
                 properties: {
@@ -506,13 +487,14 @@ const formConfig = {
                   },
                 },
               },
-              [newFormFields.newSponsorDateOfBirth]: date,
+              [formFields.sponsorDateOfBirth]: date,
             },
           },
         },
-        [newFormPages.newFirstSponsorSelection]: {
+        firstSponsorSelection: {
           title: 'Choose your first sponsor',
-          path: 'new/sponsor/select-first-sponsor',
+          path:
+            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/first-sponsor',
           CustomPageReview: FirstSponsorReviewPage,
           depends: formData => formData.selectedSponsors?.length > 1,
           uiSchema: {
@@ -528,7 +510,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.firstSponsor]: {
+            [formFields.firstSponsor]: {
               'ui:title':
                 'Which sponsor’s benefits would you like to use first?',
               'ui:widget': FirstSponsorRadioGroup,
@@ -559,13 +541,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [newFormFields.firstSponsor],
+            required: [formFields.firstSponsor],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.firstSponsor]: {
+              [formFields.firstSponsor]: {
                 type: 'string',
               },
               'view:firstSponsorAdditionalInfo': {
@@ -575,9 +557,10 @@ const formConfig = {
             },
           },
         },
-        [newFormPages.newVerifyHighSchool]: {
+        highSchool: {
           title: 'Verify your high school education',
-          path: 'new/child/high-school-education',
+          path:
+            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/high-school',
           depends: formData => applicantIsChildOfSponsor(formData),
           uiSchema: {
             'view:subHeadings': {
@@ -599,7 +582,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newHighSchoolDiploma]: {
+            [formFields.highSchoolDiploma]: {
               'ui:title':
                 'Did you earn a high school diploma or equivalency certificate?',
               'ui:widget': 'radio',
@@ -607,25 +590,26 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [newFormFields.newHighSchoolDiploma],
+            required: [formFields.highSchoolDiploma],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newHighSchoolDiploma]: {
+              [formFields.highSchoolDiploma]: {
                 type: 'string',
                 enum: ['Yes', 'No'],
               },
             },
           },
         },
-        [newFormPages.newSponsorHighSchool]: {
+        highSchoolGraduationDate: {
           title: 'Verify your high school graduation date',
-          path: 'new/sponsor/high-school-education',
+          path:
+            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/high-school-completion',
           depends: formData =>
             applicantIsChildOfSponsor(formData) &&
-            formData[newFormFields.newHighSchoolDiploma] === 'Yes',
+            formData[formFields.highSchoolDiploma] === 'Yes',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -646,7 +630,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newHighSchoolDiplomaDate]: {
+            [formFields.highSchoolDiplomaDate]: {
               ...currentOrPastDateUI(
                 'When did you earn your high school diploma or equivalency certificate?',
               ),
@@ -654,24 +638,25 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [newFormFields.newHighSchoolDiplomaDate],
+            required: [formFields.highSchoolDiplomaDate],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newHighSchoolDiplomaDate]: date,
+              [formFields.highSchoolDiplomaDate]: date,
             },
           },
         },
       },
     },
-    newContactInformationChapter: {
+    contactInformationChapter: {
       title: 'Contact information',
       pages: {
-        [newFormPages.newContactInformation.newContactInformation]: {
+        contactInformation: {
           title: 'Phone numbers and email address',
-          path: 'new/contact-information/email-phone',
+          path:
+            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/phone-email',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -703,7 +688,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newViewPhoneNumbers]: {
+            [formFields.viewPhoneNumbers]: {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 toe-review-page-only">
@@ -717,27 +702,27 @@ const formConfig = {
               ),
               ...phoneUISchema(
                 'mobile',
-                newFormFields.newMobilePhoneNumber,
-                newFormFields.newMobilePhoneNumberInternational,
+                formFields.mobilePhoneNumber,
+                formFields.mobilePhoneNumberInternational,
               ),
               ...phoneUISchema(
                 'home',
-                newFormFields.newPhoneNumber,
-                newFormFields.newPhoneNumberInternational,
+                formFields.phoneNumber,
+                formFields.phoneNumberInternational,
               ),
             },
-            [newFormFields.newEmail]: {
+            [formFields.email]: {
               'ui:options': {
                 hideLabelText: true,
                 showFieldLabel: false,
                 viewComponent: EmailViewField,
               },
-              [newFormFields.newEmail]: {
+              [formFields.email]: {
                 ...emailUI('Email address'),
                 'ui:validations': [validateEmail],
                 'ui:reviewField': EmailReviewField,
               },
-              [newFormFields.newConfirmEmail]: {
+              [formFields.confirmEmail]: {
                 ...emailUI('Confirm email address'),
                 'ui:options': {
                   ...emailUI()['ui:options'],
@@ -747,10 +732,9 @@ const formConfig = {
               'ui:validations': [
                 (errors, field) => {
                   if (
-                    field[newFormFields.newEmail] !==
-                    field[newFormFields.newConfirmEmail]
+                    field[formFields.email] !== field[formFields.confirmEmail]
                   ) {
-                    errors[newFormFields.newConfirmEmail].addError(
+                    errors[formFields.confirmEmail].addError(
                       'Sorry, your emails must match',
                     );
                   }
@@ -765,36 +749,34 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newViewPhoneNumbers]: {
+              [formFields.viewPhoneNumbers]: {
                 type: 'object',
                 properties: {
-                  [newFormFields.newMobilePhoneNumber]: phoneSchema(),
-                  [newFormFields.newMobilePhoneNumberInternational]: {
+                  [formFields.mobilePhoneNumber]: phoneSchema(),
+                  [formFields.mobilePhoneNumberInternational]: {
                     type: 'boolean',
                   },
-                  [newFormFields.newPhoneNumber]: phoneSchema(),
-                  [newFormFields.newPhoneNumberInternational]: {
+                  [formFields.phoneNumber]: phoneSchema(),
+                  [formFields.phoneNumberInternational]: {
                     type: 'boolean',
                   },
                 },
               },
-              [newFormFields.newEmail]: {
+              [formFields.email]: {
                 type: 'object',
-                required: [
-                  newFormFields.newEmail,
-                  newFormFields.newConfirmEmail,
-                ],
+                required: [formFields.email, formFields.confirmEmail],
                 properties: {
-                  [newFormFields.newEmail]: email,
-                  [newFormFields.newConfirmEmail]: email,
+                  [formFields.email]: email,
+                  [formFields.confirmEmail]: email,
                 },
               },
             },
           },
         },
-        [newFormPages.newContactInformation.newMailingAddress]: {
+        mailingAddress: {
           title: 'Mailing address',
-          path: 'new/contact-information/mailing-address',
+          path:
+            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/mailing-address',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -845,7 +827,7 @@ const formConfig = {
               livesOnMilitaryBaseInfo: {
                 'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
               },
-              [newFormFields.newAddress]: {
+              [formFields.address]: {
                 ...address.uiSchema(''),
                 street: {
                   'ui:title': 'Street address',
@@ -912,7 +894,7 @@ const formConfig = {
                     type: 'object',
                     properties: {},
                   },
-                  [newFormFields.newAddress]: {
+                  [formFields.address]: {
                     ...address.schema(fullSchema1990e, true),
                   },
                 },
@@ -920,9 +902,10 @@ const formConfig = {
             },
           },
         },
-        [newFormPages.newContactInformation.newPreferredContactMethod]: {
+        preferredContactMethod: {
           title: 'Contact preferences',
-          path: 'new/contact-information/contact-preferences',
+          path:
+            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/preferred-contact-method',
           uiSchema: {
             'view:contactMethodIntro': {
               'ui:description': (
@@ -933,7 +916,7 @@ const formConfig = {
                 </>
               ),
             },
-            [newFormFields.newContactMethod]: {
+            [formFields.contactMethod]: {
               'ui:title':
                 'How should we contact you if we have questions about your application?',
               'ui:widget': 'radio',
@@ -944,13 +927,12 @@ const formConfig = {
                 updateSchema: (() => {
                   const filterContactMethods = createSelector(
                     form =>
-                      form[newFormFields.newViewPhoneNumbers][
-                        newFormFields.newMobilePhoneNumber
+                      form[formFields.viewPhoneNumbers][
+                        formFields.mobilePhoneNumber
                       ]?.phone,
                     form =>
-                      form[newFormFields.newViewPhoneNumbers][
-                        newFormFields.newPhoneNumber
-                      ]?.phone,
+                      form[formFields.viewPhoneNumbers][formFields.phoneNumber]
+                        ?.phone,
                     (mobilePhoneNumber, homePhoneNumber) => {
                       const invalidContactMethods = [];
                       if (!mobilePhoneNumber) {
@@ -1002,19 +984,19 @@ const formConfig = {
                   </div>
                 </>
               ),
-              [newFormFields.newReceiveTextMessages]: {
+              [formFields.receiveTextMessages]: {
                 'ui:title':
                   'Would you like to receive text message notifications on your education benefits?',
                 'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {
                     const isYes = field.slice(0, 4).includes('Yes');
-                    const phoneExists = !!formData[
-                      newFormFields.newViewPhoneNumbers
-                    ][newFormFields.newMobilePhoneNumber].phone;
+                    const phoneExists = !!formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
+                    ].phone;
                     const isInternational =
-                      formData[newFormFields.newViewPhoneNumbers][
-                        newFormFields.newMobilePhoneNumberInternational
+                      formData[formFields.viewPhoneNumbers][
+                        formFields.mobilePhoneNumberInternational
                       ];
 
                     if (isYes) {
@@ -1054,12 +1036,12 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   isValidPhone(
-                    formData[newFormFields.newViewPhoneNumbers][
-                      newFormFields.newMobilePhoneNumber
+                    formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
                     ].phone,
                   ) ||
-                  formData[newFormFields.newViewPhoneNumbers][
-                    newFormFields.newMobilePhoneNumberInternational
+                  formData[formFields.viewPhoneNumbers][
+                    formFields.mobilePhoneNumberInternational
                   ],
               },
             },
@@ -1077,12 +1059,12 @@ const formConfig = {
               'ui:options': {
                 hideIf: formData =>
                   !isValidPhone(
-                    formData[newFormFields.newViewPhoneNumbers][
-                      newFormFields.newMobilePhoneNumber
+                    formData[formFields.viewPhoneNumbers][
+                      formFields.mobilePhoneNumber
                     ].phone,
                   ) ||
-                  !formData[newFormFields.newViewPhoneNumbers][
-                    newFormFields.newMobilePhoneNumberInternational
+                  !formData[formFields.viewPhoneNumbers][
+                    formFields.mobilePhoneNumberInternational
                   ],
               },
             },
@@ -1094,15 +1076,15 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              [newFormFields.newContactMethod]: {
+              [formFields.contactMethod]: {
                 type: 'string',
                 enum: contactMethods,
               },
               'view:receiveTextMessages': {
                 type: 'object',
-                required: [newFormFields.newReceiveTextMessages],
+                required: [formFields.receiveTextMessages],
                 properties: {
-                  [newFormFields.newReceiveTextMessages]: {
+                  [formFields.receiveTextMessages]: {
                     type: 'string',
                     enum: [
                       'Yes, send me text message notifications',
@@ -1120,7 +1102,7 @@ const formConfig = {
                 properties: {},
               },
             },
-            required: [newFormFields.newContactMethod],
+            required: [formFields.contactMethod],
           },
         },
       },
@@ -1128,8 +1110,9 @@ const formConfig = {
     bankAccountInfoChapter: {
       title: 'Direct deposit',
       pages: {
-        [newFormPages.newDirectDeposit]: {
-          path: 'new/direct-deposit',
+        directDeposit: {
+          path:
+            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/direct-deposit',
           uiSchema: {
             'ui:description': (
               <p className="vads-u-margin-bottom--4">
@@ -1137,16 +1120,20 @@ const formConfig = {
                 deposit, also called electronic funds transfer (EFT).
               </p>
             ),
-            [newFormFields.newBankAccount]: {
+            [formFields.bankAccount]: {
               ...bankAccountUI,
-              'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
-              accountType: {
+              'ui:order': [
+                formFields.accountType,
+                formFields.accountNumber,
+                formFields.routingNumber,
+              ],
+              [formFields.accountType]: {
                 ...bankAccountUI.accountType,
                 'ui:errorMessages': {
                   required: 'Please select an account type',
                 },
               },
-              accountNumber: {
+              [formFields.accountNumber]: {
                 ...bankAccountUI.accountNumber,
                 'ui:validations': [
                   (errors, field) => {
@@ -1178,19 +1165,23 @@ const formConfig = {
           schema: {
             type: 'object',
             properties: {
-              [newFormFields.newBankAccount]: {
+              [formFields.bankAccount]: {
                 type: 'object',
-                required: ['accountType', 'routingNumber', 'accountNumber'],
+                required: [
+                  formFields.accountType,
+                  formFields.accountNumber,
+                  formFields.routingNumber,
+                ],
                 properties: {
-                  accountType: {
+                  [formFields.accountType]: {
                     type: 'string',
                     enum: ['checking', 'savings'],
                   },
-                  routingNumber: {
+                  [formFields.routingNumber]: {
                     type: 'string',
                     pattern: '^\\d{9}$',
                   },
-                  accountNumber: {
+                  [formFields.accountNumber]: {
                     type: 'string',
                   },
                 },

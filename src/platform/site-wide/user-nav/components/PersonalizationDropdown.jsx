@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
+import {
+  isAuthenticatedWithSSOe,
+  signInServiceName,
+} from 'platform/user/authentication/selectors';
 import { logoutUrl } from 'platform/user/authentication/utilities';
+import { logout as SISLogout } from 'platform/utilities/oauth/utilities';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -15,7 +20,31 @@ const recordMyHealthEvent = recordNavUserEvent('my-health');
 const recordProfileEvent = recordNavUserEvent('profile');
 
 export function PersonalizationDropdown(props) {
-  const { authenticatedWithSSOe } = props;
+  const { isSSOe, csp } = props;
+
+  const createSignout = useCallback(
+    () => {
+      const label = 'Sign Out';
+      return isSSOe ? (
+        <a href={logoutUrl()}>{label}</a>
+      ) : (
+        <button
+          type="button"
+          className="button-styled-as-link"
+          onClick={() => {
+            SISLogout({
+              signInServiceName: csp,
+              storedLocation: window.location.href,
+            });
+          }}
+        >
+          {label}
+        </button>
+      );
+    },
+    [isSSOe, csp],
+  );
+
   return (
     <ul>
       <li>
@@ -24,10 +53,7 @@ export function PersonalizationDropdown(props) {
         </a>
       </li>
       <li>
-        <a
-          href={mhvUrl(authenticatedWithSSOe, 'home')}
-          onClick={recordMyHealthEvent}
-        >
+        <a href={mhvUrl(isSSOe, 'home')} onClick={recordMyHealthEvent}>
           My Health
         </a>
       </li>
@@ -36,17 +62,19 @@ export function PersonalizationDropdown(props) {
           Profile
         </a>
       </li>
-      <li>
-        <a href={logoutUrl()}>Sign Out</a>
-      </li>
+      <li>{createSignout()}</li>
     </ul>
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
-  };
-}
+PersonalizationDropdown.propTypes = {
+  csp: PropTypes.oneOf(['idme', 'logingov', 'dslogon', 'mhv']),
+  isSSOe: PropTypes.bool,
+};
+
+const mapStateToProps = state => ({
+  isSSOe: isAuthenticatedWithSSOe(state),
+  csp: signInServiceName(state),
+});
 
 export default connect(mapStateToProps)(PersonalizationDropdown);

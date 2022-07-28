@@ -6,6 +6,7 @@ import Helpdesk from './HelpdeskContact';
 export default function RenderErrorContainer({
   code = AUTH_ERROR.DEFAULT,
   auth = AUTH_LEVEL.FAIL,
+  requestId = '',
   recordEvent = () => ({}),
   openLoginModal = () => ({}),
 }) {
@@ -370,8 +371,19 @@ export default function RenderErrorContainer({
         {alertContent}
       </va-alert>
       {troubleshootingContent}
-      <p>
-        <em>Error code: {code}</em>
+      <p className="vads-u-font-style--italic">
+        <span className="vads-u-display--block" data-testid="error-code">
+          Error code: {code}
+        </span>
+        <span data-testid="request-id" className="vads-u-display--block">
+          Request ID: {requestId}
+        </span>
+        <span className="vads-u-display--block" data-testid="timestamp">
+          {new Intl.DateTimeFormat('en-US', {
+            dateStyle: 'medium',
+            timeStyle: 'long',
+          }).format(new Date())}
+        </span>
       </p>
     </div>
   );
@@ -382,4 +394,5 @@ RenderErrorContainer.propTypes = {
   code: PropTypes.oneOf(Object.keys(AUTH_ERROR)),
   openLoginModal: PropTypes.func,
   recordEvent: PropTypes.func,
+  requestId: PropTypes.string,
 };

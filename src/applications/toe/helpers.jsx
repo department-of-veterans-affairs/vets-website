@@ -2,7 +2,7 @@ import { cloneDeep } from 'lodash';
 
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import {
-  newFormFields,
+  formFields,
   SPONSOR_NOT_LISTED_LABEL,
   SPONSOR_NOT_LISTED_VALUE,
   SPONSOR_RELATIONSHIP,
@@ -223,7 +223,7 @@ export function mapSponsorsToCheckboxOptions(sponsors) {
 }
 
 export const applicantIsChildOfSponsor = formData => {
-  const numSelectedSponsors = formData[newFormFields.selectedSponsors]?.length;
+  const numSelectedSponsors = formData[formFields.selectedSponsors]?.length;
 
   if (
     !numSelectedSponsors ||
@@ -232,7 +232,7 @@ export const applicantIsChildOfSponsor = formData => {
       formData.firstSponsor === SPONSOR_NOT_LISTED_VALUE)
   ) {
     return (
-      formData[newFormFields.newRelationshipToServiceMember] ===
+      formData[formFields.relationshipToServiceMember] ===
       SPONSOR_RELATIONSHIP.CHILD
     );
   }
