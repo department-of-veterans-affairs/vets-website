@@ -212,7 +212,6 @@ const LocationField = ({
             itemIdPrefix,
             definitions,
           );
-          const updateText = index === 0 ? 'Save' : 'Update';
           const isLast = itemsLength === index + 1;
           const isEditing = editing[index];
           const ariaLabel = uiOptions.itemAriaLabel;
@@ -262,10 +261,10 @@ const LocationField = ({
                           <button
                             type="button"
                             className="float-right"
-                            aria-label={`${updateText} ${itemName}`}
+                            aria-label={`Save ${itemName}`}
                             onClick={() => handleUpdate(index)}
                           >
-                            {updateText}
+                            Save
                           </button>
                           {itemsLength > 1 ? (
                             <button
