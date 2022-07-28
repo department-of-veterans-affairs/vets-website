@@ -1,4 +1,3 @@
-import differenceInSeconds from 'date-fns/differenceInSeconds';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
@@ -206,17 +205,13 @@ export const requestToken = async ({ code, redirectUri, csp }) => {
   return response;
 };
 
-export const refresh = async callback => {
+export const refresh = async () => {
   const url = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'refresh' }));
 
-  const response = await fetch(url.href, {
+  return fetch(url.href, {
     method: 'POST',
     credentials: 'include',
   });
-
-  if (callback) {
-    callback(response);
-  }
 };
 
 export const infoTokenExists = () => {
@@ -282,18 +277,6 @@ export const checkOrSetSessionExpiration = response => {
   }
 
   return false;
-};
-
-export const canCallRefresh = () => {
-  const atExpiration = localStorage.getItem('atExpires');
-
-  if (!atExpiration) return null;
-  // if less than 5 seconds until expiration return true
-  const shouldCallRefresh =
-    differenceInSeconds(new Date(atExpiration), new Date()) < 5;
-
-  localStorage.removeItem('atExpires');
-  return shouldCallRefresh;
 };
 
 export const logout = async ({ signInServiceName, storedLocation }) => {

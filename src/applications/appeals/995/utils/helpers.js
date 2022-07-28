@@ -58,7 +58,7 @@ export const getEligibleContestableIssues = issues => {
       .join(' ')
       .includes('deferred');
     const date = moment(approxDecisionDate);
-    if (isDeferred || !date.isValid()) {
+    if (isDeferred || !date.isValid() || !ratingIssueSubjectText) {
       return false;
     }
     return date.add(1, 'years').isAfter(today);
@@ -239,10 +239,10 @@ export const getItemSchema = (schema, index) => {
  * readableList(['1', '2', '3', '4', 'five'])
  * // => '1, 2, 3, 4 and five'
  */
-export const readableList = list => {
+export const readableList = (list, joiner = 'and') => {
   const cleanedList = list.filter(Boolean);
   return [cleanedList.slice(0, -1).join(', '), cleanedList.slice(-1)[0]].join(
-    cleanedList.length < 2 ? '' : ' and ',
+    cleanedList.length < 2 ? '' : ` ${joiner} `,
   );
 };
 
@@ -295,3 +295,15 @@ export const returnPhoneObject = phone => {
  */
 export const checkContestableIssueError = error =>
   (error && error?.errors?.[0]?.status !== '404') || false;
+
+export const hasVAEvidence = formData =>
+  formData?.['view:selectableEvidenceTypes']?.['view:hasVaEvidence'];
+export const hasPrivateEvidence = formData =>
+  formData?.['view:selectableEvidenceTypes']?.['view:hasPrivateEvidence'];
+export const hasOtherEvidence = formData =>
+  formData?.['view:selectableEvidenceTypes']?.['view:hasOtherEvidence'];
+export const hasPrivateEvidenceToUpload = formData =>
+  formData?.['view:uploadPrivateRecordsChoice']?.[
+    'view:hasPrivateRecordsToUpload'
+  ];
+// export const hasPrivateEvidenceUploads = formData =>

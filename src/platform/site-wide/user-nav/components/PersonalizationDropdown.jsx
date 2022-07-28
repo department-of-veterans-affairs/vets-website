@@ -68,8 +68,8 @@ export function PersonalizationDropdown(props) {
 }
 
 PersonalizationDropdown.propTypes = {
-  isSSOe: PropTypes.bool.isRequired,
   csp: PropTypes.oneOf(['idme', 'logingov', 'dslogon', 'mhv']),
+  isSSOe: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
