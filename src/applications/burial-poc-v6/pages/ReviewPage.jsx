@@ -2,8 +2,11 @@ import React, { useLayoutEffect } from 'react';
 import { useFormikContext } from 'formik';
 import { Link, useLocation } from 'react-router-dom';
 import { VaOnThisPage } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { Page } from '@department-of-veterans-affairs/va-forms-system-core';
-import { getRadioLabel, parseDate } from '../utils';
+import {
+  Page,
+  parseDate,
+} from '@department-of-veterans-affairs/va-forms-system-core';
+import { getRadioLabel } from '../utils';
 
 /**
  * Transforms fields value into value that is more readable

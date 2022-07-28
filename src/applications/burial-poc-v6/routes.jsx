@@ -3,20 +3,23 @@ import { Route } from 'react-router-dom-v5-compat';
 import {
   ConditionalRoute,
   FormRouter,
+  transformJSONSchema,
 } from '@department-of-veterans-affairs/va-forms-system-core';
-import BenefitsSelection from './containers/BenefitsSelection';
-import BurialIntroduction from './containers/BurialIntroduction';
-import ClaimantInformation from './containers/ClaimantInformation';
-import VeteranInformation from './containers/VeteranInformation';
-import BurialInformation from './containers/BurialInformation';
-import MilitaryServiceHistory from './containers/MilitaryServiceHistory';
-import PreviousNames from './containers/PreviousNames';
-import BurialAllowance from './containers/BurialAllowance';
-import PlotAllowance from './containers/PlotAllowance';
-import ClaimantContactInformation from './containers/ClaimantContactInformation';
-import ReviewPage from './containers/ReviewPage';
-import ConfirmationPage from './containers/ConfirmationPage';
-import { initialValues } from './config/formikData';
+import fullSchema from 'vets-json-schema/dist/21P-530-schema.json';
+import BenefitsSelection from './pages/BenefitsSelection';
+import BurialIntroduction from './pages/BurialIntroduction';
+import ClaimantInformation from './pages/ClaimantInformation';
+import VeteranInformation from './pages/VeteranInformation';
+import BurialInformation from './pages/BurialInformation';
+import MilitaryServiceHistory from './pages/MilitaryServiceHistory';
+import PreviousNames from './pages/PreviousNames';
+import BurialAllowance from './pages/BurialAllowance';
+import PlotAllowance from './pages/PlotAllowance';
+import ClaimantContactInformation from './pages/ClaimantContactInformation';
+import ReviewPage from './pages/ReviewPage';
+import ConfirmationPage from './pages/ConfirmationPage';
+
+const initialValues = transformJSONSchema(fullSchema);
 
 const NoMatch = props => (
   <main style={{ padding: '1rem' }}>
@@ -24,7 +27,7 @@ const NoMatch = props => (
   </main>
 );
 
-const newRoutes = (
+const routes = (
   <FormRouter
     formData={initialValues}
     title="Burial POC"
@@ -101,4 +104,4 @@ const newRoutes = (
   </FormRouter>
 );
 
-export default newRoutes;
+export default routes;
