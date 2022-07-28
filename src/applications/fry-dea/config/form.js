@@ -1122,8 +1122,8 @@ const formConfig = {
                     ].phone,
                   ) ||
                   formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumberInternational
-                  ],
+                    formFields.mobilePhoneNumber
+                  ].isInternational,
               },
             },
             'view:internationalTextMessageAlert': {
@@ -1145,8 +1145,8 @@ const formConfig = {
                     ].phone,
                   ) ||
                   !formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumberInternational
-                  ],
+                    formFields.mobilePhoneNumber
+                  ].isInternational,
               },
             },
           },
