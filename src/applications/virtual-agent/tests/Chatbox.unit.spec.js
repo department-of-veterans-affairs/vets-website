@@ -713,7 +713,8 @@ describe('App', () => {
     });
   });
 
-  describe('virtualAgentAuth is toggled false', () => {
+  /*** 
+  describe('makeBotGreetUser', () => {
     const middlewares = [thunk];
     const mockStore = configureMockStore(middlewares);
     const mockServiceCreator = (body, succeeds = true) => () =>
@@ -786,7 +787,6 @@ describe('App', () => {
         type: 'DIRECT_LINE/INCOMING_ACTIVITY',
       });
 
-      
 
       const actions = store.getActions();
       expect(actions.length).to.equal(1);
@@ -828,6 +828,7 @@ describe('App', () => {
       expect(sessionStorage.getItem(IN_AUTH_EXP)).to.equal('false');
     });
   });
+  ***/
 
   describe('virtualAgentAuth is toggled true', () => {
     const notLoggedInUser = {
