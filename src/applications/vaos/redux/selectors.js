@@ -72,4 +72,4 @@ export const selectFeatureFilter36Vats = state =>
   toggleValues(state).vaOnlineFilter36Vats;
 
 export const selectFeatureVaosV2Next = state =>
-  toggleValues(state).vaOnlineSchedulingVaosv2next;
+  toggleValues(state).vaOnlineSchedulingVaosV2Next;
