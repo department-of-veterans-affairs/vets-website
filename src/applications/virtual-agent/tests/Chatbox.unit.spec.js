@@ -771,7 +771,7 @@ describe('App', () => {
     //   },
     // };
 
-    // flaky?
+    
     it('makebotgreetuser test for firing message activity', () => {
       window.addEventListener(
         'webchat-message-activity',
@@ -799,7 +799,7 @@ describe('App', () => {
 
     // // TODO: conditions to resend latest utterance (I think this is covered in the other test(s))
 
-    // flaky?
+    
     it('makebotgreetuser test for firing auth activity', () => {
       sessionStorage.setItem(IN_AUTH_EXP, 'false');
 
@@ -869,7 +869,6 @@ describe('App', () => {
       },
     };
 
-    // flaky?
     it('when message activity is fired, then utterances should be stored in sessionStorage', () => {
       loadWebChat();
       mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
@@ -904,7 +903,6 @@ describe('App', () => {
       );
     });
 
-    // flaky?
     it('when message activity is fired and sessionStorage is already holding two utterances, then the oldest utterance should be removed', () => {
       loadWebChat();
       mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
@@ -941,7 +939,7 @@ describe('App', () => {
     describe('when user is not logged in initially', () => {
       // this is a good test, but failed after adding setTimeout call (also added requiredAuth toggle)
       // commented out for now. testing manually.
-      // flaky?
+
       it('when auth activity event is fired, then loggedInFlow is set to true', () => {
         loadWebChat();
         mockApiRequest({ token: 'FAKETOKEN', apiSession: 'FAKEAPISESSION' });
@@ -992,7 +990,6 @@ describe('App', () => {
     });
 
     describe('when user is prompted to sign in by the bot and has finished signing in', () => {
-      // flaky?
       it('should render webchat with pre-existing conversation id and token', () => {
         // TEST SETUP
         // logged in flow should be set to true
@@ -1041,7 +1038,6 @@ describe('App', () => {
       });
     });
 
-    // flaky?
     it('does not display disclaimer when user has logged in via the bot and has returned to the page, and refreshes', () => {
       const loggedInUser2 = {
         navigation: {
