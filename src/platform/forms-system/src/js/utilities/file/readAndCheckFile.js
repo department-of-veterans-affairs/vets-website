@@ -29,8 +29,12 @@ export default function readAndCheckFile(file, checks) {
           reject(new Error('Unable to get file'));
         }
       };
-      // The content we need _should_ be within the first 256 bytes of the file
-      const blob = file.slice(0, 256);
+      // The PDF flags we care about should only show up at the beginning and
+      // end of the PDF. Using 512 for the end because one example we used had
+      // flags showing up more than 256 bytes before the end of the file
+      const fileStart = file.slice(0, 256);
+      const fileEnd = file.slice(-512);
+      const blob = new Blob([fileStart, fileEnd]);
       // TODO: once we stop supporting IE11, update this and replace the
       // readAsArrayBuffer and Int8Array conversion in the code with a string
       // compare using readAsBinaryString (which isn't supported by IE11)
