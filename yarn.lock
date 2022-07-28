@@ -2512,13 +2512,13 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@department-of-veterans-affairs/component-library@^11.0.0":
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-11.0.0.tgz#c9364124d06dd02db036c4e22fed93a6ffd1e09e"
-  integrity sha512-RQg3BG4Qnaj3QBuUSNQalGBTtNx8DrGV0ktF4xRdqsVFCBjmpvhWL0mOlanNXD0075ETWSlIKQXnlt4heV9RWQ==
+"@department-of-veterans-affairs/component-library@^11.2.1":
+  version "11.2.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-11.2.1.tgz#a38b66fef717cc3b94f4a3149d3d3359fdc950de"
+  integrity sha512-3QzZuDursC7dy+vT8t8LNoGnVVj3YzCB4Up/SmZ8WLZXcfnI43Vt6SUC0gYdW+Qdz61zeBIRaJyC0wJNyOGDhw==
   dependencies:
     "@department-of-veterans-affairs/react-components" "7.0.0"
-    "@department-of-veterans-affairs/web-components" "4.7.0"
+    "@department-of-veterans-affairs/web-components" "4.9.1"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2589,10 +2589,21 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.7.0":
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.7.0.tgz#02cc91e2eb012dfdd0c069ac26a066c195a158d7"
-  integrity sha512-ef3bbOqctcfBXiATvvXPAOsZR7G7sazvARGFH4z1dHUzOEtoOB0KxwfmYZcYTmhGTg3twAOfEdGsjTmON0kNDQ==
+"@department-of-veterans-affairs/web-components@0.20.1":
+  version "0.20.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-0.20.1.tgz#69840f06697c716443949dc767fa89a95dacf79d"
+  integrity sha512-QYn81vfqjre2xQyzIVZxYpB63+yRBm9JCI12TAcJxbYe51PT8RI2P+zateK/vutiiJMNwcbqmtxsVuq3yM+7Uw==
+  dependencies:
+    "@stencil/core" "^2.10.0"
+    "@stencil/postcss" "^2.0.0"
+    classnames "^2.3.1"
+    intersection-observer "^0.12.0"
+    postcss-url "^10.1.1"
+
+"@department-of-veterans-affairs/web-components@4.9.1":
+  version "4.9.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.9.1.tgz#f7e8135a0123d21eea190410e36e21caf051b404"
+  integrity sha512-G5l4HXX4s/pK0W4kSrB9sEGEbbUw+0MN7lnDe8HxM9djPYU4BLpM3RkiZhwviaCPdG2Ep+LvUu7BdFQEpxL68Q==
   dependencies:
     "@stencil/core" "^2.10.0"
     aria-hidden "^1.1.3"

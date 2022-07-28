@@ -31,7 +31,7 @@ import {
 export const CHATBOT_ERROR_MESSAGE = /We’re making some updates to the Virtual Agent. We’re sorry it’s not working right now. Please check back soon. If you require immediate assistance please call the VA.gov help desk/i;
 
 const disclaimerText =
-  'Our chatbot can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room or call 911 to get medical care right away.';
+  'Our chatbot can’t help you if you’re experiencing a personal, medical, or mental health emergency. Go to the nearest emergency room, dial 988 and press 1 for mental health support, or call 911 to get medical care right away.';
 
 /**
  * @testing-library/dom

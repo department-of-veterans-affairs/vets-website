@@ -2,10 +2,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
-import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
+import CernerCallToAction from '../../../components/CernerCallToAction';
 
 export const AuthContent = ({
   authenticatedWithSSOe,
@@ -180,8 +180,7 @@ export const AuthContent = ({
               </p>
               <ul>
                 <li>
-                  Call <a href="tel:+18002738255">800-273-8255</a>, then select
-                  1.
+                  Call <a href="tel:+988">988</a>, then select 1.
                 </li>
                 <li>
                   Start a{' '}

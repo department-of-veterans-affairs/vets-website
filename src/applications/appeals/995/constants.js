@@ -39,11 +39,14 @@ export const errorMessages = {
   savedFormNotFound: 'Please start over to request a Supplemental Claim',
   savedFormNoAuth:
     'Please sign in again to continue your request a Supplemental Claim',
-  forwardStartDate: 'Please select a date',
+  invalidDate: 'Please choose a date',
   startDateInPast: 'Start date must be in the future',
   endDateInPast: 'End date must be in the future',
   endDateBeforeStart: 'End date must be after start date',
   contestedIssue: 'Please select an eligible issue',
+
+  evidenceTypeMissing: 'Please select at least one type of supporting evidence',
+  locationAndNameMissing: 'Please add a treatment location',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
@@ -84,6 +87,11 @@ export const CLAIMANT_TYPES = [
   'parent_of_veteran',
   'other',
 ];
+
+export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
+
+export const MAX_FILE_SIZE_MB = 100;
+export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
 
 // Values from Lighthouse maintained schema
 // see ./config/form-0995-schema.json
