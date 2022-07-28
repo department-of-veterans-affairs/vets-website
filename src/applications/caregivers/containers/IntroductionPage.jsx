@@ -19,27 +19,10 @@ import {
 } from 'platform/monitoring/DowntimeNotification';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-export const IntroductionPage = ({
-  route,
-  router,
-  formData,
-  setFormData,
-  canAutofill1010cgAddress,
-}) => {
+export const IntroductionPage = ({ route, router }) => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
-
-  useEffect(
-    () => {
-      setFormData({
-        ...formData,
-        'view:canAutofill1010cgAddress': canAutofill1010cgAddress,
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [canAutofill1010cgAddress],
-  );
 
   const startForm = useCallback(
     () => {
@@ -275,7 +258,6 @@ export const IntroductionPage = ({
 
 const mapStateToProps = state => ({
   formData: state.form.data,
-  canAutofill1010cgAddress: state.featureToggles?.canAutofill1010cgAddress,
 });
 
 const mapDispatchToProps = {
@@ -283,7 +265,6 @@ const mapDispatchToProps = {
 };
 
 IntroductionPage.propTypes = {
-  canAutofill1010cgAddress: PropTypes.bool,
   formData: PropTypes.object,
   route: PropTypes.object,
   router: PropTypes.object,
