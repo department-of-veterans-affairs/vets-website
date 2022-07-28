@@ -5,7 +5,7 @@ import {
   RadioGroup,
 } from '@department-of-veterans-affairs/va-forms-system-core';
 import { useFormikContext } from 'formik';
-import { ExpandingGroupClass } from '../constants.js';
+import { ExpandingGroupClass } from '../constants';
 
 export default function PreviousNames(props) {
   const { values, setFieldValue } = useFormikContext();

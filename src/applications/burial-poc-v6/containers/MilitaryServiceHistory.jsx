@@ -5,7 +5,7 @@ import {
   TextField,
 } from '@department-of-veterans-affairs/va-forms-system-core';
 import { useFormikContext } from 'formik';
-import { isBeforeDate } from '../utils.js';
+import { isBeforeDate } from '../utils';
 
 export default function MilitaryServiceHistory(props) {
   const state = useFormikContext();

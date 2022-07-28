@@ -5,12 +5,8 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { CompatRouter, Routes } from 'react-router-dom-v5-compat';
-import { Formik } from 'formik';
-import {
-  FormTitle,
-  FormFooter,
-} from '@department-of-veterans-affairs/va-forms-system-core';
+import { CompatRouter } from 'react-router-dom-v5-compat';
+import { FormRouter } from '@department-of-veterans-affairs/va-forms-system-core';
 import startReactApp from './react';
 import setUpCommonFunctionality from './setup';
 
@@ -154,13 +150,13 @@ export default function startApp({
     content = (
       <BrowserRouter basename={url}>
         <CompatRouter>
-          {/* <FormRouter
+          <FormRouter
             formData={initialValues}
             title="Burial POC"
             subTitle="Example form for Burials using VAFSC"
           >
             {routes}
-          </FormRouter> */}
+          </FormRouter>
           {/* 
           <FormRouter
             formData={initialValues}
@@ -169,7 +165,7 @@ export default function startApp({
           >
             <Route path="/hello" element={<h1>Hello From the other side</h1>} />
           </FormRouter> */}
-
+          {/* 
           <div className="row">
             <div className="usa-width-two-thirds medium-8 columns">
               <Formik initialValues={initialValues}>
@@ -183,7 +179,7 @@ export default function startApp({
                 </form>
               </Formik>
             </div>
-          </div>
+          </div> */}
         </CompatRouter>
       </BrowserRouter>
     );

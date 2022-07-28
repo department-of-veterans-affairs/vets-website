@@ -2570,16 +2570,17 @@
     react-is "^17.0.1"
     setimmediate "^1.0.5"
 
-"@department-of-veterans-affairs/va-forms-system-core@0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/va-forms-system-core/-/va-forms-system-core-0.0.4.tgz#f76ee76ed3f4e17209c15810c619845baa453d00"
-  integrity sha512-UyyFrXQl3HaB4ix1XAf6634tanTGnrLxMbUtNgEbjyk+uMNs33z63s0KcmEzxhfEvAdjuRCU4R02oXhJjr5i0g==
+"@department-of-veterans-affairs/va-forms-system-core@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/va-forms-system-core/-/va-forms-system-core-0.0.5.tgz#682c1572843d335453dbe2e18896e857361a7de6"
+  integrity sha512-Dbotuq21LO1N5l5CRFLc0upplIRDlXFFBMBpzhavcRm1n4i4UdSaZhiOY1Wmmx+goGyhbxgB6SESNI50qUsWag==
   dependencies:
     connect-history-api-fallback "^1.6.0"
     date-fns "^2.28.0"
     formik "^2.2.9"
     lodash "^4.17.21"
-    react-router-dom "^6.3.0"
+    react-router-dom "^5.3.0"
+    react-router-dom-v5-compat "^6.3.0"
 
 "@department-of-veterans-affairs/vagov-platform@^0.0.1":
   version "0.0.1"
@@ -16211,6 +16212,14 @@ react-router-dom-v5-compat@^6.3.0:
     history "^5.3.0"
     react-router "6.3.0"
 
+"react-router-dom-v6@npm:react-router-dom@6":
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.3.0.tgz#a0216da813454e521905b5fa55e0e5176123f43d"
+  integrity sha512-uaJj7LKytRxZNQV8+RbzJWnJ8K2nPsOOEuX7aQstlMZKQT0164C+X2w6bnkqU3sjtLvpd5ojrezAyfZ1+0sStw==
+  dependencies:
+    history "^5.2.0"
+    react-router "6.3.0"
+
 react-router-dom@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-5.3.0.tgz#da1bfb535a0e89a712a93b97dd76f47ad1f32363"
@@ -16223,14 +16232,6 @@ react-router-dom@^5.3.0:
     react-router "5.2.1"
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
-
-react-router-dom@^6.3.0:
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-6.3.0.tgz#a0216da813454e521905b5fa55e0e5176123f43d"
-  integrity sha512-uaJj7LKytRxZNQV8+RbzJWnJ8K2nPsOOEuX7aQstlMZKQT0164C+X2w6bnkqU3sjtLvpd5ojrezAyfZ1+0sStw==
-  dependencies:
-    history "^5.2.0"
-    react-router "6.3.0"
 
 react-router-last-location@^2.0.1:
   version "2.0.1"
