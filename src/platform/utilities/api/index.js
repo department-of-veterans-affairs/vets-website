@@ -3,7 +3,10 @@ import * as Sentry from '@sentry/browser';
 import { AUTHN_SETTINGS } from 'platform/user/authentication/constants';
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
-import { checkOrSetSessionExpiration } from '../oauth/utilities';
+import {
+  infoTokenExists,
+  checkOrSetSessionExpiration,
+} from '../oauth/utilities';
 import { checkAndUpdateSSOeSession } from '../sso';
 
 export function fetchAndUpdateSessionExpiration(...args) {
@@ -12,10 +15,7 @@ export function fetchAndUpdateSessionExpiration(...args) {
     return fetch.apply(this, args).then(response => {
       const apiURL = environment.API_URL;
 
-      if (
-        response.url.includes(apiURL) &&
-        (response.ok || response.status === 304)
-      ) {
+      if (response.url.includes(apiURL)) {
         /**
          * Sets sessionExpiration
          * SAML - Response headers `X-Session-Expiration`
@@ -24,7 +24,9 @@ export function fetchAndUpdateSessionExpiration(...args) {
         checkOrSetSessionExpiration(response);
 
         // SSOe session is independent of vets-api, and must be kept alive for cross-session continuity
-        checkAndUpdateSSOeSession();
+        if (response.ok || response.status === 304) {
+          checkAndUpdateSSOeSession();
+        }
       }
       return response;
     });
@@ -116,7 +118,12 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
         response.headers.get('X-Request-Id') ?? '',
       );
 
-      if (response.ok || response.status === 304) {
+      if (
+        response.ok ||
+        response.status === 304 ||
+        ((response.status === 403 || response.status === 401) &&
+          infoTokenExists())
+      ) {
         return data;
       }
 

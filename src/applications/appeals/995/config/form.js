@@ -16,13 +16,13 @@ import {
 import AddIssue from '../components/AddIssue';
 
 import addIssue from '../pages/addIssue';
-import benefitType from '../pages/benefitType';
-import certifcationAndSignature from '../pages/certifcationAndSignature';
+// import benefitType from '../pages/benefitType';
+// import certifcationAndSignature from '../pages/certifcationAndSignature';
 // import claimantName from '../pages/claimantName';
 // import claimantType from '../pages/claimantType';
 import contactInfo from '../pages/contactInformation';
 import contestableIssues from '../pages/contestableIssues';
-import evidencePrivateAdd from '../pages/evidencePrivateAdd';
+import evidencePrivateChoice from '../pages/evidencePrivateChoice';
 import evidencePrivateRecords from '../pages/evidencePrivateRecords';
 import evidencePrivateUpload from '../pages/evidencePrivateUpload';
 import evidenceSummary from '../pages/evidenceSummary';
@@ -34,12 +34,20 @@ import noticeOfAcknowledgement from '../pages/noticeOfAcknowledgement';
 import optIn from '../pages/optIn';
 import veteranInfo from '../pages/veteranInfo';
 
-import { appStateSelector, mayHaveLegacyAppeals } from '../utils/helpers';
+import {
+  appStateSelector,
+  mayHaveLegacyAppeals,
+  hasVAEvidence,
+  hasPrivateEvidence,
+  hasOtherEvidence,
+  hasPrivateEvidenceToUpload,
+} from '../utils/helpers';
 
 import manifest from '../manifest.json';
 import { CONTESTABLE_ISSUES_PATH } from '../constants';
 
 // import fullSchema from 'vets-json-schema/dist/20-0995-schema.json';
+import fullSchema from './form-0995-schema.json';
 // const { } = fullSchema.properties;
 
 const formConfig = {
@@ -73,18 +81,18 @@ const formConfig = {
   },
   title: 'Request a Supplemental Claim',
   subTitle: 'VA Form 20-0995 (Supplemental Claim)',
-  defaultDefinitions: {},
+  defaultDefinitions: fullSchema.definitions,
   preSubmitInfo,
   chapters: {
     infoPages: {
       title: 'Veteran Details',
       pages: {
-        benefitType: {
-          title: 'Benefit Type',
-          path: 'benefit-type',
-          uiSchema: benefitType.uiSchema,
-          schema: benefitType.schema,
-        },
+        // benefitType: {
+        //   title: 'Benefit Type',
+        //   path: 'benefit-type',
+        //   uiSchema: benefitType.uiSchema,
+        //   schema: benefitType.schema,
+        // },
         veteranInfo: {
           title: 'Veteran Information',
           path: 'veteran-information',
@@ -190,39 +198,39 @@ const formConfig = {
         evidenceVaRecords: {
           title: 'VA medical records',
           path: 'supporting-evidence/va-medical-records',
-          // depends: formData => hasVAEvidence(formData),
+          depends: formData => hasVAEvidence(formData),
           uiSchema: evidenceVaRecords.uiSchema,
           schema: evidenceVaRecords.schema,
         },
+        evidencePrivateChoice: {
+          title: 'Private medical records',
+          path: 'supporting-evidence/private-medical-records-choice',
+          depends: hasPrivateEvidence,
+          uiSchema: evidencePrivateChoice.uiSchema,
+          schema: evidencePrivateChoice.schema,
+        },
         evidencePrivateRecords: {
           title: 'Private medical records',
-          path: 'supporting-evidence/private-medical-records',
-          // depends: hasPrivateEvidence,
+          path: 'supporting-evidence/get-private-medical-records',
+          depends: formData =>
+            hasPrivateEvidence(formData) &&
+            !hasPrivateEvidenceToUpload(formData),
           uiSchema: evidencePrivateRecords.uiSchema,
           schema: evidencePrivateRecords.schema,
         },
         evidencePrivateUpload: {
           title: 'Private medical records',
-          path: 'supporting-evidence/private-medical-records-upload',
-          // depends: formData =>
-          //   hasPrivateEvidence(formData) &&
-          //   !isNotUploadingPrivateMedical(formData),
+          path: 'supporting-evidence/upload-private-medical-records',
+          depends: formData =>
+            hasPrivateEvidence(formData) &&
+            hasPrivateEvidenceToUpload(formData),
           uiSchema: evidencePrivateUpload.uiSchema,
           schema: evidencePrivateUpload.schema,
-        },
-        evidencePrivateAdd: {
-          title: 'Private medical records',
-          path: 'supporting-evidence/private-medical-records-release',
-          // depends: formData =>
-          //   hasPrivateEvidence(formData) &&
-          //   isNotUploadingPrivateMedical(formData),
-          uiSchema: evidencePrivateAdd.uiSchema,
-          schema: evidencePrivateAdd.schema,
         },
         evidenceUpload: {
           title: 'Lay statements and other evidence',
           path: 'supporting-evidence/additional-evidence',
-          // depends: hasOtherEvidence,
+          depends: hasOtherEvidence,
           uiSchema: evidenceUpload.uiSchema,
           schema: evidenceUpload.schema,
         },
@@ -250,17 +258,17 @@ const formConfig = {
       },
     },
 
-    signature: {
-      title: 'Certification & Signature',
-      pages: {
-        sign: {
-          title: 'Certification & Signature',
-          path: 'certification-and-signature',
-          uiSchema: certifcationAndSignature.uiSchema,
-          schema: certifcationAndSignature.schema,
-        },
-      },
-    },
+    // signature: {
+    //   title: 'Certification & Signature',
+    //   pages: {
+    //     sign: {
+    //       title: 'Certification & Signature',
+    //       path: 'certification-and-signature',
+    //       uiSchema: certifcationAndSignature.uiSchema,
+    //       schema: certifcationAndSignature.schema,
+    //     },
+    //   },
+    // },
   },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
