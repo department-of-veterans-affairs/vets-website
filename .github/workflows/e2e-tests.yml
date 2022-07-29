@@ -91,8 +91,8 @@ jobs:
 
       - name: Add istanbul for Cypress code coverage reporting
         run: |
-          sed -i -e 's/\"istanbul\",//g' .babelrc
-          sed -i -e 's/\"lodash\",/\"lodash\", \"istanbul\",/g' .babelrc
+          sed -i -e 's/\"istanbul\",//g' babel.config.json
+          sed -i -e 's/\"lodash\",/\"lodash\", \"istanbul\",/g' babel.config.json
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
