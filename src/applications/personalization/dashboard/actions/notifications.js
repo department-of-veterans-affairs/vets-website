@@ -45,14 +45,20 @@ export const fetchNotifications = () => async dispatch => {
         errors: response.errors,
       });
     }
+    const filteredNotifications = response.data.filter(
+      n => !n.attributes?.dismissed,
+    );
     recordEvent({
       event: `api_call`,
       'api-name': 'GET on-site notifications',
       'api-status': 'successful',
     });
-    const filteredNotifications = response.data.filter(
-      n => !n.attributes?.dismissed,
-    );
+    if (filteredNotifications && filteredNotifications.length) {
+      recordEvent({
+        event: `notifications-shows-for-user`,
+        'notification-amount': filteredNotifications.length,
+      });
+    }
     return dispatch({
       type: NOTIFICATIONS_RECEIVED_SUCCEEDED,
       notifications: filteredNotifications,
