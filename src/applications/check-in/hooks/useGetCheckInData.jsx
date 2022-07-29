@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import { api } from '../api';
 import { makeSelectCurrentContext } from '../selectors';
@@ -47,7 +47,7 @@ const useGetCheckInData = (refreshNeeded, appointmentsOnly = false) => {
     [appointmentsOnly, dispatch, token],
   );
 
-  useEffect(
+  useLayoutEffect(
     () => {
       if (isStale) {
         setIsLoading(true);
