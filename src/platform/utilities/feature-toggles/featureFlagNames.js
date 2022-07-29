@@ -148,6 +148,7 @@ export default Object.freeze({
   caregiverSIGIEnabled: 'caregiver_sigi_enabled',
   hcaAmericanIndianEnabled: 'hca_american_indian_enabled',
   hcaShortFormEnabled: 'hca_short_form_enabled',
+  hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
   checkVAInboxEnabled: 'check_va_inbox_enabled',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
   showExpandableVamcAlert: 'show_expandable_vamc_alert'
