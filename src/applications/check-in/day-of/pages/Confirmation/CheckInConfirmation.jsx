@@ -18,9 +18,13 @@ const CheckInConfirmation = props => {
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
 
-  useEffect(() => {
-    scrollToTop('topScrollElement');
-  }, []);
+  useEffect(
+    () => {
+      scrollToTop('topScrollElement');
+      triggerRefresh();
+    },
+    [triggerRefresh],
+  );
 
   const pageTitle = t('youre-checked-in', {
     date: appointmentDateTime,
@@ -44,10 +48,7 @@ const CheckInConfirmation = props => {
         </div>
       </va-alert>
       <TravelPayReimbursementLink />
-      <BackToAppointments
-        appointments={appointments}
-        triggerRefresh={triggerRefresh}
-      />
+      <BackToAppointments appointments={appointments} />
       <Footer />
       <BackToHome />
     </Wrapper>
