@@ -18,9 +18,8 @@ export default function DetailsCC({ appointment, useV2 = false }) {
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
 
   const ShowTypeOfCare = () => {
-    return (
-      useV2 &&
-      typeOfCare && (
+    if (useV2 && typeOfCare) {
+      return (
         <>
           <h2
             className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
@@ -30,8 +29,9 @@ export default function DetailsCC({ appointment, useV2 = false }) {
           </h2>
           <div>{typeOfCare?.name}</div>
         </>
-      )
-    );
+      );
+    }
+    return null;
   };
 
   return (
@@ -52,7 +52,6 @@ export default function DetailsCC({ appointment, useV2 = false }) {
       />
 
       <CCInstructions appointment={appointment} />
-
       <CalendarLink appointment={appointment} facility={facility} />
       <PrintLink appointment={appointment} />
       <RescheduleOrCancelAlert appointment={appointment} />
