@@ -58,9 +58,7 @@ export const sanitizeUrl = (url, path = '') => {
 };
 
 export const sanitizePath = to => {
-  if (!to) {
-    return '';
-  }
+  if (!to) return '';
   return to.startsWith('/') ? to : `/${to}`;
 };
 

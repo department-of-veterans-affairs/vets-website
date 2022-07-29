@@ -7,6 +7,7 @@ import {
   removeLoginAttempted,
 } from 'platform/utilities/sso/loginAttempted';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
+import { API_SIGN_IN_SERVICE_URL } from 'platform/utilities/oauth/constants';
 import * as authUtilities from '../../authentication/utilities';
 import {
   AUTHN_SETTINGS,
@@ -15,7 +16,6 @@ import {
   EXTERNAL_REDIRECTS,
   API_VERSION,
   API_SESSION_URL,
-  API_SIGN_IN_SERVICE_URL,
   SIGNUP_TYPES,
   GA,
   EBENEFITS_DEFAULT_PATH,
