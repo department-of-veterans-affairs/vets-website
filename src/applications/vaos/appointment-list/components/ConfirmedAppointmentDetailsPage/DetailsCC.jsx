@@ -44,7 +44,7 @@ export default function DetailsCC({ appointment, useV2 = false }) {
       </h1>
       <ShowTypeOfCare />
       <TypeHeader isCC>{header}</TypeHeader>
-      <ProviderName appointment={appointment} />
+      <ProviderName appointment={appointment} useV2={useV2} />
       <FacilityAddress
         facility={facility}
         showDirectionsLink={!!appointment.communityCareProvider?.address}
