@@ -43,7 +43,6 @@ export default function ConfirmedAppointmentDetailsPage() {
   useEffect(
     () => {
       dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
-
       scrollAndFocus();
     },
     [id, dispatch, appointmentTypePrefix],
@@ -51,14 +50,15 @@ export default function ConfirmedAppointmentDetailsPage() {
 
   useEffect(
     () => {
+      const pageTitle = isCommunityCare ? 'Community care' : 'VA';
       if (appointment && appointmentDate) {
-        document.title = `VA appointment on ${appointmentDate.format(
+        document.title = `${pageTitle} appointment on ${appointmentDate.format(
           'dddd, MMMM D, YYYY',
         )}`;
         scrollAndFocus();
       }
     },
-    [appointment, appointmentDate],
+    [appointment, appointmentDate, isCommunityCare],
   );
 
   useEffect(
