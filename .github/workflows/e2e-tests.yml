@@ -1,75 +1,75 @@
 name: E2E Tests
 
-on: [push]
-  # workflow_dispatch:
-  #   inputs:
-  #     commit_sha:
-  #       description: Run the full E2E test suite on a specific commit
-  #       required: true
-  # workflow_run:
-  #   workflows: [Continuous Integration]
-  #   types: [completed]
-  #   branches: [main]
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Run the full E2E test suite on a specific commit
+        required: true
+  workflow_run:
+    workflows: [Continuous Integration]
+    types: [completed]
+    branches: [main]
 
 env:
   NUM_CONTAINERS: '8'
   BUILDTYPE: vagovprod
 
 jobs:
-  # set-commit-sha:
-  #   name: Set commit sha
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     COMMIT_SHA: ${{ env.COMMIT_SHA }}
+  set-commit-sha:
+    name: Set commit sha
+    runs-on: ubuntu-latest
+    outputs:
+      COMMIT_SHA: ${{ env.COMMIT_SHA }}
 
-  #   steps:
-  #     - name: Get commit sha from workflow_run
-  #       if: ${{ github.event_name == 'workflow_run' }}
-  #       run: echo 'COMMIT_SHA=${{ github.event.workflow_run.head_sha }}' >> $GITHUB_ENV
+    steps:
+      - name: Get commit sha from workflow_run
+        if: ${{ github.event_name == 'workflow_run' }}
+        run: echo 'COMMIT_SHA=${{ github.event.workflow_run.head_sha }}' >> $GITHUB_ENV
 
-  #     - name: Get commit sha from workflow_dispatch
-  #       if: ${{ github.event_name == 'workflow_dispatch' }}
-  #       run: echo 'COMMIT_SHA=${{ github.event.inputs.commit_sha }}' >> $GITHUB_ENV
+      - name: Get commit sha from workflow_dispatch
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: echo 'COMMIT_SHA=${{ github.event.inputs.commit_sha }}' >> $GITHUB_ENV
 
-  # determine-build-type:
-  #   name: Determine if commit has full build
-  #   runs-on: ubuntu-latest
-  #   needs: set-commit-sha
+  determine-build-type:
+    name: Determine if commit has full build
+    runs-on: ubuntu-latest
+    needs: set-commit-sha
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #       with:
-  #         fetch-depth: 0
-  #         ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
-  #     - name: Install dependencies
-  #       uses: ./.github/workflows/install
-  #       with:
-  #         key: ${{ hashFiles('yarn.lock') }}
-  #         yarn_cache_folder: .cache/yarn
-  #         path: |
-  #           .cache/yarn
-  #           node_modules
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
-  #     - name: List changed files
-  #       id: changed-files
-  #       run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ needs.set-commit-sha.outputs.COMMIT_SHA }})
+      - name: List changed files
+        id: changed-files
+        run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ needs.set-commit-sha.outputs.COMMIT_SHA }})
 
-  #     - name: Get app entries for changed files
-  #       id: get-changed-apps
-  #       run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
-  #       env:
-  #         CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+      - name: Get app entries for changed files
+        id: get-changed-apps
+        run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
-      # - name: Cancel workflow if commit has full build
-      #   if: ${{ github.event_name == 'workflow_run' && steps.get-changed-apps.outputs.app_entries == '' }}
-      #   uses: andymckay/cancel-action@0.2
+      - name: Cancel workflow if commit has full build
+        if: ${{ github.event_name == 'workflow_run' && steps.get-changed-apps.outputs.app_entries == '' }}
+        uses: andymckay/cancel-action@0.2
 
   build:
     name: Build
     runs-on: self-hosted
-    # needs: set-commit-sha
+    needs: set-commit-sha
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
@@ -124,7 +124,7 @@ jobs:
   cypress-tests-prep:
     name: Prep for Cypress Tests
     runs-on: ubuntu-latest
-    # needs: set-commit-sha
+    needs: set-commit-sha
     outputs:
       tests: ${{ steps.tests.outputs.selected }}
 
@@ -157,7 +157,7 @@ jobs:
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: self-hosted
-    needs: [build, cypress-tests-prep]
+    needs: [set-commit-sha, build, cypress-tests-prep]
     if: |
       needs.build.result == 'success' &&
       needs.cypress-tests-prep.result == 'success'
@@ -256,161 +256,161 @@ jobs:
           path: cypress/results
           retention-days: 1
 
-  # testing-reports-prep:
-  #   name: Testing Reports Prep
-  #   runs-on: ubuntu-latest
-  #   needs: [set-commit-sha, determine-build-type]
-  #   continue-on-error: true
-  #   outputs:
-  #     app_list: ${{ env.APPLICATION_LIST }}
+  testing-reports-prep:
+    name: Testing Reports Prep
+    runs-on: ubuntu-latest
+    needs: [set-commit-sha, determine-build-type]
+    continue-on-error: true
+    outputs:
+      app_list: ${{ env.APPLICATION_LIST }}
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #       with:
-  #         ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
-  #     - name: Install dependencies
-  #       uses: ./.github/workflows/install
-  #       with:
-  #         key: ${{ hashFiles('yarn.lock') }}
-  #         yarn_cache_folder: .cache/yarn
-  #         path: |
-  #           .cache/yarn
-  #           node_modules
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
 
-  #     - name: Generate new application list
-  #       run: yarn generate-app-list
+      - name: Generate new application list
+        run: yarn generate-app-list
 
-  #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: us-gov-west-1
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
 
-  #     - name: Get va-vsp-bot token
-  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-  #       with:
-  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-  #     - name: Init Dashboard Data Repo
-  #       uses: ./.github/workflows/init-data-repo
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
 
-  #     - name: Set Up BigQuery Creds
-  #       uses: ./.github/workflows/configure-bigquery
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
 
-  #     - name: Upload app list to BigQuery
-  #       run: yarn generate-app-list
-  #       working-directory: qa-standards-dashboard-data
+      - name: Upload app list to BigQuery
+        run: yarn generate-app-list
+        working-directory: qa-standards-dashboard-data
 
-  # testing-reports-cypress:
-  #   name: Testing Reports - Cypress E2E Tests
-  #   runs-on: ubuntu-latest
-  #   needs:
-  #     [set-commit-sha, testing-reports-prep, cypress-tests-prep, cypress-tests]
-  #   continue-on-error: true
-  #   if: ${{ always() && needs.cypress-tests-prep.outputs.tests != '[]' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
+  testing-reports-cypress:
+    name: Testing Reports - Cypress E2E Tests
+    runs-on: ubuntu-latest
+    needs:
+      [set-commit-sha, testing-reports-prep, cypress-tests-prep, cypress-tests]
+    continue-on-error: true
+    if: ${{ always() && needs.cypress-tests-prep.outputs.tests != '[]' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
 
-  #   env:
-  #     APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
+    env:
+      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #       with:
-  #         ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
-  #     # ------------------------
-  #     # | Upload BigQuery Data |
-  #     # ------------------------
+      # ------------------------
+      # | Upload BigQuery Data |
+      # ------------------------
 
-  #     - name: Configure AWS credentials
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: us-gov-west-1
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
 
-  #     - name: Get va-vsp-bot token
-  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-  #       with:
-  #         ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
-  #         env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
-  #     - name: Init Dashboard Data Repo
-  #       uses: ./.github/workflows/init-data-repo
+      - name: Init Dashboard Data Repo
+        uses: ./.github/workflows/init-data-repo
 
-  #     - name: Set Up BigQuery Creds
-  #       uses: ./.github/workflows/configure-bigquery
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
 
-  #     - name: Get AWS IAM role
-  #       uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
-  #       with:
-  #         ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-  #         env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+      - name: Get AWS IAM role
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
-  #     - name: Set UUID for Mochawesome reports
-  #       run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+      - name: Set UUID for Mochawesome reports
+        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
 
-  #     - name: Configure AWS Credentials (2)
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: us-gov-west-1
-  #         role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
-  #         role-duration-seconds: 900
-  #         role-session-name: vsp-frontendteam-githubaction
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
 
-  #     # --------------------------------------
-  #     # | Publish Cypress E2E Testing Report |
-  #     # --------------------------------------
+      # --------------------------------------
+      # | Publish Cypress E2E Testing Report |
+      # --------------------------------------
 
-  #     - name: Download Cypress E2E Mochawesome test results
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: cypress-mochawesome-test-results
-  #         path: qa-standards-dashboard-data/src/testing-reports/data
+      - name: Download Cypress E2E Mochawesome test results
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-mochawesome-test-results
+          path: qa-standards-dashboard-data/src/testing-reports/data
 
-  #     - name: Download Cypress E2E video artifacts
-  #       if: ${{ needs.cypress-tests.result == 'failure' }}
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: cypress-video-artifacts
-  #         path: qa-standards-dashboard-data/videos/${{ env.UUID }}
+      - name: Download Cypress E2E video artifacts
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-video-artifacts
+          path: qa-standards-dashboard-data/videos/${{ env.UUID }}
 
-  #     - name: Create Cypress E2E report and post results to BigQuery
-  #       run: yarn cypress-mochawesome-to-bigquery
-  #       working-directory: qa-standards-dashboard-data
-  #       env:
-  #         IS_MASTER_BUILD: true
-  #         TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
-  #         TEST_RESULTS_TABLE_NAME: cypress_test_results
-  #         TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
-  #         TEST_RETRIES_TABLE_NAME: cypress_retry_records
+      - name: Create Cypress E2E report and post results to BigQuery
+        run: yarn cypress-mochawesome-to-bigquery
+        working-directory: qa-standards-dashboard-data
+        env:
+          IS_MASTER_BUILD: true
+          TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
+          TEST_RESULTS_TABLE_NAME: cypress_test_results
+          TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
+          TEST_RETRIES_TABLE_NAME: cypress_retry_records
 
-  #     - name: Upload Cypress E2E test videos to s3
-  #       if: ${{ needs.cypress-tests.result == 'failure' }}
-  #       run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
+      - name: Upload Cypress E2E test videos to s3
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
 
-  #     - name: Upload Cypress E2E test report to s3
-  #       run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
+      - name: Upload Cypress E2E test report to s3
+        run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
 
-  #     # -------------------------
-  #     # | Cypress Tests Summary |
-  #     # -------------------------
+      # -------------------------
+      # | Cypress Tests Summary |
+      # -------------------------
 
-  #     - name: Publish Cypress test results
-  #       if: ${{ always() }}
-  #       uses: LouisBrunner/checks-action@v1.2.0
-  #       with:
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-  #         name: Cypress Tests Summary
-  #         conclusion: ${{ needs.cypress-tests.result }}
-  #         output: |
-  #           {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+      - name: Publish Cypress test results
+        if: ${{ always() }}
+        uses: LouisBrunner/checks-action@v1.2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Cypress Tests Summary
+          conclusion: ${{ needs.cypress-tests.result }}
+          output: |
+            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
   # e2e-code-coverage-cypress:
   #   name: E2E Code Coverage Reports
@@ -480,38 +480,38 @@ jobs:
   #       run: yarn e2e-code-coverage-to-bigquery
   #       working-directory: qa-standards-dashboard-data
 
-  # notify-failure:
-  #   name: Notify Failure
-  #   runs-on: ubuntu-latest
-  #   needs: [set-commit-sha, cypress-tests]
-  #   if: ${{ failure() }}
-  #   env:
-  #     VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
+  notify-failure:
+    name: Notify Failure
+    runs-on: ubuntu-latest
+    needs: [set-commit-sha, cypress-tests]
+    if: ${{ failure() }}
+    env:
+      VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #       with:
-  #         ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ needs.set-commit-sha.outputs.COMMIT_SHA }}
 
-  #     - name: Notify Slack - \#status-vets-website
-  #       uses: ./.github/workflows/slack-notify
-  #       continue-on-error: true
-  #       env:
-  #         SSL_CERT_DIR: /etc/ssl/certs
-  #       with:
-  #         payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "@qa-standards-team Full E2E test suite run in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
-  #         channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Notify Slack - \#status-vets-website
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        env:
+          SSL_CERT_DIR: /etc/ssl/certs
+        with:
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "@qa-standards-team Full E2E test suite run in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-  #     - name: Notify Slack - \#gha-test-status
-  #       uses: ./.github/workflows/slack-notify
-  #       continue-on-error: true
-  #       env:
-  #         SSL_CERT_DIR: /etc/ssl/certs
-  #       with:
-  #         payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Full E2E test suite run in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
-  #         channel_id: C026PD47Z19 #gha-test-status
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Notify Slack - \#gha-test-status
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        env:
+          SSL_CERT_DIR: /etc/ssl/certs
+        with:
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Full E2E test suite run in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
+          channel_id: C026PD47Z19 #gha-test-status
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
