@@ -44,7 +44,6 @@ const BackToAppointments = ({ router }) => {
 
 BackToAppointments.propTypes = {
   router: PropTypes.object,
-  triggerRefresh: PropTypes.func,
 };
 
 export default withRouter(BackToAppointments);
