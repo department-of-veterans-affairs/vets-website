@@ -46,7 +46,7 @@ export default function ConfirmedAppointmentDetailsPage() {
 
       scrollAndFocus();
     },
-    [dispatch, appointmentTypePrefix],
+    [id, dispatch, appointmentTypePrefix],
   );
 
   useEffect(
@@ -116,7 +116,7 @@ export default function ConfirmedAppointmentDetailsPage() {
           useV2={useV2}
         />
       )}
-      {isCommunityCare && <DetailsCC appointment={appointment} />}
+      {isCommunityCare && <DetailsCC appointment={appointment} useV2={useV2} />}
       <CancelAppointmentModal
         {...cancelInfo}
         onConfirm={() => dispatch(confirmCancelAppointment())}
