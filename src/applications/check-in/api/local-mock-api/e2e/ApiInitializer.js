@@ -162,6 +162,7 @@ class ApiInitializer {
       nextOfKinConfirmedAt = null,
       emergencyContactNeedsUpdate = true,
       emergencyContactConfirmedAt = null,
+      uuid = preCheckInData.get.defaultUUID,
     } = {}) => {
       cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
         if (extraValidation) {
@@ -169,7 +170,7 @@ class ApiInitializer {
         }
         req.reply(
           preCheckInData.get.createMockSuccessResponse(
-            'some-token',
+            uuid,
             demographicsNeedsUpdate,
             demographicsConfirmedAt,
             nextOfKinNeedsUpdate,
@@ -180,7 +181,7 @@ class ApiInitializer {
         );
       });
       return preCheckInData.get.createMockSuccessResponse(
-        'some-token',
+        uuid,
         demographicsNeedsUpdate,
         demographicsConfirmedAt,
         nextOfKinNeedsUpdate,
@@ -224,9 +225,10 @@ class ApiInitializer {
       nextOfKinConfirmedAt = null,
       emergencyContactNeedsUpdate = true,
       emergencyContactConfirmedAt = null,
+      uuid = 'no-uuid',
     } = {}) => {
       const data = preCheckInData.get.createMockSuccessResponse(
-        'some-token',
+        uuid,
         demographicsNeedsUpdate,
         demographicsConfirmedAt,
         nextOfKinNeedsUpdate,
