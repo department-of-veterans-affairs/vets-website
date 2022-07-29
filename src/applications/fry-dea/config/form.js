@@ -21,7 +21,6 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 // import * as personId from 'platform/forms/definitions/personId';
 // import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-// import preSubmitInfo from 'platform/forms/preSubmitInfo';
 // import {
 //   validateMonthYear,
 //   validateFutureDateIfExpectedGrad,
@@ -1198,6 +1197,7 @@ const formConfig = {
       pages: {
         directDeposit: {
           path: 'direct-deposit',
+          title: 'Direct deposit',
           uiSchema: {
             'ui:description': (
               <>
