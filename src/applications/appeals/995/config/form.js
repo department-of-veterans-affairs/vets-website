@@ -16,8 +16,8 @@ import {
 import AddIssue from '../components/AddIssue';
 
 import addIssue from '../pages/addIssue';
-import benefitType from '../pages/benefitType';
-import certifcationAndSignature from '../pages/certifcationAndSignature';
+// import benefitType from '../pages/benefitType';
+// import certifcationAndSignature from '../pages/certifcationAndSignature';
 // import claimantName from '../pages/claimantName';
 // import claimantType from '../pages/claimantType';
 import contactInfo from '../pages/contactInformation';
@@ -87,12 +87,12 @@ const formConfig = {
     infoPages: {
       title: 'Veteran Details',
       pages: {
-        benefitType: {
-          title: 'Benefit Type',
-          path: 'benefit-type',
-          uiSchema: benefitType.uiSchema,
-          schema: benefitType.schema,
-        },
+        // benefitType: {
+        //   title: 'Benefit Type',
+        //   path: 'benefit-type',
+        //   uiSchema: benefitType.uiSchema,
+        //   schema: benefitType.schema,
+        // },
         veteranInfo: {
           title: 'Veteran Information',
           path: 'veteran-information',
@@ -258,17 +258,17 @@ const formConfig = {
       },
     },
 
-    signature: {
-      title: 'Certification & Signature',
-      pages: {
-        sign: {
-          title: 'Certification & Signature',
-          path: 'certification-and-signature',
-          uiSchema: certifcationAndSignature.uiSchema,
-          schema: certifcationAndSignature.schema,
-        },
-      },
-    },
+    // signature: {
+    //   title: 'Certification & Signature',
+    //   pages: {
+    //     sign: {
+    //       title: 'Certification & Signature',
+    //       path: 'certification-and-signature',
+    //       uiSchema: certifcationAndSignature.uiSchema,
+    //       schema: certifcationAndSignature.schema,
+    //     },
+    //   },
+    // },
   },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
