@@ -75,10 +75,8 @@ const recurseField = (key, field, rank = 0) => {
     field.value === 0 ||
     field.value === null ||
     field.value === undefined
-  ) {
-    return;
-  }
-
+  )
+    return <></>;
   const fieldLabel = field.label && (
     <label className="vads-u-margin-top--1 review-page--page-info--label-text">
       {field.label}
@@ -86,7 +84,6 @@ const recurseField = (key, field, rank = 0) => {
   );
 
   if (typeof field.value === 'object') {
-    // eslint-disable-next-line consistent-return
     return (
       <div
         className={`level-${rank}-field-${key}`}
@@ -97,7 +94,7 @@ const recurseField = (key, field, rank = 0) => {
       </div>
     );
   }
-  // eslint-disable-next-line consistent-return
+
   return (
     <div
       className={`level-${rank}-field-${key}`}

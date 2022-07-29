@@ -60,8 +60,7 @@ const routes = (
     />
     <Route
       path="/benefits/burial-allowance"
-      // eslint-disable-next-line prettier/prettier
-      element={(
+      element={
         <ConditionalRoute
           title="Benefits Selection"
           type="conditional"
@@ -69,13 +68,11 @@ const routes = (
         >
           <BurialAllowance />
         </ConditionalRoute>
-        // eslint-disable-next-line prettier/prettier
-      )}
+      }
     />
     <Route
       path="/benefits/plot-allowance"
-      // eslint-disable-next-line prettier/prettier
-      element={(
+      element={
         <ConditionalRoute
           title="Benefits Selection"
           type="conditional"
@@ -83,8 +80,7 @@ const routes = (
         >
           <PlotAllowance />
         </ConditionalRoute>
-        // eslint-disable-next-line prettier/prettier
-      )}
+      }
     />
     <Route
       path="/claimant-contact-information"
