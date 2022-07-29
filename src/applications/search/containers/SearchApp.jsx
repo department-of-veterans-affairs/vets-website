@@ -581,7 +581,8 @@ class SearchApp extends React.Component {
             bestBet: isBestBet,
             title: strippedTitle,
             index,
-            url: result.url,
+            url: replaceWithStagingDomain(result.url),
+            // Trigger a new build
           })}
         >
           <h4

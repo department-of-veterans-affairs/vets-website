@@ -73,6 +73,14 @@ const checkImageSrc = environment.isStaging()
 
 const BENEFITS = [ELIGIBILITY.FRY, ELIGIBILITY.DEA];
 
+function isValidName(str) {
+  return str && /^[A-Za-z][A-Za-z ']*$/.test(str);
+}
+
+function isValidLastName(str) {
+  return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
+}
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -143,8 +151,18 @@ const formConfig = {
                 'ui:title': 'Your first name',
                 'ui:validations': [
                   (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a first name');
+                    if (!isValidName(field)) {
+                      if (field.length === 0) {
+                        errors.addError('Please enter your first name');
+                      } else if (field[0] === ' ' || field[0] === "'") {
+                        errors.addError(
+                          'First character must be a letter with no leading space.',
+                        );
+                      } else {
+                        errors.addError(
+                          'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                        );
+                      }
                     }
                   },
                 ],
@@ -154,8 +172,22 @@ const formConfig = {
                 'ui:title': 'Your last name',
                 'ui:validations': [
                   (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a last name');
+                    if (!isValidLastName(field)) {
+                      if (field.length === 0) {
+                        errors.addError('Please enter your last name');
+                      } else if (
+                        field[0] === ' ' ||
+                        field[0] === "'" ||
+                        field[0] === '-'
+                      ) {
+                        errors.addError(
+                          'First character must be a letter with no leading space.',
+                        );
+                      } else {
+                        errors.addError(
+                          'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
+                        );
+                      }
                     }
                   },
                 ],
@@ -163,6 +195,23 @@ const formConfig = {
               middle: {
                 ...fullNameUI.middle,
                 'ui:title': 'Your middle name',
+                'ui:validations': [
+                  (errors, field) => {
+                    if (!isValidName(field)) {
+                      if (field.length === 0) {
+                        errors.addError('Please enter your middle name');
+                      } else if (field[0] === ' ' || field[0] === "'") {
+                        errors.addError(
+                          'First character must be a letter with no leading space.',
+                        );
+                      } else {
+                        errors.addError(
+                          'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                        );
+                      }
+                    }
+                  },
+                ],
               },
             },
             [formFields.dateOfBirth]: {
@@ -1148,10 +1197,13 @@ const formConfig = {
           path: 'direct-deposit',
           uiSchema: {
             'ui:description': (
-              <p className="vads-u-margin-bottom--4">
-                <strong>Note</strong>: VA makes payments only through direct
-                deposit, also called electronic funds transfer (EFT).
-              </p>
+              <>
+                <h3>Enter your direct deposit information</h3>
+                <p className="vads-u-margin-bottom--4">
+                  <strong>Note</strong>: VA makes payments only through direct
+                  deposit, also called electronic funds transfer (EFT).
+                </p>
+              </>
             ),
             [formFields.bankAccount]: {
               ...bankAccountUI,

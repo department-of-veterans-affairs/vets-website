@@ -210,7 +210,6 @@ const formConfig = {
         signAsRepresentative: {
           path: 'representative-document',
           title: 'Application signature',
-          depends: formData => formData['view:canUpload1010cgPOA'],
           uiSchema: signAsRepresentativeYesNo.uiSchema,
           schema: signAsRepresentativeYesNo.schema,
         },

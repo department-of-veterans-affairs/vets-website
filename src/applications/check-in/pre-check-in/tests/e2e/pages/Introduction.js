@@ -74,6 +74,28 @@ class Introduction {
       .eq(0)
       .click();
   };
+
+  expandAccordion = () => {
+    cy.get('[data-testid="intro-accordion-item"]')
+      .shadow()
+      .find('button[aria-controls="content"]')
+      .click();
+  };
+
+  validateAppointmentType = type => {
+    if (type === 'phone') {
+      cy.get('[data-testid="appointment-type-label"]').each(item => {
+        expect(Cypress.$(item).text()).to.eq('Phone call');
+      });
+      cy.get('[data-testid="appointment-message"]').each(item => {
+        expect(Cypress.$(item).text()).to.eq('Your provider will call you. ');
+      });
+    } else if (type === 'in-person') {
+      cy.get('[data-testid="appointment-type-label"]').each(item => {
+        expect(Cypress.$(item).text()).to.eq('In person');
+      });
+    }
+  };
 }
 
 export default new Introduction();
