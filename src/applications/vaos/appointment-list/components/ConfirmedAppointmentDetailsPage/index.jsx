@@ -82,7 +82,7 @@ export default function ConfirmedAppointmentDetailsPage() {
         scrollAndFocus();
       }
     },
-    [appointmentDetailsStatus],
+    [appointmentDetailsStatus, appointment],
   );
 
   if (
