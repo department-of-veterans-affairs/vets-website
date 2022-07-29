@@ -25,10 +25,7 @@ export const Results = ({
     return (
       <p className="vads-u-margin--0 vads-u-margin-top--2 vads-u-margin-bottom--1">
         {queryId === 'custom-date-range' ? (
-          <span>
-            No events listed because filters are applied that exclude events
-            from view
-          </span>
+          <span>No results found for Custom date range</span>
         ) : (
           <span>
             No results found for <strong>{query}</strong>
