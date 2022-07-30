@@ -526,7 +526,7 @@ jobs:
       - name: Install dependencies
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: ./.github/workflows/install
-        timeout-minutes: 30
+        timeout-minutes: 20
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
@@ -542,7 +542,7 @@ jobs:
       - name: Run Cypress tests
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 30
+        timeout-minutes: 40
         env:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}

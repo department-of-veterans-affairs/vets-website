@@ -1,27 +1,17 @@
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-
-import { UploadDescription } from '../content/evidencePrivateUpload';
+import {
+  UploadDescription,
+  evidencePrivateText,
+} from '../content/evidenceUpload';
 import { ancillaryFormUploadUi } from '../utils/upload';
 import { hasPrivateEvidenceToUpload } from '../utils/helpers';
+import { ATTACHMENTS_PRIVATE } from '../constants';
 
-const { privateMedicalRecordAttachments } = fullSchema.properties;
-
-const fileUploadUi = ancillaryFormUploadUi(
-  'Upload your private medical records',
-  ' ',
-  {
-    attachmentId: '',
-    addAnotherLabel: 'Add another document',
-  },
-);
+const fileUploadUi = ancillaryFormUploadUi(evidencePrivateText);
 
 export default {
   uiSchema: {
     privateMedicalRecordAttachments: {
       ...fileUploadUi,
-      'ui:options': {
-        ...fileUploadUi['ui:options'],
-      },
       'ui:description': UploadDescription,
       'ui:required': hasPrivateEvidenceToUpload,
     },
@@ -30,7 +20,26 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      privateMedicalRecordAttachments,
+      privateMedicalRecordAttachments: {
+        type: 'array',
+        items: {
+          type: 'object',
+          required: ['name', 'attachmentId'],
+          properties: {
+            name: {
+              type: 'string',
+            },
+            confirmationCode: {
+              type: 'string',
+            },
+            attachmentId: {
+              type: 'string',
+              enum: Object.keys(ATTACHMENTS_PRIVATE),
+              enumNames: Object.values(ATTACHMENTS_PRIVATE),
+            },
+          },
+        },
+      },
     },
   },
 };
