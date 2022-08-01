@@ -163,7 +163,7 @@ const ProfilePageHeader = ({
               present={lowerType && lowerType !== 'ojt'}
             >
               {'   '}
-              {_.capitalize(lowerType)} schools
+              {_.capitalize(lowerType)} school
             </IconWithInfo>
             <IconWithInfo icon="award" present={accreditationType}>
               {'   '}
