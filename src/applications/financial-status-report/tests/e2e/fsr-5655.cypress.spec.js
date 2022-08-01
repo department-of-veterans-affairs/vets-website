@@ -116,10 +116,6 @@ const testConfig = createTestConfig(
       },
       'recreational-vehicle-records': ({ afterHook }) => {
         afterHook(() => {
-          // cy.get('p').should(
-          //   'have.text',
-          //   'Enter each of your trailers, campers, and boats separately below.',
-          // );
           cy.findByLabelText(/Type of vehicle/)
             .type('Boat')
             .type('{downarrow}{enter}');
