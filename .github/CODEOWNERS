@@ -27,6 +27,7 @@ src/platform/testing/contract/ @department-of-veterans-affairs/qa-standards
 src/platform/testing/e2e/ @department-of-veterans-affairs/qa-standards
 config/cypress.json @department-of-veterans-affairs/qa-standards
 script/github-actions/daily-product-scan/ @department-of-veterans-affairs/qa-standards
+.github/workflows/e2e-tests.yml @department-of-veterans-affairs/qa-standards
 
 # VSA ----
 
