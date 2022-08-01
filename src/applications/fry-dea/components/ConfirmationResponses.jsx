@@ -83,35 +83,36 @@ export function UnderReview(response, name) {
       <div className="vads-u-margin-bottom--4">
         <h2>What can I do while I wait?</h2>
         <ul>
-          {/* ▪	Learn more about VA benefits and programs through the Building Your Future with the GI Bill Series. */}
-          {/* ▪	Measure your interests and skill levels and help figure out your career path with CareerScope®. */}
-
           <li>
-            Review and/or update your direct deposit information on your{' '}
-            <a href="/profile">VA.gov profile</a> .
+            If you need to submit documentation to VA, such as service records,
+            please send this through our
+            <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
+              Ask VA feature.
+            </a>
           </li>
           <li>
-            Use our{' '}
+            <a href="/profile">
+              Review and/or update your direct deposit information on your{' '}
+              VA.gov profile.
+            </a>
+          </li>
+          <li>
             <a href="/education/gi-bill-comparison-tool/">
-              GI Bill Comparison Tool
-            </a>{' '}
-            to help you decide which education program and school is best for
-            you.
+              Use our GI Bill Comparison Tool to help you decide which education
+              program and school is best for you.
+            </a>
           </li>
           <li>
-            Learn more about VA benefits and programs through the{' '}
             <a href="https://blogs.va.gov/VAntage/78073/new-guide-series-provides-gi-bill-benefits-information/">
-              Building Your Future with the GI Bill Series
+              Learn more about VA benefits and programs through the Building
+              Your Future with the GI Bill Series.
             </a>
-            .
           </li>
           <li>
-            Measure your interests and skill levels and help figure out your
-            career path with{' '}
             <a href="https://www.benefits.va.gov/gibill/careerscope.asp">
-              CareerScope®
+              Measure your interests and skill levels and help figure out your
+              career path with CareerScope®.
             </a>
-            .
           </li>
         </ul>
       </div>
