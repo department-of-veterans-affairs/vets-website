@@ -36,8 +36,7 @@ function mapStateToProps(state) {
   };
 }
 
-// Comment this to work, need it for eslint for now.
-ConfirmationPage.prototype = {
+ConfirmationPage.protoType = {
   form: PropTypes.object,
 };
 
