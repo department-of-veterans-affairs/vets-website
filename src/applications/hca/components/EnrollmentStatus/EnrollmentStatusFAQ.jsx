@@ -1,44 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import HCASubwayMap from '../components/HCASubwayMap';
-import HcaOMBInfo from '../components/HcaOMBInfo';
 import recordEvent from 'platform/monitoring/record-event';
+import { showReapplyContent as showReapplyContentAction } from '../../actions';
+import { isShowingHCAReapplyContent } from '../../selectors';
+import { HCA_ENROLLMENT_STATUSES } from '../../constants';
+import { getFAQContent } from '../../enrollment-status-helpers';
 
-import { getFAQContent } from '../enrollment-status-helpers';
-import { HCA_ENROLLMENT_STATUSES } from '../constants';
-import { showReapplyContent as showReapplyContentAction } from '../actions';
-import { isShowingHCAReapplyContent } from '../selectors';
+import ReapplyContent from './ReapplyContent';
+import ReapplyTextLink from './ReapplyTextLink';
 
-const ReapplyContent = ({ route }) => (
-  <>
-    <HCASubwayMap />
-    <div className="vads-u-margin-y--3">
-      <SaveInProgressIntro
-        buttonOnly
-        messages={route.formConfig.savedFormMessages}
-        pageList={route.pageList}
-        startText="Start the health care application"
-        downtime={route.formConfig.downtime}
-      />
-    </div>
-    <div className="omb-info--container" style={{ paddingLeft: '0px' }}>
-      <HcaOMBInfo />
-    </div>
-  </>
-);
-
-const ReapplyTextLink = ({
-  onClick,
-  linkLabel = 'Reapply for VA health care',
-}) => (
-  <button className="va-button-link schemaform-start-button" onClick={onClick}>
-    {linkLabel}
-  </button>
-);
-
-const HCAEnrollmentStatusFAQ = ({
+const EnrollmentStatusFAQ = ({
   enrollmentStatus,
   route,
   showingReapplyForHealthCareContent,
@@ -83,6 +56,13 @@ const HCAEnrollmentStatusFAQ = ({
   );
 };
 
+EnrollmentStatusFAQ.propTypes = {
+  enrollmentStatus: PropTypes.string,
+  route: PropTypes.object,
+  showReapplyContent: PropTypes.func,
+  showingReapplyForHealthCareContent: PropTypes.bool,
+};
+
 const mapStateToProps = state => ({
   showingReapplyForHealthCareContent: isShowingHCAReapplyContent(state),
 });
@@ -91,9 +71,8 @@ const mapDispatchToProps = {
   showReapplyContent: showReapplyContentAction,
 };
 
-export { HCAEnrollmentStatusFAQ };
-
+export { EnrollmentStatusFAQ };
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HCAEnrollmentStatusFAQ);
+)(EnrollmentStatusFAQ);

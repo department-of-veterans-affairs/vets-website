@@ -35,15 +35,23 @@ class Error {
       .contains('is cancelled.');
   };
 
-  validateExpiredPageLoaded = () => {
+  validateExpiredPageLoaded = (appointmentType = 'in-person') => {
     cy.get('h1', { timeout: Timeouts.slow })
       .should('be.visible')
       .and('have.text', 'Sorry, pre-check-in is no longer available');
-    cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .contains(
-        'You can still check-in with your phone once you arrive at your appointment.',
-      );
+    if (appointmentType === 'phone') {
+      cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .contains(
+          'Your provider will call you. You may need to wait about 15 minutes for their call. Thanks for your patience.',
+        );
+    } else {
+      cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
+        .should('be.visible')
+        .contains(
+          'You can still check-in with your phone once you arrive at your appointment.',
+        );
+    }
   };
 
   validateDatePreCheckInDateShows = () => {
