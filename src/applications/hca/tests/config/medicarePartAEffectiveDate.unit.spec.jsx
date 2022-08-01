@@ -26,7 +26,7 @@ describe('Hca medicare', () => {
     );
     const formDOM = findDOMNode(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(1);
+    expect(formDOM.querySelectorAll('input').length).to.equal(2);
   });
 
   it('should not submit empty form', () => {
@@ -44,7 +44,7 @@ describe('Hca medicare', () => {
 
     submitForm(form);
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -64,6 +64,7 @@ describe('Hca medicare', () => {
     formDOM.fillData('#root_medicarePartAEffectiveDateMonth', '1');
     formDOM.fillData('#root_medicarePartAEffectiveDateDay', '1');
     formDOM.fillData('#root_medicarePartAEffectiveDateYear', '2000');
+    formDOM.fillData('#root_medicareClaimNumber', '7AD5WC9MW60');
 
     submitForm(form);
 
