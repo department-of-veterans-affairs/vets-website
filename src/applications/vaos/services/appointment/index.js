@@ -381,6 +381,8 @@ export function isClinicVideoAppointment(appointment) {
  * @returns {string} The location id where the VA appointment is located
  */
 export function getVAAppointmentLocationId(appointment) {
+  if (appointment === undefined) return null;
+
   if (
     appointment?.vaos.isVideo &&
     appointment?.vaos.appointmentType === APPOINTMENT_TYPES.vaAppointment &&

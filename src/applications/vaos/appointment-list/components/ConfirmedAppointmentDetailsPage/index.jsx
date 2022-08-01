@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useRouteMatch } from 'react-router-dom';
 
 import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import moment from '../../../lib/moment-tz';
@@ -20,6 +20,7 @@ import DetailsCC from './DetailsCC';
 import DetailsVideo from './DetailsVideo';
 
 export default function ConfirmedAppointmentDetailsPage() {
+  const match = useRouteMatch();
   const dispatch = useDispatch();
   const { id } = useParams();
   const {
@@ -34,9 +35,9 @@ export default function ConfirmedAppointmentDetailsPage() {
   );
   const appointmentDate = moment.parseZone(appointment?.start);
 
-  const { isVideo } = appointment.vaos;
-  const { isCommunityCare } = appointment.vaos;
-  const isVA = !isVideo && !isCommunityCare;
+  const isVideo = appointment?.vaos?.isVideo;
+  const isCommunityCare = !!match.path.includes('cc');
+  const isVA = !!match.path.includes('va');
 
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
 
