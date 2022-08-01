@@ -284,7 +284,7 @@ class ApiInitializer {
       timezone = 'browser',
     } = {}) => {
       cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
-        const rv = checkInData.get.createMultipleAppointments(
+        const rv = sharedData.get.createMultipleAppointments(
           token,
           numberOfCheckInAbledAppointments,
           demographicsNeedsUpdate,
@@ -298,7 +298,7 @@ class ApiInitializer {
         if (appointments && appointments.length) {
           const customAppointments = [];
           appointments.forEach((appointment, index) => {
-            const createdAppointment = checkInData.get.createAppointment(
+            const createdAppointment = sharedData.get.createAppointment(
               'ELIGIBLE',
               'some-facility',
               `000${index}`,
@@ -331,7 +331,7 @@ class ApiInitializer {
       emergencyContactConfirmedAt = null,
     } = {}) => {
       cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
-        const rv = checkInData.get.createMultipleAppointments(
+        const rv = sharedData.get.createMultipleAppointments(
           token,
           numberOfCheckInAbledAppointments,
           demographicsNeedsUpdate,
