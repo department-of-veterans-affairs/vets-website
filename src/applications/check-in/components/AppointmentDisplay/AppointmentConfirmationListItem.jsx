@@ -25,6 +25,22 @@ const AppointmentConfirmationListItem = props => {
           {t('date-time', { date: appointmentDateTime })}
         </div>
         <div className="check-in--label vads-u-margin-right--1">
+          {t('type-of-care')}:
+        </div>
+        <div className="check-in--value" data-testid="type-of-care">
+          {appointment.clinicStopCodeName ?? t('VA-appointment')}
+        </div>
+        {appointment.doctorName && (
+          <>
+            <div className="check-in--label vads-u-margin-right--1">
+              {t('provider')}:
+            </div>
+            <div className="check-in--value" data-testid="provider">
+              {appointment.doctorName}
+            </div>
+          </>
+        )}
+        <div className="check-in--label vads-u-margin-right--1">
           {t('clinic')}:
         </div>
         <div className="check-in--value" data-testid="appointment-clinic">

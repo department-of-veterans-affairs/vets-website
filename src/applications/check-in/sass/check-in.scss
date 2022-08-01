@@ -27,7 +27,7 @@ ol.check-in--appointment-list {
     width: 100%;
     div.check-in--appointment-summary{
       display: grid;
-      grid-template-columns: min-content auto;
+      grid-template-columns: max-content auto;
       grid-template-rows: auto auto auto;
       grid-template-areas: "header header";
 
@@ -66,7 +66,7 @@ ol.appointment-list{
       }
       .appointment-detail {
         display: grid;
-        grid-template-columns: 0fr auto;
+        grid-template-columns: max-content auto;
       }
       span.item-label {
         margin-right: units(2);
