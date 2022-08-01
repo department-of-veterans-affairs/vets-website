@@ -1,8 +1,7 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
-import checkInData from '../../../api/local-mock-api/mocks/v2/check-in-data';
-import preCheckInData from '../../../api/local-mock-api/mocks/v2/pre-check-in-data';
+import sharedData from '../../../api/local-mock-api/mocks/v2/shared';
 
-const checkInUUID = checkInData.get.defaultUUID;
+const checkInUUID = sharedData.get.defaultUUID;
 
 Cypress.Commands.add('visitWithUUID', (uuid = checkInUUID, language = 'en') => {
   cy.visit(`/health-care/appointment-check-in/?id=${uuid}`, {
@@ -21,7 +20,7 @@ Cypress.Commands.add('visitWithUUID', (uuid = checkInUUID, language = 'en') => {
   });
 });
 
-const preCheckInUUID = preCheckInData.get.defaultUUID;
+const preCheckInUUID = sharedData.get.defaultUUID;
 
 Cypress.Commands.add('visitPreCheckInWithUUID', (uuid = preCheckInUUID) => {
   cy.visit(`/health-care/appointment-pre-check-in/?id=${uuid}`);

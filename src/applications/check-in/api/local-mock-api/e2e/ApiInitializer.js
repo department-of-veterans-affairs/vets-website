@@ -1,6 +1,7 @@
 import session from '../mocks/v2/sessions';
 import preCheckInData from '../mocks/v2/pre-check-in-data';
 import checkInData from '../mocks/v2/check-in-data';
+import sharedData from '../mocks/v2/shared';
 import featureToggles from '../mocks/v2/feature-toggles';
 
 class ApiInitializer {
@@ -162,7 +163,7 @@ class ApiInitializer {
       nextOfKinConfirmedAt = null,
       emergencyContactNeedsUpdate = true,
       emergencyContactConfirmedAt = null,
-      uuid = preCheckInData.get.defaultUUID,
+      uuid = sharedData.get.defaultUUID,
     } = {}) => {
       cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
         if (extraValidation) {
@@ -272,7 +273,7 @@ class ApiInitializer {
     withSuccess: ({
       extraValidation = null,
       appointments = null,
-      token = checkInData.get.defaultUUID,
+      token = sharedData.get.defaultUUID,
       numberOfCheckInAbledAppointments = 2,
       demographicsNeedsUpdate = true,
       demographicsConfirmedAt = null,
@@ -320,7 +321,7 @@ class ApiInitializer {
     },
     withBadData: ({
       extraValidation = null,
-      token = checkInData.get.defaultUUID,
+      token = sharedData.get.defaultUUID,
       numberOfCheckInAbledAppointments = 2,
       demographicsNeedsUpdate = true,
       demographicsConfirmedAt = null,

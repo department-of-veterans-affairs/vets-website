@@ -10,7 +10,7 @@ import {
   preCheckinExpired,
 } from './index';
 
-import { get } from '../../api/local-mock-api/mocks/v2/check-in-data';
+import { get } from '../../api/local-mock-api/mocks/v2/shared';
 import { ELIGIBILITY } from './eligibility';
 
 describe('check in', () => {
