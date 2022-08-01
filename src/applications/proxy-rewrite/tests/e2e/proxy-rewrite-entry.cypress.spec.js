@@ -6,7 +6,7 @@ describe(manifest.appName, () => {
   // Skip tests unless we are running the daily workflow job
   // eslint-disable-next-line func-names
   before(function() {
-    if (Cypress.env('RUN_INJECTION') !== true) this.skip();
+    // if (Cypress.env('RUN_INJECTION') !== true) this.skip();
   });
 
   it('Should not inject header & footer on non-allowed host', () => {
@@ -39,7 +39,7 @@ describe(manifest.appName, () => {
   });
 
   it('Should inject header & footer on allowed hosts that are not cookie-only', () => {
-    const hostToEval = 'www.benefits.va.gov';
+    const hostToEval = 'www.ea.oit.va.gov';
     const listItem = allowList.find(item => item.hostname === hostToEval);
     const { cookieOnly } = listItem;
 
