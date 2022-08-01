@@ -39,7 +39,7 @@ describe(manifest.appName, () => {
   });
 
   it('Should inject header & footer on allowed hosts that are not cookie-only', () => {
-    const hostToEval = 'www.benefits.va.gov';
+    const hostToEval = 'www.ea.oit.va.gov';
     const listItem = allowList.find(item => item.hostname === hostToEval);
     const { cookieOnly } = listItem;
 

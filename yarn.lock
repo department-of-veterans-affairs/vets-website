@@ -2505,13 +2505,13 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@department-of-veterans-affairs/component-library@^11.2.1":
-  version "11.2.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-11.2.1.tgz#a38b66fef717cc3b94f4a3149d3d3359fdc950de"
-  integrity sha512-3QzZuDursC7dy+vT8t8LNoGnVVj3YzCB4Up/SmZ8WLZXcfnI43Vt6SUC0gYdW+Qdz61zeBIRaJyC0wJNyOGDhw==
+"@department-of-veterans-affairs/component-library@^11.2.2":
+  version "11.2.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-11.2.2.tgz#9acceaf448ccd6f5c978042bc397558a52f20a55"
+  integrity sha512-n/5XBxAADEZs96/jR+Q9ReLEtQZ20fLEh2uImpJjCMBQn1A1BncW7j4/K37B37avs2scQ3DqU5lYVagX8alwhw==
   dependencies:
-    "@department-of-veterans-affairs/react-components" "7.0.0"
-    "@department-of-veterans-affairs/web-components" "4.9.1"
+    "@department-of-veterans-affairs/react-components" "7.0.1"
+    "@department-of-veterans-affairs/web-components" "4.9.2"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2541,10 +2541,25 @@
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
-"@department-of-veterans-affairs/react-components@7.0.0":
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-7.0.0.tgz#6edb1c9f8d29aaae1f13b3b1f93af886b064a1ad"
-  integrity sha512-BiP8o87Uyp03hOoa/dKjmIQUKZy2n1spxxIfLVbfypG0uhuFQuShY/vCrIeIOgowHd1UZY7P2lmEdPP9vWXVCA==
+"@department-of-veterans-affairs/react-components@3.3.3":
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-3.3.3.tgz#7830f316a1854338a48a985394e938224453515d"
+  integrity sha512-KBwiMLIZsfdU02wtdWUXgbNwofnkv7Jbc7V/bk8shOmNDBeAu5FtHGKnxxBXqBHxHfQAghRTWDCC7FN1JDef5g==
+  dependencies:
+    classnames "^2.2.6"
+    lodash "^4.17.15"
+    number-to-words "^1.2.4"
+    prop-types "^15.6.2"
+    react-focus-lock "^2.5.1"
+    react-focus-on "^3.5.1"
+    react-scroll "^1.7.16"
+    react-transition-group "1"
+    recast "^0.14.4"
+
+"@department-of-veterans-affairs/react-components@7.0.1":
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/react-components/-/react-components-7.0.1.tgz#028b42813ee811927cc93793dd66a2a641170755"
+  integrity sha512-Z67ikFe45v7WCuALOVi8EFPSu9snYRcMLza2uEV9X+xzSNZmohcMwrWBYtiPAxcgBq2KC75SzbZFB2Crr6pa/Q==
   dependencies:
     classnames "^2.2.6"
     prop-types "^15.6.2"
@@ -2582,10 +2597,21 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.9.1":
-  version "4.9.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.9.1.tgz#f7e8135a0123d21eea190410e36e21caf051b404"
-  integrity sha512-G5l4HXX4s/pK0W4kSrB9sEGEbbUw+0MN7lnDe8HxM9djPYU4BLpM3RkiZhwviaCPdG2Ep+LvUu7BdFQEpxL68Q==
+"@department-of-veterans-affairs/web-components@0.20.1":
+  version "0.20.1"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-0.20.1.tgz#69840f06697c716443949dc767fa89a95dacf79d"
+  integrity sha512-QYn81vfqjre2xQyzIVZxYpB63+yRBm9JCI12TAcJxbYe51PT8RI2P+zateK/vutiiJMNwcbqmtxsVuq3yM+7Uw==
+  dependencies:
+    "@stencil/core" "^2.10.0"
+    "@stencil/postcss" "^2.0.0"
+    classnames "^2.3.1"
+    intersection-observer "^0.12.0"
+    postcss-url "^10.1.1"
+
+"@department-of-veterans-affairs/web-components@4.9.2":
+  version "4.9.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.9.2.tgz#fef1ffcf69afecbabae1f2ef4dc557e8ce0cbba3"
+  integrity sha512-QG78EtJLS+XxdyrPF6pw42t+ZuyDGqMVPq9HWFw2WiyIVpaPQ+JpNYGzfVEb5JVUlSV+jc1Wib0JWyWgew3SYw==
   dependencies:
     "@stencil/core" "^2.10.0"
     aria-hidden "^1.1.3"
@@ -3610,10 +3636,10 @@
   dependencies:
     defer-to-connect "^2.0.0"
 
-"@testing-library/cypress@^8.0.2":
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/@testing-library/cypress/-/cypress-8.0.2.tgz#b13f0ff2424dec4368b6670dfbfb7e43af8eefc9"
-  integrity sha512-KVdm7n37sg/A4e3wKMD4zUl0NpzzVhx06V9Tf0hZHZ7nrZ4yFva6Zwg2EFF1VzHkEfN/ahUzRtT1qiW+vuWnJw==
+"@testing-library/cypress@^8.0.3":
+  version "8.0.3"
+  resolved "https://registry.yarnpkg.com/@testing-library/cypress/-/cypress-8.0.3.tgz#24ab34df34d7896866603ade705afbdd186e273c"
+  integrity sha512-nY2YaSbmuPo5k6kL0iLj/pGPPfka3iwb3kpTx8QN/vOCns92Saz9wfACqB8FJzcR7+lfA4d5HUOWqmTddBzczg==
   dependencies:
     "@babel/runtime" "^7.14.6"
     "@testing-library/dom" "^8.1.0"
@@ -5056,15 +5082,10 @@ axe-core@^4.3.5:
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.3.5.tgz#78d6911ba317a8262bfee292aeafcc1e04b49cc5"
   integrity sha512-WKTW1+xAzhMS5dJsxWkliixlO/PqC4VhmO9T4juNYcaTg9jzWiJsou6m5pxWYGfigWbwzJWeFY6z47a+4neRXA==
 
-axe-core@^4.4.1:
+axe-core@^4.4.1, axe-core@^4.4.3:
   version "4.4.3"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.4.3.tgz#11c74d23d5013c0fa5d183796729bc3482bd2f6f"
   integrity sha512-32+ub6kkdhhWick/UjvEwRchgoetXqTK14INLqbGm5U2TzBkBNF3nQtLYm8ovxSkQWArjEQvftCKryjZaATu3w==
-
-axe-core@^4.4.2:
-  version "4.4.2"
-  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.4.2.tgz#dcf7fb6dea866166c3eab33d68208afe4d5f670c"
-  integrity sha512-LVAaGp/wkkgYJcjmHsoKx4juT1aQvJyPcW09MLCjVTh3V2cc6PnyempiLMNH5iMdfIX/zdbjUx2KDjMLCTdPeA==
 
 axios@^0.21.1, axios@^0.21.4:
   version "0.21.4"
@@ -7266,10 +7287,10 @@ cy-tr-reporter@^1.2.5:
     mocha "^9.1.2"
     moment "^2.22.1"
 
-cypress-axe@^0.14.0:
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/cypress-axe/-/cypress-axe-0.14.0.tgz#5f5e70fb36b8cb3ba73a8ba01e9262ff1268d5e2"
-  integrity sha512-7Rdjnko0MjggCmndc1wECAkvQBIhuy+DRtjF7bd5YPZRFvubfMNvrxfqD8PWQmxm7MZE0ffS4Xr43V6ZmvLopg==
+cypress-axe@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/cypress-axe/-/cypress-axe-1.0.0.tgz#ab4e9486eaa3bb956a90a1ae40d52df42827b4f0"
+  integrity sha512-QBlNMAd5eZoyhG8RGGR/pLtpHGkvgWXm2tkP68scJ+AjYiNNOlJihxoEwH93RT+rWOLrefw4iWwEx8kpEcrvJA==
 
 cypress-multi-reporters@^1.5.0:
   version "1.5.0"
@@ -7286,10 +7307,10 @@ cypress-plugin-tab@^1.0.5:
   dependencies:
     ally.js "^1.4.1"
 
-cypress-real-events@^1.7.0:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/cypress-real-events/-/cypress-real-events-1.7.0.tgz#ad6a78de33af3af0e6437f5c713e30691c44472c"
-  integrity sha512-iyXp07j0V9sG3YClVDcvHN2DAQDgr+EjTID82uWDw6OZBlU3pXEBqTMNYqroz3bxlb0k+F74U81aZwzMNaKyew==
+cypress-real-events@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/cypress-real-events/-/cypress-real-events-1.7.1.tgz#8f430d67c29ea4f05b9c5b0311780120cbc9b935"
+  integrity sha512-/Bg15RgJ0SYsuXc6lPqH08x19z6j2vmhWN4wXfJqm3z8BTAFiK2MvipZPzxT8Z0jJP0q7kuniWrLIvz/i/8lCQ==
 
 cypress-wait-until@^1.7.2:
   version "1.7.2"
