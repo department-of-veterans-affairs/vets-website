@@ -85,7 +85,7 @@ const getAppointmentStartTime = (
   return startTime;
 };
 
-const createAppointment = (
+const createAppointment = ({
   eligibility = 'ELIGIBLE',
   facilityId = 'some-facility',
   appointmentIen = Math.floor(Math.random() * 100000),
@@ -99,7 +99,7 @@ const createAppointment = (
   status = '',
   startTime = getAppointmentStartTime(eligibility, preCheckInValid, uuid),
   checkInSteps = [],
-) => {
+} = {}) => {
   const formattedStartTime = dateFns.format(
     startTime,
     isoDateWithoutTimezoneFormat,
@@ -174,12 +174,12 @@ const createMultipleAppointments = (
     payload: {
       demographics: mockDemographics,
       appointments: [
-        createAppointment(
-          'INELIGIBLE_TOO_LATE',
-          'ABC_123',
-          '0000',
-          `TEST CLINIC-L`,
-        ),
+        createAppointment({
+          eligibility: 'INELIGIBLE_TOO_LATE',
+          facilityId: 'ABC_123',
+          appointmentIen: '0000',
+          clinicFriendlyName: `TEST CLINIC-L`,
+        }),
       ],
       patientDemographicsStatus: {
         demographicsNeedsUpdate,
@@ -198,24 +198,23 @@ const createMultipleAppointments = (
   }
   for (let i = 0; i < numberOfCheckInAbledAppointments; i += 1) {
     rv.payload.appointments.push(
-      createAppointment(
-        'ELIGIBLE',
-        'ABC_123',
-        `000${i + 1}`,
-        `TEST CLINIC-${i}`,
-        false,
-        token,
+      createAppointment({
+        eligibility: 'ELIGIBLE',
+        facilityId: 'ABC_123',
+        appointmentIen: `000${i + 1}`,
+        clinicFriendlyName: `TEST CLINIC-${i}`,
+        uuid: token,
         timezone,
-      ),
+      }),
     );
   }
   rv.payload.appointments.push(
-    createAppointment(
-      'INELIGIBLE_TOO_EARLY',
-      'ABC_123',
-      `0050`,
-      `TEST CLINIC-E`,
-    ),
+    createAppointment({
+      eligibility: 'INELIGIBLE_TOO_EARLY',
+      facilityId: 'ABC_123',
+      appointmentIen: `0050`,
+      clinicFriendlyName: `TEST CLINIC-E`,
+    }),
   );
 
   return rv;

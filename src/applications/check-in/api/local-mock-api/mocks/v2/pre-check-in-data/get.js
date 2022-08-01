@@ -85,12 +85,14 @@ const createMockSuccessResponse = (
           status,
           startTime: mockTime,
           checkInSteps,
+          preCheckInValid: true,
         }),
         createAppointment({
           clinicLocation: 'Test location, room C',
           status,
           startTime: mockTime,
           checkInSteps,
+          preCheckInValid: true,
         }),
       ],
       patientDemographicsStatus: {
