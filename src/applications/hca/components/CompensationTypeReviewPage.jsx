@@ -6,12 +6,13 @@ const HIGH_DISABILITY = 'Yes (50% or higher rating)';
 const LOW_DISABILITY = 'Yes (40% or lower rating)';
 const NO_DISABILITY = 'No';
 
-const CompensationTypeReviewPage = props => {
-  const { data } = props;
+const CompensationTypeReviewPage = ({ data }) => {
+  const { vaCompensationType } = data;
   let compensationType = NO_DISABILITY;
-  if (data.vaCompensationType === 'highDisability') {
+
+  if (vaCompensationType === 'highDisability') {
     compensationType = HIGH_DISABILITY;
-  } else if (data.vaCompensationType === 'lowDisability') {
+  } else if (vaCompensationType === 'lowDisability') {
     compensationType = LOW_DISABILITY;
   }
 
@@ -44,9 +45,8 @@ const CompensationTypeReviewPage = props => {
   );
 };
 
-export default CompensationTypeReviewPage;
-
 CompensationTypeReviewPage.propTypes = {
   data: PropTypes.object,
-  props: PropTypes.object,
 };
+
+export default CompensationTypeReviewPage;
