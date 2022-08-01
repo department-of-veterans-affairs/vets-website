@@ -31,7 +31,12 @@ const HcaOMBInfo = () => {
           Privacy Act Statement
         </button>
       </div>
-      <VaModal id="omb-modal" visible={modalOpen} closeEvent={closeModal}>
+      <VaModal
+        id="omb-modal"
+        visible={modalOpen}
+        onCloseEvent={closeModal}
+        clickToClose
+      >
         <HCAPrivacyActStatement />
       </VaModal>
     </div>
