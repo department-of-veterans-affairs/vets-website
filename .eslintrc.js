@@ -12,6 +12,14 @@ module.exports = {
     __MEGAMENU_CONFIG__: true,
     __REGISTRY__: true,
   },
+  settings: {
+    'import/resolver': {
+      node: {
+        moduleDirectory: ['node_modules', 'src/'],
+      },
+      'babel-module': {},
+    },
+  },
   rules: {
     /* || Eslint main rules || */
     camelcase: [2, { properties: 'always' }], // Override airbnb style.

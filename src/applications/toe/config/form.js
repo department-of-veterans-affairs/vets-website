@@ -43,6 +43,7 @@ import {
   addWhitespaceOnlyError,
   isAlphaNumeric,
   applicantIsChildOfSponsor,
+  transformTOEForm,
   // prefillTransformer,
 } from '../helpers';
 
@@ -101,9 +102,10 @@ function phoneSchema() {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: '/v0/api',
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  transformForSubmit: transformTOEForm,
   trackingPrefix: 'toe-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

@@ -76,9 +76,10 @@ export const VerificationRequiredAlert = () => (
       </li>
       <li>
         Or call us at <va-telephone contact={CONTACTS['222_VETS']} />. If you
-        have hearing hearing loss, call TTY:{' '}
-        <va-telephone contact={CONTACTS.HELP_TTY} />. We’re here Monday through
-        Friday, 8:00 a.m. to 8:00 p.m. <abbr title="eastern time">ET</abbr>.
+        have hearing hearing loss, call{' '}
+        <va-telephone contact={CONTACTS['711']} tty />. We’re here Monday
+        through Friday, 8:00 a.m. to 8:00 p.m.{' '}
+        <abbr title="eastern time">ET</abbr>.
       </li>
     </ul>
     <p>
