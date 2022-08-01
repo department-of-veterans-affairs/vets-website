@@ -167,8 +167,8 @@ const HCASubwayMap = () => (
             <p>
               If you don’t receive your decision letter within a week after you
               apply, please don’t apply again. Call us at{' '}
-              <va-telephone contact={CONTACTS['222_VETS']} />
-              (TTY: <va-telephone contact={CONTACTS[711]} />
+              <va-telephone contact={CONTACTS['222_VETS']} /> (
+              <va-telephone contact={CONTACTS['711']} tty />
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.{' '}
               <abbr title="eastern time">ET</abbr>.
             </p>
