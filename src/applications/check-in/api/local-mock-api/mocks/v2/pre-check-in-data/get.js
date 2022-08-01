@@ -89,6 +89,7 @@ const createMockSuccessResponse = (
         }),
         createAppointment({
           clinicLocation: 'Test location, room C',
+          kind: apptKind,
           status,
           startTime: mockTime,
           checkInSteps,
