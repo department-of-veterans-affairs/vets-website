@@ -39,8 +39,11 @@
     "lint:js:untracked:fix": "LIST=`git ls-files --others --exclude-standard | grep \"\\.js[x]\\{0,1\\}$\"`; if [ \"$LIST\" ]; then eslint --fix --quiet $LIST; fi",
     "lint:sass": "stylelint src/**/*.scss --fix",
     "lint:sass:changed": "LIST=`git diff-index --diff-filter=d --name-only HEAD -- \"*.scss\"`; if [ \"$LIST\" ]; then stylelint $LIST; fi",
+    "list-imports:apps": "node script/list-imports.js --app-dir applications",
+    "list-imports:plat": "node script/list-imports.js --app-dir platform",
     "migrate-component": "node script/component-migration/index.js",
     "mock-api": "node src/platform/testing/e2e/mockapi.js",
+    "modules-folder:del": "./script/delete-modules-folder.sh",
     "new:app": "yo @department-of-veterans-affairs/vets-website && npm run lint:js:untracked:fix",
     "pact:can-i-deploy": "node ./script/can-i-deploy.js",
     "pact:publish": "node ./script/publish-pacts.js",
@@ -261,7 +264,7 @@
   },
   "private": true,
   "dependencies": {
-    "@babel/runtime": "^7.17.7",
+    "@babel/runtime": "^7.15.4",
     "@department-of-veterans-affairs/component-library": "^11.2.1",
     "@department-of-veterans-affairs/formation": "^7.0.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
@@ -378,10 +381,13 @@
     "@babel/runtime": "^7.15.4",
     "punycode": "1.4.1",
     "**/cached-path-relative": "1.1.0",
-    "**/moment": "^2.29.2",
     "**/minimist": "^1.2.6",
     "**/async": "^2.6.4",
     "**/ejs": "^3.1.7",
     "**/fbjs": "^3.0.4"
+  },
+  "workspaces": {
+    "packages": [],
+    "nohoist": []
   }
 }
