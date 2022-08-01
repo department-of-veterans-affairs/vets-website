@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { focusElement } from 'platform/utilities/ui';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 import HCAEnrollmentStatus from './HCAEnrollmentStatus';
 import LoggedOutIntroContent from '../components/LoggedOutIntroContent';
@@ -25,6 +27,7 @@ const IntroductionPage = props => {
     showLoginAlert,
     showMainLoader,
     showVerificationRequiredAlert,
+    hcaEnrollmentStatusOverrideEnabled,
   } = props;
 
   useEffect(() => {
@@ -52,15 +55,19 @@ const IntroductionPage = props => {
         />
       )}
       {showVerificationRequiredAlert && <VerificationRequiredAlert />}
-      {showLoggedOutContent && (
+      {(showLoggedOutContent || hcaEnrollmentStatusOverrideEnabled) && (
         <LoggedOutIntroContent route={route} showLoginAlert={showLoginAlert} />
       )}
-      {showLOA3Content && <HCAEnrollmentStatus route={route} />}
+      {showLOA3Content &&
+        !hcaEnrollmentStatusOverrideEnabled && (
+          <HCAEnrollmentStatus route={route} />
+        )}
     </div>
   );
 };
 
 IntroductionPage.propTypes = {
+  hcaEnrollmentStatusOverrideEnabled: PropTypes.bool,
   route: PropTypes.object,
   showLOA3Content: PropTypes.bool,
   showLoggedOutContent: PropTypes.bool,
@@ -75,6 +82,9 @@ const mapStateToProps = state => ({
   showLoggedOutContent: shouldShowLoggedOutContent(state),
   showLoginAlert: isLoggedOut(state),
   showVerificationRequiredAlert: isUserLOA1(state),
+  hcaEnrollmentStatusOverrideEnabled: toggleValues(state)[
+    FEATURE_FLAG_NAMES.hcaEnrollmentStatusOverrideEnabled
+  ],
 });
 
 export { IntroductionPage };
