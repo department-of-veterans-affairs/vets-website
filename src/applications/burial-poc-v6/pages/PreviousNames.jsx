@@ -5,7 +5,7 @@ import {
   RadioGroup,
 } from '@department-of-veterans-affairs/va-forms-system-core';
 import { useFormikContext } from 'formik';
-import { ExpandingGroupClass } from '../constants';
+import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 
 export default function PreviousNames(props) {
   const { values, setFieldValue } = useFormikContext();
@@ -25,13 +25,7 @@ export default function PreviousNames(props) {
   return (
     <>
       <Page {...props}>
-        <div
-          className={
-            values?.veteranServedUnderAnotherName === 'true'
-              ? `${ExpandingGroupClass}`
-              : ''
-          }
-        >
+        <div>
           <RadioGroup
             name="veteranServedUnderAnotherName"
             label="Did the Veteran serve under another name?"
@@ -42,12 +36,10 @@ export default function PreviousNames(props) {
             ]}
           />
           {values?.veteranServedUnderAnotherName === 'true' ? (
-            <>
+            <ExpandingGroup open showPlus>
               <FullNameField name="previousNames[0]" />
-              <va-button className="btn usa-button usa-button-disabled">
-                Add another name
-              </va-button>
-            </>
+              <va-button disabled text="Add another name" />
+            </ExpandingGroup>
           ) : null}
         </div>
       </Page>

@@ -7,7 +7,7 @@ import {
   CheckboxField,
 } from '@department-of-veterans-affairs/va-forms-system-core';
 import { useFormikContext } from 'formik';
-import { ExpandingGroupClass } from '../constants';
+import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
 
 export default function ClaimantInformation(props) {
   const { values, setFieldValue } = useFormikContext();
@@ -55,11 +55,7 @@ export default function ClaimantInformation(props) {
           legend="Full Name"
           legendClasses="sr-only"
         />
-        <div
-          className={
-            values.relationship.type === 'Other' ? `${ExpandingGroupClass}` : ''
-          }
-        >
+        <div>
           <RadioGroup
             name="relationship.type"
             label="Relationship to the deceased Veteran"
@@ -67,9 +63,8 @@ export default function ClaimantInformation(props) {
             options={getOptions}
           />
           {values.relationship.type === 'other' && (
-            <>
+            <ExpandingGroup open showPlus>
               <TextField
-                className="vads-u-border-color--primary-alt-light vads-u-border-left--4px vads-u-padding-left--2 vads-u-padding-y--0p5 vads-u-margin-left--neg2p5"
                 name="relationship.other"
                 label="Please specify"
                 required={values.relationship.type === 'other'}
@@ -78,7 +73,7 @@ export default function ClaimantInformation(props) {
                 name="claimingAsFirm"
                 label="Claiming as a firm, corporation or state agency"
               />
-            </>
+            </ExpandingGroup>
           )}
         </div>
       </Page>

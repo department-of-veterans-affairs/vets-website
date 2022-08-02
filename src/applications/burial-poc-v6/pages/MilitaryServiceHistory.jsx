@@ -44,13 +44,7 @@ export default function MilitaryServiceHistory(props) {
           name="toursOfDuty[0].placeOfSeparation"
           label="Place of separation"
         />
-        <va-button
-          type="button"
-          className="usa-button-secondary va-growable-add-btn usa-button-disabled"
-          disabled
-        >
-          Add another Service Period
-        </va-button>
+        <va-button type="button" disabled text="Add another Service Period" />
         <br />
       </Page>
     </>
