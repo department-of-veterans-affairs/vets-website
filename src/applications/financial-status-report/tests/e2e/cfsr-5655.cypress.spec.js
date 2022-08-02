@@ -25,6 +25,7 @@ const testConfig = createTestConfig(
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
             { name: 'show_financial_status_report', value: true },
+            { name: 'combined_financial_status_report', value: true },
           ],
         },
       });
@@ -114,12 +115,11 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'recreational-vehicle-records': ({ afterHook }) => {
+      'cfsr-recreational-vehicle-records': ({ afterHook }) => {
         afterHook(() => {
-          cy.findByLabelText(/Type of vehicle/)
-            .type('Boat')
-            .type('{downarrow}{enter}');
-          cy.findByLabelText(/Estimated value/)
+          cy.findByLabelText(
+            /What is the estimated value of your trailers, campers, and boats?/,
+          )
             .type('2500')
             .type('{downarrow}{enter}');
           cy.get('.usa-button-primary').click();
