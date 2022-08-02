@@ -1070,7 +1070,8 @@ const handleUserRequest = (req, res) => {
   }
   // default user object
   // modify as needed for simulating varrious users
-  return res.json(mockUserData.badAddress);
+  // return res.json(mockUserData.badAddress);
+  return res.json(mockUserData.user72Success);
 };
 
 module.exports = { ...mockUserData, handleUserRequest };

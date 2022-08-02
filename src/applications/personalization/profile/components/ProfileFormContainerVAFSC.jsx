@@ -86,7 +86,7 @@ const ProfileFormContainerVAFSC = ({
       validate={validate}
     >
       <Form ref={formRef}>
-        {children}
+        <div className="vads-u-margin-bottom--2">{children}</div>
 
         {error && (
           <div
