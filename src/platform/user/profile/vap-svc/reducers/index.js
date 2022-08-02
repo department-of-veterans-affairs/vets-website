@@ -57,7 +57,6 @@ const initialState = {
   transactions: [],
   fieldTransactionMap: {},
   transactionsAwaitingUpdate: [],
-  transactionIntervalId: null,
   metadata: {
     mostRecentErroredTransactionId: '',
   },
