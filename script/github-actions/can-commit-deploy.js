@@ -125,7 +125,7 @@ const canCommitDeployProd = async isolatedAppSha => {
 };
 
 const main = () => {
-  const environment = process.env.buildtype;
+  const environment = process.env.BUILDTYPE;
 
   if (environment === ENVIRONMENTS.VAGOVPROD)
     return canCommitDeployProd(GITHUB_SHA);

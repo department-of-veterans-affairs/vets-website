@@ -67,34 +67,34 @@ jobs:
           ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
           env_variable_name: MAPBOX_TOKEN
 
-      - name: Build
-        run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
-        timeout-minutes: 30
-        env:
-          ENTRY: ${{ steps.get-changed-apps.outputs.entry_names }}
+      # - name: Build
+      #   run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
+      #   timeout-minutes: 30
+      #   env:
+      #     ENTRY: ${{ steps.get-changed-apps.outputs.entry_names }}
 
-      - name: Generate build details
-        run: |
-          cat > build/${{ matrix.buildtype }}/BUILD.txt << EOF
-          BUILDTYPE=${{ matrix.buildtype }}
-          NODE_ENV=production
-          BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
-          CHANGE_TARGET=null
-          RUN_ID=${{ github.run_id }}
-          RUN_NUMBER=${{ github.run_number }}
-          REF=${{ github.sha }}
-          BUILDTIME=$(date +%s)
-          EOF
+      # - name: Generate build details
+      #   run: |
+      #     cat > build/${{ matrix.buildtype }}/BUILD.txt << EOF
+      #     BUILDTYPE=${{ matrix.buildtype }}
+      #     NODE_ENV=production
+      #     BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+      #     CHANGE_TARGET=null
+      #     RUN_ID=${{ github.run_id }}
+      #     RUN_NUMBER=${{ github.run_number }}
+      #     REF=${{ github.sha }}
+      #     BUILDTIME=$(date +%s)
+      #     EOF
 
-      - name: Compress and archive build
-        run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
+      # - name: Compress and archive build
+      #   run: tar -C build/${{ matrix.buildtype }} -cjf ${{ matrix.buildtype }}.tar.bz2 .
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ matrix.buildtype }}.tar.bz2
-          path: ${{ matrix.buildtype }}.tar.bz2
-          retention-days: 1
+      # - name: Upload build artifact
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: ${{ matrix.buildtype }}.tar.bz2
+      #     path: ${{ matrix.buildtype }}.tar.bz2
+      #     retention-days: 1
 
   unit-tests:
     name: Unit Tests
@@ -1131,6 +1131,8 @@ jobs:
       - name: Check if commit can be deployed
         id: can-commit-deploy
         run: node ./script/github-actions/can-commit-deploy.js
+        env:
+          BUILDTYPE: ${{ matrix.environment }}
 
       - name: Determine if environment should be deployed
         run: |
