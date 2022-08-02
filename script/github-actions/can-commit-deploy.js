@@ -66,10 +66,9 @@ const isAncestor = (commitA, commitB) => {
   );
 
   if (![0, 1].includes(exitCode)) {
-    console.error(
+    throw new Error(
       `'git merge-base --is-ancestor' exited with an unsuccessful code (${exitCode}).`,
     );
-    process.exit(1);
   }
 
   return commitA !== commitB && exitCode === 0;
