@@ -74,13 +74,18 @@ const isAncestor = (commitA, commitB) => {
   return commitA !== commitB && exitCode === 0;
 };
 
-const canCommitDeploy = async env => {
+/**
+ * Checks whether the GITHUB_SHA is ahead of the last full deploy.
+ * @param {string} env - Deployed environment to check
+ * @returns {Boolean}
+ */
+const isAheadOfLastFullDeploy = async env => {
   const lastFullDeployCommit = await getLastFullDeployCommit(env);
-  const isAheadOfLastFullDeploy = isAncestor(GITHUB_SHA, lastFullDeployCommit);
-  console.log(isAheadOfLastFullDeploy);
+  return isAncestor(GITHUB_SHA, lastFullDeployCommit);
+};
 
-  // This prevents commits older than the last full deploy from deploying
-  if (!isAheadOfLastFullDeploy) return false;
+const canCommitDeploy = async env => {
+  if (!(await isAheadOfLastFullDeploy(env))) return false;
 
   const inProgressWorkflowRuns = await getInProgressWorkflowRuns(
     'continuous-integration.yml',
@@ -101,16 +106,7 @@ const canCommitDeploy = async env => {
 };
 
 const canCommitDeployProd = async isolatedAppSha => {
-  const lastFullDeployCommit = await getLastFullDeployCommit(
-    ENVIRONMENTS.VAGOVPROD,
-  );
-  const isAheadOfLastFullDeploy = isAncestor(
-    isolatedAppSha,
-    lastFullDeployCommit,
-  );
-
-  // This prevents old commits that are rerun from deploying to production
-  if (!isAheadOfLastFullDeploy) return false;
+  if (!(await isAheadOfLastFullDeploy(ENVIRONMENTS.VAGOVPROD))) return false;
 
   const inProgressWorkflowRuns = await getInProgressWorkflowRuns(
     'daily-deploy-production.yml',
@@ -137,6 +133,7 @@ const main = () => {
 
   if (environment === ENVIRONMENTS.VAGOVPROD)
     return canCommitDeployProd(GITHUB_SHA);
+
   return canCommitDeploy(environment);
 };
 
