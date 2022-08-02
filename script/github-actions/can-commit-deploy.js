@@ -70,6 +70,7 @@ const isAncestor = (commitA, commitB) => {
 const canCommitDeploy = async env => {
   const lastFullDeployCommit = await getLastFullDeployCommit(env);
   const isAheadOfLastFullDeploy = isAncestor(GITHUB_SHA, lastFullDeployCommit);
+  console.log(isAheadOfLastFullDeploy);
 
   // This prevents commits older than the last full deploy from deploying
   if (!isAheadOfLastFullDeploy) return false;
