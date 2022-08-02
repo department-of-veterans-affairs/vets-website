@@ -1166,7 +1166,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
-          role-to-assume: ${{ env.${{ matrix.iam-role }} }}
+          role-to-assume: ${{ env.matrix.iam-role }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
