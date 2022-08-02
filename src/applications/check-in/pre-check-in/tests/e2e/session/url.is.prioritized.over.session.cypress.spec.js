@@ -50,7 +50,7 @@ describe('Pre Check In Experience', () => {
           'health.care.pre.check.in.current.uuid',
         );
         const sample = JSON.stringify({
-          token: '0429dda5-4165-46be-9ed1-1e652a8dfd83',
+          token: '46bebc0a-b99c-464f-a5c5-560bc9eae287',
         });
         expect(data).to.equal(sample);
       });
