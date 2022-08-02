@@ -1086,39 +1086,11 @@ jobs:
           aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
           aws s3 cp BUILD_ARTIFACT.txt s3://vetsgov-website-builds-s3-upload-test/build-artifacts/$GITHUB_SHA.txt --acl public-read --region us-gov-west-1
 
-  get-latest-run-number:
-    name: Get Latest Workflow Run Number
-    runs-on: ubuntu-latest
-    if: ${{ always() && github.ref == 'refs/heads/main' && needs.archive.result == 'success' }}
-    needs: archive
-    outputs:
-      latest_run_number: ${{ steps.latest-run-number.outputs.latest_run_number }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
-
-      - name: Set output of latest_run_number
-        id: latest-run-number
-        run: echo ::set-output name=latest_run_number::$(node ./script/github-actions/get-latest-run-number.js)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: ${{ always() && github.ref == 'refs/heads/main' && needs.get-latest-run-number.result == 'success' && needs.get-latest-run-number.outputs.latest_run_number == github.run_number}}
-    needs: [build, get-latest-run-number]
+    if: ${{ always() && github.ref == 'refs/heads/main'}}
+    needs: [archive, build]
 
     strategy:
       matrix:
@@ -1138,11 +1110,39 @@ jobs:
             asset-bucket: prod-va-gov-assets
             iam-role: AWS_FRONTEND_PROD_ROLE
 
+    env:
+      IS_ISOLATED_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
+      DEPLOY_ISOLATED_APPS: false
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Check if commit can be deployed
+        id: can-commit-deploy
+        run: node ./script/github-actions/can-commit-deploy.js
+
+      - name: Determine if environment should be deployed
+        run: |
+          if [[ ${{ steps.can-commit-deploy.outputs.is_deployable }} == "false" ]]; then
+            echo "CAN_DEPLOY=false" >> $GITHUB_ENV
+          elif [[ ${{ matrix.environment }} != "vagovprod" ]]; then
+            echo "CAN_DEPLOY=true" >> $GITHUB_ENV
+          else
+            echo "CAN_DEPLOY=${{ env.IS_ISOLATED_APP_BUILD && DEPLOY_ISOLATED_APPS }}" >> $GITHUB_ENV
+
       - name: Configure AWS credentials (1)
+        if: env.CAN_DEPLOY == 'true'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -1150,12 +1150,14 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get AWS IAM role
+        if: env.CAN_DEPLOY == 'true'
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/${{ matrix.iam-role }}
           env_variable_name: ${{ matrix.iam-role }}
 
       - name: Configure AWS Credentials (2)
+        if: env.CAN_DEPLOY == 'true'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -1165,13 +1167,8 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
-      - name: Check if isolated app commit can be deployed
-        id: can-commit-deploy
-        if: needs.build.outputs.entry_names != '' && matrix.environment == 'vagovprod'
-        run: node ./script/github-actions/can-commit-deploy.js
-
       - name: Deploy
-        if: matrix.environment != 'vagovprod' || (needs.build.outputs.entry_names != '' && steps.can-commit-deploy.outputs.is_deployable == 'true')
+        if: env.CAN_DEPLOY == 'true'
         run: |
           if [[ -n "${{ needs.build.outputs.entry_names }}" ]]; then
             ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
