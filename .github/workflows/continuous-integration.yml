@@ -1136,9 +1136,9 @@ jobs:
 
       - name: Determine if environment should be deployed
         run: |
-          if [[ ${{ steps.can-commit-deploy.outputs.is_deployable }} == "false" ]]; then
+          if [[ "${{ steps.can-commit-deploy.outputs.is_deployable }}" == "false" ]]; then
             echo "CAN_DEPLOY=false" >> $GITHUB_ENV
-          elif [[ ${{ matrix.environment }} != "vagovprod" ]]; then
+          elif [[ "${{ matrix.environment }}" != "vagovprod" ]]; then
             echo "CAN_DEPLOY=true" >> $GITHUB_ENV
           else
             echo "CAN_DEPLOY=${{ env.IS_ISOLATED_APP_BUILD && env.DEPLOY_ISOLATED_APPS }}" >> $GITHUB_ENV
