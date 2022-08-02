@@ -14,7 +14,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 
 import applicantInformation from '../pages/applicantInformation';
 import serviceHistory from '../pages/serviceHistory';
-import contactInformation from '../pages/contactInformation';
+import contactInformation1 from '../pages/contactInformation1';
+import contactInformation2 from '../pages/contactInformation2';
 import directDeposit from '../pages/directDeposit';
 import expandUnder from '../pages/expandUnder';
 import conditionalFields from '../pages/conditionalFields';
@@ -91,11 +92,18 @@ const formConfig = {
     additionalInformationChapter: {
       title: 'Chapter Title: Additional Information (manual method)',
       pages: {
-        contactInformation: {
+        contactInformation1: {
           path: 'contact-information',
           title: 'Section Title: Contact Information',
-          uiSchema: contactInformation.uiSchema,
-          schema: contactInformation.schema,
+          uiSchema: contactInformation1.uiSchema,
+          schema: contactInformation1.schema,
+        },
+        contactInformation2: {
+          path: 'contact-information-with-military-base',
+          title: 'Section Title: Contact Information with Military base',
+          uiSchema: contactInformation2.uiSchema,
+          schema: contactInformation2.schema,
+          updateFormData: contactInformation2.updateFormData,
         },
         directDeposit: {
           path: 'direct-deposit',

@@ -85,6 +85,7 @@ const formConfig = {
           title: mailingAddress.title,
           uiSchema: mailingAddress.uiSchema,
           schema: mailingAddress.schema,
+          updateFormData: mailingAddress.updateFormData,
         },
         additionalInformation: {
           path: 'additional-contact-information',

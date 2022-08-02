@@ -6,13 +6,7 @@ import { BirthInfoDescription } from '../../../components/FormDescriptions';
 import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
 
 const { cityOfBirth } = fullSchemaHca.properties;
-const states = [
-  ...new Set(
-    Object.values(constants.states)
-      .reverse()
-      .flat(),
-  ),
-];
+const { states50AndDC } = constants;
 
 export default {
   uiSchema: {
@@ -48,8 +42,8 @@ export default {
           cityOfBirth,
           stateOfBirth: {
             type: 'string',
-            enum: [...states.map(object => object.value), 'Other'],
-            enumNames: [...states.map(object => object.label), 'Other'],
+            enum: [...states50AndDC.map(object => object.value), 'Other'],
+            enumNames: [...states50AndDC.map(object => object.label), 'Other'],
           },
         },
       },
