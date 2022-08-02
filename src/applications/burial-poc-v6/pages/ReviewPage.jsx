@@ -450,17 +450,6 @@ export default function ReviewPage(props) {
           },
         },
       },
-      // {
-      //   title: "Additional information",
-      //   id: 'additional-information',
-      //   pageUrl: '/additional-information',
-      //   fields: {
-      //     "transportationReceipts": {
-      //       label: "Transportation Receipts?",
-      //       value: state?.values?.transportationReceipts,
-      //     }
-      //   },
-      // }
     ],
   };
 
@@ -488,6 +477,7 @@ export default function ReviewPage(props) {
                   <Link
                     to={`${page.pageUrl}?edit=true&source=${page.id}`}
                     className="vads-u-margin-bottom--1p5 review-page--page-heading--link"
+                    aria-label="Edit"
                   >
                     Edit
                   </Link>

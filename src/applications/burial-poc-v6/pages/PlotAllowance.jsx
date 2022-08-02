@@ -3,6 +3,7 @@ import {
   TextField,
   Page,
   RadioGroup,
+  NumberField,
 } from '@department-of-veterans-affairs/va-forms-system-core';
 import { useFormikContext } from 'formik';
 import ExpandingGroup from '@department-of-veterans-affairs/component-library/ExpandingGroup';
@@ -57,7 +58,7 @@ export default function PlotAllowance(props) {
           {formikContext?.values?.govtContributions === 'true' && (
             <ExpandingGroup open showPlus>
               <div className="vads-u-padding-y--1p5">
-                <TextField
+                <NumberField
                   required
                   name="amountGovtContribution"
                   label="Amount of government or employer contribution."
