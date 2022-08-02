@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Page,
   CheckboxFieldGroup,
-  TextField,
+  NumberField,
 } from '@department-of-veterans-affairs/va-forms-system-core';
 import { useFormikContext } from 'formik';
 
@@ -45,7 +45,7 @@ export default function BenefitsSelection(props) {
           >
             <div className="form-expanding-group-inner-enter-done">
               <div className="schemaform-expandUnder-indent">
-                <TextField
+                <NumberField
                   name="amountIncurred"
                   label="Transportation amount incurred"
                   required={!!state.values.benefitsSelection?.transportation}
