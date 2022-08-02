@@ -47,7 +47,7 @@ const DebtCheckBox = ({ debt }) => {
   const checkboxSubText = `Pay or request help by [SOME DATE]`;
 
   return (
-    <div className="vads-u-display--flex vads-u-margin-y--1">
+    <div className="vads-u-display--flex vads-u-margin-y--2">
       <input
         name="request-help-with-debt"
         id={debtIdentifier}
@@ -57,8 +57,10 @@ const DebtCheckBox = ({ debt }) => {
         onChange={() => onChange(debt)}
       />
       <label className="vads-u-margin--0" htmlFor={debtIdentifier}>
-        <p className="vads-u-margin--0">{checkboxMainText}</p>
-        <p className="vads-u-margin--0 vads-u-font-size--sm vads-u-color--gray-medium">
+        <p className="vads-u-margin--0 vads-u-display--inline">
+          {checkboxMainText}
+        </p>
+        <p className="vads-u-margin-left--4 vads-u-margin-y--0 vads-u-font-size--sm vads-u-color--gray">
           {checkboxSubText}
         </p>
       </label>
