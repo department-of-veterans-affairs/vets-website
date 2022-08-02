@@ -33,12 +33,7 @@
               "amount": "16000.34"
             }
           ],
-          "recVehicles": [
-            {
-              "recVehicleType": "Boat",
-              "recVehicleAmount": "15000.23"
-            }
-          ],
+          "recVehicleAmount": "15000.23",
           "cashInBank": "3000.45",
           "cashOnHand": "10000.67",
           "usSavingsBonds": "25000.65",
