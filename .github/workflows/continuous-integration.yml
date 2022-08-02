@@ -1139,7 +1139,7 @@ jobs:
           elif [[ ${{ matrix.environment }} != "vagovprod" ]]; then
             echo "CAN_DEPLOY=true" >> $GITHUB_ENV
           else
-            echo "CAN_DEPLOY=${{ env.IS_ISOLATED_APP_BUILD && DEPLOY_ISOLATED_APPS }}" >> $GITHUB_ENV
+            echo "CAN_DEPLOY=${{ env.IS_ISOLATED_APP_BUILD && env.DEPLOY_ISOLATED_APPS }}" >> $GITHUB_ENV
 
       - name: Configure AWS credentials (1)
         if: env.CAN_DEPLOY == 'true'
