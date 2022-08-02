@@ -31,7 +31,9 @@ export default function useClinicFormState() {
   const initialData = useSelector(getFormData);
   const clinics = useSelector(getClinicsForChosenFacility);
   const pastAppointments = useSelector(selectPastAppointments);
-  const featureVaosV2Next = useSelector(selectFeatureVaosV2Next);
+  const featureVaosV2Next = useSelector(state =>
+    selectFeatureVaosV2Next(state),
+  );
 
   const formState = useFormState({
     initialSchema() {
