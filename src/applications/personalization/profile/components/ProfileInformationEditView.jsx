@@ -14,8 +14,6 @@ import {
   openModal,
   updateFormFieldWithSchema,
   validateAddress,
-  clearTransactionIntervalId,
-  updateTransactionIntervalId,
 } from '@@vap-svc/actions';
 
 import * as VAP_SERVICE from '@@vap-svc/constants';
@@ -58,14 +56,12 @@ const propTypes = {
   ).isRequired,
   apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
   clearTransactionRequest: PropTypes.func.isRequired,
-  clearTransactionIntervalId: PropTypes.func.isRequired,
   convertCleanDataToPayload: PropTypes.func.isRequired,
   createPersonalInfoUpdate: PropTypes.func.isRequired,
   createTransaction: PropTypes.func.isRequired,
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
   formSchema: PropTypes.object.isRequired,
   getInitialFormValues: PropTypes.func.isRequired,
-  updateTransactionIntervalId: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,
   refreshTransaction: PropTypes.func.isRequired,
   uiSchema: PropTypes.object.isRequired,
@@ -119,14 +115,12 @@ export class ProfileInformationEditView extends Component {
         this.refreshTransaction,
         window.VetsGov.pollTimeout || 1000,
       );
-      this.props.updateTransactionIntervalId(this.interval);
     }
     // if the transaction is no longer pending, stop refreshing it
     if (
       isPendingTransaction(prevProps.transaction) &&
       !isPendingTransaction(this.props.transaction)
     ) {
-      this.props.clearTransactionIntervalId();
       window.clearInterval(this.interval);
     }
     // if a transaction was created that was immediately successful (for example
@@ -141,7 +135,6 @@ export class ProfileInformationEditView extends Component {
   componentWillUnmount() {
     if (this.interval) {
       window.clearInterval(this.interval);
-      this.props.clearTransactionIntervalId();
     }
     const { fieldName } = this.props;
     // Errors returned directly from the API request (as opposed through a transaction lookup) are
@@ -432,8 +425,6 @@ const mapDispatchToProps = {
   validateAddress,
   refreshTransaction,
   createPersonalInfoUpdate,
-  updateTransactionIntervalId,
-  clearTransactionIntervalId,
 };
 
 export default connect(

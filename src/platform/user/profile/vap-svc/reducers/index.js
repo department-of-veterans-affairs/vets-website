@@ -19,8 +19,6 @@ import {
   VAP_SERVICE_TRANSACTION_REQUEST_CLEARED,
   VAP_SERVICE_TRANSACTION_UPDATE_REQUESTED,
   VAP_SERVICE_TRANSACTION_UPDATE_FAILED,
-  VAP_SERVICE_TRANSACTION_INTERVAL_ID_CLEARED,
-  VAP_SERVICE_TRANSACTION_INTERVAL_ID_UPDATED,
   VAP_SERVICE_BAD_ADDRESS_NO_CHANGES_DETECTED,
   ADDRESS_VALIDATION_CONFIRM,
   ADDRESS_VALIDATION_ERROR,
@@ -269,20 +267,6 @@ export default function vapService(state = initialState, action) {
       return {
         ...state,
         fieldTransactionMap,
-      };
-    }
-
-    case VAP_SERVICE_TRANSACTION_INTERVAL_ID_CLEARED: {
-      return {
-        ...state,
-        transactionIntervalId: null,
-      };
-    }
-
-    case VAP_SERVICE_TRANSACTION_INTERVAL_ID_UPDATED: {
-      return {
-        ...state,
-        transactionIntervalId: action.id ?? null,
       };
     }
 
