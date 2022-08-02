@@ -14,6 +14,14 @@
     "state": "AK",
     "postalCode": "90210"
   },
+  "address2": {
+    "street": "345 Main St",
+    "street2": "Apt 102",
+    "city": "Small City",
+    "country": "USA",
+    "state": "AK",
+    "postalCode": "90211"
+  },
   "email": "me@me.com",
   "altEmail": "me2@me.com",
   "phoneNumber": "8005551212",
