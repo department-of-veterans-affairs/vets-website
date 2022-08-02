@@ -323,7 +323,6 @@
     "react-router": "3",
     "react-router-dom": "^5.3.0",
     "react-router-dom-v5-compat": "^6.3.0",
-    "react-router-dom-v6": "npm:react-router-dom@6",
     "react-router-last-location": "^2.0.1",
     "react-scroll": "^1.8.4",
     "react-tabs": "^3.2.3",
