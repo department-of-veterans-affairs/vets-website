@@ -1,21 +1,20 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import get from '../../../../utilities/data/get';
-import set from '../../../../utilities/data/set';
 import Scroll from 'react-scroll';
-
 import {
   getDefaultFormState,
   toIdSchema,
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
+import get from '../../../../utilities/data/get';
+import set from '../../../../utilities/data/set';
 
 import SchemaForm from '../components/SchemaForm';
 import { focusElement } from '../utilities/ui';
 
 import findDuplicateIndexes from '../utilities/data/findDuplicateIndexes';
 
-const Element = Scroll.Element;
-const scroller = Scroll.scroller;
+const { Element } = Scroll;
+const { scroller } = Scroll;
 const scrollToTimeout = process.env.NODE_ENV === 'test' ? 0 : 100;
 
 /* Growable table (Array) field on the Review page
@@ -81,7 +80,7 @@ class ArrayField extends React.Component {
   }
 
   getItemSchema(index) {
-    const schema = this.props.schema;
+    const { schema } = this.props;
     if (schema.items.length > index) {
       return schema.items[index];
     }
@@ -354,7 +353,7 @@ class ArrayField extends React.Component {
               <div
                 key={index}
                 name={`${fieldName}-${index}`}
-                className={'va-growable-background'}
+                className="va-growable-background"
               >
                 <div className="row small-collapse">
                   <SchemaForm
