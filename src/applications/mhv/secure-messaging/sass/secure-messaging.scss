@@ -1,1 +1,21 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.message-box {
+    background-color: $color-gray-lightest;
+    border-radius: 4px;
+}
+
+.message-title {
+    font-size: 20px;
+    margin-left: 12px;
+    margin-top: 14px;
+    margin-bottom: 25px;
+}
+
+.message-body {
+    background-color: $color-white;
+    font-size: 16px;
+    border-radius: 0px 0px 4px 4px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
