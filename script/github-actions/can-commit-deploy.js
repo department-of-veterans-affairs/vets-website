@@ -14,11 +14,11 @@ const [owner, repo] = GITHUB_REPOSITORY.split('/');
 
 const octokit = new Octokit({ auth });
 
-const getInProgressWorkflowRuns = () => {
+const getInProgressWorkflowRuns = workflow_id => {
   const params = {
     owner,
     repo,
-    workflow_id: 'daily-deploy-production.yml',
+    workflow_id,
     branch: 'main',
     status: 'in_progress',
   };
@@ -38,21 +38,18 @@ const getInProgressWorkflowRuns = () => {
     });
 };
 
-const getLastFullDeployCommit = async () => {
-  const prodBuildTextUrl = new URL(
-    path.join(BUCKETS[ENVIRONMENTS.VAGOVPROD], 'BUILD.txt'),
-  );
+const getLastFullDeployCommit = async env => {
+  const envBucketUrl = BUCKETS[env];
+  const buildTextUrl = new URL(path.join(envBucketUrl, 'BUILD.txt'));
 
-  const response = await fetch(prodBuildTextUrl);
+  const response = await fetch(buildTextUrl);
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${prodBuildTextUrl}.\n${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${buildTextUrl}.\n${response.statusText}`);
   }
 
   const buildTextFile = await response.text();
-  const lines = buildTextFile.split('\n').filter(row => row);
+  const lines = buildTextFile.split('\n').filter(line => line);
 
   return lines[6]?.slice(4);
 };
@@ -70,8 +67,35 @@ const isAncestor = (commitA, commitB) => {
   );
 };
 
-const canCommitDeploy = async isolatedAppSha => {
-  const lastFullDeployCommit = await getLastFullDeployCommit();
+const canCommitDeploy = async env => {
+  const lastFullDeployCommit = await getLastFullDeployCommit(env);
+  const isAheadOfLastFullDeploy = isAncestor(GITHUB_SHA, lastFullDeployCommit);
+
+  // This prevents commits older than the last full deploy from deploying
+  if (!isAheadOfLastFullDeploy) return false;
+
+  const inProgressWorkflowRuns = await getInProgressWorkflowRuns(
+    'continuous-integration.yml',
+  );
+  if (inProgressWorkflowRuns.length === 1) return true;
+
+  const previousCommitsInProgress = inProgressWorkflowRuns.find(workflowRun =>
+    isAncestor(workflowRun.head_sha, GITHUB_SHA),
+  );
+
+  if (!previousCommitsInProgress) return true;
+
+  const timeout = 5; // Number of minutes to wait before checking again
+  console.log('Waiting for previous workflow runs to finish deploying...');
+  await sleep(timeout * 60 * 1000);
+
+  return canCommitDeploy(env);
+};
+
+const canCommitDeployProd = async isolatedAppSha => {
+  const lastFullDeployCommit = await getLastFullDeployCommit(
+    ENVIRONMENTS.VAGOVPROD,
+  );
   const isAheadOfLastFullDeploy = isAncestor(
     isolatedAppSha,
     lastFullDeployCommit,
@@ -80,7 +104,9 @@ const canCommitDeploy = async isolatedAppSha => {
   // This prevents old commits that are rerun from deploying to production
   if (!isAheadOfLastFullDeploy) return false;
 
-  const inProgressWorkflowRuns = await getInProgressWorkflowRuns();
+  const inProgressWorkflowRuns = await getInProgressWorkflowRuns(
+    'daily-deploy-production.yml',
+  );
   if (inProgressWorkflowRuns.length === 0) return true;
 
   // Get the first item in the Array. Since daily production deploy workflow runs
@@ -95,10 +121,18 @@ const canCommitDeploy = async isolatedAppSha => {
   console.log('Waiting for the Daily Production Deploy to complete...');
   await sleep(timeout * 60 * 1000);
 
-  return canCommitDeploy(isolatedAppSha);
+  return canCommitDeployProd(isolatedAppSha);
 };
 
-canCommitDeploy(GITHUB_SHA)
+const main = () => {
+  const environment = process.env.buildtype;
+
+  if (environment === ENVIRONMENTS.VAGOVPROD)
+    return canCommitDeployProd(GITHUB_SHA);
+  return canCommitDeploy(environment);
+};
+
+main()
   .then(deployabilityStatus => {
     core.setOutput('is_deployable', deployabilityStatus);
   })
