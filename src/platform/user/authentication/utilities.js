@@ -320,9 +320,11 @@ export async function signup({
   version = API_VERSION,
   csp = CSP_IDS.ID_ME,
 } = {}) {
+  const params = csp === CSP_IDS.ID_ME ? { op: 'signup' } : {};
   return redirect(
     await sessionTypeUrl({
-      type: `${csp}_signup`,
+      type: SIGNUP_TYPES[`${csp}`],
+      queryParams: params,
       version,
       ...(csp === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
     }),
