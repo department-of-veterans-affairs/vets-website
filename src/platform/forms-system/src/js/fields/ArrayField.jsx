@@ -11,7 +11,11 @@ import {
 
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import set from 'platform/utilities/data/set';
-import { scrollToFirstError, focusElement } from '../utilities/ui';
+import {
+  scrollToFirstError,
+  focusElement,
+  getFocusableElements,
+} from '../utilities/ui';
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
 import { getScrollOptions, isReactComponent } from '../../../../utilities/ui';
@@ -163,6 +167,17 @@ export default class ArrayField extends React.Component {
         );
         this.props.onChange(newFormData);
         this.scrollToRow(`${this.props.idSchema.$id}_${lastIndex + 1}`);
+
+        // Wait for edit view to render before focusing on the first input field in that group
+        setTimeout(() => {
+          const wrapper = document.getElementById(this.props.idSchema.$id);
+          const focusableElements = getFocusableElements(wrapper);
+          const firstFocusableElement = wrapper.querySelector(
+            `[id="${focusableElements[0].id}"]`,
+          );
+
+          firstFocusableElement.focus();
+        }, 0);
       });
     } else {
       const touched = setArrayRecordTouched(this.props.idSchema.$id, lastIndex);
@@ -277,6 +292,7 @@ export default class ArrayField extends React.Component {
               return (
                 <div
                   key={index}
+                  id={this.props.idSchema.$id}
                   className={
                     notLastOrMultipleRows ? 'va-growable-background' : null
                   }
