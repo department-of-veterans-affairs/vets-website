@@ -44,9 +44,9 @@ export default function PreviousNames(props) {
           {values?.veteranServedUnderAnotherName === 'true' ? (
             <>
               <FullNameField name="previousNames[0]" />
-              <button className="btn usa-button usa-button-disabled">
+              <va-button className="btn usa-button usa-button-disabled">
                 Add another name
-              </button>
+              </va-button>
             </>
           ) : null}
         </div>

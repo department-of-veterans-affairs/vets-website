@@ -15,12 +15,10 @@ export default function MilitaryServiceHistory(props) {
   return (
     <>
       <Page {...props}>
-        <div className="usa-alert usa-alert-warning background-color-only">
-          <span>
-            <strong>Note:</strong> If you would rather upload a DD214 than enter
-            dates here, you can do that later in the form.
-          </span>
-        </div>
+        <va-alert>
+          <strong>Note:</strong> If you would rather upload a DD214 than enter
+          dates here, you can do that later in the form.
+        </va-alert>
         <h3>Service Periods</h3>
         <DateField
           name="toursOfDuty[0].dateRange.from"
@@ -46,13 +44,13 @@ export default function MilitaryServiceHistory(props) {
           name="toursOfDuty[0].placeOfSeparation"
           label="Place of separation"
         />
-        <button
+        <va-button
           type="button"
           className="usa-button-secondary va-growable-add-btn usa-button-disabled"
           disabled
         >
           Add another Service Period
-        </button>
+        </va-button>
         <br />
       </Page>
     </>

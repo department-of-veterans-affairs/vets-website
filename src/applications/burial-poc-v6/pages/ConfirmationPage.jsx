@@ -92,13 +92,13 @@ export default function ConfirmationPage(props) {
                 </address>
               </li>
             </ul>
-            <button
+            <va-button
               type="button"
               className="usa-button screen-only"
               onClick={window.print}
             >
               Print for your records
-            </button>
+            </va-button>
           </div>
         </div>
       </Page>

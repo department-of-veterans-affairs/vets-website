@@ -51,14 +51,12 @@ export default function BenefitsSelection(props) {
                   required={!!state.values.benefitsSelection?.transportation}
                 />
                 <div className="vads-u-margin-y--2">
-                  <div className="usa-alert usa-alert-warning background-color-only">
-                    <span>
-                      <strong>Note: </strong>
-                      At the end of the application, you will be asked to upload
-                      documentation for the expenses you incurred for
-                      transporting the Veteran’s remains.
-                    </span>
-                  </div>
+                  <va-alert>
+                    <strong>Note: </strong>
+                    At the end of the application, you will be asked to upload
+                    documentation for the expenses you incurred for transporting
+                    the Veteran’s remains.
+                  </va-alert>
                 </div>
               </div>
             </div>
