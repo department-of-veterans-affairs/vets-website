@@ -1111,8 +1111,8 @@ jobs:
             iam-role: AWS_FRONTEND_PROD_ROLE
 
     env:
+      DEPLOY_ISOLATED_APPS: true # Enables production deployments for apps on the allowlist
       IS_ISOLATED_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
-      DEPLOY_ISOLATED_APPS: false
 
     steps:
       - name: Checkout
