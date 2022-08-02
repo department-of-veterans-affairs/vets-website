@@ -61,10 +61,18 @@ const getLastFullDeployCommit = async env => {
  * @returns {Boolean}
  */
 const isAncestor = (commitA, commitB) => {
-  return (
-    commitA !== commitB &&
-    runCommandSync(`git merge-base --is-ancestor ${commitA} ${commitB}`)
+  const exitCode = runCommandSync(
+    `git merge-base --is-ancestor ${commitA} ${commitB}`,
   );
+
+  if (![0, 1].includes(exitCode)) {
+    console.error(
+      `'git merge-base --is-ancestor' exited with an unsuccessful code (${exitCode}).`,
+    );
+    process.exit(1);
+  }
+
+  return commitA !== commitB && exitCode === 0;
 };
 
 const canCommitDeploy = async env => {
