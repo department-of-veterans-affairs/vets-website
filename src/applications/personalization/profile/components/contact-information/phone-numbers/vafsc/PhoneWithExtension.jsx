@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { selectEditedFormField } from '@@vap-svc/selectors';
@@ -19,6 +20,13 @@ const PhoneField = props => {
       required={required}
     />
   );
+};
+
+PhoneField.propTypes = {
+  handleChange: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  required: PropTypes.bool,
 };
 
 const PhoneWithExtension = props => {
@@ -61,6 +69,12 @@ const PhoneWithExtension = props => {
       />
     </>
   );
+};
+
+PhoneWithExtension.propTypes = {
+  fieldName: PropTypes.string.isRequired,
+  formSchema: PropTypes.object.isRequired,
+  uiSchema: PropTypes.object.isRequired,
 };
 
 export default PhoneWithExtension;

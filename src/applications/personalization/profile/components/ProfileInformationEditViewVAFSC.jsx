@@ -5,7 +5,6 @@ import * as VAP_SERVICE from '@@vap-svc/constants';
 
 import ProfileFormContainerVAFSC from './ProfileFormContainerVAFSC';
 import PhoneWithExtension from './contact-information/phone-numbers/vafsc/PhoneWithExtension';
-import Email from './contact-information/email-addresses/vafsc/Email';
 
 const renderActiveField = (fieldName, props) => {
   switch (fieldName) {
@@ -13,8 +12,6 @@ const renderActiveField = (fieldName, props) => {
     case VAP_SERVICE.FIELD_NAMES.MOBILE_PHONE:
     case VAP_SERVICE.FIELD_NAMES.WORK_PHONE:
       return <PhoneWithExtension {...props} />;
-    case VAP_SERVICE.FIELD_NAMES.EMAIL:
-      return <Email />;
     default:
       // eslint-disable-next-line no-console
       return console.error(
