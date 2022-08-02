@@ -99,7 +99,10 @@ const responses = {
     return res.json(address.homeAddressUpdateReceived.response);
   },
   'GET /v0/profile/status/:id': (req, res) => {
-    if (req?.params?.id === 'erroredId') {
+    if (
+      req?.params?.id === 'erroredId' ||
+      req?.params?.id === '06880455-a2e2-4379-95ba-90aa53fdb273'
+    ) {
       return res.json(
         _.set(status.failure, 'data.attributes.transactionId', req.params.id),
       );

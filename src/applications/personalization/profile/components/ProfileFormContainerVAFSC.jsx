@@ -1,72 +1,59 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 
-import { updateFormFieldWithSchema } from '@@vap-svc/actions';
-import * as VAP_SERVICE from '@@vap-svc/constants';
-import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
-import { selectVAPServiceTransaction } from '@@vap-svc/selectors';
 import {
-  isFailedTransaction,
-  isPendingTransaction,
-} from '@@vap-svc/util/transactions';
+  updateFormFieldWithSchema,
+  clearTransactionRequest,
+} from '@@vap-svc/actions';
 
-import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import * as VAP_SERVICE from '@@vap-svc/constants';
+
+import { selectEditedFormField } from '@@vap-svc/selectors';
+
+import VAPServiceEditModalErrorMessage from '@@vap-svc/components/base/VAPServiceEditModalErrorMessage';
+
+import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
+import useProfileTransaction from '../hooks/useProfileTransaction';
 
 import ProfileInformationActionButtons from './ProfileInformationActionButtons';
 
 const ProfileFormContainerVAFSC = ({
   fieldName,
-  formSchema,
   getInitialFormValues,
   onCancel,
-  title,
-  uiSchema,
+  formRef,
   children,
 }) => {
   const dispatch = useDispatch();
 
-  const analyticsSectionName = VAP_SERVICE.ANALYTICS_FIELD_MAP[fieldName];
+  const {
+    isLoading,
+    error,
+    analyticsSectionName,
+    uiSchema,
+    formSchema,
+    title,
+    startTransaction,
+  } = useProfileTransaction(fieldName);
 
-  const initialValues = getInitialFormValues() || { [fieldName]: '' };
+  const formField = useSelector(state =>
+    selectEditedFormField(state, fieldName),
+  );
 
-  useEffect(() => {
+  const initialValues = useMemo(() => getInitialFormValues(), [
+    getInitialFormValues,
+  ]);
+
+  const onMount = () => {
+    dispatch(clearTransactionRequest(fieldName));
     dispatch(
       updateFormFieldWithSchema(fieldName, initialValues, formSchema, uiSchema),
     );
-  }, []);
+  };
 
-  // const formik = useFormik({
-  //   initialValues,
-  //   onSubmit: values => {
-  //     const payload = convertCleanDataToPayload(values, fieldName);
-  //     dispatch(
-  //       createPersonalInfoUpdate({
-  //         route: apiRoute,
-  //         method: 'PUT',
-  //         fieldName,
-  //         payload,
-  //         analyticsSectionName,
-  //         value: values,
-  //       }),
-  //     );
-  //   },
-  // });
-
-  const { transaction, transactionRequest } = useSelector(state =>
-    selectVAPServiceTransaction(state, fieldName),
-  );
-
-  const isLoading =
-    transactionRequest?.isPending || isPendingTransaction(transaction);
-  const error =
-    transactionRequest?.error || (isFailedTransaction(transaction) ? {} : null);
-
-  // const handleFieldInput = e => {
-  //   const value = { [fieldName]: e?.target?.value };
-  //   dispatch(updateFormFieldWithSchema(fieldName, value, formSchema, uiSchema));
-  // };
+  useEffect(() => onMount(), []);
 
   function validatePhone(value) {
     if (value?.length === 0) {
@@ -82,12 +69,12 @@ const ProfileFormContainerVAFSC = ({
   }
 
   const handleSubmit = () => {
-    // console.log('handleSubmit', values);
+    startTransaction(formField.value);
   };
 
   const validate = values => {
     const errors = {};
-    const phoneError = validatePhone(values.inputPhoneNumber);
+    const phoneError = validatePhone(values?.inputPhoneNumber);
     if (phoneError) errors.inputPhoneNumber = phoneError;
     return errors;
   };
@@ -98,7 +85,7 @@ const ProfileFormContainerVAFSC = ({
       onSubmit={handleSubmit}
       validate={validate}
     >
-      <Form>
+      <Form ref={formRef}>
         {children}
 
         {error && (
@@ -145,14 +132,17 @@ const ProfileFormContainerVAFSC = ({
 };
 
 ProfileFormContainerVAFSC.propTypes = {
-  apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
-  convertCleanDataToPayload: PropTypes.func.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
-  formSchema: PropTypes.object.isRequired,
   getInitialFormValues: PropTypes.func.isRequired,
-  uiSchema: PropTypes.object.isRequired,
   onCancel: PropTypes.func.isRequired,
-  title: PropTypes.string,
+  formRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]),
 };
 
 export default ProfileFormContainerVAFSC;

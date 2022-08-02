@@ -1,16 +1,65 @@
-import React from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import * as VAP_SERVICE from '@@vap-svc/constants';
 
 import ProfileFormContainerVAFSC from './ProfileFormContainerVAFSC';
-import HomePhone from './contact-information/phone-numbers/vafsc/HomePhone';
+import PhoneWithExtension from './contact-information/phone-numbers/vafsc/PhoneWithExtension';
+import Email from './contact-information/email-addresses/vafsc/Email';
+
+const renderActiveField = (fieldName, props) => {
+  switch (fieldName) {
+    case VAP_SERVICE.FIELD_NAMES.HOME_PHONE:
+    case VAP_SERVICE.FIELD_NAMES.MOBILE_PHONE:
+    case VAP_SERVICE.FIELD_NAMES.WORK_PHONE:
+      return <PhoneWithExtension {...props} />;
+    case VAP_SERVICE.FIELD_NAMES.EMAIL:
+      return <Email />;
+    default:
+      // eslint-disable-next-line no-console
+      return console.error(
+        'No matching field passed to ProfileInformationEditViewVAFSC',
+      );
+  }
+};
 
 export const ProfileInformationEditViewVAFSC = props => {
+  const formRef = useRef();
+
+  const { fieldName } = props;
+
+  const focusOnFirstFormElement = useCallback(
+    () => {
+      // TODO: is there a better way to ensure focus inside a web comp on render?
+      // setting timeout for event so that input in web component can get focus,
+      // otherwise web component will not render by time querySelector is fired
+      setTimeout(() => {
+        const fieldElements = 'button, input, select, a, textarea';
+        const focusableShadowElement = formRef.current
+          .querySelector('va-text-input')
+          .shadowRoot.querySelector(fieldElements);
+
+        const focusableDomElement = formRef.current.querySelector(
+          fieldElements,
+        );
+        if (focusableShadowElement) {
+          focusableShadowElement?.focus();
+          return;
+        }
+        if (focusableDomElement) {
+          focusableDomElement.focus();
+        }
+      }, 50);
+    },
+    [formRef],
+  );
+
+  useEffect(() => focusOnFirstFormElement(), []);
+
   return (
     <>
-      <ProfileFormContainerVAFSC {...props}>
-        <HomePhone name="inputPhoneNumber" {...props} />
+      <ProfileFormContainerVAFSC formRef={formRef} {...props}>
+        {renderActiveField(fieldName, props)}
       </ProfileFormContainerVAFSC>
     </>
   );
@@ -20,9 +69,7 @@ ProfileInformationEditViewVAFSC.propTypes = {
   apiRoute: PropTypes.oneOf(Object.values(VAP_SERVICE.API_ROUTES)).isRequired,
   convertCleanDataToPayload: PropTypes.func.isRequired,
   fieldName: PropTypes.oneOf(Object.values(VAP_SERVICE.FIELD_NAMES)).isRequired,
-  formSchema: PropTypes.object.isRequired,
   getInitialFormValues: PropTypes.func.isRequired,
-  uiSchema: PropTypes.object.isRequired,
   onCancel: PropTypes.func.isRequired,
   title: PropTypes.string,
 };
