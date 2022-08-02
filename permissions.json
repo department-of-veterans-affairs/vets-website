@@ -1,0 +1,28 @@
+{
+  "permissions": [
+    {
+      "app": "testing",
+      "desc": "just testing",
+      "name": "more testing.",
+      "scopes": [],
+      "resource": "Test",
+      "restrictions": [
+        {
+          "type": "Type Example",
+          "attributes": {
+            "groups": [
+              "Group 1",
+              "Group 2"
+            ],
+            "negate": false,
+            "attribute": {
+              "attributeName": "Attribute Name Example",
+              "attributeType": "Attribute Type Example",
+              "attributeValue": "Attribute Value Example"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
