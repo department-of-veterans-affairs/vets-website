@@ -1089,8 +1089,8 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    if: ${{ always() && github.ref == 'refs/heads/main'}}
-    needs: [archive, build]
+    if: ${{ always()}}
+    needs: [build]
 
     strategy:
       matrix:
@@ -1167,18 +1167,18 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
-      - name: Deploy
-        if: env.CAN_DEPLOY == 'true'
-        run: |
-          if [[ -n "${{ needs.build.outputs.entry_names }}" ]]; then
-            ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
-          else
-            ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
-          fi
-        env:
-          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
-          DEST: s3://${{ matrix.deploy-bucket }}
-          ASSET_DEST: s3://${{ matrix.asset-bucket }}
+      # - name: Deploy
+      #   if: env.CAN_DEPLOY == 'true'
+      #   run: |
+      #     if [[ -n "${{ needs.build.outputs.entry_names }}" ]]; then
+      #       ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+      #     else
+      #       ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+      #     fi
+      #   env:
+      #     SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
+      #     DEST: s3://${{ matrix.deploy-bucket }}
+      #     ASSET_DEST: s3://${{ matrix.asset-bucket }}
 
   notify-failure:
     name: Notify Failure
