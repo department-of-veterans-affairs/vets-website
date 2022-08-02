@@ -1142,6 +1142,7 @@ jobs:
             echo "CAN_DEPLOY=true" >> $GITHUB_ENV
           else
             echo "CAN_DEPLOY=${{ env.IS_ISOLATED_APP_BUILD && env.DEPLOY_ISOLATED_APPS }}" >> $GITHUB_ENV
+          fi
 
       - name: Configure AWS credentials (1)
         if: env.CAN_DEPLOY == 'true'
