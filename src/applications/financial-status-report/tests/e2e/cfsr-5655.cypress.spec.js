@@ -60,8 +60,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           // Employer One - Current Employment
           cy.findByLabelText(/Type of work/).select('Full time');
-          cy.get(`select[name="fromMonth"]`).select('1');
-          cy.get(`input[name="fromYear"]`).type('2017');
+          cy.fillDate('from', '2017-1');
           cy.get(`input[name="current-employment"]`).check();
           cy.get(`input[name="employerName"]`).type('Employer One');
           cy.findAllByText(/Save/i, { selector: 'button' })
@@ -71,10 +70,8 @@ const testConfig = createTestConfig(
           cy.get('.add-item-button').click();
           // Employer Two - Previous Employment
           cy.findByLabelText(/Type of work/).select('Full time');
-          cy.get(`select[name="fromMonth"]`).select('1');
-          cy.get(`input[name="fromYear"]`).type('2015');
-          cy.get(`select[name="toMonth"]`).select('1');
-          cy.get(`input[name="toYear"]`).type('2017');
+          cy.fillDate('from', '2015-1');
+          cy.fillDate('to', '2017-1');
           cy.get(`input[name="employerName"]`).type('Employer Two');
           cy.findAllByText(/Save/i, { selector: 'button' })
             .first()
@@ -87,8 +84,7 @@ const testConfig = createTestConfig(
         afterHook(() => {
           // Employer One - Current Employment
           cy.findByLabelText(/Type of work/).select('Full time');
-          cy.get(`select[name="fromMonth"]`).select('5');
-          cy.get(`input[name="fromYear"]`).type('2015');
+          cy.fillDate('from', '2015-5');
           cy.get(`input[name="current-employment"]`).check();
           cy.get(`input[name="employerName"]`).type('Employer One');
           cy.findAllByText(/Save/i, { selector: 'button' })
@@ -98,10 +94,8 @@ const testConfig = createTestConfig(
           cy.get('.add-item-button').click();
           // Employer Two - Previous Employment
           cy.findByLabelText(/Type of work/).select('Full time');
-          cy.get(`select[name="fromMonth"]`).select('2');
-          cy.get(`input[name="fromYear"]`).type('2013');
-          cy.get(`select[name="toMonth"]`).select('3');
-          cy.get(`input[name="toYear"]`).type('2018');
+          cy.fillDate('from', '2013-2');
+          cy.fillDate('to', '2018-3');
           cy.get(`input[name="employerName"]`).type('Employer Two');
           cy.findAllByText(/Save/i, { selector: 'button' })
             .first()
