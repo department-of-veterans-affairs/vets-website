@@ -131,6 +131,32 @@ describe('Schemaform: ReviewCardField', () => {
     wrapper.unmount();
   });
 
+  it('should show the input value after editing a second time', () => {
+    const wrapper = mount(<ReviewCardField {...defaultProps} />);
+
+    // Start editing
+    wrapper.find('.usa-button-secondary').simulate('click');
+
+    // Find the input and update its value
+    const inputField = wrapper
+      .find('input')
+      .first()
+      .instance();
+
+    inputField.value = 'test';
+
+    // Go back to viewing
+    wrapper.find('.update-button').simulate('click');
+
+    // Go back to editing
+    wrapper.find('.usa-button-secondary').simulate('click');
+
+    // Expect the updated value to still be there
+    expect(inputField.value).to.equal('test');
+
+    wrapper.unmount();
+  });
+
   it('should not transition to view mode if there are validation errors', () => {
     // Start with errors
     const errorSchema = {

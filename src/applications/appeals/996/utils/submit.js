@@ -253,6 +253,10 @@ export const getAddress = formData => {
   const { veteran = {} } = formData || {};
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
+  const internationalPostalCode = truncate(
+    'internationalPostalCode',
+    MAX_LENGTH.POSTAL_CODE,
+  );
   return removeEmptyEntries({
     addressLine1: truncate('addressLine1', MAX_LENGTH.ADDRESS_LINE1),
     addressLine2: truncate('addressLine2', MAX_LENGTH.ADDRESS_LINE2),
@@ -261,11 +265,10 @@ export const getAddress = formData => {
     stateCode: veteran.address?.stateCode || '',
     countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.COUNTRY),
     // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json#L145
-    zipCode5: truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
-    internationalPostalCode: truncate(
-      'internationalPostalCode',
-      MAX_LENGTH.POSTAL_CODE,
-    ),
+    zipCode5: internationalPostalCode
+      ? '00000'
+      : truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
+    internationalPostalCode,
   });
 };
 

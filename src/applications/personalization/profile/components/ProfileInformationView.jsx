@@ -4,6 +4,7 @@ import Telephone from '@department-of-veterans-affairs/component-library/Telepho
 
 import { FIELD_NAMES } from '@@vap-svc/constants';
 import * as VAP_SERVICE from '@@vap-svc/constants';
+import { isFieldEmpty } from '@@profile/util';
 
 import {
   addresses,
@@ -17,14 +18,6 @@ import {
 } from '@@profile/util/personal-information/personalInformationUtils';
 import { formatAddress } from '~/platform/forms/address/helpers';
 
-const shouldShowUnsetFieldTitleSpan = (data, fieldName) => {
-  // show if there is no data or a gender identity code is not present in data object
-  return (
-    !data ||
-    (fieldName === FIELD_NAMES.GENDER_IDENTITY && !data?.[fieldName]?.code)
-  );
-};
-
 const ProfileInformationView = props => {
   const { data, fieldName, title, id } = props;
 
@@ -34,11 +27,9 @@ const ProfileInformationView = props => {
   const titleFormatted =
     fieldName !== FIELD_NAMES.PRONOUNS ? `a ${titleLower}` : titleLower;
 
-  const unsetFieldTitleSpan = (
-    <span>Edit your profile to add {titleFormatted}.</span>
-  );
+  const unsetFieldTitleSpan = <span>Choose edit to add {titleFormatted}.</span>;
 
-  if (shouldShowUnsetFieldTitleSpan(data, fieldName)) {
+  if (isFieldEmpty(data, fieldName)) {
     return unsetFieldTitleSpan;
   }
 

@@ -19,7 +19,7 @@ jobs:
     name: Build
     runs-on: self-hosted
     outputs:
-      app_entries: ${{ steps.get-changed-apps.outputs.app_entries }}
+      entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
@@ -45,20 +45,12 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: List changed files
-        id: changed-files
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-          else
-            echo ::set-output name=all_changed_files::$(git diff --name-only origin/main...)
-          fi
-
-      - name: Get app entries for changed files
+      - name: Get changed applications
         id: get-changed-apps
-        run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
-        env:
-          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name'
 
       - name: Configure AWS Credentials
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -79,7 +71,7 @@ jobs:
         run: yarn build --verbose --buildtype=${{ matrix.buildtype }} ${ENTRY:+"--entry=$ENTRY"}
         timeout-minutes: 30
         env:
-          ENTRY: ${{ steps.get-changed-apps.outputs.app_entries }}
+          ENTRY: ${{ steps.get-changed-apps.outputs.entry_names }}
 
       - name: Generate build details
         run: |
@@ -108,7 +100,7 @@ jobs:
     name: Unit Tests
     runs-on: self-hosted
     outputs:
-      app_folders: ${{ steps.get-changed-apps.outputs.app_folders }}
+      app_folders: ${{ steps.get-changed-apps.outputs.folders }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
@@ -129,31 +121,21 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Update browserslist
-        run: npx browserslist@latest --update-db
-
       - name: Create test results folder
         run: mkdir -p test-results
 
-      - name: List changed files
-        id: changed-files
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-          else
-            echo ::set-output name=all_changed_files::$(git diff --name-only origin/main...)
-          fi
-
-      - name: Get app folders for changed files
+      - name: Get changed applications
         id: get-changed-apps
-        run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder)
-        env:
-          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'folder'
+
       - name: Run unit tests
         run: yarn test:unit ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
         env:
           MOCHA_FILE: test-results/unit-tests.xml
-          APP_FOLDERS: ${{ steps.get-changed-apps.outputs.app_folders }}
+          APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
 
       - name: Archive unit test results
         if: ${{ always() }}
@@ -199,7 +181,7 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Upload coverage report to S3
-        if: ${{ github.ref == 'refs/heads/main' && steps.get-changed-apps.outputs.app_folders == '' }}
+        if: ${{ github.ref == 'refs/heads/main' && steps.get-changed-apps.outputs.folders == '' }}
         run: aws s3 cp coverage/test-coverage-report.json s3://vetsgov-website-builds-s3-upload-test/coverage/test-coverage-report.json --acl public-read --region us-gov-west-1
 
       - name: Get code coverage
@@ -262,28 +244,19 @@ jobs:
       - name: Create test results folder
         run: mkdir -p test-results
 
-      - name: List changed files
-        id: changed-files
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-          else
-            echo ::set-output name=all_changed_files::$(git diff --name-only origin/main...)
-          fi
-
-      - name: Get app folders for changed files
+      - name: Get changed applications
         id: get-changed-apps
-        run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder | tr ',' ' ')
-        env:
-          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          output-type: 'folder'
 
       - name: Get contract tests
         id: get-tests
         run: |
-          if [[ -z "${{ steps.get-changed-apps.outputs.app_folders }}" ]]; then
+          if [[ -z "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
             echo ::set-output name=tests::$(find src -name "*.pact.spec.js")
           else
-            echo ::set-output name=tests::$(find ${{ steps.get-changed-apps.outputs.app_folders }} -name "*.pact.spec.js")
+            echo ::set-output name=tests::$(find ${{ steps.get-changed-apps.outputs.folders }} -name "*.pact.spec.js")
           fi
 
       - name: Run contract tests
@@ -346,23 +319,14 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: List changed files
-        id: changed-files
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-          else
-            echo ::set-output name=all_changed_files::$(git diff --name-only origin/main...)
-          fi
-
-      - name: Get app entries for changed files
+      - name: Get changed applications
         id: get-changed-apps
-        run: echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
-        env:
-          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          output-type: 'entry_name'
 
       - name: Audit dependencies
-        if: steps.get-changed-apps.outputs.app_entries == ''
+        if: steps.get-changed-apps.outputs.entry_names == ''
         run: yarn security-check
 
   linting:
@@ -385,35 +349,28 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Update browserslist
-        run: npx browserslist@latest --update-db
-
-      - name: List changed files
-        id: changed-files
-        run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-
-      - name: Get app folders for changed files
+      - name: Get changed applications
         id: get-changed-apps
-        run: echo ::set-output name=app_folders::$(node script/github-actions/get-changed-apps.js --output-type folder | tr ',' ' ')
-        env:
-          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          output-type: 'folder'
 
       - name: Annotate ESLint results
         run: |
-          if [[ -z "${{ steps.get-changed-apps.outputs.app_folders }}" ]]; then
+          if [[ -z "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
             yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js .
           else
             yarn run eslint --ext .js --ext .jsx --format ./script/github-actions/eslint-annotation-format.js \
-            ${{ steps.get-changed-apps.outputs.app_folders }}
+            ${{ steps.get-changed-apps.outputs.folders }}
           fi
 
       - name: Run Stylelint
         if: ${{ always() }}
         run: |
-          if [[ -z "${{ steps.get-changed-apps.outputs.app_folders }}" ]]; then
+          if [[ -z "${{ steps.get-changed-apps.outputs.folders }}" ]]; then
             yarn run stylelint verbose --output-file stylelint-report.json --formatter json src/**/*.scss
           else
-            files=$(find ${{ steps.get-changed-apps.outputs.app_folders }} -name "*.scss")
+            files=$(find ${{ steps.get-changed-apps.outputs.folders }} -name "*.scss")
             if [[ -n "$files" ]]; then yarn run stylelint verbose --output-file stylelint-report.json --formatter json $(echo $files); fi
           fi
 
@@ -459,7 +416,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -473,7 +430,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.tests.outputs.selected }}
-      app_urls: ${{ steps.get-changed-apps.outputs.app_urls }}
+      app_urls: ${{ steps.get-changed-apps.outputs.urls }}
 
     steps:
       - name: Checkout
@@ -491,30 +448,20 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: List changed files
-        id: changed-files
-        run: |
-          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-            echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-          else
-            echo ::set-output name=all_changed_files::$(git diff --name-only origin/main...)
-          fi
-
-      - name: Get changed apps for header test
+      - name: Get changed applications
         id: get-changed-apps
-        run: |
-          echo ::set-output name=app_urls::$(node script/github-actions/get-changed-apps.js --output-type url)
-          echo ::set-output name=app_entries::$(node script/github-actions/get-changed-apps.js)
-        env:
-          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          delimiter: ','
+          output-type: 'entry_name, url'
 
       - name: Set TESTS variable
         run: node script/github-actions/select-cypress-tests.js
         env:
           RUN_FULL_SUITE: false
-          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
-          APP_URLS: ${{ steps.get-changed-apps.outputs.app_urls }}
-          APP_ENTRIES: ${{ steps.get-changed-apps.outputs.app_entries }}
+          CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
+          APP_URLS: ${{ steps.get-changed-apps.outputs.urls }}
+          APP_ENTRIES: ${{ steps.get-changed-apps.outputs.entry_names }}
 
       - name: Set output of TESTS
         id: tests
@@ -527,8 +474,7 @@ jobs:
     needs: [build, cypress-tests-prep]
     if: |
       needs.build.result == 'success' &&
-      needs.cypress-tests-prep.result == 'success' &&
-      needs.cypress-tests-prep.outputs.tests != '[]'
+      needs.cypress-tests-prep.result == 'success'
     container:
       image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
       options: -u 1001:1001 -v /usr/local/share:/share
@@ -544,7 +490,17 @@ jobs:
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
+      # The following statement is included in each step because of a bug in
+      # GitHub's branch protection:
+      #
+      # if: needs.cypress-tests-prep.outputs.tests != '[]'
+      #
+      # Previously, if no tests were selected, the branch protection check that
+      # requires the cypress-tests job to run was not satisfied. This update forces
+      # the job to always run, and skips each step if no tests are selected.
+      # Previously, the above conditional was included in the job's if statement.
       - name: Configure AWS credentials
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -552,27 +508,25 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Checkout vets-website
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: actions/checkout@v3
-
-      - name: Checkout content-build
-        uses: actions/checkout@v3
-        with:
-          repository: department-of-veterans-affairs/content-build
-          path: content-build
 
       - name: Download production build artifact
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: actions/download-artifact@v3
         with:
           name: vagovprod.tar.bz2
 
       - name: Unpack build
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
         run: |
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
       - name: Install dependencies
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: ./.github/workflows/install
-        timeout-minutes: 30
+        timeout-minutes: 20
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
@@ -582,11 +536,13 @@ jobs:
             node_modules
 
       - name: Start server
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
         run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
       - name: Run Cypress tests
+        if: needs.cypress-tests-prep.outputs.tests != '[]'
         run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 30
+        timeout-minutes: 40
         env:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
@@ -594,22 +550,22 @@ jobs:
           APP_URLS: ${{ needs.cypress-tests-prep.outputs.app_urls }}
 
       - name: Archive test videos
+        if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
         uses: actions/upload-artifact@v3
-        if: ${{ failure() }}
         with:
           name: cypress-video-artifacts
           path: cypress/videos
 
       - name: Archive test screenshots
+        if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
         uses: actions/upload-artifact@v3
-        if: ${{ failure() }}
         with:
           name: cypress-screenshot-artifacts
           path: cypress/screenshots
 
       - name: Archive Mochawesome test results
+        if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && always() }}
         uses: actions/upload-artifact@v3
-        if: ${{ always() }}
         with:
           name: cypress-mochawesome-test-results
           path: cypress/results
@@ -644,7 +600,7 @@ jobs:
 
       - name: Notify Slack about Contract test failures
         if: ${{ github.ref == 'refs/heads/main' && needs.contract-tests.result == 'failure' }}
-        uses: ./.github/workflows/slack-notify
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
@@ -672,7 +628,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -756,7 +712,7 @@ jobs:
 
       - name: Notify Slack about Unit test failures
         if: ${{ github.ref == 'refs/heads/main' && needs.unit-tests.result == 'failure' }}
-        uses: ./.github/workflows/slack-notify
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
@@ -784,7 +740,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -873,7 +829,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -925,7 +881,7 @@ jobs:
 
       - name: Notify Slack about Cypress test failures
         if: ${{ github.ref == 'refs/heads/main' && needs.cypress-tests.result == 'failure' }}
-        uses: ./.github/workflows/slack-notify
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
         env:
           SSL_CERT_DIR: /etc/ssl/certs
@@ -953,7 +909,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: ./.github/workflows/init-data-repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -1045,7 +1001,7 @@ jobs:
       ]
 
     env:
-      IS_SINGLE_APP_BUILD: ${{ needs.build.outputs.app_entries != '' }}
+      IS_SINGLE_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
 
     # Archive should still run even when linting is skipped (as in PRs).
     # This if overrides the dependency on linting success to include skipped.
@@ -1081,9 +1037,16 @@ jobs:
         if: env.IS_SINGLE_APP_BUILD == 'true'
         run: ./script/github-actions/remove-global-assets.sh
         env:
-          ENTRY_NAMES: ${{ needs.build.outputs.app_entries }}
+          ENTRY_NAMES: ${{ needs.build.outputs.entry_names }}
           APP_DIRS: ${{ needs.unit-tests.outputs.app_folders }}
           BUILD_DIR: build/${{ matrix.buildtype }}
+
+      - name: Generate build details
+        run: |
+          cat > BUILD_ARTIFACT.txt << EOF
+          IS_SINGLE_APP_BUILD=${{ env.IS_SINGLE_APP_BUILD }}
+          REF=${{ github.sha }}
+          EOF
 
       - name: Compress and archive single/grouped app build
         if: env.IS_SINGLE_APP_BUILD == 'true'
@@ -1113,7 +1076,9 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Upload build
-        run: aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
+        run: |
+          aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
+          aws s3 cp BUILD_ARTIFACT.txt s3://vetsgov-website-builds-s3-upload-test/build-artifacts/$GITHUB_SHA.txt --acl public-read --region us-gov-west-1
 
   get-latest-run-number:
     name: Get Latest Workflow Run Number
@@ -1188,7 +1153,7 @@ jobs:
 
       - name: Deploy
         run: |
-          if [[ -n "${{ needs.build.outputs.app_entries }}" ]]; then
+          if [[ -n "${{ needs.build.outputs.entry_names }}" ]]; then
             ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
           else
             ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
@@ -1225,31 +1190,26 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: List changed files
-        id: changed-files
+      - name: Get changed applications
+        id: get-changed-apps
         if: env.ALERT_TEAMS == 'true'
-        run: echo ::set-output name=all_changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
-
-      - name: Get application team's Slack group
-        id: get-slack-groups
-        if: env.ALERT_TEAMS == 'true'
-        run: echo ::set-output name=slack_groups::$(node script/github-actions/get-changed-apps.js --output-type slack-group | tr ',' ' ')
-        env:
-          CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          output-type: 'slack_group'
 
       - name: Notify application team in Slack
-        if: env.ALERT_TEAMS == 'true' && steps.get-slack-groups.outputs.slack_groups != ''
-        uses: ./.github/workflows/slack-notify
+        if: env.ALERT_TEAMS == 'true' && steps.get-changed-apps.outputs.slack_groups != ''
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
         with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-slack-groups.outputs.slack_groups}} CI for your application failed on the `main` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> on failed workflow runs."}}]}]}'
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-changed-apps.outputs.slack_groups}} CI for your application failed on the `main` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> on failed workflow runs."}}]}]}'
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Notify Slack
-        if: steps.get-slack-groups.outputs.slack_groups == ''
-        uses: ./.github/workflows/slack-notify
+        if: steps.get-changed-apps.outputs.slack_groups == ''
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
         continue-on-error: true
         with:
           payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "`main` branch CI in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'

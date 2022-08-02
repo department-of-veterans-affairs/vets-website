@@ -109,11 +109,9 @@ export const advanceToServiceInfoPage = () => {
 };
 
 export const shortFormAdditionalHelpAssertion = () => {
-  cy.get('va-additional-info')
+  cy.get('va-alert-expandable')
     .shadow()
-    .findByText(/you’re filling out a shortened application!/i, {
-      selector: '.additional-info-title',
-    })
+    .findByText(/you’re filling out a shortened application!/i)
     .first()
     .should('exist');
 };
@@ -127,7 +125,7 @@ export const shortFormSelfDisclosureToSubmit = () => {
 
   goToNextPage('/va-benefits/confirm-service-pay');
   cy.findByText(
-    /please confirm that you receive service-connected pay for a 50% or higher disability rating./i,
+    /confirm that you receive service-connected pay for a 50% or higher disability rating./i,
   )
     .first()
     .should('exist');
@@ -139,10 +137,7 @@ export const shortFormSelfDisclosureToSubmit = () => {
     .click();
 
   // medicaid page with short form message
-  cy.get('va-alert')
-    .find('h3')
-    .contains(/you’re now on step 3 of 4 of our shorter application/i)
-    .should('exist');
+  shortFormAdditionalHelpAssertion();
 
   cy.get('[type=radio]#root_isMedicaidEligibleNo')
     .first()
@@ -174,7 +169,7 @@ export const shortFormSelfDisclosureToSubmit = () => {
 
   // check review page for self disclosure of va compensation type
   cy.get(`button.usa-button-unstyled`)
-    .contains(/^VA Benefits$/)
+    .contains(/^VA benefits$/)
     .click();
   cy.findByText(/Do you receive VA disability compensation?/i, {
     selector: 'dt',

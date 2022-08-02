@@ -1,14 +1,19 @@
 const getClaimList = () => {
-  return import('./claims-list.json');
+  return import('./claims/claims-list.json');
 };
 
 const getClaimDetails = id => {
-  return import(`./${id}.json`).catch(() => {
-    return import('./phase3.json');
+  return import(`./claims/${id}.json`).catch(() => {
+    return import('./claims/phase3.json');
   });
+};
+
+const getStemClaimList = () => {
+  return import('./stem-claims/claims-list.json');
 };
 
 export const mockApi = {
   getClaimDetails,
   getClaimList,
+  getStemClaimList,
 };

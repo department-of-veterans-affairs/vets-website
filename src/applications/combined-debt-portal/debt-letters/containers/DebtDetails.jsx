@@ -3,12 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import last from 'lodash/last';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
 import OnThisPageLinks from '../components/OnThisPageLinks';
+import '../sass/debt-letters.scss';
 import HistoryTable from '../components/HistoryTable';
-import { setPageFocus, getCurrentDebt } from '../utils/page';
+import { getCurrentDebt } from '../utils/page';
+import { setPageFocus } from '../../combined/utils/helpers';
 import {
   deductionCodes,
   renderWhyMightIHaveThisDebt,
@@ -37,47 +38,43 @@ const DebtDetails = () => {
   };
 
   useEffect(() => {
-    scrollToTop();
     setPageFocus('h1');
   }, []);
 
   if (Object.keys(currentDebt).length === 0) {
-    window.location.replace('/manage-debt-and-bills/summary/debt-balances/');
+    window.location.replace('/manage-va-debt/summary/debt-balances/');
     return (
-      <div className="vads-u-font-family--sans vads-u-margin--0 vads-u-padding--1">
-        <va-loading-indicator
-          label="Loading"
-          message="Please wait while we load the application for you."
-          set-focus
-        />
-      </div>
+      <va-loading-indicator
+        label="Loading"
+        message="Please wait while we load the application for you."
+      />
     );
   }
 
   return (
-    <div>
-      <va-breadcrumbs label="Breadcrumb">
-        <a href="/">Home</a>
-        <a href="/manage-debt-and-bills/">Manage your VA debt and bills</a>
-        <Link to="/manage-debt-and-bills/summary/">
-          Your debt and bills summary
-        </Link>
-        <Link to="/debt-balances/">Benefit debt balances</Link>
-        <Link
-          to={`/debt-balances/details/${selectedDebt.fileNumber +
-            selectedDebt.deductionCode}`}
+    <>
+      <div className="vads-l-col--9 small-desktop-screen:vads-l-col--12">
+        <va-breadcrumbs label="Breadcrumb">
+          <a href="/">Home</a>
+          <a href="/manage-va-debt/">Manage your VA debt</a>
+          <Link to="/manage-va-debt/summary/">Your VA debt and bills</Link>
+          <Link to="/debt-balances/">Current VA debt</Link>
+          <Link
+            to={`/debt-balances/details/${selectedDebt.fileNumber +
+              selectedDebt.deductionCode}`}
+          >
+            Debt details
+          </Link>
+        </va-breadcrumbs>
+      </div>
+      <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
+        <h1
+          className="vads-u-font-family--serif vads-u-margin-bottom--2"
+          tabIndex="-1"
         >
-          Debt details
-        </Link>
-      </va-breadcrumbs>
-      <h1
-        className="vads-u-font-family--serif vads-u-margin-bottom--2"
-        tabIndex="-1"
-      >
-        Your {deductionCodes[currentDebt.deductionCode]}
-      </h1>
-      <section className="vads-l-row">
-        <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-padding-right--2p5 vads-l-col--12 vads-u-font-family--sans">
+          Your {deductionCodes[currentDebt.deductionCode]}
+        </h1>
+        <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-font-family--sans">
           {dateUpdated && (
             <p className="va-introtext vads-u-font-family--sans vads-u-margin-top--0">
               Updated on
@@ -134,8 +131,8 @@ const DebtDetails = () => {
           <HowDoIPay userData={howToUserData} />
           <NeedHelp />
         </div>
-      </section>
-    </div>
+      </div>
+    </>
   );
 };
 

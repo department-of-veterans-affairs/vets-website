@@ -21,6 +21,7 @@ describe('<Main>', () => {
     showTransitionSuccessModal: false,
     showTransitionModal: false,
     utilitiesMenuIsOpen: { search: false, help: false, account: false },
+    useSignInService: false,
     getBackendStatuses: sinon.spy(),
     toggleFormSignInModal: sinon.spy(),
     toggleLoginModal: sinon.spy(),
@@ -34,7 +35,7 @@ describe('<Main>', () => {
   };
 
   let oldWindow = null;
-  const appendSpy = sinon.spy(Main.prototype, 'appendNextParameter');
+  const appendSpy = sinon.spy(Main.prototype, 'appendOrRemoveParameter');
 
   beforeEach(() => {
     oldWindow = global.window;
@@ -262,12 +263,24 @@ describe('<Main>', () => {
   it('should append ?next=loginModal when the login modal is opened', () => {
     const wrapper = shallow(<Main {...props} />);
     wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
+    const signInModalProps = wrapper.find('SignInModal').props();
+    expect(signInModalProps.useSiS).to.be.false;
     expect(props.getBackendStatuses.calledOnce).to.be.true;
     expect(props.toggleLoginModal.calledOnce).to.be.true;
     expect(props.toggleLoginModal.calledWith(true, 'header')).to.be.true;
     expect(appendSpy.calledWith()).to.be.true;
     expect(appendSpy.returnValues[0].next).to.equal('loginModal');
 
+    wrapper.unmount();
+  });
+
+  it('should append `&oauth=true` when the login modal is opened and signInServiceEnabled feature flag is true', () => {
+    const wrapper = shallow(<Main {...props} useSignInService />);
+    wrapper.find('SearchHelpSignIn').prop('onSignInSignUp')();
+    const signInModalProps = wrapper.find('SignInModal').props();
+    expect(signInModalProps.useSiS).to.be.true;
+    expect(appendSpy.returnValues[0].next).to.equal('loginModal');
+    expect(appendSpy.returnValues[0].oauth).to.equal(true);
     wrapper.unmount();
   });
 

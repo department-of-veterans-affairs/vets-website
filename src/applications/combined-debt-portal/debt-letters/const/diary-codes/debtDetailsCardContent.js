@@ -1,27 +1,25 @@
 import React from 'react';
-import moment from 'moment';
-import Telephone, {
-  CONTACTS,
-  PATTERNS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { addDays, isValid } from 'date-fns';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import { formatDate } from '../../../combined/utils/helpers';
 
 const ContactDMC = () => (
   <span className="vads-u-margin-x--0p5">
-    <Telephone contact={CONTACTS.DMC || '800-827-0648'} /> (or
-    <Telephone
-      className="vads-u-margin-x--0p5"
+    <va-telephone contact={CONTACTS.DMC || '800-827-0648'} /> (or{' '}
+    <va-telephone
       contact={CONTACTS.DMC_OVERSEAS || '1-612-713-6415'}
-      pattern={PATTERNS.OUTSIDE_US}
-    />
+      international
+    />{' '}
     from overseas)
   </span>
 );
 
 export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
-  const endDate = (date, days) =>
-    moment(date, 'MM-DD-YYYY')
-      .add(days, 'days')
-      .format('MMMM Do, YYYY');
+  const endDate = (date, days) => {
+    return isValid(new Date(date))
+      ? formatDate(addDays(new Date(date), days))
+      : '';
+  };
 
   switch (debt.diaryCode) {
     case '71':
@@ -63,7 +61,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `Pay your ${amountDue} balance in full or request help by ${endDate(
           dateOfLetter,
-          30,
+          60,
         )}`,
         status: 'info',
         showIcon: false,
@@ -74,7 +72,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
           <p>
             To avoid further collection action on your bill, you must pay your
             full balance or request financial help before{' '}
-            {endDate(dateOfLetter, 30)}. If you don’t, this debt may be referred
+            {endDate(dateOfLetter, 60)}. If you don’t, this debt may be referred
             to the U.S. Department of the Treasury.
           </p>
         ),
@@ -83,7 +81,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       return {
         headerText: `Pay your ${amountDue} balance now or request help by ${endDate(
           dateOfLetter,
-          30,
+          60,
         )}`,
         status: 'info',
         showIcon: false,
@@ -94,7 +92,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
           <p>
             To avoid your debt being referred to the U.S. Department of the
             Treasury, you must pay your full balance or request financial help
-            before {endDate(dateOfLetter, 30)}.
+            before {endDate(dateOfLetter, 60)}.
           </p>
         ),
       };

@@ -1,8 +1,8 @@
-export default function icsCreate() {
-  const calendarLink = document.getElementById('add-to-calendar-link');
+export const icsCreate = selector => {
+  const calendarLinks = document.querySelectorAll(selector);
 
   // Download the ics.
-  function download(filename, text) {
+  const download = (filename, text) => {
     const element = document.createElement('a');
     element.setAttribute(
       'href',
@@ -16,23 +16,24 @@ export default function icsCreate() {
     element.click();
 
     document.body.removeChild(element);
-  }
+  };
 
-  if (calendarLink) {
-    import(/* webpackChunkName: "ics-js" */ 'ics-js').then(ICS => {
+  if (calendarLinks.length) {
+    const setupCalEvent = (ICS, $calLink) => {
+      let calLinkHref = '';
       const cal = new ICS.VCALENDAR();
       const event = new ICS.VEVENT();
-      const addToCalendarLink = document.getElementById('add-to-calendar-link');
-      const startSecondsString = addToCalendarLink.getAttribute('data-start');
+      const startSecondsString = $calLink.getAttribute('data-start');
       const startMS = parseInt(startSecondsString, 10) * 1000;
       const startDateObj = new Date(startMS);
-      const endSecondsString = addToCalendarLink.getAttribute('data-end');
+      const endSecondsString = $calLink.getAttribute('data-end');
       const endMS = parseInt(endSecondsString, 10) * 1000;
       const endDateObj = new Date(endMS);
-      const location = addToCalendarLink.getAttribute('data-location');
-      const description = addToCalendarLink.getAttribute('data-description');
-      const title = addToCalendarLink.getAttribute('data-subject');
+      const location = $calLink.getAttribute('data-location');
+      const description = $calLink.getAttribute('data-description');
+      const title = $calLink.getAttribute('data-subject');
 
+      // Set up the calendar event.
       cal.addProp('VERSION', 2);
       cal.addProp('PRODID', 'VA');
       event.addProp('UID');
@@ -43,16 +44,20 @@ export default function icsCreate() {
       event.addProp('DTSTART', startDateObj);
       event.addProp('DTEND', endDateObj);
       cal.addComponent(event);
-      const calLink = cal.toString();
+      calLinkHref = cal.toString();
 
-      function calDown(e) {
+      function downloadCalEvent(e) {
         // window.open(`data:text/calendar;charset=utf8,${calURI}`);
         const filename = `${title}.ics`;
-        download(filename, calLink);
+        download(filename, calLinkHref);
         e.preventDefault();
       }
 
-      calendarLink.addEventListener('click', calDown);
-    });
+      $calLink.addEventListener('click', downloadCalEvent);
+    };
+
+    import(/* webpackChunkName: "ics-js" */ 'ics-js').then(ICS =>
+      calendarLinks.forEach($calLink => setupCalEvent(ICS, $calLink)),
+    );
   }
-}
+};

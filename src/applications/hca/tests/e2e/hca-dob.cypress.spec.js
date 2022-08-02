@@ -29,7 +29,7 @@ describe('HCA-DOB', () => {
   it('displays error message with dob less than 1900', () => {
     cy.visit(manifest.rootUrl);
 
-    cy.findAllByText(/start.+without signing in/i, { selector: 'button' })
+    cy.findAllByText(/start.+without signing in/i, { selector: 'a' })
       .first()
       .click();
 
@@ -69,7 +69,7 @@ describe('HCA-DOB', () => {
   it('displays error message with dob greater than current year', () => {
     cy.visit(manifest.rootUrl);
 
-    cy.findAllByText(/start.+without signing in/i, { selector: 'button' })
+    cy.findAllByText(/start.+without signing in/i, { selector: 'a' })
       .first()
       .click();
 

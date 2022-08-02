@@ -84,7 +84,8 @@ describe('VAOS Patient service v0/v2 comparison', () => {
 
       // And the user has available clinics
       const clinic = {
-        id: '455',
+        // Changed to a invalid clinic id so eligibility check failed reasons will match
+        id: '4555',
         stationId: '983',
         name: 'BAD NAME',
         friendlyName: 'Clinic name',
@@ -156,11 +157,7 @@ describe('VAOS Patient service v0/v2 comparison', () => {
 
       const differences = diff(v0Result, v2Result);
 
-      // Removing eligibility reason 'noMatchingClinics' since the v2 api returns
-      // all appointments by default causing the eligibility check to report 'noMatchClinics'.
-      expect(differences).to.have.deep.members([
-        { op: 'remove', path: ['eligibility', 'directReasons', 1] },
-      ]);
+      expect(differences).to.be.empty;
     });
 
     it('should match when using primary care', async () => {

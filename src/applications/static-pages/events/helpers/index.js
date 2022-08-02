@@ -64,20 +64,70 @@ export const deriveMostRecentDate = (
   return futureDates[0];
 };
 
-export const removeDuplicateEvents = events => {
-  return events?.reduce((allEvents, event) => {
-    const currentEventIds = allEvents.map(
-      currentEvent => currentEvent.entityId,
-    );
+function keepUniqueEventsFromList(allEvents, event) {
+  if (!allEvents) {
+    return [];
+  }
 
-    return !currentEventIds.includes(event.entityId)
-      ? [...allEvents, event]
-      : allEvents;
-  }, events);
+  if (allEvents === []) {
+    return [event];
+  }
+
+  const currentEventIds = allEvents.map(ev => ev.entityId);
+
+  if (!currentEventIds.includes(event.entityId)) {
+    allEvents.push(event);
+  }
+
+  return allEvents;
+}
+
+export const removeDuplicateEvents = events =>
+  events?.reduce(keepUniqueEventsFromList, []);
+
+// This takes all repeating events and creates a separate event for
+// each repeated instance. Repeating events can still be identified as such,
+// and let event listings show multiple recurring events.
+export const fleshOutRecurringEvents = events => {
+  if (!events) {
+    return [];
+  }
+
+  const allEvents = events.reduce((fullEvents, event) => {
+    if (!event.fieldDatetimeRangeTimezone) {
+      return fullEvents;
+    }
+
+    if (event?.fieldDatetimeRangeTimezone.length === 1) {
+      fullEvents.push(event);
+      return fullEvents;
+    }
+
+    const eventTimes = event?.fieldDatetimeRangeTimezone;
+    // This makes each copy of a recurring event start with a different time,
+    // so each time is a separate event
+    event?.fieldDatetimeRangeTimezone.forEach((tz, index) => {
+      const timeZonesCopy = [...eventTimes];
+
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < index; i++) {
+        timeZonesCopy.unshift(timeZonesCopy.pop());
+      }
+
+      fullEvents.push({ ...event, fieldDatetimeRangeTimezone: timeZonesCopy });
+    });
+
+    return fullEvents;
+  }, []);
+
+  return [...allEvents]?.sort(
+    (event1, event2) =>
+      event1?.fieldDatetimeRangeTimezone[0]?.value -
+      event2?.fieldDatetimeRangeTimezone[0]?.value,
+  );
 };
 
-export const deriveResults = (allEvents, page, perPage) => {
-  const events = removeDuplicateEvents(allEvents);
+export const deriveResults = (events, page, perPage) => {
   // Escape early if we do not have events, page, or perPage.
   if (isEmpty(events) || !page || !perPage) {
     return events;
@@ -113,12 +163,11 @@ export const deriveResultsEndNumber = (page, perPage, totalResults) => {
 };
 
 export const filterEvents = (
-  allEvents,
+  events,
   filterBy,
   options = {},
   now = moment(),
 ) => {
-  const events = removeDuplicateEvents(allEvents);
   // Escape early if there are no events.
   if (isEmpty(events)) {
     return [];
@@ -128,43 +177,49 @@ export const filterEvents = (
   switch (filterBy) {
     // Upcoming events.
     case 'upcoming': {
-      return events?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isAfter(
-          now.clone(),
-        ),
-      );
+      return events
+        .filter(event => {
+          return moment(
+            event?.fieldDatetimeRangeTimezone[0]?.value * 1000,
+          ).isAfter(now.clone());
+        })
+        .reduce(keepUniqueEventsFromList, []);
     }
 
     // Next week.
     case 'next-week': {
-      return events?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isBetween(
-          now
-            .clone()
-            .add('7', 'days')
-            .startOf('week'),
-          now
-            .clone()
-            .add('7', 'days')
-            .endOf('week'),
-        ),
-      );
+      return events
+        ?.filter(event =>
+          moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isBetween(
+            now
+              .clone()
+              .add('7', 'days')
+              .startOf('week'),
+            now
+              .clone()
+              .add('7', 'days')
+              .endOf('week'),
+          ),
+        )
+        .reduce(keepUniqueEventsFromList, []);
     }
 
     // Next month.
     case 'next-month': {
-      return events?.filter(event =>
-        moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isBetween(
-          now
-            .clone()
-            .add('1', 'month')
-            .startOf('month'),
-          now
-            .clone()
-            .add('1', 'month')
-            .endOf('month'),
-        ),
-      );
+      return events
+        ?.filter(event =>
+          moment(event?.fieldDatetimeRangeTimezone[0]?.value * 1000).isBetween(
+            now
+              .clone()
+              .add('1', 'month')
+              .startOf('month'),
+            now
+              .clone()
+              .add('1', 'month')
+              .endOf('month'),
+          ),
+        )
+        .reduce(keepUniqueEventsFromList, []);
     }
 
     // Past events.
@@ -312,46 +367,6 @@ export const deriveEventLocations = event => {
   }
 
   return locations;
-};
-
-export const hideLegacyEvents = () => {
-  // Derive the legacy events page.
-  const legacyEvents = document.querySelector('div[id="events-v1"]');
-  // Show the new header.
-  const eventsv2Header = document.querySelector('.events-v2');
-  eventsv2Header?.classList.remove('vads-u-display--none');
-  if (!eventsv2Header?.classList.contains('vads-u-display--flex')) {
-    eventsv2Header?.classList.add('vads-u-display--flex');
-  }
-  // Escape early if the legacy events page doesn't exist.
-  if (!legacyEvents) {
-    return;
-  }
-  // Add `vads-u-display--none` to the legacy events page if it doesn't already have it.
-  if (!legacyEvents.classList.contains('vads-u-display--none')) {
-    legacyEvents.classList.add('vads-u-display--none');
-  }
-};
-
-export const showLegacyEvents = () => {
-  // Derive the legacy events page.
-  const legacyEvents = document.querySelector('div[id="events-v1"]');
-  // Hide the new header.
-  const eventsv2Header = document.querySelector('.events-v2');
-  eventsv2Header?.classList.remove('vads-u-display--flex');
-  if (!eventsv2Header?.classList.contains('vads-u-display--none')) {
-    eventsv2Header?.classList.add('vads-u-display--none');
-  }
-
-  // Escape early if the legacy events page doesn't exist.
-  if (!legacyEvents) {
-    return;
-  }
-
-  // Add `vads-u-display--none` to the legacy events page if it doesn't already have it.
-  if (legacyEvents.classList.contains('vads-u-display--none')) {
-    legacyEvents.classList.remove('vads-u-display--none');
-  }
 };
 
 export const updateQueryParams = (queryParamsLookup = {}) => {

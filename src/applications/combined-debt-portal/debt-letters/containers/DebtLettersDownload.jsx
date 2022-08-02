@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { setPageFocus } from '../utils/page';
+import { setPageFocus } from '../../combined/utils/helpers';
 import DebtLettersTable from '../components/DebtLettersTable';
 import { DownloadLettersAlert } from '../components/Alerts';
 
@@ -14,22 +13,21 @@ const DebtLettersDownload = () => {
   const showError = isError || isVBMSError;
 
   useEffect(() => {
-    scrollToTop();
     setPageFocus('h1');
   });
 
   return (
-    <div className="vads-l-row large-screen:vads-u-margin-x--neg2p5">
-      <va-breadcrumbs label="Breadcrumb">
-        <a href="/">Home</a>
-        <a href="/manage-debt-and-bills/">Manage your VA debt and bills</a>
-        <a href="/manage-debt-and-bills/summary/">
-          Your debt and bills summary
-        </a>
-        <Link to="/debt-balances/">Benefit debt balances</Link>
-        <Link to="/debt-balances/letters">Debt letters</Link>
-      </va-breadcrumbs>
-      <div>
+    <>
+      <div className="vads-l-col--9 small-desktop-screen:vads-l-col--12">
+        <va-breadcrumbs label="Breadcrumb">
+          <a href="/">Home</a>
+          <a href="/manage-va-debt/">Manage your VA debt</a>
+          <a href="/manage-va-debt/summary/">Your VA debt and bills</a>
+          <Link to="/debt-balances/">Current VA debt</Link>
+          <Link to="/debt-balances/letters">Debt letters</Link>
+        </va-breadcrumbs>
+      </div>
+      <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1
           id="downloadDebtLetters"
           className="vads-u-margin-bottom--2"
@@ -75,18 +73,9 @@ const DebtLettersDownload = () => {
             </a>
             to learn about your payment options.
           </p>
-          <p>
-            <Link
-              className="vads-u-font-family--sans vads-u-font-size--sm"
-              to="/debt-balances/"
-            >
-              <i aria-hidden="true" className="fa fa-chevron-left" /> Return to
-              your list of debts.
-            </Link>
-          </p>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

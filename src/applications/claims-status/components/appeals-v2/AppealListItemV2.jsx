@@ -74,7 +74,7 @@ export default function AppealListItem({ appeal, name, external = false }) {
     }
   }
 
-  appealTitle += ` updated on ${moment(updatedEventDateString).format(
+  appealTitle += `\n updated on ${moment(updatedEventDateString).format(
     'MMMM D, YYYY',
   )}`;
   appealTitle = capitalizeWord(appealTitle);

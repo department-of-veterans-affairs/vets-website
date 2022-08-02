@@ -1,7 +1,8 @@
 import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
 import 'url-search-params-polyfill';
-
+import environment from 'platform/utilities/environment';
+import { createOAuthRequest } from 'platform/utilities/oauth/utilities';
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 import { externalApplicationsConfig } from './usip-config';
 import {
@@ -10,16 +11,14 @@ import {
   API_VERSION,
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
-  GA_TRACKING_ID_KEY,
-  VAGOV_TRACKING_IDS,
+  GA,
   CSP_IDS,
   POLICY_TYPES,
   SIGNUP_TYPES,
   API_SESSION_URL,
-  GA_CLIENT_ID_KEY,
   EBENEFITS_DEFAULT_PATH,
-  API_SIGN_IN_SERVICE_URL,
   AUTH_PARAMS,
+  IDME_TYPES,
 } from './constants';
 import recordEvent from '../../monitoring/record-event';
 
@@ -65,6 +64,15 @@ export const sanitizePath = to => {
   return to.startsWith('/') ? to : `/${to}`;
 };
 
+export const generateReturnURL = (returnUrl, redirectToMyVA) => {
+  return [
+    `${environment.BASE_URL}/?next=loginModal`,
+    `${environment.BASE_URL}`,
+  ].includes(returnUrl) && redirectToMyVA
+    ? `${environment.BASE_URL}/my-va/`
+    : returnUrl;
+};
+
 export const createExternalApplicationUrl = () => {
   const { application, to } = getQueryParams();
   if (!application) {
@@ -99,6 +107,22 @@ export const createExternalApplicationUrl = () => {
   return URL;
 };
 
+export const getGAClientId = () => {
+  try {
+    // eslint-disable-next-line no-undef
+    const trackers = ga.getAll();
+
+    const tracker = trackers.find(t => {
+      const trackingId = t.get(GA.trackingIdKey);
+      return GA.trackingIds.includes(trackingId);
+    });
+
+    return (tracker && tracker.get(GA.clientIdKey)) ?? null;
+  } catch (e) {
+    return null;
+  }
+};
+
 // Return URL is where a user will be forwarded post successful authentication
 export const createAndStoreReturnUrl = () => {
   let returnUrl;
@@ -114,25 +138,11 @@ export const createAndStoreReturnUrl = () => {
     returnUrl = window.location.toString();
   }
 
-  sessionStorage.setItem(AUTHN_SETTINGS.RETURN_URL, returnUrl);
+  sessionStorage.setItem(
+    AUTHN_SETTINGS.RETURN_URL,
+    returnUrl.replace('&oauth=true', ''),
+  );
   return returnUrl;
-};
-
-export const generateConfigQueryParams = ({ config, params }) => {
-  const { queryParams, OAuthEnabled } = config;
-  const isOauthEnabled =
-    OAuthEnabled && queryParams.allowOAuth && params.oauth === 'true';
-  return {
-    ...(isOauthEnabled && {
-      [AUTH_PARAMS.codeChallenge]: params.codeChallenge,
-      [AUTH_PARAMS.codeChallengeMethod]: params.codeChallengeMethod,
-      oauth: params.oauth,
-    }),
-    ...(queryParams.allowPostLogin && { postLogin: true }),
-    ...(queryParams.allowRedirect && {
-      redirect: createExternalApplicationUrl(),
-    }),
-  };
 };
 
 export function sessionTypeUrl({
@@ -150,6 +160,7 @@ export function sessionTypeUrl({
     OAuth,
     codeChallenge,
     codeChallengeMethod,
+    clientId,
   } = getQueryParams();
 
   const externalRedirect = isExternalRedirect();
@@ -173,26 +184,49 @@ export function sessionTypeUrl({
       ? '_verified'
       : '';
 
+  // Passes GA Client ID if it is an `ID.me` type
+  const gaClientId = IDME_TYPES.includes(type) && getGAClientId();
+
   const appendParams =
     externalRedirect && isLogin
-      ? generateConfigQueryParams({
-          config,
-          params: {
-            codeChallenge,
-            codeChallengeMethod,
-            ...(useOAuth && { oauth: OAuth }),
-          },
-        })
+      ? {
+          ...(config.queryParams.allowPostLogin && { postLogin: true }),
+          ...(config.queryParams.allowRedirect && {
+            redirect: createExternalApplicationUrl(),
+          }),
+        }
       : {};
 
+  if (useOAuth && (isLogin || isSignup)) {
+    return createOAuthRequest({
+      application,
+      clientId,
+      type,
+      config,
+      passedQueryParams: {
+        codeChallenge,
+        codeChallengeMethod,
+        ...(gaClientId && { gaClientId }),
+      },
+      passedOptions: {
+        isSignup,
+      },
+    });
+  }
+
   return appendQuery(
-    useOAuth
-      ? API_SIGN_IN_SERVICE_URL({ type })
-      : API_SESSION_URL({
-          version,
-          type: `${type}${requireVerification}`,
-        }),
-    { ...queryParams, ...appendParams, application },
+    API_SESSION_URL({
+      version,
+      type: `${type}${requireVerification}`,
+    }),
+    {
+      ...queryParams,
+      ...appendParams,
+      ...(gaClientId && {
+        [GA.queryParams.default]: gaClientId,
+      }),
+      application,
+    },
   );
 }
 
@@ -203,27 +237,6 @@ export function setSentryLoginType(loginType) {
 export function clearSentryLoginType() {
   Sentry.setTag('loginType', undefined);
 }
-
-export const redirectWithGAClientId = redirectUrl => {
-  try {
-    // eslint-disable-next-line no-undef
-    const trackers = ga.getAll();
-
-    const tracker = trackers.find(t => {
-      const trackingId = t.get(GA_TRACKING_ID_KEY);
-      return VAGOV_TRACKING_IDS.includes(trackingId);
-    });
-
-    const clientId = tracker && tracker.get(GA_CLIENT_ID_KEY);
-
-    window.location = clientId
-      ? // eslint-disable-next-line camelcase
-        appendQuery(redirectUrl, { client_id: clientId })
-      : redirectUrl;
-  } catch (e) {
-    window.location = redirectUrl;
-  }
-};
 
 export function redirect(redirectUrl, clickedEvent) {
   const { application } = getQueryParams();
@@ -249,20 +262,16 @@ export function redirect(redirectUrl, clickedEvent) {
     });
   }
 
-  if (redirectUrl.includes(CSP_IDS.ID_ME)) {
-    redirectWithGAClientId(redirectUrl);
-  } else {
-    window.location = redirectUrl;
-  }
+  window.location = redirectUrl;
 }
 
-export function login({
+export async function login({
   policy,
   version = API_VERSION,
   queryParams = {},
   clickedEvent = AUTH_EVENTS.MODAL_LOGIN,
 }) {
-  const url = sessionTypeUrl({ type: policy, version, queryParams });
+  const url = await sessionTypeUrl({ type: policy, version, queryParams });
 
   if (!isExternalRedirect()) {
     setLoginAttempted();
@@ -297,9 +306,12 @@ export function logout(
   );
 }
 
-export function signup({ version = API_VERSION, csp = CSP_IDS.ID_ME } = {}) {
+export async function signup({
+  version = API_VERSION,
+  csp = CSP_IDS.ID_ME,
+} = {}) {
   return redirect(
-    sessionTypeUrl({
+    await sessionTypeUrl({
       type: `${csp}_signup`,
       version,
       ...(csp === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),

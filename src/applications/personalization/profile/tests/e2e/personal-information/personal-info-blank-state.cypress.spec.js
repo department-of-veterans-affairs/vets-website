@@ -11,20 +11,20 @@ describe('Content on the personal information page', () => {
 
     cy.findByText('Preferred name').should('exist');
     cy.findByTestId('preferredName').contains(
-      'Edit your profile to add a preferred name.',
+      'Choose edit to add a preferred name.',
     );
 
     cy.findByText('Pronouns').should('exist');
-    cy.findByTestId('pronouns').contains('Edit your profile to add pronouns.');
+    cy.findByTestId('pronouns').contains('Choose edit to add pronouns.');
 
     cy.findByText('Gender identity').should('exist');
     cy.findByTestId('genderIdentity').contains(
-      'Edit your profile to add a gender identity.',
+      'Choose edit to add a gender identity.',
     );
 
     cy.findByText('Sexual orientation').should('exist');
     cy.findByTestId('sexualOrientation').contains(
-      'Edit your profile to add a sexual orientation.',
+      'Choose edit to add a sexual orientation.',
     );
 
     cy.injectAxeThenAxeCheck();

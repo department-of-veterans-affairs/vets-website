@@ -123,7 +123,7 @@ describe('Schemaform <SaveFormLink>', () => {
     expect(tree.text()).to.contain('Sorry, you’re signed out.');
     expect(tree.subTree('a')).not.to.be.null;
   });
-  it('should call saveInProgressForm if logged in', () => {
+  it.skip('should call saveInProgressForm if logged in', () => {
     saveInProgressForm.reset(); // Just because it's good practice for a shared spy
     const tree = ReactTestUtils.renderIntoDocument(
       // Wrapped in a div because I SaveFormLink only returns an anchor and I

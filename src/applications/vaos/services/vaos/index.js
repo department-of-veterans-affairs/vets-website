@@ -94,7 +94,6 @@ export function getAvailableV2Slots(facilityId, clinicId, startDate, endDate) {
     `/vaos/v2/locations/${facilityId}/clinics/${clinicId}/slots?start=${startDate}&end=${endDate}`,
   ).then(parseApiList);
 }
-
 export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
   const batch = [];
   let promise = null;
@@ -107,15 +106,20 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
           start: moment()
             .startOf('day')
             .subtract(i + 1, 'year')
-            .toISOString(),
+            .utc()
+            .format(),
 
           end: moment()
             .startOf('day')
             .subtract(i, 'year')
-            .toISOString(),
+            .utc()
+            .format(),
         };
       });
 
+      // There are three chunks with date ranges from the array created above.
+      // We're trying to run them serially, because we want to be careful about
+      // overloading the upstream service, so Promise.all doesn't fit here.
       promise = ranges.reduce(async (prev, curr) => {
         // NOTE: This is the secret sauce to run the fetch requests sequentially.
         // Doing an 'await' on a non promise wraps it into a promise that is then awaited.
@@ -138,4 +142,10 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
 
     return promise;
   };
-})(2);
+})(3);
+
+export function getPreferredCCProvider(id) {
+  return apiRequestWithUrl(`/vaos/v2/providers/${id}`, {
+    method: 'GET',
+  }).then(parseApiObject);
+}

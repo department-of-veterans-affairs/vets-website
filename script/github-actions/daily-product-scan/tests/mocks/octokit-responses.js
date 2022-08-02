@@ -294,12 +294,6 @@ const octokitResponses = {
       },
     ]),
   },
-  productDirectoryForbidden: {
-    status: 403,
-  },
-  productDirectoryResourceNotFound: {
-    status: 404,
-  },
   createPull: {
     status: 201,
   },

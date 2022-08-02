@@ -206,7 +206,7 @@ describe('check in', () => {
       });
       const component = render(
         <Provider store={store}>
-          <NextOfKin isUpdatePageEnabled router={mockRouter} />
+          <NextOfKin router={mockRouter} />
         </Provider>,
       );
 

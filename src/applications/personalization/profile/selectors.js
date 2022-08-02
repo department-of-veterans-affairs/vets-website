@@ -84,9 +84,6 @@ export const militaryInformationLoadError = state => {
   return state.vaProfile?.militaryInformation?.serviceHistory?.error;
 };
 
-export const showProfileLGBTQEnhancements = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileEnhancements] || false;
-
 export const showBadAddressIndicator = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowBadAddressIndicator] ||
   false;
@@ -102,12 +99,6 @@ export const profileShowAddressChangeModal = state =>
   toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowAddressChangeModal] ||
   false;
 
-export const profileShowFaxNumber = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowFaxNumber];
-
-export const profileShowGender = state =>
-  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileShowGender];
-
 export const profileShowPronounsAndSexualOrientation = state =>
   toggleValues(state)?.[
     FEATURE_FLAG_NAMES.profileShowPronounsAndSexualOrientation
@@ -116,11 +107,6 @@ export const profileShowPronounsAndSexualOrientation = state =>
 export const profileDoNotRequireInternationalZipCode = state =>
   toggleValues(state)?.[
     FEATURE_FLAG_NAMES.profileDoNotRequireInternationalZipCode
-  ];
-
-export const profileAlwaysShowDirectDepositDisplay = state =>
-  toggleValues(state)?.[
-    FEATURE_FLAG_NAMES.profileAlwaysShowDirectDepositDisplay
   ];
 
 export function selectVAProfilePersonalInformation(state, fieldName) {

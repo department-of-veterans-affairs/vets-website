@@ -14,13 +14,7 @@ const HTMLStatementLink = ({ id, statementDate }) => {
         to={`/copay-balances/${id}/detail/statement`}
         data-testid={`balance-details-${id}-statement-view`}
       >
-        <span aria-hidden="true">
-          {formattedStatementDate(statementDate)} statement{' '}
-        </span>
-        <span className="sr-only">
-          Download {formattedStatementDate(statementDate)} dated medical copay
-          statement
-        </span>
+        <span>{formattedStatementDate(statementDate)} statement </span>
       </Link>
     </div>
   );

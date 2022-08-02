@@ -30,6 +30,7 @@ import {
   showHasEmptyAddress,
 } from '../content/contestableIssueAlerts';
 import NeedsToVerify from '../components/NeedsToVerify';
+import { checkContestableIssueError } from '../utils/helpers';
 
 export class IntroductionPage extends React.Component {
   componentDidMount() {
@@ -51,7 +52,7 @@ export class IntroductionPage extends React.Component {
       return <NeedsToVerify pathname={location.basename} />;
     }
 
-    if (contestableIssues?.error) {
+    if (checkContestableIssueError(contestableIssues?.error)) {
       return showContestableIssueError(contestableIssues, delay);
     }
 

@@ -36,6 +36,22 @@ export const notificationSuccessDismissed = () => {
   };
 };
 
+export const notificationDismissedSuccess = () => {
+  return {
+    data: {
+      id: 'e4213b12-eb44-4b2f-bac5-3384fbde0b7a',
+      type: 'onsite_notifications',
+      attributes: {
+        templateId: 'f9947b27-df3b-4b09-875c-7f76594d766d',
+        vaProfileId: '1273780',
+        dismissed: true,
+        createdAt: addDays(new Date(), -3),
+        updatedAt: new Date(),
+      },
+    },
+  };
+};
+
 export const multipleNotificationSuccess = () => {
   return {
     data: [

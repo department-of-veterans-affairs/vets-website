@@ -93,9 +93,8 @@ export default function ConfirmedAppointmentDetailsPage() {
       </FullWidthLayout>
     );
   }
-
-  const isVideo = appointment.vaos.isVideo;
-  const isCommunityCare = appointment.vaos.isCommunityCare;
+  const { isVideo } = appointment.vaos;
+  const { isCommunityCare } = appointment.vaos;
   const isVA = !isVideo && !isCommunityCare;
 
   return (

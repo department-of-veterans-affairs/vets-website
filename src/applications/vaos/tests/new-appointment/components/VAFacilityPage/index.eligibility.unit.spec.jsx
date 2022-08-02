@@ -757,7 +757,8 @@ describe('VAOS <VAFacilityPage> eligibility check', () => {
           directPastVisits: true,
           clinics: [
             getV2ClinicMock({
-              id: '455',
+              // Changed to a invalid clinic id so eligibility check failed reasons will match
+              id: '4555',
               stationId: '983',
               serviceName: 'Clinic name',
             }),

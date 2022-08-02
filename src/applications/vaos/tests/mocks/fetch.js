@@ -125,7 +125,7 @@ export function mockEligibilityFetchesByVersion({
       };
     });
 
-    const dateRanges = getDateRanges(2);
+    const dateRanges = getDateRanges(3);
     dateRanges.forEach(range => {
       mockVAOSAppointmentsFetch({
         start: range.start,
@@ -257,6 +257,26 @@ export function mockFacilityFetchByVersion({ facility, version = 2 } = {}) {
         `${environment.API_URL}/vaos/v2/facilities/${facility.id}`,
       ),
       { data: facility },
+    );
+  }
+}
+
+/**
+ * Mocks the single provider fetch call using the api for the specified
+ * vaos version
+ *
+ * @export
+ * @param {Object} params
+ * @param {provider} params.provider The provider object to return from the fetch
+ * @param {2} [params.version=2] The api version to use, defaulted to version 2,
+ */
+export function mockProviderFetchByVersion({ provider, version = 2 } = {}) {
+  if (version === 2) {
+    setFetchJSONResponse(
+      global.fetch.withArgs(
+        `${environment.API_URL}/vaos/v2/provider/${provider.id}`,
+      ),
+      { data: provider },
     );
   }
 }

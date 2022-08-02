@@ -1,11 +1,3 @@
-/**
- * [TestRail-integrated] Spec for Medical Copays
- * @testrailinfo projectId 10
- * @testrailinfo suiteId 11
- * @testrailinfo groupId 3267
- * @testrailinfo runName HCA-e2e-AIQ
- */
-
 import moment from 'moment';
 import manifest from '../../manifest.json';
 import featureToggles from './fixtures/feature-toggles-shortForm.json';
@@ -20,7 +12,7 @@ const testData = minTestData.data;
 
 const disabilityRating = 90;
 
-describe('HCA-Shortform-Authenticated', () => {
+describe('HCA-Shortform-Authenticated-High-Disability', () => {
   beforeEach(() => {
     cy.login(mockUserAiq);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
@@ -55,7 +47,16 @@ describe('HCA-Shortform-Authenticated', () => {
 
   it('works with total disability rating greater than or equal to 50%', () => {
     cy.visit(manifest.rootUrl);
-    cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+    cy.wait([
+      '@mockUser',
+      '@mockFeatures',
+      '@mockEnrollmentStatus',
+      '@mockDisabilityRating',
+    ]);
+    // wait for useEffect to set  'view:totalDisabilityRating'
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(1000);
+
     cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
       .first()
       .should('exist');
@@ -69,11 +70,6 @@ describe('HCA-Shortform-Authenticated', () => {
       'include',
       '/veteran-information/personal-information',
     );
-    cy.wait(['@mockDisabilityRating']);
-
-    // wait for useEffect to set  'view:totalDisabilityRating'
-    // eslint-disable-next-line cypress/no-unnecessary-waiting
-    cy.wait(1000);
 
     cy.findAllByText(/continue/i, { selector: 'button' })
       .first()
@@ -171,10 +167,53 @@ describe('HCA-Shortform-Authenticated', () => {
     cy.wait('@mockSubmit');
     cy.location('pathname').should('include', '/confirmation');
   });
+});
+
+describe('HCA-Shortform-Authenticated-Low-Disability', () => {
+  beforeEach(() => {
+    cy.login(mockUserAiq);
+    cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
+      'mockFeatures',
+    );
+    cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
+      statusCode: 404,
+      body: enrollmentStatus,
+    }).as('mockEnrollmentStatus');
+    cy.intercept('/v0/disability_compensation_form/rating_info', {
+      statusCode: 200,
+      body: {
+        data: {
+          id: '',
+          type: 'evss_disability_compensation_form_rating_info_responses',
+          attributes: { userPercentOfDisability: 40 },
+        },
+      },
+    }).as('mockDisabilityRating');
+    cy.intercept('/v0/in_progress_forms/1010ez', {
+      statusCode: 200,
+      body: prefillAiq,
+    }).as('mockSip');
+    cy.intercept('POST', '/v0/health_care_applications', {
+      statusCode: 200,
+      body: {
+        formSubmissionId: '123fake-submission-id-567',
+        timestamp: moment().format('YYYY-MM-DD'),
+      },
+    }).as('mockSubmit');
+  });
 
   it('works with self disclosure of va compensation type of High Disability', () => {
     cy.visit(manifest.rootUrl);
-    cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+    cy.wait([
+      '@mockUser',
+      '@mockFeatures',
+      '@mockEnrollmentStatus',
+      '@mockDisabilityRating',
+    ]);
+    // wait for useEffect to set  'view:totalDisabilityRating'
+    // eslint-disable-next-line cypress/no-unnecessary-waiting
+    cy.wait(1000);
+
     cy.findAllByText(/apply.+health care/i, { selector: 'h1' })
       .first()
       .should('exist');
@@ -236,7 +275,7 @@ describe('HCA-Shortform-UnAuthenticated', () => {
   it('works with self disclosure of va compensation type of High Disability', () => {
     cy.visit(manifest.rootUrl);
 
-    cy.findAllByText(/start.+without signing in/i, { selector: 'button' })
+    cy.findAllByText(/start.+without signing in/i, { selector: 'a' })
       .first()
       .click();
 

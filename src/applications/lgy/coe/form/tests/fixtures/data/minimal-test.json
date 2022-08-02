@@ -26,14 +26,6 @@
       }
     }
   ],
-  "vaLoanIndicator": false,
-  "files": [
-    {
-      "name": "Test.pdf",
-      "size": 33016,
-      "confirmationCode": "some-UUID",
-      "isEncrypted": false
-    }
-  ],
+  "vaLoanIndicator": true,
   "privacyAgreementAccepted": true
 }

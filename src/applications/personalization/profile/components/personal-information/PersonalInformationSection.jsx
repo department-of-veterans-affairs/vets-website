@@ -2,24 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import {
-  profileShowGender,
-  profileShowPronounsAndSexualOrientation,
-} from '@@profile/selectors';
+import { profileShowPronounsAndSexualOrientation } from '@@profile/selectors';
 
 import ProfileInformationFieldController from '@@vap-svc/components/ProfileInformationFieldController';
 import { FIELD_IDS, FIELD_NAMES } from '@@vap-svc/constants';
-import {
-  renderGender,
-  renderDOB,
-} from '@@profile/util/personal-information/personalInformationUtils';
+import { renderDOB } from '@@profile/util/personal-information/personalInformationUtils';
 import ProfileInfoTable from '../ProfileInfoTable';
 import GenderIdentityAdditionalInfo from './GenderIdentityAdditionalInfo';
 
 const PersonalInformationSection = ({
-  gender,
   dob,
-  shouldProfileShowGender,
   shouldShowPronounsAndSexualOrientation,
 }) => {
   const tableFields = [
@@ -49,9 +41,6 @@ const PersonalInformationSection = ({
             ),
           },
         ]
-      : []),
-    ...(shouldProfileShowGender
-      ? [{ title: 'Sex assigned at birth', value: renderGender(gender) }]
       : []),
     {
       title: 'Gender identity',
@@ -103,9 +92,7 @@ const PersonalInformationSection = ({
             photo ID that shows proof of the correct information. We’ll accept a
             government-issued photo ID, driver’s license, or passport as proof.
           </p>
-
           <p>Here’s how to request a correction:</p>
-
           <p>
             <span className="vads-u-font-weight--bold vads-u-display--block ">
               If you’re enrolled in the VA health care program
@@ -113,15 +100,16 @@ const PersonalInformationSection = ({
             Please contact your nearest VA medical center to update your
             personal information.
           </p>
-
           <a href="/find-locations/">Find your nearest VA medical center</a>
-
           <p className="vads-u-margin-bottom--0">
             <span className="vads-u-font-weight--bold vads-u-display--block">
               If you receive VA benefits, but aren’t enrolled in VA health care
             </span>
-            Call us at 800-827-1000 (TTY: +711). We’re here Monday through
-            Friday, 8:00 a.m. to 9:00 p.m. ET.
+            Call us at <va-telephone contact="800-827-1000" /> (
+            <a href="tel:711" aria-label="TTY: 7 1 1.">
+              TTY: +711
+            </a>
+            ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
           </p>
         </va-additional-info>
       </div>
@@ -132,19 +120,16 @@ const PersonalInformationSection = ({
 
 PersonalInformationSection.propTypes = {
   dob: PropTypes.string.isRequired,
-  shouldProfileShowGender: PropTypes.bool.isRequired,
   shouldShowPronounsAndSexualOrientation: PropTypes.bool.isRequired,
   gender: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
-  gender: state.vaProfile?.personalInformation?.gender,
   dob: state.vaProfile?.personalInformation?.birthDate,
   preferredName: state.vaProfile?.personalInformation?.preferredName,
   pronouns: state.vaProfile?.personalInformation?.pronouns,
   genderIdentity: state.vaProfile?.personalInformation?.genderIdentity,
   sexualOrientation: state.vaProfile?.personalInformation?.sexualOrientation,
-  shouldProfileShowGender: profileShowGender(state),
   shouldShowPronounsAndSexualOrientation: profileShowPronounsAndSexualOrientation(
     state,
   ),

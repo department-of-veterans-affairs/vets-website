@@ -41,7 +41,7 @@ const NeedHelp = () => (
         If you think a debt was created in error, you can dispute it. Get
         information about disputing a debt by calling the DMC at{' '}
         <va-telephone contact="8008270648" /> between 6:30 a.m. and 6:00 p.m.
-        CST. For international callers, use{' '}
+        CT. For international callers, use{' '}
         <va-telephone contact="6127136415" international />.
       </p>
     </section>

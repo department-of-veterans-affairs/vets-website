@@ -41,15 +41,15 @@ import DateReviewField from '../components/DateReviewField';
 import EmailReviewField from '../components/EmailReviewField';
 
 import {
-  chapter30Label,
-  chapter1606Label,
   unsureDescription,
   post911GiBillNote,
   prefillTransformer,
+  customDirectDepositDescription,
 } from '../helpers';
 
-import MailingAddressViewField from '../components/MailingAddressViewField';
+import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
+import MailingAddressViewField from '../components/MailingAddressViewField';
 
 import {
   isValidPhone,
@@ -60,7 +60,6 @@ import {
 } from '../utils/validation';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
-import { directDepositDescription } from '../../edu-benefits/1990/helpers';
 
 import { ELIGIBILITY } from '../actions';
 
@@ -181,6 +180,14 @@ const benefits = [
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;
+}
+
+function isValidName(str) {
+  return str && /^[A-Za-z][A-Za-z ']*$/.test(str);
+}
+
+function isValidLastName(str) {
+  return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
 }
 
 function titleCase(str) {
@@ -349,6 +356,25 @@ const checkImageSrc = (() => {
   return `${bucket}/img/check-sample.png`;
 })();
 
+const isValidAccountNumber = accountNumber => {
+  if (/^[0-9]*$/.test(accountNumber)) {
+    return accountNumber;
+  }
+  return false;
+};
+
+const validateAccountNumber = (
+  errors,
+  accountNumber,
+  formData,
+  schema,
+  errorMessages,
+) => {
+  if (!isValidAccountNumber(accountNumber)) {
+    errors.addError(errorMessages.pattern);
+  }
+};
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -449,8 +475,18 @@ const formConfig = {
                   'ui:title': 'Your first name',
                   'ui:validations': [
                     (errors, field) => {
-                      if (isOnlyWhitespace(field)) {
-                        errors.addError('Please enter a first name');
+                      if (!isValidName(field)) {
+                        if (field.length === 0) {
+                          errors.addError('Please enter your first name');
+                        } else if (field[0] === ' ' || field[0] === "'") {
+                          errors.addError(
+                            'First character must be a letter with no leading space.',
+                          );
+                        } else {
+                          errors.addError(
+                            'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                          );
+                        }
                       }
                     },
                   ],
@@ -460,8 +496,22 @@ const formConfig = {
                   'ui:title': 'Your last name',
                   'ui:validations': [
                     (errors, field) => {
-                      if (isOnlyWhitespace(field)) {
-                        errors.addError('Please enter a last name');
+                      if (!isValidLastName(field)) {
+                        if (field.length === 0) {
+                          errors.addError('Please enter your last name');
+                        } else if (
+                          field[0] === ' ' ||
+                          field[0] === "'" ||
+                          field[0] === '-'
+                        ) {
+                          errors.addError(
+                            'First character must be a letter with no leading space.',
+                          );
+                        } else {
+                          errors.addError(
+                            'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
+                          );
+                        }
                       }
                     },
                   ],
@@ -469,6 +519,23 @@ const formConfig = {
                 middle: {
                   ...fullNameUI.middle,
                   'ui:title': 'Your middle name',
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (!isValidName(field)) {
+                        if (field.length === 0) {
+                          errors.addError('Please enter your middle name');
+                        } else if (field[0] === ' ' || field[0] === "'") {
+                          errors.addError(
+                            'First character must be a letter with no leading space.',
+                          );
+                        } else {
+                          errors.addError(
+                            'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                          );
+                        }
+                      }
+                    },
+                  ],
                 },
               },
             },
@@ -499,9 +566,17 @@ const formConfig = {
                     ...fullName,
                     properties: {
                       ...fullName.properties,
+                      first: {
+                        ...fullName.properties.first,
+                        maxLength: 20,
+                      },
                       middle: {
                         ...fullName.properties.middle,
-                        maxLength: 30,
+                        maxLength: 20,
+                      },
+                      last: {
+                        ...fullName.properties.last,
+                        maxLength: 26,
                       },
                     },
                   },
@@ -1059,7 +1134,7 @@ const formConfig = {
         [formPages.benefitSelection]: {
           path: 'benefit-selection',
           title: 'Benefit selection',
-          subTitle: "You're applying for the Post-9/11 GI Bill®",
+          subTitle: 'You’re applying for the Post-9/11 GI Bill®',
           depends: formData => formData.eligibility?.length,
           uiSchema: {
             'view:post911Notice': {
@@ -1100,13 +1175,14 @@ const formConfig = {
                 </div>
               ),
               [formFields.benefitRelinquished]: {
-                'ui:title': 'Which benefit will you give up?',
+                'ui:title': <BenefitRelinquishedLabel />,
                 'ui:reviewField': BenefitGivenUpReviewField,
                 'ui:widget': 'radio',
                 'ui:options': {
                   labels: {
-                    Chapter30: chapter30Label,
-                    Chapter1606: chapter1606Label,
+                    Chapter30: 'Montgomery GI Bill Active Duty (Chapter 30)',
+                    Chapter1606:
+                      'Montgomery GI Bill Selected Reserve (Chapter 1606)',
                     CannotRelinquish: "I'm not sure",
                   },
                   widgetProps: {
@@ -1296,10 +1372,17 @@ const formConfig = {
         [formPages.directDeposit]: {
           path: 'direct-deposit',
           uiSchema: {
-            'ui:description': directDepositDescription,
+            'ui:description': customDirectDepositDescription,
             bankAccount: {
               ...bankAccountUI,
               'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
+              accountNumber: {
+                'ui:title': 'Bank account number',
+                'ui:validations': [validateAccountNumber],
+                'ui:errorMessages': {
+                  pattern: 'Please enter only numbers',
+                },
+              },
             },
             'view:learnMore': {
               'ui:description': (
@@ -1332,20 +1415,23 @@ const formConfig = {
             properties: {
               bankAccount: {
                 type: 'object',
+                required: [
+                  formFields.accountType,
+                  formFields.accountNumber,
+                  formFields.routingNumber,
+                ],
                 properties: {
                   accountType: {
                     type: 'string',
-                    required: [formFields.accountType],
                     enum: ['checking', 'savings'],
                   },
                   routingNumber: {
                     type: 'string',
-                    required: [formFields.routingNumber],
                     pattern: '^\\d{9}$',
                   },
                   accountNumber: {
                     type: 'string',
-                    required: [formFields.accountNumber],
+                    required: [],
                   },
                 },
               },

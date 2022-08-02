@@ -5,7 +5,7 @@ import { render, fireEvent } from '@testing-library/react';
 
 import TestComponent from './TestComponent';
 
-describe('pre-check-in', () => {
+describe('check-in', () => {
   describe('useSessionStorage', () => {
     describe('default namespace', () => {
       const removeItem = sinon.spy();
@@ -116,6 +116,27 @@ describe('pre-check-in', () => {
             'health.care.pre.check.in.current.uuid',
             JSON.stringify({ token: testToken }),
           ),
+        ).to.be.true;
+      });
+    });
+    describe('reset validation attempts', () => {
+      it('calls removeItem on reset', () => {
+        const removeItem = sinon.spy();
+        const window = {
+          sessionStorage: {
+            removeItem,
+          },
+        };
+
+        const testToken = 'testToken';
+        const component = render(
+          <TestComponent window={window} token={testToken} />,
+        );
+        const button = component.getByTestId('reset-button');
+        fireEvent.click(button);
+        expect(removeItem.called).to.be.true;
+        expect(
+          removeItem.calledWith('health.care.pre.check.in.validate.attempts'),
         ).to.be.true;
       });
     });

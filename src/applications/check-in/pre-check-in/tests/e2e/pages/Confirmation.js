@@ -78,6 +78,35 @@ class Confirmation {
         'A staff member will help you on the day of your appointment.',
       );
   };
+
+  expandAllAccordions = () => {
+    cy.get('[data-testid="pre-check-in-accordions"]')
+      .shadow()
+      .find('button[aria-label="Expand all accordions"]')
+      .click();
+  };
+
+  validateAppointmentType = type => {
+    if (type === 'phone') {
+      cy.get('[data-testid="appointment-type-label"]').each(item => {
+        expect(Cypress.$(item).text()).to.eq('Phone call');
+      });
+      cy.get('[data-testid="appointment-message"]').each(item => {
+        expect(Cypress.$(item).text()).to.eq(
+          'Your provider will call you. You may need to wait about 15 minutes for their call. Thanks for your patience.',
+        );
+      });
+    } else if (type === 'in-person') {
+      cy.get('[data-testid="appointment-type-label"]').each(item => {
+        expect(Cypress.$(item).text()).to.eq('In person');
+      });
+      cy.get('[data-testid="appointment-message"]').each(item => {
+        expect(Cypress.$(item).text()).to.eq(
+          'Please bring your insurance cards with you to your appointment.',
+        );
+      });
+    }
+  };
 }
 
 export default new Confirmation();

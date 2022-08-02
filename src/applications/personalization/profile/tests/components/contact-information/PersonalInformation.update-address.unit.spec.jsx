@@ -136,7 +136,6 @@ async function testAddressValidation500(addressName) {
 
   // expect an error to be shown
   const alert = await view.findByTestId('edit-error-alert');
-  expect(alert).to.have.descendant('div.va-profile-alert');
   expect(alert).to.contain.text(errorText);
 
   // make sure that edit mode is not automatically exited
@@ -154,7 +153,6 @@ async function testTransactionCreationFails(addressName) {
 
   // expect an error to be shown
   const alert = await view.findByTestId('edit-error-alert');
-  expect(alert).to.have.descendant('div.va-profile-alert');
   expect(alert).to.contain.text(errorText);
 
   // make sure that edit mode is not automatically exited
@@ -172,7 +170,6 @@ async function testQuickFailure(addressName) {
 
   // expect an error to be shown
   const alert = await view.findByTestId('edit-error-alert');
-  expect(alert).to.have.descendant('div.va-profile-alert');
   expect(alert).to.contain.text(errorText);
 
   // make sure that edit mode is not automatically exited

@@ -24,47 +24,6 @@ export const directDepositWarning = (
   </div>
 );
 
-export const chapter30Label = (
-  <>
-    Montgomery GI Bill Active Duty (Chapter 30)
-    <va-additional-info trigger="Learn more">
-      <p className="vads-u-margin-top--0">
-        Our records indicate you may be eligible for this benefit because you
-        served at least two years on active duty and were honorably discharged.
-        If you give up this benefit, VA will pay you for any eligible kickers
-        associated with it.
-      </p>
-      <a
-        href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn more about the Montgomery GI Bill Active Duty
-      </a>
-    </va-additional-info>
-  </>
-);
-
-export const chapter1606Label = (
-  <>
-    Montgomery GI Bill Selected Reserve (Chapter 1606)
-    <va-additional-info trigger="Learn more">
-      <p className="vads-u-margin-top--0">
-        Our records indicate you may be eligible for this benefit because you
-        agreed to serve six years in the Selected Reserve. If you give up this
-        benefit, VA will pay you for any eligible kickers associated with it.
-      </p>
-      <a
-        href="https://www.va.gov/education/about-gi-bill-benefits/montgomery-selected-reserve/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Learn more about the Montgomery GI Bill Selected Reserve
-      </a>
-    </va-additional-info>
-  </>
-);
-
 export const unsureDescription = (
   <>
     <strong>Note:</strong> After you submit this applicaton, a VA representative
@@ -298,4 +257,15 @@ export function prefillTransformer(pages, formData, metadata, state) {
     pages,
     state,
   };
+}
+
+export function customDirectDepositDescription() {
+  return (
+    <div>
+      <p>
+        VA makes payments through only direct deposit, also called electronic
+        funds transfer (EFT).
+      </p>
+    </div>
+  );
 }

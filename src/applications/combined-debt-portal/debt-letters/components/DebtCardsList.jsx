@@ -12,6 +12,7 @@ const DebtCardsList = () => {
       <h2
         id="currentDebts"
         className="vads-u-margin-top--4 vads-u-margin-bottom--2"
+        data-testid="current-va-debt-list"
       >
         Current debts
       </h2>

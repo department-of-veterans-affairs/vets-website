@@ -30,9 +30,10 @@ describe('Check In Experience ', () => {
   it('Validate with DOB', () => {
     cy.visitWithUUID();
     // page: Validate
-    ValidateVeteran.validatePageLoaded('Check in at VA');
+    ValidateVeteran.validatePage.dayOf();
     ValidateVeteran.validateVeteranDob();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Day-of-check-in--Validate-with-DOB');
     ValidateVeteran.attemptToGoToNextPage();
     // page: Demographics
     Demographics.validatePageLoaded();
@@ -40,7 +41,7 @@ describe('Check In Experience ', () => {
   it('only allows current and past years', () => {
     cy.visitWithUUID();
     // page: Validate
-    ValidateVeteran.validatePageLoaded('Check in at VA');
+    ValidateVeteran.validatePage.dayOf();
     ValidateVeteran.validateVeteranDobInvalidYear();
     ValidateVeteran.attemptToGoToNextPage();
     ValidateVeteran.getDobError();

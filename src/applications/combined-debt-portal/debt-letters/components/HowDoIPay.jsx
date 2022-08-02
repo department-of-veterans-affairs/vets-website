@@ -28,7 +28,12 @@ const HowDoIPay = ({ userData }) => (
         <p>
           You can pay directly from your bank account or by debit or credit card
           on the secure{' '}
-          <a aria-label="pay.va.gov" href="https://www.pay.va.gov/">
+          <a
+            aria-label="Pay.gov - Opens in new window"
+            target="_blank"
+            href="https://www.pay.va.gov/"
+            rel="noreferrer"
+          >
             pay.va.gov
           </a>{' '}
           website.
@@ -77,10 +82,11 @@ const HowDoIPay = ({ userData }) => (
             className="vads-u-margin-left--0p5"
             contact="8008270648"
           />
+          .
         </p>
         <p>
           If calling internationally, use{' '}
-          <va-telephone contact="6127136415" international />
+          <va-telephone contact="6127136415" international />.
         </p>
       </va-accordion-item>
       <va-accordion-item header="Option 3: Pay by mail" id="third">
@@ -90,6 +96,7 @@ const HowDoIPay = ({ userData }) => (
           <Link className="vads-u-margin-left--0p5" to="/debt-balances/letters">
             download them online
           </Link>
+          .
         </p>
       </va-accordion-item>
     </va-accordion>

@@ -2,15 +2,11 @@ const generateFeatureToggles = (toggles = {}) => {
   const {
     checkInExperienceEnabled = true,
     preCheckInEnabled = true,
-    checkInExperienceUpdateInformationPageEnabled = false,
-    checkInExperienceEditingDayOfEnabled = false,
-    checkInExperienceEditingPreCheckInEnabled = true,
     checkInExperienceTranslationDayOfEnabled = true,
     checkInExperienceTranslationPreCheckInEnabled = true,
     checkInExperienceTranslationDisclaimerSpanishEnabled = true,
     checkInExperienceDayOfDemographicsFlagsEnabled = true,
     checkInExperienceLorotaSecurityUpdatesEnabled = false,
-    checkInExperienceEditMessagingEnabled = false,
     checkInExperiencePhoneAppointmentsEnabled = false,
   } = toggles;
 
@@ -25,18 +21,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_pre_check_in_enabled',
           value: preCheckInEnabled,
-        },
-        {
-          name: 'check_in_experience_update_information_page_enabled',
-          value: checkInExperienceUpdateInformationPageEnabled,
-        },
-        {
-          name: 'check_in_experience_editing_day_of_enabled',
-          value: checkInExperienceEditingDayOfEnabled,
-        },
-        {
-          name: 'check_in_experience_editing_pre_check_in_enabled',
-          value: checkInExperienceEditingPreCheckInEnabled,
         },
         {
           name: 'check_in_experience_translation_day_of_enabled',
@@ -57,10 +41,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_lorota_security_updates_enabled',
           value: checkInExperienceLorotaSecurityUpdatesEnabled,
-        },
-        {
-          name: 'check_in_experience_edit_messaging_enabled',
-          value: checkInExperienceEditMessagingEnabled,
         },
         {
           name: 'check_in_experience_phone_appointments_enabled',

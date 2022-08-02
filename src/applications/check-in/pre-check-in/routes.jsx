@@ -8,7 +8,6 @@ import NextOfKin from './pages/NextOfKin';
 import EmergencyContact from './pages/EmergencyContact';
 import Confirmation from './pages/Confirmation';
 import Landing from './pages/Landing';
-import Edit from '../components/pages/Edit';
 import Error from './pages/Error';
 import ErrorTest from './pages/ErrorTest';
 import { URLS } from '../utils/navigation';
@@ -66,46 +65,6 @@ const routes = [
   {
     path: URLS.CONFIRMATION,
     component: Confirmation,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-  },
-  {
-    path: URLS.EDIT_ADDRESS,
-    component: Edit.Address,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-  },
-  {
-    path: URLS.EDIT_EMAIL,
-    component: Edit.Email,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-  },
-  {
-    path: URLS.EDIT_NAME,
-    component: Edit.Name,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-  },
-  {
-    path: URLS.EDIT_PHONE_NUMBER,
-    component: Edit.PhoneNumber,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-  },
-  {
-    path: URLS.EDIT_RELATIONSHIP,
-    component: Edit.Relationship,
     permissions: {
       requiresForm: true,
       requireAuthorization: true,

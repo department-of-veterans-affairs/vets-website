@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector, batch } from 'react-redux';
 import { api } from '../api';
 import { makeSelectCurrentContext } from '../selectors';
@@ -10,11 +10,7 @@ import {
   updateFormAction,
 } from '../actions/day-of';
 
-const useGetCheckInData = (
-  refreshNeeded,
-  isUpdatePageEnabled = false,
-  appointmentsOnly = false,
-) => {
+const useGetCheckInData = (refreshNeeded, appointmentsOnly = false) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isStale, setIsStale] = useState(refreshNeeded);
   const [checkInDataError, setCheckInDataError] = useState(false);
@@ -43,16 +39,15 @@ const useGetCheckInData = (
           dispatch(
             updateFormAction({
               patientDemographicsStatus,
-              checkInExperienceUpdateInformationPageEnabled: isUpdatePageEnabled,
             }),
           );
         }
       });
     },
-    [appointmentsOnly, dispatch, isUpdatePageEnabled, token],
+    [appointmentsOnly, dispatch, token],
   );
 
-  useEffect(
+  useLayoutEffect(
     () => {
       if (isStale) {
         setIsLoading(true);

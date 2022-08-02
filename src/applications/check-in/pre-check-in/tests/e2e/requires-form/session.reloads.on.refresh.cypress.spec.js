@@ -25,13 +25,13 @@ describe('Pre Check In Experience', () => {
     });
     it('On page reload, on verify, this should redirect to the landing page', () => {
       cy.visitPreCheckInWithUUID();
-      ValidateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePage.preCheckIn();
 
       cy.reload();
       // redirected back to landing page to reload the data
-      cy.url().should('match', /id=0429dda5-4165-46be-9ed1-1e652a8dfd83/);
+      cy.url().should('match', /id=46bebc0a-b99c-464f-a5c5-560bc9eae287/);
 
-      ValidateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePage.preCheckIn();
       ValidateVeteran.validateVeteran();
       ValidateVeteran.attemptToGoToNextPage();
 

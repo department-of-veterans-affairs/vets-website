@@ -10,19 +10,6 @@
     }
   },
   {
-    "appName": "Coronavirus Chatbot",
-    "rootUrl": "/coronavirus-chatbot",
-    "widgetType": "va-coronavirus-chatbot",
-    "template": {
-      "title": "VA coronavirus chatbot"
-    },
-    "productDirectory": {
-      "filePath": "src/aplications/coronavirus-chatbot",
-      "productId": 204,
-      "entryName": "coronavirus-chatbot"
-    }
-  },
-  {
     "appName": "Find Forms",
     "rootUrl": "/find-forms",
     "widgetType": "find-va-forms",

@@ -8,22 +8,15 @@ const generateFeatureToggles = (toggles = {}) => {
     profileShowBadAddressIndicator = true,
     profileShowDemographics = false,
     profileForceBadAddressIndicator = false,
-    profileShowFaxNumber = false,
-    profileShowGender = false,
     profileShowProfile2 = false,
     profileShowPronounsAndSexualOrientation = false,
     profileShowReceiveTextNotifications = true,
-    profileAlwaysShowDirectDepositDisplay = false,
   } = toggles;
 
   return {
     data: {
       type: 'feature_toggles',
       features: [
-        {
-          name: 'profile_always_show_direct_deposit_display',
-          value: profileAlwaysShowDirectDepositDisplay,
-        },
         {
           name: 'profile_do_not_require_international_zip_code',
           value: profileDoNotRequireInternationalZipCode,
@@ -43,12 +36,10 @@ const generateFeatureToggles = (toggles = {}) => {
           value: profileShowBadAddressIndicator,
         },
         { name: 'profile_show_demographics', value: profileShowDemographics },
-        { name: 'profile_show_fax_number', value: profileShowFaxNumber },
         {
           name: 'profile_force_bad_address_indicator',
           value: profileForceBadAddressIndicator,
         },
-        { name: 'profile_show_gender', value: profileShowGender },
         { name: 'profile_show_profile_2.0', value: profileShowProfile2 },
         {
           name: 'profile_show_pronouns_and_sexual_orientation',

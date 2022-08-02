@@ -1,6 +1,89 @@
 {
   "data": [
     {
+      "id": "110143CC",
+      "type": "appointments",
+      "attributes": {
+        "id": "110143",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/hsrm/id",
+            "value": "524641||2||1"
+          }
+        ],
+        "kind": "cc",
+        "status": "booked",
+        "patientIcn": "1013120820V528557",
+        "locationId": "984",
+        "start": "2022-08-01T12:00:00Z",
+        "created": "2022-06-22T20:33:54Z",
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {
+              "line": [
+                "1 E NATIONAL RD ; STE 300"
+              ],
+              "city": "VANDALIA",
+              "state": "OH",
+              "postalCode": "45377",
+              "text": "1 E NATIONAL RD ; STE 300\nVANDALIA OH 45377"
+            },
+            "telecom": []
+          },
+          "hsrmTaskId": ""
+        },
+        "location": {
+          "id": "984",
+          "type": "appointments",
+          "attributes": {
+            "id": "984",
+            "vistaSite": "984",
+            "vastParent": "984",
+            "type": "va_health_facility",
+            "name": "Dayton VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 39.74935,
+            "long": -84.2532,
+            "website": "https://www.dayton.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "937-268-6511"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "4100 West Third Street"
+              ],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45428-9000"
+            },
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "Dermatology",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "Urology",
+              "WomensHealth"
+            ]
+          }
+        }
+      }
+    },
+    {
       "id": "00aa456va",
       "type": "Appointment",
       "attributes": {
@@ -25,7 +108,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "Routine Follow-up",
+        "reasonCode": { "coding": [ { "code": "Routine Follow-up" } ] },
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -59,7 +142,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "Routine Follow-up",
+        "reasonCode": {"coding": [{"code": "Routine Follow-up"}]},
         "requestedPeriods": null,
         "serviceType": "covid",
         "slot": null,
@@ -129,11 +212,11 @@
         },        
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "audiology",
         "slot": null,
-        "start": "2022-02-28T18:19:34",
+        "start": "2022-08-28T18:19:34",
         "status": "booked",
         "telehealth": null
       }
@@ -185,7 +268,7 @@
         },
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "audiology",
         "slot": null,
@@ -230,7 +313,7 @@
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "New Issue",
+        "reasonCode": {"coding": [{"code": "New Issue"}]},
         "requestedPeriods": null,
         "serviceType": "outpatientMentalHealth",
         "slot": null,
@@ -278,7 +361,7 @@
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "amputation",
         "slot": null,
@@ -357,7 +440,7 @@
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "audiology",
         "slot": null,
@@ -395,7 +478,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "foodAndNutrition",
         "slot": null,
@@ -443,7 +526,7 @@
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -481,7 +564,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "New Issue",
+        "reasonCode": {"coding": [{"code": "New Issue"}]},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -515,7 +598,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "New Issue",
+        "reasonCode": {"coding": [{"code": "New Issue"}]},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -549,7 +632,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "Medication Concern",
+        "reasonCode": {"coding": [{"code": "Medication Concern"}]},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -594,7 +677,7 @@
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": null,
+        "reasonCode": {},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -632,7 +715,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "Routine Follow-up",
+        "reasonCode": {"coding": [{"code": "Routine Follow-up"}]},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -666,7 +749,7 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reason": "Routine Follow-up",
+        "reasonCode": {"coding": [{"code": "Routine Follow-up"}]},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,

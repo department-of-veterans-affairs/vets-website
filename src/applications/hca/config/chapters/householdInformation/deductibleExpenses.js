@@ -1,13 +1,10 @@
-import set from 'platform/utilities/data/set';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
+import set from 'platform/utilities/data/set';
 
-import {
-  deductibleExpensesDescription,
-  expensesGreaterThanIncomeWarning,
-  expensesLessThanIncome,
-  emptyObjectSchema,
-} from '../../../helpers';
+import { DeductibleExpensesDescription } from '../../../components/FormDescriptions';
+import { ExpensesGreaterThanIncomeWarning } from '../../../components/FormAlerts';
+import { expensesLessThanIncome, emptyObjectSchema } from '../../../helpers';
 
 import { validateCurrency } from '../../../validation';
 
@@ -19,8 +16,8 @@ const {
 
 export default {
   uiSchema: {
-    'ui:title': 'Previous Calendar Year\u2019s Deductible Expenses',
-    'ui:description': deductibleExpensesDescription,
+    'ui:title': 'Previous calendar year\u2019s deductible expenses',
+    'ui:description': DeductibleExpensesDescription,
     deductibleMedicalExpenses: set(
       'ui:validations',
       [validateCurrency],
@@ -29,7 +26,7 @@ export default {
       ),
     ),
     'view:expensesIncomeWarning1': {
-      'ui:description': expensesGreaterThanIncomeWarning,
+      'ui:description': ExpensesGreaterThanIncomeWarning,
       'ui:options': {
         hideIf: expensesLessThanIncome('deductibleMedicalExpenses'),
       },
@@ -42,7 +39,7 @@ export default {
       ),
     ),
     'view:expensesIncomeWarning2': {
-      'ui:description': expensesGreaterThanIncomeWarning,
+      'ui:description': ExpensesGreaterThanIncomeWarning,
       'ui:options': {
         hideIf: expensesLessThanIncome('deductibleFuneralExpenses'),
       },
@@ -51,7 +48,7 @@ export default {
       'Amount you paid for anything related to your own education (college or vocational) this past year. Do not list your dependents’ educational expenses.',
     ),
     'view:expensesIncomeWarning3': {
-      'ui:description': expensesGreaterThanIncomeWarning,
+      'ui:description': ExpensesGreaterThanIncomeWarning,
       'ui:options': {
         hideIf: expensesLessThanIncome('deductibleEducationExpenses'),
       },

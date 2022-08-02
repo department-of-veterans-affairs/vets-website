@@ -65,7 +65,7 @@ describe('getChangedAppsString', () => {
       expect(appString).to.be.empty;
     });
 
-    it('should return a comma-delimited string of entry names when multiple apps on the allow list are modified', () => {
+    it('should return a space-delimited string of entry names when multiple apps on the allow list are modified', () => {
       const config = {
         allow: {
           singleApps: [{ entryName: 'app1' }, { entryName: 'app2' }],
@@ -78,7 +78,7 @@ describe('getChangedAppsString', () => {
       ];
 
       const appString = getChangedAppsString(changedFiles, config);
-      expect(appString).to.equal('app1,app2');
+      expect(appString).to.equal('app1 app2');
     });
 
     it('should not duplicate entry names when multiple files in an app are modified', () => {
@@ -94,7 +94,7 @@ describe('getChangedAppsString', () => {
       expect(appString).to.equal('app1');
     });
 
-    it('should return a comma-delimited string of entry names when files in a grouped app folder are changed', () => {
+    it('should return a space-delimited string of entry names when files in a grouped app folder are changed', () => {
       const config = {
         allow: {
           singleApps: [],
@@ -106,12 +106,12 @@ describe('getChangedAppsString', () => {
       ];
 
       const appString = getChangedAppsString(changedFiles, config);
-      expect(appString).to.equal('groupedApp1,groupedApp2');
+      expect(appString).to.equal('groupedApp1 groupedApp2');
     });
   });
 
   context('when the folder output type is specified', () => {
-    it('should return a comma-delimited string of app folders', () => {
+    it('should return a space-delimited string of app folders', () => {
       const config = {
         allow: {
           singleApps: [{ entryName: 'app1' }, { entryName: 'app2' }],
@@ -121,7 +121,7 @@ describe('getChangedAppsString', () => {
       const changedFiles = ['src/applications/app1', 'src/applications/app2'];
 
       const appString = getChangedAppsString(changedFiles, config, 'folder');
-      expect(appString).to.equal('src/applications/app1,src/applications/app2');
+      expect(appString).to.equal('src/applications/app1 src/applications/app2');
     });
 
     it('should return the root app path if the changed files are in a grouped app folder', () => {
@@ -141,7 +141,7 @@ describe('getChangedAppsString', () => {
   });
 
   context('when the slack-group output type is specified', () => {
-    it('should return a comma-delimited string of app owner Slack groups', () => {
+    it('should return a space-delimited string of app owner Slack groups', () => {
       const config = {
         allow: {
           singleApps: [
@@ -158,7 +158,7 @@ describe('getChangedAppsString', () => {
         config,
         'slack-group',
       );
-      expect(appString).to.equal('@appTeam1,@appTeam2');
+      expect(appString).to.equal('@appTeam1 @appTeam2');
     });
 
     it('should return an empty string when the app does not have a Slack group', () => {
@@ -218,7 +218,7 @@ describe('getChangedAppsString', () => {
   });
 
   context('when the url output type is specified', () => {
-    it('should return a comma-delimited string of app URLs', () => {
+    it('should return a space-delimited string of app URLs', () => {
       const config = {
         allow: {
           singleApps: [{ entryName: 'app1' }, { entryName: 'app2' }],
@@ -228,7 +228,7 @@ describe('getChangedAppsString', () => {
       const changedFiles = ['src/applications/app1', 'src/applications/app2'];
 
       const appString = getChangedAppsString(changedFiles, config, 'url');
-      expect(appString).to.equal('/app1,/app2');
+      expect(appString).to.equal('/app1 /app2');
     });
 
     it('should return an empty string when the app does not have a root url', () => {
@@ -266,7 +266,31 @@ describe('getChangedAppsString', () => {
       ];
 
       const appString = getChangedAppsString(changedFiles, config, 'url');
-      expect(appString).to.equal('/groupedApp1,/groupedApp2');
+      expect(appString).to.equal('/groupedApp1 /groupedApp2');
+    });
+  });
+
+  context('when the delimiter is specified', () => {
+    it('should return a string delimited by the delimiter', () => {
+      const config = {
+        allow: {
+          singleApps: [{ entryName: 'app1' }, { entryName: 'app2' }],
+          groupedApps: [],
+        },
+      };
+      const changedFiles = [
+        'src/applications/app1/some-file.js',
+        'src/applications/app2',
+      ];
+      const delimiter = ',';
+
+      const appString = getChangedAppsString(
+        changedFiles,
+        config,
+        'entry',
+        delimiter,
+      );
+      expect(appString).to.equal(`app1${delimiter}app2`);
     });
   });
 

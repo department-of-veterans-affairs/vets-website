@@ -31,8 +31,6 @@ const initialState = {
   claimsLoading: false,
   appealsLoading: false,
   stemClaimsLoading: false,
-  page: 1,
-  pages: 1,
 };
 
 export default function claimsV2Reducer(state = initialState, action) {
@@ -43,7 +41,6 @@ export default function claimsV2Reducer(state = initialState, action) {
       return merge({}, state, {
         claims: action.claims,
         claimsLoading: false,
-        pages: action.pages,
         claimsAvailability: claimsAvailability.AVAILABLE,
       });
     case FETCH_CLAIMS_ERROR:

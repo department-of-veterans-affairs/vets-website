@@ -13,8 +13,6 @@ const printPage = () => window.print();
 
 const statusUrl = getAppUrl('coe-status');
 
-const referenceNumber = 'XXXXXXXX';
-
 const ConfirmationPage = ({ form }) => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
@@ -23,6 +21,7 @@ const ConfirmationPage = ({ form }) => {
 
   const { data, submission } = form;
   const name = data.fullName;
+  const { referenceNumber } = submission.response.attributes || '';
 
   return (
     <div className="vads-u-margin-bottom--9">

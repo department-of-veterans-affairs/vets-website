@@ -49,7 +49,6 @@ const BalanceCard = ({ amount, count, date, appType }) => {
         className="vads-u-font-size--sm vads-u-font-weight--bold"
         to={linkDestination}
         data-testid="card-link"
-        aria-label={linkText}
       >
         {linkText}
         <i

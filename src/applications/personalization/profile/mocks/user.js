@@ -1,4 +1,4 @@
-module.exports = {
+const mockUserData = {
   loa1User: {
     data: {
       id: '',
@@ -1059,3 +1059,18 @@ module.exports = {
     },
   },
 };
+
+const handleUserRequest = (req, res) => {
+  // here we can customize the return of the user request
+  // the main mechanism that we customize around is the query string passed to the request
+
+  // handle test case of BAI being cleared on user request
+  if (req?.query?.bai === 'clear') {
+    return res.json(mockUserData.user72Success);
+  }
+  // default user object
+  // modify as needed for simulating varrious users
+  return res.json(mockUserData.badAddress);
+};
+
+module.exports = { ...mockUserData, handleUserRequest };

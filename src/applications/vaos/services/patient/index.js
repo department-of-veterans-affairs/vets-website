@@ -254,7 +254,7 @@ function hasMatchingClinics(clinics, pastAppointments) {
         const clinicIds = clinic.id.split('_');
         if (appt.version === 2) {
           return (
-            clinicIds[0] === appt.location.stationId &&
+            clinic.stationId === appt.location.stationId &&
             clinicIds[1] === appt.location.clinicId
           );
         }

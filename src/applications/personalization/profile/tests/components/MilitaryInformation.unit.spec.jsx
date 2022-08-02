@@ -258,7 +258,9 @@ describe('MilitaryInformation', () => {
       view.getByText(
         /We’re sorry. We can’t find your Department of Defense \(DoD\) ID. We need this to access your military service records/i,
       );
-      view.getByText('800-538-9552');
+      expect(
+        view.container.querySelector('va-telephone').getAttribute('contact'),
+      ).to.equal('8005389552');
       view.getByRole('link', {
         name: /Find your nearest VA regional office/i,
       });

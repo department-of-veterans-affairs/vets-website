@@ -5,7 +5,6 @@ import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { hasSession } from 'platform/user/profile/utilities';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 // HCA internal app imports
@@ -16,7 +15,7 @@ import ErrorText from '../components/ErrorText';
 import FormFooter from '../components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorMessage from '../components/ErrorMessage';
-import DowntimeMessage from '../components/DowntimeMessage';
+import DowntimeMessage from '../components/FormAlerts/DowntimeWarning';
 import IntroductionPage from '../containers/IntroductionPage';
 import { prefillTransformer, transform, HIGH_DISABILITY } from '../helpers';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -60,7 +59,7 @@ import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
 import vaFacility from './chapters/insuranceInformation/vaFacility';
 import general from './chapters/insuranceInformation/general';
-import ServiceConnectedPayConfirmation from '../components/ServiceConnectedPayConfirmation';
+import ServiceConnectedPayConfirmation from '../components/FormAlerts/ServiceConnectedPayConfirmation';
 import CompensationTypeReviewPage from '../components/CompensationTypeReviewPage';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
@@ -139,7 +138,7 @@ const formConfig = {
       path: 'id-form',
       component: IDPage,
       pageKey: 'id-form',
-      depends: () => !hasSession(),
+      depends: formData => !formData['view:isLoggedIn'],
     },
   ],
   confirmation: ConfirmationPage,
@@ -161,7 +160,7 @@ const formConfig = {
   },
   chapters: {
     veteranInformation: {
-      title: 'Veteran Information',
+      title: 'Veteran information',
       pages: {
         veteranProfileInformation: {
           path: 'veteran-information/personal-information',
@@ -169,7 +168,7 @@ const formConfig = {
           CustomPage: PersonalAuthenticatedInformation,
           CustomPageReview: null,
           initialData: {},
-          depends: () => hasSession(),
+          depends: formData => formData['view:isLoggedIn'],
           uiSchema: {},
           schema: {
             type: 'object',
@@ -180,7 +179,7 @@ const formConfig = {
           path: 'veteran-information/profile-information',
           title: 'Veteran name',
           initialData: {},
-          depends: () => !hasSession(),
+          depends: formData => !formData['view:isLoggedIn'],
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
@@ -188,7 +187,7 @@ const formConfig = {
           path: 'veteran-information/profile-information-ssn',
           title: 'Social Security number',
           initialData: {},
-          depends: () => !hasSession(),
+          depends: formData => !formData['view:isLoggedIn'],
           uiSchema: personalInformationSsn.uiSchema,
           schema: personalInformationSsn.schema,
         },
@@ -196,7 +195,8 @@ const formConfig = {
           path: 'veteran-information/profile-information-dob',
           title: 'Date of birth',
           initialData: {},
-          depends: () => !hasSession(),
+          depends: formData =>
+            !formData['view:isLoggedIn'] || !formData['view:userDob'],
           uiSchema: personalInformationDOB.uiSchema,
           schema: personalInformationDOB.schema,
         },
@@ -231,7 +231,7 @@ const formConfig = {
         },
         demographicInformation: {
           path: 'veteran-information/demographic-information',
-          title: 'Race, ethnicity, origin',
+          title: 'What is your race, ethnicity, or origin?',
           initialData: {
             'view:demographicCategories': {
               isSpanishHispanicLatino: false,
@@ -242,7 +242,7 @@ const formConfig = {
         },
         americanIndian: {
           path: 'veteran-information/american-indian',
-          title: 'Tribal affiliation',
+          title: 'Recognition as an American Indian or Alaska Native',
           initialData: {},
           depends: formData => formData['view:hcaAmericanIndianEnabled'],
           uiSchema: americanIndian.uiSchema,
@@ -273,7 +273,7 @@ const formConfig = {
       },
     },
     vaBenefits: {
-      title: 'VA Benefits',
+      title: 'VA benefits',
       pages: {
         vaBenefits: {
           path: 'va-benefits/basic-information',
@@ -306,7 +306,7 @@ const formConfig = {
       },
     },
     militaryService: {
-      title: 'Military Service',
+      title: 'Military service',
       pages: {
         serviceInformation: {
           path: 'military-service/service-information',
@@ -333,7 +333,7 @@ const formConfig = {
       },
     },
     householdInformation: {
-      title: 'Household Information',
+      title: 'Household information',
       pages: {
         financialDisclosure: {
           path: 'household-information/financial-disclosure',
@@ -387,7 +387,7 @@ const formConfig = {
       },
     },
     insuranceInformation: {
-      title: 'Insurance Information',
+      title: 'Insurance information',
       pages: {
         medicaid: {
           path: 'insurance-information/medicaid',

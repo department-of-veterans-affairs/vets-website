@@ -1,90 +1,55 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-
-import { setData } from 'platform/forms-system/src/js/actions';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-
-import { fetchTotalDisabilityRating } from '../actions';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 const PersonalAuthenticatedInformation = ({
   goBack,
   goForward,
-  setFormData,
   isLoggedIn,
-  formData,
-  getTotalDisabilityRating,
-  totalDisabilityRating,
+  user,
 }) => {
-  useEffect(
-    () => {
-      getTotalDisabilityRating();
-    },
-    [getTotalDisabilityRating],
-  );
-
-  useEffect(
-    () => {
-      setFormData({
-        ...formData,
-        'view:totalDisabilityRating': totalDisabilityRating || 0,
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [totalDisabilityRating],
-  );
-
-  const navButtons = <FormNavButtons goBack={goBack} goForward={goForward} />;
-
   const {
-    veteranFullName: { first, middle, last, suffix },
-    veteranDateOfBirth,
-    veteranSocialSecurityNumber,
-  } = formData;
-
-  let dateOfBirthFormatted = '-';
-  let ssnLastFour = '-';
-  if (veteranSocialSecurityNumber) {
-    ssnLastFour = veteranSocialSecurityNumber.substr(
-      veteranSocialSecurityNumber.length - 4,
-    );
-  }
-  if (veteranDateOfBirth) {
-    dateOfBirthFormatted = moment(veteranDateOfBirth).format('MMMM DD, YYYY');
-  }
+    userFullName: { first = '', middle = '', last = '', suffix = '' },
+    dob,
+  } = user;
+  const dateOfBirthFormatted = dob ? moment(dob).format('MMMM DD, YYYY') : '-';
 
   return (
     <>
       {isLoggedIn && (
-        <div>
-          <div className="hca-id-form-wrapper vads-u-margin-bottom--2">
-            <p>This is the personal information we have on file for you.</p>
+        <>
+          <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
+            {dob ? (
+              <p>This is the personal information we have on file for you.</p>
+            ) : (
+              <p>Here’s the name we have on file for you.</p>
+            )}
             <div className="vads-u-border-left--7px vads-u-border-color--primary vads-u-padding-y--1 vads-u-margin-bottom--3">
               <div className="vads-u-padding-left--1">
                 <p className="vads-u-margin--1px">
                   <strong>
                     {' '}
-                    {first || ''} {middle || ''} {last || ''} {suffix || ''}
+                    {first} {middle} {last} {suffix}
                   </strong>
                 </p>
-                <p className="vads-u-margin--1px">
-                  Last 4 of Social Security number: {ssnLastFour}
-                </p>
-                <p className="vads-u-margin--1px">
-                  Date of birth: {dateOfBirthFormatted}
-                </p>
+                {dob && (
+                  <p className="vads-u-margin--1px">
+                    Date of birth: {dateOfBirthFormatted}
+                  </p>
+                )}
               </div>
             </div>
             <p>
-              <strong>Note: </strong>
-              If you need to update your personal information, call our VA
-              benefits hotline at{' '}
-              <va-telephone contact={CONTACTS.VA_BENEFITS} />
-              (TTY: <va-telephone contact={CONTACTS[711]} />
-              ), Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+              <strong>Note:</strong> If you need to update your personal
+              information, call our VA benefits hotline at{' '}
+              <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
+              <va-telephone contact={CONTACTS[711]} tty />
+              ), Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
+              <abbr title="eastern time">ET</abbr>.
             </p>
             <p>
               You can also call your VA medical center (
@@ -93,48 +58,25 @@ const PersonalAuthenticatedInformation = ({
               department.
             </p>
           </div>
-          {navButtons}
-        </div>
+          <FormNavButtons goBack={goBack} goForward={goForward} />
+        </>
       )}
     </>
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    formData: state.form.data,
-    isLoggedIn: state.user.login.currentlyLoggedIn,
-    user: state.user.profile,
-    loading: state.totalRating.loading,
-    error: state.totalRating.error,
-    totalDisabilityRating: state.totalRating.totalDisabilityRating,
-  };
-};
-
-const mapDispatchToProps = {
-  setFormData: setData,
-  getTotalDisabilityRating: fetchTotalDisabilityRating,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PersonalAuthenticatedInformation);
-
 PersonalAuthenticatedInformation.propTypes = {
-  error: PropTypes.object,
-  first: PropTypes.string,
-  formData: PropTypes.object,
-  getTotalDisabilityRating: PropTypes.func,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   isLoggedIn: PropTypes.bool,
-  last: PropTypes.string,
-  loading: PropTypes.bool,
-  middle: PropTypes.string,
-  setFormData: PropTypes.func,
-  suffix: PropTypes.string,
-  totalDisabilityRating: PropTypes.number,
-  veteranDateOfBirth: PropTypes.string,
-  veteranSocialSecurityNumber: PropTypes.string,
+  user: PropTypes.object,
 };
+
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.user.login.currentlyLoggedIn,
+    user: state.user.profile,
+  };
+};
+
+export default connect(mapStateToProps)(PersonalAuthenticatedInformation);

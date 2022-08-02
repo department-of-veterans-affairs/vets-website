@@ -21,7 +21,7 @@ export const AuthContent = ({
       otherFacilities={otherFacilities}
       linksHeaderText="View lab and test results from:"
       myHealtheVetLink={mhvUrl(authenticatedWithSSOe, 'labs-tests')}
-      myVAHealthLink={getCernerURL('/pages/health_record/results/labs')}
+      myVAHealthLink={getCernerURL('/pages/health_record/results')}
     />
     <div>
       <div itemScope itemType="http://schema.org/Question">

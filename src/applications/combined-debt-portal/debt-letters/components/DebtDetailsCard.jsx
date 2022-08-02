@@ -3,15 +3,17 @@ import { head } from 'lodash';
 import PropTypes from 'prop-types';
 // import { deductionCodes } from '../const/deduction-codes';
 // import { setActiveDebt } from '../../combined/actions/debts';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import { getDebtDetailsCardContent } from '../const/diary-codes/debtDetailsCardContent';
 import { currency } from '../utils/page';
 
 const DebtDetailsCard = ({ debt }) => {
   // TODO: currently we do not have a debtID so we need to make one by combining fileNumber and diaryCode
-  const dates = debt?.debtHistory.map(m => new Date(m.date));
+  const dates = debt?.debtHistory?.map(m => new Date(m.date)) ?? [];
   const sortedHistory = dates.sort((a, b) => Date.parse(b) - Date.parse(a));
-  const mostRecentDate = format(head(sortedHistory), 'MM/dd/yyyy');
+  const mostRecentDate = isValid(head(sortedHistory))
+    ? format(head(sortedHistory), 'MM/dd/yyyy')
+    : '';
   const convertedAr = currency.format(parseFloat(debt.currentAr));
 
   const debtCardContent = getDebtDetailsCardContent(
@@ -30,7 +32,7 @@ const DebtDetailsCard = ({ debt }) => {
       status={debtCardContent.status}
       visible="true"
     >
-      <h3 className="vads-u-margin--0">{debtCardContent.headerText}</h3>
+      <h2 className="vads-u-margin--0">{debtCardContent.headerText}</h2>
 
       <div>
         <div className="vads-u-margin-y--2 vads-u-font-size--md vads-u-font-family--sans">
@@ -43,14 +45,11 @@ const DebtDetailsCard = ({ debt }) => {
           {debtCardContent.showMakePayment && (
             <div>
               <a
-                className="vads-u-font-size--md vads-u-font-weight--bold"
                 aria-label="Make a payment"
+                className="vads-c-action-link--blue"
+                data-testid="link-make-payment"
                 href="https://www.pay.va.gov/"
               >
-                <i
-                  aria-hidden="true"
-                  className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
-                />
                 Make a payment
               </a>
             </div>
@@ -58,14 +57,11 @@ const DebtDetailsCard = ({ debt }) => {
           {debtCardContent.showRequestHelp && (
             <div>
               <a
-                className="vads-u-font-size--md vads-u-font-weight--bold"
                 aria-label="Request help with your debt"
+                className="vads-c-action-link--blue"
+                data-testid="link-request-help"
                 href="/manage-va-debt/request-debt-help-form-5655"
               >
-                <i
-                  className="fas fa-chevron-circle-right fa-2x vads-u-margin-right--1"
-                  aria-hidden="true"
-                />
                 Request help with your debt
               </a>
             </div>

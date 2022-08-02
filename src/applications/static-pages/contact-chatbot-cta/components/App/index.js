@@ -3,28 +3,38 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-const restrictWidgetStorageKey = 'restrict-chatbot-cta';
-const displayThreshold = 50;
+// const restrictWidgetStorageKey = 'restrict-chatbot-cta';
+// const displayThreshold = 50;
 
 export const App = () => {
-  // restrict view to roughly 50% of users
-  const restrictDisplay = () => {
-    const restrict = window.localStorage.getItem(restrictWidgetStorageKey);
-    if (restrict) {
-      return Number.parseInt(restrict, 10) <= displayThreshold;
-    }
-    const restrictVar = Math.random().toFixed(2) * 100;
-    window.localStorage.setItem(
-      restrictWidgetStorageKey,
-      restrictVar.toString(),
-    );
-    return restrictVar <= displayThreshold;
-  };
+  /**
+   * NOTE:
+   *
+   * Currently, all traffic should be allowed. Keeping this function
+   * in place but commented so the option of gating is still available.
+   *
+   * When it's determined that it is no longer needed, this function
+   * can be removed, in addition to the const values defined above and
+   * the check for !isAllowed below.
+   */
 
-  const isAllowed = restrictDisplay();
-  if (!isAllowed) {
-    return null;
-  }
+  // const restrictDisplay = () => {
+  //   const restrict = window.localStorage.getItem(restrictWidgetStorageKey);
+  //   if (restrict) {
+  //     return Number.parseInt(restrict, 10) <= displayThreshold;
+  //   }
+  //   const restrictVar = Math.random().toFixed(2) * 100;
+  //   window.localStorage.setItem(
+  //     restrictWidgetStorageKey,
+  //     restrictVar.toString(),
+  //   );
+  //   return restrictVar <= displayThreshold;
+  // };
+
+  // const isAllowed = restrictDisplay();
+  // if (!isAllowed) {
+  //   return null;
+  // }
 
   return (
     <va-alert status="info">

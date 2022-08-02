@@ -104,7 +104,7 @@ describe('<AppealListItemV2/>', () => {
         .find('.claim-list-item-header-v2')
         .render()
         .text(),
-    ).to.equal('Supplemental claim for health care updated on May 1, 2016');
+    ).to.equal('Supplemental claim for health care\n updated on May 1, 2016');
     wrapper.unmount();
   });
 

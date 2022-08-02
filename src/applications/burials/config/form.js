@@ -7,8 +7,6 @@ import { createSelector } from 'reselect';
 // import { transform } from '../helpers';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
-import applicantDescription from 'platform/forms/components/ApplicantDescription';
-
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
 import { isFullDate } from 'platform/forms/validations';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -27,13 +25,15 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import toursOfDutyUI from '../definitions/toursOfDuty';
+
+import ApplicantDescription from '../components/ApplicantDescription';
+import ErrorText from '../components/ErrorText';
 import IntroductionPage from '../components/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import ErrorText from '../components/ErrorText';
+import toursOfDutyUI from '../definitions/toursOfDuty';
 
 import {
-  burialDateWarning,
+  BurialDateWarning,
   fileHelp,
   transportationWarning,
   serviceRecordNotification,
@@ -152,8 +152,19 @@ const formConfig = {
           title: 'Claimant information',
           path: 'claimant-information',
           uiSchema: {
-            'ui:description': applicantDescription,
-            claimantFullName: fullNameUI,
+            'ui:description': ApplicantDescription,
+            claimantFullName: {
+              ...fullNameUI,
+              first: {
+                'ui:title': 'Claimant’s first name',
+              },
+              middle: {
+                'ui:title': 'Claimant’s middle name',
+              },
+              last: {
+                'ui:title': 'Claimant’s last name',
+              },
+            },
             relationship: {
               type: {
                 'ui:title': 'Relationship to the deceased Veteran',
@@ -199,7 +210,18 @@ const formConfig = {
           title: 'Deceased Veteran information',
           path: 'veteran-information',
           uiSchema: {
-            veteranFullName: fullNameUI,
+            veteranFullName: {
+              ...fullNameUI,
+              first: {
+                'ui:title': 'Veteran’s first name',
+              },
+              middle: {
+                'ui:title': 'Veteran’s middle name',
+              },
+              last: {
+                'ui:title': 'Veteran’s last name',
+              },
+            },
             veteranSocialSecurityNumber: {
               ...ssnUI,
               'ui:title':
@@ -243,7 +265,7 @@ const formConfig = {
               'Date of burial (includes cremation or interment)',
             ),
             'view:burialDateWarning': {
-              'ui:description': burialDateWarning,
+              'ui:description': BurialDateWarning,
               'ui:options': {
                 hideIf: formData => {
                   // If they haven’t entered a complete year, don’t jump the gun and show the warning
@@ -322,7 +344,18 @@ const formConfig = {
                 expandUnder: 'view:serveUnderOtherNames',
                 viewField: FullNameField,
               },
-              items: fullNameUI,
+              items: {
+                ...fullNameUI,
+                first: {
+                  'ui:title': 'Veteran’s first name',
+                },
+                middle: {
+                  'ui:title': 'Veteran’s middle name',
+                },
+                last: {
+                  'ui:title': 'Veteran’s last name',
+                },
+              },
             },
             'view:serveUnderOtherNames': {
               'ui:title': 'Did the Veteran serve under another name?',
@@ -448,7 +481,7 @@ const formConfig = {
               },
             },
             'view:nonServiceWarning': {
-              'ui:description': burialDateWarning,
+              'ui:description': BurialDateWarning,
               'ui:options': {
                 hideIf: formData => {
                   if (

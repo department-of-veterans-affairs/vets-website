@@ -113,14 +113,6 @@
       {
         "name": "gibctCh33BenefitRateUpdate",
         "value": true
-      },
-      {
-        "name": "canUpload1010cgPOA",
-        "value": true
-      },
-      {
-        "name": "can_upload_10_10cg_poa",
-        "value": true
       }
     ]
   }

@@ -7,8 +7,6 @@ import {
   RECEIVED_APPOINTMENT_DETAILS,
   receivedDemographicsData,
   RECEIVED_DEMOGRAPHICS_DATA,
-  recordAnswer,
-  RECORD_ANSWER,
   triggerRefresh,
   TRIGGER_REFRESH,
   SEE_STAFF_MESSAGE_UPDATED,
@@ -17,18 +15,6 @@ import {
 
 describe('check in actions', () => {
   describe('actions', () => {
-    describe('recordAnswer', () => {
-      it('should return correct action', () => {
-        const action = recordAnswer({});
-        expect(action.type).to.equal(RECORD_ANSWER);
-      });
-      it('should return correct structure', () => {
-        const action = recordAnswer({
-          demographicsUpToDate: 'yes',
-        });
-        expect(action.payload.demographicsUpToDate).equal('yes');
-      });
-    });
     describe('receivedMultipleAppointmentDetails', () => {
       it('should return correct action', () => {
         const action = receivedMultipleAppointmentDetails([]);

@@ -1,4 +1,4 @@
-import { PROFILE_PATHS_LGBTQ_ENHANCEMENT } from '@@profile/constants';
+import { PROFILE_PATHS } from '@@profile/constants';
 import { mockUser } from '@@profile/tests/fixtures/users/user';
 import mockServiceHistory from '@@profile/tests/fixtures/service-history-success.json';
 import mockFullName from '@@profile/tests/fixtures/full-name-success.json';
@@ -20,7 +20,7 @@ export const setup = (options = { personalInfo: null, isEnhanced: false }) => {
   cy.intercept('v0/profile/full_name', mockFullName);
   cy.intercept('v0/feature_toggles*', mockProfileEnhancementsToggles);
 
-  cy.visit(PROFILE_PATHS_LGBTQ_ENHANCEMENT.PERSONAL_INFORMATION);
+  cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
 
   // should show a loading indicator
   cy.findByRole('progressbar').should('exist');

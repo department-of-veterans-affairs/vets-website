@@ -9,7 +9,7 @@ const ChangeAddress = ({ serviceDescription, primaryButtonHandler }) => {
     alertText: (
       <p>
         You’ll find your mailing and home address in your profile’s{' '}
-        <strong>Personal and contact information</strong> section.
+        <strong>Contact information</strong> section.
       </p>
     ),
     primaryButtonText: 'Go to your VA.gov profile',
@@ -21,8 +21,8 @@ const ChangeAddress = ({ serviceDescription, primaryButtonHandler }) => {
 };
 
 ChangeAddress.propTypes = {
-  serviceDescription: PropTypes.string.isRequired,
   primaryButtonHandler: PropTypes.func.isRequired,
+  serviceDescription: PropTypes.string.isRequired,
 };
 
 export default ChangeAddress;

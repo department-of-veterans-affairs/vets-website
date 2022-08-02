@@ -64,7 +64,6 @@ const responses = {
     data: {
       type: 'feature_toggles',
       features: [
-        { name: 'showEventsV2', value: true },
         { name: 'showExpandableVamcAlert', value: true },
         { name: 'facilityLocatorShowCommunityCares', value: true },
         { name: 'profile_show_profile_2.0', value: false },

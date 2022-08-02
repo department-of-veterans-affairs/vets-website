@@ -49,7 +49,7 @@ describe('Gender identity field tests on the personal information page', () => {
     setup({ isEnhanced: true, personalInfo: unsetUserPersonalInfo });
 
     cy.findByTestId('genderIdentity')
-      .contains('Edit your profile to add a gender identity.')
+      .contains('Choose edit to add a gender identity.')
       .should('exist');
 
     cy.injectAxeThenAxeCheck();

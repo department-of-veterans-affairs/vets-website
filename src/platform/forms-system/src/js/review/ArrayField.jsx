@@ -300,7 +300,7 @@ class ArrayField extends React.Component {
                           tabIndex="-1"
                           ref={focusElement}
                         >
-                          New {itemName}
+                          New {uiOptions.itemName ?? ''}
                         </h4>
                       ) : null}
                       <SchemaForm

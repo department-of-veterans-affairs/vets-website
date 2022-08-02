@@ -28,6 +28,7 @@ const generateMockSlots = require('./var/slots');
 // v2
 const requestsV2 = require('./v2/requests.json');
 const facilitiesV2 = require('./v2/facilities.json');
+const providersV2 = require('./v2/providers.json');
 const schedulingConfigurationsCC = require('./v2/scheduling_configurations_cc.json');
 const schedulingConfigurations = require('./v2/scheduling_configurations.json');
 const appointmentSlotsV2 = require('./v2/slots.json');
@@ -229,34 +230,28 @@ const responses = {
     });
   },
   'GET /vaos/v2/appointments': (req, res) => {
-    if (req.query.statuses?.includes('proposed')) {
-      if (req.query.start && req.query.end) {
-        return res.json({
-          data: confirmedV2.data.filter(appt => {
-            const d = moment(appt.attributes.start);
-            return d.isValid()
-              ? d.isBetween(req.query.start, req.query.end, 'day', '(]')
-              : false;
-          }),
-        });
-      }
-      return res.json(requestsV2);
-    }
-    if (req.query.statuses?.includes('booked')) {
-      if (req.query.start && req.query.end) {
-        return res.json({
-          data: confirmedV2.data.filter(appt => {
-            const d = moment(appt.attributes.start);
-            return d.isValid()
-              ? d.isBetween(req.query.start, req.query.end, 'day', '(]')
-              : false;
-          }),
-        });
-      }
-      return res.json(confirmedV2);
-    }
+    // merge arrays together
+    const appointments = confirmedV2.data.concat(requestsV2.data, mockAppts);
+    const filteredAppointments = appointments.filter(appointment => {
+      return req.query.statuses.some(status => {
+        if (appointment.attributes.status === status) {
+          if (appointment.id.startsWith('mock')) return true;
 
-    return res.json({ data: [] });
+          const date =
+            status === 'proposed'
+              ? moment(appointment.attributes.requestedPeriods[0]?.start)
+              : moment(appointment.attributes.start);
+          if (
+            date.isValid() &&
+            date.isBetween(req.query.start, req.query.end, 'day', '(]')
+          ) {
+            return true;
+          }
+        }
+        return false;
+      });
+    });
+    return res.json({ data: filteredAppointments });
   },
   'GET /vaos/v2/appointments/:id': (req, res) => {
     const appointments = {
@@ -276,6 +271,11 @@ const responses = {
   'GET /vaos/v2/facilities/:id': (req, res) => {
     return res.json({
       data: facilitiesV2.data.find(facility => facility.id === req.params.id),
+    });
+  },
+  'GET /vaos/v2/providers/:id': (req, res) => {
+    return res.json({
+      data: providersV2.data.find(provider => provider.id === req.params.id),
     });
   },
   'GET /vaos/v2/facilities': (req, res) => {
@@ -415,6 +415,134 @@ const responses = {
             },
           ],
         },
+        vet360ContactInformation: {
+          email: {
+            createdAt: '2018-04-20T17:24:13.000Z',
+            emailAddress: 'myemail72585885@unattended.com',
+            effectiveEndDate: null,
+            effectiveStartDate: '2019-03-07T22:32:40.000Z',
+            id: 20648,
+            sourceDate: '2019-03-07T22:32:40.000Z',
+            sourceSystemUser: null,
+            transactionId: '44a0858b-3dd1-4de2-903d-38b147981a9c',
+            updatedAt: '2019-03-08T05:09:58.000Z',
+            vet360Id: '1273766',
+          },
+          residentialAddress: {
+            addressLine1: '345 Home Address St.',
+            addressLine2: null,
+            addressLine3: null,
+            addressPou: 'RESIDENCE/CHOICE',
+            addressType: 'DOMESTIC',
+            city: 'San Francisco',
+            countryName: 'United States',
+            countryCodeIso2: 'US',
+            countryCodeIso3: 'USA',
+            countryCodeFips: null,
+            countyCode: null,
+            countyName: null,
+            createdAt: '2022-03-21T21:26:35.000Z',
+            effectiveEndDate: null,
+            effectiveStartDate: '2022-03-23T19:11:51.000Z',
+            geocodeDate: '2022-03-23T19:11:51.000Z',
+            geocodePrecision: null,
+            id: 312003,
+            internationalPostalCode: null,
+            latitude: 37.781,
+            longitude: -122.4605,
+            province: null,
+            sourceDate: '2022-03-23T19:11:51.000Z',
+            sourceSystemUser: null,
+            stateCode: 'CA',
+            transactionId: 'c5adb989-3b87-47b6-afe3-dc18800cedc3',
+            updatedAt: '2022-03-23T19:11:52.000Z',
+            validationKey: null,
+            vet360Id: '1273766',
+            zipCode: '94118',
+            zipCodeSuffix: null,
+            badAddress: null,
+          },
+          mailingAddress: {
+            addressLine1: '123 Mailing Address St.',
+            addressLine2: 'Apt 1',
+            addressLine3: null,
+            addressPou: 'CORRESPONDENCE',
+            addressType: 'DOMESTIC',
+            city: 'Fulton',
+            countryName: 'United States',
+            countryCodeIso2: 'US',
+            countryCodeIso3: 'USA',
+            countryCodeFips: null,
+            countyCode: null,
+            countyName: null,
+            createdAt: '2022-03-21T21:06:15.000Z',
+            effectiveEndDate: null,
+            effectiveStartDate: '2022-03-23T19:14:59.000Z',
+            geocodeDate: '2022-03-23T19:15:00.000Z',
+            geocodePrecision: null,
+            id: 311999,
+            internationalPostalCode: null,
+            latitude: 45.2248,
+            longitude: -121.3595,
+            province: null,
+            sourceDate: '2022-03-23T19:14:59.000Z',
+            sourceSystemUser: null,
+            stateCode: 'NY',
+            transactionId: '3ea3ecf8-3ddf-46d9-8a4b-b5554385b3fb',
+            updatedAt: '2022-03-23T19:15:01.000Z',
+            validationKey: null,
+            vet360Id: '1273766',
+            zipCode: '97063',
+            zipCodeSuffix: null,
+            badAddress: null,
+          },
+          mobilePhone: {
+            areaCode: '619',
+            countryCode: '1',
+            createdAt: '2022-01-12T16:22:03.000Z',
+            extension: null,
+            effectiveEndDate: null,
+            effectiveStartDate: '2022-02-17T20:15:44.000Z',
+            id: 269804,
+            isInternational: false,
+            isTextable: null,
+            isTextPermitted: null,
+            isTty: null,
+            isVoicemailable: null,
+            phoneNumber: '5551234',
+            phoneType: 'MOBILE',
+            sourceDate: '2022-02-17T20:15:44.000Z',
+            sourceSystemUser: null,
+            transactionId: 'fdb13953-f670-4bd3-a3bb-8881eb9165dd',
+            updatedAt: '2022-02-17T20:15:45.000Z',
+            vet360Id: '1273766',
+          },
+          homePhone: {
+            areaCode: '989',
+            countryCode: '1',
+            createdAt: '2018-04-20T17:22:56.000Z',
+            extension: null,
+            effectiveEndDate: null,
+            effectiveStartDate: '2022-03-11T16:31:55.000Z',
+            id: 2272982,
+            isInternational: false,
+            isTextable: null,
+            isTextPermitted: null,
+            isTty: null,
+            isVoicemailable: null,
+            phoneNumber: '8981233',
+            phoneType: 'HOME',
+            sourceDate: '2022-03-11T16:31:55.000Z',
+            sourceSystemUser: null,
+            transactionId: '2814cdf6-7f2c-431b-95f3-d37f3837215d',
+            updatedAt: '2022-03-11T16:31:56.000Z',
+            vet360Id: '1273766',
+          },
+          workPhone: null,
+          temporaryPhone: null,
+          faxNumber: null,
+          textPermission: null,
+        },
       },
     },
     meta: { errors: null },
@@ -446,6 +574,8 @@ const responses = {
         { name: 'vaOnlineSchedulingVariantTesting', value: false },
         { name: 'vaOnlineSchedulingPocHealthApt', value: true },
         { name: 'vaOnlineSchedulingStatusImprovement', value: true },
+        { name: 'vaOnlineFilter36Vats', value: true },
+        { name: 'vaOnlineSchedulingVaosV2Next', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },
         { name: 'gibctEybBottomSheet', value: true },

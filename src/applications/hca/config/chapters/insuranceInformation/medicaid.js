@@ -1,39 +1,26 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import {
-  shortFormAlert,
-  shortFormMessage,
-  HIGH_DISABILITY,
-  medicaidDescription,
-  emptyObjectSchema,
-} from '../../../helpers';
+import { MedicaidDescription } from '../../../components/FormDescriptions';
+import { ShortFormAlert } from '../../../components/FormAlerts';
+import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
 
 const { isMedicaidEligible } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
-    'view:shortFormAlert': {
-      'ui:description': shortFormAlert,
-      'ui:options': {
-        hideIf: form =>
-          !(
-            form['view:hcaShortFormEnabled'] &&
-            form.vaCompensationType === 'highDisability'
-          ),
-      },
-    },
     'view:medicaidShortFormMessage': {
-      'ui:description': shortFormMessage,
+      'ui:description': ShortFormAlert,
       'ui:options': {
         hideIf: form =>
           !(
             form['view:hcaShortFormEnabled'] &&
-            form['view:totalDisabilityRating'] &&
-            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
+            ((form['view:totalDisabilityRating'] &&
+              form['view:totalDisabilityRating'] >= HIGH_DISABILITY) ||
+              form.vaCompensationType === 'highDisability')
           ),
       },
     },
     'view:medicaidDescription': {
-      'ui:description': medicaidDescription,
+      'ui:description': MedicaidDescription,
     },
     isMedicaidEligible: {
       'ui:title': 'Are you eligible for Medicaid?',

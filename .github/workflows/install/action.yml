@@ -32,6 +32,10 @@ runs:
       with:
         node-version: ${{ steps.get-node-version.outputs.NODE_VERSION }}
 
+    - name: Setup Yarn
+      shell: bash
+      run: npm i -g yarn@1.21.1
+
     - name: Cache dependencies
       id: cache-dependencies
       uses: actions/cache@v2

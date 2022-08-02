@@ -1,5 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { PrimaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
+import { PrimaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo/PrimaryCaregiverInfo';
 import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
 import { primaryInputLabel } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
 import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
@@ -8,7 +8,7 @@ import {
   vetRelationshipUI,
   alternativePhoneNumberUI,
   primaryPhoneNumberUI,
-  addressWithoutCountryUI,
+  addressWithAutofillUI,
 } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
 const { primaryCaregiver } = fullSchema.properties;
@@ -17,11 +17,13 @@ const { address } = fullSchema.definitions;
 
 const primaryContactInfoPage = {
   uiSchema: {
-    'ui:description': () =>
-      PrimaryCaregiverInfo({ pageTitle: 'Contact information' }),
-    [primaryCaregiverFields.address]: addressWithoutCountryUI(
-      primaryInputLabel,
-    ),
+    'ui:description': formContext =>
+      PrimaryCaregiverInfo({
+        formContext,
+        pageTitle: 'Contact information',
+        showContactIntro: true,
+      }),
+    [primaryCaregiverFields.address]: addressWithAutofillUI(),
     [primaryCaregiverFields.primaryPhoneNumber]: primaryPhoneNumberUI(
       primaryInputLabel,
     ),
@@ -45,7 +47,13 @@ const primaryContactInfoPage = {
       primaryCaregiverFields.vetRelationship,
     ],
     properties: {
-      [primaryCaregiverFields.address]: address,
+      [primaryCaregiverFields.address]: {
+        ...address,
+        properties: {
+          ...address.properties,
+          'view:autofill': { type: 'boolean' },
+        },
+      },
       [primaryCaregiverFields.primaryPhoneNumber]:
         primaryCaregiverProps.primaryPhoneNumber,
       [primaryCaregiverFields.alternativePhoneNumber]:

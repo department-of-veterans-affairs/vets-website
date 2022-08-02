@@ -12,7 +12,6 @@ import {
   combinedPortalAccess,
   selectLoadingFeatureFlags,
 } from '../utils/helpers';
-import LoadingSpinner from '../components/LoadingSpinner';
 
 const CombinedPortalApp = ({ children }) => {
   const dispatch = useDispatch();
@@ -46,23 +45,32 @@ const CombinedPortalApp = ({ children }) => {
 
   // Authentication!
   if (!profileLoading && !userLoggedIn) {
-    window.location.replace('/manage-debt-and-bills/');
-    return <LoadingSpinner margin={5} />;
+    window.location.replace('/manage-va-debt/');
+    return (
+      <va-loading-indicator
+        label="Loading"
+        message="Please wait while we load the application for you."
+      />
+    );
   }
 
   // Hold off on loading until everyone is ready
   if (isPlatformLoading || isMcpLoading || isDebtLoading) {
-    return <LoadingSpinner />;
+    return (
+      <va-loading-indicator
+        label="Loading"
+        message="Please wait while we load the application for you."
+      />
+    );
   }
 
   if (!isCombinedPortalActive) {
-    window.location.replace('/');
+    window.location.replace('/manage-va-debt');
     return (
       <div className="vads-u-margin--5">
         <va-loading-indicator
           label="Loading"
           message="Please wait while we load the application for you."
-          set-focus
         />
       </div>
     );
@@ -70,15 +78,13 @@ const CombinedPortalApp = ({ children }) => {
 
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 vads-u-margin-bottom--5">
-      <div className="vads-l-row vads-u-margin-x--neg2p5">
-        <div className="vads-l-col--12 medium-screen:vads-l-col--8 large-screen:vads-l-col--8">
-          <DowntimeNotification
-            appTitle="Debts and bills application"
-            dependencies={[externalServices.mvi, externalServices.vbs]}
-          >
-            {children}
-          </DowntimeNotification>
-        </div>
+      <div className="vads-l-row">
+        <DowntimeNotification
+          appTitle="Debts and bills application"
+          dependencies={[externalServices.mvi, externalServices.vbs]}
+        >
+          {children}
+        </DowntimeNotification>
       </div>
     </div>
   );

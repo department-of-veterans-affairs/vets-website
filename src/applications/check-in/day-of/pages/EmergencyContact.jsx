@@ -8,7 +8,8 @@ import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/layout/Footer';
-import { recordAnswer, seeStaffMessageUpdated } from '../../actions/day-of';
+import { seeStaffMessageUpdated } from '../../actions/day-of';
+import { recordAnswer } from '../../actions/universal';
 import EmergencyContactDisplay from '../../components/pages/emergencyContact/EmergencyContactDisplay';
 import { makeSelectVeteranData } from '../../selectors';
 
@@ -94,7 +95,6 @@ const EmergencyContact = props => {
 
 EmergencyContact.propTypes = {
   isDayOfDemographicsFlagsEnabled: PropTypes.bool,
-  isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
 };
 

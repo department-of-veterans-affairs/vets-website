@@ -7,11 +7,7 @@ import { generateFeatureToggles } from '../../../../mocks/feature-toggles';
 
 describe('Direct Deposit Consistently', () => {
   beforeEach(() => {
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({ profileAlwaysShowDirectDepositDisplay: true }),
-    );
+    cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
   });
   it('should service down message if edu benefits is down', () => {
     cy.login(user72Success);
@@ -34,7 +30,7 @@ describe('Direct Deposit Consistently', () => {
     cy.intercept(
       'GET',
       '/v0/profile/ch33_bank_accounts',
-      bankAccounts.defaultResponse,
+      bankAccounts.anAccount,
     );
 
     DirectDeposit.visitPage();

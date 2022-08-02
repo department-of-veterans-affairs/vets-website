@@ -1,5 +1,5 @@
 import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import { PrimaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo';
+import { PrimaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo/PrimaryCaregiverInfo';
 
 const hasSecondaryCaregiverPage = {
   uiSchema: {
@@ -9,7 +9,6 @@ const hasSecondaryCaregiverPage = {
       'ui:required': () => true,
       'ui:description': PrimaryCaregiverInfo({
         additionalInfo: true,
-        headerInfo: false,
       }),
       'ui:widget': 'yesNo',
     },
