@@ -3,7 +3,7 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import formConfig from '../config/form';
+// import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
 const testConfig = createTestConfig(
@@ -28,8 +28,7 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       // Log in if the form requires an authenticated session.
       // cy.login();
-
-      cy.route('POST', formConfig.submitUrl, { status: 200 });
+      // cy.route('POST', formConfig.submitUrl, { status: 200 });
     },
 
     // Skip tests in CI until the form is released.
@@ -37,7 +36,7 @@ const testConfig = createTestConfig(
     skip: Cypress.env('CI'),
   },
   manifest,
-  formConfig,
+  // formConfig,
 );
 
 testForm(testConfig);
