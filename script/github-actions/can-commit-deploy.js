@@ -18,7 +18,7 @@ const octokit = new Octokit({ auth });
  * Gets the in progress workflow runs of a specified workflow.
  *
  * @param {string} workflow_id - Workflow id or file name
- * @returns {Array} List of in progress workflow runs
+ * @returns {Array} List of in progress workflow runs.
  */
 const getInProgressWorkflowRuns = workflow_id => {
   const params = {
@@ -48,7 +48,7 @@ const getInProgressWorkflowRuns = workflow_id => {
  * Gets the commit sha of the last full deploy of an environment.
  *
  * @param {string} env - Name of environment
- * @returns {string} Commit sha of the latest full deploy
+ * @returns {string} Commit sha of the latest full deploy.
  */
 const getLastFullDeployCommit = async env => {
   const envBucketUrl = BUCKETS[env];
@@ -71,7 +71,7 @@ const getLastFullDeployCommit = async env => {
  *
  * @param {string} commitA - Possible ancestor
  * @param {string} commitB - Possible descendant
- * @returns {Boolean} Returns true if the first commit is an ancestor of the second
+ * @returns {Boolean} Returns true if the first commit is an ancestor of the second.
  */
 const isAncestor = (commitA, commitB) => {
   const exitCode = runCommandSync(
@@ -98,6 +98,12 @@ const isAheadOfLastFullDeploy = async env => {
   return isAncestor(GITHUB_SHA, lastFullDeployCommit);
 };
 
+/**
+ * Determines if the GITHUB_SHA can be deployed to non production environments.
+ *
+ * @param {string} env - Environment trying to deploy
+ * @returns {Boolean} Whether or not the GITHUB_SHA can be deployed to the environment.
+ */
 const canCommitDeploy = async env => {
   if (!(await isAheadOfLastFullDeploy(env))) return false;
 
@@ -119,7 +125,14 @@ const canCommitDeploy = async env => {
   return canCommitDeploy(env);
 };
 
-const canCommitDeployProd = async isolatedAppSha => {
+/**
+ * Determines whether the GITHUB_SHA can be deployed to production. This is
+ * intended to be used for isolated app commits in the `main` branch
+ * to avoid a race condition with the daily production deploy.
+ *
+ * @returns {Boolean} Whether or not the GITHUB_SHA can be deployed to production.
+ */
+const canCommitDeployProd = async () => {
   if (!(await isAheadOfLastFullDeploy(ENVIRONMENTS.VAGOVPROD))) return false;
 
   const inProgressWorkflowRuns = await getInProgressWorkflowRuns(
@@ -132,21 +145,20 @@ const canCommitDeployProd = async isolatedAppSha => {
   const dailyProdDeploySha = inProgressWorkflowRuns[0].head_sha;
 
   // Checks whether the isolated app commit is ahead of the daily prod deploy commit.
-  const isAheadOfDailyDeploy = isAncestor(isolatedAppSha, dailyProdDeploySha);
+  const isAheadOfDailyDeploy = isAncestor(GITHUB_SHA, dailyProdDeploySha);
   if (!isAheadOfDailyDeploy) return false;
 
   const timeout = 10; // Number of minutes to wait before checking again
   console.log('Waiting for the Daily Production Deploy to complete...');
   await sleep(timeout * 60 * 1000);
 
-  return canCommitDeployProd(isolatedAppSha);
+  return canCommitDeployProd();
 };
 
 const main = () => {
   const environment = process.env.BUILDTYPE;
 
-  if (environment === ENVIRONMENTS.VAGOVPROD)
-    return canCommitDeployProd(GITHUB_SHA);
+  if (environment === ENVIRONMENTS.VAGOVPROD) return canCommitDeployProd();
 
   return canCommitDeploy(environment);
 };
