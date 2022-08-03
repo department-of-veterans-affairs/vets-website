@@ -22,11 +22,11 @@ class EmergencyContact {
   };
 
   validateDemographicData = ({
-    address = '123 fake streetAlbuquerque, New Mexico 87102',
+    address = '1233 8th StreetAlbuquerque, New Mexico 87102',
     phone = '555-867-5309',
     relationship = 'EXTENDED FAMILY MEMBER',
     workPhone = 'Not available',
-    name = 'Bugs Bunny',
+    name = 'Star Garnet',
   } = {}) => {
     cy.get("ul[data-testid='demographics-fields']")
       .find('li:nth-of-type(1)')
