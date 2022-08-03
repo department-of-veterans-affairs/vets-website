@@ -14,6 +14,12 @@ const [owner, repo] = GITHUB_REPOSITORY.split('/');
 
 const octokit = new Octokit({ auth });
 
+/**
+ * Gets the in progress workflow runs of a specified workflow.
+ *
+ * @param {string} workflow_id - Workflow id or file name
+ * @returns {Array} List of in progress workflow runs
+ */
 const getInProgressWorkflowRuns = workflow_id => {
   const params = {
     owner,
@@ -38,6 +44,12 @@ const getInProgressWorkflowRuns = workflow_id => {
     });
 };
 
+/**
+ * Gets the commit sha of the last full deploy of an environment.
+ *
+ * @param {string} env - Name of environment
+ * @returns {string} Commit sha of the latest full deploy
+ */
 const getLastFullDeployCommit = async env => {
   const envBucketUrl = BUCKETS[env];
   const buildTextUrl = new URL(path.join(envBucketUrl, 'BUILD.txt'));
@@ -56,9 +68,10 @@ const getLastFullDeployCommit = async env => {
 
 /**
  * Checks whether the first commit is an ancestor of the second commit.
+ *
  * @param {string} commitA - Possible ancestor
  * @param {string} commitB - Possible descendant
- * @returns {Boolean}
+ * @returns {Boolean} Returns true if the first commit is an ancestor of the second
  */
 const isAncestor = (commitA, commitB) => {
   const exitCode = runCommandSync(
@@ -76,6 +89,7 @@ const isAncestor = (commitA, commitB) => {
 
 /**
  * Checks whether the GITHUB_SHA is ahead of the last full deploy.
+ *
  * @param {string} env - Deployed environment to check
  * @returns {Boolean}
  */
