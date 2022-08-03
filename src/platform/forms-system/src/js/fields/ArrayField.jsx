@@ -56,6 +56,7 @@ export default class ArrayField extends React.Component {
     this.handleRemove = this.handleRemove.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
+    this.focusOnFirstInput = this.focusOnFirstInput.bind(this);
   }
 
   // This fills in an empty item in the array if it has minItems set
@@ -81,51 +82,21 @@ export default class ArrayField extends React.Component {
     return !deepEquals(this.props, nextProps) || nextState !== this.state;
   }
 
-  onItemChange(indexToChange, value) {
-    const newItems = set(indexToChange, value, this.props.formData || []);
-    this.props.onChange(newItems);
-  }
-
-  getItemSchema(index) {
-    const { schema } = this.props;
-    if (schema.items.length > index) {
-      return schema.items[index];
-    }
-
-    return schema.additionalItems;
-  }
-
-  scrollToTop() {
-    setTimeout(() => {
-      scrollTo(
-        `topOfTable_${this.props.idSchema.$id}`,
-        window.Forms?.scroll || getScrollOptions({ offset: -60 }),
-      );
-    }, 100);
-  }
-
-  scrollToRow(id) {
-    if (!this.props.uiSchema['ui:options'].doNotScroll) {
-      setTimeout(() => {
-        scrollTo(
-          `table_${id}`,
-          window.Forms?.scroll || getScrollOptions({ offset: 0 }),
-        );
-      }, 100);
-    }
-  }
-
-  /*
+  /**
    * Clicking edit on an item that’s not last and so is in view mode
+   * @param {number} index - The index of the item to edit
+   * @param {boolean} status - The editing status of the item to edit
    */
   handleEdit(index, status = true) {
     this.setState(set(['editing', index], status, this.state), () => {
       this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
+      this.focusOnFirstInput(index);
     });
   }
 
-  /*
+  /**
    * Clicking Update on an item that’s not last and is in edit mode
+   * @param {number} index - The index of the item to update
    */
   handleUpdate(index) {
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
@@ -145,7 +116,9 @@ export default class ArrayField extends React.Component {
    * Clicking Add another
    */
   handleAdd() {
-    const lastIndex = this.props.formData.length - 1;
+    const numberOfItems = this.props.formData.length;
+    const lastIndex = numberOfItems - 1;
+
     if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
       // When we add another, we want to change the editing state of the currently
       // last item, but not ones above it
@@ -167,17 +140,7 @@ export default class ArrayField extends React.Component {
         );
         this.props.onChange(newFormData);
         this.scrollToRow(`${this.props.idSchema.$id}_${lastIndex + 1}`);
-
-        // Wait for edit view to render before focusing on the first input field in that group
-        setTimeout(() => {
-          const wrapper = document.getElementById(this.props.idSchema.$id);
-          const focusableElements = getFocusableElements(wrapper);
-          const firstFocusableElement = wrapper.querySelector(
-            `[id="${focusableElements[0].id}"]`,
-          );
-
-          firstFocusableElement.focus();
-        }, 0);
+        this.focusOnFirstInput(numberOfItems);
       });
     } else {
       const touched = setArrayRecordTouched(this.props.idSchema.$id, lastIndex);
@@ -187,8 +150,9 @@ export default class ArrayField extends React.Component {
     }
   }
 
-  /*
+  /**
    * Clicking Remove on an item in edit mode
+   * @param {number} indexToRemove - The index of the item to remove
    */
   handleRemove(indexToRemove) {
     const newItems = this.props.formData.filter(
@@ -206,6 +170,74 @@ export default class ArrayField extends React.Component {
       // Focus on "Add Another xyz" button after removing
       focusElement('.va-growable-add-btn');
     });
+  }
+
+  /**
+   * onChange handler for the SchemaField
+   * @param {number} indexToChange - The index of the item to change
+   * @param {string} value - The value to set for the item
+   */
+  onItemChange(indexToChange, value) {
+    const newItems = set(indexToChange, value, this.props.formData || []);
+    this.props.onChange(newItems);
+  }
+
+  /**
+   * gets the item schema
+   * @param {number} index - The index of the item to get
+   */
+  getItemSchema(index) {
+    const { schema } = this.props;
+    if (schema.items.length > index) {
+      return schema.items[index];
+    }
+
+    return schema.additionalItems;
+  }
+
+  /**
+   * scrolls to the top of the item
+   */
+  scrollToTop() {
+    setTimeout(() => {
+      scrollTo(
+        `topOfTable_${this.props.idSchema.$id}`,
+        window.Forms?.scroll || getScrollOptions({ offset: -60 }),
+      );
+    }, 100);
+  }
+
+  /**
+   * scrolls to a particular scroller element
+   * @param {string} id - The ID of the item to scroll to
+   */
+  scrollToRow(id) {
+    if (!this.props.uiSchema['ui:options'].doNotScroll) {
+      setTimeout(() => {
+        scrollTo(
+          `table_${id}`,
+          window.Forms?.scroll || getScrollOptions({ offset: 0 }),
+        );
+      }, 100);
+    }
+  }
+
+  /**
+   * Finds all focusable elements within a wrapper element and focuses on the first one
+   * @param {number} index - The index of the item to use to define the wrapper element
+   */
+  focusOnFirstInput(index) {
+    // Wait for new view to render before focusing on the first input field in that group
+    setTimeout(() => {
+      const wrapperId = `${this.props.idSchema.$id}_${index}`;
+      const wrapper = document.getElementById(wrapperId);
+      const focusableElements = getFocusableElements(wrapper);
+      const firstFocusableElement = wrapper.querySelector(
+        `[id="${focusableElements[0].id}"]`,
+      );
+
+      firstFocusableElement.focus();
+    }, 0);
   }
 
   render() {
@@ -292,7 +324,7 @@ export default class ArrayField extends React.Component {
               return (
                 <div
                   key={index}
-                  id={this.props.idSchema.$id}
+                  id={`${this.props.idSchema.$id}_${index}`}
                   className={
                     notLastOrMultipleRows ? 'va-growable-background' : null
                   }
