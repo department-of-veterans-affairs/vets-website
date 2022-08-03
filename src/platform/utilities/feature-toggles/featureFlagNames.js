@@ -63,6 +63,7 @@ export default Object.freeze({
   gibctSchoolRatings: 'gibct_school_ratings',
   giSandboxComparisonToolToggle: 'gi_sandbox_comparision_tool_toggle',
   hcaAmericanIndianEnabled: 'hca_american_indian_enabled',
+  hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
   hcaMedicareClaimNumberEnabled: 'hca_medicare_claim_number_enabled',
   hcaShortFormEnabled: 'hca_short_form_enabled',
   hlrv2: 'hlr_v2',
