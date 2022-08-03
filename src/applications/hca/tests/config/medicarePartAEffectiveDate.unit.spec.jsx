@@ -26,6 +26,9 @@ describe('Hca medicare', () => {
     );
     const formDOM = findDOMNode(form);
 
+    expect(
+      formDOM.querySelector('#root_medicareClaimNumber').maxLength,
+    ).to.equal(30);
     expect(formDOM.querySelectorAll('input').length).to.equal(2);
   });
 
