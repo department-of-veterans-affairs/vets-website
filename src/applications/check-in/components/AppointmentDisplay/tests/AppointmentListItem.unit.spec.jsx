@@ -89,6 +89,77 @@ describe('check-in', () => {
 
       expect(listItem.queryByTestId('clinic-location')).to.not.exist;
     });
+    it('should default type of care to VA Appointment when value not available', () => {
+      const listItem = render(
+        <Provider store={store}>
+          <AppointmentListItem
+            appointment={{
+              startTime: '2021-07-19T13:56:31',
+              clinicFriendlyName: 'Green Team Clinic1',
+              facility: 'Green Team facility',
+            }}
+          />
+        </Provider>,
+      );
+
+      expect(listItem.getByTestId('type-of-care')).to.exist;
+      expect(listItem.getByTestId('type-of-care')).to.have.text(
+        'VA Appointment',
+      );
+    });
+    it('should render type of care when available', () => {
+      const listItem = render(
+        <Provider store={store}>
+          <AppointmentListItem
+            appointment={{
+              startTime: '2021-07-19T13:56:31',
+              clinicFriendlyName: 'Green Team Clinic1',
+              facility: 'Green Team facility',
+              clinicStopCodeName: 'Green Team care',
+            }}
+          />
+        </Provider>,
+      );
+
+      expect(listItem.getByTestId('type-of-care')).to.exist;
+      expect(listItem.getByTestId('type-of-care')).to.have.text(
+        'Green Team care',
+      );
+    });
+
+    it('should render the provider when available', () => {
+      const listItem = render(
+        <Provider store={store}>
+          <AppointmentListItem
+            appointment={{
+              startTime: '2021-07-19T13:56:31',
+              clinicFriendlyName: 'Green Team Clinic1',
+              facility: 'Green Team facility',
+              doctorName: 'Dr. Green',
+            }}
+          />
+        </Provider>,
+      );
+
+      expect(listItem.getByTestId('provider')).to.exist;
+      expect(listItem.getByTestId('provider')).to.have.text('Dr. Green');
+    });
+    it('should not render the provider when not available', () => {
+      const listItem = render(
+        <Provider store={store}>
+          <AppointmentListItem
+            appointment={{
+              startTime: '2021-07-19T13:56:31',
+              clinicFriendlyName: 'Green Team Clinic1',
+              facility: 'Green Team facility',
+            }}
+          />
+        </Provider>,
+      );
+
+      expect(listItem.queryByTestId('provider')).to.not.exist;
+    });
+
     it('passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
