@@ -44,7 +44,9 @@ Not sure what Vets-API endpoints are used.
 
 ### Feature toggles
 
-Wwe have a feature toggle for multiple address field, `multiple_address_10_10ez`, Its currently enabled in all environments.
+* We have a feature toggle to enable an American Indian question, `hca_american_indian_enabled`, showing a page where we ask if a veteran is recognized as an American Indian or Alaska Native.
+* We have a feature toggle to enable a shortened form, `hca_short_form_enabled`, for users with or self discloser of high disability.
+* We have a feature toggle to enable an override of enrollment status, `hca_enrollment_status_override_enabled`, to allow multiple submissions with same user.
 
 ### How to test new features?
 
