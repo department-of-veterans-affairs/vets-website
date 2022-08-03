@@ -387,7 +387,9 @@
     "**/fbjs": "^3.0.4"
   },
   "workspaces": {
-    "packages": [],
+    "packages": [
+      "src/platform/startup"
+    ],
     "nohoist": []
   }
 }
