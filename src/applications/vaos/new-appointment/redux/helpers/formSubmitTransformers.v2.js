@@ -12,10 +12,18 @@ import {
 import { getClinicId } from '../../../services/healthcare-service';
 import { getTimezoneByFacilityId } from '../../../utils/timezone';
 
-function getReasonCode(data) {
+function getReasonCode({ data, isCC }) {
   const code = PURPOSE_TEXT_V2.filter(purpose => purpose.id !== 'other').find(
     purpose => purpose.id === data.reasonForAppointment,
   )?.serviceName;
+
+  let reasonText = null;
+  if (isCC && data.reasonAdditionalInfo) {
+    reasonText = data.reasonAdditionalInfo.slice(0, 250);
+  }
+  if (!isCC) {
+    reasonText = data.reasonAdditionalInfo.slice(0, 100);
+  }
 
   return {
     // If the user selects one of the three preset radio selections
@@ -25,9 +33,7 @@ function getReasonCode(data) {
     // Per Brad - All comments should be sent in the reasonCode.text field and should should be
     // truncated to 100 char for both VA appointment types only. CC appointments will continue
     // to be truncated to 250 char
-    text: data.reasonAdditionalInfo
-      ? data.reasonAdditionalInfo.slice(0, 100)
-      : null,
+    text: data.reasonAdditionalInfo ? reasonText : null,
   };
 }
 
@@ -84,7 +90,7 @@ export function transformFormToVAOSCCRequest(state) {
     locationId: data.communityCareSystemId,
     serviceType: typeOfCare.idV2 || typeOfCare.ccId,
     // comment: data.reasonAdditionalInfo,
-    reasonCode: getReasonCode(data),
+    reasonCode: getReasonCode({ data, isCC: true }),
     contact: {
       telecom: [
         {
@@ -131,7 +137,7 @@ export function transformFormToVAOSVARequest(state) {
     locationId: data.vaFacility,
     // This may need to change when we get the new service type ids
     serviceType: typeOfCare.idV2,
-    reasonCode: getReasonCode(data),
+    reasonCode: getReasonCode({ data, isCC: false }),
     // comment: data.reasonAdditionalInfo,
     contact: {
       telecom: [
@@ -180,6 +186,6 @@ export function transformFormToVAOSAppointment(state) {
     locationId: data.vaFacility,
     // removing this for now, it's preventing QA from testing, will re-introduce when the team figures out how we're handling the comment field
     // comment: getUserMessage(data),
-    reasonCode: getReasonCode(data),
+    reasonCode: getReasonCode({ data, isCC: false }),
   };
 }

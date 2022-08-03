@@ -1,8 +1,6 @@
 // prettier-ignore
 
 export default Object.freeze({
-  canAutofill1010cgAddress: 'can_autofill_10_10cg_address',
-  canUpload1010cgPOA: 'can_upload_10_10cg_poa',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
   cernerOverride648: 'cerner_override_648',
@@ -23,6 +21,7 @@ export default Object.freeze({
   checkInExperiencePhoneAppointmentsEnabled: 'check_in_experience_phone_appointments_enabled',
   coeAccess: 'coe_access',
   combinedDebtPortalAccess: 'combined_debt_portal_access',
+  combinedFinancialStatusReport: 'combined_financial_status_report',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
   covidVaccineUpdatesDisableAuth:
@@ -141,6 +140,7 @@ export default Object.freeze({
   vaOnlineSchedulingPocHealthApt: 'va_online_scheduling_poc_health_apt',
   vaOnlineSchedulingStatusImprovement: 'va_online_scheduling_status_improvement',
   vaOnlineSchedulingClinicLocation: 'va_online_scheduling_clinic_location',
+  vaOnlineSchedulingVaosV2Next: 'va_online_scheduling_vaosv2next',
   vaOnlineFilter36Vats: 'va_online_filter36_vats',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
@@ -148,6 +148,7 @@ export default Object.freeze({
   caregiverSIGIEnabled: 'caregiver_sigi_enabled',
   hcaAmericanIndianEnabled: 'hca_american_indian_enabled',
   hcaShortFormEnabled: 'hca_short_form_enabled',
+  hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
   checkVAInboxEnabled: 'check_va_inbox_enabled',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
   showExpandableVamcAlert: 'show_expandable_vamc_alert'

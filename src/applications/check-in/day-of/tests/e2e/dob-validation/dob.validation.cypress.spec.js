@@ -33,6 +33,7 @@ describe('Check In Experience ', () => {
     ValidateVeteran.validatePage.dayOf();
     ValidateVeteran.validateVeteranDob();
     cy.injectAxeThenAxeCheck();
+    cy.createScreenshots('Day-of-check-in--Validate-with-DOB');
     ValidateVeteran.attemptToGoToNextPage();
     // page: Demographics
     Demographics.validatePageLoaded();

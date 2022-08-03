@@ -1,8 +1,5 @@
 /* eslint-disable camelcase */
 import { expect } from 'chai';
-import sinon from 'sinon';
-import addSeconds from 'date-fns/addSeconds';
-import subSeconds from 'date-fns/subSeconds';
 
 import localStorage from 'platform/utilities/storage/localStorage';
 import {
@@ -230,29 +227,6 @@ describe('OAuth - Utilities', () => {
     });
   });
 
-  describe('canCallRefresh', () => {
-    it('should return null if no localStorage item set', () => {
-      localStorage.clear();
-      expect(oAuthUtils.canCallRefresh()).to.be.null;
-    });
-    it('should return a boolean if a refresh should be called', () => {
-      localStorage.clear();
-      let atExpires = addSeconds(new Date(), 500);
-      localStorage.setItem('atExpires', atExpires);
-      expect(oAuthUtils.canCallRefresh()).to.be.false;
-
-      atExpires = subSeconds(new Date(), 500);
-      localStorage.setItem('atExpires', atExpires);
-      expect(oAuthUtils.canCallRefresh()).to.be.true;
-    });
-    it('should remove `atExpires` from localStorage', () => {
-      localStorage.clear();
-      localStorage.setItem('atExpires', addSeconds(new Date(), 200));
-      oAuthUtils.canCallRefresh();
-      expect(localStorage.getItem('atExpires')).to.be.null;
-    });
-  });
-
   describe('removeInfoToken', () => {
     it('should return null if infoTokenExists results to false', () => {
       global.document.cookie = 'FLIPPER_ID=abc123;other_cookie=true;';
@@ -306,11 +280,6 @@ describe('OAuth - Utilities', () => {
       expect(global.fetch.calledOnce).to.be.true;
       expect(global.fetch.firstCall.args[1].method).to.equal('POST');
       expect(global.fetch.firstCall.args[0].includes('/refresh')).to.be.true;
-    });
-    it('should use callback if specified', async () => {
-      const callback = sinon.spy();
-      expect(await oAuthUtils.refresh(callback));
-      expect(callback.calledOnce).to.be.true;
     });
   });
 
@@ -372,6 +341,37 @@ describe('OAuth - Utilities', () => {
       oAuthUtils.removeStateAndVerifier();
       expect(Object.keys(storage).length).to.eql(1);
       expect(storage.getItem('otherKey')).to.eql('otherValue');
+    });
+  });
+
+  describe('logout', () => {
+    it('should redirect when Login.gov is CSP', () => {
+      const url = 'https://va.gov/?state=some_random_state';
+      window.location = new URL(url);
+      oAuthUtils.logout({ signInServiceName: 'logingov' });
+      expect(window.location.href).to.not.eql(url);
+    });
+    it('should make a GET request to `/logout` if using ID.me or any other CSP', () => {
+      mockFetch();
+      setFetchResponse(global.fetch.onFirstCall(), []);
+      ['mhv', 'dslogon', 'idme'].forEach(signInServiceName => {
+        oAuthUtils.logout({ signInServiceName });
+        expect(global.fetch.called).to.be.true;
+        expect(global.fetch.firstCall.args[1].method).to.equal('GET');
+        expect(global.fetch.firstCall.args[0].includes('/logout')).to.be.true;
+      });
+    });
+    it('should updated the loggedIn status, teardown profile, and redirect to the stored page if the response is ok', () => {
+      const url = 'https://dev.va.gov/education-benefits';
+      window.location = new URL(url);
+      mockFetch();
+      setFetchResponse(global.fetch.onFirstCall(), []);
+      oAuthUtils.logout({ signInServiceName: 'idme' });
+      expect(global.fetch.calledOnce).to.be.true;
+      expect(localStorage.getItem('hasSession')).to.be.null;
+      expect(localStorage.getItem('sessionExpiration')).to.be.null;
+      expect(localStorage.getItem('atExpires')).to.be.null;
+      expect(window.location.href).to.eql(url);
     });
   });
 });

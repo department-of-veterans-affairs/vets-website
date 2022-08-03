@@ -35,12 +35,14 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
        url("~@fortawesome/fontawesome-free/webfonts/fa-solid-900.eot") format("eot");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Source Sans Pro";
   font-style: normal;
   font-weight: 300;
+  font-display: swap;
   src: url(#{$font-path}/sourcesanspro-light-webfont.eot?#iefix) format("embedded-opentype"),
     url(#{$font-path}/sourcesanspro-light-webfont.woff2) format("woff2"),
     url(#{$font-path}/sourcesanspro-light-webfont.woff) format("woff"),
@@ -51,6 +53,7 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
   font-family: "Source Sans Pro";
   font-style: normal;
   font-weight: 400;
+  font-display: swap;
   src: url(#{$font-path}/sourcesanspro-regular-webfont.eot?#iefix) format("embedded-opentype"),
     url(#{$font-path}/sourcesanspro-regular-webfont.woff) format("woff"),
     url(#{$font-path}/sourcesanspro-regular-webfont.ttf) format("truetype");
@@ -60,6 +63,7 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
   font-family: "Source Sans Pro";
   font-style: italic;
   font-weight: 400;
+  font-display: swap;
   src: url(#{$font-path}/sourcesanspro-italic-webfont.eot?#iefix) format("embedded-opentype"),
     url(#{$font-path}/sourcesanspro-italic-webfont.woff2) format("woff2"),
     url(#{$font-path}/sourcesanspro-italic-webfont.woff) format("woff"),
@@ -70,6 +74,7 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
   font-family: "Source Sans Pro";
   font-style: normal;
   font-weight: 700;
+  font-display: swap;
   src: url(#{$font-path}/sourcesanspro-bold-webfont.eot?#iefix) format("embedded-opentype"),
     url(#{$font-path}/sourcesanspro-bold-webfont.woff) format("woff"),
     url(#{$font-path}/sourcesanspro-bold-webfont.ttf) format("truetype");
@@ -79,6 +84,7 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
   font-family: "Bitter";
   font-style: normal;
   font-weight: 400;
+  font-display: swap;
   src:
     local("Bitter Regular"),
     local("Bitter-Regular"),
@@ -91,6 +97,7 @@ $font-stack: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", "Arial"
   font-family: "Bitter";
   font-style: normal;
   font-weight: 700;
+  font-display: swap;
   src:
     local("Bitter Bold"),
     local("Bitter-Bold"),

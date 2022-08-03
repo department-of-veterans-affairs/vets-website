@@ -30,7 +30,7 @@ describe('Direct Deposit Consistently', () => {
     cy.intercept(
       'GET',
       '/v0/profile/ch33_bank_accounts',
-      bankAccounts.defaultResponse,
+      bankAccounts.anAccount,
     );
 
     DirectDeposit.visitPage();

@@ -4,9 +4,13 @@ import differenceInSeconds from 'date-fns/differenceInSeconds';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { logout } from 'platform/user/authentication/utilities';
+import {
+  logout as IAMLogout,
+  createAndStoreReturnUrl,
+} from 'platform/user/authentication/utilities';
 import {
   refresh,
+  logout as SISLogout,
   checkOrSetSessionExpiration,
 } from 'platform/utilities/oauth/utilities';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
@@ -75,7 +79,15 @@ class SessionTimeoutModal extends React.Component {
 
   signOut = () => {
     recordEvent({ event: 'logout-cta-manual-signout' });
-    logout();
+    if (!this.props.authenticatedWithOAuth) {
+      IAMLogout();
+    } else {
+      const { signInServiceName } = this.props;
+      SISLogout({
+        signInServiceName,
+        storedLocation: createAndStoreReturnUrl(),
+      });
+    }
   };
 
   render() {

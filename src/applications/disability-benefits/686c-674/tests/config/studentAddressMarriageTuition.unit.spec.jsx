@@ -8,7 +8,7 @@ import {
   fillData,
   selectCheckbox,
   selectRadio,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 
 import formConfig from '../../config/form';
 
@@ -16,6 +16,7 @@ describe('Report 674 student address and marriage information', () => {
   const {
     schema,
     uiSchema,
+    updateFormData,
   } = formConfig.chapters.report674.pages.studentAddressMarriageTuition;
 
   const formData = {
@@ -76,6 +77,7 @@ describe('Report 674 student address and marriage information', () => {
         definitions={formConfig.defaultDefinitions}
         data={formData}
         onSubmit={onSubmit}
+        updateFormData={updateFormData}
       />,
     );
     changeDropdown(
@@ -98,6 +100,30 @@ describe('Report 674 student address and marriage information', () => {
       'select#root_studentAddressMarriageTuition_address_stateCode',
       'DC',
     );
+
+    // test military base toggle restores the previous city/state
+    selectCheckbox(
+      form,
+      'root_studentAddressMarriageTuition_address_view:livesOnMilitaryBase',
+      true,
+    );
+    changeDropdown(
+      form,
+      'select#root_studentAddressMarriageTuition_address_city',
+      'APO',
+    );
+    changeDropdown(
+      form,
+      'select#root_studentAddressMarriageTuition_address_stateCode',
+      'AA',
+    );
+    selectCheckbox(
+      form,
+      'root_studentAddressMarriageTuition_address_view:livesOnMilitaryBase',
+      false,
+    );
+    // test end
+
     fillData(
       form,
       'input#root_studentAddressMarriageTuition_address_zipCode',

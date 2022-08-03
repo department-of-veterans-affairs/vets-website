@@ -297,6 +297,9 @@ const mapStateToProps = state => {
   const hasClaimsOrAppealsService =
     isAppealsAvailableSelector(state) || isClaimsAvailableSelector(state);
   const hasLoadedMilitaryInformation = state.vaProfile?.militaryInformation;
+  const hasMHVAccount = ['OK', 'MULTIPLE'].includes(
+    state.user?.profile?.mhvAccountState,
+  );
   const hasLoadedFullName = !!hero;
 
   const hasLoadedDisabilityRating = state.totalRating?.loading === false;
@@ -319,7 +322,11 @@ const mapStateToProps = state => {
     isLOA3 &&
     hasClaimsOrAppealsService;
   const showHealthCare =
-    !showMPIConnectionError && !showNotInMPIError && isLOA3 && isVAPatient;
+    hasMHVAccount &&
+    !showMPIConnectionError &&
+    !showNotInMPIError &&
+    isLOA3 &&
+    isVAPatient;
   const showBenefitPaymentsAndDebt =
     !showMPIConnectionError && !showNotInMPIError && isLOA3;
 

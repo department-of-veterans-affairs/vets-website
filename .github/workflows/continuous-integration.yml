@@ -121,9 +121,6 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Update browserslist
-        run: npx browserslist@latest --update-db
-
       - name: Create test results folder
         run: mkdir -p test-results
 
@@ -352,9 +349,6 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Update browserslist
-        run: npx browserslist@latest --update-db
-
       - name: Get changed applications
         id: get-changed-apps
         uses: ./.github/workflows/get-changed-apps
@@ -532,7 +526,7 @@ jobs:
       - name: Install dependencies
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: ./.github/workflows/install
-        timeout-minutes: 30
+        timeout-minutes: 20
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
@@ -548,7 +542,7 @@ jobs:
       - name: Run Cypress tests
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 30
+        timeout-minutes: 40
         env:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}

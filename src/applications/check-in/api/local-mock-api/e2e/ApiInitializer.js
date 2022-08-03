@@ -1,6 +1,7 @@
 import session from '../mocks/v2/sessions';
 import preCheckInData from '../mocks/v2/pre-check-in-data';
 import checkInData from '../mocks/v2/check-in-data';
+import sharedData from '../mocks/v2/shared';
 import featureToggles from '../mocks/v2/feature-toggles';
 
 class ApiInitializer {
@@ -162,6 +163,7 @@ class ApiInitializer {
       nextOfKinConfirmedAt = null,
       emergencyContactNeedsUpdate = true,
       emergencyContactConfirmedAt = null,
+      uuid = sharedData.get.defaultUUID,
     } = {}) => {
       cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
         if (extraValidation) {
@@ -169,7 +171,7 @@ class ApiInitializer {
         }
         req.reply(
           preCheckInData.get.createMockSuccessResponse(
-            'some-token',
+            uuid,
             demographicsNeedsUpdate,
             demographicsConfirmedAt,
             nextOfKinNeedsUpdate,
@@ -180,7 +182,7 @@ class ApiInitializer {
         );
       });
       return preCheckInData.get.createMockSuccessResponse(
-        'some-token',
+        uuid,
         demographicsNeedsUpdate,
         demographicsConfirmedAt,
         nextOfKinNeedsUpdate,
@@ -224,9 +226,10 @@ class ApiInitializer {
       nextOfKinConfirmedAt = null,
       emergencyContactNeedsUpdate = true,
       emergencyContactConfirmedAt = null,
+      uuid = 'no-uuid',
     } = {}) => {
       const data = preCheckInData.get.createMockSuccessResponse(
-        'some-token',
+        uuid,
         demographicsNeedsUpdate,
         demographicsConfirmedAt,
         nextOfKinNeedsUpdate,
@@ -270,7 +273,7 @@ class ApiInitializer {
     withSuccess: ({
       extraValidation = null,
       appointments = null,
-      token = checkInData.get.defaultUUID,
+      token = sharedData.get.defaultUUID,
       numberOfCheckInAbledAppointments = 2,
       demographicsNeedsUpdate = true,
       demographicsConfirmedAt = null,
@@ -281,7 +284,7 @@ class ApiInitializer {
       timezone = 'browser',
     } = {}) => {
       cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
-        const rv = checkInData.get.createMultipleAppointments(
+        const rv = sharedData.get.createMultipleAppointments(
           token,
           numberOfCheckInAbledAppointments,
           demographicsNeedsUpdate,
@@ -295,7 +298,7 @@ class ApiInitializer {
         if (appointments && appointments.length) {
           const customAppointments = [];
           appointments.forEach((appointment, index) => {
-            const createdAppointment = checkInData.get.createAppointment(
+            const createdAppointment = sharedData.get.createAppointment(
               'ELIGIBLE',
               'some-facility',
               `000${index}`,
@@ -318,7 +321,7 @@ class ApiInitializer {
     },
     withBadData: ({
       extraValidation = null,
-      token = checkInData.get.defaultUUID,
+      token = sharedData.get.defaultUUID,
       numberOfCheckInAbledAppointments = 2,
       demographicsNeedsUpdate = true,
       demographicsConfirmedAt = null,
@@ -328,7 +331,7 @@ class ApiInitializer {
       emergencyContactConfirmedAt = null,
     } = {}) => {
       cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
-        const rv = checkInData.get.createMultipleAppointments(
+        const rv = sharedData.get.createMultipleAppointments(
           token,
           numberOfCheckInAbledAppointments,
           demographicsNeedsUpdate,

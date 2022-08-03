@@ -1,5 +1,10 @@
+import { evidenceSummaryDescription } from '../content/evidenceSummary';
+
 export default {
-  uiSchema: {},
+  uiSchema: {
+    'ui:title': 'Summary of evidence',
+    'ui:description': evidenceSummaryDescription,
+  },
 
   schema: {
     type: 'object',

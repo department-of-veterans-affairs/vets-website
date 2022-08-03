@@ -109,41 +109,41 @@ export function getAojDescription(aoj) {
 
 // TO DO: Replace these properties and content with real versions once finalized.
 export const STATUS_TYPES = {
-  pendingSoc: 'pending_soc',
-  pendingForm9: 'pending_form9',
-  pendingCertification: 'pending_certification',
-  pendingCertificationSsoc: 'pending_certification_ssoc',
-  remandSsoc: 'remand_ssoc',
-  pendingHearingScheduling: 'pending_hearing_scheduling',
-  scheduledHearing: 'scheduled_hearing',
-  onDocket: 'on_docket',
-  atVso: 'at_vso',
-  decisionInProgress: 'decision_in_progress',
-  bvaDevelopment: 'bva_development',
-  stayed: 'stayed',
-  remand: 'remand',
-  merged: 'merged',
-  bvaDecision: 'bva_decision',
-  fieldGrant: 'field_grant',
-  withdrawn: 'withdrawn',
-  ftr: 'ftr',
-  ramp: 'ramp',
-  reconsideration: 'reconsideration',
-  death: 'death',
-  otherClose: 'other_close',
-  evidentiaryPeriod: 'evidentiary_period',
   amaRemand: 'ama_remand',
-  postBvaDtaDecision: 'post_bva_dta_decision',
+  atVso: 'at_vso',
+  bvaDecision: 'bva_decision',
   bvaDecisionEffectuation: 'bva_decision_effectuation',
-  scReceived: 'sc_received',
-  scDecision: 'sc_decision',
-  scClosed: 'sc_closed',
-  hlrReceived: 'hlr_received',
+  bvaDevelopment: 'bva_development',
+  death: 'death',
+  decisionInProgress: 'decision_in_progress',
+  evidentiaryPeriod: 'evidentiary_period',
+  fieldGrant: 'field_grant',
+  ftr: 'ftr',
+  hlrClosed: 'hlr_closed',
   hlrDtaError: 'hlr_dta_error',
   hlrDecision: 'hlr_decision',
-  hlrClosed: 'hlr_closed',
-  statutoryOptIn: 'statutory_opt_in',
+  hlrReceived: 'hlr_received',
+  merged: 'merged',
+  onDocket: 'on_docket',
+  otherClose: 'other_close',
+  pendingCertification: 'pending_certification',
+  pendingCertificationSsoc: 'pending_certification_ssoc',
+  pendingForm9: 'pending_form9',
+  pendingHearingScheduling: 'pending_hearing_scheduling',
+  pendingSoc: 'pending_soc',
+  postBvaDtaDecision: 'post_bva_dta_decision',
+  ramp: 'ramp',
+  reconsideration: 'reconsideration',
+  remand: 'remand',
   remandReturn: 'remand_return',
+  remandSsoc: 'remand_ssoc',
+  scClosed: 'sc_closed',
+  scDecision: 'sc_decision',
+  scReceived: 'sc_received',
+  scheduledHearing: 'scheduled_hearing',
+  statutoryOptIn: 'statutory_opt_in',
+  stayed: 'stayed',
+  withdrawn: 'withdrawn',
 };
 
 export const ISSUE_STATUS = {
@@ -718,6 +718,8 @@ export function getStatusContents(appeal, name = {}) {
       );
       break;
     }
+    // TODO: Remove this if Caseflow fixes the issue on their end
+    case 'sc_recieved':
     case STATUS_TYPES.scReceived:
       contents.title = 'A reviewer is examining your new evidence';
       contents.description = (
@@ -853,6 +855,11 @@ export function getStatusContents(appeal, name = {}) {
       contents.description = (
         <p>We’re sorry, VA.gov will soon be updated to show your status.</p>
       );
+
+      Sentry.withScope(scope => {
+        scope.setExtra('statusType', statusType);
+        Sentry.captureMessage('appeals-unknown-status-type');
+      });
   }
 
   return contents;
