@@ -61,7 +61,7 @@ export function UnderReview(response, name) {
         >
           <div>
             <h2 className="vads-u-margin-y--0">In 1 month</h2>
-            <hr id="custom-fry-hr" className="meb-hr" />
+            <hr id="custom-fry-hr" />
             If more than a month has passed since you gave us your application
             and you haven’t heard back, please don’t apply again. Call our
             toll-free Education Call Center at{' '}
