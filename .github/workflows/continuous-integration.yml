@@ -1120,34 +1120,34 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
+      # - name: Install dependencies
+      #   uses: ./.github/workflows/install
+      #   timeout-minutes: 30
+      #   with:
+      #     key: ${{ hashFiles('yarn.lock') }}
+      #     yarn_cache_folder: .cache/yarn
+      #     path: |
+      #       .cache/yarn
+      #       node_modules
 
-      - name: Check if commit can be deployed
-        id: can-commit-deploy
-        run: node ./script/github-actions/can-commit-deploy.js
-        env:
-          BUILDTYPE: ${{ matrix.environment }}
+      # - name: Check if commit can be deployed
+      #   id: can-commit-deploy
+      #   run: node ./script/github-actions/can-commit-deploy.js
+      #   env:
+      #     BUILDTYPE: ${{ matrix.environment }}
 
-      - name: Determine if environment should be deployed
-        run: |
-          if [[ "${{ steps.can-commit-deploy.outputs.is_deployable }}" == "false" ]]; then
-            echo "CAN_DEPLOY=false" >> $GITHUB_ENV
-          elif [[ "${{ matrix.environment }}" != "vagovprod" ]]; then
-            echo "CAN_DEPLOY=true" >> $GITHUB_ENV
-          else
-            echo "CAN_DEPLOY=${{ env.IS_ISOLATED_APP_BUILD && env.DEPLOY_ISOLATED_APPS }}" >> $GITHUB_ENV
-          fi
+      # - name: Determine if environment should be deployed
+      #   run: |
+      #     if [[ "${{ steps.can-commit-deploy.outputs.is_deployable }}" == "false" ]]; then
+      #       echo "CAN_DEPLOY=false" >> $GITHUB_ENV
+      #     elif [[ "${{ matrix.environment }}" != "vagovprod" ]]; then
+      #       echo "CAN_DEPLOY=true" >> $GITHUB_ENV
+      #     else
+      #       echo "CAN_DEPLOY=${{ env.IS_ISOLATED_APP_BUILD && env.DEPLOY_ISOLATED_APPS }}" >> $GITHUB_ENV
+      #     fi
 
       - name: Configure AWS credentials (1)
-        if: env.CAN_DEPLOY == 'true'
+        # if: env.CAN_DEPLOY == 'true'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -1155,20 +1155,20 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get AWS IAM role
-        if: env.CAN_DEPLOY == 'true'
+        # if: env.CAN_DEPLOY == 'true'
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
           ssm_parameter: /frontend-team/github-actions/parameters/${{ matrix.iam-role }}
           env_variable_name: ${{ matrix.iam-role }}
 
       - name: Configure AWS Credentials (2)
-        if: env.CAN_DEPLOY == 'true'
+        # if: env.CAN_DEPLOY == 'true'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
-          role-to-assume: ${{ env.matrix.iam-role }}
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE || env.AWS_FRONTEND_PROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
