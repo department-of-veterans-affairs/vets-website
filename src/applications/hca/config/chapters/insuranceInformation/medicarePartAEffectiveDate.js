@@ -22,6 +22,9 @@ export default {
       'ui:errorMessages': {
         required: 'Please enter a valid 11-character Medicare claim number',
       },
+      'ui:options': {
+        hideIf: form => !form['view:hcaMedicareClaimNumberEnabled'],
+      },
     },
   },
   schema: {

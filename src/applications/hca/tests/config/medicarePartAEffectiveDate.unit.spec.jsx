@@ -16,9 +16,13 @@ describe('Hca medicare', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.insuranceInformation.pages.medicarePartAEffectiveDate;
+  const formData = {
+    'view:hcaMedicareClaimNumberEnabled': true,
+  };
   it('should render', () => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
+        data={formData}
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
@@ -36,6 +40,7 @@ describe('Hca medicare', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
+        data={formData}
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
@@ -55,6 +60,7 @@ describe('Hca medicare', () => {
     const onSubmit = sinon.spy();
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
+        data={formData}
         schema={schema}
         definitions={formConfig.defaultDefinitions}
         onSubmit={onSubmit}
