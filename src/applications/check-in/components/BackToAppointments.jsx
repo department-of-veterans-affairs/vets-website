@@ -11,7 +11,7 @@ import { useFormRouting } from '../hooks/useFormRouting';
 
 import { URLS } from '../utils/navigation';
 
-const BackToAppointments = ({ router, triggerRefresh }) => {
+const BackToAppointments = ({ router }) => {
   const { jumpToPage } = useFormRouting(router);
   const { t } = useTranslation();
   const handleClick = useCallback(
@@ -20,10 +20,9 @@ const BackToAppointments = ({ router, triggerRefresh }) => {
       recordEvent({
         event: createAnalyticsSlug('back-button-clicked'),
       });
-      triggerRefresh();
       jumpToPage(URLS.DETAILS);
     },
-    [jumpToPage, triggerRefresh],
+    [jumpToPage],
   );
   return (
     <>
@@ -45,7 +44,6 @@ const BackToAppointments = ({ router, triggerRefresh }) => {
 
 BackToAppointments.propTypes = {
   router: PropTypes.object,
-  triggerRefresh: PropTypes.func,
 };
 
 export default withRouter(BackToAppointments);

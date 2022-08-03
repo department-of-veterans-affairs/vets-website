@@ -65,15 +65,11 @@ ol.appointment-list{
         line-height: 36px;
       }
       .appointment-detail {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: 0fr auto;
       }
       span.item-label {
-        flex: 0 0 74px;
-      }
-      span.item-value {
-        flex: 1 1 calc(100% - 74px);
-        margin-left: auto;
+        margin-right: units(2);
       }
     }
   }

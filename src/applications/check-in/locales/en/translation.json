@@ -88,6 +88,7 @@
   "please-bring-your-insurance-cards-with-you-to-your-appointment": "Please bring your insurance cards with you to your appointment.",
   "please-call-our-myva411-main-information-line-at": "please call our MyVA411 main information line at",
   "please-call": "Please call <0>{{link}}</0> and select 0. We’re here 24/7.",
+  "please-enter-a-valid-date": "Please enter a valid date",
   "please-enter-a-valid-email-address": "Please enter a valid email address.",
   "please-enter-an-email-address": "Please enter an email address.",
   "please-enter-the-last-4-digits-of-your-social-security-number": "Please enter the last 4 digits of your Social Security number.",
@@ -175,5 +176,6 @@
   "in-person-appointment": "In-person appointment",
   "you-can-still-check-in-with-your-phone-on-the-day-of-your-appointment": "You can still check-in with your phone on the day of your appointment.",
   "telephone-appointment": "Telephone appointment",
-  "your-provider-will-call-you-at-your-appointment-time-you-may-need-to-wait-about-15-minutes-for-their-call-thanks-for-your-patience": "Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience."
+  "your-provider-will-call-you-at-your-appointment-time-you-may-need-to-wait-about-15-minutes-for-their-call-thanks-for-your-patience": "Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.",
+  "location": "Location"
 }

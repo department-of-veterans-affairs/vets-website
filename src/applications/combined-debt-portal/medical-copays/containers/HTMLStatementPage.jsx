@@ -35,8 +35,8 @@ const HTMLStatementPage = ({ match }) => {
       <div className="vads-l-col--12 small-desktop-screen:vads-l-col--10">
         <va-breadcrumbs className="vads-u-font-family--sans no-wrap">
           <a href="/">Home</a>
-          <a href="/manage-va-debt">Manage your VA debt and bills</a>
-          <a href="/manage-va-debt/summary/">Your debt and bills summary</a>
+          <a href="/manage-va-debt">Manage your VA debt</a>
+          <a href="/manage-va-debt/summary/">Your VA debt and bills</a>
           <a href="/manage-va-debt/summary/copay-balances">
             Current copay balances
           </a>

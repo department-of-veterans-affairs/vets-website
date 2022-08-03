@@ -33,6 +33,7 @@ export const AUTH_EVENTS = {
   ERROR_USER_FETCH: 'login-error-user-fetch',
   ERROR_FORCE_NEEDED: 'login-failed-force-needed',
   OAUTH_LOGIN: 'login-oauth-success',
+  OAUTH_LOGOUT: 'logout-oauth-link-clicked',
   OAUTH_ERROR_DEFAULT: 'login-error-oauth-default',
   OAUTH_ERROR_STATE_MISMATCH: 'login-error-oauth-state-mismatch',
   OAUTH_ERROR_USER_FETCH: 'login-error-oauth-user-fetch',
@@ -60,6 +61,7 @@ export const CSP_IDS = {
 export const AUTHN_SETTINGS = {
   RETURN_URL: 'authReturnUrl',
   REDIRECT_EVENT: 'login-auth-redirect',
+  REQUEST_ID: 'requestId',
 };
 
 export const EXTERNAL_APPS = {
@@ -68,6 +70,16 @@ export const EXTERNAL_APPS = {
   EBENEFITS: 'ebenefits',
   VA_FLAGSHIP_MOBILE: 'vamobile',
   VA_OCC_MOBILE: 'vaoccmobile',
+};
+
+export const SIGNOUT_TYPES = {
+  SLO: 'slo',
+  SLO_OAUTH: 'slo_oauth',
+};
+
+export const AUTH_BROKER = {
+  IAM: 'iam',
+  SIS: 'sis',
 };
 
 export const EBENEFITS_DEFAULT_PATH = '/profilepostauth';
@@ -101,7 +113,6 @@ export const GA = {
 export const IDME_TYPES = ['idme', 'idme_signup'];
 
 export const POLICY_TYPES = {
-  VERIFY: 'verify',
   MFA: 'mfa',
   SLO: 'slo',
   CUSTOM: 'custom',

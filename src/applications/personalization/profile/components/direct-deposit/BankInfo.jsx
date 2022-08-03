@@ -254,7 +254,6 @@ export const BankInfo = ({
         {!!saveError && (
           <PaymentInformationEditError
             className="vads-u-margin-top--0 vads-u-margin-bottom--2"
-            level={4}
             responseError={saveError}
           />
         )}
@@ -425,10 +424,10 @@ BankInfo.propTypes = {
   toggleEditState: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   directDepositAccountInfo: PropTypes.shape({
-    accountNumber: PropTypes.string.isRequired,
-    accountType: PropTypes.string.isRequired,
+    accountNumber: PropTypes.string,
+    accountType: PropTypes.string,
     financialInstitutionName: PropTypes.string,
-    financialInstitutionRoutingNumber: PropTypes.string.isRequired,
+    financialInstitutionRoutingNumber: PropTypes.string,
   }),
   directDepositUiState: PropTypes.shape({
     isEditing: PropTypes.bool.isRequired,

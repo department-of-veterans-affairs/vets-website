@@ -91,9 +91,9 @@ const DebtLettersSummary = () => {
     <>
       <va-breadcrumbs label="Breadcrumb">
         <a href="/">Home</a>
-        <a href="/manage-va-debt/">Manage your VA debt and bills</a>
-        <a href="/manage-va-debt/summary/">Your debt and bills summary</a>
-        <Link to="/debt-balances">Benefit debt balances</Link>
+        <a href="/manage-va-debt/">Manage your VA debt</a>
+        <a href="/manage-va-debt/summary/">Your VA debt and bills</a>
+        <Link to="/debt-balances">Current VA debt</Link>
       </va-breadcrumbs>
       <div
         className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8"

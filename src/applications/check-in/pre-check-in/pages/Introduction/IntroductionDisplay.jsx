@@ -105,7 +105,7 @@ const IntroductionDisplay = props => {
         call <va-telephone contact="911" />,{' '}
         <span className="vads-u-font-weight--bold">or</span>{' '}
         {t('call-the-veterans-crisis-hotline-at')}{' '}
-        <va-telephone contact="8002738255" /> {t('and-select-1')}
+        <va-telephone contact="988" /> {t('and-select-1')}
       </p>
     </>
   );

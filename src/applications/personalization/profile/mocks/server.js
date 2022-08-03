@@ -36,7 +36,15 @@ const responses = {
     return res.status(200).json(payments.paymentHistory.simplePaymentHistory);
   },
   'PUT /v0/ppiu/payment_information': (_req, res) => {
-    return res.status(200).json(payments.paymentInformation.saved.success);
+    return res
+      .status(200)
+      .json(
+        _.set(
+          payments.paymentInformation.saved.success,
+          'data.attributes.error',
+          payments.paymentInformation.errors.routingNumberInvalid,
+        ),
+      );
   },
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount,

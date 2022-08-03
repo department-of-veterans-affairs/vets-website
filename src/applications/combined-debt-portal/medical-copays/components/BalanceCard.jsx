@@ -75,7 +75,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
         <i
           aria-hidden="true"
           role="img"
-          className="fa fa-exclamation-triangle"
+          className="fa fa-exclamation-triangle icon-right"
         />
         {isCurrentBalance ? (
           <CurrentContent id={id} date={date} />

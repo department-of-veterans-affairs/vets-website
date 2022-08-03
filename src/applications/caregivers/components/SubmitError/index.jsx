@@ -46,8 +46,9 @@ const SubmitError = ({ form }) => {
         <div>
           If you have trouble downloading your application, call our{' '}
           <a href="https://www.va.gov/">VA.gov</a> help desk at{' '}
-          <va-telephone contact={CONTACTS.HELP_DESK} /> (TTY: 711). We’re here
-          Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          <va-telephone contact={CONTACTS.HELP_DESK} /> (
+          <va-telephone contact={CONTACTS['711']} tty />
+          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </div>
 
         <DownLoadLink form={form} />

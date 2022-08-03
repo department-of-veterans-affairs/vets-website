@@ -17,6 +17,12 @@ import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
 const { provider } = fullSchemaHca.definitions;
 const { isCoveredByHealthInsurance } = fullSchemaHca.properties;
 
+const ariaLabelfunc = data => {
+  const INSURANCE_TITLE = `${data.insuranceName} ${data.insurancePolicyNumber ??
+    data.insuranceGroupCode}`;
+  return data.insuranceName ? INSURANCE_TITLE : 'insurance policy';
+};
+
 export default {
   uiSchema: {
     'view:generalShortFormMessage': {
@@ -45,17 +51,15 @@ export default {
         itemName: 'insurance policy',
         hideTitle: true,
         viewField: InsuranceProviderView,
-        itemAriaLabel: data => {
-          const INSURANCE_TITLE = `${
-            data.insuranceName
-          } ${data.insurancePolicyNumber ?? data.insuranceGroupCode}`;
-          return data.insuranceName ? INSURANCE_TITLE : 'insurance policy';
-        },
+        itemAriaLabel: ariaLabelfunc,
       },
       'ui:errorMessages': {
         minItems: 'You need to at least one provider.',
       },
       items: {
+        'ui:options': {
+          itemAriaLabel: ariaLabelfunc,
+        },
         insuranceName: {
           'ui:title': 'Name of insurance provider',
         },

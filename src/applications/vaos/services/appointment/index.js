@@ -911,6 +911,32 @@ export async function cancelAppointment({ appointment, useV2 = false }) {
 }
 
 /**
+ * Get the provider name based on api version
+ *
+ *
+ * @export
+ * @param {Object} appointment an appointment object
+ * @returns {String} Returns the provider first and last name
+ */
+export function getProviderName(appointment) {
+  if (appointment.version === 1) {
+    const { providerName } = appointment.communityCareProvider;
+    return providerName;
+  }
+
+  if (appointment.practitioners !== undefined) {
+    const providers = appointment.practitioners
+      .filter(person => !!person.name)
+      .map(person => `${person.name.given.join(' ')} ${person.name.family} `);
+    if (providers.length > 0) {
+      return providers;
+    }
+    return null;
+  }
+  return null;
+}
+
+/**
  * Get scheduled appointment information needed for generating
  * an .ics file.
  *
@@ -953,19 +979,20 @@ export function getCalendarData({ appointment, facility }) {
     };
   } else if (isCommunityCare) {
     let { practiceName } = appointment.communityCareProvider || {};
-    const { providers } = appointment.communityCareProvider || {};
-    let providerName = providers ? providers[0].providerName : null;
+    const providerName = getProviderName(appointment);
     let summary = 'Community care appointment';
-    // Check if providerName is all spaces.
-    providerName = providerName?.trim().length ? providerName : '';
     practiceName = practiceName?.trim().length ? practiceName : '';
-    if (practiceName) {
-      summary = `Appointment at ${practiceName}`;
+    if (!!practiceName || !!providerName) {
+      // order of the name appearing on the calendar title is important to match the display screen name
+      summary =
+        appointment.version === 1
+          ? `Appointment at ${providerName || practiceName}`
+          : `Appointment at ${providerName[0] || practiceName}`;
     }
-
     data = {
       summary,
-      providerName: `${providerName || practiceName}`,
+      providerName:
+        providerName !== undefined ? `${providerName || practiceName}` : null,
       location: formatFacilityAddress(appointment?.communityCareProvider),
       text:
         'You have a health care appointment with a community care provider. Please don’t go to your local VA health facility.',
