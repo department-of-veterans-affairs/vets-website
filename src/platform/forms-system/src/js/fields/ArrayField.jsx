@@ -56,7 +56,9 @@ export default class ArrayField extends React.Component {
     this.handleRemove = this.handleRemove.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
-    this.focusOnFirstInput = this.focusOnFirstInput.bind(this);
+    this.focusOnFirstFocusableElement = this.focusOnFirstFocusableElement.bind(
+      this,
+    );
   }
 
   // This fills in an empty item in the array if it has minItems set
@@ -90,7 +92,7 @@ export default class ArrayField extends React.Component {
   handleEdit(index, status = true) {
     this.setState(set(['editing', index], status, this.state), () => {
       this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
-      this.focusOnFirstInput(index);
+      this.focusOnFirstFocusableElement(index);
     });
   }
 
@@ -99,9 +101,12 @@ export default class ArrayField extends React.Component {
    * @param {number} index - The index of the item to update
    */
   handleUpdate(index) {
+    const id = this.props.name;
+
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
       this.setState(set(['editing', index], false, this.state), () => {
         this.scrollToTop();
+        this.focusOnFirstFocusableElement(index, id);
       });
     } else {
       // Set all the fields for this item as touched, so we show errors
@@ -140,7 +145,7 @@ export default class ArrayField extends React.Component {
         );
         this.props.onChange(newFormData);
         this.scrollToRow(`${this.props.idSchema.$id}_${lastIndex + 1}`);
-        this.focusOnFirstInput(numberOfItems);
+        this.focusOnFirstFocusableElement(numberOfItems);
       });
     } else {
       const touched = setArrayRecordTouched(this.props.idSchema.$id, lastIndex);
@@ -224,16 +229,16 @@ export default class ArrayField extends React.Component {
 
   /**
    * Finds all focusable elements within a wrapper element and focuses on the first one
+   * @param {string} id - The id of the the wrapper element
    * @param {number} index - The index of the item to use to define the wrapper element
    */
-  focusOnFirstInput(index) {
+  focusOnFirstFocusableElement(index, id = this.props.idSchema.$id) {
     // Wait for new view to render before focusing on the first input field in that group
     setTimeout(() => {
-      const wrapperId = `${this.props.idSchema.$id}_${index}`;
-      const wrapper = document.getElementById(wrapperId);
+      const wrapper = document.getElementById(`${id}_${index}`);
       const focusableElements = getFocusableElements(wrapper);
       const firstFocusableElement = wrapper.querySelector(
-        `[id="${focusableElements[0].id}"]`,
+        focusableElements[0].tagName,
       );
 
       firstFocusableElement.focus();
@@ -389,7 +394,11 @@ export default class ArrayField extends React.Component {
               );
             }
             return (
-              <div key={index} className="va-growable-background editable-row">
+              <div
+                id={`${this.props.name}_${index}`}
+                key={index}
+                className="va-growable-background editable-row"
+              >
                 <div className="row small-collapse vads-u-display--flex vads-u-align-items--center">
                   <div className="vads-u-flex--fill">
                     <ViewField
