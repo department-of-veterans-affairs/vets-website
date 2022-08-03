@@ -32,11 +32,11 @@ export const ProfileInformationEditViewVAFSC = props => {
       // otherwise web component will not render by time querySelector is fired
       setTimeout(() => {
         const fieldElements = 'button, input, select, a, textarea';
-        const focusableShadowElement = formRef.current
-          .querySelector('va-text-input')
-          .shadowRoot.querySelector(fieldElements);
+        const focusableShadowElement = formRef?.current
+          ?.querySelector('va-text-input')
+          .shadowRoot?.querySelector(fieldElements);
 
-        const focusableDomElement = formRef.current.querySelector(
+        const focusableDomElement = formRef?.current?.querySelector(
           fieldElements,
         );
         if (focusableShadowElement) {

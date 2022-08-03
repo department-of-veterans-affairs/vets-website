@@ -6,12 +6,14 @@ import { selectEditedFormField } from '@@vap-svc/selectors';
 import { updateFormFieldWithSchema } from '@@vap-svc/actions';
 import { useField } from 'formik';
 import { phoneConvertNextValueToCleanData } from '@@profile/util/contact-information/phoneUtils';
+import { FIELD_TITLES } from '@@vap-svc/constants';
 
 const PhoneField = props => {
-  const { handleChange, label, name, required = false } = props;
+  const { handleChange, label, name, required = false, dataTestId } = props;
   const [field, meta, helpers] = useField(props);
   return (
     <VaTextInput
+      data-testid={dataTestId}
       error={meta.error}
       label={label}
       name={name}
@@ -26,6 +28,7 @@ PhoneField.propTypes = {
   handleChange: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  dataTestId: PropTypes.string,
   required: PropTypes.bool,
 };
 
@@ -54,14 +57,16 @@ const PhoneWithExtension = props => {
   return (
     <>
       <PhoneField
+        dataTestId="phoneField"
         name="inputPhoneNumber"
         handleChange={handleChange}
-        label="Home phone number (U.S. numbers only)"
+        label={`${FIELD_TITLES[fieldName]} (U.S. numbers only)`}
         required
         {...props}
       />
 
       <PhoneField
+        dataTestId="extensionField"
         name="extension"
         handleChange={handleChange}
         label="Extension"
