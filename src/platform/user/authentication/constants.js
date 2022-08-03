@@ -113,7 +113,6 @@ export const GA = {
 export const IDME_TYPES = ['idme', 'idme_signup'];
 
 export const POLICY_TYPES = {
-  VERIFY: 'verify',
   MFA: 'mfa',
   SLO: 'slo',
   CUSTOM: 'custom',

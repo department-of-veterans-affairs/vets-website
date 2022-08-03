@@ -25,7 +25,7 @@ const createMockSuccessResponse = (
         {
           facility: 'LOMA LINDA VA CLINIC',
           clinicPhoneNumber: '5551234567',
-          clinicFriendlyName: 'TEST CLINIC',
+          clinicFriendlyName: 'HEART CLINIC 1',
           clinicName: 'LOM ACC CLINIC TEST',
           appointmentIen: '0001',
           stationNo: '0001',
