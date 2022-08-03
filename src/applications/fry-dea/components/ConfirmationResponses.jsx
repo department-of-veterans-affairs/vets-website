@@ -33,13 +33,12 @@ export function UnderReview(response, name) {
 
           {/* {response ? ( */}
           {/*  <> */}
-          <ul className="claim-list">
-            <li>
+          <dl>
+            <dt>
               <strong>Date received</strong>
-              <br />
-              <span>{format(new Date(), 'MMM d, yyyy')}</span>
-            </li>
-          </ul>
+            </dt>
+            <dd>{format(new Date(), 'MMM d, yyyy')}</dd>
+          </dl>
 
           <button
             type="button"
