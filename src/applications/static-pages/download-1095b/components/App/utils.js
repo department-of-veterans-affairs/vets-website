@@ -14,19 +14,6 @@ export const radioOptionsAriaLabels = [
   'Option 2: Text File (best for screen readers, screen enlargers, and refreshable Braille displays)',
 ];
 
-export const lastUpdatedComponent = ({ lastUpdated }) => {
-  return (
-    <p>
-      <span className="vads-u-line-height--3 vads-u-display--block">
-        <strong>Related to:</strong> Health care
-      </span>
-      <span className="vads-u-line-height--3 vads-u-display--block">
-        <strong>Document last updated:</strong> {lastUpdated}
-      </span>
-    </p>
-  );
-};
-
 export const notFoundComponent = () => {
   return (
     <va-alert close-btn-aria-label="Close notification" status="info" visible>

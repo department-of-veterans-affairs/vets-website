@@ -12,7 +12,6 @@ import ServiceProvidersText, {
 } from 'platform/user/authentication/components/ServiceProvidersText';
 
 import {
-  lastUpdatedComponent,
   notFoundComponent,
   radioOptions,
   radioOptionsAriaLabels,
@@ -52,10 +51,9 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
   const getLastUpdatedOn = () => {
     return apiRequest('/form1095_bs/available_forms')
       .then(response => {
-        if (response.errors) {
+        if (response.errors || !response.availableForms.length) {
           updateFormError({ error: true, type: 'not found' });
         }
-
         return response.availableForms[0];
       })
       .catch(() => updateFormError({ error: true, type: 'not found' }));
@@ -149,9 +147,20 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     </p>
   );
 
+  const lastUpdatedComponent = (
+    <p>
+      <span className="vads-u-line-height--3 vads-u-display--block">
+        <strong>Related to:</strong> Health care
+      </span>
+      <span className="vads-u-line-height--3 vads-u-display--block">
+        <strong>Document last updated:</strong> {lastUpdated}
+      </span>
+    </p>
+  );
+
   const errorComponent = (
     <>
-      {lastUpdatedComponent(lastUpdated)}
+      {lastUpdatedComponent}
       <va-alert
         close-btn-aria-label="Close notification"
         status="warning"
@@ -180,7 +189,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
 
   const successComponent = (
     <>
-      {lastUpdatedComponent(lastUpdated)}
+      {lastUpdatedComponent}
       <va-alert
         close-btn-aria-label="Close notification"
         status="success"
@@ -201,7 +210,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
 
   const loggedInComponent = (
     <>
-      {lastUpdatedComponent(lastUpdated)}
+      {lastUpdatedComponent}
       {radioComponent}
       {downloadButton}
     </>
