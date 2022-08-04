@@ -247,6 +247,9 @@ const countries = [
   { schemaValue: 'ZWE', ltsValue: 'ZI', label: 'Zimbabwe' },
 ];
 
+const DEFAULT_SCHEMA_COUNTRY_CODE =
+  (countries?.length && countries[0].schemaValue) || 'USA';
+
 export function getLTSCountryCode(schemaCountryValue) {
   const country = countries.find(countryInfo => {
     return countryInfo.schemaValue === schemaCountryValue;
@@ -258,7 +261,9 @@ export function getSchemaCountryCode(ltsCountryValue) {
   const country = countries.find(countryInfo => {
     return countryInfo.ltsValue === ltsCountryValue;
   });
-  return country?.schemaValue ? country.schemaValue : undefined;
+  return country?.schemaValue
+    ? country.schemaValue
+    : DEFAULT_SCHEMA_COUNTRY_CODE;
 }
 
 export function getAddressType(mailingAddress) {
