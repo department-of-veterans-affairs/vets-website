@@ -1074,25 +1074,23 @@ const formConfig = {
                 'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {
-                    const isYes = field.slice(0, 4).includes('Yes');
-                    const phoneExists = !!formData[formFields.viewPhoneNumbers][
-                      formFields.mobilePhoneNumber
-                    ].phone;
-                    const isInternational =
-                      formData[formFields.viewPhoneNumbers][
-                        formFields.mobilePhoneNumberInternational
-                      ];
+                    const isYes = field?.slice(0, 4).includes('Yes');
+                    if (!isYes) {
+                      return;
+                    }
 
-                    if (isYes) {
-                      if (!phoneExists) {
-                        errors.addError(
-                          'You can’t select that response because we don’t have a mobile phone number on file for you.',
-                        );
-                      } else if (isInternational) {
-                        errors.addError(
-                          'You can’t select that response because you have an international mobile phone number',
-                        );
-                      }
+                    const { phone, isInternational } = formData[
+                      formFields.viewPhoneNumbers
+                    ][formFields.mobilePhoneNumber];
+
+                    if (!phone) {
+                      errors.addError(
+                        'You can’t select that response because we don’t have a mobile phone number on file for you.',
+                      );
+                    } else if (isInternational) {
+                      errors.addError(
+                        'You can’t select that response because you have an international mobile phone number',
+                      );
                     }
                   },
                 ],
@@ -1119,14 +1117,19 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
+                  (formData[formFields.viewReceiveTextMessages][
+                    formFields.receiveTextMessages
+                  ] &&
+                    !formData[formFields.viewReceiveTextMessages][
+                      formFields.receiveTextMessages
+                    ]
+                      .slice(0, 4)
+                      .includes('Yes')) ||
                   isValidPhone(
                     formData[formFields.viewPhoneNumbers][
                       formFields.mobilePhoneNumber
                     ].phone,
-                  ) ||
-                  formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumberInternational
-                  ],
+                  ),
               },
             },
             'view:internationalTextMessageAlert': {
@@ -1135,21 +1138,29 @@ const formConfig = {
                   <>
                     You can’t choose to get text notifications because you have
                     an international mobile phone number. At this time, we can
-                    send text messages about your education benefits to U.S.
-                    mobile phone numbers.
+                    send text messages about your education benefits only to
+                    U.S. mobile phone numbers.
                   </>
                 </va-alert>
               ),
               'ui:options': {
                 hideIf: formData =>
+                  (formData[formFields.viewReceiveTextMessages][
+                    formFields.receiveTextMessages
+                  ] &&
+                    !formData[formFields.viewReceiveTextMessages][
+                      formFields.receiveTextMessages
+                    ]
+                      .slice(0, 4)
+                      .includes('Yes')) ||
                   !isValidPhone(
                     formData[formFields.viewPhoneNumbers][
                       formFields.mobilePhoneNumber
                     ].phone,
                   ) ||
                   !formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumberInternational
-                  ],
+                    formFields.mobilePhoneNumber
+                  ]?.isInternational,
               },
             },
           },
@@ -1164,7 +1175,7 @@ const formConfig = {
                 type: 'string',
                 enum: contactMethods,
               },
-              'view:receiveTextMessages': {
+              [formFields.viewReceiveTextMessages]: {
                 type: 'object',
                 required: [formFields.receiveTextMessages],
                 properties: {
