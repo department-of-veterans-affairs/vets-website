@@ -65,12 +65,12 @@ const DebtCheckBox = ({ debt }) => {
         onChange={() => onChange(debt)}
       />
       <label className="vads-u-margin--0" htmlFor={debtIdentifier}>
-        <p className="vads-u-margin--0 vads-u-display--inline">
-          {checkboxMainText}
-        </p>
-        <p className="vads-u-margin-left--4 vads-u-margin-y--0 vads-u-font-size--sm vads-u-color--gray">
-          {checkboxSubText}
-        </p>
+        <div className="vads-u-margin-left--4 vads-u-margin-top--neg3">
+          <p className="vads-u-margin--0">{checkboxMainText}</p>
+          <p className="vads-u-margin--0 vads-u-font-size--sm vads-u-color--gray">
+            {checkboxSubText}
+          </p>
+        </div>
       </label>
     </div>
   );
