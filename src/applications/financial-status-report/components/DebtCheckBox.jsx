@@ -2,12 +2,20 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { format, isValid } from 'date-fns';
+import { head } from 'lodash';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
-import { currency } from '../utils/helpers';
+import { currency, endDate } from '../utils/helpers';
 
 const DebtCheckBox = ({ debt }) => {
   const debtIdentifier = `${debt.currentAr}-${debt.originalAr}`;
   const dispatch = useDispatch();
+  // most recent debt history entry
+  const dates = debt?.debtHistory?.map(m => new Date(m.date)) ?? [];
+  const sortedHistory = dates.sort((a, b) => Date.parse(b) - Date.parse(a));
+  const mostRecentDate = isValid(head(sortedHistory))
+    ? format(head(sortedHistory), 'MM/dd/yyyy')
+    : '';
 
   const formData = useSelector(state => state.form.data);
   const { selectedDebts } = formData;
@@ -43,8 +51,8 @@ const DebtCheckBox = ({ debt }) => {
   const checkboxMainText = `${currency(debt?.currentAr)} for ${deductionCodes[
     debt.deductionCode
   ] || debt.benefitType}`;
-
-  const checkboxSubText = `Pay or request help by [SOME DATE]`;
+  const dateby = endDate(mostRecentDate, 30);
+  const checkboxSubText = dateby ? `Pay or request help by ${dateby}` : '';
 
   return (
     <div className="vads-u-display--flex vads-u-margin-y--2">

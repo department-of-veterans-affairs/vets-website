@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { addDays, format, isValid } from 'date-fns';
 
 export const fsrWizardFeatureToggle = state => {
   return toggleValues(state)[
@@ -27,6 +28,16 @@ export const dateFormatter = date => {
   return moment(formatDate, 'YYYY-MM').format('MM/YYYY');
 };
 
+export const formatDate = date => {
+  return format(new Date(date), 'MMMM d, yyyy');
+};
+
+export const endDate = (date, days) => {
+  return isValid(new Date(date))
+    ? formatDate(addDays(new Date(date), days))
+    : '';
+};
+
 export const currency = amount => {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -41,8 +52,8 @@ const hasProperty = (arr, key) => {
 };
 
 export const sumValues = (arr, key) => {
-  const isValid = Array.isArray(arr) && arr.length && hasProperty(arr, key);
-  if (!isValid) return 0;
+  const isArrValid = Array.isArray(arr) && arr.length && hasProperty(arr, key);
+  if (!isArrValid) return 0;
   return arr.reduce((acc, item) => acc + (Number(item[key]) ?? 0), 0);
 };
 
