@@ -80,7 +80,7 @@ const createMockSuccessResponse = (
       demographics: mockDemographics,
       appointments: [
         createAppointment({
-          clinicLocation: 'Test location, room B',
+          clinicLocation: 'SECOND FLOOR ROOM 1',
           kind: apptKind,
           status,
           startTime: mockTime,
@@ -88,7 +88,7 @@ const createMockSuccessResponse = (
           preCheckInValid: true,
         }),
         createAppointment({
-          clinicLocation: 'Test location, room C',
+          clinicLocation: 'SECOND FLOOR ROOM 2',
           kind: apptKind,
           status,
           startTime: mockTime,

@@ -339,7 +339,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9e40f2e7eb92b5fddb0ce3b2fb809305abbadf3c",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7543eac2cbeeb338d2c43bc9e931c66f5982f551",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {
@@ -387,7 +387,9 @@
     "**/fbjs": "^3.0.4"
   },
   "workspaces": {
-    "packages": [],
+    "packages": [
+      "src/platform/landing-pages"
+    ],
     "nohoist": []
   }
 }

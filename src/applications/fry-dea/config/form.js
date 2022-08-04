@@ -105,7 +105,8 @@ const formConfig = {
       'Please sign in again to continue your application for education benefits.',
   },
   title: 'Apply for education benefits as an eligible dependent',
-  subTitle: 'Equal to VA Form 22-5490',
+  subTitle:
+    "Equal to VA Form 22-5490 (Dependents' Application for VA Education Benefits)",
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
