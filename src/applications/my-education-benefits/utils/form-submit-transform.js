@@ -248,7 +248,9 @@ const countries = [
 ];
 
 const DEFAULT_SCHEMA_COUNTRY_CODE =
-  (countries?.length && countries[0].schemaValue) || 'USA';
+  countries.find(country => {
+    return country.label === 'United States';
+  }).schemaValue || 'USA';
 
 export function getLTSCountryCode(schemaCountryValue) {
   const country = countries.find(countryInfo => {
