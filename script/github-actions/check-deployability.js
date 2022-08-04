@@ -88,10 +88,10 @@ const isAncestor = (commitA, commitB) => {
 };
 
 /**
- * Checks whether the GITHUB_SHA is ahead of the last full deploy.
+ * Checks whether the GITHUB_SHA is ahead of the last full deploy of an environment.
  *
- * @param {string} env - Deployed environment to check
- * @returns {Boolean}
+ * @param {string} env - Name of the environment
+ * @returns {Boolean} Returns true if GITHUB_SHA is ahead of the last full deploy.
  */
 const isAheadOfLastFullDeploy = async env => {
   const lastFullDeployCommit = await getLastFullDeployCommit(env);
@@ -101,10 +101,10 @@ const isAheadOfLastFullDeploy = async env => {
 /**
  * Determines if the GITHUB_SHA can be deployed to non production environments.
  *
- * @param {string} env - Environment trying to deploy
+ * @param {string} env - Name of the environment
  * @returns {Boolean} Whether or not the GITHUB_SHA can be deployed to the environment.
  */
-const canCommitDeploy = async env => {
+const checkDeployability = async env => {
   if (!(await isAheadOfLastFullDeploy(env))) return false;
 
   const inProgressWorkflowRuns = await getInProgressWorkflowRuns(
@@ -122,7 +122,7 @@ const canCommitDeploy = async env => {
   console.log('Waiting for previous workflow runs to finish deploying...');
   await sleep(timeout * 60 * 1000);
 
-  return canCommitDeploy(env);
+  return checkDeployability(env);
 };
 
 /**
@@ -132,7 +132,7 @@ const canCommitDeploy = async env => {
  *
  * @returns {Boolean} Whether or not the GITHUB_SHA can be deployed to production.
  */
-const canCommitDeployProd = async () => {
+const checkDeployabilityProd = async () => {
   if (!(await isAheadOfLastFullDeploy(ENVIRONMENTS.VAGOVPROD))) return false;
 
   const inProgressWorkflowRuns = await getInProgressWorkflowRuns(
@@ -140,11 +140,12 @@ const canCommitDeployProd = async () => {
   );
   if (inProgressWorkflowRuns.length === 0) return true;
 
-  // Get the first item in the Array. Since daily production deploy workflow runs
-  // aren't concurrent, there should be only one deploy happening at a time.
+  // Get the first item in the Array. Since workflow runs for the daily production
+  // deploy aren't concurrent, there should be only one deploy happening at a time.
   const dailyProdDeploySha = inProgressWorkflowRuns[0].head_sha;
 
-  // Checks whether the isolated app commit is ahead of the daily prod deploy commit.
+  // Don't deploy isolated app commits that are older than the daily deploy
+  // commit. The daily deploy will include the changes from the older commit.
   const isAheadOfDailyDeploy = isAncestor(GITHUB_SHA, dailyProdDeploySha);
   if (!isAheadOfDailyDeploy) return false;
 
@@ -152,15 +153,15 @@ const canCommitDeployProd = async () => {
   console.log('Waiting for the Daily Production Deploy to complete...');
   await sleep(timeout * 60 * 1000);
 
-  return canCommitDeployProd();
+  return checkDeployabilityProd();
 };
 
 const main = () => {
   const environment = process.env.BUILDTYPE;
 
-  if (environment === ENVIRONMENTS.VAGOVPROD) return canCommitDeployProd();
+  if (environment === ENVIRONMENTS.VAGOVPROD) return checkDeployabilityProd();
 
-  return canCommitDeploy(environment);
+  return checkDeployability(environment);
 };
 
 main()
