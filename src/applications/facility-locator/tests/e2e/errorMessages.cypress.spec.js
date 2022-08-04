@@ -65,7 +65,7 @@ describe('Facility search error messages', () => {
       'Please search for an available service.',
     );
     cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care');
-    cy.get('#downshift-1-item-0').click();
+    cy.get('#service-typeahead .dropdown-option:first').click();
     cy.get('.usa-input-error-message').should('not.exist');
   });
 
@@ -86,7 +86,9 @@ describe('Facility search error messages', () => {
     );
 
     cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care');
-    cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
+    cy.get('#service-typeahead .dropdown-option:first').click({
+      waitForAnimations: true,
+    });
 
     cy.get('#facility-type-dropdown').focus();
     cy.get('#service-type-ahead-input');
@@ -100,7 +102,9 @@ describe('Facility search error messages', () => {
       'Community providers (in VA’s network)',
     );
     cy.get('#service-type-ahead-input').type('Dentist');
-    cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
+    cy.get('#service-typeahead .dropdown-option:first').click({
+      waitForAnimations: true,
+    });
 
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(

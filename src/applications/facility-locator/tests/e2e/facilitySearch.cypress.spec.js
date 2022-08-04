@@ -181,7 +181,9 @@ describe('Facility VA search', () => {
     cy.get('#street-city-state-zip').type('27606');
     cy.get('#facility-type-dropdown').select(CC_PROVIDER);
     cy.get('#service-type-ahead-input').type('General');
-    cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
+    cy.get('#service-typeahead .dropdown-option:first').click({
+      waitForAnimations: true,
+    });
 
     cy.get('#facility-search').click({ waitForAnimations: true });
     // eslint-disable-next-line cypress/no-unnecessary-waiting

@@ -79,7 +79,9 @@ describe('Provider search', () => {
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select(CC_PROVIDER);
     cy.get('#service-type-ahead-input').type('Dentist');
-    cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
+    cy.get('#service-typeahead .dropdown-option:first').click({
+      waitForAnimations: true,
+    });
 
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
@@ -101,7 +103,9 @@ describe('Provider search', () => {
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown').select(CC_PROVIDER);
     cy.get('#service-type-ahead-input').type('Clinic/Center - Urgent Care');
-    cy.get('#downshift-1-item-0').click({ waitForAnimations: true });
+    cy.get('#service-typeahead .dropdown-option:first').click({
+      waitForAnimations: true,
+    });
 
     cy.get('#facility-search').click({ waitForAnimations: true });
     cy.get('#search-results-subheader').contains(
