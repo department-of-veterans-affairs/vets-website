@@ -8,11 +8,9 @@ import {
 
 function VerifyIdentity() {
   const { ID_ME, LOGIN_GOV } = CSP_IDS;
-
   const signUp = useCallback(csp => {
     signup({ csp });
   }, []);
-
   const SignUpLink = ({ type }) => {
     const { label } = SERVICE_PROVIDERS[`${type}`];
     const testID =
@@ -31,11 +29,9 @@ function VerifyIdentity() {
       </p>
     );
   };
-
   const signUpLinks = () => {
     return [ID_ME, LOGIN_GOV].map(csp => <SignUpLink key={csp} type={csp} />);
   };
-
   return (
     <va-alert status="continue" visible>
       <h2 slot="headline" data-testid="direct-deposit-mfa-message">
