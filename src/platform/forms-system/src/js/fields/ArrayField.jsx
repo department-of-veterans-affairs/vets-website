@@ -236,12 +236,15 @@ export default class ArrayField extends React.Component {
     // Wait for new view to render before focusing on the first input field in that group
     setTimeout(() => {
       const wrapper = document.getElementById(`${id}_${index}`);
-      const focusableElements = getFocusableElements(wrapper);
-      const firstFocusableElement = wrapper.querySelector(
-        focusableElements[0].tagName,
-      );
 
-      firstFocusableElement.focus();
+      if (wrapper) {
+        const focusableElements = getFocusableElements(wrapper);
+        const firstFocusableElement = wrapper.querySelector(
+          focusableElements[0].tagName,
+        );
+
+        firstFocusableElement.focus();
+      }
     }, 0);
   }
 
