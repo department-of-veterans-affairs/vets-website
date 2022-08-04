@@ -1,15 +1,12 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 import { signup } from 'platform/user/authentication/utilities';
 import {
   CSP_IDS,
   SERVICE_PROVIDERS,
 } from 'platform/user/authentication/constants';
-import { signInServiceName } from 'platform/user/authentication/selectors';
 
 function VerifyIdentity() {
-  const serviceName = useSelector(signInServiceName);
   const { ID_ME, LOGIN_GOV } = CSP_IDS;
 
   const signUp = useCallback(csp => {
@@ -35,12 +32,8 @@ function VerifyIdentity() {
     );
   };
 
-  const signUpLinks = signInMethod => {
-    return [ID_ME, LOGIN_GOV].includes(signInMethod)
-      ? // ? ' '
-        // :
-        [ID_ME, LOGIN_GOV].map(csp => <SignUpLink key={csp} type={csp} />)
-      : ' ';
+  const signUpLinks = () => {
+    return [ID_ME, LOGIN_GOV].map(csp => <SignUpLink key={csp} type={csp} />);
   };
 
   return (
@@ -63,7 +56,7 @@ function VerifyIdentity() {
         one and verify your identity now.
       </p>
 
-      {signUpLinks(serviceName)}
+      {signUpLinks()}
 
       <p>
         <strong>Note:</strong> If you need help updating your direct deposit
