@@ -17,6 +17,7 @@ import {
   notFoundComponent,
   radioOptions,
   radioOptionsAriaLabels,
+  radioLabel,
 } from './utils';
 
 export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
@@ -118,15 +119,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     <RadioButtons
       id="1095-download-options"
       name="1095-download-options"
-      label={
-        <div>
-          <h3>Choose your file format and download your document</h3>
-          <p>
-            We offer two file format options for this form. Choose the option
-            that best meets your needs.
-          </p>
-        </div>
-      }
+      label={radioLabel}
       options={radioOptions}
       onValueChange={({ value }) => updateFormType(value)}
       value={{ value: formType }}
