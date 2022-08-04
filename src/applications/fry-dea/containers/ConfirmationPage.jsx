@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
-import { UnderReview } from '../components/ConfirmationResponses';
+import { UnderReview, NotEligible } from '../components/ConfirmationResponses';
 
 function createConfirmationPage(form) {
   const { submission, data } = form;
@@ -16,7 +17,8 @@ function createConfirmationPage(form) {
     last: 'Doe',
     suffix: 'Sr',
   };
-  return UnderReview(response, name);
+  // return UnderReview(response, name);
+  return NotEligible(name);
 }
 
 export class ConfirmationPage extends React.Component {
