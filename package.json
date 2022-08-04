@@ -19,7 +19,7 @@
     "cy:my-testrail-helper": "node ./script/cypress-testrail-helper",
     "cy:my-testrail-run": "cypress run --config-file config/my-cypress-testrail.json",
     "cy:open": "cypress open --config-file config/cypress.config.js --e2e --browser chrome",
-    "cy:run": "cypress run --config-file config/cypress.config.js  --browser chrome",
+    "cy:run": "cypress run --config-file config/cypress.config.js --browser chrome",
     "cy:test:docker": "node script/run-cypress-tests-docker.js",
     "cy:test:gha": "node script/run-cypress-tests-gha.js",
     "cy:testrail-run": "cypress run --config-file config/cypress-testrail.config.js --reporter-options host=https://dsvavsp.testrail.io/,username=$TR_USER,password=$TR_API_KEY,projectId=$TR_PROJECTID,suiteId=$TR_SUITEID,runName=$TR_RUN_NAME,includeAllInTestRun=$TR_INCLUDE_ALL,groupId=$TR_GROUPID,filter=$TR_FILTER",
@@ -125,7 +125,7 @@
     "@bahmutov/cypress-esbuild-preprocessor": "^2.1.2",
     "@cypress/code-coverage": "^3.10.0",
     "@department-of-veterans-affairs/eslint-plugin": "^1.2.1",
-    "@department-of-veterans-affairs/generator-vets-website": "^3.7.0",
+    "@department-of-veterans-affairs/generator-vets-website": "^3.8.0",
     "@octokit/rest": "^18.11.0",
     "@pact-foundation/pact": "^9.16.4",
     "@sentry/browser": "^6.13.2",
@@ -167,7 +167,7 @@
     "cssnano": "^5.0.8",
     "cy-mobile-commands": "^0.3.0",
     "cy-tr-reporter": "^1.2.5",
-    "cypress": "^10.3.1",
+    "cypress": "^10.4.0",
     "cypress-axe": "^1.0.0",
     "cypress-multi-reporters": "^1.5.0",
     "cypress-plugin-tab": "^1.0.5",
@@ -268,7 +268,7 @@
     "@department-of-veterans-affairs/component-library": "^11.2.2",
     "@department-of-veterans-affairs/formation": "^7.0.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
-    "@department-of-veterans-affairs/va-forms-system-core": "0.0.2",
+    "@department-of-veterans-affairs/va-forms-system-core": "0.0.8",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
     "@formatjs/intl-datetimeformat": "^4.2.3",
     "@formatjs/intl-getcanonicallocales": "^1.7.3",
@@ -339,7 +339,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9e40f2e7eb92b5fddb0ce3b2fb809305abbadf3c",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7543eac2cbeeb338d2c43bc9e931c66f5982f551",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {
@@ -387,7 +387,9 @@
     "**/fbjs": "^3.0.4"
   },
   "workspaces": {
-    "packages": [],
+    "packages": [
+      "src/platform/landing-pages"
+    ],
     "nohoist": []
   }
 }

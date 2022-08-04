@@ -34,7 +34,7 @@ class NextOfKin {
   validateNextOfKinData = (parentSelector = '.confirmable-page ul') => {
     cy.get(parentSelector)
       .find('li:nth-of-type(1)')
-      .should('include.text', 'VETERAN,JONAH')
+      .should('include.text', 'Johnnie Shaye')
       .next()
       .should('include.text', 'BROTHER')
       .next()

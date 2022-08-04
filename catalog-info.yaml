@@ -19,6 +19,9 @@ metadata:
     - url: https://va-gov.domo.com/page/1964748112
       title: Search KPIs (Domo)
       icon: dashboard
+    - url: https://tud.vfs.va.gov
+      title: Test User Dashboard
+      icon: dashboard
 spec:
   owner: platform-release-tools
   domain: vfs

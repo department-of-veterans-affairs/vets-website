@@ -497,11 +497,13 @@ describe('Authentication Utilities', () => {
   });
 
   describe('verify', () => {
-    it('should redirect to the verify session url', () => {
+    it('should redirect to the verify session url', async () => {
       setup({ path: nonUsipPath });
-      authUtilities.verify();
+      await authUtilities.verify({ policy: CSP_IDS.LOGIN_GOV });
       expect(global.window.location).to.equal(
-        API_SESSION_URL({ type: POLICY_TYPES.VERIFY }),
+        API_SESSION_URL({
+          type: `${SIGNUP_TYPES[CSP_IDS.LOGIN_GOV]}_verified`,
+        }),
       );
     });
   });

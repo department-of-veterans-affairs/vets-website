@@ -11,7 +11,7 @@ const pacificTimezoneUUID = '6c72b801-74ac-47fe-82af-cfe59744b45f';
 
 const mockDemographics = {
   emergencyContact: {
-    name: 'Bugs Bunny',
+    name: 'Star Garnet',
     workPhone: '',
     relationship: 'EXTENDED FAMILY MEMBER',
     phone: '5558675309',
@@ -21,14 +21,14 @@ const mockDemographics = {
       street3: '',
       city: 'Albuquerque',
       county: null,
-      street1: '123 fake street',
+      street1: '1233 8th Street',
       zip4: '',
       street2: '',
       state: 'New Mexico',
     },
   },
   nextOfKin1: {
-    name: 'VETERAN,JONAH',
+    name: 'Johnnie Shaye',
     relationship: 'BROTHER',
     phone: '1112223333',
     workPhone: '4445556666',
@@ -62,7 +62,7 @@ const mockDemographics = {
   homePhone: '5552223333',
   mobilePhone: '5553334444',
   workPhone: '5554445555',
-  emailAddress: 'kermit.frog@sesameenterprises.us',
+  emailAddress: 'fred.carter@mailbox.com',
 };
 
 const getAppointmentStartTime = (
@@ -89,12 +89,12 @@ const createAppointment = ({
   eligibility = 'ELIGIBLE',
   facilityId = 'some-facility',
   appointmentIen = Math.floor(Math.random() * 100000),
-  clinicFriendlyName = 'TEST CLINIC',
+  clinicFriendlyName = 'HEART CLINIC 1',
   preCheckInValid = false,
   uuid = defaultUUID,
   timezone = 'browser',
   stationNo = '0001',
-  clinicLocation = 'Test location, room A',
+  clinicLocation = 'SECOND FLOOR ROOM 2',
   kind = 'clinic',
   status = '',
   startTime = getAppointmentStartTime(eligibility, preCheckInValid, uuid),
@@ -178,7 +178,7 @@ const createMultipleAppointments = (
           eligibility: 'INELIGIBLE_TOO_LATE',
           facilityId: 'ABC_123',
           appointmentIen: '0000',
-          clinicFriendlyName: `TEST CLINIC-L`,
+          clinicFriendlyName: `HEART CLINIC-1`,
         }),
       ],
       patientDemographicsStatus: {
@@ -202,7 +202,7 @@ const createMultipleAppointments = (
         eligibility: 'ELIGIBLE',
         facilityId: 'ABC_123',
         appointmentIen: `000${i + 1}`,
-        clinicFriendlyName: `TEST CLINIC-${i}`,
+        clinicFriendlyName: `HEART CLINIC-${i}`,
         uuid: token,
         timezone,
       }),
@@ -213,7 +213,7 @@ const createMultipleAppointments = (
       eligibility: 'INELIGIBLE_TOO_EARLY',
       facilityId: 'ABC_123',
       appointmentIen: `0050`,
-      clinicFriendlyName: `TEST CLINIC-E`,
+      clinicFriendlyName: `HEART CLINIC-E`,
     }),
   );
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import environment from 'platform/utilities/environment';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 
@@ -15,24 +16,22 @@ const getDownloadLinkLabel = (timestamp, documentType) =>
     timestamp,
   )} (${getDocumentType(documentType)})`;
 
-const List = ({ documents }) => {
-  return documents.map(({ createDate, description, documentType }, i) => {
+const List = ({ documents }) =>
+  documents.map((document, i) => {
+    const { createDate, description, documentType, id } = document;
     const downloadLinkLabel = getDownloadLinkLabel(createDate, documentType);
-    // This will come from the document payload in the future
-    const downloadUrl = '∂';
     const sentDate = formatDate(createDate);
 
     return (
       <ListItem
         key={i}
         downloadLinkLabel={downloadLinkLabel}
-        downloadUrl={downloadUrl}
+        downloadUrl={`${environment.API_URL}/v0/coe/document_download/${id}`}
         sentDate={sentDate}
         title={description}
       />
     );
   });
-};
 
 List.propTypes = {
   documents: PropTypes.array,
