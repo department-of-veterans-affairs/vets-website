@@ -1175,7 +1175,7 @@ jobs:
       # - name: Deploy
       #   if: env.DEPLOY_COMMIT == 'true'
       #   run: |
-      #     if [[ -n "${{ needs.build.outputs.entry_names }}" ]]; then
+      #     if [[ "${{ env.IS_ISOLATED_APP_BUILD }}" == "true" ]]; then
       #       ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
       #     else
       #       ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
