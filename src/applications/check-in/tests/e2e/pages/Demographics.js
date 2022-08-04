@@ -40,7 +40,7 @@ class Demographics {
     homePhone = '555-222-3333',
     mobilePhone = '555-333-4444',
     workPhone = '555-444-5555',
-    email = 'kermit.frog@sesameenterprises.us',
+    email = 'fred.carter@mailbox.com',
   } = {}) => {
     cy.get("ul[data-testid='demographics-fields']")
       .find('li:nth-of-type(1)')

@@ -3,8 +3,10 @@ import { useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { focusElement } from 'platform/utilities/ui';
-import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { VaMemorableDate } from '@department-of-veterans-affairs/web-components/react-bindings';
+import {
+  VaTextInput,
+  VaMemorableDate,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import Wrapper from '../../layout/Wrapper';
 import TextInputErrorWrapper from '../../TextInputErrorWrapper';
