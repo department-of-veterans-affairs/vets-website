@@ -63,6 +63,7 @@ import MailingAddressViewField from '../components/MailingAddressViewField';
 import VeteransRadioGroup from '../components/VeteransRadioGroup';
 import SelectedVeteranReviewPage from '../components/SelectedVeteranReviewPage';
 import FryDeaEligibilityCards from '../components/FryDeaEligibilityCards';
+import PreSubmitInfo from '../components/PreSubmitInfo';
 
 const { date, fullName } = fullSchema5490.definitions;
 const { /* fullName, date, dateRange, usaPhone, */ email } = commonDefinitions;
@@ -113,6 +114,7 @@ const formConfig = {
     fullName,
     date,
   },
+  preSubmitInfo: PreSubmitInfo,
   chapters: {
     applicantInformationChapter: {
       title: 'Your information',
@@ -1207,6 +1209,7 @@ const formConfig = {
       pages: {
         directDeposit: {
           path: 'direct-deposit',
+          title: 'Direct deposit',
           uiSchema: {
             'ui:description': (
               <>
