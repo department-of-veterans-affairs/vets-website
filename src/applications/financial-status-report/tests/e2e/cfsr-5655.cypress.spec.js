@@ -8,6 +8,7 @@ import manifest from '../../manifest.json';
 import mockUser from './fixtures/mocks/mockUser.json';
 import saveInProgress from './fixtures/mocks/saveInProgress.json';
 import debts from './fixtures/mocks/debts.json';
+import copays from './fixtures/mocks/copays.json';
 
 Cypress.config('waitForAnimations', true);
 
@@ -30,6 +31,7 @@ const testConfig = createTestConfig(
         },
       });
       cy.intercept('GET', '/v0/debts', debts);
+      cy.intercept('GET', '/v0/medical_copays', copays);
       cy.get('@testData').then(testData => {
         cy.intercept('PUT', '/v0/in_progress_forms/5655', testData);
         cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgress);
@@ -51,6 +53,9 @@ const testConfig = createTestConfig(
       'available-debts': ({ afterHook }) => {
         afterHook(() => {
           cy.get(`input[name="request-help-with-debt"]`)
+            .first()
+            .check();
+          cy.get(`input[name="request-help-with-copay"]`)
             .first()
             .check();
           cy.get('.usa-button-primary').click();
