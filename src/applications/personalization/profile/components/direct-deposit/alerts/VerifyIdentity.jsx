@@ -8,7 +8,7 @@ import {
 } from 'platform/user/authentication/constants';
 import { signInServiceName } from 'platform/user/authentication/selectors';
 
-function VerifyIdentiy() {
+function VerifyIdentity() {
   const serviceName = useSelector(signInServiceName);
   const { ID_ME, LOGIN_GOV } = CSP_IDS;
 
@@ -37,8 +37,10 @@ function VerifyIdentiy() {
 
   const signUpLinks = signInMethod => {
     return [ID_ME, LOGIN_GOV].includes(signInMethod)
-      ? ' '
-      : [ID_ME, LOGIN_GOV].map(csp => <SignUpLink key={csp} type={csp} />);
+      ? // ? ' '
+        // :
+        [ID_ME, LOGIN_GOV].map(csp => <SignUpLink key={csp} type={csp} />)
+      : ' ';
   };
 
   return (
@@ -75,8 +77,8 @@ function VerifyIdentiy() {
   );
 }
 
-export default VerifyIdentiy;
+export default VerifyIdentity;
 
-VerifyIdentiy.propTypes = {
+VerifyIdentity.propTypes = {
   type: PropTypes.string,
 };
