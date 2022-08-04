@@ -6,6 +6,8 @@ import { apiRequest } from 'platform/utilities/api';
 import { connect } from 'react-redux';
 // Relative imports.
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
@@ -17,7 +19,7 @@ import {
   radioOptionsAriaLabels,
 } from './utils';
 
-export const App = ({ loggedIn, toggleLoginModal }) => {
+export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   const [lastUpdated, updateLastUpdated] = useState('');
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
@@ -239,6 +241,9 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     </va-alert>
   );
 
+  if (!displayToggle) {
+    return <></>;
+  }
   if (loggedIn) {
     if (formError.error) {
       if (formError.type === 'not found') {
@@ -258,10 +263,12 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
 App.propTypes = {
   loggedIn: PropTypes.bool,
   toggleLoginModal: PropTypes.func.isRequired,
+  displayToggle: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   loggedIn: state?.user?.login?.currentlyLoggedIn || null,
+  displayToggle: toggleValues(state)[FEATURE_FLAG_NAMES.showDigitalForm1095b],
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -151,6 +151,6 @@ export default Object.freeze({
   hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
   checkVAInboxEnabled: 'check_va_inbox_enabled',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
-  showExpandableVamcAlert: 'show_expandable_vamc_alert'
-
+  showExpandableVamcAlert: 'show_expandable_vamc_alert',
+  showDigitalForm1095b: 'show_digital_form_1095b'
 });
