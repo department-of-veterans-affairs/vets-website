@@ -74,13 +74,15 @@ export default {
           'ui:description': TricarePolicyDescription,
         },
         insurancePolicyNumber: {
-          'ui:title': PolicyNumberDescription,
+          'ui:title': 'Policy Number',
+          'ui:description': PolicyNumberDescription,
         },
         'view:or': {
           'ui:description': PolicyOrDescription,
         },
         insuranceGroupCode: {
-          'ui:title': GroupCodeDescription,
+          'ui:title': 'Group Code',
+          'ui:description': GroupCodeDescription,
         },
         'ui:validations': [
           (errors, field) => {
