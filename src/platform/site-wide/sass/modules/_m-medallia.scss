@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+// @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 /* Fonts */
 #liveForm .ng-binding,
@@ -49,6 +49,10 @@
 
   /* Add `position: relative;` so `position: absolute;` can be applied to the child `button` element */
   position: relative;
+}
+
+#liveForm>div>div.row.neb-form-close-btn-container.ng-hide > div.col-sm-offset-11.col-sm-1 {
+  max-width: 100% !important;
 }
 
 /* https://github.com/department-of-veterans-affairs/va.gov-team/issues/18706#issuecomment-769341669 */
