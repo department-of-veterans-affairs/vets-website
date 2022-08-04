@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import MessageCategory from './MessageCategory';
+import MessageCategoryInput from './MessageCategoryInput';
 
 const ComposeForm = () => {
   useRef();
@@ -18,7 +18,7 @@ const ComposeForm = () => {
         Edit List
       </button>
 
-      <MessageCategory />
+      <MessageCategoryInput />
 
       <va-text-input
         label="Subject"
@@ -36,8 +36,9 @@ const ComposeForm = () => {
         required
       />
 
-      <div>
+      <section className="attachments-section">
         <label htmlFor="compose_attachments">Attachments</label>
+
         <ul className="compose-attachments-list">
           <li>
             <i className="fas fa-paperclip" />
@@ -54,15 +55,12 @@ const ComposeForm = () => {
             </div>
           </li>
         </ul>
+
         <div className="compose-attachments-input">
-          <input
-            type="file"
-            id="composeAttachments"
-            name="attachments"
-            hidden
-          />
+          <input type="file" id="attachments" name="attachments" hidden />
           <label htmlFor="attachments">
-            <i className="fas fa-paperclip" /> Attach files
+            <i className="fas fa-paperclip" />
+            Attach files
           </label>
         </div>
         <VaAdditionalInfo
@@ -70,9 +68,16 @@ const ComposeForm = () => {
           disable-analytics={false}
           disable-border={false}
         >
-          <div>How to attach a file...</div>
+          <ol className="how-to-attach-files">
+            <li>1. Click "Attach files" above.</li>
+            <li>2. Browse local machine to find file.</li>
+            <li>3. Click "open"</li>
+            <li>
+              4. You should now see your file in list of attachments above.
+            </li>
+          </ol>
         </VaAdditionalInfo>
-      </div>
+      </section>
 
       <button type="button" className="send-button-bottom">
         <span className="send-button-bottom-text">Send</span>

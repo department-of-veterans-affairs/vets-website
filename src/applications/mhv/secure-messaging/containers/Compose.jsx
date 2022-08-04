@@ -6,16 +6,19 @@ const Compose = () => {
   return (
     <div className="vads-l-grid-container vads-u-margin-top--2 compose-container">
       <nav>
-        <a href="/messages">&lsaquo; Messages</a>
-        <va-link active href="https://www.va.gov" text="foo" />
+        <a href="/messages" className="breadcrumb">
+          <i className="fas fa-angle-left" />
+          Messages
+        </a>
         <button
           type="button"
           className="vads-u-margin-top--2 usa-button-secondary messages-nav-menu"
         >
           <span>In the Messages section</span>
-          <span>&#9776;</span>
+          <i className="fas fa-bars" />
         </button>
       </nav>
+
       <h1 className="vads-u-margin-top--2">Compose Message</h1>
       <section>
         <p className="emergency-note">

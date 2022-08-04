@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const MessageCategory = () => {
+const MessageCategoryInput = () => {
   const [invalid] = useState(false);
 
   return (
@@ -126,4 +126,4 @@ const MessageCategory = () => {
   );
 };
 
-export default MessageCategory;
+export default MessageCategoryInput;
