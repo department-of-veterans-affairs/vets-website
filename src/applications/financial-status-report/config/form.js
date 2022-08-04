@@ -79,6 +79,7 @@ const formConfig = {
         availableDebts: {
           initialData: {
             selectedDebts: [],
+            selectedCopays: [],
             debt: {
               currentAr: 0,
               debtHistory: [{ date: '' }],
