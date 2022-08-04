@@ -11,7 +11,7 @@ const generateFeatureToggles = (toggles = {}) => {
     profileShowProfile2 = false,
     profileShowPronounsAndSexualOrientation = false,
     profileShowReceiveTextNotifications = true,
-    profileUseVAFSC = true,
+    profileUseVAFSC = false,
   } = toggles;
 
   return {
