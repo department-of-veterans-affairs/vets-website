@@ -45,10 +45,10 @@ const getInProgressWorkflowRuns = workflow_id => {
 };
 
 /**
- * Gets the commit sha of the last full deploy of an environment.
+ * Gets the commit hash of the last full deploy of an environment.
  *
  * @param {string} env - Name of environment
- * @returns {string} Commit sha of the latest full deploy.
+ * @returns {string} Commit hash of the latest full deploy.
  */
 const getLastFullDeployCommit = async env => {
   const envBucketUrl = BUCKETS[env];
@@ -69,8 +69,8 @@ const getLastFullDeployCommit = async env => {
 /**
  * Checks whether the first commit is an ancestor of the second commit.
  *
- * @param {string} commitA - Possible ancestor
- * @param {string} commitB - Possible descendant
+ * @param {string} commitA - Possible ancestor's commit hash
+ * @param {string} commitB - Possible descendant's commit hash
  * @returns {Boolean} Returns true if the first commit is an ancestor of the second.
  */
 const isAncestor = (commitA, commitB) => {
@@ -88,9 +88,9 @@ const isAncestor = (commitA, commitB) => {
 };
 
 /**
- * Checks whether the GITHUB_SHA is ahead of the last full deploy of an environment.
+ * Checks if the GITHUB_SHA is ahead of the last full deploy of an environment.
  *
- * @param {string} env - Name of the environment
+ * @param {string} env - Environment name
  * @returns {Boolean} Returns true if GITHUB_SHA is ahead of the last full deploy.
  */
 const isAheadOfLastFullDeploy = async env => {
@@ -101,7 +101,7 @@ const isAheadOfLastFullDeploy = async env => {
 /**
  * Determines if the GITHUB_SHA can be deployed to non production environments.
  *
- * @param {string} env - Name of the environment
+ * @param {string} env - Environment name
  * @returns {Boolean} Whether or not the GITHUB_SHA can be deployed to the environment.
  */
 const checkDeployability = async env => {
@@ -142,11 +142,11 @@ const checkDeployabilityProd = async () => {
 
   // Get the first item in the Array. Since workflow runs for the daily production
   // deploy aren't concurrent, there should be only one deploy happening at a time.
-  const dailyProdDeploySha = inProgressWorkflowRuns[0].head_sha;
+  const dailyDeploySha = inProgressWorkflowRuns[0].head_sha;
 
   // Don't deploy isolated app commits that are older than the daily deploy
   // commit. The daily deploy will include the changes from the older commit.
-  const isAheadOfDailyDeploy = isAncestor(GITHUB_SHA, dailyProdDeploySha);
+  const isAheadOfDailyDeploy = isAncestor(GITHUB_SHA, dailyDeploySha);
   if (!isAheadOfDailyDeploy) return false;
 
   const timeout = 10; // Number of minutes to wait before checking again
