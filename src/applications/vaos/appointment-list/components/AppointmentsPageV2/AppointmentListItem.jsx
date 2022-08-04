@@ -16,7 +16,6 @@ import {
 } from '../../../utils/constants';
 import { selectFeatureStatusImprovement } from '../../../redux/selectors';
 
-// Testing isolated app build
 function VideoAppointmentDescription({ appointment }) {
   const { isAtlas } = appointment.videoData;
   const videoKind = appointment.videoData.kind;
