@@ -1111,7 +1111,7 @@ jobs:
             iam-role: AWS_FRONTEND_PROD_ROLE
 
     env:
-      DEPLOY_TO_PRODUCTION: true # Enables production deployments for apps on the allowlist
+      DEPLOY_TO_PRODUCTION: false # Enables production deployments for apps on the allowlist
       IS_ISOLATED_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
 
     steps:
