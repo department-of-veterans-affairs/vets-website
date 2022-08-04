@@ -5,22 +5,24 @@ import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import {
-  // UnderReview,
+  UnderReview,
   LoadingResults,
 } from '../components/ConfirmationResponses';
 
-function createConfirmationPage() {
-  // function createConfirmationPage(form) {
-  // const { submission, data } = form;
-  // const { response } = submission;
-  // let name = data.veteranFullName;
-  // name = {
-  //   first: 'John',
-  //   middle: 'J',
-  //   last: 'Doe',
-  //   suffix: 'Sr',
-  // };
-  // return UnderReview(response, name);
+function createConfirmationPage(form) {
+  const { submission, data } = form;
+  const { response } = submission;
+  let name = data.veteranFullName;
+
+  if (response) {
+    name = {
+      first: 'John',
+      middle: 'J',
+      last: 'Doe',
+      suffix: 'Sr',
+    };
+    return UnderReview(response, name);
+  }
   return LoadingResults();
 }
 
@@ -31,8 +33,7 @@ export class ConfirmationPage extends React.Component {
   }
 
   render() {
-    // return createConfirmationPage(this.props.form);
-    return createConfirmationPage();
+    return createConfirmationPage(this.props.form);
   }
 }
 
