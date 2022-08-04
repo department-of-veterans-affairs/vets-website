@@ -182,6 +182,13 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     </>
   );
 
+  const getErrorComponent = () => {
+    if (formError.type === 'not found') {
+      return notFoundComponent();
+    }
+    return errorComponent;
+  };
+
   const successComponent = (
     <>
       {lastUpdatedComponent}
@@ -239,13 +246,9 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   }
   if (loggedIn) {
     if (formError.error) {
-      if (formError.type === 'not found') {
-        return notFoundComponent();
-      }
-      if (formError.type === 'download error') {
-        return errorComponent;
-      }
-    } else if (formDownloaded.downloaded) {
+      return getErrorComponent();
+    }
+    if (formDownloaded.downloaded) {
       return successComponent;
     }
     return loggedInComponent;
