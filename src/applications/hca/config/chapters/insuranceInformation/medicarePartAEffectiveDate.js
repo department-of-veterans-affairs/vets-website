@@ -4,6 +4,8 @@ import {
   MedicareClaimNumberDescription,
   MedicareEffectiveDateDescription,
 } from '../../../components/FormDescriptions';
+import CustomReviewField from '../../../components/ReviewFields/CustomReviewField';
+import CustomDateReviewField from '../../../components/ReviewFields/CustomDateReviewField';
 
 const {
   medicareClaimNumber,
@@ -15,10 +17,12 @@ export default {
     medicarePartAEffectiveDate: {
       ...currentOrPastDateUI('What is your Medicare Part A effective date?'),
       'ui:description': MedicareEffectiveDateDescription,
+      'ui:reviewField': CustomDateReviewField,
     },
     medicareClaimNumber: {
       'ui:title': 'What is your Medicare claim number?',
       'ui:description': MedicareClaimNumberDescription,
+      'ui:reviewField': CustomReviewField,
       'ui:errorMessages': {
         required: 'Please enter a valid 11-character Medicare claim number',
       },
