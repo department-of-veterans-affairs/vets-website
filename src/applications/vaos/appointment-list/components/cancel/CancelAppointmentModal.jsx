@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import CancelAppointmentFailedModal from './CancelAppointmentFailedModal';
 import CancelAppointmentSucceededModal from './CancelAppointmentSucceededModal';
@@ -60,13 +59,3 @@ export default function CancelAppointmentModal(props) {
 
   return null;
 }
-
-CancelAppointmentModal.propTypes = {
-  appointmentToCancel: PropTypes.object.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onConfirm: PropTypes.func.isRequired,
-  cancelAppointmentStatus: PropTypes.string,
-  cancelAppointmentStatusVaos400: PropTypes.string,
-  facility: PropTypes.string,
-  showCancelModal: PropTypes.bool,
-};
