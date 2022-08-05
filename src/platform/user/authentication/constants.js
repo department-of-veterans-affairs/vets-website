@@ -8,18 +8,10 @@ import {
 } from '../../utilities/sso/constants';
 
 export const API_VERSION = 'v1';
-export const SIS_API_VERSION = 'v0';
+export const FORCE_NEEDED = 'force-needed';
 
 export const API_SESSION_URL = ({ version = API_VERSION, type = null }) =>
   `${environment.API_URL}/${version}/sessions/${type}/new`;
-
-export const API_SIGN_IN_SERVICE_URL = ({
-  version = SIS_API_VERSION,
-  type = '',
-  endpoint = 'authorize',
-}) =>
-  `${environment.API_URL}/${version}/sign_in/${endpoint}${type &&
-    `?type=${type}`}`;
 
 export const AUTH_EVENTS = {
   MODAL_LOGIN: 'login-link-clicked-modal',
@@ -146,7 +138,12 @@ export const AUTH_ERROR = {
   ICN_MISMATCH: '103', // ICN Mismatch
   UUID_MISSING: '104', // UUID Missing (Login.gov or ID.me)
   MULTIPLE_CORPIDS: '106', // Multiple Corp IDs
-  REQUIRED_MISSING_USER_PARAMTER: '108',
+
+  OAUTH_DEFAULT_ERROR: '201',
+  OAUTH_STATE_MISMATCH: '202',
+  OAUTH_INVALID_REQUEST: '203',
+
+  GENERIC: '400',
 };
 
 export const MHV_TRANSITION_DATE = null;
