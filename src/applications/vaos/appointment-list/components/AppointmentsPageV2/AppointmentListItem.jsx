@@ -39,13 +39,18 @@ VideoAppointmentDescription.propTypes = {
 };
 
 function CommunityCareProvider({ appointment }) {
-  return (
-    <>
-      {appointment.communityCareProvider?.providerName ||
-        appointment.communityCareProvider?.practiceName ||
-        'Community care'}
-    </>
-  );
+  const {
+    providerName,
+    practiceName,
+    name,
+  } = appointment.communityCareProvider;
+  if (appointment.version === 1 && providerName !== undefined) {
+    return <>{providerName || practiceName || 'Community care'}</>;
+  }
+  if (!!providerName || !!practiceName || !!name) {
+    return <>{providerName[0] || practiceName || 'Community care'}</>;
+  }
+  return 'Community care';
 }
 
 CommunityCareProvider.propTypes = {
@@ -61,7 +66,7 @@ function VAFacilityName({ facility }) {
 }
 
 VAFacilityName.propTypes = {
-  facility: PropTypes.object.isRequired,
+  facility: PropTypes.object,
 };
 
 function handleClick({ history, link, idClickable }) {
@@ -161,6 +166,7 @@ export default function AppointmentListItem({ appointment, facility }) {
             className="vaos-appts__focus--hide-outline"
             aria-label={label}
             to={link}
+            onClick={e => e.preventDefault()}
           >
             Details
           </Link>

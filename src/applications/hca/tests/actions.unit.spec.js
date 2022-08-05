@@ -5,7 +5,7 @@ import {
   mockApiRequest,
   mockFetch,
   setFetchJSONResponse,
-} from 'platform/testing/unit/helpers.js';
+} from 'platform/testing/unit/helpers';
 
 import {
   getDismissedHCANotification,

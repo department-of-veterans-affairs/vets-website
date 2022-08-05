@@ -1,6 +1,8 @@
 import merge from 'lodash/merge';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
+import CustomYesNoReviewField from '../../../components/ReviewFields/CustomYesNoReviewField';
+import CustomReviewField from '../../../components/ReviewFields/CustomReviewField';
 import InsuranceProviderView from '../../../components/InsuranceProviderView';
 import {
   GroupCodeDescription,
@@ -16,6 +18,12 @@ import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
 
 const { provider } = fullSchemaHca.definitions;
 const { isCoveredByHealthInsurance } = fullSchemaHca.properties;
+
+const ariaLabelfunc = data => {
+  const INSURANCE_TITLE = `${data.insuranceName} ${data.insurancePolicyNumber ??
+    data.insuranceGroupCode}`;
+  return data.insuranceName ? INSURANCE_TITLE : 'insurance policy';
+};
 
 export default {
   uiSchema: {
@@ -37,6 +45,7 @@ export default {
     isCoveredByHealthInsurance: {
       'ui:title': 'Do you have health insurance coverage?',
       'ui:description': HealthInsuranceCoverageDescription,
+      'ui:reviewField': CustomYesNoReviewField,
       'ui:widget': 'yesNo',
     },
     providers: {
@@ -45,17 +54,15 @@ export default {
         itemName: 'insurance policy',
         hideTitle: true,
         viewField: InsuranceProviderView,
-        itemAriaLabel: data => {
-          const INSURANCE_TITLE = `${
-            data.insuranceName
-          } ${data.insurancePolicyNumber ?? data.insuranceGroupCode}`;
-          return data.insuranceName ? INSURANCE_TITLE : 'insurance policy';
-        },
+        itemAriaLabel: ariaLabelfunc,
       },
       'ui:errorMessages': {
         minItems: 'You need to at least one provider.',
       },
       items: {
+        'ui:options': {
+          itemAriaLabel: ariaLabelfunc,
+        },
         insuranceName: {
           'ui:title': 'Name of insurance provider',
         },
@@ -70,13 +77,17 @@ export default {
           'ui:description': TricarePolicyDescription,
         },
         insurancePolicyNumber: {
-          'ui:title': PolicyNumberDescription,
+          'ui:title': 'Policy Number',
+          'ui:description': PolicyNumberDescription,
+          'ui:reviewField': CustomReviewField,
         },
         'view:or': {
           'ui:description': PolicyOrDescription,
         },
         insuranceGroupCode: {
-          'ui:title': GroupCodeDescription,
+          'ui:title': 'Group Code',
+          'ui:description': GroupCodeDescription,
+          'ui:reviewField': CustomReviewField,
         },
         'ui:validations': [
           (errors, field) => {

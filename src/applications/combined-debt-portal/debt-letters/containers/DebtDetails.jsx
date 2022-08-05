@@ -56,9 +56,9 @@ const DebtDetails = () => {
       <div className="vads-l-col--9 small-desktop-screen:vads-l-col--12">
         <va-breadcrumbs label="Breadcrumb">
           <a href="/">Home</a>
-          <a href="/manage-va-debt/">Manage your VA debt and bills</a>
-          <Link to="/manage-va-debt/summary/">Your debt and bills summary</Link>
-          <Link to="/debt-balances/">Benefit debt balances</Link>
+          <a href="/manage-va-debt/">Manage your VA debt</a>
+          <Link to="/manage-va-debt/summary/">Your VA debt and bills</Link>
+          <Link to="/debt-balances/">Current VA debt</Link>
           <Link
             to={`/debt-balances/details/${selectedDebt.fileNumber +
               selectedDebt.deductionCode}`}

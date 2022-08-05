@@ -1,4 +1,5 @@
 import mapValues from 'lodash/mapValues';
+import * as Sentry from '@sentry/browser';
 import set from 'platform/utilities/data/set';
 import moment from 'moment';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
@@ -119,6 +120,74 @@ export function transformAttachments(data) {
   return { ...data, attachments: transformedAttachments };
 }
 
+function LogToSentry(formData) {
+  const veteranName = formData.veteranFullName;
+  const veteranDOB = formData.veteranDateOfBirth;
+  const veteranSSN = formData.veteranSocialSecurityNumber;
+  if (!veteranName && !veteranDOB && !veteranSSN) {
+    const message = `hca_1010ez_error_unauthenticated_user_with_missing_name_dob_ssn`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranName,
+        veteranDOB,
+        veteranSSN,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranName && !veteranSSN) {
+    const message = `hca_1010ez_error_unauthenticated_user_with_missing_name_ssn`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranName,
+        veteranSSN,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranName && !veteranDOB) {
+    const message = `hca_1010ez_error_unauthenticated_user_with_missing_name_dob`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranName,
+        veteranDOB,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranDOB && !veteranSSN) {
+    const message = `hca_1010ez_error_unauthenticated_user_with_missing_dob_ssn`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranDOB,
+        veteranSSN,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranName) {
+    const message = `hca_1010ez_error_unauthenticated_user_with_missing_name`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranName,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranDOB) {
+    const message = `hca_1010ez_error_unauthenticated_user_with_missing_dob`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranDOB,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranSSN) {
+    const message = `hca_1010ez_error_unauthenticated_user_with_missing_ssn`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranSSN,
+      });
+      Sentry.captureMessage(message);
+    });
+  }
+}
+
 export function transform(formConfig, form) {
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
@@ -165,6 +234,11 @@ export function transform(formConfig, form) {
     gaClientId = ga.getAll()[0].get('clientId');
   } catch (e) {
     // don't want to break submitting because of a weird GA issue
+  }
+
+  // Log, using Sentry, when user is not logged in and is missing veteran name, ssn or dob
+  if (form.data['view:isLoggedIn'] === false) {
+    LogToSentry(withoutViewFields);
   }
 
   return JSON.stringify({

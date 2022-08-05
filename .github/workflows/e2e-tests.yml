@@ -88,11 +88,11 @@ jobs:
           path: |
             .cache/yarn
             node_modules
-
-      - name: Add istanbul for Cypress code coverage reporting
-        run: |
-          sed -i -e 's/\"istanbul\",//g' .babelrc
-          sed -i -e 's/\"lodash\",/\"lodash\", \"istanbul\",/g' .babelrc
+      # Temporarily disabled due to apparent memory issues caused by code coverage tools 
+      # - name: Add istanbul for Cypress code coverage reporting
+      #   run: |
+      #     sed -i -e 's/\"istanbul\",//g' babel.config.json
+      #     sed -i -e 's/\"lodash\",/\"lodash\", \"istanbul\",/g' babel.config.json
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -211,12 +211,13 @@ jobs:
       - name: Start server
         run: node src/platform/testing/e2e/test-server.js --buildtype=${{ env.BUILDTYPE }} --port=3001 &
 
-      - name: Instrument code
-        run: npx nyc instrument --compact=false src .nyc_output
+      # Temporarily disabled due to apparent memory issues caused by code coverage tools
+      # - name: Instrument code
+      #   run: npx nyc instrument --compact=false src .nyc_output
 
       - name: Run Cypress tests
         run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 30
+        timeout-minutes: 40
         env:
           CYPRESS_CI: true
           CODE_COVERAGE: true
@@ -224,15 +225,17 @@ jobs:
           TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
           APP_URLS: ''
 
-      - name: View code coverage summary
-        run: npx nyc report --reporter=text-summary
+      # Temporarily disabled due to apparent memory issues caused by code coverage tools
+      # - name: View code coverage summary
+      #   run: npx nyc report --reporter=text-summary
 
-      - name: Create coverage artifact
-        uses: actions/upload-artifact@v3
-        if: ${{ always() }}
-        with:
-          name: code-coverage-artifacts
-          path: coverage/coverage-summary.json
+      # Temporarily disabled due to apparent memory issues caused by code coverage tools
+      # - name: Create coverage artifact
+      #   uses: actions/upload-artifact@v3
+      #   if: ${{ always() }}
+      #   with:
+      #     name: code-coverage-artifacts
+      #     path: coverage/coverage-summary.json
 
       - name: Archive test videos
         uses: actions/upload-artifact@v3

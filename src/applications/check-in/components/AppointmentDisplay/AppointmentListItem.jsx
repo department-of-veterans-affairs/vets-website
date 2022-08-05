@@ -32,6 +32,14 @@ const AppointmentListItem = props => {
             <span className="item-value" data-testid="clinic-name">
               <AppointmentLocation appointment={appointment} />
             </span>
+            {appointment.clinicLocation && (
+              <>
+                <span className="item-label">{t('location')}: </span>
+                <span className="item-value" data-testid="clinic-location">
+                  {appointment.clinicLocation}
+                </span>
+              </>
+            )}
           </p>
         </div>
       </div>

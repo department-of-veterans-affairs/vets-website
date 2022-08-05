@@ -2,7 +2,11 @@ import cloneDeep from 'platform/utilities/data/cloneDeep';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
-import { buildAddressSchema, addressUISchema } from '../../../address-schema';
+import {
+  buildAddressSchema,
+  addressUISchema,
+  updateFormDataAddress,
+} from '../../../address-schema';
 import { report674 } from '../../../utilities';
 import { StudentAddressDescription } from './helpers';
 
@@ -84,3 +88,9 @@ export const uiSchema = {
     },
   },
 };
+
+export const updateFormData = (oldFormData, formData) =>
+  updateFormDataAddress(oldFormData, formData, [
+    'studentAddressMarriageTuition',
+    'address',
+  ]);

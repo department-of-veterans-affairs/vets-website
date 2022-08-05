@@ -24,6 +24,7 @@ import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
 import constants from 'vets-json-schema/dist/constants.json';
 
 /**
@@ -36,7 +37,7 @@ import constants from 'vets-json-schema/dist/constants.json';
 
 // filtered States that include US territories
 const filteredStates = constants.states.USA.filter(
-  state => !['AA', 'AE', 'AP'].includes(state.value),
+  state => !ADDRESS_DATA.militaryStates.includes(state.value),
 );
 
 const MILITARY_STATES = Object.entries(ADDRESS_DATA.states).reduce(
@@ -68,6 +69,9 @@ const MilitaryBaseInfo = () => (
   </div>
 );
 
+const MILITARY_BASE_PATH = 'view:livesOnMilitaryBase';
+const MILITARY_BASE_INFO_PATH = `${MILITARY_BASE_PATH}Info`;
+
 /**
  * Builds address schema based on isMilitaryAddress.
  * @param {boolean} isMilitaryBaseAddress represents whether or not the form page requires the address to support the option of military address.
@@ -77,9 +81,81 @@ export const buildAddressSchema = isMilitaryBaseAddress => {
   const addSchema = fullSchema.definitions.addressSchema;
   if (isMilitaryBaseAddress) return cloneDeep(addSchema);
   const schema = cloneDeep(addSchema);
-  delete schema.properties['view:livesOnMilitaryBase'];
-  delete schema.properties['view:livesOnMilitaryBaseInfo'];
+  delete schema.properties[MILITARY_BASE_PATH];
+  delete schema.properties[MILITARY_BASE_INFO_PATH];
   return schema;
+};
+
+const insertArrayIndex = (key, index) => key.replace('[INDEX]', `[${index}]`);
+
+const getOldFormDataPath = (path, index) => {
+  const indexToSlice = index !== null ? path.indexOf(index) + 1 : 0;
+  return path.slice(indexToSlice);
+};
+
+// Temporary storage for city & state if military base checkbox is toggled more
+// than once. Not ideal, but works since this code isn't inside a React widget
+const savedAddress = {
+  city: '',
+  stateCode: '',
+};
+
+/**
+ * Update form data to remove selected military city & state and restore any
+ * previously set city & state when the "I live on a U.S. military base"
+ * checkbox is unchecked. See va.gov-team/issues/42216 for details
+ * @param {object} oldFormData - Form data prior to interaction change
+ * @param {object} formData - Form data after interaction change
+ * @param {array} path - path to address in form data
+ * @param {number} index - index, if form data array of addresses; also included
+ *  in the path, but added here to make it easier to distinguish between
+ *  addresses not in an array with addresses inside an array
+ * @returns {object} - updated Form data with manipulated mailing address if the
+ * military base checkbox state changes
+ */
+export const updateFormDataAddress = (
+  oldFormData,
+  formData,
+  path,
+  index = null, // this is included in the path, but added as
+) => {
+  let updatedData = formData;
+
+  /*
+   * formData and oldFormData are not guaranteed to have the same shape; formData
+   * will always return the entire data object. See below for details on oldFormData
+   *
+   * In the src/platform/forms-system/src/js/containers/FormPage.jsx, if the
+   * address is inside an array (has a `showPagePerItem` index), oldData is set
+   * to the form data from the array index (see the this.formData() function)
+   * but that may not include the address object, so we're passing in a path as
+   * an array and using `getOldFormDataPath` to find the appropriate path
+   */
+  const oldAddress = get(getOldFormDataPath(path, index), oldFormData, {});
+
+  const address = get(path, formData, {});
+  const onMilitaryBase = address?.[MILITARY_BASE_PATH];
+  let { city, stateCode } = address;
+
+  if (oldAddress?.[MILITARY_BASE_PATH] !== onMilitaryBase) {
+    if (onMilitaryBase) {
+      savedAddress.city = oldAddress.city || '';
+      savedAddress.stateCode = oldAddress.stateCode || '';
+      city = '';
+      stateCode = '';
+    } else {
+      city = ADDRESS_DATA.militaryCities.includes(oldAddress.city)
+        ? savedAddress.city
+        : city || savedAddress.city;
+      stateCode = ADDRESS_DATA.militaryStates.includes(oldAddress.stateCode)
+        ? savedAddress.stateCode
+        : stateCode || savedAddress.stateCode;
+    }
+    updatedData = set([...path, 'city'], city, updatedData);
+    updatedData = set([...path, 'stateCode'], stateCode, updatedData);
+  }
+
+  return updatedData;
 };
 
 /**
@@ -89,8 +165,6 @@ export const buildAddressSchema = isMilitaryBaseAddress => {
  * @param {boolean} isMilitaryBaseAddress represents whether or not the form page requires the address to support the option of military address.
  */
 
-const MILITARY_BASE_PATH = '[view:livesOnMilitaryBase]';
-
 export const addressUISchema = (
   isMilitaryBaseAddress = false,
   path,
@@ -98,20 +172,19 @@ export const addressUISchema = (
 ) => {
   // As mentioned above, there are certain fields that depend on the values of other fields when using updateSchema, replaceSchema, and hideIf.
   // The two constants below are paths used to retrieve the values in those other fields.
-  const livesOnMilitaryBasePath = `${path}${MILITARY_BASE_PATH}`;
-  const insertArrayIndex = (key, index) => key.replace('[INDEX]', `[${index}]`);
+  const livesOnMilitaryBasePath = `${path}[${MILITARY_BASE_PATH}]`;
   const checkBoxTitleState = path.includes('veteran') ? 'I' : 'They';
 
   return (function returnAddressUI() {
     return {
-      'view:livesOnMilitaryBase': {
+      [MILITARY_BASE_PATH]: {
         'ui:title': `${checkBoxTitleState} live on a United States military base outside of the U.S.`,
         'ui:options': {
           hideIf: () => !isMilitaryBaseAddress,
           hideEmptyValueInReview: true,
         },
       },
-      'view:livesOnMilitaryBaseInfo': {
+      [MILITARY_BASE_INFO_PATH]: {
         'ui:description': MilitaryBaseInfo,
         'ui:options': {
           hideIf: () => !isMilitaryBaseAddress,

@@ -1,6 +1,89 @@
 {
   "data": [
     {
+      "id": "110143CC",
+      "type": "appointments",
+      "attributes": {
+        "id": "110143",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/hsrm/id",
+            "value": "524641||2||1"
+          }
+        ],
+        "kind": "cc",
+        "status": "booked",
+        "patientIcn": "1013120820V528557",
+        "locationId": "984",
+        "start": "2022-11-01T12:00:00Z",
+        "created": "2022-10-22T20:33:54Z",
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {
+              "line": [
+                "1 E NATIONAL RD ; STE 300"
+              ],
+              "city": "VANDALIA",
+              "state": "OH",
+              "postalCode": "45377",
+              "text": "1 E NATIONAL RD ; STE 300\nVANDALIA OH 45377"
+            },
+            "telecom": []
+          },
+          "hsrmTaskId": ""
+        },
+        "location": {
+          "id": "984",
+          "type": "appointments",
+          "attributes": {
+            "id": "984",
+            "vistaSite": "984",
+            "vastParent": "984",
+            "type": "va_health_facility",
+            "name": "Dayton VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 39.74935,
+            "long": -84.2532,
+            "website": "https://www.dayton.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "937-268-6511"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "4100 West Third Street"
+              ],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45428-9000"
+            },
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "Dermatology",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "Urology",
+              "WomensHealth"
+            ]
+          }
+        }
+      }
+    },
+    {
       "id": "00aa456va",
       "type": "Appointment",
       "attributes": {
@@ -16,7 +99,7 @@
           ]
         },
         "description": "Upcoming in person appointment",
-        "end": "2022-02-21T18:19:34",
+        "end": "2022-12-21T18:19:34",
         "id": "00aa456va",
         "kind": "clinic",
         "locationId": "983",
@@ -25,11 +108,11 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": { "coding": [ { "code": "Routine Follow-up" } ] },
+        "reasonCode": { "text": "Follow-up/Routine: I have a headache" },
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2022-02-21T18:19:34",
+        "start": "2022-12-21T18:19:34",
         "status": "booked",
         "telehealth": null
       }
@@ -50,7 +133,7 @@
           ]
         },
         "description": "Upcoming COVID-19 appointment",
-        "end": "2022-03-21T18:19:34",
+        "end": "2022-11-21T18:19:34",
         "id": "00aa456va",
         "kind": "clinic",
         "locationId": "983",
@@ -59,11 +142,11 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"coding": [{"code": "Routine Follow-up"}]},
+        "reasonCode": {"text": "Follow-up/Routine: Covid shot"},
         "requestedPeriods": null,
         "serviceType": "covid",
         "slot": null,
-        "start": "2022-03-21T18:19:34",
+        "start": "2022-11-21T18:19:34",
         "status": "booked",
         "telehealth": null
       }
@@ -133,7 +216,7 @@
         "requestedPeriods": null,
         "serviceType": "audiology",
         "slot": null,
-        "start": "2022-02-28T18:19:34",
+        "start": "2022-08-28T18:19:34",
         "status": "booked",
         "telehealth": null
       }
@@ -142,7 +225,7 @@
       "id": "22aa789cc",
       "type": "cc_appointments",
       "attributes": {
-        "cancelationReason": null,
+        "cancelationReason": { "coding": [{ "code": "pat" }] },
         "clinic": null,
         "comment": "test",
         "contact": {
@@ -189,7 +272,7 @@
         "requestedPeriods": null,
         "serviceType": "audiology",
         "slot": null,
-        "start": "2022-02-20T18:19:34",
+        "start": "2022-12-20T18:19:34",
         "status": "cancelled",
         "telehealth": null
       }
@@ -223,9 +306,12 @@
               "system": null,
               "value": "1801312053"
             }],
-            "firstName": "Abbey",
-            "lastName": "Normal",
-            "practiceName": null
+            "name": {
+              "family": "Normal",
+              "given": [
+                "Abbey"
+              ]
+            }
           }
         ],
         "preferredTimesForPhoneCall": [],
@@ -271,9 +357,12 @@
               "system": null,
               "value": "1801312053"
             }],
-            "firstName": "Meg",
-            "lastName": "Smith",
-            "practiceName": null
+            "name": {
+              "family": "Smith",
+              "given": [
+                "Meg"
+              ]
+            }
           }
         ],
         "preferredTimesForPhoneCall": [],
@@ -320,7 +409,7 @@
           ]
         },
         "description": "Upcoming at home telehealth appointment with instructions",
-        "end": "2022-03-09T20:30:00Z",
+        "end": "2022-11-09T20:30:00Z",
         "id": "04aa456va",
         "kind": "telehealth",
         "locationId": "983",
@@ -361,7 +450,7 @@
         "requestedPeriods": null,
         "serviceType": "audiology",
         "slot": null,
-        "start": "2022-03-09T20:30:00Z",
+        "start": "2022-11-09T20:30:00Z",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
@@ -386,7 +475,7 @@
           ]
         },
         "description": "Upcoming VA location telehealth appointment",
-        "end": "2022-02-22T18:30:34",
+        "end": "2022-12-22T18:30:34",
         "id": "05aa456va",
         "kind": "telehealth",
         "locationId": "983",
@@ -399,7 +488,7 @@
         "requestedPeriods": null,
         "serviceType": "foodAndNutrition",
         "slot": null,
-        "start": "2022-02-22T18:10:34",
+        "start": "2022-12-22T18:10:34",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
@@ -424,7 +513,7 @@
           ]
         },
         "description": "Upcoming VA GFE telehealth appointment",
-        "end": "2022-02-27T18:19:34",
+        "end": "2022-12-27T18:19:34",
         "id": "10aa456va",
         "kind": "telehealth",
         "locationId": "983",
@@ -436,9 +525,12 @@
               "system": null,
               "value": "1801312053"
             }],
-            "firstName": "Florence",
-            "lastName": "Nightingale",
-            "practiceName": null
+            "name": {
+              "family": "Nightingale",
+              "given": [
+                "Florence"
+              ]
+            }
           }
         ],
         "preferredTimesForPhoneCall": [],
@@ -447,7 +539,7 @@
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2022-02-27T18:19:34",
+        "start": "2022-12-27T18:19:34",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
@@ -472,7 +564,7 @@
           ]
         },
         "description": "Upcoming phone appointment",
-        "end": "2022-02-27T18:19:34",
+        "end": "2022-12-27T18:19:34",
         "id": "06aa456va",
         "kind": "phone",
         "locationId": "983",
@@ -481,11 +573,11 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"coding": [{"code": "New Issue"}]},
+        "reasonCode": {"text": "New issue: Phone appointment"},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2022-02-27T18:19:34",
+        "start": "2022-12-27T18:19:34",
         "status": "booked",
         "telehealth": null
       }
@@ -506,7 +598,7 @@
           ]
         },
         "description": "Cancelled phone appointment",
-        "end": "2022-02-28T18:19:34",
+        "end": "2022-12-28T18:19:34",
         "id": "11aa456ph",
         "kind": "phone",
         "locationId": "983",
@@ -515,11 +607,11 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"coding": [{"code": "New Issue"}]},
+        "reasonCode": {"text": "New issue: Phone appointment"},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2022-02-28T18:19:34",
+        "start": "2022-12-28T18:19:34",
         "status": "cancelled",
         "telehealth": null
       }
@@ -540,7 +632,7 @@
           ]
         },
         "description": "Past appointment",
-        "end": "2021-06-28T18:19:34.954Z",
+        "end": "2022-06-28T18:19:34.954Z",
         "id": "07aa456va",
         "kind": "clinic",
         "locationId": "983",
@@ -549,11 +641,11 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"coding": [{"code": "Medication Concern"}]},
+        "reasonCode": {"text": "Medication concern: I ran out of meds"},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2021-06-27T18:19:34",
+        "start": "2022-06-27T18:19:34",
         "status": "booked",
         "telehealth": null
       }
@@ -574,7 +666,7 @@
           ]
         },
         "description": "past at home telehealth appointment",
-        "end": "2021-06-08T17:30:00Z",
+        "end": "2022-06-08T17:30:00Z",
         "id": "09aa456va",
         "kind": "telehealth",
         "locationId": "983",
@@ -587,9 +679,12 @@
               "system": null,
               "value": "1801312053"
             }],
-            "firstName": "Peter",
-            "lastName": "Jones",
-            "practiceName": null
+            "name": {
+              "family": "Jones",
+              "given": [
+                "Peter"
+              ]
+            }
           }
         ],
         "preferredTimesForPhoneCall": [],
@@ -598,7 +693,7 @@
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2021-06-08T17:30:00Z",
+        "start": "2022-06-08T17:30:00Z",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
@@ -623,7 +718,7 @@
           ]
         },
         "description": "Cancelled appointment",
-        "end": "2022-03-28T18:19:34.954Z",
+        "end": "2022-11-28T18:19:34.954Z",
         "id": "08aa456va",
         "kind": "clinic",
         "locationId": "983GC",
@@ -632,11 +727,11 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"coding": [{"code": "Routine Follow-up"}]},
+        "reasonCode": {"text": "Follow-up/Routine: comment test"},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2022-02-27T18:19:34",
+        "start": "2022-12-27T18:19:34",
         "status": "cancelled",
         "telehealth": null
       }
@@ -657,7 +752,7 @@
           ]
         },
         "description": "Cancelled appointment",
-        "end": "2022-03-28T18:19:34.954Z",
+        "end": "2022-11-28T18:19:34.954Z",
         "id": "08aa456va",
         "kind": "clinic",
         "locationId": "983GC",
@@ -666,11 +761,11 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"coding": [{"code": "Routine Follow-up"}]},
+        "reasonCode": {"text": "Follow-up/Routine: comment test"},
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2022-02-28T18:19:34",
+        "start": "2022-12-28T18:19:34",
         "status": "cancelled",
         "telehealth": null
       }

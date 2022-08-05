@@ -3,15 +3,19 @@
     "type": "feature_toggles",
     "features": [
       {
-        "name": "caregiver_sigi_enabled",
+        "name": "caregiverSIGIEnabled",
         "value": false
       },
       {
-        "name": "hca_american_indian_enabled",
+        "name": "hcaAmericanIndianEnabled",
         "value": true
       },
       {
-        "name": "hca_short_form_enabled",
+        "name": "hcaMedicareClaimNumberEnabled",
+        "value": true
+      },
+      {
+        "name": "hcaShortFormEnabled",
         "value": true
       }
     ]
