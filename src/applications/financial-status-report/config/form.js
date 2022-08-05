@@ -411,14 +411,46 @@ const formConfig = {
         resolutionOptions: {
           path: 'resolution-options',
           title: 'Resolution options',
+          depends: formData => !formData['view:combinedFinancialStatusReport'],
           uiSchema: pages.resolutionOptions.uiSchema,
           schema: pages.resolutionOptions.schema,
         },
         resolutionComments: {
           path: 'resolution-comments',
           title: 'Resolution comments',
+          depends: formData => !formData['view:combinedFinancialStatusReport'],
           uiSchema: pages.resolutionComments.uiSchema,
           schema: pages.resolutionComments.schema,
+        },
+        // New resolution radio options
+        resolutionOption: {
+          title: formData =>
+            typeof formData.benefitType === 'string'
+              ? formData.benefitType
+              : 'Some default string',
+          depends: formData =>
+            formData.selectedDebts.length > 0 &&
+            formData['view:combinedFinancialStatusReport'],
+          path: 'resolution-option/:index',
+          showPagePerItem: true,
+          arrayPath: 'selectedDebts',
+          uiSchema: pages.resolutionOption.uiSchema,
+          schema: pages.resolutionOption.schema,
+        },
+        // New text field
+        resolutionComment: {
+          title: formData =>
+            typeof formData.benefitType === 'string'
+              ? formData.benefitType
+              : 'Some default string',
+          depends: formData =>
+            formData.selectedDebts.length > 0 &&
+            formData['view:combinedFinancialStatusReport'],
+          path: 'resolution-comment/:index',
+          showPagePerItem: true,
+          arrayPath: 'selectedDebts',
+          uiSchema: pages.resolutionComment.uiSchema,
+          schema: pages.resolutionComment.schema,
         },
       },
     },
