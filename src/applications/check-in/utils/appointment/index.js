@@ -111,6 +111,16 @@ const preCheckinAlreadyCompleted = appointments => {
 };
 
 /**
+ * Determine whether the physical location should be displayed for the given appointment.
+ *
+ * @param {Appointment} appointment
+ * @returns {boolean}
+ */
+const locationShouldBeDisplayed = appointment => {
+  return appointment.kind === 'clinic' && Boolean(appointment.clinicLocation);
+};
+
+/**
  * @param {Array<Appointment>} appointments
  */
 const sortAppointmentsByStartTime = appointments => {
@@ -173,6 +183,7 @@ export {
   getFirstCanceledAppointment,
   hasMoreAppointmentsToCheckInto,
   intervalUntilNextAppointmentIneligibleForCheckin,
+  locationShouldBeDisplayed,
   sortAppointmentsByStartTime,
   preCheckinAlreadyCompleted,
   removeTimeZone,

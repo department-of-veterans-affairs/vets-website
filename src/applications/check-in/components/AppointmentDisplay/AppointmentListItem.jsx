@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { locationShouldBeDisplayed } from '../../utils/appointment';
 import AppointmentLocation from './AppointmentLocation';
 
 import AppointmentAction from './AppointmentAction';
@@ -32,15 +33,14 @@ const AppointmentListItem = props => {
             <span className="item-value" data-testid="clinic-name">
               <AppointmentLocation appointment={appointment} />
             </span>
-            {appointment.kind === 'clinic' &&
-              appointment.clinicLocation && (
-                <>
-                  <span className="item-label">{t('location')}: </span>
-                  <span className="item-value" data-testid="clinic-location">
-                    {appointment.clinicLocation}
-                  </span>
-                </>
-              )}
+            {locationShouldBeDisplayed(appointment) && (
+              <>
+                <span className="item-label">{t('location')}: </span>
+                <span className="item-value" data-testid="clinic-location">
+                  {appointment.clinicLocation}
+                </span>
+              </>
+            )}
           </p>
         </div>
       </div>

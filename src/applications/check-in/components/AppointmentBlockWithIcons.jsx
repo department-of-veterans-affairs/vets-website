@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { locationShouldBeDisplayed } from '../utils/appointment';
 
 const AppointmentBlock = props => {
   const { appointments, page } = props;
@@ -78,20 +79,19 @@ const AppointmentBlock = props => {
                 >
                   {clinic}
                 </div>
-                {appointment?.kind === 'clinic' &&
-                  appointment.clinicLocation && (
-                    <>
-                      <div className="check-in--label vads-u-margin-right--1">
-                        {t('location')}:
-                      </div>
-                      <div
-                        className="check-in--value"
-                        data-testid="clinic-location"
-                      >
-                        {appointment.clinicLocation}
-                      </div>
-                    </>
-                  )}
+                {locationShouldBeDisplayed(appointment) && (
+                  <>
+                    <div className="check-in--label vads-u-margin-right--1">
+                      {t('location')}:
+                    </div>
+                    <div
+                      className="check-in--value"
+                      data-testid="clinic-location"
+                    >
+                      {appointment.clinicLocation}
+                    </div>
+                  </>
+                )}
               </div>
               {page === 'confirmation' || appointment?.kind === 'phone' ? (
                 <va-alert
