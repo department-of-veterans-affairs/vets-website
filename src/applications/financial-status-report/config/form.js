@@ -322,7 +322,7 @@ const formConfig = {
               .combinedFSRRecreationalVehicleSchema,
           depends: formData =>
             formData.questions.hasRecreationalVehicle &&
-            formData['view:combinedFinancialStatusReportRecreationalVehicles'],
+            formData['view:combinedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
         recreationalVehicleRecordsListLoop: {
@@ -333,7 +333,7 @@ const formConfig = {
           schema: pages.recreationalVehicleRecords.fSRRecreationalVehicleSchema,
           depends: formData =>
             formData.questions.hasRecreationalVehicle &&
-            !formData['view:combinedFinancialStatusReportRecreationalVehicles'],
+            !formData['view:combinedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
         otherAssets: {
