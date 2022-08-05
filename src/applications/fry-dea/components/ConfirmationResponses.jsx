@@ -3,6 +3,51 @@ import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import GetFormHelp from './GetFormHelp';
 
+const NeedHelpComponent = () => {
+  return (
+    <div className="help-footer-box">
+      <h2 className="help-heading">Need help?</h2>
+      <GetFormHelp />
+    </div>
+  );
+};
+
+const ConfirmationReceiptBox = ({ name }) => {
+  return (
+    <div className="inset">
+      <h4>Application for VA education benefits (Form 22-5490)</h4>
+      {name ? (
+        <p>
+          For {name.first} {name.middle} {name.last} {name.suffix}
+        </p>
+      ) : null}
+
+      {/* {response ? ( */}
+      {/*  <> */}
+      <dl>
+        <dt>
+          <strong>Date received</strong>
+        </dt>
+        <dd>{format(new Date(), 'MMM d, yyyy')}</dd>
+      </dl>
+
+      <button
+        type="button"
+        onClick={() => window.print()}
+        className="usa-button vads-u-width--auto"
+      >
+        Print this page
+      </button>
+      {/*  </> */}
+      {/* ) : null} */}
+    </div>
+  );
+};
+
+ConfirmationReceiptBox.propTypes = {
+  name: PropTypes.object,
+};
+
 export function UnderReview(response, name) {
   return (
     <>
@@ -23,33 +68,7 @@ export function UnderReview(response, name) {
             </p>
           </div>
         </va-alert>
-        <div className="inset">
-          <h4>Application for VA education benefits (Form 22-5490)</h4>
-          {name ? (
-            <p>
-              For {name.first} {name.middle} {name.last} {name.suffix}
-            </p>
-          ) : null}
-
-          {/* {response ? ( */}
-          {/*  <> */}
-          <dl>
-            <dt>
-              <strong>Date received</strong>
-            </dt>
-            <dd>{format(new Date(), 'MMM d, yyyy')}</dd>
-          </dl>
-
-          <button
-            type="button"
-            onClick={() => window.print()}
-            className="usa-button vads-u-width--auto"
-          >
-            Print this page
-          </button>
-          {/*  </> */}
-          {/* ) : null} */}
-        </div>
+        <ConfirmationReceiptBox name={name} />
       </div>
       <div className="vads-u-margin-bottom--4">
         <h2>When will I hear back about my application?</h2>
@@ -123,15 +142,66 @@ export function UnderReview(response, name) {
           </li>
         </ul>
       </div>
-      <div className="help-footer-box">
-        <h2 className="help-heading">Need help?</h2>
-        <GetFormHelp />
-      </div>
+      <NeedHelpComponent />
     </>
   );
 }
 
 UnderReview.prototype = {
-  response: PropTypes.object || PropTypes.bool,
   name: PropTypes.object,
+  response: PropTypes.object || PropTypes.bool,
+};
+
+export function NotEligible(name) {
+  return (
+    <>
+      <div>
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="info"
+          visible
+        >
+          <h2 id="track-your-status-on-mobile" slot="headline">
+            You’re not eligible for this benefit
+          </h2>
+          <div>
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+              Unfortunately, based on the information you provided and
+              Department of Defense records, we have determined you’re not
+              eligible for the Survivors’ and Dependents’ Educational Assistance
+              (DEA, Chapter 35) benefit at this time. You can now download your
+              decision letter, which explains why you're not eligible. We'll
+              also mail a physical copy to your mailing address.
+            </p>
+            <va-link
+              download
+              filetype="PDF"
+              href="https://www.va.gov"
+              text="Download your decision letter"
+            />
+          </div>
+        </va-alert>
+        <ConfirmationReceiptBox name={name} />
+      </div>
+      <div className="vads-u-margin-bottom--4">
+        <h2>What happens next?</h2>
+        <ul>
+          <li>
+            Download a copy of your decision letter. This can also be found at{' '}
+            <va-link
+              href="https://va.gov/vso/"
+              text="Download your VA education letters."
+            />
+          </li>
+          <li>We don’t require further action required by you at this time.</li>
+        </ul>
+      </div>
+      <NeedHelpComponent />
+    </>
+  );
+}
+
+NotEligible.prototype = {
+  name: PropTypes.object,
+  response: PropTypes.object || PropTypes.bool,
 };
