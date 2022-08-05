@@ -109,7 +109,12 @@ const isAheadOfLastFullDeploy = async (commitSha, env) => {
 const isDeployableToEnv = async (commitSha, env) => {
   const TIMEOUT = 5; // Number of minutes to wait before checking again
 
-  if (!(await isAheadOfLastFullDeploy(env))) return false;
+  if (!(await isAheadOfLastFullDeploy(env))) {
+    console.log(
+      `Commit is older than the last full deploy of ${env}. Skipping deploy`,
+    );
+    return false;
+  }
 
   const inProgressWorkflowRuns = await getInProgressWorkflowRuns(
     'continuous-integration.yml',
@@ -139,7 +144,14 @@ const isDeployableToEnv = async (commitSha, env) => {
 const isDeployableToProd = async commitSha => {
   const TIMEOUT = 10; // Number of minutes to wait before checking again
 
-  if (!(await isAheadOfLastFullDeploy(ENVIRONMENTS.VAGOVPROD))) return false;
+  if (!(await isAheadOfLastFullDeploy(ENVIRONMENTS.VAGOVPROD))) {
+    console.log(
+      `Commit is older than the last full deploy of ${
+        ENVIRONMENTS.VAGOVPROD
+      }. Skipping isolated app deploy`,
+    );
+    return false;
+  }
 
   const inProgressWorkflowRuns = await getInProgressWorkflowRuns(
     'daily-deploy-production.yml',
@@ -153,7 +165,13 @@ const isDeployableToProd = async commitSha => {
   // Don't deploy isolated app commits that are older than the daily deploy
   // commit. The daily deploy will include the changes from the older commit.
   const isAheadOfDailyDeploy = isAncestor(commitSha, dailyDeploySha);
-  if (!isAheadOfDailyDeploy) return false;
+
+  if (!isAheadOfDailyDeploy) {
+    console.log(
+      'Daily Production Deploy is already running with a newer commit. Skipping isolated app deploy.',
+    );
+    return false;
+  }
 
   console.log('Waiting for the Daily Production Deploy to complete...');
   await sleep(TIMEOUT * 60 * 1000);
