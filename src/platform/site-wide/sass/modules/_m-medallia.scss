@@ -51,7 +51,7 @@
   position: relative;
 }
 
-#liveForm>div>div.row.neb-form-close-btn-container.ng-hide > div.col-sm-offset-11.col-sm-1 {
+#liveForm > div > div.row.neb-form-close-btn-container.ng-hide > div.col-sm-offset-11.col-sm-1 {
   max-width: 100% !important;
 }
 
@@ -113,3 +113,9 @@
   z-index: 9999999;
   color: $color-gray-light !important;
 }
+
+// @media (min-width: 576px) {
+//   #liveForm>div>div.row.neb-form-close-btn-container.ng-hide>div.col-sm-offset-11.col-sm-1 {
+//     max-width: 100% !important;
+//   }
+// }
