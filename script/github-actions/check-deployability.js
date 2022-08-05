@@ -107,6 +107,8 @@ const isAheadOfLastFullDeploy = async (commitSha, env) => {
  * @returns {Boolean} Whether or not the commit can be deployed to the environment.
  */
 const isDeployableToEnv = async (commitSha, env) => {
+  const TIMEOUT = 5; // Number of minutes to wait before checking again
+
   if (!(await isAheadOfLastFullDeploy(env))) return false;
 
   const inProgressWorkflowRuns = await getInProgressWorkflowRuns(
@@ -120,9 +122,8 @@ const isDeployableToEnv = async (commitSha, env) => {
 
   if (!previousCommitsInProgress) return true;
 
-  const timeout = 5; // Number of minutes to wait before checking again
   console.log('Waiting for previous workflow runs to finish deploying...');
-  await sleep(timeout * 60 * 1000);
+  await sleep(TIMEOUT * 60 * 1000);
 
   return isDeployableToEnv(commitSha, env);
 };
@@ -136,6 +137,8 @@ const isDeployableToEnv = async (commitSha, env) => {
  * @returns {Boolean} Whether or not the commit can be deployed to production.
  */
 const isDeployableToProd = async commitSha => {
+  const TIMEOUT = 10; // Number of minutes to wait before checking again
+
   if (!(await isAheadOfLastFullDeploy(ENVIRONMENTS.VAGOVPROD))) return false;
 
   const inProgressWorkflowRuns = await getInProgressWorkflowRuns(
@@ -152,9 +155,8 @@ const isDeployableToProd = async commitSha => {
   const isAheadOfDailyDeploy = isAncestor(commitSha, dailyDeploySha);
   if (!isAheadOfDailyDeploy) return false;
 
-  const timeout = 10; // Number of minutes to wait before checking again
   console.log('Waiting for the Daily Production Deploy to complete...');
-  await sleep(timeout * 60 * 1000);
+  await sleep(TIMEOUT * 60 * 1000);
 
   return isDeployableToProd(commitSha);
 };
