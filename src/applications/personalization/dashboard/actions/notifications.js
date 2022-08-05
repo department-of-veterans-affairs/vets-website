@@ -48,15 +48,17 @@ export const fetchNotifications = () => async dispatch => {
     const filteredNotifications = response.data.filter(
       n => !n.attributes?.dismissed,
     );
-    recordEvent({
-      event: `api_call`,
-      'api-name': 'GET on-site notifications',
-      'api-status': 'successful',
-    });
     if (filteredNotifications && filteredNotifications.length) {
       recordEvent({
-        event: `notifications-shows-for-user`,
-        'notification-amount': filteredNotifications.length,
+        event: `api_call`,
+        'api-name': 'GET on-site notifications',
+        'api-status': 'successful with notifications',
+      });
+    } else {
+      recordEvent({
+        event: `api_call`,
+        'api-name': 'GET on-site notifications',
+        'api-status': 'successful no notifications',
       });
     }
     return dispatch({
