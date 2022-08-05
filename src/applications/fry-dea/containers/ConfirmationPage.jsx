@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -17,8 +16,9 @@ function createConfirmationPage(form) {
     last: 'Doe',
     suffix: 'Sr',
   };
-  // return UnderReview(response, name);
-  return NotEligible(name);
+  return !data.veteranFullName
+    ? UnderReview(response, name)
+    : NotEligible(name);
 }
 
 export class ConfirmationPage extends React.Component {

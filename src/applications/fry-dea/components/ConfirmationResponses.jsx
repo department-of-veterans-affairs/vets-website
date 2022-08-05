@@ -187,8 +187,11 @@ export function NotEligible(name) {
         <h2>What happens next?</h2>
         <ul>
           <li>
-            Download a copy of your decision letter. This can also be found at
-            Download your VA education letters.
+            Download a copy of your decision letter. This can also be found at{' '}
+            <va-link
+              href="https://va.gov/vso/"
+              text="Download your VA education letters."
+            />
           </li>
           <li>We don’t require further action required by you at this time.</li>
         </ul>
