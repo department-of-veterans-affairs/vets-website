@@ -1,21 +1,48 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
 import CancelAppointmentFailedModal from './CancelAppointmentFailedModal';
 import CancelAppointmentSucceededModal from './CancelAppointmentSucceededModal';
 import CancelAppointmentConfirmationModal from './CancelAppointmentConfirmationModal';
-
+import {
+  closeCancelAppointment,
+  confirmCancelAppointment,
+} from '../../redux/actions';
 import { FETCH_STATUS, APPOINTMENT_STATUS } from '../../../utils/constants';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 
-export default function CancelAppointmentModal(props) {
+export default function CancelAppointmentModal() {
+  const dispatch = useDispatch();
+  const { id } = useParams();
+
+  const { cancelInfo } = useSelector(
+    state => getConfirmedAppointmentDetailsInfo(state, id),
+    shallowEqual,
+  );
+
   const {
     showCancelModal,
     appointmentToCancel,
     cancelAppointmentStatus,
     cancelAppointmentStatusVaos400,
-    onClose,
-    onConfirm,
     facility,
-  } = props;
+  } = cancelInfo;
+
+  const onConfirm = () => dispatch(confirmCancelAppointment());
+  const onClose = () => dispatch(closeCancelAppointment());
+
+  useEffect(
+    () => {
+      if (
+        !showCancelModal &&
+        cancelAppointmentStatus === FETCH_STATUS.succeeded
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [showCancelModal, cancelAppointmentStatus],
+  );
 
   if (!showCancelModal) {
     return null;
@@ -50,8 +77,8 @@ export default function CancelAppointmentModal(props) {
     return (
       <CancelAppointmentConfirmationModal
         isConfirmed={appointmentToCancel.status === APPOINTMENT_STATUS.booked}
-        onClose={onClose}
         onConfirm={onConfirm}
+        onClose={onClose}
         status={cancelAppointmentStatus}
       />
     );
