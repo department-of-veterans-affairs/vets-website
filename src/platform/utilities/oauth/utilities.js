@@ -3,11 +3,9 @@ import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
-import { redirect } from 'platform/user/authentication/utilities';
 import {
   API_SIGN_IN_SERVICE_URL,
   AUTH_EVENTS,
-  CSP_IDS,
   EXTERNAL_APPS,
   GA,
   SIGNUP_TYPES,
@@ -279,26 +277,13 @@ export const checkOrSetSessionExpiration = response => {
   return false;
 };
 
-export const logout = async ({ signInServiceName, storedLocation }) => {
-  const { href } = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'logout' }));
+export const logoutUrlSiS = () => {
+  return new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'logout' })).href;
+};
 
-  // Redirect to API if Login.gov
-  if (signInServiceName.includes(CSP_IDS.LOGIN_GOV)) {
-    redirect(href, `${AUTH_EVENTS.OAUTH_LOGOUT}-${CSP_IDS.LOGIN_GOV}`);
-  }
+export const logoutEvent = ({ signInServiceName }) => {
+  recordEvent({ event: `${AUTH_EVENTS.OAUTH_LOGOUT}-${signInServiceName}` });
 
-  const response = await fetch(href, {
-    method: 'GET',
-    credentials: 'include',
-  });
-
-  if (response.ok) {
-    updateLoggedInStatus(false);
-    teardownProfileSession();
-
-    redirect(
-      storedLocation || window.location.href,
-      `${AUTH_EVENTS.OAUTH_LOGOUT}-${signInServiceName}`,
-    );
-  }
+  updateLoggedInStatus(false);
+  teardownProfileSession();
 };
