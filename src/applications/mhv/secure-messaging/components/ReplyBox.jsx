@@ -1,38 +1,36 @@
 import React from 'react';
 import {
-  VaButton,
   VaTextarea,
   VaAdditionalInfo,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const ReplyBox = () => (
-  <div className="vads-l-row message-box vads-u-padding--0p25">
-    <div className="vads-l-row">
-      <h2 className="vads-l-col message-title">Test: Your lab results</h2>
-      <div className="vads-l-col--2">
-        <a
-          href="http://localhost:3001/my-health/secure-messages/reply/"
-          className="vads-u-text-align--right"
-        >
-          Send
-        </a>
-      </div>
+  <div className=" message-box vads-u-padding--0p25">
+    <div className="vads-u-display--flex vads-u-flex-direction--row message-title">
+      <h2 className="vads-u-margin-top--1 vads-u-margin-bottom--2">
+        Test: Your lab results
+      </h2>
+      <button type="button" className="send-button-top">
+        <i className="fas fa-paper-plane" />
+        <span className="send-button-top-text">Send</span>
+      </button>
     </div>
-    <div className="vads-l-row message-body vads-u-padding--1p5">
-      <div className="vads-l-row">
-        <p>
+
+    <div className="message-body vads-u-padding--1p5">
+      <div className="message-body-text">
+        <p className="message-body-text">
           <strong>From: </strong>
           Lewis, Jennifer
         </p>
-        <p>
+        <p className="message-body-text">
           <strong>To: </strong>
           Dunwoody, Ann E. (My HealtheVet Questions_PugetSound_ADMIN)
         </p>
-        <p>
+        <p className="message-body-text">
           <strong>Date: </strong>
           August 16, 2021 at 1:32 p.m. ET
         </p>
-        <p>
+        <p className="message-body-text">
           <strong>Message ID: </strong>
           8675309
         </p>
@@ -46,7 +44,7 @@ const ReplyBox = () => (
         required
       />
 
-      <div className="vads-l-row message-body">
+      <div className="message-body">
         <p className="message-body">Attachments</p>
 
         <div className="vads-l-row">
@@ -62,7 +60,7 @@ const ReplyBox = () => (
                 'This is an attachment that I uploaded from my laptop.pdf (108.7 KB) '
               }{' '}
               <a href="http://localhost:3001/my-health/secure-messages/reply/">
-                x Remove
+                <i className="fas fa-times" /> Remove
               </a>
             </p>
           </div>
@@ -88,7 +86,7 @@ const ReplyBox = () => (
         </div>
       </div>
 
-      <div className="vads-l-row message-body">
+      <div className="message-body">
         <VaAdditionalInfo
           trigger="How to attach a file"
           disable-analytics={false}
@@ -96,20 +94,16 @@ const ReplyBox = () => (
         />
       </div>
 
-      <div className="vads-l-row message-body">
-        <VaButton
-          class="vads-u-width--full"
-          text="Send"
-          onClick={function noRefCheck() {}}
-        />
+      <div>
+        <button type="button">
+          <span className="save-button-text">{'Send '}</span>
+          <i className="fas fa-paper-plane" />
+        </button>
       </div>
-      <div className="vads-l-row message-body">
-        <a
-          className="vads-u-text-align--center"
-          href="http://localhost:3001/my-health/secure-messages/reply/"
-        >
-          Save as Draft
-        </a>
+      <div>
+        <button type="button" className="save-button">
+          <span className="save-button-text">Save as draft</span>
+        </button>
       </div>
     </div>
   </div>

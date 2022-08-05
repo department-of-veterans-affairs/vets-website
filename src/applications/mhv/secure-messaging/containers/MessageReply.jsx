@@ -65,7 +65,7 @@ const MessageReply = props => {
 
   return (
     <div className="vads-l-grid-container">
-      <div className="vads-l-row">{content}</div>
+      <div>{content}</div>
     </div>
   );
 };
