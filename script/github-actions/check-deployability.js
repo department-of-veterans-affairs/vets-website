@@ -61,7 +61,7 @@ const getLastFullDeployCommit = async env => {
   }
 
   const buildTextFile = await response.text();
-  const lines = buildTextFile.split('\n').filter(line => line);
+  const lines = buildTextFile.split('\n').filter(Boolean);
 
   return lines[6]?.slice(4);
 };
