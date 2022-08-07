@@ -388,7 +388,8 @@
   },
   "workspaces": {
     "packages": [
-      "src/platform/landing-pages"
+      "src/platform/landing-pages",
+      "src/platform/utilities"
     ],
     "nohoist": []
   }
