@@ -96,7 +96,7 @@ const isAncestor = (commitA, commitB) => {
  */
 const isAheadOfLastFullDeploy = async (commitSha, env) => {
   const lastFullDeployCommitSha = await getLastFullDeployCommit(env);
-  return isAncestor(commitSha, lastFullDeployCommitSha);
+  return isAncestor(lastFullDeployCommitSha, commitSha);
 };
 
 /**
@@ -108,8 +108,9 @@ const isAheadOfLastFullDeploy = async (commitSha, env) => {
  */
 const isDeployableToEnv = async (commitSha, env) => {
   const TIMEOUT = 5; // Number of minutes to wait before checking again
+  const isNewerCommit = await isAheadOfLastFullDeploy(commitSha, env);
 
-  if (!(await isAheadOfLastFullDeploy(commitSha, env))) {
+  if (!isNewerCommit) {
     console.log(
       `Commit is older than the last full deploy of ${env}. Skipping deploy.`,
     );
@@ -143,8 +144,12 @@ const isDeployableToEnv = async (commitSha, env) => {
  */
 const isDeployableToProd = async commitSha => {
   const TIMEOUT = 10; // Number of minutes to wait before checking again
+  const isNewerCommit = await isAheadOfLastFullDeploy(
+    commitSha,
+    ENVIRONMENTS.VAGOVPROD,
+  );
 
-  if (!(await isAheadOfLastFullDeploy(commitSha, ENVIRONMENTS.VAGOVPROD))) {
+  if (!isNewerCommit) {
     console.log(
       `Commit is older than the last full deploy of ${
         ENVIRONMENTS.VAGOVPROD
