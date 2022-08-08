@@ -37,7 +37,6 @@ const COEIntroPageBox = ({
             referenceNumber={referenceNumber}
           />
         );
-      case COE_ELIGIBILITY_STATUS.ineligible:
       case COE_ELIGIBILITY_STATUS.unableToDetermine:
         return <Ineligible />;
       case COE_ELIGIBILITY_STATUS.pending:
