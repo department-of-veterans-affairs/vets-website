@@ -61,7 +61,7 @@ const checkModals = options => {
   // Confirmation modal appears, confirm cancel
   cy.get('.va-modal').within(() => {
     cy.contains(
-      `You haven’t finished editing and saving your ${sectionName}.`,
+      `You haven't finished editing and saving the changes to your ${sectionName}.`,
     ).should('exist');
     cy.findByRole('button', { name: /Cancel/i }).click({
       force: true,
