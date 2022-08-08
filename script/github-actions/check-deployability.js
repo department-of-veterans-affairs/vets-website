@@ -109,7 +109,7 @@ const isAheadOfLastFullDeploy = async (commitSha, env) => {
 const isDeployableToEnv = async (commitSha, env) => {
   const TIMEOUT = 5; // Number of minutes to wait before checking again
 
-  if (!(await isAheadOfLastFullDeploy(env))) {
+  if (!(await isAheadOfLastFullDeploy(commitSha, env))) {
     console.log(
       `Commit is older than the last full deploy of ${env}. Skipping deploy.`,
     );
@@ -144,7 +144,7 @@ const isDeployableToEnv = async (commitSha, env) => {
 const isDeployableToProd = async commitSha => {
   const TIMEOUT = 10; // Number of minutes to wait before checking again
 
-  if (!(await isAheadOfLastFullDeploy(ENVIRONMENTS.VAGOVPROD))) {
+  if (!(await isAheadOfLastFullDeploy(commitSha, ENVIRONMENTS.VAGOVPROD))) {
     console.log(
       `Commit is older than the last full deploy of ${
         ENVIRONMENTS.VAGOVPROD
