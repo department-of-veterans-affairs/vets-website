@@ -13,7 +13,7 @@ const ConfirmCancelModal = props => {
       onClose={onHide}
     >
       <p>
-        {`You haven’t finished editing your ${activeSection}. If you cancel, your in-progress work won’t be saved.`}
+        {`You haven't finished editing and saving the changes to your ${activeSection}. If you cancel now, we won't save your changes.`}
       </p>
       <button
         className="usa-button-secondary"
