@@ -98,7 +98,8 @@ $error-left-padding-width: 1.5rem;
 .usa-input-error .schemaform-required-span {
   font-weight: bold;
 }
-.usa-input-error .fry-dea-labels_label--main {
+.usa-input-error .fry-dea-labels_label--main,
+.review-row .fry-dea-labels_label--main {
   padding-left: 0 !important; // Override VADS spacing units
 }
 .usa-input-error .fry-dea-input-message {
