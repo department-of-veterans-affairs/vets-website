@@ -1,5 +1,91 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
+.message-box {
+    background-color: $color-gray-lightest;
+    border-radius: 4px;
+}
+
+.send-button-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+    color: $color-link-default;
+    font-weight: normal;
+    line-height: 24px;
+    width: fit-content;
+    margin: 0;
+    padding: 0;
+    .send-button-top-text {
+        text-decoration: underline;
+    }
+}
+
+.save-button {
+    background-color: transparent;
+    color: $color-link-default;
+    .save-button-text {
+        text-decoration: underline;
+        font-weight: normal;
+    }
+}
+
+.message-title {
+    font-size: 20px;
+    padding: 12px;
+    justify-content: space-between;
+}
+
+.message-body {
+    background-color: $color-white;
+    font-size: 16px;
+    border-radius: 0px 0px 4px 4px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    .message-body-text{
+        margin-top: 1px;
+        margin-bottom: 1px;
+    }
+}
+
+.attachment-body {
+    display: flex;
+    background-color: $color-white;
+    font-size: 16px;
+    border-radius: 0px 0px 4px 4px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+.attachment-icon {
+    padding-top: 6px;
+}
+
+.remove-attachment {
+    background-color: transparent;
+    color: $color-link-default;
+    .remove-attachment-text {
+        text-decoration: underline;
+        font-weight: normal;
+    }
+}
+
+.older-messages {
+    margin-top: 24px;
+}
+
+.expand-messages {
+    align-items: right;
+}
+
+.nav-links {
+    margin-left: 8px;
+    margin-right: 8px;
+    .nav-links-text {
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+}
 .compose-container {
   .breadcrumb > i {
     margin-right: 6px;
