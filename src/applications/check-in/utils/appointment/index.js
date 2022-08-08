@@ -44,6 +44,7 @@ const appointmentWasCanceled = appointments => {
 
   return Array.isArray(appointments) && appointments.some(statusIsCanceled);
 };
+
 /**
  * Return the first cancelled appointment.
  *
@@ -117,7 +118,11 @@ const preCheckinAlreadyCompleted = appointments => {
  * @returns {boolean}
  */
 const locationShouldBeDisplayed = appointment => {
-  return appointment.kind === 'clinic' && Boolean(appointment.clinicLocation);
+  const notEmpty = location => {
+    return typeof location === 'string' && location.length > 0;
+  };
+
+  return appointment.kind === 'clinic' && notEmpty(appointment.clinicLocation);
 };
 
 /**
