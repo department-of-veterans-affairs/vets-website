@@ -42,7 +42,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
-  ELIGIBILITY,
+  // ELIGIBILITY,
   formFields,
   RELATIONSHIP,
   VETERAN_NOT_LISTED_VALUE,
@@ -72,7 +72,7 @@ const checkImageSrc = environment.isStaging()
   ? `${VAGOVSTAGING}/img/check-sample.png`
   : `${vagovprod}/img/check-sample.png`;
 
-const BENEFITS = [ELIGIBILITY.FRY, ELIGIBILITY.DEA];
+// const BENEFITS = [ELIGIBILITY.FRY, ELIGIBILITY.DEA];
 
 function isValidName(str) {
   return str && /^[A-Za-z][A-Za-z ']*$/.test(str);
@@ -438,9 +438,9 @@ const formConfig = {
         benefitSelection: {
           title: 'Benefit Selection',
           path: 'benefit-selection',
-          depends: formData =>
-            formData.veterans?.length &&
-            formData[formFields.selectedVeteran] !== VETERAN_NOT_LISTED_VALUE,
+          // depends: formData =>
+          //   formData.veterans?.length &&
+          //   formData[formFields.selectedVeteran] !== VETERAN_NOT_LISTED_VALUE,
           uiSchema: {
             'view:benefitSelectionHeaderInfo': {
               'ui:description': (
@@ -509,27 +509,27 @@ const formConfig = {
                   fry: { 'aria-describedby': 'fry' },
                   dea: { 'aria-describedby': 'dea' },
                 },
-                updateSchema: (() => {
-                  const filterBenefits = createSelector(
-                    state => state,
-                    formData => {
-                      const veteran = formData?.veterans?.find(
-                        v => v.id === formData[formFields.selectedVeteran],
-                      );
+                // updateSchema: (() => {
+                //   const filterBenefits = createSelector(
+                //     state => state,
+                //     formData => {
+                //       const veteran = formData?.veterans?.find(
+                //         v => v.id === formData[formFields.selectedVeteran],
+                //       );
 
-                      return {
-                        enum: BENEFITS.filter(
-                          benefit =>
-                            (benefit === ELIGIBILITY.FRY &&
-                              veteran?.fryEligibility) ||
-                            (benefit === ELIGIBILITY.DEA &&
-                              veteran?.deaEligibility),
-                        ),
-                      };
-                    },
-                  );
-                  return (form, state) => filterBenefits(form, state);
-                })(),
+                //       return {
+                //         enum: BENEFITS.filter(
+                //           benefit =>
+                //             (benefit === ELIGIBILITY.FRY &&
+                //               veteran?.fryEligibility) ||
+                //             (benefit === ELIGIBILITY.DEA &&
+                //               veteran?.deaEligibility),
+                //         ),
+                //       };
+                //     },
+                //   );
+                //   return (form, state) => filterBenefits(form, state);
+                // })(),
               },
             },
           },
