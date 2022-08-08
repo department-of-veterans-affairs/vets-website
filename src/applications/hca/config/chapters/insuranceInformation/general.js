@@ -33,12 +33,6 @@ export default {
     'view:generalShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        // hideIf: formData =>
-        //   !(
-        //     formValue(formData, IS_SHORT_FORM_ENABLED) &&
-        //     (formValue(formData, IS_COMPENSATION_TYPE_HIGH) ||
-        //       formValue(formData, IS_GTE_HIGH_DISABILITY))
-        //   ),
         hideIf: NotHighDisabilityOrNotCompensationTypeHigh,
       },
     },
