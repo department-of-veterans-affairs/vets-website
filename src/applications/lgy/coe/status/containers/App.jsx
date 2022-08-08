@@ -69,9 +69,6 @@ const App = ({
           />
         );
         break;
-      case COE_ELIGIBILITY_STATUS.ineligible:
-        content = <Ineligible />;
-        break;
       case COE_ELIGIBILITY_STATUS.denied:
         content = <Denied referenceNumber={coe.referenceNumber} />;
         break;
