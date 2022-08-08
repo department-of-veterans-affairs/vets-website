@@ -169,7 +169,7 @@ const isDeployableToProd = async commitSha => {
 
   // Don't deploy isolated app commits that are older than the daily deploy
   // commit. The daily deploy will include the changes from the older commit.
-  const isAheadOfDailyDeploy = isAncestor(commitSha, dailyDeploySha);
+  const isAheadOfDailyDeploy = isAncestor(dailyDeploySha, commitSha);
 
   if (!isAheadOfDailyDeploy) {
     console.log(
