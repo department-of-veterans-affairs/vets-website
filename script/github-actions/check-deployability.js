@@ -111,7 +111,7 @@ const isDeployableToEnv = async (commitSha, env) => {
 
   if (!(await isAheadOfLastFullDeploy(env))) {
     console.log(
-      `Commit is older than the last full deploy of ${env}. Skipping deploy`,
+      `Commit is older than the last full deploy of ${env}. Skipping deploy.`,
     );
     return false;
   }
@@ -148,7 +148,7 @@ const isDeployableToProd = async commitSha => {
     console.log(
       `Commit is older than the last full deploy of ${
         ENVIRONMENTS.VAGOVPROD
-      }. Skipping isolated app deploy`,
+      }. Skipping isolated app deploy.`,
     );
     return false;
   }
