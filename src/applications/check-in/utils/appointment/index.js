@@ -44,6 +44,7 @@ const appointmentWasCanceled = appointments => {
 
   return Array.isArray(appointments) && appointments.some(statusIsCanceled);
 };
+
 /**
  * Return the first cancelled appointment.
  *
@@ -111,6 +112,20 @@ const preCheckinAlreadyCompleted = appointments => {
 };
 
 /**
+ * Determine whether the physical location should be displayed for the given appointment.
+ *
+ * @param {Appointment} appointment
+ * @returns {boolean}
+ */
+const locationShouldBeDisplayed = appointment => {
+  const notEmpty = location => {
+    return typeof location === 'string' && location.length > 0;
+  };
+
+  return appointment.kind === 'clinic' && notEmpty(appointment.clinicLocation);
+};
+
+/**
  * @param {Array<Appointment>} appointments
  */
 const sortAppointmentsByStartTime = appointments => {
@@ -173,6 +188,7 @@ export {
   getFirstCanceledAppointment,
   hasMoreAppointmentsToCheckInto,
   intervalUntilNextAppointmentIneligibleForCheckin,
+  locationShouldBeDisplayed,
   sortAppointmentsByStartTime,
   preCheckinAlreadyCompleted,
   removeTimeZone,
