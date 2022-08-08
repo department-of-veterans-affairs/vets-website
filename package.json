@@ -124,7 +124,7 @@
     "@babel/traverse": "^7.17.3",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.1.2",
     "@cypress/code-coverage": "^3.10.0",
-    "@department-of-veterans-affairs/eslint-plugin": "^1.2.1",
+    "@department-of-veterans-affairs/eslint-plugin": "^1.2.2",
     "@department-of-veterans-affairs/generator-vets-website": "^3.8.0",
     "@octokit/rest": "^18.11.0",
     "@pact-foundation/pact": "^9.16.4",
@@ -339,7 +339,7 @@
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
     "vanilla-lazyload": "^16.1.0",
-    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#9e40f2e7eb92b5fddb0ce3b2fb809305abbadf3c",
+    "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7543eac2cbeeb338d2c43bc9e931c66f5982f551",
     "whatwg-fetch": "^3.6.2"
   },
   "resolutions": {
@@ -388,6 +388,7 @@
   },
   "workspaces": {
     "packages": [
+      "src/platform/startup",
       "src/platform/landing-pages"
     ],
     "nohoist": []

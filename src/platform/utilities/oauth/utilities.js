@@ -3,11 +3,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import { updateLoggedInStatus } from 'platform/user/authentication/actions';
-import { redirect } from 'platform/user/authentication/utilities';
 import {
-  API_SIGN_IN_SERVICE_URL,
   AUTH_EVENTS,
-  CSP_IDS,
   EXTERNAL_APPS,
   GA,
   SIGNUP_TYPES,
@@ -15,9 +12,12 @@ import {
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import {
   ALL_STATE_AND_VERIFIERS,
-  OAUTH_KEYS,
+  API_SIGN_IN_SERVICE_URL,
   CLIENT_IDS,
-  INFO_TOKEN,
+  COOKIES,
+  OAUTH_ALLOWED_PARAMS,
+  OAUTH_ENDPOINTS,
+  OAUTH_KEYS,
 } from './constants';
 import * as oauthCrypto from './crypto';
 
@@ -31,7 +31,7 @@ export const saveStateAndVerifier = type => {
   /*
     Ensures saved state is not overwritten if location has state parameter.
   */
-  if (window.location.search.includes('state')) return null;
+  if (window.location.search.includes(OAUTH_KEYS.STATE)) return null;
   const storage = window.sessionStorage;
 
   // Create and store a random "state" value
@@ -46,8 +46,8 @@ export const saveStateAndVerifier = type => {
     storage.setItem(`${type}_code_verifier`, codeVerifier);
   } else {
     // Sign in
-    storage.setItem(`state`, state);
-    storage.setItem(`code_verifier`, codeVerifier);
+    storage.setItem(OAUTH_KEYS.STATE, state);
+    storage.setItem(OAUTH_KEYS.CODE_VERIFIER, codeVerifier);
   }
 
   return { state, codeVerifier };
@@ -66,9 +66,9 @@ export const removeStateAndVerifier = () => {
 export const updateStateAndVerifier = csp => {
   const storage = window.sessionStorage;
 
-  storage.setItem(`state`, storage.getItem(`${csp}_signup_state`));
+  storage.setItem(OAUTH_KEYS.STATE, storage.getItem(`${csp}_signup_state`));
   storage.setItem(
-    `code_verifier`,
+    OAUTH_KEYS.CODE_VERIFIER,
     storage.getItem(`${csp}_signup_code_verifier`),
   );
 
@@ -128,13 +128,13 @@ export async function createOAuthRequest({
     [OAUTH_KEYS.ACR]: passedOptions.isSignup
       ? oAuthOptions.acrSignup[type]
       : oAuthOptions.acr[type],
-    [OAUTH_KEYS.RESPONSE_TYPE]: 'code',
+    [OAUTH_KEYS.RESPONSE_TYPE]: OAUTH_ALLOWED_PARAMS.CODE,
     ...(isDefaultOAuth && { [OAUTH_KEYS.STATE]: state }),
     ...(passedQueryParams.gaClientId && {
       [GA.queryParams.sis]: passedQueryParams.gaClientId,
     }),
     [OAUTH_KEYS.CODE_CHALLENGE]: codeChallenge,
-    [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: 'S256',
+    [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: OAUTH_ALLOWED_PARAMS.S256,
   };
 
   const url = new URL(API_SIGN_IN_SERVICE_URL({ type }));
@@ -149,7 +149,7 @@ export async function createOAuthRequest({
 }
 
 export const getCV = () => {
-  const codeVerifier = sessionStorage.getItem('code_verifier');
+  const codeVerifier = sessionStorage.getItem(OAUTH_KEYS.CODE_VERIFIER);
   return { codeVerifier };
 };
 
@@ -163,14 +163,16 @@ export function buildTokenRequest({
 
   // Build the authorization URL
   const oAuthParams = {
-    [OAUTH_KEYS.GRANT_TYPE]: 'authorization_code',
-    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent('web'),
+    [OAUTH_KEYS.GRANT_TYPE]: OAUTH_ALLOWED_PARAMS.AUTH_CODE,
+    [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(CLIENT_IDS.WEB),
     [OAUTH_KEYS.REDIRECT_URI]: encodeURIComponent(redirectUri),
     [OAUTH_KEYS.CODE]: code,
     [OAUTH_KEYS.CODE_VERIFIER]: codeVerifier,
   };
 
-  const url = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'token' }));
+  const url = new URL(
+    API_SIGN_IN_SERVICE_URL({ endpoint: OAUTH_ENDPOINTS.TOKEN }),
+  );
 
   Object.keys(oAuthParams).forEach(param =>
     url.searchParams.append(param, oAuthParams[param]),
@@ -206,7 +208,9 @@ export const requestToken = async ({ code, redirectUri, csp }) => {
 };
 
 export const refresh = async () => {
-  const url = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'refresh' }));
+  const url = new URL(
+    API_SIGN_IN_SERVICE_URL({ endpoint: OAUTH_ENDPOINTS.REFRESH }),
+  );
 
   return fetch(url.href, {
     method: 'POST',
@@ -215,7 +219,7 @@ export const refresh = async () => {
 };
 
 export const infoTokenExists = () => {
-  return document.cookie.includes(INFO_TOKEN);
+  return document.cookie.includes(COOKIES.INFO_TOKEN);
 };
 
 export const formatInfoCookie = cookieStringRaw => {
@@ -237,7 +241,7 @@ export const getInfoToken = () => {
     .map(cookie => cookie.split('='))
     .reduce((_, [cookieKey, cookieValue]) => ({
       ..._,
-      ...(cookieKey.includes(INFO_TOKEN) && {
+      ...(cookieKey.includes(COOKIES.INFO_TOKEN) && {
         ...formatInfoCookie(decodeURIComponent(cookieValue)),
       }),
     }));
@@ -248,7 +252,7 @@ export const removeInfoToken = () => {
 
   const updatedCookie = document.cookie.split(';').reduce((_, cookie) => {
     let tempCookieString = _;
-    if (!cookie.includes(INFO_TOKEN)) {
+    if (!cookie.includes(COOKIES.INFO_TOKEN)) {
       tempCookieString += `${cookie};`.trim();
     }
     return tempCookieString;
@@ -279,26 +283,13 @@ export const checkOrSetSessionExpiration = response => {
   return false;
 };
 
-export const logout = async ({ signInServiceName, storedLocation }) => {
-  const { href } = new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'logout' }));
+export const logoutUrlSiS = () => {
+  return new URL(API_SIGN_IN_SERVICE_URL({ endpoint: 'logout' })).href;
+};
 
-  // Redirect to API if Login.gov
-  if (signInServiceName.includes(CSP_IDS.LOGIN_GOV)) {
-    redirect(href, `${AUTH_EVENTS.OAUTH_LOGOUT}-${CSP_IDS.LOGIN_GOV}`);
-  }
+export const logoutEvent = ({ signInServiceName }) => {
+  recordEvent({ event: `${AUTH_EVENTS.OAUTH_LOGOUT}-${signInServiceName}` });
 
-  const response = await fetch(href, {
-    method: 'GET',
-    credentials: 'include',
-  });
-
-  if (response.ok) {
-    updateLoggedInStatus(false);
-    teardownProfileSession();
-
-    redirect(
-      storedLocation || window.location.href,
-      `${AUTH_EVENTS.OAUTH_LOGOUT}-${signInServiceName}`,
-    );
-  }
+  updateLoggedInStatus(false);
+  teardownProfileSession();
 };

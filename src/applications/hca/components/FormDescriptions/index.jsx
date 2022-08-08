@@ -195,9 +195,9 @@ export const DeductibleExpensesDescription = (
 export const DemographicInfoDescription = (
   <legend className="schemaform-label vads-u-margin-bottom--4">
     What is your race, ethnicity, or origin? (Please check all that apply.)
-    <span className="vads-u-display--block vads-u-margin-top--0p5 vads-u-color--gray-medium">
+    <div className="vads-u-color--gray-medium">
       Information is gathered for statistical purposes only.
-    </span>
+    </div>
   </legend>
 );
 
@@ -316,13 +316,9 @@ export const FinancialDisclosureDescription = (
 );
 
 export const GroupCodeDescription = (
-  <span>
-    Group code
-    <br />
-    <span className="vads-u-color--gray-medium">
-      Either this or the policy number is required
-    </span>
-  </span>
+  <div className="vads-u-color--gray-medium">
+    Either this or the policy number is required
+  </div>
 );
 
 export const HealthInsuranceDescription = (
@@ -412,7 +408,7 @@ export const MailingAddressDescription = (
 export const MaritalStatusDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
-    class="vads-u-margin-y--2"
+    class="vads-u-margin-top--3 vads-u-margin-bottom--4"
   >
     <p className="vads-u-margin-top--0">
       We want to make sure we understand your household’s financial situation.
@@ -437,6 +433,48 @@ export const MedicaidDescription = (
       programs.
     </p>
   </>
+);
+
+export const MedicareClaimNumberDescription = (
+  <>
+    <div className="vads-u-color--gray-medium">
+      You’ll find this number on the front of your Medicare card. Enter all 11
+      numbers and letters.
+    </div>
+
+    <va-additional-info
+      trigger="Why we ask for this information"
+      class="vads-u-margin-top--3 vads-u-margin-bottom--4"
+    >
+      <p className="vads-u-margin-top--0">
+        We use your Medicare claim number to keep track of the health care
+        services that Medicare covers. We use your claim number when we need to
+        create a Medicare explanation of benefits.
+      </p>
+      <p>
+        We don’t bill Medicare for any services. By law, Medicare can’t pay for
+        our services. But this explanation shows what Medicare would have paid
+        for services if they could.
+      </p>
+      <p>
+        We may need to bill medicare supplimental insurance or a private
+        insurance provider for certain services. And some providers must have
+        this explanation before they’ll pay the bill.
+      </p>
+      <p className="vads-u-margin-bottom--0">
+        <strong>Note:</strong> Having Medicare or other health insurance doesn’t
+        affect the VA health care benefits you can get. And you won’t have to
+        pay any unpaid balance that a health insurance provider doesn’t cover.
+      </p>
+    </va-additional-info>
+  </>
+);
+
+export const MedicareEffectiveDateDescription = (
+  <div className="vads-u-margin-bottom--3 vads-u-color--gray-medium">
+    You’ll find this date under “coverage starts” on the front of your Medicare
+    card.
+  </div>
 );
 
 export const MedicarePartADescription = (
@@ -486,13 +524,9 @@ export const PensionTypeDescription = (
 );
 
 export const PolicyNumberDescription = (
-  <span>
-    Policy number
-    <br />
-    <span className="vads-u-color--gray">
-      Either this or the group code is required
-    </span>
-  </span>
+  <div className="vads-u-color--gray-medium">
+    Either this or the group code is required
+  </div>
 );
 
 export const PolicyOrDescription = (
@@ -514,9 +548,9 @@ export const SIGIGenderDescription = (
   <>
     <legend className="schemaform-label">
       What is your gender?
-      <span className="vads-u-display--block vads-u-margin-top--0p5 vads-u-color--gray-medium">
+      <div className="vads-u-color--gray-medium">
         Choose the option that best fits how you describe yourself.
-      </span>
+      </div>
     </legend>
 
     <va-additional-info
@@ -541,16 +575,14 @@ export const SIGIGenderDescription = (
 );
 
 export const TricarePolicyDescription = (
-  <div className="vads-u-margin-y--2">
-    <va-additional-info trigger="I have TRICARE. What’s my policy number?">
-      <p className="vads-u-margin-top--0">
-        You can use your Department of Defense benefits number (DBN) or your
-        Social Security number as your policy number.
-      </p>
-      <p className="vads-u-margin-bottom--0">
-        Your DBN is an 11-digit number. You’ll find this number on the back of
-        your military ID card.
-      </p>
-    </va-additional-info>
-  </div>
+  <va-additional-info trigger="I have TRICARE. What’s my policy number?">
+    <p className="vads-u-margin-top--0">
+      You can use your Department of Defense benefits number (DBN) or your
+      Social Security number as your policy number.
+    </p>
+    <p className="vads-u-margin-bottom--0">
+      Your DBN is an 11-digit number. You’ll find this number on the back of
+      your military ID card.
+    </p>
+  </va-additional-info>
 );

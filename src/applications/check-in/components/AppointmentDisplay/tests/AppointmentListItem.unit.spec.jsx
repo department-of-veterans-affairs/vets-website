@@ -55,7 +55,7 @@ describe('check-in', () => {
         'Green Team facility',
       );
     });
-    it('should render the appointment location when available', () => {
+    it('should render the appointment location for in-person appointments when available', () => {
       const listItem = render(
         <Provider store={store}>
           <AppointmentListItem
@@ -64,6 +64,7 @@ describe('check-in', () => {
               clinicFriendlyName: 'Green Team Clinic1',
               facility: 'Green Team facility',
               clinicLocation: 'Green Team location',
+              kind: 'clinic',
             }}
           />
         </Provider>,
@@ -74,6 +75,23 @@ describe('check-in', () => {
         'Green Team location',
       );
     });
+    it('should not render the appointment location for phone appointments even if available', () => {
+      const listItem = render(
+        <Provider store={store}>
+          <AppointmentListItem
+            appointment={{
+              startTime: '2021-07-19T13:56:31',
+              clinicFriendlyName: 'Green Team Clinic1',
+              facility: 'Green Team facility',
+              clinicLocation: 'Green Team location',
+              kind: 'phone',
+            }}
+          />
+        </Provider>,
+      );
+
+      expect(listItem.queryByTestId('clinic-location')).to.not.exist;
+    });
     it('should not render the appointment location when not available', () => {
       const listItem = render(
         <Provider store={store}>
@@ -82,6 +100,7 @@ describe('check-in', () => {
               startTime: '2021-07-19T13:56:31',
               clinicFriendlyName: 'Green Team Clinic1',
               facility: 'Green Team facility',
+              kind: 'clinic',
             }}
           />
         </Provider>,

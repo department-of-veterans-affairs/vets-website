@@ -4,15 +4,8 @@ import differenceInSeconds from 'date-fns/differenceInSeconds';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import recordEvent from 'platform/monitoring/record-event';
-import {
-  logout as IAMLogout,
-  createAndStoreReturnUrl,
-} from 'platform/user/authentication/utilities';
-import {
-  refresh,
-  logout as SISLogout,
-  checkOrSetSessionExpiration,
-} from 'platform/utilities/oauth/utilities';
+import { logout as IAMLogout } from 'platform/user/authentication/utilities';
+import { refresh, logoutUrlSiS } from 'platform/utilities/oauth/utilities';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
 
@@ -59,7 +52,7 @@ class SessionTimeoutModal extends React.Component {
   expireSession = () => {
     recordEvent({ event: 'logout-session-expired' });
     teardownProfileSession();
-    window.location = '/session-expired';
+    window.location = logoutUrlSiS();
   };
 
   extendSession = () => {
@@ -71,7 +64,7 @@ class SessionTimeoutModal extends React.Component {
     localStorage.removeItem('sessionExpiration');
     this.setState({ countdown: null });
     if (this.props.authenticatedWithOAuth) {
-      refresh(checkOrSetSessionExpiration);
+      refresh();
     } else {
       this.props.onExtendSession();
     }
@@ -82,11 +75,7 @@ class SessionTimeoutModal extends React.Component {
     if (!this.props.authenticatedWithOAuth) {
       IAMLogout();
     } else {
-      const { signInServiceName } = this.props;
-      SISLogout({
-        signInServiceName,
-        storedLocation: createAndStoreReturnUrl(),
-      });
+      window.location = logoutUrlSiS();
     }
   };
 

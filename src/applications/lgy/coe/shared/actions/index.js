@@ -47,7 +47,7 @@ export const generateCoe = (skip = '') => async dispatch => {
         status === COE_ELIGIBILITY_STATUS.eligible
       ) {
         const res = await getCoeURL();
-        if (res.errors.length) {
+        if (res.errors?.length) {
           dispatch({ type: GET_COE_URL_FAILED, response: res });
         } else {
           dispatch({ type: GET_COE_URL_SUCCEEDED, response: res });

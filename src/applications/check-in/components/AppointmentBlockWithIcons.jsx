@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { locationShouldBeDisplayed } from '../utils/appointment';
 
 const AppointmentBlock = props => {
   const { appointments, page } = props;
@@ -94,7 +95,7 @@ const AppointmentBlock = props => {
                 >
                   {clinic}
                 </div>
-                {appointment.clinicLocation && (
+                {locationShouldBeDisplayed(appointment) && (
                   <>
                     <div className="check-in--label vads-u-margin-right--1">
                       {t('location')}:
