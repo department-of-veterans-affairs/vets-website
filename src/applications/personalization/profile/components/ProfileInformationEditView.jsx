@@ -38,6 +38,7 @@ import {
   selectVAPContactInfoField,
   selectVAPServiceTransaction,
   selectEditViewData,
+  selectTransactionIntervalId,
 } from '@@vap-svc/selectors';
 
 import { transformInitialFormValues } from '@@profile/util/contact-information/formValues';
@@ -412,6 +413,7 @@ export const mapStateToProps = (state, ownProps) => {
     transactionRequest,
     editViewData: selectEditViewData(state),
     emptyMailingAddress: isEmptyAddress(mailingAddress),
+    transactionId: selectTransactionIntervalId(state),
   };
 };
 

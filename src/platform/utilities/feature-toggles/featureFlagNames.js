@@ -83,6 +83,7 @@ export default Object.freeze({
   profileShowBadAddressIndicator: 'profile_show_bad_address_indicator',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
   profileUseVaosV2Api:'profile_use_vaos_v2_api',
+  profileUseVAFSC: 'profile_use_vafsc',
   pwEhrCtaDrupalSourceOfTruth: 'pw_ehr_cta_drupal_source_of_truth',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
   requestLockedPdfPassword: 'request_locked_pdf_password',
@@ -153,4 +154,5 @@ export default Object.freeze({
   vaOnlineFilter36Vats: 'va_online_filter36_vats',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
+  showDigitalForm1095b: 'show_digital_form_1095b'
 });

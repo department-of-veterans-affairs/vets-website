@@ -30,7 +30,7 @@ const AddressBlock = ({ address }) => {
       <span data-testid="address-line-street1">{address.street1}</span>
       {lineTwo}
       {lineThree}
-      <br />
+      <br aria-hidden="true" />
       <span data-testid="address-city-state-and-zip">
         {`${address.city}, ${address.state} ${address.zip.substring(0, 5)}`}
       </span>

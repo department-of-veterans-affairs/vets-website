@@ -111,9 +111,7 @@ export function refreshTransaction(
       });
 
       const route = _route || `/profile/status/${transactionId}`;
-      const transactionRefreshed = isVAProfileServiceConfigured()
-        ? await apiRequest(route)
-        : await localVAProfileService.updateTransaction(transactionId);
+      const transactionRefreshed = await apiRequest(route);
 
       if (isSuccessfulTransaction(transactionRefreshed)) {
         const forceCacheClear = true;
