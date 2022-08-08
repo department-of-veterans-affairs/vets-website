@@ -173,7 +173,7 @@ const isDeployableToProd = async commitSha => {
 
   if (!isAheadOfDailyDeploy) {
     console.log(
-      'Daily Production Deploy is already running with a newer commit. Skipping isolated app deploy.',
+      `Daily Production Deploy is currently deploying a newer commit (${dailyDeploySha}). Skipping isolated app deploy.`,
     );
     return false;
   }
