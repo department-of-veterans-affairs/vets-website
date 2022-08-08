@@ -10,7 +10,7 @@ const appUrl = process.env.APP_URLS.split(',')[0];
 let divider;
 let longestTestIsPresent = false;
 const longestTest = /all-claims.cypress.spec.js/g;
-const lastStep = step - 1;
+const lastStep = numContainers - 1;
 
 if (tests.some(test => test.match(longestTest))) {
   longestTestIsPresent = true;
