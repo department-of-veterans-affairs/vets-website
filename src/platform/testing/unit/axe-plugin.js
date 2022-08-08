@@ -4,7 +4,14 @@ module.exports = function(chai, utils) {
 
   utils.addMethod(chai.Assertion.prototype, 'accessible', function(
     rules = {},
-    rulesets = ['section508', 'wcag21a', 'wcag21aa', 'best-practice'],
+    rulesets = [
+      'section508',
+      'wcag2a',
+      'wcag2aa',
+      'wcag21a',
+      'wcag21aa',
+      'best-practice',
+    ],
   ) {
     const el = this._obj;
     const config = {
