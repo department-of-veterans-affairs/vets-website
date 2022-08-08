@@ -1,7 +1,7 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { AmericanIndianDescription } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
+import { emptyObjectSchema, NotHighDisability } from '../../../helpers';
 
 const { sigiIsAmericanIndian } = fullSchemaHca.properties;
 
@@ -10,12 +10,7 @@ export default {
     'view:aiqShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: form =>
-          !(
-            form['view:hcaShortFormEnabled'] &&
-            form['view:totalDisabilityRating'] &&
-            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-          ),
+        hideIf: NotHighDisability,
       },
     },
     'view:aiqDescription': {
