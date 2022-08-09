@@ -1,9 +1,10 @@
 import mapValues from 'lodash/mapValues';
 import * as Sentry from '@sentry/browser';
-import set from 'platform/utilities/data/set';
 import moment from 'moment';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 
+import set from 'platform/utilities/data/set';
+import recordEvent from 'platform/monitoring/record-event';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import {
@@ -246,6 +247,18 @@ export function transform(formConfig, form) {
   // Log, using Sentry, when user is not logged in and is missing veteran name, ssn or dob
   if (form.data['view:isLoggedIn'] === false) {
     LogToSentry(withoutViewFields);
+  }
+
+  // use logging to track volume of forms submitted with future discharge dates
+  if (
+    form.data.lastDischargeDate &&
+    moment(form.data.lastDischargeDate, 'YYYY-MM-DD').isAfter(
+      moment().endOf('day'),
+    )
+  ) {
+    recordEvent({
+      event: 'hca-future-discharge-date-submission',
+    });
   }
 
   return JSON.stringify({
