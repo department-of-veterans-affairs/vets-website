@@ -20,6 +20,7 @@ if (tests.some(test => test.match(longestTest))) {
   divider = Math.ceil(tests.length / numContainers);
 }
 
+// Split up the array of tests for each container.
 const batch = tests
   .map(test => test.replace('/home/runner/work', '/__w'))
   .slice(step * divider, (step + 1) * divider)
@@ -30,9 +31,7 @@ if (longestTestIsPresent && step === lastStep) {
     `CYPRESS_EVERY_NTH_FRAME=1 yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec 'src/applications/**/all-claims.cypress.spec.js' --env app_url=${appUrl}`,
   );
   process.exit(status);
-}
-
-if (batch !== '') {
+} else if (batch !== '') {
   const status = runCommandSync(
     `CYPRESS_EVERY_NTH_FRAME=1 yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec '${batch}' --env app_url=${appUrl}`,
   );
