@@ -1358,10 +1358,10 @@
     }
   },
   "links": {
-    "self": "https://api.va.gov/v1/facilities/va?ids=vha_612%2Cvha_612A4%2Cvha_612B4%2Cvha_612BY%2Cvha_612GD%2Cvha_612GE%2Cvha_612GF%2Cvha_612GG%2Cvha_612GH%2Cvha_612GI%2Cvha_612GJ%2Cvha_612GK&page=1&per_page=12",
-    "first": "https://api.va.gov/v1/facilities/va?ids=vha_612%2Cvha_612A4%2Cvha_612B4%2Cvha_612BY%2Cvha_612GD%2Cvha_612GE%2Cvha_612GF%2Cvha_612GG%2Cvha_612GH%2Cvha_612GI%2Cvha_612GJ%2Cvha_612GK&per_page=12",
+    "self": "https://platform-api.va.gov/v1/facilities/va?ids=vha_612%2Cvha_612A4%2Cvha_612B4%2Cvha_612BY%2Cvha_612GD%2Cvha_612GE%2Cvha_612GF%2Cvha_612GG%2Cvha_612GH%2Cvha_612GI%2Cvha_612GJ%2Cvha_612GK&page=1&per_page=12",
+    "first": "https://platform-api.va.gov/v1/facilities/va?ids=vha_612%2Cvha_612A4%2Cvha_612B4%2Cvha_612BY%2Cvha_612GD%2Cvha_612GE%2Cvha_612GF%2Cvha_612GG%2Cvha_612GH%2Cvha_612GI%2Cvha_612GJ%2Cvha_612GK&per_page=12",
     "prev": null,
     "next": null,
-    "last": "https://api.va.gov/v1/facilities/va?ids=vha_612%2Cvha_612A4%2Cvha_612B4%2Cvha_612BY%2Cvha_612GD%2Cvha_612GE%2Cvha_612GF%2Cvha_612GG%2Cvha_612GH%2Cvha_612GI%2Cvha_612GJ%2Cvha_612GK&page=1&per_page=12"
+    "last": "https://platform-api.va.gov/v1/facilities/va?ids=vha_612%2Cvha_612A4%2Cvha_612B4%2Cvha_612BY%2Cvha_612GD%2Cvha_612GE%2Cvha_612GF%2Cvha_612GG%2Cvha_612GH%2Cvha_612GI%2Cvha_612GJ%2Cvha_612GK&page=1&per_page=12"
   }
 }

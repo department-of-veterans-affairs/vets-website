@@ -1,12 +1,12 @@
 import contractTest from 'platform/testing/contract';
 
+import { Matchers } from '@pact-foundation/pact';
+import sinon from 'sinon';
 import {
   fetchLocations,
   fetchVAFacility,
   getProviderSpecialties,
 } from '../../actions';
-import { Matchers } from '@pact-foundation/pact';
-import sinon from 'sinon';
 
 const { decimal, eachLike, integer, string } = Matchers;
 const bounds = ['-112.54', '32.53', '-111.04', '34.03'];
@@ -96,15 +96,15 @@ const vaInteraction = {
       }),
       links: {
         first: string(
-          'https://dev-api.va.gov/v1/facilities/va?bbox%5B%5D=-79.43&bbox%5B%5D=35.03&bbox%5B%5D=-77.93&bbox%5B%5D=36.53&page=1&per_page=20&services%5B%5D=PrimaryCare&type=health',
+          'https://dev-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-79.43&bbox%5B%5D=35.03&bbox%5B%5D=-77.93&bbox%5B%5D=36.53&page=1&per_page=20&services%5B%5D=PrimaryCare&type=health',
         ),
         last: string(
-          'https://dev-api.va.gov/v1/facilities/va?bbox%5B%5D=-79.43&bbox%5B%5D=35.03&bbox%5B%5D=-77.93&bbox%5B%5D=36.53&page=1&per_page=20&services%5B%5D=PrimaryCare&type=health',
+          'https://dev-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-79.43&bbox%5B%5D=35.03&bbox%5B%5D=-77.93&bbox%5B%5D=36.53&page=1&per_page=20&services%5B%5D=PrimaryCare&type=health',
         ),
         next: null,
         prev: null,
         self: string(
-          'https://staging-api.va.gov/v1/facilities/va?bbox%5B%5D=-79.43&bbox%5B%5D=35.03&bbox%5B%5D=-77.93&bbox%5B%5D=36.53&page=1&per_page=20&services%5B%5D=PrimaryCare&type=health',
+          'https://staging-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-79.43&bbox%5B%5D=35.03&bbox%5B%5D=-77.93&bbox%5B%5D=36.53&page=1&per_page=20&services%5B%5D=PrimaryCare&type=health',
         ),
       },
       meta: {

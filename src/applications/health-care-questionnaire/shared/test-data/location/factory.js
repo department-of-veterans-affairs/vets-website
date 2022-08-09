@@ -12,6 +12,7 @@ class LocationData {
     ];
     return this;
   }
+
   constructor() {
     this.id = 'I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000';
     this.identifier = [
@@ -28,12 +29,12 @@ class LocationData {
           text: 'Facility ID',
         },
         system:
-          'https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier',
+          'https://platform-api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier',
         value: 'vha_442',
       },
       {
         system:
-          'https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-clinic-identifier',
+          'https://platform-api.va.gov/services/fhir/v0/r4/NamingSystem/va-clinic-identifier',
         value: 'vha_442_3049',
       },
     ];
@@ -74,7 +75,7 @@ class LocationData {
     };
     this.managingLocation = {
       reference:
-        'https://sandbox-api.va.gov/services/fhir/v0/r4/Organization/I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000',
+        'https://sandbox-platform-api.va.gov/services/fhir/v0/r4/Organization/I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000',
       display: 'CHEYENNE VA MEDICAL',
     };
 

@@ -217,7 +217,7 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
-          url: 'https://dev-api.va.gov',
+          url: 'https://dev-platform-api.va.gov',
           ok: false,
           status: 401,
         }),
@@ -243,7 +243,7 @@ describe('Schemaform save / load actions:', () => {
       global.fetch.returns(
         Promise.resolve(
           new Response(null, {
-            url: 'https://dev-api.va.gov',
+            url: 'https://dev-platform-api.va.gov',
             status: 404,
           }),
         ),
@@ -340,7 +340,7 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
-          url: 'https://dev-api.va.gov',
+          url: 'https://dev-platform-api.va.gov',
           ok: false,
           status: 401,
         }),
@@ -358,7 +358,7 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
-          url: 'https://dev-api.va.gov',
+          url: 'https://dev-platform-api.va.gov',
           ok: false,
           status: 404,
         }),
@@ -440,7 +440,7 @@ describe('Schemaform save / load actions:', () => {
         const dispatch = sinon.spy();
         global.fetch.returns(
           Promise.resolve({
-            url: 'https://dev-api.va.gov',
+            url: 'https://dev-platform-api.va.gov',
             ok: false,
             status: 401,
           }),
@@ -456,7 +456,7 @@ describe('Schemaform save / load actions:', () => {
         const dispatch = sinon.spy();
         global.fetch.returns(
           Promise.resolve({
-            url: 'https://dev-api.va.gov',
+            url: 'https://dev-platform-api.va.gov',
             ok: false,
             status: 404,
           }),
@@ -548,7 +548,7 @@ describe('Schemaform save / load actions:', () => {
       global.fetch.returns(
         Promise.resolve({
           ok: false,
-          url: 'https://dev-api.va.gov',
+          url: 'https://dev-platform-api.va.gov',
           status: 401,
         }),
       );

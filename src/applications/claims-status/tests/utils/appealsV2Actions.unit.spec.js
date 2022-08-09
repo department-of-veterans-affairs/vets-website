@@ -16,7 +16,7 @@ import {
 
 const setup = () => {
   const response = {
-    url: 'https://dev-api.va.gov',
+    url: 'https://dev-platform-api.va.gov',
     status: 200,
     headers: { get: () => 'application/json' },
     ok: true,

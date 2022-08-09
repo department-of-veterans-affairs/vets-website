@@ -9,7 +9,7 @@ export default function QuestionnaireResponse(props) {
     qr.status = 'entered-in-error';
     setIsDeleting(true);
     const resp = await fetch(
-      `https://sandbox-api.va.gov/services/pgd/v0/sandbox-data/r4/QuestionnaireResponse/${
+      `https://sandbox-platform-api.va.gov/services/pgd/v0/sandbox-data/r4/QuestionnaireResponse/${
         resource.id
       }`,
       {
@@ -28,11 +28,11 @@ export default function QuestionnaireResponse(props) {
   const getButton = () => {
     if (isDeleted) {
       return <button disabled>deleted</button>;
-    } else if (isDeleting) {
-      return <button disabled>deleting...</button>;
-    } else {
-      return <button onClick={() => resetQr(resource)}>reset</button>;
     }
+    if (isDeleting) {
+      return <button disabled>deleting...</button>;
+    }
+    return <button onClick={() => resetQr(resource)}>reset</button>;
   };
   if (isDeleted) {
     return <></>;

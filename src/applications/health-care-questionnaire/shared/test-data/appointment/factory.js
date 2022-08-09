@@ -17,7 +17,7 @@ class AppointmentData {
       {
         actor: {
           reference:
-            'https://sandbox-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000',
+            'https://sandbox-platform-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000',
           display: 'TEM MH PSO TRS IND93EH 2',
         },
         status: 'accepted',
@@ -25,7 +25,7 @@ class AppointmentData {
       {
         actor: {
           reference:
-            'https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/1008882029V851792',
+            'https://sandbox-platform-api.va.gov/services/fhir/v0/r4/Patient/1008882029V851792',
           display: 'Mrs. Sheba703 Harris789',
         },
         status: 'accepted',
