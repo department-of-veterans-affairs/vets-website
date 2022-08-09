@@ -18,6 +18,7 @@ import {
   radioOptions,
   radioOptionsAriaLabels,
   radioLabel,
+  dateOptions,
 } from './utils';
 
 export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
@@ -29,15 +30,6 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     downloaded: false,
     timeStamp: '',
   });
-
-  const dateOptions = {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: true,
-  };
 
   const getContent = () => {
     return apiRequest(`/form1095_bs/download_${formType}/${year}`)
