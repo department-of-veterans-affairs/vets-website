@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import NewTabAnchor from '../../../components/NewTabAnchor';
 
 export function VideoVisitInstructions({ instructionsType }) {
-  if (instructionsType === 'Medication Review') {
+  const VIDEO_VISIT_PREPARATION = 'Video Visit Preparation';
+  const MEDICATION_REVIEW = 'Medication Review';
+
+  if (instructionsType === MEDICATION_REVIEW) {
     return (
       <div>
         <h4 className="vads-u-font-size--base vads-u-font-family--sans">
@@ -23,7 +26,7 @@ export function VideoVisitInstructions({ instructionsType }) {
       </div>
     );
   }
-  if (instructionsType === 'Video Visit Preparation') {
+  if (instructionsType === VIDEO_VISIT_PREPARATION) {
     return (
       <div>
         <h4 className="vads-u-font-size--base vads-u-font-family--sans">
