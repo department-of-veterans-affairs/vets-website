@@ -167,8 +167,8 @@ export function Approved(name) {
             Congratulations, you’ve been approved for Survivors’ and Dependents’
             Educational Assistance
           </h2>
-          <div className="vads-u-margin-top--1">
-            <p className="vads-u-margin-top--0p25 vads-u-margin-bottom--3">
+          <div className="vads-u-margin-top--1p5">
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
               We reviewed your application and have determined that you’re
               entitled to educational benefits under Survivors’ and Dependents’
               Educational Assistance (DEA, Chapter 35). Your decision letter is
@@ -276,8 +276,8 @@ export function NotEligible(name) {
           <h2 id="track-your-status-on-mobile" slot="headline">
             You’re not eligible for this benefit
           </h2>
-          <div className="vads-u-margin-top--1">
-            <p className="vads-u-margin-top--0p25 vads-u-margin-bottom--3">
+          <div className="vads-u-margin-top--1p5">
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
               Unfortunately, based on the information you provided and
               Department of Defense records, we have determined you’re not
               eligible for the Survivors’ and Dependents’ Educational Assistance
