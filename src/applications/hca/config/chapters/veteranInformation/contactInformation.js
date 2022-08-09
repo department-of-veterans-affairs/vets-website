@@ -6,7 +6,7 @@ import { validateMatch } from 'platform/forms-system/src/js/validation';
 
 import { ShortFormAlert } from '../../../components/FormAlerts';
 import { ContactInfoDescription } from '../../../components/FormDescriptions';
-import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
+import { emptyObjectSchema, NotHighDisability } from '../../../helpers';
 
 const { email } = fullSchemaHca.properties;
 const { phone } = fullSchemaHca.definitions;
@@ -16,12 +16,7 @@ export default {
     'view:contactShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: form =>
-          !(
-            form['view:hcaShortFormEnabled'] &&
-            form['view:totalDisabilityRating'] &&
-            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-          ),
+        hideIf: NotHighDisability,
       },
     },
     'view:prefillMessage': {

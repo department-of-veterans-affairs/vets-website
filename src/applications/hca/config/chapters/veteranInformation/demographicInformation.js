@@ -4,7 +4,7 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import DemographicField from '../../../components/DemographicField';
 import { DemographicInfoDescription } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
+import { emptyObjectSchema, NotHighDisability } from '../../../helpers';
 
 const {
   isAmericanIndianOrAlaskanNative,
@@ -21,12 +21,7 @@ export default {
     'view:dmShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: form =>
-          !(
-            form['view:hcaShortFormEnabled'] &&
-            form['view:totalDisabilityRating'] &&
-            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-          ),
+        hideIf: NotHighDisability,
       },
     },
     'view:prefillMessage': {
