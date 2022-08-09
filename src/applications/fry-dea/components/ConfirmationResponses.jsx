@@ -152,6 +152,108 @@ UnderReview.prototype = {
   response: PropTypes.object || PropTypes.bool,
 };
 
+export function Approved(name) {
+  return (
+    <>
+      <div>
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="success"
+          visible
+        >
+          <h2 id="track-your-status-on-mobile" slot="headline">
+            Congratulations, you’ve been approved for Survivors’ and Dependents’
+            Educational Assistance
+          </h2>
+          <div>
+            <p className="vads-u-margin-y--0">
+              We reviewed your application and have determined that you’re
+              entitled to educational benefits under Survivors’ and Dependents’
+              Educational Assistance (DEA, Chapter 35). Your decision letter is
+              now available. A physical copy will also be mailed to your mailing
+              address.
+            </p>
+            <va-link
+              download
+              filetype="PDF"
+              href="https://www.va.gov"
+              text="Download your decision letter"
+            />
+          </div>
+        </va-alert>
+        <ConfirmationReceiptBox name={name} />
+      </div>
+      <div className="vads-u-margin-bottom--4">
+        <h2>What happens next?</h2>
+        <ul>
+          <li>
+            Download a copy of your decision letter. This can also be found at{' '}
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://va.gov/vso/"
+            >
+              Download your VA education letters.
+            </a>
+          </li>
+          <li>
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://www.va.gov/education/gi-bill-comparison-tool/"
+            >
+              Use our GI Bill Comparison Tool to help you decide which education
+              program and school are best for you.
+            </a>
+          </li>
+          <li>
+            Once you’ve selected a school or program, you may bring your
+            decision letter to your School Certifying Official to provide proof
+            of eligibility.
+          </li>
+          <li>
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://www.va.gov/?next=%2Fprofile"
+            >
+              Review and/or update your direct deposit information on your
+              VA.gov profile.
+            </a>
+          </li>
+          <li>
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://benefits.va.gov/GIBILL/docs/GIBguideseries/ChooseYourEducationPathway.pdf"
+            >
+              Learn more about VA benefits and programs through the Building
+              Your Future with the GI Bill Series.
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div className="vads-u-margin-bottom--4">
+        <va-additional-info trigger="What is a decision letter?">
+          <div>
+            A decision letter is an official document from the U.S. Department
+            of Veterans Affairs that details your GI Bill benefit status. If you
+            are approved to receive benefits, you may provide this official
+            document to your educational institution to prove your eligibility
+            status.
+          </div>
+        </va-additional-info>
+      </div>
+      <NeedHelpComponent />
+    </>
+  );
+}
+
+Approved.prototype = {
+  name: PropTypes.object,
+  response: PropTypes.object || PropTypes.bool,
+};
+
 export function NotEligible(name) {
   return (
     <>
