@@ -28,7 +28,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-platform-api.va.gov/facilities_api/v1/ccp/urgent_care?page=1&per_page=10&lat=35.78&long=-78.68',
+      'https://dev-api.va.gov/facilities_api/v1/ccp/urgent_care?page=1&per_page=10&lat=35.78&long=-78.68',
     );
   });
 
@@ -44,7 +44,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-platform-api.va.gov/facilities_api/v1/ccp/pharmacy?page=1&per_page=10&lat=35.78&long=-78.68',
+      'https://dev-api.va.gov/facilities_api/v1/ccp/pharmacy?page=1&per_page=10&lat=35.78&long=-78.68',
     );
   });
 
@@ -60,7 +60,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     });
     let test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-platform-api.va.gov/facilities_api/v1/va?type=health&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68',
+      'https://dev-api.va.gov/facilities_api/v1/va?type=health&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68',
     );
     result = resolveParamsWithUrl({
       locationType: 'health',
@@ -71,7 +71,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     });
     test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-platform-api.va.gov/facilities_api/v1/va?type=health&services[]=PrimaryCare&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68',
+      'https://dev-api.va.gov/facilities_api/v1/va?type=health&services[]=PrimaryCare&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68',
     );
   });
 
@@ -88,7 +88,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-platform-api.va.gov/facilities_api/v1/va?type=health&services[]=UrgentCare&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68',
+      'https://dev-api.va.gov/facilities_api/v1/va?type=health&services[]=UrgentCare&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68',
     );
   });
 
@@ -104,7 +104,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     });
     let test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-platform-api.va.gov/facilities_api/v1/va?type=benefits&page=1&per_page=10&lat=35.78&long=-78.68',
+      'https://dev-api.va.gov/facilities_api/v1/va?type=benefits&page=1&per_page=10&lat=35.78&long=-78.68',
     );
     result = resolveParamsWithUrl({
       locationType: 'benefits',
@@ -115,7 +115,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     });
     test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-platform-api.va.gov/facilities_api/v1/va?type=benefits&services[]=VAHomeLoanAssistance&page=1&per_page=10&lat=35.78&long=-78.68',
+      'https://dev-api.va.gov/facilities_api/v1/va?type=benefits&services[]=VAHomeLoanAssistance&page=1&per_page=10&lat=35.78&long=-78.68',
     );
     result = resolveParamsWithUrl({
       locationType: 'benefits',
@@ -126,7 +126,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     });
     test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-platform-api.va.gov/facilities_api/v1/va?type=benefits&services[]=ApplyingForBenefits&page=1&per_page=10&lat=35.78&long=-78.68',
+      'https://dev-api.va.gov/facilities_api/v1/va?type=benefits&services[]=ApplyingForBenefits&page=1&per_page=10&lat=35.78&long=-78.68',
     );
   });
 
@@ -142,7 +142,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-platform-api.va.gov/facilities_api/v1/va?type=cemetery&page=1&per_page=10&lat=35.78&long=-78.68',
+      'https://dev-api.va.gov/facilities_api/v1/va?type=cemetery&page=1&per_page=10&lat=35.78&long=-78.68',
     );
   });
 
@@ -162,7 +162,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-platform-api.va.gov/facilities_api/v1/ccp/provider?specialties[]=122300000X&page=1&per_page=10&lat=35.78&long=-78.68',
+      'https://dev-api.va.gov/facilities_api/v1/ccp/provider?specialties[]=122300000X&page=1&per_page=10&lat=35.78&long=-78.68',
     );
   });
 
@@ -178,7 +178,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-platform-api.va.gov/facilities_api/v1/va?type=vet_center&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68',
+      'https://dev-api.va.gov/facilities_api/v1/va?type=vet_center&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68',
     );
   });
 
@@ -195,7 +195,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     });
     const test = `${result.url}?${result.params}`;
     expect(test).to.eql(
-      'https://dev-platform-api.va.gov/facilities_api/v1/ccp/provider?specialties[]=122300000X&page=1&per_page=10&radius=40&lat=33.32464&long=-97.18077',
+      'https://dev-api.va.gov/facilities_api/v1/ccp/provider?specialties[]=122300000X&page=1&per_page=10&radius=40&lat=33.32464&long=-97.18077',
     );
   });
 });
