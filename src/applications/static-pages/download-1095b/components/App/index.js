@@ -1,26 +1,46 @@
 // Node modules.
 import React, { useEffect, useState } from 'react';
+import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
 import { connect } from 'react-redux';
 // Relative imports.
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 
 import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
 
-export const App = ({ loggedIn, toggleLoginModal }) => {
+import {
+  notFoundComponent,
+  radioOptions,
+  radioOptionsAriaLabels,
+  radioLabel,
+} from './utils';
+
+export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   const [lastUpdated, updateLastUpdated] = useState('');
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
+  const [formType, updateFormType] = useState('pdf');
   const [formDownloaded, updateFormDownloaded] = useState({
     downloaded: false,
     timeStamp: '',
   });
 
-  const getPdf = () => {
-    return apiRequest(`/form1095_bs/download/${year}`)
+  const dateOptions = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  };
+
+  const getContent = () => {
+    return apiRequest(`/form1095_bs/download_${formType}/${year}`)
       .then(response => response.blob())
       .then(blob => {
         return window.URL.createObjectURL(blob);
@@ -34,10 +54,9 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
   const getLastUpdatedOn = () => {
     return apiRequest('/form1095_bs/available_forms')
       .then(response => {
-        if (response.errors) {
+        if (response.errors || !response.availableForms.length) {
           updateFormError({ error: true, type: 'not found' });
         }
-
         return response.availableForms[0];
       })
       .catch(() => updateFormError({ error: true, type: 'not found' }));
@@ -65,29 +84,24 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     return string.replace('PM', 'p.m.');
   };
 
-  const callGetPDF = () => {
-    getPdf().then(result => {
+  const callGetContent = () => {
+    getContent().then(result => {
       if (result) {
         const a = document.createElement('a');
         a.href = result;
         a.target = '_blank';
+
+        if (formType === 'txt') a.download = `1095B-${year}.txt`; // download text file directly
+
         document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
         a.click();
         a.remove(); // removes element from the DOM
         const date = new Date();
-        const options = {
-          year: 'numeric',
-          month: 'numeric',
-          day: 'numeric',
-          hour: 'numeric',
-          minute: 'numeric',
-          hour12: true,
-        };
         updateFormError({ error: false, type: '' });
         updateFormDownloaded({
           downloaded: true,
           timeStamp: formatTimeString(
-            date.toLocaleDateString(undefined, options),
+            date.toLocaleDateString(undefined, dateOptions),
           ),
         });
       }
@@ -101,6 +115,33 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     [loggedIn],
   );
 
+  const radioComponent = (
+    <RadioButtons
+      id="1095-download-options"
+      name="1095-download-options"
+      label={radioLabel}
+      options={radioOptions}
+      onValueChange={({ value }) => updateFormType(value)}
+      value={{ value: formType }}
+      ariaDescribedby={radioOptionsAriaLabels}
+      additionalFieldsetClass="vads-u-margin-top--0"
+    />
+  );
+
+  const downloadButton = (
+    <p>
+      <button
+        className="usa-button-primary va-button"
+        onClick={function() {
+          callGetContent();
+        }}
+        id="download-url"
+      >
+        Download your 1095-B tax form{' '}
+      </button>
+    </p>
+  );
+
   const lastUpdatedComponent = (
     <p>
       <span className="vads-u-line-height--3 vads-u-display--block">
@@ -110,46 +151,6 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
         <strong>Document last updated:</strong> {lastUpdated}
       </span>
     </p>
-  );
-
-  const downloadButton = (
-    <p>
-      <button
-        className="usa-button-primary va-button-primary"
-        onClick={function() {
-          callGetPDF();
-        }}
-        id="download-url"
-      >
-        Download your 1095-B tax form (PDF){' '}
-      </button>
-    </p>
-  );
-
-  const notFoundComponent = (
-    <va-alert close-btn-aria-label="Close notification" status="info" visible>
-      <h3 slot="headline">
-        You don’t have a 1095-B tax form available right now
-      </h3>
-      <div>
-        <p>
-          If you recently enrolled in VA health care, you may not have a 1095-B
-          form yet. We process 1095-B forms in early January each year, based on
-          your enrollment in VA health care during the past year.
-        </p>
-        <p>
-          If you think you should have a 1095-B form, call us at{' '}
-          <a href="tel:+18772228387" aria-label="1 8 7 7 2 2 2 8 3 8 7">
-            1-877-222-8387
-          </a>{' '}
-          (
-          <a href="tel:711" aria-label="TTY. 7 1 1">
-            TTY: 711
-          </a>
-          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-        </p>
-      </div>
-    </va-alert>
   );
 
   const errorComponent = (
@@ -181,6 +182,13 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     </>
   );
 
+  const getErrorComponent = () => {
+    if (formError.type === 'not found') {
+      return notFoundComponent();
+    }
+    return errorComponent;
+  };
+
   const successComponent = (
     <>
       {lastUpdatedComponent}
@@ -205,6 +213,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
   const loggedInComponent = (
     <>
       {lastUpdatedComponent}
+      {radioComponent}
       {downloadButton}
     </>
   );
@@ -232,15 +241,14 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     </va-alert>
   );
 
+  if (!displayToggle) {
+    return <></>;
+  }
   if (loggedIn) {
     if (formError.error) {
-      if (formError.type === 'not found') {
-        return notFoundComponent;
-      }
-      if (formError.type === 'download error') {
-        return errorComponent;
-      }
-    } else if (formDownloaded.downloaded) {
+      return getErrorComponent();
+    }
+    if (formDownloaded.downloaded) {
       return successComponent;
     }
     return loggedInComponent;
@@ -251,10 +259,12 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
 App.propTypes = {
   loggedIn: PropTypes.bool,
   toggleLoginModal: PropTypes.func.isRequired,
+  displayToggle: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   loggedIn: state?.user?.login?.currentlyLoggedIn || null,
+  displayToggle: toggleValues(state)[FEATURE_FLAG_NAMES.showDigitalForm1095b],
 });
 
 const mapDispatchToProps = dispatch => ({

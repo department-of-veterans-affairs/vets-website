@@ -58,9 +58,7 @@ export const sanitizeUrl = (url, path = '') => {
 };
 
 export const sanitizePath = to => {
-  if (!to) {
-    return '';
-  }
+  if (!to) return '';
   return to.startsWith('/') ? to : `/${to}`;
 };
 
@@ -149,6 +147,7 @@ export function sessionTypeUrl({
   type = '',
   queryParams = {},
   version = API_VERSION,
+  allowVerification = false,
 }) {
   if (!type) {
     return null;
@@ -180,7 +179,8 @@ export function sessionTypeUrl({
   // 2. The outbound application is one of the mobile apps
   // 3. The generated link type is for signup, and login only
   const requireVerification =
-    externalRedirect && (isLogin || isSignup) && config.requiresVerification
+    allowVerification ||
+    (externalRedirect && (isLogin || isSignup) && config.requiresVerification)
       ? '_verified'
       : '';
 
@@ -238,7 +238,7 @@ export function clearSentryLoginType() {
   Sentry.setTag('loginType', undefined);
 }
 
-export function redirect(redirectUrl, clickedEvent) {
+export function redirect(redirectUrl, clickedEvent, type = '') {
   const { application } = getQueryParams();
   const externalRedirect = isExternalRedirect();
   const existingReturnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL);
@@ -250,7 +250,7 @@ export function redirect(redirectUrl, clickedEvent) {
     createAndStoreReturnUrl();
   }
 
-  recordEvent({ event: clickedEvent });
+  recordEvent({ event: type ? `${clickedEvent}-${type}` : clickedEvent });
 
   // Trigger USiP External Auth Event
   if (
@@ -287,11 +287,19 @@ export function mfa(version = API_VERSION) {
   );
 }
 
-export function verify(version = API_VERSION) {
-  return redirect(
-    sessionTypeUrl({ type: POLICY_TYPES.VERIFY, version }),
-    AUTH_EVENTS.VERIFY,
-  );
+export async function verify({
+  policy = '',
+  version = API_VERSION,
+  clickedEvent = AUTH_EVENTS.VERIFY,
+}) {
+  const type = SIGNUP_TYPES[policy];
+  const url = await sessionTypeUrl({
+    type,
+    version,
+    allowVerification: true,
+  });
+
+  return redirect(url, clickedEvent, type);
 }
 
 export function logout(

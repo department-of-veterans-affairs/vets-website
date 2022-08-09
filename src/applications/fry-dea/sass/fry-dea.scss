@@ -98,7 +98,8 @@ $error-left-padding-width: 1.5rem;
 .usa-input-error .schemaform-required-span {
   font-weight: bold;
 }
-.usa-input-error .fry-dea-labels_label--main {
+.usa-input-error .fry-dea-labels_label--main,
+.review-row .fry-dea-labels_label--main {
   padding-left: 0 !important; // Override VADS spacing units
 }
 .usa-input-error .fry-dea-input-message {
@@ -127,3 +128,11 @@ $error-left-padding-width: 1.5rem;
   color: $color-green;
 }
 // END - Benefit Selection Page
+
+// Confirmation Page: Under Review
+.custom-fry-hr {
+  margin: 1rem 0;
+  width: 62/16 + 0em;
+}
+
+// END - Confirmation Page: Under Review

@@ -25,6 +25,9 @@ const fullName = require('./full-name');
 // set DELAY=1000 to add 1 sec delay to all responses
 const responseDelay = process?.env?.DELAY || 0;
 
+// uncomment if using status retries
+// let retries = 0;
+
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/user': user.handleUserRequest,
@@ -99,11 +102,22 @@ const responses = {
     return res.json(address.homeAddressUpdateReceived.response);
   },
   'GET /v0/profile/status/:id': (req, res) => {
-    if (req?.params?.id === 'erroredId') {
-      return res.json(
-        _.set(status.failure, 'data.attributes.transactionId', req.params.id),
-      );
-    }
+    // uncomment this to simlulate multiple status calls
+    // aka long latency on getting update to go through
+    // if (retries < 2) {
+    //   retries += 1;
+    //   return res.json(phoneNumber.transactions.received);
+    // }
+
+    // uncomment to conditionally provide a failure error code based on transaction id
+    // if (
+    //   req?.params?.id === 'erroredId' ||
+    //   req?.params?.id === '06880455-a2e2-4379-95ba-90aa53fdb273'
+    // ) {
+    //   return res.json(
+    //     _.set(status.failure, 'data.attributes.transactionId', req.params.id),
+    //   );
+    // }
 
     return res.json(
       _.set(status.success, 'data.attributes.transactionId', req.params.id),

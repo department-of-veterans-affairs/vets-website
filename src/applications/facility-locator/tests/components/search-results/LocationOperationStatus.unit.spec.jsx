@@ -6,16 +6,6 @@ import LocationOperationStatus from '../../../components/search-results-items/co
 
 describe('facility-locator', () => {
   describe('LocationOperationStatus', () => {
-    it('should have tabIndex on the div', () => {
-      const operatingStatus = { code: 'CLOSED' };
-      const { container } = render(
-        <LocationOperationStatus operatingStatus={operatingStatus} />,
-      );
-      expect(container.querySelector('div').getAttribute('tabindex')).to.equal(
-        '0',
-      );
-    });
-
     it('check in button passes axeCheck', () => {
       const operatingStatus = { code: 'CLOSED' };
       axeCheck(<LocationOperationStatus operatingStatus={operatingStatus} />);

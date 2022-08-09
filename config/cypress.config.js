@@ -13,6 +13,9 @@ const cypressConfig = {
     openMode: 0,
   },
   env: {
+    codeCoverage: {
+      exclude: ['src/**/*.cypress.spec.js?(x)'],
+    },
     vaTopMobileViewportsIterateUptoIndex: 0,
     vaTopMobileViewports: [
       {

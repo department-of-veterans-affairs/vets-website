@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import MetaTags from 'react-meta-tags';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { connect } from 'react-redux';
+import { setData } from 'platform/forms-system/src/js/actions';
 
 import {
   WIZARD_STATUS_NOT_STARTED,
@@ -15,18 +16,25 @@ import { ErrorAlert } from '../components/Alerts';
 import WizardContainer from '../wizard/WizardContainer';
 import { fetchFormStatus } from '../actions/index';
 import { WIZARD_STATUS } from '../wizard/constants';
-import { fsrWizardFeatureToggle, fsrFeatureToggle } from '../utils/helpers';
+import {
+  fsrWizardFeatureToggle,
+  fsrFeatureToggle,
+  combinedFSRFeatureToggle,
+} from '../utils/helpers';
 
 const App = ({
-  location,
   children,
-  isError,
-  pending,
-  isLoggedIn,
+  formData,
   getFormStatus,
-  showWizard,
-  showFSR,
+  isError,
+  isLoggedIn,
+  location,
+  pending,
   router,
+  setFormData,
+  showFSR,
+  showCombinedFSR,
+  showWizard,
 }) => {
   const [wizardState, setWizardState] = useState(
     sessionStorage.getItem(WIZARD_STATUS) || WIZARD_STATUS_NOT_STARTED,
@@ -63,6 +71,18 @@ const App = ({
       getFormStatus();
     },
     [getFormStatus],
+  );
+
+  useEffect(
+    () => {
+      setFormData({
+        ...formData,
+        'view:combinedFinancialStatusReportRecreationalVehicles': showCombinedFSR,
+      });
+    },
+    // Do not add formData to the dependency array, as it will cause an infinite loop. Linter warning will go away when feature flag is deprecated.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [showCombinedFSR, setFormData],
   );
 
   if (pending) {
@@ -103,26 +123,32 @@ const App = ({
 
 App.propTypes = {
   children: PropTypes.object,
+  formData: PropTypes.object,
   getFormStatus: PropTypes.func,
   isError: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   pending: PropTypes.bool,
   router: PropTypes.object,
+  setFormData: PropTypes.func,
+  showCombinedFSR: PropTypes.func,
   showFSR: PropTypes.bool,
   showWizard: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
+  formData: state.form.data,
   isLoggedIn: state.user.login.currentlyLoggedIn,
   isError: state.fsr.isError,
   pending: state.fsr.pending,
   showWizard: fsrWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
+  showCombinedFSR: combinedFSRFeatureToggle(state),
 });
 
 const mapDispatchToProps = dispatch => ({
   getFormStatus: () => dispatch(fetchFormStatus()),
+  setFormData: data => dispatch(setData(data)),
 });
 
 export default connect(

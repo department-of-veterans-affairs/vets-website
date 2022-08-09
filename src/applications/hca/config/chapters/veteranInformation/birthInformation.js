@@ -3,28 +3,18 @@ import constants from 'vets-json-schema/dist/constants.json';
 
 import AuthenticatedShortFormAlert from '../../../components/FormAlerts/AuthenticatedShortFormAlert';
 import { BirthInfoDescription } from '../../../components/FormDescriptions';
-import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
+
+import { emptyObjectSchema, NotHighDisability } from '../../../helpers';
 
 const { cityOfBirth } = fullSchemaHca.properties;
-const states = [
-  ...new Set(
-    Object.values(constants.states)
-      .reverse()
-      .flat(),
-  ),
-];
+const { states50AndDC } = constants;
 
 export default {
   uiSchema: {
     'view:authShortFormAlert': {
       'ui:field': AuthenticatedShortFormAlert,
       'ui:options': {
-        hideIf: form =>
-          !(
-            form['view:hcaShortFormEnabled'] &&
-            form['view:totalDisabilityRating'] &&
-            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-          ),
+        hideIf: NotHighDisability,
       },
     },
     'view:placeOfBirth': {
@@ -48,8 +38,8 @@ export default {
           cityOfBirth,
           stateOfBirth: {
             type: 'string',
-            enum: [...states.map(object => object.value), 'Other'],
-            enumNames: [...states.map(object => object.label), 'Other'],
+            enum: [...states50AndDC.map(object => object.value), 'Other'],
+            enumNames: [...states50AndDC.map(object => object.label), 'Other'],
           },
         },
       },
