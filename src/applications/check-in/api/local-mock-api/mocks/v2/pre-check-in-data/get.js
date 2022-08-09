@@ -32,7 +32,7 @@ const createMockSuccessResponse = (
       : dateFns.add(new Date(), { days: 1 });
 
   let apptKind = 'clinic';
-
+  let location = null;
   let checkInSteps = [];
   let status = '';
 
@@ -72,15 +72,15 @@ const createMockSuccessResponse = (
     token === canceledPhoneAppointmentUUID
   ) {
     apptKind = 'phone';
+    location = '';
   }
-
   return {
     id: token || defaultUUID,
     payload: {
       demographics: mockDemographics,
       appointments: [
         createAppointment({
-          clinicLocation: 'SECOND FLOOR ROOM 1',
+          clinicLocation: location ?? 'SECOND FLOOR ROOM 1',
           kind: apptKind,
           status,
           startTime: mockTime,
@@ -88,7 +88,7 @@ const createMockSuccessResponse = (
           preCheckInValid: true,
         }),
         createAppointment({
-          clinicLocation: 'SECOND FLOOR ROOM 2',
+          clinicLocation: location ?? 'SECOND FLOOR ROOM 2',
           kind: apptKind,
           status,
           startTime: mockTime,
