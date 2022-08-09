@@ -1,0 +1,97 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+// @media (man-width: $small-screen) {
+    .va-sidebarnav {
+        display: flex;
+        justify-content: center;
+        border: 1px solid $color-gray;
+        width: 264px;
+        height: 1925px;
+
+    }
+
+    ul{
+        margin: 0px;
+        padding: 0px;
+    }
+    .messages-nav-content {
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+
+    li a:hover, .va-sidebarnav .usa-sidenav-list > li a:hover {
+        background-color: transparent;
+        color: $color-black;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    li a:hover, .va-sidebarnav .usa-sidenav-list > li a:focus {
+        background-color: transparent;
+        color: $color-black;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    .usa-sidenav-list {
+        width: 232;
+        border-top: 1px solid $color-gray-light;
+        a {
+            font-weight: 400;
+            width: 184px;
+            padding-top: 0px;
+            padding-bottom: 0px;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+        li {
+            margin-top: 7px;
+        }
+    }
+
+    li {
+        list-style-type: none;
+        div.nav-title {
+            width: 264px;
+            padding: 0px;
+        }
+    }
+
+    .nav-title {
+        width: 264px;
+        height: 54px;
+        i.fa-medkit {
+            color: $color-white;
+            background-color: $color-primary;
+            margin-left: 32px;
+            padding: 8px;
+            padding-bottom: 10px;
+            border-radius: 100%;
+        }
+
+        h4 {
+            color: $color-gray-dark;
+            width: 88px;
+            margin-left: 5px;
+            margin-right: 61px;
+
+        }
+
+        button {
+        padding: 15px;
+        border-radius: 5px;
+        background-color: $color-gray-lightest;
+        margin: 0px;
+        margin-top: 3px;
+        .fa-times {
+                width: 14px;
+                color: $color-black;
+        }
+        }
+        button:hover {
+            background-color: $color-gray-lightest;
+        }
+    }
+// }
