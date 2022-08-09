@@ -86,12 +86,14 @@
     margin-right: 8px;
   }
 }
+
 .compose-container {
   margin-top: 16px;
   va-text-input.composeInput::part(input) {
     max-width: 100%;
   }
   @media (min-width: $medium-screen) {
+    padding: 0;
     label {
       max-width: 100%;
     }

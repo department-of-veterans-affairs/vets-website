@@ -89,72 +89,64 @@ const Compose = () => {
         </button>
       </nav>
 
-      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0 vads-u-padding-y--2">
-        <div className="vads-l-row vads-u-margin-x--neg2p5">
-          <div
-            className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--4 large-screen:vads-l-col--3"
-            style={{ marginTop: '24px' }}
+      <div className="vads-l-row">
+        <div
+          className="vads-l-col--12 medium-screen:vads-l-col--4 large-screen:vads-l-col--3"
+          style={{ marginTop: '24px' }}
+        >
+          <nav
+            className="va-sidebarnav vads-u-width--full"
+            id="va-detailpage-sidebar"
           >
-            <nav
-              className="va-sidebarnav vads-u-width--full"
-              id="va-detailpage-sidebar"
-            >
-              <div>
-                <button
-                  type="button"
-                  aria-label="Close this menu"
-                  className="va-btn-close-icon va-sidebarnav-close"
-                />
-                <div className="left-side-nav-title">
-                  <h4 style={{ lineHeight: '40px' }}>My Health</h4>
-                </div>
-                <ul className="usa-accordion">
-                  {navSections.map(item => (
-                    <SideNavItem
-                      key={item.title}
-                      links={item.links}
-                      title={item.title}
-                    />
-                  ))}
-                </ul>
+            <div>
+              <button
+                type="button"
+                aria-label="Close this menu"
+                className="va-btn-close-icon va-sidebarnav-close"
+              />
+              <div className="left-side-nav-title">
+                <h4 style={{ lineHeight: '60px' }}>My Health</h4>
               </div>
-            </nav>
+              <ul className="usa-accordion">
+                {navSections.map(item => (
+                  <SideNavItem
+                    key={item.title}
+                    links={item.links}
+                    title={item.title}
+                  />
+                ))}
+              </ul>
+            </div>
+          </nav>
+        </div>
+
+        <div className="vads-l-col--12 large-screen:vads-u-padding-left--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9">
+          <h1 className="page-title">Compose Message</h1>
+          <section>
+            <p className="emergency-note">
+              <strong>Note: </strong>
+              Call <a href="tel:911">911</a> if you have a medical emergency. If
+              you’re in crisis and need to talk to someone now, call the{' '}
+              <a href="tel:988">Veterans Crisis Line</a>. To speak with a VA
+              healthcare team member right away, contact your local VA call
+              center.
+            </p>
+          </section>
+          <div>
+            <BeforeMessageAddlInfo />
           </div>
 
-          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9">
-            <div
-              style={{
-                opacity: 0.5,
-              }}
-            />
-
-            <h1 className="page-title">Compose Message</h1>
-            <section>
-              <p className="emergency-note">
-                <strong>Note: </strong>
-                Call <a href="tel:911">911</a> if you have a medical emergency.
-                If you’re in crisis and need to talk to someone now, call the{' '}
-                <a href="tel:988">Veterans Crisis Line</a>. To speak with a VA
-                healthcare team member right away, contact your local VA call
-                center.
-              </p>
-            </section>
-            <div>
-              <BeforeMessageAddlInfo />
+          <section className="compose-block">
+            <div className="compose-header">
+              <h3>New Message</h3>
+              <button type="button" className="send-button-top">
+                <i className="fas fa-paper-plane" />
+                <span className="send-button-top-text">Send</span>
+              </button>
             </div>
 
-            <section className="compose-block">
-              <div className="compose-header">
-                <h3>New Message</h3>
-                <button type="button" className="send-button-top">
-                  <i className="fas fa-paper-plane" />
-                  <span className="send-button-top-text">Send</span>
-                </button>
-              </div>
-
-              <ComposeForm />
-            </section>
-          </div>
+            <ComposeForm />
+          </section>
         </div>
       </div>
     </div>
