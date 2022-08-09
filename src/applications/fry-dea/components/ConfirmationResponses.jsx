@@ -205,3 +205,15 @@ NotEligible.prototype = {
   name: PropTypes.object,
   response: PropTypes.object || PropTypes.bool,
 };
+
+export function LoadingResults() {
+  return (
+    <div className="vads-u-margin-y--5">
+      <va-loading-indicator
+        label="Loading"
+        message="Loading your results"
+        set-focus
+      />
+    </div>
+  );
+}
