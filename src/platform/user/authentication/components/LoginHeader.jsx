@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import LogoutAlert from 'platform/user/authentication/components/LogoutAlert';
-import DowntimeBanners from 'platform/user/authentication/components/DowntimeBanner';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
+import LogoutAlert from './LogoutAlert';
+import DowntimeBanners from './DowntimeBanner';
 
 function checkWebkit() {
   const ua = navigator.userAgent.toLowerCase();
