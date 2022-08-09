@@ -13,6 +13,7 @@ const ComposeForm = () => {
         onBlur={function noRefCheck() {}}
         onInput={function noRefCheck() {}}
         required
+        class="composeInput"
       />
       <button type="button" className="link-button edit-input-button">
         Edit List
@@ -26,15 +27,16 @@ const ComposeForm = () => {
         onBlur={function noRefCheck() {}}
         onInput={function noRefCheck() {}}
         required
+        class="composeInput"
       />
 
-      <va-textarea
-        label="Message"
-        name="message"
-        onBlur={function noRefCheck() {}}
-        onInput={function noRefCheck() {}}
-        required
-      />
+      <div className="message-field">
+        <label htmlFor="message">
+          Message
+          <span className="required">(*Required)</span>
+        </label>
+        <textarea id="message" name="message" className="message" />
+      </div>
 
       <section className="attachments-section">
         <label htmlFor="compose_attachments">Attachments</label>
@@ -79,13 +81,15 @@ const ComposeForm = () => {
         </VaAdditionalInfo>
       </section>
 
-      <button type="button" className="send-button-bottom">
-        <span className="send-button-bottom-text">Send</span>
-        <i className="fas fa-paper-plane" />
-      </button>
-      <button type="button" className="link-button">
-        Save as draft
-      </button>
+      <div className="compose-form-actions">
+        <button type="button" className="send-button-bottom">
+          <span className="send-button-bottom-text">Send</span>
+          <i className="fas fa-paper-plane" />
+        </button>
+        <button type="button" className="link-button save-draft-button">
+          Save as draft
+        </button>
+      </div>
     </form>
   );
 };
