@@ -14,8 +14,8 @@ const NeedHelpComponent = () => {
 
 const ConfirmationReceiptBox = ({ name }) => {
   return (
-    <div className="inset">
-      <h3 className="vads-u-font-size--h3">
+    <div className="inset vads-u-margin-top--3 vads-u-padding-y--3">
+      <h3 className="vads-u-margin-top--0p5">
         Application for VA education benefits (Form 22-5490)
       </h3>
       {name ? (
@@ -30,13 +30,13 @@ const ConfirmationReceiptBox = ({ name }) => {
         <dt>
           <strong>Date received</strong>
         </dt>
-        <dd>{format(new Date(), 'MMM d, yyyy')}</dd>
+        <dd>{format(new Date(), 'MMMM d, yyyy')}</dd>
       </dl>
 
       <button
         type="button"
         onClick={() => window.print()}
-        className="usa-button vads-u-width--auto"
+        className="usa-button vads-u-width--auto vads-u-margin-bottom--0"
       >
         Print this page
       </button>
@@ -167,8 +167,8 @@ export function Approved(name) {
             Congratulations, you’ve been approved for Survivors’ and Dependents’
             Educational Assistance
           </h2>
-          <div>
-            <p className="vads-u-margin-y--0 vads-u-margin-bottom--3">
+          <div className="vads-u-margin-top--1">
+            <p className="vads-u-margin-top--0p25 vads-u-margin-bottom--3">
               We reviewed your application and have determined that you’re
               entitled to educational benefits under Survivors’ and Dependents’
               Educational Assistance (DEA, Chapter 35). Your decision letter is
@@ -187,8 +187,8 @@ export function Approved(name) {
               <span className="vads-u-margin-left--0p25 vads-u-font-weight--bold">
                 Download your decision letter (PDF)
               </span>
-              .
             </a>
+            .
           </div>
         </va-alert>
         <ConfirmationReceiptBox name={name} />
@@ -276,8 +276,8 @@ export function NotEligible(name) {
           <h2 id="track-your-status-on-mobile" slot="headline">
             You’re not eligible for this benefit
           </h2>
-          <div>
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+          <div className="vads-u-margin-top--1">
+            <p className="vads-u-margin-top--0p25 vads-u-margin-bottom--3">
               Unfortunately, based on the information you provided and
               Department of Defense records, we have determined you’re not
               eligible for the Survivors’ and Dependents’ Educational Assistance
