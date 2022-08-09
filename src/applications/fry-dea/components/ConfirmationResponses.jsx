@@ -163,32 +163,24 @@ export function Approved(name) {
           status="success"
           visible
         >
-          <h2 slot="headline">
+          <h2 id="track-your-status-on-mobile" slot="headline">
             Congratulations, you’ve been approved for Survivors’ and Dependents’
             Educational Assistance
           </h2>
-          <div className="vads-u-margin-top--1p5">
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+          <div>
+            <p className="vads-u-margin-y--0">
               We reviewed your application and have determined that you’re
               entitled to educational benefits under Survivors’ and Dependents’
               Educational Assistance (DEA, Chapter 35). Your decision letter is
               now available. A physical copy will also be mailed to your mailing
               address.
             </p>
-            <a
+            <va-link
+              download
+              filetype="PDF"
               href="https://www.va.gov"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <i
-                className="fa fa-download vads-u-margin-right--1"
-                aria-hidden="true"
-              />
-              <span className="vads-u-margin-left--0p25 vads-u-font-weight--bold">
-                Download your decision letter (PDF)
-              </span>
-            </a>
-            .
+              text="Download your decision letter"
+            />
           </div>
         </va-alert>
         <ConfirmationReceiptBox name={name} />
@@ -198,21 +190,23 @@ export function Approved(name) {
         <ul>
           <li>
             Download a copy of your decision letter. This can also be found at{' '}
-            <a rel="noopener noreferrer" target="_blank" href="/vso/">
-              Download your VA education letters
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://va.gov/vso/"
+            >
+              Download your VA education letters.
             </a>
-            .
           </li>
           <li>
             <a
               rel="noopener noreferrer"
               target="_blank"
-              href="/education/gi-bill-comparison-tool/"
+              href="https://www.va.gov/education/gi-bill-comparison-tool/"
             >
               Use our GI Bill Comparison Tool to help you decide which education
-              program and school are best for you
+              program and school are best for you.
             </a>
-            .
           </li>
           <li>
             Once you’ve selected a school or program, you may bring your
@@ -223,12 +217,11 @@ export function Approved(name) {
             <a
               rel="noopener noreferrer"
               target="_blank"
-              href="/?next=%2Fprofile"
+              href="https://www.va.gov/?next=%2Fprofile"
             >
               Review and/or update your direct deposit information on your
-              VA.gov profile
+              VA.gov profile.
             </a>
-            .
           </li>
           <li>
             <a
@@ -237,9 +230,8 @@ export function Approved(name) {
               href="https://benefits.va.gov/GIBILL/docs/GIBguideseries/ChooseYourEducationPathway.pdf"
             >
               Learn more about VA benefits and programs through the Building
-              Your Future with the GI Bill Series
+              Your Future with the GI Bill Series.
             </a>
-            .
           </li>
         </ul>
       </div>

@@ -4,18 +4,21 @@ import { connect } from 'react-redux';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
-import { Approved } from '../components/ConfirmationResponses';
+import { UnderReview, Approved } from '../components/ConfirmationResponses';
 
 function createConfirmationPage(form) {
   const { data } = form;
   let name = data.veteranFullName;
 
-  name = {
-    first: 'John',
-    middle: 'J',
-    last: 'Doe',
-    suffix: 'Sr',
-  };
+  if (response) {
+    name = {
+      first: 'John',
+      middle: 'J',
+      last: 'Doe',
+      suffix: 'Sr',
+    };
+    return UnderReview(response, name);
+  }
   return Approved(name);
 }
 
