@@ -52,7 +52,11 @@ class SessionTimeoutModal extends React.Component {
   expireSession = () => {
     recordEvent({ event: 'logout-session-expired' });
     teardownProfileSession();
-    window.location = logoutUrlSiS();
+    if (!this.props.authenticatedWithOAuth) {
+      IAMLogout();
+    } else {
+      window.location = logoutUrlSiS();
+    }
   };
 
   extendSession = () => {
