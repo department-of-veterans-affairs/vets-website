@@ -36,7 +36,7 @@ const ConfirmationReceiptBox = ({ name }) => {
       <button
         type="button"
         onClick={() => window.print()}
-        className="usa-button vads-u-width--auto vads-u-margin-bottom--0"
+        className="usa-button vads-u-margin-bottom--0"
       >
         Print this page
       </button>
