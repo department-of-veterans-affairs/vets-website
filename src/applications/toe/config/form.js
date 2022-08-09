@@ -51,7 +51,11 @@ import {
   validateEmail,
 } from '../utils/validation';
 
-import { SPONSOR_RELATIONSHIP, formFields } from '../constants';
+import {
+  formFields,
+  SPONSOR_RELATIONSHIP,
+  YOUR_PROFILE_URL,
+} from '../constants';
 
 const { fullName, date, usaPhone, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
@@ -144,18 +148,18 @@ const formConfig = {
                 <>
                   <h3>Review your personal information</h3>
                   <p>
-                    This is the personal information we have on file for you. If
-                    you notice any errors, please correct them now. Any updates
-                    you make will change the information for your education
-                    benefits only.
+                    We have this personal information on file for you. If you
+                    notice any errors, please correct them now. Any updates you
+                    make will change the information for your education benefits
+                    only.
                   </p>
                   <p>
                     <strong>Note:</strong> If you want to update your personal
-                    information for other VA benefits, you can do that from your
-                    profile.
-                  </p>
-                  <p className="vads-u-margin-bottom--3">
-                    <GoToYourProfileLink />
+                    information for other VA benefits,{' '}
+                    <a href={YOUR_PROFILE_URL}>
+                      update your information on your profile
+                    </a>
+                    .
                   </p>
                 </>
               ),
