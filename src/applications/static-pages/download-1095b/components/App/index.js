@@ -8,10 +8,10 @@ import { connect } from 'react-redux';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-
 import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
+import recordEvent from '~/platform/monitoring/record-event';
 
 import {
   notFoundComponent,
@@ -121,7 +121,15 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
       name="1095-download-options"
       label={radioLabel}
       options={radioOptions}
-      onValueChange={({ value }) => updateFormType(value)}
+      onValueChange={({ value }) => {
+        updateFormType(value);
+        recordEvent({
+          event: 'int-radio-button-option-click',
+          'radio-button-label':
+            'Choose your file format and download your document',
+          'radio-button-option-click-label': value,
+        });
+      }}
       value={{ value: formType }}
       ariaDescribedby={radioOptionsAriaLabels}
       additionalFieldsetClass="vads-u-margin-top--0"
