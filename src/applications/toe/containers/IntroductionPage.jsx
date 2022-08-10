@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 const PrefillAlert = (
@@ -26,13 +25,13 @@ const PrefillAlert = (
 export const IntroductionPage = ({ user, route }) => {
   return (
     <div className="schemaform-intro">
-      <FormTitle title="Apply to use transferred education benefits" />
-      <p className="vads-u-font-size--h3">
+      <h1>Apply to use transferred education benefits</h1>
+      <h2 className="vads-u-font-size--h3 vads-u-font-size--h3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--2p5">
         Equal to VA Form 22-1990e (Application for Family Member to Use
         Transferred Benefits)
-      </p>
+      </h2>
 
-      <p>
+      <p className="vads-u-margin-top--4">
         <strong>Note:</strong> This application is only for{' '}
         <strong>Transfer of Entitlement for Post-9/11 GI Bill</strong> (Chapter
         33) education benefits.
