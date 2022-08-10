@@ -114,6 +114,17 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'recreational-vehicle-records': ({ afterHook }) => {
+        afterHook(() => {
+          cy.findByLabelText(/Type of vehicle/)
+            .type('Boat')
+            .type('{downarrow}{enter}');
+          cy.findByLabelText(/Estimated value/)
+            .type('2500')
+            .type('{downarrow}{enter}');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'resolution-options': ({ afterHook }) => {
         afterHook(() => {
           cy.get('[type="radio"][value="Compromise"]').click();

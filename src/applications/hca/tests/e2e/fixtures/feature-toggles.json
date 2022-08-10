@@ -3,7 +3,11 @@
     "type": "feature_toggles",
     "features": [
       {
-        "name": "caregiver_sigi_enabled",
+        "name": "caregiverSIGIEnabled",
+        "value": true
+      },
+      {
+        "name": "hcaMedicareClaimNumberEnabled",
         "value": true
       }
     ]

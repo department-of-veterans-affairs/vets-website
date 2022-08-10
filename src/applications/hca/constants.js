@@ -27,3 +27,12 @@ export const HCA_ENROLLMENT_STATUSES = Object.freeze({
   rejectedScWrongEntry: 'rejected_sc_wrongentry',
   rejectedRightEntry: 'rejected_rightentry',
 });
+
+export const IS_LOGGED_IN = 'isVeteranLoggedIn';
+export const USER_DOB = 'veteranDOB';
+export const IS_GTE_HIGH_DISABILITY =
+  'isVetetanDisabilityRatingGreaterThanOrEqualToHighDisability';
+export const IS_COMPENSATION_TYPE_HIGH =
+  'isCompensationTypeHighDisabilitySelected';
+export const IS_VETERAN_IN_MVI = 'isVeteranDataInMPI';
+export const IS_SHORT_FORM_ENABLED = 'isShortFormFeatureToggleEnabled';

@@ -79,6 +79,7 @@ const formConfig = {
         availableDebts: {
           initialData: {
             selectedDebts: [],
+            selectedCopays: [],
             debt: {
               currentAr: 0,
               debtHistory: [{ date: '' }],
@@ -311,11 +312,28 @@ const formConfig = {
           schema: pages.recreationalVehicles.schema,
         },
         recreationalVehicleRecords: {
+          path: 'cfsr-recreational-vehicle-records',
+          title: 'Recreational vehicles',
+          uiSchema:
+            pages.recreationalVehicleRecords
+              .combinedFSRRecreationalUIVehicleSchema,
+          schema:
+            pages.recreationalVehicleRecords
+              .combinedFSRRecreationalVehicleSchema,
+          depends: formData =>
+            formData.questions.hasRecreationalVehicle &&
+            formData['view:combinedFinancialStatusReportRecreationalVehicles'],
+          editModeOnReviewPage: true,
+        },
+        recreationalVehicleRecordsListLoop: {
           path: 'recreational-vehicle-records',
           title: 'Recreational vehicles',
-          uiSchema: pages.recreationalVehicleRecords.uiSchema,
-          schema: pages.recreationalVehicleRecords.schema,
-          depends: ({ questions }) => questions.hasRecreationalVehicle,
+          uiSchema:
+            pages.recreationalVehicleRecords.fSRRecreationalVehicleUISchema,
+          schema: pages.recreationalVehicleRecords.fSRRecreationalVehicleSchema,
+          depends: formData =>
+            formData.questions.hasRecreationalVehicle &&
+            !formData['view:combinedFinancialStatusReportRecreationalVehicles'],
           editModeOnReviewPage: true,
         },
         otherAssets: {

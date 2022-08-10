@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { locationShouldBeDisplayed } from '../../utils/appointment';
 import AppointmentLocation from './AppointmentLocation';
 
 import AppointmentAction from './AppointmentAction';
@@ -24,6 +25,18 @@ const AppointmentListItem = props => {
         </h2>
         <div id={apptId}>
           <p className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-font-family--serif vads-u-font-weight--bold appointment-detail">
+            <span className="item-label">{t('type-of-care')}: </span>
+            <span className="item-value" data-testid="type-of-care">
+              {appointment.clinicStopCodeName ?? t('VA-appointment')}
+            </span>
+            {appointment.doctorName && (
+              <>
+                <span className="item-label">{t('provider')}: </span>
+                <span className="item-value" data-testid="provider">
+                  {appointment.doctorName}
+                </span>
+              </>
+            )}
             <span className="item-label">{t('facility')}: </span>
             <span className="item-value" data-testid="facility-name">
               {appointment.facility}
@@ -32,7 +45,7 @@ const AppointmentListItem = props => {
             <span className="item-value" data-testid="clinic-name">
               <AppointmentLocation appointment={appointment} />
             </span>
-            {appointment.clinicLocation && (
+            {locationShouldBeDisplayed(appointment) && (
               <>
                 <span className="item-label">{t('location')}: </span>
                 <span className="item-value" data-testid="clinic-location">

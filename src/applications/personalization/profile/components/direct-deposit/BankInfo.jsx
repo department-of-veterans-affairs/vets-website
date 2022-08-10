@@ -382,7 +382,7 @@ export const BankInfo = ({
       >
         <p>
           {' '}
-          {`You haven’t finished editing your direct deposit information. If you cancel, your in-progress work won’t be saved.`}
+          {`You haven't finished editing and saving the changes to your direct deposit information. If you cancel now, we won't save your changes.`}
         </p>
         <button
           className="usa-button-secondary"

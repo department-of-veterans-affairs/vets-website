@@ -59,11 +59,7 @@ export const fetchFormStatus = () => async dispatch => {
   });
 };
 
-export const fetchDebts = () => async (dispatch, getState) => {
-  const state = getState();
-  const { currentlyLoggedIn } = state.user.login;
-  const fetchApiData = currentlyLoggedIn && isVAProfileServiceConfigured();
-
+export const fetchDebts = async dispatch => {
   const getDebts = () => {
     const options = {
       method: 'GET',
@@ -75,7 +71,7 @@ export const fetchDebts = () => async (dispatch, getState) => {
       },
     };
 
-    return fetchApiData
+    return isVAProfileServiceConfigured()
       ? apiRequest(`${environment.API_URL}/v0/debts`, options)
       : debtMockResponse();
   };

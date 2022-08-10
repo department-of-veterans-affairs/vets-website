@@ -3,6 +3,8 @@ import {
   defaultSignUpProviders,
   defaultSignInProviders,
   defaultMobileQueryParams,
+  defaultWebOAuthOptions,
+  defaultMobileOAuthOptions,
 } from './constants';
 
 export default {
@@ -11,11 +13,12 @@ export default {
     allowedSignUpProviders: { ...defaultSignUpProviders },
     isMobile: false,
     queryParams: {
-      allowOAuth: false,
+      allowOAuth: true,
       allowPostLogin: true,
       allowRedirect: false,
     },
-    OAuthEnabled: false,
+    oAuthOptions: defaultWebOAuthOptions,
+    OAuthEnabled: true,
     requiresVerification: false,
   },
   [EXTERNAL_APPS.MHV]: {
@@ -64,6 +67,7 @@ export default {
     queryParams: { ...defaultMobileQueryParams },
     OAuthEnabled: true,
     requiresVerification: true,
+    oAuthOptions: defaultMobileOAuthOptions,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_FLAGSHIP_MOBILE],
   },
   [EXTERNAL_APPS.VA_OCC_MOBILE]: {
@@ -73,6 +77,7 @@ export default {
     queryParams: { ...defaultMobileQueryParams },
     OAuthEnabled: true,
     requiresVerification: true,
+    oAuthOptions: defaultMobileOAuthOptions,
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.VA_OCC_MOBILE],
   },
 };
