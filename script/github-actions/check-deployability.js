@@ -109,7 +109,7 @@ const isAheadOfLastFullDeploy = async (commitSha, env) => {
  * Determines if the given commit sha can be deployed to non production environments.
  *
  * @param {string} commitSha - Commit sha
- * @param {string} runNumber - Run number of the workflow run
+ * @param {number} runNumber - Run number of the workflow run
  * @param {string} env - Environment name
  * @returns {Boolean} Whether or not the commit can be deployed to the environment.
  */
