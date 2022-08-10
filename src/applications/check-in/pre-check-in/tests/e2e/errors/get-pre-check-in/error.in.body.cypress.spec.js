@@ -35,6 +35,7 @@ describe('Pre-Check In Experience ', () => {
         ValidateVeteran.validateVeteran();
         ValidateVeteran.attemptToGoToNextPage();
         Error.validatePageLoaded();
+        cy.createScreenshots('Pre-check-in--general-error');
       });
     });
   });

@@ -37,7 +37,7 @@ export default function RequestListItem({ appointment, facility }) {
     'MMMM D, YYYY',
   );
   const link = `requests/${appointment.id}`;
-  const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
+  const idClickable = `id-${appointment.id?.replace('.', '\\.')}`;
   const featureStatusImprovement = useSelector(state =>
     selectFeatureStatusImprovement(state),
   );

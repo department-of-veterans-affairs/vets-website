@@ -121,9 +121,6 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Update browserslist
-        run: npx browserslist@latest --update-db
-
       - name: Create test results folder
         run: mkdir -p test-results
 
@@ -352,9 +349,6 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Update browserslist
-        run: npx browserslist@latest --update-db
-
       - name: Get changed applications
         id: get-changed-apps
         uses: ./.github/workflows/get-changed-apps
@@ -532,7 +526,7 @@ jobs:
       - name: Install dependencies
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         uses: ./.github/workflows/install
-        timeout-minutes: 30
+        timeout-minutes: 20
         with:
           key: ${{ hashFiles('yarn.lock') }}
           yarn_cache_folder: .cache/yarn
@@ -548,7 +542,7 @@ jobs:
       - name: Run Cypress tests
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 30
+        timeout-minutes: 40
         env:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
@@ -1086,17 +1080,39 @@ jobs:
           aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
           aws s3 cp BUILD_ARTIFACT.txt s3://vetsgov-website-builds-s3-upload-test/build-artifacts/$GITHUB_SHA.txt --acl public-read --region us-gov-west-1
 
-  get-latest-run-number:
-    name: Get Latest Workflow Run Number
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
-    if: ${{ always() && github.ref == 'refs/heads/main' && needs.archive.result == 'success' }}
-    needs: archive
-    outputs:
-      latest_run_number: ${{ steps.latest-run-number.outputs.latest_run_number }}
+    if: always() && github.ref == 'refs/heads/main' && needs.archive.result == 'success'
+    needs: [archive, build]
+
+    strategy:
+      matrix:
+        include:
+          - environment: vagovdev
+            deploy-bucket: dev.va.gov
+            asset-bucket: dev-va-gov-assets
+            iam-role: AWS_FRONTEND_NONPROD_ROLE
+
+          - environment: vagovstaging
+            deploy-bucket: staging.va.gov
+            asset-bucket: staging-va-gov-assets
+            iam-role: AWS_FRONTEND_NONPROD_ROLE
+
+          - environment: vagovprod
+            deploy-bucket: www.va.gov
+            asset-bucket: prod-va-gov-assets
+            iam-role: AWS_FRONTEND_PROD_ROLE
+
+    env:
+      DEPLOY_TO_PRODUCTION: false # Enables production deployments for apps on the allowlist when set to true
+      IS_ISOLATED_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Install dependencies
         uses: ./.github/workflows/install
@@ -1108,33 +1124,24 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Set output of latest_run_number
-        id: latest-run-number
-        run: echo ::set-output name=latest_run_number::$(node ./script/github-actions/get-latest-run-number.js)
+      - name: Check commit deployability
+        id: check-deployability
+        run: node ./script/github-actions/check-deployability.js
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BUILDTYPE: ${{ matrix.environment }}
 
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-    if: ${{ always() && github.ref == 'refs/heads/main' && needs.get-latest-run-number.result == 'success' && needs.get-latest-run-number.outputs.latest_run_number == github.run_number}}
-    needs: [build, get-latest-run-number]
-
-    strategy:
-      matrix:
-        include:
-          - environment: vagovdev
-            deploy-bucket: dev.va.gov
-            asset-bucket: dev-va-gov-assets
-          - environment: vagovstaging
-            deploy-bucket: staging.va.gov
-            asset-bucket: staging-va-gov-assets
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Set environment variable DEPLOY_COMMIT
+        run: |
+          if [[ "${{ steps.check-deployability.outputs.is_deployable }}" == "false" ]]; then
+            echo "DEPLOY_COMMIT=false" >> $GITHUB_ENV
+          elif [[ "${{ matrix.environment }}" != "vagovprod" ]]; then
+            echo "DEPLOY_COMMIT=true" >> $GITHUB_ENV
+          else
+            echo "DEPLOY_COMMIT=${{ env.IS_ISOLATED_APP_BUILD && env.DEPLOY_TO_PRODUCTION }}" >> $GITHUB_ENV
+          fi
 
       - name: Configure AWS credentials (1)
+        if: env.DEPLOY_COMMIT == 'true'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -1142,24 +1149,27 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get AWS IAM role
+        if: env.DEPLOY_COMMIT == 'true'
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
-          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
-          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+          ssm_parameter: /frontend-team/github-actions/parameters/${{ matrix.iam-role }}
+          env_variable_name: ${{ matrix.iam-role }}
 
       - name: Configure AWS Credentials (2)
+        if: env.DEPLOY_COMMIT == 'true'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-gov-west-1
-          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE != '' && env.AWS_FRONTEND_NONPROD_ROLE || env.AWS_FRONTEND_PROD_ROLE }}
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Deploy
+        if: env.DEPLOY_COMMIT == 'true'
         run: |
-          if [[ -n "${{ needs.build.outputs.entry_names }}" ]]; then
+          if [[ "${{ env.IS_ISOLATED_APP_BUILD }}" == "true" ]]; then
             ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
           else
             ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v

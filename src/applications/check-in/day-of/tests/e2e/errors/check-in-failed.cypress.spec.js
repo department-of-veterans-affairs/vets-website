@@ -46,5 +46,6 @@ describe('Check In Experience -- ', () => {
     Error.validatePageLoaded();
     cy.injectAxe();
     cy.axeCheck();
+    cy.createScreenshots('Day-of-check-in--Error');
   });
 });

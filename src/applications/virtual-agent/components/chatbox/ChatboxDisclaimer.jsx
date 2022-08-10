@@ -14,7 +14,8 @@ export const ChatboxDisclaimer = () => {
           <li>
             Our chatbot can’t help you if you’re experiencing a personal,
             medical, or mental health emergency. Go to the nearest emergency
-            room or call 911 to get medical care right away.
+            room, dial 988 and press 1 for mental health support, or call 911 to
+            get medical care right away.
             <br />
             <a href="/health-care/health-needs-conditions/mental-health/">
               Learn more about VA mental health services
