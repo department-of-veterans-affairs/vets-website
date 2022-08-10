@@ -1112,7 +1112,7 @@ jobs:
       - name: Determine environments
         id: set-matrix
         run: |
-          if [[ ${{ env.DEPLOY_TO_PRODUCTION && env.IS_ISOLATED_APP_BUILD }} ]]; then
+          if [[ ${{ env.DEPLOY_TO_PRODUCTION && env.IS_ISOLATED_APP_BUILD }} == true ]]; then
             echo ::set-output name=matrix::{\"include\":[${{env.DEV}},${{env.STAGING}},${{env.PROD}}]}
           else
             echo ::set-output name=matrix::{\"include\":[${{env.DEV}},${{env.STAGING}}]}
