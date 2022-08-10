@@ -7,8 +7,10 @@ import moment from 'moment';
 import guid from 'simple-guid';
 import { ICS_LINE_LIMIT } from '../utils/calendar';
 
+import stuff from '../../appeals/10182/components/ContactInformation';
+
 function formatDescription(description, location = '') {
-  if (!description || !description.text) {
+  if (!description || !description.text || stuff) {
     return 'DESCRIPTION:';
   }
 
