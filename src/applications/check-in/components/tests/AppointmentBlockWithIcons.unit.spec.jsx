@@ -15,6 +15,8 @@ const appointments = [
     clinicName: 'LOM ACC CLINIC TEST',
     appointmentIen: 'some-ien',
     startTime: '2021-11-16T21:39:36',
+    doctorName: 'Dr. Green',
+    clinicStopCodeName: 'Primary care',
     kind: 'clinic',
   },
   {
@@ -237,6 +239,23 @@ describe('pre-check-in', () => {
             .getAllByTestId('appointment-list-item')[1]
             .querySelector('[data-testid="clinic-location"]'),
         ).to.not.exist;
+      });
+      it('should render the type of care when available or default', () => {
+        const screen = render(
+          <I18nextProvider i18n={i18n}>
+            <AppointmentBlockWithIcons appointments={appointments} />
+          </I18nextProvider>,
+        );
+        expect(
+          screen
+            .getAllByTestId('appointment-list-item')[0]
+            .querySelector('[data-testid="type-of-care"]'),
+        ).to.have.text('Primary care');
+        expect(
+          screen
+            .getAllByTestId('appointment-list-item')[1]
+            .querySelector('[data-testid="type-of-care"]'),
+        ).to.have.text('VA Appointment');
       });
       it('should not render the appointment location for phone appointments even when available', () => {
         const phoneLocationAppointments = cloneDeep(appointments);
