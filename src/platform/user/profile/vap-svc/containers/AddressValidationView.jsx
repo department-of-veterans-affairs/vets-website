@@ -164,6 +164,7 @@ class AddressValidationView extends React.Component {
         isLoading={isLoading}
         className="usa-button-primary"
         data-testid="confirm-address-button"
+        aria-label={isLoading ? 'Loading' : buttonText}
       >
         {buttonText}
       </LoadingButton>

@@ -7,8 +7,9 @@ import {
   DefinitionTester,
   fillData,
   selectRadio,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig from '../../config/form.js';
+  selectCheckbox,
+} from 'platform/testing/unit/schemaform-utils';
+import formConfig from '../../config/form';
 
 describe('686 stepchild information', () => {
   const formData = {
@@ -42,6 +43,7 @@ describe('686 stepchild information', () => {
     schema,
     uiSchema,
     arrayPath,
+    updateFormData,
   } = formConfig.chapters.reportStepchildNotInHousehold.pages.stepchildInformation;
 
   it('should render', () => {
@@ -89,6 +91,7 @@ describe('686 stepchild information', () => {
         data={formData}
         onSubmit={onSubmit}
         definitions={formConfig.defaultDefinitions}
+        updateFormData={updateFormData}
       />,
     );
     fillData(form, 'input#root_whoDoesTheStepchildLiveWith_first', 'Bill');
@@ -98,6 +101,14 @@ describe('686 stepchild information', () => {
     fillData(form, 'input#root_address_city', 'The City');
     fillData(form, 'input#root_address_zipCode', '12345');
     changeDropdown(form, 'select#root_address_stateCode', 'AL');
+
+    // test military base toggle restores the previous city/state
+    selectCheckbox(form, 'root_address_view:livesOnMilitaryBase', true);
+    changeDropdown(form, 'select#root_address_city', 'APO');
+    changeDropdown(form, 'select#root_address_stateCode', 'AA');
+    selectCheckbox(form, 'root_address_view:livesOnMilitaryBase', false);
+    // test end
+
     selectRadio(form, 'root_supportingStepchild', 'N');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

@@ -9,7 +9,7 @@ import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
 import ProgressButton from '../components/ProgressButton';
-import { focusOnChange } from '../utilities/ui';
+import { focusOnChange, getFocusableElements } from '../utilities/ui';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema, showReviewField } from '../helpers';
 import ArrayField from './ArrayField';
@@ -19,6 +19,7 @@ import { reduceErrors } from '../utilities/data/reduceErrors';
 import { setFormErrors } from '../actions';
 
 const { Element, scroller } = Scroll;
+const scrollOffset = -40;
 
 /*
  * Displays all the pages in a chapter on the review page
@@ -34,20 +35,6 @@ class ReviewCollapsibleChapter extends React.Component {
     this.id = uniqueId();
   }
 
-  onChange(formData, path = null, index = null) {
-    let newData = formData;
-    if (path) {
-      newData = set([path, index], formData, this.props.form.data);
-    }
-    this.props.setData(newData);
-  }
-
-  focusOnPage(key) {
-    const name = `${key.replace(/:/g, '\\:')}`;
-    // legend & label target array type form elements
-    focusOnChange(name, 'p, legend, label');
-  }
-
   handleEdit(key, editing, index = null) {
     this.props.onEdit(key, editing, index);
     this.scrollToPage(`${key}${index === null ? '' : index}`);
@@ -56,6 +43,14 @@ class ReviewCollapsibleChapter extends React.Component {
       // the edit button to the this target
       this.focusOnPage(`${key}${index === null ? '' : index}`);
     }
+  }
+
+  onChange(formData, path = null, index = null) {
+    let newData = formData;
+    if (path) {
+      newData = set([path, index], formData, this.props.form.data);
+    }
+    this.props.setData(newData);
   }
 
   handleSubmit = (formData, key, path = null, index = null) => {
@@ -68,10 +63,6 @@ class ReviewCollapsibleChapter extends React.Component {
 
     this.handleEdit(key, false, index);
   };
-
-  scrollToPage(key) {
-    scroller.scrollTo(`${key}ScrollElement`, getScrollOptions({ offset: -40 }));
-  }
 
   shouldHideExpandedPageTitle = (expandedPages, chapterTitle, pageTitle) =>
     expandedPages.length === 1 &&
@@ -195,7 +186,7 @@ class ReviewCollapsibleChapter extends React.Component {
           onChange={formData =>
             this.onChange(
               typeof page.updateFormData === 'function'
-                ? page.updateFormData(form.data, formData)
+                ? page.updateFormData(form.data, formData, page.index)
                 : formData,
               page.arrayPath,
               page.index,
@@ -245,7 +236,7 @@ class ReviewCollapsibleChapter extends React.Component {
               setData={formData =>
                 this.props.setData(
                   typeof page.updateFormData === 'function'
-                    ? page.updateFormData(form.data, formData)
+                    ? page.updateFormData(form.data, formData, page.index)
                     : formData,
                 )
               }
@@ -324,6 +315,36 @@ class ReviewCollapsibleChapter extends React.Component {
     );
   };
 
+  /**
+   * Focuses on the first focusable element
+   * @param {string} key - The specific page key used to find the element to focus on
+   */
+  focusOnPage = key => {
+    const name = `${key.replace(/:/g, '\\:')}`;
+    const scrollElement = document.querySelector(
+      `[name="${name}ScrollElement"]`,
+    );
+
+    if (scrollElement && scrollElement.parentElement) {
+      // Wait for edit view to render
+      setTimeout(() => {
+        const focusableElements = getFocusableElements(
+          scrollElement.parentElement,
+        );
+
+        // Sets focus on the first focusable element
+        focusOnChange(name, `[id="${focusableElements[0].id}"]`);
+      }, 0);
+    }
+  };
+
+  scrollToPage = key => {
+    scroller.scrollTo(
+      `${key}ScrollElement`,
+      getScrollOptions({ offset: scrollOffset }),
+    );
+  };
+
   render() {
     let pageContent = null;
 
@@ -362,6 +383,7 @@ class ReviewCollapsibleChapter extends React.Component {
                 aria-controls={`collapsible-${this.id}`}
                 onClick={this.props.toggleButtonClicked}
                 id={`collapsibleButton${this.id}`}
+                type="button"
               >
                 {chapterTitle || ''}
               </button>

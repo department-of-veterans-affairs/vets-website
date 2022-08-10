@@ -59,10 +59,25 @@
     {
       "hostname": "ea.oit.va.gov",
       "pathnameBeginning": "/",
-      "cookieOnly": true
+      "cookieOnly": false
     },
     {
       "hostname": "www.ea.oit.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "va.gov/formularyadvisor",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.va.gov/formularyadvisor",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "vaww.internet.staging.va.gov/formularyadvisor",
       "pathnameBeginning": "/",
       "cookieOnly": true
     },

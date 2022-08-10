@@ -10,9 +10,18 @@ function AppointmentListSection() {
   useManualScrollRestoration();
   return (
     <Switch>
-      <Route path="/cc/:id" component={CommunityCareAppointmentDetailsPage} />
-      <Route path="/va/:id" component={ConfirmedAppointmentDetailsPage} />
-      <Route path="/requests/:id" component={RequestedAppointmentDetailsPage} />
+      <Route
+        path="/:pastOrPending?/cc/:id"
+        component={CommunityCareAppointmentDetailsPage}
+      />
+      <Route
+        path="/:pastOrPending?/va/:id"
+        component={ConfirmedAppointmentDetailsPage}
+      />
+      <Route
+        path="/:pastOrPending?/requests/:id"
+        component={RequestedAppointmentDetailsPage}
+      />
       <Route path="/" component={AppointmentsPageV2} />
     </Switch>
   );

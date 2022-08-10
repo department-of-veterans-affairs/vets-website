@@ -39,11 +39,14 @@ export const errorMessages = {
   savedFormNotFound: 'Please start over to request a Supplemental Claim',
   savedFormNoAuth:
     'Please sign in again to continue your request a Supplemental Claim',
-  forwardStartDate: 'Please select a date',
+  invalidDate: 'Please choose a date',
   startDateInPast: 'Start date must be in the future',
   endDateInPast: 'End date must be in the future',
   endDateBeforeStart: 'End date must be after start date',
   contestedIssue: 'Please select an eligible issue',
+
+  evidenceTypeMissing: 'Please select at least one type of supporting evidence',
+  locationAndNameMissing: 'Please add a treatment location',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
@@ -84,6 +87,50 @@ export const CLAIMANT_TYPES = [
   'parent_of_veteran',
   'other',
 ];
+
+export const SUPPORTED_UPLOAD_TYPES = ['pdf'];
+
+export const MAX_FILE_SIZE_MB = 100;
+export const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 ** 2; // binary based
+
+export const ATTACHMENTS_PRIVATE = {
+  L049: 'Medical Treatment Record - Non-Government Facility',
+  L107: 'VA 21-4142 Authorization for Release of Information',
+  L023: 'Other',
+};
+
+export const ATTACHMENTS_OTHER = {
+  L015: 'Buddy/Lay Statement',
+  L018: 'Civilian Police Reports',
+  L029: 'Copy of a DD214',
+  L702: 'Disability Benefits Questionnaire (DBQ)',
+  L703: 'Goldmann Perimetry Chart/Field Of Vision Chart',
+  L034: 'Military Personnel Record',
+  L478: 'Medical Treatment Records - Furnished by SSA',
+  L048: 'Medical Treatment Record - Government Facility',
+  L049: 'Medical Treatment Record - Non-Government Facility',
+  L023: 'Other Correspondence',
+  L070: 'Photographs',
+  L222:
+    'VA Form 21-0779 - Request for Nursing Home Information in Connection with Claim for Aid & Attendance',
+  L228: 'VA Form 21-0781 - Statement in Support of Claim for PTSD',
+  L229:
+    'VA Form 21-0781a - Statement in Support of Claim for PTSD Secondary to Personal Assault',
+  L102:
+    'VA Form 21-2680 - Examination for Housebound Status or Permanent Need for Regular Aid & Attendance',
+  L107: 'VA Form 21-4142 - Authorization To Disclose Information',
+  L827: 'VA Form 21-4142a - General Release for Medical Provider Information',
+  L115:
+    'VA Form 21-4192 - Request for Employment Information in Connection with Claim for Disability',
+  L117:
+    'VA Form 21-4502 - Application for Automobile or Other Conveyance and Adaptive Equipment Under 38 U.S.C. 3901-3904',
+  L159:
+    'VA Form 26-4555 - Application in Acquiring Specially Adapted Housing or Special Home Adaptation Grant',
+  L133: 'VA Form 21-674 - Request for Approval of School Attendance',
+  L139: 'VA Form 21-686c - Declaration of Status of Dependents',
+  L149:
+    'VA Form 21-8940 - Veterans Application for Increased Compensation Based on Un-employability',
+};
 
 // Values from Lighthouse maintained schema
 // see ./config/form-0995-schema.json

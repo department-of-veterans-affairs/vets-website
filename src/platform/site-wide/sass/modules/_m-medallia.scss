@@ -51,6 +51,13 @@
   position: relative;
 }
 
+/* Very specific override that fixes an issue where the modal is unreadable because it is constrained to the width of col-sm-1 on tablet screens */
+@media (min-width: 576px) {
+  #liveForm>div>div.row.neb-form-close-btn-container.ng-hide>div.col-sm-offset-11.col-sm-1 {
+    max-width: 100% !important;
+  }
+}
+
 /* https://github.com/department-of-veterans-affairs/va.gov-team/issues/18706#issuecomment-769341669 */
 /* style the focus-circles on radio buttons for the survey page */
 .neb-component

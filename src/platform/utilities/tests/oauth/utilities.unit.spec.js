@@ -1,8 +1,5 @@
 /* eslint-disable camelcase */
 import { expect } from 'chai';
-import sinon from 'sinon';
-import addSeconds from 'date-fns/addSeconds';
-import subSeconds from 'date-fns/subSeconds';
 
 import localStorage from 'platform/utilities/storage/localStorage';
 import {
@@ -230,29 +227,6 @@ describe('OAuth - Utilities', () => {
     });
   });
 
-  describe('canCallRefresh', () => {
-    it('should return null if no localStorage item set', () => {
-      localStorage.clear();
-      expect(oAuthUtils.canCallRefresh()).to.be.null;
-    });
-    it('should return a boolean if a refresh should be called', () => {
-      localStorage.clear();
-      let atExpires = addSeconds(new Date(), 500);
-      localStorage.setItem('atExpires', atExpires);
-      expect(oAuthUtils.canCallRefresh()).to.be.false;
-
-      atExpires = subSeconds(new Date(), 500);
-      localStorage.setItem('atExpires', atExpires);
-      expect(oAuthUtils.canCallRefresh()).to.be.true;
-    });
-    it('should remove `atExpires` from localStorage', () => {
-      localStorage.clear();
-      localStorage.setItem('atExpires', addSeconds(new Date(), 200));
-      oAuthUtils.canCallRefresh();
-      expect(localStorage.getItem('atExpires')).to.be.null;
-    });
-  });
-
   describe('removeInfoToken', () => {
     it('should return null if infoTokenExists results to false', () => {
       global.document.cookie = 'FLIPPER_ID=abc123;other_cookie=true;';
@@ -306,11 +280,6 @@ describe('OAuth - Utilities', () => {
       expect(global.fetch.calledOnce).to.be.true;
       expect(global.fetch.firstCall.args[1].method).to.equal('POST');
       expect(global.fetch.firstCall.args[0].includes('/refresh')).to.be.true;
-    });
-    it('should use callback if specified', async () => {
-      const callback = sinon.spy();
-      expect(await oAuthUtils.refresh(callback));
-      expect(callback.calledOnce).to.be.true;
     });
   });
 
@@ -372,6 +341,15 @@ describe('OAuth - Utilities', () => {
       oAuthUtils.removeStateAndVerifier();
       expect(Object.keys(storage).length).to.eql(1);
       expect(storage.getItem('otherKey')).to.eql('otherValue');
+    });
+  });
+
+  describe('logout', () => {
+    it('should redirect to backend for logout', () => {
+      window.location = new URL('https://va.gov/?state=some_random_state');
+      const url = oAuthUtils.logoutUrlSiS();
+      window.location = url;
+      expect(window.location).to.eql(url);
     });
   });
 });

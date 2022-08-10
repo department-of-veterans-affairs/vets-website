@@ -26,19 +26,17 @@ ol.check-in--appointment-list {
   .check-in--appointment-item{
     width: 100%;
     div.check-in--appointment-summary{
-      display: grid;
-      grid-template-columns: min-content auto;
-      grid-template-rows: auto auto auto;
-      grid-template-areas: "header header";
-
-      .appointment-type-label{
-        grid-area: header;
-        align-self: center;
-      }
-
       div.check-in--label{
         margin-top: 0;
         font-weight: bold;
+        display: inline;
+      }
+      div.check-in--value {
+        display: inline;
+        &::after {
+          content: "";
+          display: block;
+        }
       }
     }
   }
@@ -64,16 +62,9 @@ ol.appointment-list{
         font-size: 2.4rem;
         line-height: 36px;
       }
-      .appointment-detail {
-        display: flex;
-        flex-wrap: wrap;
-      }
-      span.item-label {
-        flex: 0 0 74px;
-      }
-      span.item-value {
-        flex: 1 1 calc(100% - 74px);
-        margin-left: auto;
+      span.item-value::after {
+        content: "";
+        display: block;
       }
     }
   }

@@ -6,6 +6,7 @@ import Helpdesk from './HelpdeskContact';
 export default function RenderErrorContainer({
   code = AUTH_ERROR.DEFAULT,
   auth = AUTH_LEVEL.FAIL,
+  requestId = '',
   recordEvent = () => ({}),
   openLoginModal = () => ({}),
 }) {
@@ -300,6 +301,39 @@ export default function RenderErrorContainer({
       );
       break;
 
+    case AUTH_ERROR.OAUTH_INVALID_REQUEST:
+      alertContent = (
+        <p className="vads-u-margin-top--0">
+          We’re having trouble signing you in to VA.gov because there was an
+          error in the URL.
+        </p>
+      );
+      troubleshootingContent = (
+        <>
+          <h2>What you can do:</h2>
+          <p>
+            <strong>Try taking these steps to fix the problem:</strong>
+          </p>
+          <ul>
+            <li>
+              Clear your Internet browser’s cookies and cache. Depending on
+              which browser you’re using, you’ll usually find this information
+              referred to as “Browsing Data,”, “Browsing History,” or “Website
+              Data.”
+            </li>
+            <li>
+              Make sure you have cookies enabled in your browser settings.
+              Depending on which browser you’re using, you’ll usually find this
+              information in the “Tools,” “Settings,” or “Preferences” menu.
+            </li>
+          </ul>
+          <Helpdesk>
+            If you’ve taken the steps above and still can’t sign in,
+          </Helpdesk>
+        </>
+      );
+      break;
+
     // Catch all generic error
     default:
       alertContent = (
@@ -370,8 +404,19 @@ export default function RenderErrorContainer({
         {alertContent}
       </va-alert>
       {troubleshootingContent}
-      <p>
-        <em>Error code: {code}</em>
+      <p className="vads-u-font-style--italic">
+        <span className="vads-u-display--block" data-testid="error-code">
+          Error code: {code}
+        </span>
+        <span data-testid="request-id" className="vads-u-display--block">
+          Request ID: {requestId}
+        </span>
+        <span className="vads-u-display--block" data-testid="timestamp">
+          {new Intl.DateTimeFormat('en-US', {
+            dateStyle: 'medium',
+            timeStyle: 'long',
+          }).format(new Date())}
+        </span>
       </p>
     </div>
   );
@@ -382,4 +427,5 @@ RenderErrorContainer.propTypes = {
   code: PropTypes.oneOf(Object.keys(AUTH_ERROR)),
   openLoginModal: PropTypes.func,
   recordEvent: PropTypes.func,
+  requestId: PropTypes.string,
 };

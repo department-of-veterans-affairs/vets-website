@@ -1,8 +1,10 @@
 import mapValues from 'lodash/mapValues';
-import set from 'platform/utilities/data/set';
+import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 
+import set from 'platform/utilities/data/set';
+import recordEvent from 'platform/monitoring/record-event';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import {
@@ -22,7 +24,14 @@ export {
   medicalCenterLabels,
 } from 'platform/utilities/medical-centers/medical-centers';
 
-export const HIGH_DISABILITY = 50;
+import {
+  IS_LOGGED_IN,
+  USER_DOB,
+  IS_GTE_HIGH_DISABILITY,
+  IS_SHORT_FORM_ENABLED,
+  IS_COMPENSATION_TYPE_HIGH,
+  IS_VETERAN_IN_MVI,
+} from './constants';
 
 // clean address so we only get address related properties then return the object
 const cleanAddressObject = address => {
@@ -119,6 +128,74 @@ export function transformAttachments(data) {
   return { ...data, attachments: transformedAttachments };
 }
 
+function LogToSentry(formData) {
+  const veteranName = formData.veteranFullName;
+  const veteranDOB = formData.veteranDateOfBirth;
+  const veteranSSN = formData.veteranSocialSecurityNumber;
+  if (!veteranName && !veteranDOB && !veteranSSN) {
+    const message = `hca_1010ez_error_unauthenticated_user_with_missing_name_dob_ssn`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranName,
+        veteranDOB,
+        veteranSSN,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranName && !veteranSSN) {
+    const message = `hca_1010ez_error_unauthenticated_user_with_missing_name_ssn`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranName,
+        veteranSSN,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranName && !veteranDOB) {
+    const message = `hca_1010ez_error_unauthenticated_user_with_missing_name_dob`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranName,
+        veteranDOB,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranDOB && !veteranSSN) {
+    const message = `hca_1010ez_error_unauthenticated_user_with_missing_dob_ssn`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranDOB,
+        veteranSSN,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranName) {
+    const message = `hca_1010ez_error_unauthenticated_user_with_missing_name`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranName,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranDOB) {
+    const message = `hca_1010ez_error_unauthenticated_user_with_missing_dob`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranDOB,
+      });
+      Sentry.captureMessage(message);
+    });
+  } else if (!veteranSSN) {
+    const message = `hca_1010ez_error_unauthenticated_user_with_missing_ssn`;
+    Sentry.withScope(scope => {
+      scope.setContext(message, {
+        veteranSSN,
+      });
+      Sentry.captureMessage(message);
+    });
+  }
+}
+
 export function transform(formConfig, form) {
   const expandedPages = expandArrayPages(
     createFormPageList(formConfig),
@@ -165,6 +242,23 @@ export function transform(formConfig, form) {
     gaClientId = ga.getAll()[0].get('clientId');
   } catch (e) {
     // don't want to break submitting because of a weird GA issue
+  }
+
+  // Log, using Sentry, when user is not logged in and is missing veteran name, ssn or dob
+  if (form.data['view:isLoggedIn'] === false) {
+    LogToSentry(withoutViewFields);
+  }
+
+  // use logging to track volume of forms submitted with future discharge dates
+  if (
+    form.data.lastDischargeDate &&
+    moment(form.data.lastDischargeDate, 'YYYY-MM-DD').isAfter(
+      moment().endOf('day'),
+    )
+  ) {
+    recordEvent({
+      event: 'hca-future-discharge-date-submission',
+    });
   }
 
   return JSON.stringify({
@@ -420,5 +514,41 @@ export function didEnrollmentStatusChange(prevProps, props) {
   ];
   return relevantProps.some(
     propName => prevProps[propName] !== props[propName],
+  );
+}
+
+export function formValue(formData, value) {
+  const HIGH_DISABILITY = 50;
+
+  switch (value) {
+    case IS_LOGGED_IN:
+      return formData['view:isLoggedIn'];
+    case USER_DOB:
+      return formData['view:userDob'];
+    case IS_GTE_HIGH_DISABILITY:
+      return formData['view:totalDisabilityRating'] >= HIGH_DISABILITY;
+    case IS_SHORT_FORM_ENABLED:
+      return formData['view:hcaShortFormEnabled'];
+    case IS_COMPENSATION_TYPE_HIGH:
+      return formData.vaCompensationType === 'highDisability';
+    case IS_VETERAN_IN_MVI:
+      return formData['view:isUserInMvi'];
+    default:
+      return false;
+  }
+}
+
+export function NotHighDisabilityOrNotCompensationTypeHigh(formData) {
+  return !(
+    formValue(formData, IS_SHORT_FORM_ENABLED) &&
+    (formValue(formData, IS_COMPENSATION_TYPE_HIGH) ||
+      formValue(formData, IS_GTE_HIGH_DISABILITY))
+  );
+}
+
+export function NotHighDisability(formData) {
+  return !(
+    formValue(formData, IS_SHORT_FORM_ENABLED) &&
+    formValue(formData, IS_GTE_HIGH_DISABILITY)
   );
 }

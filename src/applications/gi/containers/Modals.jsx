@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
-import environment from 'platform/utilities/environment';
 import * as actions from '../actions';
 import Modal from '../components/Modal';
 import AccreditationModalContent from '../components/content/modals/AccreditationModalContent';
@@ -297,15 +296,13 @@ export function Modals({ hideModal, modals, profile }) {
             http://nces.ed.gov/pubs2014/2014163.pdf
           </a>
         </p>
-        {!environment.isProduction() && (
-          <p>
-            CAUTION: Not every program approved for GI Bill benefits at an
-            accredited school is accredited by the regional or national
-            accreditor. Prior to enrolling, it’s important you confirm the
-            program you’re seeking is accredited and whether or not your field
-            of study requires accreditation for employment and/or licensing.
-          </p>
-        )}
+        <p>
+          CAUTION: Not every program approved for GI Bill benefits at an
+          accredited school is accredited by the regional or national
+          accreditor. Prior to enrolling, it’s important you confirm the program
+          you’re seeking is accredited and whether or not your field of study
+          requires accreditation for employment and/or licensing.
+        </p>
         <p>
           To learn more about accreditation types, visit the{' '}
           <a

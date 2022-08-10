@@ -25,8 +25,9 @@ src/platform/site-wide/user-nav/components/SearchHelpSignIn.jsx @department-of-v
 # VSP QA Standards
 src/platform/testing/contract/ @department-of-veterans-affairs/qa-standards
 src/platform/testing/e2e/ @department-of-veterans-affairs/qa-standards
-config/cypress.json @department-of-veterans-affairs/qa-standards
+config/cypress.config.js @department-of-veterans-affairs/qa-standards
 script/github-actions/daily-product-scan/ @department-of-veterans-affairs/qa-standards
+.github/workflows/e2e-tests.yml @department-of-veterans-affairs/qa-standards
 
 # VSA ----
 
@@ -97,6 +98,7 @@ src/applications/my-education-benefits @department-of-veterans-affairs/my-educat
 src/applications/enrollment-verification @department-of-veterans-affairs/my-education-benefits
 src/applications/education-letters @department-of-veterans-affairs/my-education-benefits
 src/applications/fry-dea @department-of-veterans-affairs/my-education-benefits
+src/applications/toe @department-of-veterans-affairs/my-education-benefits
 
 # Other
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe

@@ -286,7 +286,6 @@ describe('mapStateToProps', () => {
       'shouldFetchEDUDirectDepositInformation',
       'shouldFetchTotalDisabilityRating',
       'isDowntimeWarningDismissed',
-      'shouldShowProfileLGBTQEnhancements',
     ];
     expect(Object.keys(props)).to.deep.equal(expectedKeys);
   });

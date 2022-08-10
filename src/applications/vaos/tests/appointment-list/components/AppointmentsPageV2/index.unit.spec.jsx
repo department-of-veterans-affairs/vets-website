@@ -225,7 +225,9 @@ describe('VAOS <AppointmentsPageV2>', () => {
       });
 
       // and breadcrumbs should be updated
-      const navigation = screen.getByRole('navigation', { name: 'Breadcrumb' });
+      const navigation = screen.getByRole('navigation', {
+        name: 'Breadcrumbs',
+      });
       expect(navigation).to.be.ok;
       expect(within(navigation).queryByRole('link', { name: 'Pending' })).not.to
         .exist;
@@ -306,7 +308,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       });
 
       // and breadcrumbs should be updated
-      navigation = screen.getByRole('navigation', { name: 'Breadcrumb' });
+      navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
       expect(within(navigation).queryByRole('link', { name: 'Pending' })).to.be
         .ok;
       expect(within(navigation).queryByRole('link', { name: 'Past' })).not.to
@@ -381,7 +383,7 @@ describe('VAOS <AppointmentsPageV2>', () => {
       });
 
       // and breadcrumbs should be updated
-      navigation = screen.getByRole('navigation', { name: 'Breadcrumb' });
+      navigation = screen.getByRole('navigation', { name: 'Breadcrumbs' });
       expect(within(navigation).queryByRole('link', { name: 'Pending' })).not.to
         .be.ok;
       expect(within(navigation).queryByRole('link', { name: 'Past' })).to.exist;

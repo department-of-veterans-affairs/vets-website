@@ -247,7 +247,7 @@ const cernerUser = {
           { facilityId: '649', isCerner: false },
         ],
         vaPatient: true,
-        mhvAccountState: 'NONE',
+        mhvAccountState: 'OK',
       },
       veteranStatus: { status: 'OK', isVeteran: true, servedInMilitary: true },
       inProgressForms: [

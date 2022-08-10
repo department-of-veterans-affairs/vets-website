@@ -145,13 +145,12 @@ export default class MegaMenu extends React.Component {
           }}
         >
           <div id="vetnav" role="navigation">
-            <ul id="vetnav-menu" role="menubar">
-              <li role="menuitem">
+            <ul id="vetnav-menu">
+              <li>
                 <a
                   className="vetnav-level1"
                   data-testid="mobile-home-nav-link"
                   href="/"
-                  tabIndex={currentSection ? -1 : undefined}
                 >
                   Home
                 </a>
@@ -164,21 +163,16 @@ export default class MegaMenu extends React.Component {
                       ? 'current-page medium-screen:vads-u-margin-right--0'
                       : ''
                   }`}
-                  role="menuitem"
-                  aria-haspopup={!!item.menuSections}
                 >
                   {item.menuSections ? (
                     <button
+                      type="button"
                       aria-expanded={currentDropdown === item.title}
                       aria-controls={`vetnav-${_.kebabCase(item.title)}`}
+                      aria-haspopup={!!item.menuSections}
                       className="vetnav-level1"
                       data-e2e-id={`${_.kebabCase(item.title)}-${i}`}
                       onClick={() => this.toggleDropDown(item.title)}
-                      tabIndex={
-                        currentSection && currentSection !== item.title
-                          ? -1
-                          : undefined
-                      }
                     >
                       {item.title}
                     </button>
@@ -189,11 +183,6 @@ export default class MegaMenu extends React.Component {
                       href={item.href}
                       onClick={linkClicked.bind(null, item)}
                       target={item.target || null}
-                      tabIndex={
-                        currentSection && currentSection !== item.title
-                          ? -1
-                          : undefined
-                      }
                     >
                       {item.title}
                     </a>
@@ -205,7 +194,7 @@ export default class MegaMenu extends React.Component {
                   >
                     {item.title === currentDropdown &&
                       item.menuSections && (
-                        <ul aria-label={item.title} role="menu">
+                        <ul aria-label={item.title}>
                           {Array.isArray(item.menuSections)
                             ? item.menuSections.map((section, j) => (
                                 <MenuSection

@@ -25,6 +25,9 @@ const fullName = require('./full-name');
 // set DELAY=1000 to add 1 sec delay to all responses
 const responseDelay = process?.env?.DELAY || 0;
 
+// uncomment if using status retries
+// let retries = 0;
+
 /* eslint-disable camelcase */
 const responses = {
   'GET /v0/user': user.handleUserRequest,
@@ -36,7 +39,15 @@ const responses = {
     return res.status(200).json(payments.paymentHistory.simplePaymentHistory);
   },
   'PUT /v0/ppiu/payment_information': (_req, res) => {
-    return res.status(200).json(payments.paymentInformation.saved);
+    return res
+      .status(200)
+      .json(
+        _.set(
+          payments.paymentInformation.saved.success,
+          'data.attributes.error',
+          payments.paymentInformation.errors.routingNumberInvalid,
+        ),
+      );
   },
   'POST /v0/profile/address_validation': address.addressValidation,
   'GET /v0/mhv_account': mhvAcccount,
@@ -45,7 +56,10 @@ const responses = {
   'PUT /v0/profile/gender_identities': handlePutGenderIdentitiesRoute,
   'GET /v0/profile/full_name': fullName.success,
   'GET /v0/profile/ch33_bank_accounts': (_req, res) => {
-    return res.status(200).json(bankAccounts.defaultResponse);
+    return res.status(200).json(bankAccounts.anAccount);
+  },
+  'PUT /v0/profile/ch33_bank_accounts': (_req, res) => {
+    return res.status(200).json(bankAccounts.saved.success);
   },
   'GET /v0/profile/service_history': (_req, res) => {
     return res.status(200).json(serviceHistory.airForce);
@@ -60,7 +74,7 @@ const responses = {
     },
   },
   'PUT /v0/profile/telephones': (_req, res) => {
-    return res.status(500).json(phoneNumber.errors.vets360Phon106);
+    return res.status(200).json(phoneNumber.transactions.received);
   },
   'PUT /v0/profile/addresses': (req, res) => {
     if (
@@ -88,11 +102,22 @@ const responses = {
     return res.json(address.homeAddressUpdateReceived.response);
   },
   'GET /v0/profile/status/:id': (req, res) => {
-    if (req?.params?.id === 'erroredId') {
-      return res.json(
-        _.set(status.failure, 'data.attributes.transactionId', req.params.id),
-      );
-    }
+    // uncomment this to simlulate multiple status calls
+    // aka long latency on getting update to go through
+    // if (retries < 2) {
+    //   retries += 1;
+    //   return res.json(phoneNumber.transactions.received);
+    // }
+
+    // uncomment to conditionally provide a failure error code based on transaction id
+    // if (
+    //   req?.params?.id === 'erroredId' ||
+    //   req?.params?.id === '06880455-a2e2-4379-95ba-90aa53fdb273'
+    // ) {
+    //   return res.json(
+    //     _.set(status.failure, 'data.attributes.transactionId', req.params.id),
+    //   );
+    // }
 
     return res.json(
       _.set(status.success, 'data.attributes.transactionId', req.params.id),
