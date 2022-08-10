@@ -268,7 +268,7 @@
     "@department-of-veterans-affairs/component-library": "^11.2.2",
     "@department-of-veterans-affairs/formation": "^7.0.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
-    "@department-of-veterans-affairs/va-forms-system-core": "1.1.1",
+    "@department-of-veterans-affairs/va-forms-system-core": "1.2.1",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
     "@formatjs/intl-datetimeformat": "^4.2.3",
     "@formatjs/intl-getcanonicallocales": "^1.7.3",
