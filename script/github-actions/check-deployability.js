@@ -109,10 +109,11 @@ const isAheadOfLastFullDeploy = async (commitSha, env) => {
  * Determines if the given commit sha can be deployed to non production environments.
  *
  * @param {string} commitSha - Commit sha
+ * @param {string} runNumber - Run number of the workflow run
  * @param {string} env - Environment name
  * @returns {Boolean} Whether or not the commit can be deployed to the environment.
  */
-const isDeployableToEnv = async (commitSha, env) => {
+const isDeployableToEnv = async (commitSha, runNumber, env) => {
   const TIMEOUT = 5; // Number of minutes to wait before checking again
   const isNewerCommit = await isAheadOfLastFullDeploy(commitSha, env);
 
@@ -129,7 +130,7 @@ const isDeployableToEnv = async (commitSha, env) => {
   if (inProgressWorkflowRuns.length === 1) return true;
 
   const previousCommitsInProgress = inProgressWorkflowRuns.find(
-    workflowRun => workflowRun.run_number < GITHUB_RUN_NUMBER,
+    workflowRun => workflowRun.run_number < runNumber,
   );
 
   if (!previousCommitsInProgress) return true;
@@ -137,7 +138,7 @@ const isDeployableToEnv = async (commitSha, env) => {
   console.log('Waiting for previous workflow runs to finish deploying...');
   await sleep(TIMEOUT * 60 * 1000);
 
-  return isDeployableToEnv(commitSha, env);
+  return isDeployableToEnv(commitSha, runNumber, env);
 };
 
 /**
@@ -196,7 +197,7 @@ const main = () => {
   if (environment === ENVIRONMENTS.VAGOVPROD)
     return isDeployableToProd(GITHUB_SHA);
 
-  return isDeployableToEnv(GITHUB_SHA, environment);
+  return isDeployableToEnv(GITHUB_SHA, GITHUB_RUN_NUMBER, environment);
 };
 
 main()
