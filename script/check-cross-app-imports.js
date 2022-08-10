@@ -8,7 +8,7 @@ const commandLineArgs = require('command-line-args');
 const {
   buildGraph,
   dedupeGraph,
-} = require('./github-actions/select-cypress-tests.js');
+} = require('./github-actions/select-cypress-tests');
 
 /**
  * Gets the paths of files in 'src/platform' that import from apps.
@@ -28,10 +28,10 @@ const getPlatformAppImports = (platformImports, appFolder) => {
 /**
  * Generates a cross app import graph.
  *
- * @param {string} appFolder - The name of an app's folder in 'src/applications'.
+ * @param {string[]} appFolders - Array of app folders in 'src/applications'.
  * @returns {Object|null} Cross app import dependency graph.
  */
-const getCrossAppImports = appFolder => {
+const getCrossAppImports = appFolders => {
   // Suppress errors from 'find-imports' when building graph.
   console.error = () => {};
   console.log('Analyzing app imports...');
@@ -49,22 +49,30 @@ const getCrossAppImports = appFolder => {
     importGraph[app].platformFilesThatImportFromThisApp = platformAppImports;
   });
 
-  if (!appFolder) return importGraph;
+  if (!appFolders) return importGraph;
 
-  const appImports = importGraph[appFolder];
+  const appImports = {};
+  let crossAppImportsFound = false;
+  for (const appFolder of appFolders) {
+    if (importGraph[appFolder].appsToTest.length > 1) {
+      // Multiple appsToTest means cross-app imports were found
+      crossAppImportsFound = true;
+    }
+    appImports[appFolder] = omit(importGraph[appFolder], 'appsToTest');
+  }
 
-  // There should only be 1 app to test when no cross app imports are found.
-  if (appImports.appsToTest.length === 1) return null;
-
-  return omit(appImports, 'appsToTest');
+  return crossAppImportsFound ? appImports : null;
 };
 
-const options = commandLineArgs([{ name: 'app-folder', type: String }]);
+const options = commandLineArgs([
+  { name: 'app-folders', type: String },
+  { name: 'fail-on-cross-app-import', type: Boolean, defaultValue: false },
+]);
 
-const appFolder = options['app-folder'];
+const appFolders = options['app-folders'] && options['app-folders'].split(',');
 
-// Generate full cross app import report when 'app-folder' option isn't used.
-if (!appFolder) {
+// Generate full cross app import report when 'app-folders' option isn't used.
+if (!appFolders) {
   const outputPath = path.join('./tmp', 'cross-app-imports.json');
   fs.outputFileSync(outputPath, JSON.stringify(getCrossAppImports(), null, 2));
 
@@ -72,14 +80,20 @@ if (!appFolder) {
   process.exit(0);
 }
 
-const appPath = path.join(__dirname, '../src/applications', appFolder);
-if (!fs.existsSync(appPath)) throw new Error(`${appPath} does not exist.`);
-
-const crossAppImports = getCrossAppImports(appFolder);
-
-if (!crossAppImports) {
-  console.log('No cross app imports were found!');
-  process.exit(0);
+// Check that all provided apps exist
+for (const appFolder of appFolders) {
+  const appPath = path.join(__dirname, '../src/applications', appFolder);
+  if (!fs.existsSync(appPath)) throw new Error(`${appPath} does not exist.`);
 }
 
-console.log(JSON.stringify(crossAppImports, null, 2));
+const crossAppImports = getCrossAppImports(appFolders);
+
+if (crossAppImports) {
+  console.log(JSON.stringify(crossAppImports, null, 2));
+
+  if (options['fail-on-cross-app-import']) {
+    throw new Error('Cross app imports found (see details above)');
+  }
+} else {
+  console.log('No cross app imports were found!');
+}
