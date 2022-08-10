@@ -9,8 +9,12 @@ const { runCommandSync, sleep } = require('../utils');
 const BUCKETS = require('../../src/site/constants/buckets');
 const ENVIRONMENTS = require('../../src/site/constants/environments');
 
-const { GITHUB_TOKEN: auth, GITHUB_REPOSITORY, GITHUB_SHA } = process.env;
-const [owner, repo] = GITHUB_REPOSITORY.split('/');
+const {
+  GITHUB_TOKEN: auth,
+  GITHUB_REPOSITORY,
+  GITHUB_SHA,
+  GITHUB_RUN_NUMBER,
+} = process.env;
 
 const octokit = new Octokit({ auth });
 
@@ -21,6 +25,8 @@ const octokit = new Octokit({ auth });
  * @returns {Array} List of in progress workflow runs.
  */
 const getInProgressWorkflowRuns = workflow_id => {
+  const [owner, repo] = GITHUB_REPOSITORY.split('/');
+
   const params = {
     owner,
     repo,
@@ -122,8 +128,8 @@ const isDeployableToEnv = async (commitSha, env) => {
   );
   if (inProgressWorkflowRuns.length === 1) return true;
 
-  const previousCommitsInProgress = inProgressWorkflowRuns.find(workflowRun =>
-    isAncestor(workflowRun.head_sha, commitSha),
+  const previousCommitsInProgress = inProgressWorkflowRuns.find(
+    workflowRun => workflowRun.run_number < GITHUB_RUN_NUMBER,
   );
 
   if (!previousCommitsInProgress) return true;
