@@ -86,10 +86,10 @@ describe('Find VA Forms helpers', () => {
 
   it('sorts helper sorts the results by latest (newest) date correctly', () => {
     const sortedResultsNodesTextByLatestRevisionNewest = [
-      '12-22-2021',
-      '06-15-2010',
-      '10-17-2005',
-      '05-20-1999',
+      'December 2021',
+      'June 2010',
+      'October 2005',
+      'May 1999',
     ];
 
     const sortedResultsByNewestRevisionDate = results
@@ -109,10 +109,10 @@ describe('Find VA Forms helpers', () => {
 
   it('sorts helper sorts the results by oldest date correctly', () => {
     const sortedResultsNodesTextByLatestRevisionOldest = [
-      '05-20-1999',
-      '10-17-2005',
-      '06-15-2010',
-      '12-22-2021',
+      'May 1999',
+      'October 2005',
+      'June 2010',
+      'December 2021',
     ];
 
     const sortedResultsByOldestRevisionDate = results

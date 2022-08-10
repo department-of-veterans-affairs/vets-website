@@ -9,6 +9,8 @@ import PreCheckinConfirmation from '../../../components/PreCheckinConfirmation';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 
+import { isUUID } from '../../../utils/token-format-validator';
+
 import {
   makeSelectCurrentContext,
   makeSelectForm,
@@ -67,7 +69,7 @@ const Confirmation = props => {
         }
       }
 
-      if (!getPreCheckinComplete(window)?.complete) {
+      if (!getPreCheckinComplete(window)?.complete && isUUID(token)) {
         sendPreCheckInData();
       }
 

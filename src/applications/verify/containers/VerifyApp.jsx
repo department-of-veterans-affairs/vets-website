@@ -1,25 +1,43 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import URLSearchParams from 'url-search-params';
+import PropTypes from 'prop-types';
 
 import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 import recordEvent from 'platform/monitoring/record-event';
 
-import { verify } from 'platform/user/authentication/utilities';
 import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
+import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import { focusElement } from '~/platform/utilities/ui';
+import { VerifyButton } from '../components/verifyButton';
 
 export class VerifyApp extends React.Component {
   constructor(props) {
     super(props);
 
-    this.signinMethodLabels = {
-      dslogon: 'DS Logon',
-      myhealthevet: 'My HealtheVet',
-      logingov: 'Login.gov',
-    };
+    this.renderOpts = [
+      {
+        copy: 'Login.gov',
+        renderImage: <LoginGovSVG />,
+        className: `logingov-button`,
+        policy: 'logingov',
+      },
+      {
+        copy: 'ID.me',
+        renderImage: (
+          <img
+            role="presentation"
+            aria-hidden="true"
+            alt="ID.me"
+            src="/img/signin/idme-icon-white.svg"
+          />
+        ),
+        className: `idme-button`,
+        policy: 'idme',
+      },
+    ];
   }
 
   componentDidMount() {
@@ -51,46 +69,29 @@ export class VerifyApp extends React.Component {
     }
   }
 
-  renderVerifyButton(signInMethod) {
-    const verifyWithLoginGov =
-      this.signinMethodLabels.logingov === signInMethod;
-
-    const renderOpts = {
-      copy: verifyWithLoginGov ? 'Login.gov' : 'ID.me',
-      renderImage: verifyWithLoginGov ? (
-        <LoginGovSVG />
-      ) : (
-        <img
-          role="presentation"
-          aria-hidden="true"
-          alt="ID.me"
-          src="/img/signin/idme-icon-white.svg"
-        />
-      ),
-      className: `usa-button ${
-        verifyWithLoginGov ? 'logingov-button' : 'idme-button'
-      }`,
-    };
-
-    return (
-      <button className={renderOpts.className} onClick={() => verify()}>
-        <strong>
-          Verify with <span className="sr-only">{renderOpts.copy}</span>
-        </strong>
-        {renderOpts.renderImage}
-      </button>
-    );
+  verifyButton(signInMethod) {
+    const { idme, logingov } = SERVICE_PROVIDERS;
+    if ([idme.label, logingov.label].includes(signInMethod)) {
+      const selectCSP = signInCSP =>
+        this.renderOpts.find(csp => csp.copy === signInCSP);
+      const verifyButtonProps = selectCSP(signInMethod);
+      return <VerifyButton {...verifyButtonProps} />;
+    }
+    return this.renderOpts.map(props => (
+      <VerifyButton key={props.policy} {...props} />
+    ));
   }
 
   render() {
     const { profile } = this.props;
-    const signInMethod =
-      this.signinMethodLabels[(profile?.signIn?.serviceName)] || 'ID.me';
+
+    const signInMethod = profile.loading
+      ? null
+      : SERVICE_PROVIDERS[profile.signIn.serviceName].label;
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
     }
-
     return (
       <main className="verify">
         <div className="container">
@@ -116,7 +117,7 @@ export class VerifyApp extends React.Component {
                   This one-time process will take{' '}
                   <strong>5 - 10 minutes</strong> to complete.
                 </p>
-                {this.renderVerifyButton(signInMethod)}
+                {this.verifyButton(signInMethod)}
               </div>
             </div>
           </div>
@@ -150,3 +151,8 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(VerifyApp);
+
+VerifyApp.propTypes = {
+  profile: PropTypes.object.isRequired,
+  login: PropTypes.object,
+};

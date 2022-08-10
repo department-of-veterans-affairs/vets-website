@@ -41,7 +41,7 @@ jobs:
           command: yarn cy:run --spec "src/applications/proxy-rewrite/tests/e2e/proxy-rewrite-entry.cypress.spec.js"
           max_attempts: 3
           timeout_minutes: 30
-          retry_wait_seconds: 180
+          retry_wait_seconds: 600
         env:
           CYPRESS_CI: false
           CYPRESS_RUN_INJECTION: true
@@ -64,7 +64,7 @@ jobs:
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Proxy Rewite Header/Footer e2e test run in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Proxy Rewrite Header/Footer e2e test run in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

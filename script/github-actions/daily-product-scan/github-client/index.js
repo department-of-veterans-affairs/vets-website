@@ -21,6 +21,20 @@ class GitHubClient {
     });
   }
 
+  async getVetsWebsiteCommits({ path }) {
+    try {
+      return await this.octokit.request('GET /repos/{owner}/{repo}/commits', {
+        owner: 'department-of-veterans-affairs',
+        repo: 'vets-website',
+        // eslint-disable-next-line camelcase
+        per_page: 2,
+        path,
+      });
+    } catch (e) {
+      return e;
+    }
+  }
+
   async getProductJson() {
     try {
       return await this.octokit.rest.repos.getContent({

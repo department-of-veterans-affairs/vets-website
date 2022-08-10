@@ -46,7 +46,7 @@ describe('focus after editing fields', () => {
       cy.get('#edit-mailing-address').should('be.focused');
     });
   });
-  describe('Phone number fields', () => {
+  describe('Phone number fields with SCHEMA form system', () => {
     beforeEach(() => {
       cy.intercept('GET', '/v0/feature_toggles*', generateFeatureToggles());
       cy.login(user72Success);
@@ -60,6 +60,43 @@ describe('focus after editing fields', () => {
       });
     });
     it('should focus on edit phone number button when editing is complete', () => {
+      cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
+      // should show a loading indicator
+      cy.findByRole('progressbar').should('exist');
+      cy.findByText(/loading your information/i).should('exist');
+
+      // and then the loading indicator should be removed
+      cy.findByText(/loading your information/i).should('not.exist');
+      cy.findByRole('progressbar').should('not.exist');
+      cy.injectAxeThenAxeCheck();
+
+      cy.get('#edit-home-phone-number').click({ waitForAnimations: true });
+      cy.get('[data-testid="save-edit-button"]').click({
+        waitForAnimations: true,
+      });
+      cy.get('[data-testid="update-success-alert"]').should('exist');
+      cy.get('#edit-home-phone-number').should('be.focused');
+    });
+  });
+
+  describe('Phone number fields with VAFSC form system', () => {
+    beforeEach(() => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({ profileUseVAFSC: true }),
+      );
+      cy.login(user72Success);
+
+      cy.intercept('GET', '/v0/user*', user72Success);
+      cy.intercept('PUT', '/v0/profile/telephones', req => {
+        req.reply(200, phoneNumber.transactions.received);
+      });
+      cy.intercept('GET', '/v0/profile/status/*', req => {
+        req.reply(200, phoneNumber.transactions.successful);
+      });
+    });
+    it('should focus on edit phone number button when editing is complete when profileUseVAFSC toggle is true', () => {
       cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
       // should show a loading indicator
       cy.findByRole('progressbar').should('exist');

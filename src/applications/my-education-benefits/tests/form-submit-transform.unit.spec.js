@@ -197,9 +197,17 @@ describe('form submit transform', () => {
       const schemaCountryCode = getSchemaCountryCode('TS');
       expect(schemaCountryCode).to.eql('TUN');
     });
-    it('should return undefined for an unknown country code', () => {
-      const schemaCountryCode = getSchemaCountryCode('INVALID_COUNTRY');
-      expect(schemaCountryCode).to.eql(undefined);
+    it('the country is set to USA when there is no country code', () => {
+      const countryWhenUndefined = getSchemaCountryCode(undefined);
+      expect(countryWhenUndefined).to.eql('USA');
+    });
+    it('the country is set to USA when there is an invalid/unknown country code', () => {
+      const countryWhenZZ = getSchemaCountryCode('ZZ'); // ZZ is LTS for 'unknown'
+      expect(countryWhenZZ).to.eql('USA');
+    });
+    it("but don't overide countries when we do get a value", () => {
+      const countryWhenUndefined = getSchemaCountryCode('GM');
+      expect(countryWhenUndefined).to.eql('DEU');
     });
   });
 

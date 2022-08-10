@@ -17,7 +17,7 @@ const StatementCharges = ({ copay }) => {
           .replace('-', '')
           .replace(/[^\d.-]/g, '')}`}
       >
-        <span>{item.pDTransDescOutput.replace('&nbsp', '')}</span>
+        <span>{item.pDTransDescOutput.replace(/&nbsp;/g, '')}</span>
         <span>{item.pDRefNo}</span>
         <span>
           $

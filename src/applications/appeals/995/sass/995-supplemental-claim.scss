@@ -154,3 +154,14 @@ dl.review {
 #root_form5103Acknowledged-label {
   display: none !important;
 }
+
+article[data-location$="va-medical-records"] {
+  /* editing location card */
+  label#root_locations_0_locationAndName-label,
+  .va-growable-expanded h3 {
+    margin-top: 0;
+  }
+  .va-growable-background {
+    border-bottom: solid 1px $color-gray-light;
+  }
+}

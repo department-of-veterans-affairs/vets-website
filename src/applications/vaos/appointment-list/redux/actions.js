@@ -737,10 +737,7 @@ export function getProviderInfoV2(appointment) {
     const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
       getState(),
     );
-    if (
-      featureVAOSServiceCCAppointments &&
-      appointment.practitioners.length > 0
-    ) {
+    if (featureVAOSServiceCCAppointments && appointment.practitioners?.length) {
       const ProviderNpi = getPreferredCCProviderNPI(appointment);
 
       const providerData = await fetchPreferredProvider(ProviderNpi);
@@ -752,7 +749,7 @@ export function getProviderInfoV2(appointment) {
     }
     if (
       featureVAOSServiceCCAppointments &&
-      appointment.practitioners.length === 0
+      !appointment.practitioners?.length
     ) {
       dispatch({
         type: FETCH_PROVIDER_SUCCEEDED,
