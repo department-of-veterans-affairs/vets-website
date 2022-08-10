@@ -33,6 +33,7 @@ jobs:
           output-type: 'folder'
 
       - name: Check for cross-app imports in changed apps
+        if: ${{ steps.get-changed-apps.outputs.folders }}
         run: yarn check-app-imports --fail-on-cross-app-import --app-folders ${{ steps.get-changed-apps.outputs.folders }}
 
   eslint-disable-check:
