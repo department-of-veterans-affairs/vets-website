@@ -30,10 +30,25 @@
     }
 }
 
+.send-and-save {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
 .message-title {
     font-size: 20px;
     padding: 12px;
     justify-content: space-between;
+}
+
+.message-input {
+    min-height: 5.2rem;
+    max-width: 100%;
+    width: 100%;
+    padding: 1.2rem;
+    margin: 0.4rem 0px;
+    resize: none;
 }
 
 .message-body {
@@ -59,6 +74,7 @@
 
 .attachment-icon {
     padding-top: 6px;
+    margin-right: 4px;
 }
 
 .remove-attachment {
