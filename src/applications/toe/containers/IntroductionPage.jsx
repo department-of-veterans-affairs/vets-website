@@ -7,18 +7,20 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 const PrefillAlert = (
-  <div>
-    <div className="usa-alert usa-alert-info schemaform-sip-alert">
-      <div className="usa-alert-body">
-        <strong>Note:</strong> Since you’re signed in to your account, we can
-        prefill part of your application based on your account details. You can
-        also save your application in progress and come back later to finish
-        filling it out. You may be eligible to receive an instant decision about
-        your application.
-      </div>
-    </div>
-    <br />
-  </div>
+  <va-alert
+    class="vads-u-margin-bottom--1"
+    close-btn-aria-label="Close notification"
+    status="info"
+    visible
+  >
+    <p className="vads-u-margin-y--0">
+      <strong>Note:</strong> Since you’re signed in to your account, we can
+      prefill part of your application based on your account details. You can
+      also save your application in progress and come back later to finish
+      filling it out. You may be eligible to receive an instant decision about
+      your application.
+    </p>
+  </va-alert>
 );
 
 export const IntroductionPage = ({ user, route }) => {
@@ -110,7 +112,7 @@ export const IntroductionPage = ({ user, route }) => {
       </div>
 
       {user?.login?.currentlyLoggedIn && (
-        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--4">
           Start your application for education benefits
         </h2>
       )}
