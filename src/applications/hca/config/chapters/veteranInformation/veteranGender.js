@@ -4,7 +4,7 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import CustomReviewField from '../../../components/ReviewFields/CustomReviewField';
 import { SIGIGenderDescription } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
+import { emptyObjectSchema, NotHighDisability } from '../../../helpers';
 
 const { sigiGenders } = fullSchemaHca.properties;
 
@@ -13,12 +13,7 @@ export default {
     'view:genderShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: form =>
-          !(
-            form['view:hcaShortFormEnabled'] &&
-            form['view:totalDisabilityRating'] &&
-            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-          ),
+        hideIf: NotHighDisability,
       },
     },
     'view:prefillMessage': {
