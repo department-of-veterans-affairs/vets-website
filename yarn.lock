@@ -2505,13 +2505,13 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@department-of-veterans-affairs/component-library@^11.3.2":
-  version "11.3.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-11.3.2.tgz#536a12f447d9332f169dfaec7c02205232ca0ad6"
-  integrity sha512-08qv9Gl7p/q7PHsMHLttARLZyaQnav7+nrdXlW6mj5MVmUAMcgvFKJWlEn+cg8zczI5r4GwS7U5kyziDUNEFmA==
+"@department-of-veterans-affairs/component-library@11.2.6":
+  version "11.2.6"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-11.2.6.tgz#5bbd51427fbd41642e55e40ba6dbddb0d90485bd"
+  integrity sha512-lvapxOrGDZ1AcnD5BW4yBielJq6Wn6Nkxhyaa2mHGmNPOwv6m+ZECbwT9RqJHAqlnnjf7CofkbzRDfEvVh3nEw==
   dependencies:
     "@department-of-veterans-affairs/react-components" "7.0.1"
-    "@department-of-veterans-affairs/web-components" "4.10.2"
+    "@department-of-veterans-affairs/web-components" "4.9.6"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2582,10 +2582,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.10.2":
-  version "4.10.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.10.2.tgz#401fe40ae17b41fc15f25837444304ac45aee153"
-  integrity sha512-NeHglh8xmqrhaT5ubiB/vxJC9LngMyEKyqVYPc5180NXfV9tkhFIv4IxyJh0TFaYaMaL7yomy+1fxepAGgBWaQ==
+"@department-of-veterans-affairs/web-components@4.9.6":
+  version "4.9.6"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.9.6.tgz#16e9f057c0dbef33aa4342fc4d6ea94cdfd07c41"
+  integrity sha512-VJQq4VY8OQ0ZD32BacCjnnBeHyrJ9OoRmlBKZ7bR4LTLQwUWBDNYgSnLh8LQMO1h2gLnXdeeuMOz8xKEqT/Jig==
   dependencies:
     "@stencil/core" "^2.10.0"
     aria-hidden "^1.1.3"
