@@ -6,13 +6,14 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { selectProfile, isLoggedIn } from 'platform/user/selectors';
 
 import { setData } from 'platform/forms-system/src/js/actions';
+import { getStoredSubTask } from 'platform/forms/sub-task';
+
 import {
   getContestableIssues as getContestableIssuesAction,
   FETCH_CONTESTABLE_ISSUES_INIT,
 } from '../actions';
 
 import formConfig from '../config/form';
-import { SAVED_CLAIM_TYPE } from '../constants';
 import { issuesNeedUpdating, processContestableIssues } from '../utils/helpers';
 
 export const Form0995App = ({
@@ -21,8 +22,9 @@ export const Form0995App = ({
   children,
   profile,
   formData,
+  subTaskData,
   setFormData,
-  // router,
+  router,
   // savedForms,
   getContestableIssues,
   contestableIssues = {},
@@ -35,18 +37,25 @@ export const Form0995App = ({
   // https://github.com/department-of-veterans-affairs/va.gov-team/issues/33931
   const [isLoadingIssues, setIsLoadingIssues] = useState(false);
 
+  const subTaskBenefitType =
+    subTaskData.benefitType || getStoredSubTask()?.benefitType;
+
   useEffect(
     () => {
-      if (loggedIn) {
+      // form data is reset after logging in and from the save-in-progress data,
+      // so get it from the session storage
+      if (!formData.benefitType && subTaskBenefitType) {
+        setFormData({
+          ...formData,
+          benefitType: subTaskBenefitType,
+        });
+      } else if (loggedIn && formData.benefitType) {
         const { veteran = {} } = formData || {};
         if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
           // load benefit type contestable issues
           setIsLoadingIssues(true);
-          const benefitType =
-            sessionStorage.getItem(SAVED_CLAIM_TYPE) || formData.benefitType;
-          getContestableIssues({ benefitType });
+          getContestableIssues({ benefitType: formData.benefitType });
         } else if (
-          formData?.benefitType !== contestableIssues?.benefitType ||
           email?.emailAddress !== veteran.email ||
           mobilePhone?.updatedAt !== veteran.phone?.updatedAt ||
           mailingAddress?.updatedAt !== veteran.address?.updatedAt ||
@@ -56,6 +65,7 @@ export const Form0995App = ({
           ) ||
           contestableIssues.legacyCount !== formData.legacyCount
         ) {
+          // resetStoredSubTask();
           setFormData({
             ...formData,
             veteran: {
@@ -64,7 +74,6 @@ export const Form0995App = ({
               phone: mobilePhone,
               email: email?.emailAddress,
             },
-            benefitType: contestableIssues?.benefitType || formData.benefitType,
             contestedIssues: processContestableIssues(
               contestableIssues?.issues,
             ),
@@ -74,16 +83,17 @@ export const Form0995App = ({
       }
     },
     [
-      loggedIn,
-      email,
-      mobilePhone,
-      mailingAddress,
-      formData,
-      setFormData,
       contestableIssues,
-      isLoadingIssues,
+      email,
+      formData,
       getContestableIssues,
+      isLoadingIssues,
       legacyCount,
+      loggedIn,
+      mailingAddress,
+      mobilePhone,
+      setFormData,
+      subTaskBenefitType,
     ],
   );
 
@@ -93,7 +103,14 @@ export const Form0995App = ({
     </RoutedSavableApp>
   );
 
-  if (
+  if (!formData.benefitType) {
+    router.push('/start');
+    content = (
+      <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+        <va-loading-indicator message="Please wait while we restart the application for you." />
+      </h1>
+    );
+  } else if (
     loggedIn &&
     ((contestableIssues?.status || '') === '' ||
       contestableIssues?.status === FETCH_CONTESTABLE_ISSUES_INIT)
@@ -140,6 +157,9 @@ Form0995App.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
+  subTaskData: PropTypes.shape({
+    benefitType: PropTypes.string,
+  }),
 };
 
 const mapStateToProps = state => ({
@@ -147,6 +167,7 @@ const mapStateToProps = state => ({
   formData: state.form?.data || {},
   profile: selectProfile(state) || {},
   savedForms: state.user?.profile?.savedForms || [],
+  subTaskData: state.form.subTaskData || {},
   contestableIssues: state.contestableIssues || {},
   legacyCount: state.legacyCount || 0,
 });
