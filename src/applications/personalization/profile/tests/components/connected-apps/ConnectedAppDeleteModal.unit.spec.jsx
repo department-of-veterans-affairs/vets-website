@@ -4,6 +4,10 @@ import { mount } from 'enzyme';
 
 import { ConnectedAppDeleteModal } from '../../../components/connected-apps/ConnectedAppDeleteModal';
 
+const disconnectTitle = 'Are you sure?';
+const disconnectText =
+  'After you disconnect this app, the app won’t have access to new information from your VA.gov profile. This may affect how useful the app is to you.';
+
 describe('<ConnectedAppDeleteModal>', () => {
   it('renders correctly when not deleting', () => {
     const defaultProps = {
@@ -17,10 +21,8 @@ describe('<ConnectedAppDeleteModal>', () => {
     const wrapper = mount(<ConnectedAppDeleteModal {...defaultProps} />);
 
     const text = wrapper.text();
-    expect(text).to.include('Please confirm that you want to disconnect hello');
-    expect(text).to.include(
-      'Once you disconnect this app, it won’t have access to new information from your VA.gov profile. This may affect how useful the app is to you.',
-    );
+    expect(text).to.include(disconnectTitle);
+    expect(text).to.include(disconnectText);
     expect(
       wrapper
         .find('button')
@@ -51,10 +53,8 @@ describe('<ConnectedAppDeleteModal>', () => {
     const wrapper = mount(<ConnectedAppDeleteModal {...defaultProps} />);
 
     const text = wrapper.text();
-    expect(text).to.include('Please confirm that you want to disconnect hello');
-    expect(text).to.include(
-      'Once you disconnect this app, it won’t have access to new information from your VA.gov profile. This may affect how useful the app is to you.',
-    );
+    expect(text).to.include(disconnectTitle);
+    expect(text).to.include(disconnectText);
     expect(text).to.not.include('Cancel');
     expect(text).to.not.include('Disconnect');
     expect(text).to.include('Processing update...');
@@ -74,10 +74,8 @@ describe('<ConnectedAppDeleteModal>', () => {
     const wrapper = mount(<ConnectedAppDeleteModal {...defaultProps} />);
 
     const text = wrapper.text();
-    expect(text).to.not.include('Do you want to disconnect this app?');
-    expect(text).to.not.include(
-      'hello won’t have access to new information about you from VA once you disconnect. This may impact the usefulness of the app.',
-    );
+    expect(text).to.not.include(disconnectTitle);
+    expect(text).to.not.include(disconnectText);
     expect(text).to.not.include('Cancel');
     expect(text).to.not.include('Disconnect');
     expect(text).to.not.include('Processing update...');
