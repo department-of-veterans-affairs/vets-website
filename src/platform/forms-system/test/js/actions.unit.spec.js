@@ -17,6 +17,8 @@ import {
   uploadFile,
   setFormErrors,
   SET_FORM_ERRORS,
+  SET_FORM_SUB_TASK_DATA,
+  setSubTaskData,
 } from '../../src/js/actions';
 
 describe('Schemaform actions:', () => {
@@ -952,6 +954,14 @@ describe('Schemaform actions:', () => {
       const action = setFormErrors(data);
       expect(action.data).to.equal(data);
       expect(action.type).to.equal(SET_FORM_ERRORS);
+    });
+  });
+  describe('setSubTaskData', () => {
+    it('should return action', () => {
+      const data = { test: 'foo' };
+      const action = setSubTaskData(data);
+      expect(action.data).to.equal(data);
+      expect(action.type).to.equal(SET_FORM_SUB_TASK_DATA);
     });
   });
 });

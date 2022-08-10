@@ -10,9 +10,10 @@ import {
   SET_SUBMITTED,
   SET_VIEWED_PAGES,
   SET_FORM_ERRORS,
+  SET_FORM_SUB_TASK_DATA,
 } from '../actions';
 
-import { recalculateSchemaAndData } from '../state/helpers';
+import { recalculateSchemaAndData } from './helpers';
 
 export default {
   [OPEN_REVIEW_CHAPTER]: (state, action) => {
@@ -92,5 +93,9 @@ export default {
     // See platform/forms-system/src/js/utilities/data/reduceErrors.js for
     // data structure
     formErrors: data,
+  }),
+  [SET_FORM_SUB_TASK_DATA]: (state, { data = {} }) => ({
+    ...state,
+    subTaskData: data,
   }),
 };

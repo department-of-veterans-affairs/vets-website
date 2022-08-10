@@ -9,6 +9,7 @@ import {
   SET_SUBMISSION,
   SET_SUBMITTED,
   SET_FORM_ERRORS,
+  SET_FORM_SUB_TASK_DATA,
 } from '../../../src/js/actions';
 
 import createSchemaFormReducer from '../../../src/js/state';
@@ -250,6 +251,24 @@ describe('schemaform createSchemaFormReducer', () => {
         },
       );
       expect(state.formErrors).to.equal(data);
+    });
+    it('should set sub-task data', () => {
+      const data = {
+        foo: 'bar',
+        fooz: 'barz',
+      };
+      const state = reducer(
+        {
+          subTaskData: {
+            test: 'foo', // will be removed
+          },
+        },
+        {
+          type: SET_FORM_SUB_TASK_DATA,
+          data,
+        },
+      );
+      expect(state.subTaskData).to.equal(data);
     });
   });
 });
