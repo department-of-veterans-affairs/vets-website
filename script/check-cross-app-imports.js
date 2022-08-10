@@ -66,10 +66,18 @@ const getCrossAppImports = appFolders => {
 
 const options = commandLineArgs([
   { name: 'app-folders', type: String },
+  { name: 'app-paths', type: String },
   { name: 'fail-on-cross-app-import', type: Boolean, defaultValue: false },
 ]);
 
-const appFolders = options['app-folders'] && options['app-folders'].split(',');
+let appFolders = null;
+if (options['app-folders']) {
+  appFolders = options['app-folders'].split(',');
+} else if (options['app-paths']) {
+  appFolders = options['app-paths']
+    .split(',')
+    .map(appPath => appPath.replace('src/applications/', ''));
+}
 
 // Generate full cross app import report when 'app-folders' option isn't used.
 if (!appFolders) {
