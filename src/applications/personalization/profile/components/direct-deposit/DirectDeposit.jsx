@@ -108,6 +108,17 @@ const DirectDeposit = ({
     ],
   );
 
+  // fix for when the TemporaryOutage is displayed
+  // prevents alert from showing when navigating away from DD page and no edits have been made
+  useEffect(
+    () => {
+      if (hideDirectDepositCompAndPen) {
+        setCnpFormIsDirty(true);
+      }
+    },
+    [hideDirectDepositCompAndPen, setCnpFormIsDirty],
+  );
+
   useEffect(
     () => {
       // Show alert when navigating away
