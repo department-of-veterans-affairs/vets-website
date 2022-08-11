@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import ComposeForm from '../../components/ComposeForm';
 
-describe('Compose container', () => {
+describe('ComposeForm component', () => {
   it('should not be empty', () => {
     const tree = SkinDeep.shallowRender(<ComposeForm />);
 
