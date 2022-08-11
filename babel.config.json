@@ -92,10 +92,10 @@
 
           "@department-of-veterans-affairs/platform-landing-pages/exports" : "./src/platform/landing-pages/exportsFile.js",
           "@department-of-veterans-affairs/platform-landing-pages/dev-template" : "./src/platform/landing-pages/dev-template.js",
-          "@department-of-veterans-affairs/platform-landing-pages/facility-sidebar" : "./src/platform/landing-pages/facility-sidebar.jason",
-          "@department-of-veterans-affairs/platform-landing-pages/header-footer-data" : "./src/platform/landing-pages/header-footer-data.jason"
+          "@department-of-veterans-affairs/platform-landing-pages/facility-sidebar" : "./src/platform/landing-pages/facility-sidebar.json",
+          "@department-of-veterans-affairs/platform-landing-pages/header-footer-data" : "./src/platform/landing-pages/header-footer-data.json",
 
-          
+          "@department-of-veterans-affairs/platform-polyfills/exports": "./src/platform/polyfills/exportFiles.js"
         }
       }
     ]
