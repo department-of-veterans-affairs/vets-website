@@ -57,10 +57,7 @@ const COEAccess = ({ includedInFlipper }) => {
         form. Please note that mail requests may take longer than requesting a
         COE through your lender.
       </p>
-      <a
-        className="vads-c-action-link--green"
-        href="https://www.va.gov/find-forms/about-form-26-1880/"
-      >
+      <a href="/find-forms/about-form-26-1880/">
         Get VA Form 26-1880 to download
       </a>
     </>
