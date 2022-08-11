@@ -1,3 +1,5 @@
+import environment from 'platform/utilities/environment';
+
 export const mockMessagesResponse = {
   data: [
     {
@@ -17,8 +19,7 @@ export const mockMessagesResponse = {
         readReceipt: null,
       },
       links: {
-        self:
-          'https://staging-platform-platform-api.va.gov/v0/messaging/health/messages/1412070',
+        self: `${environment.API_URL}/v0/messaging/health/messages/1412070`,
       },
     },
     {
@@ -38,8 +39,7 @@ export const mockMessagesResponse = {
         readReceipt: null,
       },
       links: {
-        self:
-          'https://staging-platform-platform-api.va.gov/v0/messaging/health/messages/1412061',
+        self: `${environment.API_URL}/v0/messaging/health/messages/1412061`,
       },
     },
     {
@@ -59,20 +59,22 @@ export const mockMessagesResponse = {
         readReceipt: null,
       },
       links: {
-        self:
-          'https://staging-platform-platform-api.va.gov/v0/messaging/health/messages/1412052',
+        self: `${environment.API_URL}/v0/messaging/health/messages/1412052`,
       },
     },
   ],
   links: {
-    self:
-      'https://staging-platform-platform-api.va.gov/v0/messaging/health/folders/0/messages?page=1&sort=-sent_date',
-    first:
-      'https://staging-platform-platform-api.va.gov/v0/messaging/health/folders/0/messages?page=1&per_page=10&sort=-sent_date',
+    self: `${
+      environment.API_URL
+    }/v0/messaging/health/folders/0/messages?page=1&sort=-sent_date`,
+    first: `${
+      environment.API_URL
+    }/v0/messaging/health/folders/0/messages?page=1&per_page=10&sort=-sent_date`,
     prev: null,
     next: null,
-    last:
-      'https://staging-platform-platform-api.va.gov/v0/messaging/health/folders/0/messages?page=1&per_page=10&sort=-sent_date',
+    last: `${
+      environment.API_URL
+    }/v0/messaging/health/folders/0/messages?page=1&per_page=10&sort=-sent_date`,
   },
   meta: {
     sort: { sentDate: 'DESC' },

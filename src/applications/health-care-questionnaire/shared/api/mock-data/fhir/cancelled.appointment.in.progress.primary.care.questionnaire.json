@@ -11,14 +11,14 @@
 		"participant": [
 			{
 				"actor": {
-					"reference": "https://sandbox-platform-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000",
+					"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000",
 					"display": "LOM ACC TRAINING CLINIC"
 				},
 				"status": "accepted"
 			},
 			{
 				"actor": {
-					"reference": "https://sandbox-platform-api.va.gov/services/fhir/v0/r4/Patient/1008882029V851792",
+					"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/1008882029V851792",
 					"display": "Mrs. Sheba703 Harris789"
 				},
 				"status": "accepted"
@@ -45,7 +45,7 @@
 					],
 					"text": "Facility ID"
 				},
-				"system": "https://platform-api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
 				"value": "vha_442"
 			}
 		],
@@ -94,11 +94,11 @@
 					],
 					"text": "Facility ID"
 				},
-				"system": "https://platform-api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier",
 				"value": "vha_442"
 			},
 			{
-				"system": "https://platform-api.va.gov/services/fhir/v0/r4/NamingSystem/va-clinic-identifier",
+				"system": "https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-clinic-identifier",
 				"value": "vha_442_3049"
 			}
 		],
@@ -140,7 +140,7 @@
 			"text": "BLDG 146, RM W02"
 		},
 		"managingOrganization": {
-			"reference": "https://sandbox-platform-api.va.gov/services/fhir/v0/r4/Organization/I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000",
+			"reference": "https://sandbox-api.va.gov/services/fhir/v0/r4/Organization/I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000",
 			"display": "CHEYENNE VA MEDICAL"
 		},
 		"resourceType": "Location"

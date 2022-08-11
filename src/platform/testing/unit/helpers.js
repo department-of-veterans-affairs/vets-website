@@ -6,6 +6,8 @@ import { createMemoryHistory } from 'history-v4';
 import ReactTestUtils from 'react-dom/test-utils';
 import sinon from 'sinon';
 
+import environment from 'platform/utilities/environment';
+
 chai.use(chaiAsPromised);
 
 const { expect } = chai;
@@ -124,7 +126,7 @@ export function mockFetch(returnVal, shouldResolve = true) {
 export function setFetchJSONResponse(stub, data = null) {
   const response = new Response();
   response.ok = true;
-  response.url = 'https://dev-platform-api.va.gov';
+  response.url = environment.API_URL;
   if (data) {
     response.headers.set('Content-Type', 'application/json');
     response.json = () => Promise.resolve(data);
@@ -137,7 +139,7 @@ export function setFetchJSONFailure(stub, data) {
     headers: { 'content-type': ['application/json'] },
   });
   response.ok = false;
-  response.url = 'https://dev-platform-api.va.gov';
+  response.url = environment.API_URL;
   response.json = () => Promise.resolve(data);
   stub.resolves(response);
 }
@@ -145,7 +147,7 @@ export function setFetchJSONFailure(stub, data) {
 export function setFetchBlobResponse(stub, data) {
   const response = new Response();
   response.ok = true;
-  response.url = 'https://dev-platform-api.va.gov';
+  response.url = environment.API_URL;
   response.blob = () => Promise.resolve(data);
   stub.resolves(response);
 }
@@ -153,7 +155,7 @@ export function setFetchBlobResponse(stub, data) {
 export function setFetchBlobFailure(stub, error) {
   const response = new Response();
   response.ok = false;
-  response.url = 'https://dev-platform-api.va.gov';
+  response.url = environment.API_URL;
   response.blob = () => Promise.reject(new Error(error));
   stub.resolves(response);
 }
@@ -173,7 +175,7 @@ const getApiRequestObject = returnVal => ({
   },
   ok: true,
   json: () => Promise.resolve(returnVal),
-  url: 'https://dev-platform-api.va.gov',
+  url: environment.API_URL,
 });
 
 /**

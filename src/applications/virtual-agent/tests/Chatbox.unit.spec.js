@@ -6,6 +6,7 @@ import { expect } from 'chai';
 import { waitFor, screen, fireEvent, act } from '@testing-library/react';
 import sinon from 'sinon';
 import * as Sentry from '@sentry/browser';
+import environment from 'platform/utilities/environment';
 
 // import configureMockStore from 'redux-mock-store';
 // import thunk from 'redux-thunk';
@@ -250,8 +251,8 @@ describe('App', () => {
             GreetUser.makeBotGreetUser,
             'FAKECSRF',
             'FAKEAPISESSION',
-            'https://dev-api.va.gov',
-            'https://dev.va.gov',
+            environment.API_URL,
+            environment.BASE_URL,
             'Mark',
             'fake_uuid',
             undefined, // requireAuth toggle
@@ -294,8 +295,8 @@ describe('App', () => {
             GreetUser.makeBotGreetUser,
             'FAKECSRF',
             'FAKEAPISESSION',
-            'https://dev-api.va.gov',
-            'https://dev.va.gov',
+            environment.API_URL,
+            environment.BASE_URL,
             'noFirstNameFound',
             'fake_uuid',
             undefined, // requireAuth toggle
@@ -345,8 +346,8 @@ describe('App', () => {
             GreetUser.makeBotGreetUser,
             'FAKECSRF',
             'FAKEAPISESSION',
-            'https://dev-api.va.gov',
-            'https://dev.va.gov',
+            environment.API_URL,
+            environment.BASE_URL,
             'noFirstNameFound',
             'noUserUuid',
             false, // requireAuth toggle

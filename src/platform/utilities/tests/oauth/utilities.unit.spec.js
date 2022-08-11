@@ -9,6 +9,7 @@ import {
 } from 'platform/testing/unit/helpers';
 
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
+import environment from 'platform/utilities/environment';
 import {
   AUTHORIZE_KEYS_WEB,
   AUTHORIZE_KEYS_MOBILE,
@@ -158,7 +159,9 @@ describe('OAuth - Utilities', () => {
     it('should generate a proper url with appropriate query params', async () => {
       const cvValue = 'success_buildTokenRequest';
       window.sessionStorage.setItem('code_verifier', cvValue);
-      const tokenPath = `https://dev-api.va.gov/v0/sign_in/token?grant_type=authorization_code&client_id=web&redirect_uri=https%253A%252F%252Fdev.va.gov&code=hello&code_verifier=${cvValue}`;
+      const tokenPath = `${
+        environment.API_URL
+      }/v0/sign_in/token?grant_type=authorization_code&client_id=web&redirect_uri=https%253A%252F%252Fdev.va.gov&code=hello&code_verifier=${cvValue}`;
       const btr = await oAuthUtils.buildTokenRequest({ code: 'hello' });
       expect(btr.href).to.eql(tokenPath);
       expect(btr.href).includes('code=');

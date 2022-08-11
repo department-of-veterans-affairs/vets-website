@@ -79,7 +79,7 @@ const responses = {
         lastUpdated: '2021-05-17T20:18:48.596Z',
         tag: [
           {
-            system: 'https://platform-api.va.gov/services/pgd',
+            system: 'https://api.va.gov/services/pgd',
             code: '66a5960c-68ee-4689-88ae-4c7cccf7ca79',
             display: 'VA GOV CLIPBOARD',
           },
@@ -106,12 +106,12 @@ const responses = {
       status: 'completed',
       subject: {
         reference:
-          'https://sandbox-platform-api.va.gov/services/fhir/v0/r4/Appointment/I2-3PYJBEU2DIBW5RZT2XI3PASYGMQFEQEGUDEHYKKFBLHSVPEO6XJA0000',
+          'https://sandbox-api.va.gov/services/fhir/v0/r4/Appointment/I2-3PYJBEU2DIBW5RZT2XI3PASYGMQFEQEGUDEHYKKFBLHSVPEO6XJA0000',
       },
       authored: '2021-05-17T20:18:47+00:00',
       source: {
         reference:
-          'https://sandbox-platform-api.va.gov/services/fhir/v0/r4/Patient/1013424543V075307',
+          'https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/1013424543V075307',
       },
       item: [
         {

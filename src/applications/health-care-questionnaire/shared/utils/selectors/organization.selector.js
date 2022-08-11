@@ -45,7 +45,7 @@ const getFacilityIdentifier = organization => {
   const fid = identifier.find(
     f =>
       f.system ===
-      'https://platform-api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier',
+      'https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier',
   );
 
   return fid?.value ? fid.value : null;

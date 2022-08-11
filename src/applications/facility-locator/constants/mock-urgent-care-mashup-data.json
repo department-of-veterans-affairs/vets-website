@@ -517,7 +517,7 @@
     }
   },
   "links": {
-    "self": "https://staging-platform-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-105.00732421875001&bbox%5B%5D=25.423431426334247&bbox%5B%5D=-90.46142578125001&bbox%5B%5D=34.903952965590065&page=1&per_page=20&services%5B%5D=UrgentCare&type=health",
+    "self": "https://staging-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-105.00732421875001&bbox%5B%5D=25.423431426334247&bbox%5B%5D=-90.46142578125001&bbox%5B%5D=34.903952965590065&page=1&per_page=20&services%5B%5D=UrgentCare&type=health",
     "first": "https://staging-platform-api.va.gov/v1/facilities/va?bbox%5B%5D=-105.00732421875001&bbox%5B%5D=25.423431426334247&bbox%5B%5D=-90.46142578125001&bbox%5B%5D=34.903952965590065&page=1&per_page=20&services%5B%5D=UrgentCare&type=health",
     "prev": null,
     "next": null,

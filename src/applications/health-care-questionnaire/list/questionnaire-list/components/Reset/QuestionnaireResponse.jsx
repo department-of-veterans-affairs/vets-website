@@ -9,7 +9,7 @@ export default function QuestionnaireResponse(props) {
     qr.status = 'entered-in-error';
     setIsDeleting(true);
     const resp = await fetch(
-      `https://sandbox-platform-api.va.gov/services/pgd/v0/sandbox-data/r4/QuestionnaireResponse/${
+      `https://sandbox-api.va.gov/services/pgd/v0/sandbox-data/r4/QuestionnaireResponse/${
         resource.id
       }`,
       {

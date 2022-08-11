@@ -43,7 +43,7 @@ describe('health care questionnaire - get help footer  -', () => {
         identifier: [
           {
             system:
-              'https://platform-api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier',
+              'https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier',
             value: '1234',
           },
         ],
