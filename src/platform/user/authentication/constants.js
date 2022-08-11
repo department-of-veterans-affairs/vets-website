@@ -210,3 +210,17 @@ export const DOWNTIME_BANNER_CONFIG = {
       'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',
   },
 };
+
+export const getStatusFromStatuses = _status => {
+  const sorted = _status
+    .sort((a, b) => {
+      if (a.service < b.service) return 1;
+      if (a.service > b.service) return -1;
+      return 0;
+    })
+    .find(k => !['active'].includes(k.status));
+
+  return sorted && AUTH_DEPENDENCIES.some(id => id === sorted.serviceId)
+    ? DOWNTIME_BANNER_CONFIG[sorted.serviceId]
+    : {};
+};

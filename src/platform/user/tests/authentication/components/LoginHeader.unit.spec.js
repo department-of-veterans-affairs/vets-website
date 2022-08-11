@@ -25,12 +25,12 @@ describe('LoginHeader', () => {
     expect(wrapper.find('LogoutAlert').exists()).to.be.true;
   });
   it('should render `DowntimeBanners`', () => {
-    expect(wrapper.find('DowntimeBanners').exists()).to.be.true;
+    expect(wrapper.find('Connect(DowntimeBanners)').exists()).to.be.true;
   });
   it('should display an informational alert for iOS users', () => {
     const mutatedProps = { loggedOut: false, isIOS: () => true };
     wrapper = shallow(<LoginHeader {...mutatedProps} />);
-    expect(wrapper.find('#ios-bug').exists()).to.be.true;
+    expect(wrapper.find('LoginBanners').exists()).to.be.true;
     wrapper.unmount();
   });
 });
