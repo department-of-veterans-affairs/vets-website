@@ -67,7 +67,7 @@ export default function LoginHeader({ loggedOut, isIOS = checkWebkit }) {
               isn’t available right now. We’re doing some maintenance work on
               this system.
               <br />
-              <span className="vads-u--margin-top--1 vads-u--display--block">
+              <span className="vads-u-margin-top--2 vads-u-display--block">
                 Check back on Monday, August 15, 2022, to review your
                 information
               </span>

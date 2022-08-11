@@ -15,7 +15,7 @@ export default function LoginBanners({
         <div className="form-warning-banner fed-warning--v2">
           <va-alert visible status={bannerType}>
             <h2 slot="headline">{headline}</h2>
-            <p className="vads-u-margin-top--1">{description}</p>
+            <p className="vads-u-margin-top--2">{description}</p>
             {displayAdditionalInfo && (
               <va-additional-info
                 id={additionalInfoId}
