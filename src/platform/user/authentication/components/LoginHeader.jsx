@@ -1,5 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+
 import LogoutAlert from './LogoutAlert';
 import DowntimeBanners from './DowntimeBanner';
 import LoginBanners from './LoginBanners';
@@ -26,6 +31,12 @@ function checkWebkit() {
   );
 }
 export default function LoginHeader({ loggedOut, isIOS = checkWebkit }) {
+  const displayDirectDepositBanner = useSelector(
+    state =>
+      toggleValues(state)[
+        FEATURE_FLAG_NAMES.profileHideDirectDepositCompAndPen
+      ],
+  );
   return (
     <>
       <div className="row">
@@ -45,6 +56,25 @@ export default function LoginHeader({ loggedOut, isIOS = checkWebkit }) {
               device, you may have trouble signing in right now. We’re working
               to fix this problem as fast as we can."
           displayDifferentDeviceContent
+        />
+      )}
+      {displayDirectDepositBanner && (
+        <LoginBanners
+          headline="Disability and direct deposit information isn’t available right now"
+          displayAdditionalInfo={false}
+          bannerType="warning"
+          description={
+            <>
+              We’re sorry. Disability and pension direct deposit information
+              isn’t available right now. We’re doing some maintenance work on
+              this system.
+              <br />
+              <span className="vads-u--margin-top--1 vads-u--display--block">
+                Check back on Monday, August 15, 2022, to review your
+                information
+              </span>
+            </>
+          }
         />
       )}
     </>
