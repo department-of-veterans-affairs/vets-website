@@ -83,6 +83,7 @@ export default Object.freeze({
   profileShowBadAddressIndicator: 'profile_show_bad_address_indicator',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
   profileUseVaosV2Api:'profile_use_vaos_v2_api',
+  profileUseVAFSC: 'profile_use_vafsc',
   pwEhrCtaDrupalSourceOfTruth: 'pw_ehr_cta_drupal_source_of_truth',
   ratedDisabilitiesSortAbTest: 'rated_disabilities_sort_ab_test',
   requestLockedPdfPassword: 'request_locked_pdf_password',
@@ -149,8 +150,9 @@ export default Object.freeze({
   vaOnlineSchedulingPocHealthApt: 'va_online_scheduling_poc_health_apt',
   vaOnlineSchedulingStatusImprovement: 'va_online_scheduling_status_improvement',
   vaOnlineSchedulingClinicLocation: 'va_online_scheduling_clinic_location',
-  vaOnlineSchedulingVaosV2Next: 'va_online_scheduling_vaosv2next',
+  vaOnlineSchedulingVaosV2Next: 'va_online_scheduling_vaos_v2_next',
   vaOnlineFilter36Vats: 'va_online_filter36_vats',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
+  showDigitalForm1095b: 'show_digital_form_1095b'
 });
