@@ -424,10 +424,7 @@ const formConfig = {
         },
         // New resolution radio options
         resolutionOption: {
-          title: formData =>
-            typeof formData.benefitType === 'string'
-              ? formData.benefitType
-              : 'Some default string',
+          title: 'Resolution options',
           depends: formData =>
             formData.selectedDebts.length > 0 &&
             formData['view:combinedFinancialStatusReport'],
@@ -437,15 +434,10 @@ const formConfig = {
           uiSchema: pages.resolutionOption.uiSchema,
           schema: pages.resolutionOption.schema,
         },
-        // New text field
+        // Monthly repayment
         resolutionComment: {
-          title: formData =>
-            typeof formData.benefitType === 'string'
-              ? formData.benefitType
-              : 'Some default string',
-          depends: formData =>
-            formData.selectedDebts.length > 0 &&
-            formData['view:combinedFinancialStatusReport'],
+          title: 'Resolution comment',
+          itemFilter: item => item.resolutionOption !== 'waiver',
           path: 'resolution-comment/:index',
           showPagePerItem: true,
           arrayPath: 'selectedDebts',
