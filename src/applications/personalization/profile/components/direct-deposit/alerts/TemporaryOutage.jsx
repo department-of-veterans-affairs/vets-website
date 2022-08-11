@@ -8,14 +8,15 @@ const TemporaryOutage = () => (
       visible
     >
       <h2 slot="headline">
-        Disability compensation and pension benefits is temporarily unavailable
+        Disability and pension information isn’t available right now
       </h2>
 
       <p>
-        We’re sorry, but disability compensation and pension benefits
-        information is currently unavailable due to system maintenance. We’ll
-        have this system back online as soon as possible. Please check back
-        Monday, August 15th.
+        We’re sorry. Disability and pension direct deposit information isn’t
+        available right now. We’re doing some maintenance work on this system.
+      </p>
+      <p className="vads-u-margin-bottom--0">
+        Check back on Monday, August 15, 2022, to review your information.
       </p>
     </va-alert>
   </div>
