@@ -1,11 +1,30 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .message-box {
-    background-color: $color-gray-lightest;
-    border-radius: 4px;
+  background-color: $color-gray-lightest;
+  border-radius: 4px;
 }
 
-.send-button-top {
+.send-button-top,
+.reply-button-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: transparent;
+  color: $color-link-default;
+  font-weight: normal;
+  line-height: 24px;
+  width: fit-content;
+  margin: 0;
+  padding: 0;
+  .send-button-top-text {
+    text-decoration: underline;
+  }
+}
+
+.message-action-buttons {
+  margin-top: 20px;
+  .message-action-button {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,81 +35,99 @@
     width: fit-content;
     margin: 0;
     padding: 0;
-    .send-button-top-text {
-        text-decoration: underline;
+    i {
+      width: 20px;
+      height: 20px;
     }
+    .message-action-button-text {
+      text-decoration: underline;
+    }
+  }
+}
+
+.messages-nav-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 13px;
+  line-height: 1.5;
+  border-color: $color-link-default;
+  * {
+    color: $color-link-default;
+  }
+}
+
+.breadcrumb > i {
+  margin-right: 6px;
+  font-size: 1.1rem;
 }
 
 .save-button {
-    background-color: transparent;
-    color: $color-link-default;
-    .save-button-text {
-        text-decoration: underline;
-        font-weight: normal;
-    }
+  background-color: transparent;
+  color: $color-link-default;
+  .save-button-text {
+    text-decoration: underline;
+    font-weight: normal;
+  }
 }
 
 .message-title {
-    font-size: 20px;
-    padding: 12px;
-    justify-content: space-between;
+  font-size: 20px;
+  padding: 12px;
+  justify-content: space-between;
 }
 
 .message-body {
-    background-color: $color-white;
-    font-size: 16px;
-    border-radius: 0px 0px 4px 4px;
+  background-color: $color-white;
+  font-size: 16px;
+  border-radius: 0px 0px 4px 4px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  .message-body-text {
     margin-top: 1px;
     margin-bottom: 1px;
-    .message-body-text{
-        margin-top: 1px;
-        margin-bottom: 1px;
-    }
+  }
 }
 
 .attachment-body {
-    display: flex;
-    background-color: $color-white;
-    font-size: 16px;
-    border-radius: 0px 0px 4px 4px;
-    margin-top: 1px;
-    margin-bottom: 1px;
+  display: flex;
+  background-color: $color-white;
+  font-size: 16px;
+  border-radius: 0px 0px 4px 4px;
+  margin-top: 1px;
+  margin-bottom: 1px;
 }
 
 .attachment-icon {
-    padding-top: 6px;
+  padding-top: 6px;
 }
 
 .remove-attachment {
-    background-color: transparent;
-    color: $color-link-default;
-    .remove-attachment-text {
-        text-decoration: underline;
-        font-weight: normal;
-    }
+  background-color: transparent;
+  color: $color-link-default;
+  .remove-attachment-text {
+    text-decoration: underline;
+    font-weight: normal;
+  }
 }
 
 .older-messages {
-    margin-top: 24px;
+  margin-top: 24px;
 }
 
 .expand-messages {
-    align-items: right;
+  align-items: right;
 }
 
 .nav-links {
+  margin-left: 8px;
+  margin-right: 8px;
+  .nav-links-text {
     margin-left: 8px;
     margin-right: 8px;
-    .nav-links-text {
-        margin-left: 8px;
-        margin-right: 8px;
-    }
+  }
 }
 .compose-container {
-  .breadcrumb > i {
-    margin-right: 6px;
-    font-size: 1.1rem;
-  }
   .link-button {
     background-color: transparent;
     color: $color-link-default;
@@ -103,17 +140,7 @@
     margin: 0;
     width: fit-content;
   }
-  .messages-nav-menu {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 11px 13px;
-    line-height: 1.5;
-    border-color: $color-link-default;;
-    * {
-      color: $color-link-default;
-    }
-  }
+
   .compose-block {
     margin: 2rem 0 4rem 0;
     background-color: $color-white;
@@ -132,7 +159,6 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-
     }
     .send-button-top {
       display: flex;
@@ -167,7 +193,8 @@
       }
       .attachments-section {
         margin-bottom: 3rem;
-        li, .compose-attachments-input {
+        li,
+        .compose-attachments-input {
           display: flex;
           i {
             margin: 5px 8px 0 0;
@@ -206,6 +233,47 @@
           }
         }
       }
+    }
+  }
+}
+
+.message-detail-container {
+  p {
+    margin-top: 2px;
+    margin-bottom: 1px;
+  }
+  .message-detail-block {
+    margin: 2rem 0 4rem 0;
+    background-color: $color-white;
+    .message-detail-content {
+      border: 2px solid $color-gray-lightest;
+      padding: 18px;
+    }
+
+    .message-detail-header {
+      border-radius: 4px 4px 0 0;
+      background-color: $color-gray-lightest;
+      justify-content: space-between;
+      align-items: center;
+      padding-right: 6px;
+      padding-top: 8px;
+      padding-bottom: none !important;
+      padding-left: 12px;
+      display: flex;
+      h3 {
+        margin: none;
+      }
+    }
+    .message-body {
+      margin-top: 30px;
+    }
+
+    .message-attachments {
+      margin-top: 1em;
+    }
+
+    .message-detail-note {
+      margin-top: 3em;
     }
   }
 }
