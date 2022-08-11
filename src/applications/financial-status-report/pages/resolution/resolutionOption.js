@@ -1,7 +1,7 @@
 import React from 'react';
 
 export const uiSchema = {
-  selectedDebts: {
+  selectedDebtsAndCopays: {
     items: {
       'ui:title': 'DEBT X of Y: [DEBT NAME HERE]',
       resolutionOption: {
@@ -57,7 +57,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    selectedDebts: {
+    selectedDebtsAndCopays: {
       type: 'array',
       items: {
         type: 'object',

@@ -1,5 +1,5 @@
 export const uiSchema = {
-  selectedDebts: {
+  selectedDebtsAndCopays: {
     items: {
       'ui:title': 'SOME TITLE',
       resolutionComment: {
@@ -16,7 +16,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    selectedDebts: {
+    selectedDebtsAndCopays: {
       type: 'array',
       items: {
         type: 'object',

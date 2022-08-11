@@ -429,11 +429,11 @@ const formConfig = {
               ? formData.benefitType
               : 'Some default string',
           depends: formData =>
-            formData.selectedDebts.length > 0 &&
+            formData.selectedDebtsAndCopays?.length > 0 &&
             formData['view:combinedFinancialStatusReport'],
           path: 'resolution-option/:index',
           showPagePerItem: true,
-          arrayPath: 'selectedDebts',
+          arrayPath: 'selectedDebtsAndCopays',
           uiSchema: pages.resolutionOption.uiSchema,
           schema: pages.resolutionOption.schema,
         },
@@ -444,11 +444,11 @@ const formConfig = {
               ? formData.benefitType
               : 'Some default string',
           depends: formData =>
-            formData.selectedDebts.length > 0 &&
+            formData.selectedDebtsAndCopays?.length > 0 &&
             formData['view:combinedFinancialStatusReport'],
           path: 'resolution-comment/:index',
           showPagePerItem: true,
-          arrayPath: 'selectedDebts',
+          arrayPath: 'selectedDebtsAndCopays',
           uiSchema: pages.resolutionComment.uiSchema,
           schema: pages.resolutionComment.schema,
         },

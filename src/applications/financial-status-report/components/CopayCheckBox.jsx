@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import { currency, endDate } from '../utils/helpers';
@@ -9,7 +8,7 @@ const CopayCheckBox = ({ copay }) => {
   const dispatch = useDispatch();
 
   const formData = useSelector(state => state.form.data);
-  const { selectedCopays } = formData;
+  const { selectedCopays, selectedDebtsAndCopays = [] } = formData;
 
   const isChecked = selectedCopays?.some(
     currentCopay => currentCopay.id === copay.id,
@@ -25,9 +24,23 @@ const CopayCheckBox = ({ copay }) => {
         copayEntry => copayEntry.id !== selectedCopay.id,
       );
 
-      return dispatch(setData({ ...formData, selectedCopays: checked }));
+      const combinedChecked = selectedDebtsAndCopays?.filter(
+        selection => selection.id !== selectedCopay.id,
+      );
+
+      return dispatch(
+        setData({
+          ...formData,
+          selectedCopays: checked,
+          selectedDebtsAndCopays: combinedChecked,
+        }),
+      );
     }
     const newFsrCopays = selectedCopays?.length
+      ? [...selectedCopays, selectedCopay]
+      : [selectedCopay];
+
+    const newlySelectedDebtsAndCopays = selectedCopays?.length
       ? [...selectedCopays, selectedCopay]
       : [selectedCopay];
 
@@ -35,6 +48,10 @@ const CopayCheckBox = ({ copay }) => {
       setData({
         ...formData,
         selectedCopays: newFsrCopays,
+        selectedDebtsAndCopays: [
+          ...newlySelectedDebtsAndCopays,
+          ...selectedDebtsAndCopays,
+        ],
       }),
     );
   };
@@ -66,18 +83,6 @@ const CopayCheckBox = ({ copay }) => {
       </label>
     </div>
   );
-};
-
-CopayCheckBox.propTypes = {
-  copay: PropTypes.shape({
-    id: PropTypes.string,
-    pHAmtDue: PropTypes.number,
-    pSStatementDateOutput: PropTypes.string,
-    station: PropTypes.shape({
-      facilityName: PropTypes.string,
-      facilitYNum: PropTypes.string,
-    }),
-  }),
 };
 
 export default CopayCheckBox;
