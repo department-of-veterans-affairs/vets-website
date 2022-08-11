@@ -14,7 +14,7 @@ const lastStep = numContainers - 1;
 
 if (tests.some(test => test.match(longestTest))) {
   longestTestIsPresent = true;
-  divider = Math.ceil(tests.length / numContainers - 1);
+  divider = Math.ceil(tests.length / (numContainers - 1));
   tests = tests.filter(test => !test.match(longestTest));
 } else {
   divider = Math.ceil(tests.length / numContainers);
