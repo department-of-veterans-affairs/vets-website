@@ -1,85 +1,56 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
-// @media (man-width: $small-screen) {
-    .va-sidebarnav {
+@media (max-width: $small-screen) {
+    .sidebarnav {
+        z-index: 2;
+        position: absolute;
+        top: 0;
+        right: 0;
         display: flex;
         justify-content: center;
         border: 1px solid $color-gray;
         width: 264px;
         height: 1925px;
-
+        background-color: $color-white;
     }
 
+    .fa-times {
+        width: 14px;
+        color: $color-black;
+    }
     ul{
         margin: 0px;
         padding: 0px;
     }
-    .messages-nav-content {
-        margin-left: 16px;
-        margin-right: 16px;
-    }
-
-    li a:hover, .va-sidebarnav .usa-sidenav-list > li a:hover {
-        background-color: transparent;
-        color: $color-black;
-        padding-top: 0px;
-        padding-bottom: 0px;
-        margin-top: 0px;
-        margin-bottom: 0px;
-    }
-    li a:hover, .va-sidebarnav .usa-sidenav-list > li a:focus {
-        background-color: transparent;
-        color: $color-black;
-        padding-top: 0px;
-        padding-bottom: 0px;
-        margin-top: 0px;
-        margin-bottom: 0px;
-    }
-    .usa-sidenav-list {
-        width: 232;
-        border-top: 1px solid $color-gray-light;
-        a {
-            font-weight: 400;
-            width: 184px;
-            padding-top: 0px;
-            padding-bottom: 0px;
-            margin-top: 0px;
-            margin-bottom: 0px;
-        }
-        li {
-            margin-top: 7px;
-        }
-    }
-
-    li {
-        list-style-type: none;
-        div.nav-title {
-            width: 264px;
-            padding: 0px;
-        }
-    }
 
     .nav-title {
-        width: 264px;
+        display: flex;
+        flex-direction: row;
         height: 54px;
         i.fa-medkit {
             color: $color-white;
             background-color: $color-primary;
             margin-left: 32px;
-            padding: 8px;
-            padding-bottom: 10px;
+            margin-top: 9px;
+            margin-bottom: 11px;
+            height: 34px;
+            width: 32px;
+            padding: 8px 8px 10px;
             border-radius: 100%;
         }
 
         h4 {
             color: $color-gray-dark;
             width: 88px;
+            height: 20px;
             margin-left: 5px;
+            margin-top: 15px;
             margin-right: 61px;
-
         }
 
         button {
+        width: 44px;
+        height: 46px;
         padding: 15px;
         border-radius: 5px;
         background-color: $color-gray-lightest;
@@ -94,4 +65,72 @@
             background-color: $color-gray-lightest;
         }
     }
-// }
+
+    ul.usa-sidenav-list{
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .usa-accordion-content {
+        padding: 0px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .messages-nav-content .usa-accordion-content{
+        margin-left: 16px;
+        margin-right: 16px;
+        padding: 0px;
+    }
+
+    .usa-sidenav-list {
+        width: 232;
+        border: 0px;
+        border-top: 1px solid $color-gray-light;
+        li {
+            margin-top: 4px;
+            margin-bottom: 4px;
+            border: 0px;
+            a {
+                            padding-top: 4px;
+            padding-bottom: 4px;
+                font-weight: 400;
+                width: 184px;
+                padding-top: 4px;
+                padding-bottom: 4px;
+                margin-top: 0px;
+                padding-left: 32px;
+                margin-bottom: 0px;
+                color: $color-link-default;
+                &:visited {
+                color: $color-link-default;
+                }
+                &:focus {
+                    background-color: transparent;
+                    color: $color-black;
+                    padding-left: 16px;
+                    margin-top: 0px;
+                    margin-bottom: 0px;
+                    border-left: 4px solid $color-black;
+                    font-weight: 700;
+                }
+
+                &:hover {
+                    background-color: transparent;
+                    color: $color-black;
+                    margin-top: 0px;
+                    margin-bottom: 0px;
+                    border-left: 4px solid $color-black;
+                    font-weight: 700;
+                    padding-left: 16px;
+                }
+                &:active {
+                    border-left: 4px solid $color-black;
+                    font-weight: 700;
+                    padding-left: 16px;
+                }
+
+
+            }
+        }
+    }
+}
