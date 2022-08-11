@@ -52,9 +52,7 @@ export default function LoginHeader({ loggedOut, isIOS = checkWebkit }) {
         <LoginBanners
           additionalInfoId="ios-bug"
           headline="You may have trouble signing in right now"
-          description="We’re sorry. If you're using the Safari browser or an Apple mobile
-              device, you may have trouble signing in right now. We’re working
-              to fix this problem as fast as we can."
+          description="We’re sorry. If you’re using the Safari browser or an Apple mobile device, you may have trouble signing in right now. We’re working to fix this problem as fast as we can."
           displayDifferentDeviceContent
         />
       )}
