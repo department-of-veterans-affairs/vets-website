@@ -62,9 +62,9 @@ jobs:
         env:
           CHANGED_FILE_PATHS: ${{ steps.changed-files.outputs.all_changed_files }}
 
-      # - name: Cancel workflow if commit has full build
-      #   if: ${{ github.event_name == 'workflow_run' && steps.get-changed-apps.outputs.app_entries == '' }}
-      #   uses: andymckay/cancel-action@0.2
+      - name: Cancel workflow if commit has full build
+        if: ${{ github.event_name == 'workflow_run' && steps.get-changed-apps.outputs.app_entries == '' }}
+        uses: andymckay/cancel-action@0.2
 
   build:
     name: Build
