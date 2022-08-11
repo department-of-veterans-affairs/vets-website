@@ -113,15 +113,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
       name="1095-download-options"
       label={radioLabel}
       options={radioOptions}
-      onValueChange={({ value }) => {
-        updateFormType(value);
-        recordEvent({
-          event: 'int-radio-button-option-click',
-          'radio-button-label':
-            'Choose your file format and download your document',
-          'radio-button-option-click-label': value,
-        });
-      }}
+      onValueChange={({ value }) => updateFormType(value)}
       value={{ value: formType }}
       ariaDescribedby={radioOptionsAriaLabels}
       additionalFieldsetClass="vads-u-margin-top--0"
@@ -133,6 +125,12 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
       <button
         className="usa-button-primary va-button"
         onClick={function() {
+          recordEvent({
+            event: 'int-radio-button-option-click',
+            'radio-button-label':
+              'Choose your file format and download your document',
+            'radio-button-option-click-label': `${formType} 1095B downloaded`,
+          });
           callGetContent();
         }}
         id="download-url"
