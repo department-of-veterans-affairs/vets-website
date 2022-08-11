@@ -28,13 +28,13 @@ describe('<ConnectedAppDeleteModal>', () => {
         .find('button')
         .at(1)
         .text(),
-    ).to.include('Cancel');
+    ).to.include('Disconnect');
     expect(
       wrapper
         .find('button')
         .at(2)
         .text(),
-    ).to.include('Disconnect');
+    ).to.include('Cancel');
 
     expect(text).to.not.include('Processing update...');
 
