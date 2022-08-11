@@ -43,7 +43,7 @@ runs:
         if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
             echo ::set-output name=changed_files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
         else
-          echo ::set-output name=changed_files::$(git diff --name-only origin/main...)
+          echo ::set-output name=changed_files::$(git diff --name-only origin/cypress-parallel-12...)
         fi
 
     - name: Get entry names
