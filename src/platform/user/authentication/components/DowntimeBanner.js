@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { getBackendStatuses as getBackendStatusAction } from 'platform/monitoring/external-services/actions';
+import environment from 'platform/utilities/environment';
 import { getStatusFromStatuses } from '../constants';
 
 export function DowntimeBanners({
@@ -12,7 +13,7 @@ export function DowntimeBanners({
 
   useEffect(
     () => {
-      if (shouldGetBackendStatuses) {
+      if (!environment.isLocalhost() && shouldGetBackendStatuses) {
         getBackendStatuses();
       }
     },
