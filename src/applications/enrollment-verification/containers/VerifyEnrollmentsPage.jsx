@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import { connect, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { focusElement } from 'platform/utilities/ui';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
 import {
-  updateEnrollmentVerifications,
+  postEnrollmentVerifications,
   UPDATE_VERIFICATION_STATUS_MONTHS,
   VERIFICATION_STATUS_CORRECT,
   VERIFICATION_STATUS_INCORRECT,
   fetchPost911GiBillEligibility,
+  UPDATE_VERIFICATION_STATUS_SUCCESS,
 } from '../actions';
 
 import EnrollmentVerificationLoadingIndicator from '../components/EnrollmentVerificationLoadingIndicator';
@@ -20,6 +21,7 @@ import MonthReviewCard from '../components/MonthReviewCard';
 import {
   REVIEW_ENROLLMENTS_RELATIVE_URL,
   VERIFICATION_RESPONSE,
+  VERIFY_ENROLLMENTS_ERROR_RELATIVE_URL,
 } from '../constants';
 import {
   ENROLLMENT_VERIFICATION_TYPE,
@@ -28,13 +30,17 @@ import {
 import ReviewSkippedAheadAlert from '../components/ReviewSkippedAheadAlert';
 import ReviewPausedInfo from '../components/ReviewPausedInfo';
 import VerifyEnrollments from '../components/VerifyEnrollments';
+import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
 
 export const VerifyEnrollmentsPage = ({
   editMonthVerification,
   enrollmentVerification,
+  enrollmentVerificationSubmitted,
   getPost911GiBillEligibility,
   hasCheckedKeepAlive,
   loggedIn,
+  submissionResult,
+  updateEnrollmentVerifications,
 }) => {
   const [continueClicked, setContinueClicked] = useState(false);
   const [currentMonth, setCurrentMonth] = useState(0);
@@ -48,6 +54,13 @@ export const VerifyEnrollmentsPage = ({
       if (hasCheckedKeepAlive && !loggedIn) {
         history.push('/');
       }
+      if (submissionResult) {
+        history.push(
+          submissionResult === UPDATE_VERIFICATION_STATUS_SUCCESS
+            ? REVIEW_ENROLLMENTS_RELATIVE_URL
+            : VERIFY_ENROLLMENTS_ERROR_RELATIVE_URL,
+        );
+      }
 
       if (!enrollmentVerification) {
         getPost911GiBillEligibility();
@@ -55,6 +68,7 @@ export const VerifyEnrollmentsPage = ({
     },
     [
       enrollmentVerification,
+      submissionResult,
       getPost911GiBillEligibility,
       hasCheckedKeepAlive,
       history,
@@ -63,7 +77,7 @@ export const VerifyEnrollmentsPage = ({
   );
 
   useEffect(() => {
-    focusElement('h1');
+    scrollToTop('h1');
   }, []);
 
   const unverifiedMonths =
@@ -102,7 +116,7 @@ export const VerifyEnrollmentsPage = ({
   const onEditMonth = useCallback(
     m => {
       editMonth(m);
-      focusElement('h1');
+      scrollToTop('h1');
     },
     [editMonth],
   );
@@ -151,7 +165,7 @@ export const VerifyEnrollmentsPage = ({
       setMonthInformationCorrect(
         unverifiedMonths[currentMonth - 1].verificationStatus,
       );
-      focusElement('h1');
+      scrollToTop('h1');
     },
     [
       clearVerificationStatuses,
@@ -225,7 +239,7 @@ export const VerifyEnrollmentsPage = ({
           return m;
         }),
       });
-      focusElement('h1');
+      scrollToTop('h1');
     },
     [
       continueClicked,
@@ -244,7 +258,7 @@ export const VerifyEnrollmentsPage = ({
         mapEnrollmentVerificationsForSubmission(enrollmentVerification),
       );
     },
-    [enrollmentVerification],
+    [enrollmentVerification, updateEnrollmentVerifications],
   );
 
   const onFinishVerifyingLater = useCallback(
@@ -256,6 +270,15 @@ export const VerifyEnrollmentsPage = ({
     [clearVerificationStatuses, history],
   );
 
+  if (enrollmentVerificationSubmitted) {
+    return (
+      <EnrollmentVerificationPageWrapper>
+        <h1>Verify your enrollments</h1>
+
+        <EnrollmentVerificationLoadingIndicator message="Loading your result..." />
+      </EnrollmentVerificationPageWrapper>
+    );
+  }
   if (!enrollmentVerification || !unverifiedMonths) {
     return <EnrollmentVerificationLoadingIndicator />;
   }
@@ -272,6 +295,7 @@ export const VerifyEnrollmentsPage = ({
         onFinishVerifyingLater={onFinishVerifyingLater}
         onForwardButtonClick={onSubmit}
         progressTitlePostfix="Review verifications"
+        requirePrivacyAgreement
         totalProgressBarSegments={unverifiedMonths.length + 1}
       >
         {informationIncorrectMonth &&
@@ -346,9 +370,12 @@ export const VerifyEnrollmentsPage = ({
 VerifyEnrollmentsPage.propTypes = {
   editMonthVerification: PropTypes.number,
   enrollmentVerification: ENROLLMENT_VERIFICATION_TYPE,
+  enrollmentVerificationSubmitted: PropTypes.bool,
   getPost911GiBillEligibility: PropTypes.func,
   hasCheckedKeepAlive: PropTypes.bool,
   loggedIn: PropTypes.bool,
+  submissionResult: PropTypes.string,
+  updateEnrollmentVerifications: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -356,10 +383,13 @@ const mapStateToProps = state => ({
   hasCheckedKeepAlive: state?.user?.login?.hasCheckedKeepAlive || false,
   loggedIn: state?.user?.login?.currentlyLoggedIn || false,
   enrollmentVerification: state?.data?.enrollmentVerification,
+  enrollmentVerificationSubmitted: state?.data?.enrollmentVerificationSubmitted,
+  submissionResult: state?.data?.enrollmentVerificationSubmissionResult,
 });
 
 const mapDispatchToProps = {
   getPost911GiBillEligibility: fetchPost911GiBillEligibility,
+  updateEnrollmentVerifications: postEnrollmentVerifications,
 };
 
 export default connect(

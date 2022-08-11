@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import PrivacyAgreement from 'platform/forms/components/PrivacyAgreement';
+
 import EnrollmentVerificationPageWrapper from './EnrollmentVerificationPageWrapper';
 import FinishVerifyingLater from './FinishVerifyingLater';
 
-export default function VerifyEnrollments({
+function VerifyEnrollments({
   backButtonText = (
     <>
       <span className="button-icon" aria-hidden="true">
@@ -26,11 +31,41 @@ export default function VerifyEnrollments({
   onFinishVerifyingLater,
   onForwardButtonClick,
   progressTitlePostfix,
+  requirePrivacyAgreement = false,
   totalProgressBarSegments,
 }) {
+  const [privacyAgreementChecked, setPrivacyAgreementChecked] = useState(false);
+  const [showPrivacyAgreementError, setShowPrivacyAgreementError] = useState(
+    false,
+  );
+
+  const onPrivacyAgreementChange = useCallback(checked => {
+    setPrivacyAgreementChecked(checked);
+    if (checked) {
+      setShowPrivacyAgreementError(false);
+    }
+  }, []);
+
+  const verifyPrivacyAgreement = useCallback(
+    () => {
+      if (requirePrivacyAgreement && !privacyAgreementChecked) {
+        setShowPrivacyAgreementError(true);
+        return;
+      }
+
+      if (requirePrivacyAgreement) {
+        scrollToTop();
+      }
+
+      onForwardButtonClick();
+    },
+    [onForwardButtonClick, privacyAgreementChecked, requirePrivacyAgreement],
+  );
+
   return (
     <EnrollmentVerificationPageWrapper>
       <h1>Verify your enrollments</h1>
+
       <va-segmented-progress-bar
         current={currentProgressBarSegment}
         total={totalProgressBarSegments}
@@ -42,6 +77,22 @@ export default function VerifyEnrollments({
       </h2>
 
       {children}
+
+      {requirePrivacyAgreement && (
+        <>
+          <p className="vads-u-margin-top--4">
+            <strong>Note:</strong> According to federal law, there are criminal
+            penalties, including a fine and/or imprisonment for up to 5 years,
+            for withholding information or for providing incorrect information.
+            (See 18 U.S.C. 1001)
+          </p>
+          <PrivacyAgreement
+            checked={privacyAgreementChecked}
+            onChange={onPrivacyAgreementChange}
+            showError={showPrivacyAgreementError}
+          />
+        </>
+      )}
 
       <FinishVerifyingLater onFinishVerifyingLater={onFinishVerifyingLater} />
 
@@ -57,8 +108,13 @@ export default function VerifyEnrollments({
         <button
           type="button"
           className="usa-button-primary vads-u-margin-y--0"
+          // disabled={requirePrivacyAgreement && !privacyAgreementChecked}
           id="2-continueButton"
-          onClick={onForwardButtonClick}
+          onClick={
+            requirePrivacyAgreement
+              ? verifyPrivacyAgreement
+              : onForwardButtonClick
+          }
         >
           {forwardButtonText}
         </button>
@@ -77,4 +133,9 @@ VerifyEnrollments.propTypes = {
   children: PropTypes.any,
   forwardButtonText: PropTypes.any,
   progressTitlePostfix: PropTypes.any,
+  requirePrivacyAgreement: PropTypes.bool,
+  result: PropTypes.string,
+  submitted: PropTypes.bool,
 };
+
+export default connect()(VerifyEnrollments);
