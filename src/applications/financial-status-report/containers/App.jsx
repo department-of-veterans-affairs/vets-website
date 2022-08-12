@@ -131,7 +131,7 @@ App.propTypes = {
   pending: PropTypes.bool,
   router: PropTypes.object,
   setFormData: PropTypes.func,
-  showCombinedFSR: PropTypes.func,
+  showCombinedFSR: PropTypes.bool,
   showFSR: PropTypes.bool,
   showWizard: PropTypes.bool,
 };
