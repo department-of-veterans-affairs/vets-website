@@ -45,7 +45,7 @@ describe('the Supplemental Claims Sub-task', () => {
     expect(form).to.exist;
     expect($('va-radio-option[label^="Disability"]', form)).to.exist;
     expect($('va-radio-option[label^="Claim other"]', form)).to.exist;
-    expect($('va-button[continue]', form)).to.exist;
+    expect($('va-button[continue]', container)).to.exist;
   });
   it('should go to the "other" SubTask page and back to "start"', () => {
     const { container } = render(
@@ -62,6 +62,21 @@ describe('the Supplemental Claims Sub-task', () => {
 
     fireEvent.click($('va-button[back]', container), mouseClick);
     expect($('form[data-page="start"]', container)).to.exist;
+  });
+  it('should show an error when no selection is made', () => {
+    const { container } = render(
+      <Provider store={mockStore()}>
+        <SubTask pages={pages} />
+      </Provider>,
+    );
+
+    expect($('form[data-page="start"]', container)).to.exist;
+
+    fireEvent.click($('va-button[continue]', container), mouseClick);
+    expect($('form[data-page="start"]', container)).to.exist;
+    const vaRadio = $('va-radio', container);
+    expect(vaRadio).to.exist;
+    expect(vaRadio.error).to.contain('choose a benefit type');
   });
   it('should go to the Introduction page when complete', () => {
     const router = { push: sinon.spy() };

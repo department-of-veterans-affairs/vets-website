@@ -44,6 +44,7 @@ const DecisionReviewPage = () => {
 export default {
   name: pageNames.other,
   component: DecisionReviewPage,
+  focus: 'h2',
   next: null,
   back: pageNames.start,
 };

@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { setData, setSubTaskData } from 'platform/forms-system/src/js/actions';
+import { focusElement, scrollToFirstError } from 'platform/utilities/ui';
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 /**
  * Problems to address:
@@ -65,9 +67,34 @@ export const SubTask = props => {
     setFormSubTaskData,
     router,
   } = props;
-  const [currentPage, setCurrentPage] = useState(pages[0]);
+  const [hasInitialized, setHasInitialized] = useState(false);
+  const [currentPage, setCurrentPage] = useState(pages[0] || {});
   const [hasError, setHasError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const formRef = useRef(null);
+
+  const setFocus = () => {
+    setTimeout(() => {
+      if (hasError) {
+        scrollToFirstError();
+      } else {
+        // Focus on h1 on init, h2 thereafter
+        const header = $(hasInitialized ? 'h2' : 'h1');
+        // Ignore h2's with .help-heading class - it's a common class added to the
+        // "Need help?" footer; and ignore h2's in the footer
+        if (currentPage.focus) {
+          focusElement(currentPage.focus);
+        } else {
+          const formHeader =
+            header?.closest('footer') ||
+            header?.classList.contains('help-heading')
+              ? null
+              : header;
+          focusElement(formHeader || formRef?.current || 'h2');
+        }
+      }
+    });
+  };
 
   const subTaskData = Object.keys(props.subTaskData).length
     ? props.subTaskData
@@ -79,23 +106,17 @@ export const SubTask = props => {
         typeof currentPage.validate === 'function'
           ? currentPage.validate(data)
           : true; // no validate function, return true (e.g. back button)
+
       setHasError(!isValid);
       return isValid;
     },
     [currentPage, subTaskData],
   );
 
-  // useEffect(() => {
-  //   setFormData({ ...formData, ...subTaskData });
-  //   setFormSubTaskData(subTaskData);
-  // });
-
-  useEffect(
-    () => {
-      checkValid(subTaskData);
-    },
-    [subTaskData, checkValid],
-  );
+  useEffect(() => checkValid(subTaskData), [subTaskData, checkValid]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => setFocus(), [currentPage.name]);
+  useEffect(() => setHasInitialized(true), []);
 
   // get page name or url of destination page
   const getDestinationPage = destination =>
@@ -122,9 +143,12 @@ export const SubTask = props => {
 
   const pageCheck = direction => {
     // Don't check validation when going back
-    if (direction === 'next') {
+    if (direction === 'back') {
+      setHasError(false);
+    } else {
       setSubmitted(true);
       if (!checkValid()) {
+        setFocus();
         return false;
       }
     }
@@ -161,24 +185,26 @@ export const SubTask = props => {
   const Page = currentPage.component;
 
   return (
-    <form
-      onSubmit={e => e.preventDefault()}
-      className="subtask-container"
-      data-page={currentPage.name}
-    >
-      <div className="subtask-content">
-        <Page
-          key={currentPage.name}
-          data={subTaskData}
-          error={submitted && hasError}
-          setPageData={setPageData}
-        />
-      </div>
+    <div className="subtask-container">
+      <form
+        ref={formRef}
+        onSubmit={e => e.preventDefault()}
+        data-page={currentPage.name}
+      >
+        <div className="subtask-content">
+          <Page
+            key={currentPage.name}
+            data={subTaskData}
+            error={submitted && hasError}
+            setPageData={setPageData}
+          />
+        </div>
+      </form>
       <div className="subtask-navigation">
         {backButton}
         {continueButton}
       </div>
-    </form>
+    </div>
   );
 };
 
@@ -211,6 +237,7 @@ SubTask.propTypes = {
   }).isRequired,
   setFormData: PropTypes.func.isRequired,
   setFormSubTaskData: PropTypes.func.isRequired,
+  focus: PropTypes.string,
   formData: PropTypes.shape({}),
   subTaskData: PropTypes.shape({}),
 };
