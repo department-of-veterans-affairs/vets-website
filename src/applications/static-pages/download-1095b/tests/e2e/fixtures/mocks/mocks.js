@@ -15,7 +15,6 @@ const form = {
 };
 
 const formUnavailable = {
-  // eslint-disable-next-line camelcase
   availableForms: [],
 };
 

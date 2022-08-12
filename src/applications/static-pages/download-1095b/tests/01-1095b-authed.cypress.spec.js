@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import Timeouts from 'platform/testing/e2e/timeouts';
 import { form, featureToggles } from './e2e/fixtures/mocks/mocks';
 
