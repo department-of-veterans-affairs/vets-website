@@ -1,9 +1,10 @@
 import ResolutionOptions from '../../components/ResolutionOptions';
+import CurrentDebtTitle from '../../components/CurrentDebtTitle';
 
 export const uiSchema = {
   selectedDebtsAndCopays: {
     items: {
-      'ui:title': ' ',
+      'ui:title': CurrentDebtTitle,
       resolutionOptions: {
         'ui:widget': ResolutionOptions,
       },
