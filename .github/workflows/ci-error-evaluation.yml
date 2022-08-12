@@ -59,10 +59,10 @@ jobs:
         uses: ./.github/workflows/configure-bigquery
 
       - name: Set Workflow Object
-        run: echo "GITHUB_STEPS=$(github.workflow.jobs)" >> $GITHUB_ENV
+        run: echo "GITHUB_STEPS=${{github.workflow.jobs}}" >> $GITHUB_ENV
 
       - name: Log Object
         run: yarn actions-steps-error-check
         working-directory: qa-standards-dashboard-data
         env:
-          GITHUB_STEPS: ${env.GITHUB_STEPS}
+          GITHUB_STEPS: ${{env.GITHUB_STEPS}}
