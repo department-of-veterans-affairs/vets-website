@@ -62,13 +62,6 @@ const analyticsEvents = {
       prefix: 'loading-indicator',
     },
   ],
-  PromoBanner: [
-    {
-      action: 'linkClick',
-      event: 'nav-promo-banner-link-click',
-      prefix: 'promo-banner',
-    },
-  ],
   RadioButtons: [
     {
       action: 'change',
