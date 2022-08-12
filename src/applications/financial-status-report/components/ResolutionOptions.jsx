@@ -46,23 +46,32 @@ const ResolutionOptions = ({ formContext }) => {
             (or "waive") the debt.
           </span>
         </label>
-        <input
-          type="radio"
-          checked={currentDebt.resolutionOption === 'monthly'}
-          name="resolution-option-monthly"
-          id="radio-monthly"
-          value="monthly"
-          onChange={onChange}
-        />
-        <label htmlFor="radio-monthly">
-          <span className="vads-u-display--block vads-u-font-weight--bold">
-            Extended monthly payments
-          </span>
-          <span className="vads-u-display--block vads-u-font-size--sm">
-            If we accept your request, you can make smaller monthly payments for
-            up to 5 years with either monthly offsets or a monthly payment plan.
-          </span>
-        </label>
+      </div>
+      {currentDebt.debtType === 'COPAY' ? (
+        ''
+      ) : (
+        <div>
+          <input
+            type="radio"
+            checked={currentDebt.resolutionOption === 'monthly'}
+            name="resolution-option-monthly"
+            id="radio-monthly"
+            value="monthly"
+            onChange={onChange}
+          />
+          <label htmlFor="radio-monthly">
+            <span className="vads-u-display--block vads-u-font-weight--bold">
+              Extended monthly payments
+            </span>
+            <span className="vads-u-display--block vads-u-font-size--sm">
+              If we accept your request, you can make smaller monthly payments
+              for up to 5 years with either monthly offsets or a monthly payment
+              plan.
+            </span>
+          </label>
+        </div>
+      )}
+      <div>
         <input
           type="radio"
           checked={currentDebt.resolutionOption === 'compromise'}

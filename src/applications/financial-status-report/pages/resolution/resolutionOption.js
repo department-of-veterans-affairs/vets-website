@@ -6,6 +6,7 @@ export const uiSchema = {
     items: {
       'ui:title': CurrentDebtTitle,
       resolutionOptions: {
+        'ui:title': ' ',
         'ui:widget': ResolutionOptions,
       },
     },
