@@ -62,4 +62,4 @@ jobs:
         run: yarn actions-steps-error-check
         working-directory: qa-standards-dashboard-data
         env:
-          GITHUB_STEPS: ${{github}}
+          GITHUB_STEPS: ${{ jobs }}
