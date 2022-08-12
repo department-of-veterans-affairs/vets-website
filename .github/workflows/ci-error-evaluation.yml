@@ -64,3 +64,5 @@ jobs:
       - name: Log Object
         run: yarn actions-steps-error-check
         working-directory: qa-standards-dashboard-data
+        env:
+          GITHUB_STEPS: ${env.GITHUB_STEPS}
