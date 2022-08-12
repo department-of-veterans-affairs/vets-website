@@ -166,6 +166,13 @@ const analyticsEvents = {
       prefix: 'modal',
     },
   ],
+  'va-promo-banner': [
+    {
+      action: 'linkClick',
+      event: 'nav-promo-banner-link-click',
+      prefix: 'promo-banner',
+    },
+  ],
   'va-radio': [
     {
       action: 'change',
