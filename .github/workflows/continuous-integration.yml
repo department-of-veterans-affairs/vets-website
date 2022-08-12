@@ -1083,7 +1083,7 @@ jobs:
   set-deploy-environments:
     name: Set environments to deploy
     needs: [archive, build]
-    if: ${{ always() && needs.archive.result == 'success' }}
+    if: always() && github.ref == 'refs/heads/main' && needs.archive.result == 'success'
     runs-on: ubuntu-latest
     outputs:
       environments: ${{ steps.set-environments.outputs.environments }}
@@ -1109,7 +1109,7 @@ jobs:
           \\\"iam_role\\\": \\\"AWS_FRONTEND_PROD_ROLE\\\"
         }"
     steps:
-      - name: Set environments for matrix
+      - name: Set environments for deploy matrix
         id: set-environments
         run: |
           if [[ ${{ env.DEPLOY_TO_PRODUCTION }} == true && ${{ env.IS_ISOLATED_APP_BUILD }} == true ]]; then
@@ -1121,7 +1121,7 @@ jobs:
   deploy:
     name: Deploy
     needs: [build, set-deploy-environments]
-    if: always() && needs.set-deploy-environments.result == 'success'
+    if: always() && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.set-deploy-environments.outputs.environments) }}
@@ -1175,18 +1175,18 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
-      # - name: Deploy
-      #   if: steps.check-deployability.outputs.is_deployable == 'true'
-      #   run: |
-      #     if [[ "${{ env.IS_ISOLATED_APP_BUILD }}" == "true" ]]; then
-      #       ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
-      #     else
-      #       ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
-      #     fi
-      #   env:
-      #     SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
-      #     DEST: s3://${{ matrix.bucket }}
-      #     ASSET_DEST: s3://${{ matrix.asset_bucket }}
+      - name: Deploy
+        if: steps.check-deployability.outputs.is_deployable == 'true'
+        run: |
+          if [[ "${{ env.IS_ISOLATED_APP_BUILD }}" == "true" ]]; then
+            ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+          else
+            ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+          fi
+        env:
+          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
+          DEST: s3://${{ matrix.bucket }}
+          ASSET_DEST: s3://${{ matrix.asset_bucket }}
 
   notify-failure:
     name: Notify Failure
