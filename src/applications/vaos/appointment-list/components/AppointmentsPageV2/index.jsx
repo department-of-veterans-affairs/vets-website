@@ -19,7 +19,6 @@ import AppointmentListNavigation from '../AppointmentListNavigation';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
 
-// Testing single app builds
 let pageTitle = 'VA online scheduling';
 
 const DROPDOWN_VALUES = {

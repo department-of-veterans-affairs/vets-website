@@ -1088,7 +1088,7 @@ jobs:
     outputs:
       environments: ${{ steps.set-environments.outputs.environments }}
     env:
-      DEPLOY_TO_PRODUCTION: true # Enables production deployments for apps on the allowlist when set to true
+      DEPLOY_TO_PRODUCTION: false # Enables production deployments for apps on the allowlist when set to true
       IS_ISOLATED_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
       DEV: "{
           \\\"environment\\\": \\\"vagovdev\\\", 
