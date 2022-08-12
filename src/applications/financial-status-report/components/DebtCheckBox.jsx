@@ -58,10 +58,7 @@ const DebtCheckBox = ({ debt }) => {
       setData({
         ...formData,
         selectedDebts: newFsrDebts,
-        selectedDebtsAndCopays: [
-          ...newlySelectedDebtsAndCopays,
-          ...selectedDebtsAndCopays,
-        ],
+        selectedDebtsAndCopays: newlySelectedDebtsAndCopays,
       }),
     );
   };

@@ -8,50 +8,38 @@ const CopayCheckBox = ({ copay }) => {
   const dispatch = useDispatch();
 
   const formData = useSelector(state => state.form.data);
-  const { selectedCopays, selectedDebtsAndCopays = [] } = formData;
+  const { selectedDebtsAndCopays = [] } = formData;
 
-  const isChecked = selectedCopays?.some(
+  const isChecked = selectedDebtsAndCopays?.some(
     currentCopay => currentCopay.id === copay.id,
   );
 
   const onChange = selectedCopay => {
-    const alreadyIncluded = selectedCopays?.some(
+    const alreadyIncluded = selectedDebtsAndCopays?.some(
       currentCopay => currentCopay.id === selectedCopay.id,
     );
 
     if (alreadyIncluded) {
-      const checked = selectedCopays?.filter(
+      const checked = selectedDebtsAndCopays?.filter(
         copayEntry => copayEntry.id !== selectedCopay.id,
-      );
-
-      const combinedChecked = selectedDebtsAndCopays?.filter(
-        selection => selection.id !== selectedCopay.id,
       );
 
       return dispatch(
         setData({
           ...formData,
-          selectedCopays: checked,
-          selectedDebtsAndCopays: combinedChecked,
+          selectedDebtsAndCopays: checked,
         }),
       );
     }
-    const newFsrCopays = selectedCopays?.length
-      ? [...selectedCopays, selectedCopay]
-      : [selectedCopay];
 
-    const newlySelectedDebtsAndCopays = selectedCopays?.length
-      ? [...selectedCopays, selectedCopay]
+    const newlySelectedDebtsAndCopays = selectedDebtsAndCopays?.length
+      ? [...selectedDebtsAndCopays, selectedCopay]
       : [selectedCopay];
 
     return dispatch(
       setData({
         ...formData,
-        selectedCopays: newFsrCopays,
-        selectedDebtsAndCopays: [
-          ...newlySelectedDebtsAndCopays,
-          ...selectedDebtsAndCopays,
-        ],
+        selectedDebtsAndCopays: newlySelectedDebtsAndCopays,
       }),
     );
   };

@@ -11,17 +11,17 @@ const ResolutionOptions = ({ formContext }) => {
   const currentDebt = selectedDebtsAndCopays[formContext.pagePerItemIndex];
 
   const onChange = ({ target }) => {
+    const newlySelectedDebtsAndCopays = selectedDebtsAndCopays.map(debt => {
+      if (debt.id === currentDebt.id) {
+        return { ...debt, resolutionOption: target.value };
+      }
+      return debt;
+    });
+
     return dispatch(
       setData({
         ...formData,
-        selectedDebtsAndCopays: [
-          ...selectedDebtsAndCopays.slice(0, formContext.pagePerItemIndex),
-          {
-            ...currentDebt,
-            resolutionOption: target.value,
-          },
-          ...selectedDebtsAndCopays.slice(formContext.pagePerItemIndex + 1),
-        ],
+        selectedDebtsAndCopays: newlySelectedDebtsAndCopays,
       }),
     );
   };
