@@ -18,6 +18,7 @@ import {
   radioOptions,
   radioOptionsAriaLabels,
   radioLabel,
+  unavailableComponent,
 } from './utils';
 
 export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
@@ -242,7 +243,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   );
 
   if (!displayToggle) {
-    return <></>;
+    return unavailableComponent();
   }
   if (loggedIn) {
     if (formError.error) {
