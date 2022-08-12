@@ -1,11 +1,16 @@
 import ResolutionOptions from '../../components/ResolutionOptions';
-import CurrentDebtTitle from '../../components/CurrentDebtTitle';
+import {
+  CurrentDebtTitle,
+  CurrentDebtDescription,
+} from '../../components/CurrentDebtTitle';
 
 export const uiSchema = {
   selectedDebtsAndCopays: {
     items: {
       'ui:title': CurrentDebtTitle,
-      resolutionOptions: {
+      'ui:description': CurrentDebtDescription,
+      resolutionOption: {
+        'ui:title': ' ',
         'ui:widget': ResolutionOptions,
       },
     },
@@ -19,9 +24,9 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        required: ['resolutionOptions'],
+        required: ['resolutionOption'],
         properties: {
-          resolutionOptions: {
+          resolutionOption: {
             type: 'string',
           },
         },

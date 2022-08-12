@@ -4,20 +4,12 @@ import PropTypes from 'prop-types';
 import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import { currency } from '../utils/helpers';
 
-const CurrentDebtTitle = ({ formContext }) => {
+export const CurrentDebtTitle = ({ formContext }) => {
   const formData = useSelector(state => state.form.data);
 
   const { selectedDebtsAndCopays = [] } = formData;
   const currentDebt = selectedDebtsAndCopays[formContext.pagePerItemIndex];
   const { deductionCode, benefitType } = currentDebt;
-  const formattedDebtTitle =
-    currentDebt.debtType === 'COPAY'
-      ? `${currency(currentDebt.pHAmtDue)} copay debt for ${
-          currentDebt.station.facilityName
-        }`
-      : `${currency(currentDebt.originalAr - currentDebt.currentAr)} debt for${
-          deductionCodes[deductionCode]
-        }` || benefitType;
 
   return (
     <div>
@@ -28,12 +20,30 @@ const CurrentDebtTitle = ({ formContext }) => {
           ? `Copay debt for ${currentDebt.station.facilityName}`
           : deductionCodes[deductionCode] || benefitType}
       </h3>
-      <p>
-        Which repayment or relief option would you like for your{' '}
-        <strong>{formattedDebtTitle}</strong>?{' '}
-        <span className="required-text">(*Required)</span>
-      </p>
     </div>
+  );
+};
+
+export const CurrentDebtDescription = ({ formContext }) => {
+  const formData = useSelector(state => state.form.data);
+
+  const { selectedDebtsAndCopays = [] } = formData;
+  const currentDebt = selectedDebtsAndCopays[formContext.pagePerItemIndex];
+
+  const formattedDebtTitle =
+    currentDebt.debtType === 'COPAY'
+      ? `${currency(currentDebt.pHAmtDue)} copay debt for ${
+          formData.station.facilityName
+        }`
+      : `${currency(currentDebt.currentAr)} debt for${
+          deductionCodes[currentDebt.deductionCode]
+        }` || currentDebt.benefitType;
+
+  return (
+    <p>
+      Which repayment or relief option would you like for your{' '}
+      <strong>{formattedDebtTitle}</strong>?{' '}
+    </p>
   );
 };
 
@@ -42,5 +52,3 @@ CurrentDebtTitle.propTypes = {
     pagePerItemIndex: PropTypes.string.isRequired,
   }),
 };
-
-export default CurrentDebtTitle;
