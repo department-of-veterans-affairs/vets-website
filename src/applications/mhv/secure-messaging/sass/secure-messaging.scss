@@ -209,3 +209,137 @@
     }
   }
 }
+
+@media (max-width: $small-screen) {
+  .sidebarnav {
+      z-index: 2;
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      border: 1px solid $color-gray;
+      width: 264px;
+      height: 1925px;
+      background-color: $color-white;
+
+      .fa-times {
+        width: 14px;
+        color: $color-black;
+    }
+
+    ul{
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .nav-title {
+        display: flex;
+        flex-direction: row;
+        height: 54px;
+
+        i.fa-medkit {
+            color: $color-white;
+            background-color: $color-primary;
+            margin-left: 32px;
+            margin-top: 9px;
+            margin-bottom: 11px;
+            height: 34px;
+            width: 32px;
+            padding: 8px 8px 10px;
+            border-radius: 100%;
+        }
+
+        h4 {
+            color: $color-gray-dark;
+            width: 88px;
+            height: 20px;
+            margin-left: 5px;
+            margin-top: 15px;
+            margin-right: 61px;
+        }
+
+        button {
+          width: 44px;
+          height: 46px;
+          padding: 15px;
+          border-radius: 5px;
+          background-color: $color-gray-lightest;
+          margin: 0px;
+          margin-top: 3px;
+          .fa-times {
+                  width: 14px;
+                  color: $color-black;
+          }
+
+        }
+        button:hover {
+            background-color: $color-gray-lightest;
+        }
+    }
+
+    .usa-accordion-content {
+        padding: 0px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    #a1 > ul > li > a {
+        font-weight: 700;
+        color: $color-black;
+        border-left: 4px solid $color-black;
+        &:hover {
+            padding-left: 12px;
+        }
+    }
+
+    .usa-sidenav-list {
+      width: 232;
+      border: 0px;
+      border-top: 1px solid $color-gray-light;
+      li {
+        margin-top: 4px;
+        margin-bottom: 4px;
+        border: 0px;
+        padding-left: 16px;
+        list-style-type: none;
+        a {
+          padding-top: 4px;
+          padding-bottom: 4px;
+          font-weight: 400;
+          width: 184px;
+          padding-top: 4px;
+          padding-bottom: 4px;
+          margin-top: 0px;
+          margin-bottom: 0px;
+          color: $color-link-default;
+          &:visited {
+          color: $color-link-default;
+          }
+          &:focus {
+              padding-left: 9px;
+              background-color: transparent;
+              margin-top: 0px;
+              margin-bottom: 0px;
+              border-left: 4px solid ;
+              font-weight: 700;
+          }
+
+          &:hover {
+              padding-left: 9px;
+              background-color: transparent;
+              margin-top: 0px;
+              margin-bottom: 0px;
+              border-left: 4px solid ;
+              font-weight: 700;
+          }
+          &:active {
+              padding-left: 9px;
+              border-left: 4px solid ;
+              font-weight: 700;
+          }
+        }
+      }
+    }
+  }
+}
