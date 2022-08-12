@@ -1080,13 +1080,13 @@ jobs:
           aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
           aws s3 cp BUILD_ARTIFACT.txt s3://vetsgov-website-builds-s3-upload-test/build-artifacts/$GITHUB_SHA.txt --acl public-read --region us-gov-west-1
 
-  set-deploy-matrix:
-    name: Set deploy matrix
+  set-deploy-environments:
+    name: Set environments to deploy
     needs: [archive, build]
     if: ${{ always() && needs.archive.result == 'success' }}
     runs-on: ubuntu-latest
     outputs:
-      environments: ${{ steps.set-matrix.outputs.matrix }}
+      environments: ${{ steps.set-environments.outputs.environments }}
     env:
       DEPLOY_TO_PRODUCTION: false # Enables production deployments for apps on the allowlist when set to true
       IS_ISOLATED_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
@@ -1109,27 +1109,24 @@ jobs:
           \\\"iam_role\\\": \\\"AWS_FRONTEND_PROD_ROLE\\\"
         }"
     steps:
-      - name: Determine environments
-        id: set-matrix
+      - name: Set environments for matrix
+        id: set-environments
         run: |
-          if [[ "${{ env.DEPLOY_TO_PRODUCTION }}" == "true" && "${{ env.IS_ISOLATED_APP_BUILD }}" == "true" }} ]]; then
-            echo ::set-output name=matrix::{\"include\":[${{env.DEV}},${{env.STAGING}},${{env.PROD}}]}
+          if [[ ${{ env.DEPLOY_TO_PRODUCTION }} == true && ${{ env.IS_ISOLATED_APP_BUILD }} == true ]]; then
+            echo ::set-output name=environments::{\"include\":[${{env.DEV}},${{env.STAGING}},${{env.PROD}}]}
           else
-            echo ::set-output name=matrix::{\"include\":[${{env.DEV}},${{env.STAGING}}]}
+            echo ::set-output name=environments::{\"include\":[${{env.DEV}},${{env.STAGING}}]}
           fi
   
   deploy:
     name: Deploy
-    needs: [build, set-deploy-matrix]
-    if: always() && needs.set-deploy-matrix.result == 'success'
+    needs: [build, set-deploy-environments]
+    if: always() && needs.set-deploy-environments.result == 'success'
     runs-on: ubuntu-latest
-
     strategy:
-      matrix: ${{ fromJson(needs.set-deploy-matrix.outputs.environments) }}
-
+      matrix: ${{ fromJson(needs.set-deploy-environments.outputs.environments) }}
     env:
       IS_ISOLATED_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v3
