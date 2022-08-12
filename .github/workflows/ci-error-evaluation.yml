@@ -62,4 +62,5 @@ jobs:
         run: yarn actions-steps-error-check
         working-directory: qa-standards-dashboard-data
         env:
-          GITHUB_STEPS: ${{ jobs }}
+          RUN_ID: ${{ github.run_id }}
+          ATTEMPT_NUMBER: ${{ github.run_attempt }}
