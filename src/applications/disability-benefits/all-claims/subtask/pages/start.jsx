@@ -52,7 +52,7 @@ const ActiveDuty = ({ data = {}, error, setPageData }) => {
 
   return (
     <>
-      <h2>Is this the form I need?</h2>
+      <h1>Is VA Form 21-526EZ the form I need?</h1>
       <p>
         Use this form to file for disability benefits for an illness or injury
         that was caused by&mdash;or got worse because of&mdash;your active

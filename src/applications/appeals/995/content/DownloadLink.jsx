@@ -12,8 +12,8 @@ const DownloadLink = ({
     onClick: () => {
       if (subTaskEvent) {
         recordEvent({
-          event: 'subtask-alert-link-click',
-          'subtask-alert-link-click-label': content,
+          event: 'howToWizard-alert-link-click',
+          'howToWizard-alert-link-click-label': content,
         });
       }
     },

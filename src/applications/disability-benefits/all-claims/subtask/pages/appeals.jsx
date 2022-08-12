@@ -5,15 +5,14 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-// import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 import pageNames from './pageNames';
 
 const dataKey = 'view:claimType';
 
 const content = {
-  label:
-    'Are you filing a new claim or are you disagreeing with a VA decision on an earlier claim?',
+  label: 'New claim or disagreeing?',
   errorMessage: 'Please select a type of claim',
 };
 
@@ -48,36 +47,40 @@ const AppealsPage = ({ data = {}, error, setPageData }) => {
       const { value } = target;
       setPageData({ [dataKey]: value || null });
 
-      /* Discuss with Analytics
       recordEvent({
         event: 'howToWizard-formChange',
         'form-field-type': 'form-radio-buttons',
-        'form-field-label': label,
+        'form-field-label': content.label,
         'form-field-value':
           value === pageNames.fileClaim ? 'new-worse' : 'disagreeing',
       });
-       */
     },
   };
 
   return (
-    <VaRadio
-      label={content.label}
-      error={error ? content.errorMessage : null}
-      onRadioOptionSelected={handlers.setAppealChoice}
-    >
-      {options.map(({ value, label }) => (
-        <VaRadioOption
-          key={value}
-          className="vads-u-margin-y--2"
-          name="appealChoice"
-          id={value}
-          value={value}
-          label={label}
-          checked={value === data[dataKey]}
-        />
-      ))}
-    </VaRadio>
+    <>
+      <h1 className="vads-u-margin-bottom--0">
+        Are you filing a new claim or are you disagreeing with a VA decision on
+        an earlier claim?
+      </h1>
+      <VaRadio
+        label={content.label}
+        error={error ? content.errorMessage : null}
+        onRadioOptionSelected={handlers.setAppealChoice}
+      >
+        {options.map(({ value, label }) => (
+          <VaRadioOption
+            key={value}
+            className="vads-u-margin-y--2"
+            name="appealChoice"
+            id={value}
+            value={value}
+            label={label}
+            checked={value === data[dataKey]}
+          />
+        ))}
+      </VaRadio>
+    </>
   );
 };
 

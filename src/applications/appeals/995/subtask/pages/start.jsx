@@ -5,7 +5,7 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-// import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 import { BASE_URL } from '../../constants';
 import pageNames from './pageNames';
@@ -48,24 +48,24 @@ const BenefitType = ({ data = {}, error, setPageData }) => {
       const { value } = target;
       setPageData({ benefitType: value || null });
 
-      /* Discuss with Analytics
       recordEvent({
-        event: 'subtask-formChange',
+        event: 'howToWizard-formChange',
         'form-field-type': 'form-radio-buttons',
         'form-field-label':
           'For what benefit type are you requesting a Supplemental Claim?',
-          'form-field-value': value,
+        'form-field-value': value,
       });
-      */
     },
   };
 
   return (
     <>
-      <h2>Is this the form I need?</h2>
+      <h1 className="vads-u-margin-bottom--0">
+        Is Supplemental Claim VA Form 20-0995 what I need?
+      </h1>
       <p>
         Use this form if you disagree with our decision on your claim and have
-        new and relevant evidence to submit
+        new and relevant evidence to submit.
       </p>
       <p>Answer a question to get started.</p>
       <VaRadio

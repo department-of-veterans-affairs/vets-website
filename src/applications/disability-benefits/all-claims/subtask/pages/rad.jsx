@@ -20,8 +20,8 @@ const saveDischargeDate = (date, isBDD) => {
   }
 };
 
-const label =
-  'What’s the date or anticipated date of your release from active duty?';
+// web-component labels only accept strings (not JSX)
+const label = 'Enter a release from active duty date';
 
 // Figure out which page to go to based on the date entered
 const findNextPage = date => {
@@ -88,7 +88,10 @@ const Rad = ({ data = {}, error, setPageData }) => {
   };
 
   return (
-    <div id={pageNames.rad} className="clearfix vads-u-margin-y--2">
+    <div id={pageNames.rad} className="clearfix">
+      <h1 className="vads-u-margin-bottom--0">
+        What’s the date or anticipated date of your release from active duty?
+      </h1>
       <VaDate
         label={label}
         className="vads-u-margin-top--0"
