@@ -38,7 +38,7 @@ export const Form0995App = ({
   const [isLoadingIssues, setIsLoadingIssues] = useState(false);
 
   const subTaskBenefitType =
-    subTaskData.benefitType || getStoredSubTask()?.benefitType;
+    subTaskData?.benefitType || getStoredSubTask()?.benefitType;
 
   useEffect(
     () => {
