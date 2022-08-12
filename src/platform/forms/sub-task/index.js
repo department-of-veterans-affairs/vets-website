@@ -4,8 +4,8 @@ import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
 import { setData, setSubTaskData } from 'platform/forms-system/src/js/actions';
+import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement, scrollToFirstError } from 'platform/utilities/ui';
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 /**
  * Problems to address:
@@ -67,34 +67,10 @@ export const SubTask = props => {
     setFormSubTaskData,
     router,
   } = props;
-  const [hasInitialized, setHasInitialized] = useState(false);
   const [currentPage, setCurrentPage] = useState(pages[0] || {});
   const [hasError, setHasError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const formRef = useRef(null);
-
-  const setFocus = () => {
-    setTimeout(() => {
-      if (hasError) {
-        scrollToFirstError();
-      } else {
-        // Focus on h1 on init, h2 thereafter
-        const header = $(hasInitialized ? 'h2' : 'h1');
-        // Ignore h2's with .help-heading class - it's a common class added to the
-        // "Need help?" footer; and ignore h2's in the footer
-        if (currentPage.focus) {
-          focusElement(currentPage.focus);
-        } else {
-          const formHeader =
-            header?.closest('footer') ||
-            header?.classList.contains('help-heading')
-              ? null
-              : header;
-          focusElement(formHeader || formRef?.current || 'h2');
-        }
-      }
-    });
-  };
 
   const subTaskData = Object.keys(props.subTaskData).length
     ? props.subTaskData
@@ -114,9 +90,17 @@ export const SubTask = props => {
   );
 
   useEffect(() => checkValid(subTaskData), [subTaskData, checkValid]);
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => setFocus(), [currentPage.name]);
-  useEffect(() => setHasInitialized(true), []);
+  useEffect(
+    () => {
+      // h1 must be unique on each sub-task page
+      focusElement('h1');
+      // scroll new page to top
+      scrollToTop();
+    },
+    [currentPage.name],
+  );
 
   // get page name or url of destination page
   const getDestinationPage = destination =>
@@ -148,7 +132,8 @@ export const SubTask = props => {
     } else {
       setSubmitted(true);
       if (!checkValid()) {
-        setFocus();
+        // Let the browser render the error
+        window.requestAnimationFrame(scrollToFirstError);
         return false;
       }
     }
@@ -237,7 +222,6 @@ SubTask.propTypes = {
   }).isRequired,
   setFormData: PropTypes.func.isRequired,
   setFormSubTaskData: PropTypes.func.isRequired,
-  focus: PropTypes.string,
   formData: PropTypes.shape({}),
   subTaskData: PropTypes.shape({}),
 };

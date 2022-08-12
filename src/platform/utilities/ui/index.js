@@ -46,7 +46,7 @@ export function getScrollOptions(additionalOptions) {
 }
 
 export function scrollToFirstError() {
-  // [error] will focus
+  // [error] will focus any web-components with an error message
   const errorEl = document.querySelector(
     '.usa-input-error, .input-error-date, [error]',
   );
