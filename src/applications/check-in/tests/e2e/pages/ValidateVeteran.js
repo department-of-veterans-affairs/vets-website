@@ -193,7 +193,7 @@ class ValidateVeteran {
   getDobError = () => {
     cy.get('[label="Date of birth"]')
       .shadow()
-      .find('.error-message')
+      .find('#error-message')
       .contains('Your date of birth can not be in the future');
   };
 

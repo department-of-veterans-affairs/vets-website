@@ -1,0 +1,135 @@
+{
+  
+  "presets": [
+    [
+      "@babel/env",
+      {
+        "forceAllTransforms": true,
+        "targets": {
+
+          "browsers": [
+            "Chrome 61",
+            "Firefox 60",
+            "iOS 11",
+            "Edge 16",
+            "ChromeAndroid 67",
+            "Safari 11"
+          ]
+        },
+        "useBuiltIns": "entry",
+        "corejs": "3.8.1",
+        "modules": false,
+        "debug": false
+      }
+    ],
+    "@babel/react"
+  ],
+  "ignore": [
+    "./src/platform/polyfills/preESModulesPolyfills.js"
+  ],
+  "plugins": [
+    "lodash",
+     
+    "@babel/plugin-proposal-function-sent",
+    "@babel/plugin-proposal-export-namespace-from",
+    "@babel/plugin-proposal-numeric-separator",
+    "@babel/plugin-proposal-throw-expressions",
+    
+    "@babel/plugin-proposal-nullish-coalescing-operator",
+    "@babel/plugin-proposal-optional-chaining",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-syntax-import-meta",
+    ["@babel/plugin-proposal-class-properties", { "loose": false }],
+    "@babel/plugin-proposal-json-strings",
+    [
+      "module-resolver",
+      {
+        "root": "./src",
+        "alias": {
+          "~": "./src",
+          "@@vap-svc": "./src/platform/user/profile/vap-svc",
+          "@@profile": "./src/applications/personalization/profile",
+          "@department-of-veterans-affairs/component-library/LoadingIndicator": "@department-of-veterans-affairs/react-components/LoadingIndicator",
+          "@department-of-veterans-affairs/component-library/AlertBox": "@department-of-veterans-affairs/react-components/AlertBox",
+          "@department-of-veterans-affairs/component-library/ProgressButton": "@department-of-veterans-affairs/react-components/ProgressButton",
+          "@department-of-veterans-affairs/component-library/RadioButtons": "@department-of-veterans-affairs/react-components/RadioButtons",
+          "@department-of-veterans-affairs/component-library/Breadcrumbs": "@department-of-veterans-affairs/react-components/Breadcrumbs",
+          "@department-of-veterans-affairs/component-library/Modal": "@department-of-veterans-affairs/react-components/Modal",
+          "@department-of-veterans-affairs/component-library/FileInput": "@department-of-veterans-affairs/react-components/FileInput",
+          "@department-of-veterans-affairs/component-library/SystemDownView": "@department-of-veterans-affairs/react-components/SystemDownView",
+          "@department-of-veterans-affairs/component-library/Pagination": "@department-of-veterans-affairs/react-components/Pagination",
+          "@department-of-veterans-affairs/component-library/Checkbox": "@department-of-veterans-affairs/react-components/Checkbox",
+          "@department-of-veterans-affairs/component-library/DropDownPanel": "@department-of-veterans-affairs/react-components/DropDownPanel",
+          "@department-of-veterans-affairs/component-library/AdditionalInfo": "@department-of-veterans-affairs/react-components/AdditionalInfo",
+          "@department-of-veterans-affairs/platform-startup/exports": "./src/platform/startup/exportsFile.js",
+          "@department-of-veterans-affairs/platform-startup/index" : "./src/platform/startup/index.js",
+          "@department-of-veterans-affairs/platform-startup/store" : "./src/platform/startup/store.js",
+          "@department-of-veterans-affairs/platform-startup/react" : "./src/platform/startup/react.js",
+          "@department-of-veterans-affairs/platform-startup/setup" : "./src/platform/startup/setup.js",
+          "@department-of-veterans-affairs/platform-startup/router" : "./src/platform/startup/router.js",
+          "@department-of-veterans-affairs/platform-startup/analytics-middleware" : "./src/platform/startup/analytics-middleware.js",
+
+          "@department-of-veterans-affairs/platform-utilities/exports": "./src/platform/utilities/exportsFile.js",
+          "@department-of-veterans-affairs/platform-utilities/environment" : "./src/platform/utilities/environment/index.js",
+          "@department-of-veterans-affairs/platform-utilities/stagingDomains" : "./src/platform/utilities/environment/stagingDomains.js",
+          "@department-of-veterans-affairs/platform-utilities/va-subdomain" : "./src/platform/utilities/environment/va-subdomain.js",
+          "@department-of-veterans-affairs/platform-utilities/feature-toggles" : "./src/platform/utilities/feature-toggles/index.js",
+          "@department-of-veterans-affairs/platform-utilities/feature-toggles/helpers" : "./src/platform/utilities/feature-toggles/helpers.js",
+          "@department-of-veterans-affairs/platform-utilities/flipper-client" : "./src/platform/utilities/feature-toggles/flipper-client.js",
+          "@department-of-veterans-affairs/platform-utilities/featureFlagNames" : "./src/platform/utilities/feature-toggles/featureFlagNames.js",
+          "@department-of-veterans-affairs/platform-utilities/medical-centers" : "./src/platform/utilities/medical-centers/medical-centers.js",
+          "@department-of-veterans-affairs/platform-utilities/sso/constants" : "./src/platform/utilities/sso/constants.js",
+          "@department-of-veterans-affairs/platform-utilities/sso" : "./src/platform/utilities/sso/index.js",
+          "@department-of-veterans-affairs/platform-utilities/keepAliveSSO" : "./src/platform/utilities/sso/keepAliveSSO.js",
+          "@department-of-veterans-affairs/platform-utilities/loginAttempted" : "./src/platform/utilities/sso/loginAttempted.js",
+          "@department-of-veterans-affairs/platform-utilities/mockKeepAliveSSO" : "./src/platform/utilities/sso/mockKeepAliveSSO.js",
+          "@department-of-veterans-affairs/platform-utilities/localStorage" : "./src/platform/utilities/storage/localStorage.js",
+          "@department-of-veterans-affairs/platform-utilities/asyncLoader" : "./src/platform/utilities/ui/asyncLoader.jsx",
+          "@department-of-veterans-affairs/platform-utilities/DelayedRender" : "./src/platform/utilities/ui/DelayedRender.jsx",
+          "@department-of-veterans-affairs/platform-utilities/ui" : "./src/platform/utilities/ui/index.js",
+          "@department-of-veterans-affairs/platform-utilities/scrollTo" : "./src/platform/utilities/ui/scrollTo.js",
+          "@department-of-veterans-affairs/platform-utilities/scrollToTop" : "./src/platform/utilities/ui/scrollToTop.js",
+
+          "@department-of-veterans-affairs/platform-landing-pages/exports" : "./src/platform/landing-pages/exportsFile.js",
+          "@department-of-veterans-affairs/platform-landing-pages/dev-template" : "./src/platform/landing-pages/dev-template.js",
+          "@department-of-veterans-affairs/platform-landing-pages/facility-sidebar" : "./src/platform/landing-pages/facility-sidebar.jason",
+          "@department-of-veterans-affairs/platform-landing-pages/header-footer-data" : "./src/platform/landing-pages/header-footer-data.jason"
+
+          
+        }
+      }
+    ]
+  ],
+  
+  "env": {
+    "test": {
+      "presets": ["@babel/env", "@babel/preset-react"],
+      "plugins": [
+        "istanbul",
+        "transform-class-properties",
+        "dynamic-import-node",
+        "transform-react-remove-prop-types",
+        
+        "@babel/plugin-proposal-function-sent",
+        "@babel/plugin-proposal-export-namespace-from",
+        "@babel/plugin-proposal-numeric-separator",
+        "@babel/plugin-proposal-throw-expressions",
+         
+        "@babel/plugin-syntax-dynamic-import",
+        "@babel/plugin-syntax-import-meta",
+        ["@babel/plugin-proposal-class-properties", { "loose": false }],
+        "@babel/plugin-proposal-json-strings"
+      ]
+    },
+    "production": {
+      "plugins": [
+        [
+          "transform-react-remove-prop-types",
+          {
+            "removeImport": true
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -3,7 +3,10 @@ import moment from 'moment';
 
 // relative imports
 import { deriveLatestIssue } from '../components/SearchResult';
-import { FAF_SORT_OPTIONS } from '../constants';
+import {
+  FAF_SORT_OPTIONS,
+  FORM_MOMENT_PRESENTATION_DATE_FORMAT,
+} from '../constants';
 /**
  * This function sorts the results of Find Forms search.
  * @param {string} sortByPropertyName Is the state property in the SearchResults Controller
@@ -44,10 +47,22 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
     sortByPropertyName === LAST_UPDATED_NEWEST_OPTION
   ) {
     return sortByPropertyName === LAST_UPDATED_OLDEST_OPTION
-      ? moment(latestTimeStampIndexA, 'MM-DD-YYYY').toDate() - // DESCENDING
-          moment(latestTimeStampIndexB, 'MM-DD-YYYY').toDate()
-      : moment(latestTimeStampIndexB, 'MM-DD-YYYY').toDate() - // ASCENDING
-          moment(latestTimeStampIndexA, 'MM-DD-YYYY').toDate();
+      ? moment(
+          latestTimeStampIndexA,
+          FORM_MOMENT_PRESENTATION_DATE_FORMAT,
+        ).toDate() - // DESCENDING
+          moment(
+            latestTimeStampIndexB,
+            FORM_MOMENT_PRESENTATION_DATE_FORMAT,
+          ).toDate()
+      : moment(
+          latestTimeStampIndexB,
+          FORM_MOMENT_PRESENTATION_DATE_FORMAT,
+        ).toDate() - // ASCENDING
+          moment(
+            latestTimeStampIndexA,
+            FORM_MOMENT_PRESENTATION_DATE_FORMAT,
+          ).toDate();
   }
 
   // SORT BY ALPHABET
@@ -62,7 +77,8 @@ export const sortTheResults = (sortByPropertyName, indexA, indexB) => {
       return sortByPropertyName === ALPHA_ASCENDING
         ? sortIndexToFront
         : sortIndexToBack;
-    } else if (
+    }
+    if (
       `${indexA?.attributes?.formName} ${indexA?.attributes?.title}` >
       `${indexB?.attributes?.formName} ${indexB?.attributes?.title}`
     ) {

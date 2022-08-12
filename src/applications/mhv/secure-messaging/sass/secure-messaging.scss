@@ -5,7 +5,8 @@
   border-radius: 4px;
 }
 
-.send-button-top {
+.send-button-top,
+.reply-button-top {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,6 +22,46 @@
   }
 }
 
+.message-action-buttons {
+  margin-top: 20px;
+  .message-action-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+    color: $color-link-default;
+    font-weight: normal;
+    line-height: 24px;
+    width: fit-content;
+    margin: 0;
+    padding: 0;
+    i {
+      width: 20px;
+      height: 20px;
+    }
+    .message-action-button-text {
+      text-decoration: underline;
+    }
+  }
+}
+
+.messages-nav-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 13px;
+  line-height: 1.5;
+  border-color: $color-link-default;
+  * {
+    color: $color-link-default;
+  }
+}
+
+.breadcrumb > i {
+  margin-right: 6px;
+  font-size: 1.1rem;
+}
+
 .save-button {
   background-color: transparent;
   color: $color-link-default;
@@ -30,10 +71,25 @@
   }
 }
 
+.send-and-save {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
 .message-title {
   font-size: 20px;
   padding: 12px;
   justify-content: space-between;
+}
+
+.message-input {
+  min-height: 5.2rem;
+  max-width: 100%;
+  width: 100%;
+  padding: 1.2rem;
+  margin: 0.4rem 0px;
+  resize: none;
 }
 
 .message-body {
@@ -59,6 +115,7 @@
 
 .attachment-icon {
   padding-top: 6px;
+  margin-right: 4px;
 }
 
 .remove-attachment {
@@ -84,5 +141,46 @@
   .nav-links-text {
     margin-left: 8px;
     margin-right: 8px;
+  }
+}
+
+.message-detail-container {
+  p {
+    margin-top: 2px;
+    margin-bottom: 1px;
+  }
+  .message-detail-block {
+    margin: 2rem 0 4rem 0;
+    background-color: $color-white;
+    .message-detail-content {
+      border: 2px solid $color-gray-lightest;
+      padding: 18px;
+    }
+
+    .message-detail-header {
+      border-radius: 4px 4px 0 0;
+      background-color: $color-gray-lightest;
+      justify-content: space-between;
+      align-items: center;
+      padding-right: 6px;
+      padding-top: 8px;
+      padding-bottom: none !important;
+      padding-left: 12px;
+      display: flex;
+      h3 {
+        margin: none;
+      }
+    }
+    .message-body {
+      margin-top: 30px;
+    }
+
+    .message-attachments {
+      margin-top: 1em;
+    }
+
+    .message-detail-note {
+      margin-top: 3em;
+    }
   }
 }

@@ -4,11 +4,8 @@ import differenceInSeconds from 'date-fns/differenceInSeconds';
 import Modal from '@department-of-veterans-affairs/component-library/Modal';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { logout } from 'platform/user/authentication/utilities';
-import {
-  refresh,
-  checkOrSetSessionExpiration,
-} from 'platform/utilities/oauth/utilities';
+import { logout as IAMLogout } from 'platform/user/authentication/utilities';
+import { refresh, logoutUrlSiS } from 'platform/utilities/oauth/utilities';
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 import localStorage from 'platform/utilities/storage/localStorage';
 
@@ -55,7 +52,11 @@ class SessionTimeoutModal extends React.Component {
   expireSession = () => {
     recordEvent({ event: 'logout-session-expired' });
     teardownProfileSession();
-    window.location = '/session-expired';
+    if (!this.props.authenticatedWithOAuth) {
+      IAMLogout();
+    } else {
+      window.location = logoutUrlSiS();
+    }
   };
 
   extendSession = () => {
@@ -67,7 +68,7 @@ class SessionTimeoutModal extends React.Component {
     localStorage.removeItem('sessionExpiration');
     this.setState({ countdown: null });
     if (this.props.authenticatedWithOAuth) {
-      refresh(checkOrSetSessionExpiration);
+      refresh();
     } else {
       this.props.onExtendSession();
     }
@@ -75,7 +76,11 @@ class SessionTimeoutModal extends React.Component {
 
   signOut = () => {
     recordEvent({ event: 'logout-cta-manual-signout' });
-    logout();
+    if (!this.props.authenticatedWithOAuth) {
+      IAMLogout();
+    } else {
+      window.location = logoutUrlSiS();
+    }
   };
 
   render() {

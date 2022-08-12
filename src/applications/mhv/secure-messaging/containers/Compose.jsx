@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import BeforeMessageAddlInfo from '../components/BeforeMessageAddInfo';
+import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm';
 
 const Compose = () => {

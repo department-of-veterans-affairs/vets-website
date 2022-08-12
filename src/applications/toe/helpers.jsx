@@ -2,7 +2,7 @@ import { cloneDeep } from 'lodash';
 
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import {
-  newFormFields,
+  formFields,
   SPONSOR_NOT_LISTED_LABEL,
   SPONSOR_NOT_LISTED_VALUE,
   SPONSOR_RELATIONSHIP,
@@ -223,7 +223,7 @@ export function mapSponsorsToCheckboxOptions(sponsors) {
 }
 
 export const applicantIsChildOfSponsor = formData => {
-  const numSelectedSponsors = formData[newFormFields.selectedSponsors]?.length;
+  const numSelectedSponsors = formData[formFields.selectedSponsors]?.length;
 
   if (
     !numSelectedSponsors ||
@@ -232,7 +232,7 @@ export const applicantIsChildOfSponsor = formData => {
       formData.firstSponsor === SPONSOR_NOT_LISTED_VALUE)
   ) {
     return (
-      formData[newFormFields.newRelationshipToServiceMember] ===
+      formData[formFields.relationshipToServiceMember] ===
       SPONSOR_RELATIONSHIP.CHILD
     );
   }
@@ -245,3 +245,61 @@ export const applicantIsChildOfSponsor = formData => {
 
   return sponsor?.relationship === SPONSOR_RELATIONSHIP.CHILD;
 };
+
+const trimObjectValuesWhiteSpace = (key, value) => {
+  if (typeof value === 'string') {
+    return value.trim();
+  }
+
+  return value;
+};
+
+export function transformTOEForm(_formConfig, form) {
+  const payload = {
+    claimant: {
+      claimantId: 0,
+      suffix: form?.data?.userFullName?.suffix,
+      dateOfBirth: form?.data?.dateOfBirth,
+      firstName: form?.data?.userFullName?.first,
+      lastName: form?.data?.userFullName?.last,
+      middleName: form?.data?.userFullName?.middle,
+      notificationMethod: form?.data?.contactMethod,
+      contactInfo: {
+        addressLine1: form?.data['view:mailingAddress']?.address?.street,
+        addressLine2: form?.data['view:mailingAddress']?.address?.street2,
+        city: form?.data['view:mailingAddress']?.address?.city,
+        zipcode: form?.data['view:mailingAddress']?.address?.postalCode,
+        emailAddress: form?.data?.email?.email,
+        addressType: form?.data['view:mailingAddress']?.livesOnMilitaryBase
+          ? 'MILITARY_OVERSEAS'
+          : 'DOMESTIC',
+        mobilePhoneNumber:
+          form?.data['view:phoneNumbers']?.mobilePhoneNumber?.phone,
+        homePhoneNumber: form?.data['view:phoneNumbers']?.phoneNumber?.phone,
+        countryCode: form?.data['view:mailingAddress']?.address?.country,
+        stateCode: form?.data['view:mailingAddress']?.address?.state,
+      },
+      preferredContact: form?.data?.contactMethod,
+    },
+    sponsors: [
+      {
+        firstName: form?.data?.sponsorFullName?.first,
+        middleName: form?.data?.sponsorFullName?.middle,
+        lastName: form?.data?.sponsorFullName?.last,
+        dob: form?.data?.sponsorDateOfBirth,
+        relationship: form?.data?.relationshipToServiceMember,
+      },
+    ],
+    additionalInformation: {
+      highSchoolDiplomaOrCertificate: form?.data?.highSchoolDiploma,
+    },
+    directDeposit: {
+      directDepositAccountType: form?.data?.bankAccount?.accountType,
+      directDepositAccountNumber: form?.data?.bankAccount?.accountNumber,
+      directDepositRoutingNumber: form?.data?.bankAccount?.routingNumber,
+    },
+  };
+
+  // return JSON.stringify(payload);
+  return JSON.stringify(payload, trimObjectValuesWhiteSpace, 4);
+}
