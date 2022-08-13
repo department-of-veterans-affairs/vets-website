@@ -4,7 +4,7 @@ const find = require('find');
 const path = require('path');
 const commandLineArgs = require('command-line-args');
 
-const changedAppsConfig = require('../../config/changed-apps-build.json');
+const isolatedAppsConfig = require('../../config/isolated-apps.json');
 
 /**
  * Gets the manifest of all apps in the root app folder that a file belongs to.
@@ -123,7 +123,7 @@ if (process.env.CHANGED_FILE_PATHS) {
 
   const changedAppsString = getChangedAppsString(
     changedFilePaths,
-    changedAppsConfig,
+    isolatedAppsConfig,
     options['output-type'],
     options.delimiter,
   );
