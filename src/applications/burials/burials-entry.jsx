@@ -7,6 +7,7 @@ import routes from './routes';
 import reducer from './reducer';
 import manifest from './manifest.json';
 
+// Test single app build
 startApp({
   url: manifest.rootUrl,
   reducer,
