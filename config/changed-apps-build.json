@@ -3,8 +3,7 @@
     "singleApps": [
       {
         "entryName": "burials",
-        "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>",
-        "continuousDeployment": true
+        "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
       },
       {
         "entryName": "covid19screen",
