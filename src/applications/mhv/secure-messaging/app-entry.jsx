@@ -1,6 +1,7 @@
 import 'platform/polyfills';
 import './sass/secure-messaging.scss';
 import './sass/compose.scss';
+import './sass/search-messages.scss';
 
 import startApp from 'platform/startup';
 

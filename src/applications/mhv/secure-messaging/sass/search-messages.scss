@@ -1,0 +1,22 @@
+.search-messages-form {
+  margin: 0;
+}
+
+va-text-input.searchKeyword::part(input) {
+  max-width: 100%;
+}
+va-text-input.searchFolder::part(select) {
+  max-width: 100%;
+}
+
+.search-messages-button {
+  margin: 30px 0;
+  .search-messages-button-text {
+    margin-left: 8px;
+  }
+}
+
+.advanced-search-option {
+  margin-bottom: 45px;
+  text-align: center;
+}

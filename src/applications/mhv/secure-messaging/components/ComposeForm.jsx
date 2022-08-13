@@ -7,14 +7,20 @@ const ComposeForm = () => {
 
   return (
     <form className="compose-form">
-      <va-text-input
+      <va-select
+        // eslint-disable-next-line jsx-a11y/aria-props
+        aria-live-region-text="You selected"
         label="To"
         name="to"
-        onBlur={function noRefCheck() {}}
-        onInput={function noRefCheck() {}}
-        required
-        class="composeInput"
-      />
+        value=""
+        class="composeSelect"
+      >
+        <option value=" "> </option>
+        <option value="doctorA">Doctor A</option>
+        <option value="doctorB">Doctor B</option>
+        <option value="doctorC">Doctor C</option>
+      </va-select>
+
       <button type="button" className="link-button edit-input-button">
         Edit List
       </button>
