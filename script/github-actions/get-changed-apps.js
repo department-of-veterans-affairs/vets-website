@@ -54,7 +54,7 @@ const getAllowedApps = (filePath, allow) => {
 
   const isAllowed = allowedAppFolder || allowedApp;
 
-  if (isAllowed) {
+  if (isAllowed?.continuousDeployment === true) {
     return manifests.map(({ entryName, rootUrl }) => ({
       entryName,
       rootUrl,
