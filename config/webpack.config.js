@@ -130,11 +130,9 @@ async function getScaffoldAssets() {
     return [filename, fileContents];
   };
 
-  const inlineScripts = [
-    'incompatible-browser.js',
-    'record-event.js',
-    'static-page-widgets.js',
-  ].map(filename => path.join('src/site/assets/js', filename));
+  const inlineScripts = ['record-event.js', 'static-page-widgets.js'].map(
+    filename => path.join('src/site/assets/js', filename),
+  );
 
   const appRegistry = path.join('src/applications', 'registry.json');
 

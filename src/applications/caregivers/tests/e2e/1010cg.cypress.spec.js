@@ -85,11 +85,13 @@ const testSecondaryTwo = createTestConfig(
       cy.intercept('POST', 'v0/form1010cg/attachments', mockUpload);
     },
     pageHooks: {
-      introduction: () => {
-        // Hit the start button
-        cy.findAllByText(/start/i, { selector: 'a' })
-          .first()
-          .click();
+      introduction: ({ afterHook }) => {
+        afterHook(() => {
+          // Hit the start button
+          cy.findAllByText(/start/i, { selector: 'a' })
+            .first()
+            .click();
+        });
       },
       'primary-3': ({ afterHook }) => {
         afterHook(() => {

@@ -11,13 +11,13 @@ describe('Debt Letters', () => {
     );
     cy.intercept('GET', '/v0/debts', mockDebts).as('debts');
     cy.intercept('GET', '/v0/medical_copays', mockCopays);
-    cy.visit('/manage-debt-and-bills/summary/debt-balances');
+    cy.visit('/manage-va-debt/summary/debt-balances');
     cy.wait(['@features', '@debts']);
   });
 
   it('displays the current debts section and navigates to debt details', () => {
     cy.findByTestId('debts-jumplink').click({ waitForAnimations: true });
-    cy.get('[data-testclass="debt-details-button"]')
+    cy.get('[data-testid="debt-details-button"]')
       .first()
       .click();
     cy.get('#debtLetterHistory').should('be.visible');

@@ -17,8 +17,10 @@ describe('Pre-Check In Experience ', () => {
       initializeSessionPost,
       initializePreCheckInDataGet,
       initializePreCheckInDataPost,
+      initializeDemographicsPatch,
     } = ApiInitializer;
     initializeFeatureToggle.withCurrentFeatures();
+    initializeDemographicsPatch.withSuccess();
     initializeSessionGet.withSuccessfulNewSession();
 
     initializeSessionPost.withSuccess();
@@ -27,7 +29,7 @@ describe('Pre-Check In Experience ', () => {
 
     initializePreCheckInDataPost.withSuccess(req => {
       expect(req.body.preCheckIn.uuid).to.equal(
-        '0429dda5-4165-46be-9ed1-1e652a8dfd83',
+        '46bebc0a-b99c-464f-a5c5-560bc9eae287',
       );
       expect(req.body.preCheckIn.demographicsUpToDate).to.equal(true);
       expect(req.body.preCheckIn.nextOfKinUpToDate).to.equal(true);

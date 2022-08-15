@@ -11,7 +11,7 @@ describe('Debt Balances Page Diary Codes', () => {
     );
     cy.intercept('GET', '/v0/debts', mockDebts).as('debts');
     cy.intercept('GET', '/v0/medical_copays', mockCopays).as('copays');
-    cy.visit('/manage-debt-and-bills/summary/debt-balances');
+    cy.visit('/manage-va-debt/summary/debt-balances');
     cy.wait(['@copays', '@debts', '@features']);
     cy.injectAxe();
   });

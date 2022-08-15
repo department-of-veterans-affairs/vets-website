@@ -18,8 +18,10 @@ describe('Pre-Check In Experience ', () => {
         initializeSessionPost,
         initializePreCheckInDataGet,
         initializePreCheckInDataPost,
+        initializeDemographicsPatch,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
+      initializeDemographicsPatch.withSuccess();
       initializeSessionGet.withSuccessfulNewSession(req => {
         expect(req.query.checkInType).to.equal('preCheckIn');
       });

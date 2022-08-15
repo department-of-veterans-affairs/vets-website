@@ -23,7 +23,7 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
     () => {
       const editButton = document
         .querySelector(`[data-field-name=${fieldName}]`)
-        .querySelector("[data-action='edit']");
+        ?.querySelector("[data-action='edit']");
       if (editButton) {
         focusElement(editButton);
       }

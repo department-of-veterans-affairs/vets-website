@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { fetchTotalDisabilityRating } from './actions';
@@ -15,6 +13,7 @@ const HealthCareEntry = ({
   children,
   caregiverSIGIEnabled = false,
   hcaAmericanIndianEnabled = false,
+  hcaMedicareClaimNumberEnabled = false,
   hcaShortFormEnabled = false,
   setFormData,
   formData,
@@ -41,6 +40,7 @@ const HealthCareEntry = ({
         setFormData({
           ...formData,
           'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
+          'view:hcaMedicareClaimNumberEnabled': hcaMedicareClaimNumberEnabled,
           'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
           'view:isLoggedIn': isLoggedIn,
           'view:totalDisabilityRating': totalDisabilityRating || 0,
@@ -50,6 +50,7 @@ const HealthCareEntry = ({
         setFormData({
           ...formData,
           'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
+          'view:hcaMedicareClaimNumberEnabled': hcaMedicareClaimNumberEnabled,
           'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
           'view:hcaShortFormEnabled': hcaShortFormEnabled,
           'view:isLoggedIn': isLoggedIn,
@@ -60,6 +61,7 @@ const HealthCareEntry = ({
         setFormData({
           ...formData,
           'view:caregiverSIGIEnabled': caregiverSIGIEnabled,
+          'view:hcaMedicareClaimNumberEnabled': hcaMedicareClaimNumberEnabled,
           'view:hcaAmericanIndianEnabled': hcaAmericanIndianEnabled,
           'view:hcaShortFormEnabled': hcaShortFormEnabled,
           'view:isLoggedIn': isLoggedIn,
@@ -71,6 +73,7 @@ const HealthCareEntry = ({
     [
       caregiverSIGIEnabled,
       hcaAmericanIndianEnabled,
+      hcaMedicareClaimNumberEnabled,
       hcaShortFormEnabled,
       formData.veteranFullName,
       hasSavedForm,
@@ -87,17 +90,32 @@ const HealthCareEntry = ({
   );
 };
 
+HealthCareEntry.propTypes = {
+  caregiverSIGIEnabled: PropTypes.bool,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+  formData: PropTypes.object,
+  getTotalDisabilityRating: PropTypes.func,
+  hasSavedForm: PropTypes.bool,
+  hcaAmericanIndianEnabled: PropTypes.bool,
+  hcaMedicareClaimNumberEnabled: PropTypes.bool,
+  hcaShortFormEnabled: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
+  location: PropTypes.object,
+  setFormData: PropTypes.func,
+  totalDisabilityRating: PropTypes.number,
+  user: PropTypes.object,
+};
+
 const mapStateToProps = state => ({
   formData: state.form.data,
-  caregiverSIGIEnabled: toggleValues(state)[
-    FEATURE_FLAG_NAMES.caregiverSIGIEnabled
-  ],
-  hcaAmericanIndianEnabled: toggleValues(state)[
-    FEATURE_FLAG_NAMES.hcaAmericanIndianEnabled
-  ],
-  hcaShortFormEnabled: toggleValues(state)[
-    FEATURE_FLAG_NAMES.hcaShortFormEnabled
-  ],
+  caregiverSIGIEnabled: state.featureToggles.caregiverSIGIEnabled,
+  hcaAmericanIndianEnabled: state.featureToggles.hcaAmericanIndianEnabled,
+  hcaMedicareClaimNumberEnabled:
+    state.featureToggles.hcaMedicareClaimNumberEnabled,
+  hcaShortFormEnabled: state.featureToggles.hcaShortFormEnabled,
   hasSavedForm: state?.user?.profile?.savedForms.some(
     form => form.form === VA_FORM_IDS.FORM_10_10EZ,
   ),
@@ -109,24 +127,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   setFormData: setData,
   getTotalDisabilityRating: fetchTotalDisabilityRating,
-};
-
-HealthCareEntry.propTypes = {
-  caregiverSIGIEnabled: PropTypes.bool,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-  formData: PropTypes.object,
-  getTotalDisabilityRating: PropTypes.func,
-  hasSavedForm: PropTypes.bool,
-  hcaAmericanIndianEnabled: PropTypes.bool,
-  hcaShortFormEnabled: PropTypes.bool,
-  isLoggedIn: PropTypes.bool,
-  location: PropTypes.object,
-  setFormData: PropTypes.func,
-  totalDisabilityRating: PropTypes.number,
-  user: PropTypes.object,
 };
 
 export default connect(

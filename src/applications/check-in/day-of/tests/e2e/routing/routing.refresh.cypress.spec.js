@@ -16,7 +16,9 @@ describe('Check In Experience', () => {
         initializeFeatureToggle,
         initializeCheckInDataGet,
         initializeCheckInDataPost,
+        initializeDemographicsPatch,
       } = ApiInitializer;
+      initializeDemographicsPatch.withSuccess();
       initializeFeatureToggle.withCurrentFeatures();
       cy.intercept('GET', '/check_in/v2/sessions/*', req => {
         if (testState.authed) {

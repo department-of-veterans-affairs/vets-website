@@ -2,11 +2,7 @@ import appendQuery from 'append-query';
 import * as Sentry from '@sentry/browser';
 import 'url-search-params-polyfill';
 import environment from 'platform/utilities/environment';
-import {
-  createOAuthRequest,
-  infoTokenExists,
-  getInfoToken,
-} from 'platform/utilities/oauth/utilities';
+import { createOAuthRequest } from 'platform/utilities/oauth/utilities';
 import { setLoginAttempted } from 'platform/utilities/sso/loginAttempted';
 import { externalApplicationsConfig } from './usip-config';
 import {
@@ -62,9 +58,7 @@ export const sanitizeUrl = (url, path = '') => {
 };
 
 export const sanitizePath = to => {
-  if (!to) {
-    return '';
-  }
+  if (!to) return '';
   return to.startsWith('/') ? to : `/${to}`;
 };
 
@@ -142,7 +136,10 @@ export const createAndStoreReturnUrl = () => {
     returnUrl = window.location.toString();
   }
 
-  sessionStorage.setItem(AUTHN_SETTINGS.RETURN_URL, returnUrl);
+  sessionStorage.setItem(
+    AUTHN_SETTINGS.RETURN_URL,
+    returnUrl.replace('&oauth=true', ''),
+  );
   return returnUrl;
 };
 
@@ -150,6 +147,7 @@ export function sessionTypeUrl({
   type = '',
   queryParams = {},
   version = API_VERSION,
+  allowVerification = false,
 }) {
   if (!type) {
     return null;
@@ -181,7 +179,8 @@ export function sessionTypeUrl({
   // 2. The outbound application is one of the mobile apps
   // 3. The generated link type is for signup, and login only
   const requireVerification =
-    externalRedirect && (isLogin || isSignup) && config.requiresVerification
+    allowVerification ||
+    (externalRedirect && (isLogin || isSignup) && config.requiresVerification)
       ? '_verified'
       : '';
 
@@ -239,7 +238,7 @@ export function clearSentryLoginType() {
   Sentry.setTag('loginType', undefined);
 }
 
-export function redirect(redirectUrl, clickedEvent) {
+export function redirect(redirectUrl, clickedEvent, type = '') {
   const { application } = getQueryParams();
   const externalRedirect = isExternalRedirect();
   const existingReturnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL);
@@ -251,7 +250,7 @@ export function redirect(redirectUrl, clickedEvent) {
     createAndStoreReturnUrl();
   }
 
-  recordEvent({ event: clickedEvent });
+  recordEvent({ event: type ? `${clickedEvent}-${type}` : clickedEvent });
 
   // Trigger USiP External Auth Event
   if (
@@ -288,11 +287,19 @@ export function mfa(version = API_VERSION) {
   );
 }
 
-export function verify(version = API_VERSION) {
-  return redirect(
-    sessionTypeUrl({ type: POLICY_TYPES.VERIFY, version }),
-    AUTH_EVENTS.VERIFY,
-  );
+export async function verify({
+  policy = '',
+  version = API_VERSION,
+  clickedEvent = AUTH_EVENTS.VERIFY,
+}) {
+  const type = SIGNUP_TYPES[policy];
+  const url = await sessionTypeUrl({
+    type,
+    version,
+    allowVerification: true,
+  });
+
+  return redirect(url, clickedEvent, type);
 }
 
 export function logout(
@@ -340,18 +347,4 @@ export const signupUrl = type => {
 
 export const logoutUrl = () => {
   return sessionTypeUrl({ type: POLICY_TYPES.SLO, version: API_VERSION });
-};
-
-export const checkOrSetSessionExpiration = response => {
-  const sessionExpirationSAML =
-    response.headers.get('X-Session-Expiration') ?? null;
-
-  if (infoTokenExists()) {
-    const { refresh_token_expiration: sessionExpirationOAuth } = getInfoToken();
-    localStorage.setItem('sessionExpiration', sessionExpirationOAuth);
-  }
-
-  if (sessionExpirationSAML) {
-    localStorage.setItem('sessionExpiration', sessionExpirationSAML);
-  }
 };

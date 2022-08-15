@@ -12,7 +12,7 @@ import mockCopays from '../../../medical-copays/tests/e2e/fixtures/mocks/copays.
 import mockDataEmpty from './fixtures/mocks/mockDataEmpty.json';
 import mockDebts from '../../../debt-letters/tests/e2e/fixtures/mocks/debts.json';
 import mockDebtsEmpty from './fixtures/mocks/mockDebtsEmpty.json';
-import { reply404 } from './helpers/cdp-helpers';
+import { reply404, reply403 } from './helpers/cdp-helpers';
 
 describe('Your VA debt and bills (overview)', () => {
   beforeEach(() => {
@@ -30,7 +30,7 @@ describe('Your VA debt and bills (overview)', () => {
     });
 
     it('should display No-copays-or-debts alert - C17928', () => {
-      cy.visit('/manage-debt-and-bills/summary');
+      cy.visit('/manage-va-debt/summary');
       cy.wait(['@features', '@copaysA', '@debtsA']);
       cy.findByTestId('overview-page-title').should('exist');
 
@@ -50,7 +50,7 @@ describe('Your VA debt and bills (overview)', () => {
     });
 
     it('should display Copay summary-card & No-debts alert - C17929', () => {
-      cy.visit('/manage-debt-and-bills/summary');
+      cy.visit('/manage-va-debt/summary');
       cy.wait(['@features', '@copaysB', '@debtsB']);
       cy.findByTestId('overview-page-title').should('exist');
 
@@ -72,7 +72,7 @@ describe('Your VA debt and bills (overview)', () => {
     /* eslint-disable @department-of-veterans-affairs/axe-check-required */
     // Overview-page already AXE-checked in a previous test.
     it('should navigate to Copay-list page - C18020', () => {
-      cy.visit('/manage-debt-and-bills/summary');
+      cy.visit('/manage-va-debt/summary');
       cy.wait(['@features', '@copaysB', '@debtsB']);
       cy.findByTestId('overview-page-title').should('exist');
 
@@ -91,7 +91,7 @@ describe('Your VA debt and bills (overview)', () => {
     });
 
     it('should display No-Copays alert & Debt summary-card - C18021', () => {
-      cy.visit('/manage-debt-and-bills/summary');
+      cy.visit('/manage-va-debt/summary');
       cy.wait(['@features', '@copaysC', '@debtsC']);
       cy.findByTestId('overview-page-title').should('exist');
 
@@ -113,7 +113,7 @@ describe('Your VA debt and bills (overview)', () => {
     /* eslint-disable @department-of-veterans-affairs/axe-check-required */
     // Overview-page already AXE-checked in a previous test.
     it('should navigate to Debt-list page - C18022', () => {
-      cy.visit('/manage-debt-and-bills/summary');
+      cy.visit('/manage-va-debt/summary');
       cy.wait(['@features', '@copaysC', '@debtsC']);
       cy.findByTestId('overview-page-title').should('exist');
 
@@ -132,7 +132,7 @@ describe('Your VA debt and bills (overview)', () => {
     });
 
     it('should display Copay and Debt summary-cards - C18023', () => {
-      cy.visit('/manage-debt-and-bills/summary');
+      cy.visit('/manage-va-debt/summary');
       cy.wait(['@features', '@copaysD', '@debtsD']);
       cy.findByTestId('overview-page-title').should('exist');
 
@@ -160,7 +160,7 @@ describe('Your VA debt and bills (overview)', () => {
     /* eslint-disable @department-of-veterans-affairs/axe-check-required */
     // Overview-page already AXE-checked in a previous test.
     it('should navigate to Copay-list & Debt-list pages - C18024', () => {
-      cy.visit('/manage-debt-and-bills/summary');
+      cy.visit('/manage-va-debt/summary');
       cy.wait(['@features', '@copaysD', '@debtsD']);
       cy.findByTestId('overview-page-title').should('exist');
 
@@ -178,6 +178,23 @@ describe('Your VA debt and bills (overview)', () => {
     /* eslint-enable @department-of-veterans-affairs/axe-check-required */
   });
 
+  context('User is not enrolled in healthcare', () => {
+    it('should display not enrolled in healthcare alert', () => {
+      cy.intercept('GET', '/v0/medical_copays', req => reply403(req)).as(
+        'copaysNE',
+      );
+      cy.intercept('GET', '/v0/debts', mockDebts).as('debtsNE');
+
+      cy.visit('/manage-va-debt/summary');
+      cy.wait(['@features', '@copaysNE', '@debtsNE']);
+      cy.findByTestId('overview-page-title').should('exist');
+
+      cy.findByTestId('no-healthcare-alert').should('exist');
+
+      cy.injectAxeThenAxeCheck('#react-root');
+    });
+  });
+
   context('Error states', () => {
     it('should display Copays error message upon copays API-404-error - C18216', () => {
       cy.intercept('GET', '/v0/medical_copays', req => reply404(req)).as(
@@ -185,7 +202,7 @@ describe('Your VA debt and bills (overview)', () => {
       );
       cy.intercept('GET', '/v0/debts', mockDebts).as('debtsE1');
 
-      cy.visit('/manage-debt-and-bills/summary');
+      cy.visit('/manage-va-debt/summary');
       cy.wait(['@features', '@copaysE1', '@debtsE1']);
       cy.findByTestId('overview-page-title').should('exist');
 
@@ -200,7 +217,7 @@ describe('Your VA debt and bills (overview)', () => {
       cy.intercept('GET', '/v0/medical_copays', mockCopays).as('copaysE2');
       cy.intercept('GET', '/v0/debts', req => reply404(req)).as('debtsE2');
 
-      cy.visit('/manage-debt-and-bills/summary');
+      cy.visit('/manage-va-debt/summary');
       cy.wait(['@features', '@copaysE2', '@debtsE2']);
       cy.findByTestId('overview-page-title').should('exist');
 
@@ -219,7 +236,7 @@ describe('Your VA debt and bills (overview)', () => {
       );
       cy.intercept('GET', '/v0/debts', req => reply404(req)).as('debtsE3');
 
-      cy.visit('/manage-debt-and-bills/summary');
+      cy.visit('/manage-va-debt/summary');
       cy.wait(['@features', '@copaysE3', '@debtsE3']);
       cy.findByTestId('overview-page-title').should('exist');
 

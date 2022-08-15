@@ -30,7 +30,7 @@ class IntroductionPage extends React.Component {
     };
 
     return (
-      <article className="schemaform-intro">
+      <div className="schemaform-intro">
         <FormTitle
           title="Request a Supplemental Claim"
           subTitle="Equal to VA Form 20-0995 (Request a Supplemental Claim)"
@@ -86,7 +86,7 @@ class IntroductionPage extends React.Component {
         <SaveInProgressIntro {...saveInProgressProps} buttonOnly />
         <p />
         <OMBInfo resBurden={15} ombNumber="2900-0862" expDate="4/30/2024" />
-      </article>
+      </div>
     );
   }
 }

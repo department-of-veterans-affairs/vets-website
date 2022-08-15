@@ -2,7 +2,6 @@ import React, { useMemo, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { format, subDays } from 'date-fns';
 
 import VaModal from '@department-of-veterans-affairs/component-library/Modal';
 
@@ -62,7 +61,6 @@ const IntroductionDisplay = props => {
       ),
     },
   ];
-  const appointmentsDateTime = new Date(appointments[0].startTime);
   const privacyStatement = (
     <div>
       <h3>{t('privacy-act-statement')}</h3>
@@ -107,7 +105,7 @@ const IntroductionDisplay = props => {
         call <va-telephone contact="911" />,{' '}
         <span className="vads-u-font-weight--bold">or</span>{' '}
         {t('call-the-veterans-crisis-hotline-at')}{' '}
-        <va-telephone contact="8002738255" /> {t('and-select-1')}
+        <va-telephone contact="988" /> {t('and-select-1')}
       </p>
     </>
   );
@@ -148,11 +146,6 @@ const IntroductionDisplay = props => {
         ''
       )}
       <div className="vads-u-margin-top--4">
-        {t('expiration-date')}{' '}
-        <span data-testid="expiration-date">
-          {format(subDays(appointmentsDateTime, 1), 'M/dd/Y')}
-        </span>
-        <br />
         <a
           href="#privacy-modal"
           onClick={useCallback(

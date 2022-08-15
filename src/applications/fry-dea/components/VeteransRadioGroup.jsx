@@ -1,18 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 
 import {
   formFields,
+  VETERANS_TYPE,
   VETERAN_NOT_LISTED_LABEL,
   VETERAN_NOT_LISTED_VALUE,
 } from '../constants';
 
 function VeteransRadioGroup({
-  selectedVeteran,
   formData,
+  selectedVeteran,
   setFormData,
   veterans,
 }) {
@@ -21,6 +23,7 @@ function VeteransRadioGroup({
   const onValueChange = ({ value }) => {
     setFormData({
       ...formData,
+      [formFields.benefitSelection]: undefined,
       [formFields.selectedVeteran]: value.replace(VETERAN_VALUE_PREFIX, ''),
     });
   };
@@ -46,6 +49,13 @@ function VeteransRadioGroup({
     />
   );
 }
+
+VeteransRadioGroup.propTypes = {
+  formData: PropTypes.object,
+  selectedVeteran: PropTypes.string,
+  setFormData: PropTypes.func,
+  veterans: VETERANS_TYPE,
+};
 
 const mapStateToProps = state => ({
   selectedVeteran: state.form?.data[formFields.selectedVeteran],

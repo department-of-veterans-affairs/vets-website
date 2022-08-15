@@ -9,7 +9,6 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import {
-  changePageV2 as changePageV2Action,
   getAppealsV2 as getAppealsV2Action,
   getClaimsV2 as getClaimsV2Action,
   getStemClaims as getStemClaimsAction,
@@ -40,10 +39,13 @@ import ClaimsBreadcrumbs from '../components/ClaimsBreadcrumbs';
 import StemClaimListItem from '../components/StemClaimListItem';
 import MobileAppMessage from '../components/MobileAppMessage';
 
+import { ITEMS_PER_PAGE } from '../constants';
+
 class YourClaimsPageV2 extends React.Component {
   constructor(props) {
     super(props);
     this.changePage = this.changePage.bind(this);
+    this.state = { page: 1 };
   }
 
   componentDidMount() {
@@ -76,13 +78,8 @@ class YourClaimsPageV2 extends React.Component {
     }
   }
 
-  // componentWillReceiveProps(newProps) {
-  // an initial sort needs to happen in componentDidMount
-  // }
-
   changePage(event) {
-    const { changePageV2 } = this.props;
-    changePageV2(event.detail.page);
+    this.setState({ page: event.detail.page });
     // Move focus to "Showing X through Y of Z events..." for screenreaders
     setPageFocus('#pagination-info');
   }
@@ -141,15 +138,12 @@ class YourClaimsPageV2 extends React.Component {
 
   render() {
     const {
-      list,
-      listLength,
-      pages,
-      page,
-      claimsLoading,
       appealsLoading,
-      stemClaimsLoading,
-      show30DayNotice,
+      claimsLoading,
       hide30DayNotice,
+      list,
+      show30DayNotice,
+      stemClaimsLoading,
     } = this.props;
 
     let content;
@@ -170,44 +164,54 @@ class YourClaimsPageV2 extends React.Component {
       );
     } else {
       if (!emptyList) {
-        pageInfo = null;
-        if (pages > 1) {
-          const range = getPageRange(page, listLength);
-          pageInfo = (
-            <p id="pagination-info">
-              {`Showing ${range.start} \u2012 ${
-                range.end
-              } of ${listLength} events`}
-            </p>
-          );
+        const listLen = list.length;
+        const numPages = Math.ceil(listLen / ITEMS_PER_PAGE);
+        const shouldPaginate = numPages > 1;
+
+        const pageItems = getVisibleRows(list, this.state.page);
+
+        if (shouldPaginate) {
+          const range = getPageRange(this.state.page, listLen);
+          const { end, start } = range;
+
+          const txt = `Showing ${start} \u2012 ${end} of ${listLen} events`;
+
+          pageInfo = <p id="pagination-info">{txt}</p>;
         }
+
         content = (
-          <div>
+          <>
             {show30DayNotice && (
-              <ClosedClaimMessage claims={list} onClose={hide30DayNotice} />
+              <ClosedClaimMessage
+                claims={pageItems}
+                onClose={hide30DayNotice}
+              />
             )}
             {pageInfo}
             <div className="claim-list">
               {atLeastOneRequestLoading && (
                 <va-loading-indicator message="Loading your claims and appeals..." />
               )}
-              {list.map(claim => this.renderListItem(claim))}
-              <VaPagination
-                page={page}
-                pages={pages}
-                onPageSelect={this.changePage}
-              />
+              {pageItems.map(claim => this.renderListItem(claim))}
+              {shouldPaginate && (
+                <VaPagination
+                  page={this.state.page}
+                  pages={numPages}
+                  onPageSelect={this.changePage}
+                />
+              )}
             </div>
-          </div>
+          </>
         );
       } else if (allRequestsLoaded) {
         content = <NoClaims />;
       }
+
       content = <div className="va-tab-content">{content}</div>;
     }
 
     return (
-      <div>
+      <>
         <div name="topScrollElement" />
         <article className="row">
           <div className="usa-width-two-thirds medium-8 columns">
@@ -215,20 +219,19 @@ class YourClaimsPageV2 extends React.Component {
             <h1 className="claims-container-title">
               Check your claim or appeal status
             </h1>
-            <va-on-this-page className="vads-u-margin-top--0" />
+            <va-on-this-page />
             <MobileAppMessage />
             <h2 id="your-claims-or-appeals" className="vads-u-margin-top--2p5">
               Your claims or appeals
             </h2>
             <div>{this.renderErrorMessages()}</div>
-            <p />
             <va-additional-info
-              className="claims-combined"
+              id="claims-combined"
+              class="claims-combined"
               trigger="Find out why we sometimes combine claims."
             >
               {consolidatedClaimsContent}
             </va-additional-info>
-            <p />
             {content}
             <FeaturesWarning />
             <h2 id="what-if-i-dont-see-my-appeal">
@@ -243,7 +246,7 @@ class YourClaimsPageV2 extends React.Component {
             <AskVAQuestions />
           </div>
         </article>
-      </div>
+      </>
     );
   }
 }
@@ -253,7 +256,6 @@ YourClaimsPageV2.propTypes = {
   appealsLoading: PropTypes.bool,
   canAccessAppeals: PropTypes.bool,
   canAccessClaims: PropTypes.bool,
-  changePageV2: PropTypes.func,
   claimsAvailable: PropTypes.string,
   claimsLoading: PropTypes.bool,
   fullName: PropTypes.shape({}),
@@ -268,9 +270,6 @@ YourClaimsPageV2.propTypes = {
       attributes: PropTypes.shape({}),
     }),
   ),
-  listLength: PropTypes.number,
-  page: PropTypes.number,
-  pages: PropTypes.number,
   show30DayNotice: PropTypes.bool,
   stemClaimsLoading: PropTypes.bool,
 };
@@ -298,7 +297,6 @@ function mapStateToProps(state) {
     ...claimsV2Root.claims,
     ...stemClaims,
   ].sort(sortByLastUpdated);
-  const list = getVisibleRows(sortedList, claimsV2Root.page);
 
   return {
     appealsAvailable: claimsV2Root.v2Availability,
@@ -307,10 +305,7 @@ function mapStateToProps(state) {
     claimsLoading: claimsV2Root.claimsLoading,
     appealsLoading: claimsV2Root.appealsLoading,
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
-    list,
-    listLength: sortedList.length,
-    page: claimsV2Root.page,
-    pages: claimsV2Root.pages,
+    list: sortedList,
     sortProperty: claimsRoot.sortProperty,
     consolidatedModal: claimsRoot.consolidatedModal,
     show30DayNotice: claimsRoot.show30DayNotice,
@@ -325,7 +320,6 @@ const mapDispatchToProps = {
   getAppealsV2: getAppealsV2Action,
   getClaimsV2: getClaimsV2Action,
   getStemClaims: getStemClaimsAction,
-  changePageV2: changePageV2Action,
   sortClaims: sortClaimsAction,
   hide30DayNotice: hide30DayNoticeAction,
 };

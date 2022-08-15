@@ -1,11 +1,15 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { Date } from '@department-of-veterans-affairs/component-library';
+import { focusElement } from 'platform/utilities/ui';
+import {
+  VaTextInput,
+  VaMemorableDate,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import Wrapper from '../../layout/Wrapper';
+import TextInputErrorWrapper from '../../TextInputErrorWrapper';
 
 export default function ValidateDisplay({
   header = '',
@@ -23,6 +27,21 @@ export default function ValidateDisplay({
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+  const [willSubmit, setWillSubmit] = useState(false);
+
+  useEffect(
+    () => {
+      if (showValidateError) focusElement('.validate-error-alert');
+    },
+    [showValidateError],
+  );
+
+  useEffect(
+    () => {
+      if (willSubmit) validateHandler();
+    },
+    [willSubmit, validateHandler],
+  );
 
   const updateField = useCallback(
     event => {
@@ -33,21 +52,39 @@ export default function ValidateDisplay({
         case 'last-4-ssn':
           setLast4Ssn(event.target.value);
           break;
+        case 'date-of-birth':
+          setDob(event.target.value);
+          break;
         default:
           break;
       }
     },
-    [setLastName, setLast4Ssn],
+    [setLastName, setLast4Ssn, setDob],
   );
-  const updateDob = useCallback(
-    event => {
-      setDob(event);
-    },
-    [setDob],
-  );
+  const handleDateEnterPress = e => {
+    const { value } = e.target;
+    const [year, month, day] = (value || '').split('-').map(val => val);
+    let newValue = value;
+    let newMonth = month;
+    let newDay = day;
+    if (month.length === 1) {
+      newMonth = `0${month}`;
+    }
+    if (day.length === 1) {
+      newDay = `0${day}`;
+    }
+
+    newValue = `${year}-${newMonth}-${newDay}`;
+    setDob(newValue);
+    setWillSubmit(true);
+  };
   const handleEnter = e => {
     if (e.key === 'Enter') {
-      validateHandler();
+      if (e.target.name === 'date-of-birth') {
+        handleDateEnterPress(e);
+      } else {
+        validateHandler();
+      }
     }
   };
   const handleFormSubmit = e => {
@@ -63,57 +100,74 @@ export default function ValidateDisplay({
           )}
       </p>
       {showValidateError ? (
-        <va-alert
-          background-only
-          status="error"
-          show-icon
-          data-testid="validate-error-alert"
-        >
-          <div>{validateErrorMessage}</div>
-        </va-alert>
+        <div className="validate-error-alert" tabIndex="-1">
+          <va-alert
+            background-only
+            status="error"
+            show-icon
+            data-testid="validate-error-alert"
+          >
+            <div>{validateErrorMessage}</div>
+          </va-alert>
+        </div>
       ) : (
         <></>
       )}
       <form className="vads-u-margin-bottom--2p5" onSubmit={handleFormSubmit}>
-        <VaTextInput
-          autoCorrect="false"
-          error={lastNameErrorMessage}
-          label={t('your-last-name')}
-          name="last-name"
-          onInput={updateField}
-          required
-          spellCheck="false"
-          value={lastName}
-          data-testid="last-name-input"
-          onKeyDown={handleEnter}
-        />
+        {/* @TODO This error wrapper can go away once fixed in DS. Evaluate during next audit */}
+        <TextInputErrorWrapper
+          error={lastNameErrorMessage && lastNameErrorMessage.length}
+        >
+          <VaTextInput
+            autoCorrect="false"
+            error={lastNameErrorMessage}
+            label={t('your-last-name')}
+            name="last-name"
+            onInput={updateField}
+            required
+            spellCheck="false"
+            value={lastName}
+            data-testid="last-name-input"
+            onKeyDown={handleEnter}
+          />
+        </TextInputErrorWrapper>
         {isLorotaSecurityUpdatesEnabled ? (
-          <div data-testid="dob-input" className="vads-u-margin-top--3">
-            <Date
+          <div
+            data-testid="dob-input"
+            className={`vads-u-margin-top--3 ${
+              dobErrorMessage && dobErrorMessage.length
+                ? 'vads-u-padding-left--2p5'
+                : ''
+            }`}
+          >
+            <VaMemorableDate
               label={t('date-of-birth')}
-              onValueChange={updateDob}
+              onDateBlur={updateField}
+              onDateChange={updateField}
               name="date-of-birth"
-              date={dob}
+              value={dob}
               required
-              validation={{
-                valid: !dobErrorMessage,
-                message: dobErrorMessage,
-              }}
+              error={dobErrorMessage}
+              onKeyDown={handleEnter}
             />
           </div>
         ) : (
-          <VaTextInput
-            error={last4ErrorMessage}
-            inputmode="numeric"
-            label={t('last-4-digits-of-your-social-security-number')}
-            maxlength="4"
-            onInput={updateField}
-            name="last-4-ssn"
-            required
-            value={last4Ssn}
-            data-testid="last-4-input"
-            onKeyDown={handleEnter}
-          />
+          <TextInputErrorWrapper
+            error={last4ErrorMessage && last4ErrorMessage.length}
+          >
+            <VaTextInput
+              error={last4ErrorMessage}
+              inputmode="numeric"
+              label={t('last-4-digits-of-your-social-security-number')}
+              maxlength="4"
+              onInput={updateField}
+              name="last-4-ssn"
+              required
+              value={last4Ssn}
+              data-testid="last-4-input"
+              onKeyDown={handleEnter}
+            />
+          </TextInputErrorWrapper>
         )}
         <button
           type="button"
@@ -121,7 +175,6 @@ export default function ValidateDisplay({
           className="usa-button usa-button-big vads-u-margin-top--4"
           data-testid="check-in-button"
           disabled={isLoading}
-          aria-label={t('check-in-now-for-your-appointment')}
         >
           {' '}
           {isLoading ? (

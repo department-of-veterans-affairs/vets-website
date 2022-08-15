@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { setPageFocus } from '../utils/page';
+import { setPageFocus } from '../../combined/utils/helpers';
 import DebtLettersTable from '../components/DebtLettersTable';
 import { DownloadLettersAlert } from '../components/Alerts';
 
@@ -14,7 +13,6 @@ const DebtLettersDownload = () => {
   const showError = isError || isVBMSError;
 
   useEffect(() => {
-    scrollToTop();
     setPageFocus('h1');
   });
 
@@ -23,11 +21,9 @@ const DebtLettersDownload = () => {
       <div className="vads-l-col--9 small-desktop-screen:vads-l-col--12">
         <va-breadcrumbs label="Breadcrumb">
           <a href="/">Home</a>
-          <a href="/manage-debt-and-bills/">Manage your VA debt and bills</a>
-          <a href="/manage-debt-and-bills/summary/">
-            Your debt and bills summary
-          </a>
-          <Link to="/debt-balances/">Benefit debt balances</Link>
+          <a href="/manage-va-debt/">Manage your VA debt</a>
+          <a href="/manage-va-debt/summary/">Your VA debt and bills</a>
+          <Link to="/debt-balances/">Current VA debt</Link>
           <Link to="/debt-balances/letters">Debt letters</Link>
         </va-breadcrumbs>
       </div>

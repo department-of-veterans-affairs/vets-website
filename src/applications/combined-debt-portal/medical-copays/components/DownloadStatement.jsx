@@ -29,33 +29,27 @@ const DownloadStatement = ({ statementId, statementDate, fullName }) => {
     <article className="vads-u-padding--0">
       <div className="vads-u-margin-top--2">
         <a
+          className="vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--flex-start"
           onClick={() => handleDownloadClick(statementDate)}
           download={downloadFileName}
           href={pdfStatementUri}
           type="application/pdf"
           rel="noreferrer"
         >
-          <span
+          <i
             aria-hidden="true"
-            className="vads-u-display--flex vads-u-align-items--flex-start"
-          >
-            <i
-              className="fas fa-download vads-u-margin-top--0p5 vads-u-padding-right--1"
-              role="img"
-            />
-            <p className="vads-u-margin-y--0">
-              Download your {formattedStatementDate} statement{' '}
-              <dfn>
-                <abbr title="Portable Document Format">(PDF)</abbr>
-              </dfn>
-            </p>
+            className="fas fa-download vads-u-margin-top--0p5 vads-u-padding-right--1"
+            role="img"
+          />
+          <span aria-hidden="true">
+            Download your {formattedStatementDate} statement{' '}
           </span>
           <span className="sr-only">
             Download {formattedStatementDate} dated medical copay statement{' '}
-            <dfn>
-              <abbr title="Portable Document Format">(PDF)</abbr>
-            </dfn>
           </span>
+          <dfn>
+            <abbr title="Portable Document Format">(PDF)</abbr>
+          </dfn>
         </a>
       </div>
     </article>

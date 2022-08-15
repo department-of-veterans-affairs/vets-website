@@ -46,32 +46,31 @@ i18n
       format: (value, format, lng) => {
         if (isDate(value)) {
           const locale = locales[lng];
-
           if (format === 'long') {
-            return formatDate(value, 'MMMM dd, yyyy', { locale });
+            return lng.startsWith('es')
+              ? formatDate(value, "dd 'de' MMMM 'de' yyy", { locale })
+              : formatDate(value, 'MMMM dd, yyyy', { locale });
           }
           if (format === 'longAtTime') {
             let dateString = formatDate(value, 'PPPppp', { locale });
-
             // Remove date suffixes. (1st/2nd/etc.)
             dateString = dateString.replace(
               /([0-9]{1,2})([a-z]{2})(, )/,
               '$1$3',
             );
-
             // Adjust am/pm formatting.
             dateString = dateString.replace(/:[0-9]{2} AM .*$/, ' a.m.');
             dateString = dateString.replace(/:[0-9]{2} PM .*$/, ' p.m.');
-
             return dateString;
           }
           if (format === 'mdY') {
-            return formatDate(value, 'MM/dd/Y');
+            return lng.startsWith('es')
+              ? formatDate(value, 'dd/M/Y')
+              : formatDate(value, 'MM/dd/Y');
           }
           if (format === 'time') {
             return formatDate(value, 'h:mm aaaa', { locale });
           }
-
           return formatDate(value, format, { locale });
         }
         return value;
@@ -85,15 +84,8 @@ i18n
     },
   });
 
-// This is necessary for DS components to use our language preference on initial load.
+// This is necessary for DS components to use our language preference on initial page load.
 setPageLanguage(i18n.language);
-
-// Ugly hack to trigger DS language detection.
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    setPageLanguage(i18n.language);
-  }, 10);
-});
 
 i18n.on('languageChanged', language => {
   setPageLanguage(language);

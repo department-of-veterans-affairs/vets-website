@@ -97,5 +97,5 @@ export default function RequestedStatusAlert({ appointment, facility }) {
 
 RequestedStatusAlert.propTypes = {
   appointment: PropTypes.object.isRequired,
-  facility: PropTypes.object.isRequired,
+  facility: PropTypes.object,
 };

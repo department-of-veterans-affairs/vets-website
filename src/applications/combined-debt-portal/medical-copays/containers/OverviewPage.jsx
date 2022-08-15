@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { uniqBy } from 'lodash';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import Balances from '../components/Balances';
-import BalanceQuestions from '../components/BalanceQuestions';
 import {
+  setPageFocus,
   sortStatementsByDate,
   ALERT_TYPES,
   APP_TYPES,
 } from '../../combined/utils/helpers';
+import Balances from '../components/Balances';
+import BalanceQuestions from '../components/BalanceQuestions';
 import OtherVADebts from '../../combined/components/OtherVADebts';
 import alertMessage from '../../combined/utils/alert-messages';
 import DisputeCharges from '../components/DisputeCharges';
@@ -79,7 +79,7 @@ const OverviewPage = () => {
   const title = 'Current copay balances';
 
   useEffect(() => {
-    scrollToTop();
+    setPageFocus('h1');
   }, []);
 
   if (debtLoading || mcpLoading) {
@@ -98,11 +98,9 @@ const OverviewPage = () => {
     <>
       <va-breadcrumbs className="vads-u-font-family--sans no-wrap">
         <a href="/">Home</a>
-        <a href="/manage-debt-and-bills">Manage your VA debt and bills</a>
-        <a href="/manage-debt-and-bills/summary/">
-          Your debt and bills summary
-        </a>
-        <a href="/manage-debt-and-bills/summary/copay-balances">
+        <a href="/manage-va-debt">Manage your VA debt</a>
+        <a href="/manage-va-debt/summary/">Your VA debt and bills</a>
+        <a href="/manage-va-debt/summary/copay-balances">
           {' '}
           Current copay balances
         </a>

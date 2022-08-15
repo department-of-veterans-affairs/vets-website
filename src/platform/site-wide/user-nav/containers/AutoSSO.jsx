@@ -37,12 +37,11 @@ function AutoSSO(props) {
     // avoid race condition where hasSession hasn't been set
     isValidPath &&
     !profileLoading &&
-    !hasCalledKeepAlive
+    !hasCalledKeepAlive &&
+    !authenticatedWithOAuth
   ) {
     checkAutoSession(loggedIn, transactionId, profile).then(() => {
-      if (!authenticatedWithOAuth) {
-        props.checkKeepAlive();
-      }
+      props.checkKeepAlive();
     });
   }
 

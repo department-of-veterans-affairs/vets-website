@@ -13,7 +13,7 @@ import { useOnLoaded } from '~/platform/site-wide/hooks/events/use-on-loaded';
 
 export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const loaded = useOnLoaded(window);
+  const loaded = useOnLoaded(window); // IMPORTANT: DO NOT COPY THIS IMPLEMENTATION. THIS HOOK IS DEPRECATED AND WILL BE REMOVED.
 
   useEffect(() => {
     // Start Veteran Crisis Line modal functionality.

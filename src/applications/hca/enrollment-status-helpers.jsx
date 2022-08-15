@@ -2,9 +2,9 @@ import React from 'react';
 import moment from 'moment';
 
 import { isValidDateString } from 'platform/utilities/date';
+import { DASHBOARD_ALERT_TYPES } from 'applications/personalization/dashboard/components/DashboardAlert';
 import { HCA_ENROLLMENT_STATUSES } from './constants';
 import { getMedicalCenterNameByID } from './helpers';
-import { DASHBOARD_ALERT_TYPES } from 'applications/personalization/dashboard/components/DashboardAlert';
 
 // There are 9 possible warning headlines to show depending on enrollment status
 export function getWarningHeadline(enrollmentStatus) {
@@ -74,7 +74,7 @@ export function getWarningHeadline(enrollmentStatus) {
     default:
       break;
   }
-  return <h2 className="usa-alert-heading">{content}</h2>;
+  return content;
 }
 
 export function getEnrollmentDetails(
@@ -377,7 +377,10 @@ export function getFAQContent(enrollmentStatus) {
         benefits and services.
       </p>
       <p>
-        <a href="/profile">Go to your profile to update your address</a>.
+        <a href="/profile/contact-information">
+          Go to your profile to update your address
+        </a>
+        .
       </p>
     </>
   );
@@ -478,7 +481,7 @@ export function getFAQContent(enrollmentStatus) {
       </p>
       <p>
         <strong>
-          If you’ve already applied, think you've received this message in
+          If you’ve already applied, think you’ve received this message in
           error, or have any questions
         </strong>
       </p>
@@ -949,12 +952,13 @@ export function getAlertContent(
   // rejected, enrolled, ineligible
   const removeNotificationButton = (
     <button
+      type="button"
       className="va-button-link remove-notification-link"
       aria-label="Remove this notification about my healthcare application status"
       onClick={dismissNotification}
       key="dismiss-notification-button"
     >
-      <i className="fa fa-times" />
+      <i className="fa fa-times" aria-hidden="true" />
       <span className="remove-notification-label">
         Remove this notification
       </span>

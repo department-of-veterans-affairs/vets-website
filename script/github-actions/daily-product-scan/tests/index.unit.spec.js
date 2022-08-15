@@ -6,7 +6,7 @@ const main = require('../main');
 const GitHubClient = require('../github-client');
 const octokitResponses = require('./mocks/octokit-responses');
 
-describe('daily-product-scan', () => {
+describe.skip('daily-product-scan', () => {
   context('success, changes ARE detected', () => {
     let status;
     let message;
@@ -19,7 +19,7 @@ describe('daily-product-scan', () => {
       ({ status, message, data } = await main({ octokit }));
     });
 
-    it.skip('sets the status return prop to the correct value', () => {
+    it('sets the status return prop to the correct value', () => {
       expect(status).to.equal('Success');
     });
 
@@ -126,7 +126,7 @@ describe('daily-product-scan', () => {
       ({ status, message, data } = await main({ octokit }));
     });
 
-    it.skip('sets the status return prop to the correct value', () => {
+    it('sets the status return prop to the correct value', () => {
       expect(status).to.equal('Success');
     });
 

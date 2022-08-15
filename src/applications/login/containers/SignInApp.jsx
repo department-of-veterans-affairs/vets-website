@@ -6,21 +6,39 @@ import 'url-search-params-polyfill';
 import AutoSSO from 'platform/site-wide/user-nav/containers/AutoSSO';
 import LoginContainer from 'platform/user/authentication/components/LoginContainer';
 
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
+import {
+  isAuthenticatedWithSSOe,
+  signInServiceEnabled,
+} from 'platform/user/authentication/selectors';
 import { selectProfile } from 'platform/user/selectors';
 import { EXTERNAL_APPS } from 'platform/user/authentication/constants';
 
 export class SignInPage extends React.Component {
   componentDidUpdate() {
-    const { router, location, authenticatedWithSSOe, profile } = this.props;
+    const {
+      router,
+      location,
+      authenticatedWithSSOe,
+      profile,
+      useSignInService,
+    } = this.props;
     const { query } = location;
     const { application } = query;
+
     if (
       authenticatedWithSSOe &&
       !profile.verified &&
       application === EXTERNAL_APPS.MY_VA_HEALTH
     ) {
       router.push(appendQuery('/verify', window.location.search.slice(1)));
+    }
+
+    if (
+      useSignInService &&
+      !window.location.search.includes('oauth') &&
+      !window.location.search.includes('application')
+    ) {
+      router.push(`?oauth=true`);
     }
   }
 
@@ -46,6 +64,7 @@ export class SignInPage extends React.Component {
 const mapStateToProps = state => ({
   profile: selectProfile(state),
   authenticatedWithSSOe: isAuthenticatedWithSSOe(state),
+  useSignInService: signInServiceEnabled(state),
 });
 
 export default connect(mapStateToProps)(SignInPage);

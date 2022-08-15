@@ -29,4 +29,8 @@ export default {
     es: '/health-care/covid-19-vaccine-esp/about-covid-19-vaccine-esp',
     tl: '/health-care/covid-19-vaccine-tag/about-covid-19-vaccine-tag',
   },
+  pact: {
+    en: '/resources/the-pact-act-and-your-va-benefits',
+    es: '/resources/the-pact-act-and-your-va-benefits-esp',
+  },
 };

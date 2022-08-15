@@ -14,12 +14,14 @@ describe('Check In Experience -- ', () => {
         initializeSessionPost,
         initializeCheckInDataGet,
         initializeCheckInDataPost,
+        initializeDemographicsPatch,
       } = ApiInitializer;
       const now = Date.now();
       const today = new Date(now);
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
+      initializeDemographicsPatch.withSuccess();
       initializeCheckInDataGet.withSuccess({
         numberOfCheckInAbledAppointments: 1,
         demographicsNeedsUpdate: false,

@@ -57,7 +57,27 @@
       "cookieOnly": true
     },
     {
+      "hostname": "ea.oit.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
       "hostname": "www.ea.oit.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "va.gov/formularyadvisor",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.va.gov/formularyadvisor",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "vaww.internet.staging.va.gov/formularyadvisor",
       "pathnameBeginning": "/",
       "cookieOnly": true
     },
@@ -158,6 +178,16 @@
     },
     {
       "hostname": "www.volunteer.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "m.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": true
+    },
+    {
+      "hostname": "www.m.va.gov",
       "pathnameBeginning": "/",
       "cookieOnly": true
     }

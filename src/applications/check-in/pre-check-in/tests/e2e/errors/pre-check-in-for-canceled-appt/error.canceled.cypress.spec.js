@@ -3,6 +3,7 @@ import '../../../../../tests/e2e/commands';
 import ApiInitializer from '../../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../../tests/e2e/pages/ValidateVeteran';
 import Error from '../../pages/Error';
+import Confirmation from '../../pages/Confirmation';
 
 describe('Pre-Check In Experience ', () => {
   beforeEach(() => {
@@ -33,7 +34,9 @@ describe('Pre-Check In Experience ', () => {
     ValidateVeteran.attemptToGoToNextPage();
 
     // UUID with canceled appointments should navigate to the error page.
-    Error.validatePageLoaded();
+    Error.validateCanceledPageLoaded();
     cy.injectAxeThenAxeCheck();
+    Confirmation.expandAllAccordions();
+    cy.createScreenshots('Pre-check-in--canceled-error');
   });
 });

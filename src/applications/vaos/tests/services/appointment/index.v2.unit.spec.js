@@ -70,14 +70,15 @@ describe('VAOS Appointment service', () => {
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the clinic name
+          { op: 'remove', path: ['practitioners'] },
+          { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['description'], value: 'FUTURE' },
+          { op: 'replace', path: ['comment'], value: null },
           {
             op: 'replace',
             path: ['location', 'clinicName'],
             value: 'Friendly clinic name',
           }, // The v2 endpoint doesn't send us the vista status
-          { op: 'replace', path: ['description'], value: 'FUTURE' },
-          { op: 'remove', path: ['practitioners'] },
-          { op: 'remove', path: ['vaos', 'facilityData'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -127,14 +128,15 @@ describe('VAOS Appointment service', () => {
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
+          { op: 'remove', path: ['practitioners'] },
+          { op: 'remove', path: ['vaos', 'facilityData'] },
           {
             op: 'replace',
             path: ['description'],
             value: 'CANCELLED BY PATIENT',
           },
-          { op: 'remove', path: ['practitioners'] },
+          { op: 'replace', path: ['comment'], value: null },
           { op: 'replace', path: ['cancelationReason'], value: 'pat' },
-          { op: 'remove', path: ['vaos', 'facilityData'] },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -184,9 +186,10 @@ describe('VAOS Appointment service', () => {
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
-          { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
+          { op: 'replace', path: ['comment'], value: null },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -236,9 +239,10 @@ describe('VAOS Appointment service', () => {
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
-          { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
+          { op: 'replace', path: ['comment'], value: null },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -289,9 +293,10 @@ describe('VAOS Appointment service', () => {
       expect(differences).to.have.deep.members(
         [
           // The v2 endpoint doesn't send us the vista status
-          { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['description'], value: 'CHECKED OUT' },
+          { op: 'replace', path: ['comment'], value: null },
         ],
         'Transformers for v0 and v2 appointment data are out of sync',
       );
@@ -742,9 +747,13 @@ describe('VAOS Appointment service', () => {
       const differences = diff(v2Result, v0Result);
       expect(differences).to.have.deep.members(
         [
-          { op: 'remove', path: ['communityCareProvider', 'providers'] },
+          {
+            op: 'remove',
+            path: ['communityCareProvider', 'providers'],
+          },
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
+          { op: 'replace', path: ['comment'], value: null },
           {
             op: 'replace',
             path: ['communityCareProvider', 'telecom'],
@@ -765,11 +774,6 @@ describe('VAOS Appointment service', () => {
           {
             op: 'add',
             path: ['communityCareProvider', 'lastName'],
-            value: null,
-          },
-          {
-            op: 'add',
-            path: ['communityCareProvider', 'providerName'],
             value: null,
           },
           {
@@ -927,6 +931,7 @@ describe('VAOS Appointment service', () => {
           { op: 'remove', path: ['practitioners'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
           { op: 'replace', path: ['reason'], value: undefined },
+          { op: 'replace', path: ['comment'], value: null },
         ],
         'Transformers for v0 and v2 appointment request data are out of sync',
       );
@@ -1022,9 +1027,11 @@ describe('VAOS Appointment service', () => {
       // Then the results have the following differences
       expect(differences).to.have.deep.members(
         [
-          { op: 'remove', path: ['description'] },
           { op: 'remove', path: ['practitioners'] },
+          { op: 'remove', path: ['description'] },
+          { op: 'remove', path: ['vaos', 'facilityData'] },
           { op: 'replace', path: ['reason'], value: undefined },
+          { op: 'replace', path: ['comment'], value: null },
 
           {
             op: 'replace',
@@ -1037,7 +1044,6 @@ describe('VAOS Appointment service', () => {
             path: ['preferredCommunityCareProviders'],
             value: null,
           },
-          { op: 'remove', path: ['vaos', 'facilityData'] },
         ],
         'Transformers for v0 and v2 appointment request data are out of sync',
       );
@@ -1130,10 +1136,12 @@ describe('VAOS Appointment service', () => {
       // Then the results have the following differences
       expect(differences).to.have.deep.members(
         [
-          { op: 'remove', path: ['description'] },
+          // { op: 'remove', path: ['reason'] },
           { op: 'remove', path: ['practitioners'] },
+          { op: 'remove', path: ['description'] },
           { op: 'remove', path: ['vaos', 'facilityData'] },
           { op: 'replace', path: ['reason'], value: undefined },
+          { op: 'replace', path: ['comment'], value: null },
         ],
         'Transformers for v0 and v2 appointment request data are out of sync',
       );

@@ -19,29 +19,10 @@ import {
 } from 'platform/monitoring/DowntimeNotification';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-export const IntroductionPage = ({
-  route,
-  router,
-  formData,
-  setFormData,
-  canAutofill1010cgAddress,
-  canUpload1010cgPOA,
-}) => {
+export const IntroductionPage = ({ route, router }) => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
-
-  useEffect(
-    () => {
-      setFormData({
-        ...formData,
-        'view:canUpload1010cgPOA': canUpload1010cgPOA,
-        'view:canAutofill1010cgAddress': canAutofill1010cgAddress,
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [setFormData, canAutofill1010cgAddress, canUpload1010cgPOA],
-  );
 
   const startForm = useCallback(
     () => {
@@ -53,7 +34,7 @@ export const IntroductionPage = ({
   );
 
   const ProcessTimeline = () => (
-    <div>
+    <>
       <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2p5">
         Follow these steps to get started:
       </h2>
@@ -87,37 +68,36 @@ export const IntroductionPage = ({
                   number (TIN)
                 </li>
               </ul>
-              <div className="vads-u-margin-top--2 vads-u-margin-bottom--5">
-                <va-additional-info trigger="What if I don't want to put my SSN or TIN in the application?">
-                  <div className="vads-u-padding-y--0p25">
-                    <p>
-                      We only require your SSN or TIN if you apply online. If
-                      you want to apply without putting this information in your
-                      application, you can apply by mail or in person.
-                    </p>
-                    <p>
-                      <a href="/family-member-benefits/comprehensive-assistance-for-family-caregivers/#how-do-i-apply-for-this-progra">
-                        Get instructions for how to apply for the PCAFC program
-                        by mail or in person
-                      </a>
-                    </p>
-                  </div>
-                </va-additional-info>
-              </div>
-              {canUpload1010cgPOA && (
-                <p
-                  data-testid="poa-info-note"
-                  className="vads-u-margin-bottom--4"
-                >
-                  {' '}
-                  <strong>Note:</strong> If you’re a legal representative who
-                  can make medical decisions for the Veteran, you can sign this
-                  application for them. You’ll need to upload proof of your
-                  legal authority to make medical decisions for the Veteran.
-                  This type of document is sometimes called a medical proxy or
-                  medical power of attorney.
-                </p>
-              )}
+              <va-additional-info
+                trigger="What if I don't want to put my SSN or TIN in the application?"
+                class="vads-u-margin-top--2 vads-u-margin-bottom--5"
+              >
+                <div className="vads-u-padding-y--0p25">
+                  <p>
+                    We only require your SSN or TIN if you apply online. If you
+                    want to apply without putting this information in your
+                    application, you can apply by mail or in person.
+                  </p>
+                  <p>
+                    <a href="/family-member-benefits/comprehensive-assistance-for-family-caregivers/#how-do-i-apply-for-this-progra">
+                      Get instructions for how to apply for the PCAFC program by
+                      mail or in person
+                    </a>
+                  </p>
+                </div>
+              </va-additional-info>
+              <p
+                data-testid="poa-info-note"
+                className="vads-u-margin-bottom--4"
+              >
+                {' '}
+                <strong>Note:</strong> If you’re a legal representative who can
+                make medical decisions for the Veteran, you can sign this
+                application for them. You’ll need to upload proof of your legal
+                authority to make medical decisions for the Veteran. This type
+                of document is sometimes called a medical proxy or medical power
+                of attorney.
+              </p>
             </div>
 
             <div>
@@ -225,7 +205,7 @@ export const IntroductionPage = ({
           </li>
         </ol>
       </div>
-    </div>
+    </>
   );
 
   return (
@@ -278,8 +258,6 @@ export const IntroductionPage = ({
 
 const mapStateToProps = state => ({
   formData: state.form.data,
-  canAutofill1010cgAddress: state.featureToggles?.canAutofill1010cgAddress,
-  canUpload1010cgPOA: state.featureToggles?.canUpload1010cgPOA,
 });
 
 const mapDispatchToProps = {
@@ -287,8 +265,6 @@ const mapDispatchToProps = {
 };
 
 IntroductionPage.propTypes = {
-  canAutofill1010cgAddress: PropTypes.bool,
-  canUpload1010cgPOA: PropTypes.bool,
   formData: PropTypes.object,
   route: PropTypes.object,
   router: PropTypes.object,

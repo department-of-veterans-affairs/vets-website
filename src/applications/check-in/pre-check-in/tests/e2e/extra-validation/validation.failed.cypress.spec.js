@@ -6,7 +6,6 @@ import Introduction from '../pages/Introduction';
 import Error from '../pages/Error';
 
 describe('Pre-Check In Experience', () => {
-  // @TODO: un-skip when the error page is created.
   describe('Validate Page', () => {
     beforeEach(() => {
       const {
@@ -33,7 +32,7 @@ describe('Pre-Check In Experience', () => {
       ValidateVeteran.validateVeteran('Sith', '4321');
       ValidateVeteran.attemptToGoToNextPage();
       ValidateVeteran.validateErrorAlert();
-
+      cy.createScreenshots('Pre-check-in--inline-validation-error');
       // Second Attempt
       ValidateVeteran.validateVeteran('Sith', '4321');
       ValidateVeteran.attemptToGoToNextPage();
@@ -45,6 +44,7 @@ describe('Pre-Check In Experience', () => {
       ValidateVeteran.attemptToGoToNextPage();
 
       Error.validatePageLoaded(true);
+      cy.createScreenshots('Pre-check-in--validation-error');
     });
     it('fails validation once and then succeeds on the second attempt', () => {
       cy.injectAxeThenAxeCheck();

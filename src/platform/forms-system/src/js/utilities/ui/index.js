@@ -1,10 +1,14 @@
 import Scroll from 'react-scroll';
 import { getScrollOptions } from 'platform/utilities/ui';
 
-export const $ = selectorOrElement =>
+export const $ = (selectorOrElement, root) =>
   typeof selectorOrElement === 'string'
-    ? document.querySelector(selectorOrElement)
+    ? (root || document).querySelector(selectorOrElement)
     : selectorOrElement;
+
+export const $$ = (selector, root) => [
+  ...(root || document).querySelectorAll(selector),
+];
 
 export function focusElement(selectorOrElement, options) {
   const el = $(selectorOrElement);

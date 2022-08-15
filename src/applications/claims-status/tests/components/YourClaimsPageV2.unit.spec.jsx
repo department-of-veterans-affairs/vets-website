@@ -53,7 +53,7 @@ describe('<YourClaimsPageV2>', () => {
 
   it('should render', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
-    expect(wrapper.type()).to.equal('div');
+    expect(wrapper.type()).to.equal(React.Fragment);
     wrapper.unmount();
   });
 
@@ -93,9 +93,7 @@ describe('<YourClaimsPageV2>', () => {
   it('should render Pagination', () => {
     const props = {
       ...defaultProps,
-      pages: 2,
       list: new Array(12).fill(defaultProps.list[0]),
-      listLength: 12,
     };
     const wrapper = shallow(<YourClaimsPageV2 {...props} />);
     expect(wrapper.text()).to.include('Showing 1 \u2012 10 of 12 events');
@@ -152,7 +150,7 @@ describe('<YourClaimsPageV2>', () => {
 
   it('should include combined claims additional info', () => {
     const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
-    expect(wrapper.find('.claims-combined').length).to.equal(1);
+    expect(wrapper.find('#claims-combined').length).to.equal(1);
     wrapper.unmount();
   });
 

@@ -40,7 +40,7 @@ export default function AccountLink({
       }
       updateHref(csp, type);
     },
-    [csp, type],
+    [csp, type, useOAuth],
   );
 
   return (

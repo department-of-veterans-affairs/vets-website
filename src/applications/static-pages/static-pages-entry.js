@@ -10,7 +10,7 @@ import createCommonStore from 'platform/startup/store';
 import showVaAlertExpandable from 'platform/site-wide/alerts/showVaAlertExpandable';
 import alertsBuildShow from './widget-creators/alerts-dismiss-view';
 import form686CTA from './view-modify-dependent/686-cta/form686CTA';
-import icsCreate from './widget-creators/ics-generator';
+import { icsCreate } from './widget-creators/ics-generator';
 import openShareLink from './widget-creators/social-share-links';
 import subscribeAccordionEvents from './subscription-creators/subscribeAccordionEvents';
 import subscribeAdditionalInfoEvents from './subscription-creators/subscribeAdditionalInfoEvents';
@@ -36,8 +36,6 @@ import createAskVAWidget from './ask-va';
 import createApplicationStatus from './widget-creators/createApplicationStatus';
 import createCOEAccess from './coe-access/createCOEAccess';
 import createCallToActionWidget from './widget-creators/createCallToActionWidget';
-import createContactChatbotCTA from './contact-chatbot-cta';
-import createCoronavirusChatbot from '../coronavirus-chatbot/createCoronavirusChatbot';
 import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createCovidVaccineUpdatesWidget';
 import createDependencyVerification from './dependency-verification/createDependencyVerification';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
@@ -103,7 +101,9 @@ Sentry.withScope(scope => {
 subscribeAdditionalInfoEvents();
 subscribeAccordionEvents();
 alertsBuildShow();
-icsCreate();
+// See `content-build/src/site/includes/social-share.drupal.liquid
+// & `content-build/src/site/layouts/event.drupal.liquid`, respectively (per selector)
+icsCreate('#add-to-calendar-link, a.recurring-event');
 openShareLink();
 showVaAlertExpandable(store);
 
@@ -125,7 +125,6 @@ createApplicationStatus(store, {
   widgetType: widgetTypes.HEALTH_CARE_APP_STATUS,
 });
 createCallToActionWidget(store, widgetTypes.CTA);
-createContactChatbotCTA(store, widgetTypes.CONTACT_CHATBOT_CTA);
 createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
 createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
 createApplicationStatus(store, {
@@ -166,7 +165,6 @@ createPost911GiBillStatusWidget(
   store,
   widgetTypes.POST_911_GI_BILL_STATUS_WIDGET,
 );
-createCoronavirusChatbot(store, widgetTypes.CORONAVIRUS_CHATBOT);
 createCovidVaccineUpdatesWidget(store, widgetTypes.COVID_VACCINE_UPDATES_CTA);
 createViewDependentsCTA(store, widgetTypes.VIEW_DEPENDENTS_CTA);
 form686CTA(store, widgetTypes.FORM_686_CTA);

@@ -12,6 +12,7 @@ import {
   getLatestBill,
 } from '../utils/balance-helpers';
 import { APP_TYPES, sortStatementsByDate } from '../utils/helpers';
+import MCPAlert from './MCPAlerts';
 
 // Some terminology that could be helpful:
 // debt(s) = debtLetters
@@ -25,6 +26,7 @@ const Balances = () => {
   // Single out errors
   const billError = mcp.error;
   const debtError = debtLetters.errors?.length > 0;
+  const isEnrolledInHealthCare = billError?.code !== '403' ?? true;
 
   // get Debt info
   const { debts } = debtLetters;
@@ -73,7 +75,8 @@ const Balances = () => {
             appType={APP_TYPES.DEBT}
           />
         )}
-      {!billError &&
+      {isEnrolledInHealthCare &&
+        !billError &&
         totalBills > 0 && (
           <BalanceCard
             amount={totalBills}
@@ -89,7 +92,13 @@ const Balances = () => {
         totalBills === 0 && <ZeroBalanceCard appType={APP_TYPES.COPAY} />}
       {/* AlertCards */}
       {debtError && <AlertCard appType={APP_TYPES.DEBT} />}
-      {billError && <AlertCard appType={APP_TYPES.COPAY} />}
+      {isEnrolledInHealthCare &&
+        billError && <AlertCard appType={APP_TYPES.COPAY} />}
+      {!isEnrolledInHealthCare && (
+        <>
+          <MCPAlert type="no-health-care" />
+        </>
+      )}
     </>
   );
 };

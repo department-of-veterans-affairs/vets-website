@@ -1,6 +1,28 @@
 import { isBrowserIE } from '~/platform/site-wide/helpers/detection/is-browser';
 import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 
+// In the case of IE display the IE deprecation notice to the user.
+// Solutioned for: https://github.com/department-of-veterans-affairs/va.gov-cms/issues/9075
+if (isBrowserIE()) {
+  window.addEventListener('load', () => {
+    const ie11VaBanner = `
+      <va-banner
+        class="ie-deprecation-warning"
+        headline="You'll need to use a different web browser"
+        show-close
+        type="warning"
+        visible
+      >
+        You're using Internet Explorer right now to access VA.gov. Microsoft stopped supporting all versions of this browser on June 15, 2022. This means that you'll need to switch to another browser, like Microsoft Edge, Google Chrome, Mozilla Firefox, or Apple Safari.
+      </va-banner>
+    `;
+    const ieMessageEl = document.body.querySelector(
+      '.ie-deprecation-warning-wrapper',
+    );
+    ieMessageEl.innerHTML = ie11VaBanner;
+  });
+}
+
 export default `
   <!-- Header -->
   <header class="header merger" role="banner">
@@ -15,14 +37,6 @@ export default `
 
     <!-- Tablet/Desktop Layout -->
     <div id="legacy-header" class="vads-u-display--none">
-      <div class="incompatible-browser-warning">
-        <div class="row full">
-          <div class="small-12">
-            Your browser is out of date. To use this website, please <a href="https://browsehappy.com/">update your browser</a> or use a different device.
-          </div>
-        </div>
-      </div>
-
       <div id="preview-site-alert"></div>
 
       <div class="va-notice--banner">
@@ -103,24 +117,7 @@ export default `
       </div>
 
       <!-- Hidden for modern browsers. -->
-      <va-banner
-        class="ie-deprecation-warning"
-        headline="You'll need to use a different web browser"
-        show-close
-        type="warning"
-        visible="false"
-      >
-        You're using Internet Explorer right now to access VA.gov. Microsoft stopped supporting all versions of this browser on June 15, 2022. This means that you'll need to switch to another browser, like Microsoft Edge, Google Chrome, Mozilla Firefox, or Apple Safari.
-      </va-banner>
+      <div class="ie-deprecation-warning-wrapper"></div>
     </div>
   </header>
 `;
-
-// In the case of IE display the IE deprecation notice to the user.
-// Solutioned for: https://github.com/department-of-veterans-affairs/va.gov-cms/issues/9075
-if (isBrowserIE()) {
-  window.addEventListener('load', () => {
-    const ieMessageEl = document.body.querySelector('.ie-deprecation-warning');
-    ieMessageEl.setAttribute('visible', '');
-  });
-}

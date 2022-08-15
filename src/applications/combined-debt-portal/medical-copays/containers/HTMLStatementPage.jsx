@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { setPageFocus } from '../../combined/utils/helpers';
 import Modals from '../components/Modals';
 import StatementAddresses from '../components/StatementAddresses';
 import AccountSummary from '../components/AccountSummary';
@@ -27,7 +27,7 @@ const HTMLStatementPage = ({ match }) => {
     : `${userFullName.first} ${userFullName.last}`;
 
   useEffect(() => {
-    scrollToTop();
+    setPageFocus('h1');
   }, []);
 
   return (
@@ -35,15 +35,13 @@ const HTMLStatementPage = ({ match }) => {
       <div className="vads-l-col--12 small-desktop-screen:vads-l-col--10">
         <va-breadcrumbs className="vads-u-font-family--sans no-wrap">
           <a href="/">Home</a>
-          <a href="/manage-debt-and-bills">Manage your VA debt and bills</a>
-          <a href="/manage-debt-and-bills/summary/">
-            Your debt and bills summary
-          </a>
-          <a href="/manage-debt-and-bills/summary/copay-balances">
+          <a href="/manage-va-debt">Manage your VA debt</a>
+          <a href="/manage-va-debt/summary/">Your VA debt and bills</a>
+          <a href="/manage-va-debt/summary/copay-balances">
             Current copay balances
           </a>
           <a
-            href={`/manage-debt-and-bills/summary/copay-balances/${selectedId}/detail`}
+            href={`/manage-va-debt/summary/copay-balances/${selectedId}/detail`}
           >
             {prevPage}
           </a>

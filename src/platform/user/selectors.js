@@ -1,6 +1,5 @@
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import { selectDrupalStaticData } from 'platform/site-wide/drupal-static-data/selectors';
 import {
   CERNER_APPOINTMENTS_BLOCKLIST,
   CERNER_FACILITY_IDS,
@@ -61,37 +60,6 @@ export const selectPatientFacilities = state =>
 
     return facility;
   }) || null;
-export const selectCernerFacilitiesDsot = state =>
-  selectDrupalStaticData(state)?.cernerFacilities?.data || [];
-export const selectCernerFacilityIdsDsot = state =>
-  selectCernerFacilitiesDsot(state)?.map(facility => facility.vhaId) || [];
-export const selectPatientFacilitiesDsot = state =>
-  selectProfile(state)?.facilities?.map(({ facilityId }) => {
-    let isCernerFacility = false;
-
-    const cernerFacilityIds = selectCernerFacilityIdsDsot(state);
-    if (cernerFacilityIds) {
-      isCernerFacility = cernerFacilityIds.includes(facilityId);
-    }
-
-    if (isCernerFacility) {
-      return {
-        facilityId,
-        isCerner: true,
-        usesCernerAppointments: true,
-        usesCernerMedicalRecords: true,
-        usesCernerMessaging: true,
-        usesCernerRx: true,
-        usesCernerTestResults: true,
-      };
-    }
-    return {
-      facilityId,
-      isCerner: false,
-    };
-  }) || null;
-export const selectPatientCernerFacilitiesDsot = state =>
-  selectPatientFacilitiesDsot(state)?.filter(f => f.isCerner) || [];
 
 export const selectVAPContactInfo = state =>
   selectProfile(state).vapContactInfo;
@@ -127,13 +95,9 @@ export function createIsServiceAvailableSelector(service) {
 
 export const selectIsCernerOnlyPatient = state =>
   !!selectPatientFacilities(state)?.every(f => f.isCerner);
-export const selectIsCernerOnlyPatientDsot = state =>
-  !!selectPatientFacilitiesDsot(state)?.every(f => f.isCerner);
 
 export const selectIsCernerPatient = state =>
   selectPatientFacilities(state)?.some(f => f.isCerner);
-export const selectIsCernerPatientDsot = state =>
-  selectPatientFacilitiesDsot(state)?.some(f => f.isCerner);
 
 // return the Cerner facilities that are _not_ blocked from Cerner's RX features
 export const selectCernerRxFacilities = state =>

@@ -33,7 +33,7 @@ const multipleAppointments = [
     clinicPhoneNumber: '5551234567',
     clinicFriendlyName: 'TEST CLINIC',
     clinicName: 'LOM ACC CLINIC TEST',
-    appointmentIen: 'some-ien',
+    appointmentIen: 'some-ien2',
     startTime: '2021-11-30T17:12:10.694Z',
     eligibility: 'ELIGIBLE',
     facilityId: 'some-facility',

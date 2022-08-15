@@ -66,6 +66,7 @@ export const submitTransform = (formConfig, form) => {
 
     const sortedDataByChapter = {
       [chapterName]: {},
+      signAsRepresentative: false, // sign as veteran is default and false
     };
 
     const lowerCaseFirstLetter = string =>
@@ -82,6 +83,12 @@ export const submitTransform = (formConfig, form) => {
 
         const documentUpload = data[key][0].guid;
         sortedDataByChapter.poaAttachmentId = documentUpload;
+      } else if (key === 'signAsRepresentativeYesNo') {
+        if (data[key] === 'yes') {
+          sortedDataByChapter.signAsRepresentative = true; // sign as representative
+        } else {
+          sortedDataByChapter.signAsRepresentative = false; // sign as veteran
+        }
       } else if (key.includes(dataPrefix)) {
         // if preferredFacility grab the nested "plannedClinic" value, and surface it
         if (key === 'veteranPreferredFacility') {

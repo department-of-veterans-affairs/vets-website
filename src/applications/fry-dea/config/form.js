@@ -29,19 +29,20 @@ import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../manifest.json';
 
 import {
-  isOnlyWhitespace,
-  applicantIsChildOfVeteran,
-  addWhitespaceOnlyError,
-  isAlphaNumeric,
   AdditionalConsiderationTemplate,
+  addWhitespaceOnlyError,
+  applicantIsChildOfVeteran,
   applicantIsSpouseOfVeteran,
-  bothFryAndDeaBenefitsAvailable,
+  isAlphaNumeric,
+  isOnlyWhitespace,
+  prefillTransformer,
 } from '../helpers';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
+  // ELIGIBILITY,
   formFields,
   RELATIONSHIP,
   VETERAN_NOT_LISTED_VALUE,
@@ -51,13 +52,18 @@ import GoToYourProfileLink from '../components/GoToYourProfileLink';
 import RelatedVeterans from '../components/RelatedVeterans';
 import { phoneSchema, phoneUISchema } from '../schema';
 import EmailViewField from '../components/EmailViewField';
-import { isValidPhone, validateEmail } from '../validation';
+import {
+  isValidPhone,
+  validateEmail,
+  validateReMarriageDate,
+} from '../validation';
 import EmailReviewField from '../components/EmailReviewField';
 import YesNoReviewField from '../components/YesNoReviewField';
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import VeteransRadioGroup from '../components/VeteransRadioGroup';
 import SelectedVeteranReviewPage from '../components/SelectedVeteranReviewPage';
 import FryDeaEligibilityCards from '../components/FryDeaEligibilityCards';
+import PreSubmitInfo from '../components/PreSubmitInfo';
 
 const { date, fullName } = fullSchema5490.definitions;
 const { /* fullName, date, dateRange, usaPhone, */ email } = commonDefinitions;
@@ -66,6 +72,16 @@ const checkImageSrc = environment.isStaging()
   ? `${VAGOVSTAGING}/img/check-sample.png`
   : `${vagovprod}/img/check-sample.png`;
 
+// const BENEFITS = [ELIGIBILITY.FRY, ELIGIBILITY.DEA];
+
+function isValidName(str) {
+  return str && /^[A-Za-z][A-Za-z ']*$/.test(str);
+}
+
+function isValidLastName(str) {
+  return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
+}
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -73,7 +89,7 @@ const formConfig = {
   trackingPrefix: 'fry-dea-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: VA_FORM_IDS.FORM_22_5490,
+  formId: VA_FORM_IDS.FORM_22_5490E,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your education benefits application (22-5490) is in progress.',
@@ -83,18 +99,22 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  prefillTransformer,
   savedFormMessages: {
     notFound: 'Please start over to apply for education benefits.',
     noAuth:
       'Please sign in again to continue your application for education benefits.',
   },
   title: 'Apply for education benefits as an eligible dependent',
+  subTitle:
+    "Equal to VA Form 22-5490 (Dependents' Application for VA Education Benefits)",
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     fullName,
     date,
   },
+  preSubmitInfo: PreSubmitInfo,
   chapters: {
     applicantInformationChapter: {
       title: 'Your information',
@@ -134,8 +154,18 @@ const formConfig = {
                 'ui:title': 'Your first name',
                 'ui:validations': [
                   (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a first name');
+                    if (!isValidName(field)) {
+                      if (field.length === 0) {
+                        errors.addError('Please enter your first name');
+                      } else if (field[0] === ' ' || field[0] === "'") {
+                        errors.addError(
+                          'First character must be a letter with no leading space.',
+                        );
+                      } else {
+                        errors.addError(
+                          'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                        );
+                      }
                     }
                   },
                 ],
@@ -145,8 +175,22 @@ const formConfig = {
                 'ui:title': 'Your last name',
                 'ui:validations': [
                   (errors, field) => {
-                    if (isOnlyWhitespace(field)) {
-                      errors.addError('Please enter a last name');
+                    if (!isValidLastName(field)) {
+                      if (field.length === 0) {
+                        errors.addError('Please enter your last name');
+                      } else if (
+                        field[0] === ' ' ||
+                        field[0] === "'" ||
+                        field[0] === '-'
+                      ) {
+                        errors.addError(
+                          'First character must be a letter with no leading space.',
+                        );
+                      } else {
+                        errors.addError(
+                          'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
+                        );
+                      }
                     }
                   },
                 ],
@@ -154,6 +198,23 @@ const formConfig = {
               middle: {
                 ...fullNameUI.middle,
                 'ui:title': 'Your middle name',
+                'ui:validations': [
+                  (errors, field) => {
+                    if (!isValidName(field)) {
+                      if (field.length === 0) {
+                        errors.addError('Please enter your middle name');
+                      } else if (field[0] === ' ' || field[0] === "'") {
+                        errors.addError(
+                          'First character must be a letter with no leading space.',
+                        );
+                      } else {
+                        errors.addError(
+                          'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                        );
+                      }
+                    }
+                  },
+                ],
               },
             },
             [formFields.dateOfBirth]: {
@@ -204,7 +265,7 @@ const formConfig = {
                   <p>
                     Based on Department of Defense records, these are the
                     Veterans and service members we have on file related to you,
-                    as well as the associated eduacational benefits you may be
+                    as well as the associated education benefits you may be
                     eligible for.
                   </p>
                   <RelatedVeterans />
@@ -377,7 +438,9 @@ const formConfig = {
         benefitSelection: {
           title: 'Benefit Selection',
           path: 'benefit-selection',
-          depends: formData => bothFryAndDeaBenefitsAvailable(formData),
+          // depends: formData =>
+          //   formData.veterans?.length &&
+          //   formData[formFields.selectedVeteran] !== VETERAN_NOT_LISTED_VALUE,
           uiSchema: {
             'view:benefitSelectionHeaderInfo': {
               'ui:description': (
@@ -412,7 +475,7 @@ const formConfig = {
                   <span className="fry-dea-labels_label--main vads-u-padding-left--1">
                     Which education benefit would you like to apply for?
                   </span>
-                  <span className="fry-dea-labels_label--secondary fry-dea-input-message vads-u-background-color--primary-alt-lightest vads-u-padding--1 vads-u-margin-top--1">
+                  <span className="fry-dea-labels_label--secondary fry-dea-input-message fry-dea-review-view-hidden vads-u-background-color--primary-alt-lightest vads-u-padding--1 vads-u-margin-top--1">
                     <i
                       className="fas fa-info-circle vads-u-margin-right--1"
                       aria-hidden="true"
@@ -433,7 +496,7 @@ const formConfig = {
                 labels: {
                   fry: 'Fry Scholarship (Chapter 33)',
                   dea:
-                    'Survivors’ and Dependents Educational Assistance (DEA, Chapter 35)',
+                    'Survivors’ and Dependents’ Educational Assistance (DEA, Chapter 35)',
                 },
                 widgetProps: {
                   fry: { 'data-info': 'fry' },
@@ -446,6 +509,27 @@ const formConfig = {
                   fry: { 'aria-describedby': 'fry' },
                   dea: { 'aria-describedby': 'dea' },
                 },
+                // updateSchema: (() => {
+                //   const filterBenefits = createSelector(
+                //     state => state,
+                //     formData => {
+                //       const veteran = formData?.veterans?.find(
+                //         v => v.id === formData[formFields.selectedVeteran],
+                //       );
+
+                //       return {
+                //         enum: BENEFITS.filter(
+                //           benefit =>
+                //             (benefit === ELIGIBILITY.FRY &&
+                //               veteran?.fryEligibility) ||
+                //             (benefit === ELIGIBILITY.DEA &&
+                //               veteran?.deaEligibility),
+                //         ),
+                //       };
+                //     },
+                //   );
+                //   return (form, state) => filterBenefits(form, state);
+                // })(),
               },
             },
           },
@@ -461,7 +545,7 @@ const formConfig = {
                 type: 'string',
                 enum: [
                   'Fry Scholarship (Chapter 33)',
-                  'Survivors’ and Dependents Educational Assistance (DEA, Chapter 35)',
+                  'Survivors’ and Dependents’ Educational Assistance (DEA, Chapter 35)',
                 ],
               },
             },
@@ -477,28 +561,12 @@ const formConfig = {
           path: 'child/high-school-education',
           depends: formData => applicantIsChildOfVeteran(formData),
           uiSchema: {
-            // 'view:subHeadings': {
-            //   'ui:description': (
-            //     <>
-            //       <h3>Verify your high school education</h3>
-            //       <va-alert
-            //         close-btn-aria-label="Close notification"
-            //         status="info"
-            //         visible
-            //       >
-            //         <h3 slot="headline">We need additional information</h3>
-            //         <div>
-            //           Since you indicated that you are the child of your
-            //           sponsor, please include information about your high school
-            //           education.
-            //         </div>
-            //       </va-alert>
-            //     </>
-            //   ),
-            // },
+            'view:highSchoolDiplomaHeadings': {
+              'ui:description': <h3>High school education</h3>,
+            },
             [formFields.highSchoolDiploma]: {
               'ui:title':
-                'Did you earn a high school diploma or equivalency certificate?',
+                'Did you earn a high school diploma or an equivalency certificate?',
               'ui:widget': 'radio',
             },
           },
@@ -506,10 +574,10 @@ const formConfig = {
             type: 'object',
             required: [formFields.highSchoolDiploma],
             properties: {
-              // 'view:subHeadings': {
-              //   type: 'object',
-              //   properties: {},
-              // },
+              'view:highSchoolDiplomaHeadings': {
+                type: 'object',
+                properties: {},
+              },
               [formFields.highSchoolDiploma]: {
                 type: 'string',
                 enum: ['Yes', 'No'],
@@ -524,28 +592,12 @@ const formConfig = {
             applicantIsChildOfVeteran(formData) &&
             formData[formFields.highSchoolDiploma] === 'Yes',
           uiSchema: {
-            // 'view:subHeadings': {
-            //   'ui:description': (
-            //     <>
-            //       <h3>Verify your high school education</h3>
-            //       <va-alert
-            //         close-btn-aria-label="Close notification"
-            //         status="info"
-            //         visible
-            //       >
-            //         <h3 slot="headline">We need additional information</h3>
-            //         <div>
-            //           Since you indicated that you are the child of your
-            //           sponsor, please include information about your high school
-            //           education.
-            //         </div>
-            //       </va-alert>
-            //     </>
-            //   ),
-            // },
+            'view:highSchoolDiplomaDateHeading': {
+              'ui:description': <h3>Date received</h3>,
+            },
             [formFields.highSchoolDiplomaDate]: {
               ...currentOrPastDateUI(
-                'When did you earn your high school diploma or equivalency certificate?',
+                'What date did you receive your high school diploma or equivalency certificate?',
               ),
             },
           },
@@ -553,10 +605,10 @@ const formConfig = {
             type: 'object',
             required: [formFields.highSchoolDiplomaDate],
             properties: {
-              // 'view:subHeadings': {
-              //   type: 'object',
-              //   properties: {},
-              // },
+              'view:highSchoolDiplomaDateHeading': {
+                type: 'object',
+                properties: {},
+              },
               [formFields.highSchoolDiplomaDate]: date,
             },
           },
@@ -661,6 +713,7 @@ const formConfig = {
             formFields.additionalConsiderations.remarriageDate,
             {
               ...currentOrPastDateUI('When did you get remarried?'),
+              'ui:validations': [validateReMarriageDate],
             },
             {
               ...date,
@@ -668,10 +721,10 @@ const formConfig = {
           ),
           depends: formData =>
             applicantIsSpouseOfVeteran(formData) &&
-            formData[formFields.additionalConsiderations.remarriage] &&
             formData[
               formFields.additionalConsiderations.marriageInformation
-            ] === 'Married',
+            ] !== 'Married' &&
+            formData[formFields.additionalConsiderations.remarriage],
         },
         outstandingFelony: {
           ...AdditionalConsiderationTemplate(
@@ -827,7 +880,7 @@ const formConfig = {
                 </>
               ),
             },
-            'view:mailingAddress': {
+            [formFields.viewMailingAddress]: {
               'ui:description': (
                 <>
                   <h4 className="form-review-panel-page-header vads-u-font-size--h5 fry-dea-review-page-only">
@@ -1023,25 +1076,23 @@ const formConfig = {
                 'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {
-                    const isYes = field.slice(0, 4).includes('Yes');
-                    const phoneExists = !!formData[formFields.viewPhoneNumbers][
-                      formFields.mobilePhoneNumber
-                    ].phone;
-                    const isInternational =
-                      formData[formFields.viewPhoneNumbers][
-                        formFields.mobilePhoneNumberInternational
-                      ];
+                    const isYes = field?.slice(0, 4).includes('Yes');
+                    if (!isYes) {
+                      return;
+                    }
 
-                    if (isYes) {
-                      if (!phoneExists) {
-                        errors.addError(
-                          'You can’t select that response because we don’t have a mobile phone number on file for you.',
-                        );
-                      } else if (isInternational) {
-                        errors.addError(
-                          'You can’t select that response because you have an international mobile phone number',
-                        );
-                      }
+                    const { phone, isInternational } = formData[
+                      formFields.viewPhoneNumbers
+                    ][formFields.mobilePhoneNumber];
+
+                    if (!phone) {
+                      errors.addError(
+                        'You can’t select that response because we don’t have a mobile phone number on file for you.',
+                      );
+                    } else if (isInternational) {
+                      errors.addError(
+                        'You can’t select that response because you have an international mobile phone number',
+                      );
                     }
                   },
                 ],
@@ -1068,14 +1119,19 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
+                  (formData[formFields.viewReceiveTextMessages][
+                    formFields.receiveTextMessages
+                  ] &&
+                    !formData[formFields.viewReceiveTextMessages][
+                      formFields.receiveTextMessages
+                    ]
+                      .slice(0, 4)
+                      .includes('Yes')) ||
                   isValidPhone(
                     formData[formFields.viewPhoneNumbers][
                       formFields.mobilePhoneNumber
                     ].phone,
-                  ) ||
-                  formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumberInternational
-                  ],
+                  ),
               },
             },
             'view:internationalTextMessageAlert': {
@@ -1084,21 +1140,29 @@ const formConfig = {
                   <>
                     You can’t choose to get text notifications because you have
                     an international mobile phone number. At this time, we can
-                    send text messages about your education benefits to U.S.
-                    mobile phone numbers.
+                    send text messages about your education benefits only to
+                    U.S. mobile phone numbers.
                   </>
                 </va-alert>
               ),
               'ui:options': {
                 hideIf: formData =>
+                  (formData[formFields.viewReceiveTextMessages][
+                    formFields.receiveTextMessages
+                  ] &&
+                    !formData[formFields.viewReceiveTextMessages][
+                      formFields.receiveTextMessages
+                    ]
+                      .slice(0, 4)
+                      .includes('Yes')) ||
                   !isValidPhone(
                     formData[formFields.viewPhoneNumbers][
                       formFields.mobilePhoneNumber
                     ].phone,
                   ) ||
                   !formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumberInternational
-                  ],
+                    formFields.mobilePhoneNumber
+                  ]?.isInternational,
               },
             },
           },
@@ -1113,7 +1177,7 @@ const formConfig = {
                 type: 'string',
                 enum: contactMethods,
               },
-              'view:receiveTextMessages': {
+              [formFields.viewReceiveTextMessages]: {
                 type: 'object',
                 required: [formFields.receiveTextMessages],
                 properties: {
@@ -1145,12 +1209,16 @@ const formConfig = {
       pages: {
         directDeposit: {
           path: 'direct-deposit',
+          title: 'Direct deposit',
           uiSchema: {
             'ui:description': (
-              <p className="vads-u-margin-bottom--4">
-                <strong>Note</strong>: VA makes payments only through direct
-                deposit, also called electronic funds transfer (EFT).
-              </p>
+              <>
+                <h3>Enter your direct deposit information</h3>
+                <p className="vads-u-margin-bottom--4">
+                  <strong>Note</strong>: VA makes payments only through direct
+                  deposit, also called electronic funds transfer (EFT).
+                </p>
+              </>
             ),
             [formFields.bankAccount]: {
               ...bankAccountUI,

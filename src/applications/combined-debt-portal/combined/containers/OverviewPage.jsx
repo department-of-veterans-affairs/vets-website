@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { useSelector } from 'react-redux';
 import Balances from '../components/Balances';
 import ComboAlerts from '../components/ComboAlerts';
-import { ALERT_TYPES } from '../utils/helpers';
+import { ALERT_TYPES, setPageFocus } from '../utils/helpers';
 import {
   calculateTotalDebts,
   calculateTotalBills,
@@ -13,7 +12,7 @@ const OverviewPage = () => {
   const title = 'Your VA debt and bills';
 
   useEffect(() => {
-    scrollToTop();
+    setPageFocus('h1');
   }, []);
 
   const { debtLetters, mcp } = useSelector(
@@ -37,8 +36,8 @@ const OverviewPage = () => {
     <>
       <va-breadcrumbs className="vads-u-font-family--sans" label="Breadcrumb">
         <a href="/">Home</a>
-        <a href="/manage-debt-and-bills">Review and manage VA debt and bills</a>
-        <a href="/manage-debt-and-bills/summary">Your VA debt and bills</a>
+        <a href="/manage-va-debt">Manage your VA debt</a>
+        <a href="/manage-va-debt/summary">Your VA debt and bills</a>
       </va-breadcrumbs>
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 data-testid="overview-page-title">{title}</h1>

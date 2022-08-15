@@ -1,23 +1,21 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
-import {
-  disclosureWarning,
-  financialDisclosureText,
-  emptyObjectSchema,
-} from '../../../helpers';
+import { FinancialDisclosureDescription } from '../../../components/FormDescriptions';
+import { FinancialDisclosureAlert } from '../../../components/FormAlerts';
+import { emptyObjectSchema } from '../../../helpers';
 
 const { discloseFinancialInformation } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
     'ui:title': 'Financial disclosure',
-    'ui:description': financialDisclosureText,
+    'ui:description': FinancialDisclosureDescription,
     discloseFinancialInformation: {
       'ui:title': 'Do you want to provide your financial information?',
       'ui:widget': 'yesNo',
     },
     'view:noDiscloseWarning': {
-      'ui:description': disclosureWarning,
+      'ui:description': FinancialDisclosureAlert,
       'ui:options': {
         hideIf: form => form.discloseFinancialInformation !== false,
       },

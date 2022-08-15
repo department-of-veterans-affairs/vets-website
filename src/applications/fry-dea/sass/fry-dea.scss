@@ -37,11 +37,19 @@
 	font-weight: bold;
 	margin-top: 0;
 }
-.fry-dea-definition-list_definition {
-	margin-left: 1em;
-}
 legend.legend-label.fry-dea-veterans-checkboxes_legend + .form-radio-buttons {
   margin-top: 0;
+}
+.fry-dea-content-break {
+  display: block;
+  border: 0;
+  border-top: 1px solid $color-gray;
+}
+.fry-dea-benefits-list {
+  list-style-type: none;
+}
+.fry-dea-benefit-selection-icon {
+  min-width: 28px;
 }
 
 // Review Page
@@ -58,6 +66,9 @@ legend.legend-label.fry-dea-veterans-checkboxes_legend + .form-radio-buttons {
 }
 .review .fry-dea-sponsors-labels_label--secondary {
   display: none;
+}
+.review-row .fry-dea-review-view-hidden {
+	display: none;
 }
 
 // Benefit Selection Page
@@ -87,7 +98,8 @@ $error-left-padding-width: 1.5rem;
 .usa-input-error .schemaform-required-span {
   font-weight: bold;
 }
-.usa-input-error .fry-dea-labels_label--main {
+.usa-input-error .fry-dea-labels_label--main,
+.review-row .fry-dea-labels_label--main {
   padding-left: 0 !important; // Override VADS spacing units
 }
 .usa-input-error .fry-dea-input-message {
@@ -116,3 +128,11 @@ $error-left-padding-width: 1.5rem;
   color: $color-green;
 }
 // END - Benefit Selection Page
+
+// Confirmation Page: Under Review
+.custom-fry-hr {
+  margin: 1rem 0;
+  width: 62/16 + 0em;
+}
+
+// END - Confirmation Page: Under Review

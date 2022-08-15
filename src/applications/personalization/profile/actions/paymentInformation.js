@@ -289,8 +289,8 @@ export function saveEDUPaymentInformation(
           'error-key': `${errorName}-save-error-api-response`,
         });
         captureDirectDepositErrorResponse({
-          error: { ...err, ...response, source: ERROR_SOURCES.API },
-          apiEventName: 'profile-put-edu-direct-deposit-failed',
+          error: { err, response, source: ERROR_SOURCES.API },
+          apiEventName: 'profile-put-edu-direct-deposit-api-failed',
         });
 
         dispatch({
@@ -312,7 +312,7 @@ export function saveEDUPaymentInformation(
     } catch (error) {
       captureDirectDepositErrorResponse({
         error,
-        apiEventName: 'profile-put-edu-direct-deposit-failed',
+        apiEventName: 'profile-put-edu-direct-deposit-failed-exception',
       });
       recordEvent({
         event: 'profile-edit-failure',

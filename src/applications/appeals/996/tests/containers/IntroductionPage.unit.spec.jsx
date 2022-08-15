@@ -77,9 +77,7 @@ describe('IntroductionPage', () => {
     setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const tree = shallow(<IntroductionPage {...defaultProps} />);
 
-    const saveInProgressIntro = tree.find(
-      'withRouter(Connect(SaveInProgressIntro))',
-    );
+    const saveInProgressIntro = tree.find('Connect(SaveInProgressIntro)');
     expect(saveInProgressIntro.length).to.equal(2);
     expect(saveInProgressIntro.first().props().startText).to.contain(
       'Higher-Level Review',
@@ -140,7 +138,7 @@ describe('IntroductionPage', () => {
 
     const tree = shallow(<IntroductionPage {...props} />);
 
-    const Intro = tree.find('withRouter(Connect(SaveInProgressIntro))').first();
+    const Intro = tree.find('Connect(SaveInProgressIntro)').first();
     expect(Intro.props().startText).to.include(
       'Start the Request for a Higher-Level Review',
     );
@@ -158,7 +156,7 @@ describe('IntroductionPage', () => {
     };
 
     const tree = shallow(<IntroductionPage {...props} />);
-    const Intro = tree.find('withRouter(Connect(SaveInProgressIntro))').first();
+    const Intro = tree.find('Connect(SaveInProgressIntro)').first();
     expect(Intro.props().gaStartEventName).to.equal(
       `${formConfig.trackingPrefix}start-form`,
     );

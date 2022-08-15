@@ -120,7 +120,6 @@ const PersonalInformationSection = ({
 
 PersonalInformationSection.propTypes = {
   dob: PropTypes.string.isRequired,
-  shouldProfileShowGender: PropTypes.bool.isRequired,
   shouldShowPronounsAndSexualOrientation: PropTypes.bool.isRequired,
   gender: PropTypes.string,
 };

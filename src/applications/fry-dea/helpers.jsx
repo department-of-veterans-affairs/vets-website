@@ -68,6 +68,7 @@ export const formatReadableDate = rawDate => {
 
 const applicantMatchesVeteranRelationship = (formData, relationship) => {
   const r =
+    !formData.veterans?.length ||
     formData[formFields.selectedVeteran] === VETERAN_NOT_LISTED_VALUE
       ? formData[formFields.relationshipToVeteran]
       : formData.veterans?.find(
@@ -83,30 +84,6 @@ export const applicantIsChildOfVeteran = formData => {
 
 export const applicantIsSpouseOfVeteran = formData => {
   return applicantMatchesVeteranRelationship(formData, RELATIONSHIP.SPOUSE);
-};
-
-export const bothFryAndDeaBenefitsAvailable = formData => {
-  let hasDea = false;
-  let hasFry = false;
-
-  if (!formData?.veterans?.length) {
-    return false;
-  }
-
-  for (const veteran of formData.veterans) {
-    if (veteran.deaEligibility) {
-      hasDea = true;
-    }
-    if (veteran.fryEligibility) {
-      hasFry = true;
-    }
-
-    if (hasDea && hasFry) {
-      break;
-    }
-  }
-
-  return hasDea && hasFry;
 };
 
 export const AdditionalConsiderationTemplate = (
@@ -138,3 +115,80 @@ export const AdditionalConsiderationTemplate = (
     },
   };
 };
+
+export function prefillTransformer(pages, formData, metadata, state) {
+  const vaProfile = state.user.profile;
+
+  // For reference, I _think_ the vapContactInfo has the follow form:
+  // const vapContactInfo = {
+  //   email: {
+  //     emailAddress: 'hey@test.com',
+  //   },
+  //   mobilePhone: {
+  //     countryCode: '+1',
+  //     areaCode: '222',
+  //     phoneNumber: '333',
+  //     extension: '4444',
+  //   },
+  //   address: {
+  //     addressLine1: '123 Maine Street',
+  //     addressLine2: 'Floor 1',
+  //     addressLine3: 'Suite 1000',
+  //     city: 'Washington',
+  //     province: '',
+  //     stateCode: 'DC',
+  //     countryCodeIso3: 'USA',
+  //     zipCode: '22222',
+  //     internationalPostalCode: '',
+  //   },
+  // };
+  const vapContactInfo = vaProfile?.vapContactInfo;
+
+  const vapAddress = vapContactInfo?.address;
+  const vapMobilePhone = vapContactInfo?.mobilePhone;
+  const vapMobilePhoneCountryCode = parseInt(vapMobilePhone?.countryCode, 10);
+
+  const transformedData = {
+    ...formData,
+    [formFields.email]: {
+      ...formData[formFields.email],
+      [formFields.email]:
+        vaProfile?.email || vapContactInfo?.email?.emailAddress,
+      [formFields.confirmEmail]:
+        vaProfile?.email || vapContactInfo?.email?.emailAddress,
+    },
+    [formFields.viewMailingAddress]: {
+      ...formData[formFields.viewMailingAddress],
+      [formFields.address]: {
+        country: vapAddress?.countryCodeIso3,
+        street: vapAddress?.addressLine1,
+        street2: vapAddress?.addressLine2,
+        street3: vapAddress?.addressLine3,
+        city: vapAddress?.city,
+        state: vapAddress?.stateCode,
+        postalCode: vapAddress?.zipCode
+          ? vapAddress?.zipCode
+          : vapAddress?.internationalPostalCode,
+      },
+    },
+    [formFields.viewPhoneNumbers]: {
+      ...formData[formFields.viewPhoneNumbers],
+      [formFields.mobilePhoneNumber]: {
+        phone: [
+          vapMobilePhoneCountryCode !== 1 ? vapMobilePhoneCountryCode : '',
+          vapMobilePhone?.areaCode,
+          vapMobilePhone?.phoneNumber,
+          vapMobilePhone?.extension,
+        ].join(''),
+        isInternational: vapMobilePhoneCountryCode !== 1,
+      },
+    },
+  };
+
+  return {
+    metadata,
+    formData: transformedData,
+    pages,
+    state,
+  };
+}

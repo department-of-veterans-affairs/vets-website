@@ -24,10 +24,12 @@ describe('Check In Experience', () => {
         initializeSessionGet,
         initializeSessionPost,
         initializeCheckInDataGet,
+        initializeDemographicsPatch,
       } = ApiInitializer;
       initializeFeatureToggle.withCurrentFeatures();
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withSuccess();
+      initializeDemographicsPatch.withSuccess();
       initializeCheckInDataGet.withSuccess({ appointments });
 
       cy.visitWithUUID();

@@ -1,4 +1,5 @@
 import { isValidEmail } from 'platform/forms/validations';
+import { compareAsc } from 'date-fns';
 import { formFields } from './constants';
 
 export const isValidPhone = (phone, isInternational) => {
@@ -40,5 +41,16 @@ export const validateMobilePhone = (errors, phone, formData) => {
 export const validateEmail = (errors, email) => {
   if (email && !isValidEmail(email)) {
     errors.addError('Please enter a valid email address.');
+  }
+};
+
+export const validateReMarriageDate = (errors, newMarriageDate, formData) => {
+  const result = compareAsc(
+    new Date(newMarriageDate),
+    new Date(formData.marriageDate),
+  );
+
+  if (result < 1) {
+    errors.addError('New marriage date can’t be before previous marriage date');
   }
 };

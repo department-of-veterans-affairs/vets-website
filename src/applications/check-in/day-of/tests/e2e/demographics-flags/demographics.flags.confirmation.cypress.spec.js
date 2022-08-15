@@ -126,7 +126,8 @@ describe('Check In Experience', () => {
         numberOfCheckInAbledAppointments: 2,
       });
       initializeCheckInDataPost.withSuccess();
-      initializeDemographicsPatch.withFailure(400);
+      // Response delayed by 5 seconds.
+      initializeDemographicsPatch.withFailure(400, 5000);
     });
     afterEach(() => {
       cy.window().then(window => {

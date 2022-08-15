@@ -9,10 +9,7 @@ import {
   fetchHero as fetchHeroAction,
   fetchPersonalInformation as fetchPersonalInformationAction,
 } from '@@profile/actions';
-import {
-  cnpDirectDepositInformation,
-  showProfileLGBTQEnhancements,
-} from '@@profile/selectors';
+import { cnpDirectDepositInformation } from '@@profile/selectors';
 import {
   fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
   fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
@@ -151,12 +148,7 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    const routesOptions = {
-      shouldShowProfileLGBTQEnhancements: this.props
-        .shouldShowProfileLGBTQEnhancements,
-    };
-    // We need to pass in a config to hide forbidden routes
-    const routes = getRoutes(routesOptions);
+    const routes = getRoutes();
     return (
       <BrowserRouter>
         <LastLocationProvider>
@@ -194,7 +186,7 @@ class Profile extends Component {
               <Redirect
                 exact
                 from="/profile#contact-information"
-                to={PROFILE_PATHS.PERSONAL_INFORMATION}
+                to={PROFILE_PATHS.CONTACT_INFORMATION}
               />
 
               <Redirect
@@ -247,17 +239,22 @@ class Profile extends Component {
 }
 
 Profile.propTypes = {
+  dismissDowntimeWarning: PropTypes.func.isRequired,
   fetchCNPPaymentInformation: PropTypes.func.isRequired,
   fetchEDUPaymentInformation: PropTypes.func.isRequired,
   fetchFullName: PropTypes.func.isRequired,
   fetchMHVAccount: PropTypes.func.isRequired,
   fetchMilitaryInformation: PropTypes.func.isRequired,
   fetchPersonalInformation: PropTypes.func.isRequired,
+  fetchTotalDisabilityRating: PropTypes.func.isRequired,
+  initializeDowntimeWarnings: PropTypes.func.isRequired,
+  isDowntimeWarningDismissed: PropTypes.bool.isRequired,
   isInMVI: PropTypes.bool.isRequired,
   isLOA3: PropTypes.bool.isRequired,
   shouldFetchCNPDirectDepositInformation: PropTypes.bool.isRequired,
+  shouldFetchEDUDirectDepositInformation: PropTypes.bool.isRequired,
+  shouldFetchTotalDisabilityRating: PropTypes.bool.isRequired,
   shouldShowDirectDeposit: PropTypes.bool.isRequired,
-  shouldShowProfileLGBTQEnhancements: PropTypes.bool.isRequired,
   showLoader: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
 };
@@ -341,7 +338,6 @@ const mapStateToProps = state => {
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
     ),
-    shouldShowProfileLGBTQEnhancements: showProfileLGBTQEnhancements(state),
   };
 };
 

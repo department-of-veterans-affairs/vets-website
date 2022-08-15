@@ -2,13 +2,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
 import Scroll from 'react-scroll';
-
-import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 import Select from '@department-of-veterans-affairs/component-library/Select';
+import {
+  VaModal,
+  VaTextInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
-
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
+import FileInput from '@department-of-veterans-affairs/component-library/FileInput';
 
 import {
   readAndCheckFile,
@@ -16,12 +16,11 @@ import {
   checkIsEncryptedPdf,
   FILE_TYPE_MISMATCH_ERROR,
 } from 'platform/forms-system/src/js/utilities/file';
-import scrollTo from 'platform/utilities/ui/scrollTo';
 import { getScrollOptions } from 'platform/utilities/ui';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
-import UploadStatus from './UploadStatus';
-import mailMessage from './MailMessage';
 import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
+import { setFocus } from '../utils/page';
 import {
   validateIfDirty,
   isNotBlank,
@@ -35,7 +34,8 @@ import {
   MAX_FILE_SIZE_MB,
   MAX_PDF_SIZE_MB,
 } from '../utils/validations';
-import { setFocus } from '../utils/page';
+import UploadStatus from './UploadStatus';
+import mailMessage from './MailMessage';
 
 const displayTypes = FILE_TYPES.join(', ');
 
@@ -81,6 +81,20 @@ class AddFilesForm extends React.Component {
     return validateIfDirty(this.props.field, () => this.props.files.length > 0)
       ? undefined
       : 'Please select a file first';
+  };
+
+  handleDocTypeChange = (docType, index) => {
+    this.props.onFieldChange(`files[${index}].docType`, {
+      value: docType,
+      dirty: true,
+    });
+  };
+
+  handlePasswordChange = (password, index) => {
+    this.props.onFieldChange(`files[${index}].password`, {
+      value: password,
+      dirty: true,
+    });
   };
 
   add = async files => {
@@ -163,14 +177,13 @@ class AddFilesForm extends React.Component {
 
   render() {
     return (
-      <div>
-        <div>
-          <p>
-            <va-additional-info trigger="Need to mail your files?">
-              {mailMessage}
-            </va-additional-info>
-          </p>
-        </div>
+      <>
+        <va-additional-info
+          class="vads-u-margin-y--2"
+          trigger="Need to mail your files?"
+        >
+          {mailMessage}
+        </va-additional-info>
         <Element name="filesList" />
         <div>
           <FileInput
@@ -231,22 +244,18 @@ class AddFilesForm extends React.Component {
                       able to view the document, we will need the password to
                       decrypt it.
                     </p>
-                    <TextInput
+                    <VaTextInput
                       required
-                      errorMessage={
+                      error={
                         validateIfDirty(password, isNotBlank)
                           ? undefined
                           : 'Please provide a password to decrypt this file'
                       }
-                      name="password"
                       label="PDF password"
-                      field={password}
-                      onValueChange={update => {
-                        this.props.onFieldChange(
-                          `files[${index}].password`,
-                          update,
-                        );
-                      }}
+                      name="password"
+                      onInput={e =>
+                        this.handlePasswordChange(e.target.value, index)
+                      }
                     />
                   </>
                 )}
@@ -301,21 +310,18 @@ class AddFilesForm extends React.Component {
             Cancel
           </Link>
         </div>
-        <Modal
-          onClose={() => true}
-          visible={this.props.uploading}
-          hideCloseButton
-          cssClass=""
+        <VaModal
           id="upload-status"
-          contents={
-            <UploadStatus
-              progress={this.props.progress}
-              files={this.props.files.length}
-              onCancel={this.props.onCancel}
-            />
-          }
-        />
-      </div>
+          onCloseEvent={() => true}
+          visible={Boolean(this.props.uploading)}
+        >
+          <UploadStatus
+            progress={this.props.progress}
+            files={this.props.files.length}
+            onCancel={this.props.onCancel}
+          />
+        </VaModal>
+      </>
     );
   }
 }
@@ -331,6 +337,7 @@ AddFilesForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   backUrl: PropTypes.string,
   mockReadAndCheckFile: PropTypes.bool,
+  progress: PropTypes.number,
   uploading: PropTypes.bool,
 };
 

@@ -8,10 +8,11 @@ import recordEvent from 'platform/monitoring/record-event';
 
 export default class SignInModal extends React.Component {
   componentDidUpdate(prevProps) {
+    const isOAuthEvent = this.props.useSiS ? '-oauth' : '';
     if (!prevProps.visible && this.props.visible) {
-      recordEvent({ event: 'login-modal-opened' });
+      recordEvent({ event: `login-modal-opened${isOAuthEvent}` });
     } else if (prevProps.visible && !this.props.visible) {
-      recordEvent({ event: 'login-modal-closed' });
+      recordEvent({ event: `login-modal-closed${isOAuthEvent}` });
     }
   }
 
@@ -31,6 +32,7 @@ export default class SignInModal extends React.Component {
 }
 
 SignInModal.propTypes = {
-  onClose: PropTypes.func,
+  useSiS: PropTypes.bool,
   visible: PropTypes.bool,
+  onClose: PropTypes.func,
 };

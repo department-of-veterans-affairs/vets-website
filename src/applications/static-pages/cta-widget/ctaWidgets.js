@@ -56,7 +56,7 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.CHANGE_ADDRESS]: {
     id: CTA_WIDGET_TYPES.CHANGE_ADDRESS,
     deriveToolUrlDetails: () => ({
-      url: '/profile/personal-information',
+      url: '/profile/contact-information',
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,
@@ -80,14 +80,14 @@ export const ctaWidgetsLookup = {
   [CTA_WIDGET_TYPES.COMBINED_DEBT_PORTAL]: {
     id: CTA_WIDGET_TYPES.COMBINED_DEBT_PORTAL,
     deriveToolUrlDetails: () => ({
-      url: '/mange-debt-and-bills/summary',
+      url: '/manage-va-debt/summary',
       redirect: false,
     }),
     hasRequiredMhvAccount: () => false,
     isHealthTool: false,
     mhvToolName: null,
     requiredServices: null,
-    serviceDescription: 'manage your VA debt and bills',
+    serviceDescription: 'manage your VA debt',
   },
   [CTA_WIDGET_TYPES.DIRECT_DEPOSIT]: {
     id: CTA_WIDGET_TYPES.DIRECT_DEPOSIT,

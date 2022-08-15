@@ -1,16 +1,30 @@
+/* eslint-disable camelcase */
 import { expect } from 'chai';
+
+import localStorage from 'platform/utilities/storage/localStorage';
 import {
   mockFetch,
   setFetchJSONFailure as setFetchFailure,
   setFetchJSONResponse as setFetchResponse,
 } from 'platform/testing/unit/helpers';
 
+import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
 import {
   AUTHORIZE_KEYS_WEB,
   AUTHORIZE_KEYS_MOBILE,
+  ALL_STATE_AND_VERIFIERS,
 } from '../../oauth/constants';
 import { mockCrypto } from '../../oauth/mockCrypto';
 import * as oAuthUtils from '../../oauth/utilities';
+
+function generateResponse({ headers }) {
+  return new Response('{}', {
+    headers: { ...headers },
+    status: 200,
+    text: () => 'ok',
+    json: () => Promise.resolve({ status: 200 }),
+  });
+}
 
 describe('OAuth - Utilities', () => {
   const globalCrypto = global.crypto;
@@ -69,22 +83,23 @@ describe('OAuth - Utilities', () => {
   });
 
   describe('createOAuthRequest', () => {
-    it('should generate the proper url based on `csp` for web', () => {
-      ['logingov', 'idme', 'dslogon', 'mhv'].forEach(async csp => {
+    ['logingov', 'idme', 'dslogon', 'mhv'].forEach(csp => {
+      it('should generate the proper signin url based on `csp` for web', async () => {
         const url = await oAuthUtils.createOAuthRequest({ type: csp });
+        const { oAuthOptions } = externalApplicationsConfig.default;
         expect(url).to.include(`type=${csp}`);
-        expect(url).to.include(`ial=min`);
+        expect(url).to.include(`acr=${oAuthOptions.acr[csp]}`);
         expect(url).to.include(`client_id=web`);
       });
-    });
-    it('should generate the proper url based on `csp` for mobile', () => {
-      ['logingov', 'idme', 'dslogon', 'mhv'].forEach(async csp => {
+
+      it('should generate the proper signin url based on `csp` for mobile', async () => {
         const url = await oAuthUtils.createOAuthRequest({
           type: csp,
           application: 'vamobile',
         });
+        const { oAuthOptions } = externalApplicationsConfig.vamobile;
         expect(url).to.include(`type=${csp}`);
-        expect(url).to.include(`ial=ial2`);
+        expect(url).to.include(`acr=${oAuthOptions.acr[csp]}`);
         expect(url).to.include(`client_id=mobile`);
       });
     });
@@ -101,6 +116,20 @@ describe('OAuth - Utilities', () => {
       Object.values(AUTHORIZE_KEYS_MOBILE).forEach(key => {
         const searchParams = new URLSearchParams(mobileUrl);
         expect(searchParams.has(key)).to.be.true;
+      });
+    });
+
+    ['logingov_signup', 'idme_signup'].forEach(csp => {
+      it('should generate the proper signup url based on `csp` for web', async () => {
+        const url = await oAuthUtils.createOAuthRequest({
+          type: csp,
+          passedOptions: {
+            isSignup: true,
+          },
+        });
+        const { oAuthOptions } = externalApplicationsConfig.default;
+        expect(url).to.include(`type=${csp}`);
+        expect(url).to.include(`acr=${oAuthOptions.acrSignup[csp]}`);
       });
     });
   });
@@ -165,6 +194,162 @@ describe('OAuth - Utilities', () => {
       expect(global.fetch.firstCall.args[1].method).to.equal('POST');
       expect(global.fetch.firstCall.args[0].includes('/token')).to.be.true;
       expect(tokenOptions.ok).to.be.false;
+    });
+  });
+
+  describe('checkOrSetSessionExpiration', () => {
+    it('if response headers contain `X-Session-Expiration` with a valid date, set the localStorage', () => {
+      const response = generateResponse({
+        headers: {
+          'X-Session-Expiration':
+            'Wed Jun 29 2022 12:41:35 GMT-0400 (Eastern Daylight Time)',
+          'Content-Type': 'application/json',
+        },
+      });
+      const isSet = oAuthUtils.checkOrSetSessionExpiration(response);
+      if (isSet) {
+        expect(localStorage.getItem('sessionExpiration')).to.eql(
+          'Wed Jun 29 2022 12:41:35 GMT-0400 (Eastern Daylight Time)',
+        );
+      }
+    });
+    it('if `infoTokenExists` results to true, set localStorage to the vagov_info_token cookie', () => {
+      document.cookie = `FLIPPER_ID=abc123; vagov_info_token={:access_token_expiration=>Wed,+29+Jun+2022+16:41:35.553488744+UTC++00:00,+:refresh_token_expiration=>Wed,+29+Jun+2022+17:06:35.504965627+UTC++00:00};FLIPPER_ID=c4pz6sj36lk7fdoya02bmq`;
+      const response = generateResponse({
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const isSet = oAuthUtils.checkOrSetSessionExpiration(response);
+      if (isSet) {
+        expect(Object.keys(localStorage)).to.include('sessionExpiration');
+      }
+    });
+  });
+
+  describe('removeInfoToken', () => {
+    it('should return null if infoTokenExists results to false', () => {
+      global.document.cookie = 'FLIPPER_ID=abc123;other_cookie=true;';
+      expect(oAuthUtils.removeInfoToken()).to.be.null;
+      global.document.cookie = '';
+    });
+    it('should update the document.cookie to remove `vagov_info_token`', () => {
+      global.document.cookie = `vagov_info_token={:access_token_expiration=>Wed,+29+Jun+2022+16:41:35.553488744+UTC++00:00,+:refresh_token_expiration=>Wed,+29+Jun+2022+17:06:35.504965627+UTC++00:00};FLIPPER_ID=c4pz6sj36lk7fdoya02bmq`;
+
+      expect(oAuthUtils.removeInfoToken()).to.be.undefined;
+    });
+  });
+
+  describe('infoTokenExists', () => {
+    it('should check if cookie contains `vagov_info_token`', () => {
+      global.document.cookie = `vagov_info_token={:access_token_expiration=>Wed,+29+Jun+2022+16:41:35.553488744+UTC++00:00,+:refresh_token_expiration=>Wed,+29+Jun+2022+17:06:35.504965627+UTC++00:00};FLIPPER_ID=c4pz6sj36lk7fdoya02bmq`;
+      expect(oAuthUtils.infoTokenExists()).to.be.true;
+    });
+  });
+
+  describe('formatInfoCookie', () => {
+    it('should return an object with a valid date', () => {
+      const unformattedCookie = `%7B%3Aaccess_token_expiration%3D%3EWed%2C+29+Jun+2022+16%3A41%3A35.553488744+UTC+%2B00%3A00%2C+%3Arefresh_token_expiration%3D%3EWed%2C+29+Jun+2022+17%3A06%3A35.504965627+UTC+%2B00%3A00%7D`;
+      expect(typeof oAuthUtils.formatInfoCookie(unformattedCookie)).to.eql(
+        'object',
+      );
+      const { access_token_expiration } = oAuthUtils.formatInfoCookie(
+        unformattedCookie,
+      );
+      expect(access_token_expiration).to.not.be.undefined;
+    });
+  });
+
+  describe('getInfoToken', () => {
+    it('should return a formatted object of the access & refresh tokens', () => {
+      const unformattedCookie = decodeURIComponent(
+        `%7B%3Aaccess_token_expiration%3D%3EWed%2C+29+Jun+2022+16%3A41%3A35.553488744+UTC+%2B00%3A00%2C+%3Arefresh_token_expiration%3D%3EWed%2C+29+Jun+2022+17%3A06%3A35.504965627+UTC+%2B00%3A00%7D`,
+      );
+
+      const keys = Object.keys(oAuthUtils.formatInfoCookie(unformattedCookie));
+      expect(keys).to.include('access_token_expiration');
+      expect(keys).to.include('refresh_token_expiration');
+    });
+  });
+
+  describe('refresh', () => {
+    it('should create a POST request to the /refresh endpoint', async () => {
+      mockFetch();
+      setFetchResponse(global.fetch.onFirstCall(), []);
+      await oAuthUtils.refresh();
+      expect(global.fetch.calledOnce).to.be.true;
+      expect(global.fetch.firstCall.args[1].method).to.equal('POST');
+      expect(global.fetch.firstCall.args[0].includes('/refresh')).to.be.true;
+    });
+  });
+
+  describe('updateStateAndVerifier', () => {
+    const signupKeys = [
+      `idme_signup_state`,
+      `idme_signup_code_verifier`,
+      `logingov_signup_state`,
+      `logingov_signup_code_verifier`,
+    ];
+
+    it('should get the generated sessionStorage state & code verifier', () => {
+      const storage = window.sessionStorage;
+      expect(storage.getItem('state')).to.be.null;
+      expect(storage.getItem('code_verifier')).to.be.null;
+      signupKeys.forEach(key =>
+        storage.setItem(key, key.includes('idme') ? 'idmeVal' : 'logingovVal'),
+      );
+      oAuthUtils.updateStateAndVerifier('idme');
+      expect(storage.getItem('state')).to.eql('idmeVal');
+      expect(storage.getItem('code_verifier')).to.eql('idmeVal');
+      signupKeys.forEach(storageKey => {
+        expect(storage.getItem(storageKey)).to.be.null;
+      });
+      expect(storage.length).to.eql(2);
+      storage.clear();
+    });
+    it('it should remove only those items from sessionStorage', () => {
+      const storage = window.sessionStorage;
+      expect(storage.getItem('state')).to.be.null;
+      expect(storage.getItem('code_verifier')).to.be.null;
+      signupKeys.forEach(key =>
+        storage.setItem(key, key.includes('idme') ? 'idmeVal' : 'logingovVal'),
+      );
+      storage.setItem('someRandomKey', 'someRandomValue');
+      oAuthUtils.updateStateAndVerifier('logingov');
+      expect(storage.length).to.eql(3);
+      storage.clear();
+    });
+  });
+
+  describe('removeStateAndVerifier', () => {
+    it('should remove all state & verifiers from sessionStorage', () => {
+      const storage = window.sessionStorage;
+      ALL_STATE_AND_VERIFIERS.forEach(storageKey => {
+        storage.setItem(storageKey, 'randomValue');
+      });
+
+      oAuthUtils.removeStateAndVerifier();
+      expect(Object.keys(storage).length).to.eql(0);
+    });
+    it('should not remove any other item from sessionStorage', () => {
+      const storage = window.sessionStorage;
+      ALL_STATE_AND_VERIFIERS.forEach(storageKey => {
+        storage.setItem(storageKey, 'randomValue');
+      });
+      storage.setItem('otherKey', 'otherValue');
+
+      oAuthUtils.removeStateAndVerifier();
+      expect(Object.keys(storage).length).to.eql(1);
+      expect(storage.getItem('otherKey')).to.eql('otherValue');
+    });
+  });
+
+  describe('logout', () => {
+    it('should redirect to backend for logout', () => {
+      window.location = new URL('https://va.gov/?state=some_random_state');
+      const url = oAuthUtils.logoutUrlSiS();
+      window.location = url;
+      expect(window.location).to.eql(url);
     });
   });
 });

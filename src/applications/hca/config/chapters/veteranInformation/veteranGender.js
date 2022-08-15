@@ -1,64 +1,27 @@
-import React from 'react';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
-import CustomReviewField from '../../../components/CustomReviewField';
-import { ShortFormMessage } from '../../../components/FormAlerts';
-import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
+import CustomReviewField from '../../../components/ReviewFields/CustomReviewField';
+import { SIGIGenderDescription } from '../../../components/FormDescriptions';
+import { ShortFormAlert } from '../../../components/FormAlerts';
+import { emptyObjectSchema, NotHighDisability } from '../../../helpers';
 
 const { sigiGenders } = fullSchemaHca.properties;
-
-const SIGIGenderDescription = () => {
-  return (
-    <div className="vads-u-margin-bottom--4">
-      <div>
-        <p className="vads-u-margin-bottom--1">What is your gender?</p>
-
-        <p className="vads-u-color--gray-medium vads-u-margin-top--0 vads-u-margin-bottom--5">
-          Choose the option that best fits how you describe yourself.
-        </p>
-      </div>
-
-      <va-additional-info trigger="Why we ask for this information">
-        <p>
-          This information helps your health care team know how you wish to be
-          addressed as a person. It also helps your team better assess your
-          health needs and risks. Gender identity is one of the factors that can
-          affect a person’s health, well-being, and quality of life. We call
-          these factors “social determinants of health.”
-        </p>
-
-        <p>
-          We also collect this information to better understand our Veteran
-          community. This helps us make sure that we’re serving the needs of all
-          Veterans.
-        </p>
-      </va-additional-info>
-    </div>
-  );
-};
 
 export default {
   uiSchema: {
     'view:genderShortFormMessage': {
-      'ui:description': ShortFormMessage,
+      'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: form =>
-          !(
-            form['view:hcaShortFormEnabled'] &&
-            form['view:totalDisabilityRating'] &&
-            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-          ),
+        hideIf: NotHighDisability,
       },
     },
     'view:prefillMessage': {
       'ui:description': PrefillMessage,
     },
-    'view:sigiDescription': {
-      'ui:description': SIGIGenderDescription,
-    },
     sigiGenders: {
       'ui:title': ' ',
+      'ui:description': SIGIGenderDescription,
       'ui:reviewField': CustomReviewField,
       'ui:widget': 'radio',
       'ui:options': {

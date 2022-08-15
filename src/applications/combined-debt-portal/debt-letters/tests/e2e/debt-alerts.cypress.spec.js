@@ -21,7 +21,7 @@ describe('Debt Letters - CDP Alerts', () => {
     cy.intercept('GET', '/v0/debts', mockDebts).as('debts');
     cy.intercept('GET', '/v0/debt_letters', mockDebtVBMS).as('debtVBMS');
     cy.intercept('GET', '/v0/medical_copays', mockCopays).as('copays');
-    cy.visit('/manage-debt-and-bills/summary/debt-balances');
+    cy.visit('/manage-va-debt/summary/debt-balances');
     cy.wait(['@copays', '@debts', '@debtVBMS', '@features']);
     // Page load
     cy.findByTestId('summary-page-title').should('exist');
@@ -43,7 +43,7 @@ describe('Debt Letters - CDP Alerts', () => {
     cy.intercept('GET', '/v0/medical_copays', req => {
       req.reply(404, { errors: ['error'] });
     }).as('copays');
-    cy.visit('/manage-debt-and-bills/summary/debt-balances');
+    cy.visit('/manage-va-debt/summary/debt-balances');
     cy.wait(['@copays', '@debts', '@debtVBMS', '@features']);
     // Page load
     cy.findByTestId('summary-page-title').should('exist');
@@ -66,7 +66,7 @@ describe('Debt Letters - CDP Alerts', () => {
     cy.intercept('GET', '/v0/medical_copays', req => {
       req.reply(404, { errors: ['error'] });
     }).as('copays');
-    cy.visit('/manage-debt-and-bills/summary/debt-balances');
+    cy.visit('/manage-va-debt/summary/debt-balances');
     cy.wait(['@copays', '@debts', '@features']);
     // Page load
     cy.findByTestId('summary-page-title').should('exist');
@@ -89,7 +89,7 @@ describe('Debt Letters - CDP Alerts', () => {
       req.reply(404, { errors: ['error'] });
     }).as('debts');
     cy.intercept('GET', '/v0/medical_copays', mockCopays).as('copays');
-    cy.visit('/manage-debt-and-bills/summary/debt-balances');
+    cy.visit('/manage-va-debt/summary/debt-balances');
     cy.wait(['@copays', '@debts', '@features']);
     // Page load
     cy.findByTestId('summary-page-title').should('exist');
@@ -110,7 +110,7 @@ describe('Debt Letters - CDP Alerts', () => {
       req.reply(404, {});
     }).as('debts');
     cy.intercept('GET', '/v0/medical_copays', mockZeroCopay).as('copays');
-    cy.visit('/manage-debt-and-bills/summary/debt-balances');
+    cy.visit('/manage-va-debt/summary/debt-balances');
     cy.wait(['@copays', '@debts', '@features']);
     // Page load
     cy.findByTestId('summary-page-title').should('exist');
@@ -129,7 +129,7 @@ describe('Debt Letters - CDP Alerts', () => {
     );
     cy.intercept('GET', '/v0/debts', mockZeroDebt).as('debts');
     cy.intercept('GET', '/v0/medical_copays', mockCopays).as('copays');
-    cy.visit('/manage-debt-and-bills/summary/debt-balances');
+    cy.visit('/manage-va-debt/summary/debt-balances');
     cy.wait(['@copays', '@debts', '@features']);
     // Page load
     cy.findByTestId('summary-page-title').should('exist');
@@ -148,7 +148,7 @@ describe('Debt Letters - CDP Alerts', () => {
     );
     cy.intercept('GET', '/v0/debts', mockZeroDebt).as('debts');
     cy.intercept('GET', '/v0/medical_copays', mockZeroCopay).as('copays');
-    cy.visit('/manage-debt-and-bills/summary/debt-balances');
+    cy.visit('/manage-va-debt/summary/debt-balances');
     cy.wait(['@copays', '@debts', '@features']);
     // Page Load
     cy.findByTestId('summary-page-title').should('exist');

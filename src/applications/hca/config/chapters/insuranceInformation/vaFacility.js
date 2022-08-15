@@ -1,17 +1,18 @@
+import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import get from 'platform/utilities/data/get';
 import { states } from 'platform/forms/address';
-import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
-import { logValidateMarriageDateVaFacilityPage } from '../../../validation';
 
-import { ShortFormMessage } from '../../../components/FormAlerts';
 import {
-  facilityHelp,
-  isEssentialAcaCoverageDescription,
+  EssentialCoverageDescription,
+  FacilityLocatorDescription,
+} from '../../../components/FormDescriptions';
+import { ShortFormAlert } from '../../../components/FormAlerts';
+import {
   medicalCenterLabels,
   medicalCentersByState,
-  HIGH_DISABILITY,
   emptyObjectSchema,
+  NotHighDisabilityOrNotCompensationTypeHigh,
 } from '../../../helpers';
 
 const {
@@ -19,23 +20,15 @@ const {
   isEssentialAcaCoverage,
   wantsInitialVaContact,
 } = fullSchemaHca.properties;
-
 const stateLabels = createUSAStateLabels(states);
-
 const emptyFacilityList = [];
 
 export default {
   uiSchema: {
     'view:facilityShortFormMessage': {
-      'ui:description': ShortFormMessage,
+      'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: form =>
-          !form['view:hcaShortFormEnabled'] ||
-          (form.vaCompensationType !== 'highDisability' &&
-            !(
-              form['view:totalDisabilityRating'] &&
-              form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-            )),
+        hideIf: NotHighDisabilityOrNotCompensationTypeHigh,
       },
     },
     'view:vaFacilityTitle': {
@@ -46,7 +39,7 @@ export default {
         'I’m enrolling to get minimum essential coverage under the Affordable Care Act.',
     },
     'view:isEssentialCoverageDesc': {
-      'ui:description': isEssentialAcaCoverageDescription,
+      'ui:description': EssentialCoverageDescription,
     },
     'view:preferredFacility': {
       'ui:title': 'Select your preferred VA medical facility',
@@ -55,7 +48,6 @@ export default {
         'ui:options': {
           labels: stateLabels,
         },
-        'ui:validations': [logValidateMarriageDateVaFacilityPage],
       },
       vaMedicalFacility: {
         'ui:title': 'Center or clinic',
@@ -80,7 +72,7 @@ export default {
       },
     },
     'view:locator': {
-      'ui:description': facilityHelp,
+      'ui:description': FacilityLocatorDescription,
     },
     wantsInitialVaContact: {
       'ui:title':

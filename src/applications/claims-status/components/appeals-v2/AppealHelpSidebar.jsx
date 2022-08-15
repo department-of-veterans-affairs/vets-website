@@ -1,33 +1,24 @@
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 import * as Sentry from '@sentry/browser';
-// remove this Telephone once the web component supports this pattern exception
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import PropTypes from 'prop-types';
 
 import { AOJS } from '../../utils/appeals-v2-helpers';
 import AskVAQuestions from '../AskVAQuestions';
 
 const vhaVersion = (
-  <div>
+  <>
     <h2 className="help-heading">Need help?</h2>
     <p>Call Health Care Benefits</p>
     <p className="help-phone-number">
-      <Telephone contact={CONTACTS['222_VETS']} pattern="###-###-VETS (####)" />
+      <va-telephone contact={CONTACTS['222_VETS']} vanity="VETS" />
     </p>
     <p>Monday through Friday, 8:00 a.m. to 8:00 p.m. ET</p>
-  </div>
+  </>
 );
 
-/**
- * Displays the "Need help?" sidebar content based on the appeal's location.
- *
- * @param {String} aoj       The Agency of Original Jurisdiction.
- *                            Used if the location is 'aoj'
- *                            Possible options:
- *                            ['vba', 'vha', 'nca', 'other']
- */
-export default function AppealHelpSidebar({ aoj }) {
+// NOTE: aoj stands for 'Agency of Original Jurisdiction'
+const AppealHelpSidebar = ({ aoj }) => {
   switch (aoj) {
     case AOJS.vba:
       return <AskVAQuestions />;
@@ -39,5 +30,12 @@ export default function AppealHelpSidebar({ aoj }) {
       return null;
     default:
       Sentry.captureMessage(`appeal-status-unexpected-aoj: ${aoj}`);
+      return null;
   }
-}
+};
+
+AppealHelpSidebar.propTypes = {
+  aoj: PropTypes.oneOf(['vba', 'vha', 'nca', 'other']),
+};
+
+export default AppealHelpSidebar;

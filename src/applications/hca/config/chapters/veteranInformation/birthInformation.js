@@ -1,51 +1,30 @@
-import React from 'react';
-import { hasSession } from 'platform/user/profile/utilities';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import constants from 'vets-json-schema/dist/constants.json';
 
-import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
-import { states } from 'platform/forms/address';
-
-import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
 import AuthenticatedShortFormAlert from '../../../components/FormAlerts/AuthenticatedShortFormAlert';
+import { BirthInfoDescription } from '../../../components/FormDescriptions';
+
+import { emptyObjectSchema, NotHighDisability } from '../../../helpers';
 
 const { cityOfBirth } = fullSchemaHca.properties;
-
-const stateLabels = createUSAStateLabels(states);
+const { states50AndDC } = constants;
 
 export default {
   uiSchema: {
     'view:authShortFormAlert': {
       'ui:field': AuthenticatedShortFormAlert,
       'ui:options': {
-        hideIf: form =>
-          !(
-            form['view:hcaShortFormEnabled'] &&
-            form['view:totalDisabilityRating'] &&
-            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-          ),
+        hideIf: NotHighDisability,
       },
-    },
-    'view:applicationDescription': {
-      'ui:options': {
-        hideIf: () => !hasSession(),
-      },
-      'ui:description': (
-        <p>
-          You don’t have to fill in all these fields. But we can review your
-          application faster if you provide more information.
-        </p>
-      ),
     },
     'view:placeOfBirth': {
-      'ui:title': 'Place of birth',
+      'ui:title': 'Your place of birth',
+      'ui:description': BirthInfoDescription,
       cityOfBirth: {
         'ui:title': 'City',
       },
       stateOfBirth: {
-        'ui:title': 'State',
-        'ui:options': {
-          labels: stateLabels,
-        },
+        'ui:title': 'State/Province/Region',
       },
     },
   },
@@ -53,14 +32,14 @@ export default {
     type: 'object',
     properties: {
       'view:authShortFormAlert': emptyObjectSchema,
-      'view:applicationDescription': emptyObjectSchema,
       'view:placeOfBirth': {
         type: 'object',
         properties: {
           cityOfBirth,
           stateOfBirth: {
             type: 'string',
-            enum: states.USA.map(state => state.value),
+            enum: [...states50AndDC.map(object => object.value), 'Other'],
+            enumNames: [...states50AndDC.map(object => object.label), 'Other'],
           },
         },
       },

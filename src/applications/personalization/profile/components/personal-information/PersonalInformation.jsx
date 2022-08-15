@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { openModal } from '@@vap-svc/actions';
 
 import {
-  showProfileLGBTQEnhancements,
   showBadAddressIndicator,
   hasBadAddress,
   forceBadAddressIndicator,
@@ -39,9 +38,6 @@ const PersonalInformation = () => {
     state => state.vapService.hasUnsavedEdits,
   );
   const hasVAPServiceError = useSelector(hasVAPServiceConnectionError);
-  const shouldShowProfileLGBTQEnhancements = useSelector(
-    showProfileLGBTQEnhancements,
-  );
 
   const userHasBadAddress = useSelector(hasBadAddress);
 
@@ -63,16 +59,13 @@ const PersonalInformation = () => {
 
   useEffect(
     () => {
-      if (shouldShowProfileLGBTQEnhancements)
-        document.title = `Personal Information | Veterans Affairs`;
-      else
-        document.title = `Personal And Contact Information | Veterans Affairs`;
+      document.title = `Personal Information | Veterans Affairs`;
 
       return () => {
         clearSuccessAlert();
       };
     },
-    [clearSuccessAlert, shouldShowProfileLGBTQEnhancements],
+    [clearSuccessAlert],
   );
 
   useEffect(
@@ -147,21 +140,14 @@ const PersonalInformation = () => {
           <BadAddressAlert />
         </>
       )}
-      {shouldShowProfileLGBTQEnhancements ? (
-        <Headline>Personal information</Headline>
-      ) : (
-        <Headline>Personal and contact information</Headline>
-      )}
+
+      <Headline>Personal information</Headline>
+
       <DowntimeNotification
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}
       >
-        <PersonalInformationContent
-          hasVAPServiceError={hasVAPServiceError}
-          shouldShowProfileLGBTQEnhancements={
-            shouldShowProfileLGBTQEnhancements
-          }
-        />
+        <PersonalInformationContent hasVAPServiceError={hasVAPServiceError} />
       </DowntimeNotification>
     </>
   );

@@ -27,6 +27,21 @@ const transactions = {
   },
 };
 
+const errors = {
+  vets360Phon106: {
+    errors: [
+      {
+        title: 'Null Phone Pattern',
+        detail: 'Phone number pattern must match must match "[^a-zA-Z]+"',
+        code: 'VET360_PHON106',
+        source: 'VAProfile::ContactInformation::Service',
+        status: '400',
+      },
+    ],
+  },
+};
+
 module.exports = {
   transactions,
+  errors,
 };

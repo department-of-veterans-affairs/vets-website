@@ -97,7 +97,7 @@ describe('DebtDetailsCard', () => {
       </Provider>,
     );
 
-    expect(wrapper.find('h3').text()).to.equal(
+    expect(wrapper.find('h2').text()).to.equal(
       'Pay your $10,000.00 balance now or request help',
     );
     expect(wrapper.find('p').text()).to.equal(

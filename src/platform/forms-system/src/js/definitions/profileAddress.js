@@ -4,8 +4,10 @@
  */
 
 import React from 'react';
-import get from 'platform/utilities/data/get';
 import constants from 'vets-json-schema/dist/constants.json';
+
+import get from 'platform/utilities/data/get';
+import set from 'platform/utilities/data/set';
 
 /**
  * PATTERNS
@@ -14,10 +16,43 @@ import constants from 'vets-json-schema/dist/constants.json';
  */
 const STREET_PATTERN = '^.*\\S.*';
 const US_POSTAL_CODE_PATTERN = '^\\d{5}$';
-// filtered States that include US territories
-const filteredStates = constants.states.USA.filter(
-  state => !['AA', 'AE', 'AP'].includes(state.value),
+
+export const MILITARY_CITY_VALUES = constants.militaryCities.map(
+  city => city.value,
 );
+export const MILITARY_CITY_NAMES = constants.militaryCities.map(
+  city => city.label,
+);
+
+export const MILITARY_STATE_VALUES = constants.militaryStates.map(
+  state => state.value,
+);
+export const MILITARY_STATE_NAMES = constants.militaryStates.map(
+  state => state.label,
+);
+
+export const COUNTRY_VALUES = constants.countries.map(country => country.value);
+export const COUNTRY_NAMES = constants.countries.map(country => country.label);
+
+// filtered States that include US territories
+export const filteredStates = constants.states.USA.filter(
+  state => !MILITARY_STATE_VALUES.includes(state.value),
+);
+
+export const STATE_VALUES = filteredStates.map(state => state.value);
+export const STATE_NAMES = filteredStates.map(state => state.label);
+
+export const schemaCrossXRef = {
+  isMilitary: 'isMilitary',
+  'view:militaryBaseDescription': 'view:militaryBaseDescription',
+  country: 'country',
+  street: 'street',
+  street2: 'street2',
+  street3: 'street3',
+  city: 'city',
+  state: 'state',
+  postalCode: 'postalCode',
+};
 
 /**
   Available at https://github.com/department-of-veterans-affairs/vets-json-schema/blob/8337b2878b524867ef2b6d8600b134c682c7ac8a/src/common/definitions.js#L161
@@ -33,8 +68,8 @@ const filteredStates = constants.states.USA.filter(
       },
       country: {
         type: 'string',
-        enum: constants.countries.map(country => country.value),
-        enumNames: constants.countries.map(country => country.label),
+        enum: COUNTRY_VALUES,
+        enumNames: COUNTRY_NAMES,
       },
       street: {
         type: 'string',
@@ -86,6 +121,88 @@ const MilitaryBaseInfo = () => (
 );
 
 /**
+ * insertArrayIndex - Used when addresses are nested in an array and need to be accessible.
+ * There's no good way to handle pathing to a schema when it lives in an array with multiple entries.
+ * Example: childrenToAdd[INDEX].childAddressInfo.address. Hardcoding an index value in place of INDEX
+ * would just result in the same array entry being mutated over and over, instead of the correct entry.
+ */
+const insertArrayIndex = (key, index) => key.replace('[INDEX]', `[${index}]`);
+
+const getOldFormDataPath = (path, index) => {
+  const indexToSlice = index !== null ? path.indexOf(index) + 1 : 0;
+  return path.slice(indexToSlice);
+};
+
+// Temporary storage for city & state if military base checkbox is toggled more
+// than once. Not ideal, but works since this code isn't inside a React widget
+const savedAddress = {
+  city: '',
+  stateCode: '',
+};
+
+/**
+ * Update form data to remove selected military city & state and restore any
+ * previously set city & state when the "I live on a U.S. military base"
+ * checkbox is unchecked. See va.gov-team/issues/42216 for details
+ * @param {object} oldFormData - Form data prior to interaction change
+ * @param {object} formData - Form data after interaction change
+ * @param {array} path - path to address in form data
+ * @param {number} index - index, if form data array of addresses; also included
+ *  in the path, but added here to make it easier to distinguish between
+ *  addresses not in an array with addresses inside an array
+ * @returns {object} - updated Form data with manipulated mailing address if the
+ * military base checkbox state changes
+ */
+export const updateFormDataAddress = (
+  oldFormData,
+  formData,
+  path,
+  index = null, // this is included in the path, but added as
+  newSchemaKeys = {},
+) => {
+  let updatedData = formData;
+  const schemaKeys = { ...schemaCrossXRef, ...newSchemaKeys };
+
+  /*
+   * formData and oldFormData are not guaranteed to have the same shape; formData
+   * will always return the entire data object. See below for details on oldFormData
+   *
+   * In the src/platform/forms-system/src/js/containers/FormPage.jsx, if the
+   * address is inside an array (has a `showPagePerItem` index), oldData is set
+   * to the form data from the array index (see the this.formData() function)
+   * but that may not include the address object, so we're passing in a path as
+   * an array and using `getOldFormDataPath` to find the appropriate path
+   */
+  const oldAddress = get(getOldFormDataPath(path, index), oldFormData, {});
+
+  const address = get(path, formData, {});
+  const onMilitaryBase = address?.[schemaKeys.isMilitary];
+  let city = address[schemaKeys.city];
+  let stateCode = address[schemaKeys.state];
+
+  if (oldAddress?.[schemaKeys.isMilitary] !== onMilitaryBase) {
+    if (onMilitaryBase) {
+      savedAddress.city = oldAddress[schemaKeys.city] || '';
+      savedAddress.stateCode = oldAddress[schemaKeys.state] || '';
+      city = '';
+      stateCode = '';
+    } else {
+      city = MILITARY_CITY_VALUES.includes(oldAddress[schemaKeys.city])
+        ? savedAddress.city
+        : city || savedAddress.city;
+      stateCode = MILITARY_STATE_VALUES.includes(oldAddress[schemaKeys.state])
+        ? savedAddress.stateCode
+        : stateCode || savedAddress.stateCode;
+    }
+    // make sure we aren't splitting up a string path
+    const pathArray = Array.isArray(path) ? path : [path];
+    updatedData = set([...pathArray, schemaKeys.city], city, updatedData);
+    updatedData = set([...pathArray, schemaKeys.state], stateCode, updatedData);
+  }
+  return updatedData;
+};
+
+/**
  * @param {string} path - path to the address in formData, may contain [INDEX] as part of it, which needs to be handled using insertArrayIndex
  * @param {string} checkBoxTitle - Visual label for the military base checkbox. Ex: "I live on a United States military base outside of the U.S."
  * @param {function} uiRequiredCallback - slots into ui:required for the necessary fields
@@ -99,17 +216,11 @@ const MilitaryBaseInfo = () => (
  */
 
 export default function addressUiSchema(
-  path,
-  checkBoxTitle,
-  uiRequiredCallback,
+  path = 'address',
+  checkBoxTitle = 'I live on a United States military base outside of the U.S.',
+  uiRequiredCallback = () => false,
+  newSchemaKeys = {},
 ) {
-  /**
-   * insertArrayIndex - Used when addresses are nested in an array and need to be accessible.
-   * There's no good way to handle pathing to a schema when it lives in an array with multiple entries.
-   * Example: childrenToAdd[INDEX].childAddressInfo.address. Hardcoding an index value in place of INDEX
-   * would just result in the same array entry being mutated over and over, instead of the correct entry.
-   */
-  const insertArrayIndex = (key, index) => key.replace('[INDEX]', `[${index}]`);
   /**
    * getPath
    * @param {string} pathToData takes the path argument passed to addressUiSchema.
@@ -121,17 +232,19 @@ export default function addressUiSchema(
       ? insertArrayIndex(pathToData, index)
       : pathToData;
 
+  const schemaKeys = { ...schemaCrossXRef, ...newSchemaKeys };
+
   return {
-    isMilitary: {
+    [schemaKeys.isMilitary]: {
       'ui:title': checkBoxTitle,
       'ui:options': {
         hideEmptyValueInReview: true,
       },
     },
-    'view:militaryBaseDescription': {
+    [schemaKeys['view:militaryBaseDescription']]: {
       'ui:description': MilitaryBaseInfo,
     },
-    country: {
+    [schemaKeys.country]: {
       'ui:required': uiRequiredCallback,
       'ui:title': 'Country',
       'ui:autocomplete': 'country',
@@ -140,15 +253,15 @@ export default function addressUiSchema(
          * This is needed because the country dropdown needs to be set to USA and disabled if a
          * user selects that they live on a military base outside the US.
          */
-        updateSchema: (formData, schema, uiSchema, index) => {
+        updateSchema: (formData, _schema, uiSchema, index) => {
           const formDataPath = getPath(path, index);
           const countryUI = uiSchema;
           const addressFormData = get(formDataPath, formData) ?? {};
-          const { isMilitary } = addressFormData;
+          const isMilitary = addressFormData[schemaKeys.isMilitary];
           // if isMilitary === true, auto select United States and disable the field
           if (isMilitary) {
             countryUI['ui:disabled'] = true;
-            addressFormData.country = USA.value;
+            addressFormData[schemaKeys.country] = USA.value;
             return {
               enum: [USA.value],
               enumNames: [USA.label],
@@ -159,13 +272,13 @@ export default function addressUiSchema(
           countryUI['ui:disabled'] = false;
           return {
             type: 'string',
-            enum: constants.countries.map(country => country.value),
-            enumNames: constants.countries.map(country => country.label),
+            enum: COUNTRY_VALUES,
+            enumNames: COUNTRY_NAMES,
           };
         },
       },
     },
-    street: {
+    [schemaKeys.street]: {
       'ui:required': uiRequiredCallback,
       'ui:title': 'Street address',
       'ui:autocomplete': 'address-line1',
@@ -174,21 +287,21 @@ export default function addressUiSchema(
         pattern: 'Please fill in a valid street address',
       },
     },
-    street2: {
+    [schemaKeys.street2]: {
       'ui:title': 'Street address line 2',
       'ui:autocomplete': 'address-line2',
       'ui:options': {
         hideEmptyValueInReview: true,
       },
     },
-    street3: {
+    [schemaKeys.street3]: {
       'ui:title': 'Street address line 3',
       'ui:autocomplete': 'address-line3',
       'ui:options': {
         hideEmptyValueInReview: true,
       },
     },
-    city: {
+    [schemaKeys.city]: {
       'ui:required': uiRequiredCallback,
       'ui:autocomplete': 'address-level2',
       'ui:errorMessages': {
@@ -202,15 +315,17 @@ export default function addressUiSchema(
          * select dropdown containing the values for military cities. Otherwise,
          * just return the regular string schema.
          */
-        replaceSchema: (formData, schema, uiSchema, index) => {
+        replaceSchema: (formData, _schema, uiSchema, index) => {
           const formDataPath = getPath(path, index);
-          const { isMilitary } = get(formDataPath, formData) ?? {};
+          const isMilitary = (get(formDataPath, formData) ?? {})[
+            schemaKeys.isMilitary
+          ];
           if (isMilitary) {
             return {
               type: 'string',
               title: 'APO/FPO/DPO',
-              enum: constants.militaryCities.map(city => city.value),
-              enumNames: constants.militaryCities.map(city => city.label),
+              enum: MILITARY_CITY_VALUES,
+              enumNames: MILITARY_CITY_NAMES,
             };
           }
           return {
@@ -223,7 +338,7 @@ export default function addressUiSchema(
         },
       },
     },
-    state: {
+    [schemaKeys.state]: {
       'ui:autocomplete': 'address-level1',
       'ui:required': (formData, index) => {
         // Only required if the country is the United States;
@@ -247,23 +362,25 @@ export default function addressUiSchema(
          *
          * If the country value is anything other than USA, change the title and default to string.
          */
-        replaceSchema: (formData, schema, uiSchema, index) => {
+        replaceSchema: (formData, _schema, uiSchema, index) => {
           const formDataPath = getPath(path, index);
-          const { country, isMilitary } = get(formDataPath, formData) ?? {};
+          const data = get(formDataPath, formData) ?? {};
+          const country = data[schemaKeys.country];
+          const isMilitary = data[schemaKeys.isMilitary];
           if (isMilitary) {
             return {
               type: 'string',
               title: 'State',
-              enum: constants.militaryStates.map(state => state.value),
-              enumNames: constants.militaryStates.map(state => state.label),
+              enum: MILITARY_STATE_VALUES,
+              enumNames: MILITARY_STATE_NAMES,
             };
           }
           if (!isMilitary && country === 'USA') {
             return {
               type: 'string',
               title: 'State',
-              enum: filteredStates.map(state => state.value),
-              enumNames: filteredStates.map(state => state.label),
+              enum: STATE_VALUES,
+              enumNames: STATE_NAMES,
             };
           }
           return {
@@ -273,7 +390,7 @@ export default function addressUiSchema(
         },
       },
     },
-    postalCode: {
+    [schemaKeys.postalCode]: {
       'ui:required': uiRequiredCallback,
       'ui:title': 'Postal code',
       'ui:autocomplete': 'postal-code',
@@ -283,9 +400,11 @@ export default function addressUiSchema(
       },
       'ui:options': {
         widgetClassNames: 'usa-input-medium',
-        replaceSchema: (formData, schema, uiSchema, index) => {
+        replaceSchema: (formData, _schema, uiSchema, index) => {
           const formDataPath = getPath(path, index);
-          const { country, isMilitary } = get(formDataPath, formData) ?? {};
+          const data = get(formDataPath, formData) ?? {};
+          const country = data[schemaKeys.country];
+          const isMilitary = data[schemaKeys.isMilitary];
           if (isMilitary || country === 'USA') {
             return {
               type: 'string',

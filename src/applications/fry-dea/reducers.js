@@ -23,9 +23,9 @@ export default {
           veterans: [
             {
               dateOfBirth: '1978-07-18',
-              deaEligibility: 36,
+              deaEligibility: true,
               deaStartDate: '2022-03-12',
-              fryEligibility: 45,
+              fryEligibility: true,
               fryStartDate: '2022-01-15',
               id: '1',
               name: 'Hector Stanley',
@@ -33,7 +33,7 @@ export default {
             },
             {
               dateOfBirth: '1979-10-11',
-              deaEligibility: 36,
+              deaEligibility: true,
               deaStartDate: '2022-04-05',
               id: '2',
               name: 'Nancy Stanley',
@@ -41,7 +41,7 @@ export default {
             },
             {
               dateOfBirth: '1996-07-18',
-              fryEligibility: 45,
+              fryEligibility: true,
               fryStartDate: '2021-11-09',
               id: '3',
               name: 'Jane Doe',

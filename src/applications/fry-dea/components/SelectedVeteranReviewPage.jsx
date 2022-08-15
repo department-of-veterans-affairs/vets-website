@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   formFields,
   VETERAN_NOT_LISTED_LABEL,
@@ -57,5 +58,11 @@ function SelectedVeteranReviewPage({ data, editPage, title }) {
     </div>
   );
 }
+
+SelectedVeteranReviewPage.propTypes = {
+  data: PropTypes.object,
+  editPage: PropTypes.func,
+  title: PropTypes.string,
+};
 
 export default SelectedVeteranReviewPage;

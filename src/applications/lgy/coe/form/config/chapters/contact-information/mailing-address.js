@@ -1,5 +1,7 @@
 import React from 'react';
-import addressUiSchema from 'platform/forms-system/src/js/definitions/profileAddress';
+import addressUiSchema, {
+  updateFormDataAddress,
+} from 'platform/forms-system/src/js/definitions/profileAddress';
 
 import { contactInformation } from '../../schemaImports';
 
@@ -32,3 +34,6 @@ export const uiSchema = {
     () => true,
   ),
 };
+
+export const updateFormData = (oldFormData, formData) =>
+  updateFormDataAddress(oldFormData, formData, 'applicantAddress');

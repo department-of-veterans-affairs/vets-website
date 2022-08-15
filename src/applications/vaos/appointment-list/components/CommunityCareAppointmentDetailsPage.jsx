@@ -77,7 +77,7 @@ export default function CommunityCareAppointmentDetailsPage() {
   }
 
   const header = 'Community care';
-  const { name, providers, practiceName } =
+  const { name, practiceName, providerName } =
     appointment.communityCareProvider || {};
   const calendarData = getCalendarData({
     facility: appointment.communityCareProvider,
@@ -86,7 +86,6 @@ export default function CommunityCareAppointmentDetailsPage() {
   const { isPastAppointment } = appointment.vaos;
   const isCanceled = appointment.status === APPOINTMENT_STATUS.cancelled;
   const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
-  const providerName = providers ? providers[0].providerName : null;
 
   return (
     <PageLayout>
@@ -100,17 +99,18 @@ export default function CommunityCareAppointmentDetailsPage() {
 
       <StatusAlert appointment={appointment} />
 
-      {useV2 && (
-        <>
-          <h2
-            className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
-            data-cy="community-care-appointment-details-header"
-          >
-            <div className="vads-u-display--inline">Type of care</div>
-          </h2>
-          <div>{typeOfCare?.name}</div>
-        </>
-      )}
+      {useV2 &&
+        typeOfCare && (
+          <>
+            <h2
+              className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
+              data-cy="community-care-appointment-details-header"
+            >
+              <div className="vads-u-display--inline">Type of care</div>
+            </h2>
+            <div>{typeOfCare?.name}</div>
+          </>
+        )}
       <h2
         className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
         data-cy="community-care-appointment-details-header"
@@ -120,12 +120,23 @@ export default function CommunityCareAppointmentDetailsPage() {
         </span>
       </h2>
 
-      {(!!providerName || !!practiceName || !!name) && (
-        <>
-          {providerName || practiceName || name}
-          <br />
-        </>
-      )}
+      {/* the order of display name is important to match screen name on add to calendar title */}
+      {(!!providerName || !!practiceName || !!name) &&
+        !useV2 && (
+          // V1 displays the name from the provider object
+          <>
+            {providerName || practiceName || name}
+            <br />
+          </>
+        )}
+      {(!!providerName || !!practiceName || !!name) &&
+        useV2 && (
+          // V2 displays the first provider name from the array
+          <>
+            {providerName[0] || practiceName || name}
+            <br />
+          </>
+        )}
       <FacilityAddress
         facility={appointment.communityCareProvider}
         showDirectionsLink={!!appointment.communityCareProvider?.address}

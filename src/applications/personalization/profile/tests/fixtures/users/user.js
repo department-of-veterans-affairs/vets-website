@@ -1,5 +1,5 @@
-import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
 import { CSP_IDS } from 'platform/user/authentication/constants';
+import { makeMockContactInfo } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
 
 export const makeMockUser = () => {
   return {
@@ -53,7 +53,7 @@ export const makeMockUser = () => {
           isCernerPatient: false,
           facilities: [{ facilityId: '983', isCerner: false }],
           vaPatient: true,
-          mhvAccountState: 'NONE',
+          mhvAccountState: 'OK',
         },
         veteranStatus: {
           status: 'OK',

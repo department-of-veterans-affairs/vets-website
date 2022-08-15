@@ -38,7 +38,7 @@ class IntroductionPage extends React.Component {
               <strong>Fry Scholarship</strong> (Chapter 33)
             </li>
             <li>
-              <strong>Survivors' and Dependents' Educational Assistance</strong>{' '}
+              <strong>Survivors’ and Dependents’ Educational Assistance</strong>{' '}
               (DEA, Chapter 35)
             </li>
           </ul>
@@ -91,7 +91,7 @@ class IntroductionPage extends React.Component {
               </a>
             </va-additional-info>
 
-            <va-additional-info trigger="What are the Survivors' and Dependents' Educational Assistance (DEA, Chapter 35) eligibility requirements?">
+            <va-additional-info trigger="What are the Survivors’ and Dependents’ Educational Assistance (DEA, Chapter 35) eligibility requirements?">
               <p>
                 <strong>
                   As the child or surviving spouse of a Veteran of service
@@ -128,7 +128,7 @@ class IntroductionPage extends React.Component {
                 </li>
               </ul>
               <a href="https://www.va.gov/education/survivor-dependent-benefits/dependents-education-assistance/">
-                Learn more about Survivors' and Dependents' Educational
+                Learn more about Survivors’ and Dependents’ Educational
                 Assistance (DEA, Chapter 35)
               </a>
             </va-additional-info>
