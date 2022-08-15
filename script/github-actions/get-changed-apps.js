@@ -30,7 +30,7 @@ const getManifests = filePath => {
  *
  * @param {string} filePath - Relative file path.
  * @param {Object} allow - Lists of entry names and root app folders to check against.
- * @returns {Object[]|null} Sliced manifests of allowed apps. Otherwise null.
+ * @returns {Object[]|null} Sliced manifests of isolated apps with CD enabled. Otherwise null.
  */
 const getAllowedApps = (filePath, allow) => {
   const appsDirectory = 'src/applications';
@@ -67,12 +67,12 @@ const getAllowedApps = (filePath, allow) => {
 };
 
 /**
- * Checks if a changed apps build is possible by confirming that all files
+ * Checks if an isolated app build is possible by confirming that all files
  * are from apps on an allow list. If so, returns a delimited string of application
  * entry names, relative paths, URLs or Slack user groups; otherwise returns an empty string.
  *
  * @param {string[]} filePaths - An array of relative file paths.
- * @param {Object} config - The changed apps build config.
+ * @param {Object} config - The isolated apps config.
  * @param {string} outputType - Determines what app information should be returned.
  * @param {string} delimiter - Delimiter to use for string output.
  * @returns {string} A delimited string of app entry names, relative paths, URLs, or Slack user groups.
