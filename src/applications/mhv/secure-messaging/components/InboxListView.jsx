@@ -92,20 +92,6 @@ const InboxListView = props => {
 
   return (
     <div className="vads-l-row vads-u-flex-direction--column vads-u-margin-top--2">
-      <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-        <a
-          className="vads-c-action-link--blue"
-          href="/my-health/secure-messages/compose"
-        >
-          Compose a new message
-        </a>
-        <a
-          className="small-screen:vads-u-margin-left--3 vads-c-action-link--blue"
-          href="/"
-        >
-          Search messages
-        </a>
-      </div>
       <VaSelect
         label="Show messages by"
         name="sort order"

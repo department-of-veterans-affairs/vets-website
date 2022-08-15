@@ -14,9 +14,11 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // import backendServices from 'platform/user/profile/constants/backendServices';
 // import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { getAllMessages } from '../actions';
-import Header from '../components/Header';
+import Breadcrumbs from '../components/breadcrumbs';
+import EmergencyNote from '../components/EmergencyNote';
 import InboxListView from '../components/InboxListView';
 
 const LandingPageAuth = () => {
@@ -52,7 +54,6 @@ const LandingPageAuth = () => {
   } else {
     content = (
       <>
-        <Header />
         <InboxListView messages={messages} />
       </>
     );
@@ -63,9 +64,38 @@ const LandingPageAuth = () => {
     //   user={props.user}
     //   serviceRequired={backendServices.MHV_AC}
     // >
+
     <div className="vads-l-grid-container">
+      <Breadcrumbs />
+      <h1>Messages</h1>
+      <p className="va-introtext">
+        When you send a message to your care team, it can take up to 3 business
+        days to get a response.
+      </p>
+      <EmergencyNote />
+      <p>
+        <a
+          className="vads-c-action-link--blue"
+          href="/my-health/secure-messages/compose"
+        >
+          Compose message
+        </a>
+      </p>
+      <div className="search-messages-input">
+        <label htmlFor="search-message-folder-input">
+          Search the Messages folder
+        </label>
+        <VaSearchInput
+          label="search-message-folder-input"
+          // onInput={function noRefCheck() {}}
+          // onSubmit={function noRefCheck() {}}
+          value="benefits"
+        />
+      </div>
+
       <div className="vads-l-row">{content}</div>
     </div>
+
     // </RequiredLoginView>
   );
 };
