@@ -15,6 +15,7 @@ import {
   FSR_RESET_ERRORS,
   FSR_API_CALL_INITIATED,
 } from '../constants/actionTypes';
+import { DEBT_TYPES } from '../utils/helpers';
 
 export const fetchFormStatus = () => async dispatch => {
   dispatch({
@@ -84,7 +85,11 @@ export const fetchDebts = async dispatch => {
     const filteredResponse = response.debts
       .filter(debt => approvedDeductionCodes.includes(debt.deductionCode))
       .filter(debt => debt.currentAr > 0)
-      .map((debt, index) => ({ ...debt, id: index }));
+      .map((debt, index) => ({
+        ...debt,
+        id: index,
+        debtType: DEBT_TYPES.DEBT,
+      }));
 
     return dispatch({
       type: DEBTS_FETCH_SUCCESS,

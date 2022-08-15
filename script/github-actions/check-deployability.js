@@ -9,8 +9,12 @@ const { runCommandSync, sleep } = require('../utils');
 const BUCKETS = require('../../src/site/constants/buckets');
 const ENVIRONMENTS = require('../../src/site/constants/environments');
 
-const { GITHUB_TOKEN: auth, GITHUB_REPOSITORY, GITHUB_SHA } = process.env;
-const [owner, repo] = GITHUB_REPOSITORY.split('/');
+const {
+  GITHUB_TOKEN: auth,
+  GITHUB_REPOSITORY,
+  GITHUB_SHA,
+  GITHUB_RUN_NUMBER,
+} = process.env;
 
 const octokit = new Octokit({ auth });
 
@@ -21,6 +25,8 @@ const octokit = new Octokit({ auth });
  * @returns {Array} List of in progress workflow runs.
  */
 const getInProgressWorkflowRuns = workflow_id => {
+  const [owner, repo] = GITHUB_REPOSITORY.split('/');
+
   const params = {
     owner,
     repo,
@@ -103,10 +109,11 @@ const isAheadOfLastFullDeploy = async (commitSha, env) => {
  * Determines if the given commit sha can be deployed to non production environments.
  *
  * @param {string} commitSha - Commit sha
+ * @param {number} runNumber - Run number of the workflow run
  * @param {string} env - Environment name
  * @returns {Boolean} Whether or not the commit can be deployed to the environment.
  */
-const isDeployableToEnv = async (commitSha, env) => {
+const isDeployableToEnv = async (commitSha, runNumber, env) => {
   const TIMEOUT = 5; // Number of minutes to wait before checking again
   const isNewerCommit = await isAheadOfLastFullDeploy(commitSha, env);
 
@@ -122,8 +129,8 @@ const isDeployableToEnv = async (commitSha, env) => {
   );
   if (inProgressWorkflowRuns.length === 1) return true;
 
-  const previousCommitsInProgress = inProgressWorkflowRuns.find(workflowRun =>
-    isAncestor(workflowRun.head_sha, commitSha),
+  const previousCommitsInProgress = inProgressWorkflowRuns.find(
+    workflowRun => workflowRun.run_number < runNumber,
   );
 
   if (!previousCommitsInProgress) return true;
@@ -131,7 +138,7 @@ const isDeployableToEnv = async (commitSha, env) => {
   console.log('Waiting for previous workflow runs to finish deploying...');
   await sleep(TIMEOUT * 60 * 1000);
 
-  return isDeployableToEnv(commitSha, env);
+  return isDeployableToEnv(commitSha, runNumber, env);
 };
 
 /**
@@ -190,7 +197,7 @@ const main = () => {
   if (environment === ENVIRONMENTS.VAGOVPROD)
     return isDeployableToProd(GITHUB_SHA);
 
-  return isDeployableToEnv(GITHUB_SHA, environment);
+  return isDeployableToEnv(GITHUB_SHA, GITHUB_RUN_NUMBER, environment);
 };
 
 main()

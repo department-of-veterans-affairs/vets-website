@@ -295,7 +295,14 @@ export function setupVaos() {
     cy.axeCheck(context, {
       runOnly: {
         type: 'tag',
-        values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
+        values: [
+          'section508',
+          'wcag2a',
+          'wcag2aa',
+          'wcag21a',
+          'wcag21aa',
+          'best-practice',
+        ],
       },
     });
   });
