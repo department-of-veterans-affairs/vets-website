@@ -1,19 +1,21 @@
 import React from 'react';
 import { createSelector } from 'reselect';
+
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+
+import * as address from 'platform/forms/definitions/address';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
 
-import * as address from 'platform/forms/definitions/address';
-
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import manifest from '../manifest.json';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -111,7 +113,7 @@ const formConfig = {
   trackingPrefix: 'toe-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '22-1990E',
+  formId: VA_FORM_IDS.FORM_22_1990EMEB,
   title: 'Apply to use transferred education benefits',
   subTitle:
     'Equal to VA Form 22-1990e (Application for Family Member to Use Transferred Benefits)',
@@ -137,8 +139,7 @@ const formConfig = {
       pages: {
         applicantInformation: {
           title: 'Your information',
-          path:
-            'education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/applicant-information',
+          path: 'applicant-information',
           subTitle: 'Your information',
           instructions:
             'This is the personal information we have on file for you.',

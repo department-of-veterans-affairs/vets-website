@@ -18,22 +18,23 @@ export default {
       ...currentOrPastDateUI('What is your Medicare Part A effective date?'),
       'ui:description': MedicareEffectiveDateDescription,
       'ui:reviewField': CustomDateReviewField,
+      'ui:required': () => true,
     },
     medicareClaimNumber: {
       'ui:title': 'What is your Medicare claim number?',
       'ui:description': MedicareClaimNumberDescription,
       'ui:reviewField': CustomReviewField,
+      'ui:required': formData => formData['view:hcaMedicareClaimNumberEnabled'],
       'ui:errorMessages': {
         required: 'Please enter a valid 11-character Medicare claim number',
       },
       'ui:options': {
-        hideIf: form => !form['view:hcaMedicareClaimNumberEnabled'],
+        hideIf: formData => !formData['view:hcaMedicareClaimNumberEnabled'],
       },
     },
   },
   schema: {
     type: 'object',
-    required: ['medicarePartAEffectiveDate', 'medicareClaimNumber'],
     properties: {
       medicarePartAEffectiveDate,
       medicareClaimNumber,
