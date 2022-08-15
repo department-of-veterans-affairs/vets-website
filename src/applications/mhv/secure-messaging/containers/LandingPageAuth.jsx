@@ -17,9 +17,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { getAllMessages } from '../actions';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../components/shared/Breadcrumbs';
 import EmergencyNote from '../components/EmergencyNote';
-import InboxListView from '../components/InboxListView';
+import InboxListView from '../components/MessageList/InboxListView';
 
 const LandingPageAuth = () => {
   const dispatch = useDispatch();

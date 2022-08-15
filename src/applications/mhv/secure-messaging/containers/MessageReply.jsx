@@ -22,7 +22,7 @@ import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ReplyBox from '../components/ReplyBox';
 import NavigationLinks from '../components/NavigationLinks';
 import OlderMessages from '../components/OlderMessages';
-import Breadcrumbs from '../components/Breadcrumbs';
+import Breadcrumbs from '../components/shared/Breadcrumbs';
 
 const MessageReply = props => {
   const {
