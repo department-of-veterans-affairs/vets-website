@@ -20,10 +20,7 @@ probably needing to accept a URL parameter
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { chunk } from 'lodash';
-import {
-  VaPagination,
-  VaSelect,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import InboxListItem from './InboxListItem';
 
@@ -92,16 +89,19 @@ const InboxListView = props => {
 
   return (
     <div className="vads-l-row vads-u-flex-direction--column vads-u-margin-top--2">
-      <VaSelect
-        label="Show messages by"
-        name="sort order"
-        onVaSelect={e => {
-          onSelectChange(e.detail.value);
-        }}
-      >
-        <option value="DESC">Most recent</option>
-        <option value="UNREAD">Unread</option>
-      </VaSelect>
+      <div className="message-list-sort">
+        <va-select
+          label="Show messages by"
+          name="sort order"
+          onVaSelect={e => {
+            onSelectChange(e.detail.value);
+          }}
+        >
+          <option value="desc">Most recent</option>
+          <option value="unread">Unread</option>
+        </va-select>
+        <button type="button">Sort</button>
+      </div>
       <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
         Displaying {displayNums[0]} - {displayNums[1]} of {totalEntries} most
         recent messages

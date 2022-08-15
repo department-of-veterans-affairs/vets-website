@@ -89,11 +89,10 @@ const LandingPageAuth = () => {
           label="search-message-folder-input"
           // onInput={function noRefCheck() {}}
           // onSubmit={function noRefCheck() {}}
-          value="benefits"
         />
       </div>
 
-      <div className="vads-l-row">{content}</div>
+      <div>{content}</div>
     </div>
 
     // </RequiredLoginView>
