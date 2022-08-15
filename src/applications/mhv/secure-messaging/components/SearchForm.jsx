@@ -2,16 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const SearchMessagesForm = props => {
-  const { advancedSearchOpen } = props;
+  const { advancedSearchOpen, query } = props;
 
   return (
-    <form className="search-messages-form">
+    <form className="search-form">
       <va-text-input
         label="Enter Keyword"
         name="keyword"
         onBlur={function noRefCheck() {}}
         onInput={function noRefCheck() {}}
         class="textField"
+        value={query.keyword}
       />
 
       <va-select
@@ -107,6 +108,7 @@ const SearchMessagesForm = props => {
 
 SearchMessagesForm.propTypes = {
   advancedSearchOpen: PropTypes.bool,
+  query: PropTypes.object,
 };
 
 export default SearchMessagesForm;
