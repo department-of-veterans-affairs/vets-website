@@ -27,17 +27,9 @@ jobs:
           path: |
             .cache/yarn
             node_modules
-      
-      - name: Get changed applications
-        id: get-changed-apps
-        uses: ./.github/workflows/get-changed-apps
-        with:
-          delimiter: ','
-          output-type: 'folder'
 
-      - name: Check for cross-app imports in changed apps
-        if: ${{ steps.get-changed-apps.outputs.folders }}
-        run: yarn check-app-imports --fail-on-cross-app-import --app-paths ${{ steps.get-changed-apps.outputs.folders }}
+      - name: Check for cross app imports in allowlist apps
+        run: yarn check-app-imports --check-allowlist --fail-on-cross-app-import
 
   eslint-disable-check:
     name: ESLint Disable Check
