@@ -40,5 +40,16 @@
 		"cpus": 16,
 		"memory": "32gb",
 		"storage": "128gb"
+	},
+	"portsAttributes": {
+		"3000": {
+			"label": "vets-api"
+		},
+		"3001": {
+			"label": "vets-website"
+		},
+		"3002": {
+			"label": "content-build"
+		}
 	}
 }
