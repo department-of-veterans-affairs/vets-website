@@ -2,6 +2,7 @@ import React from 'react';
 
 import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
+import { validateAsciiCharacters } from 'platform/user/profile/vap-svc/util';
 
 import { ADDRESS_FORM_VALUES, USA } from '@@vap-svc/constants';
 
@@ -137,6 +138,7 @@ const uiSchema = {
       required: 'Street address is required',
       pattern: `Please enter a valid street address under ${STREET_LINE_MAX_LENGTH} characters`,
     },
+    'ui:validations': [validateAsciiCharacters],
   },
   addressLine2: {
     'ui:title': `Street address line 2 (${STREET_LINE_MAX_LENGTH} characters maximum)`,

@@ -134,7 +134,7 @@ export const inferAddressType = address => {
     type = ADDRESS_TYPES_ALTERNATE.military;
   }
 
-  return Object.assign({}, address, { type });
+  return { ...address, type };
 };
 
 export const areAddressesEqual = (mainAddress, testAddress) => {
@@ -148,4 +148,13 @@ export const areAddressesEqual = (mainAddress, testAddress) => {
   );
 
   return isEqual(mainAddressFields, testAddressFields);
+};
+
+export const validateAsciiCharacters = (errors, field) => {
+  // testing specifically that the field entry only has valid ascii characters
+  // eslint-disable-next-line no-control-regex
+  const hasInvalidCharacters = !/^[\x00-\x7F]*$/.test(field);
+  if (field && hasInvalidCharacters) {
+    errors.addError('Please enter only standard ASCII characters');
+  }
 };
