@@ -69,13 +69,6 @@ export const SERVICE_PROVIDERS = {
     policy: 'mhv',
     className: 'mhv-button',
   },
-  [CSP_IDS.MHV_VERBOSE]: {
-    label: 'My HealtheVet',
-    link: 'https://www.myhealth.va.gov',
-    image: <>My HealtheVet</>,
-    policy: 'mhv',
-    className: 'mhv-button',
-  },
 };
 
 export const AUTHN_SETTINGS = {
