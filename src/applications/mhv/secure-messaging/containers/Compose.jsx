@@ -89,11 +89,8 @@ const Compose = () => {
         </button>
       </nav>
 
-      <div className="vads-l-row">
-        <div
-          className="vads-l-col--12 medium-screen:vads-l-col--4 large-screen:vads-l-col--3"
-          style={{ marginTop: '24px' }}
-        >
+      <div className="vads-l-row compose-contents">
+        <div className="vads-l-col--12 medium-screen:vads-l-col--4 large-screen:vads-l-col--3 left-nav-container">
           <nav
             className="va-sidebarnav vads-u-width--full"
             id="va-detailpage-sidebar"
@@ -122,8 +119,8 @@ const Compose = () => {
 
         <div className="vads-l-col--12 large-screen:vads-u-padding-left--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9">
           <h1 className="page-title">Compose Message</h1>
-          <section>
-            <p className="emergency-note">
+          <section className="emergency-note">
+            <p>
               <strong>Note: </strong>
               Call <a href="tel:911">911</a> if you have a medical emergency. If
               you’re in crisis and need to talk to someone now, call the{' '}
