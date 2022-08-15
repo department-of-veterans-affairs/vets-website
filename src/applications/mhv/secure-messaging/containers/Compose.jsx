@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SectionGuideButton from '../components/SectionGuideButton';
-import Breadcrumbs from '../components/breadcrumbs';
+import Breadcrumbs from '../components/rename';
 import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm';
 

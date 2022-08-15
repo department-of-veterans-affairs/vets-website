@@ -1,6 +1,6 @@
 import React from 'react';
 import SectionGuideButton from '../components/SectionGuideButton';
-import Breadcrumbs from '../components/breadcrumbs';
+import Breadcrumbs from '../components/rename';
 import SearchForm from '../components/SearchForm';
 import SearchResults from '../components/SearchResults';
 import CondensedSearchForm from '../components/CondensedSearchForm';
