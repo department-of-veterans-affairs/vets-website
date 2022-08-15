@@ -17,7 +17,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { getAllMessages } from '../actions';
-import Breadcrumbs from '../components/breadcrumbs';
+import Breadcrumbs from '../components/Breadcrumbs';
 import EmergencyNote from '../components/EmergencyNote';
 import InboxListView from '../components/InboxListView';
 
