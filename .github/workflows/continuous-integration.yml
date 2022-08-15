@@ -1232,3 +1232,38 @@ jobs:
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  # Please keep steps-evaluation at the end of the workflow as it's meant to evaluate the entirety of the workflow steps that have run.
+  steps_evaluation:
+    runs-on: ubuntu-latest
+    name: Steps Evaluation
+    if: ${{ always() }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Collect and Store Step Status
+        run: yarn actions-steps-error-check
+        working-directory: qa-standards-dashboard-data
+        env:
+          RUN_ID: ${{ github.run_id }}
+          ATTEMPT_NUMBER: ${{ github.run_attempt }}
+          MAIN_BRANCH: false
