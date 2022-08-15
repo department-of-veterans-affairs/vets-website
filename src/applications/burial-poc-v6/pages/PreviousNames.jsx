@@ -16,7 +16,14 @@ export default function PreviousNames(props) {
         values?.previousNames &&
         values?.veteranServedUnderAnotherName === 'false'
       ) {
-        setFieldValue(`previousNames`, []);
+        setFieldValue(`previousNames`, [
+          {
+            first: '',
+            middle: '',
+            last: '',
+            suffix: '',
+          },
+        ]);
       }
     },
     [values?.veteranServedUnderAnotherName],
