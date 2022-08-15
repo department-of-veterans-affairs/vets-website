@@ -143,8 +143,8 @@ const UnauthContent = () => (
         </a>
         <br />
         <br />
-        <a href="/resources/how-to-get-your-medical-records-from-the-department-of-defense-dod">
-          Learn how to request medical records from DoD
+        <a href="https://www.tricare.mil/resources/medicalrecords">
+          Learn how to get DoD Health Records on the TRICARE website
         </a>
       </va-accordion-item>
       <va-accordion-item

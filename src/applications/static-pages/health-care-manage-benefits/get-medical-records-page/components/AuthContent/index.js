@@ -36,8 +36,7 @@ const AuthContent = ({
     <p>
       Each portal offers a tool to help you manage your medical records. The
       portal you’ll use will depend on where you receive care. If you receive
-      care at both Mann-Grandstaff VA Medical Center and another VA facility,
-      you may need to use both portals.
+      care at more than one VA facility, you may need to use both portals.
     </p>
     <h3>What you can do in My HealtheVet’s VA Blue Button</h3>
     <ul>
@@ -159,8 +158,8 @@ const AuthContent = ({
         </a>
         <br />
         <br />
-        <a href="/resources/how-to-get-your-medical-records-from-the-department-of-defense-dod">
-          Learn how to request medical records from DoD
+        <a href="https://www.tricare.mil/resources/medicalrecords">
+          Learn how to get DoD Health Records on the TRICARE website
         </a>
       </va-accordion-item>
       <va-accordion-item
