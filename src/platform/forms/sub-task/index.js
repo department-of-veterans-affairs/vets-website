@@ -81,7 +81,7 @@ export const SubTask = props => {
       const isValid =
         typeof currentPage.validate === 'function'
           ? currentPage.validate(data)
-          : true; // no validate function, return true (e.g. back button)
+          : true; // No validate function, return true (e.g. back button)
 
       setHasError(!isValid);
       return isValid;
@@ -94,15 +94,18 @@ export const SubTask = props => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(
     () => {
-      // h1 must be unique on each sub-task page
+      // Clear page submitted flag
+      setSubmitted(false);
+      // H1 must be unique on each sub-task page
       focusElement('h1');
-      // scroll new page to top
+      // Scroll new page to top
       scrollToTop();
     },
+    // We only want to call this useEffect when the page changes
     [currentPage.name],
   );
 
-  // get page name or url of destination page
+  // Get page name or url of destination page
   const getDestinationPage = destination =>
     typeof destination === 'function' ? destination(subTaskData) : destination;
   const isPageUrl = pageOrUrl => (pageOrUrl || '').startsWith('/');
@@ -142,15 +145,10 @@ export const SubTask = props => {
     // nameOrUrl should be a string: name or url path
     if (isPageUrl(nameOrUrl)) {
       router.push(nameOrUrl);
-      setSubmitted(false);
       return false;
     }
     const nextPage = pages.find(page => page.name === nameOrUrl);
-    const result = nameOrUrl && nextPage ? setCurrentPage(nextPage) : false;
-    if (result) {
-      setSubmitted(false);
-    }
-    return result;
+    return nameOrUrl && nextPage ? setCurrentPage(nextPage) : false;
   };
 
   const backButton =

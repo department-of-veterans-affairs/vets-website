@@ -179,10 +179,14 @@ describe('Form 526 Sub-Task', () => {
     fireEvent.click($('va-button[continue]', container), mouseClick);
     const vaDate = $('va-date', container);
     expect($('form[data-page="rad"]', container)).to.exist;
-    expect(vaDate).to.exist;
-    expect(vaDate.error).to.contain('valid future separation date');
     expect($('va-button[back]', container)).to.exist;
     expect($('va-button[continue]', container)).to.exist;
+
+    expect(vaDate).to.exist;
+    expect(vaDate.error).to.be.null; // no error until submit attempt
+
+    fireEvent.click($('va-button[continue]', container), mouseClick);
+    expect(vaDate.error).to.contain('valid future separation date');
   });
   it('should go to file early alert & introduction page', () => {
     const router = { push: sinon.spy() };
