@@ -1,0 +1,7 @@
+{
+  "appName": "mike great app",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "mike-new-bundle",
+  "rootUrl": "/root-url",
+  "productId": "0dc429df-eb5b-4006-ae2e-c9910694433c"
+}
