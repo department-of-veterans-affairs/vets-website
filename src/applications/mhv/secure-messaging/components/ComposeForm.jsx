@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import FileInput from './FileInput';
 import MessageCategoryInput from './MessageCategoryInput';
 
 const ComposeForm = () => {
@@ -7,14 +7,20 @@ const ComposeForm = () => {
 
   return (
     <form className="compose-form">
-      <va-text-input
+      <va-select
+        // eslint-disable-next-line jsx-a11y/aria-props
+        aria-live-region-text="You selected"
         label="To"
         name="to"
-        onBlur={function noRefCheck() {}}
-        onInput={function noRefCheck() {}}
-        required
-        class="composeInput"
-      />
+        value=""
+        class="composeSelect"
+      >
+        <option value=" "> </option>
+        <option value="doctorA">Doctor A</option>
+        <option value="doctorB">Doctor B</option>
+        <option value="doctorC">Doctor C</option>
+      </va-select>
+
       <button type="button" className="link-button edit-input-button">
         Edit List
       </button>
@@ -33,7 +39,7 @@ const ComposeForm = () => {
       <div className="message-field">
         <label htmlFor="message">
           Message
-          <span className="required">(*Required)</span>
+          <span className="required"> (*Required)</span>
         </label>
         <textarea id="message" name="message" className="message" />
       </div>
@@ -58,27 +64,7 @@ const ComposeForm = () => {
           </li>
         </ul>
 
-        <div className="compose-attachments-input">
-          <input type="file" id="attachments" name="attachments" hidden />
-          <label htmlFor="attachments">
-            <i className="fas fa-paperclip" />
-            Attach files
-          </label>
-        </div>
-        <VaAdditionalInfo
-          trigger="How to attach a file"
-          disable-analytics={false}
-          disable-border={false}
-        >
-          <ol className="how-to-attach-files">
-            <li>1. Click "Attach files" above.</li>
-            <li>2. Browse local machine to find file.</li>
-            <li>3. Click "open"</li>
-            <li>
-              4. You should now see your file in list of attachments above.
-            </li>
-          </ol>
-        </VaAdditionalInfo>
+        <FileInput />
       </section>
 
       <div className="compose-form-actions">
