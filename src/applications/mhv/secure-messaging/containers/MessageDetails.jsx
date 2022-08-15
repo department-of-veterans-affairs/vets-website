@@ -2,7 +2,7 @@ import React from 'react';
 import NavigationLinks from '../components/NavigationLinks';
 import MessageActionButtons from '../components/MessageActionsButtons';
 import OlderMessages from '../components/OlderMessages';
-import Breadcrumbs from '../components/rename';
+import Breadcrumbs from '../components/Breadcrumbs';
 
 const MessageDetail = () => {
   const from = 'Dunwoody, Ann E. (My HealtheVet Questions_PugetSound_ADMIN)';
