@@ -8,7 +8,7 @@ export default function FormAlert() {
       background-only
       show-icon
       data-testid="bad-address-form-alert"
-      className="vads-u-margin-top--1"
+      className="vads-u-margin-top--1 vads-u-font-weight--normal"
     >
       <p className="vads-u-margin--0">Review your Address</p>
       <va-additional-info trigger="What to do if your address is already correct">
