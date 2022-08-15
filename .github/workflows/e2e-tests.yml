@@ -524,6 +524,15 @@ jobs:
   steps_evaluation:
     runs-on: ubuntu-latest
     name: Steps Evaluation
+    needs:
+      [
+        'determine-build-type',
+        'build',
+        'cypress-tests-prep',
+        'cypress-tests',
+        'testing-reports-prep',
+        'testing-reports-cypress',
+      ]
     if: ${{ always() }}
     steps:
       - name: Checkout

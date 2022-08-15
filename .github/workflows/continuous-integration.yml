@@ -1237,6 +1237,15 @@ jobs:
   steps_evaluation:
     runs-on: ubuntu-latest
     name: Steps Evaluation
+    needs:
+      [
+        'build',
+        'security-audit',
+        'linting',
+        'cypress-tests',
+        'testing-reports-cypress',
+        'archive',
+      ]
     if: ${{ always() }}
     steps:
       - name: Checkout
