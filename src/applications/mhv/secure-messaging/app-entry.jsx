@@ -1,5 +1,6 @@
 import 'platform/polyfills';
 import './sass/secure-messaging.scss';
+import './sass/message-details.scss';
 
 import startApp from 'platform/startup';
 
