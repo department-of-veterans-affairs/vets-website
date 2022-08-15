@@ -10,6 +10,9 @@ const {
   dedupeGraph,
 } = require('./github-actions/select-cypress-tests');
 
+const { getAppManifests } = require('../config/manifest-helpers');
+const changedAppsConfig = require('../config/changed-apps-build.json');
+
 /**
  * Gets the paths of files in 'src/platform' that import from apps.
  *
@@ -23,6 +26,34 @@ const getPlatformAppImports = (platformImports, appFolder) => {
       importPath.includes(`applications/${appFolder}`),
     ),
   );
+};
+
+/**
+ * Determine whether app has cross-app imports in the import graph
+ *
+ * @param {string} importGraph - Cross app import dependency graph.
+ * @param {string} appFolder - The name of an app's folder in 'src/applications'.
+ * @returns {boolean} - True if app has cross-app imports in graph.
+ */
+const appHasCrossAppImports = (importGraph, appFolder) => {
+  return (
+    Object.keys(importGraph[appFolder].appsThatThisAppImportsFrom).length ||
+    Object.keys(importGraph[appFolder].appsThatImportFromThisApp).length ||
+    importGraph[appFolder].platformFilesThatImportFromThisApp.length
+  );
+};
+
+/**
+ * Map app manifests to object of appEntry -> appFolder
+ *
+ * @param {Object[]} manifests - Array of app manifests
+ * @returns {Object} Object with app entry as key and folder as value
+ */
+const mapManifests = manifests => {
+  return manifests.reduce((result, current) => {
+    const appFolder = current.filePath.split('/').slice(-2)[0];
+    return { ...result, [current.entryName]: appFolder };
+  }, {});
 };
 
 /**
@@ -54,8 +85,7 @@ const getCrossAppImports = appFolders => {
   const appImports = {};
   let crossAppImportsFound = false;
   for (const appFolder of appFolders) {
-    if (importGraph[appFolder].appsToTest.length > 1) {
-      // Multiple appsToTest means cross-app imports were found
+    if (appHasCrossAppImports(importGraph, appFolder)) {
       crossAppImportsFound = true;
     }
     appImports[appFolder] = omit(importGraph[appFolder], 'appsToTest');
@@ -66,26 +96,30 @@ const getCrossAppImports = appFolders => {
 
 const options = commandLineArgs([
   { name: 'app-folders', type: String },
-  { name: 'app-paths', type: String },
+  { name: 'check-allowlist', type: Boolean, defaultValue: false },
   { name: 'fail-on-cross-app-import', type: Boolean, defaultValue: false },
 ]);
 
-let appFolders = null;
-if (options['app-folders']) {
-  appFolders = options['app-folders'].split(',');
-} else if (options['app-paths']) {
-  appFolders = options['app-paths']
-    .split(',')
-    .map(appPath => appPath.replace('src/applications/', ''));
-}
+let appFolders = options['app-folders'] && options['app-folders'].split(',');
+const checkAllowlist = options['check-allowlist'];
+const failOnCrossAppImport = options['fail-on-cross-app-import'];
 
-// Generate full cross app import report when 'app-folders' option isn't used.
-if (!appFolders) {
+// Generate full cross app import report when no apps are specified
+if (!appFolders && !checkAllowlist) {
   const outputPath = path.join('./tmp', 'cross-app-imports.json');
   fs.outputFileSync(outputPath, JSON.stringify(getCrossAppImports(), null, 2));
 
   console.log(`Cross app import report saved at: ${outputPath}`);
   process.exit(0);
+}
+
+// Get list of entry names from allowlist and map them to folders
+if (checkAllowlist) {
+  // TODO: also handle groupedApps here
+  const appFoldersByEntryNames = mapManifests(getAppManifests());
+  appFolders = changedAppsConfig.allow.singleApps.map(
+    appObj => appFoldersByEntryNames[appObj.entryName],
+  );
 }
 
 // Check that all provided apps exist
@@ -99,7 +133,7 @@ const crossAppImports = getCrossAppImports(appFolders);
 if (crossAppImports) {
   console.log(JSON.stringify(crossAppImports, null, 2));
 
-  if (options['fail-on-cross-app-import']) {
+  if (failOnCrossAppImport) {
     throw new Error('Cross app imports found (see details above)');
   }
 } else {
