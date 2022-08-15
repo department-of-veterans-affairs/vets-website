@@ -17,7 +17,15 @@ import GetFormHelp from '../components/GetFormHelp';
 import ErrorMessage from '../components/ErrorMessage';
 import DowntimeMessage from '../components/FormAlerts/DowntimeWarning';
 import IntroductionPage from '../containers/IntroductionPage';
-import { prefillTransformer, transform, HIGH_DISABILITY } from '../helpers';
+import { prefillTransformer, transform, formValue } from '../helpers';
+import {
+  IS_LOGGED_IN,
+  USER_DOB,
+  IS_GTE_HIGH_DISABILITY,
+  IS_SHORT_FORM_ENABLED,
+  IS_COMPENSATION_TYPE_HIGH,
+  IS_VETERAN_IN_MVI,
+} from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { createDependentSchema } from '../definitions/dependent';
 
@@ -74,32 +82,30 @@ const {
 } = fullSchemaHca.definitions;
 
 // For which page should be shown on short form
-// based on user disability rating >= 50 or user self directed compensation type = high
-const notHighDisability = formData =>
-  !formData['view:hcaShortFormEnabled'] ||
-  (!formData['view:totalDisabilityRating'] ||
-    formData['view:totalDisabilityRating'] < HIGH_DISABILITY);
 
+// show page when short form feature toggle is not enabled or
+// when compensation type high is not selected and veteran does not have high disability rating
 const notHighDisabilityNotSelfDisclosure = formData =>
-  !formData['view:hcaShortFormEnabled'] ||
-  (formData.vaCompensationType !== 'highDisability' &&
-    (!formData['view:totalDisabilityRating'] ||
-      formData['view:totalDisabilityRating'] < HIGH_DISABILITY));
+  !formValue(formData, IS_SHORT_FORM_ENABLED) ||
+  (!formValue(formData, IS_COMPENSATION_TYPE_HIGH) &&
+    !formValue(formData, IS_GTE_HIGH_DISABILITY));
 
+// show page when short form feature toggle is not enabled and veteran does not have data in MPI or
+// when compensation type high is not selected and veteran does not have data in MPI
 const notHighDisabilityAndNotInMvi = formData =>
-  (!formData['view:hcaShortFormEnabled'] && !formData['view:isUserInMvi']) ||
-  (formData['view:hcaShortFormEnabled'] &&
-    formData.vaCompensationType !== 'highDisability' &&
-    !formData['view:isUserInMvi']);
+  (!formValue(formData, IS_SHORT_FORM_ENABLED) &&
+    !formValue(formData, IS_VETERAN_IN_MVI)) ||
+  (formValue(formData, IS_SHORT_FORM_ENABLED) &&
+    !formValue(formData, IS_COMPENSATION_TYPE_HIGH) &&
+    !formValue(formData, IS_VETERAN_IN_MVI));
 
-const isHighDisability = formData =>
-  formData['view:hcaShortFormEnabled'] &&
-  formData.vaCompensationType === 'highDisability';
-
+// show page when short form feature toggle is not enabled and is enrolled in medicare part A is selected or
+// when compensation type high is not selected and is enrolled in medicare part A is selected
 const notHighDisabilityEnrolledMedicarePartA = formData =>
-  (!formData['view:hcaShortFormEnabled'] && formData.isEnrolledMedicarePartA) ||
-  (formData['view:hcaShortFormEnabled'] &&
-    formData.vaCompensationType !== 'highDisability' &&
+  (!formValue(formData, IS_SHORT_FORM_ENABLED) &&
+    formData.isEnrolledMedicarePartA) ||
+  (formValue(formData, IS_SHORT_FORM_ENABLED) &&
+    !formValue(formData, IS_COMPENSATION_TYPE_HIGH) &&
     formData.isEnrolledMedicarePartA);
 
 // For which page needs prefill-message, check
@@ -138,7 +144,7 @@ const formConfig = {
       path: 'id-form',
       component: IDPage,
       pageKey: 'id-form',
-      depends: formData => !formData['view:isLoggedIn'],
+      depends: formData => !formValue(formData, IS_LOGGED_IN),
     },
   ],
   confirmation: ConfirmationPage,
@@ -168,7 +174,7 @@ const formConfig = {
           CustomPage: PersonalAuthenticatedInformation,
           CustomPageReview: null,
           initialData: {},
-          depends: formData => formData['view:isLoggedIn'],
+          depends: formData => formValue(formData, IS_LOGGED_IN),
           uiSchema: {},
           schema: {
             type: 'object',
@@ -179,7 +185,7 @@ const formConfig = {
           path: 'veteran-information/profile-information',
           title: 'Veteran name',
           initialData: {},
-          depends: formData => !formData['view:isLoggedIn'],
+          depends: formData => !formValue(formData, IS_LOGGED_IN),
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
@@ -187,7 +193,7 @@ const formConfig = {
           path: 'veteran-information/profile-information-ssn',
           title: 'Social Security number',
           initialData: {},
-          depends: formData => !formData['view:isLoggedIn'],
+          depends: formData => !formValue(formData, IS_LOGGED_IN),
           uiSchema: personalInformationSsn.uiSchema,
           schema: personalInformationSsn.schema,
         },
@@ -196,7 +202,8 @@ const formConfig = {
           title: 'Date of birth',
           initialData: {},
           depends: formData =>
-            !formData['view:isLoggedIn'] || !formData['view:userDob'],
+            !formValue(formData, IS_LOGGED_IN) ||
+            !formValue(formData, USER_DOB),
           uiSchema: personalInformationDOB.uiSchema,
           schema: personalInformationDOB.schema,
         },
@@ -279,7 +286,9 @@ const formConfig = {
           path: 'va-benefits/basic-information',
           title: 'VA benefits',
           CustomPageReview: CompensationTypeReviewPage,
-          depends: notHighDisability,
+          depends: formData =>
+            !formValue(formData, IS_GTE_HIGH_DISABILITY) ||
+            !formValue(formData, IS_SHORT_FORM_ENABLED),
           uiSchema: basicInformation.uiSchema,
           schema: basicInformation.schema,
         },
@@ -289,7 +298,9 @@ const formConfig = {
           CustomPage: ServiceConnectedPayConfirmation,
           CustomPageReview: null,
           initialData: {},
-          depends: isHighDisability,
+          depends: formData =>
+            formData.vaCompensationType === 'highDisability' &&
+            formValue(formData, IS_SHORT_FORM_ENABLED),
           uiSchema: {},
           schema: {
             type: 'object',

@@ -11,6 +11,7 @@ const generateFeatureToggles = (toggles = {}) => {
     profileShowProfile2 = false,
     profileShowPronounsAndSexualOrientation = false,
     profileShowReceiveTextNotifications = true,
+    profileUseVAFSC = false,
   } = toggles;
 
   return {
@@ -48,6 +49,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'profile_show_receive_text_notifications',
           value: profileShowReceiveTextNotifications,
+        },
+        {
+          name: 'profile_use_vafsc',
+          value: profileUseVAFSC,
         },
       ],
     },

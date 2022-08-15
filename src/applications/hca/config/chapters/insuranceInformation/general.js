@@ -1,6 +1,8 @@
 import merge from 'lodash/merge';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
+import CustomYesNoReviewField from '../../../components/ReviewFields/CustomYesNoReviewField';
+import CustomReviewField from '../../../components/ReviewFields/CustomReviewField';
 import InsuranceProviderView from '../../../components/InsuranceProviderView';
 import {
   GroupCodeDescription,
@@ -12,7 +14,10 @@ import {
   TricarePolicyDescription,
 } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
+import {
+  emptyObjectSchema,
+  NotHighDisabilityOrNotCompensationTypeHigh,
+} from '../../../helpers';
 
 const { provider } = fullSchemaHca.definitions;
 const { isCoveredByHealthInsurance } = fullSchemaHca.properties;
@@ -28,13 +33,7 @@ export default {
     'view:generalShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: form =>
-          !form['view:hcaShortFormEnabled'] ||
-          (form.vaCompensationType !== 'highDisability' &&
-            !(
-              form['view:totalDisabilityRating'] &&
-              form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-            )),
+        hideIf: NotHighDisabilityOrNotCompensationTypeHigh,
       },
     },
     'view:healthInsuranceDescription': {
@@ -43,6 +42,7 @@ export default {
     isCoveredByHealthInsurance: {
       'ui:title': 'Do you have health insurance coverage?',
       'ui:description': HealthInsuranceCoverageDescription,
+      'ui:reviewField': CustomYesNoReviewField,
       'ui:widget': 'yesNo',
     },
     providers: {
@@ -74,13 +74,17 @@ export default {
           'ui:description': TricarePolicyDescription,
         },
         insurancePolicyNumber: {
-          'ui:title': PolicyNumberDescription,
+          'ui:title': 'Policy Number',
+          'ui:description': PolicyNumberDescription,
+          'ui:reviewField': CustomReviewField,
         },
         'view:or': {
           'ui:description': PolicyOrDescription,
         },
         insuranceGroupCode: {
-          'ui:title': GroupCodeDescription,
+          'ui:title': 'Group Code',
+          'ui:description': GroupCodeDescription,
+          'ui:reviewField': CustomReviewField,
         },
         'ui:validations': [
           (errors, field) => {
