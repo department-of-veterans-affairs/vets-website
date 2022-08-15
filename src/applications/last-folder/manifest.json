@@ -1,0 +1,7 @@
+{
+  "appName": "last test",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "last-bundle",
+  "rootUrl": "/my-url",
+  "productId": "a6fbf4b5-5265-4098-b3d3-eb6f076d9bb3"
+}
