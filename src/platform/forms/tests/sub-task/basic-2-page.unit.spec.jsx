@@ -5,7 +5,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import SubTask from 'platform/forms/sub-task';
+import SubTask, {
+  setStoredSubTask,
+  resetStoredSubTask,
+} from 'platform/forms/sub-task';
 
 import pages from 'applications/appeals/995/subtask/pages';
 
@@ -14,27 +17,31 @@ const mouseClick = new MouseEvent('click', {
   cancelable: true,
 });
 
-const mockStore = (data = {}) => ({
-  getState: () => ({
-    form: {
-      data,
-      subTaskData: data,
-    },
-    formContext: {
-      onReviewPage: false,
-      reviewMode: false,
-      touched: {},
-      submitted: false,
-    },
-  }),
-  subscribe: () => {},
-  dispatch: () => ({
-    setFormData: () => {},
-    setFormSubTaskData: () => {},
-  }),
-});
+const mockStore = (data = {}) => {
+  setStoredSubTask(data);
+  return {
+    getState: () => ({
+      form: {
+        data,
+      },
+      formContext: {
+        onReviewPage: false,
+        reviewMode: false,
+        touched: {},
+        submitted: false,
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => ({
+      setFormData: () => {},
+    }),
+  };
+};
 
 describe('the Supplemental Claims Sub-task', () => {
+  after(() => {
+    resetStoredSubTask();
+  });
   it('should render the SubTask as a form element', () => {
     const { container } = render(
       <Provider store={mockStore()}>

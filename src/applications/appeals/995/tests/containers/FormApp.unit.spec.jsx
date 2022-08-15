@@ -53,7 +53,6 @@ const getData = ({
     children: <h1>Intro</h1>,
     profile: mockProfile,
     formData: { benefitType: 'compensation' },
-    subTaskData: { benefitType: 'compensation' },
     setFormData: () => {},
     getContestableIssues: () => {},
     router: { push: () => {} },

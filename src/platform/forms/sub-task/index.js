@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
-import { setData, setSubTaskData } from 'platform/forms-system/src/js/actions';
+import { setData } from 'platform/forms-system/src/js/actions';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement, scrollToFirstError } from 'platform/utilities/ui';
 
@@ -55,26 +55,16 @@ export const resetStoredSubTask = () =>
  * SubTask (one question per page wizard replacement)
  * @param {Object} data - complete form data
  * @param {Array.<SubTask~pageObject>} pages - array of page objects
- * @param {Function} setFormSubTaskData - Set data dispatch
  * @param {Object} router - React router
  * @returns
  */
 export const SubTask = props => {
-  const {
-    pages = [],
-    formData,
-    setFormData,
-    setFormSubTaskData,
-    router,
-  } = props;
+  const { pages = [], formData, setFormData, router } = props;
   const [currentPage, setCurrentPage] = useState(pages[0] || {});
+  const [subTaskData, setSubTaskData] = useState(getStoredSubTask());
   const [hasError, setHasError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const formRef = useRef(null);
-
-  const subTaskData = Object.keys(props.subTaskData).length
-    ? props.subTaskData
-    : getStoredSubTask();
 
   const checkValid = useCallback(
     (data = subTaskData) => {
@@ -121,7 +111,7 @@ export const SubTask = props => {
     setFormData({ ...formData, ...newState });
 
     const newSubTaskData = { ...subTaskData, ...newState };
-    setFormSubTaskData(newSubTaskData);
+    setSubTaskData(newSubTaskData);
     // saving to session storage so the introduction page can pull this after
     // the Veteran has logged in
     setStoredSubTask(newSubTaskData);
@@ -193,12 +183,10 @@ export const SubTask = props => {
 
 const mapDispatchToProps = {
   setFormData: setData,
-  setFormSubTaskData: setSubTaskData,
 };
 
 const mapStateToProps = state => ({
   formData: state.form.data || {},
-  subTaskData: state.form.subTaskData || {},
 });
 
 SubTask.propTypes = {
@@ -219,9 +207,7 @@ SubTask.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   setFormData: PropTypes.func.isRequired,
-  setFormSubTaskData: PropTypes.func.isRequired,
   formData: PropTypes.shape({}),
-  subTaskData: PropTypes.shape({}),
 };
 
 export default withRouter(

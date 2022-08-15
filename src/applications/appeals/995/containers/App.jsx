@@ -22,7 +22,6 @@ export const Form0995App = ({
   children,
   profile,
   formData,
-  subTaskData,
   setFormData,
   router,
   // savedForms,
@@ -38,7 +37,7 @@ export const Form0995App = ({
   const [isLoadingIssues, setIsLoadingIssues] = useState(false);
 
   const subTaskBenefitType =
-    subTaskData?.benefitType || getStoredSubTask()?.benefitType;
+    formData?.benefitType || getStoredSubTask()?.benefitType;
 
   useEffect(
     () => {
@@ -103,7 +102,7 @@ export const Form0995App = ({
     </RoutedSavableApp>
   );
 
-  if (!formData.benefitType) {
+  if (!subTaskBenefitType) {
     router.push('/start');
     content = (
       <h1 className="vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
@@ -157,9 +156,6 @@ Form0995App.propTypes = {
     push: PropTypes.func,
   }),
   savedForms: PropTypes.array,
-  subTaskData: PropTypes.shape({
-    benefitType: PropTypes.string,
-  }),
 };
 
 const mapStateToProps = state => ({
@@ -167,7 +163,6 @@ const mapStateToProps = state => ({
   formData: state.form?.data || {},
   profile: selectProfile(state) || {},
   savedForms: state.user?.profile?.savedForms || [],
-  subTaskData: state.form.subTaskData || {},
   contestableIssues: state.contestableIssues || {},
   legacyCount: state.legacyCount || 0,
 });

@@ -6,7 +6,10 @@ import sinon from 'sinon';
 import moment from 'moment';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
-import SubTask from 'platform/forms/sub-task';
+import SubTask, {
+  setStoredSubTask,
+  resetStoredSubTask,
+} from 'platform/forms/sub-task';
 
 import pages from 'applications/disability-benefits/all-claims/subtask/pages';
 
@@ -15,29 +18,34 @@ const mouseClick = new MouseEvent('click', {
   cancelable: true,
 });
 
-const mockStore = (data = {}) => ({
-  getState: () => ({
-    form: {
-      data,
-      subTaskData: data,
-    },
-    formContext: {
-      onReviewPage: false,
-      reviewMode: false,
-      touched: {},
-      submitted: false,
-    },
-  }),
-  subscribe: () => {},
-  dispatch: () => ({
-    setFormData: () => {},
-    setFormSubTaskData: () => {},
-  }),
-});
+const mockStore = (data = {}) => {
+  setStoredSubTask(data);
+  return {
+    getState: () => ({
+      form: {
+        data,
+      },
+      formContext: {
+        onReviewPage: false,
+        reviewMode: false,
+        touched: {},
+        submitted: false,
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => ({
+      setFormData: () => {},
+    }),
+  };
+};
 
 describe('Form 526 Sub-Task', () => {
   const getDateDiff = (diff, type = 'days') => moment().add(diff, type);
   const getDateFormat = date => date.format('YYYY-MM-DD');
+
+  after(() => {
+    resetStoredSubTask();
+  });
 
   it('should render the SubTask as a form element', () => {
     const { container } = render(

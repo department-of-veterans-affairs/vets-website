@@ -16,7 +16,6 @@ export const SET_SUBMITTED = 'SET_SUBMITTED';
 export const OPEN_REVIEW_CHAPTER = 'OPEN_REVIEW_CHAPTER';
 export const CLOSE_REVIEW_CHAPTER = 'CLOSE_REVIEW_CHAPTER';
 export const SET_FORM_ERRORS = 'SET_FORM_ERRORS';
-export const SET_FORM_SUB_TASK_DATA = 'SET_FORM_SUBTASK_DATA';
 
 export function closeReviewChapter(closedChapter, pageKeys = []) {
   return {
@@ -89,13 +88,6 @@ export function setFormErrors(errors) {
   return {
     type: SET_FORM_ERRORS,
     data: errors,
-  };
-}
-
-export function setSubTaskData(data) {
-  return {
-    type: SET_FORM_SUB_TASK_DATA,
-    data,
   };
 }
 
