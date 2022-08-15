@@ -10,8 +10,13 @@ export default function FormAlert() {
       data-testid="bad-address-form-alert"
       className="vads-u-margin-top--1"
     >
-      <h2 slot="headline">Review your mailing address</h2>
       <p className="vads-u-margin--0">Review your Address</p>
+      <va-additional-info trigger="What to do if your address is already correct">
+        <p>
+          Select Edit to review your address again. Then select Update to save
+          and confirm.
+        </p>
+      </va-additional-info>
     </VaAlert>
   );
 }
