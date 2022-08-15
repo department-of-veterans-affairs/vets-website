@@ -17,6 +17,31 @@ describe('Personal and contact information', () => {
         'Noord-Holland',
         'Netherlands',
       ]);
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should show non-ASCII character validation errors', () => {
+      const formFields = {
+        country: 'NLD',
+        address: 'Dam 1 ابت',
+        address2: 'addr 2 †',
+        address3: 'addr3 π',
+        city: 'Amsterdam 英',
+        province: 'province Δ',
+        zipCodeInt: '1012 JS ¡',
+      };
+      const addressPage = new AddressPage();
+      addressPage.loadPage('international');
+      addressPage.fillAddressForm(formFields);
+      addressPage.saveForm();
+
+      cy.findAllByText('You can only include standard ASCII characters').then(
+        items => {
+          expect(items.length).to.equal(6);
+        },
+      );
+
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
