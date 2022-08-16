@@ -9,10 +9,10 @@ import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/u
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library';
-
 import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
+import recordEvent from '~/platform/monitoring/record-event';
 
 import {
   notFoundComponent,
@@ -20,6 +20,7 @@ import {
   radioOptionsAriaLabels,
   radioLabel,
   unavailableComponent,
+  dateOptions,
 } from './utils';
 
 export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
@@ -31,15 +32,6 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     downloaded: false,
     timeStamp: '',
   });
-
-  const dateOptions = {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: true,
-  };
 
   const getContent = () => {
     return apiRequest(`/form1095_bs/download_${formType}/${year}`)
@@ -135,6 +127,12 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
       <button
         className="usa-button-primary va-button"
         onClick={function() {
+          recordEvent({
+            event: 'int-radio-button-option-click',
+            'radio-button-label':
+              'Choose your file format and download your document',
+            'radio-button-option-click-label': `${formType} 1095B downloaded`,
+          });
           callGetContent();
         }}
         id="download-url"

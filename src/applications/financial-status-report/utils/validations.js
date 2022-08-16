@@ -88,3 +88,14 @@ export const validateEmail = (errors, email) => {
     errors.addError('Please enter a valid email address.');
   }
 };
+
+export const resolutionOptionSelected = (errors, fieldData) => {
+  if (
+    fieldData &&
+    (fieldData !== 'waiver' ||
+      fieldData !== 'compromise' ||
+      fieldData !== 'monthly')
+  ) {
+    errors.addError('Please select a resolution option');
+  }
+};
