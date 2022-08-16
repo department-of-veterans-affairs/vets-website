@@ -9,3 +9,35 @@
 form [type=submit] {
   width: auto;
 }
+
+
+/* Review Page */
+.review-page--page-heading--text {
+  color: var(--color-primary-darker);
+}
+
+.review-page--page-heading--link {
+  text-align: right;
+  margin-top: 1.8em;
+}
+
+.review-page--page-info--label-text {
+  color: var(--color-gray);
+}
+
+.review-page--page-info--value-text {
+  color: var(--color-gray-dark);
+  font-size: 18px;
+}
+
+.inset {
+  margin: 2rem 0rem;
+  padding: 2rem 3rem;
+  line-height: 2.2rem;
+  background-color: hsl(193, 63%, 93%);
+}
+
+ul.claim-list {
+  list-style: none;
+  padding-left: 0;
+}
