@@ -78,11 +78,12 @@ describe('the Supplemental Claims Sub-task', () => {
     );
 
     expect($('form[data-page="start"]', container)).to.exist;
+    const vaRadio = $('va-radio', container);
+    expect(vaRadio).to.exist;
+    expect(vaRadio.error).to.be.null;
 
     fireEvent.click($('va-button[continue]', container), mouseClick);
     expect($('form[data-page="start"]', container)).to.exist;
-    const vaRadio = $('va-radio', container);
-    expect(vaRadio).to.exist;
     expect(vaRadio.error).to.contain('choose a benefit type');
   });
   it('should go to the Introduction page when complete', () => {
