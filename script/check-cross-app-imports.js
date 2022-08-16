@@ -115,11 +115,15 @@ if (!appFolders && !checkAllowlist) {
 
 // Get list of entry names from allowlist and map them to folders
 if (checkAllowlist) {
-  // TODO: also handle groupedApps here
   const appFoldersByEntryNames = mapManifests(getAppManifests());
   appFolders = changedAppsConfig.allow.singleApps.map(
     appObj => appFoldersByEntryNames[appObj.entryName],
   );
+  // Grouped apps are already specified by folder
+  const groupedAppFolders = changedAppsConfig.allow.groupedApps.map(
+    appObj => appObj.rootFolder,
+  );
+  appFolders = [...appFolders, ...groupedAppFolders].sort();
 }
 
 // Check that all provided apps exist
