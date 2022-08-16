@@ -1,5 +1,14 @@
 import React from 'react';
 
+export const dateOptions = {
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  hour12: true,
+};
+
 export const radioOptions = [
   { label: 'Option 1: PDF document (best for printing)', value: 'pdf' },
   {
