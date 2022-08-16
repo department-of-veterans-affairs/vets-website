@@ -1,4 +1,5 @@
 import React from 'react';
+import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
 import IDMeSVG from 'platform/user/authentication/components/IDMeSVG';
 import environment from '../../utilities/environment';
@@ -8,18 +9,10 @@ import {
 } from '../../utilities/sso/constants';
 
 export const API_VERSION = 'v1';
-export const SIS_API_VERSION = 'v0';
+export const FORCE_NEEDED = 'force-needed';
 
 export const API_SESSION_URL = ({ version = API_VERSION, type = null }) =>
   `${environment.API_URL}/${version}/sessions/${type}/new`;
-
-export const API_SIGN_IN_SERVICE_URL = ({
-  version = SIS_API_VERSION,
-  type = '',
-  endpoint = 'authorize',
-}) =>
-  `${environment.API_URL}/${version}/sign_in/${endpoint}${type &&
-    `?type=${type}`}`;
 
 export const AUTH_EVENTS = {
   MODAL_LOGIN: 'login-link-clicked-modal',
@@ -146,7 +139,12 @@ export const AUTH_ERROR = {
   ICN_MISMATCH: '103', // ICN Mismatch
   UUID_MISSING: '104', // UUID Missing (Login.gov or ID.me)
   MULTIPLE_CORPIDS: '106', // Multiple Corp IDs
-  REQUIRED_MISSING_USER_PARAMTER: '108',
+
+  OAUTH_DEFAULT_ERROR: '201',
+  OAUTH_STATE_MISMATCH: '202',
+  OAUTH_INVALID_REQUEST: '203',
+
+  GENERIC: '400',
 };
 
 export const MHV_TRANSITION_DATE = null;
@@ -166,4 +164,63 @@ export const AUTH_PARAMS = {
   codeChallengeMethod: 'code_challenge_method',
   clientId: 'client_id',
   to: 'to',
+};
+
+export const AUTH_DEPENDENCIES = [
+  EXTERNAL_SERVICES.idme,
+  EXTERNAL_SERVICES.ssoe,
+  EXTERNAL_SERVICES.dslogon,
+  EXTERNAL_SERVICES.mhv,
+  EXTERNAL_SERVICES.mvi,
+  EXTERNAL_SERVICES.logingov,
+];
+
+export const generateCSPBanner = ({ csp }) => {
+  return {
+    headline: `You may have trouble signing in with ${
+      SERVICE_PROVIDERS[csp].label
+    }`,
+    status: 'warning',
+    message: `We’re sorry. We’re working to fix some problems with our ${
+      SERVICE_PROVIDERS[csp].label
+    } sign in process. If you’d like to sign in to VA.gov with your ${
+      SERVICE_PROVIDERS[csp].label
+    } account, please check back later.`,
+  };
+};
+
+export const DOWNTIME_BANNER_CONFIG = {
+  ...Object.keys(SERVICE_PROVIDERS).reduce(
+    (acc, cv) => ({
+      ...acc,
+      [cv]: generateCSPBanner({ csp: cv }),
+    }),
+    {},
+  ),
+  ssoe: {
+    headline: 'Our sign in process isn’t working right now',
+    status: 'error',
+    message:
+      'We’re sorry. We’re working to fix some problems with our sign in process. If you’d like to sign in to VA.gov, please check back later.',
+  },
+  mvi: {
+    headline: 'You may have trouble signing in or using some tools or services',
+    status: 'warning',
+    message:
+      'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',
+  },
+};
+
+export const getStatusFromStatuses = _status => {
+  const sorted = _status
+    .sort((a, b) => {
+      if (a.service < b.service) return 1;
+      if (a.service > b.service) return -1;
+      return 0;
+    })
+    .find(k => !['active'].includes(k.status));
+
+  return sorted && AUTH_DEPENDENCIES.some(id => id === sorted.serviceId)
+    ? DOWNTIME_BANNER_CONFIG[sorted.serviceId]
+    : {};
 };

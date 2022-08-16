@@ -345,33 +345,11 @@ describe('OAuth - Utilities', () => {
   });
 
   describe('logout', () => {
-    it('should redirect when Login.gov is CSP', () => {
-      const url = 'https://va.gov/?state=some_random_state';
-      window.location = new URL(url);
-      oAuthUtils.logout({ signInServiceName: 'logingov' });
-      expect(window.location.href).to.not.eql(url);
-    });
-    it('should make a GET request to `/logout` if using ID.me or any other CSP', () => {
-      mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), []);
-      ['mhv', 'dslogon', 'idme'].forEach(signInServiceName => {
-        oAuthUtils.logout({ signInServiceName });
-        expect(global.fetch.called).to.be.true;
-        expect(global.fetch.firstCall.args[1].method).to.equal('GET');
-        expect(global.fetch.firstCall.args[0].includes('/logout')).to.be.true;
-      });
-    });
-    it('should updated the loggedIn status, teardown profile, and redirect to the stored page if the response is ok', () => {
-      const url = 'https://dev.va.gov/education-benefits';
-      window.location = new URL(url);
-      mockFetch();
-      setFetchResponse(global.fetch.onFirstCall(), []);
-      oAuthUtils.logout({ signInServiceName: 'idme' });
-      expect(global.fetch.calledOnce).to.be.true;
-      expect(localStorage.getItem('hasSession')).to.be.null;
-      expect(localStorage.getItem('sessionExpiration')).to.be.null;
-      expect(localStorage.getItem('atExpires')).to.be.null;
-      expect(window.location.href).to.eql(url);
+    it('should redirect to backend for logout', () => {
+      window.location = new URL('https://va.gov/?state=some_random_state');
+      const url = oAuthUtils.logoutUrlSiS();
+      window.location = url;
+      expect(window.location).to.eql(url);
     });
   });
 });

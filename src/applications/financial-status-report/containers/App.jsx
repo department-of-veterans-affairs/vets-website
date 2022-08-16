@@ -77,7 +77,7 @@ const App = ({
     () => {
       setFormData({
         ...formData,
-        'view:combinedFinancialStatusReportRecreationalVehicles': showCombinedFSR,
+        'view:combinedFinancialStatusReport': showCombinedFSR,
       });
     },
     // Do not add formData to the dependency array, as it will cause an infinite loop. Linter warning will go away when feature flag is deprecated.
@@ -131,7 +131,7 @@ App.propTypes = {
   pending: PropTypes.bool,
   router: PropTypes.object,
   setFormData: PropTypes.func,
-  showCombinedFSR: PropTypes.func,
+  showCombinedFSR: PropTypes.bool,
   showFSR: PropTypes.bool,
   showWizard: PropTypes.bool,
 };

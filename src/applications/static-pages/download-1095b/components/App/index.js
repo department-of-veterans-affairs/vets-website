@@ -6,19 +6,22 @@ import { apiRequest } from 'platform/utilities/api';
 import { connect } from 'react-redux';
 // Relative imports.
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
-
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
+import recordEvent from '~/platform/monitoring/record-event';
 
 import {
-  lastUpdatedComponent,
   notFoundComponent,
   radioOptions,
   radioOptionsAriaLabels,
+  radioLabel,
+  dateOptions,
 } from './utils';
 
-export const App = ({ loggedIn, toggleLoginModal }) => {
+export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   const [lastUpdated, updateLastUpdated] = useState('');
   const [year, updateYear] = useState(0);
   const [formError, updateFormError] = useState({ error: false, type: '' }); // types: "not found", "download error"
@@ -27,15 +30,6 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     downloaded: false,
     timeStamp: '',
   });
-
-  const dateOptions = {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    hour12: true,
-  };
 
   const getContent = () => {
     return apiRequest(`/form1095_bs/download_${formType}/${year}`)
@@ -52,10 +46,9 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
   const getLastUpdatedOn = () => {
     return apiRequest('/form1095_bs/available_forms')
       .then(response => {
-        if (response.errors) {
+        if (response.errors || !response.availableForms.length) {
           updateFormError({ error: true, type: 'not found' });
         }
-
         return response.availableForms[0];
       })
       .catch(() => updateFormError({ error: true, type: 'not found' }));
@@ -118,15 +111,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     <RadioButtons
       id="1095-download-options"
       name="1095-download-options"
-      label={
-        <div>
-          <h3>Choose your file format and download your document</h3>
-          <p>
-            We offer two file format options for this form. Choose the option
-            that best meets your needs.
-          </p>
-        </div>
-      }
+      label={radioLabel}
       options={radioOptions}
       onValueChange={({ value }) => updateFormType(value)}
       value={{ value: formType }}
@@ -140,6 +125,12 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
       <button
         className="usa-button-primary va-button"
         onClick={function() {
+          recordEvent({
+            event: 'int-radio-button-option-click',
+            'radio-button-label':
+              'Choose your file format and download your document',
+            'radio-button-option-click-label': `${formType} 1095B downloaded`,
+          });
           callGetContent();
         }}
         id="download-url"
@@ -149,9 +140,20 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     </p>
   );
 
+  const lastUpdatedComponent = (
+    <p>
+      <span className="vads-u-line-height--3 vads-u-display--block">
+        <strong>Related to:</strong> Health care
+      </span>
+      <span className="vads-u-line-height--3 vads-u-display--block">
+        <strong>Document last updated:</strong> {lastUpdated}
+      </span>
+    </p>
+  );
+
   const errorComponent = (
     <>
-      {lastUpdatedComponent(lastUpdated)}
+      {lastUpdatedComponent}
       <va-alert
         close-btn-aria-label="Close notification"
         status="warning"
@@ -178,9 +180,16 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     </>
   );
 
+  const getErrorComponent = () => {
+    if (formError.type === 'not found') {
+      return notFoundComponent();
+    }
+    return errorComponent;
+  };
+
   const successComponent = (
     <>
-      {lastUpdatedComponent(lastUpdated)}
+      {lastUpdatedComponent}
       <va-alert
         close-btn-aria-label="Close notification"
         status="success"
@@ -201,7 +210,7 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
 
   const loggedInComponent = (
     <>
-      {lastUpdatedComponent(lastUpdated)}
+      {lastUpdatedComponent}
       {radioComponent}
       {downloadButton}
     </>
@@ -230,15 +239,14 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
     </va-alert>
   );
 
+  if (!displayToggle) {
+    return <></>;
+  }
   if (loggedIn) {
     if (formError.error) {
-      if (formError.type === 'not found') {
-        return notFoundComponent();
-      }
-      if (formError.type === 'download error') {
-        return errorComponent;
-      }
-    } else if (formDownloaded.downloaded) {
+      return getErrorComponent();
+    }
+    if (formDownloaded.downloaded) {
       return successComponent;
     }
     return loggedInComponent;
@@ -249,10 +257,12 @@ export const App = ({ loggedIn, toggleLoginModal }) => {
 App.propTypes = {
   loggedIn: PropTypes.bool,
   toggleLoginModal: PropTypes.func.isRequired,
+  displayToggle: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   loggedIn: state?.user?.login?.currentlyLoggedIn || null,
+  displayToggle: toggleValues(state)[FEATURE_FLAG_NAMES.showDigitalForm1095b],
 });
 
 const mapDispatchToProps = dispatch => ({
