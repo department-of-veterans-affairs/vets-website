@@ -92,8 +92,8 @@
 
           "@department-of-veterans-affairs/platform-landing-pages/exports" : "./src/platform/landing-pages/exportsFile.js",
           "@department-of-veterans-affairs/platform-landing-pages/dev-template" : "./src/platform/landing-pages/dev-template.js",
-          "@department-of-veterans-affairs/platform-landing-pages/facility-sidebar" : "./src/platform/landing-pages/facility-sidebar.jason",
-          "@department-of-veterans-affairs/platform-landing-pages/header-footer-data" : "./src/platform/landing-pages/header-footer-data.jason",
+          "@department-of-veterans-affairs/platform-landing-pages/facility-sidebar" : "./src/platform/landing-pages/facility-sidebar.json",
+          "@department-of-veterans-affairs/platform-landing-pages/header-footer-data" : "./src/platform/landing-pages/header-footer-data.json",
 
           "@department-of-veterans-affairs/platform-static-data/exports": "./src/platform/forms/static-data/exportsFile.js",
           "@department-of-veterans-affairs/platform-static-data/CallHRC": "./src/platform/forms/static-data/CallHRC.jsx",
@@ -103,8 +103,9 @@
           "@department-of-veterans-affairs/platform-static-data/error-messages": "./src/platform/forms/static-data/error-messages.jsx",
           "@department-of-veterans-affairs/platform-static-data/labels": "./src/platform/forms/static-data/labels.jsx",
           "@department-of-veterans-affairs/platform-static-data/options-for-select": "./src/platform/forms/static-data/options-for-select.js",
-          "@department-of-veterans-affairs/platform-static-data/SubmitSignInForm": "./src/platform/forms/static-data/SubmitSignInForm.jsx"
+          "@department-of-veterans-affairs/platform-static-data/SubmitSignInForm": "./src/platform/forms/static-data/SubmitSignInForm.jsx",
 
+          "@department-of-veterans-affairs/platform-polyfills/exports": "./src/platform/polyfills/exportFiles.js"
         }
       }
     ]
