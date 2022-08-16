@@ -33,7 +33,7 @@ export const CurrentDebtDescription = ({ formContext }) => {
   const formattedDebtTitle =
     currentDebt.debtType === 'COPAY'
       ? `${currency(currentDebt.pHAmtDue)} copay debt  ${
-          formData.station ? `for ${formData.station.facilityName}` : ''
+          currentDebt.station ? `for ${currentDebt.station.facilityName}` : ''
         }`
       : `${currency(currentDebt.currentAr)} debt for ${
           deductionCodes[currentDebt.deductionCode]
@@ -49,6 +49,12 @@ export const CurrentDebtDescription = ({ formContext }) => {
 };
 
 CurrentDebtTitle.propTypes = {
+  formContext: PropTypes.shape({
+    pagePerItemIndex: PropTypes.string.isRequired,
+  }),
+};
+
+CurrentDebtDescription.propTypes = {
   formContext: PropTypes.shape({
     pagePerItemIndex: PropTypes.string.isRequired,
   }),
