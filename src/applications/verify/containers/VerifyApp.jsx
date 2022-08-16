@@ -36,13 +36,13 @@ export class VerifyApp extends React.Component {
 
   render() {
     const { profile } = this.props;
-    const { idme, logingov } = SERVICE_PROVIDERS;
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
     }
-    // const signInMethod = !profile.loading && profile.signIn.serviceName;
-    const signInMethod = 'mhv';
+
+    const { idme, logingov } = SERVICE_PROVIDERS;
+    const signInMethod = !profile.loading && profile.signIn.serviceName;
 
     return (
       <section className="verify">
