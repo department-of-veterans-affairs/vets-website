@@ -1,17 +1,26 @@
 // Node modules.
 import React from 'react';
-import PropTypes from 'prop-types';
 // Relative imports.
-import CernerCallToAction from '../../../components/CernerCallToAction';
-import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 import { appointmentsToolLink, getCernerURL } from 'platform/utilities/cerner';
 import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
+import CernerCallToAction from '../../../components/CernerCallToAction';
+import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
+import {
+  cernerFacilitiesPropType,
+  ehrDataByVhaIdPropType,
+  otherFacilitiesPropType,
+} from '../../../propTypes';
 
-export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
+export const AuthContent = ({
+  cernerFacilities,
+  otherFacilities,
+  ehrDataByVhaId,
+}) => (
   <>
     <CernerCallToAction
       cernerFacilities={cernerFacilities}
       otherFacilities={otherFacilities}
+      ehrDataByVhaId={ehrDataByVhaId}
       linksHeaderText="Manage appointments at:"
       myHealtheVetLink={appointmentsToolLink}
       myVAHealthLink={getCernerURL('/pages/scheduling/upcoming')}
@@ -183,28 +192,9 @@ export const AuthContent = ({ cernerFacilities, otherFacilities }) => (
 );
 
 AuthContent.propTypes = {
-  cernerfacilities: PropTypes.arrayOf(
-    PropTypes.shape({
-      facilityId: PropTypes.string.isRequired,
-      isCerner: PropTypes.bool.isRequired,
-      usesCernerAppointments: PropTypes.string,
-      usesCernerMedicalRecords: PropTypes.string,
-      usesCernerMessaging: PropTypes.string,
-      usesCernerRx: PropTypes.string,
-      usesCernerTestResults: PropTypes.string,
-    }).isRequired,
-  ),
-  otherfacilities: PropTypes.arrayOf(
-    PropTypes.shape({
-      facilityId: PropTypes.string.isRequired,
-      isCerner: PropTypes.bool.isRequired,
-      usesCernerAppointments: PropTypes.string,
-      usesCernerMedicalRecords: PropTypes.string,
-      usesCernerMessaging: PropTypes.string,
-      usesCernerRx: PropTypes.string,
-      usesCernerTestResults: PropTypes.string,
-    }).isRequired,
-  ),
+  cernerFacilities: cernerFacilitiesPropType,
+  ehrDataByVhaId: ehrDataByVhaIdPropType,
+  otherFacilities: otherFacilitiesPropType,
 };
 
 export default AuthContent;
