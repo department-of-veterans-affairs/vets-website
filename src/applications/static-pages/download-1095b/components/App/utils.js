@@ -1,7 +1,5 @@
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 
 export const radioOptions = [
   { label: 'Option 1: PDF document (best for printing)', value: 'pdf' },
@@ -41,8 +39,8 @@ export const notFoundComponent = () => {
         </p>
         <p>
           If you think you should have a 1095-B form, call us at{' '}
-          <Telephone contact="8772228387" /> (TTY:{' '}
-          <Telephone contact={CONTACTS['711']} tty />
+          <va-telephone contact={CONTACTS['222_VETS']} /> (TTY:{' '}
+          <va-telephone contact={CONTACTS['711']} tty />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </div>
@@ -62,8 +60,8 @@ export const unavailableComponent = () => {
         <p>
           Please check back later or if you need immediate assistance with this
           tax form, call the Enrollment Center at{' '}
-          <Telephone contact="8772228387" /> (TTY:{' '}
-          <Telephone contact={CONTACTS['711']} tty />
+          <va-telephone contact={CONTACTS['222_VETS']} /> (TTY:{' '}
+          <va-telephone contact={CONTACTS['711']} tty />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </div>

@@ -8,9 +8,7 @@ import { connect } from 'react-redux';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 
 import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
@@ -170,8 +168,8 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
           <p>
             We’re sorry. Something went wrong when we tried to download your
             form. Please try again. If your form still doesn’t download, call us
-            at <Telephone contact="8006982411" /> (TTY:{' '}
-            <Telephone contact={CONTACTS['711']} tty />
+            at <va-telephone contact={CONTACTS.HELP_DESK} /> (TTY:{' '}
+            <va-telephone contact={CONTACTS['711']} tty />
             ). We’re here 24/7.
           </p>
         </div>
