@@ -38,13 +38,13 @@ jobs:
         uses: ./.github/workflows/configure-bigquery
 
       - name: Fetch Logs
-        run: |
-          gh api
-          -H "Accept: application/vnd.github+json"
-          /repos/department-of-veterans-affairs/vets-website/actions/runs/${{github.run_id}}/logs
-        working-directory: qa-standards-dashboard-data
         env:
           RUN_ID: ${{ github.run_id }}
           ATTEMPT_NUMBER: ${{ github.run_attempt }}
           MAIN_BRANCH: true
           GITHUB_TOKEN: ${{ env.VA_VSP_BOT_GITHUB_TOKEN }}
+        run: |
+          gh api
+          -H "Accept: application/vnd.github+json"
+          /repos/department-of-veterans-affairs/vets-website/actions/runs/${{github.run_id}}/logs
+        working-directory: qa-standards-dashboard-data
