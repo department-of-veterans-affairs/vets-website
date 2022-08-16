@@ -1,12 +1,22 @@
+import { CurrentDebtTitle } from '../../components/CurrentDebtTitle';
+
 export const uiSchema = {
   selectedDebtsAndCopays: {
     items: {
-      'ui:title': 'SOME TITLE',
+      'ui:title': CurrentDebtTitle,
+      'ui:description': ({ formData }) => {
+        return formData.resolutionOption === 'monthly'
+          ? 'How much can you afford to pay monthly on this debt?'
+          : 'How much can you afford to pay as a one-time payment?';
+      },
       resolutionComment: {
-        'ui:title': 'Your reason why or whatever',
-        'ui:widget': 'textarea',
+        'ui:title': ' ',
+        'ui:options': {
+          classNames: 'schemaform-currency-input',
+          widgetClassNames: 'input-size-3',
+        },
         'ui:errorMessages': {
-          required: 'idk do stuff',
+          required: 'Please enter a valid number.',
         },
       },
     },
@@ -20,7 +30,7 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        required: ['resolutionComment'],
+        // required: ['resolutionComment'],
         properties: {
           resolutionComment: {
             type: 'string',
