@@ -129,13 +129,12 @@ for (const appFolder of appFolders) {
 }
 
 const crossAppImports = getCrossAppImports(appFolders);
-
-if (crossAppImports) {
+if (crossAppImports && failOnCrossAppImport) {
+  console.log('Cross app imports found:');
   console.log(JSON.stringify(crossAppImports, null, 2));
-
-  if (failOnCrossAppImport) {
-    throw new Error('Cross app imports found (see details above)');
-  }
+  process.exit(1);
+} else if (crossAppImports) {
+  console.log(JSON.stringify(crossAppImports, null, 2));
 } else {
   console.log('No cross app imports were found!');
 }
