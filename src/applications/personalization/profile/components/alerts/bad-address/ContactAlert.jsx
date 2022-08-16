@@ -26,8 +26,8 @@ export default function ContactAlert() {
       <p>The mailing address we have on file for you may not be correct.</p>
       <p>
         <a href="#mailing-address">
-          <i aria-hidden="true" className="fas fa-arrow-down" /> Review your
-          mailing address
+          <i aria-hidden="true" className="fas fa-arrow-down" /> Review and
+          update your mailing address
         </a>
       </p>
     </VaAlert>
