@@ -92,8 +92,8 @@ export const validateEmail = (errors, email) => {
 export const resolutionOptionSelected = (errors, fieldData) => {
   if (
     fieldData &&
-    (fieldData !== 'waiver' ||
-      fieldData !== 'compromise' ||
+    (fieldData !== 'waiver' &&
+      fieldData !== 'compromise' &&
       fieldData !== 'monthly')
   ) {
     errors.addError('Please select a resolution option');
