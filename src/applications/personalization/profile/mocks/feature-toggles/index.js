@@ -11,6 +11,8 @@ const generateFeatureToggles = (toggles = {}) => {
     profileShowProfile2 = false,
     profileShowPronounsAndSexualOrientation = false,
     profileShowReceiveTextNotifications = true,
+    profileUseVAFSC = false,
+    profileHideDirectDepositCompAndPen = false,
   } = toggles;
 
   return {
@@ -48,6 +50,14 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'profile_show_receive_text_notifications',
           value: profileShowReceiveTextNotifications,
+        },
+        {
+          name: 'profile_use_vafsc',
+          value: profileUseVAFSC,
+        },
+        {
+          name: 'profile_hide_direct_deposit_comp_and_pen',
+          value: profileHideDirectDepositCompAndPen,
         },
       ],
     },

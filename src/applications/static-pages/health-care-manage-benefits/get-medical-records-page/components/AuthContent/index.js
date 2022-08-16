@@ -1,19 +1,25 @@
 // Node modules.
 import React from 'react';
-import PropTypes from 'prop-types';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 // Relative imports.
-import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
+import CernerCallToAction from '../../../components/CernerCallToAction';
+import {
+  authenticatedWithSSOePropType,
+  cernerFacilitiesPropType,
+  ehrDataByVhaIdPropType,
+  otherFacilitiesPropType,
+} from '../../../propTypes';
 
 const AuthContent = ({
   authenticatedWithSSOe,
   cernerFacilities,
   otherFacilities,
+  ehrDataByVhaId,
 }) => (
   <>
     <h2 className="vads-u-margin-bottom--2 vads-u-font-size--lg">
@@ -33,6 +39,7 @@ const AuthContent = ({
     <CernerCallToAction
       cernerFacilities={cernerFacilities}
       otherFacilities={otherFacilities}
+      ehrDataByVhaId={ehrDataByVhaId}
       linksHeaderText="Get your medical records from:"
       myHealtheVetLink={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
       myVAHealthLink={getCernerURL(
@@ -312,29 +319,10 @@ const AuthContent = ({
 );
 
 AuthContent.propTypes = {
-  authenticatedWithSSOe: PropTypes.bool.isRequired,
-  cernerfacilities: PropTypes.arrayOf(
-    PropTypes.shape({
-      facilityId: PropTypes.string.isRequired,
-      isCerner: PropTypes.bool.isRequired,
-      usesCernerAppointments: PropTypes.string,
-      usesCernerMedicalRecords: PropTypes.string,
-      usesCernerMessaging: PropTypes.string,
-      usesCernerRx: PropTypes.string,
-      usesCernerTestResults: PropTypes.string,
-    }).isRequired,
-  ),
-  otherfacilities: PropTypes.arrayOf(
-    PropTypes.shape({
-      facilityId: PropTypes.string.isRequired,
-      isCerner: PropTypes.bool.isRequired,
-      usesCernerAppointments: PropTypes.string,
-      usesCernerMedicalRecords: PropTypes.string,
-      usesCernerMessaging: PropTypes.string,
-      usesCernerRx: PropTypes.string,
-      usesCernerTestResults: PropTypes.string,
-    }).isRequired,
-  ),
+  authenticatedWithSSOe: authenticatedWithSSOePropType,
+  cernerFacilities: cernerFacilitiesPropType,
+  ehrDataByVhaId: ehrDataByVhaIdPropType,
+  otherFacilities: otherFacilitiesPropType,
 };
 
 export default AuthContent;

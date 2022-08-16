@@ -1,5 +1,14 @@
 import React from 'react';
 
+export const dateOptions = {
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric',
+  hour12: true,
+};
+
 export const radioOptions = [
   { label: 'Option 1: PDF document (best for printing)', value: 'pdf' },
   {
@@ -14,18 +23,15 @@ export const radioOptionsAriaLabels = [
   'Option 2: Text File (best for screen readers, screen enlargers, and refreshable Braille displays)',
 ];
 
-export const lastUpdatedComponent = ({ lastUpdated }) => {
-  return (
+export const radioLabel = (
+  <div>
+    <h3>Choose your file format and download your document</h3>
     <p>
-      <span className="vads-u-line-height--3 vads-u-display--block">
-        <strong>Related to:</strong> Health care
-      </span>
-      <span className="vads-u-line-height--3 vads-u-display--block">
-        <strong>Document last updated:</strong> {lastUpdated}
-      </span>
+      We offer two file format options for this form. Choose the option that
+      best meets your needs.
     </p>
-  );
-};
+  </div>
+);
 
 export const notFoundComponent = () => {
   return (
