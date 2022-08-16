@@ -2,12 +2,12 @@
   "apps": [
     {
       "rootFolder": "burials",
-      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>",
-      "continuousDeployment": false
+      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
     },
     {
       "rootFolder": "check-in",
-      "slackGroup": "@check-in-fe"
+      "slackGroup": "@check-in-fe",
+      "continuousDeployment": false
     },
     {
       "rootFolder": "coronavirus-research",
