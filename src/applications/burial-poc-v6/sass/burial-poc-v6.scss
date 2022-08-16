@@ -12,22 +12,21 @@ form [type=submit] {
 
 
 /* Review Page */
-.review-page--page-heading--text {
-  color: var(--color-primary-darker);
-}
-
-.review-page--page-heading--link {
-  text-align: right;
-  margin-top: 1.8em;
-}
-
-.review-page--page-info--label-text {
-  color: var(--color-gray);
-}
-
-.review-page--page-info--value-text {
-  color: var(--color-gray-dark);
-  font-size: 18px;
+.review-page {
+  &--page-heading--text {
+    color: var(--color-primary-darker);
+  }
+  &--page-heading--link {
+    text-align: right;
+    margin-top: 1.8em;
+  }
+  &--page-info--label-text {
+    color: var(--color-gray);
+  }
+  &--page-info--value-text {
+    color: var(--color-gray-dark);
+    font-size: 18px;
+  }
 }
 
 .inset {
