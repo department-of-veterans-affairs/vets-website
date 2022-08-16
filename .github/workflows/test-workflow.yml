@@ -39,8 +39,8 @@ jobs:
 
       - name: Fetch Logs
         run: |
-          gh api \
-          -H "Accept: application/vnd.github+json" \
+          gh api
+          -H "Accept: application/vnd.github+json"
           /repos/department-of-veterans-affairs/vets-website/actions/runs/${{github.run_id}}/logs
         working-directory: qa-standards-dashboard-data
         env:
