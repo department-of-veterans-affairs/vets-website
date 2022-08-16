@@ -25,7 +25,7 @@ const App = ({ toggleLoginModal, user }) => {
       );
     }
     if (user?.login?.currentlyLoggedIn) {
-      window.location.href = '/education/education-letters/preview';
+      window.location.href = '/education/download-letters/letters';
     }
 
     return (
@@ -53,7 +53,7 @@ const App = ({ toggleLoginModal, user }) => {
       <Layout
         clsName="introduction-page"
         breadCrumbs={{
-          href: '/education/education-letters',
+          href: '/education/download-letters',
           text: 'Download your VA education letter',
         }}
       >
