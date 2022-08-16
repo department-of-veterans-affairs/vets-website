@@ -546,11 +546,13 @@ describe('Authentication Utilities', () => {
     });
 
     it('should redirect to the provided CSPs signup session url', async () => {
-      setup({ path: nonUsipPath });
-      await authUtilities.signup({ policy: CSP_IDS.LOGIN_GOV });
-      expect(global.window.location).to.equal(
-        API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.LOGIN_GOV] }),
-      );
+      setup({ path: normalPathWithParams });
+      const expectedUrl = await authUtilities.signup({
+        policy: CSP_IDS.LOGIN_GOV,
+        isLink: true,
+      });
+      authUtilities.redirect(expectedUrl);
+      expect(global.window.location).to.contain(expectedUrl);
     });
   });
 
