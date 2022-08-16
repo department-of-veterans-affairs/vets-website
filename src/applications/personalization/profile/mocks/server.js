@@ -34,9 +34,7 @@ const responses = {
   'GET /v0/profile/status': status,
   'OPTIONS /v0/maintenance_windows': 'OK',
   'GET /v0/maintenance_windows': { data: [] },
-  'GET /v0/feature_toggles': generateFeatureToggles({
-    profileHideDirectDepositCompAndPen: true,
-  }),
+  'GET /v0/feature_toggles': generateFeatureToggles(),
   'GET /v0/ppiu/payment_information': (_req, res) => {
     return res.status(200).json(payments.paymentHistory.simplePaymentHistory);
   },
