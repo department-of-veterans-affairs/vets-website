@@ -14,8 +14,8 @@ const isolatedAppsConfig = require('../../config/isolated-apps.json');
  */
 const getManifests = filePath => {
   const root = path.join(__dirname, '../..');
-  const rootAppFolder = filePath.split('/')[2];
-  const fullAppPath = path.join(root, './src/applications', rootAppFolder);
+  const rootAppFolderName = filePath.split('/')[2];
+  const fullAppPath = path.join(root, './src/applications', rootAppFolderName);
 
   if (!fs.existsSync(fullAppPath)) return [];
 
@@ -26,40 +26,29 @@ const getManifests = filePath => {
 
 /**
  * Gets the sliced manifest(s) of a file's root app folder with some added properties. The
- * app's entry name or root folder must be on the given allow list, otherwise returns null.
+ * app's root folder must be on the given isolated app list, otherwise returns null.
  *
  * @param {string} filePath - Relative file path.
- * @param {Object} allow - Lists of entry names and root app folders to check against.
+ * @param {Object} isolatedApps - Lists of isolated apps.
  * @returns {Object[]|null} Sliced manifests of isolated apps with CD enabled. Otherwise null.
  */
-const getAllowedApps = (filePath, allow) => {
+const getAllowedApps = (filePath, isolatedApps) => {
   const appsDirectory = 'src/applications';
 
   if (!filePath.startsWith(appsDirectory)) return null;
 
-  const rootAppFolder = filePath.split('/')[2];
-  const rootAppPath = path.join(appsDirectory, rootAppFolder);
   const manifests = getManifests(filePath);
-
-  const allowedAppFolder = allow.groupedApps.find(
-    groupedApp => groupedApp.rootFolder === rootAppFolder,
+  const rootAppFolderName = filePath.split('/')[2];
+  const isolatedApp = isolatedApps.find(
+    app => app.rootFolder === rootAppFolderName,
   );
 
-  const allowedApp =
-    !allowedAppFolder && manifests.length === 1
-      ? allow.singleApps.find(
-          appEntry => appEntry.entryName === manifests[0].entryName,
-        )
-      : null;
-
-  const isAllowed = allowedAppFolder || allowedApp;
-
-  if (isAllowed && isAllowed.continuousDeployment !== false) {
+  if (isolatedApp && isolatedApp.continuousDeployment !== false) {
     return manifests.map(({ entryName, rootUrl }) => ({
       entryName,
       rootUrl,
-      rootPath: rootAppPath,
-      slackGroup: isAllowed.slackGroup,
+      rootPath: path.join(appsDirectory, rootAppFolderName),
+      slackGroup: isolatedApp.slackGroup,
     }));
   }
 
@@ -86,7 +75,7 @@ const getChangedAppsString = (
   const appStrings = [];
 
   for (const filePath of filePaths) {
-    const allowedApps = getAllowedApps(filePath, config.allow);
+    const allowedApps = getAllowedApps(filePath, config.apps);
 
     if (allowedApps) {
       allowedApps.forEach(app => {
