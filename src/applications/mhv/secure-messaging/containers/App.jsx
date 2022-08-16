@@ -19,6 +19,7 @@ import PropTypes from 'prop-types';
 import { getAllMessages } from '../actions';
 import Header from '../components/Header';
 import InboxListView from '../components/InboxListView';
+import Navigation from '../components/Navigation';
 
 const App = props => {
   const {
@@ -51,6 +52,7 @@ const App = props => {
   } else {
     content = (
       <>
+        <Navigation />
         <Header />
         <InboxListView messages={messages} />
       </>
