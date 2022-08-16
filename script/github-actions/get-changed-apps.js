@@ -107,9 +107,7 @@ const getChangedAppsString = (
 };
 
 if (process.env.CHANGED_FILE_PATHS) {
-  const changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ').filter(
-    f => !(f.startsWith('.github') || f.startsWith('script')),
-  );
+  const changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ');
 
   const options = commandLineArgs([
     // Use the --output-type option to specify one of the following outputs:
