@@ -1,12 +1,10 @@
 .side-menu-nav {
-
   height: 600px;
   display: flex;
   justify-content: center;
-  width: 264px;
+  width: 232px;
   height: 600px;
   font-size: 17px;
-
   ul{
     margin: 0px;
     padding: 0px;
@@ -21,26 +19,21 @@
     a.list-parent {
         border-left: 4px solid;
       }
-
   }
   .messages-close{
-
     li{
       display: none;
     }
   }
   .no-close-btn {
     position: absolute;
-    left: -1000;
+    left: -3000;
   }
-
-  ul{
-    margin: 0px;
-    padding: 0px;
-    list-style-type: none;
-  }
+button.header-menu-button {
+  width: 700px;
+  border: 1px solid;
+}
   .nav-title {
-    width: 264px;
     display: flex;
     flex-direction: row;
     height: 54px;
@@ -68,12 +61,6 @@
     }
   }
   .side-nav-content {
-//     .messages-list-open {
-// max-height: 500px;
-//     }
-//     .messages-list-close {
-// max-height: 0px;
-//     }
     .messages{
       .messages-list{
         background-color: $color-gray-lightest;
@@ -81,7 +68,6 @@
     }
     .usa-sidenav-list {
       border-bottom: 0px;
-      // background-color: $color-gray-lightest;
       ul {
         li {
           margin-top: 4px;
@@ -96,20 +82,9 @@
             margin-top: 0px;
             margin-bottom: 0px;
             color: $color-link-default;
-            &:focus {
+            &:focus, &:hover, &:active  {
               padding-left: 9px;
               background-color: transparent;
-              border-left: 4px solid ;
-              font-weight: 700;
-            }
-            &:hover {
-              padding-left: 9px;
-              background-color: transparent;
-              border-left: 4px solid ;
-              font-weight: 700;
-            }
-            &:active {
-              padding-left: 9px;
               border-left: 4px solid ;
               font-weight: 700;
             }
@@ -119,18 +94,8 @@
     }
     a.list-parent {
       font-weight: 700;
-      &:hover {
+      &:active, &:focus, &:hover {
         background-color: transparent;
-        border-left: 4px solid;
-        padding-left: 8px;
-
-      }
-      &:active {
-        border-left: 4px solid;
-        padding-left: 8px;
-
-      }
-      &:focus {
         border-left: 4px solid;
         padding-left: 8px;
 
@@ -144,7 +109,15 @@
 }
 
 @media (max-width: $small-screen) {
+  .va-btn-sidebarnav-trigger{
+    z-index: 0;
+    margin-right: 15px;
+    .button-wrapper {
+    left: 0px;
+    }
+  }
   .side-menu-nav {
+    width: 264px;
     height: 1925px;
     z-index: 2;
     position: absolute;
@@ -154,25 +127,14 @@
     justify-content: center;
     border: 1px solid $color-gray;
     background-color: $color-white;
-    a.list-parent {
-      color: $color-black;
-      border: 0px;
-      border-left: 4px solid $color-black;
-      &:hover {
-        background-color: transparent;
-        border-left: 4px solid $color-black;
-
-      }
-      &:active {
-        border-left: 4px solid $color-black;
-      }
-      &:focus {
-        border-left: 4px solid $color-black;
+    .nav-title {
+      i.fa-medkit {
+        padding-bottom: 4px;
       }
     }
     button{
       background-color: $color-gray-lightest;
-
+      height: 46.64px;
     }
     .fa-times {
       width: 14px;
@@ -183,22 +145,36 @@
       padding: 0px;
     }
     .side-nav-content {
-        background-color: $color-white;
         padding: 0px;
         padding-left: 15px;
         padding-right: 15px;
-        ul.usa-sidenav-list {
-          padding-top: 4px;
+        a.list-parent {
+          color: $color-black;
+          border-left: 4px solid $color-black;
+          &:hover, &:active, &:focus {
+            padding-left: 12px;
+            border-left: 4px solid $color-black;
+          }
+        }
+        .messages-list{
           background-color: $color-white;
+        }
+        ul.usa-sidenav-list {
+
+          border-top: 1px solid $color-gray;
+          padding-top: 4px;
           li {
+
             display: none;
           }
           .messages {
             display: contents;
             .messages-list {
+              background-color: $color-white;
               display: block;
               li{
                 display: block;
+
               }
             }
           }
