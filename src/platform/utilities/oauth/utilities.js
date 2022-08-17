@@ -32,7 +32,7 @@ export const saveStateAndVerifier = type => {
     Ensures saved state is not overwritten if location has state parameter.
   */
   if (window.location.search.includes(OAUTH_KEYS.STATE)) return null;
-  const storage = window.localStorage;
+  const storage = localStorage;
 
   // Create and store a random "state" value
   const state = oauthCrypto.generateRandomString(28);
@@ -54,7 +54,7 @@ export const saveStateAndVerifier = type => {
 };
 
 export const removeStateAndVerifier = () => {
-  const storage = window.localStorage;
+  const storage = localStorage;
 
   Object.keys(storage)
     .filter(key => ALL_STATE_AND_VERIFIERS.includes(key))
@@ -64,7 +64,7 @@ export const removeStateAndVerifier = () => {
 };
 
 export const updateStateAndVerifier = csp => {
-  const storage = window.localStorage;
+  const storage = localStorage;
 
   storage.setItem(OAUTH_KEYS.STATE, storage.getItem(`${csp}_signup_state`));
   storage.setItem(
@@ -149,7 +149,8 @@ export async function createOAuthRequest({
 }
 
 export const getCV = () => {
-  const codeVerifier = sessionStorage.getItem(OAUTH_KEYS.CODE_VERIFIER);
+  const storage = localStorage;
+  const codeVerifier = storage.getItem(OAUTH_KEYS.CODE_VERIFIER);
   return { codeVerifier };
 };
 
