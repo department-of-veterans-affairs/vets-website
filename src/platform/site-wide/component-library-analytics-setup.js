@@ -140,6 +140,13 @@ const analyticsEvents = {
       prefix: 'breadcrumbs',
     },
   ],
+  'va-button': [
+    {
+      action: 'click',
+      event: 'cta-button-click',
+      prefix: 'button',
+    },
+  ],
   'va-checkbox-group': [
     {
       action: 'change',
@@ -180,6 +187,23 @@ const analyticsEvents = {
       action: 'change',
       event: 'int-select-box-option-click',
       prefix: 'select',
+    },
+  ],
+  'va-pagination': [
+    {
+      action: 'linkClick',
+      event: 'nav-paginate-number',
+      prefix: 'pagination',
+    },
+    {
+      action: 'linkClick',
+      event: 'nav-paginate-previous',
+      prefix: 'pagination',
+    },
+    {
+      action: 'linkClick',
+      event: 'nav-paginate-next',
+      prefix: 'pagination',
     },
   ],
   'va-progress-bar': [
