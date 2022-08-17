@@ -142,6 +142,7 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
 
     return promise;
   };
+  // testing load times.
 })(3);
 
 export function getPreferredCCProvider(id) {
