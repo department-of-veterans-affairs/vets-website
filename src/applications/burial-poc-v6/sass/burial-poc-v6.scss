@@ -10,25 +10,6 @@ form [type=submit] {
   width: auto;
 }
 
-
-/* Review Page */
-.review-page {
-  &--page-heading--text {
-    color: var(--color-primary-darker);
-  }
-  &--page-heading--link {
-    text-align: right;
-    margin-top: 1.8em;
-  }
-  &--page-info--label-text {
-    color: var(--color-gray);
-  }
-  &--page-info--value-text {
-    color: var(--color-gray-dark);
-    font-size: 18px;
-  }
-}
-
 .inset {
   margin: 2rem 0rem;
   padding: 2rem 3rem;
