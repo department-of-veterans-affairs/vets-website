@@ -19,9 +19,9 @@ export default function DeniedConfirmation({ user, dateReceived }) {
               (Chapter 33) benefit at this time.
             </p>{' '}
             <p>
-              Your decision letter, which explains why you are ineligible, is
-              now available. A physical copy will also be mailed to your mailing
-              address.
+              You can now download your decision letter, which explains why
+              you're not eligible. We'll also mail a physical copy to your
+              mailing address.
             </p>
           </div>
           <div>
@@ -69,8 +69,10 @@ export default function DeniedConfirmation({ user, dateReceived }) {
         <h2>What happens next?</h2>
         <ul>
           <li>
-            Download a copy of your decision letter. This can also be found in
-            your VA education inbox.
+            Download a copy of your decision letter. This can also be found at
+            <a href="http://www.va.gov/education/download-letters/letters/">
+              Download your VA education letters.
+            </a>
           </li>
           <li>
             You will be notified if you are eligible for other VA education
