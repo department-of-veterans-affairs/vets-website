@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { LETTER_URL } from '../../constants';
 
 export default function DeniedConfirmation({ user, dateReceived }) {
   return (
@@ -70,9 +71,7 @@ export default function DeniedConfirmation({ user, dateReceived }) {
         <ul>
           <li>
             Download a copy of your decision letter. This can also be found at
-            <a href="http://www.va.gov/education/download-letters/letters/">
-              Download your VA education letters.
-            </a>
+            <a href={LETTER_URL}>Download your VA education letters.</a>
           </li>
           <li>
             You will be notified if you are eligible for other VA education
