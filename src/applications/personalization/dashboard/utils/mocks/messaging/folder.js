@@ -9,6 +9,8 @@ export const mockFolderResponse = {
       unreadCount: 3,
       systemFolder: false,
     },
-    links: { self: 'https://staging-api.va.gov/v0/messaging/health/folders/0' },
+    links: {
+      self: 'https://staging-platform-api.va.gov/v0/messaging/health/folders/0',
+    },
   },
 };

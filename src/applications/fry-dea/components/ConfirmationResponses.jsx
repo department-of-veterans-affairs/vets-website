@@ -14,8 +14,10 @@ const NeedHelpComponent = () => {
 
 const ConfirmationReceiptBox = ({ name }) => {
   return (
-    <div className="inset">
-      <h4>Application for VA education benefits (Form 22-5490)</h4>
+    <div className="inset vads-u-margin-top--3 vads-u-padding-y--3">
+      <h3 className="vads-u-margin-top--0p5">
+        Application for VA education benefits (Form 22-5490)
+      </h3>
       {name ? (
         <p>
           For {name.first} {name.middle} {name.last} {name.suffix}
@@ -28,13 +30,13 @@ const ConfirmationReceiptBox = ({ name }) => {
         <dt>
           <strong>Date received</strong>
         </dt>
-        <dd>{format(new Date(), 'MMM d, yyyy')}</dd>
+        <dd>{format(new Date(), 'MMMM d, yyyy')}</dd>
       </dl>
 
       <button
         type="button"
         onClick={() => window.print()}
-        className="usa-button vads-u-width--auto"
+        className="usa-button vads-u-margin-bottom--0"
       >
         Print this page
       </button>
@@ -152,6 +154,120 @@ UnderReview.prototype = {
   response: PropTypes.object || PropTypes.bool,
 };
 
+export function Approved(name) {
+  return (
+    <>
+      <div>
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="success"
+          visible
+        >
+          <h2 slot="headline">
+            Congratulations, you’ve been approved for Survivors’ and Dependents’
+            Educational Assistance
+          </h2>
+          <div className="vads-u-margin-top--1p5">
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
+              We reviewed your application and have determined that you’re
+              entitled to educational benefits under Survivors’ and Dependents’
+              Educational Assistance (DEA, Chapter 35). Your decision letter is
+              now available. A physical copy will also be mailed to your mailing
+              address.
+            </p>
+            <a
+              href="https://www.va.gov"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <i
+                className="fa fa-download vads-u-margin-right--1"
+                aria-hidden="true"
+              />
+              <span className="vads-u-margin-left--0p25 vads-u-font-weight--bold">
+                Download your decision letter (PDF)
+              </span>
+            </a>
+            .
+          </div>
+        </va-alert>
+        <ConfirmationReceiptBox name={name} />
+      </div>
+      <div className="vads-u-margin-bottom--4">
+        <h2>What happens next?</h2>
+        <ul>
+          <li>
+            Download a copy of your decision letter. This can also be found at{' '}
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href="/education/download-letters/letters/"
+            >
+              Download your VA education letters
+            </a>
+            .
+          </li>
+          <li>
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href="/education/gi-bill-comparison-tool/"
+            >
+              Use our GI Bill Comparison Tool to help you decide which education
+              program and school are best for you
+            </a>
+            .
+          </li>
+          <li>
+            Once you’ve selected a school or program, you may bring your
+            decision letter to your School Certifying Official to provide proof
+            of eligibility.
+          </li>
+          <li>
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href="/?next=%2Fprofile"
+            >
+              Review and/or update your direct deposit information on your
+              VA.gov profile
+            </a>
+            .
+          </li>
+          <li>
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href="https://benefits.va.gov/GIBILL/docs/GIBguideseries/ChooseYourEducationPathway.pdf"
+            >
+              Learn more about VA benefits and programs through the Building
+              Your Future with the GI Bill Series
+            </a>
+            .
+          </li>
+        </ul>
+      </div>
+      <div className="vads-u-margin-bottom--4">
+        <va-additional-info trigger="What is a decision letter?">
+          <div>
+            A decision letter is an official document from the U.S. Department
+            of Veterans Affairs that details your GI Bill benefit status. If you
+            are approved to receive benefits, you may provide this official
+            document to your educational institution to prove your eligibility
+            status.
+          </div>
+        </va-additional-info>
+      </div>
+      <NeedHelpComponent />
+    </>
+  );
+}
+
+Approved.prototype = {
+  name: PropTypes.object,
+  response: PropTypes.object || PropTypes.bool,
+};
+
 export function NotEligible(name) {
   return (
     <>
@@ -164,7 +280,7 @@ export function NotEligible(name) {
           <h2 id="track-your-status-on-mobile" slot="headline">
             You’re not eligible for this benefit
           </h2>
-          <div>
+          <div className="vads-u-margin-top--1p5">
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--3">
               Unfortunately, based on the information you provided and
               Department of Defense records, we have determined you’re not
@@ -173,12 +289,20 @@ export function NotEligible(name) {
               decision letter, which explains why you're not eligible. We'll
               also mail a physical copy to your mailing address.
             </p>
-            <va-link
-              download
-              filetype="PDF"
+            <a
               href="https://www.va.gov"
-              text="Download your decision letter"
-            />
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <i
+                className="fa fa-download vads-u-margin-right--1"
+                aria-hidden="true"
+              />
+              <span className="vads-u-margin-left--0p25 vads-u-font-weight--bold">
+                Download your decision letter (PDF)
+              </span>
+            </a>
+            .
           </div>
         </va-alert>
         <ConfirmationReceiptBox name={name} />
@@ -188,10 +312,14 @@ export function NotEligible(name) {
         <ul>
           <li>
             Download a copy of your decision letter. This can also be found at{' '}
-            <va-link
-              href="https://va.gov/vso/"
-              text="Download your VA education letters."
-            />
+            <a
+              href="/education/download-letters/letters/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Download your VA education letters
+            </a>
+            .
           </li>
           <li>We don’t require further action required by you at this time.</li>
         </ul>
@@ -205,3 +333,15 @@ NotEligible.prototype = {
   name: PropTypes.object,
   response: PropTypes.object || PropTypes.bool,
 };
+
+export function LoadingResults() {
+  return (
+    <div className="vads-u-margin-y--5">
+      <va-loading-indicator
+        label="Loading"
+        message="Loading your results"
+        set-focus
+      />
+    </div>
+  );
+}

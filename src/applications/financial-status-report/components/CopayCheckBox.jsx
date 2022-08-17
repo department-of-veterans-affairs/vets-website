@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import { currency, endDate } from '../utils/helpers';
@@ -9,32 +8,38 @@ const CopayCheckBox = ({ copay }) => {
   const dispatch = useDispatch();
 
   const formData = useSelector(state => state.form.data);
-  const { selectedCopays } = formData;
+  const { selectedDebtsAndCopays = [] } = formData;
 
-  const isChecked = selectedCopays?.some(
+  const isChecked = selectedDebtsAndCopays?.some(
     currentCopay => currentCopay.id === copay.id,
   );
 
   const onChange = selectedCopay => {
-    const alreadyIncluded = selectedCopays?.some(
+    const alreadyIncluded = selectedDebtsAndCopays?.some(
       currentCopay => currentCopay.id === selectedCopay.id,
     );
 
     if (alreadyIncluded) {
-      const checked = selectedCopays?.filter(
+      const checked = selectedDebtsAndCopays?.filter(
         copayEntry => copayEntry.id !== selectedCopay.id,
       );
 
-      return dispatch(setData({ ...formData, selectedCopays: checked }));
+      return dispatch(
+        setData({
+          ...formData,
+          selectedDebtsAndCopays: checked,
+        }),
+      );
     }
-    const newFsrCopays = selectedCopays?.length
-      ? [...selectedCopays, selectedCopay]
+
+    const newlySelectedDebtsAndCopays = selectedDebtsAndCopays?.length
+      ? [...selectedDebtsAndCopays, selectedCopay]
       : [selectedCopay];
 
     return dispatch(
       setData({
         ...formData,
-        selectedCopays: newFsrCopays,
+        selectedDebtsAndCopays: newlySelectedDebtsAndCopays,
       }),
     );
   };
@@ -66,18 +71,6 @@ const CopayCheckBox = ({ copay }) => {
       </label>
     </div>
   );
-};
-
-CopayCheckBox.propTypes = {
-  copay: PropTypes.shape({
-    id: PropTypes.string,
-    pHAmtDue: PropTypes.number,
-    pSStatementDateOutput: PropTypes.string,
-    station: PropTypes.shape({
-      facilityName: PropTypes.string,
-      facilitYNum: PropTypes.string,
-    }),
-  }),
 };
 
 export default CopayCheckBox;

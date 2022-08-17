@@ -99,6 +99,8 @@ const createAppointment = ({
   status = '',
   startTime = getAppointmentStartTime(eligibility, preCheckInValid, uuid),
   checkInSteps = [],
+  clinicStopCodeName = 'Mental health',
+  doctorName = 'Dr. Jones',
 } = {}) => {
   const formattedStartTime = dateFns.format(
     startTime,
@@ -156,6 +158,8 @@ const createAppointment = ({
     status,
     stationNo,
     clinicLocation,
+    clinicStopCodeName,
+    doctorName,
   };
 };
 
