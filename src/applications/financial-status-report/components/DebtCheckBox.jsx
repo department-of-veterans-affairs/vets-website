@@ -50,9 +50,9 @@ const DebtCheckBox = ({ debt }) => {
       ? [...selectedDebts, selectedDebt]
       : [selectedDebt];
 
-    const newlySelectedDebtsAndCopays = selectedDebts?.length
-      ? [...selectedDebts, selectedDebt]
-      : [selectedDebt];
+    const newlySelectedDebtsAndCopays = selectedDebtsAndCopays?.length
+      ? [...selectedDebtsAndCopays, selectedDebt]
+      : [selectedDebtsAndCopays];
 
     return dispatch(
       setData({
