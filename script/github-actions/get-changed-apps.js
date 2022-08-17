@@ -4,7 +4,7 @@ const find = require('find');
 const path = require('path');
 const commandLineArgs = require('command-line-args');
 
-const changedAppsConfig = require('../../config/changed-apps-build.json.json');
+const changedAppsConfig = require('../../config/changed-apps-build.json');
 
 /**
  * Gets the manifest of all apps in the root app folder that a file belongs to.
