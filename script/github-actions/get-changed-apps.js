@@ -56,12 +56,12 @@ const getAllowedApps = (filePath, isolatedApps) => {
 };
 
 /**
- * Checks if an isolated app build is possible by confirming that all files
- * are from apps on an allow list. If so, returns a delimited string of application
- * entry names, relative paths, URLs or Slack user groups; otherwise returns an empty string.
+ * Checks if a list of file paths belong to isolated apps with continuous deployment enabled.
+ * If so, returns a delimited string of application entry names, relative paths, URLs
+ * or Slack user groups; otherwise returns an empty string.
  *
  * @param {string[]} filePaths - An array of relative file paths.
- * @param {Object} config - The isolated apps config.
+ * @param {Object} config - Isolated apps config.
  * @param {string} outputType - Determines what app information should be returned.
  * @param {string} delimiter - Delimiter to use for string output.
  * @returns {string} A delimited string of app entry names, relative paths, URLs, or Slack user groups.
