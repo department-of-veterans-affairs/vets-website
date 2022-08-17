@@ -1,14 +1,14 @@
-import { now } from 'lodash';
 import React, { useState } from 'react';
 
 const Navigation = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
-  const [isListOpen, setIsListOpen] = useState(false);
+  const [isListOpen, setIsListOpen] = useState(true);
 
   function openNavigation() {
     setIsNavigationOpen(true);
   }
+
   function closeNavigation() {
     setIsNavigationOpen(false);
   }
@@ -20,16 +20,13 @@ const Navigation = () => {
   function screenResize() {
     if (window.innerWidth <= 481 && setIsMobile !== false) {
       setIsMobile(true);
-      console.log('mobile now');
     } else {
       setIsMobile(false);
-      console.log('desktop now');
+      setIsNavigationOpen(false);
     }
   }
   window.addEventListener('resize', screenResize);
-  // function openNavigation() {
-  //   setIsNavigationOpen(!isNavigationOpen);
-  // }
+
   return (
     <>
       {isMobile ? (
@@ -90,8 +87,8 @@ const Navigation = () => {
                       <li
                         className={`messages ${
                           isListOpen === true
-                            ? 'messages-open'
-                            : 'messages-close'
+                            ? 'messages-list-open'
+                            : 'messages-list-close'
                         } `}
                       >
                         <a className="list-parent" onClick={openList} href="#">
@@ -100,8 +97,8 @@ const Navigation = () => {
                         <ul
                           className={`messages-list ${
                             isListOpen === true
-                              ? 'messages-open'
-                              : 'messages-close'
+                              ? 'messages-list-open'
+                              : 'messages-list-close'
                           } `}
                         >
                           <li>
@@ -143,12 +140,7 @@ const Navigation = () => {
                         </a>
                       </li>
                       <li>
-                        <a
-                          className="list-parent"
-                          href="#"
-                          aria-hidden="true"
-                          s
-                        >
+                        <a className="list-parent" href="#" aria-hidden="true">
                           Health resources
                         </a>
                       </li>

@@ -4,7 +4,9 @@
   justify-content: center;
   width: 232px;
   height: 600px;
-  font-size: 17px;
+  a{
+    font-size: 17px;
+  }
   ul{
     margin: 0px;
     padding: 0px;
@@ -14,13 +16,13 @@
   li{
     border: 0px;
   }
-  .messages-open{
+  .messages-list-open{
     background-color: $color-gray-lightest;
     a.list-parent {
         border-left: 4px solid;
       }
   }
-  .messages-close{
+  .messages-list-close{
     li{
       display: none;
     }
@@ -29,10 +31,6 @@
     position: absolute;
     left: -3000;
   }
-button.header-menu-button {
-  width: 700px;
-  border: 1px solid;
-}
   .nav-title {
     display: flex;
     flex-direction: row;
@@ -114,6 +112,9 @@ button.header-menu-button {
     margin-right: 15px;
     .button-wrapper {
     left: 0px;
+    &:hover{
+      background-color: $color-white;
+    }
     }
   }
   .side-menu-nav {
@@ -127,6 +128,9 @@ button.header-menu-button {
     justify-content: center;
     border: 1px solid $color-gray;
     background-color: $color-white;
+    a{
+      font-size: 15px;
+    }
     .nav-title {
       i.fa-medkit {
         padding-bottom: 4px;
