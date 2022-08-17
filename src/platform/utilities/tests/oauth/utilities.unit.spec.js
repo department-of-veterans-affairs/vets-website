@@ -128,7 +128,8 @@ describe('OAuth - Utilities', () => {
           },
         });
         const { oAuthOptions } = externalApplicationsConfig.default;
-        expect(url).to.include(`type=${csp}`);
+        const expectedType = csp.slice(0, csp.indexOf('_'));
+        expect(url).to.include(`type=${expectedType}`);
         expect(url).to.include(`acr=${oAuthOptions.acrSignup[csp]}`);
       });
     });
