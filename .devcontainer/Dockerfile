@@ -49,6 +49,12 @@ ADD http://crl.pki.va.gov/PKI/AIA/VA/VA-Internal-S2-RCA1-v1.cer /usr/local/share
 RUN openssl x509 -inform DER -in /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.cer -out /usr/local/share/ca-certificates/VA-Internal-S2-RCA1-v1.crt
 RUN update-ca-certificates
 
+# install RVM, Ruby, and Bundler
+# RUN \curl -L https://get.rvm.io | bash -s stable
+# RUN /bin/bash -l -c "rvm requirements"
+# RUN /bin/bash -l -c "rvm install 2.7.6"
+# RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
+
 RUN mkdir -p /application
 WORKDIR /application
 
