@@ -2,8 +2,7 @@
   "apps": [
     {
       "rootFolder": "burials",
-      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>",
-      "continuousDeployment": false
+      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
     },
     {
       "rootFolder": "check-in",
