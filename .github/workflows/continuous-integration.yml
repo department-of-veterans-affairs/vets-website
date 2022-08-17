@@ -1080,34 +1080,53 @@ jobs:
           aws s3 cp ${{ matrix.buildtype }}.tar.bz2 s3://vetsgov-website-builds-s3-upload/$GITHUB_SHA/${{ matrix.buildtype }}.tar.bz2 --acl public-read --region us-gov-west-1
           aws s3 cp BUILD_ARTIFACT.txt s3://vetsgov-website-builds-s3-upload-test/build-artifacts/$GITHUB_SHA.txt --acl public-read --region us-gov-west-1
 
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-    if: always() && github.ref == 'refs/heads/main' && needs.archive.result == 'success'
+  set-deploy-environments:
+    name: Set environments to deploy
     needs: [archive, build]
-
-    strategy:
-      matrix:
-        include:
-          - environment: vagovdev
-            deploy-bucket: dev.va.gov
-            asset-bucket: dev-va-gov-assets
-            iam-role: AWS_FRONTEND_NONPROD_ROLE
-
-          - environment: vagovstaging
-            deploy-bucket: staging.va.gov
-            asset-bucket: staging-va-gov-assets
-            iam-role: AWS_FRONTEND_NONPROD_ROLE
-
-          - environment: vagovprod
-            deploy-bucket: www.va.gov
-            asset-bucket: prod-va-gov-assets
-            iam-role: AWS_FRONTEND_PROD_ROLE
-
+    if: always() && github.ref == 'refs/heads/main' && needs.archive.result == 'success'
+    runs-on: ubuntu-latest
+    outputs:
+      environments: ${{ steps.set-environments.outputs.environments }}
     env:
       DEPLOY_TO_PRODUCTION: false # Enables production deployments for apps on the allowlist when set to true
       IS_ISOLATED_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
-
+      DEV: "{
+          \\\"environment\\\": \\\"vagovdev\\\", 
+          \\\"bucket\\\": \\\"dev.va.gov\\\", 
+          \\\"asset_bucket\\\": \\\"dev-va-gov-assets\\\",
+          \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
+        }"
+      STAGING: "{
+          \\\"environment\\\": \\\"vagovstaging\\\", 
+          \\\"bucket\\\": \\\"staging.va.gov\\\", 
+          \\\"asset_bucket\\\": \\\"staging-va-gov-assets\\\",
+          \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
+        }"
+      PROD: "{
+          \\\"environment\\\": \\\"vagovprod\\\", 
+          \\\"bucket\\\": \\\"www.va.gov\\\", 
+          \\\"asset_bucket\\\": \\\"prod-va-gov-assets\\\",
+          \\\"iam_role\\\": \\\"AWS_FRONTEND_PROD_ROLE\\\"
+        }"
+    steps:
+      - name: Set environments for deploy matrix
+        id: set-environments
+        run: |
+          if [[ ${{ env.DEPLOY_TO_PRODUCTION }} == true && ${{ env.IS_ISOLATED_APP_BUILD }} == true ]]; then
+            echo ::set-output name=environments::{\"include\":[${{env.DEV}},${{env.STAGING}},${{env.PROD}}]}
+          else
+            echo ::set-output name=environments::{\"include\":[${{env.DEV}},${{env.STAGING}}]}
+          fi
+  
+  deploy:
+    name: Deploy
+    needs: [build, set-deploy-environments]
+    if: always() && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.set-deploy-environments.outputs.environments) }}
+    env:
+      IS_ISOLATED_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -1130,18 +1149,8 @@ jobs:
         env:
           BUILDTYPE: ${{ matrix.environment }}
 
-      - name: Set environment variable DEPLOY_COMMIT
-        run: |
-          if [[ "${{ steps.check-deployability.outputs.is_deployable }}" == "false" ]]; then
-            echo "DEPLOY_COMMIT=false" >> $GITHUB_ENV
-          elif [[ "${{ matrix.environment }}" != "vagovprod" ]]; then
-            echo "DEPLOY_COMMIT=true" >> $GITHUB_ENV
-          else
-            echo "DEPLOY_COMMIT=${{ env.IS_ISOLATED_APP_BUILD && env.DEPLOY_TO_PRODUCTION }}" >> $GITHUB_ENV
-          fi
-
       - name: Configure AWS credentials (1)
-        if: env.DEPLOY_COMMIT == 'true'
+        if: steps.check-deployability.outputs.is_deployable == 'true'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -1149,14 +1158,14 @@ jobs:
           aws-region: us-gov-west-1
 
       - name: Get AWS IAM role
-        if: env.DEPLOY_COMMIT == 'true'
+        if: steps.check-deployability.outputs.is_deployable == 'true'
         uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
         with:
-          ssm_parameter: /frontend-team/github-actions/parameters/${{ matrix.iam-role }}
-          env_variable_name: ${{ matrix.iam-role }}
+          ssm_parameter: /frontend-team/github-actions/parameters/${{ matrix.iam_role }}
+          env_variable_name: ${{ matrix.iam_role }}
 
       - name: Configure AWS Credentials (2)
-        if: env.DEPLOY_COMMIT == 'true'
+        if: steps.check-deployability.outputs.is_deployable == 'true'
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -1167,7 +1176,7 @@ jobs:
           role-session-name: vsp-frontendteam-githubaction
 
       - name: Deploy
-        if: env.DEPLOY_COMMIT == 'true'
+        if: steps.check-deployability.outputs.is_deployable == 'true'
         run: |
           if [[ "${{ env.IS_ISOLATED_APP_BUILD }}" == "true" ]]; then
             ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
@@ -1176,8 +1185,8 @@ jobs:
           fi
         env:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
-          DEST: s3://${{ matrix.deploy-bucket }}
-          ASSET_DEST: s3://${{ matrix.asset-bucket }}
+          DEST: s3://${{ matrix.bucket }}
+          ASSET_DEST: s3://${{ matrix.asset_bucket }}
 
   notify-failure:
     name: Notify Failure
