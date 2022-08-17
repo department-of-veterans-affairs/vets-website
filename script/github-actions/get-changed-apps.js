@@ -30,7 +30,7 @@ const getManifests = filePath => {
  *
  * @param {string} filePath - Relative file path.
  * @param {Object} isolatedApps - Lists of isolated apps.
- * @returns {Object[]|null} Sliced manifests of isolated apps with CD enabled. Otherwise null.
+ * @returns {Object[]|null} Sliced manifests of isolated apps. Otherwise null.
  */
 const getAllowedApps = (filePath, isolatedApps) => {
   const appsDirectory = 'src/applications';
@@ -43,7 +43,7 @@ const getAllowedApps = (filePath, isolatedApps) => {
     app => app.rootFolder === rootAppFolderName,
   );
 
-  if (isolatedApp && isolatedApp.continuousDeployment !== false) {
+  if (isolatedApp) {
     return manifests.map(({ entryName, rootUrl }) => ({
       entryName,
       rootUrl,
@@ -56,8 +56,8 @@ const getAllowedApps = (filePath, isolatedApps) => {
 };
 
 /**
- * Checks if a list of file paths belong to isolated apps with continuous deployment enabled.
- * If so, returns a delimited string of application entry names, relative paths, URLs
+ * Checks if a list of file paths belong to isolated apps. If so, returns a
+ * delimited string of application entry names, relative paths, URLs
  * or Slack user groups; otherwise returns an empty string.
  *
  * @param {string[]} filePaths - An array of relative file paths.

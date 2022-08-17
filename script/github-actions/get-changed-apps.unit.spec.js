@@ -309,21 +309,5 @@ describe('getChangedAppsString', () => {
     });
   });
 
-  context('when continuous deployment is set to false', () => {
-    it('should return an empty string', () => {
-      const config = createIsolatedAppConfig([
-        { rootFolder: 'app1', continuousDeployment: false },
-        { rootFolder: 'app2' },
-      ]);
-      const changedFiles = [
-        'src/applications/app1',
-        'src/applications/app2/some-file.js',
-      ];
-
-      const appString = getChangedAppsString(changedFiles, config, 'entry');
-      expect(appString).to.be.empty;
-    });
-  });
-
   after(() => mockFs.restore());
 });
