@@ -81,8 +81,8 @@ const App = ({ toggleLoginModal, user }) => {
               You applied for Post-9/11 GI Bill benefits, <b>and</b>
             </li>
             <li>
-              You received a decision from us about your application after Month
-              Day, Year
+              You received a decision from us about your application after
+              08/20/2022.
             </li>
           </ul>
           <p>
