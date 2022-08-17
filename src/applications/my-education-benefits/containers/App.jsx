@@ -7,6 +7,7 @@ import formConfig from '../config/form';
 import { fetchPersonalInformation, fetchEligibility } from '../actions';
 import { fetchUser } from '../selectors/userDispatch';
 import { prefillTransformer } from '../helpers';
+import { formFields } from '../constants';
 
 export const App = ({
   location,
@@ -32,7 +33,7 @@ export const App = ({
       if (!fetchedPersonalInfo) {
         setFetchedPersonalInfo(true);
         getPersonalInfo();
-      } else if (!formData?.claimantId && claimantInfo.claimantId) {
+      } else if (!formData[formFields.claimantId] && claimantInfo.claimantId) {
         setFormData({
           ...formData,
           ...claimantInfo,

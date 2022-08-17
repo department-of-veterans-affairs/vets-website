@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { DATE_TIMESTAMP } from './constants';
+import { DATE_TIMESTAMP, formFields } from './constants';
 import { getSchemaCountryCode } from './utils/form-submit-transform';
 
 export const directDepositWarning = (
@@ -201,33 +201,33 @@ export function prefillTransformer(pages, formData, metadata, state) {
 
   const newData = {
     ...formData,
-    formId: state.data?.formData?.data?.id,
-    claimantId: claimant.claimantId,
-    'view:userFullName': {
-      userFullName: {
+    [formFields.formId]: state.data?.formData?.data?.id,
+    [formFields.claimantId]: claimant.claimantId,
+    [formFields.viewUserFullName]: {
+      [formFields.userFullName]: {
         first: claimant.firstName || undefined,
         middle: claimant.middleName || undefined,
         last: claimant.lastName || undefined,
       },
     },
-    dateOfBirth: claimant.dateOfBirth,
-    email: {
+    [formFields.dateOfBirth]: claimant.dateOfBirth,
+    [formFields.email]: {
       email: contactInfo.emailAddress,
       confirmEmail: contactInfo.emailAddress,
     },
-    'view:phoneNumbers': {
-      mobilePhoneNumber: {
+    [formFields.viewPhoneNumbers]: {
+      [formFields.mobilePhoneNumber]: {
         phone: contactInfo?.mobilePhoneNumber?.replace(/\D/g, '') || undefined,
       },
-      phoneNumber: {
+      [formFields.phoneNumber]: {
         phone: contactInfo?.homePhoneNumber?.replace(/\D/g, '') || undefined,
       },
     },
     'view:contactMethod': {
       contactMethod: mapNotificaitonMethod(claimant?.notificationMethod),
     },
-    'view:mailingAddress': {
-      address: {
+    [formFields.viewMailingAddress]: {
+      [formFields.address]: {
         street: contactInfo?.addressLine1,
         street2: contactInfo?.addressLine2 || undefined,
         city: contactInfo?.city,
@@ -235,17 +235,17 @@ export function prefillTransformer(pages, formData, metadata, state) {
         postalCode: contactInfo?.zipcode,
         country: getSchemaCountryCode(contactInfo?.countryCode),
       },
-      livesOnMilitaryBase:
+      [formFields.livesOnMilitaryBase]:
         contactInfo?.countryCode !== 'US' &&
         contactInfo?.addressType === 'MILITARY_OVERSEAS',
     },
-    toursOfDuty: serviceData.map(transformServiceHistory),
+    [formFields.toursOfDuty]: serviceData.map(transformServiceHistory),
   };
 
   if (claimant?.suffix) {
-    newData['view:userFullName'].userFullName.suffix =
+    newData[formFields.viewUserFullName].userFullName.suffix =
       state?.form?.pages?.applicantInformation?.schema?.properties[
-        'view:userFullName'
+        formFields.viewUserFullName
       ]?.properties?.userFullName?.properties?.suffix?.enum?.find(e =>
         equalsAlphaOnlyIgnoreCase(e, claimant.suffix),
       ) || undefined;
