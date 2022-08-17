@@ -4,7 +4,7 @@ const find = require('find');
 const path = require('path');
 const commandLineArgs = require('command-line-args');
 
-const isolatedAppsConfig = require('../../config/isolated-apps.json');
+const changedAppsConfig = require('../../config/changed-apps-build.json.json');
 
 /**
  * Gets the manifest of all apps in the root app folder that a file belongs to.
@@ -26,29 +26,29 @@ const getManifests = filePath => {
 
 /**
  * Gets the sliced manifest(s) of a file's root app folder with some added properties. The
- * app's root folder must be on the given isolated app list, otherwise returns null.
+ * app's root folder must be on the given allow list, otherwise returns null.
  *
  * @param {string} filePath - Relative file path.
- * @param {Object} isolatedApps - Lists of isolated apps.
- * @returns {Object[]|null} Sliced manifests of isolated apps. Otherwise null.
+ * @param {Object} allowedApps - List of allowed apps.
+ * @returns {Object[]|null} Sliced manifests of allowed apps. Otherwise null.
  */
-const getAllowedApps = (filePath, isolatedApps) => {
+const getAllowedApps = (filePath, allowedApps) => {
   const appsDirectory = 'src/applications';
 
   if (!filePath.startsWith(appsDirectory)) return null;
 
   const manifests = getManifests(filePath);
   const rootAppFolderName = filePath.split('/')[2];
-  const isolatedApp = isolatedApps.find(
+  const allowedApp = allowedApps.find(
     app => app.rootFolder === rootAppFolderName,
   );
 
-  if (isolatedApp) {
+  if (allowedApp) {
     return manifests.map(({ entryName, rootUrl }) => ({
       entryName,
       rootUrl,
       rootPath: path.join(appsDirectory, rootAppFolderName),
-      slackGroup: isolatedApp.slackGroup,
+      slackGroup: allowedApp.slackGroup,
     }));
   }
 
@@ -56,12 +56,12 @@ const getAllowedApps = (filePath, isolatedApps) => {
 };
 
 /**
- * Checks if a list of file paths belong to isolated apps. If so, returns a
+ * Checks if a list of file paths belong to allowed apps. If so, returns a
  * delimited string of application entry names, relative paths, URLs
  * or Slack user groups; otherwise returns an empty string.
  *
  * @param {string[]} filePaths - An array of relative file paths.
- * @param {Object} config - Isolated apps config.
+ * @param {Object} config - Changed apps config.
  * @param {string} outputType - Determines what app information should be returned.
  * @param {string} delimiter - Delimiter to use for string output.
  * @returns {string} A delimited string of app entry names, relative paths, URLs, or Slack user groups.
@@ -110,7 +110,7 @@ if (process.env.CHANGED_FILE_PATHS) {
 
   const changedAppsString = getChangedAppsString(
     changedFilePaths,
-    isolatedAppsConfig,
+    changedAppsConfig,
     options['output-type'],
     options.delimiter,
   );

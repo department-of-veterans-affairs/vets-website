@@ -1,5 +1,5 @@
 name: Get changed applications
-description: Get application details for branches/commits with changes to isolated applications.
+description: Get application details for branches/commits with changes to single or grouped applications on the allow-list.
 
 inputs:
   delimiter:
