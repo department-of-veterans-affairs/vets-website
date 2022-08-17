@@ -4,13 +4,15 @@ const NavigationLinks = () => (
   <div className="vads-u-text-align--right nav-links">
     <a
       className="nav-links-text"
-      href="http://localhost:3001/my-health/secure-messages/reply/"
+      href="/message"
+      aria-label="Navigate to previous message"
     >
       <i className="fas fa-angle-left" /> Previous
     </a>
     <a
       className="nav-links-text"
-      href="http://localhost:3001/my-health/secure-messages/reply/"
+      href="/message"
+      aria-label="Navigate to next message"
     >
       Next <i className="fas fa-angle-right" />
     </a>
