@@ -142,8 +142,7 @@ export const getLongTermAppointmentHistoryV2 = ((chunks = 1) => {
 
     return promise;
   };
-  // testing load times.
-})(3);
+})(1);
 
 export function getPreferredCCProvider(id) {
   return apiRequestWithUrl(`/vaos/v2/providers/${id}`, {
