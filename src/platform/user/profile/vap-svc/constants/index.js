@@ -90,8 +90,6 @@ export const FIELD_NAMES = {
   HOME_PHONE: 'homePhone',
   MOBILE_PHONE: 'mobilePhone',
   WORK_PHONE: 'workPhone',
-  TEMP_PHONE: 'temporaryPhone',
-  FAX_NUMBER: 'faxNumber',
   EMAIL: 'email',
   MAILING_ADDRESS: 'mailingAddress',
   RESIDENTIAL_ADDRESS: 'residentialAddress',
@@ -105,8 +103,6 @@ export const FIELD_TITLES = {
   [FIELD_NAMES.HOME_PHONE]: 'Home phone number',
   [FIELD_NAMES.MOBILE_PHONE]: 'Mobile phone number',
   [FIELD_NAMES.WORK_PHONE]: 'Work phone number',
-  [FIELD_NAMES.TEMP_PHONE]: 'Temporary phone number',
-  [FIELD_NAMES.FAX_NUMBER]: 'Fax number',
   [FIELD_NAMES.EMAIL]: 'Contact email address',
   [FIELD_NAMES.MAILING_ADDRESS]: 'Mailing address',
   [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'Home address',
@@ -129,8 +125,6 @@ export const FIELD_IDS = {
   [FIELD_NAMES.HOME_PHONE]: 'home-phone-number',
   [FIELD_NAMES.MOBILE_PHONE]: 'mobile-phone-number',
   [FIELD_NAMES.WORK_PHONE]: 'work-phone-number',
-  [FIELD_NAMES.TEMP_PHONE]: 'temporary-phone-number',
-  [FIELD_NAMES.FAX_NUMBER]: 'fax-number',
   [FIELD_NAMES.EMAIL]: 'contact-email-address',
   [FIELD_NAMES.MAILING_ADDRESS]: 'mailing-address',
   [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'home-address',
@@ -140,8 +134,6 @@ export const FIELD_IDS = {
 export const PHONE_TYPE = {
   [FIELD_NAMES.MOBILE_PHONE]: 'MOBILE',
   [FIELD_NAMES.WORK_PHONE]: 'WORK',
-  [FIELD_NAMES.TEMP_PHONE]: 'TEMPORARY',
-  [FIELD_NAMES.FAX_NUMBER]: 'FAX',
   [FIELD_NAMES.HOME_PHONE]: 'HOME',
 };
 
@@ -156,7 +148,6 @@ export const ANALYTICS_FIELD_MAP = {
   [FIELD_NAMES.HOME_PHONE]: 'home-telephone',
   [FIELD_NAMES.MOBILE_PHONE]: 'mobile-telephone',
   [FIELD_NAMES.WORK_PHONE]: 'work-telephone',
-  [FIELD_NAMES.FAX_NUMBER]: 'fax-telephone',
   [FIELD_NAMES.EMAIL]: 'email',
   [FIELD_NAMES.MAILING_ADDRESS]: 'mailing-address',
   [FIELD_NAMES.RESIDENTIAL_ADDRESS]: 'home-address',

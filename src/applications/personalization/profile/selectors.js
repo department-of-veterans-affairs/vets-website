@@ -125,3 +125,6 @@ export function selectVAProfilePersonalInformation(state, fieldName) {
     ? set(result, notListedTextKey, notListedTextValue)
     : result;
 }
+
+export const selectHideDirectDepositCompAndPen = state =>
+  toggleValues(state)?.[FEATURE_FLAG_NAMES.profileHideDirectDepositCompAndPen];

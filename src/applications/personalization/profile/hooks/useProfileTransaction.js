@@ -123,7 +123,7 @@ const useProfileTransaction = fieldName => {
     let payload = value;
 
     if (convertCleanDataToPayload) {
-      payload = convertCleanDataToPayload(payload);
+      payload = convertCleanDataToPayload(payload, fieldName);
     }
 
     const method = payload?.id ? 'PUT' : 'POST';
