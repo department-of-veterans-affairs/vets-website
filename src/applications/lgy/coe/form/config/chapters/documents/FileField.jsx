@@ -302,6 +302,9 @@ class FileField extends React.Component {
           formContext.reviewMode ? 'schemaform-file-upload-review' : undefined
         }
       >
+        <legend className="vads-u-font-size--base">
+          Your uploaded documents
+        </legend>
         {files.length > 0 && (
           <ul className="schemaform-file-list">
             {files.map((file, index) => {
