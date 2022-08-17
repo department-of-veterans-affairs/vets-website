@@ -58,7 +58,7 @@ describe('getChangedAppsString', () => {
   });
 
   context('when the entry output type is specified', () => {
-    it('should return an empty string when the allow list is empty', () => {
+    it('should return an empty string when the isolated app list is empty', () => {
       const config = createIsolatedAppConfig();
       const changedFiles = [
         'src/applications/app1/some-file.js',
@@ -69,7 +69,7 @@ describe('getChangedAppsString', () => {
       expect(appString).to.be.empty;
     });
 
-    it('should return a space-delimited string of entry names when multiple apps on the allow list are modified', () => {
+    it('should return a space-delimited string of entry names when multiple isolated apps are modified', () => {
       const config = createIsolatedAppConfig([
         { rootFolder: 'app1' },
         { rootFolder: 'app2' },
@@ -266,7 +266,7 @@ describe('getChangedAppsString', () => {
     });
   });
 
-  context('when apps outside the allow list are modified', () => {
+  context('when apps outside the isolated apps list are modified', () => {
     it('should return an empty string', () => {
       const config = createIsolatedAppConfig([
         { rootFolder: 'app1' },
