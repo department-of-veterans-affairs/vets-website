@@ -88,7 +88,7 @@ const InboxListView = props => {
   const displayNums = fromToNums(currentPage, messages.data.length);
 
   return (
-    <div className="vads-l-row vads-u-flex-direction--column vads-u-margin-top--2">
+    <div className="message-list vads-l-row vads-u-flex-direction--column">
       <div className="message-list-sort">
         <va-select
           label="Show messages by"
@@ -97,14 +97,15 @@ const InboxListView = props => {
             onSelectChange(e.detail.value);
           }}
         >
-          <option value="desc">Most recent</option>
-          <option value="unread">Unread</option>
+          <option value="desc">Newest to oldest</option>
+          <option value="asc">Oldest to newest</option>
         </va-select>
         <button type="button">Sort</button>
       </div>
       <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
-        Displaying {displayNums[0]} - {displayNums[1]} of {totalEntries} most
-        recent messages
+        Displaying {displayNums[0]}
+        &#8211;
+        {displayNums[1]} of {totalEntries} messages
       </div>
       {currentMessages.map((message, idx) => (
         <InboxListItem

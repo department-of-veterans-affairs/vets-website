@@ -1,16 +1,23 @@
-.message-list-sort {
-  display: flex;
-  align-items: flex-end;
+.message-list {
+  .message-list-sort {
+    display: flex;
+    align-items: flex-end;
 
-  va-select {
-    margin-right: 16px;
-    min-width: 220px;
+    va-select {
+      margin-right: 16px;
+      min-width: 220px;
+    }
+
+    button {
+      height: 4.2rem;
+      width: fit-content;
+      min-width: 78px;
+      margin: 3.2px 0;
+    }
   }
 
-  button {
-    height: 4.2rem;
-    width: fit-content;
-    min-width: 78px;
-    margin: 3.2px 0;
+  .unread-icon {
+    font-size: 12px;
+    margin-left: 5px;
   }
 }

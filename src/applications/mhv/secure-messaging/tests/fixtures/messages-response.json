@@ -2,7 +2,7 @@
   "data": [
     {
       "attributes": {
-        "attachment": false,
+        "attachment": true,
         "body": null,
         "category": "COVID",
         "message_id": 2339331,
