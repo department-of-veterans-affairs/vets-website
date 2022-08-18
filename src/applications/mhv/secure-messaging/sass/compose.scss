@@ -1,8 +1,10 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .compose-container {
-  margin-top: 16px;
   va-text-input.composeInput::part(input) {
+    max-width: 100%;
+  }
+  va-select.composeSelect::part(select) {
     max-width: 100%;
   }
   @media (min-width: $medium-screen) {
@@ -21,36 +23,10 @@
     margin-right: 6px;
     font-size: 1.1rem;
   }
-  .link-button {
-    background-color: transparent;
-    color: $color-link-default;
-    font-weight: normal;
-    text-decoration: underline;
-    border: none;
-  }
   .edit-input-button {
     padding: 0;
     margin: 0;
     width: fit-content;
-  }
-  .messages-nav-menu {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 24px;
-    padding: 11px 16px 11px 13px;
-    line-height: 1.5;
-    border-color: $color-link-default;
-    * {
-      color: $color-link-default;
-    }
-    width: 100%;
-    @media (min-width: $medium-screen) {
-      display: none;
-    }
-  }
-  .page-title {
-    margin: 24px 0;
   }
   .compose-block {
     margin: 2rem 0 4rem 0;

@@ -74,12 +74,20 @@ const Navigation = () => {
                   <div id="a1" className="side-nav-content" aria-hidden="false">
                     <ul className="usa-sidenav-list">
                       <li>
-                        <a className="list-parent" href="#" aria-hidden="true">
+                        <a
+                          className="list-parent"
+                          href="/my-health/secure-messages"
+                          aria-hidden="true"
+                        >
                           Pharmacy
                         </a>
                       </li>
                       <li>
-                        <a className="list-parent" href="#" aria-hidden="true">
+                        <a
+                          className="list-parent"
+                          href="/my-health/secure-messages"
+                          aria-hidden="true"
+                        >
                           Appointments
                         </a>
                       </li>
@@ -93,7 +101,7 @@ const Navigation = () => {
                         <a
                           className="list-parent"
                           onClick={openOrCloseList}
-                          href="#"
+                          href="/my-health/secure-messages"
                         >
                           Messages
                         </a>
@@ -105,45 +113,65 @@ const Navigation = () => {
                           } `}
                         >
                           <li>
-                            <a href="#">Compose</a>
+                            <a href="/my-health/secure-messages">Compose</a>
                           </li>
                           <li>
-                            <a href="#">Drafts</a>
+                            <a href="/my-health/secure-messages">Drafts</a>
                           </li>
                           <li>
-                            <a href="#">Folders</a>
+                            <a href="/my-health/secure-messages">Folders</a>
                           </li>
                           <li>
-                            <a href="#">Sent</a>
+                            <a href="/my-health/secure-messages">Sent</a>
                           </li>
                           <li>
-                            <a href="#">Deleted</a>
+                            <a href="/my-health/secure-messages">Deleted</a>
                           </li>
                           <li>
-                            <a href="#">Search Messages</a>
+                            <a href="/my-health/secure-messages">
+                              Search Messages
+                            </a>
                           </li>
                           <li>
-                            <a href="#">Messages FAQ</a>
+                            <a href="/my-health/secure-messages">
+                              Messages FAQ
+                            </a>
                           </li>
                         </ul>
                       </li>
                       <li>
-                        <a className="list-parent" href="#" aria-hidden="true">
+                        <a
+                          className="list-parent"
+                          href="/my-health/secure-messages"
+                          aria-hidden="true"
+                        >
                           Medical Records
                         </a>
                       </li>
                       <li>
-                        <a className="list-parent" href="#" aria-hidden="true">
+                        <a
+                          className="list-parent"
+                          href="/my-health/secure-messages"
+                          aria-hidden="true"
+                        >
                           VA health care benefits
                         </a>
                       </li>
                       <li>
-                        <a className="list-parent" href="#" aria-hidden="true">
+                        <a
+                          className="list-parent"
+                          href="/my-health/secure-messages"
+                          aria-hidden="true"
+                        >
                           Copay bills and travel pay
                         </a>
                       </li>
                       <li>
-                        <a className="list-parent" href="#" aria-hidden="true">
+                        <a
+                          className="list-parent"
+                          href="/my-health/secure-messages"
+                          aria-hidden="true"
+                        >
                           Health resources
                         </a>
                       </li>

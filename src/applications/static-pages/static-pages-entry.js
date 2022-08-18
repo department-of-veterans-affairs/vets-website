@@ -36,7 +36,6 @@ import createAskVAWidget from './ask-va';
 import createApplicationStatus from './widget-creators/createApplicationStatus';
 import createCOEAccess from './coe-access/createCOEAccess';
 import createCallToActionWidget from './widget-creators/createCallToActionWidget';
-import createContactChatbotCTA from './contact-chatbot-cta';
 import createCovidVaccineUpdatesWidget from './covid-vaccine-updates-cta/createCovidVaccineUpdatesWidget';
 import createDependencyVerification from './dependency-verification/createDependencyVerification';
 import createDisabilityFormWizard from '../disability-benefits/wizard/createWizard';
@@ -126,7 +125,6 @@ createApplicationStatus(store, {
   widgetType: widgetTypes.HEALTH_CARE_APP_STATUS,
 });
 createCallToActionWidget(store, widgetTypes.CTA);
-createContactChatbotCTA(store, widgetTypes.CONTACT_CHATBOT_CTA);
 createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
 createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
 createApplicationStatus(store, {

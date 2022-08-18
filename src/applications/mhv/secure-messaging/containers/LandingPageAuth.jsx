@@ -11,27 +11,26 @@ then additional functionality will need to be added to account for this.
 */
 
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 // import backendServices from 'platform/user/profile/constants/backendServices';
 // import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { getAllMessages } from '../actions';
-import ReplyHeader from '../components/ReplyHeader';
-import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
-import ReplyBox from '../components/ReplyBox';
-import NavigationLinks from '../components/NavigationLinks';
-import OlderMessages from '../components/OlderMessages';
 import Breadcrumbs from '../components/shared/Breadcrumbs';
+import EmergencyNote from '../components/EmergencyNote';
+import InboxListView from '../components/MessageList/InboxListView';
 
-const MessageReply = props => {
-  const {
-    allMessages: { isLoading, error },
-  } = props;
+const LandingPageAuth = () => {
+  const dispatch = useDispatch();
+  // const user = useSelector(state => state?.user);
+  const { isLoading, messages, error } = useSelector(
+    state => state?.allMessages,
+  );
 
   // fire api call to retreive messages
   useEffect(() => {
-    props.getAllMessages();
+    dispatch(getAllMessages());
   }, []);
 
   let content;
@@ -55,42 +54,49 @@ const MessageReply = props => {
   } else {
     content = (
       <>
-        <Breadcrumbs
-          pageName="Reply"
-          link="http://localhost:3001/my-health/secure-messages/reply/"
-        />
-        <ReplyHeader />
-        <BeforeMessageAddlInfo />
-        <NavigationLinks />
-        <ReplyBox />
-        <OlderMessages />
+        <InboxListView messages={messages} />
       </>
     );
   }
 
   return (
+    // <RequiredLoginView
+    //   user={props.user}
+    //   serviceRequired={backendServices.MHV_AC}
+    // >
+
     <div className="vads-l-grid-container">
+      <Breadcrumbs />
+      <h1>Messages</h1>
+      <p className="va-introtext">
+        When you send a message to your care team, it can take up to 3 business
+        days to get a response.
+      </p>
+      <EmergencyNote />
+      <p>
+        <a
+          className="vads-c-action-link--blue"
+          href="/my-health/secure-messages/compose"
+        >
+          Compose message
+        </a>
+      </p>
+      <div className="search-messages-input">
+        <label htmlFor="search-message-folder-input">
+          Search the Messages folder
+        </label>
+        <VaSearchInput
+          label="search-message-folder-input"
+          // onInput={function noRefCheck() {}}
+          // onSubmit={function noRefCheck() {}}
+        />
+      </div>
+
       <div>{content}</div>
     </div>
+
+    // </RequiredLoginView>
   );
 };
 
-const mapStateToProps = state => ({
-  user: state.user,
-  allMessages: state.allMessages,
-});
-
-const mapDispatchToProps = {
-  getAllMessages,
-};
-
-MessageReply.propTypes = {
-  allMessages: PropTypes.object,
-  getAllMessages: PropTypes.func,
-  user: PropTypes.object,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(MessageReply);
+export default LandingPageAuth;

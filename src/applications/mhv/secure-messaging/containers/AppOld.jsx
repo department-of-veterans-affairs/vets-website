@@ -13,20 +13,16 @@ then additional functionality will need to be added to account for this.
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-// import backendServices from 'platform/user/profile/constants/backendServices';
-// import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
+import backendServices from 'platform/user/profile/constants/backendServices';
+import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 
 import { getAllMessages } from '../actions';
-import ReplyHeader from '../components/ReplyHeader';
-import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
-import ReplyBox from '../components/ReplyBox';
-import NavigationLinks from '../components/NavigationLinks';
-import OlderMessages from '../components/OlderMessages';
-import Breadcrumbs from '../components/shared/Breadcrumbs';
+// import Header from '../components/Header';
+import InboxListView from '../components/MessageList/InboxListView';
 
-const MessageReply = props => {
+const App = props => {
   const {
-    allMessages: { isLoading, error },
+    allMessages: { isLoading, messages, error },
   } = props;
 
   // fire api call to retreive messages
@@ -55,23 +51,21 @@ const MessageReply = props => {
   } else {
     content = (
       <>
-        <Breadcrumbs
-          pageName="Reply"
-          link="http://localhost:3001/my-health/secure-messages/reply/"
-        />
-        <ReplyHeader />
-        <BeforeMessageAddlInfo />
-        <NavigationLinks />
-        <ReplyBox />
-        <OlderMessages />
+        {/* <Header /> */}
+        <InboxListView messages={messages} />
       </>
     );
   }
 
   return (
-    <div className="vads-l-grid-container">
-      <div>{content}</div>
-    </div>
+    <RequiredLoginView
+      user={props.user}
+      serviceRequired={backendServices.MHV_AC}
+    >
+      <div className="vads-l-grid-container">
+        <div className="vads-l-row">{content}</div>
+      </div>
+    </RequiredLoginView>
   );
 };
 
@@ -84,7 +78,7 @@ const mapDispatchToProps = {
   getAllMessages,
 };
 
-MessageReply.propTypes = {
+App.propTypes = {
   allMessages: PropTypes.object,
   getAllMessages: PropTypes.func,
   user: PropTypes.object,
@@ -93,4 +87,4 @@ MessageReply.propTypes = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(MessageReply);
+)(App);

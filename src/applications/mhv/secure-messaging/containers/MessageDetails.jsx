@@ -2,12 +2,14 @@ import React from 'react';
 import NavigationLinks from '../components/NavigationLinks';
 import MessageActionButtons from '../components/MessageActionsButtons';
 import OlderMessages from '../components/OlderMessages';
+import Breadcrumbs from '../components/shared/Breadcrumbs';
 
 const MessageDetail = () => {
   const from = 'Dunwoody, Ann E. (My HealtheVet Questions_PugetSound_ADMIN)';
   const to = 'Lewis, Jennifer';
   const messageDate = 'August 15, 2021, 1:32 p.m. ET';
   const messageId = '8675309';
+  const subject = 'Test: Your lab results';
   const messageText = () => {
     return (
       <>
@@ -35,13 +37,13 @@ const MessageDetail = () => {
   return (
     <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
       <nav>
-        <a href="/messages" className="breadcrumb">
-          <i className="fas fa-angle-left" />
-          Messages
-        </a>
+        <Breadcrumbs
+          pageName="Message"
+          link="http://localhost:3001/my-health/secure-messages/message"
+        />
         <button
           type="button"
-          className="vads-u-margin-top--2 usa-button-secondary messages-nav-menu"
+          className="vads-u-margin-top--2 usa-button-secondary section-guide-button medium-screen:vads-u-display--none"
         >
           <span>In the Messages section</span>
           <i className="fas fa-bars" />
@@ -53,18 +55,24 @@ const MessageDetail = () => {
       <NavigationLinks />
 
       <section className="message-detail-block">
-        <div className="vads-u-display--flex vads-u-flex-direction--row message-detail-header">
-          <h3 className="vads-u-margin-top--1 vads-u-margin-bottom--2">
-            Test: Your lab results
-          </h3>
-          <button type="button" className="send-button-top">
+        <header className="vads-u-display--flex vads-u-flex-direction--row message-detail-header">
+          <h2
+            className="vads-u-margin-top--1 vads-u-margin-bottom--2"
+            aria-label={`Message subject. ${subject}`}
+          >
+            {subject}
+          </h2>
+          <button
+            type="button"
+            className="send-button-top medium-screen:vads-u-padding-right--2"
+          >
             <i className="fas fa-reply" />
             <span className="reply-button-top-text">Reply</span>
           </button>
-        </div>
+        </header>
 
-        <div className="message-detail-content">
-          <div className="message-metadata">
+        <main className="message-detail-content">
+          <section className="message-metadata" aria-label="message details.">
             <p>
               <strong>From: </strong>
               {from}
@@ -81,22 +89,21 @@ const MessageDetail = () => {
               <strong>Message ID: </strong>
               {messageId}
             </p>
-          </div>
-          <div className="message-body">{messageText()}</div>
+          </section>
+          <section className="message-body" aria-label="Message body.">
+            {messageText()}
+          </section>
 
           <div className="message-attachments">
             <p>
               <strong>Attachments</strong>
             </p>
 
-            <div className="vads-l-row">
-              <div className="vads-l-col--1">
-                <i
-                  className="fa fa-paperclip attachment-icon"
-                  aria-label="Attached file"
-                />
+            <div className="vads-u-display--flex vads-u-justify-content--flex-start">
+              <div className="vads-u-padding-right--1">
+                <i className="fa fa-paperclip attachment-icon" />
               </div>
-              <div className="vads-l-col">
+              <div className="">
                 <a href="/message">
                   {
                     'This is an attachment that I uploaded from my laptop.pdf (108.7 KB) '
@@ -106,7 +113,7 @@ const MessageDetail = () => {
             </div>
           </div>
 
-          <div className="message-detail-note">
+          <div className="message-detail-note vads-u-text-align--center">
             <p>
               <i>
                 Note: This message may not be from the person you intially
@@ -117,7 +124,7 @@ const MessageDetail = () => {
           </div>
 
           <MessageActionButtons />
-        </div>
+        </main>
       </section>
       <OlderMessages />
     </div>

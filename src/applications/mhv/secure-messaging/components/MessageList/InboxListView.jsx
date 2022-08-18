@@ -20,10 +20,7 @@ probably needing to accept a URL parameter
 import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { chunk } from 'lodash';
-import {
-  VaPagination,
-  VaSelect,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import InboxListItem from './InboxListItem';
 
@@ -91,34 +88,24 @@ const InboxListView = props => {
   const displayNums = fromToNums(currentPage, messages.data.length);
 
   return (
-    <div className="vads-l-row vads-u-flex-direction--column vads-u-margin-top--2">
-      <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
-        <a
-          className="vads-c-action-link--blue"
-          href="/my-health/secure-messages/compose"
+    <div className="message-list vads-l-row vads-u-flex-direction--column">
+      <div className="message-list-sort">
+        <va-select
+          label="Show messages by"
+          name="sort order"
+          onVaSelect={e => {
+            onSelectChange(e.detail.value);
+          }}
         >
-          Compose a new message
-        </a>
-        <a
-          className="small-screen:vads-u-margin-left--3 vads-c-action-link--blue"
-          href="/"
-        >
-          Search messages
-        </a>
+          <option value="desc">Newest to oldest</option>
+          <option value="asc">Oldest to newest</option>
+        </va-select>
+        <button type="button">Sort</button>
       </div>
-      <VaSelect
-        label="Show messages by"
-        name="sort order"
-        onVaSelect={e => {
-          onSelectChange(e.detail.value);
-        }}
-      >
-        <option value="DESC">Most recent</option>
-        <option value="UNREAD">Unread</option>
-      </VaSelect>
       <div className="vads-u-padding-y--1p5 vads-l-row vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-bottom--1px vads-u-border-color--gray-light">
-        Displaying {displayNums[0]} - {displayNums[1]} of {totalEntries} most
-        recent messages
+        Displaying {displayNums[0]}
+        &#8211;
+        {displayNums[1]} of {totalEntries} messages
       </div>
       {currentMessages.map((message, idx) => (
         <InboxListItem
