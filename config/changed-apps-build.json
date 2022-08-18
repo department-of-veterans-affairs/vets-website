@@ -24,7 +24,14 @@
       "rootFolder": "coronavirus-vaccination-expansion",
       "slackGroup": "@cto-health-products"
     },
-    { "rootFolder": "enrollment-verification", "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>" },
+    {
+      "rootFolder": "education-letters",
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
+    },
+    {
+      "rootFolder": "enrollment-verification",
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
+    },
     {
       "rootFolder": "fry-dea",
       "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
@@ -37,7 +44,14 @@
       "rootFolder": "login",
       "slackGroup": "@vsp-identity-group"
     },
-    { "rootFolder": "mhv-inherited-proofing", "slackGroup": "@vsp-identity-group" },
+    {
+      "rootFolder": "medical-copays",
+      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
+    },
+    {
+      "rootFolder": "mhv-inherited-proofing",
+      "slackGroup": "@vsp-identity-group"
+    },
     {
       "rootFolder": "terms-and-conditions"
     },
