@@ -167,6 +167,25 @@ export const Results = ({
                     </div>
                   </div>
                 )}
+
+                {/* shows field facility location when no address is provided  */}
+                {locations?.length === 0 &&
+                  event.fieldFacilityLocation?.entity?.title && (
+                    <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--1">
+                      <p className="vads-u-margin--0 vads-u-margin-right--0p5">
+                        <strong>Where:</strong>
+                      </p>
+                      <p className="vads-u-margin--0">
+                        <a
+                          href={
+                            event.fieldFacilityLocation.entity.entityUrl.path
+                          }
+                        >
+                          {event.fieldFacilityLocation.entity.title}
+                        </a>
+                      </p>
+                    </div>
+                  )}
               </div>
             );
           })}
