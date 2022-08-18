@@ -99,7 +99,7 @@ if (!appFolders && !checkAllowlist) {
   process.exit(0);
 }
 
-// Check all apps on allowlist with this option
+// Check all apps on the allowlist when this option is specified
 if (checkAllowlist) {
   appFolders = changedAppsConfig.apps.map(app => app.rootFolder);
 }
