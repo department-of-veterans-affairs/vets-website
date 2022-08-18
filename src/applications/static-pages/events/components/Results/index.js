@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import VaPagination from '@department-of-veterans-affairs/component-library/Pagination';
 import moment from 'moment-timezone';
 // Relative imports.
+import ResultsWhereContent from './ResultsWhereContent';
 import {
   deriveEventLocations,
   deriveMostRecentDate,
@@ -125,67 +126,11 @@ export const Results = ({
                 </div>
 
                 {/* Where */}
-                {event?.fieldLocationType === 'online' && (
-                  <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--1">
-                    <p className="vads-u-margin--0 vads-u-margin-right--0p5">
-                      <strong>Where:</strong>
-                    </p>
-
-                    <div className="vads-u-display--flex vads-u-flex-direction--column">
-                      <p className="vads-u-margin--0">
-                        This is an online event.
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                {locations?.length > 0 && (
-                  <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--1">
-                    <p className="vads-u-margin--0 vads-u-margin-right--0p5">
-                      <strong>Where:</strong>
-                    </p>
-
-                    <div className="vads-u-display--flex vads-u-flex-direction--column">
-                      {event.fieldFacilityLocation?.entity?.entityUrl?.path &&
-                        event.fieldFacilityLocation?.entity?.title && (
-                          <p className="vads-u-margin--0">
-                            <a
-                              href={
-                                event.fieldFacilityLocation.entity.entityUrl
-                                  .path
-                              }
-                            >
-                              {event.fieldFacilityLocation.entity.title}
-                            </a>
-                          </p>
-                        )}
-                      {locations?.map(location => (
-                        <p className="vads-u-margin--0" key={location}>
-                          {location}
-                        </p>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* shows field facility location when no address is provided  */}
-                {locations?.length === 0 &&
-                  event.fieldFacilityLocation?.entity?.title && (
-                    <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--1">
-                      <p className="vads-u-margin--0 vads-u-margin-right--0p5">
-                        <strong>Where:</strong>
-                      </p>
-                      <p className="vads-u-margin--0">
-                        <a
-                          href={
-                            event.fieldFacilityLocation.entity.entityUrl.path
-                          }
-                        >
-                          {event.fieldFacilityLocation.entity.title}
-                        </a>
-                      </p>
-                    </div>
-                  )}
+                <ResultsWhereContent
+                  fieldFacilityLocation={event?.fieldFacilityLocation}
+                  fieldLocationType={event?.fieldLocationType}
+                  locations={locations}
+                />
               </div>
             );
           })}
