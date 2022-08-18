@@ -10,7 +10,6 @@ const {
   dedupeGraph,
 } = require('./github-actions/select-cypress-tests');
 
-const { getAppManifests } = require('../config/manifest-helpers');
 const changedAppsConfig = require('../config/changed-apps-build.json');
 
 /**
@@ -41,19 +40,6 @@ const appHasCrossAppImports = (importGraph, appFolder) => {
     Object.keys(importGraph[appFolder].appsThatImportFromThisApp).length ||
     importGraph[appFolder].platformFilesThatImportFromThisApp.length
   );
-};
-
-/**
- * Map app manifests to object of appEntry -> appFolder
- *
- * @param {Object[]} manifests - Array of app manifests
- * @returns {Object} Object with app entry as key and folder as value
- */
-const mapManifests = manifests => {
-  return manifests.reduce((result, current) => {
-    const appFolder = current.filePath.split('/').slice(-2)[0];
-    return { ...result, [current.entryName]: appFolder };
-  }, {});
 };
 
 /**
@@ -113,17 +99,9 @@ if (!appFolders && !checkAllowlist) {
   process.exit(0);
 }
 
-// Get list of entry names from allowlist and map them to folders
+// Check all apps on allowlist with this option
 if (checkAllowlist) {
-  const appFoldersByEntryNames = mapManifests(getAppManifests());
-  appFolders = changedAppsConfig.allow.singleApps.map(
-    appObj => appFoldersByEntryNames[appObj.entryName],
-  );
-  // Grouped apps are already specified by folder
-  const groupedAppFolders = changedAppsConfig.allow.groupedApps.map(
-    appObj => appObj.rootFolder,
-  );
-  appFolders = [...appFolders, ...groupedAppFolders].sort();
+  appFolders = changedAppsConfig.apps.map(app => app.rootFolder);
 }
 
 // Check that all provided apps exist
