@@ -165,11 +165,10 @@ export class CernerCallToAction extends Component {
           })}
 
           <p className="usa-alert-text">
-            Please choose a health management portal below, depending on your
-            provider&apos;s facility. You may need to disable your
-            browser&apos;s pop-up blocker to open the portal. If you&apos;re
-            prompted to sign in again, use the same account you used to sign in
-            on VA.gov.
+            Choose a health management portal, depending on your provider&apos;s
+            facility. You may need to disable your browser&apos;s pop-up blocker
+            to open the portal. If you&apos;re prompted to sign in again, use
+            the same account you used to sign in on VA.gov.
           </p>
 
           <h4 className="vads-u-margin-y--3">{linksHeaderText}</h4>
