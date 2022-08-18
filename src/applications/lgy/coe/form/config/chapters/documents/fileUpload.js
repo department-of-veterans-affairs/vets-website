@@ -8,6 +8,9 @@ import { DOCUMENT_TYPES } from '../../../../status/constants';
 
 const DocumentUploadDescription = () => (
   <div>
+    <h3 className="vads-u-font-size--h4">
+      Having problems uploading your document?
+    </h3>
     <p>
       You can upload your document in a .pdf, .jpg, .jpeg, or .png file format.
       You’ll first need to scan a copy of your document onto your computer or
@@ -70,13 +73,15 @@ export const schema = {
 
 export const uiSchema = {
   'view:documentRequirements': {
-    'ui:field': UploadRequirements,
+    'ui:title': ' ',
+    'ui:description': UploadRequirements,
     'ui:options': {
       classNames: 'schemaform-block-override',
+      forceDivWrapper: true,
     },
   },
   files: {
-    'ui:title': 'Your uploaded documents',
+    'ui:title': ' ',
     'ui:field': FileField,
     'ui:options': {
       addAnotherLabel: 'Upload another document',
@@ -120,11 +125,10 @@ export const uiSchema = {
     'ui:validations': [validateFileField],
   },
   'view:documentUploadDescription': {
-    'ui:title': () => (
-      <legend className="schemaform-block-title">
-        Having problems uploading your document?
-      </legend>
-    ),
+    'ui:title': ' ',
     'ui:description': DocumentUploadDescription,
+    'ui:options': {
+      forceDivWrapper: true,
+    },
   },
 };

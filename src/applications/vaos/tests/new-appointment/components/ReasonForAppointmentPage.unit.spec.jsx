@@ -112,6 +112,25 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     );
   });
 
+  it('should show error msg when ^ is entered in VA medical request', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+      store,
+    });
+
+    fireEvent.click(
+      await screen.findByLabelText(/Routine or follow-up visit/i),
+    );
+    const textBox = screen.getByRole('textbox');
+    fireEvent.change(textBox, { target: { value: '^' } });
+    expect(textBox.value).to.equal('^');
+    fireEvent.click(screen.getByText(/Continue/));
+
+    expect(await screen.findByRole('alert')).to.contain.text(
+      'following special character is not allowed: ^',
+    );
+  });
+
   it('should show alternate textbox char length if navigated via direct schedule flow', async () => {
     const store = createTestStore(initialState);
     store.dispatch(startDirectScheduleFlow());

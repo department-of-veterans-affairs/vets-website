@@ -2505,13 +2505,13 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@department-of-veterans-affairs/component-library@^11.2.2":
-  version "11.2.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-11.2.2.tgz#9acceaf448ccd6f5c978042bc397558a52f20a55"
-  integrity sha512-n/5XBxAADEZs96/jR+Q9ReLEtQZ20fLEh2uImpJjCMBQn1A1BncW7j4/K37B37avs2scQ3DqU5lYVagX8alwhw==
+"@department-of-veterans-affairs/component-library@11.2.6":
+  version "11.2.6"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-11.2.6.tgz#5bbd51427fbd41642e55e40ba6dbddb0d90485bd"
+  integrity sha512-lvapxOrGDZ1AcnD5BW4yBielJq6Wn6Nkxhyaa2mHGmNPOwv6m+ZECbwT9RqJHAqlnnjf7CofkbzRDfEvVh3nEw==
   dependencies:
     "@department-of-veterans-affairs/react-components" "7.0.1"
-    "@department-of-veterans-affairs/web-components" "4.9.2"
+    "@department-of-veterans-affairs/web-components" "4.9.6"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2563,10 +2563,10 @@
     react-is "^17.0.1"
     setimmediate "^1.0.5"
 
-"@department-of-veterans-affairs/va-forms-system-core@1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/va-forms-system-core/-/va-forms-system-core-1.1.1.tgz#c6376899f19f054edd63f6ee9de076009c10187e"
-  integrity sha512-fnbwHYUDsQIM7TXdsRYr/AsMdrdmulmD72gq6OT+DFrHDfmMG2n6YAH8LhomOMpdZh2aDJa5tNChIV9r5TgZyg==
+"@department-of-veterans-affairs/va-forms-system-core@1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/va-forms-system-core/-/va-forms-system-core-1.2.2.tgz#7802e2fc19f1dfe07de0ead55baf9f0dd53098a2"
+  integrity sha512-mZApqHbPL37g2mUWIRxCEka890yNp48rI8HPo3RIXk0lx/adoKHwfBEqIf2D2/2tiIbYnqYKWhtaoUeGRQFaaA==
   dependencies:
     connect-history-api-fallback "^1.6.0"
     date-fns "^2.28.0"
@@ -2582,10 +2582,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.9.2":
-  version "4.9.2"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.9.2.tgz#fef1ffcf69afecbabae1f2ef4dc557e8ce0cbba3"
-  integrity sha512-QG78EtJLS+XxdyrPF6pw42t+ZuyDGqMVPq9HWFw2WiyIVpaPQ+JpNYGzfVEb5JVUlSV+jc1Wib0JWyWgew3SYw==
+"@department-of-veterans-affairs/web-components@4.9.6":
+  version "4.9.6"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.9.6.tgz#16e9f057c0dbef33aa4342fc4d6ea94cdfd07c41"
+  integrity sha512-VJQq4VY8OQ0ZD32BacCjnnBeHyrJ9OoRmlBKZ7bR4LTLQwUWBDNYgSnLh8LQMO1h2gLnXdeeuMOz8xKEqT/Jig==
   dependencies:
     "@stencil/core" "^2.10.0"
     aria-hidden "^1.1.3"
@@ -7296,10 +7296,10 @@ cypress-wait-until@^1.7.2:
   resolved "https://registry.yarnpkg.com/cypress-wait-until/-/cypress-wait-until-1.7.2.tgz#7f534dd5a11c89b65359e7a0210f20d3dfc22107"
   integrity sha512-uZ+M8/MqRcpf+FII/UZrU7g1qYZ4aVlHcgyVopnladyoBrpoaMJ4PKZDrdOJ05H5RHbr7s9Tid635X3E+ZLU/Q==
 
-cypress@^10.4.0:
-  version "10.4.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-10.4.0.tgz#bb5b3b6588ad49eff172fecf5778cc0da2980e4e"
-  integrity sha512-OM7F8MRE01SHQRVVzunid1ZK1m90XTxYnl+7uZfIrB4CYqUDCrZEeSyCXzIbsS6qcaijVCAhqDL60SxG8N6hew==
+cypress@^10.5.0:
+  version "10.5.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-10.5.0.tgz#8d0354ac47d1570fb7d9881aec1cf8e0c3e8bfc8"
+  integrity sha512-m1oP/2Au+81moyHGg6Mxro8wo5F5rXjtea9SPXn7ezUT3qNHk43bif3K/6Wz7nuaNUiN9/UM+B4c03kCp8vniw==
   dependencies:
     "@cypress/request" "^2.88.10"
     "@cypress/xvfb" "^1.2.4"
@@ -19471,9 +19471,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#7543eac2cbeeb338d2c43bc9e931c66f5982f551":
-  version "20.20.12"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7543eac2cbeeb338d2c43bc9e931c66f5982f551"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#a1dea4255d9d9f5383ce2ac7749ba9194abff53a":
+  version "20.20.13"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#a1dea4255d9d9f5383ce2ac7749ba9194abff53a"
 
 vfile-message@^2.0.0:
   version "2.0.4"

@@ -245,3 +245,8 @@ export const sortStatementsByDate = statements => {
       moment(a.pSStatementDate, dateFormat),
   );
 };
+
+export const DEBT_TYPES = Object.freeze({
+  DEBT: 'DEBT',
+  COPAY: 'COPAY',
+});
