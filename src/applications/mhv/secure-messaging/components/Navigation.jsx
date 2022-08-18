@@ -13,11 +13,11 @@ const Navigation = () => {
     setIsNavigationOpen(false);
   }
 
-  function openList() {
+  function openOrCloseList() {
     setIsListOpen(!isListOpen);
   }
 
-  function screenResize() {
+  function checkScreenSize() {
     if (window.innerWidth <= 481 && setIsMobile !== false) {
       setIsMobile(true);
     } else {
@@ -25,7 +25,7 @@ const Navigation = () => {
       setIsNavigationOpen(false);
     }
   }
-  window.addEventListener('resize', screenResize);
+  window.addEventListener('resize', checkScreenSize);
 
   return (
     <>
@@ -60,7 +60,6 @@ const Navigation = () => {
                 <i className="medkit-icon fas fa-medkit" />
                 <h4>My Health</h4>
                 <button
-                  type="button"
                   className={
                     isMobile === true ? 'va-btn-close-icon' : 'no-close-btn'
                   }
@@ -91,7 +90,11 @@ const Navigation = () => {
                             : 'messages-list-close'
                         } `}
                       >
-                        <a className="list-parent" onClick={openList} href="#">
+                        <a
+                          className="list-parent"
+                          onClick={openOrCloseList}
+                          href="#"
+                        >
                           Messages
                         </a>
                         <ul

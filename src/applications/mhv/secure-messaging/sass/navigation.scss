@@ -54,9 +54,6 @@
       margin-top: 15px;
       margin-right: 61px;
     }
-    button:hover {
-      background-color: $color-gray-lightest;
-    }
   }
   .side-nav-content {
     .messages{
@@ -109,12 +106,9 @@
 @media (max-width: $small-screen) {
   .va-btn-sidebarnav-trigger{
     z-index: 0;
-    margin-right: 15px;
     .button-wrapper {
-    left: 0px;
-    &:hover{
-      background-color: $color-white;
-    }
+      position: static;
+      padding: 0px;
     }
   }
   .side-menu-nav {

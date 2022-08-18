@@ -52,9 +52,15 @@ const App = props => {
   } else {
     content = (
       <>
-        <Navigation />
-        <Header />
-        <InboxListView messages={messages} />
+        <div className="sm-container">
+          <div className="sm-navigation">
+            <Navigation />
+          </div>
+          <div className="main-content">
+            <Header />
+            <InboxListView messages={messages} />
+          </div>
+        </div>
       </>
     );
   }
