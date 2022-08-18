@@ -12,6 +12,7 @@ import {
 const generateState = ({ serviceId = 'mvi', serviceDown = false }) => ({
   externalServiceStatuses: {
     loading: false,
+    shouldGetBackendStatuses: false,
     statuses: AUTH_DEPENDENCIES.map(deps => ({
       service: deps.toUpperCase(),
       serviceId: deps,
