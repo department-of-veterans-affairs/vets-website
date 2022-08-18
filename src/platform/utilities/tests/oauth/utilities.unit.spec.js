@@ -153,10 +153,13 @@ describe('OAuth - Utilities', () => {
 
   describe('buildTokenRequest', () => {
     it('should not generate url if no `code` is provider or `code_verifier` is null', async () => {
+      const storage = localStorage;
+      storage.clear();
       const btr = await oAuthUtils.buildTokenRequest();
       expect(btr).to.be.null;
       const btr2 = oAuthUtils.buildTokenRequest({ code: 'hello' });
       expect(btr2).to.be.null;
+      storage.clear();
     });
     it('should generate a proper url with appropriate query params', async () => {
       const cvValue = 'success_buildTokenRequest';
