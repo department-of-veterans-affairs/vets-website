@@ -73,6 +73,7 @@ export const uiSchema = {
         'Closing date of your loan',
         'Date you paid off your loan (Leave this blank if it’s not paid off)',
         'Date loan ended must be after the start of the loan',
+        true, // allow start & end to be the same month/year
       ),
       propertyAddress: {
         'ui:title': 'Property address',
