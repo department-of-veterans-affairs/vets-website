@@ -22,8 +22,9 @@ const PreviousLoanView = ({ formData }) => {
   let from = '';
   let to = '';
   if (formData.dateRange) {
-    from = formatReviewDate(formData.dateRange.from);
-    to = formatReviewDate(formData.dateRange.to);
+    // formatReviewDate('YYYMMDD', monthYearFlag)
+    from = formatReviewDate(formData.dateRange.from, true);
+    to = formatReviewDate(formData.dateRange.to, true);
   }
 
   return (
@@ -73,6 +74,7 @@ export const uiSchema = {
         'Closing date of your loan',
         'Date you paid off your loan (Leave this blank if it’s not paid off)',
         'Date loan ended must be after the start of the loan',
+        true, // allow start & end to be the same month/year
       ),
       propertyAddress: {
         'ui:title': 'Property address',
