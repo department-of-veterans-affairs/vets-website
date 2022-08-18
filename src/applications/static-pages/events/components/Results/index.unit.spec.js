@@ -6,27 +6,6 @@ import { shallow } from 'enzyme';
 import { Results } from '.';
 import { ResultsWhereContent } from './ResultsWhereContent';
 
-// page: PropTypes.number.isRequired,
-// perPage: PropTypes.number.isRequired,
-// query: PropTypes.string.isRequired,
-// results: PropTypes.arrayOf(
-//   PropTypes.shape({
-//     entityUrl: PropTypes.object.isRequired,
-//     fieldDatetimeRangeTimezone: PropTypes.arrayOf(
-//       PropTypes.shape({
-//         endValue: PropTypes.number.isRequired,
-//         timezone: PropTypes.string,
-//         value: PropTypes.number.isRequired,
-//       }),
-//     ).isRequired,
-//     fieldDescription: PropTypes.string,
-//     title: PropTypes.string.isRequired,
-//   }),
-// ).isRequired,
-// totalResults: PropTypes.number.isRequired,
-// onPageSelect: PropTypes.func.isRequired,
-// queryId: PropTypes.string,
-
 describe('Events <Results>', () => {
   it('renders what we expect', () => {
     // Set up.
@@ -52,6 +31,24 @@ describe('Events <ResultsWhereContent>', () => {
     const onlineProps = getProps({}, 'online', []);
     const wrapper = shallow(<ResultsWhereContent {...onlineProps} />);
     expect(wrapper.text()).includes('This is an online event.');
+    wrapper.unmount();
+  });
+  it('render given location when included in location array', () => {
+    const locationArrayProps = getProps({}, '', ['pittsburgh']);
+    const wrapper = shallow(<ResultsWhereContent {...locationArrayProps} />);
+    expect(wrapper.text()).includes('pittsburgh');
+    wrapper.unmount();
+  });
+  it('renders location name when given in location object', () => {
+    const fieldLocationExample = {
+      entity: {
+        title: 'test location',
+        entityUrl: {},
+      },
+    };
+    const locationObjectProps = getProps(fieldLocationExample, '', []);
+    const wrapper = shallow(<ResultsWhereContent {...locationObjectProps} />);
+    expect(wrapper.text()).includes('test location');
     wrapper.unmount();
   });
 });
