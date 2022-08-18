@@ -3,6 +3,14 @@ import { connect } from 'react-redux';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
+import { NOTIFICATION_GROUPS, PROFILE_PATH_NAMES } from '@@profile/constants';
+import {
+  fetchCommunicationPreferenceGroups,
+  selectChannelsWithoutSelection,
+  selectGroups,
+} from '@@profile/ducks/communicationPreferences';
+import { selectCommunicationPreferences } from '@@profile/reducers';
+import { focusElement } from '~/platform/utilities/ui';
 import {
   hasVAPServiceConnectionError,
   // TODO: uncomment when email is a supported communication channel
@@ -10,15 +18,6 @@ import {
   selectPatientFacilities,
   selectVAPMobilePhone,
 } from '~/platform/user/selectors';
-import { focusElement } from '~/platform/utilities/ui';
-
-import { PROFILE_PATH_NAMES } from '@@profile/constants';
-import {
-  fetchCommunicationPreferenceGroups,
-  selectChannelsWithoutSelection,
-  selectGroups,
-} from '@@profile/ducks/communicationPreferences';
-import { selectCommunicationPreferences } from '@@profile/reducers';
 
 import { LOADING_STATES } from '../../../common/constants';
 
@@ -29,12 +28,14 @@ import HealthCareGroupSupportingText from './HealthCareGroupSupportingText';
 import MissingContactInfoAlert from './MissingContactInfoAlert';
 import NotificationGroup from './NotificationGroup';
 import SelectNotificationOptionsAlert from './SelectNotificationOptionsAlert';
+import { selectShowPaymentsNotificationSetting } from '../../selectors';
 
 const NotificationSettings = ({
   allContactInfoOnFile,
   emailAddress,
   facilities,
   fetchNotificationSettings,
+  shouldShowPaymentsNotificationSetting,
   mobilePhoneNumber,
   noContactInfoOnFile,
   notificationGroups,
@@ -111,17 +112,23 @@ const NotificationSettings = ({
             mobilePhoneNumber={mobilePhoneNumber}
           />
           {notificationGroups.ids.map(groupId => {
+            if (
+              groupId === NOTIFICATION_GROUPS.PAYMENTS &&
+              !shouldShowPaymentsNotificationSetting
+            ) {
+              return null;
+            }
+
             // we handle the health care group a little differently
-            // TODO: I don't like this check. what does `group3` even mean?
-            if (groupId === 'group3') {
+            if (groupId === NOTIFICATION_GROUPS.YOUR_HEALTH_CARE) {
               return (
                 <NotificationGroup groupId={groupId} key={groupId}>
                   <HealthCareGroupSupportingText />
                 </NotificationGroup>
               );
-            } else {
-              return <NotificationGroup groupId={groupId} key={groupId} />;
             }
+
+            return <NotificationGroup groupId={groupId} key={groupId} />;
           })}
           <p className="vads-u-margin-bottom--0">
             <strong>Note:</strong> We have limited notification options at this
@@ -139,6 +146,9 @@ const mapStateToProps = state => {
   const communicationPreferencesState = selectCommunicationPreferences(state);
   const hasVAPServiceError = hasVAPServiceConnectionError(state);
   const hasLoadingError = !!communicationPreferencesState.loadingErrors;
+  const shouldShowPaymentsNotificationSetting = selectShowPaymentsNotificationSetting(
+    state,
+  );
 
   // TODO: uncomment when email is a supported notification channel
   // const emailAddress = selectVAPEmailAddress(state);
@@ -170,6 +180,7 @@ const mapStateToProps = state => {
     shouldShowAPIError,
     shouldShowLoadingIndicator:
       communicationPreferencesState.loadingStatus === LOADING_STATES.pending,
+    shouldShowPaymentsNotificationSetting,
   };
 };
 
