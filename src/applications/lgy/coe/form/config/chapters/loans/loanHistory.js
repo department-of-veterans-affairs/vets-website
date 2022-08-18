@@ -22,8 +22,9 @@ const PreviousLoanView = ({ formData }) => {
   let from = '';
   let to = '';
   if (formData.dateRange) {
-    from = formatReviewDate(formData.dateRange.from);
-    to = formatReviewDate(formData.dateRange.to);
+    // formatReviewDate('YYYMMDD', monthYearFlag)
+    from = formatReviewDate(formData.dateRange.from, true);
+    to = formatReviewDate(formData.dateRange.to, true);
   }
 
   return (
