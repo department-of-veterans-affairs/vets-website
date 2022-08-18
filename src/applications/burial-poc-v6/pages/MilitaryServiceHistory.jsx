@@ -3,6 +3,7 @@ import {
   DateField,
   Page,
   TextField,
+  SelectField,
 } from '@department-of-veterans-affairs/va-forms-system-core';
 import { useFormikContext } from 'formik';
 import { isBeforeDate } from '../utils';
@@ -33,10 +34,17 @@ export default function MilitaryServiceHistory(props) {
             'End of service must be after start of service',
           )}
         />
-        <TextField
+        <SelectField
           name="toursOfDuty[0].serviceBranch"
           label="Branch of service"
-        />
+        >
+          <option>Air Force</option>
+          <option>Army</option>
+          <option>Coast Guard</option>
+          <option>Marine Corps</option>
+          <option>Navy</option>
+          <option>Space Force</option>
+        </SelectField>
         <TextField name="toursOfDuty[0].rank" label="Rank" />
         <TextField name="toursOfDuty[0].serviceNumber" label="Service number" />
         <TextField name="toursOfDuty[0].placeOfEntry" label="Place of entry" />
