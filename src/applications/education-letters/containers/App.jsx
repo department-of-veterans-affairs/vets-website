@@ -82,7 +82,7 @@ const App = ({ toggleLoginModal, user }) => {
             </li>
             <li>
               You received a decision from us about your application after
-              08/20/2022.
+              August 20, 2022.
             </li>
           </ul>
           <p>
