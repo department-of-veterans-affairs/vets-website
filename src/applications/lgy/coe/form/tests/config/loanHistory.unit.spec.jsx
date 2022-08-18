@@ -92,4 +92,78 @@ describe('COE applicant loan history', () => {
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
+  it('Should allow loan number with numbers, dashes and spaces', () => {
+    const form = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{
+            relevantPriorLoans: [
+              {
+                vaLoanNumber: '1-234 5',
+              },
+            ],
+          }}
+          onSubmit={() => {}}
+        />
+      </Provider>,
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.submitForm();
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+  });
+  it('Should not allow loan number with a leading dash', () => {
+    const form = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{
+            relevantPriorLoans: [
+              {
+                vaLoanNumber: '-1-234-5',
+              },
+            ],
+          }}
+          onSubmit={() => {}}
+        />
+      </Provider>,
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.submitForm();
+    const error = formDOM.querySelectorAll('.usa-input-error')?.[0];
+    expect(error).to.exist;
+    expect(error.textContent).to.contain('numbers only');
+  });
+  it('Should not allow non-digits in loan number', () => {
+    const form = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{
+            relevantPriorLoans: [
+              {
+                vaLoanNumber: '1-234-5a',
+              },
+            ],
+          }}
+          onSubmit={() => {}}
+        />
+      </Provider>,
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.submitForm();
+    const error = formDOM.querySelectorAll('.usa-input-error')?.[0];
+    expect(error).to.exist;
+    expect(error.textContent).to.contain('numbers only');
+  });
 });

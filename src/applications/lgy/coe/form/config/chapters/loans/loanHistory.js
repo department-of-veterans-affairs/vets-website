@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
   createUSAStateLabels,
@@ -35,6 +36,21 @@ const PreviousLoanView = ({ formData }) => {
       <div>{to ? `${from} - ${to}` : `${from} - present`}</div>
     </div>
   );
+};
+
+PreviousLoanView.propTypes = {
+  formData: PropTypes.shape({
+    dateRange: PropTypes.shape({
+      from: PropTypes.string,
+      to: PropTypes.string,
+    }),
+    propertyAddress: PropTypes.shape({
+      propertyAddress1: PropTypes.string,
+      propertyCity: PropTypes.string,
+      propertyState: PropTypes.string,
+      propertyZip: PropTypes.string,
+    }),
+  }),
 };
 
 export const schema = loanHistory;
@@ -101,6 +117,9 @@ export const uiSchema = {
       vaLoanNumber: {
         'ui:title': 'VA loan number',
         'ui:options': { widgetClassNames: 'usa-input-medium' },
+        'ui:errorMessages': {
+          pattern: 'Please enter numbers only (dashes allowed)',
+        },
       },
       propertyOwned: {
         'ui:title': 'Do you still own this property?',
