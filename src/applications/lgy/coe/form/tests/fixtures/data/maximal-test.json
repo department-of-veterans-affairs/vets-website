@@ -47,7 +47,7 @@
         "propertyState": "AK",
         "propertyZip": "85274"
       },
-      "vaLoanNumber": 99,
+      "vaLoanNumber": "123-45",
       "propertyOwned": true,
       "willRefinance": false
     },
@@ -62,7 +62,7 @@
         "propertyState": "AK",
         "propertyZip": "85274"
       },
-      "vaLoanNumber": 100,
+      "vaLoanNumber": "100 23",
       "propertyOwned": true,
       "willRefinance": false
     }
