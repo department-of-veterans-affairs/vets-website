@@ -2,11 +2,9 @@
 // Node modules.
 import React from 'react';
 // Relative imports.
-import recordEvent from 'platform/monitoring/record-event';
 import SearchForm from '../containers/SearchForm';
 import SearchResults from '../containers/SearchResults';
-
-import stuff from '../../check-in/components/AddressBlock';
+import recordEvent from 'platform/monitoring/record-event';
 
 const onFeaturedContentClick = header => () => {
   recordEvent({
@@ -17,7 +15,6 @@ const onFeaturedContentClick = header => () => {
 
 export default () => (
   <>
-    {stuff}
     <SearchForm />
     <SearchResults />
     <h2>Frequently used VA forms</h2>
