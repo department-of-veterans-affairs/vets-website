@@ -8,7 +8,7 @@ const routes = (
     <Route exact path="/" key="/intro">
       <App />
     </Route>
-    <Route exact path="/preview" key="/preview">
+    <Route exact path="/letters" key="/preview">
       <InboxPage />
     </Route>
     ,

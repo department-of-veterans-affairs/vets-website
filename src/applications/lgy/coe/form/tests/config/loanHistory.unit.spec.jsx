@@ -92,4 +92,161 @@ describe('COE applicant loan history', () => {
     expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
+  it('Should allow loan number with numbers, dashes and spaces', () => {
+    const form = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{
+            relevantPriorLoans: [
+              {
+                vaLoanNumber: '1-234 5',
+              },
+            ],
+          }}
+          onSubmit={() => {}}
+        />
+      </Provider>,
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.submitForm();
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+  });
+  it('Should not allow loan number with a leading dash', () => {
+    const form = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{
+            relevantPriorLoans: [
+              {
+                vaLoanNumber: '-1-234-5',
+              },
+            ],
+          }}
+          onSubmit={() => {}}
+        />
+      </Provider>,
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.submitForm();
+    const error = formDOM.querySelectorAll('.usa-input-error')?.[0];
+    expect(error).to.exist;
+    expect(error.textContent).to.contain('numbers only');
+  });
+  it('Should not allow non-digits in loan number', () => {
+    const form = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{
+            relevantPriorLoans: [
+              {
+                vaLoanNumber: '1-234-5a',
+              },
+            ],
+          }}
+          onSubmit={() => {}}
+        />
+      </Provider>,
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.submitForm();
+    const error = formDOM.querySelectorAll('.usa-input-error')?.[0];
+    expect(error).to.exist;
+    expect(error.textContent).to.contain('numbers only');
+  });
+
+  it('Should allow same month/year closing & paid off dates', () => {
+    const onSubmit = sinon.spy();
+    const form = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{
+            relevantPriorLoans: [
+              {
+                dateRange: {
+                  from: '2019-02-XX',
+                  to: '2019-02-XX',
+                },
+                propertyAddress: {
+                  propertyAddress1: '412 Crooks Road',
+                  propertyCity: 'Clawson',
+                  propertyState: 'AK',
+                  propertyZip: '48017',
+                },
+              },
+            ],
+          }}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
+    );
+    const formDOM = getFormDOM(form);
+
+    formDOM.submitForm();
+
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+  });
+
+  it('Should render only month & year in date range (no XX for day)', () => {
+    const onSubmit = sinon.spy();
+    const form = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{
+            relevantPriorLoans: [
+              {
+                dateRange: {
+                  from: '2019-02-XX',
+                  to: '2019-03-XX',
+                },
+                propertyAddress: {
+                  propertyAddress1: '412 Crooks Road',
+                  propertyCity: 'Clawson',
+                  propertyState: 'AK',
+                  propertyZip: '48017',
+                },
+              },
+              {
+                dateRange: {
+                  from: '2019-04-XX',
+                  to: '2019-05-XX',
+                },
+                propertyAddress: {
+                  propertyAddress1: '414 Crooks Road',
+                  propertyCity: 'Clawson',
+                  propertyState: 'AK',
+                  propertyZip: '48017',
+                },
+              },
+            ],
+          }}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
+    );
+    const formDOM = getFormDOM(form);
+
+    expect(formDOM.querySelector('.small-collapse').textContent).to.contain(
+      '02/2019 - 03/2019',
+    );
+  });
 });
