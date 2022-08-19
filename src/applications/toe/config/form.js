@@ -359,7 +359,9 @@ const formConfig = {
         sponsorInformation: {
           title: 'Enter your sponsor’s information',
           path: 'sponsor-information',
-          depends: formData => formData.sponsors?.someoneNotListed,
+          depends: formData =>
+            !formData.sponsors?.sponsors?.length ||
+            formData.sponsors?.someoneNotListed,
           uiSchema: {
             'view:enterYourSponsorsInformationHeading': {
               'ui:description': (
