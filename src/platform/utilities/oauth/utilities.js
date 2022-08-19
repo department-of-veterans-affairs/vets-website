@@ -105,6 +105,9 @@ export async function createOAuthRequest({
     config ??
     (externalApplicationsConfig[application] ||
       externalApplicationsConfig.default);
+  const useType = passedOptions.isSignup
+    ? type.slice(0, type.indexOf('_'))
+    : type;
 
   /*
     Web - Generate state & codeVerifier if default oAuth
@@ -137,7 +140,7 @@ export async function createOAuthRequest({
     [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: OAUTH_ALLOWED_PARAMS.S256,
   };
 
-  const url = new URL(API_SIGN_IN_SERVICE_URL({ type }));
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: useType }));
 
   Object.keys(oAuthParams).forEach(param =>
     url.searchParams.append(param, oAuthParams[param]),
