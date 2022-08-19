@@ -87,7 +87,7 @@ const UnauthContent = () => (
         id="second"
       >
         <p>
-          Go to the main navigation menu at the top of the page, and click on{' '}
+          Go to the main navigation menu. Then select{' '}
           <strong>Track Health</strong>. You’ll go to a new page.
         </p>
         <p>
@@ -114,23 +114,21 @@ const UnauthContent = () => (
           <strong>If you’re signing up for a My HealtheVet account</strong>, go
           to “Notifications and Settings” on the registration page. Select{' '}
           <strong>On</strong> for “VA medical images and report available
-          notification”.
-          <br />
-          <a href="https://www.myhealth.va.gov/mhv-portal-web/user-registration/">
-            Sign up for an account on the My HealtheVet website
-          </a>
+          notification.”
         </p>
+        <a href="https://www.myhealth.va.gov/mhv-portal-web/user-registration/">
+          Sign up for an account on the My HealtheVet website
+        </a>
         <p>
           <strong>If you already have a My HealtheVet account</strong>, go to
           your profile page to update your notification settings.
-          <br />
-          <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/user-login?redirect=/mhv-portal-web/user-registration/user-login">
-            Sign in to your account on the My HealtheVet website
-          </a>
         </p>
+        <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/user-login?redirect=/mhv-portal-web/user-registration/user-login">
+          Sign in to your account on the My HealtheVet website
+        </a>
       </va-accordion-item>
       <va-accordion-item
-        header="What if some of my medical records are missing online?"
+        header="What if I can’t access all of my medical records through VA Blue Button?"
         id="fourth"
       >
         <p>
@@ -139,7 +137,7 @@ const UnauthContent = () => (
           you received care.
         </p>
         <a href="/resources/how-to-get-your-medical-records-from-your-va-health-facility">
-          Learn how to request medical records from your VA health facility
+          Learn how to get medical records from your VA health facility
         </a>
         <br />
         <br />

@@ -126,7 +126,7 @@ const AuthContent = ({
             HealtheVet?
           </strong>
           <p>
-            Go to the main navigation menu at the top of the page, and click on{' '}
+            Go to the main navigation menu. Then select{' '}
             <strong>Track Health</strong>. You’ll go to a new page.
           </p>
           <p>
@@ -162,7 +162,7 @@ const AuthContent = ({
             where you received care.
           </p>
           <a href="/resources/how-to-get-your-medical-records-from-your-va-health-facility">
-            Learn how to request medical records from your VA health facility
+            Learn how to get medical records from your VA health facility
           </a>
           <br />
           <br />
