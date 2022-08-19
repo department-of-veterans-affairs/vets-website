@@ -12,9 +12,9 @@ const OpenMyHealtheVet = ({
     alertText: (
       <p>
         You may need to sign in again on My HealtheVet to use the site’s{' '}
-        {toolName} tool. If you do, sign in with the same account you here on
-        VA.gov. You also may need to disable your browser’s pop-up blocker so
-        that My HealtheVet will be able to open.
+        {toolName} tool. If you do, sign in with the same account you used to
+        sign in here on VA.gov. You also may need to disable your browser’s
+        pop-up blocker so that My HealtheVet will be able to open.
       </p>
     ),
     primaryButtonText: 'Go to My HealtheVet',

@@ -53,7 +53,7 @@ const AuthContent = ({
         </li>
         <li>
           Download a Health Summary that includes specific information from your
-          VA medical records (like your known allergies, medications, and recent
+          VA medical records (like your known allergies, medicines, and recent
           lab results)
         </li>
         <li>
