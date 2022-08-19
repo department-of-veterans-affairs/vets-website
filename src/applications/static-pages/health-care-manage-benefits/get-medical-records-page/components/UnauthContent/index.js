@@ -121,7 +121,7 @@ const UnauthContent = () => (
           <strong>If you already have a My HealtheVet account</strong>, go to
           your profile page to update your notification settings.
         </p>
-        <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/user-login?redirect=/mhv-portal-web/user-registration/user-login">
+        <a href="https://www.myhealth.va.gov/mhv-portal-web/web/myhealthevet/user-login">
           Sign in to your account on the My HealtheVet website
         </a>
       </va-accordion-item>
