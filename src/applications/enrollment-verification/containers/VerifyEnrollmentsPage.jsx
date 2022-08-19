@@ -295,7 +295,7 @@ export const VerifyEnrollmentsPage = ({
         onFinishVerifyingLater={onFinishVerifyingLater}
         onForwardButtonClick={onSubmit}
         progressTitlePostfix="Review verifications"
-        requirePrivacyAgreement
+        showPrivacyAgreement
         totalProgressBarSegments={unverifiedMonths.length + 1}
       >
         {informationIncorrectMonth &&

@@ -2,8 +2,7 @@ import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import PrivacyAgreement from 'platform/forms/components/PrivacyAgreement';
+import PrivacyAgreement from './PrivacyAgreement';
 
 import EnrollmentVerificationPageWrapper from './EnrollmentVerificationPageWrapper';
 import FinishVerifyingLater from './FinishVerifyingLater';
@@ -31,36 +30,14 @@ function VerifyEnrollments({
   onFinishVerifyingLater,
   onForwardButtonClick,
   progressTitlePostfix,
-  requirePrivacyAgreement = false,
+  showPrivacyAgreement = false,
   totalProgressBarSegments,
 }) {
   const [privacyAgreementChecked, setPrivacyAgreementChecked] = useState(false);
-  const [showPrivacyAgreementError, setShowPrivacyAgreementError] = useState(
-    false,
-  );
 
   const onPrivacyAgreementChange = useCallback(checked => {
     setPrivacyAgreementChecked(checked);
-    if (checked) {
-      setShowPrivacyAgreementError(false);
-    }
   }, []);
-
-  const verifyPrivacyAgreement = useCallback(
-    () => {
-      if (requirePrivacyAgreement && !privacyAgreementChecked) {
-        setShowPrivacyAgreementError(true);
-        return;
-      }
-
-      if (requirePrivacyAgreement) {
-        scrollToTop();
-      }
-
-      onForwardButtonClick();
-    },
-    [onForwardButtonClick, privacyAgreementChecked, requirePrivacyAgreement],
-  );
 
   return (
     <EnrollmentVerificationPageWrapper>
@@ -78,7 +55,7 @@ function VerifyEnrollments({
 
       {children}
 
-      {requirePrivacyAgreement && (
+      {showPrivacyAgreement && (
         <>
           <p className="vads-u-margin-top--4">
             <strong>Note:</strong> According to federal law, there are criminal
@@ -89,7 +66,6 @@ function VerifyEnrollments({
           <PrivacyAgreement
             checked={privacyAgreementChecked}
             onChange={onPrivacyAgreementChange}
-            showError={showPrivacyAgreementError}
           />
         </>
       )}
@@ -108,13 +84,9 @@ function VerifyEnrollments({
         <button
           type="button"
           className="usa-button-primary vads-u-margin-y--0"
-          // disabled={requirePrivacyAgreement && !privacyAgreementChecked}
+          // disabled={showPrivacyAgreement && !privacyAgreementChecked}
           id="2-continueButton"
-          onClick={
-            requirePrivacyAgreement
-              ? verifyPrivacyAgreement
-              : onForwardButtonClick
-          }
+          onClick={onForwardButtonClick}
         >
           {forwardButtonText}
         </button>
@@ -133,8 +105,8 @@ VerifyEnrollments.propTypes = {
   children: PropTypes.any,
   forwardButtonText: PropTypes.any,
   progressTitlePostfix: PropTypes.any,
-  requirePrivacyAgreement: PropTypes.bool,
   result: PropTypes.string,
+  showPrivacyAgreement: PropTypes.bool,
   submitted: PropTypes.bool,
 };
 

@@ -45,12 +45,11 @@ export const VerifyEnrollmentsErrorPage = ({
         status="error"
         visible
       >
-        <h2 slot="headline">There was an error processing your enrollment</h2>
-        <p className="vads-u-margin-y--0">
+        <h2 slot="headline">There was an error processing your enrollment.</h2>
+        <p className="vads-u-margin-bottom--0">
           We’re sorry we couldn’t process your monthly enrollment verification.
-          Please call <va-telephone contact="8884424551" /> or submit an inquiry
-          at
-          <a href="https://ask.va.gov/">Ask VA</a> to submit your verification.
+          Please submit an inquiry at <a href="https://ask.va.gov/">Ask VA</a>{' '}
+          to submit your verification.
         </p>
       </va-alert>
     </EnrollmentVerificationPageWrapper>
