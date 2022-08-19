@@ -118,6 +118,7 @@ const Landing = props => {
       jumpToPage,
       goToErrorPage,
       initForm,
+      sessionCallMade,
       setSession,
       setShouldSendDemographicsFlags,
       resetAttempts,
