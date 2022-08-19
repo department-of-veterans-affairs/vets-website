@@ -76,7 +76,7 @@ function phoneUISchema(category, parent, international) {
       },
     },
     [international]: {
-      'ui:title': `This ${category} phone number is international`,
+      'ui:title': `This ${category} phone number is international.`,
       'ui:reviewField': YesNoReviewField,
       'ui:options': {
         // expandUnder: parent,
