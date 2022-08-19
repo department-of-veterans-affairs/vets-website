@@ -271,8 +271,8 @@ export default function RenderErrorContainer({
     case AUTH_ERROR.OAUTH_STATE_MISMATCH:
       alertContent = (
         <p className="vads-u-margin-top--0">
-          We’re having trouble signing you in to VA.gov right now because the
-          browser state is different.
+          We’re having trouble signing you in to VA.gov right now because your
+          browser information is different from the initial sign in.
         </p>
       );
       troubleshootingContent = (
@@ -297,6 +297,9 @@ export default function RenderErrorContainer({
           <Helpdesk>
             If you’ve taken the steps above and still can’t sign in,
           </Helpdesk>
+          <button type="button" onClick={openLoginModal}>
+            Try signing in again
+          </button>
         </>
       );
       break;
