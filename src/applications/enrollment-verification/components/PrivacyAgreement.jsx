@@ -5,7 +5,7 @@ import Checkbox from '@department-of-veterans-affairs/component-library/Checkbox
 export default function PrivacyAgreement({
   onChange,
   checked,
-  required = true,
+  required,
   showError,
 }) {
   return (
