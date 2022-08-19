@@ -228,11 +228,9 @@ const AuthContent = ({
             </li>
             <li>
               Call the My HealtheVet help desk at{' '}
-              <a href="tel:18773270022" aria-label="8 7 7. 3 2 7. 0 0 2 2.">
-                877-327-0022
-              </a>{' '}
-              (<va-telephone contact={CONTACTS.HELP_TTY} tty />
-              ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+              <va-telephone contact="8773270022" /> (
+              <va-telephone contact={CONTACTS.HELP_TTY} tty />) Monday through
+              Friday, 8:00 a.m. to 8:00 p.m. ET.
             </li>
             <li>
               <a href="https://www.myhealth.va.gov/contact-us">
@@ -243,10 +241,7 @@ const AuthContent = ({
           <h4>For My VA Health questions</h4>
           <p>
             Call My VA Health support anytime at{' '}
-            <a href="tel:18773270022" aria-label="8 0 0. 9 6 2. 1 0 2 4.">
-              800-962-1024
-            </a>
-            .
+            <va-telephone contact="8773270022" />.
           </p>
         </va-accordion-item>
       </va-accordion>
