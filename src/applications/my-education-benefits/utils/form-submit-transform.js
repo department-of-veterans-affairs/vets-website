@@ -277,12 +277,15 @@ export function getAddressType(mailingAddress) {
   }
 
   if (
-    mailingAddress[formFields.address]?.country !== 'USA' &&
+    mailingAddress[formFields.address]?.country !==
+      DEFAULT_SCHEMA_COUNTRY_CODE &&
     mailingAddress[formFields.livesOnMilitaryBase]
   ) {
     return 'MILITARY_OVERSEAS';
   }
-  if (mailingAddress[formFields.address]?.country === 'USA') {
+  if (
+    mailingAddress[formFields.address]?.country === DEFAULT_SCHEMA_COUNTRY_CODE
+  ) {
     return 'DOMESTIC';
   }
   return 'FOREIGN';
