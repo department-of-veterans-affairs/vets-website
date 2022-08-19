@@ -1,8 +1,6 @@
 // Node modules.
 import React from 'react';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/Telephone';
 // Relative imports.
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
@@ -233,7 +231,7 @@ const AuthContent = ({
               <a href="tel:18773270022" aria-label="8 7 7. 3 2 7. 0 0 2 2.">
                 877-327-0022
               </a>{' '}
-              (TTY: <Telephone contact={CONTACTS.HELP_TTY} />
+              (<va-telephone contact={CONTACTS.HELP_TTY} tty />
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </li>
             <li>
