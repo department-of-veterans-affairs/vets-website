@@ -32,5 +32,6 @@ export default {
   pact: {
     en: '/resources/the-pact-act-and-your-va-benefits',
     es: '/resources/the-pact-act-and-your-va-benefits-esp',
+    tl: '/resources/the-pact-act-and-your-va-benefits-tag',
   },
 };

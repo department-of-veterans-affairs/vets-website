@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 
 import { focusElement } from 'platform/utilities/ui';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
@@ -43,6 +44,10 @@ class IntroductionPage extends React.Component {
           Follow the steps below to apply for VA Form 20-0995 (Supplemental
           Claim).
         </h2>
+        <p className="vads-u-margin-top--2">
+          If you don’t think this is the right form for you,{' '}
+          <Link to="/start">go back and answer questions again</Link>.
+        </p>
         <va-process-list>
           <li>
             <h3>Prepare</h3>

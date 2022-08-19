@@ -48,6 +48,7 @@ export const transform = (formConfig, form) => {
     installmentContracts,
     additionalData,
     selectedDebts,
+    selectedDebtsAndCopays = [],
     realEstateRecords,
     currEmployment,
     spCurrEmployment,
@@ -249,6 +250,7 @@ export const transform = (formConfig, form) => {
       veteranSignature: `${vetFirst} ${vetMiddle} ${vetLast}`,
       veteranDateSigned: moment().format('MM/DD/YYYY'),
     },
+    selectedDebtsAndCopays: [...selectedDebtsAndCopays],
   };
 
   // calculated values should formatted then converted to string
