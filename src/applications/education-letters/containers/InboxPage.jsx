@@ -11,17 +11,21 @@ const InboxPage = () => {
   const [receivedDate, setReceivedDate] = useState(null);
   const [LTSIsDown, setLTSIsDown] = useState(false);
 
+  const formatDayInDate = response => {
+    const newDate = addDays(
+      new Date(response?.data?.attributes?.receivedDate),
+      1,
+    );
+    return format(newDate, 'MMMM d, yyyy');
+  };
+
   useEffect(
     () => {
       const checkIfClaimantHasLetters = async () =>
         apiRequest(FETCH_CLAIM_STATUS)
           .then(response => {
             setClaimStatus(response?.data?.attributes?.claimStatus);
-            const newDate = addDays(
-              new Date(response?.data?.attributes?.receivedDate),
-              1,
-            );
-            setReceivedDate(format(newDate, 'MMMM d, yyyy'));
+            setReceivedDate(formatDayInDate(response));
             setLoading(false);
             return response?.data?.attributes?.claimantId;
           })
