@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { apiRequest } from 'platform/utilities/api';
-import { format } from 'date-fns';
+import { format, addDays } from 'date-fns';
 import { FETCH_CLAIM_STATUS } from '../actions';
 import Layout from '../components/Layout';
 
@@ -11,18 +11,21 @@ const InboxPage = () => {
   const [receivedDate, setReceivedDate] = useState(null);
   const [LTSIsDown, setLTSIsDown] = useState(false);
 
+  const formatDayInDate = response => {
+    const newDate = addDays(
+      new Date(response?.data?.attributes?.receivedDate),
+      1,
+    );
+    return format(newDate, 'MMMM d, yyyy');
+  };
+
   useEffect(
     () => {
       const checkIfClaimantHasLetters = async () =>
         apiRequest(FETCH_CLAIM_STATUS)
           .then(response => {
             setClaimStatus(response?.data?.attributes?.claimStatus);
-            setReceivedDate(
-              format(
-                new Date(response?.data?.attributes?.receivedDate),
-                'MMMM d, yyyy',
-              ),
-            );
+            setReceivedDate(formatDayInDate(response));
             setLoading(false);
             return response?.data?.attributes?.claimantId;
           })
