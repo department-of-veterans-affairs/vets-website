@@ -31,7 +31,10 @@ export default function PreviousNames(props) {
 
   return (
     <>
-      <Page {...props}>
+      <Page
+        {...props}
+        fieldNames={['veteranServedUnderAnotherName', 'previousNames']}
+      >
         <div>
           <RadioGroup
             name="veteranServedUnderAnotherName"
