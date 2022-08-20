@@ -44,7 +44,10 @@ const ValidateVeteran = props => {
   const { token } = useSelector(selectCurrentContext);
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+  const {
+    isLorotaSecurityUpdatesEnabled,
+    isLorotaDeletionEnabled,
+  } = useSelector(selectFeatureToggles);
 
   const {
     getValidateAttempts,
@@ -75,6 +78,7 @@ const ValidateVeteran = props => {
         setSession,
         app,
         resetAttempts,
+        isLorotaDeletionEnabled,
       );
     },
     [
@@ -89,6 +93,7 @@ const ValidateVeteran = props => {
       resetAttempts,
       setSession,
       token,
+      isLorotaDeletionEnabled,
       isLorotaSecurityUpdatesEnabled,
     ],
   );

@@ -30,6 +30,9 @@ const selectFeatureToggles = createSelector(
     isPhoneAppointmentsEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperiencePhoneAppointmentsEnabled
     ],
+    isLorotaDeletionEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceLorotaDeletionEnabled
+    ],
   }),
   toggles => toggles,
 );

@@ -10,7 +10,13 @@ import Wrapper from '../../components/layout/Wrapper';
 const Error = () => {
   const { t } = useTranslation();
   const { getValidateAttempts } = useSessionStorage(false);
-  const { isMaxValidateAttempts } = getValidateAttempts(window);
+  let { isMaxValidateAttempts } = getValidateAttempts(window);
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const error = urlParams.get('error');
+  if (error === 'validation') {
+    isMaxValidateAttempts = true;
+  }
   const maxValidateMessage = t(
     'were-sorry-we-couldnt-match-your-information-to-our-records-please-ask-a-staff-member-for-help',
   );

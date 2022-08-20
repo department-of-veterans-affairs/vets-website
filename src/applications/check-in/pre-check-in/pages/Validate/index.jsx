@@ -36,7 +36,10 @@ const Index = ({ router }) => {
   const { app } = useSelector(selectApp);
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+  const {
+    isLorotaSecurityUpdatesEnabled,
+    isLorotaDeletionEnabled,
+  } = useSelector(selectFeatureToggles);
 
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
@@ -75,6 +78,7 @@ const Index = ({ router }) => {
         setSession,
         app,
         resetAttempts,
+        isLorotaDeletionEnabled,
       );
     },
     [
@@ -89,6 +93,7 @@ const Index = ({ router }) => {
       resetAttempts,
       setSession,
       token,
+      isLorotaDeletionEnabled,
       isLorotaSecurityUpdatesEnabled,
     ],
   );

@@ -21,6 +21,8 @@ import { api } from '../../api';
  * @param {string} [token]
  * @param {function} [setSession]
  * @param {string} [app]
+ * @param {function} [resetAttempts]
+ * @param {boolean} [isLorotaDeletionEnabled]
  */
 
 const validateLogin = async (
@@ -41,6 +43,7 @@ const validateLogin = async (
   setSession,
   app,
   resetAttempts,
+  isLorotaDeletionEnabled,
 ) => {
   setLastNameErrorMessage();
   setLast4ErrorMessage();
@@ -98,16 +101,21 @@ const validateLogin = async (
       goToErrorPage();
     } else {
       setSession(token, resp.permissions);
-      resetAttempts(window, token, true);
+      if (!isLorotaDeletionEnabled) {
+        resetAttempts(window, token, true);
+      }
       goToNextPage();
     }
   } catch (e) {
     setIsLoading(false);
     if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
-      goToErrorPage();
+      const params = e?.errors[0]?.status === '410' ? '?error=validation' : '';
+      goToErrorPage(params);
     } else {
       setShowValidateError(true);
-      incrementValidateAttempts(window);
+      if (!isLorotaDeletionEnabled) {
+        incrementValidateAttempts(window);
+      }
     }
   }
 };
