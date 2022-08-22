@@ -3,6 +3,7 @@ import {
   BASE_URL,
   REVIEW_ENROLLMENTS_URL,
   REVIEW_ENROLLMENTS_URL_SEGMENT,
+  VERIFY_ENROLLMENTS_ERROR_URL_SEGMENT,
   VERIFY_ENROLLMENTS_RELATIVE_URL,
   VERIFY_ENROLLMENTS_URL_SEGMENT,
 } from '../constants';
@@ -38,7 +39,12 @@ export default function EnrollmentVerificationBreadcrumbs() {
     );
   }
 
-  if (page === VERIFY_ENROLLMENTS_URL_SEGMENT) {
+  if (
+    [
+      VERIFY_ENROLLMENTS_URL_SEGMENT,
+      VERIFY_ENROLLMENTS_ERROR_URL_SEGMENT,
+    ].includes(page)
+  ) {
     breadcrumbs.push(
       <a href={VERIFY_ENROLLMENTS_RELATIVE_URL} key="verify-enrollments">
         Verify your enrollments
