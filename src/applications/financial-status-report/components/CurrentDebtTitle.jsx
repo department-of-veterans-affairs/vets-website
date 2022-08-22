@@ -13,13 +13,13 @@ export const CurrentDebtTitle = ({ formContext }) => {
 
   return (
     <div>
-      <h3>
+      <h3 className="vads-u-margin-top--neg1p5">
         Debt {parseInt(formContext.pagePerItemIndex, 10) + 1} of{' '}
         {selectedDebtsAndCopays.length}:{' '}
         {currentDebt.debtType === 'COPAY'
           ? `Copay debt for ${currentDebt.station.facilityName}`
           : deductionCodes[deductionCode] || benefitType}
-      </h3>
+      </h3>{' '}
     </div>
   );
 };
@@ -33,9 +33,9 @@ export const CurrentDebtDescription = ({ formContext }) => {
   const formattedDebtTitle =
     currentDebt.debtType === 'COPAY'
       ? `${currency(currentDebt.pHAmtDue)} copay debt  ${
-          formData.station ? `for ${formData.station.facilityName}` : ''
+          currentDebt.station ? `for ${currentDebt.station.facilityName}` : ''
         }`
-      : `${currency(currentDebt.currentAr)} debt for${
+      : `${currency(currentDebt.currentAr)} debt for ${
           deductionCodes[currentDebt.deductionCode]
         }` || currentDebt.benefitType;
 
@@ -43,11 +43,18 @@ export const CurrentDebtDescription = ({ formContext }) => {
     <p>
       Which repayment or relief option would you like for your{' '}
       <strong>{formattedDebtTitle}</strong>?{' '}
+      <span className="required-text">(*Required)</span>
     </p>
   );
 };
 
 CurrentDebtTitle.propTypes = {
+  formContext: PropTypes.shape({
+    pagePerItemIndex: PropTypes.string.isRequired,
+  }),
+};
+
+CurrentDebtDescription.propTypes = {
   formContext: PropTypes.shape({
     pagePerItemIndex: PropTypes.string.isRequired,
   }),

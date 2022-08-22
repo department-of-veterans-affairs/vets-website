@@ -29,7 +29,10 @@ export default function BurialInformation(props) {
   );
 
   return (
-    <Page {...props}>
+    <Page
+      {...props}
+      fieldNames={['deathDate', 'burialDate', 'locationOfDeath']}
+    >
       <DateField name="deathDate" label="Date of death" required />
       <DateField
         name="burialDate"
