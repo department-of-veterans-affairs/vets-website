@@ -54,6 +54,22 @@ function FlipperClient({
   };
 
   const fetchToggleValues = async () => {
+    /*
+    {
+      "data":{
+          "type":"feature_toggles",
+          "features":[
+            {
+                "name":"foo",
+                "value":false
+            },
+            {
+                "name":"another_toggle",
+                "value":true
+            }
+          ]
+      }
+      */
     let data;
 
     if (sessionStorage.getItem('vaFeatureToggles')) {
