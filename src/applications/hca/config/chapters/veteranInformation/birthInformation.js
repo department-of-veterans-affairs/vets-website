@@ -3,7 +3,8 @@ import constants from 'vets-json-schema/dist/constants.json';
 
 import AuthenticatedShortFormAlert from '../../../components/FormAlerts/AuthenticatedShortFormAlert';
 import { BirthInfoDescription } from '../../../components/FormDescriptions';
-import { HIGH_DISABILITY, emptyObjectSchema } from '../../../helpers';
+
+import { emptyObjectSchema, NotHighDisability } from '../../../helpers';
 
 const { cityOfBirth } = fullSchemaHca.properties;
 const { states50AndDC } = constants;
@@ -13,12 +14,7 @@ export default {
     'view:authShortFormAlert': {
       'ui:field': AuthenticatedShortFormAlert,
       'ui:options': {
-        hideIf: form =>
-          !(
-            form['view:hcaShortFormEnabled'] &&
-            form['view:totalDisabilityRating'] &&
-            form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-          ),
+        hideIf: NotHighDisability,
       },
     },
     'view:placeOfBirth': {

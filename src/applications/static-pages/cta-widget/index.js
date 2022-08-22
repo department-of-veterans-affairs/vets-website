@@ -20,9 +20,8 @@ import {
   logout as IAMLogout,
   verify,
   mfa,
-  createAndStoreReturnUrl,
 } from 'platform/user/authentication/utilities';
-import { logout as SISLogout } from 'platform/utilities/oauth/utilities';
+import { logoutUrlSiS } from 'platform/utilities/oauth/utilities';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 import MFA from './components/messages/DirectDeposit/MFA';
@@ -476,11 +475,7 @@ export class CallToActionWidget extends Component {
     if (this.props.authenticatedWithSSOe) {
       IAMLogout();
     } else {
-      const signInServiceName = this.props.profile?.session?.signInServiceName;
-      SISLogout({
-        signInServiceName,
-        storedLocation: createAndStoreReturnUrl(),
-      });
+      window.location = logoutUrlSiS();
     }
   };
 

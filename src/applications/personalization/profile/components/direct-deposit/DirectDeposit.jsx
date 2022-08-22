@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import {
   cnpDirectDepositUiState,
   eduDirectDepositUiState,
+  selectHideDirectDepositCompAndPen,
 } from '@@profile/selectors';
 import { Prompt } from 'react-router-dom';
 import { CSP_IDS } from 'platform/user/authentication/constants';
@@ -30,10 +31,16 @@ import BankInfo from './BankInfo';
 import { benefitTypes } from '~/applications/personalization/common/constants';
 
 import DirectDepositWrapper from './DirectDepositWrapper';
+import TemporaryOutage from './alerts/TemporaryOutage';
 
 import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
 
-const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
+const DirectDeposit = ({
+  cnpUiState,
+  eduUiState,
+  isVerifiedUser,
+  hideDirectDepositCompAndPen,
+}) => {
   const [showCNPSuccessMessage, setShowCNPSuccessMessage] = useState(false);
   const [showEDUSuccessMessage, setShowEDUSuccessMessage] = useState(false);
 
@@ -101,6 +108,17 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
     ],
   );
 
+  // fix for when the TemporaryOutage is displayed
+  // prevents alert from showing when navigating away from DD page and no edits have been made
+  useEffect(
+    () => {
+      if (hideDirectDepositCompAndPen) {
+        setCnpFormIsDirty(true);
+      }
+    },
+    [hideDirectDepositCompAndPen, setCnpFormIsDirty],
+  );
+
   useEffect(
     () => {
       // Show alert when navigating away
@@ -116,6 +134,7 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
   return (
     <>
       <Headline>Direct deposit information</Headline>
+
       <DirectDepositWrapper setViewingIsRestricted={setViewingIsRestricted}>
         <Prompt
           message="Are you sure you want to leave? If you leave, your in-progress work won’t be saved."
@@ -129,12 +148,16 @@ const DirectDeposit = ({ cnpUiState, eduUiState, isVerifiedUser }) => {
             )}
             dependencies={[externalServices.evss]}
           >
-            <BankInfo
-              type={benefitTypes.CNP}
-              setFormIsDirty={setCnpFormIsDirty}
-              setViewingPayments={setViewingPayments}
-              showSuccessMessage={showCNPSuccessMessage}
-            />
+            {hideDirectDepositCompAndPen ? (
+              <TemporaryOutage />
+            ) : (
+              <BankInfo
+                type={benefitTypes.CNP}
+                setFormIsDirty={setCnpFormIsDirty}
+                setViewingPayments={setViewingPayments}
+                showSuccessMessage={showCNPSuccessMessage}
+              />
+            )}
           </DowntimeNotification>
         ) : (
           <VerifyIdentity />
@@ -166,6 +189,7 @@ DirectDeposit.propTypes = {
     isSaving: PropTypes.bool.isRequired,
     responseError: PropTypes.object,
   }).isRequired,
+  hideDirectDepositCompAndPen: PropTypes.bool.isRequired,
   isVerifiedUser: PropTypes.bool.isRequired,
 };
 
@@ -181,6 +205,7 @@ const mapStateToProps = state => {
     isVerifiedUser: isLOA3 && isUsingEligibleSignInService && is2faEnabled,
     cnpUiState: cnpDirectDepositUiState(state),
     eduUiState: eduDirectDepositUiState(state),
+    hideDirectDepositCompAndPen: selectHideDirectDepositCompAndPen(state),
   };
 };
 

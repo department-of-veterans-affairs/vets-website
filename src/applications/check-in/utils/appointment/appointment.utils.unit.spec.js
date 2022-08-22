@@ -8,6 +8,7 @@ import {
   sortAppointmentsByStartTime,
   removeTimeZone,
   preCheckinExpired,
+  locationShouldBeDisplayed,
 } from './index';
 
 import { get } from '../../api/local-mock-api/mocks/v2/shared';
@@ -248,6 +249,39 @@ describe('check in', () => {
           delete appointments[idx].checkInSteps;
         });
         expect(preCheckinAlreadyCompleted(appointments)).to.deep.equal(false);
+      });
+    });
+    describe('locationShouldBeDisplayed', () => {
+      it('returns true for in-person appointments with content in the location field', () => {
+        const appointment = createAppointment();
+        expect(locationShouldBeDisplayed(appointment)).to.deep.equal(true);
+      });
+      it('returns false for in-person appointments without content in the location field', () => {
+        const appointment = createAppointment();
+        appointment.clinicLocation = '';
+        expect(locationShouldBeDisplayed(appointment)).to.deep.equal(false);
+      });
+      it('returns false for in-person appointments without the location field', () => {
+        const appointment = createAppointment();
+        delete appointment.clinicLocation;
+        expect(locationShouldBeDisplayed(appointment)).to.deep.equal(false);
+      });
+      it('returns false for phone appointments with the location field', () => {
+        const appointment = createAppointment();
+        appointment.kind = 'phone';
+        expect(locationShouldBeDisplayed(appointment)).to.deep.equal(false);
+      });
+      it('returns false for phone appointments without content in the location field', () => {
+        const appointment = createAppointment();
+        appointment.kind = 'phone';
+        appointment.clinicLocation = '';
+        expect(locationShouldBeDisplayed(appointment)).to.deep.equal(false);
+      });
+      it('returns false for phone appointments without the location field', () => {
+        const appointment = createAppointment();
+        appointment.kind = 'phone';
+        delete appointment.clinicLocation;
+        expect(locationShouldBeDisplayed(appointment)).to.deep.equal(false);
       });
     });
     describe('sortAppointmentsByStartTime', () => {

@@ -7,6 +7,7 @@ import {
   removeLoginAttempted,
 } from 'platform/utilities/sso/loginAttempted';
 import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
+import { API_SIGN_IN_SERVICE_URL } from 'platform/utilities/oauth/constants';
 import * as authUtilities from '../../authentication/utilities';
 import {
   AUTHN_SETTINGS,
@@ -15,7 +16,6 @@ import {
   EXTERNAL_REDIRECTS,
   API_VERSION,
   API_SESSION_URL,
-  API_SIGN_IN_SERVICE_URL,
   SIGNUP_TYPES,
   GA,
   EBENEFITS_DEFAULT_PATH,
@@ -546,38 +546,42 @@ describe('Authentication Utilities', () => {
     });
 
     it('should redirect to the provided CSPs signup session url', async () => {
-      setup({ path: nonUsipPath });
-      await authUtilities.signup({ csp: CSP_IDS.LOGIN_GOV });
-      expect(global.window.location).to.equal(
-        API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.LOGIN_GOV] }),
-      );
+      setup({ path: normalPathWithParams });
+      const expectedUrl = await authUtilities.signup({
+        policy: CSP_IDS.LOGIN_GOV,
+        isLink: true,
+      });
+      authUtilities.redirect(expectedUrl);
+      expect(global.window.location).to.contain(expectedUrl);
     });
   });
 
   describe('signupUrl', () => {
     it('should generate an ID.me session signup url by default', async () => {
-      expect(await authUtilities.signupUrl()).to.include(
-        API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }),
-      );
+      expect(
+        await authUtilities.signup({ policy: CSP_IDS.ID_ME, isLink: true }),
+      ).to.include(API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }));
     });
 
     it('should append op=signup param for ID.me signups', async () => {
-      expect(await authUtilities.signupUrl(CSP_IDS.ID_ME)).to.contain.all(
+      expect(
+        await authUtilities.signup({ policy: CSP_IDS.ID_ME, isLink: true }),
+      ).to.contain.all(
         API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }),
         'op=signup',
       );
     });
 
     it('should generate a session signup url for the given type', async () => {
-      expect(await authUtilities.signupUrl(CSP_IDS.LOGIN_GOV)).to.include(
-        API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.LOGIN_GOV] }),
-      );
+      expect(
+        await authUtilities.signup({ policy: CSP_IDS.LOGIN_GOV, isLink: true }),
+      ).to.include(API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.LOGIN_GOV] }));
     });
 
     it('should generate an ID.me session signup url if the given type is not valid', async () => {
-      expect(await authUtilities.signupUrl('test')).to.include(
-        API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }),
-      );
+      expect(
+        await authUtilities.signup({ type: 'test', isLink: true }),
+      ).to.include(API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }));
     });
   });
 

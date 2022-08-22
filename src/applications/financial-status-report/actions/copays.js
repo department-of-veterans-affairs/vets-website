@@ -1,6 +1,7 @@
 import * as Sentry from '@sentry/browser';
 import { apiRequest } from 'platform/utilities/api';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
+import { DEBT_TYPES } from '../utils/helpers';
 
 export const MCP_STATEMENTS_FETCH_INIT = 'MCP_STATEMENTS_FETCH_INIT';
 export const MCP_STATEMENTS_FETCH_SUCCESS = 'MCP_STATEMENTS_FETCH_SUCCESS';
@@ -27,6 +28,7 @@ const transformStatementData = data => {
         facilityName,
         city,
       },
+      debtType: DEBT_TYPES.COPAY,
     };
   });
 };

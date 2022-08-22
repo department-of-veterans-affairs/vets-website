@@ -7,7 +7,7 @@ import {
   signInServiceName,
 } from 'platform/user/authentication/selectors';
 import { logoutUrl } from 'platform/user/authentication/utilities';
-import { logout as SISLogout } from 'platform/utilities/oauth/utilities';
+import { logoutUrlSiS, logoutEvent } from 'platform/utilities/oauth/utilities';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import recordEvent from 'platform/monitoring/record-event';
 
@@ -23,25 +23,14 @@ export function PersonalizationDropdown(props) {
   const { isSSOe, csp } = props;
 
   const createSignout = useCallback(
-    () => {
-      const label = 'Sign Out';
-      return isSSOe ? (
-        <a href={logoutUrl()}>{label}</a>
-      ) : (
-        <button
-          type="button"
-          className="button-styled-as-link"
-          onClick={() => {
-            SISLogout({
-              signInServiceName: csp,
-              storedLocation: window.location.href,
-            });
-          }}
-        >
-          {label}
-        </button>
-      );
-    },
+    () => (
+      <a
+        href={isSSOe ? logoutUrl() : logoutUrlSiS()}
+        onClick={() => logoutEvent(csp)}
+      >
+        Sign Out
+      </a>
+    ),
     [isSSOe, csp],
   );
 

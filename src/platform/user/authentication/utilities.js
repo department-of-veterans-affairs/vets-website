@@ -58,9 +58,7 @@ export const sanitizeUrl = (url, path = '') => {
 };
 
 export const sanitizePath = to => {
-  if (!to) {
-    return '';
-  }
+  if (!to) return '';
   return to.startsWith('/') ? to : `/${to}`;
 };
 
@@ -318,18 +316,25 @@ export function logout(
 
 export async function signup({
   version = API_VERSION,
-  csp = CSP_IDS.ID_ME,
+  policy = CSP_IDS.ID_ME,
+  isLink = false,
 } = {}) {
-  const params = csp === CSP_IDS.ID_ME ? { op: 'signup' } : {};
-  return redirect(
-    await sessionTypeUrl({
-      type: SIGNUP_TYPES[`${csp}`],
-      queryParams: params,
-      version,
-      ...(csp === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
-    }),
-    `${csp}-${AUTH_EVENTS.REGISTER}`,
-  );
+  // const params = csp === CSP_IDS.ID_ME ? { op: 'signup' } : {};
+  // return redirect(
+  //   await sessionTypeUrl({
+  //     type: SIGNUP_TYPES[`${csp}`],
+  //     queryParams: params,
+  //     version,
+  //     ...(csp === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
+  //   }),
+  //   `${csp}-${AUTH_EVENTS.REGISTER}`,
+  // );
+  const url = await sessionTypeUrl({
+    type: `${policy}_signup`,
+    version,
+    ...(policy === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
+  });
+  return isLink ? url : redirect(url, `${policy}-${AUTH_EVENTS.REGISTER}`);
 }
 
 export const signupUrl = type => {

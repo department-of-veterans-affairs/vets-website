@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 
 const EmailAddressNotification = ({ signInServiceName }) => {
-  const { link, label: buttonText } =
-    SERVICE_PROVIDERS[signInServiceName] || {};
+  const { link, label } = SERVICE_PROVIDERS[signInServiceName];
 
   return (
     <>
@@ -15,7 +14,7 @@ const EmailAddressNotification = ({ signInServiceName }) => {
       </p>
       <p className="vads-u-margin-bottom--0">
         <a href={link} target="_blank" rel="noopener noreferrer">
-          Update sign-in email address on {buttonText}
+          Update sign-in email address on {label}
         </a>
       </p>
     </>
