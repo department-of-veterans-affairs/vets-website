@@ -46,6 +46,7 @@ export const formFields = {
   relationshipToServiceMember: 'relationshipToServiceMember',
   receiveTextMessages: 'receiveTextMessages',
   routingNumber: 'routingNumber',
+  selectedSponsors: 'selectedSponsors',
   sponsorDateOfBirth: 'sponsorDateOfBirth',
   sponsorFullName: 'sponsorFullName',
   userFullName: 'userFullName',
