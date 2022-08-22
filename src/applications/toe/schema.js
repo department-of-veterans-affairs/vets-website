@@ -23,7 +23,7 @@ export function phoneUISchema(category) {
       ],
     },
     isInternational: {
-      'ui:title': `This ${category} phone number is international`,
+      'ui:title': `This ${category} phone number is international.`,
       'ui:reviewField': YesNoReviewField,
       'ui:options': {
         hideIf: formData => {
