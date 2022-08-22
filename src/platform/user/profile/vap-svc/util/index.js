@@ -155,6 +155,8 @@ export const validateAsciiCharacters = (errors, field) => {
   // eslint-disable-next-line no-control-regex
   const hasInvalidCharacters = !/^[\x00-\x7F]*$/.test(field);
   if (field && hasInvalidCharacters) {
-    errors.addError('You can only include standard ASCII characters');
+    errors.addError(
+      'Our forms can only accept the letters A to Z, numbers 0 to 9, and certain symbols like dashes and periods',
+    );
   }
 };
