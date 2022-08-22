@@ -54,24 +54,17 @@ function FlipperClient({
   };
 
   const fetchToggleValues = async () => {
-    /*
-    {
-      "data":{
-          "type":"feature_toggles",
-          "features":[
-            {
-                "name":"foo",
-                "value":false
-            },
-            {
-                "name":"another_toggle",
-                "value":true
-            }
-          ]
-      }
+    let data;
+
+    if (sessionStorage.getItem('vaFeatureToggles')) {
+      const dataFromStorage = sessionStorage.getItem('vaFeatureToggles');
+      data = JSON.parse(dataFromStorage);
+    } else {
+      data = await _fetchToggleValues();
+      const saveData = JSON.stringify(data);
+      sessionStorage.setItem('vaFeatureToggles', saveData);
     }
-    */
-    const { data } = await _fetchToggleValues();
+
     const { features = [] } = data;
     return features.reduce((acc, toggle) => {
       acc[toggle.name] = toggle.value;
