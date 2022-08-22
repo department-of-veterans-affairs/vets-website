@@ -6,12 +6,17 @@ import {
   SelectField,
 } from '@department-of-veterans-affairs/va-forms-system-core';
 import { useFormikContext } from 'formik';
+import { militaryBranches } from 'platform/forms/address/data/labels';
 import { isBeforeDate } from '../utils';
 
 export default function MilitaryServiceHistory(props) {
   const state = useFormikContext();
 
   const { from, to } = state.values.toursOfDuty[0].dateRange;
+
+  const militaryBranchOptions = militaryBranches.map((branch, index) => {
+    return <option key={`${branch}${index}`}>{branch}</option>;
+  });
 
   return (
     <>
@@ -38,12 +43,7 @@ export default function MilitaryServiceHistory(props) {
           name="toursOfDuty[0].serviceBranch"
           label="Branch of service"
         >
-          <option>Air Force</option>
-          <option>Army</option>
-          <option>Coast Guard</option>
-          <option>Marine Corps</option>
-          <option>Navy</option>
-          <option>Space Force</option>
+          {militaryBranchOptions}
         </SelectField>
         <TextField name="toursOfDuty[0].rank" label="Rank" />
         <TextField name="toursOfDuty[0].serviceNumber" label="Service number" />
