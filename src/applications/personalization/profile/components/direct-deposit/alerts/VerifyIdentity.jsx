@@ -8,15 +8,15 @@ import {
 
 function VerifyIdentity() {
   const { ID_ME, LOGIN_GOV } = CSP_IDS;
-  const signUp = useCallback(csp => {
-    signup({ csp });
+  const signUp = useCallback(policy => {
+    signup({ policy });
   }, []);
   const SignUpLink = ({ type }) => {
     const { label } = SERVICE_PROVIDERS[`${type}`];
     const testID =
       type === CSP_IDS.ID_ME
-        ? `direct-deposit-id-me-sign-up-link`
-        : `direct-deposit-login-gov-sign-up-link`;
+        ? `direct-deposit-idme-sign-up-link`
+        : `direct-deposit-logingov-sign-up-link`;
     return (
       <p>
         <a

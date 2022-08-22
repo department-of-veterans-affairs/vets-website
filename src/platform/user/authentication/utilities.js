@@ -319,18 +319,8 @@ export async function signup({
   policy = CSP_IDS.ID_ME,
   isLink = false,
 } = {}) {
-  // const params = csp === CSP_IDS.ID_ME ? { op: 'signup' } : {};
-  // return redirect(
-  //   await sessionTypeUrl({
-  //     type: SIGNUP_TYPES[`${csp}`],
-  //     queryParams: params,
-  //     version,
-  //     ...(csp === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
-  //   }),
-  //   `${csp}-${AUTH_EVENTS.REGISTER}`,
-  // );
   const url = await sessionTypeUrl({
-    type: `${policy}_signup`,
+    type: SIGNUP_TYPES[`${policy}`],
     version,
     ...(policy === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
   });
