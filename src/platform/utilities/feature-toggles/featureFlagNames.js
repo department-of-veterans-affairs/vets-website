@@ -2,6 +2,7 @@
 
 export default Object.freeze({
   caregiverSIGIEnabled: 'caregiver_sigi_enabled',
+  caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
   cernerOverride648: 'cerner_override_648',
