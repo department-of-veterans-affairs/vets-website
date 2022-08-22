@@ -21,9 +21,7 @@ function Sponsors({ sponsors }) {
           <dd className="toe-definition-list_definition">
             {formatReadableDate(sponsor.dateOfBirth)}
           </dd>
-          <dt className="toe-definition-list_term">
-            Your relationship to sponsor:
-          </dt>
+          <dt className="toe-definition-list_term">Relationship:</dt>
           <dd className="toe-definition-list_definition">
             {sponsor.relationship}
           </dd>
