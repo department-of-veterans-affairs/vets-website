@@ -18,13 +18,16 @@ const Compose = () => {
     {
       title: 'Messages',
       links: [
-        { name: 'Compose', endpoint: '/secure-messages/compose' },
-        { name: 'Drafts', endpoint: '/secure-messages/drafts' },
-        { name: 'Folders', endpoint: '/secure-messages/folders' },
-        { name: 'Sent', endpoint: '/secure-messages/sent' },
-        { name: 'Deleted', endpoint: '/secure-messages/deleted' },
-        { name: 'Search Messages', endpoint: '/secure-messages/search' },
-        { name: 'Messages FAQ', endpoint: '/secure-messages/faq' },
+        { name: 'Compose', endpoint: '/my-health/secure-messages/compose' },
+        { name: 'Drafts', endpoint: '/my-health/secure-messages/drafts' },
+        { name: 'Folders', endpoint: '/my-health/secure-messages/folders' },
+        { name: 'Sent', endpoint: '/my-health/secure-messages/sent' },
+        { name: 'Deleted', endpoint: '/my-health/secure-messages/deleted' },
+        {
+          name: 'Search Messages',
+          endpoint: '/my-health/secure-messages/search',
+        },
+        { name: 'Messages FAQ', endpoint: '/my-health/secure-messages/faq' },
       ],
     },
     {
@@ -77,7 +80,7 @@ const Compose = () => {
 
   return (
     <div className="vads-l-grid-container compose-container">
-      <Breadcrumbs link="/search" pageName="Search" />
+      <Breadcrumbs link="/compose" pageName="Compose" />
       <SectionGuideButton sectionName="Messages" />
 
       <div className="vads-l-row compose-contents">
@@ -108,7 +111,7 @@ const Compose = () => {
           </nav>
         </div>
 
-        <div className="vads-l-col--12 large-screen:vads-u-padding-left--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9">
+        <div className="vads-l-col--12 medium-screen:vads-u-padding-left--2p5 medium-screen:vads-l-col--8 large-screen:vads-l-col--9">
           <h1 className="page-title">Compose Message</h1>
           <section className="emergency-note">
             <p>

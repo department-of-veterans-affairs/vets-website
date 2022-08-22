@@ -8,7 +8,6 @@
     max-width: 100%;
   }
   @media (min-width: $medium-screen) {
-    padding: 0;
     .compose-contents {
       margin-top: 30px;
       .left-nav-container {
@@ -18,6 +17,9 @@
     label {
       max-width: 100%;
     }
+  }
+  @media (min-width: $large-screen) {
+    padding: 0;
   }
   .breadcrumb > i {
     margin-right: 6px;

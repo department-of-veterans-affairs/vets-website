@@ -7,7 +7,7 @@ const SearchMessagesForm = props => {
   return (
     <form className="search-form">
       <va-text-input
-        label="Enter Keyword"
+        label="Enter keyword"
         name="keyword"
         onBlur={function noRefCheck() {}}
         onInput={function noRefCheck() {}}
@@ -81,11 +81,17 @@ const SearchMessagesForm = props => {
             <option value="drafts">All time</option>
           </va-select>
 
-          <va-checkbox
-            label="&#x1F4CE; Includes attachment"
-            name="includesAttachment"
-            class="includes-attachment"
-          />
+          <div className="includes-attachment">
+            <input id="includesAttachment" type="checkbox" />
+            <label
+              className="usa-input-label"
+              name="includes-attachment-label"
+              htmlFor="includesAttachment"
+            >
+              <i className="fa fa-paperclip" />
+              Includes attachment
+            </label>
+          </div>
         </section>
       )}
 
