@@ -89,6 +89,24 @@
               ]
             }
           ]
+        },
+        {
+          "id": 4,
+          "name": "Payments",
+          "description": "Payments to the Veteran",
+          "communicationItems": [
+            {
+              "id": 5,
+              "name": "Disability and pension deposit notifications",
+              "communicationChannels": [
+                {
+                  "id": 1,
+                  "name": "Text",
+                  "description": "SMS Notification"
+                }
+              ]
+            }
+          ]
         }
       ]
     }
