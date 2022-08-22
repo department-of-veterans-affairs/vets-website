@@ -72,10 +72,12 @@ export const updateStateAndVerifier = csp => {
     storage.getItem(`${csp}_signup_code_verifier`),
   );
 
-  const signupTypesMap = Object.values(SIGNUP_TYPES).flatMap(type => [
-    `${type}_state`,
-    `${type}_code_verifier`,
-  ]);
+  const signupTypesMap = [
+    `logingov_signup_state`,
+    `logingov_signup_code_verifier`,
+    `idme_signup_state`,
+    `idme_signup_code_verifier`,
+  ];
 
   Object.keys(storage)
     .filter(key => signupTypesMap.includes(key))
