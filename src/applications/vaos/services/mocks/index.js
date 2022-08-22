@@ -575,7 +575,7 @@ const responses = {
         { name: 'vaOnlineSchedulingPocHealthApt', value: true },
         { name: 'vaOnlineSchedulingStatusImprovement', value: true },
         { name: 'vaOnlineFilter36Vats', value: true },
-        { name: 'vaOnlineSchedulingVaosV2Next', value: true },
+        { name: 'vaOnlineSchedulingVAOSV2Next', value: true },
         { name: 'vaOnlineSchedulingAppointmentList', value: true },
         { name: 'edu_section_103', value: true },
         { name: 'vaViewDependentsAccess', value: false },

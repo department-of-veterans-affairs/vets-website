@@ -76,7 +76,7 @@ function phoneUISchema(category, parent, international) {
       },
     },
     [international]: {
-      'ui:title': `This ${category} phone number is international`,
+      'ui:title': `This ${category} phone number is international.`,
       'ui:reviewField': YesNoReviewField,
       'ui:options': {
         // expandUnder: parent,
@@ -298,8 +298,7 @@ const formConfig = {
       pages: {
         sponsorSelection: {
           title: 'Choose your sponsor',
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/sponsor-selection',
+          path: 'sponsor-selection',
           CustomPageReview: SelectedSponsorsReviewPage,
           depends: formData => formData.sponsors?.sponsors?.length,
           uiSchema: {
@@ -358,20 +357,29 @@ const formConfig = {
           },
         },
         sponsorInformation: {
-          title: 'Enter your sponsor’s info',
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/sponsor-information',
-          depends: formData => formData.sponsors?.someoneNotListed,
+          title: 'Enter your sponsor’s information',
+          path: 'sponsor-information',
+          depends: formData =>
+            !formData.sponsors?.sponsors?.length ||
+            formData.sponsors?.someoneNotListed,
           uiSchema: {
+            'view:enterYourSponsorsInformationHeading': {
+              'ui:description': (
+                <h3 className="vads-u-margin-bottom--3">
+                  Enter your sponsor’s information
+                </h3>
+              ),
+            },
             'view:noSponsorWarning': {
               'ui:description': (
                 <va-alert
+                  class="vads-u-margin-bottom--5"
                   close-btn-aria-label="Close notification"
                   status="warning"
                   visible
                 >
                   <h3 slot="headline">
-                    We do not have any sponsor information on file
+                    We don’t have any sponsor information on file
                   </h3>
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
@@ -383,7 +391,7 @@ const formConfig = {
                   </p>
                   <p>
                     You may still continue this application and enter your
-                    sponsor information manually.
+                    sponsor’s information manually.
                   </p>
                 </va-alert>
               ),
@@ -394,13 +402,12 @@ const formConfig = {
             'view:sponsorNotOnFileWarning': {
               'ui:description': (
                 <va-alert
+                  class="vads-u-margin-bottom--5"
                   close-btn-aria-label="Close notification"
                   status="warning"
                   visible
                 >
-                  <h3 slot="headline">
-                    One of your selected sponsors is not on file
-                  </h3>
+                  <h3 slot="headline">Your selected sponsor isn’t on file</h3>
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
                     they can{' '}
@@ -411,7 +418,7 @@ const formConfig = {
                   </p>
                   <p>
                     You may still continue this application and enter your
-                    sponsor information manually.
+                    sponsor’s information manually.
                   </p>
                 </va-alert>
               ),
@@ -421,14 +428,16 @@ const formConfig = {
             },
             [formFields.relationshipToServiceMember]: {
               'ui:title':
-                'What’s your relationship to the service member whose benefit has been transferred to you?',
+                'What’s your relationship to the Veteran or service member whose benefit has been transferred to you?',
               'ui:widget': 'radio',
+            },
+            'view:yourSponsorsInformationHeading': {
+              'ui:description': <h4>Your sponsor’s information</h4>,
             },
             [formFields.sponsorFullName]: {
               ...fullNameUI,
               first: {
                 ...fullNameUI.first,
-                'ui:title': 'Your sponsor’s first name',
                 'ui:validations': [
                   (errors, field) =>
                     addWhitespaceOnlyError(
@@ -440,7 +449,6 @@ const formConfig = {
               },
               last: {
                 ...fullNameUI.last,
-                'ui:title': 'Your sponsor’s last name',
                 'ui:validations': [
                   (errors, field) =>
                     addWhitespaceOnlyError(
@@ -450,13 +458,9 @@ const formConfig = {
                     ),
                 ],
               },
-              middle: {
-                ...fullNameUI.middle,
-                'ui:title': 'Your sponsor’s middle name',
-              },
             },
             [formFields.sponsorDateOfBirth]: {
-              ...currentOrPastDateUI('Your sponsor’s date of birth'),
+              ...currentOrPastDateUI('Date of birth'),
             },
           },
           schema: {
@@ -466,6 +470,10 @@ const formConfig = {
               formFields.sponsorDateOfBirth,
             ],
             properties: {
+              'view:enterYourSponsorsInformationHeading': {
+                type: 'object',
+                properties: {},
+              },
               'view:noSponsorWarning': {
                 type: 'object',
                 properties: {},
@@ -477,6 +485,10 @@ const formConfig = {
               [formFields.relationshipToServiceMember]: {
                 type: 'string',
                 enum: [SPONSOR_RELATIONSHIP.SPOUSE, SPONSOR_RELATIONSHIP.CHILD],
+              },
+              'view:yourSponsorsInformationHeading': {
+                type: 'object',
+                properties: {},
               },
               [formFields.sponsorFullName]: {
                 ...fullName,
@@ -495,8 +507,7 @@ const formConfig = {
         },
         firstSponsorSelection: {
           title: 'Choose your first sponsor',
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/first-sponsor',
+          path: 'first-sponsor',
           CustomPageReview: FirstSponsorReviewPage,
           depends: formData => formData.selectedSponsors?.length > 1,
           uiSchema: {
@@ -561,8 +572,7 @@ const formConfig = {
         },
         highSchool: {
           title: 'Verify your high school education',
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/high-school',
+          path: 'high-school',
           depends: formData => applicantIsChildOfSponsor(formData),
           uiSchema: {
             'view:subHeadings': {
@@ -607,8 +617,7 @@ const formConfig = {
         },
         highSchoolGraduationDate: {
           title: 'Verify your high school graduation date',
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/high-school-completion',
+          path: 'high-school-completion',
           depends: formData =>
             applicantIsChildOfSponsor(formData) &&
             formData[formFields.highSchoolDiploma] === 'Yes',
@@ -657,8 +666,7 @@ const formConfig = {
       pages: {
         contactInformation: {
           title: 'Phone numbers and email address',
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/phone-email',
+          path: 'phone-email',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -674,18 +682,16 @@ const formConfig = {
                     <li>Tell you important information about your benefits</li>
                   </ul>
                   <p>
-                    This is the contact information we have on file for you. If
-                    you notice any errors, please correct them now. Any updates
-                    you make will change the information for your education
-                    benefits only.
+                    We have this contact information on file for you. If you
+                    notice any errors, please correct them now. Any updates you
+                    make will change the information for your education benefits
+                    only.
                   </p>
                   <p>
-                    <strong>Note:</strong> If you want to update your contact
-                    information for other VA benefits, you can do that from your
-                    profile.
-                  </p>
-                  <p>
-                    <GoToYourProfileLink />
+                    <strong>Note:</strong> If you want to make changes to your
+                    contact information for other VA benefits,{' '}
+                    <GoToYourProfileLink text="update your information on your profile" />
+                    .
                   </p>
                 </>
               ),
@@ -777,8 +783,7 @@ const formConfig = {
         },
         mailingAddress: {
           title: 'Mailing address',
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/mailing-address',
+          path: 'mailing-address',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -789,18 +794,16 @@ const formConfig = {
                     to this address.
                   </p>
                   <p>
-                    This is the mailing address we have on file for you. If you
-                    notice any errors, please correct them now. Any updates you
-                    make will change the information for your education benefits
+                    We have this mailing address on file for you. If you notice
+                    any errors, please correct them now. Any updates you make
+                    will change the information for your education benefits
                     only.
                   </p>
                   <p>
-                    <strong>Note:</strong> If you want to update your personal
-                    information for other VA benefits, you can do that from your
-                    profile.
-                  </p>
-                  <p className="vads-u-margin-bottom--4">
-                    <GoToYourProfileLink />
+                    <strong>Note:</strong> If you want to make changes to your
+                    contact information for other VA benefits,{' '}
+                    <GoToYourProfileLink text="update your information on your profile" />
+                    .
                   </p>
                 </>
               ),
@@ -906,8 +909,7 @@ const formConfig = {
         },
         preferredContactMethod: {
           title: 'Contact preferences',
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/preferred-contact-method',
+          path: 'preferred-contact-method',
           uiSchema: {
             'view:contactMethodIntro': {
               'ui:description': (
@@ -962,10 +964,10 @@ const formConfig = {
                     <h3>Choose how you want to get notifications</h3>
                     <p>
                       We recommend that you opt in to text message notifications
-                      about your benefits. These include notifications that
-                      prompt you to verify your enrollment so you’ll receive
-                      your education payments. This is an easy way to verify
-                      your monthly enrollment.
+                      about your benefits. These notifications prompt you to
+                      verify your enrollment so you’ll receive your education
+                      payments. You can verify your monthly enrollment easily
+                      this way.
                     </p>
                     <va-alert status="info">
                       <>
@@ -988,7 +990,7 @@ const formConfig = {
               ),
               [formFields.receiveTextMessages]: {
                 'ui:title':
-                  'Would you like to receive text message notifications on your education benefits?',
+                  'Would you like to receive text message notifications about your education benefits?',
                 'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {
@@ -1113,12 +1115,11 @@ const formConfig = {
       title: 'Direct deposit',
       pages: {
         directDeposit: {
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/direct-deposit',
+          path: 'direct-deposit',
           uiSchema: {
             'ui:description': (
               <p className="vads-u-margin-bottom--4">
-                <strong>Note</strong>: VA makes payments only through direct
+                <strong>Note</strong>: We make payments only through direct
                 deposit, also called electronic funds transfer (EFT).
               </p>
             ),
