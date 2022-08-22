@@ -11,10 +11,10 @@ function FirstSponsorReviewPage({ data, editPage, title }) {
   if (data.firstSponsor === SPONSOR_NOT_LISTED_VALUE) {
     firstSponsorName = [
       'Sponsor that I’ve added:',
-      data.newSponsorFullName.first,
-      data.newSponsorFullName.middle,
-      data.newSponsorFullName.last,
-      data.newSponsorFullName.suffix,
+      data.sponsorFullName.first,
+      data.sponsorFullName.middle,
+      data.sponsorFullName.last,
+      data.sponsorFullName.suffix,
     ].join(' ');
   } else if (data.firstSponsor === IM_NOT_SURE_VALUE) {
     firstSponsorName = IM_NOT_SURE_LABEL;
