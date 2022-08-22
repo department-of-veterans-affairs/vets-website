@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
-import { CSP_CONTENT, AUTH_EVENTS, LINK_TYPES } from '../constants';
+import { SERVICE_PROVIDERS, AUTH_EVENTS, LINK_TYPES } from '../constants';
 
 function signupHandler(loginType, eventBase, isOAuth) {
   recordEvent({ event: `${eventBase}-${loginType}${isOAuth && '-oauth'}` });
@@ -22,8 +22,8 @@ export default function AccountLink({
   const { children, eventBase } = {
     children:
       type !== LINK_TYPES.CREATE
-        ? `Sign in with ${CSP_CONTENT[csp].COPY} account`
-        : `Create an account with ${CSP_CONTENT[csp].COPY}`,
+        ? `Sign in with ${SERVICE_PROVIDERS[csp].label} account`
+        : `Create an account with ${SERVICE_PROVIDERS[csp].label}`,
     eventBase:
       type !== LINK_TYPES.CREATE ? AUTH_EVENTS.LOGIN : AUTH_EVENTS.REGISTER,
   };

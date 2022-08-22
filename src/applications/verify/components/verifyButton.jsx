@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { verify } from 'platform/user/authentication/utilities';
 
-export const VerifyButton = ({ className, copy, renderImage, policy }) => {
+export const VerifyButton = ({ className, label, image, policy }) => {
   return (
     <button
       key={policy}
@@ -12,16 +12,16 @@ export const VerifyButton = ({ className, copy, renderImage, policy }) => {
       onClick={() => verify({ policy })}
     >
       <strong>
-        Verify with <span className="sr-only">{copy}</span>
+        Verify with <span className="sr-only">{label}</span>
       </strong>
-      {renderImage}
+      {image}
     </button>
   );
 };
 
 VerifyButton.propTypes = {
   className: PropTypes.string,
-  copy: PropTypes.string,
+  image: PropTypes.node,
+  label: PropTypes.string,
   policy: PropTypes.string,
-  renderImage: PropTypes.node,
 };

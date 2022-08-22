@@ -9,7 +9,7 @@ import {
   eduDirectDepositLoadError,
   cnpDirectDepositIsBlocked,
 } from '@@profile/selectors';
-import VerifyIdentiy from './alerts/VerifyIdentiy';
+import VerifyIdentity from './alerts/VerifyIdentity';
 import ServiceDown from './alerts/ServiceDown';
 import DirectDepositBlocked from './alerts/DirectDepositBlocked';
 
@@ -47,7 +47,7 @@ const DirectDepositWrapper = props => {
     setViewingIsRestricted(true);
     return (
       <>
-        <VerifyIdentiy />
+        <VerifyIdentity />
       </>
     );
   }
