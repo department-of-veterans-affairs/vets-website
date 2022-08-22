@@ -35,11 +35,11 @@ describe('Personal and contact information', () => {
       addressPage.fillAddressForm(formFields);
       addressPage.saveForm();
 
-      cy.findAllByText('You can only include standard ASCII characters').then(
-        items => {
-          expect(items.length).to.equal(6);
-        },
-      );
+      cy.findAllByText(
+        'Our forms can only accept the letters A to Z, numbers 0 to 9, and certain symbols like dashes and periods',
+      ).then(items => {
+        expect(items.length).to.equal(6);
+      });
 
       cy.injectAxeThenAxeCheck();
     });
