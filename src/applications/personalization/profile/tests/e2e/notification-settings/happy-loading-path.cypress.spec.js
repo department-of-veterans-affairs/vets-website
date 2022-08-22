@@ -64,6 +64,7 @@ describe('Notification Settings', () => {
           'have.length',
           1,
         );
+        cy.injectAxeThenAxeCheck();
       });
     },
   );
@@ -104,6 +105,7 @@ describe('Notification Settings', () => {
         cy.findAllByText(/check with your VA pharmacy first/i).should(
           'not.exist',
         );
+        cy.injectAxeThenAxeCheck();
       });
     },
   );
@@ -143,6 +145,7 @@ describe('Notification Settings', () => {
         cy.findAllByText(/check with your VA pharmacy first/i).should(
           'not.exist',
         );
+        cy.injectAxeThenAxeCheck();
       });
     },
   );
@@ -168,6 +171,7 @@ describe('Notification Settings', () => {
             /You can manage your health care email notifications through my healthevet/i,
           );
         });
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
