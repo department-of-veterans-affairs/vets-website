@@ -51,4 +51,5 @@ export const formFields = {
   sponsorFullName: 'sponsorFullName',
   userFullName: 'userFullName',
   viewPhoneNumbers: 'view:phoneNumbers',
+  viewReceiveTextMessages: 'view:receiveTextMessages',
 };
