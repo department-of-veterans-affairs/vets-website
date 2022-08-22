@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
 
@@ -140,7 +141,31 @@ const NotificationSettings = ({
   );
 };
 
-NotificationSettings.propTypes = {};
+NotificationSettings.propTypes = {
+  fetchNotificationSettings: PropTypes.func.isRequired,
+  noContactInfoOnFile: PropTypes.bool.isRequired,
+  shouldShowLoadingIndicator: PropTypes.bool.isRequired,
+  shouldShowPaymentsNotificationSetting: PropTypes.bool.isRequired,
+  allContactInfoOnFile: PropTypes.object,
+  emailAddress: PropTypes.string,
+  facilities: PropTypes.arrayOf(
+    PropTypes.shape({
+      facilityId: PropTypes.string,
+      isCerner: PropTypes.bool,
+    }),
+  ),
+  mobilePhoneNumber: PropTypes.object,
+  notificationGroups: PropTypes.shape({
+    entities: PropTypes.object,
+    ids: PropTypes.arrayOf(PropTypes.string),
+  }),
+  shouldFetchNotificationSettings: PropTypes.bool,
+  shouldShowAPIError: PropTypes.bool,
+  unselectedChannels: PropTypes.shape({
+    entities: PropTypes.object,
+    ids: PropTypes.arrayOf(PropTypes.string),
+  }),
+};
 
 const mapStateToProps = state => {
   const communicationPreferencesState = selectCommunicationPreferences(state);

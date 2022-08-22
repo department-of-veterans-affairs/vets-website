@@ -36,7 +36,11 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 NotificationGroup.propTypes = {
-  group: PropTypes.string.isRequired,
+  groupName: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
   itemIds: PropTypes.arrayOf(PropTypes.string),
 };
 
