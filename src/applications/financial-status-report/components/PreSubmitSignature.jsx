@@ -142,7 +142,7 @@ const PreSubmitSignature = ({
         <va-text-input
           label={"Veteran's full name"}
           class="signature-input"
-          name="veteran-signature-new"
+          name="veteran-signature"
           onInput={setNewSignature}
           type="text"
           required
