@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { verify } from 'platform/user/authentication/utilities';
-import {
-  CSP_IDS,
-  SERVICE_PROVIDERS,
-} from 'platform/user/authentication/constants';
+import { CSP_IDS } from 'platform/user/authentication/constants';
+import AccountLink from 'platform/user/authentication/components/AccountLink';
 
 export default function VerifyIdentity() {
   const { ID_ME, LOGIN_GOV } = CSP_IDS;
@@ -30,12 +27,7 @@ export default function VerifyIdentity() {
       </p>
       {[ID_ME, LOGIN_GOV].map(csp => (
         <p key={csp}>
-          <a
-            href={verify({ policy: csp, isLink: true })}
-            data-testid={`direct-deposit-${csp}-sign-up-link`}
-          >
-            Create a {SERVICE_PROVIDERS[csp].label} account
-          </a>
+          <AccountLink csp={csp} className="" allowVerification />
         </p>
       ))}
       <p>
