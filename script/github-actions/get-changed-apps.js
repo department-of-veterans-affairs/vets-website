@@ -49,6 +49,7 @@ const getAllowedApps = (filePath, allowedApps) => {
       rootUrl,
       rootPath: path.join(appsDirectory, rootAppFolderName),
       slackGroup: allowedApp.slackGroup,
+      continuousDeployment: allowedApp.continuousDeployment === true,
     }));
   }
 
@@ -95,6 +96,23 @@ const getChangedAppsString = (
   return [...new Set(appStrings)].join(delimiter);
 };
 
+/**
+ * Checks whether all file paths belong to allowed apps with continuous deployment enabled.
+ *
+ * @param {string[]} filePaths - A list of relative file paths.
+ * @param {Object} config - Changed apps config.
+ * @returns {Boolean} Whether all allowed apps have enabled continuous deployment.
+ */
+const isContinuousDeploymentEnabled = (filePaths, config) => {
+  for (const filePath of filePaths) {
+    const allowedApps = getAllowedApps(filePath, config.apps);
+    const cdEnabled = allowedApps[0].continuousDeployment === true;
+    if (!cdEnabled) return false;
+  }
+
+  return true;
+};
+
 if (process.env.CHANGED_FILE_PATHS) {
   const changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ');
 
@@ -106,16 +124,26 @@ if (process.env.CHANGED_FILE_PATHS) {
     // 'slack-group': The Slack group of the app's team, specified in the config.
     { name: 'output-type', type: String, defaultValue: 'entry' },
     { name: 'delimiter', alias: 'd', type: String, defaultValue: ' ' },
+    { name: 'continuous-deployment', type: Boolean, defaultValue: false },
   ]);
 
-  const changedAppsString = getChangedAppsString(
-    changedFilePaths,
-    changedAppsConfig,
-    options['output-type'],
-    options.delimiter,
-  );
+  if (options['continuous-deployment']) {
+    const continuousDeploymentEnabled = isContinuousDeploymentEnabled(
+      changedFilePaths,
+      changedAppsConfig,
+    );
 
-  console.log(changedAppsString);
+    console.log(continuousDeploymentEnabled);
+  } else {
+    const changedAppsString = getChangedAppsString(
+      changedFilePaths,
+      changedAppsConfig,
+      options['output-type'],
+      options.delimiter,
+    );
+
+    console.log(changedAppsString);
+  }
 }
 
 module.exports = {
