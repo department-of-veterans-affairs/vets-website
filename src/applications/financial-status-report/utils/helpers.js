@@ -96,11 +96,34 @@ export const nameStr = (socialSecurity, compensation, education, addlInc) => {
   return otherIncNames?.map(item => item).join(', ') ?? '';
 };
 
-export const getFsrReason = debts => {
-  const reasons = debts.map(({ resolution }) => resolution.resolutionType);
+export const getFsrReason = (debts, combinedFSR) => {
+  const reasons = combinedFSR
+    ? debts.map(({ resolutionOption }) => {
+        switch (resolutionOption) {
+          case 'monthly':
+            return 'Extended monthly payments';
+          case 'waiver':
+            return 'Waiver';
+          case 'compromise':
+            return 'Compromise';
+          default:
+            return '';
+        }
+      })
+    : debts.map(({ resolution }) => resolution.resolutionType);
   const uniqReasons = [...new Set(reasons)];
 
   return uniqReasons.join(', ');
+};
+
+export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
+  return combinedFSR
+    ? debts
+        .filter(item => item.resolutionComment !== undefined)
+        .reduce((acc, debt) => acc + Number(debt.resolutionComment), 0)
+    : debts
+        .filter(item => item.resolution.offerToPay !== undefined)
+        .reduce((acc, debt) => acc + Number(debt.resolution?.offerToPay), 0);
 };
 
 export const getMonthlyIncome = ({

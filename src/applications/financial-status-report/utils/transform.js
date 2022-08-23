@@ -11,6 +11,7 @@ import {
   otherDeductionsName,
   otherDeductionsAmt,
   nameStr,
+  getAmountCanBePaidTowardDebt,
 } from './helpers';
 
 export const transform = (formConfig, form) => {
@@ -105,15 +106,21 @@ export const transform = (formConfig, form) => {
   const vetOtherDeductionsName = otherDeductionsName(vetDeductions, allFilters);
   const spOtherDeductionsName = otherDeductionsName(spDeductions, allFilters);
 
-  const amountCanBePaidTowardDebt = selectedDebts
-    .filter(item => item.resolution.offerToPay !== undefined)
-    .reduce((acc, debt) => acc + Number(debt.resolution?.offerToPay), 0);
-
   const totMonthlyNetIncome = getMonthlyIncome(form.data);
   const totMonthlyExpenses = getMonthlyExpenses(form.data);
   const employmentHistory = getEmploymentHistory(form.data);
   const totalAssets = getTotalAssets(form.data);
-  const fsrReason = getFsrReason(selectedDebts);
+
+  // combined fsr options
+  const combinedFSRActive = form.data['view:combinedFinancialStatusReport'];
+  const fsrReason = getFsrReason(
+    combinedFSRActive ? selectedDebtsAndCopays : selectedDebts,
+    combinedFSRActive,
+  );
+  const amountCanBePaidTowardDebt = getAmountCanBePaidTowardDebt(
+    combinedFSRActive ? selectedDebtsAndCopays : selectedDebts,
+    combinedFSRActive,
+  );
 
   const submissionObj = {
     personalIdentification: {

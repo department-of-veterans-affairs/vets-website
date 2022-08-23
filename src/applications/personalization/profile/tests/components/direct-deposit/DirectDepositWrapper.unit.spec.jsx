@@ -70,7 +70,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       expect(getByTestId('child')).to.exist;
       expect(setViewingIsRestricted.called).to.be.false;
     });
-    it('Should render Verify Identiy alert if the serviceName does not exist', () => {
+    it('Should render Verify Identity alert if the serviceName does not exist', () => {
       const setViewingIsRestricted = spy();
       const store = createStore({ serviceType: null });
 
@@ -87,7 +87,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
 
       expect(setViewingIsRestricted.called).to.be.true;
     });
-    it('Should render Verify Identiy alert if the serviceName is DS_LOGON', () => {
+    it('Should render Verify Identity alert if the serviceName is DS_LOGON', () => {
       const setViewingIsRestricted = spy();
       const store = createStore({ serviceType: CSP_IDS.DS_LOGON });
 
@@ -102,7 +102,7 @@ describe('authenticated experience -- profile -- direct deposit', () => {
       expect(getByTestId('direct-deposit-mfa-message')).to.exist;
       expect(setViewingIsRestricted.called).to.be.true;
     });
-    it('Should render Verify Identiy alert if the serviceName is MHV', () => {
+    it('Should render Verify Identity alert if the serviceName is MHV', () => {
       const setViewingIsRestricted = spy();
       const store = createStore({ serviceType: CSP_IDS.MHV });
 
