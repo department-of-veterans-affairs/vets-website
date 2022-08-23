@@ -3,7 +3,7 @@ import React from 'react';
 export default function SponsorsSelectionHeadings() {
   return (
     <>
-      <h3>Choose your sponsor</h3>
+      <h3>Choose your sponsors</h3>
       <p>
         The Department of Defense decides whether your sponsor can transfer
         their GI Bill benefits to you. This is the sponsor information we have
