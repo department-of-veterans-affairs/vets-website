@@ -20,6 +20,7 @@ import {
   radioOptionsAriaLabels,
   radioLabel,
   unavailableComponent,
+  phoneComponent,
   dateOptions,
 } from './utils';
 
@@ -166,9 +167,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
           <p>
             We’re sorry. Something went wrong when we tried to download your
             form. Please try again. If your form still doesn’t download, call us
-            at <va-telephone contact={CONTACTS.HELP_DESK} /> (
-            <va-telephone contact={CONTACTS['711']} tty />
-            ). We’re here 24/7.
+            at {phoneComponent(CONTACTS.HELP_DESK)}. We’re here 24/7.
           </p>
         </div>
       </va-alert>

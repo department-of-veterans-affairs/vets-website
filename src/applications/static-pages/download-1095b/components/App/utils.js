@@ -24,6 +24,15 @@ export const radioOptionsAriaLabels = [
   'Option 2: Text File (best for screen readers, screen enlargers, and refreshable Braille displays)',
 ];
 
+export const phoneComponent = number => {
+  return (
+    <>
+      <va-telephone contact={number} /> (
+      <va-telephone contact={CONTACTS['711']} tty />)
+    </>
+  );
+};
+
 export const radioLabel = (
   <div>
     <h3>Choose your file format and download your document</h3>
@@ -48,9 +57,8 @@ export const notFoundComponent = () => {
         </p>
         <p>
           If you think you should have a 1095-B form, call us at{' '}
-          <va-telephone contact={CONTACTS['222_VETS']} /> (
-          <va-telephone contact={CONTACTS['711']} tty />
-          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          {phoneComponent(CONTACTS['222_VETS'])}. We’re here Monday through
+          Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </div>
     </va-alert>
@@ -69,9 +77,8 @@ export const unavailableComponent = () => {
         <p>
           Please check back later or if you need immediate assistance with this
           tax form, call the Enrollment Center at{' '}
-          <va-telephone contact={CONTACTS['222_VETS']} /> (
-          <va-telephone contact={CONTACTS['711']} tty />
-          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          {phoneComponent(CONTACTS['222_VETS'])}. We’re here Monday through
+          Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </div>
     </va-alert>
