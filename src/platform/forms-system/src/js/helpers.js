@@ -154,6 +154,7 @@ export function parseISODate(dateString) {
 
     return {
       month: month === 'XX' ? '' : Number(month).toString(),
+      // day cannot be an empty string
       day: day === 'XX' ? null : Number(day).toString(),
       year: year === 'XXXX' ? '' : year,
     };
