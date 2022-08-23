@@ -322,10 +322,12 @@ export async function signup({
   version = API_VERSION,
   policy = CSP_IDS.ID_ME,
   isLink = false,
+  allowVerification = false,
 } = {}) {
   const url = await sessionTypeUrl({
     type: SIGNUP_TYPES[policy],
     version,
+    allowVerification,
     ...(policy === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
   });
   return isLink ? url : redirect(url, `${policy}-${AUTH_EVENTS.REGISTER}`);
