@@ -415,19 +415,9 @@ const formConfig = {
           uiSchema: pages.resolutionOptions.uiSchema,
           schema: pages.resolutionOptions.schema,
         },
-        resolutionComments: {
-          path: 'resolution-comments',
-          title: 'Resolution comments',
-          depends: formData => !formData['view:combinedFinancialStatusReport'],
-          uiSchema: pages.resolutionComments.uiSchema,
-          schema: pages.resolutionComments.schema,
-        },
         // New resolution radio options
         resolutionOption: {
-          title: formData =>
-            typeof formData.benefitType === 'string'
-              ? formData.benefitType
-              : 'Some default string',
+          title: 'Resolution Option',
           depends: formData =>
             formData.selectedDebtsAndCopays?.length > 0 &&
             formData['view:combinedFinancialStatusReport'],
@@ -439,18 +429,26 @@ const formConfig = {
         },
         // New text field
         resolutionComment: {
-          title: formData =>
-            typeof formData.benefitType === 'string'
-              ? formData.benefitType
-              : 'Some default string',
-          depends: formData =>
-            formData.selectedDebtsAndCopays?.length > 0 &&
-            formData['view:combinedFinancialStatusReport'],
+          title: 'Resolution Comment',
+          depends: (formData, index) => {
+            return (
+              formData.selectedDebtsAndCopays?.length > 0 &&
+              formData['view:combinedFinancialStatusReport'] &&
+              formData.selectedDebtsAndCopays[index]?.resolutionOption !==
+                'waiver'
+            );
+          },
           path: 'resolution-comment/:index',
           showPagePerItem: true,
           arrayPath: 'selectedDebtsAndCopays',
           uiSchema: pages.resolutionComment.uiSchema,
           schema: pages.resolutionComment.schema,
+        },
+        resolutionComments: {
+          path: 'resolution-comments',
+          title: 'Resolution comments',
+          uiSchema: pages.resolutionComments.uiSchema,
+          schema: pages.resolutionComments.schema,
         },
       },
     },

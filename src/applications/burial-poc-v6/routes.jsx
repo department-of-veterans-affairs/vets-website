@@ -4,6 +4,7 @@ import {
   ConditionalRoute,
   FormRouter,
   transformJSONSchema,
+  ReviewPage,
 } from '@department-of-veterans-affairs/va-forms-system-core';
 import fullSchema from 'vets-json-schema/dist/21P-530-schema.json';
 import BenefitsSelection from './pages/BenefitsSelection';
@@ -16,7 +17,6 @@ import PreviousNames from './pages/PreviousNames';
 import BurialAllowance from './pages/BurialAllowance';
 import PlotAllowance from './pages/PlotAllowance';
 import ClaimantContactInformation from './pages/ClaimantContactInformation';
-import ReviewPage from './pages/ReviewPage';
 import ConfirmationPage from './pages/ConfirmationPage';
 
 const initialValues = transformJSONSchema(fullSchema);

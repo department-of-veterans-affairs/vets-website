@@ -148,7 +148,7 @@ export const ctaWidgetsLookup = {
     isHealthTool: true,
     mhvToolName: 'VA Blue Button',
     requiredServices: backendServices.HEALTH_RECORDS,
-    serviceDescription: 'view your VA medical records',
+    serviceDescription: 'manage your VA medical records',
   },
   [CTA_WIDGET_TYPES.HEARING_AID_SUPPLIES]: {
     id: CTA_WIDGET_TYPES.HEARING_AID_SUPPLIES,

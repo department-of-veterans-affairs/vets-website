@@ -50,8 +50,8 @@ const DebtCheckBox = ({ debt }) => {
       ? [...selectedDebts, selectedDebt]
       : [selectedDebt];
 
-    const newlySelectedDebtsAndCopays = selectedDebts?.length
-      ? [...selectedDebts, selectedDebt]
+    const newlySelectedDebtsAndCopays = selectedDebtsAndCopays?.length
+      ? [...selectedDebtsAndCopays, selectedDebt]
       : [selectedDebt];
 
     return dispatch(
