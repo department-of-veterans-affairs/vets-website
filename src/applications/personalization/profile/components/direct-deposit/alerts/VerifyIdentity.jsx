@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { verify } from 'platform/user/authentication/utilities';
 import {
@@ -8,9 +8,6 @@ import {
 
 export default function VerifyIdentity() {
   const { ID_ME, LOGIN_GOV } = CSP_IDS;
-  const verifyLink = useCallback(policy => {
-    verify({ policy, isLink: true });
-  }, []);
 
   return (
     <va-alert status="continue" visible>
@@ -34,7 +31,7 @@ export default function VerifyIdentity() {
       {[ID_ME, LOGIN_GOV].map(csp => (
         <p key={csp}>
           <a
-            href={verifyLink(csp)}
+            href={verify({ policy: csp, isLink: true })}
             data-testid={`direct-deposit-${csp}-sign-up-link`}
           >
             Create a {SERVICE_PROVIDERS[csp].label} account
