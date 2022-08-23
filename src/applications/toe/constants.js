@@ -1,4 +1,9 @@
 import PropTypes from 'prop-types';
+import environment from 'platform/utilities/environment';
+
+export const LETTER_URL = `${
+  environment.API_URL
+}/education/download-letters/letters`;
 
 export const SPONSOR_RELATIONSHIP = {
   CHILD: 'Child',
@@ -41,6 +46,7 @@ export const formFields = {
   relationshipToServiceMember: 'relationshipToServiceMember',
   receiveTextMessages: 'receiveTextMessages',
   routingNumber: 'routingNumber',
+  selectedSponsors: 'selectedSponsors',
   sponsorDateOfBirth: 'sponsorDateOfBirth',
   sponsorFullName: 'sponsorFullName',
   userFullName: 'userFullName',

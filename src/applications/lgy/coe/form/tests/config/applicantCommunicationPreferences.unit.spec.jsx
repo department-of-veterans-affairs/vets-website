@@ -6,9 +6,9 @@ import { Provider } from 'react-redux';
 import {
   DefinitionTester,
   getFormDOM,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 import createCommonStore from 'platform/startup/store';
-import formConfig from '../../config/form.js';
+import formConfig from '../../config/form';
 
 const defaultStore = createCommonStore();
 
@@ -31,7 +31,7 @@ describe('COE applicant communication preferences', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(3);
+    expect(formDOM.querySelectorAll('input').length).to.equal(2);
   });
 
   it('Should not submit without required fields', () => {
@@ -51,7 +51,7 @@ describe('COE applicant communication preferences', () => {
 
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(3);
+    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -66,7 +66,6 @@ describe('COE applicant communication preferences', () => {
           data={{
             contactPhone: '5555555555',
             contactEmail: 'test@test.com',
-            'view:confirmContactEmail': 'test@test.com',
           }}
           onSubmit={onSubmit}
         />

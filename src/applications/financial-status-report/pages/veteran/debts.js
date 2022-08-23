@@ -12,7 +12,13 @@ export const uiSchema = {
       </span>
     ),
     'ui:widget': AvailableDebts,
-    'ui:required': ({ selectedDebts }) => !selectedDebts.length,
+    'ui:required': formData => {
+      const { selectedDebts, selectedDebtsAndCopays = [] } = formData;
+
+      return formData['view:combinedFinancialStatusReport']
+        ? !selectedDebtsAndCopays.length
+        : !selectedDebts.length;
+    },
     'ui:options': {
       hideOnReview: true,
     },

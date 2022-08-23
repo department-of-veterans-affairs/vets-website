@@ -246,6 +246,14 @@ export const applicantIsChildOfSponsor = formData => {
   return sponsor?.relationship === SPONSOR_RELATIONSHIP.CHILD;
 };
 
+const trimObjectValuesWhiteSpace = (key, value) => {
+  if (typeof value === 'string') {
+    return value.trim();
+  }
+
+  return value;
+};
+
 export function transformTOEForm(_formConfig, form) {
   const payload = {
     claimant: {
@@ -292,5 +300,6 @@ export function transformTOEForm(_formConfig, form) {
     },
   };
 
-  return JSON.stringify(payload);
+  // return JSON.stringify(payload);
+  return JSON.stringify(payload, trimObjectValuesWhiteSpace, 4);
 }

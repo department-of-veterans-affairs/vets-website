@@ -11,8 +11,8 @@ import { ShortFormAlert } from '../../../components/FormAlerts';
 import {
   medicalCenterLabels,
   medicalCentersByState,
-  HIGH_DISABILITY,
   emptyObjectSchema,
+  NotHighDisabilityOrNotCompensationTypeHigh,
 } from '../../../helpers';
 
 const {
@@ -28,13 +28,7 @@ export default {
     'view:facilityShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: form =>
-          !form['view:hcaShortFormEnabled'] ||
-          (form.vaCompensationType !== 'highDisability' &&
-            !(
-              form['view:totalDisabilityRating'] &&
-              form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-            )),
+        hideIf: NotHighDisabilityOrNotCompensationTypeHigh,
       },
     },
     'view:vaFacilityTitle': {

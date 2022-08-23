@@ -316,16 +316,15 @@ export function logout(
 
 export async function signup({
   version = API_VERSION,
-  csp = CSP_IDS.ID_ME,
+  policy = CSP_IDS.ID_ME,
+  isLink = false,
 } = {}) {
-  return redirect(
-    await sessionTypeUrl({
-      type: `${csp}_signup`,
-      version,
-      ...(csp === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
-    }),
-    `${csp}-${AUTH_EVENTS.REGISTER}`,
-  );
+  const url = await sessionTypeUrl({
+    type: SIGNUP_TYPES[`${policy}`],
+    version,
+    ...(policy === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
+  });
+  return isLink ? url : redirect(url, `${policy}-${AUTH_EVENTS.REGISTER}`);
 }
 
 export const signupUrl = type => {

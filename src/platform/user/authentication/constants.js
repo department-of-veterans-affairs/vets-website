@@ -1,4 +1,5 @@
 import React from 'react';
+import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
 import LoginGovSVG from 'platform/user/authentication/components/LoginGovSVG';
 import IDMeSVG from 'platform/user/authentication/components/IDMeSVG';
 import environment from '../../utilities/environment';
@@ -31,23 +32,43 @@ export const AUTH_EVENTS = {
   OAUTH_ERROR_USER_FETCH: 'login-error-oauth-user-fetch',
 };
 
-export const SERVICE_PROVIDERS = {
-  logingov: { label: 'Login.gov', link: 'https://secure.login.gov/account' },
-  idme: { label: 'ID.me', link: 'https://wallet.id.me/settings' },
-  dslogon: {
-    label: 'DS Logon',
-    link: 'https://myaccess.dmdc.osd.mil/identitymanagement',
-  },
-  mhv: { label: 'My HealtheVet', link: 'https://www.myhealth.va.gov' },
-  myhealthevet: { label: 'My HealtheVet', link: 'https://www.myhealth.va.gov' },
-};
-
 export const CSP_IDS = {
   MHV: 'mhv',
   MHV_VERBOSE: 'myhealthevet',
   ID_ME: 'idme',
   DS_LOGON: 'dslogon',
   LOGIN_GOV: 'logingov',
+};
+
+export const SERVICE_PROVIDERS = {
+  [CSP_IDS.LOGIN_GOV]: {
+    label: 'Login.gov',
+    link: 'https://secure.login.gov/account',
+    image: <LoginGovSVG />,
+    policy: 'logingov',
+    className: `logingov-button`,
+  },
+  [CSP_IDS.ID_ME]: {
+    label: 'ID.me',
+    link: 'https://wallet.id.me/settings',
+    image: <IDMeSVG />,
+    policy: 'idme',
+    className: 'idme-button',
+  },
+  [CSP_IDS.DS_LOGON]: {
+    label: 'DS Logon',
+    link: 'https://myaccess.dmdc.osd.mil/identitymanagement',
+    image: <>DS Logon</>,
+    policy: 'dslogon',
+    className: 'dslogon-button',
+  },
+  [CSP_IDS.MHV]: {
+    label: 'My HealtheVet',
+    link: 'https://www.myhealth.va.gov',
+    image: <>My HealtheVet</>,
+    policy: 'mhv',
+    className: 'mhv-button',
+  },
 };
 
 export const AUTHN_SETTINGS = {
@@ -66,7 +87,6 @@ export const EXTERNAL_APPS = {
 
 export const SIGNOUT_TYPES = {
   SLO: 'slo',
-  SLO_OAUTH: 'slo_oauth',
 };
 
 export const AUTH_BROKER = {
@@ -112,15 +132,8 @@ export const POLICY_TYPES = {
 };
 
 export const SIGNUP_TYPES = {
-  [CSP_IDS.ID_ME]: 'idme_signup',
-  [CSP_IDS.LOGIN_GOV]: 'logingov_signup',
-};
-
-export const CSP_CONTENT = {
-  [CSP_IDS.LOGIN_GOV]: { LOGO: <LoginGovSVG />, COPY: 'Login.gov' },
-  [CSP_IDS.ID_ME]: { LOGO: <IDMeSVG />, COPY: 'ID.me' },
-  [CSP_IDS.DS_LOGON]: { LOGO: <>DS Logon</>, COPY: 'DS Logon' },
-  [CSP_IDS.MHV]: { LOGO: <>My HealtheVet</>, COPY: 'My HealtheVet' },
+  [CSP_IDS.ID_ME]: 'idme_signup_verified',
+  [CSP_IDS.LOGIN_GOV]: 'logingov_signup_verified',
 };
 
 export const AUTH_LEVEL = { FAIL: 'fail', SUCCESS: 'success' };
@@ -163,4 +176,63 @@ export const AUTH_PARAMS = {
   codeChallengeMethod: 'code_challenge_method',
   clientId: 'client_id',
   to: 'to',
+};
+
+export const AUTH_DEPENDENCIES = [
+  EXTERNAL_SERVICES.idme,
+  EXTERNAL_SERVICES.ssoe,
+  EXTERNAL_SERVICES.dslogon,
+  EXTERNAL_SERVICES.mhv,
+  EXTERNAL_SERVICES.mvi,
+  EXTERNAL_SERVICES.logingov,
+];
+
+export const generateCSPBanner = ({ csp }) => {
+  return {
+    headline: `You may have trouble signing in with ${
+      SERVICE_PROVIDERS[csp].label
+    }`,
+    status: 'warning',
+    message: `We’re sorry. We’re working to fix some problems with our ${
+      SERVICE_PROVIDERS[csp].label
+    } sign in process. If you’d like to sign in to VA.gov with your ${
+      SERVICE_PROVIDERS[csp].label
+    } account, please check back later.`,
+  };
+};
+
+export const DOWNTIME_BANNER_CONFIG = {
+  ...Object.keys(SERVICE_PROVIDERS).reduce(
+    (acc, cv) => ({
+      ...acc,
+      [cv]: generateCSPBanner({ csp: cv }),
+    }),
+    {},
+  ),
+  ssoe: {
+    headline: 'Our sign in process isn’t working right now',
+    status: 'error',
+    message:
+      'We’re sorry. We’re working to fix some problems with our sign in process. If you’d like to sign in to VA.gov, please check back later.',
+  },
+  mvi: {
+    headline: 'You may have trouble signing in or using some tools or services',
+    status: 'warning',
+    message:
+      'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',
+  },
+};
+
+export const getStatusFromStatuses = _status => {
+  const sorted = _status
+    .sort((a, b) => {
+      if (a.service < b.service) return 1;
+      if (a.service > b.service) return -1;
+      return 0;
+    })
+    .find(k => !['active'].includes(k.status));
+
+  return sorted && AUTH_DEPENDENCIES.some(id => id === sorted.serviceId)
+    ? DOWNTIME_BANNER_CONFIG[sorted.serviceId]
+    : {};
 };
