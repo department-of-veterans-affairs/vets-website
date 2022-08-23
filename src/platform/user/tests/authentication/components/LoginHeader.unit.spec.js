@@ -1,36 +1,50 @@
 import React from 'react';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
 import LoginHeader from 'platform/user/authentication/components/LoginHeader';
 
+const generateState = ({ toggledOn = false }) => ({
+  featureToggles: {
+    // eslint-disable-next-line camelcase
+    profile_hide_direct_deposit_comp_and_pen: toggledOn,
+  },
+});
+
 describe('LoginHeader', () => {
-  let wrapper;
-  const props = { loggedOut: false, isIOS: () => false };
-
-  beforeEach(() => {
-    wrapper = shallow(<LoginHeader {...props} />);
-  });
-
-  afterEach(() => {
-    wrapper.unmount();
-  });
-
   it('should render', () => {
-    expect(wrapper.exists()).to.be.true;
-    expect(wrapper.find('h1').text()).to.include('Sign in');
+    const screen = renderInReduxProvider(<LoginHeader />, {
+      initialState: generateState({}),
+    });
+
+    expect(screen.queryByText(/Sign in/i)).to.not.be.null;
   });
-  it('should render a `LogoutAlert` if loggedOut is true', () => {
-    expect(wrapper.find('LogoutAlert').exists()).to.be.false;
-    wrapper.setProps({ loggedOut: true });
-    expect(wrapper.find('LogoutAlert').exists()).to.be.true;
+
+  it('should display the LogoutAlert component when user is loggedIn', () => {
+    const screen = renderInReduxProvider(<LoginHeader loggedOut />, {
+      initialState: generateState({}),
+    });
+
+    expect(screen.queryByText(/You have successfully signed out/i)).to.not.be
+      .null;
   });
-  it('should render `DowntimeBanners`', () => {
-    expect(wrapper.find('DowntimeBanners').exists()).to.be.true;
+
+  it('should show an alert for iOS users', () => {
+    const screen = renderInReduxProvider(<LoginHeader isIOS={() => true} />, {
+      initialState: generateState({}),
+    });
+
+    const iosDescription = /We’re sorry. If you’re using the Safari browser or an Apple mobile device, you may have trouble signing in right now. We’re working to fix this problem as fast as we can./i;
+
+    expect(screen.queryByText(iosDescription)).to.not.be.null;
   });
-  it('should display an informational alert for iOS users', () => {
-    const mutatedProps = { loggedOut: false, isIOS: () => true };
-    wrapper = shallow(<LoginHeader {...mutatedProps} />);
-    expect(wrapper.find('#ios-bug').exists()).to.be.true;
-    wrapper.unmount();
+
+  it('should display direct deposit error', () => {
+    const screen = renderInReduxProvider(<LoginHeader />, {
+      initialState: generateState({ toggledOn: true }),
+    });
+
+    const directDepositDesc = /We’re sorry. Disability and pension direct deposit information isn’t available right now. We’re doing some maintenance work on this system./i;
+
+    expect(screen.queryByText(directDepositDesc)).to.not.be.null;
   });
 });
