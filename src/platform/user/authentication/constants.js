@@ -132,8 +132,8 @@ export const POLICY_TYPES = {
 };
 
 export const SIGNUP_TYPES = {
-  [CSP_IDS.ID_ME]: 'idme_signup_verified',
-  [CSP_IDS.LOGIN_GOV]: 'logingov_signup_verified',
+  [CSP_IDS.ID_ME]: 'idme_signup',
+  [CSP_IDS.LOGIN_GOV]: 'logingov_signup',
 };
 
 export const AUTH_LEVEL = { FAIL: 'fail', SUCCESS: 'success' };

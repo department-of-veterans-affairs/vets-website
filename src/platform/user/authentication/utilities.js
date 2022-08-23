@@ -320,7 +320,7 @@ export async function signup({
   isLink = false,
 } = {}) {
   const url = await sessionTypeUrl({
-    type: SIGNUP_TYPES[`${policy}`],
+    type: SIGNUP_TYPES[policy],
     version,
     ...(policy === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
   });
