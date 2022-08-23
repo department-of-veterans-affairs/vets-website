@@ -148,6 +148,7 @@ export function sessionTypeUrl({
   queryParams = {},
   version = API_VERSION,
   allowVerification = false,
+  useOauth = false,
 }) {
   if (!type) {
     return null;
@@ -172,7 +173,7 @@ export function sessionTypeUrl({
   // We should use OAuth when the following are true:
   // OAuth param is 'true'
   // config.OAuthEnabled is true
-  const useOAuth = config?.OAuthEnabled && OAuth === 'true';
+  const useOAuth = useOauth || (config?.OAuthEnabled && OAuth === 'true');
 
   // Only require verification when all of the following are true:
   // 1. On the USiP (Unified Sign In Page)
@@ -292,12 +293,14 @@ export async function verify({
   version = API_VERSION,
   clickedEvent = AUTH_EVENTS.VERIFY,
   isLink = false,
+  useOAuth = false,
 }) {
   const type = SIGNUP_TYPES[policy];
   const url = await sessionTypeUrl({
     type,
     version,
     allowVerification: true,
+    useOauth: useOAuth,
   });
 
   return isLink ? url : redirect(url, `${type}-${clickedEvent}`);
