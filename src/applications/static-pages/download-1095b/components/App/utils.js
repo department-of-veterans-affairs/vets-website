@@ -18,21 +18,6 @@ export const radioOptions = [
   },
 ];
 
-export const radioOptionsAriaLabels = [
-  'Option 1: P D F Document (best for printing)',
-  'Option 2: Text File (best for screen readers, screen enlargers, and refreshable Braille displays)',
-];
-
-export const radioLabel = (
-  <div>
-    <h3>Choose your file format and download your document</h3>
-    <p>
-      We offer two file format options for this form. Choose the option that
-      best meets your needs.
-    </p>
-  </div>
-);
-
 export const notFoundComponent = () => {
   return (
     <va-alert close-btn-aria-label="Close notification" status="info" visible>

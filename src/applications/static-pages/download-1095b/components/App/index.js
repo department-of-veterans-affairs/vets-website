@@ -1,6 +1,5 @@
 // Node modules.
 import React, { useEffect, useState } from 'react';
-import RadioButtons from '@department-of-veterans-affairs/component-library/RadioButtons';
 import PropTypes from 'prop-types';
 import { apiRequest } from 'platform/utilities/api';
 import { connect } from 'react-redux';
@@ -11,15 +10,13 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
+import {
+  VaRadio,
+  VaRadioOption,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '~/platform/monitoring/record-event';
 
-import {
-  notFoundComponent,
-  radioOptions,
-  radioOptionsAriaLabels,
-  radioLabel,
-  dateOptions,
-} from './utils';
+import { notFoundComponent, radioOptions, dateOptions } from './utils';
 
 export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   const [lastUpdated, updateLastUpdated] = useState('');
@@ -108,16 +105,28 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
   );
 
   const radioComponent = (
-    <RadioButtons
-      id="1095-download-options"
-      name="1095-download-options"
-      label={radioLabel}
-      options={radioOptions}
-      onValueChange={({ value }) => updateFormType(value)}
-      value={{ value: formType }}
-      ariaDescribedby={radioOptionsAriaLabels}
-      additionalFieldsetClass="vads-u-margin-top--0"
-    />
+    <>
+      <h3>Choose your file format and download your document</h3>
+      <VaRadio
+        id="1095-download-options"
+        label="We offer two file format options for this form. Choose the option that best meets your needs."
+        onRadioOptionSelected={e => {
+          e.preventDefault();
+          updateFormType(e.target.value);
+        }}
+      >
+        {radioOptions.map(({ value, label }) => (
+          <VaRadioOption
+            id={value}
+            key={value}
+            checked={value === formType}
+            label={label}
+            value={value}
+            name="1095b-form-select"
+          />
+        ))}
+      </VaRadio>
+    </>
   );
 
   const downloadButton = (
