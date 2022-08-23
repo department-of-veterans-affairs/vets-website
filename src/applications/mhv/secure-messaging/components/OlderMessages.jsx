@@ -1,22 +1,77 @@
-import React from 'react';
-import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import React, { useState } from 'react';
 import Message from './Message';
 
-const OlderMessages = () => (
-  <div>
-    <VaAdditionalInfo
-      trigger="Older messages in this conversation"
-      disable-border
-    >
-      <VaAdditionalInfo
-        class="expand-messages"
-        trigger="Expand All Messages"
-        disable-border
-      />
+const OlderMessages = () => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpandedAll, setIsExpandedAll] = useState(false);
 
-      <Message />
-    </VaAdditionalInfo>
-  </div>
-);
+  const handleExpandOlder = e => {
+    // prevent fromp expanding/collapsing on Tab key press for accessibility
+    if (e.key !== 'Tab') {
+      setIsExpanded(!isExpanded);
+      if (isExpandedAll) {
+        // if collapsing Older Messages, collapse all expanded messages below as well
+        setIsExpandedAll(!isExpandedAll);
+      }
+    }
+  };
+
+  const handleExpandAll = e => {
+    // prevent fromp expanding/collapsing on Tab key press for accessibility
+    if (e.key !== 'Tab') {
+      setIsExpandedAll(!isExpandedAll);
+    }
+  };
+
+  return (
+    <div className="older-messages">
+      <div
+        onClick={e => {
+          handleExpandOlder(e);
+        }}
+        role="button"
+        tabIndex={0}
+        onKeyDown={e => {
+          handleExpandOlder(e);
+        }}
+      >
+        <span className="vads-u-font-weight--bold">
+          Older messages in this conversation
+          {isExpanded ? (
+            <i className="fas fa-angle-up fa-lg" />
+          ) : (
+            <i className="fas fa-angle-down fa-lg" />
+          )}
+        </span>
+      </div>
+
+      {isExpanded && (
+        <div>
+          <div className="vads-l-row vads-u-justify-content--flex-end">
+            <span
+              onClick={e => {
+                handleExpandAll(e);
+              }}
+              role="button"
+              tabIndex={0}
+              className="expand-all-messages-btn vads-u-display--flex vads-u-align-items--flex-start"
+              onKeyDown={e => {
+                handleExpandAll(e);
+              }}
+            >
+              Expand All Messages
+              {isExpandedAll ? (
+                <i className="fas fa-angle-up" />
+              ) : (
+                <i className="fas fa-angle-down" />
+              )}
+            </span>
+          </div>
+          <Message expanded={isExpandedAll} />
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default OlderMessages;

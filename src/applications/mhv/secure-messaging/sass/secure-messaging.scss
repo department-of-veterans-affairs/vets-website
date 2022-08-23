@@ -1,7 +1,7 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "./navigation";
 
-.secure-messaging-container{
+.secure-messaging-container {
   display: flex;
   flex-direction: row;
   .main-content {
@@ -145,6 +145,24 @@
 
 .older-messages {
   margin-top: 24px;
+  margin-bottom: 24px;
+  i {
+    margin: 0.5rem;
+    color: inherit;
+  }
+  .fa-lg {
+    font-size: 1.33333em !important;
+  }
+  .expand-all-messages-btn {
+    margin-top: 14px;
+    margin-bottom: 7px;
+  }
+
+  .older-message {
+    p {
+      margin: 4px 0;
+    }
+  }
 }
 
 .expand-messages {
@@ -183,17 +201,17 @@
   max-width: 480px;
 }
 
-@media(max-width: $small-screen) {
-  .secure-messaging-container{
-  flex-direction: column;
-  .main-content {
-    display: flex;
+@media (max-width: $small-screen) {
+  .secure-messaging-container {
     flex-direction: column;
+    .main-content {
+      display: flex;
+      flex-direction: column;
+    }
+    .secure-messaging-navigation {
+      margin-top: 24px;
+      margin-bottom: 30px;
+      margin-right: 0px;
+    }
   }
-  .secure-messaging-navigation {
-    margin-top: 24px;
-    margin-bottom: 30px;
-    margin-right: 0px;
-  }
-}
 }
