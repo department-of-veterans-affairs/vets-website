@@ -103,3 +103,15 @@ export const SecondaryCaregiverCopy = ({ label }) => {
 SecondaryCaregiverCopy.propTypes = {
   label: PropTypes.string,
 };
+
+export const emailEncouragementMessage = () => {
+  return (
+    <div className="vads-u-margin-top--4 vads-u-margin-bottom--2p5 vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+      <strong>Note:</strong> Including an email address on your application is
+      optional, but it helps us contact you faster if we need to follow up with
+      you. If you don’t include an email address, we’ll use your phone and
+      address to contact you. We’ll always mail you a copy of our decision on
+      your application.
+    </div>
+  );
+};

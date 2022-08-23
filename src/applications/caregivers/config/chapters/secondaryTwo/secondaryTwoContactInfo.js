@@ -1,7 +1,10 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
 import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo/SecondaryCaregiverInfo';
-import { secondaryTwoFields } from 'applications/caregivers/definitions/constants';
+import {
+  secondaryTwoFields,
+  emptyObjectSchema,
+} from 'applications/caregivers/definitions/constants';
 import { secondaryTwoContactIntro } from 'applications/caregivers/definitions/content';
 import { secondaryTwoInputLabel } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
 import {
@@ -10,6 +13,7 @@ import {
   alternativePhoneNumberUI,
   primaryPhoneNumberUI,
   addressWithAutofillUI,
+  emailEncouragementUI,
 } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
 const { secondaryCaregiverTwo } = fullSchema.properties;
@@ -22,7 +26,7 @@ const secondaryTwoContactPage = {
     'ui:description': formContext =>
       SecondaryCaregiverInfo({
         formContext,
-        pageTitle: 'Contact information',
+        pageTitle: 'Secondary Family Caregiver contact information',
         introText: secondaryTwoContactIntro,
         showContactIntro: true,
       }),
@@ -33,6 +37,7 @@ const secondaryTwoContactPage = {
     [secondaryTwoFields.alternativePhoneNumber]: alternativePhoneNumberUI(
       secondaryTwoInputLabel,
     ),
+    [secondaryTwoFields.emailEncouragementMessage]: emailEncouragementUI(),
     [secondaryTwoFields.email]: emailUI(secondaryTwoInputLabel),
     [secondaryTwoFields.verifyEmail]: confirmationEmailUI(
       secondaryTwoInputLabel,
@@ -61,6 +66,7 @@ const secondaryTwoContactPage = {
         secondaryCaregiverTwoProps.primaryPhoneNumber,
       [secondaryTwoFields.alternativePhoneNumber]:
         secondaryCaregiverTwoProps.alternativePhoneNumber,
+      [secondaryTwoFields.emailEncouragementMessage]: emptyObjectSchema,
       [secondaryTwoFields.email]: secondaryCaregiverTwoProps.email,
       [secondaryTwoFields.verifyEmail]: secondaryCaregiverTwoProps.email,
       [secondaryTwoFields.vetRelationship]:
