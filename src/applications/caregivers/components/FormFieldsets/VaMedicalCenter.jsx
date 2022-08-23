@@ -85,7 +85,7 @@ const VaMedicalCenter = props => {
   );
 
   return !reviewMode ? (
-    <div className="schemaform-field-template">
+    <>
       {!error ? (
         <VaSelect
           id={id}
@@ -118,7 +118,7 @@ const VaMedicalCenter = props => {
           </p>
         </va-alert>
       )}
-    </div>
+    </>
   ) : (
     <StringField {...props} />
   );
