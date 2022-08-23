@@ -31,7 +31,7 @@ const vetMedicalCenterAPIPage = {
             enum: caregiverStates.map(object => object.value),
             enumNames: caregiverStates.map(object => object.label),
           },
-          plannedClinic: { ...plannedClinic, enum: [] },
+          plannedClinic,
         },
       },
     },
