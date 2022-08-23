@@ -29,9 +29,7 @@ describe('AuthMetrics', () => {
     const gwData = global.window.dataLayer;
     const recordedEvent = gwData[gwData.length - 1];
 
-    expect(recordedEvent.event).to.equal(
-      'login-mismatch-idme_signup_verified-idme',
-    );
+    expect(recordedEvent.event).to.equal('login-mismatch-idme_signup-idme');
   });
 
   it('should record `register-success` event using recordGAAuthEvents', () => {

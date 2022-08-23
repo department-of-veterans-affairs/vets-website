@@ -4,7 +4,6 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import PropTypes from 'prop-types';
 import Layout from '../components/Layout';
-import { fetchUser } from '../../my-education-benefits/selectors/userDispatch';
 
 const App = ({ toggleLoginModal, user }) => {
   function toggleLogin(e) {
@@ -119,7 +118,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  user: fetchUser(state),
+  user: state.user || {},
 });
 
 const mapDispatchToProps = dispatch => ({
