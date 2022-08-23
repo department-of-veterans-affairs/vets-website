@@ -925,8 +925,17 @@ const formConfig = {
                           rel="noopener noreferrer"
                           target="_blank"
                         >
-                          View Terms and Conditions and Privacy Policy.
+                          View Terms and Conditions
+                        </a>{' '}
+                        and{' '}
+                        <a
+                          href="/privacy-policy"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          Privacy Policy
                         </a>
+                        .
                       </>
                     </va-alert>
                   </div>
