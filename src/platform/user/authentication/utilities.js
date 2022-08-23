@@ -291,6 +291,7 @@ export async function verify({
   policy = '',
   version = API_VERSION,
   clickedEvent = AUTH_EVENTS.VERIFY,
+  isLink = false,
 }) {
   const type = SIGNUP_TYPES[policy];
   const url = await sessionTypeUrl({
@@ -299,7 +300,7 @@ export async function verify({
     allowVerification: true,
   });
 
-  return redirect(url, clickedEvent, type);
+  return isLink ? url : redirect(url, `${type}-${clickedEvent}`);
 }
 
 export function logout(
