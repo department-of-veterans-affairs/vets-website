@@ -3,14 +3,20 @@ import {
   DateField,
   Page,
   TextField,
+  SelectField,
 } from '@department-of-veterans-affairs/va-forms-system-core';
 import { useFormikContext } from 'formik';
+import { militaryBranches } from 'platform/forms/address/data/labels';
 import { isBeforeDate } from '../utils';
 
 export default function MilitaryServiceHistory(props) {
   const state = useFormikContext();
 
   const { from, to } = state.values.toursOfDuty[0].dateRange;
+
+  const militaryBranchOptions = militaryBranches.map((branch, index) => {
+    return <option key={`${branch}${index}`}>{branch}</option>;
+  });
 
   return (
     <>
@@ -38,10 +44,12 @@ export default function MilitaryServiceHistory(props) {
             'End of service must be after start of service',
           )}
         />
-        <TextField
+        <SelectField
           name="toursOfDuty[0].serviceBranch"
           label="Branch of service"
-        />
+        >
+          {militaryBranchOptions}
+        </SelectField>
         <TextField name="toursOfDuty[0].rank" label="Rank" />
         <TextField name="toursOfDuty[0].serviceNumber" label="Service number" />
         <TextField name="toursOfDuty[0].placeOfEntry" label="Place of entry" />
