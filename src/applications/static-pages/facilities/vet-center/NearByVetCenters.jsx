@@ -160,21 +160,37 @@ const NearByVetCenters = props => {
   };
 
   const normalizeFetchedVetCenters = vcs => {
-    return vcs.map(vc => ({
-      id: vc.id,
-      entityBundle: vc.attributes.facilityType,
-      fieldPhoneNumber: vc.attributes.phone.main,
-      title: vc.attributes.name,
-      fieldAddress: {
-        addressLine1: vc.attributes.address.physical.address1,
-        administrativeArea: vc.attributes.address.physical.state,
-        locality: vc.attributes.address.physical.city,
-        postalCode: vc.attributes.address.physical.zip,
-      },
-      fieldOperatingStatusFacility: vc.attributes.operatingStatus?.code.toLowerCase(),
-      fieldOperatingStatusMoreInfo:
-        vc.attributes.operatingStatus?.additionalInfo,
-    }));
+    return vcs
+      .map(vc => {
+        let centerDistance = false;
+
+        if (nearbyVetCenterDistances) {
+          const vetCenterDistance = nearbyVetCenterDistances.find(
+            distance => distance.id === vc.id,
+          );
+
+          centerDistance = vetCenterDistance.distance;
+        }
+
+        return {
+          id: vc.id,
+          entityBundle: vc.attributes.facilityType,
+          fieldPhoneNumber: vc.attributes.phone.main,
+          distance: centerDistance,
+          title: vc.attributes.name,
+          fieldAddress: {
+            addressLine1: vc.attributes.address.physical.address1,
+            administrativeArea: vc.attributes.address.physical.state,
+            locality: vc.attributes.address.physical.city,
+            postalCode: vc.attributes.address.physical.zip,
+          },
+          fieldOperatingStatusFacility: vc.attributes.operatingStatus?.code.toLowerCase(),
+          fieldOperatingStatusMoreInfo:
+            vc.attributes.operatingStatus?.additionalInfo,
+        };
+      })
+      .filter(center => center.distance < NEARBY_VET_CENTER_RADIUS_MILES)
+      .sort((a, b) => (a.distance < b.distance ? 1 : -1));
   };
 
   const renderNearbyVetCenterContainer = sortedVetCenters => (
