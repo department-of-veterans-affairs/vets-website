@@ -1,54 +1,58 @@
 import React, { useState } from 'react';
-import TextInput from '@department-of-veterans-affairs/component-library/TextInput';
+import PropTypes from 'prop-types';
+import {
+  VaTextInput,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const ShowPdfPassword = ({
   file,
   index,
   onSubmitPassword,
   ariaDescribedby = null,
+  testVal = '', // for testing
 }) => {
-  const [fieldObj, setFieldObj] = useState({
-    dirty: false,
-    charMax: 255,
-    value: '',
-  });
+  const [value, setValue] = useState(testVal);
+  const [dirty, setDirty] = useState(false);
 
-  const showError = fieldObj.dirty && !fieldObj.value;
+  const errorMessage =
+    dirty && !value ? 'Please provide a password to decrypt this file' : null;
+
   return (
     <div className="vads-u-margin-bottom--2">
-      <TextInput
-        label={'PDF password'}
-        errorMessage={
-          showError && 'Please provide a password to decrypt this file'
-        }
+      <VaTextInput
+        label="PDF password"
+        error={errorMessage}
         name={`get_password_${index}`}
         required
-        field={fieldObj}
-        onValueChange={updatedField => {
-          setFieldObj(updatedField);
-        }}
-        ariaDescribedBy={ariaDescribedby}
+        value={value}
+        onInput={({ target }) => setValue(target.value || '')}
+        onBlur={() => setDirty(true)}
+        aria-describedby={ariaDescribedby}
       />
-      <button
-        type="button"
-        className="usa-button-primary va-button-primary vads-u-width--auto"
+      <VaButton
+        className="vads-u-width--auto"
+        text="Add password"
         onClick={() => {
-          if (fieldObj.value) {
-            onSubmitPassword(file, index, fieldObj.value);
+          if (value) {
+            onSubmitPassword(file, index, value);
           } else {
-            setFieldObj({
-              dirty: true,
-              charMax: 255,
-              value: '',
-            });
+            setValue('');
+            setDirty(true);
           }
         }}
         aria-describedby={ariaDescribedby}
-      >
-        Add password
-      </button>
+      />
     </div>
   );
+};
+
+ShowPdfPassword.propTypes = {
+  ariaDescribedby: PropTypes.string,
+  file: PropTypes.shape({}),
+  index: PropTypes.number,
+  testVal: PropTypes.string,
+  onSubmitPassword: PropTypes.func,
 };
 
 const PasswordLabel = () => (
