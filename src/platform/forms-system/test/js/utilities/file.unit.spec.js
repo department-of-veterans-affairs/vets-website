@@ -282,8 +282,9 @@ describe('ShowPdfPassword', () => {
     const { container } = render(<ShowPdfPassword {...props} />);
     fireEvent.click($('va-button', container), buttonClick);
 
-    expect($('va-text-input', container).error).to.contain(
-      'provide a password',
+    expect($('va-text-input', container)).to.have.attr(
+      'error',
+      'Please provide a password to decrypt this file',
     );
   });
   it('should call onSubmitPassword', () => {
@@ -293,7 +294,7 @@ describe('ShowPdfPassword', () => {
 
     fireEvent.click($('va-button', container), buttonClick);
 
-    expect($('va-text-input', container).error).to.be.null;
+    expect($('va-text-input', container)).to.not.have.attr('error');
     expect(props.onSubmitPassword.calledOnce).to.be.true;
     expect(props.onSubmitPassword.args[0]).to.deep.equal([
       { name: 'foo' },
