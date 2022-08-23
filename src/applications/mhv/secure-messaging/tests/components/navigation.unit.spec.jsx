@@ -2,7 +2,7 @@ import { renderInReduxProvider } from 'platform/testing/unit/react-testing-libra
 import React from 'react';
 import Navigation from '../../components/Navigation';
 
-describe('Navigation mobile view', () => {
+describe('Navigation', () => {
   it('renders without crashing', () => {
     const screen = renderInReduxProvider(<Navigation />);
 
