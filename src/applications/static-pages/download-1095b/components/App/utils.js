@@ -48,7 +48,7 @@ export const notFoundComponent = () => {
         </p>
         <p>
           If you think you should have a 1095-B form, call us at{' '}
-          <va-telephone contact={CONTACTS['222_VETS']} /> (TTY:{' '}
+          <va-telephone contact={CONTACTS['222_VETS']} /> (
           <va-telephone contact={CONTACTS['711']} tty />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
@@ -69,7 +69,7 @@ export const unavailableComponent = () => {
         <p>
           Please check back later or if you need immediate assistance with this
           tax form, call the Enrollment Center at{' '}
-          <va-telephone contact={CONTACTS['222_VETS']} /> (TTY:{' '}
+          <va-telephone contact={CONTACTS['222_VETS']} /> (
           <va-telephone contact={CONTACTS['711']} tty />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
