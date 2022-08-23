@@ -1,15 +1,14 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "./navigation";
 
-.sm-container{
+.secure-messaging-container{
   display: flex;
   flex-direction: row;
   .main-content {
     display: flex;
     flex-direction: column;
   }
-  .sm-navigation {
-    margin-top: 42px;
+  .secure-messaging-navigation {
     margin-right: 24px;
   }
 }
@@ -185,15 +184,14 @@
 }
 
 @media(max-width: $small-screen) {
-  .sm-container{
-  display: flex;
+  .secure-messaging-container{
   flex-direction: column;
   .main-content {
     display: flex;
     flex-direction: column;
   }
-  .sm-navigation {
-    margin-top: 42px;
+  .secure-messaging-navigation {
+    margin-top: 24px;
     margin-bottom: 30px;
     margin-right: 0px;
   }

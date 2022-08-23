@@ -20,6 +20,7 @@ import { getAllMessages } from '../actions';
 import Breadcrumbs from '../components/shared/Breadcrumbs';
 import EmergencyNote from '../components/EmergencyNote';
 import InboxListView from '../components/MessageList/InboxListView';
+import Navigation from '../components/Navigation';
 
 const LandingPageAuth = () => {
   const dispatch = useDispatch();
@@ -64,35 +65,41 @@ const LandingPageAuth = () => {
     //   user={props.user}
     //   serviceRequired={backendServices.MHV_AC}
     // >
-
     <div className="vads-l-grid-container">
       <Breadcrumbs />
-      <h1>Messages</h1>
-      <p className="va-introtext">
-        When you send a message to your care team, it can take up to 3 business
-        days to get a response.
-      </p>
-      <EmergencyNote />
-      <p>
-        <a
-          className="vads-c-action-link--blue"
-          href="/my-health/secure-messages/compose"
-        >
-          Compose message
-        </a>
-      </p>
-      <div className="search-messages-input">
-        <label htmlFor="search-message-folder-input">
-          Search the Messages folder
-        </label>
-        <VaSearchInput
-          label="search-message-folder-input"
-          // onInput={function noRefCheck() {}}
-          // onSubmit={function noRefCheck() {}}
-        />
-      </div>
+      <div className="secure-messaging-container">
+        <div className="secure-messaging-navigation">
+          <Navigation />
+        </div>
+        <div className="main-content">
+          <h1>Messages</h1>
+          <p className="va-introtext">
+            When you send a message to your care team, it can take up to 3
+            business days to get a response.
+          </p>
+          <EmergencyNote />
+          <p>
+            <a
+              className="vads-c-action-link--blue"
+              href="/my-health/secure-messages/compose"
+            >
+              Compose message
+            </a>
+          </p>
+          <div className="search-messages-input">
+            <label htmlFor="search-message-folder-input">
+              Search the Messages folder
+            </label>
+            <VaSearchInput
+              label="search-message-folder-input"
+              // onInput={function noRefCheck() {}}
+              // onSubmit={function noRefCheck() {}}
+            />
+          </div>
 
-      <div>{content}</div>
+          <div>{content}</div>
+        </div>
+      </div>
     </div>
 
     // </RequiredLoginView>
