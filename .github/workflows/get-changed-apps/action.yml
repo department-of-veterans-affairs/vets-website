@@ -22,7 +22,7 @@ outputs:
     description: 'Space delimited list of paths for changed files that differ from `main` branch.'
     value: ${{ steps.get-changed-files.outputs.changed_files }}
   
-  continuous-deployment:
+  continuous_deployment:
     description: ''
     value: ${{ steps.check-continuous-deployment.outputs.is_enabled }}
 
