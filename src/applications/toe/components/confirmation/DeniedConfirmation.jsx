@@ -71,6 +71,7 @@ export default function DeniedConfirmation({ user, dateReceived }) {
         <ul>
           <li>
             Download a copy of your decision letter. This can also be found at
+            &nbsp;
             <a href={LETTER_URL}>Download your VA education letters.</a>
           </li>
           <li>
