@@ -1,11 +1,37 @@
 import React, { useCallback } from 'react';
-import { signup, signupUrl } from 'platform/user/authentication/utilities';
-import { CSP_IDS } from 'platform/user/authentication/constants';
+import PropTypes from 'prop-types';
+import { signup } from 'platform/user/authentication/utilities';
+import {
+  CSP_IDS,
+  SERVICE_PROVIDERS,
+} from 'platform/user/authentication/constants';
 
-export default function VerifyIdentiy() {
-  const signUp = useCallback(csp => {
-    signup({ csp });
+function VerifyIdentity() {
+  const { ID_ME, LOGIN_GOV } = CSP_IDS;
+  const signUp = useCallback(policy => {
+    signup({ policy });
   }, []);
+  const SignUpLink = ({ type }) => {
+    const { label } = SERVICE_PROVIDERS[`${type}`];
+    const testID =
+      type === CSP_IDS.ID_ME
+        ? `direct-deposit-idme-sign-up-link`
+        : `direct-deposit-logingov-sign-up-link`;
+    return (
+      <p>
+        <a
+          href={`#create-${type}-account`}
+          onClick={() => signUp(type)}
+          data-testid={testID}
+        >
+          {`Create a ${label} account`}
+        </a>
+      </p>
+    );
+  };
+  const signUpLinks = () => {
+    return [ID_ME, LOGIN_GOV].map(csp => <SignUpLink key={csp} type={csp} />);
+  };
   return (
     <va-alert status="continue" visible>
       <h2 slot="headline" data-testid="direct-deposit-mfa-message">
@@ -25,23 +51,9 @@ export default function VerifyIdentiy() {
         <strong>If you don’t have one of these accounts</strong>, you can create
         one and verify your identity now.
       </p>
-      <p>
-        <a
-          href="#create-login.gov-account"
-          onClick={() => signUp(CSP_IDS.LOGIN_GOV)}
-          data-testid="direct-deposit-login-gov-sign-up-link"
-        >
-          Create a Login.gov account
-        </a>
-      </p>
-      <p>
-        <a
-          href={signupUrl(CSP_IDS.ID_ME)}
-          data-testid="direct-deposit-id-me-sign-up-link"
-        >
-          Create an ID.me account
-        </a>
-      </p>
+
+      {signUpLinks()}
+
       <p>
         <strong>Note:</strong> If you need help updating your direct deposit
         information, call us at <va-telephone contact="800-827-1000" /> (
@@ -53,3 +65,9 @@ export default function VerifyIdentiy() {
     </va-alert>
   );
 }
+
+export default VerifyIdentity;
+
+VerifyIdentity.propTypes = {
+  type: PropTypes.string,
+};
