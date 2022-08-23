@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaTextInput,
-  VaButton,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const ShowPdfPassword = ({
   file,
@@ -20,7 +16,7 @@ const ShowPdfPassword = ({
 
   return (
     <div className="vads-u-margin-bottom--2">
-      <VaTextInput
+      <va-text-input
         label="PDF password"
         error={errorMessage}
         name={`get_password_${index}`}
@@ -30,7 +26,7 @@ const ShowPdfPassword = ({
         onBlur={() => setDirty(true)}
         aria-describedby={ariaDescribedby}
       />
-      <VaButton
+      <va-button
         className="vads-u-width--auto"
         text="Add password"
         onClick={() => {
