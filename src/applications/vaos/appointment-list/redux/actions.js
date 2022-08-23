@@ -207,7 +207,7 @@ export function fetchFutureAppointments({ includeRequests = true } = {}) {
             .subtract(30, 'days')
             .format('YYYY-MM-DD'),
           endDate: moment()
-            .add(395, 'days')
+            .add(180, 'days')
             .format('YYYY-MM-DD'),
           useV2VA: featureVAOSServiceVAAppointments,
           useV2CC: featureVAOSServiceCCAppointments,
