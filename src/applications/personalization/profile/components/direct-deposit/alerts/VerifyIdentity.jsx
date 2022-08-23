@@ -1,37 +1,17 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { signup } from 'platform/user/authentication/utilities';
+import { verify } from 'platform/user/authentication/utilities';
 import {
   CSP_IDS,
   SERVICE_PROVIDERS,
 } from 'platform/user/authentication/constants';
 
-function VerifyIdentity() {
+export default function VerifyIdentity() {
   const { ID_ME, LOGIN_GOV } = CSP_IDS;
-  const signUp = useCallback(policy => {
-    signup({ policy });
+  const verifyLink = useCallback(policy => {
+    verify({ policy, isLink: true });
   }, []);
-  const SignUpLink = ({ type }) => {
-    const { label } = SERVICE_PROVIDERS[`${type}`];
-    const testID =
-      type === CSP_IDS.ID_ME
-        ? `direct-deposit-idme-sign-up-link`
-        : `direct-deposit-logingov-sign-up-link`;
-    return (
-      <p>
-        <a
-          href={`#create-${type}-account`}
-          onClick={() => signUp(type)}
-          data-testid={testID}
-        >
-          {`Create a ${label} account`}
-        </a>
-      </p>
-    );
-  };
-  const signUpLinks = () => {
-    return [ID_ME, LOGIN_GOV].map(csp => <SignUpLink key={csp} type={csp} />);
-  };
+
   return (
     <va-alert status="continue" visible>
       <h2 slot="headline" data-testid="direct-deposit-mfa-message">
@@ -51,9 +31,16 @@ function VerifyIdentity() {
         <strong>If you don’t have one of these accounts</strong>, you can create
         one and verify your identity now.
       </p>
-
-      {signUpLinks()}
-
+      {[ID_ME, LOGIN_GOV].map(csp => (
+        <p key={csp}>
+          <a
+            href={verifyLink(csp)}
+            data-testid={`direct-deposit-${csp}-sign-up-link`}
+          >
+            Create a {SERVICE_PROVIDERS[csp].label} account
+          </a>
+        </p>
+      ))}
       <p>
         <strong>Note:</strong> If you need help updating your direct deposit
         information, call us at <va-telephone contact="800-827-1000" /> (
@@ -65,8 +52,6 @@ function VerifyIdentity() {
     </va-alert>
   );
 }
-
-export default VerifyIdentity;
 
 VerifyIdentity.propTypes = {
   type: PropTypes.string,

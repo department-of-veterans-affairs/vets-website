@@ -34,7 +34,7 @@ export default function AccountLink({
         const url =
           passedType !== LINK_TYPES.CREATE
             ? await authUtilities.sessionTypeUrl({ type: csp })
-            : await authUtilities.signupUrl(passedCSP);
+            : await authUtilities.signup({ policy: passedCSP, isLink: true });
 
         setHref(url);
       }
