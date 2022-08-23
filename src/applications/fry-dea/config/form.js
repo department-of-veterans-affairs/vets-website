@@ -53,7 +53,7 @@ import RelatedVeterans from '../components/RelatedVeterans';
 import { phoneSchema, phoneUISchema } from '../schema';
 import EmailViewField from '../components/EmailViewField';
 import {
-  isValidPhone,
+  isValidPhoneField,
   validateEmail,
   validateReMarriageDate,
 } from '../validation';
@@ -1127,10 +1127,10 @@ const formConfig = {
                     ]
                       .slice(0, 4)
                       .includes('Yes')) ||
-                  isValidPhone(
+                  isValidPhoneField(
                     formData[formFields.viewPhoneNumbers][
                       formFields.mobilePhoneNumber
-                    ].phone,
+                    ],
                   ),
               },
             },
@@ -1155,10 +1155,10 @@ const formConfig = {
                     ]
                       .slice(0, 4)
                       .includes('Yes')) ||
-                  !isValidPhone(
+                  !isValidPhoneField(
                     formData[formFields.viewPhoneNumbers][
                       formFields.mobilePhoneNumber
-                    ].phone,
+                    ],
                   ) ||
                   !formData[formFields.viewPhoneNumbers][
                     formFields.mobilePhoneNumber
