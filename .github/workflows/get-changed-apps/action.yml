@@ -8,14 +8,9 @@ inputs:
     default: ' '
 
   output-type:
-    description: 'Comma delimited list of changed application details to retrieve. Output types include: `entry_name`, `folder`, `slack_group`, `url`, `continuous-deployment`.'
+    description: 'Comma delimited list of changed application details to retrieve. Output types include: `entry_name`, `folder`, `slack_group`, `url`, `continuous_deployment`.'
     required: false
     default: ''
-
-  # continuous-deployment:
-  #   description: 'Checks if all changed applications have continuous deployment enabled.'
-  #   required: false
-  #   default: false
 
 outputs:
   changed_files:
@@ -23,7 +18,7 @@ outputs:
     value: ${{ steps.get-changed-files.outputs.changed_files }}
   
   continuous_deployment:
-    description: ''
+    description: 'Whether all changed applications have continuous deployment enabled.'
     value: ${{ steps.check-continuous-deployment.outputs.is_enabled }}
 
   entry_names:
