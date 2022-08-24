@@ -8,14 +8,14 @@ inputs:
     default: ' '
 
   output-type:
-    description: 'Comma delimited list of changed application details to retrieve. Output types include: `entry_name`, `folder`, `slack_group`, `url`.'
+    description: 'Comma delimited list of changed application details to retrieve. Output types include: `entry_name`, `folder`, `slack_group`, `url`, `continuous-deployment`.'
     required: false
     default: ''
 
-  continuous-deployment:
-    description: 'Checks if all changed applications have continuous deployment enabled.'
-    required: false
-    default: false
+  # continuous-deployment:
+  #   description: 'Checks if all changed applications have continuous deployment enabled.'
+  #   required: false
+  #   default: false
 
 outputs:
   changed_files:
@@ -89,7 +89,7 @@ runs:
 
     - name: Check if continuous deployment is enabled
       id: check-continuous-deployment
-      if: inputs.continuous-deployment == 'true'
+      if: contains(inputs.output-type, 'continuous_deployment')
       shell: bash
       run: echo ::set-output name=is_enabled::$(node script/github-actions/get-changed-apps.js --continuous-deployment)
       env:

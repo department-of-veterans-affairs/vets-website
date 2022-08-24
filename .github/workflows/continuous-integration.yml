@@ -48,8 +48,7 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name'
-          continuous-deployment: true
+          output-type: 'entry_name, continuous_deployment'
 
       - name: Configure AWS Credentials
         if: ${{ matrix.buildtype == 'vagovprod' }}
