@@ -1,4 +1,8 @@
 import { CurrentDebtTitle } from '../../components/CurrentDebtTitle';
+import {
+  validateCurrency,
+  validateResolutionAmount,
+} from '../../utils/validations';
 
 export const uiSchema = {
   selectedDebtsAndCopays: {
@@ -15,9 +19,7 @@ export const uiSchema = {
           classNames: 'schemaform-currency-input',
           widgetClassNames: 'input-size-3',
         },
-        'ui:errorMessages': {
-          required: 'Please enter a valid number.',
-        },
+        'ui:validations': [validateCurrency, validateResolutionAmount],
       },
     },
   },
@@ -30,7 +32,7 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        // required: ['resolutionComment'],
+        required: ['resolutionComment'],
         properties: {
           resolutionComment: {
             type: 'string',
