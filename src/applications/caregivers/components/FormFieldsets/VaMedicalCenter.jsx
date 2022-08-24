@@ -126,7 +126,6 @@ const VaMedicalCenter = props => {
 VaMedicalCenter.propTypes = {
   formContext: PropTypes.object,
   id: PropTypes.string,
-  registry: PropTypes.object,
   value: PropTypes.string,
   veteranFacilityState: PropTypes.string,
   onChange: PropTypes.func,
