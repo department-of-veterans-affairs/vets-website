@@ -45,7 +45,6 @@ export const ResultsWhereContent = ({ event }) => {
             fieldType={fieldLocationType}
             derivedLocations={locations}
           />
-          {/* {WhereContent(fieldFacilityLocation, fieldLocationType, locations)} */}
         </p>
       </div>
     </div>
