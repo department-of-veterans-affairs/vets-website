@@ -26,5 +26,5 @@ export const defaultMobileOAuthOptions = {
 export const defaultWebOAuthOptions = {
   clientId: 'web',
   acr: { idme: 'min', dslogon: 'min', mhv: 'min', logingov: 'min' },
-  acrSignup: { idme_signup: 'min', logingov_signup: 'min' },
+  acrSignup: { idme_signup: 'loa3', logingov_signup: 'ial2' },
 };
