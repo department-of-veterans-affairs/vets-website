@@ -1154,7 +1154,7 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Check commit deployability
+      - name: Check if commit can be deployed
         id: check-deployability
         run: node ./script/github-actions/check-deployability.js
         env:
