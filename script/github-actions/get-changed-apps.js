@@ -26,11 +26,11 @@ const getManifests = filePath => {
 
 /**
  * Gets the sliced manifest(s) of a file's root app folder with some added properties. The
- * app's root folder must be on the given allow list, otherwise returns null.
+ * app's root folder must be on the given allow list, otherwise returns an empty array.
  *
  * @param {string} filePath - Relative file path.
  * @param {Object} allowedApps - List of allowed apps.
- * @returns {Object[]|null} Sliced manifests of allowed apps. Otherwise null.
+ * @returns {Object[]} Sliced manifests of allowed apps.
  */
 const getAllowedApps = (filePath, allowedApps) => {
   const appsDirectory = 'src/applications';
@@ -44,16 +44,17 @@ const getAllowedApps = (filePath, allowedApps) => {
   );
 
   if (allowedApp) {
+    const { slackGroup, continuousDeployment } = allowedApp;
     return manifests.map(({ entryName, rootUrl }) => ({
       entryName,
       rootUrl,
       rootPath: path.join(appsDirectory, rootAppFolderName),
-      slackGroup: allowedApp.slackGroup,
-      continuousDeployment: allowedApp.continuousDeployment === true,
+      slackGroup,
+      continuousDeployment,
     }));
   }
 
-  return null;
+  return [];
 };
 
 /**
@@ -78,7 +79,7 @@ const getChangedAppsString = (
   for (const filePath of filePaths) {
     const allowedApps = getAllowedApps(filePath, config.apps);
 
-    if (allowedApps) {
+    if (allowedApps.length) {
       allowedApps.forEach(app => {
         if (outputType === 'entry') {
           appStrings.push(app.entryName);
@@ -97,17 +98,18 @@ const getChangedAppsString = (
 };
 
 /**
- * Checks whether all file paths belong to allowed apps with continuous deployment enabled.
+ * Checks whether all file paths belong to apps on the allowlist with continuous deployment
+ * enabled. Returns false if all apps don't have continuous deployed enabled.
  *
  * @param {string[]} filePaths - A list of relative file paths.
  * @param {Object} config - Changed apps config.
- * @returns {Boolean} Whether all allowed apps have enabled continuous deployment.
+ * @returns {Boolean} Whether apps of file paths have enabled continuous deployment.
  */
 const isContinuousDeploymentEnabled = (filePaths, config) => {
   for (const filePath of filePaths) {
     const allowedApps = getAllowedApps(filePath, config.apps);
-    const cdEnabled = allowedApps[0].continuousDeployment === true;
-    if (!cdEnabled) return false;
+    if (!allowedApps.length || allowedApps[0].continuousDeployment !== true)
+      return false;
   }
 
   return true;
