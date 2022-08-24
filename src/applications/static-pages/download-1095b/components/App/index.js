@@ -23,6 +23,8 @@ import {
   unavailableComponent,
   phoneComponent,
   dateOptions,
+  LastUpdatedComponent,
+  formatTimeString,
 } from './utils';
 
 export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
@@ -70,14 +72,6 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
         updateFormError({ error: true, type: 'not found' });
       }
     });
-  };
-
-  // VA content time formatting - should be lowercase with periods
-  const formatTimeString = string => {
-    if (string.includes('AM')) {
-      return string.replace('AM', 'a.m.');
-    }
-    return string.replace('PM', 'p.m.');
   };
 
   const callGetContent = () => {
@@ -156,20 +150,9 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
     </p>
   );
 
-  const lastUpdatedComponent = (
-    <p>
-      <span className="vads-u-line-height--3 vads-u-display--block">
-        <strong>Related to:</strong> Health care
-      </span>
-      <span className="vads-u-line-height--3 vads-u-display--block">
-        <strong>Document last updated:</strong> {lastUpdated}
-      </span>
-    </p>
-  );
-
   const errorComponent = (
     <>
-      {lastUpdatedComponent}
+      <LastUpdatedComponent lastUpdated={lastUpdated} />
       <va-alert
         close-btn-aria-label="Close notification"
         status="warning"
@@ -197,7 +180,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
 
   const successComponent = (
     <>
-      {lastUpdatedComponent}
+      <LastUpdatedComponent lastUpdated={lastUpdated} />
       <va-alert
         close-btn-aria-label="Close notification"
         status="success"
@@ -218,7 +201,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
 
   const loggedInComponent = (
     <>
-      {lastUpdatedComponent}
+      <LastUpdatedComponent lastUpdated={lastUpdated} />
       {radioComponent}
       {downloadButton}
     </>

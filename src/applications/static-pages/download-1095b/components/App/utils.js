@@ -19,12 +19,33 @@ export const radioOptions = [
   },
 ];
 
+// VA content time formatting - should be lowercase with periods
+export const formatTimeString = string => {
+  if (string.includes('AM')) {
+    return string.replace('AM', 'a.m.');
+  }
+  return string.replace('PM', 'p.m.');
+};
+
 export const phoneComponent = number => {
   return (
     <>
       <va-telephone contact={number} /> (
       <va-telephone contact={CONTACTS['711']} tty />)
     </>
+  );
+};
+
+export const LastUpdatedComponent = props => {
+  return (
+    <p>
+      <span className="vads-u-line-height--3 vads-u-display--block">
+        <strong>Related to:</strong> Health care
+      </span>
+      <span className="vads-u-line-height--3 vads-u-display--block">
+        <strong>Document last updated:</strong> {props.lastUpdated}
+      </span>
+    </p>
   );
 };
 
