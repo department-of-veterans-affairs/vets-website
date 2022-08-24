@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import { selectGroupById } from '@@profile/ducks/communicationPreferences';
@@ -32,6 +33,15 @@ const mapStateToProps = (state, ownProps) => {
     groupName: group.name,
     itemIds,
   };
+};
+
+NotificationGroup.propTypes = {
+  groupName: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]),
+  itemIds: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default connect(mapStateToProps)(NotificationGroup);
