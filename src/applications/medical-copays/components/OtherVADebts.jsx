@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { APP_TYPES } from '../../combined-debt-portal/combined/utils/helpers';
+import { APP_TYPES } from '../utils/helpers';
 
 const OtherVADebts = ({ module, subHeading }) => {
   return (
