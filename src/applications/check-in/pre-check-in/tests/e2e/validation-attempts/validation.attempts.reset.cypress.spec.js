@@ -146,7 +146,7 @@ describe('Check In Experience ', () => {
         .to.be.null;
     });
   });
-  it('Persists with same UUID', () => {
+  it.skip('Persists with same UUID', () => {
     cy.injectAxeThenAxeCheck();
     cy.window().then(window => {
       const { sessionStorage } = window;
