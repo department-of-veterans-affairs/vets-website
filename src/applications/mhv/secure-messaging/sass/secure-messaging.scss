@@ -118,6 +118,13 @@
     margin-top: 1px;
     margin-bottom: 1px;
   }
+  a:visited {
+    color: $color-link-default;
+    text-decoration: underline;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+    transition-property: color, background-color, border-color;
+  }
 }
 
 .attachment-body {
@@ -146,6 +153,15 @@
 .older-messages {
   margin-top: 24px;
   margin-bottom: 24px;
+  padding-left: 5px;
+
+  a:visited {
+    color: $color-link-default;
+    text-decoration: underline;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+    transition-property: color, background-color, border-color;
+  }
   i {
     margin: 0.5rem;
     color: inherit;
