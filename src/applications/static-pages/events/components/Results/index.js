@@ -6,7 +6,6 @@ import moment from 'moment-timezone';
 // Relative imports.
 import ResultsWhereContent from './ResultsWhereContent';
 import {
-  deriveEventLocations,
   deriveMostRecentDate,
   deriveResultsEndNumber,
   deriveResultsStartNumber,
@@ -84,9 +83,6 @@ export const Results = ({
               .format('z')
               .replace(/S|D/i, '');
 
-            // Derive the event locations.
-            const locations = deriveEventLocations(event);
-
             return (
               <div
                 className="vads-u-display--flex vads-u-flex-direction--column vads-u-border-top--1px vads-u-border-color--gray-light vads-u-padding-y--4"
@@ -126,11 +122,7 @@ export const Results = ({
                 </div>
 
                 {/* Where */}
-                <ResultsWhereContent
-                  fieldFacilityLocation={event?.fieldFacilityLocation}
-                  fieldLocationType={event?.fieldLocationType}
-                  locations={locations}
-                />
+                <ResultsWhereContent event={event} />
               </div>
             );
           })}

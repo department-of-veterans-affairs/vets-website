@@ -1,21 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { deriveEventLocations } from '../../helpers';
 
-export const ResultsWhereContent = ({
-  fieldFacilityLocation,
-  fieldLocationType,
-  locations,
-}) => {
-  function whereContent() {
-    if (fieldLocationType === 'online') return 'This is an online event.';
+export const ResultsWhereContent = ({ event }) => {
+  const fieldFacilityLocation = event?.fieldFacilityLocation;
+  const fieldLocationType = event?.fieldLocationType;
+  const locations = deriveEventLocations(event);
+  if (
+    fieldFacilityLocation === null &&
+    fieldLocationType !== 'online' &&
+    locations.length === 0
+  )
+    return <></>;
+
+  const WhereContent = ({ fieldLocation, fieldType, derivedLocations }) => {
+    if (fieldType === 'online') return 'This is an online event.';
     return (
       <>
-        <a href={fieldFacilityLocation?.entity?.entityUrl.path}>
-          {fieldFacilityLocation?.entity?.title}
+        <a href={fieldLocation?.entity?.entityUrl.path}>
+          {fieldLocation?.entity?.title}
         </a>
-        {locations?.length > 0 && (
+        {derivedLocations?.length > 0 && (
           <div>
-            {locations?.map(location => (
+            {derivedLocations?.map(location => (
               <p className="vads-u-margin--0" key={location}>
                 {location}
               </p>
@@ -24,14 +31,7 @@ export const ResultsWhereContent = ({
         )}
       </>
     );
-  }
-
-  if (
-    fieldFacilityLocation === null &&
-    fieldLocationType !== 'online' &&
-    locations.length === 0
-  )
-    return <></>;
+  };
 
   return (
     <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--1">
@@ -39,16 +39,27 @@ export const ResultsWhereContent = ({
         <strong>Where:</strong>
       </p>
       <div className="vads-u-display--flex vads-u-flex-direction--column">
-        <p className="vads-u-margin--0">{whereContent()}</p>
+        <p className="vads-u-margin--0">
+          <WhereContent
+            fieldLocation={fieldFacilityLocation}
+            fieldType={fieldLocationType}
+            derivedLocations={locations}
+          />
+          {/* {WhereContent(fieldFacilityLocation, fieldLocationType, locations)} */}
+        </p>
       </div>
     </div>
   );
 };
 
 ResultsWhereContent.propTypes = {
-  fieldFacilityLocation: PropTypes.object,
-  fieldLocationType: PropTypes.string,
-  locations: PropTypes.array,
+  event: PropTypes.object,
+};
+
+ResultsWhereContent.propTypes = {
+  derivedLocations: PropTypes.object,
+  fieldLocation: PropTypes.object,
+  fieldType: PropTypes.object,
 };
 
 export default ResultsWhereContent;
