@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import * as Sentry from '@sentry/browser';
@@ -8,35 +7,28 @@ import { VaSelect } from '@department-of-veterans-affairs/component-library/dist
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import { focusElement } from 'platform/utilities/ui';
+import { GeneralErrorAlert } from '../FormAlerts';
 
 const apiRequestWithUrl = `${
   environment.API_URL
 }/v1/facilities/va?services[]=CaregiverSupport`;
 
 const VaMedicalCenter = props => {
-  const {
-    formContext,
-    id,
-    onChange,
-    registry,
-    value,
-    veteranFacilityState,
-  } = props;
+  const { formContext, id, onChange, value, veteranFacilityState } = props;
   const { reviewMode, submitted } = formContext;
-  const { StringField } = registry.fields;
 
   const [facilities, setFacilities] = useState([]);
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
   const [dirty, setDirty] = useState(false);
 
-  // define our error messages
+  // define our error message(s)
   const errorMessages = { required: 'Please provide a response' };
 
   // define our custom onchange event
   const handleChange = event => {
     setDirty(true);
-    onChange(event.target.value);
+    onChange(event.detail.value);
   };
 
   // define our custom onblur event
@@ -49,12 +41,20 @@ const VaMedicalCenter = props => {
     return (submitted || dirty) && !value ? errorMessages.required : false;
   };
 
-  // dynamically load facilities based upon state selection
+  // grab the facility name based upon the selected value
+  const getFacilityName = useCallback(
+    val => {
+      const facility = facilities.find(f => f.id.split('_').pop() === val);
+      return facility?.name || '&mdash;';
+    },
+    [facilities],
+  );
+
+  // fetch, map and set our list of facilities based on the state selection
   useEffect(
     () => {
       if (veteranFacilityState) {
         isLoading(true);
-        // fetch, map and set facility data
         apiRequest(`${apiRequestWithUrl}&state=${veteranFacilityState}`, {})
           .then(res => {
             return res.data.map(location => ({
@@ -84,43 +84,42 @@ const VaMedicalCenter = props => {
     [veteranFacilityState],
   );
 
-  return !reviewMode ? (
-    <>
-      {!error ? (
-        <VaSelect
-          id={id}
-          name={id}
-          value={value}
-          label="VA medical center"
-          error={showError() || null}
-          required
-          onVaSelect={handleChange}
-          onBlur={handleBlur}
-        >
-          <option value="">
-            {loading ? 'Loading VA medical centers...' : ' '}
-          </option>
-          {facilities.map(facility => (
-            <option key={facility.id} value={facility.id.split('_').pop()}>
-              {facility.name}
-            </option>
-          ))}
-        </VaSelect>
-      ) : (
-        <va-alert
-          class="caregivers-error-message vads-u-margin-top--4"
-          status="error"
-        >
-          <h3 slot="headline">Something went wrong</h3>
-          <p>
-            We’re sorry. Something went wrong on our end. Please try again
-            later.
-          </p>
-        </va-alert>
-      )}
-    </>
+  // render the static facility name on review page
+  if (reviewMode) {
+    return <span>{getFacilityName(value)}</span>;
+  }
+
+  // render loading indicator while we fetch
+  if (loading) {
+    return (
+      <va-loading-indicator
+        label="Loading"
+        message="Loading available facilities..."
+        set-focus
+      />
+    );
+  }
+
+  return !error ? (
+    <VaSelect
+      id={id}
+      name={id}
+      value={value}
+      label="VA medical center"
+      error={showError() || null}
+      required
+      onVaSelect={handleChange}
+      onBlur={handleBlur}
+    >
+      <option value="">&nbsp;</option>
+      {facilities.map(f => (
+        <option key={f.id} value={f.id.split('_').pop()}>
+          {f.name}
+        </option>
+      ))}
+    </VaSelect>
   ) : (
-    <StringField {...props} />
+    <GeneralErrorAlert />
   );
 };
 

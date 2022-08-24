@@ -143,7 +143,10 @@ export const PreferredFacilityAPIUI = {
     'ui:required': () => true,
   },
   plannedClinic: {
-    'ui:title': ' ',
+    'ui:title': 'VA medical center',
     'ui:widget': VaMedicalCenter,
+    'ui:options': {
+      hideLabelText: true,
+    },
   },
 };
