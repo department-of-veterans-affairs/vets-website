@@ -70,7 +70,7 @@ export default function DeniedConfirmation({ user, dateReceived }) {
         <h2>What happens next?</h2>
         <ul>
           <li>
-            Download a copy of your decision letter. This can also be found at
+            Download a copy of your decision letter. This can also be found at{' '}
             <a href={LETTER_URL}>Download your VA education letters.</a>
           </li>
           <li>
