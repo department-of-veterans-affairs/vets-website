@@ -1,13 +1,16 @@
 import { addDays } from 'date-fns';
 
-export const notificationSuccessNotDismissed = () => {
+export const notificationSuccessNotDismissed = ci => {
+  let templateId = 'f9947b27-df3b-4b09-875c-7f76594d766d';
+  if (ci) templateId = '7efc2b8b-e59a-4571-a2ff-0fd70253e973';
+
   return {
     data: [
       {
         id: 'e4213b12-eb44-4b2f-bac5-3384fbde0b7a',
         type: 'onsite_notifications',
         attributes: {
-          templateId: 'f9947b27-df3b-4b09-875c-7f76594d766d',
+          templateId,
           vaProfileId: '1273780',
           dismissed: false,
           createdAt: addDays(new Date(), -3),
@@ -18,14 +21,17 @@ export const notificationSuccessNotDismissed = () => {
   };
 };
 
-export const notificationSuccessDismissed = () => {
+export const notificationSuccessDismissed = ci => {
+  let templateId = 'f9947b27-df3b-4b09-875c-7f76594d766d';
+  if (ci) templateId = '7efc2b8b-e59a-4571-a2ff-0fd70253e973';
+
   return {
     data: [
       {
         id: 'e4213b12-eb44-4b2f-bac5-3384fbde0b7a',
         type: 'onsite_notifications',
         attributes: {
-          templateId: 'f9947b27-df3b-4b09-875c-7f76594d766d',
+          templateId,
           vaProfileId: '1273780',
           dismissed: true,
           createdAt: addDays(new Date(), -3),
@@ -36,13 +42,16 @@ export const notificationSuccessDismissed = () => {
   };
 };
 
-export const notificationDismissedSuccess = () => {
+export const notificationDismissedSuccess = ci => {
+  let templateId = 'f9947b27-df3b-4b09-875c-7f76594d766d';
+  if (ci) templateId = '7efc2b8b-e59a-4571-a2ff-0fd70253e973';
+
   return {
     data: {
       id: 'e4213b12-eb44-4b2f-bac5-3384fbde0b7a',
       type: 'onsite_notifications',
       attributes: {
-        templateId: 'f9947b27-df3b-4b09-875c-7f76594d766d',
+        templateId,
         vaProfileId: '1273780',
         dismissed: true,
         createdAt: addDays(new Date(), -3),
@@ -52,14 +61,17 @@ export const notificationDismissedSuccess = () => {
   };
 };
 
-export const multipleNotificationSuccess = () => {
+export const multipleNotificationSuccess = ci => {
+  let templateId = 'f9947b27-df3b-4b09-875c-7f76594d766d';
+  if (ci) templateId = '7efc2b8b-e59a-4571-a2ff-0fd70253e973';
+
   return {
     data: [
       {
         id: 'e4213b12-eb44-4b2f-bac5-3384fbde0b7a',
         type: 'onsite_notifications',
         attributes: {
-          templateId: 'f9947b27-df3b-4b09-875c-7f76594d766d',
+          templateId,
           vaProfileId: '1273780',
           dismissed: false,
           createdAt: addDays(new Date(), -3),
@@ -70,7 +82,7 @@ export const multipleNotificationSuccess = () => {
         id: '700a1a99-5736-49ca-945e-7feb7fe79216',
         type: 'onsite_notifications',
         attributes: {
-          templateId: 'f9947b27-df3b-4b09-875c-7f76594d766d',
+          templateId,
           vaProfileId: '1273780',
           dismissed: false,
           createdAt: addDays(new Date(), -5),

@@ -1,9 +1,10 @@
 import React from 'react';
 import environment from 'platform/utilities/environment';
 import { validateFileField } from 'platform/forms-system/src/js/validation';
+
 import FileField from './FileField';
 import UploadRequirements from './UploadRequirements';
-import { updateFilesSchema } from '../../helpers';
+import { validateDocumentDescription } from '../../helpers';
 import { DOCUMENT_TYPES } from '../../../../status/constants';
 
 const DocumentUploadDescription = () => (
@@ -85,11 +86,11 @@ export const uiSchema = {
     'ui:field': FileField,
     'ui:options': {
       addAnotherLabel: 'Upload another document',
+      attachmentType: {
+        'ui:title': 'Document type',
+      },
       attachmentDescription: {
         'ui:title': 'Document description',
-      },
-      attachmentType: {
-        'ui:title': 'Select a document to upload',
       },
       buttonText: 'Upload document',
       classNames: 'schemaform-file-upload',
@@ -116,13 +117,12 @@ export const uiSchema = {
         confirmationCode: fileInfo.data.attributes.confirmationCode,
       }),
       showFieldLabel: true,
-      updateSchema: updateFilesSchema,
     },
     'ui:errorMessages': {
       required: 'Please upload a file',
       minItems: 'Please upload at least one file',
     },
-    'ui:validations': [validateFileField],
+    'ui:validations': [validateFileField, validateDocumentDescription],
   },
   'view:documentUploadDescription': {
     'ui:title': ' ',
