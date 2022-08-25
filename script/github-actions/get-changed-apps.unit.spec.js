@@ -401,4 +401,6 @@ describe('isContinuousDeploymentEnabled', () => {
     );
     expect(continuousDeployment).to.be.false;
   });
+
+  after(() => mockFs.restore());
 });
