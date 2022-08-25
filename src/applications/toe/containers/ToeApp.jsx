@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { isArray } from 'lodash';
+import PropTypes from 'prop-types';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
 import formConfig from '../config/form';
-import { fetchPersonalInformation, fetchSponsors } from '../actions';
+import { fetchSponsors } from '../actions';
 import { mapFormSponsors } from '../helpers';
+import { SPONSORS_TYPE } from '../constants';
 
 function ToeApp({
   children,
@@ -56,11 +58,33 @@ function ToeApp({
   );
 
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    <>
+      <va-breadcrumbs>
+        <a href="/">Home</a>
+        <a href="/education">Education and training</a>
+        <a href="/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e">
+          Apply to use transferred education benefits
+        </a>
+      </va-breadcrumbs>
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        {children}
+      </RoutedSavableApp>
+    </>
   );
 }
+
+ToeApp.propTypes = {
+  children: PropTypes.object,
+  formData: PropTypes.object,
+  getSponsors: PropTypes.func,
+  location: PropTypes.object,
+  setFormData: PropTypes.func,
+  showUpdatedFryDeaApp: PropTypes.bool,
+  sponsors: SPONSORS_TYPE,
+  sponsorsInitial: SPONSORS_TYPE,
+  sponsorsSavedState: SPONSORS_TYPE,
+  user: PropTypes.object,
+};
 
 const mapStateToProps = state => ({
   formData: state.form?.data || {},
@@ -74,7 +98,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getPersonalInfo: fetchPersonalInformation,
   getSponsors: fetchSponsors,
   setFormData: setData,
 };
