@@ -19,7 +19,7 @@ const LandingPageUnauth = () => {
         <div>
           <p className="vads-u-margin-top--0">
             Sign in with your
-            <strong>Login.gov</strong>, <strong>ID.me</strong>, or{' '}
+            <strong> Login.gov</strong>, <strong>ID.me</strong>, or{' '}
             <strong>My HealtheVet</strong> account. If you don’t have any of
             these accounts, you can create a free account now.
           </p>
@@ -40,7 +40,7 @@ const LandingPageUnauth = () => {
       </p>
       <p>
         <a
-          className="vads-c-action-link--blue"
+          className="vads-c-action-link--blue compose-message-link"
           href="/my-health/secure-messages"
         >
           Compose a new message

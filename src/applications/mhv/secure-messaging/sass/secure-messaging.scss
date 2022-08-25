@@ -1,16 +1,9 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "./navigation";
 
-.secure-messaging-container{
+.secure-messaging-container {
   display: flex;
   flex-direction: row;
-  .vads-c-action-link--blue:visited {
-    color: $color-link-default;
-    text-decoration: underline;
-    transition-duration: 0.3s;
-    transition-timing-function: ease-in-out;
-    transition-property: color, background-color, border-color;
-  }
   .main-content {
     display: flex;
     flex-direction: column;
@@ -19,6 +12,15 @@
     margin-right: 24px;
   }
 }
+
+.compose-message-link:visited {
+  color: $color-link-default;
+  text-decoration: underline;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  transition-property: color, background-color, border-color;
+}
+
 .message-box {
   background-color: $color-gray-lightest;
   border-radius: 4px;
@@ -190,17 +192,17 @@
   max-width: 480px;
 }
 
-@media(max-width: $small-screen) {
-  .secure-messaging-container{
-  flex-direction: column;
-  .main-content {
-    display: flex;
+@media (max-width: $small-screen) {
+  .secure-messaging-container {
     flex-direction: column;
+    .main-content {
+      display: flex;
+      flex-direction: column;
+    }
+    .secure-messaging-navigation {
+      margin-top: 24px;
+      margin-bottom: 30px;
+      margin-right: 0px;
+    }
   }
-  .secure-messaging-navigation {
-    margin-top: 24px;
-    margin-bottom: 30px;
-    margin-right: 0px;
-  }
-}
 }

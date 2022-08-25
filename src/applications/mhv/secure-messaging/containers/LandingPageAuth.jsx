@@ -80,7 +80,7 @@ const LandingPageAuth = () => {
           <EmergencyNote />
           <p>
             <a
-              className="vads-c-action-link--blue"
+              className="vads-c-action-link--blue compose-message-link"
               href="/my-health/secure-messages/compose"
             >
               Compose message
