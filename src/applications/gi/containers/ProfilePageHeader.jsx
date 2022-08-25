@@ -172,13 +172,14 @@ const ProfilePageHeader = ({
                 buttonId="typeAccredited-button"
               />
             </IconWithInfo>
-            {!environment.isProduction() ?? (
-              <IconWithInfo icon="building" present={ownershipName}>
-                {'   '}
-                Institutional Ownership:
-                {ownershipName}
-              </IconWithInfo>
-            )}
+            <IconWithInfo
+              icon="building"
+              present={!environment.isProduction() ?? ownershipName}
+            >
+              {'   '}
+              Institutional Ownership:
+              {ownershipName}
+            </IconWithInfo>
           </div>
         )}
         {showRightIconSection && (
