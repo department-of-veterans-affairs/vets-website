@@ -1,17 +1,18 @@
 import React from 'react';
 import { isAfter } from 'date-fns';
 import { useSelector } from 'react-redux';
+import { uniqBy } from 'lodash';
 import BalanceCard from './BalanceCard';
 import ZeroBalanceCard from './ZeroBalanceCard';
 import AlertCard from './AlertCard';
-import ComboAlerts from './ComboAlerts';
 import {
   calculateTotalDebts,
   calculateTotalBills,
   getLatestDebt,
   getLatestBill,
 } from '../utils/balance-helpers';
-import { APP_TYPES, ALERT_TYPES } from '../utils/helpers';
+import { APP_TYPES, sortStatementsByDate } from '../utils/helpers';
+import MCPAlert from './MCPAlerts';
 
 // Some terminology that could be helpful:
 // debt(s) = debtLetters
@@ -25,11 +26,7 @@ const Balances = () => {
   // Single out errors
   const billError = mcp.error;
   const debtError = debtLetters.errors?.length > 0;
-
-  // Both Error, show combo alert
-  if (billError && debtError) {
-    return <ComboAlerts alertType={ALERT_TYPES.ERROR} />;
-  }
+  const isEnrolledInHealthCare = billError?.code !== '403' ?? true;
 
   // get Debt info
   const { debts } = debtLetters;
@@ -37,14 +34,10 @@ const Balances = () => {
   const latestDebt = getLatestDebt(debts);
 
   // get Bill info
-  const bills = mcp.statements;
+  const sortedStatements = sortStatementsByDate(mcp.statements ?? []);
+  const bills = uniqBy(sortedStatements, 'pSFacilityNum');
   const totalBills = calculateTotalBills(bills);
   const latestBill = getLatestBill(bills);
-
-  // If there are no debts or bills, show zero balance card
-  if (totalDebts === 0 && totalBills === 0) {
-    return <ComboAlerts alertType={ALERT_TYPES.ZERO} />;
-  }
 
   // Sort two valid BalancCards by date
   if (!debtError && !billError && totalDebts > 0 && totalBills > 0) {
@@ -82,7 +75,8 @@ const Balances = () => {
             appType={APP_TYPES.DEBT}
           />
         )}
-      {!billError &&
+      {isEnrolledInHealthCare &&
+        !billError &&
         totalBills > 0 && (
           <BalanceCard
             amount={totalBills}
@@ -98,7 +92,13 @@ const Balances = () => {
         totalBills === 0 && <ZeroBalanceCard appType={APP_TYPES.COPAY} />}
       {/* AlertCards */}
       {debtError && <AlertCard appType={APP_TYPES.DEBT} />}
-      {billError && <AlertCard appType={APP_TYPES.COPAY} />}
+      {isEnrolledInHealthCare &&
+        billError && <AlertCard appType={APP_TYPES.COPAY} />}
+      {!isEnrolledInHealthCare && (
+        <>
+          <MCPAlert type="no-health-care" />
+        </>
+      )}
     </>
   );
 };

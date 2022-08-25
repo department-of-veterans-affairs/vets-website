@@ -32,10 +32,12 @@ export const primaryLabel = `Primary Family Caregiver applicant\u2019s`;
 export const representativeLabel = `Representative\u2019s`;
 export const secondaryOneLabel = `Secondary Family Caregiver applicant\u2019s`;
 export const secondaryTwoLabel = `Secondary Family Caregiver (2) applicant\u2019s`;
-export const secondaryOneHeaderInfo =
-  'Please complete the following information about the Secondary Family Caregiver.';
-export const secondaryTwoHeaderInfo =
-  'Please complete the following information about the Secondary Family Caregiver (2).';
+export const primaryPageIntro = `Please complete the following information about the Primary Family Caregiver.`;
+export const primaryContactIntro = `If the Primary Family Caregiver\u2019s address is the same as the Veteran\u2019s address, we can fill those fields out for you.`;
+export const secondaryOnePageIntro = `Please complete the following information about the Secondary Family Caregiver.`;
+export const secondaryTwoPageIntro = `Please complete the following information about the Secondary Family Caregiver (2).`;
+export const secondaryOneContactIntro = `If the Secondary Family Caregiver\u2019s address is the same as the Veteran\u2019s address, we can fill those fields out for you.`;
+export const secondaryTwoContactIntro = `If the Secondary Family Caregiver\u2019s (2) address is the same as the Veteran\u2019s address, we can fill those fields out for you.`;
 
 export const veteranSignatureContent = [
   'I certify that I give consent to the individual(s) named in this application to perform personal care services for me upon being approved as Primary and/or Secondary Family Caregivers in the Program of Comprehensive Assistance for Family Caregivers.',
@@ -100,4 +102,16 @@ export const SecondaryCaregiverCopy = ({ label }) => {
 
 SecondaryCaregiverCopy.propTypes = {
   label: PropTypes.string,
+};
+
+export const emailEncouragementMessage = () => {
+  return (
+    <div className="vads-u-margin-top--4 vads-u-margin-bottom--2p5 vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+      <strong>Note:</strong> Including an email address on your application is
+      optional, but it helps us contact you faster if we need to follow up with
+      you. If you don’t include an email address, we’ll use your phone and
+      address to contact you. We’ll always mail you a copy of our decision on
+      your application.
+    </div>
+  );
 };

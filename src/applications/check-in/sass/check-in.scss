@@ -1,0 +1,75 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+dt{
+  font-weight: bold;
+}
+
+.va-nav-breadcrumbs-list li{
+  display: initial;
+}
+
+.va-nav-breadcrumbs-list li::before{
+  content: " \2039 ";
+  display: inline-block;
+  padding: 0 0.15em;
+}
+
+ul.check-in--definition-list {
+  list-style: none;
+  padding: 0;
+}
+
+ol.check-in--appointment-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  .check-in--appointment-item{
+    width: 100%;
+    div.check-in--appointment-summary{
+      div.check-in--label{
+        margin-top: 0;
+        font-weight: bold;
+        display: inline;
+      }
+      div.check-in--value {
+        display: inline;
+        &::after {
+          content: "";
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+// check-in specific
+.appointment-check-in{
+  h1{
+    font-size: 3.2rem;
+  }
+}
+
+ol.appointment-list{
+  list-style: none;
+  .appointment-item{
+    background-color: $color-gray-lightest;
+    width: 100%;
+    @include media($medium-screen) {
+      width: 60%;
+    }
+    div.appointment-summary{
+      h2.appointment-time {
+        font-size: 2.4rem;
+        line-height: 36px;
+      }
+      span.item-value::after {
+        content: "";
+        display: block;
+      }
+    }
+  }
+}// Missing styles from the DS. Evaluate if still needed when auditing sass.
+va-text-input[error]:not([error=""])::part(label) ,
+va-text-input[error]:not([error=""])::part(span)  {
+  margin-top: 0;
+}

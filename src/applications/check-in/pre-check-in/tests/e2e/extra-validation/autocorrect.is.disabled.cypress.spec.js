@@ -22,7 +22,7 @@ describe('Pre-Check In Experience', () => {
     });
     it('validation failed', () => {
       cy.visitPreCheckInWithUUID();
-      ValidateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePage.preCheckIn();
       cy.injectAxeThenAxeCheck();
 
       cy.get('[label="Your last name"]')

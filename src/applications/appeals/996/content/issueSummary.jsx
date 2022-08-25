@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
 
 import { getSelected } from '../utils/helpers';
 import { ShowIssuesList } from '../components/ShowIssuesList';
-import { contestableIssuesPath, contestedIssuesPath } from '../constants';
+import { contestableIssuesPath } from '../constants';
 
 export const SummaryTitle = ({ formData }) => {
-  const pathname = formData.hlrV2 ? contestableIssuesPath : contestedIssuesPath;
   const issues = getSelected(formData);
 
   return (
@@ -20,7 +20,7 @@ export const SummaryTitle = ({ formData }) => {
         <Link
           aria-label="go back and add any missing issues for review"
           to={{
-            pathname,
+            pathname: contestableIssuesPath,
             search: '?redirect',
           }}
         >
@@ -30,4 +30,8 @@ export const SummaryTitle = ({ formData }) => {
       </p>
     </>
   );
+};
+
+SummaryTitle.propTypes = {
+  formData: PropTypes.shape({}),
 };

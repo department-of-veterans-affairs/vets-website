@@ -11,31 +11,14 @@ import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import { appointmentsToolLink } from 'platform/utilities/cerner';
 import { getButtonType } from 'applications/static-pages/analytics/addButtonLinkListeners';
+import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
+import {
+  cernerFacilitiesPropType,
+  ehrDataByVhaIdPropType,
+  otherFacilitiesPropType,
+} from '../../propTypes';
 
 export class CernerCallToAction extends Component {
-  static defaultProps = {
-    cernerFacilities: [],
-    otherFacilities: [],
-  };
-
-  static propTypes = {
-    cernerFacilities: PropTypes.arrayOf(
-      PropTypes.shape({
-        facilityId: PropTypes.string.isRequired,
-        isCerner: PropTypes.bool.isRequired,
-      }).isRequired,
-    ),
-    otherFacilities: PropTypes.arrayOf(
-      PropTypes.shape({
-        facilityId: PropTypes.string.isRequired,
-        isCerner: PropTypes.bool.isRequired,
-      }).isRequired,
-    ),
-    linksHeaderText: PropTypes.string.isRequired,
-    myVAHealthLink: PropTypes.string.isRequired,
-    myHealtheVetLink: PropTypes.string.isRequired,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -100,6 +83,7 @@ export class CernerCallToAction extends Component {
   render() {
     const { onCTALinkClick } = this;
     const {
+      ehrDataByVhaId,
       cernerFacilities,
       linksHeaderText,
       myVAHealthLink,
@@ -161,14 +145,18 @@ export class CernerCallToAction extends Component {
             // Derive facility properties.
             const id = facility?.id;
             const strippedID = replace(id, 'vha_', '');
-            const name = facility?.attributes?.name;
+            const facilityName = facility?.attributes?.name;
+            const systemName = getVamcSystemNameFromVhaId(
+              ehrDataByVhaId,
+              strippedID,
+            );
             const isCerner = cernerFacilities?.some(
               cernerFacility => cernerFacility?.facilityId === strippedID,
             );
 
             return (
               <p className="usa-alert-text vads-u-margin-bottom--2" key={id}>
-                <strong>{name}</strong>{' '}
+                <strong>{systemName || facilityName}</strong>{' '}
                 {isCerner
                   ? '(Now using My VA Health)'
                   : '(Using My HealtheVet)'}
@@ -177,11 +165,10 @@ export class CernerCallToAction extends Component {
           })}
 
           <p className="usa-alert-text">
-            Please choose a health management portal below, depending on your
-            provider&apos;s facility. You may need to disable your
-            browser&apos;s pop-up blocker to open the portal. If you&apos;re
-            prompted to sign in again, use the same account you used to sign in
-            on VA.gov.
+            Choose a health management portal, depending on your provider&apos;s
+            facility. You may need to disable your browser&apos;s pop-up blocker
+            to open the portal. If you&apos;re prompted to sign in again, use
+            the same account you used to sign in on VA.gov.
           </p>
 
           <h4 className="vads-u-margin-y--3">{linksHeaderText}</h4>
@@ -191,7 +178,11 @@ export class CernerCallToAction extends Component {
             // Derive facility properties.
             const id = facility?.id;
             const strippedID = replace(id, 'vha_', '');
-            const name = facility?.attributes?.name;
+            const facilityName = facility?.attributes?.name;
+            const systemName = getVamcSystemNameFromVhaId(
+              ehrDataByVhaId,
+              strippedID,
+            );
             const isCerner = cernerFacilities?.some(
               cernerFacility => cernerFacility?.facilityId === strippedID,
             );
@@ -204,7 +195,7 @@ export class CernerCallToAction extends Component {
             return (
               <div key={`${id}-cta-link`}>
                 <p className="vads-u-margin-bottom--1">
-                  <strong>{name}</strong>
+                  <strong>{systemName || facilityName}</strong>
                 </p>
                 <a
                   className="usa-button vads-u-color--white vads-u-margin-top--0 vads-u-margin-bottom--4"
@@ -238,5 +229,20 @@ export class CernerCallToAction extends Component {
     );
   }
 }
+
+CernerCallToAction.defaultProps = {
+  ehrDataByVhaId: {},
+  cernerFacilities: [],
+  otherFacilities: [],
+};
+
+CernerCallToAction.propTypes = {
+  linksHeaderText: PropTypes.string.isRequired,
+  myHealtheVetLink: PropTypes.string.isRequired,
+  myVAHealthLink: PropTypes.string.isRequired,
+  cernerFacilities: cernerFacilitiesPropType,
+  ehrDataByVhaId: ehrDataByVhaIdPropType,
+  otherFacilities: otherFacilitiesPropType,
+};
 
 export default CernerCallToAction;

@@ -261,9 +261,7 @@ describe('mapStateToProps', () => {
       financialInstitutionName: 'Chase Bank',
     },
   });
-  const makeDefaultState = ({
-    featureToggles = { profileAlwaysShowDirectDepositDisplay: false },
-  } = {}) => ({
+  const makeDefaultState = () => ({
     user: {
       profile: makeDefaultProfileState(),
       login: {
@@ -273,12 +271,6 @@ describe('mapStateToProps', () => {
     vaProfile: makeDefaultVaProfileState(),
     totalRating: {
       totalDisabilityRating: null,
-    },
-    featureToggles: {
-      /* eslint-disable camelcase */
-      profile_always_show_direct_deposit_display:
-        featureToggles?.profileAlwaysShowDirectDepositDisplay,
-      /* eslint-enable camelcase */
     },
   });
 
@@ -293,9 +285,7 @@ describe('mapStateToProps', () => {
       'shouldFetchCNPDirectDepositInformation',
       'shouldFetchEDUDirectDepositInformation',
       'shouldFetchTotalDisabilityRating',
-      'shouldShowDirectDeposit',
       'isDowntimeWarningDismissed',
-      'shouldShowProfileLGBTQEnhancements',
     ];
     expect(Object.keys(props)).to.deep.equal(expectedKeys);
   });
@@ -335,116 +325,6 @@ describe('mapStateToProps', () => {
       state.user.profile.services = [];
       const props = mapStateToProps(state);
       expect(props.shouldFetchCNPDirectDepositInformation).to.be.false;
-    });
-  });
-
-  describe('#shouldShowDirectDeposit', () => {
-    describe('when direct deposit info should not be fetched because EVSS is not available', () => {
-      it('should be `false`', () => {
-        const state = makeDefaultState();
-        state.user.profile.services = [];
-        // since EVSS is not in `services`, the `cnpPaymentInformation` will not
-        // be populated since we'll never make the call to get that data
-        state.vaProfile.cnpPaymentInformation = null;
-        const props = mapStateToProps(state);
-        expect(props.shouldShowDirectDeposit).to.be.false;
-      });
-      it('should be `true` with the direct deposit rework flag is enabled', () => {
-        const state = makeDefaultState({
-          featureToggles: {
-            profileAlwaysShowDirectDepositDisplay: true,
-          },
-        });
-        state.user.profile.services = [];
-
-        state.vaProfile.cnpPaymentInformation = null;
-        const props = mapStateToProps(state);
-        expect(props.shouldShowDirectDeposit).to.be.true;
-      });
-    });
-    describe('when direct deposit info should not be fetched because user has not set up 2FA', () => {
-      it('should be `true`', () => {
-        const state = makeDefaultState();
-        state.user.profile.multifactor = false;
-        const props = mapStateToProps(state);
-        expect(props.shouldShowDirectDeposit).to.be.true;
-      });
-    });
-
-    describe('when user is flagged as incompetent', () => {
-      it('should be `false`', () => {
-        const state = makeDefaultState();
-        state.vaProfile.cnpPaymentInformation.responses[0].controlInformation.isCompetentIndicator = false;
-        const props = mapStateToProps(state);
-        expect(props.shouldShowDirectDeposit).to.be.false;
-      });
-      it('should be `true` with the direct deposit rework flag is enabled', () => {
-        const state = makeDefaultState({
-          featureToggles: {
-            profileAlwaysShowDirectDepositDisplay: true,
-          },
-        });
-        state.vaProfile.cnpPaymentInformation.responses[0].controlInformation.isCompetentIndicator = false;
-        const props = mapStateToProps(state);
-        expect(props.shouldShowDirectDeposit).to.be.true;
-      });
-    });
-    describe('when user has a fiduciary assigned', () => {
-      it('should be `false`', () => {
-        const state = makeDefaultState();
-        state.vaProfile.cnpPaymentInformation.responses[0].controlInformation.noFiduciaryAssignedIndicator = false;
-        const props = mapStateToProps(state);
-        expect(props.shouldShowDirectDeposit).to.be.false;
-      });
-    });
-    describe('when user is deceased', () => {
-      it('should be `false`', () => {
-        const state = makeDefaultState();
-        state.vaProfile.cnpPaymentInformation.responses[0].controlInformation.notDeceasedIndicator = false;
-        const props = mapStateToProps(state);
-        expect(props.shouldShowDirectDeposit).to.be.false;
-      });
-      it('should be true with the direct deposit update enabled', () => {
-        const state = makeDefaultState({
-          featureToggles: { profileAlwaysShowDirectDepositDisplay: true },
-        });
-        state.vaProfile.cnpPaymentInformation.responses[0].controlInformation.notDeceasedIndicator = false;
-        const props = mapStateToProps(state);
-        expect(props.shouldShowDirectDeposit).to.be.true;
-      });
-    });
-    describe('when direct deposit is not already set up and they are not eligible to sign up', () => {
-      it('should be `false`', () => {
-        const state = makeDefaultState();
-        state.vaProfile.cnpPaymentInformation.responses[0].paymentAccount = {};
-        state.vaProfile.cnpPaymentInformation.responses[0].paymentAddress = {};
-        const props = mapStateToProps(state);
-        expect(props.shouldShowDirectDeposit).to.be.false;
-      });
-      it('should be true with the direct deposit update enabled', () => {
-        const state = makeDefaultState({
-          featureToggles: { profileAlwaysShowDirectDepositDisplay: true },
-        });
-        state.vaProfile.cnpPaymentInformation.responses[0].paymentAccount = {};
-        state.vaProfile.cnpPaymentInformation.responses[0].paymentAddress = {};
-        const props = mapStateToProps(state);
-        expect(props.shouldShowDirectDeposit).to.be.true;
-      });
-    });
-    describe('when user has EVSS available, has set up 2FA, is not blocked, and has direct deposit already set up', () => {
-      it('should be `true`', () => {
-        const state = makeDefaultState();
-        const props = mapStateToProps(state);
-        expect(props.shouldShowDirectDeposit).to.be.true;
-      });
-    });
-    describe('when user has EVSS available, has set up 2FA, is not blocked, does not have direct deposit set up but does have a payment address on file', () => {
-      it('should be `true`', () => {
-        const state = makeDefaultState();
-        state.vaProfile.cnpPaymentInformation.responses[0].paymentAccount = {};
-        const props = mapStateToProps(state);
-        expect(props.shouldShowDirectDeposit).to.be.true;
-      });
     });
   });
 

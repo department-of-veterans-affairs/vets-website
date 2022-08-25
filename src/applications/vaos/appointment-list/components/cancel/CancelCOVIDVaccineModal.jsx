@@ -1,5 +1,8 @@
 import React from 'react';
-import { VaModal, VaTelephone } from 'web-components/react-bindings';
+import {
+  VaModal,
+  VaTelephone,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 
 export default function CancelCOVIDVaccineModal({ onClose, facility }) {

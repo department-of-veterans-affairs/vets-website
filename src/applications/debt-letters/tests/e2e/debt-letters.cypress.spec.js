@@ -10,10 +10,10 @@ import mockDebts from './fixtures/mocks/debts.json';
 import mockUser from './fixtures/mocks/mock-user.json';
 import mockCopays from '../../../medical-copays/tests/e2e/fixtures/mocks/copays.json';
 
-describe.skip('Debt Letters', () => {
+describe('Debt Letters', () => {
   beforeEach(() => {
     cy.login(mockUser);
-    cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
+    cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles).as(
       'features',
     );
     cy.intercept('GET', '/v0/debts', mockDebts).as('debts');
@@ -36,7 +36,7 @@ describe.skip('Debt Letters', () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  /* eslint-disable va/axe-check-required */
+  /* eslint-disable @department-of-veterans-affairs/axe-check-required */
   // Same display-states below as test above which already had AXE-check.
 
   it('displays download debt letters - C1227', () => {
@@ -61,5 +61,5 @@ describe.skip('Debt Letters', () => {
     });
     cy.get('#howDoIDispute').should('be.visible');
   });
-  /* eslint-ensable va/axe-check-required */
+  /* eslint-enable @department-of-veterans-affairs/axe-check-required */
 });

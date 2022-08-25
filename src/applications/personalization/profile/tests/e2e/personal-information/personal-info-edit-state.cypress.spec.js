@@ -17,6 +17,8 @@ const checkPersonalInfoFields = () => {
     .should('exist')
     .blur();
 
+  cy.axeCheck();
+
   cy.findAllByTestId('cancel-edit-button')
     .should('exist')
     .click();
@@ -46,6 +48,8 @@ const checkPersonalInfoFields = () => {
     'If not listed, please provide your preferred pronouns (255 characters maximum)',
   ).should('exist');
 
+  cy.axeCheck();
+
   cy.findAllByTestId('cancel-edit-button')
     .should('exist')
     .click();
@@ -56,13 +60,18 @@ const checkPersonalInfoFields = () => {
 
   // gender fields
   const genderEditButtonLabel = 'Edit Gender identity';
-  const genderEditInputLabel = 'Select your gender identity';
+  const genderEditInputLegend = 'Select your gender identity';
 
   cy.findByLabelText(genderEditButtonLabel)
     .should('exist')
     .click();
 
-  cy.findByText(genderEditInputLabel).should('exist');
+  cy.findByText(genderEditInputLegend).should('exist');
+
+  // radio options should be grouped into fieldset with a legend element
+  cy.findByRole('group', {
+    name: /Select your gender identity/i,
+  }).should('exist');
 
   cy.findByText('Woman').should('exist');
   cy.findByText('Man').should('exist');
@@ -72,11 +81,13 @@ const checkPersonalInfoFields = () => {
   cy.findByText('Prefer not to answer').should('exist');
   cy.findByText('A gender not listed here').should('exist');
 
+  cy.axeCheck();
+
   cy.findAllByTestId('cancel-edit-button')
     .should('exist')
     .click();
 
-  cy.findByText(genderEditInputLabel).should('not.exist');
+  cy.findByText(genderEditInputLegend).should('not.exist');
 
   // sexual orientation fields
   const sexualOrientationEditButtonLabel = 'Edit Sexual orientation';
@@ -99,6 +110,8 @@ const checkPersonalInfoFields = () => {
     'exist',
   );
 
+  cy.axeCheck();
+
   cy.findAllByTestId('cancel-edit-button')
     .should('exist')
     .click();
@@ -112,16 +125,16 @@ describe('Content in EDIT state on the personal information page', () => {
   it('should render each edit field with update/cancel buttons and remove field on cancel, when enhanced api data is present.', () => {
     setup({ isEnhanced: true });
 
-    checkPersonalInfoFields();
-
     cy.injectAxeThenAxeCheck();
+
+    checkPersonalInfoFields();
   });
 
   it('should render each edit field with update/cancel buttons even when no applicable data is present', () => {
     setup({ isEnhanced: false });
 
-    checkPersonalInfoFields();
-
     cy.injectAxeThenAxeCheck();
+
+    checkPersonalInfoFields();
   });
 });

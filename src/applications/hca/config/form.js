@@ -5,7 +5,6 @@ import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import { hasSession } from 'platform/user/profile/utilities';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 // HCA internal app imports
@@ -16,9 +15,17 @@ import ErrorText from '../components/ErrorText';
 import FormFooter from '../components/FormFooter';
 import GetFormHelp from '../components/GetFormHelp';
 import ErrorMessage from '../components/ErrorMessage';
-import DowntimeMessage from '../components/DowntimeMessage';
+import DowntimeMessage from '../components/FormAlerts/DowntimeWarning';
 import IntroductionPage from '../containers/IntroductionPage';
-import { prefillTransformer, transform } from '../helpers';
+import { prefillTransformer, transform, formValue } from '../helpers';
+import {
+  IS_LOGGED_IN,
+  USER_DOB,
+  IS_GTE_HIGH_DISABILITY,
+  IS_SHORT_FORM_ENABLED,
+  IS_COMPENSATION_TYPE_HIGH,
+  IS_VETERAN_IN_MVI,
+} from '../constants';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import { createDependentSchema } from '../definitions/dependent';
 
@@ -60,6 +67,8 @@ import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
 import vaFacility from './chapters/insuranceInformation/vaFacility';
 import general from './chapters/insuranceInformation/general';
+import ServiceConnectedPayConfirmation from '../components/FormAlerts/ServiceConnectedPayConfirmation';
+import CompensationTypeReviewPage from '../components/CompensationTypeReviewPage';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
 
@@ -71,6 +80,33 @@ const {
   provider,
   ssn,
 } = fullSchemaHca.definitions;
+
+// For which page should be shown on short form
+
+// show page when short form feature toggle is not enabled or
+// when compensation type high is not selected and veteran does not have high disability rating
+const notHighDisabilityNotSelfDisclosure = formData =>
+  !formValue(formData, IS_SHORT_FORM_ENABLED) ||
+  (!formValue(formData, IS_COMPENSATION_TYPE_HIGH) &&
+    !formValue(formData, IS_GTE_HIGH_DISABILITY));
+
+// show page when short form feature toggle is not enabled and veteran does not have data in MPI or
+// when compensation type high is not selected and veteran does not have data in MPI
+const notHighDisabilityAndNotInMvi = formData =>
+  (!formValue(formData, IS_SHORT_FORM_ENABLED) &&
+    !formValue(formData, IS_VETERAN_IN_MVI)) ||
+  (formValue(formData, IS_SHORT_FORM_ENABLED) &&
+    !formValue(formData, IS_COMPENSATION_TYPE_HIGH) &&
+    !formValue(formData, IS_VETERAN_IN_MVI));
+
+// show page when short form feature toggle is not enabled and is enrolled in medicare part A is selected or
+// when compensation type high is not selected and is enrolled in medicare part A is selected
+const notHighDisabilityEnrolledMedicarePartA = formData =>
+  (!formValue(formData, IS_SHORT_FORM_ENABLED) &&
+    formData.isEnrolledMedicarePartA) ||
+  (formValue(formData, IS_SHORT_FORM_ENABLED) &&
+    !formValue(formData, IS_COMPENSATION_TYPE_HIGH) &&
+    formData.isEnrolledMedicarePartA);
 
 // For which page needs prefill-message, check
 // vets-api/config/form_profile_mappings/1010ez.yml
@@ -108,7 +144,7 @@ const formConfig = {
       path: 'id-form',
       component: IDPage,
       pageKey: 'id-form',
-      depends: () => !hasSession(),
+      depends: formData => !formValue(formData, IS_LOGGED_IN),
     },
   ],
   confirmation: ConfirmationPage,
@@ -130,7 +166,7 @@ const formConfig = {
   },
   chapters: {
     veteranInformation: {
-      title: 'Veteran Information',
+      title: 'Veteran information',
       pages: {
         veteranProfileInformation: {
           path: 'veteran-information/personal-information',
@@ -138,7 +174,7 @@ const formConfig = {
           CustomPage: PersonalAuthenticatedInformation,
           CustomPageReview: null,
           initialData: {},
-          depends: () => hasSession(),
+          depends: formData => formValue(formData, IS_LOGGED_IN),
           uiSchema: {},
           schema: {
             type: 'object',
@@ -147,52 +183,54 @@ const formConfig = {
         },
         veteranInformation: {
           path: 'veteran-information/profile-information',
-          title: 'Veteran information',
+          title: 'Veteran name',
           initialData: {},
-          depends: () => !hasSession(),
+          depends: formData => !formValue(formData, IS_LOGGED_IN),
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
         ssnInformation: {
           path: 'veteran-information/profile-information-ssn',
-          title: 'Veteran information',
+          title: 'Social Security number',
           initialData: {},
-          depends: () => !hasSession(),
+          depends: formData => !formValue(formData, IS_LOGGED_IN),
           uiSchema: personalInformationSsn.uiSchema,
           schema: personalInformationSsn.schema,
         },
         dobInformation: {
           path: 'veteran-information/profile-information-dob',
-          title: 'Veteran information',
+          title: 'Date of birth',
           initialData: {},
-          depends: () => !hasSession(),
+          depends: formData =>
+            !formValue(formData, IS_LOGGED_IN) ||
+            !formValue(formData, USER_DOB),
           uiSchema: personalInformationDOB.uiSchema,
           schema: personalInformationDOB.schema,
         },
         birthInformation: {
           path: 'veteran-information/birth-information',
-          title: 'Veteran information',
+          title: 'Place of birth',
           initialData: {},
           uiSchema: birthInformation.uiSchema,
           schema: birthInformation.schema,
         },
         maidenNameInformation: {
           path: 'veteran-information/maiden-name-information',
-          title: 'Veteran information',
+          title: "Mother's maiden name",
           initialData: {},
           uiSchema: maidenNameInformation.uiSchema,
           schema: maidenNameInformation.schema,
         },
         birthSex: {
           path: 'veteran-information/birth-sex',
-          title: 'Veteran information',
+          title: 'Sex assigned at birth',
           initialData: {},
           uiSchema: birthSex.uiSchema,
           schema: birthSex.schema,
         },
         veteranGender: {
           path: 'veteran-information/veteran-gender',
-          title: 'Veteran information',
+          title: 'Gender',
           initialData: {},
           depends: formData => formData['view:caregiverSIGIEnabled'],
           uiSchema: veteranGender.uiSchema,
@@ -200,7 +238,7 @@ const formConfig = {
         },
         demographicInformation: {
           path: 'veteran-information/demographic-information',
-          title: 'Veteran information',
+          title: 'What is your race, ethnicity, or origin?',
           initialData: {
             'view:demographicCategories': {
               isSpanishHispanicLatino: false,
@@ -211,7 +249,7 @@ const formConfig = {
         },
         americanIndian: {
           path: 'veteran-information/american-indian',
-          title: 'Veteran information',
+          title: 'Recognition as an American Indian or Alaska Native',
           initialData: {},
           depends: formData => formData['view:hcaAmericanIndianEnabled'],
           uiSchema: americanIndian.uiSchema,
@@ -242,13 +280,32 @@ const formConfig = {
       },
     },
     vaBenefits: {
-      title: 'VA Benefits',
+      title: 'VA benefits',
       pages: {
         vaBenefits: {
           path: 'va-benefits/basic-information',
           title: 'VA benefits',
+          CustomPageReview: CompensationTypeReviewPage,
+          depends: formData =>
+            !formValue(formData, IS_GTE_HIGH_DISABILITY) ||
+            !formValue(formData, IS_SHORT_FORM_ENABLED),
           uiSchema: basicInformation.uiSchema,
           schema: basicInformation.schema,
+        },
+        vaPayConfirmation: {
+          path: 'va-benefits/confirm-service-pay',
+          title: 'Disability Confirmation',
+          CustomPage: ServiceConnectedPayConfirmation,
+          CustomPageReview: null,
+          initialData: {},
+          depends: formData =>
+            formData.vaCompensationType === 'highDisability' &&
+            formValue(formData, IS_SHORT_FORM_ENABLED),
+          uiSchema: {},
+          schema: {
+            type: 'object',
+            properties: {},
+          },
         },
         vaPension: {
           path: 'va-benefits/pension-information',
@@ -260,24 +317,26 @@ const formConfig = {
       },
     },
     militaryService: {
-      title: 'Military Service',
+      title: 'Military service',
       pages: {
         serviceInformation: {
           path: 'military-service/service-information',
           title: 'Service periods',
+          depends: notHighDisabilityNotSelfDisclosure,
           uiSchema: serviceInformation.uiSchema,
           schema: serviceInformation.schema,
         },
         additionalInformation: {
           path: 'military-service/additional-information',
           title: 'Service history',
+          depends: notHighDisabilityNotSelfDisclosure,
           uiSchema: additionalInformation.uiSchema,
           schema: additionalInformation.schema,
         },
         documentUpload: {
           title: 'Upload your discharge papers',
           path: 'military-service/documents',
-          depends: formData => !formData['view:isUserInMvi'],
+          depends: notHighDisabilityAndNotInMvi,
           editModeOnReviewPage: true,
           uiSchema: documentUpload.uiSchema,
           schema: documentUpload.schema,
@@ -285,17 +344,19 @@ const formConfig = {
       },
     },
     householdInformation: {
-      title: 'Household Information',
+      title: 'Household information',
       pages: {
         financialDisclosure: {
           path: 'household-information/financial-disclosure',
           title: 'Financial disclosure',
+          depends: notHighDisabilityNotSelfDisclosure,
           uiSchema: financialDisclosure.uiSchema,
           schema: financialDisclosure.schema,
         },
         maritalStatus: {
           path: 'household-information/marital-status',
           title: 'Marital status information',
+          depends: notHighDisabilityNotSelfDisclosure,
           initialData: {},
           uiSchema: maritalStatus.uiSchema,
           schema: maritalStatus.schema,
@@ -337,7 +398,7 @@ const formConfig = {
       },
     },
     insuranceInformation: {
-      title: 'Insurance Information',
+      title: 'Insurance information',
       pages: {
         medicaid: {
           path: 'insurance-information/medicaid',
@@ -349,6 +410,7 @@ const formConfig = {
         medicare: {
           path: 'insurance-information/medicare',
           title: 'Medicare coverage',
+          depends: notHighDisabilityNotSelfDisclosure,
           initialData: {},
           uiSchema: medicare.uiSchema,
           schema: medicare.schema,
@@ -357,7 +419,7 @@ const formConfig = {
           path: 'insurance-information/medicare-part-a-effective-date',
           title: 'Medicare Part A effective date',
           initialData: {},
-          depends: formData => formData.isEnrolledMedicarePartA,
+          depends: notHighDisabilityEnrolledMedicarePartA,
           uiSchema: medicarePartAEffectiveDate.uiSchema,
           schema: medicarePartAEffectiveDate.schema,
         },

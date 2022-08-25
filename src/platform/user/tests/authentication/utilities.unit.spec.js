@@ -6,6 +6,8 @@ import {
   getLoginAttempted,
   removeLoginAttempted,
 } from 'platform/utilities/sso/loginAttempted';
+import { mockCrypto } from 'platform/utilities/oauth/mockCrypto';
+import { API_SIGN_IN_SERVICE_URL } from 'platform/utilities/oauth/constants';
 import * as authUtilities from '../../authentication/utilities';
 import {
   AUTHN_SETTINGS,
@@ -15,10 +17,8 @@ import {
   API_VERSION,
   API_SESSION_URL,
   SIGNUP_TYPES,
-  GA_TRACKING_ID_KEY,
-  VAGOV_TRACKING_IDS,
-  GA_CLIENT_ID_KEY,
-  EBenefitsDefaultPath,
+  GA,
+  EBENEFITS_DEFAULT_PATH,
   POLICY_TYPES,
   AUTH_EVENTS,
 } from '../../authentication/constants';
@@ -26,7 +26,7 @@ import {
 const originalLocation = global.window.location;
 const originalGA = global.ga;
 
-const base = 'https://www.va.gov';
+const base = 'https://dev.va.gov';
 const usipPath = '/sign-in';
 const nonUsipPath = '/about';
 const trickyNonUsipPath = '/sign-in-app';
@@ -37,17 +37,19 @@ const flagshipUsipParams = '?application=vamobile';
 const mockGAClientId = '1234';
 const mockInvalidGATrackingId = 'UA-12345678-12';
 
+const normalPathWithParams = `${nonUsipPath}?oauth=true`;
 const usipPathWithParams = params => `${usipPath}${params}`;
 
 const mockGADefaultArgs = {
   mockGAActive: false,
-  trackingId: VAGOV_TRACKING_IDS[0],
+  trackingId: GA.trackingIds[0],
   throwGAError: false,
 };
 
 const setup = ({ path, mockGA = mockGADefaultArgs }) => {
   global.window.location = path ? new URL(`${base}${path}`) : originalLocation;
   global.ga = originalGA;
+  global.window.crypto = mockCrypto;
   removeLoginAttempted();
 
   const { mockGAActive, trackingId, throwGAError } = mockGA;
@@ -59,9 +61,9 @@ const setup = ({ path, mockGA = mockGADefaultArgs }) => {
           {
             get: key => {
               switch (key) {
-                case GA_CLIENT_ID_KEY:
+                case GA.clientIdKey:
                   return mockGAClientId;
-                case GA_TRACKING_ID_KEY:
+                case GA.trackingIdKey:
                   return trackingId;
                 default:
                   return undefined;
@@ -115,19 +117,29 @@ describe('Authentication Utilities', () => {
     });
   });
 
-  describe('fixUrl', () => {
+  describe('sanitizeUrl', () => {
     const CRLFString = '\r\n';
 
     it('should return null if not given a url', () => {
-      expect(authUtilities.fixUrl()).to.be.null;
+      expect(authUtilities.sanitizeUrl()).to.be.null;
     });
 
     it('should remove trailing slash from urls', () => {
-      expect(authUtilities.fixUrl(`${base}/`)).to.equal(base);
+      expect(authUtilities.sanitizeUrl(`${base}/`)).to.equal(base);
     });
 
     it('should remove potential CRLF injection sequences', () => {
-      expect(authUtilities.fixUrl(`${base}${CRLFString}`)).to.equal(base);
+      expect(authUtilities.sanitizeUrl(`${base}${CRLFString}`)).to.equal(base);
+    });
+  });
+
+  describe('sanitizePath', () => {
+    it('should return an empty string if to is undefined or null', () => {
+      expect(authUtilities.sanitizePath()).to.eql('');
+    });
+    it('should format to add forward slashes if necessary', () => {
+      expect(authUtilities.sanitizePath('/hello')).to.eql('/hello');
+      expect(authUtilities.sanitizePath('hello')).to.eql('/hello');
     });
   });
 
@@ -171,8 +183,8 @@ describe('Authentication Utilities', () => {
       );
     });
 
-    it('should return session url with queryParams appeneded if provided', () => {
-      expect(authUtilities.sessionTypeUrl({ type, queryParams })).to.equal(
+    it('should return session url with queryParams appended if provided', () => {
+      expect(authUtilities.sessionTypeUrl({ type, queryParams })).to.eql(
         appendQuery(API_SESSION_URL({ type }), queryParams),
       );
     });
@@ -180,15 +192,14 @@ describe('Authentication Utilities', () => {
     it('should return session url with additional params appeneded for MHV Logins', () => {
       setup({ path: usipPathWithParams(mhvUsipParams) });
       expect(authUtilities.sessionTypeUrl({ type })).to.contain.all(
-        'skip_dupe=true',
         'redirect=',
         'postLogin=true',
       );
     });
 
-    it('should return session url with additional params appeneded for MHV Logins', () => {
+    it('should return session url with additional params appended for My VA Health (Cerner) login', () => {
       setup({ path: usipPathWithParams(cernerUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type })).to.contain.all(
+      expect(authUtilities.sessionTypeUrl({ type })).to.not.contain.all(
         'skip_dupe=true',
       );
     });
@@ -221,10 +232,18 @@ describe('Authentication Utilities', () => {
       );
     });
 
+    it('should return the SIS session URL if oauth is set', async () => {
+      setup({ path: usipPathWithParams(normalPathWithParams) });
+      const url = await authUtilities.sessionTypeUrl({
+        type: 'logingov',
+      });
+      expect(url).to.include(`v0/sign_in`);
+    });
+
     it('should NOT return session url with _verified appended to type for types other than login/signup', () => {
       setup({ path: usipPathWithParams(flagshipUsipParams) });
-      expect(authUtilities.sessionTypeUrl({ type: 'other' })).to.include(
-        appendQuery(API_SESSION_URL({ type: 'other' })),
+      expect(authUtilities.sessionTypeUrl({ type: 'mfa' })).to.include(
+        appendQuery(API_SESSION_URL({ type: 'mfa' })),
       );
     });
 
@@ -241,71 +260,64 @@ describe('Authentication Utilities', () => {
         '_verified',
       );
     });
+
+    it('should use `API_SIGN_IN_SERVICE_URL` when `useOAuth` is true', async () => {
+      setup({
+        path: usipPathWithParams(
+          `${flagshipUsipParams}&oauth=true&code_challenge=hello&code_challenge_method=S256`,
+        ),
+      });
+      expect(
+        await authUtilities.sessionTypeUrl({
+          type,
+        }),
+      ).to.include(appendQuery(API_SIGN_IN_SERVICE_URL({ type })));
+    });
+    it('should use API_SESSION_URL when OAuth is disabled', async () => {
+      const params = { application: 'vamobile' };
+      setup({
+        path: usipPathWithParams(
+          `${flagshipUsipParams}&oauth=false&code_challenge=hello&code_challenge_method=S256`,
+        ),
+      });
+      expect(
+        await authUtilities.sessionTypeUrl({
+          type,
+        }),
+      ).to.include(
+        appendQuery(API_SESSION_URL({ type: typeVerified }), params),
+      );
+    });
   });
 
-  describe('redirectWithGAClientId', () => {
-    it('should redirect to redirectUrl without client_id if it does not find one', () => {
+  describe('getGAClientId', () => {
+    it('should return the GA client id', () => {
+      setup({
+        mockGA: {
+          mockGAActive: true,
+          trackingId: GA.trackingIds[0],
+        },
+      });
+      expect(authUtilities.getGAClientId()).to.eql(mockGAClientId);
+    });
+    it('should return null if clientId is invalid', () => {
       setup({
         mockGA: {
           mockGAActive: true,
           trackingId: mockInvalidGATrackingId,
         },
       });
-      expect(global.window.location).to.not.equal(base);
-      authUtilities.redirectWithGAClientId(base);
-      expect(global.window.location).to.equal(base);
+      expect(authUtilities.getGAClientId()).to.eql(null);
     });
-
-    it('should redirect to redirectUrl with client_id param appended when necessary', () => {
+    it('should return null if clientId is invalid', () => {
       setup({
         mockGA: {
-          mockGAActive: true,
-          trackingId: VAGOV_TRACKING_IDS[0],
-        },
-      });
-      expect(global.window.location).to.not.equal(base);
-      authUtilities.redirectWithGAClientId(base);
-      expect(global.window.location).to.equal(
-        `${base}/?client_id=${mockGAClientId}`,
-      );
-    });
-
-    it('should redirect to redirectUrl without client_id if an error is thrown', () => {
-      setup({
-        mockGA: {
-          mockGAActive: true,
           throwGAError: true,
-          trackingId: VAGOV_TRACKING_IDS[0],
+          mockGAActive: true,
+          trackingId: mockInvalidGATrackingId,
         },
       });
-      expect(global.window.location).to.not.equal(base);
-      authUtilities.redirectWithGAClientId(base);
-      expect(global.window.location).to.equal(base);
-    });
-  });
-
-  describe('generatePath', () => {
-    it('should default to an empty string if `to` is null/undefined', () => {
-      expect(authUtilities.generatePath('mhv')).to.eql('');
-      expect(authUtilities.generatePath('myvahealth')).to.eql('');
-    });
-    it('should default to `/profilepostauth` for eBenefits', () => {
-      expect(authUtilities.generatePath('ebenefits')).to.eql(
-        '/profilepostauth',
-      );
-    });
-    it('should default to having a `/` regardless if `to` query params has it for (eBenefits or Cerner)', () => {
-      expect(
-        authUtilities.generatePath('myvahealth', 'secure_messaging'),
-      ).to.eql('/secure_messaging');
-      expect(
-        authUtilities.generatePath('ebenefits', '/profile_dashboard'),
-      ).to.eql('/profile_dashboard');
-    });
-    it('should create deeplinking query param for mhv if `to` provided', () => {
-      expect(authUtilities.generatePath('mhv', 'some_random_link')).to.eql(
-        '?deeplinking=some_random_link',
-      );
+      expect(authUtilities.getGAClientId()).to.eql(null);
     });
   });
 
@@ -317,7 +329,7 @@ describe('Authentication Utilities', () => {
         const pathAppend = () => {
           switch (application) {
             case EXTERNAL_APPS.EBENEFITS:
-              return EBenefitsDefaultPath;
+              return EBENEFITS_DEFAULT_PATH;
             case EXTERNAL_APPS.VA_FLAGSHIP_MOBILE:
             case EXTERNAL_APPS.VA_OCC_MOBILE:
               return `${global.window.location.search}`;
@@ -403,16 +415,20 @@ describe('Authentication Utilities', () => {
       );
     });
 
-    it('should redirect with GA Client ID appended for redirects that include `idme`', () => {
+    it('should redirect with GA Client ID appended for redirects that include `idme`', async () => {
       setup({
         path: base,
         mockGA: {
           mockGAActive: true,
-          trackingId: VAGOV_TRACKING_IDS[0],
+          trackingId: GA.trackingIds[0],
         },
       });
 
-      authUtilities.redirect(`${base}/idme`);
+      const url = await authUtilities.sessionTypeUrl({
+        type: 'idme',
+      });
+
+      await authUtilities.redirect(url);
       expect(
         String(global.window.location).includes(`client_id=${mockGAClientId}`),
       ).to.be.true;
@@ -421,12 +437,12 @@ describe('Authentication Utilities', () => {
 
   describe('login', () => {
     it('should setLoginAttempted and redirect to login session url for all CSPs not on USiP', () => {
-      Object.values(CSP_IDS).forEach(policy => {
+      Object.values(CSP_IDS).forEach(async policy => {
         setup({ path: nonUsipPath });
 
-        authUtilities.login({ policy });
+        await authUtilities.login({ policy });
         expect(global.window.location).to.equal(
-          authUtilities.sessionTypeUrl({ type: policy }),
+          await authUtilities.sessionTypeUrl({ type: policy }),
         );
         expect(getLoginAttempted()).to.equal('true');
         expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(
@@ -437,12 +453,12 @@ describe('Authentication Utilities', () => {
     });
 
     it('should setLoginAttempted and redirect to login session url for all CSPs on USiP authenticating internally', () => {
-      Object.values(CSP_IDS).forEach(policy => {
+      Object.values(CSP_IDS).forEach(async policy => {
         setup({ path: usipPath });
 
-        authUtilities.login({ policy });
+        await authUtilities.login({ policy });
         expect(global.window.location).to.equal(
-          authUtilities.sessionTypeUrl({ type: policy }),
+          await authUtilities.sessionTypeUrl({ type: policy }),
         );
         expect(getLoginAttempted()).to.equal('true');
         expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(
@@ -453,12 +469,14 @@ describe('Authentication Utilities', () => {
     });
 
     it('should redirect to login session url for all CSPs on USiP authenticating externally', () => {
-      Object.values(CSP_IDS).forEach(policy => {
+      Object.values(CSP_IDS).forEach(async policy => {
         setup({ path: usipPathWithParams(mhvUsipParams) });
         const externalApplicationUrl = authUtilities.createExternalApplicationUrl();
-        const expectedRedirect = authUtilities.sessionTypeUrl({ type: policy });
+        const expectedRedirect = await authUtilities.sessionTypeUrl({
+          type: policy,
+        });
 
-        authUtilities.login({ policy });
+        await authUtilities.login({ policy });
         expect(global.window.location).to.equal(expectedRedirect);
         expect(sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL)).to.equal(
           externalApplicationUrl,
@@ -479,11 +497,13 @@ describe('Authentication Utilities', () => {
   });
 
   describe('verify', () => {
-    it('should redirect to the verify session url', () => {
+    it('should redirect to the verify session url', async () => {
       setup({ path: nonUsipPath });
-      authUtilities.verify();
+      await authUtilities.verify({ policy: CSP_IDS.LOGIN_GOV });
       expect(global.window.location).to.equal(
-        API_SESSION_URL({ type: POLICY_TYPES.VERIFY }),
+        API_SESSION_URL({
+          type: `${SIGNUP_TYPES[CSP_IDS.LOGIN_GOV]}_verified`,
+        }),
       );
     });
   });
@@ -508,55 +528,90 @@ describe('Authentication Utilities', () => {
   });
 
   describe('signup', () => {
-    it('should redirect to the ID.me signup session url by default', () => {
+    it('should redirect to the ID.me signup session url by default', async () => {
       setup({ path: nonUsipPath });
-      authUtilities.signup();
+      await authUtilities.signup();
       expect(global.window.location).to.include(
         API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }),
       );
     });
 
-    it('should append op=signup param for ID.me signups', () => {
+    it('should append op=signup param for ID.me signups', async () => {
       setup({ path: nonUsipPath });
-      authUtilities.signup();
+      await authUtilities.signup();
       expect(global.window.location).to.contain.all(
         API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }),
         'op=signup',
       );
     });
 
-    it('should redirect to the provided CSPs signup session url', () => {
-      setup({ path: nonUsipPath });
-      authUtilities.signup({ csp: CSP_IDS.LOGIN_GOV });
-      expect(global.window.location).to.equal(
-        API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.LOGIN_GOV] }),
-      );
+    it('should redirect to the provided CSPs signup session url', async () => {
+      setup({ path: normalPathWithParams });
+      const expectedUrl = await authUtilities.signup({
+        policy: CSP_IDS.LOGIN_GOV,
+        isLink: true,
+      });
+      authUtilities.redirect(expectedUrl);
+      expect(global.window.location).to.contain(expectedUrl);
     });
   });
 
   describe('signupUrl', () => {
-    it('should generate an ID.me session signup url by default', () => {
-      expect(authUtilities.signupUrl()).to.include(
-        API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }),
-      );
+    it('should generate an ID.me session signup url by default', async () => {
+      expect(
+        await authUtilities.signup({ policy: CSP_IDS.ID_ME, isLink: true }),
+      ).to.include(API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }));
     });
 
-    it('should append op=signup param for ID.me signups', () => {
-      expect(authUtilities.signupUrl(CSP_IDS.ID_ME)).to.contain.all(
+    it('should append op=signup param for ID.me signups', async () => {
+      expect(
+        await authUtilities.signup({ policy: CSP_IDS.ID_ME, isLink: true }),
+      ).to.contain.all(
         API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }),
         'op=signup',
       );
     });
 
-    it('should generate a session signup url for the given type', () => {
-      expect(authUtilities.signupUrl(CSP_IDS.LOGIN_GOV)).to.include(
-        API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.LOGIN_GOV] }),
-      );
+    it('should generate a session signup url for the given type', async () => {
+      expect(
+        await authUtilities.signup({ policy: CSP_IDS.LOGIN_GOV, isLink: true }),
+      ).to.include(API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.LOGIN_GOV] }));
     });
 
-    it('should generate an ID.me session signup url if the given type is not valid', () => {
-      expect(authUtilities.signupUrl('test')).to.include(
-        API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }),
+    it('should generate an ID.me session signup url if the given type is not valid', async () => {
+      expect(
+        await authUtilities.signup({ type: 'test', isLink: true }),
+      ).to.include(API_SESSION_URL({ type: SIGNUP_TYPES[CSP_IDS.ID_ME] }));
+    });
+  });
+
+  describe('generateReturnURL', () => {
+    const homepageModalRoute = `${base}/?next=loginModal`;
+    const usipRoute = `${base}`;
+    const nonHomepageRoute = `${base}/education/eligibility/`;
+    const myVARoute = `${base}/my-va/`;
+    it('should return users signing in on via the USiP (on default USiP route) to /my-va/', () => {
+      expect(authUtilities.generateReturnURL(usipRoute, true)).to.eql(
+        myVARoute,
+      );
+      expect(authUtilities.generateReturnURL(usipRoute, false)).to.eql(
+        usipRoute,
+      );
+    });
+    it('should return users signing in via the Sign in Modal (on the homepage) to /my-va/', () => {
+      expect(authUtilities.generateReturnURL(homepageModalRoute, true)).to.eql(
+        myVARoute,
+      );
+      expect(authUtilities.generateReturnURL(homepageModalRoute, false)).to.eql(
+        homepageModalRoute,
+      );
+    });
+    it('should return users signing in on non-default routes to original location', () => {
+      expect(authUtilities.generateReturnURL(nonHomepageRoute, true)).to.eql(
+        nonHomepageRoute,
+      );
+      expect(authUtilities.generateReturnURL(nonHomepageRoute, false)).to.eql(
+        nonHomepageRoute,
       );
     });
   });

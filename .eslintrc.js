@@ -5,17 +5,33 @@ module.exports = {
     ecmaVersion: 11,
     sourceType: 'module',
   },
-  plugins: ['va'],
-  extends: ['@department-of-veterans-affairs/eslint-config-vagov'],
+  extends: ['plugin:@department-of-veterans-affairs/recommended'],
   globals: {
     __BUILDTYPE__: true,
     __API__: true,
     __MEGAMENU_CONFIG__: true,
     __REGISTRY__: true,
   },
+  settings: {
+    'import/resolver': {
+      node: {
+        moduleDirectory: ['node_modules', 'src/'],
+      },
+      'babel-module': {},
+    },
+  },
   rules: {
     /* || Eslint main rules || */
     camelcase: [2, { properties: 'always' }], // Override airbnb style.
+    '@department-of-veterans-affairs/no-cross-app-imports': [
+      'warn', // Warn for now, but after cleanup of imports, change to error
+      {
+        // Aliases copied from babel.config.json
+        '~': './src',
+        '@@vap-svc': './src/platform/user/profile/vap-svc',
+        '@@profile': './src/applications/personalization/profile',
+      },
+    ],
     'deprecate/import': [
       'warn',
       {
@@ -41,6 +57,14 @@ module.exports = {
         name: '@department-of-veterans-affairs/component-library/ProgressBar',
         use: '<va-progress-bar>',
       },
+      {
+        name: '@department-of-veterans-affairs/component-library/TextArea',
+        use: '<va-textarea>',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/RadioButtons',
+        use: '<va-radio>',
+      },
     ],
     'jsx-a11y/control-has-associated-label': 1, // 2
     'jsx-a11y/click-events-have-key-events': 1, // 24
@@ -52,18 +76,6 @@ module.exports = {
       },
     ], // 40
     'jsx-a11y/no-static-element-interactions': 1, // 20
-
-    /* || va custom plugin || */
-    'va/proptypes-camel-cased': 2,
-    'va/enzyme-unmount': 2,
-    'va/use-resolved-path': [
-      2,
-      {
-        aliases: ['applications', 'platform', 'site', '@@vap-svc', '@@profile'],
-      },
-    ],
-    'va/correct-apostrophe': 1,
-    'va/prefer-web-component-library': 1,
   },
   overrides: [
     {
@@ -77,13 +89,15 @@ module.exports = {
         'no-restricted-imports': ['error', 'raven'],
         'no-unused-expressions': 0,
         'react/no-find-dom-node': 0,
+        '@department-of-veterans-affairs/axe-check-required': 0,
+        '@department-of-veterans-affairs/cypress-viewport-deprecated': 0,
       },
     },
     {
       files: ['**/*.cypress.spec.js'],
       rules: {
-        'va/axe-check-required': 1,
-        'va/cypress-viewport-deprecated': 1,
+        '@department-of-veterans-affairs/axe-check-required': 1,
+        '@department-of-veterans-affairs/cypress-viewport-deprecated': 1,
       },
     },
   ],

@@ -8,9 +8,9 @@ context('Keyboard Navigation', () => {
      */
     cy.tabToElement('.no-wrap');
 
-    cy.tabToElement('.va-button-link.schemaform-start-button', false);
+    cy.tabToElement('.schemaform-start-button', false);
 
-    cy.realPress('Space');
+    cy.realPress('Enter');
 
     /**
      * Complete initial page of Step 1 of 5: Applicant Information.

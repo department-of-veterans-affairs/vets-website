@@ -44,16 +44,14 @@ export default {
     'view:uploadSuccessAlert': {
       'ui:options': {
         hideIf: formData => {
-          if (
+          // return false to show, not hide
+          return !(
             formData.signAsRepresentativeDocumentUpload &&
             formData.signAsRepresentativeDocumentUpload.length > 0 &&
             formData.signAsRepresentativeDocumentUpload[0].guid &&
             formData.signAsRepresentativeDocumentUpload[0].name &&
             !formData.signAsRepresentativeDocumentUpload[0].errorMessage
-          ) {
-            return false; // return false to show, not not hide
-          }
-          return true;
+          );
         },
       },
       'ui:description': UploadSuccessAlertDescription,

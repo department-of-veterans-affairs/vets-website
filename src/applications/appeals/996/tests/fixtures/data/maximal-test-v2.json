@@ -1,6 +1,6 @@
 {
   "data": {
-    "hlrV2": true,
+    "benefitType": "compensation",
     "veteran": {
       "ssnLastFour": "7821",
       "vaFileLastFour": "8765",
@@ -12,8 +12,7 @@
         "countryName": "United States",
         "countryCodeIso2": "US",
         "stateCode": "NY",
-        "zipCode": "30012",
-        "internationalPostalCode": "1"
+        "zipCode": "30012"
       },
       "phone": {
         "countryCode": "6",

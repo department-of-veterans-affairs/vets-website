@@ -190,7 +190,7 @@ describe('check in', () => {
 
       const component = render(
         <Provider store={store}>
-          <Demographics isUpdatePageEnabled router={mockRouter} />
+          <Demographics router={mockRouter} />
         </Provider>,
       );
 

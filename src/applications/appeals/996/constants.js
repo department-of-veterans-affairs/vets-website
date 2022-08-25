@@ -18,7 +18,6 @@ export const FACILITY_LOCATOR_URL = '/find-locations';
 export const GET_HELP_REVIEW_REQUEST_URL =
   '/decision-reviews/get-help-with-review-request';
 export const PROFILE_URL = '/profile';
-export const LEGACY_APPEALS_URL = '/decision-reviews/legacy-appeals/';
 
 // 8622 is the ID of the <va-accordion-item> with a header of the "Find
 // addresses for other benefit types"
@@ -88,25 +87,6 @@ export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   isSupported: supportedBenefitTypes.includes(type.value),
 }));
 
-export const CONFERENCE_TIMES_V1 = {
-  time0800to1000: {
-    label: '8:00 a.m. to 10:00 a.m. ET',
-    submit: '800-1000 ET',
-  },
-  time1000to1230: {
-    label: '10:00 a.m. to 12:30 p.m. ET',
-    submit: '1000-1230 ET',
-  },
-  time1230to1400: {
-    label: '12:30 p.m. to 2:00 p.m. ET',
-    submit: '1230-1400 ET',
-  },
-  time1400to1630: {
-    label: '2:00 p.m. to 4:30 p.m. ET',
-    submit: '1400-1630 ET',
-  },
-};
-
 export const CONFERENCE_TIMES_V2 = {
   time0800to1200: {
     label: '8:00 a.m. to noon ET',
@@ -150,5 +130,4 @@ export const SUBMITTED_DISAGREEMENTS = {
   evaluation: 'disability evaluation',
 };
 
-export const contestedIssuesPath = 'eligible-issues'; // v1
 export const contestableIssuesPath = 'contestable-issues'; // v2

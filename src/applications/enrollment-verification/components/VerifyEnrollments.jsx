@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import PrivacyAgreement from './PrivacyAgreement';
+
 import EnrollmentVerificationPageWrapper from './EnrollmentVerificationPageWrapper';
 import FinishVerifyingLater from './FinishVerifyingLater';
 
-export default function VerifyEnrollments({
+function VerifyEnrollments({
   backButtonText = (
     <>
       <span className="button-icon" aria-hidden="true">
@@ -26,11 +30,19 @@ export default function VerifyEnrollments({
   onFinishVerifyingLater,
   onForwardButtonClick,
   progressTitlePostfix,
+  showPrivacyAgreement = false,
   totalProgressBarSegments,
 }) {
+  const [privacyAgreementChecked, setPrivacyAgreementChecked] = useState(false);
+
+  const onPrivacyAgreementChange = useCallback(checked => {
+    setPrivacyAgreementChecked(checked);
+  }, []);
+
   return (
     <EnrollmentVerificationPageWrapper>
       <h1>Verify your enrollments</h1>
+
       <va-segmented-progress-bar
         current={currentProgressBarSegment}
         total={totalProgressBarSegments}
@@ -42,6 +54,21 @@ export default function VerifyEnrollments({
       </h2>
 
       {children}
+
+      {showPrivacyAgreement && (
+        <>
+          <p className="vads-u-margin-top--4">
+            <strong>Note:</strong> According to federal law, there are criminal
+            penalties, including a fine and/or imprisonment for up to 5 years,
+            for withholding information or for providing incorrect information.
+            (See 18 U.S.C. 1001)
+          </p>
+          <PrivacyAgreement
+            checked={privacyAgreementChecked}
+            onChange={onPrivacyAgreementChange}
+          />
+        </>
+      )}
 
       <FinishVerifyingLater onFinishVerifyingLater={onFinishVerifyingLater} />
 
@@ -57,6 +84,7 @@ export default function VerifyEnrollments({
         <button
           type="button"
           className="usa-button-primary vads-u-margin-y--0"
+          // disabled={showPrivacyAgreement && !privacyAgreementChecked}
           id="2-continueButton"
           onClick={onForwardButtonClick}
         >
@@ -77,4 +105,9 @@ VerifyEnrollments.propTypes = {
   children: PropTypes.any,
   forwardButtonText: PropTypes.any,
   progressTitlePostfix: PropTypes.any,
+  result: PropTypes.string,
+  showPrivacyAgreement: PropTypes.bool,
+  submitted: PropTypes.bool,
 };
+
+export default connect()(VerifyEnrollments);

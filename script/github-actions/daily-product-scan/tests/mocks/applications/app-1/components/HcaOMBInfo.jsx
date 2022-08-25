@@ -1,5 +1,5 @@
 /* eslint-disable react/sort-prop-types */
-/* eslint-disable va/prefer-web-component-library */
+/* eslint-disable @department-of-veterans-affairs/prefer-web-component-library */
 /* eslint-disable react/button-has-type */
 import PropTypes from 'prop-types';
 import React from 'react';

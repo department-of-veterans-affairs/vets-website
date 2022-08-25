@@ -1,5 +1,5 @@
 import 'platform/polyfills';
-import './sass/pre-check-in.scss';
+import '../sass/check-in.scss';
 
 import startApp from 'platform/startup';
 

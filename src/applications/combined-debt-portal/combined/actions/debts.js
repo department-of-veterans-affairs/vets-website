@@ -43,6 +43,11 @@ const fetchDebtLettersSuccess = (debts, hasDependentDebts) => ({
   hasDependentDebts,
 });
 
+export const setActiveDebt = debt => ({
+  type: DEBTS_SET_ACTIVE_DEBT,
+  debt,
+});
+
 export const fetchDebtLettersVBMS = () => async dispatch => {
   dispatch(fetchDebtLettersInitiated());
   try {

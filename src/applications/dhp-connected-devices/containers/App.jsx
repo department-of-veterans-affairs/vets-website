@@ -1,11 +1,18 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { UnauthenticatedPageContent } from '../components/UnauthenticatedPageContent';
+import UnauthenticatedPageContent from '../components/UnauthenticatedPageContent';
 import { AuthenticatedPageContent } from '../components/AuthenticatedPageContent';
 import { FrequentlyAskedQuestions } from '../components/FrequentlyAskedQuestions';
 
 export default function App() {
-  const isLoggedIn = useSelector(state => state.user.login.currentlyLoggedIn);
+  const isLoading = useSelector(state => state?.user?.profile?.loading);
+  const isLoggedIn = useSelector(state => state?.user.login.currentlyLoggedIn);
+  const pageContent = isLoggedIn ? (
+    <AuthenticatedPageContent />
+  ) : (
+    <UnauthenticatedPageContent />
+  );
+  const content = isLoading ? <va-loading-indicator set-focus /> : pageContent;
 
   return (
     <div className="usa-grid-full margin landing-page">
@@ -25,10 +32,7 @@ export default function App() {
             your VA care team. If you have concerns about any specific shared
             data, you must contact your care team directly.
           </p>
-          {/* Show sign in button if user not logged in */}
-          {!isLoggedIn && <UnauthenticatedPageContent />}
-          {/* show your devices and Connect device section if user is logged in */}
-          {isLoggedIn && <AuthenticatedPageContent />}
+          {content}
           <FrequentlyAskedQuestions />
         </article>
       </div>

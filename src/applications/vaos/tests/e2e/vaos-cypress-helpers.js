@@ -1,6 +1,7 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
 import unset from 'platform/utilities/data/unset';
-import { mockContactInformation } from '~/platform/user/profile/vap-svc/util/local-vapsvc.js';
+import { mockContactInformation } from 'platform/user/profile/vap-svc/util/local-vapsvc';
 
 import moment from '../../lib/moment-tz';
 
@@ -22,6 +23,12 @@ import {
   getExpressCareRequestCriteriaMock,
   getParentSiteMock,
 } from '../mocks/v0';
+import { APPOINTMENT_STATUS } from '../../utils/constants';
+import facilitiesV2 from '../../services/mocks/v2/facilities.json';
+import schedulingConfigurations from '../../services/mocks/v2/scheduling_configurations.json';
+import clinicsV2 from '../../services/mocks/v2/clinics.json';
+import confirmedV2 from '../../services/mocks/v2/confirmed.json';
+import requestsV2 from '../../services/mocks/v2/requests.json';
 
 export const mockUser = {
   data: {
@@ -199,6 +206,7 @@ export function createPastVAAppointments() {
 export function mockFeatureToggles({
   v2Requests = false,
   v2Facilities = false,
+  v2DirectSchedule = false,
 } = {}) {
   cy.route({
     method: 'GET',
@@ -238,6 +246,10 @@ export function mockFeatureToggles({
           {
             name: 'vaOnlineSchedulingVAOSServiceRequests',
             value: v2Requests,
+          },
+          {
+            name: 'vaOnlineSchedulingVAOSServiceVAAppointments',
+            value: v2DirectSchedule,
           },
           {
             name: 'vaOnlineSchedulingFacilitiesServiceV2',
@@ -360,7 +372,14 @@ export function vaosSetup() {
     cy.axeCheck(context, {
       runOnly: {
         type: 'tag',
-        values: ['section508', 'wcag2a', 'wcag2aa', 'best-practice'],
+        values: [
+          'section508',
+          'wcag2a',
+          'wcag2aa',
+          'wcag21a',
+          'wcag21aa',
+          'best-practice',
+        ],
       },
     });
   });
@@ -811,4 +830,393 @@ export function initCommunityCareMock({ withoutAddress = false } = {}) {
       data: requests.data.find(r => r.attributes.ccAppointmentRequest),
     },
   });
+}
+
+export function mockAppointmentsApi({
+  status = APPOINTMENT_STATUS.booked,
+  apiVersion = 2,
+} = {}) {
+  if (apiVersion === 0) {
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: '/vaos/v0/appointments',
+        query: { start_date: '*', end_date: '*', type: '*' },
+      },
+      req => {
+        if (req.query.type === 'va') {
+          const { data } = updateConfirmedVADates(confirmedVA);
+          req.reply({
+            data,
+          });
+        } else if (req.query.type === 'cc') {
+          req.reply({
+            data: updateConfirmedCCDates(confirmedCC).data,
+          });
+        }
+      },
+    ).as('v0:get:appointments');
+    cy.intercept(
+      {
+        method: 'POST',
+        pathname: '/vaos/v0/appointments',
+      },
+      req => {
+        req.reply({});
+      },
+    ).as('v0:create:appointment');
+  } else if (apiVersion === 2) {
+    const db = [];
+
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: '/vaos/v2/appointments',
+        query: {
+          _include: '*',
+          start: '*',
+          end: '*',
+        },
+      },
+      req => {
+        if (status === APPOINTMENT_STATUS.booked) {
+          req.reply({
+            data: confirmedV2.data.filter(a => a.id === '00aa456va'),
+          });
+        } else if (status === APPOINTMENT_STATUS.pending) {
+          req.reply({ data: requestsV2.data.filter(r => r.id === '25957') });
+        } else req.reply({});
+      },
+    ).as('v2:get:appointments');
+
+    cy.intercept(
+      {
+        method: 'POST',
+        pathname: '/vaos/v2/appointments',
+      },
+      req => {
+        // Save and return the same appointment back to the caller with a new simulated
+        // appointment id. The saved appointment is used in the next 'v2:get:appointment'
+        // api call.
+        const newAppointment = {
+          data: {
+            id: 'mock1',
+            attributes: {
+              ...req.body,
+              start: req.body.slot ? req.body.slot.start : null,
+              cancellable: req.body.status,
+            },
+          },
+        };
+
+        db.push(newAppointment.data);
+        req.reply(newAppointment);
+      },
+    ).as('v2:create:appointment');
+
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: '/vaos/v2/appointments/mock1',
+        query: {
+          _include: '*',
+        },
+      },
+      req => {
+        req.reply({
+          data: db[0],
+        });
+      },
+    ).as('v2:get:appointment');
+  }
+}
+
+export function mockFacilityApi({ id, count, apiVersion = 0 } = {}) {
+  if (apiVersion === 0) {
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: '/vaos/v0/facilities',
+        query: {
+          'facility_codes[]': '*',
+        },
+      },
+      req => {
+        const f = facilities.data.slice(0, count);
+        req.reply({ data: f });
+      },
+    ).as('v0:get:facilities');
+  } else if (apiVersion === 1) {
+    const facilityId = Array.isArray(id) ? id[0] : id;
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: `/v1/facilities/va/${facilityId}`,
+      },
+      req => {
+        req.reply({ data: facilityData.data.find(f => f.id === facilityId) });
+      },
+    ).as('v1:get:facility');
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: '/v1/facilities/va',
+        query: {
+          ids: '*',
+        },
+      },
+      req => {
+        const tokens = req.query.ids.split(',');
+        const data = tokens.map(token => {
+          return facilityData.data.find(f => f.id === token);
+        });
+        // TODO: remove the harded coded id.
+        // req.reply({
+        //   data: facilityData.data.filter(f => f.id === 'vha_442GC'),
+        // });
+        // const f = facilities.data.slice(0);
+        req.reply({ data });
+      },
+    ).as(`v1:get:facilities`);
+  } else if (apiVersion === 2) {
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: `/vaos/v2/facilities/${id}`,
+      },
+      req => {
+        const facility = facilitiesV2.data.find(f => f.id === id);
+        req.reply({
+          data: facility,
+        });
+      },
+    ).as(`v2:get:facility`);
+
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: '/vaos/v2/facilities',
+        query: {
+          children: '*',
+          'ids[]': '*',
+        },
+      },
+      req => {
+        req.reply(facilitiesV2);
+      },
+    ).as('v2:get:facilities');
+  }
+}
+
+export function mockSchedulingConfigurationApi() {
+  cy.intercept(
+    {
+      method: 'GET',
+      pathname: '/vaos/v2/scheduling/configurations*',
+    },
+    req => {
+      req.reply({ data: schedulingConfigurations.data });
+    },
+  ).as('scheduling-configurations');
+}
+
+export function mockEligibilityApi({
+  typeOfCare = 'primaryCare',
+  isEligible = false,
+  apiVersion = 2,
+} = {}) {
+  if (apiVersion === 2) {
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: '/vaos/v2/eligibility',
+        query: { facility_id: '*', clinical_service_id: '*', type: '*' },
+      },
+      req => {
+        // let { data } = requestEligibilityCriteria;
+        // if (req.query.type === 'direct') {
+        // data = directEligibilityCriteria.data;
+        req.reply({
+          data: {
+            id: req.query.facility_id,
+            type: 'eligibility',
+            attributes: {
+              clinicalServiceId: typeOfCare,
+              eligible: isEligible,
+              type: req.query.type,
+            },
+          },
+        });
+        //   req.reply({
+        //     data,
+        //   });
+      },
+    ).as('v2:get:eligibility');
+  }
+}
+export function mockCCEligibilityApi({
+  typeOfCare = 'PrimaryCare',
+  isEligible = true,
+} = {}) {
+  cy.intercept(
+    {
+      method: 'GET',
+      url: `/vaos/v0/community_care/eligibility/${typeOfCare}`,
+    },
+    req => {
+      req.reply({
+        data: {
+          id: typeOfCare,
+          type: 'cc_eligibility',
+          attributes: { eligible: isEligible },
+        },
+      });
+    },
+  ).as('v0:get:cc-eligibility');
+}
+
+export function mockClinicApi({
+  clinicId,
+  facilityId,
+  locations = [],
+  apiVersion = 2,
+} = {}) {
+  if (apiVersion === 0) {
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: `/vaos/v0/facilities/${facilityId}/clinics*`,
+      },
+      req => {
+        req.reply({ data: clinicList983.data });
+      },
+    ).as('v0:get:clinics');
+  } else if (apiVersion === 2) {
+    locations.forEach(locationId => {
+      let { data } = clinicsV2;
+      if (clinicId) data = data.filter(clinic => clinic.id === clinicId);
+
+      cy.intercept(
+        {
+          method: 'GET',
+          path: `/vaos/v2/locations/${locationId}/clinics?clinical_service*`,
+        },
+        req => {
+          req.reply({
+            data,
+          });
+        },
+      ).as(`v2:get:clinics`);
+
+      cy.intercept(
+        {
+          method: 'GET',
+          // path: `/vaos/v2/locations/${locationId}/clinics\\?clinic_ids[]**`,
+          path: `/vaos/v2/locations/${locationId}/clinics\\?clinic_ids%5B%5D**`,
+        },
+        req => {
+          req.reply({
+            data,
+          });
+        },
+      ).as('v2:get:clinic');
+    });
+  }
+}
+
+export function mockDirectScheduleSlotsApi({
+  locationId = '983',
+  clinicId,
+  start = moment(),
+  end = moment(),
+  apiVersion = 0,
+} = {}) {
+  if (apiVersion === 0) {
+    cy.route({
+      method: 'GET',
+      url: '/vaos/v0/facilities/983/available_appointments*',
+      response: updateTimeslots(slots),
+    }).as('v0:get:slots');
+  } else if (apiVersion === 2) {
+    const _start = moment(start)
+      // Set moment to 'utc' mode so formatting will contain 'Z' like api call
+      .utc()
+      .add(1, 'month')
+      .startOf('month')
+      .add(4, 'days');
+    const _end = moment(end).utc();
+
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: `/vaos/v2/locations/${locationId}/clinics/${clinicId}/slots`,
+        query: {
+          start: '*',
+          end: '*',
+        },
+      },
+      req => {
+        req.reply({
+          data: [
+            {
+              id: '123',
+              type: 'slots',
+              attributes: { start: _start.format(), end: _end.format() },
+            },
+          ],
+        });
+      },
+    ).as('v2:get:slots');
+  }
+}
+
+export function mockLoginApi({
+  cernerFacilityId,
+  withoutAddress = false,
+} = {}) {
+  if (cernerFacilityId) {
+    cy.log('Cerner enabled');
+    const mockCernerUser = {
+      ...mockUser,
+      data: {
+        ...mockUser.data,
+        attributes: {
+          ...mockUser.data.attributes,
+          vaProfile: {
+            ...mockUser.data.attributes.vaProfile,
+            facilities: [
+              ...mockUser.data.attributes.vaProfile.facilities,
+              { facilityId: cernerFacilityId, isCerner: true },
+            ],
+          },
+        },
+      },
+    };
+    cy.login(mockCernerUser);
+  } else if (withoutAddress) {
+    const mockUserWithoutAddress = unset(
+      'data.attributes.vet360ContactInformation.residentialAddress.addressLine1',
+      mockUser,
+    );
+    cy.login(mockUserWithoutAddress);
+  } else {
+    cy.login(mockUser);
+  }
+}
+
+export function mockPreferencesApi() {
+  cy.intercept(
+    { method: 'GET', pathname: '/vaos/v0/preferences' },
+    { data: {} },
+  ).as('v0:get:preferences');
+
+  cy.intercept({ method: 'PUT', pathname: '/vaos/v0/preferences' }, req => {
+    expect(req.body).to.have.property('emailAddress', 'veteran@gmail.com');
+    expect(req.body).to.have.property('emailAllowed', true);
+    expect(req.body).to.have.property(
+      'notificationFrequency',
+      'Each new message',
+    );
+    req.reply({ data: {} });
+  }).as('v0:update:preferences');
 }

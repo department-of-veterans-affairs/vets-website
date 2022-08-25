@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-
 import moment from 'moment';
-import { VaTelephone } from 'web-components/react-bindings';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import {
   APPOINTMENT_STATUS,
@@ -30,14 +29,30 @@ import {
   closeCancelAppointment,
   confirmCancelAppointment,
   fetchRequestDetails,
+  getProviderInfoV2,
 } from '../redux/actions';
 import RequestedStatusAlert from './RequestedStatusAlert';
+import { getTypeOfCareById } from '../../utils/appointment';
 
 const TIME_TEXT = {
   AM: 'in the morning',
   PM: 'in the afternoon',
   'No Time Selected': '',
 };
+
+function getAppointmentDetails(appointment, message) {
+  if (appointment.version === 2) {
+    return appointment.comment ? appointment.comment : 'none';
+  }
+
+  const comment = message || appointment.comment;
+  if (appointment.vaos.isCommunityCare) {
+    return comment || 'none';
+  }
+  return appointment.reason && comment
+    ? `${appointment.reason}: ${comment}`
+    : comment || (appointment.reason ? appointment.reason : null);
+}
 
 export default function RequestedAppointmentDetailsPage() {
   const { id } = useParams();
@@ -48,15 +63,15 @@ export default function RequestedAppointmentDetailsPage() {
     cancelInfo,
     appointment,
     message,
+    useV2,
+    providerData,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
   );
-
   useEffect(() => {
     dispatch(fetchRequestDetails(id));
   }, []);
-
   useEffect(
     () => {
       if (appointment) {
@@ -65,12 +80,13 @@ export default function RequestedAppointmentDetailsPage() {
         const typeOfCareText = lowerCase(
           appointment?.type?.coding?.[0]?.display,
         );
-
         const title = `${isCanceled ? 'Canceled' : 'Pending'} ${
           isCC ? 'Community care' : 'VA'
         } ${typeOfCareText} appointment`;
 
         document.title = title;
+
+        dispatch(getProviderInfoV2(appointment));
       }
       scrollAndFocus();
     },
@@ -112,7 +128,12 @@ export default function RequestedAppointmentDetailsPage() {
     );
   }
 
-  if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
+  const hasProviderData = useV2 && appointment?.practitioners?.length > 0;
+  if (
+    !appointment ||
+    appointmentDetailsStatus === FETCH_STATUS.loading ||
+    (hasProviderData && !providerData)
+  ) {
     return (
       <FullWidthLayout>
         <va-loading-indicator
@@ -131,12 +152,10 @@ export default function RequestedAppointmentDetailsPage() {
   const facility = facilityData?.[facilityId];
   const isCCRequest =
     appointment.vaos.appointmentType === APPOINTMENT_TYPES.ccRequest;
-  const provider = appointment.preferredCommunityCareProviders?.[0];
-  const comment = message || appointment.comment;
-  const apptDetails =
-    appointment.reason && comment
-      ? `${appointment.reason}: ${comment}`
-      : comment || (appointment.reason ? appointment.reason : null);
+  const provider = useV2
+    ? providerData
+    : appointment.preferredCommunityCareProviders?.[0];
+  const typeOfCare = getTypeOfCareById(appointment.vaos.apiData.serviceType);
 
   return (
     <PageLayout>
@@ -165,6 +184,18 @@ export default function RequestedAppointmentDetailsPage() {
 
       {isCCRequest ? (
         <>
+          {useV2 &&
+            typeOfCare && (
+              <>
+                <h2
+                  className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0"
+                  data-cy="community-care-appointment-details-header"
+                >
+                  <div className="vads-u-display--inline">Type of care</div>
+                </h2>
+                <div>{typeOfCare?.name}</div>
+              </>
+            )}
           <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
             Preferred community care provider
           </h2>
@@ -201,8 +232,7 @@ export default function RequestedAppointmentDetailsPage() {
         <h2 className="vads-u-margin-top--2 vaos-appts__block-label">
           You shared these details about your concern
         </h2>
-        {!isCCRequest && apptDetails}
-        {isCCRequest && <>{comment || 'none'}</>}
+        {getAppointmentDetails(appointment, message)}
       </div>
       <div>
         <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vaos-appts__block-label">
@@ -229,12 +259,13 @@ export default function RequestedAppointmentDetailsPage() {
       <div className="vaos-u-word-break--break-word">
         {!canceled && (
           <>
-            <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--3">
+            <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--3 vaos-hide-for-print">
               <i
                 aria-hidden="true"
                 className="fas fa-times vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-right--1"
               />
               <button
+                type="button"
                 aria-label="Cancel request"
                 className="vaos-appts__cancel-btn va-button-link vads-u-flex--0"
                 onClick={() => {

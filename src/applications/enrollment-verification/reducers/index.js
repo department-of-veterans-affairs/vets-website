@@ -3,9 +3,19 @@ import {
   FETCH_POST_911_GI_BILL_ELIGIBILITY_SUCCESS,
   FETCH_POST_911_GI_BILL_ELIGIBILITY_FAILURE,
   UPDATE_VERIFICATION_STATUS_MONTHS,
+  UPDATE_VERIFICATION_STATUS,
+  UPDATE_VERIFICATION_STATUS_SUCCESS,
+  UPDATE_VERIFICATION_STATUS_FAILURE,
+  VERIFICATION_STATUS_CORRECT,
+  VERIFICATION_STATUS_INCORRECT,
 } from '../actions';
 
-const initialState = {};
+const initialState = {
+  enrollmentVerification: null,
+  editMonthVerification: null,
+  enrollmentVerificationSubmitted: false,
+  enrollmentVerificationSubmissionResult: null,
+};
 
 export default {
   data: (state = initialState, action) => {
@@ -14,65 +24,13 @@ export default {
       case FETCH_POST_911_GI_BILL_ELIGIBILITY_FAILURE:
         return {
           ...state,
-          enrollmentVerification: action?.response?.data?.attributes,
-          // enrollmentVerification: action?.response?.data?.attributes || {
-          //   claimantId: 600000000,
-          //   lastCertifiedThroughDate: '2021-10-01',
-          //   paymentOnHold: false,
-          //   enrollmentVerifications: [
-          //     {
-          //       verificationMonth: 'October 2021',
-          //       certifiedBeginDate: '2021-10-01',
-          //       certifiedEndDate: '2021-10-31',
-          //       certifiedThroughDate: null,
-          //       certificationMethod: null,
-          //       enrollments: [
-          //         {
-          //           facilityName: 'UNIVERSITY OF HAWAII AT HILO',
-          //           beginDate: '2021-08-01',
-          //           endDate: '2021-10-01',
-          //           totalCreditHours: 22.0,
-          //         },
-          //       ],
-          //       verificationResponse: 'NR',
-          //       createdDate: null,
-          //     },
-          //     {
-          //       verificationMonth: 'September 2021',
-          //       certifiedBeginDate: '2021-09-01',
-          //       certifiedEndDate: '2021-09-30',
-          //       certifiedThroughDate: null,
-          //       certificationMethod: null,
-          //       enrollments: [
-          //         {
-          //           facilityName: 'UNIVERSITY OF HAWAII AT HILO',
-          //           beginDate: '2021-08-01',
-          //           endDate: '2021-10-01',
-          //           totalCreditHours: 22.0,
-          //         },
-          //       ],
-          //       verificationResponse: 'NR',
-          //       createdDate: null,
-          //     },
-          //     {
-          //       verificationMonth: 'August 2021',
-          //       certifiedBeginDate: '2021-08-01',
-          //       certifiedEndDate: '2021-08-31',
-          //       certifiedThroughDate: null,
-          //       certificationMethod: null,
-          //       enrollments: [
-          //         {
-          //           facilityName: 'UNIVERSITY OF HAWAII AT HILO',
-          //           beginDate: '2021-08-01',
-          //           endDate: '2021-10-01',
-          //           totalCreditHours: 22.0,
-          //         },
-          //       ],
-          //       verificationResponse: 'NR',
-          //       createdDate: null,
-          //     },
-          //   ],
-          // },
+          enrollmentVerification: {
+            ...action?.response?.data?.attributes,
+            enrollmentVerifications: action?.response?.data?.attributes?.enrollmentVerifications?.filter(
+              ev =>
+                ev.certifiedEndDate < new Date().toISOString().split('T')[0],
+            ),
+          },
         };
       case UPDATE_VERIFICATION_STATUS_MONTHS:
         return {
@@ -86,6 +44,53 @@ export default {
         return {
           ...state,
           editMonthVerification: action,
+        };
+      case UPDATE_VERIFICATION_STATUS:
+        return {
+          ...state,
+          enrollmentVerificationSubmitted: true,
+        };
+      case UPDATE_VERIFICATION_STATUS_SUCCESS:
+        return {
+          ...state,
+          enrollmentVerificationSubmissionResult: UPDATE_VERIFICATION_STATUS_SUCCESS,
+          enrollmentVerification: {
+            ...state.enrollmentVerification,
+            enrollmentVerifications: state.enrollmentVerification?.enrollmentVerifications?.map(
+              ev => {
+                let newVerificationResponse;
+                if (ev.verificationStatus) {
+                  newVerificationResponse =
+                    ev.verificationStatus === VERIFICATION_STATUS_CORRECT
+                      ? 'Y'
+                      : 'N';
+                }
+
+                return {
+                  ...ev,
+                  verificationResponse:
+                    newVerificationResponse || ev.verificationResponse,
+                  verificationStatus: null,
+                };
+              },
+            ),
+            lastCertifiedThroughDate:
+              state.enrollmentVerification?.enrollmentVerifications?.find(
+                ev => ev.verificationStatus === VERIFICATION_STATUS_CORRECT,
+              )?.certifiedEndDate ||
+              state.enrollmentVerification?.lastCertifiedThroughDate,
+            paymentOnHold:
+              state.enrollmentVerification?.paymentOnHold ||
+              state.enrollmentVerification?.enrollmentVerifications?.some(
+                ev => ev.verificationStatus === VERIFICATION_STATUS_INCORRECT,
+              ),
+            verificationStatus: null,
+          },
+        };
+      case UPDATE_VERIFICATION_STATUS_FAILURE:
+        return {
+          ...state,
+          enrollmentVerificationSubmissionResult: UPDATE_VERIFICATION_STATUS_FAILURE,
         };
       default:
         return state;

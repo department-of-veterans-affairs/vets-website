@@ -39,7 +39,7 @@ function disconnectApps(mobile = false, error = false) {
   cy.get('.connected-app').should('have.length', 2);
 
   // 4 FAQs and 1 in each connected app
-  cy.get('.form-expanding-group').should('have.length', 3);
+  cy.get('va-additional-info').should('have.length', 3);
 
   // Make sure text for non-connected accounts does not show
   cy.findByText(/Third-party apps you can connect to your profile/i).should(
@@ -100,19 +100,25 @@ describe('Connected applications', () => {
   });
   it('should successfully disconnect apps on Desktop', () => {
     disconnectApps(false);
+    cy.injectAxeThenAxeCheck();
     checkForSuccess();
   });
 
   it('should successfully disconnect apps on mobile', () => {
     disconnectApps(true);
+    cy.injectAxeThenAxeCheck();
+
     checkForSuccess();
   });
   it('should show error message when it can’t disconnect apps on Desktop', () => {
     disconnectApps(false, true);
+    cy.injectAxeThenAxeCheck();
+
     checkForErrors();
   });
 
   it('should show error message when it can’t disconnect apps on mobile', () => {
     disconnectApps(true, true);
+    cy.injectAxeThenAxeCheck();
   });
 });

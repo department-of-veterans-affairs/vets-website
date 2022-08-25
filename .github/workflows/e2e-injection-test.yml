@@ -9,7 +9,14 @@ on:
 jobs:
   cypress-tests:
     name: Cypress E2E Proxy Rewrite Header/Footer Injection Test
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    container:
+      image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
+      options: -u 1001:1001 -v /usr/local/share:/share
+
+    env:
+      CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
+      NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
 
     steps:
       - name: Checkout
@@ -29,8 +36,12 @@ jobs:
         run: node src/platform/testing/e2e/test-server.js --buildtype=${{ env.BUILDTYPE }} --port=3001 &
 
       - name: Run Cypress tests
-        run: yarn cy:run --spec "src/applications/proxy-rewrite/tests/e2e/proxy-rewrite-entry.cypress.spec.js"
-        timeout-minutes: 30
+        uses: nick-fields/retry@v2
+        with:
+          command: yarn cy:run --spec "src/applications/proxy-rewrite/tests/e2e/proxy-rewrite-entry.cypress.spec.js"
+          max_attempts: 3
+          timeout_minutes: 30
+          retry_wait_seconds: 600
         env:
           CYPRESS_CI: false
           CYPRESS_RUN_INJECTION: true
@@ -53,7 +64,7 @@ jobs:
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Proxy Rewite Header/Footer e2e test run in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Proxy Rewrite Header/Footer e2e test run in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

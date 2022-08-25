@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 
-import { VaModal } from 'web-components/react-bindings';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
 import { scrollAndFocus } from 'platform/utilities/ui';

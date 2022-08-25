@@ -22,7 +22,7 @@ describe('Pre-Check In Experience', () => {
     });
     it('only allows typing 4 characters', () => {
       cy.visitPreCheckInWithUUID();
-      ValidateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePage.preCheckIn();
       cy.injectAxeThenAxeCheck();
 
       ValidateVeteran.typeLast4('12345');

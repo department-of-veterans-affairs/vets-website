@@ -18,7 +18,6 @@ describe('pre-check-in experience', () => {
           checkInData: {
             context: {
               token: '',
-              editing: {},
             },
             form: {},
           },

@@ -1,4 +1,5 @@
 import { apiRequest } from 'platform/utilities/api';
+import { COE_ELIGIBILITY_STATUS } from '../constants';
 
 export const GENERATE_AUTOMATIC_COE_STARTED = 'GENERATE_AUTOMATIC_COE_STARTED';
 export const GENERATE_AUTOMATIC_COE_SUCCEEDED =
@@ -41,9 +42,12 @@ export const generateCoe = (skip = '') => async dispatch => {
 
       const { status } = response;
 
-      if (status === 'available' || status === 'eligible') {
+      if (
+        status === COE_ELIGIBILITY_STATUS.available ||
+        status === COE_ELIGIBILITY_STATUS.eligible
+      ) {
         const res = await getCoeURL();
-        if (res.errors) {
+        if (res.errors?.length) {
           dispatch({ type: GET_COE_URL_FAILED, response: res });
         } else {
           dispatch({ type: GET_COE_URL_SUCCEEDED, response: res });
@@ -51,9 +55,8 @@ export const generateCoe = (skip = '') => async dispatch => {
       }
     }
     return response;
-  } else {
-    dispatch({ type: SKIP_AUTOMATIC_COE_CHECK });
   }
 
+  dispatch({ type: SKIP_AUTOMATIC_COE_CHECK });
   return null;
 };

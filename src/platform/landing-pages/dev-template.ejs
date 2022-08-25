@@ -15,7 +15,6 @@
       <%= loadInlineScript('record-event.js') %>
     </script>
 
-
     <!-- Icons -->
     <link href="/img/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
     <link href="/img/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
@@ -50,7 +49,6 @@
       window.VetsGov = window.VetsGov || {};
       window.VetsGov.headerFooter = <%= JSON.stringify(headerFooterData) %>;
     </script>
-
   </head>
 
   <body class="merger">
@@ -69,14 +67,6 @@
 
       <!-- Tablet/Desktop Layout -->
       <div id="legacy-header" class="vads-u-display--none">
-        <div class="incompatible-browser-warning">
-          <div class="row full">
-            <div class="small-12">
-              Your browser is out of date. To use this website, please <a href="https://browsehappy.com/">update your browser</a> or use a different device.
-            </div>
-          </div>
-        </div>
-
         <!-- USA website banner -->
         <div class="va-notice--banner">
           <div class="va-notice--banner-inner">
@@ -144,16 +134,19 @@
           <div class="menu-rule usa-one-whole"></div>
           <div id="mega-menu"></div>
         </div>
+
+        <!-- Hidden for modern browsers. -->
+        <va-banner
+          class="ie-deprecation-warning"
+          headline="You'll need to use a different web browser"
+          show-close
+          type="warning"
+          visible="false"
+        >
+          You're using Internet Explorer right now to access VA.gov. Microsoft stopped supporting all versions of this browser on June 15, 2022. This means that you'll need to switch to another browser, like Microsoft Edge, Google Chrome, Mozilla Firefox, or Apple Safari.
+        </va-banner>
       </div>
     </header>
-
-    <script nonce="**CSP_NONCE**" type="text/javascript">
-    (function() {
-      var module = {};
-      <%= loadInlineScript('incompatible-browser.js') %>
-      checkBrowserCompatibility();
-    })();
-    </script>
 
     <!-- TODO: Add breadcrumbs -->
     <% if (includeBreadcrumbs) { %>
@@ -233,9 +226,9 @@
     </footer>
 
     <!--
-        “To care for him who shall have borne the battle and for his widow, and his orphan.”
-        - Abraham Lincoln
-      -->
+      “To care for him who shall have borne the battle and for his widow, and his orphan.”
+      - Abraham Lincoln
+    -->
 
     <% if (entryName === 'static-pages') { %>
     <script nonce="**CSP_NONCE**" type="text/javascript">
@@ -247,6 +240,14 @@
     </script>
     <% } %>
 
+    <!-- Solutioned for: https://github.com/department-of-veterans-affairs/va.gov-cms/issues/9075 -->
+    <script type="text/javascript">
+      const isIE = /Trident\/[0-7]\.[0-9]/i.test(window.navigator.userAgent);
 
+      if (isIE) {
+        const ieMessageEl = document.body.querySelector('.ie-deprecation-warning');
+        ieMessageEl.setAttribute('visible', '');
+      }
+    </script>
   </body>
 </html>

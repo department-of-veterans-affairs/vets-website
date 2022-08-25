@@ -71,67 +71,6 @@ article[data-location="contact-information"] {
  * This could go in the schemaform css, it's used in form 526 & HLR
  */
 dl.review {
-  /* v1 cards */
-  .widget-wrapper {
-    position: relative;
-
-    dt.widget-checkbox-wrap {
-      margin: 0;
-      width: 0;
-      min-width: auto; /* IE11 */
-      min-width: unset;
-
-      [type="checkbox"] {
-        width: 1.8rem;
-        height: 1.8rem;
-        margin: 0;
-      }
-    }
-
-    .widget-title {
-      margin: 1.5rem 2rem 0 5rem;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      width: calc(100% - 7rem);
-    }
-
-    dd.widget-content {
-      margin-inline-start: 5rem; /* override user agent */
-      text-align: left;
-      margin: 3rem 3.5rem 0 5rem;
-    }
-
-    dd.widget-content.widget-edit {
-      margin-top: 0;
-      margin-right: 0;
-      display: flex;
-
-      .widget-content-wrap {
-        margin-top: 3rem;
-        margin-right: 0.5rem;
-        width: 100%;
-      }
-
-      .edit {
-        margin-top: 2rem;
-        /* position the edit button above the overlapping label */
-        position: relative;
-        z-index: 1;
-        align-self: center;
-      }
-    }
-
-    /* v1 new issues cards tweak */
-    .additional-issue.review-row {
-      flex-direction: column;
-
-      dd {
-        padding-left: 0;
-      }
-    }
-  }
-
   /* v2 cards */
   .widget-wrapper-v2 {
     display: flex;

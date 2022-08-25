@@ -11,13 +11,12 @@ const mailMessage = (
       <li>Make copies of the documents.</li>
       <li>Make sure you write your name and claim number on every page.</li>
       <li>
-        Mail them to the{' '}
         <a
           target="_blank"
           rel="noopener noreferrer"
           href="http://www.benefits.va.gov/COMPENSATION/mailingaddresses.asp"
         >
-          VA Claims Intake Center.
+          Mail them to the VA Claims Intake Center.
         </a>
       </li>
     </ol>

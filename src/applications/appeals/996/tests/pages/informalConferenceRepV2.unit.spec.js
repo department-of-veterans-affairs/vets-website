@@ -23,7 +23,7 @@ describe('HLR informal conference rep v2 page', () => {
         definitions={{}}
         schema={schema}
         uiSchema={uiSchema}
-        data={{ hlrV2: true }}
+        data={{}}
       />,
     );
     const formDOM = getFormDOM(form);
@@ -38,7 +38,7 @@ describe('HLR informal conference rep v2 page', () => {
         schema={schema}
         uiSchema={uiSchema}
         onSubmit={onSubmit}
-        data={{ informalConference: 'rep', hlrV2: true }}
+        data={{ informalConference: 'rep' }}
       />,
     );
     const formDOM = getFormDOM(form);
@@ -61,7 +61,7 @@ describe('HLR informal conference rep v2 page', () => {
         schema={schema}
         uiSchema={uiSchema}
         onSubmit={onSubmit}
-        data={{ informalConference: 'rep', hlrV2: true }}
+        data={{ informalConference: 'rep' }}
       />,
     );
     const formDOM = getFormDOM(form);
@@ -78,7 +78,7 @@ describe('HLR informal conference rep v2 page', () => {
         schema={schema}
         uiSchema={uiSchema}
         onSubmit={onSubmit}
-        data={{ informalConference: 'rep', hlrV2: true }}
+        data={{ informalConference: 'rep' }}
       />,
     );
     const formDOM = getFormDOM(form);

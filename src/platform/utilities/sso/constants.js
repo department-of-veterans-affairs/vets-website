@@ -9,6 +9,13 @@ export const eauthEnvironmentPrefixes = {
   [ENVIRONMENTS.VAGOVPROD]: '',
 };
 
+export const cernerEnvPrefixes = {
+  [ENVIRONMENTS.LOCALHOST]: 'staging-',
+  [ENVIRONMENTS.VAGOVDEV]: 'staging-',
+  [ENVIRONMENTS.VAGOVSTAGING]: 'staging-',
+  [ENVIRONMENTS.VAGOVPROD]: '',
+};
+
 export const SKIP_DUPE = 'skip_dupe=true';
 
 export const SKIP_DUPE_QUERY = {

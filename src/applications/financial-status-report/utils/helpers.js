@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
+import { addDays, format, isValid } from 'date-fns';
 
 export const fsrWizardFeatureToggle = state => {
   return toggleValues(state)[
@@ -12,6 +13,10 @@ export const fsrFeatureToggle = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.showFinancialStatusReport];
 };
 
+export const combinedFSRFeatureToggle = state => {
+  return toggleValues(state)[FEATURE_FLAG_NAMES.combinedFinancialStatusReport];
+};
+
 export const fsrConfirmationEmailToggle = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.fsrConfirmationEmail];
 
@@ -21,6 +26,16 @@ export const dateFormatter = date => {
   if (!date) return undefined;
   const formatDate = date?.slice(0, -3);
   return moment(formatDate, 'YYYY-MM').format('MM/YYYY');
+};
+
+export const formatDate = date => {
+  return format(new Date(date), 'MMMM d, yyyy');
+};
+
+export const endDate = (date, days) => {
+  return isValid(new Date(date))
+    ? formatDate(addDays(new Date(date), days))
+    : '';
 };
 
 export const currency = amount => {
@@ -37,8 +52,8 @@ const hasProperty = (arr, key) => {
 };
 
 export const sumValues = (arr, key) => {
-  const isValid = Array.isArray(arr) && arr.length && hasProperty(arr, key);
-  if (!isValid) return 0;
+  const isArrValid = Array.isArray(arr) && arr.length && hasProperty(arr, key);
+  if (!isArrValid) return 0;
   return arr.reduce((acc, item) => acc + (Number(item[key]) ?? 0), 0);
 };
 
@@ -81,11 +96,34 @@ export const nameStr = (socialSecurity, compensation, education, addlInc) => {
   return otherIncNames?.map(item => item).join(', ') ?? '';
 };
 
-export const getFsrReason = debts => {
-  const reasons = debts.map(({ resolution }) => resolution.resolutionType);
+export const getFsrReason = (debts, combinedFSR) => {
+  const reasons = combinedFSR
+    ? debts.map(({ resolutionOption }) => {
+        switch (resolutionOption) {
+          case 'monthly':
+            return 'Extended monthly payments';
+          case 'waiver':
+            return 'Waiver';
+          case 'compromise':
+            return 'Compromise';
+          default:
+            return '';
+        }
+      })
+    : debts.map(({ resolution }) => resolution.resolutionType);
   const uniqReasons = [...new Set(reasons)];
 
   return uniqReasons.join(', ');
+};
+
+export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
+  return combinedFSR
+    ? debts
+        .filter(item => item.resolutionComment !== undefined)
+        .reduce((acc, debt) => acc + Number(debt.resolutionComment), 0)
+    : debts
+        .filter(item => item.resolution.offerToPay !== undefined)
+        .reduce((acc, debt) => acc + Number(debt.resolution?.offerToPay), 0);
 };
 
 export const getMonthlyIncome = ({
@@ -219,3 +257,19 @@ export const getEmploymentHistory = ({ questions, personalData }) => {
 
   return history;
 };
+
+// receiving formatted date strings in the response
+// so we need to convert back to moment before sorting
+export const sortStatementsByDate = statements => {
+  const dateFormat = 'MM-DD-YYYY';
+  return statements.sort(
+    (a, b) =>
+      moment(b.pSStatementDate, dateFormat) -
+      moment(a.pSStatementDate, dateFormat),
+  );
+};
+
+export const DEBT_TYPES = Object.freeze({
+  DEBT: 'DEBT',
+  COPAY: 'COPAY',
+});

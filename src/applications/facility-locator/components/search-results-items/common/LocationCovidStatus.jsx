@@ -10,11 +10,8 @@ const store = createCommonStore({
   FeatureToggleReducer,
 });
 
-const LocationCovidStatus = ({ supplementalStatus }) => {
+const LocationCovidStatus = ({ supplementalStatus, staticCovidStatuses }) => {
   const [showVamcAlert, setShowVamcAlert] = useState(true);
-  const covidStatus = supplementalStatus?.find(status =>
-    status.id.includes('COVID'),
-  );
 
   useEffect(() => {
     connectFeatureToggle(store.dispatch);
@@ -29,25 +26,41 @@ const LocationCovidStatus = ({ supplementalStatus }) => {
     });
   }, []);
 
+  if (!staticCovidStatuses) {
+    return <></>;
+  }
+
+  const covidStatus = staticCovidStatuses.find(status => {
+    const activeCovidStatus = supplementalStatus?.find(activeStatus =>
+      activeStatus.id.includes('COVID'),
+    );
+
+    return status.status_id === activeCovidStatus?.id;
+  });
+
   if (!covidStatus || !showVamcAlert) {
     return <></>;
   }
 
   return (
-    <va-alert
-      background-only
-      show-icon
+    <va-alert-expandable
+      class="vads-u-margin-x--0"
       status="info"
-      visible
-      data-testid={`${covidStatus.id.toLowerCase()}-message`}
-      class="vads-u-margin-y--2"
+      trigger={covidStatus.name}
+      data-testid={`${covidStatus.status_id.toLowerCase()}-message`}
     >
-      <div tabIndex={0}>{covidStatus.label}</div>
-    </va-alert>
+      {/* eslint-disable react/no-danger */}
+      <div
+        dangerouslySetInnerHTML={{
+          __html: covidStatus.description,
+        }}
+      />
+    </va-alert-expandable>
   );
 };
 
 LocationCovidStatus.propTypes = {
+  staticCovidStatuses: PropTypes.array,
   supplementalStatus: PropTypes.array,
 };
 

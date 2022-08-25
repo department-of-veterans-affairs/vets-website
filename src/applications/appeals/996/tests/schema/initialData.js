@@ -58,5 +58,4 @@ export default {
     time1: 'time0800to1000',
   },
   benefitType: 'compensation',
-  zipCode5: '98765',
 };

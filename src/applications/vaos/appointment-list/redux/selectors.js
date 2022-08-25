@@ -23,6 +23,7 @@ import {
   selectIsCernerOnlyPatient,
   selectFeatureCancel,
   selectFeatureVAOSServiceVAAppointments,
+  selectFeatureVAOSServiceCCAppointments,
 } from '../../redux/selectors';
 import { TYPE_OF_CARE_ID as VACCINE_TYPE_OF_CARE_ID } from '../../covid-19-vaccine/utils';
 
@@ -50,7 +51,6 @@ export function getCancelInfo(state) {
       appointmentToCancel.location.vistaId?.startsWith(cernerSite.facilityId),
     );
   }
-
   return {
     facility,
     appointmentToCancel,
@@ -208,8 +208,14 @@ export function selectCanUseVaccineFlow(state) {
 }
 
 export function selectRequestedAppointmentDetails(state, id) {
-  const { appointmentDetailsStatus, facilityData } = state.appointments;
-
+  const {
+    appointmentDetailsStatus,
+    facilityData,
+    providerData,
+  } = state.appointments;
+  const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
+    state,
+  );
   return {
     appointment: selectAppointmentById(state, id, [
       APPOINTMENT_TYPES.request,
@@ -217,8 +223,10 @@ export function selectRequestedAppointmentDetails(state, id) {
     ]),
     appointmentDetailsStatus,
     facilityData,
+    providerData,
     message: selectFirstRequestMessage(state, id),
     cancelInfo: getCancelInfo(state),
+    useV2: featureVAOSServiceCCAppointments,
   };
 }
 
@@ -281,11 +289,15 @@ export function getPastAppointmentListInfo(state) {
 
 export function selectCommunityCareDetailsInfo(state, id) {
   const { appointmentDetailsStatus, facilityData } = state.appointments;
+  const featureVAOSServiceCCAppointments = selectFeatureVAOSServiceCCAppointments(
+    state,
+  );
   return {
     appointment: selectAppointmentById(state, id, [
       APPOINTMENT_TYPES.ccAppointment,
     ]),
     appointmentDetailsStatus,
     facilityData,
+    useV2: featureVAOSServiceCCAppointments,
   };
 }

@@ -54,7 +54,7 @@ jobs:
         env:
           SSL_CERT_DIR: /etc/ssl/certs
         with:
-          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> Values to one or more product fields have been changed in the Product Directory CSV. A PR to update it has been submitted and needs to be approved - <https://github.com/department-of-veterans-affairs/product-directory/pulls>"}}]}]}'
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> AUTOMATIC UPDATE! The product-directory.json file has been updated. A PR to update it has been submitted and needs to be approved - <https://github.com/department-of-veterans-affairs/product-directory/pulls>"}}]}]}'
           channel_id: C026PD47Z19 #gha-test-status
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

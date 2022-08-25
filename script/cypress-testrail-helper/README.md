@@ -1,5 +1,9 @@
 # Cypress-TestRail-Helper
 
+## DO NOT USE!
+
+**IMPORTANT: Do NOT use Cypress-TestRail Helper**, until further notice! Cypress 10 major upgrade has broken this helper-tool. When we've upgraded CTH, you'll be notified on DSVA Slack #vfs-frontend channel.
+
 Cypress-TestRail-Helper (CTH) is a Node-CLI app that makes using [cy-tr-reporter][npm-cy-tr-reporter] (CTR) much easier. Once you've completed initial integration steps for your Cypress spec-file, you can use CTH to run the spec **just by inputting it's filename**!
 
 **Private app**: This is **not a public-facing app** -- it pushes Cypress test-results to our private TestRail test case management system. You must be a VA employee/contractor officially onboarded to a VA.gov product team, in order to obtain private-systems access.

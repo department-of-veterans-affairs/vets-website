@@ -2,12 +2,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-import AdditionalInfo from '@department-of-veterans-affairs/component-library/AdditionalInfo';
-import Modal from '@department-of-veterans-affairs/component-library/Modal';
-import Telephone, {
-  CONTACTS,
-} from '@department-of-veterans-affairs/component-library/Telephone';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
   editCNPPaymentInformationToggled,
@@ -27,8 +24,8 @@ import {
   eduDirectDepositIsSetUp,
   eduDirectDepositLoadError,
   eduDirectDepositUiState as eduDirectDepositUiStateSelector,
-  profileAlwaysShowDirectDepositDisplay,
 } from '@@profile/selectors';
+import UpdateSuccessAlert from '@@vap-svc/components/ContactInformationFieldInfo/ContactInformationUpdateSuccessAlert';
 import recordEvent from '~/platform/monitoring/record-event';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 
@@ -46,6 +43,7 @@ import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
 import { benefitTypes } from '~/applications/personalization/common/constants';
 
 import NotEligible from './alerts/NotEligible';
+import { BANK_INFO_UPDATED_ALERT_SETTINGS } from '../../constants';
 
 export const BankInfo = ({
   isLOA3,
@@ -60,7 +58,7 @@ export const BankInfo = ({
   typeIsCNP,
   setFormIsDirty,
   setViewingPayments,
-  useAlwaysShowDirectDepositDisplay,
+  showSuccessMessage,
 }) => {
   const formPrefix = type;
   const editBankInfoButton = useRef();
@@ -168,7 +166,6 @@ export const BankInfo = ({
   const sectionTitle = typeIsCNP
     ? 'Disability compensation and pension benefits'
     : 'Education benefits';
-
   // When direct deposit is already set up we will show the current bank info
   const bankInfoContent = (
     <div>
@@ -180,6 +177,26 @@ export const BankInfo = ({
         <dt className="sr-only">Bank account type:</dt>
         <dd>{`${directDepositAccountInfo?.accountType} account`}</dd>
       </dl>
+
+      <div role="alert" aria-atomic="true">
+        <TransitionGroup>
+          {!!showSuccessMessage && (
+            <CSSTransition
+              classNames="form-expanding-group-inner"
+              appear
+              timeout={{
+                appear: BANK_INFO_UPDATED_ALERT_SETTINGS.FADE_SPEED,
+                enter: BANK_INFO_UPDATED_ALERT_SETTINGS.FADE_SPEED,
+                exit: BANK_INFO_UPDATED_ALERT_SETTINGS.FADE_SPEED,
+              }}
+            >
+              <div data-testid="bankInfoUpdateSuccessAlert">
+                <UpdateSuccessAlert />
+              </div>
+            </CSSTransition>
+          )}
+        </TransitionGroup>
+      </div>
       <button
         type="button"
         className={classes.editButton}
@@ -208,6 +225,7 @@ export const BankInfo = ({
       <button
         className={classes.editButton}
         type="button"
+        data-testid="edit-bank-info-button"
         aria-label="Edit your direct deposit for disability compensation and pension benefits bank information"
         ref={editBankInfoButton}
         onClick={() => {
@@ -224,44 +242,6 @@ export const BankInfo = ({
     </div>
   );
 
-  // When not eligible for DD
-  const notEligibleContent = (
-    <>
-      <p className="vads-u-margin-top--0">
-        Our records show that you’re not receiving {benefitTypeShort} payments.
-        If you think this is an error, please call us at{' '}
-        <Telephone contact={CONTACTS.VA_BENEFITS} />.
-      </p>
-      <p>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href={`https://www.va.gov/${benefitTypeShort}/eligibility/`}
-          onClick={() => {
-            recordEvent({
-              event: 'profile-navigation',
-              'profile-action': 'view-link',
-              'profile-section': `${benefitTypeShort}-benefits`,
-            });
-          }}
-        >
-          Find out if you’re eligible for VA {benefitTypeShort} benefits
-        </a>
-      </p>
-      {typeIsCNP && (
-        <p className="vads-u-margin-bottom--0">
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://www.va.gov/pension/eligibility/"
-          >
-            Find out if you’re eligible for VA pension benefits
-          </a>
-        </p>
-      )}
-    </>
-  );
-
   // When editing/setting up direct deposit, we'll show a form that accepts bank
   // account information
   const editingBankInfoContent = (
@@ -274,7 +254,6 @@ export const BankInfo = ({
         {!!saveError && (
           <PaymentInformationEditError
             className="vads-u-margin-top--0 vads-u-margin-bottom--2"
-            level={4}
             responseError={saveError}
           />
         )}
@@ -284,11 +263,11 @@ export const BankInfo = ({
         type.
       </p>
       <div className="vads-u-margin-bottom--2">
-        <AdditionalInfo triggerText="Where can I find these numbers?">
+        <va-additional-info trigger="Where can I find these numbers?">
           <figure
             className="vads-u-margin-x--0"
             role="figure"
-            aria-labelledby="check-caption"
+            aria-labelledby={`${type}-check-caption`}
           >
             {/* eslint-disable jsx-a11y/no-redundant-roles */}
             <img
@@ -298,7 +277,7 @@ export const BankInfo = ({
             />
             {/* eslint-enable jsx-a11y/no-redundant-roles */}
             <figcaption
-              id="check-caption"
+              id={`${type}-check-caption`}
               className="vads-u-font-size--base vads-u-font-weight--normal vads-u-font-family--sans vads-u-width--auto vads-u-color--gray-dark"
             >
               <p>
@@ -318,7 +297,7 @@ export const BankInfo = ({
               </ul>
             </figcaption>
           </figure>
-        </AdditionalInfo>
+        </va-additional-info>
       </div>
       <div data-testid={`${formPrefix}-bank-info-form`} ref={editBankInfoForm}>
         <BankInfoForm
@@ -343,6 +322,7 @@ export const BankInfo = ({
             className="usa-button-secondary small-screen:vads-u-margin-top--0"
             onClick={closeDDForm}
             data-qa="cancel-button"
+            data-testid={`${formPrefix}-form-cancel-button`}
           >
             Cancel
           </button>
@@ -363,12 +343,8 @@ export const BankInfo = ({
       return notSetUpContent;
     }
     setViewingPayments(old => ({ ...old, [type]: false }));
-    if (useAlwaysShowDirectDepositDisplay) {
-      return (
-        <NotEligible benefitType={benefitTypeShort} typeIsCNP={typeIsCNP} />
-      );
-    }
-    return notEligibleContent;
+
+    return <NotEligible benefitType={benefitTypeShort} typeIsCNP={typeIsCNP} />;
   };
 
   const directDepositData = () => {
@@ -396,17 +372,17 @@ export const BankInfo = ({
 
   return (
     <>
-      <Modal
-        title="Are you sure?"
+      <VaModal
+        modalTitle="Are you sure?"
         status="warning"
         visible={showConfirmCancelModal}
-        onClose={() => {
+        onCloseEvent={() => {
           setShowConfirmCancelModal(false);
         }}
       >
         <p>
           {' '}
-          {`You haven’t finished editing your direct deposit information. If you cancel, your in-progress work won’t be saved.`}
+          {`You haven't finished editing and saving the changes to your direct deposit information. If you cancel now, we won't save your changes.`}
         </p>
         <button
           className="usa-button-secondary"
@@ -426,7 +402,7 @@ export const BankInfo = ({
         >
           Cancel
         </button>
-      </Modal>
+      </VaModal>
       <ProfileInfoTable
         className="vads-u-margin-y--2 medium-screen:vads-u-margin-y--4"
         title={sectionTitle}
@@ -448,18 +424,18 @@ BankInfo.propTypes = {
   toggleEditState: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
   directDepositAccountInfo: PropTypes.shape({
-    accountNumber: PropTypes.string.isRequired,
-    accountType: PropTypes.string.isRequired,
+    accountNumber: PropTypes.string,
+    accountType: PropTypes.string,
     financialInstitutionName: PropTypes.string,
-    financialInstitutionRoutingNumber: PropTypes.string.isRequired,
+    financialInstitutionRoutingNumber: PropTypes.string,
   }),
   directDepositUiState: PropTypes.shape({
     isEditing: PropTypes.bool.isRequired,
     isSaving: PropTypes.bool.isRequired,
     responseError: PropTypes.object,
   }),
+  showSuccessMessage: PropTypes.bool,
   typeIsCNP: PropTypes.bool,
-  useAlwaysShowDirectDepositDisplay: PropTypes.bool,
 };
 
 export const mapStateToProps = (state, ownProps) => {
@@ -485,9 +461,6 @@ export const mapStateToProps = (state, ownProps) => {
     directDepositUiState: typeIsCNP
       ? cnpDirectDepositUiStateSelector(state)
       : eduDirectDepositUiStateSelector(state),
-    useAlwaysShowDirectDepositDisplay: profileAlwaysShowDirectDepositDisplay(
-      state,
-    ),
   };
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -6,7 +6,7 @@ import { Payments } from './Payments';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import IconCTALink from '../IconCTALink';
 import recordEvent from '~/platform/monitoring/record-event';
-
+import { fetchDebts } from '~/applications/personalization/dashboard/actions/debts';
 import Debts from './Debts';
 
 const NoRecentPaymentText = () => {
@@ -21,11 +21,19 @@ const NoRecentPaymentText = () => {
 };
 
 const BenefitPaymentsAndDebt = ({
-  payments,
   debts,
   debtsError,
+  getDebts,
+  payments,
   shouldShowLoadingIndicator,
 }) => {
+  useEffect(
+    () => {
+      getDebts();
+    },
+    [getDebts],
+  );
+
   const lastPayment =
     payments
       ?.filter(p => moment(p.payCheckDt) > moment().subtract(31, 'days'))
@@ -44,9 +52,10 @@ const BenefitPaymentsAndDebt = ({
     );
   }
 
+  const showOnlyDebts = payments && !payments.length && debtsCount > 0;
+
   return (
-    payments &&
-    !!payments.length && (
+    ((payments && !!payments.length) || showOnlyDebts) && (
       <div
         className="health-care-wrapper vads-u-margin-y--6"
         data-testid="dashboard-section-payment-and-debts"
@@ -57,74 +66,84 @@ const BenefitPaymentsAndDebt = ({
             debtsCount > 0 ||
             debtsError) && (
             <DashboardWidgetWrapper>
-              <Debts debts={debts} hasError={debtsError} />
+              <Debts
+                debts={debts}
+                hasError={debtsError}
+                removeBottomPadding={showOnlyDebts}
+              />
               {lastPayment && <Payments lastPayment={lastPayment} />}
-              {!lastPayment && <NoRecentPaymentText />}
+              {payments &&
+                !!payments.length &&
+                !lastPayment && <NoRecentPaymentText />}
             </DashboardWidgetWrapper>
           )}
-          <DashboardWidgetWrapper>
-            {!lastPayment &&
-              debtsCount < 1 &&
-              !debtsError && (
-                <>
-                  <Debts debts={debts} hasError={debtsError} />
-                  <NoRecentPaymentText />
-                </>
-              )}
-            <h3 className="sr-only">
-              Popular actions for Benefit Payments and Debt
-            </h3>
-            {!lastPayment && (
-              <IconCTALink
-                href="/va-payment-history/payments/"
-                icon="user-check"
-                text="View your payment history"
-                /* eslint-disable react/jsx-no-bind */
-                onClick={() => {
-                  recordEvent({
-                    event: 'nav-linkslist',
-                    'links-list-header': 'View your payment history',
-                    'links-list-section-header': 'Benefit payments and debts',
-                  });
-                }}
-                /* eslint-enable react/jsx-no-bind */
-                testId="view-payment-history-link"
-              />
-            )}
+          {payments &&
+            !!payments.length && (
+              <DashboardWidgetWrapper>
+                {!lastPayment &&
+                  debtsCount < 1 &&
+                  !debtsError && (
+                    <>
+                      <Debts debts={debts} hasError={debtsError} />
+                      <NoRecentPaymentText />
+                    </>
+                  )}
+                <h3 className="sr-only">
+                  Popular actions for Benefit Payments and Debt
+                </h3>
+                {!lastPayment && (
+                  <IconCTALink
+                    href="/va-payment-history/payments/"
+                    icon="user-check"
+                    text="View your payment history"
+                    /* eslint-disable react/jsx-no-bind */
+                    onClick={() => {
+                      recordEvent({
+                        event: 'nav-linkslist',
+                        'links-list-header': 'View your payment history',
+                        'links-list-section-header':
+                          'Benefit payments and debts',
+                      });
+                    }}
+                    /* eslint-enable react/jsx-no-bind */
+                    testId="view-payment-history-link"
+                  />
+                )}
 
-            <IconCTALink
-              href="/profile/direct-deposit"
-              icon="dollar-sign"
-              text="Manage your direct deposit"
-              /* eslint-disable react/jsx-no-bind */
-              onClick={() => {
-                recordEvent({
-                  event: 'nav-linkslist',
-                  'links-list-header': 'Manage your direct deposit',
-                  'links-list-section-header': 'Direct deposit',
-                });
-              }}
-              /* eslint-enable react/jsx-no-bind */
-              testId="manage-direct-deposit-link"
-            />
-            {debtsCount < 1 && (
-              <IconCTALink
-                href="/resources/va-debt-management"
-                icon="file-invoice-dollar"
-                text="Learn about VA debt"
-                /* eslint-disable react/jsx-no-bind */
-                onClick={() => {
-                  recordEvent({
-                    event: 'nav-linkslist',
-                    'links-list-header': 'Learn about VA debt',
-                    'links-list-section-header': 'Learn about VA debt',
-                  });
-                }}
-                /* eslint-enable react/jsx-no-bind */
-                testId="learn-va-debt-link"
-              />
+                <IconCTALink
+                  href="/profile/direct-deposit"
+                  icon="dollar-sign"
+                  text="Manage your direct deposit"
+                  /* eslint-disable react/jsx-no-bind */
+                  onClick={() => {
+                    recordEvent({
+                      event: 'nav-linkslist',
+                      'links-list-header': 'Manage your direct deposit',
+                      'links-list-section-header': 'Direct deposit',
+                    });
+                  }}
+                  /* eslint-enable react/jsx-no-bind */
+                  testId="manage-direct-deposit-link"
+                />
+                {debtsCount < 1 && (
+                  <IconCTALink
+                    href="/resources/va-debt-management"
+                    icon="file-invoice-dollar"
+                    text="Learn about VA debt"
+                    /* eslint-disable react/jsx-no-bind */
+                    onClick={() => {
+                      recordEvent({
+                        event: 'nav-linkslist',
+                        'links-list-header': 'Learn about VA debt',
+                        'links-list-section-header': 'Learn about VA debt',
+                      });
+                    }}
+                    /* eslint-enable react/jsx-no-bind */
+                    testId="learn-va-debt-link"
+                  />
+                )}
+              </DashboardWidgetWrapper>
             )}
-          </DashboardWidgetWrapper>
         </div>
       </div>
     )
@@ -155,6 +174,7 @@ BenefitPaymentsAndDebt.propTypes = {
     }),
   ),
   debtsError: PropTypes.bool,
+  getDebts: PropTypes.func,
   payments: PropTypes.arrayOf(
     PropTypes.shape({
       payCheckAmount: PropTypes.string.isRequired,
@@ -173,12 +193,19 @@ BenefitPaymentsAndDebt.propTypes = {
 const mapStateToProps = state => {
   const debtsIsLoading = state.allDebts.isLoading;
   const paymentsIsLoading = state.allPayments.isLoading;
+  const debts = state.allDebts.debts || [];
   return {
+    debts,
+    debtsError: state.allDebts.isError || false,
     shouldShowLoadingIndicator: debtsIsLoading || paymentsIsLoading,
   };
 };
 
+const mapDispatchToProps = {
+  getDebts: fetchDebts,
+};
+
 export default connect(
   mapStateToProps,
-  {},
+  mapDispatchToProps,
 )(BenefitPaymentsAndDebt);

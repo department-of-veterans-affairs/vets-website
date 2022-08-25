@@ -1,4 +1,4 @@
-import { VaTelephone } from 'web-components/react-bindings';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';

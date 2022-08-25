@@ -1,23 +1,25 @@
 import React from 'react';
-
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 
 const titleLowerCase = (title = '') =>
   `${title[0].toLowerCase() || ''}${title.slice(1)}`;
 
-const Alert = ({ title, content }) => (
+const Alert = ({ content, title }) => (
   <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
     <div className="usa-content">
       <h1>{title}</h1>
-
-      <va-alert visible status="error">
-        {content}
-      </va-alert>
+      <va-alert status="error">{content}</va-alert>
     </div>
   </div>
 );
+
+Alert.propTypes = {
+  content: PropTypes.node,
+  title: PropTypes.string,
+};
 
 export const MissingServices = ({ title }) => {
   const content = (
@@ -47,6 +49,10 @@ export const MissingServices = ({ title }) => {
   return <Alert title={title} content={content} />;
 };
 
+MissingServices.propTypes = {
+  title: PropTypes.string.isRequired,
+};
+
 export const MissingId = ({ title }) => {
   const content = (
     <>
@@ -57,9 +63,9 @@ export const MissingId = ({ title }) => {
         We don’t have all of your ID information for your account. We need this
         information before you can {titleLowerCase(title)}. To update your
         account, please call Veterans Benefits Assistance at{' '}
-        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
         <va-telephone contact={CONTACTS['711']} />
-        )va-t We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
       <p className="vads-u-font-size--base">
         Tell the representative that you may be missing your{' '}
@@ -84,6 +90,10 @@ export const MissingId = ({ title }) => {
     'alert-box-closeable': false,
   });
   return <Alert title={title} content={content} />;
+};
+
+MissingId.propTypes = {
+  title: PropTypes.string.isRequired,
 };
 
 export const MissingDob = ({ title }) => {
@@ -115,4 +125,8 @@ export const MissingDob = ({ title }) => {
     'alert-box-closeable': false,
   });
   return <Alert title={title} content={content} />;
+};
+
+MissingDob.propTypes = {
+  title: PropTypes.string.isRequired,
 };

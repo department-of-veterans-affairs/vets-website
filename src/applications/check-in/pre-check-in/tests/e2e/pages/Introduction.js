@@ -1,5 +1,5 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
-import { format, subDays } from 'date-fns';
+import { format } from 'date-fns';
 
 class Introduction {
   validatePageLoaded = () => {
@@ -69,16 +69,32 @@ class Introduction {
     }
   };
 
-  validateExpirationDate = appointmentTime => {
-    cy.get('[data-testid="expiration-date"]').contains(
-      format(subDays(appointmentTime, 1), 'M/dd/Y'),
-    );
-  };
-
   attemptToGoToNextPage = () => {
     cy.get('div[data-testid="intro-wrapper"] div[data-testid="start-button"] a')
       .eq(0)
       .click();
+  };
+
+  expandAccordion = () => {
+    cy.get('[data-testid="intro-accordion-item"]')
+      .shadow()
+      .find('button[aria-controls="content"]')
+      .click();
+  };
+
+  validateAppointmentType = type => {
+    if (type === 'phone') {
+      cy.get('[data-testid="appointment-type-label"]').each(item => {
+        expect(Cypress.$(item).text()).to.eq('Phone call');
+      });
+      cy.get('[data-testid="appointment-message"]').each(item => {
+        expect(Cypress.$(item).text()).to.eq('Your provider will call you. ');
+      });
+    } else if (type === 'in-person') {
+      cy.get('[data-testid="appointment-type-label"]').each(item => {
+        expect(Cypress.$(item).text()).to.eq('In person');
+      });
+    }
   };
 }
 

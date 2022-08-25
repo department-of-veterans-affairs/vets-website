@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VaSelect } from 'web-components/react-bindings';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const sortOptions = [
   {

@@ -40,7 +40,7 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
     expect(textBox).to.exist;
     expect(textBox)
       .to.have.attribute('maxlength')
-      .to.equal('250');
+      .to.equal('100');
 
     expect((await screen.findAllByRole('radio')).length).to.equal(4);
 
@@ -109,6 +109,25 @@ describe('VAOS <ReasonForAppointmentPage>', () => {
 
     expect(await screen.findByRole('alert')).to.contain.text(
       'Please provide a response',
+    );
+  });
+
+  it('should show error msg when ^ is entered in VA medical request', async () => {
+    const store = createTestStore(initialState);
+    const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
+      store,
+    });
+
+    fireEvent.click(
+      await screen.findByLabelText(/Routine or follow-up visit/i),
+    );
+    const textBox = screen.getByRole('textbox');
+    fireEvent.change(textBox, { target: { value: '^' } });
+    expect(textBox.value).to.equal('^');
+    fireEvent.click(screen.getByText(/Continue/));
+
+    expect(await screen.findByRole('alert')).to.contain.text(
+      'following special character is not allowed: ^',
     );
   });
 

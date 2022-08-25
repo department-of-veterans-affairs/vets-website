@@ -30,7 +30,7 @@ describe('Pre-Check In Experience', () => {
     it('validation trims white space before posting', () => {
       cy.visitPreCheckInWithUUID();
       cy.injectAxeThenAxeCheck();
-      ValidateVeteran.validatePageLoaded();
+      ValidateVeteran.validatePage.preCheckIn();
       ValidateVeteran.validateVeteran('Smith        ', '1234          ');
       ValidateVeteran.attemptToGoToNextPage();
       Introduction.validatePageLoaded();

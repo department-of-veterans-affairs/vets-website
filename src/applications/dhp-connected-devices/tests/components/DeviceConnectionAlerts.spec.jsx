@@ -1,21 +1,20 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
-import {
-  DeviceConnectionSucceededAlert,
-  DeviceConnectionFailedAlert,
-} from '../../components/DeviceConnectionAlerts';
+import { render } from '@testing-library/react';
+import { DeviceConnectionAlert } from '../../components/DeviceConnectionAlerts';
 
-describe('Successful device connection alert', () => {
-  it('shows a success message', () => {
-    const screen = renderInReduxProvider(<DeviceConnectionSucceededAlert />);
-    expect(screen.getByText(/Device Connected/)).to.exist;
-  });
-});
-
-describe('Failed device connect alert', () => {
-  it('shows a failure message', () => {
-    const screen = renderInReduxProvider(<DeviceConnectionFailedAlert />);
-    expect(screen.getByText(/We couldn't connect your device/)).to.exist;
+describe('Device connection alerts', () => {
+  it('should show a success alert when given success params', () => {
+    const { getByTestId, getByText } = render(
+      <DeviceConnectionAlert
+        testId="success-alert"
+        status="success"
+        headline="Device connected"
+        description="Your device is now connected"
+      />,
+    );
+    expect(getByTestId('success-alert')).to.exist;
+    expect(getByText('Device connected')).to.exist;
+    expect(getByText('Your device is now connected')).to.exist;
   });
 });

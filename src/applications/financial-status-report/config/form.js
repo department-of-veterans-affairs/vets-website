@@ -79,6 +79,7 @@ const formConfig = {
         availableDebts: {
           initialData: {
             selectedDebts: [],
+            selectedDebtsAndCopays: [],
             debt: {
               currentAr: 0,
               debtHistory: [{ date: '' }],
@@ -311,11 +312,28 @@ const formConfig = {
           schema: pages.recreationalVehicles.schema,
         },
         recreationalVehicleRecords: {
+          path: 'cfsr-recreational-vehicle-records',
+          title: 'Recreational vehicles',
+          uiSchema:
+            pages.recreationalVehicleRecords
+              .combinedFSRRecreationalUIVehicleSchema,
+          schema:
+            pages.recreationalVehicleRecords
+              .combinedFSRRecreationalVehicleSchema,
+          depends: formData =>
+            formData.questions.hasRecreationalVehicle &&
+            formData['view:combinedFinancialStatusReport'],
+          editModeOnReviewPage: true,
+        },
+        recreationalVehicleRecordsListLoop: {
           path: 'recreational-vehicle-records',
           title: 'Recreational vehicles',
-          uiSchema: pages.recreationalVehicleRecords.uiSchema,
-          schema: pages.recreationalVehicleRecords.schema,
-          depends: ({ questions }) => questions.hasRecreationalVehicle,
+          uiSchema:
+            pages.recreationalVehicleRecords.fSRRecreationalVehicleUISchema,
+          schema: pages.recreationalVehicleRecords.fSRRecreationalVehicleSchema,
+          depends: formData =>
+            formData.questions.hasRecreationalVehicle &&
+            !formData['view:combinedFinancialStatusReport'],
           editModeOnReviewPage: true,
         },
         otherAssets: {
@@ -393,8 +411,38 @@ const formConfig = {
         resolutionOptions: {
           path: 'resolution-options',
           title: 'Resolution options',
+          depends: formData => !formData['view:combinedFinancialStatusReport'],
           uiSchema: pages.resolutionOptions.uiSchema,
           schema: pages.resolutionOptions.schema,
+        },
+        // New resolution radio options
+        resolutionOption: {
+          title: 'Resolution Option',
+          depends: formData =>
+            formData.selectedDebtsAndCopays?.length > 0 &&
+            formData['view:combinedFinancialStatusReport'],
+          path: 'resolution-option/:index',
+          showPagePerItem: true,
+          arrayPath: 'selectedDebtsAndCopays',
+          uiSchema: pages.resolutionOption.uiSchema,
+          schema: pages.resolutionOption.schema,
+        },
+        // New text field
+        resolutionComment: {
+          title: 'Resolution Comment',
+          depends: (formData, index) => {
+            return (
+              formData.selectedDebtsAndCopays?.length > 0 &&
+              formData['view:combinedFinancialStatusReport'] &&
+              formData.selectedDebtsAndCopays[index]?.resolutionOption !==
+                'waiver'
+            );
+          },
+          path: 'resolution-comment/:index',
+          showPagePerItem: true,
+          arrayPath: 'selectedDebtsAndCopays',
+          uiSchema: pages.resolutionComment.uiSchema,
+          schema: pages.resolutionComment.schema,
         },
         resolutionComments: {
           path: 'resolution-comments',

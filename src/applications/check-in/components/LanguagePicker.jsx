@@ -1,20 +1,29 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import recordEvent from 'platform/monitoring/record-event';
 
+import { createAnalyticsSlug } from '../utils/analytics';
 import withTranslationEnabled from '../containers/withTranslationEnabled';
 
-function LanguagePicker() {
+function LanguagePicker(props) {
+  const { withTopMargin } = props;
   const { i18n } = useTranslation();
   const { language } = i18n;
   function changeLanguage(e) {
     e.preventDefault();
+    recordEvent({
+      event: createAnalyticsSlug(`language-switch-${e.target.lang}`),
+    });
     i18n.changeLanguage(e.target.getAttribute('lang'));
   }
+
+  let classNames =
+    'vads-u-display--inline-block vads-u-margin-bottom--3 vads-u-border--0 vads-u-border-bottom--1px vads-u-border-style--solid vads-u-border-color--gray';
+  if (withTopMargin) classNames += ' vads-u-margin-top--2';
+
   return (
-    <div
-      className="vads-u-display--inline-block vads-u-margin-bottom--3 vads-u-margin-top--4 vads-u-border--0 vads-u-border-bottom--1px vads-u-border-style--solid vads-u-border-color--gray"
-      data-testid="language-picker"
-    >
+    <div className={classNames} data-testid="language-picker">
       {[
         {
           label: 'English',
@@ -59,5 +68,9 @@ function LanguagePicker() {
     </div>
   );
 }
+
+LanguagePicker.propTypes = {
+  withTopMargin: PropTypes.bool,
+};
 
 export default withTranslationEnabled(LanguagePicker);

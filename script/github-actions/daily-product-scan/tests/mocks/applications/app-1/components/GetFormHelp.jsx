@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-curly-brace-presence */
-/* eslint-disable va/prefer-web-component-library */
+/* eslint-disable @department-of-veterans-affairs/prefer-web-component-library */
 import React from 'react';
 import Telephone, {
   CONTACTS,

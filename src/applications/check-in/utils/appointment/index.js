@@ -46,6 +46,19 @@ const appointmentWasCanceled = appointments => {
 };
 
 /**
+ * Return the first cancelled appointment.
+ *
+ * @param {Array<Appointment>} appointments
+ *
+ */
+const getFirstCanceledAppointment = appointments => {
+  const statusIsCanceled = appointment =>
+    appointment.status?.startsWith('CANCELLED');
+
+  return appointments.find(statusIsCanceled);
+};
+
+/**
  * Get the interval from now until the end of the next check-in window.
  *
  * @param {Array<Appointment>} appointments
@@ -99,6 +112,20 @@ const preCheckinAlreadyCompleted = appointments => {
 };
 
 /**
+ * Determine whether the physical location should be displayed for the given appointment.
+ *
+ * @param {Appointment} appointment
+ * @returns {boolean}
+ */
+const locationShouldBeDisplayed = appointment => {
+  const notEmpty = location => {
+    return typeof location === 'string' && location.length > 0;
+  };
+
+  return appointment.kind === 'clinic' && notEmpty(appointment.clinicLocation);
+};
+
+/**
  * @param {Array<Appointment>} appointments
  */
 const sortAppointmentsByStartTime = appointments => {
@@ -118,12 +145,7 @@ const removeTimeZone = payload => {
   // Chip should be handling this but currently isn't, this code may be refactored out.
   const updatedPayload = { ...payload };
   // These fields have a potential to include a time stamp.
-  const timeFields = [
-    'checkInWindowEnd',
-    'checkInWindowStart',
-    'checkedInTime',
-    'startTime',
-  ];
+  const timeFields = ['checkedInTime', 'startTime'];
 
   const updatedAppointments = updatedPayload.appointments.map(appointment => {
     const updatedAppointment = { ...appointment };
@@ -147,15 +169,26 @@ const removeTimeZone = payload => {
 const preCheckinExpired = appointments => {
   return !Object.values(appointments).some(appt => {
     const today = new Date();
-    const checkInExpiry = startOfDay(new Date(appt.startTime));
-    return today.getTime() < checkInExpiry.getTime();
+    const preCheckInExpiry = startOfDay(new Date(appt.startTime));
+    return today.getTime() < preCheckInExpiry.getTime();
+  });
+};
+
+const appointmentStartTimePast15 = appointments => {
+  return !Object.values(appointments).some(appt => {
+    const today = new Date();
+    const deadline = appt.checkInWindowEnd;
+    return today.getTime() < new Date(deadline).getTime();
   });
 };
 
 export {
+  appointmentStartTimePast15,
   appointmentWasCanceled,
+  getFirstCanceledAppointment,
   hasMoreAppointmentsToCheckInto,
   intervalUntilNextAppointmentIneligibleForCheckin,
+  locationShouldBeDisplayed,
   sortAppointmentsByStartTime,
   preCheckinAlreadyCompleted,
   removeTimeZone,

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-/* eslint-disable va/prefer-web-component-library */
+/* eslint-disable @department-of-veterans-affairs/prefer-web-component-library */
 /* eslint-disable import/order */
 /* eslint-disable deprecate/import */
 import React from 'react';

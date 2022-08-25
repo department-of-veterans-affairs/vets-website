@@ -98,7 +98,7 @@ describe("the ReviewCardField's", () => {
     it('should throw an error if no viewComponent is found', () => {
       expect(() => {
         // Not necessary if not componentWillUnmount
-        // eslint-disable-next-line va/enzyme-unmount
+        // eslint-disable-next-line @department-of-veterans-affairs/enzyme-unmount
         shallow(
           <ReviewCardField
             name="permanentAddress"
@@ -114,7 +114,7 @@ describe("the ReviewCardField's", () => {
     it('should throw an error if schema type is not object or array', () => {
       expect(() => {
         // Not necessary if not componentWillUnmount
-        // eslint-disable-next-line va/enzyme-unmount
+        // eslint-disable-next-line @department-of-veterans-affairs/enzyme-unmount
         shallow(
           <ReviewCardField
             name="permanentAddress"

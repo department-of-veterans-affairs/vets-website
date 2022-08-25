@@ -8,11 +8,11 @@
 
 # VSP
 *       @department-of-veterans-affairs/platform-release-tools
-src/application/_mock-form @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
+src/applications/_mock-form @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
+src/applications/burial-poc-v6 @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
 src/platform/forms        @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
 src/platform/forms-system @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
 script/component-migration @department-of-veterans-affairs/platform-design-system-fe
-script/eslint-plugin-va/rules/prefer-web-component-library.js @department-of-veterans-affairs/platform-design-system-fe
 
 # VSP-Identity authentication
 src/applications/auth @department-of-veterans-affairs/vsp-identity
@@ -26,33 +26,33 @@ src/platform/site-wide/user-nav/components/SearchHelpSignIn.jsx @department-of-v
 # VSP QA Standards
 src/platform/testing/contract/ @department-of-veterans-affairs/qa-standards
 src/platform/testing/e2e/ @department-of-veterans-affairs/qa-standards
-config/cypress.json @department-of-veterans-affairs/qa-standards
+config/cypress.config.js @department-of-veterans-affairs/qa-standards
+script/github-actions/daily-product-scan/ @department-of-veterans-affairs/qa-standards
+.github/workflows/e2e-tests.yml @department-of-veterans-affairs/qa-standards
 
 # VSA ----
 
 # Authenticated Experience
-src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
+src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend
 src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend
 
-# Claims & appeals (Benefits and Memorials 1)
-src/applications/letters @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
-src/applications/disability-benefits @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
-src/applications/claims-status @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-debt-frontend
-src/applications/appeals @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
-src/applications/pre-need @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
+# Claims & appeals (Benefits Team 1)
+src/applications/letters @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/disability-benefits @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/claims-status @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-debt-frontend
+src/applications/appeals @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/vsa-authd-exp-frontend
+src/applications/pre-need @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-debt-frontend
+src/applications/vre @department-of-veterans-affairs/benefits-team-1-frontend
+src/applications/lgy @department-of-veterans-affairs/benefits-team-1-frontend
+src/applications/sah @department-of-veterans-affairs/benefits-team-1-frontend
 
 # VSA Debt
-src/applications/disability-benefits/2346 @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
-src/applications/debt-letters @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/vsa-bam-1-frontend @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-ebenefits-frontend
-src/applications/burials @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
+src/applications/disability-benefits/2346 @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
+src/applications/debt-letters @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
+src/applications/burials @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 src/applications/financial-status-report @department-of-veterans-affairs/vsa-debt-frontend
 src/applications/medical-copays @department-of-veterans-affairs/vsa-debt-frontend
 src/applications/combined-debt-portal @department-of-veterans-affairs/vsa-debt-frontend
-
-# eBenefits
-src/applications/vre @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
-src/applications/lgy @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
-src/applications/sah @department-of-veterans-affairs/vsa-ebenefits-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
 
 # Public Websites
 src/applications/proxy-rewrite @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/platform-release-tools
@@ -70,10 +70,10 @@ src/applications/static-pages/facilities @department-of-veterans-affairs/vsa-fac
 src/applications/static-pages/tests/facilities @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 
 # Caregiver
-src/applications/caregivers @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
+src/applications/caregivers @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 
 # Health Care Application
-src/applications/hca @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/vsa-bam-1-frontend
+src/applications/hca @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 
 # Healthcare Experience
 src/applications/health-care-questionnaire @department-of-veterans-affairs/patient-check-in
@@ -98,9 +98,10 @@ src/applications/coronavirus-vaccination-expansion @department-of-veterans-affai
 src/applications/my-education-benefits @department-of-veterans-affairs/my-education-benefits
 src/applications/enrollment-verification @department-of-veterans-affairs/my-education-benefits
 src/applications/education-letters @department-of-veterans-affairs/my-education-benefits
+src/applications/fry-dea @department-of-veterans-affairs/my-education-benefits
+src/applications/toe @department-of-veterans-affairs/my-education-benefits
 
 # Other
-src/applications/coronavirus-chatbot @department-of-veterans-affairs/chatbot-admin
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe
 src/applications/dhp-connected-devices @department-of-veterans-affairs/digital-health-platform
 src/applications/virtual-agent @department-of-veterans-affairs/orchid

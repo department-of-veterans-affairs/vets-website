@@ -9,14 +9,14 @@ import { makeSelectVeteranData } from '../../../selectors';
 const { isEmpty } = require('lodash');
 
 const LoadingPage = props => {
-  const { router, isUpdatePageEnabled } = props;
+  const { router } = props;
   const { t } = useTranslation();
 
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
   const { goToErrorPage, goToNextPage } = useFormRouting(router);
 
-  const { checkInDataError } = useGetCheckInData(true, isUpdatePageEnabled);
+  const { checkInDataError } = useGetCheckInData(true);
 
   useEffect(
     () => {
@@ -30,6 +30,8 @@ const LoadingPage = props => {
     [checkInDataError, demographics, goToErrorPage, goToNextPage],
   );
 
+  window.scrollTo(0, 0);
+
   return (
     <va-loading-indicator message={t('loading-your-appointments-for-today')} />
   );
@@ -37,7 +39,6 @@ const LoadingPage = props => {
 
 LoadingPage.propTypes = {
   isSessionLoading: PropTypes.bool,
-  isUpdatePageEnabled: PropTypes.bool,
   router: PropTypes.object,
 };
 

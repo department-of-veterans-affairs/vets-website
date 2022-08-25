@@ -1,15 +1,14 @@
-import React, { useCallback, useState, useEffect, useMemo } from 'react';
+import React, { useCallback, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
-import { focusElement } from 'platform/utilities/ui';
 import { createSetSession } from '../../actions/authentication';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 
 import BackToHome from '../../components/BackToHome';
-import Footer from '../../components/Footer';
+import Footer from '../../components/layout/Footer';
 import ValidateDisplay from '../../components/pages/validate/ValidateDisplay';
 import { validateLogin } from '../../utils/validateVeteran';
 import { makeSelectCurrentContext } from '../../selectors';
@@ -35,21 +34,7 @@ const ValidateVeteran = props => {
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
 
-  const defaultDob = Object.freeze({
-    day: {
-      value: '',
-      dirty: false,
-    },
-    month: {
-      value: '',
-      dirty: false,
-    },
-    year: {
-      value: '',
-      dirty: false,
-    },
-  });
-  const [dob, setDob] = useState(defaultDob);
+  const [dob, setDob] = useState('');
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
@@ -61,23 +46,24 @@ const ValidateVeteran = props => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
 
-  const { getValidateAttempts, incrementValidateAttempts } = useSessionStorage(
-    false,
-  );
+  const {
+    getValidateAttempts,
+    incrementValidateAttempts,
+    resetAttempts,
+  } = useSessionStorage(false);
   const { isMaxValidateAttempts } = getValidateAttempts(window);
   const [showValidateError, setShowValidateError] = useState(false);
   const app = '';
   const onClick = useCallback(
     () => {
+      setShowValidateError(false);
       validateLogin(
         last4Ssn,
         lastName,
         dob,
-        showValidateError,
         setLastNameErrorMessage,
         setLast4ErrorMessage,
         setDobErrorMessage,
-        setDob,
         setIsLoading,
         setShowValidateError,
         isLorotaSecurityUpdatesEnabled,
@@ -88,6 +74,7 @@ const ValidateVeteran = props => {
         token,
         setSession,
         app,
+        resetAttempts,
       );
     },
     [
@@ -99,15 +86,12 @@ const ValidateVeteran = props => {
       last4Ssn,
       lastName,
       dob,
+      resetAttempts,
       setSession,
-      showValidateError,
       token,
       isLorotaSecurityUpdatesEnabled,
     ],
   );
-  useEffect(() => {
-    focusElement('h1');
-  }, []);
   return (
     <>
       <ValidateDisplay

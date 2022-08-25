@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import { fetchPost911GiBillEligibility } from '../actions';
 import EnrollmentVerificationPageWrapper from '../components/EnrollmentVerificationPageWrapper';
@@ -56,7 +56,7 @@ export const EnrollmentVerificationPage = ({
         both) under the Post-9/11 GI Bill
         <sup>&reg;</sup> (Chapter 33), you’ll need to verify your enrollment
         each month. If you don’t verify your enrollment for{' '}
-        <strong>three months in a row</strong>, we will pause your monthly
+        <strong>two months in a row</strong>, we will pause your monthly
         education payments.
       </p>
 

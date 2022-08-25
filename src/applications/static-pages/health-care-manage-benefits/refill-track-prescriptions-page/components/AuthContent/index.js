@@ -1,24 +1,31 @@
 // Node modules.
 import React from 'react';
-import PropTypes from 'prop-types';
 import Telephone, {
   CONTACTS,
 } from '@department-of-veterans-affairs/component-library/Telephone';
 // Relative imports.
-import CernerCallToAction from '../../../components/CernerCallToAction';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { mhvUrl } from 'platform/site-wide/mhv/utilities';
 import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
+import CernerCallToAction from '../../../components/CernerCallToAction';
+import {
+  authenticatedWithSSOePropType,
+  cernerFacilitiesPropType,
+  ehrDataByVhaIdPropType,
+  otherFacilitiesPropType,
+} from '../../../propTypes';
 
 export const AuthContent = ({
   authenticatedWithSSOe,
   cernerFacilities,
   otherFacilities,
+  ehrDataByVhaId,
 }) => (
   <>
     <CernerCallToAction
       cernerFacilities={cernerFacilities}
       otherFacilities={otherFacilities}
+      ehrDataByVhaId={ehrDataByVhaId}
       linksHeaderText="Refill prescriptions from:"
       myHealtheVetLink={mhvUrl(
         authenticatedWithSSOe,
@@ -248,7 +255,9 @@ export const AuthContent = ({
               </p>
               <ul>
                 <li>
-                  Go to your <a href="/profile/">VA.gov profile</a>.<br />
+                  Go to your{' '}
+                  <a href="/profile/contact-information">VA.gov profile</a>.
+                  <br />
                   Click <strong>Edit</strong> next to each address you’d like to
                   change, including your mailing and home address. Or if you
                   haven’t yet added an address, click on the link to add your
@@ -387,29 +396,10 @@ export const AuthContent = ({
 );
 
 AuthContent.propTypes = {
-  authenticatedWithSSOe: PropTypes.bool.isRequired,
-  cernerfacilities: PropTypes.arrayOf(
-    PropTypes.shape({
-      facilityId: PropTypes.string.isRequired,
-      isCerner: PropTypes.bool.isRequired,
-      usesCernerAppointments: PropTypes.string,
-      usesCernerMedicalRecords: PropTypes.string,
-      usesCernerMessaging: PropTypes.string,
-      usesCernerRx: PropTypes.string,
-      usesCernerTestResults: PropTypes.string,
-    }).isRequired,
-  ),
-  otherfacilities: PropTypes.arrayOf(
-    PropTypes.shape({
-      facilityId: PropTypes.string.isRequired,
-      isCerner: PropTypes.bool.isRequired,
-      usesCernerAppointments: PropTypes.string,
-      usesCernerMedicalRecords: PropTypes.string,
-      usesCernerMessaging: PropTypes.string,
-      usesCernerRx: PropTypes.string,
-      usesCernerTestResults: PropTypes.string,
-    }).isRequired,
-  ),
+  authenticatedWithSSOe: authenticatedWithSSOePropType,
+  cernerFacilities: cernerFacilitiesPropType,
+  ehrDataByVhaId: ehrDataByVhaIdPropType,
+  otherFacilities: otherFacilitiesPropType,
 };
 
 export default AuthContent;

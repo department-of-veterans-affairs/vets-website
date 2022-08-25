@@ -1,6 +1,7 @@
 import session from '../mocks/v2/sessions';
 import preCheckInData from '../mocks/v2/pre-check-in-data';
 import checkInData from '../mocks/v2/check-in-data';
+import sharedData from '../mocks/v2/shared';
 import featureToggles from '../mocks/v2/feature-toggles';
 
 class ApiInitializer {
@@ -22,22 +23,9 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
-          checkInExperienceEditingPreCheckInEnabled: false,
-        }),
-      );
-    },
-    withPreCheckInEditEnabled: () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          checkInExperienceEnabled: true,
-          preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
-          emergencyContactEnabled: true,
-          checkInExperienceEditingPreCheckInEnabled: true,
+          checkInExperiencePhoneAppointmentsEnabled: false,
+          checkInExperienceLorotaSecurityUpdatesEnabled: false,
         }),
       );
     },
@@ -48,7 +36,6 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
           checkInExperienceDayOfDemographicsFlagsEnabled: true,
         }),
@@ -61,7 +48,6 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
           checkInExperienceDayOfDemographicsFlagsEnabled: true,
           checkInExperienceDayOfTranslationEnabled: true,
@@ -75,7 +61,6 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: true,
           emergencyContactEnabled: true,
         }),
       );
@@ -87,10 +72,22 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceUpdateInformationPageEnabled: false,
           emergencyContactEnabled: true,
-          checkInExperienceEditingPreCheckInEnabled: false,
+          checkInExperiencePhoneAppointmentsEnabled: false,
           checkInExperienceLorotaSecurityUpdatesEnabled: true,
+        }),
+      );
+    },
+    withPhoneAppointments: () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        featureToggles.generateFeatureToggles({
+          checkInExperienceEnabled: true,
+          preCheckInEnabled: true,
+          emergencyContactEnabled: true,
+          checkInExperienceLorotaSecurityUpdatesEnabled: false,
+          checkInExperiencePhoneAppointmentsEnabled: true,
         }),
       );
     },
@@ -137,8 +134,11 @@ class ApiInitializer {
     },
     withValidation: () => {
       cy.intercept('POST', '/check_in/v2/sessions', req => {
-        const { last4, lastName } = req.body?.session || {};
-        if (last4 === '1234' && lastName === 'Smith') {
+        const { last4, lastName, dob } = req.body?.session || {};
+        if (
+          (last4 === '1234' || dob === '1989-03-15') &&
+          lastName === 'Smith'
+        ) {
           req.reply(
             session.post.createMockSuccessResponse('some-token', 'read.full'),
           );
@@ -163,6 +163,7 @@ class ApiInitializer {
       nextOfKinConfirmedAt = null,
       emergencyContactNeedsUpdate = true,
       emergencyContactConfirmedAt = null,
+      uuid = sharedData.get.defaultUUID,
     } = {}) => {
       cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
         if (extraValidation) {
@@ -170,7 +171,7 @@ class ApiInitializer {
         }
         req.reply(
           preCheckInData.get.createMockSuccessResponse(
-            'some-token',
+            uuid,
             demographicsNeedsUpdate,
             demographicsConfirmedAt,
             nextOfKinNeedsUpdate,
@@ -181,7 +182,7 @@ class ApiInitializer {
         );
       });
       return preCheckInData.get.createMockSuccessResponse(
-        'some-token',
+        uuid,
         demographicsNeedsUpdate,
         demographicsConfirmedAt,
         nextOfKinNeedsUpdate,
@@ -225,9 +226,10 @@ class ApiInitializer {
       nextOfKinConfirmedAt = null,
       emergencyContactNeedsUpdate = true,
       emergencyContactConfirmedAt = null,
+      uuid = 'no-uuid',
     } = {}) => {
       const data = preCheckInData.get.createMockSuccessResponse(
-        'some-token',
+        uuid,
         demographicsNeedsUpdate,
         demographicsConfirmedAt,
         nextOfKinNeedsUpdate,
@@ -271,7 +273,7 @@ class ApiInitializer {
     withSuccess: ({
       extraValidation = null,
       appointments = null,
-      token = checkInData.get.defaultUUID,
+      token = sharedData.get.defaultUUID,
       numberOfCheckInAbledAppointments = 2,
       demographicsNeedsUpdate = true,
       demographicsConfirmedAt = null,
@@ -279,9 +281,10 @@ class ApiInitializer {
       nextOfKinConfirmedAt = null,
       emergencyContactNeedsUpdate = true,
       emergencyContactConfirmedAt = null,
+      timezone = 'browser',
     } = {}) => {
       cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
-        const rv = checkInData.get.createMultipleAppointments(
+        const rv = sharedData.get.createMultipleAppointments(
           token,
           numberOfCheckInAbledAppointments,
           demographicsNeedsUpdate,
@@ -290,11 +293,20 @@ class ApiInitializer {
           nextOfKinConfirmedAt,
           emergencyContactNeedsUpdate,
           emergencyContactConfirmedAt,
+          timezone,
         );
         if (appointments && appointments.length) {
           const customAppointments = [];
-          appointments.forEach(appointment => {
-            const createdAppointment = checkInData.get.createAppointment();
+          appointments.forEach((appointment, index) => {
+            const createdAppointment = sharedData.get.createAppointment(
+              'ELIGIBLE',
+              'some-facility',
+              `000${index}`,
+              'TEST CLINIC',
+              false,
+              '',
+              timezone,
+            );
             customAppointments.push(
               Object.assign(createdAppointment, appointment),
             );
@@ -309,7 +321,7 @@ class ApiInitializer {
     },
     withBadData: ({
       extraValidation = null,
-      token = checkInData.get.defaultUUID,
+      token = sharedData.get.defaultUUID,
       numberOfCheckInAbledAppointments = 2,
       demographicsNeedsUpdate = true,
       demographicsConfirmedAt = null,
@@ -319,7 +331,7 @@ class ApiInitializer {
       emergencyContactConfirmedAt = null,
     } = {}) => {
       cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
-        const rv = checkInData.get.createMultipleAppointments(
+        const rv = sharedData.get.createMultipleAppointments(
           token,
           numberOfCheckInAbledAppointments,
           demographicsNeedsUpdate,
@@ -359,19 +371,6 @@ class ApiInitializer {
     },
   };
 
-  initializeDemographicEditPost = {
-    withSuccess: () => {
-      cy.intercept('POST', `/check_in/v2/edit_demographics/`, req => {
-        req.reply(checkInData.post.createMockEditSuccessResponse());
-      });
-    },
-    withFailure: (errorCode = 400) => {
-      cy.intercept('POST', `/check_in/v2/edit_demographics/`, req => {
-        req.reply(errorCode, checkInData.post.createMockEditErrorResponse({}));
-      });
-    },
-  };
-
   initializeAddressValidationPost = {
     withSuccess: () => {
       cy.intercept('POST', `/check_in/v2/validate_address/`, req => {
@@ -396,8 +395,11 @@ class ApiInitializer {
         req.reply(checkInData.patch.createMockSuccessResponse());
       }).as('demographicsPatchSuccessAlias');
     },
-    withFailure: (errorCode = 400) => {
+    withFailure: (errorCode = 400, delay = 0) => {
       cy.intercept('PATCH', `/check_in/v2/demographics/*`, req => {
+        req.on('response', res => {
+          res.setDelay(delay);
+        });
         req.reply(errorCode, checkInData.patch.createMockFailedResponse({}));
       }).as('demographicsPatchFailureAlias');
     },

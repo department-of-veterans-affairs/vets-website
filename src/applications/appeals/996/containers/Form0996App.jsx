@@ -21,6 +21,7 @@ import {
   processContestableIssues,
 } from '../utils/helpers';
 import { copyAreaOfDisagreementOptions } from '../utils/disagreement';
+import forcedMigrations from '../migrations/forceMigrations';
 
 export const Form0996App = ({
   loggedIn,
@@ -31,7 +32,6 @@ export const Form0996App = ({
   setFormData,
   router,
   savedForms,
-  hlrV2,
   getContestableIssues,
   contestableIssues = {},
   legacyCount,
@@ -48,26 +48,40 @@ export const Form0996App = ({
         const { veteran = {} } = formData || {};
         const areaOfDisagreement = getSelected(formData);
         if (!isLoadingIssues && (contestableIssues?.status || '') === '') {
+          // load benefit type contestable issues
           setIsLoadingIssues(true);
           const benefitType =
             sessionStorage.getItem(SAVED_CLAIM_TYPE) || formData.benefitType;
-          getContestableIssues({ benefitType, hlrV2 });
+          getContestableIssues({ benefitType });
         } else if (
           formData?.benefitType !== contestableIssues?.benefitType ||
           email?.emailAddress !== veteran.email ||
           mobilePhone?.updatedAt !== veteran.phone?.updatedAt ||
           mailingAddress?.updatedAt !== veteran.address?.updatedAt ||
-          (typeof hlrV2 !== 'undefined' &&
-            typeof formData.hlrV2 === 'undefined') ||
           issuesNeedUpdating(
             contestableIssues?.issues,
             formData?.contestedIssues,
           ) ||
           contestableIssues.legacyCount !== formData.legacyCount
         ) {
+          /**
+           * Force HLR v2 update
+           * The migration itself should handle this, but it only calls the
+           * function if the save-in-progress version number changes (migration
+           * length in form config). Since Lighthouse is reporting seeing v1
+           * submissions still, we need to prevent v1 data from being submitted
+           */
+          const data = formData?.informalConferenceRep?.name
+            ? forcedMigrations(formData)
+            : formData;
+
+          /** Update dynamic data:
+           * user changed address, phone, email
+           * user changed benefit type
+           * changes to contestable issues (from a backend update)
+           */
           setFormData({
-            ...formData,
-            hlrV2,
+            ...data,
             veteran: {
               ...veteran,
               address: mailingAddress,
@@ -79,17 +93,18 @@ export const Form0996App = ({
             contestedIssues: processContestableIssues(
               contestableIssues?.issues,
             ),
-            legacyCount: contestableIssues?.legacyCount || 0,
+            legacyCount: contestableIssues?.legacyCount,
           });
         } else if (
-          formData.hlrV2 && // easier to test formData.hlrV2 with SiP menu
-          (areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
-            !areaOfDisagreement.every(
-              (entry, index) =>
-                getIssueNameAndDate(entry) ===
-                getIssueNameAndDate(formData.areaOfDisagreement[index]),
-            ))
+          areaOfDisagreement?.length !== formData.areaOfDisagreement?.length ||
+          !areaOfDisagreement.every(
+            (entry, index) =>
+              getIssueNameAndDate(entry) ===
+              getIssueNameAndDate(formData.areaOfDisagreement[index]),
+          )
         ) {
+          // Area of Disagreement is created by combining the loaded contestable
+          // issues with the Veteran-added additional issues
           setFormData({
             ...formData,
             // save existing settings
@@ -108,7 +123,6 @@ export const Form0996App = ({
       mailingAddress,
       formData,
       setFormData,
-      hlrV2,
       contestableIssues,
       isLoadingIssues,
       getContestableIssues,
@@ -161,12 +175,10 @@ Form0996App.propTypes = {
     additionalIssues: PropTypes.array,
     areaOfDisagreement: PropTypes.array,
     benefitType: PropTypes.string,
-    contestedIssues: PropTypes.array, // v1
-    contestableIssues: PropTypes.array, // v2
-    hlrV2: PropTypes.bool,
+    contestedIssues: PropTypes.array,
     legacyCount: PropTypes.number,
+    informalConferenceRep: PropTypes.shape({}),
   }),
-  hlrV2: PropTypes.bool,
   legacyCount: PropTypes.number,
   location: PropTypes.shape({
     pathname: PropTypes.string,
@@ -186,7 +198,6 @@ const mapStateToProps = state => ({
   formData: state.form?.data || {},
   profile: selectProfile(state) || {},
   savedForms: state.user?.profile?.savedForms || [],
-  hlrV2: state.featureToggles?.hlrV2,
   contestableIssues: state.contestableIssues || {},
   legacyCount: state.legacyCount || 0,
 });

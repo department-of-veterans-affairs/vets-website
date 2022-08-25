@@ -148,6 +148,26 @@ describe('check-in', () => {
         'Check in now',
       );
     });
+    it('should render the check in button for appointments with ELIGIBLE status in an earlier timezone', () => {
+      MockDate.set('2018-01-01T13:25:00-04:00');
+      const action = render(
+        <Provider store={store}>
+          <I18nextProvider i18n={i18n}>
+            <AppointmentAction
+              appointment={{
+                checkInWindowEnd: '2018-01-01T12:45:00.106-05:00',
+                eligibility: ELIGIBILITY.ELIGIBLE,
+              }}
+            />
+          </I18nextProvider>
+        </Provider>,
+      );
+
+      expect(action.getByTestId('check-in-button')).to.exist;
+      expect(action.getByTestId('check-in-button')).to.have.text(
+        'Check in now',
+      );
+    });
 
     it('should render the bad status message for appointments with ELIGIBLE status that expire in the next 10 seconds', () => {
       MockDate.set('2018-01-01T12:14:51-04:00');

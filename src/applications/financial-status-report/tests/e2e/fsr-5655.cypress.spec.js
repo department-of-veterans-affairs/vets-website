@@ -114,6 +114,17 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'recreational-vehicle-records': ({ afterHook }) => {
+        afterHook(() => {
+          cy.findByLabelText(/Type of vehicle/)
+            .type('Boat')
+            .type('{downarrow}{enter}');
+          cy.findByLabelText(/Estimated value/)
+            .type('2500')
+            .type('{downarrow}{enter}');
+          cy.get('.usa-button-primary').click();
+        });
+      },
       'resolution-options': ({ afterHook }) => {
         afterHook(() => {
           cy.get('[type="radio"][value="Compromise"]').click();
@@ -123,7 +134,11 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="veteran-signature"]`).type('Mark Webb');
+          cy.get('#veteran-signature')
+            .shadow()
+            .find('input')
+            .first()
+            .type('Mark Webb');
           cy.get(`input[name="veteran-certify"]`).check();
           cy.get(`input[name="privacy-policy"]`).check();
           cy.findAllByText(/Submit your request/i, {

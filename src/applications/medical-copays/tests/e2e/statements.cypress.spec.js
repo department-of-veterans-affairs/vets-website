@@ -33,7 +33,7 @@ describe('Medical Copays', () => {
     cy.axeCheck();
   });
 
-  it.skip('displays other va debts', () => {
+  it('displays other va debts', () => {
     cy.findByTestId('other-va-debt-body').should('exist');
     cy.axeCheck();
   });
@@ -59,7 +59,7 @@ describe('Medical Copays', () => {
     cy.axeCheck();
   });
 
-  it.skip('displays view statements section - C12578', () => {
+  it('displays view statements section - C12578', () => {
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
@@ -68,7 +68,7 @@ describe('Medical Copays', () => {
     cy.axeCheck();
   });
 
-  it.skip('navigates to view statements page - C12579', () => {
+  it('navigates to view statements page - C12579', () => {
     // get to page
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
@@ -83,7 +83,7 @@ describe('Medical Copays', () => {
     cy.axeCheck();
   });
 
-  it.skip('displays account summary - C12580', () => {
+  it('displays account summary - C12580', () => {
     // get to page
     cy.findByTestId('overview-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();

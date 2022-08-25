@@ -284,7 +284,10 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
 
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
-      reason: 'Routine Follow-up',
+      reasonCode: {
+        coding: [{ code: 'Routine Follow-up' }],
+        text: 'A message from the patient',
+      },
       requestedPeriods: [
         {
           start: moment(startDate)
@@ -346,7 +349,10 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
       id: '1234',
       practitioners: [{ id: [{ value: '123' }] }],
       preferredTimesForPhoneCall: ['Morning'],
-      reason: 'Routine Follow-up',
+      reasonCode: {
+        coding: [{ code: 'Routine Follow-up' }],
+        text: 'A message from the patient',
+      },
       requestedPeriods: [
         {
           start: moment(startDate)
@@ -437,7 +443,10 @@ describe('VAOS <RequestedAppointmentsList> with the VAOS service', () => {
 
       id: '1234',
       preferredTimesForPhoneCall: ['Morning'],
-      reason: 'Routine Follow-up',
+      reasonCode: {
+        coding: [{ code: 'Routine Follow-up' }],
+        text: 'A message from the patient',
+      },
       requestedPeriods: [
         {
           start: moment(startDate)

@@ -1,13 +1,13 @@
 // Node modules.
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
+import { VaDate } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
 import {
-  dayOptions,
   deriveDefaultSelectedOption,
+  deriveStartsAtUnix,
   filterByOptions,
-  monthOptions,
 } from '../../helpers';
 
 export const Search = ({ onSearch }) => {
@@ -17,6 +17,14 @@ export const Search = ({ onSearch }) => {
   // Derive the default selected option.
   const defaultSelectedOption = deriveDefaultSelectedOption();
 
+  const getFullDate = (day, month, year) => {
+    if (!day || !month || !year) {
+      return false;
+    }
+
+    return `${year}-${month}-${day}`;
+  };
+
   // Derive the state.
   const [selectedOption, setSelectedOption] = useState(defaultSelectedOption);
   const [startDateMonth, setStartDateMonth] = useState(
@@ -25,18 +33,75 @@ export const Search = ({ onSearch }) => {
   const [startDateDay, setStartDateDay] = useState(
     queryParams.get('startDateDay') || '',
   );
+  const [startDateYear, setStartDateYear] = useState(
+    queryParams.get('startDateYear') || '',
+  );
   const [endDateMonth, setEndDateMonth] = useState(
     queryParams.get('endDateMonth') || '',
   );
   const [endDateDay, setEndDateDay] = useState(
     queryParams.get('endDateDay') || '',
   );
+  const [endDateYear, setEndDateYear] = useState(
+    queryParams.get('endDateYear') || '',
+  );
+
+  const [startDateFull, setStartDateFull] = useState(
+    getFullDate(startDateDay, startDateMonth, startDateYear),
+  );
+
+  const [endDateFull, setEndDateFull] = useState(
+    getFullDate(endDateDay, endDateMonth, endDateYear),
+  );
 
   // Derive errors state.
   const [startDateMonthError, setStartDateMonthError] = useState(false);
   const [startDateDayError, setStartDateDayError] = useState(false);
+  const [startDateYearError, setStartDateYearError] = useState(false);
   const [endDateMonthError, setEndDateMonthError] = useState(false);
   const [endDateDayError, setEndDateDayError] = useState(false);
+  const [endDateYearError, setEndDateYearError] = useState(false);
+  const [fullDateError, setFullDateError] = useState(false);
+
+  const updatefullDateValue = (dateVal, position) => {
+    const isInvalidDateRange = dateCheck => {
+      const enoughCharacters = dateCheck.split('').length === 10;
+      const enoughFields = dateCheck.split('-').length === 3;
+
+      return !enoughCharacters || !enoughFields;
+    };
+
+    if (!dateVal || isInvalidDateRange(dateVal)) {
+      return null;
+    }
+
+    const fields = dateVal.split('-');
+
+    if (position === 'start') {
+      setStartDateYear(fields[0]);
+      setStartDateMonth(fields[1]);
+      setStartDateDay(fields[2]);
+    } else {
+      setEndDateYear(fields[0]);
+      setEndDateMonth(fields[1]);
+      setEndDateDay(fields[2]);
+    }
+
+    return null;
+  };
+
+  useEffect(() => {
+    setStartDateFull(getFullDate(startDateDay, startDateMonth, startDateYear));
+    setEndDateFull(getFullDate(endDateDay, endDateMonth, endDateYear));
+  }, []);
+
+  useEffect(
+    () => {
+      updatefullDateValue(startDateFull, 'start');
+      updatefullDateValue(endDateFull, 'end');
+    },
+    [selectedOption, startDateFull, endDateFull],
+  );
 
   const onFilterByChange = event => {
     const filterByOption = filterByOptions?.find(
@@ -51,12 +116,17 @@ export const Search = ({ onSearch }) => {
     // Reset fields.
     setStartDateMonth('');
     setStartDateDay('');
+    setStartDateYear('');
     setEndDateMonth('');
     setEndDateDay('');
+    setEndDateYear('');
     setStartDateMonthError(false);
     setStartDateDayError(false);
+    setStartDateYearError(false);
     setEndDateMonthError(false);
     setEndDateDayError(false);
+    setEndDateYearError(false);
+    setFullDateError(false);
 
     // Update the selected option.
     setSelectedOption(filterByOption);
@@ -72,9 +142,10 @@ export const Search = ({ onSearch }) => {
       filterList = {
         startDateMonth,
         startDateDay,
+        startDateYear,
       };
 
-      if (!startDateMonth || !startDateDay) {
+      if (!startDateMonth || !startDateDay || !startDateYear) {
         recordEvent({
           event: 'events-apply-filter-failed',
           'filter-by': selectedOption?.value,
@@ -82,6 +153,7 @@ export const Search = ({ onSearch }) => {
         });
         setStartDateMonthError(!startDateMonth);
         setStartDateDayError(!startDateDay);
+        setStartDateYearError(!startDateYear);
         return;
       }
     }
@@ -91,20 +163,50 @@ export const Search = ({ onSearch }) => {
       filterList = {
         startDateMonth,
         startDateDay,
+        startDateYear,
         endDateMonth,
         endDateDay,
+        endDateYear,
       };
 
-      if (!startDateMonth || !startDateDay || !endDateMonth || !endDateDay) {
+      const startDate = deriveStartsAtUnix(
+        startDateMonth,
+        startDateDay,
+        startDateYear,
+      );
+      const endDate = deriveStartsAtUnix(endDateMonth, endDateDay, endDateYear);
+
+      if (
+        !startDateMonth ||
+        !startDateDay ||
+        !startDateYear ||
+        !endDateMonth ||
+        !endDateDay ||
+        !endDateYear
+      ) {
         recordEvent({
           event: 'events-apply-filter-failed',
           'filter-by': selectedOption?.value,
           'filters-list': filterList,
         });
+
         setStartDateMonthError(!startDateMonth);
         setStartDateDayError(!startDateDay);
+        setStartDateYearError(!startDateYear);
         setEndDateMonthError(!endDateMonth);
         setEndDateDayError(!endDateDay);
+        setEndDateYearError(!endDateYear);
+        return;
+      }
+
+      if (startDate > endDate) {
+        recordEvent({
+          event: 'events-impossible-date-range',
+          'filter-by': selectedOption?.value,
+          'filters-list': filterList,
+        });
+
+        setFullDateError(true);
         return;
       }
     }
@@ -116,11 +218,14 @@ export const Search = ({ onSearch }) => {
       'filters-list': filterList,
     });
 
-    onSearch(event);
+    onSearch({ ...event, filterList });
     setStartDateMonthError(false);
     setStartDateDayError(false);
+    setStartDateYearError(false);
     setEndDateMonthError(false);
     setEndDateDayError(false);
+    setEndDateYearError(false);
+    setFullDateError(false);
   };
 
   return (
@@ -162,84 +267,18 @@ export const Search = ({ onSearch }) => {
       {selectedOption?.value === 'specific-date' && (
         <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-position--relative">
           {/* Left error bar */}
-          {(startDateMonthError || startDateDayError) && (
+          {(startDateMonthError || startDateDayError || startDateYearError) && (
             <div className="form-left-error-bar" />
           )}
 
-          <fieldset>
-            <legend
-              className="vads-u-margin--0 vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--2"
-              htmlFor="startDateMonth"
-            >
-              Please tell us a date{' '}
-              <span className="vads-u-color--secondary">(*Required)</span>
-            </legend>
-
-            {(startDateMonthError || startDateDayError) && (
-              <p
-                className="vads-u-color--secondary vads-u-margin--0 vads-u-font-weight--bold vads-u-margin-top--1"
-                role="alert"
-              >
-                <span className="sr-only">Error</span> Please provide a valid
-                date
-              </p>
-            )}
-
-            <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-bottom--1 vads-u-margin-top--0">
-              {/* Month */}
-              <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-flex--1 events-date-select vads-u-margin-top--1">
-                <label className="vads-u-margin--0" htmlFor="startDateMonth">
-                  Month
-                </label>
-                <select
-                  className={
-                    startDateMonthError
-                      ? 'vads-u-border-color--secondary vads-u-border--3px vads-u-padding-y--2'
-                      : 'vads-u-padding-y--1'
-                  }
-                  id="startDateMonth"
-                  name="startDateMonth"
-                  onChange={event => setStartDateMonth(event.target.value)}
-                  value={startDateMonth}
-                >
-                  {monthOptions?.map(option => (
-                    <option key={option?.value} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Day */}
-              <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-flex--1 events-date-select vads-u-margin-left--1 vads-u-margin-top--1">
-                <label
-                  className="vads-u-margin--0"
-                  htmlFor="startDateDay"
-                  id="startDateDayLabel"
-                >
-                  Day
-                </label>
-                <select
-                  className={
-                    startDateDayError
-                      ? 'vads-u-border-color--secondary vads-u-border--3px vads-u-padding-y--1'
-                      : 'vads-u-padding-y--1'
-                  }
-                  id="startDateDay"
-                  aria-labelledby="startDateDayLabel"
-                  name="startDateDay"
-                  onChange={event => setStartDateDay(event.target.value)}
-                  value={startDateDay}
-                >
-                  {dayOptions?.map(option => (
-                    <option key={option?.value} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </fieldset>
+          <VaDate
+            label="Please tell us a date"
+            id="startDate"
+            name="startDate"
+            value={startDateFull}
+            required
+            onDateChange={e => setStartDateFull(e.target.value)}
+          />
         </div>
       )}
 
@@ -251,167 +290,36 @@ export const Search = ({ onSearch }) => {
           {/* Left error bar */}
           {(startDateMonthError ||
             startDateDayError ||
+            startDateYearError ||
             endDateMonthError ||
-            endDateDayError) && <div className="form-left-error-bar" />}
+            endDateDayError ||
+            endDateYearError ||
+            fullDateError) && <div className="form-left-error-bar" />}
 
-          <fieldset>
-            {/* Start date */}
-            <legend
-              className="vads-u-margin--0 vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--2"
-              htmlFor="startDateMonth"
-            >
-              Please tell us a start date{' '}
-              <span className="vads-u-color--secondary">(*Required)</span>
-            </legend>
+          {fullDateError && (
+            <p className="va-c-range-error-message">
+              Please select an end date that comes after the start date.
+            </p>
+          )}
 
-            {(startDateMonthError || startDateDayError) && (
-              <p
-                className="vads-u-color--secondary vads-u-margin--0 vads-u-font-weight--bold vads-u-margin-top--1"
-                role="alert"
-              >
-                <span className="sr-only">Error</span> Please provide a valid
-                start date
-              </p>
-            )}
-            <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--1 vads-u-margin-bottom--2">
-              {/* Start date | Month */}
-              <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-flex--2 events-date-select">
-                <label
-                  className="vads-u-margin--0"
-                  htmlFor="startDateMonth"
-                  id="startDateMonthLabel"
-                >
-                  Month
-                </label>
-                <select
-                  className={
-                    startDateMonthError
-                      ? 'vads-u-border-color--secondary vads-u-border--3px vads-u-padding-y--1'
-                      : 'vads-u-padding-y--1'
-                  }
-                  id="startDateMonth"
-                  name="startDateMonth"
-                  aria-labelledby="startDateMonthLabel"
-                  onChange={event => setStartDateMonth(event.target.value)}
-                  value={startDateMonth}
-                >
-                  {monthOptions?.map(option => (
-                    <option key={option?.value} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
+          <VaDate
+            label="Please tell us a start date"
+            id="startDate"
+            name="startDate"
+            value={startDateFull}
+            required
+            onDateChange={e => setStartDateFull(e.target.value)}
+          />
 
-              {/* Start date | Day */}
-              <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-left--1 vads-u-flex--1 events-date-select">
-                <label
-                  className="vads-u-margin--0"
-                  htmlFor="startDateDay"
-                  id="startDateDayLabel"
-                >
-                  Day
-                </label>
-                <select
-                  className={
-                    startDateDayError
-                      ? 'vads-u-border-color--secondary vads-u-border--3px vads-u-padding-y--1'
-                      : 'vads-u-padding-y--1'
-                  }
-                  id="startDateDay"
-                  name="startDateDay"
-                  aria-labelledby="startDateDayLabel"
-                  onChange={event => setStartDateDay(event.target.value)}
-                  value={startDateDay}
-                >
-                  {dayOptions?.map(option => (
-                    <option key={option?.value} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </fieldset>
-          {/* End date */}
-          <fieldset>
-            <legend
-              className="vads-u-margin--0 vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--2"
-              htmlFor="startDateMonth"
-            >
-              Please tell us an end date{' '}
-              <span className="vads-u-color--secondary">(*Required)</span>
-            </legend>
-
-            {(endDateMonthError || endDateDayError) && (
-              <p
-                className="vads-u-color--secondary vads-u-margin--0 vads-u-font-weight--bold vads-u-margin-top--1"
-                role="alert"
-              >
-                <span className="sr-only">Error</span> Please provide a valid
-                end date
-              </p>
-            )}
-            <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--1 vads-u-margin-bottom--2">
-              {/* End date | Month */}
-              <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-flex--2 events-date-select">
-                <label
-                  className="vads-u-margin--0"
-                  htmlFor="endDateMonth"
-                  id="endDateMonthLabel"
-                >
-                  Month
-                </label>
-                <select
-                  className={
-                    endDateMonthError
-                      ? 'vads-u-border-color--secondary vads-u-border--3px vads-u-padding-y--1'
-                      : 'vads-u-padding-y--1'
-                  }
-                  id="endDateMonth"
-                  name="endDateMonth"
-                  aria-labelledby="endDateMonthLabel"
-                  onChange={event => setEndDateMonth(event.target.value)}
-                  value={endDateMonth}
-                >
-                  {monthOptions?.map(option => (
-                    <option key={option?.value} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* End date | Day */}
-              <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-left--1 vads-u-flex--1 events-date-select">
-                <label
-                  className="vads-u-margin--0"
-                  htmlFor="endDateDay"
-                  id="endDateDayLabel"
-                >
-                  Day
-                </label>
-                <select
-                  className={
-                    endDateDayError
-                      ? 'vads-u-border-color--secondary vads-u-border--3px vads-u-padding-y--1'
-                      : 'vads-u-padding-y--1'
-                  }
-                  id="endDateDay"
-                  name="endDateDay"
-                  aria-labelledby="endDateDayLabel"
-                  onChange={event => setEndDateDay(event.target.value)}
-                  value={endDateDay}
-                >
-                  {dayOptions?.map(option => (
-                    <option key={option?.value} value={option?.value}>
-                      {option?.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </fieldset>
+          <VaDate
+            label="Please tell us an end date"
+            id="endDate"
+            name="endDate"
+            value={endDateFull}
+            required
+            onDateBlur={function noRefCheck() {}}
+            onDateChange={e => setEndDateFull(e.target.value)}
+          />
         </div>
       )}
 

@@ -17,7 +17,7 @@ export const formStartButton = ({
   return (
     <a
       href={`${DISABILITY_526_V2_ROOT_URL}/introduction`}
-      className="usa-button-primary va-button-primary"
+      className="vads-c-action-link--green"
       onClick={() => {
         setWizardStatus(WIZARD_STATUS_COMPLETE);
         recordEvent({

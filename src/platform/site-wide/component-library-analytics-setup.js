@@ -62,13 +62,6 @@ const analyticsEvents = {
       prefix: 'loading-indicator',
     },
   ],
-  PromoBanner: [
-    {
-      action: 'linkClick',
-      event: 'nav-promo-banner-link-click',
-      prefix: 'promo-banner',
-    },
-  ],
   RadioButtons: [
     {
       action: 'change',
@@ -157,6 +150,20 @@ const analyticsEvents = {
       action: 'displayed',
       event: 'loading-indicator-displayed',
       prefix: 'loading-indicator',
+    },
+  ],
+  'va-modal': [
+    {
+      action: 'show',
+      event: 'int-modal-show',
+      prefix: 'modal',
+    },
+  ],
+  'va-promo-banner': [
+    {
+      action: 'linkClick',
+      event: 'nav-promo-banner-link-click',
+      prefix: 'promo-banner',
     },
   ],
   'va-radio': [

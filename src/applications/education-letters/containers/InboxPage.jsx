@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { apiRequest } from 'platform/utilities/api';
-import { format } from 'date-fns';
+import { format, addDays } from 'date-fns';
 import { FETCH_CLAIM_STATUS } from '../actions';
 import Layout from '../components/Layout';
 
@@ -11,18 +11,21 @@ const InboxPage = () => {
   const [receivedDate, setReceivedDate] = useState(null);
   const [LTSIsDown, setLTSIsDown] = useState(false);
 
+  const formatDayInDate = response => {
+    const newDate = addDays(
+      new Date(response?.data?.attributes?.receivedDate),
+      1,
+    );
+    return format(newDate, 'MMMM d, yyyy');
+  };
+
   useEffect(
     () => {
       const checkIfClaimantHasLetters = async () =>
         apiRequest(FETCH_CLAIM_STATUS)
           .then(response => {
             setClaimStatus(response?.data?.attributes?.claimStatus);
-            setReceivedDate(
-              format(
-                new Date(response?.data?.attributes?.receivedDate),
-                'MMMM d, yyyy',
-              ),
-            );
+            setReceivedDate(formatDayInDate(response));
             setLoading(false);
             return response?.data?.attributes?.claimantId;
           })
@@ -150,12 +153,10 @@ const InboxPage = () => {
     if (LTSIsDown) {
       return (
         <va-banner
-          headline="There was an error in accessing your decision letters"
+          headline="There was an error in accessing your decision letters. We’re sorry we couldn’t display your letters.  Please try again later."
           type="error"
           visible
-        >
-          We’re sorry we couldn’t display your letters. Please try again later
-        </va-banner>
+        />
       );
     }
 
@@ -180,7 +181,7 @@ const InboxPage = () => {
     <Layout
       clsName="inbox-page"
       breadCrumbs={{
-        href: '/education/education-letters/preview',
+        href: '/education/download-letters/letters',
         text: 'Your VA education letter',
       }}
     >

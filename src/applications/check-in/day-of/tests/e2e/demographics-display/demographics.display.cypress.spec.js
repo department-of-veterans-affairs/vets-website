@@ -30,7 +30,7 @@ describe('Check In Experience', () => {
     });
     it('demographics display', () => {
       Demographics.validateSubTitle();
-      Demographics.validateDemographicsFields('.confirmable-page dl');
+      Demographics.validateDemographicsFields('.confirmable-page ul');
       cy.injectAxeThenAxeCheck();
     });
   });

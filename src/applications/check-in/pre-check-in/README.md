@@ -91,14 +91,14 @@ Though we have the HOC, its now considered best practice to query redux using th
 
 - `check_in_experience_pre_check_in_enabled` : Enables or disabled the whole app on va.gov
   - when to sunset: never;
-- `check_in_experience_editing_pre_check_in_enabled` : Enables or disabled editing the demographics information on the pre-check-in experience
-  - when to sunset: once we have successfully tested this feature in production with users
 - `check_in_experience_translation_pre_check_in_enabled` : Enables or disables translation
   - when to sunset: once we have successfully tested this feature in production with users
+- `check_in_experience_translation_disclaimer_spanish_enabled` : Enables or disables the mixed language disclaimer (there may be some untranslated content) for spanish pages of the site
+  - when to sunset: when we are in a situation where new content is not added to the site until it is translated into spanish
 - `check_in_experience_lorota_security_updates_enabled` : Enables or disables DOB log in instead of last 4 of SSN
   - when to sunset: once we have successfully tested this feature in production with users and the backend has fully switched over
-- `check_in_experience_edit_messaging_enabled` : Enables or disables edit messaging.
-  - when to sunset: once we have successfully tested this feature in production with users and the backend has fully switched over
+- `check_in_experience_phone_appointments_enabled` : Enables or disables telephone appointments as an alternate type to in-person
+  - when to sunset: once we have successfully tested this feature in production with users
 
 ### How to test this?
 

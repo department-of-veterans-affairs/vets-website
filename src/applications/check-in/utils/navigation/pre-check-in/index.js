@@ -45,7 +45,7 @@ const createForm = () => {
 const updateForm = patientDemographicsStatus => {
   const pages = PRE_CHECK_IN_FORM_PAGES.map(page => page.url);
 
-  return updateFormPages(patientDemographicsStatus, false, pages, URLS);
+  return updateFormPages(patientDemographicsStatus, pages, URLS);
 };
 
 export {

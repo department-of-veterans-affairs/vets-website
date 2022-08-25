@@ -15,7 +15,6 @@ describe('HLR conference times page', () => {
     schema,
     uiSchema,
   } = formConfig.chapters.informalConference.pages.conferenceTime;
-  const v2 = { hlrV2: true };
 
   it('should render', () => {
     const form = mount(
@@ -23,8 +22,8 @@ describe('HLR conference times page', () => {
         definitions={{}}
         schema={schema}
         uiSchema={uiSchema}
-        data={v2}
-        formData={v2}
+        data={{}}
+        formData={{}}
       />,
     );
 
@@ -39,8 +38,8 @@ describe('HLR conference times page', () => {
         definitions={{}}
         schema={schema}
         uiSchema={uiSchema}
-        data={v2}
-        formData={v2}
+        data={{}}
+        formData={{}}
         onSubmit={onSubmit}
       />,
     );
@@ -60,8 +59,8 @@ describe('HLR conference times page', () => {
         definitions={{}}
         schema={schema}
         uiSchema={uiSchema}
-        data={v2}
-        formData={v2}
+        data={{}}
+        formData={{}}
         onSubmit={onSubmit}
       />,
     );

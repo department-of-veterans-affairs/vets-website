@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import set from '../../../../utilities/data/set';
 import classNames from 'classnames';
 import Scroll from 'react-scroll';
 
@@ -11,12 +10,17 @@ import {
 } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import scrollTo from 'platform/utilities/ui/scrollTo';
-import { scrollToFirstError } from '../utilities/ui';
+import set from 'platform/utilities/data/set';
+import {
+  scrollToFirstError,
+  focusElement,
+  getFocusableElements,
+} from '../utilities/ui';
 import { setArrayRecordTouched } from '../helpers';
 import { errorSchemaIsValid } from '../validation';
 import { getScrollOptions, isReactComponent } from '../../../../utilities/ui';
 
-const Element = Scroll.Element;
+const { Element } = Scroll;
 
 /* Non-review growable table (array) field */
 export default class ArrayField extends React.Component {
@@ -52,6 +56,9 @@ export default class ArrayField extends React.Component {
     this.handleRemove = this.handleRemove.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
     this.scrollToRow = this.scrollToRow.bind(this);
+    this.focusOnFirstFocusableElement = this.focusOnFirstFocusableElement.bind(
+      this,
+    );
   }
 
   // This fills in an empty item in the array if it has minItems set
@@ -77,56 +84,29 @@ export default class ArrayField extends React.Component {
     return !deepEquals(this.props, nextProps) || nextState !== this.state;
   }
 
-  onItemChange(indexToChange, value) {
-    const newItems = set(indexToChange, value, this.props.formData || []);
-    this.props.onChange(newItems);
-  }
-
-  getItemSchema(index) {
-    const schema = this.props.schema;
-    if (schema.items.length > index) {
-      return schema.items[index];
-    }
-
-    return schema.additionalItems;
-  }
-
-  scrollToTop() {
-    setTimeout(() => {
-      scrollTo(
-        `topOfTable_${this.props.idSchema.$id}`,
-        window.Forms?.scroll || getScrollOptions({ offset: -60 }),
-      );
-    }, 100);
-  }
-
-  scrollToRow(id) {
-    if (!this.props.uiSchema['ui:options'].doNotScroll) {
-      setTimeout(() => {
-        scrollTo(
-          `table_${id}`,
-          window.Forms?.scroll || getScrollOptions({ offset: 0 }),
-        );
-      }, 100);
-    }
-  }
-
-  /*
+  /**
    * Clicking edit on an item that’s not last and so is in view mode
+   * @param {number} index - The index of the item to edit
+   * @param {boolean} status - The editing status of the item to edit
    */
   handleEdit(index, status = true) {
     this.setState(set(['editing', index], status, this.state), () => {
       this.scrollToRow(`${this.props.idSchema.$id}_${index}`);
+      this.focusOnFirstFocusableElement(index);
     });
   }
 
-  /*
+  /**
    * Clicking Update on an item that’s not last and is in edit mode
+   * @param {number} index - The index of the item to update
    */
   handleUpdate(index) {
+    const id = this.props.name;
+
     if (errorSchemaIsValid(this.props.errorSchema[index])) {
       this.setState(set(['editing', index], false, this.state), () => {
         this.scrollToTop();
+        this.focusOnFirstFocusableElement(index, id);
       });
     } else {
       // Set all the fields for this item as touched, so we show errors
@@ -141,7 +121,9 @@ export default class ArrayField extends React.Component {
    * Clicking Add another
    */
   handleAdd() {
-    const lastIndex = this.props.formData.length - 1;
+    const numberOfItems = this.props.formData.length;
+    const lastIndex = numberOfItems - 1;
+
     if (errorSchemaIsValid(this.props.errorSchema[lastIndex])) {
       // When we add another, we want to change the editing state of the currently
       // last item, but not ones above it
@@ -163,6 +145,7 @@ export default class ArrayField extends React.Component {
         );
         this.props.onChange(newFormData);
         this.scrollToRow(`${this.props.idSchema.$id}_${lastIndex + 1}`);
+        this.focusOnFirstFocusableElement(numberOfItems);
       });
     } else {
       const touched = setArrayRecordTouched(this.props.idSchema.$id, lastIndex);
@@ -172,8 +155,9 @@ export default class ArrayField extends React.Component {
     }
   }
 
-  /*
+  /**
    * Clicking Remove on an item in edit mode
+   * @param {number} indexToRemove - The index of the item to remove
    */
   handleRemove(indexToRemove) {
     const newItems = this.props.formData.filter(
@@ -188,7 +172,80 @@ export default class ArrayField extends React.Component {
     this.props.onChange(newItems);
     this.setState(newState, () => {
       this.scrollToTop();
+      // Focus on "Add Another xyz" button after removing
+      focusElement('.va-growable-add-btn');
     });
+  }
+
+  /**
+   * onChange handler for the SchemaField
+   * @param {number} indexToChange - The index of the item to change
+   * @param {string} value - The value to set for the item
+   */
+  onItemChange(indexToChange, value) {
+    const newItems = set(indexToChange, value, this.props.formData || []);
+    this.props.onChange(newItems);
+  }
+
+  /**
+   * gets the item schema
+   * @param {number} index - The index of the item to get
+   */
+  getItemSchema(index) {
+    const { schema } = this.props;
+    if (schema.items.length > index) {
+      return schema.items[index];
+    }
+
+    return schema.additionalItems;
+  }
+
+  /**
+   * scrolls to the top of the item
+   */
+  scrollToTop() {
+    setTimeout(() => {
+      scrollTo(
+        `topOfTable_${this.props.idSchema.$id}`,
+        window.Forms?.scroll || getScrollOptions({ offset: -60 }),
+      );
+    }, 100);
+  }
+
+  /**
+   * scrolls to a particular scroller element
+   * @param {string} id - The ID of the item to scroll to
+   */
+  scrollToRow(id) {
+    if (!this.props.uiSchema['ui:options'].doNotScroll) {
+      setTimeout(() => {
+        scrollTo(
+          `table_${id}`,
+          window.Forms?.scroll || getScrollOptions({ offset: 0 }),
+        );
+      }, 100);
+    }
+  }
+
+  /**
+   * Finds all focusable elements within a wrapper element and focuses on the first one
+   * @param {string} id - The id of the the wrapper element
+   * @param {number} index - The index of the item to use to define the wrapper element
+   */
+  focusOnFirstFocusableElement(index, id = this.props.idSchema.$id) {
+    // Wait for new view to render before focusing on the first input field in that group
+    setTimeout(() => {
+      const wrapper = document.getElementById(`${id}_${index}`);
+
+      if (wrapper) {
+        const focusableElements = getFocusableElements(wrapper);
+        const firstFocusableElement = wrapper.querySelector(
+          focusableElements[0].tagName,
+        );
+
+        firstFocusableElement.focus();
+      }
+    }, 0);
   }
 
   render() {
@@ -204,7 +261,7 @@ export default class ArrayField extends React.Component {
       onBlur,
       schema,
     } = this.props;
-    const definitions = registry.definitions;
+    const { definitions } = registry;
     const { TitleField, SchemaField } = registry.fields;
 
     const uiOptions = uiSchema['ui:options'] || {};
@@ -259,7 +316,7 @@ export default class ArrayField extends React.Component {
               itemIdPrefix,
               definitions,
             );
-            const showSave = uiOptions.showSave;
+            const { showSave } = uiOptions;
             const updateText = showSave && index === 0 ? 'Save' : 'Update';
             const isLast = items.length === index + 1;
             const isEditing = this.state.editing[index];
@@ -275,6 +332,7 @@ export default class ArrayField extends React.Component {
               return (
                 <div
                   key={index}
+                  id={`${this.props.idSchema.$id}_${index}`}
                   className={
                     notLastOrMultipleRows ? 'va-growable-background' : null
                   }
@@ -283,7 +341,9 @@ export default class ArrayField extends React.Component {
                   <div className="row small-collapse">
                     <div className="small-12 columns va-growable-expanded">
                       {isLast && items.length > 1 ? (
-                        <h3 className="vads-u-font-size--h5">New {itemName}</h3>
+                        <h3 className="vads-u-font-size--h5">
+                          New {uiOptions.itemName}
+                        </h3>
                       ) : null}
                       <div className="input-section">
                         <SchemaField
@@ -337,7 +397,11 @@ export default class ArrayField extends React.Component {
               );
             }
             return (
-              <div key={index} className="va-growable-background editable-row">
+              <div
+                id={`${this.props.name}_${index}`}
+                key={index}
+                className="va-growable-background editable-row"
+              >
                 <div className="row small-collapse vads-u-display--flex vads-u-align-items--center">
                   <div className="vads-u-flex--fill">
                     <ViewField

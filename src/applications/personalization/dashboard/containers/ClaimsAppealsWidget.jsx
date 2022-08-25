@@ -2,8 +2,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import moment from 'moment';
 import React from 'react';
-
-import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import PropTypes from 'prop-types';
 import backendServices from 'platform/user/profile/constants/backendServices';
 import {
   appealTypes,
@@ -14,7 +13,7 @@ import {
 import {
   getAppealsV2,
   getClaimsV2,
-} from 'applications/claims-status/actions/index.jsx';
+} from 'applications/claims-status/actions/index';
 
 import AppealListItem from 'applications/claims-status/components/appeals-v2/AppealListItemV2';
 import ClaimsUnavailable from 'applications/claims-status/components/ClaimsUnavailable';
@@ -24,7 +23,6 @@ import ClaimsAppealsUnavailable from 'applications/claims-status/components/Clai
 import DowntimeNotification, {
   externalServices,
 } from 'platform/monitoring/DowntimeNotification';
-import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 
 import { recordDashboardClick } from '../helpers';
 import ClaimsListItem from '../components/ClaimsListItem';
@@ -96,23 +94,19 @@ class ClaimsAppealsWidget extends React.Component {
     if (downtime.status === 'down') {
       return (
         <div>
-          <AlertBox
-            content={
-              <div>
-                <h4 className="usa-alert-heading">
-                  {appName} is down for maintenance
-                </h4>
-                <p>
-                  We’re making some updates to our {appName.toLowerCase()} tool.
-                  We’re sorry it’s not working right now and hope to be finished
-                  by {downtime.startTime.format('MMMM Do')},{' '}
-                  {downtime.endTime.format('LT')}. Please check back soon.
-                </p>
-              </div>
-            }
-            isVisible
-            status="warning"
-          />
+          <va-alert isVisible status="warning">
+            <h4 className="usa-alert-heading">
+              {appName} is down for maintenance
+            </h4>
+            <div>
+              <p>
+                We’re making some updates to our {appName.toLowerCase()} tool.
+                We’re sorry it’s not working right now and hope to be finished
+                by {downtime.startTime.format('MMMM Do')},{' '}
+                {downtime.endTime.format('LT')}. Please check back soon.
+              </p>
+            </div>
+          </va-alert>
         </div>
       );
     }
@@ -135,14 +129,14 @@ class ClaimsAppealsWidget extends React.Component {
 
     if (bothRequestsLoading || (atLeastOneRequestLoading && emptyList)) {
       content = (
-        <LoadingIndicator message="Loading your claims and appeals..." />
+        <va-loading-indicator message="Loading your claims and appeals..." />
       );
     } else if (!emptyList) {
       content = (
         <div>
           <div className="claim-list">
             {atLeastOneRequestLoading && (
-              <LoadingIndicator message="Loading your claims and appeals..." />
+              <va-loading-indicator message="Loading your claims and appeals..." />
             )}
             {claimsAppealsList.map(claim => this.renderListItem(claim))}
           </div>
@@ -191,6 +185,20 @@ class ClaimsAppealsWidget extends React.Component {
     );
   }
 }
+
+ClaimsAppealsWidget.propTypes = {
+  appealsAvailable: PropTypes.bool.isRequired,
+  appealsLoading: PropTypes.bool.isRequired,
+  canAccessAppeals: PropTypes.bool.isRequired,
+  canAccessClaims: PropTypes.bool.isRequired,
+  claimsAvailable: PropTypes.string.isRequired,
+  claimsLoading: PropTypes.bool.isRequired,
+  fullName: PropTypes.string.isRequired,
+  getAppealsV2: PropTypes.func.isRequired,
+  getClaimsV2: PropTypes.func.isRequired,
+  claimsAppealsCount: PropTypes.number,
+  claimsAppealsList: PropTypes.arrayOf(PropTypes.object),
+};
 
 const mapStateToProps = state => {
   const claimsState = state.disability.status;

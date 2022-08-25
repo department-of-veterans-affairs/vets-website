@@ -2,7 +2,6 @@ import { DEFAULT_BENEFIT_TYPE } from '../constants';
 
 import {
   getRep,
-  getConferenceTimes,
   getConferenceTime, // v2
   addIncludedIssues,
   addAreaOfDisagreement,
@@ -11,13 +10,10 @@ import {
   getPhone,
   getTimeZone,
 } from '../utils/submit';
-import { apiVersion1 } from '../utils/helpers';
 
 export function transform(formConfig, form) {
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current
   const mainTransform = formData => {
-    let included;
-    const version1 = apiVersion1(formData);
     const informalConference = formData.informalConference !== 'no';
     const attributes = {
       // This value may empty if the user restarts the form; see
@@ -29,34 +25,25 @@ export function transform(formConfig, form) {
       veteran: {
         timezone: getTimeZone(),
         address: getAddress(formData),
+        homeless: formData.homeless,
+        phone: getPhone(formData),
+        email: formData.veteran?.email || '',
       },
+      socOptIn: formData.socOptIn,
     };
 
-    if (version1) {
-      attributes.sameOffice = formData.sameOffice || false;
-      included = addIncludedIssues(formData);
-    }
-    if (!version1) {
-      attributes.veteran.homeless = formData.homeless;
-      attributes.veteran.phone = getPhone(formData);
-      attributes.veteran.email = formData.veteran?.email || '';
-      attributes.socOptIn = formData.socOptIn;
-      included = addAreaOfDisagreement(addIncludedIssues(formData), formData);
-    }
+    const included = addAreaOfDisagreement(
+      addIncludedIssues(formData),
+      formData,
+    );
 
     // Add informal conference data
     if (informalConference) {
-      if (version1) {
-        attributes.informalConferenceTimes = getConferenceTimes(formData);
-      } else {
-        attributes.informalConferenceTime = getConferenceTime(formData);
-      }
+      attributes.informalConferenceTime = getConferenceTime(formData);
       if (formData.informalConference === 'rep') {
         attributes.informalConferenceRep = getRep(formData);
       }
-      if (!version1) {
-        attributes.informalConferenceContact = getContact(formData);
-      }
+      attributes.informalConferenceContact = getContact(formData);
     }
 
     return {

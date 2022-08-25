@@ -598,7 +598,9 @@ describe('actions/paymentInformation', () => {
           expect(gaObject['profile-section']).to.equal(
             'edu-direct-deposit-information',
           );
-          expect(gaObject['error-key']).to.equal('unknown-save-error');
+          expect(gaObject['error-key']).to.equal(
+            'Potential Fraud-save-error-api-response',
+          );
         });
       });
     });

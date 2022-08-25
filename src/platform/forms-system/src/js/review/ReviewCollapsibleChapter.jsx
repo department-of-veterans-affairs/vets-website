@@ -3,13 +3,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import uniqueId from 'lodash/uniqueId';
+import classNames from 'classnames';
+import { getScrollOptions } from 'platform/utilities/ui';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
-import classNames from 'classnames';
 
 import ProgressButton from '../components/ProgressButton';
-import { focusOnChange } from '../utilities/ui';
-import { getScrollOptions } from 'platform/utilities/ui';
+import { focusOnChange, getFocusableElements } from '../utilities/ui';
 import SchemaForm from '../components/SchemaForm';
 import { getArrayFields, getNonArraySchema, showReviewField } from '../helpers';
 import ArrayField from './ArrayField';
@@ -18,8 +18,8 @@ import { isValidForm } from '../validation';
 import { reduceErrors } from '../utilities/data/reduceErrors';
 import { setFormErrors } from '../actions';
 
-const Element = Scroll.Element;
-const scroller = Scroll.scroller;
+const { Element, scroller } = Scroll;
+const scrollOffset = -40;
 
 /*
  * Displays all the pages in a chapter on the review page
@@ -29,23 +29,10 @@ class ReviewCollapsibleChapter extends React.Component {
     super();
     this.handleEdit = this.handleEdit.bind(this);
   }
+
   /* eslint-disable-next-line camelcase */
   UNSAFE_componentWillMount() {
     this.id = uniqueId();
-  }
-
-  onChange(formData, path = null, index = null) {
-    let newData = formData;
-    if (path) {
-      newData = set([path, index], formData, this.props.form.data);
-    }
-    this.props.setData(newData);
-  }
-
-  focusOnPage(key) {
-    const name = `${key.replace(/:/g, '\\:')}`;
-    // legend & label target array type form elements
-    focusOnChange(name, 'p, legend, label');
   }
 
   handleEdit(key, editing, index = null) {
@@ -58,6 +45,14 @@ class ReviewCollapsibleChapter extends React.Component {
     }
   }
 
+  onChange(formData, path = null, index = null) {
+    let newData = formData;
+    if (path) {
+      newData = set([path, index], formData, this.props.form.data);
+    }
+    this.props.setData(newData);
+  }
+
   handleSubmit = (formData, key, path = null, index = null) => {
     // This makes sure defaulted data on a page with no changes is saved
     // Probably safe to do this for regular pages, too, but it hasn’t been necessary
@@ -68,10 +63,6 @@ class ReviewCollapsibleChapter extends React.Component {
 
     this.handleEdit(key, false, index);
   };
-
-  scrollToPage(key) {
-    scroller.scrollTo(`${key}ScrollElement`, getScrollOptions({ offset: -40 }));
-  }
 
   shouldHideExpandedPageTitle = (expandedPages, chapterTitle, pageTitle) =>
     expandedPages.length === 1 &&
@@ -195,7 +186,7 @@ class ReviewCollapsibleChapter extends React.Component {
           onChange={formData =>
             this.onChange(
               typeof page.updateFormData === 'function'
-                ? page.updateFormData(form.data, formData)
+                ? page.updateFormData(form.data, formData, page.index)
                 : formData,
               page.arrayPath,
               page.index,
@@ -245,7 +236,7 @@ class ReviewCollapsibleChapter extends React.Component {
               setData={formData =>
                 this.props.setData(
                   typeof page.updateFormData === 'function'
-                    ? page.updateFormData(form.data, formData)
+                    ? page.updateFormData(form.data, formData, page.index)
                     : formData,
                 )
               }
@@ -324,6 +315,36 @@ class ReviewCollapsibleChapter extends React.Component {
     );
   };
 
+  /**
+   * Focuses on the first focusable element
+   * @param {string} key - The specific page key used to find the element to focus on
+   */
+  focusOnPage = key => {
+    const name = `${key.replace(/:/g, '\\:')}`;
+    const scrollElement = document.querySelector(
+      `[name="${name}ScrollElement"]`,
+    );
+
+    if (scrollElement && scrollElement.parentElement) {
+      // Wait for edit view to render
+      setTimeout(() => {
+        const focusableElements = getFocusableElements(
+          scrollElement.parentElement,
+        );
+
+        // Sets focus on the first focusable element
+        focusOnChange(name, `[id="${focusableElements[0].id}"]`);
+      }, 0);
+    }
+  };
+
+  scrollToPage = key => {
+    scroller.scrollTo(
+      `${key}ScrollElement`,
+      getScrollOptions({ offset: scrollOffset }),
+    );
+  };
+
   render() {
     let pageContent = null;
 
@@ -361,17 +382,29 @@ class ReviewCollapsibleChapter extends React.Component {
                 aria-expanded={this.props.open ? 'true' : 'false'}
                 aria-controls={`collapsible-${this.id}`}
                 onClick={this.props.toggleButtonClicked}
+                id={`collapsibleButton${this.id}`}
+                type="button"
               >
                 {chapterTitle || ''}
               </button>
               {this.props.hasUnviewedPages && (
                 <span
-                  role="presentation"
-                  aria-hidden="true"
+                  aria-describedby={`collapsibleButton${this.id}`}
                   className="schemaform-review-chapter-warning-icon"
                 />
               )}
             </h3>
+            {this.props.hasUnviewedPages && (
+              <span
+                className="vads-u-color--secondary vads-u-border-left--10px vads-u-border-color--secondary vads-u-display--flex vads-u-padding-left--1p5 vads-u-align-items--center vads-u-font-weight--bold"
+                role="alert"
+                style={{ minHeight: '50px' }}
+                aria-describedby={`collapsibleButton${this.id}`}
+              >
+                <span className="sr-only">Error</span>
+                {chapterTitle} needs to be updated
+              </span>
+            )}
             <div id={`collapsible-${this.id}`}>{pageContent}</div>
           </li>
         </ul>

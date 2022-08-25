@@ -9,11 +9,10 @@ import {
 import {
   login,
   loginAppUrlRE,
-  logout,
+  logout as IAMLogout,
   createExternalApplicationUrl,
 } from 'platform/user/authentication/utilities';
 
-import { hasSessionSSO } from 'platform/user/profile/utilities';
 import mockKeepAlive from './mockKeepAliveSSO';
 import { keepAlive as liveKeepAlive } from './keepAliveSSO';
 import { getLoginAttempted } from './loginAttempted';
@@ -22,7 +21,9 @@ import localStorage from '../storage/localStorage';
 const keepAliveThreshold = 5 * 60 * 1000; // 5 minutes, in milliseconds
 
 function keepAlive() {
-  return environment.isLocalhost() ? mockKeepAlive() : liveKeepAlive();
+  return environment.isLocalhost() || window.Cypress
+    ? mockKeepAlive()
+    : liveKeepAlive();
 }
 
 export async function ssoKeepAliveSession() {
@@ -69,7 +70,7 @@ export async function checkAutoSession(
        * TTL: > 0 and < 900 = Session valid
        * TTL: undefined, can't verify SSOe status
        */
-      logout(API_VERSION, AUTH_EVENTS.SSO_LOGOUT, {
+      IAMLogout(API_VERSION, AUTH_EVENTS.SSO_LOGOUT, {
         'auto-logout': 'true',
       });
     } else if (transactionid && transactionid !== ssoeTransactionId) {
@@ -93,8 +94,9 @@ export async function checkAutoSession(
        * If user has an SSOe session & is verified, redirect them
        * to the specified return url
        */
-      window.location =
-        createExternalApplicationUrl() || window.location.origin;
+      window.location = encodeURI(
+        createExternalApplicationUrl() || window.location.origin,
+      );
     }
   } else if (
     !loggedIn &&
@@ -118,7 +120,7 @@ export async function checkAutoSession(
 }
 
 export function checkAndUpdateSSOeSession() {
-  if (hasSessionSSO()) {
+  if (JSON.parse(localStorage.getItem('hasSessionSSO'))) {
     const sessionExpiration = localStorage.getItem('sessionExpirationSSO');
 
     const remainingSessionTime = differenceInSeconds(

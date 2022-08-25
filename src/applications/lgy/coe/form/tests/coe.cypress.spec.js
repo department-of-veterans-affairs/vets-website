@@ -6,31 +6,54 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
 
+import mockUser from './fixtures/mocks/user.json';
+import mockStatus from './fixtures/mocks/status.json';
+import mockUpload from './fixtures/mocks/upload.json';
+
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
     // Rename and modify the test data as needed.
-    dataSets: ['test-data'],
+    dataSets: ['maximal-test', 'minimal-test'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
+      mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
 
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          cy.findAllByText(/start/i, { selector: 'button' })
+          cy.findAllByText(/request a certificate/i, { selector: 'a' })
             .last()
             .click();
+        });
+      },
+      'mailing-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+            // fillPage is not catching this state select, so we're doing it
+            // manually here
+            cy.get('select#root_applicantAddress_state').select(
+              data.applicantAddress.state,
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
         });
       },
     },
 
     setupPerTest: () => {
-      // Log in if the form requires an authenticated session.
       cy.server();
-      // cy.login();
+      // Log in if the form requires an authenticated session.
+      cy.login(mockUser);
+
+      cy.intercept('GET', '/v0/coe/status', mockStatus);
+      cy.intercept('GET', '/v0/in_progress_forms/26-1880', {});
+      cy.intercept('POST', '/v0/claim_attachments', mockUpload);
+
       cy.route('POST', formConfig.submitUrl, { status: 200 });
     },
 

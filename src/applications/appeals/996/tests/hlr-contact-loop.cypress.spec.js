@@ -29,18 +29,10 @@ describe('HLR contact info loop', () => {
     cy.intercept('GET', '/v0/feature_toggles?*', {
       data: {
         type: 'feature_toggles',
-        features: [
-          { name: 'loop_pages', value: true },
-          { name: 'hlrV2', value: true },
-        ],
+        features: [{ name: 'loop_pages', value: true }],
       },
     });
 
-    cy.intercept(
-      'GET',
-      `/v0${CONTESTABLE_ISSUES_API}compensation`,
-      mockContestableIssues,
-    );
     cy.intercept(
       'GET',
       `/v1${CONTESTABLE_ISSUES_API}compensation`,

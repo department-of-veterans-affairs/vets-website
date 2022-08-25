@@ -19,6 +19,7 @@
     "isMedicaidEligible": true,
     "isEnrolledMedicarePartA": true,
     "medicarePartAEffectiveDate": "2009-01-02",
+    "medicareClaimNumber": "7AD5WC9MW60",
     "deductibleMedicalExpenses": 234,
     "deductibleFuneralExpenses": 11,
     "deductibleEducationExpenses": 0,
@@ -78,7 +79,7 @@
       "spousePhone": "3424445555"
     },
     "discloseFinancialInformation": true,
-    "vaCompensationType": "highDisability",
+    "vaCompensationType": "lowDisability",
     "purpleHeartRecipient": true,
     "isFormerPow": true,
     "postNov111998Combat": true,

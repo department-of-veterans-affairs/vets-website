@@ -1,8 +1,6 @@
 import React from 'react';
-import moment from 'moment';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { VA_FORM_IDS } from 'platform/forms/constants';
 import { WIZARD_STATUS_COMPLETE } from 'platform/site-wide/wizard';
 
 import { IntroductionPage } from '../../containers/IntroductionPage';
@@ -19,10 +17,10 @@ const defaultProps = {
     profile: {
       // need to have a saved form or else form will redirect to v2
       savedForms: [
-        {
-          form: VA_FORM_IDS.FORM_20_0996,
-          metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
-        },
+        // {
+        //   form: VA_FORM_IDS.FORM_20_0996,
+        //   metadata: { lastUpdated: 3000, expiresAt: moment().unix() + 2000 },
+        // },
       ],
     },
   },
@@ -79,9 +77,7 @@ describe('IntroductionPage', () => {
     setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
     const tree = shallow(<IntroductionPage {...defaultProps} />);
 
-    const saveInProgressIntro = tree.find(
-      'withRouter(Connect(SaveInProgressIntro))',
-    );
+    const saveInProgressIntro = tree.find('Connect(SaveInProgressIntro)');
     expect(saveInProgressIntro.length).to.equal(2);
     expect(saveInProgressIntro.first().props().startText).to.contain(
       'Higher-Level Review',
@@ -102,29 +98,6 @@ describe('IntroductionPage', () => {
         },
       },
       delay: 0,
-    };
-
-    const tree = shallow(<IntroductionPage {...props} />);
-
-    const alert = tree.find('va-alert').first();
-    expect(alert.render().text()).to.include(errorMessage);
-    const recordedEvent = gaData[gaData.length - 1];
-    expect(recordedEvent.event).to.equal('visible-alert-box');
-    expect(recordedEvent['alert-box-heading']).to.include(errorMessage);
-    tree.unmount();
-  });
-  it('should render alert showing no contestable issues', () => {
-    setHlrWizardStatus(WIZARD_STATUS_COMPLETE);
-    const errorMessage = 'don’t have any issues on file for you';
-    const props = {
-      ...defaultProps,
-      contestableIssues: {
-        issues: [],
-        status: 'done',
-        error: '',
-      },
-      delay: 0,
-      loggedIn: true,
     };
 
     const tree = shallow(<IntroductionPage {...props} />);
@@ -165,7 +138,7 @@ describe('IntroductionPage', () => {
 
     const tree = shallow(<IntroductionPage {...props} />);
 
-    const Intro = tree.find('withRouter(Connect(SaveInProgressIntro))').first();
+    const Intro = tree.find('Connect(SaveInProgressIntro)').first();
     expect(Intro.props().startText).to.include(
       'Start the Request for a Higher-Level Review',
     );
@@ -183,7 +156,7 @@ describe('IntroductionPage', () => {
     };
 
     const tree = shallow(<IntroductionPage {...props} />);
-    const Intro = tree.find('withRouter(Connect(SaveInProgressIntro))').first();
+    const Intro = tree.find('Connect(SaveInProgressIntro)').first();
     expect(Intro.props().gaStartEventName).to.equal(
       `${formConfig.trackingPrefix}start-form`,
     );

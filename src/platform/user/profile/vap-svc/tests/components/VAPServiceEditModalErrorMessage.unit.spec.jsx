@@ -20,7 +20,7 @@ describe('<VAPServiceEditModalErrorMessage />', () => {
     const wrapper = mount(
       <VAPServiceEditModalErrorMessage error={invalidEmailError} />,
     );
-    expect(wrapper.find('div.va-profile-alert')).to.have.lengthOf(1);
+    expect(wrapper.find('va-alert')).to.have.lengthOf(1);
     expect(wrapper.html()).to.include(
       'It looks like the email you entered isn’t valid. Please enter your email address again.',
     );
@@ -41,7 +41,7 @@ describe('<VAPServiceEditModalErrorMessage />', () => {
     const wrapper = mount(
       <VAPServiceEditModalErrorMessage error={invalidPhoneError} />,
     );
-    expect(wrapper.find('div.va-profile-alert')).to.have.lengthOf(1);
+    expect(wrapper.find('va-alert')).to.have.lengthOf(1);
     expect(wrapper.html()).to.include(
       'currently only support U.S. area codes. Please provide a U.S.-based',
     );

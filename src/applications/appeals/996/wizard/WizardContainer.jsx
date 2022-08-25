@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -19,7 +18,7 @@ import {
   setHlrWizardStatus,
 } from './utils';
 
-export const WizardContainer = ({ setWizardStatus, hlrV2 }) => {
+export const WizardContainer = ({ setWizardStatus }) => {
   const { title, subTitle } = formConfig;
 
   useEffect(() => {
@@ -33,22 +32,17 @@ export const WizardContainer = ({ setWizardStatus, hlrV2 }) => {
     removeHlrWizardStatus();
   }
 
-  const getStarted = `Answer a ${
-    hlrV2 ? 'question' : 'few questions'
-  }  to get started.`;
-
   const wizard = (
     <>
       <FormTitle title={title} subTitle={subTitle} />
       <div className="wizard-container">
         <h2>Is this the form I need?</h2>
         <p>
-          Use this form if you disagree with VA’s decision on your claim and
-          want to request that a senior reviewer take a new look at your case
-          and the evidence you provided. You can’t submit any new evidence with
-          a Higher-Level Review.
+          Use this form if you disagree with our decision on your claim and want
+          a senior reviewer to review your case again. You can’t submit any new
+          evidence with a Higher-Level Review.
         </p>
-        <p>{getStarted}</p>
+        <p>Answer a question to get started.</p>
         <Wizard
           pages={pages}
           expander={false}
@@ -73,11 +67,7 @@ WizardContainer.defaultProps = {
 };
 
 WizardContainer.propTypes = {
-  setWizardStatus: PropTypes.func.isRequired,
+  setWizardStatus: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-  hlrV2: state.featureToggles.hlrV2,
-});
-
-export default connect(mapStateToProps)(WizardContainer);
+export default WizardContainer;

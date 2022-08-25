@@ -26,7 +26,7 @@ describe('Pre-Check In Experience ', () => {
     cy.visitPreCheckInWithUUID();
 
     // page: Validate
-    ValidateVeteran.validatePageLoaded();
+    ValidateVeteran.validatePage.preCheckIn();
     ValidateVeteran.validateVeteran();
     cy.injectAxeThenAxeCheck();
     ValidateVeteran.attemptToGoToNextPage();

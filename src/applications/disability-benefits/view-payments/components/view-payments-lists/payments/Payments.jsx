@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import Table from '@department-of-veterans-affairs/component-library/Table';
 import { chunk } from 'lodash';
 import PropTypes from 'prop-types';
-import { VaPagination } from 'web-components/react-bindings';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { clientServerErrorContent } from '../helpers';
 

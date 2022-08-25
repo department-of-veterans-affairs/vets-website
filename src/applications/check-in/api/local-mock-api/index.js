@@ -4,6 +4,7 @@ const delay = require('mocker-api/lib/delay');
 const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
 const checkInData = require('./mocks/v2/check-in-data/index');
 const preCheckInData = require('./mocks/v2/pre-check-in-data/index');
+const sharedData = require('./mocks/v2/shared/index');
 const sessions = require('./mocks/v2/sessions/index');
 
 const featureToggles = require('./mocks/v2/feature-toggles/index');
@@ -20,7 +21,6 @@ const responses = {
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     checkInExperienceEnabled: true,
     preCheckInEnabled: true,
-    checkInExperienceUpdateInformationPageEnabled: false,
   }),
   // v2
   'GET /check_in/v2/sessions/:uuid': (req, res) => {
@@ -57,9 +57,9 @@ const responses = {
     const { uuid } = req.params;
     if (hasBeenValidated) {
       hasBeenValidated = false;
-      return res.json(checkInData.get.createMultipleAppointments(uuid, 3));
+      return res.json(sharedData.get.createMultipleAppointments(uuid, 3));
     }
-    return res.json(checkInData.get.createMultipleAppointments(uuid));
+    return res.json(sharedData.get.createMultipleAppointments(uuid));
   },
   'POST /check_in/v2/patient_check_ins/': (req, res) => {
     const { uuid, appointmentIen, facilityId } =
@@ -82,9 +82,6 @@ const responses = {
         .json(preCheckInData.post.createMockFailedResponse());
     }
     return res.json(preCheckInData.post.createMockSuccessResponse({}));
-  },
-  'POST /check_in/v2/edit_demographics/': (req, res) => {
-    return res.json(checkInData.post.createMockEditSuccessResponse({}));
   },
   'PATCH /check_in/v2/demographics/:uuid': (req, res) => {
     const { uuid } = req.params;

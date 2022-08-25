@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
-import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 
 import BackToHome from '../../../components/BackToHome';
 import BackToAppointments from '../../../components/BackToAppointments';
-import Footer from '../../../components/Footer';
-import AppointmentLocation from '../../../components/AppointmentDisplay/AppointmentLocation';
+import Footer from '../../../components/layout/Footer';
 import TravelPayReimbursementLink from '../../../components/TravelPayReimbursementLink';
-import LanguagePicker from '../../../components/LanguagePicker';
+import Wrapper from '../../../components/layout/Wrapper';
+import AppointmentConfirmationListItem from '../../../components/AppointmentDisplay/AppointmentConfirmationListItem';
 
 const CheckInConfirmation = props => {
   const { appointments, selectedAppointment, triggerRefresh } = props;
@@ -19,48 +18,40 @@ const CheckInConfirmation = props => {
   const appointment = selectedAppointment;
   const appointmentDateTime = new Date(appointment.startTime);
 
-  useEffect(() => {
-    focusElement('h1');
-    scrollToTop('topScrollElement');
-  }, []);
+  useEffect(
+    () => {
+      scrollToTop('topScrollElement');
+      triggerRefresh();
+    },
+    [triggerRefresh],
+  );
+
+  const pageTitle = t('youre-checked-in', {
+    date: appointmentDateTime,
+  });
 
   return (
-    <div
-      className="vads-l-grid-container vads-u-padding-y--5"
-      data-testid="multiple-appointments-confirm"
-    >
-      <LanguagePicker />
-      <div>
-        <h1
-          tabIndex="-1"
-          aria-label={t('thank-you-for-checking-in')}
-          slot="headline"
-        >
-          {t('youre-checked-in-for-your-appointment', {
-            date: appointmentDateTime,
-          })}
-        </h1>
-        <p>
-          <Trans
-            i18nKey="well-come-get-you-from-the-waiting-room-when-its-time-for-your-appointment-to-start"
-            components={[
-              <AppointmentLocation
-                key="location"
-                appointment={appointment}
-                bold
-              />,
-            ]}
-          />
-        </p>
-      </div>
+    <Wrapper pageTitle={pageTitle} testID="multiple-appointments-confirm">
+      <p>{t('your-appointment')}</p>
+      <ol
+        className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
+        data-testid="appointment-list"
+      >
+        <AppointmentConfirmationListItem appointment={appointment} key={0} />
+      </ol>
+
+      <va-alert background-only show-icon data-testid="error-message">
+        <div>
+          {t(
+            'well-come-get-you-from-the-waiting-room-when-its-time-for-your-appointment-to-start',
+          )}
+        </div>
+      </va-alert>
       <TravelPayReimbursementLink />
-      <BackToAppointments
-        appointments={appointments}
-        triggerRefresh={triggerRefresh}
-      />
+      <BackToAppointments appointments={appointments} />
       <Footer />
       <BackToHome />
-    </div>
+    </Wrapper>
   );
 };
 

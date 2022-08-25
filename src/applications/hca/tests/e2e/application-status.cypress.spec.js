@@ -1,4 +1,4 @@
-/* eslint-disable va/axe-check-required */
+/* eslint-disable @department-of-veterans-affairs/axe-check-required */
 // AXE checks already in hca.cypress.spec.js
 import mockUser from './fixtures/mockUser';
 
@@ -15,4 +15,4 @@ describe('Application Status Test: HCA', () => {
     );
   });
 });
-/* eslint-enable va/axe-check-required */
+/* eslint-enable @department-of-veterans-affairs/axe-check-required */

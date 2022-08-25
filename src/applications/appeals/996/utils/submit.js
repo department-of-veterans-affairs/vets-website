@@ -1,11 +1,9 @@
 import {
   SELECTED,
-  CONFERENCE_TIMES_V1,
   CONFERENCE_TIMES_V2,
   MAX_LENGTH,
   SUBMITTED_DISAGREEMENTS,
 } from '../constants';
-import { apiVersion1 } from './helpers';
 import { replaceSubmittedData } from './replace';
 
 /**
@@ -39,12 +37,6 @@ export const getRep = formData => {
     areaCode: phoneNumber.substring(0, 3),
     phoneNumber: phoneNumber.substring(3),
   };
-  if (apiVersion1(formData)) {
-    return {
-      name: formData?.informalConferenceRep?.name,
-      phone,
-    };
-  }
 
   // Empty string/null are not permitted values
   return removeEmptyEntries({
@@ -56,25 +48,6 @@ export const getRep = formData => {
     }),
     email: formData.informalConferenceRep.email || '',
   });
-};
-
-// schema v1
-export const getConferenceTimes = (formData = {}) => {
-  const { informalConferenceTimes = [] } = formData;
-  const xRef = Object.keys(CONFERENCE_TIMES_V1).reduce(
-    (timesAndApi, time) => ({
-      ...timesAndApi,
-      [time]: CONFERENCE_TIMES_V1[time].submit,
-    }),
-    {},
-  );
-  return ['time1', 'time2'].reduce((setTimes, key) => {
-    const value = informalConferenceTimes[key] || '';
-    if (value) {
-      setTimes.push(xRef[value]);
-    }
-    return setTimes;
-  }, []);
 };
 
 // schema v2
@@ -177,24 +150,21 @@ export const getContestedIssues = ({ contestedIssues = [] }) =>
  */
 export const addIncludedIssues = formData => {
   const issues = getContestedIssues(formData);
-  if (formData.hlrV2) {
-    return issues.concat(
-      (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
-        if (issue[SELECTED] && issue.issue && issue.decisionDate) {
-          // match contested issue pattern
-          issuesToAdd.push({
-            type: 'contestableIssue',
-            attributes: {
-              issue: replaceSubmittedData(issue.issue),
-              decisionDate: issue.decisionDate,
-            },
-          });
-        }
-        return issuesToAdd;
-      }, []),
-    );
-  }
-  return issues;
+  return issues.concat(
+    (formData.additionalIssues || []).reduce((issuesToAdd, issue) => {
+      if (issue[SELECTED] && issue.issue && issue.decisionDate) {
+        // match contested issue pattern
+        issuesToAdd.push({
+          type: 'contestableIssue',
+          attributes: {
+            issue: replaceSubmittedData(issue.issue),
+            decisionDate: issue.decisionDate,
+          },
+        });
+      }
+      return issuesToAdd;
+    }, []),
+  );
 };
 
 /**
@@ -209,6 +179,9 @@ export const addAreaOfDisagreement = (issues, { areaOfDisagreement } = {}) => {
     effectiveDate: () => SUBMITTED_DISAGREEMENTS.effectiveDate,
     evaluation: () => SUBMITTED_DISAGREEMENTS.evaluation,
   };
+  if (!areaOfDisagreement?.length) {
+    return issues;
+  }
   return issues.map((issue, index) => {
     const entry = areaOfDisagreement[index];
     const reasons = Object.entries(entry.disagreementOptions)
@@ -247,11 +220,6 @@ export const getContact = ({ informalConference }) => {
  * @property {Boolean} homeless
  */
 /**
- * Address~submittableV1
- * @typedef {Object}
- * @property {String} zipCode5
- */
-/**
  * Address~submittableV2
  * @typedef {Object}
  * @property {String} addressLine1
@@ -275,21 +243,20 @@ export const getContact = ({ informalConference }) => {
  * FormData
  * @typedef {Object}
  * @property {Veteran} veteran - Veteran formData object
- * @property {String} zipCode5 - zip code saved in v1
- * @property {Boolean} hlrV2 - HLR v2 feature flag, true for v2
  */
 /**
  * Strip out extra profile home address data & rename zipCode to zipCode5
  * @param {FormData} formData
- * @returns {Address~submittableV1|Address~submittableV2}
+ * @returns {Address~submittableV2}
  */
 export const getAddress = formData => {
-  const { veteran = {}, zipCode5 = '' } = formData || {};
-  if (apiVersion1(formData)) {
-    return { zipCode5: zipCode5 || '00000' };
-  }
+  const { veteran = {} } = formData || {};
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
+  const internationalPostalCode = truncate(
+    'internationalPostalCode',
+    MAX_LENGTH.POSTAL_CODE,
+  );
   return removeEmptyEntries({
     addressLine1: truncate('addressLine1', MAX_LENGTH.ADDRESS_LINE1),
     addressLine2: truncate('addressLine2', MAX_LENGTH.ADDRESS_LINE2),
@@ -298,11 +265,10 @@ export const getAddress = formData => {
     stateCode: veteran.address?.stateCode || '',
     countryCodeISO2: truncate('countryCodeIso2', MAX_LENGTH.COUNTRY),
     // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/v2/200996.json#L145
-    zipCode5: truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
-    internationalPostalCode: truncate(
-      'internationalPostalCode',
-      MAX_LENGTH.POSTAL_CODE,
-    ),
+    zipCode5: internationalPostalCode
+      ? '00000'
+      : truncate('zipCode', MAX_LENGTH.ZIP_CODE5),
+    internationalPostalCode,
   });
 };
 

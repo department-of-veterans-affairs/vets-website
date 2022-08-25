@@ -20,7 +20,7 @@ const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
 
-    dataSets: ['maximal-test-v1', 'minimal-test-v1', 'maximal-test-v2'],
+    dataSets: ['maximal-test-v2', 'minimal-test-v2'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
@@ -29,12 +29,9 @@ const testConfig = createTestConfig(
 
     pageHooks: {
       start: () => {
-        cy.get('@testData').then(testData => {
+        cy.get('@testData').then(() => {
           // wizard
           cy.get('[type="radio"][value="compensation"]').click();
-          if (typeof testData.hlrV2 === 'undefined') {
-            cy.get('[type="radio"][value="legacy-no"]').click();
-          }
           cy.axeCheck();
           cy.findByText(/review online/i, { selector: 'a' }).click();
         });
@@ -113,9 +110,9 @@ const testConfig = createTestConfig(
       cy.get('@testData').then(testData => {
         cy.intercept('GET', '/v0/in_progress_forms/20-0996', testData);
         cy.intercept('PUT', '/v0/in_progress_forms/20-0996', testData);
-
-        const features = testData.hlrV2 ? [{ name: 'hlrV2', value: true }] : [];
-        cy.intercept('GET', '/v0/feature_toggles?*', { data: { features } });
+        cy.intercept('GET', '/v0/feature_toggles?*', {
+          data: { features: [] },
+        });
       });
     },
   },

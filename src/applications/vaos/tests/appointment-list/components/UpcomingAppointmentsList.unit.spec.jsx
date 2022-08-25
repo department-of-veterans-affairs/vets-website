@@ -809,6 +809,7 @@ describe('VAOS <UpcomingAppointmentsList> V2 api', () => {
       status: 'cancelled',
       start: now.format('YYYY-MM-DDTHH:mm:ss'),
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
+      name: { firstName: 'Jane', lastName: 'Doctor' },
     };
 
     mockVAOSAppointmentsFetch({

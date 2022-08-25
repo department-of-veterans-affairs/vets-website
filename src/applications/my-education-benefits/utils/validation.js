@@ -2,22 +2,35 @@ import { isValidEmail } from 'platform/forms/validations';
 import moment from 'moment';
 import { formatReadableDate } from '../helpers';
 
-export const isValidPhone = value => {
+export const isValidPhone = (phone, isInternational) => {
   let stripped;
   try {
-    stripped = value.replace(/[^\d]/g, '');
+    stripped = phone.replace(/[^\d]/g, '');
   } catch (err) {
-    stripped = value;
+    stripped = phone;
   }
-  return /^\d{10}$/.test(stripped);
+  return isInternational
+    ? /^\d{10,15}$/.test(stripped)
+    : /^\d{10}$/.test(stripped);
 };
 
-export const validatePhone = (errors, phone) => {
-  if (phone && !isValidPhone(phone)) {
+const validatePhone = (errors, phone, isInternational) => {
+  if (phone && !isValidPhone(phone, isInternational)) {
+    const numDigits = isInternational ? '10 to 15' : '10';
     errors.addError(
-      'Please enter a 10-digit phone number (with or without dashes)',
+      `Please enter a ${numDigits}-digit phone number (with or without dashes)`,
     );
   }
+};
+
+export const validateHomePhone = (errors, phone, formData) => {
+  const { isInternational } = formData['view:phoneNumbers'].phoneNumber;
+  validatePhone(errors, phone, isInternational);
+};
+
+export const validateMobilePhone = (errors, phone, formData) => {
+  const { isInternational } = formData['view:phoneNumbers'].mobilePhoneNumber;
+  validatePhone(errors, phone, isInternational);
 };
 
 export const validateEmail = (errors, email) => {

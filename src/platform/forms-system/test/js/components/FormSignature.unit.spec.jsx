@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import { spy } from 'sinon';
+import { axeCheck } from 'platform/forms-system/test/config/helpers';
 
 import { FormSignature } from '../../../src/js/components/FormSignature';
 
@@ -38,6 +39,10 @@ describe('Forms library - Forms signature component', () => {
         <FormSignature {...signatureProps} signatureLabel={customLabel} />,
       );
       expect(getByLabelText('Custom text here')).to.exist;
+    });
+
+    it('should pass axeCheck', () => {
+      axeCheck(<FormSignature />);
     });
   });
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { VaTelephone } from 'web-components/react-bindings';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function FacilityPhone({ contact, className, level }) {
   if (!contact) {

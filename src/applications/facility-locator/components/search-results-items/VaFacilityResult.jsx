@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import useStaticDrupalData from 'platform/site-wide/hooks/static-drupal-data';
 import LocationPhoneLink from './common/LocationPhoneLink';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import { isVADomain } from '../../utils/helpers';
@@ -28,6 +29,11 @@ const VaFacilityResult = ({
     },
     [index, location],
   );
+
+  const staticCovidStatuses = useStaticDrupalData(
+    'vamc-facility-supplemental-status',
+  );
+
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <>
@@ -51,9 +57,10 @@ const VaFacilityResult = ({
           operatingStatus.code !== OperatingStatus.NORMAL && (
             <LocationOperationStatus operatingStatus={operatingStatus} />
           )}
-        {operatingStatus && (
+        {!!operatingStatus?.supplementalStatus?.length && (
           <LocationCovidStatus
             supplementalStatus={operatingStatus.supplementalStatus}
+            staticCovidStatuses={staticCovidStatuses}
           />
         )}
         <LocationAddress location={location} />

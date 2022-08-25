@@ -6,11 +6,11 @@ import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 
 import * as mocks from '@@profile/msw-mocks';
-import { renderWithProfileReducers as render } from '../../unit-test-helpers';
 
 import Profile from '@@profile/components/Profile';
 import { PROFILE_PATH_NAMES } from '@@profile/constants';
 import { CSP_IDS } from 'platform/user/authentication/constants';
+import { renderWithProfileReducers as render } from '../../unit-test-helpers';
 
 const ALERT_ID = 'not-all-data-available-error';
 
@@ -183,39 +183,5 @@ describe('Profile "Not all data available" error', () => {
     server.use(...mocks.getPersonalInformationFailure);
 
     await errorAppearsOnAllPages();
-  });
-
-  it('should be shown on all pages if there is a 500 error with the `GET service_history` endpoint', async () => {
-    server.use(...mocks.getServiceHistory500);
-
-    await errorAppearsOnAllPages();
-  });
-
-  it('should be shown on all pages if there is a 401 error with the `GET service_history` endpoint', async () => {
-    server.use(...mocks.getServiceHistory401);
-
-    await errorAppearsOnAllPages();
-  });
-
-  it('should be shown on all pages if there is an error with the DD4CNP `GET payment_information` endpoint`', async () => {
-    server.use(...mocks.getDD4CNPFailure);
-
-    // don't check for the error on the direct deposit page since that page is unavailable when the `GET payment_information` endpoint fails
-    await errorAppearsOnAllPages([
-      PROFILE_PATH_NAMES.MILITARY_INFORMATION,
-      PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
-      PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS,
-    ]);
-  });
-
-  it('should be shown on all pages if there is an error with the DD4EDU `GET ch33_bank_accounts` endpoint`', async () => {
-    server.use(...mocks.getDD4EDUFailure);
-
-    // don't check for the error on the direct deposit page since that page is unavailable when the `GET payment_information` endpoint fails
-    await errorAppearsOnAllPages([
-      PROFILE_PATH_NAMES.MILITARY_INFORMATION,
-      PROFILE_PATH_NAMES.ACCOUNT_SECURITY,
-      PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS,
-    ]);
   });
 });

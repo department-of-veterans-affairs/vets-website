@@ -3,19 +3,6 @@ import moment from 'moment';
 import { SELECTED, LEGACY_TYPE } from '../constants';
 
 /**
- * Check HLR v2 feature flag
- * @param {boolean} hlrV2
- * @returns boolean
- */
-export const apiVersion2 = formData => formData?.hlrV2;
-/**
- * Return the opposite of the HLR v2 feature flag
- * @param {boolean} hlrV2
- * @returns boolean
- */
-export const apiVersion1 = formData => !formData?.hlrV2;
-
-/**
  * Determine if we're in the v1 flow using the save-in-progress data
  * @param {*} formData
  * @returns boolean
@@ -78,7 +65,7 @@ export const getEligibleContestableIssues = issues => {
       .join(' ')
       .includes('deferred');
     const date = moment(approxDecisionDate);
-    if (isDeferred || !date.isValid()) {
+    if (isDeferred || !date.isValid() || !ratingIssueSubjectText) {
       return false;
     }
     return date.add(1, 'years').isAfter(today);
@@ -143,9 +130,9 @@ export const getSelected = formData => {
   const eligibleIssues = (formData?.contestedIssues || []).filter(
     issue => issue[SELECTED],
   );
-  const addedIssues = formData.hlrV2
-    ? (formData?.additionalIssues || []).filter(issue => issue[SELECTED])
-    : [];
+  const addedIssues = (formData?.additionalIssues || []).filter(
+    issue => issue[SELECTED],
+  );
   // include index to help with error messaging
   return [...eligibleIssues, ...addedIssues].map((issue, index) => ({
     ...issue,
@@ -275,3 +262,43 @@ export const readableList = list => {
  */
 export const calculateIndexOffset = (index, contestableIssuesLength) =>
   index - contestableIssuesLength;
+
+/**
+ * @typedef phoneObject
+ * @type {Object}
+ * @property {String} countryCode - country code (1 digit, usually)
+ * @property {String} areaCode - area code (3 digits)
+ * @property {String} phoneNumber - phone number (7 digits)
+ * @property {String} phoneNumberExt - extension
+ * @returns
+ */
+/**
+ * Return a phone number object
+ * @param {String} phone - phone number string to convert to an object
+ * @return {phoneObject}
+ */
+export const returnPhoneObject = phone => {
+  const result = {
+    countryCode: '',
+    areaCode: '',
+    phoneNumber: '',
+    phoneNumberExt: '',
+  };
+  if (typeof phone === 'string' && phone?.length === 10) {
+    result.countryCode = '1';
+    result.areaCode = phone.slice(0, 3);
+    result.phoneNumber = phone.slice(-7);
+  }
+  return result;
+};
+
+/**
+ * Contestable issues loading error check
+ * If there's an error, show an alert warning, but if the backend returns a 404
+ * error (no issues found), we need to allow the Veteran to start the form
+ * anyway
+ * @param {Object} error - error object or string (rejected invalid benefit type)
+ * @returns {Boolean}
+ */
+export const checkContestableIssueError = error =>
+  (error && error?.errors?.[0]?.status !== '404') || false;

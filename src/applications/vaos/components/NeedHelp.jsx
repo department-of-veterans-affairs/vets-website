@@ -1,5 +1,5 @@
 import React from 'react';
-import { VaTelephone } from 'web-components/react-bindings';
+import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import NewTabAnchor from './NewTabAnchor';
 
 export default function NeedHelp() {
