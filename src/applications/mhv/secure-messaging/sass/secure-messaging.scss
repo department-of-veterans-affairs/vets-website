@@ -4,6 +4,13 @@
 .secure-messaging-container{
   display: flex;
   flex-direction: row;
+  .vads-c-action-link--blue:visited {
+    color: $color-link-default;
+    text-decoration: underline;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+    transition-property: color, background-color, border-color;
+  }
   .main-content {
     display: flex;
     flex-direction: column;
