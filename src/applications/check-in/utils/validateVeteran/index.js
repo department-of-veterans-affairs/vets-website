@@ -111,8 +111,11 @@ const validateLogin = async (
   } catch (e) {
     setIsLoading(false);
     if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
-      const params = e?.errors[0]?.status === '410' ? '?error=validation' : '';
-      updateError('max-validation');
+      let params = '';
+      if (e?.errors[0]?.status === '410') {
+        params = '?error=validation';
+        updateError('max-validation');
+      }
       goToErrorPage(params);
     } else {
       setShowValidateError(true);
