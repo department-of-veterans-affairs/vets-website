@@ -175,7 +175,7 @@ describe.skip('VAOS VA request flow', () => {
   });
 });
 
-describe('VAOS VA request flow using VAOS service', () => {
+describe.skip('VAOS VA request flow using VAOS service', () => {
   beforeEach(() => {
     vaosSetup();
     mockFeatureToggles({
