@@ -28,12 +28,12 @@ export const CERNER_MEDICAL_RECORDS_BLOCKLIST = [];
 // features:
 export const CERNER_TEST_RESULTS_BLOCKLIST = [];
 
-export const getCernerURL = () => {
+export const getCernerURL = path => {
   const host = environment.isProduction()
     ? 'https://patientportal.myhealth.va.gov'
     : 'https://staging-patientportal.myhealth.va.gov';
 
-  return `${host}?authenticated=true`;
+  return `${host}/${path}?authenticated=true`;
 };
 
 export const appointmentsToolLink =
