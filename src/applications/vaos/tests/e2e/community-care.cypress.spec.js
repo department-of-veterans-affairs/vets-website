@@ -162,15 +162,20 @@ describe('VAOS community care flow', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentRequests').should(xhr => {
-      // Add check to see if adding 7 days will result in the next month. If so,
-      // add 2 months (the test clicks the calendar next button to advance to the
-      // next month) and set date to beginning of month, else set the date to the
-      // beginning of the next month
+      // Add check to see if the current date is the last Monday of the month. If
+      // so, adding 7 days will result in the next month. So, add 2 months (the test
+      // clicks the calendar next button to advance to the next month) and set date
+      // to beginning of month, else set the date to the beginning of the next month.
       const date = moment();
+      const lastMondayInMonth = moment()
+        .endOf('month')
+        .startOf('isoWeek');
+      const nextMonth = moment(date).add(1, 'month');
       if (
+        date.isSame(lastMondayInMonth) &&
         moment(date)
           .add(7, 'days')
-          .isSame(moment(date).add(1, 'month'), 'month')
+          .isSame(nextMonth, 'month')
       ) {
         date.add(2, 'months').startOf('month');
       } else {
@@ -392,15 +397,20 @@ describe('VAOS community care flow', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentRequests').should(xhr => {
-      // Add check to see if adding 7 days will result in the next month. If so,
-      // add 2 months (the test clicks the calendar next button to advance to the
-      // next month) and set date to beginning of month, else set the date to the
-      // beginning of the next month
+      // Add check to see if the current date is the last Monday of the month. If
+      // so, adding 7 days will result in the next month. So, add 2 months (the test
+      // clicks the calendar next button to advance to the next month) and set date
+      // to beginning of month, else set the date to the beginning of the next month.
       const date = moment();
+      const lastMondayInMonth = moment()
+        .endOf('month')
+        .startOf('isoWeek');
+      const nextMonth = moment(date).add(1, 'month');
       if (
+        date.isSame(lastMondayInMonth) &&
         moment(date)
           .add(7, 'days')
-          .isSame(moment(date).add(1, 'month'), 'month')
+          .isSame(nextMonth, 'month')
       ) {
         date.add(2, 'months').startOf('month');
       } else {
@@ -696,15 +706,20 @@ describe('VAOS community care flow using VAOS service', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentRequests').should(xhr => {
-      // Add check to see if adding 7 days will result in the next month. If so,
-      // add 2 months (the test clicks the calendar next button to advance to the
-      // next month) and set date to beginning of month, else set the date to the
-      // beginning of the next month
+      // Add check to see if the current date is the last Monday of the month. If
+      // so, adding 7 days will result in the next month. So, add 2 months (the test
+      // clicks the calendar next button to advance to the next month) and set date
+      // to beginning of month, else set the date to the beginning of the next month.
       let date = moment();
+      const lastMondayInMonth = moment()
+        .endOf('month')
+        .startOf('isoWeek');
+      const nextMonth = moment(date).add(1, 'month');
       if (
+        date.isSame(lastMondayInMonth) &&
         moment(date)
           .add(7, 'days')
-          .isSame(moment(date).add(1, 'month'), 'month')
+          .isSame(nextMonth, 'month')
       ) {
         date.add(2, 'months').startOf('month');
       } else {
