@@ -1,7 +1,10 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
 import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo/SecondaryCaregiverInfo';
-import { secondaryOneFields } from 'applications/caregivers/definitions/constants';
+import {
+  secondaryOneFields,
+  emptyObjectSchema,
+} from 'applications/caregivers/definitions/constants';
 import { secondaryOneContactIntro } from 'applications/caregivers/definitions/content';
 import {
   secondaryOneInputLabel,
@@ -13,6 +16,7 @@ import {
   alternativePhoneNumberUI,
   primaryPhoneNumberUI,
   addressWithAutofillUI,
+  emailEncouragementUI,
 } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
 const { secondaryCaregiverOne } = fullSchema.properties;
@@ -24,7 +28,7 @@ const secondaryCaregiverContactPage = {
     'ui:description': formContext =>
       SecondaryCaregiverInfo({
         formContext,
-        pageTitle: 'Contact information',
+        pageTitle: 'Secondary Family Caregiver contact information',
         introText: secondaryOneContactIntro,
         showContactIntro: true,
       }),
@@ -35,6 +39,7 @@ const secondaryCaregiverContactPage = {
     [secondaryOneFields.alternativePhoneNumber]: alternativePhoneNumberUI(
       secondaryOneInputLabel,
     ),
+    [secondaryOneFields.emailEncouragementMessage]: emailEncouragementUI(),
     [secondaryOneFields.email]: emailUI(secondaryOneInputLabel),
     [secondaryOneFields.verifyEmail]: confirmationEmailUI(
       secondaryOneInputLabel,
@@ -64,6 +69,7 @@ const secondaryCaregiverContactPage = {
         secondaryCaregiverOneProps.primaryPhoneNumber,
       [secondaryOneFields.alternativePhoneNumber]:
         secondaryCaregiverOneProps.alternativePhoneNumber,
+      [secondaryOneFields.emailEncouragementMessage]: emptyObjectSchema,
       [secondaryOneFields.email]: secondaryCaregiverOneProps.email,
       [secondaryOneFields.verifyEmail]: secondaryCaregiverOneProps.email,
       [secondaryOneFields.vetRelationship]:

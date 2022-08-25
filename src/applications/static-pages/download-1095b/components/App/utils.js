@@ -1,4 +1,5 @@
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 
 export const dateOptions = {
   year: 'numeric',
@@ -22,6 +23,15 @@ export const radioOptionsAriaLabels = [
   'Option 1: P D F Document (best for printing)',
   'Option 2: Text File (best for screen readers, screen enlargers, and refreshable Braille displays)',
 ];
+
+export const phoneComponent = number => {
+  return (
+    <>
+      <va-telephone contact={number} /> (
+      <va-telephone contact={CONTACTS['711']} tty />)
+    </>
+  );
+};
 
 export const radioLabel = (
   <div>
@@ -47,14 +57,28 @@ export const notFoundComponent = () => {
         </p>
         <p>
           If you think you should have a 1095-B form, call us at{' '}
-          <a href="tel:+18772228387" aria-label="1 8 7 7 2 2 2 8 3 8 7">
-            1-877-222-8387
-          </a>{' '}
-          (
-          <a href="tel:711" aria-label="TTY. 7 1 1">
-            TTY: 711
-          </a>
-          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          {phoneComponent(CONTACTS['222_VETS'])}. We’re here Monday through
+          Friday, 8:00 a.m. to 8:00 p.m. ET.
+        </p>
+      </div>
+    </va-alert>
+  );
+};
+
+export const unavailableComponent = () => {
+  return (
+    <va-alert
+      close-btn-aria-label="Close notification"
+      status="warning"
+      visible
+    >
+      <h3 slot="headline">1095-B download unavailable at this time</h3>
+      <div>
+        <p>
+          Please check back later or if you need immediate assistance with this
+          tax form, call the Enrollment Center at{' '}
+          {phoneComponent(CONTACTS['222_VETS'])}. We’re here Monday through
+          Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
       </div>
     </va-alert>

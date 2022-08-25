@@ -42,9 +42,9 @@ describe('Device disconnection card modal', () => {
       ),
     ).to.exist;
     expect(modal.getAttribute('primaryButtonText')).to.eq('Disconnect device');
-    expect(modal.getAttribute('secondaryButtonText')).to.eq('Go back');
+    expect(modal.getAttribute('secondaryButtonText')).to.eq('Cancel');
   });
-  it("Should close modal when 'Go back' button is clicked", async () => {
+  it("Should close modal when 'Cancel' button is clicked", async () => {
     const goBackBtn = modal.__events.secondaryButtonClick;
     await goBackBtn();
     expect(screen.queryByTestId('disconnect-modal')).to.not.exist;
