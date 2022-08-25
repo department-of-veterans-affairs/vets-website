@@ -29,8 +29,9 @@ import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilit
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import GetHelp from '../components/GetHelp';
 import SelectedSponsorsReviewPage from '../components/SelectedSponsorsReviewPage';
-import SponsorCheckboxGroup from '../components/SponsorsCheckboxGroup';
 import Sponsors from '../components/Sponsors';
+import SponsorCheckboxGroup from '../components/SponsorsCheckboxGroup';
+import SponsorsSelectionHeadings from '../components/SponsorsSelectionHeadings';
 import YesNoReviewField from '../components/YesNoReviewField';
 
 import {
@@ -255,13 +256,18 @@ const formConfig = {
       title: 'Sponsor information',
       pages: {
         sponsorSelection: {
-          title: 'Choose your sponsor',
+          title: 'Choose your sponsors',
           path: 'sponsor-selection',
           CustomPageReview: SelectedSponsorsReviewPage,
           depends: formData => formData.sponsors?.sponsors?.length,
           uiSchema: {
             'view:listOfSponsors': {
-              'ui:description': <Sponsors />,
+              'ui:description': (
+                <>
+                  <SponsorsSelectionHeadings />
+                  <Sponsors />
+                </>
+              ),
             },
             [formFields.selectedSponsors]: {
               'ui:field': SponsorCheckboxGroup,
