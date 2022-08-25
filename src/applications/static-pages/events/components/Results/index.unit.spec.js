@@ -2,6 +2,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
+import { render } from '@testing-library/react';
 // Relative imports.
 import { Results } from '.';
 import { ResultsWhereContent } from './ResultsWhereContent';
@@ -20,25 +21,30 @@ describe('Events <Results>', () => {
 });
 
 describe('Events <ResultsWhereContent>', () => {
-  function getProps(locationObj, locationString, locationArray) {
-    return {
+  function getProps(locationObj, locationString, locationReadable) {
+    // eslint-disable-next-line sonarjs/prefer-immediate-return
+    const event = {
       fieldFacilityLocation: locationObj,
       fieldLocationType: locationString,
-      locations: locationArray,
+      fieldLocationHumanreadable: locationReadable,
     };
+    return event;
   }
+
   it('renders online event prompt when event location type is online', () => {
-    const onlineProps = getProps({}, 'online', []);
-    const wrapper = shallow(<ResultsWhereContent {...onlineProps} />);
-    expect(wrapper.text()).includes('This is an online event.');
-    wrapper.unmount();
+    const onlineEvent = getProps({}, 'online', null);
+    const component = render(<ResultsWhereContent event={onlineEvent} />);
+    expect(component.getByText('This is an online event.')).to.exist;
   });
+
   it('render given location when included in location array', () => {
-    const locationArrayProps = getProps({}, '', ['pittsburgh']);
-    const wrapper = shallow(<ResultsWhereContent {...locationArrayProps} />);
-    expect(wrapper.text()).includes('pittsburgh');
-    wrapper.unmount();
+    const locationArrayEvent = getProps({}, '', 'pittsburgh');
+    const component = render(
+      <ResultsWhereContent event={locationArrayEvent} />,
+    );
+    expect(component.getByText('pittsburgh')).to.exist;
   });
+
   it('renders location name when given in location object', () => {
     const fieldLocationExample = {
       entity: {
@@ -46,9 +52,10 @@ describe('Events <ResultsWhereContent>', () => {
         entityUrl: {},
       },
     };
-    const locationObjectProps = getProps(fieldLocationExample, '', []);
-    const wrapper = shallow(<ResultsWhereContent {...locationObjectProps} />);
-    expect(wrapper.text()).includes('test location');
-    wrapper.unmount();
+    const locationObjectEvent = getProps(fieldLocationExample, '', null);
+    const component = render(
+      <ResultsWhereContent event={locationObjectEvent} />,
+    );
+    expect(component.getByText('test location')).to.exist;
   });
 });
