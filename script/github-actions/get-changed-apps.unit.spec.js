@@ -402,5 +402,18 @@ describe('isContinuousDeploymentEnabled', () => {
     expect(continuousDeployment).to.be.false;
   });
 
+  it('should return false when there are no changed file paths', () => {
+    const config = createChangedAppsConfig([
+      { rootFolder: 'app1', continuousDeployment: true },
+    ]);
+    const changedFiles = [];
+
+    const continuousDeployment = isContinuousDeploymentEnabled(
+      changedFiles,
+      config,
+    );
+    expect(continuousDeployment).to.be.false;
+  });
+
   after(() => mockFs.restore());
 });

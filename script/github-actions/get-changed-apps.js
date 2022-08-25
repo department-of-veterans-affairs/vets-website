@@ -106,6 +106,8 @@ const getChangedAppsString = (
  * @returns {Boolean} Whether apps of file paths have enabled continuous deployment.
  */
 const isContinuousDeploymentEnabled = (filePaths, config) => {
+  if (!filePaths.length) return false;
+
   for (const filePath of filePaths) {
     const allowedApps = getAllowedApps(filePath, config.apps);
     if (!allowedApps.length || allowedApps[0].continuousDeployment !== true)
