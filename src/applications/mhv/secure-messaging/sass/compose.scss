@@ -9,12 +9,6 @@
   }
   @media (min-width: $medium-screen) {
     padding: 0;
-    .compose-contents {
-      margin-top: 30px;
-      .left-nav-container {
-        margin-top: 24px;
-      }
-    }
     label {
       max-width: 100%;
     }
@@ -28,7 +22,7 @@
     margin: 0;
     width: fit-content;
   }
-  .compose-block {
+  .compose-form-container {
     margin: 2rem 0 4rem 0;
     background-color: $color-white;
     .required {
@@ -78,7 +72,7 @@
           }
         }
       }
-      .message {
+      .message-body {
         min-height: 5.2rem;
         max-width: 100%;
         width: 100%;
