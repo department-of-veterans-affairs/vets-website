@@ -219,6 +219,28 @@ function selectTests(graph, pathsOfChangedFiles) {
 }
 
 function exportVariables(tests) {
+  const numTests = tests.length;
+
+  if (numTests <= 200) {
+    core.exportVariable('NUM_CONTAINERS', 8);
+    core.exportVariable('CI_NODE_INDEX', [0, 1, 2, 3, 4, 5, 6, 7]);
+  } else {
+    core.exportVariable('NUM_CONTAINERS', 12);
+    core.exportVariable('CI_NODE_INDEX', [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+    ]);
+  }
   core.exportVariable('TESTS', tests);
 }
 

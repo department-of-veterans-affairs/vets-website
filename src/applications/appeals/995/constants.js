@@ -55,7 +55,6 @@ export const NULL_CONDITION_STRING = 'Unknown Condition';
 export const FORMAT_YMD = 'YYYY-MM-DD';
 export const FORMAT_READABLE = 'LL';
 
-export const SAVED_CLAIM_TYPE = 'scClaimType';
 export const LAST_SC_ITEM = 'lastScItem'; // focus management across pages
 
 // Values from benefitTypes in Lighthouse 0995 schema

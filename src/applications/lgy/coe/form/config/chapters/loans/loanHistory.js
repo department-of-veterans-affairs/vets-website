@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
   createUSAStateLabels,
@@ -21,8 +22,9 @@ const PreviousLoanView = ({ formData }) => {
   let from = '';
   let to = '';
   if (formData.dateRange) {
-    from = formatReviewDate(formData.dateRange.from);
-    to = formatReviewDate(formData.dateRange.to);
+    // formatReviewDate('YYYMMDD', monthYearFlag)
+    from = formatReviewDate(formData.dateRange.from, true);
+    to = formatReviewDate(formData.dateRange.to, true);
   }
 
   return (
@@ -35,6 +37,21 @@ const PreviousLoanView = ({ formData }) => {
       <div>{to ? `${from} - ${to}` : `${from} - present`}</div>
     </div>
   );
+};
+
+PreviousLoanView.propTypes = {
+  formData: PropTypes.shape({
+    dateRange: PropTypes.shape({
+      from: PropTypes.string,
+      to: PropTypes.string,
+    }),
+    propertyAddress: PropTypes.shape({
+      propertyAddress1: PropTypes.string,
+      propertyCity: PropTypes.string,
+      propertyState: PropTypes.string,
+      propertyZip: PropTypes.string,
+    }),
+  }),
 };
 
 export const schema = loanHistory;
@@ -57,6 +74,7 @@ export const uiSchema = {
         'Closing date of your loan',
         'Date you paid off your loan (Leave this blank if it’s not paid off)',
         'Date loan ended must be after the start of the loan',
+        true, // allow start & end to be the same month/year
       ),
       propertyAddress: {
         'ui:title': 'Property address',
@@ -101,6 +119,9 @@ export const uiSchema = {
       vaLoanNumber: {
         'ui:title': 'VA loan number',
         'ui:options': { widgetClassNames: 'usa-input-medium' },
+        'ui:errorMessages': {
+          pattern: 'Please enter numbers only (dashes allowed)',
+        },
       },
       propertyOwned: {
         'ui:title': 'Do you still own this property?',

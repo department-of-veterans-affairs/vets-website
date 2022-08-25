@@ -1,19 +1,21 @@
 import React from 'react';
 import { createSelector } from 'reselect';
+
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+
+import * as address from 'platform/forms/definitions/address';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
+import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
 
-import * as address from 'platform/forms/definitions/address';
-
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import manifest from '../manifest.json';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -107,7 +109,7 @@ const formConfig = {
   trackingPrefix: 'toe-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '22-1990E',
+  formId: VA_FORM_IDS.FORM_22_1990EMEB,
   title: 'Apply to use transferred education benefits',
   subTitle:
     'Equal to VA Form 22-1990e (Application for Family Member to Use Transferred Benefits)',
@@ -133,8 +135,7 @@ const formConfig = {
       pages: {
         applicantInformation: {
           title: 'Your information',
-          path:
-            'education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/applicant-information',
+          path: 'applicant-information',
           subTitle: 'Your information',
           instructions:
             'This is the personal information we have on file for you.',
@@ -673,18 +674,16 @@ const formConfig = {
                     <li>Tell you important information about your benefits</li>
                   </ul>
                   <p>
-                    This is the contact information we have on file for you. If
-                    you notice any errors, please correct them now. Any updates
-                    you make will change the information for your education
-                    benefits only.
+                    We have this contact information on file for you. If you
+                    notice any errors, please correct them now. Any updates you
+                    make will change the information for your education benefits
+                    only.
                   </p>
                   <p>
-                    <strong>Note:</strong> If you want to update your contact
-                    information for other VA benefits, you can do that from your
-                    profile.
-                  </p>
-                  <p>
-                    <GoToYourProfileLink />
+                    <strong>Note:</strong> If you want to make changes to your
+                    contact information for other VA benefits,{' '}
+                    <GoToYourProfileLink text="update your information on your profile" />
+                    .
                   </p>
                 </>
               ),
@@ -788,18 +787,16 @@ const formConfig = {
                     to this address.
                   </p>
                   <p>
-                    This is the mailing address we have on file for you. If you
-                    notice any errors, please correct them now. Any updates you
-                    make will change the information for your education benefits
+                    We have this mailing address on file for you. If you notice
+                    any errors, please correct them now. Any updates you make
+                    will change the information for your education benefits
                     only.
                   </p>
                   <p>
-                    <strong>Note:</strong> If you want to update your personal
-                    information for other VA benefits, you can do that from your
-                    profile.
-                  </p>
-                  <p className="vads-u-margin-bottom--4">
-                    <GoToYourProfileLink />
+                    <strong>Note:</strong> If you want to make changes to your
+                    contact information for other VA benefits,{' '}
+                    <GoToYourProfileLink text="update your information on your profile" />
+                    .
                   </p>
                 </>
               ),
@@ -961,10 +958,10 @@ const formConfig = {
                     <h3>Choose how you want to get notifications</h3>
                     <p>
                       We recommend that you opt in to text message notifications
-                      about your benefits. These include notifications that
-                      prompt you to verify your enrollment so you’ll receive
-                      your education payments. This is an easy way to verify
-                      your monthly enrollment.
+                      about your benefits. These notifications prompt you to
+                      verify your enrollment so you’ll receive your education
+                      payments. You can verify your monthly enrollment easily
+                      this way.
                     </p>
                     <va-alert status="info">
                       <>
@@ -987,7 +984,7 @@ const formConfig = {
               ),
               [formFields.receiveTextMessages]: {
                 'ui:title':
-                  'Would you like to receive text message notifications on your education benefits?',
+                  'Would you like to receive text message notifications about your education benefits?',
                 'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {
@@ -1117,7 +1114,7 @@ const formConfig = {
           uiSchema: {
             'ui:description': (
               <p className="vads-u-margin-bottom--4">
-                <strong>Note</strong>: VA makes payments only through direct
+                <strong>Note</strong>: We make payments only through direct
                 deposit, also called electronic funds transfer (EFT).
               </p>
             ),
