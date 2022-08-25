@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
-// Trigger single app build
 const ApplicantDescription = ({ formContext }) => (
   <div>
     <p>
