@@ -106,7 +106,7 @@ const ComposeForm = props => {
           <label htmlFor="compose_attachments">Attachments</label>
 
           <ul className="compose-attachments-list">
-            {attachments.length &&
+            {!!attachments.length &&
               attachments.map(attachment => (
                 <li key={attachment.id}>
                   <i className="fas fa-paperclip" />
