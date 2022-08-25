@@ -37,7 +37,7 @@ export default function ConfirmedAppointmentDetailsPage() {
 
   const isVideo = appointment?.vaos?.isVideo;
   const isCommunityCare = !!match.path.includes('cc');
-  const isVA = !!match.path.includes('va');
+  const isVA = !isVideo && !isCommunityCare;
 
   const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
 
