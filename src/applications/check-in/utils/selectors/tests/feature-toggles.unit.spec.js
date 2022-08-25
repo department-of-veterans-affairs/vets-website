@@ -18,7 +18,7 @@ describe('check-in', () => {
         check_in_experience_day_of_demographics_flags_enabled: false,
         check_in_experience_lorota_security_updates_enabled: false,
         check_in_experience_phone_appointments_enabled: false,
-        checkInExperienceLorotaDeletionEnabled: false,
+        check_in_experience_lorota_deletion_enabled: false,
         loading: false,
       },
     };
@@ -36,7 +36,7 @@ describe('check-in', () => {
           isDayOfDemographicsFlagsEnabled: false,
           isLorotaSecurityUpdatesEnabled: false,
           isPhoneAppointmentsEnabled: false,
-          checkInExperienceLorotaDeletionEnabled: false,
+          isLorotaDeletionEnabled: false,
         });
       });
     });
