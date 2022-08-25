@@ -36,6 +36,11 @@ class AddressPage {
         .clear()
         .type(fields.city);
     fields.state && cy.findByLabelText(/^State/).select(fields.state);
+    fields.province &&
+      cy
+        .findByLabelText(/^State\/Province\/Region/)
+        .clear()
+        .type(fields.province);
     fields.zipCode &&
       cy
         .findByLabelText(/Zip code/i)
