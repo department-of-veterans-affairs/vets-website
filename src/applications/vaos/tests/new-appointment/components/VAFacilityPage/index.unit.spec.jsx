@@ -884,7 +884,7 @@ describe('VAOS <VAFacilityPage>', () => {
         within(cernerSiteLabel)
           .getByRole('link', { name: /My VA Health/ })
           .getAttribute('href'),
-      ).to.contain('pages%2Fscheduling%2Fupcoming');
+      ).to.contain('pages/scheduling/upcoming');
 
       userEvent.click(screen.getByText(/Why isn.t my facility listed/i));
       await waitFor(() => {
