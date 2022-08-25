@@ -1,22 +1,25 @@
 import { expect } from 'chai';
 import mockFs from 'mock-fs';
 
-import { getChangedAppsString } from './get-changed-apps';
+import {
+  getChangedAppsString,
+  isContinuousDeploymentEnabled,
+} from './get-changed-apps';
+
+const createManifest = name => {
+  return JSON.stringify({
+    appName: name.toUpperCase(),
+    entryFile: `./${name}-entry.jsx`,
+    entryName: name,
+    rootUrl: `/${name}`,
+  });
+};
+
+const createChangedAppsConfig = (apps = []) => {
+  return { apps };
+};
 
 describe('getChangedAppsString', () => {
-  const createManifest = name => {
-    return JSON.stringify({
-      appName: name.toUpperCase(),
-      entryFile: `./${name}-entry.jsx`,
-      entryName: name,
-      rootUrl: `/${name}`,
-    });
-  };
-
-  const createChangedAppsConfig = (apps = []) => {
-    return { apps };
-  };
-
   before(() => {
     mockFs({
       'src/applications/app1': {
@@ -310,4 +313,92 @@ describe('getChangedAppsString', () => {
   });
 
   after(() => mockFs.restore());
+});
+
+describe('isContinuousDeploymentEnabled', () => {
+  before(() => {
+    mockFs({
+      'src/applications/app1': {
+        'manifest.json': createManifest('app1'),
+        'some-file.js': '',
+        'other-file.js': '',
+      },
+      'src/applications/app2': {
+        'manifest.json': createManifest('app2'),
+        'some-file.js': '',
+        'other-file.js': '',
+      },
+    });
+  });
+
+  it('should return true when an app has continuous deployment enabled', () => {
+    const config = createChangedAppsConfig([
+      { rootFolder: 'app1', continuousDeployment: true },
+    ]);
+    const changedFiles = ['src/applications/app1/some-file.js'];
+
+    const continuousDeployment = isContinuousDeploymentEnabled(
+      changedFiles,
+      config,
+    );
+    expect(continuousDeployment).to.be.true;
+  });
+
+  it('should return false when an app does not have continuous deployment enabled', () => {
+    const config = createChangedAppsConfig([{ rootFolder: 'app1' }]);
+    const changedFiles = ['src/applications/app1/some-file.js'];
+
+    const continuousDeployment = isContinuousDeploymentEnabled(
+      changedFiles,
+      config,
+    );
+    expect(continuousDeployment).to.be.false;
+  });
+
+  it('should return false when at least one app does not have continuous deployment enabled', () => {
+    const config = createChangedAppsConfig([
+      { rootFolder: 'app1', continuousDeployment: true },
+      { rootFolder: 'app2' },
+    ]);
+    const changedFiles = [
+      'src/applications/app1/some-file.js',
+      'src/applications/app2/some-file.js',
+    ];
+
+    const continuousDeployment = isContinuousDeploymentEnabled(
+      changedFiles,
+      config,
+    );
+    expect(continuousDeployment).to.be.false;
+  });
+
+  it('should return true when all apps have continuous deployment enabled', () => {
+    const config = createChangedAppsConfig([
+      { rootFolder: 'app1', continuousDeployment: true },
+      { rootFolder: 'app2', continuousDeployment: true },
+    ]);
+    const changedFiles = [
+      'src/applications/app1/some-file.js',
+      'src/applications/app2/some-file.js',
+    ];
+
+    const continuousDeployment = isContinuousDeploymentEnabled(
+      changedFiles,
+      config,
+    );
+    expect(continuousDeployment).to.be.true;
+  });
+
+  it('should return false when an app has a value that is not `true` stored in `continuousDeployment`', () => {
+    const config = createChangedAppsConfig([
+      { rootFolder: 'app1', continuousDeployment: 'on' },
+    ]);
+    const changedFiles = ['src/applications/app1/some-file.js'];
+
+    const continuousDeployment = isContinuousDeploymentEnabled(
+      changedFiles,
+      config,
+    );
+    expect(continuousDeployment).to.be.false;
+  });
 });

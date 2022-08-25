@@ -152,4 +152,5 @@ if (process.env.CHANGED_FILE_PATHS) {
 
 module.exports = {
   getChangedAppsString,
+  isContinuousDeploymentEnabled,
 };
