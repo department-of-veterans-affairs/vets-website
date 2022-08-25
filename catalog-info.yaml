@@ -1,7 +1,7 @@
 apiVersion: backstage.io/v1alpha1
 kind: System
 metadata:
-  title: VA.gov
+  title: VA.gov FE (vets-website)
   name: vets-website
   description: This is the front end for VA.gov.
   annotations:
