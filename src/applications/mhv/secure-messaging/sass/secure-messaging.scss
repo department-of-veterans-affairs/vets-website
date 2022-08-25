@@ -21,6 +21,10 @@
   transition-property: color, background-color, border-color;
 }
 
+va-alert button {
+  width: auto;
+}
+
 .message-box {
   background-color: $color-gray-lightest;
   border-radius: 4px;
