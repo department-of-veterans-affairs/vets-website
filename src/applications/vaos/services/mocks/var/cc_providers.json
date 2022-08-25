@@ -26,8 +26,14 @@
       "relationships": {
         "specialties": {
           "data": [
-            { "id": "363L00000X", "type": "specialty" },
-            { "id": "363LP2300X", "type": "specialty" }
+            {
+              "id": "363L00000X",
+              "type": "specialty"
+            },
+            {
+              "id": "363LP2300X",
+              "type": "specialty"
+            }
           ]
         }
       }
@@ -58,8 +64,14 @@
       "relationships": {
         "specialties": {
           "data": [
-            { "id": "363L00000X", "type": "specialty" },
-            { "id": "363LP2300X", "type": "specialty" }
+            {
+              "id": "363L00000X",
+              "type": "specialty"
+            },
+            {
+              "id": "363LP2300X",
+              "type": "specialty"
+            }
           ]
         }
       }
@@ -88,7 +100,14 @@
         "uniqueId": "1053355479"
       },
       "relationships": {
-        "specialties": { "data": [{ "id": "363LP2300X", "type": "specialty" }] }
+        "specialties": {
+          "data": [
+            {
+              "id": "363LP2300X",
+              "type": "specialty"
+            }
+          ]
+        }
       }
     },
     {
@@ -117,9 +136,18 @@
       "relationships": {
         "specialties": {
           "data": [
-            { "id": "363LA2200X", "type": "specialty" },
-            { "id": "363LP2300X", "type": "specialty" },
-            { "id": "363LG0600X", "type": "specialty" }
+            {
+              "id": "363LA2200X",
+              "type": "specialty"
+            },
+            {
+              "id": "363LP2300X",
+              "type": "specialty"
+            },
+            {
+              "id": "363LG0600X",
+              "type": "specialty"
+            }
           ]
         }
       }
@@ -148,7 +176,14 @@
         "uniqueId": "1154867018"
       },
       "relationships": {
-        "specialties": { "data": [{ "id": "363LP2300X", "type": "specialty" }] }
+        "specialties": {
+          "data": [
+            {
+              "id": "363LP2300X",
+              "type": "specialty"
+            }
+          ]
+        }
       }
     },
     {
@@ -175,7 +210,14 @@
         "uniqueId": "1205346533"
       },
       "relationships": {
-        "specialties": { "data": [{ "id": "363LP2300X", "type": "specialty" }] }
+        "specialties": {
+          "data": [
+            {
+              "id": "363LP2300X",
+              "type": "specialty"
+            }
+          ]
+        }
       }
     },
     {
@@ -204,8 +246,14 @@
       "relationships": {
         "specialties": {
           "data": [
-            { "id": "363LP2300X", "type": "specialty" },
-            { "id": "363LF0000X", "type": "specialty" }
+            {
+              "id": "363LP2300X",
+              "type": "specialty"
+            },
+            {
+              "id": "363LF0000X",
+              "type": "specialty"
+            }
           ]
         }
       }
@@ -234,7 +282,14 @@
         "uniqueId": "1992228522"
       },
       "relationships": {
-        "specialties": { "data": [{ "id": "363LP2300X", "type": "specialty" }] }
+        "specialties": {
+          "data": [
+            {
+              "id": "363LP2300X",
+              "type": "specialty"
+            }
+          ]
+        }
       }
     },
     {
@@ -261,7 +316,14 @@
         "uniqueId": "1780016782"
       },
       "relationships": {
-        "specialties": { "data": [{ "id": "363LP2300X", "type": "specialty" }] }
+        "specialties": {
+          "data": [
+            {
+              "id": "363LP2300X",
+              "type": "specialty"
+            }
+          ]
+        }
       }
     },
     {
@@ -288,7 +350,14 @@
         "uniqueId": "1558874636"
       },
       "relationships": {
-        "specialties": { "data": [{ "id": "363LP2300X", "type": "specialty" }] }
+        "specialties": {
+          "data": [
+            {
+              "id": "363LP2300X",
+              "type": "specialty"
+            }
+          ]
+        }
       }
     },
     {
@@ -317,10 +386,22 @@
       "relationships": {
         "specialties": {
           "data": [
-            { "id": "363LG0600X", "type": "specialty" },
-            { "id": "363LP2300X", "type": "specialty" },
-            { "id": "363LA2200X", "type": "specialty" },
-            { "id": "363L00000X", "type": "specialty" }
+            {
+              "id": "363LG0600X",
+              "type": "specialty"
+            },
+            {
+              "id": "363LP2300X",
+              "type": "specialty"
+            },
+            {
+              "id": "363LA2200X",
+              "type": "specialty"
+            },
+            {
+              "id": "363L00000X",
+              "type": "specialty"
+            }
           ]
         }
       }
@@ -351,8 +432,14 @@
       "relationships": {
         "specialties": {
           "data": [
-            { "id": "363LP2300X", "type": "specialty" },
-            { "id": "363LF0000X", "type": "specialty" }
+            {
+              "id": "363LP2300X",
+              "type": "specialty"
+            },
+            {
+              "id": "363LF0000X",
+              "type": "specialty"
+            }
           ]
         }
       }
@@ -381,7 +468,14 @@
         "uniqueId": "1952935777"
       },
       "relationships": {
-        "specialties": { "data": [{ "id": "363LP2300X", "type": "specialty" }] }
+        "specialties": {
+          "data": [
+            {
+              "id": "363LP2300X",
+              "type": "specialty"
+            }
+          ]
+        }
       }
     },
     {
@@ -408,7 +502,14 @@
         "uniqueId": "1952935777"
       },
       "relationships": {
-        "specialties": { "data": [{ "id": "363LP2300X", "type": "specialty" }] }
+        "specialties": {
+          "data": [
+            {
+              "id": "363LP2300X",
+              "type": "specialty"
+            }
+          ]
+        }
       }
     },
     {
@@ -437,9 +538,18 @@
       "relationships": {
         "specialties": {
           "data": [
-            { "id": "363LX0106X", "type": "specialty" },
-            { "id": "363LF0000X", "type": "specialty" },
-            { "id": "363LP2300X", "type": "specialty" }
+            {
+              "id": "363LX0106X",
+              "type": "specialty"
+            },
+            {
+              "id": "363LF0000X",
+              "type": "specialty"
+            },
+            {
+              "id": "363LP2300X",
+              "type": "specialty"
+            }
           ]
         }
       }
@@ -468,7 +578,18 @@
         "uniqueId": "1255962510"
       },
       "relationships": {
-        "specialties": { "data": [{ "id": "363LP2300X", "type": "specialty" }, { "id": "213ES0103X", "type": "specialty"}] }
+        "specialties": {
+          "data": [
+            {
+              "id": "363LP2300X",
+              "type": "specialty"
+            },
+            {
+              "id": "213ES0103X",
+              "type": "specialty"
+            }
+          ]
+        }
       }
     },
     {
@@ -495,7 +616,14 @@
         "uniqueId": "1770904021"
       },
       "relationships": {
-        "specialties": { "data": [{ "id": "363LP2300X", "type": "specialty" }] }
+        "specialties": {
+          "data": [
+            {
+              "id": "363LP2300X",
+              "type": "specialty"
+            }
+          ]
+        }
       }
     }
   ],
@@ -582,10 +710,10 @@
     }
   },
   "links": {
-    "self": "https://api.va.gov/facilities_api/v1/ccp/provider?latitude=38.9072&longitude=77.0369&radius=60&bbox%5B%5D=-77.7866&bbox%5B%5D=38.145&bbox%5B%5D=-76.2866&bbox%5B%5D=39.645&page=1&per_page=15&specialties%5B%5D=363LP2300X",
-    "first": "https://api.va.gov/facilities_api/v1/ccp/provider?latitude=38.9072&longitude=77.0369&radius=60&bbox%5B%5D=-77.7866&bbox%5B%5D=38.145&bbox%5B%5D=-76.2866&bbox%5B%5D=39.645&page=1&per_page=15&specialties%5B%5D=363LP2300X",
+    "self": "https://platform-api.va.gov/facilities_api/v1/ccp/provider?latitude=38.9072&longitude=77.0369&radius=60&bbox%5B%5D=-77.7866&bbox%5B%5D=38.145&bbox%5B%5D=-76.2866&bbox%5B%5D=39.645&page=1&per_page=15&specialties%5B%5D=363LP2300X",
+    "first": "https://platform-api.va.gov/facilities_api/v1/ccp/provider?latitude=38.9072&longitude=77.0369&radius=60&bbox%5B%5D=-77.7866&bbox%5B%5D=38.145&bbox%5B%5D=-76.2866&bbox%5B%5D=39.645&page=1&per_page=15&specialties%5B%5D=363LP2300X",
     "prev": null,
-    "next": "https://api.va.gov/facilities_api/v1/ccp/provider?latitude=38.9072&longitude=77.0369&radius=60&bbox%5B%5D=-77.7866&bbox%5B%5D=38.145&bbox%5B%5D=-76.2866&bbox%5B%5D=39.645&page=2&per_page=15&specialties%5B%5D=363LP2300X",
-    "last": "https://api.va.gov/facilities_api/v1/ccp/provider?latitude=38.9072&longitude=77.0369&radius=60&bbox%5B%5D=-77.7866&bbox%5B%5D=38.145&bbox%5B%5D=-76.2866&bbox%5B%5D=39.645&page=2&per_page=15&specialties%5B%5D=363LP2300X"
+    "next": "https://platform-api.va.gov/facilities_api/v1/ccp/provider?latitude=38.9072&longitude=77.0369&radius=60&bbox%5B%5D=-77.7866&bbox%5B%5D=38.145&bbox%5B%5D=-76.2866&bbox%5B%5D=39.645&page=2&per_page=15&specialties%5B%5D=363LP2300X",
+    "last": "https://platform-api.va.gov/facilities_api/v1/ccp/provider?latitude=38.9072&longitude=77.0369&radius=60&bbox%5B%5D=-77.7866&bbox%5B%5D=38.145&bbox%5B%5D=-76.2866&bbox%5B%5D=39.645&page=2&per_page=15&specialties%5B%5D=363LP2300X"
   }
 }

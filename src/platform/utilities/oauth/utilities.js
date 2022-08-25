@@ -97,6 +97,7 @@ export async function createOAuthRequest({
   passedQueryParams = {},
   passedOptions = {},
   type = '',
+  acr,
 }) {
   const isDefaultOAuth = !application || clientId === CLIENT_IDS.WEB;
   const isMobileOAuth =
@@ -130,9 +131,11 @@ export async function createOAuthRequest({
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(
       clientId || oAuthOptions.clientId,
     ),
-    [OAUTH_KEYS.ACR]: passedOptions.isSignup
-      ? oAuthOptions.acrSignup[type]
-      : oAuthOptions.acr[type],
+    [OAUTH_KEYS.ACR]:
+      acr ||
+      (passedOptions.isSignup
+        ? oAuthOptions.acrSignup[type]
+        : oAuthOptions.acr[type]),
     [OAUTH_KEYS.RESPONSE_TYPE]: OAUTH_ALLOWED_PARAMS.CODE,
     ...(isDefaultOAuth && { [OAUTH_KEYS.STATE]: state }),
     ...(passedQueryParams.gaClientId && {

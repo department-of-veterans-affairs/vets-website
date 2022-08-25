@@ -49,7 +49,6 @@ const ProfilePageHeader = ({
     ratingAverage,
     cautionFlags,
     highestDegree,
-    ownershipName,
     accreditationType,
     undergradEnrollment,
     localeType,
@@ -58,6 +57,7 @@ const ProfilePageHeader = ({
     preferredProvider,
     vetTecProvider,
     programs,
+    ownershipName,
   } = institution;
   const lowerType = type && type.toLowerCase();
   const formattedAddress = locationInfo(
@@ -65,10 +65,6 @@ const ProfilePageHeader = ({
     physicalState,
     physicalCountry,
   );
-  if (!environment.isProduction()) {
-    // eslint-disable-next-line no-console
-    console.log(institution);
-  }
   const compareChecked = !!compare.search.institutions[facilityCode];
   const compareLength = compare.search.loaded.length;
 
@@ -179,7 +175,8 @@ const ProfilePageHeader = ({
             {!environment.isProduction() ?? (
               <IconWithInfo icon="building" present={ownershipName}>
                 {'   '}
-                Institutional Ownership: {ownershipName}
+                Institutional Ownership:
+                {ownershipName}
               </IconWithInfo>
             )}
           </div>
