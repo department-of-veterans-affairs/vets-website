@@ -275,7 +275,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const newData = {
     ...formData,
     [formFields.formId]: state.data?.formData?.data?.id,
-    [formFields.claimantId]: claimant.claimantId,
+    [formFields.claimantId]: claimant?.claimantId,
     [formFields.viewUserFullName]: {
       [formFields.userFullName]: {
         first: firstName || undefined,
@@ -285,8 +285,8 @@ export function prefillTransformer(pages, formData, metadata, state) {
     },
     [formFields.dateOfBirth]:
       formatHyphenlessDate(vaProfile?.birthDate) ||
-      profile.birthDate ||
-      claimant.dateOfBirth,
+      profile?.birthDate ||
+      claimant?.dateOfBirth,
     [formFields.email]: {
       email: emailAddress,
       confirmEmail: emailAddress,
