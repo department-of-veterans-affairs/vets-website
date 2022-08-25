@@ -58,7 +58,7 @@ function editPhoneNumber(numberName) {
     `${numberName} (U.S. numbers only)`,
     { exact: false },
   );
-  const extensionInput = view.getByLabelText(/Extension/);
+  const extensionInput = view.getByLabelText(/Extension (6 digits maximum)/);
   expect(phoneNumberInput).to.exist;
 
   // enter a new phone number in the form
