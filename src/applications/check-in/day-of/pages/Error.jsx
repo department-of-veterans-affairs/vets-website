@@ -1,26 +1,27 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import BackToHome from '../../components/BackToHome';
 import Footer from '../../components/layout/Footer';
 
+import { makeSelectError } from '../../selectors';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import Wrapper from '../../components/layout/Wrapper';
 
 const Error = () => {
   const { t } = useTranslation();
   const { getValidateAttempts } = useSessionStorage(false);
-  let { isMaxValidateAttempts } = getValidateAttempts(window);
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const error = urlParams.get('error');
-  if (error === 'validation') {
-    isMaxValidateAttempts = true;
-  }
+  const selectError = useMemo(makeSelectError, []);
+  const { error } = useSelector(selectError);
+  const { isMaxValidateAttempts } = getValidateAttempts(window);
+
+  const validationError = isMaxValidateAttempts || error === 'max-validation';
+
   const maxValidateMessage = t(
     'were-sorry-we-couldnt-match-your-information-to-our-records-please-ask-a-staff-member-for-help',
   );
-  const message = isMaxValidateAttempts
+  const message = validationError
     ? maxValidateMessage
     : t(
         'were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member',
@@ -31,7 +32,7 @@ const Error = () => {
       <va-alert
         background-only
         show-icon
-        status={isMaxValidateAttempts ? 'error' : 'info'}
+        status={validationError ? 'error' : 'info'}
         data-testid="error-message"
       >
         <div>{message}</div>

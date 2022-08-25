@@ -23,6 +23,7 @@ import { api } from '../../api';
  * @param {string} [app]
  * @param {function} [resetAttempts]
  * @param {boolean} [isLorotaDeletionEnabled]
+ * @param {function} [updateError]
  */
 
 const validateLogin = async (
@@ -44,6 +45,7 @@ const validateLogin = async (
   app,
   resetAttempts,
   isLorotaDeletionEnabled,
+  updateError,
 ) => {
   setLastNameErrorMessage();
   setLast4ErrorMessage();
@@ -110,6 +112,7 @@ const validateLogin = async (
     setIsLoading(false);
     if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
       const params = e?.errors[0]?.status === '410' ? '?error=validation' : '';
+      updateError('max-validation');
       goToErrorPage(params);
     } else {
       setShowValidateError(true);
