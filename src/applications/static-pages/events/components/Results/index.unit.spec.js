@@ -22,13 +22,11 @@ describe('Events <Results>', () => {
 
 describe('Events <ResultsWhereContent>', () => {
   function getProps(locationObj, locationString, locationReadable) {
-    // eslint-disable-next-line sonarjs/prefer-immediate-return
-    const event = {
+    return {
       fieldFacilityLocation: locationObj,
       fieldLocationType: locationString,
       fieldLocationHumanreadable: locationReadable,
     };
-    return event;
   }
 
   it('renders online event prompt when event location type is online', () => {
