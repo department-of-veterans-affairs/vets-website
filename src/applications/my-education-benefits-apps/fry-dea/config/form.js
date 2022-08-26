@@ -50,13 +50,13 @@ import {
 import GetFormHelp from '../components/GetFormHelp';
 import GoToYourProfileLink from '../components/GoToYourProfileLink';
 import RelatedVeterans from '../components/RelatedVeterans';
-import { phoneSchema, phoneUISchema } from '../schema';
+import { phoneUISchema } from '../schema';
 import EmailViewField from '../components/EmailViewField';
-import {
-  isValidPhoneField,
-  validateEmail,
-  validateReMarriageDate,
-} from '../validation';
+import { isValidPhoneField, validateReMarriageDate } from '../validation';
+
+import { validateEmail } from '../../shared/validations';
+import { phoneSchema } from '../../shared/schemas';
+
 import EmailReviewField from '../components/EmailReviewField';
 import YesNoReviewField from '../components/YesNoReviewField';
 import MailingAddressViewField from '../components/MailingAddressViewField';

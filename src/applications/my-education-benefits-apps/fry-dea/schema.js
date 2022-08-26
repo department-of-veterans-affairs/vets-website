@@ -1,7 +1,7 @@
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+// import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-const { usaPhone } = commonDefinitions;
+// const { usaPhone } = commonDefinitions;
 
 import PhoneReviewField from './components/PhoneReviewField';
 import YesNoReviewField from './components/YesNoReviewField';
@@ -47,17 +47,17 @@ export function phoneUISchema(category) {
   };
 }
 
-export function phoneSchema() {
-  return {
-    type: 'object',
-    properties: {
-      phone: {
-        ...usaPhone,
-        pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
-      },
-      isInternational: {
-        type: 'boolean',
-      },
-    },
-  };
-}
+// export function phoneSchema() {
+//   return {
+//     type: 'object',
+//     properties: {
+//       phone: {
+//         ...usaPhone,
+//         pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
+//       },
+//       isInternational: {
+//         type: 'boolean',
+//       },
+//     },
+//   };
+// }

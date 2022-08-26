@@ -52,12 +52,13 @@ import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilit
 import MailingAddressViewField from '../components/MailingAddressViewField';
 
 import {
-  isValidPhone,
-  validateEmail,
   validateEffectiveDate,
   validateMobilePhone,
   validateHomePhone,
 } from '../utils/validation';
+
+import { isValidPhone, validateEmail } from '../../shared/validations';
+import { phoneSchema } from '../../shared/schemas';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
 
@@ -227,20 +228,20 @@ function phoneUISchema(category) {
   };
 }
 
-function phoneSchema() {
-  return {
-    type: 'object',
-    properties: {
-      phone: {
-        ...usaPhone,
-        pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
-      },
-      isInternational: {
-        type: 'boolean',
-      },
-    },
-  };
-}
+// function phoneSchema() {
+//   return {
+//     type: 'object',
+//     properties: {
+//       phone: {
+//         ...usaPhone,
+//         pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
+//       },
+//       isInternational: {
+//         type: 'boolean',
+//       },
+//     },
+//   };
+// }
 
 function additionalConsiderationsQuestionTitleText(benefitSelection, order) {
   const isUnsure = !benefitSelection || benefitSelection === 'CannotRelinquish';
