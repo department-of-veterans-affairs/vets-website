@@ -1,6 +1,7 @@
 import { isValidEmail } from 'platform/forms/validations';
 import moment from 'moment';
 import { formatReadableDate } from '../my-education-benefits/helpers';
+import { formFields } from './constants';
 
 export const isValidPhone = (phone, isInternational) => {
   let stripped;
@@ -49,15 +50,14 @@ export const validateEffectiveDate = (errors, dateString) => {
   }
 };
 
-export const validateHomePhone = (errors, phone, formData, formFields) => {
+export const validateHomePhone = (errors, phone, formData) => {
   const { isInternational } = formData[formFields.viewPhoneNumbers][
     formFields.phoneNumber
   ];
-
   validatePhone(errors, phone, isInternational);
 };
 
-export const validateMobilePhone = (errors, phone, formData, formFields) => {
+export const validateMobilePhone = (errors, phone, formData) => {
   const { isInternational } = formData[formFields.viewPhoneNumbers][
     formFields.mobilePhoneNumber
   ];
