@@ -91,6 +91,7 @@ const InboxListView = props => {
     <div className="message-list vads-l-row vads-u-flex-direction--column">
       <div className="message-list-sort">
         <va-select
+          class="vads-u-margin-top--neg1p5"
           label="Show messages by"
           name="sort order"
           onVaSelect={e => {

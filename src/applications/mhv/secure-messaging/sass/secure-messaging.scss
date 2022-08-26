@@ -7,6 +7,9 @@
   .main-content {
     display: flex;
     flex-direction: column;
+    h1 {
+      margin-bottom: 8px;
+    }
   }
   .secure-messaging-navigation {
     margin-right: 24px;
