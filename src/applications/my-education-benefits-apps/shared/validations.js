@@ -1,6 +1,4 @@
 import { isValidEmail } from 'platform/forms/validations';
-import moment from 'moment';
-import { formatReadableDate } from '../my-education-benefits/helpers';
 import { formFields } from './constants';
 
 export const isValidPhone = (phone, isInternational) => {
@@ -31,24 +29,8 @@ export const validateEmail = (errors, email) => {
 };
 
 export const isValidName = str => str && /^[A-Za-z][A-Za-z ']*$/.test(str);
+
 export const isValidLastName = str => str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
-
-export const validateEffectiveDate = (errors, dateString) => {
-  const effectiveDate = moment(dateString);
-  const minDate = moment().subtract(1, 'year');
-  const maxDate = moment().add(180, 'day');
-
-  if (
-    effectiveDate.isBefore(minDate, 'day') ||
-    effectiveDate.isAfter(maxDate, 'day')
-  ) {
-    errors.addError(
-      `Please enter a date between ${formatReadableDate(
-        minDate.format('YYYY-MM-DD'),
-      )} and ${formatReadableDate(maxDate.format('YYYY-MM-DD'))}`,
-    );
-  }
-};
 
 export const validateHomePhone = (errors, phone, formData) => {
   const { isInternational } = formData[formFields.viewPhoneNumbers][

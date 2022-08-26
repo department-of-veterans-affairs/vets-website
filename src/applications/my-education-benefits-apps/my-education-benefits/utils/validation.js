@@ -1,7 +1,9 @@
 // import { isValidEmail } from 'platform/forms/validations';
 // import moment from 'moment';
 // import { formatReadableDate } from '../helpers';
+import moment from 'moment';
 import { validatePhone } from '../../shared/validations';
+import { formatReadableDate } from '../helpers';
 
 // export const isValidPhone = (phone, isInternational) => {
 //   let stripped;
@@ -40,19 +42,19 @@ export const validateMobilePhone = (errors, phone, formData) => {
 //   }
 // };
 
-// export const validateEffectiveDate = (errors, dateString) => {
-//   const effectiveDate = moment(dateString);
-//   const minDate = moment().subtract(1, 'year');
-//   const maxDate = moment().add(180, 'day');
-//
-//   if (
-//     effectiveDate.isBefore(minDate, 'day') ||
-//     effectiveDate.isAfter(maxDate, 'day')
-//   ) {
-//     errors.addError(
-//       `Please enter a date between ${formatReadableDate(
-//         minDate.format('YYYY-MM-DD'),
-//       )} and ${formatReadableDate(maxDate.format('YYYY-MM-DD'))}`,
-//     );
-//   }
-// };
+export const validateEffectiveDate = (errors, dateString) => {
+  const effectiveDate = moment(dateString);
+  const minDate = moment().subtract(1, 'year');
+  const maxDate = moment().add(180, 'day');
+
+  if (
+    effectiveDate.isBefore(minDate, 'day') ||
+    effectiveDate.isAfter(maxDate, 'day')
+  ) {
+    errors.addError(
+      `Please enter a date between ${formatReadableDate(
+        minDate.format('YYYY-MM-DD'),
+      )} and ${formatReadableDate(maxDate.format('YYYY-MM-DD'))}`,
+    );
+  }
+};
