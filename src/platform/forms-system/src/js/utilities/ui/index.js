@@ -115,7 +115,22 @@ export function scrollToFirstError() {
     // Don't animate the scrolling if there is an open modal on the page. This
     // prevents the page behind the modal from scrolling if there is an error in
     // modal's form.
-    if (!document.body.classList.contains('modal-open')) {
+
+    // We have to search the shadow root of web components that have a slotted va-modal
+    const isShadowRootModalOpen = document
+      .querySelectorAll('va-omb-info')
+      .some(ombInfo =>
+        ombInfo.shadowRoot.querySelector(
+          'va-modal[visible]:not([visible="false"])',
+        ),
+      );
+
+    const isModalOpen =
+      document.body.classList.contains('modal-open') ||
+      document.querySelectorAll('va-modal[visible]:not([visible="false"])') ||
+      isShadowRootModalOpen;
+
+    if (!isModalOpen) {
       Scroll.animateScroll.scrollTo(position - 10, getScrollOptions());
     }
     focusElement(errorEl);
