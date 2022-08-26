@@ -1,19 +1,20 @@
 import { isValidEmail } from 'platform/forms/validations';
+import { isValidPhone } from '../../shared/validations';
 // import moment from 'moment';
 // import { formatReadableDate } from '../helpers';
 // import { formFields } from '../constants';
 
-const isValidPhone = (phone, isInternational) => {
-  let stripped;
-  try {
-    stripped = phone.replace(/[^\d]/g, '');
-  } catch (err) {
-    stripped = phone;
-  }
-  return isInternational
-    ? /^\d{10,15}$/.test(stripped)
-    : /^\d{10}$/.test(stripped);
-};
+// const isValidPhone = (phone, isInternational) => {
+//   let stripped;
+//   try {
+//     stripped = phone.replace(/[^\d]/g, '');
+//   } catch (err) {
+//     stripped = phone;
+//   }
+//   return isInternational
+//     ? /^\d{10,15}$/.test(stripped)
+//     : /^\d{10}$/.test(stripped);
+// };
 
 export const isValidPhoneField = phoneField => {
   const { isInternational } = phoneField;
