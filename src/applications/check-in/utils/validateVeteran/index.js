@@ -112,7 +112,7 @@ const validateLogin = async (
     setIsLoading(false);
     if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
       let params = '';
-      if (e?.errors[0]?.status === '410') {
+      if (e?.errors[0]?.status === '410' || isMaxValidateAttempts) {
         params = '?error=validation';
         updateError('max-validation');
       }
