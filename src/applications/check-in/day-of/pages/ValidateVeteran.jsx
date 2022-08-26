@@ -104,6 +104,7 @@ const ValidateVeteran = props => {
       token,
       isLorotaDeletionEnabled,
       isLorotaSecurityUpdatesEnabled,
+      updateError,
     ],
   );
   return (

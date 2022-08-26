@@ -105,6 +105,7 @@ const Index = ({ router }) => {
       token,
       isLorotaDeletionEnabled,
       isLorotaSecurityUpdatesEnabled,
+      updateError,
     ],
   );
 
