@@ -1,4 +1,6 @@
 import { isValidEmail } from 'platform/forms/validations';
+import moment from 'moment';
+import { formatReadableDate } from '../my-education-benefits/helpers';
 
 export const isValidPhone = (phone, isInternational) => {
   let stripped;
@@ -25,4 +27,39 @@ export const validateEmail = (errors, email) => {
   if (email && !isValidEmail(email)) {
     errors.addError('Please enter a valid email address.');
   }
+};
+
+export const isValidName = str => str && /^[A-Za-z][A-Za-z ']*$/.test(str);
+export const isValidLastName = str => str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
+
+export const validateEffectiveDate = (errors, dateString) => {
+  const effectiveDate = moment(dateString);
+  const minDate = moment().subtract(1, 'year');
+  const maxDate = moment().add(180, 'day');
+
+  if (
+    effectiveDate.isBefore(minDate, 'day') ||
+    effectiveDate.isAfter(maxDate, 'day')
+  ) {
+    errors.addError(
+      `Please enter a date between ${formatReadableDate(
+        minDate.format('YYYY-MM-DD'),
+      )} and ${formatReadableDate(maxDate.format('YYYY-MM-DD'))}`,
+    );
+  }
+};
+
+export const validateHomePhone = (errors, phone, formData, formFields) => {
+  const { isInternational } = formData[formFields.viewPhoneNumbers][
+    formFields.phoneNumber
+  ];
+
+  validatePhone(errors, phone, isInternational);
+};
+
+export const validateMobilePhone = (errors, phone, formData, formFields) => {
+  const { isInternational } = formData[formFields.viewPhoneNumbers][
+    formFields.mobilePhoneNumber
+  ];
+  validatePhone(errors, phone, isInternational);
 };

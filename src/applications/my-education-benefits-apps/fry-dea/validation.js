@@ -1,6 +1,6 @@
 import { compareAsc } from 'date-fns';
-import { formFields } from './constants';
-import { isValidPhone, validatePhone } from '../shared/validations';
+// import { formFields } from './constants';
+import { isValidPhone } from '../shared/validations';
 
 // const isValidPhone = (phone, isInternational) => {
 //   let stripped;
@@ -27,21 +27,21 @@ export const isValidPhoneField = phoneField => {
 //     );
 //   }
 // };
-
-export const validateHomePhone = (errors, phone, formData) => {
-  const { isInternational } = formData[formFields.viewPhoneNumbers][
-    formFields.phoneNumber
-  ];
-
-  validatePhone(errors, phone, isInternational);
-};
-
-export const validateMobilePhone = (errors, phone, formData) => {
-  const { isInternational } = formData[formFields.viewPhoneNumbers][
-    formFields.mobilePhoneNumber
-  ];
-  validatePhone(errors, phone, isInternational);
-};
+//
+// export const validateHomePhone = (errors, phone, formData) => {
+//   const { isInternational } = formData[formFields.viewPhoneNumbers][
+//     formFields.phoneNumber
+//   ];
+//
+//   validatePhone(errors, phone, isInternational);
+// };
+//
+// export const validateMobilePhone = (errors, phone, formData) => {
+//   const { isInternational } = formData[formFields.viewPhoneNumbers][
+//     formFields.mobilePhoneNumber
+//   ];
+//   validatePhone(errors, phone, isInternational);
+// };
 
 // export const validateEmail = (errors, email) => {
 //   if (email && !isValidEmail(email)) {

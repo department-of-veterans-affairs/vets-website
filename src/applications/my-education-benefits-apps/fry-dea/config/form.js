@@ -54,7 +54,11 @@ import { phoneUISchema } from '../schema';
 import EmailViewField from '../components/EmailViewField';
 import { isValidPhoneField, validateReMarriageDate } from '../validation';
 
-import { validateEmail } from '../../shared/validations';
+import {
+  isValidLastName,
+  isValidName,
+  validateEmail,
+} from '../../shared/validations';
 import { phoneSchema } from '../../shared/schemas';
 
 import EmailReviewField from '../components/EmailReviewField';
@@ -74,13 +78,13 @@ const checkImageSrc = environment.isStaging()
 
 // const BENEFITS = [ELIGIBILITY.FRY, ELIGIBILITY.DEA];
 
-function isValidName(str) {
-  return str && /^[A-Za-z][A-Za-z ']*$/.test(str);
-}
+// function isValidName(str) {
+//   return str && /^[A-Za-z][A-Za-z ']*$/.test(str);
+// }
 
-function isValidLastName(str) {
-  return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
-}
+// function isValidLastName(str) {
+//   return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
+// }
 
 const formConfig = {
   rootUrl: manifest.rootUrl,

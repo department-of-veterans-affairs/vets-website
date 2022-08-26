@@ -1,7 +1,7 @@
 import { isValidEmail } from 'platform/forms/validations';
-import moment from 'moment';
-import { formatReadableDate } from '../helpers';
-import { formFields } from '../constants';
+// import moment from 'moment';
+// import { formatReadableDate } from '../helpers';
+// import { formFields } from '../constants';
 
 const isValidPhone = (phone, isInternational) => {
   let stripped;
@@ -20,29 +20,29 @@ export const isValidPhoneField = phoneField => {
   return isValidPhone(phoneField.phone, isInternational);
 };
 
-const validatePhone = (errors, phone, isInternational) => {
-  if (phone && !isValidPhone(phone, isInternational)) {
-    const numDigits = isInternational ? '10 to 15' : '10';
-    errors.addError(
-      `Please enter a ${numDigits}-digit phone number (with or without dashes)`,
-    );
-  }
-};
+// const validatePhone = (errors, phone, isInternational) => {
+//   if (phone && !isValidPhone(phone, isInternational)) {
+//     const numDigits = isInternational ? '10 to 15' : '10';
+//     errors.addError(
+//       `Please enter a ${numDigits}-digit phone number (with or without dashes)`,
+//     );
+//   }
+// }
 
-export const validateHomePhone = (errors, phone, formData) => {
-  const { isInternational } = formData[formFields.viewPhoneNumbers][
-    formFields.phoneNumber
-  ];
-
-  validatePhone(errors, phone, isInternational);
-};
-
-export const validateMobilePhone = (errors, phone, formData) => {
-  const { isInternational } = formData[formFields.viewPhoneNumbers][
-    formFields.mobilePhoneNumber
-  ];
-  validatePhone(errors, phone, isInternational);
-};
+// export const validateHomePhone = (errors, phone, formData) => {
+//   const { isInternational } = formData[formFields.viewPhoneNumbers][
+//     formFields.phoneNumber
+//   ];
+//
+//   validatePhone(errors, phone, isInternational);
+// };
+//
+// export const validateMobilePhone = (errors, phone, formData) => {
+//   const { isInternational } = formData[formFields.viewPhoneNumbers][
+//     formFields.mobilePhoneNumber
+//   ];
+//   validatePhone(errors, phone, isInternational);
+// };
 
 export const validateEmail = (errors, email) => {
   if (email && !isValidEmail(email)) {
@@ -50,19 +50,19 @@ export const validateEmail = (errors, email) => {
   }
 };
 
-export const validateEffectiveDate = (errors, dateString) => {
-  const effectiveDate = moment(dateString);
-  const minDate = moment().subtract(1, 'year');
-  const maxDate = moment().add(180, 'day');
-
-  if (
-    effectiveDate.isBefore(minDate, 'day') ||
-    effectiveDate.isAfter(maxDate, 'day')
-  ) {
-    errors.addError(
-      `Please enter a date between ${formatReadableDate(
-        minDate.format('YYYY-MM-DD'),
-      )} and ${formatReadableDate(maxDate.format('YYYY-MM-DD'))}`,
-    );
-  }
-};
+// export const validateEffectiveDate = (errors, dateString) => {
+//   const effectiveDate = moment(dateString);
+//   const minDate = moment().subtract(1, 'year');
+//   const maxDate = moment().add(180, 'day');
+//
+//   if (
+//     effectiveDate.isBefore(minDate, 'day') ||
+//     effectiveDate.isAfter(maxDate, 'day')
+//   ) {
+//     errors.addError(
+//       `Please enter a date between ${formatReadableDate(
+//         minDate.format('YYYY-MM-DD'),
+//       )} and ${formatReadableDate(maxDate.format('YYYY-MM-DD'))}`,
+//     );
+//   }
+// };

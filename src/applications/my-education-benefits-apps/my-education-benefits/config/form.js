@@ -51,13 +51,15 @@ import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 import MailingAddressViewField from '../components/MailingAddressViewField';
 
-import {
-  validateEffectiveDate,
-  validateMobilePhone,
-  validateHomePhone,
-} from '../utils/validation';
+import { validateMobilePhone, validateHomePhone } from '../utils/validation';
 
-import { isValidPhone, validateEmail } from '../../shared/validations';
+import {
+  isValidLastName,
+  isValidName,
+  validateEffectiveDate,
+  isValidPhone,
+  validateEmail,
+} from '../../shared/validations';
 import { phoneSchema } from '../../shared/schemas';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
@@ -183,13 +185,13 @@ function isOnlyWhitespace(str) {
   return str && !str.trim().length;
 }
 
-function isValidName(str) {
-  return str && /^[A-Za-z][A-Za-z ']*$/.test(str);
-}
+// function isValidName(str) {
+//   return str && /^[A-Za-z][A-Za-z ']*$/.test(str);
+// }
 
-function isValidLastName(str) {
-  return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
-}
+// function isValidLastName(str) {
+//   return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
+// }
 
 function titleCase(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();

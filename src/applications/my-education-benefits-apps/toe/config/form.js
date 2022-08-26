@@ -44,7 +44,8 @@ import {
   // prefillTransformer,
 } from '../helpers';
 
-import { phoneSchema, phoneUISchema } from '../schema';
+import { phoneUISchema } from '../schema';
+import { phoneSchema } from '../../shared/schemas';
 import { isValidPhoneField, validateEmail } from '../utils/validation';
 import {
   formFields,

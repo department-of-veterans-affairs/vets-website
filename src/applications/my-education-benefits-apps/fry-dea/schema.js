@@ -7,7 +7,7 @@ import PhoneReviewField from './components/PhoneReviewField';
 import YesNoReviewField from './components/YesNoReviewField';
 import { formFields } from './constants';
 import { titleCase } from './helpers';
-import { validateHomePhone, validateMobilePhone } from './validation';
+import { validateHomePhone, validateMobilePhone } from '../shared/validations';
 
 export function phoneUISchema(category) {
   return {
