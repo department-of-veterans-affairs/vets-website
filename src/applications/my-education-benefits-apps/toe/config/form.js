@@ -27,7 +27,7 @@ import FirstSponsorReviewPage from '../components/FirstSponsorReviewPage';
 import GoToYourProfileLink from '../components/GoToYourProfileLink';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 import MailingAddressViewField from '../components/MailingAddressViewField';
-import GetHelp from '../components/GetHelp';
+import GetHelp from '../../shared/components/GetHelp';
 import SelectedSponsorsReviewPage from '../components/SelectedSponsorsReviewPage';
 import Sponsors from '../components/Sponsors';
 import SponsorCheckboxGroup from '../components/SponsorsCheckboxGroup';

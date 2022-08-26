@@ -22,7 +22,7 @@ import fullSchema from '../22-1990-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
-import GetFormHelp from '../components/GetFormHelp';
+import GetHelp from '../../shared/components/GetHelp';
 
 import manifest from '../manifest.json';
 
@@ -414,7 +414,7 @@ const formConfig = {
     usaPhone,
   },
   footerContent: FormFooter,
-  getHelp: GetFormHelp,
+  getHelp: GetHelp,
   preSubmitInfo,
   chapters: {
     applicantInformationChapter: {
