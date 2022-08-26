@@ -30,7 +30,7 @@ describe('Burial claim test', () => {
     cy.get('va-segmented-progress-bar')
       .shadow()
       .find('.progress-bar-segmented div.progress-segment:nth-child(1)')
-      .should('have.class', 'progress-segment-complete');
+      .should('have.class', 'progress-seggment-complete');
     cy.fillName('root_claimantFullName', testData.data.claimantFullName);
     cy.selectRadio('root_relationship_type', testData.data.relationship.type);
     if (testData.data.relationship.type === 'other') {

@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import '@testing-library/cypress/add-commands';
 import 'cypress-axe';
 import 'cypress-plugin-tab';
@@ -59,9 +61,11 @@ beforeEach(() => {
 // Assign the video path to the context property for failed tests
 Cypress.on('test:after:run', test => {
   if (test.state === 'failed') {
+    console.log(test);
     let videoName = Cypress.spec.name;
     videoName = videoName.replace('/.js.*', '.js');
     const videoPath = `${Cypress.config('videosFolder')}/${videoName}.mp4`;
+    console.log(videoPath);
     addContext(
       { test },
       {
