@@ -117,13 +117,13 @@ export function scrollToFirstError() {
     // modal's form.
 
     // We have to search the shadow root of web components that have a slotted va-modal
-    const isShadowRootModalOpen = document
-      .querySelectorAll('va-omb-info')
-      .some(ombInfo =>
-        ombInfo.shadowRoot.querySelector(
-          'va-modal[visible]:not([visible="false"])',
-        ),
-      );
+    const isShadowRootModalOpen = Array.from(
+      document.querySelectorAll('va-omb-info'),
+    ).some(ombInfo =>
+      ombInfo.shadowRoot.querySelector(
+        'va-modal[visible]:not([visible="false"])',
+      ),
+    );
 
     const isModalOpen =
       document.body.classList.contains('modal-open') ||
