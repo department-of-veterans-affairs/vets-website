@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { getAppUrl } from 'platform/utilities/registry-helpers';
 
@@ -10,10 +9,10 @@ import { MoreQuestions } from '../MoreQuestions';
 const coeUrl = getAppUrl('coe');
 const introUrl = `${coeUrl}/introduction`;
 
-export const Available = ({ downloadUrl }) => (
+export const Available = () => (
   <div className="row vads-u-margin-bottom--7">
     <div className="medium-8 columns">
-      <ReviewAndDownload downloadUrl={downloadUrl} />
+      <ReviewAndDownload />
       <h2>What if I need to make changes to my COE?</h2>
       <p>
         Complete and submit a Request for a Certificate of Eligibility (VA Form
@@ -34,9 +33,5 @@ export const Available = ({ downloadUrl }) => (
     </div>
   </div>
 );
-
-Available.propTypes = {
-  downloadUrl: PropTypes.string.isRequired,
-};
 
 export default Available;
