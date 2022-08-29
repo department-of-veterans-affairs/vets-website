@@ -7,14 +7,16 @@ export const DeviceConnectionCard = ({ device }) => {
     <div className="connect-device">
       <h3 className="vads-u-margin-y--0">{device.name}</h3>
       <p className="vads-u-margin-y--0">
-        <a
+        <va-link
+          active
+          role="link"
           data-testid={`${device.key}-connect-link`}
           id={`${device.key}-connect-link`}
           className="connect-button"
           href={`${environment.API_URL}/dhp_connected_devices${device.authUrl}`}
-        >
-          Connect
-        </a>
+          aria-label={`Connect ${device.name}`}
+          text="Connect"
+        />
       </p>
     </div>
   );

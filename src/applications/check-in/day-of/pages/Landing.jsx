@@ -31,11 +31,12 @@ const Landing = props => {
   const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
 
   const [loadMessage] = useState(t('finding-your-appointment-information'));
+  const [sessionCallMade, setSessionCallMade] = useState(false);
+
   const {
     clearCurrentSession,
     setShouldSendDemographicsFlags,
     setCurrentToken,
-    resetAttempts,
   } = useSessionStorage(false);
   const dispatch = useDispatch();
 
@@ -76,7 +77,8 @@ const Landing = props => {
         goToErrorPage();
       }
 
-      if (token) {
+      if (token && !sessionCallMade) {
+        setSessionCallMade(true);
         api.v2
           .getSession({
             token,
@@ -115,9 +117,9 @@ const Landing = props => {
       jumpToPage,
       goToErrorPage,
       initForm,
+      sessionCallMade,
       setSession,
       setShouldSendDemographicsFlags,
-      resetAttempts,
       isLorotaSecurityUpdatesEnabled,
     ],
   );

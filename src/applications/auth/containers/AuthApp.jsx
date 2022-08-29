@@ -144,8 +144,8 @@ export class AuthApp extends React.Component {
   handleTokenRequest = async ({ code, state, csp }) => {
     // Verify the state matches in storage
     if (
-      !sessionStorage.getItem(OAUTH_KEYS.STATE) ||
-      sessionStorage.getItem(OAUTH_KEYS.STATE) !== state
+      !localStorage.getItem(OAUTH_KEYS.STATE) ||
+      localStorage.getItem(OAUTH_KEYS.STATE) !== state
     ) {
       this.generateOAuthError({
         code: AUTH_ERROR.OAUTH_STATE_MISMATCH,

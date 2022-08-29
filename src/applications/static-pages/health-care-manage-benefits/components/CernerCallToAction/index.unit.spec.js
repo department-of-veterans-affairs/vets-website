@@ -47,7 +47,7 @@ describe('<CernerCallToAction>', () => {
 
     const text = wrapper.text();
     expect(text).to.include(
-      'Please choose a health management portal below, depending on your provider',
+      'Choose a health management portal, depending on your provider',
     );
 
     wrapper.unmount();

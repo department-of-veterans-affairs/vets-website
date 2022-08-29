@@ -10,18 +10,12 @@ import {
   Pending,
 } from '../../components/statuses';
 
-const COEIntroPageBox = ({
-  downloadUrl,
-  referenceNumber,
-  requestDate,
-  status,
-}) => {
+const COEIntroPageBox = ({ referenceNumber, requestDate, status }) => {
   if (status) {
     switch (status) {
       case COE_ELIGIBILITY_STATUS.available:
         return (
           <Available
-            downloadUrl={downloadUrl}
             referenceNumber={referenceNumber}
             requestDate={requestDate}
           />
@@ -31,12 +25,7 @@ const COEIntroPageBox = ({
           <Denied referenceNumber={referenceNumber} requestDate={requestDate} />
         );
       case COE_ELIGIBILITY_STATUS.eligible:
-        return (
-          <Eligible
-            downloadUrl={downloadUrl}
-            referenceNumber={referenceNumber}
-          />
-        );
+        return <Eligible referenceNumber={referenceNumber} />;
       case COE_ELIGIBILITY_STATUS.unableToDetermine:
         return <Ineligible />;
       case COE_ELIGIBILITY_STATUS.pending:
@@ -58,7 +47,6 @@ const COEIntroPageBox = ({
 };
 
 COEIntroPageBox.propTypes = {
-  downloadUrl: PropTypes.string,
   referenceNumber: PropTypes.string,
   requestDate: PropTypes.number,
   status: PropTypes.string,
