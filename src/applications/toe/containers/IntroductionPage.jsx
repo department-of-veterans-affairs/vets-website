@@ -3,30 +3,51 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+
+const PrefillAlert = (
+  <va-alert
+    class="vads-u-margin-bottom--1"
+    close-btn-aria-label="Close notification"
+    status="info"
+    visible
+  >
+    <p className="vads-u-margin-y--0">
+      <strong>Note:</strong> Since you’re signed in to your account, we can
+      prefill part of your application based on your account details. You can
+      also save your application in progress and come back later to finish
+      filling it out. You may be eligible to receive an instant decision about
+      your application.
+    </p>
+  </va-alert>
+);
 
 export const IntroductionPage = ({ user, route }) => {
   return (
     <div className="schemaform-intro">
-      <FormTitle title="Apply to use transferred education benefits" />
-      <p className="vads-u-font-size--h3">
+      <h1>Apply to use transferred education benefits</h1>
+      <h2 className="vads-u-font-size--h3 vads-u-font-size--h3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-top--2p5">
         Equal to VA Form 22-1990e (Application for Family Member to Use
         Transferred Benefits)
+      </h2>
+
+      <p className="vads-u-margin-top--4">
+        <strong>Note:</strong> This application is only for{' '}
+        <strong>Transfer of Entitlement for Post-9/11 GI Bill</strong> (Chapter
+        33) education benefits.
       </p>
 
-      <va-alert close-btn-aria-label="Close notification" status="info" visible>
-        <h3 slot="headline">
-          This application is only for Transfer of Entitlement for Post-9/11 GI
-          Bill®
-        </h3>
-        <p className="vads-u-margin-bottom--0">
-          <a href="https://www.va.gov/education/transfer-post-9-11-gi-bill-benefits/">
-            Learn more about the Transfer of Entitlement for Post-9/11 GI Bill®
-            (Chapter 33).
-          </a>
-        </p>
-      </va-alert>
+      {user?.login?.currentlyLoggedIn && (
+        <SaveInProgressIntro
+          buttonOnly
+          testActionLink
+          user={user}
+          prefillEnabled={route.formConfig.prefillEnabled}
+          messages={route.formConfig.savedFormMessages}
+          pageList={route.pageList}
+          startText="Start your benefits application"
+        />
+      )}
 
       <h2 className="vads-u-font-size--h3">
         Follow these steps to get started
@@ -54,13 +75,13 @@ export const IntroductionPage = ({ user, route }) => {
               <strong>Here’s what you’ll need to apply</strong>:
             </p>
             <ul>
-              <li>Knowledge of your sponsor’s military service history</li>
+              <li>Your sponsor’s military service history</li>
               <li>Your current address and contact information</li>
-              <li>Bank account direct deposit information</li>
+              <li>Your bank account direct deposit information</li>
             </ul>
             <p className="vads-u-margin-bottom--0">
-              <strong>Note</strong>: If you are under 18, your parent or
-              guardian must sign the application.
+              <strong>Note</strong>: If you aren’t legally an adult (at least 18
+              years old), your parent or guardian must sign your application.
             </p>
           </li>
           <li className="process-step list-three">
@@ -90,8 +111,8 @@ export const IntroductionPage = ({ user, route }) => {
       </div>
 
       {user?.login?.currentlyLoggedIn && (
-        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
-          Begin your application for education benefits
+        <h2 className="vads-u-font-size--h3 vads-u-margin-top--0 vads-u-margin-bottom--4">
+          Start your application for education benefits
         </h2>
       )}
 
@@ -101,7 +122,8 @@ export const IntroductionPage = ({ user, route }) => {
         prefillEnabled={route.formConfig.prefillEnabled}
         messages={route.formConfig.savedFormMessages}
         pageList={route.pageList}
-        startText="Start your application"
+        startText="Start your benefits application"
+        verifiedPrefillAlert={PrefillAlert}
       />
 
       <div

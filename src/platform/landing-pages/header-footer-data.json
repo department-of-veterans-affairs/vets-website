@@ -99,43 +99,36 @@
     },
     {
       "column": 2,
-      "href": "https://www.va.gov/vso/",
-      "order": 5,
-      "target": null,
-      "title": "Veterans Service Organizations (VSOs)"
-    },
-    {
-      "column": 2,
       "href": "https://www.va.gov/statedva.htm",
-      "order": 6,
+      "order": 5,
       "target": null,
       "title": "State Veterans Affairs offices"
     },
     {
       "column": 2,
       "href": "https://www.va.gov/landing2_business.htm",
-      "order": 7,
+      "order": 6,
       "target": null,
       "title": "Doing business with VA"
     },
     {
       "column": 2,
       "href": "https://www.va.gov/jobs/",
-      "order": 8,
+      "order": 7,
       "target": null,
       "title": "Careers at VA"
     },
     {
       "column": 2,
       "href": "https://www.va.gov/outreach-and-events/outreach-materials/",
-      "order": 9,
+      "order": 8,
       "target": null,
       "title": "VA outreach materials"
     },
     {
       "column": 2,
       "href": "https://www.va.gov/welcome-kit/",
-      "order": 10,
+      "order": 9,
       "target": null,
       "title": "Your VA welcome kit"
     },

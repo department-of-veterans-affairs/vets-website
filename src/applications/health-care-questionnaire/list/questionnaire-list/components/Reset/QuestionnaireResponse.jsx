@@ -28,11 +28,11 @@ export default function QuestionnaireResponse(props) {
   const getButton = () => {
     if (isDeleted) {
       return <button disabled>deleted</button>;
-    } else if (isDeleting) {
-      return <button disabled>deleting...</button>;
-    } else {
-      return <button onClick={() => resetQr(resource)}>reset</button>;
     }
+    if (isDeleting) {
+      return <button disabled>deleting...</button>;
+    }
+    return <button onClick={() => resetQr(resource)}>reset</button>;
   };
   if (isDeleted) {
     return <></>;
