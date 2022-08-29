@@ -6,7 +6,5 @@ module.exports = {
     'jsx-a11y/anchor-is-valid': 2,
     'jsx-a11y/label-has-associated-control': 1,
     'jsx-a11y/no-static-element-interactions': 2,
-    '@department-of-veterans-affairs/prefer-telephone-component': 2,
-    '@department-of-veterans-affairs/telephone-contact-3-or-10-digits': 2,
   },
 };
