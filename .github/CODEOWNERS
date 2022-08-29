@@ -101,6 +101,10 @@ src/applications/education-letters @department-of-veterans-affairs/my-education-
 src/applications/fry-dea @department-of-veterans-affairs/my-education-benefits
 src/applications/toe @department-of-veterans-affairs/my-education-benefits
 
+# My HealtheVet Secure Messaging
+
+src/applications/mhv/secure-messaging @department-of-veterans-affairs/vfs-mhv-secure-messaging
+
 # Other
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe
 src/applications/dhp-connected-devices @department-of-veterans-affairs/digital-health-platform
