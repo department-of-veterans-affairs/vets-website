@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { createSetSession } from '../../actions/authentication';
+import { setError } from '../../actions/universal';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 
@@ -20,6 +21,13 @@ const ValidateVeteran = props => {
   const { router } = props;
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const updateError = useCallback(
+    error => {
+      dispatch(setError(error));
+    },
+    [dispatch],
+  );
 
   const setSession = useCallback(
     (token, permissions) => {
@@ -44,7 +52,10 @@ const ValidateVeteran = props => {
   const { token } = useSelector(selectCurrentContext);
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+  const {
+    isLorotaSecurityUpdatesEnabled,
+    isLorotaDeletionEnabled,
+  } = useSelector(selectFeatureToggles);
 
   const {
     getValidateAttempts,
@@ -75,6 +86,8 @@ const ValidateVeteran = props => {
         setSession,
         app,
         resetAttempts,
+        isLorotaDeletionEnabled,
+        updateError,
       );
     },
     [
@@ -89,7 +102,9 @@ const ValidateVeteran = props => {
       resetAttempts,
       setSession,
       token,
+      isLorotaDeletionEnabled,
       isLorotaSecurityUpdatesEnabled,
+      updateError,
     ],
   );
   return (

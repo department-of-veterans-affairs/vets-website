@@ -15,3 +15,12 @@ export const recordAnswer = answer => {
     payload: answer,
   };
 };
+
+export const SET_ERROR = 'SET_ERROR';
+
+export const setError = errorString => {
+  return {
+    type: SET_ERROR,
+    payload: { error: errorString },
+  };
+};

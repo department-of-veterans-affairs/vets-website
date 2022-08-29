@@ -128,7 +128,11 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="veteran-signature"]`).type('Mark Webb');
+          cy.get('#veteran-signature')
+            .shadow()
+            .find('input')
+            .first()
+            .type('Mark Webb');
           cy.get(`input[name="veteran-certify"]`).check();
           cy.get(`input[name="privacy-policy"]`).check();
           cy.findAllByText(/Submit your request/i, {

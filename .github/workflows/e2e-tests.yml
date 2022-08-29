@@ -167,9 +167,9 @@ jobs:
 
     strategy:
       fail-fast: false
-      max-parallel: 8
+      max-parallel: 12
       matrix:
-        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7]
+        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
@@ -224,6 +224,7 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
           APP_URLS: ''
+          NUM_CONTAINERS: 12
 
       # Temporarily disabled due to apparent memory issues caused by code coverage tools
       # - name: View code coverage summary
@@ -393,6 +394,7 @@ jobs:
           TEST_RESULTS_TABLE_NAME: cypress_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
           TEST_RETRIES_TABLE_NAME: cypress_retry_records
+          NUM_CONTAINERS: 12
 
       - name: Upload Cypress E2E test videos to s3
         if: ${{ needs.cypress-tests.result == 'failure' }}

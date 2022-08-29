@@ -58,6 +58,17 @@ const selectApp = createSelector(
 
 const makeSelectApp = () => selectApp;
 
+const selectError = createSelector(
+  state => {
+    return {
+      error: state?.checkInData?.error,
+    };
+  },
+  app => app,
+);
+
+const makeSelectError = () => selectError;
+
 export {
   makeSelectCurrentContext,
   makeSelectForm,
@@ -65,4 +76,5 @@ export {
   makeSelectConfirmationData,
   makeSelectSeeStaffMessage,
   makeSelectApp,
+  makeSelectError,
 };

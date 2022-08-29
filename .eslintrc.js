@@ -23,6 +23,15 @@ module.exports = {
   rules: {
     /* || Eslint main rules || */
     camelcase: [2, { properties: 'always' }], // Override airbnb style.
+    '@department-of-veterans-affairs/no-cross-app-imports': [
+      'warn', // Warn for now, but after cleanup of imports, change to error
+      {
+        // Aliases copied from babel.config.json
+        '~': './src',
+        '@@vap-svc': './src/platform/user/profile/vap-svc',
+        '@@profile': './src/applications/personalization/profile',
+      },
+    ],
     'deprecate/import': [
       'warn',
       {
@@ -51,6 +60,10 @@ module.exports = {
       {
         name: '@department-of-veterans-affairs/component-library/TextArea',
         use: '<va-textarea>',
+      },
+      {
+        name: '@department-of-veterans-affairs/component-library/RadioButtons',
+        use: '<va-radio>',
       },
     ],
     'jsx-a11y/control-has-associated-label': 1, // 2

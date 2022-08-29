@@ -13,7 +13,6 @@ import 'applications/search/components/SearchDropdown/SearchDropdownStyles.scss'
 import './sass/user-nav.scss';
 import startReactApp from '../../startup/react';
 import Main from './containers/Main';
-import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
 /**
  * Sets up the login widget with the given store at login-root
@@ -21,8 +20,6 @@ import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
  * @param {Redux.Store} store The common store used on the site
  */
 export default function startUserNavWidget(store) {
-  connectFeatureToggle(store.dispatch);
-
   startReactApp(
     <Provider store={store}>
       <Main />

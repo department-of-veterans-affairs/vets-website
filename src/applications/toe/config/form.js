@@ -1,19 +1,20 @@
 import React from 'react';
 import { createSelector } from 'reselect';
+
 import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+
+import * as address from 'platform/forms/definitions/address';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
+import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
 
-import * as address from 'platform/forms/definitions/address';
-
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
 import manifest from '../manifest.json';
 
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -27,16 +28,14 @@ import GoToYourProfileLink from '../components/GoToYourProfileLink';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import GetHelp from '../components/GetHelp';
-import PhoneReviewField from '../components/PhoneReviewField';
-import PhoneViewField from '../components/PhoneViewField';
 import SelectedSponsorsReviewPage from '../components/SelectedSponsorsReviewPage';
-import SponsorCheckboxGroup from '../components/SponsorsCheckboxGroup';
 import Sponsors from '../components/Sponsors';
+import SponsorCheckboxGroup from '../components/SponsorsCheckboxGroup';
+import SponsorsSelectionHeadings from '../components/SponsorsSelectionHeadings';
 import YesNoReviewField from '../components/YesNoReviewField';
 
 import {
   isOnlyWhitespace,
-  titleCase,
   hideUnder18Field,
   addWhitespaceOnlyError,
   isAlphaNumeric,
@@ -45,57 +44,19 @@ import {
   // prefillTransformer,
 } from '../helpers';
 
+import { phoneSchema, phoneUISchema } from '../schema';
+import { isValidPhoneField, validateEmail } from '../utils/validation';
 import {
-  isValidPhone,
-  validatePhone,
-  validateEmail,
-} from '../utils/validation';
+  formFields,
+  SPONSOR_RELATIONSHIP,
+  YOUR_PROFILE_URL,
+} from '../constants';
 
-import { SPONSOR_RELATIONSHIP, formFields } from '../constants';
-
-const { fullName, date, usaPhone, email } = commonDefinitions;
+const { fullName, date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
 const checkImageSrc = environment.isStaging()
   ? `${VAGOVSTAGING}/img/check-sample.png`
   : `${vagovprod}/img/check-sample.png`;
-
-function phoneUISchema(category, parent, international) {
-  return {
-    [parent]: {
-      'ui:options': {
-        hideLabelText: true,
-        showFieldLabel: false,
-        viewComponent: PhoneViewField,
-      },
-      'ui:objectViewField': PhoneReviewField,
-      phone: {
-        ...phoneUI(`${titleCase(category)} phone number`),
-        'ui:validations': [validatePhone],
-      },
-    },
-    [international]: {
-      'ui:title': `This ${category} phone number is international`,
-      'ui:reviewField': YesNoReviewField,
-      'ui:options': {
-        // expandUnder: parent,
-        hideIf: formData =>
-          !isValidPhone(formData[formFields.viewPhoneNumbers][parent].phone),
-      },
-    },
-  };
-}
-
-function phoneSchema() {
-  return {
-    type: 'object',
-    properties: {
-      phone: {
-        ...usaPhone,
-        pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
-      },
-    },
-  };
-}
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -107,7 +68,7 @@ const formConfig = {
   trackingPrefix: 'toe-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '22-1990E',
+  formId: VA_FORM_IDS.FORM_22_1990EMEB,
   title: 'Apply to use transferred education benefits',
   subTitle:
     'Equal to VA Form 22-1990e (Application for Family Member to Use Transferred Benefits)',
@@ -133,8 +94,7 @@ const formConfig = {
       pages: {
         applicantInformation: {
           title: 'Your information',
-          path:
-            'education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/applicant-information',
+          path: 'applicant-information',
           subTitle: 'Your information',
           instructions:
             'This is the personal information we have on file for you.',
@@ -144,18 +104,18 @@ const formConfig = {
                 <>
                   <h3>Review your personal information</h3>
                   <p>
-                    This is the personal information we have on file for you. If
-                    you notice any errors, please correct them now. Any updates
-                    you make will change the information for your education
-                    benefits only.
+                    We have this personal information on file for you. If you
+                    notice any errors, please correct them now. Any updates you
+                    make will change the information for your education benefits
+                    only.
                   </p>
                   <p>
                     <strong>Note:</strong> If you want to update your personal
-                    information for other VA benefits, you can do that from your
-                    profile.
-                  </p>
-                  <p className="vads-u-margin-bottom--3">
-                    <GoToYourProfileLink />
+                    information for other VA benefits,{' '}
+                    <a href={YOUR_PROFILE_URL}>
+                      update your information on your profile
+                    </a>
+                    .
                   </p>
                 </>
               ),
@@ -296,14 +256,18 @@ const formConfig = {
       title: 'Sponsor information',
       pages: {
         sponsorSelection: {
-          title: 'Choose your sponsor',
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/sponsor-selection',
+          title: 'Choose your sponsors',
+          path: 'sponsor-selection',
           CustomPageReview: SelectedSponsorsReviewPage,
           depends: formData => formData.sponsors?.sponsors?.length,
           uiSchema: {
             'view:listOfSponsors': {
-              'ui:description': <Sponsors />,
+              'ui:description': (
+                <>
+                  <SponsorsSelectionHeadings />
+                  <Sponsors />
+                </>
+              ),
             },
             [formFields.selectedSponsors]: {
               'ui:field': SponsorCheckboxGroup,
@@ -357,20 +321,29 @@ const formConfig = {
           },
         },
         sponsorInformation: {
-          title: 'Enter your sponsor’s info',
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/sponsor-information',
-          depends: formData => formData.sponsors?.someoneNotListed,
+          title: 'Enter your sponsor’s information',
+          path: 'sponsor-information',
+          depends: formData =>
+            !formData.sponsors?.sponsors?.length ||
+            formData.sponsors?.someoneNotListed,
           uiSchema: {
+            'view:enterYourSponsorsInformationHeading': {
+              'ui:description': (
+                <h3 className="vads-u-margin-bottom--3">
+                  Enter your sponsor’s information
+                </h3>
+              ),
+            },
             'view:noSponsorWarning': {
               'ui:description': (
                 <va-alert
+                  class="vads-u-margin-bottom--5"
                   close-btn-aria-label="Close notification"
                   status="warning"
                   visible
                 >
                   <h3 slot="headline">
-                    We do not have any sponsor information on file
+                    We don’t have any sponsor information on file
                   </h3>
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
@@ -382,7 +355,7 @@ const formConfig = {
                   </p>
                   <p>
                     You may still continue this application and enter your
-                    sponsor information manually.
+                    sponsor’s information manually.
                   </p>
                 </va-alert>
               ),
@@ -393,13 +366,12 @@ const formConfig = {
             'view:sponsorNotOnFileWarning': {
               'ui:description': (
                 <va-alert
+                  class="vads-u-margin-bottom--5"
                   close-btn-aria-label="Close notification"
                   status="warning"
                   visible
                 >
-                  <h3 slot="headline">
-                    One of your selected sponsors is not on file
-                  </h3>
+                  <h3 slot="headline">Your selected sponsor isn’t on file</h3>
                   <p>
                     If you think this is incorrect, reach out to your sponsor so
                     they can{' '}
@@ -410,7 +382,7 @@ const formConfig = {
                   </p>
                   <p>
                     You may still continue this application and enter your
-                    sponsor information manually.
+                    sponsor’s information manually.
                   </p>
                 </va-alert>
               ),
@@ -420,14 +392,16 @@ const formConfig = {
             },
             [formFields.relationshipToServiceMember]: {
               'ui:title':
-                'What’s your relationship to the service member whose benefit has been transferred to you?',
+                'What’s your relationship to the Veteran or service member whose benefit has been transferred to you?',
               'ui:widget': 'radio',
+            },
+            'view:yourSponsorsInformationHeading': {
+              'ui:description': <h4>Your sponsor’s information</h4>,
             },
             [formFields.sponsorFullName]: {
               ...fullNameUI,
               first: {
                 ...fullNameUI.first,
-                'ui:title': 'Your sponsor’s first name',
                 'ui:validations': [
                   (errors, field) =>
                     addWhitespaceOnlyError(
@@ -439,7 +413,6 @@ const formConfig = {
               },
               last: {
                 ...fullNameUI.last,
-                'ui:title': 'Your sponsor’s last name',
                 'ui:validations': [
                   (errors, field) =>
                     addWhitespaceOnlyError(
@@ -449,13 +422,9 @@ const formConfig = {
                     ),
                 ],
               },
-              middle: {
-                ...fullNameUI.middle,
-                'ui:title': 'Your sponsor’s middle name',
-              },
             },
             [formFields.sponsorDateOfBirth]: {
-              ...currentOrPastDateUI('Your sponsor’s date of birth'),
+              ...currentOrPastDateUI('Date of birth'),
             },
           },
           schema: {
@@ -465,6 +434,10 @@ const formConfig = {
               formFields.sponsorDateOfBirth,
             ],
             properties: {
+              'view:enterYourSponsorsInformationHeading': {
+                type: 'object',
+                properties: {},
+              },
               'view:noSponsorWarning': {
                 type: 'object',
                 properties: {},
@@ -476,6 +449,10 @@ const formConfig = {
               [formFields.relationshipToServiceMember]: {
                 type: 'string',
                 enum: [SPONSOR_RELATIONSHIP.SPOUSE, SPONSOR_RELATIONSHIP.CHILD],
+              },
+              'view:yourSponsorsInformationHeading': {
+                type: 'object',
+                properties: {},
               },
               [formFields.sponsorFullName]: {
                 ...fullName,
@@ -494,8 +471,7 @@ const formConfig = {
         },
         firstSponsorSelection: {
           title: 'Choose your first sponsor',
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/first-sponsor',
+          path: 'first-sponsor',
           CustomPageReview: FirstSponsorReviewPage,
           depends: formData => formData.selectedSponsors?.length > 1,
           uiSchema: {
@@ -560,8 +536,7 @@ const formConfig = {
         },
         highSchool: {
           title: 'Verify your high school education',
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/high-school',
+          path: 'high-school',
           depends: formData => applicantIsChildOfSponsor(formData),
           uiSchema: {
             'view:subHeadings': {
@@ -606,8 +581,7 @@ const formConfig = {
         },
         highSchoolGraduationDate: {
           title: 'Verify your high school graduation date',
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/high-school-completion',
+          path: 'high-school-completion',
           depends: formData =>
             applicantIsChildOfSponsor(formData) &&
             formData[formFields.highSchoolDiploma] === 'Yes',
@@ -656,8 +630,7 @@ const formConfig = {
       pages: {
         contactInformation: {
           title: 'Phone numbers and email address',
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/phone-email',
+          path: 'phone-email',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -673,18 +646,16 @@ const formConfig = {
                     <li>Tell you important information about your benefits</li>
                   </ul>
                   <p>
-                    This is the contact information we have on file for you. If
-                    you notice any errors, please correct them now. Any updates
-                    you make will change the information for your education
-                    benefits only.
+                    We have this contact information on file for you. If you
+                    notice any errors, please correct them now. Any updates you
+                    make will change the information for your education benefits
+                    only.
                   </p>
                   <p>
-                    <strong>Note:</strong> If you want to update your contact
-                    information for other VA benefits, you can do that from your
-                    profile.
-                  </p>
-                  <p>
-                    <GoToYourProfileLink />
+                    <strong>Note:</strong> If you want to make changes to your
+                    contact information for other VA benefits,{' '}
+                    <GoToYourProfileLink text="update your information on your profile" />
+                    .
                   </p>
                 </>
               ),
@@ -701,16 +672,8 @@ const formConfig = {
                   </p>
                 </>
               ),
-              ...phoneUISchema(
-                'mobile',
-                formFields.mobilePhoneNumber,
-                formFields.mobilePhoneNumberInternational,
-              ),
-              ...phoneUISchema(
-                'home',
-                formFields.phoneNumber,
-                formFields.phoneNumberInternational,
-              ),
+              [formFields.mobilePhoneNumber]: phoneUISchema('mobile'),
+              [formFields.phoneNumber]: phoneUISchema('home'),
             },
             [formFields.email]: {
               'ui:options': {
@@ -754,13 +717,7 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   [formFields.mobilePhoneNumber]: phoneSchema(),
-                  [formFields.mobilePhoneNumberInternational]: {
-                    type: 'boolean',
-                  },
                   [formFields.phoneNumber]: phoneSchema(),
-                  [formFields.phoneNumberInternational]: {
-                    type: 'boolean',
-                  },
                 },
               },
               [formFields.email]: {
@@ -776,8 +733,7 @@ const formConfig = {
         },
         mailingAddress: {
           title: 'Mailing address',
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/mailing-address',
+          path: 'mailing-address',
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -788,18 +744,16 @@ const formConfig = {
                     to this address.
                   </p>
                   <p>
-                    This is the mailing address we have on file for you. If you
-                    notice any errors, please correct them now. Any updates you
-                    make will change the information for your education benefits
+                    We have this mailing address on file for you. If you notice
+                    any errors, please correct them now. Any updates you make
+                    will change the information for your education benefits
                     only.
                   </p>
                   <p>
-                    <strong>Note:</strong> If you want to update your personal
-                    information for other VA benefits, you can do that from your
-                    profile.
-                  </p>
-                  <p className="vads-u-margin-bottom--4">
-                    <GoToYourProfileLink />
+                    <strong>Note:</strong> If you want to make changes to your
+                    contact information for other VA benefits,{' '}
+                    <GoToYourProfileLink text="update your information on your profile" />
+                    .
                   </p>
                 </>
               ),
@@ -905,8 +859,7 @@ const formConfig = {
         },
         preferredContactMethod: {
           title: 'Contact preferences',
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/preferred-contact-method',
+          path: 'preferred-contact-method',
           uiSchema: {
             'view:contactMethodIntro': {
               'ui:description': (
@@ -954,17 +907,17 @@ const formConfig = {
                 })(),
               },
             },
-            'view:receiveTextMessages': {
+            [formFields.viewReceiveTextMessages]: {
               'ui:description': (
                 <>
                   <div className="toe-form-page-only">
                     <h3>Choose how you want to get notifications</h3>
                     <p>
                       We recommend that you opt in to text message notifications
-                      about your benefits. These include notifications that
-                      prompt you to verify your enrollment so you’ll receive
-                      your education payments. This is an easy way to verify
-                      your monthly enrollment.
+                      about your benefits. These notifications prompt you to
+                      verify your enrollment so you’ll receive your education
+                      payments. You can verify your monthly enrollment easily
+                      this way.
                     </p>
                     <va-alert status="info">
                       <>
@@ -978,8 +931,17 @@ const formConfig = {
                           rel="noopener noreferrer"
                           target="_blank"
                         >
-                          View Terms and Conditions and Privacy Policy.
+                          View Terms and Conditions
+                        </a>{' '}
+                        and{' '}
+                        <a
+                          href="/privacy-policy"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          Privacy Policy
                         </a>
+                        .
                       </>
                     </va-alert>
                   </div>
@@ -987,29 +949,27 @@ const formConfig = {
               ),
               [formFields.receiveTextMessages]: {
                 'ui:title':
-                  'Would you like to receive text message notifications on your education benefits?',
+                  'Would you like to receive text message notifications about your education benefits?',
                 'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {
-                    const isYes = field.slice(0, 4).includes('Yes');
-                    const phoneExists = !!formData[formFields.viewPhoneNumbers][
-                      formFields.mobilePhoneNumber
-                    ].phone;
-                    const isInternational =
-                      formData[formFields.viewPhoneNumbers][
-                        formFields.mobilePhoneNumberInternational
-                      ];
+                    const isYes = field?.slice(0, 4).includes('Yes');
+                    if (!isYes) {
+                      return;
+                    }
 
-                    if (isYes) {
-                      if (!phoneExists) {
-                        errors.addError(
-                          'You can’t select that response because we don’t have a mobile phone number on file for you.',
-                        );
-                      } else if (isInternational) {
-                        errors.addError(
-                          'You can’t select that response because you have an international mobile phone number',
-                        );
-                      }
+                    const { phone, isInternational } = formData[
+                      formFields.viewPhoneNumbers
+                    ][formFields.mobilePhoneNumber];
+
+                    if (!phone) {
+                      errors.addError(
+                        'You can’t select that response because we don’t have a mobile phone number on file for you.',
+                      );
+                    } else if (isInternational) {
+                      errors.addError(
+                        'You can’t select that response because you have an international mobile phone number',
+                      );
                     }
                   },
                 ],
@@ -1036,14 +996,19 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  isValidPhone(
+                  (formData[formFields.viewReceiveTextMessages][
+                    formFields.receiveTextMessages
+                  ] &&
+                    !formData[formFields.viewReceiveTextMessages][
+                      formFields.receiveTextMessages
+                    ]
+                      .slice(0, 4)
+                      .includes('Yes')) ||
+                  isValidPhoneField(
                     formData[formFields.viewPhoneNumbers][
                       formFields.mobilePhoneNumber
-                    ].phone,
-                  ) ||
-                  formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumberInternational
-                  ],
+                    ],
+                  ),
               },
             },
             'view:internationalTextMessageAlert': {
@@ -1052,21 +1017,29 @@ const formConfig = {
                   <>
                     You can’t choose to get text notifications because you have
                     an international mobile phone number. At this time, we can
-                    send text messages about your education benefits to U.S.
-                    mobile phone numbers.
+                    send text messages about your education benefits only to
+                    U.S. mobile phone numbers.
                   </>
                 </va-alert>
               ),
               'ui:options': {
                 hideIf: formData =>
-                  !isValidPhone(
+                  (formData[formFields.viewReceiveTextMessages][
+                    formFields.receiveTextMessages
+                  ] &&
+                    !formData[formFields.viewReceiveTextMessages][
+                      formFields.receiveTextMessages
+                    ]
+                      .slice(0, 4)
+                      .includes('Yes')) ||
+                  !isValidPhoneField(
                     formData[formFields.viewPhoneNumbers][
                       formFields.mobilePhoneNumber
-                    ].phone,
+                    ],
                   ) ||
                   !formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumberInternational
-                  ],
+                    formFields.mobilePhoneNumber
+                  ]?.isInternational,
               },
             },
           },
@@ -1081,7 +1054,7 @@ const formConfig = {
                 type: 'string',
                 enum: contactMethods,
               },
-              'view:receiveTextMessages': {
+              [formFields.viewReceiveTextMessages]: {
                 type: 'object',
                 required: [formFields.receiveTextMessages],
                 properties: {
@@ -1112,12 +1085,11 @@ const formConfig = {
       title: 'Direct deposit',
       pages: {
         directDeposit: {
-          path:
-            '/education/survivor-dependent-benefits/apply-for-transferred-benefits-form-22-1990e/direct-deposit',
+          path: 'direct-deposit',
           uiSchema: {
             'ui:description': (
               <p className="vads-u-margin-bottom--4">
-                <strong>Note</strong>: VA makes payments only through direct
+                <strong>Note</strong>: We make payments only through direct
                 deposit, also called electronic funds transfer (EFT).
               </p>
             ),

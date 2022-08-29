@@ -1,7 +1,6 @@
 import React from 'react';
 
 import CallToActionAlert from '../../CallToActionAlert';
-import { verify } from 'platform/user/authentication/utilities';
 
 function NotAuthorized() {
   const content = {
@@ -13,9 +12,7 @@ function NotAuthorized() {
           track your claims, refill your prescriptions, and download your VA
           benefit letters.
         </p>
-        <button className="usa-button-primary" onClick={() => verify()}>
-          Verify Your Identity
-        </button>
+        <a href="/verify">Verify Your Identity</a>
         <p>
           <a href="/resources/verifying-your-identity-on-vagov/">
             Learn about how to verify your identity

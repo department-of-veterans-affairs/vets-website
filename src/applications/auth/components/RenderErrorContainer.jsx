@@ -271,8 +271,44 @@ export default function RenderErrorContainer({
     case AUTH_ERROR.OAUTH_STATE_MISMATCH:
       alertContent = (
         <p className="vads-u-margin-top--0">
-          We’re having trouble signing you in to VA.gov right now because the
-          browser state is different.
+          We’re having trouble signing you in to VA.gov right now because your
+          browser information is different from the initial sign in.
+        </p>
+      );
+      troubleshootingContent = (
+        <>
+          <h2>What you can do:</h2>
+          <p>
+            <strong>Try taking these steps to fix the problem:</strong>
+          </p>
+          <ul>
+            <li>
+              Clear your Internet browser’s cookies and cache. Depending on
+              which browser you’re using, you’ll usually find this information
+              referred to as “Browsing Data,”, “Browsing History,” or “Website
+              Data.”
+            </li>
+            <li>
+              Make sure you have cookies enabled in your browser settings.
+              Depending on which browser you’re using, you’ll usually find this
+              information in the “Tools,” “Settings,” or “Preferences” menu.
+            </li>
+          </ul>
+          <Helpdesk>
+            If you’ve taken the steps above and still can’t sign in,
+          </Helpdesk>
+          <button type="button" onClick={openLoginModal}>
+            Try signing in again
+          </button>
+        </>
+      );
+      break;
+
+    case AUTH_ERROR.OAUTH_INVALID_REQUEST:
+      alertContent = (
+        <p className="vads-u-margin-top--0">
+          We’re having trouble signing you in to VA.gov because there was an
+          error in the URL.
         </p>
       );
       troubleshootingContent = (

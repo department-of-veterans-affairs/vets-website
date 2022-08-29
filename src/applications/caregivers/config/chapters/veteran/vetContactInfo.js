@@ -1,7 +1,10 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
 import { VetInfo } from 'applications/caregivers/components/AdditionalInfo/VetInfo';
-import { veteranFields } from 'applications/caregivers/definitions/constants';
+import {
+  veteranFields,
+  emptyObjectSchema,
+} from 'applications/caregivers/definitions/constants';
 import { vetInputLabel } from 'applications/caregivers/definitions/UIDefinitions/veteranUI';
 
 import {
@@ -9,6 +12,7 @@ import {
   alternativePhoneNumberUI,
   primaryPhoneNumberUI,
   addressWithoutCountryUI,
+  emailEncouragementUI,
 } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
 
 const { veteran } = fullSchema.properties;
@@ -18,7 +22,7 @@ const { address, phone } = fullSchema.definitions;
 const vetContactInfoPage = {
   uiSchema: {
     'ui:description': VetInfo({
-      pageTitle: 'Contact information',
+      pageTitle: 'Veteran contact information',
       showPageIntro: true,
     }),
     [veteranFields.address]: addressWithoutCountryUI(vetInputLabel),
@@ -26,6 +30,7 @@ const vetContactInfoPage = {
     [veteranFields.alternativePhoneNumber]: alternativePhoneNumberUI(
       vetInputLabel,
     ),
+    [veteranFields.emailEncouragementMessage]: emailEncouragementUI(),
     [veteranFields.email]: emailUI(vetInputLabel),
     [veteranFields.verifyEmail]: confirmationEmailUI(
       vetInputLabel,
@@ -39,6 +44,7 @@ const vetContactInfoPage = {
       [veteranFields.address]: address,
       [veteranFields.primaryPhoneNumber]: phone,
       [veteranFields.alternativePhoneNumber]: phone,
+      [veteranFields.emailEncouragementMessage]: emptyObjectSchema,
       [veteranFields.email]: veteranProps.email,
       [veteranFields.verifyEmail]: veteranProps.email,
     },

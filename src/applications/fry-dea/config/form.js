@@ -42,7 +42,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
-  ELIGIBILITY,
+  // ELIGIBILITY,
   formFields,
   RELATIONSHIP,
   VETERAN_NOT_LISTED_VALUE,
@@ -53,7 +53,7 @@ import RelatedVeterans from '../components/RelatedVeterans';
 import { phoneSchema, phoneUISchema } from '../schema';
 import EmailViewField from '../components/EmailViewField';
 import {
-  isValidPhone,
+  isValidPhoneField,
   validateEmail,
   validateReMarriageDate,
 } from '../validation';
@@ -63,6 +63,7 @@ import MailingAddressViewField from '../components/MailingAddressViewField';
 import VeteransRadioGroup from '../components/VeteransRadioGroup';
 import SelectedVeteranReviewPage from '../components/SelectedVeteranReviewPage';
 import FryDeaEligibilityCards from '../components/FryDeaEligibilityCards';
+import PreSubmitInfo from '../components/PreSubmitInfo';
 
 const { date, fullName } = fullSchema5490.definitions;
 const { /* fullName, date, dateRange, usaPhone, */ email } = commonDefinitions;
@@ -71,7 +72,7 @@ const checkImageSrc = environment.isStaging()
   ? `${VAGOVSTAGING}/img/check-sample.png`
   : `${vagovprod}/img/check-sample.png`;
 
-const BENEFITS = [ELIGIBILITY.FRY, ELIGIBILITY.DEA];
+// const BENEFITS = [ELIGIBILITY.FRY, ELIGIBILITY.DEA];
 
 function isValidName(str) {
   return str && /^[A-Za-z][A-Za-z ']*$/.test(str);
@@ -105,13 +106,15 @@ const formConfig = {
       'Please sign in again to continue your application for education benefits.',
   },
   title: 'Apply for education benefits as an eligible dependent',
-  subTitle: 'Equal to VA Form 22-5490',
+  subTitle:
+    "Equal to VA Form 22-5490 (Dependents' Application for VA Education Benefits)",
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   defaultDefinitions: {
     fullName,
     date,
   },
+  preSubmitInfo: PreSubmitInfo,
   chapters: {
     applicantInformationChapter: {
       title: 'Your information',
@@ -435,9 +438,9 @@ const formConfig = {
         benefitSelection: {
           title: 'Benefit Selection',
           path: 'benefit-selection',
-          depends: formData =>
-            formData.veterans?.length &&
-            formData[formFields.selectedVeteran] !== VETERAN_NOT_LISTED_VALUE,
+          // depends: formData =>
+          //   formData.veterans?.length &&
+          //   formData[formFields.selectedVeteran] !== VETERAN_NOT_LISTED_VALUE,
           uiSchema: {
             'view:benefitSelectionHeaderInfo': {
               'ui:description': (
@@ -506,27 +509,27 @@ const formConfig = {
                   fry: { 'aria-describedby': 'fry' },
                   dea: { 'aria-describedby': 'dea' },
                 },
-                updateSchema: (() => {
-                  const filterBenefits = createSelector(
-                    state => state,
-                    formData => {
-                      const veteran = formData?.veterans?.find(
-                        v => v.id === formData[formFields.selectedVeteran],
-                      );
+                // updateSchema: (() => {
+                //   const filterBenefits = createSelector(
+                //     state => state,
+                //     formData => {
+                //       const veteran = formData?.veterans?.find(
+                //         v => v.id === formData[formFields.selectedVeteran],
+                //       );
 
-                      return {
-                        enum: BENEFITS.filter(
-                          benefit =>
-                            (benefit === ELIGIBILITY.FRY &&
-                              veteran?.fryEligibility) ||
-                            (benefit === ELIGIBILITY.DEA &&
-                              veteran?.deaEligibility),
-                        ),
-                      };
-                    },
-                  );
-                  return (form, state) => filterBenefits(form, state);
-                })(),
+                //       return {
+                //         enum: BENEFITS.filter(
+                //           benefit =>
+                //             (benefit === ELIGIBILITY.FRY &&
+                //               veteran?.fryEligibility) ||
+                //             (benefit === ELIGIBILITY.DEA &&
+                //               veteran?.deaEligibility),
+                //         ),
+                //       };
+                //     },
+                //   );
+                //   return (form, state) => filterBenefits(form, state);
+                // })(),
               },
             },
           },
@@ -1073,25 +1076,23 @@ const formConfig = {
                 'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {
-                    const isYes = field.slice(0, 4).includes('Yes');
-                    const phoneExists = !!formData[formFields.viewPhoneNumbers][
-                      formFields.mobilePhoneNumber
-                    ].phone;
-                    const isInternational =
-                      formData[formFields.viewPhoneNumbers][
-                        formFields.mobilePhoneNumberInternational
-                      ];
+                    const isYes = field?.slice(0, 4).includes('Yes');
+                    if (!isYes) {
+                      return;
+                    }
 
-                    if (isYes) {
-                      if (!phoneExists) {
-                        errors.addError(
-                          'You can’t select that response because we don’t have a mobile phone number on file for you.',
-                        );
-                      } else if (isInternational) {
-                        errors.addError(
-                          'You can’t select that response because you have an international mobile phone number',
-                        );
-                      }
+                    const { phone, isInternational } = formData[
+                      formFields.viewPhoneNumbers
+                    ][formFields.mobilePhoneNumber];
+
+                    if (!phone) {
+                      errors.addError(
+                        'You can’t select that response because we don’t have a mobile phone number on file for you.',
+                      );
+                    } else if (isInternational) {
+                      errors.addError(
+                        'You can’t select that response because you have an international mobile phone number',
+                      );
                     }
                   },
                 ],
@@ -1118,14 +1119,19 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  isValidPhone(
+                  (formData[formFields.viewReceiveTextMessages][
+                    formFields.receiveTextMessages
+                  ] &&
+                    !formData[formFields.viewReceiveTextMessages][
+                      formFields.receiveTextMessages
+                    ]
+                      .slice(0, 4)
+                      .includes('Yes')) ||
+                  isValidPhoneField(
                     formData[formFields.viewPhoneNumbers][
                       formFields.mobilePhoneNumber
-                    ].phone,
-                  ) ||
-                  formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumberInternational
-                  ],
+                    ],
+                  ),
               },
             },
             'view:internationalTextMessageAlert': {
@@ -1134,21 +1140,29 @@ const formConfig = {
                   <>
                     You can’t choose to get text notifications because you have
                     an international mobile phone number. At this time, we can
-                    send text messages about your education benefits to U.S.
-                    mobile phone numbers.
+                    send text messages about your education benefits only to
+                    U.S. mobile phone numbers.
                   </>
                 </va-alert>
               ),
               'ui:options': {
                 hideIf: formData =>
-                  !isValidPhone(
+                  (formData[formFields.viewReceiveTextMessages][
+                    formFields.receiveTextMessages
+                  ] &&
+                    !formData[formFields.viewReceiveTextMessages][
+                      formFields.receiveTextMessages
+                    ]
+                      .slice(0, 4)
+                      .includes('Yes')) ||
+                  !isValidPhoneField(
                     formData[formFields.viewPhoneNumbers][
                       formFields.mobilePhoneNumber
-                    ].phone,
+                    ],
                   ) ||
                   !formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumberInternational
-                  ],
+                    formFields.mobilePhoneNumber
+                  ]?.isInternational,
               },
             },
           },
@@ -1163,7 +1177,7 @@ const formConfig = {
                 type: 'string',
                 enum: contactMethods,
               },
-              'view:receiveTextMessages': {
+              [formFields.viewReceiveTextMessages]: {
                 type: 'object',
                 required: [formFields.receiveTextMessages],
                 properties: {
@@ -1195,6 +1209,7 @@ const formConfig = {
       pages: {
         directDeposit: {
           path: 'direct-deposit',
+          title: 'Direct deposit',
           uiSchema: {
             'ui:description': (
               <>

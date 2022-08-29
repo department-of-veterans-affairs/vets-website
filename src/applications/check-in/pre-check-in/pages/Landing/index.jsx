@@ -40,6 +40,7 @@ const Index = props => {
   } = useSessionStorage();
 
   const [loadMessage] = useState(t('finding-your-appointment-information'));
+  const [sessionCallMade, setSessionCallMade] = useState(false);
 
   const dispatch = useDispatch();
   const initForm = useCallback(
@@ -83,7 +84,8 @@ const Index = props => {
         // call the sessions api
         const checkInType = APP_NAMES.PRE_CHECK_IN;
 
-        if (token)
+        if (token && !sessionCallMade) {
+          setSessionCallMade(true);
           api.v2
             .getSession({ token, checkInType, isLorotaSecurityUpdatesEnabled })
             .then(session => {
@@ -112,6 +114,7 @@ const Index = props => {
               clearCurrentSession(window);
               goToErrorPage();
             });
+        }
       }
     },
     [
@@ -121,6 +124,7 @@ const Index = props => {
       isLorotaSecurityUpdatesEnabled,
       jumpToPage,
       router,
+      sessionCallMade,
       setCurrentToken,
       setPreCheckinComplete,
       setSession,

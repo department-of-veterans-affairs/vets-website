@@ -36,9 +36,9 @@ export const DebtNotification = ({ notification, dismissNotification }) => {
               href="/manage-va-debt/your-debt"
               onClick={() =>
                 recordEvent({
-                  event: 'profile-navigation',
-                  'profile-action': 'view-link',
-                  'profile-section': 'view-manage-va-debt',
+                  event: 'dashboard-navigation',
+                  'dashboard-action': 'view-link-from-notifications',
+                  'dashboard-product': 'view-manage-va-debt',
                 })
               }
             />

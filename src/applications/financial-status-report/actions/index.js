@@ -15,6 +15,7 @@ import {
   FSR_RESET_ERRORS,
   FSR_API_CALL_INITIATED,
 } from '../constants/actionTypes';
+import { DEBT_TYPES } from '../utils/helpers';
 
 export const fetchFormStatus = () => async dispatch => {
   dispatch({
@@ -59,11 +60,7 @@ export const fetchFormStatus = () => async dispatch => {
   });
 };
 
-export const fetchDebts = () => async (dispatch, getState) => {
-  const state = getState();
-  const { currentlyLoggedIn } = state.user.login;
-  const fetchApiData = currentlyLoggedIn && isVAProfileServiceConfigured();
-
+export const fetchDebts = async dispatch => {
   const getDebts = () => {
     const options = {
       method: 'GET',
@@ -75,7 +72,7 @@ export const fetchDebts = () => async (dispatch, getState) => {
       },
     };
 
-    return fetchApiData
+    return isVAProfileServiceConfigured()
       ? apiRequest(`${environment.API_URL}/v0/debts`, options)
       : debtMockResponse();
   };
@@ -88,7 +85,11 @@ export const fetchDebts = () => async (dispatch, getState) => {
     const filteredResponse = response.debts
       .filter(debt => approvedDeductionCodes.includes(debt.deductionCode))
       .filter(debt => debt.currentAr > 0)
-      .map((debt, index) => ({ ...debt, id: index }));
+      .map((debt, index) => ({
+        ...debt,
+        id: index,
+        debtType: DEBT_TYPES.DEBT,
+      }));
 
     return dispatch({
       type: DEBTS_FETCH_SUCCESS,
