@@ -19,6 +19,13 @@ export const uiSchema = {
           classNames: 'schemaform-currency-input',
           widgetClassNames: 'input-size-3',
         },
+        'ui:required': (formData, index) => {
+          return (
+            formData.selectedDebtsAndCopays[index]?.resolutionOption &&
+            formData.selectedDebtsAndCopays[index]?.resolutionOption !==
+              'waiver'
+          );
+        },
         'ui:validations': [validateCurrency, validateResolutionAmount],
       },
     },
@@ -32,7 +39,6 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
-        required: ['resolutionComment'],
         properties: {
           resolutionComment: {
             type: 'string',

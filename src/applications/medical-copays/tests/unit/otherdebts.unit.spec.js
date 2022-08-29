@@ -3,7 +3,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import OtherVADebts from '../../components/OtherVADebts';
-import { APP_TYPES } from '../../../combined-debt-portal/combined/utils/helpers';
+import { APP_TYPES } from '../../utils/helpers';
 
 describe('other va debts component', () => {
   it('should exist', () => {
