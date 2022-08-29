@@ -110,8 +110,21 @@ const isContinuousDeploymentEnabled = (filePaths, config) => {
 
   for (const filePath of filePaths) {
     const allowedApps = getAllowedApps(filePath, config.apps);
-    if (!allowedApps.length || allowedApps[0].continuousDeployment !== true)
-      return false;
+
+    if (allowedApps.length) {
+      const { continuousDeployment, rootPath } = allowedApps[0];
+      const invalidDataType = !['boolean', 'undefined'].includes(
+        typeof continuousDeployment,
+      );
+
+      if (invalidDataType) {
+        throw new Error(
+          `Invalid data type in 'continuousDeployment' field for ${rootPath}. Must be a boolean or omitted.`,
+        );
+      }
+
+      if (!continuousDeployment) return false;
+    } else return false;
   }
 
   return true;

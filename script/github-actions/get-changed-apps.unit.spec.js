@@ -389,17 +389,15 @@ describe('isContinuousDeploymentEnabled', () => {
     expect(continuousDeployment).to.be.true;
   });
 
-  it('should return false when an app has a value that is not `true` stored in `continuousDeployment`', () => {
+  it('should throw an when an app has an invalid data type in `continuousDeployment`', () => {
     const config = createChangedAppsConfig([
       { rootFolder: 'app1', continuousDeployment: 'on' },
     ]);
     const changedFiles = ['src/applications/app1/some-file.js'];
 
-    const continuousDeployment = isContinuousDeploymentEnabled(
-      changedFiles,
-      config,
-    );
-    expect(continuousDeployment).to.be.false;
+    expect(() => {
+      isContinuousDeploymentEnabled(changedFiles, config);
+    }).to.throw(Error);
   });
 
   it('should return false when there are no changed file paths', () => {
