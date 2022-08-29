@@ -331,10 +331,8 @@ describe('isContinuousDeploymentEnabled', () => {
     });
   });
 
-  it('should return true when an app has continuous deployment enabled', () => {
-    const config = createChangedAppsConfig([
-      { rootFolder: 'app1', continuousDeployment: true },
-    ]);
+  it('should return true when an app does not specify continuous deployment option', () => {
+    const config = createChangedAppsConfig([{ rootFolder: 'app1' }]);
     const changedFiles = ['src/applications/app1/some-file.js'];
 
     const continuousDeployment = isContinuousDeploymentEnabled(
@@ -344,8 +342,10 @@ describe('isContinuousDeploymentEnabled', () => {
     expect(continuousDeployment).to.be.true;
   });
 
-  it('should return false when an app does not have continuous deployment enabled', () => {
-    const config = createChangedAppsConfig([{ rootFolder: 'app1' }]);
+  it('should return false when an app sets continuous deployment to false', () => {
+    const config = createChangedAppsConfig([
+      { rootFolder: 'app1', continuousDeployment: false },
+    ]);
     const changedFiles = ['src/applications/app1/some-file.js'];
 
     const continuousDeployment = isContinuousDeploymentEnabled(
@@ -355,9 +355,9 @@ describe('isContinuousDeploymentEnabled', () => {
     expect(continuousDeployment).to.be.false;
   });
 
-  it('should return false when at least one app does not have continuous deployment enabled', () => {
+  it('should return false when at least one app sets continuous deployment to false', () => {
     const config = createChangedAppsConfig([
-      { rootFolder: 'app1', continuousDeployment: true },
+      { rootFolder: 'app1', continuousDeployment: false },
       { rootFolder: 'app2' },
     ]);
     const changedFiles = [
@@ -372,9 +372,9 @@ describe('isContinuousDeploymentEnabled', () => {
     expect(continuousDeployment).to.be.false;
   });
 
-  it('should return true when all apps have continuous deployment enabled', () => {
+  it('should return true when no apps set continuous deployment to false', () => {
     const config = createChangedAppsConfig([
-      { rootFolder: 'app1', continuousDeployment: true },
+      { rootFolder: 'app1' },
       { rootFolder: 'app2', continuousDeployment: true },
     ]);
     const changedFiles = [

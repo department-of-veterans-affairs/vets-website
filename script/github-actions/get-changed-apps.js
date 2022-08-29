@@ -123,7 +123,9 @@ const isContinuousDeploymentEnabled = (filePaths, config) => {
         );
       }
 
-      if (!continuousDeployment) return false;
+      // Apps in the config are opted in to continuous deployment by default.
+      // `continuousDeployment` must be `false` to disable.
+      if (continuousDeployment === false) return false;
     } else return false;
   }
 
