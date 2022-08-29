@@ -67,7 +67,8 @@ const ProfilePageHeader = ({
   );
   const compareChecked = !!compare.search.institutions[facilityCode];
   const compareLength = compare.search.loaded.length;
-
+  // eslint-disable-next-line no-console
+  console.log(ownershipName);
   const handleCompareUpdate = e => {
     if (e.target.checked && !compareChecked) {
       if (compare.search.loaded.length === 3) {
@@ -174,7 +175,7 @@ const ProfilePageHeader = ({
             </IconWithInfo>
             <IconWithInfo
               icon="building"
-              present={!environment.isProduction() ?? ownershipName}
+              present={ownershipName && !environment.isProduction()}
             >
               {'   '}
               Institutional Ownership: {ownershipName}
