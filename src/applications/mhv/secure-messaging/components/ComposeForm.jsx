@@ -1,83 +1,148 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import FileInput from './FileInput';
 import MessageCategoryInput from './MessageCategoryInput';
 
-const ComposeForm = () => {
-  useRef();
+const ComposeForm = props => {
+  const { message } = props;
+  const defaultRecipientsList = [
+    { id: 0, name: ' ' },
+    { id: 1, name: 'Doctor A' },
+    { id: 2, name: 'Doctor B' },
+    { id: 3, name: 'Doctor C' },
+  ];
+  const [recipientsList, setRecipientsList] = useState(defaultRecipientsList);
+  const [selectedRecipient, setSelectedRecipient] = useState(
+    defaultRecipientsList[0].id,
+  );
+  const [category, setCategory] = useState(null);
+  const [subject, setSubject] = useState('');
+  const [messageBody, setMessageBody] = useState('');
+  const [attachments, setAttachments] = useState([]);
+  const [formPopulated, setFormPopulated] = useState(false);
+
+  const recipientExists = recipientId => {
+    return recipientsList.findIndex(item => +item.id === +recipientId) > -1;
+  };
+
+  const populateForm = () => {
+    if (!recipientExists(message.recipientId)) {
+      const newRecipient = {
+        id: message.recipientId,
+        name: message.recipientName,
+      };
+      setRecipientsList(prevRecipientsList => [
+        ...prevRecipientsList,
+        newRecipient,
+      ]);
+      setSelectedRecipient(newRecipient.id);
+    }
+    setCategory(message.category);
+    setSubject(message.subject);
+    setMessageBody(message.body);
+    setAttachments(message.attachments.attachment);
+    setFormPopulated(true);
+  };
+
+  if (message && !formPopulated) populateForm();
 
   return (
-    <form className="compose-form">
-      <va-select
-        // eslint-disable-next-line jsx-a11y/aria-props
-        aria-live-region-text="You selected"
-        label="To"
-        name="to"
-        value=""
-        class="composeSelect"
-      >
-        <option value=" "> </option>
-        <option value="doctorA">Doctor A</option>
-        <option value="doctorB">Doctor B</option>
-        <option value="doctorC">Doctor C</option>
-      </va-select>
-
-      <button type="button" className="link-button edit-input-button">
-        Edit List
-      </button>
-
-      <MessageCategoryInput />
-
-      <va-text-input
-        label="Subject"
-        name="subject"
-        onBlur={function noRefCheck() {}}
-        onInput={function noRefCheck() {}}
-        required
-        class="composeInput"
-      />
-
-      <div className="message-field">
-        <label htmlFor="message">
-          Message
-          <span className="required"> (*Required)</span>
-        </label>
-        <textarea id="message" name="message" className="message" />
-      </div>
-
-      <section className="attachments-section">
-        <label htmlFor="compose_attachments">Attachments</label>
-
-        <ul className="compose-attachments-list">
-          <li>
-            <i className="fas fa-paperclip" />
-            <div>
-              This is an attachment that I uploaded from my laptop.pdf (108.7
-              KB)
-              <button
-                type="button"
-                className="link-button remove-attachment-button"
-              >
-                <i className="fas fa-times" />
-                Remove
-              </button>
-            </div>
-          </li>
-        </ul>
-
-        <FileInput />
-      </section>
-
-      <div className="compose-form-actions">
-        <button type="button" className="send-button-bottom">
-          <span className="send-button-bottom-text">Send</span>
+    <section className="compose-form-container">
+      <div className="compose-header">
+        <h3>New Message</h3>
+        <button type="button" className="send-button-top">
           <i className="fas fa-paper-plane" />
-        </button>
-        <button type="button" className="link-button save-draft-button">
-          Save as draft
+          <span className="send-button-top-text">Send</span>
         </button>
       </div>
-    </form>
+
+      <form className="compose-form">
+        <va-select
+          // eslint-disable-next-line jsx-a11y/aria-props
+          aria-live-region-text="You selected"
+          label="To"
+          name="to"
+          value={selectedRecipient}
+          class="composeSelect"
+        >
+          {recipientsList.map(item => (
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>
+          ))}
+        </va-select>
+
+        <button type="button" className="link-button edit-input-button">
+          Edit List
+        </button>
+
+        <MessageCategoryInput category={category} setCategory={setCategory} />
+
+        <va-text-input
+          label="Subject"
+          name="subject"
+          onBlur={function noRefCheck() {}}
+          onInput={function noRefCheck() {}}
+          required
+          class="composeInput"
+          value={subject}
+        />
+
+        <div className="message-body-field">
+          <label htmlFor="message-body">
+            Message
+            <span className="required"> (*Required)</span>
+          </label>
+          <textarea
+            id="message-body"
+            name="message-body"
+            className="message-body"
+            onChange={() => {}}
+            value={messageBody}
+          />
+        </div>
+
+        <section className="attachments-section">
+          <label htmlFor="compose_attachments">Attachments</label>
+
+          <ul className="compose-attachments-list">
+            {!!attachments.length &&
+              attachments.map(attachment => (
+                <li key={attachment.id}>
+                  <i className="fas fa-paperclip" />
+                  <div>
+                    {attachment.name} ({attachment.attachmentSize} KB)
+                    <button
+                      type="button"
+                      className="link-button remove-attachment-button"
+                    >
+                      <i className="fas fa-times" />
+                      Remove
+                    </button>
+                  </div>
+                </li>
+              ))}
+          </ul>
+
+          <FileInput />
+        </section>
+
+        <div className="compose-form-actions">
+          <button type="button" className="send-button-bottom">
+            <span className="send-button-bottom-text">Send</span>
+            <i className="fas fa-paper-plane" />
+          </button>
+          <button type="button" className="link-button save-draft-button">
+            Save as draft
+          </button>
+        </div>
+      </form>
+    </section>
   );
+};
+
+ComposeForm.propTypes = {
+  message: PropTypes.object,
 };
 
 export default ComposeForm;

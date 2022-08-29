@@ -13,6 +13,7 @@ const routes = (
     <Route path="/message" component={MessageDetail} />
     <Route path="/reply" component={MessageReply} />
     <Route path="/search" component={SearchMessages} />
+    <Route path="/draft/:draftId" component={Compose} />
   </Switch>
 );
 

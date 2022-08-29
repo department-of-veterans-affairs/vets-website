@@ -1,0 +1,24 @@
+{
+  "id": 7171715,
+  "category": "COVID",
+  "subject": "Covid-Inquiry",
+  "body": "Api Draft Message -8",
+  "attachment": true,
+  "attachments": {
+    "attachment": [
+      {
+        "id": 7169749,
+        "name": "CROB.pdf",
+        "attachmentSize": 25632
+      }
+    ]
+  },
+  "sentDate": "",
+  "senderId": 6820911,
+  "senderName": "ECSTEN, THOMAS ",
+  "recipientId": 6832726,
+  "recipientName": "###PQR TRIAGE_TEAM 747###",
+  "readReceipt": null,
+  "triageGroupName": "###PQR TRIAGE_TEAM 747###",
+  "proxySenderName": null
+}

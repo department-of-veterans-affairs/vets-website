@@ -7,48 +7,87 @@ This is also where GA events may be fired for successful / unsuccessful api call
 
 // import recordEvent from 'platform/monitoring/record-event';
 // import { apiRequest } from 'platform/utilities/api';
-import mockData from '../tests/fixtures/messages-response.json';
+import allMessages from '../tests/fixtures/messages-response.json';
+import messageDraft from '../tests/fixtures/message-draft-response.json';
 
-export const MESSAGES_RETREIVE_STARTED = 'MESSAGES_RETREIVE_STARTED';
-export const MESSAGES_RETREIVE_SUCCEEDED = 'MESSAGES_RETREIVE_SUCCEEDED';
-export const MESSAGES_RETREIVE_FAILED = 'MESSAGES_RETREIVE_FAILED';
+export const MESSAGES_RETRIEVE_STARTED = 'MESSAGES_RETRIEVE_STARTED';
+export const MESSAGES_RETRIEVE_SUCCEEDED = 'MESSAGES_RETRIEVE_SUCCEEDED';
+export const MESSAGES_RETRIEVE_FAILED = 'MESSAGES_RETRIEVE_FAILED';
+
+export const MESSAGE_RETRIEVE_STARTED = 'MESSAGE_RETRIEVE_STARTED';
+export const MESSAGE_RETRIEVE_SUCCEEDED = 'MESSAGE_RETRIEVE_SUCCEEDED';
+export const MESSAGE_RETRIEVE_FAILED = 'MESSAGE_RETRIEVE_FAILED';
+
+export const LOADING_COMPLETE = 'LOADING_COMPLETE';
 
 // const SECURE_MESSAGES_URI = '/mhv/messages';
 
-const mockMessages = () => {
+const mockDataRequest = (request, messageId) => {
   return new Promise(resolve => {
     setTimeout(() => {
-      resolve(mockData);
+      if (request === 'messages') resolve(allMessages);
+      if (request === 'draft') {
+        if (+messageDraft.id === +messageId) {
+          resolve(messageDraft);
+        } else {
+          resolve({ errors: ['message not found'] });
+        }
+      }
     }, 1500);
   });
 };
 
-const retrieveMessages = async () => {
+const retrieveData = async (request, messageId) => {
   try {
     // replace with apiRequest when endpoint is ready
-    return await mockMessages();
+    return await mockDataRequest(request, messageId);
   } catch (error) {
     return error;
   }
 };
 
 export const getAllMessages = () => async dispatch => {
-  dispatch({ type: MESSAGES_RETREIVE_STARTED });
+  dispatch({ type: MESSAGES_RETRIEVE_STARTED });
 
-  const response = await retrieveMessages();
+  const response = await retrieveData('messages');
   if (response.errors) {
     // handles errors and dispatch error action
     // fire GA event for error
     const error = response.errors[0];
     dispatch({
-      type: MESSAGES_RETREIVE_FAILED,
+      type: MESSAGES_RETRIEVE_FAILED,
       response: error,
     });
   } else {
     // dispatch success action and GA event
     dispatch({
-      type: MESSAGES_RETREIVE_SUCCEEDED,
+      type: MESSAGES_RETRIEVE_SUCCEEDED,
       response,
     });
   }
+};
+
+export const getMessage = messageId => async dispatch => {
+  dispatch({ type: MESSAGE_RETRIEVE_STARTED });
+
+  const response = await retrieveData('draft', messageId);
+  if (response.errors) {
+    // handles errors and dispatch error action
+    // fire GA event for error
+    const error = response.errors[0];
+    dispatch({
+      type: MESSAGE_RETRIEVE_FAILED,
+      response: error,
+    });
+  } else {
+    // dispatch success action and GA event
+    dispatch({
+      type: MESSAGE_RETRIEVE_SUCCEEDED,
+      response,
+    });
+  }
+};
+
+export const loadingComplete = () => async dispatch => {
+  dispatch({ type: LOADING_COMPLETE });
 };

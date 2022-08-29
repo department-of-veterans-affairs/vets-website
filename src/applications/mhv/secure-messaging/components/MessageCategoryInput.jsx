@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
-const MessageCategoryInput = () => {
+const MessageCategoryInput = props => {
+  const { category } = props;
+
   const [invalid] = useState(false);
+
+  const categoryChangeHandler = () => {};
 
   return (
     <fieldset
@@ -9,7 +14,7 @@ const MessageCategoryInput = () => {
         'usa-input-error'}`}
     >
       <legend className="legend-label usa-input-error-label">
-        Category <span className="required">(*Required)</span>
+        Category <span className="required">(*Required) {category}</span>
       </legend>
 
       {invalid && (
@@ -29,7 +34,9 @@ const MessageCategoryInput = () => {
             autoComplete="false"
             id="categoryGeneral"
             name="category"
-            value="general"
+            value="GENERAL"
+            checked={category === 'GENERAL'}
+            onChange={categoryChangeHandler}
           />
           <label name="category-0-label" htmlFor="categoryGeneral">
             <strong>General:</strong> Ask Questions about non urgent,
@@ -45,7 +52,9 @@ const MessageCategoryInput = () => {
             autoComplete="false"
             id="categoryCovid"
             name="category"
-            value="covid"
+            value="COVID"
+            checked={category === 'COVID'}
+            onChange={categoryChangeHandler}
           />
           <label name="category-1-label" htmlFor="categoryCovid">
             <strong>Covid:</strong> Ask COVID related questions
@@ -63,7 +72,9 @@ const MessageCategoryInput = () => {
               autoComplete="false"
               id="categoryAppointment"
               name="category"
-              value="appointment"
+              value="APPOINTMENT"
+              checked={category === 'APPOINTMENT'}
+              onChange={categoryChangeHandler}
             />
             <label name="category-2-label" htmlFor="defaultId-2">
               <strong>Appointment:</strong> Request an appointment or ask about
@@ -80,7 +91,9 @@ const MessageCategoryInput = () => {
               autoComplete="false"
               id="categoryMedication"
               name="category"
-              value="medication"
+              value="MEDICATION"
+              checked={category === 'MEDICATION'}
+              onChange={categoryChangeHandler}
             />
             <label name="category-3-label" htmlFor="categoryMedication">
               <strong>Medication:</strong> Request to renew a medication or ask
@@ -97,7 +110,9 @@ const MessageCategoryInput = () => {
               autoComplete="false"
               id="categoryTest"
               name="category"
-              value="test"
+              value="TEST"
+              checked={category === 'TEST'}
+              onChange={categoryChangeHandler}
             />
             <label name="category-4-label" htmlFor="defaultId-2">
               <strong>Test:</strong> Ask a question about a test/lab result or
@@ -114,7 +129,9 @@ const MessageCategoryInput = () => {
               autoComplete="false"
               id="categoryEducation"
               name="category"
-              value="education"
+              value="EDUCATION"
+              checked={category === 'EDUCATION'}
+              onChange={categoryChangeHandler}
             />
             <label name="category-5-label" htmlFor="defaultId-2">
               <strong>Education:</strong> Request health education information
@@ -124,6 +141,11 @@ const MessageCategoryInput = () => {
       </div>
     </fieldset>
   );
+};
+
+MessageCategoryInput.propTypes = {
+  category: PropTypes.string,
+  setCategory: PropTypes.func,
 };
 
 export default MessageCategoryInput;
