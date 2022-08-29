@@ -67,14 +67,14 @@ const Landing = props => {
         recordEvent({
           event: createAnalyticsSlug('landing-page-launched-no-token'),
         });
-        goToErrorPage();
+        goToErrorPage('?error=no=token');
       }
 
       if (!isUUID(token)) {
         recordEvent({
           event: createAnalyticsSlug('malformed-token'),
         });
-        goToErrorPage();
+        goToErrorPage('?error=bad-token');
       }
 
       if (token && !sessionCallMade) {
@@ -87,7 +87,7 @@ const Landing = props => {
           .then(session => {
             if (session.errors || session.error) {
               clearCurrentSession(window);
-              goToErrorPage();
+              goToErrorPage('?error=session-error');
             } else {
               // if session with read.full exists, go to check in page
               setShouldSendDemographicsFlags(window, true);

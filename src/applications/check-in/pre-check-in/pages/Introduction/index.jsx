@@ -73,11 +73,11 @@ const Introduction = props => {
               payload.appointments.length > 0 &&
               preCheckinExpired(payload.appointments)
             ) {
-              goToErrorPage();
+              goToErrorPage('?error=pre-check-in-expired');
             }
 
             if (appointmentWasCanceled(payload.appointments)) {
-              goToErrorPage();
+              goToErrorPage('?error=appointment-canceled');
             }
 
             if (preCheckinAlreadyCompleted(payload.appointments)) {

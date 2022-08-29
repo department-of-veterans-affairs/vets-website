@@ -76,7 +76,7 @@ const EmergencyContact = props => {
   );
 
   if (!emergencyContact) {
-    goToErrorPage();
+    goToErrorPage('?error=no-emergency-contact');
     return <></>;
   }
   return (
