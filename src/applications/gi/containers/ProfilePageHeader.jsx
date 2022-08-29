@@ -177,8 +177,7 @@ const ProfilePageHeader = ({
               present={!environment.isProduction() ?? ownershipName}
             >
               {'   '}
-              Institutional Ownership:
-              {ownershipName}
+              Institutional Ownership: {ownershipName}
             </IconWithInfo>
           </div>
         )}
