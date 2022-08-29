@@ -11,7 +11,7 @@ import COEIntroPageBox from './introduction-content/COEIntroPageBox';
 import LoggedInContent from './introduction-content/loggedInContent';
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
 
-const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
+const IntroductionPage = ({ coe, loggedIn, route, status }) => {
   let content;
 
   useEffect(() => {
@@ -30,7 +30,6 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
     content = (
       <>
         <COEIntroPageBox
-          downloadUrl={downloadUrl}
           referenceNumber={coe.referenceNumber}
           requestDate={coe.applicationCreateDate}
           status={coe.status}
@@ -55,14 +54,12 @@ const IntroductionPage = ({ coe, downloadUrl, loggedIn, route, status }) => {
 
 const mapStateToProps = state => ({
   coe: state.certificateOfEligibility.coe || {},
-  downloadUrl: state.certificateOfEligibility.downloadUrl,
   loggedIn: isLoggedIn(state),
   status: state.certificateOfEligibility.generateAutoCoeStatus,
 });
 
 IntroductionPage.propTypes = {
   coe: PropTypes.object,
-  downloadUrl: PropTypes.string,
   loggedIn: PropTypes.bool,
   route: PropTypes.object,
   status: PropTypes.string,

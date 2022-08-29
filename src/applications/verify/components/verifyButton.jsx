@@ -8,14 +8,15 @@ import { verify } from 'platform/user/authentication/utilities';
 
 export const VerifyButton = ({ className, label, image, policy, useOAuth }) => {
   const verifyHandler = () => {
-    if (useOAuth) {
-      updateStateAndVerifier(policy);
-    }
     verify({
       policy,
       useOAuth,
       acr: defaultWebOAuthOptions.acrVerify[policy],
     });
+
+    if (useOAuth) {
+      updateStateAndVerifier(policy);
+    }
   };
 
   return (

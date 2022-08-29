@@ -45,6 +45,18 @@ const mocks = {
         ],
       };
     },
+    createMockMaxValidateErrorResponse: () => {
+      return {
+        errors: [
+          {
+            title: 'Authentication Error',
+            detail: 'Authentication Error',
+            code: 'LOROTA-MAPPED-API_401',
+            status: '410',
+          },
+        ],
+      };
+    },
     createMockFailedResponse,
   },
 };

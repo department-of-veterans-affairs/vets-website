@@ -37,7 +37,6 @@ const Landing = props => {
     clearCurrentSession,
     setShouldSendDemographicsFlags,
     setCurrentToken,
-    resetAttempts,
   } = useSessionStorage(false);
   const dispatch = useDispatch();
 
@@ -121,7 +120,6 @@ const Landing = props => {
       sessionCallMade,
       setSession,
       setShouldSendDemographicsFlags,
-      resetAttempts,
       isLorotaSecurityUpdatesEnabled,
     ],
   );
