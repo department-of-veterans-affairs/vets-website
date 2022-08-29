@@ -26,7 +26,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
             {
               actor: {
                 reference:
-                  'https://sandbox-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000',
+                  'https://sandbox-platform-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000',
                 display: 'LOM ACC TRAINING CLINIC',
               },
               status: 'accepted',
@@ -34,7 +34,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
             {
               actor: {
                 reference:
-                  'https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/1008882029V851792',
+                  'https://sandbox-platform-api.va.gov/services/fhir/v0/r4/Patient/1008882029V851792',
                 display: 'Mrs. Sheba703 Harris789',
               },
               status: 'accepted',
@@ -58,12 +58,12 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
                 text: 'Facility ID',
               },
               system:
-                'https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier',
+                'https://platform-api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier',
               value: 'vha_442',
             },
             {
               system:
-                'https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-clinic-identifier',
+                'https://platform-api.va.gov/services/fhir/v0/r4/NamingSystem/va-clinic-identifier',
               value: 'vha_442_3049',
             },
           ],
@@ -104,7 +104,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
           },
           managingOrganization: {
             reference:
-              'https://sandbox-api.va.gov/services/fhir/v0/r4/Organization/I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000',
+              'https://sandbox-platform-api.va.gov/services/fhir/v0/r4/Organization/I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000',
             display: 'CHEYENNE VA MEDICAL',
           },
           resourceType: 'Location',
@@ -178,7 +178,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
             {
               actor: {
                 reference:
-                  'https://sandbox-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000',
+                  'https://sandbox-platform-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000',
                 display: 'LOM ACC TRAINING CLINIC',
               },
               status: 'accepted',
@@ -186,7 +186,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
             {
               actor: {
                 reference:
-                  'https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/1008882029V851792',
+                  'https://sandbox-platform-api.va.gov/services/fhir/v0/r4/Patient/1008882029V851792',
                 display: 'Mrs. Sheba703 Harris789',
               },
               status: 'accepted',
@@ -210,12 +210,12 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
                 text: 'Facility ID',
               },
               system:
-                'https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier',
+                'https://platform-api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier',
               value: 'vha_442',
             },
             {
               system:
-                'https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-clinic-identifier',
+                'https://platform-api.va.gov/services/fhir/v0/r4/NamingSystem/va-clinic-identifier',
               value: 'vha_442_3049',
             },
           ],
@@ -256,7 +256,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
           },
           managingOrganization: {
             reference:
-              'https://sandbox-api.va.gov/services/fhir/v0/r4/Organization/I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000',
+              'https://sandbox-platform-api.va.gov/services/fhir/v0/r4/Organization/I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000',
             display: 'CHEYENNE VA MEDICAL',
           },
           resourceType: 'Location',
@@ -302,7 +302,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
             {
               actor: {
                 reference:
-                  'https://sandbox-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000',
+                  'https://sandbox-platform-api.va.gov/services/fhir/v0/r4/Location/I2-3JYDMXC6RXTU4H25KRVXATSEJQ000000',
                 display: 'LOM ACC TRAINING CLINIC',
               },
               status: 'accepted',
@@ -310,7 +310,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
             {
               actor: {
                 reference:
-                  'https://sandbox-api.va.gov/services/fhir/v0/r4/Patient/1008882029V851792',
+                  'https://sandbox-platform-api.va.gov/services/fhir/v0/r4/Patient/1008882029V851792',
                 display: 'Mrs. Sheba703 Harris789',
               },
               status: 'accepted',
@@ -334,12 +334,12 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
                 text: 'Facility ID',
               },
               system:
-                'https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier',
+                'https://platform-api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier',
               value: 'vha_442',
             },
             {
               system:
-                'https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-clinic-identifier',
+                'https://platform-api.va.gov/services/fhir/v0/r4/NamingSystem/va-clinic-identifier',
               value: 'vha_442_3049',
             },
           ],
@@ -380,7 +380,7 @@ describe('health care questionnaire -- utils -- transform for submit --', () => 
           },
           managingOrganization: {
             reference:
-              'https://sandbox-api.va.gov/services/fhir/v0/r4/Organization/I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000',
+              'https://sandbox-platform-api.va.gov/services/fhir/v0/r4/Organization/I2-AKOTGEFSVKFJOPUKHIVJAH5VQU000000',
             display: 'CHEYENNE VA MEDICAL',
           },
           resourceType: 'Location',

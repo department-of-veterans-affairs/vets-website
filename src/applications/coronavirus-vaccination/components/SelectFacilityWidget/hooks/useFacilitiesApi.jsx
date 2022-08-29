@@ -4,7 +4,7 @@ import { apiRequest } from 'platform/utilities/api';
 import { requestStates } from 'platform/utilities/constants';
 
 const FACILITIES_API = `${environment.API_URL}/v1/facilities/va`;
-// const FACILITIES_API = `https://dev-api.va.gov/v1/facilities/va`;
+// const FACILITIES_API = `https://dev-platform-api.va.gov/v1/facilities/va`;
 
 export default function useFacilitiesApi(facilityIds = []) {
   const apiUrl = `${FACILITIES_API}?ids=${facilityIds.join(',')}`;

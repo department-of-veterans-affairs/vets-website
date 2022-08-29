@@ -8,7 +8,7 @@ export const fetchFormsApi = async (query, options = {}) => {
   // Derive options properties.
   const mockRequest = options?.mockRequest || false;
 
-  // Change to https://dev-api.va.gov/v0/forms for quick local config
+  // Change to https://dev-platform-api.va.gov/v0/forms for quick local config
   let FORMS_URL = '/forms';
   let response = STUBBED_RESPONSE;
 

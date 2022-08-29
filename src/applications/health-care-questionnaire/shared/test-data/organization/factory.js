@@ -19,7 +19,7 @@ class OrganizationData {
           text: 'Facility ID',
         },
         system:
-          'https://api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier',
+          'https://platform-api.va.gov/services/fhir/v0/r4/NamingSystem/va-facility-identifier',
         value: 'vha_442',
       },
     ];

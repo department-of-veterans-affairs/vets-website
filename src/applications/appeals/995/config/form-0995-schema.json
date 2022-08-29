@@ -993,7 +993,7 @@
                       "$ref": "#/definitions/address"
                     },
                     "phone": {
-                      "$ref": "https://dev-api.va.gov/internal/docs/appeals-decision-reviews/v2/openapi.json#/definitions/phone"
+                      "$ref": "https://dev-platform-api.va.gov/internal/docs/appeals-decision-reviews/v2/openapi.json#/definitions/phone"
                     },
                     "email": {
                       "type": "string",
@@ -1003,7 +1003,7 @@
                     },
                     "timezone": {
                       "description": "Veteran's timezone. Used for adding the current date to the signature according to the veteran's local time. If not specified, the current UTC date will be used for the signature (which may be ahead or behind the local date).",
-                      "$ref": "https://dev-api.va.gov/internal/docs/appeals-decision-reviews/v2/openapi.json#/definitions/timezone"
+                      "$ref": "https://dev-platform-api.va.gov/internal/docs/appeals-decision-reviews/v2/openapi.json#/definitions/timezone"
                     }
                   },
                   "required": [
