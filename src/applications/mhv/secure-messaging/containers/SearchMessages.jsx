@@ -51,7 +51,7 @@ const Search = () => {
       ) : (
         <SearchForm
           advancedSearchOpen={advancedSearchOpen}
-          query={searchParams}
+          keyword={searchParams.keyword}
         />
       )}
 
