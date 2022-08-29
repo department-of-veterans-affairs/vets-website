@@ -106,7 +106,7 @@ const Landing = props => {
           })
           .catch(() => {
             clearCurrentSession(window);
-            goToErrorPage();
+            goToErrorPage('?error=error-fromlocation-landing');
           });
       }
     },
