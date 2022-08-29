@@ -120,14 +120,14 @@ export function scrollToFirstError() {
     const isShadowRootModalOpen = Array.from(
       document.querySelectorAll('va-omb-info'),
     ).some(ombInfo =>
-      ombInfo.shadowRoot.querySelector(
+      ombInfo.shadowRoot?.querySelector(
         'va-modal[visible]:not([visible="false"])',
       ),
     );
 
     const isModalOpen =
       document.body.classList.contains('modal-open') ||
-      document.querySelectorAll('va-modal[visible]:not([visible="false"])') ||
+      document.querySelector('va-modal[visible]:not([visible="false"])') ||
       isShadowRootModalOpen;
 
     if (!isModalOpen) {
