@@ -30,7 +30,10 @@ const DownloadStatement = ({ statementId, statementDate, fullName }) => {
       <div className="vads-u-margin-top--2">
         <a
           className="vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--flex-start"
-          onClick={() => handleDownloadClick(statementDate)}
+          onClick={() => {
+            recordEvent({ event: 'cta-link-click-copay-statement-download' });
+            handleDownloadClick(statementDate);
+          }}
           download={downloadFileName}
           href={pdfStatementUri}
           type="application/pdf"
