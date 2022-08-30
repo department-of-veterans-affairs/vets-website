@@ -14,6 +14,8 @@ const routes = (
     <Route path="/reply" component={MessageReply} />
     <Route path="/search" component={SearchMessages} />
     <Route path="/draft/:draftId" component={Compose} />
+    <Route path="/sent/:messageId" component={MessageDetail} />
+    <Route path="/trash/:messageId" component={MessageDetail} />
   </Switch>
 );
 

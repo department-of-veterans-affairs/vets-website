@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { capitalize } from 'lodash';
 import FileInput from './FileInput';
 import MessageCategoryInput from './MessageCategoryInput';
+import AttachmentsList from './AttachmentsList';
 
 const ComposeForm = props => {
   const { message } = props;
@@ -40,16 +42,32 @@ const ComposeForm = props => {
     setCategory(message.category);
     setSubject(message.subject);
     setMessageBody(message.body);
-    setAttachments(message.attachments.attachment);
+    if (message.attachments.attachment.length) {
+      setAttachments(message.attachments.attachment);
+    }
     setFormPopulated(true);
   };
 
   if (message && !formPopulated) populateForm();
 
+  const setMessageTitle = () => {
+    const casedCategory = capitalize(category);
+    if (category && subject) {
+      return `${casedCategory}: ${subject}`;
+    }
+    if (category && !subject) {
+      return `${casedCategory}:`;
+    }
+    if (!category && subject) {
+      return subject;
+    }
+    return 'New message';
+  };
+
   return (
     <section className="compose-form-container">
       <div className="compose-header">
-        <h3>New Message</h3>
+        <h3>{setMessageTitle()}</h3>
         <button type="button" className="send-button-top">
           <i className="fas fa-paper-plane" />
           <span className="send-button-top-text">Send</span>
@@ -103,26 +121,8 @@ const ComposeForm = props => {
         </div>
 
         <section className="attachments-section">
-          <label htmlFor="compose_attachments">Attachments</label>
-
-          <ul className="compose-attachments-list">
-            {!!attachments.length &&
-              attachments.map(attachment => (
-                <li key={attachment.id}>
-                  <i className="fas fa-paperclip" />
-                  <div>
-                    {attachment.name} ({attachment.attachmentSize} KB)
-                    <button
-                      type="button"
-                      className="link-button remove-attachment-button"
-                    >
-                      <i className="fas fa-times" />
-                      Remove
-                    </button>
-                  </div>
-                </li>
-              ))}
-          </ul>
+          <div className="compose-attachments-label">Attachments</div>
+          <AttachmentsList attachments={attachments} />
 
           <FileInput />
         </section>

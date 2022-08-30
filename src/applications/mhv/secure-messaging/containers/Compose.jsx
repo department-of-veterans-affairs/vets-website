@@ -15,7 +15,7 @@ const Compose = () => {
     () => {
       const messageId = window.location.pathname.split('/').pop();
       if (isDraft) {
-        dispatch(getMessage(messageId));
+        dispatch(getMessage('draft', messageId));
       } else {
         dispatch(loadingComplete());
       }

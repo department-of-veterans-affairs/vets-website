@@ -9,6 +9,7 @@ This is also where GA events may be fired for successful / unsuccessful api call
 // import { apiRequest } from 'platform/utilities/api';
 import allMessages from '../tests/fixtures/messages-response.json';
 import messageDraft from '../tests/fixtures/message-draft-response.json';
+import message from '../tests/fixtures/message-response.json';
 
 export const MESSAGES_RETRIEVE_STARTED = 'MESSAGES_RETRIEVE_STARTED';
 export const MESSAGES_RETRIEVE_SUCCEEDED = 'MESSAGES_RETRIEVE_SUCCEEDED';
@@ -29,6 +30,13 @@ const mockDataRequest = (request, messageId) => {
       if (request === 'draft') {
         if (+messageDraft.id === +messageId) {
           resolve(messageDraft);
+        } else {
+          resolve({ errors: ['message not found'] });
+        }
+      }
+      if (request === 'message') {
+        if (+message.id === +messageId) {
+          resolve(message);
         } else {
           resolve({ errors: ['message not found'] });
         }
@@ -67,10 +75,10 @@ export const getAllMessages = () => async dispatch => {
   }
 };
 
-export const getMessage = messageId => async dispatch => {
+export const getMessage = (folder, messageId) => async dispatch => {
   dispatch({ type: MESSAGE_RETRIEVE_STARTED });
 
-  const response = await retrieveData('draft', messageId);
+  const response = await retrieveData(folder, messageId);
   if (response.errors) {
     // handles errors and dispatch error action
     // fire GA event for error
