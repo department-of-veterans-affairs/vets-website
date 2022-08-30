@@ -7,7 +7,25 @@ const createNotificationSuccess = () => {
         communicationGroups: [
           {
             id: 4,
-            name: 'When dinner is ready',
+            name: 'Payments',
+            description: 'Payments to the Veteran',
+            communicationItems: [
+              {
+                id: 5,
+                name: 'Disability and pension deposit notifications',
+                communicationChannels: [
+                  {
+                    id: 1,
+                    name: 'Text',
+                    description: 'SMS Notification',
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: 7,
+            name: 'When dinner is ready - custom local',
             description: null,
             communicationItems: [
               {

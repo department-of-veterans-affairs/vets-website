@@ -198,7 +198,11 @@ export function Approved(name) {
         <ul>
           <li>
             Download a copy of your decision letter. This can also be found at{' '}
-            <a rel="noopener noreferrer" target="_blank" href="/vso/">
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href="/education/download-letters/letters/"
+            >
               Download your VA education letters
             </a>
             .
@@ -308,7 +312,11 @@ export function NotEligible(name) {
         <ul>
           <li>
             Download a copy of your decision letter. This can also be found at{' '}
-            <a href="/vso/" rel="noopener noreferrer" target="_blank">
+            <a
+              href="/education/download-letters/letters/"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
               Download your VA education letters
             </a>
             .

@@ -24,7 +24,8 @@ import manifest from '../manifest.json';
 // veteran pages
 import vetInfoPage from './chapters/veteran/vetInfo';
 import vetContactInfoPage from './chapters/veteran/vetContactInfo';
-import vetMedicalCenterPage from './chapters/veteran/vetMedicalCenter';
+import vetMedicalCenterJsonPage from './chapters/veteran/vetMedicalCenter_json';
+import vetMedicalCenterAPIPage from './chapters/veteran/vetMedicalCenter_api';
 
 // sign as representative
 import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
@@ -119,11 +120,19 @@ const formConfig = {
           uiSchema: vetContactInfoPage.uiSchema,
           schema: vetContactInfoPage.schema,
         },
-        veteranInfoThree: {
-          path: 'vet-3',
+        veteranInfoThreeJSON: {
+          path: 'vet-3-json',
           title: 'VA medical center',
-          uiSchema: vetMedicalCenterPage.uiSchema,
-          schema: vetMedicalCenterPage.schema,
+          depends: formData => !formData['view:useFacilitiesAPI'],
+          uiSchema: vetMedicalCenterJsonPage.uiSchema,
+          schema: vetMedicalCenterJsonPage.schema,
+        },
+        veteranInfoThreeLighthouse: {
+          path: 'vet-3-api',
+          title: 'VA medical center',
+          depends: formData => formData['view:useFacilitiesAPI'],
+          uiSchema: vetMedicalCenterAPIPage.uiSchema,
+          schema: vetMedicalCenterAPIPage.schema,
         },
       },
     },

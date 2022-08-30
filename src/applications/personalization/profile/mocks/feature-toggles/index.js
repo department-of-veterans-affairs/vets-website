@@ -12,6 +12,8 @@ const generateFeatureToggles = (toggles = {}) => {
     profileShowPronounsAndSexualOrientation = false,
     profileShowReceiveTextNotifications = true,
     profileUseVAFSC = false,
+    profileHideDirectDepositCompAndPen = false,
+    profileShowPaymentsNotificationSetting = false,
   } = toggles;
 
   return {
@@ -53,6 +55,14 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'profile_use_vafsc',
           value: profileUseVAFSC,
+        },
+        {
+          name: 'profile_hide_direct_deposit_comp_and_pen',
+          value: profileHideDirectDepositCompAndPen,
+        },
+        {
+          name: 'profile_show_payments_notification_setting',
+          value: profileShowPaymentsNotificationSetting,
         },
       ],
     },

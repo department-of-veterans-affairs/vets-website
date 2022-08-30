@@ -36,8 +36,13 @@ const Error = () => {
   const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
 
   const { getValidateAttempts } = useSessionStorage(true);
-  const { isMaxValidateAttempts } = getValidateAttempts(window);
-
+  let { isMaxValidateAttempts } = getValidateAttempts(window);
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const error = urlParams.get('error');
+  if (error === 'validation') {
+    isMaxValidateAttempts = true;
+  }
   // Get appointment dates if available.
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);

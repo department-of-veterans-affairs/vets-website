@@ -171,6 +171,8 @@
   "your-appointment-started-more-than-15-minutes-ago-we-cant-check-you-in-online-ask-a-staff-member-for-help": "Su cita comenzó hace más de 15 minutos. No podemos completar el registro en línea. Pídale asistencia a un miembro del personal.",
   "your-appointment": "Su cita:",
   "your-appointments": "Sus citas:",
+  "your-appointments-on-day_one": "Su cita es en esta fecha: {{day, long}}.",
+  "your-appointments-on-day_other": "Sus citas son en esta fecha: {{day, long}}.",
   "your-appointments-on-day-facility_one": "Su cita es en esta fecha: {{day, long}} y en: {{facility}}.",
   "your-appointments-on-day-facility_other": "Sus citas son en esta fecha: {{day, long}} y en: {{facility}}.",
   "your-date-of-birth-can-not-be-in-the-future": "Su fecha de nacimiento no puede ser una fecha en el futuro.",

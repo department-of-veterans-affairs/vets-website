@@ -1,63 +1,63 @@
-import React from 'react';
-import { EXTERNAL_SERVICES } from 'platform/monitoring/external-services/config';
-import ExternalServicesError from 'platform/monitoring/external-services/ExternalServicesError';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getBackendStatuses as getBackendStatusAction } from 'platform/monitoring/external-services/actions';
+import environment from 'platform/utilities/environment';
+import { getStatusFromStatuses } from '../constants';
 
-export const downtimeBannersConfig = [
-  {
-    dependencies: [EXTERNAL_SERVICES.idme, EXTERNAL_SERVICES.ssoe],
-    headline: 'Our sign in process isn’t working right now',
-    status: 'error',
-    message:
-      'We’re sorry. We’re working to fix some problems with our sign in process. If you’d like to sign in to VA.gov, please check back later.',
-  },
-  {
-    dependencies: [EXTERNAL_SERVICES.dslogon],
-    headline: 'You may have trouble signing in with DS Logon',
-    status: 'warning',
-    message:
-      'We’re sorry. We’re working to fix some problems with our DS Logon sign in process. If you’d like to sign in to VA.gov with your DS Logon account, please check back later.',
-  },
-  {
-    dependencies: [EXTERNAL_SERVICES.mhv],
-    headline: 'You may have trouble signing in with My HealtheVet',
-    status: 'warning',
-    message:
-      'We’re sorry. We’re working to fix some problems with our My HealtheVet sign in process. If you’d like to sign in to VA.gov with your My HealtheVet username and password, please check back later.',
-  },
-  {
-    dependencies: [EXTERNAL_SERVICES.mvi],
-    headline: 'You may have trouble signing in or using some tools or services',
-    status: 'warning',
-    message:
-      'We’re sorry. We’re working to fix a problem that affects some parts of our site. If you have trouble signing in or using any tools or services, please check back soon.',
-  },
-  {
-    dependencies: [EXTERNAL_SERVICES.logingov],
-    headline: 'You may have trouble signing in with Login.gov',
-    status: 'warning',
-    message:
-      'We’re sorry. We’re working to fix some problems with our Login.gov sign in process. If you’d like to sign in to VA.gov with your Login.gov username and password, please check back later.',
-  },
-];
+export function DowntimeBanners({
+  shouldGetBackendStatuses,
+  getBackendStatuses,
+  statuses,
+}) {
+  const [bannerStatus, setBannerStatus] = useState({});
 
-export const DowntimeBanner = ({ dependencies, headline, status, message }) => (
-  <ExternalServicesError dependencies={dependencies}>
-    <div className="downtime-notification row">
-      <div className="columns small-12">
-        <div className="form-warning-banner">
-          <va-alert visible status={status}>
-            <h2 slot="headline">{headline}</h2>
-            {message}
-          </va-alert>
-          <br />
+  useEffect(
+    () => {
+      if (!environment.isLocalhost() && shouldGetBackendStatuses) {
+        getBackendStatuses();
+      }
+    },
+    [shouldGetBackendStatuses, getBackendStatuses],
+  );
+
+  useEffect(
+    () => {
+      if (statuses !== null) {
+        const _sorted = getStatusFromStatuses(statuses);
+        setBannerStatus(_sorted);
+      }
+    },
+    [setBannerStatus, statuses],
+  );
+
+  const shouldRender = Object.keys(bannerStatus).length > 0;
+  const { headline, status: alertStatus, message } = bannerStatus;
+
+  return (
+    shouldRender && (
+      <div className="downtime-notification row">
+        <div className="columns small-12">
+          <div className="form-warning-banner fed-warning--v2">
+            <va-alert visible status={alertStatus}>
+              <h2 slot="headline">{headline}</h2>
+              {message}
+            </va-alert>
+          </div>
         </div>
       </div>
-    </div>
-  </ExternalServicesError>
-);
-
-export default function DowntimeBanners() {
-  return downtimeBannersConfig.map((props, i) => (
-    <DowntimeBanner {...props} key={`downtime-banner-${i}`} />
-  ));
+    )
+  );
 }
+
+export const mapStateToProps = state => {
+  const { loading, statuses } = state.externalServiceStatuses;
+  const shouldGetBackendStatuses = !loading && !statuses;
+  return { shouldGetBackendStatuses, statuses };
+};
+
+const mapDispatchToProps = { getBackendStatuses: getBackendStatusAction };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(DowntimeBanners);

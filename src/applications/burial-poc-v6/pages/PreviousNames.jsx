@@ -16,7 +16,14 @@ export default function PreviousNames(props) {
         values?.previousNames &&
         values?.veteranServedUnderAnotherName === 'false'
       ) {
-        setFieldValue(`previousNames`, []);
+        setFieldValue(`previousNames`, [
+          {
+            first: '',
+            middle: '',
+            last: '',
+            suffix: '',
+          },
+        ]);
       }
     },
     [values?.veteranServedUnderAnotherName],
@@ -24,7 +31,10 @@ export default function PreviousNames(props) {
 
   return (
     <>
-      <Page {...props}>
+      <Page
+        {...props}
+        fieldNames={['veteranServedUnderAnotherName', 'previousNames']}
+      >
         <div>
           <RadioGroup
             name="veteranServedUnderAnotherName"

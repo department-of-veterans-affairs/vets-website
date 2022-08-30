@@ -17,6 +17,7 @@ import {
 } from 'applications/caregivers/definitions/content';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUpload from './fixtures/mocks/mock-upload.json';
+import mockFacilities from './fixtures/mocks/mock-facilities.json';
 
 export const mockVeteranSignatureContent = [
   'I certify that I give consent to the individual(s) named in this application to perform personal care services for me upon being approved as Primary and/or Secondary Family Caregivers in the Program of Comprehensive Assistance for Family Caregivers.',
@@ -83,6 +84,9 @@ const testSecondaryTwo = createTestConfig(
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', 'v0/form1010cg/attachments', mockUpload);
+      cy.intercept('GET', '/v1/facilities/va?*', mockFacilities).as(
+        'getFacilities',
+      );
     },
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -91,6 +95,17 @@ const testSecondaryTwo = createTestConfig(
           cy.findAllByText(/start/i, { selector: 'a' })
             .first()
             .click();
+        });
+      },
+      'vet-3-api': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.wait('@getFacilities');
+          cy.get('#root_veteranPreferredFacility_plannedClinic')
+            .shadow()
+            .find('select')
+            .select('675');
+          cy.get('.usa-button-primary').click();
         });
       },
       'primary-3': ({ afterHook }) => {

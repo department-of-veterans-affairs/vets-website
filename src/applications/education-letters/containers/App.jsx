@@ -4,7 +4,6 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import PropTypes from 'prop-types';
 import Layout from '../components/Layout';
-import { fetchUser } from '../../my-education-benefits/selectors/userDispatch';
 
 const App = ({ toggleLoginModal, user }) => {
   function toggleLogin(e) {
@@ -25,7 +24,7 @@ const App = ({ toggleLoginModal, user }) => {
       );
     }
     if (user?.login?.currentlyLoggedIn) {
-      window.location.href = '/education/education-letters/preview';
+      window.location.href = '/education/download-letters/letters';
     }
 
     return (
@@ -53,7 +52,7 @@ const App = ({ toggleLoginModal, user }) => {
       <Layout
         clsName="introduction-page"
         breadCrumbs={{
-          href: '/education/education-letters',
+          href: '/education/download-letters',
           text: 'Download your VA education letter',
         }}
       >
@@ -81,14 +80,14 @@ const App = ({ toggleLoginModal, user }) => {
               You applied for Post-9/11 GI Bill benefits, <b>and</b>
             </li>
             <li>
-              You received a decision from us about your application after Month
-              Day, Year
+              You received a decision from us about your application after
+              August 20, 2022.
             </li>
           </ul>
           <p>
             <b>Note:</b> If you have an older decision letter—or you’re a family
             member or dependent—you can contact us through Ask VA to request a
-            copy of your letter.
+            copy of your letter.{' '}
             <a href="https://nam04.safelinks.protection.outlook.com/?url=https%3A%2F%2Fask.va.gov%2F&data=04%7C01%7Cherbert.anagho%40accenturefederal.com%7C5b0be35e33a2487d4a0c08d9ecb991bc%7C0ee6c63b4eab4748b74ad1dc22fc1a24%7C0%7C0%7C637801104030719343%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&sdata=QuGxWs9osAHjaGwInFjQO5cwEQ%2BK84u9J3XH2QcwZNk%3D&reserved=0">
               Request your VA education letter through Ask VA.
             </a>
@@ -119,7 +118,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  user: fetchUser(state),
+  user: state.user || {},
 });
 
 const mapDispatchToProps = dispatch => ({

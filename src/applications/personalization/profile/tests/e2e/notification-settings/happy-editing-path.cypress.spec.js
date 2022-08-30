@@ -75,6 +75,7 @@ describe('Updating Notification Settings', () => {
         .should('not.be.disabled');
 
       cy.findByTestId('select-options-alert').should('not.exist');
+      cy.injectAxeThenAxeCheck();
     });
 
     it('should allow opting out of getting notifications - C8545', () => {
@@ -107,6 +108,7 @@ describe('Updating Notification Settings', () => {
       })
         .should('be.checked')
         .should('not.be.disabled');
+      cy.injectAxeThenAxeCheck();
     });
   });
 });
