@@ -7,14 +7,14 @@ import { defaultWebOAuthOptions } from 'platform/user/authentication/config/cons
 import { verify } from 'platform/user/authentication/utilities';
 
 export const verifyHandler = ({ useOAuth, policy }) => {
-  if (useOAuth) {
-    updateStateAndVerifier(policy);
-  }
   verify({
     policy,
     useOAuth,
     acr: defaultWebOAuthOptions.acrVerify[policy],
   });
+  if (useOAuth) {
+    updateStateAndVerifier(policy);
+  }
 };
 
 export const VerifyButton = ({
@@ -47,5 +47,5 @@ VerifyButton.propTypes = {
   label: PropTypes.string,
   policy: PropTypes.string,
   useOAuth: PropTypes.bool,
-  onClick: PropTypes.node,
+  onClick: PropTypes.func,
 };
