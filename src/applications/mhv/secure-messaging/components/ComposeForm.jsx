@@ -64,6 +64,10 @@ const ComposeForm = props => {
     return 'New message';
   };
 
+  const handleMessageBodyChange = e => {
+    setMessageBody(e.target.value);
+  };
+
   return (
     <section className="compose-form-container">
       <div className="compose-header">
@@ -115,7 +119,7 @@ const ComposeForm = props => {
             id="message-body"
             name="message-body"
             className="message-body"
-            onChange={() => {}}
+            onChange={handleMessageBodyChange}
             value={messageBody}
           />
         </div>

@@ -57,7 +57,7 @@ const MessageDetailBlock = props => {
         </section>
 
         <section className="message-body" aria-label="Message body.">
-          {body}
+          <pre>{body}</pre>
         </section>
 
         {!!attachments.attachment.length && (

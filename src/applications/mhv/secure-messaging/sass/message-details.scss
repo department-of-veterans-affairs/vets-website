@@ -11,6 +11,10 @@
     .message-detail-content {
       border: 2px solid $color-gray-lightest;
       padding: 18px;
+
+      @media (min-width: $medium-screen) {
+        padding: 37px 37px 18px;
+      }
     }
 
     .message-detail-header {

@@ -14,7 +14,7 @@ const MessageCategoryInput = props => {
         'usa-input-error'}`}
     >
       <legend className="legend-label usa-input-error-label">
-        Category <span className="required">(*Required) {category}</span>
+        Category <span className="required">(*Required)</span>
       </legend>
 
       {invalid && (

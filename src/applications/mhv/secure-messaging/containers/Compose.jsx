@@ -43,7 +43,6 @@ const Compose = () => {
         <va-loading-indicator
           message="Loading your secure message..."
           setFocus
-          class="vads-u-margin-y--9"
         />
       );
     }
