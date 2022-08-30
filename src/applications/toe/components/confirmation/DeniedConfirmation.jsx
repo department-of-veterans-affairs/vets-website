@@ -15,7 +15,7 @@ export default function DeniedConfirmation({ user, dateReceived }) {
           <div>
             <p>
               Unfortunately, based on the information you provided and
-              Department of Defense records, we have determined you are not
+              Department of Defense records, we have determined you're not
               eligible for the Transfer of Entitlement for Post-9/11 GI Bill®
               (Chapter 33) benefit at this time.
             </p>{' '}
@@ -79,11 +79,6 @@ export default function DeniedConfirmation({ user, dateReceived }) {
           </li>
           <li>There is no further action required by you at this time.</li>
         </ul>
-      </div>
-      <div className="vads-u-margin-bottom--3">
-        <a className="vads-c-action-link--green " href="/?next=%2Fprofile">
-          Go to your My VA dashboard
-        </a>
       </div>
     </>
   );
