@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import { setData } from 'platform/forms-system/src/js/actions';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+
 import formConfig from '../config/form';
 import { fetchPersonalInformation, fetchEligibility } from '../actions';
-import { fetchUser } from '../selectors/userDispatch';
 import { prefillTransformer } from '../helpers';
+import { getAppData } from '../selectors';
 
 export const App = ({
   location,
@@ -18,6 +20,8 @@ export const App = ({
   firstName,
   getEligibility,
   eligibility,
+  personalInfoFetchComplete,
+  showUnverifiedUserAlert,
   user,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
@@ -31,7 +35,7 @@ export const App = ({
 
       if (!fetchedPersonalInfo) {
         setFetchedPersonalInfo(true);
-        getPersonalInfo();
+        getPersonalInfo(showUnverifiedUserAlert);
       } else if (!formData?.claimantId && claimantInfo.claimantId) {
         setFormData({
           ...formData,
@@ -40,10 +44,13 @@ export const App = ({
       }
       // the firstName check ensures that eligibility only gets called after we have obtained claimant info
       // we need this to avoid a race condition when a user is being loaded freshly from VADIR on DGIB
-      if (firstName && !fetchedEligibility) {
+      if (
+        (firstName || (showUnverifiedUserAlert && personalInfoFetchComplete)) &&
+        !fetchedEligibility
+      ) {
         setFetchedEligibility(true);
         getEligibility();
-      } else if (eligibility && !formData.eligibility) {
+      } else if (eligibility?.length && !formData.eligibility?.length) {
         setFormData({
           ...formData,
           eligibility,
@@ -59,7 +66,9 @@ export const App = ({
       formData,
       getEligibility,
       getPersonalInfo,
+      personalInfoFetchComplete,
       setFormData,
+      showUnverifiedUserAlert,
       user,
     ],
   );
@@ -83,13 +92,15 @@ export const App = ({
 App.propTypes = {
   children: PropTypes.object,
   claimantInfo: PropTypes.object,
-  eligibility: PropTypes.object,
+  eligibility: PropTypes.arrayOf(PropTypes.string),
   firstName: PropTypes.string,
   formData: PropTypes.object,
   getEligibility: PropTypes.func,
   getPersonalInfo: PropTypes.func,
-  location: PropTypes.string,
+  location: PropTypes.object,
+  personalInfoFetchComplete: PropTypes.bool,
   setFormData: PropTypes.func,
+  showUnverifiedUserAlert: PropTypes.bool,
   user: PropTypes.shape({
     login: PropTypes.shape({
       currentlyLoggedIn: PropTypes.bool,
@@ -102,14 +113,12 @@ const mapStateToProps = state => {
   const firstName = state.data?.formData?.data?.attributes?.claimant?.firstName;
   const transformedClaimantInfo = prefillTransformer(null, null, null, state);
   const claimantInfo = transformedClaimantInfo.formData;
-  const eligibility = state.data?.eligibility;
-  const user = fetchUser(state);
   return {
+    ...getAppData(state),
     formData,
     firstName,
     claimantInfo,
-    eligibility,
-    user,
+    personalInfoFetchComplete: state.data?.personalInfoFetchComplete,
   };
 };
 
