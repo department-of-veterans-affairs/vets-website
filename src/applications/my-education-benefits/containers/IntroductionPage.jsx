@@ -1,17 +1,16 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { connect } from 'react-redux';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import { VA_FORM_IDS } from 'platform/forms/constants';
 
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 
 import HowToApplyPost911GiBill from '../components/HowToApplyPost911GiBill';
-import { fetchUser } from '../selectors/userDispatch';
-import LoadingIndicator from '../components/LoadingIndicator';
+import IntroductionLoginV1 from '../components/IntroductionLoginV1';
+import IntroductionLoginV2 from '../components/IntroductionLoginV2';
+import { getAppData } from '../selectors';
 
-export const IntroductionPage = ({ firstName, eligibility, user, route }) => {
+export const IntroductionPage = ({ route, showUnverifiedUserAlert }) => {
   return (
     <div className="schemaform-intro">
       <FormTitle title="Apply for VA education benefits" />
@@ -86,32 +85,10 @@ export const IntroductionPage = ({ firstName, eligibility, user, route }) => {
         </ol>
       </div>
 
-      {user?.login?.currentlyLoggedIn &&
-        firstName &&
-        eligibility &&
-        !user.profile.savedForms.some(
-          p => p.form === VA_FORM_IDS.FORM_22_1990EZ,
-        ) && <h2>Begin your application for education benefits</h2>}
-
-      {!user.login.currentlyLoggedIn || (firstName && eligibility) ? (
-        <SaveInProgressIntro
-          testActionLink
-          user={user}
-          prefillEnabled={route.formConfig.prefillEnabled}
-          messages={route.formConfig.savedFormMessages}
-          pageList={route.pageList}
-          hideUnauthedStartLink
-          headingLevel={2}
-          startText="Start your application"
-        />
+      {showUnverifiedUserAlert ? (
+        <IntroductionLoginV2 route={route} />
       ) : (
-        <LoadingIndicator />
-      )}
-
-      {!user?.login?.currentlyLoggedIn && (
-        <a href="https://www.va.gov/education/apply-for-education-benefits/application/1990/applicant/information">
-          Start your application without signing in
-        </a>
+        <IntroductionLoginV1 route={route} />
       )}
 
       <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="02/28/2023" />
@@ -120,9 +97,7 @@ export const IntroductionPage = ({ firstName, eligibility, user, route }) => {
 };
 
 const mapStateToProps = state => ({
-  firstName: state.data?.formData?.data?.attributes?.claimant?.firstName,
-  eligibility: state.data?.eligibility,
-  user: fetchUser(state),
+  ...getAppData(state),
 });
 
 export default connect(mapStateToProps)(IntroductionPage);

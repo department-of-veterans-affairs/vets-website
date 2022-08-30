@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { format } from 'date-fns';
-import { fetchUser } from '../../my-education-benefits/selectors/userDispatch';
 import Layout from '../../education-letters/components/Layout';
 import FormFooter from '../../my-education-benefits/components/FormFooter';
 // import ApprovedUI from '../components/approvedUI';
@@ -100,7 +99,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  user: fetchUser(state),
+  user: state.user || {},
 });
 
 export default connect(mapStateToProps)(App);
