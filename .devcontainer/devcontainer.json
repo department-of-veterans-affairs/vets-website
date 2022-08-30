@@ -1,11 +1,6 @@
 {
-	"name": "Node.js",
-	"build": {
-		"dockerfile": "Dockerfile",
-		"args": {
-			"VARIANT": "14"
-		}
-	},
+	"name": "Review Instance",
+	"dockerComposeFile": ["../vets-website/docker-compose.yml", "vets-api/docker-compose.yml"],
 	"settings": {
 		"editor.formatOnSave": true,
 		"[json]": {

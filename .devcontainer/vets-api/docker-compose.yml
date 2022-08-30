@@ -1,0 +1,55 @@
+version: '3.4'
+services:
+  redis:
+    image: redis:5.0-alpine
+    restart: unless-stopped
+  postgres:
+    image: mdillon/postgis:11-alpine
+    environment:
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-password}"
+      POSTGRES_USER: "${POSTGRES_USER:-postgres}"
+    volumes:
+      - db-data:/var/lib/postgresql/data:cached
+    ports:
+      - "54320:5432"
+    restart: unless-stopped
+  vets-api:
+    build:
+      context: .
+      target: development
+      args:
+        sidekiq_license: "${BUNDLE_ENTERPRISE__CONTRIBSYS__COM}"
+        userid: "${VETS_API_USER_ID}"
+    command: >
+      bash -c "bundle exec rake db:migrate || bundle exec rake db:setup db:migrate
+      && touch tmp/caching-dev.txt && foreman start -m all=1,clamd=0,freshclam=0"
+    image: "vets-api:${DOCKER_IMAGE:-latest}"
+    volumes:
+      - .:/srv/vets-api/src:cached
+      - dev_bundle:/usr/local/bundle
+      - ../.secret:/srv/vets-api/secret:cached
+      - ../.pki:/srv/vets-api/pki:cached
+    ports:
+      - "3000:3000"
+    environment:
+      "Settings.database_url": "postgis://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-password}@${POSTGRES_HOST:-postgres}:${POSTGRES_PORT:-5432}/${POSTGRES_DATABASE:-vets_api_development}?pool=4"
+      "Settings.test_database_url": "postgis://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-password}@${POSTGRES_HOST:-postgres}:${POSTGRES_PORT:-5432}/${POSTGRES_DATABASE:-vets_api_test}?pool=4"
+      "Settings.redis.app_data.url": "redis://redis:6379"
+      "Settings.redis.sidekiq.url": "redis://redis:6379"
+      "Settings.redis.rails_cache.url": "redis://redis:6379"
+      "Settings.binaries.clamdscan": "clamscan" # Not running a separate process within the container for clamdscan, so we use clamscan which requires no daemon
+      POSTGRES_HOST: "${POSTGRES_HOST:-postgres}"
+      POSTGRES_PORT: "${POSTGRES_PORT:-5432}"
+      POSTGRES_USER: "${POSTGRES_USER:-postgres}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-password}"
+      PUMA_THREADS: "${PUMA_THREADS:-4}"
+    depends_on:
+      - postgres
+      - redis
+    links:
+      - postgres
+      - redis
+    restart: unless-stopped
+volumes:
+  db-data:
+  dev_bundle:
