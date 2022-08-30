@@ -45,7 +45,9 @@ export const currency = amount => {
     minimumFractionDigits: 2,
   });
   const value =
-    typeof amount === 'number' ? amount : parseFloat(amount.replace(',', ''));
+    typeof amount === 'number'
+      ? amount
+      : parseFloat(amount.replaceAll(',', ''));
   return formatter.format(value);
 };
 
@@ -57,7 +59,7 @@ export const sumValues = (arr, key) => {
   const isArrValid = Array.isArray(arr) && arr.length && hasProperty(arr, key);
   if (!isArrValid) return 0;
   return arr.reduce(
-    (acc, item) => acc + (Number(item[key]?.replace(',', '')) ?? 0),
+    (acc, item) => acc + (Number(item[key]?.replaceAll(',', '')) ?? 0),
     0,
   );
 };
@@ -66,7 +68,7 @@ export const filterDeductions = (deductions, filters) => {
   if (!deductions.length) return 0;
   return deductions
     .filter(({ name }) => filters.includes(name))
-    .reduce((acc, curr) => acc + Number(curr.amount.replace(',', '')), 0);
+    .reduce((acc, curr) => acc + Number(curr.amount.replaceAll(',', '')), 0);
 };
 
 export const otherDeductionsName = (deductions, filters) => {
@@ -81,7 +83,7 @@ export const otherDeductionsAmt = (deductions, filters) => {
   if (!deductions.length) return 0;
   return deductions
     .filter(({ name }) => name && !filters.includes(name))
-    .reduce((acc, curr) => acc + Number(curr.amount.replace(',', '')), 0);
+    .reduce((acc, curr) => acc + Number(curr.amount.replaceAll(',', '')), 0);
 };
 
 export const nameStr = (socialSecurity, compensation, education, addlInc) => {
@@ -126,14 +128,15 @@ export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
     ? debts
         .filter(item => item.resolutionComment !== undefined)
         .reduce(
-          (acc, debt) => acc + Number(debt.resolutionComment.replace(',', '')),
+          (acc, debt) =>
+            acc + Number(debt.resolutionComment.replaceAll(',', '')),
           0,
         )
     : debts
         .filter(item => item.resolution.offerToPay !== undefined)
         .reduce(
           (acc, debt) =>
-            acc + Number(debt.resolution?.offerToPay.replace(',', '')),
+            acc + Number(debt.resolution?.offerToPay.replaceAll(',', '')),
           0,
         );
 };
@@ -159,7 +162,7 @@ export const getMonthlyIncome = ({
   const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
   const vetAddlInc = sumValues(addlIncRecords, 'amount');
   const vetSocSecAmt = Number(
-    socialSecurity.socialSecAmt?.replace(',', '') ?? 0,
+    socialSecurity.socialSecAmt?.replaceAll(',', '') ?? 0,
   );
   const vetComp = sumValues(income, 'compensationAndPension');
   const vetEdu = sumValues(income, 'education');
@@ -177,13 +180,13 @@ export const getMonthlyIncome = ({
   const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
   const spSocialSecAmt = Number(
-    socialSecurity.socialSecAmt?.replace(',', '') ?? 0,
+    socialSecurity.socialSecAmt?.replaceAll(',', '') ?? 0,
   );
   const spComp = Number(
-    benefits.spouseBenefits.compensationAndPension?.replace(',', '') ?? 0,
+    benefits.spouseBenefits.compensationAndPension?.replaceAll(',', '') ?? 0,
   );
   const spEdu = Number(
-    benefits.spouseBenefits.education?.replace(',', '') ?? 0,
+    benefits.spouseBenefits.education?.replaceAll(',', '') ?? 0,
   );
   const spBenefits = spComp + spEdu;
   const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
@@ -209,7 +212,7 @@ export const getMonthlyExpenses = ({
   const otherExp = sumValues(otherExpenses, 'amount');
   const expVals = Object.values(expenses).filter(Boolean);
   const totalExp = expVals.reduce(
-    (acc, expense) => acc + Number(expense.replace(',', '')),
+    (acc, expense) => acc + Number(expense.replaceAll(',', '')),
     0,
   );
 
@@ -223,7 +226,7 @@ export const getTotalAssets = ({ assets, realEstateRecords }) => {
   const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
   const totAssets = Object.values(assets)
     .filter(item => item && !Array.isArray(item))
-    .reduce((acc, amount) => acc + Number(amount.replace(',', '')), 0);
+    .reduce((acc, amount) => acc + Number(amount.replaceAll(',', '')), 0);
 
   return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;
 };
