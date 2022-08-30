@@ -748,7 +748,9 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@fix-videos
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        with:
+          branch: fix-videos
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
