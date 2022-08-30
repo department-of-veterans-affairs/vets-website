@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
+import { isLOA3 as isLOA3Selector } from 'platform/user/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
@@ -14,7 +15,7 @@ function IntroductionLoginV2({
   isClaimantCallComplete,
   isEligibilityCallComplete,
   isLoggedIn,
-  loa3,
+  isLOA3,
   route,
   showHideLoginModal,
   user,
@@ -90,7 +91,7 @@ function IntroductionLoginV2({
 
       {apiCallsComplete &&
         isLoggedIn &&
-        loa3 && (
+        isLOA3 && (
           <SaveInProgressIntro
             headingLevel={2}
             hideUnauthedStartLink
@@ -105,7 +106,7 @@ function IntroductionLoginV2({
 
       {apiCallsComplete &&
         isLoggedIn &&
-        !loa3 && (
+        !isLOA3 && (
           <va-alert
             close-btn-aria-label="Close notification"
             status="continue"
@@ -150,8 +151,8 @@ IntroductionLoginV2.propTypes = {
   eligibility: PropTypes.arrayOf(PropTypes.string),
   isClaimantCallComplete: PropTypes.bool,
   isEligibilityCallComplete: PropTypes.bool,
+  isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
-  loa3: PropTypes.bool,
   showHideLoginModal: PropTypes.func,
   user: PropTypes.object,
 };
@@ -159,7 +160,7 @@ IntroductionLoginV2.propTypes = {
 const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
-  loa3: false, // isLOA3(state),
+  isLOA3: isLOA3Selector(state),
 });
 
 const mapDispatchToProps = {
