@@ -124,7 +124,7 @@ describe('check-in', () => {
         expect(expiredMessage).to.exist;
         expect(
           within(expiredMessage).getByText(
-            'Your provider will call you. You may need to wait about 15 minutes for their call. Thanks for your patience.',
+            'Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.',
           ),
         ).to.exist;
       });
