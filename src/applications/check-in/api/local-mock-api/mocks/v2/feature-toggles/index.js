@@ -8,6 +8,7 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceDayOfDemographicsFlagsEnabled = true,
     checkInExperienceLorotaSecurityUpdatesEnabled = false,
     checkInExperiencePhoneAppointmentsEnabled = false,
+    checkInExperienceLorotaDeletionEnabled = false,
   } = toggles;
 
   return {
@@ -45,6 +46,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_phone_appointments_enabled',
           value: checkInExperiencePhoneAppointmentsEnabled,
+        },
+        {
+          name: 'check_in_experience_lorota_deletion_enabled',
+          value: checkInExperienceLorotaDeletionEnabled,
         },
       ],
     },

@@ -16,6 +16,8 @@ export default function AccountLink({
   csp,
   type = LINK_TYPES.CREATE,
   useOAuth = false,
+  className = 'vads-c-action-link--blue vads-u-padding-y--2p5 vads-u-width--full',
+  allowVerification = false,
 }) {
   const [href, setHref] = useState('');
 
@@ -34,19 +36,23 @@ export default function AccountLink({
         const url =
           passedType !== LINK_TYPES.CREATE
             ? await authUtilities.sessionTypeUrl({ type: csp })
-            : await authUtilities.signupUrl(passedCSP);
+            : await authUtilities.signup({
+                policy: passedCSP,
+                isLink: true,
+                allowVerification,
+              });
 
         setHref(url);
       }
       updateHref(csp, type);
     },
-    [csp, type, useOAuth],
+    [csp, type, useOAuth, allowVerification],
   );
 
   return (
     <a
       href={href}
-      className={`vads-c-action-link--blue vads-u-padding-y--2p5 vads-u-width--full ${csp}`}
+      className={`${className} ${csp}`}
       data-testid={csp}
       onClick={() => signupHandler(csp, eventBase, useOAuth)}
     >
@@ -56,6 +62,7 @@ export default function AccountLink({
 }
 
 AccountLink.propTypes = {
+  className: PropTypes.string,
   csp: PropTypes.string,
   isDisabled: PropTypes.bool,
   type: PropTypes.string,

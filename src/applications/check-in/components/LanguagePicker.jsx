@@ -13,7 +13,7 @@ function LanguagePicker(props) {
   function changeLanguage(e) {
     e.preventDefault();
     recordEvent({
-      event: createAnalyticsSlug(`language-switch-${e.target.lang}`),
+      event: createAnalyticsSlug(`language-switch-${e.target.lang}`, 'nav'),
     });
     i18n.changeLanguage(e.target.getAttribute('lang'));
   }

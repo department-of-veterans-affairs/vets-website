@@ -19,10 +19,27 @@ import {
 } from 'platform/monitoring/DowntimeNotification';
 import { setData } from 'platform/forms-system/src/js/actions';
 
-export const IntroductionPage = ({ route, router }) => {
+export const IntroductionPage = ({
+  route,
+  router,
+  formData,
+  setFormData,
+  useFacilitiesAPI,
+}) => {
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
+
+  useEffect(
+    () => {
+      setFormData({
+        ...formData,
+        'view:useFacilitiesAPI': useFacilitiesAPI,
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [useFacilitiesAPI],
+  );
 
   const startForm = useCallback(
     () => {
@@ -256,19 +273,21 @@ export const IntroductionPage = ({ route, router }) => {
   );
 };
 
-const mapStateToProps = state => ({
-  formData: state.form.data,
-});
-
-const mapDispatchToProps = {
-  setFormData: setData,
-};
-
 IntroductionPage.propTypes = {
   formData: PropTypes.object,
   route: PropTypes.object,
   router: PropTypes.object,
   setFormData: PropTypes.func,
+  useFacilitiesAPI: PropTypes.bool,
+};
+
+const mapStateToProps = state => ({
+  formData: state.form.data,
+  useFacilitiesAPI: state.featureToggles?.caregiverUseFacilitiesApi,
+});
+
+const mapDispatchToProps = {
+  setFormData: setData,
 };
 
 const introPageWithRouter = withRouter(IntroductionPage);

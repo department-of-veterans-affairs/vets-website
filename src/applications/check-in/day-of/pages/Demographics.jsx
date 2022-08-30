@@ -75,7 +75,7 @@ const Demographics = props => {
   );
 
   if (!demographics) {
-    goToErrorPage();
+    goToErrorPage('?error=no-demographics');
     return <></>;
   }
   return (
