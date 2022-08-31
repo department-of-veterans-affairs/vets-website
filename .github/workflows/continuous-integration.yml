@@ -17,6 +17,7 @@ jobs:
     runs-on: self-hosted
     outputs:
       entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
+      continuous_deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
@@ -47,7 +48,7 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name'
+          output-type: 'entry_name, continuous_deployment'
 
       - name: Configure AWS Credentials
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -749,8 +750,6 @@ jobs:
 
       - name: Init Dashboard Data Repo
         uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
-        with:
-          branch: fix-videos
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -1092,7 +1091,7 @@ jobs:
           aws s3 cp BUILD_ARTIFACT.txt s3://vetsgov-website-builds-s3-upload-test/build-artifacts/$GITHUB_SHA.txt --acl public-read --region us-gov-west-1
 
   set-deploy-environments:
-    name: Set environments to deploy
+    name: Set Environments to Deploy
     needs: [archive, build]
     if: always() && github.ref == 'refs/heads/main' && needs.archive.result == 'success'
     runs-on: ubuntu-latest
@@ -1100,35 +1099,34 @@ jobs:
       environments: ${{ steps.set-environments.outputs.environments }}
     env:
       DEPLOY_TO_PRODUCTION: false # Enables production deployments for apps on the allowlist when set to true
-      IS_ISOLATED_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
       DEV: "{
-        \\\"environment\\\": \\\"vagovdev\\\",
-        \\\"bucket\\\": \\\"dev.va.gov\\\",
-        \\\"asset_bucket\\\": \\\"dev-va-gov-assets\\\",
-        \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
+          \\\"environment\\\": \\\"vagovdev\\\", 
+          \\\"bucket\\\": \\\"dev.va.gov\\\", 
+          \\\"asset_bucket\\\": \\\"dev-va-gov-assets\\\",
+          \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
         }"
       STAGING: "{
-        \\\"environment\\\": \\\"vagovstaging\\\",
-        \\\"bucket\\\": \\\"staging.va.gov\\\",
-        \\\"asset_bucket\\\": \\\"staging-va-gov-assets\\\",
-        \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
+          \\\"environment\\\": \\\"vagovstaging\\\", 
+          \\\"bucket\\\": \\\"staging.va.gov\\\", 
+          \\\"asset_bucket\\\": \\\"staging-va-gov-assets\\\",
+          \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
         }"
       PROD: "{
-        \\\"environment\\\": \\\"vagovprod\\\",
-        \\\"bucket\\\": \\\"www.va.gov\\\",
-        \\\"asset_bucket\\\": \\\"prod-va-gov-assets\\\",
-        \\\"iam_role\\\": \\\"AWS_FRONTEND_PROD_ROLE\\\"
+          \\\"environment\\\": \\\"vagovprod\\\", 
+          \\\"bucket\\\": \\\"www.va.gov\\\", 
+          \\\"asset_bucket\\\": \\\"prod-va-gov-assets\\\",
+          \\\"iam_role\\\": \\\"AWS_FRONTEND_PROD_ROLE\\\"
         }"
     steps:
       - name: Set environments for deploy matrix
         id: set-environments
         run: |
-          if [[ ${{ env.DEPLOY_TO_PRODUCTION }} == true && ${{ env.IS_ISOLATED_APP_BUILD }} == true ]]; then
+          if [[ ${{ env.DEPLOY_TO_PRODUCTION }} == true && ${{ needs.build.outputs.continuous_deployment }} == true ]]; then
             echo ::set-output name=environments::{\"include\":[${{env.DEV}},${{env.STAGING}},${{env.PROD}}]}
           else
             echo ::set-output name=environments::{\"include\":[${{env.DEV}},${{env.STAGING}}]}
           fi
-
+  
   deploy:
     name: Deploy
     needs: [build, set-deploy-environments]
@@ -1154,7 +1152,7 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Check commit deployability
+      - name: Check if commit can be deployed
         id: check-deployability
         run: node ./script/github-actions/check-deployability.js
         env:
