@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { COE_ELIGIBILITY_STATUS } from '../../../shared/constants';
+import { COE_ELIGIBILITY_STATUS } from '../../shared/constants';
 import {
   Available,
   Denied,
   Eligible,
   Ineligible,
   Pending,
-} from '../../components/statuses';
+} from '../components/statuses';
 
 const COEIntroPageBox = ({ referenceNumber, requestDate, status }) => {
   if (status) {

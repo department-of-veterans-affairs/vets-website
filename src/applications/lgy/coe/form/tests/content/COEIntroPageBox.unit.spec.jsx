@@ -4,8 +4,8 @@ import { expect } from 'chai';
 
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
-import { COE_ELIGIBILITY_STATUS } from '../../../../shared/constants';
-import COEIntroPageBox from '../../../containers/introduction-content/COEIntroPageBox';
+import { COE_ELIGIBILITY_STATUS } from '../../../shared/constants';
+import COEIntroPageBox from '../../content/COEIntroPageBox';
 
 describe('COEIntroPageBox', () => {
   const props = {

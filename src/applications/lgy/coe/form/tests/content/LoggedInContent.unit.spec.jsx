@@ -3,9 +3,9 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { expect } from 'chai';
 
-import { $ } from 'platform/forms-system/src/js/utilities/ui';
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-import NotLoggedInContent from '../../../containers/introduction-content/NotLoggedInContent';
+import LoggedInContent from '../../content/LoggedInContent';
 
 const mockStore = (data = {}) => ({
   getState: () => ({
@@ -39,7 +39,7 @@ const mockStore = (data = {}) => ({
   }),
 });
 
-describe('notLoggedInContent', () => {
+describe('LoggedInContent', () => {
   const route = {
     formConfig: {
       formId: '26-1880',
@@ -49,15 +49,14 @@ describe('notLoggedInContent', () => {
     },
     pageList: [],
   };
-
   it('should render logged in content', () => {
     const { container } = render(
       <Provider store={mockStore()}>
-        <NotLoggedInContent route={route} />
+        <LoggedInContent route={route} />
       </Provider>,
     );
-    expect($('h2', container).textContent).to.contain(
-      'Sign in to request a COE',
+    expect($$('h2', container).pop().textContent).to.contain(
+      'Follow these steps to request a VA home loan COE',
     );
   });
 });

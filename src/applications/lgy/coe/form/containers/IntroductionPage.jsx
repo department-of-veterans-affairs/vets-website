@@ -6,9 +6,9 @@ import { focusElement } from 'platform/utilities/ui';
 import { isLoggedIn } from 'platform/user/selectors';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
-import COEIntroPageBox from './introduction-content/COEIntroPageBox';
-import LoggedInContent from './introduction-content/LoggedInContent';
-import NotLoggedInContent from './introduction-content/NotLoggedInContent';
+import COEIntroPageBox from '../content/COEIntroPageBox';
+import LoggedInContent from '../content/LoggedInContent';
+import NotLoggedInContent from '../content/NotLoggedInContent';
 import { CALLSTATUS, COE_ELIGIBILITY_STATUS } from '../../shared/constants';
 
 const IntroductionPage = ({ coe, loggedIn, route, status }) => {

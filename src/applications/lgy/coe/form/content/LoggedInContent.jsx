@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
-import SubwayMap from '../../components/SubwayMap';
+import SubwayMap from '../components/SubwayMap';
 
 const LoggedInContent = ({ route }) => (
   <>
