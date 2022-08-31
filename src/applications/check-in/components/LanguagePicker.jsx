@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { createAnalyticsSlug } from '../utils/analytics';
-import withTranslationEnabled from '../containers/withTranslationEnabled';
 
 function LanguagePicker(props) {
   const { withTopMargin } = props;
@@ -73,4 +72,4 @@ LanguagePicker.propTypes = {
   withTopMargin: PropTypes.bool,
 };
 
-export default withTranslationEnabled(LanguagePicker);
+export default LanguagePicker;
