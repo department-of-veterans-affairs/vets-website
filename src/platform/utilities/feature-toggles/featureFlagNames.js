@@ -2,6 +2,7 @@
 
 export default Object.freeze({
   caregiverSIGIEnabled: 'caregiver_sigi_enabled',
+  caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
   cernerOverride648: 'cerner_override_648',
@@ -20,6 +21,7 @@ export default Object.freeze({
   checkInExperienceDayOfDemographicsFlagsEnabled: 'check_in_experience_day_of_demographics_flags_enabled',
   checkInExperienceLorotaSecurityUpdatesEnabled: 'check_in_experience_lorota_security_updates_enabled',
   checkInExperiencePhoneAppointmentsEnabled: 'check_in_experience_phone_appointments_enabled',
+  checkInExperienceLorotaDeletionEnabled: 'check_in_experience_lorota_deletion_enabled',
   checkVAInboxEnabled: 'check_va_inbox_enabled',
   coeAccess: 'coe_access',
   combinedDebtPortalAccess: 'combined_debt_portal_access',
@@ -83,6 +85,7 @@ export default Object.freeze({
   profileShowAddressChangeModal: 'profile_show_address_change_modal',
   profileShowBadAddressIndicator: 'profile_show_bad_address_indicator',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
+  profileShowPaymentsNotificationSetting: 'profile_show_payments_notification_setting',
   profileUseVaosV2Api:'profile_use_vaos_v2_api',
   profileUseVAFSC: 'profile_use_vafsc',
   pwEhrCtaDrupalSourceOfTruth: 'pw_ehr_cta_drupal_source_of_truth',
@@ -108,6 +111,7 @@ export default Object.freeze({
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
   showFormI18n: 'show_form_i18n',
   showMebMockEndpoints: 'show_meb_mock_endpoints',
+  showMebUnverifiedUserAlert: 'show_meb_unverified_user_alert',
   showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
   showHealthcareExperienceQuestionnaire:
@@ -152,6 +156,7 @@ export default Object.freeze({
   vaOnlineSchedulingStatusImprovement: 'va_online_scheduling_status_improvement',
   vaOnlineSchedulingClinicLocation: 'va_online_scheduling_clinic_location',
   vaOnlineSchedulingVaosV2Next: 'va_online_scheduling_vaos_v2_next',
+  vaOnlineSchedulingAppointmentList: 'va_online_scheduling_appointment_list',
   vaOnlineFilter36Vats: 'va_online_filter36_vats',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',

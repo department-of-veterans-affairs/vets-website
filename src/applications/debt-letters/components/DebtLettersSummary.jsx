@@ -11,12 +11,8 @@ import DebtCardsList from './DebtCardsList';
 import OnThisPageLinks from './OnThisPageLinks';
 import OtherVADebts from '../../medical-copays/components/OtherVADebts';
 import { cdpAccessToggle } from '../../medical-copays/utils/helpers';
-import alertMessage from '../../combined-debt-portal/combined/utils/alert-messages';
-import {
-  ALERT_TYPES,
-  APP_TYPES,
-  API_RESPONSES,
-} from '../../combined-debt-portal/combined/utils/helpers';
+import alertMessage from '../utils/alert-messages';
+import { ALERT_TYPES, APP_TYPES, API_RESPONSES } from '../utils/helpers';
 
 const ErrorAlert = () => (
   <section

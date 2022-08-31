@@ -84,7 +84,7 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
   }
 };
 
-export const fetchDebtLetters = () => async dispatch => {
+export const fetchDebtLetters = async dispatch => {
   dispatch(fetchDebtsInitiated());
   try {
     const options = {

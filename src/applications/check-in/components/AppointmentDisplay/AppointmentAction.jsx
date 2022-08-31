@@ -46,10 +46,10 @@ const AppointmentAction = props => {
           setSelectedAppointment(appointment);
           goToNextPage();
         } else {
-          goToErrorPage();
+          goToErrorPage('?error=check-in-post-error');
         }
       } catch (error) {
-        goToErrorPage();
+        goToErrorPage('?error=error-completing-check-in');
       }
     },
     [appointment, goToErrorPage, goToNextPage, setSelectedAppointment, token],

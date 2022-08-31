@@ -113,6 +113,14 @@
       {
         "name": "gibctCh33BenefitRateUpdate",
         "value": true
+      },
+      {
+        "name": "caregiverUseFacilitiesApi",
+        "value": true
+      },
+      {
+        "name": "caregiver_use_facilities_API",
+        "value": true
       }
     ]
   }

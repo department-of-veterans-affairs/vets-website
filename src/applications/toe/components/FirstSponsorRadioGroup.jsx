@@ -38,10 +38,10 @@ function FirstSponsorRadioGroup({
     : [];
   if (sponsors.someoneNotListed) {
     const sponsorName = [
-      formData.newSponsorFullName.first,
-      formData.newSponsorFullName.middle,
-      formData.newSponsorFullName.last,
-      formData.newSponsorFullName.suffix,
+      formData.sponsorFullName.first,
+      formData.sponsorFullName.middle,
+      formData.sponsorFullName.last,
+      formData.sponsorFullName.suffix,
     ].join(' ');
 
     options.push({

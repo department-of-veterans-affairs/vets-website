@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  CSP_CONTENT,
+  SERVICE_PROVIDERS,
   LINK_TYPES,
 } from 'platform/user/authentication/constants';
 import { expect } from 'chai';
@@ -17,7 +17,7 @@ describe.skip('AccountLink', () => {
       const anchor = await screen.findByTestId(csp);
 
       expect(anchor.textContent).to.include(
-        `Create an account with ${CSP_CONTENT[csp].COPY}`,
+        `Create an account with ${SERVICE_PROVIDERS[csp].label}`,
       );
 
       screen.unmount();
@@ -30,7 +30,7 @@ describe.skip('AccountLink', () => {
 
       expect(anchor.href).to.eql(href);
       expect(anchor.textContent).to.include(
-        `Create an account with ${CSP_CONTENT[csp].COPY}`,
+        `Create an account with ${SERVICE_PROVIDERS[csp].label}`,
       );
 
       screen.unmount();
@@ -43,7 +43,7 @@ describe.skip('AccountLink', () => {
 
       expect(anchor.href).to.eql(href);
       expect(anchor.textContent).to.include(
-        `Sign in with ${CSP_CONTENT[csp].COPY} account`,
+        `Sign in with ${SERVICE_PROVIDERS[csp].label} account`,
       );
 
       screen.unmount();
