@@ -59,7 +59,7 @@ class FormStartControls extends React.Component {
     this.props.fetchInProgressForm(this.props.formId, this.props.migrations);
 
   toggleModal = () => {
-    this.setState({ modalOpen: !this.state.modalOpen });
+    this.setState(prevState => ({ modalOpen: !prevState.modalOpen }));
   };
 
   startOver = () => {
@@ -83,7 +83,8 @@ class FormStartControls extends React.Component {
 
   render() {
     // get access to the formConfig object through this route
-    const { formConfig } = this.props?.routes?.[1] || {};
+    const { formConfig } =
+      this.props.routes?.[1] || this.props.formConfig || {};
     const {
       appType = APP_TYPE_DEFAULT,
       continueAppButtonText = CONTINUE_APP_DEFAULT_MESSAGE,
@@ -170,28 +171,31 @@ class FormStartControls extends React.Component {
 }
 
 FormStartControls.propTypes = {
-  formId: PropTypes.string.isRequired,
-  handleLoadPrefill: PropTypes.func,
-  migrations: PropTypes.array,
-  returnUrl: PropTypes.string,
   fetchInProgressForm: PropTypes.func.isRequired,
-  removeInProgressForm: PropTypes.func.isRequired,
-  router: PropTypes.object.isRequired,
+  formId: PropTypes.string.isRequired,
   formSaved: PropTypes.bool.isRequired,
   prefillAvailable: PropTypes.bool.isRequired,
+  removeInProgressForm: PropTypes.func.isRequired,
+  router: PropTypes.object.isRequired,
   startPage: PropTypes.string.isRequired,
-  startText: PropTypes.string,
-  resumeOnly: PropTypes.bool,
-  gaStartEventName: PropTypes.string,
-  testActionLink: PropTypes.bool,
+  ariaDescribedby: PropTypes.string,
+  ariaLabel: PropTypes.string,
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       startNewAppButtonText: PropTypes.string,
       continueAppButtonText: PropTypes.string,
     }),
   }),
-  ariaLabel: PropTypes.string,
-  ariaDescribedby: PropTypes.string,
+  gaStartEventName: PropTypes.string,
+  handleLoadPrefill: PropTypes.func,
+  isExpired: PropTypes.bool,
+  migrations: PropTypes.array,
+  prefillTransformer: PropTypes.func,
+  resumeOnly: PropTypes.bool,
+  returnUrl: PropTypes.string,
+  routes: PropTypes.array,
+  startText: PropTypes.string,
+  testActionLink: PropTypes.bool,
 };
 
 FormStartControls.defaultProps = {
