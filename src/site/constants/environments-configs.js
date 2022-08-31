@@ -14,19 +14,19 @@ module.exports = {
   [ENVIRONMENTS.VAGOVPROD]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVPROD,
     BASE_URL: 'https://www.va.gov',
-    API_URL: 'https://api.va.gov',
+    API_URL: 'https://platform-api.va.gov',
   },
 
   [ENVIRONMENTS.VAGOVSTAGING]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVSTAGING,
     BASE_URL: 'https://staging.va.gov',
-    API_URL: 'https://staging-api.va.gov',
+    API_URL: 'https://staging-platform-api.va.gov',
   },
 
   [ENVIRONMENTS.VAGOVDEV]: {
     BUILDTYPE: ENVIRONMENTS.VAGOVDEV,
     BASE_URL: 'https://dev.va.gov',
-    API_URL: 'https://dev-api.va.gov',
+    API_URL: 'https://dev-platform-api.va.gov',
   },
 
   [ENVIRONMENTS.LOCALHOST]: {
