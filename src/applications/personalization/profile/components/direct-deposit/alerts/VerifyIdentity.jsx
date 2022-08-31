@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
-import { signup, signupUrl } from 'platform/user/authentication/utilities';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { CSP_IDS } from 'platform/user/authentication/constants';
+import AccountLink from 'platform/user/authentication/components/AccountLink';
 
-export default function VerifyIdentiy() {
-  const signUp = useCallback(csp => {
-    signup({ csp });
-  }, []);
+export default function VerifyIdentity() {
+  const { ID_ME, LOGIN_GOV } = CSP_IDS;
+
   return (
     <va-alert status="continue" visible>
       <h2 slot="headline" data-testid="direct-deposit-mfa-message">
@@ -25,31 +25,21 @@ export default function VerifyIdentiy() {
         <strong>If you don’t have one of these accounts</strong>, you can create
         one and verify your identity now.
       </p>
-      <p>
-        <a
-          href="#create-login.gov-account"
-          onClick={() => signUp(CSP_IDS.LOGIN_GOV)}
-          data-testid="direct-deposit-login-gov-sign-up-link"
-        >
-          Create a Login.gov account
-        </a>
-      </p>
-      <p>
-        <a
-          href={signupUrl(CSP_IDS.ID_ME)}
-          data-testid="direct-deposit-id-me-sign-up-link"
-        >
-          Create an ID.me account
-        </a>
-      </p>
+      {[ID_ME, LOGIN_GOV].map(csp => (
+        <p key={csp}>
+          <AccountLink csp={csp} className="" allowVerification />
+        </p>
+      ))}
       <p>
         <strong>Note:</strong> If you need help updating your direct deposit
-        information, call us at <va-telephone contact="800-827-1000" /> (
-        <a href="tel:711" aria-label="TTY: 7 1 1.">
-          TTY: 711
-        </a>
+        information, call us at <va-telephone contact="8008271000" /> (
+        <va-telephone contact="711" />
         ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </va-alert>
   );
 }
+
+VerifyIdentity.propTypes = {
+  type: PropTypes.string,
+};

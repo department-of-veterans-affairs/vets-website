@@ -1,11 +1,11 @@
 import React from 'react';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
-import VerifyIdentiy from '../../../../components/direct-deposit/alerts/VerifyIdentiy';
+import VerifyIdentity from '../../../../components/direct-deposit/alerts/VerifyIdentity';
 
 describe('authenticated experience -- profile -- direct deposit', () => {
-  describe('VerifyIdentiy', () => {
+  describe('VerifyIdentity', () => {
     it('passes axeCheck', () => {
-      axeCheck(<VerifyIdentiy />);
+      axeCheck(<VerifyIdentity />);
     });
   });
 });

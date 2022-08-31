@@ -45,6 +45,8 @@ const mockDataRequest = (request, messageId) => {
   });
 };
 
+// const SECURE_MESSAGES_URI = '/mhv/messages';
+
 const retrieveData = async (request, messageId) => {
   try {
     // replace with apiRequest when endpoint is ready

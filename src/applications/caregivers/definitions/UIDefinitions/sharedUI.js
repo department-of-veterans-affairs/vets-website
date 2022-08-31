@@ -8,6 +8,7 @@ import { states } from 'platform/forms/address';
 import { validateSSNIsUnique } from 'applications/caregivers/helpers';
 import { VeteranSSNInfo } from 'applications/caregivers/components/AdditionalInfo';
 import AddressWithAutofill from 'applications/caregivers/components/FormFieldsets/AddressWithAutofill';
+import { emailEncouragementMessage } from '../content';
 
 const stateLabels = createUSAStateLabels(states);
 
@@ -110,4 +111,8 @@ export const addressWithoutCountryUI = label => ({
 export const addressWithAutofillUI = () => ({
   'ui:title': ' ',
   'ui:field': AddressWithAutofill,
+});
+
+export const emailEncouragementUI = () => ({
+  'ui:description': emailEncouragementMessage(),
 });

@@ -75,7 +75,7 @@ const NextOfKin = props => {
   );
 
   if (!nextOfKin) {
-    goToErrorPage();
+    goToErrorPage('?error=no-next-of-kin');
     return <></>;
   }
   return (

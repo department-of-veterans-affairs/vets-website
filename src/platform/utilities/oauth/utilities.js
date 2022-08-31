@@ -32,7 +32,7 @@ export const saveStateAndVerifier = type => {
     Ensures saved state is not overwritten if location has state parameter.
   */
   if (window.location.search.includes(OAUTH_KEYS.STATE)) return null;
-  const storage = window.sessionStorage;
+  const storage = localStorage;
 
   // Create and store a random "state" value
   const state = oauthCrypto.generateRandomString(28);
@@ -54,7 +54,7 @@ export const saveStateAndVerifier = type => {
 };
 
 export const removeStateAndVerifier = () => {
-  const storage = window.sessionStorage;
+  const storage = localStorage;
 
   Object.keys(storage)
     .filter(key => ALL_STATE_AND_VERIFIERS.includes(key))
@@ -64,7 +64,7 @@ export const removeStateAndVerifier = () => {
 };
 
 export const updateStateAndVerifier = csp => {
-  const storage = window.sessionStorage;
+  const storage = localStorage;
 
   storage.setItem(OAUTH_KEYS.STATE, storage.getItem(`${csp}_signup_state`));
   storage.setItem(
@@ -72,10 +72,12 @@ export const updateStateAndVerifier = csp => {
     storage.getItem(`${csp}_signup_code_verifier`),
   );
 
-  const signupTypesMap = Object.values(SIGNUP_TYPES).flatMap(type => [
-    `${type}_state`,
-    `${type}_code_verifier`,
-  ]);
+  const signupTypesMap = [
+    `logingov_signup_state`,
+    `logingov_signup_code_verifier`,
+    `idme_signup_state`,
+    `idme_signup_code_verifier`,
+  ];
 
   Object.keys(storage)
     .filter(key => signupTypesMap.includes(key))
@@ -95,6 +97,7 @@ export async function createOAuthRequest({
   passedQueryParams = {},
   passedOptions = {},
   type = '',
+  acr,
 }) {
   const isDefaultOAuth = !application || clientId === CLIENT_IDS.WEB;
   const isMobileOAuth =
@@ -105,6 +108,9 @@ export async function createOAuthRequest({
     config ??
     (externalApplicationsConfig[application] ||
       externalApplicationsConfig.default);
+  const useType = passedOptions.isSignup
+    ? type.slice(0, type.indexOf('_'))
+    : type;
 
   /*
     Web - Generate state & codeVerifier if default oAuth
@@ -125,9 +131,11 @@ export async function createOAuthRequest({
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(
       clientId || oAuthOptions.clientId,
     ),
-    [OAUTH_KEYS.ACR]: passedOptions.isSignup
-      ? oAuthOptions.acrSignup[type]
-      : oAuthOptions.acr[type],
+    [OAUTH_KEYS.ACR]:
+      acr ||
+      (passedOptions.isSignup
+        ? oAuthOptions.acrSignup[type]
+        : oAuthOptions.acr[type]),
     [OAUTH_KEYS.RESPONSE_TYPE]: OAUTH_ALLOWED_PARAMS.CODE,
     ...(isDefaultOAuth && { [OAUTH_KEYS.STATE]: state }),
     ...(passedQueryParams.gaClientId && {
@@ -137,7 +145,7 @@ export async function createOAuthRequest({
     [OAUTH_KEYS.CODE_CHALLENGE_METHOD]: OAUTH_ALLOWED_PARAMS.S256,
   };
 
-  const url = new URL(API_SIGN_IN_SERVICE_URL({ type }));
+  const url = new URL(API_SIGN_IN_SERVICE_URL({ type: useType }));
 
   Object.keys(oAuthParams).forEach(param =>
     url.searchParams.append(param, oAuthParams[param]),
@@ -149,7 +157,8 @@ export async function createOAuthRequest({
 }
 
 export const getCV = () => {
-  const codeVerifier = sessionStorage.getItem(OAUTH_KEYS.CODE_VERIFIER);
+  const storage = localStorage;
+  const codeVerifier = storage.getItem(OAUTH_KEYS.CODE_VERIFIER);
   return { codeVerifier };
 };
 

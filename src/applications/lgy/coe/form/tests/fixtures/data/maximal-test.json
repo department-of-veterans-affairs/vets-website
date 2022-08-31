@@ -72,7 +72,16 @@
       "name": "Test.pdf",
       "size": 33016,
       "confirmationCode": "some-UUID",
-      "isEncrypted": false
+      "isEncrypted": false,
+      "attachmentType": "Other",
+      "attachmentDescription": "Other description"
+    },
+    {
+      "name": "Test2.pdf",
+      "size": 35016,
+      "confirmationCode": "some-UUID2",
+      "isEncrypted": false,
+      "attachmentType": "ALTA statement"
     }
   ],
   "privacyAgreementAccepted": true

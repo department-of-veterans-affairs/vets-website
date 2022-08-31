@@ -56,7 +56,7 @@ const DisplayMultipleAppointments = props => {
       }
 
       if (checkInDataError) {
-        goToErrorPage();
+        goToErrorPage('?error=cant-retrieve-check-in-data');
       }
     },
     [appointments, checkInDataError, goToErrorPage, refreshCheckInData],
