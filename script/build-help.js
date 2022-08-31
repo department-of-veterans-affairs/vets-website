@@ -21,7 +21,7 @@ const helpSections = [
         name: 'env api',
         typeLabel: '{underline string}',
         description:
-          'Point vets-website to a running api.\nE.g. {bold https://dev-api.va.gov}. Defaults to {bold http://localhost:3000}.',
+          'Point vets-website to a running api.\nE.g. {bold https://dev-platform-api.va.gov}. Defaults to {bold http://localhost:3000}.',
       },
       {
         name: 'env host',

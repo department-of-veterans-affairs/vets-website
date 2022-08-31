@@ -28,16 +28,6 @@ describe('LoginHeader', () => {
       .null;
   });
 
-  it('should show an alert for iOS users', () => {
-    const screen = renderInReduxProvider(<LoginHeader isIOS={() => true} />, {
-      initialState: generateState({}),
-    });
-
-    const iosDescription = /We’re sorry. If you’re using the Safari browser or an Apple mobile device, you may have trouble signing in right now. We’re working to fix this problem as fast as we can./i;
-
-    expect(screen.queryByText(iosDescription)).to.not.be.null;
-  });
-
   it('should display direct deposit error', () => {
     const screen = renderInReduxProvider(<LoginHeader />, {
       initialState: generateState({ toggledOn: true }),
