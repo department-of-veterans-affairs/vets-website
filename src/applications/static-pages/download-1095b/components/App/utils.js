@@ -19,10 +19,13 @@ export const radioOptions = [
   },
 ];
 
-export const radioOptionsAriaLabels = [
-  'Option 1: P D F Document (best for printing)',
-  'Option 2: Text File (best for screen readers, screen enlargers, and refreshable Braille displays)',
-];
+// VA content time formatting - should be lowercase with periods
+export const formatTimeString = string => {
+  if (string.includes('AM')) {
+    return string.replace('AM', 'a.m.');
+  }
+  return string.replace('PM', 'p.m.');
+};
 
 export const phoneComponent = number => {
   return (
@@ -33,15 +36,18 @@ export const phoneComponent = number => {
   );
 };
 
-export const radioLabel = (
-  <div>
-    <h3>Choose your file format and download your document</h3>
+export const LastUpdatedComponent = props => {
+  return (
     <p>
-      We offer two file format options for this form. Choose the option that
-      best meets your needs.
+      <span className="vads-u-line-height--3 vads-u-display--block">
+        <strong>Related to:</strong> Health care
+      </span>
+      <span className="vads-u-line-height--3 vads-u-display--block">
+        <strong>Document last updated:</strong> {props.lastUpdated}
+      </span>
     </p>
-  </div>
-);
+  );
+};
 
 export const notFoundComponent = () => {
   return (
