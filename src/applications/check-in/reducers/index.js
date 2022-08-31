@@ -9,6 +9,7 @@ const initialState = {
     data: {},
   },
   app: '',
+  error: '',
 };
 
 import {
@@ -35,7 +36,7 @@ import {
   seeStaffMessageUpdatedHandler,
 } from './day-of';
 
-import { setAppHandler } from './universal';
+import { setAppHandler, setErrorHandler } from './universal';
 
 import { INIT_FORM } from '../actions/navigation';
 
@@ -45,7 +46,7 @@ import { SET_SESSION } from '../actions/authentication';
 
 import { setSessionHandler } from './authentication';
 
-import { SET_APP, RECORD_ANSWER } from '../actions/universal';
+import { SET_APP, RECORD_ANSWER, SET_ERROR } from '../actions/universal';
 
 const handler = Object.freeze({
   [INIT_FORM]: initFormHandler,
@@ -60,6 +61,7 @@ const handler = Object.freeze({
   [UPDATE_PRE_CHECK_IN_FORM]: updateFormHandler,
   [UPDATE_DAY_OF_CHECK_IN_FORM]: updateFormHandler,
   [SET_APP]: setAppHandler,
+  [SET_ERROR]: setErrorHandler,
 
   default: state => {
     return { ...state };
