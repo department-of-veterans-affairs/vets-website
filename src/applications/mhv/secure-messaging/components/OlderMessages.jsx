@@ -38,9 +38,9 @@ const OlderMessages = () => {
         <span className="vads-u-font-weight--bold">
           Older messages in this conversation
           {isExpanded ? (
-            <i className="fas fa-angle-up fa-lg" />
+            <i className="fas fa-angle-up fa-lg" aria-hidden />
           ) : (
-            <i className="fas fa-angle-down fa-lg" />
+            <i className="fas fa-angle-down fa-lg" aria-hidden />
           )}
         </span>
       </div>
@@ -61,9 +61,9 @@ const OlderMessages = () => {
             >
               Expand All Messages
               {isExpandedAll ? (
-                <i className="fas fa-angle-up" />
+                <i className="fas fa-angle-up" aria-hidden />
               ) : (
-                <i className="fas fa-angle-down" />
+                <i className="fas fa-angle-down" aria-hidden />
               )}
             </span>
           </div>
