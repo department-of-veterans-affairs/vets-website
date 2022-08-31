@@ -29,6 +29,8 @@ const OlderMessages = () => {
         onClick={e => {
           handleExpandOlder(e);
         }}
+        aria-expanded={isExpanded}
+        aria-controls="message-list-expanded"
         role="button"
         tabIndex={0}
         onKeyDown={e => {
@@ -46,12 +48,14 @@ const OlderMessages = () => {
       </div>
 
       {isExpanded && (
-        <div>
+        <div id="message-list-expanded">
           <div className="vads-l-row vads-u-justify-content--flex-end">
             <span
               onClick={e => {
                 handleExpandAll(e);
               }}
+              aria-expanded={isExpanded}
+              aria-controls="message-list-body-expanded"
               role="button"
               tabIndex={0}
               className="expand-all-messages-btn vads-u-display--flex vads-u-align-items--flex-start"

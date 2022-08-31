@@ -15,7 +15,7 @@ const Message = props => {
           </a>
           <p>August 15, 2021 at 1:32 p.m. ET</p>
           {props.expanded && (
-            <p>
+            <p className="message-list-body-expanded">
               This is a test Body of the message. This message body will appear
               in older messages info if expanded
             </p>
@@ -33,7 +33,7 @@ const Message = props => {
           </a>
           <p>May 15, 2021 at 11:32 a.m. ET</p>
           {props.expanded && (
-            <p>
+            <p className="message-list-body-expanded">
               This is a test Body of the message. This message body will appear
               in older messages info if expanded
             </p>
