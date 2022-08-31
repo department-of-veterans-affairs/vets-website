@@ -10,6 +10,7 @@ import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/con
 
 import { getAppData } from '../selectors';
 import LoadingIndicator from './LoadingIndicator';
+import StartApplicationWithoutSigningInLink from './StartApplicationWithoutSigningInLink';
 
 function IntroductionLoginV2({
   isClaimantCallComplete,
@@ -80,9 +81,7 @@ function IntroductionLoginV2({
                 {UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
               </button>
               <p>
-                <a href="https://www.va.gov/education/apply-for-education-benefits/application/1990/applicant/information">
-                  Start your application without signing in
-                </a>
+                <StartApplicationWithoutSigningInLink />
               </p>
             </div>
           </va-alert>

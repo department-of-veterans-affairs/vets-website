@@ -5,8 +5,9 @@ import PropTypes from 'prop-types';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import LoadingIndicator from './LoadingIndicator';
 import { getAppData } from '../selectors';
+import LoadingIndicator from './LoadingIndicator';
+import StartApplicationWithoutSigningInLink from './StartApplicationWithoutSigningInLink';
 
 function IntroductionLoginV1({ firstName, eligibility, route, user }) {
   return (
@@ -34,9 +35,7 @@ function IntroductionLoginV1({ firstName, eligibility, route, user }) {
       )}
 
       {!user?.login?.currentlyLoggedIn && (
-        <a href="/education/apply-for-education-benefits/application/1990/applicant/information">
-          Start your application without signing in
-        </a>
+        <StartApplicationWithoutSigningInLink />
       )}
     </>
   );
