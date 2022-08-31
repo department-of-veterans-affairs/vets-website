@@ -3,6 +3,8 @@ services:
   vets-website:
     build:
       context: .
+      args:
+        userid: ${UID}
     environment:
       API_URL: ${API_URL:-http://localhost:3000}
       WEB_HOST: ${WEB_HOST:-localhost}
