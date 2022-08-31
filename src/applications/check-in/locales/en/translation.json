@@ -10,6 +10,7 @@
   "back-to-last-screen": "Back to last screen",
   "breadcrumb": "Breadcrumb",
   "brother": "Brother",
+  "call": "call",
   "call-the-veterans-crisis-hotline-at": "call the Veterans Crisis hotline at",
   "call-your-va-health-care-team": "Call your VA health care team",
   "call-your-va-provider": "call your VA provider.",
@@ -68,6 +69,7 @@
   "loading-your-appointment-details": "Loading your appointment details",
   "loading-your-appointments-for-today": "Loading your appointments for today",
   "loading-your-check-in-experience": "Loading your check in experience",
+  "location": "Location",
   "login": "login",
   "mailing-address": "Mailing address",
   "mobile-phone": "Mobile phone",
@@ -98,6 +100,7 @@
   "please-enter-your-last-name": "Please enter your last name.",
   "please-provide-a-response": "Please provide a response",
   "privacy-act-statement": "Privacy Act Statement",
+  "provider": "Provider",
   "read-more-about-privacy-and-security-on-va-gov": "Read more about privacy and security on VA.gov",
   "refresh": "Refresh",
   "relationship": "Relationship",
@@ -120,6 +123,7 @@
   "this-helps-us-keep-information-about-your-next-of-kin-up-to-date": "This helps us keep information about your next of kin up to date.",
   "time": "Time",
   "tty-711": "TTY: 711",
+  "type-of-care": "Type of care",
   "united-states": "United States",
   "unrelated-friend": "Unrelated Friend",
   "update": "Update",
@@ -179,8 +183,5 @@
   "you-can-still-check-in-with-your-phone-on-the-day-of-your-appointment": "You can still check-in with your phone on the day of your appointment.",
   "telephone-appointment": "Telephone appointment",
   "your-provider-will-call-you-at-your-appointment-time-you-may-need-to-wait-about-15-minutes-for-their-call-thanks-for-your-patience": "Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.",
-  "location": "Location",
-  "type-of-care": "Type of care",
-  "VA-appointment": "VA Appointment",
-  "provider": "Provider"
+  "VA-appointment": "VA Appointment"
 }
