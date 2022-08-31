@@ -7,7 +7,7 @@ import ExpandingGroup from '@department-of-veterans-affairs/component-library/Ex
 const ResolutionOptions = ({ formContext }) => {
   const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
-  const isOnReviewPage = formContext.onReviewPage;
+  const isEditing = formContext.onReviewPage ? !formContext.reviewMode : true;
 
   const { selectedDebtsAndCopays = [] } = formData;
   const currentDebt = selectedDebtsAndCopays[formContext.pagePerItemIndex];
@@ -80,7 +80,7 @@ const ResolutionOptions = ({ formContext }) => {
       )}
       <ExpandingGroup open={currentDebt.resolutionOption === 'waiver'}>
         <div>
-          {!isOnReviewPage && (
+          {isEditing && (
             <input
               type="radio"
               checked={currentDebt.resolutionOption === 'waiver'}
@@ -102,7 +102,7 @@ const ResolutionOptions = ({ formContext }) => {
           </label>
           {currentDebt.debtType !== 'COPAY' && (
             <div>
-              {!isOnReviewPage && (
+              {isEditing && (
                 <input
                   type="radio"
                   checked={currentDebt.resolutionOption === 'monthly'}
@@ -125,7 +125,7 @@ const ResolutionOptions = ({ formContext }) => {
               </label>
             </div>
           )}
-          {!isOnReviewPage && (
+          {isEditing && (
             <input
               type="radio"
               checked={currentDebt.resolutionOption === 'compromise'}
@@ -157,14 +157,16 @@ const ResolutionOptions = ({ formContext }) => {
               <p>{checkboxErrorMessage}</p>
             </span>
           )}
-          <input
-            name="request-help-with-copay"
-            id={currentDebt.id}
-            type="checkbox"
-            checked={isWaiverChecked || false}
-            className="vads-u-width--auto"
-            onChange={onWaiverChecked}
-          />
+          {isEditing && (
+            <input
+              name="request-help-with-copay"
+              id={currentDebt.id}
+              type="checkbox"
+              checked={isWaiverChecked || false}
+              className="vads-u-width--auto"
+              onChange={onWaiverChecked}
+            />
+          )}
           <label className="vads-u-margin--0" htmlFor={currentDebt.id}>
             <div className="vads-u-margin-left--4 vads-u-margin-top--neg3">
               <p className="vads-u-margin--0">
