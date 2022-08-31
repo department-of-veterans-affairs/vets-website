@@ -21,10 +21,6 @@ describe('pre-check-in experience', () => {
           token: '',
         },
       },
-      featureToggles: {
-        check_in_experience_translation_pre_check_in_enabled: true,
-        check_in_experience_translation_day_of_enabled: true,
-      },
     };
     beforeEach(() => {
       store = mockStore(initState);
