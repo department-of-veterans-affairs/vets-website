@@ -126,7 +126,7 @@ const ComposeForm = props => {
 
         <section className="attachments-section">
           <div className="compose-attachments-label">Attachments</div>
-          <AttachmentsList attachments={attachments} />
+          <AttachmentsList attachments={attachments} editingEnabled />
 
           <FileInput />
         </section>
