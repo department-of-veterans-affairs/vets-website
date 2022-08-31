@@ -186,6 +186,8 @@ ResolutionOptions.propTypes = {
   formContext: PropTypes.shape({
     pagePerItemIndex: PropTypes.string.isRequired,
     submitted: PropTypes.bool,
+    onReviewPage: PropTypes.bool,
+    reviewMode: PropTypes.bool,
   }),
 };
 
