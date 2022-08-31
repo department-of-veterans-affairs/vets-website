@@ -1,8 +1,6 @@
 import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress/reducers';
 import formConfig from './config/form';
 
-import { SPONSOR_RELATIONSHIP } from './constants';
-
 import {
   FETCH_SPONSORS,
   FETCH_SPONSORS_FAILED,
@@ -38,24 +36,25 @@ export default {
           fetchedSponsorsComplete: true,
           sponsors: {
             sponsors: [
-              {
-                id: '1',
-                name: 'Hector Stanley',
-                dateOfBirth: '1978-07-18',
-                relationship: SPONSOR_RELATIONSHIP.CHILD,
-              },
-              {
-                id: '2',
-                name: 'Nancy Stanley',
-                dateOfBirth: '1979-10-11',
-                relationship: SPONSOR_RELATIONSHIP.CHILD,
-              },
-              {
-                id: '3',
-                name: 'Jane Doe',
-                dateOfBirth: '1996-07-18',
-                relationship: SPONSOR_RELATIONSHIP.SPOUSE,
-              },
+              ...state.sponsors,
+              // {
+              //   id: '1',
+              //   name: 'Hector Stanley',
+              //   dateOfBirth: '1978-07-18',
+              //   relationship: SPONSOR_RELATIONSHIP.CHILD,
+              // },
+              // {
+              //   id: '2',
+              //   name: 'Nancy Stanley',
+              //   dateOfBirth: '1979-10-11',
+              //   relationship: SPONSOR_RELATIONSHIP.CHILD,
+              // },
+              // {
+              //   id: '3',
+              //   name: 'Jane Doe',
+              //   dateOfBirth: '1996-07-18',
+              //   relationship: SPONSOR_RELATIONSHIP.SPOUSE,
+              // },
             ],
             someoneNotListed: false,
           },

@@ -27,4 +27,5 @@ export const defaultWebOAuthOptions = {
   clientId: 'web',
   acr: { idme: 'min', dslogon: 'min', mhv: 'min', logingov: 'min' },
   acrSignup: { idme_signup: 'min', logingov_signup: 'min' },
+  acrVerify: { idme: 'loa3', logingov: 'ial2' },
 };

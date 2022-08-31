@@ -149,6 +149,7 @@ export function sessionTypeUrl({
   version = API_VERSION,
   allowVerification = false,
   useOauth = false,
+  acr = null,
 }) {
   if (!type) {
     return null;
@@ -200,6 +201,7 @@ export function sessionTypeUrl({
 
   if (useOAuth && (isLogin || isSignup)) {
     return createOAuthRequest({
+      acr,
       application,
       clientId,
       type,
@@ -294,13 +296,15 @@ export async function verify({
   clickedEvent = AUTH_EVENTS.VERIFY,
   isLink = false,
   useOAuth = false,
+  acr = null,
 }) {
   const type = SIGNUP_TYPES[policy];
   const url = await sessionTypeUrl({
     type,
     version,
-    allowVerification: true,
     useOauth: useOAuth,
+    ...(!useOAuth && { allowVerification: true }),
+    acr,
   });
 
   return isLink ? url : redirect(url, `${type}-${clickedEvent}`);
