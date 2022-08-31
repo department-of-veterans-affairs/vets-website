@@ -268,7 +268,7 @@
     "@department-of-veterans-affairs/component-library": "^11.4.0",
     "@department-of-veterans-affairs/formation": "^7.0.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
-    "@department-of-veterans-affairs/va-forms-system-core": "1.4.3",
+    "@department-of-veterans-affairs/va-forms-system-core": "1.4.6",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@mapbox/mapbox-sdk": "^0.13.2",

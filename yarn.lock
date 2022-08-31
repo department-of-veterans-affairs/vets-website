@@ -2565,10 +2565,10 @@
     react-is "^17.0.1"
     setimmediate "^1.0.5"
 
-"@department-of-veterans-affairs/va-forms-system-core@1.4.3":
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/va-forms-system-core/-/va-forms-system-core-1.4.3.tgz#76acd24c468ffdd9509415e65854094b075ccbcb"
-  integrity sha512-c1Ry/aNeTTOLrOPoBQdt9R8IzE/zebUBkcFwcli5rjkD/nzekbM10hdx677XuiqTNtmLNYZ/Udm88OwwccmY1g==
+"@department-of-veterans-affairs/va-forms-system-core@1.4.6":
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/va-forms-system-core/-/va-forms-system-core-1.4.6.tgz#3eb5ab717c87a12f3957c8e42554865672609d45"
+  integrity sha512-+mLGkvma3bFkIOQFBoWrK5r4XrOZylUgSr/97XVvCrua+ih63l8EuCIY3IdQ5bUcWj/qe7KU0AMuDWsqoeT4LA==
   dependencies:
     connect-history-api-fallback "^1.6.0"
     date-fns "^2.28.0"
