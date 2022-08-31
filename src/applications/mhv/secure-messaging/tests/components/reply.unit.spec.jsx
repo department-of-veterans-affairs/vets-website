@@ -5,7 +5,7 @@ import ReplyHeader from '../../components/ReplyHeader';
 import BeforeMessageAddlInfo from '../../components/BeforeMessageAddlInfo';
 import NavigationLinks from '../../components/NavigationLinks';
 import OlderMessages from '../../components/OlderMessages';
-import Breadcrumbs from '../../components/breadcrumbs';
+import Breadcrumbs from '../../components/shared/Breadcrumbs';
 
 describe('Breadcrumbs', () => {
   it('renders without errors', () => {

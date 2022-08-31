@@ -44,7 +44,7 @@ export default function ClaimantInformation(props) {
 
   return (
     <>
-      <Page {...props}>
+      <Page {...props} fieldNames={['claimantFullName', 'relationship']}>
         <p>
           You aren’t required to fill in all fields, but we can review your
           application faster if you provide more information.
@@ -66,7 +66,7 @@ export default function ClaimantInformation(props) {
             <ExpandingGroup open showPlus>
               <TextField
                 name="relationship.other"
-                label="Please specify"
+                label="Please specify claimant's relationship to deceased Veteran"
                 required={values.relationship.type === 'other'}
               />
               <CheckboxField

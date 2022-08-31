@@ -85,10 +85,17 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 ProfileWrapper.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
   routes: PropTypes.arrayOf(
     PropTypes.shape({
-      component: PropTypes.func.isRequired,
+      component: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.node,
+        PropTypes.object,
+      ]).isRequired,
       name: PropTypes.string.isRequired,
       path: PropTypes.string.isRequired,
       requiresLOA3: PropTypes.bool.isRequired,

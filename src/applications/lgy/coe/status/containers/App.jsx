@@ -18,12 +18,7 @@ import {
 } from '../components/statuses';
 
 const App = ({
-  certificateOfEligibility: {
-    coe,
-    downloadUrl,
-    generateAutoCoeStatus,
-    profileIsUpdating,
-  },
+  certificateOfEligibility: { coe, generateAutoCoeStatus, profileIsUpdating },
   getCoe,
   loggedIn,
   user,
@@ -58,13 +53,12 @@ const App = ({
   ) {
     switch (coe.status) {
       case COE_ELIGIBILITY_STATUS.available:
-        content = <Available downloadUrl={downloadUrl} />;
+        content = <Available />;
         break;
       case COE_ELIGIBILITY_STATUS.eligible:
         content = (
           <Eligible
             clickHandler={clickHandler}
-            downloadUrl={downloadUrl}
             referenceNumber={coe.referenceNumber}
           />
         );

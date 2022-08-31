@@ -17,8 +17,8 @@ import backendServices from 'platform/user/profile/constants/backendServices';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 
 import { getAllMessages } from '../actions';
-import Header from '../components/Header';
-import InboxListView from '../components/InboxListView';
+// import Header from '../components/Header';
+import InboxListView from '../components/MessageList/InboxListView';
 
 const App = props => {
   const {
@@ -51,7 +51,7 @@ const App = props => {
   } else {
     content = (
       <>
-        <Header />
+        {/* <Header /> */}
         <InboxListView messages={messages} />
       </>
     );

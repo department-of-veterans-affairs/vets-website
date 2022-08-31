@@ -1,13 +1,19 @@
 import React from 'react';
-import { STATUS } from '../constants';
-import VerifyYourEnrollments from './VerifyYourEnrollments';
-import { STATUS_PROP_TYPE } from '../helpers';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-const successAlert /* nextEnrollmentMonth => */ = (
+import { STATUS } from '../constants';
+import { STATUS_PROP_TYPE } from '../helpers';
+import { UPDATE_VERIFICATION_STATUS_SUCCESS } from '../actions';
+import VerifyYourEnrollments from './VerifyYourEnrollments';
+
+const successAlert = submissionResult => (
   <va-alert status="success" visible>
-    You’re up-to-date with your monthly enrollment verification. You’ll be able
-    to verify your enrollment next month
-    {/* on {nextEnrollmentMonth} */}.
+    {submissionResult === UPDATE_VERIFICATION_STATUS_SUCCESS
+      ? 'Congratulations, you’re'
+      : 'You’re'}{' '}
+    up-to-date with your monthly enrollment verification. You’ll be able to
+    verify your enrollment next month.
   </va-alert>
 );
 const warningAlert = (
@@ -57,10 +63,10 @@ const pausedScoAlert = (
   </va-alert>
 );
 
-const EnrollmentVerificationAlert = ({ status }) => {
+const EnrollmentVerificationAlert = ({ status, submissionResult }) => {
   switch (status) {
     case STATUS.ALL_VERIFIED:
-      return successAlert;
+      return successAlert(submissionResult);
     case STATUS.MISSING_VERIFICATION:
       return warningAlert;
     case STATUS.PAYMENT_PAUSED:
@@ -74,6 +80,11 @@ const EnrollmentVerificationAlert = ({ status }) => {
 
 EnrollmentVerificationAlert.propTypes = {
   status: STATUS_PROP_TYPE.isRequired,
+  submissionResult: PropTypes.string,
 };
 
-export default EnrollmentVerificationAlert;
+const mapStateToProps = state => ({
+  submissionResult: state?.data?.enrollmentVerificationSubmissionResult,
+});
+
+export default connect(mapStateToProps)(EnrollmentVerificationAlert);

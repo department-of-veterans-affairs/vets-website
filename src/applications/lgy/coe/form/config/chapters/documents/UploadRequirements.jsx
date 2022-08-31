@@ -28,7 +28,9 @@ const UploadRequirements = ({ formData }) => {
 
   return (
     <div>
-      <h2 className="vads-u-font-size--h4">Upload your documents</h2>
+      <h3 className="vads-u-font-size--h4 vads-u-margin-top--1">
+        Upload your documents
+      </h3>
       {identity && (
         <p className="vads-u-font-weight--bold">Please upload the following</p>
       )}

@@ -38,7 +38,9 @@ import * as repaymentRecords from './expenses/repayments/records';
 import * as otherExpenses from './expenses/other';
 import * as otherExpenseRecords from './expenses/other/records';
 import * as resolutionOptions from './resolution/options';
+import * as resolutionOption from './resolution/resolutionOption';
 import * as resolutionComments from './resolution/comments';
+import * as resolutionComment from './resolution/resolutionComment';
 import * as bankruptcyHistory from './bankruptcy';
 import * as bankruptcyHistoryRecords from './bankruptcy/records';
 
@@ -82,7 +84,9 @@ export {
   otherExpenses,
   otherExpenseRecords,
   resolutionOptions,
+  resolutionOption,
   resolutionComments,
+  resolutionComment,
   bankruptcyHistory,
   bankruptcyHistoryRecords,
   contactInfo,

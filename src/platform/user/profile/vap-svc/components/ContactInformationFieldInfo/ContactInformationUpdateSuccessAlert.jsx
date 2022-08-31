@@ -51,15 +51,19 @@ const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
 
   return (
     <>
-      <va-alert status="success" background-only class="vads-u-margin-y--1">
+      <va-alert
+        background-only
+        class="vads-u-margin-y--1"
+        close-btn-aria-label="Close notification"
+        disable-analytics="false"
+        show-icon
+        status="success"
+        visible="true"
+      >
         <div
           className="vads-u-display--flex vads-u-margin-left--neg1p5"
           id={id}
         >
-          <i
-            aria-hidden="true"
-            className="fa fa-check-circle vads-u-padding-top--0p5 vads-u-margin-right--1"
-          />
           <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
             {message}
           </p>

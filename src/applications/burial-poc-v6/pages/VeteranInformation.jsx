@@ -17,6 +17,13 @@ export default function VeteranInformation(props) {
         {...props}
         nextPage="/veteran-information/burial"
         prevPage="/claimant-information"
+        fieldNames={[
+          'veteranFullName',
+          'veteranSocialSecurityNumber',
+          'vaFileNumber',
+          'veteranDateOfBirth',
+          'placeOfBirth',
+        ]}
       >
         <FullNameField name="veteranFullName" />
 

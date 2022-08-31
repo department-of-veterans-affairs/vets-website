@@ -1,6 +1,6 @@
 import environment from 'platform/utilities/environment';
 import * as Sentry from '@sentry/browser';
-import { DATA_FILES_PATH } from './constants';
+import { DATA_FILES_PATH } from '../constants';
 
 export const fetchDrupalStaticDataFile = async fileName => {
   try {

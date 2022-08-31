@@ -1,6 +1,33 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "./navigation";
 
+.secure-messaging-container {
+  display: flex;
+  flex-direction: row;
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    h1 {
+      margin-bottom: 8px;
+    }
+  }
+  .secure-messaging-navigation {
+    margin-right: 24px;
+  }
+}
+
+.compose-message-link:visited {
+  color: $color-link-default;
+  text-decoration: underline;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  transition-property: color, background-color, border-color;
+}
+
+va-alert button {
+  width: auto;
+}
+
 .message-box {
   background-color: $color-gray-lightest;
   border-radius: 4px;
@@ -170,4 +197,19 @@
 
 .search-messages-input {
   max-width: 480px;
+}
+
+@media (max-width: $small-screen) {
+  .secure-messaging-container {
+    flex-direction: column;
+    .main-content {
+      display: flex;
+      flex-direction: column;
+    }
+    .secure-messaging-navigation {
+      margin-top: 24px;
+      margin-bottom: 30px;
+      margin-right: 0px;
+    }
+  }
 }
