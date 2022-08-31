@@ -1,8 +1,8 @@
 {
 	"name": "Review Instance",
-	"dockerComposeFile": ["vets-website/docker-compose.yml", "vets-api/docker-compose.yml"],
+	"dockerComposeFile": ["vets-website/docker-compose.yml"],
 	"service": "vets-website",
-	"runServices": ["vets-website", "vets-api", "postgres", "redis"],
+	"runServices": ["vets-website"],
 	"settings": {
 		"editor.formatOnSave": true,
 		"[json]": {
