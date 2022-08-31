@@ -64,7 +64,7 @@ Cypress.on('test:after:run', test => {
     console.log(test);
     let videoName = Cypress.spec.name;
     videoName = videoName.replace('/.js.*', '.js');
-    const videoPath = `${Cypress.config('videosFolder')}/${videoName}.mp4`;
+    const videoPath = `${Cypress.spec.relative}/${videoName}.mp4`;
     console.log(videoPath);
     addContext(
       { test },
