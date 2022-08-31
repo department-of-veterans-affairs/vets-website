@@ -7,6 +7,7 @@ import ExpandingGroup from '@department-of-veterans-affairs/component-library/Ex
 const ResolutionOptions = ({ formContext }) => {
   const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
+  const isOnReviewPage = formContext.onReviewPage;
 
   const { selectedDebtsAndCopays = [] } = formData;
   const currentDebt = selectedDebtsAndCopays[formContext.pagePerItemIndex];
@@ -79,15 +80,17 @@ const ResolutionOptions = ({ formContext }) => {
       )}
       <ExpandingGroup open={currentDebt.resolutionOption === 'waiver'}>
         <div>
-          <input
-            type="radio"
-            checked={currentDebt.resolutionOption === 'waiver'}
-            name="resolution-option"
-            id="radio-waiver"
-            value="waiver"
-            className="vads-u-width--auto"
-            onChange={onResolutionChange}
-          />
+          {!isOnReviewPage && (
+            <input
+              type="radio"
+              checked={currentDebt.resolutionOption === 'waiver'}
+              name="resolution-option"
+              id="radio-waiver"
+              value="waiver"
+              className="vads-u-width--auto"
+              onChange={onResolutionChange}
+            />
+          )}
           <label htmlFor="radio-waiver" className="vads-u-margin--0">
             <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-margin-top--neg2p5">
               Debt forgiveness (waiver)
@@ -99,15 +102,17 @@ const ResolutionOptions = ({ formContext }) => {
           </label>
           {currentDebt.debtType !== 'COPAY' && (
             <div>
-              <input
-                type="radio"
-                checked={currentDebt.resolutionOption === 'monthly'}
-                name="resolution-option"
-                id="radio-monthly"
-                value="monthly"
-                className="vads-u-width--auto"
-                onChange={onResolutionChange}
-              />
+              {!isOnReviewPage && (
+                <input
+                  type="radio"
+                  checked={currentDebt.resolutionOption === 'monthly'}
+                  name="resolution-option"
+                  id="radio-monthly"
+                  value="monthly"
+                  className="vads-u-width--auto"
+                  onChange={onResolutionChange}
+                />
+              )}
               <label htmlFor="radio-monthly">
                 <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-margin-top--neg2p5">
                   Extended monthly payments
@@ -120,15 +125,17 @@ const ResolutionOptions = ({ formContext }) => {
               </label>
             </div>
           )}
-          <input
-            type="radio"
-            checked={currentDebt.resolutionOption === 'compromise'}
-            name="resolution-option"
-            id="radio-compromise"
-            value="compromise"
-            className="vads-u-width--auto"
-            onChange={onResolutionChange}
-          />
+          {!isOnReviewPage && (
+            <input
+              type="radio"
+              checked={currentDebt.resolutionOption === 'compromise'}
+              name="resolution-option"
+              id="radio-compromise"
+              value="compromise"
+              className="vads-u-width--auto"
+              onChange={onResolutionChange}
+            />
+          )}
           <label htmlFor="radio-compromise">
             <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-margin-top--neg2p5">
               Compromise
