@@ -78,11 +78,12 @@ export const unavailableComponent = () => {
       status="warning"
       visible
     >
-      <h3 slot="headline">1095-B download unavailable at this time</h3>
+      <h3 slot="headline">
+        Your 1095-B form isn’t available to download right now
+      </h3>
       <div>
         <p>
-          Please check back later or if you need immediate assistance with this
-          tax form, call the Enrollment Center at{' '}
+          Check back later. Or, if you need help with this form now, call us at{' '}
           {phoneComponent(CONTACTS['222_VETS'])}. We’re here Monday through
           Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
