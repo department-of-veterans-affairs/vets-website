@@ -95,16 +95,17 @@ const LandingPageAuth = () => {
             </label>
             <VaSearchInput
               label="search-message-folder-input"
-              // onInput={ noRefCheck()}
-              // onSubmit={ noRefCheck()}
+              // onInput={function noRefCheck() {}}
+              // onSubmit={function noRefCheck() {}}
             />
           </div>
 
           <div>{content}</div>
         </div>
       </div>
-      {/* </RequiredLoginView> */}
     </div>
+
+    // </RequiredLoginView>
   );
 };
 

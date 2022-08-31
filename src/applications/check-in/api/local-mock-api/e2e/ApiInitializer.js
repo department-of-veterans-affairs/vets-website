@@ -147,6 +147,11 @@ class ApiInitializer {
         }
       });
     },
+    withValidationMaxAttempts: () => {
+      cy.intercept('POST', '/check_in/v2/sessions', req => {
+        req.reply(410, session.post.createMockMaxValidateErrorResponse());
+      });
+    },
     withFailure: (errorCode = 401) => {
       cy.intercept('POST', '/check_in/v2/sessions', req => {
         req.reply(errorCode, session.post.createMockFailedResponse());

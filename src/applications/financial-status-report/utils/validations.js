@@ -89,13 +89,39 @@ export const validateEmail = (errors, email) => {
   }
 };
 
-export const resolutionOptionSelected = (errors, fieldData) => {
+export const validateResolutionOption = (errors, fieldData) => {
   if (
     fieldData &&
-    (fieldData !== 'waiver' &&
-      fieldData !== 'compromise' &&
-      fieldData !== 'monthly')
+    (fieldData.resolutionOption !== 'waiver' &&
+      fieldData.resolutionOption !== 'compromise' &&
+      fieldData.resolutionOption !== 'monthly')
   ) {
     errors.addError('Please select a resolution option');
+  }
+};
+
+export const validateResolutionAmount = (errors, fieldData, formData) => {
+  const { debtType, resolutionOption } = formData;
+
+  if (resolutionOption !== 'waiver' && !fieldData) {
+    errors.addError('Please enter a valid dollar amount.');
+  }
+
+  // Checking compromise/monthly resolution amount against remaining debt amount
+  if (
+    (debtType === 'DEBT' && formData?.currentAr <= fieldData) ||
+    (debtType === 'COPAY' && formData?.pHAmtDue <= fieldData)
+  ) {
+    errors.addError('Please enter a value less than the current balance.');
+  }
+};
+
+export const validateWaiverCheckbox = (errors, fieldData) => {
+  if (
+    fieldData &&
+    (fieldData.resolutionOption === 'waiver' &&
+      !fieldData.resolutionWaiverCheck)
+  ) {
+    errors.addError('You must agree by checking the box.');
   }
 };

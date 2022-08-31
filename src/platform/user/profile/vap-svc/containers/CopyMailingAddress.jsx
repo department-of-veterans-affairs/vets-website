@@ -65,7 +65,7 @@ class CopyMailingAddress extends React.Component {
             type="checkbox"
           />
           <label htmlFor="copy-mailing-address-to-residential-address">
-            My home address is the same as my mailing address.
+            Use my mailing address for my home address.
           </label>
         </div>
       </div>

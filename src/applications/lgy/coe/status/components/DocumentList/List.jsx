@@ -1,7 +1,8 @@
 import React from 'react';
-import environment from 'platform/utilities/environment';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+
+import environment from 'platform/utilities/environment';
 
 import ListItem from './ListItem';
 

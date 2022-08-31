@@ -2,7 +2,7 @@ import { isValidEmail } from 'platform/forms/validations';
 import { compareAsc } from 'date-fns';
 import { formFields } from './constants';
 
-export const isValidPhone = (phone, isInternational) => {
+const isValidPhone = (phone, isInternational) => {
   let stripped;
   try {
     stripped = phone.replace(/[^\d]/g, '');
@@ -12,6 +12,11 @@ export const isValidPhone = (phone, isInternational) => {
   return isInternational
     ? /^\d{10,15}$/.test(stripped)
     : /^\d{10}$/.test(stripped);
+};
+
+export const isValidPhoneField = phoneField => {
+  const { isInternational } = phoneField;
+  return isValidPhone(phoneField.phone, isInternational);
 };
 
 const validatePhone = (errors, phone, isInternational) => {
