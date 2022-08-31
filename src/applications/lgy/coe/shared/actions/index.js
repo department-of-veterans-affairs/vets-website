@@ -17,9 +17,8 @@ export const getCoeStatus = async () => {
   }
 };
 
-export const generateCoe = (skip = '') => async dispatch => {
-  const shouldSkip = !!skip;
-  if (!shouldSkip) {
+export const generateCoe = (skip = false) => async dispatch => {
+  if (!skip) {
     dispatch({ type: GENERATE_AUTOMATIC_COE_STARTED });
     return getCoeStatus()
       .then(response => {

@@ -1,25 +1,24 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
-import {
-  DefinitionTester,
-  getFormDOM,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import createCommonStore from 'platform/startup/store';
-import formConfig from '../../config/form.js';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
+
+import formConfig from '../../../config/form';
 
 const defaultStore = createCommonStore();
 
-describe('COE applicant service status', () => {
+describe('COE applicant service history', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.serviceHistoryChapter.pages.serviceStatus;
+  } = formConfig.chapters.serviceHistoryChapter.pages.serviceHistory;
 
   it('should render', () => {
-    const form = render(
+    const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
           schema={schema}
@@ -29,14 +28,14 @@ describe('COE applicant service status', () => {
         />
       </Provider>,
     );
-    const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(5);
+    expect($$('input', container).length).to.equal(2);
+    expect($$('select', container).length).to.equal(5);
   });
 
   it('Should not submit without required fields', () => {
     const onSubmit = sinon.spy();
-    const form = render(
+    const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
           schema={schema}
@@ -47,34 +46,40 @@ describe('COE applicant service status', () => {
         />
       </Provider>,
     );
-    const formDOM = getFormDOM(form);
 
-    formDOM.submitForm();
+    fireEvent.submit($('form'));
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect($$('.usa-input-error', container).length).to.equal(2);
     expect(onSubmit.called).to.be.false;
   });
 
   it('Should submit with required fields filled', () => {
     const onSubmit = sinon.spy();
-    const form = render(
+    const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
           schema={schema}
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
           data={{
-            identity: 'VETERAN',
+            periodsOfService: [
+              {
+                serviceBranch: 'Air Force',
+                dateRange: {
+                  from: '2017-02-02',
+                  to: '2019-03-03',
+                },
+              },
+            ],
           }}
           onSubmit={onSubmit}
         />
       </Provider>,
     );
-    const formDOM = getFormDOM(form);
 
-    formDOM.submitForm();
+    fireEvent.submit($('form'));
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect($$('.usa-input-error', container).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 });
