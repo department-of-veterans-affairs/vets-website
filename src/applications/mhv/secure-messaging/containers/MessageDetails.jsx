@@ -1,35 +1,68 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import NavigationLinks from '../components/NavigationLinks';
-import MessageActionButtons from '../components/MessageActionsButtons';
 import OlderMessages from '../components/OlderMessages';
 import Breadcrumbs from '../components/shared/Breadcrumbs';
+import { getMessage } from '../actions';
+import MessageDetailBlock from '../components/MessageDetailBlock';
 
 const MessageDetail = () => {
-  const from = 'Dunwoody, Ann E. (My HealtheVet Questions_PugetSound_ADMIN)';
-  const to = 'Lewis, Jennifer';
-  const messageDate = 'August 15, 2021, 1:32 p.m. ET';
-  const messageId = '8675309';
-  const subject = 'Test: Your lab results';
-  const messageText = () => {
+  const dispatch = useDispatch();
+  const { isLoading, message, error } = useSelector(state => state.message);
+  const isTrash = window.location.pathname.includes('/trash');
+  const isSent = window.location.pathname.includes('/sent');
+  const messageId = window.location.pathname.split('/').pop();
+
+  useEffect(
+    () => {
+      const id = !!Number.isNaN(messageId) || 7155731;
+      dispatch(getMessage('message', id));
+    },
+    [dispatch, messageId],
+  );
+
+  let pageTitle;
+  let breadcrumbName;
+  let breadcrumbLink;
+
+  if (isSent) {
+    breadcrumbName = 'Sent messages';
+    breadcrumbLink = '/sent';
+    pageTitle = 'Sent messages';
+  } else if (isTrash) {
+    breadcrumbName = 'Trash';
+    breadcrumbLink = '/trash';
+    pageTitle = 'Trash';
+  } else {
+    breadcrumbName = 'Message';
+    breadcrumbLink = '/message';
+    pageTitle = 'Message';
+  }
+
+  const content = () => {
+    if (isLoading) {
+      return (
+        <va-loading-indicator
+          message="Loading your secure message..."
+          setFocus
+        />
+      );
+    }
+    if (error) {
+      return (
+        <va-alert status="error" visible class="vads-u-margin-y--9">
+          <h2 slot="headline">We’re sorry. Something went wrong on our end</h2>
+          <p>
+            You can’t view your secure message because something went wrong on
+            our end. Please check back soon.
+          </p>
+        </va-alert>
+      );
+    }
     return (
       <>
-        <p>Hello,</p>
-        <br />
-        <p>
-          This is a message that you have received from your healthcare team.
-        </p>
-        <br />
-        <p>
-          These are some details about the topic pertaining to your situation.
-          Here are the actions you should take to progress in your treatment.
-        </p>
-        <br />
-        <p>
-          If you do not achieve the result you hope for, we will perform
-          additional tasks.
-        </p>
-        <br />
-        <p>Dr. Doctor</p>
+        <MessageDetailBlock message={message} />
+        <OlderMessages />
       </>
     );
   };
@@ -37,96 +70,21 @@ const MessageDetail = () => {
   return (
     <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
       <nav>
-        <Breadcrumbs
-          pageName="Message"
-          link="http://localhost:3001/my-health/secure-messages/message"
-        />
+        <Breadcrumbs pageName={breadcrumbName} link={breadcrumbLink} />
         <button
           type="button"
           className="vads-u-margin-top--2 usa-button-secondary section-guide-button medium-screen:vads-u-display--none"
         >
           <span>In the Messages section</span>
-          <i className="fas fa-bars" />
+          <i className="fas fa-bars" aria-hidden="true" />
         </button>
       </nav>
 
-      <h1 className="vads-u-margin-top--2">Messages</h1>
+      <h1 className="vads-u-margin-top--2">{pageTitle}</h1>
 
       <NavigationLinks />
 
-      <section className="message-detail-block">
-        <header className="vads-u-display--flex vads-u-flex-direction--row message-detail-header">
-          <h2
-            className="vads-u-margin-top--1 vads-u-margin-bottom--2"
-            aria-label={`Message subject. ${subject}`}
-          >
-            {subject}
-          </h2>
-          <button
-            type="button"
-            className="send-button-top medium-screen:vads-u-padding-right--2"
-          >
-            <i className="fas fa-reply" />
-            <span className="reply-button-top-text">Reply</span>
-          </button>
-        </header>
-
-        <main className="message-detail-content">
-          <section className="message-metadata" aria-label="message details.">
-            <p>
-              <strong>From: </strong>
-              {from}
-            </p>
-            <p>
-              <strong>To: </strong>
-              {to}
-            </p>
-            <p>
-              <strong>Date: </strong>
-              {messageDate}
-            </p>
-            <p>
-              <strong>Message ID: </strong>
-              {messageId}
-            </p>
-          </section>
-          <section className="message-body" aria-label="Message body.">
-            {messageText()}
-          </section>
-
-          <div className="message-attachments">
-            <p>
-              <strong>Attachments</strong>
-            </p>
-
-            <div className="vads-u-display--flex vads-u-justify-content--flex-start">
-              <div className="vads-u-padding-right--1">
-                <i className="fa fa-paperclip attachment-icon" />
-              </div>
-              <div className="">
-                <a href="/message">
-                  {
-                    'This is an attachment that I uploaded from my laptop.pdf (108.7 KB) '
-                  }{' '}
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div className="message-detail-note vads-u-text-align--center">
-            <p>
-              <i>
-                Note: This message may not be from the person you intially
-                contacted. It may have been reassigned to efficiently address
-                your original message.
-              </i>
-            </p>
-          </div>
-
-          <MessageActionButtons />
-        </main>
-      </section>
-      <OlderMessages />
+      {content()}
     </div>
   );
 };

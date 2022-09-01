@@ -7,7 +7,7 @@ const SectionGuideButton = props => {
   return (
     <button type="button" className="usa-button-secondary section-guide-button">
       <span>In the {sectionName} section</span>
-      <i className="fas fa-bars" />
+      <i className="fas fa-bars" aria-hidden="true" />
     </button>
   );
 };
