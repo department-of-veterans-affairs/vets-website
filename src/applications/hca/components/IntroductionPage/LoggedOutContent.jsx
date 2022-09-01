@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
-import HCASubwayMap from './HCASubwayMap';
-import HcaOMBInfo from './HcaOMBInfo';
+import HcaSubwayMap from '../HcaSubwayMap';
+import HcaOMBInfo from '../HcaOMBInfo';
 
-const LoggedOutIntroContent = ({ route, showLoginAlert, toggleLoginModal }) => {
+const LoggedOutContent = ({ route, showLoginAlert, toggleLoginModal }) => {
   const { formConfig, pageList } = route;
   return (
     <>
@@ -35,7 +35,7 @@ const LoggedOutIntroContent = ({ route, showLoginAlert, toggleLoginModal }) => {
           startText="Start the health care application"
         />
       )}
-      <HCASubwayMap />
+      <HcaSubwayMap />
       {showLoginAlert ? (
         <va-alert class="vads-u-margin-bottom--5" status="info">
           <h2 slot="headline">Save time and save your work in progress</h2>
@@ -82,7 +82,7 @@ const LoggedOutIntroContent = ({ route, showLoginAlert, toggleLoginModal }) => {
   );
 };
 
-LoggedOutIntroContent.propTypes = {
+LoggedOutContent.propTypes = {
   route: PropTypes.object,
   showLoginAlert: PropTypes.bool,
   toggleLoginModal: PropTypes.func,
@@ -95,4 +95,4 @@ const mapDispatchToProps = {
 export default connect(
   null,
   mapDispatchToProps,
-)(LoggedOutIntroContent);
+)(LoggedOutContent);

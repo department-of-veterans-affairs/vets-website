@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import HCASubwayMap from '../HCASubwayMap';
+import HcaSubwayMap from '../HcaSubwayMap';
 import HcaOMBInfo from '../HcaOMBInfo';
 
 const ReapplyContent = ({ route }) => {
   const { formConfig, pageList } = route;
   return (
     <>
-      <HCASubwayMap />
+      <HcaSubwayMap />
       <div className="vads-u-margin-y--3">
         <SaveInProgressIntro
           messages={formConfig.savedFormMessages}

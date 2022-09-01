@@ -1,6 +1,6 @@
 import React from 'react';
 
-const HCAPrivacyActStatement = () => (
+const HcaPrivacyActStatement = () => (
   <>
     <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
       Privacy Act Statement
@@ -36,4 +36,4 @@ const HCAPrivacyActStatement = () => (
   </>
 );
 
-export default HCAPrivacyActStatement;
+export default HcaPrivacyActStatement;
