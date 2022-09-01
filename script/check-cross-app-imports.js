@@ -2,6 +2,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const omit = require('lodash/omit');
+const pickBy = require('lodash/pickBy');
 const findImports = require('find-imports');
 const commandLineArgs = require('command-line-args');
 
@@ -112,8 +113,11 @@ for (const appFolder of appFolders) {
 
 const crossAppImports = getCrossAppImports(appFolders);
 if (crossAppImports && failOnCrossAppImport) {
+  // For clarity, only show apps that have cross app imports
+  const checkApp = (appObj, app) => appHasCrossAppImports(crossAppImports, app);
+  const filteredImports = pickBy(crossAppImports, checkApp);
   console.log('Cross app imports found:');
-  console.log(JSON.stringify(crossAppImports, null, 2));
+  console.log(JSON.stringify(filteredImports, null, 2));
   process.exit(1);
 } else if (crossAppImports) {
   console.log(JSON.stringify(crossAppImports, null, 2));
