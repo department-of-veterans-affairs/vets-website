@@ -7,7 +7,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import createCommonStore from 'platform/startup/store';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-import formConfig from '../../../config/form.js';
+import formConfig from '../../../config/form';
 
 const defaultStore = createCommonStore();
 

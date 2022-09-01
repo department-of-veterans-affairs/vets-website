@@ -24,7 +24,7 @@ const ConfirmationPage = ({ form }) => {
   const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
 
   const submitDate = moment(submission?.timestamp || Date.now());
-  const { referenceNumber } = submission?.response?.attributes || {};
+  const { referenceNumber = '' } = submission?.response?.attributes || {};
 
   return (
     <div className="vads-u-margin-bottom--9">
