@@ -11,6 +11,8 @@ import { fetchSponsors } from '../actions';
 import { mapFormSponsors } from '../helpers';
 import { SPONSORS_TYPE } from '../constants';
 
+import { SecondaryCaregiverInfo } from '../../caregivers/components/AdditionalInfo/SecondaryCaregiverInfo';
+
 function ToeApp({
   children,
   formData,
@@ -26,7 +28,7 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (!user?.login?.currentlyLoggedIn) {
+      if (!user?.login?.currentlyLoggedIn || SecondaryCaregiverInfo) {
         return;
       }
 
