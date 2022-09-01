@@ -24,7 +24,7 @@ const OlderMessages = () => {
   };
 
   return (
-    <div className="older-messages">
+    <div className="older-messages vads-u-margin-y--3 vads-u-padding-left--0p5">
       <div
         onClick={e => {
           handleExpandOlder(e);
@@ -40,9 +40,15 @@ const OlderMessages = () => {
         <span className="vads-u-font-weight--bold">
           Older messages in this conversation
           {isExpanded ? (
-            <i className="fas fa-angle-up fa-lg" aria-hidden />
+            <i
+              className="fas fa-angle-up fa-lg vads-u-margin--0p5"
+              aria-hidden
+            />
           ) : (
-            <i className="fas fa-angle-down fa-lg" aria-hidden />
+            <i
+              className="fas fa-angle-down fa-lg vads-u-margin--0p5"
+              aria-hidden
+            />
           )}
         </span>
       </div>
@@ -65,9 +71,12 @@ const OlderMessages = () => {
             >
               Expand All Messages
               {isExpandedAll ? (
-                <i className="fas fa-angle-up" aria-hidden />
+                <i className="fas fa-angle-up vads-u-margin--0p5" aria-hidden />
               ) : (
-                <i className="fas fa-angle-down" aria-hidden />
+                <i
+                  className="fas fa-angle-down vads-u-margin--0p5"
+                  aria-hidden
+                />
               )}
             </span>
           </div>
