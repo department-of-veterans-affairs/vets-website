@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { recordAnswer } from '../../../actions/universal';
+import { createAnalyticsSlug } from '../../../utils/analytics';
 
 import BackButton from '../../../components/BackButton';
 import BackToHome from '../../../components/BackToHome';
@@ -34,8 +35,7 @@ const NextOfKin = props => {
     async answer => {
       setIsLoading(true);
       recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': `${answer}-to-next-of-kin`,
+        event: createAnalyticsSlug(`${answer}-to-next-of-kin`, 'nav'),
       });
       dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
       goToNextPage();

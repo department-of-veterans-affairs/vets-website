@@ -42,6 +42,8 @@ const PreCheckInAccordionBlock = ({
                     key="link"
                     href="https://www.va.gov/profile/personal-information"
                     hrefLang="en"
+                    eventId="sign-in-from-accordion-clicked"
+                    eventPrefix="nav"
                   >
                     link
                   </ExternalLink>,

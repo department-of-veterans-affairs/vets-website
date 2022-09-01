@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
+import { createAnalyticsSlug } from '../../utils/analytics';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
@@ -43,8 +44,7 @@ const EmergencyContact = props => {
   const yesClick = useCallback(
     () => {
       recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'yes-to-emergency-contact-information',
+        event: createAnalyticsSlug('yes-to-emergency-contact', 'nav'),
       });
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ emergencyContactUpToDate: 'yes' }));
@@ -57,8 +57,7 @@ const EmergencyContact = props => {
   const noClick = useCallback(
     () => {
       recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'no-to-emergency-contact-information',
+        event: createAnalyticsSlug('no-to-emergency-contact', 'nav'),
       });
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ emergencyContactUpToDate: 'no' }));

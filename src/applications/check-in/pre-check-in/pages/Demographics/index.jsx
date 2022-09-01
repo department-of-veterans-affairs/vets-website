@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 
+import { createAnalyticsSlug } from '../../../utils/analytics';
 import BackToHome from '../../../components/BackToHome';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import Footer from '../../../components/layout/Footer';
@@ -30,8 +31,7 @@ const Demographics = props => {
   const yesClick = useCallback(
     async () => {
       recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'yes-to-demographic-information',
+        event: createAnalyticsSlug('yes-to-demographic-information', 'nav'),
       });
       dispatch(recordAnswer({ demographicsUpToDate: 'yes' }));
       goToNextPage();
@@ -41,8 +41,7 @@ const Demographics = props => {
   const noClick = useCallback(
     async () => {
       recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'no-to-demographic-information',
+        event: createAnalyticsSlug('no-to-demographic-information', 'nav'),
       });
       dispatch(recordAnswer({ demographicsUpToDate: 'no' }));
       goToNextPage();

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import recordEvent from 'platform/monitoring/record-event';
 
+import { createAnalyticsSlug } from '../../../utils/analytics';
 import { recordAnswer } from '../../../actions/universal';
 
 import BackButton from '../../../components/BackButton';
@@ -31,8 +32,7 @@ const EmergencyContact = props => {
     async answer => {
       setIsLoading(true);
       recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': `${answer}-to-emergency-contact`,
+        event: createAnalyticsSlug(`${answer}-to-emergency-contact`, 'nav'),
       });
 
       dispatch(recordAnswer({ emergencyContactUpToDate: `${answer}` }));

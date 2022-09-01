@@ -5,13 +5,19 @@ import recordEvent from 'platform/monitoring/record-event';
 
 import { createAnalyticsSlug } from '../utils/analytics';
 
-function ExternalLink({ children, href, hrefLang, eventId = null }) {
+function ExternalLink({
+  children,
+  href,
+  hrefLang,
+  eventId = null,
+  eventPrefix = '',
+}) {
   const { t, i18n } = useTranslation();
 
   const handleClick = useCallback(
     () => {
       recordEvent({
-        event: createAnalyticsSlug(eventId),
+        event: createAnalyticsSlug(eventId, eventPrefix),
       });
     },
     [eventId],
