@@ -41,12 +41,12 @@ const ONE_MINUTE_IN_THE_FUTURE = () => {
   return new Date(new Date().getTime() + 60000);
 };
 
-export function fetchPersonalInformation(showUnverifiedUserAlert) {
+export function fetchPersonalInformation() {
   return async dispatch => {
     dispatch({ type: FETCH_PERSONAL_INFORMATION });
     return apiRequest(CLAIMANT_INFO_ENDPOINT)
       .then(response => {
-        if (!response?.data?.attributes?.claimant && !showUnverifiedUserAlert) {
+        if (!response?.data?.attributes?.claimant) {
           window.location.href =
             '/education/apply-for-education-benefits/application/1990/';
         } else {
@@ -61,10 +61,8 @@ export function fetchPersonalInformation(showUnverifiedUserAlert) {
           type: FETCH_PERSONAL_INFORMATION_FAILED,
           errors,
         });
-        if (!showUnverifiedUserAlert) {
-          window.location.href =
-            '/education/apply-for-education-benefits/application/1990/';
-        }
+        window.location.href =
+          '/education/apply-for-education-benefits/application/1990/';
       });
   };
 }

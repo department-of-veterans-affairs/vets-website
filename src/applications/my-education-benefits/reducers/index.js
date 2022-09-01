@@ -26,12 +26,14 @@ export default {
       case FETCH_PERSONAL_INFORMATION:
         return {
           ...state,
+          personalInfoFetchInProgress: true,
         };
       case FETCH_PERSONAL_INFORMATION_SUCCESS:
       case FETCH_PERSONAL_INFORMATION_FAILED:
         return {
           ...state,
           personalInfoFetchComplete: true,
+          personalInfoFetchInProgress: false,
           formData: action?.response || {},
         };
       case FETCH_CLAIM_STATUS_SUCCESS:

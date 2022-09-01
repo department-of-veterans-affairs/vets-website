@@ -1,16 +1,15 @@
 import React from 'react';
+import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
-import { isLOA3 as isLOA3Selector } from 'platform/user/selectors';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
 
-import { getAppData } from '../selectors';
+import { getAppData } from '../selectors/selectors';
 import LoadingIndicator from './LoadingIndicator';
-import StartApplicationWithoutSigningInLink from './StartApplicationWithoutSigningInLink';
 
 function IntroductionLoginV2({
   isClaimantCallComplete,
@@ -21,11 +20,15 @@ function IntroductionLoginV2({
   showHideLoginModal,
   user,
 }) {
-  const apiCallsComplete = isClaimantCallComplete && isEligibilityCallComplete;
+  const apiCallsComplete =
+    isLOA3 === false || (isClaimantCallComplete && isEligibilityCallComplete);
 
   const openLoginModal = () => {
     showHideLoginModal(true, 'cta-form');
   };
+
+  const nextQuery = { next: window.location.pathname };
+  const verifyUrl = appendQuery('/verify', nextQuery);
 
   return (
     <>
@@ -81,7 +84,9 @@ function IntroductionLoginV2({
                 {UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
               </button>
               <p>
-                <StartApplicationWithoutSigningInLink />
+                <a href="/education/apply-for-education-benefits/application/1990/applicant/information">
+                  Start your application without signing in
+                </a>
               </p>
             </div>
           </va-alert>
@@ -105,7 +110,7 @@ function IntroductionLoginV2({
 
       {apiCallsComplete &&
         isLoggedIn &&
-        !isLOA3 && (
+        isLOA3 === false && (
           <va-alert
             close-btn-aria-label="Close notification"
             status="continue"
@@ -129,12 +134,7 @@ function IntroductionLoginV2({
                 account is verified, you can continue to this application.
               </p>
               <p className="vads-u-margin-bottom--2p5">
-                <a
-                  className="vads-c-action-link--green"
-                  href="/profile"
-                  rel="noreferrer"
-                  target="_blank"
-                >
+                <a className="vads-c-action-link--green" href={verifyUrl}>
                   Verify your identity before starting your application
                 </a>
               </p>
@@ -159,7 +159,6 @@ IntroductionLoginV2.propTypes = {
 const mapStateToProps = state => ({
   ...getIntroState(state),
   ...getAppData(state),
-  isLOA3: isLOA3Selector(state),
 });
 
 const mapDispatchToProps = {
