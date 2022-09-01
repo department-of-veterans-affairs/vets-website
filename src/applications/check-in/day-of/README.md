@@ -137,8 +137,6 @@ Though we have the HOC, its now considered best practice to query redux using th
 
 - `check_in_experience_enabled` : Enables or disabled the whole app on va.gov
   - when to sunset: never;
-- `check_in_experience_translation_day_of_enabled` : Enables or disables translation to Spanish
-  - when to sunset: once we have successfully tested this feature in production with users
 - `check_in_experience_translation_disclaimer_spanish_enabled` : Enables or disables the mixed language disclaimer (there may be some untranslated content) for spanish pages of the site
   - when to sunset: when we are in a situation where new content is not added to the site until it is translated into spanish
 - `check_in_experience_day_of_demographics_flags_enabled` : Enables the capture of user responses to demographics up-to-date questions (demographics, emergency contact, and next of kin)
@@ -147,6 +145,7 @@ Though we have the HOC, its now considered best practice to query redux using th
   - when to sunset: once we have successfully tested this feature in production with users and the backend has fully switched over
 - `check_in_experience_phone_appointments_enabled` : Enables or disables telephone appointments as an alternate type to in-person
   - when to sunset: once we have successfully tested this feature in production with users
+- `check_in_experience_lorota_deletion_enabled`: Enables tracking validation attempts on the server side. When toggle is on, the backend will count the attempts, then delete the entry in LoRota when it reaches the max amount of attempts, and send the frontend a status 410. When it is off, attempts are tracked in local storage.
 
 ### How to test this?
 

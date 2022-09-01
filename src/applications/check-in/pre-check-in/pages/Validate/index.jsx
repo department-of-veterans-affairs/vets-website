@@ -5,6 +5,7 @@ import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
 import { createSetSession } from '../../../actions/authentication';
+import { setError } from '../../../actions/universal';
 
 import BackToHome from '../../../components/BackToHome';
 import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay';
@@ -22,6 +23,14 @@ const Index = ({ router }) => {
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const updateError = useCallback(
+    error => {
+      dispatch(setError(error));
+    },
+    [dispatch],
+  );
+
   const setSession = useCallback(
     (token, permissions) => {
       dispatch(createSetSession({ token, permissions }));
@@ -36,7 +45,10 @@ const Index = ({ router }) => {
   const { app } = useSelector(selectApp);
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+  const {
+    isLorotaSecurityUpdatesEnabled,
+    isLorotaDeletionEnabled,
+  } = useSelector(selectFeatureToggles);
 
   const [isLoading, setIsLoading] = useState(false);
   const [lastName, setLastName] = useState('');
@@ -75,6 +87,8 @@ const Index = ({ router }) => {
         setSession,
         app,
         resetAttempts,
+        isLorotaDeletionEnabled,
+        updateError,
       );
     },
     [
@@ -89,7 +103,9 @@ const Index = ({ router }) => {
       resetAttempts,
       setSession,
       token,
+      isLorotaDeletionEnabled,
       isLorotaSecurityUpdatesEnabled,
+      updateError,
     ],
   );
 

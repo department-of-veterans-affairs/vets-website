@@ -13,7 +13,7 @@ const {
   plannedClinic,
 } = fullSchema.properties.veteran.properties;
 
-const vetMedicalCenterPage = {
+const vetMedicalCenterJsonPage = {
   uiSchema: {
     [veteranFields.previousTreatmentFacility]: previousTreatmentFacilityUI,
     [veteranFields.preferredFacilityView]: { ...preferredFacilityView },
@@ -44,4 +44,4 @@ const vetMedicalCenterPage = {
   },
 };
 
-export default vetMedicalCenterPage;
+export default vetMedicalCenterJsonPage;

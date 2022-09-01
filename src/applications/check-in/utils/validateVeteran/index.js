@@ -21,6 +21,9 @@ import { api } from '../../api';
  * @param {string} [token]
  * @param {function} [setSession]
  * @param {string} [app]
+ * @param {function} [resetAttempts]
+ * @param {boolean} [isLorotaDeletionEnabled]
+ * @param {function} [updateError]
  */
 
 const validateLogin = async (
@@ -41,6 +44,8 @@ const validateLogin = async (
   setSession,
   app,
   resetAttempts,
+  isLorotaDeletionEnabled,
+  updateError,
 ) => {
   setLastNameErrorMessage();
   setLast4ErrorMessage();
@@ -95,19 +100,28 @@ const validateLogin = async (
     });
     if (resp.errors || resp.error) {
       setIsLoading(false);
-      goToErrorPage();
+      goToErrorPage('?error=session-error');
     } else {
       setSession(token, resp.permissions);
-      resetAttempts(window, token, true);
+      if (!isLorotaDeletionEnabled) {
+        resetAttempts(window, token, true);
+      }
       goToNextPage();
     }
   } catch (e) {
     setIsLoading(false);
     if (e?.errors[0]?.status !== '401' || isMaxValidateAttempts) {
-      goToErrorPage();
+      let params = '';
+      if (e?.errors[0]?.status === '410' || isMaxValidateAttempts) {
+        params = '?error=validation';
+        updateError('max-validation');
+      }
+      goToErrorPage(params);
     } else {
       setShowValidateError(true);
-      incrementValidateAttempts(window);
+      if (!isLorotaDeletionEnabled) {
+        incrementValidateAttempts(window);
+      }
     }
   }
 };

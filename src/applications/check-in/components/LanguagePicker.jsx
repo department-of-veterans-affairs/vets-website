@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import recordEvent from 'platform/monitoring/record-event';
 
 import { createAnalyticsSlug } from '../utils/analytics';
-import withTranslationEnabled from '../containers/withTranslationEnabled';
 
 function LanguagePicker(props) {
   const { withTopMargin } = props;
@@ -13,7 +12,7 @@ function LanguagePicker(props) {
   function changeLanguage(e) {
     e.preventDefault();
     recordEvent({
-      event: createAnalyticsSlug(`language-switch-${e.target.lang}`),
+      event: createAnalyticsSlug(`language-switch-${e.target.lang}`, 'nav'),
     });
     i18n.changeLanguage(e.target.getAttribute('lang'));
   }
@@ -73,4 +72,4 @@ LanguagePicker.propTypes = {
   withTopMargin: PropTypes.bool,
 };
 
-export default withTranslationEnabled(LanguagePicker);
+export default LanguagePicker;
