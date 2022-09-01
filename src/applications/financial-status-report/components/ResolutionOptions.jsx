@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
@@ -52,7 +52,7 @@ const ResolutionOptions = ({ formContext }) => {
     );
   };
 
-  const renderWaiverText = () => {
+  const renderWaiverText = useMemo(() => {
     return (
       <>
         <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-margin-top--neg2p5">
@@ -64,9 +64,9 @@ const ResolutionOptions = ({ formContext }) => {
         </span>
       </>
     );
-  };
+  }, []);
 
-  const renderCompromiseText = () => {
+  const renderCompromiseText = useMemo(() => {
     return (
       <>
         <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-margin-top--neg2p5">
@@ -79,9 +79,9 @@ const ResolutionOptions = ({ formContext }) => {
         </span>
       </>
     );
-  };
+  }, []);
 
-  const renderMonthlyText = () => {
+  const renderMonthlyText = useMemo(() => {
     return (
       <>
         <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-margin-top--neg2p5">
@@ -93,16 +93,16 @@ const ResolutionOptions = ({ formContext }) => {
         </span>
       </>
     );
-  };
+  }, []);
 
   const renderResolutionSelectionText = () => {
     switch (currentDebt.resolutionOption) {
       case 'waiver':
-        return renderWaiverText();
+        return renderWaiverText;
       case 'monthly':
-        return renderMonthlyText();
+        return renderMonthlyText;
       case 'compromise':
-        return renderCompromiseText();
+        return renderCompromiseText;
       default:
         return <></>;
     }
@@ -153,7 +153,7 @@ const ResolutionOptions = ({ formContext }) => {
               onChange={onResolutionChange}
             />
             <label htmlFor="radio-waiver" className="vads-u-margin--0">
-              {renderWaiverText()}
+              {renderWaiverText}
             </label>
             {currentDebt.debtType !== 'COPAY' && (
               <div>
@@ -169,7 +169,7 @@ const ResolutionOptions = ({ formContext }) => {
                   className="vads-u-width--auto"
                   onChange={onResolutionChange}
                 />
-                <label htmlFor="radio-monthly">{renderMonthlyText()}</label>
+                <label htmlFor="radio-monthly">{renderMonthlyText}</label>
               </div>
             )}
             <input
@@ -184,7 +184,7 @@ const ResolutionOptions = ({ formContext }) => {
               className="vads-u-width--auto"
               onChange={onResolutionChange}
             />
-            <label htmlFor="radio-compromise">{renderCompromiseText()}</label>
+            <label htmlFor="radio-compromise">{renderCompromiseText}</label>
           </div>
           <div className={checkboxError ? 'error-line' : 'vads-u-margin-y--3'}>
             {checkboxError && (
