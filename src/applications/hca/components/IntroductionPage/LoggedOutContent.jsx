@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
-import HcaSubwayMap from '../HcaSubwayMap';
+import HCASubwayMap from '../HCASubwayMap';
 import HcaOMBInfo from '../HcaOMBInfo';
 
 const LoggedOutContent = ({ route, showLoginAlert, toggleLoginModal }) => {
@@ -35,7 +35,7 @@ const LoggedOutContent = ({ route, showLoginAlert, toggleLoginModal }) => {
           startText="Start the health care application"
         />
       )}
-      <HcaSubwayMap />
+      <HCASubwayMap />
       {showLoginAlert ? (
         <va-alert class="vads-u-margin-bottom--5" status="info">
           <h2 slot="headline">Save time and save your work in progress</h2>

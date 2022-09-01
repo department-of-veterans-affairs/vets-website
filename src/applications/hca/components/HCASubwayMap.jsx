@@ -1,7 +1,7 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-const HcaSubwayMap = () => (
+const HCASubwayMap = () => (
   <>
     <h2 className="vads-u-font-size--h3">Follow these steps to get started</h2>
     <div className="process schemaform-process">
@@ -179,4 +179,4 @@ const HcaSubwayMap = () => (
   </>
 );
 
-export default HcaSubwayMap;
+export default HCASubwayMap;

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import HcaPrivacyActStatement from './HcaPrivacyActStatement';
+import HCAPrivacyActStatement from './HCAPrivacyActStatement';
 
-const OMBInfo = () => {
+const HcaOMBInfo = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
@@ -47,10 +47,10 @@ const OMBInfo = () => {
         onCloseEvent={closeModal}
         clickToClose
       >
-        <HcaPrivacyActStatement />
+        <HCAPrivacyActStatement />
       </VaModal>
     </>
   );
 };
 
-export default OMBInfo;
+export default HcaOMBInfo;
