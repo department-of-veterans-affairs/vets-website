@@ -1,4 +1,3 @@
-import moment from 'moment';
 import {
   initAppointmentListMock,
   initVARequestMock,
@@ -53,34 +52,13 @@ describe('VAOS VA request flow', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentRequests').should(xhr => {
-      // Add check to see if the current date is the last Monday of the month. If
-      // so, adding 7 days will result in the next month. So, add 2 months (the test
-      // clicks the calendar next button to advance to the next month) and set date
-      // to beginning of month, else set the date to the beginning of the next month.
-      const date = moment();
-      const lastMondayInMonth = moment()
-        .endOf('month')
-        .startOf('isoWeek');
-      const nextMonth = moment(date).add(1, 'month');
-      if (
-        date.isSame(lastMondayInMonth) &&
-        moment(date)
-          .add(7, 'days')
-          .isSame(nextMonth, 'month')
-      ) {
-        date.add(2, 'months').startOf('month');
-      } else {
-        date.add(1, 'months').startOf('month');
-      }
-
       expect(xhr.status).to.eq(200);
       expect(xhr.url, 'post url').to.contain(
         '/vaos/v0/appointment_requests?type=va',
       );
       const request = xhr.requestBody;
-      expect(request)
-        .to.have.property('optionDate1')
-        .to.equal(date.format('MM/DD/YYYY'));
+      cy.assertRequestedPeriod(request.optionDate1);
+
       expect(request)
         .to.have.property('optionDate2')
         .to.equal('No Date Selected');
@@ -120,6 +98,7 @@ describe('VAOS VA request flow', () => {
         .focus()
         .click();
     });
+    cy.axeCheckBestPractice();
   });
   it('should submit form successfully for a single system user', () => {
     initAppointmentListMock();
@@ -136,6 +115,7 @@ describe('VAOS VA request flow', () => {
         .focus()
         .click();
     });
+    cy.axeCheckBestPractice();
   });
 
   it('should display Cerner how to schedule page if a Cerner facility is chosen', () => {
@@ -306,32 +286,10 @@ describe('VAOS VA request flow using VAOS service', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentRequests').should(xhr => {
-      // Add check to see if the current date is the last Monday of the month. If
-      // so, adding 7 days will result in the next month. So, add 2 months (the test
-      // clicks the calendar next button to advance to the next month) and set date
-      // to beginning of month, else set the date to the beginning of the next month.
-      const date = moment();
-      const lastMondayInMonth = moment()
-        .endOf('month')
-        .startOf('isoWeek');
-      const nextMonth = moment(date).add(1, 'month');
-      if (
-        date.isSame(lastMondayInMonth) &&
-        moment(date)
-          .add(7, 'days')
-          .isSame(nextMonth, 'month')
-      ) {
-        date.add(2, 'months').startOf('month');
-      } else {
-        date.add(1, 'months').startOf('month');
-      }
-
       expect(xhr.status).to.eq(200);
       expect(xhr.url, 'post url').to.contain('/vaos/v2/appointments');
       const request = xhr.requestBody;
-      expect(request.requestedPeriods[0].start).to.equal(
-        moment.utc(date.format('YYYY-MM-DDTHH:mm:ss')).format(),
-      );
+      cy.assertRequestedPeriod(request.requestedPeriods[0].start);
 
       expect(request.locationId).to.eq('983GB');
       expect(request).to.have.property('serviceType', 'socialWork');
