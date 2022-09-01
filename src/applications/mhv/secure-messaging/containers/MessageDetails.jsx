@@ -16,7 +16,7 @@ const MessageDetail = () => {
         <p>Hello,</p>
         <br />
         <p>
-          This is a message that you have received from your helathcare team.
+          This is a message that you have received from your healthcare team.
         </p>
         <br />
         <p>
@@ -118,7 +118,7 @@ const MessageDetail = () => {
               <i>
                 Note: This message may not be from the person you intially
                 contacted. It may have been reassigned to efficiently address
-                your original message
+                your original message.
               </i>
             </p>
           </div>
