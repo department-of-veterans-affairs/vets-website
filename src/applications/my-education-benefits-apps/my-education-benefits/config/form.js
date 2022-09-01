@@ -51,15 +51,19 @@ import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 import MailingAddressViewField from '../components/MailingAddressViewField';
 
-import { validateMobilePhone, validateHomePhone } from '../utils/validation';
+import {
+  validateMobilePhone,
+  validateHomePhone,
+  validateEffectiveDate,
+} from '../utils/validation';
 
 import {
   isValidLastName,
   isValidName,
-  validateEffectiveDate,
   isValidPhone,
   validateEmail,
 } from '../../shared/validations';
+
 import { phoneSchema } from '../../shared/schemas';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
