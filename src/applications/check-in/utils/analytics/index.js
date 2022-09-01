@@ -3,9 +3,15 @@ import * as Sentry from '@sentry/browser';
 
 /**
  * @param {string} slug
+ * @param {string} eventType
  */
-const createAnalyticsSlug = slug => {
-  return `check-in-${slug}`;
+const createAnalyticsSlug = (slug, eventType = '') => {
+  let prefix = '';
+  if (eventType) {
+    prefix = `${eventType}-`;
+  }
+
+  return `${prefix}check-in-${slug}`;
 };
 
 /**

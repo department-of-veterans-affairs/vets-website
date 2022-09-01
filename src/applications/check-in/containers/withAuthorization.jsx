@@ -26,7 +26,7 @@ const withAuthorization = (Component, options) => {
           const sessionToken = getCurrentToken(window)?.token;
           if (!sessionToken) {
             // @TODO: Add a friendlier message when the UUID is not found
-            goToErrorPage();
+            goToErrorPage('?error=no-token');
           } else {
             jumpToPage(URLS.LANDING, { params: { url: { id: sessionToken } } });
           }

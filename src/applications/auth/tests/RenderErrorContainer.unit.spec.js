@@ -54,8 +54,8 @@ describe('RenderErrorContainer', () => {
     });
   });
 
-  it('should trigger the `openModalLogin` on certain error codes `001 | 003 | 004 | 005 | 009`', () => {
-    ['001', '003', '004', '005', '009'].forEach(CODE => {
+  it('should trigger the `openModalLogin` on certain error codes `001 | 003 | 004 | 005 | 009 | 202`', () => {
+    ['001', '003', '004', '005', '009', '202'].forEach(CODE => {
       const wrapper = mount(
         <RenderErrorContainer
           auth="fail"
