@@ -73,7 +73,7 @@ const ComposeForm = props => {
       <div className="compose-header">
         <h3>{setMessageTitle()}</h3>
         <button type="button" className="send-button-top">
-          <i className="fas fa-paper-plane" />
+          <i className="fas fa-paper-plane" aria-hidden="true" />
           <span className="send-button-top-text">Send</span>
         </button>
       </div>
@@ -134,7 +134,7 @@ const ComposeForm = props => {
         <div className="compose-form-actions">
           <button type="button" className="send-button-bottom">
             <span className="send-button-bottom-text">Send</span>
-            <i className="fas fa-paper-plane" />
+            <i className="fas fa-paper-plane" aria-hidden="true" />
           </button>
           <button type="button" className="link-button save-draft-button">
             Save as draft

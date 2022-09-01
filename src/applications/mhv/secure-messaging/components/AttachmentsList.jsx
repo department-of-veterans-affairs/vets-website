@@ -11,7 +11,7 @@ const AttachmentsList = props => {
         {!!attachments.length &&
           attachments.map(attachment => (
             <li key={attachment.id}>
-              <i className="fas fa-paperclip" />
+              <i className="fas fa-paperclip" aria-hidden="true" />
               <div>
                 {attachment.name} ({attachment.attachmentSize} KB)
                 {editingEnabled && (
@@ -19,7 +19,7 @@ const AttachmentsList = props => {
                     type="button"
                     className="link-button remove-attachment-button"
                   >
-                    <i className="fas fa-times" />
+                    <i className="fas fa-times" aria-hidden="true" />
                     Remove
                   </button>
                 )}

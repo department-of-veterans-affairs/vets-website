@@ -88,7 +88,7 @@ const SearchMessagesForm = props => {
               name="includes-attachment-label"
               htmlFor="includesAttachment"
             >
-              <i className="fa fa-paperclip" />
+              <i className="fa fa-paperclip" aria-hidden="true" />
               Includes attachment
             </label>
           </div>
@@ -104,7 +104,7 @@ const SearchMessagesForm = props => {
         </div>
       ) : (
         <button type="submit" className="search-messages-button">
-          <i className="fas fa-search" />
+          <i className="fas fa-search" aria-hidden="true" />
           <span className="search-messages-button-text">Search</span>
         </button>
       )}

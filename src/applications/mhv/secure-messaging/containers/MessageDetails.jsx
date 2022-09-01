@@ -76,7 +76,7 @@ const MessageDetail = () => {
           className="vads-u-margin-top--2 usa-button-secondary section-guide-button medium-screen:vads-u-display--none"
         >
           <span>In the Messages section</span>
-          <i className="fas fa-bars" />
+          <i className="fas fa-bars" aria-hidden="true" />
         </button>
       </nav>
 
