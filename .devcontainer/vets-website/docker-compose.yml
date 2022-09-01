@@ -4,7 +4,7 @@ services:
     build:
       context: .
       args:
-        userid: ${UID}
+        userid: 1001
     environment:
       API_URL: ${API_URL:-http://localhost:3000}
       WEB_HOST: ${WEB_HOST:-localhost}
