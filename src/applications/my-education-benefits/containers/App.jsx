@@ -31,7 +31,7 @@ export const App = ({
     () => {
       if (
         !user.login.currentlyLoggedIn ||
-        (showUnverifiedUserAlert && isLOA3 === false)
+        (showUnverifiedUserAlert !== false && isLOA3 !== true)
       ) {
         return;
       }
