@@ -32,7 +32,6 @@
 		3002
 	],
 	"postCreateCommand": "./.devcontainer/codespaces-create.sh",
-	"remoteUser": "node",
 	"hostRequirements": {
 		"cpus": 16,
 		"memory": "32gb",
