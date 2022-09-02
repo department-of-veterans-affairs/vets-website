@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function HowToApplyPost911GiBillV1() {
+export default function HowToApplyPost911GiBill() {
   return (
     <>
       <div className="usa-alert usa-alert-warning">
