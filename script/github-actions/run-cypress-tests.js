@@ -22,14 +22,7 @@ if (tests.some(test => test.match(longestTest))) {
 
 // Split up the array of tests for each container.
 const batch = tests
-  .map(test => {
-    const a = [test.replace('/home/runner/work', '/__w')];
-    const dublicateItems = (arr, numItems) =>
-      arr.flatMap(i => Array.from({ length: numItems }).fill(i));
-
-    return dublicateItems(a, 5);
-  })
-  .flat()
+  .map(test => test.replace('/home/runner/work', '/__w'))
   .slice(step * divider, (step + 1) * divider)
   .join(',');
 
