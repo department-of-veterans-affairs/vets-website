@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AUTH_ERROR, AUTH_LEVEL } from 'platform/user/authentication/constants';
+import { AUTH_ERRORS, AUTH_LEVEL } from 'platform/user/authentication/errors';
 import Helpdesk from './HelpdeskContact';
 
 export default function RenderErrorContainer({
-  code = AUTH_ERROR.DEFAULT,
+  code = AUTH_ERRORS.DEFAULT.errorCode,
   auth = AUTH_LEVEL.FAIL,
   requestId = '',
   recordEvent = () => ({}),
@@ -21,7 +21,7 @@ export default function RenderErrorContainer({
 
   switch (code) {
     // User denied Authorization (ID Proofing)
-    case AUTH_ERROR.USER_DENIED:
+    case AUTH_ERRORS.USER_DENIED.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re sorry. We couldn’t complete the identity verification process.
@@ -49,7 +49,7 @@ export default function RenderErrorContainer({
       break;
 
     // User's system time mismatch
-    case AUTH_ERROR.USER_CLOCK_MISMATCH:
+    case AUTH_ERRORS.USER_CLOCK_MISMATCH.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re sorry. It looks like your computer’s clock isn’t showing the
@@ -69,8 +69,8 @@ export default function RenderErrorContainer({
       break;
 
     // Server time mismatch
-    case AUTH_ERROR.SERVER_CLOCK_MISMATCH:
-    case AUTH_ERROR.MVI_MISMATCH:
+    case AUTH_ERRORS.SERVER_CLOCK_MISMATCH.errorCode:
+    case AUTH_ERRORS.MVI_MISMATCH.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re sorry. Something went wrong on our end, and we couldn’t sign you
@@ -89,7 +89,7 @@ export default function RenderErrorContainer({
       break;
 
     // Session expired
-    case AUTH_ERROR.SESSION_EXPIRED:
+    case AUTH_ERRORS.SESSION_EXPIRED.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We take your privacy very seriously. You didn’t take any action on
@@ -109,7 +109,7 @@ export default function RenderErrorContainer({
       break;
 
     // Failure to Proof (Login.gov)
-    case AUTH_ERROR.LOGINGOV_PROOFING_FAIL:
+    case AUTH_ERRORS.LOGINGOV_PROOFING_FAIL.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re sorry. You were unable to create an account at Login.gov or
@@ -149,7 +149,7 @@ export default function RenderErrorContainer({
       break;
 
     // Multiple MHV IDs (IENs) error
-    case AUTH_ERROR.MULTIPLE_MHVIDS:
+    case AUTH_ERRORS.MULTIPLE_MHVIDS.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re having trouble signing you in to VA.gov right now because we
@@ -204,7 +204,7 @@ export default function RenderErrorContainer({
       break;
 
     // Multiple EDIPIs
-    case AUTH_ERROR.MULTIPLE_EDIPIS:
+    case AUTH_ERRORS.MULTIPLE_EDIPIS.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re having trouble signing you in to VA.gov right now because we
@@ -220,7 +220,7 @@ export default function RenderErrorContainer({
       break;
 
     // ICN Mismatch
-    case AUTH_ERROR.ICN_MISMATCH:
+    case AUTH_ERRORS.ICN_MISMATCH.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re having trouble signing you in right now because your My
@@ -237,7 +237,7 @@ export default function RenderErrorContainer({
       break;
 
     // UUID Missing (Login.gov or ID.me)
-    case AUTH_ERROR.UUID_MISSING:
+    case AUTH_ERRORS.UUID_MISSING.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re having trouble signing you in right now because one of your
@@ -253,7 +253,7 @@ export default function RenderErrorContainer({
       break;
 
     // Multiple Corp IDs
-    case AUTH_ERROR.MULTIPLE_CORPIDS:
+    case AUTH_ERRORS.MULTIPLE_CORPIDS.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re having trouble signing you in to VA.gov right now because we
@@ -268,7 +268,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    case AUTH_ERROR.OAUTH_STATE_MISMATCH:
+    case AUTH_ERRORS.OAUTH_STATE_MISMATCH.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re having trouble signing you in to VA.gov right now because your
@@ -304,7 +304,7 @@ export default function RenderErrorContainer({
       );
       break;
 
-    case AUTH_ERROR.OAUTH_INVALID_REQUEST:
+    case AUTH_ERRORS.OAUTH_INVALID_REQUEST.errorCode:
       alertContent = (
         <p className="vads-u-margin-top--0">
           We’re having trouble signing you in to VA.gov because there was an
@@ -426,8 +426,10 @@ export default function RenderErrorContainer({
 }
 
 RenderErrorContainer.propTypes = {
-  auth: PropTypes.oneOf(Object.keys(AUTH_LEVEL)),
-  code: PropTypes.oneOf(Object.keys(AUTH_ERROR)),
+  auth: PropTypes.oneOf(Object.values(AUTH_LEVEL)),
+  code: PropTypes.oneOf(
+    Object.values(AUTH_ERRORS).map(({ errorCode }) => errorCode),
+  ),
   openLoginModal: PropTypes.func,
   recordEvent: PropTypes.func,
   requestId: PropTypes.string,
