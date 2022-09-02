@@ -8,15 +8,17 @@ import {
   getFormDOM,
 } from 'platform/testing/unit/schemaform-utils';
 import createCommonStore from 'platform/startup/store';
-import formConfig from '../../config/form';
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+
+import formConfig from '../../../config/form';
 
 const defaultStore = createCommonStore();
 
-describe('COE applicant communication preferences', () => {
+describe('COE applicant information', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.contactInformationChapter.pages.additionalInformation;
+  } = formConfig.chapters.applicantInformationChapter.pages.applicantInformationSummary;
 
   it('should render', () => {
     const form = render(
@@ -31,7 +33,8 @@ describe('COE applicant communication preferences', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(2);
+    expect($$('input', formDOM).length).to.equal(4);
+    expect($$('select', formDOM).length).to.equal(3);
   });
 
   it('Should not submit without required fields', () => {
@@ -51,7 +54,7 @@ describe('COE applicant communication preferences', () => {
 
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(2);
+    expect($$('.usa-input-error', formDOM).length).to.equal(3);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -64,8 +67,11 @@ describe('COE applicant communication preferences', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
           data={{
-            contactPhone: '5555555555',
-            contactEmail: 'test@test.com',
+            fullName: {
+              first: 'First',
+              last: 'Last',
+            },
+            dateOfBirth: '2000-02-02',
           }}
           onSubmit={onSubmit}
         />
@@ -75,7 +81,7 @@ describe('COE applicant communication preferences', () => {
 
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect($$('.usa-input-error', formDOM).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 });

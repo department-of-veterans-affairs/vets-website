@@ -1,13 +1,8 @@
 import React from 'react';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import PropTypes from 'prop-types';
 
-const formConfig = {
-  customText: {
-    appType: 'request',
-  },
-};
-
-export const notLoggedInContent = route => (
+const NotLoggedInContent = ({ route }) => (
   <div>
     <h2 className="vads-u-margin-top--0">
       Sign in to request a COE, get your COE, or check your status
@@ -32,14 +27,23 @@ export const notLoggedInContent = route => (
       and show your current status.
     </p>
     <SaveInProgressIntro
-      prefillEnabled={route?.formConfig?.prefillEnabled}
-      messages={route?.formConfig?.savedFormMessages}
-      pageList={route?.pageList}
+      prefillEnabled={route.formConfig?.prefillEnabled}
+      messages={route.formConfig?.savedFormMessages || {}}
+      pageList={route.pageList || []}
       startText="Request a Certificate of Eligibility"
       unauthStartText="Sign in to start your request"
-      formConfig={formConfig}
+      formConfig={route.formConfig || {}}
       headingLevel={2}
       hideUnauthedStartLink
     />
   </div>
 );
+
+NotLoggedInContent.propTypes = {
+  route: PropTypes.shape({
+    formConfig: PropTypes.shape({}),
+    pageList: PropTypes.shape([]),
+  }),
+};
+
+export default NotLoggedInContent;

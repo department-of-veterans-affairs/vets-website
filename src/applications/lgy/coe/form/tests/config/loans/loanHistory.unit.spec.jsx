@@ -1,16 +1,14 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import sinon from 'sinon';
 
 import createCommonStore from 'platform/startup/store';
-import {
-  DefinitionTester,
-  getFormDOM,
-} from 'platform/testing/unit/schemaform-utils';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-import formConfig from '../../config/form';
+import formConfig from '../../../config/form';
 
 const defaultStore = createCommonStore();
 
@@ -21,7 +19,7 @@ describe('COE applicant loan history', () => {
   } = formConfig.chapters.loansChapter.pages.loanHistory;
 
   it('should render', () => {
-    const form = render(
+    const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
           schema={schema}
@@ -31,15 +29,14 @@ describe('COE applicant loan history', () => {
         />
       </Provider>,
     );
-    const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(11);
-    expect(formDOM.querySelectorAll('select').length).to.equal(3);
+    expect($$('input', container).length).to.equal(11);
+    expect($$('select', container).length).to.equal(3);
   });
 
   it('Should not submit without required fields', () => {
     const onSubmit = sinon.spy();
-    const form = render(
+    const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
           schema={schema}
@@ -50,17 +47,16 @@ describe('COE applicant loan history', () => {
         />
       </Provider>,
     );
-    const formDOM = getFormDOM(form);
 
-    formDOM.submitForm();
+    fireEvent.submit($('form'));
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(5);
+    expect($$('.usa-input-error', container).length).to.equal(5);
     expect(onSubmit.called).to.be.false;
   });
 
   it('Should submit with required fields filled', () => {
     const onSubmit = sinon.spy();
-    const form = render(
+    const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
           schema={schema}
@@ -85,15 +81,14 @@ describe('COE applicant loan history', () => {
         />
       </Provider>,
     );
-    const formDOM = getFormDOM(form);
 
-    formDOM.submitForm();
+    fireEvent.submit($('form'));
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect($$('.usa-input-error', container).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
   it('Should allow loan number with numbers, dashes and spaces', () => {
-    const form = render(
+    const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
           schema={schema}
@@ -110,14 +105,13 @@ describe('COE applicant loan history', () => {
         />
       </Provider>,
     );
-    const formDOM = getFormDOM(form);
 
-    formDOM.submitForm();
+    fireEvent.submit($('form'));
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect($$('.usa-input-error', container).length).to.equal(0);
   });
   it('Should not allow loan number with a leading dash', () => {
-    const form = render(
+    const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
           schema={schema}
@@ -134,15 +128,14 @@ describe('COE applicant loan history', () => {
         />
       </Provider>,
     );
-    const formDOM = getFormDOM(form);
 
-    formDOM.submitForm();
-    const error = formDOM.querySelectorAll('.usa-input-error')?.[0];
+    fireEvent.submit($('form'));
+    const error = $$('.usa-input-error', container)?.[0];
     expect(error).to.exist;
     expect(error.textContent).to.contain('numbers only');
   });
   it('Should not allow non-digits in loan number', () => {
-    const form = render(
+    const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
           schema={schema}
@@ -159,17 +152,16 @@ describe('COE applicant loan history', () => {
         />
       </Provider>,
     );
-    const formDOM = getFormDOM(form);
 
-    formDOM.submitForm();
-    const error = formDOM.querySelectorAll('.usa-input-error')?.[0];
+    fireEvent.submit($('form'));
+    const error = $$('.usa-input-error', container)?.[0];
     expect(error).to.exist;
     expect(error.textContent).to.contain('numbers only');
   });
 
   it('Should allow same month/year closing & paid off dates', () => {
     const onSubmit = sinon.spy();
-    const form = render(
+    const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
           schema={schema}
@@ -195,17 +187,16 @@ describe('COE applicant loan history', () => {
         />
       </Provider>,
     );
-    const formDOM = getFormDOM(form);
 
-    formDOM.submitForm();
+    fireEvent.submit($('form'));
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect($$('.usa-input-error', container).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 
   it('Should render only month & year in date range (no XX for day)', () => {
     const onSubmit = sinon.spy();
-    const form = render(
+    const { container } = render(
       <Provider store={defaultStore}>
         <DefinitionTester
           schema={schema}
@@ -243,9 +234,8 @@ describe('COE applicant loan history', () => {
         />
       </Provider>,
     );
-    const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelector('.small-collapse').textContent).to.contain(
+    expect($('.small-collapse', container).textContent).to.contain(
       '02/2019 - 03/2019',
     );
   });

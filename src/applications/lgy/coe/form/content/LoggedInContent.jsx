@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
-import SubwayMap from '../../components/SubwayMap';
+import SubwayMap from '../components/SubwayMap';
 
 const LoggedInContent = ({ route }) => (
   <>
     <SaveInProgressIntro
       testActionLink
+      formId={route.formConfig.formId}
       prefillEnabled={route.formConfig.prefillEnabled}
       messages={route.formConfig.savedFormMessages}
       formConfig={route.formConfig}
@@ -26,6 +27,7 @@ const LoggedInContent = ({ route }) => (
       <SaveInProgressIntro
         buttonOnly
         testActionLink
+        formId={route.formConfig.formId}
         prefillEnabled={route.formConfig.prefillEnabled}
         messages={route.formConfig.savedFormMessages}
         formConfig={route.formConfig}
@@ -41,7 +43,6 @@ const LoggedInContent = ({ route }) => (
 
 LoggedInContent.propTypes = {
   route: PropTypes.object,
-  status: PropTypes.string,
 };
 
 export default LoggedInContent;
