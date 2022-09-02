@@ -110,7 +110,7 @@ export const RepresentativeDescription = (
       document that we can’t accept may delay the application process.
     </va-additional-info>
 
-    <p>
+    <p className="vads-u-margin-y--4">
       <strong>Note:</strong> We use this signature only to process your
       application. Signing for the Veteran today doesn’t take away their right
       to make decisions for their care.
@@ -118,7 +118,7 @@ export const RepresentativeDescription = (
   </>
 );
 
-export const ReprentativeDocumentsDescription = (
+export const RepresentativeDocumentsDescription = (
   <>
     <h3 className="vads-u-font-size--h4">Upload your supporting document</h3>
 

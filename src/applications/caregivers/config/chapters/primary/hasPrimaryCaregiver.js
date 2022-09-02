@@ -1,5 +1,5 @@
-import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import PrimaryCaregiverDescription from 'applications/caregivers/components/FormDescriptions/PrimaryCaregiverDescription';
+import { primaryCaregiverFields } from '../../../definitions/constants';
+import PrimaryCaregiverDescription from '../../../components/FormDescriptions/PrimaryCaregiverDescription';
 
 const hasSecondaryCaregiverPage = {
   uiSchema: {

@@ -1,13 +1,13 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { veteranFields } from 'applications/caregivers/definitions/constants';
-import { vetInputLabel } from 'applications/caregivers/definitions/UIDefinitions/veteranUI';
+import { veteranFields } from '../../../definitions/constants';
 import {
   dateOfBirthUI,
   fullNameUI,
   genderUI,
   ssnUI,
-} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
-import VeteranContactDescription from 'applications/caregivers/components/FormDescriptions/VeteranContactDescription';
+} from '../../../definitions/UIDefinitions/sharedUI';
+import { vetInputLabel } from '../../../definitions/UIDefinitions/veteranUI';
+import VeteranContactDescription from '../../../components/FormDescriptions/VeteranContactDescription';
 
 const { veteran } = fullSchema.properties;
 const veteranProps = veteran.properties;

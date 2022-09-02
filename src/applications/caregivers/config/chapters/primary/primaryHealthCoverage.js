@@ -1,7 +1,7 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import { hasHealthInsurance } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
-import PrimaryHealthCoverageDescription from 'applications/caregivers/components/FormDescriptions/PrimaryHealthCoverageDescription';
+import { primaryCaregiverFields } from '../../../definitions/constants';
+import { hasHealthInsurance } from '../../../definitions/UIDefinitions/caregiverUI';
+import PrimaryHealthCoverageDescription from '../../../components/FormDescriptions/PrimaryHealthCoverageDescription';
 
 const { primaryCaregiver } = fullSchema.properties;
 const primaryCaregiverProps = primaryCaregiver.properties;

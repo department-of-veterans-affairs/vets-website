@@ -1,14 +1,14 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { secondaryOneFields } from 'applications/caregivers/definitions/constants';
-import { secondaryOneInputLabel } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
-import { secondaryOnePageIntro } from 'applications/caregivers/definitions/content';
+import { secondaryOneFields } from '../../../definitions/constants';
+import { secondaryOnePageIntro } from '../../../definitions/content';
 import {
   dateOfBirthUI,
   fullNameUI,
   genderUI,
   ssnUI,
-} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
-import SecondaryCaregiverDescription from 'applications/caregivers/components/FormDescriptions/SecondaryCaregiverDescription';
+} from '../../../definitions/UIDefinitions/sharedUI';
+import { secondaryOneInputLabel } from '../../../definitions/UIDefinitions/caregiverUI';
+import SecondaryCaregiverDescription from '../../../components/FormDescriptions/SecondaryCaregiverDescription';
 
 const { secondaryCaregiverOne } = fullSchema.properties;
 const secondaryCaregiverOneProps = secondaryCaregiverOne.properties;

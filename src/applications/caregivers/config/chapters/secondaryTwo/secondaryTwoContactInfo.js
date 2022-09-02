@@ -1,12 +1,10 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
-import SecondaryCaregiverDescription from 'applications/caregivers/components/FormDescriptions/SecondaryCaregiverDescription';
 import {
   secondaryTwoFields,
   emptyObjectSchema,
-} from 'applications/caregivers/definitions/constants';
-import { secondaryTwoContactIntro } from 'applications/caregivers/definitions/content';
-import { secondaryTwoInputLabel } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+} from '../../../definitions/constants';
+import { secondaryTwoContactIntro } from '../../../definitions/content';
 import {
   emailUI,
   vetRelationshipUI,
@@ -14,7 +12,9 @@ import {
   primaryPhoneNumberUI,
   addressWithAutofillUI,
   emailEncouragementUI,
-} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
+} from '../../../definitions/UIDefinitions/sharedUI';
+import { secondaryTwoInputLabel } from '../../../definitions/UIDefinitions/caregiverUI';
+import SecondaryCaregiverDescription from '../../../components/FormDescriptions/SecondaryCaregiverDescription';
 
 const { secondaryCaregiverTwo } = fullSchema.properties;
 const secondaryCaregiverTwoProps = secondaryCaregiverTwo.properties;

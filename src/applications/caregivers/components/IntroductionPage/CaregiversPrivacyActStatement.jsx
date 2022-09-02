@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CaregiversPrivacyActStatement = (
+const CaregiversPrivacyActStatement = () => (
   <>
     <p>
       <strong>The Paperwork Reduction Act:</strong> This information collection

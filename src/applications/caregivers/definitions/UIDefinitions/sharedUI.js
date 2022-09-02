@@ -5,9 +5,9 @@ import platformSsnUI from 'platform/forms-system/src/js/definitions/ssn';
 import email from 'platform/forms-system/src/js/definitions/email';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
-import { validateSSNIsUnique } from 'applications/caregivers/helpers';
-import { VeteranSSNDescription } from 'applications/caregivers/components/FormDescriptions';
-import AddressWithAutofill from 'applications/caregivers/components/FormFields/AddressWithAutofill';
+import { validateSSNIsUnique } from '../../helpers';
+import { VeteranSSNDescription } from '../../components/FormDescriptions';
+import AddressWithAutofill from '../../components/FormFields/AddressWithAutofill';
 import { emailEncouragementMessage } from '../content';
 
 const stateLabels = createUSAStateLabels(states);

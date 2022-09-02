@@ -4,7 +4,7 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import {
   primaryCaregiverFields,
   secondaryOneFields,
-} from 'applications/caregivers/definitions/constants';
+} from './definitions/constants';
 
 // Merges all the state facilities into one object with values as keys
 // and labels as values

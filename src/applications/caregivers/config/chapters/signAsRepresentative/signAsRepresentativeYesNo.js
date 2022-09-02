@@ -1,5 +1,5 @@
-import { representativeFields } from 'applications/caregivers/definitions/constants';
-import { RepresentativeDescription } from 'applications/caregivers/components/FormDescriptions';
+import { representativeFields } from '../../../definitions/constants';
+import { RepresentativeDescription } from '../../../components/FormDescriptions';
 
 const representativePage = {
   uiSchema: {

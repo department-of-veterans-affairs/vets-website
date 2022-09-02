@@ -16,7 +16,7 @@ import {
   representativeLabel,
   secondaryOneLabel,
   secondaryTwoLabel,
-} from 'applications/caregivers/definitions/content';
+} from '../../definitions/content';
 import SignatureCheckbox from './SignatureCheckbox';
 import SubmitLoadingIndicator from './SubmitLoadingIndicator';
 

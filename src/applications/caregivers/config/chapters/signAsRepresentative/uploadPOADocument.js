@@ -6,9 +6,9 @@ import {
   representativeFields,
   ALLOWED_FILE_TYPES,
   MAX_FILE_SIZE_BYTES,
-} from 'applications/caregivers/definitions/constants';
-import CheckUploadWarning from 'applications/caregivers/components/FormAlerts/CheckUploadWarning';
-import RepresentativeDocumentsDescription from 'applications/caregivers/components/FormDescriptions';
+} from '../../../definitions/constants';
+import CheckUploadWarning from '../../../components/FormAlerts/CheckUploadWarning';
+import { RepresentativeDocumentsDescription } from '../../../components/FormDescriptions';
 
 const createPayload = (file, formId, password) => {
   const payload = new FormData();

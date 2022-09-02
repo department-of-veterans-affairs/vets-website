@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {
   primaryContactIntro,
   primaryPageIntro,
-} from 'applications/caregivers/definitions/content';
+} from '../../definitions/content';
 
 const PrimaryCaregiverDescription = ({
   additionalInfo,
@@ -45,7 +45,7 @@ const PrimaryCaregiverDescription = ({
           trigger="Learn more about who qualifies as a Primary Family Caregiver"
           class="vads-u-margin-y--2p5"
         >
-          <p>
+          <p className="vads-u-margin-top--0">
             Family caregivers are approved and designated by VA as Primary
             Family Caregivers and Secondary Family Caregivers to provide
             personal care services. A Primary Family Caregiver is the main
@@ -54,7 +54,7 @@ const PrimaryCaregiverDescription = ({
 
           <p>They can be the Veteran’s:</p>
 
-          <ul>
+          <ul className="vads-u-margin-bottom--0">
             <li>Parent</li>
             <li>Spouse</li>
             <li>Son or daughter</li>

@@ -1,6 +1,6 @@
-import { secondaryRequiredAlert } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
-import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import SecondaryCaregiverDescription from 'applications/caregivers/components/FormDescriptions/SecondaryCaregiverDescription';
+import { primaryCaregiverFields } from '../../../definitions/constants';
+import { secondaryRequiredAlert } from '../../../definitions/UIDefinitions/caregiverUI';
+import SecondaryCaregiverDescription from '../../../components/FormDescriptions/SecondaryCaregiverDescription';
 
 const hasSecondaryCaregiverPage = {
   uiSchema: {

@@ -1,9 +1,9 @@
-import { shouldHideAlert } from 'applications/caregivers/helpers';
+import { shouldHideAlert } from '../../helpers';
 import {
   AdditionalCaregiverDescription,
   HasHealthInsuranceDescription,
-} from 'applications/caregivers/components/FormDescriptions';
-import { SecondaryRequiredAlert } from 'applications/caregivers/components/FormAlerts';
+} from '../../components/FormDescriptions';
+import { SecondaryRequiredAlert } from '../../components/FormAlerts';
 
 export const primaryInputLabel = 'Primary Family Caregiver\u2019s';
 export const secondaryOneInputLabel = 'Secondary Family Caregiver\u2019s';

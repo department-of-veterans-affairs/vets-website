@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { focusElement } from 'platform/utilities/ui';
 
-export const CheckUploadWarning = () => {
+const CheckUploadWarning = () => {
   useEffect(() => {
     focusElement('.caregivers-upload-warning');
   }, []);
@@ -24,3 +24,5 @@ export const CheckUploadWarning = () => {
     </div>
   );
 };
+
+export default CheckUploadWarning;
