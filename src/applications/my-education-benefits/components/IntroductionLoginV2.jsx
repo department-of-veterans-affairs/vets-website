@@ -86,13 +86,14 @@ function IntroductionLoginV2({
                 >
                   {UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
                 </button>
-                <p>
-                  <a href="/education/apply-for-education-benefits/application/1990/applicant/information">
-                    Start your application without signing in
-                  </a>
-                </p>
               </div>
             </va-alert>
+
+            <p className="vads-u-margin-top--4">
+              <a href="/education/apply-for-education-benefits/application/1990/applicant/information">
+                Start your application without signing in
+              </a>
+            </p>
           </>
         )}
 
