@@ -6,17 +6,19 @@ import { Provider } from 'react-redux';
 import {
   DefinitionTester,
   getFormDOM,
-} from 'platform/testing/unit/schemaform-utils.jsx';
+} from 'platform/testing/unit/schemaform-utils';
 import createCommonStore from 'platform/startup/store';
-import formConfig from '../../config/form.js';
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+
+import formConfig from '../../../config/form';
 
 const defaultStore = createCommonStore();
 
-describe('COE applicant loan screener', () => {
+describe('COE additional information', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.loansChapter.pages.loanScreener;
+  } = formConfig.chapters.contactInformationChapter.pages.additionalInformation;
 
   it('should render', () => {
     const form = render(
@@ -31,7 +33,7 @@ describe('COE applicant loan screener', () => {
     );
     const formDOM = getFormDOM(form);
 
-    expect(formDOM.querySelectorAll('input').length).to.equal(2);
+    expect($$('input', formDOM).length).to.equal(2);
   });
 
   it('Should not submit without required fields', () => {
@@ -51,7 +53,7 @@ describe('COE applicant loan screener', () => {
 
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(1);
+    expect($$('.usa-input-error', formDOM).length).to.equal(2);
     expect(onSubmit.called).to.be.false;
   });
 
@@ -64,7 +66,8 @@ describe('COE applicant loan screener', () => {
           definitions={formConfig.defaultDefinitions}
           uiSchema={uiSchema}
           data={{
-            vaLoanIndicator: false,
+            contactPhone: '8005551212',
+            contactEmail: 'me@me.com',
           }}
           onSubmit={onSubmit}
         />
@@ -74,7 +77,7 @@ describe('COE applicant loan screener', () => {
 
     formDOM.submitForm();
 
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
+    expect($$('.usa-input-error', formDOM).length).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
 });
