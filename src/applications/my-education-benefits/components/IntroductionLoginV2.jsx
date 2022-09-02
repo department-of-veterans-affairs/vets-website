@@ -119,10 +119,12 @@ function IntroductionLoginV2({
             status="continue"
             visible
           >
-            <h2 slot="headline">When you verify your VA.gov account:</h2>
+            <h2 slot="headline">
+              Verify your identity before starting your application
+            </h2>
             <div>
               <p className="vads-u-margin-top--0">
-                When you’re signed in to your verified VA.gov account:
+                When you verify your VA.gov account:
               </p>
               <ul>
                 <li>
