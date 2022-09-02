@@ -71,14 +71,14 @@ const Index = props => {
         recordEvent({
           event: createAnalyticsSlug('landing-page-launched-no-token'),
         });
-        goToErrorPage();
+        goToErrorPage('?error=no-token');
       }
 
       if (!isUUID(token)) {
         recordEvent({
           event: createAnalyticsSlug('malformed-token'),
         });
-        goToErrorPage();
+        goToErrorPage('?error=bad-token');
       }
       if (token && isUUID(token)) {
         // call the sessions api
@@ -93,7 +93,7 @@ const Index = props => {
 
               if (session.error || session.errors) {
                 clearCurrentSession(window);
-                goToErrorPage();
+                goToErrorPage('?error=session-error');
               } else {
                 setCurrentToken(window, token);
                 setPreCheckinComplete(window, false);

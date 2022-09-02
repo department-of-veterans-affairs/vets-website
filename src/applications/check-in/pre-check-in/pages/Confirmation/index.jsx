@@ -57,7 +57,7 @@ const Confirmation = props => {
         try {
           const resp = await api.v2.postPreCheckInData({ ...preCheckInData });
           if (resp.data.error || resp.data.errors) {
-            goToErrorPage();
+            goToErrorPage('?error=pre-check-in-post-error');
           } else {
             setPreCheckinComplete(window, true);
             // hide loading screen
@@ -65,7 +65,7 @@ const Confirmation = props => {
             focusElement('h1');
           }
         } catch (error) {
-          goToErrorPage();
+          goToErrorPage('?error=error-completing-pre-check-in');
         }
       }
 

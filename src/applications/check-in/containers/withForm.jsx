@@ -25,7 +25,7 @@ const withForm = (Component, options = {}) => {
           if (token) {
             jumpToPage(URLS.LANDING, { params: { url: { id: token } } });
           } else {
-            goToErrorPage();
+            goToErrorPage('?error=no-token');
           }
         }
       },
