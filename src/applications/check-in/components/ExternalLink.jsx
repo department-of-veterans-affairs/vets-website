@@ -20,7 +20,7 @@ function ExternalLink({
         event: createAnalyticsSlug(eventId, eventPrefix),
       });
     },
-    [eventId],
+    [eventId, eventPrefix],
   );
 
   return (
@@ -37,6 +37,7 @@ function ExternalLink({
 ExternalLink.propTypes = {
   children: PropTypes.node,
   eventId: PropTypes.string,
+  eventPrefix: PropTypes.string,
   href: PropTypes.string,
   hrefLang: PropTypes.string,
 };
