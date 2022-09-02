@@ -32,66 +32,69 @@ function IntroductionLoginV2({
 
   return (
     <>
-      {isLoggedIn !== false && !apiCallsComplete && <LoadingIndicator />}
+      {((!isLoggedIn && !user?.login?.hasCheckedKeepAlive) ||
+        !apiCallsComplete) && <LoadingIndicator />}
 
-      {isLoggedIn !== undefined && (
+      {(isLoggedIn || user?.login?.hasCheckedKeepAlive) && (
         <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--3">
           Begin your application for education benefits
         </h2>
       )}
 
-      {!isLoggedIn && (
-        <>
-          <va-alert
-            close-btn-aria-label="Close notification"
-            status="continue"
-            visible
-          >
-            <h2 slot="headline">
-              Save time—and save your work in progress—by signing in before
-              starting your application
-            </h2>
-            <div>
-              <p className="vads-u-margin-top--0">
-                When you’re signed in to your verified VA.gov account:
-              </p>
-              <ul>
-                <li>
-                  We can prefill part of your application based on your account
-                  details.
-                </li>
-                <li>We may be able to give you an instant decision.</li>
-                <li>
-                  You can save your application in progress, and come back later
-                  to finish filling it out. You have 60 days from the date you
-                  start or update your application to submit it. After 60 days
-                  we’ll delete the application and you’ll have to start over.
-                </li>
-              </ul>
-              <p>
-                <strong>Note:</strong> If you sign in after you’ve started your
-                application, you won’t be able to save the information you’ve
-                already filled in.
-              </p>
+      {!isLoggedIn &&
+        user?.login?.hasCheckedKeepAlive && (
+          <>
+            <va-alert
+              close-btn-aria-label="Close notification"
+              status="continue"
+              visible
+            >
+              <h2 slot="headline">
+                Save time—and save your work in progress—by signing in before
+                starting your application
+              </h2>
+              <div>
+                <p className="vads-u-margin-top--0">
+                  When you’re signed in to your verified VA.gov account:
+                </p>
+                <ul>
+                  <li>
+                    We can prefill part of your application based on your
+                    account details.
+                  </li>
+                  <li>We may be able to give you an instant decision.</li>
+                  <li>
+                    You can save your application in progress, and come back
+                    later to finish filling it out. You have 60 days from the
+                    date you start or update your application to submit it.
+                    After 60 days we’ll delete the application and you’ll have
+                    to start over.
+                  </li>
+                </ul>
+                <p>
+                  <strong>Note:</strong> If you sign in after you’ve started
+                  your application, you won’t be able to save the information
+                  you’ve already filled in.
+                </p>
 
-              <button
-                className="usa-button-primary"
-                onClick={openLoginModal}
-                // aria-label={ariaLabel}
-                // aria-describedby={ariaDescribedby}
-                type="button"
-              >
-                {UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
-              </button>
-              <p>
-                <a href="/education/apply-for-education-benefits/application/1990/applicant/information">
-                  Start your application without signing in
-                </a>
-              </p>
-            </div>
-          </va-alert>
-        </>
-      )}
+                <button
+                  className="usa-button-primary"
+                  onClick={openLoginModal}
+                  // aria-label={ariaLabel}
+                  // aria-describedby={ariaDescribedby}
+                  type="button"
+                >
+                  {UNAUTH_SIGN_IN_DEFAULT_MESSAGE}
+                </button>
+                <p>
+                  <a href="/education/apply-for-education-benefits/application/1990/applicant/information">
+                    Start your application without signing in
+                  </a>
+                </p>
+              </div>
+            </va-alert>
+          </>
+        )}
 
       {apiCallsComplete &&
         isLoggedIn &&

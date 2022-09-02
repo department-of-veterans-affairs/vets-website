@@ -21,6 +21,7 @@ export const App = ({
   getEligibility,
   isLOA3,
   eligibility,
+  showUnverifiedUserAlert,
   user,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
@@ -28,7 +29,10 @@ export const App = ({
 
   useEffect(
     () => {
-      if (!user.login.currentlyLoggedIn || isLOA3 === false) {
+      if (
+        !user.login.currentlyLoggedIn ||
+        (showUnverifiedUserAlert && isLOA3 === false)
+      ) {
         return;
       }
 
@@ -64,6 +68,7 @@ export const App = ({
       getPersonalInfo,
       isLOA3,
       setFormData,
+      showUnverifiedUserAlert,
       user,
     ],
   );
@@ -95,6 +100,7 @@ App.propTypes = {
   isLOA3: PropTypes.bool,
   location: PropTypes.string,
   setFormData: PropTypes.func,
+  showUnverifiedUserAlert: PropTypes.bool,
   user: PropTypes.shape({
     login: PropTypes.shape({
       currentlyLoggedIn: PropTypes.bool,
