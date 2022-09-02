@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
-import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo/SecondaryCaregiverInfo';
+import SecondaryCaregiverDescription from 'applications/caregivers/components/FormDescriptions/SecondaryCaregiverDescription';
 import {
   secondaryTwoFields,
   emptyObjectSchema,
@@ -24,7 +24,7 @@ const { address } = fullSchema.definitions;
 const secondaryTwoContactPage = {
   uiSchema: {
     'ui:description': formContext =>
-      SecondaryCaregiverInfo({
+      SecondaryCaregiverDescription({
         formContext,
         pageTitle: 'Secondary Family Caregiver contact information',
         introText: secondaryTwoContactIntro,

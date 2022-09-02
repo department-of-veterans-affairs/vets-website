@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 export const links = {
   findLocations: {
-    label: 'Find locations with our facility locator tool',
     link: 'https://www.va.gov/find-locations',
+    label: 'Find locations with our facility locator tool',
   },
   caregiverSupportCoordinators: {
     link: 'https://www.caregiver.va.gov/support/New_CSC_Page.asp',
-    label: 'Find a caregiver support coordinator near you.',
+    label: 'Use our online Caregiver Support Coordinator search tool',
   },
   caregiverHelp: {
     link: 'https://www.caregiver.va.gov/help_landing.asp',

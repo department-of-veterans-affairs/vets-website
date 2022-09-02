@@ -1,6 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
-import { VetInfo } from 'applications/caregivers/components/AdditionalInfo/VetInfo';
 import {
   veteranFields,
   emptyObjectSchema,
@@ -14,6 +13,7 @@ import {
   addressWithoutCountryUI,
   emailEncouragementUI,
 } from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
+import VeteranContactDescription from 'applications/caregivers/components/FormDescriptions/VeteranContactDescription';
 
 const { veteran } = fullSchema.properties;
 const veteranProps = veteran.properties;
@@ -21,7 +21,7 @@ const { address, phone } = fullSchema.definitions;
 
 const vetContactInfoPage = {
   uiSchema: {
-    'ui:description': VetInfo({
+    'ui:description': VeteranContactDescription({
       pageTitle: 'Veteran contact information',
       showPageIntro: true,
     }),

@@ -1,6 +1,6 @@
 import { secondaryRequiredAlert } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
 import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo/SecondaryCaregiverInfo';
+import SecondaryCaregiverDescription from 'applications/caregivers/components/FormDescriptions/SecondaryCaregiverDescription';
 
 const hasSecondaryCaregiverPage = {
   uiSchema: {
@@ -8,22 +8,22 @@ const hasSecondaryCaregiverPage = {
       'ui:title':
         'Would you like to apply for benefits for a Secondary Family Caregiver?',
       'ui:widget': 'yesNo',
-      'ui:description': SecondaryCaregiverInfo({
+      'ui:description': SecondaryCaregiverDescription({
         additionalInfo: true,
       }),
       'ui:required': formData =>
         !formData[primaryCaregiverFields.hasPrimaryCaregiver],
       'ui:validations': [
         {
-          validator: (errors, fieldData, formData) => {
+          validator: (errors, _fieldData, formData) => {
             const hasPrimary =
               formData[primaryCaregiverFields.hasPrimaryCaregiver];
             const hasSecondary =
               formData[primaryCaregiverFields.hasSecondaryCaregiverOne];
             const hasCaregiver = hasPrimary || hasSecondary;
 
+            // add a blank error to disable the ability to continue the form while not displaying the error itself
             if (!hasCaregiver) {
-              // We are adding a blank error to disable the ability to continue the form but not displaying the error text its self
               errors.addError(' ');
             }
           },

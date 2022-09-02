@@ -1,9 +1,8 @@
 import React from 'react';
-
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { links } from 'applications/caregivers/definitions/content';
 
-const NeedHelpFooter = () => {
+const GetHelpFooter = () => {
   return (
     <>
       <p>
@@ -20,16 +19,15 @@ const NeedHelpFooter = () => {
         local Caregiver Support Coordinator.
       </p>
 
-      <span>
+      <p>
         <a
+          href={links.caregiverSupportCoordinators.link}
           target="_blank"
           rel="noopener noreferrer"
-          href={links.caregiverSupportCoordinators.link}
-          className="vads-u-margin-right--0p5"
         >
-          Use our online Caregiver Support Coordinator search tool
+          {links.caregiverSupportCoordinators.label}
         </a>
-      </span>
+      </p>
 
       <p>
         If this form isn’t working right for you, please call us at{' '}
@@ -43,4 +41,4 @@ const NeedHelpFooter = () => {
   );
 };
 
-export default NeedHelpFooter;
+export default GetHelpFooter;

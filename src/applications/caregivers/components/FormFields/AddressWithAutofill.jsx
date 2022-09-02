@@ -13,7 +13,7 @@ import {
   secondaryOneInputLabel,
   secondaryTwoInputLabel,
 } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
-import { AddressWithAutofillReviewField } from 'applications/caregivers/components/FormFieldsets/AddressWithAutofillReviewField';
+import { AddressWithAutofillReviewField } from 'applications/caregivers/components/FormReview/AddressWithAutofillReviewField';
 
 const PrimaryAddressWithAutofill = props => {
   const {

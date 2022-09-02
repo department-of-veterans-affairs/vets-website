@@ -1,15 +1,14 @@
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import recordEvent from 'platform/monitoring/record-event';
 import environment from 'platform/utilities/environment';
+
 import {
   representativeFields,
   ALLOWED_FILE_TYPES,
   MAX_FILE_SIZE_BYTES,
 } from 'applications/caregivers/definitions/constants';
-import {
-  UploadSuccessAlertDescription,
-  RepresentativeDocumentUploadDescription,
-} from 'applications/caregivers/components/AdditionalInfo';
-import recordEvent from 'platform/monitoring/record-event';
+import CheckUploadWarning from 'applications/caregivers/components/FormAlerts/CheckUploadWarning';
+import RepresentativeDocumentsDescription from 'applications/caregivers/components/FormDescriptions';
 
 const createPayload = (file, formId, password) => {
   const payload = new FormData();
@@ -40,7 +39,7 @@ const parseResponse = (fileInfo, file) => {
 
 export default {
   uiSchema: {
-    'ui:description': RepresentativeDocumentUploadDescription(),
+    'ui:description': RepresentativeDocumentsDescription,
     'view:uploadSuccessAlert': {
       'ui:options': {
         hideIf: formData => {
@@ -54,7 +53,7 @@ export default {
           );
         },
       },
-      'ui:description': UploadSuccessAlertDescription,
+      'ui:description': CheckUploadWarning,
     },
     [representativeFields.documentUpload]: fileUploadUI('Your document:', {
       buttonText: 'Upload document',

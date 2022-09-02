@@ -1,6 +1,16 @@
 import React from 'react';
 import { links } from 'applications/caregivers/definitions/content';
 
+export const AdditionalCaregiverDescription = (
+  <>
+    <strong>You can add up to two Secondary Family Caregivers.</strong>
+    <p>
+      Would you like to apply for benefits for another Secondary Family
+      Caregiver?
+    </p>
+  </>
+);
+
 export const FacilityInfoDescription = (
   <div className="vads-u-margin-top--2p5">
     <p className="vads-u-margin-bottom--4">
@@ -16,6 +26,40 @@ export const FacilityInfoDescription = (
       {links.findLocations.label}
     </a>
   </div>
+);
+
+export const HasHealthInsuranceDescription = (
+  <va-additional-info
+    trigger="Why we ask this information"
+    class="vads-u-margin-y--2p5"
+  >
+    <p className="vads-u-margin-top--0">
+      This information helps us determine if you may be eligible for health care
+      coverage through VA.
+    </p>
+    <p>
+      You may be eligible for The Civilian Health and Medical Program of the
+      Department of Veteran’s Affairs (CHAMPVA) if both of these descriptions
+      are true for you:
+    </p>
+
+    <ul>
+      <li>
+        You’re the Primary Family Caregiver of a Veteran with a
+        service-connected disability, <strong>and</strong>
+      </li>
+      <li>
+        You don’t have any other health care coverage, such as Medicaid,
+        Medicare, CHAMPVA, Tricare, or private insurance.
+      </li>
+    </ul>
+
+    <p className="vads-u-margin-bottom--0">
+      <strong>Note:</strong> This information doesn’t affect your eligibility
+      for the Caregiver Support Program. We only use it to determine if you may
+      be eligible for health care.
+    </p>
+  </va-additional-info>
 );
 
 export const LastTreatmentFacilityDescription = (
@@ -41,4 +85,82 @@ export const PreferredFacilityDescription = (
       application.
     </p>
   </>
+);
+
+export const RepresentativeDescription = (
+  <>
+    <h3 className="vads-u-font-size--h4">
+      We’ll now guide you through the steps to review and sign your application
+    </h3>
+    <p>
+      First, we need to know if the Veteran will sign the application or if a
+      representative will sign for them.
+    </p>
+    <p>
+      A representative must have legal authority to make decisions for the
+      Veteran. If you choose this option, we’ll ask you to upload a document
+      that proves you have this authority.
+    </p>
+
+    <va-additional-info trigger="Learn more about the types of documents we can and can’t accept">
+      We can only accept a document that proves you have legal authority to make
+      decisions for the Veteran (such as a valid Power of Attorney, legal
+      guardianship order, or other legal document). We can’t accept a marriage
+      certificate, driver’s license, or release of information form. Uploading a
+      document that we can’t accept may delay the application process.
+    </va-additional-info>
+
+    <p>
+      <strong>Note:</strong> We use this signature only to process your
+      application. Signing for the Veteran today doesn’t take away their right
+      to make decisions for their care.
+    </p>
+  </>
+);
+
+export const ReprentativeDocumentsDescription = (
+  <>
+    <h3 className="vads-u-font-size--h4">Upload your supporting document</h3>
+
+    <p>
+      We can only accept a document that proves you have legal authority to make
+      medical decisions for the Veteran.
+    </p>
+
+    <p>
+      <strong>Don’t have the right type of document?</strong> Go back to the
+      last screen. The Veteran will need to sign the application for themselves.
+    </p>
+
+    <h4 className="vads-u-font-size--h5">How to upload your document</h4>
+
+    <ul className="vads-u-margin-top--1px vads-u-margin-bottom--3">
+      <li>
+        Choose a document that we can accept (such as a valid Power of Attorney,
+        legal guardianship order, or other legal document). Don’t upload a
+        marriage certificate, driver’s license, or release of information form.
+        Uploading a document that we can’t accept may delay the application
+        process.
+      </li>
+      <li>
+        Save a scanned copy or photo of the entire document on your device. We
+        can’t accept a cover or signature page without the rest of the document.
+      </li>
+      <li>
+        Format the file as a .pdf, .jpg, .jpeg, or .png. Be sure the file is
+        10MB or less in size.
+      </li>
+    </ul>
+  </>
+);
+
+export const VeteranSSNDescription = () => (
+  <va-additional-info
+    trigger="Why is this required?"
+    class="vads-u-margin-y--1p5"
+  >
+    We need the Veteran’s Social Security number or tax identification number to
+    process the application when it’s submitted online, but it’s not a
+    requirement to apply for the program.
+  </va-additional-info>
 );

@@ -212,11 +212,7 @@ export const shouldHideAlert = formData => {
   const isSecondaryOneUndefined =
     formData[primaryCaregiverFields.hasSecondaryCaregiverOne] === undefined;
 
-  if (hasPrimary) return true;
-  if (hasSecondary) return true;
-  if (isSecondaryOneUndefined) return true;
-  if (!hasPrimary && !hasSecondary) return false;
-  return false;
+  return hasPrimary || hasSecondary || isSecondaryOneUndefined;
 };
 
 /**

@@ -6,8 +6,8 @@ import email from 'platform/forms-system/src/js/definitions/email';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 import { validateSSNIsUnique } from 'applications/caregivers/helpers';
-import { VeteranSSNInfo } from 'applications/caregivers/components/AdditionalInfo';
-import AddressWithAutofill from 'applications/caregivers/components/FormFieldsets/AddressWithAutofill';
+import { VeteranSSNDescription } from 'applications/caregivers/components/FormDescriptions';
+import AddressWithAutofill from 'applications/caregivers/components/FormFields/AddressWithAutofill';
 import { emailEncouragementMessage } from '../content';
 
 const stateLabels = createUSAStateLabels(states);
@@ -55,7 +55,7 @@ export const fullNameUI = label => ({
 export const ssnUI = label => ({
   ...platformSsnUI,
   'ui:title': `${label}  Social Security number or tax identification number`,
-  'ui:description': label === 'Veteran\u2019s' && VeteranSSNInfo(),
+  'ui:description': label === 'Veteran\u2019s' && VeteranSSNDescription(),
   'ui:options': {
     widgetClassNames: 'usa-input-medium',
   },
@@ -67,7 +67,7 @@ export const ssnUI = label => ({
   'ui:validations': [
     ...platformSsnUI['ui:validations'],
     {
-      validator: (errors, fieldData, formData) => {
+      validator: (errors, _fieldData, formData) => {
         validateSSNIsUnique(errors, formData);
       },
     },
@@ -109,8 +109,10 @@ export const addressWithoutCountryUI = label => ({
 });
 
 export const addressWithAutofillUI = () => ({
-  'ui:title': ' ',
   'ui:field': AddressWithAutofill,
+  'ui:options': {
+    hideTextLabel: true,
+  },
 });
 
 export const emailEncouragementUI = () => ({

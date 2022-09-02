@@ -2,9 +2,9 @@ import ConfirmationPage from 'applications/caregivers/containers/ConfirmationPag
 import environment from 'platform/utilities/environment';
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import IntroductionPage from 'applications/caregivers/containers/IntroductionPage';
-import NeedHelpFooter from 'applications/caregivers/components/NeedHelpFooter';
+import GetHelpFooter from 'applications/caregivers/components/GetHelpFooter';
 import PreSubmitInfo from 'applications/caregivers/components/PreSubmitInfo';
-import SubmitError from 'applications/caregivers/components/SubmitError';
+import SubmissionErrorAlert from 'applications/caregivers/components/FormAlerts/SubmissionErrorAlert';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
@@ -71,10 +71,10 @@ const formConfig = {
   trackingPrefix: 'caregivers-10-10cg-',
   introduction: IntroductionPage,
   footerContent: FormFooter,
-  getHelp: NeedHelpFooter,
+  getHelp: GetHelpFooter,
   preSubmitInfo: PreSubmitInfo,
   confirmation: ConfirmationPage,
-  submissionError: SubmitError,
+  submissionError: SubmissionErrorAlert,
   formId: VA_FORM_IDS.FORM_10_10CG,
   saveInProgress: {
     // messages: {

@@ -1,5 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { PrimaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo/PrimaryCaregiverInfo';
+import PrimaryCaregiverDescription from 'applications/caregivers/components/FormDescriptions/PrimaryCaregiverDescription';
 import {
   primaryCaregiverFields,
   emptyObjectSchema,
@@ -22,7 +22,7 @@ const { address } = fullSchema.definitions;
 const primaryContactInfoPage = {
   uiSchema: {
     'ui:description': formContext =>
-      PrimaryCaregiverInfo({
+      PrimaryCaregiverDescription({
         formContext,
         pageTitle: 'Primary Family Caregiver contact information',
         showContactIntro: true,
