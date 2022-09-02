@@ -2505,13 +2505,13 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@department-of-veterans-affairs/component-library@^11.4.0":
-  version "11.4.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-11.4.0.tgz#6566a83b12c5c57cf2da69bad41dba8411491f49"
-  integrity sha512-YpIW/GWuPWKYMXBO164TtDmKfB+uGqfkV73xL3MFJ4UiFApOuIjuf01SvBpjKoTk3EUIVZ2lCf/iXlQ6t7QLQQ==
+"@department-of-veterans-affairs/component-library@^11.5.5":
+  version "11.5.5"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-11.5.5.tgz#a7cb577f50d0cf1e7131928348cd314fcd4ceb76"
+  integrity sha512-8bOQrM+HN+Wbrqy1/JtjDyICzUiVNRxm4peF4QV7lCDC4O0v//yomAs+tKL42aiAh5p6QTK2HxmF6LYV1aFt8g==
   dependencies:
     "@department-of-veterans-affairs/react-components" "7.0.1"
-    "@department-of-veterans-affairs/web-components" "4.11.0"
+    "@department-of-veterans-affairs/web-components" "4.12.5"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2565,10 +2565,10 @@
     react-is "^17.0.1"
     setimmediate "^1.0.5"
 
-"@department-of-veterans-affairs/va-forms-system-core@1.4.3":
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/va-forms-system-core/-/va-forms-system-core-1.4.3.tgz#76acd24c468ffdd9509415e65854094b075ccbcb"
-  integrity sha512-c1Ry/aNeTTOLrOPoBQdt9R8IzE/zebUBkcFwcli5rjkD/nzekbM10hdx677XuiqTNtmLNYZ/Udm88OwwccmY1g==
+"@department-of-veterans-affairs/va-forms-system-core@1.4.6":
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/va-forms-system-core/-/va-forms-system-core-1.4.6.tgz#3eb5ab717c87a12f3957c8e42554865672609d45"
+  integrity sha512-+mLGkvma3bFkIOQFBoWrK5r4XrOZylUgSr/97XVvCrua+ih63l8EuCIY3IdQ5bUcWj/qe7KU0AMuDWsqoeT4LA==
   dependencies:
     connect-history-api-fallback "^1.6.0"
     date-fns "^2.28.0"
@@ -2584,10 +2584,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@4.11.0":
-  version "4.11.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.11.0.tgz#94486e70e3ac7640820c0ddda4dce6c055710ab3"
-  integrity sha512-6egB77pWbf3FIMnirIrWfm/QqoKblgYWsiYxEq3UNDlYWMzCpA/82+5614gguXq58kLXLWHdDVY/BOINACiuqw==
+"@department-of-veterans-affairs/web-components@4.12.5":
+  version "4.12.5"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-4.12.5.tgz#cde9c98d7bc981ae4d580e0ca0f5ab9e6ae095c6"
+  integrity sha512-JuPOmqrGgyoXQaGDluzDwmQYphqDI6mNyrK6sCj76bSkgmZJG2gpzQVO1zGZaddqQJoFiIUtjPxfdDtpT7VDSQ==
   dependencies:
     "@stencil/core" "^2.10.0"
     aria-hidden "^1.1.3"

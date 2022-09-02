@@ -9,7 +9,7 @@ import ServiceProvidersText, {
   ServiceProvidersTextCreateAcct,
 } from 'platform/user/authentication/components/ServiceProvidersText';
 import GetFormHelp from '../components/GetFormHelp';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+import { deductionCodes } from '../constants/deduction-codes';
 import DownloadFormPDF from '../components/DownloadFormPDF';
 import { fsrConfirmationEmailToggle } from '../utils/helpers';
 

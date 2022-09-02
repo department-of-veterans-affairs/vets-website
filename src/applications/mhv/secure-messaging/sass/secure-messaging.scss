@@ -1,17 +1,33 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "./navigation";
 
-.secure-messaging-container{
+.secure-messaging-container {
   display: flex;
   flex-direction: row;
   .main-content {
     display: flex;
     flex-direction: column;
+    h1 {
+      margin-bottom: 8px;
+    }
   }
   .secure-messaging-navigation {
     margin-right: 24px;
   }
 }
+
+.compose-message-link:visited {
+  color: $color-link-default;
+  text-decoration: underline;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  transition-property: color, background-color, border-color;
+}
+
+va-alert button {
+  width: auto;
+}
+
 .message-box {
   background-color: $color-gray-lightest;
   border-radius: 4px;
@@ -118,6 +134,13 @@
     margin-top: 1px;
     margin-bottom: 1px;
   }
+  a:visited {
+    color: $color-link-default;
+    text-decoration: underline;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+    transition-property: color, background-color, border-color;
+  }
 }
 
 .attachment-body {
@@ -144,7 +167,29 @@
 }
 
 .older-messages {
-  margin-top: 24px;
+  a:visited {
+    color: $color-link-default;
+    text-decoration: underline;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+    transition-property: color, background-color, border-color;
+  }
+  i {
+    color: inherit;
+  }
+  .fa-lg {
+    font-size: 1.33333em !important;
+  }
+  .expand-all-messages-btn {
+    margin-top: 14px;
+    margin-bottom: 7px;
+  }
+
+  .older-message {
+    p {
+      margin: 4px 0;
+    }
+  }
 }
 
 .expand-messages {
@@ -183,17 +228,53 @@
   max-width: 480px;
 }
 
-@media(max-width: $small-screen) {
-  .secure-messaging-container{
-  flex-direction: column;
-  .main-content {
-    display: flex;
+@media (max-width: $small-screen) {
+  .secure-messaging-container {
     flex-direction: column;
-  }
-  .secure-messaging-navigation {
-    margin-top: 24px;
-    margin-bottom: 30px;
-    margin-right: 0px;
+    .main-content {
+      display: flex;
+      flex-direction: column;
+    }
+    .secure-messaging-navigation {
+      margin-top: 24px;
+      margin-bottom: 30px;
+      margin-right: 0px;
+    }
   }
 }
+
+.attachments-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  li {
+    display: flex;
+    i {
+      margin: 5px 8px 0 0;
+    }
+  }
+}
+
+.remove-attachment-button {
+  padding: 0;
+  margin: 0;
+  width: fit-content;
+  position: relative;
+  padding-left: 1rem;
+  margin-left: 1rem;
+  i::before {
+    position: absolute;
+    top: 1px;
+    left: 3px;
+  }
+}
+
+pre {
+  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
+    "Arial", sans-serif;
+  white-space: pre-wrap;
+}
+
+va-loading-indicator {
+  margin: 200px auto;
 }

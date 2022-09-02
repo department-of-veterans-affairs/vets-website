@@ -1,18 +1,20 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 import ComposeForm from '../../components/ComposeForm';
 
 describe('ComposeForm component', () => {
   it('should not be empty', () => {
-    const tree = SkinDeep.shallowRender(<ComposeForm />);
+    const { container } = render(<ComposeForm />);
 
-    expect(tree.subTree('.compose-form')).not.to.be.empty;
+    const composeForm = container.querySelector('.compose-form');
+    expect(composeForm).not.to.be.empty;
   });
 
   it('should contain a message field', () => {
-    const tree = SkinDeep.shallowRender(<ComposeForm />);
+    const screen = render(<ComposeForm />);
 
-    expect(tree.subTree('.message-field').text()).to.contain('Message');
+    const messageBodyLabel = screen.getByText('Message');
+    expect(messageBodyLabel).not.to.be.empty;
   });
 });

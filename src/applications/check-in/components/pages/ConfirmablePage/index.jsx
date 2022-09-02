@@ -1,6 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import recordEvent from 'platform/monitoring/record-event';
+
+import { createAnalyticsSlug } from '../../../utils/analytics';
+
 import DemographicItem from '../../DemographicItem';
 import Wrapper from '../../layout/Wrapper';
 
@@ -15,6 +19,7 @@ const ConfirmablePage = ({
   loadingMessageOverride = null,
   withBackButton = false,
   Footer,
+  pageType,
 }) => {
   const { t } = useTranslation();
   const defaultLoadingMessage = () => (
@@ -22,6 +27,19 @@ const ConfirmablePage = ({
   );
   const LoadingMessage = loadingMessageOverride ?? defaultLoadingMessage;
 
+  const onYesClick = () => {
+    recordEvent({
+      event: createAnalyticsSlug(`yes-to-${pageType}-clicked`, 'nav'),
+    });
+    yesAction();
+  };
+
+  const onNoClick = () => {
+    recordEvent({
+      event: createAnalyticsSlug(`no-to-${pageType}-clicked`, 'nav'),
+    });
+    noAction();
+  };
   return (
     <Wrapper
       pageTitle={header}
@@ -71,7 +89,7 @@ const ConfirmablePage = ({
       ) : (
         <>
           <button
-            onClick={yesAction}
+            onClick={onYesClick}
             className="usa-button-primary usa-button-big"
             data-testid="yes-button"
             type="button"
@@ -79,7 +97,7 @@ const ConfirmablePage = ({
             {t('yes')}
           </button>
           <button
-            onClick={noAction}
+            onClick={onNoClick}
             className="usa-button-secondary vads-u-margin-top--2 usa-button-big"
             data-testid="no-button"
             type="button"
@@ -106,6 +124,7 @@ ConfirmablePage.propTypes = {
   Footer: PropTypes.func,
   isLoading: PropTypes.bool,
   loadingMessageOverride: PropTypes.func,
+  pageType: PropTypes.string,
   subtitle: PropTypes.string,
   withBackButton: PropTypes.bool,
 };
