@@ -3,10 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
-
 import { recordAnswer } from '../../../actions/universal';
-import { createAnalyticsSlug } from '../../../utils/analytics';
 
 import BackButton from '../../../components/BackButton';
 import BackToHome from '../../../components/BackToHome';
@@ -34,9 +31,6 @@ const NextOfKin = props => {
   const buttonClick = useCallback(
     async answer => {
       setIsLoading(true);
-      recordEvent({
-        event: createAnalyticsSlug(`${answer}-to-next-of-kin`, 'nav'),
-      });
       dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
       goToNextPage();
     },

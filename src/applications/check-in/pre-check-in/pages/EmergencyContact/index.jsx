@@ -2,9 +2,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
-
-import { createAnalyticsSlug } from '../../../utils/analytics';
 import { recordAnswer } from '../../../actions/universal';
 
 import BackButton from '../../../components/BackButton';
@@ -31,10 +28,6 @@ const EmergencyContact = props => {
   const buttonClick = useCallback(
     async answer => {
       setIsLoading(true);
-      recordEvent({
-        event: createAnalyticsSlug(`${answer}-to-emergency-contact`, 'nav'),
-      });
-
       dispatch(recordAnswer({ emergencyContactUpToDate: `${answer}` }));
       goToNextPage();
     },

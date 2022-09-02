@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
-import { createAnalyticsSlug } from '../../utils/analytics';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
@@ -42,9 +40,6 @@ const NextOfKin = props => {
 
   const yesClick = useCallback(
     () => {
-      recordEvent({
-        event: createAnalyticsSlug('yes-to-next-of-kin', 'nav'),
-      });
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ nextOfKinUpToDate: 'yes' }));
       }
@@ -55,9 +50,6 @@ const NextOfKin = props => {
 
   const noClick = useCallback(
     () => {
-      recordEvent({
-        event: createAnalyticsSlug('no-to-next-of-kin', 'nav'),
-      });
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ nextOfKinUpToDate: 'no' }));
       }
