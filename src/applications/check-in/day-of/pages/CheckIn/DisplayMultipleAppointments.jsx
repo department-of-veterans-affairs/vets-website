@@ -65,7 +65,10 @@ const DisplayMultipleAppointments = props => {
   const handleClick = useCallback(
     () => {
       recordEvent({
-        event: createAnalyticsSlug('refresh-appointments-button-clicked'),
+        event: createAnalyticsSlug(
+          'refresh-appointments-button-clicked',
+          'nav',
+        ),
       });
 
       refreshCheckInData();

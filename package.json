@@ -386,7 +386,8 @@
       "src/platform/utilities",
       "src/platform/polyfills",
       "src/platform/static-data",
-      "src/platform/user"
+      "src/platform/user",
+      "src/platform/monitoring"
     ],
     "nohoist": [
       "**/platform-polyfills/@formatjs/intl-datetimeformat",
