@@ -1,0 +1,394 @@
+
+<!DOCTYPE html><!--[if lt IE 7 ]> <html lang="en" class="ie6"> <![endif]--><!--[if IE 7 ]> <html lang="en" class="ie7"> <![endif]--><!--[if IE 8 ]> <html lang="en" class="ie8"> <![endif]--><!--[if IE 9 ]> <html lang="en" class="ie9"> <![endif]--><!--[if (gt IE 9)|!(IE)]><!--><html lang="en"><!--<![endif]--><!--
+  layout: home.drupal.liquid
+  path: 
+  entityId: N/A
+--><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Preconnecting required origins: https://web.dev/uses-rel-preconnect/ -->
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://gateway.foresee.com">
+
+  <!-- Index only pages on production. -->
+
+  <!-- Add metatags. -->
+	<!-- Canonical URL -->
+	  <link rel="canonical" href="https://www.va.gov//">
+
+	<!-- Last updated -->
+
+
+	<!-- Last updated -->
+
+	<!-- og:url -->
+	  <meta property="og:url" content="https://www.va.gov//">
+
+	<!-- og:type -->
+	<meta property="og:type" content="website">
+
+	<!-- article:tags -->
+
+	<!-- Custom metatags -->
+	  <!-- Derive the title. -->
+	        
+	  <!-- og:site_name -->
+	  <meta property="og:site_name" content="Veterans Affairs">
+
+	  <!-- og:title -->
+	  <meta property="og:title" content="VA.gov Home | Veterans Affairs">
+
+	  <!-- Twitter metatags -->
+	    <meta name="twitter:title" content="VA.gov Home | Veterans Affairs">
+
+	  <meta name="twitter:card" content="Summary">
+	  <meta name="twitter:image" content="https://www.va.gov/img/design/logo/va-og-twitter-image.png">
+	  <meta name="twitter:site" content="@DeptVetAffairs">
+
+	  <!-- Derive the meta description. -->
+
+	  <!-- Add meta description tags. -->
+	    <meta content="Apply for and manage the VA benefits and services you&#x2019;ve earned as a Veteran, Servicemember, or family member&#x2014;like health care, disability, education, and more." property="og:description">
+	    <meta content="Apply for and manage the VA benefits and services you&#x2019;ve earned as a Veteran, Servicemember, or family member&#x2014;like health care, disability, education, and more." name="twitter:description">
+	    <meta content="Apply for and manage the VA benefits and services you&#x2019;ve earned as a Veteran, Servicemember, or family member&#x2014;like health care, disability, education, and more." name="description">
+
+	  <!-- og:image -->
+	  <meta content="https://www.va.gov/img/design/logo/va-og-image.png" property="og:image">
+
+	  <!-- keywords -->
+
+	  <!-- Title tag -->
+	  <title>VA.gov Home | Veterans Affairs</title>
+
+	  <!-- Add polyfills. -->
+	  <script nonce="zC2EdVWZgErHlFvKjLMEdG7UrtxjRe7A" nomodule data-entry-name="polyfills.js" src="https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/polyfills.entry.js"></script>
+
+	  <!-- Add analytics helpers. -->
+	  <script nonce="zC2EdVWZgErHlFvKjLMEdG7UrtxjRe7A">
+	/**
+	 * An alias for window.dataLayer.push made available under the window so that it is accessible in content files.
+	 * @module module:record-event
+	 * @see https://developers.google.com/tag-manager/devguide
+	 * @see module:platform/monitoring/record-event
+	 * @param {object} data - The event data that will be sent to GA.
+	 */
+	window.dataLayer = [] || window.dataLayer;
+	window.recordEvent = function(data) {
+	  return window.dataLayer.push(data);
+	};
+	  </script>
+
+	  <!-- Add web components. -->
+	    <link rel="stylesheet" data-entry-name="web-components.css" href="https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/web-components.css">
+	    <script nonce="zC2EdVWZgErHlFvKjLMEdG7UrtxjRe7A" defer data-entry-name="web-components.js" src="https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/web-components.entry.js"></script>
+
+	  <!-- Render GA template. -->
+
+	    
+
+
+	<script data-e2e="analytics-script" nonce="zC2EdVWZgErHlFvKjLMEdG7UrtxjRe7A">
+	        (function(w, d, s, l, i) {
+	  w[l] = w[l] || [];
+	  w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+	  var f = d.getElementsByTagName(s)[0],
+	    j = d.createElement(s),
+	    dl = l != 'dataLayer' ? '&l=' + l : '';
+	  j.async = true;
+	  j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+	  f.parentNode.insertBefore(j, f);
+	})(window, document, 'script', 'dataLayer', 'GTM-WFJWBD');
+	      (function(window) {
+	  function withFormContent(acc, data) {
+	    //console.log("acc.content data",data.Content);
+	    acc.content = data.Content;
+	  }
+
+	  function withFeedbackUUID(acc, data) {
+	    acc.feedbackUUID = data.Feedback_UUID;
+	  }
+
+	  function mEvent(name, action, opts) {
+	    opts = opts || {};
+	    var custom = opts.custom;
+	    var label = opts.label;
+
+	    function handle(event) {
+	      var start = +new Date();
+	      var cm = window.cm || function() {};
+	      var mData = event.detail;
+	      var eData = {
+	        category: 'Medallia',
+	        action: action,
+	        label: label || mData.Form_Type,
+	        value: mData.Form_ID,
+	        myParams: {},
+	      };
+	      if (custom) {
+	        for (var i = 0; i < custom.length; i++)
+	          custom[i](eData.myParams, mData);
+	      }
+	      var end = +new Date();
+	      console.log('send', 'event', eData, end - start);
+	      recordEvent({
+	        event: eData.action,
+	        'survey-tool': eData.category,
+	        'survey-form-id': eData.value,
+	        'survey-status': eData.label,
+	        'survey-details': eData.myParams,
+	      });
+	    }
+	    window.addEventListener('MDigital_' + name, handle);
+	  }
+	  mEvent('ShowForm_Called', 'survey-show-form-call');
+	  mEvent('Form_Displayed', 'survey-start-form');
+	  mEvent('Form_Next_Page', 'survey-next-click');
+	  mEvent('Form_Back_Page', 'survey-back-click');
+	  mEvent('Form_Close_Submitted', 'survey-submit-close');
+	  mEvent('Form_Close_No_Submit', 'survey-no-submit-close');
+	  mEvent('Feedback_Submit', 'survey-submit', {
+	    custom: [withFeedbackUUID, withFormContent],
+	  });
+	  mEvent('Submit_Feedback', 'survey--submission', {
+	    custom: [withFeedbackUUID, withFormContent],
+	  });
+	  mEvent('Feedback_Button_Clicked', 'survey-button-click', {
+	    custom: [withFeedbackUUID],
+	  });
+	  mEvent('ThankYou_Displayed', 'survey--submission-successful', {
+	    custom: [withFeedbackUUID, withFormContent],
+	  });
+	  mEvent('Invite_Displayed', 'survey-invitation-display', {
+	    label: 'Invite',
+	  });
+	  mEvent('Invite_Accepted', 'survey-invitation-accept', {
+	    label: 'Invite',
+	  });
+	  mEvent('Invite_Declined', 'survey-invitation-decline', {
+	    label: 'Invite',
+	  });
+	  mEvent('Invite_Skipped', 'survey-invitation-skip', {
+	    label: 'Invite',
+	  });
+	})(window);
+	    
+	  recordEvent({ environment: 'vagovprod' });
+	  if ( self !== top ) {
+	    recordEvent({ event: 'iframed', embeddedIn: document.referrer });
+	  }
+	</script>
+
+
+	  <!-- Add Icons. -->
+	  <link href="https://s3-us-gov-west-1.amazonaws.com/content.www.va.gov/img/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed">
+	  <link href="https://s3-us-gov-west-1.amazonaws.com/content.www.va.gov/img/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72">
+	  <link href="https://s3-us-gov-west-1.amazonaws.com/content.www.va.gov/img/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114">
+	  <link href="https://s3-us-gov-west-1.amazonaws.com/content.www.va.gov/img/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144">
+	  <link rel="shortcut icon" href="https://s3-us-gov-west-1.amazonaws.com/content.www.va.gov/img/design/icons/favicon.ico">
+
+	  <meta name="msapplication-TileImage" content="/img/design/icons/apple-touch-icon-114x114">
+	  <meta name="msapplication-TileColor" content="#144073">
+
+	  <!-- Preload main fonts -->
+	  <link rel="preload" href="https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/sourcesanspro-bold-webfont.woff2" as="font" type="font/woff2" crossorigin>
+	  <link rel="preload" href="https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/sourcesanspro-regular-webfont.woff2" as="font" type="font/woff2" crossorigin>
+	  <link rel="preload" href="https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/bitter-bold.woff2" as="font" type="font/woff2" crossorigin>
+	  <link rel="preload" href="https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+
+	  <!-- CSS -->
+	  <link rel="stylesheet" data-entry-name="style.css" href="https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/style.css">
+	  <link rel="stylesheet" data-entry-content="content-build.css" href="https://s3-us-gov-west-1.amazonaws.com/content.www.va.gov/assets/content-build.css">
+	  <link rel="stylesheet" data-entry-name="static-pages.css" href="https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/static-pages.css">
+
+	  <!-- Old IE -->
+
+	  <!--[if lt IE 9]>
+	<link rel='stylesheet' href='/assets/css/ie.css'>
+	<![endif]-->
+
+
+	  <script nonce="zC2EdVWZgErHlFvKjLMEdG7UrtxjRe7A" defer data-entry-name="vendor.js" src="https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/vendor.entry.js"></script>
+	  <script nonce="zC2EdVWZgErHlFvKjLMEdG7UrtxjRe7A" defer data-entry-name="static-pages.js" src="https://prod-va-gov-assets.s3-us-gov-west-1.amazonaws.com/generated/static-pages.entry.js"></script>
+
+	  <!--
+	  We participate in the US government’s analytics program. See the data at analytics.usa.gov.
+	  https://github.com/digital-analytics-program/gov-wide-code
+	-->
+	  <script async type="text/javascript" nonce="zC2EdVWZgErHlFvKjLMEdG7UrtxjRe7A" src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA" id="_fed_an_ua_tag"></script>
+
+	  <script nonce="zC2EdVWZgErHlFvKjLMEdG7UrtxjRe7A" type="text/javascript">
+	    function focusContent(e) {
+	      e.preventDefault();
+	      e.target.hidden = true;
+	      const contentElement = document.querySelector('#content h1') || document.querySelector('#content');
+	      contentElement.setAttribute('tabindex', '-1');
+	      contentElement.addEventListener('blur', function(event) {
+	        event.target.removeAttribute('tabindex');
+	      }, true);
+	      window.scrollTo(0, contentElement.offsetTop);
+	      contentElement.focus();
+	    }
+	    window.VetsGov = window.VetsGov || {};
+	    window.VetsGov.headerFooter = JSON.parse("{\"footerData\":[{\"column\":1,\"href\":\"https://www.va.gov/homeless/\",\"order\":1,\"target\":\"\",\"title\":\"Homeless Veterans\"},{\"column\":1,\"href\":\"https://www.va.gov/womenvet/\",\"order\":2,\"target\":\"\",\"title\":\"Women Veterans\"},{\"column\":1,\"href\":\"https://www.va.gov/centerforminorityveterans/\",\"order\":3,\"target\":\"\",\"title\":\"Minority Veterans\"},{\"column\":1,\"href\":\"https://www.patientcare.va.gov/lgbt/\",\"order\":4,\"target\":\"\",\"title\":\"LGBTQ+ Veterans\",\"rel\":\"noopener noreferrer\"},{\"column\":1,\"href\":\"https://www.ptsd.va.gov\",\"order\":5,\"target\":\"\",\"title\":\"PTSD\",\"rel\":\"noopener noreferrer\"},{\"column\":1,\"href\":\"https://www.mentalhealth.va.gov\",\"order\":6,\"target\":\"\",\"title\":\"Mental health\",\"rel\":\"noopener noreferrer\"},{\"column\":1,\"href\":\"https://www.va.gov/adaptivesports/\",\"order\":7,\"target\":\"\",\"title\":\"Adaptive sports and special events\"},{\"column\":1,\"href\":\"https://www.va.gov/outreach-and-events/events/\",\"order\":8,\"target\":null,\"title\":\"VA outreach events\"},{\"column\":1,\"href\":\"https://www.nrd.gov\",\"order\":9,\"target\":\"_blank\",\"title\":\"National Resource Directory\",\"rel\":\"noopener noreferrer\"},{\"column\":2,\"href\":\"https://www.va.gov/find-forms/\",\"order\":1,\"target\":null,\"title\":\"VA forms\"},{\"column\":2,\"href\":\"https://www.accesstocare.va.gov/ourproviders/\",\"order\":2,\"target\":\"_blank\",\"title\":\"VA health care providers\",\"rel\":\"noopener noreferrer\"},{\"column\":2,\"href\":\"https://www.va.gov/ogc/accreditation.asp\",\"order\":3,\"target\":null,\"title\":\"Accredited claims representatives\"},{\"column\":2,\"href\":\"https://www.mobile.va.gov/appstore/\",\"order\":4,\"target\":\"_blank\",\"title\":\"VA mobile apps\",\"rel\":\"noopener noreferrer\"},{\"column\":2,\"href\":\"https://www.va.gov/statedva.htm\",\"order\":5,\"target\":null,\"title\":\"State Veterans Affairs offices\"},{\"column\":2,\"href\":\"https://www.va.gov/landing2_business.htm\",\"order\":6,\"target\":null,\"title\":\"Doing business with VA\"},{\"column\":2,\"href\":\"https://www.va.gov/jobs/\",\"order\":7,\"target\":null,\"title\":\"Careers at VA\"},{\"column\":2,\"href\":\"https://www.va.gov/outreach-and-events/outreach-materials/\",\"order\":8,\"target\":null,\"title\":\"VA outreach materials\"},{\"column\":2,\"href\":\"https://www.va.gov/welcome-kit/\",\"order\":9,\"target\":null,\"title\":\"Your VA welcome kit\"},{\"column\":3,\"href\":\"https://www.blogs.va.gov/VAntage/\",\"order\":1,\"target\":\"_blank\",\"title\":\"VAntage Point blog\",\"rel\":\"noopener noreferrer\"},{\"column\":3,\"href\":\"https://www.va.gov/opa/pressrel\",\"order\":2,\"target\":null,\"title\":\"News releases\"},{\"column\":3,\"href\":\"https://public.govdelivery.com/accounts/USVA/subscriber/new/\",\"order\":3,\"target\":\"_blank\",\"title\":\"Email updates\",\"rel\":\"noopener noreferrer\"},{\"column\":3,\"href\":\"https://www.facebook.com/VeteransAffairs\",\"order\":4,\"target\":\"_blank\",\"title\":\"Facebook\",\"rel\":\"noopener noreferrer\"},{\"column\":3,\"href\":\"https://www.instagram.com/deptvetaffairs/\",\"order\":5,\"target\":\"_blank\",\"title\":\"Instagram\",\"rel\":\"noopener noreferrer\"},{\"column\":3,\"href\":\"https://www.twitter.com/DeptVetAffairs/\",\"order\":6,\"target\":\"_blank\",\"title\":\"Twitter\",\"rel\":\"noopener noreferrer\"},{\"column\":3,\"href\":\"https://www.flickr.com/photos/VeteransAffairs/\",\"order\":7,\"target\":\"_blank\",\"title\":\"Flickr\",\"rel\":\"noopener noreferrer\"},{\"column\":3,\"href\":\"https://www.youtube.com/user/DeptVetAffairs\",\"order\":8,\"target\":\"_blank\",\"title\":\"YouTube\",\"rel\":\"noopener noreferrer\"},{\"column\":3,\"href\":\"https://www.va.gov/opa/socialmedia.asp\",\"order\":9,\"target\":null,\"title\":\"All VA social media\"},{\"column\":\"bottom_rail\",\"href\":\"https://www.va.gov/performance-dashboard/\",\"order\":10,\"target\":null,\"title\":\"VA performance dashboard\"},{\"column\":4,\"href\":\"https://www.va.gov/resources/\",\"order\":1,\"target\":null,\"title\":\"Resources and support\"},{\"column\":4,\"href\":\"https://www.va.gov/contact-us/\",\"order\":2,\"target\":null,\"title\":\"Contact us\"},{\"column\":4,\"label\":\"Call us\",\"href\":\"tel:18006982411\",\"order\":3,\"target\":null,\"title\":\"800-698-2411\"},{\"ariaLabel\":\"TTY: 7 1 1.\",\"column\":4,\"href\":\"tel:+1711\",\"order\":4,\"target\":null,\"title\":\"TTY: 711\"},{\"column\":4,\"label\":\"Visit a medical center or regional office\",\"href\":\"https://www.va.gov/find-locations/\",\"order\":5,\"target\":null,\"title\":\"Find a VA location\"},{\"column\":\"bottom_rail\",\"href\":\"https://www.section508.va.gov\",\"order\":1,\"target\":null,\"title\":\"Accessibility\",\"rel\":\"noopener noreferrer\"},{\"column\":\"bottom_rail\",\"href\":\"https://www.va.gov/resources/your-civil-rights-and-how-to-file-a-discrimination-complaint/\",\"order\":2,\"target\":null,\"title\":\"Civil Rights\"},{\"column\":\"bottom_rail\",\"href\":\"https://www.va.gov/foia/\",\"order\":3,\"target\":null,\"title\":\"Freedom of Information Act (FOIA)\"},{\"column\":\"bottom_rail\",\"href\":\"https://www.va.gov/oig/\",\"order\":4,\"target\":null,\"title\":\"Office of Inspector General\"},{\"column\":\"bottom_rail\",\"href\":\"https://www.va.gov/opa/Plain_Language.asp\",\"order\":5,\"target\":null,\"title\":\"Plain language\"},{\"column\":\"bottom_rail\",\"href\":\"https://www.va.gov/privacy-policy/\",\"order\":6,\"target\":null,\"title\":\"Privacy, policies, and legal information\"},{\"column\":\"bottom_rail\",\"href\":\"https://www.va.gov/privacy/\",\"order\":7,\"target\":null,\"title\":\"VA Privacy Service\"},{\"column\":\"bottom_rail\",\"href\":\"https://www.va.gov/ormdi/NOFEAR_Select.asp\",\"order\":8,\"target\":null,\"title\":\"No FEAR Act Data\"},{\"column\":\"bottom_rail\",\"href\":\"https://www.usa.gov/\",\"order\":9,\"target\":\"_blank\",\"title\":\"USA.gov\",\"rel\":\"noopener noreferrer\"},{\"column\":\"bottom_rail\",\"href\":\"https://www.va.gov/veterans-portrait-project/\",\"order\":10,\"target\":null,\"title\":\"Veterans Portrait Project\"}],\"megaMenuData\":[{\"title\":\"VA Benefits and Health Care\",\"menuSections\":[{\"title\":\"Health care\",\"links\":{\"seeAllLink\":{\"text\":\"View all in health care\",\"href\":\"https://www.va.gov/health-care\"},\"columnOne\":{\"title\":\"Get health care benefits\",\"links\":[{\"text\":\"About VA health benefits\",\"href\":\"https://www.va.gov/health-care/about-va-health-benefits\"},{\"text\":\"How to apply\",\"href\":\"https://www.va.gov/health-care/how-to-apply\"},{\"text\":\"Family and caregiver health benefits\",\"href\":\"https://www.va.gov/health-care/family-caregiver-benefits\"},{\"text\":\"Apply now for health care\",\"href\":\"https://www.va.gov/health-care/apply/application\"}]},\"columnTwo\":{\"title\":\"Manage your health\",\"links\":[{\"text\":\"Refill and track your prescriptions\",\"href\":\"https://www.va.gov/health-care/refill-track-prescriptions\"},{\"text\":\"Send a secure message to your health care team\",\"href\":\"https://www.va.gov/health-care/secure-messaging\"},{\"text\":\"Schedule and manage health appointments\",\"href\":\"https://www.va.gov/health-care/schedule-view-va-appointments\"},{\"text\":\"View your lab and test results\",\"href\":\"https://www.va.gov/health-care/view-test-and-lab-results\"},{\"text\":\"Order hearing aid batteries and accessories\",\"href\":\"https://www.va.gov/health-care/order-hearing-aid-batteries-and-accessories\"}]},\"columnThree\":{\"img\":{\"src\":\"https://www.va.gov/img/styles/3_2_medium_thumbnail/public/hub_promos/health-care.png\",\"alt\":\"\"},\"link\":{\"text\":\"COVID-19 vaccines at VA\",\"href\":\"https://www.va.gov/health-care/covid-19-vaccine/\"},\"description\":\"Get the latest information and sign up to stay informed about COVID-19 vaccines.\"}}},{\"title\":\"Disability\",\"links\":{\"seeAllLink\":{\"text\":\"View all in disability\",\"href\":\"https://www.va.gov/disability\"},\"columnOne\":{\"title\":\"Get disability benefits\",\"links\":[{\"text\":\"Eligibility\",\"href\":\"https://www.va.gov/disability/eligibility\"},{\"text\":\"How to file a claim\",\"href\":\"https://www.va.gov/disability/how-to-file-claim\"},{\"text\":\"Survivor and dependent compensation (DIC)\",\"href\":\"https://www.va.gov/disability/dependency-indemnity-compensation\"},{\"text\":\"File a claim online\",\"href\":\"https://www.va.gov/disability/file-disability-claim-form-21-526ez/\"}]},\"columnTwo\":{\"title\":\"Manage your benefits\",\"links\":[{\"text\":\"Check your claim or appeal status\",\"href\":\"https://www.va.gov/claim-or-appeal-status\"},{\"text\":\"View your VA payment history\",\"href\":\"https://www.va.gov/va-payment-history\"},{\"text\":\"Upload evidence to support your claim\",\"href\":\"https://www.va.gov/disability/upload-supporting-evidence\"},{\"text\":\"File for a VA disability increase\",\"href\":\"https://www.va.gov/disability/file-disability-claim-form-21-526ez/\"},{\"text\":\"Request a decision review or appeal\",\"href\":\"https://www.va.gov/decision-reviews\"}]},\"columnThree\":{\"img\":{\"src\":\"https://www.va.gov/img/styles/3_2_medium_thumbnail/public/hub_promos/disability.png\",\"alt\":\"\"},\"link\":{\"text\":\"Fully Developed Claims program\",\"href\":\"https://www.va.gov/disability/how-to-file-claim/evidence-needed/fully-developed-claims\"},\"description\":\"Use this program to get a faster decision by submitting evidence along with your claim.\"}}},{\"title\":\"Education and training\",\"links\":{\"seeAllLink\":{\"text\":\"View all in education\",\"href\":\"https://www.va.gov/education\"},\"columnOne\":{\"title\":\"Get education benefits\",\"links\":[{\"text\":\"About GI Bill benefits\",\"href\":\"https://www.va.gov/education/about-gi-bill-benefits\"},{\"text\":\"Eligibility\",\"href\":\"https://www.va.gov/education/eligibility\"},{\"text\":\"How to apply\",\"href\":\"https://www.va.gov/education/how-to-apply\"},{\"text\":\"Veteran Readiness and Employment\",\"href\":\"https://www.va.gov/careers-employment/vocational-rehabilitation\"},{\"text\":\"Survivor and dependent education benefits\",\"href\":\"https://www.va.gov/education/survivor-dependent-benefits\"}]},\"columnTwo\":{\"title\":\"Manage your benefits\",\"links\":[{\"text\":\"View your VA payment history\",\"href\":\"https://www.va.gov/va-payment-history\"},{\"text\":\"Check your Post-9/11 GI Bill benefits\",\"href\":\"https://www.va.gov/education/gi-bill/post-9-11/ch-33-benefit/\"},{\"text\":\"Transfer your Post-9/11 GI Bill benefits\",\"href\":\"https://www.va.gov/education/transfer-post-9-11-gi-bill-benefits\"},{\"text\":\"Change your GI Bill school or program\",\"href\":\"https://www.va.gov/education/change-gi-bill-benefits\"},{\"text\":\"Change your direct deposit information\",\"href\":\"https://www.va.gov/change-direct-deposit\"}]},\"columnThree\":{\"img\":{\"src\":\"https://www.va.gov/img/styles/3_2_medium_thumbnail/public/hub_promos/education.png\",\"alt\":\"\"},\"link\":{\"text\":\"GI Bill\u00AE Comparison Tool\",\"href\":\"https://www.va.gov/education/gi-bill-comparison-tool\"},\"description\":\"Learn about education programs and compare benefits by school.\"}}},{\"title\":\"Careers and employment\",\"links\":{\"seeAllLink\":{\"text\":\"View all in careers and employment\",\"href\":\"https://www.va.gov/careers-employment\"},\"columnOne\":{\"title\":\"Get employment benefits\",\"links\":[{\"text\":\"About Veteran Readiness and Employment (VR&E)\",\"href\":\"https://www.va.gov/careers-employment/vocational-rehabilitation\"},{\"text\":\"How to apply\",\"href\":\"https://www.va.gov/careers-employment/vocational-rehabilitation/how-to-apply\"},{\"text\":\"Educational and career counseling\",\"href\":\"https://www.va.gov/careers-employment/education-and-career-counseling\"},{\"text\":\"Veteran-owned small business support\",\"href\":\"https://www.va.gov/careers-employment/veteran-owned-business-support\"},{\"text\":\"Apply for VR&E benefits\",\"href\":\"https://www.va.gov/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/\"}]},\"columnTwo\":{\"title\":\"Manage your career\",\"links\":[{\"text\":\"VA transition assistance\",\"href\":\"https://www.benefits.va.gov/tap/\"},{\"text\":\"CareerScope assessment\",\"href\":\"https://www.va.gov/careers-employment/careerscope-skills-assessment\"},{\"text\":\"Find a job\",\"href\":\"https://www.dol.gov/veterans/findajob/\"},{\"text\":\"Find VA careers and support\",\"href\":\"https://www.va.gov/jobs/\"},{\"text\":\"Print your civil service preference letter\",\"href\":\"https://www.va.gov/records/download-va-letters\"}]},\"columnThree\":{\"img\":{\"src\":\"https://www.va.gov/img/styles/3_2_medium_thumbnail/public/hub_promos/careers.png\",\"alt\":\"\"},\"link\":{\"text\":\"VA for Vets\",\"href\":\"https://www.vaforvets.va.gov/\"},\"description\":\"Get help transitioning to a civilian career and matching your skills and experiences to VA job opportunities.\"}}},{\"title\":\"Pension\",\"links\":{\"seeAllLink\":{\"text\":\"View all in pension\",\"href\":\"https://www.va.gov/pension\"},\"columnOne\":{\"title\":\"Get pension benefits\",\"links\":[{\"text\":\"Veterans Pension eligibility\",\"href\":\"https://www.va.gov/pension/eligibility\"},{\"text\":\"How to apply\",\"href\":\"https://www.va.gov/pension/how-to-apply\"},{\"text\":\"Aid and attendance benefits and housebound allowance\",\"href\":\"https://www.va.gov/pension/aid-attendance-housebound\"},{\"text\":\"Survivors Pension\",\"href\":\"https://www.va.gov/pension/survivors-pension\"},{\"text\":\"Apply now for a Veterans Pension\",\"href\":\"https://www.va.gov/pension/application/527EZ\"}]},\"columnTwo\":{\"title\":\"Manage your benefits\",\"links\":[{\"text\":\"Check your claim or appeal status\",\"href\":\"https://www.va.gov/claim-or-appeal-status\"},{\"text\":\"View your VA payment history\",\"href\":\"https://www.va.gov/va-payment-history\"},{\"text\":\"Change your address\",\"href\":\"https://www.va.gov/change-address\"},{\"text\":\"Change your direct deposit information\",\"href\":\"https://www.va.gov/change-direct-deposit\"}]},\"columnThree\":{\"img\":{\"src\":\"https://www.va.gov/img/styles/3_2_medium_thumbnail/public/hub_promos/pension.png\",\"alt\":\"\"},\"link\":{\"text\":\"Get your pension payments electronically\",\"href\":\"https://www.godirect.gov/gpw\"},\"description\":\"Sign up for direct deposit or a pre-paid debit card.\"}}},{\"title\":\"Housing assistance\",\"links\":{\"seeAllLink\":{\"text\":\"View all in housing assistance\",\"href\":\"https://www.va.gov/housing-assistance\"},\"columnOne\":{\"title\":\"Get home loan benefits\",\"links\":[{\"text\":\"About VA home loan types\",\"href\":\"https://www.va.gov/housing-assistance/home-loans/loan-types\"},{\"text\":\"Check your appeal status\",\"href\":\"https://www.va.gov/claim-or-appeal-status\"},{\"text\":\"How to request your COE\",\"href\":\"https://www.va.gov/housing-assistance/home-loans/how-to-request-coe\"}]},\"columnTwo\":{\"title\":\"Get Veterans housing grants\",\"links\":[{\"text\":\"Check your SAH claim status\",\"href\":\"https://www.va.gov/claim-or-appeal-status\"},{\"text\":\"How to apply for an SAH grant\",\"href\":\"https://www.va.gov/housing-assistance/disability-housing-grants/how-to-apply\"},{\"text\":\"About disability housing grants\",\"href\":\"https://www.va.gov/housing-assistance/disability-housing-grants\"}]},\"columnThree\":{\"img\":{\"src\":\"https://www.va.gov/img/styles/3_2_medium_thumbnail/public/hub_promos/housing.png\",\"alt\":\"\"},\"link\":{\"text\":\"National Call Center for Homeless Veterans\",\"href\":\"https://www.va.gov/homeless/nationalcallcenter.asp\"},\"description\":\"Find out how we can help you or a Veteran you care about connect with VA and local resources 24 hours a day, 7 days a week.\"}}},{\"title\":\"Life insurance\",\"links\":{\"seeAllLink\":{\"text\":\"View all in life insurance\",\"href\":\"https://www.va.gov/life-insurance\"},\"columnOne\":{\"title\":\"Get life insurance\",\"links\":[{\"text\":\"About life insurance options\",\"href\":\"https://www.va.gov/life-insurance/options-eligibility\"},{\"text\":\"Benefits for totally disabled or terminally ill policyholders\",\"href\":\"https://www.va.gov/life-insurance/totally-disabled-or-terminally-ill\"},{\"text\":\"Beneficiary financial counseling and online will preparation\",\"href\":\"https://www.benefits.va.gov/insurance/bfcs.asp\"}]},\"columnTwo\":{\"title\":\"Manage your life insurance\",\"links\":[{\"text\":\"Access your policy online\",\"href\":\"https://www.va.gov/life-insurance/manage-your-policy\"},{\"text\":\"Update your beneficiaries\",\"href\":\"https://www.benefits.va.gov/INSURANCE/updatebene.asp\"},{\"text\":\"File a claim for insurance benefits\",\"href\":\"https://www.benefits.va.gov/INSURANCE/sglivgli.asp\"},{\"text\":\"Check your appeal status\",\"href\":\"https://www.va.gov/claim-or-appeal-status\"}]},\"columnThree\":{\"img\":{\"src\":\"https://www.va.gov/img/styles/3_2_medium_thumbnail/public/hub_promos/life-insurance.png\",\"alt\":\"\"},\"link\":{\"text\":\"Veterans Affairs Life Insurance (VALife)\",\"href\":\"https://www.benefits.va.gov/insurance/valife.asp\"},\"description\":\"Learn about VALife, our new life insurance program for Veterans with service-connected disabilities that takes effect January 1, 2023.\"}}},{\"title\":\"Burials and memorials\",\"links\":{\"seeAllLink\":{\"text\":\"View all in burials and memorials\",\"href\":\"https://www.va.gov/burials-memorials\"},\"columnOne\":{\"title\":\"Get burial benefits\",\"links\":[{\"text\":\"Eligibility\",\"href\":\"https://www.va.gov/burials-memorials/eligibility\"},{\"text\":\"Pre-need burial eligibility determination\",\"href\":\"https://www.va.gov/burials-memorials/pre-need-eligibility\"},{\"text\":\"Veteran burial allowance\",\"href\":\"https://www.va.gov/burials-memorials/veterans-burial-allowance\"},{\"text\":\"Memorial items\",\"href\":\"https://www.va.gov/burials-memorials/memorial-items\"},{\"text\":\"Survivor and dependent compensation (DIC)\",\"href\":\"https://www.va.gov/disability/dependency-indemnity-compensation\"}]},\"columnTwo\":{\"title\":\"Plan a burial\",\"links\":[{\"text\":\"Schedule a burial for a family member\",\"href\":\"https://www.va.gov/burials-memorials/schedule-a-burial\"},{\"text\":\"Schedule a burial in a VA national cemetery\",\"href\":\"https://www.cem.va.gov/cem/burial_benefits/need.asp\"},{\"text\":\"Find a cemetery\",\"href\":\"https://www.cem.va.gov/cems/listcem.asp\"},{\"text\":\"Request military records (DD214)\",\"href\":\"https://www.va.gov/records/get-military-service-records\"}]},\"columnThree\":{\"img\":{\"src\":\"https://www.va.gov/img/styles/3_2_medium_thumbnail/public/hub_promos/burials.png\",\"alt\":\"\"},\"link\":{\"text\":\"Find National Cemetery Administration Information\",\"href\":\"https://www.cem.va.gov/\"},\"description\":\"Locate a grave, search for cemeteries, and find benefits information and resources.\"}}},{\"title\":\"Records\",\"links\":{\"seeAllLink\":{\"text\":\"View all in records\",\"href\":\"https://www.va.gov/records\"},\"columnOne\":{\"title\":\"Get your records\",\"links\":[{\"text\":\"Get your VA medical records (Blue Button)\",\"href\":\"https://www.va.gov/health-care/get-medical-records\"},{\"text\":\"Download your VA benefits letters\",\"href\":\"https://www.va.gov/records/download-va-letters\"},{\"text\":\"Learn how to request a home loan COE\",\"href\":\"https://www.va.gov/housing-assistance/home-loans/how-to-request-coe\"},{\"text\":\"Get Veteran ID cards\",\"href\":\"https://www.va.gov/records/get-veteran-id-cards\"}]},\"columnTwo\":{\"title\":\"Manage your records\",\"links\":[{\"text\":\"Request your military records (DD214)\",\"href\":\"https://www.va.gov/records/get-military-service-records\"},{\"text\":\"Change your address\",\"href\":\"https://www.va.gov/change-address\"},{\"text\":\"How to apply for a discharge upgrade\",\"href\":\"https://www.va.gov/discharge-upgrade-instructions\"},{\"text\":\"View your VA payment history\",\"href\":\"https://www.va.gov/va-payment-history\"},{\"text\":\"Search historical military records (National Archives)\",\"href\":\"https://www.archives.gov/\"}]},\"columnThree\":{\"img\":{\"src\":\"https://www.va.gov/img/styles/3_2_medium_thumbnail/public/hub_promos/records.png\",\"alt\":\"\"},\"link\":{\"text\":\"Confirm your VA benefit status\",\"href\":\"https://www.va.gov/records/download-va-letters\"},\"description\":\"Download letters like your eligibility or award letter for certain benefits.\"}}},{\"title\":\"Service member benefits\",\"text\":\"Service member benefits\",\"href\":\"https://www.va.gov/service-member-benefits\"},{\"title\":\"Family member benefits\",\"text\":\"Family member benefits\",\"href\":\"https://www.va.gov/family-member-benefits\"}]},{\"title\":\"About VA\",\"menuSections\":{\"mainColumn\":{\"title\":\"VA organizations\",\"links\":[{\"text\":\"Veterans Health Administration\",\"href\":\"https://www.va.gov/health\"},{\"text\":\"Veterans Benefits Administration\",\"href\":\"https://www.benefits.va.gov/benefits/\"},{\"text\":\"National Cemetery Administration\",\"href\":\"https://www.cem.va.gov/\"},{\"text\":\"VA Leadership\",\"href\":\"https://www.va.gov/opa/bios/index.asp\"},{\"text\":\"Public Affairs\",\"href\":\"https://www.va.gov/OPA/index.asp\"},{\"text\":\"Congressional Affairs\",\"href\":\"https://www.va.gov/oca/index.asp\"},{\"text\":\"All VA offices and organizations\",\"href\":\"https://www.va.gov/landing_organizations.htm\"}]},\"columnOne\":{\"title\":\"Innovation at VA\",\"links\":[{\"text\":\"Health research\",\"href\":\"https://www.research.va.gov/\"},{\"text\":\"Public health\",\"href\":\"https://www.publichealth.va.gov/\"},{\"text\":\"VA open data\",\"href\":\"https://www.va.gov/data/\"},{\"text\":\"Veterans analysis and statistics\",\"href\":\"https://www.va.gov/VETDATA/index.asp\"},{\"text\":\"Appeals modernization\",\"href\":\"https://www.benefits.va.gov/benefits/appeals.asp\"},{\"text\":\"VA Innovation Center\",\"href\":\"https://www.innovation.va.gov/\"},{\"text\":\"Recovery Act\",\"href\":\"https://www.va.gov/recovery/\"}]},\"columnTwo\":{\"title\":\"Learn about VA\",\"links\":[{\"text\":\"About VA\",\"href\":\"https://www.va.gov/ABOUT_VA/index.asp\"},{\"text\":\"History of VA\",\"href\":\"https://www.va.gov/about_va/vahistory.asp\"},{\"text\":\"VA plans, budget, finances, and performance\",\"href\":\"https://www.va.gov/performance/\"},{\"text\":\"National cemetery history program\",\"href\":\"https://www.cem.va.gov/cem/history/index.asp\"},{\"text\":\"Veterans legacy program\",\"href\":\"https://www.cem.va.gov/cem/legacy/index.asp\"},{\"text\":\"Volunteer or donate\",\"href\":\"https://www.volunteer.va.gov/index.asp\"}]},\"columnThree\":{\"img\":{\"src\":\"https://www.va.gov/img/styles/3_2_medium_thumbnail/public/2021-11/afr-2021-cover_0.jpg\",\"alt\":\"image of a soldier guarding the tomb of the unknown soldier\"},\"link\":{\"text\":\"Agency Financial Report\",\"href\":\"https://www.va.gov/finance/afr/index.asp\"},\"description\":\"View the FY 2021 report that includes VA accomplishments with taxpayer dollars and the challenges that remain.\"}}},{\"title\":\"Find a VA Location\",\"href\":\"https://www.va.gov/find-locations\"}]}");
+	  </script>
+
+
+	  <script defer nonce="zC2EdVWZgErHlFvKjLMEdG7UrtxjRe7A">
+	// ForeSee Production Embed Script v2.01
+	// DO NOT MODIFY BELOW THIS LINE *****************************************
+	;(function (g) {
+	  var d = document, am = d.createElement('script'), h = d.head || d.getElementsByTagName("head")[0], fsr = 'fsReady',
+	  aex = {
+	    "src": "//gateway.foresee.com/sites/va-gov/production/gateway.min.js",
+	    "type": "text/javascript",
+	    "async": "true",
+	    "data-vendor": "fs",
+	    "data-role": "gateway"
+	  };
+	  for (var attr in aex) { am.setAttribute(attr, aex[attr]); } h.appendChild(am); g[fsr] || (g[fsr] = function () { var aT = '__' + fsr + '_stk__'; g[aT] = g[aT] || []; g[aT].push(arguments); });
+	  })(window);
+	  // DO NOT MODIFY ABOVE THIS LINE *****************************************
+	</script>
+	<script defer type="text/javascript" nonce="zC2EdVWZgErHlFvKjLMEdG7UrtxjRe7A" src="https://resource.digital.voice.va.gov/wdcvoice/2/onsite/embed.js" async></script>
+</head>
+
+
+<header class="header" role="banner">
+    <!-- Mobile Layout -->
+    <div data-widget-type="header" data-show="" data-show-nav-login="" data-show-mega-menu="" id="header-v2"></div>
+
+    <!-- Tablet/Desktop Layout -->
+      <div id="legacy-header" class="">
+  <div class="va-notice--banner">
+    <div class="va-notice--banner-inner">
+<div class="usa-banner">
+  <div class="usa-accordion">
+    <div class="usa-banner-header">
+      <div class="usa-grid usa-banner-inner">
+      <img src="https://s3-us-gov-west-1.amazonaws.com/content.www.va.gov/img/tiny-usa-flag.png" alt="U.S. flag" height="20" width="20">
+      <p>An official website of the United States government</p>
+      <button id="usa-banner-toggle" class="usa-accordion-button usa-banner-button" aria-expanded="false" aria-controls="gov-banner">
+        <span class="usa-banner-button-text">Here’s how you know</span>
+      </button>
+      </div>
+    </div>
+    <div class="usa-banner-content usa-grid usa-accordion-content" id="gov-banner" aria-hidden="true">
+      <div class="usa-banner-guidance-gov usa-width-one-half">
+        <img class="usa-banner-icon usa-media_block-img" src="https://s3-us-gov-west-1.amazonaws.com/content.www.va.gov/img/icon-dot-gov.svg" alt="Dot gov">
+        <div class="usa-media_block-body">
+          <p>
+            <strong>The .gov means it’s official.</strong>
+            <br>
+            Federal government websites often end in .gov or .mil. Before sharing sensitive information, make sure you're on a federal government site.
+          </p>
+        </div>
+      </div>
+      <div class="usa-banner-guidance-ssl usa-width-one-half">
+        <img class="usa-banner-icon usa-media_block-img" src="https://s3-us-gov-west-1.amazonaws.com/content.www.va.gov/img/icon-https.svg" alt="SSL">
+        <div class="usa-media_block-body">
+          <p>
+            <strong>The site is secure.</strong>
+            <br> The <strong>https://</strong> ensures that you're connecting to the official website and that any information you provide is encrypted and sent securely.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+    <div class="va-crisis-line-container vads-u-background-color--secondary-darkest">
+      <button class="va-crisis-line va-overlay-trigger vads-u-background-color--secondary-darkest" data-show="#modal-crisisline" id="a35dd69f2d763f4b0c8a74fbf13aa447">
+        <div class="va-crisis-line-inner">
+          <span class="va-crisis-line-icon" aria-hidden="true"></span>
+          <span class="va-crisis-line-text" id="2384c5677d6302661cb63d6a10a3cf91">Talk to the <strong>Veterans Crisis Line</strong> now</span>
+          <img alt="" aria-hidden="true" class="va-crisis-line-arrow" src="https://s3-us-gov-west-1.amazonaws.com/content.www.va.gov/img/arrow-right-white.svg">
+        </div>
+      </button>
+    </div>
+  </div>
+  <!-- /header alert box -->
+
+  <div class="row va-flex usa-grid usa-grid-full" id="va-header-logo-menu">
+    <div class="va-header-logo-wrapper">
+      <a href="/" class="va-header-logo">
+        <img src="https://s3-us-gov-west-1.amazonaws.com/content.www.va.gov/img/header-logo.png" alt="Go to VA.gov" height="59" width="264">
+      </a>
+    </div>
+      <div id="va-nav-controls"><div><button aria-controls="vetnav" aria-expanded="true" type="button" class="vetnav-controller-close"><span class="va-flex">Close<svg width="16" height="16" viewBox="0 0 49 49" xmlns="http://www.w3.org/2000/svg" pointer-events="none"><path d="M48.152 39.402c0 1.07-.375 1.982-1.125 2.732l-5.465 5.464c-.75.75-1.66 1.125-2.732 1.125-1.07 0-1.982-.375-2.732-1.125L24.286 35.786 12.473 47.598c-.75.75-1.66 1.125-2.732 1.125-1.07 0-1.98-.375-2.73-1.125l-5.465-5.464c-.75-.75-1.125-1.66-1.125-2.732 0-1.072.375-1.982 1.125-2.732l11.812-11.813L1.545 13.045c-.75-.75-1.125-1.66-1.125-2.732C.42 9.24.795 8.33 1.545 7.58L7.01 2.116C7.76 1.366 8.67.99 9.74.99c1.073 0 1.983.376 2.733 1.126L24.286 13.93 36.098 2.115c.75-.75 1.66-1.125 2.732-1.125 1.072 0 1.982.376 2.733 1.126l5.464 5.464c.75.75 1.125 1.66 1.125 2.732 0 1.072-.375 1.983-1.125 2.733L35.214 24.857 47.027 36.67c.75.75 1.125 1.66 1.125 2.732z"></path></svg></span></button></div></div>
+        <div class="medium-screen:vads-u-display--none usa-grid usa-grid-full">
+          <div class="menu-rule usa-one-whole"></div>
+          <div class="mega-menu" id="mega-menu-mobile"></div>
+        </div>
+      <div id="login-root" class="vet-toolbar"><div class="profile-nav-container"><div class="vads-u-display--flex vads-u-align-items--center vads-u-padding-top--1"><div class="va-dropdown"><button class="sitewide-search-drop-down-panel-button va-btn-withicon va-dropdown-trigger va-btn-withicon va-dropdown-trigger" aria-controls="search" aria-expanded="false"><span><svg focusable="false" role="presentation" height="24" pointer-events="none" viewBox="0 0 216 146" width="24"><path fill="#fff" d="M172.77 123.025L144.825 95.08c6.735-9.722 10.104-20.56 10.104-32.508 0-7.767-1.51-15.195-4.527-22.283-3.014-7.09-7.088-13.2-12.22-18.336s-11.243-9.207-18.33-12.22c-7.09-3.016-14.52-4.523-22.286-4.523-7.768 0-15.196 1.508-22.284 4.523-7.09 3.014-13.2 7.088-18.332 12.22-5.132 5.134-9.206 11.245-12.22 18.333-3.015 7.088-4.522 14.515-4.522 22.282 0 7.766 1.507 15.192 4.522 22.282 3.014 7.088 7.088 13.197 12.22 18.33 5.134 5.134 11.245 9.207 18.333 12.222 7.09 3.015 14.516 4.522 22.283 4.522 11.95 0 22.786-3.37 32.51-10.105l27.943 27.863c1.955 2.064 4.397 3.096 7.332 3.096 2.824 0 5.27-1.03 7.332-3.096 2.064-2.063 3.096-4.508 3.096-7.332 0-2.877-1.002-5.322-3.013-7.33zm-49.413-34.668C116.214 95.5 107.62 99.07 97.57 99.07c-10.048 0-18.643-3.57-25.786-10.713C64.64 81.214 61.07 72.62 61.07 62.57c0-10.047 3.572-18.643 10.714-25.785C78.926 29.642 87.522 26.07 97.57 26.07c10.048 0 18.643 3.573 25.787 10.715 7.143 7.142 10.715 15.738 10.715 25.786 0 10.05-3.573 18.647-10.715 25.79z"></path></svg>Search</span></button><div class="va-dropdown-panel vads-u-padding--0 vads-u-margin--0" id="search" hidden=""><div id="search-header-dropdown-component" class="search-dropdown-component vads-u-display--flex vads-u-width--full  full-width-suggestions "><div class="search-dropdown-container vads-u-width--full vads-u-flex-direction--column full-width-suggestions vads-u-padding-y--1 vads-u-padding-left--1 vads-u-padding-right--0 "><span id="search-header-dropdown-a11y-status-message" role="status" class="vads-u-visibility--screen-reader" aria-live="assertive" aria-relevant="additions text"></span><span id="search-header-dropdown-assistive-hint" class="vads-u-visibility--screen-reader">Use up and down arrows to review autocomplete results and enter to search. Touch device users, explore by touch or with swipe gestures.</span><input aria-autocomplete="none" aria-controls="search-header-dropdown-listbox" aria-expanded="false" aria-haspopup="listbox" aria-label="Search" autocomplete="off" class="vads-u-width--full search-dropdown-input-field vads-u-margin--0 vads-u-display--block " id="search-header-dropdown-input-field" data-e2e-id="search-header-dropdown-input-field" role="combobox" type="text" tabindex="0" value="" aria-describedby="search-header-dropdown-assistive-hint"></div><button type="submit" class="search-dropdown-submit-button vads-u-margin-right--1 vads-u-margin-top--1  vads-u-margin-left--1" data-e2e-id="search-header-dropdown-submit-button" id="search-header-dropdown-submit-button" tabindex="0"><svg focusable="false" height="24" pointer-events="none" viewBox="0 0 216 146" width="24"><path fill="#fff" d="M172.77 123.025L144.825 95.08c6.735-9.722 10.104-20.56 10.104-32.508 0-7.767-1.51-15.195-4.527-22.283-3.014-7.09-7.088-13.2-12.22-18.336s-11.243-9.207-18.33-12.22c-7.09-3.016-14.52-4.523-22.286-4.523-7.768 0-15.196 1.508-22.284 4.523-7.09 3.014-13.2 7.088-18.332 12.22-5.132 5.134-9.206 11.245-12.22 18.333-3.015 7.088-4.522 14.515-4.522 22.282 0 7.766 1.507 15.192 4.522 22.282 3.014 7.088 7.088 13.197 12.22 18.33 5.134 5.134 11.245 9.207 18.333 12.222 7.09 3.015 14.516 4.522 22.283 4.522 11.95 0 22.786-3.37 32.51-10.105l27.943 27.863c1.955 2.064 4.397 3.096 7.332 3.096 2.824 0 5.27-1.03 7.332-3.096 2.064-2.063 3.096-4.508 3.096-7.332 0-2.877-1.002-5.322-3.013-7.33zm-49.413-34.668C116.214 95.5 107.62 99.07 97.57 99.07c-10.048 0-18.643-3.57-25.786-10.713C64.64 81.214 61.07 72.62 61.07 62.57c0-10.047 3.572-18.643 10.714-25.785C78.926 29.642 87.522 26.07 97.57 26.07c10.048 0 18.643 3.573 25.787 10.715 7.143 7.142 10.715 15.738 10.715 25.786 0 10.05-3.573 18.647-10.715 25.79z"></path></svg><span class="usa-sr-only">Search</span></button></div></div></div><a class="vads-u-color--white vads-u-text-decoration--none vads-u-padding-x--1 vads-u-font-weight--bold" href="https://www.va.gov/contact-us/">Contact us</a><div class="sign-in-nav"><div class="sign-in-links"><button class="sign-in-link">Sign in</button></div></div></div></div></div>
+  </div>
+    <div class="usa-grid usa-grid-full">
+      <div class="menu-rule usa-one-whole"></div>
+      <div class="mega-menu" id="mega-menu"><div class="login-container"><div class="row va-flex"><div id="vetnav" role="navigation"><ul id="vetnav-menu"><li><a class="vetnav-level1" data-testid="mobile-home-nav-link" href="/">Home</a></li><li class=" "><button type="button" aria-expanded="false" aria-controls="vetnav-va-benefits-and-health-care" aria-haspopup="true" class="vetnav-level1" data-e2e-id="va-benefits-and-health-care-0">VA Benefits and Health Care</button><div id="vetnav-va-benefits-and-health-care" class="vetnav-panel" hidden=""></div></li><li class=" "><button type="button" aria-expanded="false" aria-controls="vetnav-about-va" aria-haspopup="true" class="vetnav-level1" data-e2e-id="about-va-1">About VA</button><div id="vetnav-about-va" class="vetnav-panel" hidden=""></div></li><li class=" "><a class="vetnav-level1 medium-screen:vads-u-padding--2" data-e2e-id="find-a-va-location-2" href="https://www.va.gov/find-locations">Find a VA Location</a><div id="vetnav-find-a-va-location" class="vetnav-panel" hidden=""></div></li><li class="my-va-top-nav "><a class="vetnav-level1 medium-screen:vads-u-padding--2" data-e2e-id="my-va-3" href="https://www.va.gov/my-va/">My VA</a><div id="vetnav-my-va" class="vetnav-panel" hidden=""></div></li></ul></div></div></div></div>
+    </div>
+  <!-- Hidden for modern browsers. -->
+  <va-banner class="ie-deprecation-warning hydrated" headline="You'll need to use a different web browser" show-close="" type="warning" visible="false">
+    You're using Internet Explorer right now to access VA.gov. Microsoft stopped supporting all versions of this browser on June 15, 2022. This means that you'll need to switch to another browser, like Microsoft Edge, Google Chrome, Mozilla Firefox, or Apple Safari.
+  </va-banner>
+  <!-- Solutioned for: https://github.com/department-of-veterans-affairs/va.gov-cms/issues/9075 -->
+  <script type="text/javascript" nonce="">
+    const isIE = /(?:MSIE)|(?:Trident\/[0-7]\.[0-9])/i.test(window.navigator.userAgent);
+
+    if (isIE) {
+      const ieMessageEl = document.body.querySelector('.ie-deprecation-warning');
+      ieMessageEl.setAttribute('visible', '');
+    }
+  </script>
+</div>
+      </header>
+
+<!-- Banners -->
+  <va-banner data-template="components/banners.drupal.liquid" show-close="true" headline="VA facility and status updates" type="warning" visible="true"><p><strong>Natural disaster affecting your area:</strong>&#xA0;Use the&#xA0;<a href="https://www.va.gov/find-locations">Find VA locations tool</a>&#xA0;to check the status and operating hours of your local VA facility.</p>
+<p><strong>Coronavirus information:</strong>&#xA0;To get the latest updates and sign up to stay informed about COVID-19 vaccines, visit our&#xA0;<a href="https://www.va.gov/health-care/covid-19-vaccine/">vaccine information page</a>.&#xA0;</p>
+</va-banner>
+
+<!-- Maintenance banner -->
+<div aria-label="Maintenance banner" data-widget-type="maintenance-banner" role="region"></div>
+
+<!-- Derive visible promo banners. -->
+
+<!-- Promo Banners -->
+  <va-promo-banner aria-label="Learn what the PACT Act means for your VA benefits" role="region" data-template="components/banners.drupal.liquid" id="48052" href="/resources/the-pact-act-and-your-va-benefits" type="announcement">Learn what the PACT Act means for your VA benefits</va-promo-banner>
+
+  <script nonce="zC2EdVWZgErHlFvKjLMEdG7UrtxjRe7A" type="text/javascript">
+(function() {
+  var isIe = /(trident|msie)/i.test(navigator.userAgent);
+
+  if (isIe && document.getElementById && window.addEventListener) {
+    window.addEventListener('hashchange', function skipLinkFocus() {
+      var id = location.hash.substring(1);
+      var element;
+
+      if (!/^[A-z0-9_-]+$/.test(id)) {
+        return;
+      }
+
+      element = document.getElementById(id);
+
+      if (element) {
+        if (!/^(?:a|select|input|button|textarea)$/i.test(element.tagName)) {
+          element.tabIndex = -1;
+        }
+
+        element.focus();
+      }
+    });
+  }
+})();
+  </script>
+
+<!-- main page content--> 
+<main id="content">
+</main>
+
+<footer class="footer">
+    <div id="footerNav"><div><div class="footer-inner"><div aria-hidden="false" class="usa-grid-full flex-container usa-grid-flex-mobile va-footer-content"><div class="va-footer-linkgroup"><h2 class="va-footer-linkgroup-title">Veteran programs and services</h2><ul class="va-footer-links"><li><a href="https://www.va.gov/homeless/" target="">Homeless Veterans</a></li><li><a href="https://www.va.gov/womenvet/" target="">Women Veterans</a></li><li><a href="https://www.va.gov/centerforminorityveterans/" target="">Minority Veterans</a></li><li><a href="https://www.patientcare.va.gov/lgbt/" target="" rel="noopener noreferrer">LGBTQ+ Veterans</a></li><li><a href="https://www.ptsd.va.gov" target="" rel="noopener noreferrer">PTSD</a></li><li><a href="https://www.mentalhealth.va.gov" target="" rel="noopener noreferrer">Mental health</a></li><li><a href="https://www.va.gov/adaptivesports/" target="">Adaptive sports and special events</a></li><li><a href="https://www.va.gov/outreach-and-events/events/">VA outreach events</a></li><li><a href="https://www.nrd.gov" target="_blank" rel="noopener noreferrer">National Resource Directory</a></li></ul></div><div class="va-footer-linkgroup" id="footer-services"><h2 class="va-footer-linkgroup-title">More VA resources</h2><ul class="va-footer-links"><li><a href="https://www.va.gov/find-forms/">VA forms</a></li><li><a href="https://www.accesstocare.va.gov/ourproviders/" target="_blank" rel="noopener noreferrer">VA health care providers</a></li><li><a href="https://www.va.gov/ogc/accreditation.asp">Accredited claims representatives</a></li><li><a href="https://www.mobile.va.gov/appstore/" target="_blank" rel="noopener noreferrer">VA mobile apps</a></li><li><a href="https://www.va.gov/statedva.htm">State Veterans Affairs offices</a></li><li><a href="https://www.va.gov/landing2_business.htm">Doing business with VA</a></li><li><a href="https://www.va.gov/jobs/">Careers at VA</a></li><li><a href="https://www.va.gov/outreach-and-events/outreach-materials/">VA outreach materials</a></li><li><a href="https://www.va.gov/welcome-kit/">Your VA welcome kit</a></li></ul></div><div class="va-footer-linkgroup" id="footer-popular"><h2 class="va-footer-linkgroup-title">Get VA updates</h2><ul class="va-footer-links"><li><a href="https://www.blogs.va.gov/VAntage/" target="_blank" rel="noopener noreferrer">VAntage Point blog</a></li><li><a href="https://www.va.gov/opa/pressrel">News releases</a></li><li><a href="https://public.govdelivery.com/accounts/USVA/subscriber/new/" target="_blank" rel="noopener noreferrer">Email updates</a></li><li><a href="https://www.facebook.com/VeteransAffairs" target="_blank" rel="noopener noreferrer">Facebook</a></li><li><a href="https://www.instagram.com/deptvetaffairs/" target="_blank" rel="noopener noreferrer">Instagram</a></li><li><a href="https://www.twitter.com/DeptVetAffairs/" target="_blank" rel="noopener noreferrer">Twitter</a></li><li><a href="https://www.flickr.com/photos/VeteransAffairs/" target="_blank" rel="noopener noreferrer">Flickr</a></li><li><a href="https://www.youtube.com/user/DeptVetAffairs" target="_blank" rel="noopener noreferrer">YouTube</a></li><li><a href="https://www.va.gov/opa/socialmedia.asp">All VA social media</a></li></ul></div><div class="va-footer-linkgroup" id="veteran-crisis"><h2 class="va-footer-linkgroup-title">In crisis? Talk to someone now</h2><ul class="va-footer-links"><li><button class="va-button-link va-overlay-trigger" data-show="#modal-crisisline">Veterans Crisis Line</button></li></ul><h2 class="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">Get answers</h2><ul class="va-footer-links"><li><a href="https://www.va.gov/resources/">Resources and support</a></li><li><a href="https://www.va.gov/contact-us/">Contact us</a></li><li><h2 class="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">Call us</h2><a href="tel:18006982411">800-698-2411</a></li><li><a aria-label="TTY: 7 1 1." href="tel:+1711">TTY: 711</a></li><li><h2 class="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">Visit a medical center or regional office</h2><a href="https://www.va.gov/find-locations/">Find a VA location</a></li></ul></div></div><div aria-hidden="true" class="usa-grid-full flex-container usa-grid-flex-mobile va-footer-content"><ul class="usa-accordion va-footer-accordion"><li><button class="usa-button-unstyled usa-accordion-button va-footer-button" aria-controls="veteran-contact" itemprop="name" aria-expanded="false">Contact us</button><div class="usa-accordion-content va-footer-accordion-content" id="veteran-contact" aria-hidden="true"><h2 class="va-footer-linkgroup-title vads-u-padding-bottom--1">Get answers</h2><ul class="va-footer-links"><li><a href="https://www.va.gov/resources/">Resources and support</a></li><li><a href="https://www.va.gov/contact-us/">Contact us</a></li><li><h2 class="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">Call us</h2><a href="tel:18006982411">800-698-2411</a></li><li><a aria-label="TTY: 7 1 1." href="tel:+1711">TTY: 711</a></li><li><h2 class="va-footer-linkgroup-title vads-u-margin-top--2 vads-u-padding-bottom--1">Visit a medical center or regional office</h2><a href="https://www.va.gov/find-locations/">Find a VA location</a></li></ul></div></li><li><button class="usa-button-unstyled usa-accordion-button va-footer-button" aria-controls="footer-veteran-programs" itemprop="name" aria-expanded="false">Veteran programs and services</button><div class="usa-accordion-content va-footer-accordion-content" aria-hidden="true" id="footer-veteran-programs"><ul class="va-footer-links"><li><a href="https://www.va.gov/homeless/" target="">Homeless Veterans</a></li><li><a href="https://www.va.gov/womenvet/" target="">Women Veterans</a></li><li><a href="https://www.va.gov/centerforminorityveterans/" target="">Minority Veterans</a></li><li><a href="https://www.patientcare.va.gov/lgbt/" target="" rel="noopener noreferrer">LGBTQ+ Veterans</a></li><li><a href="https://www.ptsd.va.gov" target="" rel="noopener noreferrer">PTSD</a></li><li><a href="https://www.mentalhealth.va.gov" target="" rel="noopener noreferrer">Mental health</a></li><li><a href="https://www.va.gov/adaptivesports/" target="">Adaptive sports and special events</a></li><li><a href="https://www.va.gov/outreach-and-events/events/">VA outreach events</a></li><li><a href="https://www.nrd.gov" target="_blank" rel="noopener noreferrer">National Resource Directory</a></li></ul></div></li><li><button class="usa-button-unstyled usa-accordion-button va-footer-button" aria-controls="veteran-resources" itemprop="name" aria-expanded="false">More VA resources</button><div class="usa-accordion-content va-footer-accordion-content" aria-hidden="true" id="veteran-resources"><ul class="va-footer-links"><li><a href="https://www.va.gov/find-forms/">VA forms</a></li><li><a href="https://www.accesstocare.va.gov/ourproviders/" target="_blank" rel="noopener noreferrer">VA health care providers</a></li><li><a href="https://www.va.gov/ogc/accreditation.asp">Accredited claims representatives</a></li><li><a href="https://www.mobile.va.gov/appstore/" target="_blank" rel="noopener noreferrer">VA mobile apps</a></li><li><a href="https://www.va.gov/statedva.htm">State Veterans Affairs offices</a></li><li><a href="https://www.va.gov/landing2_business.htm">Doing business with VA</a></li><li><a href="https://www.va.gov/jobs/">Careers at VA</a></li><li><a href="https://www.va.gov/outreach-and-events/outreach-materials/">VA outreach materials</a></li><li><a href="https://www.va.gov/welcome-kit/">Your VA welcome kit</a></li></ul></div></li><li><button class="usa-button-unstyled usa-accordion-button va-footer-button" aria-controls="veteran-connect" itemprop="name" aria-expanded="false">Get VA updates</button><div class="usa-accordion-content va-footer-accordion-content" id="veteran-connect" aria-hidden="true"><ul class="va-footer-links"><li><a href="https://www.blogs.va.gov/VAntage/" target="_blank" rel="noopener noreferrer">VAntage Point blog</a></li><li><a href="https://www.va.gov/opa/pressrel">News releases</a></li><li><a href="https://public.govdelivery.com/accounts/USVA/subscriber/new/" target="_blank" rel="noopener noreferrer">Email updates</a></li><li><a href="https://www.facebook.com/VeteransAffairs" target="_blank" rel="noopener noreferrer">Facebook</a></li><li><a href="https://www.instagram.com/deptvetaffairs/" target="_blank" rel="noopener noreferrer">Instagram</a></li><li><a href="https://www.twitter.com/DeptVetAffairs/" target="_blank" rel="noopener noreferrer">Twitter</a></li><li><a href="https://www.flickr.com/photos/VeteransAffairs/" target="_blank" rel="noopener noreferrer">Flickr</a></li><li><a href="https://www.youtube.com/user/DeptVetAffairs" target="_blank" rel="noopener noreferrer">YouTube</a></li><li><a href="https://www.va.gov/opa/socialmedia.asp">All VA social media</a></li></ul></div></li><li><h2 class="va-footer-linkgroup-title"><button class="usa-button-unstyled usa-accordion-button va-footer-button" aria-controls="veteran-language-support" itemprop="name" aria-expanded="false">Language assistance</button></h2><div class="usa-accordion-content va-footer-accordion-content vads-u-padding-bottom--0 vads-u-padding-left--0p5" id="veteran-language-support" aria-hidden="true"><div class="usa-grid usa-grid-full va-footer-links-bottom"><ul class="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-bottom--0"><li><a href="https://www.va.gov/asistencia-y-recursos-en-espanol" lang="es" hreflang="es"> Español</a></li><li><a href="https://www.va.gov/tagalog-wika-mapagkukunan-at-tulong" lang="tl" hreflang="tl"> Tagalog</a></li><li><a href="https://www.va.gov/resources/how-to-get-free-language-assistance-from-va/" lang="en" hreflang="en"> Other languages</a></li></ul></div></div></li></ul></div><div class="usa-grid usa-grid-full va-footer-links-bottom vads-u-border-color--white vads-u-border-bottom--1px vads-u-border-top--1px vads-u-padding-top--2 vads-u-padding-bottom--1p5 vads-u-padding-left--0"><h2 class="va-footer-linkgroup-title vads-u-padding-bottom--1">Language assistance</h2><ul class="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-padding-bottom--0"><li><a href="https://www.va.gov/asistencia-y-recursos-en-espanol" lang="es" hreflang="es"> Español</a></li><li><a href="https://www.va.gov/tagalog-wika-mapagkukunan-at-tulong" lang="tl" hreflang="tl"> Tagalog</a></li><li><a href="https://www.va.gov/resources/how-to-get-free-language-assistance-from-va/" lang="en" hreflang="en"> Other languages</a></li></ul></div><div class="usa-grid usa-grid-full footer-banner"><a href="/" title="Go to VA.gov"><img src="https://www.va.gov/img/homepage/va-logo-white.png" alt="VA logo" width="200" class="vads-u-height--auto"></a></div><div class="usa-grid usa-grid-full va-footer-links-bottom"><ul><li><a href="https://www.section508.va.gov" rel="noopener noreferrer">Accessibility</a></li><li><a href="https://www.va.gov/resources/your-civil-rights-and-how-to-file-a-discrimination-complaint/">Civil Rights</a></li><li><a href="https://www.va.gov/foia/">Freedom of Information Act (FOIA)</a></li><li><a href="https://www.va.gov/oig/">Office of Inspector General</a></li><li><a href="https://www.va.gov/opa/Plain_Language.asp">Plain language</a></li><li><a href="https://www.va.gov/privacy-policy/">Privacy, policies, and legal information</a></li><li><a href="https://www.va.gov/privacy/">VA Privacy Service</a></li><li><a href="https://www.va.gov/ormdi/NOFEAR_Select.asp">No FEAR Act Data</a></li><li><a href="https://www.usa.gov/" target="_blank" rel="noopener noreferrer">USA.gov</a></li><li><a href="https://www.va.gov/performance-dashboard/">VA performance dashboard</a></li><li><a href="https://www.va.gov/veterans-portrait-project/">Veterans Portrait Project</a></li></ul></div></div><div id="modal-crisisline" class="va-overlay va-modal va-modal-large" role="alertdialog"><div class="va-crisis-panel va-modal-inner"><button aria-label="Close this modal" class="va-modal-close va-overlay-close va-crisis-panel-close" type="button"><i class="fas fa-times-circle va-overlay-close" aria-hidden="true"></i></button><div class="va-overlay-body va-crisis-panel-body"><h3 class="va-crisis-panel-title">We’re here anytime, day or night – 24/7</h3><p>If you are a Veteran in crisis or concerned about one, connect with our caring, qualified responders for confidential help. Many of them are Veterans themselves.</p><ul class="va-crisis-panel-list"><li><i class="fa fa-phone va-crisis-panel-icon" aria-hidden="true"></i><a href="tel:988">Call <strong>988 and select 1</strong></a></li><li><i class="fa fa-mobile-alt va-crisis-panel-icon" aria-hidden="true"></i><a href="sms:838255">Text <strong>838255</strong></a></li><li><i class="fa fa-comments va-crisis-panel-icon" aria-hidden="true"></i><a class="no-external-icon" href="https://www.veteranscrisisline.net/get-help-now/chat/">Start a confidential chat</a></li><li><i class="fa fa-deaf va-crisis-panel-icon" aria-hidden="true"></i><p>Call TTY if you have hearing loss<strong class="vads-u-margin-left--0p5"><a class="no-wrap " href="tel:+18007994889" aria-label="8 0 0. 7 9 9. 4 8 8 9.">800-799-4889</a></strong></p></li></ul>Get more resources at <a class="no-external-icon" href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a>.</div></div></div></div></div> <!-- let's try this React thing -->
+  </footer>
