@@ -26,18 +26,20 @@ const batch = tests
   .slice(step * divider, (step + 1) * divider)
   .join(',');
 
+let status = null;
+
 for (let i = 0; i <= 5; i += 1) {
   if (longestTestIsPresent && step === lastStep) {
-    const status = runCommandSync(
+    status = runCommandSync(
       `CYPRESS_EVERY_NTH_FRAME=1 yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec 'src/applications/**/all-claims.cypress.spec.js' --env app_url=${appUrl}`,
     );
-    process.exit(status);
   } else if (batch !== '') {
-    const status = runCommandSync(
+    status = runCommandSync(
       `CYPRESS_EVERY_NTH_FRAME=1 yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec '${batch}' --env app_url=${appUrl}`,
     );
-    process.exit(status);
   } else {
     process.exit(0);
   }
 }
+
+process.exit(status);
