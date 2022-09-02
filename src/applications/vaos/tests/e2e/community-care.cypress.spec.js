@@ -331,7 +331,7 @@ describe.skip('VAOS community care flow', () => {
     cy.findByText(/Choose provider/i).click();
     cy.findByText(/remove/i).click();
     cy.axeCheckBestPractice();
-    cy.findByText(/cancel/i).click({ force: true });
+    cy.findByText(/cancel/i).click();
     // Click continue button
     cy.get('.usa-button').click();
 
@@ -635,7 +635,7 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.findByText(/Choose provider/i).click();
     cy.findByText(/remove/i).click();
     cy.axeCheckBestPractice();
-    cy.findByText(/cancel/i).click({ force: true });
+    cy.findByText(/cancel/i).click();
     // Click continue button
     cy.get('.usa-button').click();
 
