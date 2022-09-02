@@ -17,9 +17,7 @@ export const IntroductionPage = ({ route, showUnverifiedUserAlert }) => {
       <p>Equal to VA Form 22-1990 (Application for VA Education Benefits)</p>
 
       {showUnverifiedUserAlert === false && <HowToApplyPost911GiBillV1 />}
-      {showUnverifiedUserAlert === true && (
-        <HowToApplyPost911GiBillV2 route={route} />
-      )}
+      {showUnverifiedUserAlert && <HowToApplyPost911GiBillV2 route={route} />}
 
       <h2>Follow these steps to get started</h2>
       <div className="process schemaform-process">
@@ -93,9 +91,7 @@ export const IntroductionPage = ({ route, showUnverifiedUserAlert }) => {
       {showUnverifiedUserAlert === false && (
         <IntroductionLoginV1 route={route} />
       )}
-      {showUnverifiedUserAlert === true && (
-        <IntroductionLoginV2 route={route} />
-      )}
+      {showUnverifiedUserAlert && <IntroductionLoginV2 route={route} />}
 
       <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="02/28/2023" />
     </div>
