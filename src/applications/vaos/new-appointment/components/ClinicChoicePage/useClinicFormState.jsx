@@ -8,7 +8,7 @@ import {
   getFormData,
   selectPastAppointments,
 } from '../../redux/selectors';
-import { MENTAL_HEALTH } from '../../../utils/constants';
+import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
 import { selectFeatureVaosV2Next } from '../../../redux/selectors';
 
 const initialSchema = {
@@ -43,12 +43,12 @@ export default function useClinicFormState() {
       // Adding type of care check since past appointment history is not needed
       // for primary care or mental health appointments.
       // NOTE: Same check is in ../services/patient/index.js:383
-      // TODO: Add primary care????
       const isCheckTypeOfCare = featureVaosV2Next
         ? initialData.typeOfCareId !== MENTAL_HEALTH &&
+          initialData.typeOfCareId !== PRIMARY_CARE &&
           pastAppointments?.length > 0
-        : true;
-      if (pastAppointments && isCheckTypeOfCare) {
+        : !!pastAppointments;
+      if (isCheckTypeOfCare) {
         const pastAppointmentDateMap = new Map();
         const siteId = getSiteIdFromFacilityId(initialData.vaFacility);
 
@@ -68,10 +68,17 @@ export default function useClinicFormState() {
           }
         });
 
-        filteredClinics = clinics.filter(clinic =>
-          // Get clinic portion of id
-          pastAppointmentDateMap.has(getClinicId(clinic)),
-        );
+        if (featureVaosV2Next) {
+          filteredClinics = clinics.filter(
+            clinic =>
+              pastAppointmentDateMap.has(getClinicId(clinic)) &&
+              clinic.patientDirectScheduling === true,
+          );
+        } else {
+          filteredClinics = clinics.filter(clinic =>
+            pastAppointmentDateMap.has(getClinicId(clinic)),
+          );
+        }
       }
 
       if (filteredClinics.length === 1) {
