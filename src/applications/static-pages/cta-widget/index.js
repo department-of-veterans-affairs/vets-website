@@ -16,7 +16,11 @@ import {
 
 import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
-import { logout, verify, mfa } from 'platform/user/authentication/utilities';
+import {
+  logout as IAMLogout,
+  mfa,
+} from 'platform/user/authentication/utilities';
+import { logoutUrlSiS } from 'platform/utilities/oauth/utilities';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 import MFA from './components/messages/DirectDeposit/MFA';
@@ -467,7 +471,11 @@ export class CallToActionWidget extends Component {
 
   signOut = () => {
     recordEvent({ event: 'logout-link-clicked-createcta-mhv' });
-    logout();
+    if (this.props.authenticatedWithSSOe) {
+      IAMLogout();
+    } else {
+      window.location = logoutUrlSiS();
+    }
   };
 
   mfaHandler = () => {
@@ -476,7 +484,7 @@ export class CallToActionWidget extends Component {
   };
 
   verifyHandler = () => {
-    verify();
+    window.location.href = '/verify';
   };
 
   render() {

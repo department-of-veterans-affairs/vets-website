@@ -26,10 +26,10 @@ export const ACCOUNT_TRANSITION = {
       'You can create either a verified Login.gov or ID.me account.  Both accounts are free.  Login.gov is an account created, maintained, and secured by the U.S. government.',
   },
   signUpLoginGov() {
-    signup({ csp: CSP_IDS.LOGIN_GOV });
+    signup({ policy: CSP_IDS.LOGIN_GOV });
   },
   signUpIDme() {
-    signup({ csp: CSP_IDS.ID_ME });
+    signup({ policy: CSP_IDS.ID_ME });
   },
   startTransition() {
     const redirect = () => {

@@ -62,9 +62,7 @@ export const submissionForm = {
   },
   incorrectServiceHistoryExplanation: 'Service periods are missing.',
   'view:contactMethodIntro': {},
-  'view:contactMethod': {
-    contactMethod: 'Email',
-  },
+  contactMethod: 'Email',
   'view:receiveTextMessages': {
     receiveTextMessages: 'Yes, send me text message notifications',
   },

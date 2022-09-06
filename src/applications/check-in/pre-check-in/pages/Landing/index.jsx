@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import recordEvent from 'platform/monitoring/record-event';
 
 import { api } from '../../../api';
 
@@ -13,7 +12,7 @@ import { createSetSession } from '../../../actions/authentication';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { createAnalyticsSlug } from '../../../utils/analytics';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import {
   createForm,
   getTokenFromLocation,
@@ -28,6 +27,9 @@ const Index = props => {
   const { router } = props;
   const { t } = useTranslation();
 
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+
   const { goToErrorPage, jumpToPage } = useFormRouting(router);
   const {
     clearCurrentSession,
@@ -36,6 +38,7 @@ const Index = props => {
   } = useSessionStorage();
 
   const [loadMessage] = useState(t('finding-your-appointment-information'));
+  const [sessionCallMade, setSessionCallMade] = useState(false);
 
   const dispatch = useDispatch();
   const initForm = useCallback(
@@ -63,58 +66,57 @@ const Index = props => {
     () => {
       const token = getTokenFromLocation(router.location);
       if (!token) {
-        recordEvent({
-          event: createAnalyticsSlug('landing-page-launched-no-token'),
-        });
-        goToErrorPage();
+        goToErrorPage('?error=no-token');
       }
 
       if (!isUUID(token)) {
-        recordEvent({
-          event: createAnalyticsSlug('malformed-token'),
-        });
-        goToErrorPage();
+        goToErrorPage('?error=bad-token');
       }
       if (token && isUUID(token)) {
         // call the sessions api
         const checkInType = APP_NAMES.PRE_CHECK_IN;
 
-        api.v2
-          .getSession({ token, checkInType })
-          .then(session => {
-            // if successful, dispatch session data  into redux and current window
+        if (token && !sessionCallMade) {
+          setSessionCallMade(true);
+          api.v2
+            .getSession({ token, checkInType, isLorotaSecurityUpdatesEnabled })
+            .then(session => {
+              // if successful, dispatch session data  into redux and current window
 
-            if (session.error || session.errors) {
+              if (session.error || session.errors) {
+                clearCurrentSession(window);
+                goToErrorPage('?error=session-error');
+              } else {
+                setCurrentToken(window, token);
+                setPreCheckinComplete(window, false);
+                const pages = createForm();
+                const firstPage = pages[0];
+                initForm(pages, firstPage);
+                setSession(token, session.permissions);
+                if (session.permissions === SCOPES.READ_FULL) {
+                  // redirect if already full access
+                  jumpToPage(URLS.INTRODUCTION);
+                } else {
+                  // TODO: dispatch to redux
+                  jumpToPage(URLS.VERIFY);
+                }
+              }
+            })
+            .catch(() => {
               clearCurrentSession(window);
               goToErrorPage();
-            } else {
-              setCurrentToken(window, token);
-              setPreCheckinComplete(window, false);
-              const pages = createForm();
-              const firstPage = pages[0];
-              initForm(pages, firstPage);
-              setSession(token, session.permissions);
-              if (session.permissions === SCOPES.READ_FULL) {
-                // redirect if already full access
-                jumpToPage(URLS.INTRODUCTION);
-              } else {
-                // TODO: dispatch to redux
-                jumpToPage(URLS.VERIFY);
-              }
-            }
-          })
-          .catch(() => {
-            clearCurrentSession(window);
-            goToErrorPage();
-          });
+            });
+        }
       }
     },
     [
       clearCurrentSession,
       goToErrorPage,
       initForm,
+      isLorotaSecurityUpdatesEnabled,
       jumpToPage,
       router,
+      sessionCallMade,
       setCurrentToken,
       setPreCheckinComplete,
       setSession,

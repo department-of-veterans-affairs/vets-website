@@ -55,7 +55,7 @@ export function fetchMilitaryInformation(recordAnalyticsEvent = recordEvent) {
 
     const baseUrl = '/profile/service_history';
 
-    const apiEventName = `GET ${baseUrl}`;
+    let apiEventName = `GET ${baseUrl}`;
 
     try {
       recordAnalyticsEvent(
@@ -101,6 +101,10 @@ export function fetchMilitaryInformation(recordAnalyticsEvent = recordEvent) {
         });
         return;
       }
+
+      apiEventName = `${apiEventName}${
+        response?.dataSource ? ` Source: ${response.dataSource}` : ''
+      }`;
 
       recordAnalyticsEvent(
         createApiEvent({

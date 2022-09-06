@@ -1,6 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import recordEvent from 'platform/monitoring/record-event';
+
+import { createAnalyticsSlug } from '../../../utils/analytics';
+
 import DemographicItem from '../../DemographicItem';
 import Wrapper from '../../layout/Wrapper';
 
@@ -15,6 +19,7 @@ const ConfirmablePage = ({
   loadingMessageOverride = null,
   withBackButton = false,
   Footer,
+  pageType,
 }) => {
   const { t } = useTranslation();
   const defaultLoadingMessage = () => (
@@ -22,6 +27,19 @@ const ConfirmablePage = ({
   );
   const LoadingMessage = loadingMessageOverride ?? defaultLoadingMessage;
 
+  const onYesClick = () => {
+    recordEvent({
+      event: createAnalyticsSlug(`yes-to-${pageType}-clicked`, 'nav'),
+    });
+    yesAction();
+  };
+
+  const onNoClick = () => {
+    recordEvent({
+      event: createAnalyticsSlug(`no-to-${pageType}-clicked`, 'nav'),
+    });
+    noAction();
+  };
   return (
     <Wrapper
       pageTitle={header}
@@ -34,13 +52,20 @@ const ConfirmablePage = ({
         </p>
       )}
       <div className="vads-u-margin-top--3">
-        <dl data-testid="demographics-fields">
+        <ul
+          data-testid="demographics-fields"
+          className="check-in--definition-list"
+        >
           {dataFields.map((field, i, { length }) => (
-            <React.Fragment key={field.key}>
-              <dt className="vads-u-font-weight--bold vads-u-border-top--1px vads-u-padding-top--2 vads-u-margin-top--2 vads-u-border-color--gray-light">
+            <li key={field.key}>
+              <div
+                className="vads-u-font-weight--bold vads-u-border-top--1px vads-u-padding-top--2 vads-u-margin-top--2 vads-u-border-color--gray-light"
+                aria-describedby={field.title}
+              >
                 {field.title}
-              </dt>
-              <dd
+              </div>
+              <div
+                id={field.title}
                 className={
                   i + 1 === length
                     ? 'vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-padding-bottom--2'
@@ -52,10 +77,10 @@ const ConfirmablePage = ({
                 ) : (
                   t('not-available')
                 )}
-              </dd>
-            </React.Fragment>
+              </div>
+            </li>
           ))}
-        </dl>
+        </ul>
       </div>
       {isLoading ? (
         <>
@@ -64,7 +89,7 @@ const ConfirmablePage = ({
       ) : (
         <>
           <button
-            onClick={yesAction}
+            onClick={onYesClick}
             className="usa-button-primary usa-button-big"
             data-testid="yes-button"
             type="button"
@@ -72,7 +97,7 @@ const ConfirmablePage = ({
             {t('yes')}
           </button>
           <button
-            onClick={noAction}
+            onClick={onNoClick}
             className="usa-button-secondary vads-u-margin-top--2 usa-button-big"
             data-testid="no-button"
             type="button"
@@ -99,6 +124,7 @@ ConfirmablePage.propTypes = {
   Footer: PropTypes.func,
   isLoading: PropTypes.bool,
   loadingMessageOverride: PropTypes.func,
+  pageType: PropTypes.string,
   subtitle: PropTypes.string,
   withBackButton: PropTypes.bool,
 };

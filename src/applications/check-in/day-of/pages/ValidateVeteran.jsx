@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { createSetSession } from '../../actions/authentication';
+import { setError } from '../../actions/universal';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
 
@@ -21,6 +22,13 @@ const ValidateVeteran = props => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
+  const updateError = useCallback(
+    error => {
+      dispatch(setError(error));
+    },
+    [dispatch],
+  );
+
   const setSession = useCallback(
     (token, permissions) => {
       dispatch(createSetSession({ token, permissions }));
@@ -34,21 +42,7 @@ const ValidateVeteran = props => {
   const [lastName, setLastName] = useState('');
   const [last4Ssn, setLast4Ssn] = useState('');
 
-  const defaultDob = Object.freeze({
-    day: {
-      value: '',
-      dirty: false,
-    },
-    month: {
-      value: '',
-      dirty: false,
-    },
-    year: {
-      value: '',
-      dirty: false,
-    },
-  });
-  const [dob, setDob] = useState(defaultDob);
+  const [dob, setDob] = useState('');
 
   const [lastNameErrorMessage, setLastNameErrorMessage] = useState();
   const [last4ErrorMessage, setLast4ErrorMessage] = useState();
@@ -58,7 +52,10 @@ const ValidateVeteran = props => {
   const { token } = useSelector(selectCurrentContext);
 
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isLorotaSecurityUpdatesEnabled } = useSelector(selectFeatureToggles);
+  const {
+    isLorotaSecurityUpdatesEnabled,
+    isLorotaDeletionEnabled,
+  } = useSelector(selectFeatureToggles);
 
   const {
     getValidateAttempts,
@@ -75,11 +72,9 @@ const ValidateVeteran = props => {
         last4Ssn,
         lastName,
         dob,
-        showValidateError,
         setLastNameErrorMessage,
         setLast4ErrorMessage,
         setDobErrorMessage,
-        setDob,
         setIsLoading,
         setShowValidateError,
         isLorotaSecurityUpdatesEnabled,
@@ -91,6 +86,8 @@ const ValidateVeteran = props => {
         setSession,
         app,
         resetAttempts,
+        isLorotaDeletionEnabled,
+        updateError,
       );
     },
     [
@@ -104,9 +101,10 @@ const ValidateVeteran = props => {
       dob,
       resetAttempts,
       setSession,
-      showValidateError,
       token,
+      isLorotaDeletionEnabled,
       isLorotaSecurityUpdatesEnabled,
+      updateError,
     ],
   );
   return (

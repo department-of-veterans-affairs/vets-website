@@ -1,3 +1,5 @@
+import environment from 'platform/utilities/environment';
+
 export const mockFolderResponse = {
   data: {
     id: '0',
@@ -9,6 +11,8 @@ export const mockFolderResponse = {
       unreadCount: 3,
       systemFolder: false,
     },
-    links: { self: 'https://staging-api.va.gov/v0/messaging/health/folders/0' },
+    links: {
+      self: `${environment.API_URL}/v0/messaging/health/folders/0`,
+    },
   },
 };

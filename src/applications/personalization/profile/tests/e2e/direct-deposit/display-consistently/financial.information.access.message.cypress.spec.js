@@ -1,4 +1,4 @@
-import { PROFILE_PATHS_LGBTQ_ENHANCEMENT } from '@@profile/constants';
+import { PROFILE_PATHS } from '@@profile/constants';
 import { paymentHistory } from '../../../../mocks/payment-history';
 import { user72Success } from '../../../../mocks/user';
 import { basicUserPersonalInfo } from '../../../../mocks/personal-information';
@@ -24,7 +24,7 @@ describe('Direct Deposit Consistently', () => {
       );
     });
     it('should not display the paymentInformation message on the personal information page', () => {
-      cy.visit(PROFILE_PATHS_LGBTQ_ENHANCEMENT.PERSONAL_INFORMATION);
+      cy.visit(PROFILE_PATHS.PERSONAL_INFORMATION);
       cy.get('.vads-u-font-size--h2').should('exist');
       cy.injectAxeThenAxeCheck();
       cy.findAllByText('You can’t update your financial information').should(
@@ -32,7 +32,7 @@ describe('Direct Deposit Consistently', () => {
       );
     });
     it('should not display the paymentInformation message on the contact page', () => {
-      cy.visit(PROFILE_PATHS_LGBTQ_ENHANCEMENT.CONTACT_INFORMATION);
+      cy.visit(PROFILE_PATHS.CONTACT_INFORMATION);
       cy.get('.vads-u-font-size--h2').should('exist');
       cy.injectAxeThenAxeCheck();
       cy.findAllByText('You can’t update your financial information').should(

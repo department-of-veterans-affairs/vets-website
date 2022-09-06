@@ -14,26 +14,29 @@ dt{
   padding: 0 0.15em;
 }
 
+ul.check-in--definition-list {
+  list-style: none;
+  padding: 0;
+}
+
 ol.check-in--appointment-list {
   list-style: none;
   margin: 0;
   padding: 0;
   .check-in--appointment-item{
     width: 100%;
-    dl.check-in--appointment-summary{
-      display: grid;
-      grid-template-columns: min-content auto;
-      grid-template-rows: auto auto auto;
-      grid-template-areas: "header header";
-
-      .appointment-type-label{
-        grid-area: header;
-        align-self: center;
-      }
-
-      dt.check-in--label{
+    div.check-in--appointment-summary{
+      div.check-in--label{
         margin-top: 0;
         font-weight: bold;
+        display: inline;
+      }
+      div.check-in--value {
+        display: inline;
+        &::after {
+          content: "";
+          display: block;
+        }
       }
     }
   }
@@ -54,32 +57,18 @@ ol.appointment-list{
     @include media($medium-screen) {
       width: 60%;
     }
-    dl.appointment-summary{
-      display: grid;
-      grid-template-columns: min-content auto;
-      grid-template-rows: auto auto auto;
-      dd.appointment-details{
-        font-size: 24px;
-        grid-column-start: 1;
-        grid-column-end: 3;
-      }
-      dd.appointment-time{
+    div.appointment-summary{
+      h2.appointment-time {
         font-size: 2.4rem;
-        grid-row: 1;
-        grid-column-start: 1;
-        grid-column-end: 3;
+        line-height: 36px;
       }
-      dt.facility-label{
-        grid-row: 2;
-       }
-      dd.facility-name{
-        grid-row: 2;
+      span.item-value::after {
+        content: "";
+        display: block;
       }
     }
   }
-}
-
-// Missing styles from the DS. Evaluate if still needed when auditing sass.
+}// Missing styles from the DS. Evaluate if still needed when auditing sass.
 va-text-input[error]:not([error=""])::part(label) ,
 va-text-input[error]:not([error=""])::part(span)  {
   margin-top: 0;

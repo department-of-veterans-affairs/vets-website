@@ -98,15 +98,8 @@
   outline: none;
 }
 
-.vaos-appts__breadcrumbs {
+.vaos-appts__breadcrumb {
   padding: 2em 0;
-}
-.vaos-appts__breadcrumbs li {
-  padding: 0em !important;
-}
-
-nav.vaos-appts__breadcrumb {
-  padding: 0.8em 0em;
 
   ul {
     margin: 0;
@@ -115,6 +108,7 @@ nav.vaos-appts__breadcrumb {
   }
 
   li {
+    padding: 0em !important;
     display: inline;
   }
 
@@ -122,10 +116,5 @@ nav.vaos-appts__breadcrumb {
     display: inline-block;
     margin: 0 0.5em;
     content: "";
-  }
-
-  [aria-current="page"] {
-    font-weight: 700;
-    text-decoration: none;
   }
 }

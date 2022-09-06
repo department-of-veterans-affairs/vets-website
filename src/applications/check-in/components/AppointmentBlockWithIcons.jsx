@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
+import { locationShouldBeDisplayed } from '../utils/appointment';
 
 const AppointmentBlock = props => {
   const { appointments, page } = props;
@@ -32,49 +33,82 @@ const AppointmentBlock = props => {
             <li
               key={index}
               className="vads-u-border-bottom--1px check-in--appointment-item"
-              data-testid={`appointment-list-item-${index}`}
+              data-testid="appointment-list-item"
             >
-              <dl className="check-in--appointment-summary">
-                <dt className="check-in--label vads-u-margin-right--1 appointment-type-label">
+              <div className="check-in--appointment-summary vads-u-margin-bottom--2 vads-u-margin-top--2">
+                <div className="vads-u-margin-right--1 check-in--label">
                   <i
                     aria-label="Appointment type"
                     className={`fas ${
                       appointment?.kind === 'phone' ? 'fa-phone' : 'fa-building'
                     }`}
+                    aria-hidden="true"
                   />
-                </dt>
-                <dd
-                  className="appointment-type-label vads-u-margin-left--2p5 vads-u-font-weight--bold"
+                </div>
+                <div
                   data-testid="appointment-type-label"
+                  className="check-in--value vads-u-font-weight--bold"
                 >
                   {appointment?.kind === 'phone' ? 'Phone call' : 'In person'}
-                </dd>
+                </div>
                 {appointment?.kind !== 'phone' && (
                   <>
-                    <dt className="check-in--label vads-u-margin-right--1">
+                    <div className="check-in--label vads-u-margin-right--1">
                       Facility:
-                    </dt>
-                    <dd className="check-in--value" data-testid="facility-name">
+                    </div>
+                    <div
+                      className="check-in--value"
+                      data-testid="facility-name"
+                    >
                       {appointment.facility}
-                    </dd>
+                    </div>
                   </>
                 )}
-                <dt className="check-in--label vads-u-margin-right--1">
+                <div className="check-in--label vads-u-margin-right--1">
                   {t('time')}:
-                </dt>
-                <dd className="check-in--value" data-testid="appointment-time">
+                </div>
+                <div className="check-in--value" data-testid="appointment-time">
                   {t('date-time', { date: appointmentDateTime })}
-                </dd>
-                <dt className="check-in--label vads-u-margin-right--1">
+                </div>
+                <div className="check-in--label vads-u-margin-right--1">
+                  {t('type-of-care')}:
+                </div>
+                <div className="check-in--value" data-testid="type-of-care">
+                  {appointment.clinicStopCodeName ?? t('VA-appointment')}
+                </div>
+                {appointment.doctorName && (
+                  <>
+                    <div className="check-in--label vads-u-margin-right--1">
+                      {t('provider')}:
+                    </div>
+                    <div className="check-in--value" data-testid="provider">
+                      {appointment.doctorName}
+                    </div>
+                  </>
+                )}
+                <div className="check-in--label vads-u-margin-right--1">
                   {t('clinic')}:
-                </dt>
-                <dd
+                </div>
+                <div
                   className="check-in--value"
                   data-testid="appointment-clinic"
                 >
                   {clinic}
-                </dd>
-              </dl>
+                </div>
+                {locationShouldBeDisplayed(appointment) && (
+                  <>
+                    <div className="check-in--label vads-u-margin-right--1">
+                      {t('location')}:
+                    </div>
+                    <div
+                      className="check-in--value"
+                      data-testid="clinic-location"
+                    >
+                      {appointment.clinicLocation}
+                    </div>
+                  </>
+                )}
+              </div>
               {page === 'confirmation' || appointment?.kind === 'phone' ? (
                 <va-alert
                   background-only

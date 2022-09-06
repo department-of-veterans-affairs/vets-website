@@ -52,44 +52,45 @@ const Introduction = props => {
       // show loading screen
       setIsLoading(true);
       //  call get data from API
-      api.v2
-        .getPreCheckInData(token)
-        .then(json => {
-          if (json.error) {
-            goToErrorPage();
-            return; // prevent a react no-op on an unmounted component
-          }
-          const { payload } = json;
-          //  set data to state
-          setDataToState(payload);
-          // We do this check before pre-checkin already completed so we don't
-          // show a success message on the day of the appointment that could lead
-          // the Veteran to believe they completed day-of check-in.
-          //
-          // If any appointments are tomorrow or later, the link is not expired.
-          if (
-            payload.appointments &&
-            payload.appointments.length > 0 &&
-            preCheckinExpired(payload.appointments)
-          ) {
-            goToErrorPage();
-          }
+      if (token)
+        api.v2
+          .getPreCheckInData(token)
+          .then(json => {
+            if (json.error) {
+              goToErrorPage('?error=error-getting-pre-check-in-data');
+              return; // prevent a react no-op on an unmounted component
+            }
+            const { payload } = json;
+            //  set data to state
+            setDataToState(payload);
+            // We do this check before pre-checkin already completed so we don't
+            // show a success message on the day of the appointment that could lead
+            // the Veteran to believe they completed day-of check-in.
+            //
+            // If any appointments are tomorrow or later, the link is not expired.
+            if (
+              payload.appointments &&
+              payload.appointments.length > 0 &&
+              preCheckinExpired(payload.appointments)
+            ) {
+              goToErrorPage('?error=pre-check-in-expired');
+            }
 
-          if (appointmentWasCanceled(payload.appointments)) {
-            goToErrorPage();
-          }
+            if (appointmentWasCanceled(payload.appointments)) {
+              goToErrorPage('?error=appointment-canceled');
+            }
 
-          if (preCheckinAlreadyCompleted(payload.appointments)) {
-            setPreCheckinComplete(window, true);
-            jumpToPage(URLS.COMPLETE);
-          }
+            if (preCheckinAlreadyCompleted(payload.appointments)) {
+              setPreCheckinComplete(window, true);
+              jumpToPage(URLS.COMPLETE);
+            }
 
-          // hide loading screen
-          setIsLoading(false);
-        })
-        .catch(() => {
-          goToErrorPage();
-        });
+            // hide loading screen
+            setIsLoading(false);
+          })
+          .catch(() => {
+            goToErrorPage('?error=error-fromlocation-precheckin-introduction');
+          });
     },
     [
       dispatchSetVeteranData,
@@ -100,6 +101,7 @@ const Introduction = props => {
     ],
   );
   if (isLoading) {
+    window.scrollTo(0, 0);
     return (
       <va-loading-indicator message={t('loading-your-appointment-details')} />
     );

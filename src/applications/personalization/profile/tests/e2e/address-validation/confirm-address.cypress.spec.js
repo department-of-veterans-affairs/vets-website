@@ -15,6 +15,7 @@ describe('Personal and contact information', () => {
       addressPage.saveForm();
       addressPage.confirmAddress(formFields);
       addressPage.validateSavedForm(formFields);
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

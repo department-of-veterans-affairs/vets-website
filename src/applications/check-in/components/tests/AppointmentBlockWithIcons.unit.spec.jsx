@@ -2,6 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import cloneDeep from 'platform/utilities/data/cloneDeep';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../../utils/i18n/i18n';
 import AppointmentBlockWithIcons from '../AppointmentBlockWithIcons';
@@ -14,14 +15,18 @@ const appointments = [
     clinicName: 'LOM ACC CLINIC TEST',
     appointmentIen: 'some-ien',
     startTime: '2021-11-16T21:39:36',
+    doctorName: 'Dr. Green',
+    clinicStopCodeName: 'Primary care',
+    kind: 'clinic',
   },
   {
     facility: 'LOMA LINDA VA CLINIC',
     clinicPhoneNumber: '5551234567',
     clinicFriendlyName: '',
     clinicName: 'LOM ACC CLINIC TEST',
-    appointmentIen: 'some-ien',
+    appointmentIen: 'some-ien2',
     startTime: '2021-11-16T23:00:00',
+    kind: 'clinic',
   },
 ];
 describe('pre-check-in', () => {
@@ -76,8 +81,9 @@ describe('pre-check-in', () => {
         expect(screen.getByTestId('appointment-day-location')).to.have.text(
           'Your appointments are on November 16, 2021.',
         );
-        expect(screen.getByTestId('appointment-list-item-0')).to.exist;
-        expect(screen.getByTestId('appointment-list-item-1')).to.exist;
+        expect(screen.getAllByTestId('appointment-list-item').length).to.equal(
+          2,
+        );
       });
       it('Renders appointment day and facility for single appointment', () => {
         const updateAppointments = [...appointments];
@@ -92,8 +98,10 @@ describe('pre-check-in', () => {
         expect(screen.getByTestId('appointment-day-location')).to.have.text(
           'Your appointment is on November 16, 2021.',
         );
-        expect(screen.getByTestId('appointment-list-item-0')).to.exist;
-        expect(screen.queryByTestId('appointment-list-item-1')).to.not.exist;
+
+        expect(screen.getAllByTestId('appointment-list-item').length).to.equal(
+          1,
+        );
       });
       it('Renders appointment facility, time, and clinic', () => {
         const screen = render(
@@ -106,17 +114,17 @@ describe('pre-check-in', () => {
         );
         expect(
           screen
-            .getByTestId('appointment-list-item-0')
+            .getAllByTestId('appointment-list-item')[0]
             .querySelector('[data-testid="facility-name"]'),
         ).to.have.text('LOMA LINDA VA CLINIC');
         expect(
           screen
-            .getByTestId('appointment-list-item-0')
+            .getAllByTestId('appointment-list-item')[0]
             .querySelector('[data-testid="appointment-time"]'),
         ).to.have.text('9:39 p.m.');
         expect(
           screen
-            .getByTestId('appointment-list-item-0')
+            .getAllByTestId('appointment-list-item')[0]
             .querySelector('[data-testid="appointment-clinic"]'),
         ).to.have.text('TEST CLINIC');
       });
@@ -131,7 +139,7 @@ describe('pre-check-in', () => {
         );
         expect(
           screen
-            .getByTestId('appointment-list-item-1')
+            .getAllByTestId('appointment-list-item')[1]
             .querySelector('[data-testid="appointment-clinic"]'),
         ).to.have.text('LOM ACC CLINIC TEST');
       });
@@ -212,6 +220,65 @@ describe('pre-check-in', () => {
           </I18nextProvider>,
         );
         expect(screen.queryByTestId('facility-name')).to.not.exist;
+      });
+      it('should render the appointment location for in person appointments when available', () => {
+        const locationAppointments = cloneDeep(appointments);
+        locationAppointments[0].clinicLocation = 'Test location';
+        const screen = render(
+          <I18nextProvider i18n={i18n}>
+            <AppointmentBlockWithIcons appointments={locationAppointments} />
+          </I18nextProvider>,
+        );
+        expect(
+          screen
+            .getAllByTestId('appointment-list-item')[0]
+            .querySelector('[data-testid="clinic-location"]'),
+        ).to.have.text('Test location');
+        expect(
+          screen
+            .getAllByTestId('appointment-list-item')[1]
+            .querySelector('[data-testid="clinic-location"]'),
+        ).to.not.exist;
+      });
+      it('should render the type of care when available or default', () => {
+        const screen = render(
+          <I18nextProvider i18n={i18n}>
+            <AppointmentBlockWithIcons appointments={appointments} />
+          </I18nextProvider>,
+        );
+        expect(
+          screen
+            .getAllByTestId('appointment-list-item')[0]
+            .querySelector('[data-testid="type-of-care"]'),
+        ).to.have.text('Primary care');
+        expect(
+          screen
+            .getAllByTestId('appointment-list-item')[1]
+            .querySelector('[data-testid="type-of-care"]'),
+        ).to.have.text('VA Appointment');
+      });
+      it('should not render the appointment location for phone appointments even when available', () => {
+        const phoneLocationAppointments = cloneDeep(appointments);
+        phoneLocationAppointments[0].clinicLocation = 'Test location';
+        phoneLocationAppointments[0].kind = 'phone';
+        phoneLocationAppointments[1].kind = 'phone';
+        const screen = render(
+          <I18nextProvider i18n={i18n}>
+            <AppointmentBlockWithIcons
+              appointments={phoneLocationAppointments}
+            />
+          </I18nextProvider>,
+        );
+        expect(
+          screen
+            .getAllByTestId('appointment-list-item')[0]
+            .querySelector('[data-testid="clinic-location"]'),
+        ).to.not.exist;
+        expect(
+          screen
+            .getAllByTestId('appointment-list-item')[1]
+            .querySelector('[data-testid="clinic-location"]'),
+        ).to.not.exist;
       });
       it('passes axeCheck', () => {
         axeCheck(

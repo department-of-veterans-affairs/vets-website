@@ -21,14 +21,16 @@ const LoadingPage = props => {
   useEffect(
     () => {
       if (checkInDataError) {
-        goToErrorPage();
+        goToErrorPage('?error=cant-retrieve-check-in-data');
       }
       if (!isEmpty(demographics)) {
-        goToNextPage();
+        goToNextPage('?error=no-demographics');
       }
     },
     [checkInDataError, demographics, goToErrorPage, goToNextPage],
   );
+
+  window.scrollTo(0, 0);
 
   return (
     <va-loading-indicator message={t('loading-your-appointments-for-today')} />

@@ -103,13 +103,21 @@ function checkAllPages(mobile = false) {
   // focus should be on the section's heading
   cy.focused().contains(PROFILE_PATH_NAMES.CONNECTED_APPLICATIONS);
 
-  // navigate directly to the Personal and Contact Info section via the sub-nav to confirm focus is managed correctly
+  // navigate directly to the Personal Info section via the sub-nav to confirm focus is managed correctly
   clickSubNavButton(PROFILE_PATH_NAMES.PERSONAL_INFORMATION, mobile);
   cy.url().should(
     'eq',
     `${Cypress.config().baseUrl}${PROFILE_PATHS.PERSONAL_INFORMATION}`,
   );
   cy.focused().contains(PROFILE_PATH_NAMES.PERSONAL_INFORMATION);
+
+  // navigate directly to the Contact Info section via the sub-nav to confirm focus is managed correctly
+  clickSubNavButton(PROFILE_PATH_NAMES.CONTACT_INFORMATION, mobile);
+  cy.url().should(
+    'eq',
+    `${Cypress.config().baseUrl}${PROFILE_PATHS.CONTACT_INFORMATION}`,
+  );
+  cy.focused().contains(PROFILE_PATH_NAMES.CONTACT_INFORMATION);
 }
 
 describe('Profile', () => {

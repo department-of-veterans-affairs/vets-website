@@ -13,8 +13,8 @@ export default function NeedHelpSmall() {
           Call <Telephone contact="911" />, or
         </li>
         <li>
-          Call the Veterans Crisis hotline at{' '}
-          <Telephone contact="800-273-8255" /> and select 1
+          Call the Veterans Crisis hotline at <Telephone contact="988" /> and
+          select 1
         </li>
       </ul>
     </div>

@@ -1,10 +1,10 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-// import resourcesToBackend from 'i18next-resources-to-backend';
 import { format as formatDate, isDate } from 'date-fns';
 import { enUS as en, es } from 'date-fns/locale';
 import enTranslation from '../../locales/en/translation.json';
+import esTranslation from '../../locales/es/translation.json';
 
 /**
  * Helper function to set language on main element for DS component detection.
@@ -18,19 +18,6 @@ const setPageLanguage = language => {
 const locales = { en, es };
 
 i18n
-  /*
-  .use(
-    resourcesToBackend((language, namespace, callback) => {
-      import(`../../locales/${language}/${namespace}.json`)
-        .then(resources => {
-          callback(null, resources);
-        })
-        .catch(error => {
-          callback(error, null);
-        });
-    }),
-  )
-  */
   .use(initReactI18next)
   .use(LanguageDetector)
   .init({
@@ -76,23 +63,14 @@ i18n
         return value;
       },
     },
-    // Load only the english translation.
-    // TODO: use resourcesToBackend to dynamically load all translations
-    // once translations have been rolled out in production.
     resources: {
       en: { translation: enTranslation },
+      es: { translation: esTranslation },
     },
   });
 
-// This is necessary for DS components to use our language preference on initial load.
+// This is necessary for DS components to use our language preference on initial page load.
 setPageLanguage(i18n.language);
-
-// Ugly hack to trigger DS language detection.
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    setPageLanguage(i18n.language);
-  }, 10);
-});
 
 i18n.on('languageChanged', language => {
   setPageLanguage(language);

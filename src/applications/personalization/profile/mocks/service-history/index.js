@@ -8,12 +8,16 @@ const none = {
   },
 };
 
-const generateServiceHistory = ({ branchOfService = 'Air Force' }) => {
+const generateServiceHistory = ({
+  branchOfService = 'Air Force',
+  dataSource = 'api.va_profile',
+}) => {
   return {
     data: {
       id: '',
       type: 'arrays',
       attributes: {
+        dataSource,
         serviceHistory: [
           {
             branchOfService,

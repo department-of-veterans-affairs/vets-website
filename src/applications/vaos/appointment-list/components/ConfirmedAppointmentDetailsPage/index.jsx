@@ -9,11 +9,7 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import PageLayout from '../PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
-import {
-  closeCancelAppointment,
-  confirmCancelAppointment,
-  fetchConfirmedAppointmentDetails,
-} from '../../redux/actions';
+import { fetchConfirmedAppointmentDetails } from '../../redux/actions';
 import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
 import DetailsVA from './DetailsVA';
 import DetailsVideo from './DetailsVideo';
@@ -24,7 +20,6 @@ export default function ConfirmedAppointmentDetailsPage() {
   const {
     appointment,
     appointmentDetailsStatus,
-    cancelInfo,
     facilityData,
     useV2,
   } = useSelector(
@@ -49,18 +44,6 @@ export default function ConfirmedAppointmentDetailsPage() {
       }
     },
     [appointment, appointmentDate],
-  );
-
-  useEffect(
-    () => {
-      if (
-        !cancelInfo.showCancelModal &&
-        cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded
-      ) {
-        scrollAndFocus();
-      }
-    },
-    [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
   );
 
   useEffect(
@@ -109,11 +92,7 @@ export default function ConfirmedAppointmentDetailsPage() {
           useV2={useV2}
         />
       )}
-      <CancelAppointmentModal
-        {...cancelInfo}
-        onConfirm={() => dispatch(confirmCancelAppointment())}
-        onClose={() => dispatch(closeCancelAppointment())}
-      />
+      <CancelAppointmentModal />
     </PageLayout>
   );
 }

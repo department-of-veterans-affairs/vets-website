@@ -7,11 +7,14 @@ import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import {
+  AUTH_ERROR,
+  AUTH_EVENTS,
+  AUTH_LEVEL,
   AUTHN_SETTINGS,
+  CSP_IDS,
   EXTERNAL_APPS,
   EXTERNAL_REDIRECTS,
-  CSP_IDS,
-  AUTH_EVENTS,
+  FORCE_NEEDED,
 } from 'platform/user/authentication/constants';
 import {
   hasSession,
@@ -24,6 +27,8 @@ import { generateReturnURL } from 'platform/user/authentication/utilities';
 import {
   OAUTH_ERRORS,
   OAUTH_ERROR_RESPONSES,
+  OAUTH_EVENTS,
+  OAUTH_KEYS,
 } from 'platform/utilities/oauth/constants';
 import RenderErrorUI from '../components/RenderErrorContainer';
 import AuthMetrics from './AuthMetrics';
@@ -42,6 +47,7 @@ export class AuthApp extends React.Component {
       auth: this.props.location.query.auth || '',
       code: this.props.location.query.code || '',
       state: this.props.location.query.state || '',
+      requestId: sessionStorage.getItem(AUTHN_SETTINGS.REQUEST_ID),
     };
   }
 
@@ -56,7 +62,7 @@ export class AuthApp extends React.Component {
     const errorCode = code.length === 3 ? code : '007';
 
     Sentry.withScope(scope => {
-      scope.setExtra('error', error);
+      scope.setExtra('error', { error: { error, code } });
       scope.setTag('loginType', loginType);
       Sentry.captureMessage(`User fetch error: ${error.message}`);
     });
@@ -138,11 +144,11 @@ export class AuthApp extends React.Component {
   handleTokenRequest = async ({ code, state, csp }) => {
     // Verify the state matches in storage
     if (
-      !sessionStorage.getItem('state') ||
-      sessionStorage.getItem('state') !== state
+      !localStorage.getItem(OAUTH_KEYS.STATE) ||
+      localStorage.getItem(OAUTH_KEYS.STATE) !== state
     ) {
       this.generateOAuthError({
-        code: OAUTH_ERRORS.OAUTH_STATE_MISMATCH,
+        code: AUTH_ERROR.OAUTH_STATE_MISMATCH,
         event: OAUTH_ERRORS.OAUTH_STATE_MISMATCH,
       });
     } else {
@@ -152,9 +158,10 @@ export class AuthApp extends React.Component {
       } catch (error) {
         const { errors } = await error.json();
         const errorCode = OAUTH_ERROR_RESPONSES[errors];
+        const event = OAUTH_EVENTS[errors] ?? OAUTH_EVENTS.ERROR.DEFAULT;
         this.generateOAuthError({
           code: errorCode,
-          event: AUTH_EVENTS.OAUTH_ERROR_USER_FETCH,
+          event,
         });
       }
     }
@@ -168,7 +175,7 @@ export class AuthApp extends React.Component {
       await this.handleTokenRequest({ code, state, csp: this.state.loginType });
     }
 
-    if (auth === 'force-needed') {
+    if (auth === FORCE_NEEDED) {
       this.handleAuthForceNeeded();
     } else {
       try {
@@ -180,13 +187,13 @@ export class AuthApp extends React.Component {
     }
   };
 
-  generateOAuthError = ({ code, event = AUTH_EVENTS.OAUTH_ERROR_DEFAULT }) => {
+  generateOAuthError = ({ code, event = OAUTH_EVENTS.ERROR_DEFAULT }) => {
     recordEvent({ event });
 
     this.setState(prevState => ({
       ...prevState,
       code,
-      auth: 'fail',
+      auth: AUTH_LEVEL.FAIL,
       hasError: true,
     }));
   };
@@ -195,6 +202,7 @@ export class AuthApp extends React.Component {
     const renderErrorProps = {
       code: this.state.code,
       auth: this.state.auth,
+      requestId: this.state.requestId,
       recordEvent,
       openLoginModal: this.props.openLoginModal,
     };

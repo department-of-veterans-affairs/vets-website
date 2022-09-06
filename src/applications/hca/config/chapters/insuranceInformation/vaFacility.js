@@ -2,7 +2,6 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import get from 'platform/utilities/data/get';
 import { states } from 'platform/forms/address';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
-import { logValidateMarriageDateVaFacilityPage } from '../../../validation';
 
 import {
   EssentialCoverageDescription,
@@ -12,8 +11,8 @@ import { ShortFormAlert } from '../../../components/FormAlerts';
 import {
   medicalCenterLabels,
   medicalCentersByState,
-  HIGH_DISABILITY,
   emptyObjectSchema,
+  NotHighDisabilityOrNotCompensationTypeHigh,
 } from '../../../helpers';
 
 const {
@@ -29,13 +28,7 @@ export default {
     'view:facilityShortFormMessage': {
       'ui:description': ShortFormAlert,
       'ui:options': {
-        hideIf: form =>
-          !form['view:hcaShortFormEnabled'] ||
-          (form.vaCompensationType !== 'highDisability' &&
-            !(
-              form['view:totalDisabilityRating'] &&
-              form['view:totalDisabilityRating'] >= HIGH_DISABILITY
-            )),
+        hideIf: NotHighDisabilityOrNotCompensationTypeHigh,
       },
     },
     'view:vaFacilityTitle': {
@@ -55,7 +48,6 @@ export default {
         'ui:options': {
           labels: stateLabels,
         },
-        'ui:validations': [logValidateMarriageDateVaFacilityPage],
       },
       vaMedicalFacility: {
         'ui:title': 'Center or clinic',

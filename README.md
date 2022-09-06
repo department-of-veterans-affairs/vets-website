@@ -2,20 +2,21 @@
 
 ## Table of Contents
 
-- [What is this?](#what-is-this)
-- [Common commands](#common-commands)
-- [Building `vets-website`](#building-vets-website)
-  - [Building applications](#building-applications)
-  - [Building static content](#building-static-content)
-  - [Building both together](#building-both-together)
-- [Working in GitHub Codespaces](#working-in-github-codespaces)
-- [Running tests](#running-tests)
-  - [Unit tests](#unit-tests)
-  - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)
-  - [Contract tests](#contract-tests)
-- [Running a mock API for local development](#running-a-mock-api-for-local-development)
-- [More commands](#more-commands)
+- [What is this?](#what-is-this)	
+- [Common commands](#common-commands)	
+- [Building `vets-website`](#building-vets-website)	
+  - [Building applications](#building-applications)	
+  - [Building static content](#building-static-content)	
+  - [Building both together](#building-both-together)	
+- [Working in GitHub Codespaces](#working-in-github-codespaces)	
+- [Running tests](#running-tests)	
+  - [Unit tests](#unit-tests)	
+  - [End-to-end (E2E) / Browser tests](#end-to-end-e2e--browser-tests)	
+  - [Contract tests](#contract-tests)	
+- [Running a mock API for local development](#running-a-mock-api-for-local-development)	
+- [More commands](#more-commands)	
 - [Supported Browsers](#supported-browsers)
+- [API Keys](#api-keys)
 - [Additional Resources](#additional-resources)
 
 ## What is this?
@@ -285,5 +286,6 @@ Create a .env file in the root of vets-website, and assign the above token to a 
 
 ## Additional Resources
 
-1. [VA.gov Knowledge Hub](https://department-of-veterans-affairs.github.io/va.gov-team/)
+1. [Frontend developer documentation home](https://depo-platform-documentation.scrollhelp.site/developer-docs/frontend-developer-documentation)
 1. [Manual](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/accessibility/testing/508-manual-testing.md) and [Automated](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/platform/accessibility/testing/508-automated-testing.md) 508 Testing
+1. [Using yarn Workspaces](https://depo-platform-documentation.scrollhelp.site/developer-docs/yarn-workspaces)

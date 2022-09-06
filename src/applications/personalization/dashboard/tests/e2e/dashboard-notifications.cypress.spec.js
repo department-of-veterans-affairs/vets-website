@@ -20,10 +20,6 @@ import {
 import { mockLocalStorage } from '~/applications/personalization/dashboard/tests/e2e/dashboard-e2e-helpers';
 
 describe('The My VA Dashboard - Notifications', () => {
-  // Skipping in CI due to flakes; passes fine locally.
-  before(function() {
-    if (Cypress.env('CI')) this.skip();
-  });
   // TODO: Fix for CI (try local headless)
   describe('when the feature is hidden', () => {
     beforeEach(() => {
@@ -85,7 +81,7 @@ describe('The My VA Dashboard - Notifications', () => {
     it('and they have a notification - C13025', () => {
       cy.intercept(
         '/v0/onsite_notifications',
-        notificationSuccessNotDismissed(),
+        notificationSuccessNotDismissed(Cypress.env('CI')),
       ).as('notifications2');
       cy.login(mockUser);
       cy.visit('my-va/');
@@ -101,7 +97,7 @@ describe('The My VA Dashboard - Notifications', () => {
     it('and they have multiple notifications - C16720', () => {
       cy.intercept(
         '/v0/onsite_notifications',
-        multipleNotificationSuccess(),
+        multipleNotificationSuccess(Cypress.env('CI')),
       ).as('notifications3');
       cy.login(mockUser);
       cy.visit('my-va/');
@@ -117,7 +113,7 @@ describe('The My VA Dashboard - Notifications', () => {
     it('and they have dismissed notifications - C16721', () => {
       cy.intercept(
         '/v0/onsite_notifications',
-        notificationSuccessDismissed(),
+        notificationSuccessDismissed(Cypress.env('CI')),
       ).as('notifications4');
       cy.login(mockUser);
       cy.visit('my-va/');
@@ -134,7 +130,7 @@ describe('The My VA Dashboard - Notifications', () => {
       cy.login(mockUser);
       cy.visit('my-va/');
       cy.wait(['@featuresB', '@nameB', '@serviceB', '@notifications5']);
-      cy.findByTestId('dashboard-notifications-error').should('exist');
+      cy.findByTestId('dashboard-notifications').should('not.exist');
 
       // make the a11y check
       cy.injectAxeThenAxeCheck('#react-root');
@@ -142,7 +138,7 @@ describe('The My VA Dashboard - Notifications', () => {
     it('and they dismiss a notification - C16723', () => {
       cy.intercept(
         '/v0/onsite_notifications',
-        notificationSuccessNotDismissed(),
+        notificationSuccessNotDismissed(Cypress.env('CI')),
       ).as('notifications6');
       cy.intercept(
         'PATCH',

@@ -115,19 +115,11 @@
         "value": true
       },
       {
-        "name": "canUpload1010cgPoa",
+        "name": "caregiverUseFacilitiesApi",
         "value": true
       },
       {
-        "name": "can_upload_10_10cg_poa",
-        "value": true
-      },
-      {
-        "name": "canAutofill1010cgAddress",
-        "value": true
-      },
-      {
-        "name": "can_autofill_10_10cg_address",
+        "name": "caregiver_use_facilities_API",
         "value": true
       }
     ]

@@ -1,8 +1,5 @@
 /* eslint-disable camelcase */
 import { expect } from 'chai';
-import sinon from 'sinon';
-import addSeconds from 'date-fns/addSeconds';
-import subSeconds from 'date-fns/subSeconds';
 
 import localStorage from 'platform/utilities/storage/localStorage';
 import {
@@ -12,6 +9,7 @@ import {
 } from 'platform/testing/unit/helpers';
 
 import { externalApplicationsConfig } from 'platform/user/authentication/usip-config';
+import environment from 'platform/utilities/environment';
 import {
   AUTHORIZE_KEYS_WEB,
   AUTHORIZE_KEYS_MOBILE,
@@ -73,15 +71,13 @@ describe('OAuth - Utilities', () => {
     });
     it('should set sessionStorage', () => {
       oAuthUtils.saveStateAndVerifier();
-      expect(!!window.sessionStorage.getItem('state')).to.be.true;
-      expect(!!window.sessionStorage.getItem('code_verifier')).to.be.true;
+      expect(!!localStorage.getItem('state')).to.be.true;
+      expect(!!localStorage.getItem('code_verifier')).to.be.true;
     });
     it('should return an object with state and codeVerifier', () => {
       const { state, codeVerifier } = oAuthUtils.saveStateAndVerifier();
-      expect(window.sessionStorage.getItem('state')).to.eql(state);
-      expect(window.sessionStorage.getItem('code_verifier')).to.eql(
-        codeVerifier,
-      );
+      expect(localStorage.getItem('state')).to.eql(state);
+      expect(localStorage.getItem('code_verifier')).to.eql(codeVerifier);
     });
   });
 
@@ -131,7 +127,8 @@ describe('OAuth - Utilities', () => {
           },
         });
         const { oAuthOptions } = externalApplicationsConfig.default;
-        expect(url).to.include(`type=${csp}`);
+        const expectedType = csp.slice(0, csp.indexOf('_'));
+        expect(url).to.include(`type=${expectedType}`);
         expect(url).to.include(`acr=${oAuthOptions.acrSignup[csp]}`);
       });
     });
@@ -139,44 +136,60 @@ describe('OAuth - Utilities', () => {
 
   describe('getCV', () => {
     it('should return null when empty', () => {
+      const storage = localStorage;
+      storage.clear();
       expect(oAuthUtils.getCV()).to.eql({ codeVerifier: null });
+      storage.clear();
     });
     it('should return code_verifier when in session storage', () => {
       const cvValue = 'success_getCV';
-      window.sessionStorage.setItem('code_verifier', cvValue);
+      const storage = localStorage;
+      storage.clear();
+      storage.setItem('code_verifier', cvValue);
       expect(oAuthUtils.getCV()).to.eql({
         codeVerifier: cvValue,
       });
-      window.sessionStorage.clear();
+      storage.clear();
     });
   });
 
   describe('buildTokenRequest', () => {
     it('should not generate url if no `code` is provider or `code_verifier` is null', async () => {
+      const storage = localStorage;
+      storage.clear();
       const btr = await oAuthUtils.buildTokenRequest();
       expect(btr).to.be.null;
       const btr2 = oAuthUtils.buildTokenRequest({ code: 'hello' });
       expect(btr2).to.be.null;
+      storage.clear();
     });
     it('should generate a proper url with appropriate query params', async () => {
       const cvValue = 'success_buildTokenRequest';
-      window.sessionStorage.setItem('code_verifier', cvValue);
-      const tokenPath = `https://dev-api.va.gov/v0/sign_in/token?grant_type=authorization_code&client_id=web&redirect_uri=https%253A%252F%252Fdev.va.gov&code=hello&code_verifier=${cvValue}`;
+      const storage = localStorage;
+      storage.clear();
+      storage.setItem('code_verifier', cvValue);
+      const tokenPath = `${
+        environment.API_URL
+      }/v0/sign_in/token?grant_type=authorization_code&client_id=web&redirect_uri=https%253A%252F%252Fdev.va.gov&code=hello&code_verifier=${cvValue}`;
       const btr = await oAuthUtils.buildTokenRequest({ code: 'hello' });
       expect(btr.href).to.eql(tokenPath);
       expect(btr.href).includes('code=');
       expect(btr.href).includes('code_verifier=');
+      storage.clear();
     });
   });
 
   describe('requestToken', () => {
     it('should fail if url is not generated', async () => {
+      localStorage.clear();
       const req2 = await oAuthUtils.requestToken({ code: 'test' });
       expect(req2).to.eql(null);
     });
     it('should POST successfully to `/token` endpoint', async () => {
       const cvValue = 'tst';
-      global.sessionStorage.setItem('code_verifier', cvValue);
+      const storage = localStorage;
+      storage.clear();
+      storage.setItem('code_verifier', cvValue);
       mockFetch();
       setFetchResponse(global.fetch.onFirstCall(), []);
       const tokenOptions = await oAuthUtils.requestToken({ code: 'success' });
@@ -184,10 +197,13 @@ describe('OAuth - Utilities', () => {
       expect(global.fetch.calledOnce).to.be.true;
       expect(global.fetch.firstCall.args[1].method).to.equal('POST');
       expect(global.fetch.firstCall.args[0].includes('/token')).to.be.true;
+      storage.clear();
     });
     it('should return an error if `/token` endpoint unsuccessful', async () => {
       const cvValue = 'tst';
-      global.sessionStorage.setItem('code_verifier', cvValue);
+      const storage = localStorage;
+      storage.clear();
+      storage.setItem('code_verifier', cvValue);
       mockFetch();
       setFetchFailure(global.fetch.onFirstCall(), []);
       const tokenOptions = await oAuthUtils.requestToken({
@@ -197,6 +213,7 @@ describe('OAuth - Utilities', () => {
       expect(global.fetch.firstCall.args[1].method).to.equal('POST');
       expect(global.fetch.firstCall.args[0].includes('/token')).to.be.true;
       expect(tokenOptions.ok).to.be.false;
+      storage.clear();
     });
   });
 
@@ -227,29 +244,6 @@ describe('OAuth - Utilities', () => {
       if (isSet) {
         expect(Object.keys(localStorage)).to.include('sessionExpiration');
       }
-    });
-  });
-
-  describe('canCallRefresh', () => {
-    it('should return null if no localStorage item set', () => {
-      localStorage.clear();
-      expect(oAuthUtils.canCallRefresh()).to.be.null;
-    });
-    it('should return a boolean if a refresh should be called', () => {
-      localStorage.clear();
-      let atExpires = addSeconds(new Date(), 500);
-      localStorage.setItem('atExpires', atExpires);
-      expect(oAuthUtils.canCallRefresh()).to.be.false;
-
-      atExpires = subSeconds(new Date(), 500);
-      localStorage.setItem('atExpires', atExpires);
-      expect(oAuthUtils.canCallRefresh()).to.be.true;
-    });
-    it('should remove `atExpires` from localStorage', () => {
-      localStorage.clear();
-      localStorage.setItem('atExpires', addSeconds(new Date(), 200));
-      oAuthUtils.canCallRefresh();
-      expect(localStorage.getItem('atExpires')).to.be.null;
     });
   });
 
@@ -307,11 +301,6 @@ describe('OAuth - Utilities', () => {
       expect(global.fetch.firstCall.args[1].method).to.equal('POST');
       expect(global.fetch.firstCall.args[0].includes('/refresh')).to.be.true;
     });
-    it('should use callback if specified', async () => {
-      const callback = sinon.spy();
-      expect(await oAuthUtils.refresh(callback));
-      expect(callback.calledOnce).to.be.true;
-    });
   });
 
   describe('updateStateAndVerifier', () => {
@@ -323,7 +312,8 @@ describe('OAuth - Utilities', () => {
     ];
 
     it('should get the generated sessionStorage state & code verifier', () => {
-      const storage = window.sessionStorage;
+      const storage = localStorage;
+      storage.clear();
       expect(storage.getItem('state')).to.be.null;
       expect(storage.getItem('code_verifier')).to.be.null;
       signupKeys.forEach(key =>
@@ -338,8 +328,9 @@ describe('OAuth - Utilities', () => {
       expect(storage.length).to.eql(2);
       storage.clear();
     });
-    it('it should remove only those items from sessionStorage', () => {
-      const storage = window.sessionStorage;
+    it('it should remove only those items from localStorage', () => {
+      const storage = localStorage;
+      storage.clear();
       expect(storage.getItem('state')).to.be.null;
       expect(storage.getItem('code_verifier')).to.be.null;
       signupKeys.forEach(key =>
@@ -353,17 +344,20 @@ describe('OAuth - Utilities', () => {
   });
 
   describe('removeStateAndVerifier', () => {
-    it('should remove all state & verifiers from sessionStorage', () => {
-      const storage = window.sessionStorage;
+    it('should remove all state & verifiers from localStorage', () => {
+      const storage = localStorage;
+      storage.clear();
       ALL_STATE_AND_VERIFIERS.forEach(storageKey => {
         storage.setItem(storageKey, 'randomValue');
       });
 
       oAuthUtils.removeStateAndVerifier();
       expect(Object.keys(storage).length).to.eql(0);
+      storage.clear();
     });
-    it('should not remove any other item from sessionStorage', () => {
-      const storage = window.sessionStorage;
+    it('should not remove any other item from localStorage', () => {
+      const storage = localStorage;
+      storage.clear();
       ALL_STATE_AND_VERIFIERS.forEach(storageKey => {
         storage.setItem(storageKey, 'randomValue');
       });
@@ -372,6 +366,16 @@ describe('OAuth - Utilities', () => {
       oAuthUtils.removeStateAndVerifier();
       expect(Object.keys(storage).length).to.eql(1);
       expect(storage.getItem('otherKey')).to.eql('otherValue');
+      storage.clear();
+    });
+  });
+
+  describe('logout', () => {
+    it('should redirect to backend for logout', () => {
+      window.location = new URL('https://va.gov/?state=some_random_state');
+      const url = oAuthUtils.logoutUrlSiS();
+      window.location = url;
+      expect(window.location).to.eql(url);
     });
   });
 });

@@ -56,7 +56,7 @@ const DisplayMultipleAppointments = props => {
       }
 
       if (checkInDataError) {
-        goToErrorPage();
+        goToErrorPage('?error=cant-retrieve-check-in-data');
       }
     },
     [appointments, checkInDataError, goToErrorPage, refreshCheckInData],
@@ -65,7 +65,10 @@ const DisplayMultipleAppointments = props => {
   const handleClick = useCallback(
     () => {
       recordEvent({
-        event: createAnalyticsSlug('refresh-appointments-button-clicked'),
+        event: createAnalyticsSlug(
+          'refresh-appointments-button-clicked',
+          'nav',
+        ),
       });
 
       refreshCheckInData();
@@ -77,6 +80,9 @@ const DisplayMultipleAppointments = props => {
   const { goToPreviousPage } = useFormRouting(router);
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
+
+  if (isLoading) window.scrollTo(0, 0);
+
   return isLoading ? (
     <va-loading-indicator message={t('loading-your-appointments-for-today')} />
   ) : (

@@ -6,6 +6,7 @@ import Helpdesk from './HelpdeskContact';
 export default function RenderErrorContainer({
   code = AUTH_ERROR.DEFAULT,
   auth = AUTH_LEVEL.FAIL,
+  requestId = '',
   recordEvent = () => ({}),
   openLoginModal = () => ({}),
 }) {
@@ -270,8 +271,26 @@ export default function RenderErrorContainer({
     case AUTH_ERROR.OAUTH_STATE_MISMATCH:
       alertContent = (
         <p className="vads-u-margin-top--0">
-          We’re having trouble signing you in to VA.gov right now because the
-          browser state is different.
+          We’re having trouble signing you in to VA.gov right now because of a
+          network error.
+        </p>
+      );
+      troubleshootingContent = (
+        <>
+          <h2>What you can do:</h2>
+          <p>Please sign in again.</p>
+          <button type="button" onClick={openLoginModal}>
+            Sign in
+          </button>
+        </>
+      );
+      break;
+
+    case AUTH_ERROR.OAUTH_INVALID_REQUEST:
+      alertContent = (
+        <p className="vads-u-margin-top--0">
+          We’re having trouble signing you in to VA.gov because there was an
+          error in the URL.
         </p>
       );
       troubleshootingContent = (
@@ -370,8 +389,19 @@ export default function RenderErrorContainer({
         {alertContent}
       </va-alert>
       {troubleshootingContent}
-      <p>
-        <em>Error code: {code}</em>
+      <p className="vads-u-font-style--italic">
+        <span className="vads-u-display--block" data-testid="error-code">
+          Error code: {code}
+        </span>
+        <span data-testid="request-id" className="vads-u-display--block">
+          Request ID: {requestId}
+        </span>
+        <span className="vads-u-display--block" data-testid="timestamp">
+          {new Intl.DateTimeFormat('en-US', {
+            dateStyle: 'medium',
+            timeStyle: 'long',
+          }).format(new Date())}
+        </span>
       </p>
     </div>
   );
@@ -382,4 +412,5 @@ RenderErrorContainer.propTypes = {
   code: PropTypes.oneOf(Object.keys(AUTH_ERROR)),
   openLoginModal: PropTypes.func,
   recordEvent: PropTypes.func,
+  requestId: PropTypes.string,
 };

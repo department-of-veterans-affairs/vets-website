@@ -6,7 +6,7 @@ const TextInputErrorWrapper = ({ error, children }) =>
 
 TextInputErrorWrapper.propTypes = {
   children: PropTypes.node.isRequired,
-  error: PropTypes.bool.isRequired,
+  error: PropTypes.bool,
 };
 
 export default TextInputErrorWrapper;
