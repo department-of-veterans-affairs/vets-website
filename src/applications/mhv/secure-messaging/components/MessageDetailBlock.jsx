@@ -79,7 +79,7 @@ const MessageDetailBlock = props => {
           </p>
         </div>
 
-        <MessageActionButtons />
+        <MessageActionButtons id={id} />
       </main>
     </section>
   );
