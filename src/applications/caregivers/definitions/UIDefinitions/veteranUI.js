@@ -1,17 +1,23 @@
 import React from 'react';
 
-import {
-  FacilityInfo,
-  PleaseSelectVAFacility,
-} from 'applications/caregivers/components/AdditionalInfo';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
 import get from 'platform/utilities/data/get';
+
 import {
   medicalCenterLabels,
   medicalCentersByState,
   facilityNameMaxLength,
-} from 'applications/caregivers/helpers';
+} from '../../helpers';
+import {
+  FacilityInfo,
+  PleaseSelectVAFacility,
+} from '../../components/AdditionalInfo';
+import {
+  LastTreatmentFacilityDescription,
+  PreferredFacilityDescription,
+} from '../../components/FormDescriptions';
+import VaMedicalCenter from '../../components/FormFieldsets/VaMedicalCenter';
 import { veteranFields } from '../constants';
 
 const emptyFacilityList = [];
@@ -96,4 +102,51 @@ export const preferredFacilityView = {
 export const veteranPreferredFacility = {
   'ui:title': ' ',
   'ui:widget': FacilityInfo,
+};
+
+/**
+ * All UI declarations below this represent new UI utilized for the Facilities API implementation.
+ * This entire file will be refactored upon successful merge & launch of the Factilities API use
+ */
+export const LastTreatmentFacilityAPIUI = {
+  'ui:title': 'Recent medical care',
+  'ui:description': LastTreatmentFacilityDescription,
+  'ui:order': ['name', 'type'],
+  name: {
+    'ui:title': 'Name of medical facility',
+    'ui:required': formData => !!formData.veteranLastTreatmentFacility.type,
+    'ui:validations': [
+      {
+        validator: (errors, _fieldData, formData) => {
+          facilityNameMaxLength(errors, formData);
+        },
+      },
+    ],
+  },
+  type: {
+    'ui:title': 'Was this a hospital or clinic?',
+    'ui:required': formData => !!formData.veteranLastTreatmentFacility.name,
+    'ui:options': {
+      labels: {
+        hospital: 'Hospital',
+        clinic: 'Clinic',
+      },
+    },
+  },
+};
+
+export const PreferredFacilityAPIUI = {
+  'ui:title': 'VA health care services',
+  'ui:description': PreferredFacilityDescription,
+  veteranFacilityState: {
+    'ui:title': 'State',
+    'ui:required': () => true,
+  },
+  plannedClinic: {
+    'ui:title': 'VA medical center',
+    'ui:widget': VaMedicalCenter,
+    'ui:options': {
+      hideLabelText: true,
+    },
+  },
 };

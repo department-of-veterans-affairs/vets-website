@@ -2,6 +2,7 @@
 
 export default Object.freeze({
   caregiverSIGIEnabled: 'caregiver_sigi_enabled',
+  caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
   cernerOverride648: 'cerner_override_648',
@@ -110,6 +111,7 @@ export default Object.freeze({
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
   showFormI18n: 'show_form_i18n',
   showMebMockEndpoints: 'show_meb_mock_endpoints',
+  showMebUnverifiedUserAlert: 'show_meb_unverified_user_alert',
   showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
   showHealthcareExperienceQuestionnaire:
