@@ -1,4 +1,6 @@
 /* eslint-disable no-param-reassign */
+/* eslint-disable no-console */
+
 const core = require('@actions/core');
 const fs = require('fs');
 const path = require('path');
@@ -245,6 +247,7 @@ function exportVariables(tests) {
 }
 
 function run() {
+  console.log('allow list:', process.env.ALLOW_LIST);
   const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
   const graph = dedupeGraph(buildGraph());
   const tests = selectTests(graph, pathsOfChangedFiles);
