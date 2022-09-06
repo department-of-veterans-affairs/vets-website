@@ -134,7 +134,7 @@ jobs:
 
       - name: Set Allow List Output
         id: allow-list-output
-        run: echo ::set-output list=${{ env.ALLOW_LIST }}
+        run: echo ::set-output name=list::$ALLOW_LIST
 
   cypress-tests-prep:
     name: Prep for Cypress Tests
