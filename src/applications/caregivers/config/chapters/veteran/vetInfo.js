@@ -7,6 +7,7 @@ import {
   ssnUI,
 } from '../../../definitions/UIDefinitions/sharedUI';
 import { vetInputLabel } from '../../../definitions/UIDefinitions/veteranUI';
+import { VeteranSSNDescription } from '../../../components/FormDescriptions';
 import VeteranContactDescription from '../../../components/FormDescriptions/VeteranContactDescription';
 
 const { veteran } = fullSchema.properties;
@@ -16,7 +17,10 @@ const vetInfoPage = {
   uiSchema: {
     'ui:description': VeteranContactDescription({ showPageIntro: true }),
     [veteranFields.fullName]: fullNameUI(vetInputLabel),
-    [veteranFields.ssn]: ssnUI(vetInputLabel),
+    [veteranFields.ssn]: {
+      ...ssnUI(vetInputLabel),
+      'ui:description': VeteranSSNDescription,
+    },
     [veteranFields.dateOfBirth]: dateOfBirthUI(vetInputLabel),
     [veteranFields.gender]: genderUI(vetInputLabel),
   },

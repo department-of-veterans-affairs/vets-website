@@ -14,7 +14,7 @@ const SecondaryCaregiverDescription = ({
 
   return (
     <>
-      {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
+      {!!pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
 
       {showPageIntro && <p className="vads-u-margin-top--2">{introText}</p>}
 

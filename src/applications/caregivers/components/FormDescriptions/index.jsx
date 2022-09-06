@@ -1,5 +1,5 @@
 import React from 'react';
-import { links } from 'applications/caregivers/definitions/content';
+import { links } from '../../definitions/content';
 
 export const AdditionalCaregiverDescription = (
   <>
@@ -9,6 +9,16 @@ export const AdditionalCaregiverDescription = (
       Caregiver?
     </p>
   </>
+);
+
+export const EmailEncouragementDescription = (
+  <div className="vads-u-margin-top--4 vads-u-margin-bottom--2p5">
+    <strong>Note:</strong> Including an email address on your application is
+    optional, but it helps us contact you faster if we need to follow up with
+    you. If you don’t include an email address, we’ll use your phone and address
+    to contact you. We’ll always mail you a copy of our decision on your
+    application.
+  </div>
 );
 
 export const FacilityInfoDescription = (
@@ -28,7 +38,7 @@ export const FacilityInfoDescription = (
   </div>
 );
 
-export const HasHealthInsuranceDescription = (
+export const HeathCareCoverageDescription = (
   <va-additional-info
     trigger="Why we ask this information"
     class="vads-u-margin-y--2p5"
@@ -154,7 +164,7 @@ export const RepresentativeDocumentsDescription = (
   </>
 );
 
-export const VeteranSSNDescription = () => (
+export const VeteranSSNDescription = (
   <va-additional-info
     trigger="Why is this required?"
     class="vads-u-margin-y--1p5"
