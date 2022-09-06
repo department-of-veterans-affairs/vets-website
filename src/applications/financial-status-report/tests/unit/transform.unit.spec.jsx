@@ -1043,7 +1043,7 @@ describe('fsr transform information', () => {
     it('has valid data', () => {
       const submissionObj = JSON.parse(transform(null, inputObject));
       expect(submissionObj.additionalData.additionalComments).to.equal(
-        'Supporting personal statement...',
+        'Supporting personal statement...\nIndividual expense amount: Pool service ($200), Lawn service ($100.54)',
       );
     });
     describe('bankruptcy', () => {

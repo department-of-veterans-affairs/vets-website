@@ -141,6 +141,16 @@ export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
         );
 };
 
+export const mergeAdditionalComments = (additionalComments, expenses) => {
+  const individualExpenses = expenses
+    .map(expense => `${expense.name} ($${expense.amount})`)
+    .join(', ');
+
+  const individualExpensesStr = `Individual expense amount: ${individualExpenses}`;
+
+  return `${additionalComments}\n${individualExpensesStr}`;
+};
+
 export const getMonthlyIncome = ({
   additionalIncome: {
     addlIncRecords,
