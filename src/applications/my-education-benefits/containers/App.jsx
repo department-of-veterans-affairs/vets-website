@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import { setData } from 'platform/forms-system/src/js/actions';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+
 import formConfig from '../config/form';
 import { fetchPersonalInformation, fetchEligibility } from '../actions';
-import { fetchUser } from '../selectors/userDispatch';
 import { prefillTransformer } from '../helpers';
+import { getAppData } from '../selectors/selectors';
 
 export const App = ({
   location,
@@ -17,7 +19,9 @@ export const App = ({
   claimantInfo,
   firstName,
   getEligibility,
+  isLOA3,
   eligibility,
+  showUnverifiedUserAlert,
   user,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
@@ -25,7 +29,10 @@ export const App = ({
 
   useEffect(
     () => {
-      if (!user.login.currentlyLoggedIn) {
+      if (
+        !user.login.currentlyLoggedIn ||
+        (showUnverifiedUserAlert !== false && isLOA3 !== true)
+      ) {
         return;
       }
 
@@ -59,7 +66,9 @@ export const App = ({
       formData,
       getEligibility,
       getPersonalInfo,
+      isLOA3,
       setFormData,
+      showUnverifiedUserAlert,
       user,
     ],
   );
@@ -88,8 +97,10 @@ App.propTypes = {
   formData: PropTypes.object,
   getEligibility: PropTypes.func,
   getPersonalInfo: PropTypes.func,
+  isLOA3: PropTypes.bool,
   location: PropTypes.string,
   setFormData: PropTypes.func,
+  showUnverifiedUserAlert: PropTypes.bool,
   user: PropTypes.shape({
     login: PropTypes.shape({
       currentlyLoggedIn: PropTypes.bool,
@@ -102,14 +113,11 @@ const mapStateToProps = state => {
   const firstName = state.data?.formData?.data?.attributes?.claimant?.firstName;
   const transformedClaimantInfo = prefillTransformer(null, null, null, state);
   const claimantInfo = transformedClaimantInfo.formData;
-  const eligibility = state.data?.eligibility;
-  const user = fetchUser(state);
   return {
+    ...getAppData(state),
     formData,
     firstName,
     claimantInfo,
-    eligibility,
-    user,
   };
 };
 
