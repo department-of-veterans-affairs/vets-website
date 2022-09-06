@@ -257,7 +257,7 @@ function run() {
   const tests = selectTests(graph, pathsOfChangedFiles).filter(testPath => {
     console.log('substring:', testPath.substring(testPath.indexOf('/src')));
     return !disallowedTests.includes(
-      testPath.substring(testPath.indexOf('/src')),
+      testPath.substring(testPath.indexOf('src/')),
     );
   });
   console.log('tests:', tests);
