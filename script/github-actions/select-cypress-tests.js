@@ -12,6 +12,7 @@ const {
 } = require('../../config/cypress.config');
 
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
+const { ALLOW_LIST } = process.env;
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
 const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
 
@@ -249,13 +250,14 @@ function exportVariables(tests) {
 function run() {
   const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
   const graph = dedupeGraph(buildGraph());
-  const disallowedTests = process.env.ALLOW_LIST.filter(
-    spec => spec.allowed === false,
+  const disallowedTests = ALLOW_LIST.filter(spec => spec.allowed === false).map(
+    spec => spec.spec_path,
   );
-  const tests = selectTests(graph, pathsOfChangedFiles)
-    .map(test => test.substring(test.indexOf('/src')))
-    .filter(specPath => !disallowedTests.includes(specPath));
-  console.log(tests);
+  const tests = selectTests(graph, pathsOfChangedFiles).filter(
+    testPath =>
+      !disallowedTests.includes(testPath.substring(test.indexOf('/src'))),
+  );
+  console.log('tests:', tests);
   exportVariables(tests);
 }
 
