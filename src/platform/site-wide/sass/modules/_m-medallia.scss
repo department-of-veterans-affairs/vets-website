@@ -27,12 +27,14 @@
   padding-right: 25px;
   text-align: left;
   width: 75px;
+  color: $color-gray-dark !important;
 }
 
 /* "Very Satisfied" label below "5 of 5" rating element */
 .ng-scope #rightEdge {
   text-align: right;
   width: 50px;
+  color: $color-gray-dark !important;
 }
 
 /* CSS Overrides for the 3-question survey on /find-locations */
