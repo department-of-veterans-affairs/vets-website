@@ -201,7 +201,7 @@ const ConfirmationPage = ({ form, download }) => {
         </p>
 
         <a
-          className="usa-button-primary va-button-primary vads-u-margin-top--1p5 vads-u-margin-bottom--2p5"
+          className="vads-c-action-link--green vads-u-margin-top--1p5 vads-u-margin-bottom--2p5"
           href={`${environment.BASE_URL}`}
         >
           Go back to VA.gov
