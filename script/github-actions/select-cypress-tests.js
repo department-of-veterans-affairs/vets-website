@@ -253,14 +253,11 @@ function run() {
   const disallowedTests = ALLOW_LIST.filter(spec => spec.allowed === false).map(
     spec => spec.spec_path,
   );
-  console.log('disallowed tests:', disallowedTests);
   const tests = selectTests(graph, pathsOfChangedFiles).filter(testPath => {
-    console.log('substring:', testPath.substring(testPath.indexOf('/src')));
     return !disallowedTests.includes(
       testPath.substring(testPath.indexOf('src/')),
     );
   });
-  console.log('tests:', tests);
   exportVariables(tests);
 }
 

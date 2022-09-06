@@ -193,7 +193,7 @@ jobs:
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: self-hosted
-    timeout-minutes: 1000
+    timeout-minutes: 1200
     needs: [build, cypress-tests-prep]
     if: |
       needs.build.result == 'success' &&
@@ -265,13 +265,14 @@ jobs:
       - name: Run Cypress tests
         if: needs.cypress-tests-prep.outputs.tests != '[]'
         run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 1000
+        timeout-minutes: 1200
         env:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
           TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
           APP_URLS: ${{ needs.cypress-tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+          SHOULD_STRESS_TEST: true
 
       - name: Archive test videos
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
