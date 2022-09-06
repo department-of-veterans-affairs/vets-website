@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -22,8 +21,6 @@ const VaMedicalCenter = props => {
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
   const [dirty, setDirty] = useState(false);
-
-  console.log('Props:', props);
 
   // define our error message(s)
   const errorMessages = { required: 'Please provide a response' };
