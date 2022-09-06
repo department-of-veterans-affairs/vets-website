@@ -255,7 +255,7 @@ function run() {
   );
   const tests = selectTests(graph, pathsOfChangedFiles).filter(
     testPath =>
-      !disallowedTests.includes(testPath.substring(test.indexOf('/src'))),
+      !disallowedTests.includes(testPath.substring(testPath.indexOf('/src'))),
   );
   console.log('tests:', tests);
   exportVariables(tests);
