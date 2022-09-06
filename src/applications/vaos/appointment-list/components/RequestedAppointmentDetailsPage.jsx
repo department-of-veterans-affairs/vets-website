@@ -26,6 +26,8 @@ import PageLayout from './PageLayout';
 import FullWidthLayout from '../../components/FullWidthLayout';
 import {
   startAppointmentCancel,
+  closeCancelAppointment,
+  confirmCancelAppointment,
   fetchRequestDetails,
   getProviderInfoV2,
 } from '../redux/actions';
@@ -58,6 +60,7 @@ export default function RequestedAppointmentDetailsPage() {
   const {
     appointmentDetailsStatus,
     facilityData,
+    cancelInfo,
     appointment,
     message,
     useV2,
@@ -88,6 +91,18 @@ export default function RequestedAppointmentDetailsPage() {
       scrollAndFocus();
     },
     [appointment],
+  );
+
+  useEffect(
+    () => {
+      if (
+        !cancelInfo.showCancelModal &&
+        cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded
+      ) {
+        scrollAndFocus();
+      }
+    },
+    [cancelInfo.showCancelModal, cancelInfo.cancelAppointmentStatus],
   );
 
   useEffect(
@@ -266,7 +281,11 @@ export default function RequestedAppointmentDetailsPage() {
           </>
         )}
       </div>
-      <CancelAppointmentModal />
+      <CancelAppointmentModal
+        {...cancelInfo}
+        onConfirm={() => dispatch(confirmCancelAppointment())}
+        onClose={() => dispatch(closeCancelAppointment())}
+      />
     </PageLayout>
   );
 }

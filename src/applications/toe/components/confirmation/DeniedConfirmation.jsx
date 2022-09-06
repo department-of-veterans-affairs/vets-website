@@ -35,9 +35,8 @@ export default function DeniedConfirmation({ user, dateReceived }) {
                 className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1"
                 aria-hidden="true"
               />
-              Download your decision letter (PDF)
+              Download your decision letter (PDF).
             </a>
-            .
           </div>
         </va-alert>
       </div>
@@ -72,12 +71,13 @@ export default function DeniedConfirmation({ user, dateReceived }) {
         <ul>
           <li>
             Download a copy of your decision letter. This can also be found at{' '}
-            <a href={LETTER_URL}>Download your VA education letters</a>.
+            <a href={LETTER_URL}>Download your VA education letters.</a>
           </li>
           <li>
-            We'll notify you if you're eligible for other VA education benefits.
+            You will be notified if you are eligible for other VA education
+            benefits.
           </li>
-          <li>We don't require further action by you at this time.</li>
+          <li>There is no further action required by you at this time.</li>
         </ul>
       </div>
     </>

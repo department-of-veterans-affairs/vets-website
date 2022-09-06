@@ -11,7 +11,6 @@ function TravelPayReimbursementLink() {
         href="/health-care/get-reimbursed-for-travel-pay/"
         hrefLang="en"
         eventId="request-travel-pay-reimbursement--link-clicked"
-        eventPrefix="nav"
       >
         {t('find-out-how-to-request-travel-pay-reimbursement')}
       </ExternalLink>

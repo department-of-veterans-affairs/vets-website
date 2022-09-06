@@ -25,9 +25,9 @@ const Search = () => {
   let pageTitle;
   let altAdvancedSearchToggle;
   if (!searchRequested && advancedSearchOpen) {
-    pageTitle = 'Advanced search';
+    pageTitle = 'Advanced Search';
   } else if (!searchRequested && !advancedSearchOpen) {
-    pageTitle = 'Search messages';
+    pageTitle = 'Search Messages';
     altAdvancedSearchToggle = (
       <button
         type="button"
@@ -37,11 +37,11 @@ const Search = () => {
         Or try the advanced search.
       </button>
     );
-  } else if (searchRequested) pageTitle = 'Search results';
+  } else if (searchRequested) pageTitle = 'Search Results';
 
   return (
     <div className="vads-l-grid-container search-messages">
-      <Breadcrumbs link="/search" pageName={pageTitle} />
+      <Breadcrumbs link="/search" pageName="Search" />
       <SectionGuideButton sectionName="Messages" />
 
       <h1 className="page-title">{pageTitle}</h1>
@@ -51,7 +51,7 @@ const Search = () => {
       ) : (
         <SearchForm
           advancedSearchOpen={advancedSearchOpen}
-          keyword={searchParams.keyword}
+          query={searchParams}
         />
       )}
 

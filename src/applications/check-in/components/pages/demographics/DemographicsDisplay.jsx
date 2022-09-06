@@ -52,7 +52,6 @@ export default function DemographicsDisplay({
         yesAction={yesAction}
         noAction={noAction}
         Footer={Footer}
-        pageType="demographic-information"
       />
     </>
   );

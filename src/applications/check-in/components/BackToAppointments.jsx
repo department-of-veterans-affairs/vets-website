@@ -18,7 +18,7 @@ const BackToAppointments = ({ router }) => {
     e => {
       e.preventDefault();
       recordEvent({
-        event: createAnalyticsSlug('go-to-appointments-clicked', 'nav'),
+        event: createAnalyticsSlug('back-button-clicked'),
       });
       jumpToPage(URLS.DETAILS);
     },

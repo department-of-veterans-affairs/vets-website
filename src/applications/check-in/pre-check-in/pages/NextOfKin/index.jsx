@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
+import recordEvent from 'platform/monitoring/record-event';
+
 import { recordAnswer } from '../../../actions/universal';
 
 import BackButton from '../../../components/BackButton';
@@ -31,6 +33,10 @@ const NextOfKin = props => {
   const buttonClick = useCallback(
     async answer => {
       setIsLoading(true);
+      recordEvent({
+        event: 'cta-button-click',
+        'button-click-label': `${answer}-to-next-of-kin`,
+      });
       dispatch(recordAnswer({ nextOfKinUpToDate: `${answer}` }));
       goToNextPage();
     },

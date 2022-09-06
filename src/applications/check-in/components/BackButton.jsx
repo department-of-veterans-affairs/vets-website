@@ -23,7 +23,7 @@ const BackButton = props => {
     e => {
       e.preventDefault();
       recordEvent({
-        event: createAnalyticsSlug('back-button-clicked', 'nav'),
+        event: createAnalyticsSlug('back-button-clicked'),
         fromPage: currentPage,
       });
       action();

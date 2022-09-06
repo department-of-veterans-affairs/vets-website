@@ -45,6 +45,10 @@
       "slackGroup": "@vsp-identity-group"
     },
     {
+      "rootFolder": "medical-copays",
+      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
+    },
+    {
       "rootFolder": "mhv-inherited-proofing",
       "slackGroup": "@vsp-identity-group"
     },

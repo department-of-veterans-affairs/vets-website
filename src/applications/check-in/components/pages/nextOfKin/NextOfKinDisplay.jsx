@@ -62,7 +62,6 @@ export default function NextOfKinDisplay({
         loadingMessageOverride={loadingMessage}
         Footer={Footer}
         withBackButton
-        pageType="next-of-kin"
       />
     </>
   );

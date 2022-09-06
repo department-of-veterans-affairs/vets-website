@@ -20,11 +20,8 @@ const ConfirmationPage = ({ form }) => {
   });
 
   const { data, submission } = form;
-  const name = data?.fullName || {};
-  const fullName = `${name.first} ${name.middle || ''} ${name.last}`;
-
-  const submitDate = moment(submission?.timestamp || Date.now());
-  const { referenceNumber = '' } = submission?.response?.attributes || {};
+  const name = data.fullName;
+  const { referenceNumber } = submission.response.attributes || '';
 
   return (
     <div className="vads-u-margin-bottom--9">
@@ -34,32 +31,34 @@ const ConfirmationPage = ({ form }) => {
         </h2>
         <p className="vads-u-font-size--base">
           We’ll review your request. If you qualify for a Certificate of
-          Eligibility, we’ll notify you by email to let you know how to get your
+          Eligibility, we‘ll notify you by email to let you know how to get your
           COE.
         </p>
       </va-alert>
       <div className="inset">
-        <h2 className="vads-u-font-size--h3 vads-u-margin-top--1">
+        <h4>
           Request for a Certificate of Eligibility{' '}
           <span className="additional">(VA Form 26-1880)</span>
-        </h2>
+        </h4>
 
         {name && (
           <span>
-            For: {fullName} {name.suffix && `, ${name.suffix}`}
+            For: {name.first} {name.middle} {name.last} {name.suffix}
           </span>
         )}
 
-        {submitDate.isValid() && (
-          <div>
-            <h3>Date submitted</h3>
-            {submitDate.format('LL')}
-          </div>
+        {submission && (
+          <ul className="claim-list">
+            <li>
+              <h4>Date submitted</h4>
+              {moment(submission.timestamp).format('MMMM D, YYYY')}
+            </li>
+          </ul>
         )}
 
         {referenceNumber && (
           <div>
-            <h3>Reference number</h3>
+            <h4>Reference Number</h4>
             {referenceNumber}
           </div>
         )}
@@ -75,9 +74,9 @@ const ConfirmationPage = ({ form }) => {
 
       <h2>When will I hear back about my request for a COE?</h2>
       <div className="inset secondary">
-        <h3 className="vads-u-font-size--h2 vads-u-margin--0 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-display--inline-block">
+        <h2 className="vads-u-margin--0 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-light vads-u-display--inline-block">
           Within 5 business days
-        </h3>
+        </h2>
         <p>
           If more than 5 business days have passed since you submitted your
           request and you haven’t heard back, please don’t request a COE again.

@@ -15,12 +15,6 @@ export const MILITARY_STATE_LABELS = [
   'Armed Forces Pacific (AP)',
 ];
 
-export const RESOLUTION_OPTION_TYPES = Object.freeze({
-  WAIVER: 'waiver',
-  COMPROMISE: 'compromise',
-  MONTHLY: 'monthly',
-});
-
 export const SCHEMA_DEFINITIONS = {
   address: {
     type: 'string',

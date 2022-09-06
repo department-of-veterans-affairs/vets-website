@@ -103,22 +103,20 @@ export const nameStr = (socialSecurity, compensation, education, addlInc) => {
   return otherIncNames?.map(item => item).join(', ') ?? '';
 };
 
-export const fsrReasonDisplay = resolutionOption => {
-  switch (resolutionOption) {
-    case 'monthly':
-      return 'Extended monthly payments';
-    case 'waiver':
-      return 'Waiver';
-    case 'compromise':
-      return 'Compromise';
-    default:
-      return '';
-  }
-};
-
 export const getFsrReason = (debts, combinedFSR) => {
   const reasons = combinedFSR
-    ? debts.map(({ resolutionOption }) => fsrReasonDisplay(resolutionOption))
+    ? debts.map(({ resolutionOption }) => {
+        switch (resolutionOption) {
+          case 'monthly':
+            return 'Extended monthly payments';
+          case 'waiver':
+            return 'Waiver';
+          case 'compromise':
+            return 'Compromise';
+          default:
+            return '';
+        }
+      })
     : debts.map(({ resolution }) => resolution.resolutionType);
   const uniqReasons = [...new Set(reasons)];
 
@@ -141,18 +139,6 @@ export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
             acc + Number(debt.resolution?.offerToPay.replaceAll(',', '')),
           0,
         );
-};
-
-export const mergeAdditionalComments = (additionalComments, expenses) => {
-  const individualExpenses = expenses
-    ?.map(expense => `${expense.name} (${currency(expense.amount)})`)
-    .join(', ');
-
-  const individualExpensesStr = `Individual expense amount: ${individualExpenses}`;
-
-  return individualExpenses
-    ? `${additionalComments}\n${individualExpensesStr}`
-    : additionalComments;
 };
 
 export const getMonthlyIncome = ({

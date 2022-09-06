@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { formatDateLong } from 'platform/utilities/date';
-import { statusUrl } from './helpers';
-import { COE_ELIGIBILITY_STATUS } from '../../../constants';
+import { formatDate, statusUrl } from './helpers';
 
 const getHeadline = (status, origin) => {
-  if (status === COE_ELIGIBILITY_STATUS.pending) {
+  if (status === 'pending') {
     const base = 'We’re reviewing your request';
     return origin === 'form' ? base : `${base} for a COE`;
   }
@@ -14,7 +12,7 @@ const getHeadline = (status, origin) => {
 };
 
 const getBody = (status, origin) => {
-  if (status === COE_ELIGIBILITY_STATUS.pendingUpload) {
+  if (status === 'pending-upload') {
     if (origin === 'form') {
       return 'You’ll need to upload documents before we can make a decision on your COE request.';
     }
@@ -24,11 +22,11 @@ const getBody = (status, origin) => {
 };
 
 const getLinkText = status =>
-  status === COE_ELIGIBILITY_STATUS.pendingUpload
+  status === 'pending-upload'
     ? 'Go to your VA home loan COE page to upload documents'
     : 'Go to your VA home loan COE page to review the details of your COE';
 
-const Pending = ({ referenceNumber, requestDate, origin, status, testUrl }) => {
+const Pending = ({ referenceNumber, requestDate, origin, status }) => {
   const headline = getHeadline(status, origin);
   const body = getBody(status, origin);
   const linkText = getLinkText(status);
@@ -38,13 +36,13 @@ const Pending = ({ referenceNumber, requestDate, origin, status, testUrl }) => {
       <h2 slot="headline" className="vads-u-font-size--h3">
         {headline}
       </h2>
-      <p>You requested a COE on: {formatDateLong(requestDate)}</p>
+      <p>You requested a COE on: {formatDate(requestDate)}</p>
       <p>
         {body}
         {origin === 'form' && (
           <>
             <br />
-            <a href={testUrl || statusUrl}>{linkText}</a>
+            <a href={statusUrl}>{linkText}</a>
           </>
         )}
       </p>
@@ -58,7 +56,6 @@ Pending.propTypes = {
   referenceNumber: PropTypes.string.isRequired,
   requestDate: PropTypes.number.isRequired,
   status: PropTypes.string.isRequired,
-  testUrl: PropTypes.string,
 };
 
 export default Pending;

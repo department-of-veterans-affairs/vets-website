@@ -12,7 +12,6 @@ import {
   otherDeductionsAmt,
   nameStr,
   getAmountCanBePaidTowardDebt,
-  mergeAdditionalComments,
 } from './helpers';
 
 export const transform = (formConfig, form) => {
@@ -260,10 +259,7 @@ export const transform = (formConfig, form) => {
         courtLocation: additionalData.bankruptcy.courtLocation,
         docketNumber: additionalData.bankruptcy.docketNumber,
       },
-      additionalComments: mergeAdditionalComments(
-        additionalData.additionalComments,
-        otherExpenses,
-      ),
+      additionalComments: additionalData.additionalComments,
     },
     applicantCertifications: {
       veteranSignature: `${vetFirst} ${vetMiddle} ${vetLast}`,

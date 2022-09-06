@@ -1,22 +1,19 @@
-.side-menu-nav {
+.sidebar-navigation {
+  height: 600px;
+  width: 232px;
   display: flex;
-  justify-content: center;
-  border: 1px solid $color-gray;
-  width: 264px;
-  height: 1925px;
-  ul {
-    margin: 0px;
-    padding: 0px;
-    list-style-type: none;
-  }
-  .nav-title {
+  flex-direction: column;
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+  .sidebar-navigation-header {
     display: flex;
     flex-direction: row;
+    margin-left: 0px;
     height: 54px;
     i.fa-medkit {
       color: $color-white;
       background-color: $color-primary;
-      margin-left: 32px;
       margin-top: 9px;
       margin-bottom: 11px;
       height: 34px;
@@ -32,80 +29,134 @@
       margin-top: 15px;
       margin-right: 61px;
     }
-    button:hover {
-      background-color: $color-gray-lightest;
+    .no-close-btn {
+      position: absolute;
+      left: -3000;
     }
   }
-  .side-nav-content {
+  .usa-sidenav-list {
+    border: 0px;
+  }
+  a{
+    font-size: 17px;
+    margin: 2px 0px;
+    &:active, &:focus, &:hover {
+      background-color: transparent;
+      font-weight: 700;
+    }
+    &:visited {
+      color: $color-link-default;
+    }
+  }
+  ul{
+    list-style-type: none;
+  }
+  li{
+    border: 0px;
+  }
+  .sidebar-navigation-messages-list{
     background-color: $color-gray-lightest;
-    .usa-sidenav-list {
-      border-bottom: 0px;
-      ul {
-        li {
-          margin-top: 4px;
-          margin-bottom: 4px;
-          padding-left: 16px;
-          list-style-type: none;
-          a {
-            padding-top: 4px;
-            padding-bottom: 4px;
-            font-weight: 400;
-            margin-top: 0px;
-            margin-bottom: 0px;
-            color: $color-link-default;
-            &:focus {
-              padding-left: 9px;
-              background-color: transparent;
-              border-left: 4px solid;
-              font-weight: 700;
-            }
-            &:hover {
-              padding-left: 9px;
-              background-color: transparent;
-              border-left: 4px solid;
-              font-weight: 700;
-            }
-            &:active {
-              padding-left: 9px;
-              border-left: 4px solid;
-              font-weight: 700;
-            }
-          }
-        }
+    .sidebar-navigation-messages-list-header {
+    border-left: 5px solid;
+    font-weight: 700;
+    a{
+      padding-top: 7px;
+      &:active {
+        color: $color-gray-dark;
+        text-decoration: underline;
       }
     }
-    a.list-parent {
-      font-weight: 700;
-      color: $color-black;
-      border-left: 4px solid $color-black;
-      &:hover {
-        background-color: transparent;
+    }
+    .sidebar-navigation-messages-list-menu{
+      padding-left: 16px;
+      ul {
+        li:nth-child(1) {
+          a {
+            padding-top: 3px;
+            margin-top: 0px;
+          }
+        }
       }
     }
   }
 }
 
 @media (max-width: $small-screen) {
-  .side-menu-nav {
+  .va-btn-sidebarnav-trigger{
+    z-index: 0;
+    .button-wrapper {
+      position: static;
+      padding: 0px;
+    }
+  }
+    .sidebar-navigation {
+    padding: 0px;
+    width: 264px;
+    height: 1925px;
     z-index: 2;
     position: absolute;
     top: 0;
     right: 0;
     display: flex;
-    justify-content: center;
     border: 1px solid $color-gray;
     background-color: $color-white;
+    a{
+      font-size: 15px;
+    }
+    .sidebar-navigation-header {
+      height: 50px;
+      margin-left: 32px;
+      i.fa-medkit {
+        padding-bottom: 4px;
+      }
+    }
+    button{
+      background-color: $color-gray-lightest;
+      height: 46.64px;
+    }
     .fa-times {
       width: 14px;
       color: $color-black;
     }
-    ul {
+    ul{
       margin: 0px;
       padding: 0px;
     }
-    .side-nav-content {
-      padding: 0px;
-      background-color: $color-white;
+    .sidebar-navigation-list {
+      padding-left: 15px;
+      padding-right: 15px;
+      .sidebar-navigation-messages-list-header {
+        border-left: 4px solid $color-black;
+
+        a{
+          color: $color-black;
+        }
+      }
+      .usa-sidenav-list {
+        border-top: 1px solid $color-gray;
+        padding-top: 4px;
+        li {
+          display: none;
+          ul{
+            .usa-sidenav-list {
+              border: 0px;
+            }
+          }
+        }
+        .sidebar-navigation-messages-list {
+          display: contents;
+          ul{
+            border: 0px;
+          }
+          .sidebar-navigation-messages-list-menu {
+            background-color: $color-white;
+            display: block;
+            li{
+              display: block;
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { format, isValid } from 'date-fns';
 import { head } from 'lodash';
-import { deductionCodes } from '../constants/deduction-codes';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes';
 import { currency, endDate } from '../utils/helpers';
 
 const DebtCheckBox = ({ debt }) => {

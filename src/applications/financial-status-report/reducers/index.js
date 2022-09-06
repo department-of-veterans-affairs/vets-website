@@ -4,13 +4,13 @@ import {
   FSR_API_CALL_INITIATED,
   FSR_API_ERROR,
   FSR_RESET_ERRORS,
-  DEBTS_FETCH_SUCCESS,
 } from '../constants/actionTypes';
 import {
   MCP_STATEMENTS_FETCH_INIT,
   MCP_STATEMENTS_FETCH_SUCCESS,
   MCP_STATEMENTS_FETCH_FAILURE,
 } from '../actions/copays';
+import { DEBTS_FETCH_SUCCESS } from '../../debt-letters/actions';
 
 const initialState = {
   isError: false,

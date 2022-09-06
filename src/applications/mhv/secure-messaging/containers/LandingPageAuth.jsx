@@ -10,7 +10,7 @@ Assumptions that may need to be addressed:
 then additional functionality will need to be added to account for this.
 */
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 // import backendServices from 'platform/user/profile/constants/backendServices';
 // import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
@@ -34,44 +34,8 @@ const LandingPageAuth = () => {
     dispatch(getAllMessages());
   }, []);
 
-  /**
-   * Custom hook pulled from https://overreacted.io/making-setinterval-declarative-with-react-hooks/
-   * @param {*} callback
-   * @param {*} delay
-   */
-  function useInterval(callback, delay) {
-    const savedCallback = useRef();
-
-    // Remember the latest callback.
-    useEffect(
-      () => {
-        savedCallback.current = callback;
-      },
-      [callback],
-    );
-
-    // Set up the interval.
-    useEffect(
-      () => {
-        function tick() {
-          savedCallback.current();
-        }
-        if (delay !== null) {
-          const id = setInterval(tick, delay);
-          return () => clearInterval(id);
-        }
-        return null;
-      },
-      [delay],
-    );
-  }
-
-  useInterval(() => {
-    dispatch(getAllMessages());
-  }, 5000);
-
   let content;
-  if (isLoading && messages === null) {
+  if (isLoading) {
     content = (
       <va-loading-indicator
         message="Loading your secure messages..."

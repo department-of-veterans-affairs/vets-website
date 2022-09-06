@@ -5,9 +5,9 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import ReactTestUtils from 'react-dom/test-utils';
 
-import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 import { getFormDOM } from '../../../testing/unit/schemaform-utils';
 import { FormStartControls } from '../../save-in-progress/FormStartControls';
+import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
 
 describe('Schemaform <FormStartControls>', () => {
   const startPage = 'testing';
@@ -496,22 +496,5 @@ describe('Schemaform <FormStartControls>', () => {
     expect(buttons[0].props.ariaDescribedby).to.eq('test-id');
     expect(buttons[1].props.ariaLabel).to.eq('test aria-label');
     expect(buttons[1].props.ariaDescribedby).to.eq('test-id');
-  });
-  it('should not throw a JS error when routes are missing', () => {
-    const tree = ReactTestUtils.renderIntoDocument(
-      <FormStartControls
-        formId="1010ez"
-        migrations={[]}
-        formSaved={false}
-        startPage={startPage}
-        router={null}
-        fetchInProgressForm={null}
-        routes={null}
-      />,
-    );
-
-    const formDOM = getFormDOM(tree);
-
-    expect(formDOM.querySelectorAll('button').length).to.equal(1);
   });
 });

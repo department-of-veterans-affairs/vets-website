@@ -9,26 +9,6 @@ env:
   PR_NUMBER: ${{ github.event.number }}
 
 jobs:
-  check-cross-app-imports:
-    name: Check Cross App Imports
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install dependencies
-        uses: ./.github/workflows/install
-        timeout-minutes: 30
-        with:
-          key: ${{ hashFiles('yarn.lock') }}
-          yarn_cache_folder: .cache/yarn
-          path: |
-            .cache/yarn
-            node_modules
-
-      - name: Check for cross app imports in allowlist apps
-        run: yarn check-app-imports --check-allowlist --fail-on-cross-app-import
-
   eslint-disable-check:
     name: ESLint Disable Check
     runs-on: ubuntu-latest

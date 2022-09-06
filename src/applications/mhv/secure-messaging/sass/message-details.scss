@@ -6,15 +6,11 @@
     margin-bottom: 1px;
   }
   .message-detail-block {
-    margin: 2rem 0 4rem 0;
+    margin: 2rem 0 0 0;
     background-color: $color-white;
     .message-detail-content {
       border: 2px solid $color-gray-lightest;
       padding: 18px;
-
-      @media (min-width: $medium-screen) {
-        padding: 28px 37px 18px;
-      }
     }
 
     .message-detail-header {
@@ -35,7 +31,7 @@
       }
     }
     .message-body {
-      margin: 30px 0;
+      margin-top: 30px;
     }
 
     .message-attachments {
@@ -45,9 +41,6 @@
     .message-detail-note {
       margin-top: 3em;
       margin-bottom: 3em;
-    }
-    .message-body-attachments-label {
-      margin-bottom: 7px;
     }
   }
   .message-detail-header {

@@ -3,50 +3,39 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
-import environment from 'platform/utilities/environment';
-import { isLoggedIn } from 'platform/user/selectors';
 
 import { generateCoe } from '../../shared/actions';
 import formConfig from '../config/form';
 
-function App({ children, getCoe, getCoeMock, location, loggedIn }) {
+function App(props) {
+  const { children, getCoe, location } = props;
+
   useEffect(
     () => {
-      if (typeof getCoeMock === 'function' && !environment.isProduction()) {
-        getCoeMock(!loggedIn);
-      } else {
-        getCoe(!loggedIn);
-      }
+      getCoe();
     },
-    [getCoe, getCoeMock, loggedIn],
+    [getCoe],
   );
 
   return (
-    <article
-      id="form-26-1880"
-      data-location={`${location?.pathname?.slice(1)}`}
-    >
-      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        {children}
-      </RoutedSavableApp>
-    </article>
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {children}
+    </RoutedSavableApp>
   );
 }
+
+const mapStateToProps = state => ({
+  certificateOfEligibility: state.certificateOfEligibility,
+});
 
 const mapDispatchToProps = {
   getCoe: generateCoe,
 };
 
-const mapStateToProps = state => ({
-  loggedIn: isLoggedIn(state),
-});
-
 App.propTypes = {
   children: PropTypes.node.isRequired,
   getCoe: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
-  getCoeMock: PropTypes.func,
-  loggedIn: PropTypes.bool,
 };
 
 export default connect(

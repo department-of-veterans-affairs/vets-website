@@ -3,10 +3,10 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 
 import environment from 'platform/utilities/environment';
-import { formatDateLong } from 'platform/utilities/date';
 
 import ListItem from './ListItem';
 
+const formatDate = timestamp => moment(timestamp).format('MMMM DD, YYYY');
 const formatLabelDate = timestamp => moment(timestamp).format('MMDDYYYY');
 
 // ex docType: '.pdf'
@@ -21,7 +21,7 @@ const List = ({ documents }) =>
   documents.map((document, i) => {
     const { createDate, description, documentType, id } = document;
     const downloadLinkLabel = getDownloadLinkLabel(createDate, documentType);
-    const sentDate = formatDateLong(createDate);
+    const sentDate = formatDate(createDate);
 
     return (
       <ListItem

@@ -6,8 +6,8 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { deductionCodes } from '../constants/deduction-codes';
-import { renderAdditionalInfo } from '../constants/diary-codes';
+import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+import { renderAdditionalInfo } from '../../debt-letters/const/diary-codes';
 import { currency } from '../utils/helpers';
 
 const DebtCard = ({ debt, selectedDebts, formData, setDebts }) => {

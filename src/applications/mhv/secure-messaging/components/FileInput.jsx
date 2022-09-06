@@ -7,7 +7,7 @@ const FileInput = () => {
       <div className="compose-attachments-input">
         <input type="file" id="attachments" name="attachments" hidden />
         <label htmlFor="attachments">
-          <i className="fas fa-paperclip" aria-hidden="true" />
+          <i className="fas fa-paperclip" />
           Attach files
         </label>
       </div>

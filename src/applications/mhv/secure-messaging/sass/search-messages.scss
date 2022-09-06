@@ -2,19 +2,16 @@
 
 .search-messages {
   @media (min-width: $medium-screen) {
+    padding: 0;
+
     label {
       max-width: 100%;
     }
   }
-  @media (min-width: $large-screen) {
-    padding: 0;
-  }
 
   .search-form {
     margin: 0;
-    @media (min-width: $medium-screen) {
-      max-width: 351px;
-    }
+    max-width: 351px;
   }
 
   va-text-input.textField::part(input) {
@@ -42,10 +39,7 @@
   }
 
   .includes-attachment {
-    margin: 26px 0 0 0;
-    i {
-      margin-right: 6px;
-    }
+    margin: 26px 0 0 -2.4rem;
   }
 
   .advanced-search-actions {
