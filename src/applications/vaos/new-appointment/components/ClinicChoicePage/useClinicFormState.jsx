@@ -67,7 +67,8 @@ export default function useClinicFormState() {
             pastAppointmentDateMap.set(clinicId, apptTime);
           }
         });
-
+        // filter the clinic where past appointment contains the clinicId
+        // and the clinic configuration has direct scheduling set to true
         if (featureVaosV2Next) {
           filteredClinics = clinics.filter(
             clinic =>
