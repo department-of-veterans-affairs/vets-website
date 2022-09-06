@@ -143,12 +143,14 @@ export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
 
 export const mergeAdditionalComments = (additionalComments, expenses) => {
   const individualExpenses = expenses
-    .map(expense => `${expense.name} ($${expense.amount})`)
+    ?.map(expense => `${expense.name} (${currency(expense.amount)})`)
     .join(', ');
 
   const individualExpensesStr = `Individual expense amount: ${individualExpenses}`;
 
-  return `${additionalComments}\n${individualExpensesStr}`;
+  return individualExpenses
+    ? `${additionalComments}\n${individualExpensesStr}`
+    : additionalComments;
 };
 
 export const getMonthlyIncome = ({
