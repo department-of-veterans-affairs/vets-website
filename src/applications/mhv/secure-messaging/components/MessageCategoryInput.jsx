@@ -1,23 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 const MessageCategoryInput = props => {
-  const { category } = props;
+  const { category, categoryError, setCategory, setCategoryError } = props;
 
-  const [invalid] = useState(false);
-
-  const categoryChangeHandler = () => {};
+  const categoryChangeHandler = event => {
+    setCategory(event.target.value);
+    setCategoryError(null);
+  };
 
   return (
     <fieldset
-      className={`fieldset-input message-category ${invalid &&
+      className={`fieldset-input message-category ${categoryError &&
         'usa-input-error'}`}
     >
       <legend className="legend-label usa-input-error-label">
         Category <span className="required">(*Required)</span>
       </legend>
 
-      {invalid && (
+      {categoryError && (
         <span
           className="usa-input-error-message"
           role="alert"
@@ -145,7 +146,9 @@ const MessageCategoryInput = props => {
 
 MessageCategoryInput.propTypes = {
   category: PropTypes.string,
+  categoryError: PropTypes.bool,
   setCategory: PropTypes.func,
+  setCategoryError: PropTypes.func,
 };
 
 export default MessageCategoryInput;

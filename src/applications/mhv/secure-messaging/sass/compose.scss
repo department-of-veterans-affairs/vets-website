@@ -25,13 +25,13 @@
     margin: 0;
     width: fit-content;
   }
-  .compose-form-container {
+  .compose-form {
     margin: 2rem 0 4rem 0;
     background-color: $color-white;
     .required {
       color: $color-secondary-dark;
     }
-    .compose-header {
+    .compose-form-header {
       border-radius: 4px 4px 0 0;
       background-color: $color-gray-lightest;
       justify-content: space-between;
@@ -60,7 +60,7 @@
         text-decoration: underline;
       }
     }
-    .compose-form {
+    .compose-inputs-container {
       border: 2px solid $color-gray-lightest;
       padding: 0 14px 14px;
       @media (min-width: $medium-screen) {

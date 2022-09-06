@@ -11,6 +11,7 @@ import {
 const initialState = {
   isLoading: true,
   messages: null,
+  message: null,
   error: null,
 };
 
