@@ -249,7 +249,12 @@ function exportVariables(tests) {
 function run() {
   const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
   const graph = dedupeGraph(buildGraph());
-  const tests = selectTests(graph, pathsOfChangedFiles);
+  const disallowedTests = process.env.ALLOW_LIST.filter(
+    spec => spec.allowed === false,
+  );
+  const tests = selectTests(graph, pathsOfChangedFiles)
+    .map(test => test.substring(test.indexOf('/src')))
+    .filter(specPath => !disallowedTests.includes(specPath));
   console.log(tests);
   exportVariables(tests);
 }
