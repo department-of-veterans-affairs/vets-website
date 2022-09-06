@@ -12,7 +12,7 @@ const {
 } = require('../../config/cypress.config');
 
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
-const { ALLOW_LIST } = process.env;
+const ALLOW_LIST = JSON.parse(process.env.ALLOW_LIST);
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
 const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
 
