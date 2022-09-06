@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import environment from 'platform/utilities/environment';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
@@ -6,10 +6,10 @@ import recordEvent from 'platform/monitoring/record-event';
 import GreetUser from './makeBotGreetUser';
 import MarkdownRenderer from './markdownRenderer';
 import {
-  LOGGED_IN_FLOW,
   CONVERSATION_ID_KEY,
   TOKEN_KEY,
   clearBotSessionStorage,
+  IN_AUTH_EXP,
 } from '../chatbox/utils';
 
 const renderMarkdown = text => MarkdownRenderer.render(text);
@@ -25,6 +25,8 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   const requireAuth = useSelector(
     state => state.featureToggles.virtualAgentAuth,
   );
+  const [loading, setLoading] = useState(true);
+  const [directLine, setDirectLine] = useState(null);
 
   const store = useMemo(
     () =>
@@ -43,57 +45,80 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     [createStore],
   );
 
-  let directLineToken = token;
+  // Default values (not reconnecting)
   let conversationId = '';
-  let directLine = {};
+  let watermark = '';
+  const directLineToken = token;
 
-  // eslint-disable-next-line sonarjs/no-collapsible-if
-  if (requireAuth) {
-    if (sessionStorage.getItem(LOGGED_IN_FLOW) === 'true' && isLoggedIn) {
-      directLineToken = sessionStorage.getItem(TOKEN_KEY);
-      conversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
+  addEventListener('beforeunload', () => {
+    clearBotSessionStorage(false, isLoggedIn);
+  });
+
+  const links = document.querySelectorAll('div#account-menu ul li a');
+  if (links && links.length) {
+    const link = links[links.length - 1];
+    if (link.innerText === 'Sign Out') {
+      link.addEventListener('click', () => {
+        clearBotSessionStorage(true);
+      });
     }
   }
 
-  if (requireAuth) {
-    addEventListener('beforeunload', () => {
-      clearBotSessionStorage(false, isLoggedIn);
-    });
-
-    const links = document.querySelectorAll('div#account-menu ul li a');
-    if (links && links.length) {
-      const link = links[links.length - 1];
-      if (link.innerText === 'Sign Out') {
-        link.addEventListener('click', () => {
-          clearBotSessionStorage(true);
-        });
+  useEffect(
+    () => {
+      setLoading(true);
+      async function fetchNewToken() {
+        // console.log('current token is: ', sessionStorage.getItem(TOKEN_KEY));
+        // console.log('fetching new token');
+        const res = await fetch(
+          `https://directline.botframework.com/v3/directline/conversations/${sessionStorage.getItem(
+            CONVERSATION_ID_KEY,
+          )}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem(TOKEN_KEY)}`,
+            },
+          },
+        );
+        const { token: newToken } = await res.json();
+        // console.log('new token', newToken);
+        return newToken;
       }
-    }
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    directLine = useMemo(
-      () =>
-        createDirectLine({
+      if (sessionStorage.getItem(IN_AUTH_EXP) === 'true' && isLoggedIn) {
+        // reconnect to existing conversation
+        conversationId = sessionStorage.getItem(CONVERSATION_ID_KEY);
+        // set watermark to 0
+        watermark = '0';
+        // get new token by sending conversationId
+        fetchNewToken().then(newTokenData => {
+          console.log('new token for new connection', newTokenData);
+          const directLineInstance = createDirectLine({
+            token: newTokenData,
+            domain:
+              'https://northamerica.directline.botframework.com/v3/directline',
+            conversationId,
+            watermark,
+          });
+          setDirectLine(directLineInstance);
+          setLoading(false);
+        });
+      } else {
+        // start new conversation
+        const directLineInstance = createDirectLine({
           token: directLineToken,
           domain:
             'https://northamerica.directline.botframework.com/v3/directline',
           conversationId,
-          watermark: '',
-        }),
-      [createDirectLine],
-    );
-  } else {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    directLine = useMemo(
-      () =>
-        createDirectLine({
-          token,
-          domain:
-            'https://northamerica.directline.botframework.com/v3/directline',
-        }),
-      [createDirectLine, token],
-    );
-  }
+          watermark,
+        });
+        setDirectLine(directLineInstance);
+        setLoading(false);
+      }
+    },
+    [createDirectLine],
+  );
 
   const styleOptions = {
     hideUploadButton: true,
@@ -131,6 +156,9 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
       });
     }
   };
+  if (loading) {
+    return <div />;
+  }
 
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
