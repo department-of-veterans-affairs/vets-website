@@ -1,5 +1,6 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import constants from 'vets-json-schema/dist/constants.json';
+import { statesWithoutService } from '../../../constants';
 import {
   EssentialCoverageDescription,
   FacilityLocatorDescription,
@@ -19,7 +20,6 @@ const {
 
 // define states/territories with health care facilities
 const healthcareStates = constants.states.USA.filter(state => {
-  const statesWithoutService = ['AA', 'AE', 'AP', 'FM', 'MH', 'PW'];
   return !statesWithoutService.includes(state.value);
 });
 
