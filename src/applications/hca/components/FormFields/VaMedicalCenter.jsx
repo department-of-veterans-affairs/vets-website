@@ -45,7 +45,7 @@ const VaMedicalCenter = props => {
   const getFacilityName = useCallback(
     val => {
       const facility = facilities.find(f => f.id.split('_').pop() === val);
-      return facility?.name || '&mdash;';
+      return facility?.name || '\u2014';
     },
     [facilities],
   );
