@@ -5,6 +5,7 @@ import FacilityAddress from '../../../components/FacilityAddress';
 import AppointmentDateTime from '../AppointmentDateTime';
 import Breadcrumbs from '../../../components/Breadcrumbs';
 import CalendarLink from './CalendarLink';
+import StatusAlert from './StatusAlert';
 import TypeHeader from './TypeHeader';
 import PrintLink from './PrintLink';
 import RescheduleOrCancelAlert from './RescheduleOrCancelAlert';
@@ -42,6 +43,7 @@ export default function DetailsCC({ appointment, useV2 = false }) {
       <h1>
         <AppointmentDateTime appointment={appointment} />
       </h1>
+      <StatusAlert appointment={appointment} />
       <ShowTypeOfCare />
       <TypeHeader isCC>{header}</TypeHeader>
       <ProviderName appointment={appointment} useV2={useV2} />
