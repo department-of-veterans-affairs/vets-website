@@ -9,9 +9,9 @@ import {
   GENERATE_AUTOMATIC_COE_FAILED,
   GENERATE_AUTOMATIC_COE_SUCCEEDED,
   SKIP_AUTOMATIC_COE_CHECK,
-} from '../actions/index';
+} from '../actions';
 
-const initialState = {
+export const initialState = {
   generateAutoCoeStatus: CALLSTATUS.idle,
   coe: null,
   errors: {
