@@ -13,7 +13,7 @@ export const getAppData = state => ({
   isLOA1: isLOA1Selector(state),
   isLOA3: isLOA3Selector(state),
   savedForms: state?.user?.profile?.savedForms,
-  showUnverifiedUserAlert: toggleValues(state)[
+  showUnverifiedUserAlert: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebUnverifiedUserAlert
   ],
   user: state.user || {},
