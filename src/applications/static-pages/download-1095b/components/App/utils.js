@@ -73,11 +73,7 @@ export const notFoundComponent = () => {
 
 export const unavailableComponent = () => {
   return (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="warning"
-      visible
-    >
+    <va-alert close-btn-aria-label="Close notification" status="info" visible>
       <h2 slot="headline">
         Your 1095-B form isn’t available to download right now
       </h2>

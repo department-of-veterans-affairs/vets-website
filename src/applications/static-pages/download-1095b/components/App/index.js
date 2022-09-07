@@ -155,7 +155,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
       <LastUpdatedComponent lastUpdated={lastUpdated} />
       <va-alert
         close-btn-aria-label="Close notification"
-        status="warning"
+        status="error"
         visible
       >
         <h2 slot="headline">We couldn’t download your form</h2>
