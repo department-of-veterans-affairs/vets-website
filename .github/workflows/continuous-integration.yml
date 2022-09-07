@@ -423,8 +423,57 @@ jobs:
         run: yarn generate-app-list
         working-directory: qa-standards-dashboard-data
 
+  fetch-e2e-allow-list:
+    name: Fetch E2E Allow List
+    runs-on: ubuntu-latest
+    outputs:
+      allow_list: ${{ steps.allow-list-output.outputs.list }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Fetch allow list
+        run: yarn get-allow-list
+        working-directory: qa-standards-dashboard-data
+      # exports app list and assigns to environmental variable at this step
+
+      - name: Set Allow List Output
+        id: allow-list-output
+        run: echo ::set-output name=list::$ALLOW_LIST
+
   cypress-tests-prep:
     name: Prep for Cypress Tests
+    needs: [fetch-e2e-allow-list]
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.tests.outputs.selected }}
@@ -462,6 +511,7 @@ jobs:
           CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_URLS: ${{ steps.get-changed-apps.outputs.urls }}
           APP_ENTRIES: ${{ steps.get-changed-apps.outputs.entry_names }}
+          ALLOW_LIST: ${{ needs.fetch-allow-list.outputs.allow_list }}
 
       - name: Set output of TESTS
         id: tests
@@ -1100,22 +1150,22 @@ jobs:
     env:
       DEPLOY_TO_PRODUCTION: false # Enables production deployments for apps on the allowlist when set to true
       DEV: "{
-          \\\"environment\\\": \\\"vagovdev\\\", 
-          \\\"bucket\\\": \\\"dev.va.gov\\\", 
-          \\\"asset_bucket\\\": \\\"dev-va-gov-assets\\\",
-          \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
+        \\\"environment\\\": \\\"vagovdev\\\",
+        \\\"bucket\\\": \\\"dev.va.gov\\\",
+        \\\"asset_bucket\\\": \\\"dev-va-gov-assets\\\",
+        \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
         }"
       STAGING: "{
-          \\\"environment\\\": \\\"vagovstaging\\\", 
-          \\\"bucket\\\": \\\"staging.va.gov\\\", 
-          \\\"asset_bucket\\\": \\\"staging-va-gov-assets\\\",
-          \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
+        \\\"environment\\\": \\\"vagovstaging\\\",
+        \\\"bucket\\\": \\\"staging.va.gov\\\",
+        \\\"asset_bucket\\\": \\\"staging-va-gov-assets\\\",
+        \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
         }"
       PROD: "{
-          \\\"environment\\\": \\\"vagovprod\\\", 
-          \\\"bucket\\\": \\\"www.va.gov\\\", 
-          \\\"asset_bucket\\\": \\\"prod-va-gov-assets\\\",
-          \\\"iam_role\\\": \\\"AWS_FRONTEND_PROD_ROLE\\\"
+        \\\"environment\\\": \\\"vagovprod\\\",
+        \\\"bucket\\\": \\\"www.va.gov\\\",
+        \\\"asset_bucket\\\": \\\"prod-va-gov-assets\\\",
+        \\\"iam_role\\\": \\\"AWS_FRONTEND_PROD_ROLE\\\"
         }"
     steps:
       - name: Set environments for deploy matrix
@@ -1126,7 +1176,7 @@ jobs:
           else
             echo ::set-output name=environments::{\"include\":[${{env.DEV}},${{env.STAGING}}]}
           fi
-  
+
   deploy:
     name: Deploy
     needs: [build, set-deploy-environments]
