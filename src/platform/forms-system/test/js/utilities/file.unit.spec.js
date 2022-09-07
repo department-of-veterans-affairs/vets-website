@@ -22,7 +22,7 @@ const encryptedMockFile = [
   ...arrayOfZeros,
 ];
 
-describe.skip('readAndCheckFile', () => {
+describe('readAndCheckFile', () => {
   let oldFileReader;
 
   const setup = (ext = 'pdf', isEncrypted) => {
