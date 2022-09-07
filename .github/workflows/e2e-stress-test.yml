@@ -89,7 +89,7 @@ jobs:
           retention-days: 1
 
   fetch-allow-list:
-    name: E2E Stress Test
+    name: Fetch E2E Allow List
     runs-on: ubuntu-latest
     outputs:
       allow_list: ${{ steps.allow-list-output.outputs.list }}
