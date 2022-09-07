@@ -25,7 +25,7 @@ export const OfficialGovtWebsite = () => {
         <img
           alt="U.S. flag"
           className="header-us-flag vads-u-margin-right--1"
-          src="/img/tiny-usa-flag.png"
+          src="https://www.va.gov/img/tiny-usa-flag.png"
         />
         <button
           aria-controls="official-govt-site-explanation"
@@ -52,7 +52,7 @@ export const OfficialGovtWebsite = () => {
             <img
               alt="Dot gov"
               className="usa-banner-icon usa-media_block-img"
-              src="/img/icon-dot-gov.svg"
+              src="https://www.va.gov/img/icon-dot-gov.svg"
             />
             <p className="vads-u-margin-top--0">
               <strong>The .gov means it’s official.</strong>
@@ -66,7 +66,7 @@ export const OfficialGovtWebsite = () => {
             <img
               alt="SSL"
               className="usa-banner-icon usa-media_block-img"
-              src="/img/icon-https.svg"
+              src="https://www.va.gov/img/icon-https.svg"
             />
             <p className="vads-u-margin-top--0">
               <strong>The site is secure.</strong>

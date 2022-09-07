@@ -24,7 +24,7 @@ const DOCUMENT_REQUIREMENTS = {
 };
 
 const UploadRequirements = ({ formData }) => {
-  const { identity, vaLoanIndicator } = formData;
+  const { identity, vaLoanIndicator } = formData || {};
 
   return (
     <div>

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { parseISO } from 'date-fns';
-import recordEvent from 'platform/monitoring/record-event';
 import { api } from '../../api';
 
 import { useFormRouting } from '../../hooks/useFormRouting';
@@ -31,10 +30,6 @@ const AppointmentAction = props => {
   const { goToNextPage, goToErrorPage } = useFormRouting(router);
   const onClick = useCallback(
     async () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'check in now',
-      });
       try {
         const json = await api.v2.postCheckInData({
           uuid: token,
