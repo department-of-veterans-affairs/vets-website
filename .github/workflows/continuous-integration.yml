@@ -1256,7 +1256,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # DURATION: ${{ needs.set-env.outputs.RELEASE_WAIT < 5 && 'a few' || needs.set-env.outputs.RELEASE_WAIT }}
-      RELEASE_WAIT_MINUTES: ${{ 0 < 5 && 'a few' || 0 }}
+      RELEASE_WAIT_MINUTES: ${{ 10 < 5 && 'a few' || 10 }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
