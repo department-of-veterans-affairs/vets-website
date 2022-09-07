@@ -28,7 +28,6 @@ const batch = tests
   .join(',');
 
 let status = null;
-
 const upTo = IS_STRESS_TEST ? 2 : 1;
 
 for (let i = 0; i <= upTo; i += 1) {
