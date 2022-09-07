@@ -4,7 +4,7 @@ let tests = JSON.parse(process.env.TESTS);
 const step = Number(process.env.STEP);
 const numContainers = Number(process.env.NUM_CONTAINERS);
 const appUrl = process.env.APP_URLS.split(',')[0];
-const { SHOULD_STRESS_TEST } = process.env;
+const { IS_STRESS_TEST } = process.env;
 
 // The following logic checks if the longest-running test has been selected.
 // If it has been selected, it is run in its own container in the last parallel container.
@@ -29,7 +29,7 @@ const batch = tests
 
 let status = null;
 
-for (let i = 0; i <= SHOULD_STRESS_TEST ? 40 : 1; i += 1) {
+for (let i = 0; i <= IS_STRESS_TEST ? 2 : 1; i += 1) {
   if (longestTestIsPresent && step === lastStep) {
     status = runCommandSync(
       `CYPRESS_EVERY_NTH_FRAME=1 yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec 'src/applications/**/all-claims.cypress.spec.js' --env app_url=${appUrl}`,

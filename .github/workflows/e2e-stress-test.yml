@@ -272,7 +272,7 @@ jobs:
           TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
           APP_URLS: ${{ needs.cypress-tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
-          SHOULD_STRESS_TEST: true
+          IS_STRESS_TEST: true
 
       - name: Archive test videos
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
