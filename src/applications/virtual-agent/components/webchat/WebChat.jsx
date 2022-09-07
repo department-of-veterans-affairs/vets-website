@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import environment from 'platform/utilities/environment';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
+import { response } from 'msw';
 import GreetUser from './makeBotGreetUser';
 import MarkdownRenderer from './markdownRenderer';
 import {
@@ -25,6 +26,28 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
   const requireAuth = useSelector(
     state => state.featureToggles.virtualAgentAuth,
   );
+  const [directLineToken, setDirectLineToken] = useState(token);
+
+  async function refreshToken() {
+    const res = await fetch(
+      'https://directline.botframework.com/v3/directline/tokens/refresh',
+      {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${directLineToken}` },
+      },
+    );
+    const responseAsJson = await res.json();
+    debugger;
+
+    setDirectLineToken(responseAsJson.token);
+  }
+
+  useEffect(() => {
+    const intervalId = setInterval(refreshToken, 60000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  });
 
   const store = useMemo(
     () =>
@@ -43,7 +66,6 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     [createStore],
   );
 
-  let directLineToken = token;
   let conversationId = '';
   let directLine = {};
 
@@ -132,6 +154,7 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     }
   };
 
+  console.log(directLineToken);
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
