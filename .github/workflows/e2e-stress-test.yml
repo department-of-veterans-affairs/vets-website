@@ -295,3 +295,118 @@ jobs:
           name: cypress-mochawesome-test-results
           path: cypress/results
           retention-days: 1
+
+  testing-reports-cypress:
+    name: Testing Reports - Cypress E2E Tests
+    runs-on: ubuntu-latest
+    needs: [cypress-tests-prep, cypress-tests]
+    if: ${{ always() && needs.cypress-tests-prep.outputs.tests != '[]' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Notify Slack about Cypress test failures
+        if: ${{ github.ref == 'refs/heads/main' && needs.cypress-tests.result == 'failure' }}
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        continue-on-error: true
+        env:
+          SSL_CERT_DIR: /etc/ssl/certs
+        with:
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> E2E tests in `vets-website` have failed on the `main` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
+          channel_id: C026PD47Z19 #gha-test-status
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+        # ------------------------
+        # | Upload BigQuery Data |
+        # ------------------------
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+
+      - name: Get va-vsp-bot token
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /devops/VA_VSP_BOT_GITHUB_TOKEN
+          env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
+
+      - name: Init Dashboard Data Repo
+        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+
+      - name: Set Up BigQuery Creds
+        uses: ./.github/workflows/configure-bigquery
+
+      - name: Get AWS IAM role
+        uses: marvinpinto/action-inject-ssm-secrets@v1.2.1
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
+          env_variable_name: AWS_FRONTEND_NONPROD_ROLE
+
+      - name: Set UUID for Mochawesome reports
+        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
+      - name: Configure AWS Credentials (2)
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-gov-west-1
+          role-to-assume: ${{ env.AWS_FRONTEND_NONPROD_ROLE }}
+          role-duration-seconds: 900
+          role-session-name: vsp-frontendteam-githubaction
+
+        # --------------------------------------
+        # | Publish Cypress E2E Testing Report |
+        # -------------------------------------
+
+      - name: Download Cypress E2E Mochawesome test results
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-mochawesome-test-results
+          path: qa-standards-dashboard-data/src/testing-reports/data
+
+      - name: Download Cypress E2E video artifacts
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-video-artifacts
+          path: qa-standards-dashboard-data/videos/${{ env.UUID }}
+
+      # Break this into two steps so we don't have to upload to BigQuery (or add flag to skip upload)
+      - name: Create Cypress E2E report and post results to BigQuery
+        run: yarn cypress-mochawesome-to-bigquery
+        working-directory: qa-standards-dashboard-data
+        env:
+          IS_MASTER_BUILD: false
+          TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
+          TEST_RESULTS_TABLE_NAME: cypress_test_results
+          TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
+          TEST_RETRIES_TABLE_NAME: cypress_retry_records
+          NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+          # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
+
+      - name: Upload Cypress E2E test videos to s3
+        if: ${{ needs.cypress-tests.result == 'failure' }}
+        run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
+
+      - name: Upload Cypress E2E test report to s3
+        run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
+
+        # -------------------------
+        # | Cypress Tests Summary |
+        # -------------------------
+
+      - name: Publish Cypress test results
+        if: ${{ always() }}
+        uses: LouisBrunner/checks-action@v1.2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: Cypress Tests Summary
+          conclusion: ${{ needs.cypress-tests.result }}
+          output: |
+            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
