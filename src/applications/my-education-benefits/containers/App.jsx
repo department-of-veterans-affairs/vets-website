@@ -12,18 +12,18 @@ import { getAppData } from '../selectors/selectors';
 import { prefillTransformer } from '../helpers';
 
 export const App = ({
-  location,
   children,
-  formData,
-  setFormData,
-  getPersonalInfo,
   claimantInfo,
-  firstName,
-  getEligibility,
-  isLOA3,
   eligibility,
+  firstName,
+  formData,
+  getEligibility,
+  getPersonalInfo,
+  isLOA3,
+  isLoggedIn,
+  location,
+  setFormData,
   showUnverifiedUserAlert,
-  user,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
   const [fetchedEligibility, setFetchedEligibility] = useState(false);
@@ -31,7 +31,7 @@ export const App = ({
   useEffect(
     () => {
       if (
-        !user.login.currentlyLoggedIn ||
+        !isLoggedIn ||
         (showUnverifiedUserAlert !== false && isLOA3 !== true)
       ) {
         return;
@@ -68,9 +68,9 @@ export const App = ({
       getEligibility,
       getPersonalInfo,
       isLOA3,
+      isLoggedIn,
       setFormData,
       showUnverifiedUserAlert,
-      user,
     ],
   );
 
@@ -93,20 +93,16 @@ export const App = ({
 App.propTypes = {
   children: PropTypes.object,
   claimantInfo: PropTypes.object,
-  eligibility: PropTypes.object,
+  eligibility: PropTypes.arrayOf(PropTypes.string),
   firstName: PropTypes.string,
   formData: PropTypes.object,
   getEligibility: PropTypes.func,
   getPersonalInfo: PropTypes.func,
   isLOA3: PropTypes.bool,
-  location: PropTypes.string,
+  isLoggedIn: PropTypes.bool,
+  location: PropTypes.object,
   setFormData: PropTypes.func,
   showUnverifiedUserAlert: PropTypes.bool,
-  user: PropTypes.shape({
-    login: PropTypes.shape({
-      currentlyLoggedIn: PropTypes.bool,
-    }),
-  }),
 };
 
 const mapStateToProps = state => {
