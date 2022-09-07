@@ -107,7 +107,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
 
   const radioComponent = (
     <>
-      <h3>Choose your file format and download your document</h3>
+      <h2>Choose your file format and download your document</h2>
       <VaRadio
         id="1095-download-options"
         label="We offer two file format options for this form. Choose the option that best meets your needs."
