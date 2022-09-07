@@ -3,10 +3,9 @@ import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 
-import DocumentUploader from '../../../components/DocumentUploader/DocumentUploader.jsx';
-// import { testData } from '../../../../../../../../../vets-json-schema/test/schemas/26-1880/testData.js';
+import DocumentUploader from '../../../components/DocumentUploader/DocumentUploader';
 
-describe.skip('DocumentUploader', () => {
+describe('DocumentUploader', () => {
   it('should render with the expected fields', () => {
     const screen = render(<DocumentUploader />);
     expect(screen.getByRole('button', { name: /Upload your document/i })).to
