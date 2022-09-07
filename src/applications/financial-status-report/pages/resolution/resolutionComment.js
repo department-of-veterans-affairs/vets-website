@@ -13,11 +13,16 @@ export const uiSchema = {
           ? 'How much can you afford to pay monthly on this debt?'
           : 'How much can you afford to pay as a one-time payment?';
       },
+      'ui:options': {
+        hideOnReview: true,
+      },
       resolutionComment: {
         'ui:title': ' ',
         'ui:options': {
           classNames: 'schemaform-currency-input',
           widgetClassNames: 'input-size-3',
+          customTitle: ' ',
+          keepInPageOnReview: true,
         },
         'ui:required': (formData, index) => {
           return (

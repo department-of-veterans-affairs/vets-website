@@ -42,6 +42,8 @@ const PreCheckInAccordionBlock = ({
                     key="link"
                     href="https://www.va.gov/profile/personal-information"
                     hrefLang="en"
+                    eventId="sign-in-from-accordion-clicked"
+                    eventPrefix="nav"
                   >
                     link
                   </ExternalLink>,
@@ -71,7 +73,7 @@ const PreCheckInAccordionBlock = ({
               <Trans
                 i18nKey="or-you-can-call"
                 components={[
-                  <va-telephone key="or-you-can-call" contact="800-698-2411">
+                  <va-telephone key="or-you-can-call" contact="8006982411">
                     link
                   </va-telephone>,
                 ]}
@@ -104,7 +106,7 @@ const PreCheckInAccordionBlock = ({
             <Trans
               i18nKey="please-call"
               components={[
-                <va-telephone key="please call" contact="800-698-2411">
+                <va-telephone key="please call" contact="8006982411">
                   link
                 </va-telephone>,
               ]}

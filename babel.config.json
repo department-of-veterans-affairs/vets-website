@@ -105,7 +105,18 @@
           "@department-of-veterans-affairs/platform-static-data/options-for-select": "./src/platform/forms/static-data/options-for-select.js",
           "@department-of-veterans-affairs/platform-static-data/SubmitSignInForm": "./src/platform/forms/static-data/SubmitSignInForm.jsx",
 
-          "@department-of-veterans-affairs/platform-polyfills/exports": "./src/platform/polyfills/exportFiles.js"
+          "@department-of-veterans-affairs/platform-polyfills/exports": "./src/platform/polyfills/exportFiles.js",
+
+          "@department-of-veterans-affairs/platform-monitoring/exports": "./src/platform/monitoring/exportsFile.js",
+          "@department-of-veterans-affairs/platform-monitoring/DowntimeNotification": "./src/platform/monitoring/DowntimeNotification/index.jsx",
+          "@department-of-veterans-affairs/platform-monitoring/DowntimeNotification/containers/DowntimeNotification": "./src/platform/monitoring/DowntimeNotification/containers/DowntimeNotification.jsx",
+          "@department-of-veterans-affairs/platform-monitoring/DowntimeNotification/components/Banner": "./src/platform/monitoring/DowntimeNotification/components/Banner.jsx",
+          "@department-of-veterans-affairs/platform-monitoring/DowntimeNotification/components/Down": "./src/platform/monitoring/DowntimeNotification/components/Down.jsx",
+          "@department-of-veterans-affairs/platform-monitoring/DowntimeNotification/components/DowntimeApproaching": "./src/platform/monitoring/DowntimeNotification/components/DowntimeApproaching.jsx",
+          "@department-of-veterans-affairs/platform-monitoring/DowntimeNotification/components/Wrapper": "./src/platform/monitoring/DowntimeNotification/components/Wrapper.jsx",
+          "@department-of-veterans-affairs/platform-monitoring/DowntimeNotification/util/helpers": "./src/platform/monitoring/DowntimeNotification/util/helpers.js",
+          "@department-of-veterans-affairs/platform-monitoring/external-services/ExternalServicesError": "./src/platform/monitoring/external-services/ExternalServicesError.jsx"
+ 
         }
       }
     ]

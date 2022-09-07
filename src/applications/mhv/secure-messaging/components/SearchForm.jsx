@@ -2,17 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const SearchMessagesForm = props => {
-  const { advancedSearchOpen, query } = props;
+  const { advancedSearchOpen, keyword } = props;
 
   return (
     <form className="search-form">
       <va-text-input
-        label="Enter Keyword"
+        label="Enter keyword"
         name="keyword"
         onBlur={function noRefCheck() {}}
         onInput={function noRefCheck() {}}
         class="textField"
-        value={query.keyword}
+        value={keyword}
       />
 
       <va-select
@@ -81,11 +81,17 @@ const SearchMessagesForm = props => {
             <option value="drafts">All time</option>
           </va-select>
 
-          <va-checkbox
-            label="&#x1F4CE; Includes attachment"
-            name="includesAttachment"
-            class="includes-attachment"
-          />
+          <div className="includes-attachment">
+            <input id="includesAttachment" type="checkbox" />
+            <label
+              className="usa-input-label"
+              name="includes-attachment-label"
+              htmlFor="includesAttachment"
+            >
+              <i className="fa fa-paperclip" aria-hidden="true" />
+              Includes attachment
+            </label>
+          </div>
         </section>
       )}
 
@@ -98,7 +104,7 @@ const SearchMessagesForm = props => {
         </div>
       ) : (
         <button type="submit" className="search-messages-button">
-          <i className="fas fa-search" />
+          <i className="fas fa-search" aria-hidden="true" />
           <span className="search-messages-button-text">Search</span>
         </button>
       )}
@@ -108,7 +114,7 @@ const SearchMessagesForm = props => {
 
 SearchMessagesForm.propTypes = {
   advancedSearchOpen: PropTypes.bool,
-  query: PropTypes.object,
+  keyword: PropTypes.string,
 };
 
 export default SearchMessagesForm;
