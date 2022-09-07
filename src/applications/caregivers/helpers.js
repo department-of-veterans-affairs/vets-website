@@ -4,7 +4,7 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import {
   primaryCaregiverFields,
   secondaryOneFields,
-} from 'applications/caregivers/definitions/constants';
+} from './definitions/constants';
 
 // Merges all the state facilities into one object with values as keys
 // and labels as values
@@ -212,11 +212,7 @@ export const shouldHideAlert = formData => {
   const isSecondaryOneUndefined =
     formData[primaryCaregiverFields.hasSecondaryCaregiverOne] === undefined;
 
-  if (hasPrimary) return true;
-  if (hasSecondary) return true;
-  if (isSecondaryOneUndefined) return true;
-  if (!hasPrimary && !hasSecondary) return false;
-  return false;
+  return hasPrimary || hasSecondary || isSecondaryOneUndefined;
 };
 
 /**

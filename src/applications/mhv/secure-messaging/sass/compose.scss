@@ -1,0 +1,153 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.compose-container {
+  va-text-input.composeInput::part(input) {
+    max-width: 100%;
+  }
+  va-select.composeSelect::part(select) {
+    max-width: 100%;
+  }
+  @media (min-width: $medium-screen) {
+    padding: 0;
+    label {
+      max-width: 100%;
+    }
+  }
+  @media (min-width: $large-screen) {
+    padding: 0;
+  }
+  .breadcrumb > i {
+    margin-right: 6px;
+    font-size: 1.1rem;
+  }
+  .edit-input-button {
+    padding: 0;
+    margin: 0;
+    width: fit-content;
+  }
+  .compose-form-container {
+    margin: 2rem 0 4rem 0;
+    background-color: $color-white;
+    .required {
+      color: $color-secondary-dark;
+    }
+    .compose-header {
+      border-radius: 4px 4px 0 0;
+      background-color: $color-gray-lightest;
+      justify-content: space-between;
+      align-items: center;
+      padding: 17px 12px 28px;
+      display: flex;
+      @media (min-width: $medium-screen) {
+        padding: 24px 36px 25px;
+      }
+      h3 {
+        margin: 0;
+      }
+    }
+    .send-button-top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: transparent;
+      color: $color-link-default;
+      font-weight: normal;
+      line-height: 24px;
+      width: fit-content;
+      margin: 0;
+      padding: 0;
+      .send-button-top-text {
+        text-decoration: underline;
+      }
+    }
+    .compose-form {
+      border: 2px solid $color-gray-lightest;
+      padding: 0 14px 14px;
+      @media (min-width: $medium-screen) {
+        padding: 0 36px 36px;
+      }
+      .message-category {
+        label {
+          margin: 0 0 6px 0;
+          line-height: 1.5;
+          @media (min-width: $medium-screen) {
+            margin: 0 0 13.9px 0;
+          }
+        }
+      }
+      .message-body {
+        min-height: 5.2rem;
+        max-width: 100%;
+        width: 100%;
+        padding: 1.2rem;
+        margin: 0.4rem 0px;
+        resize: none;
+      }
+      .send-button-bottom-text {
+        margin-right: 8px;
+      }
+      .radio-button > label {
+        margin-left: 2.85rem;
+        text-indent: -2.85rem;
+      }
+      .attachments-section {
+        margin-bottom: 3rem;
+        .compose-attachments-label {
+          margin-top: 27px;
+        }
+        .compose-attachments-input {
+          label {
+            padding: 0.5rem 0.5rem 0.5rem 0;
+            border-radius: 0.3rem;
+            margin: 1rem 0 1rem 0;
+            cursor: pointer;
+            text-decoration: underline;
+            color: $color-link-default;
+          }
+        }
+      }
+      .compose-form-actions {
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas: "top" "bottom";
+        .send-button-bottom {
+          grid-area: top;
+        }
+        .save-draft-button {
+          grid-area: bottom;
+        }
+        @media (min-width: $medium-screen) {
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: auto;
+          grid-template-areas: "left right";
+          .send-button-bottom {
+            grid-area: right;
+            justify-self: end;
+            width: 201px;
+          }
+          .save-draft-button {
+            grid-area: left;
+            justify-self: start;
+          }
+        }
+      }
+    }
+  }
+}
+
+.file-input {
+  .compose-attachments-input {
+    display: flex;
+    i {
+      margin: 5px 8px 0 0;
+    }
+  }
+  .how-to-attach-files {
+    list-style: square;
+    * {
+      line-height: 24px;
+      margin: 16px 0;
+    }
+  }
+}

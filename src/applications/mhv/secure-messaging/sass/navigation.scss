@@ -1,0 +1,111 @@
+.side-menu-nav {
+  display: flex;
+  justify-content: center;
+  border: 1px solid $color-gray;
+  width: 264px;
+  height: 1925px;
+  ul {
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+  }
+  .nav-title {
+    display: flex;
+    flex-direction: row;
+    height: 54px;
+    i.fa-medkit {
+      color: $color-white;
+      background-color: $color-primary;
+      margin-left: 32px;
+      margin-top: 9px;
+      margin-bottom: 11px;
+      height: 34px;
+      width: 32px;
+      padding: 8px 8px 10px;
+      border-radius: 100%;
+    }
+    h4 {
+      color: $color-gray-dark;
+      width: 88px;
+      height: 20px;
+      margin-left: 5px;
+      margin-top: 15px;
+      margin-right: 61px;
+    }
+    button:hover {
+      background-color: $color-gray-lightest;
+    }
+  }
+  .side-nav-content {
+    background-color: $color-gray-lightest;
+    .usa-sidenav-list {
+      border-bottom: 0px;
+      ul {
+        li {
+          margin-top: 4px;
+          margin-bottom: 4px;
+          padding-left: 16px;
+          list-style-type: none;
+          a {
+            padding-top: 4px;
+            padding-bottom: 4px;
+            font-weight: 400;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            color: $color-link-default;
+            &:focus {
+              padding-left: 9px;
+              background-color: transparent;
+              border-left: 4px solid;
+              font-weight: 700;
+            }
+            &:hover {
+              padding-left: 9px;
+              background-color: transparent;
+              border-left: 4px solid;
+              font-weight: 700;
+            }
+            &:active {
+              padding-left: 9px;
+              border-left: 4px solid;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+    }
+    a.list-parent {
+      font-weight: 700;
+      color: $color-black;
+      border-left: 4px solid $color-black;
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+}
+
+@media (max-width: $small-screen) {
+  .side-menu-nav {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    border: 1px solid $color-gray;
+    background-color: $color-white;
+    .fa-times {
+      width: 14px;
+      color: $color-black;
+    }
+    ul {
+      margin: 0px;
+      padding: 0px;
+    }
+    .side-nav-content {
+      padding: 0px;
+      background-color: $color-white;
+    }
+  }
+}

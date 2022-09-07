@@ -12,6 +12,7 @@ import {
   otherDeductionsAmt,
   nameStr,
   getAmountCanBePaidTowardDebt,
+  mergeAdditionalComments,
 } from './helpers';
 
 export const transform = (formConfig, form) => {
@@ -72,7 +73,7 @@ export const transform = (formConfig, form) => {
   const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
   const vetAddlInc = sumValues(addlIncRecords, 'amount');
   const vetSocSecAmt = Number(
-    socialSecurity.socialSecAmt?.replace(',', '') ?? 0,
+    socialSecurity.socialSecAmt?.replaceAll(',', '') ?? 0,
   );
   const vetComp = sumValues(income, 'compensationAndPension');
   const vetEdu = sumValues(income, 'education');
@@ -90,13 +91,13 @@ export const transform = (formConfig, form) => {
   const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
   const spSocialSecAmt = Number(
-    socialSecurity.socialSecAmt?.replace(',', '') ?? 0,
+    socialSecurity.socialSecAmt?.replaceAll(',', '') ?? 0,
   );
   const spComp = Number(
-    benefits.spouseBenefits.compensationAndPension?.replace(',', '') ?? 0,
+    benefits.spouseBenefits.compensationAndPension?.replaceAll(',', '') ?? 0,
   );
   const spEdu = Number(
-    benefits.spouseBenefits.education?.replace(',', '') ?? 0,
+    benefits.spouseBenefits.education?.replaceAll(',', '') ?? 0,
   );
   const spBenefits = spComp + spEdu;
   const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
@@ -259,7 +260,10 @@ export const transform = (formConfig, form) => {
         courtLocation: additionalData.bankruptcy.courtLocation,
         docketNumber: additionalData.bankruptcy.docketNumber,
       },
-      additionalComments: additionalData.additionalComments,
+      additionalComments: mergeAdditionalComments(
+        additionalData.additionalComments,
+        otherExpenses,
+      ),
     },
     applicantCertifications: {
       veteranSignature: `${vetFirst} ${vetMiddle} ${vetLast}`,
