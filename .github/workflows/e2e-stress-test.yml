@@ -130,7 +130,6 @@ jobs:
       - name: Fetch allow list
         run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
-      # exports app list and assigns to environmental variable at this step
 
       - name: Set Allow List Output
         id: allow-list-output
@@ -306,22 +305,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      # - name: Notify Slack about Cypress test failures
-      #   if: ${{ github.ref == 'refs/heads/main' && needs.cypress-tests.result == 'failure' }}
-      #   uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
-      #   continue-on-error: true
-      #   env:
-      #     SSL_CERT_DIR: /etc/ssl/certs
-      #   with:
-      #     payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> E2E tests in `vets-website` have failed on the `main` branch, run: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
-      #     channel_id: C026PD47Z19 #gha-test-status
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-      # ------------------------
-      # | Upload BigQuery Data |
-      # ------------------------
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -347,9 +330,6 @@ jobs:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
-      # - name: Set UUID for Mochawesome reports
-      #   run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
-
       - name: Configure AWS Credentials (2)
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -360,54 +340,14 @@ jobs:
           role-duration-seconds: 900
           role-session-name: vsp-frontendteam-githubaction
 
-        # --------------------------------------
-        # | Publish Cypress E2E Testing Report |
-        # -------------------------------------
-
       - name: Download Cypress E2E Mochawesome test results
         uses: actions/download-artifact@v3
         with:
           name: cypress-mochawesome-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
 
-      # - name: Download Cypress E2E video artifacts
-      #   if: ${{ needs.cypress-tests.result == 'failure' }}
-      #   uses: actions/download-artifact@v3
-      #   with:
-      #     name: cypress-video-artifacts
-      #     path: qa-standards-dashboard-data/videos/${{ env.UUID }}
-
       - name: Update E2E Allow List
         run: yarn update-e2e-allow-list
         working-directory: qa-standards-dashboard-data
         env: ${{ needs.cypress-tests-prep.outputs.num_containers }}
           ALLOW_LIST: ${{ needs.fetch-allow-list.outputs.allow_list }}
-          # NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
-
-          # IS_MASTER_BUILD: false
-          # TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
-          # TEST_RESULTS_TABLE_NAME: cypress_test_results
-          # TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
-          # TEST_RETRIES_TABLE_NAME: cypress_retry_records
-          # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
-
-      # - name: Upload Cypress E2E test videos to s3
-      #   if: ${{ needs.cypress-tests.result == 'failure' }}
-      #   run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
-
-      # - name: Upload Cypress E2E test report to s3
-      #   run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-reports --acl public-read --region us-gov-west-1 --recursive
-
-      # -------------------------
-      # | Cypress Tests Summary |
-      # -------------------------
-
-      # - name: Publish Cypress test results
-      #   if: ${{ always() }}
-      #   uses: LouisBrunner/checks-action@v1.2.0
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     name: Cypress Tests Summary
-      #     conclusion: ${{ needs.cypress-tests.result }}
-      #     output: |
-      #       {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
