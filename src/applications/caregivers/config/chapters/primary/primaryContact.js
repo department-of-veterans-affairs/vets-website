@@ -1,11 +1,9 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { PrimaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo/PrimaryCaregiverInfo';
+import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
 import {
   primaryCaregiverFields,
   emptyObjectSchema,
-} from 'applications/caregivers/definitions/constants';
-import { primaryInputLabel } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
-import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
+} from '../../../definitions/constants';
 import {
   emailUI,
   vetRelationshipUI,
@@ -13,7 +11,9 @@ import {
   primaryPhoneNumberUI,
   addressWithAutofillUI,
   emailEncouragementUI,
-} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
+} from '../../../definitions/UIDefinitions/sharedUI';
+import { primaryInputLabel } from '../../../definitions/UIDefinitions/caregiverUI';
+import PrimaryCaregiverDescription from '../../../components/FormDescriptions/PrimaryCaregiverDescription';
 
 const { primaryCaregiver } = fullSchema.properties;
 const primaryCaregiverProps = primaryCaregiver.properties;
@@ -22,7 +22,7 @@ const { address } = fullSchema.definitions;
 const primaryContactInfoPage = {
   uiSchema: {
     'ui:description': formContext =>
-      PrimaryCaregiverInfo({
+      PrimaryCaregiverDescription({
         formContext,
         pageTitle: 'Primary Family Caregiver contact information',
         showContactIntro: true,
