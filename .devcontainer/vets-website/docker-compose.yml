@@ -20,3 +20,4 @@ services:
       - ../vagov-content:/vagov-content
       - ../content-build:/content-build
       - ../vets-api:/vets-api
+    command: ./.devcontainer/codespaces-create.sh
