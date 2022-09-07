@@ -14,7 +14,7 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
 
   return (
     <>
-      <div className="caregiver-success-message">
+      <div className="caregiver-success-message vads-u-margin-bottom--4">
         <va-alert status="success" class="caregiver-success-message">
           <h2 slot="headline" className="vads-u-font-size--h3">
             Thank you for completing your application
@@ -26,12 +26,12 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
         </va-alert>
       </div>
 
-      <va-alert status="info" background-only>
+      <va-alert status="info" class="vads-u-margin-bottom--4" background-only>
         <h2 slot="headline" className="vads-u-font-size--h3">
           Your application information
         </h2>
         <dl>
-          <div>
+          <div className="vads-u-margin-bottom--2">
             <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
               Veteran’s name
             </dt>
@@ -40,7 +40,7 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
             </dd>
           </div>
           {!!timestamp && (
-            <div>
+            <div className="vads-u-margin-bottom--2">
               <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
                 Date you applied
               </dt>
@@ -59,7 +59,11 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
           </div>
         </dl>
 
-        <va-button text="Print this page" onClick={() => window.print()} />
+        <va-button
+          text="Print this page"
+          class="vads-u-margin-y--2"
+          onClick={() => window.print()}
+        />
 
         <ApplicationDownloadLink form={form} />
       </va-alert>

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -12,20 +13,24 @@ const ConfirmationPage = ({ form }) => {
   const { response } = submission;
   const name = data.veteranFullName;
 
+  console.log('Response:', response);
+
   return (
     <div className="caregiver-confirmation vads-u-margin-bottom--2p5">
-      <ConfirmationScreenView
-        form={form}
-        name={name}
-        timestamp={response?.timestamp || null}
-        className="caregiver-confirmation--screen no-print"
-      />
+      <div className="caregiver-confirmation--screen no-print">
+        <ConfirmationScreenView
+          form={form}
+          name={name}
+          timestamp={response?.timestamp || null}
+        />
+      </div>
 
-      <ConfirmationPrintView
-        name={name}
-        timestamp={response?.timestamp || null}
-        className="caregiver-confirmation--print"
-      />
+      <div className="caregiver-confirmation--print">
+        <ConfirmationPrintView
+          name={name}
+          timestamp={response?.timestamp || null}
+        />
+      </div>
 
       <h2>What to expect next</h2>
       <p>
