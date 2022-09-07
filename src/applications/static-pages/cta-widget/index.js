@@ -18,7 +18,6 @@ import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors'
 import { isLoggedIn, selectProfile } from 'platform/user/selectors';
 import {
   logout as IAMLogout,
-  verify,
   mfa,
 } from 'platform/user/authentication/utilities';
 import { logoutUrlSiS } from 'platform/utilities/oauth/utilities';
@@ -485,7 +484,7 @@ export class CallToActionWidget extends Component {
   };
 
   verifyHandler = () => {
-    verify();
+    window.location.href = '/verify';
   };
 
   render() {

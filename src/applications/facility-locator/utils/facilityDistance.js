@@ -1,4 +1,5 @@
 import { MIN_RADIUS } from '../constants';
+import { mapboxToken } from './mapboxToken';
 
 function toRadians(value) {
   return (value * Math.PI) / 180;
@@ -60,3 +61,25 @@ export function calculateBoundingBox(lat, long, radius) {
     toDegrees(maxLatitude).toFixed(3),
   ];
 }
+
+export const convertMetersToMiles = meters =>
+  Math.round(meters * 0.000621371192);
+
+export const distancesToNearbyVetCenters = (
+  originalVetCenterCoordinates,
+  nearbyVetCentersCoordinates,
+) => {
+  const originalVetCenterCoordinatesParam = originalVetCenterCoordinates.join(
+    ',',
+  );
+  const startingCoordinatesParam = nearbyVetCentersCoordinates
+    .map(loc => loc.join(','))
+    .join(';');
+  let sourcesParam = '';
+
+  for (let i = 1; i <= nearbyVetCentersCoordinates.length; i += 1) {
+    sourcesParam = `${sourcesParam}${i !== 1 ? ';' : ''}${i}`;
+  }
+
+  return `https://api.mapbox.com/directions-matrix/v1/mapbox/driving/${originalVetCenterCoordinatesParam};${startingCoordinatesParam}?sources=${sourcesParam}&destinations=0&annotations=distance,duration&access_token=${mapboxToken}`;
+};

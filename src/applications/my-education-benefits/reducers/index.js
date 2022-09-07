@@ -32,6 +32,7 @@ export default {
       case FETCH_PERSONAL_INFORMATION_FAILED:
         return {
           ...state,
+          personalInfoFetchComplete: true,
           personalInfoFetchInProgress: false,
           formData: action?.response || {},
         };
@@ -45,6 +46,7 @@ export default {
       case FETCH_ELIGIBILITY_FAILURE:
         return {
           ...state,
+          eligibilityFetchComplete: true,
           eligibility:
             action?.response?.data?.attributes?.eligibility
               ?.filter(

@@ -15,7 +15,7 @@ describe('getStatements', () => {
     const response = transform(copays.data);
     mockApiRequest(copays);
 
-    return getStatements()(dispatch).then(() => {
+    return getStatements(dispatch).then(() => {
       expect(dispatch.firstCall.args[0].type).to.equal(
         MCP_STATEMENTS_FETCH_INIT,
       );

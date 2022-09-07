@@ -12,12 +12,6 @@ const selectFeatureToggles = createSelector(
     isPreCheckInEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperiencePreCheckInEnabled
     ],
-    isTranslationDayOfEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceTranslationDayOfEnabled
-    ],
-    isTranslationPreCheckInEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceTranslationPreCheckInEnabled
-    ],
     isTranslationDisclaimerSpanishEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceTranslationDisclaimerSpanishEnabled
     ],
@@ -29,6 +23,9 @@ const selectFeatureToggles = createSelector(
     ],
     isPhoneAppointmentsEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperiencePhoneAppointmentsEnabled
+    ],
+    isLorotaDeletionEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceLorotaDeletionEnabled
     ],
   }),
   toggles => toggles,
