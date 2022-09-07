@@ -26,6 +26,7 @@ export default Object.freeze({
   coeAccess: 'coe_access',
   combinedDebtPortalAccess: 'combined_debt_portal_access',
   combinedFinancialStatusReport: 'combined_financial_status_report',
+  combinedFinancialStatusReportEnhancements: 'combined_financial_status_report_enhancements',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
   covidVaccineUpdatesDisableAuth:
