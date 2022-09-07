@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import {
   primaryContactIntro,
   primaryPageIntro,
-} from 'applications/caregivers/definitions/content';
+} from '../../definitions/content';
 
-export const PrimaryCaregiverInfo = ({
+const PrimaryCaregiverDescription = ({
   additionalInfo,
   formContext,
   pageTitle,
@@ -18,7 +18,7 @@ export const PrimaryCaregiverInfo = ({
 
   return (
     <>
-      {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
+      {!!pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
 
       {showPageIntro && (
         <p className="vads-u-margin-top--2">{primaryPageIntro}</p>
@@ -41,35 +41,36 @@ export const PrimaryCaregiverInfo = ({
       )}
 
       {additionalInfo && (
-        <section className="vads-u-margin-y--2p5">
-          <va-additional-info trigger="Learn more about who qualifies as a Primary Family Caregiver">
-            <p>
-              Family caregivers are approved and designated by VA as Primary
-              Family Caregivers and Secondary Family Caregivers to provide
-              personal care services. A Primary Family Caregiver is the main
-              caregiver for the eligible Veteran.
-            </p>
+        <va-additional-info
+          trigger="Learn more about who qualifies as a Primary Family Caregiver"
+          class="vads-u-margin-y--2p5"
+        >
+          <p className="vads-u-margin-top--0">
+            Family caregivers are approved and designated by VA as Primary
+            Family Caregivers and Secondary Family Caregivers to provide
+            personal care services. A Primary Family Caregiver is the main
+            caregiver for the eligible Veteran.
+          </p>
 
-            <p>They can be the Veteran’s:</p>
+          <p>They can be the Veteran’s:</p>
 
-            <ul>
-              <li>Parent</li>
-              <li>Spouse</li>
-              <li>Son or daughter</li>
-              <li>Stepfamily member</li>
-              <li>Grandchild</li>
-              <li>Significant other</li>
-              <li>Friend or neighbor</li>
-              <li>Other relative</li>
-            </ul>
-          </va-additional-info>
-        </section>
+          <ul className="vads-u-margin-bottom--0">
+            <li>Parent</li>
+            <li>Spouse</li>
+            <li>Son or daughter</li>
+            <li>Stepfamily member</li>
+            <li>Grandchild</li>
+            <li>Significant other</li>
+            <li>Friend or neighbor</li>
+            <li>Other relative</li>
+          </ul>
+        </va-additional-info>
       )}
     </>
   );
 };
 
-PrimaryCaregiverInfo.propTypes = {
+PrimaryCaregiverDescription.propTypes = {
   additionalInfo: PropTypes.bool,
   formContext: PropTypes.object,
   pageTitle: PropTypes.string,
@@ -77,8 +78,10 @@ PrimaryCaregiverInfo.propTypes = {
   showPageIntro: PropTypes.bool,
 };
 
-PrimaryCaregiverInfo.defaultProps = {
+PrimaryCaregiverDescription.defaultProps = {
   additionalInfo: false,
   showContactIntro: false,
   showPageIntro: false,
 };
+
+export default PrimaryCaregiverDescription;

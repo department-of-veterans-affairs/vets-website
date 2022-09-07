@@ -55,6 +55,16 @@ const PreCheckinConfirmation = props => {
         )}
         <p className="vads-u-margin-bottom--4">
           <ExternalLink
+            href="https://www.va.gov/resources/how-to-check-in-with-your-smartphone-for-some-va-appointments/"
+            hrefLang="en"
+            eventId="how-to-check-in-clicked"
+            eventPrefix="nav"
+          >
+            {t('find-out-how-to-check-in-on-the-day-of-your-appointment')}
+          </ExternalLink>
+        </p>
+        <p className="vads-u-margin-bottom--4">
+          <ExternalLink
             href="https://va.gov/health-care/schedule-view-va-appointments/appointments/"
             hrefLang="en"
           >
