@@ -5,19 +5,19 @@ services:
       context: .
       args:
         VARIANT: 14
-    environment:
-      API_URL: ${API_URL:-http://localhost:3000}
-      WEB_HOST: ${WEB_HOST:-localhost}
-      WEB_PORT: ${WEB_PORT:-3002}
+    # environment:
+    #   API_URL: ${API_URL:-http://localhost:3000}
+    #   WEB_HOST: ${WEB_HOST:-localhost}
+    #   WEB_PORT: ${WEB_PORT:-3002}
     expose:
       - 3002
     image: vets-website:${IMAGE_TAG:-latest}
-    ports:
-      - 3001:3002
-    restart: unless-stopped
-    volumes:
-      - .:/application
-      - ../vagov-content:/vagov-content
-      - ../content-build:/content-build
-      - ../vets-api:/vets-api
+    # ports:
+    #   - 3001:3002
+    # restart: unless-stopped
+    # volumes:
+    #   - .:/application
+    #   - ../vagov-content:/vagov-content
+    #   - ../content-build:/content-build
+    #   - ../vets-api:/vets-api
     command: ./.devcontainer/codespaces-create.sh
