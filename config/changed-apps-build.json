@@ -9,6 +9,10 @@
       "slackGroup": "@check-in-fe"
     },
     {
+      "rootFolder": "combined-debt-portal",
+      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
+    },
+    {
       "rootFolder": "coronavirus-research",
       "slackGroup": "@cto-health-products"
     },

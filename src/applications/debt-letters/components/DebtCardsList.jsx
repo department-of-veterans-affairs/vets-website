@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 import { PATTERNS } from '@department-of-veterans-affairs/component-library/Telephone';
 import DebtLetterCard from './DebtLetterCard';
 import { ErrorMessage, DowntimeMessage } from './Alerts';
-import OtherVADebts from '../../medical-copays/components/OtherVADebts';
-import { cdpAccessToggle } from '../../medical-copays/utils/helpers';
-import alertMessage from '../../combined-debt-portal/combined/utils/alert-messages';
+import OtherVADebts from './OtherVADebts';
 import {
+  cdpAccessToggle,
   ALERT_TYPES,
   APP_TYPES,
   API_RESPONSES,
-} from '../../combined-debt-portal/combined/utils/helpers';
+} from '../utils/helpers';
+import alertMessage from '../utils/alert-messages';
 
 const DebtCardsList = ({ debts, errors, hasCopays }) => {
   const showCDPComponents = useSelector(state => cdpAccessToggle(state));

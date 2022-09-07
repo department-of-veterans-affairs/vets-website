@@ -8,6 +8,7 @@ import {
   formatDate,
   verifyCurrentBalance,
 } from '../../combined/utils/helpers';
+import recordEvent from '~/platform/monitoring/record-event';
 
 const CurrentContent = ({ id, date }) => (
   <p>
@@ -88,6 +89,9 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
         to={`/copay-balances/${id}/detail`}
         data-testid={`detail-link-${id}`}
         aria-label={`Check details and resolve this debt for ${facility}`}
+        onClick={() => {
+          recordEvent({ event: 'cta-link-click-copay-balance-card' });
+        }}
       >
         {linkText}
         <i
