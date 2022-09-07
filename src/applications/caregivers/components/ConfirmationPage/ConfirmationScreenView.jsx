@@ -39,7 +39,7 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
               {name.first} {name.middle} {name.last} {name.suffix}
             </dd>
           </div>
-          {timestamp && (
+          {!!timestamp && (
             <div>
               <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
                 Date you applied
