@@ -30,7 +30,7 @@ const batch = tests
 let status = null;
 const upTo = IS_STRESS_TEST ? 2 : 1;
 
-for (let i = 0; i <= upTo; i += 1) {
+for (let i = 0; i < upTo; i += 1) {
   if (longestTestIsPresent && step === lastStep) {
     status = runCommandSync(
       `CYPRESS_EVERY_NTH_FRAME=1 yarn cy:run --browser chrome --headless --reporter cypress-multi-reporters --reporter-options "configFile=config/cypress-reporters.json" --spec 'src/applications/**/all-claims.cypress.spec.js' --env app_url=${appUrl}`,
