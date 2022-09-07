@@ -158,7 +158,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
         status="warning"
         visible
       >
-        <h3 slot="headline">We couldn’t download your form</h3>
+        <h2 slot="headline">We couldn’t download your form</h2>
         <div>
           <p>
             We’re sorry. Something went wrong when we tried to download your
@@ -186,7 +186,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
         status="success"
         visible
       >
-        <h3 slot="headline">Download Complete</h3>
+        <h2 slot="headline">Download Complete</h2>
         <div>
           <p>
             You successfully downloaded your 1095-B tax form. Please check your
@@ -213,9 +213,9 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
       status="continue"
       visible
     >
-      <h3 slot="headline">
+      <h2 slot="headline">
         Please sign in to download your 1095-B tax document
-      </h3>
+      </h2>
       <div>
         Sign in with your existing <ServiceProvidersText isBold /> account.{' '}
         <ServiceProvidersTextCreateAcct />
