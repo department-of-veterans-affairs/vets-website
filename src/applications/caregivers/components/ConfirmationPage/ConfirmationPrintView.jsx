@@ -1,8 +1,11 @@
+/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
 const ConfirmationPrintView = ({ name, timestamp }) => {
+  console.log('Print Props:', { name, timestamp });
+
   return (
     <>
       <img
