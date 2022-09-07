@@ -130,6 +130,7 @@ jobs:
       - name: Fetch allow list
         run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
+      # exports app list and assigns to environmental variable at this step
 
       - name: Set Allow List Output
         id: allow-list-output
@@ -349,5 +350,5 @@ jobs:
       - name: Update E2E Allow List
         run: yarn update-e2e-allow-list
         working-directory: qa-standards-dashboard-data
-        env: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+        env:
           ALLOW_LIST: ${{ needs.fetch-allow-list.outputs.allow_list }}
