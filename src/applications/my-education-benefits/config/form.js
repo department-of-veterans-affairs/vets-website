@@ -19,7 +19,6 @@ import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import * as ENVIRONMENTS from 'site/constants/environments';
 import * as BUCKETS from 'site/constants/buckets';
 import fullSchema from '../22-1990-schema.json';
-// import constants from 'vets-json-schema/dist/constants.json';
 
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
@@ -63,7 +62,6 @@ import {
 import { createSubmissionForm } from '../utils/form-submit-transform';
 
 import { ELIGIBILITY } from '../actions';
-// import { filteredStates } from 'platform/forms-system/src/js/definitions/profileAddress';
 
 const {
   fullName,
@@ -827,8 +825,12 @@ const formConfig = {
                         return {
                           type: 'string',
                           title: 'AE/AA/AP',
-                          enum: ['APO', 'FPO'],
-                          enumNames: ['APO', 'FPO'],
+                          enum: ['AA', 'AE', 'AP'],
+                          enumNames: [
+                            'APO/FPO',
+                            'APO/FPO (New York)',
+                            'APO/FPO (San Francisco)',
+                          ],
                         };
                       }
                       return {
