@@ -1254,7 +1254,6 @@ jobs:
   notify-start:
     name: Notify Start
     runs-on: ubuntu-latest
-    needs: set-env
     env:
       # DURATION: ${{ needs.set-env.outputs.RELEASE_WAIT < 5 && 'a few' || needs.set-env.outputs.RELEASE_WAIT }}
       RELEASE_WAIT_MINUTES: ${{ 0 < 5 && 'a few' || 0 }}
