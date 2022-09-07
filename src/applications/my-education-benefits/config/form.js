@@ -19,6 +19,7 @@ import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import * as ENVIRONMENTS from 'site/constants/environments';
 import * as BUCKETS from 'site/constants/buckets';
 import fullSchema from '../22-1990-schema.json';
+// import constants from 'vets-json-schema/dist/constants.json';
 
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
@@ -62,6 +63,7 @@ import {
 import { createSubmissionForm } from '../utils/form-submit-transform';
 
 import { ELIGIBILITY } from '../actions';
+// import { filteredStates } from 'platform/forms-system/src/js/definitions/profileAddress';
 
 const {
   fullName,
@@ -769,7 +771,6 @@ const formConfig = {
                   ],
                 },
                 city: {
-                  'ui:title': 'City',
                   'ui:errorMessages': {
                     required: 'Please enter a valid city',
                   },
@@ -780,11 +781,61 @@ const formConfig = {
                       }
                     },
                   ],
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      const { livesOnMilitaryBase } = formData[
+                        'view:mailingAddress'
+                      ];
+                      const { country } = formData[
+                        'view:mailingAddress'
+                      ].address;
+
+                      if (livesOnMilitaryBase && country !== 'USA') {
+                        return {
+                          type: 'string',
+                          title: 'APO/FPO',
+                          enum: ['APO', 'FPO'],
+                          enumNames: ['APO', 'FPO'],
+                        };
+                      }
+
+                      return {
+                        type: 'string',
+                        title: 'City',
+                        minLength: 1,
+                        maxLength: 100,
+                        pattern: '^.*\\S.*',
+                      };
+                    },
+                  },
                 },
                 state: {
-                  'ui:title': 'State/Province/Region',
+                  // 'ui:title': 'State/Province/Region',
                   'ui:errorMessages': {
                     required: 'State is required',
+                  },
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      const { livesOnMilitaryBase } = formData[
+                        'view:mailingAddress'
+                      ];
+                      const { country } = formData[
+                        'view:mailingAddress'
+                      ].address;
+
+                      if (livesOnMilitaryBase && country !== 'USA') {
+                        return {
+                          type: 'string',
+                          title: 'AE/AA/AP',
+                          enum: ['APO', 'FPO'],
+                          enumNames: ['APO', 'FPO'],
+                        };
+                      }
+                      return {
+                        type: 'string',
+                        title: 'State/Province/Region',
+                      };
+                    },
                   },
                 },
                 postalCode: {
