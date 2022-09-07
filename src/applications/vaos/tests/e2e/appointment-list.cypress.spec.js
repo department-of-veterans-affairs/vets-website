@@ -22,12 +22,12 @@ describe('VAOS appointment list', () => {
       mockFacilitiesApi({ apiVersion: 1 });
       mockFeatureToggles();
       mockLoginApi();
-
-      cy.visit('health-care/schedule-view-va-appointments/appointments/');
-      cy.injectAxe();
     });
 
     it('community care appointment', () => {
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
+
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/Community Care/i)
@@ -45,6 +45,9 @@ describe('VAOS appointment list', () => {
     it('va appointment', () => {
       mockFacilityApi({ id: 'vha_442GC', apiVersion: 1 });
 
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
+
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA CLinic/i)
@@ -61,6 +64,9 @@ describe('VAOS appointment list', () => {
 
     it('va phone appointment', () => {
       mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
+
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
 
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
@@ -82,6 +88,9 @@ describe('VAOS appointment list', () => {
     it('va video appointment', () => {
       mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
 
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
+
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA Video Connect at a VA Location/i)
@@ -98,6 +107,9 @@ describe('VAOS appointment list', () => {
 
     it('va video appointment at an ATLAS location', () => {
       mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
+
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
 
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
@@ -116,6 +128,9 @@ describe('VAOS appointment list', () => {
     it('va video appointment at home', () => {
       mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
 
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
+
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA Video Connect at home/i)
@@ -133,6 +148,9 @@ describe('VAOS appointment list', () => {
     it('should allow for canceling of appointments', () => {
       mockFacilityApi({ id: 'vha_442GC', apiVersion: 1 });
       mockCancelReasonsApi({ facilityId: '983' });
+
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
 
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA CLinic/i)
