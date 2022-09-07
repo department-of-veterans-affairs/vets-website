@@ -258,6 +258,7 @@ function run() {
       testPath.substring(testPath.indexOf('src/')),
     );
   });
+  console.log('tests: ', tests);
   exportVariables(tests);
 }
 
