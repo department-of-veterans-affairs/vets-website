@@ -1,6 +1,6 @@
 {
 	"name": "Review Instance",
-	"dockerComposeFile": ["vets-website/docker-compose.yml"],
+	"dockerComposeFile": "vets-website/docker-compose.yml",
 	"service": "vets-website",
 	"workspaceFolder": "/workspace",
 	"settings": {
@@ -9,7 +9,6 @@
 			"editor.defaultFormatter": "esbenp.prettier-vscode"
 		},
 		"terminal.integrated.shell.linux": "/bin/bash",
-		"workbench.startupEditor": "readme"
 	},
 	"extensions": [
 		"davidanson.vscode-markdownlint",
@@ -30,7 +29,5 @@
 		"cpus": 16,
 		"memory": "32gb",
 		"storage": "128gb"
-	},
-	"remoteUser": "vscode",
-  "updateRemoteUserUID": true
+	}
 }
