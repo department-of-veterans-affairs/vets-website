@@ -258,10 +258,10 @@ function run() {
   //     testPath.substring(testPath.indexOf('src/')),
   //   );
   // });
-  let tests = selectTests(graph, pathsOfChangedFiles);
-  tests = [
-    '/home/runner/work/vets-website/vets-website/src/applications/_mock-form/tests/mock-form.cypress.spec.js',
-  ];
+  const tests = selectTests(graph, pathsOfChangedFiles);
+  // tests = [
+  //   '/home/runner/work/vets-website/vets-website/src/applications/_mock-form/tests/mock-form.cypress.spec.js',
+  // ];
 
   // console.log('tests: ', tests);
   exportVariables(tests);
