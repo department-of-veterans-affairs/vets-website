@@ -4,6 +4,10 @@
   va-text-input.composeInput::part(input) {
     max-width: 100%;
   }
+  va-select.composeSelect::part(label)::after {
+    content: " (*Required)";
+    color: $color-secondary-dark;
+  }
   va-select.composeSelect::part(select) {
     max-width: 100%;
   }

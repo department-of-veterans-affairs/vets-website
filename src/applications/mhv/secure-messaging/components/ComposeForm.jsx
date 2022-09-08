@@ -53,7 +53,8 @@ const ComposeForm = props => {
   if (message && !formPopulated) populateForm();
 
   const setMessageTitle = () => {
-    const casedCategory = capitalize(category);
+    const casedCategory =
+      category === 'COVID' ? category : capitalize(category);
     if (category && subject) {
       return `${casedCategory}: ${subject}`;
     }

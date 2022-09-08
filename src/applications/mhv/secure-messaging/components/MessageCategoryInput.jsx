@@ -58,7 +58,7 @@ const MessageCategoryInput = props => {
             onChange={categoryChangeHandler}
           />
           <label name="category-1-label" htmlFor="categoryCovid">
-            <strong>Covid:</strong> Ask COVID related questions
+            <strong>COVID:</strong> Ask COVID related questions
           </label>
         </div>
       </div>
