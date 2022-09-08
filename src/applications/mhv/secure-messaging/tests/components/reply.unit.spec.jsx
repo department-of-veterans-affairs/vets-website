@@ -9,12 +9,7 @@ import Breadcrumbs from '../../components/shared/Breadcrumbs';
 
 describe('Breadcrumbs', () => {
   it('renders without errors', () => {
-    const screen = render(
-      <Breadcrumbs
-        pageName="Reply"
-        link="http://localhost:3001/my-health/secure-messages/reply/"
-      />,
-    );
+    const screen = render(<Breadcrumbs />);
 
     screen.getByText('reply', { exact: false });
   });
