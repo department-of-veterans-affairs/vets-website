@@ -105,11 +105,29 @@ jobs:
       - name: Notify Slack
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
+        env:
+          RELEASE_WAIT_MINUTES: ${{ needs.set-env.outputs.RELEASE_WAIT < 5 && 'a few' || needs.set-env.outputs.RELEASE_WAIT }}
         with:
-          payload: '{"attachments": [{"color": "#07711E","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Stand by, production deploy for vets-website coming up in ${{ fromJSON(needs.set-env.outputs.RELEASE_WAIT) < 5 && a few || needs.set-env.outputs.RELEASE_WAIT }} minutes. View what is coming here: <https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"}}]}]}'
           channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          payload: | 
+            {
+              "attachments": [
+                {
+                  "color": "#07711E",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "Stand by, production deploy for vets-website coming up in ${{ env.RELEASE_WAIT_MINUTES }} minutes. View what's coming here: <https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
 
   build:
     name: Build
