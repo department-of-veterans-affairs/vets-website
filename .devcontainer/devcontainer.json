@@ -9,6 +9,7 @@
 			"editor.defaultFormatter": "esbenp.prettier-vscode"
 		},
 		"terminal.integrated.shell.linux": "/bin/bash",
+		"workbench.startupEditor": "readme"
 	},
 	"extensions": [
 		"davidanson.vscode-markdownlint",
