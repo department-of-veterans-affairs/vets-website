@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
 
 import { apiRequest } from 'platform/utilities/api';
@@ -27,56 +28,64 @@ const ApplicationDownloadLink = ({ form }) => {
   // define our click event that will handle the download
   const handleClick = useCallback(
     () => {
-      isLoading(true, () => {
-        // define our handler for downloading the blob data
-        const triggerDownload = ({ blob, filename }) => {
-          // create a blank anchor tag to trigger
-          const url = URL.createObjectURL(blob);
-          const anchor = document.createElement('a');
-          anchor.href = url;
-          anchor.download = filename;
-          // append element to the dom, or it may not trigger in some browsers
-          document.body.appendChild(anchor);
-          anchor.click();
-          anchor.remove();
-        };
+      isLoading(true);
 
-        // transform our form data for use
-        const formData = submitTransform(formConfig, form);
+      // define our handler for downloading the blob data
+      const triggerDownload = ({ blob, filename }) => {
+        // create a blank anchor tag to trigger
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = filename;
+        // append element to the dom, or it may not trigger in some browsers
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+      };
 
-        // create the application PDF file
-        apiRequest(apiURL, {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Content-Type': 'application/json',
-            'Source-App-Name': window.appName,
-          },
+      // transform our form data for use
+      const formData = submitTransform(formConfig, form);
+
+      // create the application PDF file
+      apiRequest(apiURL, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+          'Source-App-Name': window.appName,
+        },
+      })
+        .then(response => {
+          // parse blob data & desired filename to return from the response
+          const disposition = response.headers.get('content-disposition');
+          const filename = disposition.match(/filename=(.+)/)[1];
+          const blob = response.blob();
+          return { blob, filename };
         })
-          .then(response => {
-            // parse blob data & desired filename to return from the response
-            const disposition = response.headers.get('content-disposition');
-            const filename = disposition.match(/filename=(.+)/)[1];
-            const blob = response.blob();
-            return { blob, filename };
-          })
-          .then(response => {
-            triggerDownload(response);
-            recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
-            isLoading(false);
-            setErrors([]);
-          })
-          .catch(response => {
-            isLoading(false);
-            setErrors(response.errors, () => {
-              focusElement('caregiver-download-error');
-            });
-            recordEvent({ event: 'caregivers-10-10cg-pdf--failure' });
-            Sentry.withScope(scope => scope.setExtra('error', response));
-          });
-      });
+        .then(response => {
+          triggerDownload(response);
+          isLoading(false);
+          setErrors([]);
+          recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
+        })
+        .catch(response => {
+          isLoading(false);
+          setErrors(response.errors);
+          recordEvent({ event: 'caregivers-10-10cg-pdf--failure' });
+          Sentry.withScope(scope => scope.setExtra('error', response));
+        });
     },
     [form],
+  );
+
+  // apply focus to the error alert if we have errors set
+  useEffect(
+    () => {
+      if (errors.length) {
+        focusElement('.caregiver-download-error');
+      }
+    },
+    [errors],
   );
 
   // render loading indicator while file is downloading
@@ -84,7 +93,7 @@ const ApplicationDownloadLink = ({ form }) => {
     return (
       <va-loading-indicator
         label="Downloading"
-        message="Downloading application..."
+        message="Preparing your application for download..."
         set-focus
       />
     );
@@ -119,6 +128,10 @@ const ApplicationDownloadLink = ({ form }) => {
       </button>
     </>
   );
+};
+
+ApplicationDownloadLink.propTypes = {
+  form: PropTypes.object,
 };
 
 export default ApplicationDownloadLink;
