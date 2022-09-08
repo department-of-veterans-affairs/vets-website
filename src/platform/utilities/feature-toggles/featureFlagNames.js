@@ -36,6 +36,7 @@ export default Object.freeze({
   covidVolunteerIntakeEnabled: 'covid_volunteer_intake_enabled',
   covidVolunteerUpdateEnabled: 'covid_volunteer_update_enabled',
   debtLettersShowLetters: 'debt_letters_show_letters',
+  debtLettersShowLettersVBMS: 'debt_letters_show_letters_vbms',
   dependencyVerification: 'dependency_verification',
   dhpConnectedDevicesFitbit: 'dhp_connected_devices_fitbit',
   dischargeWizardFeatures: 'discharge_wizard_features',
