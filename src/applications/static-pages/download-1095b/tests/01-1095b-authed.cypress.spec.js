@@ -1,7 +1,7 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 import { form, featureToggles } from './e2e/fixtures/mocks/mocks';
 
-describe('Authed 1095-B Form Download PDF', () => {
+describe.skip('Authed 1095-B Form Download PDF', () => {
   beforeEach(() => {
     cy.intercept('GET', 'v0/feature_toggles?*', featureToggles).as(
       'featureToggles',
