@@ -1265,7 +1265,23 @@ jobs:
         uses: ./.github/workflows/slack-notify
         continue-on-error: true
         with:
-          payload: '{"attachments": [{"color": "#07711E","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "Stand by, production deploy for vets-website coming up in ${{ env.RELEASE_WAIT_MINUTES }} minutes. View what is coming here: <https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"}}]}]}'
           channel_id: C032FM8LFCN
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          payload: | 
+            {
+              "attachments": [
+                {
+                  "color": "#07711E",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "mrkdwn",
+                        "text": "Stand by, production deploy for vets-website coming up in ${{ env.RELEASE_WAIT_MINUTES }} minutes. View what is coming here: <https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
