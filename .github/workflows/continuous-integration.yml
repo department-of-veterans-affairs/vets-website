@@ -1273,6 +1273,7 @@ jobs:
               "text": "Production deploy for vets-website coming up.",
               "attachments": [
                 {
+                  "pretext": "",
                   "color": "#07711E",
                   "blocks": [
                     {
