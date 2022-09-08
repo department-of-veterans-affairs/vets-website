@@ -22,7 +22,7 @@ describe('SIP Review Test', () => {
 
     cy.visit(reviewUrl);
     cy.get('body').should('be.visible');
-    cy.get('.main .usa-button-primary', { timeout: Timeouts.slow });
+    cy.get('.main .usa-buttonn-primary', { timeout: Timeouts.slow });
 
     cy.get(
       '.schemaform-chapter-accordion-header:first-child > .usa-button-unstyled',
