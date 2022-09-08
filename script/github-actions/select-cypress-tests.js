@@ -253,15 +253,15 @@ function run() {
   const disallowedTests = ALLOW_LIST.filter(spec => spec.allowed === false).map(
     spec => spec.spec_path,
   );
-  let tests = selectTests(graph, pathsOfChangedFiles).filter(testPath => {
+  const tests = selectTests(graph, pathsOfChangedFiles).filter(testPath => {
     return !disallowedTests.includes(
       testPath.substring(testPath.indexOf('src/')),
     );
   });
 
-  tests = [
-    '/home/runner/work/vets-website/vets-website/src/applications/appeals/10182/tests/10182-keyboard-only.cypress.spec.js',
-  ];
+  // tests = [
+  //   '/home/runner/work/vets-website/vets-website/src/applications/appeals/10182/tests/10182-keyboard-only.cypress.spec.js',
+  // ];
 
   // console.log('tests: ', tests);
   exportVariables(tests);
