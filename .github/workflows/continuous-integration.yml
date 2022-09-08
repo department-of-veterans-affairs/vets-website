@@ -1251,12 +1251,28 @@ jobs:
   #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
   #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+  set-env:
+    name: Set Env Variables
+    runs-on: ubuntu-latest
+    outputs:
+      RELEASE_WAIT: ${{ env.RELEASE_WAIT }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get release wait time (scheduled release)
+        if: ${{ github.event.schedule != '' }}
+        run: echo 'RELEASE_WAIT=0' >> $GITHUB_ENV
+
   notify-start:
     name: Notify Start
     runs-on: ubuntu-latest
+    needs: set-env
     env:
-      # DURATION: ${{ needs.set-env.outputs.RELEASE_WAIT < 5 && 'a few' || needs.set-env.outputs.RELEASE_WAIT }}
-      RELEASE_WAIT_MINUTES: ${{ 0 < 5 && 'a few' || 0 }}
+      RELEASE_WAIT_MINUTES: ${{ needs.set-env.outputs.RELEASE_WAIT < 5 && 'a few' || needs.set-env.outputs.RELEASE_WAIT }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
