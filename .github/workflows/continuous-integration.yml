@@ -1270,6 +1270,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           payload: | 
             {
+              "text": "Production deploy for vets-website coming up."
               "attachments": [
                 {
                   "color": "#07711E",
