@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import formConfig from '../config/form';
 import { fetchPersonalInformation, fetchEligibility } from '../actions';
 import { prefillTransformer } from '../helpers';
@@ -22,6 +24,7 @@ export const App = ({
   isLOA3,
   eligibility,
   showUnverifiedUserAlert,
+  showMEBMailingAddressForeign,
   user,
 }) => {
   const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
@@ -73,6 +76,18 @@ export const App = ({
     ],
   );
 
+  useEffect(
+    () => {
+      if (showMEBMailingAddressForeign) {
+        setFormData({
+          ...formData,
+          showMEBMailingAddressForeign,
+        });
+      }
+    },
+    [showMEBMailingAddressForeign],
+  );
+
   return (
     <>
       <va-breadcrumbs>
@@ -113,11 +128,15 @@ const mapStateToProps = state => {
   const firstName = state.data?.formData?.data?.attributes?.claimant?.firstName;
   const transformedClaimantInfo = prefillTransformer(null, null, null, state);
   const claimantInfo = transformedClaimantInfo.formData;
+  const showMEBMailingAddressForeign = !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.showMEBMailingAddressForeign
+  ];
   return {
     ...getAppData(state),
     formData,
     firstName,
     claimantInfo,
+    showMEBMailingAddressForeign,
   };
 };
 
