@@ -127,7 +127,7 @@ jobs:
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
 
-      - name: Fetch allow list
+      - name: Fetch E2E allow list
         run: yarn get-allow-list
         working-directory: qa-standards-dashboard-data
       # exports app list and assigns to environmental variable at this step
@@ -176,7 +176,7 @@ jobs:
           CHANGED_FILE_PATHS: ${{ steps.get-changed-apps.outputs.changed_files }}
           APP_URLS: ${{ steps.get-changed-apps.outputs.urls }}
           APP_ENTRIES: ${{ steps.get-changed-apps.outputs.entry_names }}
-          ALLOW_LIST: ${{ needs.fetch-allow-list.outputs.allow_list }}
+          ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
 
       - name: Set output of TESTS
         id: tests
