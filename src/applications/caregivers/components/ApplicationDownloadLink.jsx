@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import * as Sentry from '@sentry/browser';
@@ -56,6 +57,7 @@ const ApplicationDownloadLink = ({ form }) => {
         },
       })
         .then(response => {
+          console.log('Fetch:', response);
           // parse blob data & desired filename to return from the response
           const disposition = response.headers.get('content-disposition');
           const filename = disposition.match(/filename=(.+)/)[1];
@@ -63,12 +65,14 @@ const ApplicationDownloadLink = ({ form }) => {
           return { blob, filename };
         })
         .then(response => {
+          console.log('Success:', response);
           triggerDownload(response);
           isLoading(false);
           setErrors([]);
           recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
         })
         .catch(response => {
+          console.log('ERROR:', response);
           isLoading(false);
           setErrors(response.errors);
           recordEvent({ event: 'caregivers-10-10cg-pdf--failure' });
@@ -81,7 +85,7 @@ const ApplicationDownloadLink = ({ form }) => {
   // apply focus to the error alert if we have errors set
   useEffect(
     () => {
-      if (errors.length) {
+      if (errors?.length > 0) {
         focusElement('.caregiver-download-error');
       }
     },
@@ -100,7 +104,7 @@ const ApplicationDownloadLink = ({ form }) => {
   }
 
   // render error alert if file cannot download
-  if (errors.length) {
+  if (errors?.length > 0) {
     return (
       <div className="caregiver-download-error">
         <va-alert status="error">
