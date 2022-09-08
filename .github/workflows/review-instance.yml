@@ -9,7 +9,7 @@ on:
       api_branch:
         description: 'vets-api branch'
         required: true
-        default: 'main'
+        default: 'master'
       web_branch:
         description: 'vets-website branch'
         required: true
