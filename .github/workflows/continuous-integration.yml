@@ -1264,7 +1264,7 @@ jobs:
           fetch-depth: 0
 
       - name: Get release wait time (scheduled release)
-        run: echo 'RELEASE_WAIT=0' >> $GITHUB_ENV
+        run: echo 'RELEASE_WAIT=10' >> $GITHUB_ENV
 
   notify-start:
     name: Notify Start
