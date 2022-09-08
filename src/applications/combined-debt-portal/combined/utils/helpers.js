@@ -27,6 +27,9 @@ export const combinedPortalAccess = state =>
 export const debtLettersShowLetters = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.debtLettersShowLetters];
 
+export const debtLettersShowLettersVBMS = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.debtLettersShowLettersVBMS];
+
 export const selectLoadingFeatureFlags = state =>
   state?.featureToggles?.loading;
 
