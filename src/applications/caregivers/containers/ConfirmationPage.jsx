@@ -6,7 +6,7 @@ import moment from 'moment';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { links } from 'applications/caregivers/definitions/content';
+import { links } from '../definitions/content';
 
 const ConfirmationPage = props => {
   useEffect(() => {

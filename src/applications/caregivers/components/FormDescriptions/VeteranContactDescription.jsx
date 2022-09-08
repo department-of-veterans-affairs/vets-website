@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const VetInfo = ({ pageTitle, showPageIntro }) => (
+const VeteranContactDescription = ({ pageTitle, showPageIntro }) => (
   <>
     {pageTitle && <h3 className="vads-u-font-size--h4">{pageTitle}</h3>}
 
@@ -13,11 +13,13 @@ export const VetInfo = ({ pageTitle, showPageIntro }) => (
   </>
 );
 
-VetInfo.propTypes = {
+VeteranContactDescription.propTypes = {
   pageTitle: PropTypes.string,
   showPageIntro: PropTypes.bool,
 };
 
-VetInfo.defaultProps = {
+VeteranContactDescription.defaultProps = {
   showPageIntro: false,
 };
+
+export default VeteranContactDescription;
