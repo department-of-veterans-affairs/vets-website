@@ -2,7 +2,7 @@
 	"name": "Review Instance",
 	"dockerComposeFile": ["vets-website/docker-compose.yml"],
 	"service": "vets-website",
-	"workspaceFolder": "/application",
+	"workspaceFolder": "/workspace",
 	"settings": {
 		"editor.formatOnSave": true,
 		"[json]": {
