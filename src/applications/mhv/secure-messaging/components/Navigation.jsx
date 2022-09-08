@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import SectionGuideButton from './SectionGuideButton';
 
 const Navigation = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   function openNavigation() {
     setIsNavigationOpen(true);
@@ -22,19 +23,11 @@ const Navigation = () => {
 
   function openNavigationBurgerButton() {
     return isMobile ? (
-      <div className="va-btn-sidebarnav-trigger">
-        <div className="button-background" />
-        <div className="button-wrapper">
-          <button
-            aria-controls="va-detailpage-sidebar"
-            onClick={openNavigation}
-            type="button"
-          >
-            <strong>In the Messages section</strong>
-            <i className="fas fa-bars" aria-hidden />
-          </button>
-        </div>
-      </div>
+      <SectionGuideButton
+        onMenuClick={() => {
+          openNavigation();
+        }}
+      />
     ) : (
       <></>
     );
@@ -50,7 +43,7 @@ const Navigation = () => {
   window.addEventListener('resize', checkScreenSize);
 
   return (
-    <>
+    <div className="secure-messaging-navigation">
       {openNavigationBurgerButton()}
       {(isNavigationOpen && isMobile) || isMobile === false ? (
         <div className="sidebar-navigation">
@@ -126,7 +119,7 @@ const Navigation = () => {
       ) : (
         <></>
       )}
-    </>
+    </div>
   );
 };
 
