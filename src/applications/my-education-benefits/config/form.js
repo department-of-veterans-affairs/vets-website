@@ -18,6 +18,7 @@ import environment from 'platform/utilities/environment';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import * as ENVIRONMENTS from 'site/constants/environments';
 import * as BUCKETS from 'site/constants/buckets';
+import constants from 'vets-json-schema/dist/constants.json';
 import fullSchema from '../22-1990-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
@@ -788,7 +789,11 @@ const formConfig = {
                         'view:mailingAddress'
                       ].address;
 
-                      if (livesOnMilitaryBase && country !== 'USA') {
+                      if (
+                        // formData.showMEBMailingAddressForeign &&
+                        livesOnMilitaryBase &&
+                        country !== 'USA'
+                      ) {
                         return {
                           type: 'string',
                           title: 'APO/FPO',
@@ -813,7 +818,7 @@ const formConfig = {
                     required: 'State is required',
                   },
                   'ui:options': {
-                    replaceSchema: formData => {
+                    updateSchema: formData => {
                       const { livesOnMilitaryBase } = formData[
                         'view:mailingAddress'
                       ];
@@ -836,6 +841,10 @@ const formConfig = {
                       return {
                         type: 'string',
                         title: 'State/Province/Region',
+                        enum: constants.states.USA.map(state => state.value),
+                        enumNames: constants.states.USA.map(
+                          state => state.label,
+                        ),
                       };
                     },
                   },
