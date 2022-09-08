@@ -332,6 +332,7 @@
     "url-search-params": "^1.1.0",
     "url-search-params-polyfill": "^8.1.1",
     "uswds": "1.6.10",
+    "uuid": "^9.0.0",
     "vanilla-lazyload": "^16.1.0",
     "vets-json-schema": "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7c1e7fb2acb8e972535d8dcd251bf41cc8ef9608"
   },
