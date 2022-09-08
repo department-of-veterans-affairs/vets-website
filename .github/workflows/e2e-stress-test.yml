@@ -139,7 +139,7 @@ jobs:
   cypress-tests-prep:
     name: Prep for Cypress Tests
     runs-on: ubuntu-latest
-    needs: [fetch-allow-list]
+    needs: [fetch-e2e-allow-list]
     outputs:
       tests: ${{ steps.tests.outputs.selected }}
       app_urls: ${{ steps.get-changed-apps.outputs.urls }}
