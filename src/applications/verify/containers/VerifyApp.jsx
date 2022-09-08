@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { selectProfile } from 'platform/user/selectors';
-
-// import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
+import { selectProfile, isProfileLoading } from 'platform/user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
-
 import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
@@ -16,12 +13,10 @@ import { VerifyButton } from '../components/verifyButton';
 export const selectCSP = selectedPolicy =>
   Object.values(SERVICE_PROVIDERS).find(csp => csp.policy === selectedPolicy);
 
-const VerifyApp = ({ profile, useOAuth }) => {
-  const { verified, loading } = profile;
-
+export const VerifyApp = ({ profile, useOAuth, loading }) => {
   useEffect(
     () => {
-      if (!hasSession() || (hasSession() && verified)) {
+      if (!hasSession() || (hasSession() && profile.verified)) {
         window.location.replace('/');
       }
 
@@ -33,18 +28,22 @@ const VerifyApp = ({ profile, useOAuth }) => {
         }
       };
     },
-    [loading, verified],
+    [loading],
   );
 
   if (loading) {
-    return <va-loading-indicator message="Loading the application..." />;
+    return (
+      <va-loading-indicator
+        data-testid="loading-indicator"
+        message="Loading the application..."
+      />
+    );
   }
-
   const { idme, logingov } = SERVICE_PROVIDERS;
   const signInMethod = !profile.loading && profile.signIn.serviceName;
 
   return (
-    <section className="verify">
+    <section data-testid="verify-app" className="verify">
       <div className="container">
         <div className="row">
           <div className="columns small-12 fed-warning--v2">
@@ -67,17 +66,25 @@ const VerifyApp = ({ profile, useOAuth }) => {
               This one-time process will take <strong>5 - 10 minutes</strong> to
               complete.
             </p>
+
             {[idme.policy, logingov.policy].includes(signInMethod) ? (
-              <VerifyButton {...selectCSP(signInMethod)} useOAuth={useOAuth} />
+              <div data-testid="verify-button">
+                {' '}
+                <VerifyButton
+                  {...selectCSP(signInMethod)}
+                  useOAuth={useOAuth}
+                />{' '}
+              </div>
             ) : (
-              <>
+              <div data-testid="verify-button-group">
                 <VerifyButton
                   {...selectCSP(logingov.policy)}
                   useOAuth={useOAuth}
                 />
                 <VerifyButton {...selectCSP(idme.policy)} useOAuth={useOAuth} />
-              </>
+              </div>
             )}
+
             <div className="help-info">
               <h2>Having trouble verifying your identity?</h2>
               <p>
@@ -97,14 +104,15 @@ const VerifyApp = ({ profile, useOAuth }) => {
 };
 
 const mapStateToProps = state => ({
+  loading: isProfileLoading(state),
   profile: selectProfile(state),
   useOAuth: isAuthenticatedWithOAuth(state),
 });
 
 export default connect(mapStateToProps)(VerifyApp);
 
-export { VerifyApp };
 VerifyApp.propTypes = {
+  loading: PropTypes.bool.isRequired,
   profile: PropTypes.object.isRequired,
   useOAuth: PropTypes.bool,
 };
