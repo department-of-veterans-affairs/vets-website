@@ -9,7 +9,7 @@ import { formatDateLong } from 'platform/utilities/date';
 import DocumentList from '../../../components/DocumentList/DocumentList';
 import mockDocumentList from '../../../../form/tests/fixtures/mocks/document-list.json';
 
-describe('DocumentList', () => {
+describe.skip('DocumentList', () => {
   it('should render not on upload page content', () => {
     const { container } = render(
       <div>

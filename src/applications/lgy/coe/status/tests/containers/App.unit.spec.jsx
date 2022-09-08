@@ -49,7 +49,7 @@ const getData = ({
 
 const original = window.location;
 
-describe('App', () => {
+describe.skip('App', () => {
   before(() => {
     window.location = {
       replace: () => {},

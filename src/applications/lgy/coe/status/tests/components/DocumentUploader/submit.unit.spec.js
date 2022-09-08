@@ -39,7 +39,7 @@ const initialState = {
   ],
 };
 
-describe('submitToAPI', () => {
+describe.skip('submitToAPI', () => {
   it('should upload selected file', done => {
     const setState = sinon.spy();
 
