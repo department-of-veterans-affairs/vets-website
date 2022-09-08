@@ -21,3 +21,4 @@ services:
       # - ../../../content-build:/content-build
       # - ../../../vets-api:/vets-api
     command: ls && /bin/sh -c "while sleep 1000; do :; done"  #./.devcontainer/codespaces-create.sh
+    user: vscode
