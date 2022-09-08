@@ -2,50 +2,21 @@ h2:focus {
   outline: none;
 }
 
-.additional-info-title {
-  font-weight: normal;
-}
-
-.caregiver-confirmation {
-  .print-details {
-    display: none;
-  }
+.caregiver-confirmation--print {
+  display: none;
 }
 
 @media print {
-  .schemaform-title {
+  .schemaform-title, .no-print {
     display: none;
   }
 
-  .caregiver-confirmation {
-    .print-details {
-      display: flex;
-      flex-direction: column;
-
-      img {
-        width: 240px;
-        margin-bottom: 24px;
-      }
-    }
-
-    .usa-alert,
-    .usa-alert-success {
-      display: none;
-    }
-
-    .claim-list {
-      display: none;
-    }
-    .inset {
-      display: none;
-    }
-
-    p {
-      margin: 10px 0;
-    }
+  .caregiver-confirmation--print {
+    display: flex;
+    flex-direction: column;
   }
 
-  .caregiver-footer {
-    display: block;
+  .vagov-logo {
+    width: 300px;
   }
 }

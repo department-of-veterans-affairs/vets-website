@@ -7,7 +7,7 @@ import ApplicationDownloadLink from '../ApplicationDownloadLink';
 
 const SubmissionErrorAlert = ({ form }) => {
   useEffect(() => {
-    focusElement('.caregivers-error-message');
+    focusElement('.caregiver-error-message');
   }, []);
 
   return (
@@ -28,8 +28,8 @@ const SubmissionErrorAlert = ({ form }) => {
 
         <p className="vads-u-margin-top--1p5">Mail your application to:</p>
 
-        <p className="va-address-block vads-u-margin-bottom--2 vads-u-margin-x--0 vads-u-font-size--h4">
-          <strong className="vads-u-font-size--h5">
+        <p className="va-address-block vads-u-margin-bottom--2 vads-u-margin-x--0">
+          <strong>
             Program of Comprehensive Assistance for Family Caregivers
           </strong>
           <br />
