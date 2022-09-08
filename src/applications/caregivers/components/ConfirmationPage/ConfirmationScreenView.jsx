@@ -59,7 +59,7 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
           </div>
         </dl>
 
-        <div className="caregiver-confirmation--print vads-u-margin-y--2">
+        <div className="vads-u-margin-y--2">
           <va-button text="Print this page" onClick={() => window.print()} />
         </div>
 
