@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -12,8 +11,6 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
     focusElement('.caregiver-success-message');
     scrollToTop();
   }, []);
-
-  console.log('Screen Props:', { form, name, timestamp });
 
   return (
     <>

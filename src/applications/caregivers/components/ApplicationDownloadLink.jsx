@@ -1,143 +1,124 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
 import * as Sentry from '@sentry/browser';
-import moment from 'moment';
 
 import { apiRequest } from 'platform/utilities/api';
+import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
-import { isValidForm } from 'platform/forms-system/src/js/validation';
-import { createFormPageList } from 'platform/forms-system/src/js/helpers';
+import { downloadErrorsByCode } from '../definitions/content';
 import { submitTransform } from '../helpers';
 import formConfig from '../config/form';
 
-const DownLoadLink = ({ form }) => {
-  const [PDFLink, setPDFLink] = useState(null);
-  const [isLoading, setLoading] = useState(false);
-  const [errors, setErrors] = useState([]);
-  const getFormData = submitTransform(formConfig, form);
-  const { veteranFullName } = form.data;
-  const pageList = createFormPageList(formConfig);
-  const isFormValid = isValidForm(form, pageList);
+const apiURL = `${
+  environment.API_URL
+}/v0/caregivers_assistance_claims/download_pdf`;
 
-  const downloadPDF = transformedData => {
-    setLoading(true);
-    apiRequest(
-      `${environment.API_URL}/v0/caregivers_assistance_claims/download_pdf`,
-      {
-        method: 'POST',
-        body: transformedData,
-        headers: {
-          'Content-Type': 'application/json',
-          'Source-App-Name': window.appName,
-        },
-      },
-    )
-      .then(response => response.blob())
-      .then(blob => {
-        const url = URL.createObjectURL(blob);
-        setPDFLink(url);
-        setLoading(false);
-        setErrors([]);
-        recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
-      })
-      .catch(error => {
-        setLoading(false);
-        setErrors(error.errors);
-        Sentry.withScope(scope => scope.setExtra('error', error));
-        recordEvent({ event: 'caregivers-10-10cg-pdf--failure' });
-      });
+const ApplicationDownloadLink = ({ form }) => {
+  const [loading, isLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
+
+  // get our custom error messages by status code
+  const getErrorMessage = () => {
+    const code = errors[0].status.split('')[0];
+    const { generic } = downloadErrorsByCode;
+    return downloadErrorsByCode[code] || generic;
   };
 
-  useEffect(
+  // define our click event that will handle the download
+  const handleClick = useCallback(
     () => {
-      if (isFormValid.isValid) downloadPDF(getFormData);
+      isLoading(true, () => {
+        // define our handler for downloading the blob data
+        const triggerDownload = ({ blob, filename }) => {
+          // create a blank anchor tag to trigger
+          const url = URL.createObjectURL(blob);
+          const anchor = document.createElement('a');
+          anchor.href = url;
+          anchor.download = filename;
+          // append element to the dom, or it may not trigger in some browsers
+          document.body.appendChild(anchor);
+          anchor.click();
+          anchor.remove();
+        };
+
+        // transform our form data for use
+        const formData = submitTransform(formConfig, form);
+
+        // create the application PDF file
+        apiRequest(apiURL, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Content-Type': 'application/json',
+            'Source-App-Name': window.appName,
+          },
+        })
+          .then(response => {
+            // parse blob data & desired filename to return from the response
+            const disposition = response.headers.get('content-disposition');
+            const filename = disposition.match(/filename=(.+)/)[1];
+            const blob = response.blob();
+            return { blob, filename };
+          })
+          .then(response => {
+            triggerDownload(response);
+            recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
+            isLoading(false);
+            setErrors([]);
+          })
+          .catch(response => {
+            isLoading(false);
+            setErrors(response.errors, () => {
+              focusElement('caregiver-download-error');
+            });
+            recordEvent({ event: 'caregivers-10-10cg-pdf--failure' });
+            Sentry.withScope(scope => scope.setExtra('error', response));
+          });
+      });
     },
-    [getFormData, isFormValid.isValid],
+    [form],
   );
 
-  const renderSuccessfulPDFLink = () => {
+  // render loading indicator while file is downloading
+  if (loading) {
     return (
-      <div className="pdf-download-link--loaded vads-u-margin-top--2">
-        <a
-          aria-label="Download 10-10CG filled out PDF form"
-          href={PDFLink}
-          download={`10-10CG_${veteranFullName.first}_${veteranFullName.last}`}
-        >
-          <i
-            aria-hidden="true"
-            role="img"
-            className="fas fa-download vads-u-padding-right--1"
-          />
-          Download your completed application{' '}
-          <span className="sr-only">
-            `dated ${moment(Date.now()).format('MMM D, YYYY')} `
-          </span>
-          <dfn>
-            <abbr title="Portable Document Format">(PDF)</abbr>
-          </dfn>
-        </a>
+      <va-loading-indicator
+        label="Downloading"
+        message="Downloading application..."
+        set-focus
+      />
+    );
+  }
+
+  // render error alert if file cannot download
+  if (errors.length) {
+    return (
+      <div className="caregiver-download-error">
+        <va-alert status="error">
+          <h3 slot="headline" className="vads-u-font-size--h4">
+            Something went wrong
+          </h3>
+          {getErrorMessage()}
+        </va-alert>
       </div>
     );
-  };
+  }
 
-  const renderErrorPDFLink = () => {
-    const getErrorMessage = () => {
-      const errorCodeType = errors[0].status.split('')[0];
-
-      switch (errorCodeType) {
-        case '4':
-          return `We're sorry. We couldn't download your form. Please check the data and try again.`;
-        case '5':
-          return `We're sorry. VA.gov is down right now. If you need help right now, please call us.`;
-        default:
-          return null;
-      }
-    };
-
-    return (
-      <div className="vads-u-margin-top--2 vads-u-color--secondary-dark pdf-download-link--error">
-        <a
-          aria-label="Error downloading 10-10CG PDF"
-          href={() => false}
-          className="vads-u-color--gray-medium"
-        >
-          <i
-            aria-hidden="true"
-            role="img"
-            className="fas fa-download vads-u-padding-right--1"
-          />
-          Download your completed application
-          <span className="sr-only">
-            ` dated ${moment(Date.now()).format('MMM D, YYYY')}`
-          </span>
-        </a>
-
-        <div className="error-note vads-u-margin-top--3">
-          <i
-            aria-hidden="true"
-            role="img"
-            className="fas fa-exclamation-circle vads-u-padding-right--1"
-          />
-
-          <p className="vads-u-color--gray-dark">{getErrorMessage()}</p>
-        </div>
-      </div>
-    );
-  };
-
-  const renderLoadingIndicator = () => {
-    return (
-      <div className="pdf-download-link--loading">
-        <va-loading-indicator message="Downloading PDF..." />
-      </div>
-    );
-  };
-
-  if (errors?.length > 0) return renderErrorPDFLink();
-
-  if (isLoading) return renderLoadingIndicator();
-
-  return renderSuccessfulPDFLink();
+  return (
+    <>
+      <button type="button" className="va-button-link" onClick={handleClick}>
+        <i
+          className="fas fa-download vads-u-padding-right--1"
+          aria-hidden="true"
+          role="img"
+        />
+        Download your completed application
+        <dfn>
+          (<abbr title="Portable Document Format">PDF</abbr>)
+        </dfn>
+      </button>
+    </>
+  );
 };
 
-export default DownLoadLink;
+export default ApplicationDownloadLink;

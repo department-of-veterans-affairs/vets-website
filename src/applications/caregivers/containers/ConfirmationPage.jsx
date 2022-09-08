@@ -10,10 +10,8 @@ import ConfirmationPrintView from '../components/ConfirmationPage/ConfirmationPr
 
 const ConfirmationPage = ({ form }) => {
   const { submission, data } = form;
-  const { response } = submission;
+  const { response, timestamp } = submission;
   const name = data.veteranFullName;
-
-  console.log('Response:', response);
 
   return (
     <div className="caregiver-confirmation vads-u-margin-bottom--2p5">
@@ -21,14 +19,14 @@ const ConfirmationPage = ({ form }) => {
         <ConfirmationScreenView
           form={form}
           name={name}
-          timestamp={response?.timestamp || null}
+          timestamp={response ? timestamp : null}
         />
       </section>
 
       <section className="caregiver-confirmation--print">
         <ConfirmationPrintView
           name={name}
-          timestamp={response?.timestamp || null}
+          timestamp={response ? timestamp : null}
         />
       </section>
 

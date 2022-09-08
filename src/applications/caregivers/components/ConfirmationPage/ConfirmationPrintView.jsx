@@ -1,16 +1,13 @@
-/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
 const ConfirmationPrintView = ({ name, timestamp }) => {
-  console.log('Print Props:', { name, timestamp });
-
   return (
     <>
       <img
         src="/img/design/logo/logo-black-and-white.png"
-        className="vagov-logo"
+        className="vagov-logo vads-u-max-width--100 vads-u-margin-bottom--4"
         alt=""
       />
 
