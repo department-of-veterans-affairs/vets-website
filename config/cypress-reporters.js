@@ -1,10 +1,8 @@
-import { v4 as uuidv4 } from 'uuid';
-
 module.exports = {
   reporterEnabled: 'mochawesome',
   mochawesomeReporterOptions: {
     reportDir: 'cypress/results',
-    reportFileName: uuidv4(),
+    reportFileName: `${process.env.CI_NODE_INDEX}_${new Date()}`,
     overwrite: false,
     html: false,
     json: true,

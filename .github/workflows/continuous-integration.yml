@@ -546,6 +546,7 @@ jobs:
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
       NODE_EXTRA_CA_CERTS: /share/ca-certificates/VA-Internal-S2-RCA1-v1.cer.crt
+      CI_NODE_INDEX: ${{ needs.cypress-tests-prep.outputs.ci_node_index }}
 
     steps:
       # The following statement is included in each step because of a bug in
