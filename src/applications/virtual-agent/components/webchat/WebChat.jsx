@@ -37,7 +37,6 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
       },
     );
     const responseAsJson = await res.json();
-    debugger;
 
     setDirectLineToken(responseAsJson.token);
   }
@@ -154,7 +153,9 @@ const WebChat = ({ token, WebChatFramework, apiSession }) => {
     }
   };
 
-  console.log(directLineToken);
+  console.log('current token', directLineToken);
+  console.log('original token', sessionStorage.getItem(TOKEN_KEY));
+  console.log(directLine);
   return (
     <div data-testid="webchat" style={{ height: '550px', width: '100%' }}>
       <ReactWebChat
