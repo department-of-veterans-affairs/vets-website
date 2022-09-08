@@ -12,7 +12,7 @@ const {
 } = require('../../config/cypress.config');
 
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
-const ALLOW_LIST = JSON.parse(process.env.ALLOW_LIST);
+// const ALLOW_LIST = JSON.parse(process.env.ALLOW_LIST);
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
 const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
 
@@ -250,15 +250,15 @@ function exportVariables(tests) {
 function run() {
   const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
   const graph = dedupeGraph(buildGraph());
-  const disallowedTests = ALLOW_LIST.filter(spec => spec.allowed === false).map(
-    spec => spec.spec_path,
-  );
-  const tests = selectTests(graph, pathsOfChangedFiles).filter(testPath => {
-    return !disallowedTests.includes(
-      testPath.substring(testPath.indexOf('src/')),
-    );
-  });
-
+  // const disallowedTests = ALLOW_LIST.filter(spec => spec.allowed === false).map(
+  //   spec => spec.spec_path,
+  // );
+  // let tests = selectTests(graph, pathsOfChangedFiles).filter(testPath => {
+  //   return !disallowedTests.includes(
+  //     testPath.substring(testPath.indexOf('src/')),
+  //   );
+  // });
+  const tests = selectTests(graph, pathsOfChangedFiles);
   // tests = [
   //   '/home/runner/work/vets-website/vets-website/src/applications/appeals/10182/tests/10182-keyboard-only.cypress.spec.js',
   // ];
