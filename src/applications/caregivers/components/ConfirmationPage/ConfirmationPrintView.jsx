@@ -24,11 +24,11 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
         tell you what happens next in the application processs.
       </p>
 
-      <hr />
+      <hr className="vads-u-margin-y--4" />
 
       <h2 className="vads-u-font-size--h3">Your application information</h2>
       <dl>
-        <div>
+        <div className="vads-u-margin-bottom--2">
           <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
             Veteran’s name
           </dt>
@@ -46,7 +46,7 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
         )}
       </dl>
 
-      <hr />
+      <hr className="vads-u-margin-y--4" />
     </>
   );
 };
