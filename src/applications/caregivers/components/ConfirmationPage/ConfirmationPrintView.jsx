@@ -19,15 +19,17 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
       <h2 className="vads-u-font-size--h3">
         Thank you for completing your application
       </h2>
-      <p>
+      <p className="vads-u-margin-bottom--0">
         Once we’ve successfully received your application, we’ll contact you to
         tell you what happens next in the application processs.
       </p>
 
       <hr className="vads-u-margin-y--4" />
 
-      <h2 className="vads-u-font-size--h3">Your application information</h2>
-      <dl>
+      <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
+        Your application information
+      </h2>
+      <dl className="vads-u-margin-bottom--0">
         <div className="vads-u-margin-bottom--2">
           <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
             Veteran’s name
@@ -46,7 +48,7 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
         )}
       </dl>
 
-      <hr className="vads-u-margin-y--4" />
+      <hr className="vads-u-margin-top--4 vads-u-margin-bottom--0" />
     </>
   );
 };
