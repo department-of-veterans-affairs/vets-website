@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 import { PATTERNS } from '@department-of-veterans-affairs/component-library/Telephone';
 import DebtLetterCard from './DebtLetterCard';
 import { ErrorMessage, DowntimeMessage } from './Alerts';
-import OtherVADebts from '../../medical-copays/components/OtherVADebts';
-import { cdpAccessToggle } from '../../medical-copays/utils/helpers';
-import alertMessage from '../../combined-debt-portal/combined/utils/alert-messages';
+import OtherVADebts from './OtherVADebts';
 import {
+  cdpAccessToggle,
   ALERT_TYPES,
   APP_TYPES,
   API_RESPONSES,
-} from '../../combined-debt-portal/combined/utils/helpers';
+} from '../utils/helpers';
+import alertMessage from '../utils/alert-messages';
 
 const DebtCardsList = ({ debts, errors, hasCopays }) => {
   const showCDPComponents = useSelector(state => cdpAccessToggle(state));
@@ -112,13 +112,11 @@ const DebtCardsList = ({ debts, errors, hasCopays }) => {
         <p className="vads-u-font-family--sans">
           If you received a letter about a VA benefit debt that isn’t listed
           here, call us at{' '}
-          <va-telephone
-            contact="800-827-0648"
-            className="vads-u-margin-x--0p5"
-          />{' '}
+          <va-telephone contact="8008270648" className="vads-u-margin-x--0p5" />{' '}
           (or{' '}
           <va-telephone
-            contact="1-612-713-6415"
+            international
+            contact="6127136415"
             pattern={PATTERNS.OUTSIDE_US}
             className="vads-u-margin-x--0p5"
           />{' '}

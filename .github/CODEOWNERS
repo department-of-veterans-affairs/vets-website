@@ -47,8 +47,8 @@ src/applications/lgy @department-of-veterans-affairs/benefits-team-1-frontend
 src/applications/sah @department-of-veterans-affairs/benefits-team-1-frontend
 
 # VSA Debt
-src/applications/disability-benefits/2346 @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
-src/applications/debt-letters @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
+src/applications/disability-benefits/2346 @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/1010-health-apps-frontend
+src/applications/debt-letters @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend @department-of-veterans-affairs/1010-health-apps-frontend
 src/applications/burials @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 src/applications/financial-status-report @department-of-veterans-affairs/vsa-debt-frontend
 src/applications/medical-copays @department-of-veterans-affairs/vsa-debt-frontend
@@ -61,8 +61,8 @@ src/applications/static-pages @department-of-veterans-affairs/vsa-public-website
 src/applications/find-forms @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/yellow-ribbon @department-of-veterans-affairs/vsa-public-websites-frontend
 src/applications/discharge-wizard @department-of-veterans-affairs/vsa-public-websites-frontend
-src/applications/search @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
-src/applications/resources-and-support @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-caregiver-frontend
+src/applications/search @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/1010-health-apps-frontend
+src/applications/resources-and-support @department-of-veterans-affairs/vsa-public-websites-frontend @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/1010-health-apps-frontend
 
 # Facility Locator and VAMC pages
 src/applications/facility-locator @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
@@ -70,10 +70,10 @@ src/applications/static-pages/facilities @department-of-veterans-affairs/vsa-fac
 src/applications/static-pages/tests/facilities @department-of-veterans-affairs/vsa-facilities-frontend @department-of-veterans-affairs/vsa-public-websites-frontend
 
 # Caregiver
-src/applications/caregivers @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/benefits-team-1-frontend
+src/applications/caregivers @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 
 # Health Care Application
-src/applications/hca @department-of-veterans-affairs/vsa-caregiver-frontend @department-of-veterans-affairs/benefits-team-1-frontend
+src/applications/hca @department-of-veterans-affairs/1010-health-apps-frontend @department-of-veterans-affairs/benefits-team-1-frontend
 
 # Healthcare Experience
 src/applications/health-care-questionnaire @department-of-veterans-affairs/patient-check-in
@@ -100,6 +100,9 @@ src/applications/enrollment-verification @department-of-veterans-affairs/my-educ
 src/applications/education-letters @department-of-veterans-affairs/my-education-benefits
 src/applications/fry-dea @department-of-veterans-affairs/my-education-benefits
 src/applications/toe @department-of-veterans-affairs/my-education-benefits
+
+# My HealtheVet Secure Messaging
+src/applications/mhv/secure-messaging @department-of-veterans-affairs/vfs-mhv-secure-messaging
 
 # Other
 src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe

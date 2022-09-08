@@ -40,7 +40,9 @@ describe('Contact info fields', () => {
     );
 
     cy.findByRole('button', { name: /edit home address/i }).click();
-    cy.findByLabelText(/my home address is the same/i).should('be.focused');
+    cy.findByLabelText(/use my mailing address for my home address/i).should(
+      'be.focused',
+    );
     cy.axeCheck();
     cy.findByRole('button', { name: /cancel/i }).click();
     cy.findByRole('button', { name: /edit home address/i }).should(

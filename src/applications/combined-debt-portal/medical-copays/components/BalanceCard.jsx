@@ -8,6 +8,7 @@ import {
   formatDate,
   verifyCurrentBalance,
 } from '../../combined/utils/helpers';
+import recordEvent from '~/platform/monitoring/record-event';
 
 const CurrentContent = ({ id, date }) => (
   <p>
@@ -33,7 +34,7 @@ const PastDueContent = ({ id, date, amount }) => (
     </strong>
     was {currency(amount)}. If you haven’t either paid your full balance or
     requested financial help, contact the VA Health Resource Center at{' '}
-    <va-telephone contact="866-400-1238" /> (TTY:{' '}
+    <va-telephone contact="8664001238" /> (TTY:{' '}
     <va-telephone contact={CONTACTS[711]} />
     ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
   </p>
@@ -88,6 +89,9 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
         to={`/copay-balances/${id}/detail`}
         data-testid={`detail-link-${id}`}
         aria-label={`Check details and resolve this debt for ${facility}`}
+        onClick={() => {
+          recordEvent({ event: 'cta-link-click-copay-balance-card' });
+        }}
       >
         {linkText}
         <i

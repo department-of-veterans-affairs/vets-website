@@ -1,0 +1,98 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+.message-detail-container {
+  p {
+    margin-top: 2px;
+    margin-bottom: 1px;
+  }
+  .message-detail-block {
+    margin: 2rem 0 4rem 0;
+    background-color: $color-white;
+    .message-detail-content {
+      border: 2px solid $color-gray-lightest;
+      padding: 18px;
+
+      @media (min-width: $medium-screen) {
+        padding: 28px 37px 18px;
+      }
+    }
+
+    .message-detail-header {
+      border-radius: 4px 4px 0 0;
+      background-color: $color-gray-lightest;
+      justify-content: space-between;
+      align-items: center;
+      padding-right: 6px;
+      padding-top: 8px;
+      padding-bottom: none !important;
+      padding-left: 12px;
+      display: flex;
+      @include media($medium-screen) {
+        padding-left: 36px;
+      }
+      h3 {
+        margin: none;
+      }
+    }
+    .message-body {
+      margin: 30px 0;
+    }
+
+    .message-attachments {
+      margin-top: 1em;
+    }
+
+    .message-detail-note {
+      margin-top: 3em;
+      margin-bottom: 3em;
+    }
+    .message-body-attachments-label {
+      margin-bottom: 7px;
+    }
+  }
+  .message-detail-header {
+    h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      clear: both;
+      font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times",
+        serif;
+      line-height: 1.3;
+      display: block;
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+    }
+  }
+
+  .message-action-buttons {
+    margin-top: 20px;
+    @include media($medium-screen) {
+      justify-content: flex-end !important;
+      padding-right: 15px;
+    }
+    .message-action-button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: transparent;
+      color: $color-link-default;
+      font-weight: normal;
+      line-height: 24px;
+      width: fit-content;
+      margin: 0;
+      padding: 0;
+      @include media($medium-screen) {
+        padding-left: 44px;
+      }
+      i {
+        width: 20px;
+        height: 20px;
+      }
+      .message-action-button-text {
+        text-decoration: underline;
+      }
+    }
+  }
+}
