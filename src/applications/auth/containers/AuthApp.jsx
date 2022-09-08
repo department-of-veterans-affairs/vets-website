@@ -146,7 +146,7 @@ export class AuthApp extends React.Component {
       returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH]) &&
       !userProfile.verified
     ) {
-      window.location.replace('/sign-in/verify');
+      window.location.replace('/verify');
       return;
     }
 
