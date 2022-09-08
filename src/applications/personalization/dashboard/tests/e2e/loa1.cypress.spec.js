@@ -116,7 +116,7 @@ describe('When clicking on the verify your identity link', () => {
   it('should focus on the h1 element', () => {
     cy.login(loa1User);
     cy.visit(manifest.rootUrl);
-    cy.findByRole('link', { name: 'Verify your identity' })
+    cy.findByRole('button', { name: 'Verify your identity' })
       .should('have.attr', 'href', '/verify')
       .click();
     cy.get('h1').should('be.focused');
