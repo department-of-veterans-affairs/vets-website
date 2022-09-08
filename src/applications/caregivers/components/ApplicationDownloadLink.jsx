@@ -77,13 +77,12 @@ const ApplicationDownloadLink = ({ form }) => {
     [errors],
   );
 
-  // render loading indicator while file is downloading
+  // render loading indicator while application download is processing
   if (loading) {
     return (
       <va-loading-indicator
-        label="Downloading"
+        label="Loading application"
         message="Preparing your application for download..."
-        set-focus
       />
     );
   }
