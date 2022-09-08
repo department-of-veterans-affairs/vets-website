@@ -1278,7 +1278,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": "Stand by, production deploy for vets-website coming up in ${{ env.RELEASE_WAIT_MINUTES }} minutes. View what is coming here: <https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"
+                        "text": "Stand by, production deploy for vets-website coming up in ${{ env.RELEASE_WAIT_MINUTES }} minutes. View what's coming here: <https://github.com/${{ github.repository }}/compare/${{ needs.set-env.outputs.LATEST_TAG_VERSION }}...${{ needs.set-env.outputs.COMMIT_SHA }}>"
                       }
                     }
                   ]
