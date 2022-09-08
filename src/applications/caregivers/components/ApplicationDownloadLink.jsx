@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 
-import formConfig from 'applications/caregivers/config/form';
+import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
-import { submitTransform } from 'applications/caregivers/helpers';
-import { apiRequest } from 'platform/utilities/api';
 import { isValidForm } from 'platform/forms-system/src/js/validation';
 import { createFormPageList } from 'platform/forms-system/src/js/helpers';
+import { submitTransform } from '../helpers';
+import formConfig from '../config/form';
 
 const DownLoadLink = ({ form }) => {
   const [PDFLink, setPDFLink] = useState(null);
