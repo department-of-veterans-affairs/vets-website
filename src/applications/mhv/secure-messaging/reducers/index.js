@@ -18,6 +18,7 @@ const initialState = {
   isLoading: true,
   messages: null,
   folders: null,
+  message: null,
   error: null,
 };
 
