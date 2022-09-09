@@ -209,6 +209,11 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 51
+        },
+        "stateCode": {
+          "type": "string",
+          "maxLength": 51,
+          "enum": ["AA", "AE", "AP"]
         }
       }
     },

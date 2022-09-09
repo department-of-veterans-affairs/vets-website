@@ -18,7 +18,6 @@ import environment from 'platform/utilities/environment';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import * as ENVIRONMENTS from 'site/constants/environments';
 import * as BUCKETS from 'site/constants/buckets';
-import constants from 'vets-json-schema/dist/constants.json';
 import fullSchema from '../22-1990-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
@@ -754,6 +753,15 @@ const formConfig = {
               },
               [formFields.address]: {
                 ...address.uiSchema(''),
+                'ui:order': [
+                  'country',
+                  'street',
+                  'street2',
+                  'city',
+                  'state',
+                  'stateCode',
+                  'postalCode',
+                ],
                 street: {
                   'ui:title': 'Street address',
                   'ui:errorMessages': {
@@ -813,39 +821,63 @@ const formConfig = {
                   },
                 },
                 state: {
-                  // 'ui:title': 'State/Province/Region',
+                  'ui:title': 'State/Province/Region',
                   'ui:errorMessages': {
                     required: 'State is required',
                   },
                   'ui:options': {
-                    updateSchema: formData => {
+                    hideIf: formData => {
                       const { livesOnMilitaryBase } = formData[
                         'view:mailingAddress'
                       ];
                       const { country } = formData[
                         'view:mailingAddress'
                       ].address;
-
-                      if (livesOnMilitaryBase && country !== 'USA') {
-                        return {
-                          type: 'string',
-                          title: 'AE/AA/AP',
-                          enum: ['AA', 'AE', 'AP'],
-                          enumNames: [
-                            'APO/FPO',
-                            'APO/FPO (New York)',
-                            'APO/FPO (San Francisco)',
-                          ],
-                        };
-                      }
-                      return {
-                        type: 'string',
-                        title: 'State/Province/Region',
-                        enum: constants.states.USA.map(state => state.value),
-                        enumNames: constants.states.USA.map(
-                          state => state.label,
-                        ),
-                      };
+                      return livesOnMilitaryBase && country !== 'USA';
+                    },
+                  },
+                  //   replaceSchema: formData => {
+                  //     const { livesOnMilitaryBase } = formData[
+                  //       'view:mailingAddress'
+                  //     ];
+                  //     const { country } = formData[
+                  //       'view:mailingAddress'
+                  //     ].address;
+                  //
+                  //     if (livesOnMilitaryBase && country !== 'USA') {
+                  //       return {
+                  //         type: 'string',
+                  //         title: 'AE/AA/AP',
+                  //         enum: ['AA', 'AE', 'AP'],
+                  //         enumNames: [
+                  //           'APO/FPO',
+                  //           'APO/FPO (New York)',
+                  //           'APO/FPO (San Francisco)',
+                  //         ],
+                  //       };
+                  //     }
+                  //     return {
+                  //       type: 'string',
+                  //       title: 'State/Province/Region',
+                  //       enum: constants.states.USA.map(state => state.value),
+                  //       enumNames: constants.states.USA.map(
+                  //         state => state.label,
+                  //       ),
+                  //     };
+                  //   },
+                  // },
+                },
+                stateCode: {
+                  'ui:title': 'AE/AA/AP',
+                  'ui:options': {
+                    hideIf: formData => {
+                      const { livesOnMilitaryBase } = formData[
+                        'view:mailingAddress'
+                      ];
+                      const { country } = formData[
+                        'view:mailingAddress'
+                      ].address;
+                      return livesOnMilitaryBase && country === 'USA';
                     },
                   },
                 },
