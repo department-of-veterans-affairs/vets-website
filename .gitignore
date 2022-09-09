@@ -36,6 +36,7 @@ dump.rdb
 
 # Ignore user's editor/IDE prefs
 .vscode/
+.vscode-remote/
 *.code-workspace
 .idea/
 .nova/
