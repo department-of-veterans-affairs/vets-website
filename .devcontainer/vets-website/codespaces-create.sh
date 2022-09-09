@@ -7,8 +7,8 @@ nvm install || true # ignore exit code due to npm prefix
 nvm use --delete-prefix
 
 # Download content repo
-printf "\n\n##### Downloading content repo #####\n"
-yarn install-repos
+# printf "\n\n##### Downloading content repo #####\n"
+# yarn install-repos
 
 sleep infinity
 
