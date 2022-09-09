@@ -1,119 +1,143 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
 import * as Sentry from '@sentry/browser';
+import moment from 'moment';
 
 import { apiRequest } from 'platform/utilities/api';
-import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
-import { downloadErrorsByCode } from '../definitions/content';
+import { isValidForm } from 'platform/forms-system/src/js/validation';
+import { createFormPageList } from 'platform/forms-system/src/js/helpers';
 import { submitTransform } from '../helpers';
 import formConfig from '../config/form';
 
-const apiURL = `${
-  environment.API_URL
-}/v0/caregivers_assistance_claims/download_pdf`;
-
-const ApplicationDownloadLink = ({ form }) => {
+const DownLoadLink = ({ form }) => {
   const [PDFLink, setPDFLink] = useState(null);
-  const [loading, isLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
+  const getFormData = submitTransform(formConfig, form);
+  const { veteranFullName } = form.data;
+  const pageList = createFormPageList(formConfig);
+  const isFormValid = isValidForm(form, pageList);
 
-  // define local use variables
-  const formData = submitTransform(formConfig, form);
-  const { veteranFullName: name } = form.data;
-
-  // fetch a custom error message based on status code
-  const errorMessage = () => {
-    const code = errors[0].status.split('')[0];
-    const { generic } = downloadErrorsByCode;
-    return downloadErrorsByCode[code] || generic;
-  };
-
-  // define our method of retrieving the link to download
-  const fetchDownloadUrl = body => {
-    isLoading(true);
-
-    // create the application link
-    apiRequest(apiURL, {
-      method: 'POST',
-      body,
-      headers: {
-        'Content-Type': 'application/json',
-        'Source-App-Name': window.appName,
+  const downloadPDF = transformedData => {
+    setLoading(true);
+    apiRequest(
+      `${environment.API_URL}/v0/caregivers_assistance_claims/download_pdf`,
+      {
+        method: 'POST',
+        body: transformedData,
+        headers: {
+          'Content-Type': 'application/json',
+          'Source-App-Name': window.appName,
+        },
       },
-    })
+    )
       .then(response => response.blob())
       .then(blob => {
-        const linkUrl = URL.createObjectURL(blob);
-        setPDFLink(linkUrl);
-        isLoading(false);
+        const url = URL.createObjectURL(blob);
+        setPDFLink(url);
+        setLoading(false);
         setErrors([]);
         recordEvent({ event: 'caregivers-10-10cg-pdf-download--success' });
       })
-      .catch(response => {
-        isLoading(false);
-        setErrors(response.errors);
+      .catch(error => {
+        setLoading(false);
+        setErrors(error.errors);
+        Sentry.withScope(scope => scope.setExtra('error', error));
         recordEvent({ event: 'caregivers-10-10cg-pdf--failure' });
-        Sentry.withScope(scope => scope.setExtra('error', response));
       });
   };
 
-  // get application download link when form data is transformed
   useEffect(
     () => {
-      fetchDownloadUrl(formData);
+      if (isFormValid.isValid) downloadPDF(getFormData);
     },
-    [formData],
+    [getFormData, isFormValid.isValid],
   );
 
-  // apply focus to the error alert if we have errors set
-  useEffect(
-    () => {
-      if (errors?.length > 0) {
-        focusElement('.caregiver-download-error');
-      }
-    },
-    [errors],
-  );
-
-  // render loading indicator while application download is processing
-  if (loading) {
+  const renderSuccessfulPDFLink = () => {
     return (
-      <va-loading-indicator
-        label="Loading application"
-        message="Preparing your application for download..."
-      />
-    );
-  }
-
-  // render error alert if file cannot download
-  if (errors?.length > 0) {
-    return (
-      <div className="caregiver-download-error">
-        <va-alert status="error">
-          <h3 slot="headline" className="vads-u-font-size--h4">
-            Something went wrong
-          </h3>
-          {errorMessage()}
-        </va-alert>
+      <div className="pdf-download-link--loaded vads-u-margin-top--2">
+        <a
+          aria-label="Download 10-10CG filled out PDF form"
+          href={PDFLink}
+          download={`10-10CG_${veteranFullName.first}_${veteranFullName.last}`}
+        >
+          <i
+            aria-hidden="true"
+            role="img"
+            className="fas fa-download vads-u-padding-right--1"
+          />
+          Download your completed application{' '}
+          <span className="sr-only">
+            `dated ${moment(Date.now()).format('MMM D, YYYY')} `
+          </span>
+          <dfn>
+            <abbr title="Portable Document Format">(PDF)</abbr>
+          </dfn>
+        </a>
       </div>
     );
-  }
+  };
 
-  return (
-    <va-link
-      href={PDFLink}
-      text="Download your completed application"
-      filename={`10-10CG_${name.first}_${name.last}`}
-      filetype="PDF"
-      download
-    />
-  );
+  const renderErrorPDFLink = () => {
+    const getErrorMessage = () => {
+      const errorCodeType = errors[0].status.split('')[0];
+
+      switch (errorCodeType) {
+        case '4':
+          return `We're sorry. We couldn't download your form. Please check the data and try again.`;
+        case '5':
+          return `We're sorry. VA.gov is down right now. If you need help right now, please call us.`;
+        default:
+          return null;
+      }
+    };
+
+    return (
+      <div className="vads-u-margin-top--2 vads-u-color--secondary-dark pdf-download-link--error">
+        <a
+          aria-label="Error downloading 10-10CG PDF"
+          href={() => false}
+          className="vads-u-color--gray-medium"
+        >
+          <i
+            aria-hidden="true"
+            role="img"
+            className="fas fa-download vads-u-padding-right--1"
+          />
+          Download your completed application
+          <span className="sr-only">
+            ` dated ${moment(Date.now()).format('MMM D, YYYY')}`
+          </span>
+        </a>
+
+        <div className="error-note vads-u-margin-top--3">
+          <i
+            aria-hidden="true"
+            role="img"
+            className="fas fa-exclamation-circle vads-u-padding-right--1"
+          />
+
+          <p className="vads-u-color--gray-dark">{getErrorMessage()}</p>
+        </div>
+      </div>
+    );
+  };
+
+  const renderLoadingIndicator = () => {
+    return (
+      <div className="pdf-download-link--loading">
+        <va-loading-indicator message="Downloading PDF..." />
+      </div>
+    );
+  };
+
+  if (errors?.length > 0) return renderErrorPDFLink();
+
+  if (isLoading) return renderLoadingIndicator();
+
+  return renderSuccessfulPDFLink();
 };
 
-ApplicationDownloadLink.propTypes = {
-  form: PropTypes.object,
-};
-
-export default ApplicationDownloadLink;
+export default DownLoadLink;
