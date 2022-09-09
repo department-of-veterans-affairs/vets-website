@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DependentView = ({ formData }) => {
+const DependentViewField = ({ formData }) => {
   const { fullName, dependentRelation } = formData;
   return (
     <div>
@@ -14,8 +14,8 @@ const DependentView = ({ formData }) => {
   );
 };
 
-DependentView.propTypes = {
+DependentViewField.propTypes = {
   formData: PropTypes.object,
 };
 
-export default DependentView;
+export default DependentViewField;

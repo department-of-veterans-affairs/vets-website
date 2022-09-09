@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const InsuranceProviderView = ({ formData }) => (
+const InsuranceProviderViewField = ({ formData }) => (
   <div>
     <strong>{formData.insuranceName}</strong>
   </div>
 );
 
-InsuranceProviderView.propTypes = {
+InsuranceProviderViewField.propTypes = {
   formData: PropTypes.object,
 };
 
-export default InsuranceProviderView;
+export default InsuranceProviderViewField;

@@ -4,8 +4,8 @@ import {
   MedicareClaimNumberDescription,
   MedicareEffectiveDateDescription,
 } from '../../../components/FormDescriptions';
-import CustomReviewField from '../../../components/ReviewFields/CustomReviewField';
-import CustomDateReviewField from '../../../components/ReviewFields/CustomDateReviewField';
+import CustomReviewField from '../../../components/FormReview/CustomReviewField';
+import CustomDateReviewField from '../../../components/FormReview/CustomDateReviewField';
 
 const {
   medicareClaimNumber,

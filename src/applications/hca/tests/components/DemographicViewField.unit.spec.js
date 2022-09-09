@@ -4,10 +4,10 @@ import SkinDeep from 'skin-deep';
 
 import ObjectField from 'platform/forms-system/src/js/fields/ObjectField';
 
-import DemographicField from '../../components/DemographicField';
+import DemographicViewField from '../../components/FormFields/DemographicViewField';
 import formConfig from '../../config/form';
 
-describe('hca <DemographicField>', () => {
+describe('hca <DemographicViewField>', () => {
   it('should render ObjectField', () => {
     const formContext = {
       reviewMode: false,
@@ -22,7 +22,7 @@ describe('hca <DemographicField>', () => {
     };
 
     const tree = SkinDeep.shallowRender(
-      <DemographicField
+      <DemographicViewField
         formContext={formContext}
         onChange={f => f}
         registry={registry}
@@ -50,7 +50,7 @@ describe('hca <DemographicField>', () => {
     } = formConfig.chapters.veteranInformation.pages;
 
     const tree = SkinDeep.shallowRender(
-      <DemographicField
+      <DemographicViewField
         formContext={formContext}
         onChange={f => f}
         schema={
