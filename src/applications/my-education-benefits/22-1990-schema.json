@@ -210,7 +210,7 @@
           "minLength": 1,
           "maxLength": 51
         },
-        "stateCode": {
+        "militaryStateCode": {
           "type": "string",
           "maxLength": 51
         },

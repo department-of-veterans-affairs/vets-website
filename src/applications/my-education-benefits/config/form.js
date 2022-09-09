@@ -760,7 +760,7 @@ const formConfig = {
                   'street2',
                   'city',
                   'state',
-                  'stateCode',
+                  'militaryStateCode',
                   'postalCode',
                   'internationalPostalCode',
                 ],
@@ -792,8 +792,8 @@ const formConfig = {
                   ],
                   'ui:options': {
                     replaceSchema: formData => {
-                      const data = formData['view:mailingAddress'];
-                      const livesOnMilitaryBase = data?.livesOnMilitaryBase;
+                      const livesOnMilitaryBase =
+                        formData['view:mailingAddress']?.livesOnMilitaryBase;
 
                       if (
                         formData.showMEBMailingAddressForeign &&
@@ -836,7 +836,7 @@ const formConfig = {
                     },
                   },
                 },
-                stateCode: {
+                militaryStateCode: {
                   'ui:title': 'AE/AA/AP',
                   'ui:errorMessages': {
                     required: 'State is required',
@@ -933,7 +933,7 @@ const formConfig = {
                       'country',
                       'state',
                       'postalCode',
-                      'stateCode',
+                      'militaryStateCode',
                     ],
                   },
                 },
