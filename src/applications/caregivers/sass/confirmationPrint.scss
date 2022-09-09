@@ -7,7 +7,7 @@ h2:focus {
 }
 
 @media print {
-  .schemaform-title, .no-print {
+  .schemaform-title, .last-updated, .no-print {
     display: none;
   }
 
