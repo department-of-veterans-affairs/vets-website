@@ -212,12 +212,7 @@
         },
         "stateCode": {
           "type": "string",
-          "maxLength": 51,
-          "enum": [
-            "APO/FPO",
-            "APO/FPO (New York)",
-            "APO/FPO (San Francisco)"
-          ]
+          "maxLength": 51
         },
         "internationalPostalCode": {
           "type": "string",
