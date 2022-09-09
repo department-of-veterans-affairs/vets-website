@@ -4,20 +4,16 @@ import { connect } from 'react-redux';
 import { shouldHideFormFooter } from '../selectors';
 
 const FormFooter = ({ formConfig, currentLocation, isHidden }) => {
-  const GetFormHelp = formConfig.getHelp;
+  const GetHelp = formConfig.getHelp;
   const trimmedPathname = currentLocation.pathname.replace(/\/$/, '');
   const isConfirmationPage = trimmedPathname.endsWith('confirmation');
 
-  return !isConfirmationPage ? (
+  return !isConfirmationPage && !isHidden ? (
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
         <div className="help-footer-box">
-          {!isHidden && (
-            <>
-              <h2 className="help-heading">Need help?</h2>
-              <GetFormHelp />
-            </>
-          )}
+          <h2 className="help-heading">Need help?</h2>
+          <GetHelp />
         </div>
       </div>
     </div>

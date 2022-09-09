@@ -167,7 +167,7 @@
     "cssnano": "^5.0.8",
     "cy-mobile-commands": "^0.3.0",
     "cy-tr-reporter": "^1.2.5",
-    "cypress": "^10.6.0",
+    "cypress": "^10.7.0",
     "cypress-axe": "^1.0.0",
     "cypress-multi-reporters": "^1.5.0",
     "cypress-plugin-tab": "^1.0.5",
@@ -268,7 +268,7 @@
     "@department-of-veterans-affairs/component-library": "^11.5.5",
     "@department-of-veterans-affairs/formation": "^7.0.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
-    "@department-of-veterans-affairs/va-forms-system-core": "1.4.6",
+    "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@mapbox/mapbox-sdk": "^0.13.2",
@@ -386,6 +386,7 @@
       "src/platform/utilities",
       "src/platform/polyfills",
       "src/platform/static-data",
+      "src/platform/forms-system",
       "src/platform/monitoring"
     ],
     "nohoist": [
