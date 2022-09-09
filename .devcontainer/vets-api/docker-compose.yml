@@ -2,6 +2,8 @@ version: '3.4'
 services:
   redis:
     image: redis:5.0-alpine
+    ports:
+      - "63790:6379"
     restart: unless-stopped
     command: sleep infinity
   postgres:
@@ -21,17 +23,19 @@ services:
       args:
         sidekiq_license: "${BUNDLE_ENTERPRISE__CONTRIBSYS__COM}"
         userid: "${VETS_API_USER_ID}"
-    command: >
-      bash -c "bundle exec rake db:migrate || bundle exec rake db:setup db:migrate
-      && touch tmp/caching-dev.txt && foreman start -m all=1,clamd=0,freshclam=0"
     image: "vets-api:${DOCKER_IMAGE:-latest}"
+    command: >
+      bash -c "bin/rails db:migrate || bin/rails db:setup db:migrate
+      && touch tmp/caching-dev.txt && foreman start -m all=1,clamd=0,freshclam=0"
     volumes:
-      - .:/srv/vets-api/src:cached
+      - ../../../vets-api:/srv/vets-api/src:cached
+      - ../../../vets-api-mockdata:/cache
       - dev_bundle:/usr/local/bundle
-      - ../.secret:/srv/vets-api/secret:cached
-      - ../.pki:/srv/vets-api/pki:cached
     ports:
       - "3000:3000"
+      - "26162:26162"
+      - "1234:1234"
+      - "58430-58450:58430-58450"
     environment:
       "Settings.database_url": "postgis://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-password}@${POSTGRES_HOST:-postgres}:${POSTGRES_PORT:-5432}/${POSTGRES_DATABASE:-vets_api_development}?pool=4"
       "Settings.test_database_url": "postgis://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-password}@${POSTGRES_HOST:-postgres}:${POSTGRES_PORT:-5432}/${POSTGRES_DATABASE:-vets_api_test}?pool=4"
@@ -43,7 +47,6 @@ services:
       POSTGRES_PORT: "${POSTGRES_PORT:-5432}"
       POSTGRES_USER: "${POSTGRES_USER:-postgres}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-password}"
-      PUMA_THREADS: "${PUMA_THREADS:-4}"
     depends_on:
       - postgres
       - redis
