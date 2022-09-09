@@ -25,7 +25,7 @@ export const IntroductionPage = ({ route, showUnverifiedUserAlert }) => {
 
       <h2>Follow these steps to get started</h2>
       <va-process-list>
-        <li className="process-step list-one">
+        <li>
           <h3>Check your eligibility</h3>
           <p>
             Make sure you meet our eligibility requirements before you apply.
@@ -54,7 +54,7 @@ export const IntroductionPage = ({ route, showUnverifiedUserAlert }) => {
             </ul>
           </va-additional-info>
         </li>
-        <li className="process-step list-two">
+        <li>
           <h3>Gather your information</h3>
           <p>
             <strong>Here’s what you’ll need to apply</strong>:
@@ -64,7 +64,7 @@ export const IntroductionPage = ({ route, showUnverifiedUserAlert }) => {
             <li>Your current address and contact information</li>
           </ul>
         </li>
-        <li className="process-step list-three">
+        <li>
           <h3>Start your application</h3>
           <p>
             We’ll take you through each step of the process. It should take
