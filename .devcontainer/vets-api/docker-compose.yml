@@ -22,7 +22,7 @@ services:
         sidekiq_license: "${BUNDLE_ENTERPRISE__CONTRIBSYS__COM}"
         userid: "${VETS_API_USER_ID}"
     command: >
-      sleep infinity && bash -c "bundle exec rake db:migrate || bundle exec rake db:setup db:migrate
+      bash -c "bundle exec rake db:migrate || bundle exec rake db:setup db:migrate
       && touch tmp/caching-dev.txt && foreman start -m all=1,clamd=0,freshclam=0"
     image: "vets-api:${DOCKER_IMAGE:-latest}"
     volumes:
