@@ -46,7 +46,9 @@ const SubmissionErrorAlert = ({ form }) => {
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
 
-        <ApplicationDownloadLink form={form} />
+        <div className="caregiver-application--download">
+          <ApplicationDownloadLink form={form} />
+        </div>
       </va-alert>
     </div>
   );

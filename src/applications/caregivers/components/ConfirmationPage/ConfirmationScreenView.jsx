@@ -66,7 +66,7 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
           <va-button text="Print this page" onClick={() => window.print()} />
         </div>
 
-        <div className="caregiver-confirmation--download">
+        <div className="caregiver-application--download">
           <ApplicationDownloadLink form={form} />
         </div>
       </va-alert>
