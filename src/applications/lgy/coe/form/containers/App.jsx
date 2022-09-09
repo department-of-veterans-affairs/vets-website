@@ -8,8 +8,18 @@ import { isLoggedIn } from 'platform/user/selectors';
 
 import { generateCoe } from '../../shared/actions';
 import formConfig from '../config/form';
+import { isLoadingFeatures, showCoeFeature } from '../../shared/utils/helpers';
+import { WIP } from '../../shared/components/WIP';
 
-function App({ children, getCoe, getCoeMock, location, loggedIn }) {
+function App({
+  children,
+  getCoe,
+  getCoeMock,
+  isLoading,
+  location,
+  loggedIn,
+  showCoe,
+}) {
   useEffect(
     () => {
       if (typeof getCoeMock === 'function' && !environment.isProduction()) {
@@ -21,7 +31,8 @@ function App({ children, getCoe, getCoeMock, location, loggedIn }) {
     [getCoe, getCoeMock, loggedIn],
   );
 
-  return (
+  // Show WIP alert if the feature flag isn't set
+  return showCoe && !isLoading ? (
     <article
       id="form-26-1880"
       data-location={`${location?.pathname?.slice(1)}`}
@@ -30,6 +41,8 @@ function App({ children, getCoe, getCoeMock, location, loggedIn }) {
         {children}
       </RoutedSavableApp>
     </article>
+  ) : (
+    <WIP />
   );
 }
 
@@ -38,7 +51,9 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
+  isLoading: isLoadingFeatures(state),
   loggedIn: isLoggedIn(state),
+  showCoe: !showCoeFeature(state),
 });
 
 App.propTypes = {
@@ -46,7 +61,9 @@ App.propTypes = {
   getCoe: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
   getCoeMock: PropTypes.func,
+  isLoading: PropTypes.bool,
   loggedIn: PropTypes.bool,
+  showCoe: PropTypes.bool,
 };
 
 export default connect(

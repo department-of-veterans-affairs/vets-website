@@ -17,6 +17,8 @@ import {
   Ineligible,
   Pending,
 } from '../components/statuses';
+import { isLoadingFeatures, showCoeFeature } from '../../shared/utils/helpers';
+import { WIP } from '../../shared/components/WIP';
 
 const App = ({
   certificateOfEligibility: { coe, generateAutoCoeStatus, profileIsUpdating },
@@ -24,10 +26,19 @@ const App = ({
   getCoeMock,
   loggedIn,
   user,
+  showCoe,
+  isLoading,
 }) => {
   useEffect(
     () => {
-      if (!profileIsUpdating && !coe) {
+      if (
+        // Show WIP alert if the feature flag isn't set - remove once @ 100%
+        !isLoading &&
+        showCoe &&
+        // get COE status
+        !profileIsUpdating &&
+        !coe
+      ) {
         if (typeof getCoeMock === 'function' && !environment.isProduction()) {
           getCoeMock(!loggedIn);
         } else {
@@ -35,8 +46,13 @@ const App = ({
         }
       }
     },
-    [coe, getCoe, getCoeMock, loggedIn, profileIsUpdating],
+    [coe, getCoe, getCoeMock, isLoading, loggedIn, profileIsUpdating, showCoe],
   );
+
+  // Show WIP alert if the feature flag isn't set - remove once @ 100%
+  if (!showCoe) {
+    return <WIP />;
+  }
 
   let content;
 
@@ -111,6 +127,8 @@ const mapStateToProps = state => ({
   certificateOfEligibility: state.certificateOfEligibility,
   user: state.user,
   loggedIn: isLoggedIn(state),
+  isLoading: isLoadingFeatures(state),
+  showCoe: !showCoeFeature(state),
 });
 
 const mapDispatchToProps = {
@@ -121,7 +139,9 @@ App.propTypes = {
   certificateOfEligibility: PropTypes.object,
   getCoe: PropTypes.func,
   getCoeMock: PropTypes.func,
+  isLoading: PropTypes.bool,
   loggedIn: PropTypes.bool,
+  showCoe: PropTypes.bool,
   user: PropTypes.object,
 };
 
