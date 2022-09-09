@@ -1,28 +1,59 @@
-/** Applied overrides for components utilized for the application download link **/
-
-.caregiver-confirmation--download {
-  align-items: center;
+.pdf-download-link--loading {
   display: flex;
   flex-direction: row;
+  align-items: center;
 
   .loading-indicator {
-    align-items: center;
+    height: auto;
+    margin: 0rem 1rem 0 0;
     display: flex;
     flex-direction: row;
-    height: auto;
-    margin: 0 1rem 0 0;
+    align-items: center;
   }
 
   .loading-indicator-container {
-    align-items: center;
     display: flex;
     flex-direction: row;
+    align-items: center;
     margin-top: 1.6rem;
   }
 
-  .loading-indicator-container .loading-indicator::after {
-    align-self: center;
+  .loading-indicator-container .loading-indicator:after {
     height: 1rem;
     width: 1rem;
+    align-self: center;
+  }
+}
+
+.pdf-download-link--error {
+  display: flex;
+  flex-direction: column;
+
+  .error-note {
+    display: flex;
+
+    i {
+      margin-top: 0.4em;
+    }
+
+    p {
+      margin: 0;
+      color: $color-gray-dark;
+    }
+  }
+
+  a {
+    display: flex;
+    cursor: not-allowed;
+
+    i {
+      margin-top: 0.4em;
+    }
+  }
+}
+
+#upload-success-alert {
+  @include media-maxwidth($small-screen)  {
+    margin-right: 0 !important
   }
 }
