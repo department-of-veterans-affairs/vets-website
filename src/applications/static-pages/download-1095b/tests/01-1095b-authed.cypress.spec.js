@@ -1,7 +1,7 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
 import { form, featureToggles } from './e2e/fixtures/mocks/mocks';
 
-describe.skip('Authed 1095-B Form Download PDF', () => {
+describe('Authed 1095-B Form Download PDF', () => {
   beforeEach(() => {
     cy.intercept('GET', 'v0/feature_toggles?*', featureToggles).as(
       'featureToggles',
@@ -25,13 +25,13 @@ describe.skip('Authed 1095-B Form Download PDF', () => {
 
     cy.axeCheck();
 
-    cy.get('#1095-download-options-0').should('be.checked');
-    cy.get('#1095-download-options-1').should('not.be.checked');
+    cy.get('#pdf').should('be.visible');
+    cy.get('#txt').should('be.visible');
 
     cy.get('#download-url')
       .click()
       .then(() => {
-        cy.get('.usa-content div va-alert h3').should(
+        cy.get('.usa-content div va-alert h2').should(
           'have.text',
           'Download Complete',
         );
