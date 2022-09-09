@@ -62,11 +62,16 @@ export default function UnderReviewConfirmation({ user, dateReceived }) {
             <h2 className="vads-u-margin-y--0">In 1 month</h2>
             <hr className="meb-hr" />
             If more than a month has passed since you gave us your application
-            and you haven’t heard back, please don’t apply again. Call our
-            toll-free Education Call Center at{' '}
-            <a href="tel:888-442-4551">1-888-442-4551</a> or{' '}
-            <a href="tel:001-918-781-5678">001-918-781-5678</a> if you are
-            outside the U.S.
+            and you haven’t heard back, please don’t apply again. Contact us
+            through{' '}
+            <a
+              href="https://ask.va.gov"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ASK VA
+            </a>
+            .
           </div>
         </va-alert>
       </div>
@@ -101,8 +106,8 @@ export default function UnderReviewConfirmation({ user, dateReceived }) {
           </li>
           <li>
             <a href="/education/gi-bill-comparison-tool/">
-              Use our GI Bill Comparison Tool to help you decide which education
-              program and school is best for you
+              Use our GI Bill Comparison Tool to help you decide which schools
+              are best for you
             </a>
             .
           </li>
@@ -110,13 +115,6 @@ export default function UnderReviewConfirmation({ user, dateReceived }) {
             <a href="https://blogs.va.gov/VAntage/78073/new-guide-series-provides-gi-bill-benefits-information/">
               Learn more about VA benefits and programs through the Building
               Your Future with the GI Bill Series
-            </a>
-            .
-          </li>
-          <li>
-            <a href="https://www.benefits.va.gov/gibill/careerscope.asp">
-              Measure your interests and skill levels and help figure out your
-              career path with CareerScope®
             </a>
             .
           </li>

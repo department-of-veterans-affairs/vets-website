@@ -68,7 +68,7 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
           <li>Download a copy of your decision letter.</li>
           <li>
             Use our <a href="/demo">GI Bill Comparison Tool</a> to help you
-            decide which education program and school is best for you.
+            decide which schools are best for you.
           </li>
           <li>
             Once you’ve selected a school or program, you may bring your
@@ -99,11 +99,6 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
             status.
           </div>
         </va-additional-info>
-      </div>
-      <div className="vads-u-margin-bottom--3">
-        <a className="vads-c-action-link--green " href="/?next=%2Fprofile">
-          Go to your My VA dashboard
-        </a>
       </div>
     </>
   );
