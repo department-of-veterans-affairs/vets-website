@@ -281,10 +281,6 @@ function run() {
   console.log('testsToRunNormally: ', testsToRunNormally);
   console.log('testsToStressTest: ', testsToStressTest);
 
-  // tests = [
-  //   '/home/runner/work/vets-website/vets-website/src/applications/appeals/10182/tests/10182-keyboard-only.cypress.spec.js',
-  // ];
-
   exportVariables(testsToRunNormally);
   core.exportVariable('TESTS_TO_STRESS_TEST', testsToStressTest);
 }
