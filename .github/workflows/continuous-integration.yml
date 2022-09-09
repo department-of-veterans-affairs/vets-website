@@ -325,7 +325,7 @@ jobs:
 
       - name: Audit dependencies
         if: steps.get-changed-apps.outputs.entry_names == ''
-        run: yarn security-check
+        run: node script/security-check.js
 
   linting:
     name: Linting (All)
