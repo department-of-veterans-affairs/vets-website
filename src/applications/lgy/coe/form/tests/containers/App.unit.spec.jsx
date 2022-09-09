@@ -53,7 +53,7 @@ describe('App', () => {
     expect(article.dataset.location).to.eq('introduction');
   });
 
-  it('should call API if logged in', async () => {
+  it.skip('should call API if logged in', async () => {
     const getCoeMock = sinon.spy();
     const { props, mockStore } = getData({ getCoeMock });
     render(
@@ -66,7 +66,7 @@ describe('App', () => {
     // not skipping generateCoe action
     expect(getCoeMock.args[0][0]).to.be.false;
   });
-  it('should not call API if not logged in', () => {
+  it.skip('should not call API if not logged in', () => {
     const getCoeMock = sinon.spy();
     const { props, mockStore } = getData({ getCoeMock, loggedIn: false });
     render(

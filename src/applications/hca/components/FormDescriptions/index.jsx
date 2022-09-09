@@ -1,5 +1,4 @@
 import React from 'react';
-import facilityLocator from '../../../facility-locator/manifest.json';
 
 export const AmericanIndianDescription = (
   <>
@@ -217,11 +216,7 @@ export const FacilityLocatorDescription = (
   <>
     <p>
       OR{' '}
-      <a
-        href={facilityLocator.rootUrl}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
+      <a href="/find-locations" rel="noopener noreferrer" target="_blank">
         Find locations with the VA Facility Locator
       </a>
     </p>

@@ -3,13 +3,6 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import { AUTH_EVENTS } from 'platform/user/authentication/constants';
 import recordEvent from 'platform/monitoring/record-event';
 
-export const FinancialDisclosureAlert = () => (
-  <va-alert status="info" class="vads-u-margin-top--4">
-    If you don’t provide your financial information and you don’t have another
-    qualifying eligibility factor, VA can’t enroll you.
-  </va-alert>
-);
-
 export const ExpensesGreaterThanIncomeWarning = () => (
   <va-alert status="warning" class="vads-u-margin-top--4">
     <h2 slot="headline">
@@ -19,6 +12,13 @@ export const ExpensesGreaterThanIncomeWarning = () => (
       You can stop entering your expenses. We’ll adjust your expenses to be
       equal to your income. This won’t affect your application or benefits.
     </p>
+  </va-alert>
+);
+
+export const FinancialDisclosureAlert = () => (
+  <va-alert status="info" class="vads-u-margin-top--4">
+    If you don’t provide your financial information and you don’t have another
+    qualifying eligibility factor, VA can’t enroll you.
   </va-alert>
 );
 

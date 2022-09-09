@@ -9,6 +9,10 @@
       {
         "name": "hcaMedicareClaimNumberEnabled",
         "value": true
+      },
+      {
+        "name": "hcaUseFacilitiesApi",
+        "value": true
       }
     ]
   }

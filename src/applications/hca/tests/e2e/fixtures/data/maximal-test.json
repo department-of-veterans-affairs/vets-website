@@ -2,8 +2,8 @@
   "data": {
     "isEssentialAcaCoverage": true,
     "view:preferredFacility": {
-      "view:facilityState": "AL",
-      "vaMedicalFacility": "520GA"
+      "view:facilityState": "MA",
+      "vaMedicalFacility": "631"
     },
     "view:locator": {},
     "wantsInitialVaContact": true,
