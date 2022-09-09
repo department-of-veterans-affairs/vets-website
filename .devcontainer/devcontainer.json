@@ -31,5 +31,6 @@
 		"memory": "32gb",
 		"storage": "128gb"
 	},
-	"initializeCommand": "./script/install-repos.sh"
+	"initializeCommand": "./script/install-repos.sh",
+	"postCreateCommand": "./.devcontainer/vets-website/codespaces-create.sh"
 }
