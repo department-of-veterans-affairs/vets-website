@@ -649,11 +649,11 @@ jobs:
       image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
       options: -u 1001:1001 -v /usr/local/share:/share
 
-    strategy:
-      fail-fast: false
-      max-parallel: 12
-      matrix:
-        ci_node_index: ${{ fromJson(needs.cypress-tests-prep.outputs.ci_node_index) }}
+    # strategy:
+    #   fail-fast: false
+    #   max-parallel: 12
+    #   matrix:
+    #     ci_node_index: ${{ fromJson(needs.cypress-tests-prep.outputs.ci_node_index) }}
 
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
