@@ -18,6 +18,7 @@ import environment from 'platform/utilities/environment';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import * as ENVIRONMENTS from 'site/constants/environments';
 import * as BUCKETS from 'site/constants/buckets';
+import constants from 'vets-json-schema/dist/constants.json';
 import fullSchema from '../22-1990-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
@@ -761,6 +762,7 @@ const formConfig = {
                   'state',
                   'stateCode',
                   'postalCode',
+                  'internationalPostalCode',
                 ],
                 street: {
                   'ui:title': 'Street address',
@@ -790,23 +792,22 @@ const formConfig = {
                   ],
                   'ui:options': {
                     replaceSchema: formData => {
-                      const { livesOnMilitaryBase } = formData[
-                        'view:mailingAddress'
-                      ];
-                      const { country } = formData[
-                        'view:mailingAddress'
-                      ].address;
+                      const data = formData['view:mailingAddress'];
+                      const livesOnMilitaryBase = data?.livesOnMilitaryBase;
 
                       if (
-                        // formData.showMEBMailingAddressForeign &&
-                        livesOnMilitaryBase &&
-                        country !== 'USA'
+                        formData.showMEBMailingAddressForeign &&
+                        livesOnMilitaryBase
                       ) {
                         return {
                           type: 'string',
-                          title: 'APO/FPO',
-                          enum: ['APO', 'FPO'],
-                          enumNames: ['APO', 'FPO'],
+                          title: 'APO/FPO/DPO',
+                          enum: constants.militaryCities.map(
+                            city => city.value,
+                          ),
+                          enumNames: constants.militaryCities.map(
+                            city => city.label,
+                          ),
                         };
                       }
 
@@ -827,57 +828,29 @@ const formConfig = {
                   },
                   'ui:options': {
                     hideIf: formData => {
-                      const { livesOnMilitaryBase } = formData[
-                        'view:mailingAddress'
-                      ];
-                      const { country } = formData[
-                        'view:mailingAddress'
-                      ].address;
-                      return livesOnMilitaryBase && country !== 'USA';
+                      if (formData.showMEBMailingAddressForeign) {
+                        return formData['view:mailingAddress']
+                          .livesOnMilitaryBase;
+                      }
+                      return false;
                     },
                   },
-                  //   replaceSchema: formData => {
-                  //     const { livesOnMilitaryBase } = formData[
-                  //       'view:mailingAddress'
-                  //     ];
-                  //     const { country } = formData[
-                  //       'view:mailingAddress'
-                  //     ].address;
-                  //
-                  //     if (livesOnMilitaryBase && country !== 'USA') {
-                  //       return {
-                  //         type: 'string',
-                  //         title: 'AE/AA/AP',
-                  //         enum: ['AA', 'AE', 'AP'],
-                  //         enumNames: [
-                  //           'APO/FPO',
-                  //           'APO/FPO (New York)',
-                  //           'APO/FPO (San Francisco)',
-                  //         ],
-                  //       };
-                  //     }
-                  //     return {
-                  //       type: 'string',
-                  //       title: 'State/Province/Region',
-                  //       enum: constants.states.USA.map(state => state.value),
-                  //       enumNames: constants.states.USA.map(
-                  //         state => state.label,
-                  //       ),
-                  //     };
-                  //   },
-                  // },
                 },
                 stateCode: {
                   'ui:title': 'AE/AA/AP',
+                  'ui:errorMessages': {
+                    required: 'State is required',
+                  },
+                  enum: constants.militaryCities.map(city => city.value),
+                  enumNames: constants.militaryCities.map(city => city.label),
+                  // Needs REQUIRED
                   'ui:options': {
                     hideIf: formData => {
-                      const { livesOnMilitaryBase } = formData[
-                        'view:mailingAddress'
-                      ];
-                      const { country } = formData[
-                        'view:mailingAddress'
-                      ].address;
-                      return livesOnMilitaryBase && country === 'USA';
+                      if (formData.showMEBMailingAddressForeign) {
+                        return !formData['view:mailingAddress']
+                          .livesOnMilitaryBase;
+                      }
+                      return false;
                     },
                   },
                 },
@@ -885,6 +858,33 @@ const formConfig = {
                   'ui:title': 'Postal Code (5-digit)',
                   'ui:errorMessages': {
                     required: 'Zip code must be 5 digits',
+                  },
+                  'ui:options': {
+                    hideIf: formData => {
+                      if (formData.showMEBMailingAddressForeign) {
+                        return (
+                          formData['view:mailingAddress'].livesOnMilitaryBase ||
+                          formData['view:mailingAddress'].address.country !==
+                            'USA'
+                        );
+                      }
+                      return false;
+                    },
+                  },
+                },
+                internationalPostalCode: {
+                  'ui:title': 'International Postal Code (5-digit)',
+                  'ui:options': {
+                    hideIf: formData => {
+                      if (formData.showMEBMailingAddressForeign) {
+                        return (
+                          formData['view:mailingAddress'].address.country ===
+                            'USA' &&
+                          !formData['view:mailingAddress'].livesOnMilitaryBase
+                        );
+                      }
+                      return false;
+                    },
                   },
                 },
               },

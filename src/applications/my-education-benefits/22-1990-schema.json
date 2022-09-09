@@ -213,7 +213,15 @@
         "stateCode": {
           "type": "string",
           "maxLength": 51,
-          "enum": ["AA", "AE", "AP"]
+          "enum": [
+            "APO/FPO",
+            "APO/FPO (New York)",
+            "APO/FPO (San Francisco)"
+          ]
+        },
+        "internationalPostalCode": {
+          "type": "string",
+          "maxLength": 51
         }
       }
     },
