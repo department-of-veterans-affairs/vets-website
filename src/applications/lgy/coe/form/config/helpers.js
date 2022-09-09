@@ -38,7 +38,7 @@ export const customCOEsubmit = (formConfig, form) => {
   };
 
   // transformForSubmit returns a JSON string
-  const formData = JSON.parse(transformForSubmit(formConfig, formattedForm));
+  const formData = transformForSubmit(formConfig, formattedForm);
 
   return JSON.stringify({
     lgyCoeClaim: {
