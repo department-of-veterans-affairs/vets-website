@@ -11,6 +11,11 @@
 		"terminal.integrated.shell.linux": "/bin/bash",
 		"workbench.startupEditor": "readme"
 	},
+	"forwardPorts": [
+		3000,
+		3001,
+		3002
+	],
 	"extensions": [
 		"davidanson.vscode-markdownlint",
 		"dbaeumer.vscode-eslint",
