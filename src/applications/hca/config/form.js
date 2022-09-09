@@ -11,7 +11,6 @@ import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import migrations from './migrations';
 import manifest from '../manifest.json';
 import IDPage from '../containers/IDPage';
-import ErrorText from '../components/FormAlerts/ErrorText';
 import FormFooter from '../components/FormFooter';
 import GetHelp from '../components/GetHelp';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
@@ -155,7 +154,6 @@ const formConfig = {
   preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetHelp,
-  errorText: ErrorText,
   defaultDefinitions: {
     date,
     provider,
