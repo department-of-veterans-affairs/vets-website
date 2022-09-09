@@ -53,7 +53,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   isLoading: isLoadingFeatures(state),
   loggedIn: isLoggedIn(state),
-  showCoe: !showCoeFeature(state),
+  showCoe: showCoeFeature(state),
 });
 
 App.propTypes = {

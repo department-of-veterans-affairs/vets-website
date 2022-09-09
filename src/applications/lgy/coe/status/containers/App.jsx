@@ -128,7 +128,7 @@ const mapStateToProps = state => ({
   user: state.user,
   loggedIn: isLoggedIn(state),
   isLoading: isLoadingFeatures(state),
-  showCoe: !showCoeFeature(state),
+  showCoe: showCoeFeature(state),
 });
 
 const mapDispatchToProps = {
