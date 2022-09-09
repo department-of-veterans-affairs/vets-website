@@ -265,12 +265,9 @@ function run() {
   const disallowedTests = testsSelectedByTestSelection.filter(test =>
     allDisallowedTestPaths.includes(test.substring(test.indexOf('src/'))),
   );
-  const testsToRunNormally = testsSelectedByTestSelection.filter(test => {
-    const updatedPath = test.substring(test.indexOf('src/'));
-    return (
-      !newTests.includes(updatedPath) && !disallowedTests.includes(updatedPath)
-    );
-  });
+  const testsToRunNormally = testsSelectedByTestSelection.filter(
+    test => !newTests.includes(test) && !disallowedTests.includes(test),
+  );
   const testsToStressTest = [...disallowedTests, ...newTests];
 
   console.log('allDisallowedTestPaths: ', allDisallowedTestPaths);
