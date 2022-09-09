@@ -17,6 +17,10 @@
       {
         "name": "hcaShortFormEnabled",
         "value": true
+      },
+      {
+        "name": "hcaUseFacilitiesApi",
+        "value": true
       }
     ]
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DemographicField = props => {
+const DemographicViewField = props => {
   const { formContext, uiSchema, schema, formData, registry } = props;
   const { ObjectField } = registry.fields;
 
@@ -31,7 +31,7 @@ const DemographicField = props => {
   return <ObjectField {...props} />;
 };
 
-DemographicField.propTypes = {
+DemographicViewField.propTypes = {
   formContext: PropTypes.object,
   formData: PropTypes.object,
   registry: PropTypes.object,
@@ -39,4 +39,4 @@ DemographicField.propTypes = {
   uiSchema: PropTypes.object,
 };
 
-export default DemographicField;
+export default DemographicViewField;
