@@ -841,14 +841,24 @@ const formConfig = {
                   'ui:errorMessages': {
                     required: 'State is required',
                   },
-                  enum: constants.militaryCities.map(city => city.value),
-                  enumNames: constants.militaryCities.map(city => city.label),
-                  // Needs REQUIRED
                   'ui:options': {
                     hideIf: formData => {
                       if (formData.showMEBMailingAddressForeign) {
                         return !formData['view:mailingAddress']
                           .livesOnMilitaryBase;
+                      }
+                      return false;
+                    },
+                    updateSchema: formData => {
+                      if (formData.showMEBMailingAddressForeign) {
+                        return {
+                          enum: constants.militaryStates.map(
+                            state => state.value,
+                          ),
+                          enumNames: constants.militaryStates.map(
+                            state => state.label,
+                          ),
+                        };
                       }
                       return false;
                     },
@@ -874,6 +884,9 @@ const formConfig = {
                 },
                 internationalPostalCode: {
                   'ui:title': 'International Postal Code (5-digit)',
+                  'ui:errorMessages': {
+                    required: 'Zip code must be 5 digits',
+                  },
                   'ui:options': {
                     hideIf: formData => {
                       if (formData.showMEBMailingAddressForeign) {
@@ -914,6 +927,14 @@ const formConfig = {
                   },
                   [formFields.address]: {
                     ...address.schema(fullSchema, true),
+                    required: [
+                      'street',
+                      'city',
+                      'country',
+                      'state',
+                      'postalCode',
+                      'stateCode',
+                    ],
                   },
                 },
               },
