@@ -24,7 +24,7 @@ const NavigationLinks = props => {
         });
       }
     },
-    [messages, index, props.id],
+    [messages, props.id],
   );
 
   const handlePrevious = e => {
