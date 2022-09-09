@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import environment from 'platform/utilities/environment';
 
 import {
   SET_SAVE_FORM_STATUS,
@@ -217,7 +218,7 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
-          url: 'https://dev-api.va.gov',
+          url: environment.API_URL,
           ok: false,
           status: 401,
         }),
@@ -243,7 +244,7 @@ describe('Schemaform save / load actions:', () => {
       global.fetch.returns(
         Promise.resolve(
           new Response(null, {
-            url: 'https://dev-api.va.gov',
+            url: environment.API_URL,
             status: 404,
           }),
         ),
@@ -340,7 +341,7 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
-          url: 'https://dev-api.va.gov',
+          url: environment.API_URL,
           ok: false,
           status: 401,
         }),
@@ -358,7 +359,7 @@ describe('Schemaform save / load actions:', () => {
       const dispatch = sinon.spy();
       global.fetch.returns(
         Promise.resolve({
-          url: 'https://dev-api.va.gov',
+          url: environment.API_URL,
           ok: false,
           status: 404,
         }),
@@ -440,7 +441,7 @@ describe('Schemaform save / load actions:', () => {
         const dispatch = sinon.spy();
         global.fetch.returns(
           Promise.resolve({
-            url: 'https://dev-api.va.gov',
+            url: environment.API_URL,
             ok: false,
             status: 401,
           }),
@@ -456,7 +457,7 @@ describe('Schemaform save / load actions:', () => {
         const dispatch = sinon.spy();
         global.fetch.returns(
           Promise.resolve({
-            url: 'https://dev-api.va.gov',
+            url: environment.API_URL,
             ok: false,
             status: 404,
           }),
@@ -548,7 +549,7 @@ describe('Schemaform save / load actions:', () => {
       global.fetch.returns(
         Promise.resolve({
           ok: false,
-          url: 'https://dev-api.va.gov',
+          url: environment.API_URL,
           status: 401,
         }),
       );

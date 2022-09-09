@@ -18,6 +18,7 @@ describe('check in', () => {
             pages: [],
             data: {},
           },
+          error: '',
         });
       });
       it('should return the state if action is not found', () => {

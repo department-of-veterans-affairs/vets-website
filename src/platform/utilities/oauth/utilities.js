@@ -72,10 +72,12 @@ export const updateStateAndVerifier = csp => {
     storage.getItem(`${csp}_signup_code_verifier`),
   );
 
-  const signupTypesMap = Object.values(SIGNUP_TYPES).flatMap(type => [
-    `${type}_state`,
-    `${type}_code_verifier`,
-  ]);
+  const signupTypesMap = [
+    `logingov_signup_state`,
+    `logingov_signup_code_verifier`,
+    `idme_signup_state`,
+    `idme_signup_code_verifier`,
+  ];
 
   Object.keys(storage)
     .filter(key => signupTypesMap.includes(key))
@@ -95,6 +97,7 @@ export async function createOAuthRequest({
   passedQueryParams = {},
   passedOptions = {},
   type = '',
+  acr,
 }) {
   const isDefaultOAuth = !application || clientId === CLIENT_IDS.WEB;
   const isMobileOAuth =
@@ -128,9 +131,11 @@ export async function createOAuthRequest({
     [OAUTH_KEYS.CLIENT_ID]: encodeURIComponent(
       clientId || oAuthOptions.clientId,
     ),
-    [OAUTH_KEYS.ACR]: passedOptions.isSignup
-      ? oAuthOptions.acrSignup[type]
-      : oAuthOptions.acr[type],
+    [OAUTH_KEYS.ACR]:
+      acr ||
+      (passedOptions.isSignup
+        ? oAuthOptions.acrSignup[type]
+        : oAuthOptions.acr[type]),
     [OAUTH_KEYS.RESPONSE_TYPE]: OAUTH_ALLOWED_PARAMS.CODE,
     ...(isDefaultOAuth && { [OAUTH_KEYS.STATE]: state }),
     ...(passedQueryParams.gaClientId && {

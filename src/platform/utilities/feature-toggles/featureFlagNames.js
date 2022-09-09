@@ -2,6 +2,7 @@
 
 export default Object.freeze({
   caregiverSIGIEnabled: 'caregiver_sigi_enabled',
+  caregiverUseFacilitiesApi: 'caregiver_use_facilities_API',
   cernerOverride463: 'cerner_override_463',
   cernerOverride531: 'cerner_override_531',
   cernerOverride648: 'cerner_override_648',
@@ -14,16 +15,16 @@ export default Object.freeze({
   checkInExperienceEnabled: 'check_in_experience_enabled',
   checkInExperiencePreCheckInEnabled:
     'check_in_experience_pre_check_in_enabled',
-  checkInExperienceTranslationDayOfEnabled: 'check_in_experience_translation_day_of_enabled',
-  checkInExperienceTranslationPreCheckInEnabled:'check_in_experience_translation_pre_check_in_enabled',
   checkInExperienceTranslationDisclaimerSpanishEnabled: 'check_in_experience_translation_disclaimer_spanish_enabled',
   checkInExperienceDayOfDemographicsFlagsEnabled: 'check_in_experience_day_of_demographics_flags_enabled',
   checkInExperienceLorotaSecurityUpdatesEnabled: 'check_in_experience_lorota_security_updates_enabled',
   checkInExperiencePhoneAppointmentsEnabled: 'check_in_experience_phone_appointments_enabled',
+  checkInExperienceLorotaDeletionEnabled: 'check_in_experience_lorota_deletion_enabled',
   checkVAInboxEnabled: 'check_va_inbox_enabled',
   coeAccess: 'coe_access',
   combinedDebtPortalAccess: 'combined_debt_portal_access',
   combinedFinancialStatusReport: 'combined_financial_status_report',
+  combinedFinancialStatusReportEnhancements: 'combined_financial_status_report_enhancements',
   covidVaccineSchedulingFrontend: 'covid_vaccine_scheduling_frontend',
   covidVaccineUpdatesCTA: 'covid_vaccine_registration_frontend_cta',
   covidVaccineUpdatesDisableAuth:
@@ -35,6 +36,7 @@ export default Object.freeze({
   covidVolunteerIntakeEnabled: 'covid_volunteer_intake_enabled',
   covidVolunteerUpdateEnabled: 'covid_volunteer_update_enabled',
   debtLettersShowLetters: 'debt_letters_show_letters',
+  debtLettersShowLettersVBMS: 'debt_letters_show_letters_vbms',
   dependencyVerification: 'dependency_verification',
   dhpConnectedDevicesFitbit: 'dhp_connected_devices_fitbit',
   dischargeWizardFeatures: 'discharge_wizard_features',
@@ -66,6 +68,7 @@ export default Object.freeze({
   hcaEnrollmentStatusOverrideEnabled: 'hca_enrollment_status_override_enabled',
   hcaMedicareClaimNumberEnabled: 'hca_medicare_claim_number_enabled',
   hcaShortFormEnabled: 'hca_short_form_enabled',
+  hcaUseFacilitiesApi: 'hca_use_facilities_API',
   hlrv2: 'hlr_v2',
   loopPages: 'loop_pages',
   manageDependents: 'dependents_management',
@@ -83,6 +86,7 @@ export default Object.freeze({
   profileShowAddressChangeModal: 'profile_show_address_change_modal',
   profileShowBadAddressIndicator: 'profile_show_bad_address_indicator',
   profileShowPronounsAndSexualOrientation: 'profile_show_pronouns_and_sexual_orientation',
+  profileShowPaymentsNotificationSetting: 'profile_show_payments_notification_setting',
   profileUseVaosV2Api:'profile_use_vaos_v2_api',
   profileUseVAFSC: 'profile_use_vafsc',
   pwEhrCtaDrupalSourceOfTruth: 'pw_ehr_cta_drupal_source_of_truth',
@@ -95,6 +99,7 @@ export default Object.freeze({
   showPaymentAndDebtSection: 'show_payment_and_debt_section',
   showContactChatbot: 'show_contact_chatbot',
   showDashboardNotifications: 'show_dashboard_notifications',
+  showDigitalForm1095b: 'show_digital_form_1095b',
   showEduBenefits0994Wizard: 'show_edu_benefits_0994_wizard',
   showEduBenefits1990EWizard: 'show_edu_benefits_1990e_wizard',
   showEduBenefits1990EZWizard: 'show_edu_benefits_1990EZ_Wizard',
@@ -108,6 +113,7 @@ export default Object.freeze({
   showFinancialStatusReportWizard: 'show_financial_status_report_wizard',
   showFormI18n: 'show_form_i18n',
   showMebMockEndpoints: 'show_meb_mock_endpoints',
+  showMebUnverifiedUserAlert: 'show_meb_unverified_user_alert',
   showUpdatedToeApp: 'show_updated_toe_app',
   showMedicalCopays: 'show_medical_copays',
   showHealthcareExperienceQuestionnaire:
@@ -152,8 +158,8 @@ export default Object.freeze({
   vaOnlineSchedulingStatusImprovement: 'va_online_scheduling_status_improvement',
   vaOnlineSchedulingClinicLocation: 'va_online_scheduling_clinic_location',
   vaOnlineSchedulingVaosV2Next: 'va_online_scheduling_vaos_v2_next',
+  vaOnlineSchedulingAppointmentList: 'va_online_scheduling_appointment_list',
   vaOnlineFilter36Vats: 'va_online_filter36_vats',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
-  showDigitalForm1095b: 'show_digital_form_1095b'
 });

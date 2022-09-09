@@ -87,3 +87,9 @@ export const BANK_INFO_UPDATED_ALERT_SETTINGS = {
   FADE_SPEED: window.Cypress ? 1 : 500,
   TIMEOUT: window.Cypress ? 500 : 6000,
 };
+
+export const NOTIFICATION_GROUPS = Object.freeze({
+  APPLICATIONS: 'group1',
+  YOUR_HEALTH_CARE: 'group3',
+  PAYMENTS: 'group4',
+});

@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { getDebtDetailsCardContent } from '../const/diary-codes/debtDetailsCardContent';
 import { currency } from '../utils/page';
+import recordEvent from '~/platform/monitoring/record-event';
 
 const DebtDetailsCard = ({ debt }) => {
   // TODO: currently we do not have a debtID so we need to make one by combining fileNumber and diaryCode
@@ -49,6 +50,9 @@ const DebtDetailsCard = ({ debt }) => {
                 className="vads-c-action-link--blue"
                 data-testid="link-make-payment"
                 href="https://www.pay.va.gov/"
+                onClick={() => {
+                  recordEvent({ event: 'cta-link-click-debt-make-payment' });
+                }}
               >
                 Make a payment
               </a>
@@ -61,6 +65,9 @@ const DebtDetailsCard = ({ debt }) => {
                 className="vads-c-action-link--blue"
                 data-testid="link-request-help"
                 href="/manage-va-debt/request-debt-help-form-5655"
+                onClick={() => {
+                  recordEvent({ event: 'cta-link-click-debt-request-help' });
+                }}
               >
                 Request help with your debt
               </a>

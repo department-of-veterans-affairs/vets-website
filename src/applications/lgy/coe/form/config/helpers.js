@@ -6,6 +6,16 @@ export const customCOEsubmit = (formConfig, form) => {
 
   const { periodsOfService = [], relevantPriorLoans = [] } = formCopy.data;
 
+  const isoDateString = (dateString = '') => {
+    const [year, month, setDay = ''] = dateString.split('-');
+    // set day to the 1st when not set
+    const day = setDay === 'XX' ? '01' : setDay.padStart(2, '0');
+    // using new Date().toISOString() includes the timezone offset, so we're building it
+    return dateString
+      ? `${year}-${month.padStart(2, '0')}-${day}T00:00:00.000Z`
+      : '';
+  };
+
   const formattedForm = {
     ...formCopy,
     data: {
@@ -13,25 +23,21 @@ export const customCOEsubmit = (formConfig, form) => {
       periodsOfService: periodsOfService.map(period => ({
         ...period,
         dateRange: {
-          from: new Date(period.dateRange.from).toISOString(),
-          to: new Date(period.dateRange.to).toISOString(),
+          from: isoDateString(period.dateRange.from),
+          to: isoDateString(period.dateRange.to),
         },
       })),
-      relevantPriorLoans: relevantPriorLoans.map(loan => {
-        const [fromYear, fromMonth] = loan.dateRange.from.split('-');
-        const [toYear, toMonth] = loan.dateRange.to.split('-');
-        return {
-          ...loan,
-          dateRange: {
-            //  our form months are 1-12 (Jan-Dec) but a Date() month starts 0
-            from: new Date(fromYear, fromMonth - 1).toISOString(),
-            to: new Date(toYear, toMonth - 1).toISOString(),
-          },
-        };
-      }),
+      relevantPriorLoans: relevantPriorLoans.map(loan => ({
+        ...loan,
+        dateRange: {
+          from: isoDateString(loan.dateRange.from),
+          to: isoDateString(loan.dateRange.to),
+        },
+      })),
     },
   };
 
+  // transformForSubmit returns a JSON string
   const formData = transformForSubmit(formConfig, formattedForm);
 
   return JSON.stringify({
@@ -41,14 +47,26 @@ export const customCOEsubmit = (formConfig, form) => {
   });
 };
 
-export const updateFilesSchema = (formData, filesSchema) => {
-  const schemaCopy = { ...filesSchema };
-  const files = formData.files || [];
-  files.forEach((file, index) => {
-    schemaCopy.items[index].required = ['attachmentType'];
-    if (file.attachmentType === 'Other') {
-      schemaCopy.items[index].required.push('attachmentDescription');
+export const validateDocumentDescription = (errors, fileList) => {
+  fileList.forEach((file, index) => {
+    const error =
+      file.attachmentType === 'Other' && !file.attachmentDescription
+        ? 'Please provide a description'
+        : null;
+    if (error && !errors[index]) {
+      /* eslint-disable no-param-reassign */
+      errors[index] = {
+        attachmentDescription: {
+          __errors: [],
+          addError(msg) {
+            this.__errors.push(msg);
+          },
+        },
+      };
+      /* eslint-enable no-param-reassign */
+    }
+    if (error) {
+      errors[index].attachmentDescription.addError(error);
     }
   });
-  return schemaCopy;
 };

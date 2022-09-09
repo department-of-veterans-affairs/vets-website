@@ -1,13 +1,9 @@
-import { representativeFields } from 'applications/caregivers/definitions/constants';
-import { RepresentativeIntroContent } from 'applications/caregivers/components/AdditionalInfo';
+import { representativeFields } from '../../../definitions/constants';
+import { RepresentativeDescription } from '../../../components/FormDescriptions';
 
 const representativePage = {
   uiSchema: {
-    'ui:description': RepresentativeIntroContent(),
-    'ui:options': {
-      classNames:
-        'vads-u-background-color--gray-lightest vads-u-padding-top--0p5 vads-u-padding-bottom--2p5 vads-u-padding-x--3',
-    },
+    'ui:description': RepresentativeDescription,
     [representativeFields.signAsRepresentativeYesNo]: {
       'ui:title': 'Select who will sign for the Veteran today:',
       'ui:widget': 'radio',
@@ -15,14 +11,13 @@ const representativePage = {
         labels: {
           no: 'The Veteran',
           yes:
-            'A representative with legal authority to make medical decisions for the Veteran',
+            'A representative with legal authority to make decisions for the Veteran',
         },
       },
     },
   },
   schema: {
     type: 'object',
-    required: [],
     properties: {
       [representativeFields.signAsRepresentativeYesNo]: {
         type: 'string',

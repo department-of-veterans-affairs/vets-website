@@ -148,6 +148,8 @@ export function sessionTypeUrl({
   queryParams = {},
   version = API_VERSION,
   allowVerification = false,
+  useOauth = false,
+  acr = null,
 }) {
   if (!type) {
     return null;
@@ -172,7 +174,7 @@ export function sessionTypeUrl({
   // We should use OAuth when the following are true:
   // OAuth param is 'true'
   // config.OAuthEnabled is true
-  const useOAuth = config?.OAuthEnabled && OAuth === 'true';
+  const useOAuth = useOauth || (config?.OAuthEnabled && OAuth === 'true');
 
   // Only require verification when all of the following are true:
   // 1. On the USiP (Unified Sign In Page)
@@ -199,6 +201,7 @@ export function sessionTypeUrl({
 
   if (useOAuth && (isLogin || isSignup)) {
     return createOAuthRequest({
+      acr,
       application,
       clientId,
       type,
@@ -291,15 +294,20 @@ export async function verify({
   policy = '',
   version = API_VERSION,
   clickedEvent = AUTH_EVENTS.VERIFY,
+  isLink = false,
+  useOAuth = false,
+  acr = null,
 }) {
   const type = SIGNUP_TYPES[policy];
   const url = await sessionTypeUrl({
     type,
     version,
-    allowVerification: true,
+    useOauth: useOAuth,
+    ...(!useOAuth && { allowVerification: true }),
+    acr,
   });
 
-  return redirect(url, clickedEvent, type);
+  return isLink ? url : redirect(url, `${type}-${clickedEvent}`);
 }
 
 export function logout(
@@ -318,10 +326,12 @@ export async function signup({
   version = API_VERSION,
   policy = CSP_IDS.ID_ME,
   isLink = false,
+  allowVerification = false,
 } = {}) {
   const url = await sessionTypeUrl({
-    type: `${policy}_signup`,
+    type: SIGNUP_TYPES[policy],
     version,
+    allowVerification,
     ...(policy === CSP_IDS.ID_ME && { queryParams: { op: 'signup' } }),
   });
   return isLink ? url : redirect(url, `${policy}-${AUTH_EVENTS.REGISTER}`);

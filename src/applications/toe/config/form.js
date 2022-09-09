@@ -11,7 +11,6 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import { isValidCurrentOrPastDate } from 'platform/forms-system/src/js/utilities/validations';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { vagovprod, VAGOVSTAGING } from 'site/constants/buckets';
@@ -29,16 +28,14 @@ import GoToYourProfileLink from '../components/GoToYourProfileLink';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 import MailingAddressViewField from '../components/MailingAddressViewField';
 import GetHelp from '../components/GetHelp';
-import PhoneReviewField from '../components/PhoneReviewField';
-import PhoneViewField from '../components/PhoneViewField';
 import SelectedSponsorsReviewPage from '../components/SelectedSponsorsReviewPage';
-import SponsorCheckboxGroup from '../components/SponsorsCheckboxGroup';
 import Sponsors from '../components/Sponsors';
+import SponsorCheckboxGroup from '../components/SponsorsCheckboxGroup';
+import SponsorsSelectionHeadings from '../components/SponsorsSelectionHeadings';
 import YesNoReviewField from '../components/YesNoReviewField';
 
 import {
   isOnlyWhitespace,
-  titleCase,
   hideUnder18Field,
   addWhitespaceOnlyError,
   isAlphaNumeric,
@@ -47,57 +44,19 @@ import {
   // prefillTransformer,
 } from '../helpers';
 
+import { phoneSchema, phoneUISchema } from '../schema';
+import { isValidPhoneField, validateEmail } from '../utils/validation';
 import {
-  isValidPhone,
-  validatePhone,
-  validateEmail,
-} from '../utils/validation';
+  formFields,
+  SPONSOR_RELATIONSHIP,
+  YOUR_PROFILE_URL,
+} from '../constants';
 
-import { SPONSOR_RELATIONSHIP, formFields } from '../constants';
-
-const { fullName, date, usaPhone, email } = commonDefinitions;
+const { fullName, date, email } = commonDefinitions;
 const contactMethods = ['Email', 'Home Phone', 'Mobile Phone', 'Mail'];
 const checkImageSrc = environment.isStaging()
   ? `${VAGOVSTAGING}/img/check-sample.png`
   : `${vagovprod}/img/check-sample.png`;
-
-function phoneUISchema(category, parent, international) {
-  return {
-    [parent]: {
-      'ui:options': {
-        hideLabelText: true,
-        showFieldLabel: false,
-        viewComponent: PhoneViewField,
-      },
-      'ui:objectViewField': PhoneReviewField,
-      phone: {
-        ...phoneUI(`${titleCase(category)} phone number`),
-        'ui:validations': [validatePhone],
-      },
-    },
-    [international]: {
-      'ui:title': `This ${category} phone number is international.`,
-      'ui:reviewField': YesNoReviewField,
-      'ui:options': {
-        // expandUnder: parent,
-        hideIf: formData =>
-          !isValidPhone(formData[formFields.viewPhoneNumbers][parent].phone),
-      },
-    },
-  };
-}
-
-function phoneSchema() {
-  return {
-    type: 'object',
-    properties: {
-      phone: {
-        ...usaPhone,
-        pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
-      },
-    },
-  };
-}
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -145,18 +104,18 @@ const formConfig = {
                 <>
                   <h3>Review your personal information</h3>
                   <p>
-                    This is the personal information we have on file for you. If
-                    you notice any errors, please correct them now. Any updates
-                    you make will change the information for your education
-                    benefits only.
+                    We have this personal information on file for you. If you
+                    notice any errors, please correct them now. Any updates you
+                    make will change the information for your education benefits
+                    only.
                   </p>
                   <p>
                     <strong>Note:</strong> If you want to update your personal
-                    information for other VA benefits, you can do that from your
-                    profile.
-                  </p>
-                  <p className="vads-u-margin-bottom--3">
-                    <GoToYourProfileLink />
+                    information for other VA benefits,{' '}
+                    <a href={YOUR_PROFILE_URL}>
+                      update your information on your profile
+                    </a>
+                    .
                   </p>
                 </>
               ),
@@ -297,13 +256,18 @@ const formConfig = {
       title: 'Sponsor information',
       pages: {
         sponsorSelection: {
-          title: 'Choose your sponsor',
+          title: 'Choose your sponsors',
           path: 'sponsor-selection',
           CustomPageReview: SelectedSponsorsReviewPage,
           depends: formData => formData.sponsors?.sponsors?.length,
           uiSchema: {
             'view:listOfSponsors': {
-              'ui:description': <Sponsors />,
+              'ui:description': (
+                <>
+                  <SponsorsSelectionHeadings />
+                  <Sponsors />
+                </>
+              ),
             },
             [formFields.selectedSponsors]: {
               'ui:field': SponsorCheckboxGroup,
@@ -708,16 +672,8 @@ const formConfig = {
                   </p>
                 </>
               ),
-              ...phoneUISchema(
-                'mobile',
-                formFields.mobilePhoneNumber,
-                formFields.mobilePhoneNumberInternational,
-              ),
-              ...phoneUISchema(
-                'home',
-                formFields.phoneNumber,
-                formFields.phoneNumberInternational,
-              ),
+              [formFields.mobilePhoneNumber]: phoneUISchema('mobile'),
+              [formFields.phoneNumber]: phoneUISchema('home'),
             },
             [formFields.email]: {
               'ui:options': {
@@ -761,13 +717,7 @@ const formConfig = {
                 type: 'object',
                 properties: {
                   [formFields.mobilePhoneNumber]: phoneSchema(),
-                  [formFields.mobilePhoneNumberInternational]: {
-                    type: 'boolean',
-                  },
                   [formFields.phoneNumber]: phoneSchema(),
-                  [formFields.phoneNumberInternational]: {
-                    type: 'boolean',
-                  },
                 },
               },
               [formFields.email]: {
@@ -957,14 +907,14 @@ const formConfig = {
                 })(),
               },
             },
-            'view:receiveTextMessages': {
+            [formFields.viewReceiveTextMessages]: {
               'ui:description': (
                 <>
                   <div className="toe-form-page-only">
                     <h3>Choose how you want to get notifications</h3>
                     <p>
                       We recommend that you opt in to text message notifications
-                      about your benefits. These notifications prompt you to
+                      about your benefits. These notifications can prompt you to
                       verify your enrollment so you’ll receive your education
                       payments. You can verify your monthly enrollment easily
                       this way.
@@ -981,8 +931,17 @@ const formConfig = {
                           rel="noopener noreferrer"
                           target="_blank"
                         >
-                          View Terms and Conditions and Privacy Policy.
+                          View Terms and Conditions
+                        </a>{' '}
+                        and{' '}
+                        <a
+                          href="/privacy-policy"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          Privacy Policy
                         </a>
+                        .
                       </>
                     </va-alert>
                   </div>
@@ -994,25 +953,23 @@ const formConfig = {
                 'ui:widget': 'radio',
                 'ui:validations': [
                   (errors, field, formData) => {
-                    const isYes = field.slice(0, 4).includes('Yes');
-                    const phoneExists = !!formData[formFields.viewPhoneNumbers][
-                      formFields.mobilePhoneNumber
-                    ].phone;
-                    const isInternational =
-                      formData[formFields.viewPhoneNumbers][
-                        formFields.mobilePhoneNumberInternational
-                      ];
+                    const isYes = field?.slice(0, 4).includes('Yes');
+                    if (!isYes) {
+                      return;
+                    }
 
-                    if (isYes) {
-                      if (!phoneExists) {
-                        errors.addError(
-                          'You can’t select that response because we don’t have a mobile phone number on file for you.',
-                        );
-                      } else if (isInternational) {
-                        errors.addError(
-                          'You can’t select that response because you have an international mobile phone number',
-                        );
-                      }
+                    const { phone, isInternational } = formData[
+                      formFields.viewPhoneNumbers
+                    ][formFields.mobilePhoneNumber];
+
+                    if (!phone) {
+                      errors.addError(
+                        'You can’t select that response because we don’t have a mobile phone number on file for you.',
+                      );
+                    } else if (isInternational) {
+                      errors.addError(
+                        'You can’t select that response because you have an international mobile phone number',
+                      );
                     }
                   },
                 ],
@@ -1039,14 +996,19 @@ const formConfig = {
               ),
               'ui:options': {
                 hideIf: formData =>
-                  isValidPhone(
+                  (formData[formFields.viewReceiveTextMessages][
+                    formFields.receiveTextMessages
+                  ] &&
+                    !formData[formFields.viewReceiveTextMessages][
+                      formFields.receiveTextMessages
+                    ]
+                      .slice(0, 4)
+                      .includes('Yes')) ||
+                  isValidPhoneField(
                     formData[formFields.viewPhoneNumbers][
                       formFields.mobilePhoneNumber
-                    ].phone,
-                  ) ||
-                  formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumberInternational
-                  ],
+                    ],
+                  ),
               },
             },
             'view:internationalTextMessageAlert': {
@@ -1055,21 +1017,29 @@ const formConfig = {
                   <>
                     You can’t choose to get text notifications because you have
                     an international mobile phone number. At this time, we can
-                    send text messages about your education benefits to U.S.
-                    mobile phone numbers.
+                    send text messages about your education benefits only to
+                    U.S. mobile phone numbers.
                   </>
                 </va-alert>
               ),
               'ui:options': {
                 hideIf: formData =>
-                  !isValidPhone(
+                  (formData[formFields.viewReceiveTextMessages][
+                    formFields.receiveTextMessages
+                  ] &&
+                    !formData[formFields.viewReceiveTextMessages][
+                      formFields.receiveTextMessages
+                    ]
+                      .slice(0, 4)
+                      .includes('Yes')) ||
+                  !isValidPhoneField(
                     formData[formFields.viewPhoneNumbers][
                       formFields.mobilePhoneNumber
-                    ].phone,
+                    ],
                   ) ||
                   !formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumberInternational
-                  ],
+                    formFields.mobilePhoneNumber
+                  ]?.isInternational,
               },
             },
           },
@@ -1084,7 +1054,7 @@ const formConfig = {
                 type: 'string',
                 enum: contactMethods,
               },
-              'view:receiveTextMessages': {
+              [formFields.viewReceiveTextMessages]: {
                 type: 'object',
                 required: [formFields.receiveTextMessages],
                 properties: {

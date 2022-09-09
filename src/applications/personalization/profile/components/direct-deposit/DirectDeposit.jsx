@@ -21,7 +21,7 @@ import { focusElement } from '~/platform/utilities/ui';
 import { usePrevious } from '~/platform/utilities/react-hooks';
 
 import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
-import VerifyIdentiy from './alerts/VerifyIdentiy';
+import VerifyIdentity from './alerts/VerifyIdentity';
 
 import Headline from '../ProfileSectionHeadline';
 
@@ -160,7 +160,7 @@ const DirectDeposit = ({
             )}
           </DowntimeNotification>
         ) : (
-          <VerifyIdentiy />
+          <VerifyIdentity />
         )}
         <FraudVictimAlert />
         {showBankInformation ? (

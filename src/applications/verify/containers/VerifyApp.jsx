@@ -9,6 +9,7 @@ import recordEvent from 'platform/monitoring/record-event';
 import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
+import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 import { VerifyButton } from '../components/verifyButton';
 
@@ -35,7 +36,7 @@ export class VerifyApp extends React.Component {
   }
 
   render() {
-    const { profile } = this.props;
+    const { profile, useOAuth } = this.props;
 
     if (profile.loading) {
       return <LoadingIndicator message="Loading the application..." />;
@@ -69,11 +70,20 @@ export class VerifyApp extends React.Component {
                 to complete.
               </p>
               {[idme.policy, logingov.policy].includes(signInMethod) ? (
-                <VerifyButton {...selectCSP(signInMethod)} />
+                <VerifyButton
+                  {...selectCSP(signInMethod)}
+                  useOAuth={useOAuth}
+                />
               ) : (
                 <>
-                  <VerifyButton {...selectCSP(logingov.policy)} />
-                  <VerifyButton {...selectCSP(idme.policy)} />
+                  <VerifyButton
+                    {...selectCSP(logingov.policy)}
+                    useOAuth={useOAuth}
+                  />
+                  <VerifyButton
+                    {...selectCSP(idme.policy)}
+                    useOAuth={useOAuth}
+                  />
                 </>
               )}
               <div className="help-info">
@@ -97,10 +107,12 @@ export class VerifyApp extends React.Component {
 
 const mapStateToProps = state => ({
   profile: selectProfile(state),
+  useOAuth: isAuthenticatedWithOAuth(state),
 });
 
 export default connect(mapStateToProps)(VerifyApp);
 
 VerifyApp.propTypes = {
   profile: PropTypes.object.isRequired,
+  useOAuth: PropTypes.bool,
 };

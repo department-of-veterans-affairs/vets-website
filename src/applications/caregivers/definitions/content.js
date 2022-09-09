@@ -1,14 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
 export const links = {
   findLocations: {
-    label: 'Find locations with our facility locator tool',
     link: 'https://www.va.gov/find-locations',
+    label: 'Find locations with our facility locator tool',
   },
   caregiverSupportCoordinators: {
     link: 'https://www.caregiver.va.gov/support/New_CSC_Page.asp',
-    label: 'Find a caregiver support coordinator near you.',
+    label: 'Use our online Caregiver Support Coordinator search tool',
   },
   caregiverHelp: {
     link: 'https://www.caregiver.va.gov/help_landing.asp',
@@ -65,41 +62,3 @@ export const representativeSignatureContent = [
 
 export const signatureBoxNoteContent =
   'According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or providing incorrect information. (See 18 U.S.C. 1001)';
-
-export const PrivacyPolicy = () => (
-  <p>
-    I have read and accept the
-    <a
-      target="_blank"
-      rel="noopener noreferrer"
-      className="vads-u-margin-left--0p5"
-      href={links.privacyPolicy.link}
-    >
-      privacy policy
-    </a>
-    .
-  </p>
-);
-
-export const SecondaryCaregiverCopy = ({ label }) => {
-  const header = title => `${title} statement of truth`;
-  const firstParagraph = secondaryCaregiverContent[0];
-  const contentWithoutFirstParagraph = secondaryCaregiverContent.slice(1);
-
-  return (
-    <div>
-      <h3 className="vads-u-margin-top--4">{header(label)}</h3>
-
-      <p className="vads-u-margin-y--4">{firstParagraph}</p>
-
-      {contentWithoutFirstParagraph.map((secondaryContent, idx) => {
-        return <p key={`${label}-${idx}`}>{secondaryContent}</p>;
-      })}
-      <PrivacyPolicy />
-    </div>
-  );
-};
-
-SecondaryCaregiverCopy.propTypes = {
-  label: PropTypes.string,
-};

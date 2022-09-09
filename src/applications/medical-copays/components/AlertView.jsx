@@ -2,13 +2,9 @@ import React from 'react';
 import Breadcrumbs from '@department-of-veterans-affairs/component-library/Breadcrumbs';
 import PropTypes from 'prop-types';
 import Alert from './Alerts';
-import alertMessage from '../../combined-debt-portal/combined/utils/alert-messages';
+import alertMessage from '../utils/alert-messages';
 import OtherVADebts from './OtherVADebts';
-import {
-  ALERT_TYPES,
-  APP_TYPES,
-  API_RESPONSES,
-} from '../../combined-debt-portal/combined/utils/helpers';
+import { ALERT_TYPES, APP_TYPES, API_RESPONSES } from '../utils/helpers';
 
 const renderAlert = (alertType, hasDebts) => {
   const adjustedAlertType =
