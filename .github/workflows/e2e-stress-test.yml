@@ -292,12 +292,12 @@ jobs:
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && always() }}
         uses: actions/upload-artifact@v3
         with:
-          name: cypress-mochawesome-test-results
+          name: cypress-stress-test-results
           path: cypress/results
           retention-days: 1
 
-  testing-reports-cypress:
-    name: Testing Reports - Cypress E2E Tests
+  update-e2e-allow-list:
+    name: Update E2E Allow List
     runs-on: ubuntu-latest
     needs: [cypress-tests-prep, cypress-tests, fetch-e2e-allow-list]
     if: ${{ always() && needs.cypress-tests-prep.outputs.tests != '[]' && (needs.cypress-tests.result == 'success' || needs.cypress-tests.result == 'failure') }}
@@ -344,7 +344,7 @@ jobs:
       - name: Download Cypress E2E Mochawesome test results
         uses: actions/download-artifact@v3
         with:
-          name: cypress-mochawesome-test-results
+          name: cypress-stress-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
 
       - name: Update E2E Allow List
