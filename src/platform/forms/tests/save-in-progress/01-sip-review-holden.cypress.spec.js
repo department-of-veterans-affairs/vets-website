@@ -57,7 +57,7 @@ describe('SIP Review Test', () => {
         cy.wrap(link).click();
       });
 
-    cy.get('.usa-alert-errrrrrrrror', { timeout: Timeouts.slow });
+    cy.get('.usa-alert-error', { timeout: Timeouts.slow });
 
     cy.url().should('contain', 'review-and-submit');
     cy.get('.usa-alert-error').should(
