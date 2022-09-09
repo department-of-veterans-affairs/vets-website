@@ -1,10 +1,3 @@
-export const downloadErrorsByCode = {
-  '5':
-    'We’re sorry. VA.gov is down right now. If you need help right now, please call the VA Help Desk at 800-698-2411. If you have hearing loss, call TTY:711.',
-  default:
-    'We’re sorry. Something went wrong on our end. If you need help right now, please call the VA Help Desk at 800-698-2411. If you have hearing loss, call TTY:711.',
-};
-
 export const links = {
   findLocations: {
     link: 'https://www.va.gov/find-locations',

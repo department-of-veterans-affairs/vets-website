@@ -2,21 +2,50 @@ h2:focus {
   outline: none;
 }
 
-.caregiver-confirmation--print {
-  display: none;
+.additional-info-title {
+  font-weight: normal;
+}
+
+.caregiver-confirmation {
+  .print-details {
+    display: none;
+  }
 }
 
 @media print {
-  .schemaform-title, .no-print {
+  .schemaform-title {
     display: none;
   }
 
-  .caregiver-confirmation--print {
-    display: flex;
-    flex-direction: column;
+  .caregiver-confirmation {
+    .print-details {
+      display: flex;
+      flex-direction: column;
+
+      img {
+        width: 240px;
+        margin-bottom: 24px;
+      }
+    }
+
+    .usa-alert,
+    .usa-alert-success {
+      display: none;
+    }
+
+    .claim-list {
+      display: none;
+    }
+    .inset {
+      display: none;
+    }
+
+    p {
+      margin: 10px 0;
+    }
   }
 
-  .vagov-logo {
-    width: 300px;
+  .caregiver-footer {
+    display: block;
   }
 }
