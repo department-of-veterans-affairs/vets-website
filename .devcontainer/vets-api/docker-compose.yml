@@ -3,6 +3,7 @@ services:
   redis:
     image: redis:5.0-alpine
     restart: unless-stopped
+    command: sleep infinity
   postgres:
     image: mdillon/postgis:11-alpine
     environment:
@@ -13,6 +14,7 @@ services:
     ports:
       - "54320:5432"
     restart: unless-stopped
+    command: sleep infinity
   vets-api:
     build:
       context: .
@@ -22,7 +24,7 @@ services:
         userid: "${VETS_API_USER_ID}"
     command: >
       bash -c "bundle exec rake db:migrate || bundle exec rake db:setup db:migrate
-      && touch tmp/caching-dev.txt && foreman start -m all=1,clamd=0,freshclam=0"
+      && touch tmp/caching-dev.txt && foreman start -m all=1,clamd=0,freshclam=0" && sleep infinity
     image: "vets-api:${DOCKER_IMAGE:-latest}"
     volumes:
       - .:/srv/vets-api/src:cached
