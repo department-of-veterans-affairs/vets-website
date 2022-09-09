@@ -5,7 +5,7 @@
 ###
 # shared build/settings for all child images, reuse these layers yo
 ###
-FROM ruby:2.7.6-slim-bullseye AS base
+FROM ruby:2.7.6-slim-bullseye
 
 ARG userid=993
 SHELL ["/bin/bash", "-c"]
@@ -37,8 +37,6 @@ WORKDIR /srv/vets-api/src
 # This stage useful for mounting your local checkout with compose
 # into the container to dev against.
 ###
-FROM base AS development
-
 ARG sidekiq_license
 ARG rails_env=development
 
@@ -54,37 +52,3 @@ USER vets-api
 RUN freshclam --config-file freshclam.conf
 RUN gem install vtk
 ENTRYPOINT ["/usr/bin/dumb-init", "--", "./docker-entrypoint.sh"]
-
-# ###
-# # build stage; use --target=builder to stop here
-# # Also be sure to add build-args from development stage above
-# #
-# # This is development with the app copied in and built.  The build results are used in
-# # prod below, but also useful if you want to have a container with the app and not
-# # mount your local checkout.
-# ###
-# FROM development AS builder
-# # XXX: move modules/ to seperate repos so we can only copy Gemfile* and install a slim layer
-# ARG bundler_opts
-# COPY --chown=vets-api:vets-api . .
-# USER vets-api
-# # --no-cache doesn't do the right thing, so trim it during build
-# # https://github.com/bundler/bundler/issues/6680
-# RUN bundle install --binstubs="${BUNDLE_APP_CONFIG}/bin" $bundler_opts && \
-#     find ${BUNDLE_APP_CONFIG}/cache -type f -name \*.gem -delete
-
-# ###
-# # prod stage; default if no target given
-# # to build prod you probably want options like below to get a good build
-# # --build-arg sidekiq_license="$BUNDLE_ENTERPRISE__CONTRIBSYS__COM" --build-arg rails_env=production --build-arg bundler_opts="--no-cache --without development test"
-# # This inherits from base again to avoid bringing in extra built time binary packages
-# ###
-# FROM base AS production
-
-# ENV RAILS_ENV=production
-# COPY --from=builder $BUNDLE_APP_CONFIG $BUNDLE_APP_CONFIG
-# COPY --from=builder --chown=vets-api:vets-api /srv/vets-api/src ./
-# COPY --from=builder --chown=vets-api:vets-api /srv/vets-api/clamav/database ../clamav/database
-# RUN if [ -d certs-tmp ] ; then cd certs-tmp ; for i in * ; do cp $i /usr/local/share/ca-certificates/${i/pem/crt} ; done ; fi && update-ca-certificates
-# USER vets-api
-# ENTRYPOINT ["/usr/bin/dumb-init", "--", "./docker-entrypoint.sh"]
