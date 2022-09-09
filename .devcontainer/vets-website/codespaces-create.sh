@@ -6,11 +6,11 @@ source $NVM_DIR/nvm.sh
 nvm install || true # ignore exit code due to npm prefix
 nvm use --delete-prefix
 
-sleep infinity
-
 # Download content repo
 printf "\n\n##### Downloading content repo #####\n"
 yarn install-repos
+
+sleep infinity
 
 # Set up vets-api
 # printf "\n\n##### Installing vets-api #####\n"
