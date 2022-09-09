@@ -386,6 +386,7 @@
       "src/platform/utilities",
       "src/platform/polyfills",
       "src/platform/static-data",
+      "src/platform/forms-system",
       "src/platform/monitoring"
     ],
     "nohoist": [
