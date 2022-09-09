@@ -1,4 +1,8 @@
 import React, { useMemo } from 'react';
+import {
+  DowntimeNotification,
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 import { useSelector } from 'react-redux';
 
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
@@ -25,7 +29,12 @@ const withFeatureFlip = (Component, options) => {
         <meta name="robots" content="noindex" />
         {/* Allowing for HOC */}
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-        <Component {...props} {...featureToggles} />
+        <DowntimeNotification
+          appTitle="Pre check in"
+          dependencies={[externalServices.pcie]}
+        >
+          <Component {...props} {...featureToggles} />
+        </DowntimeNotification>
       </>
     );
   };
