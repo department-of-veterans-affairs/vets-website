@@ -259,7 +259,6 @@ function run() {
 
   // groups of tests based on test selection and filtering the groups from the allow list
   const testsSelectedByTestSelection = selectTests(graph, CHANGED_FILE_PATHS);
-
   const newTests = testsSelectedByTestSelection.filter(
     test => !allAllowedTestPaths.includes(test.substring(test.indexOf('src/'))),
   );
