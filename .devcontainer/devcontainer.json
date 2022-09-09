@@ -31,5 +31,5 @@
 		"memory": "32gb",
 		"storage": "128gb"
 	},
-	"initializeCommand": "yarn install-repos"
+	"initializeCommand": "./script/install-repos.sh"
 }
