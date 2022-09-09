@@ -7,40 +7,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
-
-.hca-confirmation-page {
-  padding-bottom: 5rem;
-}
-
-.process-steps {
-  margin-left: 0;
-  padding-left: 0.8em;
-
-  .process-step {
-    padding-bottom: 0.3em;
-  }
-}
-
-.hca-success-icon {
-  color: $color-green;
-  font-size: 8rem;
-}
-
-.hca-alert-copy {
-  color: $color-secondary-dark;
-}
-
-.success-copy {
-  color: $color-green;
-  font-weight: 600;
-}
-
-.success-alert-box {
-  border: 1px solid $color-green;
-  text-align: center;
-}
-
-.hca-progress-button {
-  box-sizing: border-box;
-  width: 100%;
-}
+@import "./confirmationPrint";
+@import "./progressButton";
+@import "./processSteps";

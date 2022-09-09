@@ -12,12 +12,12 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
       />
 
       <h1 className="vads-u-font-size--h2 vads-u-margin-bottom--0">
-        Apply for the Program of Comprehensive Assistance for Family Caregivers
+        Apply for health care
       </h1>
-      <div>Form 10-10CG</div>
+      <div>Form 10-10EZ</div>
 
       <h2 className="vads-u-font-size--h3">
-        Thank you for completing your application
+        Thank you for completing your application for health care
       </h2>
       <p className="vads-u-margin-bottom--0">
         Once we’ve successfully received your application, we’ll contact you to

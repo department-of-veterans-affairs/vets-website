@@ -4,20 +4,19 @@ import moment from 'moment';
 
 import { focusElement } from 'platform/utilities/ui';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import ApplicationDownloadLink from '../ApplicationDownloadLink';
 
-const ConfirmationScreenView = ({ form, name, timestamp }) => {
+const ConfirmationScreenView = ({ name, timestamp }) => {
   useEffect(() => {
-    focusElement('.caregiver-success-message');
+    focusElement('.hca-success-message');
     scrollToTop();
   }, []);
 
   return (
     <>
-      <div className="caregiver-success-message vads-u-margin-bottom--4">
+      <div className="hca-success-message vads-u-margin-bottom--4">
         <va-alert status="success">
           <h2 slot="headline" className="vads-u-font-size--h3">
-            Thank you for completing your application
+            Thank you for completing your application for health care
           </h2>
           <div>
             Once we’ve successfully received your application, we’ll contact you
@@ -35,12 +34,12 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
             <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
               Veteran’s name
             </dt>
-            <dd>
+            <dd className="hca-veteran-fullname">
               {name.first} {name.middle} {name.last} {name.suffix}
             </dd>
           </div>
           {!!timestamp && (
-            <div className="vads-u-margin-bottom--2">
+            <div className="hca-application-date vads-u-margin-bottom--2">
               <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
                 Date you applied
               </dt>
@@ -51,20 +50,12 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
             <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
               Confirmation for your records
             </dt>
-            <dd>
-              You can print this confirmation page for your records. You can
-              also download your completed application as a{' '}
-              <abbr title="Portable Document Format">PDF</abbr>.
-            </dd>
+            <dd>You can print this confirmation page for your records.</dd>
           </div>
         </dl>
 
-        <div className="vads-u-margin-y--2">
+        <div className="vads-u-margin-top--2">
           <va-button text="Print this page" onClick={() => window.print()} />
-        </div>
-
-        <div className="caregiver-confirmation--download">
-          <ApplicationDownloadLink form={form} />
         </div>
       </va-alert>
     </>
@@ -72,7 +63,6 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
 };
 
 ConfirmationScreenView.propTypes = {
-  form: PropTypes.object,
   name: PropTypes.object,
   timestamp: PropTypes.object,
 };
