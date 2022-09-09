@@ -477,7 +477,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.tests.outputs.selected }}
-      tests: ${{ steps.tests.outputs.tests-to-stress-test }}
+      tests-to-stress-test: ${{ steps.tests.outputs.tests-to-stress-test }}
       app_urls: ${{ steps.get-changed-apps.outputs.urls }}
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
