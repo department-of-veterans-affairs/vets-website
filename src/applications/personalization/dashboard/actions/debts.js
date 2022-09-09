@@ -1,11 +1,20 @@
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
 import environment from '~/platform/utilities/environment';
-import { deductionCodes } from '~/applications/debt-letters/const/deduction-codes';
 
 export const DEBTS_FETCH_SUCCESS = 'DEBTS_FETCH_SUCCESS';
 export const DEBTS_FETCH_FAILURE = 'DEBTS_FETCH_FAILURE';
 export const DEBTS_FETCH_INITIATED = 'DEBTS_FETCH_INITIATED';
+
+export const deductionCodes = Object.freeze({
+  '30': 'Disability compensation and pension debt',
+  '41': 'Chapter 34 education debt',
+  '44': 'Chapter 35 education debt',
+  '71': 'Post-9/11 GI Bill debt for books and supplies',
+  '72': 'Post-9/11 GI Bill debt for housing',
+  '74': 'Post-9/11 GI Bill debt for tuition',
+  '75': 'Post-9/11 GI Bill debt for tuition (school liable)',
+});
 
 export const fetchDebts = () => async dispatch => {
   dispatch({ type: DEBTS_FETCH_INITIATED });
