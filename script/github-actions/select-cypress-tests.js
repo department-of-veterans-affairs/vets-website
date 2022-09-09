@@ -259,14 +259,15 @@ function run() {
 
   // groups of tests based on test selection and filtering the groups from the allow list
   const testsSelectedByTestSelection = selectTests(graph, CHANGED_FILE_PATHS);
+
   const newTests = testsSelectedByTestSelection.filter(
-    test => !allAllowedTestPaths.includes(test.substring('src/')),
+    test => !allAllowedTestPaths.includes(test.substring(test.indexOf('src/'))),
   );
   const disallowedTests = testsSelectedByTestSelection.filter(test =>
-    allDisallowedTestPaths.includes(test.substring('src/')),
+    allDisallowedTestPaths.includes(test.substring(test.indexOf('src/'))),
   );
   const testsToRunNormally = testsSelectedByTestSelection.filter(test => {
-    const updatedPath = test.substring('src/');
+    const updatedPath = test.substring(test.indexOf('src/'));
     return (
       !newTests.includes(updatedPath) && !disallowedTests.includes(updatedPath)
     );
