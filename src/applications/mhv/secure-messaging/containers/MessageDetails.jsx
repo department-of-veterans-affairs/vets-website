@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import NavigationLinks from '../components/NavigationLinks';
 import OlderMessages from '../components/OlderMessages';
 import Breadcrumbs from '../components/shared/Breadcrumbs';
@@ -8,6 +8,7 @@ import { getMessage } from '../actions';
 import MessageDetailBlock from '../components/MessageDetailBlock';
 
 const MessageDetail = () => {
+  const { messageId } = useParams();
   const dispatch = useDispatch();
   const { isLoading, message, error } = useSelector(state => state.message);
   const isTrash = window.location.pathname.includes('/trash');
@@ -17,11 +18,12 @@ const MessageDetail = () => {
 
   useEffect(
     () => {
-      const messageId = location.pathname.split('/message/').pop();
       setid(messageId);
-      dispatch(getMessage('message', messageId)); // 7155731 is the only message id that we have a mock api call for, all others will display an error message
+      if (id) {
+        dispatch(getMessage('message', id)); // 7155731 is the only message id that we have a mock api call for, all others will display an error message
+      }
     },
-    [dispatch, location],
+    [dispatch, location, messageId, id],
   );
 
   let pageTitle;

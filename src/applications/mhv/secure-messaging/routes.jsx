@@ -14,7 +14,7 @@ const routes = (
     <Route exact path="/compose" key="Compose">
       <Compose />
     </Route>
-    <Route exact path={['/message', '/message/*']} key="MessageDetails">
+    <Route path="/message/:messageId" key="MessageDetails">
       <MessageDetails />
     </Route>
     <Route exact path="/reply" key="MessageReply">
