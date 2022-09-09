@@ -11,8 +11,9 @@ const {
   e2e: { specPattern },
 } = require('../../config/cypress.config');
 
+const CHANGED_FILE_PATHS = process.env.CHANGED_FILE_PATHS.split(' ');
 const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
-// const ALLOW_LIST = JSON.parse(process.env.ALLOW_LIST);
+const ALLOW_LIST = JSON.parse(process.env.ALLOW_LIST);
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
 const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
 
@@ -248,23 +249,41 @@ function exportVariables(tests) {
 }
 
 function run() {
-  const pathsOfChangedFiles = process.env.CHANGED_FILE_PATHS.split(' ');
   const graph = dedupeGraph(buildGraph());
-  // const disallowedTests = ALLOW_LIST.filter(spec => spec.allowed === false).map(
-  //   spec => spec.spec_path,
-  // );
-  // let tests = selectTests(graph, pathsOfChangedFiles).filter(testPath => {
-  //   return !disallowedTests.includes(
-  //     testPath.substring(testPath.indexOf('src/')),
-  //   );
-  // });
-  const tests = selectTests(graph, pathsOfChangedFiles);
+
+  // groups of tests from the allow list
+  const allDisallowedTestPaths = ALLOW_LIST.filter(
+    spec => spec.allowed === false,
+  ).map(spec => spec.spec_path);
+  const allAllowedTestPaths = ALLOW_LIST.map(spec => spec.spec_path);
+
+  // groups of tests based on test selection and filtering the groups from the allow list
+  const testsSelectedByTestSelection = selectTests(graph, CHANGED_FILE_PATHS);
+  const newTests = testsSelectedByTestSelection.filter(
+    test => !allAllowedTestPaths.includes(test),
+  );
+  const disallowedTests = testsSelectedByTestSelection.filter(test =>
+    allDisallowedTestPaths.includes(test),
+  );
+  const testsToRunNormally = testsSelectedByTestSelection.filter(
+    test => !newTests.includes(test) && !!disallowedTests.includes(test),
+  );
+  const testsToStressTest = [disallowedTests, ...newTests];
+
+  console.log('allDisallowedTestPaths: ', allDisallowedTestPaths);
+  console.log('allAllowedTestPaths: ', allAllowedTestPaths);
+  console.log('testsSelectedByTestSelection: ', testsSelectedByTestSelection);
+  console.log('newTests: ', newTests);
+  console.log('disallowedTests: ', disallowedTests);
+  console.log('testsToRunNormally: ', testsToRunNormally);
+  console.log('testsToStressTest: ', testsToStressTest);
+
   // tests = [
-  //   '/home/runner/work/vets-website/vets-website/src/applications/_mock-form/tests/mock-form.cypress.spec.js',
+  //   '/home/runner/work/vets-website/vets-website/src/applications/appeals/10182/tests/10182-keyboard-only.cypress.spec.js',
   // ];
 
-  // console.log('tests: ', tests);
-  exportVariables(tests);
+  exportVariables(testsToRunNormally);
+  core.exportVariable('TESTS_TO_STRESS_TEST', testsToStressTest);
 }
 
 if (process.env.CHANGED_FILE_PATHS || RUN_FULL_SUITE) {
