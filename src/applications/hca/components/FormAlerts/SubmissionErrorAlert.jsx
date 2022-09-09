@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { focusElement } from 'platform/utilities/ui';
 
-const SubmissionErrorAlert = ({ isLoggedIn }) => {
+const SubmissionErrorAlert = () => {
   useEffect(() => {
     focusElement('.hca-error-message');
   }, []);
@@ -16,14 +13,8 @@ const SubmissionErrorAlert = ({ isLoggedIn }) => {
         <h3 slot="headline">We didn’t receive your online application</h3>
         <p>
           We’re sorry. Something went wrong when you tried to submit your
-          application.{' '}
-          {isLoggedIn ? (
-            <>You can try to submit your application again later.</>
-          ) : (
-            <>
-              You may need to fill out and submit the online application again.
-            </>
-          )}
+          application. You may need to fill out and submit the online
+          application again.
         </p>
 
         <h4 className="vads-u-font-size--h5">What you can do now</h4>
@@ -74,12 +65,4 @@ const SubmissionErrorAlert = ({ isLoggedIn }) => {
   );
 };
 
-SubmissionErrorAlert.propTypes = {
-  isLoggedIn: PropTypes.bool,
-};
-
-const mapStateToProps = state => ({
-  isLoggedIn: state.user?.login?.currentlyLoggedIn,
-});
-
-export default connect(mapStateToProps)(SubmissionErrorAlert);
+export default SubmissionErrorAlert;
