@@ -10,7 +10,7 @@ nvm use --delete-prefix
 # printf "\n\n##### Downloading content repo #####\n"
 # yarn install-repos
 
-sleep infinity
+# sleep infinity
 
 # Set up vets-api
 # printf "\n\n##### Installing vets-api #####\n"
@@ -20,7 +20,7 @@ sleep infinity
 # Build vets-website
 printf "\n\n##### Installing vets-website #####\n"
 set -e
-cd ../vets-website && yarn cache clean && yarn install --production=false --prefer-offline && yarn build -- --host="${CODESPACE_NAME}-3001.githubpreview.dev/" --env api=${CODESPACE_NAME}-3000.githubpreview.dev/
+yarn cache clean && yarn install --production=false --prefer-offline && yarn build -- --host="${CODESPACE_NAME}-3001.githubpreview.dev/" --env api=${CODESPACE_NAME}-3000.githubpreview.dev/
 
 # if [[ "${VETS_WEBSITE_BUILD_CONTENT}" != "NO" ]]
 # then
