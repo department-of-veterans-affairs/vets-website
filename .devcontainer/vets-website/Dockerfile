@@ -14,9 +14,9 @@ FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
 #     fi
 
 # default case is Jenkins, but we want to be able to overwrite this
-ARG userid=504
-RUN groupadd -g $userid vets-website \
-  && useradd -u $userid -r -m -d /application -g vets-website vets-website
+# ARG userid=504
+# RUN groupadd -g $userid vets-website \
+#   && useradd -u $userid -r -m -d /application -g vets-website vets-website
 
 ENV YARN_VERSION 1.22.19
 ENV NODE_ENV production
