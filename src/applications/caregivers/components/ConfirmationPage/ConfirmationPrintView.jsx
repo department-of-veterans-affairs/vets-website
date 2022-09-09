@@ -21,7 +21,7 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
       </h2>
       <p className="vads-u-margin-bottom--0">
         Once we’ve successfully received your application, we’ll contact you to
-        tell you what happens next in the application processs.
+        tell you what happens next in the application process.
       </p>
 
       <hr className="vads-u-margin-y--4" />
