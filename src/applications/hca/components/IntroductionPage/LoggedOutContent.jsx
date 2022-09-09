@@ -5,10 +5,10 @@ import { connect } from 'react-redux';
 import { toggleLoginModal as toggleLoginModalAction } from 'platform/site-wide/user-nav/actions';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
-import HCASubwayMap from './HCASubwayMap';
-import HcaOMBInfo from './HcaOMBInfo';
+import HCAPrivacyActStatement from '../HCAPrivacyActStatement';
+import HCASubwayMap from '../HCASubwayMap';
 
-const LoggedOutIntroContent = ({ route, showLoginAlert, toggleLoginModal }) => {
+const LoggedOutContent = ({ route, showLoginAlert, toggleLoginModal }) => {
   const { formConfig, pageList } = route;
   return (
     <>
@@ -35,9 +35,11 @@ const LoggedOutIntroContent = ({ route, showLoginAlert, toggleLoginModal }) => {
           startText="Start the health care application"
         />
       )}
+
       <HCASubwayMap />
+
       {showLoginAlert ? (
-        <va-alert class="vads-u-margin-bottom--5" status="info">
+        <va-alert status="info" class="vads-u-margin-bottom--5">
           <h2 slot="headline">Save time and save your work in progress</h2>
           <p>Here’s how signing in now helps you:</p>
           <ul>
@@ -75,14 +77,15 @@ const LoggedOutIntroContent = ({ route, showLoginAlert, toggleLoginModal }) => {
           />
         </div>
       )}
-      <div className="omb-info--container vads-u-padding-left--0">
-        <HcaOMBInfo />
-      </div>
+
+      <va-omb-info exp-date="06/30/2024" omb-number="2900-0091" res-burden={30}>
+        <HCAPrivacyActStatement />
+      </va-omb-info>
     </>
   );
 };
 
-LoggedOutIntroContent.propTypes = {
+LoggedOutContent.propTypes = {
   route: PropTypes.object,
   showLoginAlert: PropTypes.bool,
   toggleLoginModal: PropTypes.func,
@@ -95,4 +98,4 @@ const mapDispatchToProps = {
 export default connect(
   null,
   mapDispatchToProps,
-)(LoggedOutIntroContent);
+)(LoggedOutContent);
