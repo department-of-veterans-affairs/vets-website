@@ -24,11 +24,10 @@ services:
         sidekiq_license: "${BUNDLE_ENTERPRISE__CONTRIBSYS__COM}"
         userid: "${VETS_API_USER_ID}"
     image: "vets-api:${DOCKER_IMAGE:-latest}"
-    command: >
-      bash -c "bin/rails db:migrate || bin/rails db:setup db:migrate
-      && touch tmp/caching-dev.txt && foreman start -m all=1,clamd=0,freshclam=0"
+    command: make build && make db && make server
     volumes:
       - ../../../vets-api:/srv/vets-api/src:cached
+      - ./settings.local.yml:/srv/vets-api/config/settings.local.yml
       - ../../../vets-api-mockdata:/cache
       - dev_bundle:/usr/local/bundle
     ports:

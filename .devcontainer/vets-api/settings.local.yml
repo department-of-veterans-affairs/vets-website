@@ -1,0 +1,17 @@
+# betamocks:
+  # For NATIVE installation
+  # The relative path to department-of-veterans-affairs/vets-api-mockdata
+  # cache_dir: ../vets-api-mockdata
+
+# binaries:
+  # For NATIVE and DOCKER installation
+  # A "virus scanner" that always returns success for development purposes
+  # NOTE: You may need to specify a full path instead of a relative path
+  # clamdscan: ./bin/fake_clamdscan
+
+# NOTE: This file is excluded by railsconfig in the test env.
+# Use config/settings/test.local.yml instead.
+# See "Note" at https://github.com/rubyconfig/config#developer-specific-config-files
+
+saml:
+  authn_requests_signed: false

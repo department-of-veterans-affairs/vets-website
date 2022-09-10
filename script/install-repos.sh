@@ -17,11 +17,11 @@ else
   echo "Repo vets-api already cloned."
 fi
 
-if [ ! -d ../vets-api-mockdata ]; then
-  yes | git clone --single-branch --depth 1 git@github.com:department-of-veterans-affairs/vets-api-mockdata.git ../vets-api-mockdata
-else
-  echo "Repo vets-api-mockdata already cloned."
-fi
+# if [ ! -d ../vets-api-mockdata ]; then
+#   yes | git clone --single-branch --depth 1 git@github.com:department-of-veterans-affairs/vets-api-mockdata.git ../vets-api-mockdata
+# else
+#   echo "Repo vets-api-mockdata already cloned."
+# fi
 
 # @TODO: if these are not needed anymore, remove.
 # git clone git@github.com:department-of-veterans-affairs/vets-json-schema.git
