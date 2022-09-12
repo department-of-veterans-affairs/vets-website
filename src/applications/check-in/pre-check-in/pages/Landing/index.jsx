@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import recordEvent from 'platform/monitoring/record-event';
 
 import { api } from '../../../api';
 
@@ -13,7 +12,6 @@ import { createSetSession } from '../../../actions/authentication';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { createAnalyticsSlug } from '../../../utils/analytics';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import {
   createForm,
@@ -68,17 +66,11 @@ const Index = props => {
     () => {
       const token = getTokenFromLocation(router.location);
       if (!token) {
-        recordEvent({
-          event: createAnalyticsSlug('landing-page-launched-no-token'),
-        });
-        goToErrorPage();
+        goToErrorPage('?error=no-token');
       }
 
       if (!isUUID(token)) {
-        recordEvent({
-          event: createAnalyticsSlug('malformed-token'),
-        });
-        goToErrorPage();
+        goToErrorPage('?error=bad-token');
       }
       if (token && isUUID(token)) {
         // call the sessions api
@@ -93,7 +85,7 @@ const Index = props => {
 
               if (session.error || session.errors) {
                 clearCurrentSession(window);
-                goToErrorPage();
+                goToErrorPage('?error=session-error');
               } else {
                 setCurrentToken(window, token);
                 setPreCheckinComplete(window, false);

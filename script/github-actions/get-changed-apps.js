@@ -26,16 +26,16 @@ const getManifests = filePath => {
 
 /**
  * Gets the sliced manifest(s) of a file's root app folder with some added properties. The
- * app's root folder must be on the given allow list, otherwise returns null.
+ * app's root folder must be on the given allow list, otherwise returns an empty array.
  *
  * @param {string} filePath - Relative file path.
  * @param {Object} allowedApps - List of allowed apps.
- * @returns {Object[]|null} Sliced manifests of allowed apps. Otherwise null.
+ * @returns {Object[]} Sliced manifests of allowed apps.
  */
 const getAllowedApps = (filePath, allowedApps) => {
   const appsDirectory = 'src/applications';
 
-  if (!filePath.startsWith(appsDirectory)) return null;
+  if (!filePath.startsWith(appsDirectory)) return [];
 
   const manifests = getManifests(filePath);
   const rootAppFolderName = filePath.split('/')[2];
@@ -44,15 +44,17 @@ const getAllowedApps = (filePath, allowedApps) => {
   );
 
   if (allowedApp) {
+    const { slackGroup, continuousDeployment } = allowedApp;
     return manifests.map(({ entryName, rootUrl }) => ({
       entryName,
       rootUrl,
       rootPath: path.join(appsDirectory, rootAppFolderName),
-      slackGroup: allowedApp.slackGroup,
+      slackGroup,
+      continuousDeployment,
     }));
   }
 
-  return null;
+  return [];
 };
 
 /**
@@ -77,7 +79,7 @@ const getChangedAppsString = (
   for (const filePath of filePaths) {
     const allowedApps = getAllowedApps(filePath, config.apps);
 
-    if (allowedApps) {
+    if (allowedApps.length) {
       allowedApps.forEach(app => {
         if (outputType === 'entry') {
           appStrings.push(app.entryName);
@@ -95,6 +97,41 @@ const getChangedAppsString = (
   return [...new Set(appStrings)].join(delimiter);
 };
 
+/**
+ * Checks whether all file paths belong to apps on the allowlist with continuous deployment
+ * enabled. Returns false if all apps don't have continuous deployed enabled.
+ *
+ * @param {string[]} filePaths - A list of relative file paths.
+ * @param {Object} config - Changed apps config.
+ * @returns {Boolean} Whether apps of file paths have enabled continuous deployment.
+ */
+const isContinuousDeploymentEnabled = (filePaths, config) => {
+  if (!filePaths.length) return false;
+
+  for (const filePath of filePaths) {
+    const allowedApps = getAllowedApps(filePath, config.apps);
+
+    if (allowedApps.length) {
+      const { continuousDeployment, rootPath } = allowedApps[0];
+      const invalidDataType = !['boolean', 'undefined'].includes(
+        typeof continuousDeployment,
+      );
+
+      if (invalidDataType) {
+        throw new Error(
+          `Invalid data type in 'continuousDeployment' field for ${rootPath}. Must be a boolean or omitted.`,
+        );
+      }
+
+      // Apps in the config are opted in to continuous deployment by default.
+      // `continuousDeployment` must be `false` to disable.
+      if (continuousDeployment === false) return false;
+    } else return false;
+  }
+
+  return true;
+};
+
 if (process.env.CHANGED_FILE_PATHS) {
   const changedFilePaths = process.env.CHANGED_FILE_PATHS.split(' ');
 
@@ -106,18 +143,29 @@ if (process.env.CHANGED_FILE_PATHS) {
     // 'slack-group': The Slack group of the app's team, specified in the config.
     { name: 'output-type', type: String, defaultValue: 'entry' },
     { name: 'delimiter', alias: 'd', type: String, defaultValue: ' ' },
+    { name: 'continuous-deployment', type: Boolean, defaultValue: false },
   ]);
 
-  const changedAppsString = getChangedAppsString(
-    changedFilePaths,
-    changedAppsConfig,
-    options['output-type'],
-    options.delimiter,
-  );
+  if (options['continuous-deployment']) {
+    const continuousDeploymentEnabled = isContinuousDeploymentEnabled(
+      changedFilePaths,
+      changedAppsConfig,
+    );
 
-  console.log(changedAppsString);
+    console.log(continuousDeploymentEnabled);
+  } else {
+    const changedAppsString = getChangedAppsString(
+      changedFilePaths,
+      changedAppsConfig,
+      options['output-type'],
+      options.delimiter,
+    );
+
+    console.log(changedAppsString);
+  }
 }
 
 module.exports = {
   getChangedAppsString,
+  isContinuousDeploymentEnabled,
 };

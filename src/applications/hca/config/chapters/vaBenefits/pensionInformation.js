@@ -1,7 +1,7 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 
-import CustomReviewField from '../../../components/ReviewFields/CustomReviewField';
+import CustomReviewField from '../../../components/FormReview/CustomReviewField';
 import {
   PensionInfoDescription,
   PensionTypeDescription,
