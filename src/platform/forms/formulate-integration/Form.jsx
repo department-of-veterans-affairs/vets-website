@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useFormikContext, Form as FormikForm } from 'formik';
 import { isEqual } from 'lodash';
 
-import { setData as setDataAction } from 'platform/forms-system/src/js/actions';
+import { setData as setDataAction } from '~/platform/forms-system/src/js/actions';
 
 export const Form = ({ setData, ...rest }) => {
   const { values } = useFormikContext();
