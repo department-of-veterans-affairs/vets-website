@@ -367,6 +367,7 @@ jobs:
         working-directory: qa-standards-dashboard-data
         env:
           ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
+          TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
@@ -378,7 +379,6 @@ jobs:
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
           TEST_RETRIES_TABLE_NAME: cypress_retry_records
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
-          TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
           IS_STRESS_TEST: true
 
       - name: Upload Cypress E2E test videos to s3

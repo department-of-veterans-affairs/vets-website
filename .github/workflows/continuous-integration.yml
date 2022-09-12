@@ -481,6 +481,7 @@ jobs:
       app_urls: ${{ steps.get-changed-apps.outputs.urls }}
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
+      test_selection_disallowed_tests: ${{ step.test_selection_disallowed_tests.outputs.test_selection_disallowed_tests }}
 
     steps:
       - name: Checkout
@@ -822,6 +823,7 @@ jobs:
           TEST_RETRIES_TABLE_NAME: cypress_retry_records
           NUM_CONTAINERS: 1
           IS_STRESS_TEST: true
+          TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
 
       - name: Upload Cypress E2E test videos to s3
         if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}
