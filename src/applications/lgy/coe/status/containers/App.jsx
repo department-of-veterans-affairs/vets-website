@@ -50,13 +50,17 @@ const App = ({
   );
 
   // Show WIP alert if the feature flag isn't set - remove once @ 100%
-  if (!showCoe) {
+  if (!showCoe && !isLoading) {
     return <WIP />;
   }
 
   let content;
 
-  if (generateAutoCoeStatus === CALLSTATUS.idle || profileIsUpdating) {
+  if (
+    generateAutoCoeStatus === CALLSTATUS.idle ||
+    profileIsUpdating ||
+    isLoading
+  ) {
     content = <va-loading-indicator message="Loading application..." />;
   } else if (generateAutoCoeStatus === CALLSTATUS.pending) {
     content = (

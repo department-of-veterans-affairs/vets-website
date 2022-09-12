@@ -22,17 +22,23 @@ function App({
 }) {
   useEffect(
     () => {
-      if (typeof getCoeMock === 'function' && !environment.isProduction()) {
-        getCoeMock(!loggedIn);
-      } else {
-        getCoe(!loggedIn);
+      if (showCoe) {
+        if (typeof getCoeMock === 'function' && !environment.isProduction()) {
+          getCoeMock(!loggedIn);
+        } else {
+          getCoe(!loggedIn);
+        }
       }
     },
-    [getCoe, getCoeMock, loggedIn],
+    [showCoe, getCoe, getCoeMock, loggedIn],
   );
 
+  if (isLoading) {
+    return <va-loading-indicator message="Loading application..." />;
+  }
+
   // Show WIP alert if the feature flag isn't set
-  return showCoe && !isLoading ? (
+  return showCoe ? (
     <article
       id="form-26-1880"
       data-location={`${location?.pathname?.slice(1)}`}
