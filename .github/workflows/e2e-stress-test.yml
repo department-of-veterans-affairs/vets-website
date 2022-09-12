@@ -145,6 +145,7 @@ jobs:
       app_urls: ${{ steps.get-changed-apps.outputs.urls }}
       num_containers: ${{ steps.containers.outputs.num }}
       ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
+      test_selection_disallowed_tests: ${{ step.test_selection_disallowed_tests.outputs.test_selection_disallowed_tests }}
 
     steps:
       - name: Checkout
@@ -181,6 +182,10 @@ jobs:
       - name: Set output of TESTS
         id: tests
         run: echo ::set-output name=selected::$TESTS
+
+      - name: Set output of TEST_SELECTION_DISALLOWED_TESTS
+        id: test_selection_disallowed_tests
+        run: echo ::set-output name=test_selection_disallowed_tests::$TEST_SELECTION_DISALLOWED_TESTS
 
       - name: Set output of NUM_CONTAINERS
         id: containers
@@ -373,6 +378,8 @@ jobs:
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
           TEST_RETRIES_TABLE_NAME: cypress_retry_records
           NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
+          TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
+          IS_STRESS_TEST: true
 
       - name: Upload Cypress E2E test videos to s3
         if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}

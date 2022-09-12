@@ -821,6 +821,7 @@ jobs:
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
           TEST_RETRIES_TABLE_NAME: cypress_retry_records
           NUM_CONTAINERS: 1
+          IS_STRESS_TEST: true
 
       - name: Upload Cypress E2E test videos to s3
         if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}

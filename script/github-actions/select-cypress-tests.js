@@ -270,6 +270,14 @@ function run() {
   );
   const testsToStressTest = [...disallowedTests, ...newTests];
 
+  const testSelectionDisallowedTests = testsSelectedByTestSelection.filter(
+    test => {
+      return allDisallowedTestPaths.includes(
+        test.substring(test.indexOf('src/')),
+      );
+    },
+  );
+
   console.log('allDisallowedTestPaths: ', allDisallowedTestPaths);
   console.log('allAllowedTestPaths: ', allAllowedTestPaths);
   console.log('testsSelectedByTestSelection: ', testsSelectedByTestSelection);
@@ -281,6 +289,10 @@ function run() {
   exportVariables(testsToRunNormally);
 
   core.exportVariable('TESTS_TO_STRESS_TEST', testsToStressTest);
+  core.exportVariable(
+    'TEST_SELECTION_DISALLOWED_TESTS',
+    testSelectionDisallowedTests,
+  );
 }
 
 if (process.env.CHANGED_FILE_PATHS || RUN_FULL_SUITE) {
