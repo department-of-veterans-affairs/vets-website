@@ -99,6 +99,7 @@ const Error = () => {
   messages.push({ text: messageText });
 
   if (appointments && appointments.length > 0) {
+    apptType = appointments[0]?.kind ?? 'clinic';
     if (appointmentWasCanceled(appointments)) {
       // get first appointment that was cancelled?
       const canceledAppointment = getFirstCanceledAppointment(appointments);
@@ -136,7 +137,6 @@ const Error = () => {
     } else if (preCheckinExpired(appointments)) {
       header = t('sorry-pre-check-in-is-no-longer-available');
 
-      apptType = appointments[0]?.kind ?? 'clinic';
       messages =
         apptType === 'phone'
           ? [
