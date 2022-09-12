@@ -1,6 +1,9 @@
 import moment from 'moment';
 
-export const paymentsSuccess = (hasRecentPayment = false) => {
+export const paymentsSuccess = (
+  hasRecentPayment = false,
+  lastPaymentMethod = ' Direct Deposit',
+) => {
   return {
     data: {
       id: '',
@@ -15,7 +18,7 @@ export const paymentsSuccess = (hasRecentPayment = false) => {
             payCheckId: '001',
             payCheckReturnFiche: 'C',
             payCheckType: 'Compensation & Pension - Recurring',
-            paymentMethod: ' Direct Deposit',
+            paymentMethod: lastPaymentMethod,
             bankName: 'NAVY FEDERAL CREDIT UNION',
             accountNumber: '****1234',
           },
