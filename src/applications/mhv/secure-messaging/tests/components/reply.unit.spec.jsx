@@ -5,15 +5,6 @@ import ReplyHeader from '../../components/ReplyHeader';
 import BeforeMessageAddlInfo from '../../components/BeforeMessageAddlInfo';
 import NavigationLinks from '../../components/NavigationLinks';
 import OlderMessages from '../../components/OlderMessages';
-import Breadcrumbs from '../../components/shared/Breadcrumbs';
-
-describe('Breadcrumbs', () => {
-  it('renders without errors', () => {
-    const screen = render(<Breadcrumbs />);
-
-    screen.getByText('reply', { exact: false });
-  });
-});
 
 describe('Reply Header', () => {
   it('renders without errors', () => {
