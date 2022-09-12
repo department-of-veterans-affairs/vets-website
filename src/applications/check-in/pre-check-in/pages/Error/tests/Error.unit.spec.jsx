@@ -165,7 +165,7 @@ describe('check-in', () => {
         };
         store = mockStore(initState);
       });
-      it('renders correct error message and how-to link for an in-person cancelled appointment', () => {
+      it('renders correct error message and no how-to link for an in-person cancelled appointment', () => {
         const component = render(
           <Provider store={store}>
             <I18nextProvider i18n={i18n}>
@@ -176,7 +176,7 @@ describe('check-in', () => {
         expect(
           component.getByText('Sorry, pre-check-in is no longer available'),
         ).to.exist;
-        expect(component.queryByTestId('how-to-link')).to.exist;
+        expect(component.queryByTestId('how-to-link')).to.not.exist;
         const canceledMessage = component.getByTestId('error-message');
         expect(canceledMessage).to.exist;
         expect(
