@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import NavigationLinks from '../components/NavigationLinks';
 import OlderMessages from '../components/OlderMessages';
-import Breadcrumbs from '../components/shared/Breadcrumbs';
 import { getMessage } from '../actions';
 import MessageDetailBlock from '../components/MessageDetailBlock';
 
@@ -27,20 +26,12 @@ const MessageDetail = () => {
   );
 
   let pageTitle;
-  let breadcrumbName;
-  let breadcrumbLink;
 
   if (isSent) {
-    breadcrumbName = 'Sent messages';
-    breadcrumbLink = '/sent';
     pageTitle = 'Sent messages';
   } else if (isTrash) {
-    breadcrumbName = 'Trash';
-    breadcrumbLink = '/trash';
     pageTitle = 'Trash';
   } else {
-    breadcrumbName = 'Message';
-    breadcrumbLink = '/message';
     pageTitle = 'Message';
   }
 
@@ -74,17 +65,6 @@ const MessageDetail = () => {
 
   return (
     <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
-      <nav>
-        <Breadcrumbs pageName={breadcrumbName} link={breadcrumbLink} />
-        <button
-          type="button"
-          className="vads-u-margin-top--2 usa-button-secondary section-guide-button medium-screen:vads-u-display--none"
-        >
-          <span>In the Messages section</span>
-          <i className="fas fa-bars" aria-hidden="true" />
-        </button>
-      </nav>
-
       <h1 className="vads-u-margin-top--2">{pageTitle}</h1>
 
       <NavigationLinks messageId={id} />
