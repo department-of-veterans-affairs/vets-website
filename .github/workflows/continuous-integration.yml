@@ -804,7 +804,7 @@ jobs:
           path: qa-standards-dashboard-data/src/allow-list/data
 
       - name: Copy test results to mochawesome directory
-        run: cp -R qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
+        run: cp -r qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
 
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}
