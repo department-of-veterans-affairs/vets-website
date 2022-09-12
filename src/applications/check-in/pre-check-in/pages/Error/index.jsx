@@ -187,7 +187,8 @@ const Error = () => {
           <div>{errorText}</div>
         </va-alert>
       )}
-      <HowToLink apptType={apptType} />
+      {!appointmentStartTimePast15(appointments) ||
+        (!isMaxValidateAttempts && <HowToLink apptType={apptType} />)}
       {accordion && <div className="vads-u-margin-top--3">{accordion}</div>}
       <Footer />
       <BackToHome />
