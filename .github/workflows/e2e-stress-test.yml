@@ -404,7 +404,6 @@ jobs:
       - name: Create Issues for New Flaky Tests
         if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
         run: yarn create-github-issues-for-flaky-tests
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
         env:
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
