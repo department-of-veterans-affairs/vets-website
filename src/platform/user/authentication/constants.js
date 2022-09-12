@@ -32,23 +32,43 @@ export const AUTH_EVENTS = {
   OAUTH_ERROR_USER_FETCH: 'login-error-oauth-user-fetch',
 };
 
-export const SERVICE_PROVIDERS = {
-  logingov: { label: 'Login.gov', link: 'https://secure.login.gov/account' },
-  idme: { label: 'ID.me', link: 'https://wallet.id.me/settings' },
-  dslogon: {
-    label: 'DS Logon',
-    link: 'https://myaccess.dmdc.osd.mil/identitymanagement',
-  },
-  mhv: { label: 'My HealtheVet', link: 'https://www.myhealth.va.gov' },
-  myhealthevet: { label: 'My HealtheVet', link: 'https://www.myhealth.va.gov' },
-};
-
 export const CSP_IDS = {
   MHV: 'mhv',
   MHV_VERBOSE: 'myhealthevet',
   ID_ME: 'idme',
   DS_LOGON: 'dslogon',
   LOGIN_GOV: 'logingov',
+};
+
+export const SERVICE_PROVIDERS = {
+  [CSP_IDS.LOGIN_GOV]: {
+    label: 'Login.gov',
+    link: 'https://secure.login.gov/account',
+    image: <LoginGovSVG />,
+    policy: 'logingov',
+    className: `logingov-button`,
+  },
+  [CSP_IDS.ID_ME]: {
+    label: 'ID.me',
+    link: 'https://wallet.id.me/settings',
+    image: <IDMeSVG />,
+    policy: 'idme',
+    className: 'idme-button',
+  },
+  [CSP_IDS.DS_LOGON]: {
+    label: 'DS Logon',
+    link: 'https://myaccess.dmdc.osd.mil/identitymanagement',
+    image: <>DS Logon</>,
+    policy: 'dslogon',
+    className: 'dslogon-button',
+  },
+  [CSP_IDS.MHV]: {
+    label: 'My HealtheVet',
+    link: 'https://www.myhealth.va.gov',
+    image: <>My HealtheVet</>,
+    policy: 'mhv',
+    className: 'mhv-button',
+  },
 };
 
 export const AUTHN_SETTINGS = {
@@ -67,7 +87,6 @@ export const EXTERNAL_APPS = {
 
 export const SIGNOUT_TYPES = {
   SLO: 'slo',
-  SLO_OAUTH: 'slo_oauth',
 };
 
 export const AUTH_BROKER = {
@@ -115,36 +134,6 @@ export const POLICY_TYPES = {
 export const SIGNUP_TYPES = {
   [CSP_IDS.ID_ME]: 'idme_signup',
   [CSP_IDS.LOGIN_GOV]: 'logingov_signup',
-};
-
-export const CSP_CONTENT = {
-  [CSP_IDS.LOGIN_GOV]: { LOGO: <LoginGovSVG />, COPY: 'Login.gov' },
-  [CSP_IDS.ID_ME]: { LOGO: <IDMeSVG />, COPY: 'ID.me' },
-  [CSP_IDS.DS_LOGON]: { LOGO: <>DS Logon</>, COPY: 'DS Logon' },
-  [CSP_IDS.MHV]: { LOGO: <>My HealtheVet</>, COPY: 'My HealtheVet' },
-};
-
-export const AUTH_LEVEL = { FAIL: 'fail', SUCCESS: 'success' };
-export const AUTH_ERROR = {
-  USER_DENIED: '001', // User clicked 'Deny' in Authorization
-  USER_CLOCK_MISMATCH: '002', // User clock is incorrect
-  SERVER_CLOCK_MISMATCH: '003', // Server timing error
-  MVI_MISMATCH: '004', // MVI Mismatch
-  SESSION_EXPIRED: '005', // Session Expiration
-  DEFAULT: '007', // Catch all (generic/unknown error)
-  LOGINGOV_PROOFING_FAIL: '009', // Login.gov Failure to Proof
-
-  MULTIPLE_MHVIDS: '101', // Multiple MHV IDs/IENs
-  MULTIPLE_EDIPIS: '102', // Multiple EDIPIS
-  ICN_MISMATCH: '103', // ICN Mismatch
-  UUID_MISSING: '104', // UUID Missing (Login.gov or ID.me)
-  MULTIPLE_CORPIDS: '106', // Multiple Corp IDs
-
-  OAUTH_DEFAULT_ERROR: '201',
-  OAUTH_STATE_MISMATCH: '202',
-  OAUTH_INVALID_REQUEST: '203',
-
-  GENERIC: '400',
 };
 
 export const MHV_TRANSITION_DATE = null;

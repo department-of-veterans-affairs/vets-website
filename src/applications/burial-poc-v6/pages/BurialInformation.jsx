@@ -54,7 +54,7 @@ export default function BurialInformation(props) {
         <TextField
           className="vads-u-border-color--primary-alt-light vads-u-border-left--4px vads-u-padding-left--2 vads-u-padding-y--0p5 vads-u-margin-left--neg2p5"
           name="locationOfDeath.other"
-          label="Please specify"
+          label="Please specify where the Veteran's death occurred"
           required={values.locationOfDeath.location === 'other'}
         />
       )}

@@ -21,6 +21,7 @@ export const primaryCaregiverFields = {
   alternativePhoneNumber: 'primaryAlternativePhoneNumber',
   dateOfBirth: 'primaryDateOfBirth',
   email: 'primaryEmail',
+  emailEncouragementMessage: 'view:emailEncouragementMessage',
   fullName: 'primaryFullName',
   gender: 'primaryGender',
   hasSecondaryCaregiverOne: 'view:hasSecondaryCaregiverOne',
@@ -37,6 +38,7 @@ export const secondaryOneFields = {
   alternativePhoneNumber: 'secondaryOneAlternativePhoneNumber',
   dateOfBirth: 'secondaryOneDateOfBirth',
   email: 'secondaryOneEmail',
+  emailEncouragementMessage: 'view:emailEncouragementMessage',
   fullName: 'secondaryOneFullName',
   gender: 'secondaryOneGender',
   hasSecondaryCaregiverTwo: 'view:hasSecondaryCaregiverTwo',
@@ -51,6 +53,7 @@ export const secondaryTwoFields = {
   alternativePhoneNumber: 'secondaryTwoAlternativePhoneNumber',
   dateOfBirth: 'secondaryTwoDateOfBirth',
   email: 'secondaryTwoEmail',
+  emailEncouragementMessage: 'view:emailEncouragementMessage',
   fullName: 'secondaryTwoFullName',
   gender: 'secondaryTwoGender',
   primaryPhoneNumber: 'secondaryTwoPrimaryPhoneNumber',
@@ -62,6 +65,11 @@ export const secondaryTwoFields = {
 export const representativeFields = {
   signAsRepresentativeYesNo: 'signAsRepresentativeYesNo',
   documentUpload: 'signAsRepresentativeDocumentUpload',
+};
+
+export const emptyObjectSchema = {
+  type: 'object',
+  properties: {},
 };
 
 export const ALLOWED_FILE_TYPES = ['pdf', 'jpg', 'jpeg', 'png'];

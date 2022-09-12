@@ -1,0 +1,27 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [
+      {
+        "name": "caregiverSIGIEnabled",
+        "value": false
+      },
+      {
+        "name": "hcaAmericanIndianEnabled",
+        "value": true
+      },
+      {
+        "name": "hcaMedicareClaimNumberEnabled",
+        "value": true
+      },
+      {
+        "name": "hcaShortFormEnabled",
+        "value": true
+      },
+      {
+        "name": "hcaUseFacilitiesApi",
+        "value": true
+      }
+    ]
+  }
+}

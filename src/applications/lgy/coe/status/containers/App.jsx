@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import environment from 'platform/utilities/environment';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import RequiredLoginView from 'platform/user/authorization/components/RequiredLoginView';
 import backendServices from 'platform/user/profile/constants/backendServices';
@@ -18,30 +19,23 @@ import {
 } from '../components/statuses';
 
 const App = ({
-  certificateOfEligibility: {
-    coe,
-    downloadUrl,
-    generateAutoCoeStatus,
-    profileIsUpdating,
-  },
+  certificateOfEligibility: { coe, generateAutoCoeStatus, profileIsUpdating },
   getCoe,
+  getCoeMock,
   loggedIn,
   user,
 }) => {
-  const clickHandler = useCallback(
-    () => {
-      getCoe('skip');
-    },
-    [getCoe],
-  );
-
   useEffect(
     () => {
-      if (!profileIsUpdating && loggedIn && !coe) {
-        getCoe();
+      if (!profileIsUpdating && !coe) {
+        if (typeof getCoeMock === 'function' && !environment.isProduction()) {
+          getCoeMock(!loggedIn);
+        } else {
+          getCoe(!loggedIn);
+        }
       }
     },
-    [coe, getCoe, loggedIn, profileIsUpdating],
+    [coe, getCoe, getCoeMock, loggedIn, profileIsUpdating],
   );
 
   let content;
@@ -58,13 +52,12 @@ const App = ({
   ) {
     switch (coe.status) {
       case COE_ELIGIBILITY_STATUS.available:
-        content = <Available downloadUrl={downloadUrl} />;
+        content = <Available />;
         break;
       case COE_ELIGIBILITY_STATUS.eligible:
         content = (
           <Eligible
-            clickHandler={clickHandler}
-            downloadUrl={downloadUrl}
+            clickHandler={() => {}}
             referenceNumber={coe.referenceNumber}
           />
         );
@@ -127,6 +120,7 @@ const mapDispatchToProps = {
 App.propTypes = {
   certificateOfEligibility: PropTypes.object,
   getCoe: PropTypes.func,
+  getCoeMock: PropTypes.func,
   loggedIn: PropTypes.bool,
   user: PropTypes.object,
 };

@@ -3,7 +3,6 @@ import '../../../../tests/e2e/commands';
 import ApiInitializer from '../../../../api/local-mock-api/e2e/ApiInitializer';
 import ValidateVeteran from '../../../../tests/e2e/pages/ValidateVeteran';
 import Introduction from '../pages/Introduction';
-import Error from '../pages/Error';
 
 describe('Pre-Check In Experience', () => {
   describe('Validate Page', () => {
@@ -26,7 +25,7 @@ describe('Pre-Check In Experience', () => {
         window.sessionStorage.clear();
       });
     });
-    it('validation failed with failed response from server. redirect to error page after max validate limit reached', () => {
+    it('validation failed with failed response from server', () => {
       cy.injectAxeThenAxeCheck();
       // First Attempt
       ValidateVeteran.validateVeteran('Sith', '4321');
@@ -37,14 +36,6 @@ describe('Pre-Check In Experience', () => {
       ValidateVeteran.validateVeteran('Sith', '4321');
       ValidateVeteran.attemptToGoToNextPage();
       ValidateVeteran.validateErrorAlert();
-
-      // Third/Final attempt
-      ValidateVeteran.validateVeteran('Sith', '4321');
-      ValidateVeteran.validateErrorAlert();
-      ValidateVeteran.attemptToGoToNextPage();
-
-      Error.validatePageLoaded(true);
-      cy.createScreenshots('Pre-check-in--validation-error');
     });
     it('fails validation once and then succeeds on the second attempt', () => {
       cy.injectAxeThenAxeCheck();

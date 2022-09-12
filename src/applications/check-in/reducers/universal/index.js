@@ -2,4 +2,7 @@ const setAppHandler = (state, action) => {
   return { ...state, ...action.payload };
 };
 
-export { setAppHandler };
+const setErrorHandler = (state, action) => {
+  return { ...state, ...action.payload };
+};
+export { setAppHandler, setErrorHandler };

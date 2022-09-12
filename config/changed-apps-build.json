@@ -9,6 +9,10 @@
       "slackGroup": "@check-in-fe"
     },
     {
+      "rootFolder": "combined-debt-portal",
+      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
+    },
+    {
       "rootFolder": "coronavirus-research",
       "slackGroup": "@cto-health-products"
     },
@@ -26,19 +30,23 @@
     },
     {
       "rootFolder": "education-letters",
-      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
+      "continuousDeployment": false
     },
     {
       "rootFolder": "enrollment-verification",
-      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
+      "continuousDeployment": false
     },
     {
       "rootFolder": "fry-dea",
-      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
+      "continuousDeployment": false
     },
     {
       "rootFolder": "gi",
-      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
+      "continuousDeployment": false
     },
     {
       "rootFolder": "login",
@@ -53,11 +61,13 @@
       "slackGroup": "@vsp-identity-group"
     },
     {
-      "rootFolder": "terms-and-conditions"
+      "rootFolder": "terms-and-conditions",
+      "continuousDeployment": false
     },
     {
       "rootFolder": "toe",
-      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
+      "continuousDeployment": false
     },
     {
       "rootFolder": "vaos",

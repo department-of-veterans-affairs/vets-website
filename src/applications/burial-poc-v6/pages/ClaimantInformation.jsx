@@ -66,7 +66,7 @@ export default function ClaimantInformation(props) {
             <ExpandingGroup open showPlus>
               <TextField
                 name="relationship.other"
-                label="Please specify"
+                label="Please specify claimant's relationship to deceased Veteran"
                 required={values.relationship.type === 'other'}
               />
               <CheckboxField
