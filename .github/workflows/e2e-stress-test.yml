@@ -355,6 +355,9 @@ jobs:
           name: cypress-stress-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
 
+      - name: Copy test results to mochawesome directory
+        run: cp qa-standards-dashboard-data/src/allow-list/data qa-standards-dashboard-data/src/testing-reports/data
+
       - name: Download Cypress E2E video artifacts
         if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}
         uses: actions/download-artifact@v3
@@ -397,3 +400,11 @@ jobs:
           conclusion: ${{ needs.stress-test-cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
+
+      - name: Create Issues for New Flaky Tests
+        if: ${{ env.NEW_DISALLOWED_TESTS != '[]' }}
+        run: yarn
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
