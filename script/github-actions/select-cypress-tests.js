@@ -279,6 +279,7 @@ function run() {
   console.log('testsToStressTest: ', testsToStressTest);
 
   exportVariables(testsToRunNormally);
+
   core.exportVariable('TESTS_TO_STRESS_TEST', testsToStressTest);
 }
 
