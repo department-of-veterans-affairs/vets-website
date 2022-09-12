@@ -19,3 +19,6 @@ export const API_RESPONSES = Object.freeze({
 
 export const cdpAccessToggle = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
+
+export const debtLettersShowLettersVBMS = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.debtLettersShowLettersVBMS];

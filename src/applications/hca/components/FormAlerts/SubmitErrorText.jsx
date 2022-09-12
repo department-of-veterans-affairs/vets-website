@@ -1,7 +1,7 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-const ErrorMessage = () => (
+const SubmitErrorText = () => (
   <p>
     If you’d like to complete this form by phone, please call{' '}
     <va-telephone contact={CONTACTS['222_VETS']} /> and press 2. We’re here
@@ -10,4 +10,4 @@ const ErrorMessage = () => (
   </p>
 );
 
-export default ErrorMessage;
+export default SubmitErrorText;
