@@ -19,6 +19,10 @@ export const MESSAGE_RETRIEVE_STARTED = 'MESSAGE_RETRIEVE_STARTED';
 export const MESSAGE_RETRIEVE_SUCCEEDED = 'MESSAGE_RETRIEVE_SUCCEEDED';
 export const MESSAGE_RETRIEVE_FAILED = 'MESSAGE_RETRIEVE_FAILED';
 
+export const MESSAGE_DELETE_STARTED = 'MESSAGE_DELETE_STARTED';
+export const MESSAGE_DELETE_SUCCEEDED = 'MESSAGE_DELETE_SUCCEEDED';
+export const MESSAGE_DELETE_FAILED = 'MESSAGE_DELETE_FAILED';
+
 export const LOADING_COMPLETE = 'LOADING_COMPLETE';
 
 // const SECURE_MESSAGES_URI = '/mhv/messages';
@@ -98,4 +102,35 @@ export const getMessage = (folder, messageId) => async dispatch => {
 
 export const loadingComplete = () => async dispatch => {
   dispatch({ type: LOADING_COMPLETE });
+};
+
+const deleteMessageResponse = async messageId => {
+  try {
+    // replace with apiRequest when endpoint is ready
+    // `mhv-sm-api/patient/v1/message/${messageId}
+    return messageId; // mock success
+  } catch (error) {
+    return error;
+  }
+};
+
+export const deleteMessage = messageId => async dispatch => {
+  dispatch({ type: MESSAGE_DELETE_STARTED });
+
+  const response = await deleteMessageResponse(messageId);
+  if (response.errors) {
+    // handles errors and dispatch error action
+    // fire GA event for error
+    const error = response.errors[0];
+    dispatch({
+      type: MESSAGE_DELETE_FAILED,
+      response: error,
+    });
+  } else {
+    // dispatch success action and GA event
+    dispatch({
+      type: MESSAGE_DELETE_SUCCEEDED,
+      response,
+    });
+  }
 };

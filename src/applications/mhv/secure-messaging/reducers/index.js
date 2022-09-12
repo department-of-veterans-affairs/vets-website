@@ -5,6 +5,9 @@ import {
   MESSAGE_RETRIEVE_STARTED,
   MESSAGE_RETRIEVE_SUCCEEDED,
   MESSAGE_RETRIEVE_FAILED,
+  MESSAGE_DELETE_STARTED,
+  MESSAGE_DELETE_FAILED,
+  MESSAGE_DELETE_SUCCEEDED,
   LOADING_COMPLETE,
 } from '../actions';
 
@@ -40,6 +43,7 @@ const allMessages = (state = initialState, action) => {
 
 const message = (state = initialState, action) => {
   switch (action.type) {
+    case MESSAGE_DELETE_STARTED:
     case MESSAGE_RETRIEVE_STARTED:
       return {
         ...state,
@@ -51,17 +55,20 @@ const message = (state = initialState, action) => {
         isLoading: false,
         message: action.response,
       };
+    case MESSAGE_DELETE_FAILED:
     case MESSAGE_RETRIEVE_FAILED:
       return {
         ...state,
         isLoading: false,
         error: action.response,
       };
+    case MESSAGE_DELETE_SUCCEEDED:
     case LOADING_COMPLETE:
       return {
         ...state,
         isLoading: false,
       };
+
     default:
       return state;
   }
