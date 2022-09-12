@@ -190,8 +190,8 @@ jobs:
         id: matrix
         run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
 
-  cypress-tests:
-    name: Cypress E2E Tests
+  stress-test-cypress-tests:
+    name: Stress Test Cypress Tests
     runs-on: self-hosted
     timeout-minutes: 1200
     needs: [build, cypress-tests-prep]
