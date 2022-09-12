@@ -45,7 +45,8 @@
     },
     {
       "rootFolder": "gi",
-      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
+      "continuousDeployment": false
     },
     {
       "rootFolder": "login",
@@ -60,7 +61,8 @@
       "slackGroup": "@vsp-identity-group"
     },
     {
-      "rootFolder": "terms-and-conditions"
+      "rootFolder": "terms-and-conditions",
+      "continuousDeployment": false
     },
     {
       "rootFolder": "toe",
