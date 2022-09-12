@@ -20,11 +20,11 @@ const NavigationLinks = props => {
         });
 
         index.current = messagesIdArr.current.findIndex(item => {
-          return item === parseInt(props.id, 10);
+          return item === parseInt(props.messageId, 10);
         });
       }
     },
-    [messages, props.id],
+    [messages, props.messageId],
   );
 
   const handlePrevious = e => {
@@ -60,7 +60,7 @@ const NavigationLinks = props => {
 
 NavigationLinks.propTypes = {
   data: PropTypes.object,
-  id: PropTypes.string,
+  messageId: PropTypes.string,
 };
 
 export default NavigationLinks;

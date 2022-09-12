@@ -87,7 +87,7 @@ const MessageDetail = () => {
 
       <h1 className="vads-u-margin-top--2">{pageTitle}</h1>
 
-      <NavigationLinks id={id} />
+      <NavigationLinks messageId={id} />
 
       {content()}
     </div>
