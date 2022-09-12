@@ -87,6 +87,7 @@ const Error = () => {
   let messageText = t(
     'were-sorry-something-went-wrong-on-our-end-please-try-again',
   );
+  let showHowToLink = true;
 
   if (isMaxValidateAttempts) {
     messageText = isPhoneAppointmentsEnabled
@@ -94,10 +95,10 @@ const Error = () => {
       : t(
           'were-sorry-we-couldnt-match-your-information-to-our-records-please-call-us-at-800-698-2411-tty-711-for-help-signing-in',
         );
+    showHowToLink = false;
   }
 
   messages.push({ text: messageText });
-
   if (appointments && appointments.length > 0) {
     apptType = appointments[0]?.kind ?? 'clinic';
     if (appointmentWasCanceled(appointments)) {
@@ -134,6 +135,7 @@ const Error = () => {
       header = t('sorry-pre-check-in-is-no-longer-available');
       messages = [];
       accordion = appointmentAccordion(appointments);
+      showHowToLink = false;
     } else if (preCheckinExpired(appointments)) {
       header = t('sorry-pre-check-in-is-no-longer-available');
 
@@ -187,8 +189,7 @@ const Error = () => {
           <div>{errorText}</div>
         </va-alert>
       )}
-      {!appointmentStartTimePast15(appointments) ||
-        (!isMaxValidateAttempts && <HowToLink apptType={apptType} />)}
+      {showHowToLink && <HowToLink apptType={apptType} />}
       {accordion && <div className="vads-u-margin-top--3">{accordion}</div>}
       <Footer />
       <BackToHome />

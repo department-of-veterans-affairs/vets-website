@@ -95,7 +95,7 @@ describe('check-in', () => {
         expect(
           component.getByText('Sorry, pre-check-in is no longer available'),
         ).to.exist;
-        expect(component.queryByTestId('how-to-link')).to.not.exist;
+        expect(component.queryByTestId('how-to-link')).to.exist;
         const expiredMessage = component.getByTestId('error-message');
         expect(expiredMessage).to.exist;
         expect(
@@ -253,7 +253,7 @@ describe('check-in', () => {
         };
         store = mockStore(initState);
       });
-      it('renders no sub message when appointment started more than 15 minutes ago', () => {
+      it('renders no sub message or how to link when appointment started more than 15 minutes ago', () => {
         const component = render(
           <Provider store={store}>
             <I18nextProvider i18n={i18n}>
@@ -262,6 +262,7 @@ describe('check-in', () => {
           </Provider>,
         );
         expect(component.queryByTestId('error-message')).to.be.null;
+        expect(component.queryByTestId('how-to-link')).to.not.exist;
       });
     });
     describe('empty redux store', () => {
