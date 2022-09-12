@@ -1,6 +1,4 @@
 import React from 'react';
-import SectionGuideButton from '../components/SectionGuideButton';
-import Breadcrumbs from '../components/shared/Breadcrumbs';
 import SearchForm from '../components/SearchForm';
 import SearchResults from '../components/SearchResults';
 import CondensedSearchForm from '../components/CondensedSearchForm';
@@ -41,9 +39,6 @@ const Search = () => {
 
   return (
     <div className="vads-l-grid-container search-messages">
-      <Breadcrumbs link="/search" pageName={pageTitle} />
-      <SectionGuideButton sectionName="Messages" />
-
       <h1 className="page-title">{pageTitle}</h1>
 
       {searchRequested ? (
