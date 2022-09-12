@@ -18,7 +18,7 @@ const HowToLink = props => {
   }
 
   return (
-    <p className="vads-u-margin-bottom--4">
+    <p className="vads-u-margin-bottom--4" data-testid="how-to-link">
       <ExternalLink
         href="https://www.va.gov/resources/how-to-check-in-with-your-smartphone-for-some-va-appointments/"
         hrefLang="en"
