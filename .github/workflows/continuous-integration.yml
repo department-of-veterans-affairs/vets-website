@@ -722,12 +722,12 @@ jobs:
           NUM_CONTAINERS: 1
           IS_STRESS_TEST: true
 
-      # - name: Archive test videos
-      #   if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: cypress-video-artifacts
-      #     path: cypress/videos
+      - name: Archive test videos
+        if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-stress-test-videos
+          path: cypress/videos
 
       # - name: Archive test screenshots
       #   if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
@@ -779,6 +779,9 @@ jobs:
           ssm_parameter: /frontend-team/github-actions/parameters/AWS_FRONTEND_NONPROD_ROLE
           env_variable_name: AWS_FRONTEND_NONPROD_ROLE
 
+      - name: Set UUID for Mochawesome reports
+        run: echo "UUID=$(uuidgen)" >> $GITHUB_ENV
+
       - name: Configure AWS Credentials (2)
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -795,11 +798,46 @@ jobs:
           name: cypress-stress-test-results
           path: qa-standards-dashboard-data/src/allow-list/data
 
+      - name: Download Cypress E2E video artifacts
+        if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}
+        uses: actions/download-artifact@v3
+        with:
+          name: cypress-stress-test-videos
+          path: qa-standards-dashboard-data/videos/${{ env.UUID }}
+
       - name: Update E2E Allow List
         run: yarn update-e2e-allow-list
         working-directory: qa-standards-dashboard-data
         env:
           ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
+
+      - name: Create Cypress E2E report and post results to BigQuery
+        run: yarn cypress-mochawesome-to-bigquery
+        working-directory: qa-standards-dashboard-data
+        env:
+          IS_MASTER_BUILD: false
+          TEST_EXECUTIONS_TABLE_NAME: cypress_test_suite_executions
+          TEST_RESULTS_TABLE_NAME: cypress_test_results
+          TEST_REPORTS_FOLDER_NAME: vets-website-cypress-stress-test-reports
+          TEST_RETRIES_TABLE_NAME: cypress_retry_records
+          NUM_CONTAINERS: 1
+
+      - name: Upload Cypress E2E test videos to s3
+        if: ${{ needs.stress-test-cypress-tests.result == 'failure' }}
+        run: aws s3 cp qa-standards-dashboard-data/videos/${{ env.UUID }} s3://testing-tools-testing-reports/vets-website-cypress-stress-test-reports/videos/${{ env.UUID }} --acl public-read --region us-gov-west-1 --recursive
+
+      - name: Upload Cypress E2E test report to s3
+        run: aws s3 cp qa-standards-dashboard-data/mochawesome-report s3://testing-tools-testing-reports/vets-website-cypress-stress-test-reports --acl public-read --region us-gov-west-1 --recursive
+
+      - name: Publish E2E Stress Test Results
+        if: ${{ always() }}
+        uses: LouisBrunner/checks-action@v1.2.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: E2E Stress Test Summary
+          conclusion: ${{ needs.stress-test-cypress-tests.result }}
+          output: |
+            {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
 
   testing-reports-contract-tests:
     name: Testing Reports - Contract Tests
