@@ -7,6 +7,7 @@ import { subDays } from 'date-fns';
 import BackToHome from '../../../components/BackToHome';
 import Footer from '../../../components/layout/Footer';
 import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
+import HowToLink from '../../../components/HowToLink';
 
 import { makeSelectVeteranData } from '../../../selectors';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
@@ -40,6 +41,7 @@ const Error = () => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const error = urlParams.get('error');
+  let apptType = 'clinic';
   if (error === 'validation') {
     isMaxValidateAttempts = true;
   }
@@ -134,7 +136,7 @@ const Error = () => {
     } else if (preCheckinExpired(appointments)) {
       header = t('sorry-pre-check-in-is-no-longer-available');
 
-      const apptType = appointments[0]?.kind ?? 'clinic';
+      apptType = appointments[0]?.kind ?? 'clinic';
       messages =
         apptType === 'phone'
           ? [
@@ -185,6 +187,7 @@ const Error = () => {
           <div>{errorText}</div>
         </va-alert>
       )}
+      <HowToLink apptType={apptType} />
       {accordion && <div className="vads-u-margin-top--3">{accordion}</div>}
       <Footer />
       <BackToHome />
