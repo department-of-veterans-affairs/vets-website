@@ -1,27 +1,33 @@
 import Timeouts from 'platform/testing/e2e/timeouts';
+
 import {
-  initAppointmentListMock,
-  createPastVAAppointments,
   mockFeatureToggles,
+  mockAppointmentsApi,
+  mockLoginApi,
+  mockFacilityApi,
+  mockAppointmentRequestsApi,
+  vaosSetup,
+  mockFacilitiesApi,
+  mockAppointmentRequestMessagesApi,
+  mockCancelReasonsApi,
 } from './vaos-cypress-helpers';
 
 describe('VAOS appointment list', () => {
-  beforeEach(() => {
-    initAppointmentListMock();
-    mockFeatureToggles();
-    cy.visit('health-care/schedule-view-va-appointments/appointments/');
-    cy.injectAxe();
-  });
-
   describe('appointments details', () => {
     beforeEach(() => {
-      cy.get('h2', { timeout: Timeouts.slow })
-        .should('be.visible')
-        .and('contain', 'Your appointments');
-      cy.get('[data-testid="vaosSelect"]').should('be.visible');
+      vaosSetup();
+
+      mockAppointmentRequestsApi();
+      mockAppointmentsApi({ apiVersion: 0 });
+      mockFacilitiesApi({ apiVersion: 1 });
+      mockFeatureToggles();
+      mockLoginApi();
     });
 
     it('community care appointment', () => {
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
+
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/Community Care/i)
@@ -32,10 +38,16 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=community-care-appointment-details-header]')
         .should('exist')
         .contains('Community care');
+
       cy.axeCheckBestPractice();
     });
 
     it('va appointment', () => {
+      mockFacilityApi({ id: 'vha_442GC', apiVersion: 1 });
+
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
+
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA CLinic/i)
@@ -46,10 +58,16 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=va-appointment-details-header]')
         .should('exist')
         .contains('VA appointment');
+
       cy.axeCheckBestPractice();
     });
 
     it('va phone appointment', () => {
+      mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
+
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
+
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/Phone call/i)
@@ -63,10 +81,16 @@ describe('VAOS appointment list', () => {
       cy.get('h2', { timeout: Timeouts.slow })
         .should('be.visible')
         .and('contain', 'Cheyenne VA Medical Center');
+
       cy.axeCheckBestPractice();
     });
 
     it('va video appointment', () => {
+      mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
+
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
+
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA Video Connect at a VA Location/i)
@@ -77,10 +101,16 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=va-video-appointment-details-header]')
         .should('exist')
         .contains('VA Video Connect at VA location');
+
       cy.axeCheckBestPractice();
     });
 
     it('va video appointment at an ATLAS location', () => {
+      mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
+
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
+
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA Video Connect at an ATLAS Location/i)
@@ -91,10 +121,16 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=va-video-appointment-details-header]')
         .should('exist')
         .contains('VA Video Connect at an ATLAS location');
+
       cy.axeCheckBestPractice();
     });
 
     it('va video appointment at home', () => {
+      mockFacilityApi({ id: 'vha_442', apiVersion: 1 });
+
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
+
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA Video Connect at home/i)
@@ -105,10 +141,17 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=va-video-appointment-details-header]')
         .should('exist')
         .contains('VA Video Connect at home');
+
       cy.axeCheckBestPractice();
     });
 
     it('should allow for canceling of appointments', () => {
+      mockFacilityApi({ id: 'vha_442GC', apiVersion: 1 });
+      mockCancelReasonsApi({ facilityId: '983' });
+
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
+
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA CLinic/i)
         .parent()
@@ -122,11 +165,25 @@ describe('VAOS appointment list', () => {
       cy.get('#cancelAppt').should('not.exist');
       cy.get('.usa-alert-success').should('not.exist');
       cy.get('.usa-alert-error').should('exist');
+
       cy.axeCheckBestPractice();
     });
   });
 
   describe('upcoming appointments', () => {
+    beforeEach(() => {
+      vaosSetup();
+
+      mockAppointmentRequestsApi();
+      mockAppointmentsApi({ apiVersion: 0 });
+      mockFacilitiesApi({ apiVersion: 1 });
+      mockFeatureToggles();
+      mockLoginApi();
+
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
+    });
+
     it('should render upcoming appointments list', () => {
       cy.get('h2', { timeout: Timeouts.slow })
         .should('be.visible')
@@ -152,6 +209,21 @@ describe('VAOS appointment list', () => {
 
   describe('requested appointments', () => {
     beforeEach(() => {
+      vaosSetup();
+
+      mockAppointmentRequestsApi();
+      mockAppointmentsApi({ apiVersion: 0 });
+      mockFacilitiesApi({ apiVersion: 1 });
+      mockAppointmentRequestsApi({ id: '8a4886886e4c8e22016e6613216d001g' });
+      mockAppointmentRequestMessagesApi({
+        id: '8a4886886e4c8e22016e6613216d001g',
+      });
+      mockFeatureToggles();
+      mockLoginApi();
+
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
+
       cy.get('h2', { timeout: Timeouts.slow })
         .should('be.visible')
         .and('contain', 'Your appointments');
@@ -170,6 +242,7 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=requested-appointment-list-item]')
         .first()
         .should('exist');
+
       cy.axeCheckBestPractice();
     });
 
@@ -179,17 +252,25 @@ describe('VAOS appointment list', () => {
         .findByText(/Details/i)
         .click({ waitForAnimations: true });
       cy.findByText(/Request detail/i).should('exist');
+
       cy.axeCheckBestPractice();
+      cy.injectAxe();
     });
   });
 
   describe('past appointments', () => {
     beforeEach(() => {
-      cy.route({
-        method: 'GET',
-        url: /.*\/v0\/appointments.*type=va$/,
-        response: createPastVAAppointments(),
-      });
+      vaosSetup();
+
+      mockAppointmentRequestsApi();
+      mockAppointmentsApi({ apiVersion: 0 });
+      mockFacilitiesApi({ apiVersion: 1 });
+      mockFeatureToggles();
+      mockLoginApi();
+
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
+
       cy.get('[data-testid="vaosSelect"]')
         .shadow()
         .find('#select')
@@ -208,6 +289,7 @@ describe('VAOS appointment list', () => {
       cy.get('[data-cy=appointment-list-item]')
         .first()
         .should('exist');
+
       cy.axeCheckBestPractice();
     });
 
@@ -218,6 +300,7 @@ describe('VAOS appointment list', () => {
         .focus()
         .click({ waitForAnimations: true });
       cy.findByText(/Appointment detail/i).should('exist');
+
       cy.axeCheckBestPractice();
     });
 
@@ -231,12 +314,24 @@ describe('VAOS appointment list', () => {
         .contains(/Update/i)
         .click();
       cy.get('h3').should('exist');
+
       cy.axeCheckBestPractice();
     });
   });
 
   describe('canceled appointments', () => {
     beforeEach(() => {
+      vaosSetup();
+
+      mockAppointmentRequestsApi();
+      mockAppointmentsApi({ apiVersion: 0 });
+      mockFacilitiesApi({ apiVersion: 1 });
+      mockFeatureToggles();
+      mockLoginApi();
+
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
+
       cy.get('[data-testid="vaosSelect"]')
         .shadow()
         .find('#select')
@@ -244,12 +339,14 @@ describe('VAOS appointment list', () => {
         .should('have.value', 'canceled');
       cy.get('h2').contains(/Canceled appointments/i);
     });
+
     it('should render canceled appointments list', () => {
       cy.get('[data-cy=canceled-appointment-list-header]').should('exist');
       cy.get('[data-cy=canceled-appointment-list]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .first()
         .should('exist');
+
       cy.axeCheckBestPractice();
     });
 
@@ -260,6 +357,7 @@ describe('VAOS appointment list', () => {
         .focus()
         .click({ waitForAnimations: true });
       cy.findByText(/Appointment detail/i).should('exist');
+
       cy.axeCheckBestPractice();
     });
   });
