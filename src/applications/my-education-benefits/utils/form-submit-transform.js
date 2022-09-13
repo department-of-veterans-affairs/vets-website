@@ -289,7 +289,9 @@ export function createContactInfo(submissionForm) {
     addressLine1: submissionForm['view:mailingAddress'].address.street,
     addressLine2: submissionForm['view:mailingAddress'].address.street2,
     city: submissionForm['view:mailingAddress'].address.city,
-    zipcode: submissionForm['view:mailingAddress'].address.postalCode,
+    zipcode:
+      submissionForm['view:mailingAddress'].address.postalCode ||
+      submissionForm['view:mailingAddress'].address.internationalPostalCode,
     emailAddress: submissionForm.email.email,
     addressType: getAddressType(submissionForm['view:mailingAddress']),
     mobilePhoneNumber:
@@ -299,6 +301,8 @@ export function createContactInfo(submissionForm) {
       submissionForm['view:mailingAddress'].address.country,
     ),
     stateCode: submissionForm['view:mailingAddress'].address.state,
+    militaryStateCode:
+      submissionForm['view:mailingAddress'].address.militaryStateCode,
   };
 }
 
