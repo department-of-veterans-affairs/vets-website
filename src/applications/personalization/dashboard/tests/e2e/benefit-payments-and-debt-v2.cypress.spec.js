@@ -327,7 +327,28 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       });
     });
 
-    describe('and user has no current payments', () => {
+    describe('and user has payment history', () => {
+      it('shows no recent payment text and no payment history link - C14320', () => {
+        cy.intercept('/v0/profile/payment_history', paymentsSuccess()).as(
+          'oldPayments1',
+        );
+        cy.visit('my-va/');
+        cy.wait(['@oldPayments1', '@featuresB']);
+
+        cy.findByTestId('dashboard-section-payment-v2').should('exist');
+        cy.findByTestId('no-recent-payments-paragraph-v2').should('exist');
+        cy.findByTestId('payment-card-view-history-link-v2').should(
+          'not.exist',
+        );
+        cy.findByTestId('view-payment-history-link-v2').should('exist');
+        cy.findByTestId('manage-direct-deposit-link-v2').should('exist');
+
+        // make the a11y check
+        cy.injectAxeThenAxeCheck();
+      });
+    });
+
+    describe('and user has never had payments', () => {
       it('shows no payment history - C14320', () => {
         cy.intercept('/v0/profile/payment_history', paymentsSuccessEmpty()).as(
           'emptyPayments1',
@@ -340,7 +361,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.findByTestId('payment-card-view-history-link-v2').should(
           'not.exist',
         );
-        cy.findByTestId('view-payment-history-link-v2').should('exist');
+        cy.findByTestId('view-payment-history-link-v2').should('not.exist');
         cy.findByTestId('manage-direct-deposit-link-v2').should('exist');
 
         // make the a11y check

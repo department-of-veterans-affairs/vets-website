@@ -13,7 +13,7 @@ const NoRecentPaymentText = () => {
       className="vads-u-margin-bottom--3 vads-u-margin-top--0"
       data-testid="no-recent-payments-paragraph-v2"
     >
-      You haven’t received any payments in the past 30 days.
+      You don’t have any recent payments to show.
     </p>
   );
 };
@@ -83,7 +83,7 @@ const BenefitPaymentsV2 = ({
 }) => {
   const lastPayment =
     payments
-      ?.filter(p => new Date(p.payCheckDt) > subDays(new Date(), 31))
+      ?.filter(p => new Date(p.payCheckDt) > subDays(new Date(), 61))
       .sort((a, b) => new Date(b.payCheckDt) - new Date(a.payCheckDt))[0] ??
     null;
 
@@ -113,7 +113,9 @@ const BenefitPaymentsV2 = ({
         {!lastPayment && (
           <DashboardWidgetWrapper>
             {paymentsError ? <PaymentsError /> : <NoRecentPaymentText />}
-            <PopularActionsForPayments showPaymentHistoryLink />
+            <PopularActionsForPayments
+              showPaymentHistoryLink={payments && payments.length}
+            />
           </DashboardWidgetWrapper>
         )}
         {payments &&
