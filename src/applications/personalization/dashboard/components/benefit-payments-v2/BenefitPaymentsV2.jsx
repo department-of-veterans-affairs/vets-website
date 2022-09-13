@@ -26,7 +26,7 @@ const PopularActionsForPayments = ({ showPaymentHistoryLink = false }) => {
       <IconCTALink
         href="/profile/direct-deposit"
         icon="dollar-sign"
-        text="Manage your direct deposit"
+        text="Manage your direct deposit information"
         /* eslint-disable react/jsx-no-bind */
         onClick={() => {
           recordEvent({

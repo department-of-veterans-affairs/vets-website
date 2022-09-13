@@ -39,12 +39,13 @@ export const CopaysV2 = ({ copays }) => {
           {copaysCount > 1 ? 's' : ''}
         </h4>
         <p className="vads-u-margin-bottom--1 vads-u-margin-top--0">
-          Due{' '}
+          Due by{' '}
           {format(new Date(lastCopay.pSStatementDateOutput), 'MMMM dd, yyyy')}
         </p>
         <CTALink
           text="Manage your VA bills"
           href="/manage-va-debt/summary/copay-balances"
+          showArrow
           onClick={() =>
             recordEvent({
               event: 'profile-navigation',
