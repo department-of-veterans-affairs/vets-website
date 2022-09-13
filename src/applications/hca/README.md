@@ -6,12 +6,12 @@ Mission: Make it easier for Veterans and Caregivers to apply for, track, and man
 
 ## Slack Channels
 
-- [vsa-caregiver](https://slack.com/app_redirect?channel=CMJ2V70UV)
+- [1010-health-apps](https://slack.com/app_redirect?channel=CMJ2V70UV)
 
 ## Approval Groups
 
 - [VSA BAM 1](https://github.com/orgs/department-of-veterans-affairs/teams/vsa-bam-1-frontend)
-- [VSA Caregiver](https://github.com/orgs/department-of-veterans-affairs/teams/vsa-caregiver-frontend)
+- [1010 Health Apps](https://github.com/orgs/department-of-veterans-affairs/teams/1010-health-apps-frontend)
 
 ## Project Documentation
 
