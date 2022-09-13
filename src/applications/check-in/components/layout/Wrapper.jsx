@@ -1,7 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+
+import {
+  DowntimeNotification,
+  externalServices,
+} from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
 
+import { makeSelectApp } from '../../selectors';
 import MixedLanguageDisclaimer from '../MixedLanguageDisclaimer';
 import LanguagePicker from '../LanguagePicker';
 
@@ -22,6 +29,11 @@ const Wrapper = props => {
     ? 'vads-u-padding-y--2'
     : ' vads-u-padding-y--3';
 
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
+  const downtimeDependency =
+    app === 'dayOf' ? externalServices.cie : externalServices.pcie;
+  const appTitle = app === 'dayOf' ? 'Check in' : 'Pre-check in';
   return (
     <>
       <div
@@ -33,7 +45,12 @@ const Wrapper = props => {
         <h1 tabIndex="-1" data-testid="header">
           {pageTitle}
         </h1>
-        {children}
+        <DowntimeNotification
+          appTitle={appTitle}
+          dependencies={[downtimeDependency]}
+        >
+          {children}
+        </DowntimeNotification>
       </div>
     </>
   );
