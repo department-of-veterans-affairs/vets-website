@@ -5,7 +5,7 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceTranslationDisclaimerSpanishEnabled = true,
     checkInExperienceDayOfDemographicsFlagsEnabled = true,
     checkInExperienceLorotaSecurityUpdatesEnabled = false,
-    checkInExperiencePhoneAppointmentsEnabled = false,
+    checkInExperiencePhoneAppointmentsEnabled = true,
     checkInExperienceLorotaDeletionEnabled = false,
   } = toggles;
 

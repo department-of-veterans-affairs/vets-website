@@ -7,6 +7,7 @@ import { subDays } from 'date-fns';
 import BackToHome from '../../../components/BackToHome';
 import Footer from '../../../components/layout/Footer';
 import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
+import HowToLink from '../../../components/HowToLink';
 
 import { makeSelectVeteranData } from '../../../selectors';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
@@ -40,6 +41,7 @@ const Error = () => {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const error = urlParams.get('error');
+  let apptType = 'clinic';
   if (error === 'validation') {
     isMaxValidateAttempts = true;
   }
@@ -85,6 +87,7 @@ const Error = () => {
   let messageText = t(
     'were-sorry-something-went-wrong-on-our-end-please-try-again',
   );
+  let showHowToLink = true;
 
   if (isMaxValidateAttempts) {
     messageText = isPhoneAppointmentsEnabled
@@ -92,11 +95,12 @@ const Error = () => {
       : t(
           'were-sorry-we-couldnt-match-your-information-to-our-records-please-call-us-at-800-698-2411-tty-711-for-help-signing-in',
         );
+    showHowToLink = false;
   }
 
   messages.push({ text: messageText });
-
   if (appointments && appointments.length > 0) {
+    apptType = appointments[0]?.kind ?? 'clinic';
     if (appointmentWasCanceled(appointments)) {
       // get first appointment that was cancelled?
       const canceledAppointment = getFirstCanceledAppointment(appointments);
@@ -126,15 +130,16 @@ const Error = () => {
       header = t('sorry-pre-check-in-is-no-longer-available');
       messages = [{ text: cancelledMessage }];
       accordion = appointmentAccordion(appointments);
+      showHowToLink = false;
     } else if (appointmentStartTimePast15(appointments)) {
       // don't show sub message if we are 15 minutes past appointment start time
       header = t('sorry-pre-check-in-is-no-longer-available');
       messages = [];
       accordion = appointmentAccordion(appointments);
+      showHowToLink = false;
     } else if (preCheckinExpired(appointments)) {
       header = t('sorry-pre-check-in-is-no-longer-available');
 
-      const apptType = appointments[0]?.kind ?? 'clinic';
       messages =
         apptType === 'phone'
           ? [
@@ -185,6 +190,7 @@ const Error = () => {
           <div>{errorText}</div>
         </va-alert>
       )}
+      {showHowToLink && <HowToLink apptType={apptType} />}
       {accordion && <div className="vads-u-margin-top--3">{accordion}</div>}
       <Footer />
       <BackToHome />
