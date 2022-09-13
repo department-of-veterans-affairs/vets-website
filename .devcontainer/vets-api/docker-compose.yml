@@ -6,7 +6,6 @@ services:
       - "63790:6379"
     restart: unless-stopped
     command: sleep infinity
-    network_mode: host
   postgres:
     image: mdillon/postgis:11-alpine
     environment:
@@ -18,7 +17,6 @@ services:
       - "54320:5432"
     restart: unless-stopped
     command: sleep infinity
-    network_mode: host
   vets-api:
     build:
       context: .
@@ -58,7 +56,6 @@ services:
       - postgres
       - redis
     restart: unless-stopped
-    network_mode: host
 volumes:
   db-data:
   dev_bundle:
