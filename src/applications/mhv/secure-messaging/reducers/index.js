@@ -59,6 +59,7 @@ const message = (state = initialState, action) => {
         ...state,
         isLoading: false,
         message: action.response,
+        error: null,
       };
     case MESSAGE_MOVE_FAILED:
     case MESSAGE_RETRIEVE_FAILED:

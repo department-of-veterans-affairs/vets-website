@@ -1,23 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
 import NavigationLinks from '../components/NavigationLinks';
 import OlderMessages from '../components/OlderMessages';
 import { getMessage } from '../actions';
 import MessageDetailBlock from '../components/MessageDetailBlock';
 
 const MessageDetail = () => {
+  const { messageId } = useParams();
   const dispatch = useDispatch();
   const { isLoading, message, error } = useSelector(state => state.message);
   const isTrash = window.location.pathname.includes('/trash');
   const isSent = window.location.pathname.includes('/sent');
-  const messageId = window.location.pathname.split('/').pop();
+  const location = useLocation();
+  const [id, setid] = useState(null);
 
   useEffect(
     () => {
-      const id = !!Number.isNaN(messageId) || 7155731;
-      dispatch(getMessage('message', id));
+      setid(messageId);
+      if (id) {
+        dispatch(getMessage('message', id)); // 7155731 is the only message id that we have a mock api call for, all others will display an error message
+      }
     },
-    [dispatch, messageId],
+    [dispatch, location, messageId, id],
   );
 
   let pageTitle;
@@ -62,7 +67,7 @@ const MessageDetail = () => {
     <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
       <h1 className="vads-u-margin-top--2">{pageTitle}</h1>
 
-      <NavigationLinks />
+      <NavigationLinks messageId={id} />
 
       {content()}
     </div>
