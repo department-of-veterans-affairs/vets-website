@@ -7,8 +7,8 @@ const ReplyBox = () => (
       <h2 className="vads-u-margin-top--1 vads-u-margin-bottom--2">
         Test: Your lab results
       </h2>
-      <button type="button" className="send-button-top">
-        <i className="fas fa-paper-plane" />
+      <button type="submit" className="send-button-top">
+        <i className="fas fa-paper-plane" aria-hidden />
         <span className="send-button-top-text">Send</span>
       </button>
     </div>
