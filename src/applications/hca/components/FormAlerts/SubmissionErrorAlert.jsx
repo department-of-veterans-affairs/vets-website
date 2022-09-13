@@ -13,17 +13,21 @@ const SubmissionErrorAlert = () => {
         <h3 slot="headline">We didn’t receive your online application</h3>
         <p>
           We’re sorry. Something went wrong when you tried to submit your
-          application. You may need to fill out and submit the online
-          application again.
+          application. If you were signed in, you can try to submit your
+          application again later. If you were not signed in, you may need to
+          fill out and submit the online application again.
         </p>
 
-        <h4 className="vads-u-font-size--h5">What you can do now</h4>
+        <h4 className="vads-u-font-size--h5">Other ways to apply</h4>
         <ul>
           <li>
             You can call our toll-free hotline at{' '}
             <va-telephone contact={CONTACTS['222_VETS']} /> to apply by phone,
             Monday through Friday, 8:00 a.m. to 8:00 p.m.{' '}
-            <abbr title="Eastern Time">ET</abbr>, <strong>or</strong>
+            <dfn>
+              <abbr title="Eastern Time">ET</abbr>
+            </dfn>
+            , <strong>or</strong>
           </li>
           <li>
             You can download and fill out the application. Send your completed
