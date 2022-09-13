@@ -1098,7 +1098,7 @@ jobs:
     outputs:
       environments: ${{ steps.set-environments.outputs.environments }}
     env:
-      DEPLOY_TO_PRODUCTION: false # Enables production deployments for apps on the allowlist when set to true
+      DEPLOY_TO_PRODUCTION: true # Enables production deployments for apps on the allowlist when set to true
       DEV: "{
           \\\"environment\\\": \\\"vagovdev\\\", 
           \\\"bucket\\\": \\\"dev.va.gov\\\", 

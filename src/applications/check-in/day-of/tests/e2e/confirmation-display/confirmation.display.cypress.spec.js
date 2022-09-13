@@ -52,7 +52,7 @@ describe('Check In Experience -- ', () => {
       Confirmation.validateBackButton();
       cy.injectAxeThenAxeCheck();
     });
-    it('refreshes appointment data when pressing the browser back button', () => {
+    it.skip('refreshes appointment data when pressing the browser back button', () => {
       cy.intercept(
         '/check_in/v2/patient_check_ins/*',
         cy.spy().as('apptRefresh'),
