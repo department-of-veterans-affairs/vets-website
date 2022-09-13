@@ -314,8 +314,8 @@ describe('OAuth - Utilities', () => {
     it('should get the generated sessionStorage state & code verifier', () => {
       const storage = localStorage;
       storage.clear();
-      expect(storage.getItem('state')).to.be.null;
-      expect(storage.getItem('code_verifier')).to.be.null;
+      expect(storage.getItem('idme_signup_state')).to.be.null;
+      expect(storage.getItem('idme_signup_code_verifier')).to.be.null;
       signupKeys.forEach(key =>
         storage.setItem(key, key.includes('idme') ? 'idmeVal' : 'logingovVal'),
       );
