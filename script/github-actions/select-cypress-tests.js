@@ -262,14 +262,21 @@ function run() {
   const newTests = testsSelectedByTestSelection.filter(
     test => !allAllowedTestPaths.includes(test.substring(test.indexOf('src/'))),
   );
+  console.log('testsSelectedByTestSelection', testsSelectedByTestSelection);
+  console.log('CHANGED_FILE_PATHS', CHANGED_FILE_PATHS);
   const disallowedTests = testsSelectedByTestSelection.filter(test =>
     allDisallowedTestPaths.includes(test.substring(test.indexOf('src/'))),
   );
-  const testsToRunNormally = testsSelectedByTestSelection.filter(
-    test => !newTests.includes(test) && !disallowedTests.includes(test),
+  const changedTests = testsSelectedByTestSelection.filter(test =>
+    CHANGED_FILE_PATHS.includes(test),
   );
-  const testsToStressTest = [...disallowedTests, ...newTests];
-
+  const testsToRunNormally = testsSelectedByTestSelection.filter(
+    test =>
+      !disallowedTests.includes(test) &&
+      !newTests.includes(test) &&
+      !changedTests.includes(test),
+  );
+  const testsToStressTest = [...newTests, ...changedTests];
   const testSelectionDisallowedTests = testsSelectedByTestSelection.filter(
     test => {
       return allDisallowedTestPaths.includes(
