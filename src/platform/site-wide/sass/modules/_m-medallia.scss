@@ -120,17 +120,26 @@
 }
 
 #liveForm .kpl_builder.neb-form-wcag .description.help-block {
-  color: #323A45 !important;
+  color: $color-gray-dark !important;
   font-size: 16px !important;
 }
 
 .neb-component .neb-content .neb-native-radio .neb-native-radio-option-label {
-  color: #323A45 !important;
+  color: $color-gray-dark !important;
   font-size: 16px !important;  
 }
 
 .control-label {
-  color: #323A45 !important;
+  color: $color-gray-dark !important;
   font-size: 16px !important;
   font-weight: bold !important  
+}
+
+.footer-right-buttons {
+  float: left !important;
+  margin-right: 10px;
+}
+
+#liveForm .kpl_builder .panel-footer .btn.submit-btn {
+ margin-right: 10px;
 }
