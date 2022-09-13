@@ -39,8 +39,10 @@ export default {
   },
   loanNumber: {
     title: 'VA loan number',
+    description: 'This number is 12 numbers long',
     value: data => get('vaLoanNumber', data, ''),
     pattern: 'Please enter numbers only (dashes allowed)',
+    lengthError: 'Please check that your VA loan number is 12 numbers long',
   },
   owned: {
     title: 'Do you still own this property?',

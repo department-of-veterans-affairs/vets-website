@@ -1,7 +1,10 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { validateDocumentDescription } from '../validations';
+import {
+  validateDocumentDescription,
+  validateVALoanNumber,
+} from '../validations';
 
 describe('validateDocumentDescription', () => {
   const errors = addError => [{ attachmentDescription: { addError } }];
@@ -26,5 +29,40 @@ describe('validateDocumentDescription', () => {
     validateDocumentDescription(errors(spy), fileList('Other', ''));
     expect(spy.called).to.be.true;
     expect(spy.calledWith('Please provide a description'));
+  });
+});
+
+describe('validateVALoanNumber', () => {
+  const errors = addError => ({ addError });
+  it('should not return an error for a 12-digit number', () => {
+    const spy = sinon.spy();
+    validateVALoanNumber(errors(spy), '123456789012');
+    expect(spy.notCalled).to.be.true;
+  });
+  it('should not return an error for a 12-digit number with dashes', () => {
+    const spy = sinon.spy();
+    validateVALoanNumber(errors(spy), '1-2-3-4-5-6-7-8-9-0-1-2');
+    expect(spy.notCalled).to.be.true;
+  });
+  it('should not return an error for a 12-digit number with spaces', () => {
+    const spy = sinon.spy();
+    validateVALoanNumber(errors(spy), '1 2 3 4 5 6 7 8 9 0 1 2');
+    expect(spy.notCalled).to.be.true;
+  });
+  it('should not return an error for a 12-digit number with mixed dashes & spaces', () => {
+    const spy = sinon.spy();
+    validateVALoanNumber(errors(spy), '1-2 3-4 5-6 7-8 9-0 1-2');
+    expect(spy.notCalled).to.be.true;
+  });
+
+  it('should return an error for a non 12-digit number', () => {
+    const spy = sinon.spy();
+    validateVALoanNumber(errors(spy), '1234');
+    expect(spy.called).to.be.true;
+  });
+  it('should return an error for a non 12-digit number, but string length of 12', () => {
+    const spy = sinon.spy();
+    validateVALoanNumber(errors(spy), '1 2 3 4 5 6 ');
+    expect(spy.called).to.be.true;
   });
 });

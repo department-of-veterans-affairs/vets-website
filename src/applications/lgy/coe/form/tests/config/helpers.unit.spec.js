@@ -27,6 +27,7 @@ const formattedProperties = {
         from: '1990-01-01T05:00:00.000Z',
         to: '1992-02-01T05:00:00.000Z',
       },
+      vaLoanNumber: '1-2-3-4-5-6-7-8-9-0-1-2',
     },
   ],
 };

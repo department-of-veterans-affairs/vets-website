@@ -1,5 +1,9 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
+import { NON_DIGIT_REGEX } from '../constants';
+
+export const replaceNonDigits = number =>
+  (number || '').replace(NON_DIGIT_REGEX, '');
 
 export const customCOEsubmit = (formConfig, form) => {
   const formCopy = cloneDeep(form);
@@ -33,6 +37,7 @@ export const customCOEsubmit = (formConfig, form) => {
           from: isoDateString(loan.dateRange.from),
           to: isoDateString(loan.dateRange.to),
         },
+        vaLoanNumber: replaceNonDigits(loan.vaLoanNumber),
       })),
     },
   };
