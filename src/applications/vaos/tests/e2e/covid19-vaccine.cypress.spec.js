@@ -22,7 +22,10 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     mockAppointmentRequestsApi();
     mockAppointmentsApi({ apiVersion: 0 });
     mockClinicApi({ facilityId: '983', apiVersion: 0 });
-    mockDirectBookingEligibilityCriteriaApi();
+    mockDirectBookingEligibilityCriteriaApi({
+      facilityIds: ['983', '983QA'],
+      typeOfCareId: 'covid',
+    });
     mockDirectScheduleSlotsApi(); // TODO: rename mockAppointmentSlots
     mockFacilitiesApi({ apiVersion: 1 });
     mockFacilityApi({ id: '983', apiVersion: 1 });

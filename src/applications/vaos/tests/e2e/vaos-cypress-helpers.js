@@ -84,6 +84,10 @@ const mockUser = {
             isCerner: false,
           },
           {
+            facilityId: '983QA',
+            isCerner: false,
+          },
+          {
             facilityId: '983GB',
             isCerner: false,
           },
@@ -335,6 +339,8 @@ export function mockRequestEligibilityCriteriaApi() {
 }
 
 export function mockDirectBookingEligibilityCriteriaApi({
+  facilityIds,
+  typeOfCareId = '349',
   unableToScheduleCovid = false,
 } = {}) {
   if (unableToScheduleCovid) {
@@ -357,14 +363,42 @@ export function mockDirectBookingEligibilityCriteriaApi({
         }),
     ).as('v0:get:direct_booking_eligibility_criteria');
   } else {
+    let data;
+
+    if (facilityIds && typeOfCareId) {
+      data = directEligibilityCriteria.data
+        .filter(facility => facilityIds.some(id => id === facility.id))
+        .map(facility => {
+          const coreSettings = facility.attributes.coreSettings
+            .map(
+              setting =>
+                setting.id === typeOfCareId
+                  ? { ...setting, patientHistoryRequired: 'no' }
+                  : null,
+            )
+            // Remove all falsey values from array
+            .filter(Boolean);
+
+          return {
+            ...facility,
+            attributes: {
+              ...facility.attributes,
+              coreSettings,
+            },
+          };
+        });
+    } else {
+      data = [...directEligibilityCriteria.data];
+    }
+
     cy.intercept(
       {
         method: 'GET',
-        // url: '/vaos/v0/direct_booking_eligibility_criteria/*',
         pathname: '/vaos/v0/direct_booking_eligibility_criteria',
       },
       req => {
-        req.reply(directEligibilityCriteria);
+        // req.reply(directEligibilityCriteria);
+        req.reply({ data });
       },
     ).as('v0:get:direct_booking_eligibility_criteria');
   }
@@ -387,7 +421,7 @@ export function mockVisitsApi({ facilityId = '983' } = {}) {
           },
         },
       }),
-  );
+  ).as('v0:get:visits:direct');
   cy.intercept(
     {
       method: 'GET',
@@ -404,7 +438,7 @@ export function mockVisitsApi({ facilityId = '983' } = {}) {
           },
         },
       }),
-  );
+  ).as('v0:get:visits:request');
 }
 
 export function mockCCProvidersApi() {
@@ -728,8 +762,8 @@ export function mockFacilitiesApi({ count, apiVersion = 0 }) {
 }
 
 export function mockSchedulingConfigurationApi({
-  facilityId = null,
-  typeOfCare = null,
+  facilityIds,
+  typeOfCareId = null,
   isDirect = false,
   isRequest = false,
 } = {}) {
@@ -739,19 +773,64 @@ export function mockSchedulingConfigurationApi({
       pathname: '/vaos/v2/scheduling/configurations*',
     },
     req => {
-      if (facilityId && typeOfCare) {
-        schedulingConfigurations.data.forEach(config => {
-          config.attributes.services.forEach(service => {
-            if (service.id === typeOfCare) {
-              service.direct.enabled = isDirect;
-              service.request.enabled = isRequest;
-            }
+      let data;
+
+      if (facilityIds && typeOfCareId) {
+        data = schedulingConfigurations.data
+          .filter(facility => facilityIds.some(id => id === facility.id))
+          .map(facility => {
+            const services = facility.attributes.services
+              .map(
+                service =>
+                  service.id === typeOfCareId
+                    ? {
+                        ...service,
+                        direct: { ...service.direct, enabled: isDirect },
+                        request: { ...service.request, enabled: isRequest },
+                      }
+                    : null,
+              )
+              // Remove all falsey values from array
+              .filter(Boolean);
+
+            return {
+              ...facility,
+              attributes: {
+                ...facility.attributes,
+                services,
+              },
+            };
           });
-        });
+
+        // if (facilityIds && typeOfCareId) {
+        //   let data = facilityIds.map(facilityId => {
+        //     const config = schedulingConfigurations.data.find(
+        //       facility => facility.id === facilityId,
+        //     );
+
+        //     if (config) {
+        //       const services = config.attributes.services.map(
+        //         setting =>
+        //           setting.id === typeOfCareId
+        //             ? {
+        //                 ...setting,
+        //                 direct: { ...setting.direct, enabled: isDirect },
+        //                 request: { ...setting.request, enabled: isRequest },
+        //               }
+        //             : setting,
+        //       );
+        //       config.attributes.services = services;
+
+        //       return config;
+        //     }
+
+        //     return null;
+        //   });
+
+        //   // Remove all falsey values from array
+        //   data = data.filter(Boolean);
         req.reply({
-          data: schedulingConfigurations.data.filter(
-            config => config.id === facilityId || config.id === '983',
-          ),
+          data,
         });
       } else {
         req.reply({ data: schedulingConfigurations.data });

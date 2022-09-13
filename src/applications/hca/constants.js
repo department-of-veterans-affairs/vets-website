@@ -36,3 +36,6 @@ export const IS_COMPENSATION_TYPE_HIGH =
   'isCompensationTypeHighDisabilitySelected';
 export const IS_VETERAN_IN_MVI = 'isVeteranDataInMPI';
 export const IS_SHORT_FORM_ENABLED = 'isShortFormFeatureToggleEnabled';
+
+// declare states without medical care serivces
+export const statesWithoutService = ['AA', 'AE', 'AP', 'FM', 'MH', 'PW'];

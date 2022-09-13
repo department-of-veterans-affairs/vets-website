@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import BackButton from '../../components/BackButton';
 import BackToHome from '../../components/BackToHome';
@@ -41,10 +40,6 @@ const NextOfKin = props => {
 
   const yesClick = useCallback(
     () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'yes-to-next-of-kin-information',
-      });
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ nextOfKinUpToDate: 'yes' }));
       }
@@ -55,10 +50,6 @@ const NextOfKin = props => {
 
   const noClick = useCallback(
     () => {
-      recordEvent({
-        event: 'cta-button-click',
-        'button-click-label': 'no-to-next-of-kin-information',
-      });
       if (isDayOfDemographicsFlagsEnabled) {
         dispatch(recordAnswer({ nextOfKinUpToDate: 'no' }));
       }

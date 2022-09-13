@@ -44,8 +44,10 @@ describe('HCA ConfirmationPage', () => {
     );
     expect(view.container.querySelector('.hca-confirmation-page')).to.exist;
     expect(
-      view.container.querySelector('.schemaform-confirmation-claim-header'),
-    ).to.contain.text('Thank you for submitting your application');
+      view.container.querySelector('.hca-success-message'),
+    ).to.contain.text(
+      'Thank you for completing your application for health care',
+    );
     expect(
       view.container.querySelectorAll('.confirmation-guidance-message').length,
     ).to.equal(3);
@@ -58,7 +60,7 @@ describe('HCA ConfirmationPage', () => {
         <ConfirmationPage />
       </Provider>,
     );
-    expect(view.container.querySelector('.hca-claim-list')).to.not.exist;
+    expect(view.container.querySelector('.hca-application-date')).to.not.exist;
   });
 
   it('should render with response properties', () => {
@@ -79,9 +81,9 @@ describe('HCA ConfirmationPage', () => {
         <ConfirmationPage />
       </Provider>,
     );
-    expect(view.container.querySelector('.hca-claim-list')).to.exist;
+    expect(view.container.querySelector('.hca-application-date')).to.exist;
     expect(
-      view.container.querySelector('.hca-claim-list > dd'),
+      view.container.querySelector('.hca-application-date'),
     ).to.contain.text('Jan. 1, 2010');
   });
 

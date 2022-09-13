@@ -200,8 +200,8 @@ describe('VAOS VA request flow using VAOS service', () => {
     mockEligibilityApi({ typeOfCare: 'socialWork', isEligible: true });
     // VATS Settings
     mockSchedulingConfigurationApi({
-      facilityId: '983GB',
-      typeOfCare: 'socialWork',
+      facilityIds: ['983', '983GB'],
+      typeOfCareId: 'socialWork',
       isRequest: true,
     });
 

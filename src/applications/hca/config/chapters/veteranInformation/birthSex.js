@@ -3,7 +3,7 @@ import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
 import { genderLabels } from 'platform/static-data/labels';
 
 import { ShortFormAlert } from '../../../components/FormAlerts';
-import CustomReviewField from '../../../components/ReviewFields/CustomReviewField';
+import CustomReviewField from '../../../components/FormReview/CustomReviewField';
 import { emptyObjectSchema, NotHighDisability } from '../../../helpers';
 
 const { gender } = fullSchemaHca.properties;
