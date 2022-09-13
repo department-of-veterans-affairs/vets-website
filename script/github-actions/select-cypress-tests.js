@@ -248,6 +248,8 @@ function exportVariables(tests) {
   core.exportVariable('TESTS', tests);
 }
 
+// '/home/runner/work/vets-website/vets-website/src/applications/_mock-form/tests/mock-form.cypress.spec.js',
+
 function run() {
   const graph = dedupeGraph(buildGraph());
 
@@ -262,13 +264,15 @@ function run() {
   const newTests = testsSelectedByTestSelection.filter(
     test => !allAllowedTestPaths.includes(test.substring(test.indexOf('src/'))),
   );
+
   console.log('testsSelectedByTestSelection', testsSelectedByTestSelection);
   console.log('CHANGED_FILE_PATHS', CHANGED_FILE_PATHS);
+
   const disallowedTests = testsSelectedByTestSelection.filter(test =>
     allDisallowedTestPaths.includes(test.substring(test.indexOf('src/'))),
   );
   const changedTests = testsSelectedByTestSelection.filter(test =>
-    CHANGED_FILE_PATHS.includes(test),
+    CHANGED_FILE_PATHS.includes(test.substring(test.indexOf('src/'))),
   );
   const testsToRunNormally = testsSelectedByTestSelection.filter(
     test =>
