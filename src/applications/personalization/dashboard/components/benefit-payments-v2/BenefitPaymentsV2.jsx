@@ -106,24 +106,25 @@ const BenefitPaymentsV2 = ({
       <h2>Benefit payments</h2>
       <div className="vads-l-row">
         {lastPayment && (
-          <DashboardWidgetWrapper>
-            <PaymentsCardV2 lastPayment={lastPayment} />
-          </DashboardWidgetWrapper>
+          <>
+            <DashboardWidgetWrapper>
+              <PaymentsCardV2 lastPayment={lastPayment} />
+            </DashboardWidgetWrapper>
+            <DashboardWidgetWrapper>
+              <PopularActionsForPayments />
+            </DashboardWidgetWrapper>
+          </>
         )}
         {!lastPayment && (
           <DashboardWidgetWrapper>
             {paymentsError ? <PaymentsError /> : <NoRecentPaymentText />}
             <PopularActionsForPayments
-              showPaymentHistoryLink={payments && payments.length}
+              showPaymentHistoryLink={
+                (payments && !!payments.length) || paymentsError
+              }
             />
           </DashboardWidgetWrapper>
         )}
-        {payments &&
-          !!payments.length && (
-            <DashboardWidgetWrapper>
-              <PopularActionsForPayments />
-            </DashboardWidgetWrapper>
-          )}
       </div>
     </div>
   );

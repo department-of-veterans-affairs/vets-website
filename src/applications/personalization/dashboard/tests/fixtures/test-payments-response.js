@@ -14,7 +14,7 @@ export const paymentsSuccess = (
             payCheckAmount: '$1561.92',
             payCheckDt: hasRecentPayment
               ? moment().subtract(3, 'days')
-              : moment().subtract(32, 'days'),
+              : moment().subtract(62, 'days'),
             payCheckId: '001',
             payCheckReturnFiche: 'C',
             payCheckType: 'Compensation & Pension - Recurring',

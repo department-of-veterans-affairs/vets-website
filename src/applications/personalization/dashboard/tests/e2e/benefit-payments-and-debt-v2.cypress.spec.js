@@ -2,7 +2,7 @@
  * [TestRail-integrated] Spec for My VA - Benefits Payments & Debt V2
  * @testrailinfo projectId 4
  * @testrailinfo suiteId 5
- * @testrailinfo groupId 3428
+ * @testrailinfo groupId 3426
  * @testrailinfo runName My VA - Pmt Info v2
  */
 import { mockUser } from '@@profile/tests/fixtures/users/user';
@@ -56,7 +56,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         },
       }).as('featuresA');
     });
-    it('the v2 dashboard does not show up', () => {
+    it('the v2 dashboard does not show up - C20877', () => {
       cy.visit('my-va/');
       // make sure that the Notification section is not shown
       cy.findByTestId('dashboard-section-payment-and-debts-v2').should(
@@ -88,7 +88,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       });
 
       describe('and copays exist', () => {
-        it('shows copays and no debts - C14319', () => {
+        it('shows copays and no debts - C20878', () => {
           cy.intercept('/v0/medical_copays', copaysSuccess(true)).as(
             'recentCopays1',
           );
@@ -108,7 +108,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       });
 
       describe('and no copays', () => {
-        it('shows no outstanding debts - C14320', () => {
+        it('shows no outstanding debts - C20879', () => {
           cy.intercept('/v0/medical_copays', copaysSuccessEmpty()).as(
             'emptyCopays1',
           );
@@ -129,7 +129,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       });
 
       describe('and copays API error', () => {
-        it('shows error and no debts or copays card - C14675', () => {
+        it('shows error and no debts or copays card - C20880', () => {
           cy.intercept('/v0/medical_copays', copaysError()).as('copaysError1');
           cy.visit('my-va/');
           cy.wait(['@noDebts1', '@copaysError1', '@featuresB']);
@@ -155,7 +155,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       });
 
       describe('and copays exist', () => {
-        it('shows copays and debts - C14319', () => {
+        it('shows copays and debts - C20881', () => {
           cy.intercept('/v0/medical_copays', copaysSuccess(true)).as(
             'recentCopays1',
           );
@@ -176,7 +176,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       });
 
       describe('and no copays', () => {
-        it('shows debt card and no copays - C14320', () => {
+        it('shows debt card and no copays - C20882', () => {
           cy.intercept('/v0/medical_copays', copaysSuccessEmpty()).as(
             'emptyCopays1',
           );
@@ -197,7 +197,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       });
 
       describe('and copays API error', () => {
-        it('shows error and debts card - C14675', () => {
+        it('shows error and debts card - C20883', () => {
           cy.intercept('/v0/medical_copays', copaysError()).as('copaysError1');
           cy.visit('my-va/');
           cy.wait(['@recentDebts1', '@copaysError1', '@featuresB']);
@@ -223,7 +223,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       });
 
       describe('and copays exist', () => {
-        it('shows error and copays card - C14319', () => {
+        it('shows error and copays card - C20884', () => {
           cy.intercept('/v0/medical_copays', copaysSuccess(true)).as(
             'recentCopays1',
           );
@@ -245,7 +245,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       });
 
       describe('and no copays', () => {
-        it('shows error and no copays card - C14320', () => {
+        it('shows error and no copays card - C20885', () => {
           cy.intercept('/v0/medical_copays', copaysSuccessEmpty()).as(
             'emptyCopays1',
           );
@@ -266,7 +266,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       });
 
       describe('and copays API error', () => {
-        it('shows error - C14675', () => {
+        it('shows error and no cards - C20886', () => {
           cy.intercept('/v0/medical_copays', copaysError()).as('copaysError1');
           cy.visit('my-va/');
           cy.wait(['@debtsError1', '@copaysError1', '@featuresB']);
@@ -286,9 +286,9 @@ describe('The My VA Dashboard - Payments and Debt', () => {
       });
     });
     // With payments
-    describe('and user has current payments', () => {
+    describe('and user has recent payments', () => {
       describe('with direct deposit', () => {
-        it('shows payments card with deposit text - C14319', () => {
+        it('shows payments card with deposit text - C20887', () => {
           cy.intercept('/v0/profile/payment_history', paymentsSuccess(true)).as(
             'recentPayments1',
           );
@@ -306,7 +306,7 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         });
       });
       describe('with check', () => {
-        it('shows payments card with check text - C14319', () => {
+        it('shows payments card with check text - C20888', () => {
           cy.intercept(
             '/v0/profile/payment_history',
             paymentsSuccess(true, 'Paper Check'),
@@ -326,9 +326,9 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         });
       });
     });
-
+    // no recent payments but payment history
     describe('and user has payment history', () => {
-      it('shows no recent payment text and no payment history link - C14320', () => {
+      it('shows no recent payment text with payment history link - C20889', () => {
         cy.intercept('/v0/profile/payment_history', paymentsSuccess()).as(
           'oldPayments1',
         );
@@ -347,9 +347,9 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.injectAxeThenAxeCheck();
       });
     });
-
+    // user never had a payment
     describe('and user has never had payments', () => {
-      it('shows no payment history - C14320', () => {
+      it('shows no recent payment text with no payment history link - C20890', () => {
         cy.intercept('/v0/profile/payment_history', paymentsSuccessEmpty()).as(
           'emptyPayments1',
         );
@@ -368,9 +368,9 @@ describe('The My VA Dashboard - Payments and Debt', () => {
         cy.injectAxeThenAxeCheck();
       });
     });
-
+    // user has payments error
     describe('and payments API error', () => {
-      it('shows error - C14675', () => {
+      it('shows error - C20891', () => {
         cy.intercept('/v0/profile/payment_history', paymentsError()).as(
           'paymentsError1',
         );
