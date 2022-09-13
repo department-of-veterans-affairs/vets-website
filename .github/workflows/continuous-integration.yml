@@ -755,6 +755,8 @@ jobs:
     needs: [cypress-tests-prep, stress-test-cypress-tests, fetch-e2e-allow-list]
     if: ${{ always() && needs.cypress-tests-prep.outputs.tests-to-stress-test != '[]' && (needs.stress-test-cypress-tests.result == 'success' || needs.stress-test-cypress-tests.result == 'failure') }}
     continue-on-error: true
+    env:
+      APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
