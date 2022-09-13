@@ -14,12 +14,16 @@ const AttachFilesModal = ({ closeModal, attachments, setAttachments }) => {
     const selectedFile = event.target.files[0];
     setError(null);
 
-    if (totalSize + selectedFile.size > 9999999) {
-      setError('Total size too large');
+    if (files.length === 4) {
+      setError('You have already attached the maximum number of files.');
       return;
     }
     if (selectedFile.size > 5999999) {
-      setError('File too large. Must be less than 6MB');
+      setError('File too large. Must be less than 6MB.');
+      return;
+    }
+    if (totalSize + selectedFile.size > 9999999) {
+      setError('Total size of files too large.');
       return;
     }
 
