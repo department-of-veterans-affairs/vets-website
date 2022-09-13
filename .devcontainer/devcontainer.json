@@ -30,5 +30,7 @@
 		"memory": "32gb",
 		"storage": "128gb"
 	},
-	"initializeCommand": "./script/install-repos.sh"
+	"initializeCommand": "./script/install-repos.sh",
+  "postCreateCommand": "./.devcontainer/codespaces-create.sh",
+  "remoteUser": "root"
 }
