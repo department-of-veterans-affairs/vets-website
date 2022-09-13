@@ -8,7 +8,7 @@ const ReplyBox = () => (
         Test: Your lab results
       </h2>
       <button type="button" className="send-button-top">
-        <i className="fas fa-paper-plane" />
+        <i className="fas fa-paper-plane" aria-hidden="true" />
         <span className="send-button-top-text">Send</span>
       </button>
     </div>
@@ -48,12 +48,13 @@ const ReplyBox = () => (
           <i
             className="fa fa-paperclip attachment-icon"
             aria-label="Attached file"
+            aria-hidden="true"
           />
           {
             'This is an attachment that I uploaded from my laptop.pdf (108.7 KB) '
           }{' '}
           <a href="http://localhost:3001/my-health/secure-messages/reply/">
-            <i className="fas fa-times" /> Remove
+            <i className="fas fa-times" aria-hidden="true" /> Remove
           </a>
         </p>
         <p className="message-body-text">
@@ -61,6 +62,7 @@ const ReplyBox = () => (
             <i
               className="fa fa-paperclip attachment-icon"
               aria-label="Attached file"
+              aria-hidden="true"
             />
             <span>Attach files</span>
           </a>
@@ -110,7 +112,7 @@ const ReplyBox = () => (
             <li>Use a browser such as Chrome or Firefox</li>
             <li>
               If your problem persists, please contact the My HealtheVet{' '}
-              <a href="tel:1-877-327-0022">Help Desk</a>
+              <va-telephone contact="8773270022" />
             </li>
           </ul>
         </VaAdditionalInfo>
@@ -120,7 +122,7 @@ const ReplyBox = () => (
         <div>
           <button type="button">
             <span className="save-button-text">{'Send '}</span>
-            <i className="fas fa-paper-plane" />
+            <i className="fas fa-paper-plane" aria-hidden="true" />
           </button>
         </div>
         <div>

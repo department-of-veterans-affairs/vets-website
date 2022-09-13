@@ -44,7 +44,7 @@ const NavigationLinks = props => {
         href="/message"
         onClick={handlePrevious}
       >
-        <i className="fas fa-angle-left" /> Previous
+        <i className="fas fa-angle-left" aria-hidden="true" /> Previous
       </a>
       <a
         className="nav-links-text"
@@ -52,7 +52,7 @@ const NavigationLinks = props => {
         href="/message"
         onClick={handleNext}
       >
-        Next <i className="fas fa-angle-right" />
+        Next <i className="fas fa-angle-right" aria-hidden="true" />
       </a>
     </div>
   );
