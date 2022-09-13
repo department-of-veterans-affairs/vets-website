@@ -1118,7 +1118,7 @@ export function getAppointmentTimezone(appointment) {
  *
  * @export
  * @param {String} providerNpi An id for the provider to fetch info for
- * @returns {transformed Provider} transformed Provider info
+ * @returns {Provider} A transformed Provider resource
  */
 export async function fetchPreferredProvider(providerNpi) {
   const prov = await getPreferredCCProvider(providerNpi);
