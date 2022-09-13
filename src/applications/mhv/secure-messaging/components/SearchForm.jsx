@@ -15,14 +15,7 @@ const SearchMessagesForm = props => {
         value={keyword}
       />
 
-      <va-select
-        // eslint-disable-next-line jsx-a11y/aria-props
-        aria-live-region-text="You selected"
-        label="Search in"
-        name="searchIn"
-        value=""
-        class="selectField"
-      >
+      <va-select label="Search in" name="searchIn" value="" class="selectField">
         <option value="all">All message folders</option>
         <option value="compose">compose</option>
         <option value="drafts">drafts</option>
@@ -54,8 +47,6 @@ const SearchMessagesForm = props => {
             class="textField"
           />
           <va-select
-            // eslint-disable-next-line jsx-a11y/aria-props
-            aria-live-region-text="You selected"
             label="Category"
             name="category"
             value=""
@@ -67,13 +58,7 @@ const SearchMessagesForm = props => {
             <option value="drafts">three</option>
           </va-select>
 
-          <va-select
-            // eslint-disable-next-line jsx-a11y/aria-props
-            aria-live-region-text="You selected"
-            label="Date range"
-            name="dateRange"
-            class="selectField"
-          >
+          <va-select label="Date range" name="dateRange" class="selectField">
             <option value="all">Any</option>
             <option value="all">Past week</option>
             <option value="compose">Past month</option>
