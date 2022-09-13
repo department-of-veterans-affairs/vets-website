@@ -15,8 +15,8 @@
   },
   "contactPhone": "4445551212",
   "contactEmail": "test2@test1.net",
-  "view:confirmContactEmail": "test2@test1.net",
-  "identity": "VETERAN",
+  "intent": "REFI",
+  "identity": "DNANA",
   "periodsOfService": [
     {
       "serviceBranch": "Air Force",
@@ -26,6 +26,6 @@
       }
     }
   ],
-  "vaLoanIndicator": true,
+  "vaLoanIndicator": false,
   "privacyAgreementAccepted": true
 }

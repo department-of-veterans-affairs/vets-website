@@ -8,6 +8,8 @@ import {
   getFormData,
   selectPastAppointments,
 } from '../../redux/selectors';
+import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
+import { selectFeatureVaosV2Next } from '../../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -29,13 +31,24 @@ export default function useClinicFormState() {
   const initialData = useSelector(getFormData);
   const clinics = useSelector(getClinicsForChosenFacility);
   const pastAppointments = useSelector(selectPastAppointments);
+  const featureVaosV2Next = useSelector(state =>
+    selectFeatureVaosV2Next(state),
+  );
 
   const formState = useFormState({
     initialSchema() {
       let newSchema = initialSchema;
       let filteredClinics = clinics;
 
-      if (pastAppointments) {
+      // Adding type of care check since past appointment history is not needed
+      // for primary care or mental health appointments.
+      // NOTE: Same check is in ../services/patient/index.js:383
+      const isCheckTypeOfCare = featureVaosV2Next
+        ? initialData.typeOfCareId !== MENTAL_HEALTH &&
+          initialData.typeOfCareId !== PRIMARY_CARE &&
+          pastAppointments?.length > 0
+        : !!pastAppointments;
+      if (isCheckTypeOfCare) {
         const pastAppointmentDateMap = new Map();
         const siteId = getSiteIdFromFacilityId(initialData.vaFacility);
 
@@ -54,11 +67,19 @@ export default function useClinicFormState() {
             pastAppointmentDateMap.set(clinicId, apptTime);
           }
         });
-
-        filteredClinics = clinics.filter(clinic =>
-          // Get clinic portion of id
-          pastAppointmentDateMap.has(getClinicId(clinic)),
-        );
+        // filter the clinic where past appointment contains the clinicId
+        // and the clinic configuration has direct scheduling set to true
+        if (featureVaosV2Next) {
+          filteredClinics = clinics.filter(
+            clinic =>
+              pastAppointmentDateMap.has(getClinicId(clinic)) &&
+              clinic.patientDirectScheduling === true,
+          );
+        } else {
+          filteredClinics = clinics.filter(clinic =>
+            pastAppointmentDateMap.has(getClinicId(clinic)),
+          );
+        }
       }
 
       if (filteredClinics.length === 1) {

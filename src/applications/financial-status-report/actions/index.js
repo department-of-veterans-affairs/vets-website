@@ -7,14 +7,15 @@ import {
   apiRequest,
 } from 'platform/utilities/api';
 import * as Sentry from '@sentry/browser';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
-import { DEBTS_FETCH_SUCCESS } from '../../debt-letters/actions';
-import { debtMockResponse } from '../../debt-letters/utils/mockResponses';
+import { deductionCodes } from '../constants/deduction-codes';
+import { debtMockResponse } from '../utils/debtMockResponses';
 import {
   FSR_API_ERROR,
   FSR_RESET_ERRORS,
   FSR_API_CALL_INITIATED,
+  DEBTS_FETCH_SUCCESS,
 } from '../constants/actionTypes';
+import { DEBT_TYPES } from '../utils/helpers';
 
 export const fetchFormStatus = () => async dispatch => {
   dispatch({
@@ -84,7 +85,11 @@ export const fetchDebts = async dispatch => {
     const filteredResponse = response.debts
       .filter(debt => approvedDeductionCodes.includes(debt.deductionCode))
       .filter(debt => debt.currentAr > 0)
-      .map((debt, index) => ({ ...debt, id: index }));
+      .map((debt, index) => ({
+        ...debt,
+        id: index,
+        debtType: DEBT_TYPES.DEBT,
+      }));
 
     return dispatch({
       type: DEBTS_FETCH_SUCCESS,

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { format, isValid } from 'date-fns';
 import { head } from 'lodash';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+import { deductionCodes } from '../constants/deduction-codes';
 import { currency, endDate } from '../utils/helpers';
 
 const DebtCheckBox = ({ debt }) => {
@@ -18,7 +18,7 @@ const DebtCheckBox = ({ debt }) => {
     : '';
 
   const formData = useSelector(state => state.form.data);
-  const { selectedDebts } = formData;
+  const { selectedDebts, selectedDebtsAndCopays = [] } = formData;
 
   const isChecked = selectedDebts?.some(
     currentDebt => currentDebt.id === debt.id,
@@ -34,16 +34,31 @@ const DebtCheckBox = ({ debt }) => {
         debtEntry => debtEntry.id !== selectedDebt.id,
       );
 
-      return dispatch(setData({ ...formData, selectedDebts: checked }));
+      const combinedChecked = selectedDebtsAndCopays?.filter(
+        selection => selection.id !== selectedDebt.id,
+      );
+
+      return dispatch(
+        setData({
+          ...formData,
+          selectedDebts: checked,
+          selectedDebtsAndCopays: combinedChecked,
+        }),
+      );
     }
     const newFsrDebts = selectedDebts?.length
       ? [...selectedDebts, selectedDebt]
+      : [selectedDebt];
+
+    const newlySelectedDebtsAndCopays = selectedDebtsAndCopays?.length
+      ? [...selectedDebtsAndCopays, selectedDebt]
       : [selectedDebt];
 
     return dispatch(
       setData({
         ...formData,
         selectedDebts: newFsrDebts,
+        selectedDebtsAndCopays: newlySelectedDebtsAndCopays,
       }),
     );
   };

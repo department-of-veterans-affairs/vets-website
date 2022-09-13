@@ -226,7 +226,7 @@ describe('check-in', () => {
 
         const button = component.getByTestId('error-button');
         fireEvent.click(button);
-        expect(push.calledWith(URLS.ERROR)).to.be.true;
+        expect(push.calledWith(`${URLS.ERROR}?error=test-error`)).to.be.true;
       });
     });
     describe('jumpToPage', () => {

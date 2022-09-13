@@ -180,6 +180,16 @@
       "hostname": "www.volunteer.va.gov",
       "pathnameBeginning": "/",
       "cookieOnly": true
+    },
+    {
+      "hostname": "m.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
+    },
+    {
+      "hostname": "www.m.va.gov",
+      "pathnameBeginning": "/",
+      "cookieOnly": false
     }
   ]
 }

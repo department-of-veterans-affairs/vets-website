@@ -8,7 +8,7 @@ inputs:
     default: ' '
 
   output-type:
-    description: 'Comma delimited list of changed application details to retrieve. Output types include: `entry_name`, `folder`, `slack_group`, `url`.'
+    description: 'Comma delimited list of changed application details to retrieve. Output types include: `entry_name`, `folder`, `slack_group`, `url`, `continuous_deployment`.'
     required: false
     default: ''
 
@@ -16,6 +16,10 @@ outputs:
   changed_files:
     description: 'Space delimited list of paths for changed files that differ from `main` branch.'
     value: ${{ steps.get-changed-files.outputs.changed_files }}
+  
+  continuous_deployment:
+    description: 'Whether all changed applications have continuous deployment enabled.'
+    value: ${{ steps.check-continuous-deployment.outputs.is_enabled }}
 
   entry_names:
     description: 'Entry names of changed applications.'
@@ -75,5 +79,13 @@ runs:
       if: contains(inputs.output-type, 'url')
       shell: bash
       run: echo ::set-output name=urls::$(node script/github-actions/get-changed-apps.js --output-type url -d "${{ inputs.delimiter }}")
+      env:
+        CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
+
+    - name: Check if continuous deployment is enabled
+      id: check-continuous-deployment
+      if: contains(inputs.output-type, 'continuous_deployment')
+      shell: bash
+      run: echo ::set-output name=is_enabled::$(node script/github-actions/get-changed-apps.js --continuous-deployment)
       env:
         CHANGED_FILE_PATHS: ${{ steps.get-changed-files.outputs.changed_files }}
