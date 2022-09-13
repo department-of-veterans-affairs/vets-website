@@ -20,7 +20,7 @@ import { getAllMessages } from '../actions';
 import ReplyHeader from '../components/ReplyHeader';
 import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ReplyBox from '../components/ReplyBox';
-import NavigationLinks from '../components/NavigationLinks';
+// import NavigationLinks from '../components/NavigationLinks';
 import OlderMessages from '../components/OlderMessages';
 
 const MessageReply = props => {
@@ -56,7 +56,7 @@ const MessageReply = props => {
       <>
         <ReplyHeader />
         <BeforeMessageAddlInfo />
-        <NavigationLinks />
+        {/* <NavigationLinks /> */}
         <ReplyBox />
         <OlderMessages />
       </>
