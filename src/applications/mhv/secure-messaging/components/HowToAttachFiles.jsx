@@ -38,7 +38,7 @@ const HowToAttachFiles = () => {
           <li>Use a browser such as Chrome or Firefox</li>
           <li>
             If your problem persists, please contact the My HealtheVet{' '}
-            <a href="/help-desk">Help Desk</a>
+            <a href="https://www.va.gov/contact-us/">Help Desk</a>
           </li>
         </ul>
       </section>
