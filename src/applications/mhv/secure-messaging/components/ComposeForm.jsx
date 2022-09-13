@@ -73,9 +73,17 @@ const ComposeForm = props => {
 
   const sendMessageHandler = event => {
     event.preventDefault();
+    const formData = new FormData();
+
     if (!category) {
       setCategoryError(true);
       focusElement('.message-category');
+    }
+
+    formData.append('category', category);
+
+    for (const file of attachments) {
+      formData.append(file.name, file);
     }
   };
 
@@ -139,10 +147,19 @@ const ComposeForm = props => {
         </div>
 
         <section className="attachments-section">
-          <div className="compose-attachments-label">Attachments</div>
-          <AttachmentsList attachments={attachments} editingEnabled />
+          <div className="compose-attachments-label">
+            <strong>Attachments</strong>
+          </div>
+          <AttachmentsList
+            attachments={attachments}
+            setAttachments={setAttachments}
+            editingEnabled
+          />
 
-          <FileInput />
+          <FileInput
+            attachments={attachments}
+            setAttachments={setAttachments}
+          />
         </section>
 
         <div className="compose-form-actions">
