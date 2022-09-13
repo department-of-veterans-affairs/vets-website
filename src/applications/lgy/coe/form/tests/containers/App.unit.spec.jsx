@@ -8,7 +8,12 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import App from '../../containers/App';
 
-const getData = ({ loggedIn = true, getCoeMock = () => {} } = {}) => ({
+const getData = ({
+  loggedIn = true,
+  getCoeMock = () => {},
+  showCOE = true,
+  loading = false,
+} = {}) => ({
   props: {
     children: <div>children</div>,
     formData: {},
@@ -32,6 +37,11 @@ const getData = ({ loggedIn = true, getCoeMock = () => {} } = {}) => ({
           metadata: {},
         },
       },
+      featureToggles: {
+        loading,
+        // eslint-disable-next-line camelcase
+        coe_access: showCOE,
+      },
     }),
     subscribe: () => {},
     dispatch: () => {},
@@ -51,6 +61,33 @@ describe('App', () => {
     const article = $('#form-26-1880', container);
     expect(article).to.exist;
     expect(article.dataset.location).to.eq('introduction');
+  });
+
+  it('should render loading indicator', () => {
+    const { props, mockStore } = getData({ loading: true });
+    const { container } = render(
+      <div>
+        <Provider store={mockStore}>
+          <App {...props} />
+        </Provider>
+      </div>,
+    );
+    expect($('va-loading-indicator', container)).to.exist;
+  });
+
+  it('should render WIP alert', () => {
+    const { props, mockStore } = getData({ showCOE: false });
+    const { container } = render(
+      <div>
+        <Provider store={mockStore}>
+          <App {...props} />
+        </Provider>
+      </div>,
+    );
+    expect($('va-alert', container)).to.exist;
+    expect($('h1', container).textContent).to.contain(
+      'We’re still working on this feature',
+    );
   });
 
   it.skip('should call API if logged in', async () => {
