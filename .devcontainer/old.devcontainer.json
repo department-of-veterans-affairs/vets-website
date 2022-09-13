@@ -1,9 +1,9 @@
 {
 	"name": "Review Instance",
-	"build": {
-    "dockerfile": "dockerfile"
-  },
-  "mounts": ["type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"],
+	"dockerComposeFile": ["vets-website/docker-compose.yml", "vets-api/docker-compose.yml"],
+	"service": "vets-website",
+	"runServices": ["vets-website", "redis", "postgres", "vets-api"],
+	"workspaceFolder": "/workspace",
 	"settings": {
 		"editor.formatOnSave": true,
 		"[json]": {
@@ -12,7 +12,7 @@
 		"terminal.integrated.shell.linux": "/bin/bash",
 		"workbench.startupEditor": "readme"
 	},
-	"forwardPorts": [3000, 3001, 3002],
+	"forwardPorts": ["vets-api:3000", 3001, 3002],
 	"extensions": [
 		"davidanson.vscode-markdownlint",
 		"dbaeumer.vscode-eslint",
@@ -33,5 +33,6 @@
 		"memory": "32gb",
 		"storage": "128gb"
 	},
-	"initializeCommand": "./script/install-repos.sh"
+	"initializeCommand": "./script/install-repos.sh",
+	"postCreateCommand": "./.devcontainer/vets-website/codespaces-create.sh"
 }
