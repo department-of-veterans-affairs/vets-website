@@ -20,6 +20,8 @@
 .ng-scope .edge-labels {
   display: flex;
   justify-content: space-between;
+  font-size: 12px;
+  color: $color-gray-dark !important;
 }
 
 /* "Very Dissatisfied" label below "1 of 5" rating element */
@@ -27,7 +29,6 @@
   padding-right: 25px;
   text-align: left;
   width: 75px;
-  color: $color-gray-dark !important;
 }
 
 /* "Very Satisfied" label below "5 of 5" rating element */
