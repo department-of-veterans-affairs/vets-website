@@ -12,6 +12,7 @@ import {
   otherDeductionsAmt,
   nameStr,
   getAmountCanBePaidTowardDebt,
+  mergeAdditionalComments,
 } from './helpers';
 
 export const transform = (formConfig, form) => {
@@ -71,7 +72,9 @@ export const transform = (formConfig, form) => {
   // veteran
   const vetGrossSalary = sumValues(currEmployment, 'veteranGrossSalary');
   const vetAddlInc = sumValues(addlIncRecords, 'amount');
-  const vetSocSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
+  const vetSocSecAmt = Number(
+    socialSecurity.socialSecAmt?.replaceAll(',', '') ?? 0,
+  );
   const vetComp = sumValues(income, 'compensationAndPension');
   const vetEdu = sumValues(income, 'education');
   const vetBenefits = vetComp + vetEdu;
@@ -87,9 +90,15 @@ export const transform = (formConfig, form) => {
   // spouse
   const spGrossSalary = sumValues(spCurrEmployment, 'spouseGrossSalary');
   const spAddlInc = sumValues(spAddlIncome, 'amount');
-  const spSocialSecAmt = Number(socialSecurity.socialSecAmt ?? 0);
-  const spComp = Number(benefits.spouseBenefits.compensationAndPension ?? 0);
-  const spEdu = Number(benefits.spouseBenefits.education ?? 0);
+  const spSocialSecAmt = Number(
+    socialSecurity.socialSecAmt?.replaceAll(',', '') ?? 0,
+  );
+  const spComp = Number(
+    benefits.spouseBenefits.compensationAndPension?.replaceAll(',', '') ?? 0,
+  );
+  const spEdu = Number(
+    benefits.spouseBenefits.education?.replaceAll(',', '') ?? 0,
+  );
   const spBenefits = spComp + spEdu;
   const spDeductions = spCurrEmployment?.map(emp => emp.deductions).flat() ?? 0;
   const spTaxes = filterDeductions(spDeductions, taxFilters);
@@ -251,7 +260,10 @@ export const transform = (formConfig, form) => {
         courtLocation: additionalData.bankruptcy.courtLocation,
         docketNumber: additionalData.bankruptcy.docketNumber,
       },
-      additionalComments: additionalData.additionalComments,
+      additionalComments: mergeAdditionalComments(
+        additionalData.additionalComments,
+        otherExpenses,
+      ),
     },
     applicantCertifications: {
       veteranSignature: `${vetFirst} ${vetMiddle} ${vetLast}`,

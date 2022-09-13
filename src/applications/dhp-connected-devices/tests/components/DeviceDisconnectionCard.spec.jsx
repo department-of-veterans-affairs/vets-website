@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import environment from 'platform/utilities/environment';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { render, fireEvent } from '@testing-library/react';
+import { mount } from 'enzyme';
 import { DeviceDisconnectionCard } from '../../components/DeviceDisconnectionCard';
 
 describe('Device disconnection card', () => {
@@ -16,6 +17,19 @@ describe('Device disconnection card', () => {
 
     expect(card.getByText(/Test Vendor/)).to.exist;
   });
+  it('Has aria label for screen reader users', () => {
+    const card = mount(
+      <DeviceDisconnectionCard
+        device={{ key: 'test-vendor', name: 'Test Vendor' }}
+      />,
+    );
+    expect(
+      card
+        .find('[data-testid="test-vendor-disconnect-link"]')
+        .prop('aria-label'),
+    ).to.equal('Disconnect Test Vendor');
+    card.unmount();
+  });
 });
 
 describe('Device disconnection card modal', () => {
@@ -28,7 +42,9 @@ describe('Device disconnection card modal', () => {
   };
   beforeEach(async () => {
     screen = render(<DeviceDisconnectionCard device={device} />);
-    const disconnectBtn = screen.getByRole('button', { name: 'Disconnect' });
+    const disconnectBtn = screen.getByRole('button', {
+      name: 'Disconnect Test Vendor',
+    });
     fireEvent.click(disconnectBtn);
     modal = screen.getByTestId('disconnect-modal');
   });
