@@ -120,22 +120,26 @@
   color: $color-gray-light !important;
 }
 
+/* helper text under textarea */
 #liveForm .kpl_builder.neb-form-wcag .description.help-block {
   color: $color-gray-dark !important;
   font-size: 16px !important;
 }
 
+/* yes or no option label*/
 .neb-component .neb-content .neb-native-radio .neb-native-radio-option-label {
   color: $color-gray-dark !important;
   font-size: 16px !important;  
 }
 
+/* labels for all questions */
 .control-label {
   color: $color-gray-dark !important;
   font-size: 16px !important;
   font-weight: bold !important  
 }
 
+/* submit and close buttons */
 .footer-right-buttons {
   float: left !important;
   margin-right: 10px;
@@ -149,6 +153,7 @@
   float: right;
 }
 
+/* Very specific selectors to move 'do not inclide PII'helper text before the textarea */
 #liveForm>div>div>div>div>div>div>.neb-component.neb-web-component.neb-textArea.kplFormHolder {
   display: flex; 
   flex-direction: column;
