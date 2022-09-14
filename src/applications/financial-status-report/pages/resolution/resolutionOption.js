@@ -1,4 +1,5 @@
 import ResolutionOptions from '../../components/ResolutionOptions';
+import CustomResolutionOptionReview from '../../components/CustomResolutionOptionReview';
 import {
   CurrentDebtTitle,
   CurrentDebtDescription,
@@ -14,16 +15,10 @@ export const uiSchema = {
       'ui:title': CurrentDebtTitle,
       'ui:description': CurrentDebtDescription,
       'ui:validations': [validateResolutionOption, validateWaiverCheckbox],
-      'ui:options': {
-        hideOnReview: true,
-      },
       resolutionOption: {
         'ui:title': ' ',
+        'ui:reviewField': CustomResolutionOptionReview,
         'ui:widget': ResolutionOptions,
-        'ui:options': {
-          customTitle: ' ',
-          keepInPageOnReview: true,
-        },
       },
     },
   },

@@ -2,6 +2,7 @@ import moment from 'moment';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { addDays, format, isValid } from 'date-fns';
+import { deductionCodes } from '../constants/deduction-codes';
 
 export const fsrWizardFeatureToggle = state => {
   return toggleValues(state)[
@@ -313,3 +314,10 @@ export const DEBT_TYPES = Object.freeze({
   DEBT: 'DEBT',
   COPAY: 'COPAY',
 });
+
+// Returns name of debt depending on the type
+export const getDebtName = debt => {
+  return debt.debtType === 'COPAY'
+    ? debt.station.facilityName
+    : deductionCodes[debt.deductionCode] || debt.benefitType;
+};
