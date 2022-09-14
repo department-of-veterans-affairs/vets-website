@@ -148,3 +148,19 @@
 #liveForm .kpl_builder .panel-footer .btn.cancel-btn {
   float: right;
 }
+
+#liveForm>div>div>div>div>div>div>.neb-component.neb-web-component.neb-textArea.kplFormHolder {
+  display: flex; 
+  flex-direction: column;
+} 
+
+#liveForm>div>div>div>div>div>div>.neb-component.neb-web-component.neb-textArea.kplFormHolder>label {
+  order: 1;
+}
+#liveForm>div>div>div>div>div>div>.neb-component.neb-web-component.neb-textArea.kplFormHolder>p {
+  order: 2;
+}
+
+#liveForm>div>div>div>div>div>div>div.neb-component.neb-web-component.neb-textArea.kplFormHolder>.neb-content.neb-wcag {
+ order:3;
+}
