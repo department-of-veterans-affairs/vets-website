@@ -45,7 +45,7 @@ export default function ProfileAlert() {
       <p>The mailing address we have on file for you may not be correct.</p>
       <p>
         <Link
-          to="contact-information"
+          to="contact-information/#mailing-address"
           onClick={handlers.recordLinkClick(linkText)}
         >
           {linkText}

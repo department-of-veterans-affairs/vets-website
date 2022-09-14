@@ -11,14 +11,13 @@ export default function FormAlert() {
       className="vads-u-margin-top--1 vads-u-font-weight--normal"
     >
       <p className="vads-u-margin--0">Review and update your address.</p>
-      <va-additional-info trigger="What to do if your address is already correct">
-        <p>
-          Select <strong className="vads-u-font-weight--bold">Edit</strong> to
-          review your address again. Then select{' '}
-          <strong className="vads-u-font-weight--bold">Update</strong> to save
-          and confirm.
-        </p>
-      </va-additional-info>
+      <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
+        If your address is already correct, select{' '}
+        <strong className="vads-u-font-weight--bold">Edit</strong> to review it
+        again. Then select{' '}
+        <strong className="vads-u-font-weight--bold">Update</strong> to save and
+        confirm.
+      </p>
     </VaAlert>
   );
 }
