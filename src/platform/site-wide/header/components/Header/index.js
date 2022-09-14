@@ -8,8 +8,8 @@ import OfficialGovtWebsite from '../OfficialGovtWebsite';
 import VeteranCrisisLine from '../VeteranCrisisLine';
 import addFocusBehaviorToCrisisLineModal from '../../../accessible-VCL-modal';
 import { addOverlayTriggers } from '../../../legacy/menu';
-import { isBrowserIE } from '~/platform/site-wide/helpers/detection/is-browser';
-import { useOnLoaded } from '~/platform/site-wide/hooks/events/use-on-loaded';
+import { isBrowserIE } from 'platform/site-wide/helpers/detection/is-browser';
+import { useOnLoaded } from 'platform/site-wide/hooks/events/use-on-loaded';
 
 export const Header = ({ megaMenuData, showMegaMenu, showNavLogin }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

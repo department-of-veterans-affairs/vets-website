@@ -2,7 +2,7 @@
 import React from 'react';
 // Relative imports.
 import startReactApp from '../../startup/react';
-import widgetTypes from '~/applications/static-pages/widgetTypes';
+import widgetTypes from 'applications/static-pages/widgetTypes';
 
 // Are you looking for where this is used?
 // Search for `data-widget-type="banner"` and `data-widget-type="maintenance-banner"` to find all the places this React widget is used.
