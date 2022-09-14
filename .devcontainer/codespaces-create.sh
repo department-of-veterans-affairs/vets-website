@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Build vets-website
 # printf "\n\n##### Installing vets-website #####\n"
@@ -11,7 +11,7 @@ mkdir config/certs
 touch config/certs/vetsgov-localhost.crt
 touch config/certs/vetsgov-localhost.key
 cp ../vets-website/.devcontainer/vets-api/settings.local.yml config/settings.local.yml
-make up
+# make up
 #CONFIG_HOST=/^vets-website-.*-3000\.githubpreview\.dev$/
 #sed '/^config\.hosts.*/a hello' config/environments/development.rb
 #echo "config.hosts << /^vets-website-.*-3000\.githubpreview\.dev$/" | config/environments/development.rb
