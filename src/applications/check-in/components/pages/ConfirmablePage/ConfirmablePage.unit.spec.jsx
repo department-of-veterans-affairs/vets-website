@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
 import sinon from 'sinon';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
 import ConfirmablePage from './index';
 import i18n from '../../../utils/i18n/i18n';
 
@@ -21,6 +22,7 @@ describe('pre-check-in experience', () => {
           token: '',
         },
       },
+      ...scheduledDowntimeState,
     };
     beforeEach(() => {
       store = mockStore(initState);

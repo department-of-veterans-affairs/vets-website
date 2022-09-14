@@ -3,13 +3,16 @@ import TestRenderer from 'react-test-renderer';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import { I18nextProvider } from 'react-i18next';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import i18n from '../../../../utils/i18n/i18n';
 import { createMockRouter } from '../../../../tests/unit/mocks/router';
 import Confirmation from '../index';
 import {
   multipleAppointments,
   singleAppointment,
 } from '../../../../tests/unit/mocks/mock-appointments';
+import { scheduledDowntimeState } from '../../../../tests/unit/utils/initState';
 import PreCheckinConfirmation from '../../../../components/PreCheckinConfirmation';
 
 describe('pre-check-in', () => {
@@ -31,6 +34,7 @@ describe('pre-check-in', () => {
             token: 'token',
           },
         },
+        ...scheduledDowntimeState,
       };
       initState.checkInData.appointments[0].clinicFriendlyName = '';
       const middleware = [];
@@ -40,7 +44,9 @@ describe('pre-check-in', () => {
       it('passes the correct props to the pre-checkin confirmation component', () => {
         const testRenderer = TestRenderer.create(
           <Provider store={store}>
-            <Confirmation router={createMockRouter()} />
+            <I18nextProvider i18n={i18n}>
+              <Confirmation router={createMockRouter()} />
+            </I18nextProvider>
           </Provider>,
         );
         const testInstance = testRenderer.root;
@@ -72,6 +78,7 @@ describe('pre-check-in', () => {
               token: 'token',
             },
           },
+          ...scheduledDowntimeState,
         };
         const middleware = [];
         const mockStore = configureStore(middleware);
@@ -80,7 +87,9 @@ describe('pre-check-in', () => {
       it('page passes axeCheck', () => {
         axeCheck(
           <Provider store={store}>
-            <Confirmation />
+            <I18nextProvider i18n={i18n}>
+              <Confirmation router={createMockRouter()} />
+            </I18nextProvider>
           </Provider>,
         );
       });

@@ -5,6 +5,9 @@ import sinon from 'sinon';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
+import { I18nextProvider } from 'react-i18next';
+import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
+import i18n from '../../../utils/i18n/i18n';
 import EmergencyContactDisplay from './EmergencyContactDisplay';
 
 describe('pre-check-in experience', () => {
@@ -21,20 +24,25 @@ describe('pre-check-in experience', () => {
             },
             form: {},
           },
+          ...scheduledDowntimeState,
         };
         store = mockStore(initState);
       });
       it('passes axeCheck', () => {
         axeCheck(
           <Provider store={store}>
-            <EmergencyContactDisplay />
+            <I18nextProvider i18n={i18n}>
+              <EmergencyContactDisplay />
+            </I18nextProvider>
           </Provider>,
         );
       });
       it('renders with default values', () => {
         const { getByText } = render(
           <Provider store={store}>
-            <EmergencyContactDisplay />
+            <I18nextProvider i18n={i18n}>
+              <EmergencyContactDisplay />
+            </I18nextProvider>
           </Provider>,
         );
         expect(getByText('Is this your current emergency contact?')).to.exist;
@@ -42,8 +50,10 @@ describe('pre-check-in experience', () => {
       it('renders the footer if footer is supplied', () => {
         const { getByText } = render(
           <Provider store={store}>
-            {/* eslint-disable-next-line react/jsx-no-bind */}
-            <EmergencyContactDisplay Footer={() => <div>foo</div>} />
+            <I18nextProvider i18n={i18n}>
+              {/* eslint-disable-next-line react/jsx-no-bind */}
+              <EmergencyContactDisplay Footer={() => <div>foo</div>} />
+            </I18nextProvider>
           </Provider>,
         );
         expect(getByText('foo')).to.exist;
@@ -66,7 +76,9 @@ describe('pre-check-in experience', () => {
         };
         const { getByText } = render(
           <Provider store={store}>
-            <EmergencyContactDisplay emergencyContact={emergencyContact} />
+            <I18nextProvider i18n={i18n}>
+              <EmergencyContactDisplay emergencyContact={emergencyContact} />
+            </I18nextProvider>
           </Provider>,
         );
         expect(getByText('Address')).to.exist;
@@ -85,7 +97,9 @@ describe('pre-check-in experience', () => {
         const yesClick = sinon.spy();
         const screen = render(
           <Provider store={store}>
-            <EmergencyContactDisplay yesAction={yesClick} />
+            <I18nextProvider i18n={i18n}>
+              <EmergencyContactDisplay yesAction={yesClick} />
+            </I18nextProvider>
           </Provider>,
         );
         fireEvent.click(screen.getByTestId('yes-button'));
@@ -95,7 +109,9 @@ describe('pre-check-in experience', () => {
         const noClick = sinon.spy();
         const screen = render(
           <Provider store={store}>
-            <EmergencyContactDisplay noAction={noClick} />
+            <I18nextProvider i18n={i18n}>
+              <EmergencyContactDisplay noAction={noClick} />
+            </I18nextProvider>
           </Provider>,
         );
         fireEvent.click(screen.getByTestId('no-button'));

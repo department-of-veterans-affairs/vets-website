@@ -5,6 +5,9 @@ import sinon from 'sinon';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
+import { I18nextProvider } from 'react-i18next';
+import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
+import i18n from '../../../utils/i18n/i18n';
 import DemographicsDisplay from './DemographicsDisplay';
 
 describe('pre-check-in experience', () => {
@@ -21,6 +24,7 @@ describe('pre-check-in experience', () => {
             },
             form: {},
           },
+          ...scheduledDowntimeState,
         };
         store = mockStore(initState);
       });
@@ -28,14 +32,18 @@ describe('pre-check-in experience', () => {
       it('passes axeCheck', () => {
         axeCheck(
           <Provider store={store}>
-            <DemographicsDisplay />
+            <I18nextProvider i18n={i18n}>
+              <DemographicsDisplay />
+            </I18nextProvider>
           </Provider>,
         );
       });
       it('renders with default values', () => {
         const { queryByText } = render(
           <Provider store={store}>
-            <DemographicsDisplay />
+            <I18nextProvider i18n={i18n}>
+              <DemographicsDisplay />
+            </I18nextProvider>
           </Provider>,
         );
         expect(queryByText('Is this your current contact information?')).to
@@ -50,8 +58,10 @@ describe('pre-check-in experience', () => {
       it('renders the footer if footer is supplied', () => {
         const { getByText } = render(
           <Provider store={store}>
-            {/* eslint-disable-next-line react/jsx-no-bind */}
-            <DemographicsDisplay Footer={() => <div>foo</div>} />
+            <I18nextProvider i18n={i18n}>
+              {/* eslint-disable-next-line react/jsx-no-bind */}
+              <DemographicsDisplay Footer={() => <div>foo</div>} />
+            </I18nextProvider>
           </Provider>,
         );
         expect(getByText('foo')).to.exist;
@@ -59,7 +69,9 @@ describe('pre-check-in experience', () => {
       it('renders custom header', () => {
         const { getByText } = render(
           <Provider store={store}>
-            <DemographicsDisplay header="foo" />
+            <I18nextProvider i18n={i18n}>
+              <DemographicsDisplay header="foo" />
+            </I18nextProvider>
           </Provider>,
         );
 
@@ -68,7 +80,9 @@ describe('pre-check-in experience', () => {
       it('renders custom subtitle', () => {
         const { getByText } = render(
           <Provider store={store}>
-            <DemographicsDisplay subtitle="foo" />
+            <I18nextProvider i18n={i18n}>
+              <DemographicsDisplay subtitle="foo" />
+            </I18nextProvider>
           </Provider>,
         );
         expect(getByText('foo')).to.exist;
@@ -97,7 +111,9 @@ describe('pre-check-in experience', () => {
         };
         const { getByText } = render(
           <Provider store={store}>
-            <DemographicsDisplay demographics={demographics} />
+            <I18nextProvider i18n={i18n}>
+              <DemographicsDisplay demographics={demographics} />
+            </I18nextProvider>
           </Provider>,
         );
         expect(getByText('Mailing address')).to.exist;
@@ -131,7 +147,9 @@ describe('pre-check-in experience', () => {
         };
         const { getByText } = render(
           <Provider store={store}>
-            <DemographicsDisplay demographics={demographics} />
+            <I18nextProvider i18n={i18n}>
+              <DemographicsDisplay demographics={demographics} />
+            </I18nextProvider>
           </Provider>,
         );
         expect(getByText('123 Turtle Trail')).to.exist;
@@ -148,7 +166,9 @@ describe('pre-check-in experience', () => {
         const yesClick = sinon.spy();
         const screen = render(
           <Provider store={store}>
-            <DemographicsDisplay yesAction={yesClick} />
+            <I18nextProvider i18n={i18n}>
+              <DemographicsDisplay yesAction={yesClick} />
+            </I18nextProvider>
           </Provider>,
         );
         fireEvent.click(screen.getByTestId('yes-button'));
@@ -158,7 +178,9 @@ describe('pre-check-in experience', () => {
         const noClick = sinon.spy();
         const screen = render(
           <Provider store={store}>
-            <DemographicsDisplay noAction={noClick} />
+            <I18nextProvider i18n={i18n}>
+              <DemographicsDisplay noAction={noClick} />
+            </I18nextProvider>
           </Provider>,
         );
         fireEvent.click(screen.getByTestId('no-button'));
