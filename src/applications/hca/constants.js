@@ -28,6 +28,15 @@ export const HCA_ENROLLMENT_STATUSES = Object.freeze({
   rejectedRightEntry: 'rejected_rightentry',
 });
 
+// declare alert types for enrollment status helpers
+export const DASHBOARD_ALERT_TYPES = Object.freeze({
+  closed: 'closed', // Black, exclamation mark
+  decision: 'decision', // Red, exclamation mark
+  enrolled: 'enrolled', // Green, checkmark
+  inProgress: 'in-progress', // Blue, pause (TBD)
+  update: 'update', // Gold, exclamation
+});
+
 export const IS_LOGGED_IN = 'isVeteranLoggedIn';
 export const USER_DOB = 'veteranDOB';
 export const IS_GTE_HIGH_DISABILITY =
@@ -36,3 +45,6 @@ export const IS_COMPENSATION_TYPE_HIGH =
   'isCompensationTypeHighDisabilitySelected';
 export const IS_VETERAN_IN_MVI = 'isVeteranDataInMPI';
 export const IS_SHORT_FORM_ENABLED = 'isShortFormFeatureToggleEnabled';
+
+// declare states without medical care serivces
+export const statesWithoutService = ['AA', 'AE', 'AP', 'FM', 'MH', 'PW'];

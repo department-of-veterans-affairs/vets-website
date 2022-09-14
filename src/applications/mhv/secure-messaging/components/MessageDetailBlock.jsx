@@ -41,7 +41,7 @@ const MessageDetailBlock = props => {
           onClick={handleReplyButton}
           className="send-button-top medium-screen:vads-u-padding-right--2"
         >
-          <i className="fas fa-reply" />
+          <i className="fas fa-reply" aria-hidden="true" />
           <span className="reply-button-top-text">Reply</span>
         </button>
       </header>
@@ -89,7 +89,7 @@ const MessageDetailBlock = props => {
           </p>
         </div>
 
-        <MessageActionButtons />
+        <MessageActionButtons id={id} />
       </main>
     </section>
   );

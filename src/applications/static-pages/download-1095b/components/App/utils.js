@@ -52,9 +52,9 @@ export const LastUpdatedComponent = props => {
 export const notFoundComponent = () => {
   return (
     <va-alert close-btn-aria-label="Close notification" status="info" visible>
-      <h3 slot="headline">
+      <h2 slot="headline">
         You don’t have a 1095-B tax form available right now
-      </h3>
+      </h2>
       <div>
         <p>
           If you recently enrolled in VA health care, you may not have a 1095-B
@@ -73,14 +73,10 @@ export const notFoundComponent = () => {
 
 export const unavailableComponent = () => {
   return (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="warning"
-      visible
-    >
-      <h3 slot="headline">
+    <va-alert close-btn-aria-label="Close notification" status="info" visible>
+      <h2 slot="headline">
         Your 1095-B form isn’t available to download right now
-      </h3>
+      </h2>
       <div>
         <p>
           Check back later. Or, if you need help with this form now, call us at{' '}

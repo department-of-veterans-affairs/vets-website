@@ -15,6 +15,7 @@ const getData = ({
   coe = '',
   generateAutoCoeStatus = '',
   profileIsUpdating = false,
+  showCOE = true,
 } = {}) => ({
   props: {
     getCoe: () => {},
@@ -40,6 +41,11 @@ const getData = ({
         coe: coe ? { status: coe, referenceNumber: '123' } : null,
         generateAutoCoeStatus,
         profileIsUpdating,
+      },
+      featureToggles: {
+        loading: false,
+        // eslint-disable-next-line camelcase
+        coe_access: showCOE,
       },
     }),
     subscribe: () => {},

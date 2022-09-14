@@ -7,7 +7,6 @@
   "dateOfBirth": "1950-10-04",
   "applicantAddress": {
     "country": "USA",
-    "view:militaryBaseDescription": {},
     "street": "123 Faker Street",
     "city": "Bogusville",
     "state": "GA",
