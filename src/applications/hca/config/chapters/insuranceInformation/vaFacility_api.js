@@ -1,16 +1,14 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import constants from 'vets-json-schema/dist/constants.json';
-import { statesWithoutService } from '../../../constants';
+import { statesWithoutService } from '../../../utils/constants';
 import {
   EssentialCoverageDescription,
   FacilityLocatorDescription,
 } from '../../../components/FormDescriptions';
 import { ShortFormAlert } from '../../../components/FormAlerts';
 import VaMedicalCenter from '../../../components/FormFields/VaMedicalCenter';
-import {
-  emptyObjectSchema,
-  NotHighDisabilityOrNotCompensationTypeHigh,
-} from '../../../helpers';
+import { NotHighDisabilityOrNotCompensationTypeHigh } from '../../../utils/helpers';
+import { emptyObjectSchema } from '../../../definitions';
 
 // define default schema properties
 const {

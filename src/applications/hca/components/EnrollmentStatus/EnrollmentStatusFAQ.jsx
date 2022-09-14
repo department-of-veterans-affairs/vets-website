@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import recordEvent from 'platform/monitoring/record-event';
-import { showReapplyContent as showReapplyContentAction } from '../../actions';
-import { isShowingHCAReapplyContent } from '../../selectors';
-import { HCA_ENROLLMENT_STATUSES } from '../../constants';
+import { showReapplyContent as showReapplyContentAction } from '../../utils/actions';
+import { isShowingHCAReapplyContent } from '../../utils/selectors';
+import { HCA_ENROLLMENT_STATUSES } from '../../utils/constants';
 import { getFAQContent } from '../../enrollment-status-helpers';
 
 import ReapplyContent from './ReapplyContent';
