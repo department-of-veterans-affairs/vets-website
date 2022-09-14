@@ -3,6 +3,8 @@ import React from 'react';
 import { FOOTER_COLUMNS } from '../helpers';
 import LanguageSupport from './LanguageSupport';
 
+import VeteranCrisisLine from '../../header/components/VeteranCrisisLine';
+
 export default function MobileLinks({ links, visible, langConfig }) {
   return (
     <div
@@ -10,6 +12,9 @@ export default function MobileLinks({ links, visible, langConfig }) {
       className="usa-grid-full flex-container usa-grid-flex-mobile va-footer-content"
     >
       <ul className="usa-accordion va-footer-accordion">
+        <li>
+          <VeteranCrisisLine id="footer-crisis-line" />
+        </li>
         <li>
           <button
             className="usa-button-unstyled usa-accordion-button va-footer-button"

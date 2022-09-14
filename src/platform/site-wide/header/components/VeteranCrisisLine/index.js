@@ -3,10 +3,11 @@ import React from 'react';
 // Relative imports.
 import recordEvent from 'platform/monitoring/record-event';
 
-export const VeteranCrisisLine = () => (
+export const VeteranCrisisLine = props => (
   <div className="vads-u-background-color--secondary-darkest vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center vads-u-justify-content--center vads-u-text-align--center vads-u-padding--0p5">
     <button
       className="va-button-link vads-u-color--white vads-u-text-decoration--none va-overlay-trigger"
+      id={props.id}
       data-show="#modal-crisisline"
       onClick={() => {
         recordEvent({ event: 'nav-crisis-header' });
