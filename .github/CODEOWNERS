@@ -8,10 +8,10 @@
 
 # VSP
 *       @department-of-veterans-affairs/platform-release-tools
-src/applications/_mock-form @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
-src/applications/burial-poc-v6 @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
-src/platform/forms        @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
-src/platform/forms-system @department-of-veterans-affairs/pst-forms-library @department-of-veterans-affairs/platform-design-system-fe
+src/applications/_mock-form @department-of-veterans-affairs/platform-design-system-fe
+src/applications/burial-poc-v6 @department-of-veterans-affairs/platform-design-system-fe
+src/platform/forms        @department-of-veterans-affairs/platform-design-system-fe
+src/platform/forms-system @department-of-veterans-affairs/platform-design-system-fe
 script/component-migration @department-of-veterans-affairs/platform-design-system-fe
 
 # VSP-Identity authentication

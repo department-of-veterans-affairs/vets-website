@@ -1,7 +1,7 @@
 {
   "name": "vets-website",
   "version": "1.0.1",
-  "description": "Frontend build for vets.gov website static assets.",
+  "description": "Frontend build for VA.gov website static assets.",
   "scripts": {
     "analyze": "webpack-bundle-analyzer build/vagovprod/generated/stats.json",
     "apps": "./script/app-list.sh",
@@ -241,16 +241,16 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": ">=14.15.0",
+    "node": ">=14.15.0 <16",
     "yarn": ">=1.21.1"
   },
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.15.4",
-    "@department-of-veterans-affairs/component-library": "^11.5.5",
+    "@department-of-veterans-affairs/component-library": "^12.0.0",
     "@department-of-veterans-affairs/formation": "^7.0.2",
     "@department-of-veterans-affairs/react-jsonschema-form": "^1.2.5",
-    "@department-of-veterans-affairs/va-forms-system-core": "1.4.6",
+    "@department-of-veterans-affairs/va-forms-system-core": "1.6.1",
     "@department-of-veterans-affairs/vagov-platform": "^0.0.1",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@mapbox/mapbox-sdk": "^0.13.2",
@@ -368,6 +368,9 @@
       "src/platform/polyfills",
       "src/platform/static-data",
       "src/platform/testing",
+      "src/platform/site-wide",
+      "src/platform/forms",
+      "src/platform/forms-system",
       "src/platform/monitoring"
     ],
     "nohoist": [

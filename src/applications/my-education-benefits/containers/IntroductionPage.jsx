@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import PropTypes from 'prop-types';
 
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import OMBInfo from '@department-of-veterans-affairs/component-library/OMBInfo';
 
 import { getAppData } from '../selectors/selectors';
@@ -9,15 +10,22 @@ import HowToApplyPost911GiBillV1 from '../components/HowToApplyPost911GiBillV1';
 import HowToApplyPost911GiBillV2 from '../components/HowToApplyPost911GiBillV2';
 import IntroductionLoginV1 from '../components/IntroductionLoginV1';
 import IntroductionLoginV2 from '../components/IntroductionLoginV2';
+import LoadingIndicator from '../components/LoadingIndicator';
 
-export const IntroductionPage = ({ route, showUnverifiedUserAlert }) => {
+export const IntroductionPage = ({
+  featureTogglesLoaded,
+  route,
+  showUnverifiedUserAlert,
+}) => {
   return (
     <div className="schemaform-intro">
       <FormTitle title="Apply for VA education benefits" />
       <p>Equal to VA Form 22-1990 (Application for VA Education Benefits)</p>
 
-      {showUnverifiedUserAlert === false && <HowToApplyPost911GiBillV1 />}
-      {showUnverifiedUserAlert && <HowToApplyPost911GiBillV2 route={route} />}
+      {featureTogglesLoaded &&
+        !showUnverifiedUserAlert && <HowToApplyPost911GiBillV1 />}
+      {featureTogglesLoaded &&
+        showUnverifiedUserAlert && <HowToApplyPost911GiBillV2 route={route} />}
 
       <h2>Follow these steps to get started</h2>
       <div className="process schemaform-process">
@@ -88,14 +96,21 @@ export const IntroductionPage = ({ route, showUnverifiedUserAlert }) => {
         </ol>
       </div>
 
-      {showUnverifiedUserAlert === false && (
-        <IntroductionLoginV1 route={route} />
-      )}
-      {showUnverifiedUserAlert && <IntroductionLoginV2 route={route} />}
+      {!featureTogglesLoaded && <LoadingIndicator />}
+      {featureTogglesLoaded &&
+        !showUnverifiedUserAlert && <IntroductionLoginV1 route={route} />}
+      {featureTogglesLoaded &&
+        showUnverifiedUserAlert && <IntroductionLoginV2 route={route} />}
 
       <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="02/28/2023" />
     </div>
   );
+};
+
+IntroductionPage.propTypes = {
+  featureTogglesLoaded: PropTypes.bool,
+  route: PropTypes.object,
+  showUnverifiedUserAlert: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
