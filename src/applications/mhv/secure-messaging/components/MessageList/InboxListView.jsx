@@ -1,5 +1,3 @@
-/* eslint-disable camelcase */
-
 /*
 This component handles:
 - displaying a list of 10 messages per page
@@ -16,7 +14,7 @@ Outstanding work:
 to display message details. Another react route would need to be set up to handle this view, 
 probably needing to accept a URL parameter
 */
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { chunk } from 'lodash';
 import {
@@ -30,26 +28,22 @@ import InboxListItem from './InboxListItem';
 const MAX_PAGE_LIST_LENGTH = 5;
 
 const InboxListView = props => {
-  const {
-    messages,
-    messages: {
-      meta: {
-        pagination: { per_page, total_entries },
-      },
-    },
-  } = props;
+  const { messages } = props;
+  const perPage = messages.meta.pagination.per_page;
+  const totalEntries = messages.meta.pagination.total_entries;
 
   const [currentMessages, setCurrentMessages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortOrder, setSortOrder] = useState('desc');
-  const perPage = per_page;
-  const totalEntries = total_entries;
   const paginatedMessages = useRef([]);
 
   // split messages into pages
-  const paginateData = data => {
-    return chunk(data, perPage);
-  };
+  const paginateData = useCallback(
+    data => {
+      return chunk(data, perPage);
+    },
+    [perPage],
+  );
 
   // get display numbers
   const fromToNums = (page, total) => {
@@ -60,27 +54,30 @@ const InboxListView = props => {
   };
 
   // sort messages
-  const sortMessages = data => {
-    let sorted;
-    if (sortOrder === 'desc') {
-      sorted = data.sort((a, b) => {
-        return b.attributes.sent_date > a.attributes.sent_date ? 1 : -1;
-      });
-    } else if (sortOrder === 'asc') {
-      sorted = data.sort((a, b) => {
-        return a.attributes.sent_date > b.attributes.sent_date ? 1 : -1;
-      });
-    } else if (sortOrder === 'alpha-asc') {
-      sorted = data.sort((a, b) => {
-        return a.attributes.sender_name > b.attributes.sender_name ? 1 : -1;
-      });
-    } else if (sortOrder === 'alpha-desc') {
-      sorted = data.sort((a, b) => {
-        return a.attributes.sender_name < b.attributes.sender_name ? 1 : -1;
-      });
-    }
-    return sorted;
-  };
+  const sortMessages = useCallback(
+    data => {
+      let sorted;
+      if (sortOrder === 'desc') {
+        sorted = data.sort((a, b) => {
+          return b.attributes.sent_date > a.attributes.sent_date ? 1 : -1;
+        });
+      } else if (sortOrder === 'asc') {
+        sorted = data.sort((a, b) => {
+          return a.attributes.sent_date > b.attributes.sent_date ? 1 : -1;
+        });
+      } else if (sortOrder === 'alpha-asc') {
+        sorted = data.sort((a, b) => {
+          return a.attributes.sender_name > b.attributes.sender_name ? 1 : -1;
+        });
+      } else if (sortOrder === 'alpha-desc') {
+        sorted = data.sort((a, b) => {
+          return a.attributes.sender_name < b.attributes.sender_name ? 1 : -1;
+        });
+      }
+      return sorted;
+    },
+    [sortOrder],
+  );
 
   // run once on component mount to set initial message and page data
   useEffect(
@@ -89,7 +86,7 @@ const InboxListView = props => {
 
       setCurrentMessages(paginatedMessages.current[currentPage - 1]);
     },
-    [messages],
+    [currentPage, messages, paginateData, sortMessages],
   );
 
   // update pagination values on...page change
@@ -137,7 +134,11 @@ const InboxListView = props => {
       {currentMessages.map((message, idx) => (
         <InboxListItem
           key={`${message.id}+${idx}`}
-          attributes={message.attributes}
+          senderName={message.attributes.sender_name}
+          sentDate={message.attributes.sent_date}
+          subject={message.attributes.subject}
+          readReceipt={message.attributes.read_receipt}
+          attachment={message.attributes.attachment}
           link={message.link}
         />
       ))}

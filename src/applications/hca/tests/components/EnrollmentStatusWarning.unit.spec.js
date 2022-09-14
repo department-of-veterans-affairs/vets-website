@@ -13,7 +13,7 @@ const expectedOutputs = {
   [HCA_ENROLLMENT_STATUSES.closed]:
     '<h2 slot="headline">Our records show that your application for VA health care expired</h2><p><strong>You applied on: </strong>April 24, 2019</p><p>We closed your application because you didn’t submit all the documents needed to complete it within a year.</p>',
   [HCA_ENROLLMENT_STATUSES.deceased]:
-    '<h2 slot="headline">Our records show that this Veteran is deceased</h2><p>We can’t accept an application for this Veteran.</p><p>If this information is incorrect, please call our enrollment case management team at <a class="help-phone-number-link" href="tel:1-877-222-8387">877-222-8387</a>.</p>',
+    '<h2 slot="headline">Our records show that this Veteran is deceased</h2><p>We can’t accept an application for this Veteran.</p><p>If this information is incorrect, please call our enrollment case management team at <va-telephone class="help-phone-number-link" contact="8772228387"></va-telephone>.</p>',
   [HCA_ENROLLMENT_STATUSES.enrolled]:
     '<h2 slot="headline">You’re already enrolled in VA health care</h2><p><strong>You applied on: </strong>April 24, 2019<br><strong>We enrolled you on: </strong>April 30, 2019<br><strong>Your preferred VA medical center is: </strong>Anchorage VA Medical Center</p>',
   [HCA_ENROLLMENT_STATUSES.ineligCHAMPVA]:

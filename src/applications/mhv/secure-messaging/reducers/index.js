@@ -63,6 +63,7 @@ const message = (state = initialState, action) => {
         ...state,
         isLoading: false,
         message: action.response,
+        error: null,
       };
     case MESSAGE_DELETE_FAILED:
     case MESSAGE_MOVE_FAILED:
