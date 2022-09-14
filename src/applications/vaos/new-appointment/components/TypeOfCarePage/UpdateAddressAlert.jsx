@@ -26,7 +26,7 @@ export default function UpdateAddressAlert({ onClickUpdateAddress }) {
           className="usa-button usa-button-primary vads-u-margin-top--4"
           onClick={() => onClickUpdateAddress(headline)}
         >
-          Update your address!
+          Update your address
         </NewTabAnchor>
       </p>
     </InfoAlert>
