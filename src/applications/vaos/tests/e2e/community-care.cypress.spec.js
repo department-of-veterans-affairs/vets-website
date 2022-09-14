@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 import Timeouts from 'platform/testing/e2e/timeouts';
 import {
   initCommunityCareMock,
@@ -163,29 +161,12 @@ describe.skip('VAOS community care flow', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentRequests').should(xhr => {
-      // Add check to see if adding 7 days will result in the next month. If so,
-      // add 2 months (the test clicks the calendar next button to advance to the
-      // next month) and set date to beginning of month, else set the date to the
-      // beginning of the next month
-      const date = moment();
-      if (
-        moment(date)
-          .add(7, 'days')
-          .isSame(moment(date).add(1, 'month'), 'month')
-      ) {
-        date.add(2, 'months').startOf('month');
-      } else {
-        date.add(1, 'months').startOf('month');
-      }
-
       expect(xhr.status).to.eq(200);
       expect(xhr.url, 'post url').to.contain(
         '/vaos/v0/appointment_requests?type=cc',
       );
       const request = xhr.requestBody;
-      expect(request)
-        .to.have.property('optionDate1')
-        .to.equal(date.format('MM/DD/YYYY'));
+      cy.assertRequestedPeriod(request.optionDate1);
       expect(request)
         .to.have.property('optionDate2')
         .to.equal('No Date Selected');
@@ -331,7 +312,7 @@ describe.skip('VAOS community care flow', () => {
     cy.findByText(/Choose provider/i).click();
     cy.findByText(/remove/i).click();
     cy.axeCheckBestPractice();
-    cy.findByText(/cancel/i).click({ force: true });
+    cy.findByText(/cancel/i).click();
     // Click continue button
     cy.get('.usa-button').click();
 
@@ -393,29 +374,12 @@ describe.skip('VAOS community care flow', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentRequests').should(xhr => {
-      // Add check to see if adding 7 days will result in the next month. If so,
-      // add 2 months (the test clicks the calendar next button to advance to the
-      // next month) and set date to beginning of month, else set the date to the
-      // beginning of the next month
-      const date = moment();
-      if (
-        moment(date)
-          .add(7, 'days')
-          .isSame(moment(date).add(1, 'month'), 'month')
-      ) {
-        date.add(2, 'months').startOf('month');
-      } else {
-        date.add(1, 'months').startOf('month');
-      }
-
       expect(xhr.status).to.eq(200);
       expect(xhr.url, 'post url').to.contain(
         '/vaos/v0/appointment_requests?type=cc',
       );
       const request = xhr.requestBody;
-      expect(request)
-        .to.have.property('optionDate1')
-        .to.equal(date.format('MM/DD/YYYY'));
+      cy.assertRequestedPeriod(request.optionDate1);
       expect(request)
         .to.have.property('optionDate2')
         .to.equal('No Date Selected');
@@ -635,7 +599,7 @@ describe('VAOS community care flow using VAOS service', () => {
     cy.findByText(/Choose provider/i).click();
     cy.findByText(/remove/i).click();
     cy.axeCheckBestPractice();
-    cy.findByText(/cancel/i).click({ force: true });
+    cy.findByText(/cancel/i).click();
     // Click continue button
     cy.get('.usa-button').click();
 
@@ -697,30 +661,14 @@ describe('VAOS community care flow using VAOS service', () => {
 
     // Check form requestBody is as expected
     cy.wait('@appointmentRequests').should(xhr => {
-      // Add check to see if adding 7 days will result in the next month. If so,
-      // add 2 months (the test clicks the calendar next button to advance to the
-      // next month) and set date to beginning of month, else set the date to the
-      // beginning of the next month
-      let date = moment();
-      if (
-        moment(date)
-          .add(7, 'days')
-          .isSame(moment(date).add(1, 'month'), 'month')
-      ) {
-        date.add(2, 'months').startOf('month');
-      } else {
-        date.add(1, 'months').startOf('month');
-      }
-
-      // Convert date timezone to that of the facility for scheduled appointment
-      date = moment
-        .tz(date.format('YYYY-MM-DDTHH:mm:ss'), 'America/Denver')
-        .utc()
-        .format();
       expect(xhr.status).to.eq(200);
       expect(xhr.url, 'post url').to.contain('/vaos/v2/appointments');
       const request = xhr.requestBody;
       // expect(request.requestedPeriods[0].start).to.equal(date);
+      cy.assertRequestedPeriod(
+        request.requestedPeriods[0].start,
+        'America/Denver',
+      );
       expect(request.practitioners).to.deep.eq([
         {
           address: {

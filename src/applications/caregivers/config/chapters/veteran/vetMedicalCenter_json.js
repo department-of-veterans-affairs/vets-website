@@ -1,12 +1,12 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { medicalCentersByState } from 'applications/caregivers/helpers';
 import { states } from 'platform/forms/address';
-import { veteranFields } from 'applications/caregivers/definitions/constants';
+import { medicalCentersByState } from '../../../helpers';
+import { veteranFields } from '../../../definitions/constants';
 import {
   previousTreatmentFacilityUI,
   veteranPreferredFacility,
   preferredFacilityView,
-} from 'applications/caregivers/definitions/UIDefinitions/veteranUI';
+} from '../../../definitions/UIDefinitions/veteranUI';
 
 const {
   lastTreatmentFacility,

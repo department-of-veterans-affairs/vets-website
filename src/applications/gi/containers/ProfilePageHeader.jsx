@@ -99,7 +99,6 @@ const ProfilePageHeader = ({
   };
 
   const main = facilityMap.main.institution;
-
   const stars = convertRatingToStars(ratingAverage);
   const displayStars =
     gibctSchoolRatings && stars && ratingCount >= MINIMUM_RATING_COUNT;
@@ -172,13 +171,9 @@ const ProfilePageHeader = ({
                 buttonId="typeAccredited-button"
               />
             </IconWithInfo>
-            <IconWithInfo
-              icon="building"
-              present={!environment.isProduction() ?? ownershipName}
-            >
+            <IconWithInfo icon="building" present={!environment.isProduction()}>
               {'   '}
-              Institutional Ownership:
-              {ownershipName}
+              Institutional Ownership: {ownershipName || 'N/A'}
             </IconWithInfo>
           </div>
         )}

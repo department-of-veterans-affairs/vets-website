@@ -2,12 +2,10 @@ const generateFeatureToggles = (toggles = {}) => {
   const {
     checkInExperienceEnabled = true,
     preCheckInEnabled = true,
-    checkInExperienceTranslationDayOfEnabled = true,
-    checkInExperienceTranslationPreCheckInEnabled = true,
     checkInExperienceTranslationDisclaimerSpanishEnabled = true,
     checkInExperienceDayOfDemographicsFlagsEnabled = true,
     checkInExperienceLorotaSecurityUpdatesEnabled = false,
-    checkInExperiencePhoneAppointmentsEnabled = false,
+    checkInExperiencePhoneAppointmentsEnabled = true,
     checkInExperienceLorotaDeletionEnabled = false,
   } = toggles;
 
@@ -22,14 +20,6 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_pre_check_in_enabled',
           value: preCheckInEnabled,
-        },
-        {
-          name: 'check_in_experience_translation_day_of_enabled',
-          value: checkInExperienceTranslationDayOfEnabled,
-        },
-        {
-          name: 'check_in_experience_translation_pre_check_in_enabled',
-          value: checkInExperienceTranslationPreCheckInEnabled,
         },
         {
           name: 'check_in_experience_translation_disclaimer_spanish_enabled',

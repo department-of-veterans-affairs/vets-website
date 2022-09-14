@@ -1,10 +1,10 @@
 import moment from 'moment';
 
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/feature-toggles-aiq.json';
-import mockUserAiq from './fixtures/mockUserAiq';
-import enrollmentStatus from './fixtures/mockEnrollmentStatus.json';
-import prefillServiceTest from './fixtures/mockPrefillServiceTest.json';
+import featureToggles from './fixtures/mocks/feature-toggles-aiq.json';
+import mockUserAiq from './fixtures/mocks/mockUserAiq';
+import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
+import prefillServiceTest from './fixtures/mocks/mockPrefillServiceTest.json';
 import * as serviceInfoHelpers from './helpers';
 
 describe('HCA-Service-Info', () => {
@@ -19,7 +19,7 @@ describe('HCA-Service-Info', () => {
     );
     cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
       statusCode: 404,
-      body: enrollmentStatus,
+      body: mockEnrollmentStatus,
     }).as('mockEnrollmentStatus');
     cy.intercept('/v0/in_progress_forms/1010ez', {
       statusCode: 200,

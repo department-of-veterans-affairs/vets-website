@@ -10,7 +10,7 @@ const downloadUrl = `${environment.API_URL}/v0/coe/download_coe`;
 
 const ReviewAndDownload = () => (
   <>
-    <h2>Review and download your COE</h2>
+    <h2 className="vads-u-margin-top--0">Review and download your COE</h2>
     <p>
       You can download your COE right now. If you need help, go to our
       instructions for how to download and open a VA.gov PDF form.

@@ -1,10 +1,10 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import constants from 'vets-json-schema/dist/constants.json';
-import { veteranFields } from 'applications/caregivers/definitions/constants';
+import { veteranFields } from '../../../definitions/constants';
 import {
   LastTreatmentFacilityAPIUI,
   PreferredFacilityAPIUI,
-} from 'applications/caregivers/definitions/UIDefinitions/veteranUI';
+} from '../../../definitions/UIDefinitions/veteranUI';
 
 const {
   lastTreatmentFacility,

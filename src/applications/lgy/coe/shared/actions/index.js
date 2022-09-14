@@ -13,21 +13,22 @@ export const getCoeStatus = async () => {
     const response = await apiRequest(COE_STATUS_URI);
     return response.data.attributes;
   } catch (error) {
-    return error;
+    return Promise.reject(error);
   }
 };
 
-export const generateCoe = (skip = '') => async dispatch => {
-  const shouldSkip = !!skip;
-  if (!shouldSkip) {
+export const generateCoe = (skip = false) => async dispatch => {
+  if (!skip) {
     dispatch({ type: GENERATE_AUTOMATIC_COE_STARTED });
-    const response = await getCoeStatus();
-    if (response.errors) {
-      dispatch({ type: GENERATE_AUTOMATIC_COE_FAILED, response });
-    } else {
-      dispatch({ type: GENERATE_AUTOMATIC_COE_SUCCEEDED, response });
-    }
-    return response;
+    return getCoeStatus()
+      .then(response => {
+        dispatch({ type: GENERATE_AUTOMATIC_COE_SUCCEEDED, response });
+        return response;
+      })
+      .catch(response => {
+        dispatch({ type: GENERATE_AUTOMATIC_COE_FAILED, response });
+        return response;
+      });
   }
 
   dispatch({ type: SKIP_AUTOMATIC_COE_CHECK });

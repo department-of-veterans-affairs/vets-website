@@ -100,7 +100,7 @@ const validateLogin = async (
     });
     if (resp.errors || resp.error) {
       setIsLoading(false);
-      goToErrorPage();
+      goToErrorPage('?error=session-error');
     } else {
       setSession(token, resp.permissions);
       if (!isLorotaDeletionEnabled) {

@@ -36,7 +36,7 @@ const useFormRouting = (router = {}) => {
         }
         router.push(query);
       } else {
-        goToErrorPage();
+        goToErrorPage('?error=routing-error');
       }
     },
     [goToErrorPage, router],

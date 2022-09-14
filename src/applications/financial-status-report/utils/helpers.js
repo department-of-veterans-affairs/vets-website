@@ -68,7 +68,7 @@ export const filterDeductions = (deductions, filters) => {
   if (!deductions.length) return 0;
   return deductions
     .filter(({ name }) => filters.includes(name))
-    .reduce((acc, curr) => acc + Number(curr.amount.replaceAll(',', '')), 0);
+    .reduce((acc, curr) => acc + Number(curr.amount?.replaceAll(',', '')), 0);
 };
 
 export const otherDeductionsName = (deductions, filters) => {
@@ -83,7 +83,7 @@ export const otherDeductionsAmt = (deductions, filters) => {
   if (!deductions.length) return 0;
   return deductions
     .filter(({ name }) => name && !filters.includes(name))
-    .reduce((acc, curr) => acc + Number(curr.amount.replaceAll(',', '')), 0);
+    .reduce((acc, curr) => acc + Number(curr.amount?.replaceAll(',', '')), 0);
 };
 
 export const nameStr = (socialSecurity, compensation, education, addlInc) => {
@@ -103,20 +103,22 @@ export const nameStr = (socialSecurity, compensation, education, addlInc) => {
   return otherIncNames?.map(item => item).join(', ') ?? '';
 };
 
+export const fsrReasonDisplay = resolutionOption => {
+  switch (resolutionOption) {
+    case 'monthly':
+      return 'Extended monthly payments';
+    case 'waiver':
+      return 'Waiver';
+    case 'compromise':
+      return 'Compromise';
+    default:
+      return '';
+  }
+};
+
 export const getFsrReason = (debts, combinedFSR) => {
   const reasons = combinedFSR
-    ? debts.map(({ resolutionOption }) => {
-        switch (resolutionOption) {
-          case 'monthly':
-            return 'Extended monthly payments';
-          case 'waiver':
-            return 'Waiver';
-          case 'compromise':
-            return 'Compromise';
-          default:
-            return '';
-        }
-      })
+    ? debts.map(({ resolutionOption }) => fsrReasonDisplay(resolutionOption))
     : debts.map(({ resolution }) => resolution.resolutionType);
   const uniqReasons = [...new Set(reasons)];
 
@@ -129,16 +131,28 @@ export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
         .filter(item => item.resolutionComment !== undefined)
         .reduce(
           (acc, debt) =>
-            acc + Number(debt.resolutionComment.replaceAll(',', '')),
+            acc + Number(debt.resolutionComment?.replaceAll(',', '')),
           0,
         )
     : debts
         .filter(item => item.resolution.offerToPay !== undefined)
         .reduce(
           (acc, debt) =>
-            acc + Number(debt.resolution?.offerToPay.replaceAll(',', '')),
+            acc + Number(debt.resolution?.offerToPay?.replaceAll(',', '')),
           0,
         );
+};
+
+export const mergeAdditionalComments = (additionalComments, expenses) => {
+  const individualExpenses = expenses
+    ?.map(expense => `${expense.name} (${currency(expense.amount)})`)
+    .join(', ');
+
+  const individualExpensesStr = `Individual expense amount: ${individualExpenses}`;
+
+  return individualExpenses
+    ? `${additionalComments}\n${individualExpensesStr}`
+    : additionalComments;
 };
 
 export const getMonthlyIncome = ({
@@ -212,7 +226,7 @@ export const getMonthlyExpenses = ({
   const otherExp = sumValues(otherExpenses, 'amount');
   const expVals = Object.values(expenses).filter(Boolean);
   const totalExp = expVals.reduce(
-    (acc, expense) => acc + Number(expense.replaceAll(',', '')),
+    (acc, expense) => acc + Number(expense?.replaceAll(',', '')),
     0,
   );
 
@@ -226,7 +240,7 @@ export const getTotalAssets = ({ assets, realEstateRecords }) => {
   const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
   const totAssets = Object.values(assets)
     .filter(item => item && !Array.isArray(item))
-    .reduce((acc, amount) => acc + Number(amount.replaceAll(',', '')), 0);
+    .reduce((acc, amount) => acc + Number(amount?.replaceAll(',', '')), 0);
 
   return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;
 };

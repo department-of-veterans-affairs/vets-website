@@ -5,13 +5,15 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/feature-toggles.json';
+import featureToggles from './fixtures/mocks/feature-toggles.json';
+import mockFacilities from './fixtures/mocks/mockFacilities.json';
+import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     dataSets: ['maximal-test', 'minimal-test', 'foreign-address-test'],
-    fixtures: { data: path.join(__dirname, 'fixtures/schema') },
+    fixtures: { data: path.join(__dirname, 'fixtures/data') },
 
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -21,7 +23,6 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-
       'id-form': () => {
         cy.get('@testData').then(data => {
           cy.findByLabelText(/first name/i).type(data.veteranFullName.first);
@@ -39,31 +40,31 @@ const testConfig = createTestConfig(
           );
         });
       },
+      'insurance-information/va-facility-api': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.wait('@getFacilities');
+          cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]')
+            .shadow()
+            .find('select')
+            .select('631');
+          cy.get('.usa-button-primary').click();
+        });
+      },
     },
 
     setupPerTest: () => {
-      cy.server();
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
-
-      cy.route({
-        method: 'GET',
-        url: '/v0/health_care_applications/enrollment_status*',
-        status: 404,
-        response: {
-          errors: [
-            {
-              title: 'Record not found',
-              detail: 'The record identified by  could not be found',
-              code: '404',
-              status: '404',
-            },
-          ],
-        },
-      });
-
-      cy.route('POST', '/v0/health_care_applications', {
+      cy.intercept('GET', '/v1/facilities/va?*', mockFacilities).as(
+        'getFacilities',
+      );
+      cy.intercept('POST', '/v0/health_care_applications', {
         formSubmissionId: '123fake-submission-id-567',
         timestamp: '2016-05-16',
+      });
+      cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
+        statusCode: 404,
+        body: mockEnrollmentStatus,
       });
     },
   },

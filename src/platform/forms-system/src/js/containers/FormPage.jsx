@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import classNames from 'classnames';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { isReactComponent, getScrollOptions } from 'platform/utilities/ui';
 import get from '../../../../utilities/data/get';
 import set from '../../../../utilities/data/set';
 
@@ -16,7 +17,6 @@ import {
   checkValidPagePath,
 } from '../routing';
 import { focusElement } from '../utilities/ui';
-import { isReactComponent, getScrollOptions } from '~/platform/utilities/ui';
 
 function focusForm() {
   focusElement('.nav-header > h2');

@@ -3,16 +3,20 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 
 import environment from 'platform/utilities/environment';
+import { formatDateLong } from 'platform/utilities/date';
 
 import ListItem from './ListItem';
 
-const formatDate = timestamp => moment(timestamp).format('MMMM DD, YYYY');
-const formatLabelDate = timestamp => moment(timestamp).format('MMDDYYYY');
+export const formatLabelDate = timestamp =>
+  moment(timestamp).format('MMDDYYYY');
 
-// ex docType: '.pdf'
-const getDocumentType = docType => docType.slice(1).toUpperCase();
+// Example docType: 'pdf', but the mock data has '54'; this may need to be
+// updated to extract the file extension from the `mimeType` (e.g. `file.pdf`),
+// which should contain the mime type (expecting `application/pdf`) - awaiting
+// response from LGY
+export const getDocumentType = docType => docType.slice(1).toUpperCase();
 
-const getDownloadLinkLabel = (timestamp, documentType) =>
+export const getDownloadLinkLabel = (timestamp, documentType) =>
   `Download Notification Letter ${formatLabelDate(
     timestamp,
   )} (${getDocumentType(documentType)})`;
@@ -21,7 +25,7 @@ const List = ({ documents }) =>
   documents.map((document, i) => {
     const { createDate, description, documentType, id } = document;
     const downloadLinkLabel = getDownloadLinkLabel(createDate, documentType);
-    const sentDate = formatDate(createDate);
+    const sentDate = formatDateLong(createDate);
 
     return (
       <ListItem
