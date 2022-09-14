@@ -139,8 +139,23 @@ const PreCheckInAccordionBlock = ({
             {appointments.map((appointment, index) => {
               return (
                 <p key={index}>
-                  {appointment.clinicFriendlyName || appointment.clinicName} at{' '}
-                  <va-telephone contact={appointment.clinicPhoneNumber} />
+                  <Trans
+                    i18nKey="facility-name-at-phone"
+                    components={[
+                      <va-telephone
+                        key="facility-name-at-phone"
+                        contact={appointment.clinicPhoneNumber}
+                      >
+                        phone
+                      </va-telephone>,
+                    ]}
+                    values={{
+                      facility:
+                        appointment.clinicFriendlyName ||
+                        appointment.clinicName,
+                      phone: appointment.clinicPhoneNumber,
+                    }}
+                  />
                 </p>
               );
             })}

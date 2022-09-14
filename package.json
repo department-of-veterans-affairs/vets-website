@@ -1,7 +1,7 @@
 {
   "name": "vets-website",
   "version": "1.0.1",
-  "description": "Frontend build for vets.gov website static assets.",
+  "description": "Frontend build for VA.gov website static assets.",
   "scripts": {
     "analyze": "webpack-bundle-analyzer build/vagovprod/generated/stats.json",
     "apps": "./script/app-list.sh",
@@ -259,7 +259,7 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": ">=14.15.0",
+    "node": ">=14.15.0 <16",
     "yarn": ">=1.21.1"
   },
   "private": true,
@@ -386,6 +386,7 @@
       "src/platform/utilities",
       "src/platform/polyfills",
       "src/platform/static-data",
+      "src/platform/site-wide",
       "src/platform/forms",
       "src/platform/forms-system",
       "src/platform/monitoring"

@@ -14,16 +14,13 @@ const LoggedOutContent = ({ route, showLoginAlert, toggleLoginModal }) => {
     <>
       {showLoginAlert ? (
         <va-alert status="info" background-only>
-          <h2 className="vads-u-margin-y--0 vads-u-font-size--h4">
+          <h2 className="vads-u-font-size--h4 vads-u-margin-top--0 vads-u-margin-bottom--2">
             Have you applied for VA health care before?
           </h2>
-          <button
-            type="button"
-            className="usa-button vads-u-margin-top--2"
+          <va-button
+            text="Sign in to check your application status"
             onClick={() => toggleLoginModal(true, 'hcainfo')}
-          >
-            Sign in to check your application status
-          </button>
+          />
         </va-alert>
       ) : (
         <SaveInProgressIntro
