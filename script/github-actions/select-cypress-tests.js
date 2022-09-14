@@ -16,6 +16,7 @@ const RUN_FULL_SUITE = process.env.RUN_FULL_SUITE === 'true';
 const ALLOW_LIST = JSON.parse(process.env.ALLOW_LIST);
 const IS_CHANGED_APPS_BUILD = Boolean(process.env.APP_ENTRIES);
 const APPS_HAVE_URLS = Boolean(process.env.APP_URLS);
+const IS_STRESS_TEST = Boolean(process.env.IS_STRESS_TEST);
 
 function getImports(filePath) {
   return findImports(filePath, {
@@ -254,15 +255,19 @@ function run() {
   const graph = dedupeGraph(buildGraph());
 
   // groups of tests from the allow list
+  const allAllowListTestPaths = ALLOW_LIST.map(spec => spec.spec_path);
+  const allAllowedTestPaths = ALLOW_LIST.filter(
+    spec => spec.allowed === true,
+  ).map(spec => spec.spec_path);
   const allDisallowedTestPaths = ALLOW_LIST.filter(
     spec => spec.allowed === false,
   ).map(spec => spec.spec_path);
-  const allAllowedTestPaths = ALLOW_LIST.map(spec => spec.spec_path);
 
   // groups of tests based on test selection and filtering the groups from the allow list
   const testsSelectedByTestSelection = selectTests(graph, CHANGED_FILE_PATHS);
   const newTests = testsSelectedByTestSelection.filter(
-    test => !allAllowedTestPaths.includes(test.substring(test.indexOf('src/'))),
+    test =>
+      !allAllowListTestPaths.includes(test.substring(test.indexOf('src/'))),
   );
 
   console.log('testsSelectedByTestSelection', testsSelectedByTestSelection);
@@ -290,7 +295,7 @@ function run() {
   );
 
   console.log('allDisallowedTestPaths: ', allDisallowedTestPaths);
-  console.log('allAllowedTestPaths: ', allAllowedTestPaths);
+  console.log('allAllowListTestPaths: ', allAllowListTestPaths);
   console.log('testsSelectedByTestSelection: ', testsSelectedByTestSelection);
   console.log('newTests: ', newTests);
   console.log('disallowedTests: ', disallowedTests);
@@ -299,7 +304,12 @@ function run() {
 
   exportVariables(testsToRunNormally);
 
-  core.exportVariable('TESTS_TO_STRESS_TEST', testsToStressTest);
+  if (IS_STRESS_TEST) {
+    core.exportVariable('TESTS_TO_STRESS_TEST', allAllowedTestPaths);
+  } else {
+    core.exportVariable('TESTS_TO_STRESS_TEST', testsToStressTest);
+  }
+
   core.exportVariable(
     'TEST_SELECTION_DISALLOWED_TESTS',
     testSelectionDisallowedTests,
