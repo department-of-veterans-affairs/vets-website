@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Build vets-website
 # printf "\n\n##### Installing vets-website #####\n"
 # set -e
