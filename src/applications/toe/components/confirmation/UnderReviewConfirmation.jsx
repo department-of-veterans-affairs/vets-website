@@ -86,7 +86,7 @@ export default function UnderReviewConfirmation({ user, dateReceived }) {
           <li>
             We’ll notify you if you’re eligible for other VA education benefits.
           </li>
-          <li>There is no further action required by you at this time.</li>
+          <li>We don’t require further action from you at this time.</li>
         </ul>
       </div>
       <div className="vads-u-margin-bottom--4">
