@@ -48,12 +48,13 @@ const ReplyBox = () => (
           <i
             className="fa fa-paperclip attachment-icon"
             aria-label="Attached file"
+            aria-hidden="true"
           />
           {
             'This is an attachment that I uploaded from my laptop.pdf (108.7 KB) '
           }{' '}
           <a href="http://localhost:3001/my-health/secure-messages/reply/">
-            <i className="fas fa-times" /> Remove
+            <i className="fas fa-times" aria-hidden="true" /> Remove
           </a>
         </p>
         <p className="message-body-text">
@@ -61,6 +62,7 @@ const ReplyBox = () => (
             <i
               className="fa fa-paperclip attachment-icon"
               aria-label="Attached file"
+              aria-hidden="true"
             />
             <span>Attach files</span>
           </a>
@@ -75,7 +77,7 @@ const ReplyBox = () => (
         <div>
           <button type="button">
             <span className="save-button-text">{'Send '}</span>
-            <i className="fas fa-paper-plane" />
+            <i className="fas fa-paper-plane" aria-hidden="true" />
           </button>
         </div>
         <div>

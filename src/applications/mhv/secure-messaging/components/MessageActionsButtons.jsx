@@ -85,12 +85,12 @@ const MessageActionButtons = props => {
   return (
     <div className="message-action-buttons vads-l-row vads-u-justify-content--space-around">
       <button type="button" className="message-action-button">
-        <i className="fas fa-print" />
+        <i className="fas fa-print" aria-hidden="true" />
         <span className="message-action-button-text">Print</span>
       </button>
 
       <button type="button" className="message-action-button">
-        <i className="fas fa-trash-alt" />
+        <i className="fas fa-trash-alt" aria-hidden="true" />
         <span className="message-action-button-text">Delete</span>
       </button>
 
@@ -99,13 +99,13 @@ const MessageActionButtons = props => {
         className="message-action-button"
         onClick={openMoveModal}
       >
-        <i className="fas fa-folder" />
+        <i className="fas fa-folder" aria-hidden="true" />
         <span className="message-action-button-text">Move</span>
       </button>
       {isModalVisible ? moveToFolderModal() : null}
 
       <button type="button" className="message-action-button">
-        <i className="fas fa-reply" />
+        <i className="fas fa-reply" aria-hidden="true" />
         <span className="message-action-button-text">Reply</span>
       </button>
     </div>
