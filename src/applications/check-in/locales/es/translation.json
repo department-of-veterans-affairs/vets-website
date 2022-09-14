@@ -12,7 +12,7 @@
   "brother": "Hermano",
   "call": "llame al",
   "call-the-veterans-crisis-hotline-at": "llame a la Línea de Crisis para Veteranos",
-  "call-your-va-health-care-team-[facility-name]-at-xxx-xxx-xxx": "Llame a su equipo de profesionales de la salud de VA en [facility-name] al XXX-XXX-XXX",
+  "facility-name-at-phone": "{{facility}} al <0>{{phone}}</0>",
   "call-your-va-health-care-team": "Llame a su equipo de profesionales de la salud de VA",
   "call-your-va-provider": "llame a su proveedor de VA",
   "cancel": "Cancelar",

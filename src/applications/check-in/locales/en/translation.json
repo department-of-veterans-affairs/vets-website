@@ -13,6 +13,7 @@
   "call": "call",
   "call-the-veterans-crisis-hotline-at": "call the Veterans Crisis hotline at",
   "call-your-va-health-care-team": "Call your VA health care team",
+  "facility-name-at-phone": "{{facility}} at <0>{{phone}}</0>",
   "call-your-va-provider": "call your VA provider.",
   "cancel": "Cancel",
   "check-in-at-va": "Check in at VA",
