@@ -98,7 +98,7 @@ export default function UnderReviewConfirmation({ user, dateReceived }) {
             <a href="https://ask.va.gov/">Ask VA feature</a>.
           </li>
           <li>
-            <a href="/profile">
+            <a href="/?next=%2Fprofile">
               Review and/or update your direct deposit information on your
               VA.gov profile
             </a>
@@ -112,7 +112,7 @@ export default function UnderReviewConfirmation({ user, dateReceived }) {
             .
           </li>
           <li>
-            <a href="https://blogs.va.gov/VAntage/78073/new-guide-series-provides-gi-bill-benefits-information/">
+            <a href="https://benefits.va.gov/GIBILL/docs/GIBguideseries/ChooseYourEducationPathway.pdf">
               Learn more about VA benefits and programs through the Building
               Your Future with the GI Bill Series
             </a>
