@@ -225,10 +225,11 @@ jobs:
           APP_URLS: ${{ steps.get-changed-apps.outputs.urls }}
           APP_ENTRIES: ${{ steps.get-changed-apps.outputs.entry_names }}
           ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
+          IS_STRESS_TEST: true
 
-      - name: Set output of TESTS
+      - name: Set output of TESTS_TO_STRESS_TEST
         id: tests
-        run: echo ::set-output name=selected::$TESTS
+        run: echo ::set-output name=selected::$TESTS_TO_STRESS_TEST
 
       - name: Set output of TEST_SELECTION_DISALLOWED_TESTS
         id: test_selection_disallowed_tests
