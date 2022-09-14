@@ -62,4 +62,3 @@ describe('mega-menu', () => {
     });
   });
 });
-
