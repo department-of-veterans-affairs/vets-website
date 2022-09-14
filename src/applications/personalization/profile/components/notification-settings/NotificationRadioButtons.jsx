@@ -71,11 +71,11 @@ const NotificationRadioButtons = ({
   };
 
   let errorSpan = '';
-  let errorSpanId = undefined;
+  let errorSpanId;
   if (errorMessage) {
     errorSpanId = `${id}-error-message`;
     errorSpan = (
-      <MessageWrapper id={errorSpanId} classes={'rb-input-message-error'} alert>
+      <MessageWrapper id={errorSpanId} classes="rb-input-message-error" alert>
         <i
           className="fas fa-exclamation-circle vads-u-margin-right--1"
           aria-hidden="true"
@@ -85,23 +85,8 @@ const NotificationRadioButtons = ({
     );
   }
 
-  let warningSpan = '';
-  let warningSpanId = undefined;
-  if (warningMessage) {
-    warningSpanId = `${id}-warning-message`;
-    warningSpan = (
-      <MessageWrapper id={warningSpanId} classes={'rb-input-message-warning'}>
-        <i
-          className="fas fa-exclamation-triangle vads-u-margin-right--1"
-          aria-hidden="true"
-        />{' '}
-        <span className="sr-only">Warning</span> {warningMessage}
-      </MessageWrapper>
-    );
-  }
-
   let loadingSpan = '';
-  let loadingSpanId = undefined;
+  let loadingSpanId;
   if (loadingMessage) {
     loadingSpanId = `${id}-loading-message`;
     loadingSpan = (
@@ -120,13 +105,13 @@ const NotificationRadioButtons = ({
   }
 
   let successSpan = '';
-  let successSpanId = undefined;
+  let successSpanId;
   if (successMessage) {
     successSpanId = `${id}-success-message`;
     successSpan = (
       <MessageWrapper
         id={successSpanId}
-        classes={'rb-input-message-success'}
+        classes="rb-input-message-success"
         alert
       >
         <i
@@ -198,7 +183,6 @@ const NotificationRadioButtons = ({
     'rb-input',
     {
       'rb-input-error': errorMessage,
-      'rb-input-warning': warningMessage,
       'rb-input-success': successMessage,
     },
     additionalFieldsetClass,
@@ -229,7 +213,6 @@ const NotificationRadioButtons = ({
         </p>
       ) : null}
       {!loadingMessage && !successMessage && !warningMessage && errorSpan}
-      {!loadingMessage && !errorMessage && !successMessage && warningSpan}
       {!loadingMessage && !errorMessage && !warningMessage && successSpan}
       {!errorMessage && !successMessage && !warningMessage && loadingSpan}
       {optionElements}
