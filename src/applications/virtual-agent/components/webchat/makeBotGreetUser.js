@@ -157,4 +157,9 @@ const GreetUser = {
   },
 };
 
+function processActionConnectFulfilled() {}
+function processActionSendMessage() {}
+
 export default GreetUser;
+
+export { processActionSendMessage, processActionConnectFulfilled };
