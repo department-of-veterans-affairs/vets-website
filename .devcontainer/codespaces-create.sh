@@ -5,12 +5,12 @@
 # set -e
 # yarn cache clean && yarn install --production=false --prefer-offline && yarn build -- --host="${CODESPACE_NAME}-3001.githubpreview.dev/" --env api=${CODESPACE_NAME}-3000.githubpreview.dev/
 
-# Setup vets-api
+printf "\n\n##### Starting vets-api #####\n"
 cd ../vets-api
 mkdir config/certs
 touch config/certs/vetsgov-localhost.crt
 touch config/certs/vetsgov-localhost.key
-cp ../vets-website/.devcontainer/vets-api/setting.local.yml config/settings.local.yml
+cp ../vets-website/.devcontainer/vets-api/settings.local.yml config/settings.local.yml
 make up
 #CONFIG_HOST=/^vets-website-.*-3000\.githubpreview\.dev$/
 #sed '/^config\.hosts.*/a hello' config/environments/development.rb
