@@ -1,17 +1,35 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { recordBadAddressEvent } from './analytics';
+import { recordCustomProfileEvent } from '../../../util/analytics';
+
+const handlers = {
+  recordView() {
+    recordCustomProfileEvent({
+      title: 'Personal Info',
+      status: 'BAI Views',
+    });
+  },
+  recordLinkClick(linkText) {
+    return () => {
+      recordCustomProfileEvent({
+        title: 'Personal Info',
+        status: 'BAI Link Click',
+        primaryButtonText: linkText,
+      });
+    };
+  },
+};
 
 export default function ProfileAlert() {
   const heading = 'Review your mailing address';
+  const linkText = 'Go to your contact information to review your address';
+
   return (
     <VaAlert
       status="warning"
       data-testid="bad-address-profile-alert"
-      onVa-component-did-load={() => {
-        recordBadAddressEvent({ heading: `Profile BAI - ${heading}` });
-      }}
+      onVa-component-did-load={handlers.recordView}
       className="vads-u-margin-top--4"
     >
       <h2
@@ -26,8 +44,11 @@ export default function ProfileAlert() {
       </h2>
       <p>The mailing address we have on file for you may not be correct.</p>
       <p>
-        <Link to="contact-information">
-          Go to your contact information to review your address
+        <Link
+          to="contact-information"
+          onClick={handlers.recordLinkClick(linkText)}
+        >
+          {linkText}
         </Link>
       </p>
     </VaAlert>
