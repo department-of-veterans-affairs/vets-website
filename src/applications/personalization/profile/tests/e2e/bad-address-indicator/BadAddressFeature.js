@@ -5,8 +5,6 @@ class BadAddressFeature {
 
   FORM_ALERT_TEST_ID = 'bad-address-form-alert';
 
-  CONTACT_INFORMATION_TEST_ID = 'bad-address-contact-alert';
-
   EDIT_MAILING_ADDRESS_BUTTON_ID = '#edit-mailing-address';
 
   visitPersonalInformationPage = () => {
@@ -26,14 +24,6 @@ class BadAddressFeature {
 
   confirmPersonalInformationAlertIsNotShowing = () => {
     cy.findByTestId(this.PROFILE_ALERT_TEST_ID).should('not.exist');
-  };
-
-  confirmContactInformationAlertIsShowing = () => {
-    cy.findByTestId(this.CONTACT_INFORMATION_TEST_ID).should('exist');
-  };
-
-  confirmContactInformationAlertIsNotShowing = () => {
-    cy.findByTestId(this.CONTACT_INFORMATION_TEST_ID).should('not.exist');
   };
 
   confirmAlertInFormExists = () => {

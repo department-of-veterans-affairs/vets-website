@@ -40,24 +40,20 @@ describe('Bad Address Alert -- Contact Page -- Form alert', () => {
 
     // first visit the page and see the alerts
     BadAddressFeature.visitContactInformationPage();
-    BadAddressFeature.confirmContactInformationAlertIsShowing();
     BadAddressFeature.confirmAlertInFormExists();
     cy.injectAxeThenAxeCheck();
 
     // starting to update address
     BadAddressFeature.startEditingAddress();
-    BadAddressFeature.confirmContactInformationAlertIsShowing();
     BadAddressFeature.confirmAlertInFormExists();
 
     // submitting update
     BadAddressFeature.attemptToSubmitAddress();
-    BadAddressFeature.confirmContactInformationAlertIsNotShowing();
     BadAddressFeature.confirmAlertInFormDoesNotExist();
     BadAddressFeature.confirmAddressEntered();
 
     // // back to the contact page with no more alerts
     BadAddressFeature.confirmUpdatedMessageIsShown();
-    BadAddressFeature.confirmContactInformationAlertIsNotShowing();
     BadAddressFeature.confirmAlertInFormDoesNotExist();
   });
 });
