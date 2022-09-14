@@ -82,11 +82,67 @@ const MessageActionButtons = props => {
     );
   };
 
+  const printModal = () => {
+    return (
+      <div className="message-actions-buttons-modal">
+        <VaModal
+          id="move-to-modal"
+          large
+          modalTitle="Move to:"
+          onCloseEvent={closeMoveModal}
+          onPrimaryButtonClick={handleConfirmMoveFolderTo}
+          onSecondaryButtonClick={closeMoveModal}
+          primaryButtonText="Confirm"
+          secondaryButtonText="Cancel"
+          visible={isModalVisible}
+        >
+          <div className="modal-body">
+            <p>
+              Would you like to print this one message, or all messages in this
+              conversation?
+            </p>
+            <div className="form-radio-buttons">
+              <div className="radio-button">
+                <input
+                  type="radio"
+                  autoComplete="false"
+                  // id={`radiobutton-${folder.name}`}
+                  name="defaultName"
+                  value="this-message"
+                  onChange={handleOnChangeFolder}
+                />
+                <label name="defaultName-0-label" htmlFor="this-message">
+                  Only print this message
+                </label>
+                <input
+                  type="radio"
+                  autoComplete="false"
+                  // id={`radiobutton-${folder.name}`}
+                  name="defaultName"
+                  value="all-messages"
+                  onChange={handleOnChangeFolder}
+                />
+                <label name="defaultName-0-label" htmlFor="all-messages">
+                  print all messages in this conversation
+                </label>
+              </div>
+            </div>
+          </div>
+        </VaModal>
+      </div>
+    );
+  };
+
   return (
     <div className="message-action-buttons vads-l-row vads-u-justify-content--space-around">
-      <button type="button" className="message-action-button">
+      <button
+        type="button"
+        className="message-action-button"
+        onClick={openMoveModal}
+      >
         <i className="fas fa-print" />
         <span className="message-action-button-text">Print</span>
+        {isModalVisible ? printModal() : null}
       </button>
 
       <button type="button" className="message-action-button">
