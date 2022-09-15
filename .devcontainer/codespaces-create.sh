@@ -10,6 +10,8 @@ cd ../vets-api
 mkdir config/certs
 touch config/certs/vetsgov-localhost.crt
 touch config/certs/vetsgov-localhost.key
+# Add codespace name to virtual hosts before copying settings
+sed -i "/^virtual_hosts*/a - $CODESPACE_NAME" .devcontainer/vets-api/settings.local.yml
 cp ../vets-website/.devcontainer/vets-api/settings.local.yml config/settings.local.yml
 # make up
 #CONFIG_HOST=/^vets-website-.*-3000\.githubpreview\.dev$/
