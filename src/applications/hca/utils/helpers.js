@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import mapValues from 'lodash/mapValues';
 import moment from 'moment';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
