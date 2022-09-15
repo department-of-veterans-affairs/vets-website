@@ -139,16 +139,16 @@ export function transform(formConfig, form) {
   const addressesMatch = form.data['view:doesMailingMatchHomeAddress'];
 
   // add back veteran name, dob & ssn, because it could have been removed in filterInactivePages
-  const requiredFields = [
+  const veteranFields = [
     'veteranFullName',
     'veteranDateOfBirth',
     'veteranSocialSecurityNumber',
   ];
-  requiredFields.forEach(name => {
-    if (!withoutViewFields[name]) {
+  veteranFields.forEach(field => {
+    if (!withoutViewFields[field]) {
       withoutViewFields = set(
-        name,
-        form.loadedData.formData[name],
+        field,
+        form.loadedData.formData[field],
         withoutViewFields,
       );
     }

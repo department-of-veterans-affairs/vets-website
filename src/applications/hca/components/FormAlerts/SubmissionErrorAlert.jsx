@@ -60,7 +60,7 @@ const SubmissionErrorAlert = () => {
           />
           Download VA Form 10-10EZ (
           <dfn>
-            <attr title="Portable Document Format">PDF</attr>
+            <abbr title="Portable Document Format">PDF</abbr>
           </dfn>
           )
         </a>
