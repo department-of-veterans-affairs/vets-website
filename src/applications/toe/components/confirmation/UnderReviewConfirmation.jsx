@@ -95,24 +95,43 @@ export default function UnderReviewConfirmation({ user, dateReceived }) {
           <li>
             If you need to submit documentation to VA, such as service records,
             please send this through our{' '}
-            <a href="https://ask.va.gov/">Ask VA feature</a>.
+            <a
+              href="https://ask.va.gov/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ask VA feature
+            </a>
+            .
           </li>
           <li>
-            <a href="/?next=%2Fprofile">
+            <a
+              href="/?next=%2Fprofile"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Review and/or update your direct deposit information on your
               VA.gov profile
             </a>
             .
           </li>
           <li>
-            <a href="/education/gi-bill-comparison-tool/">
+            <a
+              href="/education/gi-bill-comparison-tool/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Use our GI Bill Comparison Tool to help you decide which schools
               are best for you
             </a>
             .
           </li>
           <li>
-            <a href="https://benefits.va.gov/GIBILL/docs/GIBguideseries/ChooseYourEducationPathway.pdf">
+            <a
+              href="https://benefits.va.gov/GIBILL/docs/GIBguideseries/ChooseYourEducationPathway.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Learn more about VA benefits and programs through the Building
               Your Future with the GI Bill Series
             </a>

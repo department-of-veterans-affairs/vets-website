@@ -65,10 +65,27 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
       <div className="vads-u-margin-bottom--4">
         <h2>What happens next?</h2>
         <ul>
-          <li>Download a copy of your decision letter.</li>
           <li>
-            Use our <a href="/demo">GI Bill Comparison Tool</a> to help you
-            decide which schools are best for you.
+            Download a copy of your decision letter. This can be found at{' '}
+            <a
+              href="/education/download-letters/letters/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Download VA education letter
+            </a>
+            .
+          </li>
+          <li>
+            <a
+              href="/education/gi-bill-comparison-tool/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Use our GI Bill Comparison Tool to help you decide which schools
+              are best for you
+            </a>
+            .
           </li>
           <li>
             Once you’ve selected a school or program, you may bring your
@@ -76,16 +93,22 @@ export default function ApprovedConfirmation({ user, dateReceived }) {
             of eligibility.
           </li>
           <li>
-            Review and/or update your direct deposit information on your VA.gov
-            profile.
+            <a href="/profile" target="_blank" rel="noopener noreferrer">
+              Review and/or update your direct deposit information on your
+              VA.gov profile
+            </a>
+            .
           </li>
           <li>
-            Learn more about VA benefits and programs through the Building Your
-            Future with the GI Bill Series.
-          </li>
-          <li>
-            If you have more than one sponsor, you can{' '}
-            <a href="/">submit another application for education benefits.</a>
+            <a
+              href="https://benefits.va.gov/GIBILL/docs/GIBguideseries/ChooseYourEducationPathway.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Learn more about VA benefits and programs through the Building
+              Your Future with the GI Bill Series
+            </a>
+            .
           </li>
         </ul>
       </div>
