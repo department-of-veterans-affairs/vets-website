@@ -7,7 +7,6 @@ import {
   SET_APPEALS,
   FILTER_CLAIMS,
   CHANGE_CLAIMS_PAGE,
-  HIDE_30_DAY_NOTICE,
   FETCH_APPEALS,
   FETCH_APPEALS_SUCCESS,
   FETCH_CLAIMS,
@@ -160,9 +159,6 @@ export default function claimsReducer(state = initialState, action) {
         page: action.page,
         visibleRows: getVisibleRows(state.visibleList, action.page),
       };
-    }
-    case HIDE_30_DAY_NOTICE: {
-      return set('show30DayNotice', false, state);
     }
     case FETCH_APPEALS: {
       return set('appealsLoading', true, state);

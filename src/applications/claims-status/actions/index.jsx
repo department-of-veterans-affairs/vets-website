@@ -40,6 +40,7 @@ export const FETCH_STEM_CLAIMS_PENDING = 'FETCH_STEM_CLAIMS_PENDING';
 export const FETCH_STEM_CLAIMS_SUCCESS = 'FETCH_STEM_CLAIMS_SUCCESS';
 export const FETCH_STEM_CLAIMS_ERROR = 'FETCH_STEM_CLAIMS_ERROR';
 export const FILTER_CLAIMS = 'FILTER_CLAIMS';
+export const SORT_CLAIMS = 'SORT_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
 export const GET_CLAIM_DETAIL = 'GET_CLAIM_DETAIL';
 export const SET_CLAIM_DETAIL = 'SET_CLAIM_DETAIL';
@@ -69,7 +70,6 @@ export const SET_ADDITIONAL_EVIDENCE_NOTIFICATION =
 export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
 export const CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION =
   'CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION';
-export const HIDE_30_DAY_NOTICE = 'HIDE_30_DAY_NOTICE';
 
 export function setNotification(message) {
   return {
@@ -595,12 +595,6 @@ export function setLastPage(page) {
   return {
     type: SET_LAST_PAGE,
     page,
-  };
-}
-
-export function hide30DayNotice() {
-  return {
-    type: HIDE_30_DAY_NOTICE,
   };
 }
 
