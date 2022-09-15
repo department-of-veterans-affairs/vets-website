@@ -24,7 +24,7 @@ describe('No 1095-B Form Available for Download', () => {
 
     cy.axeCheck();
 
-    cy.get('.usa-content div va-alert h3').should(
+    cy.get('.usa-content div va-alert h2').should(
       'have.text',
       'You don’t have a 1095-B tax form available right now',
     );

@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMessage, loadingComplete } from '../actions';
-import SectionGuideButton from '../components/SectionGuideButton';
-import Breadcrumbs from '../components/shared/Breadcrumbs';
 import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm';
+import EmergencyNote from '../components/EmergencyNote';
 
 const Compose = () => {
   const dispatch = useDispatch();
@@ -24,16 +23,10 @@ const Compose = () => {
   );
 
   let pageTitle;
-  let breadcrumbName;
-  let breadcrumbLink;
 
   if (isDraft) {
-    breadcrumbName = 'Drafts';
-    breadcrumbLink = '/drafts';
     pageTitle = 'Edit draft';
   } else {
-    breadcrumbName = 'Compose message';
-    breadcrumbLink = '/compose';
     pageTitle = 'Compose message';
   }
 
@@ -62,19 +55,8 @@ const Compose = () => {
 
   return (
     <div className="vads-l-grid-container compose-container">
-      <Breadcrumbs link={breadcrumbLink} pageName={breadcrumbName} />
-      <SectionGuideButton sectionName={pageTitle} />
-
       <h1 className="page-title">{pageTitle}</h1>
-      <section className="emergency-note">
-        <p>
-          <strong>Note: </strong>
-          Call <a href="tel:911">911</a> if you have a medical emergency. If
-          you’re in crisis and need to talk to someone now, call the{' '}
-          <a href="tel:988">Veterans Crisis Line</a>. To speak with a VA
-          healthcare team member right away, contact your local VA call center.
-        </p>
-      </section>
+      <EmergencyNote />
       <div>
         <BeforeMessageAddlInfo />
       </div>

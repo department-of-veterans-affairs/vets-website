@@ -43,7 +43,7 @@ class Error {
       cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })
         .should('be.visible')
         .contains(
-          'Your provider will call you. You may need to wait about 15 minutes for their call. Thanks for your patience.',
+          'Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.',
         );
     } else {
       cy.get('[data-testid="error-message"]', { timeout: Timeouts.slow })

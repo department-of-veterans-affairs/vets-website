@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useRouteMatch } from 'react-router-dom';
 
 import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import moment from '../../../lib/moment-tz';
@@ -12,9 +12,11 @@ import FullWidthLayout from '../../../components/FullWidthLayout';
 import { fetchConfirmedAppointmentDetails } from '../../redux/actions';
 import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
 import DetailsVA from './DetailsVA';
+import DetailsCC from './DetailsCC';
 import DetailsVideo from './DetailsVideo';
 
 export default function ConfirmedAppointmentDetailsPage() {
+  const match = useRouteMatch();
   const dispatch = useDispatch();
   const { id } = useParams();
   const {
@@ -28,22 +30,31 @@ export default function ConfirmedAppointmentDetailsPage() {
   );
   const appointmentDate = moment.parseZone(appointment?.start);
 
-  useEffect(() => {
-    dispatch(fetchConfirmedAppointmentDetails(id, 'va'));
+  const isVideo = appointment?.vaos?.isVideo;
+  const isCommunityCare = !!match.path.includes('cc');
+  const isVA = !isVideo && !isCommunityCare;
 
-    scrollAndFocus();
-  }, []);
+  const appointmentTypePrefix = isCommunityCare ? 'cc' : 'va';
 
   useEffect(
     () => {
+      dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
+      scrollAndFocus();
+    },
+    [id, dispatch, appointmentTypePrefix],
+  );
+
+  useEffect(
+    () => {
+      const pageTitle = isCommunityCare ? 'Community care' : 'VA';
       if (appointment && appointmentDate) {
-        document.title = `VA appointment on ${appointmentDate.format(
+        document.title = `${pageTitle} appointment on ${appointmentDate.format(
           'dddd, MMMM D, YYYY',
         )}`;
         scrollAndFocus();
       }
     },
-    [appointment, appointmentDate],
+    [appointment, appointmentDate, isCommunityCare],
   );
 
   useEffect(
@@ -55,7 +66,7 @@ export default function ConfirmedAppointmentDetailsPage() {
         scrollAndFocus();
       }
     },
-    [appointmentDetailsStatus],
+    [appointmentDetailsStatus, appointment],
   );
 
   if (
@@ -76,9 +87,6 @@ export default function ConfirmedAppointmentDetailsPage() {
       </FullWidthLayout>
     );
   }
-  const { isVideo } = appointment.vaos;
-  const { isCommunityCare } = appointment.vaos;
-  const isVA = !isVideo && !isCommunityCare;
 
   return (
     <PageLayout>
@@ -92,6 +100,7 @@ export default function ConfirmedAppointmentDetailsPage() {
           useV2={useV2}
         />
       )}
+      {isCommunityCare && <DetailsCC appointment={appointment} useV2={useV2} />}
       <CancelAppointmentModal />
     </PageLayout>
   );

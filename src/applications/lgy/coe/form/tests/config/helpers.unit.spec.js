@@ -1,21 +1,62 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-
-import formConfig from '../../config/form';
+import * as helpers from 'platform/forms-system/src/js/helpers';
 import {
   customCOEsubmit,
   validateDocumentDescription,
 } from '../../config/helpers';
-import maximalTest from '../fixtures/data/maximal-test.json';
-import maximalTestResult from '../fixtures/data/transformed-maximal-test.json';
+
+const form = {
+  data: {
+    periodsOfService: [{ dateRange: { from: '2010-10-10', to: '2012-12-12' } }],
+    relevantPriorLoans: [
+      { dateRange: { from: '1990-01-XX', to: '1992-02-XX' } },
+    ],
+  },
+};
+
+const formattedProperties = {
+  periodsOfService: [
+    {
+      dateRange: {
+        from: '2010-10-10T00:00:00.000Z',
+        to: '2012-12-12T00:00:00.000Z',
+      },
+    },
+  ],
+  relevantPriorLoans: [
+    {
+      dateRange: {
+        from: '1990-01-01T05:00:00.000Z',
+        to: '1992-02-01T05:00:00.000Z',
+      },
+    },
+  ],
+};
+
+const result = JSON.stringify({
+  lgyCoeClaim: {
+    form: {
+      ...formattedProperties,
+    },
+  },
+});
+
+let sandbox;
+
+beforeEach(() => {
+  sandbox = sinon.sandbox.create();
+});
+
+afterEach(() => {
+  sandbox.restore();
+});
 
 describe('coe helpers', () => {
   describe('customCOEsubmit', () => {
     it('should correctly format the form data', () => {
-      const submitting = JSON.parse(
-        customCOEsubmit(formConfig, { data: maximalTest }),
-      );
-      expect(submitting).to.deep.equal(maximalTestResult);
+      sandbox.stub(helpers, 'transformForSubmit').returns(formattedProperties);
+      expect(customCOEsubmit({}, form)).to.equal(result);
     });
   });
   describe('validateDocumentDescription', () => {

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
+import { useHistory } from 'react-router-dom';
 import MessageActionButtons from './MessageActionsButtons';
 import AttachmentsList from './AttachmentsList';
 
@@ -16,7 +17,15 @@ const MessageDetailBlock = props => {
     subject,
   } = props.message;
 
+  const history = useHistory();
   const casedCategory = capitalize(category);
+
+  const handleReplyButton = useCallback(
+    () => {
+      history.push('/reply');
+    },
+    [history],
+  );
 
   return (
     <section className="message-detail-block">
@@ -29,9 +38,10 @@ const MessageDetailBlock = props => {
         </h2>
         <button
           type="button"
+          onClick={handleReplyButton}
           className="send-button-top medium-screen:vads-u-padding-right--2"
         >
-          <i className="fas fa-reply" />
+          <i className="fas fa-reply" aria-hidden="true" />
           <span className="reply-button-top-text">Reply</span>
         </button>
       </header>
@@ -79,7 +89,7 @@ const MessageDetailBlock = props => {
           </p>
         </div>
 
-        <MessageActionButtons />
+        <MessageActionButtons id={id} />
       </main>
     </section>
   );
