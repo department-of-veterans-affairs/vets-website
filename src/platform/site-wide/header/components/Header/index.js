@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 // Relative imports.
-import { isBrowserIE } from '~/platform/site-wide/helpers/detection/is-browser';
-import { useOnLoaded } from '~/platform/site-wide/hooks/events/use-on-loaded';
+import { isBrowserIE } from 'platform/site-wide/helpers/detection/is-browser';
+import { useOnLoaded } from 'platform/site-wide/hooks/events/use-on-loaded';
 import LogoRow from '../LogoRow';
 import Menu from '../../containers/Menu';
 import OfficialGovtWebsite from '../OfficialGovtWebsite';
