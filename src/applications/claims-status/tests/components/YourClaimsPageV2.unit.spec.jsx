@@ -7,6 +7,29 @@ import set from 'platform/utilities/data/set';
 
 import { YourClaimsPageV2 } from '../../containers/YourClaimsPageV2';
 
+const localStorageMock = (() => {
+  let store = {};
+
+  return {
+    getItem(key) {
+      return store[key] || null;
+    },
+    setItem(key, value) {
+      store[key] = value.toString();
+    },
+    removeItem(key) {
+      delete store[key];
+    },
+    clear() {
+      store = {};
+    },
+  };
+})();
+
+Object.defineProperty(window, 'sessionStorage', {
+  value: localStorageMock,
+});
+
 describe('<YourClaimsPageV2>', () => {
   const defaultProps = {
     canAccessClaims: true,
@@ -43,9 +66,6 @@ describe('<YourClaimsPageV2>', () => {
     ],
     pages: 1,
     page: 1,
-    show30DayNotice: false,
-    hide30DayNotice: true,
-    consolidatedModal: false,
     getClaimsV2: sinon.spy(),
     getAppealsV2: sinon.spy(),
     getStemClaims: sinon.spy(),
@@ -84,8 +104,7 @@ describe('<YourClaimsPageV2>', () => {
   });
 
   it('should render a closed claim message if show30DayNotice is true', () => {
-    const props = set('show30DayNotice', true, defaultProps);
-    const wrapper = shallow(<YourClaimsPageV2 {...props} />);
+    const wrapper = shallow(<YourClaimsPageV2 {...defaultProps} />);
     expect(wrapper.find('ClosedClaimMessage').length).to.equal(1);
     wrapper.unmount();
   });

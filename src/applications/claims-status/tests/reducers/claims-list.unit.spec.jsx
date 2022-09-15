@@ -29,16 +29,6 @@ describe('Claims list reducer', () => {
     });
     expect(state.claims).to.deep.equal(claims);
   });
-  it('should set the sort property', () => {
-    const previousState = {
-      sortProperty: 'dateFiled',
-    };
-    const state = claimsList(previousState, {
-      type: SORT_CLAIMS,
-      sortProperty: 'phaseChangeDate',
-    });
-    expect(state.sortProperty).to.equal('phaseChangeDate');
-  });
   it('should sort by id secondarily', () => {
     const claims = [
       {
