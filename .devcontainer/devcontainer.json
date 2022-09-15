@@ -31,5 +31,5 @@
 		"storage": "128gb"
 	},
 	"initializeCommand": "script/install-repos.sh",
-	"postCreateCommand": "bash -i source .devcontainer/post-create.sh > ~/post-create.log"
+	"postCreateCommand": ".devcontainer/post-create.sh > ~/post-create.log"
 }
