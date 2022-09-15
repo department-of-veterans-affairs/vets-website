@@ -22,4 +22,4 @@ touch config/certs/vetsgov-localhost.crt
 touch config/certs/vetsgov-localhost.key
 
 # Start vets-api server and associated services
-make up
+exec make up
