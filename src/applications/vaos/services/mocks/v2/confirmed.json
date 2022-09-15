@@ -318,7 +318,9 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": { "text": "Follow-up/Routine: I have a headache" },
+        "reasonCode": {
+          "text": "Follow-up/Routine: I have a headache"
+        },
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -352,7 +354,9 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"text": "Follow-up/Routine: Covid shot"},
+        "reasonCode": {
+          "text": "Follow-up/Routine: Covid shot"
+        },
         "requestedPeriods": null,
         "serviceType": "covid",
         "slot": null,
@@ -414,12 +418,14 @@
               "postalCode": "45414",
               "text": "1601 Needmore Rd Ste 1\nDayton OH 45414"
             },
-            "telecom": [{
-              "system": "phone",
-              "value": "723-234-4565"
-            }]
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "723-234-4565"
+              }
+            ]
           }
-        },        
+        },
         "preferredTimesForPhoneCall": [],
         "priority": 0,
         "reasonCode": {},
@@ -435,7 +441,13 @@
       "id": "22aa789cc",
       "type": "cc_appointments",
       "attributes": {
-        "cancelationReason": { "coding": [{ "code": "pat" }] },
+        "cancelationReason": {
+          "coding": [
+            {
+              "code": "pat"
+            }
+          ]
+        },
         "clinic": null,
         "comment": "test",
         "contact": {
@@ -512,10 +524,12 @@
         "patientInstruction": "Video Visit Preparation contains extraneous stuff",
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
             "name": {
               "family": "Normal",
               "given": [
@@ -526,7 +540,13 @@
         ],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"coding": [{"code": "New Issue"}]},
+        "reasonCode": {
+          "coding": [
+            {
+              "code": "New Issue"
+            }
+          ]
+        },
         "requestedPeriods": null,
         "serviceType": "outpatientMentalHealth",
         "slot": null,
@@ -564,10 +584,12 @@
         "patientInstruction": "Medication Review",
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
             "name": {
               "family": "Smith",
               "given": [
@@ -629,11 +651,13 @@
         "patientInstruction": "Medication Review to prepare patient",
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
-            "name":{
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
+            "name": {
               "family": "Smith",
               "given": [
                 "Megan"
@@ -642,11 +666,13 @@
             "practiceName": null
           },
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
-            "name":{
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
+            "name": {
               "family": "Dali",
               "given": [
                 "Salvador"
@@ -732,10 +758,12 @@
         "patientIcn": null,
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
             "name": {
               "family": "Nightingale",
               "given": [
@@ -784,7 +812,9 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"text": "New issue: Phone appointment"},
+        "reasonCode": {
+          "text": "New issue: Phone appointment"
+        },
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -797,7 +827,13 @@
       "id": "11aa456ph",
       "type": "Appointment",
       "attributes": {
-        "cancelationReason": { "coding": [{ "code": "pat" }] },
+        "cancelationReason": {
+          "coding": [
+            {
+              "code": "pat"
+            }
+          ]
+        },
         "clinic": "308",
         "comment": "New issue: Phone appointment",
         "contact": {
@@ -818,7 +854,9 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"text": "New issue: Phone appointment"},
+        "reasonCode": {
+          "text": "New issue: Phone appointment"
+        },
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -852,7 +890,9 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"text": "Medication concern: I ran out of meds"},
+        "reasonCode": {
+          "text": "Medication concern: I ran out of meds"
+        },
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -886,10 +926,12 @@
         "patientInstruction": "Video Visit Preparation",
         "practitioners": [
           {
-            "identifier": [{
-              "system": null,
-              "value": "1801312053"
-            }],
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
             "name": {
               "family": "Jones",
               "given": [
@@ -917,7 +959,13 @@
       "id": "08aa456va",
       "type": "Appointment",
       "attributes": {
-        "cancelationReason": { "coding": [{ "code": "prov" }] },
+        "cancelationReason": {
+          "coding": [
+            {
+              "code": "prov"
+            }
+          ]
+        },
         "clinic": null,
         "comment": "Follow-up/Routine: comment test",
         "contact": {
@@ -938,7 +986,9 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"text": "Follow-up/Routine: comment test"},
+        "reasonCode": {
+          "text": "Follow-up/Routine: comment test"
+        },
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -951,7 +1001,13 @@
       "id": "08aa457va",
       "type": "Appointment",
       "attributes": {
-        "cancelationReason": { "coding": [{ "code": "pat" }] },
+        "cancelationReason": {
+          "coding": [
+            {
+              "code": "pat"
+            }
+          ]
+        },
         "clinic": null,
         "comment": "Follow-up/Routine: comment test",
         "contact": {
@@ -972,7 +1028,9 @@
         "practitioners": [],
         "preferredTimesForPhoneCall": [],
         "priority": 0,
-        "reasonCode": {"text": "Follow-up/Routine: comment test"},
+        "reasonCode": {
+          "text": "Follow-up/Routine: comment test"
+        },
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
@@ -1069,6 +1127,6 @@
           }
         }
       }
-    }    
+    }
   ]
 }
