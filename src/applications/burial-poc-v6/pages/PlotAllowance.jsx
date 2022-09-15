@@ -13,7 +13,17 @@ export default function PlotAllowance(props) {
 
   return (
     <div className="vads-u-margin-x--1p5">
-      <Page {...props} title="Plot or interment allowance">
+      <Page
+        {...props}
+        title="Plot or interment allowance"
+        fieldNames={[
+          'placeOfRemains',
+          'federalCemetery',
+          'stateCemetery',
+          'govtContributions',
+          'amountGovtContribution',
+        ]}
+      >
         <TextField
           required
           name="placeOfRemains"

@@ -28,7 +28,7 @@ export const createDependentSchema = hcaSchema => {
 };
 
 export const createDependentIncomeSchema = hcaSchema => {
-  const dependent = hcaSchema.definitions.dependent;
+  const { dependent } = hcaSchema.definitions;
   return {
     ...dependent,
     properties: pick(dependent.properties, incomeFields),

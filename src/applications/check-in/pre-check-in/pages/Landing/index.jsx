@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 
 import { useTranslation } from 'react-i18next';
-import recordEvent from 'platform/monitoring/record-event';
 
 import { api } from '../../../api';
 
@@ -13,7 +12,6 @@ import { createSetSession } from '../../../actions/authentication';
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
-import { createAnalyticsSlug } from '../../../utils/analytics';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 import {
   createForm,
@@ -40,6 +38,7 @@ const Index = props => {
   } = useSessionStorage();
 
   const [loadMessage] = useState(t('finding-your-appointment-information'));
+  const [sessionCallMade, setSessionCallMade] = useState(false);
 
   const dispatch = useDispatch();
   const initForm = useCallback(
@@ -67,23 +66,18 @@ const Index = props => {
     () => {
       const token = getTokenFromLocation(router.location);
       if (!token) {
-        recordEvent({
-          event: createAnalyticsSlug('landing-page-launched-no-token'),
-        });
-        goToErrorPage();
+        goToErrorPage('?error=no-token');
       }
 
       if (!isUUID(token)) {
-        recordEvent({
-          event: createAnalyticsSlug('malformed-token'),
-        });
-        goToErrorPage();
+        goToErrorPage('?error=bad-token');
       }
       if (token && isUUID(token)) {
         // call the sessions api
         const checkInType = APP_NAMES.PRE_CHECK_IN;
 
-        if (token)
+        if (token && !sessionCallMade) {
+          setSessionCallMade(true);
           api.v2
             .getSession({ token, checkInType, isLorotaSecurityUpdatesEnabled })
             .then(session => {
@@ -91,7 +85,7 @@ const Index = props => {
 
               if (session.error || session.errors) {
                 clearCurrentSession(window);
-                goToErrorPage();
+                goToErrorPage('?error=session-error');
               } else {
                 setCurrentToken(window, token);
                 setPreCheckinComplete(window, false);
@@ -112,6 +106,7 @@ const Index = props => {
               clearCurrentSession(window);
               goToErrorPage();
             });
+        }
       }
     },
     [
@@ -121,6 +116,7 @@ const Index = props => {
       isLorotaSecurityUpdatesEnabled,
       jumpToPage,
       router,
+      sessionCallMade,
       setCurrentToken,
       setPreCheckinComplete,
       setSession,

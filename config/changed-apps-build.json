@@ -1,75 +1,81 @@
 {
-  "allow": {
-    "singleApps": [
-      {
-        "entryName": "burials",
-        "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
-      },
-      {
-        "entryName": "covid19screen",
-        "slackGroup": "@cto-health-products"
-      },
-      {
-        "entryName": "coronavirus-vaccination",
-        "slackGroup": "@cto-health-products"
-      },
-      {
-        "entryName": "covid-vaccine",
-        "slackGroup": "@cto-health-products"
-      },
-      {
-        "entryName": "education-letters",
-        "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
-      },
-      {
-        "entryName": "enrollment-verification",
-        "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
-      },
-      {
-        "entryName": "fry-dea",
-        "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
-      },
-      {
-        "entryName": "gi",
-        "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
-      },
-      {
-        "entryName": "login-page",
-        "slackGroup": "@vsp-identity-group"
-      },
-      {
-        "entryName": "mhv-inherited-proofing",
-        "slackGroup": "@vsp-identity-group"
-      },
-      {
-        "entryName": "medical-copays",
-        "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
-      },
-      {
-        "entryName": "terms-and-conditions"
-      },
-      {
-        "entryName": "toe",
-        "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>"
-      },
-      {
-        "entryName": "vaos",
-        "slackGroup": "@vaos-fe-dev"
-      }
-    ],
-    "groupedApps": [
-      {
-        "rootFolder": "coronavirus-research",
-        "slackGroup": "@cto-health-products"
-      },
-      {
-        "rootFolder": "check-in",
-        "slackGroup": "@check-in-fe"
-      },
-      {
-        "rootFolder": "lgy",
-        "slackGroup": "@benefits-app-builds"
-      }
-    ]
-  }
+  "apps": [
+    {
+      "rootFolder": "burials",
+      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
+    },
+    {
+      "rootFolder": "check-in",
+      "slackGroup": "@check-in-fe"
+    },
+    {
+      "rootFolder": "combined-debt-portal",
+      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
+    },
+    {
+      "rootFolder": "coronavirus-research",
+      "slackGroup": "@cto-health-products"
+    },
+    {
+      "rootFolder": "coronavirus-screener",
+      "slackGroup": "@cto-health-products"
+    },
+    {
+      "rootFolder": "coronavirus-vaccination",
+      "slackGroup": "@cto-health-products"
+    },
+    {
+      "rootFolder": "coronavirus-vaccination-expansion",
+      "slackGroup": "@cto-health-products"
+    },
+    {
+      "rootFolder": "education-letters",
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
+      "continuousDeployment": false
+    },
+    {
+      "rootFolder": "enrollment-verification",
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
+      "continuousDeployment": false
+    },
+    {
+      "rootFolder": "fry-dea",
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
+      "continuousDeployment": false
+    },
+    {
+      "rootFolder": "gi",
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
+      "continuousDeployment": false
+    },
+    {
+      "rootFolder": "login",
+      "slackGroup": "@vsp-identity-group"
+    },
+    {
+      "rootFolder": "medical-copays",
+      "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
+    },
+    {
+      "rootFolder": "mhv-inherited-proofing",
+      "slackGroup": "@vsp-identity-group"
+    },
+    {
+      "rootFolder": "terms-and-conditions",
+      "continuousDeployment": false
+    },
+    {
+      "rootFolder": "toe",
+      "slackGroup": "<@U0243BHR2RZ> <@U026MB3UE5S> <@U024FPCTE6M>",
+      "continuousDeployment": false
+    },
+    {
+      "rootFolder": "vaos",
+      "slackGroup": "@vaos-fe-dev"
+    },
+    {
+      "rootFolder": "lgy",
+      "slackGroup": "@benefits-app-builds"
+    }
+  ]
 }

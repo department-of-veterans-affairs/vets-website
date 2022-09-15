@@ -8,7 +8,7 @@ import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNa
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 import HCAEnrollmentStatus from './HCAEnrollmentStatus';
-import LoggedOutIntroContent from '../components/LoggedOutIntroContent';
+import LoggedOutContent from '../components/IntroductionPage/LoggedOutContent';
 import { VerificationRequiredAlert } from '../components/FormAlerts';
 
 import {
@@ -56,7 +56,7 @@ const IntroductionPage = props => {
       )}
       {showVerificationRequiredAlert && <VerificationRequiredAlert />}
       {(showLoggedOutContent || hcaEnrollmentStatusOverrideEnabled) && (
-        <LoggedOutIntroContent route={route} showLoginAlert={showLoginAlert} />
+        <LoggedOutContent route={route} showLoginAlert={showLoginAlert} />
       )}
       {showLOA3Content &&
         !hcaEnrollmentStatusOverrideEnabled && (

@@ -44,6 +44,7 @@ export default function EmergencyContactDisplay({
         Footer={Footer}
         isLoading={isLoading}
         withBackButton
+        pageType="emergency-contact"
       />
     </>
   );

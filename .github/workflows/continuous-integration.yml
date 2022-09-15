@@ -7,9 +7,6 @@ on:
     tags-ignore:
       - '**'
 
-env:
-  NUM_CONTAINERS: '8'
-
 concurrency:
   group: ${{ github.ref != 'refs/heads/main' && github.ref || github.sha }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
@@ -20,6 +17,7 @@ jobs:
     runs-on: self-hosted
     outputs:
       entry_names: ${{ steps.get-changed-apps.outputs.entry_names }}
+      continuous_deployment: ${{ steps.get-changed-apps.outputs.continuous_deployment }}
 
     env:
       NODE_EXTRA_CA_CERTS: /etc/ssl/certs/VA-Internal-S2-RCA1-v1.cer.pem
@@ -50,7 +48,7 @@ jobs:
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
-          output-type: 'entry_name'
+          output-type: 'entry_name, continuous_deployment'
 
       - name: Configure AWS Credentials
         if: ${{ matrix.buildtype == 'vagovprod' }}
@@ -431,6 +429,8 @@ jobs:
     outputs:
       tests: ${{ steps.tests.outputs.selected }}
       app_urls: ${{ steps.get-changed-apps.outputs.urls }}
+      num_containers: ${{ steps.containers.outputs.num }}
+      ci_node_index: ${{ steps.matrix.outputs.ci_node_index }}
 
     steps:
       - name: Checkout
@@ -455,7 +455,7 @@ jobs:
           delimiter: ','
           output-type: 'entry_name, url'
 
-      - name: Set TESTS variable
+      - name: Set NUM_CONTAINERS, CI_NODE_INDEX, TESTS variables
         run: node script/github-actions/select-cypress-tests.js
         env:
           RUN_FULL_SUITE: false
@@ -466,6 +466,14 @@ jobs:
       - name: Set output of TESTS
         id: tests
         run: echo ::set-output name=selected::$TESTS
+
+      - name: Set output of NUM_CONTAINERS
+        id: containers
+        run: echo ::set-output name=num::$NUM_CONTAINERS
+
+      - name: Set output of CI_NODE_INDEX
+        id: matrix
+        run: echo ::set-output name=ci_node_index::$CI_NODE_INDEX
 
   cypress-tests:
     name: Cypress E2E Tests
@@ -481,9 +489,9 @@ jobs:
 
     strategy:
       fail-fast: false
-      max-parallel: 8
+      max-parallel: 12
       matrix:
-        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7]
+        ci_node_index: ${{ fromJson(needs.cypress-tests-prep.outputs.ci_node_index) }}
 
     env:
       CHROMEDRIVER_FILEPATH: /share/chrome_driver/chromedriver
@@ -548,6 +556,7 @@ jobs:
           STEP: ${{ matrix.ci_node_index }}
           TESTS: ${{ needs.cypress-tests-prep.outputs.tests }}
           APP_URLS: ${{ needs.cypress-tests-prep.outputs.app_urls }}
+          NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
 
       - name: Archive test videos
         if: ${{ needs.cypress-tests-prep.outputs.tests != '[]' && failure() }}
@@ -959,6 +968,7 @@ jobs:
           TEST_RESULTS_TABLE_NAME: cypress_test_results
           TEST_REPORTS_FOLDER_NAME: vets-website-cypress-reports
           TEST_RETRIES_TABLE_NAME: cypress_retry_records
+          NUM_CONTAINERS: ${{ needs.cypress-tests-prep.outputs.num_containers }}
           # env.MOCHAWESOME_REPORT_RESULTS is set and exported during the above step when the mochawesome report is generated.  It contains the output string for the publish step at the end of the job with the numbers from the Mochawesome report.
 
       - name: Upload Cypress E2E test videos to s3
@@ -1081,15 +1091,14 @@ jobs:
           aws s3 cp BUILD_ARTIFACT.txt s3://vetsgov-website-builds-s3-upload-test/build-artifacts/$GITHUB_SHA.txt --acl public-read --region us-gov-west-1
 
   set-deploy-environments:
-    name: Set environments to deploy
+    name: Set Environments to Deploy
     needs: [archive, build]
     if: always() && github.ref == 'refs/heads/main' && needs.archive.result == 'success'
     runs-on: ubuntu-latest
     outputs:
       environments: ${{ steps.set-environments.outputs.environments }}
     env:
-      DEPLOY_TO_PRODUCTION: false # Enables production deployments for apps on the allowlist when set to true
-      IS_ISOLATED_APP_BUILD: ${{ needs.build.outputs.entry_names != '' }}
+      DEPLOY_TO_PRODUCTION: true # Enables production deployments for apps on the allowlist when set to true
       DEV: "{
           \\\"environment\\\": \\\"vagovdev\\\", 
           \\\"bucket\\\": \\\"dev.va.gov\\\", 
@@ -1112,7 +1121,7 @@ jobs:
       - name: Set environments for deploy matrix
         id: set-environments
         run: |
-          if [[ ${{ env.DEPLOY_TO_PRODUCTION }} == true && ${{ env.IS_ISOLATED_APP_BUILD }} == true ]]; then
+          if [[ ${{ env.DEPLOY_TO_PRODUCTION }} == true && ${{ needs.build.outputs.continuous_deployment }} == true ]]; then
             echo ::set-output name=environments::{\"include\":[${{env.DEV}},${{env.STAGING}},${{env.PROD}}]}
           else
             echo ::set-output name=environments::{\"include\":[${{env.DEV}},${{env.STAGING}}]}
@@ -1143,7 +1152,7 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Check commit deployability
+      - name: Check if commit can be deployed
         id: check-deployability
         run: node ./script/github-actions/check-deployability.js
         env:

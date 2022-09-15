@@ -1,0 +1,280 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "./navigation";
+
+.secure-messaging-container {
+  display: flex;
+  flex-direction: row;
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    h1 {
+      margin-bottom: 8px;
+    }
+  }
+  .secure-messaging-navigation {
+    margin-right: 24px;
+  }
+}
+
+.compose-message-link:visited {
+  color: $color-link-default;
+  text-decoration: underline;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+  transition-property: color, background-color, border-color;
+}
+
+va-alert button {
+  width: auto;
+}
+
+.message-box {
+  background-color: $color-gray-lightest;
+  border-radius: 4px;
+}
+
+.send-button-top,
+.reply-button-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: transparent !important;
+  color: $color-link-default !important;
+  font-weight: normal;
+  line-height: 24px;
+  width: fit-content;
+  margin: 0;
+  padding: 0;
+  .send-button-top-text {
+    text-decoration: underline;
+  }
+}
+
+.message-action-buttons {
+  margin-top: 20px;
+  .message-action-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+    color: $color-link-default;
+    font-weight: normal;
+    line-height: 24px;
+    width: fit-content;
+    margin: 0;
+    padding: 0;
+    i {
+      width: 20px;
+      height: 20px;
+    }
+    .message-action-button-text {
+      text-decoration: underline;
+    }
+  }
+}
+
+.section-guide-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 11px 16px 11px 13px;
+  line-height: 1.5;
+  border-color: $color-link-default;
+  * {
+    color: $color-link-default;
+  }
+  width: 100%;
+  @media (min-width: $medium-screen) {
+    display: none;
+  }
+}
+
+.breadcrumb > i {
+  margin-right: 6px;
+  font-size: 1.1rem;
+}
+
+.save-button {
+  background-color: transparent;
+  color: $color-link-default;
+  .save-button-text {
+    text-decoration: underline;
+    font-weight: normal;
+  }
+}
+
+.send-and-save {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+}
+
+.message-title {
+  font-size: 20px;
+  padding: 12px;
+  justify-content: space-between;
+}
+
+.message-input {
+  min-height: 5.2rem;
+  max-width: 100%;
+  width: 100%;
+  padding: 1.2rem;
+  margin: 0.4rem 0px;
+  resize: none;
+}
+
+.message-body {
+  background-color: $color-white;
+  font-size: 16px;
+  border-radius: 0px 0px 4px 4px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+  .message-body-text {
+    margin-top: 1px;
+    margin-bottom: 1px;
+  }
+  a:visited {
+    color: $color-link-default;
+    text-decoration: underline;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+    transition-property: color, background-color, border-color;
+  }
+}
+
+.attachment-body {
+  display: flex;
+  background-color: $color-white;
+  font-size: 16px;
+  border-radius: 0px 0px 4px 4px;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.attachment-icon {
+  padding-top: 6px;
+  margin-right: 4px;
+}
+
+.remove-attachment {
+  background-color: transparent;
+  color: $color-link-default;
+  .remove-attachment-text {
+    text-decoration: underline;
+    font-weight: normal;
+  }
+}
+
+.older-messages {
+  a:visited {
+    color: $color-link-default;
+    text-decoration: underline;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-in-out;
+    transition-property: color, background-color, border-color;
+  }
+  i {
+    color: inherit;
+  }
+  .fa-lg {
+    font-size: 1.33333em !important;
+  }
+  .expand-all-messages-btn {
+    margin-top: 14px;
+    margin-bottom: 7px;
+  }
+
+  .older-message {
+    p {
+      margin: 4px 0;
+    }
+  }
+}
+
+.expand-messages {
+  align-items: right;
+}
+
+.nav-links {
+  margin-left: 8px;
+  margin-right: 8px;
+  .nav-links-text {
+    margin-left: 8px;
+    margin-right: 8px;
+  }
+}
+
+.page-title {
+  margin: 24px 0;
+}
+
+.link-button,
+.link-button:hover,
+.link-button:active {
+  background-color: transparent;
+  color: $color-link-default;
+  font-weight: normal;
+  text-decoration: underline;
+  border: none;
+  border-radius: 0;
+  transition-duration: 0.3s;
+}
+.link-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.search-messages-input {
+  max-width: 480px;
+}
+
+@media (max-width: $small-screen) {
+  .secure-messaging-container {
+    flex-direction: column;
+    .main-content {
+      display: flex;
+      flex-direction: column;
+    }
+    .secure-messaging-navigation {
+      margin-top: 24px;
+      margin-bottom: 30px;
+      margin-right: 0px;
+    }
+  }
+}
+
+.attachments-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  li {
+    display: flex;
+    i {
+      margin: 5px 8px 0 0;
+    }
+  }
+}
+
+.remove-attachment-button {
+  padding: 0;
+  margin: 0;
+  width: fit-content;
+  position: relative;
+  padding-left: 1rem;
+  margin-left: 1rem;
+  i::before {
+    position: absolute;
+    top: 1px;
+    left: 3px;
+  }
+}
+
+pre {
+  font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
+    "Arial", sans-serif;
+  white-space: pre-wrap;
+}
+
+va-loading-indicator {
+  margin: 200px auto;
+}

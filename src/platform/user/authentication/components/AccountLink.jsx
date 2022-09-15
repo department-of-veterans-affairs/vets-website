@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import * as authUtilities from 'platform/user/authentication/utilities';
 import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
-import { CSP_CONTENT, AUTH_EVENTS, LINK_TYPES } from '../constants';
+import { SERVICE_PROVIDERS, AUTH_EVENTS, LINK_TYPES } from '../constants';
 
 function signupHandler(loginType, eventBase, isOAuth) {
   recordEvent({ event: `${eventBase}-${loginType}${isOAuth && '-oauth'}` });
@@ -16,14 +16,16 @@ export default function AccountLink({
   csp,
   type = LINK_TYPES.CREATE,
   useOAuth = false,
+  className = 'vads-c-action-link--blue vads-u-padding-y--2p5 vads-u-width--full',
+  allowVerification = false,
 }) {
   const [href, setHref] = useState('');
 
   const { children, eventBase } = {
     children:
       type !== LINK_TYPES.CREATE
-        ? `Sign in with ${CSP_CONTENT[csp].COPY} account`
-        : `Create an account with ${CSP_CONTENT[csp].COPY}`,
+        ? `Sign in with ${SERVICE_PROVIDERS[csp].label} account`
+        : `Create an account with ${SERVICE_PROVIDERS[csp].label}`,
     eventBase:
       type !== LINK_TYPES.CREATE ? AUTH_EVENTS.LOGIN : AUTH_EVENTS.REGISTER,
   };
@@ -34,19 +36,23 @@ export default function AccountLink({
         const url =
           passedType !== LINK_TYPES.CREATE
             ? await authUtilities.sessionTypeUrl({ type: csp })
-            : await authUtilities.signupUrl(passedCSP);
+            : await authUtilities.signup({
+                policy: passedCSP,
+                isLink: true,
+                allowVerification,
+              });
 
         setHref(url);
       }
       updateHref(csp, type);
     },
-    [csp, type, useOAuth],
+    [csp, type, useOAuth, allowVerification],
   );
 
   return (
     <a
       href={href}
-      className={`vads-c-action-link--blue vads-u-padding-y--2p5 vads-u-width--full ${csp}`}
+      className={`${className} ${csp}`}
       data-testid={csp}
       onClick={() => signupHandler(csp, eventBase, useOAuth)}
     >
@@ -56,6 +62,7 @@ export default function AccountLink({
 }
 
 AccountLink.propTypes = {
+  className: PropTypes.string,
   csp: PropTypes.string,
   isDisabled: PropTypes.bool,
   type: PropTypes.string,

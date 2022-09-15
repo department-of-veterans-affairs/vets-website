@@ -33,7 +33,15 @@ export default function BenefitsSelection(props) {
 
   return (
     <>
-      <Page {...props}>
+      <Page
+        {...props}
+        fieldNames={[
+          'burialAllowance',
+          'plotAllowance',
+          'transportation',
+          'amountIncurred',
+        ]}
+      >
         <CheckboxFieldGroup {...checkboxProps} />
         {!!state.values.benefitsSelection?.transportation && (
           <div

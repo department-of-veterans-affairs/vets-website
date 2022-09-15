@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { format, isValid } from 'date-fns';
 import { head } from 'lodash';
-import { deductionCodes } from '../../debt-letters/const/deduction-codes';
+import { deductionCodes } from '../constants/deduction-codes';
 import { currency, endDate } from '../utils/helpers';
 
 const DebtCheckBox = ({ debt }) => {
@@ -50,8 +50,8 @@ const DebtCheckBox = ({ debt }) => {
       ? [...selectedDebts, selectedDebt]
       : [selectedDebt];
 
-    const newlySelectedDebtsAndCopays = selectedDebts?.length
-      ? [...selectedDebts, selectedDebt]
+    const newlySelectedDebtsAndCopays = selectedDebtsAndCopays?.length
+      ? [...selectedDebtsAndCopays, selectedDebt]
       : [selectedDebt];
 
     return dispatch(

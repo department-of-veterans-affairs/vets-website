@@ -28,7 +28,7 @@ export function focusElement(selectorOrElement, options) {
     if (el.tabIndex < 0) {
       el.setAttribute('tabindex', '-1');
     }
-    el.focus(options);
+    el?.focus(options);
   }
 }
 
@@ -42,11 +42,14 @@ export function getScrollOptions(additionalOptions) {
     delay: 0,
     smooth: !reducedMotion,
   };
-  return Object.assign({}, defaults, globals.scroll, additionalOptions);
+  return { ...defaults, ...globals.scroll, ...additionalOptions };
 }
 
 export function scrollToFirstError() {
-  const errorEl = document.querySelector('.usa-input-error, .input-error-date');
+  // [error] will focus any web-components with an error message
+  const errorEl = document.querySelector(
+    '.usa-input-error, .input-error-date, [error]',
+  );
   if (errorEl) {
     // document.body.scrollTop doesn’t work with all browsers, so we’ll cover them all like so:
     const currentPosition =
