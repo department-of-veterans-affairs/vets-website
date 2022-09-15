@@ -31,7 +31,6 @@ const initialState = {
   claimsLoading: false,
   appealsLoading: false,
   stemClaimsLoading: false,
-  show30DayNotice: true,
 };
 
 export default function claimsV2Reducer(state = initialState, action) {
