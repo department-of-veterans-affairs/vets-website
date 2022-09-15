@@ -247,15 +247,16 @@ function locationSupportsRequests(location, typeOfCare) {
   );
 }
 
-function hasMatchingClinics(clinics, pastAppointments) {
+function hasMatchingClinics(clinics, pastAppointments, useV2Next = false) {
   return clinics?.some(
     clinic =>
       !!pastAppointments.find(appt => {
         const clinicIds = clinic.id.split('_');
-        if (appt.version === 2) {
+        if (appt.version === 2 && useV2Next) {
           return (
             clinic.stationId === appt.location.stationId &&
-            clinicIds[1] === appt.location.clinicId
+            clinicIds[1] === appt.location.clinicId &&
+            clinic.patientDirectScheduling === true
           );
         }
         return (
@@ -357,6 +358,7 @@ export async function fetchFlowEligibilityAndClinics({
   location,
   directSchedulingEnabled,
   useV2 = false,
+  useV2Next = false,
 }) {
   const directSchedulingAvailable =
     locationSupportsDirectScheduling(location, typeOfCare) &&
@@ -371,6 +373,10 @@ export async function fetchFlowEligibilityAndClinics({
     }),
   };
 
+  // location contains legacyVAR that contains patientHistoryRequired
+  const directTypeOfCareSettings =
+    location.legacyVAR.settings?.[typeOfCare.id]?.direct;
+
   // We don't want to make unnecessary api calls if DS is turned off
   if (directSchedulingAvailable) {
     apiCalls.clinics = getAvailableHealthcareServices({
@@ -379,8 +385,14 @@ export async function fetchFlowEligibilityAndClinics({
       systemId: location.vistaId,
       useV2,
     }).catch(createErrorHandler('direct-available-clinics-error'));
+    // Primary care and mental health is exempt from past appt history requirement
+    const isDirectAppointmentHistoryRequired = useV2Next
+      ? typeOfCare.id !== PRIMARY_CARE &&
+        typeOfCare.id !== MENTAL_HEALTH &&
+        directTypeOfCareSettings.patientHistoryRequired === true
+      : typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
 
-    if (typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH) {
+    if (isDirectAppointmentHistoryRequired) {
       if (useV2) {
         apiCalls.pastAppointments = getLongTermAppointmentHistoryV2().catch(
           createErrorHandler('direct-no-matching-past-clinics-error'),
@@ -461,10 +473,25 @@ export async function fetchFlowEligibilityAndClinics({
       );
     }
 
-    if (
+    if (useV2Next) {
+      if (
+        typeOfCare.id !== PRIMARY_CARE &&
+        typeOfCare.id !== MENTAL_HEALTH &&
+        directTypeOfCareSettings.patientHistoryRequired === true &&
+        !hasMatchingClinics(
+          results.clinics,
+          results.pastAppointments,
+          useV2Next,
+        )
+      ) {
+        eligibility.direct = false;
+        eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);
+        recordEligibilityFailure('direct-no-matching-past-clinics');
+      }
+    } else if (
       typeOfCare.id !== PRIMARY_CARE &&
       typeOfCare.id !== MENTAL_HEALTH &&
-      !hasMatchingClinics(results.clinics, results.pastAppointments)
+      !hasMatchingClinics(results.clinics, results.pastAppointments, useV2Next)
     ) {
       eligibility.direct = false;
       eligibility.directReasons.push(ELIGIBILITY_REASONS.noMatchingClinics);

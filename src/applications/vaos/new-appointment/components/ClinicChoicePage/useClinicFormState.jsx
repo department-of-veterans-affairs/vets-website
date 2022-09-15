@@ -38,7 +38,12 @@ export default function useClinicFormState() {
   const formState = useFormState({
     initialSchema() {
       let newSchema = initialSchema;
-      let filteredClinics = clinics;
+      // As long as selected care is not primary care then
+      // filter the clinics that have patientDirectScheduling set to true
+      let filteredClinics =
+        featureVaosV2Next && initialData.typeOfCareId !== PRIMARY_CARE
+          ? clinics.filter(clinic => clinic.patientDirectScheduling === true)
+          : clinics;
 
       // Adding type of care check since past appointment history is not needed
       // for primary care or mental health appointments.
@@ -67,19 +72,10 @@ export default function useClinicFormState() {
             pastAppointmentDateMap.set(clinicId, apptTime);
           }
         });
-        // filter the clinic where past appointment contains the clinicId
-        // and the clinic configuration has direct scheduling set to true
-        if (featureVaosV2Next) {
-          filteredClinics = clinics.filter(
-            clinic =>
-              pastAppointmentDateMap.has(getClinicId(clinic)) &&
-              clinic.patientDirectScheduling === true,
-          );
-        } else {
-          filteredClinics = clinics.filter(clinic =>
-            pastAppointmentDateMap.has(getClinicId(clinic)),
-          );
-        }
+        // filter clinic where past appts contains clinicId
+        filteredClinics = filteredClinics.filter(clinic =>
+          pastAppointmentDateMap.has(getClinicId(clinic)),
+        );
       }
 
       if (filteredClinics.length === 1) {

@@ -14,6 +14,7 @@ import {
   selectRegisteredCernerFacilityIds,
   selectFeatureFacilitiesServiceV2,
   selectFeatureVAOSServiceVAAppointments,
+  selectFeatureVaosV2Next,
 } from '../../redux/selectors';
 import {
   getTypeOfCare,
@@ -263,6 +264,7 @@ export function checkEligibility({ location, showModal }) {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       state,
     );
+    const featureVaosV2Next = selectFeatureVaosV2Next(state);
 
     dispatch({
       type: FORM_ELIGIBILITY_CHECKS,
@@ -280,6 +282,7 @@ export function checkEligibility({ location, showModal }) {
         typeOfCare,
         directSchedulingEnabled,
         useV2: featureVAOSServiceVAAppointments,
+        useV2Next: featureVaosV2Next,
       });
 
       if (showModal) {
