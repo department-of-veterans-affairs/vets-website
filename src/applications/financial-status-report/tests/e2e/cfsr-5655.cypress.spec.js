@@ -17,7 +17,7 @@ Cypress.config('waitForAnimations', true);
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataSets: ['cfsr-maximal'],
+    dataSets: ['cfsr-maximal', 'cfsr-minimal'],
     fixtures: { data: path.join(__dirname, 'fixtures', 'data') },
 
     setupPerTest: () => {
