@@ -129,14 +129,14 @@
 /* yes or no option label*/
 .neb-component .neb-content .neb-native-radio .neb-native-radio-option-label {
   color: $color-gray-dark !important;
-  font-size: 16px !important;  
+  font-size: 16px !important;
 }
 
 /* labels for all questions */
 .control-label {
   color: $color-gray-dark !important;
   font-size: 16px !important;
-  font-weight: bold !important  
+  font-weight: bold !important;
 }
 
 /* submit and close buttons */
@@ -155,19 +155,20 @@
 
 /* Very specific selectors to move 'do not inclide PII'helper text before the textarea */
 #liveForm>div>div>div>div>div>div>.neb-component.neb-web-component.neb-textArea.kplFormHolder {
-  display: flex; 
+  display: flex;
   flex-direction: column;
 } 
 
 #liveForm>div>div>div>div>div>div>.neb-component.neb-web-component.neb-textArea.kplFormHolder>label {
   order: 1;
 }
+
 #liveForm>div>div>div>div>div>div>.neb-component.neb-web-component.neb-textArea.kplFormHolder>p {
   order: 2;
 }
 
 #liveForm>div>div>div>div>div>div>div.neb-component.neb-web-component.neb-textArea.kplFormHolder>.neb-content.neb-wcag {
-  order:3;
+  order: 3;
 }
 
 /* thank you page to align elements left */
@@ -183,7 +184,8 @@
 
 .thankYouPageLogoPreviewText>div>p {
   text-align: left !important;
-  font-size: 40px;
+  font-size: 20px;
+  font-weight: 400;
 }
 
 .btn-close-wrapper {
