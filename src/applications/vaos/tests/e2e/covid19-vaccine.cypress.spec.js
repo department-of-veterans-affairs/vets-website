@@ -30,7 +30,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     mockFacilitiesApi({ apiVersion: 1 });
     mockFacilityApi({ id: '983', apiVersion: 1 });
     mockFeatureToggles();
-    mockLoginApi();
+    mockLoginApi({ withoutAddress: true });
     mockRequestEligibilityCriteriaApi();
   });
 
@@ -77,15 +77,16 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
 
     // Choose VA Flat Facility
     cy.url().should('include', '/choose-facility');
-    // cy.wait([
-    //   '@v0:get:request_eligibility_criteria',
-    //   '@v0:get:direct_booking_eligibility_criteria',
-    //   '@v1:get:facilities',
-    // ]).then(() => {
-    //   cy.axeCheckBestPractice();
-    //   cy.findByLabelText(/cheyenne/i).click();
-    //   cy.findByText(/Continue/).click();
-    // });
+    cy.wait([
+      '@v0:get:request_eligibility_criteria',
+      '@v0:get:direct_booking_eligibility_criteria',
+      '@v1:get:facilities',
+    ]).then(() => {
+      cy.axeCheckBestPractice();
+      // cy.findByLabelText(/cheyenne/i).click();
+      cy.findByRole('radio', { name: /cheyenne/i }).click();
+      cy.findByText(/Continue/).click();
+    });
 
     // // Choose Clinic
     // cy.url().should('include', '/choose-clinic', { timeout: Timeouts.slow });
