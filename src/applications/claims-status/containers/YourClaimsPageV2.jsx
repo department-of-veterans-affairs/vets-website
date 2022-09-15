@@ -13,7 +13,6 @@ import {
   getClaimsV2 as getClaimsV2Action,
   getStemClaims as getStemClaimsAction,
   hide30DayNotice as hide30DayNoticeAction,
-  sortClaims as sortClaimsAction,
 } from '../actions/index';
 import {
   appealTypes,
@@ -306,8 +305,6 @@ function mapStateToProps(state) {
     appealsLoading: claimsV2Root.appealsLoading,
     stemClaimsLoading: claimsV2Root.stemClaimsLoading,
     list: sortedList,
-    sortProperty: claimsRoot.sortProperty,
-    consolidatedModal: claimsRoot.consolidatedModal,
     show30DayNotice: claimsRoot.show30DayNotice,
     synced: claimsState.claimSync.synced,
     canAccessAppeals,
@@ -320,7 +317,6 @@ const mapDispatchToProps = {
   getAppealsV2: getAppealsV2Action,
   getClaimsV2: getClaimsV2Action,
   getStemClaims: getStemClaimsAction,
-  sortClaims: sortClaimsAction,
   hide30DayNotice: hide30DayNoticeAction,
 };
 

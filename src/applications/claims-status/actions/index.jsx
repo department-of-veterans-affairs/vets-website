@@ -40,7 +40,6 @@ export const FETCH_STEM_CLAIMS_PENDING = 'FETCH_STEM_CLAIMS_PENDING';
 export const FETCH_STEM_CLAIMS_SUCCESS = 'FETCH_STEM_CLAIMS_SUCCESS';
 export const FETCH_STEM_CLAIMS_ERROR = 'FETCH_STEM_CLAIMS_ERROR';
 export const FILTER_CLAIMS = 'FILTER_CLAIMS';
-export const SORT_CLAIMS = 'SORT_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
 export const GET_CLAIM_DETAIL = 'GET_CLAIM_DETAIL';
 export const SET_CLAIM_DETAIL = 'SET_CLAIM_DETAIL';
@@ -63,7 +62,6 @@ export const SET_UPLOAD_ERROR = 'SET_UPLOAD_ERROR';
 export const UPDATE_FIELD = 'UPDATE_FIELD';
 export const CANCEL_UPLOAD = 'CANCEL_UPLOAD';
 export const SET_FIELDS_DIRTY = 'SET_FIELD_DIRTY';
-export const SHOW_CONSOLIDATED_MODAL = 'SHOW_CONSOLIDATED_MODAL';
 export const SET_LAST_PAGE = 'SET_LAST_PAGE';
 export const SET_NOTIFICATION = 'SET_NOTIFICATION';
 export const SET_ADDITIONAL_EVIDENCE_NOTIFICATION =
@@ -290,12 +288,7 @@ export function filterClaims(filter) {
     filter,
   };
 }
-export function sortClaims(sortProperty) {
-  return {
-    type: SORT_CLAIMS,
-    sortProperty,
-  };
-}
+
 export function changePage(page) {
   return {
     type: CHANGE_CLAIMS_PAGE,
@@ -595,13 +588,6 @@ export function cancelUpload() {
 export function setFieldsDirty() {
   return {
     type: SET_FIELDS_DIRTY,
-  };
-}
-
-export function showConsolidatedMessage(visible) {
-  return {
-    type: SHOW_CONSOLIDATED_MODAL,
-    visible,
   };
 }
 
