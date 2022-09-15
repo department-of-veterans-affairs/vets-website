@@ -98,7 +98,7 @@ const MessageActionButtons = props => {
         className="message-action-button"
         onClick={handleDeleteMessage}
       >
-        <i className="fas fa-trash-alt" />
+        <i className="fas fa-trash-alt" aria-hidden />
         <span className="message-action-button-text">Delete</span>
       </button>
 
@@ -107,7 +107,7 @@ const MessageActionButtons = props => {
         className="message-action-button"
         onClick={openMoveModal}
       >
-        <i className="fas fa-folder" aria-hidden="true" />
+        <i className="fas fa-folder" aria-hidden />
         <span className="message-action-button-text">Move</span>
       </button>
       {isModalVisible ? moveToFolderModal() : null}
