@@ -168,7 +168,7 @@ describe('pre-check-in', () => {
           </I18nextProvider>,
         );
         expect(screen.getAllByTestId('appointment-type-label')[0]).to.have.text(
-          'Phone call',
+          'Phone Call',
         );
       });
       it('Renders appointment time with no clinic for phone appointments', () => {
@@ -194,7 +194,7 @@ describe('pre-check-in', () => {
           </I18nextProvider>,
         );
         expect(screen.getAllByTestId('appointment-message')[0]).to.have.text(
-          'Your provider will call you. You may need to wait about 15 minutes for their call. Thanks for your patience.',
+          'Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.',
         );
       });
       it('Renders phone message with appointment on intro page', () => {
@@ -207,7 +207,7 @@ describe('pre-check-in', () => {
           </I18nextProvider>,
         );
         expect(screen.getAllByTestId('appointment-message')[0]).to.have.text(
-          'Your provider will call you. ',
+          'Your provider will call you.',
         );
       });
       it('Does not render facility name', () => {

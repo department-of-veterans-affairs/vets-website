@@ -26,7 +26,7 @@ export default function NeedHelp() {
           contact="8774705947"
           data-testid="technical-issue-telephone"
         />{' '}
-        (TTY: <VaTelephone contact="711" data-testid="tty-telephone" />
+        (<VaTelephone contact="711" tty data-testid="tty-telephone" />
         ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
       </p>
       <p className="vads-u-margin-top--0">
@@ -35,7 +35,7 @@ export default function NeedHelp() {
           contact="8666513180"
           data-testid="video-question-telephone"
         />{' '}
-        (TTY: <VaTelephone contact="711" />
+        (<VaTelephone contact="711" tty />
         ). We’re here 24/7.
       </p>
       <p className="vads-u-margin-top--0">

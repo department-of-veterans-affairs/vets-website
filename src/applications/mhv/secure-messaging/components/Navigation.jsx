@@ -48,7 +48,7 @@ const Navigation = () => {
       {(isNavigationOpen && isMobile) || isMobile === false ? (
         <div className="sidebar-navigation">
           <div className="sidebar-navigation-header">
-            <i className="medkit-icon fas fa-medkit" aria-hidden />
+            <i className="medkit-icon fas fa-medkit" aria-hidden="true" />
             <h4>My Health</h4>
             <button
               className={
