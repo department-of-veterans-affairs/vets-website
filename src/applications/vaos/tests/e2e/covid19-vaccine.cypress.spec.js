@@ -69,12 +69,12 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.findByText(/Continue/).click();
 
     // Choose VA Flat Facility
+    cy.url().should('include', '/choose-facility');
     cy.wait([
       '@v0:get:request_eligibility_criteria',
       '@v0:get:direct_booking_eligibility_criteria',
       '@v1:get:facilities',
     ]);
-    cy.url().should('include', '/choose-facility');
     cy.axeCheckBestPractice();
     cy.findByLabelText(/cheyenne/i).click();
     cy.findByText(/Continue/).click();
