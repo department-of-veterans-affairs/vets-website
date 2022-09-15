@@ -48,7 +48,7 @@ export const currency = amount => {
   const value =
     typeof amount === 'number'
       ? amount
-      : parseFloat(amount.replaceAll(',', ''));
+      : parseFloat(amount?.replaceAll(',', ''));
   return formatter.format(value);
 };
 

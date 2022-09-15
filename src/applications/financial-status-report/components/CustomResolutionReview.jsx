@@ -9,11 +9,14 @@ const CustomResolutionReview = ({ children }) => {
   const { formContext } = children.props;
   const currentDebt =
     selectedDebtsAndCopays[formContext?.pagePerItemIndex || 0];
+  const compromiseAmount = currentDebt?.resolutionComment || 0;
 
   return (
     <div className="review-row">
-      <dt>Resolution amount for {getDebtName(currentDebt)}</dt>
-      <dd>{currency(currentDebt.resolutionComment)}</dd>
+      <dt>
+        Resolution amount for <strong>{getDebtName(currentDebt)}</strong>
+      </dt>
+      <dd>{currency(compromiseAmount)}</dd>
     </div>
   );
 };
