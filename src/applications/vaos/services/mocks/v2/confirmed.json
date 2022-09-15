@@ -241,7 +241,8 @@
             },
             "telecom": []
           },
-          "hsrmTaskId": ""
+          "hsrmTaskId": "",
+          "ccTreatingSpecialty": ""
         },
         "location": {
           "id": "984",
@@ -486,7 +487,8 @@
               "postalCode": "45414",
               "text": "1601 Needmore Rd Ste 1\nDayton OH 45414"
             }
-          }
+          },
+          "ccTreatingSpecialty": ""
         },
         "preferredTimesForPhoneCall": [],
         "priority": 0,
