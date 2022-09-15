@@ -63,7 +63,9 @@ describe('VAOS direct schedule flow', () => {
     newApptTests.chooseFacilityTypeTest(/VA medical center/);
 
     // Choose VA Flat Facility
-    newApptTests.chooseVAFacilityV2Test(/Cheyenne VA Medical Center/);
+    newApptTests.chooseVAFacilityV2Test({
+      label: /Cheyenne VA Medical Center/,
+    });
 
     // Choose Clinic
     newApptTests.chooseClinicTest();
@@ -138,7 +140,9 @@ describe('VAOS direct schedule flow', () => {
     newApptTests.chooseFacilityTypeTest(/VA medical center/);
 
     // Choose VA Facility
-    newApptTests.chooseVAFacilityV2Test(/Cheyenne VA Medical Center/);
+    newApptTests.chooseVAFacilityV2Test({
+      label: /Cheyenne VA Medical Center/,
+    });
 
     // Choose Clinic
     newApptTests.chooseClinicTest();
@@ -207,7 +211,9 @@ describe('VAOS direct schedule flow', () => {
     cy.findByText(/Continue/).click();
 
     // Choose VA Facility
-    newApptTests.chooseVAFacilityV2Test(/Cheyenne VA Medical Center/);
+    newApptTests.chooseVAFacilityV2Test({
+      label: /Cheyenne VA Medical Center/,
+    });
 
     // Choose Clinic
     newApptTests.chooseClinicTest();
@@ -295,7 +301,10 @@ describe('VAOS direct schedule flow using VAOS service', () => {
     newApptTests.chooseFacilityTypeTest(/VA medical center/);
 
     // Choose VA Flat Facility
-    newApptTests.chooseVAFacilityV2Test(/Cheyenne VA Medical Center/);
+    newApptTests.chooseVAFacilityV2Test({
+      label: /Cheyenne VA Medical Center/,
+      apiVersion: 2,
+    });
 
     // Choose Clinic
     newApptTests.chooseClinicTest();

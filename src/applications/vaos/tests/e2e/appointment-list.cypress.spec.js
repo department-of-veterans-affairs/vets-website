@@ -28,6 +28,12 @@ describe('VAOS appointment list', () => {
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
 
+      cy.wait([
+        '@v0:get:appointments:va',
+        '@v0:get:appointments:cc',
+        '@v0:get:appointment:requests',
+      ]);
+
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/Community Care/i)
@@ -48,7 +54,13 @@ describe('VAOS appointment list', () => {
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
 
-      cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
+      cy.wait([
+        '@v0:get:appointments:va',
+        '@v0:get:appointments:cc',
+        '@v0:get:appointment:requests',
+      ]);
+
+      cy.get('[data-cy=upcoming-appointment-list-header]').should('be.visible');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA CLinic/i)
         .parent()
@@ -67,6 +79,12 @@ describe('VAOS appointment list', () => {
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
+
+      cy.wait([
+        '@v0:get:appointments:va',
+        '@v0:get:appointments:cc',
+        '@v0:get:appointment:requests',
+      ]);
 
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
@@ -91,6 +109,12 @@ describe('VAOS appointment list', () => {
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
 
+      cy.wait([
+        '@v0:get:appointments:va',
+        '@v0:get:appointments:cc',
+        '@v0:get:appointment:requests',
+      ]);
+
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA Video Connect at a VA Location/i)
@@ -110,6 +134,12 @@ describe('VAOS appointment list', () => {
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
+
+      cy.wait([
+        '@v0:get:appointments:va',
+        '@v0:get:appointments:cc',
+        '@v0:get:appointment:requests',
+      ]);
 
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
@@ -131,6 +161,12 @@ describe('VAOS appointment list', () => {
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
 
+      cy.wait([
+        '@v0:get:appointments:va',
+        '@v0:get:appointments:cc',
+        '@v0:get:appointment:requests',
+      ]);
+
       cy.get('[data-cy=upcoming-appointment-list-header]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA Video Connect at home/i)
@@ -151,6 +187,12 @@ describe('VAOS appointment list', () => {
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
+
+      cy.wait([
+        '@v0:get:appointments:va',
+        '@v0:get:appointments:cc',
+        '@v0:get:appointment:requests',
+      ]);
 
       cy.get('[data-cy=appointment-list-item]')
         .contains(/VA CLinic/i)
@@ -182,6 +224,12 @@ describe('VAOS appointment list', () => {
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
+
+      cy.wait([
+        '@v0:get:appointments:va',
+        '@v0:get:appointments:cc',
+        '@v0:get:appointment:requests',
+      ]);
     });
 
     it('should render upcoming appointments list', () => {
@@ -223,6 +271,12 @@ describe('VAOS appointment list', () => {
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
+
+      cy.wait([
+        '@v0:get:appointments:va',
+        '@v0:get:appointments:cc',
+        '@v0:get:appointment:requests',
+      ]);
 
       cy.get('h2', { timeout: Timeouts.slow })
         .should('be.visible')
@@ -270,6 +324,12 @@ describe('VAOS appointment list', () => {
 
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
+
+      cy.wait([
+        '@v0:get:appointments:va',
+        '@v0:get:appointments:cc',
+        '@v0:get:appointment:requests',
+      ]);
 
       cy.get('[data-testid="vaosSelect"]')
         .shadow()
@@ -328,9 +388,17 @@ describe('VAOS appointment list', () => {
       mockFacilitiesApi({ apiVersion: 1 });
       mockFeatureToggles();
       mockLoginApi();
+    });
 
+    it('should render canceled appointments list', () => {
       cy.visit('health-care/schedule-view-va-appointments/appointments/');
       cy.injectAxe();
+
+      cy.wait([
+        '@v0:get:appointments:va',
+        '@v0:get:appointments:cc',
+        '@v0:get:appointment:requests',
+      ]);
 
       cy.get('[data-testid="vaosSelect"]')
         .shadow()
@@ -338,9 +406,7 @@ describe('VAOS appointment list', () => {
         .select('canceled')
         .should('have.value', 'canceled');
       cy.get('h2').contains(/Canceled appointments/i);
-    });
 
-    it('should render canceled appointments list', () => {
       cy.get('[data-cy=canceled-appointment-list-header]').should('exist');
       cy.get('[data-cy=canceled-appointment-list]').should('exist');
       cy.get('[data-cy=appointment-list-item]')
@@ -351,6 +417,22 @@ describe('VAOS appointment list', () => {
     });
 
     it('should navigate to canceled appointment details', () => {
+      cy.visit('health-care/schedule-view-va-appointments/appointments/');
+      cy.injectAxe();
+
+      cy.wait([
+        '@v0:get:appointments:va',
+        '@v0:get:appointments:cc',
+        '@v0:get:appointment:requests',
+      ]);
+
+      cy.get('[data-testid="vaosSelect"]')
+        .shadow()
+        .find('#select')
+        .select('canceled')
+        .should('have.value', 'canceled');
+      cy.get('h2').contains(/Canceled appointments/i);
+
       cy.get('[data-cy=appointment-list-item]')
         .first()
         .findByText(/Details/i)

@@ -69,6 +69,11 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.findByText(/Continue/).click();
 
     // Choose VA Flat Facility
+    cy.wait([
+      '@v0:get:request_eligibility_criteria',
+      '@v0:get:direct_booking_eligibility_criteria',
+      '@v1:get:facilities',
+    ]);
     cy.url().should('include', '/choose-facility');
     cy.axeCheckBestPractice();
     cy.findByLabelText(/cheyenne/i).click();
@@ -215,6 +220,11 @@ describe('VAOS COVID-19 vaccine appointment flow - unavailable', () => {
     cy.findByText(/Continue/).click();
 
     // Contact Facility Page
+    cy.wait([
+      '@v0:get:request_eligibility_criteria',
+      '@v0:get:direct_booking_eligibility_criteria',
+      '@v1:get:facilities',
+    ]);
     cy.url().should('include', '/contact-facility');
     cy.findByText('Your facilities');
     cy.axeCheckBestPractice();

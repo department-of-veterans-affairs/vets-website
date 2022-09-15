@@ -58,7 +58,10 @@ describe('VAOS VA request flow', () => {
     // Choose VA Facility
     cy.url().should('include', '/va-facility');
     cy.axeCheckBestPractice();
-    if (facilitySelection) facilitySelection();
+    if (facilitySelection) {
+      cy.wait(['@v1:get:facilities']);
+      facilitySelection();
+    }
     cy.findByText(/Continue/).click();
 
     // Choose date and slot (AM or PM)

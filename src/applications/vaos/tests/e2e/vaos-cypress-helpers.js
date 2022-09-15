@@ -498,23 +498,38 @@ export function mockAppointmentsApi({
       {
         method: 'GET',
         pathname: '/vaos/v0/appointments',
-        query: { start_date: '*', end_date: '*', type: '*' },
+        query: { start_date: '*', end_date: '*', type: 'va' },
       },
       req => {
-        if (req.query.type === 'va') {
-          const data = updateConfirmedVADates(confirmedVA).data.concat(
-            createPastVAAppointments().data,
-          );
-          req.reply({
+        const data = updateConfirmedVADates(confirmedVA).data.concat(
+          createPastVAAppointments().data,
+        );
+        req.reply({
+          body: {
             data,
-          });
-        } else if (req.query.type === 'cc') {
-          req.reply({
-            data: updateConfirmedCCDates(confirmedCC).data,
-          });
-        }
+          },
+          // delay: Math.floor(Math.random() * 32000),
+          // throttleKbps: 1000, // to simulate a 3G connection
+        });
       },
-    ).as('v0:get:appointments');
+    ).as('v0:get:appointments:va');
+
+    cy.intercept(
+      {
+        method: 'GET',
+        pathname: '/vaos/v0/appointments',
+        query: { start_date: '*', end_date: '*', type: 'cc' },
+      },
+      req => {
+        req.reply({
+          body: {
+            data: updateConfirmedCCDates(confirmedCC).data,
+          },
+          // delay: 5000,
+        });
+      },
+    ).as('v0:get:appointments:cc');
+
     cy.intercept(
       {
         method: 'POST',

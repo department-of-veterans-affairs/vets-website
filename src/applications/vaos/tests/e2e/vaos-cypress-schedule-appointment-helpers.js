@@ -21,6 +21,7 @@ export function chooseFacilityTypeTest(label) {
 
 export function chooseVAFacilityTest() {
   cy.url().should('include', '/va-facility');
+  cy.wait(['@v1:get:facilities']);
   cy.axeCheckBestPractice();
   cy.findByLabelText(/CHYSHR/).check();
   cy.findByLabelText(
@@ -29,8 +30,10 @@ export function chooseVAFacilityTest() {
   cy.findByText(/Continue/).click();
 }
 
-export function chooseVAFacilityV2Test(label) {
+export function chooseVAFacilityV2Test({ label, apiVersion = 1 } = {}) {
   cy.url().should('include', '/va-facility-2');
+  if (apiVersion === 1) cy.wait(['@v1:get:facilities']);
+  else cy.wait(['@v2:get:facilities']);
   cy.axeCheckBestPractice();
   cy.findByLabelText(label)
     .focus()
