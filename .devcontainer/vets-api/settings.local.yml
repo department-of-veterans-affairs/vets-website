@@ -17,5 +17,5 @@ saml:
   authn_requests_signed: false
 
 virtual_hosts:
-  - localhost
-  - 127.0.0.1
+- localhost
+- 127.0.0.1
