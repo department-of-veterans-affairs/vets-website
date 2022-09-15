@@ -17,6 +17,5 @@ saml:
   authn_requests_signed: false
 
 virtual_hosts:
-- localhost
-- 127.0.0.1
-- /^vets-website-.*-3000\.githubpreview\.dev$/
+  - localhost
+  - 127.0.0.1

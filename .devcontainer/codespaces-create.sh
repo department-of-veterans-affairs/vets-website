@@ -6,14 +6,18 @@
 # yarn cache clean && yarn install --production=false --prefer-offline && yarn build -- --host="${CODESPACE_NAME}-3001.githubpreview.dev/" --env api=${CODESPACE_NAME}-3000.githubpreview.dev/
 
 printf "\n\n##### Starting vets-api #####\n"
+
+# Add codespace name to `virtual_hosts` in settings file and copy to vets-api directory
+sed -i "/^virtual_hosts*/a - $CODESPACE_NAME" .devcontainer/vets-api/settings.local.yml
+cp .devcontainer/vets-api/settings.local.yml ../vets-api/config/settings.local.yml
+
+# Change directory to vets-api
 cd ../vets-api
+
+# Setup key & cert for localhost authentication to ID.me
 mkdir config/certs
 touch config/certs/vetsgov-localhost.crt
 touch config/certs/vetsgov-localhost.key
-# Add codespace name to virtual hosts before copying settings
-sed -i "/^virtual_hosts*/a - $CODESPACE_NAME" .devcontainer/vets-api/settings.local.yml
-cp ../vets-website/.devcontainer/vets-api/settings.local.yml config/settings.local.yml
+
+# Start vets-api server and associated services
 # make up
-#CONFIG_HOST=/^vets-website-.*-3000\.githubpreview\.dev$/
-#sed '/^config\.hosts.*/a hello' config/environments/development.rb
-#echo "config.hosts << /^vets-website-.*-3000\.githubpreview\.dev$/" | config/environments/development.rb
