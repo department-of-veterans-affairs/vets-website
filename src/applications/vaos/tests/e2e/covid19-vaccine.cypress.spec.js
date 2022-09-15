@@ -37,6 +37,13 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
   it('should submit form', () => {
     cy.visit('health-care/schedule-view-va-appointments/appointments');
     cy.injectAxe();
+
+    cy.wait([
+      '@v0:get:appointments:va',
+      '@v0:get:appointments:cc',
+      '@v0:get:appointment:requests',
+    ]);
+
     cy.axeCheckBestPractice();
 
     // Start flow
@@ -148,6 +155,13 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
   it('should show facility contact page on second dose selection', () => {
     cy.visit('health-care/schedule-view-va-appointments/appointments');
     cy.injectAxe();
+
+    cy.wait([
+      '@v0:get:appointments:va',
+      '@v0:get:appointments:cc',
+      '@v0:get:appointment:requests',
+    ]);
+
     cy.axeCheckBestPractice();
 
     // Start flow
@@ -204,6 +218,13 @@ describe('VAOS COVID-19 vaccine appointment flow - unavailable', () => {
   it('should show facility contact page when vaccine schedule is not available', () => {
     cy.visit('health-care/schedule-view-va-appointments/appointments');
     cy.injectAxe();
+
+    cy.wait([
+      '@v0:get:appointments:va',
+      '@v0:get:appointments:cc',
+      '@v0:get:appointment:requests',
+    ]);
+
     cy.axeCheckBestPractice();
 
     // Start flow
@@ -220,12 +241,12 @@ describe('VAOS COVID-19 vaccine appointment flow - unavailable', () => {
     cy.findByText(/Continue/).click();
 
     // Contact Facility Page
+    cy.url().should('include', '/contact-facility');
     cy.wait([
       '@v0:get:request_eligibility_criteria',
       '@v0:get:direct_booking_eligibility_criteria',
       '@v1:get:facilities',
     ]);
-    cy.url().should('include', '/contact-facility');
     cy.findByText('Your facilities');
     cy.axeCheckBestPractice();
     cy.findByText(/Continue/i).should('not.exist');
