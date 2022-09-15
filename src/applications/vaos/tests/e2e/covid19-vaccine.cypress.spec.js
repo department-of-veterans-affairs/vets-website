@@ -81,10 +81,11 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
       '@v0:get:request_eligibility_criteria',
       '@v0:get:direct_booking_eligibility_criteria',
       '@v1:get:facilities',
-    ]);
-    cy.axeCheckBestPractice();
-    cy.findByLabelText(/cheyenne/i).click();
-    cy.findByText(/Continue/).click();
+    ]).then(() => {
+      cy.axeCheckBestPractice();
+      cy.findByLabelText(/cheyenne/i).click();
+      cy.findByText(/Continue/).click();
+    });
 
     // Choose Clinic
     cy.url().should('include', '/choose-clinic', { timeout: Timeouts.slow });
@@ -246,9 +247,10 @@ describe('VAOS COVID-19 vaccine appointment flow - unavailable', () => {
       '@v0:get:request_eligibility_criteria',
       '@v0:get:direct_booking_eligibility_criteria',
       '@v1:get:facilities',
-    ]);
-    cy.findByText('Your facilities');
-    cy.axeCheckBestPractice();
-    cy.findByText(/Continue/i).should('not.exist');
+    ]).then(() => {
+      cy.findByText('Your facilities');
+      cy.axeCheckBestPractice();
+      cy.findByText(/Continue/i).should('not.exist');
+    });
   });
 });
