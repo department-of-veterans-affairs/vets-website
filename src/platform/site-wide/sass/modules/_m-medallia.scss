@@ -169,3 +169,23 @@
 #liveForm>div>div>div>div>div>div>div.neb-component.neb-web-component.neb-textArea.kplFormHolder>.neb-content.neb-wcag {
   order:3;
 }
+
+/* thank you page to align elements left */
+.thankYouPageLogoPreviewImage {
+  text-align: left !important;
+}
+
+.thankYouPageLogoPreviewText>div>p>span>span>span[style] {
+  text-align: left !important;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.thankYouPageLogoPreviewText>div>p {
+  text-align: left !important;
+  font-size: 40px;
+}
+
+.btn-close-wrapper {
+  text-align: left !important;
+}
