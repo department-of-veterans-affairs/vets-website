@@ -38,8 +38,8 @@ va-alert button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: transparent;
-  color: $color-link-default;
+  background-color: transparent !important;
+  color: $color-link-default !important;
   font-weight: normal;
   line-height: 24px;
   width: fit-content;

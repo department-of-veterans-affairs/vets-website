@@ -1,6 +1,5 @@
 import * as Sentry from '@sentry/browser';
 
-import { AUTHN_SETTINGS } from 'platform/user/authentication/constants';
 import environment from '../environment';
 import localStorage from '../storage/localStorage';
 import {
@@ -111,12 +110,6 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
       if (csrfToken && csrfToken !== csrfTokenStored) {
         localStorage.setItem('csrfToken', csrfToken);
       }
-
-      // Grab requestId for error resolution
-      sessionStorage.setItem(
-        AUTHN_SETTINGS.REQUEST_ID,
-        response.headers.get('X-Request-Id') ?? '',
-      );
 
       if (
         response.ok ||

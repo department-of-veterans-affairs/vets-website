@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { API_ROUTES, FIELD_NAMES } from '@@vap-svc/constants';
+import { API_ROUTES, FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 
-import VAPServiceProfileField from '@@vap-svc/containers/VAPServiceProfileField';
+import VAPServiceProfileField from 'platform/user/profile/vap-svc/containers/VAPServiceProfileField';
 
 import EmailEditModal from './EmailEditModal';
 import EmailView from './EmailView';

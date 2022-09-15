@@ -1,9 +1,8 @@
 import path from 'path';
-
-import formConfig from 'applications/caregivers/config/form';
-import manifest from 'applications/caregivers/manifest.json';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import formConfig from '../../config/form';
+import manifest from '../../manifest.json';
 import {
   veteranSignatureContent,
   primaryCaregiverContent,
@@ -14,7 +13,7 @@ import {
   secondaryTwoLabel,
   representativeLabel,
   representativeSignatureContent,
-} from 'applications/caregivers/definitions/content';
+} from '../../definitions/content';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUpload from './fixtures/mocks/mock-upload.json';
 import mockFacilities from './fixtures/mocks/mock-facilities.json';

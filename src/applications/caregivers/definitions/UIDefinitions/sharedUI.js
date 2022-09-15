@@ -5,10 +5,9 @@ import platformSsnUI from 'platform/forms-system/src/js/definitions/ssn';
 import email from 'platform/forms-system/src/js/definitions/email';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { states } from 'platform/forms/address';
-import { validateSSNIsUnique } from 'applications/caregivers/helpers';
-import { VeteranSSNInfo } from 'applications/caregivers/components/AdditionalInfo';
-import AddressWithAutofill from 'applications/caregivers/components/FormFieldsets/AddressWithAutofill';
-import { emailEncouragementMessage } from '../content';
+import { validateSSNIsUnique } from '../../helpers';
+import { EmailEncouragementDescription } from '../../components/FormDescriptions';
+import AddressWithAutofill from '../../components/FormFields/AddressWithAutofill';
 
 const stateLabels = createUSAStateLabels(states);
 
@@ -29,33 +28,32 @@ export const vetRelationshipUI = label => ({
 });
 
 export const genderUI = label => ({
-  'ui:title': `${label}  sex`,
+  'ui:title': `${label} sex`,
   'ui:widget': 'radio',
   'ui:options': { labels: { F: 'Female', M: 'Male' } },
 });
 
 export const fullNameUI = label => ({
   first: {
-    'ui:title': `${label}  first name`,
+    'ui:title': `${label} first name`,
     'ui:errorMessages': {
       required: `Please enter ${label}  first name`,
     },
   },
   last: {
-    'ui:title': `${label}  last name`,
+    'ui:title': `${label} last name`,
     'ui:errorMessages': {
       required: `Please enter ${label}  last name`,
     },
   },
   middle: {
-    'ui:title': `${label}  middle name`,
+    'ui:title': `${label} middle name`,
   },
 });
 
 export const ssnUI = label => ({
   ...platformSsnUI,
-  'ui:title': `${label}  Social Security number or tax identification number`,
-  'ui:description': label === 'Veteran\u2019s' && VeteranSSNInfo(),
+  'ui:title': `${label} Social Security number or tax identification number`,
   'ui:options': {
     widgetClassNames: 'usa-input-medium',
   },
@@ -67,7 +65,7 @@ export const ssnUI = label => ({
   'ui:validations': [
     ...platformSsnUI['ui:validations'],
     {
-      validator: (errors, fieldData, formData) => {
+      validator: (errors, _fieldData, formData) => {
         validateSSNIsUnique(errors, formData);
       },
     },
@@ -109,10 +107,12 @@ export const addressWithoutCountryUI = label => ({
 });
 
 export const addressWithAutofillUI = () => ({
-  'ui:title': ' ',
   'ui:field': AddressWithAutofill,
+  'ui:options': {
+    hideTextLabel: true,
+  },
 });
 
 export const emailEncouragementUI = () => ({
-  'ui:description': emailEncouragementMessage(),
+  'ui:description': EmailEncouragementDescription,
 });

@@ -9,10 +9,11 @@
 import moment from 'moment';
 
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/feature-toggles-aiq.json';
-import mockUserAiq from './fixtures/mockUserAiq';
-import enrollmentStatus from './fixtures/mockEnrollmentStatus.json';
-import prefillAiq from './fixtures/mockPrefillAiq.json';
+import featureToggles from './fixtures/mocks/feature-toggles-aiq.json';
+import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
+import mockFacilities from './fixtures/mocks/mockFacilities.json';
+import prefillAiq from './fixtures/mocks/mockPrefillAiq.json';
+import mockUserAiq from './fixtures/mocks/mockUserAiq';
 import * as aiqHelpers from './helpers';
 
 describe('HCA-AIQ', () => {
@@ -27,7 +28,7 @@ describe('HCA-AIQ', () => {
     );
     cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
       statusCode: 404,
-      body: enrollmentStatus,
+      body: mockEnrollmentStatus,
     }).as('mockEnrollmentStatus');
     cy.intercept('/v0/in_progress_forms/1010ez', {
       statusCode: 200,
@@ -40,6 +41,9 @@ describe('HCA-AIQ', () => {
         timestamp: moment().format('YYYY-MM-DD'),
       },
     }).as('mockSubmit');
+    cy.intercept('GET', '/v1/facilities/va?*', mockFacilities).as(
+      'getFacilities',
+    );
   });
 
   /* eslint-disable @department-of-veterans-affairs/axe-check-required */

@@ -4,7 +4,7 @@ import ADDRESS_DATA from 'platform/forms/address/data';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import { validateAsciiCharacters } from 'platform/user/profile/vap-svc/util';
 
-import { ADDRESS_FORM_VALUES, USA } from '@@vap-svc/constants';
+import { ADDRESS_FORM_VALUES, USA } from 'platform/user/profile/vap-svc/constants';
 
 // Regex that uses a negative lookahead to check that a string does NOT contain
 // things like `http`, `www.`, or a few common TLDs. Let's cross our fingers and

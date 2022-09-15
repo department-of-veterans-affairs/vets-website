@@ -222,7 +222,7 @@ const ResolutionOptions = ({ formContext }) => {
 
 ResolutionOptions.propTypes = {
   formContext: PropTypes.shape({
-    pagePerItemIndex: PropTypes.string.isRequired,
+    pagePerItemIndex: PropTypes.number.isRequired,
     submitted: PropTypes.bool,
     onReviewPage: PropTypes.bool,
     reviewMode: PropTypes.bool,
