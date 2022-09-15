@@ -44,7 +44,10 @@ const SubmissionErrorAlert = () => {
           <va-telephone contact={CONTACTS.HELP_DESK} /> (
           <va-telephone contact={CONTACTS['711']} tty />
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.{' '}
-          <abbr title="Eastern Time">ET</abbr>.
+          <dfn>
+            <abbr title="Eastern Time">ET</abbr>
+          </dfn>
+          .
         </p>
 
         <a
