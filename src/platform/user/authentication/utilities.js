@@ -303,7 +303,7 @@ export async function verify({
     type,
     version,
     useOauth: useOAuth,
-    ...(!useOAuth && { allowVerification: true }),
+    allowVerification: true,
     acr,
   });
 

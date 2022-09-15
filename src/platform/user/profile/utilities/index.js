@@ -151,7 +151,7 @@ export function teardownProfileSession() {
     'sessionExpirationSSO',
     'atExpires',
   ].forEach(key => localStorage.removeItem(key));
-  removeInfoToken();
+  setTimeout(() => removeInfoToken(), 3500);
   sessionStorage.removeItem('shouldRedirectExpiredSession');
   clearSentryLoginType();
 }

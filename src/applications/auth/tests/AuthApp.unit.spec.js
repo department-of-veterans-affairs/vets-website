@@ -53,10 +53,12 @@ describe('AuthApp', () => {
   });
 
   it('should fire validateSession if `hasSession` is true', () => {
-    const { wrapper, instance } = generateAuthApp({ hasSession: true });
+    const { wrapper, instance } = generateAuthApp({
+      hasSession: true,
+      query: { auth: 'success' },
+    });
     const spy = sinon.spy(instance, 'validateSession');
     instance.componentDidMount();
-
     expect(spy.called).to.be.true;
     wrapper.unmount();
   });
@@ -67,7 +69,6 @@ describe('AuthApp', () => {
     });
     const spy = sinon.spy(instance, 'validateSession');
     instance.componentDidMount();
-
     expect(spy.called).to.be.true;
     wrapper.unmount();
   });

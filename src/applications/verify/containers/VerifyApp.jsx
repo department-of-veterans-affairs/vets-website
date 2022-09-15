@@ -7,8 +7,8 @@ import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors';
+import { VerifyButton } from 'platform/user/authentication/components/VerifyButton';
 import { focusElement } from '~/platform/utilities/ui';
-import { VerifyButton } from '../components/verifyButton';
 
 export const selectCSP = selectedPolicy =>
   Object.values(SERVICE_PROVIDERS).find(csp => csp.policy === selectedPolicy);
@@ -28,7 +28,7 @@ export const VerifyApp = ({ profile, useOAuth, loading }) => {
         }
       };
     },
-    [loading],
+    [loading, profile.verified],
   );
 
   if (loading) {

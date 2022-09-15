@@ -6,15 +6,15 @@ import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
 import { defaultWebOAuthOptions } from 'platform/user/authentication/config/constants';
 import { verify } from 'platform/user/authentication/utilities';
 
-export const verifyHandler = ({ useOAuth, policy }) => {
-  verify({
+export const verifyHandler = async ({ useOAuth = false, policy }) => {
+  if (useOAuth) {
+    updateStateAndVerifier(policy);
+  }
+  await verify({
     policy,
     useOAuth,
     acr: defaultWebOAuthOptions.acrVerify[policy],
   });
-  if (useOAuth) {
-    updateStateAndVerifier(policy);
-  }
 };
 
 export const VerifyButton = ({
@@ -23,14 +23,15 @@ export const VerifyButton = ({
   image,
   policy,
   useOAuth,
-  onClick = verifyHandler,
+  onClick,
 }) => {
+  const onVerifyClick = onClick ?? verifyHandler;
   return (
     <button
       key={policy}
       type="button"
       className={`usa-button ${className}`}
-      onClick={() => onClick({ useOAuth, policy })}
+      onClick={() => onVerifyClick({ useOAuth, policy })}
       aria-label={`Verify with ${label}`}
     >
       <strong>
