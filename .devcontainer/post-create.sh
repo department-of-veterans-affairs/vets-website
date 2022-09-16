@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Build vets-website
-# printf "\n\n##### Installing vets-website #####\n"
-set -e
-# yarn cache clean && yarn install --production=false --prefer-offline && yarn build -- --host="${CODESPACE_NAME}-3001.githubpreview.dev/" --env api=${CODESPACE_NAME}-3000.githubpreview.dev/
-
 setup_vets_api() {
   # Copy settings file to vets-api directory
   cp .devcontainer/vets-api/settings.local.yml ../vets-api/config/settings.local.yml
@@ -24,5 +19,19 @@ setup_vets_api() {
   # make up
 }
 
-printf "\n\n##### Starting vets-api #####\n"
+setup_vets_website() {
+  set -e
+  # Install node version in .nvmrc
+  nvm install
+
+  # Install dependencies and build site
+  yarn cache clean 
+  yarn install --production=false --prefer-offline 
+  yarn build -- --host="${CODESPACE_NAME}-3001.githubpreview.dev/" --env api=${CODESPACE_NAME}-3000.githubpreview.dev/
+}
+
+printf "\n\n##### Building vets-website #####\n"
+setup_vets_website
+
+printf "\n\n##### Starting vets-api server #####\n"
 setup_vets_api
