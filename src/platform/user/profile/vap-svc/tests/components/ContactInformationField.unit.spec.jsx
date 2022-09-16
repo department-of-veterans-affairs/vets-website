@@ -6,8 +6,8 @@ import sinon from 'sinon';
 import {
   ProfileInformationFieldController,
   mapStateToProps,
-} from '@@vap-svc/components/ProfileInformationFieldController';
-import { FIELD_NAMES } from '@@vap-svc/constants';
+} from 'platform/user/profile/vap-svc/components/ProfileInformationFieldController';
+import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 
 describe('<ProfileInformationFieldController/>', () => {
   let props = null;
