@@ -9,8 +9,6 @@ const SearchResults = () => {
     <div className="search-results">
       <div className="search-results-sort">
         <va-select
-          // eslint-disable-next-line jsx-a11y/aria-props
-          aria-live-region-text="You selected"
           label="Sort messages by"
           name="searchResultsSort"
           value=""

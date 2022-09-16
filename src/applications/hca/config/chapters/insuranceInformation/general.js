@@ -1,9 +1,9 @@
 import merge from 'lodash/merge';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 
-import CustomYesNoReviewField from '../../../components/ReviewFields/CustomYesNoReviewField';
-import CustomReviewField from '../../../components/ReviewFields/CustomReviewField';
-import InsuranceProviderView from '../../../components/InsuranceProviderView';
+import CustomYesNoReviewField from '../../../components/FormReview/CustomYesNoReviewField';
+import CustomReviewField from '../../../components/FormReview/CustomReviewField';
+import InsuranceProviderViewField from '../../../components/FormFields/InsuranceProviderViewField';
 import {
   GroupCodeDescription,
   HealthInsuranceDescription,
@@ -50,7 +50,7 @@ export default {
         expandUnder: 'isCoveredByHealthInsurance',
         itemName: 'insurance policy',
         hideTitle: true,
-        viewField: InsuranceProviderView,
+        viewField: InsuranceProviderViewField,
         itemAriaLabel: ariaLabelfunc,
       },
       'ui:errorMessages': {

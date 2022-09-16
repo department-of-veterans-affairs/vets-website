@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
+import { focusElement } from 'platform/utilities/ui';
 import FileInput from './FileInput';
 import MessageCategoryInput from './MessageCategoryInput';
 import AttachmentsList from './AttachmentsList';
@@ -18,6 +19,7 @@ const ComposeForm = props => {
     defaultRecipientsList[0].id,
   );
   const [category, setCategory] = useState(null);
+  const [categoryError, setCategoryError] = useState(null);
   const [subject, setSubject] = useState('');
   const [messageBody, setMessageBody] = useState('');
   const [attachments, setAttachments] = useState([]);
@@ -51,7 +53,8 @@ const ComposeForm = props => {
   if (message && !formPopulated) populateForm();
 
   const setMessageTitle = () => {
-    const casedCategory = capitalize(category);
+    const casedCategory =
+      category === 'COVID' ? category : capitalize(category);
     if (category && subject) {
       return `${casedCategory}: ${subject}`;
     }
@@ -68,20 +71,34 @@ const ComposeForm = props => {
     setMessageBody(e.target.value);
   };
 
+  const sendMessageHandler = event => {
+    event.preventDefault();
+    const formData = new FormData();
+
+    if (!category) {
+      setCategoryError(true);
+      focusElement('.message-category');
+    }
+
+    formData.append('category', category);
+
+    for (const file of attachments) {
+      formData.append(file.name, file);
+    }
+  };
+
   return (
-    <section className="compose-form-container">
-      <div className="compose-header">
+    <form className="compose-form" onSubmit={sendMessageHandler}>
+      <div className="compose-form-header">
         <h3>{setMessageTitle()}</h3>
-        <button type="button" className="send-button-top">
+        <button type="submit" className="send-button-top">
           <i className="fas fa-paper-plane" aria-hidden="true" />
           <span className="send-button-top-text">Send</span>
         </button>
       </div>
 
-      <form className="compose-form">
+      <div className="compose-inputs-container">
         <va-select
-          // eslint-disable-next-line jsx-a11y/aria-props
-          aria-live-region-text="You selected"
           label="To"
           name="to"
           value={selectedRecipient}
@@ -98,7 +115,12 @@ const ComposeForm = props => {
           Edit List
         </button>
 
-        <MessageCategoryInput category={category} setCategory={setCategory} />
+        <MessageCategoryInput
+          category={category}
+          categoryError={categoryError}
+          setCategory={setCategory}
+          setCategoryError={setCategoryError}
+        />
 
         <va-text-input
           label="Subject"
@@ -125,14 +147,23 @@ const ComposeForm = props => {
         </div>
 
         <section className="attachments-section">
-          <div className="compose-attachments-label">Attachments</div>
-          <AttachmentsList attachments={attachments} editingEnabled />
+          <div className="compose-attachments-label">
+            <strong>Attachments</strong>
+          </div>
+          <AttachmentsList
+            attachments={attachments}
+            setAttachments={setAttachments}
+            editingEnabled
+          />
 
-          <FileInput />
+          <FileInput
+            attachments={attachments}
+            setAttachments={setAttachments}
+          />
         </section>
 
         <div className="compose-form-actions">
-          <button type="button" className="send-button-bottom">
+          <button type="submit" className="send-button-bottom">
             <span className="send-button-bottom-text">Send</span>
             <i className="fas fa-paper-plane" aria-hidden="true" />
           </button>
@@ -140,8 +171,8 @@ const ComposeForm = props => {
             Save as draft
           </button>
         </div>
-      </form>
-    </section>
+      </div>
+    </form>
   );
 };
 

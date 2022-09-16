@@ -11,10 +11,9 @@ import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import migrations from './migrations';
 import manifest from '../manifest.json';
 import IDPage from '../containers/IDPage';
-import ErrorText from '../components/ErrorText';
 import FormFooter from '../components/FormFooter';
-import GetFormHelp from '../components/GetFormHelp';
-import ErrorMessage from '../components/ErrorMessage';
+import GetHelp from '../components/GetHelp';
+import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
 import DowntimeMessage from '../components/FormAlerts/DowntimeWarning';
 import IntroductionPage from '../containers/IntroductionPage';
 import { prefillTransformer, transform, formValue } from '../helpers';
@@ -65,10 +64,11 @@ import deductibleExpenses from './chapters/householdInformation/deductibleExpens
 import medicaid from './chapters/insuranceInformation/medicaid';
 import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
-import vaFacility from './chapters/insuranceInformation/vaFacility';
+import vaFacilityJsonPage from './chapters/insuranceInformation/vaFacility_json';
+import vaFacilityApiPage from './chapters/insuranceInformation/vaFacility_api';
 import general from './chapters/insuranceInformation/general';
 import ServiceConnectedPayConfirmation from '../components/FormAlerts/ServiceConnectedPayConfirmation';
-import CompensationTypeReviewPage from '../components/CompensationTypeReviewPage';
+import CompensationTypeReviewPage from '../components/FormReview/CompensationTypeReviewPage';
 
 const dependentSchema = createDependentSchema(fullSchemaHca);
 
@@ -148,13 +148,12 @@ const formConfig = {
     },
   ],
   confirmation: ConfirmationPage,
-  submitErrorText: ErrorMessage,
+  submissionError: SubmissionErrorAlert,
   title: 'Apply for health care',
   subTitle: 'Form 10-10EZ',
   preSubmitInfo,
   footerContent: FormFooter,
-  getHelp: GetFormHelp,
-  errorText: ErrorText,
+  getHelp: GetHelp,
   defaultDefinitions: {
     date,
     provider,
@@ -429,14 +428,25 @@ const formConfig = {
           uiSchema: general.uiSchema,
           schema: general.schema,
         },
-        vaFacility: {
-          path: 'insurance-information/va-facility',
+        vaFacilityJson: {
+          path: 'insurance-information/va-facility-json',
           title: 'VA Facility',
           initialData: {
             isEssentialAcaCoverage: false,
           },
-          uiSchema: vaFacility.uiSchema,
-          schema: vaFacility.schema,
+          depends: formData => !formData['view:useFacilitiesAPI'],
+          uiSchema: vaFacilityJsonPage.uiSchema,
+          schema: vaFacilityJsonPage.schema,
+        },
+        vaFacilityLighthouse: {
+          path: 'insurance-information/va-facility-api',
+          title: 'VA Facility',
+          initialData: {
+            isEssentialAcaCoverage: false,
+          },
+          depends: formData => formData['view:useFacilitiesAPI'],
+          uiSchema: vaFacilityApiPage.uiSchema,
+          schema: vaFacilityApiPage.schema,
         },
       },
     },

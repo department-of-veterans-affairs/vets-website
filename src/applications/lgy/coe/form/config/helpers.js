@@ -1,5 +1,9 @@
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 import cloneDeep from 'platform/utilities/data/cloneDeep';
+import { NON_DIGIT_REGEX } from '../constants';
+
+export const replaceNonDigits = number =>
+  (number || '').replace(NON_DIGIT_REGEX, '');
 
 export const customCOEsubmit = (formConfig, form) => {
   const formCopy = cloneDeep(form);
@@ -33,40 +37,17 @@ export const customCOEsubmit = (formConfig, form) => {
           from: isoDateString(loan.dateRange.from),
           to: isoDateString(loan.dateRange.to),
         },
+        vaLoanNumber: replaceNonDigits(loan.vaLoanNumber),
       })),
     },
   };
 
   // transformForSubmit returns a JSON string
-  const formData = JSON.parse(transformForSubmit(formConfig, formattedForm));
+  const formData = transformForSubmit(formConfig, formattedForm);
 
   return JSON.stringify({
     lgyCoeClaim: {
       form: formData,
     },
-  });
-};
-
-export const validateDocumentDescription = (errors, fileList) => {
-  fileList.forEach((file, index) => {
-    const error =
-      file.attachmentType === 'Other' && !file.attachmentDescription
-        ? 'Please provide a description'
-        : null;
-    if (error && !errors[index]) {
-      /* eslint-disable no-param-reassign */
-      errors[index] = {
-        attachmentDescription: {
-          __errors: [],
-          addError(msg) {
-            this.__errors.push(msg);
-          },
-        },
-      };
-      /* eslint-enable no-param-reassign */
-    }
-    if (error) {
-      errors[index].attachmentDescription.addError(error);
-    }
   });
 };

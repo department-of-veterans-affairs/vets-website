@@ -10,6 +10,7 @@ const CTALink = ({
   newTab,
   // optional data-testid attribute-value
   testId,
+  showArrow,
 }) => {
   const relProp = newTab ? 'noreferrer noopener' : undefined;
   const targetProp = newTab ? '_blank' : undefined;
@@ -27,6 +28,12 @@ const CTALink = ({
       data-testid={testId || ''}
     >
       {text}
+      {showArrow && (
+        <i
+          className="fa fa-chevron-right vads-u-margin-left--1"
+          aria-hidden="true"
+        />
+      )}
     </a>
   );
 };
@@ -39,6 +46,7 @@ CTALink.propTypes = {
   testId: PropTypes.string,
   text: PropTypes.string,
   onClick: PropTypes.func,
+  showArrow: PropTypes.bool,
 };
 
 export default CTALink;

@@ -42,12 +42,12 @@ const OlderMessages = () => {
           {isExpanded ? (
             <i
               className="fas fa-angle-up fa-lg vads-u-margin--0p5"
-              aria-hidden
+              aria-hidden="true"
             />
           ) : (
             <i
               className="fas fa-angle-down fa-lg vads-u-margin--0p5"
-              aria-hidden
+              aria-hidden="true"
             />
           )}
         </span>
@@ -71,11 +71,14 @@ const OlderMessages = () => {
             >
               Expand All Messages
               {isExpandedAll ? (
-                <i className="fas fa-angle-up vads-u-margin--0p5" aria-hidden />
+                <i
+                  className="fas fa-angle-up vads-u-margin--0p5"
+                  aria-hidden="true"
+                />
               ) : (
                 <i
                   className="fas fa-angle-down vads-u-margin--0p5"
-                  aria-hidden
+                  aria-hidden="true"
                 />
               )}
             </span>

@@ -22,7 +22,7 @@ const encryptedMockFile = [
   ...arrayOfZeros,
 ];
 
-describe('readAndCheckFile', () => {
+describe.skip('readAndCheckFile', () => {
   let oldFileReader;
 
   const setup = (ext = 'pdf', isEncrypted) => {
@@ -158,7 +158,7 @@ describe('readAndCheckFile', () => {
   });
 });
 
-describe('checkIsEncryptedPdf', () => {
+describe.skip('checkIsEncryptedPdf', () => {
   const file = { name: 'some-file.PDF' };
   it('should return false for non-PDF files', () => {
     expect(
@@ -173,7 +173,7 @@ describe('checkIsEncryptedPdf', () => {
   });
 });
 
-describe('checkTypeAndExtensionMatches', () => {
+describe.skip('checkTypeAndExtensionMatches', () => {
   const getFile = ({
     name = 'foo.gif',
     type = fileTypeSignatures.gif.mime,
@@ -259,7 +259,7 @@ describe('arrayIncludesArray', () => {
   });
 });
 
-describe('ShowPdfPassword', () => {
+describe.skip('ShowPdfPassword', () => {
   const buttonClick = new MouseEvent('click', {
     bubbles: true,
     cancelable: true,

@@ -15,6 +15,7 @@ import { getAppData } from '../selectors/selectors';
 export const App = ({
   location,
   children,
+  featureTogglesLoaded,
   formData,
   setFormData,
   getPersonalInfo,
@@ -34,7 +35,8 @@ export const App = ({
     () => {
       if (
         !user.login.currentlyLoggedIn ||
-        (showUnverifiedUserAlert !== false && isLOA3 !== true)
+        !featureTogglesLoaded ||
+        (showUnverifiedUserAlert && isLOA3 !== true)
       ) {
         return;
       }
@@ -63,6 +65,7 @@ export const App = ({
     [
       claimantInfo,
       eligibility,
+      featureTogglesLoaded,
       fetchedEligibility,
       fetchedPersonalInfo,
       firstName,
@@ -108,6 +111,7 @@ App.propTypes = {
   children: PropTypes.object,
   claimantInfo: PropTypes.object,
   eligibility: PropTypes.object,
+  featureTogglesLoaded: PropTypes.bool,
   firstName: PropTypes.string,
   formData: PropTypes.object,
   getEligibility: PropTypes.func,
