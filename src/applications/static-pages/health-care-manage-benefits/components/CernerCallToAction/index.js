@@ -6,7 +6,7 @@ import * as Sentry from '@sentry/browser';
 // Relative imports.
 import AlertBox from '@department-of-veterans-affairs/component-library/AlertBox';
 import LoadingIndicator from '@department-of-veterans-affairs/component-library/LoadingIndicator';
-import environment from 'platform/utilities/environment';
+// import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { apiRequest } from 'platform/utilities/api';
 import { appointmentsToolLink } from 'platform/utilities/cerner';
@@ -59,7 +59,8 @@ export class CernerCallToAction extends Component {
     try {
       // Fetch facilities and store them in state.
       const response = await apiRequest(
-        `${environment.API_URL}/v1/facilities/va?ids=${facilityIDs.join(',')}`,
+        `https://dev-api.va.gov/v1/facilities/va?ids=${facilityIDs.join(',')}`,
+        // `${environment.API_URL}/v1/facilities/va?ids=${facilityIDs.join(',')}`,
       );
       this.setState({ facilities: response?.data, fetching: false });
 

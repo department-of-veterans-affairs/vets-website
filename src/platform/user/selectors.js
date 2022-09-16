@@ -24,43 +24,60 @@ export const isLOA1 = state => selectProfile(state).loa.current === 1;
 export const isMultifactorEnabled = state => selectProfile(state).multifactor;
 export const selectAvailableServices = state => selectProfile(state)?.services;
 
-export const selectPatientFacilities = state =>
-  selectProfile(state)?.facilities?.map(({ facilityId, isCerner }) => {
-    // Derive if the user belongs to a Cerner facility in the FE maintained list.
-    const hasCernerFacilityID = CERNER_FACILITY_IDS.includes(facilityId);
+export const selectPatientFacilities = state => {
+  const facilitiesOverride = [
+    {
+      facilityId: '653',
+      isCerner: true,
+    },
+    {
+      facilityId: '687',
+      isCerner: true,
+    },
+    {
+      facilityId: '757',
+      isCerner: false,
+    },
+  ];
+  // selectProfile(state)?.facilities?
+  return (
+    facilitiesOverride.map(({ facilityId, isCerner }) => {
+      // Derive if the user belongs to a Cerner facility in the FE maintained list.
+      const hasCernerFacilityID = CERNER_FACILITY_IDS.includes(facilityId);
 
-    // Derive if we should consider it a Cerner facility.
-    const isFlipperDisabled =
-      state?.featureToggles?.[`cerner_override_${facilityId}`] === false;
-    const isFlipperEnabled = !isFlipperDisabled;
-    const passesCernerChecks =
-      isFlipperEnabled && (isCerner || hasCernerFacilityID);
+      // Derive if we should consider it a Cerner facility.
+      const isFlipperDisabled =
+        state?.featureToggles?.[`cerner_override_${facilityId}`] === false;
+      const isFlipperEnabled = !isFlipperDisabled;
+      const passesCernerChecks =
+        isFlipperEnabled && (isCerner || hasCernerFacilityID);
 
-    const facility = {
-      facilityId,
-      // This overrides the MPI isCerner flag in favor of the feature toggle.
-      isCerner: passesCernerChecks,
-    };
-
-    if (passesCernerChecks) {
-      facility.usesCernerAppointments = !CERNER_APPOINTMENTS_BLOCKLIST.includes(
+      const facility = {
         facilityId,
-      );
-      facility.usesCernerMedicalRecords = !CERNER_MEDICAL_RECORDS_BLOCKLIST.includes(
-        facilityId,
-      );
-      facility.usesCernerMessaging = !CERNER_MESSAGING_BLOCKLIST.includes(
-        facilityId,
-      );
-      facility.usesCernerRx = !CERNER_RX_BLOCKLIST.includes(facilityId);
-      facility.usesCernerTestResults = !CERNER_TEST_RESULTS_BLOCKLIST.includes(
-        facilityId,
-      );
-    }
+        // This overrides the MPI isCerner flag in favor of the feature toggle.
+        isCerner: passesCernerChecks,
+      };
 
-    return facility;
-  }) || null;
+      if (passesCernerChecks) {
+        facility.usesCernerAppointments = !CERNER_APPOINTMENTS_BLOCKLIST.includes(
+          facilityId,
+        );
+        facility.usesCernerMedicalRecords = !CERNER_MEDICAL_RECORDS_BLOCKLIST.includes(
+          facilityId,
+        );
+        facility.usesCernerMessaging = !CERNER_MESSAGING_BLOCKLIST.includes(
+          facilityId,
+        );
+        facility.usesCernerRx = !CERNER_RX_BLOCKLIST.includes(facilityId);
+        facility.usesCernerTestResults = !CERNER_TEST_RESULTS_BLOCKLIST.includes(
+          facilityId,
+        );
+      }
 
+      return facility;
+    }) || null
+  );
+};
 export const selectVAPContactInfo = state =>
   selectProfile(state).vapContactInfo;
 export const hasVAPServiceConnectionError = state =>
