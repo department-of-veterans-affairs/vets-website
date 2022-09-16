@@ -21,7 +21,9 @@ setup_vets_api() {
 
 setup_vets_website() {
   # Install node version in .nvmrc
-  nvm install
+  source $NVM_DIR/nvm.sh
+  nvm install || true # ignore exit code due to npm prefix
+  nvm use --delete-prefix
 
   # Install dependencies and build site
   yarn cache clean 
