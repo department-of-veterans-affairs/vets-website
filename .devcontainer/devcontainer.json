@@ -1,5 +1,11 @@
 {
 	"name": "Review Instance",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"VARIANT": "14"
+		}
+	},
   "mounts": ["type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock"],
 	"settings": {
 		"editor.formatOnSave": true,
