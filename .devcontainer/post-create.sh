@@ -11,17 +11,18 @@ setup_vets_api() {
 
   # Change directory to vets-api
   cd ../vets-api
+  pwd
 
-  # Add codespace name to `virtual_hosts` in settings file
-  sed -i "/^virtual_hosts*/a - $CODESPACE_NAME-3000.githubpreview.dev" config/settings.local.yml
+  # # Add codespace name to `virtual_hosts` in settings file
+  # sed -i "/^virtual_hosts*/a - $CODESPACE_NAME-3000.githubpreview.dev" config/settings.local.yml
 
-  # Setup key & cert for localhost authentication to ID.me
-  mkdir config/certs
-  touch config/certs/vetsgov-localhost.crt
-  touch config/certs/vetsgov-localhost.key
+  # # Setup key & cert for localhost authentication to ID.me
+  # mkdir config/certs
+  # touch config/certs/vetsgov-localhost.crt
+  # touch config/certs/vetsgov-localhost.key
 
-  # Start vets-api server and associated services
-  make up
+  # # Start vets-api server and associated services
+  # make up
 }
 
 printf "\n\n##### Starting vets-api #####\n"
