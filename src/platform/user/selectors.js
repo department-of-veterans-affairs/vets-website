@@ -25,23 +25,22 @@ export const isMultifactorEnabled = state => selectProfile(state).multifactor;
 export const selectAvailableServices = state => selectProfile(state)?.services;
 
 export const selectPatientFacilities = state => {
-  const facilitiesOverride = [
-    {
-      facilityId: '653',
-      isCerner: true,
-    },
-    {
-      facilityId: '687',
-      isCerner: true,
-    },
-    {
-      facilityId: '757',
-      isCerner: false,
-    },
-  ];
-  // selectProfile(state)?.facilities?
+  // const facilitiesOverride = [
+  //   {
+  //     facilityId: '653',
+  //     isCerner: true,
+  //   },
+  //   {
+  //     facilityId: '687',
+  //     isCerner: true,
+  //   },
+  //   {
+  //     facilityId: '757',
+  //     isCerner: false,
+  //   },
+  // ];
   return (
-    facilitiesOverride.map(({ facilityId, isCerner }) => {
+    selectProfile(state)?.facilities?.map(({ facilityId, isCerner }) => {
       // Derive if the user belongs to a Cerner facility in the FE maintained list.
       const hasCernerFacilityID = CERNER_FACILITY_IDS.includes(facilityId);
 
