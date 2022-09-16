@@ -1,0 +1,68 @@
+{
+  "name": "@department-of-veterans-affairs/platform-testing",
+  "version": "1.0.0",
+  "scripts": {
+    "demo":"echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+  },
+  "exports": {
+    "." :"./exportsFile.js",
+    "./contract": "./contract/index.js",
+    "./form-tester": "./e2e/cypress/support/form-tester/index.js",
+    "./form-tester/utilities": "./e2e/cypress/support/form-tester/utilities.js",
+    "./mock-helpers": "./e2e/mock-helpers.js",
+    "./common": "./local-dev-mock-api/common.js",
+    "./helpers": "./unit/helpers.js",
+    "./react-testing-library-helpers": "./unit/react-testing-library-helpers.js",
+    "./schemaform-utils": "./unit/schemaform-utils.jsx",
+    "./sentry": "./unit/sentry.js"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.5"
+  },
+  "devDependencies": {
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.1.2",
+    "@cypress/code-coverage": "^3.10.0",
+    "@testing-library/cypress": "^8.0.3",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
+    "body-parser": "^1.15.2",
+    "cors": "^2.8.5",
+    "cy-mobile-commands": "^0.3.0",
+    "cypress-axe": "^1.0.0",
+    "cypress-plugin-tab": "^1.0.5",
+    "cypress-real-events": "^1.7.1",
+    "cypress-wait-until": "^1.7.2",
+    "express-history-api-fallback": "^2.2.1",
+    "jsdom": "^15.2.1",
+    "morgan": "^1.10.0",
+    "node-resemble-js": "^0.2.0",
+    "process": "^0.11.10",
+    "puppeteer": "^3.3.0",
+    "request": "^2.88.2",
+    "sentry-testkit": "^2.2.1",
+    "table": "^6.7.1",
+    "winston": "^3.3.3"
+  },
+  "peerDependencies": {
+    "node-fetch": "*",
+    "@pact-foundation/pact": "*",
+    "axe-core": "*",
+    "mochawesome": "*",
+    "command-line-args": "*",
+    "mocker-api": "*",
+    "chai": "*",
+    "enzyme": "*",
+    "chai-as-promised": "*",
+    "history-v4": "*",
+    "react-dom": "*",
+    "@sentry/browser": "*",
+    "@testing-library/dom": "*",
+    "redux-thunk": "*",
+    "@testing-library/react": "*",
+    "@department-of-veterans-affairs/react-jsonschema-form": "*",
+    "fs-extra": "*",
+    "chalk": "*",
+    "cli-table": "*"
+  },
+  "license": "MIT",
+  "private": true
+}

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getMessage, loadingComplete } from '../actions';
 import BeforeMessageAddlInfo from '../components/BeforeMessageAddlInfo';
 import ComposeForm from '../components/ComposeForm';
+import EmergencyNote from '../components/EmergencyNote';
 
 const Compose = () => {
   const dispatch = useDispatch();
@@ -55,15 +56,7 @@ const Compose = () => {
   return (
     <div className="vads-l-grid-container compose-container">
       <h1 className="page-title">{pageTitle}</h1>
-      <section className="emergency-note">
-        <p>
-          <strong>Note: </strong>
-          Call <va-telephone contact="911" /> if you have a medical emergency.
-          If you’re in crisis and need to talk to someone now, call the{' '}
-          <va-telephone contact="988" />. To speak with a VA healthcare team
-          member right away, contact your local VA call center.
-        </p>
-      </section>
+      <EmergencyNote />
       <div>
         <BeforeMessageAddlInfo />
       </div>

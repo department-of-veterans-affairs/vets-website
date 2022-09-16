@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import PropTypes from 'prop-types';
 import format from 'date-fns/format';
@@ -10,31 +9,35 @@ const attachmentClasses =
 
 const InboxListItem = props => {
   const {
-    attributes: { sender_name, sent_date, subject, read_receipt, attachment },
+    senderName,
+    sentDate,
+    subject,
+    readReceipt,
+    attachment,
     link: { self },
   } = props;
 
   const getClassNames = () => {
-    return !!read_receipt === false
+    return !!readReceipt === false
       ? unreadMessageClassList
       : readMessageClassList;
   };
 
   const formattedDate = format(
-    new Date(sent_date),
+    new Date(sentDate),
     "MMMM d, yyyy 'at' h:mm aaaa",
   );
 
   return (
     <div className="vads-u-padding-y--1p5 vads-u-border-bottom--1px vads-u-border-color--gray-light">
       <p className={getClassNames()}>
-        {!!read_receipt === false && (
+        {!!readReceipt === false && (
           <i
             aria-hidden="true"
             className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
           />
         )}
-        {sender_name}
+        {senderName}
       </p>
       <a className="vads-u-margin-left--3 vads-u-margin-y--0p5" href={self}>
         {subject}
@@ -50,6 +53,11 @@ const InboxListItem = props => {
 export default InboxListItem;
 
 InboxListItem.propTypes = {
+  attachment: PropTypes.any,
   attributes: PropTypes.object,
   link: PropTypes.object,
+  readReceipt: PropTypes.any,
+  senderName: PropTypes.string,
+  sentDate: PropTypes.string,
+  subject: PropTypes.string,
 };

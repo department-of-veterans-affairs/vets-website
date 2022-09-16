@@ -89,11 +89,11 @@ class Confirmation {
   validateAppointmentType = type => {
     if (type === 'phone') {
       cy.get('[data-testid="appointment-type-label"]').each(item => {
-        expect(Cypress.$(item).text()).to.eq('Phone call');
+        expect(Cypress.$(item).text()).to.eq('Phone Call');
       });
       cy.get('[data-testid="appointment-message"]').each(item => {
         expect(Cypress.$(item).text()).to.eq(
-          'Your provider will call you. You may need to wait about 15 minutes for their call. Thanks for your patience.',
+          'Your provider will call you at your appointment time. You may need to wait about 15 minutes for their call. Thanks for your patience.',
         );
       });
     } else if (type === 'in-person') {
