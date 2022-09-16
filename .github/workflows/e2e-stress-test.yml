@@ -428,6 +428,9 @@ jobs:
           ALLOW_LIST: ${{ needs.fetch-e2e-allow-list.outputs.allow_list }}
           TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
 
+      - name: Echo NEW_DISALLOWED_TESTS
+        run: echo {{ $CI_NODE_INDEX }}
+
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
         working-directory: qa-standards-dashboard-data
