@@ -18,6 +18,12 @@ export const combinedFSRFeatureToggle = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.combinedFinancialStatusReport];
 };
 
+export const enhancedFSRFeatureToggle = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.combinedFinancialStatusReportEnhancements
+  ];
+};
+
 export const fsrConfirmationEmailToggle = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.fsrConfirmationEmail];
 
