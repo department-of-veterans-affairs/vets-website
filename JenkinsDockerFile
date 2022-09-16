@@ -1,7 +1,6 @@
 FROM cypress/included:10.8.0
 RUN mkdir /e2e
 WORKDIR /e2e
-COPY ./confg/config.json /e2e/
+COPY ./config/cypress.json /e2e/
 VOLUME . /e2e
-RUN npm install
 ENTRYPOINT ["cypress","run"]
