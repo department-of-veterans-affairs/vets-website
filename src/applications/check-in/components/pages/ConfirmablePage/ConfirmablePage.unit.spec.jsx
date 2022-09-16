@@ -21,6 +21,9 @@ describe('pre-check-in experience', () => {
         context: {
           token: '',
         },
+        form: {
+          pages: [],
+        },
       },
       ...scheduledDowntimeState,
     };
@@ -36,17 +39,6 @@ describe('pre-check-in experience', () => {
             </I18nextProvider>
           </Provider>,
         );
-      });
-      it('renders the footer if footer is supplied', () => {
-        const { getByText } = render(
-          // eslint-disable-next-line react/jsx-no-bind
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              <ConfirmablePage Footer={() => <div>foo</div>} />,
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(getByText('foo')).to.exist;
       });
       it('renders custom header', () => {
         const { getByText } = render(

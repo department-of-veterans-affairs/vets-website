@@ -22,6 +22,9 @@ describe('check-in experience', () => {
           context: {
             token: '',
           },
+          form: {
+            pages: [],
+          },
         },
         featureToggles: {
           check_in_experience_lorota_security_updates_enabled: false,
@@ -55,18 +58,6 @@ describe('check-in experience', () => {
             'We need some information to verify your identity so we can check you in.',
           ),
         ).to.exist;
-      });
-      it('renders the footer if footer is supplied', () => {
-        const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              {/* eslint-disable-next-line react/jsx-no-bind */}
-              <ValidateDisplay Footer={() => <div>foo</div>} />
-            </I18nextProvider>
-          </Provider>,
-        );
-
-        expect(getByText('foo')).to.exist;
       });
       it('renders custom header', () => {
         const { getByText } = render(

@@ -2,8 +2,6 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
-import { expect } from 'chai';
-import { render } from '@testing-library/react';
 import Footer from '../Footer';
 
 describe('check-in', () => {
@@ -12,27 +10,30 @@ describe('check-in', () => {
     const initState = {
       checkInData: {
         app: 'PreCheckIn',
+        form: {
+          pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
+        },
       },
     };
     const middleware = [];
     const mockStore = configureStore(middleware);
+    const mockRouter = {
+      params: {
+        token: 'token-123',
+      },
+      location: {
+        pathname: '/third-page',
+      },
+    };
     beforeEach(() => {
       store = mockStore(initState);
     });
     it('check in button passes axeCheck', () => {
       axeCheck(
         <Provider store={store}>
-          <Footer />
+          <Footer router={mockRouter} />
         </Provider>,
       );
-    });
-    it('renders additional information', () => {
-      const { getByText } = render(
-        <Provider store={store}>
-          <Footer message={<p>foo</p>} />
-        </Provider>,
-      );
-      expect(getByText('foo')).to.exist;
     });
   });
 });

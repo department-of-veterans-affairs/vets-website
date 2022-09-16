@@ -22,7 +22,9 @@ describe('pre-check-in experience', () => {
             context: {
               token: '',
             },
-            form: {},
+            form: {
+              pages: [],
+            },
           },
           ...scheduledDowntimeState,
         };
@@ -54,17 +56,6 @@ describe('pre-check-in experience', () => {
             'We can better follow up with you after your appointment when we have your current information.',
           ),
         ).not.to.exist;
-      });
-      it('renders the footer if footer is supplied', () => {
-        const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              {/* eslint-disable-next-line react/jsx-no-bind */}
-              <DemographicsDisplay Footer={() => <div>foo</div>} />
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(getByText('foo')).to.exist;
       });
       it('renders custom header', () => {
         const { getByText } = render(

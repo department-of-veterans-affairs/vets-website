@@ -26,6 +26,9 @@ describe('check-in', () => {
           checkInData: {
             appointments: singleAppointment,
             veteranData: {},
+            form: {
+              pages: [],
+            },
           },
           featureToggles: {
             // eslint-disable-next-line camelcase
@@ -76,6 +79,9 @@ describe('check-in', () => {
               checkedInTime: '',
             },
           ],
+          form: {
+            pages: [],
+          },
           veteranData: {},
         },
         featureToggles: {
@@ -157,6 +163,9 @@ describe('check-in', () => {
                 status: 'CANCELLED BY CLINIC',
               },
             ],
+            form: {
+              pages: [],
+            },
             veteranData: {},
           },
           featureToggles: {
@@ -245,6 +254,9 @@ describe('check-in', () => {
                 checkedInTime: '',
               },
             ],
+            form: {
+              pages: [],
+            },
             veteranData: {},
           },
           featureToggles: {
@@ -275,6 +287,9 @@ describe('check-in', () => {
           checkInData: {
             appointments: [],
             veteranData: {},
+            form: {
+              pages: [],
+            },
           },
           featureToggles: {
             // eslint-disable-next-line camelcase

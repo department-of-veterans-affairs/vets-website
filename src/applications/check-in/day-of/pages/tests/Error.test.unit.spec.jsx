@@ -53,6 +53,9 @@ describe('check-in', () => {
             facilityName: 'Acme VA',
             clinicName: 'Green Team Clinic1',
           },
+          form: {
+            pages: [],
+          },
         },
         ...scheduledDowntimeState,
       };

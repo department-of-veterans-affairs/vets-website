@@ -14,6 +14,9 @@ describe('Wrapper component', () => {
   const initState = {
     checkInData: {
       app: 'PreCheckIn',
+      form: {
+        pages: [],
+      },
     },
     ...scheduledDowntimeState,
   };

@@ -4,8 +4,6 @@ import { useTranslation } from 'react-i18next';
 
 import { subDays } from 'date-fns';
 
-import BackToHome from '../../../components/BackToHome';
-import Footer from '../../../components/layout/Footer';
 import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
 import HowToLink from '../../../components/HowToLink';
 
@@ -213,8 +211,6 @@ const Error = () => {
       )}
       {showHowToLink && <HowToLink apptType={apptType} />}
       {accordion && <div className="vads-u-margin-top--3">{accordion}</div>}
-      <Footer />
-      <BackToHome />
     </Wrapper>
   );
 };

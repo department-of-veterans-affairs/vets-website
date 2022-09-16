@@ -21,6 +21,7 @@ describe('check-in', () => {
             },
             form: {
               data: {},
+              pages: [],
             },
           },
         };
@@ -79,6 +80,7 @@ describe('check-in', () => {
                 emergencyContactUpToDate: 'no',
                 nextOfKinUpToDate: 'yes',
               },
+              pages: [],
             },
           },
         };

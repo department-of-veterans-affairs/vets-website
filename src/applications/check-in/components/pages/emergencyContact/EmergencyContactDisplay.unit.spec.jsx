@@ -22,7 +22,9 @@ describe('pre-check-in experience', () => {
             context: {
               token: '',
             },
-            form: {},
+            form: {
+              pages: [],
+            },
           },
           ...scheduledDowntimeState,
         };
@@ -46,17 +48,6 @@ describe('pre-check-in experience', () => {
           </Provider>,
         );
         expect(getByText('Is this your current emergency contact?')).to.exist;
-      });
-      it('renders the footer if footer is supplied', () => {
-        const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              {/* eslint-disable-next-line react/jsx-no-bind */}
-              <EmergencyContactDisplay Footer={() => <div>foo</div>} />
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(getByText('foo')).to.exist;
       });
 
       it('renders emergency contact data', () => {

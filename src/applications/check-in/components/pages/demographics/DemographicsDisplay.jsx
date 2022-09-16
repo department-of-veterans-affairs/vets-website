@@ -11,7 +11,6 @@ export default function DemographicsDisplay({
   isLoading = false,
   yesAction = () => {},
   noAction = () => {},
-  Footer,
 }) {
   const { t } = useTranslation();
 
@@ -51,7 +50,6 @@ export default function DemographicsDisplay({
         isLoading={isLoading}
         yesAction={yesAction}
         noAction={noAction}
-        Footer={Footer}
         pageType="demographic-information"
       />
     </>
@@ -59,7 +57,6 @@ export default function DemographicsDisplay({
 }
 
 DemographicsDisplay.propTypes = {
-  Footer: PropTypes.elementType,
   demographics: PropTypes.object,
   header: PropTypes.string,
   isLoading: PropTypes.bool,

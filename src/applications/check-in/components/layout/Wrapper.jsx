@@ -11,6 +11,7 @@ import { focusElement } from 'platform/utilities/ui';
 import { makeSelectApp } from '../../selectors';
 import MixedLanguageDisclaimer from '../MixedLanguageDisclaimer';
 import LanguagePicker from '../LanguagePicker';
+import Footer from './Footer';
 
 const Wrapper = props => {
   const {
@@ -20,7 +21,6 @@ const Wrapper = props => {
     withBackButton = false,
     testID,
   } = props;
-
   useEffect(() => {
     focusElement('h1');
   }, []);
@@ -51,6 +51,7 @@ const Wrapper = props => {
         >
           {children}
         </DowntimeNotification>
+        <Footer />
       </div>
     </>
   );

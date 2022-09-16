@@ -6,7 +6,6 @@ import configureStore from 'redux-mock-store';
 import { I18nextProvider } from 'react-i18next';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import i18n from '../../../../utils/i18n/i18n';
-import { createMockRouter } from '../../../../tests/unit/mocks/router';
 import Confirmation from '../index';
 import {
   multipleAppointments,
@@ -23,7 +22,7 @@ describe('pre-check-in', () => {
           appointments: singleAppointment,
           veteranData: { demographics: {} },
           form: {
-            pages: [],
+            pages: ['first-page', 'second-page', 'third-page', 'fourth-page'],
             data: {
               demographicsUpToDate: 'yes',
               nextOfKinUpToDate: 'yes',
@@ -45,7 +44,7 @@ describe('pre-check-in', () => {
         const testRenderer = TestRenderer.create(
           <Provider store={store}>
             <I18nextProvider i18n={i18n}>
-              <Confirmation router={createMockRouter()} />
+              <Confirmation />
             </I18nextProvider>
           </Provider>,
         );
@@ -88,7 +87,7 @@ describe('pre-check-in', () => {
         axeCheck(
           <Provider store={store}>
             <I18nextProvider i18n={i18n}>
-              <Confirmation router={createMockRouter()} />
+              <Confirmation />
             </I18nextProvider>
           </Provider>,
         );

@@ -22,7 +22,9 @@ describe('pre-check-in experience', () => {
             context: {
               token: '',
             },
-            form: {},
+            form: {
+              pages: [],
+            },
           },
           ...scheduledDowntimeState,
         };
@@ -48,17 +50,6 @@ describe('pre-check-in experience', () => {
 
         expect(getByText('Is this your current next of kin information?')).to
           .exist;
-      });
-      it('renders the footer if footer is supplied', () => {
-        const { getByText } = render(
-          <Provider store={store}>
-            <I18nextProvider i18n={i18n}>
-              {/* eslint-disable-next-line react/jsx-no-bind */}
-              <NextOfKinDisplay Footer={() => <div>foo</div>} />
-            </I18nextProvider>
-          </Provider>,
-        );
-        expect(getByText('foo')).to.exist;
       });
       it('renders custom header', () => {
         const { getByText } = render(
