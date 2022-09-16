@@ -18,7 +18,6 @@ import environment from 'platform/utilities/environment';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import * as ENVIRONMENTS from 'site/constants/environments';
 import * as BUCKETS from 'site/constants/buckets';
-import constants from 'vets-json-schema/dist/constants.json';
 import fullSchema from '../22-1990-schema.json';
 
 // In a real app this would not be imported directly; instead the schema you
@@ -754,6 +753,25 @@ const formConfig = {
               },
               [formFields.address]: {
                 ...address.uiSchema(''),
+                country: {
+                  'ui:title': 'Country',
+                  'ui:required': formData => {
+                    if (formData.showMEBMailingAddressForeign) {
+                      return !formData['view:mailingAddress']
+                        .livesOnMilitaryBase;
+                    }
+                    return false;
+                  },
+                  'ui:options': {
+                    hideIf: formData => {
+                      if (formData.showMEBMailingAddressForeign) {
+                        return formData['view:mailingAddress']
+                          .livesOnMilitaryBase;
+                      }
+                      return false;
+                    },
+                  },
+                },
                 'ui:order': [
                   'country',
                   'street',
@@ -762,10 +780,16 @@ const formConfig = {
                   'state',
                   'militaryStateCode',
                   'postalCode',
-                  'internationalPostalCode',
                 ],
                 street: {
                   'ui:title': 'Street address',
+                  'ui:required': formData => {
+                    if (formData.showMEBMailingAddressForeign) {
+                      return !formData['view:mailingAddress']
+                        .livesOnMilitaryBase;
+                    }
+                    return false;
+                  },
                   'ui:errorMessages': {
                     required: 'Please enter your full street address',
                   },
@@ -792,23 +816,19 @@ const formConfig = {
                   ],
                   'ui:options': {
                     replaceSchema: formData => {
-                      const livesOnMilitaryBase =
-                        formData['view:mailingAddress']?.livesOnMilitaryBase;
+                      if (formData.showMEBMailingAddressForeign) {
+                        const livesOnMilitaryBase =
+                          formData['view:mailingAddress']?.livesOnMilitaryBase;
 
-                      if (
-                        formData.showMEBMailingAddressForeign &&
-                        livesOnMilitaryBase
-                      ) {
-                        return {
-                          type: 'string',
-                          title: 'APO/FPO/DPO',
-                          enum: constants.militaryCities.map(
-                            city => city.value,
-                          ),
-                          enumNames: constants.militaryCities.map(
-                            city => city.label,
-                          ),
-                        };
+                        if (livesOnMilitaryBase) {
+                          const options = ['APO', 'FPO'];
+                          return {
+                            type: 'string',
+                            title: 'APO/FPO',
+                            enum: options,
+                            enumNames: options,
+                          };
+                        }
                       }
 
                       return {
@@ -852,12 +872,12 @@ const formConfig = {
                     updateSchema: formData => {
                       if (formData.showMEBMailingAddressForeign) {
                         return {
-                          enum: constants.militaryStates.map(
-                            state => state.value,
-                          ),
-                          enumNames: constants.militaryStates.map(
-                            state => state.label,
-                          ),
+                          enum: ['AA', 'AE', 'AP'],
+                          enumNames: [
+                            'APO/FPO',
+                            'APO/FPO (New York)',
+                            'APO/FPO (San Francisco) ',
+                          ],
                         };
                       }
                       return false;
@@ -865,38 +885,36 @@ const formConfig = {
                   },
                 },
                 postalCode: {
-                  'ui:title': 'Postal Code (5-digit)',
                   'ui:errorMessages': {
                     required: 'Zip code must be 5 digits',
                   },
-                  'ui:options': {
-                    hideIf: formData => {
-                      if (formData.showMEBMailingAddressForeign) {
-                        return (
-                          formData['view:mailingAddress'].livesOnMilitaryBase ||
-                          formData['view:mailingAddress'].address.country !==
-                            'USA'
-                        );
-                      }
-                      return false;
-                    },
-                  },
-                },
-                internationalPostalCode: {
-                  'ui:title': 'International Postal Code (5-digit)',
-                  'ui:errorMessages': {
-                    required: 'Zip code must be 5 digits',
+                  'ui:required': formData => {
+                    if (formData.showMEBMailingAddressForeign) {
+                      return (
+                        formData['view:mailingAddress']?.livesOnMilitaryBase ||
+                        formData['view:mailingAddress']?.address?.country ===
+                          'USA'
+                      );
+                    }
+                    return false;
                   },
                   'ui:options': {
-                    hideIf: formData => {
-                      if (formData.showMEBMailingAddressForeign) {
-                        return (
-                          formData['view:mailingAddress'].address.country ===
-                            'USA' &&
-                          !formData['view:mailingAddress'].livesOnMilitaryBase
-                        );
+                    replaceSchema: formData => {
+                      if (
+                        formData?.showMEBMailingAddressForeign &&
+                        formData['view:mailingAddress']?.address?.country !==
+                          'USA'
+                      ) {
+                        return {
+                          title: 'Postal Code',
+                          type: 'string',
+                        };
                       }
-                      return false;
+
+                      return {
+                        title: 'Zip code',
+                        type: 'string',
+                      };
                     },
                   },
                 },
@@ -932,7 +950,6 @@ const formConfig = {
                       'city',
                       'country',
                       'state',
-                      'postalCode',
                       'militaryStateCode',
                     ],
                   },

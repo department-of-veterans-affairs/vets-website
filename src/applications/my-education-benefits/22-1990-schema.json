@@ -213,10 +213,6 @@
         "militaryStateCode": {
           "type": "string",
           "maxLength": 51
-        },
-        "internationalPostalCode": {
-          "type": "string",
-          "maxLength": 51
         }
       }
     },
