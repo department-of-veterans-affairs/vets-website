@@ -69,7 +69,7 @@ export default function UnderReviewConfirmation({ user, dateReceived }) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              ASK VA
+              Ask VA
             </a>
             .
           </div>
