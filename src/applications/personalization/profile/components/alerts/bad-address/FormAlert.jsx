@@ -1,5 +1,13 @@
 import React from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { recordCustomProfileEvent } from '../../../util/analytics';
+
+const recordView = () => {
+  recordCustomProfileEvent({
+    title: 'Contact Info',
+    status: 'BAI Views',
+  });
+};
 
 export default function FormAlert() {
   return (
@@ -9,6 +17,7 @@ export default function FormAlert() {
       show-icon
       data-testid="bad-address-form-alert"
       className="vads-u-margin-top--1 vads-u-font-weight--normal"
+      onVa-component-did-load={recordView}
     >
       <p className="vads-u-margin--0">Review and update your address.</p>
       <p className="vads-u-margin-top--1 vads-u-margin-bottom--0">
