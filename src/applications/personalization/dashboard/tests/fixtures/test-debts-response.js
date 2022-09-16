@@ -1,4 +1,9 @@
-export const debtsSuccess = () => {
+import { format, subDays } from 'date-fns';
+
+export const debtsSuccess = (hasRecentDebt = false) => {
+  const debtDate = hasRecentDebt
+    ? format(subDays(new Date(), 25), 'MM/dd/yyyy')
+    : '11/15/2019';
   return {
     hasDependentDebts: false,
     debts: [
@@ -16,7 +21,7 @@ export const debtsSuccess = () => {
         currentAr: 120.4,
         debtHistory: [
           {
-            date: '09/18/2012',
+            date: debtDate,
             letterCode: '100',
             description:
               'First Demand Letter - Inactive Benefits - Due Process',

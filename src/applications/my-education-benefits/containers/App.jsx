@@ -15,6 +15,7 @@ export const App = ({
   children,
   claimantInfo,
   eligibility,
+  featureTogglesLoaded,
   firstName,
   formData,
   getEligibility,
@@ -32,7 +33,8 @@ export const App = ({
     () => {
       if (
         !isLoggedIn ||
-        (showUnverifiedUserAlert !== false && isLOA3 !== true)
+        !featureTogglesLoaded ||
+        (showUnverifiedUserAlert && isLOA3 !== true)
       ) {
         return;
       }
@@ -61,6 +63,7 @@ export const App = ({
     [
       claimantInfo,
       eligibility,
+      featureTogglesLoaded,
       fetchedEligibility,
       fetchedPersonalInfo,
       firstName,
@@ -94,6 +97,7 @@ App.propTypes = {
   children: PropTypes.object,
   claimantInfo: PropTypes.object,
   eligibility: PropTypes.arrayOf(PropTypes.string),
+  featureTogglesLoaded: PropTypes.bool,
   firstName: PropTypes.string,
   formData: PropTypes.object,
   getEligibility: PropTypes.func,

@@ -7,6 +7,7 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 
 export const getAppData = state => ({
   eligibility: state.data?.eligibility,
+  featureTogglesLoaded: state.featureToggles?.loading === false,
   formId: state?.form?.formId,
   isClaimantCallComplete: state.data?.personalInfoFetchComplete,
   isEligibilityCallComplete: state.data?.eligibilityFetchComplete,

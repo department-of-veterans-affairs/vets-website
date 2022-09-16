@@ -266,9 +266,7 @@ export function getConfirmedAppointmentDetailsInfo(state, id) {
     state,
   );
   return {
-    appointment: selectAppointmentById(state, id, [
-      APPOINTMENT_TYPES.vaAppointment,
-    ]),
+    appointment: selectAppointmentById(state, id),
     appointmentDetailsStatus,
     cancelInfo: getCancelInfo(state),
     facilityData,

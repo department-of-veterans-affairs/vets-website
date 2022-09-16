@@ -9,8 +9,13 @@ import HowToApplyPost911GiBillV1 from '../components/HowToApplyPost911GiBillV1';
 import HowToApplyPost911GiBillV2 from '../components/HowToApplyPost911GiBillV2';
 import IntroductionLoginV1 from '../components/IntroductionLoginV1';
 import IntroductionLoginV2 from '../components/IntroductionLoginV2';
+import LoadingIndicator from '../components/LoadingIndicator';
 
-export const IntroductionPage = ({ route, showUnverifiedUserAlert }) => {
+export const IntroductionPage = ({
+  featureTogglesLoaded,
+  route,
+  showUnverifiedUserAlert,
+}) => {
   return (
     <div className="schemaform-intro">
       <h1 className="vads-u-margin-bottom--1p5">
@@ -20,8 +25,10 @@ export const IntroductionPage = ({ route, showUnverifiedUserAlert }) => {
         Equal to VA Form 22-1990 (Application for VA Education Benefits)
       </h2>
 
-      {showUnverifiedUserAlert === false && <HowToApplyPost911GiBillV1 />}
-      {showUnverifiedUserAlert && <HowToApplyPost911GiBillV2 route={route} />}
+      {featureTogglesLoaded &&
+        !showUnverifiedUserAlert && <HowToApplyPost911GiBillV1 />}
+      {featureTogglesLoaded &&
+        showUnverifiedUserAlert && <HowToApplyPost911GiBillV2 route={route} />}
 
       <h2>Follow these steps to get started</h2>
       <va-process-list>
@@ -88,10 +95,11 @@ export const IntroductionPage = ({ route, showUnverifiedUserAlert }) => {
         </li>
       </va-process-list>
 
-      {showUnverifiedUserAlert === false && (
-        <IntroductionLoginV1 route={route} />
-      )}
-      {showUnverifiedUserAlert && <IntroductionLoginV2 route={route} />}
+      {!featureTogglesLoaded && <LoadingIndicator />}
+      {featureTogglesLoaded &&
+        !showUnverifiedUserAlert && <IntroductionLoginV1 route={route} />}
+      {featureTogglesLoaded &&
+        showUnverifiedUserAlert && <IntroductionLoginV2 route={route} />}
 
       <OMBInfo resBurden={15} ombNumber="2900-0154" expDate="02/28/2023" />
     </div>
@@ -99,7 +107,8 @@ export const IntroductionPage = ({ route, showUnverifiedUserAlert }) => {
 };
 
 IntroductionPage.propTypes = {
-  route: PropTypes.object.isRequired,
+  featureTogglesLoaded: PropTypes.bool,
+  route: PropTypes.object,
   showUnverifiedUserAlert: PropTypes.bool,
 };
 

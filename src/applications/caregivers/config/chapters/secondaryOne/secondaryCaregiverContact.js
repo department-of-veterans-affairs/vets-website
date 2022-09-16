@@ -1,15 +1,10 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import confirmationEmailUI from 'platform/forms-system/src/js/definitions/confirmationEmail';
-import { SecondaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo/SecondaryCaregiverInfo';
 import {
   secondaryOneFields,
   emptyObjectSchema,
-} from 'applications/caregivers/definitions/constants';
-import { secondaryOneContactIntro } from 'applications/caregivers/definitions/content';
-import {
-  secondaryOneInputLabel,
-  hasSecondaryCaregiverTwoUI,
-} from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
+} from '../../../definitions/constants';
+import { secondaryOneContactIntro } from '../../../definitions/content';
 import {
   emailUI,
   vetRelationshipUI,
@@ -17,7 +12,12 @@ import {
   primaryPhoneNumberUI,
   addressWithAutofillUI,
   emailEncouragementUI,
-} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
+} from '../../../definitions/UIDefinitions/sharedUI';
+import {
+  secondaryOneInputLabel,
+  hasSecondaryCaregiverTwoUI,
+} from '../../../definitions/UIDefinitions/caregiverUI';
+import SecondaryCaregiverDescription from '../../../components/FormDescriptions/SecondaryCaregiverDescription';
 
 const { secondaryCaregiverOne } = fullSchema.properties;
 const secondaryCaregiverOneProps = secondaryCaregiverOne.properties;
@@ -26,7 +26,7 @@ const { address } = fullSchema.definitions;
 const secondaryCaregiverContactPage = {
   uiSchema: {
     'ui:description': formContext =>
-      SecondaryCaregiverInfo({
+      SecondaryCaregiverDescription({
         formContext,
         pageTitle: 'Secondary Family Caregiver contact information',
         introText: secondaryOneContactIntro,

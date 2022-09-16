@@ -1,21 +1,20 @@
 import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
-import { PrimaryCaregiverInfo } from 'applications/caregivers/components/AdditionalInfo/PrimaryCaregiverInfo';
-import { primaryCaregiverFields } from 'applications/caregivers/definitions/constants';
-import { primaryInputLabel } from 'applications/caregivers/definitions/UIDefinitions/caregiverUI';
-
+import { primaryCaregiverFields } from '../../../definitions/constants';
 import {
   dateOfBirthUI,
   fullNameUI,
   genderUI,
   ssnUI,
-} from 'applications/caregivers/definitions/UIDefinitions/sharedUI';
+} from '../../../definitions/UIDefinitions/sharedUI';
+import { primaryInputLabel } from '../../../definitions/UIDefinitions/caregiverUI';
+import PrimaryCaregiverDescription from '../../../components/FormDescriptions/PrimaryCaregiverDescription';
 
 const { primaryCaregiver } = fullSchema.properties;
 const primaryCaregiverProps = primaryCaregiver.properties;
 
 const primaryInfoPage = {
   uiSchema: {
-    'ui:description': PrimaryCaregiverInfo({ showPageIntro: true }),
+    'ui:description': PrimaryCaregiverDescription({ showPageIntro: true }),
     [primaryCaregiverFields.fullName]: fullNameUI(primaryInputLabel),
     [primaryCaregiverFields.ssn]: ssnUI(primaryInputLabel),
     [primaryCaregiverFields.dateOfBirth]: dateOfBirthUI(primaryInputLabel),

@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useLastLocation } from 'react-router-last-location';
-import { PROFILE_PATHS } from '@@profile/constants';
-import { FIELD_NAMES } from '@@vap-svc/constants';
-import { selectVAPContactInfoField } from '@@vap-svc/selectors';
+import { PROFILE_PATHS } from 'applications/personalization/profile/constants';
+import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
+import { selectVAPContactInfoField } from 'platform/user/profile/vap-svc/selectors';
 
-import { focusElement } from '~/platform/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
 
 const ContactInformationUpdateSuccessAlert = ({ fieldName }) => {
   const fieldData = useSelector(state => {
