@@ -162,6 +162,5 @@ export default Object.freeze({
   vaOnlineFilter36Vats: 'va_online_filter36_vats',
   vaViewDependentsAccess: 'va_view_dependents_access',
   yellowRibbonEnhancements: 'yellow_ribbon_mvp_enhancement',
-  showDigitalForm1095b: 'show_digital_form_1095b',
   showMEBMailingAddressForeign: 'show_meb_mailing_address_foreign'
 });
