@@ -67,12 +67,11 @@ const initState = {
     // eslint-disable-next-line camelcase
     check_in_experience_phone_appointments_enabled: false,
   },
-  ...scheduledDowntimeState,
 };
 
 describe('pre-check-in', () => {
   describe('Demographics page - current demographics', () => {
-    const axeStore = mockStore(initState);
+    const axeStore = mockStore({ ...initState, ...scheduledDowntimeState });
 
     it('page passes axeCheck', () => {
       axeCheck(
@@ -86,7 +85,8 @@ describe('pre-check-in', () => {
   });
 
   describe('Demographics sub message', () => {
-    const subStore = mockStore(initState);
+    const subStore = mockStore({ ...initState, ...scheduledDowntimeState });
+
     it('renders the sub-message for an in-person appointment', () => {
       const component = render(
         <Provider store={subStore}>
@@ -102,11 +102,14 @@ describe('pre-check-in', () => {
       ).to.exist;
     });
     it('does not render the sub-message for a phone appointment appointment', () => {
-      const phoneInitState = { ...initState };
+      const phoneInitState = JSON.parse(JSON.stringify(initState));
       phoneInitState.checkInData.appointments[0].kind = 'phone';
       // eslint-disable-next-line camelcase
       phoneInitState.featureToggles.check_in_experience_phone_appointments_enabled = true;
-      const phoneSubStore = mockStore(phoneInitState);
+      const phoneSubStore = mockStore({
+        ...phoneInitState,
+        ...scheduledDowntimeState,
+      });
       const component = render(
         <Provider store={phoneSubStore}>
           <I18nextProvider i18n={i18n}>
