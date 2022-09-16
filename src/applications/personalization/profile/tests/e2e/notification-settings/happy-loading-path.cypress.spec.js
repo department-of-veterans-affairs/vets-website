@@ -29,7 +29,7 @@ describe('Notification Settings', () => {
   context(
     'when user is a VA patient at at least one facility that supports Rx tracking',
     () => {
-      it('should show the Health Care group first and show the Rx tracking item along with the radio button hint text - C9477', () => {
+      it('should show the Health Care group first and show the Rx tracking item - C9477', () => {
         cy.login(
           makeUserObject({
             isPatient: true,
@@ -59,7 +59,6 @@ describe('Notification Settings', () => {
           )
           .should('match', /prescription.*shipment/i)
           .should('match', /prescription.*tracking/i);
-        cy.findAllByText(/^select an option/i).should('have.length', 1);
         cy.findAllByText(/check with your VA pharmacy first/i).should(
           'have.length',
           1,
