@@ -1,5 +1,5 @@
-// import moment from 'moment';
-// import Timeouts from 'platform/testing/e2e/timeouts';
+import moment from 'moment';
+import Timeouts from 'platform/testing/e2e/timeouts';
 
 import {
   mockAppointmentRequestsApi,
@@ -42,6 +42,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
       '@v0:get:appointments:va',
       '@v0:get:appointments:cc',
       '@v0:get:appointment:requests',
+      '@v1:get:facilities',
     ]);
 
     cy.axeCheckBestPractice();
@@ -80,78 +81,75 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
     cy.wait([
       '@v0:get:request_eligibility_criteria',
       '@v0:get:direct_booking_eligibility_criteria',
-      '@v1:get:facilities',
-    ]).then(() => {
-      cy.axeCheckBestPractice();
-      // cy.findByLabelText(/cheyenne/i).click();
-      cy.findByRole('radio', { name: /cheyenne/i }).click();
-      cy.findByText(/Continue/).click();
+    ]);
+    cy.axeCheckBestPractice();
+    cy.findByLabelText(/cheyenne/i).click();
+    cy.findByText(/Continue/).click();
+
+    // Choose Clinic
+    cy.url().should('include', '/choose-clinic', { timeout: Timeouts.slow });
+    cy.axeCheckBestPractice();
+    cy.findByText(/Choose where you’d like to get your vaccine/);
+    cy.get('#root_clinicId_0')
+      .focus()
+      .click();
+    cy.findByText(/Continue/).click();
+
+    // Select time slot
+    cy.url().should('include', '/select-date');
+    cy.findByText(/Finding appointment availability.../i).should('not.exist');
+    cy.contains('button', 'Next')
+      .should('not.be.disabled')
+      .focus()
+      .click();
+    cy.get(
+      '.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])',
+    ).click();
+    cy.get(
+      '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
+    ).click();
+    cy.axeCheckBestPractice();
+    cy.findByText(/Continue/).click();
+
+    // Second dose page
+    cy.url().should('include', '/second-dose-info');
+    cy.axeCheckBestPractice();
+    cy.findByText(/Continue/).click();
+
+    // Contact info
+    cy.url().should('include', '/contact-info');
+    cy.axeCheckBestPractice();
+    cy.findByText(/Continue/).click();
+
+    // Review
+    cy.url().should('include', '/review');
+    cy.axeCheckBestPractice();
+    cy.findByText('Confirm appointment').click();
+
+    // Check form requestBody is as expected
+    cy.wait('@v0:create:appointment').should(xhr => {
+      const { body } = xhr.request;
+
+      expect(body.clinic.siteCode).to.eq('983');
+      expect(body.clinic.clinicId).to.eq('455');
+      expect(body).to.have.property(
+        'desiredDate',
+        `${moment()
+          .add(1, 'day')
+          .add(1, 'months')
+          .startOf('month')
+          .day(9)
+          .startOf('day')
+          .format('YYYY-MM-DD')}T00:00:00+00:00`,
+      );
+      expect(body).to.have.property('dateTime');
+      expect(body).to.have.property('preferredEmail', 'veteran@gmail.com');
     });
 
-    // // Choose Clinic
-    // cy.url().should('include', '/choose-clinic', { timeout: Timeouts.slow });
-    // cy.axeCheckBestPractice();
-    // cy.findByText(/Choose where you’d like to get your vaccine/);
-    // cy.get('#root_clinicId_0')
-    //   .focus()
-    //   .click();
-    // cy.findByText(/Continue/).click();
-
-    // // Select time slot
-    // cy.url().should('include', '/select-date');
-    // cy.findByText(/Finding appointment availability.../i).should('not.exist');
-    // cy.contains('button', 'Next')
-    //   .should('not.be.disabled')
-    //   .focus()
-    //   .click();
-    // cy.get(
-    //   '.vaos-calendar__calendars button[id^="date-cell"]:not([disabled])',
-    // ).click();
-    // cy.get(
-    //   '.vaos-calendar__day--current .vaos-calendar__options input[id$="_0"]',
-    // ).click();
-    // cy.axeCheckBestPractice();
-    // cy.findByText(/Continue/).click();
-
-    // // Second dose page
-    // cy.url().should('include', '/second-dose-info');
-    // cy.axeCheckBestPractice();
-    // cy.findByText(/Continue/).click();
-
-    // // Contact info
-    // cy.url().should('include', '/contact-info');
-    // cy.axeCheckBestPractice();
-    // cy.findByText(/Continue/).click();
-
-    // // Review
-    // cy.url().should('include', '/review');
-    // cy.axeCheckBestPractice();
-    // cy.findByText('Confirm appointment').click();
-
-    // // Check form requestBody is as expected
-    // cy.wait('@v0:create:appointment').should(xhr => {
-    //   const { body } = xhr.request;
-
-    //   expect(body.clinic.siteCode).to.eq('983');
-    //   expect(body.clinic.clinicId).to.eq('455');
-    //   expect(body).to.have.property(
-    //     'desiredDate',
-    //     `${moment()
-    //       .add(1, 'day')
-    //       .add(1, 'months')
-    //       .startOf('month')
-    //       .day(9)
-    //       .startOf('day')
-    //       .format('YYYY-MM-DD')}T00:00:00+00:00`,
-    //   );
-    //   expect(body).to.have.property('dateTime');
-    //   expect(body).to.have.property('preferredEmail', 'veteran@gmail.com');
-    // });
-
-    // // Confirmation page
-    // cy.findByText('We’ve scheduled and confirmed your appointment.');
-    // cy.findAllByText('COVID-19 vaccine');
-    // cy.findByText('Clinic:');
+    // Confirmation page
+    cy.findByText('We’ve scheduled and confirmed your appointment.');
+    cy.findAllByText('COVID-19 vaccine');
+    cy.findByText('Clinic:');
   });
 
   //   it('should show facility contact page on second dose selection', () => {
@@ -162,6 +160,7 @@ describe('VAOS COVID-19 vaccine appointment flow', () => {
   //       '@v0:get:appointments:va',
   //       '@v0:get:appointments:cc',
   //       '@v0:get:appointment:requests',
+  // '@v1:get:facilities',
   //     ]);
 
   //     cy.axeCheckBestPractice();

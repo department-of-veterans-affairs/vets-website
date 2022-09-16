@@ -505,11 +505,7 @@ export function mockAppointmentsApi({
           createPastVAAppointments().data,
         );
         req.reply({
-          body: {
-            data,
-          },
-          // delay: Math.floor(Math.random() * 32000),
-          // throttleKbps: 1000, // to simulate a 3G connection
+          data,
         });
       },
     ).as('v0:get:appointments:va');
@@ -522,10 +518,7 @@ export function mockAppointmentsApi({
       },
       req => {
         req.reply({
-          body: {
-            data: updateConfirmedCCDates(confirmedCC).data,
-          },
-          // delay: 5000,
+          data: updateConfirmedCCDates(confirmedCC).data,
         });
       },
     ).as('v0:get:appointments:cc');
@@ -748,9 +741,15 @@ export function mockFacilitiesApi({ count, apiVersion = 0 }) {
       },
       req => {
         const tokens = req.query.ids.split(',');
-        const data = tokens.map(token => {
-          return facilityData.data.find(f => f.id === token);
+        let data = tokens.map(token => {
+          // NOTE: Convert test facility ids to real ids
+          return facilityData.data.find(f => {
+            return f.id === token.replace('983', '442').replace('984', '552');
+          });
         });
+
+        // Remove 'falsey' values
+        data = data.filter(Boolean);
         // TODO: remove the harded coded id.
         // req.reply({
         //   data: facilityData.data.filter(f => f.id === 'vha_442GC'),
