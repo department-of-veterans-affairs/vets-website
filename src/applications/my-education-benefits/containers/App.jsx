@@ -88,7 +88,7 @@ export const App = ({
         });
       }
     },
-    [showMEBMailingAddressForeign, formData, setFormData],
+    [setFormData, showMEBMailingAddressForeign],
   );
 
   return (

@@ -834,9 +834,6 @@ const formConfig = {
                       return {
                         type: 'string',
                         title: 'City',
-                        minLength: 1,
-                        maxLength: 100,
-                        pattern: '^.*\\S.*',
                       };
                     },
                   },
