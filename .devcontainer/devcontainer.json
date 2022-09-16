@@ -9,7 +9,6 @@
 		"terminal.integrated.shell.linux": "/bin/bash",
 		"workbench.startupEditor": "readme"
 	},
-	"forwardPorts": [3000, 3001, 3002],
 	"extensions": [
 		"davidanson.vscode-markdownlint",
 		"dbaeumer.vscode-eslint",
@@ -25,6 +24,18 @@
 		"visualstudioexptteam.vscodeintellicode",
 		"wayou.vscode-todo-highlight"
 	],
+	"forwardPorts": [3000, 3001, 3002],
+	"portsAttributes": {
+		"3000": {
+			"label": "vets-api"
+		},
+		"3001": {
+			"label": "vets-website"
+		},
+		"3002": {
+			"label": "content-build"
+		}
+	},
 	"hostRequirements": {
 		"cpus": 16,
 		"memory": "32gb",

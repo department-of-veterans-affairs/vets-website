@@ -28,7 +28,7 @@ setup_vets_website() {
   # Install dependencies and build site
   yarn cache clean 
   yarn install --production=false --prefer-offline 
-  yarn build -- --host="${CODESPACE_NAME}-3001.githubpreview.dev/" --env api=${CODESPACE_NAME}-3000.githubpreview.dev/
+  yarn build --host=${CODESPACE_NAME}-3001.githubpreview.dev --env api=${CODESPACE_NAME}-3000.githubpreview.dev
 }
 
 printf "\n\n##### Building vets-website #####\n"
