@@ -23,8 +23,6 @@ import ContactInformationContent from './ContactInformationContent';
 
 import { PROFILE_PATHS } from '../../constants';
 
-import BadAddressAlert from '../alerts/bad-address/ContactAlert';
-
 // drops the leading `edit` from the hash and looks for that element
 const getScrollTarget = hash => {
   const hashWithoutLeadingEdit = hash.replace(/^#edit-/, '#');
@@ -133,11 +131,6 @@ const ContactInformation = () => {
     [openEditModal],
   );
 
-  const showHeroBadAddressAlert =
-    badAddressIndicatorEnabled &&
-    (userHasBadAddress || shouldForceBadAddressIndicator) &&
-    !addressValidationModalIsShowing;
-
   const showFormBadAddressAlert =
     badAddressIndicatorEnabled &&
     (userHasBadAddress || shouldForceBadAddressIndicator) &&
@@ -151,11 +144,6 @@ const ContactInformation = () => {
         when={hasUnsavedEdits}
       />
       <Headline>Contact information</Headline>
-      {showHeroBadAddressAlert && (
-        <>
-          <BadAddressAlert />
-        </>
-      )}
       <DowntimeNotification
         render={handleDowntimeForSection('personal and contact')}
         dependencies={[externalServices.mvi, externalServices.vaProfile]}

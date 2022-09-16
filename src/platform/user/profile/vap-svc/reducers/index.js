@@ -1,8 +1,8 @@
-import * as VAP_SERVICE from '@@vap-svc/constants';
+import * as VAP_SERVICE from 'platform/user/profile/vap-svc/constants';
 
 import { isEmpty, isEqual, pickBy } from 'lodash';
 
-import { COPY_ADDRESS_MODAL_STATUS } from '@@vap-svc/constants';
+import { COPY_ADDRESS_MODAL_STATUS } from 'platform/user/profile/vap-svc/constants';
 
 import { isFailedTransaction } from '../util/transactions';
 
