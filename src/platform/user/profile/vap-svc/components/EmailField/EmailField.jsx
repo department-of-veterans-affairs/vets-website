@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { API_ROUTES, FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
+import {
+  API_ROUTES,
+  FIELD_NAMES,
+} from 'platform/user/profile/vap-svc/constants';
 
 import VAPServiceProfileField from 'platform/user/profile/vap-svc/containers/VAPServiceProfileField';
 
