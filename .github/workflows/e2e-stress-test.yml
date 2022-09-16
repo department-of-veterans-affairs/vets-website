@@ -429,7 +429,7 @@ jobs:
           TEST_SELECTION_DISALLOWED_TESTS: ${{ needs.cypress-tests-prep.outputs.test_selection_disallowed_tests }}
 
       - name: Echo NEW_DISALLOWED_TESTS
-        run: echo {{ $CI_NODE_INDEX }}
+        run: echo {{ $NEW_DISALLOWED_TESTS }}
 
       - name: Create Cypress E2E report and post results to BigQuery
         run: yarn cypress-mochawesome-to-bigquery
