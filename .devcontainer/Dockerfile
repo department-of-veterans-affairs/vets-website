@@ -4,6 +4,4 @@
 ARG VARIANT="14-buster"
 FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
 
-# FROM alpine:latest
-
-# RUN apk add --no-cache curl docker-cli
+RUN apt-get update && apt-get install docker-cli
