@@ -88,7 +88,7 @@ export const App = ({
         });
       }
     },
-    [showMEBMailingAddressForeign],
+    [showMEBMailingAddressForeign, formData, setFormData],
   );
 
   return (
@@ -119,6 +119,7 @@ App.propTypes = {
   isLOA3: PropTypes.bool,
   location: PropTypes.string,
   setFormData: PropTypes.func,
+  showMEBMailingAddressForeign: PropTypes.bool,
   showUnverifiedUserAlert: PropTypes.bool,
   user: PropTypes.shape({
     login: PropTypes.shape({
