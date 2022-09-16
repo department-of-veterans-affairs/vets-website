@@ -14,7 +14,7 @@ const SectionGuideButton = props => {
           type="button"
         >
           <strong>In the Messages section</strong>
-          <i className="fas fa-bars" aria-hidden />
+          <i className="fas fa-bars" aria-hidden="true" />
         </button>
       </div>
     </div>

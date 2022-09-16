@@ -1,5 +1,5 @@
-import { getAssetPath } from '~/platform/site-wide/helpers/team-sites/get-asset-path';
-import { getTargetEnv } from '~/platform/site-wide/helpers/team-sites/get-target-env';
+import { getAssetPath } from 'platform/site-wide/helpers/team-sites/get-asset-path';
+import { getTargetEnv } from 'platform/site-wide/helpers/team-sites/get-target-env';
 
 /*
  * This file is intended to support legacy pages.

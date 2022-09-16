@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { focusElement } from 'platform/utilities/ui';
 
-import recordEvent from '~/platform/monitoring/record-event';
+import recordEvent from 'platform/monitoring/record-event';
 
 import * as VAP_SERVICE from '../constants';
 
