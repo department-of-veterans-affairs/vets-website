@@ -28,7 +28,10 @@ import {
 
 import { selectVAProfilePersonalInformation } from 'applications/personalization/profile/selectors';
 
-import { ACTIVE_EDIT_VIEWS, FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
+import {
+  ACTIVE_EDIT_VIEWS,
+  FIELD_NAMES,
+} from 'platform/user/profile/vap-svc/constants';
 import VAPServiceTransaction from 'platform/user/profile/vap-svc/components/base/VAPServiceTransaction';
 import AddressValidationView from 'platform/user/profile/vap-svc/containers/AddressValidationView';
 
@@ -44,7 +47,7 @@ import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 
-import getProfileInfoFieldAttributes from 'applications/applications/personalization/profile/util/getProfileInfoFieldAttributes';
+import getProfileInfoFieldAttributes from 'applications/personalization/profile/util/getProfileInfoFieldAttributes';
 
 import CannotEditModal from './ContactInformationFieldInfo/CannotEditModal';
 import ConfirmCancelModal from './ContactInformationFieldInfo/ConfirmCancelModal';

@@ -4,9 +4,13 @@ import pickBy from 'lodash/pickBy';
 import ADDRESS_DATA from 'platform/forms/address/data';
 import { focusElement } from 'platform/utilities/ui';
 
-import { ADDRESS_POU, FIELD_NAMES, USA } from 'platform/user/profile/vap-svc/constants';
-import VAPServiceEditModal from '../base/VAPServiceEditModal';
+import {
+  ADDRESS_POU,
+  FIELD_NAMES,
+  USA,
+} from 'platform/user/profile/vap-svc/constants';
 import CopyMailingAddress from 'platform/user/profile/vap-svc/containers/CopyMailingAddress';
+import VAPServiceEditModal from '../base/VAPServiceEditModal';
 import ContactInfoForm from '../ContactInfoForm';
 
 class AddressEditModal extends React.Component {

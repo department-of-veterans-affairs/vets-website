@@ -5,7 +5,10 @@ import {
   FIELD_NAMES,
   TRANSACTION_STATUS,
 } from 'platform/user/profile/vap-svc/constants';
-import { showAddressValidationModal, inferAddressType } from 'platform/user/profile/vap-svc/util';
+import {
+  showAddressValidationModal,
+  inferAddressType,
+} from 'platform/user/profile/vap-svc/util';
 import { hasBadAddress } from 'applications/personalization/profile/selectors';
 import { apiRequest } from 'platform/utilities/api';
 import { refreshProfile } from 'platform/user/profile/actions';
