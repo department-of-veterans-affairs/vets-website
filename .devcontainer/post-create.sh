@@ -20,7 +20,6 @@ setup_vets_api() {
 }
 
 setup_vets_website() {
-  set -e
   # Install node version in .nvmrc
   nvm install
 
