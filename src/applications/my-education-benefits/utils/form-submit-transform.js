@@ -289,9 +289,7 @@ export function createContactInfo(submissionForm) {
     addressLine1: submissionForm['view:mailingAddress'].address.street,
     addressLine2: submissionForm['view:mailingAddress'].address.street2,
     city: submissionForm['view:mailingAddress'].address.city,
-    zipcode:
-      submissionForm['view:mailingAddress'].address.postalCode ||
-      submissionForm['view:mailingAddress'].address.internationalPostalCode,
+    zipcode: submissionForm['view:mailingAddress'].address.postalCode,
     emailAddress: submissionForm.email.email,
     addressType: getAddressType(submissionForm['view:mailingAddress']),
     mobilePhoneNumber:
