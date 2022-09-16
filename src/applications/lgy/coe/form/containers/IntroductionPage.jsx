@@ -28,7 +28,7 @@ const IntroductionPage = ({ coe, loggedIn, route, status }) => {
   }
   if (loggedIn && coeCallEnded.includes(status)) {
     content = (
-      <>
+      <div className="vads-u-margin-bottom--2">
         <COEIntroPageBox
           referenceNumber={coe.referenceNumber}
           requestDate={coe.applicationCreateDate}
@@ -37,7 +37,7 @@ const IntroductionPage = ({ coe, loggedIn, route, status }) => {
         {coe.status !== COE_ELIGIBILITY_STATUS.denied && (
           <LoggedInContent route={route} status={coe.status} />
         )}
-      </>
+      </div>
     );
   }
 

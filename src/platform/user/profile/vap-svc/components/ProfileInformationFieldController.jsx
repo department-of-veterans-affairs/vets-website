@@ -2,19 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import * as VAP_SERVICE from '@@vap-svc/constants';
+import * as VAP_SERVICE from 'platform/user/profile/vap-svc/constants';
 
 import {
   isFailedTransaction,
   isPendingTransaction,
-} from '@@vap-svc/util/transactions';
+} from 'platform/user/profile/vap-svc/util/transactions';
 
 import {
   createTransaction,
   refreshTransaction,
   clearTransactionRequest,
   openModal,
-} from '@@vap-svc/actions';
+} from 'platform/user/profile/vap-svc/actions';
 
 import {
   selectAddressValidationType,
@@ -24,27 +24,30 @@ import {
   selectEditViewData,
   selectMostRecentlyUpdatedField,
   selectUseInformationEditViewVAFSC,
-} from '@@vap-svc/selectors';
+} from 'platform/user/profile/vap-svc/selectors';
 
-import { selectVAProfilePersonalInformation } from '@@profile/selectors';
+import { selectVAProfilePersonalInformation } from 'applications/personalization/profile/selectors';
 
-import { ACTIVE_EDIT_VIEWS, FIELD_NAMES } from '@@vap-svc/constants';
-import VAPServiceTransaction from '@@vap-svc/components/base/VAPServiceTransaction';
-import AddressValidationView from '@@vap-svc/containers/AddressValidationView';
+import {
+  ACTIVE_EDIT_VIEWS,
+  FIELD_NAMES,
+} from 'platform/user/profile/vap-svc/constants';
+import VAPServiceTransaction from 'platform/user/profile/vap-svc/components/base/VAPServiceTransaction';
+import AddressValidationView from 'platform/user/profile/vap-svc/containers/AddressValidationView';
 
-import ProfileInformationEditView from '@@profile/components/ProfileInformationEditView';
-import ProfileInformationEditViewVAFSC from '@@profile/components/ProfileInformationEditViewVAFSC';
-import ProfileInformationView from '@@profile/components/ProfileInformationView';
+import ProfileInformationEditView from 'applications/personalization/profile/components/ProfileInformationEditView';
+import ProfileInformationEditViewVAFSC from 'applications/personalization/profile/components/ProfileInformationEditViewVAFSC';
+import ProfileInformationView from 'applications/personalization/profile/components/ProfileInformationView';
 
-import { getInitialFormValues } from '@@profile/util/contact-information/formValues';
-import { isFieldEmpty } from '@@profile/util';
+import { getInitialFormValues } from 'applications/personalization/profile/util/contact-information/formValues';
+import { isFieldEmpty } from 'applications/personalization/profile/util';
 
-import { isVAPatient } from '~/platform/user/selectors';
-import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
-import recordEvent from '~/platform/monitoring/record-event';
-import { focusElement } from '~/platform/utilities/ui';
+import { isVAPatient } from 'platform/user/selectors';
+import prefixUtilityClasses from 'platform/utilities/prefix-utility-classes';
+import recordEvent from 'platform/monitoring/record-event';
+import { focusElement } from 'platform/utilities/ui';
 
-import getProfileInfoFieldAttributes from '~/applications/personalization/profile/util/getProfileInfoFieldAttributes';
+import getProfileInfoFieldAttributes from 'applications/personalization/profile/util/getProfileInfoFieldAttributes';
 
 import CannotEditModal from './ContactInformationFieldInfo/CannotEditModal';
 import ConfirmCancelModal from './ContactInformationFieldInfo/ConfirmCancelModal';

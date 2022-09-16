@@ -11,10 +11,9 @@ import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import migrations from './migrations';
 import manifest from '../manifest.json';
 import IDPage from '../containers/IDPage';
-import ErrorText from '../components/FormAlerts/ErrorText';
 import FormFooter from '../components/FormFooter';
 import GetHelp from '../components/GetHelp';
-import SubmitErrorText from '../components/FormAlerts/SubmitErrorText';
+import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
 import DowntimeMessage from '../components/FormAlerts/DowntimeWarning';
 import IntroductionPage from '../containers/IntroductionPage';
 import { prefillTransformer, transform, formValue } from '../helpers';
@@ -149,13 +148,12 @@ const formConfig = {
     },
   ],
   confirmation: ConfirmationPage,
-  submitErrorText: SubmitErrorText,
+  submissionError: SubmissionErrorAlert,
   title: 'Apply for health care',
   subTitle: 'Form 10-10EZ',
   preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetHelp,
-  errorText: ErrorText,
   defaultDefinitions: {
     date,
     provider,

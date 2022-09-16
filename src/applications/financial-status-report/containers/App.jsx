@@ -20,6 +20,7 @@ import {
   fsrWizardFeatureToggle,
   fsrFeatureToggle,
   combinedFSRFeatureToggle,
+  enhancedFSRFeatureToggle,
 } from '../utils/helpers';
 
 const App = ({
@@ -34,6 +35,7 @@ const App = ({
   setFormData,
   showFSR,
   showCombinedFSR,
+  showEnhancedFSR,
   showWizard,
 }) => {
   const [wizardState, setWizardState] = useState(
@@ -78,11 +80,12 @@ const App = ({
       setFormData({
         ...formData,
         'view:combinedFinancialStatusReport': showCombinedFSR,
+        'view:enhancedFinancialStatusReport': showEnhancedFSR,
       });
     },
     // Do not add formData to the dependency array, as it will cause an infinite loop. Linter warning will go away when feature flag is deprecated.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [showCombinedFSR, setFormData],
+    [showCombinedFSR, showEnhancedFSR, setFormData],
   );
 
   if (pending) {
@@ -132,6 +135,7 @@ App.propTypes = {
   router: PropTypes.object,
   setFormData: PropTypes.func,
   showCombinedFSR: PropTypes.bool,
+  showEnhancedFSR: PropTypes.bool,
   showFSR: PropTypes.bool,
   showWizard: PropTypes.bool,
 };
@@ -144,6 +148,7 @@ const mapStateToProps = state => ({
   showWizard: fsrWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
   showCombinedFSR: combinedFSRFeatureToggle(state),
+  showEnhancedFSR: enhancedFSRFeatureToggle(state),
 });
 
 const mapDispatchToProps = dispatch => ({
