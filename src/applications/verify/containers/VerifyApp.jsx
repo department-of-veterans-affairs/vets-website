@@ -6,8 +6,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
-import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors';
 import { VerifyButton } from 'platform/user/authentication/components/VerifyButton';
+import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 
 export const selectCSP = selectedPolicy =>
@@ -66,7 +66,6 @@ export const VerifyApp = ({ profile, useOAuth, loading }) => {
               This one-time process will take <strong>5 - 10 minutes</strong> to
               complete.
             </p>
-
             {[idme.policy, logingov.policy].includes(signInMethod) ? (
               <div data-testid="verify-button">
                 {' '}
@@ -84,7 +83,6 @@ export const VerifyApp = ({ profile, useOAuth, loading }) => {
                 <VerifyButton {...selectCSP(idme.policy)} useOAuth={useOAuth} />
               </div>
             )}
-
             <div className="help-info">
               <h2>Having trouble verifying your identity?</h2>
               <p>
