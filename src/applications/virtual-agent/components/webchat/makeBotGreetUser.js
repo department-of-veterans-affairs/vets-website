@@ -47,35 +47,36 @@ const GreetUser = {
           type: 'DIRECT_LINE/POST_ACTIVITY',
         });
       }
-    } else {
-      // eslint-disable-next-line no-lonely-if
-      if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
-        dispatch({
-          meta: {
-            method: 'keyboard',
-          },
-          payload: {
-            activity: {
-              channelData: {
-                postBack: true,
-              },
-              // Web Chat will show the 'Greeting' System Topic message which has a trigger-phrase 'hello'
-              name: 'startConversation',
-              type: 'event',
-              value: {
-                csrfToken,
-                apiSession,
-                apiURL,
-                baseURL,
-                userFirstName,
-                userUuid,
-              },
-            },
-          },
-          type: 'DIRECT_LINE/POST_ACTIVITY',
-        });
-      }
     }
+    // } else {
+    //   // eslint-disable-next-line no-lonely-if
+    //   if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
+    //     dispatch({
+    //       meta: {
+    //         method: 'keyboard',
+    //       },
+    //       payload: {
+    //         activity: {
+    //           channelData: {
+    //             postBack: true,
+    //           },
+    //           // Web Chat will show the 'Greeting' System Topic message which has a trigger-phrase 'hello'
+    //           name: 'startConversation',
+    //           type: 'event',
+    //           value: {
+    //             csrfToken,
+    //             apiSession,
+    //             apiURL,
+    //             baseURL,
+    //             userFirstName,
+    //             userUuid,
+    //           },
+    //         },
+    //       },
+    //       type: 'DIRECT_LINE/POST_ACTIVITY',
+    //     });
+    //   }
+    // }
 
     if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
       dispatch({
