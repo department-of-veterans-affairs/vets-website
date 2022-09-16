@@ -4,6 +4,9 @@ import configureStore from 'redux-mock-store';
 import { axeCheck } from 'platform/forms-system/test/config/helpers';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
+import { I18nextProvider } from 'react-i18next';
+import i18n from '../../../utils/i18n/i18n';
+import { scheduledDowntimeState } from '../../../tests/unit/utils/initState';
 import Wrapper from '../Wrapper';
 
 describe('Wrapper component', () => {
@@ -12,23 +15,32 @@ describe('Wrapper component', () => {
     checkInData: {
       app: 'PreCheckIn',
     },
+    ...scheduledDowntimeState,
   };
   const middleware = [];
   const mockStore = configureStore(middleware);
   beforeEach(() => {
     store = mockStore(initState);
   });
-  it('check in button passes axeCheck', () => {
+  it('Wrapper passes axeCheck', () => {
     axeCheck(
       <Provider store={store}>
-        <Wrapper />
+        <I18nextProvider i18n={i18n}>
+          <Wrapper>
+            <p>test</p>
+          </Wrapper>
+        </I18nextProvider>
       </Provider>,
     );
   });
   it('renders the passed in page title', () => {
     const { getByText } = render(
       <Provider store={store}>
-        <Wrapper pageTitle="Test Title" />
+        <I18nextProvider i18n={i18n}>
+          <Wrapper pageTitle="Test Title">
+            <p>test</p>
+          </Wrapper>
+        </I18nextProvider>
       </Provider>,
     );
     expect(getByText('Test Title')).to.exist;
