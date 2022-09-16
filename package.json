@@ -7,7 +7,7 @@
     "apps": "./script/app-list.sh",
     "build": "./script/build.sh --scaffold",
     "build-analyze": "yarn build:production --analyzer; npm run analyze",
-    "build:codespaces": "yarn build --host=${CODESPACE_NAME}-3001.githubpreview.dev --env api=${CODESPACE_NAME}-3000.githubpreview.dev",
+    "build:codespaces": "yarn build --host=${CODESPACE_NAME}-3001.githubpreview.dev --api=${CODESPACE_NAME}-3000.githubpreview.dev",
     "build:production": "NODE_ENV=production yarn build --buildtype=vagovprod",
     "build:webpack": "NODE_OPTIONS=--max-old-space-size=8192 webpack --config config/webpack.config.js",
     "build:webpack:prod": "NODE_ENV=production yarn build:webpack --env buildtype=vagovprod",
