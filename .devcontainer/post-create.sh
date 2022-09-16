@@ -6,6 +6,7 @@ set -e
 # yarn cache clean && yarn install --production=false --prefer-offline && yarn build -- --host="${CODESPACE_NAME}-3001.githubpreview.dev/" --env api=${CODESPACE_NAME}-3000.githubpreview.dev/
 
 setup_vets_api() {
+  echo $USER
   # Copy settings file to vets-api directory
   cp .devcontainer/vets-api/settings.local.yml ../vets-api/config/settings.local.yml
 
