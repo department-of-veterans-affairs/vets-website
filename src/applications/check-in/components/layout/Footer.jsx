@@ -26,7 +26,7 @@ const Footer = ({ router }) => {
         {t('need-help')}
       </h2>
       {app === APP_NAMES.PRE_CHECK_IN ? (
-        <>
+        <div data-testid="pre-check-in-message">
           <p>
             <span className="vads-u-font-weight--bold">
               {t(
@@ -55,12 +55,12 @@ const Footer = ({ router }) => {
             {/* Not using the va-telephone component due to issues with 711 link. To re-evaluate after component is fixed. */}
             <va-telephone contact="711" />
           </p>
-        </>
+        </div>
       ) : (
-        <p>{t('ask-a-staff-member')}</p>
+        <p data-testid="day-of-check-in-message">{t('ask-a-staff-member')}</p>
       )}
       {currentPage === 'introduction' && (
-        <p>
+        <p data-testid="intro-extra-message">
           <span className="vads-u-font-weight--bold">
             {t(
               'if-you-need-to-talk-to-someone-right-away-or-need-emergency-care',
