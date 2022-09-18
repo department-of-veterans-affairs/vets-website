@@ -9,7 +9,10 @@ import {
   selectPastAppointments,
 } from '../../redux/selectors';
 import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
-import { selectFeatureVaosV2Next } from '../../../redux/selectors';
+import {
+  selectFeatureVAOSServiceVAAppointments,
+  selectFeatureVaosV2Next,
+} from '../../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -34,14 +37,17 @@ export default function useClinicFormState() {
   const featureVaosV2Next = useSelector(state =>
     selectFeatureVaosV2Next(state),
   );
+  const useV2 = useSelector(state =>
+    selectFeatureVAOSServiceVAAppointments(state),
+  );
 
   const formState = useFormState({
     initialSchema() {
       let newSchema = initialSchema;
-      // As long as selected care is not primary care then
+      // for v2 and v2Next
       // filter the clinics that have patientDirectScheduling set to true
       let filteredClinics =
-        featureVaosV2Next && initialData.typeOfCareId !== PRIMARY_CARE
+        featureVaosV2Next && useV2
           ? clinics.filter(clinic => clinic.patientDirectScheduling === true)
           : clinics;
 
