@@ -6,8 +6,8 @@ import recordEvent from 'platform/monitoring/record-event';
 import { hasSession } from 'platform/user/profile/utilities';
 import SubmitSignInForm from 'platform/static-data/SubmitSignInForm';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
-import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors';
 import { VerifyButton } from 'platform/user/authentication/components/VerifyButton';
+import { isAuthenticatedWithOAuth } from 'platform/user/authentication/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 
 export const selectCSP = selectedPolicy =>

@@ -2,18 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { verify } from 'platform/user/authentication/utilities';
 import { updateStateAndVerifier } from 'platform/utilities/oauth/utilities';
-
 import { defaultWebOAuthOptions } from 'platform/user/authentication/config/constants';
 
-export const verifyHandler = async ({ useOAuth = false, policy }) => {
-  if (useOAuth) {
-    updateStateAndVerifier(policy);
-  }
-  await verify({
+export const verifyHandler = ({ policy, useOAuth }) => {
+  verify({
     policy,
     useOAuth,
     acr: defaultWebOAuthOptions.acrVerify[policy],
   });
+  if (useOAuth) {
+    updateStateAndVerifier(policy);
+  }
 };
 
 export const VerifyButton = ({
@@ -21,16 +20,15 @@ export const VerifyButton = ({
   label,
   image,
   policy,
-  useOAuth,
-  onClick,
+  useOAuth = false,
+  onClick = verifyHandler,
 }) => {
-  const onVerifyClick = onClick ?? verifyHandler;
   return (
     <button
       key={policy}
       type="button"
       className={`usa-button ${className}`}
-      onClick={() => onVerifyClick({ useOAuth, policy })}
+      onClick={() => onClick({ policy, useOAuth })}
       aria-label={`Verify with ${label}`}
     >
       <strong>

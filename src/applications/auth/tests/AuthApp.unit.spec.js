@@ -55,7 +55,7 @@ describe('AuthApp', () => {
   it('should fire validateSession if `hasSession` is true', () => {
     const { wrapper, instance } = generateAuthApp({
       hasSession: true,
-      query: { auth: 'success' },
+      query: { auth: 'not-fail' },
     });
     const spy = sinon.spy(instance, 'validateSession');
     instance.componentDidMount();
@@ -76,7 +76,9 @@ describe('AuthApp', () => {
   });
 
   it('should not fire validateSession if `hasError` is true or `hasSession` is false', () => {
-    const { wrapper, instance } = generateAuthApp({});
+    const { wrapper, instance } = generateAuthApp({
+      query: { auth: 'fail', hasSession: false },
+    });
     const spy = sinon.spy(instance, 'validateSession');
     instance.componentDidMount();
 
