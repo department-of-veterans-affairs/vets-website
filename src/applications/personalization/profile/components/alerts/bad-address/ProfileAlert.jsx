@@ -38,11 +38,13 @@ export default function ProfileAlert() {
         slot="headline"
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
-        aria-label="The address we have on file for you may not be correct."
+        aria-describedby="bai-alert-body"
       >
         {heading}
       </h2>
-      <p>The mailing address we have on file for you may not be correct.</p>
+      <p id="bai-alert-body">
+        The mailing address we have on file for you may not be correct.
+      </p>
       <p>
         <Link
           to="contact-information/#mailing-address"
