@@ -15,7 +15,11 @@
 .homepage-hero {
   // gradient background from left to right
   &__wrapper {
-    background: linear-gradient(to right, $color-old-browser-background-start 37%, $color-old-browser-background-end);
+    background: linear-gradient(
+      to left,
+      $color-old-browser-background-start 37%,
+      $color-old-browser-background-end
+    );
   }
 
   &__container {
@@ -27,12 +31,15 @@
     color: $color-primary;
     background-color: $color-white;
 
-    &:hover, &:active {
+    &:hover,
+    &:active {
       background-color: $color-primary-darker;
       outline-offset: 2px;
     }
 
-    &:hover, &:focus, &:visited {
+    &:hover,
+    &:focus,
+    &:visited {
       color: $color-white;
       text-decoration: none;
       outline-offset: 2px;
