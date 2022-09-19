@@ -8,8 +8,6 @@ import { COE_ELIGIBILITY_STATUS } from '../../shared/constants';
 const uploadImgPath =
   'src/applications/lgy/coe/status/tests/components/DocumentUploader/testPicture.jpeg';
 
-// Skip tests in CI until the app is released.
-// Remove this block when the app has a content page in production.
 describe(manifest.appName, () => {
   beforeEach(() => {
     cy.login();
