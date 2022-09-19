@@ -84,59 +84,36 @@ describe.only('makeBotGreetUser actions', () => {
 
   describe.only('Handling of "DIRECT_LINE/INCOMING_ACTIVITY"', () => {
     const IS_TRACKING_UTTERANCES = 'va-bot.isTrackingUtterances';
+    const sandbox = sinon.createSandbox();
     beforeEach(() => {
       sessionStorage.clear();
     });
     afterEach(() => {
       sessionStorage.clear();
+      sandbox.restore();
     });
     it("should correctly begin tracking utterances if it hasn't yet", async () => {
       // setup
       // fire/execute
-      await GreetUser.makeBotGreetUser(
-        'csrfToken',
-        'apiSession',
-        'apiURL',
-        'baseURL',
-        'userFirstName',
-        'userUuid',
-        true,
-      )(store)(fakeNext)(directIncomingActivity);
+      await GreetUser.makeBotGreetUser('csrfToken', 'apiSession', 'apiURL', 'baseURL', 'userFirstName', 'userUuid', true)(store)(fakeNext)(directIncomingActivity);
       // tests
-      const isTrackingUtterances = await sessionStorage.getItem(
-        IS_TRACKING_UTTERANCES,
-      );
+      const isTrackingUtterances = await sessionStorage.getItem(IS_TRACKING_UTTERANCES);
       expect(isTrackingUtterances).to.equal('true');
     });
     it('Stops tracking utterances when about to redirect to sign in', async () => {
       // setup
-      const aboutToSignInActivity = {
-        type: 'DIRECT_LINE/INCOMING_ACTIVITY',
-        payload: {
-          activity: {
-            type: 'message',
-            text: 'Alright. Sending you to the sign in page...',
-            from: { role: 'bot' },
-          },
-        },
-      };
+      const activity = { type: 'message', text: 'Alright. Sending you to the sign in page...', from: { role: 'bot' } };
+      const aboutToSignInActivity = { type: 'DIRECT_LINE/INCOMING_ACTIVITY', payload: { activity } };
+      const spyDispatchEvent = sandbox.spy(window, 'dispatchEvent');
 
       // fire
-      await GreetUser.makeBotGreetUser(
-        'csrfToken',
-        'apiSession',
-        'apiURL',
-        'baseURL',
-        'userFirstName',
-        'userUuid',
-        true,
-      )(store)(fakeNext)(aboutToSignInActivity);
-      1;
+      await GreetUser.makeBotGreetUser('csrfToken', 'apiSession', 'apiURL', 'baseURL', 'userFirstName', 'userUuid', true)(store)(fakeNext)(aboutToSignInActivity);
       // tests
-      const isTrackingUtterances = await sessionStorage.getItem(
-        IS_TRACKING_UTTERANCES,
-      );
+      const isTrackingUtterances = await sessionStorage.getItem(IS_TRACKING_UTTERANCES);
       expect(isTrackingUtterances).to.equal('false');
+      expect(spyDispatchEvent.callCount).to.equal(1);
+
+      expect(spyDispatchEvent.firstCall.args[0].data).to.equal(activity);
     });
   });
 
