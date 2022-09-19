@@ -161,7 +161,7 @@ describe('VAOS Patient service v0/v2 comparison', () => {
       // Then the results have the following differences
       expect(differences).to.have.deep.members([
         {
-          op: 'add',
+          op: 'replace',
           path: ['clinics', 0, 'patientDirectScheduling'],
           value: null,
         },
@@ -247,7 +247,7 @@ describe('VAOS Patient service v0/v2 comparison', () => {
       // Then the results have the following differences
       expect(differences).to.have.deep.members([
         {
-          op: 'add',
+          op: 'replace',
           path: ['clinics', 0, 'patientDirectScheduling'],
           value: null,
         },
@@ -435,7 +435,7 @@ describe('VAOS Patient service v0/v2 comparison', () => {
       // Then the results have the following differences
       expect(differences).to.have.deep.members([
         {
-          op: 'add',
+          op: 'replace',
           path: ['clinics', 0, 'patientDirectScheduling'],
           value: null,
         },
@@ -530,14 +530,14 @@ describe('VAOS Patient service v0/v2 comparison', () => {
       // Then the results have the following differences
       expect(differences).to.have.deep.members([
         {
-          op: 'add',
-          path: ['eligibility', 'directReasons', 1],
-          value: 'noMatchingClinics',
+          op: 'replace',
+          path: ['clinics', 0, 'patientDirectScheduling'],
+          value: null,
         },
         {
           op: 'add',
-          path: ['clinics', 0, 'patientDirectScheduling'],
-          value: null,
+          path: ['eligibility', 'directReasons', 1],
+          value: 'noMatchingClinics',
         },
       ]);
     });
@@ -716,14 +716,14 @@ describe('VAOS Patient service v0/v2 comparison', () => {
       expect(differences).to.have.deep.members([
         { op: 'replace', path: ['eligibility', 'direct'], value: false },
         {
-          op: 'add',
-          path: ['eligibility', 'directReasons', 0],
-          value: 'noMatchingClinics',
+          op: 'replace',
+          path: ['clinics', 0, 'patientDirectScheduling'],
+          value: null,
         },
         {
           op: 'add',
-          path: ['clinics', 0, 'patientDirectScheduling'],
-          value: null,
+          path: ['eligibility', 'directReasons', 0],
+          value: 'noMatchingClinics',
         },
       ]);
     });

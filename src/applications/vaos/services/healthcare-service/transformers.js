@@ -23,6 +23,8 @@ export function transformAvailableClinic(facilityId, typeOfCareId, clinic) {
     stationName: clinic.institutionName,
     // Description of service as presented to a consumer while searching
     serviceName: clinic.clinicFriendlyLocationName || clinic.clinicName,
+    // String value for patient direct scheduling  Y/N
+    patientDirectScheduling: clinic.directSchedulingFlag,
   };
 }
 

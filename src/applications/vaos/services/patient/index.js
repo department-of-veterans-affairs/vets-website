@@ -259,6 +259,13 @@ function hasMatchingClinics(clinics, pastAppointments, useV2Next = false) {
             clinic.patientDirectScheduling === true
           );
         }
+        if (appt.version === 1 && useV2Next) {
+          return (
+            clinicIds[0] === appt.facilityId &&
+            clinicIds[1] === appt.clinicId &&
+            clinic.patientDirectScheduling === 'Y'
+          );
+        }
         return (
           clinicIds[0] === appt.facilityId && clinicIds[1] === appt.clinicId
         );

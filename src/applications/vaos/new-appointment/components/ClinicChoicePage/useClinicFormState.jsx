@@ -6,14 +6,12 @@ import { getClinicId } from '../../../services/healthcare-service';
 import {
   getClinicsForChosenFacility,
   getFormData,
+  getTypeOfCare,
   selectChosenFacilityInfo,
   selectPastAppointments,
 } from '../../redux/selectors';
 import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
-import {
-  selectFeatureVAOSServiceVAAppointments,
-  selectFeatureVaosV2Next,
-} from '../../../redux/selectors';
+import { selectFeatureVaosV2Next } from '../../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -32,17 +30,14 @@ const uiSchema = {
 };
 
 export default function useClinicFormState() {
-  const location = useSelector(selectChosenFacilityInfo);
   const initialData = useSelector(getFormData);
-  const directCareSettings =
-    location.legacyVAR.settings?.[initialData.typeOfCareId]?.direct;
+  const location = useSelector(selectChosenFacilityInfo);
+
+  const myCareId = getTypeOfCare(initialData);
   const clinics = useSelector(getClinicsForChosenFacility);
   const pastAppointments = useSelector(selectPastAppointments);
   const featureVaosV2Next = useSelector(state =>
     selectFeatureVaosV2Next(state),
-  );
-  const useV2 = useSelector(state =>
-    selectFeatureVAOSServiceVAAppointments(state),
   );
 
   const formState = useFormState({
@@ -50,19 +45,19 @@ export default function useClinicFormState() {
       let newSchema = initialSchema;
       // for v2 and v2Next
       // filter the clinics that have patientDirectScheduling set to true
-      // TODO check about excluding useV2
-      let filteredClinics =
-        featureVaosV2Next && useV2
-          ? clinics.filter(clinic => clinic.patientDirectScheduling === true)
-          : clinics;
+      // TODO deleted the useV2 - double check this
+      let filteredClinics = featureVaosV2Next
+        ? clinics.filter(clinic => clinic.patientDirectScheduling === true)
+        : clinics;
 
-      // Adding type of care check since past appointment history is not needed
-      // for primary care or mental health appointments.
+      // Past appointment history check
+      // primary care and mental health are exempt.
       // NOTE: Same check is in ../services/patient/index.js:383
       const isCheckTypeOfCare = featureVaosV2Next
         ? initialData.typeOfCareId !== MENTAL_HEALTH &&
           initialData.typeOfCareId !== PRIMARY_CARE &&
-          directCareSettings.patientHistoryRequired === true
+          location?.legacyVAR?.settings?.[myCareId.id]?.direct
+            ?.patientHistoryRequired === true
         : !!pastAppointments;
       if (isCheckTypeOfCare) {
         const pastAppointmentDateMap = new Map();
