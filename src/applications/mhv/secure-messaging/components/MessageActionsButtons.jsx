@@ -1,164 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllFolders, moveMessageToFolder } from '../actions';
+import { getAllFolders } from '../actions';
+import MoveMessageToFolderBtn from './MessageActionButtons/MoveMessageToFolderBtn';
+import PrintBtn from './MessageActionButtons/PrintBtn';
 
 const MessageActionButtons = props => {
+  const { id } = props;
   const dispatch = useDispatch();
   const { folders } = useSelector(state => state?.folders);
-  const [selectedFolder, setSelectedFolder] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   useEffect(
     () => {
       const abortCont = new AbortController();
       dispatch(getAllFolders(), { abort: abortCont.signal });
       return () => abortCont.abort();
     },
-    [dispatch, isModalVisible],
+    [dispatch],
   );
 
-  const openMoveModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const closeMoveModal = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleOnChangeFolder = e => {
-    setSelectedFolder(e.target.value);
-  };
-
-  const handleConfirmMoveFolderTo = () => {
-    if (selectedFolder !== null) {
-      dispatch(moveMessageToFolder(props.id, selectedFolder));
-    }
-    closeMoveModal();
-  };
-
-  const moveToFolderModal = () => {
-    return (
-      <div className="message-actions-buttons-modal">
-        <VaModal
-          id="move-to-modal"
-          large
-          modalTitle="Move to:"
-          onCloseEvent={closeMoveModal}
-          onPrimaryButtonClick={handleConfirmMoveFolderTo}
-          onSecondaryButtonClick={closeMoveModal}
-          primaryButtonText="Confirm"
-          secondaryButtonText="Cancel"
-          visible={isModalVisible}
-        >
-          <div className="modal-body">
-            <p>
-              This conversation will be moved. Any replies to this message will
-              appear in your inbox
-            </p>
-            <div className="form-radio-buttons">
-              {folders.folder.map(folder => (
-                <div className="radio-button" key={folder.name}>
-                  <input
-                    type="radio"
-                    autoComplete="false"
-                    id={`radiobutton-${folder.name}`}
-                    name="defaultName"
-                    value={folder.id}
-                    onChange={handleOnChangeFolder}
-                  />
-                  <label
-                    name="defaultName-0-label"
-                    htmlFor={`radiobutton-${folder.name}`}
-                  >
-                    {folder.name}
-                  </label>
-                </div>
-              ))}
-            </div>
-          </div>
-        </VaModal>
-      </div>
-    );
-  };
-
-  const printModal = () => {
-    return (
-      <div className="message-actions-buttons-modal">
-        <VaModal
-          id="move-to-modal"
-          large
-          modalTitle="Move to:"
-          onCloseEvent={closeMoveModal}
-          onPrimaryButtonClick={handleConfirmMoveFolderTo}
-          onSecondaryButtonClick={closeMoveModal}
-          primaryButtonText="Confirm"
-          secondaryButtonText="Cancel"
-          visible={isModalVisible}
-        >
-          <div className="modal-body">
-            <p>
-              Would you like to print this one message, or all messages in this
-              conversation?
-            </p>
-            <div className="form-radio-buttons">
-              <div className="radio-button">
-                <input
-                  type="radio"
-                  autoComplete="false"
-                  // id={`radiobutton-${folder.name}`}
-                  name="defaultName"
-                  value="this-message"
-                  onChange={handleOnChangeFolder}
-                />
-                <label name="defaultName-0-label" htmlFor="this-message">
-                  Only print this message
-                </label>
-                <input
-                  type="radio"
-                  autoComplete="false"
-                  // id={`radiobutton-${folder.name}`}
-                  name="defaultName"
-                  value="all-messages"
-                  onChange={handleOnChangeFolder}
-                />
-                <label name="defaultName-0-label" htmlFor="all-messages">
-                  print all messages in this conversation
-                </label>
-              </div>
-            </div>
-          </div>
-        </VaModal>
-      </div>
-    );
+  const handlePrint = () => {
+    window.print();
   };
 
   return (
     <div className="message-action-buttons vads-l-row vads-u-justify-content--space-around">
-      <button
-        type="button"
-        className="message-action-button"
-        onClick={openMoveModal}
-      >
-        <i className="fas fa-print" />
-        <span className="message-action-button-text">Print</span>
-        {isModalVisible ? printModal() : null}
-      </button>
+      <PrintBtn handlePrint={handlePrint} />
 
       <button type="button" className="message-action-button">
         <i className="fas fa-trash-alt" aria-hidden="true" />
         <span className="message-action-button-text">Delete</span>
       </button>
 
-      <button
-        type="button"
-        className="message-action-button"
-        onClick={openMoveModal}
-      >
-        <i className="fas fa-folder" aria-hidden="true" />
-        <span className="message-action-button-text">Move</span>
-      </button>
-      {isModalVisible ? moveToFolderModal() : null}
+      <MoveMessageToFolderBtn messageId={id} allFolders={folders} />
 
       <button type="button" className="message-action-button">
         <i className="fas fa-reply" aria-hidden="true" />
