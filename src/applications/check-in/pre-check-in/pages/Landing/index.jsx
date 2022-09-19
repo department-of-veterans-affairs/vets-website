@@ -8,6 +8,7 @@ import { api } from '../../../api';
 
 import { createInitFormAction } from '../../../actions/navigation';
 import { createSetSession } from '../../../actions/authentication';
+import { setError, setApp } from '../../../actions/universal';
 
 import { useSessionStorage } from '../../../hooks/useSessionStorage';
 import { useFormRouting } from '../../../hooks/useFormRouting';
@@ -20,7 +21,6 @@ import {
 
 import { URLS } from '../../../utils/navigation';
 import { isUUID, SCOPES } from '../../../utils/token-format-validator';
-import { setApp } from '../../../actions/universal';
 import { APP_NAMES } from '../../../utils/appConstants';
 
 const Index = props => {
@@ -66,10 +66,12 @@ const Index = props => {
     () => {
       const token = getTokenFromLocation(router.location);
       if (!token) {
+        dispatch(setError('no-token'));
         goToErrorPage('?error=no-token');
       }
 
       if (!isUUID(token)) {
+        dispatch(setError('bad-token'));
         goToErrorPage('?error=bad-token');
       }
       if (token && isUUID(token)) {
@@ -85,6 +87,7 @@ const Index = props => {
 
               if (session.error || session.errors) {
                 clearCurrentSession(window);
+                dispatch(setError('session-error'));
                 goToErrorPage('?error=session-error');
               } else {
                 setCurrentToken(window, token);
@@ -104,7 +107,8 @@ const Index = props => {
             })
             .catch(() => {
               clearCurrentSession(window);
-              goToErrorPage();
+              dispatch(setError('session-error'));
+              goToErrorPage('?error=session-error');
             });
         }
       }

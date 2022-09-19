@@ -9,7 +9,7 @@ import Footer from '../../../components/layout/Footer';
 import PreCheckInAccordionBlock from '../../../components/PreCheckInAccordionBlock';
 import HowToLink from '../../../components/HowToLink';
 
-import { makeSelectVeteranData } from '../../../selectors';
+import { makeSelectVeteranData, makeSelectError } from '../../../selectors';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 import {
@@ -37,14 +37,12 @@ const Error = () => {
   const { isPhoneAppointmentsEnabled } = useSelector(selectFeatureToggles);
 
   const { getValidateAttempts } = useSessionStorage(true);
-  let { isMaxValidateAttempts } = getValidateAttempts(window);
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const error = urlParams.get('error');
+  const { isMaxValidateAttempts } = getValidateAttempts(window);
+  const selectError = useMemo(makeSelectError, []);
+  const { error } = useSelector(selectError);
+
   let apptType = 'clinic';
-  if (error === 'validation') {
-    isMaxValidateAttempts = true;
-  }
+  const validationError = isMaxValidateAttempts || error === 'max-validation';
   // Get appointment dates if available.
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { appointments } = useSelector(selectVeteranData);
@@ -88,16 +86,22 @@ const Error = () => {
     'were-sorry-something-went-wrong-on-our-end-please-try-again',
   );
   let showHowToLink = true;
-
-  if (isMaxValidateAttempts) {
+  const dontShowLinkErrors = [
+    'session-error',
+    'bad-token',
+    'no-token',
+    'max-validation',
+  ];
+  if (dontShowLinkErrors.indexOf(error) > -1) {
+    showHowToLink = false;
+  }
+  if (validationError) {
     messageText = isPhoneAppointmentsEnabled
       ? phoneAppointmentLoginFailedMessage
       : t(
           'were-sorry-we-couldnt-match-your-information-to-our-records-please-call-us-at-800-698-2411-tty-711-for-help-signing-in',
         );
-    showHowToLink = false;
   }
-
   messages.push({ text: messageText });
   if (appointments && appointments.length > 0) {
     apptType = appointments[0]?.kind ?? 'clinic';
