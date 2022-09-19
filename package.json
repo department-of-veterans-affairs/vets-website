@@ -367,6 +367,7 @@
       "src/platform/utilities",
       "src/platform/polyfills",
       "src/platform/static-data",
+      "src/platform/user",
       "src/platform/testing",
       "src/platform/site-wide",
       "src/platform/forms",
