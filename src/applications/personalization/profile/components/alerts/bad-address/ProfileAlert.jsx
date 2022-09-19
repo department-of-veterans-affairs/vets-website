@@ -31,13 +31,13 @@ export default function ProfileAlert() {
       data-testid="bad-address-profile-alert"
       onVa-component-did-load={handlers.recordView}
       className="vads-u-margin-top--4"
+      role="alert"
+      aria-live="polite"
     >
       <h2
         slot="headline"
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
-        role="alert"
-        aria-live="polite"
         aria-label="The address we have on file for you may not be correct."
       >
         {heading}
