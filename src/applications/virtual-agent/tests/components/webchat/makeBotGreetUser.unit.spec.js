@@ -15,12 +15,14 @@ describe.only('makeBotGreetUser actions', () => {
     type: 'WEB_CHAT/SEND_MESSAGE',
     payload: { text: 'some@email.com' },
   };
+  const directIncomingActivity = {
+    type: 'DIRECT_LINE/INCOMING_ACTIVITY',
+    payload: { activity: 'some activity' },
+  };
 
   beforeEach(() => {
     fakeNext = sinon.stub();
     store = mockStore({});
-
-    // authActivityHandlerSpy.reset();
     // messageActivityHandlerSpy.reset();
     // sessionStorage.removeItem(IN_AUTH_EXP);
     // sessionStorage.removeItem(LOGGED_IN_FLOW);
@@ -52,10 +54,11 @@ describe.only('makeBotGreetUser actions', () => {
     expect(actions[0].payload.activity).to.own.include({
       name: 'startConversation',
     });
-    expect(actions[0]).to.own.include({ type: 'DIRECT_LINE/POST_ACTIVITY' });
+    expect(actions[0]).to.own.include({
+      type: 'DIRECT_LINE/POST_ACTIVITY',
+    });
   });
 
-  // it('should correctly handle "DIRECT_LINE/CONNECT_FULFILLED" and is not "LOGGED_IN_FLOW"', () => {});
   it('should correctly handle "DIRECT_LINE/CONNECT_FULFILLED" with auth false', async () => {
     await GreetUser.makeBotGreetUser(
       'csrfToken',
@@ -71,13 +74,82 @@ describe.only('makeBotGreetUser actions', () => {
     expect(actions.length).to.equal(1);
     expect(fakeNext.callCount).to.equal(1);
 
-    expect(actions[0]).to.own.include({ type: 'WEB_CHAT/SEND_EVENT' });
-    expect(actions[0].payload).to.own.include({ name: 'webchat/join' });
+    expect(actions[0]).to.own.include({
+      type: 'WEB_CHAT/SEND_EVENT',
+    });
+    expect(actions[0].payload).to.own.include({
+      name: 'webchat/join',
+    });
   });
-  it('should correctly handle "DIRECT_LINE/POST_ACTIVITY"', () => {});
+
+  describe.only('Handling of "DIRECT_LINE/INCOMING_ACTIVITY"', () => {
+    const IS_TRACKING_UTTERANCES = 'va-bot.isTrackingUtterances';
+    beforeEach(() => {
+      sessionStorage.clear();
+    });
+    afterEach(() => {
+      sessionStorage.clear();
+    });
+    it("should correctly begin tracking utterances if it hasn't yet", async () => {
+      // setup
+      // fire/execute
+      await GreetUser.makeBotGreetUser(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+        true,
+      )(store)(fakeNext)(directIncomingActivity);
+      // tests
+      const isTrackingUtterances = await sessionStorage.getItem(
+        IS_TRACKING_UTTERANCES,
+      );
+      expect(isTrackingUtterances).to.equal('true');
+    });
+    it('Stops tracking utterances when about to redirect to sign in', async () => {
+      // setup
+      const aboutToSignInActivity = {
+        type: 'DIRECT_LINE/INCOMING_ACTIVITY',
+        payload: {
+          activity: {
+            type: 'message',
+            text: 'Alright. Sending you to the sign in page...',
+            from: { role: 'bot' },
+          },
+        },
+      };
+
+      // fire
+      await GreetUser.makeBotGreetUser(
+        'csrfToken',
+        'apiSession',
+        'apiURL',
+        'baseURL',
+        'userFirstName',
+        'userUuid',
+        true,
+      )(store)(fakeNext)(aboutToSignInActivity);
+      1;
+      // tests
+      const isTrackingUtterances = await sessionStorage.getItem(
+        IS_TRACKING_UTTERANCES,
+      );
+      expect(isTrackingUtterances).to.equal('false');
+    });
+  });
 
   it('should correctly handle "WEB_CHAT/SEND_MESSAGE"', async () => {
-    await GreetUser.makeBotGreetUser('csrfToken', 'apiSession', 'apiURL', 'baseURL', 'userFirstName', 'userUuid', false)(store)(fakeNext)(connectSendMessage);
+    await GreetUser.makeBotGreetUser(
+      'csrfToken',
+      'apiSession',
+      'apiURL',
+      'baseURL',
+      'userFirstName',
+      'userUuid',
+      false,
+    )(store)(fakeNext)(connectSendMessage);
 
     const actions = store.getActions();
     expect(actions.length).to.equal(0);
