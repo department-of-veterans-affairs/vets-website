@@ -28,7 +28,7 @@ const batch = tests
   .join(',');
 
 let status = null;
-const upTo = isStressTest ? 2 : 1;
+const upTo = isStressTest ? 10 : 1;
 
 for (let i = 0; i < upTo; i += 1) {
   if (longestTestIsPresent && step === lastStep) {
