@@ -6,6 +6,7 @@ import { getClinicId } from '../../../services/healthcare-service';
 import {
   getClinicsForChosenFacility,
   getFormData,
+  selectChosenFacilityInfo,
   selectPastAppointments,
 } from '../../redux/selectors';
 import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
@@ -31,7 +32,10 @@ const uiSchema = {
 };
 
 export default function useClinicFormState() {
+  const location = useSelector(selectChosenFacilityInfo);
   const initialData = useSelector(getFormData);
+  const directCareSettings =
+    location.legacyVAR.settings?.[initialData.typeOfCareId]?.direct;
   const clinics = useSelector(getClinicsForChosenFacility);
   const pastAppointments = useSelector(selectPastAppointments);
   const featureVaosV2Next = useSelector(state =>
@@ -46,6 +50,7 @@ export default function useClinicFormState() {
       let newSchema = initialSchema;
       // for v2 and v2Next
       // filter the clinics that have patientDirectScheduling set to true
+      // TODO check about excluding useV2
       let filteredClinics =
         featureVaosV2Next && useV2
           ? clinics.filter(clinic => clinic.patientDirectScheduling === true)
@@ -57,7 +62,7 @@ export default function useClinicFormState() {
       const isCheckTypeOfCare = featureVaosV2Next
         ? initialData.typeOfCareId !== MENTAL_HEALTH &&
           initialData.typeOfCareId !== PRIMARY_CARE &&
-          pastAppointments?.length > 0
+          directCareSettings.patientHistoryRequired === true
         : !!pastAppointments;
       if (isCheckTypeOfCare) {
         const pastAppointmentDateMap = new Map();
