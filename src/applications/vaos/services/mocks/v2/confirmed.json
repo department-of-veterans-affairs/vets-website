@@ -1,6 +1,111 @@
 {
   "data": [
     {
+      "id": "1150111CC",
+      "type": "appointments",
+      "attributes": {
+        "id": "1150111CC",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/hsrm/id",
+            "value": "524669||4||1"
+          },
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1679635460"
+          }
+        ],
+        "kind": "cc",
+        "status": "booked",
+        "description": "Eye Care Examination SEOC 1.3.10 PRCT",
+        "patientIcn": "1013124304V115761",
+        "locationId": "984",
+        "practitioners": [
+          {
+            "name": {
+              "family": "BERMEL",
+              "given": [
+                "MICHAEL"
+              ]
+            }
+          }
+        ],
+        "start": "2022-08-22T12:00:00Z",
+        "created": "2022-08-22T20:33:54Z",
+        "cancellable": true,
+        "extension": {
+          "ccLocation": {
+            "address": {
+              "line": [
+                "10640 MAIN ST ; STE 100"
+              ],
+              "city": "FAIRFAX",
+              "state": "VA",
+              "postalCode": "22030",
+              "text": "10640 MAIN ST ; STE 100\nFAIRFAX VA 22030"
+            },
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "703-691-2020"
+              }
+            ]
+          },
+          "hsrmTaskId": "",
+          "hsrmConsultId": "984_644056",
+          "ccTreatingSpecialty": "Optometrist"
+        },
+        "location": {
+          "id": "984",
+          "type": "appointments",
+          "attributes": {
+            "id": "984",
+            "vistaSite": "984",
+            "vastParent": "984",
+            "type": "va_health_facility",
+            "name": "Dayton VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 39.74935,
+            "long": -84.2532,
+            "website": "https://www.dayton.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "937-268-6511"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "4100 West Third Street"
+              ],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45428-9000"
+            },
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "Dermatology",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "Urology",
+              "WomensHealth"
+            ]
+          }
+        }
+      }
+    },
+    {
       "id": "115069",
       "type": "appointments",
       "attributes": {
@@ -137,6 +242,111 @@
         ],
         "start": "2022-10-22T12:00:00Z",
         "created": "2022-10-22T20:33:54Z",
+        "cancellable": false,
+        "extension": {
+          "ccLocation": {
+            "address": {
+              "line": [
+                "1323 W 3RD ST"
+              ],
+              "city": "DAYTON",
+              "state": "OH",
+              "postalCode": "45402",
+              "text": "1323 W 3RD ST\nDAYTON OH 45402"
+            },
+            "telecom": [
+              {
+                "system": "phone",
+                "value": "937-228-3668"
+              }
+            ]
+          },
+          "hsrmTaskId": "12881",
+          "hsrmConsultId": "984_644233",
+          "ccTreatingSpecialty": "Podiatrist"
+        },
+        "location": {
+          "id": "984",
+          "type": "appointments",
+          "attributes": {
+            "id": "984",
+            "vistaSite": "984",
+            "vastParent": "984",
+            "type": "va_health_facility",
+            "name": "Dayton VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 39.74935,
+            "long": -84.2532,
+            "website": "https://www.dayton.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "937-268-6511"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "4100 West Third Street"
+              ],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45428-9000"
+            },
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "Dermatology",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "Urology",
+              "WomensHealth"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "124999CC",
+      "type": "appointments",
+      "attributes": {
+        "id": "124999CC",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/hsrm/id",
+            "value": "524669||4||1"
+          },
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1679635460"
+          }
+        ],
+        "kind": "cc",
+        "status": "cancelled",
+        "description": "Podiatry DS SEOC 1.0.8 PRCT",
+        "patientIcn": "1013124304V115761",
+        "locationId": "984",
+        "practitioners": [
+          {
+            "name": {
+              "family": "RICHMOND",
+              "given": [
+                "TANISHA R"
+              ]
+            }
+          }
+        ],
+        "start": "2022-06-22T12:00:00Z",
+        "created": "2022-06-22T20:33:54Z",
         "cancellable": false,
         "extension": {
           "ccLocation": {
