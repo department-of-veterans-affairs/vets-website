@@ -65,7 +65,7 @@ const MessageDetail = () => {
 
   return (
     <div className="vads-l-grid-container vads-u-margin-top--2 message-detail-container">
-      <h1 className="vads-u-margin-top--2">{pageTitle}</h1>
+      <h1 className="vads-u-margin-top--2 page-title">{pageTitle}</h1>
 
       <NavigationLinks messageId={id} />
 

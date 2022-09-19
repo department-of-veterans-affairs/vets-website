@@ -31,7 +31,7 @@ const MessageDetailBlock = props => {
     <section className="message-detail-block">
       <header className="vads-u-display--flex vads-u-flex-direction--row message-detail-header">
         <h2
-          className="vads-u-margin-top--1 vads-u-margin-bottom--2"
+          className="vads-u-margin-top--1 vads-u-margin-bottom--2 h2"
           aria-label={`Message subject. ${casedCategory}: ${subject}`}
         >
           {casedCategory}: {subject}

@@ -35,19 +35,21 @@ const Breadcrumbs = () => {
   }, []);
 
   return (
-    <va-breadcrumbs>
-      <a href="/my-health/secure-messages/">VA.gov home</a>
-      <a href="/my-health/secure-messages/">My Health</a>
-      <a href="/my-health/secure-messages/">Messages</a>
-      {crumbs &&
-        crumbs.map((crumb, i) => {
-          return (
-            <a key={i} href={crumb.route}>
-              {crumb.label}
-            </a>
-          );
-        })}
-    </va-breadcrumbs>
+    <div className="breadcrumbs">
+      <va-breadcrumbs>
+        <a href="/my-health/secure-messages/">VA.gov home</a>
+        <a href="/my-health/secure-messages/">My Health</a>
+        <a href="/my-health/secure-messages/">Messages</a>
+        {crumbs &&
+          crumbs.map((crumb, i) => {
+            return (
+              <a key={i} href={crumb.route}>
+                {crumb.label}
+              </a>
+            );
+          })}
+      </va-breadcrumbs>
+    </div>
   );
 };
 

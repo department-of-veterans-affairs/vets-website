@@ -95,4 +95,38 @@
       }
     }
   }
+
+}
+
+@media print {
+  body {
+    .secure-messaging-navigation {
+    display: none;
+    }
+    .breadcrumbs {
+      display: none;
+    }
+    .send-button-top {
+      display: none;
+    }
+    .page-title {
+      display: none;
+    }
+    .nav-links {
+      display: none;
+    }
+    .older-messages {
+      display: none;
+    }
+  }
+  .message-detail-block {
+    position: absolute;
+    left: 0;
+    top: 0;
+    .message-action-buttons {
+      display: none;
+
+    }
+  }
+
 }
