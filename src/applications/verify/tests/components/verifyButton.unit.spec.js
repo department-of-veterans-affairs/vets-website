@@ -39,6 +39,7 @@ describe('Verify Button', () => {
         }),
       );
       expect(verifyHandlerSpy.called).to.be.true;
+      verifyHandlerSpy.reset();
       wrapper.unmount();
     });
   });
