@@ -100,7 +100,7 @@ describe('Notification Settings', () => {
           )
           .should('match', /prescription.*shipment/i)
           .should('match', /prescription.*tracking/i);
-        cy.findAllByText(/^select an option/i).should('have.length', 1);
+
         cy.findAllByText(/check with your VA pharmacy first/i).should(
           'not.exist',
         );
@@ -140,7 +140,7 @@ describe('Notification Settings', () => {
           )
           .should('not.match', /prescription.*shipment/i)
           .should('not.match', /prescription.*tracking/i);
-        cy.findAllByText(/^select an option/i).should('have.length', 1);
+
         cy.findAllByText(/check with your VA pharmacy first/i).should(
           'not.exist',
         );
