@@ -77,9 +77,7 @@ export class AuthApp extends React.Component {
   componentDidMount() {
     if (this.state.hasError) {
       this.handleAuthError();
-    }
-
-    if (!this.state.hasError || hasSession()) {
+    } else if (!this.state.hasError || hasSession()) {
       this.validateSession();
     }
   }

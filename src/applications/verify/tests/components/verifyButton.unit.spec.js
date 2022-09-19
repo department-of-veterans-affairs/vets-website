@@ -1,7 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import { SERVICE_PROVIDERS } from 'platform/user/authentication/constants';
 import { defaultWebOAuthOptions } from 'platform/user/authentication/config/constants';
@@ -14,19 +13,10 @@ const { logingov, idme } = SERVICE_PROVIDERS;
 
 describe('Verify Button', () => {
   [logingov, idme].forEach(csp => {
-    const { label, link, image, policy, className } = csp;
+    const { label, policy, className } = csp;
 
     it(`should render correctly for ${policy}`, () => {
-      const screen = render(
-        <VerifyButton
-          key={policy}
-          label={label}
-          link={link}
-          image={image}
-          policy={policy}
-          className={className}
-        />,
-      );
+      const screen = render(<VerifyButton {...csp} key={policy} />);
 
       const verifyButton = screen.getByRole('button', {
         name: `Verify with ${label}`,
@@ -38,22 +28,16 @@ describe('Verify Button', () => {
       );
     });
 
-    it('should call the `verifyHandler` function on click', () => {
-      const verifyHandlerSpy = sinon.spy();
-      const wrapper = shallow(
-        <VerifyButton
-          key={policy}
-          label={label}
-          link={link}
-          image={image}
-          policy={policy}
-          className={className}
-          onClick={verifyHandlerSpy}
-          useOAuth
-        />,
+    it(`should call the 'verifyHandler' ${label} function on click`, () => {
+      const verifyHandlerSpy = sinon.spy(verifyHandler);
+      const wrapper = render(
+        <VerifyButton {...csp} onClick={verifyHandlerSpy} />,
       );
-
-      wrapper.find('button').simulate('click');
+      fireEvent.click(
+        wrapper.getByRole('button', {
+          name: `Verify with ${label}`,
+        }),
+      );
       expect(verifyHandlerSpy.called).to.be.true;
       wrapper.unmount();
     });
@@ -72,6 +56,7 @@ describe('verifyHandler', () => {
     mockOAuthUpdateStateAndVerifier.reset();
     mockAuthVerify.reset();
     verifyHandlerSpy.reset();
+    localStorage.clear();
   });
 
   it('should not call updateStateAndVerifier if useOAuth is false', () => {

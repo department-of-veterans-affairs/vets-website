@@ -10,7 +10,7 @@ const mockProfile = {
   signIn: { serviceName: 'logingov' },
 };
 const generateProps = ({
-  useOAuth = true,
+  useOAuth = false,
   profile = mockProfile,
   loading = false,
 }) => ({
@@ -33,55 +33,36 @@ describe('VerifyApp', () => {
 
   it('renders VerifyApp', () => {
     props = generateProps({});
-    const wrapper = render(
-      <VerifyApp
-        profile={props.profile}
-        loading={props.loading}
-        useOAuth={props.useOAuth}
-      />,
-    );
+    mockHasSessionHandler();
 
+    const wrapper = render(<VerifyApp {...props} />);
     const verifyApp = wrapper.getByTestId('verify-app');
 
-    mockHasSessionHandler();
     expect(verifyApp);
     wrapper.unmount();
   });
+
   it('renders loading indicator when app is loading', () => {
     props = generateProps({ loading: true });
+    mockHasSessionHandler();
 
-    const wrapper = render(
-      <VerifyApp
-        profile={props.profile}
-        loading={props.loading}
-        useOAuth={props.useOAuth}
-      />,
-    );
-
+    const wrapper = render(<VerifyApp {...props} />);
     const verifyApp = wrapper.getByTestId('loading-indicator');
 
-    mockHasSessionHandler();
     expect(verifyApp);
     wrapper.unmount();
   });
 
   ['dslogon', 'mhv'].forEach(csp => {
-    props = generateProps({
-      profile: {
-        signIn: {
-          serviceName: `${csp}`,
-        },
-      },
-    });
-    const { profile } = props;
     it('displays both logingov and idme verification buttons for mhv, and dslogon users', () => {
-      const wrapper = render(
-        <VerifyApp
-          profile={profile}
-          loading={props.loading}
-          useOAuth={props.useOAuth}
-        />,
-      );
+      props = generateProps({
+        profile: {
+          signIn: {
+            serviceName: `${csp}`,
+          },
+        },
+      });
+      const wrapper = render(<VerifyApp {...props} />);
 
       mockHasSessionHandler();
       const verifyButtonGroup = wrapper.getByTestId('verify-button-group')
@@ -99,30 +80,26 @@ describe('VerifyApp', () => {
     });
   });
   ['idme', 'logingov'].forEach(csp => {
-    props = generateProps({
-      profile: {
-        signIn: {
-          serviceName: `${csp}`,
-        },
-      },
-    });
-    const { profile } = props;
     it(`should display one ${csp} verification button for ${csp} users`, () => {
-      const wrapper = render(
-        <VerifyApp
-          profile={profile}
-          loading={props.loading}
-          useOAuth={props.useOAuth}
-        />,
-      );
+      props = generateProps({
+        profile: {
+          signIn: {
+            serviceName: `${csp}`,
+          },
+        },
+      });
+
       mockHasSessionHandler();
+      const wrapper = render(<VerifyApp {...props} />);
       const verifyButton = wrapper.getByTestId('verify-button').children;
       expect(verifyButton.length).to.equal(1);
       expect(verifyButton[0]).to.have.attr('aria-label');
       wrapper.unmount();
     });
   });
+
   it('should redirect to home page when user is using a verified account', () => {
+    mockHasSessionHandler();
     props = generateProps({
       loading: true,
       profile: {
@@ -130,13 +107,7 @@ describe('VerifyApp', () => {
         signIn: { serviceName: 'logingov' },
       },
     });
-    const wrapper = render(
-      <VerifyApp
-        profile={props.profile}
-        loading={props.loading}
-        useOAuth={props.useOAuth}
-      />,
-    );
+    const wrapper = render(<VerifyApp {...props} />);
 
     expect(wrapper.findByTestId('loading-indicator'));
     wrapper.unmount();
