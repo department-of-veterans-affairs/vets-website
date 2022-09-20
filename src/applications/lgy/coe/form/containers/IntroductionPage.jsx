@@ -42,9 +42,7 @@ const IntroductionPage = ({ coe, errors, loggedIn, route, status }) => {
     );
   }
 
-  console.log("HERE1", errors.coe);
   if (loggedIn && !coeCallEnded.includes(status)) {
-    console.log(errors.coe);
     content = (
       <>
         <RenderError error={errors.coe[0].code} introPage />
