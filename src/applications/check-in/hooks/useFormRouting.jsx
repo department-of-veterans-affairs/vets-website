@@ -44,11 +44,8 @@ const useFormRouting = (router = {}) => {
 
   const getCurrentPageFromRouter = useCallback(
     () => {
-      if (router?.location?.pathname) {
-        // substring to remove the leading /
-        return router.location.pathname.substring(1);
-      }
-      return null;
+      // substring to remove the leading /
+      return router?.location?.pathname.substring(1) || null;
     },
     [router],
   );
