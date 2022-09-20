@@ -1,10 +1,10 @@
 import moment from 'moment';
 
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/feature-toggles-aiq.json';
-import enrollmentStatus from './fixtures/mockEnrollmentStatus.json';
+import featureToggles from './fixtures/mocks/feature-toggles-aiq.json';
+import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
+import maxTestData from './fixtures/data/maximal-test.json';
 import * as dobHelpers from './helpers';
-import maxTestData from './fixtures/schema/maximal-test.json';
 
 const testData = maxTestData.data;
 
@@ -15,7 +15,7 @@ describe('HCA-DOB', () => {
     );
     cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
       statusCode: 404,
-      body: enrollmentStatus,
+      body: mockEnrollmentStatus,
     }).as('mockEnrollmentStatus');
     cy.intercept('POST', '/v0/health_care_applications', {
       statusCode: 200,

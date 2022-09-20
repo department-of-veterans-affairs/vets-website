@@ -2,6 +2,7 @@ import moment from 'moment';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { addDays, format, isValid } from 'date-fns';
+import { deductionCodes } from '../constants/deduction-codes';
 
 export const fsrWizardFeatureToggle = state => {
   return toggleValues(state)[
@@ -15,6 +16,12 @@ export const fsrFeatureToggle = state => {
 
 export const combinedFSRFeatureToggle = state => {
   return toggleValues(state)[FEATURE_FLAG_NAMES.combinedFinancialStatusReport];
+};
+
+export const enhancedFSRFeatureToggle = state => {
+  return toggleValues(state)[
+    FEATURE_FLAG_NAMES.combinedFinancialStatusReportEnhancements
+  ];
 };
 
 export const fsrConfirmationEmailToggle = state =>
@@ -47,7 +54,7 @@ export const currency = amount => {
   const value =
     typeof amount === 'number'
       ? amount
-      : parseFloat(amount.replaceAll(',', ''));
+      : parseFloat(amount?.replaceAll(',', ''));
   return formatter.format(value);
 };
 
@@ -68,7 +75,7 @@ export const filterDeductions = (deductions, filters) => {
   if (!deductions.length) return 0;
   return deductions
     .filter(({ name }) => filters.includes(name))
-    .reduce((acc, curr) => acc + Number(curr.amount.replaceAll(',', '')), 0);
+    .reduce((acc, curr) => acc + Number(curr.amount?.replaceAll(',', '')), 0);
 };
 
 export const otherDeductionsName = (deductions, filters) => {
@@ -83,7 +90,7 @@ export const otherDeductionsAmt = (deductions, filters) => {
   if (!deductions.length) return 0;
   return deductions
     .filter(({ name }) => name && !filters.includes(name))
-    .reduce((acc, curr) => acc + Number(curr.amount.replaceAll(',', '')), 0);
+    .reduce((acc, curr) => acc + Number(curr.amount?.replaceAll(',', '')), 0);
 };
 
 export const nameStr = (socialSecurity, compensation, education, addlInc) => {
@@ -131,16 +138,28 @@ export const getAmountCanBePaidTowardDebt = (debts, combinedFSR) => {
         .filter(item => item.resolutionComment !== undefined)
         .reduce(
           (acc, debt) =>
-            acc + Number(debt.resolutionComment.replaceAll(',', '')),
+            acc + Number(debt.resolutionComment?.replaceAll(',', '')),
           0,
         )
     : debts
         .filter(item => item.resolution.offerToPay !== undefined)
         .reduce(
           (acc, debt) =>
-            acc + Number(debt.resolution?.offerToPay.replaceAll(',', '')),
+            acc + Number(debt.resolution?.offerToPay?.replaceAll(',', '')),
           0,
         );
+};
+
+export const mergeAdditionalComments = (additionalComments, expenses) => {
+  const individualExpenses = expenses
+    ?.map(expense => `${expense.name} (${currency(expense.amount)})`)
+    .join(', ');
+
+  const individualExpensesStr = `Individual expense amount: ${individualExpenses}`;
+
+  return individualExpenses
+    ? `${additionalComments}\n${individualExpensesStr}`
+    : additionalComments;
 };
 
 export const getMonthlyIncome = ({
@@ -214,7 +233,7 @@ export const getMonthlyExpenses = ({
   const otherExp = sumValues(otherExpenses, 'amount');
   const expVals = Object.values(expenses).filter(Boolean);
   const totalExp = expVals.reduce(
-    (acc, expense) => acc + Number(expense.replaceAll(',', '')),
+    (acc, expense) => acc + Number(expense?.replaceAll(',', '')),
     0,
   );
 
@@ -228,7 +247,7 @@ export const getTotalAssets = ({ assets, realEstateRecords }) => {
   const realEstate = sumValues(realEstateRecords, 'realEstateAmount');
   const totAssets = Object.values(assets)
     .filter(item => item && !Array.isArray(item))
-    .reduce((acc, amount) => acc + Number(amount.replaceAll(',', '')), 0);
+    .reduce((acc, amount) => acc + Number(amount?.replaceAll(',', '')), 0);
 
   return totVehicles + totRecVehicles + totOtherAssets + realEstate + totAssets;
 };
@@ -301,3 +320,10 @@ export const DEBT_TYPES = Object.freeze({
   DEBT: 'DEBT',
   COPAY: 'COPAY',
 });
+
+// Returns name of debt depending on the type
+export const getDebtName = debt => {
+  return debt.debtType === 'COPAY'
+    ? debt.station.facilityName
+    : deductionCodes[debt.deductionCode] || debt.benefitType;
+};

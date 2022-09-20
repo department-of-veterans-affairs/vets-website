@@ -5,12 +5,23 @@ import {
   MESSAGE_RETRIEVE_STARTED,
   MESSAGE_RETRIEVE_SUCCEEDED,
   MESSAGE_RETRIEVE_FAILED,
+  MESSAGE_DELETE_STARTED,
+  MESSAGE_DELETE_FAILED,
+  MESSAGE_DELETE_SUCCEEDED,
+  MESSAGE_MOVE_STARTED,
+  MESSAGE_MOVE_SUCCEEDED,
+  MESSAGE_MOVE_FAILED,
+  FOLDERS_RETRIEVE_STARTED,
+  FOLDERS_RETRIEVE_FAILED,
+  FOLDERS_RETRIEVE_SUCCEEDED,
   LOADING_COMPLETE,
 } from '../actions';
 
 const initialState = {
   isLoading: true,
   messages: null,
+  folders: null,
+  message: null,
   error: null,
 };
 
@@ -40,6 +51,8 @@ const allMessages = (state = initialState, action) => {
 
 const message = (state = initialState, action) => {
   switch (action.type) {
+    case MESSAGE_DELETE_STARTED:
+    case MESSAGE_MOVE_STARTED:
     case MESSAGE_RETRIEVE_STARTED:
       return {
         ...state,
@@ -50,20 +63,49 @@ const message = (state = initialState, action) => {
         ...state,
         isLoading: false,
         message: action.response,
+        error: null,
       };
+    case MESSAGE_DELETE_FAILED:
+    case MESSAGE_MOVE_FAILED:
     case MESSAGE_RETRIEVE_FAILED:
       return {
         ...state,
         isLoading: false,
         error: action.response,
       };
+    case MESSAGE_DELETE_SUCCEEDED:
+    case MESSAGE_MOVE_SUCCEEDED:
     case LOADING_COMPLETE:
       return {
         ...state,
         isLoading: false,
       };
+
     default:
       return state;
   }
 };
-export default { allMessages, message };
+const folders = (state = initialState, action) => {
+  switch (action.type) {
+    case FOLDERS_RETRIEVE_STARTED:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case FOLDERS_RETRIEVE_SUCCEEDED:
+      return {
+        ...state,
+        isLoading: false,
+        folders: action.response,
+      };
+    case FOLDERS_RETRIEVE_FAILED:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.response,
+      };
+    default:
+      return state;
+  }
+};
+export default { allMessages, message, folders };

@@ -4,10 +4,10 @@ import {
   setSentryLoginType,
   clearSentryLoginType,
 } from '../../authentication/utilities';
-import localStorage from '~/platform/utilities/storage/localStorage';
+import localStorage from 'platform/utilities/storage/localStorage';
 
-import { ssoKeepAliveSession } from '~/platform/utilities/sso';
-import { removeInfoToken } from '~/platform/utilities/oauth/utilities';
+import { ssoKeepAliveSession } from 'platform/utilities/sso';
+import { removeInfoToken } from 'platform/utilities/oauth/utilities';
 
 const commonServices = {
   EMIS: 'EMIS',

@@ -107,7 +107,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
 
   const radioComponent = (
     <>
-      <h3>Choose your file format and download your document</h3>
+      <h2>Choose your file format and download your document</h2>
       <VaRadio
         id="1095-download-options"
         label="We offer two file format options for this form. Choose the option that best meets your needs."
@@ -155,10 +155,10 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
       <LastUpdatedComponent lastUpdated={lastUpdated} />
       <va-alert
         close-btn-aria-label="Close notification"
-        status="warning"
+        status="error"
         visible
       >
-        <h3 slot="headline">We couldn’t download your form</h3>
+        <h2 slot="headline">We couldn’t download your form</h2>
         <div>
           <p>
             We’re sorry. Something went wrong when we tried to download your
@@ -186,7 +186,7 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
         status="success"
         visible
       >
-        <h3 slot="headline">Download Complete</h3>
+        <h2 slot="headline">Download Complete</h2>
         <div>
           <p>
             You successfully downloaded your 1095-B tax form. Please check your
@@ -213,9 +213,9 @@ export const App = ({ loggedIn, toggleLoginModal, displayToggle }) => {
       status="continue"
       visible
     >
-      <h3 slot="headline">
+      <h2 slot="headline">
         Please sign in to download your 1095-B tax document
-      </h3>
+      </h2>
       <div>
         Sign in with your existing <ServiceProvidersText isBold /> account.{' '}
         <ServiceProvidersTextCreateAcct />
