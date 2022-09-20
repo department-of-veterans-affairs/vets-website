@@ -1,18 +1,13 @@
-import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
-import { APP_NAMES } from '../../utils/appConstants';
 import { useFormRouting } from '../../hooks/useFormRouting';
-import { makeSelectApp } from '../../selectors';
 import ExternalLink from '../ExternalLink';
 import BackToHome from '../BackToHome';
 
-const Footer = ({ router }) => {
-  const selectApp = useMemo(makeSelectApp, []);
-  const { app } = useSelector(selectApp);
+const Footer = ({ router, isPreCheckIn }) => {
   const { t } = useTranslation();
   const { getCurrentPageFromRouter } = useFormRouting(router);
 
@@ -25,7 +20,7 @@ const Footer = ({ router }) => {
       >
         {t('need-help')}
       </h2>
-      {app === APP_NAMES.PRE_CHECK_IN ? (
+      {isPreCheckIn ? (
         <div data-testid="pre-check-in-message">
           <p>
             <span className="vads-u-font-weight--bold">
@@ -78,6 +73,7 @@ const Footer = ({ router }) => {
 };
 
 Footer.propTypes = {
+  isPreCheckIn: PropTypes.bool,
   router: PropTypes.object,
 };
 

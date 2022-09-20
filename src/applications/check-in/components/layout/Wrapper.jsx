@@ -9,6 +9,7 @@ import {
 import { focusElement } from 'platform/utilities/ui';
 
 import { makeSelectApp } from '../../selectors';
+import { APP_NAMES } from '../../utils/appConstants';
 import MixedLanguageDisclaimer from '../MixedLanguageDisclaimer';
 import LanguagePicker from '../LanguagePicker';
 import Footer from './Footer';
@@ -33,7 +34,7 @@ const Wrapper = props => {
   const { app } = useSelector(selectApp);
   const downtimeDependency =
     app === 'dayOf' ? externalServices.cie : externalServices.pcie;
-  const appTitle = app === 'dayOf' ? 'Check in' : 'Pre-check in';
+  const appTitle = app === APP_NAMES.CHECK_IN ? 'Check in' : 'Pre-check in';
   return (
     <>
       <div
@@ -51,7 +52,7 @@ const Wrapper = props => {
         >
           {children}
         </DowntimeNotification>
-        <Footer />
+        <Footer isPreCheckIn={app === APP_NAMES.PRE_CHECK_IN} />
       </div>
     </>
   );
