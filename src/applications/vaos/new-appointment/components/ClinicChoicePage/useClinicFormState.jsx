@@ -11,7 +11,10 @@ import {
   selectPastAppointments,
 } from '../../redux/selectors';
 import { MENTAL_HEALTH, PRIMARY_CARE } from '../../../utils/constants';
-import { selectFeatureVaosV2Next } from '../../../redux/selectors';
+import {
+  selectFeatureVAOSServiceVAAppointments,
+  selectFeatureVaosV2Next,
+} from '../../../redux/selectors';
 
 const initialSchema = {
   type: 'object',
@@ -39,16 +42,30 @@ export default function useClinicFormState() {
   const featureVaosV2Next = useSelector(state =>
     selectFeatureVaosV2Next(state),
   );
+  const useV2 = useSelector(state =>
+    selectFeatureVAOSServiceVAAppointments(state),
+  );
 
   const formState = useFormState({
     initialSchema() {
       let newSchema = initialSchema;
-      // for v2 and v2Next
-      // filter the clinics that have patientDirectScheduling set to true
-      // TODO deleted the useV2 - double check this
-      let filteredClinics = featureVaosV2Next
-        ? clinics.filter(clinic => clinic.patientDirectScheduling === true)
-        : clinics;
+
+      let filteredClinics = clinics;
+
+      // filter the clinics that have patientDirectScheduling set
+      if (featureVaosV2Next) {
+        // filter v2
+        if (useV2) {
+          filteredClinics = clinics.filter(
+            clinic => clinic.patientDirectScheduling === true,
+          );
+        } else {
+          // filter v0
+          filteredClinics = clinics.filter(
+            clinic => clinic.patientDirectScheduling === 'Y',
+          );
+        }
+      }
 
       // Past appointment history check
       // primary care and mental health are exempt.
