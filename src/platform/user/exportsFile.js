@@ -53,8 +53,11 @@ export {
 } from './authentication/components/account-transition/TransitionSuccessModal';
 
 export {
-  default as AccountLink,
-} from './authentication/components/AccountLink';
+  default as CreateAccountLink,
+} from './authentication/components/CreateAccountLink';
+export {
+  default as VerifyAccountLink,
+} from './authentication/components/VerifyAccountLink';
 export {
   default as DowntimeBanners,
 } from './authentication/components/DowntimeBanner';
