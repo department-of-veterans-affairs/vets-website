@@ -249,8 +249,6 @@ function exportVariables(tests) {
   core.exportVariable('TESTS', tests);
 }
 
-// '/home/runner/work/vets-website/vets-website/src/applications/_mock-form/tests/mock-form.cypress.spec.js',
-
 function run() {
   const graph = dedupeGraph(buildGraph());
 
@@ -269,10 +267,6 @@ function run() {
     test =>
       !allAllowListTestPaths.includes(test.substring(test.indexOf('src/'))),
   );
-
-  console.log('testsSelectedByTestSelection', testsSelectedByTestSelection);
-  console.log('CHANGED_FILE_PATHS', CHANGED_FILE_PATHS);
-
   const disallowedTests = testsSelectedByTestSelection.filter(test =>
     allDisallowedTestPaths.includes(test.substring(test.indexOf('src/'))),
   );
@@ -294,13 +288,48 @@ function run() {
     },
   );
 
-  console.log('allDisallowedTestPaths: ', allDisallowedTestPaths);
+  console.log('groups of tests from the allow list'.toUpperCase);
   console.log('allAllowListTestPaths: ', allAllowListTestPaths);
+  console.log('allAllowListTestPaths LENGTH: ', allAllowListTestPaths.length);
+  console.log('');
+  console.log('allAllowedTestPaths: ', allAllowedTestPaths);
+  console.log('allAllowedTestPaths LENGTH: ', allAllowedTestPaths.length);
+  console.log('');
+  console.log('allDisallowedTestPaths: ', allDisallowedTestPaths);
+  console.log('allDisallowedTestPaths LENGTH: ', allDisallowedTestPaths.length);
+  console.log('');
+  console.log('');
+  console.log(
+    'groups of tests based on test selection and filtering the groups from the allow list'
+      .toUpperCase,
+  );
   console.log('testsSelectedByTestSelection: ', testsSelectedByTestSelection);
+  console.log(
+    'testsSelectedByTestSelection LENGTH: ',
+    testsSelectedByTestSelection.length,
+  );
+  console.log('');
   console.log('newTests: ', newTests);
+  console.log('newTests LENGTH: ', newTests.length);
+  console.log('');
   console.log('disallowedTests: ', disallowedTests);
+  console.log('disallowedTests LENGTH: ', disallowedTests.length);
+  console.log('');
+  console.log('changedTests: ', changedTests);
+  console.log('changedTests LENGTH: ', changedTests.length);
+  console.log('');
   console.log('testsToRunNormally: ', testsToRunNormally);
+  console.log('testsToRunNormally LENGTH: ', testsToRunNormally.length);
+  console.log('');
   console.log('testsToStressTest: ', testsToStressTest);
+  console.log('testsToStressTest LENGTH: ', testsToStressTest.length);
+  console.log('');
+  console.log('testSelectionDisallowedTests: ', testSelectionDisallowedTests);
+  console.log(
+    'testSelectionDisallowedTests LENGTH: ',
+    testSelectionDisallowedTests.length,
+  );
+  console.log('');
 
   exportVariables(testsToRunNormally);
 
