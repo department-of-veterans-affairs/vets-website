@@ -7,6 +7,8 @@ import {
   RECENT_UTTERANCES,
 } from '../chatbox/utils';
 
+const UNKNOWN_UTTERANCE = 'unknownUtterance';
+
 function processActionConnectFulfilled(
   requireAuth,
   dispatch,
@@ -61,13 +63,20 @@ function processSendMessageActivity(action) {
 }
 
 function processIncomingActivity(requireAuth, action, dispatch) {
+  const setSessionStorageAsString = (key, value) => {
+    sessionStorage.setItem(key, JSON.stringify(value));
+  };
   const authIsNotRequired = !requireAuth;
+  const isAtBeginningOfConversation = !sessionStorage.getItem(
+    IS_TRACKING_UTTERANCES,
+  );
+
   if (authIsNotRequired) return;
   const data = action.payload.activity;
 
   // if at the beginning of a conversation, start tracking utterances
-  if (sessionStorage.getItem(IS_TRACKING_UTTERANCES) == null) {
-    sessionStorage.setItem(IS_TRACKING_UTTERANCES, JSON.stringify(true));
+  if (isAtBeginningOfConversation) {
+    setSessionStorageAsString(IS_TRACKING_UTTERANCES, true);
   }
 
   if (data.type === 'message' && data.text) {
@@ -76,7 +85,7 @@ function processIncomingActivity(requireAuth, action, dispatch) {
       data.from.role === 'bot'
     ) {
       // if user is redirected to sign in, stop tracking utterances
-      sessionStorage.setItem(IS_TRACKING_UTTERANCES, JSON.stringify(false));
+      setSessionStorageAsString(IS_TRACKING_UTTERANCES, false);
       const authEvent = new Event('webchat-auth-activity');
       authEvent.data = action.payload.activity;
       window.dispatchEvent(authEvent);
@@ -85,7 +94,6 @@ function processIncomingActivity(requireAuth, action, dispatch) {
       data.from.role === 'bot' &&
       sessionStorage.getItem(IN_AUTH_EXP) === 'true'
     ) {
-      const UNKNOWN_UTTERANCE = 'unknownUtterance';
       let utterance = UNKNOWN_UTTERANCE;
       let utterances = JSON.parse(sessionStorage.getItem(RECENT_UTTERANCES));
       if (utterances && utterances.length > 0) {
@@ -101,7 +109,7 @@ function processIncomingActivity(requireAuth, action, dispatch) {
         });
         // Reset utterance store
         utterances = [];
-        sessionStorage.setItem(RECENT_UTTERANCES, JSON.stringify(utterances));
+        setSessionStorageAsString(RECENT_UTTERANCES, utterances);
       }
     }
     if (JSON.parse(sessionStorage.getItem(IS_TRACKING_UTTERANCES))) {
