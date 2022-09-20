@@ -858,6 +858,13 @@ const formConfig = {
                   'ui:errorMessages': {
                     required: 'State is required',
                   },
+                  'ui:required': formData => {
+                    if (formData.showMEBMailingAddressForeign) {
+                      return formData['view:mailingAddress']
+                        ?.livesOnMilitaryBase;
+                    }
+                    return false;
+                  },
                   'ui:options': {
                     hideIf: formData => {
                       if (formData.showMEBMailingAddressForeign) {
@@ -942,13 +949,7 @@ const formConfig = {
                   },
                   [formFields.address]: {
                     ...address.schema(fullSchema, true),
-                    required: [
-                      'street',
-                      'city',
-                      'country',
-                      'state',
-                      'militaryStateCode',
-                    ],
+                    required: ['street', 'city', 'country', 'state'],
                   },
                 },
               },
